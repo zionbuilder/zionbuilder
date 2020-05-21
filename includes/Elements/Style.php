@@ -169,7 +169,9 @@ class Style {
 					} else {
 						if ( isset( $style_options['background-size'] ) && $style_options['background-size'] === 'custom' ) {
 							if ( $attribute === 'background-size-units' && isset( $value['x'] ) || isset( $value['y'] ) ) {
-								$compiled_css .= sprintf( 'background-size: %s %s;', $value['x'], $value['y'] );
+								$x             = isset( $value['x'] ) ? $value['x'] : '50%';
+								$y             = isset( $value['y'] ) ? $value['y'] : '50%';
+								$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
 							}
 						}
 					}
@@ -317,7 +319,42 @@ class Style {
 	}
 
 	public static function compile_transform( $value ) {
-		return '';
+		$transform_string = '';
+		$origin_string    = '';
+		$combined_styles  = '';
+
+		if ( is_array( $value ) ) {
+			foreach ( $value as $transform_config ) {
+				$property                = isset( $transform_config['property'] ) ? $transform_config['property'] : 'translate';
+				$current_property_config = isset( $transform_config[$property] ) ? $transform_config[$property] : [];
+
+				if ( is_array( $current_property_config ) ) {
+					foreach ( $current_property_config as $property_id => $property_value ) {
+						if ( $property === 'transform-origin' ) {
+							$origin_string .= $property_value . ' ';
+						} elseif ( $property !== 'perspective' ) {
+							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
+						} else {
+							$perspective_string = $property_value;
+						}
+					}
+				}
+			}
+
+			if ( ! empty( $transform_string ) ) {
+				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
+			}
+
+			if ( ! empty( $perspective_string ) ) {
+				$combined_styles .= sprintf( 'perspective: %s;', $perspective_string );
+			}
+
+			if ( ! empty( $origin_string ) ) {
+				$combined_styles .= sprintf( 'transform-origin: %s;', $origin_string );
+			}
+		}
+
+		return $combined_styles;
 	}
 
 	public static function compile_border_radius( $border_radius_config ) {
