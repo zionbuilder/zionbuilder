@@ -32,7 +32,7 @@ jobs:
       - name: Install Comoser dependencies
         run: composer install
       - name: Create Zip
-        run: npm install
+        run: npm run zip
       - uses: actions/upload-artifact@v2
         with:
           path: zion-builder.zip
