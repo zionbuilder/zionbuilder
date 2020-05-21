@@ -21,8 +21,10 @@ jobs:
     steps:
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.2
-      - name: Composer install
-        uses: MilesChou/composer-action/install@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
       - name: Install NPM dependencies
         run: npm install
       - name: Install Comoser dependencies
