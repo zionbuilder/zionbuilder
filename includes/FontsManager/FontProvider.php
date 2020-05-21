@@ -6,9 +6,9 @@ class FontProvider {
 	public function __construct() {
 	}
 
-    /**
-     * @throws \Exception
-     */
+	/**
+	 * @throws \Exception
+	 */
 	public static function get_id() {
 		throw new \Exception( esc_html__( 'get_id must be implemented by font provider.', 'ziobuilder' ) );
 	}

@@ -104,7 +104,7 @@ class PageTemplates {
 	 * before using it.
 	 *
 	 * @param array $classes
-     * @return array
+	 * @return array
 	 */
 	public function remove_body_classes( $classes = [] ) {
 		foreach ( $classes as $key => $css_class ) {

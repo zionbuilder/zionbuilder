@@ -27,15 +27,14 @@ class FontsManager {
 
 
 	public function register_font_provider( FontProvider $provider ) {
-        try {
-            $providerID = $provider::get_id();
-            if( ! empty( $providerID ) ) {
-                $this->font_providers[ $providerID ] = $provider;
-            }
-        }
-        catch ( \Exception $e ) {
-        }
-    }
+		try {
+			$providerID = $provider::get_id();
+			if ( ! empty( $providerID ) ) {
+				$this->font_providers[ $providerID ] = $provider;
+			}
+		} catch ( \Exception $e ) {
+		}
+	}
 
 	public function get_provider( $provider_id ) {
 		if ( isset( $this->font_providers[$provider_id] ) ) {

@@ -594,6 +594,6 @@ class Templates extends RestApiController {
 			// Send back the response
 			return rest_ensure_response( $content_config );
 		}
-        return new \WP_Error( 'template_data_not_valid', __( 'An error occurred.', 'zionbuilder' ) );
+		return new \WP_Error( 'template_data_not_valid', __( 'An error occurred.', 'zionbuilder' ) );
 	}
 }

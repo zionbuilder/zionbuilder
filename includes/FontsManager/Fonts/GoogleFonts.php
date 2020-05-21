@@ -30,7 +30,7 @@ class GoogleFonts extends FontProvider {
 	 * Will load the scripts into 'zionbuilder/frontend/before_load_styles'
 	 */
 	public function __construct() {
-	    parent::__construct();
+		parent::__construct();
 		add_action( 'zionbuilder/frontend/before_load_styles', [ $this, 'enqueue_fonts' ] );
 	}
 

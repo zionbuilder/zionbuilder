@@ -104,15 +104,15 @@ class Icons {
 		];
 	}
 
-    /**
-     * Get icons locations
-     *
-     * Will return a list of icon locations
-     *
-     * @param bool $use_cache
-     *
-     * @return mixed|void|null
-     */
+	/**
+	 * Get icons locations
+	 *
+	 * Will return a list of icon locations
+	 *
+	 * @param bool $use_cache
+	 *
+	 * @return mixed|void|null
+	 */
 	public function get_icons_locations( $use_cache = true ) {
 		if ( $use_cache && null !== $this->icon_locations ) {
 			return $this->icon_locations;

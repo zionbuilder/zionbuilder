@@ -27,10 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Editor {
 	private $post_id = 0;
-    /**
-     * @var Preview|null
-     */
-	public $preview  = null;
+	/**
+	 * @var Preview|null
+	 */
+	public $preview = null;
 
 	/**
 	 * Main class constructor

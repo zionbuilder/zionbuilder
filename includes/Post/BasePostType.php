@@ -342,7 +342,7 @@ class BasePostType {
 	public function get_preview_frame_url() {
 		$url = add_query_arg(
 			[
-				'zionbuilder-preview' => $this->get_post_id(),
+				'zionbuilder-preview'  => $this->get_post_id(),
 				Nonces::NONCE_FIELD_ID => Nonces::generate_nonce( Nonces::EDITOR_PREVIEW_FRAME ),
 				'ver'                  => time(),
 			],

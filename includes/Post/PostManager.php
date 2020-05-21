@@ -61,10 +61,10 @@ class PostManager {
 	 * @param string $type_class_name The PHP class name that will be registered
 	 */
 	public function register_post_type( $type_class_name ) {
-	    $name = $type_class_name::get_name();
-	    if( empty( $name ) ) {
-	        return;
-        }
+		$name = $type_class_name::get_name();
+		if ( empty( $name ) ) {
+			return;
+		}
 		$this->registered_post_types[$name] = $type_class_name;
 	}
 
@@ -74,10 +74,10 @@ class PostManager {
 	 * @param string $type_class_name The PHP class name that will be unregistered
 	 */
 	public function unregister_post_type( $type_class_name ) {
-        $name = $type_class_name::get_name();
-        if( empty( $name ) ) {
-            return;
-        }
+		$name = $type_class_name::get_name();
+		if ( empty( $name ) ) {
+			return;
+		}
 		unset( $this->registered_post_types[$name] );
 	}
 

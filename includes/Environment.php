@@ -2,7 +2,6 @@
 
 namespace ZionBuilder;
 
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;

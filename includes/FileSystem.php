@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FileSystem {
 	private static $wp_upload_dir = null;
 
-    /**
-     * This is a wrapper for wp_file_system
-     * @return mixed
-     */
+	/**
+	 * This is a wrapper for wp_file_system
+	 * @return mixed
+	 */
 	public static function get_file_system() {
 		global $wp_filesystem;
 

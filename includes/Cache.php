@@ -37,12 +37,12 @@ class Cache {
 	 */
 	private $registered_post_ids = [];
 
-    /**
-     * @var array
-     */
-    private $wp_upload_dir;
+	/**
+	 * @var array
+	 */
+	private $wp_upload_dir;
 
-    /**
+	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
