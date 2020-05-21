@@ -28,11 +28,12 @@ class FontsManager {
 
 	public function register_font_provider( FontProvider $provider ) {
 		try {
-			$providerID = $provider::get_id();
-			if ( ! empty( $providerID ) ) {
-				$this->font_providers[ $providerID ] = $provider;
+			$provider_id = $provider::get_id();
+			if ( ! empty( $provider_id ) ) {
+				$this->font_providers[ $provider_id ] = $provider;
 			}
 		} catch ( \Exception $e ) {
+			_doing_it_wrong( 'FontsManager', esc_html__( 'get_id must be implemented by the font provider', 'zionbuilder' ), '1.0.0' );
 		}
 	}
 

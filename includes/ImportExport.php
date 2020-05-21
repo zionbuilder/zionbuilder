@@ -122,6 +122,7 @@ class ImportExport {
 		if ( true !== $open_zip ) {
 			return new \WP_Error(
 				'Export failed',
+				/* translators: %s: The export path for templates */
 				sprintf( esc_html__( 'Could not create the export file in %s', 'zionbuilder' ), $export_path )
 			);
 		}
