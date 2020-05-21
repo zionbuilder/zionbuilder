@@ -33,3 +33,6 @@ jobs:
         run: composer install
       - name: Create Zip
         run: npm install
+      - uses: actions/upload-artifact@v2
+        with:
+          path: zion-builder.zip
