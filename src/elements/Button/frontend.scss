@@ -1,0 +1,170 @@
+// style colors
+$styletextdark: #313131;
+$styledark: #3a3a3a;
+$stylegray: #dcdcdc;
+$styledanger: #dc3545;
+$stylesucces: #28a745;
+$styleinfo: #17a2b8;
+$black-variant: #373737;
+$stylewarning: #edbf34;
+$highlight: #faeec6;
+$stylewhite: #fff;
+$styleprimary: #06bee1;
+
+.zb-el-zionButton {
+	display: flex;
+	width: 100%;
+}
+
+.zb-el-button {
+	display: flex;
+}
+
+.zb-el-button--has-icon {
+	&.zb-el-button--icon-right {
+		.zb-el-button__text {
+			margin-right: 10px;
+		}
+	}
+}
+
+.zb-el-button--icon-right {
+	flex-direction: row-reverse;
+
+	.zb-el-button__icon {
+		margin-right: 0;
+	}
+}
+
+.zb-el-button__icon {
+	margin-right: 10px;
+}
+
+.zb-el-button--icon-left {
+	flex-direction: row;
+
+	.zb-el-button__icon {
+		margin-right: 10px;
+	}
+}
+
+.zb-el-button--icon-top {
+	flex-direction: column;
+	align-items: center;
+
+	.zb-el-button__icon {
+		margin-right: 0;
+	}
+}
+
+.zb-el-button--icon-bottom {
+	flex-direction: column-reverse;
+	align-items: center;
+
+	.zb-el-button__icon {
+		margin-right: 0;
+	}
+}
+
+.zb-el-zionButton--right {
+	justify-content: flex-end;
+}
+
+.zb-el-zionButton--left {
+	justify-content: flex-start;
+}
+
+.zb-el-zionButton--center {
+	justify-content: center;
+}
+
+.zb-el-button {
+	padding: 15px 20px;
+	text-decoration: none;
+	border-radius: 3px;
+	color: $stylewhite;
+	background-color: $secondary;
+
+	&--icon-black {
+		color: $stylewhite;
+		background-color: $black;
+	}
+
+	&--icon-dark {
+		color: $stylewhite;
+		background-color: $styledark;
+	}
+
+	&--icon-gray {
+		color: $styletextdark;
+		background-color: $stylegray;
+	}
+
+	&--icon-white {
+		color: $styletextdark;
+		background-color: $stylewhite;
+	}
+
+	&--icon-succes {
+		color: $stylewhite;
+		background-color: $stylesucces;
+	}
+
+	&--icon-danger {
+		color: $stylewhite;
+		background-color: $styledanger;
+	}
+
+	&--icon-warning {
+		color: $stylewhite;
+		background-color: $stylewarning;
+	}
+
+	&--icon-info {
+		color: $stylewhite;
+		background-color: $styleinfo;
+	}
+
+	&--icon-link {
+		color: $secondary;
+		background: none;
+	}
+
+	&--normal {
+		border-radius: 0;
+	}
+
+	&--semi-rounded {
+		border-radius: 3px;
+	}
+
+	&--rounded {
+		border-radius: 200px;
+	}
+
+	&--size-small {
+		padding: 12px 15px;
+		font-size: 13px;
+	}
+
+	&--size-normal {
+		padding: 16px 20px;
+		font-size: 14px;
+	}
+
+	&--size-medium {
+		padding: 22px 26px;
+		font-size: 14px;
+	}
+
+	&--size-large {
+		padding: 26px 36px;
+		font-size: 16px;
+	}
+
+	&--full-width {
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+	}
+}

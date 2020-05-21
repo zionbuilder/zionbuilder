@@ -1,0 +1,30 @@
+.zb-el-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -15px;
+
+	&-item {
+		flex: 0 0 25%;
+		padding: 0 15px 30px 15px;
+	}
+
+	&--has-modal &-item {
+		cursor: pointer;
+	}
+
+	&-columns--1 &-item {
+		flex: 0 0 100%;
+	}
+	&-columns--2 &-item {
+		flex: 0 0 50%;
+	}
+	&-columns--3 &-item {
+		flex: 0 0 33.33%;
+	}
+	&-columns--4 &-item {
+		flex: 0 0 25%;
+	}
+	&-columns--5 &-item {
+		flex: 0 0 20%;
+	}
+}

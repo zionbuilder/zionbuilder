@@ -1,0 +1,109 @@
+@import "./utils/media.scss";
+
+@mixin generate-column-gaps() {
+	$column-gaps: (
+		xsmall: "5px",
+		small: "10px",
+		large: "25px",
+		xlarge: "40px",
+		no: "0px",
+	);
+
+	// generate default gaps
+	@each $gapId, $gapValue in $column-gaps {
+		.zb-sct-clm-gap--#{$gapId} .zb-column {
+			padding-right: #{$gapValue};
+			padding-left: #{$gapValue};
+		}
+	}
+
+	@each $breakpointId, $breakpointValue in $breakpoints {
+		@media (max-width: $breakpointValue) {
+			@each $gapId, $gapValue in $column-gaps {
+				.zb-sct-clm-gap--#{$breakpointId}--#{$gapId} .zb-column {
+					padding-right: #{$gapValue};
+					padding-left: #{$gapValue};
+				}
+			}
+		}
+	}
+}
+
+@include generate-column-gaps();
+
+.zb {
+	&-flex {
+		// Content width
+		&-width--full {
+			max-width: 100%;
+		}
+
+		// Align items
+		&--halign-left {
+			align-items: flex-start;
+		}
+		&--halign-center {
+			align-items: center;
+		}
+
+		&--halign-right {
+			align-items: flex-end;
+		}
+
+		&--halign-stretch {
+			align-items: stretch;
+		}
+		// Justify content
+		&--valign-start {
+			justify-content: flex-start;
+		}
+
+		&--valign-center {
+			justify-content: center;
+		}
+
+		&--valign-end {
+			justify-content: flex-end;
+		}
+
+		&--valign-space-around {
+			justify-content: space-around;
+		}
+
+		&--valign-space-between {
+			justify-content: space-between;
+		}
+
+		// Flex direction
+		&--vertical, &--column {
+			flex-direction: column;
+		}
+
+		&--horizontal, &--row {
+			flex-direction: row;
+		}
+
+		&--row-reverse {
+			flex-direction: row-reverse;
+		}
+	}
+
+	&__utils {
+		&-t-align {
+			&--center {
+				text-align: center;
+			}
+			&--left {
+				text-align: left;
+			}
+			&--right {
+				text-align: right;
+			}
+
+			&--justify {
+				text-align: justify;
+			}
+		}
+	}
+}
+

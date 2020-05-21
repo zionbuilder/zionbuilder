@@ -1,0 +1,412 @@
+<template>
+	<div
+		class="znpb-gradient-wrapper"
+		:class="{ 'znpb-gradient-wrapper--hasLibrary': hasLibrary }"
+	>
+		<GradientBoard
+			v-if="!hasLibrary"
+			:config="computedValue"
+			:activegrad="activeGradient"
+			@change-active-gradient="changeActive($event)"
+			@position-changed="changePosition($event)"
+		/>
+		<ActionsOverlay v-else>
+			<GradientBoard
+				:config="computedValue"
+				:activegrad="activeGradient"
+				@change-active-gradient="changeActive($event)"
+				@position-changed="changePosition($event)"
+			/>
+			<template slot="actions">
+				<template v-if="!showPresetInput">
+					<span
+						class="znpb-gradient__show-preset"
+						v-on:click="showPresets=!showPresets"
+					>Presets</span>
+					<!-- <span
+						class="znpb-gradient__show-preset-input"
+						v-on:click="showPresetInput=!showPresetInput"
+					>Save as preset</span> -->
+				</template>
+
+				<PresetInput
+					v-else
+					@save-preset="addGlobalPattern()"
+					@cancel="showPresetInput=false"
+				/>
+
+				<BaseIcon
+					icon="delete"
+					:bg-size="30"
+					bg-color="#fff"
+					@click.stop.native="deleteGradientValue"
+					class="znpb-gradient-wrapper__delete-gradient"
+				/>
+			</template>
+		</ActionsOverlay>
+		<GradientLibrary
+			v-if="showPresets"
+			@close-library="showPresets=false"
+			@activate-gradient="computedValue = $event"
+		/>
+
+		<div class="znpb-gradient-elements-wrapper">
+			<Sortable
+				class="znpb-admin-colors__container"
+				v-model="computedValue"
+				:handle="null"
+				:drag-delay="0"
+				:drag-treshold="10"
+				:disabled="false"
+				:revert="true"
+				axis="horizontal"
+			>
+				<GradientElement
+					class="znpb-gradient-elements__delete-button"
+					v-for="(gradient, i) in computedValue"
+					:key="i"
+					:config="gradient"
+					:show-remove="computedValue.length > 1"
+					:is-active="activeGradientIndex === i"
+					@change-active-gradient="changeActive(i)"
+					@delete-gradient="deleteGradient(gradient)"
+				/>
+			</Sortable>
+			<BaseIcon
+				icon="plus"
+				class="znpb-colorpicker-add-grad"
+				@click.native="addGradientConfig"
+			/>
+		</div>
+
+		<GradientOptions
+			v-if="showOptions"
+			v-model="activeGradient"
+		/>
+
+	</div>
+</template>
+<script>
+import GradientBoard from './GradientBoard.vue'
+import GradientOptions from './GradientOptions.vue'
+import GradientElement from './GradientElement.vue'
+import GradientLibrary from './GradientLibrary.vue'
+import PresetInput from './PresetInput.vue'
+import { Sortable } from '@/common/vue-beautifull-dnd/'
+import { ActionsOverlay } from '@/common/components/forms'
+export default {
+	name: 'GradientGenerator',
+	components: {
+		GradientOptions,
+		GradientBoard,
+		GradientElement,
+		GradientLibrary,
+		PresetInput,
+		ActionsOverlay,
+		Sortable
+	},
+	props: {
+		value: {
+			type: Array,
+			required: false,
+			default () {
+
+			}
+		},
+		hasLibrary: {
+			type: Boolean,
+			required: false,
+			default: false
+		}
+	},
+	data () {
+		return {
+			defaultConfig: [
+				{
+					'type': 'linear',
+					'angle': 114,
+					'colors': [
+						{
+							'color': '#18208d',
+							'position': 0
+						},
+						{
+							'color': '#06bee1',
+							'position': 100
+						}
+					],
+					'position': {
+						'x': 75,
+						'y': 48
+					}
+				}
+			],
+			showPresets: false,
+			showPresetInput: false,
+			showOptions: !this.hasLibrary,
+			activeGradientIndex: null
+		}
+	},
+	computed: {
+		computedValue: {
+			get () {
+				return this.value || this.defaultConfig
+			},
+			set (newValue) {
+				this.$emit('input', newValue)
+			}
+		},
+		activeGradient: {
+			get () {
+				return this.computedValue[this.activeGradientIndex]
+			},
+			set (newValue) {
+				const valueToSend = [...this.computedValue]
+				valueToSend[this.activeGradientIndex] = newValue
+
+				this.computedValue = valueToSend
+			}
+		}
+	},
+	methods: {
+		getValue () {
+			return this.computedValue
+		},
+		addGlobalPattern () {
+			this.showPresetInput = false
+		},
+		deleteGradient (gradientConfig) {
+			const deletedGradientIndex = this.computedValue.indexOf(gradientConfig)
+
+			// Set the previous color as active
+			if (this.activeGradient === gradientConfig) {
+				if (deletedGradientIndex > 0) {
+					this.activeGradientIndex = deletedGradientIndex - 1
+				} else {
+					this.activeGradientIndex = deletedGradientIndex + 1
+				}
+			} else {
+				// check if the deleted gradient had an index lower than the active gradient
+				if (deletedGradientIndex < this.activeGradientIndex) {
+					this.activeGradientIndex = this.activeGradientIndex - 1
+				}
+			}
+
+			const updatedValues = this.computedValue.slice(0)
+			updatedValues.splice(deletedGradientIndex, 1)
+
+			// Send the new value to parent
+			this.computedValue = updatedValues
+		},
+		addGradientConfig () {
+			const defaultConfig = {
+				type: 'linear',
+				angle: 180,
+				colors: [
+					{
+						color: '#18208d',
+						position: 0
+					},
+					{
+						color: '#06bee1',
+						position: 100
+					}
+				]
+			}
+
+			this.computedValue = [
+				...this.computedValue,
+				defaultConfig
+			]
+
+			// Change the active gradient
+			this.$nextTick(() => {
+				const newGradientIndex = this.computedValue.indexOf(defaultConfig)
+				this.changeActive(newGradientIndex)
+			})
+		},
+		changeActive (index) {
+			this.showOptions = true
+			this.activeGradientIndex = index
+		},
+		changePosition (position) {
+			this.activeGradient = {
+				...this.activeGradient,
+				position: position
+			}
+		},
+		deleteGradientValue () {
+			this.$emit('input', null)
+		}
+	}
+}
+</script>
+<style lang="scss">
+.znpb-admin__wrapper {
+	.znpb-admin__gradient-modal-wrapper {
+		padding: 20px 10px;
+	}
+
+	.znpb-gradient-wrapper {
+		padding: 0 10px;
+	}
+
+	.znpb-gradient-elements-wrapper {
+		padding: 0;
+	}
+}
+.znpb-gradient-wrapper {
+	&--hasLibrary {
+		.znpb-gradient-elements-wrapper {
+			padding: 10px 0 0 0;
+		}
+		.znpb-gradient-options-wrapper {
+			padding: 20px 0 0 0;
+		}
+		.znpb-gradient-wrapper__board {
+			margin-bottom: 0;
+		}
+	}
+	.znpb-form__input-title {
+		margin-bottom: 10px;
+		color: $font-color;
+		font-weight: 500;
+	}
+	.znpb-colorpicker-add-grad {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 46px;
+		height: 46px;
+		margin-bottom: 10px;
+		background: none;
+		border: 2px dashed $border-color;
+		border-radius: 3px;
+		cursor: pointer;
+		.zion-icon.zion-svg-inline {
+			width: 14px;
+			margin: 0 auto;
+			color: $font-color;
+		}
+	}
+	.znpb-gradient__type {
+		margin-bottom: 20px;
+
+		.znpb-tabs--minimal .znpb-tabs__header {
+			padding: 3px;
+			margin-bottom: 20px;
+			background: $surface-variant;
+			border-radius: 3px;
+
+			& > .znpb-tabs__header-item {
+				flex-grow: 1;
+				padding: 10px 25px;
+				border-radius: 2px;
+
+				&:hover {
+					color: $font-color;
+					background-color: darken($surface-variant, 5%);
+				}
+			}
+
+			& > .znpb-tabs__header-item--active {
+				color: $surface;
+				background-color: $secondary;
+
+				&:hover {
+					color: $surface;
+					background-color: $secondary;
+				}
+			}
+		}
+	}
+	.znpb-input-wrapper {
+		width: 100%;
+		padding: 0;
+	}
+}
+
+.znpb-radial-postion-wrapper {
+	display: flex;
+
+	.znpb-forms-input-wrapper {
+		margin-right: 20px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+		.znpb-forms-form__input-title {
+			margin-bottom: 0;
+		}
+	}
+
+	& > .znpb-input-wrapper {
+		flex-direction: column;
+		flex-grow: 1;
+		margin-right: 10px;
+		margin-bottom: 0;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.znpb-gradient-elements-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0 20px;
+}
+
+.znpb-gradient-wrapper {
+	.znpb-gradient__angle {
+		& > .znpb-form__input-title {
+			padding: 0;
+		}
+	}
+
+	.znpb-actions-overlay__actions {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		padding: 8px;
+		margin: 0 auto;
+		font-weight: 500;
+		text-align: center;
+		cursor: pointer;
+
+		span {
+			&:first-child {
+				margin-right: 15px;
+				margin-left: 10px;
+			}
+		}
+
+		.znpb-gradient__show-preset, .znpb-gradient__show-preset-input {
+			transition: color .15s;
+
+			&:hover {
+				color: $surface-active-color;
+			}
+		}
+	}
+}
+
+.znpb-gradient-wrapper__delete-gradient {
+	flex: 1 0 30%;
+	max-width: 30px;
+	margin-left: auto;
+	border: 2px solid $border-color;
+	border-radius: 3px;
+	transition: opacity .15s ease;
+
+	&:hover {
+		opacity: .7;
+	}
+}
+
+.znpb-admin-colors__container {
+	display: flex;
+	flex-wrap: wrap;
+}
+</style>

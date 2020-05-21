@@ -1,0 +1,58 @@
+{
+	"files.eol": "\n",
+	"editor.insertSpaces": false,
+	"editor.snippetSuggestions": "top",
+	"editor.detectIndentation": false,
+	"editor.renderWhitespace": "all",
+	"vetur.format.defaultFormatter.js": "vscode-typescript",
+	"vetur.format.defaultFormatter.html": "js-beautify-html",
+	"javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"vue"
+	],
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/dist": true,
+		"**/.cache": true,
+		"**/*.map": true
+	},
+	"search.useIgnoreFiles": false,
+	"scss.lint.duplicateProperties": "error",
+	"workbench.editor.highlightModifiedTabs": true,
+	"files.trimTrailingWhitespace": true,
+	"trailing-spaces.trimOnSave": true,
+	"vueStyle.formatOnSave": true,
+	"vueStyle.preset": {
+		"remove-empty-rulesets": true,
+		"always-semicolon": true,
+		"color-case": "lower",
+		"block-indent": "\t",
+		"color-shorthand": true,
+		"element-case": "lower",
+		"eof-newline": true,
+		"leading-zero": false,
+		"quotes": "double",
+		"sort-order-fallback": "abc",
+		"space-before-colon": "",
+		"space-after-colon": " ",
+		"space-before-combinator": " ",
+		"space-after-combinator": " ",
+		"space-between-declarations": "\n",
+		"space-before-opening-brace": " ",
+		"space-after-opening-brace": "\n",
+		"space-after-selector-delimiter": " ",
+		"space-before-selector-delimiter": "",
+		"space-before-closing-brace": "\n",
+		"strip-spaces": true,
+		"unitless-zero": true,
+		"vendor-prefix-align": true
+	},
+	"vetur.format.options.tabSize": 4,
+	"vetur.format.options.useTabs": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	}
+}

@@ -1,0 +1,93 @@
+.znpb-button-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	.znpb-button {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+
+		span:first-child {
+			margin-right: 10px;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.znpb-button {
+	&-primary {
+		color: $primary-color--accent;
+		font-size: 12px;
+		background-color: $primary-color;
+	}
+
+	&-secondary {
+		color: $primary-color--accent;
+		font-size: 12px;
+		background-color: $primary-color;
+	}
+
+	&--small {
+		padding: 14px 26px;
+	}
+
+	&--medium {
+		padding: 22px 48px;
+	}
+
+	&--large {
+		padding: 30px 56px;
+	}
+
+	&--round {
+		border-radius: 4px;
+	}
+
+	&:hover {
+		opacity: .8;
+	}
+}
+
+.znpb-add-element-icon {
+	position: relative;
+	display: block;
+	width: 12px;
+	height: 12px;
+
+	&:before, &:after {
+		content: "";
+		position: absolute;
+		background: #fff;
+		transition: transform .2s ease;
+	}
+
+	@at-root {
+		.znpb-button--line {
+			.znpb-add-element-icon::before, .znpb-add-element-icon::after {
+				background: $font-color;
+			}
+		}
+	}
+
+	&:before {
+		top: 0;
+		left: 50%;
+		width: 2px;
+		height: 12px;
+		margin-left: -1px;
+	}
+
+	&:after {
+		top: 50%;
+		left: 0;
+		width: 12px;
+		height: 2px;
+		margin-top: -1px;
+	}
+}

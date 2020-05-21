@@ -1,0 +1,59 @@
+{
+  "name": "zionbuilder",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "vue-cli-service lint",
+    "lint-php": "node ./scripts/lint-php",
+    "serve": "zionbuilder-service serve",
+    "build": "zionbuilder-service build",
+    "buildbaseline": "zionbuilder-service build --baseline",
+    "zip": "zionbuilder-service zip"
+  },
+  "dependencies": {
+    "@zionbuilder/importcss": "^1.1.0",
+    "@zionbuilder/zionbuilder-service": "0.4.4",
+    "axios": "^0.19.2",
+    "css-box-model": "^1.2.1",
+    "dom-form-serializer": "^1.0.7",
+    "dom-to-image": "^2.6.0",
+    "file-saver": "^2.0.2",
+    "fitvids": "^2.0.0",
+    "jszip": "^3.4.0",
+    "lg-video": "^1.3.0",
+    "lightgallery": "^1.7.0",
+    "localstorage-ttl": "^1.0.2",
+    "lodash-es": "^4.17.15",
+    "memoize-one": "^5.1.1",
+    "popper.js": "^1.16.1",
+    "raf-schd": "^4.0.2",
+    "tiny-invariant": "^1.1.0",
+    "tinycolor2": "^1.4.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "^4.3.1",
+    "@vue/cli-plugin-router": "^4.3.1",
+    "@vue/cli-plugin-typescript": "^4.3.1",
+    "@vue/cli-plugin-vuex": "^4.3.1",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-compat": "^3.6.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^9.5.0",
+    "typescript": "~3.5.3"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.php": [
+      "node ./scripts/lint-php",
+      "./vendor/bin/phpcs",
+      "git add"
+    ]
+  }
+}

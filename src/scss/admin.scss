@@ -1,0 +1,81 @@
+// @import "./icons/css/zion.scss";
+@import "./_scrollbar.scss";
+@import "./_utility.scss";
+@import "./_animations.scss";
+
+.znpb-admin__wrapper {
+	color: $font-color;
+	font-family: $font-stack;
+	font-size: 13px;
+	line-height: 1;
+
+	a, a:hover, a:focus, a:visited {
+		text-decoration: none;
+		box-shadow: none;
+	}
+
+	button {
+		margin: 0;
+		color: $primary-color--accent;
+		font-family: $font-stack;
+		font-size: 12px;
+		text-decoration: none;
+		text-transform: uppercase;
+		background-color: $surface-active-color;
+		border: none;
+
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+	}
+
+	input, select, textarea {
+		background-color: $surface;
+		border-radius: 3px;
+	}
+
+
+	input[type=number] {
+		padding: 10.5px 12px;
+		background: transparent;
+
+// added to fix the arrows for mozilla firefox
+
+		-moz-appearance: textfield;
+	}
+	b, strong {
+		font-weight: 700;
+	}
+	h2, h3, h4, h5, h6 {
+		margin-top: 0;
+		margin-bottom: 25px;
+		color: $surface-active-color;
+	}
+
+	h3 {
+		font-size: 22px;
+		font-weight: 500;
+		line-height: 1.4;
+	}
+	p {
+		font-size: 12px;
+		line-height: 1.8;
+	}
+
+	& * {
+		box-sizing: border-box;
+	}
+	input[type=checkbox]:checked:before, input[type=radio]:checked:before {
+		display: none;
+	}
+}
+
+//General admin classes
+.znpb-admin-modal-title-block {
+	&__title {
+		color: $surface-active-color;
+	}
+	&__desc {
+		color: $surface-headings-color;
+	}
+}
+

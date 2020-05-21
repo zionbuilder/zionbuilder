@@ -1,0 +1,31 @@
+.znpb-fancy-scrollbar::-webkit-scrollbar {
+	width: 4px;
+}
+
+.znpb-fancy-scrollbar {
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	.znpb-fancy-scrollbar &::-webkit-scrollbar-thumb {
+		background: transparent;
+	}
+}
+
+/* Track */
+.znpb-fancy-scrollbar::-webkit-scrollbar-track {
+	// background: $surface-variant;
+	background: transparent;
+}
+
+/* Handle */
+.znpb-fancy-scrollbar::-webkit-scrollbar-thumb {
+	background: transparent;
+}
+
+/* Handle on hover */
+
+.znpb-fancy-scrollbar:hover {
+	&::-webkit-scrollbar-thumb {
+		background: darken($surface-variant, 10%);
+	}
+}

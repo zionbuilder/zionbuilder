@@ -1,0 +1,30 @@
+pipelines:
+  branches:
+    Zion2:
+      - step:
+          name: Build and test on Commit
+          image: misterio92/ci-php-node
+          caches:
+            - node
+          script:
+            - npm install
+            - composer install
+            - npm run zip
+            - curl -s -u ${BB_AUTH_STRING} -X POST https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads -F files=@zionbuilder.zip --verbose
+          artifacts:
+            - zionbuilder.zip
+  custom:
+    deploy_to_downloads:
+      - step:
+          name: Build and test
+          image: misterio92/ci-php-node
+          caches:
+            - node
+          script:
+            - npm install
+            - composer install
+            - npm run zip
+            - curl -s -u ${BB_AUTH_STRING} -X POST https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads -F files=@zionbuilder.zip --verbose
+          artifacts:
+            - zionbuilder.zip
+
