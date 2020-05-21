@@ -324,7 +324,7 @@ class Testimonial extends Element {
 		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] );
 
 		if ( ! empty( $content ) ) {
-			printf( '', wp_kses_post( $content ) );
+			echo wp_kses_post( $content );
 		} ?>
 		<?php if ( $image && ( $position === 'top' ) ) : ?>
 			<img
