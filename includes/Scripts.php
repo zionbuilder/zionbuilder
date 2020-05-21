@@ -112,16 +112,16 @@ class Scripts {
 	}
 
 
-    /**
-     * Returns the script url to be used in enqueue functions
-     *
-     * If the project is in development mode, it will use webpack dev server host
-     * instead of the dist folder public path
-     *
-     * @param string $path The script relative path
-     *
-     * @return string
-     */
+	/**
+	 * Returns the script url to be used in enqueue functions
+	 *
+	 * If the project is in development mode, it will use webpack dev server host
+	 * instead of the dist folder public path
+	 *
+	 * @param string $path The script relative path
+	 *
+	 * @return string
+	 */
 	public function get_script_url( $path ) {
 		$root_url = $this->assets_root_url;
 		return $root_url . $path;

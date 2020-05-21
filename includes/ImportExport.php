@@ -120,9 +120,11 @@ class ImportExport {
 
 		// throw an error if the export path is invalid
 		if ( true !== $open_zip ) {
-			return new \WP_Error( 'Export failed',
-                sprintf( esc_html__( 'Could not create the export file in %s', 'zionbuilder' ), $export_path)
-            );
+			return new \WP_Error(
+				'Export failed',
+				/* translators: %s: The export path for templates */
+				sprintf( esc_html__( 'Could not create the export file in %s', 'zionbuilder' ), $export_path )
+			);
 		}
 
 		// change default images url and add template images inside the zip
@@ -305,14 +307,14 @@ class ImportExport {
 		return null;
 	}
 
-    /**
-     * Handles the template import
-     *
-     * @param mixed $file
-     *
-     * @param $file
-     * @return int|\WP_Error
-     */
+	/**
+	 * Handles the template import
+	 *
+	 * @param mixed $file
+	 *
+	 * @param $file
+	 * @return int|\WP_Error
+	 */
 	public function import_template( $file ) {
 		FileSystem::get_file_system();
 

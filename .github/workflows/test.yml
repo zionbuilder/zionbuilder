@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: BUILD
+name: TEST
 
 on: pull_request
 
@@ -26,3 +26,5 @@ jobs:
         run: composer install
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
+        with:
+          phpcs_bin_path: './vendor/bin/phpcs'

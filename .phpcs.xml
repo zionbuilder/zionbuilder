@@ -4,6 +4,8 @@
 		Zion Builder Coding Standard
 	</description>
 
+	<file>zionbuilder.php</file>
+	<file>includes</file>
 
 	<exclude-pattern>vendor/</exclude-pattern>
 	<exclude-pattern>src/</exclude-pattern>

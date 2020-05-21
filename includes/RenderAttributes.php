@@ -28,14 +28,14 @@ class RenderAttributes {
 		$this->render_attributes = $render_attributes;
 	}
 
-    /**
-     * Will return the string of HTML attributes for a tag
-     *
-     * @param string $tag_id           The tag id for which we need to build the attributes string
-     * @param array  $extra_attributes
-     *
-     * @return string
-     */
+	/**
+	 * Will return the string of HTML attributes for a tag
+	 *
+	 * @param string $tag_id           The tag id for which we need to build the attributes string
+	 * @param array  $extra_attributes
+	 *
+	 * @return string
+	 */
 	public function get_attributes_as_string( $tag_id, $extra_attributes = [] ) {
 		$attributes          = $this->get_attributes( $tag_id );
 		$returned_attributes = [];

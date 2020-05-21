@@ -35,12 +35,12 @@ class Integrations {
 	 */
 	public $loaded_integrations = [];
 
-    /**
-     * Main class constructor
-     *
-     * @throws \Exception
-     * @since  1.0.0
-     */
+	/**
+	 * Main class constructor
+	 *
+	 * @throws \Exception
+	 * @since  1.0.0
+	 */
 	public function __construct() {
 
 		// Load default integrations
@@ -53,12 +53,12 @@ class Integrations {
 		$this->init_integrations();
 	}
 
-    /**
-     * Will register the default integrations provided by the plugin
-     *
-     * @throws \Exception
-     * @since  1.0.0
-     */
+	/**
+	 * Will register the default integrations provided by the plugin
+	 *
+	 * @throws \Exception
+	 * @since  1.0.0
+	 */
 	private function register_default_integrations() {
 		$this->register_integration( 'ZionBuilder\Integrations\Gutenberg' );
 		$this->register_integration( 'ZionBuilder\Integrations\Revisions' );

@@ -406,31 +406,31 @@ class Column extends Element {
 			]
 		);
 
-        $options->add_option(
-            'flex-wrap',
-            [
-                'type'        => 'custom_selector',
-                'grow'        => '5',
-                'title'       => esc_html__( 'Wrap content', 'zionbuilder' ),
-                'description' => esc_html__( 'If you choose to wrap the content, all inner elements will be placed on a new line if there is no space for them on the same line.', 'zionbuilder' ),
-                'options'     => [
-                    [
-                        'name' => esc_html__( 'wrap', 'zionbuilder' ),
-                        'id'   => 'wrap',
-                    ],
-                    [
-                        'name' => esc_html__( 'nowrap', 'zionbuilder' ),
-                        'id'   => 'nowrap',
-                    ],
-                    [
-                        'name' => esc_html__( 'wrap-reverse', 'zionbuilder' ),
-                        'id'   => 'wrap-reverse',
-                        'icon' => 'reverse',
-                    ],
-                ],
-                'sync' => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-wrap',
-            ]
-        );
+		$options->add_option(
+			'flex-wrap',
+			[
+				'type'        => 'custom_selector',
+				'grow'        => '5',
+				'title'       => esc_html__( 'Wrap content', 'zionbuilder' ),
+				'description' => esc_html__( 'If you choose to wrap the content, all inner elements will be placed on a new line if there is no space for them on the same line.', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => esc_html__( 'wrap', 'zionbuilder' ),
+						'id'   => 'wrap',
+					],
+					[
+						'name' => esc_html__( 'nowrap', 'zionbuilder' ),
+						'id'   => 'nowrap',
+					],
+					[
+						'name' => esc_html__( 'wrap-reverse', 'zionbuilder' ),
+						'id'   => 'wrap-reverse',
+						'icon' => 'reverse',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-wrap',
+			]
+		);
 	}
 
 	public function get_wrapper_tag( $options ) {

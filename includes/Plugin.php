@@ -189,13 +189,13 @@ class Plugin {
 	public $scripts = null;
 
 
-    /**
-     * Main class init
-     *
-     * Will hook into WP actions to add the plugin functioanlity
-     *
-     * @throws \Exception
-     */
+	/**
+	 * Main class init
+	 *
+	 * Will hook into WP actions to add the plugin functioanlity
+	 *
+	 * @throws \Exception
+	 */
 	public function init() {
 		// Load plugin actions
 		$this->load_actions();
@@ -255,16 +255,16 @@ class Plugin {
 		return self::$instance;
 	}
 
-    /**
-     * Plugin constructor.
-     * Create an instance of the Plugin class
-     *
-     * @param string $project_path
-     * @param string $project_url
-     * @param string $version
-     *
-     * @since 1.0.0
-     */
+	/**
+	 * Plugin constructor.
+	 * Create an instance of the Plugin class
+	 *
+	 * @param string $project_path
+	 * @param string $project_url
+	 * @param string $version
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct( $project_path, $project_url, $version ) {
 		$this->project_root_path = $project_path;
 		$this->project_root_url  = $project_url;

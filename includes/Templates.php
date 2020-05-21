@@ -57,8 +57,8 @@ class Templates {
 	 * Enables the templates to use the pagebuilder
 	 *
 	 * @param array $post_types The post types that are already registered
-     *
-     * @return array
+	 *
+	 * @return array
 	 */
 	public function add_post_type_for_builder( $post_types ) {
 		$post_types[] = self::TEMPLATE_POST_TYPE;
@@ -114,11 +114,11 @@ class Templates {
 	}
 
 
-    /**
-     * Returns the template categories as list
-     *
-     * @return int|\WP_Error|\WP_Term[]
-     */
+	/**
+	 * Returns the template categories as list
+	 *
+	 * @return int|\WP_Error|\WP_Term[]
+	 */
 	public function get_template_categories() {
 		return get_terms(
 			[

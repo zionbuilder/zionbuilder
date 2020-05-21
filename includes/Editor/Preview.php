@@ -123,8 +123,8 @@ class Preview {
 
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 		wp_add_inline_script(
-            'znpb-preview-frame-scripts',
-            '
+			'znpb-preview-frame-scripts',
+			'
                 (function($) {
                     window.ZionBuilderFrontend = {
                         scripts: {},
@@ -148,7 +148,7 @@ class Preview {
                     };
                 })(jQuery);
             ',
-            'before'
+			'before'
 		);
 
 		wp_localize_script(

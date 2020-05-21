@@ -40,13 +40,13 @@ class Options extends Stack {
 
 	/**
 	 * Holds the custom css that will be applied to an element
-     * @var CustomCSS|null
+	 * @var CustomCSS|null
 	 */
 	private $custom_css = null;
 
-    /**
-     * @var RenderAttributes|null
-     */
+	/**
+	 * @var RenderAttributes|null
+	 */
 	private $render_attributes = null;
 
 	/**
@@ -197,14 +197,14 @@ class Options extends Stack {
 		return null;
 	}
 
-    /**
-     * Parse model
-     *
-     * Will set the base model and the element for which the model is attached to
-     *
-     * @param RenderAttributes $render_attributes
-     * @param CustomCSS $custom_css
-     */
+	/**
+	 * Parse model
+	 *
+	 * Will set the base model and the element for which the model is attached to
+	 *
+	 * @param RenderAttributes $render_attributes
+	 * @param CustomCSS $custom_css
+	 */
 	public function parse_data( RenderAttributes $render_attributes, CustomCSS $custom_css ) {
 		$this->render_attributes = $render_attributes;
 		$this->custom_css        = $custom_css;
@@ -370,15 +370,15 @@ class Options extends Stack {
 		return null;
 	}
 
-    /**
-     * Get value
-     *
-     * Returns the value for an option if model is provided
-     *
-     * @param string $path          A dot separated string
-     * @param mixed $default_value The default value to return in case the option value is not found
-     * @return mixed|null
-     */
+	/**
+	 * Get value
+	 *
+	 * Returns the value for an option if model is provided
+	 *
+	 * @param string $path          A dot separated string
+	 * @param mixed $default_value The default value to return in case the option value is not found
+	 * @return mixed|null
+	 */
 	public function get_value( $path, $default_value = null ) {
 		$value = $this->get_value_from_path( $path );
 

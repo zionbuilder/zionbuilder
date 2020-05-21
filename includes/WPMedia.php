@@ -85,15 +85,15 @@ class WPMedia {
 	}
 
 
-    /**
-     * Add resized image srcset value
-     *
-     * @param $image_meta
-     * @param $size_array
-     * @param $image_src
-     * @param $attachment_id
-     * @return mixed
-     */
+	/**
+	 * Add resized image srcset value
+	 *
+	 * @param $image_meta
+	 * @param $size_array
+	 * @param $image_src
+	 * @param $attachment_id
+	 * @return mixed
+	 */
 	public function on_wp_calculate_image_srcset_meta( $image_meta, $size_array, $image_src, $attachment_id ) {
 		if ( ! empty( $image_meta['image_meta']['zion_resized_images'] ) ) {
 			foreach ( $image_meta['image_meta']['zion_resized_images'] as $custom_size ) {
