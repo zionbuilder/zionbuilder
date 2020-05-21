@@ -1,5 +1,7 @@
 # Zion Builder Plugin
 
+![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)
+
 Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website.
 
 **Tags:** page builder, WordPress module, editor, visual editor, design, website builder, front-end builder
