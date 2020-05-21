@@ -1013,7 +1013,7 @@ class Element {
 	 *
 	 * Loads the scripts necessary for the current element in editor mode
 	 *
-	 * @return void
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_element_scripts_for_editor() {
 		global $wp_scripts;
