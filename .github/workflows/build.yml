@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.2
       - name: Composer install
-        uses: MilesChou/composer-action@master
+        uses: MilesChou/composer-action/install@master
       - name: Install NPM dependencies
         run: npm install
       - name: Install Comoser dependencies
