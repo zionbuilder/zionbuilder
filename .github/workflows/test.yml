@@ -2,17 +2,18 @@
 
 name: BUILD
 
+on: pull_request
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  runPHPCSInspection:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.2
       - name: Setup PHP
@@ -23,8 +24,5 @@ jobs:
         run: npm install
       - name: Install Comoser dependencies
         run: composer install
-      - name: Create Zip
-        run: npm install
-      - uses: actions/upload-artifact@v2
-        with:
-          path: zion-builder.zip
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1
