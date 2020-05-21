@@ -208,7 +208,6 @@ class Icon extends Element {
 						'step' => 1,
 					],
 				],
-				'default'     => '0px',
 				'dependency'  => [
 					[
 						'option' => 'shape',
