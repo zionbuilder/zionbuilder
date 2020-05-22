@@ -18,40 +18,56 @@
 				<p class="znpb-admin-info-p">Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.</p>
 			</template>
 		</PageTemplate>
-		<!-- <PageTemplate>
+		<PageTemplate>
 			<div class="znpb-admin-regenerate">
 				<h4>Sync Library</h4>
 				<BaseButton
 					type="line"
+					@click.native="onSyncClick"
 				>
+					<Loader v-if="loadingSync" />
 					Sync Library
 				</BaseButton>
 			</div>
 			<template slot="right">
 				<p class="znpb-admin-info-p">Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.</p>
 			</template>
-		</PageTemplate> -->
+		</PageTemplate>
 
 	</div>
 </template>
 
 <script>
 import { regenerateCache } from '@/api/RegenerateCache'
+import { mapActions } from 'vuex'
 export default {
 	name: 'ToolsPage',
 	data () {
 		return {
-			loaded: false,
+			loadingSync: false,
 			loading: false
 		}
 	},
 	methods: {
+		...mapActions([
+			'fetchTemplates'
+		]),
 		onRegenerateFilesClick () {
-			console.log('click')
 			this.loading = true
 			regenerateCache().then(() => {
 				this.loading = false
 			})
+		},
+		onSyncClick () {
+			this.loadingSync = true
+			this.fetchTemplates(true).then(() => {
+			}).catch((error) => {
+				this.loadingSync = false
+				console.error('error', error.message)
+			})
+				.finally(() => {
+					this.loadingSync = false
+				})
 		}
 	}
 }
