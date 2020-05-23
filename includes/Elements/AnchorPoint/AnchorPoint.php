@@ -99,7 +99,7 @@ class AnchorPoint extends Element {
 	 *
 	 * @param \ZionBuilder\Options\Options $options
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function render( $options ) {
 		return '';

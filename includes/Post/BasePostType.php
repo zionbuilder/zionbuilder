@@ -429,7 +429,8 @@ class BasePostType {
 	 * @return \WP_Error|int
 	 */
 	public function save_current_post( $post_data = [] ) {
-		$post_id = $this->get_post_id();
+		$post_id       = $this->get_post_id();
+		$page_settings = [];
 
 		if ( ! $post_id ) {
 			return new \WP_Error( 'post_id_not_found', 'Post with id cannot be found', 'zionbuilder' );

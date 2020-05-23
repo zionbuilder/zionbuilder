@@ -79,7 +79,7 @@ class Integrations {
 		}
 
 		// Remove the registered integrations
-		$this->registered_integrations = null;
+		$this->registered_integrations = [];
 	}
 
 	/**

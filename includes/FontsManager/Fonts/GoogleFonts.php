@@ -52,7 +52,7 @@ class GoogleFonts extends FontProvider {
 	 *
 	 *  Built based on google fonts options
 	 *
-	 * @return string google fonts url eg: //fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Ubuntu:400,700,400italic,700italic&subset=latin,latin-ext
+	 * @return string|boolean google fonts url eg: //fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700|Ubuntu:400,700,400italic,700italic&subset=latin,latin-ext
 	 */
 	public static function get_enqueue_link() {
 		$fonts = self::get_fonts();

@@ -18,21 +18,21 @@ class Widget extends Element {
 	/**
 	 * Holds the name of a WP_Widget class
 	 *
-	 * @var null
+	 * @var string
 	 */
 	private $widget_id = null;
 
 	/**
 	 * Holds the reference to the instance of a WP_Widget class
 	 *
-	 * @var null|\WP_Widget
+	 * @var array $data
 	 */
 	private $widget_instance = null;
 
 	public function on_before_init( $data = [] ) {
 		// Get the widget id from data
 		if ( ! isset( $data['widget_id'] ) ) {
-			return;
+			return false;
 		}
 
 		$this->widget_id = $data['widget_id'];

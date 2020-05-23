@@ -158,7 +158,7 @@ class WPMedia {
 		if ( ! empty( $image_config ) ) {
 			if ( is_array( $image_config ) ) {
 				if ( ! isset( $image_config['image'] ) ) {
-					return null;
+					return '';
 				}
 
 				$image_url   = isset( $image_config['image_source'] ) ? $image_config['image_source'] : $image_config['image'];
@@ -234,7 +234,7 @@ class WPMedia {
 	 * @param int $height The desired image height
 	 * @param boolean $crop True if you want to crop the image. Defaults to true
 	 *
-	 * @return string The image URL
+	 * @return string|\WP_Error The image URL
 	 */
 	public static function get_resized_image_url( $attachment_id, $width = 0, $height = 0, $crop = true ) {
 		// Check to see if the image already exists for the requested size
@@ -276,7 +276,7 @@ class WPMedia {
 	 * @param mixed $crop
 	 * @param mixed $resized_file_name
 	 *
-	 * @return \WP_Error|array The resized image data or WP_Error in case of fail
+	 * @return \WP_Error|string The resized image data or WP_Error in case of fail
 	 */
 	public static function resize_image( $attachment_id, $width, $height, $crop = true, $resized_file_name = false ) {
 
@@ -301,8 +301,13 @@ class WPMedia {
 					$width = floor( $orig_width * ( $height / $orig_height ) );
 				} else {
 					if ( ! $width && ! $height ) {
-						// Return original url if no width/height provided
-						return wp_get_attachment_url( $attachment_id );
+						$image_url = wp_get_attachment_url( $attachment_id );
+						if ( false === $image_url ) {
+							return new \WP_Error( 'image_id_not_valid', esc_html__( 'The image could not be retrieved', 'zionbuilder' ) );
+						}
+
+						return $image_url;
+
 					}
 				}
 			}

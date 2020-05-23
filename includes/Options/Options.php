@@ -169,7 +169,7 @@ class Options extends Stack {
 	 *
 	 * @var mixed $option_path The path to the option you want to retrieve
 	 *
-	 * @return Option The requested option
+	 * @return Option|null The requested option
 	 */
 	public function get_option( $option_path ) {
 		$path_locations = explode( '.', $option_path );

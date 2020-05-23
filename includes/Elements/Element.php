@@ -217,7 +217,7 @@ class Element {
 	 *
 	 * Returns true if the element can contain other elements ( f.e. section, column )
 	 *
-	 * @return string The element icon
+	 * @return boolean The element icon
 	 */
 	public function is_wrapper() {
 		return false;
@@ -229,7 +229,7 @@ class Element {
 	 * Using this method you can have dinamically created options.
 	 * This must be used in conjunction with the wp_widget option type
 	 *
-	 * @return array The list of options to send to editor
+	 * @return string The list of options to send to editor
 	 */
 	public function dynamic_options_form() {
 		return 'The dynamic_options_form() method must be implemented in child class';
@@ -305,7 +305,6 @@ class Element {
 	 * @return void
 	 */
 	public function options( $options ) {
-		return [];
 	}
 
 
@@ -1088,17 +1087,6 @@ class Element {
 			'before' => $manager->get_data( $handle, 'before' ),
 			'after'  => $manager->get_data( $handle, 'after' ),
 		];
-	}
-
-	/**
-	 * Dynamic CSS
-	 *
-	 * Loads the element dynamic css
-	 *
-	 * @return string
-	 */
-	public function dynamic_css() {
-		return false;
 	}
 
 	/**

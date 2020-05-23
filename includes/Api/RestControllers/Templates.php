@@ -269,7 +269,7 @@ class Templates extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request
 	 *
-	 * @return array with templates
+	 * @return \WP_Error|\WP_REST_Response List of templates
 	 */
 	public function get_items( $request ) {
 
@@ -395,8 +395,8 @@ class Templates extends RestApiController {
 	 */
 	public function delete_item( $request ) {
 		$template_id = $request->get_param( 'id' );
-
-		$post = get_post( $template_id );
+		$result      = false;
+		$post        = get_post( $template_id );
 
 		// show error message if the post item does't exist
 		if ( ! $post ) {

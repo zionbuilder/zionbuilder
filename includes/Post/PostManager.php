@@ -27,7 +27,7 @@ class PostManager {
 	 *
 	 * Holds a reference to all posts loaded trough the PostManager
 	 *
-	 * @var integer
+	 * @var array
 	 */
 	private $loaded_posts = [];
 

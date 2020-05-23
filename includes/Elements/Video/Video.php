@@ -191,7 +191,7 @@ class Video extends Element {
 	 *
 	 * @param array $video_config The video config received from options
 	 *
-	 * @return string The video url
+	 * @return string|boolean The video url
 	 */
 	private function get_video_url( $video_config ) {
 		$source = $this->get_video_source( $video_config );
