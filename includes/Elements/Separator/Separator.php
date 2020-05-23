@@ -64,7 +64,7 @@ class Separator extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -364,7 +364,7 @@ class Separator extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */

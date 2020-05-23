@@ -386,7 +386,7 @@ class Icon extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
