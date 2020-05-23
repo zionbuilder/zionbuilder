@@ -335,8 +335,6 @@ class BasePostType {
 	 *
 	 * Will return the editor preview frame url
 	 *
-	 * @param int $post_id The post id for which we need to show the editor
-	 *
 	 * @return string The preview frame url
 	 */
 	public function get_preview_frame_url() {

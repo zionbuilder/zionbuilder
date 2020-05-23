@@ -203,7 +203,7 @@ class Frontend {
 	 *
 	 * @param string $area_id
 	 *
-	 * @return []
+	 * @return array
 	 */
 	public function get_content_for_area( $area_id ) {
 		if ( ! empty( $this->registered_areas[$area_id] ) && is_array( $this->registered_areas[$area_id] ) ) {
@@ -263,8 +263,6 @@ class Frontend {
 	 * Prepare content for render
 	 *
 	 * Instantiate all elements that should be rendered on the current page
-	 *
-	 * @param mixed $area_id
 	 *
 	 * @return void
 	 */

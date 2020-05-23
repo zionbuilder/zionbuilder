@@ -86,7 +86,7 @@ class Settings {
 	 *
 	 * Will update the SETTINGS_OPTION_KEY option with the new values
 	 *
-	 * @param [type] $new_values
+	 * @param mixed $new_values
 	 *
 	 * @return mixed
 	 */

@@ -340,7 +340,6 @@ class ImportExport {
 	 *
 	 * @param mixed $file
 	 *
-	 * @param $file
 	 * @return int|\WP_Error
 	 */
 	public function import_template( $file ) {

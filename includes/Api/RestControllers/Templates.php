@@ -422,9 +422,9 @@ class Templates extends RestApiController {
 	/**
 	 * This function will update a template with a specific info
 	 *
-	 * @param $request
+	 * @param \WP_REST_Request $request
 	 *
-	 * @return mixed|\WP_Error|\WP_REST_Response
+	 * @return int|\WP_Error|\WP_REST_Response
 	 */
 	public function update_item( $request ) {
 		// show error message if the post item does't exist
@@ -464,9 +464,9 @@ class Templates extends RestApiController {
 	/**
 	 * This function handles the template export
 	 *
-	 * @param $request
+	 * @param \WP_REST_Request $request
 	 *
-	 * @return mixed|\WP_Error|\WP_REST_Response
+	 * @return int|\WP_Error|\WP_REST_Response
 	 */
 	public function export_item( \WP_REST_Request $request ) {
 		$template_id = $request->get_param( 'id' ) ? $request->get_param( 'id' ) : false;

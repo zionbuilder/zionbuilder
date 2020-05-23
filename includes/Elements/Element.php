@@ -702,9 +702,9 @@ class Element {
 	 * Will render a list of html tags based on options and callback
 	 *
 	 * @param string $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string $option_id
 	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string $content       HTML tag content
-	 * @param mixed  $tag_config
+	 * @param array  $tag_config
 	 */
 	final public function render_tag_group( $html_tag_type, $option_id, $tag_id, $tag_config ) {
 		$tag_list = $this->options->get_value( $option_id, [] );

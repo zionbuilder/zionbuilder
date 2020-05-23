@@ -104,7 +104,7 @@ class CustomCSS {
 	 *
 	 * @param string $option_type The option type
 	 * @param array $style_config Configuration for the css
-	 * @param mixed $saved_value The value to use when parsing the option
+	 * @param mixed $value The value to use when parsing the option
 	 * @param integer $index In case of repeaters, the index of the saved value
 	 *
 	 * @return void

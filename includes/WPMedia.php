@@ -88,10 +88,11 @@ class WPMedia {
 	/**
 	 * Add resized image srcset value
 	 *
-	 * @param $image_meta
-	 * @param $size_array
-	 * @param $image_src
-	 * @param $attachment_id
+	 * @param array $image_meta
+	 * @param array $size_array
+	 * @param string $image_src
+	 * @param int $attachment_id
+	 *
 	 * @return mixed
 	 */
 	public function on_wp_calculate_image_srcset_meta( $image_meta, $size_array, $image_src, $attachment_id ) {

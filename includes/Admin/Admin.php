@@ -221,7 +221,7 @@ class Admin {
 	 *
 	 * @access public
 	 *
-	 * @param $actions array
+	 * @param array $actions
 	 * @param \WP_Post $post
 	 *
 	 * @return array
@@ -249,7 +249,7 @@ class Admin {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param mixed $post
+	 * @param \WP_Post $post
 	 */
 	public function add_editor_button_to_page( \WP_Post $post ) {
 		// Don't proceed if the current user cannot edit this page
