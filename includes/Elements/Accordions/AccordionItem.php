@@ -53,7 +53,7 @@ class AccordionItem extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -90,7 +90,7 @@ class AccordionItem extends Element {
 	/**
 	 * Sets wrapper css classes
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class AccordionItem extends Element {
 	 *
 	 * Will render the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
