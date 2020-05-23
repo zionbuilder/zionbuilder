@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Sidebar;
 
 use ZionBuilder\Elements\Element;
 

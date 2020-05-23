@@ -51,6 +51,34 @@ class ImportExport {
 
 
 	/**
+	 * Holds a refference to WP uploads directory
+	 *
+	 * @var array
+	 */
+	public $upload_dir = null;
+
+	/**
+	 * Holds a refference to WP uploads directory url
+	 *
+	 * @var string
+	 */
+	public $upload_dir_url = null;
+
+	/**
+	 * Holds a refference to WP uploads directory basedir
+	 *
+	 * @var string
+	 */
+	public $upload_dir_path = null;
+
+	/**
+	 * Holds a refference to WP uploads directory url without www subdomain
+	 *
+	 * @var string
+	 */
+	public $upload_dir_url_without_www = null;
+
+	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
