@@ -4,6 +4,6 @@ parameters:
     level: max
     inferPrivatePropertyTypeFromConstructor: true
     paths:
-        - includes
+        - includes/
     autoload_files:
-        - /zionbuilder.php
+        - zionbuilder.php
