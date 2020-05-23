@@ -5,13 +5,22 @@
 			<h3>{{$translate('general')}}</h3>
 
 			<div class="znpb-admin-regenerate">
-				<h4>Regenerate CSS</h4>
+				<h4>{{$translate('regenerate_css')}}</h4>
 				<BaseButton
 					type="line"
 					@click.native="onRegenerateFilesClick"
+					:class="{['-hasLoading'] : loading}"
 				>
-					<Loader v-if="loading" />
-					Regenerate Files
+					<transition
+						name="fade"
+						mode="out-in"
+					>
+						<Loader
+							v-if="loading"
+							:size="13"
+						/>
+						<span v-else>{{$translate('regenerate_files')}}</span>
+					</transition>
 				</BaseButton>
 			</div>
 			<template slot="right">
@@ -20,13 +29,21 @@
 		</PageTemplate>
 		<PageTemplate>
 			<div class="znpb-admin-regenerate">
-				<h4>Sync Library</h4>
+				<h4>{{$translate('sync_library')}}</h4>
 				<BaseButton
 					type="line"
 					@click.native="onSyncClick"
 				>
-					<Loader v-if="loadingSync" />
-					Sync Library
+					<transition
+						name="fade"
+						mode="out-in"
+					>
+						<Loader
+							v-if="loadingSync"
+							:size="13"
+						/>
+						<span v-else>{{$translate('sync_library')}}</span>
+					</transition>
 				</BaseButton>
 			</div>
 			<template slot="right">
