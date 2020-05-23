@@ -1,7 +1,8 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Alert;
 
+use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
 
 // Prevent direct access

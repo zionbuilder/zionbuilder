@@ -1,6 +1,8 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Accordions;
+
+use ZionBuilder\Elements\Element;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {

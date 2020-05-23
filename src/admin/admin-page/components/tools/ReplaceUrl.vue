@@ -65,7 +65,10 @@ export default {
 			'replaceUrl'
 		]),
 		callReplaceUrl () {
-			this.replaceUrl([this.localOldUrl, this.localNewUrl])
+			this.replaceUrl({
+				find: this.localOldUrl,
+				replace: this.localNewUrl
+			})
 		}
 	}
 

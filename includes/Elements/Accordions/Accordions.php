@@ -1,7 +1,8 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Accordions;
 
+use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
 
 // Prevent direct access

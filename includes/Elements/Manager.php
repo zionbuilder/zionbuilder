@@ -85,8 +85,8 @@ class Manager {
 				include $file_path;
 
 				// Normalize class name
-				$class_name = explode( '/', $element_path );
-				$class_name = __NAMESPACE__ . '\\' . $class_name[1];
+				$class_name = str_replace( '/', '\\', $element_path );
+				$class_name = __NAMESPACE__ . '\\' . $class_name;
 
 				$this->register_element( new $class_name() );
 			}

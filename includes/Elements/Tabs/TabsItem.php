@@ -1,8 +1,8 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Tabs;
 
-use ZionBuilder\Utils;
+use ZionBuilder\Elements\Element;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {

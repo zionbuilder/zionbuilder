@@ -71,8 +71,22 @@ class ReplaceUrl extends RestApiController {
 	 * @return string|\WP_REST_Response|mixed
 	 */
 	public function replace_item( $request ) {
-		$find                   = $request->get_param( 'find' );
-		$replace                = $request->get_param( 'replace' );
+		$find    = $request->get_param( 'find' );
+		$replace = $request->get_param( 'replace' );
+
+		if ( $find === $replace ) {
+			return new \WP_Error( 'replace_url_failed', esc_html__( 'Cannot replace URL\'s. They are the same.', 'zionbuilder' ) );
+		}
+
+		$is_valid_urls = ( filter_var( $find, FILTER_VALIDATE_URL ) && filter_var( $replace, FILTER_VALIDATE_URL ) );
+		if ( ! $is_valid_urls ) {
+			return new \WP_Error( 'replace_url_failed', esc_html__( 'Provided URL\'s are not valid.', 'zionbuilder' ) );
+		}
+
+		// Secure sql input
+		$find    = str_replace( '/', '\\\/', trim( $find ) );
+		$replace = str_replace( '/', '\\\/', trim( $replace ) );
+
 		$meta_fields_to_replace = apply_filters(
 			'zionbuilder/options_utils/replace_urls_meta_fields',
 			[
@@ -117,15 +131,11 @@ class ReplaceUrl extends RestApiController {
 	public function replace_urls( $find, $replace, $meta_key ) {
 		global $wpdb;
 
-		//#! Secure sql input
-		$_find    = wp_kses( str_replace( '/', '\\\/', $find ), [] );
-		$_replace = wp_kses( str_replace( '/', '\\\/', $replace ), [] );
-
 		// @codingStandardsIgnoreStart `$wpdb->prepare` will remove the backslashes when it's used
 		$rows_affected = $wpdb->query(
 			"UPDATE {$wpdb->postmeta} " .
-			"SET `meta_value` = REPLACE(`meta_value`, '" . $_find . "', '" . $_replace . "') " .
-			"WHERE `meta_key` = '" . $meta_key . "' AND `meta_value` LIKE '[%' ;"
+			"SET `meta_value` = REPLACE(`meta_value`, '" . $find . "', '" . $replace . "') " .
+			"WHERE `meta_key` = '" . $meta_key . "'"
 		);
 		// @codingStandardsIgnoreEnd
 
@@ -147,14 +157,10 @@ class ReplaceUrl extends RestApiController {
 	public function replace_urls_from_options( $find, $replace, $option_name ) {
 		global $wpdb;
 
-		//#! Secure sql input
-		$_find    = wp_kses( str_replace( '/', '\\\/', $find ), [] );
-		$_replace = wp_kses( str_replace( '/', '\\\/', $replace ), [] );
-
 		// @codingStandardsIgnoreStart `$wpdb->prepare` will remove the backslashes when it's used
 		$rows_affected = $wpdb->query(
 			"UPDATE {$wpdb->options} " .
-			"SET `option_value` = REPLACE(`option_value`, '" . $_find . "', '" . $_replace . "') " .
+			"SET `option_value` = REPLACE(`option_value`, '" . $find . "', '" . $replace . "') " .
 			"WHERE `option_name` = '" . $option_name . "';"
 		);
 		// @codingStandardsIgnoreEnd

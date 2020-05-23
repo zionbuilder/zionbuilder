@@ -22,8 +22,9 @@ class Option extends Stack {
 	/**
 	 * Holds a refference to the option config
 	 */
-	public $id   = null;
-	public $type = null;
+	public $id             = null;
+	public $type           = null;
+	private $child_options = [];
 
 	public function __construct( $option_id, $option_config = [] ) {
 		$this->id = $option_id;
