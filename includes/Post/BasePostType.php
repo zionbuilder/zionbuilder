@@ -54,20 +54,19 @@ class BasePostType {
 	 */
 	private $is_built_with_zion = null;
 
-
 	/**
 	 * Main class constructor
 	 *
-	 * @param \WP_Post|int $post id or object
+	 * @param \WP_Post|int $post Post ID or post object
 	 */
 	public function __construct( $post ) {
 		if ( is_numeric( $post ) ) {
 			$this->post = get_post( $post );
-		} elseif ( is_object( $post ) && $post instanceof \WP_Post ) {
+		} elseif ( $post instanceof \WP_Post ) {
 			$this->post = $post;
 		}
 
-		if ( $this->post ) {
+		if ( null !== $this->post ) {
 			$this->post_id = $this->post->ID;
 		}
 	}

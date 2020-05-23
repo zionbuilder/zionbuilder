@@ -128,7 +128,7 @@ class PostManager {
 	 *
 	 * Returns an instance of the active post instance data
 	 *
-	 * @return BasePostType
+	 * @return BasePostType|false
 	 */
 	public function get_active_post_instance() {
 		// Get the active post id
@@ -148,7 +148,7 @@ class PostManager {
 	 * Returns the active post instance used for rendering the page.
 	 * If the page is a preview, it will load the autosave for that page
 	 *
-	 * @return BasePostType
+	 * @return BasePostType|false
 	 */
 	public function get_active_post_instance_for_render() {
 		$post_id = $this->get_active_post_id();
@@ -170,7 +170,7 @@ class PostManager {
 	 *
 	 * @param integer $post_id Post id for which the BasePostType instance should be returned
 	 *
-	 * @return BasePostType|bool
+	 * @return BasePostType|false
 	 */
 	public function get_post_instance( $post_id ) {
 		// Only register post types if not already registered
@@ -181,21 +181,20 @@ class PostManager {
 		// Check to see if the post was saved
 		if ( isset( $this->loaded_posts[$post_id] ) ) {
 			return $this->loaded_posts[$post_id];
-		} else {
-
-			// Create instance of post
-			$post = get_post( $post_id );
-
-			if ( null === $post ) {
-				return false;
-			}
-
-			// Get an instance of the post type
-			$this->loaded_posts[$post_id] = $this->get_post_type_instance( $post );
-
-			// Return the instance of post type
-			return $this->loaded_posts[$post_id];
 		}
+
+		// Create instance of post
+		$post = get_post( $post_id );
+
+		if ( null === $post ) {
+			return false;
+		}
+
+		// Get an instance of the post type
+		$this->loaded_posts[$post_id] = $this->get_post_type_instance( $post );
+
+		// Return the instance of post type
+		return $this->loaded_posts[$post_id];
 	}
 
 	/**

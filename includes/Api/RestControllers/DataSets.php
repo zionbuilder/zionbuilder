@@ -119,7 +119,7 @@ class DataSets extends RestApiController {
 	/**
 	 * This function will return the user roles id and name
 	 *
-	 * @return array{id: string, name: string}
+	 * @return array<int, array{id: string, name: string}>
 	 */
 	public function get_user_roles() {
 		global $wp_roles;

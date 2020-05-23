@@ -46,23 +46,24 @@ class CustomCSS {
 	/**
 	 * Will check if the given option schema has styles that needs to be extracted
 	 *
-	 * @param mixed $option_schema The option configuration
-	 * @param mixed $option_value The saved option value
+	 * @param object  $option_schema The option configuration
+	 * @param mixed   $option_value The saved option value
 	 * @param integer $index The index of the value in case it is inside a repeater
 	 */
 	public function parse_options_schema( $option_schema, $option_value, $index ) {
+		if ( ! isset( $option_schema->css_style ) || ! is_array( $option_schema->css_style ) ) {
+			return;
+		}
+
 		// Check for custom css
-		if ( isset( $option_schema->css_style ) && is_array( $option_schema->css_style ) ) {
-			foreach ( $option_schema->css_style as $css_style_config ) {
-				if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
-					$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
-				} else {
-					$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
-				}
+		foreach ( $option_schema->css_style as $css_style_config ) {
+			if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
+				$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
+			} else {
+				$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
 			}
 		}
 	}
-
 
     /**
      * Extracts the css from a given option
