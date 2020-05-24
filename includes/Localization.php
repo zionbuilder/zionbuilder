@@ -68,6 +68,9 @@ class Localization {
 
 			// Tools
 			'tools'                                  => esc_html__( 'Tools', 'zionbuilder' ),
+			'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
+			'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
+			'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
 
 			// Templates
 			'all'                                    => esc_html__( 'All', 'zionbuilder' ),
