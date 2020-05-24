@@ -75,7 +75,7 @@ class Testimonial extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -293,7 +293,7 @@ class Testimonial extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -365,13 +365,13 @@ class Testimonial extends Element {
 						<?php
 						for ( $x = 1; $x <= $stars; $x ++ ) {
 							$this->attach_icon_attributes( 'icon', $stars_full );
-							$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-testimonial__stars--full' ] );
+							$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-testimonial__stars--full' ] );
 						}
 						?>
 						<?php
 						for ( $x = 1; $x <= ( 5 - $stars ); $x ++ ) {
 							$this->attach_icon_attributes( 'icon', $stars_empty );
-							$this->render_tag( 'span', 'icon', false );
+							$this->render_tag( 'span', 'icon' );
 						}
 						?>
 					</div>

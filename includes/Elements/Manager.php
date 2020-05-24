@@ -250,8 +250,7 @@ class Manager {
 	/**
 	 * Will return an instance of the requested element and data
 	 *
-	 * @param mixed $element_id
-	 * @param mixed $data
+	 * @param array $data
 	 *
 	 * @return boolean|Element Element instance with data or false in case the element instance couldn't be created
 	 */

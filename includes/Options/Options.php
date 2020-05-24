@@ -80,8 +80,8 @@ class Options extends Stack {
 	 *
 	 * Will register an option schema to the option schema stach
 	 *
-	 * @var string $id The id for the current stack. This must be unique
-	 * @var array $options An array containing the options that will be added to stack
+	 * @param string $id The id for the current stack. This must be unique
+	 * @param array $options An array containing the options that will be added to stack
 	 */
 	private function register_schema( $id, $options ) {
 		if ( ! isset( self::$schemas[$id] ) ) {
@@ -110,7 +110,7 @@ class Options extends Stack {
 	 *
 	 * Returns the current schema
 	 *
-	 * @return array The schema stack
+	 * @return Option[] The schema stack
 	 */
 	public function get_schema() {
 		if ( $this->triggered_injection === null ) {
@@ -122,80 +122,14 @@ class Options extends Stack {
 	}
 
 	/**
-	 * Add option
+	 * Returns the list of options for the current schema
 	 *
-	 * Will add a new option to the stack
-	 *
-	 * @var string $option_id The unique id for the option
-	 * @var array $option_config The option config
-	 *
-	 * @return Option the newly added option
+	 * @return array The list of options
 	 */
-	public function add_option( $option_id, $option_config = [] ) {
-		return $this->add_to_stack( $option_id, $option_config, self::$schemas[$this->schema_id] );
+	public function &get_stack() {
+		return self::$schemas[$this->schema_id];
 	}
 
-	/**
-	 * Remove option
-	 *
-	 * Will remove an option from the stack
-	 *
-	 * @var string $option_id The id of the option you want to remove
-	 *
-	 * @return boolean True if the option was successfully removed, false on failure
-	 */
-	public function remove_option( $option_id ) {
-		return $this->remove_from_stack( $option_id, self::$schemas[$this->schema_id] );
-	}
-
-	/**
-	 * Replace option
-	 *
-	 * Will replace an option from the stack
-	 *
-	 * @var string $option_id The option id
-	 * @var array $option_config The option config that should replace the option
-	 *
-	 * @return Option the new option that replaced the old one
-	 */
-	public function replace_option( $option_id, $option_config ) {
-		return $this->add_option( $option_id, $option_config );
-	}
-
-	/**
-	 * Get option
-	 *
-	 * Returns a single option from the stack
-	 *
-	 * @var mixed $option_path The path to the option you want to retrieve
-	 *
-	 * @return Option The requested option
-	 */
-	public function get_option( $option_path ) {
-		$path_locations = explode( '.', $option_path );
-		$paths_count    = count( $path_locations );
-		$options_schema = $this->get_schema();
-		$i              = 1;
-
-		foreach ( $path_locations as $path_location ) {
-			if ( ! array_key_exists( $path_location, $options_schema ) ) {
-				return null;
-			}
-
-			if ( $i === $paths_count ) {
-				return $options_schema[$path_location];
-			}
-
-			if ( ! isset( $options_schema[$path_location]->child_options ) ) {
-				return null;
-			}
-
-			$options_schema = $options_schema[$path_location]->child_options;
-			$i++;
-		}
-
-		return null;
-	}
 
 	/**
 	 * Parse model
@@ -219,9 +153,9 @@ class Options extends Stack {
 	 * Will loop through the options setting the active options, render attributes
 	 * and custom css
 	 *
-	 * @var array $schema The options schema that will be parsed
-	 * @var array $model The current saved values
-	 * @var integer $index The index of the model values in case of repeater options
+	 * @param Option[] $schema The options schema that will be parsed
+	 * @param array $model The current saved values
+	 * @param integer $index The index of the model values in case of repeater options
 	 *
 	 * @return void
 	 */

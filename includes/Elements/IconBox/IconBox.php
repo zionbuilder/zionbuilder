@@ -63,7 +63,7 @@ class IconBox extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -266,7 +266,7 @@ class IconBox extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -282,7 +282,7 @@ class IconBox extends Element {
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-				$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-iconBox-icon' ] );
+					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
 				?>
 			</div>
 			<?php

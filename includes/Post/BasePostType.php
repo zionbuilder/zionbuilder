@@ -54,20 +54,19 @@ class BasePostType {
 	 */
 	private $is_built_with_zion = null;
 
-
 	/**
 	 * Main class constructor
 	 *
-	 * @param \WP_Post|int $post id or object
+	 * @param \WP_Post|int $post Post ID or post object
 	 */
 	public function __construct( $post ) {
 		if ( is_numeric( $post ) ) {
 			$this->post = get_post( $post );
-		} elseif ( is_object( $post ) && $post instanceof \WP_Post ) {
+		} elseif ( $post instanceof \WP_Post ) {
 			$this->post = $post;
 		}
 
-		if ( $this->post ) {
+		if ( null !== $this->post ) {
 			$this->post_id = $this->post->ID;
 		}
 	}
@@ -178,7 +177,7 @@ class BasePostType {
 		}
 
 		$template_data                      = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
-		$this->post_elements_data[$post_id] = json_decode( $template_data, 1 );
+		$this->post_elements_data[$post_id] = json_decode( $template_data, true );
 
 		return apply_filters( 'zionbuilder/post/get_template_data', $this->post_elements_data[$post_id], $post_id );
 	}
@@ -335,8 +334,6 @@ class BasePostType {
 	 *
 	 * Will return the editor preview frame url
 	 *
-	 * @param int $post_id The post id for which we need to show the editor
-	 *
 	 * @return string The preview frame url
 	 */
 	public function get_preview_frame_url() {
@@ -431,7 +428,8 @@ class BasePostType {
 	 * @return \WP_Error|int
 	 */
 	public function save_current_post( $post_data = [] ) {
-		$post_id = $this->get_post_id();
+		$post_id       = $this->get_post_id();
+		$page_settings = [];
 
 		if ( ! $post_id ) {
 			return new \WP_Error( 'post_id_not_found', 'Post with id cannot be found', 'zionbuilder' );

@@ -4,6 +4,10 @@ parameters:
     level: max
     inferPrivatePropertyTypeFromConstructor: true
     paths:
-        - includes
+        - includes/
     autoload_files:
-        - /zionbuilder.php
+        - tests/phpstan/bootstrap.php
+        - zionbuilder.php
+    ignoreErrors:
+        # Uses func_get_args()
+        - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
