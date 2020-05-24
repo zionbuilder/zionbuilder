@@ -1,19 +1,19 @@
 {
     "name": "hogash/zionbuilder",
-	"type": "project",
-	"description": "A visual builder for WordPress",
-	"autoload": {
+    "type": "wordpress-plugin",
+    "description": "A visual builder for WordPress",
+    "autoload": {
         "psr-4": {"ZionBuilder\\": "includes/"}
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^2.2",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
-		"phpcompatibility/phpcompatibility-wp": "*",
-        "squizlabs/php_codesniffer": "*",
+        "phpcompatibility/phpcompatibility-wp": "^2.1.0",
+        "squizlabs/php_codesniffer": "^3.5.5",
         "phpstan/phpstan": "^0.12.22",
         "szepeviktor/phpstan-wordpress": "^0.6.0"
-	},
-    "license": "GPL",
+    },
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "hogash",
