@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Video;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -75,7 +75,7 @@ class Video extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -157,7 +157,7 @@ class Video extends Element {
 	/**
 	 * Sets wrapper css classes
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -191,7 +191,7 @@ class Video extends Element {
 	 *
 	 * @param array $video_config The video config received from options
 	 *
-	 * @return string The video url
+	 * @return string|boolean The video url
 	 */
 	private function get_video_url( $video_config ) {
 		$source = $this->get_video_source( $video_config );
@@ -242,7 +242,7 @@ class Video extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */

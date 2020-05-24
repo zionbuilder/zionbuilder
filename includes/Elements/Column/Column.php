@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Column;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -77,7 +77,7 @@ class Column extends Element {
 	 *
 	 * Returns true if the element can contain other elements ( f.e. section, column )
 	 *
-	 * @return string The element icon
+	 * @return boolean The element icon
 	 */
 	public function is_wrapper() {
 		return true;
@@ -124,7 +124,7 @@ class Column extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -453,7 +453,7 @@ class Column extends Element {
 	/**
 	 * Sets wrapper css classes
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -465,7 +465,7 @@ class Column extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */

@@ -178,10 +178,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function will return an array with informations regarding the MySql version
 	 *
-	 * @return @return array {
-	 *
-	 * @var string value   -> MySql version
-	 *             }
+	 * @return array{name: string, value: string}
 	 */
 	public function get_mysql_version() {
 		global $wpdb;
@@ -348,12 +345,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function verify the memory limit and compare it with the recommended memory limit
 	 *
-	 * @return array {
-	 *
-	 * @var string value   -> WordPress memory limit
-	 * @var string icon    -> info icon
-	 * @var string message -> recommendation message
-	 *             }
+	 * @return array{name: string, value: string, icon: string, message: ?string}
 	 */
 	public function get_memory_limit() {
 		$info               = [];
@@ -379,10 +371,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function retrieve the permalink structure
 	 *
-	 * @return array {
-	 *
-	 * @var string $value contain the permalink structure
-	 *             }
+	 * @return array{name: string, value: string} The permalink structure
 	 */
 	public function get_permalink_structure() {
 		global $wp_rewrite;
@@ -400,10 +389,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * Retrieve the WordPress timezone
 	 *
-	 * @return array {
-	 *
-	 * @var string $value contain the WordPress timezone
-	 *             }
+	 * @return array{name: string, value: string} The WordPress timezone
 	 */
 	public function get_timezone() {
 		$info          = [];
@@ -418,12 +404,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function will check if the child theme is active
 	 *
-	 * @return array {
-	 *
-	 * @var string value   -> Yes/No depending on child theme status
-	 * @var string icon    -> info icon
-	 * @var string message -> recommendation message, in case if the child theme is inactive
-	 *             }
+	 * @return array{name: string, value: string, icon: string, message: string} Yes/No depending on child theme status
 	 */
 	public function has_child_theme() {
 		$has_child_theme = is_child_theme();
@@ -446,13 +427,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function will return the active plugins
 	 *
-	 * @return array {
-	 *
-	 * @var string name -> plugin name
-	 * @var string version -> plugin version
-	 * @var string author -> plugin author
-	 * @var string url -> plugin uri
-	 *             }
+	 * @return array<int, array{name: string, version: string, author: string, url: string}> Plugin details
 	 */
 	public function get_active_plugins() {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Counter;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -63,7 +63,7 @@ class Counter extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -200,7 +200,7 @@ class Counter extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */

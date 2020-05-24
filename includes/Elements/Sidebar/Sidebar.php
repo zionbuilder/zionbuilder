@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Sidebar;
 
 use ZionBuilder\Elements\Element;
 
@@ -73,7 +73,7 @@ class Sidebar extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -118,7 +118,7 @@ class Sidebar extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */

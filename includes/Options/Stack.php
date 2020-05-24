@@ -2,6 +2,8 @@
 
 namespace ZionBuilder\Options;
 
+use ZionBuilder\Options\Option;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -15,24 +17,53 @@ if ( ! defined( 'ABSPATH' ) ) {
  * for elements, page settings, etc
  *
  * @package ZionBuilder
+ *
  */
 class Stack {
-	public function add_to_stack( $option_id, $option_config, &$stack ) {
+
+	/**
+	 * Returns the list of options
+	 *
+	 * @return array The list of options
+	 */
+	public function &get_stack() {
+		_doing_it_wrong( 'Stack', esc_html__( 'The child class must implement the get_stack() method returning a refference to an array', 'zionbuilder' ), '1.0.0' );
+		return [];
+	}
+
+	/**
+	 * Adds a new option to stack
+	 *
+	 * @param string $option_id The option ID that will be added as child
+	 * @param Option|array $option_config
+	 *
+	 * @return Option|boolean Returns the newly added child option or false on failure
+	 */
+	public function add_option( $option_id, $option_config = [] ) {
+		$stack = &$this->get_stack();
+
 		if ( $option_config instanceof Option ) {
 			$stack[$option_id] = $option_config;
 			return $stack[$option_id];
-		} else {
-			if ( is_array( $option_config ) ) {
-				$stack[$option_id] = new Option( $option_id, $option_config );
-				return $stack[$option_id];
-			}
+		} elseif ( is_array( $option_config ) ) {
+			$stack[$option_id] = new Option( $option_id, $option_config );
+			return $stack[$option_id];
 		}
 
-		_doing_it_wrong( 'Stack', esc_html__( 'Second argument of add_to_stack must be an array or an instance of ZionBuilder\Options\Option', 'zionbuilder' ), '1.0.0' );
-		return null;
+		_doing_it_wrong( 'Stack', esc_html__( 'Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option', 'zionbuilder' ), '1.0.0' );
+		return false;
 	}
 
-	public function remove_from_stack( $option_id, &$stack ) {
+	/**
+	 * Removes an option from the option stack
+	 *
+	 * @param string $option_id The option ID that will be added to stack
+	 *
+	 * @return boolean True if the option was succesfully removed. False in case the option ID is not registered on the provided stack
+	 */
+	public function remove_option( $option_id ) {
+		$stack = &$this->get_stack();
+
 		if ( isset( $stack[$option_id] ) ) {
 			unset( $stack[$option_id] );
 			return true;
@@ -41,10 +72,30 @@ class Stack {
 		return false;
 	}
 
-	public function add_option( $option_id, $option_config = [] ) {
-		_doing_it_wrong( 'Stack', esc_html__( 'You need to implement add_option into your derived class.', 'zionbuilder' ), '1.0.0' );
+
+	/**
+	 * Replaces an option in stack
+	 *
+	 * @param string $option_id The option ID that will be added as child
+	 * @param Option|array $option_config
+	 *
+	 * @return Option|boolean Returns the newly added child option or false on failure
+	 */
+	public function replace_option( $option_id, $option_config ) {
+		return $this->add_option( $option_id, $option_config );
 	}
 
+	/**
+	 * Adds a new option that acts as a group option.
+	 * Group options do not store the value inside the option ID. It can be used when you
+	 * want to group options inside accordions/menus without saving the full option path
+	 * as ID.
+	 *
+	 * @param string $id The option ID that will be registered on stack
+	 * @param Option|array $config An instance of Option or an array configuration
+	 *
+	 * @return Option A new instance of the option with provided configuration
+	 */
 	public function add_group( $id, $config ) {
 		$defaults = [
 			'is_layout' => true,
@@ -52,4 +103,40 @@ class Stack {
 
 		return $this->add_option( $id, wp_parse_args( $config, $defaults ) );
 	}
+
+	/**
+	 * Get option
+	 *
+	 * Returns a single option from the stack
+	 *
+	 * @param mixed $option_path The path to the option you want to retrieve
+	 *
+	 * @return Option|null The requested option or null on failure
+	 */
+	public function &get_option( $option_path ) {
+		$path_locations = explode( '.', $option_path );
+		$paths_count    = count( $path_locations );
+		$stack_as_clone = $this->get_stack();
+		$i              = 1;
+
+		foreach ( $path_locations as $path_location ) {
+			if ( ! array_key_exists( $path_location, $stack_as_clone ) ) {
+				return null;
+			}
+
+			if ( $i === $paths_count ) {
+				return $stack_as_clone[$path_location];
+			}
+
+			if ( ! isset( $stack_as_clone[$path_location]->child_options ) ) {
+				return null;
+			}
+
+			$stack_as_clone = $stack_as_clone[$path_location]->child_options;
+			$i++;
+		}
+
+		return null;
+	}
+
 }

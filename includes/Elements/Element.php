@@ -217,7 +217,7 @@ class Element {
 	 *
 	 * Returns true if the element can contain other elements ( f.e. section, column )
 	 *
-	 * @return string The element icon
+	 * @return boolean The element icon
 	 */
 	public function is_wrapper() {
 		return false;
@@ -229,7 +229,7 @@ class Element {
 	 * Using this method you can have dinamically created options.
 	 * This must be used in conjunction with the wp_widget option type
 	 *
-	 * @return array The list of options to send to editor
+	 * @return string The list of options to send to editor
 	 */
 	public function dynamic_options_form() {
 		return 'The dynamic_options_form() method must be implemented in child class';
@@ -305,7 +305,6 @@ class Element {
 	 * @return void
 	 */
 	public function options( $options ) {
-		return [];
 	}
 
 
@@ -676,20 +675,31 @@ class Element {
 	}
 
 	/**
-	 * Render tag
-	 *
 	 * Will render a html tag based on options and render attributes previously registered
 	 *
 	 * @param string $html_tag_type HTML tag type (f.e. div, span )
 	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string $content       HTML tag content
-	 * @param mixed  $attributes
+	 * @param string|array $content       HTML tag content
+	 * @param array  $attributes
+	 *
+	 * @return void
 	 */
 	public function render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
 		// Attributes are already escaped, the content must be escaped by the element creator
 		echo $this->get_render_tag( $html_tag_type, $tag_id, $content, $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 
+
+	/**
+	 * Will return a html tag based on options and render attributes previously registered
+	 *
+	 * @param string $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string $tag_id        The tag is for which we have registered attributes
+	 * @param string|array $content HTML tag content
+	 * @param array $attributes A list of extra attributes to add to the returned tag
+	 *
+	 * @return string The HTML tag
+	 */
 	public function get_render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
 		$attributes = $this->render_attributes->get_attributes_as_string( $tag_id, $attributes );
 		$content    = is_array( $content ) ? implode( '', $content ) : $content;
@@ -702,9 +712,9 @@ class Element {
 	 * Will render a list of html tags based on options and callback
 	 *
 	 * @param string $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string $option_id
 	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string $content       HTML tag content
-	 * @param mixed  $tag_config
+	 * @param array  $tag_config
 	 */
 	final public function render_tag_group( $html_tag_type, $option_id, $tag_id, $tag_config ) {
 		$tag_list = $this->options->get_value( $option_id, [] );
@@ -1088,17 +1098,6 @@ class Element {
 			'before' => $manager->get_data( $handle, 'before' ),
 			'after'  => $manager->get_data( $handle, 'after' ),
 		];
-	}
-
-	/**
-	 * Dynamic CSS
-	 *
-	 * Loads the element dynamic css
-	 *
-	 * @return string
-	 */
-	public function dynamic_css() {
-		return false;
 	}
 
 	/**

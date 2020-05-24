@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Style {
 	/**
-	 * @param $css_selector
+	 * @param string $css_selector
 	 * @param array $style_options
 	 *
 	 * @return string
@@ -40,8 +40,8 @@ class Style {
 	}
 
 	/**
-	 * @param $responsive_device_id
-	 * @param $styles
+	 * @param string $responsive_device_id
+	 * @param string $styles
 	 *
 	 * @return bool|string
 	 */
@@ -64,8 +64,8 @@ class Style {
 	}
 
 	/**
-	 * @param $css_selector
-	 * @param $pseudo_selectors
+	 * @param string $css_selector
+	 * @param array $pseudo_selectors
 	 *
 	 * @return string
 	 */
@@ -81,9 +81,9 @@ class Style {
 	}
 
 	/**
-	 * @param $css_selector
-	 * @param $pseudo_selector
-	 * @param $style_options
+	 * @param string $css_selector
+	 * @param string $pseudo_selector
+	 * @param array $style_options
 	 *
 	 * @return string
 	 */

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Separator;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -64,7 +64,7 @@ class Separator extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -364,7 +364,7 @@ class Separator extends Element {
 	/**
 	 * Renders the element based on options
 	 *
-	 * @param Options $options
+	 * @param \ZionBuilder\Options\Options $options
 	 *
 	 * @return void
 	 */
@@ -380,7 +380,7 @@ class Separator extends Element {
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-one"></span>
 					<?php
 						$this->attach_icon_attributes( 'icon', $icon );
-					$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-zionSeparator-icon' ] );
+					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-zionSeparator-icon' ] );
 					?>
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-two" ></span>
 				</div>

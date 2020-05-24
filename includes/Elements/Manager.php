@@ -85,8 +85,8 @@ class Manager {
 				include $file_path;
 
 				// Normalize class name
-				$class_name = explode( '/', $element_path );
-				$class_name = __NAMESPACE__ . '\\' . $class_name[1];
+				$class_name = str_replace( '/', '\\', $element_path );
+				$class_name = __NAMESPACE__ . '\\' . $class_name;
 
 				$this->register_element( new $class_name() );
 			}
@@ -250,8 +250,7 @@ class Manager {
 	/**
 	 * Will return an instance of the requested element and data
 	 *
-	 * @param mixed $element_id
-	 * @param mixed $data
+	 * @param array $data
 	 *
 	 * @return boolean|Element Element instance with data or false in case the element instance couldn't be created
 	 */

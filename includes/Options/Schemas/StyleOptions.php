@@ -369,8 +369,6 @@ class StyleOptions extends BaseSchema {
 	}
 
 	/**
-	 * @param Options $options
-	 *
 	 * @return array
 	 */
 	public static function get_schema() {

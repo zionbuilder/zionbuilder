@@ -79,7 +79,7 @@ class Integrations {
 		}
 
 		// Remove the registered integrations
-		$this->registered_integrations = null;
+		$this->registered_integrations = [];
 	}
 
 	/**
@@ -114,9 +114,9 @@ class Integrations {
 	}
 
 	/**
-	 * @param $integration_name
+	 * @param string $integration_name
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
 	public function get_integration( $integration_name ) {
 		return isset( $this->loaded_integrations[$integration_name] ) ? $this->loaded_integrations[$integration_name] : false;
