@@ -380,7 +380,7 @@ class Separator extends Element {
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-one"></span>
 					<?php
 						$this->attach_icon_attributes( 'icon', $icon );
-					$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-zionSeparator-icon' ] );
+					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-zionSeparator-icon' ] );
 					?>
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-two" ></span>
 				</div>

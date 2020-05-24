@@ -21,11 +21,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Option extends Stack {
 	/**
 	 * Holds a refference to the option config
+	 *
+	 * @var string The option id
 	 */
-	public $id             = null;
-	public $type           = null;
-	private $child_options = [];
+	public $id = null;
 
+	/**
+	 * Holds a refference to the option type
+	 *
+	 * @var string The option type
+	 */
+	public $type = null;
+
+	/**
+	 * Holds a list of child Options
+	 *
+	 * @var Option[] The list of child options
+	 */
+	public $child_options = [];
+
+	/**
+	 * Main class constructor
+	 *
+	 * @param string $option_id The option ID
+	 * @param array $option_config List of options that will be added on class instantiation
+	 */
 	public function __construct( $option_id, $option_config = [] ) {
 		$this->id = $option_id;
 
@@ -46,24 +66,16 @@ class Option extends Stack {
 		}
 	}
 
+	/**
+	 * Returns the option ID
+	 *
+	 * @return string The current option ID
+	 */
 	public function get_option_id() {
 		return $this->id;
 	}
 
-	public function add_option( $option_id, $option_config = [] ) {
-		if ( ! property_exists( $this, 'child_options' ) ) {
-			$this->child_options = [];
-		}
-
-		return $this->add_to_stack( $option_id, $option_config, $this->child_options );
+	public function &get_stack() {
+		return $this->child_options;
 	}
-
-	public function remove_option( $option_id ) {
-		return $this->remove_from_stack( $option_id, $this->child_options );
-	}
-
-	public function replace_option( $option_id, $option_config ) {
-		return $this->add_option( $option_id, $option_config );
-	}
-
 }

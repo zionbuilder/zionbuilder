@@ -29,4 +29,4 @@ jobs:
         with:
           phpcs_bin_path: './vendor/bin/phpcs'
       - name: PHPStan check
-        run: vendor/bin/phpstan analyze --level=4
+        run: vendor/bin/phpstan analyze --level=5

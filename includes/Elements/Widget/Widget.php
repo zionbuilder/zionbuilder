@@ -148,7 +148,7 @@ class Widget extends Element {
 		ob_start();
 		echo '<div class="widget-inside media-widget-control"><div class="form wp-core-ui">';
 		echo '<input type="hidden" class="id_base" value="' . esc_attr( $widget_id ) . '" />';
-		echo '<input type="hidden" class="widget-id" value="widget-' . esc_attr( time() ) . '" />';
+		echo '<input type="hidden" class="widget-id" value="widget-' . esc_attr( strval( time() ) ) . '" />';
 		echo '<div class="widget-content">';
 		if ( $widget_instance ) {
 			$widget_instance->form( $widget_settings );

@@ -177,7 +177,7 @@ class BasePostType {
 		}
 
 		$template_data                      = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
-		$this->post_elements_data[$post_id] = json_decode( $template_data, 1 );
+		$this->post_elements_data[$post_id] = json_decode( $template_data, true );
 
 		return apply_filters( 'zionbuilder/post/get_template_data', $this->post_elements_data[$post_id], $post_id );
 	}

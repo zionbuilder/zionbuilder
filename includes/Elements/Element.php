@@ -675,20 +675,31 @@ class Element {
 	}
 
 	/**
-	 * Render tag
-	 *
 	 * Will render a html tag based on options and render attributes previously registered
 	 *
 	 * @param string $html_tag_type HTML tag type (f.e. div, span )
 	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string $content       HTML tag content
-	 * @param mixed  $attributes
+	 * @param string|array $content       HTML tag content
+	 * @param array  $attributes
+	 *
+	 * @return void
 	 */
 	public function render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
 		// Attributes are already escaped, the content must be escaped by the element creator
 		echo $this->get_render_tag( $html_tag_type, $tag_id, $content, $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 
+
+	/**
+	 * Will return a html tag based on options and render attributes previously registered
+	 *
+	 * @param string $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string $tag_id        The tag is for which we have registered attributes
+	 * @param string|array $content HTML tag content
+	 * @param array $attributes A list of extra attributes to add to the returned tag
+	 *
+	 * @return string The HTML tag
+	 */
 	public function get_render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
 		$attributes = $this->render_attributes->get_attributes_as_string( $tag_id, $attributes );
 		$content    = is_array( $content ) ? implode( '', $content ) : $content;

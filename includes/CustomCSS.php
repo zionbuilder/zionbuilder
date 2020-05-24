@@ -46,7 +46,7 @@ class CustomCSS {
 	/**
 	 * Will check if the given option schema has styles that needs to be extracted
 	 *
-	 * @param object  $option_schema The option configuration
+	 * @param \ZionBuilder\Options\Option $option_schema The option configuration
 	 * @param mixed   $option_value The saved option value
 	 * @param integer $index The index of the value in case it is inside a repeater
 	 */
@@ -85,7 +85,7 @@ class CustomCSS {
 		$value = $style_config['value'];
 
 		$selector = str_replace( '{{ELEMENT}}', $this->css_selector, $selector );
-		$selector = str_replace( '{{INDEX}}', $index, $selector );
+		$selector = str_replace( '{{INDEX}}', strval( $index ), $selector );
 		$value    = str_replace( '{{VALUE}}', $saved_value, $value );
 
 		if ($option_type === 'element_styles') {

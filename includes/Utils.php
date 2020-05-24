@@ -97,7 +97,7 @@ class Utils {
 		$path       = wp_normalize_path( $path );
 
 		$is_theme       = preg_match( '#' . $theme_base . '#', $path );
-		$directory_uri  = ( $is_theme ) ? get_template_directory_uri() : \WP_PLUGIN_URL;
+		$directory_uri  = ( $is_theme ) ? get_template_directory_uri() : plugins_url();
 		$directory_path = ( $is_theme ) ? $theme_base : \WP_PLUGIN_DIR;
 		$fw_basename    = str_replace( wp_normalize_path( $directory_path ), '', $path );
 
@@ -120,7 +120,7 @@ class Utils {
 
 		$is_theme       = preg_match( '#' . $theme_base . '#', $path );
 		$directory_path = ( $is_theme ) ? get_template_directory() : \WP_PLUGIN_DIR;
-		$directory_uri  = ( $is_theme ) ? $theme_base : \WP_PLUGIN_URL;
+		$directory_uri  = ( $is_theme ) ? $theme_base : plugins_url();
 		$fw_basename    = str_replace( wp_normalize_path( $directory_uri ), '', $path );
 
 		return $directory_path . $fw_basename;

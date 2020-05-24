@@ -345,7 +345,7 @@ class SystemInfo extends RestApiController {
 	/**
 	 * This function verify the memory limit and compare it with the recommended memory limit
 	 *
-	 * @return array{name: string, value: int, icon: string, message: ?string}
+	 * @return array{name: string, value: string, icon: string, message: ?string}
 	 */
 	public function get_memory_limit() {
 		$info               = [];
