@@ -159,7 +159,9 @@ class Style {
 					break;
 
 				case 'background-image':
-					$background_image_config[1] = sprintf( 'url(%s)', $value );
+					if ( $value ) {
+						$background_image_config[1] = sprintf( 'url(%s)', $value );
+					}
 					break;
 
 				case 'background-size':
