@@ -184,7 +184,7 @@ class Editor {
 		Plugin::$instance->cache->enqueue_dynamic_css();
 
 		// Load roboto font
-		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], ZIONBUILDER_VERSION );
+		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_style(
@@ -201,11 +201,11 @@ class Editor {
 			[
 				'wp-codemirror',
 			],
-			ZIONBUILDER_VERSION
+			Plugin::instance()->get_version()
 		);
 
 		// Load animations
-		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], ZIONBUILDER_VERSION );
+		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
@@ -320,8 +320,8 @@ class Editor {
 				// Plugin info
 				'plugin_info'                    => [
 					'is_pro_active'      => Utils::is_pro_active(),
-					'free_version'       => ZIONBUILDER_VERSION,
-					'pro_version'        => ( Utils::is_pro_active() && defined( 'ZIONBUILDERPRO_VERSION' ) ? ZIONBUILDERPRO_VERSION : null ),
+					'free_version'       => Plugin::instance()->get_version(),
+					'pro_version'        => ( Utils::is_pro_active() && defined( 'ZIONBUILDERPRO_VERSION' ) ? Plugin::instance()->get_version() : null ),
 					'free_plugin_update' => $free_plugin_update,
 					'pro_plugin_update'  => $pro_plugin_update,
 				],

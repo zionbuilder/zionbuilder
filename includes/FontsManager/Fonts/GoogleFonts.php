@@ -2,6 +2,7 @@
 
 namespace ZionBuilder\FontsManager\Fonts;
 
+use ZionBuilder\Plugin;
 use ZionBuilder\Settings;
 use ZionBuilder\FontsManager\FontProvider;
 
@@ -90,7 +91,7 @@ class GoogleFonts extends FontProvider {
 
 		// check if we have fonts
 		if ( $enque_link ) {
-			wp_enqueue_style( 'zion-google-fonts', $enque_link, [], ZIONBUILDER_VERSION );
+			wp_enqueue_style( 'zion-google-fonts', $enque_link, [], Plugin::instance()->get_version() );
 		}
 	}
 }
