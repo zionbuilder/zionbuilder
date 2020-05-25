@@ -1,9 +1,9 @@
 # Zion Builder Plugin
 
-![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)
-![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)
-![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)
-![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)
+[![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
+[![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
+[![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
+[![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
 
 Built and designed by [hogash team](https://hogash.com),
 the creator of famous WordPress theme [Kallyas](https://kallyas.net/),
