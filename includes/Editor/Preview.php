@@ -122,6 +122,8 @@ class Preview {
 		);
 
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		wp_add_inline_script( 'znpb-preview-frame-scripts', 'window.postMessage("ZionBuilderDataReady");', 'after' );
+
 		wp_add_inline_script(
 			'znpb-preview-frame-scripts',
 			'

@@ -123,7 +123,7 @@ export default {
 		},
 		useServerVersion () {
 			if (!this.ignoreNextReload) {
-				if (!this.$refs.iframe.contentWindow.ZnPbPreviewData) {
+				if (!Dom.iframeWindow.ZnPbPreviewData) {
 					this.addNotice({
 						message: this.$translate('page_content_error'),
 						type: 'error',
@@ -174,6 +174,24 @@ export default {
 			}
 		},
 		onIframeLoaded () {
+			Dom.iframe = this.$refs.iframe
+			Dom.iframeDocument = this.$refs.iframe.contentDocument
+			Dom.iframeWindow = this.$refs.iframe.contentWindow
+			this.attachIframeEvents()
+			this.setPreviewFrameLoading(false)
+			this.ignoreNextReload = false
+
+			Dom.iframeWindow.addEventListener('message', this.onMessageReceived)
+		},
+		onMessageReceived (event) {
+			const { data } = event
+
+			if (data === 'ZionBuilderDataReady') {
+				this.onDOMContentLoaded()
+				Dom.iframeWindow.removeEventListener('message', this.onMessageReceived)
+			}
+		},
+		onDOMContentLoaded () {
 			const cachedData = Cache.getItem(this.getPageId)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
@@ -182,13 +200,6 @@ export default {
 			} else {
 				this.useServerVersion()
 			}
-
-			Dom.iframe = this.$refs.iframe
-			Dom.iframeDocument = this.$refs.iframe.contentDocument
-			Dom.iframeWindow = this.$refs.iframe.contentWindow
-			this.attachIframeEvents()
-			this.setPreviewFrameLoading(false)
-			this.ignoreNextReload = false
 		},
 		attachIframeEvents () {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)
@@ -241,6 +252,7 @@ export default {
 	beforeDestroy () {
 		if (Dom.iframeDocument) {
 			Dom.iframeDocument.removeEventListener('click', this.deselectActiveElement)
+			Dom.iframeDocument.removeEventListener('message', this.onMessageReceived)
 			Dom.iframeDocument.removeEventListener('keydown', this.applyShortcuts)
 			Dom.iframeDocument.removeEventListener('click', this.preventClicks, true)
 		}
