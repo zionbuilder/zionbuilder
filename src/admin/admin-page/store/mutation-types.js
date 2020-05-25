@@ -47,9 +47,7 @@ export const TEMPLATE_SET_LOADED = 'TEMPLATE_SET_LOADED'
 export const SET_DATA_SETS = 'SET_DATA_SETS'
 export const DELETE_ICON_SET = 'DELETE_ICON_SET'
 export const ADD_ICON_SET = 'ADD_ICON_SET'
-// replaceURl
-export const SET_NEW_URL = 'SET_NEW_URL'
-export const SET_NEW_URL_LOADED_STATE = 'SET_NEW_URL_LOADED_STATE'
+
 // allowed post types
 export const ADD_ALLOWED_POST_TYPE = 'ADD_ALLOWED_POST_TYPE'
 export const DELETE_ALLOWED_POST_TYPE = 'DELETE_ALLOWED_POST_TYPE'

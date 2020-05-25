@@ -9,7 +9,6 @@ import systemInfo from './modules/systemInfo'
 import users from './modules/users'
 import templates from './modules/templates'
 import dataSets from './modules/dataSets'
-import replaceUrl from './modules/replaceUrl'
 import general from './modules/general'
 
 Vue.use(Vuex)
@@ -25,7 +24,6 @@ export default new Vuex.Store({
 		users,
 		templates,
 		dataSets,
-		replaceUrl,
 		general
 	},
 	strict: debug

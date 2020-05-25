@@ -71,6 +71,7 @@ class Localization {
 			'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
 			'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
 			'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
+			'replace_info'                           => __( '<strong>Important:</strong> It is strongly recommended that you <a href="https://zionbuilder.io/documentation/replace-url-s/">backup your database</a> before using Replace URL.', 'zionbuilder' ),
 
 			// Templates
 			'all'                                    => esc_html__( 'All', 'zionbuilder' ),
