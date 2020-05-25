@@ -43,7 +43,6 @@ export default {
 	},
 
 	created () {
-		this._addElement(this.rootData)
 		this.setStylesLoading(false)
 	},
 
@@ -57,19 +56,10 @@ export default {
 		]),
 		elementData () {
 			return this.getPageContent['contentRoot']
-		},
-		rootData () {
-			return {
-				element_type: 'root',
-				content: this.elementData,
-				options: {},
-				uid: 'contentRoot'
-			}
 		}
 	},
 	methods: {
 		...mapActions([
-			'_addElement',
 			'setStylesLoading'
 		])
 	},
