@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Plugin;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
