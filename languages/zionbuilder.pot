@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Zionbuilder\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/plugins/search/zionbuilder/\n"
+"Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hogash <hello@hogash.com>\n"
 "MIME-Version: 1.0\n"
