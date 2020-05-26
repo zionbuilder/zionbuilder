@@ -104,13 +104,13 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 ## Installation
 
 ### Minimum requirements
-* WordPress 4.9.8 or Higher
-* PHP 7 or Higher
-* MySQL 5.6 or Higher
+* WordPress 5.0 or higher
+* PHP 7.0 or higher
+* MySQL 5.6 or higher
 * WP Memory Limit at least 64M or higher
-* Writing permissions for root WordPress uploads directory and htaccess file
-* Server Zip extension must be installed
-* Server Gd extension must be installed
+* Writing permissions for WordPress uploads directory and `.htaccess` file
+* PHP Zip extension must be installed
+* PHP GD extension must be installed
 
 ### Instalation
 1. Install using the WordPress built-in Plugin installer Go to Plugins -> Add New
