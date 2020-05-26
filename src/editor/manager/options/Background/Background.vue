@@ -64,8 +64,7 @@ export default {
 	components: {
 		BackgroundColor,
 		InputBackgroundImage,
-		BackgroundGradient,
-		InputBackgroundVideo
+		BackgroundGradient
 	},
 	inject: {
 		panel: {
