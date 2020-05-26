@@ -1,7 +1,13 @@
-# Zion Builder Plugin [stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)
+# Zion Builder Plugin
 
-![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder) ![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg) ![license](https://img.shields.io/github/license/zionbuilder/zionbuilder) ![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)
-Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website.
+[![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
+[![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
+[![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
+[![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
+
+Built and designed by [hogash team](https://hogash.com),
+the creator of famous WordPress theme [Kallyas](https://kallyas.net/),
+this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website.
 
 **Tags:** page builder, WordPress module, editor, visual editor, design, website builder, front-end builder
 
@@ -10,6 +16,7 @@ Below are listed the core competencies
 
 ### Elements and templates at your fingertip
 Add elements and templates right where you need them from the page builder "Add Elements Popup"
+
 ### Basic 27 elements
 * Section
 * Column
@@ -82,7 +89,6 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 * Columns sizes and offsets
 * Extendable options
 
-
 ### User experience features
 * Dragging elements
 * Dragging size and spacing
@@ -98,7 +104,6 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 ## Installation
 
 ### Minimum requirements
-
 * WordPress 4.9.8 or Higher
 * PHP 7 or Higher
 * MySQL 5.6 or Higher
@@ -108,12 +113,10 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 * Server Gd extension must be installed
 
 ### Instalation
-
 1. Install using the WordPress built-in Plugin installer Go to Plugins -> Add New
 2. Activate the plugin
 3. Go to Pages or Posts > Add New
 4. Press the 'Edit with Zion Builder' button.
-
 
 For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.io/help-center/).
 
