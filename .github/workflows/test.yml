@@ -24,8 +24,8 @@ jobs:
       - name: Install WP-CLI
         run: |
              mkdir -p ~/bin
-             wget -O ~/bin/wp "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
-               && chmod a+x ~/bin/wp
+             wget -nv -O ~/bin/wp "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
+               && chmod -v a+x ~/bin/wp
       - name: i18n check
         run: |
              ~/bin/wp i18n make-pot includes/ languages/zionbuilder.pot --skip-js \
