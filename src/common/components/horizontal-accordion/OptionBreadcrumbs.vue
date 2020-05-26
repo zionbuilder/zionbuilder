@@ -14,7 +14,7 @@
 			:class="{['znpb-options-breadcrumbs-path--current']: i === computedBreadcrumbs.length-1}"
 			@click="onItemClicked(previousItem)"
 		>
-			{{breadcrumb.title}}
+			<span v-html="breadcrumb.title">{{breadcrumb.title}}</span>
 			<BaseIcon
 				icon="select"
 				rotate="-90"

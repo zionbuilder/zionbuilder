@@ -2,6 +2,7 @@
 
 namespace ZionBuilder\Api\RestControllers;
 
+use ZionBuilder\Plugin;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Post\BasePostType;
 use ZionBuilder\Settings;
@@ -111,6 +112,9 @@ class ReplaceUrl extends RestApiController {
 			$replace_urls_from_options->add_data( [ 'status' => 500 ] );
 			return $replace_urls_from_options;
 		}
+
+		// Clear cache
+		Plugin::$instance->cache->delete_all_cache();
 
 		return rest_ensure_response(
 			[

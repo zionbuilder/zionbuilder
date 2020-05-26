@@ -120,12 +120,15 @@ class Frontend {
 	 * @return string The generated HTML content for the current page
 	 */
 	public function add_pagebuilder_content( $content ) {
-		$this->remove_content_filters();
-
-		// Remove filters that affect content
-		$content = $this->get_content();
-
 		$this->restore_content_filters();
+
+		$pb_content = $this->get_content();
+		if ( ! empty( $pb_content ) ) {
+			$content = $pb_content;
+			// Remove filters that may affect content
+			$this->remove_content_filters();
+		}
+
 		return $content;
 	}
 
@@ -138,6 +141,7 @@ class Frontend {
 	private function remove_content_filters() {
 		$filters_to_remove = [
 			'wpautop',
+			'wptexturize',
 		];
 
 		foreach ( $filters_to_remove as $filter ) {
@@ -147,6 +151,7 @@ class Frontend {
 
 	public function restore_content_filters() {
 		add_filter( 'the_content', 'wpautop' );
+		add_filter( 'the_content', 'wptexturize' );
 	}
 
 	private function get_content() {

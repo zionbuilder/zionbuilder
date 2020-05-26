@@ -292,6 +292,7 @@ class PricingBox extends Element {
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/PricingBox/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Button/frontend.css' ) );
 	}
 
 	/**
@@ -302,7 +303,6 @@ class PricingBox extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$featured         = $options->get_value( 'plan_featured' );
 		$plan_title       = $options->get_value( 'plan_title' );
 		$plan_description = $options->get_value( 'plan_description' );
 		$heading_colors   = $options->get_value( 'heading_colors' );
@@ -321,7 +321,7 @@ class PricingBox extends Element {
 		$price_styles_classes    = $this->get_style_classes_as_string( 'price_styles', [ 'zb-el-pricingBox-price-price' ] );
 		$features_styles_classes = $this->get_style_classes_as_string( 'features_styles', [ 'zb-el-pricingBox-plan-features' ] );
 
-		if ( ! empty( $plan_featured ) ) {
+		if ( $plan_featured === 'featured' ) {
 			printf( '<span class="%s">%s</span>', esc_attr( $featured_styles ), wp_kses_post( $plan_featured ) );
 		} ?>
 
@@ -344,7 +344,7 @@ class PricingBox extends Element {
 						<span class="<?php echo esc_attr( $price_styles_classes ); ?>">
 							<?php echo wp_kses_post( $compiled_price[0] ); ?>
 							<?php if ( isset( $compiled_price[1] ) ) : ?>
-							<span class="zb-el-pricingBox-price-dot">.</span>
+								<span class="zb-el-pricingBox-price-dot">.</span>
 							<?php endif; ?>
 						</span>
 						<?php if ( isset( $compiled_price[1] ) ) : ?>
