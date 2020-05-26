@@ -4,13 +4,15 @@
 		:style="pointerevents"
 		:class="getWrapperClasses"
 	>
+
 		<iframe
+			v-if="getPreviewFrameUrl"
 			ref="iframe"
-			@load="onIframeLoaded"
+			@load="checkIframeLoading"
 			id="znpb-editor-iframe"
 			:src="getPreviewFrameUrl"
 			:style="deviceStyle"
-		></iframe>
+		/>
 		<Modal
 			:show-close="false"
 			:show-maximize="false"
@@ -123,7 +125,9 @@ export default {
 		},
 		useServerVersion () {
 			if (!this.ignoreNextReload) {
-				if (!Dom.iframeWindow.ZnPbPreviewData) {
+				const { contentWindow } = this.$refs.iframe
+
+				if (!contentWindow.ZnPbPreviewData) {
 					this.addNotice({
 						message: this.$translate('page_content_error'),
 						type: 'error',
@@ -181,17 +185,6 @@ export default {
 			this.setPreviewFrameLoading(false)
 			this.ignoreNextReload = false
 
-			Dom.iframeWindow.addEventListener('message', this.onMessageReceived)
-		},
-		onMessageReceived (event) {
-			const { data } = event
-
-			if (data === 'ZionBuilderDataReady') {
-				this.onDOMContentLoaded()
-				Dom.iframeWindow.removeEventListener('message', this.onMessageReceived)
-			}
-		},
-		onDOMContentLoaded () {
 			const cachedData = Cache.getItem(this.getPageId)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
@@ -205,6 +198,7 @@ export default {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)
 			Dom.iframeDocument.addEventListener('click', this.preventClicks, true)
 			Dom.iframeDocument.addEventListener('keydown', this.applyShortcuts)
+			Dom.iframeDocument.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
 			// Don't deselect the element if an element was just activated
@@ -237,6 +231,17 @@ export default {
 			this.setRightClickMenu({
 				previewScrollTop: parseInt(this.$refs.iframe.contentDocument.documentElement.scrollTop)
 			})
+		},
+		checkIframeLoading () {
+			if (this.$refs.iframe && this.$refs.iframe.contentDocument) {
+				if (this.$refs.iframe.contentDocument.readyState === 'complete') {
+					this.onIframeLoaded()
+				} else {
+					setTimeout(this.checkIframeLoading, 100)
+				}
+			} else {
+				setTimeout(this.checkIframeLoading, 100)
+			}
 		}
 	},
 	watch: {
@@ -252,17 +257,15 @@ export default {
 	beforeDestroy () {
 		if (Dom.iframeDocument) {
 			Dom.iframeDocument.removeEventListener('click', this.deselectActiveElement)
-			Dom.iframeDocument.removeEventListener('message', this.onMessageReceived)
 			Dom.iframeDocument.removeEventListener('keydown', this.applyShortcuts)
 			Dom.iframeDocument.removeEventListener('click', this.preventClicks, true)
+			Dom.iframeDocument.removeEventListener('scroll', this.onScroll)
 		}
 
 		window.ZionBuilderApi.off('refreshIframe', this.refreshIframe)
 		this.$refs.iframe.contentDocument.removeEventListener('scroll', this.onScroll)
 	},
 	mounted () {
-		this.$refs.iframe.contentDocument.addEventListener('scroll', this.onScroll)
-
 		window.ZionBuilderApi.on('refreshIframe', this.refreshIframe)
 	}
 }
