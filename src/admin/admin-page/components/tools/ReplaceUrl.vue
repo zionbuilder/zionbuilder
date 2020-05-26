@@ -9,7 +9,7 @@
 			</h4>
 			<BaseInput
 				v-model="oldUrl"
-				placeholder="old Url"
+				:placeholder="$translate('old_url')"
 				size="narrow"
 			>
 
@@ -20,7 +20,7 @@
 			/>
 			<BaseInput
 				v-model="newUrl"
-				placeholder="new Url"
+				:placeholder="$translate('new_url')"
 				size="narrow"
 			>
 
