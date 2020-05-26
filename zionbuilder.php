@@ -31,11 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /*
  * Holds a reference to the plugin file path
  */
-define( 'ZIONBUILDER_VERSION', '1.0.0' );
-
-/*
- * Holds a reference to the plugin file path
- */
 define( 'ZIONBUILDER_FILE', __FILE__ );
 
 /*
