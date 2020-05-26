@@ -24,7 +24,7 @@
 				</BaseButton>
 			</div>
 			<template slot="right">
-				<p class="znpb-admin-info-p">Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.</p>
+				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
 			</template>
 		</PageTemplate>
 		<PageTemplate>
@@ -47,7 +47,7 @@
 				</BaseButton>
 			</div>
 			<template slot="right">
-				<p class="znpb-admin-info-p">Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.</p>
+				<p class="znpb-admin-info-p">{{$translate('regenrate_info')}}</p>
 			</template>
 		</PageTemplate>
 
