@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset name="ZionBuilder">
+	<description>Zion Builder Coding Standard</description>
+
+	<file>zionbuilder.php</file>
+	<file>includes/</file>
+
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="7.0-"/>
+
+	<rule ref="WordPress-Extra">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys"/>
+		<exclude name="Squiz.PHP.CommentedOutCode"/>
+	</rule>
+
+	<rule ref="WordPress-Core">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="WordPress.PHP.YodaConditions"/>
+	</rule>
+
+	<rule ref="WordPress.WP.DeprecatedFunctions">
+		<properties>
+			<property name="minimum_supported_version" value="5.0"/>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.ValidHookName">
+		<properties>
+			<property name="additionalWordDelimiters" value="/-"/>
+		</properties>
+	</rule>
+</ruleset>
