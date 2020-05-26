@@ -21,6 +21,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
+      - name: Install WP-CLI
+        run: |
+             mkdir -p ~/bin
+             wget -nv -O ~/bin/wp "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
+               && chmod -v a+x ~/bin/wp
+      - name: i18n check
+        run: |
+             ~/bin/wp i18n make-pot . languages/zionbuilder.pot --include=zionbuilder.php,includes/ --skip-js \
+               --slug="zionbuilder" \
+               --package-name="Zionbuilder" \
+               --headers='{"Report-Msgid-Bugs-To": "https://github.com/zionbuilder/zionbuilder/issues/new/choose", "Language-Team": "ZionBuilder <hello@zionbuilder.io>", "POT-Creation-Date": "1970-01-01 00:00+0000"}' \
+               && git diff --exit-code
       - name: Set Composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-dir)"
