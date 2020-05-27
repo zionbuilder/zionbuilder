@@ -7,7 +7,6 @@ use ZionBuilder\Elements\Style;
 use ZionBuilder\Plugin;
 use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
-use ZionBuilder\FileSystem;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
 
@@ -629,6 +628,12 @@ class Element {
 				$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
 			}
 
+			// Add video BG
+			$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
+			if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
+				wp_enqueue_script( 'zb-video-bg' );
+			}
+
 			$wrapper_tag = $this->get_wrapper_tag( $this->options );
 			$wrapper_id  = $this->get_element_css_id();
 
@@ -653,7 +658,7 @@ class Element {
 
 	public static function render_video_background( $options ) {
 		if ( self::has_video_background( $options ) ) {
-			printf( '<div class="zb__videoBackground-wrapper" data-zion-video-background=\'%s\'></div>', wp_json_encode( $options ) );
+			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video-background=\'%s\'></div>', wp_json_encode( $options ) );
 		}
 	}
 
@@ -665,7 +670,7 @@ class Element {
 			if ( $video_source === 'youtube' && ! empty( $options['youtubeURL'] ) ) {
 				return true;
 			} else {
-				if ( $video_source === 'local' && ! empty( $options['vimeoURL'] ) ) {
+				if ( $video_source === 'vimeo' && ! empty( $options['vimeoURL'] ) ) {
 					return true;
 				}
 			}
@@ -878,6 +883,7 @@ class Element {
 	 */
 	public function enqueue_scripts() {
 	}
+
 
 	/**
 	 * Enqueue Styles
