@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --no-fix src/",
     "lint-php": "node ./scripts/lint-php",
     "serve": "zionbuilder-service serve",
     "build": "zionbuilder-service build",
@@ -11,6 +11,7 @@
     "zip": "zionbuilder-service zip"
   },
   "dependencies": {
+    "@vue/cli-service": "^4.3.1",
     "@zionbuilder/importcss": "^1.1.0",
     "@zionbuilder/zionbuilder-service": "0.4.4",
     "axios": "^0.19.2",
@@ -41,7 +42,7 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "eslint": "^5.16.0",
-    "eslint-plugin-compat": "^3.6.0",
+    "eslint-plugin-compat": "^3.7.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^9.5.0",
     "typescript": "~3.5.3"

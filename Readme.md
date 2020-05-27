@@ -1,8 +1,12 @@
 # Zion Builder Plugin
+[![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
+[![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
+[![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
+[![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
 
-![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)
-
-Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website.
+Built and designed by [hogash team](https://hogash.com),
+the creator of famous WordPress theme [Kallyas](https://kallyas.net/),
+this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website.
 
 **Tags:** page builder, WordPress module, editor, visual editor, design, website builder, front-end builder
 
@@ -11,6 +15,7 @@ Below are listed the core competencies
 
 ### Elements and templates at your fingertip
 Add elements and templates right where you need them from the page builder "Add Elements Popup"
+
 ### Basic 27 elements
 * Section
 * Column
@@ -83,7 +88,6 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 * Columns sizes and offsets
 * Extendable options
 
-
 ### User experience features
 * Dragging elements
 * Dragging size and spacing
@@ -99,22 +103,19 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 ## Installation
 
 ### Minimum requirements
-
-* WordPress 4.9.8 or Higher
-* PHP 7 or Higher
-* MySQL 5.6 or Higher
+* WordPress 5.0 or higher
+* PHP 7.0 or higher
+* MySQL 5.6 or higher
 * WP Memory Limit at least 64M or higher
-* Writing permissions for root WordPress uploads directory and htaccess file
-* Server Zip extension must be installed
-* Server Gd extension must be installed
+* Writing permissions for WordPress uploads directory and `.htaccess` file
+* PHP Zip extension must be installed
+* PHP GD extension must be installed
 
 ### Instalation
-
 1. Install using the WordPress built-in Plugin installer Go to Plugins -> Add New
 2. Activate the plugin
 3. Go to Pages or Posts > Add New
 4. Press the 'Edit with Zion Builder' button.
-
 
 For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.io/help-center/).
 
@@ -133,11 +134,28 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Contributors
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/szepeviktor/debian-server-tools/blob/master/CV.md"><img src="https://avatars3.githubusercontent.com/u/952007?v=4" width="100px;" alt=""/><br /><sub><b>Viktor Szépe</b></sub></a><br /><a href="#ideas-szepeviktor" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+
 ## License
  GNU GENERAL PUBLIC LICENSE
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
 
-### 0.1.0 - 2020-05-20 ###
+### 1.0.0- 2020-05-27 ###
 * Initial Public Release

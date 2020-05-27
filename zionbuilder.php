@@ -1,10 +1,11 @@
 <?php
 /*
 Plugin Name: ZionBuilder
-Plugin URI: https://zionbuilder.io
+Plugin URI: https://zionbuilder.io?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins
 Description: The page builder you always wanted. Create any design you want using live editor.
 Version: 1.0.0
 Author: zionbuilder.io
+Author URI: https://zionbuilder.io?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins
 Text Domain: zionbuilder
 Domain Path: /languages
 License: GPL3
@@ -27,11 +28,6 @@ along with Zion builder. If not, see {License URI}.
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
-
-/*
- * Holds a reference to the plugin file path
- */
-define( 'ZIONBUILDER_VERSION', '1.0.0' );
 
 /*
  * Holds a reference to the plugin file path

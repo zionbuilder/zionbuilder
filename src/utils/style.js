@@ -146,8 +146,9 @@ export function compileStyleTabs (styleValues) {
 	if (backgroundSize && backgroundSize !== 'custom') {
 		combineStyles += `background-size: ${backgroundSize};`
 	} else if (backgroundSize === 'custom') {
-		const { x = '', y = '' } = backgroundSizeUnits
+		const { x, y } = backgroundSizeUnits
 		if (x || y) {
+			const { x = 'auto', y = 'auto' } = backgroundSizeUnits
 			combineStyles += `background-size: ${x} ${y};`
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\CustomHtml;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;

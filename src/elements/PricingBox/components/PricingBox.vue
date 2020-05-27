@@ -47,22 +47,17 @@
 				:title="options.button_link.title"
 				:target="options.button_link.target"
 				:class="api.getStyleClasses('button_styles')"
+				class="zb-el-pricingBox-action zb-el-button"
 			>
-				<BaseButton
-					class="zb-el-pricingBox-action"
-					type="primary"
-				>
-					<RenderValue option="button_text" />
-				</BaseButton>
+				<RenderValue option="button_text" />
 			</a>
-			<BaseButton
+			<div
 				v-else
-				class="zb-el-pricingBox-action"
-				type="secondary"
+				class="zb-el-pricingBox-action zb-el-button"
 				:class="api.getStyleClasses('button_styles')"
 			>
 				<RenderValue option="button_text" />
-			</BaseButton>
+			</div>
 		</div>
 
 		<slot name="end" />

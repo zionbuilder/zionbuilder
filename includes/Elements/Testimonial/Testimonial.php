@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Testimonial;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -324,7 +324,7 @@ class Testimonial extends Element {
 		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] );
 
 		if ( ! empty( $content ) ) {
-			printf( '', wp_kses_post( $content ) );
+			echo wp_kses_post( $content );
 		} ?>
 		<?php if ( $image && ( $position === 'top' ) ) : ?>
 			<img
@@ -365,13 +365,13 @@ class Testimonial extends Element {
 						<?php
 						for ( $x = 1; $x <= $stars; $x ++ ) {
 							$this->attach_icon_attributes( 'icon', $stars_full );
-							$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-testimonial__stars--full' ] );
+							$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-testimonial__stars--full' ] );
 						}
 						?>
 						<?php
 						for ( $x = 1; $x <= ( 5 - $stars ); $x ++ ) {
 							$this->attach_icon_attributes( 'icon', $stars_empty );
-							$this->render_tag( 'span', 'icon', false );
+							$this->render_tag( 'span', 'icon' );
 						}
 						?>
 					</div>

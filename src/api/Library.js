@@ -10,10 +10,9 @@ const ZionService = axios.create({
 	}
 })
 
-export const getLibraryItems = function (useCace = true) {
+export const getLibraryItems = function (useCache = true) {
 	const url = 'items-and-categories'
-
-	if (useCace) {
+	if (useCache) {
 		return ZionService.get(url)
 	} else {
 		return ZionService.get(`${url}?timestamp=${new Date().getTime()}`)

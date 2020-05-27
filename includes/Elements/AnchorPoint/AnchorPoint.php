@@ -1,7 +1,8 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\AnchorPoint;
 
+use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
 
 // Prevent direct access
@@ -98,7 +99,7 @@ class AnchorPoint extends Element {
 	 *
 	 * @param \ZionBuilder\Options\Options $options
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function render( $options ) {
 		return '';

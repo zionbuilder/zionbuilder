@@ -62,7 +62,7 @@ import ElementToolbox from './ElementToolbox/ElementToolbox'
 import ElementStyles from './ElementStyles.vue'
 import VideoBackground from './VideoBackground.vue'
 import Options from '@/common/Options'
-import { getStyles, getOptionValue, camelCase } from '@/utils'
+import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@/utils'
 
 // Components
 import ServerComponent from '@/preview/components/ServerComponent'
@@ -547,6 +547,10 @@ export default {
 			if (!this.isPreviewMode) {
 				this.setActiveElement(this.data.uid)
 				this.openPanel('PanelElementOptions')
+
+				// Clear text selection that may appear
+				clearTextSelection(window)
+				clearTextSelection(window.parent)
 			}
 		},
 

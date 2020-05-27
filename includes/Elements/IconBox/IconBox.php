@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\IconBox;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -282,7 +282,7 @@ class IconBox extends Element {
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-				$this->render_tag( 'span', 'icon', false, [ 'class' => 'zb-el-iconBox-icon' ] );
+					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
 				?>
 			</div>
 			<?php

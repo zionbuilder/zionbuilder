@@ -49,22 +49,29 @@ export default {
 		permissionConfig () {
 			return this.getPermissions(this.data.id)
 		},
+		isPro () {
+			return window.ZnPbAdminPageData.is_pro_active
+		},
 		permissionsNumber () {
 			let permNumber = []
-			if (this.permissionConfig.allowed_access === false) {
-				return 0
-			} else {
-				if (this.permissionConfig.permissions.only_content === true) {
-					permNumber.push('only_content')
-				}
-				for (let i in this.permissionConfig.permissions.features) {
-					permNumber.push(this.permissionConfig.permissions.features[i])
-				}
-				for (let i in this.permissionConfig.permissions.post_types) {
-					permNumber.push(this.permissionConfig.permissions.post_types[i])
-				}
+			if (this.isPro) {
+				if (this.permissionConfig.allowed_access === false) {
+					return 0
+				} else {
+					if (this.permissionConfig.permissions.only_content === true) {
+						permNumber.push('only_content')
+					}
+					for (let i in this.permissionConfig.permissions.features) {
+						permNumber.push(this.permissionConfig.permissions.features[i])
+					}
+					for (let i in this.permissionConfig.permissions.post_types) {
+						permNumber.push(this.permissionConfig.permissions.post_types[i])
+					}
 
-				return permNumber.length
+					return permNumber.length
+				}
+			} else {
+				return this.permissionConfig.allowed_access ? 1 : 0
 			}
 		}
 	},

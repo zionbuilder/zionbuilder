@@ -455,13 +455,6 @@ const actions = {
 		})
 	},
 
-	_addElement: ({ commit, dispatch, getters }, payload) => {
-		commit(types.ADD_ELEMENT, {
-			...payload,
-			parent: null
-		})
-	},
-
 	addElement: ({ commit, dispatch, getters }, payload) => {
 		const parentContent = getters.getElementData(payload.parentUid).content
 		commit(types.ADD_ELEMENT, {

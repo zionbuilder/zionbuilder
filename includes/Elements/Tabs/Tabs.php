@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Tabs;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\Elements\Element;

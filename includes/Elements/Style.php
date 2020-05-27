@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Style {
 	/**
-	 * @param $css_selector
+	 * @param string $css_selector
 	 * @param array $style_options
 	 *
 	 * @return string
@@ -40,8 +40,8 @@ class Style {
 	}
 
 	/**
-	 * @param $responsive_device_id
-	 * @param $styles
+	 * @param string $responsive_device_id
+	 * @param string $styles
 	 *
 	 * @return bool|string
 	 */
@@ -64,8 +64,8 @@ class Style {
 	}
 
 	/**
-	 * @param $css_selector
-	 * @param $pseudo_selectors
+	 * @param string $css_selector
+	 * @param array $pseudo_selectors
 	 *
 	 * @return string
 	 */
@@ -81,9 +81,9 @@ class Style {
 	}
 
 	/**
-	 * @param $css_selector
-	 * @param $pseudo_selector
-	 * @param $style_options
+	 * @param string $css_selector
+	 * @param string $pseudo_selector
+	 * @param array $style_options
 	 *
 	 * @return string
 	 */
@@ -159,18 +159,22 @@ class Style {
 					break;
 
 				case 'background-image':
-					$background_image_config[1] = sprintf( 'url(%s)', $value );
+					if ( $value ) {
+						$background_image_config[1] = sprintf( 'url(%s)', $value );
+					}
 					break;
 
 				case 'background-size':
+				case 'background-video':
+					break;
 				case 'background-size-units':
 					if ( isset( $style_options['background-size'] ) && $style_options['background-size'] !== 'custom' ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					} else {
 						if ( isset( $style_options['background-size'] ) && $style_options['background-size'] === 'custom' ) {
 							if ( $attribute === 'background-size-units' && isset( $value['x'] ) || isset( $value['y'] ) ) {
-								$x             = isset( $value['x'] ) ? $value['x'] : '50%';
-								$y             = isset( $value['y'] ) ? $value['y'] : '50%';
+								$x             = isset( $value['x'] ) ? $value['x'] : 'auto';
+								$y             = isset( $value['y'] ) ? $value['y'] : 'auto';
 								$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
 							}
 						}

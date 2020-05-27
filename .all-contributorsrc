@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "szepeviktor",
+      "name": "Viktor Szépe",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/952007?v=4",
+      "profile": "https://github.com/szepeviktor/debian-server-tools/blob/master/CV.md",
+      "contributions": [
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "zionbuilder",
+  "projectOwner": "zionbuilder",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

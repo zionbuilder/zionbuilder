@@ -121,7 +121,11 @@ class Preview {
 			true
 		);
 
+		wp_enqueue_script( 'zionbuilder-animatejs' );
+		wp_enqueue_script( 'zb-video-bg' );
+
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+
 		wp_add_inline_script(
 			'znpb-preview-frame-scripts',
 			'
@@ -168,7 +172,7 @@ class Preview {
 		do_action( 'zionbuilder/preview/before_load_styles', $this );
 
 		// Load roboto font
-		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], ZIONBUILDER_VERSION );
+		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Load styles
 		Plugin::instance()->scripts->enqueue_style(
@@ -214,7 +218,6 @@ class Preview {
 	 */
 	public function add_content_filter() {
 		if ( get_the_ID() === $this->get_current_post_id() ) {
-			$this->remove_content_filter();
 			return apply_filters( 'zionbuilder/preview/content', $this->render_area( 'content' ) );
 		}
 		return '';
@@ -224,18 +227,6 @@ class Preview {
 		return '<div id="znpb-preview-' . $area_id . '-area"></div>';
 	}
 
-	/**
-	 * Remove Content Filter
-	 *
-	 * Removes the contnt filter so it only runs once
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function remove_content_filter() {
-		remove_filter( 'the_content', [ $this, 'add_content_filter' ], self::CONTENT_FILTER_PRIORITY );
-	}
 
 	/**
 	 * Is Preview Mode

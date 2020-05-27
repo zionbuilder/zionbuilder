@@ -18,21 +18,21 @@ class Widget extends Element {
 	/**
 	 * Holds the name of a WP_Widget class
 	 *
-	 * @var null
+	 * @var string
 	 */
 	private $widget_id = null;
 
 	/**
 	 * Holds the reference to the instance of a WP_Widget class
 	 *
-	 * @var null|\WP_Widget
+	 * @var array $data
 	 */
 	private $widget_instance = null;
 
 	public function on_before_init( $data = [] ) {
 		// Get the widget id from data
 		if ( ! isset( $data['widget_id'] ) ) {
-			return;
+			return false;
 		}
 
 		$this->widget_id = $data['widget_id'];
@@ -148,7 +148,7 @@ class Widget extends Element {
 		ob_start();
 		echo '<div class="widget-inside media-widget-control"><div class="form wp-core-ui">';
 		echo '<input type="hidden" class="id_base" value="' . esc_attr( $widget_id ) . '" />';
-		echo '<input type="hidden" class="widget-id" value="widget-' . esc_attr( time() ) . '" />';
+		echo '<input type="hidden" class="widget-id" value="widget-' . esc_attr( strval( time() ) ) . '" />';
 		echo '<div class="widget-content">';
 		if ( $widget_instance ) {
 			$widget_instance->form( $widget_settings );

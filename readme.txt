@@ -134,8 +134,18 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Builder 
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is stored in the /assets directory.
-2. This is the second screen shot
+1. Plugin edit screen
+2. Plugin edit screen while hovering an element
+3. Element options
+4. Add new element in page
+5. ZionBuilder online library
+6. ZionBuilder online library
+7. Tree view
+8. Section view. The plugin will make screenshoots of your sections so you can easily find them
+9. Wireframe view
+10. History panel. You can get back in time
+11. Two builder panel open
+12. Responsive options. You can style an element for each device
 
 == Changelog ==
 

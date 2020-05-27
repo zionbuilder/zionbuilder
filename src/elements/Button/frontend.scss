@@ -80,10 +80,11 @@ $styleprimary: #06bee1;
 
 .zb-el-button {
 	padding: 15px 20px;
-	text-decoration: none;
-	border-radius: 3px;
 	color: $stylewhite;
+	line-height: 1;
+	text-decoration: none;
 	background-color: $secondary;
+	border-radius: 3px;
 
 	&--icon-black {
 		color: $stylewhite;

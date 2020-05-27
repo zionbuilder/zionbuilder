@@ -68,6 +68,17 @@ class Localization {
 
 			// Tools
 			'tools'                                  => esc_html__( 'Tools', 'zionbuilder' ),
+			'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
+			'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
+			'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
+			'old_url'                                => esc_html__( 'old Url', 'zionbuilder' ),
+			'new_url'                                => esc_html__( 'New Url', 'zionbuilder' ),
+			'regenrate_info'                         => esc_html__( 'Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.', 'zionbuilder' ),
+			'tools_info'                             => esc_html__( 'Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.', 'zionbuilder' ),
+			'replace_info'                           => __( '<strong>Important:</strong> It is strongly recommended that you <a href="https://zionbuilder.io/documentation/replace-url-s/">backup your database</a> before using Replace URL.', 'zionbuilder' ),
+
+			// System info
+			'system_info_desc'                       => esc_html__( 'Scroll down to copy paste the Info shown', 'zionbuilder' ),
 
 			// Templates
 			'all'                                    => esc_html__( 'All', 'zionbuilder' ),
@@ -96,6 +107,10 @@ class Localization {
 			'are_you_sure_template_delete'           => esc_html__( 'Are you sure you want to delete this template?', 'zionbuilder' ),
 			'template_was_added'                     => esc_html__( 'The template was susscesfully added to library', 'zionbuilder' ),
 			'success'                                => esc_html__( 'success', 'zionbuilder' ),
+			'select_template'                        => esc_html__( 'Select a template', 'zionbuilder' ),
+			'select_type'                            => esc_html__( 'Select type', 'zionbuilder' ),
+			'type_name'                              => esc_html__( 'Type a name for the new template', 'zionbuilder' ),
+			'enter_name_for_template'                => esc_html__( 'Enter a name for this template', 'zionbuilder' ),
 
 			// Conditions
 			'display_conditions'                     => esc_html__( 'Display Conditions', 'zionbuilder' ),

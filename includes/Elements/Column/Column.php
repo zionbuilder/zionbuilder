@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Column;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -77,7 +77,7 @@ class Column extends Element {
 	 *
 	 * Returns true if the element can contain other elements ( f.e. section, column )
 	 *
-	 * @return string The element icon
+	 * @return boolean The element icon
 	 */
 	public function is_wrapper() {
 		return true;

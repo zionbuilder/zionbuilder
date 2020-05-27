@@ -51,6 +51,34 @@ class ImportExport {
 
 
 	/**
+	 * Holds a refference to WP uploads directory
+	 *
+	 * @var array
+	 */
+	public $upload_dir = null;
+
+	/**
+	 * Holds a refference to WP uploads directory url
+	 *
+	 * @var string
+	 */
+	public $upload_dir_url = null;
+
+	/**
+	 * Holds a refference to WP uploads directory basedir
+	 *
+	 * @var string
+	 */
+	public $upload_dir_path = null;
+
+	/**
+	 * Holds a refference to WP uploads directory url without www subdomain
+	 *
+	 * @var string
+	 */
+	public $upload_dir_url_without_www = null;
+
+	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
@@ -143,8 +171,8 @@ class ImportExport {
 	/**
 	 * This function will search for each element values inside the data config and return updated $data_config with the replaced urls
 	 *
-	 * @param array  $data_config
-	 * @param string $method      that is used
+	 * @param mixed  $data_config
+	 * @param string $method      That is used
 	 *
 	 * @return array
 	 */
@@ -154,20 +182,20 @@ class ImportExport {
 		}
 
 		// search for all items values inside the array
-		if ( is_array( $data_config ) ) {
-			foreach ( $data_config as $key => $value ) {
-				if ( empty( $value ) ) {
-					continue;
-				}
-				if ( is_array( $value ) ) {
-					$data_config[$key] = self::add_template_images( $value, $method );
-				} else {
-					// check if it's a valid image url and replace it with placeholder
-					$data_config[$key] = self::search_images_url( $value, $method );
-				}
-			}
-		} else {
+		if ( ! is_array( $data_config ) ) {
 			return self::search_images_url( $data_config, $method );
+		}
+
+		foreach ( $data_config as $key => $value ) {
+			if ( empty( $value ) ) {
+				continue;
+			}
+			if ( is_array( $value ) ) {
+				$data_config[$key] = self::add_template_images( $value, $method );
+			} else {
+				// check if it's a valid image url and replace it with placeholder
+				$data_config[$key] = self::search_images_url( $value, $method );
+			}
 		}
 
 		return $data_config;
@@ -312,7 +340,6 @@ class ImportExport {
 	 *
 	 * @param mixed $file
 	 *
-	 * @param $file
 	 * @return int|\WP_Error
 	 */
 	public function import_template( $file ) {

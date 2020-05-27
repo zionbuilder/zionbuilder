@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Image;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;

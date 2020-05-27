@@ -5,53 +5,86 @@
 			<h3>{{$translate('general')}}</h3>
 
 			<div class="znpb-admin-regenerate">
-				<h4>Regenerate CSS</h4>
+				<h4>{{$translate('regenerate_css')}}</h4>
 				<BaseButton
 					type="line"
 					@click.native="onRegenerateFilesClick"
+					:class="{['-hasLoading'] : loading}"
 				>
-					<Loader v-if="loading" />
-					Regenerate Files
+					<transition
+						name="fade"
+						mode="out-in"
+					>
+						<Loader
+							v-if="loading"
+							:size="13"
+						/>
+						<span v-else>{{$translate('regenerate_files')}}</span>
+					</transition>
 				</BaseButton>
 			</div>
 			<template slot="right">
-				<p class="znpb-admin-info-p">Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.</p>
+				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
 			</template>
 		</PageTemplate>
-		<!-- <PageTemplate>
+		<PageTemplate>
 			<div class="znpb-admin-regenerate">
-				<h4>Sync Library</h4>
+				<h4>{{$translate('sync_library')}}</h4>
 				<BaseButton
 					type="line"
+					@click.native="onSyncClick"
 				>
-					Sync Library
+					<transition
+						name="fade"
+						mode="out-in"
+					>
+						<Loader
+							v-if="loadingSync"
+							:size="13"
+						/>
+						<span v-else>{{$translate('sync_library')}}</span>
+					</transition>
 				</BaseButton>
 			</div>
 			<template slot="right">
-				<p class="znpb-admin-info-p">Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.</p>
+				<p class="znpb-admin-info-p">{{$translate('regenrate_info')}}</p>
 			</template>
-		</PageTemplate> -->
+		</PageTemplate>
 
 	</div>
 </template>
 
 <script>
 import { regenerateCache } from '@/api/RegenerateCache'
+import { mapActions } from 'vuex'
 export default {
 	name: 'ToolsPage',
 	data () {
 		return {
-			loaded: false,
+			loadingSync: false,
 			loading: false
 		}
 	},
 	methods: {
+		...mapActions([
+			'fetchTemplates'
+		]),
 		onRegenerateFilesClick () {
-			console.log('click')
 			this.loading = true
 			regenerateCache().then(() => {
 				this.loading = false
 			})
+		},
+		onSyncClick () {
+			this.loadingSync = true
+			this.fetchTemplates(true).then(() => {
+			}).catch((error) => {
+				this.loadingSync = false
+				console.error('error', error.message)
+			})
+				.finally(() => {
+					this.loadingSync = false
+				})
 		}
 	}
 }

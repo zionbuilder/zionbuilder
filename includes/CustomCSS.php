@@ -9,9 +9,9 @@ class CustomCSS {
 
 	private $custom_css_config = [
 		'default' => [],
-		'laptop' => [],
-		'tablet' => [],
-		'mobile' => [],
+		'laptop'  => [],
+		'tablet'  => [],
+		'mobile'  => [],
 	];
 
 	/**
@@ -46,48 +46,49 @@ class CustomCSS {
 	/**
 	 * Will check if the given option schema has styles that needs to be extracted
 	 *
-	 * @param mixed $option_schema The option configuration
-	 * @param mixed $option_value The saved option value
+	 * @param \ZionBuilder\Options\Option $option_schema The option configuration
+	 * @param mixed   $option_value The saved option value
 	 * @param integer $index The index of the value in case it is inside a repeater
 	 */
 	public function parse_options_schema( $option_schema, $option_value, $index ) {
+		if ( ! isset( $option_schema->css_style ) || ! is_array( $option_schema->css_style ) ) {
+			return;
+		}
+
 		// Check for custom css
-		if ( isset( $option_schema->css_style ) && is_array( $option_schema->css_style ) ) {
-			foreach ( $option_schema->css_style as $css_style_config ) {
-				if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
-					$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
-				} else {
-					$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
-				}
+		foreach ( $option_schema->css_style as $css_style_config ) {
+			if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
+				$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
+			} else {
+				$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
 			}
 		}
 	}
 
-
-    /**
-     * Extracts the css from a given option
-     *
-     * @param string $device The device id
-     * @param string $option_type The option type
-     * @param array $style_config Configuration for the css
-     * @param mixed $saved_value The value to use when parsing the option
-     * @param integer $index In case of repeaters, the index of the saved value
-     *
-     * @return string|void
-     */
+	/**
+	 * Extracts the css from a given option
+	 *
+	 * @param string $device The device id
+	 * @param string $option_type The option type
+	 * @param array $style_config Configuration for the css
+	 * @param mixed $saved_value The value to use when parsing the option
+	 * @param integer $index In case of repeaters, the index of the saved value
+	 *
+	 * @return string|void
+	 */
 	public function extract_option_css( $device, $option_type, $style_config, $saved_value, $index ) {
 		if ( ! isset( $style_config['selector'] ) || ! isset( $style_config['selector'] ) ) {
 			return;
 		}
 
 		$selector = $style_config['selector'];
-		$value = $style_config['value'];
+		$value    = $style_config['value'];
 
 		$selector = str_replace( '{{ELEMENT}}', $this->css_selector, $selector );
-		$selector = str_replace( '{{INDEX}}', $index, $selector );
+		$selector = str_replace( '{{INDEX}}', strval( $index ), $selector );
 		$value    = str_replace( '{{VALUE}}', $saved_value, $value );
 
-		if ($option_type === 'element_styles') {
+		if ( $option_type === 'element_styles' ) {
 			$styles = Style::get_styles( $selector, $value );
 
 			if ( ! empty( $styles ) ) {
@@ -104,16 +105,16 @@ class CustomCSS {
 	 *
 	 * @param string $option_type The option type
 	 * @param array $style_config Configuration for the css
-	 * @param mixed $saved_value The value to use when parsing the option
+	 * @param mixed $value The value to use when parsing the option
 	 * @param integer $index In case of repeaters, the index of the saved value
 	 *
 	 * @return void
 	 */
 	public function extract_responsive_option_css( $option_type, $style_config, $value, $index ) {
-		if (! empty( $value ) ) {
-            foreach ($value as $device => $css_value) {
-                $this->extract_option_css( $device, $option_type, $style_config, $css_value, $index );
-            }
+		if ( ! empty( $value ) ) {
+			foreach ( $value as $device => $css_value ) {
+				$this->extract_option_css( $device, $option_type, $style_config, $css_value, $index );
+			}
 		}
 	}
 
@@ -129,7 +130,7 @@ class CustomCSS {
 			return;
 		}
 
-		if( ! isset($this->custom_css_config[$device][$selector]) ) {
+		if ( ! isset( $this->custom_css_config[$device][$selector] ) ) {
 			$this->custom_css_config[$device][$selector] = [];
 		}
 		$this->custom_css_config[$device][$selector][] = $value;
@@ -144,10 +145,10 @@ class CustomCSS {
 	public function get_css() {
 		$returned_css = '';
 
-		foreach ($this->custom_css_config as $device => $selectors_config) {
-			$extracted_css = $this->extract_styles($selectors_config);
+		foreach ( $this->custom_css_config as $device => $selectors_config ) {
+			$extracted_css = $this->extract_styles( $selectors_config );
 
-			if ( empty ( $extracted_css ) ) {
+			if ( empty( $extracted_css ) ) {
 				continue;
 			}
 
@@ -175,9 +176,9 @@ class CustomCSS {
 	public function extract_styles( $selectors_config ) {
 		$returned_css = '';
 
-		if (is_array($selectors_config)) {
-			foreach ($selectors_config as $selector => $value) {
-				$returned_css .= sprintf( '%s { %s }', $selector, implode(';', $value) );
+		if ( is_array( $selectors_config ) ) {
+			foreach ( $selectors_config as $selector => $value ) {
+				$returned_css .= sprintf( '%s { %s }', $selector, implode( ';', $value ) );
 			}
 		}
 

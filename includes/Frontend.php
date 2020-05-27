@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Plugin;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -63,31 +65,9 @@ class Frontend {
 
 		// Don't run on preview mode
 		if ( ! Plugin::$instance->editor->preview->is_preview_mode() ) {
-			$post_instance = Plugin::$instance->post_manager->get_active_post_instance_for_render();
-
-			if ( ! $post_instance ) {
-				return;
-			}
-
-			// Load post content data
-			if ( ! $post_instance->is_password_protected() && $post_instance->is_built_with_zion() ) {
-				$post_template_data = $post_instance->get_template_data();
-
-				if ( ! empty( $post_template_data ) ) {
-					// Register content area
-					$this->register_area( 'content', $post_template_data );
-
-					// Add content filters
-					add_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
-
-					// Register styles cache file for current page
-					Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
-				}
-			}
+			$post_id = Plugin::$instance->post_manager->get_active_post_id();
+			$this->prepare_content_for_post_id( $post_id );
 		}
-
-		// Instantiate all elements that are present on the current page
-		$this->prepare_areas_for_render();
 
 		// Allow others to add their own areas
 		do_action( 'zionbuilder/frontend/after_init', $this );
@@ -95,6 +75,33 @@ class Frontend {
 		// Load elements scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+	}
+
+	public function prepare_content_for_post_id( $post_id ) {
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
+
+		if ( ! $post_instance ) {
+			return;
+		}
+
+		// Load post content data
+		if ( ! $post_instance->is_password_protected() && $post_instance->is_built_with_zion() ) {
+			$post_template_data = $post_instance->get_template_data();
+
+			if ( ! empty( $post_template_data ) ) {
+				// Register content area
+				$this->register_area( 'content', $post_template_data );
+
+				// Add content filters
+				add_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
+
+				// Register styles cache file for current page
+				Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
+			}
+		}
+
+		// Instantiate all elements that are present on the current page
+		$this->prepare_areas_for_render();
 	}
 
 	public function remove_content_filter( $content = '' ) {
@@ -113,12 +120,14 @@ class Frontend {
 	 * @return string The generated HTML content for the current page
 	 */
 	public function add_pagebuilder_content( $content ) {
-		// Run only once on main content. This allows other the_content to render properly
-		$this->remove_content_filter();
-		$this->remove_content_filters();
+		$this->restore_content_filters();
 
-		// Remove filters that affect content
-		$content = $this->get_content();
+		$pb_content = $this->get_content();
+		if ( ! empty( $pb_content ) ) {
+			$content = $pb_content;
+			// Remove filters that may affect content
+			$this->remove_content_filters();
+		}
 
 		return $content;
 	}
@@ -132,6 +141,7 @@ class Frontend {
 	private function remove_content_filters() {
 		$filters_to_remove = [
 			'wpautop',
+			'wptexturize',
 		];
 
 		foreach ( $filters_to_remove as $filter ) {
@@ -141,6 +151,7 @@ class Frontend {
 
 	public function restore_content_filters() {
 		add_filter( 'the_content', 'wpautop' );
+		add_filter( 'the_content', 'wptexturize' );
 	}
 
 	private function get_content() {
@@ -173,7 +184,7 @@ class Frontend {
 		);
 
 		// Load animations
-		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], ZIONBUILDER_VERSION );
+		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		do_action( 'zionbuilder/frontend/after_load_styles', $this );
 	}
@@ -203,7 +214,7 @@ class Frontend {
 	 *
 	 * @param string $area_id
 	 *
-	 * @return []
+	 * @return array
 	 */
 	public function get_content_for_area( $area_id ) {
 		if ( ! empty( $this->registered_areas[$area_id] ) && is_array( $this->registered_areas[$area_id] ) ) {
@@ -263,8 +274,6 @@ class Frontend {
 	 * Prepare content for render
 	 *
 	 * Instantiate all elements that should be rendered on the current page
-	 *
-	 * @param mixed $area_id
 	 *
 	 * @return void
 	 */

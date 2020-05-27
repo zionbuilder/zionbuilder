@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Icon;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -64,7 +64,7 @@ class Icon extends Element {
 	/**
 	 * Registers the element options
 	 *
-	 * @param Options $options The Options instance
+	 * @param \ZionBuilder\Options\Options $options The Options instance
 	 *
 	 * @return void
 	 */
@@ -208,7 +208,6 @@ class Icon extends Element {
 						'step' => 1,
 					],
 				],
-				'default'     => '0px',
 				'dependency'  => [
 					[
 						'option' => 'shape',

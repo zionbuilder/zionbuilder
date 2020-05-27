@@ -7,65 +7,99 @@
 			<h4 class="znpb-admin-replace__title">
 				{{$translate('update_site_address_url')}}
 			</h4>
-			<BaseInput v-model="oldUrl" size="narrow">
-				<span slot="prepend">https://</span>
+			<BaseInput
+				v-model="oldUrl"
+				:placeholder="$translate('old_url')"
+				size="narrow"
+			>
+
 			</BaseInput>
-			<BaseIcon icon="long-arrow-right" class="znpb-admin-replace__icon"/>
-			<BaseInput v-model="newUrl" size="narrow">
-				<span slot="prepend">https://</span>
+			<BaseIcon
+				icon="long-arrow-right"
+				class="znpb-admin-replace__icon"
+			/>
+			<BaseInput
+				v-model="newUrl"
+				:placeholder="$translate('new_url')"
+				size="narrow"
+			>
+
 			</BaseInput>
 
 		</div>
-		<BaseButton type="line" class="znpb-admin-replace-button" @click.native="callReplaceUrl()">
-			{{$translate('update_url')}}
-		</BaseButton>
+		<div class="znpb-admin-replace__actions">
+			<BaseButton
+				:type="disabled ? 'disabled' : 'line'"
+				class="znpb-admin-replace-button"
+				@click.native="callReplaceUrl()"
+			>
+				<transition
+					name="fade"
+					mode="out-in"
+				>
+					<Loader
+						v-if="loading"
+						:size="13"
+					/>
+					<span v-else>{{$translate('update_url')}}</span>
+				</transition>
+			</BaseButton>
+
+			<p
+				v-if="message.length"
+				v-html="message"
+			></p>
+		</div>
 		<template slot="right">
 			<div>
 				<p class="znpb-admin-info-p">
 					{{$translate('enter_old_and_new_url')}}
 				</p>
-				<p class="znpb-admin-info-p"><strong>Important:</strong> It is strongly recommended that you <a href="#">backup your database</a> before using Replace URL.</p>
+				<p
+					class="znpb-admin-info-p"
+					v-html="$translate('replace_info')"
+				></p>
 			</div>
 		</template>
 	</PageTemplate>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { replaceUrl } from '@/api/ReplaceUrl'
 
 export default {
 	name: 'ToolsPage',
 	data () {
 		return {
-			loaded: false,
-			localOldUrl: '',
-			localNewUrl: ''
+			loading: false,
+			oldUrl: '',
+			newUrl: '',
+			message: ''
 		}
 	},
 	computed: {
-		oldUrl: {
-			get () {
-				return 'old-url.com'
-			},
-			set (newval) {
-				this.localOldUrl = newval
-			}
-		},
-		newUrl: {
-			get () {
-				return 'new-url.com'
-			},
-			set (newval) {
-				this.localNewUrl = newval
-			}
+		disabled () {
+			return !((this.oldUrl.length > 0 && this.newUrl.length > 0))
 		}
 	},
 	methods: {
-		...mapActions([
-			'replaceUrl'
-		]),
 		callReplaceUrl () {
-			this.replaceUrl([this.localOldUrl, this.localNewUrl])
+			this.message = ''
+			this.loading = true
+			replaceUrl({
+				find: this.oldUrl,
+				replace: this.newUrl
+			}).then((response) => {
+				this.loading = false
+				this.message = response.data.message
+			}).catch((error) => {
+				this.loading = false
+				console.error('error', error.message)
+			}).finally(() => {
+				setTimeout(() => {
+					this.message = ''
+				}, 5000)
+			})
 		}
 	}
 
@@ -82,22 +116,19 @@ export default {
 		margin-right: 30px;
 		margin-bottom: 0;
 	}
-	&-button {
-		float: right;
+	&__actions {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: flex-end;
+		p {
+			color: $info;
+		}
 	}
+
 	&__icon {
 		margin: 0 10px;
 		font-size: 14px;
 	}
-
-	.zion-input__prefix {
-		font-weight: 500;
-		background: $surface-variant;
-	}
-
-	.zion-input__prepend {
-		padding: 0 12px;
-	}
 }
-
 </style>

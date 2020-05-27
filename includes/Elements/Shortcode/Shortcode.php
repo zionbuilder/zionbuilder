@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements;
+namespace ZionBuilder\Elements\Shortcode;
 
 use ZionBuilder\Elements\Element;
 

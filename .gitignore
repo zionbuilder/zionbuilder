@@ -4,6 +4,7 @@
 vendor/
 .cache/
 zionbuilder.zip
+zion-builder.zip
 
 #################
 ## Visual Studio
