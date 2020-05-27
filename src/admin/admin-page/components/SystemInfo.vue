@@ -4,7 +4,7 @@
 		</div>
 		<PageTemplate>
 
-			<Loader v-if="!loaded"/>
+			<Loader v-if="!loaded" />
 			<template v-else>
 				<h3>{{$translate('system_info')}}</h3>
 				<component
@@ -20,8 +20,8 @@
 			</template>
 			<template slot="right">
 				<div>
-					<p class="znpb-admin-info-p">System Info</p>
-					<p class="znpb-admin-info-p">Scroll down to copy paste the Info shown</p>
+					<p class="znpb-admin-info-p">{{$translate('system_info')}}</p>
+					<p class="znpb-admin-info-p">{{$translate('system_info_desc')}}</p>
 				</div>
 			</template>
 		</PageTemplate>
