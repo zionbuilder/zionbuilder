@@ -670,7 +670,7 @@ class Element {
 			if ( $video_source === 'youtube' && ! empty( $options['youtubeURL'] ) ) {
 				return true;
 			} else {
-				if ( $video_source === 'local' && ! empty( $options['vimeoURL'] ) ) {
+				if ( $video_source === 'vimeo' && ! empty( $options['vimeoURL'] ) ) {
 					return true;
 				}
 			}

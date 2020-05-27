@@ -165,6 +165,8 @@ class Style {
 					break;
 
 				case 'background-size':
+				case 'background-video':
+					break;
 				case 'background-size-units':
 					if ( isset( $style_options['background-size'] ) && $style_options['background-size'] !== 'custom' ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
