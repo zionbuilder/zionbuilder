@@ -3,6 +3,9 @@
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
 [![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 Built and designed by [hogash team](https://hogash.com),
 the creator of famous WordPress theme [Kallyas](https://kallyas.net/),
@@ -135,8 +138,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Contributors
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -149,7 +150,6 @@ Please make sure to update tests as appropriate.
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-<!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 ## License
  GNU GENERAL PUBLIC LICENSE
