@@ -19,7 +19,8 @@ msgid "ZionBuilder"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://zionbuilder.io"
+#. Author URI of the plugin
+msgid "https://zionbuilder.io/?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins"
 msgstr ""
 
 #. Description of the plugin
@@ -66,7 +67,7 @@ msgstr ""
 #: includes/Api/RestControllers/Media.php:51
 #: includes/Api/RestControllers/Options.php:58
 #: includes/Api/RestControllers/RegenerateCache.php:52
-#: includes/Api/RestControllers/ReplaceUrl.php:60
+#: includes/Api/RestControllers/ReplaceUrl.php:61
 #: includes/Api/RestControllers/SystemInfo.php:51
 #: includes/Api/RestControllers/Templates.php:196
 #: includes/Api/RestControllers/Templates.php:243
@@ -158,23 +159,23 @@ msgstr ""
 msgid "Regenerate cache failed!"
 msgstr ""
 
-#: includes/Api/RestControllers/ReplaceUrl.php:78
+#: includes/Api/RestControllers/ReplaceUrl.php:79
 msgid "Cannot replace URL's. They are the same."
 msgstr ""
 
-#: includes/Api/RestControllers/ReplaceUrl.php:83
+#: includes/Api/RestControllers/ReplaceUrl.php:84
 msgid "Provided URL's are not valid."
 msgstr ""
 
-#: includes/Api/RestControllers/ReplaceUrl.php:117
+#: includes/Api/RestControllers/ReplaceUrl.php:121
 msgid "URLs successfully replaced!"
 msgstr ""
 
-#: includes/Api/RestControllers/ReplaceUrl.php:143
+#: includes/Api/RestControllers/ReplaceUrl.php:147
 msgid "An error has occurred while updating the urls."
 msgstr ""
 
-#: includes/Api/RestControllers/ReplaceUrl.php:169
+#: includes/Api/RestControllers/ReplaceUrl.php:173
 msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
@@ -1019,7 +1020,7 @@ msgstr ""
 msgid "// Your custom HTML here"
 msgstr ""
 
-#: includes/Elements/Element.php:465
+#: includes/Elements/Element.php:464
 msgid "Wrapper"
 msgstr ""
 
@@ -4321,15 +4322,15 @@ msgid "The image could not be retrieved"
 msgstr ""
 
 #. translators: %s: Minimum PHP version
-#: zionbuilder.php:94
+#: zionbuilder.php:95
 msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
 
-#: zionbuilder.php:119
+#: zionbuilder.php:120
 msgid "Update WordPress"
 msgstr ""
 
 #. translators: %s: Minimum WordPress version
-#: zionbuilder.php:123
+#: zionbuilder.php:124
 msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion builder will not be activated until the minimum WordPress version is installed."
 msgstr ""
