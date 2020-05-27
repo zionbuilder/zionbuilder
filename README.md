@@ -1,4 +1,7 @@
 # Zion Builder Plugin
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
@@ -138,6 +141,18 @@ Please make sure to update tests as appropriate.
 ## Contributors
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/szepeviktor/debian-server-tools/blob/master/CV.md"><img src="https://avatars3.githubusercontent.com/u/952007?v=4" width="100px;" alt=""/><br /><sub><b>Viktor Szépe</b></sub></a><br /><a href="#ideas-szepeviktor" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 ## License
