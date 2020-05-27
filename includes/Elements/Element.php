@@ -630,7 +630,7 @@ class Element {
 
 			// Add video BG
 			$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
-			if ( ! empty( $background_video_options ) && ! empty( $background_video_options['mp4'] ) ) {
+			if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
 				wp_enqueue_script( 'zb-video-bg' );
 			}
 
