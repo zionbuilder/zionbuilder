@@ -120,7 +120,6 @@ export default {
 		CategoriesLibrary,
 		LibraryItem,
 		BaseInput
-
 	},
 	props: {
 		previewOpen: {
@@ -280,6 +279,7 @@ export default {
 			} else if (this.favActive) {
 				a = this.favorites
 			} else {
+				// debugger
 				a = this.getSubcategoryItems
 			}
 
@@ -299,6 +299,8 @@ export default {
 			} else {
 				itemsArray = this.items
 			}
+
+			console.log({ itemsArray })
 			// iterate through itemsArray to check for subcategory
 			itemsArray.forEach((item, index) => {
 				// check if a subcategory is active
@@ -312,7 +314,7 @@ export default {
 					}
 				}
 			})
-
+			console.log({ newArrayItems })
 			return newArrayItems
 		},
 
@@ -361,7 +363,6 @@ export default {
 						itemSelector: '.znpb-editor-library-modal__item',
 						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
 						transitionDuration: 0
-
 					})
 				})
 			})
