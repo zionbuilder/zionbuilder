@@ -288,7 +288,6 @@ class Editor {
 					'logo'              => Utils::get_logo_url(),
 					'loader'            => Utils::get_loader_url(),
 					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
-					'zion_admin'        => admin_url( 'admin.php?page=zionbuilder' ),
 					'preview_frame_url' => $post_instance->get_preview_frame_url(),
 					'preview_url'       => $post_instance->get_preview_url(),
 					'all_pages_url'     => $post_instance->get_all_pages_url(),

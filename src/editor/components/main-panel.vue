@@ -228,7 +228,6 @@ export default {
 			'activeHistoryIndex',
 			'getPageContent',
 			'getEditPageUrl',
-			'getZionAdminUrl',
 			'getPreviewUrl',
 			'getMainbarPosition'
 		]),
@@ -258,12 +257,6 @@ export default {
 				{
 					title: this.$translate('back_to_wp_dashboard'),
 					url: this.getEditPageUrl,
-					action: this.helpMenuClick,
-					target: '_blank'
-				},
-				{
-					title: this.$translate('back_to_zion_dashboard'),
-					url: this.getZionAdminUrl,
 					action: this.helpMenuClick,
 					target: '_blank'
 				},
