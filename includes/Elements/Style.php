@@ -165,14 +165,16 @@ class Style {
 					break;
 
 				case 'background-size':
+				case 'background-video':
+					break;
 				case 'background-size-units':
 					if ( isset( $style_options['background-size'] ) && $style_options['background-size'] !== 'custom' ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					} else {
 						if ( isset( $style_options['background-size'] ) && $style_options['background-size'] === 'custom' ) {
 							if ( $attribute === 'background-size-units' && isset( $value['x'] ) || isset( $value['y'] ) ) {
-								$x             = isset( $value['x'] ) ? $value['x'] : '50%';
-								$y             = isset( $value['y'] ) ? $value['y'] : '50%';
+								$x             = isset( $value['x'] ) ? $value['x'] : 'auto';
+								$y             = isset( $value['y'] ) ? $value['y'] : 'auto';
 								$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
 							}
 						}

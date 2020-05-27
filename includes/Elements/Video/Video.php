@@ -86,7 +86,7 @@ class Video extends Element {
 				'type'            => 'video',
 				'default'         => [
 					'videoSource' => 'youtube',
-					'youtubeURL'  => 'https://www.youtube.com/watch?v=fN5nN6NYJFs&t=1479s',
+					'youtubeURL'  => 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
 				],
 				'exclude_options' => [ 'controlsPosition' ],
 			]
