@@ -135,6 +135,11 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Contributors
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+
 ## License
  GNU GENERAL PUBLIC LICENSE
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
