@@ -19,7 +19,5 @@ release/
 /node_modules/
 
 # Build
-/dist/
-
-# We do not use this repository as an archive
 *.zip
+/dist/
