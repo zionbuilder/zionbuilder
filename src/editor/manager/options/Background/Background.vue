@@ -36,7 +36,7 @@
 				@input="onOptionUpdate(false, $event)"
 			/>
 		</Tab>
-		<!-- <Tab
+		<Tab
 			name="background-video"
 			v-if="canShowBackground"
 		>
@@ -49,7 +49,7 @@
 				:value="valueModel['background-video']"
 				@input="onOptionUpdate('background-video', $event)"
 			/>
-		</Tab> -->
+		</Tab>
 	</Tabs>
 </template>
 

@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { isEqual } from 'lodash-es'
+
 export default {
 	name: 'VideoBackground',
 	props: {
@@ -30,6 +32,21 @@ export default {
 			}
 
 			return false
+		}
+	},
+	watch: {
+		videoConfig (newValue, oldValue) {
+			if (!isEqual(newValue, oldValue)) {
+				if (this.videoInstance) {
+					this.videoInstance.destroy()
+				}
+				this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
+			}
+		}
+	},
+	mounted () {
+		if (Object.keys(this.videoConfig).length > 0) {
+			this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
 		}
 	}
 }

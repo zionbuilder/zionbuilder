@@ -1,5 +1,4 @@
 # Zion Builder Plugin
-
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
@@ -135,11 +134,28 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Contributors
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/szepeviktor/debian-server-tools/blob/master/CV.md"><img src="https://avatars3.githubusercontent.com/u/952007?v=4" width="100px;" alt=""/><br /><sub><b>Viktor Szépe</b></sub></a><br /><a href="#ideas-szepeviktor" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+
 ## License
  GNU GENERAL PUBLIC LICENSE
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
 
-### 0.1.0 - 2020-05-20 ###
+### 1.0.0- 2020-05-27 ###
 * Initial Public Release

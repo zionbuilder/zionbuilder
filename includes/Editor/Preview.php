@@ -121,6 +121,9 @@ class Preview {
 			true
 		);
 
+		wp_enqueue_script( 'zionbuilder-animatejs' );
+		wp_enqueue_script( 'zb-video-bg' );
+
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 
 		wp_add_inline_script(
