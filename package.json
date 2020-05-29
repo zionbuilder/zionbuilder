@@ -1,19 +1,24 @@
 {
   "name": "zionbuilder",
-  "version": "0.1.0",
-  "private": true,
+  "author": {
+    "name": "zionbuilder.io",
+    "email": "hello@zionbuilder.io",
+    "url": "https://zionbuilder.io"
+  },
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "lint": "vue-cli-service lint --no-fix src/",
     "lint-php": "node ./scripts/lint-php",
     "serve": "zionbuilder-service serve",
     "build": "zionbuilder-service build",
     "buildbaseline": "zionbuilder-service build --baseline",
-    "zip": "zionbuilder-service zip"
+    "zip": "zionbuilder-service zip",
+    "translate": "zionbuilder-service translate"
   },
   "dependencies": {
-    "@vue/cli-service": "^4.3.1",
+    "@vue/cli-service": "^4.4.1",
     "@zionbuilder/importcss": "^1.1.0",
-    "@zionbuilder/zionbuilder-service": "0.4.4",
     "axios": "^0.19.2",
     "css-box-model": "^1.2.1",
     "dom-form-serializer": "^1.0.7",
@@ -31,16 +36,17 @@
     "tiny-invariant": "^1.1.0",
     "tinycolor2": "^1.4.1",
     "vue": "^2.6.10",
-    "vue-router": "^3.2.0",
+    "vue-router": "^3.3.1",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "^4.3.1",
-    "@vue/cli-plugin-router": "^4.3.1",
-    "@vue/cli-plugin-typescript": "^4.3.1",
-    "@vue/cli-plugin-vuex": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.4.1",
+    "@vue/cli-plugin-router": "^4.4.1",
+    "@vue/cli-plugin-typescript": "^4.4.1",
+    "@vue/cli-plugin-vuex": "^4.4.1",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
+    "@zionbuilder/zionbuilder-service": "^1.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-compat": "^3.7.0",
     "eslint-plugin-vue": "^5.0.0",

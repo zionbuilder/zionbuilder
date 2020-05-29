@@ -31,5 +31,12 @@ module.exports = {
 		'readme.txt',
 		'vendor/autoload.php'
 	],
+	l10n: {
+		locations: ['zionbuilder.php', 'includes'],
+		slug: 'zionbuilder',
+		packageName: 'Zionbuilder',
+		reportBugsUrl: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
+		team: 'ZionBuilder <hello@zionbuilder.io>'
+	},
 	configureWebpack: {}
 }
