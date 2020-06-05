@@ -1,15 +1,12 @@
 <template>
-	<PageTemplate
-		class="znpb-admin-gradients__wrapper"
-	>
+	<PageTemplate class="znpb-admin-gradients__wrapper">
 		<h3>{{$translate('gradients')}}</h3>
 		<Tabs
 			tab-style="minimal"
+			@changed-tab="activeLibrary=$event"
 		>
 			<Tab name="Local">
-				<div
-					class="znpb-admin-gradient__container"
-				>
+				<div class="znpb-admin-gradient__container">
 					<GradientBox
 						v-for="(gradient, index) in getLocalGradients"
 						:key="index"
@@ -18,9 +15,7 @@
 						@click.native="onGradientSelect(index)"
 					/>
 
-					<AddGradient
-						@click.native="onAddNewGradient"
-					/>
+					<AddGradient @click.native="onAddNewGradient" />
 				</div>
 
 			</Tab>
@@ -30,20 +25,16 @@
 					:message_title="$translate('pro_manage_global_gradients_free_title')"
 					:message_description="$translate('pro_manage_global_gradients_free')"
 				/>
-				<template
-					v-else
-				>
-					<div
-						class="znpb-admin-gradient__container"
-					>
+				<template v-else>
+					<div class="znpb-admin-gradient__container">
 						<GradientBox
-							v-for="(gradient, index) in getGlobalGradients"
+							v-for="(gradient, index) in getArrayGradients"
 							:key="index"
 							:config="gradient"
 							@click.native="onGradientSelect(index)"
-							@delete-gradient="deleteGradientElement(index)"
+							@delete-gradient="deleteGlobalGradientElement(index)"
 						/>
-						<AddGradient @click.native="showModal=true" />
+						<AddGradient @click.native="onAddNewGlobalGradient" />
 					</div>
 				</template>
 
@@ -82,7 +73,9 @@ export default {
 	data () {
 		return {
 			showModal: false,
-			activeGradientIndex: 0
+			activeGradientIndex: 0,
+			activeGlGradientIndex: 0,
+			activeLibrary: 'Local'
 		}
 	},
 	computed: {
@@ -93,24 +86,48 @@ export default {
 		]),
 		activeGradient: {
 			get () {
-				return this.getLocalGradients[this.activeGradientIndex]
+				if (this.activeLibrary === 'local') {
+					return this.getLocalGradients[this.activeGradientIndex]
+				} else {
+					return this.getArrayGradients[this.activeGlGradientIndex]
+				}
 			},
 			set (newValue) {
-				const gradients = [...this.getLocalGradients]
-				gradients[this.activeGradientIndex] = newValue
-				this.updateLocalGradients(gradients)
+				if (this.activeLibrary === 'local') {
+					const gradients = [...this.getLocalGradients]
+					gradients[this.activeGradientIndex] = newValue
+					this.updateLocalGradients(gradients)
+				} else {
+					// to do update global gradient
+				}
 			}
+		},
+		getArrayGradients () {
+			let newArray = []
+			this.getGlobalGradients.forEach((item) => {
+				let gradientName = Object.keys(item)
+				let newObject = item[gradientName]
+
+				newArray.push(Object.values(newObject))
+			})
+			return newArray
 		}
 	},
 	methods: {
 		...mapActions([
 			'addLocalGradient',
+			'addGlobalGradient',
 			'updateLocalGradients',
+			'updateGlobalGradients',
 			'deleteLocalGradient',
+			'deleteGlobalGradient',
 			'saveOptions'
 		]),
 		deleteGradientElement (index) {
 			this.deleteLocalGradient(index)
+		},
+		deleteGlobalGradientElement (index) {
+			this.deleteGlobalGradient(index)
 		},
 		onGradientSelect (index) {
 			this.activeGradientIndex = index
@@ -122,6 +139,7 @@ export default {
 		onSaveGradient () {
 			this.saveOptions()
 		},
+
 		onAddNewGradient () {
 			this.addLocalGradient([
 				{
@@ -144,6 +162,34 @@ export default {
 				}
 			])
 			this.activeGradientIndex = this.activeGradientIndex + 1
+			this.showModal = true
+		},
+		onAddNewGlobalGradient () {
+			let arrayLength = this.getGlobalGradients.length
+			let dynamicName = `gradientPreset${arrayLength}`
+			const defaultGradient = {}
+			defaultGradient[dynamicName] = {
+				'type': 'linear',
+				'angle': 114,
+				'colors': [
+					{
+						'color': '#18208d',
+						'position': 0
+					},
+					{
+						'color': '#06bee1',
+						'position': 100
+					}
+				],
+				'position': {
+					'x': 75,
+					'y': 48
+				}
+			}
+			this.addGlobalGradient(
+				[defaultGradient]
+			)
+
 			this.showModal = true
 		}
 	}

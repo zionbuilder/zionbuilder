@@ -144,13 +144,13 @@ export default {
 			showPresets: false,
 			showPresetInput: false,
 			showOptions: !this.hasLibrary,
-			activeGradientIndex: null
+			activeGradientIndex: 0
 		}
 	},
 	computed: {
 		computedValue: {
 			get () {
-				return this.value || this.defaultConfig
+				return this.value === undefined ? this.defaultConfig : this.value
 			},
 			set (newValue) {
 				this.$emit('input', newValue)

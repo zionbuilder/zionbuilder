@@ -8,7 +8,7 @@
 			<Tabs
 				tab-style="minimal"
 				@changed-tab="onTabChange"
-				:activeTab="this.computedValue.type"
+				:activeTab="computedValue.type"
 			>
 				<Tab name="Linear">
 					<InputWrapper
@@ -24,9 +24,7 @@
 					</InputWrapper>
 				</Tab>
 				<Tab name="Radial">
-					<div
-						class="znpb-radial-postion-wrapper"
-					>
+					<div class="znpb-radial-postion-wrapper">
 						<InputWrapper
 							title="Position X"
 							layout="inline"
@@ -51,11 +49,11 @@
 								:step="1"
 							>
 								%
-						</InputNumber>
-					</InputWrapper>
-				</div>
-			</Tab>
-		</Tabs>
+							</InputNumber>
+						</InputWrapper>
+					</div>
+				</Tab>
+			</Tabs>
 		</InputWrapper>
 
 		<InputWrapper :title="$translate('gradient_bar')">
