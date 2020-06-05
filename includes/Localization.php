@@ -467,8 +467,7 @@ class Localization {
 
 			// permissions
 			'manage_users_permissions'               => __(
-				"Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder.
-			Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.",
+				"Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.",
 				'zionbuilder'
 			),
 			'manage_wordpress_users_permisions'      => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
