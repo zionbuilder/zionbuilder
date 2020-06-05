@@ -467,8 +467,7 @@ class Localization {
 
 			// permissions
 			'manage_users_permissions'               => __(
-				"Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder.
-			Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.",
+				"Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.",
 				'zionbuilder'
 			),
 			'manage_wordpress_users_permisions'      => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
@@ -558,6 +557,7 @@ class Localization {
 			'key_shortcuts'                          => __( 'Key shortcuts', 'zionbuilder' ),
 			'about_zion_builder'                     => __( 'About Zion Builder', 'zionbuilder' ),
 			'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
+			'back_to_zion_dashboard'                 => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
 			'save_template'                          => __( 'Save Template', 'zionbuilder' ),
 			'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
 			'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
