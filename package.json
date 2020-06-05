@@ -36,7 +36,7 @@
     "tiny-invariant": "^1.1.0",
     "tinycolor2": "^1.4.1",
     "vue": "^2.6.10",
-    "vue-router": "^3.3.1",
+    "vue-router": "^3.3.2",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "@vue/cli-plugin-vuex": "^4.4.1",
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
-    "@zionbuilder/zionbuilder-service": "^1.0.0",
+    "@zionbuilder/zionbuilder-service": "^1.0.2",
     "eslint": "^5.16.0",
     "eslint-plugin-compat": "^3.7.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -54,7 +54,7 @@
     "typescript": "~3.5.3"
   },
   "gitHooks": {
-    "pre-commit": "lint-staged && npm run translate && git add ."
+    "pre-commit": "lint-staged && npm run translate && git add languages/zionbuilder.pot"
   },
   "lint-staged": {
     "*.php": [

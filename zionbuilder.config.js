@@ -33,9 +33,9 @@ module.exports = {
 	],
 	l10n: {
 		locations: ['zionbuilder.php', 'includes'],
-		slug: 'zionbuilder',
-		packageName: 'Zionbuilder',
-		reportBugsUrl: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
+		domain: 'zionbuilder',
+		package: 'Zionbuilder',
+		bugReport: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
 		team: 'ZionBuilder <hello@zionbuilder.io>'
 	},
 	configureWebpack: {}
