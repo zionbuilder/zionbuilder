@@ -741,7 +741,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:236, ../includes/Localization.php:563
+#: ../includes/Localization.php:236, ../includes/Localization.php:564
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -1554,94 +1554,98 @@ msgid "Back to WP Dashboard"
 msgstr ""
 
 #: ../includes/Localization.php:560
-msgid "Save Template"
+msgid "ZionBuilder Dashboard"
 msgstr ""
 
 #: ../includes/Localization.php:561
-msgid "Save Page"
+msgid "Save Template"
 msgstr ""
 
 #: ../includes/Localization.php:562
+msgid "Save Page"
+msgstr ""
+
+#: ../includes/Localization.php:563
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:565
+#: ../includes/Localization.php:566
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:566
+#: ../includes/Localization.php:567
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:567
+#: ../includes/Localization.php:568
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:568, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:569, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:569, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
+#: ../includes/Localization.php:570, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:570, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:571, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:571
+#: ../includes/Localization.php:572
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:574
+#: ../includes/Localization.php:575
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:575
+#: ../includes/Localization.php:576
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:576
+#: ../includes/Localization.php:577
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:577
+#: ../includes/Localization.php:578
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:578
+#: ../includes/Localization.php:579
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:579
+#: ../includes/Localization.php:580
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:582
+#: ../includes/Localization.php:583
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:583
+#: ../includes/Localization.php:584
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:584
+#: ../includes/Localization.php:585
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:585
+#: ../includes/Localization.php:586
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:588
+#: ../includes/Localization.php:589
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:589
+#: ../includes/Localization.php:590
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:592
+#: ../includes/Localization.php:593
 msgid "Featured"
 msgstr ""
 

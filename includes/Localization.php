@@ -557,6 +557,7 @@ class Localization {
 			'key_shortcuts'                          => __( 'Key shortcuts', 'zionbuilder' ),
 			'about_zion_builder'                     => __( 'About Zion Builder', 'zionbuilder' ),
 			'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
+			'back_to_zion_dashboard'                 => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
 			'save_template'                          => __( 'Save Template', 'zionbuilder' ),
 			'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
 			'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
