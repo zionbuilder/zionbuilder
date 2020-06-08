@@ -13,7 +13,7 @@
         "phpstan/phpstan": "^0.12.22",
         "szepeviktor/phpstan-wordpress": "^0.6.0"
     },
-    "license": "GPL-2.0-or-later",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "zionbuilder",
