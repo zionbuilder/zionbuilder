@@ -2,7 +2,7 @@
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
-[![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
+[![size](https://img.shields.io/badge/zip%20size-2%20783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
 [![GitHub contributors](https://img.shields.io/github/all-contributors/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
 
 Built and designed by [hogash team](https://hogash.com),
