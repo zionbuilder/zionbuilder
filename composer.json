@@ -1,5 +1,5 @@
 {
-    "name": "hogash/zionbuilder",
+    "name": "zionbuilder/zionbuilder",
     "type": "wordpress-plugin",
     "description": "A visual builder for WordPress",
     "autoload": {
@@ -16,8 +16,8 @@
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "hogash",
-            "email": "hello@hogash.com"
+            "name": "zionbuilder",
+            "email": "hello@zionbuilder.com"
         }
     ]
 }
