@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Updater;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -19,6 +21,7 @@ class Activate {
 	public static function activate() {
 		// Load default settings
 		self::load_default_options();
+		self::check_for_updates();
 	}
 
 	/**
