@@ -5,7 +5,7 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - includes/
-    autoload_files:
+    scanFiles:
         - tests/phpstan/bootstrap.php
         - zionbuilder.php
     ignoreErrors:
