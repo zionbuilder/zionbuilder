@@ -37,7 +37,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: i18n check
-        run: npm run translate && git diff --exit-code
+        run: |
+             npm run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
       - name: Check PHP syntax
         run: find zionbuilder.php includes/ -type f -name '*.php' -print0|xargs -0 -L1 -P4 -- php -l
       - name: PHPCS check

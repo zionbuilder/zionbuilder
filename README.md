@@ -2,7 +2,8 @@
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
-[![size](https://img.shields.io/badge/zip%20size-2.783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
+[![size](https://img.shields.io/badge/zip%20size-2%20783kb-blue)](https://github.com/zionbuilder/zionbuilder/releases)
+[![GitHub contributors](https://img.shields.io/github/all-contributors/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
 
 Built and designed by [hogash team](https://hogash.com),
 the creator of famous WordPress theme [Kallyas](https://kallyas.net/),
@@ -111,11 +112,13 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 * PHP Zip extension must be installed
 * PHP GD extension must be installed
 
-### Instalation
-1. Install using the WordPress built-in Plugin installer Go to Plugins -> Add New
-2. Activate the plugin
-3. Go to Pages or Posts > Add New
-4. Press the 'Edit with Zion Builder' button.
+### Installation
+1. Install using the [WordPress built-in Plugin](https://wordpress.org/plugins/zionbuilder/)
+   installer Go to Plugins -> Add New
+1. Search for Zionbuilder
+1. Activate the plugin
+1. Go to Pages or Posts > Add New
+1. Press the 'Edit with Zion Builder' button.
 
 For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.io/help-center/).
 
@@ -135,8 +138,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## Contributors
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/zionbuilder/zionbuilder/graphs/contributors/)
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -149,7 +150,6 @@ Please make sure to update tests as appropriate.
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-<!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 ## License
  GNU GENERAL PUBLIC LICENSE
