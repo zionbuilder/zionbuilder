@@ -35,7 +35,8 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v2
+      - name: Set Yarn cache directory
+        uses: actions/cache@v2
         id: yarn-cache
         with:
             path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -60,4 +61,4 @@ jobs:
       - name: PHPStan check
         run: vendor/bin/phpstan analyze --level=5
       - name: Lint Vue templates
-        run: yarn run-script lint
+        run: yarn run lint
