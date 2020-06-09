@@ -30,11 +30,11 @@
 				<template v-else>
 					<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
 						<GradientPreview
-							v-for="(gradient,i) in getArrayGradients"
+							v-for="(gradient,i) in getGlobalGradients"
 							v-bind:key="i"
-							:config="gradient"
+							:config="gradient.config"
 							:round="true"
-							@click.native="$emit('activate-gradient',gradient)"
+							@click.native="$emit('activate-gradient',gradient.config)"
 						/>
 					</div>
 				</template>
@@ -78,17 +78,8 @@ export default {
 			'getLocalGradients',
 			'getGlobalGradients',
 			'isPro'
-		]),
-		getArrayGradients () {
-			let newArray = []
-			this.getGlobalGradients.forEach((item) => {
-				let gradientName = Object.keys(item)
-				let newObject = item[gradientName]
+		])
 
-				newArray.push(Object.values(newObject))
-			})
-			return newArray
-		}
 	},
 	methods: {
 		...mapActions([

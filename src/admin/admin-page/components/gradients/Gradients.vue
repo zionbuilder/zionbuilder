@@ -3,7 +3,7 @@
 		<h3>{{$translate('gradients')}}</h3>
 		<Tabs
 			tab-style="minimal"
-			@changed-tab="activeLibrary=$event"
+			@changed-tab="activeLibrary=$event,activeGradientIndex=0 "
 		>
 			<Tab name="Local">
 				<div class="znpb-admin-gradient__container">
@@ -28,9 +28,9 @@
 				<template v-else>
 					<div class="znpb-admin-gradient__container">
 						<GradientBox
-							v-for="(gradient, index) in getArrayGradients"
+							v-for="(gradient, index) in getGlobalGradients"
 							:key="index"
-							:config="gradient"
+							:config="gradient.config"
 							@click.native="onGradientSelect(index)"
 							@delete-gradient="deleteGlobalGradientElement(index)"
 						/>
@@ -74,7 +74,6 @@ export default {
 		return {
 			showModal: false,
 			activeGradientIndex: 0,
-			activeGlGradientIndex: 0,
 			activeLibrary: 'Local'
 		}
 	},
@@ -89,7 +88,7 @@ export default {
 				if (this.activeLibrary === 'local') {
 					return this.getLocalGradients[this.activeGradientIndex]
 				} else {
-					return this.getArrayGradients[this.activeGlGradientIndex]
+					return this.getGlobalGradients !== undefined && this.getGlobalGradients[this.activeGradientIndex] !== undefined ? this.getGlobalGradients[this.activeGradientIndex].config : []
 				}
 			},
 			set (newValue) {
@@ -98,21 +97,22 @@ export default {
 					gradients[this.activeGradientIndex] = newValue
 					this.updateLocalGradients(gradients)
 				} else {
-					// to do update global gradient
+					const globalGradients = [...this.getGlobalGradients]
+					var newState = [
+						...globalGradients.slice(0, this.activeGradientIndex),
+						{
+							...globalGradients[this.activeGradientIndex],
+							config: newValue
+						},
+						...globalGradients.slice(this.activeGradientIndex + 1, globalGradients.length)
+					]
+
+					this.updateGlobalGradients(newState)
 				}
 			}
-		},
-		getArrayGradients () {
-			let newArray = []
-			this.getGlobalGradients.forEach((item) => {
-				let gradientName = Object.keys(item)
-				let newObject = item[gradientName]
-
-				newArray.push(Object.values(newObject))
-			})
-			return newArray
 		}
 	},
+
 	methods: {
 		...mapActions([
 			'addLocalGradient',
@@ -161,35 +161,62 @@ export default {
 					}
 				}
 			])
+
 			this.activeGradientIndex = this.activeGradientIndex + 1
 			this.showModal = true
 		},
+		defaultGlobalObject () {
+			return [
+				{
+					'type': 'linear',
+					'angle': 114,
+					'colors': [
+						{
+							'color': '#18208d',
+							'position': 0
+						},
+						{
+							'color': '#06bee1',
+							'position': 100
+						}
+					],
+					'position': {
+						'x': 75,
+						'y': 48
+					}
+				},
+				{
+					'type': 'linear',
+					'angle': 114,
+					'colors': [
+						{
+							'color': '#fff',
+							'position': 0
+						},
+						{
+							'color': '#555',
+							'position': 100
+						}
+					],
+					'position': {
+						'x': 75,
+						'y': 48
+					}
+				}
+			]
+		},
 		onAddNewGlobalGradient () {
 			let arrayLength = this.getGlobalGradients.length
-			let dynamicName = `gradientPreset${arrayLength}`
-			const defaultGradient = {}
-			defaultGradient[dynamicName] = {
-				'type': 'linear',
-				'angle': 114,
-				'colors': [
-					{
-						'color': '#18208d',
-						'position': 0
-					},
-					{
-						'color': '#06bee1',
-						'position': 100
-					}
-				],
-				'position': {
-					'x': 75,
-					'y': 48
-				}
-			}
-			this.addGlobalGradient(
-				[defaultGradient]
-			)
 
+			let dynamicName = `gradientPreset${arrayLength}`
+			const defaultGradient = {
+				id: dynamicName,
+				config: this.defaultGlobalObject()
+			}
+
+			this.addGlobalGradient(defaultGradient)
+
+			this.activeGradientIndex = this.getGlobalGradients.length === 1 ? 0 : this.activeGradientIndex + 1
 			this.showModal = true
 		}
 	}
