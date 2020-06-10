@@ -251,7 +251,7 @@ class Admin {
 	 *
 	 * @param \WP_Post $post
 	 *
-	 * @return string The HTML output for the editor buttons
+	 * @return void The HTML output for the editor buttons
 	 */
 	public function add_editor_button_to_page( \WP_Post $post ) {
 		// Don't proceed if the current user cannot edit this page

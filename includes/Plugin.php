@@ -200,9 +200,6 @@ class Plugin {
 	public function init() {
 		$this->load_libraries();
 
-		// Load plugin actions
-		$this->load_actions();
-
 		// initiate permissions
 		$this->scripts          = new Scripts();
 		$this->whitelabel       = new Whitelabel();
@@ -241,20 +238,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function load_libraries() {
-		require_once $this->get_root_path() . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
-	}
-
-
-	/**
-	 * Hooks into WP actions to add generic functionality
-	 *
-	 * @return void
-	 */
-	private function load_actions() {
-		$callback = [ 'ZionBuilder\\Install', 'on_activate' ];
-		if ( is_callable( $callback ) ) {
-			register_activation_hook( ZIONBUILDER_FILE, $callback );
-		}
+		require_once $this->get_root_path() . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	/**
