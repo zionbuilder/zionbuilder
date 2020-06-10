@@ -22,8 +22,8 @@ class BasePostType {
 	/**
 	 * Holds a reference to the meta key where we store the page template data
 	 */
-	const PAGE_TEMPLATE_META_KEY = '_zn_page_builder_els';
-	const PAGE_BUILDER_STATUS    = '_zn_zion_builder_status';
+	const PAGE_TEMPLATE_META_KEY = '_zionbuilder_page_elements';
+	const PAGE_BUILDER_STATUS    = '_zionbuilder_page_status';
 
 	/**
 	 * Holds a reference to the \WP_Post instance
