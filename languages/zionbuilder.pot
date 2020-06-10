@@ -110,7 +110,7 @@ msgid "With PRO you can use the Adobe fonts library to add your fonts along side
 msgstr ""
 
 #: ../includes/Localization.php:36
-msgid "Zion Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
+msgid "Zion Page Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
 msgstr ""
 
 #: ../includes/Localization.php:37
@@ -257,11 +257,11 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../includes/Localization.php:85, ../includes/Api/RestControllers/SystemInfo.php:103, ../includes/Api/RestControllers/SystemInfo.php:207, ../includes/Api/RestControllers/SystemInfo.php:231, ../includes/Api/RestControllers/SystemInfo.php:413, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
+#: ../includes/Localization.php:85, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
 msgid "Yes"
 msgstr ""
 
-#: ../includes/Localization.php:86, ../includes/Api/RestControllers/SystemInfo.php:103, ../includes/Api/RestControllers/SystemInfo.php:210, ../includes/Api/RestControllers/SystemInfo.php:234, ../includes/Api/RestControllers/SystemInfo.php:413, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
+#: ../includes/Localization.php:86, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
 msgid "No"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgstr ""
 msgid "Smart Areas"
 msgstr ""
 
-#: ../includes/Localization.php:92, ../includes/Elements/Accordions/AccordionItem.php:67, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:95, ../includes/Elements/Tabs/TabsItem.php:64
+#: ../includes/Localization.php:92, ../includes/Elements/Accordions/AccordionItem.php:69, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:95, ../includes/Elements/Tabs/TabsItem.php:66
 msgid "Title"
 msgstr ""
 
@@ -589,7 +589,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:185, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:76, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:190, ../includes/Elements/Tabs/TabsItem.php:73, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:185, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:190, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -902,7 +902,7 @@ msgid "You are up to date!"
 msgstr ""
 
 #: ../includes/Localization.php:290
-msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
+msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Page Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
 msgstr ""
 
 #: ../includes/Localization.php:293
@@ -962,7 +962,7 @@ msgid "Previous Step"
 msgstr ""
 
 #: ../includes/Localization.php:315
-msgid "Welcome to Zion Builder"
+msgid "Welcome to Zion Page Builder"
 msgstr ""
 
 #: ../includes/Localization.php:316
@@ -1546,7 +1546,7 @@ msgid "Key shortcuts"
 msgstr ""
 
 #: ../includes/Localization.php:558
-msgid "About Zion Builder"
+msgid "About Zion Page Builder"
 msgstr ""
 
 #: ../includes/Localization.php:559
@@ -1722,12 +1722,12 @@ msgstr ""
 
 #: ../includes/Templates.php:247
 msgctxt "Taxonomy General Name"
-msgid "Zion Builder Template Category"
+msgid "Zion Page Builder Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:248
 msgctxt "Taxonomy Singular Name"
-msgid "Zion Builder Template Category"
+msgid "Zion Page Builder Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:249
@@ -1822,20 +1822,20 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:315, ../includes/Admin/Admin.php:316, ../includes/Editor/partials/editor-template.php:16
-msgid "Zion Builder"
+#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:317, ../includes/Admin/Admin.php:318, ../includes/Editor/partials/editor-template.php:16
+msgid "Zion Page Builder"
 msgstr ""
 
 #: ../includes/Admin/Admin.php:158
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:267
-msgid "Disable Zion Builder"
+#: ../includes/Admin/Admin.php:269
+msgid "Disable Zion Page Builder"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:276, ../includes/Admin/Admin.php:299
-msgid "Edit with Zion Builder"
+#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:301
+msgid "Edit with Zion Page Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
@@ -1880,374 +1880,374 @@ msgid "Second argument of add_option must be an array or an instance of ZionBuil
 msgstr ""
 
 #: ../includes/PageTemplates/PageTemplates.php:38
-msgid "Zion Builder Full Width"
+msgid "Zion Page Builder Full Width"
 msgstr ""
 
 #: ../includes/PageTemplates/PageTemplates.php:39
-msgid "Zion Builder Blank Canvas"
+msgid "Zion Page Builder Blank Canvas"
 msgstr ""
 
 #: ../includes/Post/BasePostType.php:507
 msgid "Cannot create autosave for post"
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:25
+#: ../includes/Api/RestControllers/BulkActions.php:43
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/DataSets.php:79, ../includes/Api/RestControllers/Elements.php:76, ../includes/Api/RestControllers/GoogleFonts.php:53, ../includes/Api/RestControllers/Media.php:51, ../includes/Api/RestControllers/Options.php:58, ../includes/Api/RestControllers/RegenerateCache.php:52, ../includes/Api/RestControllers/ReplaceUrl.php:61, ../includes/Api/RestControllers/SystemInfo.php:51, ../includes/Api/RestControllers/Templates.php:196, ../includes/Api/RestControllers/Templates.php:243
+#: ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:210, ../includes/Api/RestControllers/Templates.php:257
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/DataSets.php:200
+#: ../includes/Api/RestControllers/DataSets.php:214
 msgid "Combined fonts list"
 msgstr ""
 
-#: ../includes/Api/RestControllers/DownloadArchive.php:76
+#: ../includes/Api/RestControllers/DownloadArchive.php:90
 msgid "Invalid nonce or filename"
 msgstr ""
 
-#: ../includes/Api/RestControllers/GoogleFonts.php:74
+#: ../includes/Api/RestControllers/GoogleFonts.php:88
 msgid "Cannot extract Google fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/GoogleFonts.php:78
+#: ../includes/Api/RestControllers/GoogleFonts.php:92
 msgid "No Google fonts found."
 msgstr ""
 
-#: ../includes/Api/RestControllers/GoogleFonts.php:99
+#: ../includes/Api/RestControllers/GoogleFonts.php:113
 msgid "Google font type"
 msgstr ""
 
-#: ../includes/Api/RestControllers/GoogleFonts.php:104
+#: ../includes/Api/RestControllers/GoogleFonts.php:118
 msgid "Font family"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:75, ../includes/Api/RestControllers/Templates.php:213
+#: ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:227
 msgid "You do not have permissions to edit this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:166
+#: ../includes/Api/RestControllers/Options.php:180
 msgid "Contains saved value for Google fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:195
+#: ../includes/Api/RestControllers/Options.php:209
 msgid "Contains saved value for Custom fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:232
+#: ../includes/Api/RestControllers/Options.php:246
 msgid "Contains the value for the typekit token if it is set."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:240
+#: ../includes/Api/RestControllers/Options.php:254
 msgid "Contains saved value for typekit fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:254
+#: ../includes/Api/RestControllers/Options.php:268
 msgid "Contains saved value for local colors."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:265
+#: ../includes/Api/RestControllers/Options.php:279
 msgid "Contains saved value for global colors."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:276
+#: ../includes/Api/RestControllers/Options.php:290
 msgid "Contains saved value for local gradients."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:286
+#: ../includes/Api/RestControllers/Options.php:300
 msgid "Contains saved value for global gradients."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:297
+#: ../includes/Api/RestControllers/Options.php:311
 msgid "Contains saved value user roles permissions and user permissions."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:308
+#: ../includes/Api/RestControllers/Options.php:322
 msgid "Contains saved value users permissions."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:319
+#: ../includes/Api/RestControllers/Options.php:333
 msgid "Contains saved value for allowed post types."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:74
+#: ../includes/Api/RestControllers/Pages.php:88
 msgid "Could not lock post for current user."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:81
+#: ../includes/Api/RestControllers/Pages.php:95
 msgid "Post locked."
 msgstr ""
 
-#: ../includes/Api/RestControllers/RegenerateCache.php:68
+#: ../includes/Api/RestControllers/RegenerateCache.php:82
 msgid "Regenerate cache failed!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:79
+#: ../includes/Api/RestControllers/ReplaceUrl.php:93
 msgid "Cannot replace URL's. They are the same."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:84
+#: ../includes/Api/RestControllers/ReplaceUrl.php:98
 msgid "Provided URL's are not valid."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:121
+#: ../includes/Api/RestControllers/ReplaceUrl.php:135
 msgid "URLs successfully replaced!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:147
+#: ../includes/Api/RestControllers/ReplaceUrl.php:161
 msgid "An error has occurred while updating the urls."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:173
+#: ../includes/Api/RestControllers/ReplaceUrl.php:187
 msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:52
+#: ../includes/Api/RestControllers/SavePage.php:66
 msgid "You do not have permissions to save this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:81
+#: ../includes/Api/RestControllers/SavePage.php:95
 msgid "There was a problem saving the page."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:84
+#: ../includes/Api/RestControllers/SavePage.php:98
 msgid "Page successfully saved!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:61
+#: ../includes/Api/RestControllers/SystemInfo.php:75
 msgid "Server environment"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:65
+#: ../includes/Api/RestControllers/SystemInfo.php:79
 msgid "operating system"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:69
+#: ../includes/Api/RestControllers/SystemInfo.php:83
 msgid "software"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:75
+#: ../includes/Api/RestControllers/SystemInfo.php:89
 msgid "php max input vars"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:79
+#: ../includes/Api/RestControllers/SystemInfo.php:93
 msgid "php max post size"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:89
+#: ../includes/Api/RestControllers/SystemInfo.php:103
 msgid "WordPress environment"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:94
+#: ../includes/Api/RestControllers/SystemInfo.php:108
 msgid "site url"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:98
+#: ../includes/Api/RestControllers/SystemInfo.php:112
 msgid "home url"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:102
+#: ../includes/Api/RestControllers/SystemInfo.php:116
 msgid "wp multisite"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:106
+#: ../includes/Api/RestControllers/SystemInfo.php:120
 msgid "max upload size"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:112
+#: ../includes/Api/RestControllers/SystemInfo.php:126
 msgid "language"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:117
+#: ../includes/Api/RestControllers/SystemInfo.php:131
 msgid "admin email"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:121
+#: ../includes/Api/RestControllers/SystemInfo.php:135
 msgid "debug mode"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:122
+#: ../includes/Api/RestControllers/SystemInfo.php:136
 msgid "Active"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:122
+#: ../includes/Api/RestControllers/SystemInfo.php:136
 msgid "Inactive"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:127
+#: ../includes/Api/RestControllers/SystemInfo.php:141
 msgid "Theme"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:131
+#: ../includes/Api/RestControllers/SystemInfo.php:145
 msgid "name"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:135, ../includes/Api/RestControllers/SystemInfo.php:333
+#: ../includes/Api/RestControllers/SystemInfo.php:149, ../includes/Api/RestControllers/SystemInfo.php:347
 msgid "version"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:139
+#: ../includes/Api/RestControllers/SystemInfo.php:153
 msgid "author"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:146
+#: ../includes/Api/RestControllers/SystemInfo.php:160
 msgid "Active plugins"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:167
+#: ../includes/Api/RestControllers/SystemInfo.php:181
 msgid "php version"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:171
+#: ../includes/Api/RestControllers/SystemInfo.php:185
 msgid "We recommend using php version 7.0.0 or higher. By using PHP version 7 or above, your site will increase in speed."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:186
+#: ../includes/Api/RestControllers/SystemInfo.php:200
 msgid "mysql version"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:204
+#: ../includes/Api/RestControllers/SystemInfo.php:218
 msgid "gd installed"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:212
+#: ../includes/Api/RestControllers/SystemInfo.php:226
 msgid "The GD extension is not installed!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:229
+#: ../includes/Api/RestControllers/SystemInfo.php:243
 msgid "zip installed"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:236
+#: ../includes/Api/RestControllers/SystemInfo.php:250
 msgid "The zip extension is not installed!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:255
+#: ../includes/Api/RestControllers/SystemInfo.php:269
 msgid "WordPress root directory"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:257
+#: ../includes/Api/RestControllers/SystemInfo.php:271
 msgid "write permissions"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:262
+#: ../includes/Api/RestControllers/SystemInfo.php:276
 msgid "WordPress root uploads directory"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:268
+#: ../includes/Api/RestControllers/SystemInfo.php:282
 msgid "Zion builder uploads directory"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:274
+#: ../includes/Api/RestControllers/SystemInfo.php:288
 msgid ".htaccess file"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:289
+#: ../includes/Api/RestControllers/SystemInfo.php:303
 msgid "All right"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:284
+#: ../includes/Api/RestControllers/SystemInfo.php:298
 msgid "Not all right"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:286
+#: ../includes/Api/RestControllers/SystemInfo.php:300
 msgid "There are some writing permissions issues with the following directories/files: "
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:309
+#: ../includes/Api/RestControllers/SystemInfo.php:323
 msgid "zion library"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:314
+#: ../includes/Api/RestControllers/SystemInfo.php:328
 msgid "Disconnected"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:316
+#: ../includes/Api/RestControllers/SystemInfo.php:330
 msgid "The zion library is disconnected!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:311
+#: ../includes/Api/RestControllers/SystemInfo.php:325
 msgid "Connected"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:340
+#: ../includes/Api/RestControllers/SystemInfo.php:354
 msgid "We recommend you to use WordPress version 4.9.8 or higher"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:352
+#: ../includes/Api/RestControllers/SystemInfo.php:366
 msgid "memory limit"
 msgstr ""
 
 #. translators: 1: recommended memory, 2: Codex URL with details regarding how you can increase memory limit
-#: ../includes/Api/RestControllers/SystemInfo.php:360
+#: ../includes/Api/RestControllers/SystemInfo.php:374
 msgctxt "System Info"
 msgid "We recommend setting memory to at least %1$s. For more information, read about <a href=\"%2$s\">how to Increase memory allocated to PHP</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:379
+#: ../includes/Api/RestControllers/SystemInfo.php:393
 msgid "permalink structure"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:383
+#: ../includes/Api/RestControllers/SystemInfo.php:397
 msgid "Plain"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:396
+#: ../includes/Api/RestControllers/SystemInfo.php:410
 msgid "timezone"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:412
+#: ../includes/Api/RestControllers/SystemInfo.php:426
 msgid "child theme"
 msgstr ""
 
 #. translators: %s: Codex URL with child theme information
-#: ../includes/Api/RestControllers/SystemInfo.php:420
+#: ../includes/Api/RestControllers/SystemInfo.php:434
 msgctxt "System Info"
 msgid "If you want to modify the source code of your theme, we recommend using a <a href=\"%s\">child theme</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:128, ../includes/Api/RestControllers/Templates.php:170
+#: ../includes/Api/RestControllers/Templates.php:142, ../includes/Api/RestControllers/Templates.php:184
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:156
+#: ../includes/Api/RestControllers/Templates.php:170
 msgid "Whether to bypass trash and force deletion."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:228
+#: ../includes/Api/RestControllers/Templates.php:242
 msgid "You do not have permissions to delete this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:260
+#: ../includes/Api/RestControllers/Templates.php:274
 msgid "You do not have permissions to export this template."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:323, ../includes/Api/RestControllers/Templates.php:383, ../includes/Api/RestControllers/Templates.php:403, ../includes/Api/RestControllers/Templates.php:458, ../includes/Api/RestControllers/Templates.php:549
+#: ../includes/Api/RestControllers/Templates.php:337, ../includes/Api/RestControllers/Templates.php:397, ../includes/Api/RestControllers/Templates.php:417, ../includes/Api/RestControllers/Templates.php:472, ../includes/Api/RestControllers/Templates.php:563
 msgid "Your post id could not be found!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:416
+#: ../includes/Api/RestControllers/Templates.php:430
 msgid "The template cannot be deleted."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:439
+#: ../includes/Api/RestControllers/Templates.php:453
 msgid "Updated template"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:534
+#: ../includes/Api/RestControllers/Templates.php:548
 msgid "Your file is empty or invalid"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:591
+#: ../includes/Api/RestControllers/Templates.php:605
 msgid "The uploaded template is not valid!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:566
+#: ../includes/Api/RestControllers/Templates.php:580
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:597
+#: ../includes/Api/RestControllers/Templates.php:611
 msgid "An error occurred."
 msgstr ""
 
@@ -2255,15 +2255,15 @@ msgstr ""
 msgid "Accordion"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:68
+#: ../includes/Elements/Accordions/AccordionItem.php:70
 msgid "Accordion title"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:77
+#: ../includes/Elements/Accordions/AccordionItem.php:79
 msgid "Accordion content"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:87
+#: ../includes/Elements/Accordions/AccordionItem.php:89
 msgid "Active by default?"
 msgstr ""
 
@@ -2279,11 +2279,11 @@ msgstr ""
 msgid "Toogle"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:116, ../includes/Elements/IconBox/IconBox.php:225, ../includes/Elements/ImageBox/ImageBox.php:235, ../includes/Elements/PricingBox/PricingBox.php:240, ../includes/Elements/ProgressBars/ProgressBars.php:254
+#: ../includes/Elements/Accordions/Accordions.php:118, ../includes/Elements/IconBox/IconBox.php:227, ../includes/Elements/ImageBox/ImageBox.php:237, ../includes/Elements/PricingBox/PricingBox.php:242, ../includes/Elements/ProgressBars/ProgressBars.php:256
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:124, ../includes/Elements/Tabs/Tabs.php:129
+#: ../includes/Elements/Accordions/Accordions.php:126, ../includes/Elements/Tabs/Tabs.php:131
 msgid "Content styles"
 msgstr ""
 
@@ -2463,11 +2463,11 @@ msgstr ""
 msgid "bottom"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:325
+#: ../includes/Elements/Button/Button.php:327
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:333, ../includes/Elements/IconBox/IconBox.php:217, ../includes/Elements/IconList/IconList.php:223
+#: ../includes/Elements/Button/Button.php:335, ../includes/Elements/IconBox/IconBox.php:219, ../includes/Elements/IconList/IconList.php:225
 msgid "Icon styles"
 msgstr ""
 
@@ -2651,11 +2651,11 @@ msgstr ""
 msgid "Select the desired alignment."
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:159
+#: ../includes/Elements/Counter/Counter.php:161
 msgid "Before styles"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:166
+#: ../includes/Elements/Counter/Counter.php:168
 msgid "After styles"
 msgstr ""
 
@@ -2683,11 +2683,11 @@ msgstr ""
 msgid "Columns"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:166
+#: ../includes/Elements/Gallery/Gallery.php:168
 msgid "Gallery item styles"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:234
+#: ../includes/Elements/Gallery/Gallery.php:236
 msgid "No images selected."
 msgstr ""
 
@@ -2855,7 +2855,7 @@ msgstr ""
 msgid "Description text"
 msgstr ""
 
-#: ../includes/Elements/IconBox/IconBox.php:233, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/Testimonial/Testimonial.php:247
+#: ../includes/Elements/IconBox/IconBox.php:235, ../includes/Elements/ImageBox/ImageBox.php:245, ../includes/Elements/Testimonial/Testimonial.php:249
 msgid "Description styles"
 msgstr ""
 
@@ -2895,7 +2895,7 @@ msgstr ""
 msgid "Enter item text"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:215
+#: ../includes/Elements/IconList/IconList.php:217
 msgid "Item styles"
 msgstr ""
 
@@ -2915,11 +2915,11 @@ msgstr ""
 msgid "Image caption."
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:170
+#: ../includes/Elements/Image/Image.php:172
 msgid "Link styles"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:178, ../includes/Elements/ImageBox/ImageBox.php:228, ../includes/Elements/Testimonial/Testimonial.php:254
+#: ../includes/Elements/Image/Image.php:180, ../includes/Elements/ImageBox/ImageBox.php:230, ../includes/Elements/Testimonial/Testimonial.php:256
 msgid "Image styles"
 msgstr ""
 
@@ -3079,19 +3079,19 @@ msgstr ""
 msgid "Borders color"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:232
+#: ../includes/Elements/PricingBox/PricingBox.php:234
 msgid "Featured Label styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:248
+#: ../includes/Elements/PricingBox/PricingBox.php:250
 msgid "Price styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:256
+#: ../includes/Elements/PricingBox/PricingBox.php:258
 msgid "Features styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:264
+#: ../includes/Elements/PricingBox/PricingBox.php:266
 msgid "Buton styles"
 msgstr ""
 
@@ -3195,7 +3195,7 @@ msgstr ""
 msgid "No gap"
 msgstr ""
 
-#: ../includes/Elements/Section/Section.php:459
+#: ../includes/Elements/Section/Section.php:461
 msgid "Inner Content"
 msgstr ""
 
@@ -3343,19 +3343,19 @@ msgstr ""
 msgid "Stacked"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:122
+#: ../includes/Elements/Tabs/Tabs.php:124
 msgid "Tab styles"
 msgstr ""
 
-#: ../includes/Elements/Tabs/TabsItem.php:49
+#: ../includes/Elements/Tabs/TabsItem.php:51
 msgid "Tab Item"
 msgstr ""
 
-#: ../includes/Elements/Tabs/TabsItem.php:65
+#: ../includes/Elements/Tabs/TabsItem.php:67
 msgid "Tab title"
 msgstr ""
 
-#: ../includes/Elements/Tabs/TabsItem.php:74
+#: ../includes/Elements/Tabs/TabsItem.php:76
 msgid "Tab content"
 msgstr ""
 
@@ -3451,15 +3451,15 @@ msgstr ""
 msgid "5 stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:233
+#: ../includes/Elements/Testimonial/Testimonial.php:235
 msgid "Testimonial styles"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:240
+#: ../includes/Elements/Testimonial/Testimonial.php:242
 msgid "Name styles"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:261
+#: ../includes/Elements/Testimonial/Testimonial.php:263
 msgid "Stars styles"
 msgstr ""
 
@@ -3892,7 +3892,7 @@ msgid "Meet Transform"
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:534
-msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
+msgid "With Zion Page Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:544
@@ -4036,15 +4036,15 @@ msgid "Start muted?"
 msgstr ""
 
 #. translators: %s: Minimum PHP version
-#: ../zionbuilder.php:95
-msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
+#: ../zionbuilder.php:96
+msgid "Zion Page Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
 
-#: ../zionbuilder.php:120
+#: ../zionbuilder.php:123
 msgid "Update WordPress"
 msgstr ""
 
 #. translators: %s: Minimum WordPress version
-#: ../zionbuilder.php:124
-msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion builder will not be activated until the minimum WordPress version is installed."
+#: ../zionbuilder.php:127
+msgid "Zion Page Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Page Builder will not be activated until the minimum WordPress version is installed."
 msgstr ""

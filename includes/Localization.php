@@ -33,7 +33,7 @@ class Localization {
 			'pro_manage_global_gradients_free'       => esc_html__( 'Global gradients allows you to define a gradient configuration that you can use in builder, and everytime this gradient configuration changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
 			'custom_fonts_upgrade_message'           => esc_html__( 'With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder' ),
 			'typekit_fonts_upgrade_message'          => esc_html__( 'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.', 'zionbuilder' ),
-			'custom_icons_upgrade_message'           => esc_html__( 'Zion Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
+			'custom_icons_upgrade_message'           => esc_html__( 'Zion Page Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
 			'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, have WooCommerce integration, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 			'learn_more_about_pro'                   => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 
@@ -287,7 +287,7 @@ class Localization {
 			'buy_pro'                                => __( 'Buy Pro', 'zionbuilder' ),
 			'not_installed'                          => __( 'Not installed!', 'zionbuilder' ),
 			'you_are_upto_date'                      => __( 'You are up to date!', 'zionbuilder' ),
-			'about_zion_description'                 => __( 'Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.', 'zionbuilder' ),
+			'about_zion_description'                 => __( 'Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Page Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.', 'zionbuilder' ),
 
 			//Console messages
 			'oops_something_wrong'                   => esc_html__( 'oops, something went wrong!', 'zionbuilder' ),
@@ -312,7 +312,7 @@ class Localization {
 			'take_tour'                              => __( 'Take the tour', 'zionbuilder' ),
 			'next_step'                              => __( 'Next Step', 'zionbuilder' ),
 			'previous_step'                          => __( 'Previous Step', 'zionbuilder' ),
-			'welcome_to_zion'                        => __( 'Welcome to Zion Builder', 'zionbuilder' ),
+			'welcome_to_zion'                        => __( 'Welcome to Zion Page Builder', 'zionbuilder' ),
 			'welcome_to_zion_description'            => __( 'Press the <b>"Take the Tour"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>"Next Step"</b>. <br/><br/><br/>Press <b>"x"</b> button located on the top right of this window, to close tour, and immediatly start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time.', 'zionbuilder' ),
 			'adding_elements'                        => __( 'Adding elements', 'zionbuilder' ),
 			'adding_elements_description'            => __( 'The <b>colored circle with "+" sign </b> appears each time you hover an element. By clicking on it, a popup will appear from which you can add elements to the page.<br/> <br/>Click on the colored circle that contains <b>"+ icon"</b> to add elements or templates to page', 'zionbuilder' ),
@@ -555,7 +555,7 @@ class Localization {
 			'help_modal_title'                       => __( 'Help Center', 'zionbuilder' ),
 			'tour'                                   => __( 'Start tour', 'zionbuilder' ),
 			'key_shortcuts'                          => __( 'Key shortcuts', 'zionbuilder' ),
-			'about_zion_builder'                     => __( 'About Zion Builder', 'zionbuilder' ),
+			'about_zion_builder'                     => __( 'About Zion Page Builder', 'zionbuilder' ),
 			'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
 			'back_to_zion_dashboard'                 => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
 			'save_template'                          => __( 'Save Template', 'zionbuilder' ),

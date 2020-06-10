@@ -1,4 +1,4 @@
-=== Zion Builder ===
+=== Zion Page Builder ===
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
@@ -8,7 +8,7 @@ Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Zion Builder is a visual editor that comes with tools to help build interactive pages and posts in WordPress.
+Zion Page Builder is a visual editor that comes with tools to help build interactive pages and posts in WordPress.
 
 
 == Description ==
@@ -124,13 +124,13 @@ For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.i
 
 == Frequently Asked Questions ==
 
-= What is Zion Builder? =
+= What is Zion Page Builder? =
 
-Zion Builder is a front end visual page builder plugin for WordPress. Zion Builder lets you create original-looking posts and pages that are unique, compared with the standard post/page templates that come with your WordPress theme. It doesn’t require any HTML/CSS/PHP/coding skills. Zion Builder gives you full control over your page looks like on desktop, tablet, and mobile.
+Zion Page Builder is a front end visual page builder plugin for WordPress. Zion Page Builder lets you create original-looking posts and pages that are unique, compared with the standard post/page templates that come with your WordPress theme. It doesn’t require any HTML/CSS/PHP/coding skills. Zion Page Builder gives you full control over your page looks like on desktop, tablet, and mobile.
 
-= Can I edit posts or other custom posts with Zion Builder? =
+= Can I edit posts or other custom posts with Zion Page Builder? =
 
-Yes you can. You can edit posts, pages, and custom post types with Zion Builder by activating them from the plugin Admin panel.
+Yes you can. You can edit posts, pages, and custom post types with Zion Page Builder by activating them from the plugin Admin panel.
 
 == Screenshots ==
 

@@ -1,4 +1,4 @@
-# Zion Builder Plugin
+# Zion Page Builder Plugin
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
@@ -118,7 +118,7 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 1. Search for Zionbuilder
 1. Activate the plugin
 1. Go to Pages or Posts > Add New
-1. Press the 'Edit with Zion Builder' button.
+1. Press the 'Edit with Zion Page Builder' button.
 
 For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.io/help-center/).
 

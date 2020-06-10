@@ -531,7 +531,7 @@ class StyleOptions extends BaseSchema {
 			[
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Transform', 'zionbuilder' ),
-				'message_description' => esc_html__( 'With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective.', 'zionbuilder' ),
+				'message_description' => esc_html__( 'With Zion Page Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective.', 'zionbuilder' ),
 				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
