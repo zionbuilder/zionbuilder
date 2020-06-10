@@ -17,8 +17,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Environment {
 	const MANIFEST_FILENAME = 'manifest.json';
 
+	/**
+	 * Manifest file config
+	 *
+	 * @var array<string, mixed> The manifest configuration
+	 */
 	private static $config = null;
 
+
+	/**
+	 * Returns the Environment configuration set in manifest file
+	 *
+	 * @return array<string, mixed> The manifest configuration
+	 */
 	public static function get_config() {
 		if ( null === self::$config ) {
 			if ( ! file_exists( Utils::get_file_path( self::MANIFEST_FILENAME ) ) ) {
@@ -36,6 +47,7 @@ class Environment {
 	 * Returns a value from the manifest file
 	 *
 	 * @param string $id The id for the requested value
+	 * @param mixed $default The default value to return in case the config value is not found
 	 *
 	 * @return mixed The value for the requested id
 	 */

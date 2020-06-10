@@ -7,7 +7,11 @@ class FontProvider {
 	}
 
 	/**
+	 * Returns the unique id for the font provider
+	 *
 	 * @throws \Exception
+	 *
+	 * @return string The unique id for the font provider
 	 */
 	public static function get_id() {
 		throw new \Exception( esc_html__( 'get_id must be implemented by font provider.', 'ziobuilder' ) );

@@ -17,11 +17,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class GoogleFonts extends RestApiController {
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
 	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'google-fonts';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'google-fonts';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(

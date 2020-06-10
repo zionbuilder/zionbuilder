@@ -15,11 +15,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class SystemInfo extends RestApiController {
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
 	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'system-info';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'system-info';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(

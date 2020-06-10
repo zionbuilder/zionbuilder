@@ -16,11 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class DataSets extends RestApiController {
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
 	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'data-sets';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'data-sets';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(

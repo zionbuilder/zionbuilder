@@ -273,7 +273,7 @@ class Element {
 	 *
 	 * Will return the list of keywords for the current element
 	 *
-	 * @return array The keywords list
+	 * @return array<string> The keywords list
 	 */
 	public function get_keywords() {
 		return [];

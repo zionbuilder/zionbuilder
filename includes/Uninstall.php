@@ -13,6 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Uninstall {
 
+	/**
+	 * Performs various actions when the plugin is disabled
+	 *
+	 * @return void
+	 */
 	public static function uninstall() {
 		flush_rewrite_rules();
 	}

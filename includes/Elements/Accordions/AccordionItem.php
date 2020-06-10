@@ -47,6 +47,8 @@ class AccordionItem extends Element {
 	 *
 	 * Child elements are not visible in add elements popup and cannot be
 	 * interacted with them directly
+	 *
+	 * @return boolean True in case this is a child element
 	 */
 	public function is_child() {
 		return true;

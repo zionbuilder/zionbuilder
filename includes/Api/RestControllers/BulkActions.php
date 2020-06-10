@@ -12,9 +12,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class BulkActions extends RestApiController {
-	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'bulk-actions';
 
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = '/zionbuilder/v1';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'bulk-actions';
+
+
+	/**
+	 * Register routes
+	 *
+	 * @return void
+	 */
 	public function register_routes() {
 		register_rest_route(
 			$this->namespace,

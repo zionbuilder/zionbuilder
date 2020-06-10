@@ -1,15 +1,15 @@
 includes:
-	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
 parameters:
-	level: max
-	inferPrivatePropertyTypeFromConstructor: true
-	paths:
-		- includes/
-	bootstrapFiles
-		- tests/phpstan/bootstrap.php
-	scanFiles:
-		- vendor/woocommerce/action-scheduler/functions.php
-		- zionbuilder.php
-	ignoreErrors:
-		# Uses func_get_args()
-		- '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    bootstrapFiles:
+        - tests/phpstan/bootstrap.php
+    paths:
+        - includes/
+    scanFiles:
+        - vendor/woocommerce/action-scheduler/functions.php
+        - zionbuilder.php
+    ignoreErrors:
+        # Uses func_get_args()
+        - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'
