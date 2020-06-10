@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Upgrader
  *
+ * @since 1.0.1
+ *
  * @package ZionBuilder
  */
 class Upgrader {

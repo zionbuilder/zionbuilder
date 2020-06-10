@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Updater
  *
+ * @since 1.0.1
  * @package ZionBuilder
  */
 class Upgrades {
