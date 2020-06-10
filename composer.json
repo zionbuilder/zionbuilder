@@ -19,5 +19,8 @@
             "name": "zionbuilder",
             "email": "hello@zionbuilder.com"
         }
-    ]
+    ],
+    "require": {
+        "woocommerce/action-scheduler": "^3.1"
+    }
 }

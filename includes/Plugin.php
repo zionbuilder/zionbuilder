@@ -9,6 +9,7 @@ use ZionBuilder\Elements\Manager as ElementsManager;
 use ZionBuilder\PageTemplates\PageTemplates;
 use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
+use ZionBuilder\Upgrade\Upgrader;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -194,9 +195,11 @@ class Plugin {
 	 *
 	 * Will hook into WP actions to add the plugin functioanlity
 	 *
-	 * @throws \Exception
+	 * @return void
 	 */
 	public function init() {
+		$this->load_libraries();
+
 		// Load plugin actions
 		$this->load_actions();
 
@@ -219,6 +222,7 @@ class Plugin {
 
 		new Integrations();
 		new AdminBar();
+		new Upgrader();
 
 		/*
 		 * ZionBuilder loaded.
@@ -232,12 +236,25 @@ class Plugin {
 
 
 	/**
-	 * Load actions
+	 * Loads extra library files required for the plugin
 	 *
+	 * @return void
+	 */
+	public function load_libraries() {
+		require_once $this->get_root_path() . '/vendor/woocommerce/action-scheduler/action-scheduler.php';
+	}
+
+
+	/**
 	 * Hooks into WP actions to add generic functionality
+	 *
+	 * @return void
 	 */
 	private function load_actions() {
-		register_activation_hook( ZIONBUILDER_FILE, [ 'ZionBuilder\Activate', 'activate' ] );
+		$callback = [ 'ZionBuilder\\Install', 'on_activate' ];
+		if ( is_callable( $callback ) ) {
+			register_activation_hook( ZIONBUILDER_FILE, $callback );
+		}
 	}
 
 	/**

@@ -7,6 +7,7 @@ parameters:
         - includes/
     scanFiles:
         - tests/phpstan/bootstrap.php
+		- vendor/woocommerce/action-scheduler/functions.php
         - zionbuilder.php
     ignoreErrors:
         # Uses func_get_args()
