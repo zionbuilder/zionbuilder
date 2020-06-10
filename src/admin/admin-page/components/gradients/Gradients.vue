@@ -98,7 +98,7 @@ export default {
 					this.updateLocalGradients(gradients)
 				} else {
 					const globalGradients = [...this.getGlobalGradients]
-					var newState = [
+					let newState = [
 						...globalGradients.slice(0, this.activeGradientIndex),
 						{
 							...globalGradients[this.activeGradientIndex],
@@ -128,6 +128,7 @@ export default {
 		},
 		deleteGlobalGradientElement (index) {
 			this.deleteGlobalGradient(index)
+			this.activeGradientIndex = this.getGlobalGradients.length - 1
 		},
 		onGradientSelect (index) {
 			this.activeGradientIndex = index
@@ -184,31 +185,13 @@ export default {
 						'x': 75,
 						'y': 48
 					}
-				},
-				{
-					'type': 'linear',
-					'angle': 114,
-					'colors': [
-						{
-							'color': '#fff',
-							'position': 0
-						},
-						{
-							'color': '#555',
-							'position': 100
-						}
-					],
-					'position': {
-						'x': 75,
-						'y': 48
-					}
 				}
 			]
 		},
 		onAddNewGlobalGradient () {
 			let arrayLength = this.getGlobalGradients.length
 
-			let dynamicName = `gradientPreset${arrayLength}`
+			let dynamicName = `gradientPreset${arrayLength + 1}`
 			const defaultGradient = {
 				id: dynamicName,
 				config: this.defaultGlobalObject()
@@ -216,7 +199,7 @@ export default {
 
 			this.addGlobalGradient(defaultGradient)
 
-			this.activeGradientIndex = this.getGlobalGradients.length === 1 ? 0 : this.activeGradientIndex + 1
+			this.activeGradientIndex = this.getGlobalGradients.length === 1 ? 0 : this.getGlobalGradients.length - 1
 			this.showModal = true
 		}
 	}
