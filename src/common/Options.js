@@ -321,4 +321,8 @@ export default class Options {
 
 		return false
 	}
+
+	getValue (optionPath, defaultValue) {
+		return getOptionValue(this.model, optionPath, defaultValue)
+	}
 }

@@ -342,6 +342,9 @@ export default {
 				})
 			}
 
+			// Filter the custom css
+			customCSS = window.ZionBuilderApi.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
+
 			this.options = options
 			this.renderAttributes = renderAttributes
 			this.customCSS = customCSS

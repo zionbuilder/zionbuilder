@@ -293,6 +293,7 @@ class Element {
 		} elseif ( is_file( $this->get_path( 'icon.svg' ) ) ) {
 			$image = $this->get_url( 'icon.svg' );
 		}
+
 		return $image;
 	}
 
