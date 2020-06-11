@@ -24,7 +24,7 @@ class ReplaceUrl extends RestApiController {
 	 *
 	 * @var string
 	 */
-	protected $namespace = '/zionbuilder/v1';
+	protected $namespace = 'zionbuilder/v1';
 
 	/**
 	 * Api endpoint
