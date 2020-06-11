@@ -26,9 +26,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Will handle the editor part of the page builder. Will hook into 'admin_action_zion_builder_active' action
  */
 class Editor {
-	private $post_id = 0;
 	/**
-	 * @var Preview|null
+	 * Holds a refference to the current post id
+	 *
+	 * @var integer
+	 */
+	private $post_id = 0;
+
+	/**
+	 * @var Preview
 	 */
 	public $preview = null;
 
@@ -113,7 +119,7 @@ class Editor {
 	 *
 	 * @param mixed $post_id
 	 *
-	 * @return Boolean|\WP_User
+	 * @return boolean|\WP_User
 	 */
 	public function get_locked_user( $post_id ) {
 		$locked_user = wp_check_post_lock( $post_id );
@@ -128,9 +134,9 @@ class Editor {
 	/**
 	 * Modify Heartbeat settings to run at each 15 seconds
 	 *
-	 * @param array $settings
+	 * @param array<string, mixed> $settings
 	 *
-	 * @return array Modified settings for heartbeat
+	 * @return array<string, mixed> Modified settings for heartbeat
 	 */
 	public function set_heartbeat_settings( $settings = [] ) {
 		$settings['interval'] = 15;
@@ -244,12 +250,16 @@ class Editor {
 	 *
 	 * Returns the initial data required for the editor
 	 *
-	 * @return array The initial data required by the editor interface
+	 * @return array<string, mixed> The initial data required by the editor interface
 	 */
 	private function get_editor_initial_data() {
 		$locked_user_name = null;
 
 		$post_instance = Plugin::$instance->post_manager->get_active_post_instance();
+
+		if ( ! $post_instance ) {
+			return [];
+		}
 
 		$locked_user_data = $this->get_locked_user( $this->post_id );
 		if ( $locked_user_data ) {
@@ -334,6 +344,12 @@ class Editor {
 		);
 	}
 
+
+	/**
+	 * Returns the HTML content for the WP editor
+	 *
+	 * @return string|false The editor HTML content or false on failure
+	 */
 	public function get_wp_editor() {
 		// Remove all TinyMCE plugins.
 		remove_all_filters( 'mce_buttons', 10 );

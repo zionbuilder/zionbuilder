@@ -107,7 +107,7 @@ class Plugin {
 	 * Zion builder editor instance
 	 * Holds the reference to the ZionBuilder\Editor\Editor class
 	 *
-	 * @var null|Editor
+	 * @var Editor
 	 *
 	 * @see Plugin::init()
 	 */

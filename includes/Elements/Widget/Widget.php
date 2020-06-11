@@ -32,7 +32,7 @@ class Widget extends Element {
 	public function on_before_init( $data = [] ) {
 		// Get the widget id from data
 		if ( ! isset( $data['widget_id'] ) ) {
-			return false;
+			return;
 		}
 
 		$this->widget_id = $data['widget_id'];

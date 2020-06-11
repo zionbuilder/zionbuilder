@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package ZionBuilder
  *
- * @throws \LogicException If manifest file is not found.
+ * @throws \LogicException if manifest file is not found
  */
 class Environment {
 	const MANIFEST_FILENAME = 'manifest.json';
@@ -46,8 +46,8 @@ class Environment {
 	/**
 	 * Returns a value from the manifest file
 	 *
-	 * @param string $id The id for the requested value
-	 * @param mixed $default The default value to return in case the config value is not found
+	 * @param string $id      The id for the requested value
+	 * @param mixed  $default The default value to return in case the config value is not found
 	 *
 	 * @return mixed The value for the requested id
 	 */

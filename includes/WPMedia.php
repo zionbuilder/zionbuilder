@@ -22,16 +22,16 @@ class WPMedia {
 		add_filter( 'image_downsize', [ $this, 'on_image_downsize' ], 10, 3 );
 
 		// Add src set for custom sizes
-		add_filter( 'wp_calculate_image_srcset_meta', [ $this, 'on_wp_calculate_image_srcset_meta' ], 10, 4 );
+		add_filter( 'wp_calculate_image_srcset_meta', [ $this, 'on_wp_calculate_image_srcset_meta' ] );
 	}
 
 
 	/**
 	 * Returns all registered image sizes for a given image config
 	 *
-	 * @param array $image_config The image config for which you want to retrieve the image sizes
+	 * @param array<string, mixed> $image_config The image config for which you want to retrieve the image sizes
 	 *
-	 * @return \WP_Error|array The image sizes list or WP_Error on failure
+	 * @return \WP_Error|array<string, string> The image sizes list or WP_Error on failure
 	 */
 	public static function get_image_sizes( $image_config ) {
 		if ( empty( $image_config['image'] ) ) {
@@ -75,7 +75,7 @@ class WPMedia {
 	/**
 	 * Generates image size name based on width and height
 	 *
-	 * @param int $width The image width
+	 * @param int $width  The image width
 	 * @param int $height The image height
 	 *
 	 * @return string The image size name
@@ -88,14 +88,11 @@ class WPMedia {
 	/**
 	 * Add resized image srcset value
 	 *
-	 * @param array $image_meta
-	 * @param array $size_array
-	 * @param string $image_src
-	 * @param int $attachment_id
+	 * @param array<string, mixed> $image_meta
 	 *
-	 * @return mixed
+	 * @return array<string, mixed>
 	 */
-	public function on_wp_calculate_image_srcset_meta( $image_meta, $size_array, $image_src, $attachment_id ) {
+	public function on_wp_calculate_image_srcset_meta( $image_meta ) {
 		if ( ! empty( $image_meta['image_meta']['zion_resized_images'] ) ) {
 			foreach ( $image_meta['image_meta']['zion_resized_images'] as $custom_size ) {
 				$size_name                       = self::generate_size_name( $custom_size['width'], $custom_size['height'] );
@@ -109,11 +106,11 @@ class WPMedia {
 	/**
 	 * Hooks into image_downsize filter in order to check if the requested image size should be handled by this class
 	 *
-	 * @param bool|array $out Whether to short-circuit the image downsize
-	 * @param int $id The image id
-	 * @param string $size The image size as string
+	 * @param bool|array<int, string> $out  Whether to short-circuit the image downsize
+	 * @param int                     $id   The image id
+	 * @param string                  $size The image size as string
 	 *
-	 * @return bool|array The image downside list
+	 * @return bool|array<int, string> The image downside list
 	 */
 	public function on_image_downsize( $out, $id, $size ) {
 		// Check to see if the size is our own
@@ -139,16 +136,16 @@ class WPMedia {
 	 * Will return the image tag from provided image configuration
 	 *
 	 * @param string|array $image_config
-	 * @param string|array $attributes {
-	 *     Optional. Attributes for the image markup.
+	 * @param string|array $attributes   {
+	 *                                   Optional. Attributes for the image markup.
 	 *
-	 *     @type string $src    Image attachment URL.
-	 *     @type string $class  CSS class name or space-separated list of classes.
+	 *     @var string $src    Image attachment URL.
+	 *     @var string $class  CSS class name or space-separated list of classes.
 	 *                          Default `attachment-$size_class size-$size_class`,
 	 *                          where `$size_class` is the image size being requested.
-	 *     @type string $alt    Image description for the alt attribute.
-	 *     @type string $srcset The 'srcset' attribute value.
-	 *     @type string $sizes  The 'sizes' attribute value.
+	 *     @var string $alt    Image description for the alt attribute.
+	 *     @var string $srcset The 'srcset' attribute value.
+	 *     @var string $sizes  The 'sizes' attribute value.
 	 * }
 	 *
 	 * @return string The HTML image tag
@@ -200,6 +197,7 @@ class WPMedia {
 	 * Try to get the image tag in case the get_image could not provide the actual image
 	 *
 	 * @param mixed $image_config The image config
+	 * @param mixed $attributes
 	 *
 	 * @return string The default image with width and height parameters
 	 */
@@ -229,10 +227,10 @@ class WPMedia {
 	/**
 	 * Retrieves the image url for a specific size
 	 *
-	 * @param int $attachment_id The attachment id for which you want to retrieve the size
-	 * @param int $width The desired image width
-	 * @param int $height The desired image height
-	 * @param boolean $crop True if you want to crop the image. Defaults to true
+	 * @param int     $attachment_id The attachment id for which you want to retrieve the size
+	 * @param int     $width         The desired image width
+	 * @param int     $height        The desired image height
+	 * @param boolean $crop          True if you want to crop the image. Defaults to true
 	 *
 	 * @return string|\WP_Error The image URL
 	 */
@@ -307,7 +305,6 @@ class WPMedia {
 						}
 
 						return $image_url;
-
 					}
 				}
 			}

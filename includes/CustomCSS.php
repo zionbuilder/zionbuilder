@@ -7,6 +7,11 @@ use ZionBuilder\Elements\Style;
 class CustomCSS {
 	private $css_selector = null;
 
+	/**
+	 * Holds a refference to the css styles for responsive devices
+	 *
+	 * @var array{default: array<mixed>, laptop: array<mixed>, tablet: array<mixed>, mobile: array<mixed>}
+	 */
 	private $custom_css_config = [
 		'default' => [],
 		'laptop'  => [],
@@ -16,6 +21,8 @@ class CustomCSS {
 
 	/**
 	 * Holds a reference of the responsive devices css classes modifiers
+	 *
+	 * @var array{default: string, laptop: string, tablet: string, mobile: string}
 	 */
 	private static $responsive_devices_map = [
 		'default' => '',
