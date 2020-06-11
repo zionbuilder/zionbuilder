@@ -74,7 +74,7 @@ export default {
 		return {
 			showModal: false,
 			activeGradientIndex: 0,
-			activeLibrary: 'Local'
+			activeLibrary: 'local'
 		}
 	},
 	computed: {

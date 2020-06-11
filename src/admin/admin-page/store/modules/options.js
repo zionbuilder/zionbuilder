@@ -165,16 +165,16 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	// Gradients
-	updateLocalGradients: ({ commit, dispatch }, payload) => {
+	updateLocalGradients: ({ commit }, payload) => {
 		commit(types.UPDATE_LOCAL_GRADIENTS, payload)
 	},
-	updateGlobalGradients: ({ commit, dispatch }, payload) => {
+	updateGlobalGradients: ({ commit }, payload) => {
 		commit(types.UPDATE_GLOBAL_GRADIENTS, payload)
 	},
-	addLocalGradient: ({ commit, dispatch }, payload) => {
+	addLocalGradient: ({ commit }, payload) => {
 		commit(types.ADD_LOCAL_GRADIENT, payload)
 	},
-	addGlobalGradient: ({ commit, dispatch }, payload) => {
+	addGlobalGradient: ({ commit }, payload) => {
 		commit(types.ADD_GLOBAL_GRADIENT, payload)
 	},
 	deleteLocalGradient: ({ commit, dispatch }, payload) => {

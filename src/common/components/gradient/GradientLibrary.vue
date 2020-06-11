@@ -21,9 +21,10 @@
 					class="znpb-colorpicker-global-wrapper--pro"
 					v-if="!isPro"
 				>
-					Global colors are available in
+
+					{{$translate('global_colors_availability')}}
 					<Label
-						text="PRO"
+						:text="$translate('pro')"
 						type="pro"
 					/>
 				</div>
