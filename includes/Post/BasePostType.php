@@ -400,7 +400,7 @@ class BasePostType {
 		}
 
 		$current_post_status = $this->get_post_value( 'post_status' );
-		$status              = $post_data['status'];
+		$status              = isset( $post_data['status'] ) ? $post_data['status'] : $current_post_status;
 		$is_autosave         = 'autosave' === $status;
 
 		if ( $is_autosave && in_array( $current_post_status, [ 'publish', 'private' ], true ) ) {
@@ -414,6 +414,11 @@ class BasePostType {
 		return true;
 	}
 
+	/**
+	 * Returns the post id if the current post is and autosave or false
+	 *
+	 * @return int|false
+	 */
 	public function is_autosave() {
 		return wp_is_post_autosave( $this->get_post_id() );
 	}
