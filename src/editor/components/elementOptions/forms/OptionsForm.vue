@@ -19,6 +19,7 @@
 <script>
 import InputWrapper from './InputWrapper'
 import { mapGetters } from 'vuex'
+import { updateOptionValue } from '@/utils/updateOptionValue'
 
 export default {
 	name: 'OptionsForm',
@@ -117,6 +118,11 @@ export default {
 		InputWrapper
 	},
 	methods: {
+		updateValueByPath (path, newValue) {
+			const updatedValues = updateOptionValue(this.value, path, newValue)
+
+			this.$emit('input', updatedValues)
+		},
 		setValue (optionId, newValue) {
 			let newValueToSend
 

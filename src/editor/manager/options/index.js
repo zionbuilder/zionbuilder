@@ -243,7 +243,7 @@ class OptionsManager {
 	 */
 	getOption (schema, model = null, formModel = {}) {
 		let optionConfig = this.options[schema.type]
-		optionConfig = applyFilters('zionbuilder/getOption', optionConfig, schema, model, formModel)
+		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
 
 		if (!optionConfig) {
 			// eslint-disable-next-line

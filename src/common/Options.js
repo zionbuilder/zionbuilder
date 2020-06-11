@@ -39,7 +39,7 @@ export default class Options {
 		this.parseOptions(this.schema, this.model)
 
 		// Allow external data modification
-		const options = window.ZionBuilderApi.applyFilters('zionbuilder/elementOptions', this.model, this)
+		const options = window.ZionBuilderApi.applyFilters('zionbuilder/options/model', this.model, this)
 
 		return {
 			options: options,

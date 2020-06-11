@@ -278,7 +278,7 @@ export default {
 		},
 
 		optionTypeConfig () {
-			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.options)
+			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.value)
 		},
 		labelAlignment () {
 			return this.schema['label-align'] || null
