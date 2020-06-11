@@ -323,11 +323,7 @@ class Testimonial extends Element {
 		$inner_content_styles_user_classes        = $this->get_style_classes_as_string( 'inner_content_styles_user', [ 'zb-el-testimonial__userInfo-name' ] );
 		$inner_content_styles_description_classes = $this->get_style_classes_as_string( 'inner_content_styles_description', [ 'zb-el-testimonial__userInfo-description' ] );
 		$inner_content_styles_image_classes       = $this->get_style_classes_as_string( 'inner_content_styles_image', [ 'zb-el-testimonial__userImage' ] );
-		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] );
-
-		if ( ! empty( $content ) ) {
-			echo wp_kses_post( $content );
-		} ?>
+		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] ); ?>
 		<?php if ( $image && ( $position === 'top' ) ) : ?>
 			<img
 				src="<?php echo esc_attr( $image ); ?>"
