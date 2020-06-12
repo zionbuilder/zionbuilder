@@ -19,27 +19,45 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder
  */
 class Options extends Stack {
+	/**
+	 * Flag to check if the filter was applied
+	 *
+	 * @var boolean True in case the filter was already applied
+	 */
 	private $triggered_injection = null;
 
 	/**
 	 * Holds a reference to all elements schemas
+	 *
+	 * @var array<string, mixed>
 	 */
 	private static $schemas = [];
 
 	/**
 	 * Holds a reference to the current schema id
+	 *
+	 * @var string The schema unique id
 	 */
 	private $schema_id = null;
 
 	/**
 	 * Holds a reference to the options model/values
+	 *
+	 * @var array<string, mixed> The saved values
 	 */
 	private $model = [];
 
+
+	/**
+	 * CSS selector for the current schema
+	 *
+	 * @var string The CSS selector that will be used to compile css style
+	 */
 	private $css_selector = null;
 
 	/**
 	 * Holds the custom css that will be applied to an element
+	 *
 	 * @var CustomCSS|null
 	 */
 	private $custom_css = null;
@@ -53,8 +71,10 @@ class Options extends Stack {
 	 * Class constructor
 	 *
 	 * @var string $id The id for the current stack
-	 * @var array $options The options schema for the current stack
+	 * @var array  $options<string, mixed> The options schema for the current stack
 	 *
+	 * @param mixed $id
+	 * @param mixed $options
 	 */
 	public function __construct( $id, $options = [] ) {
 		$this->schema_id = $id;
@@ -67,6 +87,10 @@ class Options extends Stack {
 	 * Trigger injection
 	 *
 	 * Will fire an event so that other developers can modify the schema
+	 *
+	 * @uses \do_action()
+	 *
+	 * @return void
 	 */
 	public function trigger_injection() {
 		/*
@@ -80,8 +104,10 @@ class Options extends Stack {
 	 *
 	 * Will register an option schema to the option schema stach
 	 *
-	 * @param string $id The id for the current stack. This must be unique
-	 * @param array $options An array containing the options that will be added to stack
+	 * @param string               $id      The id for the current stack. This must be unique
+	 * @param array<string, mixed> $options An array containing the options that will be added to stack
+	 *
+	 * @return void
 	 */
 	private function register_schema( $id, $options ) {
 		if ( ! isset( self::$schemas[$id] ) ) {
@@ -99,7 +125,9 @@ class Options extends Stack {
 	/**
 	 * Set the options model/values
 	 *
-	 * @param array $model The data model for the current stack
+	 * @param array<string, mixed> $model The data model for the current stack
+	 *
+	 * @return void
 	 */
 	public function set_model( $model = [] ) {
 		$this->model = $model;
@@ -124,7 +152,7 @@ class Options extends Stack {
 	/**
 	 * Returns the list of options for the current schema
 	 *
-	 * @return array The list of options
+	 * @return Option[] The schema stack
 	 */
 	public function &get_stack() {
 		return self::$schemas[$this->schema_id];
@@ -137,7 +165,9 @@ class Options extends Stack {
 	 * Will set the base model and the element for which the model is attached to
 	 *
 	 * @param RenderAttributes $render_attributes
-	 * @param CustomCSS $custom_css
+	 * @param CustomCSS        $custom_css
+	 *
+	 * @return void
 	 */
 	public function parse_data( RenderAttributes $render_attributes, CustomCSS $custom_css ) {
 		$this->render_attributes = $render_attributes;
@@ -153,9 +183,9 @@ class Options extends Stack {
 	 * Will loop through the options setting the active options, render attributes
 	 * and custom css
 	 *
-	 * @param Option[] $schema The options schema that will be parsed
-	 * @param array $model The current saved values
-	 * @param integer $index The index of the model values in case of repeater options
+	 * @param Option[]             $schema The options schema that will be parsed
+	 * @param array<string, mixed> $model  The current saved values
+	 * @param int|null             $index  The index of the model values in case of repeater options
 	 *
 	 * @return void
 	 */
@@ -195,6 +225,7 @@ class Options extends Stack {
 					if ( $option_schema->type === 'repeater' ) {
 						if ( ! empty( $model[$option_id] ) && is_array( $model[$option_id] ) ) {
 							foreach ( $model[$option_id] as $index => &$option_value ) {
+								$index = (int) $index;
 								$this->parse_options( $option_schema->child_options, $option_value, $index );
 							}
 						}
@@ -215,7 +246,7 @@ class Options extends Stack {
 	 * Will check if a current option passes dependency
 	 *
 	 * @param Option $option_schema The option schema
-	 * @param mixed $model The saved value
+	 * @param mixed  $model         The saved value
 	 *
 	 * @return boolean True in case the dependency passed
 	 */
@@ -238,8 +269,8 @@ class Options extends Stack {
 	/**
 	 * Will check a single configuration if it passes dependency
 	 *
-	 * @param array $dependency_config The dependency configuration
-	 * @param mixed $model The saved value
+	 * @param array<string, mixed> $dependency_config The dependency configuration
+	 * @param array<string, mixed> $model             The saved value
 	 *
 	 * @return boolean True in case the dependency passed
 	 */
@@ -269,7 +300,7 @@ class Options extends Stack {
 	/**
 	 * Returns the current stack model
 	 *
-	 * @return array
+	 * @return array<string, mixed> The saved value for this schema
 	 */
 	public function get_model() {
 		return $this->model;
@@ -310,7 +341,8 @@ class Options extends Stack {
 	 * Returns the value for an option if model is provided
 	 *
 	 * @param string $path          A dot separated string
-	 * @param mixed $default_value The default value to return in case the option value is not found
+	 * @param mixed  $default_value The default value to return in case the option value is not found
+	 *
 	 * @return mixed|null
 	 */
 	public function get_value( $path, $default_value = null ) {
@@ -322,5 +354,4 @@ class Options extends Stack {
 
 		return $default_value;
 	}
-
 }

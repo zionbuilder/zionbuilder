@@ -54,8 +54,10 @@ class CustomCSS {
 	 * Will check if the given option schema has styles that needs to be extracted
 	 *
 	 * @param \ZionBuilder\Options\Option $option_schema The option configuration
-	 * @param mixed   $option_value The saved option value
-	 * @param integer $index The index of the value in case it is inside a repeater
+	 * @param mixed                       $option_value  The saved option value
+	 * @param int|null                    $index         The index of the value in case it is inside a repeater
+	 *
+	 * @return void
 	 */
 	public function parse_options_schema( $option_schema, $option_value, $index ) {
 		if ( ! isset( $option_schema->css_style ) || ! is_array( $option_schema->css_style ) ) {
@@ -75,11 +77,11 @@ class CustomCSS {
 	/**
 	 * Extracts the css from a given option
 	 *
-	 * @param string $device The device id
-	 * @param string $option_type The option type
-	 * @param array $style_config Configuration for the css
-	 * @param mixed $saved_value The value to use when parsing the option
-	 * @param integer $index In case of repeaters, the index of the saved value
+	 * @param string                $device       The device id
+	 * @param string                $option_type  The option type
+	 * @param array<string, string> $style_config Configuration for the css
+	 * @param mixed                 $saved_value  The value to use when parsing the option
+	 * @param int|null              $index        In case of repeaters, the index of the saved value
 	 *
 	 * @return string|void
 	 */
@@ -96,8 +98,7 @@ class CustomCSS {
 		$value    = str_replace( '{{VALUE}}', $saved_value, $value );
 
 		if ( $option_type === 'element_styles' ) {
-			$styles = Style::get_styles( $selector, $value );
-
+			$styles = Style::get_styles( $selector, $saved_value );
 			if ( ! empty( $styles ) ) {
 				return $styles;
 			}
@@ -110,10 +111,10 @@ class CustomCSS {
 	/**
 	 * Extracts a responsive option css
 	 *
-	 * @param string $option_type The option type
-	 * @param array $style_config Configuration for the css
-	 * @param mixed $value The value to use when parsing the option
-	 * @param integer $index In case of repeaters, the index of the saved value
+	 * @param string                $option_type  The option type
+	 * @param array<string, string> $style_config Configuration for the css
+	 * @param mixed                 $value        The value to use when parsing the option
+	 * @param int|null              $index        In case of repeaters, the index of the saved value
 	 *
 	 * @return void
 	 */
@@ -128,9 +129,11 @@ class CustomCSS {
 	/**
 	 * Adds a custom css rule to the custom css configuration
 	 *
-	 * @param string $device The device id
+	 * @param string $device   The device id
 	 * @param string $selector The css selector
-	 * @param string $value The css rule that will be added to the device->selector configuration
+	 * @param string $value    The css rule that will be added to the device->selector configuration
+	 *
+	 * @return void
 	 */
 	public function add_custom_css( $device, $selector, $value ) {
 		if ( ! isset( $this->custom_css_config[$device] ) ) {
@@ -176,7 +179,7 @@ class CustomCSS {
 	/**
 	 * Converts a style configuration to CSS
 	 *
-	 * @param array $selectors_config The style configuration
+	 * @param array<string, array<string>> $selectors_config The style configuration
 	 *
 	 * @return string
 	 */
@@ -191,5 +194,4 @@ class CustomCSS {
 
 		return $returned_css;
 	}
-
 }
