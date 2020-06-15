@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Style {
 	/**
 	 * @param string $css_selector
-	 * @param array $style_options
+	 * @param array  $style_options
 	 *
 	 * @return string
 	 */
@@ -65,7 +65,7 @@ class Style {
 
 	/**
 	 * @param string $css_selector
-	 * @param array $pseudo_selectors
+	 * @param array  $pseudo_selectors
 	 *
 	 * @return string
 	 */
@@ -83,7 +83,7 @@ class Style {
 	/**
 	 * @param string $css_selector
 	 * @param string $pseudo_selector
-	 * @param array $style_options
+	 * @param array  $style_options
 	 *
 	 * @return string
 	 */
@@ -151,6 +151,11 @@ class Style {
 
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
+				case 'perspective':
+					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
+					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
+					break;
+
 				case 'background-gradient':
 					$gradient_config = self::compile_gradient( $value );
 					if ( ! empty( $gradient_config ) ) {
@@ -338,8 +343,6 @@ class Style {
 							$origin_string .= $property_value . ' ';
 						} elseif ( $property !== 'perspective' ) {
 							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
-						} else {
-							$perspective_string = $property_value;
 						}
 					}
 				}
@@ -347,10 +350,6 @@ class Style {
 
 			if ( ! empty( $transform_string ) ) {
 				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
-			}
-
-			if ( ! empty( $perspective_string ) ) {
-				$combined_styles .= sprintf( 'perspective: %s;', $perspective_string );
 			}
 
 			if ( ! empty( $origin_string ) ) {
