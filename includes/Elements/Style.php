@@ -177,7 +177,7 @@ class Style {
 
 				case 'flex-direction':
 					if ( $flex_reverse ) {
-						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: %s; flex-direction: %s;', $value ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction:  %s; flex-direction: %s;', $value );
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: %s; flex-direction: %s;', $value, $value ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction:  %s; flex-direction: %s;', $value, $value );
 					} else {
 						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row reverse; flex-direction: row reverse; ' ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column reverse; flex-direction: column reverse;' );
 					}
