@@ -259,6 +259,7 @@ class Style {
 			$compiled_css .= sprintf( '-webkit-filter: %s;', $compiled_filter );
 			$compiled_css .= sprintf( 'filter: %s;', $compiled_filter );
 		}
+
 		// Background image
 		if ( ! empty( $background_image_config ) ) {
 			sort( $background_image_config );

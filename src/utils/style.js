@@ -291,17 +291,16 @@ export function compileStyleTabs (styleValues) {
 
 		if (value || value === 0) {
 			// Add prefixes
+			if (filterProperties.includes(property)) {
+				if (property === 'hue-rotate') {
+					filtersGroup += (`${property}(${value}deg) `)
+				} else filtersGroup += (`${property}(${value}%) `)
+			}
 
 			if (renderSpecialPrefix[property] !== undefined) {
 				combineStyles += renderSpecialPrefix[property](value)
 			} else {
 				combineStyles += (flexReverse || filtersGroup.length || customOrder || flexDirection.length || hasPerspective) ? '' : `${property}: ${value};`
-			}
-
-			if (filterProperties.includes(property)) {
-				if (property === 'hue-rotate') {
-					filtersGroup += (`${property}(${value}deg) `)
-				} else filtersGroup += (`${property}(${value}%) `)
 			}
 
 			if (value === 'flex') {
@@ -314,6 +313,7 @@ export function compileStyleTabs (styleValues) {
 	})
 	if (filtersGroup.length) {
 		combineStyles += `-webkit-filter: ${filtersGroup};filter: ${filtersGroup};`
+		combineStyles += `filter: ${filtersGroup};`
 	}
 
 	// Box shadow
