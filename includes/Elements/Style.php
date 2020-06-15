@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Style {
 	/**
-	 * @param string $css_selector
-	 * @param array  $style_options
+	 * @param string               $css_selector
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -64,8 +64,8 @@ class Style {
 	}
 
 	/**
-	 * @param string $css_selector
-	 * @param array  $pseudo_selectors
+	 * @param string                              $css_selector
+	 * @param array<string, array<string, mixed>> $pseudo_selectors
 	 *
 	 * @return string
 	 */
@@ -81,9 +81,9 @@ class Style {
 	}
 
 	/**
-	 * @param string $css_selector
-	 * @param string $pseudo_selector
-	 * @param array  $style_options
+	 * @param string               $css_selector
+	 * @param string               $pseudo_selector
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -100,6 +100,14 @@ class Style {
 		return '';
 	}
 
+
+	/**
+	 * Compiles gradient config to valid gradient css
+	 *
+	 * @param array<int, mixed> $config
+	 *
+	 * @return string
+	 */
 	public static function compile_gradient( $config ) {
 		if ( ! is_array( $config ) ) {
 			return '';
@@ -138,7 +146,7 @@ class Style {
 	}
 
 	/**
-	 * @param array $style_options
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -382,6 +390,14 @@ class Style {
 		return $compiled_css;
 	}
 
+
+	/**
+	 * Compiles box shadow list to valid CSS
+	 *
+	 * @param array<string, string> $options
+	 *
+	 * @return string
+	 */
 	public static function compile_box_shadow( $options ) {
 		$offset_x = isset( $options['offset-x'] ) ? $options['offset-x'] : 0;
 		$offset_y = isset( $options['offset-y'] ) ? $options['offset-y'] : 0;
@@ -408,9 +424,17 @@ class Style {
 			return implode( ' ', $shadow_list );
 		}
 
-		return false;
+		return '';
 	}
 
+
+	/**
+	 * Compiles border config to valid CSS
+	 *
+	 * @param array<string, array<string, string>> $border_config
+	 *
+	 * @return string
+	 */
 	public static function compile_border( $border_config ) {
 		$css = '';
 		if ( is_array( $border_config ) ) {
@@ -432,6 +456,14 @@ class Style {
 		return $css;
 	}
 
+
+	/**
+	 * Compiles transform config to valid css
+	 *
+	 * @param array<int, array<string, mixed>> $value
+	 *
+	 * @return string
+	 */
 	public static function compile_transform( $value ) {
 		$transform_string = '';
 		$origin_string    = '';
@@ -465,6 +497,14 @@ class Style {
 		return $combined_styles;
 	}
 
+
+	/**
+	 * Compiles border radius config to valid CSS
+	 *
+	 * @param array<string, string> $border_radius_config
+	 *
+	 * @return string
+	 */
 	public static function compile_border_radius( $border_radius_config ) {
 		$css = '';
 
