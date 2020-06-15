@@ -208,7 +208,7 @@ export function compileStyleTabs (styleValues) {
 			flexDirection = keyValueStyles[property]
 		}
 		if (property === 'flex-reverse') {
-			flexReverse = keyValueStyles[property]
+			flexReverse = true
 		}
 		if (property === 'mix-blend-mode') {
 			// this is a fix for : if flex-reverse is set and no direction, mix blend css was dissapearing
@@ -242,7 +242,7 @@ export function compileStyleTabs (styleValues) {
 		'align-items': (value) => {
 			let todelete = /flex-/gi
 			let cleanValue = value.replace(todelete, '')
-			return `-webkit-box-align: ${cleanValue}; -ms-flex-align: ${cleanValue}; align-items:${value};`
+			return `-webkit-box-align: ${cleanValue}; -ms-flex-align: ${cleanValue}; align-items: ${value};`
 		},
 		'justify-content': (value) => {
 			if (value === 'space-around') {
@@ -266,17 +266,17 @@ export function compileStyleTabs (styleValues) {
 			} else {
 				let todelete = /flex-/gi
 				let cleanValue = value.replace(todelete, '')
-				return `-ms-flex-line-pack:${cleanValue}; align-content: ${value};`
+				return `-ms-flex-line-pack: ${cleanValue}; align-content: ${value};`
 			}
 		},
 		'flex-grow': (value) => {
 			return `-webkit-box-flex: ${value}; -ms-flex-positive: ${value}; flex-grow: ${value};`
 		},
 		'flex-shrink': (value) => {
-			return `-ms-flex-negative: ${value};flex-shrink:${value};`
+			return `-ms-flex-negative: ${value};flex-shrink: ${value};`
 		},
 		'flex-basis': (value) => {
-			return `-ms-flex-preferred-size: ${value}; flex-basis:${value};`
+			return `-ms-flex-preferred-size: ${value}; flex-basis: ${value};`
 		},
 		'align-self': (value) => {
 			let todelete = /flex-/gi

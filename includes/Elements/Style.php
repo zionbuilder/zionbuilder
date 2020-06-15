@@ -150,14 +150,97 @@ class Style {
 		$text_decoration_value   = [];
 		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
 		$compiled_filter         = '';
+		$flex_direction          = '';
+		$flex_reverse            = false;
+
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
+
 				case in_array( $attribute, $filter_properties, true ):
 					if ( $attribute === 'hue-rotate' ) {
 						$compiled_filter .= sprintf( '%s(%sdeg) ', $attribute, $value );
 					} else {
 						$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
 					}
+					break;
+				case 'flex-reverse':
+					$flex_reverse = true;
+					break;
+
+				case 'flex-direction':
+					if ( $flex_reverse ) {
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: %s; flex-direction: %s;', $value ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction:  %s; flex-direction: %s;', $value );
+					} else {
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row reverse; flex-direction: row reverse; ' ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column reverse; flex-direction: column reverse;' );
+					}
+
+					break;
+
+				case 'order':
+					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					break;
+
+				case 'custom-order':
+					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					break;
+
+				case 'align-items':
+					$todelete      = 'flex-';
+					$clean_value   = str_replace( $todelete, '', $value );
+					$compiled_css .= sprintf( '-webkit-box-align: %s; -ms-flex-align: %s; align-items: %s;', $clean_value, $clean_value, $value );
+					break;
+
+				case 'justify-content':
+					if ( $value === 'space-around' ) {
+						$compiled_css .= sprintf( '-ms-flex-pack: distribute; justify-content: space-around;' );
+					} else {
+						if ( $value === 'space-between' ) {
+							$compiled_css .= sprintf( '-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;' );
+						} else {
+							$todelete      = 'flex-';
+							$clean_value   = str_replace( $todelete, '', $value );
+							$compiled_css .= sprintf( '-webkit-box-pack:  %s; -ms-flex-pack:  %s; justify-content:  %s;', $clean_value, $clean_value, $value );
+						}
+					}
+
+					break;
+
+				case 'flex-wrap':
+					$compiled_css .= sprintf( '-ms-flex-wrap: %s; flex-wrap: %s;', $value, $value );
+					break;
+
+				case 'align-content':
+					switch ( $value ) {
+						case 'space-around':
+							$compiled_css .= sprintf( '-ms-flex-line-pack: distribute; align-content: space-around;' );
+							break;
+						case 'space-between':
+							$compiled_css .= sprintf( '-ms-flex-line-pack: justify; align-content: space-between;' );
+							break;
+						default:
+							$todelete      = 'flex-';
+							$clean_value   = str_replace( $todelete, '', $value );
+							$compiled_css .= sprintf( '-ms-flex-line-pack: %s; align-content: %s;', $clean_value, $value );
+							break;
+					}
+					break;
+
+				case 'flex-grow':
+					$compiled_css .= sprintf( '-webkit-box-flex: %s; -ms-flex-positive: %s; flex-grow: %s;', $value, $value, $value );
+					break;
+
+				case 'flex-shrink':
+					$compiled_css .= sprintf( '-ms-flex-negative: %s; flex-shrink: %s;', $value, $value );
+					break;
+
+				case 'flex-basis':
+					$compiled_css .= sprintf( '-ms-flex-preferred-size: %s; flex-basis: %s;', $value, $value );
+					break;
+
+				case 'align-self':
+					$todelete      = 'flex-';
+					$clean_value   = str_replace( $todelete, '', $value );
+					$compiled_css .= sprintf( '-ms-flex-item-align: %s; align-self: %s;', $clean_value, $value );
 					break;
 
 				case 'perspective':
@@ -251,6 +334,14 @@ class Style {
 					if ( ! empty( $value ) && ! is_array( $value ) ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					}
+					break;
+			}
+			switch ( $value ) {
+				case 'flex':
+					$compiled_css .= sprintf( 'display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex;' );
+					break;
+				case 'inline-flex':
+					$compiled_css .= sprintf( 'display: -webkit-inline-box; display: -ms-inline-flexbox;' );
 					break;
 			}
 		}
