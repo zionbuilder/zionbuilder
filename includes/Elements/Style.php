@@ -148,9 +148,18 @@ class Style {
 		$background_position_y   = false;
 		$background_image_config = [];
 		$text_decoration_value   = [];
-
+		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
+		$compiled_filter         = '';
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
+				case in_array( $attribute, $filter_properties, true ):
+					if ( $attribute === 'hue-rotate' ) {
+						$compiled_filter .= sprintf( '%s(%sdeg) ', $attribute, $value );
+					} else {
+						$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
+					}
+					break;
+
 				case 'perspective':
 					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
 					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
@@ -245,7 +254,11 @@ class Style {
 					break;
 			}
 		}
-
+		// Filters
+		if ( ! empty( $compiled_filter ) ) {
+			$compiled_css .= sprintf( '-webkit-filter: %s;', $compiled_filter );
+			$compiled_css .= sprintf( 'filter: %s;', $compiled_filter );
+		}
 		// Background image
 		if ( ! empty( $background_image_config ) ) {
 			sort( $background_image_config );
