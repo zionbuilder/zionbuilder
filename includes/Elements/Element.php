@@ -156,12 +156,15 @@ class Element {
 				$this->options->set_model( $data['options'] );
 			}
 
+			//Set model
+			$model = isset( $data['options'] ) ? $data['options'] : [];
+
 			// Setup helpers
 			$this->render_attributes = new RenderAttributes();
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 
 			// loops through the options model and schema to set the proper model
-			$this->options->parse_data( $this->render_attributes, $this->custom_css );
+			$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
 
 			// Setup render tags custom css classes
 			$this->apply_custom_classes_to_render_tags();
@@ -866,7 +869,7 @@ class Element {
 	/**
 	 * Undocumented function
 	 *
-	 * @param string               $style_id
+	 * @param string             $style_id
 	 * @param array<int, string> $extra_classes
 	 *
 	 * @return string
