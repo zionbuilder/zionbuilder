@@ -119,7 +119,7 @@ const actions = {
 		commit(types.SET_LOADING_STATE, true)
 		return new Promise((resolve, reject) => {
 			saveOptions(state.options)
-				.then((response) => {})
+				.then((response) => { })
 				.catch(function (error) {
 					reject(error)
 				})
@@ -165,14 +165,24 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	// Gradients
-	updateLocalGradients: ({ commit, dispatch }, payload) => {
+	updateLocalGradients: ({ commit }, payload) => {
 		commit(types.UPDATE_LOCAL_GRADIENTS, payload)
 	},
-	addLocalGradient: ({ commit, dispatch }, payload) => {
+	updateGlobalGradients: ({ commit }, payload) => {
+		commit(types.UPDATE_GLOBAL_GRADIENTS, payload)
+	},
+	addLocalGradient: ({ commit }, payload) => {
 		commit(types.ADD_LOCAL_GRADIENT, payload)
+	},
+	addGlobalGradient: ({ commit }, payload) => {
+		commit(types.ADD_GLOBAL_GRADIENT, payload)
 	},
 	deleteLocalGradient: ({ commit, dispatch }, payload) => {
 		commit(types.DELETE_LOCAL_GRADIENT, payload)
+		dispatch('saveOptions')
+	},
+	deleteGlobalGradient: ({ commit, dispatch }, payload) => {
+		commit(types.DELETE_GLOBAL_GRADIENT, payload)
 		dispatch('saveOptions')
 	},
 	// user permissions
@@ -269,12 +279,20 @@ const mutations = {
 	[types.UPDATE_LOCAL_GRADIENTS] (state, payload) {
 		state.options.local_gradients = payload
 	},
-
+	[types.UPDATE_GLOBAL_GRADIENTS] (state, payload) {
+		state.options.global_gradients = payload
+	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
 		state.options.local_gradients.push(payload)
 	},
+	[types.ADD_GLOBAL_GRADIENT] (state, payload) {
+		state.options.global_gradients.push(payload)
+	},
 	[types.DELETE_LOCAL_GRADIENT] (state, payload) {
 		state.options.local_gradients.splice(payload, 1)
+	},
+	[types.DELETE_GLOBAL_GRADIENT] (state, payload) {
+		state.options.global_gradients.splice(payload, 1)
 	},
 	// user roles
 	[types.EDIT_USER_ROLE] (state, { role, value }) {
