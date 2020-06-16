@@ -46,6 +46,10 @@ export default {
 			default: true
 		}
 	},
+	components: {
+		HasChanges,
+		ZionLabel
+	},
 	props: {
 		child_options: {
 			type: Object,
@@ -92,10 +96,6 @@ export default {
 			showBreadcrumbs: this.parentAccordion === null,
 			expanded: false
 		}
-	},
-	components: {
-		HasChanges,
-		ZionLabel
 	},
 	methods: {
 		onAccordionExpanded () {
