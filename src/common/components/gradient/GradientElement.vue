@@ -1,7 +1,8 @@
 <template>
 	<div
 		class="znpb-gradient-element"
-		:class="{'znpb-gradient-element--active': isActive}">
+		:class="{'znpb-gradient-element--active': isActive}"
+	>
 		<OneGradient
 			:round="true"
 			:config="localConfig"
@@ -10,7 +11,7 @@
 		<BaseIcon
 			icon="close"
 			v-if="showRemove"
-			@click.native="$emit('delete-gradient')"
+			@click.native.stop="$emit('delete-gradient')"
 		/>
 	</div>
 

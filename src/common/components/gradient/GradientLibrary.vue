@@ -1,5 +1,9 @@
 <template>
-	<LibraryElement :animation='false' icon="close" @close-library="$emit('close-library')">
+	<LibraryElement
+		:animation='false'
+		icon="close"
+		@close-library="$emit('close-library')"
+	>
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
 				<div class=" znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
@@ -13,25 +17,25 @@
 				</div>
 			</Tab>
 			<Tab name="Global">
-					<div
-						class="znpb-colorpicker-global-wrapper--pro"
-						v-if="!isPro"
-					>
-						Global colors are available in
-						<Label
+				<div
+					class="znpb-colorpicker-global-wrapper--pro"
+					v-if="!isPro"
+				>
 
-							text="PRO"
-							type="pro"
-						/>
-					</div>
+					{{$translate('global_colors_availability')}}
+					<Label
+						:text="$translate('pro')"
+						type="pro"
+					/>
+				</div>
 				<template v-else>
 					<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
 						<GradientPreview
 							v-for="(gradient,i) in getGlobalGradients"
 							v-bind:key="i"
-							:config="gradient"
+							:config="gradient.config"
 							:round="true"
-							@click.native="$emit('activate-gradient',gradient)"
+							@click.native="$emit('activate-gradient',gradient.config)"
 						/>
 					</div>
 				</template>
@@ -76,6 +80,7 @@ export default {
 			'getGlobalGradients',
 			'isPro'
 		])
+
 	},
 	methods: {
 		...mapActions([
@@ -95,5 +100,4 @@ export default {
 		margin-bottom: 0;
 	}
 }
-
 </style>

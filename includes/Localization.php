@@ -172,6 +172,7 @@ class Localization {
 			'gradient_angle'                         => esc_html__( 'Gradient angle', 'zionbuilder' ),
 			'gradient_bar'                           => esc_html__( 'Gradient bar', 'zionbuilder' ),
 			'click_to_add_gradient_point'            => esc_html__( 'Click to add gradient point', 'zionbuilder' ),
+			'global_colors_availability'             => esc_html__( 'Global colors are available in', 'zionbuilder' ),
 			// System info
 			'copy_paste'                             => esc_html__( 'Copy and paste info', 'zionbuilder' ),
 			'copy_paste_description'                 => esc_html__( 'You can copy the below info as simple text with Ctrl+C / Ctrl+V:', 'zionbuilder' ),
