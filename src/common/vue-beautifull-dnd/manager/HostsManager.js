@@ -21,7 +21,7 @@ export default () => {
 
 		// Fetch new hosts
 		const DOMIframes = document.querySelectorAll('iframe')
-		// console.log(DOMIframes)
+
 		DOMIframes.forEach((iframe) => {
 			if (iframe.contentDocument) {
 				hosts.push(iframe.contentDocument)

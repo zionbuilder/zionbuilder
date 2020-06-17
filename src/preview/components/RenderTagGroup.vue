@@ -33,7 +33,6 @@ export default {
 				return
 			}
 
-			// console.log({ currentTagId })
 			// Check to see if we have tags associated to this tagId
 			if (typeof renderAttributes[currentTagId] !== 'undefined') {
 				const { class: cssClasses, ...remainingAttributes } = renderAttributes[currentTagId]

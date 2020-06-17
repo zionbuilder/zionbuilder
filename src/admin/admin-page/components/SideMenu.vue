@@ -47,11 +47,7 @@ export default {
 		Label
 	},
 	methods: {
-		isActive (path, a) {
-			if (a) {
-				// console.log(this.$router.currentRoute.path)
-				// console.log(path)
-			}
+		isActive (path) {
 			return this.$router.currentRoute.path.indexOf(path) !== -1
 		}
 	}

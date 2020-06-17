@@ -238,7 +238,6 @@ export default {
 				return this.getOpenedPanels
 			},
 			set (newOrder) {
-				console.log(newOrder)
 				this.savePanelsOrder(newOrder)
 			}
 		},

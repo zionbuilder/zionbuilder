@@ -27,9 +27,6 @@ export default {
 			required: false
 		}
 	},
-	mounted () {
-		// console.log(this.menuItem)
-	},
 	computed: {
 		isActive () {
 			const routerPath = this.$route.path

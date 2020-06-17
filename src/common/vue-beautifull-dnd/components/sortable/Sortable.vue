@@ -574,7 +574,6 @@ export default {
 					if (this.value !== null) {
 						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
 						if (from === to && startIndex !== newIndex) {
-							// console.log(placeBefore, startIndex, newIndex)
 							this.updatePositionInList(startIndex, modifiedNewIndex)
 						} else if (from !== to) {
 							const item = this.value[startIndex]
@@ -747,7 +746,6 @@ export default {
 			// Calculate offset in case of iframes
 			if (document !== currentDocument) {
 				offset = memoizedGetOffset(currentDocument)
-				// console.log(offset)
 			}
 
 			// Calculate moves
