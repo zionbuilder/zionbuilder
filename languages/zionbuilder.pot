@@ -12,11 +12,11 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:50, ../includes/AdminBar.php:53, ../includes/Admin/Admin.php:239
+#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:239
 msgid "Edit with Zion builder"
 msgstr ""
 
-#: ../includes/FileSystem.php:43
+#: ../includes/FileSystem.php:56
 msgid "The zip file could not be extracted!"
 msgstr ""
 
@@ -1818,7 +1818,7 @@ msgstr ""
 msgid "Could not retrieve the image src for given image id"
 msgstr ""
 
-#: ../includes/WPMedia.php:306
+#: ../includes/WPMedia.php:304
 msgid "The image could not be retrieved"
 msgstr ""
 
@@ -1839,11 +1839,11 @@ msgid "Edit with Zion Page Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:258
+#: ../includes/Editor/Editor.php:268
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:464
+#: ../includes/Elements/Element.php:466
 msgid "Wrapper"
 msgstr ""
 
@@ -1887,7 +1887,7 @@ msgstr ""
 msgid "Zion Page Builder Blank Canvas"
 msgstr ""
 
-#: ../includes/Post/BasePostType.php:507
+#: ../includes/Post/BasePostType.php:512
 msgid "Cannot create autosave for post"
 msgstr ""
 
