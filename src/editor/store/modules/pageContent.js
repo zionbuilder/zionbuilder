@@ -266,7 +266,7 @@ const actions = {
 			const currentTime = new Date()
 			dispatch('addToHistory', {
 				name: 'Moved elements',
-				time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+				time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 				state: state
 			})
 		}, 100)
@@ -286,7 +286,7 @@ const actions = {
 		const currentTime = new Date()
 		dispatch('addToHistory', {
 			name: `Renamed ${elementSavedName} to ${elementName}`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
@@ -306,7 +306,7 @@ const actions = {
 			const currentTime = new Date()
 			dispatch('addToHistory', {
 				name: `Updated ${elementName} ${type}`,
-				time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+				time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 				state: state
 			})
 		}
@@ -319,7 +319,7 @@ const actions = {
 				const action = newValue ? 'Shown' : 'Hidden'
 				dispatch('addToHistory', {
 					name: `${action} ${elementSavedName}`,
-					time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+					time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 					state: state
 				})
 			}
@@ -355,7 +355,7 @@ const actions = {
 		// const currentTime = new Date()
 		// dispatch('addToHistory', {
 		// 	name: `Updated ${elementName} ${type}`,
-		// 	time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+		// 	time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 		// 	state: state
 		// })
 	},
@@ -394,7 +394,7 @@ const actions = {
 		const currentTime = new Date()
 		dispatch('addToHistory', {
 			name: `Cloned ${elementSavedName}`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
@@ -416,7 +416,7 @@ const actions = {
 		const elementSavedName = getters.getElementName(elementUid)
 		dispatch('addToHistory', {
 			name: `Moved ${elementSavedName}`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
@@ -439,7 +439,7 @@ const actions = {
 		const currentTime = new Date()
 		dispatch('addToHistory', {
 			name: `Added columns layout`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
@@ -467,7 +467,7 @@ const actions = {
 		const currentTime = new Date()
 		dispatch('addToHistory', {
 			name: `Added ${elementTypeConfig.name} element`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
@@ -496,7 +496,7 @@ const actions = {
 		const currentTime = new Date()
 		dispatch('addToHistory', {
 			name: `Deleted ${elementSavedName}`,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
 	},
