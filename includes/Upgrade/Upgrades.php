@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Updater
  *
  * @since 1.0.1
+ *
  * @package ZionBuilder
  */
 class Upgrades {
@@ -19,7 +20,7 @@ class Upgrades {
 	 *
 	 * @return void
 	 */
-	public static function upgrade_v_1_0_1_uadate_editor_status_meta() {
+	public static function upgrade_v_1_0_1_update_editor_status_meta() {
 		global $wpdb;
 
 		$wpdb->query(
@@ -31,7 +32,6 @@ class Upgrades {
 					meta1.meta_key = '_zionbuilder_page_status'
 				WHERE meta1.meta_key = '_zn_zion_builder_status'
 				AND meta2.meta_key = '_zn_page_builder_els'
-				AND JSON_VALID(meta2.meta_value) = 1
 			"
 		);
 	}
@@ -41,7 +41,7 @@ class Upgrades {
 	 *
 	 * @return void
 	 */
-	public static function upgrade_v_1_0_1_uadate_editor_elements_meta() {
+	public static function upgrade_v_1_0_1_update_editor_elements_meta() {
 		global $wpdb;
 
 		$wpdb->query(
@@ -52,7 +52,6 @@ class Upgrades {
 				SET
 					meta1.meta_key = '_zionbuilder_page_elements'
 				WHERE meta1.meta_key = '_zn_page_builder_els'
-				AND JSON_VALID(meta2.meta_value) = 1
 			"
 		);
 	}
