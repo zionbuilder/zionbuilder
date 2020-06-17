@@ -6,14 +6,17 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 
+	-webkit-overflow-scrolling: touch;
+
 	.znpb-fancy-scrollbar &::-webkit-scrollbar-thumb {
+		display: block;
 		background: transparent;
 	}
 }
 
 /* Track */
 .znpb-fancy-scrollbar::-webkit-scrollbar-track {
-	// background: $surface-variant;
+	display: block;
 	background: transparent;
 }
 
