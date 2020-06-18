@@ -372,5 +372,20 @@ svg:not(:root).icon {
 	&.zion-zion-icon-logo {
 		transform: scale(-1, 1);
 	}
+	&.zion-element-countdown {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-social-share {
+		path:first-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-search-form {
+		path:nth-child(2) {
+			opacity: .5;
+		}
+	}
 }
 </style>
