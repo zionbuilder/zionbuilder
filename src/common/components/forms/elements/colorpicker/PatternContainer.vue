@@ -83,6 +83,7 @@ export default {
 		PresetInput,
 		Label
 	},
+	inject: ['inputWrapper', 'optionsForm'],
 	props: {
 		model: {
 			type: [String, Object],
@@ -137,13 +138,13 @@ export default {
 			this.addGlobalColor(globalColor)
 		},
 		onGlobalColorSelected (colorConfig) {
-			this.$emit('color-updated', {
-				value: colorConfig.color,
-				dynamic_data: {
-					type: 'global-color',
-					options: {
-						color_id: colorConfig.id
-					}
+			const { id } = this.inputWrapper.schema
+
+			// this.$emit('color-updated', colorConfig.color)
+			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+				type: 'global-color',
+				options: {
+					color_id: colorConfig.id
 				}
 			})
 		}

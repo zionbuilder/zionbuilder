@@ -173,6 +173,7 @@ class Options extends Stack {
 	public function parse_data( $model, RenderAttributes $render_attributes = null, CustomCSS $custom_css = null ) {
 		$this->render_attributes = $render_attributes;
 		$this->custom_css        = $custom_css;
+		$model                   = apply_filters( 'zionbuilder/options/model_parse', $model );
 		$this->model             = $this->setup_model( $this->get_schema(), $model );
 	}
 
@@ -189,7 +190,7 @@ class Options extends Stack {
 	 *
 	 * @return array<string, mixed> The saved values
 	 */
-	public function setup_model( $schema, &$model, $index = null ) {
+	public function setup_model( $schema, $model, $index = null ) {
 		foreach ( $schema as $option_id => $option_schema ) {
 			$passed_dependency = $this->check_dependency( $option_schema, $model );
 
@@ -201,7 +202,7 @@ class Options extends Stack {
 			// Group options don't store the value so we need to look at childs
 			if ( isset( $option_schema->is_layout ) && $option_schema->is_layout ) {
 				if ( isset( $option_schema->child_options ) ) {
-					$this->setup_model( $option_schema->child_options, $model );
+					$model = $this->setup_model( $option_schema->child_options, $model );
 				}
 			} else {
 				// Set the option value to model with fallback to default
@@ -224,14 +225,14 @@ class Options extends Stack {
 				if ( isset( $option_schema->child_options ) ) {
 					if ( $option_schema->type === 'repeater' ) {
 						if ( ! empty( $model[$option_id] ) && is_array( $model[$option_id] ) ) {
-							foreach ( $model[$option_id] as $index => &$option_value ) {
-								$index = (int) $index;
-								$this->setup_model( $option_schema->child_options, $option_value, $index );
+							foreach ( $model[$option_id] as $index => $option_value ) {
+								$index                     = (int) $index;
+								$model[$option_id][$index] = $this->setup_model( $option_schema->child_options, $option_value, $index );
 							}
 						}
 					} else {
-						$saved_value = isset( $model[$option_id] ) ? $model[$option_id] : [];
-						$this->setup_model( $option_schema->child_options, $saved_value );
+						$saved_value       = isset( $model[$option_id] ) ? $model[$option_id] : [];
+						$model[$option_id] = $this->setup_model( $option_schema->child_options, $saved_value );
 
 						if ( ! empty( $saved_value ) ) {
 							$model[$option_id] = $saved_value;
@@ -241,7 +242,7 @@ class Options extends Stack {
 			}
 		}
 
-		return apply_filters( 'zionbuilder/options/model_parse', $schema, $model, $index );
+		return $model;
 	}
 
 	/**

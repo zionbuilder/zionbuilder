@@ -1847,7 +1847,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:466
+#: ../includes/Elements/Element.php:462
 msgid "Wrapper"
 msgstr ""
 

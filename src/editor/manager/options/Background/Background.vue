@@ -10,10 +10,12 @@
 				slot="title"
 			/>
 
-			<BackgroundColor
-				:value="valueModel['background-color']"
-				@input="onOptionUpdate('background-color', $event)"
-			/>
+			<FakeInputWrapper :schema="bgColorSchema">
+				<BackgroundColor
+					:value="valueModel['background-color']"
+					@input="onOptionUpdate('background-color', $event)"
+				/>
+			</FakeInputWrapper>
 		</Tab>
 		<Tab name="background-gradient">
 			<BaseIcon
@@ -58,6 +60,7 @@ import { mapGetters } from 'vuex'
 import BackgroundColor from './BackgroundColor.vue'
 import { InputBackgroundImage, InputBackgroundVideo } from '@/common/components/forms'
 import BackgroundGradient from './BackgroundGradient'
+import FakeInputWrapper from '../FakeInputWrapper'
 
 export default {
 	name: 'Background',
@@ -65,7 +68,8 @@ export default {
 		BackgroundColor,
 		InputBackgroundImage,
 		BackgroundGradient,
-		InputBackgroundVideo
+		InputBackgroundVideo,
+		FakeInputWrapper
 	},
 	inject: {
 		panel: {
@@ -74,6 +78,13 @@ export default {
 	},
 	props: {
 		value: {}
+	},
+	data () {
+		return {
+			bgColorSchema: {
+				id: 'background-color'
+			}
+		}
 	},
 	computed: {
 		...mapGetters([

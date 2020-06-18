@@ -152,10 +152,6 @@ class Element {
 				$this->content = $data['content'];
 			}
 
-			if ( isset( $data['options'] ) ) {
-				$this->options->set_model( $data['options'] );
-			}
-
 			//Set model
 			$model = isset( $data['options'] ) ? $data['options'] : [];
 
