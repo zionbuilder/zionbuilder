@@ -94,6 +94,9 @@ class ProgressBars extends Element {
 				'type'        => 'text',
 				'title'       => esc_html__( 'Title', 'zionbuilder' ),
 				'description' => esc_html__( 'Set the desired bar title', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -339,5 +342,4 @@ class ProgressBars extends Element {
 
 		return ob_get_clean();
 	}
-
 }

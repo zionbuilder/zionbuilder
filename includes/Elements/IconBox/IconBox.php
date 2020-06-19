@@ -143,6 +143,9 @@ class IconBox extends Element {
 				'description' => esc_html__( 'Set the desired title.' ),
 				'title'       => esc_html__( 'Title', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample title.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -284,7 +287,7 @@ class IconBox extends Element {
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
+				$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
 				?>
 			</div>
 			<?php
@@ -305,5 +308,4 @@ class IconBox extends Element {
 		</div>
 		<?php
 	}
-
 }

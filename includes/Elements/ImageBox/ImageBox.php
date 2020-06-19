@@ -154,6 +154,9 @@ class ImageBox extends Element {
 				'description' => esc_html__( 'Set the desired title.', 'zionbuilder' ),
 				'title'       => esc_html__( 'Image box title', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample title.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -163,6 +166,9 @@ class ImageBox extends Element {
 				'type'    => 'editor',
 				'title'   => esc_html__( 'Description text', 'zionbuilder' ),
 				'default' => sprintf( '<p>%s</p>', __( 'Just a sample text from heading element.', 'zionbuilder' ) ),
+				'dynamic' => [
+					'enabled' => true,
+				],
 			]
 		);
 
