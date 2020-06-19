@@ -25,6 +25,7 @@ import Dimensions from './Dimensions'
 // Forms component
 import {
 	BaseInput,
+	InputDate,
 	ColorPicker,
 	CustomSelector,
 	InputSelect,
@@ -48,7 +49,7 @@ import {
 } from '@/common/components/forms'
 
 class OptionsManager {
-	constructor () {
+	constructor() {
 		this.options = {}
 
 		// Register default dynamic options
@@ -207,6 +208,11 @@ class OptionsManager {
 		this.registerOption({
 			id: 'icon_library',
 			component: IconLibrary
+		})
+
+		this.registerOption({
+			id: 'date_input',
+			component: InputDate
 		})
 
 		// register custom options
