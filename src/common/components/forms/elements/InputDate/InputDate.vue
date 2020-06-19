@@ -1,25 +1,34 @@
 <template>
-	<div class="znpb-input-date">
-		<date-pick v-model="valueModel">
 
-			<template v-slot:default="{toggle, inputValue}">
-				<BaseInput
-					v-model="valueModel"
-					class="znpb-input-number__input"
-					v-bind="$attrs"
-					@keydown.native="toggle"
-					@mouseup.native="toggle"
-				>
-				</BaseInput>
-			</template>
-		</date-pick>
-	</div>
+	<date-pick
+		v-model="valueModel"
+		class="znpb-input-date"
+		:next-month-caption="$translate('next_month')"
+		:previous-month-caption="$translate('previous_month')"
+		:set-time-caption="$translate('set_time')"
+		:weekdays="weekdaysStrings"
+		:months="monthsStrings"
+	>
+
+		<template v-slot:default="{toggle}">
+			<BaseInput
+				v-model="valueModel"
+				:readonly="true"
+				class="znpb-input-number__input"
+				v-bind="$attrs"
+				@keydown.native="toggle"
+				@mouseup.native="toggle"
+			>
+			</BaseInput>
+		</template>
+	</date-pick>
+
 </template>
 
 <script>
 import DatePick from 'vue-date-pick'
 import BaseInput from '../input/BaseInput'
-import 'vue-date-pick/dist/vueDatePick.css'
+
 /**
  *   model - string
  */
@@ -39,7 +48,31 @@ export default {
 		}
 	},
 	data () {
-		return {}
+		return {
+			weekdaysStrings: [
+				this.$translate('monday'),
+				this.$translate('tuesday'),
+				this.$translate('wednesday'),
+				this.$translate('thursday'),
+				this.$translate('friday'),
+				this.$translate('saturday'),
+				this.$translate('sunday')
+			],
+			monthsStrings: [
+				this.$translate('jan'),
+				this.$translate('feb'),
+				this.$translate('mar'),
+				this.$translate('apr'),
+				this.$translate('may'),
+				this.$translate('jun'),
+				this.$translate('jul'),
+				this.$translate('aug'),
+				this.$translate('sep'),
+				this.$translate('oct'),
+				this.$translate('nov'),
+				this.$translate('dec')
+			]
+		}
 	},
 	computed: {
 		valueModel: {
@@ -59,4 +92,6 @@ export default {
 }
 </script>
 <style lang="scss">
+$vdpColor: $secondary;
+@import "vue-date-pick/src/vueDatePick.scss";
 </style>
