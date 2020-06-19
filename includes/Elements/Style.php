@@ -158,19 +158,28 @@ class Style {
 		$text_decoration_value   = [];
 		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
 		$compiled_filter         = '';
-		$flex_direction          = '';
 		$flex_reverse            = false;
 
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
 
 				case in_array( $attribute, $filter_properties, true ):
-					if ( $attribute === 'hue-rotate' ) {
-						$compiled_filter .= sprintf( '%s(%sdeg) ', $attribute, $value );
-					} else {
-						$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
+					switch ( $attribute ) {
+						case 'hue-rotate':
+							$compiled_filter .= sprintf( '%s(%sdeg) ', $attribute, $value );
+							break;
+
+						case 'blur':
+							$compiled_filter .= sprintf( '%s(%spx) ', $attribute, $value );
+							break;
+
+						default:
+							$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
+							break;
+
 					}
 					break;
+
 				case 'flex-reverse':
 					$flex_reverse = true;
 					break;
