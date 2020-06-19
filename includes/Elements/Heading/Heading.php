@@ -76,6 +76,9 @@ class Heading extends Element {
 				'description' => 'This is the element content',
 				'title'       => __( 'Content', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample text from heading element.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
