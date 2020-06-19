@@ -294,6 +294,8 @@ export function compileStyleTabs (styleValues) {
 			if (filterProperties.includes(property)) {
 				if (property === 'hue-rotate') {
 					filtersGroup += (`${property}(${value}deg) `)
+				} else if (property === 'blur') {
+					filtersGroup += (`${property}(${value}px) `)
 				} else filtersGroup += (`${property}(${value}%) `)
 			}
 
