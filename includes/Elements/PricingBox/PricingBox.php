@@ -75,6 +75,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Plan title', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Basic', 'zionbuilder' ),
 				'default'     => esc_html__( 'Basic', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -85,6 +88,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Plan description', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Pricing box description', 'zionbuilder' ),
 				'default'     => esc_html__( 'Price box description', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -151,6 +157,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Features', 'zionbuilder' ),
 				'description' => __( 'Please add each feature on a new line', 'zionbuilder' ),
 				'default'     => __( '<p>20+ Proactively</p><p>facilitate 150+ Alternative</p><p>Vectors quality</p><p>Strategic themes</p><p>Brand</p><p>Intellectual capital</p><p>Proactive applications</p>', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -162,6 +171,9 @@ class PricingBox extends Element {
 				'description' => esc_html__( 'Set the desired text for the button.', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Button text', 'zionbuilder' ),
 				'default'     => esc_html__( 'Select this plan', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 

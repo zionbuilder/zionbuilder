@@ -189,6 +189,9 @@ class IconList extends Element {
 				'description' => esc_html__( 'Set the desired content for this element', 'zionbuilder' ),
 				'title'       => esc_html__( 'Content', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Enter item text', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
