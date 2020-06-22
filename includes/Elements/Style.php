@@ -157,6 +157,10 @@ class Style {
 		$background_image_config = [];
 		$text_decoration_value   = [];
 		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
+		$transform_origin        = [ 'transform_origin_x_axis', 'transform_origin_y_axis', 'transform_origin_z_axis' ];
+		$transform_origin_x      = '50%';
+		$transform_origin_y      = '50%';
+		$transform_origin_z      = '';
 		$compiled_filter         = '';
 		$flex_reverse            = false;
 
@@ -175,6 +179,23 @@ class Style {
 
 						default:
 							$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
+							break;
+
+					}
+					break;
+
+				case in_array( $attribute, $transform_origin, true ):
+					switch ( $attribute ) {
+						case 'transform_origin_x_axis':
+							$transform_origin_x = $value;
+							break;
+
+						case 'transform_origin_y_axis':
+							$transform_origin_y = $value;
+							break;
+
+						case 'transform_origin_z_axis':
+							$transform_origin_z = $value;
 							break;
 
 					}
@@ -362,6 +383,13 @@ class Style {
 					break;
 			}
 		}
+
+		// Transform origin
+		if ( empty( $transform_origin_x ) || empty( $transform_origin_y ) || empty( $transform_origin_z ) ) {
+			$compiled_css .= sprintf( '-webkit-transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+			$compiled_css .= sprintf( 'transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+		}
+
 		// Filters
 		if ( ! empty( $compiled_filter ) ) {
 			$compiled_css .= sprintf( '-webkit-filter: %s;', $compiled_filter );

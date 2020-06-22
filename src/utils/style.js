@@ -198,6 +198,7 @@ export function compileStyleTabs (styleValues) {
 	]
 
 	let filtersGroup = ''
+	let transformGroup = {}
 	let flexDirection = ''
 	let flexReverse = false
 	let customOrder = false
@@ -222,6 +223,15 @@ export function compileStyleTabs (styleValues) {
 				hasPerspective = true
 				combineStyles += `-webkit-${property}: ${keyValueStyles[property]}; ${property}: ${keyValueStyles[property]};`
 			}
+		}
+		if (property === 'transform_origin_x_axis') {
+			transformGroup['x'] = `${keyValueStyles[property]}`
+		}
+		if (property === 'transform_origin_y_axis') {
+			transformGroup['y'] = `${keyValueStyles[property]}`
+		}
+		if (property === 'transform_origin_z_axis') {
+			transformGroup['z'] = `${keyValueStyles[property]}`
 		}
 	})
 
@@ -302,7 +312,7 @@ export function compileStyleTabs (styleValues) {
 			if (renderSpecialPrefix[property] !== undefined) {
 				combineStyles += renderSpecialPrefix[property](value)
 			} else {
-				combineStyles += (flexReverse || filtersGroup.length || customOrder || flexDirection.length || hasPerspective) ? '' : `${property}: ${value};`
+				combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective) ? '' : `${property}: ${value};`
 			}
 
 			if (value === 'flex') {
@@ -315,7 +325,13 @@ export function compileStyleTabs (styleValues) {
 	})
 	if (filtersGroup.length) {
 		combineStyles += `-webkit-filter: ${filtersGroup};filter: ${filtersGroup};`
-		combineStyles += `filter: ${filtersGroup};`
+	}
+
+	if (transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined) {
+		let xAxis = transformGroup['x'] !== undefined ? transformGroup['x'] : '50%'
+		let yAxis = transformGroup['y'] !== undefined ? transformGroup['y'] : '50%'
+		let zAxis = transformGroup['z'] !== undefined ? transformGroup['z'] : ''
+		combineStyles += `-webkit-transform-origin: ${xAxis} ${yAxis} ${zAxis}; transform-origin: ${xAxis} ${yAxis} ${zAxis};`
 	}
 
 	// Box shadow
