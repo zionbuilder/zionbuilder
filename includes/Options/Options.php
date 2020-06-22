@@ -202,7 +202,7 @@ class Options extends Stack {
 			// Group options don't store the value so we need to look at childs
 			if ( isset( $option_schema->is_layout ) && $option_schema->is_layout ) {
 				if ( isset( $option_schema->child_options ) ) {
-					$model = $this->setup_model( $option_schema->child_options, $model );
+					$model = array_merge( $model, $this->setup_model( $option_schema->child_options, $model ) );
 				}
 			} else {
 				// Set the option value to model with fallback to default
