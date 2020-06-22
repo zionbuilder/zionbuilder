@@ -157,9 +157,8 @@ class Style {
 		$background_image_config = [];
 		$text_decoration_value   = [];
 		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
-		$transform_origin        = [ 'transform_origin_x_axis', 'transform_origin_y_axis', 'transform_origin_z_axis' ];
-		$transform_origin_x      = '50%';
-		$transform_origin_y      = '50%';
+		$transform_origin_x      = '';
+		$transform_origin_y      = '';
 		$transform_origin_z      = '';
 		$compiled_filter         = '';
 		$flex_reverse            = false;
@@ -184,21 +183,16 @@ class Style {
 					}
 					break;
 
-				case in_array( $attribute, $transform_origin, true ):
-					switch ( $attribute ) {
-						case 'transform_origin_x_axis':
-							$transform_origin_x = $value;
-							break;
+				case 'transform_origin_x_axis':
+					$transform_origin_x = $value;
+					break;
 
-						case 'transform_origin_y_axis':
-							$transform_origin_y = $value;
-							break;
+				case 'transform_origin_y_axis':
+					$transform_origin_y = $value;
+					break;
 
-						case 'transform_origin_z_axis':
-							$transform_origin_z = $value;
-							break;
-
-					}
+				case 'transform_origin_z_axis':
+					$transform_origin_z = $value;
 					break;
 
 				case 'flex-reverse':
@@ -385,7 +379,7 @@ class Style {
 		}
 
 		// Transform origin
-		if ( empty( $transform_origin_x ) || empty( $transform_origin_y ) || empty( $transform_origin_z ) ) {
+		if ( ! empty( $transform_origin_x ) || ! empty( $transform_origin_y ) || ! empty( $transform_origin_z ) ) {
 			$compiled_css .= sprintf( '-webkit-transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
 			$compiled_css .= sprintf( 'transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
 		}
