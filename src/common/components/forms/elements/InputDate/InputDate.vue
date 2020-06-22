@@ -8,12 +8,15 @@
 		:set-time-caption="$translate('set_time')"
 		:weekdays="weekdaysStrings"
 		:months="monthsStrings"
+		:pick-time="pickTime"
+		:use-12-hour-clock="use12HourClock"
+		:format="format"
 	>
 
 		<template v-slot:default="{toggle}">
 			<BaseInput
 				v-model="valueModel"
-				:readonly="true"
+				:readonly="readonly"
 				class="znpb-input-number__input"
 				v-bind="$attrs"
 				@keydown.native="toggle"
@@ -45,6 +48,23 @@ export default {
 		value: {
 			type: String,
 			required: true
+		},
+		readonly: {
+			type: Boolean,
+			required: false
+		},
+		pickTime: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		format: {
+			type: String,
+			required: false
+		},
+		use12HourClock: {
+			type: Boolean,
+			required: false
 		}
 	},
 	data () {
