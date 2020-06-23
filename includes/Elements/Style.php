@@ -195,6 +195,10 @@ class Style {
 					$transform_origin_z = $value;
 					break;
 
+				case 'transform_style':
+					$compiled_css .= sprintf( '-ms-transform-style: %s; -webkit-transform-style: %s; transform-style: %s;', $value, $value, $value );
+					break;
+
 				case 'flex-reverse':
 					$flex_reverse = true;
 					break;

@@ -233,6 +233,9 @@ export function compileStyleTabs (styleValues) {
 		if (property === 'transform_origin_z_axis') {
 			transformGroup['z'] = `${keyValueStyles[property]}`
 		}
+		if (property === 'transform_style') {
+			combineStyles += `-ms-transform-style: ${keyValueStyles[property]}; -webkit-transform-style: ${keyValueStyles[property]}; transform-style: ${keyValueStyles[property]};`
+		}
 	})
 
 	const renderSpecialPrefix = {
