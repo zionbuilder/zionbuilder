@@ -150,7 +150,7 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				return this.value === undefined ? this.defaultConfig : this.value
+				return this.value === undefined || this.value === null ? this.defaultConfig : this.value
 			},
 			set (newValue) {
 				this.$emit('input', newValue)
