@@ -89,9 +89,11 @@ export function compileStyleTabs (styleValues) {
 
 	const backgroundImageConfig = []
 
+	let hasPerspective = false
 	if (transform.length) {
 		let transformStyleString = ''
 		let originStyleString = ''
+		let perspectiveOrigin = {}
 
 		transform.forEach(transformProperty => {
 			const property = transformProperty.property || 'translate'
@@ -99,6 +101,17 @@ export function compileStyleTabs (styleValues) {
 			for (const propertyName in currentPropertyValues) {
 				if (property === 'transform-origin') {
 					originStyleString += `${currentPropertyValues[propertyName]} `
+				} else if (property === 'perspective') {
+					hasPerspective = true
+					if (propertyName === 'perspective_value') {
+						perspectiveOrigin.value = `${currentPropertyValues[propertyName]}`
+					}
+					if (propertyName === 'perspective_origin_x_axis') {
+						perspectiveOrigin.x = `${currentPropertyValues[propertyName]}`
+					}
+					if (propertyName === 'perspective_origin_y_axis') {
+						perspectiveOrigin.y = `${currentPropertyValues[propertyName]}`
+					}
 				} else {
 					transformStyleString += `${propertyName}(${currentPropertyValues[propertyName]}) `
 				}
@@ -110,6 +123,15 @@ export function compileStyleTabs (styleValues) {
 
 		if (originStyleString) {
 			combineStyles += `transform-origin: ${originStyleString};`
+		}
+
+		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined || perspectiveOrigin.value !== undefined) {
+			let xAxis = perspectiveOrigin.x !== undefined ? perspectiveOrigin.x : '50%'
+			let yAxis = perspectiveOrigin.y !== undefined ? perspectiveOrigin.y : '50%'
+			if (perspectiveOrigin.value !== undefined) {
+				combineStyles += `-webkit-perspective: ${perspectiveOrigin.value}; perspective: ${perspectiveOrigin.value};`
+			}
+			combineStyles += `-webkit-perspective-origin-x: ${xAxis};-webkit-perspective-origin-y: ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
 		}
 	}
 
@@ -202,7 +224,6 @@ export function compileStyleTabs (styleValues) {
 	let flexDirection = ''
 	let flexReverse = false
 	let customOrder = false
-	let hasPerspective = false
 
 	Object.keys(keyValueStyles).forEach(property => {
 		if (property === 'flex-direction') {
@@ -217,13 +238,7 @@ export function compileStyleTabs (styleValues) {
 				combineStyles += `${property}: ${keyValueStyles[property]};`
 			}
 		}
-		if (property === 'perspective') {
-			// this is a fix for : if flex-reverse is set and no direction, perspective css was dissapearing
-			if (flexDirection.length === 0) {
-				hasPerspective = true
-				combineStyles += `-webkit-${property}: ${keyValueStyles[property]}; ${property}: ${keyValueStyles[property]};`
-			}
-		}
+
 		if (property === 'transform_origin_x_axis') {
 			transformGroup['x'] = `${keyValueStyles[property]}`
 		}
