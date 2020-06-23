@@ -279,11 +279,6 @@ class Style {
 					$compiled_css .= sprintf( '-ms-flex-item-align: %s; align-self: %s;', $clean_value, $value );
 					break;
 
-				case 'perspective':
-					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
-					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
-					break;
-
 				case 'background-gradient':
 					$gradient_config = self::compile_gradient( $value );
 					if ( ! empty( $gradient_config ) ) {
@@ -500,9 +495,15 @@ class Style {
 	 * @return string
 	 */
 	public static function compile_transform( $value ) {
-		$transform_string = '';
-		$origin_string    = '';
-		$combined_styles  = '';
+		$transform_string     = '';
+		$origin_string        = '';
+		$combined_styles      = '';
+		$perspective_value    = '';
+		$perspective_origin_x = '';
+		$perspective_origin_y = '';
+		$origin               = '';
+		$x_axis               = '';
+		$y_axis               = '';
 
 		if ( is_array( $value ) ) {
 			foreach ( $value as $transform_config ) {
@@ -513,7 +514,17 @@ class Style {
 					foreach ( $current_property_config as $property_id => $property_value ) {
 						if ( $property === 'transform-origin' ) {
 							$origin_string .= $property_value . ' ';
-						} elseif ( $property !== 'perspective' ) {
+						} elseif ( $property === 'perspective' ) {
+							if ( $property_id === 'perspective_value' ) {
+								$perspective_value .= sprintf( '%s', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_x_axis' ) {
+								$perspective_origin_x .= sprintf( '%s', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_y_axis' ) {
+								$perspective_origin_y .= sprintf( '%s', $property_value );
+							}
+						} else {
 							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
 						}
 					}
@@ -521,11 +532,22 @@ class Style {
 			}
 
 			if ( ! empty( $transform_string ) ) {
+				$combined_styles .= sprintf( '-webkit-transform: %s;', $transform_string );
 				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
+			}
+			if ( ! empty( $perspective_value ) || ! empty( $perspective_origin_x ) || ! empty( $perspective_origin_y ) ) {
+				if ( ! empty( $perspective_value ) ) {
+					$combined_styles .= sprintf( '-webkit-perspective: %s; perspective: %s;', $perspective_value, $perspective_value );
+				}
+				$x_axis .= ! empty( $perspective_origin_x ) ? $perspective_origin_x : '50%';
+				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
+
+				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
+				$combined_styles .= sprintf( '-webkit-perspective-origin-x: %s; -webkit-perspective-origin-y: %s; perspective-origin: %s;', $x_axis, $y_axis, $origin );
 			}
 
 			if ( ! empty( $origin_string ) ) {
-				$combined_styles .= sprintf( 'transform-origin: %s;', $origin_string );
+				$combined_styles .= sprintf( '-webkit-transform-origin: %s; transform-origin: %s;', $origin_string, $origin_string );
 			}
 		}
 

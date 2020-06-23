@@ -122,7 +122,7 @@ export function compileStyleTabs (styleValues) {
 		}
 
 		if (originStyleString) {
-			combineStyles += `transform-origin: ${originStyleString};`
+			combineStyles += `-webkit-transform-origin: ${originStyleString}; transform-origin: ${originStyleString};`
 		}
 
 		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined || perspectiveOrigin.value !== undefined) {
