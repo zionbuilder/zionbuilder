@@ -543,7 +543,7 @@ class Style {
 				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
 
 				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
-				$combined_styles .= sprintf( '-webkit-perspective-origin-x: %s; -webkit-perspective-origin-y: %s; perspective-origin: %s;', $x_axis, $y_axis, $origin );
+				$combined_styles .= sprintf( '-ms-perspective-origin: %s; -moz-perspective-origin: %s; -webkit-perspective-origin: %s; perspective-origin: %s;', $origin, $origin, $origin, $origin );
 			}
 
 			if ( ! empty( $origin_string ) ) {

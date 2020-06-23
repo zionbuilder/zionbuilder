@@ -131,7 +131,7 @@ export function compileStyleTabs (styleValues) {
 			if (perspectiveOrigin.value !== undefined) {
 				combineStyles += `-webkit-perspective: ${perspectiveOrigin.value}; perspective: ${perspectiveOrigin.value};`
 			}
-			combineStyles += `-webkit-perspective-origin-x: ${xAxis};-webkit-perspective-origin-y: ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
+			combineStyles += `-ms-perspective-origin: ${xAxis} ${yAxis}; -moz-perspective-origin: ${xAxis} ${yAxis}; -webkit-perspective-origin: ${xAxis} ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
 		}
 	}
 
