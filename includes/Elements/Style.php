@@ -279,6 +279,11 @@ class Style {
 					$compiled_css .= sprintf( '-ms-flex-item-align: %s; align-self: %s;', $clean_value, $value );
 					break;
 
+				case 'perspective':
+					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
+					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
+					break;
+
 				case 'background-gradient':
 					$gradient_config = self::compile_gradient( $value );
 					if ( ! empty( $gradient_config ) ) {
@@ -516,7 +521,7 @@ class Style {
 							$origin_string .= $property_value . ' ';
 						} elseif ( $property === 'perspective' ) {
 							if ( $property_id === 'perspective_value' ) {
-								$perspective_value .= sprintf( '%s', $property_value );
+								$transform_string .= sprintf( 'perspective(%s) ', $property_value );
 							}
 							if ( $property_id === 'perspective_origin_x_axis' ) {
 								$perspective_origin_x .= sprintf( '%s', $property_value );
@@ -525,7 +530,7 @@ class Style {
 								$perspective_origin_y .= sprintf( '%s', $property_value );
 							}
 						} else {
-							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
+							$transform_string .= sprintf( '%s(%s) ', $property_id, $property_value );
 						}
 					}
 				}

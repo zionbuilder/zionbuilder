@@ -89,7 +89,7 @@ export function compileStyleTabs (styleValues) {
 
 	const backgroundImageConfig = []
 
-	let hasPerspective = false
+	let hasPerspectiveValue = false
 	if (transform.length) {
 		let transformStyleString = ''
 		let originStyleString = ''
@@ -102,9 +102,9 @@ export function compileStyleTabs (styleValues) {
 				if (property === 'transform-origin') {
 					originStyleString += `${currentPropertyValues[propertyName]} `
 				} else if (property === 'perspective') {
-					hasPerspective = true
+					hasPerspectiveValue = true
 					if (propertyName === 'perspective_value') {
-						perspectiveOrigin.value = `${currentPropertyValues[propertyName]}`
+						transformStyleString += `perspective(${currentPropertyValues[propertyName]}) `
 					}
 					if (propertyName === 'perspective_origin_x_axis') {
 						perspectiveOrigin.x = `${currentPropertyValues[propertyName]}`
@@ -125,12 +125,10 @@ export function compileStyleTabs (styleValues) {
 			combineStyles += `-webkit-transform-origin: ${originStyleString}; transform-origin: ${originStyleString};`
 		}
 
-		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined || perspectiveOrigin.value !== undefined) {
+		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined) {
 			let xAxis = perspectiveOrigin.x !== undefined ? perspectiveOrigin.x : '50%'
 			let yAxis = perspectiveOrigin.y !== undefined ? perspectiveOrigin.y : '50%'
-			if (perspectiveOrigin.value !== undefined) {
-				combineStyles += `-webkit-perspective: ${perspectiveOrigin.value}; perspective: ${perspectiveOrigin.value};`
-			}
+
 			combineStyles += `-ms-perspective-origin: ${xAxis} ${yAxis}; -moz-perspective-origin: ${xAxis} ${yAxis}; -webkit-perspective-origin: ${xAxis} ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
 		}
 	}
@@ -224,6 +222,7 @@ export function compileStyleTabs (styleValues) {
 	let flexDirection = ''
 	let flexReverse = false
 	let customOrder = false
+	let hasPerspective = false
 
 	Object.keys(keyValueStyles).forEach(property => {
 		if (property === 'flex-direction') {
@@ -236,6 +235,14 @@ export function compileStyleTabs (styleValues) {
 			// this is a fix for : if flex-reverse is set and no direction, mix blend css was dissapearing
 			if (flexDirection.length === 0) {
 				combineStyles += `${property}: ${keyValueStyles[property]};`
+			}
+		}
+
+		if (property === 'perspective') {
+			// this is a fix for : if flex-reverse is set and no direction, perspective css was dissapearing
+			if (flexDirection.length === 0) {
+				hasPerspective = true
+				combineStyles += `-webkit-${property}: ${keyValueStyles[property]}; ${property}: ${keyValueStyles[property]};`
 			}
 		}
 
@@ -330,7 +337,7 @@ export function compileStyleTabs (styleValues) {
 			if (renderSpecialPrefix[property] !== undefined) {
 				combineStyles += renderSpecialPrefix[property](value)
 			} else {
-				combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective) ? '' : `${property}: ${value};`
+				combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective || hasPerspectiveValue) ? '' : `${property}: ${value};`
 			}
 
 			if (value === 'flex') {
