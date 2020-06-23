@@ -89,9 +89,11 @@ export function compileStyleTabs (styleValues) {
 
 	const backgroundImageConfig = []
 
+	let hasPerspectiveValue = false
 	if (transform.length) {
 		let transformStyleString = ''
 		let originStyleString = ''
+		let perspectiveOrigin = {}
 
 		transform.forEach(transformProperty => {
 			const property = transformProperty.property || 'translate'
@@ -99,6 +101,17 @@ export function compileStyleTabs (styleValues) {
 			for (const propertyName in currentPropertyValues) {
 				if (property === 'transform-origin') {
 					originStyleString += `${currentPropertyValues[propertyName]} `
+				} else if (property === 'perspective') {
+					hasPerspectiveValue = true
+					if (propertyName === 'perspective_value') {
+						transformStyleString += `perspective(${currentPropertyValues[propertyName]}) `
+					}
+					if (propertyName === 'perspective_origin_x_axis') {
+						perspectiveOrigin.x = `${currentPropertyValues[propertyName]}`
+					}
+					if (propertyName === 'perspective_origin_y_axis') {
+						perspectiveOrigin.y = `${currentPropertyValues[propertyName]}`
+					}
 				} else {
 					transformStyleString += `${propertyName}(${currentPropertyValues[propertyName]}) `
 				}
@@ -109,7 +122,14 @@ export function compileStyleTabs (styleValues) {
 		}
 
 		if (originStyleString) {
-			combineStyles += `transform-origin: ${originStyleString};`
+			combineStyles += `-webkit-transform-origin: ${originStyleString}; transform-origin: ${originStyleString};`
+		}
+
+		if (perspectiveOrigin.y !== undefined || perspectiveOrigin.x !== undefined) {
+			let xAxis = perspectiveOrigin.x !== undefined ? perspectiveOrigin.x : '50%'
+			let yAxis = perspectiveOrigin.y !== undefined ? perspectiveOrigin.y : '50%'
+
+			combineStyles += `-ms-perspective-origin: ${xAxis} ${yAxis}; -moz-perspective-origin: ${xAxis} ${yAxis}; -webkit-perspective-origin: ${xAxis} ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
 		}
 	}
 
@@ -198,6 +218,7 @@ export function compileStyleTabs (styleValues) {
 	]
 
 	let filtersGroup = ''
+	let transformGroup = {}
 	let flexDirection = ''
 	let flexReverse = false
 	let customOrder = false
@@ -216,12 +237,26 @@ export function compileStyleTabs (styleValues) {
 				combineStyles += `${property}: ${keyValueStyles[property]};`
 			}
 		}
+
 		if (property === 'perspective') {
 			// this is a fix for : if flex-reverse is set and no direction, perspective css was dissapearing
 			if (flexDirection.length === 0) {
 				hasPerspective = true
 				combineStyles += `-webkit-${property}: ${keyValueStyles[property]}; ${property}: ${keyValueStyles[property]};`
 			}
+		}
+
+		if (property === 'transform_origin_x_axis') {
+			transformGroup['x'] = `${keyValueStyles[property]}`
+		}
+		if (property === 'transform_origin_y_axis') {
+			transformGroup['y'] = `${keyValueStyles[property]}`
+		}
+		if (property === 'transform_origin_z_axis') {
+			transformGroup['z'] = `${keyValueStyles[property]}`
+		}
+		if (property === 'transform_style') {
+			combineStyles += `-ms-transform-style: ${keyValueStyles[property]}; -webkit-transform-style: ${keyValueStyles[property]}; transform-style: ${keyValueStyles[property]};`
 		}
 	})
 
@@ -302,7 +337,7 @@ export function compileStyleTabs (styleValues) {
 			if (renderSpecialPrefix[property] !== undefined) {
 				combineStyles += renderSpecialPrefix[property](value)
 			} else {
-				combineStyles += (flexReverse || filtersGroup.length || customOrder || flexDirection.length || hasPerspective) ? '' : `${property}: ${value};`
+				combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective || hasPerspectiveValue) ? '' : `${property}: ${value};`
 			}
 
 			if (value === 'flex') {
@@ -315,7 +350,13 @@ export function compileStyleTabs (styleValues) {
 	})
 	if (filtersGroup.length) {
 		combineStyles += `-webkit-filter: ${filtersGroup};filter: ${filtersGroup};`
-		combineStyles += `filter: ${filtersGroup};`
+	}
+
+	if (transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined) {
+		let xAxis = transformGroup['x'] !== undefined ? transformGroup['x'] : '50%'
+		let yAxis = transformGroup['y'] !== undefined ? transformGroup['y'] : '50%'
+		let zAxis = transformGroup['z'] !== undefined ? transformGroup['z'] : ''
+		combineStyles += `-webkit-transform-origin: ${xAxis} ${yAxis} ${zAxis}; transform-origin: ${xAxis} ${yAxis} ${zAxis};`
 	}
 
 	// Box shadow

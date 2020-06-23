@@ -157,6 +157,9 @@ class Style {
 		$background_image_config = [];
 		$text_decoration_value   = [];
 		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
+		$transform_origin_x      = '';
+		$transform_origin_y      = '';
+		$transform_origin_z      = '';
 		$compiled_filter         = '';
 		$flex_reverse            = false;
 
@@ -178,6 +181,22 @@ class Style {
 							break;
 
 					}
+					break;
+
+				case 'transform_origin_x_axis':
+					$transform_origin_x = $value;
+					break;
+
+				case 'transform_origin_y_axis':
+					$transform_origin_y = $value;
+					break;
+
+				case 'transform_origin_z_axis':
+					$transform_origin_z = $value;
+					break;
+
+				case 'transform_style':
+					$compiled_css .= sprintf( '-ms-transform-style: %s; -webkit-transform-style: %s; transform-style: %s;', $value, $value, $value );
 					break;
 
 				case 'flex-reverse':
@@ -362,6 +381,13 @@ class Style {
 					break;
 			}
 		}
+
+		// Transform origin
+		if ( ! empty( $transform_origin_x ) || ! empty( $transform_origin_y ) || ! empty( $transform_origin_z ) ) {
+			$compiled_css .= sprintf( '-webkit-transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+			$compiled_css .= sprintf( 'transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+		}
+
 		// Filters
 		if ( ! empty( $compiled_filter ) ) {
 			$compiled_css .= sprintf( '-webkit-filter: %s;', $compiled_filter );
@@ -474,9 +500,15 @@ class Style {
 	 * @return string
 	 */
 	public static function compile_transform( $value ) {
-		$transform_string = '';
-		$origin_string    = '';
-		$combined_styles  = '';
+		$transform_string     = '';
+		$origin_string        = '';
+		$combined_styles      = '';
+		$perspective_value    = '';
+		$perspective_origin_x = '';
+		$perspective_origin_y = '';
+		$origin               = '';
+		$x_axis               = '';
+		$y_axis               = '';
 
 		if ( is_array( $value ) ) {
 			foreach ( $value as $transform_config ) {
@@ -487,19 +519,40 @@ class Style {
 					foreach ( $current_property_config as $property_id => $property_value ) {
 						if ( $property === 'transform-origin' ) {
 							$origin_string .= $property_value . ' ';
-						} elseif ( $property !== 'perspective' ) {
-							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
+						} elseif ( $property === 'perspective' ) {
+							if ( $property_id === 'perspective_value' ) {
+								$transform_string .= sprintf( 'perspective(%s) ', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_x_axis' ) {
+								$perspective_origin_x .= sprintf( '%s', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_y_axis' ) {
+								$perspective_origin_y .= sprintf( '%s', $property_value );
+							}
+						} else {
+							$transform_string .= sprintf( '%s(%s) ', $property_id, $property_value );
 						}
 					}
 				}
 			}
 
 			if ( ! empty( $transform_string ) ) {
+				$combined_styles .= sprintf( '-webkit-transform: %s;', $transform_string );
 				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
+			}
+			if ( ! empty( $perspective_value ) || ! empty( $perspective_origin_x ) || ! empty( $perspective_origin_y ) ) {
+				if ( ! empty( $perspective_value ) ) {
+					$combined_styles .= sprintf( '-webkit-perspective: %s; perspective: %s;', $perspective_value, $perspective_value );
+				}
+				$x_axis .= ! empty( $perspective_origin_x ) ? $perspective_origin_x : '50%';
+				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
+
+				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
+				$combined_styles .= sprintf( '-ms-perspective-origin: %s; -moz-perspective-origin: %s; -webkit-perspective-origin: %s; perspective-origin: %s;', $origin, $origin, $origin, $origin );
 			}
 
 			if ( ! empty( $origin_string ) ) {
-				$combined_styles .= sprintf( 'transform-origin: %s;', $origin_string );
+				$combined_styles .= sprintf( '-webkit-transform-origin: %s; transform-origin: %s;', $origin_string, $origin_string );
 			}
 		}
 
