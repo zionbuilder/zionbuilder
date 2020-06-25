@@ -45,7 +45,7 @@ class Shortcode extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'shortcode', 'wordpress' ];
+		return [ 'shortcode', 'wordpress', 'plugin' ];
 	}
 
 	/**

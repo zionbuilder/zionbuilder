@@ -58,7 +58,7 @@ class Testimonial extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'testimonial', 'media', 'feedback', 'partners' ];
+		return [ 'testimonial', 'media', 'feedback', 'partners', 'review', 'testament', 'recommendation' ];
 	}
 
 	/**

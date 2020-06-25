@@ -46,7 +46,7 @@ class AnchorPoint extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'link' ];
+		return [ 'link', 'scroll to', 'scrollto', 'id', 'anchor', 'point', 'dash', 'tag', 'hashtag' ];
 	}
 
 	/**

@@ -48,7 +48,7 @@ class Button extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'button', 'link' ];
+		return [ 'button', 'link', 'action', 'call to action' ];
 	}
 
 	/**
@@ -432,5 +432,4 @@ class Button extends Element {
 			]
 		);
 	}
-
 }

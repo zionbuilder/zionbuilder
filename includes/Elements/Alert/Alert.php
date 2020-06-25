@@ -41,7 +41,7 @@ class Alert extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'alert', 'info', 'success' ];
+		return [ 'alert', 'info', 'success', 'message', 'notification', 'warning', 'advertisment', 'news' ];
 	}
 
 	/**
@@ -225,5 +225,4 @@ class Alert extends Element {
 			printf( '<div class="zb-el-alert__description">%s</div>', wp_kses_post( $description ) );
 		}
 	}
-
 }

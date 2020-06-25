@@ -57,7 +57,7 @@ class GoogleMaps extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'maps', 'google' ];
+		return [ 'maps', 'google', 'location', 'position', 'mapbox', 'region', 'search', 'tooltip', 'pin', 'direction', 'localization', 'geo' ];
 	}
 
 	/**

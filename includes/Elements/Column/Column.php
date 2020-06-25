@@ -58,7 +58,7 @@ class Column extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'column', 'container' ];
+		return [ 'column', 'container', 'cln', 'clmn', 'div', 'row' ];
 	}
 
 	/**

@@ -46,7 +46,7 @@ class ProgressBars extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'counter', 'progress', 'bar' ];
+		return [ 'counter', 'progress', 'bar', 'skills', 'percentage', 'graph', 'stats', 'statistics', 'prgs' ];
 	}
 
 	/**

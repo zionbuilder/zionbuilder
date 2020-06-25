@@ -58,7 +58,7 @@ class ImageBox extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'image', 'media', 'box' ];
+		return [ 'image', 'media', 'box', 'poster', 'photo', 'picture', 'text' ];
 	}
 
 	/**

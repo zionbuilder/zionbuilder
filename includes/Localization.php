@@ -247,6 +247,7 @@ class Localization {
 			'days'                                   => __( 'Days', 'zionbuilder' ),
 			'hour'                                   => __( 'Hours', 'zionbuilder' ),
 			'minutes'                                => __( 'Minutes', 'zionbuilder' ),
+			'seconds'                                => __( 'Seconds', 'zionbuilder' ),
 			'next_month'                             => __( 'Next Month', 'zionbuilder' ),
 			'previous_month'                         => __( 'Previous month', 'zionbuilder' ),
 			'set_time'                               => __( 'Set time', 'zionbuilder' ),
