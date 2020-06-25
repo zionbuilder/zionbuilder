@@ -66,7 +66,7 @@ class Preview {
 
 		// Prepare content
 		$post_template_data = $post_instance->get_template_data();
-		Plugin::$instance->frontend->register_area( 'content', $post_template_data );
+		Plugin::$instance->renderer->register_area( 'content', $post_template_data );
 
 		// Register styles cache file for current page
 		Plugin::$instance->cache->register_post_id( $this->get_current_post_id() );
@@ -199,7 +199,7 @@ class Preview {
 		return [
 			'l10n'                => Localization::get_strings(),
 			'nonce'               => Nonces::generate_nonce( 'preview-frame' ),
-			'page_content'        => Plugin::$instance->frontend->get_registered_areas(),
+			'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'      => Plugin::$instance->templates->get_template_types(),
 			'template_categories' => Plugin::$instance->templates->get_template_categories(),
 		];

@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
+use ZionBuilder\Renderer;
 use ZionBuilder\Post\PostManager;
 use ZionBuilder\Elements\Manager as ElementsManager;
 use ZionBuilder\PageTemplates\PageTemplates;
@@ -201,6 +202,7 @@ class Plugin {
 		$this->load_libraries();
 
 		// initiate permissions
+		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
 		$this->whitelabel       = new Whitelabel();
 		$this->permissions      = new Permissions();

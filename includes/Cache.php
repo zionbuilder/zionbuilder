@@ -41,13 +41,13 @@ class Cache {
 
 	/**
 	 * @var array{
-	 *    path: string,
-	 *    url: string,
-	 *    subdir: string,
-	 *    basedir: string,
-	 *    baseurl: string,
-	 *    error: string|false
-	 * }
+	 *             path: string,
+	 *             url: string,
+	 *             subdir: string,
+	 *             basedir: string,
+	 *             baseurl: string,
+	 *             error: string|false
+	 *             }
 	 */
 	private $wp_upload_dir;
 
@@ -222,7 +222,7 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_elements_styles() {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 
 		foreach ( $elements_instances as $element_instance ) {
@@ -242,7 +242,7 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_elements_scripts() {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 
 		foreach ( $elements_instances as $element_instance ) {
@@ -312,7 +312,7 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_css_cache_file_for_post( $post_id ) {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 		$css                = '';
 
@@ -353,7 +353,7 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_js_cache_file_for_post( $post_id ) {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 		$js                 = '';
 

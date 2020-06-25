@@ -1223,7 +1223,7 @@ class Element {
 	 * @return void
 	 */
 	public function render_children() {
-		Plugin::$instance->frontend->render_children( $this->get_children() );
+		Plugin::$instance->renderer->render_children( $this->get_children() );
 	}
 
 	/**
@@ -1233,7 +1233,7 @@ class Element {
 	 */
 	public function get_children_for_render() {
 		ob_start();
-		Plugin::$instance->frontend->render_children( $this->get_children() );
+		Plugin::$instance->renderer->render_children( $this->get_children() );
 		return ob_get_clean();
 	}
 

@@ -189,7 +189,7 @@ class Tabs extends Element {
 		<div class="zb-el-tabs-content">
 			<?php
 			foreach ( $tabs as $index => $element_data ) {
-				Plugin::$instance->frontend->render_element(
+				Plugin::$instance->renderer->render_element(
 					$element_data,
 					[
 						'active' => $index === 0,
