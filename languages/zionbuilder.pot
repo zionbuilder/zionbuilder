@@ -589,7 +589,7 @@ msgstr ""
 msgid "Post types"
 msgstr ""
 
-#: ../includes/Localization.php:185, ../includes/Elements/PricingBox/PricingBox.php:151
+#: ../includes/Localization.php:185, ../includes/Elements/PricingBox/PricingBox.php:157
 msgid "Features"
 msgstr ""
 
@@ -2383,7 +2383,7 @@ msgstr ""
 msgid "Toogle"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:118, ../includes/Elements/IconBox/IconBox.php:227, ../includes/Elements/ImageBox/ImageBox.php:237, ../includes/Elements/PricingBox/PricingBox.php:242, ../includes/Elements/ProgressBars/ProgressBars.php:256
+#: ../includes/Elements/Accordions/Accordions.php:118, ../includes/Elements/IconBox/IconBox.php:230, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/PricingBox/PricingBox.php:254, ../includes/Elements/ProgressBars/ProgressBars.php:259
 msgid "Title styles"
 msgstr ""
 
@@ -2459,7 +2459,7 @@ msgstr ""
 msgid "Set the button text"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:78, ../includes/Elements/PricingBox/PricingBox.php:161, ../includes/Elements/PricingBox/PricingBox.php:163
+#: ../includes/Elements/Button/Button.php:78, ../includes/Elements/PricingBox/PricingBox.php:170, ../includes/Elements/PricingBox/PricingBox.php:172
 msgid "Button text"
 msgstr ""
 
@@ -2479,7 +2479,7 @@ msgstr ""
 msgid "Set the url"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:87, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:200, ../includes/Elements/Image/Image.php:113
+#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:203, ../includes/Elements/Image/Image.php:113
 msgid "Link"
 msgstr ""
 
@@ -2523,7 +2523,7 @@ msgstr ""
 msgid "Semi rounded"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:154, ../includes/Elements/ProgressBars/ProgressBars.php:155
+#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:154, ../includes/Elements/ProgressBars/ProgressBars.php:158
 msgid "Rounded"
 msgstr ""
 
@@ -2571,7 +2571,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:335, ../includes/Elements/IconBox/IconBox.php:219, ../includes/Elements/IconList/IconList.php:225
+#: ../includes/Elements/Button/Button.php:335, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:228
 msgid "Icon styles"
 msgstr ""
 
@@ -2603,7 +2603,7 @@ msgstr ""
 msgid "Select the HTML tag to use for this element"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:176, ../includes/Elements/Heading/Heading.php:96, ../includes/Elements/IconBox/IconBox.php:163, ../includes/Elements/ImageBox/ImageBox.php:174, ../includes/Elements/Section/Section.php:215
+#: ../includes/Elements/Column/Column.php:176, ../includes/Elements/Heading/Heading.php:99, ../includes/Elements/IconBox/IconBox.php:166, ../includes/Elements/ImageBox/ImageBox.php:180, ../includes/Elements/Section/Section.php:215
 msgid "HTML tag"
 msgstr ""
 
@@ -2631,15 +2631,15 @@ msgstr ""
 msgid "Inner content horizontal alignment"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:242, ../includes/Elements/Column/Column.php:330, ../includes/Elements/Section/Section.php:281, ../includes/Elements/Section/Section.php:369, ../includes/Elements/Testimonial/Testimonial.php:165
+#: ../includes/Elements/Column/Column.php:242, ../includes/Elements/Column/Column.php:330, ../includes/Elements/Section/Section.php:281, ../includes/Elements/Section/Section.php:369, ../includes/Elements/Testimonial/Testimonial.php:174
 msgid "Left"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:247, ../includes/Elements/Column/Column.php:292, ../includes/Elements/Testimonial/Testimonial.php:169
+#: ../includes/Elements/Column/Column.php:247, ../includes/Elements/Column/Column.php:292, ../includes/Elements/Testimonial/Testimonial.php:178
 msgid "Center"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:252, ../includes/Elements/Column/Column.php:340, ../includes/Elements/Section/Section.php:291, ../includes/Elements/Section/Section.php:379, ../includes/Elements/Testimonial/Testimonial.php:173
+#: ../includes/Elements/Column/Column.php:252, ../includes/Elements/Column/Column.php:340, ../includes/Elements/Section/Section.php:291, ../includes/Elements/Section/Section.php:379, ../includes/Elements/Testimonial/Testimonial.php:182
 msgid "Right"
 msgstr ""
 
@@ -2747,11 +2747,11 @@ msgstr ""
 msgid "Text after"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:143, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:102, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:31
+#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:102, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:31
 msgid "Align"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:144, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:103, ../includes/Elements/ImageBox/ImageBox.php:133
+#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:147, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:103, ../includes/Elements/ImageBox/ImageBox.php:133
 msgid "Select the desired alignment."
 msgstr ""
 
@@ -2823,47 +2823,47 @@ msgstr ""
 msgid "Terrain"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:78, ../includes/Elements/Heading/Heading.php:185, ../includes/Elements/IconBox/IconBox.php:154, ../includes/Elements/ImageBox/ImageBox.php:165, ../includes/Elements/Text/Text.php:78
+#: ../includes/Elements/Heading/Heading.php:78, ../includes/Elements/Heading/Heading.php:188, ../includes/Elements/IconBox/IconBox.php:157, ../includes/Elements/ImageBox/ImageBox.php:168, ../includes/Elements/Text/Text.php:78
 msgid "Just a sample text from heading element."
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:97, ../includes/Elements/IconBox/IconBox.php:164, ../includes/Elements/ImageBox/ImageBox.php:175
+#: ../includes/Elements/Heading/Heading.php:100, ../includes/Elements/IconBox/IconBox.php:167, ../includes/Elements/ImageBox/ImageBox.php:181
 msgid "Set the desired heading tag."
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:100, ../includes/Elements/IconBox/IconBox.php:167, ../includes/Elements/ImageBox/ImageBox.php:178
+#: ../includes/Elements/Heading/Heading.php:103, ../includes/Elements/IconBox/IconBox.php:170, ../includes/Elements/ImageBox/ImageBox.php:184
 msgid "h1"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:104, ../includes/Elements/IconBox/IconBox.php:171, ../includes/Elements/ImageBox/ImageBox.php:182
+#: ../includes/Elements/Heading/Heading.php:107, ../includes/Elements/IconBox/IconBox.php:174, ../includes/Elements/ImageBox/ImageBox.php:188
 msgid "h2"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:108, ../includes/Elements/IconBox/IconBox.php:175, ../includes/Elements/ImageBox/ImageBox.php:186, ../includes/Elements/ImageBox/ImageBox.php:190
+#: ../includes/Elements/Heading/Heading.php:111, ../includes/Elements/IconBox/IconBox.php:178, ../includes/Elements/ImageBox/ImageBox.php:192, ../includes/Elements/ImageBox/ImageBox.php:196
 msgid "h3"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:112, ../includes/Elements/IconBox/IconBox.php:179
+#: ../includes/Elements/Heading/Heading.php:115, ../includes/Elements/IconBox/IconBox.php:182
 msgid "h4"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:116, ../includes/Elements/IconBox/IconBox.php:183, ../includes/Elements/ImageBox/ImageBox.php:194
+#: ../includes/Elements/Heading/Heading.php:119, ../includes/Elements/IconBox/IconBox.php:186, ../includes/Elements/ImageBox/ImageBox.php:200
 msgid "h5"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:120, ../includes/Elements/IconBox/IconBox.php:187, ../includes/Elements/ImageBox/ImageBox.php:198
+#: ../includes/Elements/Heading/Heading.php:123, ../includes/Elements/IconBox/IconBox.php:190, ../includes/Elements/ImageBox/ImageBox.php:204
 msgid "h6"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:124, ../includes/Elements/IconBox/IconBox.php:191, ../includes/Elements/ImageBox/ImageBox.php:202
+#: ../includes/Elements/Heading/Heading.php:127, ../includes/Elements/IconBox/IconBox.php:194, ../includes/Elements/ImageBox/ImageBox.php:208
 msgid "p"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:128, ../includes/Elements/IconBox/IconBox.php:195, ../includes/Elements/ImageBox/ImageBox.php:206
+#: ../includes/Elements/Heading/Heading.php:131, ../includes/Elements/IconBox/IconBox.php:198, ../includes/Elements/ImageBox/ImageBox.php:212
 msgid "span"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:132, ../includes/Elements/IconBox/IconBox.php:199, ../includes/Elements/ImageBox/ImageBox.php:210
+#: ../includes/Elements/Heading/Heading.php:135, ../includes/Elements/IconBox/IconBox.php:202, ../includes/Elements/ImageBox/ImageBox.php:216
 msgid "div"
 msgstr ""
 
@@ -2891,11 +2891,11 @@ msgstr ""
 msgid "Shape"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:146, ../includes/Elements/ProgressBars/ProgressBars.php:151
+#: ../includes/Elements/Icon/Icon.php:146, ../includes/Elements/ProgressBars/ProgressBars.php:154
 msgid "Square"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:150, ../includes/Elements/ProgressBars/ProgressBars.php:159
+#: ../includes/Elements/Icon/Icon.php:150, ../includes/Elements/ProgressBars/ProgressBars.php:162
 msgid "Circle"
 msgstr ""
 
@@ -2955,11 +2955,11 @@ msgstr ""
 msgid "Just a sample title."
 msgstr ""
 
-#: ../includes/Elements/IconBox/IconBox.php:153, ../includes/Elements/ImageBox/ImageBox.php:164
+#: ../includes/Elements/IconBox/IconBox.php:156, ../includes/Elements/ImageBox/ImageBox.php:167
 msgid "Description text"
 msgstr ""
 
-#: ../includes/Elements/IconBox/IconBox.php:235, ../includes/Elements/ImageBox/ImageBox.php:245, ../includes/Elements/Testimonial/Testimonial.php:249
+#: ../includes/Elements/IconBox/IconBox.php:238, ../includes/Elements/ImageBox/ImageBox.php:251, ../includes/Elements/Testimonial/Testimonial.php:258
 msgid "Description styles"
 msgstr ""
 
@@ -2999,7 +2999,7 @@ msgstr ""
 msgid "Enter item text"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:217
+#: ../includes/Elements/IconList/IconList.php:220
 msgid "Item styles"
 msgstr ""
 
@@ -3023,7 +3023,7 @@ msgstr ""
 msgid "Link styles"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:180, ../includes/Elements/ImageBox/ImageBox.php:230, ../includes/Elements/Testimonial/Testimonial.php:256
+#: ../includes/Elements/Image/Image.php:180, ../includes/Elements/ImageBox/ImageBox.php:236, ../includes/Elements/Testimonial/Testimonial.php:265
 msgid "Image styles"
 msgstr ""
 
@@ -3031,11 +3031,11 @@ msgstr ""
 msgid "Image Box"
 msgstr ""
 
-#: ../includes/Elements/ImageBox/ImageBox.php:102, ../includes/Elements/Testimonial/Testimonial.php:130
+#: ../includes/Elements/ImageBox/ImageBox.php:102, ../includes/Elements/Testimonial/Testimonial.php:139
 msgid "Image position"
 msgstr ""
 
-#: ../includes/Elements/ImageBox/ImageBox.php:106, ../includes/Elements/Testimonial/Testimonial.php:134
+#: ../includes/Elements/ImageBox/ImageBox.php:106, ../includes/Elements/Testimonial/Testimonial.php:143
 msgid "Image on top"
 msgstr ""
 
@@ -3107,95 +3107,95 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:85
+#: ../includes/Elements/PricingBox/PricingBox.php:88
 msgid "Plan description"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:86
+#: ../includes/Elements/PricingBox/PricingBox.php:89
 msgid "Pricing box description"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:87
+#: ../includes/Elements/PricingBox/PricingBox.php:90
 msgid "Price box description"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:96
+#: ../includes/Elements/PricingBox/PricingBox.php:102
 msgid "Heading color"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:115
+#: ../includes/Elements/PricingBox/PricingBox.php:121
 msgid "Heading background"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:130
+#: ../includes/Elements/PricingBox/PricingBox.php:136
 msgid "Price"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:131
+#: ../includes/Elements/PricingBox/PricingBox.php:137
 msgid "Choose price"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:132
+#: ../includes/Elements/PricingBox/PricingBox.php:138
 msgid "$999"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:141
+#: ../includes/Elements/PricingBox/PricingBox.php:147
 msgid "Period"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:142, ../includes/Elements/PricingBox/PricingBox.php:143
+#: ../includes/Elements/PricingBox/PricingBox.php:148, ../includes/Elements/PricingBox/PricingBox.php:149
 msgid "/month"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:152
+#: ../includes/Elements/PricingBox/PricingBox.php:158
 msgid "Please add each feature on a new line"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:153
+#: ../includes/Elements/PricingBox/PricingBox.php:159
 msgid "<p>20+ Proactively</p><p>facilitate 150+ Alternative</p><p>Vectors quality</p><p>Strategic themes</p><p>Brand</p><p>Intellectual capital</p><p>Proactive applications</p>"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:162
+#: ../includes/Elements/PricingBox/PricingBox.php:171
 msgid "Set the desired text for the button."
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:164
+#: ../includes/Elements/PricingBox/PricingBox.php:173
 msgid "Select this plan"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:172
+#: ../includes/Elements/PricingBox/PricingBox.php:184
 msgid "Add a link for the Button"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:173
+#: ../includes/Elements/PricingBox/PricingBox.php:185
 msgid "Button link"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:181
+#: ../includes/Elements/PricingBox/PricingBox.php:193
 msgid "Plan featured?"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:183
+#: ../includes/Elements/PricingBox/PricingBox.php:195
 msgid "Select 'YES' if you want this Plan to have a featured badge"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:203
+#: ../includes/Elements/PricingBox/PricingBox.php:215
 msgid "Borders color"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:234
+#: ../includes/Elements/PricingBox/PricingBox.php:246
 msgid "Featured Label styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:250
+#: ../includes/Elements/PricingBox/PricingBox.php:262
 msgid "Price styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:258
+#: ../includes/Elements/PricingBox/PricingBox.php:270
 msgid "Features styles"
 msgstr ""
 
-#: ../includes/Elements/PricingBox/PricingBox.php:266
+#: ../includes/Elements/PricingBox/PricingBox.php:278
 msgid "Buton styles"
 msgstr ""
 
@@ -3219,27 +3219,27 @@ msgstr ""
 msgid "Set the desired bar title"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:104
+#: ../includes/Elements/ProgressBars/ProgressBars.php:107
 msgid "Fill percentage"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:117, ../includes/Elements/ProgressBars/ProgressBars.php:177
+#: ../includes/Elements/ProgressBars/ProgressBars.php:120, ../includes/Elements/ProgressBars/ProgressBars.php:180
 msgid "Bar progress color"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:132, ../includes/Elements/ProgressBars/ProgressBars.php:193
+#: ../includes/Elements/ProgressBars/ProgressBars.php:135, ../includes/Elements/ProgressBars/ProgressBars.php:196
 msgid "Bar background color"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:147
+#: ../includes/Elements/ProgressBars/ProgressBars.php:150
 msgid "Select the desired bar style"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:209
+#: ../includes/Elements/ProgressBars/ProgressBars.php:212
 msgid "Bars height"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:228
+#: ../includes/Elements/ProgressBars/ProgressBars.php:231
 msgid "Items distance"
 msgstr ""
 
@@ -3475,95 +3475,95 @@ msgstr ""
 msgid "Edit the element options to change it"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:96, ../includes/Elements/Testimonial/Testimonial.php:98
+#: ../includes/Elements/Testimonial/Testimonial.php:99, ../includes/Elements/Testimonial/Testimonial.php:101
 msgid "User name"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:97
+#: ../includes/Elements/Testimonial/Testimonial.php:100
 msgid "Set the desired user name."
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:99
+#: ../includes/Elements/Testimonial/Testimonial.php:102
 msgid "John Dow"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:107
+#: ../includes/Elements/Testimonial/Testimonial.php:113
 msgid "Client description"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:108
+#: ../includes/Elements/Testimonial/Testimonial.php:114
 msgid "Set the client description."
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:109
+#: ../includes/Elements/Testimonial/Testimonial.php:115
 msgid "description"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:110
+#: ../includes/Elements/Testimonial/Testimonial.php:116
 msgid "I'm Awesome"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:119
+#: ../includes/Elements/Testimonial/Testimonial.php:128
 msgid "User Photo"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:131
+#: ../includes/Elements/Testimonial/Testimonial.php:140
 msgid "Set where the image should be"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:138
+#: ../includes/Elements/Testimonial/Testimonial.php:147
 msgid "Image to the left"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:142
+#: ../includes/Elements/Testimonial/Testimonial.php:151
 msgid "Image to the right"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:161
+#: ../includes/Elements/Testimonial/Testimonial.php:170
 msgid "Content alignment"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:162
+#: ../includes/Elements/Testimonial/Testimonial.php:171
 msgid "Set how elements to be aligned"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:191
+#: ../includes/Elements/Testimonial/Testimonial.php:200
 msgid "Stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:195
+#: ../includes/Elements/Testimonial/Testimonial.php:204
 msgid "Do not show stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:199
+#: ../includes/Elements/Testimonial/Testimonial.php:208
 msgid "1 star"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:203
+#: ../includes/Elements/Testimonial/Testimonial.php:212
 msgid "2 stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:207
+#: ../includes/Elements/Testimonial/Testimonial.php:216
 msgid "3 stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:211
+#: ../includes/Elements/Testimonial/Testimonial.php:220
 msgid "4 stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:215
+#: ../includes/Elements/Testimonial/Testimonial.php:224
 msgid "5 stars"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:235
+#: ../includes/Elements/Testimonial/Testimonial.php:244
 msgid "Testimonial styles"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:242
+#: ../includes/Elements/Testimonial/Testimonial.php:251
 msgid "Name styles"
 msgstr ""
 
-#: ../includes/Elements/Testimonial/Testimonial.php:263
+#: ../includes/Elements/Testimonial/Testimonial.php:272
 msgid "Stars styles"
 msgstr ""
 
