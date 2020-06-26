@@ -20,8 +20,10 @@ const state = {
 }
 
 const getters = {
+	getAssetsUrl: state => state.urls.assets_url,
 	isPro: state => state.is_pro_active,
 	getLogoUrl: state => state.urls.logo,
+	getLoadingUrl: state => state.urls.loader,
 	isPreviewLoading: state => state.isPreviewLoading,
 	getStylesLoading: state => state.isStyleLoading,
 	getMainbarPosition: state => {

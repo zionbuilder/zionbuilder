@@ -1,6 +1,10 @@
 <template>
+	<ElementLoading
+		v-if="loading"
+	/>
+
 	<component
-		v-if="isActive && !(data.options._isVisible === false && isPreviewMode)"
+		v-else-if="isActive && !(data.options._isVisible === false && isPreviewMode)"
 		:is="component"
 		class="znpb-element__wrapper zb-element"
 		:id="`${elementCssId}`"
@@ -60,6 +64,7 @@ import { generateElements } from '@/utils/utils.js'
 import importCSS from '@zionbuilder/importcss'
 import ElementToolbox from './ElementToolbox/ElementToolbox'
 import ElementStyles from './ElementStyles.vue'
+import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import Options from '@/common/Options'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@/utils'
@@ -103,7 +108,8 @@ export default {
 	},
 	components: {
 		ElementToolbox,
-		VideoBackground
+		VideoBackground,
+		ElementLoading
 	},
 	props: {
 		uid: {

@@ -295,6 +295,7 @@ class Editor {
 					'values' => $post_instance->get_page_settings_values(),
 				],
 				'urls'                           => [
+					'assets_url'        => Utils::get_file_url( 'assets' ),
 					'logo'              => Utils::get_logo_url(),
 					'loader'            => Utils::get_loader_url(),
 					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
