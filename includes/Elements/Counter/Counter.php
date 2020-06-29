@@ -46,7 +46,7 @@ class Counter extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'counter', 'animated', 'progress' ];
+		return [ 'counter', 'animated', 'progress', 'number', 'stats' ];
 	}
 
 	/**
@@ -213,8 +213,7 @@ class Counter extends Element {
 
 		if ( ! empty( $before ) ) {
 			printf( '<div class="%s">%s</div>', esc_attr( $this->get_style_classes_as_string( 'before_text_styles', [ 'zb-el-counter__before' ] ) ), wp_kses_post( $before ) );
-		}
-		?>
+		} ?>
 		<div class="zb-el-counter__number"><?php echo wp_kses_post( $start ); ?></div>
 		<?php
 

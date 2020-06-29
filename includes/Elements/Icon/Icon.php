@@ -47,7 +47,7 @@ class Icon extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'icon' ];
+		return [ 'icon', 'icons', 'svg', 'symbol', 'font', 'social', 'social media' ];
 	}
 
 	/**

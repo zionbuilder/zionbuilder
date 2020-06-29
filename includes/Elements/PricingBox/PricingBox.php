@@ -46,7 +46,7 @@ class PricingBox extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'pricing', 'box' ];
+		return [ 'pricing', 'box', 'prices', 'pricelist', 'packages', 'lists', 'offers', 'special', 'rates', 'comparison', 'cost', 'table', 'pricing table', 'cards', 'plans', 'billing', 'saas' ];
 	}
 
 	/**

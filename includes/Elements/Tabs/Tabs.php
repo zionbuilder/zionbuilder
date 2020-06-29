@@ -47,7 +47,7 @@ class Tabs extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'tab' ];
+		return [ 'tab', 'folder', 'navigation', 'tabbar', 'steps' ];
 	}
 
 	/**
