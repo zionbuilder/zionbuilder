@@ -57,7 +57,7 @@ class Section extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'section', 'container' ];
+		return [ 'section', 'container', 'div', 'row', 'layout', 'sct' ];
 	}
 
 	/**

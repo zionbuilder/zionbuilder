@@ -11,6 +11,7 @@
 		:pick-time="pickTime"
 		:use-12-hour-clock="use12HourClock"
 		:format="format"
+		:is-date-disabled="disableDate"
 	>
 
 		<template v-slot:default="{toggle}">
@@ -65,6 +66,15 @@ export default {
 		use12HourClock: {
 			type: Boolean,
 			required: false
+		},
+		pastDisabled: {
+			type: Boolean,
+			required: false
+		},
+		futureDisabled: {
+			type: Boolean,
+			required: false,
+			default: false
 		}
 	},
 	data () {
@@ -108,6 +118,15 @@ export default {
 		}
 	},
 	methods: {
+		disableDate (date) {
+			const currentDate = new Date()
+			if (this.pastDisabled) {
+				return date <= currentDate
+			} else if (this.futureDisabled) {
+				return date > currentDate
+			} else return false
+		}
+
 	}
 }
 </script>

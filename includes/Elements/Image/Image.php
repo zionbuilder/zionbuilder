@@ -59,7 +59,7 @@ class Image extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'image', 'media' ];
+		return [ 'image', 'media', 'picture', 'photo' ];
 	}
 
 	/**

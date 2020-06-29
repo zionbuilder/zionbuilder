@@ -56,7 +56,7 @@ class Gallery extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'image', 'gallery' ];
+		return [ 'image', 'gallery', 'showcase', 'portfolio', 'filterable', 'image', 'photo', 'photography', 'picture' ];
 	}
 
 	/**
@@ -247,5 +247,4 @@ class Gallery extends Element {
 			}
 		}
 	}
-
 }

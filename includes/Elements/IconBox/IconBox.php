@@ -46,7 +46,7 @@ class IconBox extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'icon', 'iconbox', 'box' ];
+		return [ 'icon', 'iconbox', 'title', 'text', 'category', 'categories', 'services' ];
 	}
 
 	/**

@@ -46,7 +46,7 @@ class Text extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'text', 'heading', 'title' ];
+		return [ 'text', 'heading', 'title', 'paragraph', 'sentence', 'caption', 'txt' ];
 	}
 
 	/**

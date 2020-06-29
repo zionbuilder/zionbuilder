@@ -47,7 +47,7 @@ class Separator extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'separator', 'divider', 'line', 'spacer' ];
+		return [ 'separator', 'divider', 'line', 'spacer', 'horizontal', 'rule', 'hr', 'spacing', 'distance', 'margin', 'padding', 'decorative' ];
 	}
 
 	/**
