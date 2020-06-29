@@ -43,6 +43,13 @@ class Plugin {
 	public static $instance = null;
 
 	/**
+	 * Renderer class
+	 *
+	 * @var Renderer
+	 */
+	private $renderer = null;
+
+	/**
 	 * Plugin data from header comments
 	 *
 	 * @var string
