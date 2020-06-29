@@ -254,7 +254,7 @@ export function compileStyleTabs (styleValues) {
 		let originX = transformOriginX || '50%'
 		let originY = transformOriginY || '50%'
 		let originZ = transformOriginZ || '0'
-		combineStyles += `transform-origin: ${originX} ${originY} ${originZ};`
+		combineStyles += `transform-origin: ${originX} ${originY} ${originZ};-webkit-transform-origin: ${originX} ${originY} ${originZ};`
 	}
 
 	// Background gradient
