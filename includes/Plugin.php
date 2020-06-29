@@ -41,12 +41,7 @@ class Plugin {
 	 * @var Plugin
 	 */
 	public static $instance = null;
-	/**
-	 * Renderer class
-	 *
-	 * @var Renderer
-	 */
-	public $renderer = null;
+
 	/**
 	 * Renderer class
 	 *
