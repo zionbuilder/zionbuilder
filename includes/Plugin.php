@@ -47,7 +47,7 @@ class Plugin {
 	 *
 	 * @var Renderer
 	 */
-	public static $renderer = null;
+	public $renderer = null;
 
 	/**
 	 * Plugin data from header comments
