@@ -62,6 +62,8 @@ export function getResponsiveDeviceStyles (deviceId, styles) {
 
 export function compileStyleTabs (styleValues) {
 	let combineStyles = ''
+	let filtersGroup = ''
+	const backgroundImageConfig = []
 
 	const {
 		// Background Image
@@ -84,12 +86,126 @@ export function compileStyleTabs (styleValues) {
 		'transition-duration': transitionDuration = 0,
 		'transition-timing-function': transitionTimingFunction = 'linear',
 		'transition-delay': transitionDelay = 0,
+		// Special styles that we don't want to print
+		'flex-reverse': flexReverse = false,
+		'background-video': backGroundVideo = false,
+		'custom-order': customFlexOrder = null,
+		'order': flexOrder = null,
+		'transform_origin_x_axis': transformOriginX,
+		'transform_origin_y_axis': transformOriginY,
+		'transform_origin_z_axis': transformOriginZ,
 		...keyValueStyles
 	} = styleValues
 
-	const backgroundImageConfig = []
+	// Key value styles
+	const filterProperties = [
+		'grayscale',
+		'sepia',
+		'blur',
+		'brightness',
+		'saturate',
+		'opacity',
+		'contrast',
+		'hue-rotate'
+	]
 
-	let hasPerspectiveValue = false
+	const specialValues = {
+		'flex-direction': (value) => {
+			if (!flexReverse) {
+				return (value === 'row') ? `-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: ${value}; flex-direction: ${value};` : `-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction: ${value}; flex-direction: ${value};`
+			} else {
+				return value === 'row' ? `-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row-reverse; flex-direction: row-reverse;` : `-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column-reverse; flex-direction: column-reverse;`
+			}
+		},
+		'custom-order': (value) => {
+			return `-ms-flex-order: ${value}; order: ${value};`
+		},
+		'order': (value) => {
+			return `-ms-flex-order: ${value}; order: ${value};`
+		},
+		'align-items': (value) => {
+			let todelete = /flex-/gi
+			let cleanValue = value.replace(todelete, '')
+			return `-webkit-box-align: ${cleanValue}; -ms-flex-align: ${cleanValue}; align-items: ${value};`
+		},
+		'justify-content': (value) => {
+			if (value === 'space-around') {
+				return `-ms-flex-pack: distribute; justify-content: space-around;`
+			} else if (value === 'space-between') {
+				return `-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;`
+			} else {
+				let todelete = /flex-/gi
+				let cleanValue = value.replace(todelete, '')
+				return `-webkit-box-pack: ${cleanValue}; -ms-flex-pack: ${cleanValue}; justify-content: ${value};`
+			}
+		},
+		'flex-wrap': (value) => {
+			return `-ms-flex-wrap: ${value}; flex-wrap: ${value};`
+		},
+		'align-content': (value) => {
+			if (value === 'space-around') {
+				return `-ms-flex-line-pack: distribute; align-content: space-around;`
+			} else if (value === 'space-between') {
+				return `-ms-flex-line-pack: justify; align-content: space-between;`
+			} else {
+				let todelete = /flex-/gi
+				let cleanValue = value.replace(todelete, '')
+				return `-ms-flex-line-pack: ${cleanValue}; align-content: ${value};`
+			}
+		},
+		'flex-grow': (value) => {
+			return `-webkit-box-flex: ${value}; -ms-flex-positive: ${value}; flex-grow: ${value};`
+		},
+		'flex-shrink': (value) => {
+			return `-ms-flex-negative: ${value};flex-shrink: ${value};`
+		},
+		'flex-basis': (value) => {
+			return `-ms-flex-preferred-size: ${value}; flex-basis: ${value};`
+		},
+		'align-self': (value) => {
+			let todelete = /flex-/gi
+			let cleanValue = value.replace(todelete, '')
+			return `-ms-flex-item-align: ${cleanValue}; align-self:${value};`
+		},
+		'perspective': (value) => {
+			return `-webkit-perspective: ${value}; perspective: ${value};`
+		},
+		'transform_style': (value) => {
+			return `-ms-transform-style: ${value}; -webkit-transform-style: ${value}; transform-style: ${value};`
+		}
+	}
+
+	// Flex order
+	if (flexOrder || customFlexOrder) {
+		const orderValue = customFlexOrder || flexOrder
+		combineStyles += `-ms-flex-order: ${orderValue}; order: ${orderValue};`
+	}
+
+	/**
+	 * Loop trough all properties and print the css data
+	 */
+	Object.keys(keyValueStyles).forEach(property => {
+		const value = keyValueStyles[property]
+
+		if (value || value === 0) {
+			// Add prefixes
+			if (filterProperties.includes(property)) {
+				if (property === 'hue-rotate') {
+					filtersGroup += (`${property}(${value}deg) `)
+				} else if (property === 'blur') {
+					filtersGroup += (`${property}(${value}px) `)
+				} else filtersGroup += (`${property}(${value}%) `)
+			} else if (typeof specialValues[property] === 'function') {
+				combineStyles += specialValues[property](value)
+			} else {
+				combineStyles += `${property}: ${value};`
+			}
+		}
+	})
+
+	/**
+	 * Check for transform
+	 */
 	if (transform.length) {
 		let transformStyleString = ''
 		let originStyleString = ''
@@ -102,7 +218,6 @@ export function compileStyleTabs (styleValues) {
 				if (property === 'transform-origin') {
 					originStyleString += `${currentPropertyValues[propertyName]} `
 				} else if (property === 'perspective') {
-					hasPerspectiveValue = true
 					if (propertyName === 'perspective_value') {
 						transformStyleString += `perspective(${currentPropertyValues[propertyName]}) `
 					}
@@ -117,6 +232,7 @@ export function compileStyleTabs (styleValues) {
 				}
 			}
 		})
+
 		if (transformStyleString) {
 			combineStyles += `-webkit-transform: ${transformStyleString};-ms-transform: ${transformStyleString};transform: ${transformStyleString};`
 		}
@@ -131,6 +247,14 @@ export function compileStyleTabs (styleValues) {
 
 			combineStyles += `-ms-perspective-origin: ${xAxis} ${yAxis}; -moz-perspective-origin: ${xAxis} ${yAxis}; -webkit-perspective-origin: ${xAxis} ${yAxis}; perspective-origin: ${xAxis} ${yAxis};`
 		}
+	}
+
+	// Check for transform origin
+	if (transformOriginX || transformOriginY || transformOriginZ) {
+		let originX = transformOriginX || '50%'
+		let originY = transformOriginY || '50%'
+		let originZ = transformOriginZ || '0'
+		combineStyles += `transform-origin: ${originX} ${originY} ${originZ};`
 	}
 
 	// Background gradient
@@ -205,149 +329,43 @@ export function compileStyleTabs (styleValues) {
 		combineStyles += borderRadiusStyles
 	}
 
-	// Key value styles
-	const filterProperties = [
-		'grayscale',
-		'sepia',
-		'blur',
-		'brightness',
-		'saturate',
-		'opacity',
-		'contrast',
-		'hue-rotate'
-	]
-
-	let filtersGroup = ''
+	// let filtersGroup = ''
 	let transformGroup = {}
-	let flexDirection = ''
-	let flexReverse = false
-	let customOrder = false
-	let hasPerspective = false
+	// let flexDirection = ''
+	// let flexReverse = false
+	// let customOrder = false
+	// let hasPerspective = false
 
-	Object.keys(keyValueStyles).forEach(property => {
-		if (property === 'flex-direction') {
-			flexDirection = keyValueStyles[property]
-		}
-		if (property === 'flex-reverse') {
-			flexReverse = true
-		}
-		if (property === 'mix-blend-mode') {
-			// this is a fix for : if flex-reverse is set and no direction, mix blend css was dissapearing
-			if (flexDirection.length === 0) {
-				combineStyles += `${property}: ${keyValueStyles[property]};`
-			}
-		}
+	// Object.keys(keyValueStyles).forEach(property => {
+	// 	const value = keyValueStyles[property]
 
-		if (property === 'perspective') {
-			// this is a fix for : if flex-reverse is set and no direction, perspective css was dissapearing
-			if (flexDirection.length === 0) {
-				hasPerspective = true
-				combineStyles += `-webkit-${property}: ${keyValueStyles[property]}; ${property}: ${keyValueStyles[property]};`
-			}
-		}
+	// 	if (value || value === 0) {
+	// 		// Add prefixes
+	// 		if (filterProperties.includes(property)) {
+	// 			if (property === 'hue-rotate') {
+	// 				filtersGroup += (`${property}(${value}deg) `)
+	// 			} else if (property === 'blur') {
+	// 				filtersGroup += (`${property}(${value}px) `)
+	// 			} else filtersGroup += (`${property}(${value}%) `)
+	// 		}
 
-		if (property === 'transform_origin_x_axis') {
-			transformGroup['x'] = `${keyValueStyles[property]}`
-		}
-		if (property === 'transform_origin_y_axis') {
-			transformGroup['y'] = `${keyValueStyles[property]}`
-		}
-		if (property === 'transform_origin_z_axis') {
-			transformGroup['z'] = `${keyValueStyles[property]}`
-		}
-		if (property === 'transform_style') {
-			combineStyles += `-ms-transform-style: ${keyValueStyles[property]}; -webkit-transform-style: ${keyValueStyles[property]}; transform-style: ${keyValueStyles[property]};`
-		}
-	})
+	// 		if (renderSpecialPrefix[property] !== undefined) {
+	// 			combineStyles += renderSpecialPrefix[property](value)
+	// 		} else {
+	// 			debugger
+	// 			combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective || hasPerspectiveValue) ? '' : `${property}: ${value};`
+	// 		}
 
-	const renderSpecialPrefix = {
-		'flex-direction': (value) => {
-			if (!flexReverse) {
-				return (flexDirection === 'row') ? `-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: ${value}; flex-direction: ${value};` : `-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction: ${value}; flex-direction: ${value};`
-			} else {
-				return flexDirection === 'row' ? `-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row reverse; flex-direction: row reverse;` : `-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column reverse; flex-direction: column reverse;`
-			}
-		},
-		'custom-order': (value) => {
-			return `-webkit-box-ordinal-group: ${value + 1}; -ms-flex-order: ${value}; order: ${value};`
-		},
-		'order': (value) => {
-			return `-webkit-box-ordinal-group: ${value + 1}; -ms-flex-order: ${value}; order: ${value};`
-		},
-		'align-items': (value) => {
-			let todelete = /flex-/gi
-			let cleanValue = value.replace(todelete, '')
-			return `-webkit-box-align: ${cleanValue}; -ms-flex-align: ${cleanValue}; align-items: ${value};`
-		},
-		'justify-content': (value) => {
-			if (value === 'space-around') {
-				return `-ms-flex-pack: distribute; justify-content: space-around;`
-			} else if (value === 'space-between') {
-				return `-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;`
-			} else {
-				let todelete = /flex-/gi
-				let cleanValue = value.replace(todelete, '')
-				return `-webkit-box-pack: ${cleanValue}; -ms-flex-pack: ${cleanValue}; justify-content: ${value};`
-			}
-		},
-		'flex-wrap': (value) => {
-			return `-ms-flex-wrap: ${value}; flex-wrap: ${value};`
-		},
-		'align-content': (value) => {
-			if (value === 'space-around') {
-				return `-ms-flex-line-pack: distribute; align-content: space-around;`
-			} else if (value === 'space-between') {
-				return `-ms-flex-line-pack: justify; align-content: space-between;`
-			} else {
-				let todelete = /flex-/gi
-				let cleanValue = value.replace(todelete, '')
-				return `-ms-flex-line-pack: ${cleanValue}; align-content: ${value};`
-			}
-		},
-		'flex-grow': (value) => {
-			return `-webkit-box-flex: ${value}; -ms-flex-positive: ${value}; flex-grow: ${value};`
-		},
-		'flex-shrink': (value) => {
-			return `-ms-flex-negative: ${value};flex-shrink: ${value};`
-		},
-		'flex-basis': (value) => {
-			return `-ms-flex-preferred-size: ${value}; flex-basis: ${value};`
-		},
-		'align-self': (value) => {
-			let todelete = /flex-/gi
-			let cleanValue = value.replace(todelete, '')
-			return `-ms-flex-item-align: ${cleanValue}; align-self:${value};`
-		}
+	// 		if (value === 'flex') {
+	// 			combineStyles += `display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; `
+	// 		}
 
-	}
+	// 		if (value === 'inline-flex') {
+	// 			combineStyles += `display: -webkit-inline-box; display: -ms-inline-flexbox; `
+	// 		}
+	// 	}
+	// })
 
-	Object.keys(keyValueStyles).forEach(property => {
-		const value = keyValueStyles[property]
-
-		if (value || value === 0) {
-			// Add prefixes
-			if (filterProperties.includes(property)) {
-				if (property === 'hue-rotate') {
-					filtersGroup += (`${property}(${value}deg) `)
-				} else if (property === 'blur') {
-					filtersGroup += (`${property}(${value}px) `)
-				} else filtersGroup += (`${property}(${value}%) `)
-			}
-
-			if (renderSpecialPrefix[property] !== undefined) {
-				combineStyles += renderSpecialPrefix[property](value)
-			} else {
-				combineStyles += (flexReverse || filtersGroup.length || transformGroup['x'] !== undefined || transformGroup['y'] !== undefined || transformGroup['z'] !== undefined || customOrder || flexDirection.length || hasPerspective || hasPerspectiveValue) ? '' : `${property}: ${value};`
-			}
-
-			if (value === 'flex') {
-				combineStyles += `display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; `
-			}
-			if (value === 'inline-flex') {
-				combineStyles += `display: -webkit-inline-box; display: -ms-inline-flexbox; `
-			}
-		}
-	})
 	if (filtersGroup.length) {
 		combineStyles += `-webkit-filter: ${filtersGroup};filter: ${filtersGroup};`
 	}
