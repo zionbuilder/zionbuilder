@@ -46,7 +46,7 @@ class IconList extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'list', 'icon' ];
+		return [ 'list', 'icons', 'symbol', 'font', 'svg', 'path', 'circle', 'stroke', 'icn' ];
 	}
 
 	/**

@@ -46,7 +46,7 @@ class CustomHtml extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'html', 'css', 'javascript' ];
+		return [ 'html', 'css', 'javascript', 'js', 'code', 'custom', 'shortcode', 'shrt', 'txt', 'markup' ];
 	}
 
 	/**

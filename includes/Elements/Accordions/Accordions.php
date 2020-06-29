@@ -46,7 +46,7 @@ class Accordions extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'accordions' ];
+		return [ 'accordions', 'folding', 'dropdown', 'drop-down', 'drop down', 'expand', 'navigation', 'tabs', 'panels' ];
 	}
 
 	/**
@@ -168,5 +168,4 @@ class Accordions extends Element {
 	public function render( $options ) {
 		$this->render_children();
 	}
-
 }

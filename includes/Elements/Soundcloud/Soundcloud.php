@@ -56,7 +56,7 @@ class Soundcloud extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'soundcloud', 'audio' ];
+		return [ 'soundcloud', 'audio', 'sound', 'cloud', 'music', 'player', 'spotify', 'embed', 'media', 'mp3' ];
 	}
 
 	/**

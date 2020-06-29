@@ -56,7 +56,7 @@ class Sidebar extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'sidebar' ];
+		return [ 'sidebar', 'lateral', 'bar', 'vertical', 'side' ];
 	}
 
 	/**
