@@ -26,7 +26,6 @@
 				@input="insertIcon($event,pack.name)"
 				:active-icon="iconValue.name"
 				:active-family="iconValue.family"
-
 			/>
 		</div>
 	</div>
@@ -54,7 +53,7 @@ export default {
 		return {
 			keyword: '',
 			activeIcon: null,
-			activeCategory:	'all'
+			activeCategory: 'all'
 		}
 	},
 	methods: {
@@ -99,7 +98,7 @@ export default {
 				for (const pack of this.packList) {
 					let copyPack = { ...pack }
 					const b = copyPack.icons.filter(icon =>
-						icon.name.includes(self.keyword)
+						icon.name.includes(self.keyword.toLowerCase())
 					)
 					copyPack.icons = [...b]
 					filtered.push(copyPack)
@@ -153,7 +152,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-icon-pack-modal {
 	display: flex;
 	flex-direction: column;
@@ -185,5 +183,4 @@ export default {
 		white-space: nowrap;
 	}
 }
-
 </style>

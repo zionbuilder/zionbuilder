@@ -48,6 +48,13 @@ class Plugin {
 	 */
 	public $renderer = null;
 	/**
+	 * Renderer class
+	 *
+	 * @var Renderer
+	 */
+	public $renderer = null;
+
+	/**
 	 * Plugin data from header comments
 	 *
 	 * @var string

@@ -22,6 +22,7 @@ class Renderer {
 	 */
 	private $registered_areas      = [];
 	private $instantiated_elements = [];
+
 	public function __construct() {
 	}
 
