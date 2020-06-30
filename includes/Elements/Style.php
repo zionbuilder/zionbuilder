@@ -161,11 +161,10 @@ class Style {
 		$transform_origin_y      = '';
 		$transform_origin_z      = '';
 		$compiled_filter         = '';
-		$flex_reverse            = false;
+		$flex_reverse            = isset( $style_options['flex-reverse'] ) ? $style_options['flex-reverse'] : false;
 
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
-
 				case in_array( $attribute, $filter_properties, true ):
 					switch ( $attribute ) {
 						case 'hue-rotate':
@@ -200,14 +199,13 @@ class Style {
 					break;
 
 				case 'flex-reverse':
-					$flex_reverse = true;
 					break;
 
 				case 'flex-direction':
 					if ( $flex_reverse ) {
 						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: %s; flex-direction: %s;', $value, $value ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction:  %s; flex-direction: %s;', $value, $value );
 					} else {
-						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row reverse; flex-direction: row reverse; ' ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column reverse; flex-direction: column reverse;' );
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row-reverse; flex-direction: row-reverse; ' ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column-reverse; flex-direction: column-reverse;' );
 					}
 
 					break;
@@ -372,6 +370,7 @@ class Style {
 					}
 					break;
 			}
+
 			switch ( $value ) {
 				case 'flex':
 					$compiled_css .= sprintf( 'display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex;' );

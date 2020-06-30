@@ -323,7 +323,7 @@ class Options extends Stack {
 		$i              = 1;
 
 		foreach ( $path_locations as $path_location ) {
-			if ( ! array_key_exists( $path_location, $active_model ) ) {
+			if ( ! is_array( $active_model ) || ! array_key_exists( $path_location, $active_model ) ) {
 				return null;
 			}
 

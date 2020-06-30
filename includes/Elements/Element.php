@@ -350,7 +350,6 @@ class Element {
 	 * @return string
 	 */
 	public function css() {
-		//#! TODO @Stefan: Implement Element::css() method
 		return '';
 	}
 
@@ -908,7 +907,7 @@ class Element {
 		$css .= $this->css();
 
 		// Add element custom css
-		$css .= apply_filters( 'zionbuilder/element/custom_css', $css, $this->options, $this );
+		$css = apply_filters( 'zionbuilder/element/custom_css', $css, $this->options, $this );
 
 		// Compile custom css
 		return $css;
