@@ -419,7 +419,11 @@ class Style {
 			$timing_function = isset( $style_options['transition-timing-function'] ) ? $style_options['transition-timing-function'] : 'ease';
 			$delay           = isset( $style_options['transition-delay'] ) ? $style_options['transition-delay'] : 0;
 
-			$compiled_css .= sprintf( 'transition: %s %sms %s %sms;', $property, $duration, $timing_function, $delay );
+			if ( $delay !== 0 ) {
+				$compiled_css .= sprintf( 'transition: %s %sms %s %sms;', $property, $duration, $timing_function, $delay );
+			} else {
+				$compiled_css .= sprintf( 'transition: %s %sms %s ;', $property, $duration, $timing_function );
+			}
 		}
 
 		return $compiled_css;
