@@ -408,6 +408,8 @@ class Localization {
 
 			// Background gradient
 			'select_background_gradient'             => __( 'Select background gradient', 'zionbuilder' ),
+			// Shape
+			'select_shape'                           => __( 'Select shape divider', 'zionbuilder' ),
 
 			//Link
 			'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),

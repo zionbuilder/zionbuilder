@@ -1768,6 +1768,35 @@ let SvgIcons = [
 			'three-dots'
 		],
 		'viewBox': ['0 0 8 40']
+	},
+	// shapes
+	{
+		'paths': [
+			'M0 0l1440 180H0V0z'
+		],
+		'tags': [
+			'shape-oblique'
+		],
+		'viewBox': ['0 0 1440 180']
+	},
+	{
+		'paths': [
+			'M0 0l1440 180H0V0z',
+			'M0 50l1440 130H0V50z'
+		],
+		'tags': [
+			'shape-double'
+		],
+		'viewBox': ['0 0 1440 180']
+	},
+	{
+		'paths': [
+			'M1440 0v181H0V0l720 179L1440 0z'
+		],
+		'tags': [
+			'shape-oblique-mirror'
+		],
+		'viewBox': ['0 0 1440 180']
 	}
 
 ]

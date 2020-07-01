@@ -387,5 +387,10 @@ svg:not(:root).icon {
 			opacity: .5;
 		}
 	}
+	&.zion-shape-double {
+		path:first-child {
+			opacity: .6;
+		}
+	}
 }
 </style>

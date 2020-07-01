@@ -444,6 +444,42 @@ class Section extends Element {
 				],
 			]
 		);
+
+		$shape_dividers = $options->add_group(
+			'shape_dividers',
+			[
+				'type'      => 'panel_accordion',
+				'title'     => __( 'Shape Dividers', 'zion-builder' ),
+				'collapsed' => true,
+			]
+		);
+
+		$shape_dividers->add_option(
+			'shape_position',
+			[
+				'type'    => 'custom_selector',
+				'columns' => 2,
+				'options' => [
+					[
+						'name' => __( 'Top mask', 'zionbuilder' ),
+						'id'   => 'top',
+					],
+					[
+						'name' => __( 'Bottom mask', 'zionbuilder' ),
+						'id'   => 'bottom',
+					],
+
+				],
+
+			]
+		);
+		$shape_dividers->add_option(
+			'shape_select',
+			[
+				'type' => 'shape_dividers',
+
+			]
+		);
 	}
 
 	/**
@@ -515,6 +551,14 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
+		$mask = $options->get_value( 'shape_select' );
+		if ( ! empty( $mask ) ) { ?>
+			<div class="znpb-mask">
+			<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 180"><path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/></svg>
+			</div>
+			<?php
+		}
+
 		$this->render_attributes->add( 'inner_content', 'class', 'zb-section__innerWrapper' );
 		$this->render_tag( 'div', 'inner_content', $this->get_children_for_render() );
 	}
