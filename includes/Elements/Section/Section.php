@@ -551,10 +551,13 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$mask = $options->get_value( 'shape_select' );
+		$mask           = $options->get_value( 'shape_select' );
+		$rendered_shape = $this->get_shape( $mask );
 		if ( ! empty( $mask ) ) { ?>
 			<div class="znpb-mask">
-			<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 180"><path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 180">
+					<?php echo $rendered_shape; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				</svg>
 			</div>
 			<?php
 		}

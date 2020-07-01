@@ -1266,4 +1266,25 @@ class Element {
 
 		return $child_elements_data;
 	}
+
+	/*
+	 * Returns string from shape id
+	 *
+	 * @param string $shape The shape id for which the attributes will be retrieved
+	 * @param mixed  $mask
+	 */
+	public function get_shape( $mask = '' ) {
+		// bail if we do not have any attributes
+		$shapes = [
+			'shape-oblique'        => '<path d="M0 0l1440 180H0V0z" fill="currentColor"/>',
+			'shape-double'         => '<path d="M0 0l1440 180H0V0z" fill="currentColor" fill-opacity=".6"/><path d="M0 50l1440 130H0V50z" fill="currentColor"/>',
+			'shape-oblique-mirror' => '<path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/>',
+		];
+		if ( empty( $mask ) ) {
+			return;
+		}
+
+		$returned_value = $shapes[$mask];
+		return $returned_value;
+	}
 }
