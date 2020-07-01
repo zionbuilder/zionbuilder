@@ -33,3 +33,12 @@
 		margin-top: 0;
 	}
 }
+
+.ajs__element {
+	visibility: hidden;
+
+	&.animated {
+		visibility: visible;
+	}
+}
+
