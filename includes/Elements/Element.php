@@ -9,7 +9,6 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -1266,6 +1265,41 @@ class Element {
 
 		return $child_elements_data;
 	}
+	/**
+	 * Holds a list of masks
+	 *
+	 * @var array<int, string>
+	 */
+	public function getshapes() {
+		$shapes = [
+			'shape-oblique'        => [
+				'viewbox' => '0 0 1440 180',
+				'paths'   => [ 'M0 0l1440 180H0V0z' ],
+			],
+			'shape-double'         => '<path d="M0 0l1440 180H0V0z" fill="currentColor" fill-opacity=".6"/><path d="M0 50l1440 130H0V50z" fill="currentColor"/>',
+			'shape-oblique-mirror' => '<path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/>',
+			'shape-curved-mirror'  => '<path d="M720 179c260.2 0 505.27-64.75 720-179v180H0V0c214.73 114.25 459.8 179 720 179z"/>',
+			'shape-split'          => '<path d="M770 50H670l50-50 50 50z" fill="currentColor"/>',
+			'shape-wavy'           => '<path d="M1260 10.15c-90-10.43-90-10.43-180-2.4s-90 8.03-180 0-90-8.03-180 2.4-90 10.43-180 4.42-90-6.01-180 5.74-90 11.75-180 6.16c-90-5.6-90-5.6-180 5.6V52h1440V10.16c-90 10.42-90 10.42-180-.01z"/>',
+		];
+		return $shapes;
+	}
+	/*
+	 * Returns string from shape id
+	 *
+	 * @param string $shape The shape id for which the attributes will be retrieved
+	 * @param mixed  $mask
+	 */
+	public function get_mask_paths( $mask = '' ) {
+		// bail if we do not have any attributes
+
+		if ( empty( $mask ) ) {
+			return;
+		}
+
+		$returned_value = $this->getshapes()[$mask]['paths'];
+		return $returned_value;
+	}
 
 	/*
 	 * Returns string from shape id
@@ -1273,18 +1307,16 @@ class Element {
 	 * @param string $shape The shape id for which the attributes will be retrieved
 	 * @param mixed  $mask
 	 */
-	public function get_shape( $mask = '' ) {
+	public function get_viewbox( $mask = '' ) {
 		// bail if we do not have any attributes
-		$shapes = [
-			'shape-oblique'        => '<path d="M0 0l1440 180H0V0z" fill="currentColor"/>',
-			'shape-double'         => '<path d="M0 0l1440 180H0V0z" fill="currentColor" fill-opacity=".6"/><path d="M0 50l1440 130H0V50z" fill="currentColor"/>',
-			'shape-oblique-mirror' => '<path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/>',
-		];
+
 		if ( empty( $mask ) ) {
 			return;
 		}
 
-		$returned_value = $shapes[$mask];
-		return $returned_value;
+		$shapes        = $this->getshapes();
+		$shape_viewbox = $shapes[$mask];
+
+		return $shape_viewbox['viewbox'];
 	}
 }

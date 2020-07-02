@@ -610,12 +610,14 @@ class Section extends Element {
 	 */
 	public function render( $options ) {
 		$mask           = $options->get_value( 'shape_type' );
-		$rendered_shape = $this->get_shape( $mask );
-
+		$rendered_shape = Element::get_viewbox( $mask );
+		$paths          = Element::get_mask_paths( $mask );
 		if ( ! empty( $mask ) ) { ?>
 			<div class="znpb-mask">
-				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 180">
-					<?php echo $rendered_shape; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="<?php echo esc_attr( $rendered_shape ); ?>" class="zion-svg-inline znpb-editor-icon zion-icon">
+					<?php foreach ( $paths as $value ) { ?>
+						<path d="<?php echo esc_attr( $value ); ?>" fill="currentColor"/>
+					<?php } ?>
 				</svg>
 			</div>
 			<?php
