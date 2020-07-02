@@ -8,7 +8,7 @@
 		>
 			<EmptyList
 				class="znpb-style-shape__empty"
-				v-if="!value || value === Undefined"
+				v-if="!value || value === undefined"
 				:no-margin="true"
 			>
 				{{$translate('select_shape')}}
@@ -46,14 +46,13 @@ export default {
 		 * Value for input
 		 */
 		value: {
-			type: String,
-			required: true
+			type: String
 		}
 
 	},
 	data () {
 		return {
-			freeShapes: ['shape-oblique', 'shape-double', 'shape-oblique-mirror']
+			freeShapes: ['shape-oblique', 'shape-double', 'shape-oblique-mirror', 'shape-curved-mirror', 'shape-split', 'shape-wavy']
 		}
 	},
 	computed: {

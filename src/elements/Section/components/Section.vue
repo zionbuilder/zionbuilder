@@ -4,10 +4,18 @@
 		:is="htmlTag"
 	>
 		<slot name="start" />
-
 		<RenderTag
-			tag-id="inner_content"
+			tag-id="div"
+			v-if="shapeType.length"
 		>
+			<div class="znpb-mask">
+				<BaseIcon
+					:icon="shapeType"
+					class="znpb-shape-divider-icon"
+				/>
+			</div>
+		</RenderTag>
+		<RenderTag tag-id="inner_content">
 			<SortableContent
 				:content="data.content"
 				:data="data"
@@ -26,6 +34,9 @@ export default {
 	computed: {
 		htmlTag () {
 			return this.options.tag || 'section'
+		},
+		shapeType () {
+			return this.options.shape_type || ''
 		}
 	}
 }

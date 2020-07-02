@@ -455,11 +455,12 @@ class Section extends Element {
 		);
 
 		$shape_dividers->add_option(
-			'shape_position',
+			'mask_position',
 			[
-				'type'    => 'custom_selector',
-				'columns' => 2,
-				'options' => [
+				'type'      => 'custom_selector',
+				'columns'   => 2,
+				'default'   => 'bottom',
+				'options'   => [
 					[
 						'name' => __( 'Top mask', 'zionbuilder' ),
 						'id'   => 'top',
@@ -470,14 +471,71 @@ class Section extends Element {
 					],
 
 				],
+				'css_style' => [
+					[
+						'selector' => '{{ELEMENT}} .znpb-mask',
+						'value'    => '{{VALUE}}: 0',
+					],
+				],
 
 			]
 		);
 		$shape_dividers->add_option(
-			'shape_select',
+			'shape_type',
 			[
-				'type' => 'shape_dividers',
+				'type'  => 'shape_dividers',
+				'title' => __( 'Select a Mask', 'zionbuilder' ),
+			]
+		);
 
+		$shape_dividers->add_option(
+			'mask_color',
+			[
+				'type'      => 'colorpicker',
+				'title'     => __( 'Mask color', 'zionbuilder' ),
+				'css_style' => [
+					[
+						'selector' => '{{ELEMENT}} .znpb-mask',
+						'value'    => 'color: {{VALUE}}',
+					],
+				],
+			]
+		);
+
+		$shape_dividers->add_option(
+			'mask_height',
+			[
+				'type'               => 'dynamic_slider',
+				'default'            => '140px',
+				'title'              => __( 'Mask Height', 'zionbuilder' ),
+				'description'        => __( 'Add a height for the mask', 'zionbuilder' ),
+				'responsive_options' => true,
+				'options'            => [
+					[
+						'unit' => 'px',
+						'min'  => 0,
+						'max'  => 4999,
+						'step' => 1,
+					],
+					[
+						'unit' => '%',
+						'min'  => 0,
+						'max'  => 100,
+						'step' => 1,
+					],
+					[
+						'unit' => 'vh',
+						'min'  => 0,
+						'max'  => 100,
+						'step' => 10,
+					],
+				],
+				'css_style'          => [
+					[
+						'selector' => '{{ELEMENT}} .znpb-mask',
+						'value'    => 'height: {{VALUE}}',
+					],
+				],
 			]
 		);
 	}
@@ -551,8 +609,9 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$mask           = $options->get_value( 'shape_select' );
+		$mask           = $options->get_value( 'shape_type' );
 		$rendered_shape = $this->get_shape( $mask );
+
 		if ( ! empty( $mask ) ) { ?>
 			<div class="znpb-mask">
 				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 180">
