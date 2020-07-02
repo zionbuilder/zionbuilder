@@ -387,7 +387,8 @@ export function compileStyleTabs (styleValues) {
 
 	// Transitions
 	if (transitionDuration) {
-		combineStyles += `transition: ${transitionProperty} ${transitionDuration}ms ${transitionTimingFunction} ${transitionDelay}ms;`
+		let delayCompiled = transitionDelay !== 0 ? `${transitionDelay}ms` : ''
+		combineStyles += `transition: ${transitionProperty} ${transitionDuration}ms ${transitionTimingFunction} ${delayCompiled};`
 	}
 
 	return combineStyles
