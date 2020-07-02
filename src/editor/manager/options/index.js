@@ -50,7 +50,7 @@ import {
 } from '@/common/components/forms'
 
 class OptionsManager {
-	constructor() {
+	constructor () {
 		this.options = {}
 
 		// Register default dynamic options
