@@ -41,6 +41,7 @@ export default {
 	display: flex;
 	width: 100%;
 	.zion-icon.zion-svg-inline {
+		display: block;
 		width: 100%;
 		height: 100%;
 	}
