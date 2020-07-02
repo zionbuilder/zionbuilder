@@ -450,17 +450,17 @@ class Section extends Element {
 			[
 				'type'      => 'panel_accordion',
 				'title'     => __( 'Shape Dividers', 'zion-builder' ),
-				'collapsed' => true,
+				'collapsed' => false,
 			]
 		);
 
 		$shape_dividers->add_option(
 			'mask_position',
 			[
-				'type'      => 'custom_selector',
-				'columns'   => 2,
-				'default'   => 'bottom',
-				'options'   => [
+				'type'             => 'custom_selector',
+				'columns'          => 2,
+				'default'          => 'bottom',
+				'options'          => [
 					[
 						'name' => __( 'Top mask', 'zionbuilder' ),
 						'id'   => 'top',
@@ -471,10 +471,16 @@ class Section extends Element {
 					],
 
 				],
-				'css_style' => [
+				'css_style'        => [
 					[
 						'selector' => '{{ELEMENT}} .znpb-mask',
 						'value'    => '{{VALUE}}: 0',
+					],
+				],
+				'render_attribute' => [
+					[
+						'attribute' => 'class',
+						'value'     => '-mask-position--{{VALUE}}',
 					],
 				],
 
@@ -613,13 +619,13 @@ class Section extends Element {
 		$rendered_shape = Element::get_viewbox( $mask );
 		$paths          = Element::get_mask_paths( $mask );
 		if ( ! empty( $mask ) ) { ?>
-			<div class="znpb-mask">
-				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="<?php echo esc_attr( $rendered_shape ); ?>" class="zion-svg-inline znpb-editor-icon zion-icon">
+			<span class="znpb-mask">
+				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="<?php echo esc_attr( $rendered_shape ); ?>" class="zion-<?php echo esc_attr( $mask ); ?>">
 					<?php foreach ( $paths as $value ) { ?>
 						<path d="<?php echo esc_attr( $value ); ?>" fill="currentColor"/>
 					<?php } ?>
 				</svg>
-			</div>
+			</span>
 			<?php
 		}
 

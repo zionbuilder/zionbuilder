@@ -8,12 +8,12 @@
 			tag-id="div"
 			v-if="shapeType.length"
 		>
-			<div class="znpb-mask">
-				<BaseIcon
-					:icon="shapeType"
-					class="znpb-shape-divider-icon"
-				/>
-			</div>
+
+			<BaseIcon
+				:icon="shapeType"
+				class="znpb-mask znpb-shape-divider-icon"
+			/>
+
 		</RenderTag>
 		<RenderTag tag-id="inner_content">
 			<SortableContent

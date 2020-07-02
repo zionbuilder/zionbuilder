@@ -21,13 +21,14 @@
 				:bgSize="20"
 			/>
 		</shape>
-
-		<shape
-			v-for="(shape,i) in freeShapes"
-			:key="i"
-			:shape="shape"
-			@click.native="valueModel=shape"
-		></shape>
+		<div class="znpb-shape-list znpb-fancy-scrollbar">
+			<shape
+				v-for="(shape,i) in freeShapes"
+				:key="i"
+				:shape="shape"
+				@click.native="valueModel=shape"
+			></shape>
+		</div>
 	</div>
 
 </template>
@@ -74,4 +75,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.znpb-shape-list {
+	display: flex;
+	flex-direction: column;
+	max-height: 400px;
+}
 </style>

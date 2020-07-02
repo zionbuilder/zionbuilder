@@ -1276,11 +1276,29 @@ class Element {
 				'viewbox' => '0 0 1440 180',
 				'paths'   => [ 'M0 0l1440 180H0V0z' ],
 			],
-			'shape-double'         => '<path d="M0 0l1440 180H0V0z" fill="currentColor" fill-opacity=".6"/><path d="M0 50l1440 130H0V50z" fill="currentColor"/>',
-			'shape-oblique-mirror' => '<path d="M1440 0v181H0V0l720 179L1440 0z" fill="currentColor"/>',
-			'shape-curved-mirror'  => '<path d="M720 179c260.2 0 505.27-64.75 720-179v180H0V0c214.73 114.25 459.8 179 720 179z"/>',
-			'shape-split'          => '<path d="M770 50H670l50-50 50 50z" fill="currentColor"/>',
-			'shape-wavy'           => '<path d="M1260 10.15c-90-10.43-90-10.43-180-2.4s-90 8.03-180 0-90-8.03-180 2.4-90 10.43-180 4.42-90-6.01-180 5.74-90 11.75-180 6.16c-90-5.6-90-5.6-180 5.6V52h1440V10.16c-90 10.42-90 10.42-180-.01z"/>',
+			'shape-double'         => [
+				'viewbox' => '0 0 1440 180',
+				'paths'   => [
+					'M0 0l1440 180H0V0z',
+					'M0 50l1440 130H0V50z',
+				],
+			],
+			'shape-oblique-mirror' => [
+				'viewbox' => '0 0 1440 180',
+				'paths'   => [ 'M1440 0v181H0V0l720 179L1440 0z' ],
+			],
+			'shape-curved-mirror'  => [
+				'viewbox' => '0 0 1440 180',
+				'paths'   => [ 'M720 179c260.2 0 505.27-64.75 720-179v180H0V0c214.73 114.25 459.8 179 720 179z' ],
+			],
+			'shape-split'          => [
+				'viewbox' => '0 0 1440 50',
+				'paths'   => [ 'M770 50H670l50-50 50 50z' ],
+			],
+			'shape-wavy'           => [
+				'viewbox' => '0 0 1440 50',
+				'paths'   => [ 'M1260 10.15c-90-10.43-90-10.43-180-2.4s-90 8.03-180 0-90-8.03-180 2.4-90 10.43-180 4.42-90-6.01-180 5.74-90 11.75-180 6.16c-90-5.6-90-5.6-180 5.6V52h1440V10.16c-90 10.42-90 10.42-180-.01z' ],
+			],
 		];
 		return $shapes;
 	}

@@ -5,9 +5,26 @@
 	width: 100%;
 	height: 132px;
 	color: #fff;
+
 	svg {
 		display: block;
 		width: 100%;
 		height: 100%;
+	}
+
+	&.znpb-shape-divider-icon {
+		display: flex;
+	}
+
+	.zion-shape-double {
+		path:first-child {
+			opacity: .6;
+		}
+	}
+}
+
+.-mask-position--top {
+	.znpb-mask svg {
+		transform: rotate(180deg);
 	}
 }

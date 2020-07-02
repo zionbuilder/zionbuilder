@@ -38,6 +38,7 @@ export default {
 </script>
 <style lang="scss">
 .znpb-shape-divider-icon {
+	display: flex;
 	width: 100%;
 	.zion-icon.zion-svg-inline {
 		width: 100%;
