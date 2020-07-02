@@ -5,6 +5,7 @@
 			v-if="shape !== undefined"
 			:icon="shape"
 			class="znpb-shape-divider-icon"
+			preserveAspectRatio="none"
 		/>
 	</div>
 </template>

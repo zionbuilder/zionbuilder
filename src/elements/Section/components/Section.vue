@@ -12,6 +12,7 @@
 			<BaseIcon
 				:icon="shapeType"
 				class="znpb-mask znpb-shape-divider-icon"
+				preserveAspectRatio="none"
 			/>
 
 		</RenderTag>
