@@ -78,6 +78,9 @@ export default {
 .znpb-shape-list {
 	display: flex;
 	flex-direction: column;
+	background-color: #f1f1f1;
 	max-height: 400px;
+	margin: 0 -20px;
+	padding: 20px;
 }
 </style>
