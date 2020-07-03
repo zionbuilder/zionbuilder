@@ -18,7 +18,7 @@ class Masks {
 	 *
 	 * @var array<int, string>
 	 */
-	private static $shapes = [
+	private $shapes = [
 		'shape-oblique'        => [
 			'viewbox' => '0 0 1440 180',
 			'paths'   => [ 'M0 0l1440 180H0V0z' ],
