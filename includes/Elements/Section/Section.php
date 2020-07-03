@@ -4,7 +4,7 @@ namespace ZionBuilder\Elements\Section;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
-
+use ZionBuilder\Elements\Masks;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -616,8 +616,8 @@ class Section extends Element {
 	 */
 	public function render( $options ) {
 		$mask           = $options->get_value( 'shape_type' );
-		$rendered_shape = Element::get_viewbox( $mask );
-		$paths          = Element::get_mask_paths( $mask );
+		$rendered_shape = Masks::get_viewbox( $mask );
+		$paths          = Masks::get_mask_paths( $mask );
 		if ( ! empty( $mask ) ) { ?>
 			<span class="znpb-mask">
 				<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="<?php echo esc_attr( $rendered_shape ); ?>" class="zion-<?php echo esc_attr( $mask ); ?>">
