@@ -58,7 +58,7 @@ class Masks {
 	 * @param string $shape The shape id for which the attributes will be retrieved
 	 * @param mixed  $mask
 	 */
-	public function get_mask_paths( $mask = '' ) {
+	public static function get_mask_paths( $mask = '' ) {
 		// bail if we do not have any attributes
 
 		if ( empty( $mask ) ) {
@@ -75,7 +75,7 @@ class Masks {
 	 * @param string $shape The shape id for which the attributes will be retrieved
 	 * @param mixed  $mask
 	 */
-	public function get_viewbox( $mask = '' ) {
+	public static function get_viewbox( $mask = '' ) {
 		// bail if we do not have any attributes
 
 		if ( empty( $mask ) ) {
