@@ -1,4 +1,4 @@
-=== Zion Page Builder ===
+=== WordPress Page Builder – Zion Builder ===
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
@@ -8,7 +8,7 @@ Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Zion Page Builder is a visual editor that comes with tools to help build interactive pages and posts in WordPress.
+Building websites just got easier! The latest WordPress page builder plugin on the market,Zion Builder is a visual editor with powerful design features to help you build interactive pages and posts in WordPress.
 
 
 == Description ==
