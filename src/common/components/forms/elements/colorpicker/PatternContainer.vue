@@ -26,7 +26,6 @@
 					>
 						Global colors are available in
 						<Label
-
 							text="PRO"
 							type="pro"
 						/>
@@ -39,12 +38,12 @@
 							v-for="(colorConfig,i) in globalColorPatterns"
 							v-bind:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
-							:style="{backgroundColor: colorConfig.color===model ? null : colorConfig.color}"
+							:style="{backgroundColor: colorConfig.id===selectedGlobalColor ? null : colorConfig.color}"
 							@click="onGlobalColorSelected(colorConfig)"
-							:class="{'znpb-colorpicker-circle--active': colorConfig.color===model}"
+							:class="{'znpb-colorpicker-circle--active': colorConfig.id===selectedGlobalColor}"
 						>
 							<span
-								v-if="colorConfig.color===model"
+								v-if="colorConfig.id===selectedGlobalColor"
 								class="znpb-colorpicker-circle__active-bg"
 							>
 								<span :style="{ 'background-color': colorConfig.color }">
@@ -91,11 +90,6 @@ export default {
 			default () {
 				return '#000'
 			}
-		},
-		activeTab: {
-			type: String,
-			required: false,
-			default: 'local'
 		}
 	},
 	data () {
@@ -112,7 +106,16 @@ export default {
 			'getOptionValue',
 			'isPro'
 		]),
+		selectedGlobalColor () {
+			const { id } = this.inputWrapper.schema
+			const { options = {} } = this.optionsForm.getValueByPath(`__dynamic_content__.${id}`, {})
 
+			return options.color_id
+		},
+
+		activeTab () {
+			return this.selectedGlobalColor ? 'global' : 'local'
+		},
 		localColorPatterns () {
 			return [...this.getOptionValue('local_colors')].reverse()
 		},
@@ -140,7 +143,6 @@ export default {
 		onGlobalColorSelected (colorConfig) {
 			const { id } = this.inputWrapper.schema
 
-			// this.$emit('color-updated', colorConfig.color)
 			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-color',
 				options: {
