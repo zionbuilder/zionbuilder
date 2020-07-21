@@ -41,9 +41,9 @@ export default {
 .znpb-shape-divider-icon {
 	display: flex;
 	align-items: flex-end;
-	color: #fff;
 	width: 100%;
 	height: 72px;
+	color: #fff;
 	.zion-icon.zion-svg-inline {
 		display: block;
 		width: 100%;
@@ -58,15 +58,15 @@ export default {
 	color: #fff;
 	background-color: rgb(0, 109, 210);
 	border-radius: 3px;
+	transition: box-shadow .2s linear;
 	cursor: pointer;
-	transition: box-shadow 0.2s linear;
 
 	&:last-of-type {
 		margin-bottom: 0;
 	}
 
 	&:hover {
-		box-shadow: 0 2px 15px 0 rgba(86, 86, 86, 0.1);
+		box-shadow: 0 2px 15px 0 rgba(86, 86, 86, .1);
 	}
 
 	&.znpb-active-shape-preview {
@@ -81,13 +81,19 @@ export default {
 
 	&.mask-active {
 		box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
-		.znpb-editor-icon--rounded {
+		.znpb-active-shape-preview__action {
 			position: absolute;
 			top: 10px;
 			right: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 20px;
+			height: 20px;
 			color: #858585;
-			font-size: 10px;
+			background-color: #fff;
 			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
+			border-radius: 50%;
 		}
 	}
 }

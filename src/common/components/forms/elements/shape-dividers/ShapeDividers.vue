@@ -13,13 +13,32 @@
 			>
 				{{$translate('select_shape')}}
 			</EmptyList>
-			<BaseIcon
+			<span
 				v-else
-				:rounded="true"
-				bgColor="#fff"
-				icon="check"
-				:bgSize="20"
-			/>
+				class="znpb-active-shape-preview__action"
+				@mouseover="showDelete=true"
+				@mouseleave="showDelete=false"
+			>
+				<transition
+					name="slide-fade"
+					mode="out-in"
+				>
+					<BaseIcon
+						v-if="!showDelete"
+						icon="check"
+						:size="10"
+						key=1
+					/>
+
+					<BaseIcon
+						key=2
+						v-else
+						icon="close"
+						:size="10"
+						@click.native.stop="valueModel=undefined,showDelete=false"
+					/>
+				</transition>
+			</span>
 		</shape>
 		<div class="znpb-shape-list znpb-fancy-scrollbar">
 			<shape
@@ -53,6 +72,7 @@ export default {
 	},
 	data () {
 		return {
+			showDelete: false,
 			freeShapes: ['shape-oblique', 'shape-double', 'shape-oblique-mirror', 'shape-curved-mirror', 'shape-split', 'shape-wavy']
 		}
 	},
@@ -78,9 +98,18 @@ export default {
 .znpb-shape-list {
 	display: flex;
 	flex-direction: column;
-	background-color: #f1f1f1;
 	max-height: 400px;
-	margin: 0 -20px;
 	padding: 20px;
+	margin: 0 -20px;
+	background-color: #f1f1f1;
+}
+
+/* Enter and leave transitions for delete mask */
+.slide-fade-enter-active, .slide-fade-leave-active {
+	transition: all .1s;
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+	opacity: 0;
 }
 </style>
