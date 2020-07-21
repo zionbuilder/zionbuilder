@@ -111,8 +111,8 @@ export default {
 			},
 			set (newValue) {
 				/**
-					 *It emits the new value
-					 */
+				 * It emits the new value
+				*/
 				this.$emit('input', newValue)
 			}
 		}
@@ -120,8 +120,10 @@ export default {
 	methods: {
 		disableDate (date) {
 			const currentDate = new Date()
+			currentDate.setHours(0, 0, 0, 0)
+
 			if (this.pastDisabled) {
-				return date <= currentDate
+				return date < currentDate
 			} else if (this.futureDisabled) {
 				return date > currentDate
 			} else return false
