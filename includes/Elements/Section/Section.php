@@ -512,7 +512,7 @@ class Section extends Element {
 			'mask_height',
 			[
 				'type'               => 'dynamic_slider',
-				'default'            => '140px',
+				'default'            => 'auto',
 				'title'              => __( 'Mask Height', 'zionbuilder' ),
 				'description'        => __( 'Add a height for the mask', 'zionbuilder' ),
 				'responsive_options' => true,
@@ -534,6 +534,9 @@ class Section extends Element {
 						'min'  => 0,
 						'max'  => 100,
 						'step' => 10,
+					],
+					[
+						'unit' => 'auto',
 					],
 				],
 				'css_style'          => [
