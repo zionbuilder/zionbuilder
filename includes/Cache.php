@@ -40,26 +40,9 @@ class Cache {
 	private $registered_post_ids = [];
 
 	/**
-	 * @var array{
-	 *             path: string,
-	 *             url: string,
-	 *             subdir: string,
-	 *             basedir: string,
-	 *             baseurl: string,
-	 *             error: string|false
-	 *             }
-	 */
-	private $wp_upload_dir;
-
-	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
-		/*
-		 * Cache uploads dir
-		 */
-		$this->wp_upload_dir = wp_upload_dir();
-
 		// Delete cache for posts actions
 		add_action( 'delete_post', [ $this, 'delete_post_cache' ] );
 		add_action( 'save_post', [ $this, 'delete_post_cache' ] );
@@ -67,6 +50,7 @@ class Cache {
 		// Delete all cache
 		add_action( 'after_switch_theme', [ $this, 'delete_all_cache' ] );
 		add_action( 'activated_plugin', [ $this, 'delete_all_cache' ] );
+		add_action( 'zionbuilder/settings/save', [ $this, 'delete_all_cache' ] );
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
