@@ -16,12 +16,7 @@
 				v-if="item.thumbnail"
 			/>
 		</div>
-		<div
-			v-if="item.type === 'multiple'"
-			class="znpb-editor-library-modal__item-bottom-multiple"
-		>
 
-		</div>
 		<div
 			v-if="item.pro"
 			class="znpb-editor-library-modal__item-pro"
@@ -87,6 +82,12 @@
 				v-else
 				:size="12"
 			/>
+
+		</div>
+		<div
+			v-if="item.type === 'multiple'"
+			class="znpb-editor-library-modal__item-bottom-multiple"
+		>
 
 		</div>
 
@@ -174,6 +175,10 @@ export default {
 
 	&:hover {
 		box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+
+		.znpb-editor-library-modal__item-bottom-multiple {
+			box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+		}
 	}
 
 	&-image {
@@ -242,11 +247,14 @@ export default {
 		position: absolute;
 		bottom: 0;
 		left: 0;
+		z-index: -1;
 		width: 100%;
 		height: 30px;
 		background-color: rgb(255, 255, 255);
 		border: 1px solid $surface-variant;
-		transform: scale(.9) translateY(13px);
+		border-radius: 3px;
+		transform: scale(.9) translateY(15px);
+		transition: box-shadow .2s;
 
 		break-inside: avoid;
 
@@ -260,6 +268,7 @@ export default {
 			background-color: rgb(255, 255, 255);
 			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
 			border: 1px solid $surface-variant;
+			border-radius: 3px;
 			transform: scale(1.07) translateY(-6px);
 		}
 	}
