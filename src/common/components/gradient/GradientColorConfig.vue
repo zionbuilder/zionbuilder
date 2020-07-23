@@ -1,6 +1,12 @@
 <template>
 
 	<div class="znpb-gradient-actions">
+		<OptionsForm
+			:schema="schema"
+			v-model="valueModel"
+			class="znpb-gradient-color-form"
+		/>
+<!--
 		<InputWrapper class="znpb-form-gradient">
 			<ColorPicker
 				v-model="colorValue"
@@ -18,7 +24,7 @@
 			>
 				%
 			</InputNumber>
-		</InputWrapper>
+		</InputWrapper> -->
 		<div
 			class="znpb-gradient-actions__delete"
 			v-if="showDelete"
@@ -53,6 +59,29 @@ export default {
 		ColorPicker
 	},
 	computed: {
+		valueModel: {
+			get () {
+				return this.config
+			},
+			set (newValue) {
+				this.$emit('input', newValue)
+			}
+		},
+		schema () {
+			return {
+				color: {
+					type: 'colorpicker',
+					id: 'color',
+					width: '50'
+				},
+				position: {
+					type: 'number',
+					id: 'position',
+					content: '%',
+					width: '50'
+				}
+			}
+		},
 		colorValue: {
 			get () {
 				return this.config.color
@@ -88,6 +117,10 @@ export default {
 
 	&:last-child {
 		margin-bottom: 0;
+	}
+
+	.znpb-gradient-color-form {
+		padding: 0;
 	}
 
 	.znpb-form-colorpicker-trigger-wrapper {
