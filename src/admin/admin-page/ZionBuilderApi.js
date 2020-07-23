@@ -1,7 +1,7 @@
 import L10n from './L10n'
 import routes from './router'
 import store from './store'
-
+import { addFilter, applyFilters } from '@/utils/filters'
 // Utils
 import * as utils from '@/utils'
 
@@ -17,7 +17,11 @@ const ZionBuilderApi = {
 		ModalTemplateSaveButton,
 		IconPackGrid
 	},
-	utils
+	utils,
+
+	// Filters
+	addFilter,
+	applyFilters
 }
 
 window.ZionBuilderApi = ZionBuilderApi

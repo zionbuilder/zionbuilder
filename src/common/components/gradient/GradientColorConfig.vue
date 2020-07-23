@@ -39,7 +39,7 @@
 
 </template>
 <script>
-import { InputWrapper, InputNumber, ColorPicker } from '@/common/components/forms'
+// import { OptionsForm } from '@/common/components/forms'
 export default {
 	name: 'GradientColorConfig',
 	props: {
@@ -54,9 +54,7 @@ export default {
 		}
 	},
 	components: {
-		InputNumber,
-		InputWrapper,
-		ColorPicker
+		// OptionsForm
 	},
 	computed: {
 		valueModel: {
