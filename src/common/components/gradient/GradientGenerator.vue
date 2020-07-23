@@ -94,6 +94,7 @@ import GradientLibrary from './GradientLibrary.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
 import { ActionsOverlay } from '@/common/components/forms'
+
 export default {
 	name: 'GradientGenerator',
 	components: {
@@ -147,6 +148,7 @@ export default {
 			activeGradientIndex: 0
 		}
 	},
+
 	computed: {
 		computedValue: {
 			get () {
@@ -222,13 +224,13 @@ export default {
 
 			// Change the active gradient
 			this.$nextTick(() => {
-				const newGradientIndex = this.computedValue.indexOf(defaultConfig)
+				const newGradientIndex = this.computedValue.findIndex(gradient => JSON.stringify(gradient) === JSON.stringify(defaultConfig))
 				this.changeActive(newGradientIndex)
 			})
 		},
 		changeActive (index) {
-			this.showOptions = true
 			this.activeGradientIndex = index
+			this.showOptions = true
 		},
 		changePosition (position) {
 			this.activeGradient = {
