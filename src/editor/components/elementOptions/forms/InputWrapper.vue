@@ -530,6 +530,9 @@ export default {
 				}
 
 				this.$parent.deleteValues(fullOptionIds)
+				this.deleteActiveElementValue({
+					path: compiledSync
+				})
 			} else {
 				if (this.schema.is_layout) {
 					const childOptionsIds = this.getChildOptionsIds(this.schema)

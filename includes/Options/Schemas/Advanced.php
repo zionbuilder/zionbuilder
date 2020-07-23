@@ -221,13 +221,10 @@ class Advanced extends BaseSchema {
 		$animation_group->add_option(
 			'_appear_duration',
 			[
-				'type'        => 'slider',
+				'type'        => 'dynamic_slider',
 				'description' => esc_html__( 'Set the desired appear animation duration (in miliseconds).' ),
 				'title'       => esc_html__( 'Appear duration', 'zionbuilder' ),
-				'default'     => 1000,
-				'min'         => 0,
-				'max'         => 10000,
-				'step'        => 100,
+				'default'     => '1000ms',
 				'content'     => 'ms',
 				'dependency'  => [
 					[
@@ -236,20 +233,33 @@ class Advanced extends BaseSchema {
 						'value'  => [ 'none' ],
 					],
 				],
+				'options'     => [
+					[
+						'min'        => 0,
+						'max'        => 100,
+						'step'       => 1,
+						'shift_step' => 5,
+						'unit'       => 's',
+					],
+					[
+						'min'        => 0,
+						'max'        => 10000,
+						'step'       => 10,
+						'shift_step' => 100,
+						'unit'       => 'ms',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-duration',
 			]
 		);
 
 		$animation_group->add_option(
 			'_appear_delay',
 			[
-				'type'        => 'slider',
+				'type'        => 'dynamic_slider',
 				'description' => esc_html__( 'Set the desired appear animation delay (in miliseconds).', 'zionbuilder' ),
 				'title'       => esc_html__( 'Appear delay', 'zionbuilder' ),
-				'default'     => 1000,
-				'min'         => 0,
-				'max'         => 10000,
-				'step'        => 100,
-				'content'     => 'ms',
+				'default'     => '0ms',
 				'dependency'  => [
 					[
 						'option' => '_appear_animation',
@@ -257,6 +267,23 @@ class Advanced extends BaseSchema {
 						'value'  => [ 'none' ],
 					],
 				],
+				'options'     => [
+					[
+						'min'        => 0,
+						'max'        => 100,
+						'step'       => 1,
+						'shift_step' => 5,
+						'unit'       => 's',
+					],
+					[
+						'min'        => 0,
+						'max'        => 10000,
+						'step'       => 10,
+						'shift_step' => 100,
+						'unit'       => 'ms',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-delay',
 			]
 		);
 
