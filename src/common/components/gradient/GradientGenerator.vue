@@ -150,7 +150,8 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				return this.value === undefined || this.value === null ? this.defaultConfig : this.value
+				const clonedValue = this.value === undefined || this.value === null ? this.defaultConfig : this.value
+				return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
 				this.$emit('input', newValue)

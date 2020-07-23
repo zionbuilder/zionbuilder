@@ -28,8 +28,7 @@ export default {
 			let gradient = []
 			let colors = []
 
-			let colorsCopy = [...this.config.colors]
-			colorsCopy = window.ZionBuilderApi.applyFilters('zionbuilder/options/model', colorsCopy, this)
+			const colorsCopy = [...this.config.colors]
 
 			colorsCopy.sort((a, b) => {
 				return a.position > b.position ? 1 : -1
