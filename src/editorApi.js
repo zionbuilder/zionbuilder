@@ -9,6 +9,7 @@ import { InjectionComponentsManager } from '@/common/components/injections'
 import L10n from './editor/L10n'
 import OptionsManager from '@/editor/manager/options'
 import { Tooltip } from './common/components/tooltip'
+import { BaseInput } from './common/components/forms/elements/input'
 import Vue from 'vue'
 
 const eventBusInstance = EventBus
@@ -38,7 +39,8 @@ const ZionBuilderApi = {
 	Injections: new InjectionComponentsManager(),
 
 	components: {
-		Tooltip
+		Tooltip,
+		BaseInput
 	},
 
 	utils: utils,
