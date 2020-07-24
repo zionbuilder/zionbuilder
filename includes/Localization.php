@@ -451,7 +451,8 @@ class Localization {
 			'color'                                  => __( 'Color', 'zionbuilder' ),
 
 			// PatternContainer, PresetInput
-			'add_preset_title'                       => __( 'Add a title for this preset', 'zionbuilder' ),
+			'add_preset_title'                       => __( 'Global color name', 'zionbuilder' ),
+			'type_preset'                            => __( 'Type a preset', 'zionbuilder' ),
 
 			//InputSelect
 			'no_result'                              => __( 'No results', 'zionbuilder' ),

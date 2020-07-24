@@ -20,6 +20,7 @@
 import InputWrapper from './InputWrapper'
 import { mapGetters } from 'vuex'
 import { updateOptionValue } from '@/utils/updateOptionValue'
+import { getOptionValue } from '@/utils'
 
 export default {
 	name: 'OptionsForm',
@@ -118,6 +119,9 @@ export default {
 		InputWrapper
 	},
 	methods: {
+		getValueByPath (path, defaultValue = null) {
+			return getOptionValue(this.value, path, defaultValue)
+		},
 		updateValueByPath (path, newValue) {
 			const updatedValues = updateOptionValue(this.value, path, newValue)
 

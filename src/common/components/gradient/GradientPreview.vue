@@ -26,11 +26,15 @@ export default {
 		return {}
 	},
 	computed: {
+		// Filter the value so we can set the dynamic colors
+		filteredConfig () {
+			return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(this.config)))
+		},
 		getGradientPreviewStyle () {
 			let style = {}
 			let gradient = []
 
-			this.config.forEach(element => {
+			this.filteredConfig.forEach(element => {
 				let colors = []
 				let position = '90deg'
 

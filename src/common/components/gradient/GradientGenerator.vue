@@ -94,6 +94,7 @@ import GradientLibrary from './GradientLibrary.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
 import { ActionsOverlay } from '@/common/components/forms'
+
 export default {
 	name: 'GradientGenerator',
 	components: {
@@ -147,10 +148,12 @@ export default {
 			activeGradientIndex: 0
 		}
 	},
+
 	computed: {
 		computedValue: {
 			get () {
-				return this.value === undefined || this.value === null ? this.defaultConfig : this.value
+				const clonedValue = this.value === undefined || this.value === null ? this.defaultConfig : this.value
+				return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
 				this.$emit('input', newValue)
@@ -221,13 +224,13 @@ export default {
 
 			// Change the active gradient
 			this.$nextTick(() => {
-				const newGradientIndex = this.computedValue.indexOf(defaultConfig)
+				const newGradientIndex = this.computedValue.findIndex(gradient => JSON.stringify(gradient) === JSON.stringify(defaultConfig))
 				this.changeActive(newGradientIndex)
 			})
 		},
 		changeActive (index) {
-			this.showOptions = true
 			this.activeGradientIndex = index
+			this.showOptions = true
 		},
 		changePosition (position) {
 			this.activeGradient = {
