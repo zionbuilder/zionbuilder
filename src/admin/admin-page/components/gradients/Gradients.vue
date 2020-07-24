@@ -163,7 +163,7 @@ export default {
 				}
 			])
 
-			this.activeGradientIndex = this.activeGradientIndex + 1
+			this.activeGradientIndex = this.getLocalGradients.length - 1
 			this.showModal = true
 		},
 		defaultGlobalObject () {

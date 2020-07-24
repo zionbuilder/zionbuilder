@@ -6,10 +6,10 @@ import ElementFocusMarshall from '@/editor/utils/ElementFocusMarshall'
 import ElementsManager from '@/editor/manager/elements'
 import EventBus from '@/editor/EventBus'
 import { InjectionComponentsManager } from '@/common/components/injections'
-import L10n from './editor/L10n'
+import L10n from '@/editor/L10n'
 import OptionsManager from '@/editor/manager/options'
-import { Tooltip } from './common/components/tooltip'
-import { BaseInput } from './common/components/forms/elements/input'
+import { Tooltip } from '@/common/components/tooltip'
+import { BaseInput } from '@/common/components/forms/elements/input'
 import Vue from 'vue'
 
 const eventBusInstance = EventBus

@@ -68,12 +68,17 @@ const getters = {
 }
 
 let loadedOptions = false
+let loadingPromise = null
 const actions = {
 	fetchOptionsOnce: ({ commit }) => {
 		if (loadedOptions) {
 			return Promise.resolve()
+		} else if (loadingPromise) {
+			return loadingPromise
 		}
-		return getSavedOptions().then((response) => {
+
+		// Load the options once
+		loadingPromise = getSavedOptions().then((response) => {
 			const newOptions = {
 				...state.options,
 				...response.data
@@ -81,6 +86,8 @@ const actions = {
 			loadedOptions = true
 			commit(types.SET_OPTIONS, newOptions)
 		})
+
+		return loadingPromise
 	},
 	fetchOptions: ({ commit }) => {
 		return getSavedOptions().then((response) => {
@@ -283,6 +290,7 @@ const mutations = {
 		state.options.global_gradients = payload
 	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
+		console.log(payload)
 		state.options.local_gradients.push(payload)
 	},
 	[types.ADD_GLOBAL_GRADIENT] (state, payload) {

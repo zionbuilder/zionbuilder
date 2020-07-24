@@ -22,10 +22,12 @@
 				icon="gradient"
 				slot="title"
 			/>
-			<BackgroundGradient
-				:value="valueModel['background-gradient']"
-				@input="onOptionUpdate('background-gradient', $event)"
-			/>
+			<FakeInputWrapper :schema="bgGradientSchema">
+				<BackgroundGradient
+					:value="valueModel['background-gradient']"
+					@input="onOptionUpdate('background-gradient', $event)"
+				/>
+			</FakeInputWrapper>
 		</Tab>
 		<Tab name="background-image">
 			<BaseIcon
@@ -83,6 +85,9 @@ export default {
 		return {
 			bgColorSchema: {
 				id: 'background-color'
+			},
+			bgGradientSchema: {
+				id: 'background-gradient'
 			}
 		}
 	},

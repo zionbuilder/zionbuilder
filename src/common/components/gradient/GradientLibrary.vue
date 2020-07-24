@@ -23,6 +23,7 @@
 				>
 
 					{{$translate('global_colors_availability')}}
+
 					<Label
 						:text="$translate('pro')"
 						type="pro"
@@ -35,7 +36,7 @@
 							v-bind:key="i"
 							:config="gradient.config"
 							:round="true"
-							@click.native="$emit('activate-gradient',gradient.config)"
+							@click.native="onGlobalGradientSelected(gradient)"
 						/>
 					</div>
 				</template>
@@ -61,6 +62,7 @@ export default {
 		GradientPreview,
 		Label
 	},
+	inject: ['inputWrapper', 'optionsForm'],
 	props: {
 		model: {
 			type: [String, Object],
@@ -85,7 +87,19 @@ export default {
 	methods: {
 		...mapActions([
 			'fetchOptionsOnce'
-		])
+		]),
+		onGlobalGradientSelected (gradient) {
+			const { id } = this.inputWrapper.schema
+
+			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+				type: 'global-gradient',
+				options: {
+					gradient_id: gradient.id
+				}
+			})
+			console.log({ id })
+			// this.$emit('activate-gradient', gradient.config)
+		}
 	},
 	created () {
 		this.fetchOptionsOnce()
