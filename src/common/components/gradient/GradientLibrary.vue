@@ -97,8 +97,11 @@ export default {
 					gradient_id: gradient.id
 				}
 			})
-			console.log({ id })
-			// this.$emit('activate-gradient', gradient.config)
+
+			// Delete the saved value
+			this.$nextTick(() => {
+				this.$emit('activate-gradient', null)
+			})
 		}
 	},
 	created () {

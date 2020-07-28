@@ -57,10 +57,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
-import GradientBox from './GradientBox.vue'
-import GradientModalContent from './GradientModalContent.vue'
-import AddGradient from './AddGradient.vue'
-import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
+import GradientBox from './GradientBox'
+import getDefaultGradientConfig from '@/common/components/gradient/defaultGradient'
+import GradientModalContent from './GradientModalContent'
+import AddGradient from './AddGradient'
+import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro'
 
 export default {
 	name: 'Gradients',
@@ -142,51 +143,10 @@ export default {
 		},
 
 		onAddNewGradient () {
-			this.addLocalGradient([
-				{
-					'type': 'linear',
-					'angle': 114,
-					'colors': [
-						{
-							'color': '#18208d',
-							'position': 0
-						},
-						{
-							'color': '#06bee1',
-							'position': 100
-						}
-					],
-					'position': {
-						'x': 75,
-						'y': 48
-					}
-				}
-			])
+			this.addLocalGradient(getDefaultGradientConfig())
 
 			this.activeGradientIndex = this.getLocalGradients.length - 1
 			this.showModal = true
-		},
-		defaultGlobalObject () {
-			return [
-				{
-					'type': 'linear',
-					'angle': 114,
-					'colors': [
-						{
-							'color': '#18208d',
-							'position': 0
-						},
-						{
-							'color': '#06bee1',
-							'position': 100
-						}
-					],
-					'position': {
-						'x': 75,
-						'y': 48
-					}
-				}
-			]
 		},
 		onAddNewGlobalGradient () {
 			let arrayLength = this.getGlobalGradients.length
@@ -194,7 +154,7 @@ export default {
 			let dynamicName = `gradientPreset${arrayLength + 1}`
 			const defaultGradient = {
 				id: dynamicName,
-				config: this.defaultGlobalObject()
+				config: getDefaultGradientConfig()
 			}
 
 			this.addGlobalGradient(defaultGradient)

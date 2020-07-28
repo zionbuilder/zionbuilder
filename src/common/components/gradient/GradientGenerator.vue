@@ -1,32 +1,21 @@
 <template>
 	<div
 		class="znpb-gradient-wrapper"
-		:class="{ 'znpb-gradient-wrapper--hasLibrary': hasLibrary }"
 	>
-		<GradientBoard
-			v-if="!hasLibrary"
-			:config="computedValue"
-			:activegrad="activeGradient"
-			@change-active-gradient="changeActive($event)"
-			@position-changed="changePosition($event)"
-		/>
-		<ActionsOverlay v-else>
+		<ActionsOverlay>
 			<GradientBoard
 				:config="computedValue"
 				:activegrad="activeGradient"
 				@change-active-gradient="changeActive($event)"
 				@position-changed="changePosition($event)"
 			/>
+
 			<template slot="actions">
 				<template v-if="!showPresetInput">
 					<span
 						class="znpb-gradient__show-preset"
 						v-on:click="showPresets=!showPresets"
 					>Presets</span>
-					<!-- <span
-						class="znpb-gradient__show-preset-input"
-						v-on:click="showPresetInput=!showPresetInput"
-					>Save as preset</span> -->
 				</template>
 
 				<PresetInput
@@ -44,11 +33,6 @@
 				/>
 			</template>
 		</ActionsOverlay>
-		<GradientLibrary
-			v-if="showPresets"
-			@close-library="showPresets=false"
-			@activate-gradient="computedValue = $event"
-		/>
 
 		<div class="znpb-gradient-elements-wrapper">
 			<Sortable
@@ -80,7 +64,6 @@
 		</div>
 
 		<GradientOptions
-			v-if="showOptions"
 			v-model="activeGradient"
 		/>
 
@@ -90,10 +73,10 @@
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'
 import GradientElement from './GradientElement.vue'
-import GradientLibrary from './GradientLibrary.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
 import { ActionsOverlay } from '@/common/components/forms'
+import getDefaultGradientConfig from './defaultGradient'
 
 export default {
 	name: 'GradientGenerator',
@@ -101,7 +84,6 @@ export default {
 		GradientOptions,
 		GradientBoard,
 		GradientElement,
-		GradientLibrary,
 		PresetInput,
 		ActionsOverlay,
 		Sortable
@@ -113,38 +95,13 @@ export default {
 			default () {
 
 			}
-		},
-		hasLibrary: {
-			type: Boolean,
-			required: false,
-			default: false
 		}
 	},
 	data () {
 		return {
-			defaultConfig: [
-				{
-					'type': 'linear',
-					'angle': 114,
-					'colors': [
-						{
-							'color': '#18208d',
-							'position': 0
-						},
-						{
-							'color': '#06bee1',
-							'position': 100
-						}
-					],
-					'position': {
-						'x': 75,
-						'y': 48
-					}
-				}
-			],
+			defaultConfig: getDefaultGradientConfig(),
 			showPresets: false,
 			showPresetInput: false,
-			showOptions: !this.hasLibrary,
 			activeGradientIndex: 0
 		}
 	},
@@ -202,24 +159,11 @@ export default {
 			this.computedValue = updatedValues
 		},
 		addGradientConfig () {
-			const defaultConfig = {
-				type: 'linear',
-				angle: 180,
-				colors: [
-					{
-						color: '#18208d',
-						position: 0
-					},
-					{
-						color: '#06bee1',
-						position: 100
-					}
-				]
-			}
+			const defaultConfig = getDefaultGradientConfig()
 
 			this.computedValue = [
 				...this.computedValue,
-				defaultConfig
+				defaultConfig[0]
 			]
 
 			// Change the active gradient
@@ -230,7 +174,6 @@ export default {
 		},
 		changeActive (index) {
 			this.activeGradientIndex = index
-			this.showOptions = true
 		},
 		changePosition (position) {
 			this.activeGradient = {
@@ -259,17 +202,16 @@ export default {
 	}
 }
 .znpb-gradient-wrapper {
-	&--hasLibrary {
-		.znpb-gradient-elements-wrapper {
-			padding: 10px 0 0 0;
-		}
-		.znpb-gradient-options-wrapper {
-			padding: 20px 0 0 0;
-		}
-		.znpb-gradient-wrapper__board {
-			margin-bottom: 0;
-		}
+	.znpb-gradient-elements-wrapper {
+		padding: 10px 0 0 0;
 	}
+	.znpb-gradient-options-wrapper {
+		padding: 20px 0 0 0;
+	}
+	.znpb-gradient-wrapper__board {
+		margin-bottom: 0;
+	}
+
 	.znpb-form__input-title {
 		margin-bottom: 10px;
 		color: $font-color;

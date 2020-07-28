@@ -407,7 +407,9 @@ class Localization {
 			'justify'                                => __( 'Justify', 'zionbuilder' ),
 
 			// Background gradient
-			'select_background_gradient'             => __( 'Select background gradient', 'zionbuilder' ),
+			'select_background_gradient'             => __( 'Select from library', 'zionbuilder' ),
+			'add_background_gradient'                => __( 'Add new background gradient', 'zionbuilder' ),
+			'or'                                     => __( 'or', 'zionbuilder' ),
 
 			//Link
 			'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),

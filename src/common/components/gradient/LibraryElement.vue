@@ -51,11 +51,6 @@ export default {
 <style lang="scss">
 .znpb-form-library-inner {
 	&-pattern-wrapper {
-		overflow: hidden;
-		width: 100%;
-		background: $surface;
-		border-top: 2px solid $surface-variant;
-		transition: height .2s ease-in-out;
 		.znpb-tabs--minimal {
 			.znpb-tabs__header > .znpb-tabs__header-item {
 				flex-grow: 0;
@@ -68,40 +63,10 @@ export default {
 			}
 		}
 
-		// fixed heigth to animate the patterns
-		&.znpb-form-library-inner-pattern-wrapper--stretch {
-			width: auto;
-			transform: translateY(0);
-			animation-duration: .2s;
-			animation-name: stretchPattern;
-			animation-timing-function: ease-out;
-		}
-		&.znpb-form-library-inner-pattern-wrapper--expand {
-			overflow: visible;
-			width: auto;
-			min-height: 100%;
-			transform: translateY(-61%);
-			animation-duration: .2s;
-			animation-name: expandPattern;
-			animation-timing-function: ease-out;
-
-			.znpb-form-library-grid__panel-content {
-				max-height: 161px;
-			}
-		}
-		&.znpb-form-library-inner-pattern-wrapper--start {
-			position: relative;
-			width: auto;
-			animation: none;
-		}
-		&--hasInput.znpb-form-library-inner-pattern-wrapper--expand, &--hasInput.znpb-form-library-inner-pattern-wrapper--stretch {
-			background: #fff;
-			border-top: 1px solid $surface-variant;
-			transition: none;
-		}
 		.znpb-admin-small-loader {
 			top: 50%;
 		}
+
 		.znpb-tabs > .znpb-tabs__header {
 			justify-content: center;
 			padding: 10px;
@@ -110,6 +75,7 @@ export default {
 			padding: 0;
 			color: lighten($font-color,15%);
 			font-size: 10px;
+
 			&:hover {
 				color: lighten($font-color,15%);
 				background: transparent;
@@ -145,23 +111,6 @@ export default {
 		right: 20px;
 		color: darken($surface-headings-color,10%);
 		cursor: pointer;
-	}
-}
-
-@keyframes stretchPattern {
-	0% {
-		transform: translateY(-61%);
-	}
-	100% {
-		transform: translateY(0);
-	}
-}
-@keyframes expandPattern {
-	0% {
-		transform: translateY(0);
-	}
-	100% {
-		transform: translateY(-61%);
 	}
 }
 </style>
