@@ -217,6 +217,7 @@ export default {
 		color: $font-color;
 		font-weight: 500;
 	}
+
 	.znpb-colorpicker-add-grad {
 		display: inline-flex;
 		justify-content: center;

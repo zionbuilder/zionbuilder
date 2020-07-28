@@ -88,7 +88,6 @@ export default {
 			},
 			bgGradientSchema: {
 				id: 'background-gradient',
-				basebone: true,
 				type: 'background_gradient'
 			}
 		}
@@ -121,7 +120,6 @@ export default {
 			this.valueModel = newValues
 		},
 		onOptionUpdate (optionId, newValue) {
-			console.log({ optionId, newValue })
 			const clonedValue = { ...this.value }
 			if (optionId) {
 				if (newValue === null) {
