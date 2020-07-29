@@ -2,7 +2,18 @@
 	<div
 		class="znpb-gradient-wrapper"
 	>
-		<ActionsOverlay>
+
+		<GradientBoard
+			v-if="!saveToLibrary"
+			:config="computedValue"
+			:activegrad="activeGradient"
+			@change-active-gradient="changeActive($event)"
+			@position-changed="changePosition($event)"
+		/>
+
+		<ActionsOverlay
+			v-else
+		>
 			<GradientBoard
 				:config="computedValue"
 				:activegrad="activeGradient"
@@ -10,21 +21,23 @@
 				@position-changed="changePosition($event)"
 			/>
 
-			<template slot="actions">
-				<template v-if="!showPresetInput">
-					<span
-						class="znpb-gradient__show-preset"
-						v-on:click="showPresets=!showPresets"
-					>Presets</span>
-				</template>
+			<template
+				slot="actions"
+			>
+				<span
+					v-if="!showPresetInput"
+					class="znpb-gradient__show-preset"
+					@click="showPresetInput=true"
+				>{{$translate('save_to_library')}}</span>
 
 				<PresetInput
 					v-else
-					@save-preset="addGlobalPattern()"
+					@save-preset="addGlobalPattern"
 					@cancel="showPresetInput=false"
 				/>
 
 				<BaseIcon
+					v-if="!showPresetInput"
 					icon="delete"
 					:bg-size="30"
 					bg-color="#fff"
@@ -77,6 +90,7 @@ import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
 import { ActionsOverlay } from '@/common/components/forms'
 import getDefaultGradientConfig from './defaultGradient'
+import { mapActions } from 'vuex'
 
 export default {
 	name: 'GradientGenerator',
@@ -92,15 +106,16 @@ export default {
 		value: {
 			type: Array,
 			required: false,
-			default () {
-
-			}
+			default () {}
+		},
+		saveToLibrary: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	data () {
 		return {
-			defaultConfig: getDefaultGradientConfig(),
-			showPresets: false,
 			showPresetInput: false,
 			activeGradientIndex: 0
 		}
@@ -109,7 +124,7 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				const clonedValue = this.value === undefined || this.value === null ? this.defaultConfig : this.value
+				const clonedValue = this.value === undefined || this.value === null ? getDefaultGradientConfig() : this.value
 				return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
@@ -129,11 +144,29 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions([
+			'addGlobalGradient',
+			'addLocalGradient',
+			'saveOptions'
+		]),
 		getValue () {
 			return this.computedValue
 		},
-		addGlobalPattern () {
+		addGlobalPattern (name, type) {
 			this.showPresetInput = false
+
+			const defaultGradient = {
+				name: name,
+				config: getDefaultGradientConfig()
+			}
+
+			if (type === 'local') {
+				this.addLocalGradient(defaultGradient)
+			} else {
+				this.addGlobalGradient(defaultGradient)
+			}
+
+			this.saveOptions()
 		},
 		deleteGradient (gradientConfig) {
 			const deletedGradientIndex = this.computedValue.indexOf(gradientConfig)
@@ -168,7 +201,7 @@ export default {
 
 			// Change the active gradient
 			this.$nextTick(() => {
-				const newGradientIndex = this.computedValue.findIndex(gradient => JSON.stringify(gradient) === JSON.stringify(defaultConfig))
+				const newGradientIndex = this.computedValue.length - 1
 				this.changeActive(newGradientIndex)
 			})
 		},
@@ -207,6 +240,11 @@ export default {
 	}
 	.znpb-gradient-options-wrapper {
 		padding: 20px 0 0 0;
+
+		.znpb-input-wrapper {
+			width: 100%;
+			padding: 0;
+		}
 	}
 	.znpb-gradient-wrapper__board {
 		margin-bottom: 0;
@@ -265,10 +303,6 @@ export default {
 				}
 			}
 		}
-	}
-	.znpb-input-wrapper {
-		width: 100%;
-		padding: 0;
 	}
 }
 

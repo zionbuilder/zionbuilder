@@ -67,28 +67,7 @@ const getters = {
 	getAllowedPosts: state => state.options.allowed_post_types
 }
 
-let loadedOptions = false
-let loadingPromise = null
 const actions = {
-	fetchOptionsOnce: ({ commit }) => {
-		if (loadedOptions) {
-			return Promise.resolve()
-		} else if (loadingPromise) {
-			return loadingPromise
-		}
-
-		// Load the options once
-		loadingPromise = getSavedOptions().then((response) => {
-			const newOptions = {
-				...state.options,
-				...response.data
-			}
-			loadedOptions = true
-			commit(types.SET_OPTIONS, newOptions)
-		})
-
-		return loadingPromise
-	},
 	fetchOptions: ({ commit }) => {
 		return getSavedOptions().then((response) => {
 			const newOptions = {
@@ -172,17 +151,28 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	// Gradients
-	updateLocalGradients: ({ commit }, payload) => {
-		commit(types.UPDATE_LOCAL_GRADIENTS, payload)
-	},
-	updateGlobalGradients: ({ commit }, payload) => {
-		commit(types.UPDATE_GLOBAL_GRADIENTS, payload)
+	updateGradient: ({ commit }, payload) => {
+		commit(types.UPDATE_GRADIENT, payload)
 	},
 	addLocalGradient: ({ commit }, payload) => {
-		commit(types.ADD_LOCAL_GRADIENT, payload)
+		let arrayLength = state.options.global_gradients.length
+		let dynamicId = `gradient${arrayLength + 1}`
+
+		commit(types.ADD_LOCAL_GRADIENT, {
+			id: dynamicId,
+			name: dynamicId,
+			...payload
+		})
 	},
-	addGlobalGradient: ({ commit }, payload) => {
-		commit(types.ADD_GLOBAL_GRADIENT, payload)
+	addGlobalGradient: ({ commit, state }, payload) => {
+		let arrayLength = state.options.global_gradients.length
+		let dynamicId = `gradient${arrayLength + 1}`
+
+		commit(types.ADD_GLOBAL_GRADIENT, {
+			id: dynamicId,
+			name: dynamicId,
+			...payload
+		})
 	},
 	deleteLocalGradient: ({ commit, dispatch }, payload) => {
 		commit(types.DELETE_LOCAL_GRADIENT, payload)
@@ -283,14 +273,10 @@ const mutations = {
 		Vue.set(state.options.global_colors, payload.index, payload.color)
 	},
 	// Gradients
-	[types.UPDATE_LOCAL_GRADIENTS] (state, payload) {
-		state.options.local_gradients = payload
-	},
-	[types.UPDATE_GLOBAL_GRADIENTS] (state, payload) {
-		state.options.global_gradients = payload
+	[types.UPDATE_GRADIENT] (state, { gradient, newValue }) {
+		Vue.set(gradient, 'config', newValue)
 	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
-		console.log(payload)
 		state.options.local_gradients.push(payload)
 	},
 	[types.ADD_GLOBAL_GRADIENT] (state, payload) {

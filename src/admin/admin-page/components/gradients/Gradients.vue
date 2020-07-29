@@ -10,7 +10,7 @@
 					<GradientBox
 						v-for="(gradient, index) in getLocalGradients"
 						:key="index"
-						:config="gradient"
+						:config="gradient.config"
 						@delete-gradient="deleteGradientElement(index)"
 						@click.native="onGradientSelect(index)"
 					/>
@@ -87,29 +87,19 @@ export default {
 		activeGradient: {
 			get () {
 				if (this.activeLibrary === 'local') {
-					return this.getLocalGradients[this.activeGradientIndex]
+					return this.getLocalGradients !== undefined && this.getLocalGradients[this.activeGradientIndex] !== undefined ? this.getLocalGradients[this.activeGradientIndex].config : []
 				} else {
 					return this.getGlobalGradients !== undefined && this.getGlobalGradients[this.activeGradientIndex] !== undefined ? this.getGlobalGradients[this.activeGradientIndex].config : []
 				}
 			},
 			set (newValue) {
-				if (this.activeLibrary === 'local') {
-					const gradients = [...this.getLocalGradients]
-					gradients[this.activeGradientIndex] = newValue
-					this.updateLocalGradients(gradients)
-				} else {
-					const globalGradients = [...this.getGlobalGradients]
-					let newState = [
-						...globalGradients.slice(0, this.activeGradientIndex),
-						{
-							...globalGradients[this.activeGradientIndex],
-							config: newValue
-						},
-						...globalGradients.slice(this.activeGradientIndex + 1, globalGradients.length)
-					]
+				const gradients = this.activeLibrary === 'local' ? this.getLocalGradients : this.getGlobalGradients
+				const gradient = gradients[this.activeGradientIndex]
 
-					this.updateGlobalGradients(newState)
-				}
+				this.updateGradient({
+					gradient,
+					newValue
+				})
 			}
 		}
 	},
@@ -118,8 +108,7 @@ export default {
 		...mapActions([
 			'addLocalGradient',
 			'addGlobalGradient',
-			'updateLocalGradients',
-			'updateGlobalGradients',
+			'updateGradient',
 			'deleteLocalGradient',
 			'deleteGlobalGradient',
 			'saveOptions'
@@ -143,7 +132,17 @@ export default {
 		},
 
 		onAddNewGradient () {
-			this.addLocalGradient(getDefaultGradientConfig())
+			let arrayLength = this.getLocalGradients.length
+
+			let dynamicName = `gradientPreset${arrayLength + 1}`
+			const defaultGradient = {
+				id: dynamicName,
+				name: dynamicName,
+				config: getDefaultGradientConfig()
+			}
+
+			// Add the gradient to store
+			this.addLocalGradient(defaultGradient)
 
 			this.activeGradientIndex = this.getLocalGradients.length - 1
 			this.showModal = true
@@ -154,6 +153,7 @@ export default {
 			let dynamicName = `gradientPreset${arrayLength + 1}`
 			const defaultGradient = {
 				id: dynamicName,
+				name: dynamicName,
 				config: getDefaultGradientConfig()
 			}
 
