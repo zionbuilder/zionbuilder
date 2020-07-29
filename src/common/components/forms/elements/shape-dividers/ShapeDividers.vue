@@ -47,6 +47,11 @@
 				:shape="shape"
 				@click.native="valueModel=shape"
 			></shape>
+			<UpgradeToPro
+				v-if="!isPro"
+				:message_title="$translate('pro_masks_title')"
+				:message_description="$translate('pro_masks_description')"
+			/>
 		</div>
 	</div>
 
@@ -55,11 +60,14 @@
 <script>
 import Shape from './Shape.vue'
 import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
+import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
+import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
 	components: {
 		EmptyList,
-		Shape
+		Shape,
+		UpgradeToPro
 	},
 	props: {
 		/**
@@ -77,6 +85,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters([
+			'isPro'
+		]),
 		valueModel: {
 			get () {
 				return this.value

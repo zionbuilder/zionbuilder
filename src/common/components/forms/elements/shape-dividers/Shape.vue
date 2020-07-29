@@ -53,7 +53,7 @@ export default {
 .znpb-editor-shapeWrapper {
 	position: relative;
 	display: flex;
-	height: 72px;
+	min-height: 72px;
 	margin-bottom: 18px;
 	color: #fff;
 	background-color: rgb(0, 109, 210);
