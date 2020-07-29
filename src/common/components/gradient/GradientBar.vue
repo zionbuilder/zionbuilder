@@ -202,7 +202,7 @@ export default {
 	},
 	beforeDestroy () {
 		document.body.classList.remove('znpb-color-gradient--backdrop')
-		this.rafEndDragging()
+		this.disableDragging()
 	}
 }
 </script>

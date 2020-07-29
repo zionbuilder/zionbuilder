@@ -94,7 +94,7 @@ export default {
 		}
 	},
 	beforeDestroy () {
-		this.rafEndDragging()
+		this.disableDragging()
 	}
 }
 </script>

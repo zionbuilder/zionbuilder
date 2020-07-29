@@ -414,7 +414,6 @@ class Localization {
 			'select_background_gradient'             => __( 'Select from library', 'zionbuilder' ),
 			'add_background_gradient'                => __( 'Add new background gradient', 'zionbuilder' ),
 			'or'                                     => __( 'or', 'zionbuilder' ),
-			'save_to_library'                        => __( 'Save to library', 'zionbuilder' ),
 			//Link
 			'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),
 			'link_new_window'                        => __( 'New Window', 'zionbuilder' ),
