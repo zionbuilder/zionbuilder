@@ -26,18 +26,23 @@ class Masks {
 	 */
 	public static function getshapes() {
 		$shapes = [
-			'shape-oblique'            => Utils::get_file_url( 'assets/masks/shape-oblique.svg' ),
-			'shape-double'             => Utils::get_file_url( 'assets/masks/shape-double.svg' ),
-			'shape-oblique-mirror'     => Utils::get_file_url( 'assets/masks/shape-oblique-mirror.svg' ),
-			'shape-curved-mirror'      => Utils::get_file_url( 'assets/masks/shape-curved-mirror.svg' ),
-			'shape-split'              => Utils::get_file_url( 'assets/masks/shape-split.svg' ),
-			'shape-wavy'               => Utils::get_file_url( 'assets/masks/shape-wavy.svg' ),
-			'shape-oblique-top'        => Utils::get_file_url( 'assets/masks/shape-oblique-top.svg' ),
-			'shape-double-top'         => Utils::get_file_url( 'assets/masks/shape-double-top.svg' ),
-			'shape-oblique-mirror-top' => Utils::get_file_url( 'assets/masks/shape-oblique-mirror-top.svg' ),
-			'shape-curved-mirror-top'  => Utils::get_file_url( 'assets/masks/shape-curved-mirror-top.svg' ),
-			'shape-split-top'          => Utils::get_file_url( 'assets/masks/shape-split-top.svg' ),
-			'shape-wavy-top'           => Utils::get_file_url( 'assets/masks/shape-wavy-top.svg' ),
+			'top'    => [
+				'top-mask_01' => Utils::get_file_url( 'assets/masks/top-mask_01.svg' ),
+				'top-mask_02' => Utils::get_file_url( 'assets/masks/top-mask_02.svg' ),
+				'top-mask_05' => Utils::get_file_url( 'assets/masks/top-mask_05.svg' ),
+				'top-mask_06' => Utils::get_file_url( 'assets/masks/top-mask_06.svg' ),
+				'top-mask_07' => Utils::get_file_url( 'assets/masks/top-mask_07.svg' ),
+				'top-mask_14' => Utils::get_file_url( 'assets/masks/top-mask_14.svg' ),
+
+			],
+			'bottom' => [
+				'bottom-mask_01' => Utils::get_file_url( 'assets/masks/bottom-mask_01.svg' ),
+				'bottom-mask_02' => Utils::get_file_url( 'assets/masks/bottom-mask_02.svg' ),
+				'bottom-mask_05' => Utils::get_file_url( 'assets/masks/bottom-mask_05.svg' ),
+				'bottom-mask_07' => Utils::get_file_url( 'assets/masks/bottom-mask_07.svg' ),
+				'bottom-mask_14' => Utils::get_file_url( 'assets/masks/bottom-mask_14.svg' ),
+			],
+
 		];
 		return apply_filters( 'zionbuilder/masks', $shapes );
 	}
@@ -71,14 +76,14 @@ class Masks {
 	 * @param string $shape The shape id for which the attributes will be retrieved
 	 * @param mixed  $mask
 	 */
-	public static function get_mask( $mask = '' ) {
+	public static function get_mask( $mask = '', $position ) {
 		// bail if we do not have any attributes
 
 		if ( empty( $mask ) ) {
 			return;
 		}
-
-		$returned_value = self::getshapes()[$mask];
+		$specific_array = self::getshapes()[$position];
+		$returned_value = $specific_array[$mask];
 		$svg_file       = FileSystem::get_file_system()->get_contents( $returned_value );
 		$sanitizer      = new Sanitizer();
 		echo wp_kses( $sanitizer->sanitize( $svg_file ), self::get_kses_extended_ruleset() );

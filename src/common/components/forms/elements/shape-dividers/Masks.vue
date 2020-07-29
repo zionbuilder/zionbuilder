@@ -20,7 +20,7 @@ export default {
 
 	},
 	mounted () {
-		if (this.shapePath.length) {
+		if (this.shapePath !== undefined && this.shapePath.length) {
 			this.getFile(this.shapePath)
 		}
 	},

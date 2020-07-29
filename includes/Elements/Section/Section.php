@@ -472,12 +472,6 @@ class Section extends Element {
 					],
 
 				],
-				'css_style'        => [
-					[
-						'selector' => '{{ELEMENT}} .znpb-mask',
-						'value'    => '{{VALUE}}: -1px',
-					],
-				],
 				'render_attribute' => [
 					[
 						'attribute' => 'class',
@@ -619,10 +613,11 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$mask = $options->get_value( 'shape_type' );
+		$mask     = $options->get_value( 'shape_type' );
+		$position = $options->get_value( 'mask_position' );
 		if ( ! empty( $mask ) ) { ?>
 			<span class="znpb-mask">
-				<?php Masks::get_mask( $mask ); ?>
+				<?php Masks::get_mask( $mask, $position ); ?>
 			</span>
 			<?php
 		}

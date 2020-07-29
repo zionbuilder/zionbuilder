@@ -3,7 +3,7 @@
 	<div>
 		<shape
 			class="znpb-active-shape-preview"
-			:shape="getMasks[valueModel]"
+			:shape="activeShapeObject[valueModel]"
 			:class="[{'mask-active': value !== undefined}]"
 		>
 			<EmptyList
@@ -46,6 +46,7 @@
 				:key="i"
 				:shape="shape"
 				@click.native="valueModel=shapeNames[i]"
+				:class="{'-pos--top': maskPosition==='top'}"
 			></shape>
 			<UpgradeToPro
 				v-if="!isPro"
@@ -64,7 +65,7 @@ import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
-	inject: ['inputWrapper'],
+	inject: ['inputWrapper', 'optionsForm'],
 	components: {
 		EmptyList,
 		Shape,
@@ -89,11 +90,17 @@ export default {
 			'isPro',
 			'getMasks'
 		]),
+		maskPosition () {
+			return this.optionsForm.elementInfo.data.data.options.mask_position
+		},
+		activeShapeObject () {
+			return this.getMasks[this.maskPosition]
+		},
 		shapes () {
-			return Object.values(this.getMasks)
+			return Object.values(this.activeShapeObject)
 		},
 		shapeNames () {
-			return Object.keys(this.getMasks)
+			return Object.keys(this.activeShapeObject)
 		},
 		valueModel: {
 			get () {

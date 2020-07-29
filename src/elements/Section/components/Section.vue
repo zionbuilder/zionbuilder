@@ -52,7 +52,10 @@ export default {
 			}
 		},
 		shapePath () {
-			return this.getMasks[this.shapeType]
+			return this.activeShapeObject[this.shapeType]
+		},
+		activeShapeObject () {
+			return this.getMasks[this.options.mask_position]
 		}
 	}
 

@@ -96,5 +96,12 @@ export default {
 			border-radius: 50%;
 		}
 	}
+
+	&.-pos--top {
+		.znpb-mask {
+			top: -1px;
+			bottom: auto;
+		}
+	}
 }
 </style>
