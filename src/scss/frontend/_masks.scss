@@ -8,10 +8,12 @@
 	color: #fff;
 	line-height: 0;
 
-	svg.zion-icon.zion-svg-inline {
+	svg {
 		display: block;
 		width: 100%;
 		height: 100%;
+
+		fill: currentColor;
 	}
 
 	.zion-shape-double {
