@@ -73,7 +73,7 @@ export default {
 	data () {
 		return {
 			showDelete: false,
-			freeShapes: ['shape-oblique', 'shape-double', 'shape-oblique-mirror', 'shape-curved-mirror', 'shape-split', 'shape-wavy']
+			freeShapes: ['shape-oblique', 'shape-double', 'shape-oblique-mirror', 'shape-curved-mirror', 'shape-split', 'shape-wavy', 'shape-oblique-top', 'shape-double-top', 'shape-oblique-mirror-top', 'shape-curved-mirror-top', 'shape-split-top', 'shape-wavy-top']
 		}
 	},
 	computed: {

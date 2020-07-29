@@ -1,20 +1,27 @@
 <template>
 	<div class="znpb-editor-shapeWrapper">
 		<slot></slot>
-		<BaseIcon
+		<!-- <BaseIcon
 			v-if="shape !== undefined"
 			:icon="shape"
 			class="znpb-shape-divider-icon"
 			preserveAspectRatio="none"
-		/>
+		/> -->
+		<!-- {{`${getSvgIcon}`}} -->
+		<div
+			v-if="shape !== undefined"
+			class="znpb-shape-divider-icon znpb-mask"
+			v-html="getSvgIcon"
+		>
+		</div>
 	</div>
 </template>
 
 <script>
-
+import Masks from './Masks.vue'
 export default {
 	name: 'Shape',
-
+	mixins: [Masks],
 	props: {
 		/**
 		 * Value for input
@@ -23,28 +30,20 @@ export default {
 			type: String,
 			required: false
 		}
-
-	},
-	data () {
-		return {
-
-		}
 	},
 	computed: {
-	},
-	methods: {
-
+		shapeType () {
+			return this.shape || ''
+		}
 	}
+
 }
 </script>
 <style lang="scss">
 .znpb-shape-divider-icon {
-	display: flex;
-	align-items: flex-end;
 	width: 100%;
-	height: 72px;
 	color: #fff;
-	.zion-icon.zion-svg-inline {
+	svg {
 		display: block;
 		width: 100%;
 		height: auto;
@@ -54,6 +53,7 @@ export default {
 .znpb-editor-shapeWrapper {
 	position: relative;
 	display: flex;
+	height: 72px;
 	margin-bottom: 18px;
 	color: #fff;
 	background-color: rgb(0, 109, 210);

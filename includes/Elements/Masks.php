@@ -2,6 +2,10 @@
 
 namespace ZionBuilder\Elements;
 
+use ZionBuilder\Utils;
+use enshrined\svgSanitize\Sanitizer;
+
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -21,70 +25,66 @@ class Masks {
 	 * @var array<int, string>
 	 */
 	public function getshapes() {
-		$shapes = [
-			'shape-oblique'        => [
-				'viewbox' => '0 0 1440 180',
-				'paths'   => [ 'M0 0l1440 180H0V0z' ],
-			],
-			'shape-double'         => [
-				'viewbox' => '0 0 1440 180',
-				'paths'   => [
-					'M0 0l1440 180H0V0z',
-					'M0 50l1440 130H0V50z',
-				],
-			],
-			'shape-oblique-mirror' => [
-				'viewbox' => '0 0 1440 180',
-				'paths'   => [ 'M1440 0v181H0V0l720 179L1440 0z' ],
-			],
-			'shape-curved-mirror'  => [
-				'viewbox' => '0 0 1440 180',
-				'paths'   => [ 'M720 179c260.2 0 505.27-64.75 720-179v180H0V0c214.73 114.25 459.8 179 720 179z' ],
-			],
-			'shape-split'          => [
-				'viewbox' => '0 0 1440 50',
-				'paths'   => [ 'M770 50H670l50-50 50 50z' ],
-			],
-			'shape-wavy'           => [
-				'viewbox' => '0 0 1440 50',
-				'paths'   => [ 'M1260 10.15c-90-10.43-90-10.43-180-2.4s-90 8.03-180 0-90-8.03-180 2.4-90 10.43-180 4.42-90-6.01-180 5.74-90 11.75-180 6.16c-90-5.6-90-5.6-180 5.6V52h1440V10.16c-90 10.42-90 10.42-180-.01z' ],
-			],
-		];
+		$shapes = apply_filters(
+			'zionbuilder/masks',
+			[
+				'shape-oblique'            => Utils::get_file_url( 'assets/masks/shape-oblique.svg' ),
+				'shape-double'             => Utils::get_file_url( 'assets/masks/shape-double.svg' ),
+				'shape-oblique-mirror'     => Utils::get_file_url( 'assets/masks/shape-oblique-mirror.svg' ),
+				'shape-curved-mirror'      => Utils::get_file_url( 'assets/masks/shape-curved-mirror.svg' ),
+				'shape-split'              => Utils::get_file_url( 'assets/masks/shape-split.svg' ),
+				'shape-wavy'               => Utils::get_file_url( 'assets/masks/shape-wavy.svg' ),
+				'shape-oblique-top'        => Utils::get_file_url( 'assets/masks/shape-oblique-top.svg' ),
+				'shape-double-top'         => Utils::get_file_url( 'assets/masks/shape-double-top.svg' ),
+				'shape-oblique-mirror-top' => Utils::get_file_url( 'assets/masks/shape-oblique-mirror-top.svg' ),
+				'shape-curved-mirror-top'  => Utils::get_file_url( 'assets/masks/shape-curved-mirror-top.svg' ),
+				'shape-split-top'          => Utils::get_file_url( 'assets/masks/shape-split-top.svg' ),
+				'shape-wavy-top'           => Utils::get_file_url( 'assets/masks/shape-wavy-top.svg' ),
+			]
+		);
 		return $shapes;
 	}
-	/*
-	 * Returns string from shape id
-	 *
-	 * @param string $shape The shape id for which the attributes will be retrieved
-	 * @param mixed  $mask
-	 */
-	public static function get_mask_paths( $mask = '' ) {
-		// bail if we do not have any attributes
 
-		if ( empty( $mask ) ) {
-			return;
-		}
+	public static function get_kses_extended_ruleset() {
+		$kses_defaults = wp_kses_allowed_html( 'post' );
 
-		$returned_value = self::getshapes()[$mask]['paths'];
-		return $returned_value;
+		$svg_args = [
+			'svg'   => [
+				'class'           => true,
+				'aria-hidden'     => true,
+				'aria-labelledby' => true,
+				'role'            => true,
+				'xmlns'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true, // <= Must be lower case!
+			],
+			'g'     => [ 'fill' => true ],
+			'title' => [ 'title' => true ],
+			'path'  => [
+				'd'    => true,
+				'fill' => true,
+			],
+		];
+		return array_merge( $kses_defaults, $svg_args );
 	}
-
 	/*
 	 * Returns string from shape id
 	 *
 	 * @param string $shape The shape id for which the attributes will be retrieved
 	 * @param mixed  $mask
 	 */
-	public static function get_viewbox( $mask = '' ) {
+	public static function get_mask( $mask = '' ) {
 		// bail if we do not have any attributes
 
 		if ( empty( $mask ) ) {
 			return;
 		}
 
-		$shapes        = self::getshapes();
-		$shape_viewbox = $shapes[$mask];
-
-		return $shape_viewbox['viewbox'];
+		$returned_value = self::getshapes()[$mask];
+		$request        = wp_remote_get( $returned_value );
+		$response       = wp_remote_retrieve_body( $request );
+		$sanitizer      = new Sanitizer();
+		echo wp_kses( $sanitizer->sanitize( $response ), self::get_kses_extended_ruleset() );
 	}
 }

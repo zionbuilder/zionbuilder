@@ -8,24 +8,11 @@
 			tag-id="div"
 			v-if="shapeType.length"
 		>
-			<div class="znpb-mask znpb-shape-divider-icon">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					xmlns:xlink="http://www.w3.org/1999/xlink"
-					preserveAspectRatio="none"
-				>
+			<div
+				class="znpb-mask"
+				v-html="getSvgIcon"
+			>
 
-					<!-- <BaseIcon
-					:icon="shapeType"
-					class="znpb-mask znpb-shape-divider-icon"
-					preserveAspectRatio="none"
-				/> -->
-					<use
-						:xlink:href="`${svgUrl}#${shapeType}`"
-						:href="`${svgUrl}#${shapeType}`"
-					>
-					</use>
-				</svg>
 			</div>
 		</RenderTag>
 		<RenderTag tag-id="inner_content">
@@ -41,32 +28,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import Masks from '@/common/components/forms/elements/shape-dividers/Masks.vue'
 export default {
 	name: 'zion_section',
 	props: ['options', 'data', 'api'],
+	mixins: [Masks],
 	computed: {
 		htmlTag () {
 			return this.options.tag || 'section'
 		},
 		shapeType () {
 			return this.options.shape_type || ''
-		},
-		...mapGetters([
-			'getAssetsUrl'
-		]),
-		svgUrl () {
-			return this.getAssetsUrl + '/masks/masks.svg'
-		},
-		getStyle () {
-			let style = {
-				// backgroundImage: `url("${this.svgUrl}#${this.shapeType})")`
-				// background: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none"><use xlink:href="${this.svgUrl}#${this.shapeType}" href="${this.svgUrl}#${this.shapeType}"></use></svg>')`
-			}
-			return style
 		}
 	}
+
 }
+
 </script>
 <style lang="scss">
 </style>
