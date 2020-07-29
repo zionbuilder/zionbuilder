@@ -17,6 +17,7 @@ export default {
 		shapeType (newvalue) {
 			this.shapeType = newvalue
 		}
+
 	},
 	mounted () {
 		if (this.shapePath.length) {

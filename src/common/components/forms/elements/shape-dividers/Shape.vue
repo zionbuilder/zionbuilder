@@ -24,6 +24,13 @@ export default {
 			required: false
 		}
 	},
+	watch: {
+		shape (newvalue) {
+			if (newvalue === undefined) {
+				this.svgData = ''
+			} else this.getFile(this.shapePath)
+		}
+	},
 	computed: {
 		shapePath () {
 			return this.shape || ''

@@ -35,7 +35,7 @@
 						v-else
 						icon="close"
 						:size="10"
-						@click.native.stop="valueModel=undefined,showDelete=false"
+						@click.native.stop="inputWrapper.deleteValue('shape_type'),showDelete=false"
 					/>
 				</transition>
 			</span>
@@ -64,6 +64,7 @@ import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
+	inject: ['inputWrapper'],
 	components: {
 		EmptyList,
 		Shape,

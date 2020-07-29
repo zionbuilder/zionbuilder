@@ -46,7 +46,9 @@ export default {
 				return this.options.shape_type || ''
 			},
 			set (newValue) {
-				this.getFile(this.shapePath)
+				if (newValue !== '') {
+					this.getFile(this.shapePath)
+				}
 			}
 		},
 		shapePath () {
