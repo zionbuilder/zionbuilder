@@ -24,7 +24,7 @@ class Masks {
 	 *
 	 * @var array<int, string>
 	 */
-	public function getshapes() {
+	public static function getshapes() {
 		$shapes = apply_filters(
 			'zionbuilder/masks',
 			[
