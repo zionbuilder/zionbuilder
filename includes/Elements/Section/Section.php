@@ -619,9 +619,7 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$mask  = $options->get_value( 'shape_type' );
-		$paths = Masks::get_mask( $mask );
-
+		$mask = $options->get_value( 'shape_type' );
 		if ( ! empty( $mask ) ) { ?>
 			<span class="znpb-mask">
 				<?php Masks::get_mask( $mask ); ?>
