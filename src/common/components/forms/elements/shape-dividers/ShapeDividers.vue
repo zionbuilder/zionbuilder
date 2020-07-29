@@ -3,7 +3,7 @@
 	<div>
 		<shape
 			class="znpb-active-shape-preview"
-			:shape="valueModel"
+			:shape="getMasks[valueModel]"
 			:class="[{'mask-active': value !== undefined}]"
 		>
 			<EmptyList
@@ -45,7 +45,7 @@
 				v-for="(shape,i) in shapes"
 				:key="i"
 				:shape="shape"
-				@click.native="valueModel=shape"
+				@click.native="valueModel=shapeNames[i]"
 			></shape>
 			<UpgradeToPro
 				v-if="!isPro"
@@ -89,6 +89,9 @@ export default {
 			'getMasks'
 		]),
 		shapes () {
+			return Object.values(this.getMasks)
+		},
+		shapeNames () {
 			return Object.keys(this.getMasks)
 		},
 		valueModel: {

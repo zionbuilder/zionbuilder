@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex'
 import axios from 'axios'
 let restConfig = window.ZnPbRestConfig
 
@@ -10,29 +9,24 @@ export default {
 		}
 	},
 	computed: {
-
-		...mapGetters([
-			'getAssetsUrl'
-		]),
-
 		getSvgIcon () {
 			return `${this.svgData}`
 		}
 	},
 	watch: {
 		shapeType (newvalue) {
-			this.getFile(newvalue)
+			this.shapeType = newvalue
 		}
 	},
 	mounted () {
-		if (this.shapeType.length) {
-			this.getFile(this.shapeType)
+		if (this.shapePath.length) {
+			this.getFile(this.shapePath)
 		}
 	},
 	methods: {
-		getFile (shapeType) {
+		getFile (shapePath) {
 			axios({
-				url: `${this.getAssetsUrl}/masks/${shapeType}.svg`,
+				url: shapePath,
 				method: 'GET',
 				headers: {
 					'X-WP-Nonce': restConfig.nonce,

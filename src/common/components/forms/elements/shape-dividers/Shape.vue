@@ -1,13 +1,6 @@
 <template>
 	<div class="znpb-editor-shapeWrapper">
 		<slot></slot>
-		<!-- <BaseIcon
-			v-if="shape !== undefined"
-			:icon="shape"
-			class="znpb-shape-divider-icon"
-			preserveAspectRatio="none"
-		/> -->
-		<!-- {{`${getSvgIcon}`}} -->
 		<div
 			v-if="shape !== undefined"
 			class="znpb-shape-divider-icon znpb-mask"
@@ -32,7 +25,7 @@ export default {
 		}
 	},
 	computed: {
-		shapeType () {
+		shapePath () {
 			return this.shape || ''
 		}
 	}

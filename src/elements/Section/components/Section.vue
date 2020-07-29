@@ -28,17 +28,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Masks from '@/common/components/forms/elements/shape-dividers/Masks.vue'
 export default {
 	name: 'zion_section',
 	props: ['options', 'data', 'api'],
 	mixins: [Masks],
 	computed: {
+		...mapGetters([
+			'getMasks'
+		]),
 		htmlTag () {
 			return this.options.tag || 'section'
 		},
-		shapeType () {
-			return this.options.shape_type || ''
+		shapeType: {
+			get () {
+				return this.options.shape_type || ''
+			},
+			set (newValue) {
+				this.getFile(this.shapePath)
+			}
+		},
+		shapePath () {
+			return this.getMasks[this.shapeType]
 		}
 	}
 
