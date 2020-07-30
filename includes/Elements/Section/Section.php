@@ -462,60 +462,6 @@ class Section extends Element {
 				'title' => __( 'Add a mask to your element', 'zionbuilder' ),
 			]
 		);
-
-		$shape_dividers->add_option(
-			'mask_color',
-			[
-				'type'      => 'colorpicker',
-				'title'     => __( 'Mask color', 'zionbuilder' ),
-				'css_style' => [
-					[
-						'selector' => '{{ELEMENT}} .znpb-mask',
-						'value'    => 'color: {{VALUE}}',
-					],
-				],
-			]
-		);
-
-		$shape_dividers->add_option(
-			'mask_height',
-			[
-				'type'               => 'dynamic_slider',
-				'default'            => 'auto',
-				'title'              => __( 'Mask Height', 'zionbuilder' ),
-				'description'        => __( 'Add a height for the mask', 'zionbuilder' ),
-				'responsive_options' => true,
-				'options'            => [
-					[
-						'unit' => 'px',
-						'min'  => 0,
-						'max'  => 4999,
-						'step' => 1,
-					],
-					[
-						'unit' => '%',
-						'min'  => 0,
-						'max'  => 100,
-						'step' => 1,
-					],
-					[
-						'unit' => 'vh',
-						'min'  => 0,
-						'max'  => 100,
-						'step' => 10,
-					],
-					[
-						'unit' => 'auto',
-					],
-				],
-				'css_style'          => [
-					[
-						'selector' => '{{ELEMENT}} .znpb-mask',
-						'value'    => 'height: {{VALUE}}',
-					],
-				],
-			]
-		);
 	}
 
 	/**

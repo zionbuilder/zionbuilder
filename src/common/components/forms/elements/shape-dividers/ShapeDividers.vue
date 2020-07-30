@@ -10,30 +10,39 @@
 
 			</CustomSelector>
 		</InputWrapper>
-		<InputWrapper :title="$translate('select_mask')">
+		<!-- <InputWrapper :title="$translate('select_mask')">
 			<ShapeDividerComponent
 				:mask-position="activeMaskPosition"
 				v-model="shapeValue"
 				@remove-shape="deleteShape"
 			/>
-		</InputWrapper>
+		</InputWrapper> -->
+		<ShapeConfig
+			:config="shapeConfigValue"
+			@input="onShapeConfigUpdate($event)"
+		/>
 	</div>
 
 </template>
 
 <script>
-
-import ShapeDividerComponent from './ShapeDividerComponent.vue'
+import ShapeConfig from './ShapeConfig.vue'
 import CustomSelector from '../custom-selector/CustomSelector'
 import { InputWrapper } from '../inputWrapper'
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
+	provide () {
+		return {
+			activeMaskPosition: this.activeMaskPosition
+		}
+	},
 	inject: ['inputWrapper', 'optionsForm'],
 	components: {
-		ShapeDividerComponent,
+
 		CustomSelector,
-		InputWrapper
+		InputWrapper,
+		ShapeConfig
 	},
 	props: {
 		/**
@@ -72,6 +81,9 @@ export default {
 		computedValue () {
 			return this.value || this.defaultValue
 		},
+		shapeConfigValue () {
+			return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition] : {}
+		},
 		shapeValue: {
 			get () {
 				return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition]['shape_type'] : ''
@@ -91,6 +103,17 @@ export default {
 	methods: {
 		deleteShape () {
 			console.log('delete shape')
+		},
+		onShapeConfigUpdate (newValue) {
+			console.log(newValue)
+
+			let clonedMasks = this.computedValue
+			for (const [key, maskObject] of Object.entries(clonedMasks)) {
+				if (key === this.activeMaskPosition) {
+					Object.assign(clonedMasks[key], newValue)
+				}
+			}
+			this.$emit('input', clonedMasks)
 		}
 	}
 }

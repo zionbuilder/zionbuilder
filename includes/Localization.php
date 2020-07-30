@@ -416,6 +416,8 @@ class Localization {
 			'pro_masks_description'                  => __( 'The shape you were looking for is not listed above ?', 'zionbuilder' ),
 			'mask_position'                          => __( 'Mask position', 'zionbuilder' ),
 			'select_mask'                            => __( 'Select a mask', 'zionbuilder' ),
+			'select_mask_height'                     => __( 'Add mask height', 'zionbuilder' ),
+			'select_mask_color'                      => __( 'Add a color to mask', 'zionbuilder' ),
 
 			// Background gradient
 			'select_background_gradient'             => __( 'Select from library', 'zionbuilder' ),

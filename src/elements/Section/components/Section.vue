@@ -9,7 +9,7 @@
 			v-if="topMask!==undefined && Object.keys(topMask).length"
 		>
 			<SvgMask
-				:shapePath="topMask['shape_type']"
+				:shapePath="topMask['shape']"
 				position="top"
 			/>
 
@@ -19,7 +19,7 @@
 			v-if="bottomMask!==undefined && Object.keys(bottomMask).length"
 		>
 			<SvgMask
-				:shapePath="bottomMask['shape_type']"
+				:shapePath="bottomMask['shape']"
 				position="bottom"
 			/>
 
