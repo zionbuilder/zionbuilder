@@ -8,9 +8,13 @@ import EventBus from '@/editor/EventBus'
 import { InjectionComponentsManager } from '@/common/components/injections'
 import L10n from '@/editor/L10n'
 import OptionsManager from '@/editor/manager/options'
+import Vue from 'vue'
+
+// Shared components
 import { Tooltip } from '@/common/components/tooltip'
 import { BaseInput } from '@/common/components/forms/elements/input'
-import Vue from 'vue'
+import GradientPreview from '@/common/components/gradient/GradientPreview.vue'
+import ActionsOverlay from '@/common/components/forms/elements/actions-overlay/ActionsOverlay'
 
 const eventBusInstance = EventBus
 
@@ -40,7 +44,9 @@ const ZionBuilderApi = {
 
 	components: {
 		Tooltip,
-		BaseInput
+		BaseInput,
+		GradientPreview,
+		ActionsOverlay
 	},
 
 	utils: utils,

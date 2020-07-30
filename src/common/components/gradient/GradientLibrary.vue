@@ -10,9 +10,9 @@
 					<GradientPreview
 						v-for="(gradient,i) in getLocalGradients"
 						v-bind:key="i"
-						:config="gradient"
+						:config="gradient.config"
 						:round="true"
-						@click.native="$emit('activate-gradient',gradient)"
+						@click.native="$emit('activate-gradient',gradient.config)"
 					/>
 				</div>
 			</Tab>
@@ -72,8 +72,7 @@ export default {
 	data () {
 		return {
 			onstart: true,
-			expand: false,
-			loaded: false
+			expand: false
 		}
 	},
 	computed: {
@@ -85,9 +84,6 @@ export default {
 
 	},
 	methods: {
-		...mapActions([
-			'fetchOptionsOnce'
-		]),
 		onGlobalGradientSelected (gradient) {
 			const { id } = this.inputWrapper.schema
 
@@ -97,12 +93,12 @@ export default {
 					gradient_id: gradient.id
 				}
 			})
-			console.log({ id })
-			// this.$emit('activate-gradient', gradient.config)
+
+			// Delete the saved value
+			this.$nextTick(() => {
+				this.$emit('activate-gradient', null)
+			})
 		}
-	},
-	created () {
-		this.fetchOptionsOnce()
 	}
 }
 </script>

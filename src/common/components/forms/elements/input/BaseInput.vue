@@ -5,6 +5,7 @@
 			'zion-input--has-prepend': $slots.prepend,
 			'zion-input--has-append': $slots.append,
 			'zion-input--has-suffix': hasSuffixContent,
+			'zion-input--error': error,
 			[`zion-input--size-${size}`]: size
 		}"
 		@keydown="onKeyDown"
@@ -81,6 +82,14 @@ export default {
 		value: {
 			required: false,
 			type: null
+		},
+		/**
+		 * If true, will mark the field as red
+		 */
+		error: {
+			type: Boolean,
+			required: false,
+			default: false
 		},
 		/**
 		 * HTML input type (email, password, etc)
@@ -174,12 +183,16 @@ export default {
 	font-size: 13px;
 	line-height: 1;
 	background: transparent;
-	border: 2px solid $border-color;
+	border: 2px solid var(--zion-border-color);
 	border-radius: 3px;
 
 	.znpb-editor-icon-wrapper {
 		color: $surface-headings-color;
 		font-size: 14px;
+	}
+
+	&--error {
+		--zion-border-color: red;
 	}
 
 	&__clear-text {

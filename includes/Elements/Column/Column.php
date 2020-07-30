@@ -106,7 +106,7 @@ class Column extends Element {
 	private function get_column_offset_options() {
 		$options = [];
 
-		for ( $i = 1; $i < 12; $i++ ) {
+		for ( $i = 0; $i < 12; $i++ ) {
 			$options[] = [
 				'id'   => "$i",
 				'name' => "$i",

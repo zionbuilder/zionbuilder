@@ -15,6 +15,8 @@
 <script>
 import GradientPreview from './GradientPreview.vue'
 import GradientRadialDragger from './GradientRadialDragger.vue'
+import rafSchd from 'raf-schd'
+
 export default {
 	name: 'GradientBoard',
 	components: {
@@ -44,8 +46,11 @@ export default {
 	},
 	methods: {
 		enableDragging (gradient, event) {
-			document.addEventListener('mousemove', this.onCircleDrag)
-			document.addEventListener('mouseup', this.disableDragging)
+			this.rafMovePosition = rafSchd(this.onCircleDrag)
+			this.rafEndDragging = rafSchd(this.disableDragging)
+
+			document.addEventListener('mousemove', this.rafMovePosition)
+			document.addEventListener('mouseup', this.rafEndDragging)
 
 			document.body.style.userSelect = 'none'
 
@@ -54,8 +59,8 @@ export default {
 			this.$emit('change-active-gradient', activeGradientIndex)
 		},
 		disableDragging (event) {
-			document.removeEventListener('mousemove', this.onCircleDrag)
-			document.removeEventListener('mouseup', this.disableDragging)
+			document.removeEventListener('mousemove', this.rafMovePosition)
+			document.removeEventListener('mouseup', this.rafEndDragging)
 
 			document.body.style.userSelect = null
 		},

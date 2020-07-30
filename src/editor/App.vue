@@ -276,7 +276,7 @@ export default {
 			'setElementFocus',
 			'setRightClickMenu',
 			'setActiveDevice',
-			'fetchOptionsOnce'
+			'fetchOptions'
 		]),
 		activateDevice (device) {
 			this.setActiveDevice(device.id)
@@ -322,7 +322,7 @@ export default {
 	},
 
 	created: function () {
-		this.fetchOptionsOnce().finally((result) => {
+		this.fetchOptions().finally((result) => {
 			this.loadedMainApp = true
 		})
 		this.initialiseDataSets()

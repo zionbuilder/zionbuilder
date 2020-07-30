@@ -48,6 +48,8 @@ class Localization {
 			// get pro
 			'upgrade_to_pro'                         => esc_html__( 'Upgrade to PRO', 'zionbuilder' ),
 			// general
+			'local'                                  => esc_html__( 'Local', 'zionbuilder' ),
+			'global'                                 => esc_html__( 'Global', 'zionbuilder' ),
 
 			// Admin Menu
 			'templates'                              => esc_html__( 'Templates', 'zionbuilder' ),
@@ -173,6 +175,8 @@ class Localization {
 			'gradient_bar'                           => esc_html__( 'Gradient bar', 'zionbuilder' ),
 			'click_to_add_gradient_point'            => esc_html__( 'Click to add gradient point', 'zionbuilder' ),
 			'global_colors_availability'             => esc_html__( 'Global colors are available in', 'zionbuilder' ),
+			'save_gradient_title'                    => __( 'name', 'zionbuilder' ),
+
 			// System info
 			'copy_paste'                             => esc_html__( 'Copy and paste info', 'zionbuilder' ),
 			'copy_paste_description'                 => esc_html__( 'You can copy the below info as simple text with Ctrl+C / Ctrl+V:', 'zionbuilder' ),
@@ -406,14 +410,17 @@ class Localization {
 			'align_right'                            => __( 'Align right', 'zionbuilder' ),
 			'justify'                                => __( 'Justify', 'zionbuilder' ),
 
-			// Background gradient
-			'select_background_gradient'             => __( 'Select background gradient', 'zionbuilder' ),
 			// Shape
 			'select_shape'                           => __( 'Select shape divider', 'zionbuilder' ),
 			'pro_masks_title'                        => __( 'More shape dividers', 'zionbuilder' ),
 			'pro_masks_description'                  => __( 'The shape you were looking for is not listed above ?', 'zionbuilder' ),
 			'mask_position'                          => __( 'Mask position', 'zionbuilder' ),
 			'select_mask'                            => __( 'Select a mask', 'zionbuilder' ),
+
+			// Background gradient
+			'select_background_gradient'             => __( 'Select from library', 'zionbuilder' ),
+			'add_background_gradient'                => __( 'Add new background gradient', 'zionbuilder' ),
+			'or'                                     => __( 'or', 'zionbuilder' ),
 
 			//Link
 			'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),
@@ -497,7 +504,6 @@ class Localization {
 
 			// ColorBox
 			'delete_color_from_preset'               => __( 'Delete this color from your preset', 'zionbuilder' ),
-
 			'create_gradient_info'                   => __( 'Create Astonishing Gradients that you will use in all the pages of your website', 'zionbuilder' ),
 
 			// permissions

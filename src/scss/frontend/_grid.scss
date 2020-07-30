@@ -17,11 +17,9 @@ $columns: 12;
 
 @mixin generate-offsets($offset: "") {
 	@for $size from 0 through ($columns - 1) {
-		@if not ($size == 0) {
-			// $suffix: md;
-			.zb-column-offset#{$offset}--#{$size} {
-				@include generate-offset($size);
-			}
+		// $suffix: md;
+		.zb-column-offset#{$offset}--#{$size} {
+			@include generate-offset($size);
 		}
 	}
 }

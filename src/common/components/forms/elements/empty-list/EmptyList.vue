@@ -47,6 +47,7 @@ export default {
 	}
 
 	&__content {
+		position: relative;
 		padding: 30px;
 	}
 
