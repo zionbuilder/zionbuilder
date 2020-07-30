@@ -10,12 +10,14 @@
 				slot="title"
 			/>
 
-			<FakeInputWrapper :schema="bgColorSchema">
-				<BackgroundColor
-					:value="valueModel['background-color']"
-					@input="onOptionUpdate('background-color', $event)"
-				/>
-			</FakeInputWrapper>
+			<InputWrapper
+				:schema="bgColorSchema"
+				:option-id="bgColorSchema.id"
+				:value="valueModel['background-color']"
+				:delete-value="onDeleteOption"
+				@input="onOptionUpdate(...$event)"
+			/>
+
 		</Tab>
 		<Tab name="background-gradient">
 			<BaseIcon
@@ -61,16 +63,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import { InputBackgroundImage, InputBackgroundVideo } from '@/common/components/forms'
-import { BackgroundColor } from '../BackgroundColor'
-import FakeInputWrapper from '../FakeInputWrapper'
 
 export default {
 	name: 'Background',
 	components: {
-		BackgroundColor,
 		InputBackgroundImage,
 		InputBackgroundVideo,
-		FakeInputWrapper,
 		InputWrapper: () => import('@/editor/components/elementOptions/forms/InputWrapper')
 	},
 	inject: {
@@ -84,7 +82,8 @@ export default {
 	data () {
 		return {
 			bgColorSchema: {
-				id: 'background-color'
+				id: 'background-color',
+				type: 'background_color'
 			},
 			bgGradientSchema: {
 				id: 'background-gradient',
