@@ -3,6 +3,8 @@ import { applyFilters } from '@/utils/filters'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'
+import BackgroundColor from './BackgroundColor'
+import BackgroundGradient from './BackgroundGradient'
 import Typography from './Typography'
 import Group from './Group'
 import PanelAccordion from './PanelAccordion'
@@ -220,6 +222,8 @@ class OptionsManager {
 		this.registerOption(IconLibrary)
 		this.registerOption(PseudoGroup)
 		this.registerOption(Background)
+		this.registerOption(BackgroundColor)
+		this.registerOption(BackgroundGradient)
 		this.registerOption(Typography)
 		this.registerOption(Group)
 		this.registerOption(PanelAccordion)

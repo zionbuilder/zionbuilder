@@ -31,6 +31,7 @@ import PageTemplate from './admin/admin-page/components/PageTemplate.vue'
 import ListAnimate from './admin/admin-page/components/ListAnimate'
 import ModalTwoColTemplate from './admin/admin-page/components/ModalTwoColTemplate'
 import Loader from './common/components/Loader'
+import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
 
 const ZionBuilderAdmin = {
 	init () {
@@ -45,7 +46,7 @@ const ZionBuilderAdmin = {
 		Vue.component('ListAnimation', ListAnimate)
 		Vue.component('ModalTwoColTemplate', ModalTwoColTemplate)
 		Vue.component('Loader', Loader)
-
+		Vue.component('OptionsForm', OptionsForm)
 		// Tabs
 		Vue.component('Tabs', Tabs)
 		Vue.component('Tab', Tab)

@@ -22,9 +22,12 @@
 				icon="gradient"
 				slot="title"
 			/>
-			<BackgroundGradient
+			<InputWrapper
+				:schema="bgGradientSchema"
+				:option-id="bgGradientSchema.id"
 				:value="valueModel['background-gradient']"
-				@input="onOptionUpdate('background-gradient', $event)"
+				:delete-value="onDeleteOption"
+				@input="onOptionUpdate(...$event)"
 			/>
 		</Tab>
 		<Tab name="background-image">
@@ -57,9 +60,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import BackgroundColor from './BackgroundColor.vue'
 import { InputBackgroundImage, InputBackgroundVideo } from '@/common/components/forms'
-import BackgroundGradient from './BackgroundGradient'
+import { BackgroundColor } from '../BackgroundColor'
 import FakeInputWrapper from '../FakeInputWrapper'
 
 export default {
@@ -67,9 +69,9 @@ export default {
 	components: {
 		BackgroundColor,
 		InputBackgroundImage,
-		BackgroundGradient,
 		InputBackgroundVideo,
-		FakeInputWrapper
+		FakeInputWrapper,
+		InputWrapper: () => import('@/editor/components/elementOptions/forms/InputWrapper')
 	},
 	inject: {
 		panel: {
@@ -83,6 +85,10 @@ export default {
 		return {
 			bgColorSchema: {
 				id: 'background-color'
+			},
+			bgGradientSchema: {
+				id: 'background-gradient',
+				type: 'background_gradient'
 			}
 		}
 	},

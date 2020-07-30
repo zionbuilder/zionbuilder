@@ -7,7 +7,6 @@
 			>
 				<Tab name="Local">
 					<GridColor @add-new-color="addLocalColor(model)">
-						<Loader v-if="!loaded" />
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -51,7 +50,6 @@
 							</span>
 
 						</span>
-						<Loader v-if="!loaded" />
 					</GridColor>
 				</Tab>
 			</Tabs>
@@ -94,7 +92,6 @@ export default {
 	},
 	data () {
 		return {
-			loaded: false,
 			showPresetInput: false,
 			presetName: this.$translate('add_preset_title'),
 			onstart: true,
@@ -126,7 +123,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'fetchOptionsOnce',
 			'addLocalColor',
 			'addGlobalColor'
 		]),
@@ -151,11 +147,6 @@ export default {
 			})
 		}
 
-	},
-	created () {
-		const optionsArray = this.fetchOptionsOnce().finally((result) => {
-			this.loaded = true
-		})
 	}
 
 }

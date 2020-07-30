@@ -56,6 +56,7 @@ export default {
 		background: $surface;
 		border-top: 2px solid $surface-variant;
 		transition: height .2s ease-in-out;
+
 		.znpb-tabs--minimal {
 			.znpb-tabs__header > .znpb-tabs__header-item {
 				flex-grow: 0;
@@ -99,9 +100,11 @@ export default {
 			border-top: 1px solid $surface-variant;
 			transition: none;
 		}
+
 		.znpb-admin-small-loader {
 			top: 50%;
 		}
+
 		.znpb-tabs > .znpb-tabs__header {
 			justify-content: center;
 			padding: 10px;
@@ -110,6 +113,7 @@ export default {
 			padding: 0;
 			color: lighten($font-color,15%);
 			font-size: 10px;
+
 			&:hover {
 				color: lighten($font-color,15%);
 				background: transparent;
@@ -164,4 +168,5 @@ export default {
 		transform: translateY(-61%);
 	}
 }
+
 </style>

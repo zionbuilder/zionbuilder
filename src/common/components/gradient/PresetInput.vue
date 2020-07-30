@@ -1,18 +1,41 @@
 <template>
-	<div class="znpb-preset-input-wrapper">
+	<div
+		class="znpb-preset-input-wrapper"
+	>
 		<BaseInput
-			v-model="colorName"
-			:placeholder="$translate('add_preset_title')"
+			v-model="gradientName"
+			:placeholder="$translate('save_gradient_title')"
+			class="znpb-backgroundGradient__nameInput"
+			:error="hasError"
 		>
 			<template slot="append">
-				<BaseIcon icon="check" @click.stop.native="$emit('save-preset', colorName)" />
-				<BaseIcon icon="close" @click.stop.native="$emit('cancel',true)"/>
+				<InputSelect
+					slot="prepend"
+					class="znpb-backgroundGradient__typeDropdown"
+					:options="gradientTypes"
+					placeholder="Type"
+					v-model="gradientType"
+				/>
+
 			</template>
 		</BaseInput>
+
+		<!-- Actions -->
+		<BaseIcon
+			icon="check"
+			class="znpb-backgroundGradient__action"
+			@click.stop.native="saveGradient"
+		/>
+
+		<BaseIcon
+			icon="close"
+			class="znpb-backgroundGradient__action"
+			@click.stop.native="$emit('cancel',true)"
+		/>
 	</div>
 </template>
 <script>
-import BaseInput from '@/common/components/forms/elements/input/BaseInput.vue'
+import { BaseInput, InputSelect } from '@/common/components/forms'
 /**
  * it emits:
  *  - the new color chosen
@@ -20,41 +43,71 @@ import BaseInput from '@/common/components/forms/elements/input/BaseInput.vue'
 export default {
 	name: 'PresetInput',
 	components: {
-		BaseInput
-	},
-	props: {
-		value: {
-			type: String,
-			required: false
-		}
+		BaseInput,
+		InputSelect
 	},
 	data () {
 		return {
-			colorName: null
+			gradientName: '',
+			gradientType: 'local',
+			hasError: false,
+			gradientTypes: [
+				{
+					id: 'local',
+					name: this.$translate('local')
+				},
+				{
+					id: 'global',
+					name: this.$translate('global')
+				}
+			]
+		}
+	},
+	methods: {
+		saveGradient () {
+			if (this.gradientName.length === 0) {
+				this.hasError = true
+				return
+			}
+
+			this.$emit('save-preset', this.gradientName, this.gradientType)
+		}
+	},
+	watch: {
+		hasError (newValue) {
+			let timeOut = null
+			if (newValue) {
+				timeOut = setTimeout(() => {
+					this.hasError = false
+				}, 500)
+			} else {
+				clearTimeout(timeOut)
+				this.hasError = false
+			}
 		}
 	}
 }
 </script>
 <style lang="scss">
 .znpb-preset-input-wrapper {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	background: transparent;
-	.zion-input {
-		input {
-			max-height: 40px;
-			padding: 10.5px 12px;
-		}
+	.znpb-backgroundGradient__nameInput {
+		margin-right: 4px;
 
-		&__append .znpb-editor-icon-wrapper:first-child {
-			margin-right: 10px;
+		& > .zion-input__suffix > .zion-input__append {
+			padding-right: 0;
 		}
 	}
-}
 
-.znpb-gradient-wrapper .znpb-preset-input-wrapper {
-	margin-right: 10px;
-}
+	.znpb-backgroundGradient__typeDropdown {
+		width: 100px;
+		margin-top: -2px;
+		margin-right: -2px;
+		margin-bottom: -2px;
+	}
 
+	.znpb-backgroundGradient__action {
+		display: flex;
+		padding: 8px;
+	}
+}
 </style>

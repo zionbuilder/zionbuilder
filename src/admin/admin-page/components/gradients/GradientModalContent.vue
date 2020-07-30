@@ -10,6 +10,7 @@
 			<GradientGenerator
 				v-model="gradientValue"
 				@updated-gradient="$emit('updated-gradient', $event)"
+				:save-to-library="false"
 			/>
 		</div>
 

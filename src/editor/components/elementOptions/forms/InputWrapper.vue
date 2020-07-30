@@ -1,6 +1,6 @@
 <template>
 	<component
-		v-if="isValidInput && optionTypeConfig.config && optionTypeConfig.config.barebone"
+		v-if="isValidInput && ( schema.barebone || optionTypeConfig.config && optionTypeConfig.config.barebone )"
 		:is="optionTypeConfig.component"
 		v-model="optionValue"
 		v-bind="compiledSchema"

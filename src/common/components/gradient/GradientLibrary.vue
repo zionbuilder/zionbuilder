@@ -10,9 +10,9 @@
 					<GradientPreview
 						v-for="(gradient,i) in getLocalGradients"
 						v-bind:key="i"
-						:config="gradient"
+						:config="gradient.config"
 						:round="true"
-						@click.native="$emit('activate-gradient',gradient)"
+						@click.native="$emit('activate-gradient',gradient.config)"
 					/>
 				</div>
 			</Tab>
@@ -23,6 +23,7 @@
 				>
 
 					{{$translate('global_colors_availability')}}
+
 					<Label
 						:text="$translate('pro')"
 						type="pro"
@@ -35,7 +36,7 @@
 							v-bind:key="i"
 							:config="gradient.config"
 							:round="true"
-							@click.native="$emit('activate-gradient',gradient.config)"
+							@click.native="onGlobalGradientSelected(gradient)"
 						/>
 					</div>
 				</template>
@@ -61,6 +62,7 @@ export default {
 		GradientPreview,
 		Label
 	},
+	inject: ['inputWrapper', 'optionsForm'],
 	props: {
 		model: {
 			type: [String, Object],
@@ -70,8 +72,7 @@ export default {
 	data () {
 		return {
 			onstart: true,
-			expand: false,
-			loaded: false
+			expand: false
 		}
 	},
 	computed: {
@@ -83,12 +84,21 @@ export default {
 
 	},
 	methods: {
-		...mapActions([
-			'fetchOptionsOnce'
-		])
-	},
-	created () {
-		this.fetchOptionsOnce()
+		onGlobalGradientSelected (gradient) {
+			const { id } = this.inputWrapper.schema
+
+			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+				type: 'global-gradient',
+				options: {
+					gradient_id: gradient.id
+				}
+			})
+
+			// Delete the saved value
+			this.$nextTick(() => {
+				this.$emit('activate-gradient', null)
+			})
+		}
 	}
 }
 </script>

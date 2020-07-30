@@ -6,7 +6,7 @@
 			v-model="valueModel"
 			class="znpb-gradient-color-form"
 		/>
-<!--
+		<!--
 		<InputWrapper class="znpb-form-gradient">
 			<ColorPicker
 				v-model="colorValue"
@@ -39,7 +39,7 @@
 
 </template>
 <script>
-import { InputWrapper, InputNumber, ColorPicker } from '@/common/components/forms'
+// import { OptionsForm } from '@/common/components/forms'
 export default {
 	name: 'GradientColorConfig',
 	props: {
@@ -54,9 +54,7 @@ export default {
 		}
 	},
 	components: {
-		InputNumber,
-		InputWrapper,
-		ColorPicker
+		// OptionsForm
 	},
 	computed: {
 		valueModel: {
@@ -120,7 +118,16 @@ export default {
 	}
 
 	.znpb-gradient-color-form {
+		flex-wrap: nowrap;
+		justify-content: space-between;
 		padding: 0;
+		.znpb-input-type--colorpicker {
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 
 	.znpb-form-colorpicker-trigger-wrapper {
@@ -154,7 +161,8 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		padding: 10.5px;
+		padding: 11px;
+		margin-left: 5px;
 		font-size: 14px;
 		background: transparent;
 		border: 2px solid #e5e5e5;
