@@ -1,121 +1,97 @@
 <template>
 
 	<div>
-		<shape
-			class="znpb-active-shape-preview"
-			:shape="activeShapeObject[valueModel]"
-			:class="[{'mask-active': value !== undefined}]"
-		>
-			<EmptyList
-				class="znpb-style-shape__empty"
-				v-if="!value || value === undefined"
-				:no-margin="true"
+		<InputWrapper :title="$translate('mask_position')">
+			<CustomSelector
+				v-model="activeMaskPosition"
+				:options="maskPosOptions"
+				:columns="2"
 			>
-				{{$translate('select_shape')}}
-			</EmptyList>
-			<span
-				v-else
-				class="znpb-active-shape-preview__action"
-				@mouseover="showDelete=true"
-				@mouseleave="showDelete=false"
-			>
-				<transition
-					name="slide-fade"
-					mode="out-in"
-				>
-					<BaseIcon
-						v-if="!showDelete"
-						icon="check"
-						:size="10"
-						key=1
-					/>
 
-					<BaseIcon
-						key=2
-						v-else
-						icon="close"
-						:size="10"
-						@click.native.stop="inputWrapper.deleteValue('shape_type'),showDelete=false"
-					/>
-				</transition>
-			</span>
-		</shape>
-		<div class="znpb-shape-list znpb-fancy-scrollbar">
-			<shape
-				v-for="(shape,i) in shapes"
-				:key="i"
-				:shape="shape"
-				@click.native="valueModel=shapeNames[i]"
-				:class="{'-pos--top': maskPosition==='top'}"
-			></shape>
-			<UpgradeToPro
-				v-if="!isPro"
-				:message_title="$translate('pro_masks_title')"
-				:message_description="$translate('pro_masks_description')"
+			</CustomSelector>
+		</InputWrapper>
+		<InputWrapper :title="$translate('select_mask')">
+			<ShapeDividerComponent
+				:mask-position="activeMaskPosition"
+				v-model="shapeValue"
+				@remove-shape="deleteShape"
 			/>
-		</div>
+		</InputWrapper>
 	</div>
 
 </template>
 
 <script>
-import Shape from './Shape.vue'
-import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
-import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
+
+import ShapeDividerComponent from './ShapeDividerComponent.vue'
+import CustomSelector from '../custom-selector/CustomSelector'
+import { InputWrapper } from '../inputWrapper'
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
 	inject: ['inputWrapper', 'optionsForm'],
 	components: {
-		EmptyList,
-		Shape,
-		UpgradeToPro
+		ShapeDividerComponent,
+		CustomSelector,
+		InputWrapper
 	},
 	props: {
 		/**
 		 * Value for input
 		 */
 		value: {
-			type: String
+			type: Object
 		}
 
 	},
 	data () {
 		return {
-			showDelete: false
+			maskPosOptions: [
+				{
+					id: 'top',
+					name: 'Top masks'
+				},
+				{
+					id: 'bottom',
+					name: 'Bottom masks'
+				}
+			],
+
+			activeMaskPosition: 'top',
+			defaultValue: {
+				'top': {
+
+				},
+				'bottom': {
+
+				}
+			}
 		}
 	},
 	computed: {
-		...mapGetters([
-			'isPro',
-			'getMasks'
-		]),
-		maskPosition () {
-			return this.optionsForm.elementInfo.data.data.options.mask_position
+		computedValue () {
+			return this.value || this.defaultValue
 		},
-		activeShapeObject () {
-			return this.getMasks[this.maskPosition]
-		},
-		shapes () {
-			return Object.values(this.activeShapeObject)
-		},
-		shapeNames () {
-			return Object.keys(this.activeShapeObject)
-		},
-		valueModel: {
+		shapeValue: {
 			get () {
-				return this.value
+				return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition]['shape_type'] : ''
 			},
 			set (newValue) {
-				/**
-					 *It emits the new value
-					 */
-				this.$emit('input', newValue)
+				let clonedMasks = this.computedValue
+
+				for (const [key, maskObject] of Object.entries(clonedMasks)) {
+					if (key === this.activeMaskPosition) {
+						maskObject['shape_type'] = newValue
+					}
+				}
+				this.$emit('input', clonedMasks)
 			}
 		}
 	},
 	methods: {
-
+		deleteShape () {
+			console.log('delete shape')
+		}
 	}
 }
 </script>

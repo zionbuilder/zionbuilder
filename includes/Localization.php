@@ -412,6 +412,8 @@ class Localization {
 			'select_shape'                           => __( 'Select shape divider', 'zionbuilder' ),
 			'pro_masks_title'                        => __( 'More shape dividers', 'zionbuilder' ),
 			'pro_masks_description'                  => __( 'The shape you were looking for is not listed above ?', 'zionbuilder' ),
+			'mask_position'                          => __( 'Mask position', 'zionbuilder' ),
+			'select_mask'                            => __( 'Select a mask', 'zionbuilder' ),
 
 			//Link
 			'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),

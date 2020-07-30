@@ -6,14 +6,23 @@
 		<slot name="start" />
 		<RenderTag
 			tag-id="div"
-			v-if="shapeType.length"
+			v-if="topMask!==undefined && Object.keys(topMask).length"
 		>
-			<div
-				class="znpb-mask"
-				v-html="getSvgIcon"
-			>
+			<SvgMask
+				:shapePath="topMask['shape_type']"
+				position="top"
+			/>
 
-			</div>
+		</RenderTag>
+		<RenderTag
+			tag-id="div"
+			v-if="bottomMask!==undefined && Object.keys(bottomMask).length"
+		>
+			<SvgMask
+				:shapePath="bottomMask['shape_type']"
+				position="bottom"
+			/>
+
 		</RenderTag>
 		<RenderTag tag-id="inner_content">
 			<SortableContent
@@ -28,37 +37,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Masks from '@/common/components/forms/elements/shape-dividers/Masks.vue'
+import SvgMask from '@/common/components/forms/elements/shape-dividers/SvgMask.vue'
 export default {
 	name: 'zion_section',
 	props: ['options', 'data', 'api'],
-	mixins: [Masks],
+	components: {
+		SvgMask
+	},
 	computed: {
-		...mapGetters([
-			'getMasks'
-		]),
+		topMask () {
+			return this.shapes['top']
+		},
+		bottomMask () {
+			return this.shapes['bottom']
+		},
 		htmlTag () {
 			return this.options.tag || 'section'
 		},
-		shapeType: {
-			get () {
-				return this.options.shape_type || ''
-			},
-			set (newValue) {
-				if (newValue !== '') {
-					this.getFile(this.shapePath)
-				}
-			}
-		},
-		shapePath () {
-			return this.activeShapeObject[this.shapeType]
-		},
-		activeShapeObject () {
-			return this.getMasks[this.options.mask_position]
+		shapes () {
+			return this.options.shapes || {}
 		}
 	}
-
 }
 
 </script>

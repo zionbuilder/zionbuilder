@@ -21,10 +21,13 @@
 			opacity: .6;
 		}
 	}
+	&.-pos--top {
+		top: -1px;
+		bottom: auto;
+		svg {
+			transform: rotate(180deg);
+		}
+	}
 }
 
-// .-mask-position--top {
-// 	.znpb-mask svg {
-// 		transform: rotate(180deg);
-// 	}
-// }
+

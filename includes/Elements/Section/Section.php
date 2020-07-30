@@ -456,36 +456,10 @@ class Section extends Element {
 		);
 
 		$shape_dividers->add_option(
-			'mask_position',
-			[
-				'type'             => 'custom_selector',
-				'columns'          => 2,
-				'default'          => 'bottom',
-				'options'          => [
-					[
-						'name' => __( 'Top mask', 'zionbuilder' ),
-						'id'   => 'top',
-					],
-					[
-						'name' => __( 'Bottom mask', 'zionbuilder' ),
-						'id'   => 'bottom',
-					],
-
-				],
-				'render_attribute' => [
-					[
-						'attribute' => 'class',
-						'value'     => '-mask-position--{{VALUE}}',
-					],
-				],
-
-			]
-		);
-		$shape_dividers->add_option(
-			'shape_type',
+			'shapes',
 			[
 				'type'  => 'shape_dividers',
-				'title' => __( 'Select a Mask', 'zionbuilder' ),
+				'title' => __( 'Add a mask to your element', 'zionbuilder' ),
 			]
 		);
 
@@ -613,13 +587,18 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$mask     = $options->get_value( 'shape_type' );
-		$position = $options->get_value( 'mask_position' );
-		if ( ! empty( $mask ) ) { ?>
+		$masks = $options->get_value( 'shapes' );
+
+		if ( ! empty( $masks ) ) {
+			foreach ( $masks as $key => $shape_path ) {
+				?>
 			<span class="znpb-mask">
-				<?php Masks::get_mask( $mask, $position ); ?>
+				<?php
+				Masks::get_mask( $shape_path );
+				?>
 			</span>
-			<?php
+				<?php
+			}
 		}
 
 		$this->render_attributes->add( 'inner_content', 'class', 'zb-section__innerWrapper' );

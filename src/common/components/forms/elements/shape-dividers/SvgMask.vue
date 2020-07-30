@@ -1,8 +1,31 @@
+<template>
+	<div
+		class="znpb-shape-divider-icon znpb-mask"
+		v-html="getSvgIcon"
+		:class="[position==='top' ?'-pos--top': '-pos--bottom']"
+	>
+
+	</div>
+</template>
 <script>
 import axios from 'axios'
 let restConfig = window.ZnPbRestConfig
 
 export default {
+	name: 'SvgMask',
+	props: {
+		/**
+		 * Value for input
+		 */
+		shapePath: {
+			type: String,
+			required: false
+		},
+		position: {
+			type: String,
+			required: false
+		}
+	},
 	data () {
 		return {
 			svgData: ''
@@ -14,8 +37,8 @@ export default {
 		}
 	},
 	watch: {
-		shapeType (newvalue) {
-			this.shapeType = newvalue
+		shapePath (newvalue) {
+			this.getFile(newvalue)
 		}
 
 	},

@@ -1,42 +1,35 @@
 <template>
 	<div class="znpb-editor-shapeWrapper">
 		<slot></slot>
-		<div
-			v-if="shape !== undefined"
-			class="znpb-shape-divider-icon znpb-mask"
-			v-html="getSvgIcon"
+		<SvgMask
+			v-if="shapePath !== undefined"
+			:shapePath="shapePath"
+			:position="position"
 		>
-		</div>
+		</SvgMask>
 	</div>
 </template>
 
 <script>
-import Masks from './Masks.vue'
+import SvgMask from './SvgMask.vue'
 export default {
 	name: 'Shape',
-	mixins: [Masks],
+	components: {
+		SvgMask
+	},
 	props: {
 		/**
 		 * Value for input
 		 */
-		shape: {
+		shapePath: {
+			type: String,
+			required: false
+		},
+		position: {
 			type: String,
 			required: false
 		}
-	},
-	watch: {
-		shape (newvalue) {
-			if (newvalue === undefined) {
-				this.svgData = ''
-			} else this.getFile(this.shapePath)
-		}
-	},
-	computed: {
-		shapePath () {
-			return this.shape || ''
-		}
 	}
-
 }
 </script>
 <style lang="scss">
@@ -85,6 +78,7 @@ export default {
 			position: absolute;
 			top: 10px;
 			right: 10px;
+			z-index: 9;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -94,13 +88,6 @@ export default {
 			background-color: #fff;
 			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
 			border-radius: 50%;
-		}
-	}
-
-	&.-pos--top {
-		.znpb-mask {
-			top: -1px;
-			bottom: auto;
 		}
 	}
 }
