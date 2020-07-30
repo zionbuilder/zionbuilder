@@ -12,7 +12,7 @@
 						v-bind:key="i"
 						:config="gradient.config"
 						:round="true"
-						@click.native="$emit('activate-gradient',gradient)"
+						@click.native="$emit('activate-gradient',gradient.config)"
 					/>
 				</div>
 			</Tab>
