@@ -10,6 +10,8 @@
 		>
 			<SvgMask
 				:shapePath="topMask['shape']"
+				:color="topMask['color']"
+				:height="topMask['height']"
 				position="top"
 			/>
 
@@ -20,6 +22,8 @@
 		>
 			<SvgMask
 				:shapePath="bottomMask['shape']"
+				:color="bottomMask['color']"
+				:height="bottomMask['height']"
 				position="bottom"
 			/>
 

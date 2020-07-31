@@ -20,6 +20,7 @@
 		<ShapeConfig
 			:config="shapeConfigValue"
 			@input="onShapeConfigUpdate($event)"
+			:position="activeMaskPosition"
 		/>
 	</div>
 
@@ -32,11 +33,11 @@ import { InputWrapper } from '../inputWrapper'
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
-	provide () {
-		return {
-			activeMaskPosition: this.activeMaskPosition
-		}
-	},
+	// provide () {
+	// 	return {
+	// 		activeMaskPosition: this.activeMaskPosition
+	// 	}
+	// },
 	inject: ['inputWrapper', 'optionsForm'],
 	components: {
 

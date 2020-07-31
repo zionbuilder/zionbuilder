@@ -3,6 +3,7 @@
 		class="znpb-shape-divider-icon znpb-mask"
 		v-html="getSvgIcon"
 		:class="[position==='top' ?'-pos--top': '-pos--bottom']"
+		:style="{'color':color, 'height': height}"
 	>
 
 	</div>
@@ -19,9 +20,17 @@ export default {
 		 */
 		shapePath: {
 			type: String,
-			required: false
+			required: true
 		},
 		position: {
+			type: String,
+			required: false
+		},
+		color: {
+			type: String,
+			required: false
+		},
+		height: {
 			type: String,
 			required: false
 		}

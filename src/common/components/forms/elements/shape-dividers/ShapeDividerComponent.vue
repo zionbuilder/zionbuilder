@@ -5,7 +5,7 @@
 			class="znpb-active-shape-preview"
 			:shapePath="localValue"
 			:class="[{'mask-active': localValue !== undefined}]"
-			:position="activeMaskPosition"
+			:position="position"
 		>
 			<EmptyList
 				class="znpb-style-shape__empty"
@@ -46,7 +46,7 @@
 				v-for="(shape,i) in shapes"
 				:key="i"
 				:shape-path="shape"
-				:position="activeMaskPosition"
+				:position="position"
 				@click.native="$emit('input', shape)"
 			></shape>
 			<UpgradeToPro
@@ -66,7 +66,6 @@ import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividerComponent',
-	inject: ['inputWrapper', 'optionsForm', 'activeMaskPosition'],
 	components: {
 		EmptyList,
 		Shape,
@@ -76,7 +75,7 @@ export default {
 		/**
 		 * Position
 		 */
-		maskPosition: {
+		position: {
 			type: String
 		},
 		value: {

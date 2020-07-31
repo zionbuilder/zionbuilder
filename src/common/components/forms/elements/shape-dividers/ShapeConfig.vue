@@ -24,6 +24,10 @@ export default {
 		config: {
 			type: Object,
 			required: true
+		},
+		position: {
+			type: String,
+			required: false
 		}
 
 	},
@@ -46,7 +50,8 @@ export default {
 					type: 'shape_component',
 					id: 'shape',
 					width: '100',
-					title: this.$translate('select_mask')
+					title: this.$translate('select_mask'),
+					position: this.position
 				},
 				color: {
 					type: 'colorpicker',
