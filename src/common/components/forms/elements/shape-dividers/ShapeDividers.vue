@@ -86,6 +86,11 @@ export default {
 				return this.value ? this.value[this.activeMaskPosition] ? this.value[this.activeMaskPosition] : {} : {}
 			},
 			set (newValue) {
+				if (this.value[this.activeMaskPosition] !== undefined && this.value[this.activeMaskPosition]['shape'] !== newValue['shape']) {
+					if (newValue.hasOwnProperty('height')) {
+						newValue['height'] = 'auto'
+					}
+				}
 				this.$emit('input', {
 					...this.value,
 					[this.activeMaskPosition]: newValue
