@@ -1,44 +1,38 @@
 <template>
 
 	<div>
-		<InputWrapper :title="$translate('mask_position')">
-			<CustomSelector
-				v-model="activeMaskPosition"
-				:options="maskPosOptions"
-				:columns="2"
-			>
+		<CustomSelector
+			v-model="activeMaskPosition"
+			:options="maskPosOptions"
+			:columns="2"
+		/>
 
-			</CustomSelector>
-		</InputWrapper>
-
-		<ShapeConfig
-			:config="shapeConfigValue"
-			@input="onShapeConfigUpdate($event)"
-			:position="activeMaskPosition"
+		<OptionsForm
+			:schema="schema"
+			v-model="computedValue"
 		/>
 	</div>
 
 </template>
 
 <script>
-import ShapeConfig from './ShapeConfig.vue'
 import CustomSelector from '../custom-selector/CustomSelector'
-import { InputWrapper } from '../inputWrapper'
 import { mapGetters } from 'vuex'
+
 export default {
 	name: 'ShapeDividers',
-	inject: ['inputWrapper'],
 	components: {
-		CustomSelector,
-		InputWrapper,
-		ShapeConfig
+		CustomSelector
 	},
 	props: {
 		/**
 		 * Value for input
 		 */
 		value: {
-			type: Object
+			type: Object,
+			default () {
+				return {}
+			}
 		}
 	},
 	data () {
@@ -54,30 +48,49 @@ export default {
 				}
 			],
 
-			activeMaskPosition: 'top',
-			defaultValue: {
-				'top': {},
-				'bottom': {}
-			}
+			activeMaskPosition: 'top'
 		}
 	},
 	computed: {
-		computedValue () {
-			return this.value || this.defaultValue
-		},
-		shapeConfigValue () {
-			return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition] : {}
-		}
-	},
-	methods: {
-		onShapeConfigUpdate (newValue) {
-			let clonedMasks = { ...this.computedValue }
-			for (const [key, maskObject] of Object.entries(clonedMasks)) {
-				if (key === this.activeMaskPosition) {
-					Object.assign(clonedMasks[key], newValue)
+		schema () {
+			return {
+				shape: {
+					type: 'shape_component',
+					id: 'shape',
+					width: '100',
+					title: this.$translate('select_mask'),
+					position: this.activeMaskPosition
+				},
+				color: {
+					type: 'colorpicker',
+					id: 'color',
+					width: '100',
+					title: this.$translate('select_mask_color')
+				},
+				height: {
+					type: 'dynamic_slider',
+					id: 'height',
+					title: this.$translate('select_mask_height'),
+					width: '100',
+					options: [
+						{ 'unit': 'px', 'min': 0, 'max': 4999, 'step': 1 },
+						{ 'unit': '%', 'min': 0, 'max': 100, 'step': 1 },
+						{ 'unit': 'vh', 'min': 0, 'max': 100, 'step': 10 },
+						{ 'unit': 'auto' }
+					]
 				}
 			}
-			this.$emit('input', clonedMasks)
+		},
+		computedValue: {
+			get () {
+				return this.value ? this.value[this.activeMaskPosition] ? this.value[this.activeMaskPosition] : {} : {}
+			},
+			set (newValue) {
+				this.$emit('input', {
+					...this.value,
+					[this.activeMaskPosition]: newValue
+				})
+			}
 		}
 	}
 }

@@ -6,7 +6,7 @@
 		<slot name="start" />
 		<RenderTag
 			tag-id="div"
-			v-if="topMask!==undefined && Object.keys(topMask).length"
+			v-if="topMask!==undefined && topMask.shape"
 		>
 			<SvgMask
 				:shapePath="topMask['shape']"
@@ -18,7 +18,7 @@
 		</RenderTag>
 		<RenderTag
 			tag-id="div"
-			v-if="bottomMask!==undefined && Object.keys(bottomMask).length"
+			v-if="bottomMask!==undefined && bottomMask.shape"
 		>
 			<SvgMask
 				:shapePath="bottomMask['shape']"

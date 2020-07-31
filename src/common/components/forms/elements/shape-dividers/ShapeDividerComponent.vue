@@ -1,15 +1,14 @@
 <template>
-
 	<div>
 		<shape
 			class="znpb-active-shape-preview"
-			:shapePath="localValue"
-			:class="[{'mask-active': localValue !== undefined}]"
+			:shapePath="value"
+			:class="[{'mask-active': value}]"
 			:position="position"
 		>
 			<EmptyList
 				class="znpb-style-shape__empty"
-				v-if="localValue === undefined || !localValue.length"
+				v-if="!value"
 				:no-margin="true"
 			>
 				{{$translate('select_shape')}}
@@ -84,13 +83,7 @@ export default {
 	},
 	data () {
 		return {
-			showDelete: false,
-			localValue: this.value
-		}
-	},
-	watch: {
-		value (newVal) {
-			this.localValue = newVal
+			showDelete: false
 		}
 	},
 	computed: {

@@ -2,7 +2,7 @@
 	<div class="znpb-editor-shapeWrapper">
 		<slot></slot>
 		<SvgMask
-			v-if="shapePath !== undefined"
+			v-if="shapePath"
 			:shapePath="shapePath"
 			:position="position"
 		>
