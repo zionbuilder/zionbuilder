@@ -10,13 +10,7 @@
 
 			</CustomSelector>
 		</InputWrapper>
-		<!-- <InputWrapper :title="$translate('select_mask')">
-			<ShapeDividerComponent
-				:mask-position="activeMaskPosition"
-				v-model="shapeValue"
-				@remove-shape="deleteShape"
-			/>
-		</InputWrapper> -->
+
 		<ShapeConfig
 			:config="shapeConfigValue"
 			@input="onShapeConfigUpdate($event)"
@@ -33,14 +27,8 @@ import { InputWrapper } from '../inputWrapper'
 import { mapGetters } from 'vuex'
 export default {
 	name: 'ShapeDividers',
-	// provide () {
-	// 	return {
-	// 		activeMaskPosition: this.activeMaskPosition
-	// 	}
-	// },
-	inject: ['inputWrapper', 'optionsForm'],
+	inject: ['inputWrapper'],
 	components: {
-
 		CustomSelector,
 		InputWrapper,
 		ShapeConfig
@@ -52,7 +40,6 @@ export default {
 		value: {
 			type: Object
 		}
-
 	},
 	data () {
 		return {
@@ -69,12 +56,8 @@ export default {
 
 			activeMaskPosition: 'top',
 			defaultValue: {
-				'top': {
-
-				},
-				'bottom': {
-
-				}
+				'top': {},
+				'bottom': {}
 			}
 		}
 	},
@@ -84,31 +67,11 @@ export default {
 		},
 		shapeConfigValue () {
 			return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition] : {}
-		},
-		shapeValue: {
-			get () {
-				return this.computedValue[this.activeMaskPosition] !== undefined ? this.computedValue[this.activeMaskPosition]['shape_type'] : ''
-			},
-			set (newValue) {
-				let clonedMasks = this.computedValue
-
-				for (const [key, maskObject] of Object.entries(clonedMasks)) {
-					if (key === this.activeMaskPosition) {
-						maskObject['shape_type'] = newValue
-					}
-				}
-				this.$emit('input', clonedMasks)
-			}
 		}
 	},
 	methods: {
-		deleteShape () {
-			console.log('delete shape')
-		},
 		onShapeConfigUpdate (newValue) {
-			console.log(newValue)
-
-			let clonedMasks = this.computedValue
+			let clonedMasks = { ...this.computedValue }
 			for (const [key, maskObject] of Object.entries(clonedMasks)) {
 				if (key === this.activeMaskPosition) {
 					Object.assign(clonedMasks[key], newValue)

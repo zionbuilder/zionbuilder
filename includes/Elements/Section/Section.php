@@ -539,7 +539,7 @@ class Section extends Element {
 			foreach ( $masks as $key => $shape ) {
 				$shape_path   = $shape['shape'];
 				$shape_color  = ( ! empty( $shape['color'] ) ) ? sprintf( 'color: %s;', $shape['color'] ) : '';
-				$shape_height = ( ! empty( $shape['height'] ) ) ? sprintf( 'height: %s;', $shape['height'] ) : '';
+				$shape_height = ( ! empty( $shape['height'] ) ) ? sprintf( ' height: %s;', $shape['height'] ) : '';
 				if ( ! empty( $shape_path ) ) {
 					$shape_style  = '';
 					$shape_style .= $shape_color;
