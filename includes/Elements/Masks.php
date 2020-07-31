@@ -80,7 +80,7 @@ class Masks {
 				$shape_style  = '';
 				$shape_style .= $shape_color;
 				$shape_style .= $shape_height; ?>
-				<span class="zb-mask <?php echo '-pos--' . esc_attr( $position ); ?>"
+				<span class="zb-mask <?php echo 'zb-mask-pos--' . esc_attr( $position ); ?>"
 					<?php
 					if ( ! empty( $shape_style ) ) {
 						echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
