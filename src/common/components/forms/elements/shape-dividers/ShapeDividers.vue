@@ -40,11 +40,11 @@ export default {
 			maskPosOptions: [
 				{
 					id: 'top',
-					name: 'Top masks'
+					name: this.$translate('top_masks')
 				},
 				{
 					id: 'bottom',
-					name: 'Bottom masks'
+					name: this.$translate('bottom_masks')
 				}
 			],
 
