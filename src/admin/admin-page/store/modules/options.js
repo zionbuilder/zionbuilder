@@ -277,7 +277,6 @@ const mutations = {
 		Vue.set(gradient, 'config', newValue)
 	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
-		console.log(payload)
 		state.options.local_gradients.push(payload)
 	},
 	[types.ADD_GLOBAL_GRADIENT] (state, payload) {

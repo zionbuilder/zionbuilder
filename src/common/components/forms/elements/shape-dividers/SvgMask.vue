@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="znpb-shape-divider-icon znpb-mask"
+		class="znpb-shape-divider-icon zb-mask"
 		v-html="getSvgIcon"
 		:class="[position==='top' ?'-pos--top': '-pos--bottom']"
 		:style="{'color':color, 'height': height}"

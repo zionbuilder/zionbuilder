@@ -94,9 +94,6 @@ export default {
 		shapes () {
 			return Object.values(this.getMasks)
 		}
-	},
-	methods: {
-
 	}
 }
 </script>

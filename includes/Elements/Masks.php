@@ -72,15 +72,15 @@ class Masks {
 	 * @param mixed  $mask
 	 */
 	public static function render_masks( $masks ) {
-		foreach ( $masks as $key => $shape ) {
-			$shape_path   = $shape['shape'];
-			$shape_color  = ( ! empty( $shape['color'] ) ) ? sprintf( 'color: %s;', $shape['color'] ) : '';
-			$shape_height = ( ! empty( $shape['height'] && $shape['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape['height'] ) : '';
+		foreach ( $masks as $position => $shape_config ) {
+			$shape_path   = $shape_config['shape'];
+			$shape_color  = ( ! empty( $shape_config['color'] ) ) ? sprintf( 'color: %s;', $shape_config['color'] ) : '';
+			$shape_height = ( ! empty( $shape_config['height'] && $shape_config['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape_config['height'] ) : '';
 			if ( ! empty( $shape_path ) ) {
 				$shape_style  = '';
 				$shape_style .= $shape_color;
 				$shape_style .= $shape_height; ?>
-				<span class="znpb-mask <?php echo '-pos--' . esc_attr( $key ); ?>"
+				<span class="zb-mask <?php echo '-pos--' . esc_attr( $position ); ?>"
 					<?php
 					if ( ! empty( $shape_style ) ) {
 						echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
