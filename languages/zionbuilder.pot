@@ -1318,7 +1318,7 @@ msgid "Mask position"
 msgstr ""
 
 #: ../includes/Localization.php:418
-msgid "Select a mask"
+msgid "Selected top mask / Selected bottom mask"
 msgstr ""
 
 #: ../includes/Localization.php:419
