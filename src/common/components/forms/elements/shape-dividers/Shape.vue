@@ -36,12 +36,6 @@ export default {
 .znpb-shape-divider-icon {
 	width: 100%;
 	color: #fff;
-	svg {
-		display: block;
-		width: 100%;
-		height: auto;
-		margin: 0;
-	}
 }
 .znpb-editor-shapeWrapper {
 	position: relative;
