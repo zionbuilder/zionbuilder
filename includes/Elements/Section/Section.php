@@ -539,12 +539,18 @@ class Section extends Element {
 			foreach ( $masks as $key => $shape ) {
 				$shape_path   = $shape['shape'];
 				$shape_color  = ( ! empty( $shape['color'] ) ) ? sprintf( 'color: %s;', $shape['color'] ) : '';
-				$shape_height = ( ! empty( $shape['height'] ) ) ? sprintf( ' height: %s;', $shape['height'] ) : '';
+				$shape_height = ( ! empty( $shape['height'] && $shape['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape['height'] ) : '';
 				if ( ! empty( $shape_path ) ) {
 					$shape_style  = '';
 					$shape_style .= $shape_color;
 					$shape_style .= $shape_height; ?>
-			<span class="znpb-mask <?php echo '-pos--' . esc_attr( $key ); ?>" style="<?php echo esc_attr( $shape_style ); ?>">
+					<span class="znpb-mask <?php echo '-pos--' . esc_attr( $key ); ?>"
+						<?php
+						if ( ! empty( $shape_style ) ) {
+							echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
+						}
+						?>
+					>
 					<?php
 					Masks::get_mask( $shape_path );
 					?>
