@@ -329,7 +329,7 @@ msgstr ""
 msgid "Conditions"
 msgstr ""
 
-#: ../includes/Localization.php:104, ../includes/Localization.php:480
+#: ../includes/Localization.php:104, ../includes/Localization.php:481
 msgid "Delete"
 msgstr ""
 
@@ -757,7 +757,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:241, ../includes/Localization.php:609
+#: ../includes/Localization.php:241, ../includes/Localization.php:610
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -1318,502 +1318,506 @@ msgid "Mask position"
 msgstr ""
 
 #: ../includes/Localization.php:418
-msgid "Selected top mask / Selected bottom mask"
+msgid "Selected top mask"
 msgstr ""
 
 #: ../includes/Localization.php:419
-msgid "Add mask height"
+msgid "Selected bottom mask"
 msgstr ""
 
 #: ../includes/Localization.php:420
-msgid "Add a color to mask"
+msgid "Add mask height"
 msgstr ""
 
 #: ../includes/Localization.php:421
-msgid "Top masks"
+msgid "Add a color to mask"
 msgstr ""
 
 #: ../includes/Localization.php:422
+msgid "Top masks"
+msgstr ""
+
+#: ../includes/Localization.php:423
 msgid "Bottom masks"
 msgstr ""
 
-#: ../includes/Localization.php:425
+#: ../includes/Localization.php:426
 msgid "Select from library"
 msgstr ""
 
-#: ../includes/Localization.php:426
+#: ../includes/Localization.php:427
 msgid "Add new background gradient"
 msgstr ""
 
-#: ../includes/Localization.php:427
+#: ../includes/Localization.php:428
 msgid "or"
 msgstr ""
 
-#: ../includes/Localization.php:430
+#: ../includes/Localization.php:431
 msgid "Add an URL"
 msgstr ""
 
-#: ../includes/Localization.php:431
+#: ../includes/Localization.php:432
 msgid "New Window"
 msgstr ""
 
-#: ../includes/Localization.php:432
+#: ../includes/Localization.php:433
 msgid "Same Window"
 msgstr ""
 
-#: ../includes/Localization.php:433
+#: ../includes/Localization.php:434
 msgid "Set a title"
 msgstr ""
 
-#: ../includes/Localization.php:434
+#: ../includes/Localization.php:435
 msgid "Link Target"
 msgstr ""
 
-#: ../includes/Localization.php:435
+#: ../includes/Localization.php:436
 msgid "Link Title"
 msgstr ""
 
-#: ../includes/Localization.php:436
+#: ../includes/Localization.php:437
 msgid "Link Url"
 msgstr ""
 
-#: ../includes/Localization.php:439
+#: ../includes/Localization.php:440
 msgid "ADD TRANSFORM PROPERTY"
 msgstr ""
 
-#: ../includes/Localization.php:442
+#: ../includes/Localization.php:443
 msgid "element not found"
 msgstr ""
 
-#: ../includes/Localization.php:445
+#: ../includes/Localization.php:446
 msgid "Your browser does not support HTML5 video."
 msgstr ""
 
-#: ../includes/Localization.php:446
+#: ../includes/Localization.php:447
 msgid "No video Selected"
 msgstr ""
 
-#: ../includes/Localization.php:447
+#: ../includes/Localization.php:448
 msgid "No images selected"
 msgstr ""
 
-#: ../includes/Localization.php:450
+#: ../includes/Localization.php:451
 msgid "Access Library Templates"
 msgstr ""
 
-#: ../includes/Localization.php:451
+#: ../includes/Localization.php:452
 msgid "Access over 200+ templates from our library, it’s just one click away"
 msgstr ""
 
-#: ../includes/Localization.php:452
+#: ../includes/Localization.php:453
 msgid "Open Library"
 msgstr ""
 
-#: ../includes/Localization.php:455
+#: ../includes/Localization.php:456
 msgid "Add your option"
 msgstr ""
 
-#: ../includes/Localization.php:456, ../includes/Templates.php:264
+#: ../includes/Localization.php:457, ../includes/Templates.php:264
 msgid "No items"
 msgstr ""
 
-#: ../includes/Localization.php:459
+#: ../includes/Localization.php:460
 msgid "Enter Class Name"
 msgstr ""
 
-#: ../includes/Localization.php:462
+#: ../includes/Localization.php:463
 msgid "No HTMLElement was found matching"
 msgstr ""
 
-#: ../includes/Localization.php:465
+#: ../includes/Localization.php:466
 msgid "No color chosen"
 msgstr ""
 
-#: ../includes/Localization.php:466
+#: ../includes/Localization.php:467
 msgid "Color"
 msgstr ""
 
-#: ../includes/Localization.php:469
+#: ../includes/Localization.php:470
 msgid "Global color name"
 msgstr ""
 
-#: ../includes/Localization.php:470
+#: ../includes/Localization.php:471
 msgid "Type a preset"
 msgstr ""
 
-#: ../includes/Localization.php:473
+#: ../includes/Localization.php:474
 msgid "No results"
 msgstr ""
 
-#: ../includes/Localization.php:476
+#: ../includes/Localization.php:477
 msgid "Inset"
 msgstr ""
 
-#: ../includes/Localization.php:479
+#: ../includes/Localization.php:480
 msgid "Location"
 msgstr ""
 
-#: ../includes/Localization.php:483
+#: ../includes/Localization.php:484
 msgid "Save as preset"
 msgstr ""
 
-#: ../includes/Localization.php:486
+#: ../includes/Localization.php:487
 msgid "Draggable"
 msgstr ""
 
-#: ../includes/Localization.php:489
+#: ../includes/Localization.php:490
 msgid "You can set from here the allowed post types"
 msgstr ""
 
-#: ../includes/Localization.php:492
+#: ../includes/Localization.php:493
 msgid "Create your color pallete to use locally or globally"
 msgstr ""
 
-#: ../includes/Localization.php:495
+#: ../includes/Localization.php:496
 msgid "Upload your own Custom fonts (.woff, .ttf, .svg, .eot ) to use in the page builder"
 msgstr ""
 
-#: ../includes/Localization.php:496
+#: ../includes/Localization.php:497
 msgid "Click Me or the Blue button to add a Font"
 msgstr ""
 
-#: ../includes/Localization.php:499
+#: ../includes/Localization.php:500
 msgid "Click to delete this font"
 msgstr ""
 
-#: ../includes/Localization.php:500
+#: ../includes/Localization.php:501
 msgid "Click to edit this font"
 msgstr ""
 
-#: ../includes/Localization.php:502
+#: ../includes/Localization.php:503
 msgid "Seting up"
 msgstr ""
 
-#: ../includes/Localization.php:503
+#: ../includes/Localization.php:504
 msgid "Google web fonts"
 msgstr ""
 
-#: ../includes/Localization.php:504
+#: ../includes/Localization.php:505
 msgid "has never been easier. Choose which ones to use for your website's stylish typography"
 msgstr ""
 
-#: ../includes/Localization.php:507
+#: ../includes/Localization.php:508
 msgid "Delete this gradient from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:510
+#: ../includes/Localization.php:511
 msgid "Delete this color from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:511
+#: ../includes/Localization.php:512
 msgid "Create Astonishing Gradients that you will use in all the pages of your website"
 msgstr ""
 
-#: ../includes/Localization.php:514
+#: ../includes/Localization.php:515
 msgid "Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder."
 msgstr ""
 
-#: ../includes/Localization.php:518
+#: ../includes/Localization.php:519
 msgid "Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards."
 msgstr ""
 
-#: ../includes/Localization.php:521
+#: ../includes/Localization.php:522
 msgid "Create a new template by choosing the template type and adding a name"
 msgstr ""
 
-#: ../includes/Localization.php:524
+#: ../includes/Localization.php:525
 msgid "Add Display Condition"
 msgstr ""
 
-#: ../includes/Localization.php:527
+#: ../includes/Localization.php:528
 msgid "Manage the smart areas you want to use in your project"
 msgstr ""
 
-#: ../includes/Localization.php:530
+#: ../includes/Localization.php:531
 msgid "Templates allow you to easily build a WordPress page"
 msgstr ""
 
-#: ../includes/Localization.php:533
+#: ../includes/Localization.php:534
 msgid "Update Site Address (URL)"
 msgstr ""
 
-#: ../includes/Localization.php:534
+#: ../includes/Localization.php:535
 msgid "Update URL"
 msgstr ""
 
-#: ../includes/Localization.php:535
+#: ../includes/Localization.php:536
 msgid "Enter your old and new URLs for your WordPress installation, to update all Zion data (Relevant for domain transfers or move to 'HTTPS')."
 msgstr ""
 
-#: ../includes/Localization.php:538
+#: ../includes/Localization.php:539
 msgid "This user already has permissions. Click to remove"
 msgstr ""
 
-#: ../includes/Localization.php:541
+#: ../includes/Localization.php:542
 msgid "Check to have access to editor"
 msgstr ""
 
-#: ../includes/Localization.php:544
+#: ../includes/Localization.php:545
 msgid "Customize the permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:545
+#: ../includes/Localization.php:546
 msgid "Delete permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:548
+#: ../includes/Localization.php:549
 msgid "Click to edit this template"
 msgstr ""
 
-#: ../includes/Localization.php:549
+#: ../includes/Localization.php:550
 msgid "Click to delete this template"
 msgstr ""
 
-#: ../includes/Localization.php:550
+#: ../includes/Localization.php:551
 msgid "Click to export this template"
 msgstr ""
 
-#: ../includes/Localization.php:551
+#: ../includes/Localization.php:552
 msgid "Click to preview this template"
 msgstr ""
 
-#: ../includes/Localization.php:554
+#: ../includes/Localization.php:555
 msgid "Paste the Typekit Token in this field"
 msgstr ""
 
-#: ../includes/Localization.php:555
+#: ../includes/Localization.php:556
 msgid "Here you can setup the Typekit fonts that you want to use in your site."
 msgstr ""
 
-#: ../includes/Localization.php:558
+#: ../includes/Localization.php:559
 msgid "This is your active Typekit font. Uncheck to deactivate it"
 msgstr ""
 
-#: ../includes/Localization.php:561
+#: ../includes/Localization.php:562
 msgid "Discard changes for"
 msgstr ""
 
-#: ../includes/Localization.php:564
+#: ../includes/Localization.php:565
 msgid "Discard changes"
 msgstr ""
 
-#: ../includes/Localization.php:567
+#: ../includes/Localization.php:568
 msgid "Click to add content for pseudo selector."
 msgstr ""
 
-#: ../includes/Localization.php:570
+#: ../includes/Localization.php:571
 msgid "Click to edit this class"
 msgstr ""
 
-#: ../includes/Localization.php:571
+#: ../includes/Localization.php:572
 msgid "Click to globally delete this class"
 msgstr ""
 
-#: ../includes/Localization.php:574
+#: ../includes/Localization.php:575
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: ../includes/Localization.php:575
+#: ../includes/Localization.php:576
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:577
+#: ../includes/Localization.php:578
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:578
+#: ../includes/Localization.php:579
 msgid "Paste"
 msgstr ""
 
-#: ../includes/Localization.php:579
+#: ../includes/Localization.php:580
 msgid "Duplicate"
 msgstr ""
 
-#: ../includes/Localization.php:580
+#: ../includes/Localization.php:581
 msgid "Copy element styles"
 msgstr ""
 
-#: ../includes/Localization.php:581
+#: ../includes/Localization.php:582
 msgid "Paste element styles"
 msgstr ""
 
-#: ../includes/Localization.php:582
+#: ../includes/Localization.php:583
 msgid "Copy classes"
 msgstr ""
 
-#: ../includes/Localization.php:583
+#: ../includes/Localization.php:584
 msgid "Paste classes"
 msgstr ""
 
-#: ../includes/Localization.php:584
+#: ../includes/Localization.php:585
 msgid "Undo"
 msgstr ""
 
-#: ../includes/Localization.php:585
+#: ../includes/Localization.php:586
 msgid "Redo"
 msgstr ""
 
-#: ../includes/Localization.php:586
+#: ../includes/Localization.php:587
 msgid "Hide element"
 msgstr ""
 
-#: ../includes/Localization.php:587
+#: ../includes/Localization.php:588
 msgid "Toggle preview mode"
 msgstr ""
 
-#: ../includes/Localization.php:588
+#: ../includes/Localization.php:589
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: ../includes/Localization.php:589
+#: ../includes/Localization.php:590
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: ../includes/Localization.php:590
+#: ../includes/Localization.php:591
 msgid "Toggle page options"
 msgstr ""
 
-#: ../includes/Localization.php:591
+#: ../includes/Localization.php:592
 msgid "When dragging element"
 msgstr ""
 
-#: ../includes/Localization.php:592
+#: ../includes/Localization.php:593
 msgid "When dragging toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:593
+#: ../includes/Localization.php:594
 msgid "Set incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:594
+#: ../includes/Localization.php:595
 msgid "Set even incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:595
+#: ../includes/Localization.php:596
 msgid "Set even values"
 msgstr ""
 
-#: ../includes/Localization.php:596
+#: ../includes/Localization.php:597
 msgid "Duplicate element in place"
 msgstr ""
 
-#: ../includes/Localization.php:599
+#: ../includes/Localization.php:600
 msgid "Help"
 msgstr ""
 
-#: ../includes/Localization.php:600
+#: ../includes/Localization.php:601
 msgid "Help Center"
 msgstr ""
 
-#: ../includes/Localization.php:601
+#: ../includes/Localization.php:602
 msgid "Start tour"
 msgstr ""
 
-#: ../includes/Localization.php:602
+#: ../includes/Localization.php:603
 msgid "Key shortcuts"
 msgstr ""
 
-#: ../includes/Localization.php:603
+#: ../includes/Localization.php:604
 msgid "About Zion Page Builder"
 msgstr ""
 
-#: ../includes/Localization.php:604
+#: ../includes/Localization.php:605
 msgid "Back to WP Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:605
+#: ../includes/Localization.php:606
 msgid "ZionBuilder Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:606
+#: ../includes/Localization.php:607
 msgid "Save Template"
 msgstr ""
 
-#: ../includes/Localization.php:607
+#: ../includes/Localization.php:608
 msgid "Save Page"
 msgstr ""
 
-#: ../includes/Localization.php:608
+#: ../includes/Localization.php:609
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:611
+#: ../includes/Localization.php:612
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:613
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:613
+#: ../includes/Localization.php:614
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:614, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:615, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:615, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
+#: ../includes/Localization.php:616, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:616, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:617, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:617
+#: ../includes/Localization.php:618
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:620
+#: ../includes/Localization.php:621
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:621
+#: ../includes/Localization.php:622
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:622
+#: ../includes/Localization.php:623
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:623
+#: ../includes/Localization.php:624
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:624
+#: ../includes/Localization.php:625
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:625
+#: ../includes/Localization.php:626
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:628
+#: ../includes/Localization.php:629
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:629
+#: ../includes/Localization.php:630
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:630
+#: ../includes/Localization.php:631
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:631
+#: ../includes/Localization.php:632
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:634
+#: ../includes/Localization.php:635
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:635
+#: ../includes/Localization.php:636
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:638
+#: ../includes/Localization.php:639
 msgid "Featured"
 msgstr ""
 

@@ -52,13 +52,16 @@ export default {
 		}
 	},
 	computed: {
+		computedTitle () {
+			return this.activeMaskPosition === 'top' ? this.$translate('select_top_mask') : this.$translate('select_bottom_mask')
+		},
 		schema () {
 			return {
 				shape: {
 					type: 'shape_component',
 					id: 'shape',
 					width: '100',
-					title: this.$translate('select_mask'),
+					title: this.computedTitle,
 					position: this.activeMaskPosition
 				},
 				color: {

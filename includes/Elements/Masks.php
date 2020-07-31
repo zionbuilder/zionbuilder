@@ -41,21 +41,23 @@ class Masks {
 
 		$svg_args = [
 			'svg'   => [
-				'class'           => true,
-				'aria-hidden'     => true,
-				'aria-labelledby' => true,
-				'role'            => true,
-				'xmlns'           => true,
-				'width'           => true,
-				'height'          => true,
-				'viewbox'         => true, // <= Must be lower case!
-				'style'           => true,
+				'class'               => true,
+				'aria-hidden'         => true,
+				'aria-labelledby'     => true,
+				'role'                => true,
+				'xmlns'               => true,
+				'width'               => true,
+				'height'              => true,
+				'viewbox'             => true, // <= Must be lower case!
+				'style'               => true,
+				'preserveaspectratio' => true,
 			],
 			'g'     => [ 'fill' => true ],
 			'title' => [ 'title' => true ],
 			'path'  => [
-				'd'    => true,
-				'fill' => true,
+				'd'            => true,
+				'fill'         => true,
+				'fill-opacity' => true,
 			],
 		];
 		return array_merge( $kses_defaults, $svg_args );
