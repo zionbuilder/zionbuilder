@@ -45,7 +45,17 @@ class GoogleFonts extends FontProvider {
 	}
 
 	public function get_data_set() {
-		return $this->get_fonts();
+		$fonts          = $this->get_fonts();
+		$returned_value = [];
+
+		foreach ( $fonts as $font_config ) {
+			$returned_value[] = [
+				'name' => $font_config['font_family'],
+				'id'   => $font_config['font_family'],
+			];
+		}
+
+		return $returned_value;
 	}
 
 	/**

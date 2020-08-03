@@ -79,7 +79,7 @@ const actions = {
 	},
 
 	deleteGoogleFont: ({ commit, dispatch }, payload) => {
-		commit(types.DELETE_GOOLGE_FONT, payload)
+		commit(types.DELETE_GOOGLE_FONT, payload)
 		dispatch('saveOptions')
 	},
 	updateGoogleFont: ({ commit, dispatch }, { font, value }) => {
@@ -87,7 +87,7 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	addGoogleFont: ({ commit, dispatch }, payload) => {
-		commit(types.ADD_GOOLGE_FONT, payload)
+		commit(types.ADD_GOOGLE_FONT, payload)
 		dispatch('saveOptions')
 	},
 	addTypeKitToken: ({ commit }, payload) => {
@@ -208,7 +208,7 @@ const actions = {
 }
 
 const mutations = {
-	[types.DELETE_GOOLGE_FONT] (state, payload) {
+	[types.DELETE_GOOGLE_FONT] (state, payload) {
 		let fontConfig = state.options.google_fonts.find((font) => {
 			return font.font_family === payload
 		})
@@ -227,7 +227,7 @@ const mutations = {
 		let fontIndex = state.options.google_fonts.indexOf(font)
 		state.options.google_fonts.splice(fontIndex, 1, value)
 	},
-	[types.ADD_GOOLGE_FONT] (state, payload) {
+	[types.ADD_GOOGLE_FONT] (state, payload) {
 		state.options.google_fonts.push(payload)
 	},
 	[types.ADD_TYPEKIT_FONT] (state, kitId) {
