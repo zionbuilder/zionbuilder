@@ -68,31 +68,35 @@ class Masks {
 	/*
 	 * Returns mask markup
 	 *
-	 * @param string $shape The shape id for which the attributes will be retrieved
-	 * @param mixed  $mask
+	 * @param string $masks The mask options saved for the element
+	 *
+	 * @return void
 	 */
 	public static function render_masks( $masks ) {
 		foreach ( $masks as $position => $shape_config ) {
+			// Don't proceed if we do not have a valid shape
+			if ( empty( $shape_config['shape'] ) ) {
+				continue;
+			}
+
+			$shape_style  = '';
 			$shape_path   = $shape_config['shape'];
 			$shape_color  = ( ! empty( $shape_config['color'] ) ) ? sprintf( 'color: %s;', $shape_config['color'] ) : '';
 			$shape_height = ( ! empty( $shape_config['height'] && $shape_config['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape_config['height'] ) : '';
-			if ( ! empty( $shape_path ) ) {
-				$shape_style  = '';
-				$shape_style .= $shape_color;
-				$shape_style .= $shape_height; ?>
-				<span class="zb-mask <?php echo 'zb-mask-pos--' . esc_attr( $position ); ?>"
-					<?php
-					if ( ! empty( $shape_style ) ) {
-						echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
-					}
-					?>
-				>
+			$shape_style .= $shape_color;
+			$shape_style .= $shape_height; ?>
+			<span class="zb-mask <?php echo 'zb-mask-pos--' . esc_attr( $position ); ?>"
 				<?php
-					self::get_mask( $shape_path );
+				if ( ! empty( $shape_style ) ) {
+					echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
+				}
 				?>
-		</span>
-				<?php
-			}
+			>
+			<?php
+				self::get_mask( $shape_path );
+			?>
+			</span>
+			<?php
 		}
 	}
 
