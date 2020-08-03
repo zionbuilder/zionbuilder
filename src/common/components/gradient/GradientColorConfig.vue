@@ -6,25 +6,6 @@
 			v-model="valueModel"
 			class="znpb-gradient-color-form"
 		/>
-		<!--
-		<InputWrapper class="znpb-form-gradient">
-			<ColorPicker
-				v-model="colorValue"
-				append-to="body"
-				:show-library="false"
-			/>
-		</InputWrapper>
-		<InputWrapper class="znpb-form-gradient">
-
-			<InputNumber
-				v-model="positionValue"
-				:min="0"
-				:max="100"
-				:step="1"
-			>
-				%
-			</InputNumber>
-		</InputWrapper> -->
 		<div
 			class="znpb-gradient-actions__delete"
 			v-if="showDelete"
@@ -39,7 +20,7 @@
 
 </template>
 <script>
-// import { OptionsForm } from '@/common/components/forms'
+
 export default {
 	name: 'GradientColorConfig',
 	props: {
@@ -52,9 +33,6 @@ export default {
 			required: false,
 			default: true
 		}
-	},
-	components: {
-		// OptionsForm
 	},
 	computed: {
 		valueModel: {
@@ -76,30 +54,10 @@ export default {
 					type: 'number',
 					id: 'position',
 					content: '%',
-					width: '50'
+					width: '50',
+					min: 0,
+					max: 100
 				}
-			}
-		},
-		colorValue: {
-			get () {
-				return this.config.color
-			},
-			set (newValue) {
-				this.$emit('input', {
-					...this.config,
-					color: newValue
-				})
-			}
-		},
-		positionValue: {
-			get () {
-				return this.config.position
-			},
-			set (newValue) {
-				this.$emit('input', {
-					...this.config,
-					position: newValue
-				})
 			}
 		}
 	}
