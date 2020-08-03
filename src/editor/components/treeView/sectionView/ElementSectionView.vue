@@ -91,7 +91,7 @@ export default {
 			return true
 		}
 
-		domtoimage.toPng(domElement, {
+		domtoimage.toSvg(domElement, {
 			style: {
 				'width': '100%',
 				'margin': 0
