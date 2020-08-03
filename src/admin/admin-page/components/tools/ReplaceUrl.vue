@@ -22,9 +22,7 @@
 				v-model="newUrl"
 				:placeholder="$translate('new_url')"
 				size="narrow"
-			>
-
-			</BaseInput>
+			/>
 
 		</div>
 		<div class="znpb-admin-replace__actions">

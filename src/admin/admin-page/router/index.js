@@ -14,6 +14,7 @@ import Gradients from '../components/gradients/Gradients.vue'
 import GetPro from '../components/GetPro.vue'
 import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
+import ProLicense from '../components/ProLicense.vue'
 
 const getTemplateChildrens = () => {
 	const templateChilds = {}
@@ -44,13 +45,13 @@ routes.addRoute('home', {
 	}
 })
 
-routes.addRoute('get-pro', 	{
+routes.addRoute('get-pro', {
 	path: '/get-pro',
 	name: 'get-pro',
 	component: GetPro
 })
 
-const SettingsRoute = routes.addRoute('settings', 	{
+const SettingsRoute = routes.addRoute('settings', {
 	path: '/settings',
 	name: 'settings',
 	redirect: {
@@ -202,4 +203,9 @@ routes.addRoute('system-info', {
 	title: L10n.translate('system_info')
 })
 
+routes.addRoute('pro-license', {
+	path: '/pro-license',
+	component: ProLicense,
+	title: L10n.translate('pro_license_key')
+})
 export default routes
