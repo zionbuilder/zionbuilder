@@ -35,7 +35,7 @@
 						v-else
 						icon="close"
 						:size="10"
-						@click.native.stop="$emit('remove-shape'),showDelete=false"
+						@click.native.stop="$emit('input', null),showDelete=false"
 					/>
 				</transition>
 			</span>
@@ -94,9 +94,6 @@ export default {
 		shapes () {
 			return Object.values(this.getMasks)
 		}
-	},
-	methods: {
-
 	}
 }
 </script>

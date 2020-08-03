@@ -4,30 +4,23 @@
 		:is="htmlTag"
 	>
 		<slot name="start" />
-		<RenderTag
-			tag-id="div"
+
+		<SvgMask
 			v-if="topMask!==undefined && topMask.shape"
-		>
-			<SvgMask
-				:shapePath="topMask['shape']"
-				:color="topMask['color']"
-				:height="topMask['height']"
-				position="top"
-			/>
+			:shapePath="topMask['shape']"
+			:color="topMask['color']"
+			:height="topMask['height']"
+			position="top"
+		/>
 
-		</RenderTag>
-		<RenderTag
-			tag-id="div"
+		<SvgMask
 			v-if="bottomMask!==undefined && bottomMask.shape"
-		>
-			<SvgMask
-				:shapePath="bottomMask['shape']"
-				:color="bottomMask['color']"
-				:height="bottomMask['height']"
-				position="bottom"
-			/>
+			:shapePath="bottomMask['shape']"
+			:color="bottomMask['color']"
+			:height="bottomMask['height']"
+			position="bottom"
+		/>
 
-		</RenderTag>
 		<RenderTag tag-id="inner_content">
 			<SortableContent
 				:content="data.content"

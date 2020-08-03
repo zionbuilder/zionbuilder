@@ -1,4 +1,4 @@
-.znpb-mask {
+.zb-mask {
 	position: absolute;
 	right: 0;
 	bottom: -1px;
@@ -16,12 +16,7 @@
 		fill: currentColor;
 	}
 
-	.zion-shape-double {
-		path:first-child {
-			opacity: .6;
-		}
-	}
-	&.-pos--top {
+	&-pos--top {
 		top: -1px;
 		bottom: auto;
 		svg {

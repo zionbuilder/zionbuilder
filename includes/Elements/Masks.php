@@ -26,40 +26,76 @@ class Masks {
 	 */
 	public static function getshapes() {
 		$shapes = [
-			'bottom-mask_01' => Utils::get_file_url( 'assets/masks/bottom-mask_01.svg' ),
-			'bottom-mask_02' => Utils::get_file_url( 'assets/masks/bottom-mask_02.svg' ),
-			'bottom-mask_05' => Utils::get_file_url( 'assets/masks/bottom-mask_05.svg' ),
-			'bottom-mask_06' => Utils::get_file_url( 'assets/masks/bottom-mask_06.svg' ),
-			'bottom-mask_07' => Utils::get_file_url( 'assets/masks/bottom-mask_07.svg' ),
-			'bottom-mask_14' => Utils::get_file_url( 'assets/masks/bottom-mask_14.svg' ),
+			'bottom-free-mask_01' => Utils::get_file_url( 'assets/masks/bottom-free-mask_01.svg' ),
+			'bottom-free-mask_02' => Utils::get_file_url( 'assets/masks/bottom-free-mask_02.svg' ),
+			'bottom-free-mask_03' => Utils::get_file_url( 'assets/masks/bottom-free-mask_03.svg' ),
+			'bottom-free-mask_04' => Utils::get_file_url( 'assets/masks/bottom-free-mask_04.svg' ),
+			'bottom-free-mask_05' => Utils::get_file_url( 'assets/masks/bottom-free-mask_05.svg' ),
+			'bottom-free-mask_06' => Utils::get_file_url( 'assets/masks/bottom-free-mask_06.svg' ),
 		];
 		return apply_filters( 'zionbuilder/masks', $shapes );
 	}
-
+	/*
+	 * Returns ruleset for svg
+	 */
 	public static function get_kses_extended_ruleset() {
 		$kses_defaults = wp_kses_allowed_html( 'post' );
 
 		$svg_args = [
 			'svg'   => [
-				'class'           => true,
-				'aria-hidden'     => true,
-				'aria-labelledby' => true,
-				'role'            => true,
-				'xmlns'           => true,
-				'width'           => true,
-				'height'          => true,
-				'viewbox'         => true, // <= Must be lower case!
-				'style'           => true,
+				'class'               => true,
+				'aria-hidden'         => true,
+				'aria-labelledby'     => true,
+				'role'                => true,
+				'xmlns'               => true,
+				'width'               => true,
+				'height'              => true,
+				'viewbox'             => true, // <= Must be lower case!
+				'style'               => true,
+				'preserveaspectratio' => true,
 			],
 			'g'     => [ 'fill' => true ],
 			'title' => [ 'title' => true ],
 			'path'  => [
-				'd'    => true,
-				'fill' => true,
+				'd'            => true,
+				'fill'         => true,
+				'fill-opacity' => true,
 			],
 		];
 		return array_merge( $kses_defaults, $svg_args );
 	}
+
+	/*
+	 * Returns mask markup
+	 *
+	 * @param string $shape The shape id for which the attributes will be retrieved
+	 * @param mixed  $mask
+	 */
+	public static function render_masks( $masks ) {
+		foreach ( $masks as $position => $shape_config ) {
+			$shape_path   = $shape_config['shape'];
+			$shape_color  = ( ! empty( $shape_config['color'] ) ) ? sprintf( 'color: %s;', $shape_config['color'] ) : '';
+			$shape_height = ( ! empty( $shape_config['height'] && $shape_config['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape_config['height'] ) : '';
+			if ( ! empty( $shape_path ) ) {
+				$shape_style  = '';
+				$shape_style .= $shape_color;
+				$shape_style .= $shape_height; ?>
+				<span class="zb-mask <?php echo 'zb-mask-pos--' . esc_attr( $position ); ?>"
+					<?php
+					if ( ! empty( $shape_style ) ) {
+						echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
+					}
+					?>
+				>
+				<?php
+					self::get_mask( $shape_path );
+				?>
+		</span>
+				<?php
+			}
+		}
+	}
+
 	/*
 	 * Returns string from shape id
 	 *

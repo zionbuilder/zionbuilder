@@ -40,11 +40,11 @@ export default {
 			maskPosOptions: [
 				{
 					id: 'top',
-					name: 'Top masks'
+					name: this.$translate('top_masks')
 				},
 				{
 					id: 'bottom',
-					name: 'Bottom masks'
+					name: this.$translate('bottom_masks')
 				}
 			],
 
@@ -52,13 +52,16 @@ export default {
 		}
 	},
 	computed: {
+		computedTitle () {
+			return this.activeMaskPosition === 'top' ? this.$translate('select_top_mask') : this.$translate('select_bottom_mask')
+		},
 		schema () {
 			return {
 				shape: {
 					type: 'shape_component',
 					id: 'shape',
 					width: '100',
-					title: this.$translate('select_mask'),
+					title: this.computedTitle,
 					position: this.activeMaskPosition
 				},
 				color: {
@@ -86,6 +89,11 @@ export default {
 				return this.value ? this.value[this.activeMaskPosition] ? this.value[this.activeMaskPosition] : {} : {}
 			},
 			set (newValue) {
+				if (this.value[this.activeMaskPosition] !== undefined && this.value[this.activeMaskPosition]['shape'] !== newValue['shape']) {
+					if (newValue.hasOwnProperty('height')) {
+						newValue['height'] = 'auto'
+					}
+				}
 				this.$emit('input', {
 					...this.value,
 					[this.activeMaskPosition]: newValue
