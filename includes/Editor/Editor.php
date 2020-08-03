@@ -14,7 +14,7 @@ use ZionBuilder\Options\Schemas\Advanced;
 use ZionBuilder\Options\Schemas\Video;
 use ZionBuilder\Options\Schemas\BackgroundImage;
 use ZionBuilder\Options\Schemas\Shadow;
-
+use ZionBuilder\Elements\Masks;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -305,6 +305,7 @@ class Editor {
 					'all_pages_url'     => $post_instance->get_all_pages_url(),
 					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 				],
+				'masks'                          => Masks::getshapes(),
 				'builder_settings'               => [],
 				'element_default_options_schema' => [
 					'style_options'           => StyleOptions::get_schema(),

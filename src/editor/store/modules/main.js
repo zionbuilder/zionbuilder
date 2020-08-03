@@ -16,10 +16,12 @@ const state = {
 	urls: window.ZnPbInitalData.urls,
 	lockedUserInfo: window.ZnPbInitalData.post_lock_user,
 	nonce: window.ZnPbRestConfig.nonce,
-	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active
+	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active,
+	masks: window.ZnPbInitalData.masks
 }
 
 const getters = {
+	getMasks: state => state.masks,
 	getAssetsUrl: state => state.urls.assets_url,
 	isPro: state => state.is_pro_active,
 	getLogoUrl: state => state.urls.logo,

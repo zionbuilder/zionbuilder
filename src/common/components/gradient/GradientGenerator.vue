@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="znpb-gradient-wrapper"
-	>
+	<div class="znpb-gradient-wrapper">
 
 		<GradientBoard
 			v-if="!saveToLibrary"
@@ -11,9 +9,7 @@
 			@position-changed="changePosition($event)"
 		/>
 
-		<ActionsOverlay
-			v-else
-		>
+		<ActionsOverlay v-else>
 			<GradientBoard
 				:config="computedValue"
 				:activegrad="activeGradient"
@@ -21,9 +17,7 @@
 				@position-changed="changePosition($event)"
 			/>
 
-			<template
-				slot="actions"
-			>
+			<template slot="actions">
 				<span
 					v-if="!showPresetInput"
 					class="znpb-gradient__show-preset"
@@ -76,9 +70,7 @@
 			/>
 		</div>
 
-		<GradientOptions
-			v-model="activeGradient"
-		/>
+		<GradientOptions v-model="activeGradient" />
 
 	</div>
 </template>
@@ -106,7 +98,7 @@ export default {
 		value: {
 			type: Array,
 			required: false,
-			default () {}
+			default () { }
 		},
 		saveToLibrary: {
 			type: Boolean,
@@ -207,6 +199,7 @@ export default {
 		},
 		changeActive (index) {
 			this.activeGradientIndex = index
+			this.showOptions = true
 		},
 		changePosition (position) {
 			this.activeGradient = {

@@ -69,6 +69,13 @@ export default {
 			type: Boolean,
 			required: false,
 			default: false
+		},
+		/**
+		 * preserv aspect ratio
+		 */
+		preserveAspectRatio: {
+			type: String,
+			required: false
 		}
 	},
 	data: () => {
@@ -100,12 +107,16 @@ export default {
 			}
 			return cssStyles
 		},
+		hasPreserveAspect () {
+			return this.preserveAspectRatio ? this.preserveAspectRatio : ''
+		},
 		getSvgIcon () {
 			const svg = `<svg
 				class="zion-svg-inline znpb-editor-icon zion-${this.icon} zion-icon"
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
 				viewBox="${this.iconViewbox}"
+				preserveAspectRatio="${this.hasPreserveAspect}"
 			>
 				${this.getIcon}
 			</svg>`

@@ -28,6 +28,8 @@ import Dimensions from './Dimensions'
 import {
 	BaseInput,
 	InputDate,
+	ShapeDividers,
+	ShapeDividerComponent,
 	ColorPicker,
 	CustomSelector,
 	InputSelect,
@@ -215,6 +217,15 @@ class OptionsManager {
 		this.registerOption({
 			id: 'date_input',
 			component: InputDate
+		})
+
+		this.registerOption({
+			id: 'shape_dividers',
+			component: ShapeDividers
+		})
+		this.registerOption({
+			id: 'shape_component',
+			component: ShapeDividerComponent
 		})
 
 		// register custom options

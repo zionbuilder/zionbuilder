@@ -9,7 +9,6 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;

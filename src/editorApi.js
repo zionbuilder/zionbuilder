@@ -8,7 +8,6 @@ import EventBus from '@/editor/EventBus'
 import { InjectionComponentsManager } from '@/common/components/injections'
 import L10n from '@/editor/L10n'
 import OptionsManager from '@/editor/manager/options'
-
 import Vue from 'vue'
 
 // Shared components
