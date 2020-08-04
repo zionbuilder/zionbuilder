@@ -82,6 +82,17 @@ class Localization {
 			// System info
 			'system_info_desc'                       => esc_html__( 'Scroll down to copy paste the Info shown', 'zionbuilder' ),
 
+			// Pro License
+			'pro_info_desc'                          => __( 'Add the license key you have received when purchasing Zionbuilder PRO ', 'zionbuilder' ),
+			'pro_info'                               => esc_html__( 'Add PRO license', 'zionbuilder' ),
+			'pro_license_key'                        => esc_html__( 'PRO license key', 'zionbuilder' ),
+			'key_example'                            => esc_html__( '11x1x111111x1x111111x11x11xx1xx1', 'zionbuilder' ),
+			'key'                                    => esc_html__( 'Key', 'zionbuilder' ),
+			'valid_until'                            => esc_html__( 'Valid until', 'zionbuilder' ),
+			'delete_key'                             => esc_html__( 'Delete key', 'zionbuilder' ),
+			'no_license_input'                       => esc_html__( 'You did not add any license key', 'zionbuilder' ),
+			'add_license'                            => esc_html__( 'Add license key', 'zionbuilder' ),
+
 			// Templates
 			'all'                                    => esc_html__( 'All', 'zionbuilder' ),
 			'yes'                                    => esc_html__( 'Yes', 'zionbuilder' ),
