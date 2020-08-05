@@ -47,6 +47,10 @@ export default {
 		value: {
 			type: Object,
 			required: false
+		},
+		specialFilterPack: {
+			type: Array,
+			required: false
 		}
 	},
 	data () {
@@ -119,6 +123,9 @@ export default {
 			return iconNumber
 		},
 		packList () {
+			if (this.specialFilterPack !== undefined && this.specialFilterPack.length) {
+				return this.specialFilterPack
+			}
 			if (this.activeCategory === 'all') {
 				return this.getIconsList
 			} else {
@@ -138,13 +145,16 @@ export default {
 					id: 'all'
 				}
 			]
-			this.getIconsList.forEach((pack) => {
-				let a = {
-					name: pack.name,
-					id: pack.id
-				}
-				options.push(a)
-			})
+			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
+				this.getIconsList.forEach((pack) => {
+					let a = {
+						name: pack.name,
+						id: pack.id
+					}
+					options.push(a)
+				})
+			}
+
 			return options
 		}
 
