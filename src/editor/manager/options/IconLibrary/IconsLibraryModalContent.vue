@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-icon-pack-modal">
+	<div
+		class="znpb-icon-pack-modal"
+		:class="{['znpb-icon-pack-modal--has-special-filter'] : specialFilterPack}"
+	>
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
 				:value="activeCategory"
@@ -181,6 +184,11 @@ export default {
 		& > .znpb-editor-icon-wrapper {
 			padding: 0 14px;
 			cursor: pointer;
+		}
+	}
+	&--has-special-filter {
+		.znpb-icon-pack-modal__icons {
+			min-height: 500px;
 		}
 	}
 }
