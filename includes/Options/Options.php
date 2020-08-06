@@ -65,7 +65,7 @@ class Options extends Stack {
 	/**
 	 * @var RenderAttributes|null
 	 */
-	public $render_attributes = null;
+	private $render_attributes = null;
 
 	/**
 	 * Class constructor
