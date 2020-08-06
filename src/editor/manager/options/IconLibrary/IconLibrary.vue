@@ -61,6 +61,7 @@
 			<IconsLibraryModalContent
 				v-model="valueModel"
 				@selected="$emit('input',$event),showModal=false"
+				:special-filter-pack="specialFilterPack"
 			/>
 		</Modal>
 	</div>
@@ -78,7 +79,10 @@ export default {
 		IconsLibraryModalContent
 	},
 	props: {
-
+		specialFilterPack: {
+			type: Array,
+			required: false
+		},
 		title: {
 			type: String,
 			required: true
