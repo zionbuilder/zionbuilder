@@ -65,7 +65,7 @@ class Options extends Stack {
 	/**
 	 * @var RenderAttributes|null
 	 */
-	private $render_attributes = null;
+	public $render_attributes = null;
 
 	/**
 	 * Class constructor
@@ -229,6 +229,9 @@ class Options extends Stack {
 								$index                     = (int) $index;
 								$model[$option_id][$index] = $this->setup_model( $option_schema->child_options, $option_value, $index );
 							}
+
+							// Reset index
+							$index = null;
 						}
 					} else {
 						$saved_value       = isset( $model[$option_id] ) ? $model[$option_id] : [];
