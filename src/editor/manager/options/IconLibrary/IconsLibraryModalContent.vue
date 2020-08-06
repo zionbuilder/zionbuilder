@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-icon-pack-modal">
+	<div
+		class="znpb-icon-pack-modal"
+		:class="{['znpb-icon-pack-modal--has-special-filter'] : specialFilterPack}"
+	>
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
 				:value="activeCategory"
@@ -46,6 +49,10 @@ export default {
 	props: {
 		value: {
 			type: Object,
+			required: false
+		},
+		specialFilterPack: {
+			type: Array,
 			required: false
 		}
 	},
@@ -119,6 +126,9 @@ export default {
 			return iconNumber
 		},
 		packList () {
+			if (this.specialFilterPack !== undefined && this.specialFilterPack.length) {
+				return this.specialFilterPack
+			}
 			if (this.activeCategory === 'all') {
 				return this.getIconsList
 			} else {
@@ -138,13 +148,16 @@ export default {
 					id: 'all'
 				}
 			]
-			this.getIconsList.forEach((pack) => {
-				let a = {
-					name: pack.name,
-					id: pack.id
-				}
-				options.push(a)
-			})
+			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
+				this.getIconsList.forEach((pack) => {
+					let a = {
+						name: pack.name,
+						id: pack.id
+					}
+					options.push(a)
+				})
+			}
+
 			return options
 		}
 
@@ -171,6 +184,11 @@ export default {
 		& > .znpb-editor-icon-wrapper {
 			padding: 0 14px;
 			cursor: pointer;
+		}
+	}
+	&--has-special-filter {
+		.znpb-icon-pack-modal__icons {
+			min-height: 500px;
 		}
 	}
 }

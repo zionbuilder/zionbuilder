@@ -229,6 +229,9 @@ class Options extends Stack {
 								$index                     = (int) $index;
 								$model[$option_id][$index] = $this->setup_model( $option_schema->child_options, $option_value, $index );
 							}
+
+							// Reset index
+							$index = null;
 						}
 					} else {
 						$saved_value       = isset( $model[$option_id] ) ? $model[$option_id] : [];
