@@ -22,17 +22,29 @@
 			class="znpb-editor-library-modal__item-pro"
 		>{{$translate('pro')}}
 		</div>
+
 		<div class="znpb-editor-library-modal__item-bottom">
 			<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
 			<div
 				class="znpb-editor-library-modal__item-actions"
 				v-if="!insertItemLoading"
 			>
-				<span
+				<a
 					v-if="!isProActive && item.pro"
 					class="znpb-button znpb-button--line"
+					:href="purchaseURL"
+					target="_blank"
 				>{{$translate('buy_pro')}}
-				</span>
+				</a>
+
+				<a
+					v-else-if="isProActive && !isProConnected && item.pro"
+					class="znpb-button znpb-button--line"
+					target="_blank"
+					:href="dashboardURL"
+				>{{$translate('activate_pro')}}
+				</a>
+
 				<Tooltip
 					v-else
 					tag="span"
@@ -62,7 +74,7 @@
 				>
 					<BaseIcon
 						icon="eye"
-						@click.native="$emit('activate-item',item)"
+						@click.native="$emit('activate-item', item)"
 					/>
 				</Tooltip>
 
@@ -96,7 +108,7 @@
 </template>
 <script>
 import { Tooltip } from '@/common/components/tooltip'
-const pluginInfo = window.ZnPbInitalData.plugin_info
+const { plugin_info: pluginInfo, urls } = window.ZnPbInitalData
 export default {
 	name: 'LibraryItem',
 	inject: {
@@ -122,12 +134,17 @@ export default {
 	data () {
 		return {
 			insertItemLoading: false,
-			isProActive: pluginInfo.is_pro_active
+			isProActive: pluginInfo.is_pro_active,
+			isProConnected: pluginInfo.is_pro_connected,
+			dashboardURL: `${urls.zion_admin}#/pro-license`,
+			purchaseURL: urls.purchase_url
 		}
 	},
 	methods: {
 		insertLibraryItem () {
 			this.insertItemLoading = true
+			// If it's pro, get the download URL
+
 			this.Library.insertItem(this.item).then(() => {
 
 			}).catch((error) => {
@@ -228,12 +245,13 @@ export default {
 	&-actions {
 		display: flex;
 		align-items: center;
-		& > span {
+		& > span, & > a {
 			margin-right: 8px;
 			text-transform: capitalize;
-			&:last-of-type {
-				margin-right: 0;
-			}
+		}
+
+		& > span:last-of-type {
+			margin-right: 0;
 		}
 	}
 

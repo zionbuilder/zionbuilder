@@ -317,6 +317,7 @@ class Localization {
 			'view_changelog'                         => __( 'View changelog', 'zionbuilder' ),
 			'update_to_version'                      => __( 'Update to version', 'zionbuilder' ),
 			'buy_pro'                                => __( 'Buy Pro', 'zionbuilder' ),
+			'activate_pro'                           => __( 'Activate PRO', 'zionbuilder' ),
 			'not_installed'                          => __( 'Not installed!', 'zionbuilder' ),
 			'you_are_upto_date'                      => __( 'You are up to date!', 'zionbuilder' ),
 			'about_zion_description'                 => __( 'Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Page Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.', 'zionbuilder' ),

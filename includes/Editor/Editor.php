@@ -303,6 +303,7 @@ class Editor {
 					'preview_frame_url' => $post_instance->get_preview_frame_url(),
 					'preview_url'       => $post_instance->get_preview_url(),
 					'all_pages_url'     => $post_instance->get_all_pages_url(),
+					'purchase_url'      => 'https://zionbuilder.io/pricing/',
 					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 				],
 				'masks'                          => Masks::getshapes(),
@@ -333,6 +334,7 @@ class Editor {
 				// Plugin info
 				'plugin_info'                    => [
 					'is_pro_active'      => Utils::is_pro_active(),
+					'is_pro_connected'   => apply_filters( 'zionbuilder/pro/is_conected', false ),
 					'free_version'       => Plugin::instance()->get_version(),
 					'pro_version'        => ( Utils::is_pro_active() && defined( 'ZIONBUILDERPRO_VERSION' ) ? Plugin::instance()->get_version() : null ),
 					'free_plugin_update' => $free_plugin_update,

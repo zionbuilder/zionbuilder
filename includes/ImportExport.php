@@ -121,7 +121,7 @@ class ImportExport {
 	/**
 	 * This function will create the template zip and insert its contents
 	 *
-	 * @param array    $data_config   [
+	 * @param array $data_config   [
 	 *                             string template name
 	 *                             object template data
 	 *                             string custom_css
@@ -380,6 +380,10 @@ class ImportExport {
 	public function insert_template_package( $file_path ) {
 		// create the temp folder if it doesn't exist
 		$temp_location = $this->upload_dir_path . '/zionbuilder/temp';
+		$file_info     = pathinfo( $file_path );
+		$newfilename   = wp_unique_filename( $temp_location, $file_info['filename'] );
+		$temp_location = sprintf( '%s/%s', $temp_location, $newfilename );
+
 		if ( ! file_exists( $temp_location ) ) {
 			FileSystem::get_file_system()->mkdir( $temp_location, 0777, true );
 		}
@@ -420,13 +424,16 @@ class ImportExport {
 		// replace dummy url with the new site uploads directory & uploads all assets from zip file
 		self::add_template_images( $content_data, 'import' );
 
+		// Cleanup temp
+		FileSystem::get_file_system()->delete( $temp_location, true );
+
 		return $content_data;
 	}
 
 	/**
 	 * This function will provide the download functionality for the export archive and exit the process
 	 *
-	 * @param mixed  $template_name
+	 * @param mixed $template_name
 	 *
 	 * @return \WP_Error
 	 */
