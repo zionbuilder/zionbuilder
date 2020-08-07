@@ -21,7 +21,7 @@ class Utils {
 	 * @return boolean if zion builder pro path is defined
 	 */
 	public static function is_pro_active() {
-		return defined( 'ZIONBUILDERPRO_PATH' );
+		return class_exists( 'ZionBuilderPro\Plugin' );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Utils {
 	/**
 	 * Convert a string to camelcase
 	 *
-	 * @param string $string
+	 * @param string  $string
 	 * @param boolean $capitalize_first_letter
 	 *
 	 * @return string The string in camelcase format
