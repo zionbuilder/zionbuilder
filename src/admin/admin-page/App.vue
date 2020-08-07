@@ -8,7 +8,13 @@
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
 					<img :src="logoUrl" />
-					<span>v{{version}}</span>
+					<ZionLabel
+						v-if="isPro"
+						:text="$translate('pro')"
+						type="warning"
+						class="znpb-option__upgrade-to-pro-label"
+					/>
+					<span class="znpb-admin__header-logo-version">v{{version}}</span>
 				</div>
 				<div class="znpb-admin__header-actions">
 					<router-link
@@ -57,7 +63,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
+import ZionLabel from '@/editor/common/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 
 export default {
@@ -68,6 +74,10 @@ export default {
 			hasError: false,
 			savingOptions: false
 		}
+	},
+	components: {
+		ZionLabel,
+		OptionsSaveLoader
 	},
 	computed: {
 		...mapGetters([
@@ -98,9 +108,7 @@ export default {
 			return window.ZnPbAdminPageData.is_pro_active
 		}
 	},
-	components: {
-		OptionsSaveLoader
-	},
+
 	methods: {
 		...mapActions([
 			'fetchGoogleFonts',
@@ -163,8 +171,21 @@ export default {
 				height: 36px;
 				margin-right: 10px;
 			}
+			span {
+				margin-right: 5px;
+				margin-bottom: 0;
+				margin-left: 0;
 
-			& > span {
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			.znpb-label {
+				font-size: 10px;
+			}
+
+			&-version {
 				padding: 5px 6px 4px;
 				font-size: 11px;
 				font-weight: 500;
