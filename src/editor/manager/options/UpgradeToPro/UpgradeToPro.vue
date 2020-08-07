@@ -67,39 +67,42 @@ export default {
 		border-radius: 3px;
 	}
 
+	.znpb-option__upgrade-to-pro-container {
+		& > h4 {
+			margin-bottom: 15px;
+			color: $surface-active-color;
+			font-size: 14px;
+			font-weight: 500;
+			text-transform: capitalize;
+		}
+
+		& > p {
+			margin-bottom: 20px;
+		}
+
+		& > a {
+			display: inline-block;
+			padding-bottom: 5px;
+			margin-bottom: 20px;
+			color: $surface-active-color;
+			font-weight: 500;
+			border-bottom: 1px solid $border-color;
+			transition: color .15s;
+
+			&:hover {
+				color: lighten($surface-active-color, 15%);
+			}
+
+			&:last-child {
+				padding-bottom: 13.5px;
+				color: #fff;
+			}
+		}
+	}
+
 	&-label {
+		margin-bottom: 20px;
 		text-transform: uppercase;
-	}
-
-	p, &-label {
-		margin-bottom: 20px !important;
-	}
-
-	h4 {
-		margin-bottom: 15px !important;
-		color: $surface-active-color;
-		font-size: 14px;
-		font-weight: 500;
-		text-transform: capitalize;
-	}
-
-	a {
-		display: inline-block;
-		padding-bottom: 5px;
-		margin-bottom: 20px !important;
-		color: $surface-active-color;
-		font-weight: 500;
-		border-bottom: 1px solid $border-color;
-		transition: color .15s;
-
-		&:hover {
-			color: lighten($surface-active-color, 15%);
-		}
-
-		&:last-child {
-			padding-bottom: 13.5px;
-			color: #fff;
-		}
 	}
 
 	.zion-quality {

@@ -52,6 +52,7 @@
 				v-if="!isPro"
 				:message_title="$translate('pro_masks_title')"
 				:message_description="$translate('pro_masks_description')"
+				:message_link="$translate('learn_more_about_pro')"
 			/>
 		</div>
 	</div>
