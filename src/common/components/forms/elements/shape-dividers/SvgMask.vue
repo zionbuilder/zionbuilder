@@ -2,7 +2,10 @@
 	<div
 		class="znpb-shape-divider-icon zb-mask"
 		v-html="getSvgIcon"
-		:class="[position==='top' ?'zb-mask-pos--top': 'zb-mask-pos--bottom']"
+		:class="[
+			position==='top' ?'zb-mask-pos--top': 'zb-mask-pos--bottom',
+			flip ? 'zb-mask-pos--flip': ''
+		]"
 		:style="{'color':color, 'height': height}"
 	>
 
@@ -32,6 +35,10 @@ export default {
 		},
 		height: {
 			type: String,
+			required: false
+		},
+		flip: {
+			type: Boolean,
 			required: false
 		}
 	},
