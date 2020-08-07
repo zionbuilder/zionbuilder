@@ -9,10 +9,7 @@
 			name="start"
 			slot="start"
 		/>
-		<template
-			name="start"
-			slot="start"
-		>
+		<template #start>
 			<SvgMask
 				v-if="topMask!==undefined && topMask.shape"
 				:shapePath="topMask['shape']"
