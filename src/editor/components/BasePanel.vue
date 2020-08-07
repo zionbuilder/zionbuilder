@@ -270,6 +270,17 @@ export default {
 				prop: 'isDetached',
 				value: true
 			})
+
+			// set initial height for dragging
+			this.initialHeight = this.$refs.panelContainer.clientHeight
+			this.setPanelProp({
+				id: this.panelId,
+				prop: 'height',
+				value: {
+					value: 400,
+					unit: 'px'
+				}
+			})
 			this.setActivePanel(this.panelId)
 			this.userSel = 'none'
 
@@ -425,6 +436,28 @@ export default {
 					value: false
 				})
 			}
+
+			// add back the panel height based on its position
+			if (this.panel.isDetached) {
+				this.setPanelProp({
+					id: this.panelId,
+					prop: 'height',
+					value: {
+						value: 400,
+						unit: 'px'
+					}
+				})
+			} else {
+				this.setPanelProp({
+					id: this.panelId,
+					prop: 'height',
+					value: {
+						value: 100,
+						unit: '%'
+					}
+				})
+			}
+
 			this.initialPosition = null
 			this.setIframePointerEvents(false)
 			this.userSel = null
@@ -519,13 +552,13 @@ export default {
 	flex-direction: column;
 	background: $surface;
 	&--attached {
-		height: 100% !important;
+		height: 100%;
 	}
 	&:after {
 		clear: both;
 	}
 	&--top {
-		height: 100% !important;
+		height: 100%;
 	}
 	&--left {
 		// box-shadow: 2px 0 0 0 $border-color;
