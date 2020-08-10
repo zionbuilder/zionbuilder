@@ -157,7 +157,7 @@ class Localization {
 				'select_icon'                            => esc_html__( 'Select an icon', 'zionbuilder' ),
 
 				// Typekit fonts
-				'typekit_api_key'                        => esc_html__( 'API token', 'zionbuilder' ),
+
 				'typekit_api_description'                => sprintf(
 					'%s <a href="https://fonts.adobe.com/account/tokens" target="_blank">%s</a>. %s',
 					esc_html__( 'Please provide the token you got from the', 'zionbuilder' ),
@@ -165,11 +165,11 @@ class Localization {
 					esc_html__( 'After adding a valid token, your web projects will appear bellow.', 'zionbuilder' )
 				),
 				'submit'                                 => esc_html__( 'submit', 'zionbuilder' ),
-				'refresh_lists'                          => esc_html__( 'Refresh lists', 'zionbuilder' ),
-				'no_typekit_fonts'                       => esc_html__( 'No web projects added', 'zionbuilder' ),
 				'loading'                                => esc_html__( 'Loading', 'zionbuilder' ),
+
 				// Color presets
 				'add_color'                              => esc_html__( 'Add color', 'zionbuilder' ),
+
 				// Gradient presets
 				'add_gradient'                           => esc_html__( 'Add Gradient', 'zionbuilder' ),
 				'gradient_type'                          => esc_html__( 'Gradient type', 'zionbuilder' ),
@@ -423,6 +423,7 @@ class Localization {
 				'select_mask_color'                      => __( 'Add a color to mask', 'zionbuilder' ),
 				'top_masks'                              => __( 'Top masks', 'zionbuilder' ),
 				'bottom_masks'                           => __( 'Bottom masks', 'zionbuilder' ),
+				'flip_mask'                              => __( 'Flip mask horizontally', 'zionbuilder' ),
 
 				// Background gradient
 				'select_background_gradient'             => __( 'Select from library', 'zionbuilder' ),
@@ -552,13 +553,6 @@ class Localization {
 				'delete_template'                        => __( 'Click to delete this template', 'zionbuilder' ),
 				'export_template'                        => __( 'Click to export this template', 'zionbuilder' ),
 				'preview_template'                       => __( 'Click to preview this template', 'zionbuilder' ),
-
-				// Typekit
-				'paste_typekit_token'                    => __( 'Paste the Typekit Token in this field', 'zionbuilder' ),
-				'setup_typekit_fonts'                    => __( 'Here you can setup the Typekit fonts that you want to use in your site.', 'zionbuilder' ),
-
-				// TypekitTab
-				'active_typekit_deactivate'              => __( 'This is your active Typekit font. Uncheck to deactivate it', 'zionbuilder' ),
 
 				// device-element
 				'discard_changes_for'                    => __( 'Discard changes for', 'zionbuilder' ),
