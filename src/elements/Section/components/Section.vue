@@ -10,6 +10,7 @@
 			:shapePath="topMask['shape']"
 			:color="topMask['color']"
 			:height="topMask['height']"
+			:flip="topMask['flip']"
 			position="top"
 		/>
 
@@ -18,6 +19,7 @@
 			:shapePath="bottomMask['shape']"
 			:color="bottomMask['color']"
 			:height="bottomMask['height']"
+			:flip="bottomMask['flip']"
 			position="bottom"
 		/>
 
