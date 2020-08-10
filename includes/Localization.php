@@ -131,7 +131,6 @@ class Localization {
 				'font_delete_confirm'                    => esc_html__( 'Yes, delete the font', 'zionbuilder' ),
 				'font_delete_cancel'                     => esc_html__( 'No, keep the font', 'zionbuilder' ),
 				// Custom fonts
-				'no_custom_fonts'                        => esc_html__( 'No Custom fonts added', 'zionbuilder' ),
 				'save'                                   => esc_html__( 'Save', 'zionbuilder' ),
 				'font_weight'                            => esc_html__( 'Font Weight', 'zionbuilder' ),
 				'woff_file'                              => esc_html__( '.woff file', 'zionbuilder' ),
@@ -139,21 +138,12 @@ class Localization {
 				'svg_file'                               => esc_html__( '.svg file', 'zionbuilder' ),
 				'eot_file'                               => esc_html__( '.eot file', 'zionbuilder' ),
 				// Icon manager
-				'icons_info'                             => esc_html__( 'Upload your own icon pack of icons - the uploaded zip file should contain font files( .woff, .eot, .ttf, .svg extensions)', 'zionbuilder' ),
-				'click_me_to_add_icons'                  => esc_html__( 'Click to upload a new icon pack', 'zionbuilder' ),
 				'no_icons'                               => esc_html__( 'No icons added', 'zionbuilder' ),
-				'add_icons'                              => esc_html__( 'Add icons', 'zionbuilder' ),
-				'click_to_delete_icon'                   => esc_html__( 'Delete icon package', 'zionbuilder' ),
-				'click_to_download_icon'                 => esc_html__( 'Download icon package', 'zionbuilder' ),
-				'click_to_preview_icon'                  => esc_html__( 'Preview icon package', 'zionbuilder' ),
 
-				'are_you_sure_icons_delete'              => esc_html__( 'Are you sure you want to delete this icon set?', 'zionbuilder' ),
 				'icon_pack'                              => esc_html__( 'Icon pack', 'zionbuilder' ),
 				'search_for_icons'                       => esc_html__( 'Search through', 'zionbuilder' ),
 				'icons'                                  => esc_html__( 'icons', 'zionbuilder' ),
 				'no_icons_in_package'                    => esc_html__( 'No icons were found in package', 'zionbuilder' ),
-				'icon_delete_confirm'                    => esc_html__( 'Delete Pack', 'zionbuilder' ),
-				'icon_delete_cancel'                     => esc_html__( 'Cancel', 'zionbuilder' ),
 				'select_icon'                            => esc_html__( 'Select an icon', 'zionbuilder' ),
 
 				// Typekit fonts
@@ -471,7 +461,6 @@ class Localization {
 
 				// PatternContainer, PresetInput
 				'add_preset_title'                       => __( 'Global color name', 'zionbuilder' ),
-				'type_preset'                            => __( 'Type a preset', 'zionbuilder' ),
 
 				//InputSelect
 				'no_result'                              => __( 'No results', 'zionbuilder' ),
@@ -496,12 +485,8 @@ class Localization {
 				'create_color_palette'                   => __( 'Create your color pallete to use locally or globally', 'zionbuilder' ),
 
 				// CustomFonts
-				'upload_custom_fonts'                    => __( 'Upload your own Custom fonts (.woff, .ttf, .svg, .eot ) to use in the page builder', 'zionbuilder' ),
 				'click_me_to_add_font'                   => __( 'Click Me or the Blue button to add a Font', 'zionbuilder' ),
 
-				// CustomFont
-				'click_to_delete_font'                   => __( 'Click to delete this font', 'zionbuilder' ),
-				'click_to_edit_font'                     => __( 'Click to edit this font', 'zionbuilder' ),
 				// GoogleFonts
 				'google_fonts_1'                         => __( 'Seting up', 'zionbuilder' ),
 				'google_fonts_link'                      => __( 'Google web fonts', 'zionbuilder' ),
