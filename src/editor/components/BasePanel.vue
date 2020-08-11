@@ -200,7 +200,9 @@ export default {
 				zIndex: this.getActivePanel === this.panelId ? 999 : 1,
 				'min-width': panel.width.value + panel.width.unit,
 				width: panel.width.value + panel.width.unit,
-				height: this.isDragging ? '420px' : !panel.isDetached ? '100%' : panel.height.value + panel.height.unit,
+				// height: this.isDragging ? '420px' : !panel.isDetached ? '100%' : panel.height.value + panel.height.unit,
+				height: panel.height.value + panel.height.unit,
+				// height: (panel.height.unit === 'auto' && this.isDragging) || !panel.isDetached ? '100%' : panel.height.value + panel.height.unit,
 				top: (!this.isDragging && panel.isDetached) ? this.position.posY + this.unit : null,
 				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : null,
 				position: panel.isDetached ? 'fixed' : 'relative',
@@ -265,6 +267,7 @@ export default {
 			this.position.toPanelLeft = event.clientX - this.panelOffset.left
 
 			this.isDragging = true
+			// this.initialHeight = this.panel.height.unit === 'auto' ? this.$refs.panelContainer.clientHeight : this.panel.height.value + this.panel.height.unit
 			this.setPanelProp({
 				id: this.panelId,
 				prop: 'isDetached',
@@ -344,9 +347,9 @@ export default {
 				})
 			}
 
-			const maxBottom = window.innerHeight - this.panelOffset.height
+			// const maxBottom = window.innerHeight - this.panelOffset.height
 			let newTop = this.position.posY < 0 ? 0 : this.position.posY
-			this.position.posY = newTop > maxBottom ? maxBottom : newTop
+			this.position.posY = newTop
 
 			const maxLeft = window.innerWidth - this.panelOffset.width
 			const minLeft = 0
