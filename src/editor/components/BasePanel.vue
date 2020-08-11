@@ -274,7 +274,7 @@ export default {
 			// set initial height for dragging
 			this.initialHeight = this.$refs.panelContainer.clientHeight
 
-			if (this.panel.height['unit'] === 'auto' || (this.panel.height['unit'] === '%' && this.panel.height['value'] === 100) || (this.initialHeight > window.innerHeight || (window.innerHeight - this.initialHeight < 100))) {
+			if (this.panel.height['unit'] === 'auto' || (this.panel.height['unit'] === '%' && this.panel.height['value'] === 100) || (this.initialHeight > window.innerHeight || (window.innerHeight - this.initialHeight < 10))) {
 				this.setPanelProp({
 					id: this.panelId,
 					prop: 'height',
