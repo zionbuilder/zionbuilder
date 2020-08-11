@@ -273,14 +273,18 @@ export default {
 
 			// set initial height for dragging
 			this.initialHeight = this.$refs.panelContainer.clientHeight
-			this.setPanelProp({
-				id: this.panelId,
-				prop: 'height',
-				value: {
-					value: 400,
-					unit: 'px'
-				}
-			})
+
+			if (this.panel.height['unit'] === 'auto' || (this.panel.height['unit'] === '%' && this.panel.height['value'] === 100) || (this.initialHeight > window.innerHeight || (window.innerHeight - this.initialHeight < 100))) {
+				this.setPanelProp({
+					id: this.panelId,
+					prop: 'height',
+					value: {
+						value: 400,
+						unit: 'px'
+					}
+				})
+			}
+
 			this.setActivePanel(this.panelId)
 			this.userSel = 'none'
 
@@ -438,16 +442,7 @@ export default {
 			}
 
 			// add back the panel height based on its position
-			if (this.panel.isDetached) {
-				this.setPanelProp({
-					id: this.panelId,
-					prop: 'height',
-					value: {
-						value: 400,
-						unit: 'px'
-					}
-				})
-			} else {
+			if (!this.panel.isDetached) {
 				this.setPanelProp({
 					id: this.panelId,
 					prop: 'height',
