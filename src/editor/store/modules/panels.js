@@ -17,8 +17,8 @@ const state = {
 				unit: 'px'
 			},
 			height: {
-				value: 100,
-				unit: '%'
+				value: null,
+				unit: 'auto'
 			},
 			panelPos: 2
 		},
@@ -36,8 +36,8 @@ const state = {
 				unit: 'px'
 			},
 			height: {
-				value: 100,
-				unit: '%'
+				value: null,
+				unit: 'auto'
 			},
 			panelPos: 3
 		},
@@ -54,8 +54,8 @@ const state = {
 				unit: 'px'
 			},
 			height: {
-				value: 100,
-				unit: '5'
+				value: null,
+				unit: 'auto'
 			},
 			panelPos: 4
 		},
@@ -72,8 +72,8 @@ const state = {
 				unit: 'px'
 			},
 			height: {
-				value: 100,
-				unit: '%'
+				value: null,
+				unit: 'auto'
 			},
 			panelPos: 5
 		},
