@@ -23,7 +23,7 @@ export const errorInterceptor = function (Service, store) {
 
 		// Do something with response error
 		store.dispatch('addNotice', {
-			title: 'Server error',
+			title: 'Error',
 			message: message,
 			type: 'error'
 		})
