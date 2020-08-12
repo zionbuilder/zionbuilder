@@ -265,7 +265,7 @@ export default {
 			this.position.toPanelLeft = event.clientX - this.panelOffset.left
 
 			this.isDragging = true
-			// this.initialHeight = this.panel.height.unit === 'auto' ? this.$refs.panelContainer.clientHeight : this.panel.height.value + this.panel.height.unit
+
 			this.setPanelProp({
 				id: this.panelId,
 				prop: 'isDetached',
