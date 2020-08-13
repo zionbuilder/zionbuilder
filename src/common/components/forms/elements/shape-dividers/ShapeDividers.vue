@@ -81,6 +81,12 @@ export default {
 						{ 'unit': 'vh', 'min': 0, 'max': 100, 'step': 10 },
 						{ 'unit': 'auto' }
 					]
+				},
+				flip: {
+					type: 'checkbox_switch',
+					id: 'flip',
+					title: this.$translate('flip_mask'),
+					width: '100'
 				}
 			}
 		},

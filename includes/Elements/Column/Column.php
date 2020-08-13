@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Column;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Elements\Masks;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -431,6 +432,23 @@ class Column extends Element {
 				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-wrap',
 			]
 		);
+
+		$shape_dividers = $options->add_group(
+			'shape_dividers',
+			[
+				'type'      => 'panel_accordion',
+				'title'     => __( 'Shape Dividers', 'zion-builder' ),
+				'collapsed' => false,
+			]
+		);
+
+		$shape_dividers->add_option(
+			'shapes',
+			[
+				'type'  => 'shape_dividers',
+				'title' => __( 'Add a mask to your element', 'zionbuilder' ),
+			]
+		);
 	}
 
 	public function get_wrapper_tag( $options ) {
@@ -470,6 +488,12 @@ class Column extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
+		$masks = $options->get_value( 'shapes' );
+
+		if ( ! empty( $masks ) ) {
+			MAsks::render_masks( $masks );
+		}
+
 		$this->render_children();
 	}
 }

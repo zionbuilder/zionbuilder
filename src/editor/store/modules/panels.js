@@ -73,7 +73,7 @@ const state = {
 			},
 			height: {
 				value: null,
-				unit: 'px'
+				unit: 'auto'
 			},
 			panelPos: 5
 		},

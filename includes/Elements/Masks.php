@@ -84,8 +84,11 @@ class Masks {
 			$shape_color  = ( ! empty( $shape_config['color'] ) ) ? sprintf( 'color: %s;', $shape_config['color'] ) : '';
 			$shape_height = ( ! empty( $shape_config['height'] && $shape_config['height'] !== 'auto' ) ) ? sprintf( ' height: %s;', $shape_config['height'] ) : '';
 			$shape_style .= $shape_color;
-			$shape_style .= $shape_height; ?>
-			<span class="zb-mask <?php echo 'zb-mask-pos--' . esc_attr( $position ); ?>"
+			$shape_style .= $shape_height;
+			$flip         = $shape_config['flip'];
+			$flip_class   = $flip ? 'zb-mask-pos--flip' : '';
+			$pos_class    = 'zb-mask-pos--' . esc_attr( $position ); ?>
+			<span class="zb-mask <?php echo esc_attr( $pos_class ) . ' ' . esc_attr( $flip_class ); ?>"
 				<?php
 				if ( ! empty( $shape_style ) ) {
 					echo sprintf( 'style="%s"', esc_attr( $shape_style ) );
