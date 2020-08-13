@@ -297,19 +297,7 @@ class Style {
 
 				case 'background-size':
 				case 'background-video':
-					break;
 				case 'background-size-units':
-					if ( isset( $style_options['background-size'] ) && $style_options['background-size'] !== 'custom' ) {
-						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
-					} else {
-						if ( isset( $style_options['background-size'] ) && $style_options['background-size'] === 'custom' ) {
-							if ( $attribute === 'background-size-units' && isset( $value['x'] ) || isset( $value['y'] ) ) {
-								$x             = isset( $value['x'] ) ? $value['x'] : 'auto';
-								$y             = isset( $value['y'] ) ? $value['y'] : 'auto';
-								$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
-							}
-						}
-					}
 					break;
 				case 'background-position-x':
 					$background_position_x = $value;
@@ -378,6 +366,23 @@ class Style {
 				case 'inline-flex':
 					$compiled_css .= sprintf( 'display: -webkit-inline-box; display: -ms-inline-flexbox;' );
 					break;
+			}
+		}
+
+		// Background size
+		if ( isset( $style_options['background-size'] ) ) {
+			$bg_size_value = $style_options['background-size'];
+
+			if ( $bg_size_value !== 'custom' ) {
+				$compiled_css .= sprintf( 'background-size: %s;', $bg_size_value );
+			} elseif ( isset( $style_options['background-size-units'] ) ) {
+				$bg_size_units = $style_options['background-size-units'];
+
+				if ( isset( $bg_size_units['x'] ) || isset( $bg_size_units['y'] ) ) {
+					$x             = isset( $bg_size_units['x'] ) ? $bg_size_units['x'] : 'auto';
+					$y             = isset( $bg_size_units['y'] ) ? $bg_size_units['y'] : 'auto';
+					$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
+				}
 			}
 		}
 
