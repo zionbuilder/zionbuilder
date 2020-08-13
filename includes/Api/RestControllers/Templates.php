@@ -570,13 +570,10 @@ class Templates extends RestApiController {
 		$source = $request->get_param( 'source' );
 
 		if ( $source === 'remote' ) {
-			$pro               = $request->get_param( 'pro' );
 			$template_file_url = $request->get_param( 'url' );
 
 			// Check to see if this a PRO plugin or not
-			if ( $pro ) {
-				$template_file_url = '';
-			}
+			$template_file_url = apply_filters( 'zionbuilder/template/insert/template_file', $template_file_url, $request );
 
 			if ( empty( $template_file_url ) ) {
 				return new \WP_Error( 'template_data_not_valid', __( 'Could not get the template zip file!', 'zionbuilder' ) );
