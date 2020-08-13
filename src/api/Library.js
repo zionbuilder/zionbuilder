@@ -3,7 +3,7 @@ import axios from 'axios'
 let restConfig = window.ZnPbRestConfig
 
 const ZionService = axios.create({
-	baseURL: `http://zion-builder.test/wp-json/zionbuilder-library/v1/`,
+	baseURL: `https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/`,
 	headers: {
 		'Accept': 'application/json',
 		'Content-Type': 'application/json'
