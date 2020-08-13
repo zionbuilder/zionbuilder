@@ -18,3 +18,12 @@ export const getLibraryItems = function (useCache = true) {
 		return ZionService.get(`${url}?timestamp=${new Date().getTime()}`)
 	}
 }
+
+export const getTemplateDownloadURL = function (useCache = true) {
+	const url = 'items-and-categories'
+	if (useCache) {
+		return ZionService.get(url)
+	} else {
+		return ZionService.get(`${url}?timestamp=${new Date().getTime()}`)
+	}
+}

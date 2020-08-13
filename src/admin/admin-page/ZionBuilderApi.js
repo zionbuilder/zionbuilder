@@ -8,6 +8,7 @@ import { BaseInput } from '@/common/components/forms/elements/input'
 
 // Utils
 import * as utils from '@/utils'
+import { errorInterceptor } from '@/api/ServiceInterceptor'
 
 // Components
 import IconPackGrid from '@/common/components/IconPackGrid.vue'
@@ -24,6 +25,9 @@ const ZionBuilderApi = {
 		BaseInput
 	},
 	utils,
+	interceptors: {
+		errorInterceptor
+	},
 
 	// Injections Manager
 	Injections: new InjectionComponentsManager(),

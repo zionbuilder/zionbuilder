@@ -34,11 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
-/*
- * Holds a reference to the plugin url
- */
-define( 'ZIONBUILDER_URL', plugin_dir_url( __FILE__ ) );
-
 // Get the info for this plugin
 if ( ! function_exists( 'get_plugin_data' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -78,7 +73,7 @@ if ( \version_compare( PHP_VERSION, '5.6.20', '<' ) ) {
 	require dirname( __FILE__ ) . '/includes/Plugin.php';
 
 	// Fire up the plugin
-	$manager = new Plugin( trailingslashit( dirname( __FILE__ ) ), ZIONBUILDER_URL, $plugin_data['Version'] );
+	$manager = new Plugin( trailingslashit( dirname( __FILE__ ) ), plugin_dir_url( __FILE__ ), $plugin_data['Version'] );
 	$manager->init();
 }
 

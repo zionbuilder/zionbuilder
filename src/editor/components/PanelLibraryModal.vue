@@ -258,19 +258,7 @@ export default {
 		 */
 		insertItem (item) {
 			return new Promise((resolve, reject) => {
-				// Check to see if this is a local tempalte or a library one
-				let itemData = {}
-				if (item.url) {
-					itemData = {
-						template_file: item.url
-					}
-				} else {
-					itemData = {
-						template_id: item.ID
-					}
-				}
-
-				insertTemplate(itemData).then((response) => {
+				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
 
 					// Check to see if this is a single element or a group of elements
