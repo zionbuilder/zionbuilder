@@ -583,7 +583,7 @@ const mutations = {
 		state.activeElementUid = elementUid
 	},
 	[types.SET_RIGHT_CLICK_MENU] (state, payload) {
-		Vue.set(state, 'rightClickMenu', payload)
+		state.rightClickMenu = payload
 	},
 	[types.SET_COPIED_ELEMENT_STYLES] (state, payload) {
 		Vue.set(state, 'copiedElementStyles', payload)

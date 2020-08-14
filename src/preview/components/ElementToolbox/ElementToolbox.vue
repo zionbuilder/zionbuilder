@@ -12,109 +12,111 @@
 		@mouseover.stop="zIndex = 1001"
 		@mouseout.stop="zIndex = null"
 	>
-
-		<!-- Width/height -->
-		<Tooltip
-			v-for="(position, positionIndex) in positions"
-			:ref="`sizeDrag--${position}`"
-			tooltip-class="hg-popper--big-arrows znpb-sizing-label"
-			:placement='getPopperPlacement'
-			append-to="body"
-			trigger="null"
-			:show-arrows="false"
-			:show="activeDragType === 'size' && activeDragPosition === position && newValues!= undefined"
-			:modifiers="{ offset: { offset: '0,10px' } }"
-			:key="`size-${position}`"
-			:popper-ref="popperRef"
-			@mousedown.left.stop="startSizeDrag($event, position)"
+		<template
+			v-if="computedStyle"
 		>
-
-			<span slot="content">
-				{{newValues !== undefined ? newValues + 'px' : ''}}
-			</span>
-
-			<div
-				class="znpb-element-toolbox__resize-width znpb-element-toolbox__resize-dimensions"
-				:class="{
-					[`znpb-element-toolbox__resize-width--${positionIndex}`]: true,
-					[`znpb-element-toolbox__resize-dimensions--${(positionIndex === 'top' || positionIndex === 'bottom' )? 'height' : 'width'}`]:true
-				}"
+			<!-- Width/height -->
+			<Tooltip
+				v-for="(position, positionIndex) in positions"
+				:ref="`sizeDrag--${position}`"
+				tooltip-class="hg-popper--big-arrows znpb-sizing-label"
+				:placement='getPopperPlacement'
+				append-to="body"
+				trigger="null"
+				:show-arrows="false"
+				:show="activeDragType === 'size' && activeDragPosition === position && newValues!= undefined"
+				:modifiers="{ offset: { offset: '0,10px' } }"
+				:key="`size-${position}`"
+				:popper-ref="popperRef"
 				@mousedown.left.stop="startSizeDrag($event, position)"
 			>
-				<span class="znpb-element-toolbox__resize-width-bg"></span>
-			</div>
 
-		</Tooltip>
+				<span slot="content">
+					{{newValues !== undefined ? newValues + 'px' : ''}}
+				</span>
 
-		<!-- Paddings -->
-		<template
-			v-for="( positions, type ) in positions2"
-		>
-			<div
-				v-for="position in positions"
-				:key="`${type}-${position}`"
-				:class="{
-					[`znpb-element-toolbox__resize`]: true,
-					[`znpb-element-toolbox__resize-${type}`]: true,
-					[`znpb-element-toolbox__resize--${position}`]: true,
-					['znpb-element-toolbox__resize--dragging']: activeDragType === type && (activeDragPosition === position || reversedPosition === position)
+				<div
+					class="znpb-element-toolbox__resize-width znpb-element-toolbox__resize-dimensions"
+					:class="{
+						[`znpb-element-toolbox__resize-width--${positionIndex}`]: true,
+						[`znpb-element-toolbox__resize-dimensions--${(positionIndex === 'top' || positionIndex === 'bottom' )? 'height' : 'width'}`]:true
+					}"
+					@mousedown.left.stop="startSizeDrag($event, position)"
+				>
+					<span class="znpb-element-toolbox__resize-width-bg"></span>
+				</div>
 
-				}"
-				@mousedown.left.stop="startSpacingDrag({event: $event, type, position})"
+			</Tooltip>
+
+			<!-- Paddings -->
+			<template
+				v-for="( positions, type ) in positions2"
 			>
 				<div
-					class="znpb-element-toolbox__resize-value"
-					:style="computedHelpersStyle[position]"
+					v-for="position in positions"
+					:key="`${type}-${position}`"
+					:class="{
+						[`znpb-element-toolbox__resize`]: true,
+						[`znpb-element-toolbox__resize-${type}`]: true,
+						[`znpb-element-toolbox__resize--${position}`]: true,
+						['znpb-element-toolbox__resize--dragging']: activeDragType === type && (activeDragPosition === position || reversedPosition === position)
+
+					}"
+					@mousedown.left.stop="startSpacingDrag({event: $event, type, position})"
 				>
-					<span v-if="Math.abs(parseInt(computedStyle[position])) > 20">{{computedSavedValues[position]}}</span>
+					<div
+						class="znpb-element-toolbox__resize-value"
+						:style="computedHelpersStyle[position]"
+					>
+						<span v-if="Math.abs(parseInt(computedStyle[position])) > 20">{{computedSavedValues[position]}}</span>
+					</div>
 				</div>
-			</div>
-		</template>
+			</template>
 
-		<!-- Add new Button -->
-		<transition
-			appear
-			name="bounce-add-icon"
-		>
-			<Tooltip
-				v-show="!isAnyDragging"
-				tooltip-class="hg-popper--big-arrows"
-				placement='auto'
-				:show="showColumnTemplates"
-				append-to="body"
-				trigger="click"
-				:close-on-outside-click="true"
-				:close-on-escape="true"
-				:modifiers="{ offset: { offset: '0,10px' } }"
-				@hide="onAddColumnsHide"
-				@show="onAddColumnsShow"
-				key="addElements"
-				class="znpb-element-toolbox__add-element-button"
+			<!-- Add new Button -->
+			<transition
+				appear
+				name="bounce-add-icon"
 			>
+				<Tooltip
+					v-show="!isAnyDragging"
+					tooltip-class="hg-popper--big-arrows"
+					placement='auto'
+					:show="showColumnTemplates"
+					append-to="body"
+					trigger="click"
+					:close-on-outside-click="true"
+					:close-on-escape="true"
+					:modifiers="{ offset: { offset: '0,10px' } }"
+					@hide="onAddColumnsHide"
+					@show="onAddColumnsShow"
+					key="addElements"
+					class="znpb-element-toolbox__add-element-button"
+				>
 
-				<BaseIcon
-					icon="plus"
-					:rounded="true"
-				/>
+					<BaseIcon
+						icon="plus"
+						:rounded="true"
+					/>
 
-				<ColumnTemplates
-					slot="content"
-					@close-popper="showColumnTemplates=false"
-					:parentUid="parentUid"
-					:data="data"
-					:empty-sortable="false"
-				/>
-			</Tooltip>
-		</transition>
+					<ColumnTemplates
+						slot="content"
+						@close-popper="showColumnTemplates=false"
+						:parentUid="parentUid"
+						:data="data"
+						:empty-sortable="false"
+					/>
+				</Tooltip>
+			</transition>
 
-		<TopBarToolbox
-			v-if="!isAnyDragging"
-			slot="start"
-			:data="data"
-			:parentUid="parentUid"
-			@set-top-bar-display="setTopBarDisplay($event)"
-		/>
-
+			<TopBarToolbox
+				v-if="!isAnyDragging"
+				slot="start"
+				:data="data"
+				:parentUid="parentUid"
+				@set-top-bar-display="setTopBarDisplay($event)"
+			/>
+		</template>
 	</div>
 </template>
 
@@ -371,11 +373,8 @@ export default {
 				this.setComputedStyle()
 			})
 
-			// Run as animationFrame because it may run before the mousemove event
-			this.onMouseUpDebounced = rafSchd(this.onMouseUp)
-
 			EventsManager.addEventListener('mousemove', this.onMouseMoveDebounced)
-			EventsManager.addEventListener('mouseup', this.onMouseUpDebounced)
+			EventsManager.addEventListener('mouseup', this.onMouseUp)
 		},
 		getReversedPosition (position) {
 			const typeAndPosition = position.split(/(?=[A-Z])/)
@@ -437,12 +436,14 @@ export default {
 				this.saveState(`Updated ${this.getElementName(this.data.uid)} ${this.activeDragType}`)
 			}
 
+			// Cancel the scheduler
+			this.onMouseMoveDebounced.cancel()
+
 			EventsManager.removeEventListener('mousemove', this.onMouseMoveDebounced)
-			EventsManager.removeEventListener('mouseup', this.onMouseUpDebounced)
+			EventsManager.removeEventListener('mouseup', this.onMouseUp)
 
 			// Reset properties
 			this.onMouseMoveDebounced = null
-			this.onMouseUpDebounced = null
 			this.activeDragType = null
 			this.activeDragPosition = null
 			this.addToHistory = false
