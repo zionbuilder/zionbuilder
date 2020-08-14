@@ -65,7 +65,8 @@ const state = {
 	rightClickMenu: null,
 	cuttedElement: null,
 	template_categories: window.ZnPbInitalData.template_categories,
-	isPageDirty: false
+	isPageDirty: false,
+	activeElementUid: null
 
 }
 
@@ -579,10 +580,10 @@ const mutations = {
 		state.template_categories.unshift(payload)
 	},
 	[types.SET_ACTIVE_ELEMENT] (state, elementUid) {
-		Vue.set(state, 'activeElementUid', elementUid)
+		state.activeElementUid = elementUid
 	},
 	[types.SET_RIGHT_CLICK_MENU] (state, payload) {
-		Vue.set(state, 'rightClickMenu', payload)
+		state.rightClickMenu = payload
 	},
 	[types.SET_COPIED_ELEMENT_STYLES] (state, payload) {
 		Vue.set(state, 'copiedElementStyles', payload)

@@ -198,7 +198,7 @@ export default {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)
 			Dom.iframeDocument.addEventListener('click', this.preventClicks, true)
 			Dom.iframeDocument.addEventListener('keydown', this.applyShortcuts)
-			Dom.iframeDocument.addEventListener('scroll', this.onScroll)
+			// Dom.iframeDocument.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
 			// Don't deselect the element if an element was just activated
@@ -229,7 +229,7 @@ export default {
 		},
 		onScroll (e) {
 			this.setRightClickMenu({
-				previewScrollTop: parseInt(this.$refs.iframe.contentDocument.documentElement.scrollTop)
+				visibility: false
 			})
 		},
 		checkIframeLoading () {

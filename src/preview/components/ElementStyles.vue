@@ -2,12 +2,6 @@
 export default {
 	functional: true,
 	name: 'ElementStyles',
-	inject: {
-		elementInfo: {
-			from: 'elementInfo',
-			default: () => { }
-		}
-	},
 	props: {
 		styles: {
 			type: String

@@ -34,6 +34,11 @@
 			:video-config="videoConfig"
 		/>
 
+		<ElementStyles
+			slot="start"
+			:styles="customCSS"
+		/>
+
 		<transition
 			name="znpb-fade"
 			slot="end"
@@ -109,7 +114,8 @@ export default {
 	components: {
 		ElementToolbox,
 		VideoBackground,
-		ElementLoading
+		ElementLoading,
+		ElementStyles
 	},
 	props: {
 		uid: {
@@ -168,26 +174,6 @@ export default {
 				}
 			}
 		}
-
-		// Add stylesheet
-		const stylesheetInstance = new Vue({
-			parent: this,
-			render: (h) => {
-				return h(ElementStyles, {
-					props: {
-						styles: this.customCSS
-					}
-				})
-			}
-		})
-
-		document.head.appendChild(stylesheetInstance.$mount().$el)
-
-		// Cleanup after this
-		this.$once('hook:beforeDestroy', () => {
-			stylesheetInstance.$el.parentNode.removeChild(stylesheetInstance.$el)
-			stylesheetInstance.$destroy()
-		})
 	},
 	mounted () {
 		this.$nextTick(() => {

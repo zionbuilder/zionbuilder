@@ -55,9 +55,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getActiveDevice',
-			'getActiveElementUid',
-			'getActiveElementData'
+			'getActiveDevice'
 		]),
 		discardChangesTitle () {
 			return this.$translate('discard_changes_for') + ' ' + this.deviceConfig.name
