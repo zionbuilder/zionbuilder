@@ -20,52 +20,52 @@ msgstr ""
 msgid "The zip file could not be extracted!"
 msgstr ""
 
-#: ../includes/ImportExport.php:104
+#: ../includes/ImportExport.php:111
 msgid "The template data is empty or invalid. Export aborted."
 msgstr ""
 
-#: ../includes/ImportExport.php:137
+#: ../includes/ImportExport.php:144
 msgid "ZipArchive class is not installed on your server."
 msgstr ""
 
 #. translators: %s: The export path for templates
-#: ../includes/ImportExport.php:154
+#: ../includes/ImportExport.php:161
 msgid "Could not create the export file in %s"
 msgstr ""
 
-#: ../includes/ImportExport.php:168
+#: ../includes/ImportExport.php:175
 msgid "Archive created successfully."
 msgstr ""
 
-#: ../includes/ImportExport.php:330
+#: ../includes/ImportExport.php:337
 msgid "Unable to generate attachment metadata"
 msgstr ""
 
-#: ../includes/ImportExport.php:350
+#: ../includes/ImportExport.php:357
 msgid "Empty import resource"
 msgstr ""
 
-#: ../includes/ImportExport.php:358
+#: ../includes/ImportExport.php:365
 msgid "No file was uploaded"
 msgstr ""
 
-#: ../includes/ImportExport.php:361
+#: ../includes/ImportExport.php:368
 msgid "The uploaded file exceeds the MAX_FILE_SIZE"
 msgstr ""
 
-#: ../includes/ImportExport.php:369
+#: ../includes/ImportExport.php:376
 msgid "My Template"
 msgstr ""
 
-#: ../includes/ImportExport.php:374
+#: ../includes/ImportExport.php:381
 msgid "The newly template was not created."
 msgstr ""
 
-#: ../includes/ImportExport.php:413
+#: ../includes/ImportExport.php:420
 msgid "No configuration file found inside uploaded zip."
 msgstr ""
 
-#: ../includes/ImportExport.php:423
+#: ../includes/ImportExport.php:430
 msgid "The template configuration file is empty. There are no elements found."
 msgstr ""
 
@@ -1922,7 +1922,7 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:316, ../includes/Admin/Admin.php:317, ../includes/Editor/partials/editor-template.php:16
+#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:317, ../includes/Admin/Admin.php:318, ../includes/Editor/partials/editor-template.php:16
 msgid "Zion Builder"
 msgstr ""
 
@@ -1934,7 +1934,7 @@ msgstr ""
 msgid "Disable Zion Builder"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:300
+#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:301
 msgid "Edit with Zion Builder"
 msgstr ""
 
@@ -1943,7 +1943,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:460
+#: ../includes/Elements/Element.php:501
 msgid "Wrapper"
 msgstr ""
 
@@ -2705,6 +2705,10 @@ msgstr ""
 
 #: ../includes/Elements/Column/Column.php:427
 msgid "wrap-reverse"
+msgstr ""
+
+#: ../includes/Elements/Column/Column.php:440, ../includes/Elements/Section/Section.php:453
+msgid "Shape Dividers"
 msgstr ""
 
 #: ../includes/Elements/Column/Column.php:449, ../includes/Elements/Section/Section.php:462

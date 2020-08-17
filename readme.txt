@@ -2,7 +2,7 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: trunk
 Requires PHP: 5.6.20
 License: GPLv3 or later
