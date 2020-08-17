@@ -5,7 +5,7 @@
 	>
 		<BaseIcon icon="zion-icon-logo"/>
 		<div v-if="isPro" class="znpb-pro-item">{{$translate('pro')}}</div>
-		<span class="znpb-about-modal__plugin-title">Zion Page Builder
+		<span class="znpb-about-modal__plugin-title">Zion Builder
 			<span v-if="isPro">{{$translate('pro')}}</span>
 			<span v-else>{{$translate('free')}}</span>
 		</span>

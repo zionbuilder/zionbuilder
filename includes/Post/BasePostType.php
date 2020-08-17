@@ -195,7 +195,7 @@ class BasePostType {
 	/**
 	 * Get Template Data Version
 	 *
-	 * Returns the version of Zion Page Builder that was used to configure this page
+	 * Returns the version of Zion Builder that was used to configure this page
 	 *
 	 * @return mixed
 	 */
@@ -223,11 +223,11 @@ class BasePostType {
 		/*
 		 * Page edit URL.
 		 *
-		 * Filters the Zion Page Builder edit url.
+		 * Filters the Zion Builder edit url.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url  Zion Page Builder edit url
+		 * @param string $url  Zion Builder edit url
 		 */
 		return apply_filters( 'zionbuilder/post/edit_url', $url );
 	}
@@ -245,11 +245,11 @@ class BasePostType {
 		/*
 		 * Page preview URL.
 		 *
-		 * Filters the Zion Page Builder page preview url.
+		 * Filters the Zion Builder page preview url.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url  Zion Page Builder edit url
+		 * @param string $url  Zion Builder edit url
 		 */
 		return apply_filters( 'zionbuilder/post/preview_url_barebone', $url );
 	}
@@ -267,11 +267,11 @@ class BasePostType {
 		/*
 		 * Page preview URL.
 		 *
-		 * Filters the Zion Page Builder page preview url.
+		 * Filters the Zion Builder page preview url.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url  Zion Page Builder edit url
+		 * @param string $url  Zion Builder edit url
 		 */
 		return apply_filters( 'zionbuilder/post/preview_url', $url );
 	}
@@ -293,11 +293,11 @@ class BasePostType {
 		/*
 		 * Page preview URL.
 		 *
-		 * Filters the Zion Page Builder page preview url.
+		 * Filters the Zion Builder page preview url.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url  Zion Page Builder edit url
+		 * @param string $url  Zion Builder edit url
 		 */
 		return apply_filters( 'zionbuilder/post/all_pages_url', $url );
 	}
@@ -349,11 +349,11 @@ class BasePostType {
 		/*
 		 * Preview Frame URL.
 		 *
-		 * Filters the Zion Page Builder preview url.
+		 * Filters the Zion Builder preview url.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $url  Zion Page Builder page preview frame url
+		 * @param string $url  Zion Builder page preview frame url
 		 */
 		return apply_filters( 'zionbuilder/post/preview_frame_url', $url );
 	}

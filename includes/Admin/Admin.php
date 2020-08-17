@@ -106,7 +106,7 @@ class Admin {
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 
 		if ( $post_instance->is_built_with_zion() ) {
-			$post_states['zionbuilder'] = esc_html__( 'Zion Page Builder', 'zionbuilder' );
+			$post_states['zionbuilder'] = esc_html__( 'Zion Builder', 'zionbuilder' );
 		}
 
 		return $post_states;
@@ -221,7 +221,7 @@ class Admin {
 	 *
 	 * @access public
 	 *
-	 * @param array $actions
+	 * @param array    $actions
 	 * @param \WP_Post $post
 	 *
 	 * @return array
@@ -243,7 +243,7 @@ class Admin {
 	}
 
 	/**
-	 * Add edit with Zion Page Builder button to pages edit screen
+	 * Add edit with Zion Builder button to pages edit screen
 	 *
 	 * @uses $post
 	 *
@@ -266,7 +266,7 @@ class Admin {
 
 			<a href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
 				<span class="znpb-admin-post__edit-button-icon dashicons dashicons-wordpress-alt"></span>
-				<span class=""><?php esc_html_e( 'Disable Zion Page Builder', 'zionbuilder' ); ?></span>
+				<span class=""><?php esc_html_e( 'Disable Zion Builder', 'zionbuilder' ); ?></span>
 			</a>
 
 			<a href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
@@ -275,7 +275,7 @@ class Admin {
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
 						</svg>
 					</span>
-					<span class=""><?php esc_html_e( 'Edit with Zion Page Builder', 'zionbuilder' ); ?></span>
+					<span class=""><?php esc_html_e( 'Edit with Zion Builder', 'zionbuilder' ); ?></span>
 				</a>
 
 		</div>
@@ -298,7 +298,7 @@ class Admin {
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
 						</svg>
 					</span>
-					<span class=""><?php esc_html_e( 'Edit with Zion Page Builder', 'zionbuilder' ); ?></span>
+					<span class=""><?php esc_html_e( 'Edit with Zion Builder', 'zionbuilder' ); ?></span>
 				</a>
 			</div>
 		<?php
@@ -314,8 +314,8 @@ class Admin {
 	 */
 	public function add_admin_page() {
 		add_menu_page(
-			__( 'Zion Page Builder', 'zionbuilder' ),
-			__( 'Zion Page Builder', 'zionbuilder' ),
+			__( 'Zion Builder', 'zionbuilder' ),
+			__( 'Zion Builder', 'zionbuilder' ),
 			'manage_options',
 			'zionbuilder',
 			[ $this, 'render_options_page' ],

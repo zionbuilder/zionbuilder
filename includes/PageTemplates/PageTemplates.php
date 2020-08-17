@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Page Templates
  *
- * Handles all page templates provided by the Zion Page Builder plugin
+ * Handles all page templates provided by the Zion Builder plugin
  */
 class PageTemplates {
 	/**
@@ -29,14 +29,14 @@ class PageTemplates {
 	/**
 	 * Get Custom Templates
 	 *
-	 * Returns the list of custom page templates that can be used by Zion Page Builder
+	 * Returns the list of custom page templates that can be used by Zion Builder
 	 *
 	 * @return array
 	 */
 	public function get_custom_templates() {
 		return [
-			'zion_builder_full_width' => __( 'Zion Page Builder Full Width', 'zionbuilder' ),
-			'zion_builder_blank'      => __( 'Zion Page Builder Blank Canvas', 'zionbuilder' ),
+			'zion_builder_full_width' => __( 'Zion Builder Full Width', 'zionbuilder' ),
+			'zion_builder_blank'      => __( 'Zion Builder Blank Canvas', 'zionbuilder' ),
 		];
 	}
 
@@ -55,7 +55,7 @@ class PageTemplates {
 	public function register_page_templates_options( $post_templates, $wp_theme, $post, $post_type ) {
 		$post_types = get_post_types_by_support( Permissions::POST_TYPE_EDIT_PERMISSION );
 
-		// Only add the templates to post types supported by Zion Page Builder
+		// Only add the templates to post types supported by Zion Builder
 		if ( is_array( $post_types ) && in_array( $post_type, $post_types, true ) ) {
 			foreach ( $this->get_custom_templates() as $template_id => $template_name ) {
 				$post_templates[$template_id] = $template_name;
@@ -104,6 +104,7 @@ class PageTemplates {
 	 * before using it.
 	 *
 	 * @param array $classes
+	 *
 	 * @return array
 	 */
 	public function remove_body_classes( $classes = [] ) {

@@ -88,7 +88,7 @@ class Revisions implements IBaseIntegration {
 
 	public function add_pb_data_to_revision_page( $fields, $post ) {
 		if ( post_type_supports( $post['post_type'], Permissions::POST_TYPE_EDIT_PERMISSION ) ) {
-			$fields[BasePostType::PAGE_TEMPLATE_META_KEY] = 'Zion Page Builder Data';
+			$fields[BasePostType::PAGE_TEMPLATE_META_KEY] = 'Zion Builder Data';
 		}
 		return $fields;
 	}

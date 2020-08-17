@@ -88,7 +88,7 @@ if ( \version_compare( PHP_VERSION, '5.6.20', '<' ) ) {
  */
 function zionbuilder_fail_php_version() {
 	/* translators: %s: Minimum PHP version */
-	$message = sprintf( esc_html__( 'Zion Page Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed.', 'zionbuilder' ), '5.4' );
+	$message = sprintf( esc_html__( 'Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed.', 'zionbuilder' ), '5.4' );
 	printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', wp_kses_post( $message ) );
 }
 
@@ -119,6 +119,6 @@ function zionbuilder_fail_wp_version() {
 	}
 
 	/* translators: %s: Minimum WordPress version */
-	$message = sprintf( esc_html__( 'Zion Page Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Page Builder will not be activated until the minimum WordPress version is installed.', 'zionbuilder' ), '4.9' );
+	$message = sprintf( esc_html__( 'Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed.', 'zionbuilder' ), '4.9' );
 	echo wp_kses_post( sprintf( '<div class="notice notice-error is-dismissible"><p>%s</p>%s</div>', $message, $button ) );
 }

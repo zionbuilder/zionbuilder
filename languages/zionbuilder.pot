@@ -61,11 +61,11 @@ msgstr ""
 msgid "The newly template was not created."
 msgstr ""
 
-#: ../includes/ImportExport.php:411
+#: ../includes/ImportExport.php:413
 msgid "No configuration file found inside uploaded zip."
 msgstr ""
 
-#: ../includes/ImportExport.php:421
+#: ../includes/ImportExport.php:423
 msgid "The template configuration file is empty. There are no elements found."
 msgstr ""
 
@@ -110,11 +110,11 @@ msgid "With PRO you can use the Adobe fonts library to add your fonts along side
 msgstr ""
 
 #: ../includes/Localization.php:38
-msgid "Zion Page Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
+msgid "Zion Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
 msgstr ""
 
 #: ../includes/Localization.php:39
-msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, have WooCommerce integration, additional elements, additional options to existing elements and many more features."
+msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
 #: ../includes/Localization.php:40, ../includes/Options/Schemas/Advanced.php:305, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:483, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
@@ -974,7 +974,7 @@ msgid "You are up to date!"
 msgstr ""
 
 #: ../includes/Localization.php:315
-msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Page Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
+msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
 msgstr ""
 
 #: ../includes/Localization.php:318
@@ -1034,7 +1034,7 @@ msgid "Previous Step"
 msgstr ""
 
 #: ../includes/Localization.php:340
-msgid "Welcome to Zion Page Builder"
+msgid "Welcome to Zion Builder"
 msgstr ""
 
 #: ../includes/Localization.php:341
@@ -1646,7 +1646,7 @@ msgid "Key shortcuts"
 msgstr ""
 
 #: ../includes/Localization.php:586
-msgid "About Zion Page Builder"
+msgid "About Zion Builder"
 msgstr ""
 
 #: ../includes/Localization.php:587
@@ -1822,12 +1822,12 @@ msgstr ""
 
 #: ../includes/Templates.php:247
 msgctxt "Taxonomy General Name"
-msgid "Zion Page Builder Template Category"
+msgid "Zion Builder Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:248
 msgctxt "Taxonomy Singular Name"
-msgid "Zion Page Builder Template Category"
+msgid "Zion Builder Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:249
@@ -1922,8 +1922,8 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:317, ../includes/Admin/Admin.php:318, ../includes/Editor/partials/editor-template.php:16
-msgid "Zion Page Builder"
+#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:316, ../includes/Admin/Admin.php:317, ../includes/Editor/partials/editor-template.php:16
+msgid "Zion Builder"
 msgstr ""
 
 #: ../includes/Admin/Admin.php:158
@@ -1931,11 +1931,11 @@ msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to fun
 msgstr ""
 
 #: ../includes/Admin/Admin.php:269
-msgid "Disable Zion Page Builder"
+msgid "Disable Zion Builder"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:301
-msgid "Edit with Zion Page Builder"
+#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:300
+msgid "Edit with Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
@@ -1980,11 +1980,11 @@ msgid "Second argument of add_option must be an array or an instance of ZionBuil
 msgstr ""
 
 #: ../includes/PageTemplates/PageTemplates.php:38
-msgid "Zion Page Builder Full Width"
+msgid "Zion Builder Full Width"
 msgstr ""
 
 #: ../includes/PageTemplates/PageTemplates.php:39
-msgid "Zion Page Builder Blank Canvas"
+msgid "Zion Builder Blank Canvas"
 msgstr ""
 
 #: ../includes/Post/BasePostType.php:512
@@ -3992,7 +3992,7 @@ msgid "Meet Transform"
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:534
-msgid "With Zion Page Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
+msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:544
@@ -4133,7 +4133,7 @@ msgstr ""
 
 #. translators: %s: Minimum PHP version
 #: ../zionbuilder.php:91
-msgid "Zion Page Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
+msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
 
 #: ../zionbuilder.php:118
@@ -4142,5 +4142,5 @@ msgstr ""
 
 #. translators: %s: Minimum WordPress version
 #: ../zionbuilder.php:122
-msgid "Zion Page Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Page Builder will not be activated until the minimum WordPress version is installed."
+msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed."
 msgstr ""

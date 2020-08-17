@@ -244,8 +244,8 @@ class Templates {
 	 */
 	private function register_template_category_taxonomy() {
 		$labels = [
-			'name'                       => _x( 'Zion Page Builder Template Category', 'Taxonomy General Name', 'zionbuilder' ),
-			'singular_name'              => _x( 'Zion Page Builder Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
+			'name'                       => _x( 'Zion Builder Template Category', 'Taxonomy General Name', 'zionbuilder' ),
+			'singular_name'              => _x( 'Zion Builder Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
 			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
 			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),
 			'parent_item'                => __( 'Parent Template Category', 'zionbuilder' ),
@@ -281,7 +281,7 @@ class Templates {
 	/**
 	 * This function will return the templates based on post type
 	 *
-	 * @param string  $template_type
+	 * @param string $template_type
 	 *
 	 * @return array with the templates
 	 */
