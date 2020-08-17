@@ -4,7 +4,7 @@ Tags: page builder, editor, visual editor, design, website builder, front-end bu
 Requires at least: 5.0.0
 Tested up to: 5.4
 Stable tag: trunk
-Requires PHP: 7.0
+Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
