@@ -290,7 +290,7 @@ class ImportExport {
 		$file_name   = basename( $path );
 		$upload_path = $this->upload_dir_path . str_replace( $file_name, '', $path );
 		$save_path   = $this->upload_dir_path . $path;
-		$temp_path   = $this->upload_dir_path . '/zionbuilder/temp/images' . $path;
+		$temp_path   = $this->temp_location . '/images' . $path;
 
 		// create file path if it doesn't exist
 		if ( ! file_exists( $upload_path ) ) {
@@ -383,6 +383,8 @@ class ImportExport {
 		$file_info     = pathinfo( $file_path );
 		$newfilename   = wp_unique_filename( $temp_location, $file_info['filename'] );
 		$temp_location = sprintf( '%s/%s', $temp_location, $newfilename );
+
+		$this->temp_location = $temp_location;
 
 		if ( ! file_exists( $temp_location ) ) {
 			FileSystem::get_file_system()->mkdir( $temp_location, 0777, true );
