@@ -44,6 +44,26 @@ class Upgrades {
 	 * @return void
 	 */
 	public static function upgrade_v_1_0_1_update_editor_elements_meta() {
+		global $wpdb;
+
+		$wpdb->query(
+			"
+				UPDATE {$wpdb->postmeta} AS meta1
+				RIGHT JOIN {$wpdb->postmeta} AS meta2
+					ON meta1.post_id = meta2.post_id
+				SET
+					meta1.meta_key = '_zionbuilder_page_elements'
+				WHERE meta1.meta_key = '_zn_page_builder_els'
+			"
+		);
+	}
+
+	/**
+	 * Updates local gradients
+	 *
+	 * @return void
+	 */
+	public static function upgrade_v_1_0_1_update_local_gradients() {
 		$saved_settings = Settings::get_all_values();
 		$new_values     = [];
 
@@ -62,13 +82,5 @@ class Upgrades {
 			$saved_settings['local_gradients'] = $new_values;
 			Settings::save_settings( $saved_settings );
 		}
-	}
-
-	/**
-	 * Updates local gradients
-	 *
-	 * @return void
-	 */
-	public static function upgrade_v_1_0_1_update_local_gradients() {
 	}
 }
