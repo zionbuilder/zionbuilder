@@ -26,14 +26,14 @@ class ImportExport {
 	/**
 	 * Holds the allowed file types on export
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private $allowed_file_types = [ 'jpg', 'png', 'gif', 'svg', 'jpeg', 'txt', 'mp4', 'm4v', 'mov', 'wmv', 'avi', 'mpg', 'ogv', '3gp', '3g2' ];
 
 	/**
 	 * Holds a reference for the uploaded images
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private $uploaded_media = [];
 
@@ -112,7 +112,7 @@ class ImportExport {
 		}
 
 		// if the zip was created return the zip link
-		return self::create_zip( $template_name, $template_config );
+		return $this->create_zip( $template_name, $template_config );
 	}
 
 	public function get_export_directory_config( $template_name ) {
@@ -164,7 +164,7 @@ class ImportExport {
 
 		// change default images url and add template images inside the zip
 		if ( ! empty( $data_config ) ) {
-			self::add_template_images( $data_config, 'export' );
+			$this->add_template_images( $data_config, 'export' );
 		};
 
 		// add the template data in zip in json format
@@ -190,7 +190,7 @@ class ImportExport {
 
 		// search for all items values inside the array
 		if ( ! is_array( $data_config ) ) {
-			return self::search_images_url( $data_config, $method );
+			return $this->search_images_url( $data_config, $method );
 		}
 
 		foreach ( $data_config as $key => $value ) {
@@ -198,10 +198,10 @@ class ImportExport {
 				continue;
 			}
 			if ( is_array( $value ) ) {
-				$data_config[$key] = self::add_template_images( $value, $method );
+				$data_config[$key] = $this->add_template_images( $value, $method );
 			} else {
 				// check if it's a valid image url and replace it with placeholder
-				$data_config[$key] = self::search_images_url( $value, $method );
+				$data_config[$key] = $this->search_images_url( $value, $method );
 			}
 		}
 
@@ -275,7 +275,7 @@ class ImportExport {
 		$path = str_replace( $this->url_placeholder, '', $file[0] );
 
 		// Upload media file
-		self::upload_media( $path );
+		$this->upload_media( $path );
 
 		return $this->upload_dir_url . $path;
 	}
@@ -431,7 +431,7 @@ class ImportExport {
 		}
 
 		// replace dummy url with the new site uploads directory & uploads all assets from zip file
-		self::add_template_images( $content_data, 'import' );
+		$this->add_template_images( $content_data, 'import' );
 
 		// Cleanup temp
 		FileSystem::get_file_system()->delete( $temp_location, true );

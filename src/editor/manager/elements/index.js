@@ -1,24 +1,19 @@
 class ElementsFactory {
 	constructor () {
-		this.registeredElements = []
+		this.registeredElements = {}
 	}
 
 	registerElement (element) {
-		this.registeredElements.push(element)
-	}
-
-	registerElements (elements) {
-		this.registeredElements = [...this.registeredElements, ...elements]
-	}
-
-	unregisterElements (elements) {
-		this.registeredElements = this.registeredElements.filter((element) => !elements.includes(element))
+		this.registeredElements[element.name] = element
 	}
 
 	getElementComponent (elementId) {
-		return this.registeredElements.find((element) => {
-			return element.name === elementId
-		})
+		if (typeof this.registeredElements[elementId] === 'undefined') {
+			console.error(`Element with id ${elementId} not found. Did you registered it?`)
+			return false
+		}
+
+		return this.registeredElements[elementId]
 	}
 }
 

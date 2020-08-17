@@ -127,6 +127,13 @@ class Element {
 	protected $element_styles = [];
 
 	/**
+	 * Holds a refference to all registered hooks
+	 *
+	 * @var array
+	 */
+	protected $hooks = [];
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -140,6 +147,9 @@ class Element {
 
 		// Register element options
 		$this->options( $this->options );
+
+		// Trigger internal action
+		$this->trigger( 'options/schema/set' );
 
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
@@ -167,6 +177,37 @@ class Element {
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	/**
+	 * Register an action
+	 *
+	 * @param string                         $action_name The action name
+	 * @param array<callable, string>|string $callback    The callback to call when the action triggers
+	 *
+	 * @return void
+	 */
+	public function on( $action_name, $callback ) {
+		if ( ! isset( $this->hooks[$action_name] ) ) {
+			$this->hooks[$action_name] = [];
+		}
+
+		$this->hooks[$action_name][] = $callback;
+	}
+
+	/**
+	 * Calls all regisred callbacks for the given action name
+	 *
+	 * @param string $action_name
+	 *
+	 * @return void
+	 */
+	public function trigger( $action_name ) {
+		if ( isset( $this->hooks[$action_name] ) ) {
+			foreach ( $this->hooks[$action_name] as $callback ) {
+				call_user_func( $callback );
+			}
+		}
 	}
 
 	/**
