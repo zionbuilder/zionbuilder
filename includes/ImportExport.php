@@ -79,6 +79,13 @@ class ImportExport {
 	public $upload_dir_url_without_www = null;
 
 	/**
+	 * Holds a refference to the temporary file location for the extracted archive
+	 *
+	 * @var string
+	 */
+	private $temp_location = null;
+
+	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
