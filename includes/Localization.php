@@ -36,7 +36,7 @@ class Localization {
 				'custom_fonts_upgrade_message'           => esc_html__( 'With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder' ),
 				'typekit_fonts_upgrade_message'          => esc_html__( 'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.', 'zionbuilder' ),
 				'custom_icons_upgrade_message'           => esc_html__( 'Zion Page Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
-				'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, have WooCommerce integration, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
+				'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 				'learn_more_about_pro'                   => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 
 				// WP related
