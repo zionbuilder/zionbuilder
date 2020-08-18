@@ -21,7 +21,7 @@ const actions = {
 
 		if (!payload.time) {
 			const currentTime = new Date()
-			payload.time = `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`
+			payload.time = `${currentTime.getHours()}:${currentTime.getMinutes()}`
 		}
 
 		commit(types.HISTORY_CHANGE_ACTIVE, state.currentHistoryIndex + 1)
@@ -37,7 +37,7 @@ const actions = {
 		const payload = {
 			state: rootState.pageContent,
 			name,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`
 		}
 
 		commit(types.HISTORY_CHANGE_ACTIVE, state.currentHistoryIndex + 1)

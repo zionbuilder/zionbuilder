@@ -17,7 +17,7 @@ const hash = (object) => {
 class ServerRequest {
 	constructor () {
 		this.queue = []
-		this.requestTimeout = []
+		this.requestTimeout = 200
 		this.inProgress = []
 	}
 

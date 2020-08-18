@@ -46,35 +46,13 @@ const getters = {
 				'name': 'Segoe UI'
 			}
 		]
-		let googleFonts = state.dataSets.fonts_list.google_fonts
-		let typekitFonts = state.dataSets.fonts_list.typekit_fonts
-		if (googleFonts) {
-			googleFonts.forEach(font => {
-				option.push({
-					name: font.font_family,
-					id: font.font_family
-				})
-			})
-		}
-		if (typekitFonts) {
-			typekitFonts.forEach(font => {
-				Object.keys(font).forEach(function (item) {
-					const a = font[item]
-					Object.entries(a).forEach(([key, value]) => {
-						if (key === 'families') {
-							a[key].forEach(fam => {
-								if (fam.hasOwnProperty('name')) {
-									option.push({
-										name: fam.name,
-										id: fam.name
-									})
-								}
-							})
-						}
-					})
-				})
-			})
-		}
+
+		// Add fonts
+		Object.keys(state.dataSets.fonts_list).forEach(fontProviderId => {
+			const fontsList = state.dataSets.fonts_list[fontProviderId]
+
+			option = [...option, ...fontsList]
+		})
 
 		return option
 	},

@@ -4,11 +4,13 @@ namespace ZionBuilder;
 
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
+use ZionBuilder\Renderer;
 use ZionBuilder\Post\PostManager;
 use ZionBuilder\Elements\Manager as ElementsManager;
 use ZionBuilder\PageTemplates\PageTemplates;
 use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
+use ZionBuilder\Upgrade\Upgrader;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -39,6 +41,13 @@ class Plugin {
 	 * @var Plugin
 	 */
 	public static $instance = null;
+
+	/**
+	 * Renderer class
+	 *
+	 * @var Renderer
+	 */
+	public $renderer = null;
 
 	/**
 	 * Plugin data from header comments
@@ -106,7 +115,7 @@ class Plugin {
 	 * Zion builder editor instance
 	 * Holds the reference to the ZionBuilder\Editor\Editor class
 	 *
-	 * @var null|Editor
+	 * @var Editor
 	 *
 	 * @see Plugin::init()
 	 */
@@ -194,13 +203,13 @@ class Plugin {
 	 *
 	 * Will hook into WP actions to add the plugin functioanlity
 	 *
-	 * @throws \Exception
+	 * @return void
 	 */
 	public function init() {
-		// Load plugin actions
-		$this->load_actions();
+		$this->load_libraries();
 
 		// initiate permissions
+		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
 		$this->whitelabel       = new Whitelabel();
 		$this->permissions      = new Permissions();
@@ -219,6 +228,7 @@ class Plugin {
 
 		new Integrations();
 		new AdminBar();
+		new Upgrader();
 
 		/*
 		 * ZionBuilder loaded.
@@ -232,12 +242,12 @@ class Plugin {
 
 
 	/**
-	 * Load actions
+	 * Loads extra library files required for the plugin
 	 *
-	 * Hooks into WP actions to add generic functionality
+	 * @return void
 	 */
-	private function load_actions() {
-		register_activation_hook( ZIONBUILDER_FILE, [ 'ZionBuilder\Activate', 'activate' ] );
+	public function load_libraries() {
+		require_once $this->get_root_path() . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
 	}
 
 	/**

@@ -10,19 +10,26 @@
 				slot="title"
 			/>
 
-			<BackgroundColor
+			<InputWrapper
+				:schema="bgColorSchema"
+				:option-id="bgColorSchema.id"
 				:value="valueModel['background-color']"
-				@input="onOptionUpdate('background-color', $event)"
+				:delete-value="onDeleteOption"
+				@input="onOptionUpdate(...$event)"
 			/>
+
 		</Tab>
 		<Tab name="background-gradient">
 			<BaseIcon
 				icon="gradient"
 				slot="title"
 			/>
-			<BackgroundGradient
+			<InputWrapper
+				:schema="bgGradientSchema"
+				:option-id="bgGradientSchema.id"
 				:value="valueModel['background-gradient']"
-				@input="onOptionUpdate('background-gradient', $event)"
+				:delete-value="onDeleteOption"
+				@input="onOptionUpdate(...$event)"
 			/>
 		</Tab>
 		<Tab name="background-image">
@@ -55,17 +62,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import BackgroundColor from './BackgroundColor.vue'
 import { InputBackgroundImage, InputBackgroundVideo } from '@/common/components/forms'
-import BackgroundGradient from './BackgroundGradient'
 
 export default {
 	name: 'Background',
 	components: {
-		BackgroundColor,
 		InputBackgroundImage,
-		BackgroundGradient,
-		InputBackgroundVideo
+		InputBackgroundVideo,
+		InputWrapper: () => import('@/editor/components/elementOptions/forms/InputWrapper')
 	},
 	inject: {
 		panel: {
@@ -74,6 +78,18 @@ export default {
 	},
 	props: {
 		value: {}
+	},
+	data () {
+		return {
+			bgColorSchema: {
+				id: 'background-color',
+				type: 'background_color'
+			},
+			bgGradientSchema: {
+				id: 'background-gradient',
+				type: 'background_gradient'
+			}
+		}
 	},
 	computed: {
 		...mapGetters([

@@ -7,7 +7,6 @@
 			>
 				<Tab name="Local">
 					<GridColor @add-new-color="addLocalColor(model)">
-						<Loader v-if="!loaded" />
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -26,7 +25,6 @@
 					>
 						Global colors are available in
 						<Label
-
 							text="PRO"
 							type="pro"
 						/>
@@ -39,12 +37,12 @@
 							v-for="(colorConfig,i) in globalColorPatterns"
 							v-bind:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
-							:style="{backgroundColor: colorConfig.color===model ? null : colorConfig.color}"
+							:style="{backgroundColor: colorConfig.id===selectedGlobalColor ? null : colorConfig.color}"
 							@click="onGlobalColorSelected(colorConfig)"
-							:class="{'znpb-colorpicker-circle--active': colorConfig.color===model}"
+							:class="{'znpb-colorpicker-circle--active': colorConfig.id===selectedGlobalColor}"
 						>
 							<span
-								v-if="colorConfig.color===model"
+								v-if="colorConfig.id===selectedGlobalColor"
 								class="znpb-colorpicker-circle__active-bg"
 							>
 								<span :style="{ 'background-color': colorConfig.color }">
@@ -52,7 +50,6 @@
 							</span>
 
 						</span>
-						<Loader v-if="!loaded" />
 					</GridColor>
 				</Tab>
 			</Tabs>
@@ -83,6 +80,7 @@ export default {
 		PresetInput,
 		Label
 	},
+	inject: ['inputWrapper', 'optionsForm'],
 	props: {
 		model: {
 			type: [String, Object],
@@ -90,16 +88,10 @@ export default {
 			default () {
 				return '#000'
 			}
-		},
-		activeTab: {
-			type: String,
-			required: false,
-			default: 'local'
 		}
 	},
 	data () {
 		return {
-			loaded: false,
 			showPresetInput: false,
 			presetName: this.$translate('add_preset_title'),
 			onstart: true,
@@ -111,7 +103,16 @@ export default {
 			'getOptionValue',
 			'isPro'
 		]),
+		selectedGlobalColor () {
+			const { id } = this.inputWrapper.schema
+			const { options = {} } = this.optionsForm.getValueByPath(`__dynamic_content__.${id}`, {})
 
+			return options.color_id
+		},
+
+		activeTab () {
+			return this.selectedGlobalColor ? 'global' : 'local'
+		},
 		localColorPatterns () {
 			return [...this.getOptionValue('local_colors')].reverse()
 		},
@@ -122,7 +123,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'fetchOptionsOnce',
 			'addLocalColor',
 			'addGlobalColor'
 		]),
@@ -137,22 +137,16 @@ export default {
 			this.addGlobalColor(globalColor)
 		},
 		onGlobalColorSelected (colorConfig) {
-			this.$emit('color-updated', {
-				value: colorConfig.color,
-				dynamic_data: {
-					type: 'global-color',
-					options: {
-						color_id: colorConfig.id
-					}
+			const { id } = this.inputWrapper.schema
+
+			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+				type: 'global-color',
+				options: {
+					color_id: colorConfig.id
 				}
 			})
 		}
 
-	},
-	created () {
-		const optionsArray = this.fetchOptionsOnce().finally((result) => {
-			this.loaded = true
-		})
 	}
 
 }

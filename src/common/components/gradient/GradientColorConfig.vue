@@ -1,24 +1,11 @@
 <template>
 
 	<div class="znpb-gradient-actions">
-		<InputWrapper class="znpb-form-gradient">
-			<ColorPicker
-				v-model="colorValue"
-				append-to="body"
-				:show-library="false"
-			/>
-		</InputWrapper>
-		<InputWrapper class="znpb-form-gradient">
-
-			<InputNumber
-				v-model="positionValue"
-				:min="0"
-				:max="100"
-				:step="1"
-			>
-				%
-			</InputNumber>
-		</InputWrapper>
+		<OptionsForm
+			:schema="schema"
+			v-model="valueModel"
+			class="znpb-gradient-color-form"
+		/>
 		<div
 			class="znpb-gradient-actions__delete"
 			v-if="showDelete"
@@ -33,7 +20,7 @@
 
 </template>
 <script>
-import { InputWrapper, InputNumber, ColorPicker } from '@/common/components/forms'
+
 export default {
 	name: 'GradientColorConfig',
 	props: {
@@ -47,32 +34,30 @@ export default {
 			default: true
 		}
 	},
-	components: {
-		InputNumber,
-		InputWrapper,
-		ColorPicker
-	},
 	computed: {
-		colorValue: {
+		valueModel: {
 			get () {
-				return this.config.color
+				return this.config
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.config,
-					color: newValue
-				})
+				this.$emit('input', newValue)
 			}
 		},
-		positionValue: {
-			get () {
-				return this.config.position
-			},
-			set (newValue) {
-				this.$emit('input', {
-					...this.config,
-					position: newValue
-				})
+		schema () {
+			return {
+				color: {
+					type: 'colorpicker',
+					id: 'color',
+					width: '50'
+				},
+				position: {
+					type: 'number',
+					id: 'position',
+					content: '%',
+					width: '50',
+					min: 0,
+					max: 100
+				}
 			}
 		}
 	}
@@ -88,6 +73,19 @@ export default {
 
 	&:last-child {
 		margin-bottom: 0;
+	}
+
+	.znpb-gradient-color-form {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		padding: 0;
+		.znpb-input-type--colorpicker {
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 
 	.znpb-form-colorpicker-trigger-wrapper {
@@ -121,7 +119,8 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
-		padding: 10.5px;
+		padding: 11px;
+		margin-left: 5px;
 		font-size: 14px;
 		background: transparent;
 		border: 2px solid #e5e5e5;

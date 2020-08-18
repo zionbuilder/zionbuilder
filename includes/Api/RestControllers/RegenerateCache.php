@@ -16,11 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class RegenerateCache extends RestApiController {
-	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'regenerate-cache';
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'zionbuilder/v1';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'regenerate-cache';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -56,7 +70,7 @@ class RegenerateCache extends RestApiController {
 	}
 
 	/**
-	 * This function will delete the zion builder cache from cache folder
+	 * This function will delete the Zion Builder cache from cache folder
 	 *
 	 * @param \WP_REST_Request $request
 	 *

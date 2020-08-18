@@ -44,10 +44,10 @@ class Heading extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'text', 'heading', 'title' ];
+		return [ 'text', 'heading', 'title', 'paragraph', 'sentence', 'caption' ];
 	}
 
 	/**
@@ -76,6 +76,9 @@ class Heading extends Element {
 				'description' => 'This is the element content',
 				'title'       => __( 'Content', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample text from heading element.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 

@@ -33,6 +33,8 @@ class TabsItem extends Element {
 	 *
 	 * Child elements are not visible in add elements popup and cannot be
 	 * interacted with them directly
+	 *
+	 * @return boolean True if the element is a child of another element
 	 */
 	public function is_child() {
 		return true;

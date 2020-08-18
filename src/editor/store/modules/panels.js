@@ -73,7 +73,7 @@ const state = {
 			},
 			height: {
 				value: null,
-				unit: 'px'
+				unit: 'auto'
 			},
 			panelPos: 5
 		},
@@ -170,10 +170,7 @@ const actions = {
 		let panelConfig = state.panelsState.find((panelConfig) => {
 			return panelConfig.id === panelId
 		})
-		// console.log(panelId)
-		// console.log(panelConfig)
-		// console.log(state.openPanels)
-		// console.log(state.openPanels.includes(panelConfig))
+
 		if (state.openPanels.includes(panelConfig)) {
 			dispatch('closePanel', panelConfig.id)
 		} else {

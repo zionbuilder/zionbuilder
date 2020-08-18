@@ -55,10 +55,10 @@ class Video extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'video', 'media' ];
+		return [ 'video', 'media', 'youtube', 'vimeo', 'embed', 'mp4' ];
 	}
 
 	/**

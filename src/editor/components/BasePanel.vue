@@ -200,7 +200,7 @@ export default {
 				zIndex: this.getActivePanel === this.panelId ? 999 : 1,
 				'min-width': panel.width.value + panel.width.unit,
 				width: panel.width.value + panel.width.unit,
-				height: panel.height.value + panel.height.unit,
+				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '99.9%' : panel.height.value + panel.height.unit,
 				top: (!this.isDragging && panel.isDetached) ? this.position.posY + this.unit : null,
 				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : null,
 				position: panel.isDetached ? 'fixed' : 'relative',
@@ -265,11 +265,13 @@ export default {
 			this.position.toPanelLeft = event.clientX - this.panelOffset.left
 
 			this.isDragging = true
+
 			this.setPanelProp({
 				id: this.panelId,
 				prop: 'isDetached',
 				value: true
 			})
+
 			this.setActivePanel(this.panelId)
 			this.userSel = 'none'
 
@@ -425,6 +427,7 @@ export default {
 					value: false
 				})
 			}
+
 			this.initialPosition = null
 			this.setIframePointerEvents(false)
 			this.userSel = null
@@ -519,13 +522,13 @@ export default {
 	flex-direction: column;
 	background: $surface;
 	&--attached {
-		height: 100% !important;
+		height: 100%;
 	}
 	&:after {
 		clear: both;
 	}
 	&--top {
-		height: 100% !important;
+		height: 100%;
 	}
 	&--left {
 		// box-shadow: 2px 0 0 0 $border-color;

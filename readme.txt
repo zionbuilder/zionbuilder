@@ -1,14 +1,14 @@
-=== Zion Builder ===
+=== WordPress Page Builder – Zion Builder ===
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.4
-Stable tag: trunk
-Requires PHP: 7.0
+Tested up to: 5.5
+Stable tag: 1.0.1
+Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Zion Builder is a visual editor that comes with tools to help build interactive pages and posts in WordPress.
+Building websites just got easier! The latest WordPress page builder plugin on the market,Zion Builder is a visual editor with powerful design features to help you build interactive pages and posts in WordPress.
 
 
 == Description ==
@@ -124,13 +124,13 @@ For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.i
 
 == Frequently Asked Questions ==
 
-= What is Zion Builder? =
+= What is Zion Page Builder? =
 
-Zion Builder is a front end visual page builder plugin for WordPress. Zion Builder lets you create original-looking posts and pages that are unique, compared with the standard post/page templates that come with your WordPress theme. It doesn’t require any HTML/CSS/PHP/coding skills. Zion Builder gives you full control over your page looks like on desktop, tablet, and mobile.
+Zion Page Builder is a front end visual page builder plugin for WordPress. Zion Page Builder lets you create original-looking posts and pages that are unique, compared with the standard post/page templates that come with your WordPress theme. It doesn’t require any HTML/CSS/PHP/coding skills. Zion Page Builder gives you full control over your page looks like on desktop, tablet, and mobile.
 
-= Can I edit posts or other custom posts with Zion Builder? =
+= Can I edit posts or other custom posts with Zion Page Builder? =
 
-Yes you can. You can edit posts, pages, and custom post types with Zion Builder by activating them from the plugin Admin panel.
+Yes you can. You can edit posts, pages, and custom post types with Zion Page Builder by activating them from the plugin Admin panel.
 
 == Screenshots ==
 
@@ -148,6 +148,69 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Builder 
 12. Responsive options. You can style an element for each device
 
 == Changelog ==
+
+= 1.0.1- 2020-08-17 =
+* Renamed plugin
+* Updated stable tag
+* Fixed data update not working properly
+* Changed register element system
+* Updated composer dependencies
+* Replaced PRO description from admin
+* Fixed template not importing images in certain conditions
+* Updated minimum PHP version
+* Performance optimizations
+* Fixed background size contain
+* Implement pro connection
+* Fix panels height dragging
+* Add pro badge to dashboard
+* Add calendar picker
+* Fix background gradient not working
+* Add new transform properties
+* Moved render methods to render class
+* Added loading gif to element loading
+* Update keywords for elements
+* Fix case sensitive icon search
+* Fixed styles not generating proper css
+* Fix duplicate renderer var
+* Fixed css duplicated
+* Fixed animations visibility glitch
+* Prevent adding emty values on transition property
+* Fix flex direction row in rendered page
+* Fixed uploaded icons not showing in frontend editor
+* Fixed css gradients
+* Fixed animation duration and delay not working properly
+* Added offset 0 value for columns
+* Added dynamic background color option type
+* Fixed missing post id for bulk actions API call
+* Implement masks for sections and columns
+* Fix inverse text shadow icons for horizontal and vertical spread
+* Fix no loader for templates library preview when inserting the item
+* Change png to svg in section view
+* Add specialFilterPak prop to iconsLibraryModal
+* Fix blur not rendering correctly
+* Add dynamic content to heading, iconbox, iconList, ImageBox,PricingBox, ProgressBars, Testimonial
+* Added vendor prefixes for css styles
+* Added filters to various locations
+* Fix compatibility with older versions of MySQL/MariaDB
+* Remove seconds from History items
+* Fix safari library scroll not working
+* Added filter for options parsing
+* Fix scrollTop and overflow hidden from accordion menu
+* Fixed compatibility with WP 5.4.2
+* Fixed error showing when using video background
+* Added form filters
+* Fixed testimonial element not showing properly in frontend
+* Added filter for element custom css
+* Updated plugin version
+* Fixed build command
+* Added namespace to plugin file
+* Updated pagebuilder meta keys
+* Fixed compatibility with legacy zionbuilder
+* Updated phpstan config for v0.12.26
+* Fixed several PHP stan errors
+* Implemented update system
+* Update phpstan config file to remove autoload
+* Added updater base code
 
 = 0.1.0 =
 * Initial Public Release

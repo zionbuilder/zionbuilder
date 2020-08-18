@@ -9,7 +9,6 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -25,7 +24,7 @@ class Element {
 	/**
 	 * Element content
 	 *
-	 * @var array
+	 * @var array<int, array<string, mixed>>
 	 */
 	public $content = [];
 
@@ -67,16 +66,22 @@ class Element {
 	/**
 	 * Holds a refference to the element wrapper tag
 	 *
-	 * @var string
+	 * @var string The element wrapper tag
 	 */
 	protected $wrapper_tag = 'div';
 
 	/**
 	 * Holds a refference to the element style options tags
+	 *
+	 * @var array<string, array<string, mixed>> The element custom style options
 	 */
 	protected $registered_style_options = [];
 
-	// Adds extra data to element on render
+	/**
+	 * Adds extra data to element on render
+	 *
+	 * @var array<string, mixed>
+	 */
 	protected $extra_render_data = [];
 
 	/**
@@ -96,35 +101,42 @@ class Element {
 	/**
 	 * Holds a list of editor scripts URLs
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected $editor_scripts = [];
 
 	/**
 	 * Holds a list of element scripts URLs
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected $element_scripts = [];
 
 	/**
 	 * Holds a list of editor styles URLs
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected $editor_styles = [];
 
 	/**
 	 * Holds a list of element styles URLs
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected $element_styles = [];
 
 	/**
+	 * Holds a refference to all registered hooks
+	 *
+	 * @var array
+	 */
+	protected $hooks = [];
+
+	/**
 	 * Main class constructor
 	 *
-	 * @var array $data The saved values for the current element
+	 * @param array<string, mixed> $data The saved values for the current element
 	 */
 	final public function __construct( $data = [] ) {
 		// Allow elements creators to hook here without rewriting contruct
@@ -136,6 +148,9 @@ class Element {
 		// Register element options
 		$this->options( $this->options );
 
+		// Trigger internal action
+		$this->trigger( 'options/schema/set' );
+
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
 			if ( isset( $data['uid'] ) ) {
@@ -146,24 +161,53 @@ class Element {
 				$this->content = $data['content'];
 			}
 
-			if ( isset( $data['options'] ) ) {
-				$this->options->set_model( $data['options'] );
-			}
+			//Set model
+			$model = isset( $data['options'] ) ? $data['options'] : [];
 
 			// Setup helpers
 			$this->render_attributes = new RenderAttributes();
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 
 			// loops through the options model and schema to set the proper model
-			$this->options->parse_data( $this->render_attributes, $this->custom_css );
+			$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
 
 			// Setup render tags custom css classes
 			$this->apply_custom_classes_to_render_tags();
-
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	/**
+	 * Register an action
+	 *
+	 * @param string                         $action_name The action name
+	 * @param array<callable, string>|string $callback    The callback to call when the action triggers
+	 *
+	 * @return void
+	 */
+	public function on( $action_name, $callback ) {
+		if ( ! isset( $this->hooks[$action_name] ) ) {
+			$this->hooks[$action_name] = [];
+		}
+
+		$this->hooks[$action_name][] = $callback;
+	}
+
+	/**
+	 * Calls all regisred callbacks for the given action name
+	 *
+	 * @param string $action_name
+	 *
+	 * @return void
+	 */
+	public function trigger( $action_name ) {
+		if ( isset( $this->hooks[$action_name] ) ) {
+			foreach ( $this->hooks[$action_name] as $callback ) {
+				call_user_func( $callback );
+			}
+		}
 	}
 
 	/**
@@ -181,7 +225,6 @@ class Element {
 				$style_config = $styles_config[$style_config_id];
 
 				if ( isset( $style_config['render_tag'] ) && isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
-
 					foreach ( $style_value['classes'] as $css_class ) {
 						$this->render_attributes->add( $style_config['render_tag'], 'class', $css_class );
 					}
@@ -273,7 +316,7 @@ class Element {
 	 *
 	 * Will return the list of keywords for the current element
 	 *
-	 * @return array The keywords list
+	 * @return array<string> The keywords list
 	 */
 	public function get_keywords() {
 		return [];
@@ -287,12 +330,13 @@ class Element {
 	 * @return string
 	 */
 	public function get_element_image() {
-		$image = null;
+		$image = '';
 		if ( is_file( $this->get_path( 'icon.png' ) ) ) {
 			$image = $this->get_url( 'icon.png' );
 		} elseif ( is_file( $this->get_path( 'icon.svg' ) ) ) {
 			$image = $this->get_url( 'icon.svg' );
 		}
+
 		return $image;
 	}
 
@@ -313,10 +357,11 @@ class Element {
 	 *
 	 * Allow the users to add their own initialization process without extending __construct
 	 *
-	 * @param array $data
+	 * @param array<string, mixed> $data The data for the element instance
+	 *
+	 * @return void
 	 */
 	public function on_after_init( $data = [] ) {
-		return null;
 	}
 
 	/**
@@ -324,10 +369,11 @@ class Element {
 	 *
 	 * Allow the users to add their own initialization process without extending __construct
 	 *
-	 * @param array $data
+	 * @param array<string, mixed> $data The data for the element instance
+	 *
+	 * @return void
 	 */
 	public function on_before_init( $data = [] ) {
-		return null;
 	}
 
 
@@ -344,24 +390,10 @@ class Element {
 	 * @return string
 	 */
 	public function css() {
-		//#! TODO @Stefan: Implement Element::css() method
 		return '';
 	}
 
-
 	/**
-	 * Is Legacy
-	 *
-	 * By returning true, this element won't appear in element list,
-	 * however, it will be visible in page if it is used
-	 */
-	public function is_legacy() {
-		return false;
-	}
-
-	/**
-	 * Is Deprecated
-	 *
 	 * If it returns true, the element will not show in the add elements panel however it will be used in page if it was already present
 	 *
 	 * @return boolean
@@ -371,6 +403,11 @@ class Element {
 	}
 
 
+	/**
+	 * Returns the element config that will be used by editor
+	 *
+	 * @return array<string, mixed> The element config
+	 */
 	public function internal_get_config_for_editor() {
 		$show_in_ui = $this->is_child() ? false : $this->show_in_ui();
 
@@ -378,7 +415,7 @@ class Element {
 			'element_type'        => $this->get_type(),
 			'name'                => $this->get_name(),
 			'category'            => $this->get_category(),
-			'legacy'              => $this->is_legacy(),
+			'deprecated'          => $this->is_deprecated(),
 			'keywords'            => $this->get_keywords(),
 			'has_multiple'        => $this->has_multiple,
 			'options'             => $this->options->get_schema(),
@@ -394,7 +431,7 @@ class Element {
 
 		// Add extra data
 		$extra_data = $this->extra_data();
-		if ( $extra_data ) {
+		if ( ! empty( $extra_data ) ) {
 			$config['extra_data'] = $extra_data;
 		}
 
@@ -415,6 +452,8 @@ class Element {
 	 *
 	 * Returns the full list of styled elements/tags
 	 * for this element
+	 *
+	 * @return array<string, array<string, mixed>> The style option config
 	 */
 	public function get_style_elements_for_editor() {
 		$this->register_wrapper_style_options();
@@ -426,36 +465,34 @@ class Element {
 	}
 
 	/**
-	 * Show in ui
-	 *
 	 * Will register the current element without showing it in editor
 	 *
 	 * This type of elements cannot be added from add elements popup
 	 * and don't have any toolbox or events attached to them
 	 * They are mainly used as childs for other elements
+	 *
+	 * @return boolean True if the element will appear in elements list in editor
 	 */
 	public function show_in_ui() {
 		return true;
 	}
 
 	/**
-	 * Is child
-	 *
 	 * Will register the current element as a child of another
 	 *
 	 * Child elements are not visible in add elements popup and cannot be
 	 * interacted with them directly
+	 *
+	 * @return boolean True in case this element is a child of another element
 	 */
 	public function is_child() {
 		return false;
 	}
 
 	/**
-	 * Register wrapper style options
-	 *
 	 * Will register the style options for the wrapper
 	 *
-	 * @uses register_style_options_element
+	 * @return void
 	 */
 	private function register_wrapper_style_options() {
 		$this->register_style_options_element(
@@ -473,12 +510,12 @@ class Element {
 
 
 	/**
-	 * Get label
-	 *
 	 * Returns the label configuration that will appear in element list
+	 *
+	 * @return string
 	 */
 	public function get_label() {
-		return false;
+		return '';
 	}
 
 
@@ -487,6 +524,8 @@ class Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 	}
@@ -495,8 +534,10 @@ class Element {
 	/**
 	 * Register style options
 	 *
-	 * @param mixed $id
-	 * @param mixed $config
+	 * @param string               $id
+	 * @param array<string, mixed> $config
+	 *
+	 * @return void
 	 */
 	protected function register_style_options_element( $id, $config ) {
 		$this->registered_style_options[$id] = $config;
@@ -507,24 +548,28 @@ class Element {
 	 *
 	 * Allow elements to add extra data to the page builder elements
 	 * in edit mode
+	 *
+	 * @return array<string, mixed> Extra element configuration that will be added to the element in edit mode
 	 */
 	public function get_config_for_editor() {
 		return [];
 	}
 
 	/**
-	 * Extra data
-	 *
 	 * Using this method you can add extra data to your elements
 	 * It is mainly used for WP widgets, however, it can be used by
 	 * other elements as well.
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function extra_data() {
-		return false;
+		return [];
 	}
 
 	/**
-	 * @return array
+	 * Allows to create elements that contains other elements
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function content_composition() {
 		return [];
@@ -561,17 +606,20 @@ class Element {
 		if ( null === $this->element_base_path ) {
 			$reflection_class = new \ReflectionClass( get_class( $this ) );
 			// Set the base path
-			$this->element_base_path = trailingslashit( dirname( $reflection_class->getFileName() ) );
+			$filename = $reflection_class->getFileName();
+			if ( $filename ) {
+				$this->element_base_path = trailingslashit( dirname( $filename ) );
+			}
 		}
 		return $this->element_base_path . wp_normalize_path( $path );
 	}
 
 	/**
-	 * Render
-	 *
 	 * Main render function that will be overridden by elements classes
 	 *
-	 * @param mixed $options
+	 * @param Options $options The element options instance
+	 *
+	 * @return void The method should print the element
 	 */
 	public function render( $options ) {
 		// Show an error in development mode
@@ -579,10 +627,9 @@ class Element {
 	}
 
 	/**
-	 * Server render
-	 *
 	 * Will render the element without the wrappers
 	 *
+	 * @return void
 	 */
 	final public function server_render() {
 		$this->render( $this->options );
@@ -592,6 +639,8 @@ class Element {
 	 * Allows for functionality injection before rendering
 	 *
 	 * @param Options $options
+	 *
+	 * @return void
 	 */
 	public function before_render( $options ) {
 	}
@@ -600,17 +649,21 @@ class Element {
 	 * Allows for functionality injection after rendering
 	 *
 	 * @param Options $options
+	 *
+	 * @return void
 	 */
 	public function after_render( $options ) {
 	}
 
 	/**
-	 * Render
-	 *
 	 * Private render function that will be used by us to render the element
+	 *
+	 * @param array<string, mixed> $extra_render_data Extra data that will be used for element render
+	 *
+	 * @return void
 	 */
-	final public function render_element( $extra_data ) {
-		$this->extra_render_data = $extra_data;
+	final public function render_element( $extra_render_data ) {
+		$this->extra_render_data = $extra_render_data;
 
 		if ( $this->element_is_allowed_render() ) {
 			$this->before_render( $this->options );
@@ -656,12 +709,27 @@ class Element {
 		}
 	}
 
+
+	/**
+	 * Will render the video wrapper
+	 *
+	 * @param array<string, mixed> $options The element options instance
+	 *
+	 * @return void
+	 */
 	public static function render_video_background( $options ) {
 		if ( self::has_video_background( $options ) ) {
 			printf( '<div class="zb__videoBackground-wrapper zbjs_video_background" data-zion-video-background=\'%s\'></div>', wp_json_encode( $options ) );
 		}
 	}
 
+	/**
+	 * Checks to see if the element has video background
+	 *
+	 * @param array<string, mixed> $options The element options instance
+	 *
+	 * @return boolean
+	 */
 	public static function has_video_background( $options ) {
 		$video_source = ! empty( $options['videoSource'] ) ? $options['videoSource'] : 'local';
 		if ( $video_source === 'local' && ! empty( $options['mp4'] ) ) {
@@ -682,10 +750,10 @@ class Element {
 	/**
 	 * Will render a html tag based on options and render attributes previously registered
 	 *
-	 * @param string $html_tag_type HTML tag type (f.e. div, span )
-	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string|array $content       HTML tag content
-	 * @param array  $attributes
+	 * @param string                    $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string                    $tag_id        The tag is for which we have registered attributes
+	 * @param string|array<int, string> $content       HTML tag content
+	 * @param array<string, mixed>      $attributes
 	 *
 	 * @return void
 	 */
@@ -698,10 +766,10 @@ class Element {
 	/**
 	 * Will return a html tag based on options and render attributes previously registered
 	 *
-	 * @param string $html_tag_type HTML tag type (f.e. div, span )
-	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param string|array $content HTML tag content
-	 * @param array $attributes A list of extra attributes to add to the returned tag
+	 * @param string                    $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string                    $tag_id        The tag is for which we have registered attributes
+	 * @param string|array<int, string> $content       HTML tag content
+	 * @param array<string, string>     $attributes    A list of extra attributes to add to the returned tag
 	 *
 	 * @return string The HTML tag
 	 */
@@ -716,10 +784,12 @@ class Element {
 	 *
 	 * Will render a list of html tags based on options and callback
 	 *
-	 * @param string $html_tag_type HTML tag type (f.e. div, span )
-	 * @param string $option_id
-	 * @param string $tag_id        The tag is for which we have registered attributes
-	 * @param array  $tag_config
+	 * @param string               $html_tag_type HTML tag type (f.e. div, span )
+	 * @param string               $option_id
+	 * @param string               $tag_id        The tag is for which we have registered attributes
+	 * @param array<string, mixed> $tag_config
+	 *
+	 * @return void
 	 */
 	final public function render_tag_group( $html_tag_type, $option_id, $tag_id, $tag_config ) {
 		$tag_list = $this->options->get_value( $option_id, [] );
@@ -745,8 +815,10 @@ class Element {
 	 *
 	 * Will add the icon attributes to a registerd tag
 	 *
-	 * @param string $tag_id The tag id to which we will register the icon attributes
-	 * @param array  $icon   The icon config
+	 * @param string               $tag_id The tag id to which we will register the icon attributes
+	 * @param array<string, mixed> $icon   The icon config
+	 *
+	 * @return void
 	 */
 	public function attach_icon_attributes( $tag_id, $icon ) {
 		$icon_attributes = Icons::get_icon_attributes( $icon );
@@ -764,8 +836,10 @@ class Element {
 	 *
 	 * Will add the link attributes to a registerd tag
 	 *
-	 * @param string $tag_id The tag id to which we will register the link attributes
-	 * @param array  $link   The link config
+	 * @param string                $tag_id The tag id to which we will register the link attributes
+	 * @param array<string, string> $link   The link config
+	 *
+	 * @return void
 	 */
 	public function attach_link_attributes( $tag_id, $link ) {
 		if ( isset( $link['link'] ) ) {
@@ -790,6 +864,13 @@ class Element {
 		return $this->wrapper_tag;
 	}
 
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $tag The HTML tag type
+	 *
+	 * @return void
+	 */
 	public function set_wrapper_tag( $tag ) {
 		$this->wrapper_tag = $tag;
 	}
@@ -820,6 +901,14 @@ class Element {
 		return true;
 	}
 
+	/**
+	 * Undocumented function
+	 *
+	 * @param string             $style_id
+	 * @param array<int, string> $extra_classes
+	 *
+	 * @return string
+	 */
 	final public function get_style_classes_as_string( $style_id, $extra_classes = [] ) {
 		$option_path = sprintf( '_styles.%s.classes', $style_id );
 		$css_classes = $this->options->get_value( $option_path, [] );
@@ -857,6 +946,9 @@ class Element {
 		// Compile element options
 		$css .= $this->css();
 
+		// Add element custom css
+		$css = apply_filters( 'zionbuilder/element/custom_css', $css, $this->options, $this );
+
 		// Compile custom css
 		return $css;
 	}
@@ -870,6 +962,11 @@ class Element {
 		return $this->options->get_value( '_advanced_options._element_id', $this->get_uid() );
 	}
 
+	/**
+	 * Returns the element unique id
+	 *
+	 * @return string
+	 */
 	public function get_uid() {
 		return $this->uid;
 	}
@@ -949,6 +1046,17 @@ class Element {
 		$this->element_styles[] = $style_url;
 	}
 
+	/**
+	 * Returns the formatter script url
+	 *
+	 * @param string $handle      The script id/handle
+	 * @param string $src         The script relative URL
+	 * @param string $base_url    The script base URL
+	 * @param string $content_url The script base URL
+	 * @param string $ver         The script version
+	 *
+	 * @return string
+	 */
 	private function compile_script_url( $handle, $src, $base_url, $content_url, $ver ) {
 		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $content_url && 0 === strpos( $src, $content_url ) ) ) {
 			$src = $base_url . $src;
@@ -958,11 +1066,17 @@ class Element {
 			$src = add_query_arg( 'ver', $ver, $src );
 		}
 
-		/** This filter is documented in wp-includes/class.wp-scripts.php */
+		/* This filter is documented in wp-includes/class.wp-scripts.php */
 		return esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
-
 	}
 
+	/**
+	 * Returns the script dependency configuration
+	 *
+	 * @param \WP_Scripts $manager
+	 *
+	 * @return array<string, mixed>
+	 */
 	private function get_dependency_config( $manager ) {
 		$scripts = [];
 
@@ -985,6 +1099,11 @@ class Element {
 		return $scripts;
 	}
 
+	/**
+	 * Returns the element style urls
+	 *
+	 * @return array<string, array<string, string>>
+	 */
 	private function get_element_styles_for_editor() {
 		global $wp_styles;
 
@@ -1071,14 +1190,33 @@ class Element {
 		return $scripts;
 	}
 
+	/**
+	 * Returns the list of element scripts that are used in both editor and frontend
+	 *
+	 * @return array<int, string> The element scripts
+	 */
 	public function get_element_scripts() {
 		return $this->element_scripts;
 	}
 
+	/**
+	 * Returns the list of element styles that are used in both editor and frontend
+	 *
+	 * @return array<int, string> The element scripts
+	 */
 	public function get_element_styles() {
 		return $this->element_styles;
 	}
 
+	/**
+	 * Returns the scripts data
+	 *
+	 * @param string          $handle  The script id
+	 * @param \_WP_Dependency $obj
+	 * @param \WP_Scripts     $manager
+	 *
+	 * @return array<string, mixed>
+	 */
 	private function prepare_script_data( $handle, $obj, $manager ) {
 		if ( null === $obj->ver ) {
 			$ver = '';
@@ -1086,8 +1224,8 @@ class Element {
 			$ver = $obj->ver ? $obj->ver : get_bloginfo( 'version' );
 		}
 
-		if ( isset( $manager->args[ $handle ] ) ) {
-			$ver = $ver ? $ver . '&amp;' . $manager->args[ $handle ] : $manager->args[ $handle ];
+		if ( isset( $manager->args[$handle] ) ) {
+			$ver = $ver ? $ver . '&amp;' . $manager->args[$handle] : $manager->args[$handle];
 		}
 
 		return [
@@ -1120,19 +1258,21 @@ class Element {
 
 	/**
 	 * Render all children elements of the current element
+	 *
+	 * @return void
 	 */
 	public function render_children() {
-		Plugin::$instance->frontend->render_children( $this->get_children() );
+		Plugin::$instance->renderer->render_children( $this->get_children() );
 	}
 
 	/**
-	 * Get children for render
+	 * Returns the children HTML content
 	 *
-	 * returns the children HTML content
+	 * @return string|false
 	 */
 	public function get_children_for_render() {
 		ob_start();
-		Plugin::$instance->frontend->render_children( $this->get_children() );
+		Plugin::$instance->renderer->render_children( $this->get_children() );
 		return ob_get_clean();
 	}
 
@@ -1143,7 +1283,7 @@ class Element {
 	 * If the element can have multiple content areas ( for example tabs or accordions ) it will loop trough all areas
 	 * and returns all it's children
 	 *
-	 * @return array
+	 * @return array<int, mixed>
 	 */
 	public function get_children() {
 		$child_elements_data = [];

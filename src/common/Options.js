@@ -35,11 +35,11 @@ export default class Options {
 	}
 
 	parseData () {
-		// Set defaults and extract render attributes and custom css
-		this.parseOptions(this.schema, this.model)
-
 		// Allow external data modification
-		const options = window.ZionBuilderApi.applyFilters('zionbuilder/elementOptions', this.model, this)
+		const options = window.ZionBuilderApi.applyFilters('zionbuilder/options/model', this.model, this)
+
+		// Set defaults and extract render attributes and custom css
+		this.parseOptions(this.schema, options)
 
 		return {
 			options: options,
@@ -320,5 +320,9 @@ export default class Options {
 		}
 
 		return false
+	}
+
+	getValue (optionPath, defaultValue) {
+		return getOptionValue(this.model, optionPath, defaultValue)
 	}
 }

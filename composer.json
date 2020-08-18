@@ -10,8 +10,9 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
         "phpcompatibility/phpcompatibility-wp": "^2.1.0",
         "squizlabs/php_codesniffer": "^3.5.5",
-        "phpstan/phpstan": "^0.12.22",
-        "szepeviktor/phpstan-wordpress": "^0.6.0"
+        "phpstan/phpstan": "^0.12.28",
+        "szepeviktor/phpstan-wordpress": "^0.6.0",
+        "bvanhoekelen/performance": "^2.5"
     },
     "license": "GPL-3.0-or-later",
     "authors": [
@@ -19,5 +20,9 @@
             "name": "zionbuilder",
             "email": "hello@zionbuilder.com"
         }
-    ]
+    ],
+    "require": {
+        "woocommerce/action-scheduler": "^3.1",
+        "enshrined/svg-sanitize": "^0.13.3"
+    }
 }

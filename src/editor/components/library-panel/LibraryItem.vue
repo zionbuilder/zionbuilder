@@ -16,28 +16,35 @@
 				v-if="item.thumbnail"
 			/>
 		</div>
-		<div
-			v-if="item.type === 'multiple'"
-			class="znpb-editor-library-modal__item-bottom-multiple"
-		>
 
-		</div>
 		<div
 			v-if="item.pro"
 			class="znpb-editor-library-modal__item-pro"
 		>{{$translate('pro')}}
 		</div>
+
 		<div class="znpb-editor-library-modal__item-bottom">
 			<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
 			<div
 				class="znpb-editor-library-modal__item-actions"
 				v-if="!insertItemLoading"
 			>
-				<span
+				<a
 					v-if="!isProActive && item.pro"
 					class="znpb-button znpb-button--line"
+					:href="purchaseURL"
+					target="_blank"
 				>{{$translate('buy_pro')}}
-				</span>
+				</a>
+
+				<a
+					v-else-if="isProActive && !isProConnected && item.pro"
+					class="znpb-button znpb-button--line"
+					target="_blank"
+					:href="dashboardURL"
+				>{{$translate('activate_pro')}}
+				</a>
+
 				<Tooltip
 					v-else
 					tag="span"
@@ -67,7 +74,7 @@
 				>
 					<BaseIcon
 						icon="eye"
-						@click.native="$emit('activate-item',item)"
+						@click.native="$emit('activate-item', item)"
 					/>
 				</Tooltip>
 
@@ -89,13 +96,19 @@
 			/>
 
 		</div>
+		<div
+			v-if="item.type === 'multiple'"
+			class="znpb-editor-library-modal__item-bottom-multiple"
+		>
+
+		</div>
 
 	</li>
 
 </template>
 <script>
 import { Tooltip } from '@/common/components/tooltip'
-const pluginInfo = window.ZnPbInitalData.plugin_info
+const { plugin_info: pluginInfo, urls } = window.ZnPbInitalData
 export default {
 	name: 'LibraryItem',
 	inject: {
@@ -121,12 +134,17 @@ export default {
 	data () {
 		return {
 			insertItemLoading: false,
-			isProActive: pluginInfo.is_pro_active
+			isProActive: pluginInfo.is_pro_active,
+			isProConnected: pluginInfo.is_pro_connected,
+			dashboardURL: `${urls.zion_admin}#/pro-license`,
+			purchaseURL: urls.purchase_url
 		}
 	},
 	methods: {
 		insertLibraryItem () {
 			this.insertItemLoading = true
+			// If it's pro, get the download URL
+
 			this.Library.insertItem(this.item).then(() => {
 
 			}).catch((error) => {
@@ -174,6 +192,10 @@ export default {
 
 	&:hover {
 		box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+
+		.znpb-editor-library-modal__item-bottom-multiple {
+			box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+		}
 	}
 
 	&-image {
@@ -223,12 +245,13 @@ export default {
 	&-actions {
 		display: flex;
 		align-items: center;
-		& > span {
+		& > span, & > a {
 			margin-right: 8px;
 			text-transform: capitalize;
-			&:last-of-type {
-				margin-right: 0;
-			}
+		}
+
+		& > span:last-of-type {
+			margin-right: 0;
 		}
 	}
 
@@ -242,11 +265,14 @@ export default {
 		position: absolute;
 		bottom: 0;
 		left: 0;
+		z-index: -1;
 		width: 100%;
 		height: 30px;
 		background-color: rgb(255, 255, 255);
 		border: 1px solid $surface-variant;
-		transform: scale(.9) translateY(13px);
+		border-radius: 3px;
+		transform: scale(.9) translateY(15px);
+		transition: box-shadow .2s;
 
 		break-inside: avoid;
 
@@ -260,6 +286,7 @@ export default {
 			background-color: rgb(255, 255, 255);
 			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
 			border: 1px solid $surface-variant;
+			border-radius: 3px;
 			transform: scale(1.07) translateY(-6px);
 		}
 	}

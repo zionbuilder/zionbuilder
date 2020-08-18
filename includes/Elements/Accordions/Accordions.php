@@ -43,10 +43,10 @@ class Accordions extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'accordions' ];
+		return [ 'accordions', 'folding', 'dropdown', 'drop-down', 'drop down', 'expand', 'navigation', 'tabs', 'panels' ];
 	}
 
 	/**
@@ -108,6 +108,8 @@ class Accordions extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
@@ -166,5 +168,4 @@ class Accordions extends Element {
 	public function render( $options ) {
 		$this->render_children();
 	}
-
 }

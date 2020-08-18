@@ -3,7 +3,7 @@
 Plugin Name: ZionBuilder
 Plugin URI: https://zionbuilder.io/?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins
 Description: The page builder you always wanted. Create any design you want using live editor.
-Version: 1.0.0
+Version: 1.0.1
 Author: zionbuilder.io
 Author URI: https://zionbuilder.io/?utm_campaign=plugin-uri&utm_medium=wp-dashboard-plugins
 Text Domain: zionbuilder
@@ -24,25 +24,15 @@ You should have received a copy of the GNU General Public License
 along with Zion builder. If not, see {License URI}.
 */
 
+namespace ZionBuilder;
+
+use ZionBuilder\Plugin;
+use ZionBuilder\Install;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
-
-/*
- * Holds a reference to the plugin file path
- */
-define( 'ZIONBUILDER_FILE', __FILE__ );
-
-/*
- * Holds a reference to the plugin path
- */
-define( 'ZIONBUILDER_PATH', plugin_dir_path( ZIONBUILDER_FILE ) );
-
-/*
- * Holds a reference to the plugin url
- */
-define( 'ZIONBUILDER_URL', plugin_dir_url( ZIONBUILDER_FILE ) );
 
 // Get the info for this plugin
 if ( ! function_exists( 'get_plugin_data' ) ) {
@@ -56,30 +46,34 @@ $plugin_data = get_plugin_data( __FILE__ );
  * Will load plugin text domain
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function zionbuilder_load_textdomain() {
 	load_plugin_textdomain( 'zionbuilder' );
 }
-add_action( 'plugins_loaded', 'zionbuilder_load_textdomain' );
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\zionbuilder_load_textdomain' );
 
 /*
  * Check to see if the minimum requirements are meet
  */
-if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
+if ( \version_compare( PHP_VERSION, '5.6.20', '<' ) ) {
 	define( 'ZIONBUILDER_REQUIREMENTS_FAILED', true );
-	add_action( 'admin_notices', 'zionbuilder_fail_php_version' );
-} elseif ( version_compare( get_bloginfo( 'version' ), '4.9', '<' ) ) {
+	add_action( 'admin_notices', __NAMESPACE__ . '\\zionbuilder_fail_php_version' );
+} elseif ( version_compare( get_bloginfo( 'version' ), '5.0', '<' ) ) {
 	define( 'ZIONBUILDER_REQUIREMENTS_FAILED', true );
-	add_action( 'admin_notices', 'zionbuilder_fail_wp_version' );
+	add_action( 'admin_notices', __NAMESPACE__ . '\\zionbuilder_fail_wp_version' );
 } else {
 	// Load autoloader
 	require __DIR__ . '/vendor/autoload.php';
 
+	\register_activation_hook( __FILE__, [ Install::class, 'activate' ] );
+
 	// Load main plugin
-	require ZIONBUILDER_PATH . 'includes/Plugin.php';
+	require dirname( __FILE__ ) . '/includes/Plugin.php';
 
 	// Fire up the plugin
-	$manager = new ZionBuilder\Plugin( ZIONBUILDER_PATH, ZIONBUILDER_URL, $plugin_data['Version'] );
+	$manager = new Plugin( trailingslashit( dirname( __FILE__ ) ), plugin_dir_url( __FILE__ ), $plugin_data['Version'] );
 	$manager->init();
 }
 
@@ -89,6 +83,8 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
  * Displays an admin notice informing the user that the minimum PHP version is not installed on his server
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function zionbuilder_fail_php_version() {
 	/* translators: %s: Minimum PHP version */
@@ -103,6 +99,8 @@ function zionbuilder_fail_php_version() {
  * Displays an admin notice informing the user the the minimum WordPress version is not installed and he needs to update
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function zionbuilder_fail_wp_version() {
 	$button = '';
@@ -121,6 +119,6 @@ function zionbuilder_fail_wp_version() {
 	}
 
 	/* translators: %s: Minimum WordPress version */
-	$message = sprintf( esc_html__( 'Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion builder will not be activated until the minimum WordPress version is installed.', 'zionbuilder' ), '4.9' );
+	$message = sprintf( esc_html__( 'Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed.', 'zionbuilder' ), '4.9' );
 	echo wp_kses_post( sprintf( '<div class="notice notice-error is-dismissible"><p>%s</p>%s</div>', $message, $button ) );
 }

@@ -98,7 +98,7 @@
 			<PreviewIframe />
 			<div
 				class="znpb-loading-wrapper-gif"
-				v-if="getStylesLoading"
+				v-if="getStylesLoading && !loadedMainApp"
 			>
 				<img :src="urls.loader" />
 				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
@@ -161,7 +161,8 @@ export default {
 	mixins: [keyBindingsMixin],
 	data: () => {
 		return Object.assign({
-			devicesVisible: false
+			devicesVisible: false,
+			loadedMainApp: false
 		}, window.ZnPbInitalData)
 	},
 	watch: {
@@ -238,7 +239,6 @@ export default {
 				return this.getOpenedPanels
 			},
 			set (newOrder) {
-				console.log(newOrder)
 				this.savePanelsOrder(newOrder)
 			}
 		},
@@ -275,7 +275,8 @@ export default {
 			'addNotice',
 			'setElementFocus',
 			'setRightClickMenu',
-			'setActiveDevice'
+			'setActiveDevice',
+			'fetchOptions'
 		]),
 		activateDevice (device) {
 			this.setActiveDevice(device.id)
@@ -320,8 +321,10 @@ export default {
 		}
 	},
 
-	// end methods
 	created: function () {
+		this.fetchOptions().finally((result) => {
+			this.loadedMainApp = true
+		})
 		this.initialiseDataSets()
 		window.addEventListener('resize', this.onResize)
 	},

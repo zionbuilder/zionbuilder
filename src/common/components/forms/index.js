@@ -11,6 +11,9 @@ import { InputImage } from './elements/featured-image'
 import { Editor } from './elements/editor'
 import { CustomCode } from './elements/code'
 import { RadioImage } from './elements/radio_image'
+import { InputDate } from './elements/InputDate'
+import { ShapeDividers, ShapeDividerComponent } from './elements/shape-dividers'
+
 // Layout
 import { InputWrapper } from './elements/inputWrapper'
 import { Label as InputLabel } from './elements/label'
@@ -42,6 +45,7 @@ const components = [
 	Editor,
 	CustomCode,
 	RadioImage,
+	InputDate,
 	// Needs testing
 	InputSelect,
 	Checkbox,
@@ -61,7 +65,9 @@ const components = [
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector
+	CustomSelector,
+	ShapeDividers,
+	ShapeDividerComponent
 ]
 
 export const Forms = {
@@ -105,7 +111,10 @@ export default {
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector
+	CustomSelector,
+	InputDate,
+	ShapeDividers,
+	ShapeDividerComponent
 }
 
 export {
@@ -124,6 +133,7 @@ export {
 	Editor,
 	CustomCode,
 	RadioImage,
+	InputDate,
 	// Needs testing
 	InputSelect,
 	Checkbox,
@@ -143,5 +153,7 @@ export {
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector
+	CustomSelector,
+	ShapeDividers,
+	ShapeDividerComponent
 }

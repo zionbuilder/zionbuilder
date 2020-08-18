@@ -3,8 +3,11 @@ import ZionService from './ZionService'
 
 // Bulk actions
 export const bulkActions = function (payload) {
+	const postID = window.ZnPbInitalData.page_id || null
+
 	return ZionService.post('bulk-actions', {
-		actions: payload
+		actions: payload,
+		post_id: postID
 	})
 }
 

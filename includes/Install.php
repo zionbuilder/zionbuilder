@@ -8,13 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Activate
+ * Class Install
  *
  * @package ZionBuilder
  */
-class Activate {
+class Install {
 	/**
-	 * @throws \Exception
+	 * Performs various actions on Plugin activation
+	 *
+	 * @return void
 	 */
 	public static function activate() {
 		// Load default settings
@@ -22,7 +24,9 @@ class Activate {
 	}
 
 	/**
+	 * Adds default plugin options to DB
 	 *
+	 * @return void
 	 */
 	public static function load_default_options() {
 		if ( null === Settings::get_all_values() ) {

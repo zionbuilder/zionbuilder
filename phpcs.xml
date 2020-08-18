@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="ZionBuilder">
-	<description>Zion Builder Coding Standard</description>
+	<description>Zion Page Builder Coding Standard</description>
 
 	<file>zionbuilder.php</file>
 	<file>includes/</file>

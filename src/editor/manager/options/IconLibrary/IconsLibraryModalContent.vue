@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-icon-pack-modal">
+	<div
+		class="znpb-icon-pack-modal"
+		:class="{['znpb-icon-pack-modal--has-special-filter'] : specialFilterPack}"
+	>
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
 				:value="activeCategory"
@@ -26,7 +29,6 @@
 				@input="insertIcon($event,pack.name)"
 				:active-icon="iconValue.name"
 				:active-family="iconValue.family"
-
 			/>
 		</div>
 	</div>
@@ -48,13 +50,17 @@ export default {
 		value: {
 			type: Object,
 			required: false
+		},
+		specialFilterPack: {
+			type: Array,
+			required: false
 		}
 	},
 	data () {
 		return {
 			keyword: '',
 			activeIcon: null,
-			activeCategory:	'all'
+			activeCategory: 'all'
 		}
 	},
 	methods: {
@@ -99,7 +105,7 @@ export default {
 				for (const pack of this.packList) {
 					let copyPack = { ...pack }
 					const b = copyPack.icons.filter(icon =>
-						icon.name.includes(self.keyword)
+						icon.name.includes(self.keyword.toLowerCase())
 					)
 					copyPack.icons = [...b]
 					filtered.push(copyPack)
@@ -120,6 +126,9 @@ export default {
 			return iconNumber
 		},
 		packList () {
+			if (this.specialFilterPack !== undefined && this.specialFilterPack.length) {
+				return this.specialFilterPack
+			}
 			if (this.activeCategory === 'all') {
 				return this.getIconsList
 			} else {
@@ -139,13 +148,16 @@ export default {
 					id: 'all'
 				}
 			]
-			this.getIconsList.forEach((pack) => {
-				let a = {
-					name: pack.name,
-					id: pack.id
-				}
-				options.push(a)
-			})
+			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
+				this.getIconsList.forEach((pack) => {
+					let a = {
+						name: pack.name,
+						id: pack.id
+					}
+					options.push(a)
+				})
+			}
+
 			return options
 		}
 
@@ -153,7 +165,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-icon-pack-modal {
 	display: flex;
 	flex-direction: column;
@@ -175,6 +186,11 @@ export default {
 			cursor: pointer;
 		}
 	}
+	&--has-special-filter {
+		.znpb-icon-pack-modal__icons {
+			min-height: 500px;
+		}
+	}
 }
 .znpb-icons-category-select {
 	ul.znpb-baseselect-list {
@@ -185,5 +201,4 @@ export default {
 		white-space: nowrap;
 	}
 }
-
 </style>

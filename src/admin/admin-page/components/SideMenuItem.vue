@@ -27,9 +27,6 @@ export default {
 			required: false
 		}
 	},
-	mounted () {
-		// console.log(this.menuItem)
-	},
 	computed: {
 		isActive () {
 			const routerPath = this.$route.path
@@ -80,7 +77,7 @@ export default {
 		}
 
 		&:last-child {
-			padding-bottom: 0;
+			margin-bottom: 0;
 		}
 
 		.znpb-label--pro {
@@ -119,7 +116,8 @@ a.znpb-admin-side-menu__item {
 	}
 
 	& & {
-		padding: 15px 0;
+		padding: 15px 0 10px;
+		margin-bottom: 5px;
 		color: $font-color;
 		font-weight: 500;
 

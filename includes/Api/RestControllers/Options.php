@@ -16,11 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class Options extends RestApiController {
-	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'options';
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'zionbuilder/v1';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'options';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(

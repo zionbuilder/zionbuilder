@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Style {
 	/**
-	 * @param string $css_selector
-	 * @param array $style_options
+	 * @param string               $css_selector
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -64,8 +64,8 @@ class Style {
 	}
 
 	/**
-	 * @param string $css_selector
-	 * @param array $pseudo_selectors
+	 * @param string                              $css_selector
+	 * @param array<string, array<string, mixed>> $pseudo_selectors
 	 *
 	 * @return string
 	 */
@@ -81,9 +81,9 @@ class Style {
 	}
 
 	/**
-	 * @param string $css_selector
-	 * @param string $pseudo_selector
-	 * @param array $style_options
+	 * @param string               $css_selector
+	 * @param string               $pseudo_selector
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -100,6 +100,14 @@ class Style {
 		return '';
 	}
 
+
+	/**
+	 * Compiles gradient config to valid gradient css
+	 *
+	 * @param array<int, mixed> $config
+	 *
+	 * @return string
+	 */
 	public static function compile_gradient( $config ) {
 		if ( ! is_array( $config ) ) {
 			return '';
@@ -138,7 +146,7 @@ class Style {
 	}
 
 	/**
-	 * @param array $style_options
+	 * @param array<string, mixed> $style_options
 	 *
 	 * @return string
 	 */
@@ -148,9 +156,132 @@ class Style {
 		$background_position_y   = false;
 		$background_image_config = [];
 		$text_decoration_value   = [];
+		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
+		$transform_origin_x      = '';
+		$transform_origin_y      = '';
+		$transform_origin_z      = '';
+		$compiled_filter         = '';
+		$flex_reverse            = isset( $style_options['flex-reverse'] ) ? $style_options['flex-reverse'] : false;
 
 		foreach ( $style_options as $attribute => $value ) {
 			switch ( $attribute ) {
+				case in_array( $attribute, $filter_properties, true ):
+					switch ( $attribute ) {
+						case 'hue-rotate':
+							$compiled_filter .= sprintf( '%s(%sdeg) ', $attribute, $value );
+							break;
+
+						case 'blur':
+							$compiled_filter .= sprintf( '%s(%spx) ', $attribute, $value );
+							break;
+
+						default:
+							$compiled_filter .= sprintf( '%s(%s%%) ', $attribute, $value );
+							break;
+
+					}
+					break;
+
+				case 'transform_origin_x_axis':
+					$transform_origin_x = $value;
+					break;
+
+				case 'transform_origin_y_axis':
+					$transform_origin_y = $value;
+					break;
+
+				case 'transform_origin_z_axis':
+					$transform_origin_z = $value;
+					break;
+
+				case 'transform_style':
+					$compiled_css .= sprintf( '-ms-transform-style: %s; -webkit-transform-style: %s; transform-style: %s;', $value, $value, $value );
+					break;
+
+				case 'flex-reverse':
+					break;
+
+				case 'flex-direction':
+					if ( ! $flex_reverse ) {
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:normal;  -ms-flex-direction: %s; flex-direction: %s;', $value, $value ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:normal;  -ms-flex-direction:  %s; flex-direction: %s;', $value, $value );
+					} else {
+						$compiled_css .= ( $value === 'row' ) ? sprintf( '-webkit-box-orient: horizontal; -webkit-box-direction:reverse; -ms-flex-direction: row-reverse; flex-direction: row-reverse; ' ) : sprintf( '-webkit-box-orient: vertical; -webkit-box-direction:reverse; -ms-flex-direction: column-reverse; flex-direction: column-reverse;' );
+					}
+
+					break;
+
+				case 'order':
+					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					break;
+
+				case 'custom-order':
+					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					break;
+
+				case 'align-items':
+					$todelete      = 'flex-';
+					$clean_value   = str_replace( $todelete, '', $value );
+					$compiled_css .= sprintf( '-webkit-box-align: %s; -ms-flex-align: %s; align-items: %s;', $clean_value, $clean_value, $value );
+					break;
+
+				case 'justify-content':
+					if ( $value === 'space-around' ) {
+						$compiled_css .= sprintf( '-ms-flex-pack: distribute; justify-content: space-around;' );
+					} else {
+						if ( $value === 'space-between' ) {
+							$compiled_css .= sprintf( '-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;' );
+						} else {
+							$todelete      = 'flex-';
+							$clean_value   = str_replace( $todelete, '', $value );
+							$compiled_css .= sprintf( '-webkit-box-pack:  %s; -ms-flex-pack:  %s; justify-content:  %s;', $clean_value, $clean_value, $value );
+						}
+					}
+
+					break;
+
+				case 'flex-wrap':
+					$compiled_css .= sprintf( '-ms-flex-wrap: %s; flex-wrap: %s;', $value, $value );
+					break;
+
+				case 'align-content':
+					switch ( $value ) {
+						case 'space-around':
+							$compiled_css .= sprintf( '-ms-flex-line-pack: distribute; align-content: space-around;' );
+							break;
+						case 'space-between':
+							$compiled_css .= sprintf( '-ms-flex-line-pack: justify; align-content: space-between;' );
+							break;
+						default:
+							$todelete      = 'flex-';
+							$clean_value   = str_replace( $todelete, '', $value );
+							$compiled_css .= sprintf( '-ms-flex-line-pack: %s; align-content: %s;', $clean_value, $value );
+							break;
+					}
+					break;
+
+				case 'flex-grow':
+					$compiled_css .= sprintf( '-webkit-box-flex: %s; -ms-flex-positive: %s; flex-grow: %s;', $value, $value, $value );
+					break;
+
+				case 'flex-shrink':
+					$compiled_css .= sprintf( '-ms-flex-negative: %s; flex-shrink: %s;', $value, $value );
+					break;
+
+				case 'flex-basis':
+					$compiled_css .= sprintf( '-ms-flex-preferred-size: %s; flex-basis: %s;', $value, $value );
+					break;
+
+				case 'align-self':
+					$todelete      = 'flex-';
+					$clean_value   = str_replace( $todelete, '', $value );
+					$compiled_css .= sprintf( '-ms-flex-item-align: %s; align-self: %s;', $clean_value, $value );
+					break;
+
+				case 'perspective':
+					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
+					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
+					break;
+
 				case 'background-gradient':
 					$gradient_config = self::compile_gradient( $value );
 					if ( ! empty( $gradient_config ) ) {
@@ -166,19 +297,7 @@ class Style {
 
 				case 'background-size':
 				case 'background-video':
-					break;
 				case 'background-size-units':
-					if ( isset( $style_options['background-size'] ) && $style_options['background-size'] !== 'custom' ) {
-						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
-					} else {
-						if ( isset( $style_options['background-size'] ) && $style_options['background-size'] === 'custom' ) {
-							if ( $attribute === 'background-size-units' && isset( $value['x'] ) || isset( $value['y'] ) ) {
-								$x             = isset( $value['x'] ) ? $value['x'] : 'auto';
-								$y             = isset( $value['y'] ) ? $value['y'] : 'auto';
-								$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
-							}
-						}
-					}
 					break;
 				case 'background-position-x':
 					$background_position_x = $value;
@@ -239,6 +358,44 @@ class Style {
 					}
 					break;
 			}
+
+			switch ( $value ) {
+				case 'flex':
+					$compiled_css .= sprintf( 'display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex;' );
+					break;
+				case 'inline-flex':
+					$compiled_css .= sprintf( 'display: -webkit-inline-box; display: -ms-inline-flexbox;' );
+					break;
+			}
+		}
+
+		// Background size
+		if ( isset( $style_options['background-size'] ) ) {
+			$bg_size_value = $style_options['background-size'];
+
+			if ( $bg_size_value !== 'custom' ) {
+				$compiled_css .= sprintf( 'background-size: %s;', $bg_size_value );
+			} elseif ( isset( $style_options['background-size-units'] ) ) {
+				$bg_size_units = $style_options['background-size-units'];
+
+				if ( isset( $bg_size_units['x'] ) || isset( $bg_size_units['y'] ) ) {
+					$x             = isset( $bg_size_units['x'] ) ? $bg_size_units['x'] : 'auto';
+					$y             = isset( $bg_size_units['y'] ) ? $bg_size_units['y'] : 'auto';
+					$compiled_css .= sprintf( 'background-size: %s %s;', $x, $y );
+				}
+			}
+		}
+
+		// Transform origin
+		if ( ! empty( $transform_origin_x ) || ! empty( $transform_origin_y ) || ! empty( $transform_origin_z ) ) {
+			$compiled_css .= sprintf( '-webkit-transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+			$compiled_css .= sprintf( 'transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
+		}
+
+		// Filters
+		if ( ! empty( $compiled_filter ) ) {
+			$compiled_css .= sprintf( '-webkit-filter: %s;', $compiled_filter );
+			$compiled_css .= sprintf( 'filter: %s;', $compiled_filter );
 		}
 
 		// Background image
@@ -266,12 +423,24 @@ class Style {
 			$timing_function = isset( $style_options['transition-timing-function'] ) ? $style_options['transition-timing-function'] : 'ease';
 			$delay           = isset( $style_options['transition-delay'] ) ? $style_options['transition-delay'] : 0;
 
-			$compiled_css .= sprintf( 'transition: %s %sms %s %sms;', $property, $duration, $timing_function, $delay );
+			if ( $delay !== 0 ) {
+				$compiled_css .= sprintf( 'transition: %s %sms %s %sms;', $property, $duration, $timing_function, $delay );
+			} else {
+				$compiled_css .= sprintf( 'transition: %s %sms %s ;', $property, $duration, $timing_function );
+			}
 		}
 
 		return $compiled_css;
 	}
 
+
+	/**
+	 * Compiles box shadow list to valid CSS
+	 *
+	 * @param array<string, string> $options
+	 *
+	 * @return string
+	 */
 	public static function compile_box_shadow( $options ) {
 		$offset_x = isset( $options['offset-x'] ) ? $options['offset-x'] : 0;
 		$offset_y = isset( $options['offset-y'] ) ? $options['offset-y'] : 0;
@@ -298,9 +467,17 @@ class Style {
 			return implode( ' ', $shadow_list );
 		}
 
-		return false;
+		return '';
 	}
 
+
+	/**
+	 * Compiles border config to valid CSS
+	 *
+	 * @param array<string, array<string, string>> $border_config
+	 *
+	 * @return string
+	 */
 	public static function compile_border( $border_config ) {
 		$css = '';
 		if ( is_array( $border_config ) ) {
@@ -322,10 +499,24 @@ class Style {
 		return $css;
 	}
 
+
+	/**
+	 * Compiles transform config to valid css
+	 *
+	 * @param array<int, array<string, mixed>> $value
+	 *
+	 * @return string
+	 */
 	public static function compile_transform( $value ) {
-		$transform_string = '';
-		$origin_string    = '';
-		$combined_styles  = '';
+		$transform_string     = '';
+		$origin_string        = '';
+		$combined_styles      = '';
+		$perspective_value    = '';
+		$perspective_origin_x = '';
+		$perspective_origin_y = '';
+		$origin               = '';
+		$x_axis               = '';
+		$y_axis               = '';
 
 		if ( is_array( $value ) ) {
 			foreach ( $value as $transform_config ) {
@@ -336,31 +527,54 @@ class Style {
 					foreach ( $current_property_config as $property_id => $property_value ) {
 						if ( $property === 'transform-origin' ) {
 							$origin_string .= $property_value . ' ';
-						} elseif ( $property !== 'perspective' ) {
-							$transform_string .= sprintf( '%s(%s)', $property_id, $property_value );
+						} elseif ( $property === 'perspective' ) {
+							if ( $property_id === 'perspective_value' ) {
+								$transform_string .= sprintf( 'perspective(%s) ', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_x_axis' ) {
+								$perspective_origin_x .= sprintf( '%s', $property_value );
+							}
+							if ( $property_id === 'perspective_origin_y_axis' ) {
+								$perspective_origin_y .= sprintf( '%s', $property_value );
+							}
 						} else {
-							$perspective_string = $property_value;
+							$transform_string .= sprintf( '%s(%s) ', $property_id, $property_value );
 						}
 					}
 				}
 			}
 
 			if ( ! empty( $transform_string ) ) {
+				$combined_styles .= sprintf( '-webkit-transform: %s;', $transform_string );
 				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
 			}
+			if ( ! empty( $perspective_value ) || ! empty( $perspective_origin_x ) || ! empty( $perspective_origin_y ) ) {
+				if ( ! empty( $perspective_value ) ) {
+					$combined_styles .= sprintf( '-webkit-perspective: %s; perspective: %s;', $perspective_value, $perspective_value );
+				}
+				$x_axis .= ! empty( $perspective_origin_x ) ? $perspective_origin_x : '50%';
+				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
 
-			if ( ! empty( $perspective_string ) ) {
-				$combined_styles .= sprintf( 'perspective: %s;', $perspective_string );
+				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
+				$combined_styles .= sprintf( '-ms-perspective-origin: %s; -moz-perspective-origin: %s; -webkit-perspective-origin: %s; perspective-origin: %s;', $origin, $origin, $origin, $origin );
 			}
 
 			if ( ! empty( $origin_string ) ) {
-				$combined_styles .= sprintf( 'transform-origin: %s;', $origin_string );
+				$combined_styles .= sprintf( '-webkit-transform-origin: %s; transform-origin: %s;', $origin_string, $origin_string );
 			}
 		}
 
 		return $combined_styles;
 	}
 
+
+	/**
+	 * Compiles border radius config to valid CSS
+	 *
+	 * @param array<string, string> $border_radius_config
+	 *
+	 * @return string
+	 */
 	public static function compile_border_radius( $border_radius_config ) {
 		$css = '';
 

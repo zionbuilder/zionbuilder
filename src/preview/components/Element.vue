@@ -1,6 +1,10 @@
 <template>
+	<ElementLoading
+		v-if="loading"
+	/>
+
 	<component
-		v-if="isActive && !(data.options._isVisible === false && isPreviewMode)"
+		v-else-if="isActive && !(data.options._isVisible === false && isPreviewMode)"
 		:is="component"
 		class="znpb-element__wrapper zb-element"
 		:id="`${elementCssId}`"
@@ -28,6 +32,11 @@
 			slot="start"
 			v-if="videoConfig"
 			:video-config="videoConfig"
+		/>
+
+		<ElementStyles
+			slot="start"
+			:styles="customCSS"
 		/>
 
 		<transition
@@ -60,6 +69,7 @@ import { generateElements } from '@/utils/utils.js'
 import importCSS from '@zionbuilder/importcss'
 import ElementToolbox from './ElementToolbox/ElementToolbox'
 import ElementStyles from './ElementStyles.vue'
+import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import Options from '@/common/Options'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@/utils'
@@ -103,7 +113,9 @@ export default {
 	},
 	components: {
 		ElementToolbox,
-		VideoBackground
+		VideoBackground,
+		ElementLoading,
+		ElementStyles
 	},
 	props: {
 		uid: {
@@ -162,26 +174,6 @@ export default {
 				}
 			}
 		}
-
-		// Add stylesheet
-		const stylesheetInstance = new Vue({
-			parent: this,
-			render: (h) => {
-				return h(ElementStyles, {
-					props: {
-						styles: this.customCSS
-					}
-				})
-			}
-		})
-
-		document.head.appendChild(stylesheetInstance.$mount().$el)
-
-		// Cleanup after this
-		this.$once('hook:beforeDestroy', () => {
-			stylesheetInstance.$el.parentNode.removeChild(stylesheetInstance.$el)
-			stylesheetInstance.$destroy()
-		})
 	},
 	mounted () {
 		this.$nextTick(() => {
@@ -341,6 +333,9 @@ export default {
 					}
 				})
 			}
+
+			// Filter the custom css
+			customCSS = window.ZionBuilderApi.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
 
 			this.options = options
 			this.renderAttributes = renderAttributes

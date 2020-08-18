@@ -52,16 +52,22 @@
 				<Tooltip
 					v-if="previewOpen"
 					append-to="element"
+					tag="span"
 					:content="$translate('library_insert_tooltip')"
 					placement="top"
 					:modifiers="{ offset: { offset: '0,10px' } }"
+					:positionFixed="true"
 				>
 					<BaseButton
 						type="secondary"
 						@click.native="insertLibraryItem"
-						v-html="insertButtonText"
 						class="znpb-library-modal-header__insert-button"
 					>
+						<span v-if="!insertItemLoading">{{$translate('library_insert')}}</span>
+						<Loader
+							v-else
+							:size="13"
+						/>
 					</BaseButton>
 				</Tooltip>
 
@@ -84,7 +90,6 @@
 						placement="top"
 						:modifiers="{ offset: { offset: '0,10px' } }"
 						class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
-
 					>
 						<BaseIcon
 							icon="refresh"
@@ -196,10 +201,8 @@ export default {
 		]),
 		computedTitle () {
 			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
-		},
-		insertButtonText () {
-			return this.insertItemLoading ? `<div class="znpb-admin-small-loader"></div>` : this.$translate('library_insert')
 		}
+
 	},
 	mounted () {
 		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -255,19 +258,7 @@ export default {
 		 */
 		insertItem (item) {
 			return new Promise((resolve, reject) => {
-				// Check to see if this is a local tempalte or a library one
-				let itemData = {}
-				if (item.url) {
-					itemData = {
-						template_file: item.url
-					}
-				} else {
-					itemData = {
-						template_id: item.ID
-					}
-				}
-
-				insertTemplate(itemData).then((response) => {
+				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
 
 					// Check to see if this is a single element or a group of elements
@@ -357,7 +348,7 @@ export default {
 		height: 860px;
 
 		@media (max-width: 1440px) {
-			width: calc( 100% - 40px);
+			width: calc(100% - 40px);
 		}
 	}
 }
@@ -430,17 +421,6 @@ export default {
 			.znpb-editor-icon-wrapper {
 				margin-right: 5px;
 			}
-
-			&.znpb-library-modal-header__insert-button {
-				position: relative;
-
-				& > .znpb-admin-small-loader {
-					top: calc(50% - 2px);
-					left: calc(50% - 2px);
-					width: 18px;
-					height: 18px;
-				}
-			}
 		}
 	}
 
@@ -477,5 +457,4 @@ export default {
 .znpb-editor-library-modal-loader {
 	height: 100%;
 }
-
 </style>

@@ -13,10 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder
  */
 class FileSystem {
+	/**
+	 * Holds a refference to the WP upload dir config
+	 *
+	 * @var array{
+	 *             path: string,
+	 *             url: string,
+	 *             subdir: string,
+	 *             basedir: string,
+	 *             baseurl: string,
+	 *             error: string|false
+	 *             }
+	 */
 	private static $wp_upload_dir = null;
 
 	/**
 	 * This is a wrapper for wp_file_system
+	 *
 	 * @return mixed
 	 */
 	public static function get_file_system() {

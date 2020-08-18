@@ -17,12 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CSSClasses {
 	const CLASSES_OPTION_KEY = '_zionbuilder_css_classes';
 
+	/**
+	 * Holds a cached version of the css classes
+	 *
+	 * @var array<int, array{id: string, name: string, style: array<string, mixed>}>
+	 */
 	private static $cached_css_classes = null;
 
 	/**
 	 * Save the css classes to DB
 	 *
-	 * @param array $classes
+	 * @param array<int, array{id: string, name: string, style: array<string, mixed>}> $classes
+	 *
 	 * @return bool
 	 */
 	public static function save_classes( $classes = [] ) {
@@ -32,6 +38,8 @@ class CSSClasses {
 
 	/**
 	 * Get saved css classes from DB
+	 *
+	 * @return array<int, array{id: string, name: string, style: array<string, mixed>}> The css classes saved in DB
 	 */
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
@@ -42,6 +50,12 @@ class CSSClasses {
 		return self::$cached_css_classes;
 	}
 
+
+	/**
+	 * Returns the css for the saved css classes
+	 *
+	 * @return string The CSS for the saved CSS classes
+	 */
 	public static function get_css() {
 		$css         = '';
 		$css_classes = self::get_classes();

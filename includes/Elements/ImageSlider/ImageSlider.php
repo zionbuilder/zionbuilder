@@ -55,10 +55,10 @@ class ImageSlider extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'image', 'media', 'carousell', 'slider' ];
+		return [ 'image', 'media', 'carousell', 'slider', 'picture', 'transition', 'slides', 'gallery', 'portfolio', 'photo', 'sld' ];
 	}
 
 	/**
@@ -245,9 +245,7 @@ class ImageSlider extends Element {
 	public function render( $options ) {
 		$images     = $options->get_value( 'images' );
 		$pagination = $options->get_value( 'dots' );
-		$arrows     = $options->get_value( 'arrows' );
-
-		?>
+		$arrows     = $options->get_value( 'arrows' ); ?>
 		<div class="swiper-wrapper">
 			<?php
 			foreach ( $images as $image ) {
@@ -269,5 +267,4 @@ class ImageSlider extends Element {
 		<?php endif; ?>
 		<?php
 	}
-
 }

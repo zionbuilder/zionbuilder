@@ -12,9 +12,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class BulkActions extends RestApiController {
-	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'bulk-actions';
 
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'zionbuilder/v1';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'bulk-actions';
+
+
+	/**
+	 * Register routes
+	 *
+	 * @return void
+	 */
 	public function register_routes() {
 		register_rest_route(
 			$this->namespace,
@@ -53,24 +71,34 @@ class BulkActions extends RestApiController {
 		return true;
 	}
 
+	/**
+	 * Returns all registered bulk actions
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_bulk_actions() {
+		return apply_filters(
+			'zionbuilder/api/bulk_actions',
+			[
+				'get_image' => [ $this, 'get_image' ],
+			]
+		);
+	}
 
 	public function get_items( $request ) {
 		$actions  = $request->get_param( 'actions' );
 		$post_id  = $request->get_param( 'post_id' );
 		$response = [];
 
+		$registered_actions = $this->get_bulk_actions();
+
 		// Set main post data
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
 		if ( is_array( $actions ) ) {
 			foreach ( $actions as $action_key => $action_config ) {
-				switch ( $action_config['type'] ) {
-					case 'get_image':
-						$response[$action_key] = $this->get_image( $action_config['config'] );
-						break;
-
-					default:
-						# code...
-						break;
+				if ( array_key_exists( $action_config['type'], $registered_actions ) ) {
+					$callback              = $registered_actions[$action_config['type']];
+					$response[$action_key] = call_user_func( $callback, $action_config['config'] );
 				}
 			}
 		}
@@ -79,7 +107,7 @@ class BulkActions extends RestApiController {
 	}
 
 
-	private function get_image( $image_config ) {
+	public function get_image( $image_config ) {
 		return WPMedia::get_image_sizes( $image_config );
 	}
 }

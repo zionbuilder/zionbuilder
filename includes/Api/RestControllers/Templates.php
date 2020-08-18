@@ -17,11 +17,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Api\RestControllers
  */
 class Templates extends RestApiController {
-	protected $namespace = '/zionbuilder/v1';
-	protected $base      = 'templates';
+
+	/**
+	 * Api endpoint namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'zionbuilder/v1';
+
+	/**
+	 * Api endpoint
+	 *
+	 * @var string
+	 */
+	protected $base = 'templates';
 
 	/**
 	 * Register routes
+	 *
+	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -553,26 +567,19 @@ class Templates extends RestApiController {
 	}
 
 	public function insert_template( \WP_REST_Request $request ) {
-		$template_file = $request->get_param( 'template_file' );
-		$template_id   = $request->get_param( 'template_id' );
+		$source = $request->get_param( 'source' );
 
-		// Check to see if this is a local template
-		if ( ! empty( $template_id ) ) {
-			// Insert using id
-			$post_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
-			$template_data = $post_instance->get_template_data();
+		if ( $source === 'remote' ) {
+			$template_file_url = $request->get_param( 'url' );
 
-			if ( ! $template_data ) {
-				return new \WP_Error( 'template_data_not_found', __( 'The template could not be inserted!', 'zionbuilder' ) );
+			// Check to see if this a PRO plugin or not
+			$template_file_url = apply_filters( 'zionbuilder/template/insert/template_file', $template_file_url, $request );
+
+			if ( empty( $template_file_url ) ) {
+				return new \WP_Error( 'template_data_not_valid', __( 'Could not get the template zip file!', 'zionbuilder' ) );
 			}
 
-			return rest_ensure_response(
-				[
-					'template_data' => $template_data,
-				]
-			);
-		} elseif ( ! empty( $template_file ) ) {
-			$template_file_download = download_url( $template_file );
+			$template_file_download = download_url( $template_file_url );
 
 			if ( is_wp_error( $template_file_download ) ) {
 				$template_file_download->add_data( [ 'status' => 500 ] );
@@ -593,7 +600,22 @@ class Templates extends RestApiController {
 
 			// Send back the response
 			return rest_ensure_response( $content_config );
+		} else {
+			$template_id = $request->get_param( 'ID' );
+
+			// Insert using id
+			$post_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+			$template_data = $post_instance->get_template_data();
+
+			if ( ! $template_data ) {
+				return new \WP_Error( 'template_data_not_found', __( 'The template could not be inserted!', 'zionbuilder' ) );
+			}
+
+			return rest_ensure_response(
+				[
+					'template_data' => $template_data,
+				]
+			);
 		}
-		return new \WP_Error( 'template_data_not_valid', __( 'An error occurred.', 'zionbuilder' ) );
 	}
 }

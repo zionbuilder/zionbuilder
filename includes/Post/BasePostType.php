@@ -22,8 +22,8 @@ class BasePostType {
 	/**
 	 * Holds a reference to the meta key where we store the page template data
 	 */
-	const PAGE_TEMPLATE_META_KEY = '_zn_page_builder_els';
-	const PAGE_BUILDER_STATUS    = '_zn_zion_builder_status';
+	const PAGE_TEMPLATE_META_KEY = '_zionbuilder_page_elements';
+	const PAGE_BUILDER_STATUS    = '_zionbuilder_page_status';
 
 	/**
 	 * Holds a reference to the \WP_Post instance
@@ -400,7 +400,7 @@ class BasePostType {
 		}
 
 		$current_post_status = $this->get_post_value( 'post_status' );
-		$status              = $post_data['status'];
+		$status              = isset( $post_data['status'] ) ? $post_data['status'] : $current_post_status;
 		$is_autosave         = 'autosave' === $status;
 
 		if ( $is_autosave && in_array( $current_post_status, [ 'publish', 'private' ], true ) ) {
@@ -414,6 +414,11 @@ class BasePostType {
 		return true;
 	}
 
+	/**
+	 * Returns the post id if the current post is and autosave or false
+	 *
+	 * @return int|false
+	 */
 	public function is_autosave() {
 		return wp_is_post_autosave( $this->get_post_id() );
 	}

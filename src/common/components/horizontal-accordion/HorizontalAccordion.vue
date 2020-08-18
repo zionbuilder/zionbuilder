@@ -43,7 +43,10 @@
 				/>
 
 				<!-- end bred -->
-				<div class="znpb-horizontal-accordion-wrapper znpb-fancy-scrollbar">
+				<div
+					class="znpb-horizontal-accordion-wrapper znpb-fancy-scrollbar"
+					:style="wrapperStyles"
+				>
 					<!-- @slot Content that will be placed inside the content -->
 					<slot></slot>
 				</div>
@@ -156,12 +159,25 @@ export default {
 					title: this.title
 				}
 			],
-			breadCrumbConfig: null
+			breadCrumbConfig: null,
+			firstChildOpen: false
 		}
 	},
 	watch: {
 		collapsed (newValue) {
 			this.localCollapsed = newValue
+		}
+	},
+	computed: {
+		/**
+		 * Returns the position of the pointer
+		 */
+		wrapperStyles () {
+			const cssStyles = {}
+			if (!this.combineBreadcrumbs && (this.parentAccordion === null) && this.localCollapsed && this.firstChildOpen) {
+				cssStyles['overflow'] = 'hidden'
+			}
+			return cssStyles
 		}
 	},
 	methods: {
@@ -173,17 +189,17 @@ export default {
 				lastItem.callback = breadcrumb.previousCallback
 			}
 			this.breadcrumbs.push(breadcrumb)
+			this.firstChildOpen = true
 		},
 		removeBreadcrumb (breadcrumb) {
 			const breadCrumbIndex = this.breadcrumbs.indexOf(breadcrumb)
 			if (breadCrumbIndex !== -1) {
 				this.breadcrumbs.splice(breadCrumbIndex, 1)
+				this.firstChildOpen = false
 			}
 		},
 		closeAccordion () {
 			this.localCollapsed = false
-
-			this.$el.parentNode.style.overflow = null
 
 			if (this.parentAccordion !== null && this.parentAccordion) {
 				this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
@@ -194,13 +210,15 @@ export default {
 		openAccordion () {
 			this.localCollapsed = true
 
+			let firstParent = this.$el.parentNode
+			let higherParent = window.jQuery(firstParent).parents('.znpb-horizontal-accordion-wrapper')
+
+			window.jQuery(higherParent).scrollTop(0)
+
 			// Inject to existing breadcrumbs
 			if (this.combineBreadcrumbs && this.parentAccordion) {
 				this.injectBreadcrumbs()
 			}
-
-			this.$el.parentNode.style.overflow = 'hidden'
-			this.$el.parentNode.scrollTop = 0
 
 			this.$emit('expand', false)
 		},

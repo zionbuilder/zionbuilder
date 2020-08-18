@@ -55,10 +55,10 @@ class ImageBox extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'image', 'media', 'box' ];
+		return [ 'image', 'media', 'box', 'poster', 'photo', 'picture', 'text' ];
 	}
 
 	/**
@@ -154,6 +154,9 @@ class ImageBox extends Element {
 				'description' => esc_html__( 'Set the desired title.', 'zionbuilder' ),
 				'title'       => esc_html__( 'Image box title', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample title.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -163,6 +166,9 @@ class ImageBox extends Element {
 				'type'    => 'editor',
 				'title'   => esc_html__( 'Description text', 'zionbuilder' ),
 				'default' => sprintf( '<p>%s</p>', __( 'Just a sample text from heading element.', 'zionbuilder' ) ),
+				'dynamic' => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -220,6 +226,8 @@ class ImageBox extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(

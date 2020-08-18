@@ -14,7 +14,7 @@
 				:value="colorConfig"
 				@input="onColorConfigUpdate(colorConfig, $event)"
 				@color-picker-open="colorPickerOpen=$event"
-				@mousedown.native="enableDragging(colorConfig, $event)"
+				@mousedown.native="enableDragging(i, $event)"
 			/>
 		</div>
 		<div class="znpb-gradient-colors-legend">
@@ -35,6 +35,7 @@
 import GradientBarPreview from './GradientBarPreview.vue'
 import GradientDragger from './GradientDragger.vue'
 import GradientColorConfig from './GradientColorConfig.vue'
+import rafSchd from 'raf-schd'
 
 export default {
 	name: 'GradientBar',
@@ -76,6 +77,9 @@ export default {
 			})
 
 			return colorsCopy
+		},
+		activeDraggedItem () {
+			return this.computedValue.colors[this.draggedCircleIndex]
 		}
 	},
 	mounted () {
@@ -98,7 +102,7 @@ export default {
 			const index = this.computedValue.colors.indexOf(colorConfig)
 			const colorsClone = this.computedValue.colors.slice(0)
 
-			this.deletedColorConfig = { ...colorConfig }
+			this.deletedColorConfig = colorConfig
 			colorsClone.splice(index, 1)
 
 			this.computedValue = {
@@ -143,34 +147,35 @@ export default {
 
 			this.computedValue = updatedValues
 		},
-		enableDragging (colorConfig, event) {
+		enableDragging (colorConfigIndex, event) {
 			if (this.colorPickerOpen === false) {
 				document.body.classList.add('znpb-color-gradient--backdrop')
-				document.addEventListener('mousemove', this.onCircleDrag)
-				document.addEventListener('mouseup', this.disableDragging)
+				this.rafMovePosition = rafSchd(this.onCircleDrag)
+				this.rafEndDragging = rafSchd(this.disableDragging)
+
+				document.addEventListener('mousemove', this.rafMovePosition)
+				document.addEventListener('mouseup', this.rafEndDragging)
 				document.body.style.userSelect = 'none'
-				this.draggedCircle = colorConfig
-				this.draggedCircleIndex = this.computedValue.colors.indexOf(colorConfig)
+				this.draggedCircleIndex = colorConfigIndex
+				this.draggedItem = this.computedValue.colors[colorConfigIndex]
 				this.deletedColorConfig = null
 			}
 		},
 		disableDragging (event) {
 			document.body.classList.remove('znpb-color-gradient--backdrop')
-			document.removeEventListener('mousemove', this.onCircleDrag)
-			document.removeEventListener('mouseup', this.disableDragging)
+			document.removeEventListener('mousemove', this.rafMovePosition)
+			document.removeEventListener('mouseup', this.rafEndDragging)
 			document.body.style.userSelect = null
-			this.draggedCircle = null
 			this.deletedColorConfig = null
 			this.draggedCircleIndex = null
 		},
 		updateActiveConfigPosition (newPosition) {
 			const newConfig = {
-				...this.draggedCircle,
+				...this.activeDraggedItem,
 				position: newPosition
 			}
 
-			this.onColorConfigUpdate(this.draggedCircle, newConfig)
-			this.draggedCircle = newConfig
+			this.onColorConfigUpdate(this.activeDraggedItem, newConfig)
 		},
 		onCircleDrag (event) {
 			// calculate the dragger left position %
@@ -181,7 +186,7 @@ export default {
 			if (newLeft > 100 || newLeft < 0) {
 				// Check to see if we need to delete the color
 				if (this.sortedColors.length > 2 && this.deletedColorConfig === null) {
-					this.onDeleteColor(this.draggedCircle)
+					this.onDeleteColor(this.draggedItem)
 				}
 			} else {
 				if (this.deletedColorConfig !== null) {

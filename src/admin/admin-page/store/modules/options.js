@@ -67,21 +67,7 @@ const getters = {
 	getAllowedPosts: state => state.options.allowed_post_types
 }
 
-let loadedOptions = false
 const actions = {
-	fetchOptionsOnce: ({ commit }) => {
-		if (loadedOptions) {
-			return Promise.resolve()
-		}
-		return getSavedOptions().then((response) => {
-			const newOptions = {
-				...state.options,
-				...response.data
-			}
-			loadedOptions = true
-			commit(types.SET_OPTIONS, newOptions)
-		})
-	},
 	fetchOptions: ({ commit }) => {
 		return getSavedOptions().then((response) => {
 			const newOptions = {
@@ -93,7 +79,7 @@ const actions = {
 	},
 
 	deleteGoogleFont: ({ commit, dispatch }, payload) => {
-		commit(types.DELETE_GOOLGE_FONT, payload)
+		commit(types.DELETE_GOOGLE_FONT, payload)
 		dispatch('saveOptions')
 	},
 	updateGoogleFont: ({ commit, dispatch }, { font, value }) => {
@@ -101,7 +87,7 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	addGoogleFont: ({ commit, dispatch }, payload) => {
-		commit(types.ADD_GOOLGE_FONT, payload)
+		commit(types.ADD_GOOGLE_FONT, payload)
 		dispatch('saveOptions')
 	},
 	addTypeKitToken: ({ commit }, payload) => {
@@ -165,17 +151,28 @@ const actions = {
 		dispatch('saveOptions')
 	},
 	// Gradients
-	updateLocalGradients: ({ commit }, payload) => {
-		commit(types.UPDATE_LOCAL_GRADIENTS, payload)
-	},
-	updateGlobalGradients: ({ commit }, payload) => {
-		commit(types.UPDATE_GLOBAL_GRADIENTS, payload)
+	updateGradient: ({ commit }, payload) => {
+		commit(types.UPDATE_GRADIENT, payload)
 	},
 	addLocalGradient: ({ commit }, payload) => {
-		commit(types.ADD_LOCAL_GRADIENT, payload)
+		let arrayLength = state.options.global_gradients.length
+		let dynamicId = `gradient${arrayLength + 1}`
+
+		commit(types.ADD_LOCAL_GRADIENT, {
+			id: dynamicId,
+			name: dynamicId,
+			...payload
+		})
 	},
-	addGlobalGradient: ({ commit }, payload) => {
-		commit(types.ADD_GLOBAL_GRADIENT, payload)
+	addGlobalGradient: ({ commit, state }, payload) => {
+		let arrayLength = state.options.global_gradients.length
+		let dynamicId = `gradient${arrayLength + 1}`
+
+		commit(types.ADD_GLOBAL_GRADIENT, {
+			id: dynamicId,
+			name: dynamicId,
+			...payload
+		})
 	},
 	deleteLocalGradient: ({ commit, dispatch }, payload) => {
 		commit(types.DELETE_LOCAL_GRADIENT, payload)
@@ -211,7 +208,7 @@ const actions = {
 }
 
 const mutations = {
-	[types.DELETE_GOOLGE_FONT] (state, payload) {
+	[types.DELETE_GOOGLE_FONT] (state, payload) {
 		let fontConfig = state.options.google_fonts.find((font) => {
 			return font.font_family === payload
 		})
@@ -230,7 +227,7 @@ const mutations = {
 		let fontIndex = state.options.google_fonts.indexOf(font)
 		state.options.google_fonts.splice(fontIndex, 1, value)
 	},
-	[types.ADD_GOOLGE_FONT] (state, payload) {
+	[types.ADD_GOOGLE_FONT] (state, payload) {
 		state.options.google_fonts.push(payload)
 	},
 	[types.ADD_TYPEKIT_FONT] (state, kitId) {
@@ -276,11 +273,8 @@ const mutations = {
 		Vue.set(state.options.global_colors, payload.index, payload.color)
 	},
 	// Gradients
-	[types.UPDATE_LOCAL_GRADIENTS] (state, payload) {
-		state.options.local_gradients = payload
-	},
-	[types.UPDATE_GLOBAL_GRADIENTS] (state, payload) {
-		state.options.global_gradients = payload
+	[types.UPDATE_GRADIENT] (state, { gradient, newValue }) {
+		Vue.set(gradient, 'config', newValue)
 	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
 		state.options.local_gradients.push(payload)

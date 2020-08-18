@@ -32,4 +32,17 @@
 		padding-top: 0;
 		margin-top: 0;
 	}
+
+	b, strong {
+		font-weight: bold;
+	}
 }
+
+.ajs__element {
+	visibility: hidden;
+
+	&.animated {
+		visibility: visible;
+	}
+}
+

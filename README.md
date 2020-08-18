@@ -1,4 +1,4 @@
-# Zion Builder Plugin
+# Zion Page Builder Plugin
 [![stars](https://img.shields.io/github/stars/zionbuilder/zionbuilder)](https://github.com/zionbuilder/zionbuilder/stargazers)
 [![CI](https://github.com/zionbuilder/zionbuilder/workflows/CI/badge.svg)](https://github.com/zionbuilder/zionbuilder/actions)
 [![license](https://img.shields.io/github/license/zionbuilder/zionbuilder)](/license.txt)
@@ -118,7 +118,7 @@ A whole panel that can be accessed from the main bar. It contains the actions ne
 1. Search for Zionbuilder
 1. Activate the plugin
 1. Go to Pages or Posts > Add New
-1. Press the 'Edit with Zion Builder' button.
+1. Press the 'Edit with Zion Page Builder' button.
 
 For documentation and tutorials visit our [Knowledge Base](https://zionbuilder.io/help-center/).
 
@@ -156,6 +156,70 @@ Please make sure to update tests as appropriate.
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
+
+### 1.0.1- 2020-08-17 ###
+
+* Renamed plugin
+* Updated stable tag
+* Fixed data update not working properly
+* Changed register element system
+* Updated composer dependencies
+* Replaced PRO description from admin
+* Fixed template not importing images in certain conditions
+* Updated minimum PHP version
+* Performance optimizations
+* Fixed background size contain
+* Implement pro connection
+* Fix panels height dragging
+* Add pro badge to dashboard
+* Add calendar picker
+* Fix background gradient not working
+* Add new transform properties
+* Moved render methods to render class
+* Added loading gif to element loading
+* Update keywords for elements
+* Fix case sensitive icon search
+* Fixed styles not generating proper css
+* Fix duplicate renderer var
+* Fixed css duplicated
+* Fixed animations visibility glitch
+* Prevent adding emty values on transition property
+* Fix flex direction row in rendered page
+* Fixed uploaded icons not showing in frontend editor
+* Fixed css gradients
+* Fixed animation duration and delay not working properly
+* Added offset 0 value for columns
+* Added dynamic background color option type
+* Fixed missing post id for bulk actions API call
+* Implement masks for sections and columns
+* Fix inverse text shadow icons for horizontal and vertical spread
+* Fix no loader for templates library preview when inserting the item
+* Change png to svg in section view
+* Add specialFilterPak prop to iconsLibraryModal
+* Fix blur not rendering correctly
+* Add dynamic content to heading, iconbox, iconList, ImageBox,PricingBox, ProgressBars, Testimonial
+* Added vendor prefixes for css styles
+* Added filters to various locations
+* Fix compatibility with older versions of MySQL/MariaDB
+* Remove seconds from History items
+* Fix safari library scroll not working
+* Added filter for options parsing
+* Fix scrollTop and overflow hidden from accordion menu
+* Fixed compatibility with WP 5.4.2
+* Fixed error showing when using video background
+* Added form filters
+* Fixed testimonial element not showing properly in frontend
+* Added filter for element custom css
+* Updated plugin version
+* Fixed build command
+* Added namespace to plugin file
+* Updated pagebuilder meta keys
+* Fixed compatibility with legacy zionbuilder
+* Updated phpstan config for v0.12.26
+* Fixed several PHP stan errors
+* Implemented update system
+* Update phpstan config file to remove autoload
+* Added updater base code
 
 ### 1.0.0- 2020-05-27 ###
 * Initial Public Release

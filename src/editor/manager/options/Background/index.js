@@ -1,14 +1,13 @@
-import BackgroundOptionGroup from './Background.vue'
+import Background from './Background.vue'
 
 export default {
 	id: 'background',
-	component: BackgroundOptionGroup,
+	component: Background,
 	config: {
-		// Can be one of the following
 		barebone: true
 	}
 }
 
 export {
-	BackgroundOptionGroup
+	Background
 }

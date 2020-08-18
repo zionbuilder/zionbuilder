@@ -43,10 +43,10 @@ class PricingBox extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'pricing', 'box' ];
+		return [ 'pricing', 'box', 'prices', 'pricelist', 'packages', 'lists', 'offers', 'special', 'rates', 'comparison', 'cost', 'table', 'pricing table', 'cards', 'plans', 'billing', 'saas' ];
 	}
 
 	/**
@@ -75,6 +75,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Plan title', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Basic', 'zionbuilder' ),
 				'default'     => esc_html__( 'Basic', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -85,6 +88,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Plan description', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Pricing box description', 'zionbuilder' ),
 				'default'     => esc_html__( 'Price box description', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -151,6 +157,9 @@ class PricingBox extends Element {
 				'title'       => esc_html__( 'Features', 'zionbuilder' ),
 				'description' => __( 'Please add each feature on a new line', 'zionbuilder' ),
 				'default'     => __( '<p>20+ Proactively</p><p>facilitate 150+ Alternative</p><p>Vectors quality</p><p>Strategic themes</p><p>Brand</p><p>Intellectual capital</p><p>Proactive applications</p>', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -162,6 +171,9 @@ class PricingBox extends Element {
 				'description' => esc_html__( 'Set the desired text for the button.', 'zionbuilder' ),
 				'placeholder' => esc_html__( 'Button text', 'zionbuilder' ),
 				'default'     => esc_html__( 'Select this plan', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -224,6 +236,8 @@ class PricingBox extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(

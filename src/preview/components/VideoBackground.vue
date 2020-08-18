@@ -36,11 +36,18 @@ export default {
 	},
 	watch: {
 		videoConfig (newValue, oldValue) {
+			if (!this.hasVideoSource) {
+				return
+			}
+
 			if (!isEqual(newValue, oldValue)) {
 				if (this.videoInstance) {
 					this.videoInstance.destroy()
 				}
-				this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
+
+				this.$nextTick(() => {
+					this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
+				})
 			}
 		}
 	},

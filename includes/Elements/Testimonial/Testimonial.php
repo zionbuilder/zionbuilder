@@ -55,10 +55,10 @@ class Testimonial extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'testimonial', 'media', 'feedback', 'partners' ];
+		return [ 'testimonial', 'media', 'feedback', 'partners', 'review', 'testament', 'recommendation' ];
 	}
 
 	/**
@@ -86,6 +86,9 @@ class Testimonial extends Element {
 				'type'    => 'editor',
 				'title'   => esc_html__( 'Testimonial content', 'zionbuilder' ),
 				'default' => __( 'Edit the element options to change it', 'zionbuilder' ),
+				'dynamic' => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -97,6 +100,9 @@ class Testimonial extends Element {
 				'description' => __( 'Set the desired user name.', 'zionbuilder' ),
 				'placeholder' => __( 'User name', 'zionbuilder' ),
 				'default'     => esc_html__( 'John Dow', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -108,6 +114,9 @@ class Testimonial extends Element {
 				'description' => __( 'Set the client description.', 'zionbuilder' ),
 				'placeholder' => __( 'description', 'zionbuilder' ),
 				'default'     => __( "I'm Awesome", 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -225,6 +234,8 @@ class Testimonial extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
@@ -321,11 +332,7 @@ class Testimonial extends Element {
 		$inner_content_styles_user_classes        = $this->get_style_classes_as_string( 'inner_content_styles_user', [ 'zb-el-testimonial__userInfo-name' ] );
 		$inner_content_styles_description_classes = $this->get_style_classes_as_string( 'inner_content_styles_description', [ 'zb-el-testimonial__userInfo-description' ] );
 		$inner_content_styles_image_classes       = $this->get_style_classes_as_string( 'inner_content_styles_image', [ 'zb-el-testimonial__userImage' ] );
-		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] );
-
-		if ( ! empty( $content ) ) {
-			echo wp_kses_post( $content );
-		} ?>
+		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] ); ?>
 		<?php if ( $image && ( $position === 'top' ) ) : ?>
 			<img
 				src="<?php echo esc_attr( $image ); ?>"

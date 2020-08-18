@@ -3,6 +3,8 @@ import { applyFilters } from '@/utils/filters'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'
+import BackgroundColor from './BackgroundColor'
+import BackgroundGradient from './BackgroundGradient'
 import Typography from './Typography'
 import Group from './Group'
 import PanelAccordion from './PanelAccordion'
@@ -25,6 +27,9 @@ import Dimensions from './Dimensions'
 // Forms component
 import {
 	BaseInput,
+	InputDate,
+	ShapeDividers,
+	ShapeDividerComponent,
 	ColorPicker,
 	CustomSelector,
 	InputSelect,
@@ -209,11 +214,27 @@ class OptionsManager {
 			component: IconLibrary
 		})
 
+		this.registerOption({
+			id: 'date_input',
+			component: InputDate
+		})
+
+		this.registerOption({
+			id: 'shape_dividers',
+			component: ShapeDividers
+		})
+		this.registerOption({
+			id: 'shape_component',
+			component: ShapeDividerComponent
+		})
+
 		// register custom options
 		this.registerOption(AccordionMenu)
 		this.registerOption(IconLibrary)
 		this.registerOption(PseudoGroup)
 		this.registerOption(Background)
+		this.registerOption(BackgroundColor)
+		this.registerOption(BackgroundGradient)
 		this.registerOption(Typography)
 		this.registerOption(Group)
 		this.registerOption(PanelAccordion)
@@ -243,7 +264,7 @@ class OptionsManager {
 	 */
 	getOption (schema, model = null, formModel = {}) {
 		let optionConfig = this.options[schema.type]
-		optionConfig = applyFilters('zionbuilder/getOption', optionConfig, schema, model, formModel)
+		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
 
 		if (!optionConfig) {
 			// eslint-disable-next-line

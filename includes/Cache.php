@@ -28,31 +28,21 @@ class Cache {
 	/**
 	 * Holds a reference to the cache folder
 	 *
-	 * @var array
+	 * @var array{path: string, url: string}
 	 */
 	private $cache_directory_config = null;
 
 	/**
 	 * Holds a reference to all post ids that we need to enqueue styles
 	 *
-	 * @var array
+	 * @var array<int>
 	 */
 	private $registered_post_ids = [];
-
-	/**
-	 * @var array
-	 */
-	private $wp_upload_dir;
 
 	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
-		/*
-		 * Cache uploads dir
-		 */
-		$this->wp_upload_dir = wp_upload_dir();
-
 		// Delete cache for posts actions
 		add_action( 'delete_post', [ $this, 'delete_post_cache' ] );
 		add_action( 'save_post', [ $this, 'delete_post_cache' ] );
@@ -60,6 +50,7 @@ class Cache {
 		// Delete all cache
 		add_action( 'after_switch_theme', [ $this, 'delete_all_cache' ] );
 		add_action( 'activated_plugin', [ $this, 'delete_all_cache' ] );
+		add_action( 'zionbuilder/settings/save', [ $this, 'delete_all_cache' ] );
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
@@ -70,6 +61,11 @@ class Cache {
 		}
 	}
 
+	/**
+	 * Enqueues page scripts
+	 *
+	 * @return void
+	 */
 	public function on_enqueue_scripts() {
 		$this->register_default_scripts();
 		$this->enqueue_post_styles();
@@ -77,6 +73,12 @@ class Cache {
 		$this->enqueue_dynamic_css();
 	}
 
+
+	/**
+	 * Register plugin default scripts
+	 *
+	 * @return void
+	 */
 	public function register_default_scripts() {
 		// register styles
 		wp_register_style( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.css' ), [], Plugin::instance()->get_version() );
@@ -121,6 +123,12 @@ class Cache {
 		unset( $this->registered_post_ids[$post_id] );
 	}
 
+
+	/**
+	 * Enqueue dynamic css file
+	 *
+	 * @return void
+	 */
 	public function enqueue_dynamic_css() {
 		$cache_directory        = $this->get_cache_directory();
 		$dynamic_cache_file     = $cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
@@ -131,7 +139,8 @@ class Cache {
 			$this->compile_dynamic_css();
 		}
 
-		wp_enqueue_style( 'znpb-dynamic-css', $dynamic_cache_file_url, [], filemtime( $dynamic_cache_file ) );
+		$version = (string) filemtime( $dynamic_cache_file );
+		wp_enqueue_style( 'znpb-dynamic-css', $dynamic_cache_file_url, [], $version );
 	}
 
 	/**
@@ -162,6 +171,12 @@ class Cache {
 		}
 	}
 
+
+	/**
+	 * Enqueue post scripts
+	 *
+	 * @return void
+	 */
 	public function enqueue_post_scripts() {
 		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
 			return;
@@ -184,8 +199,14 @@ class Cache {
 		}
 	}
 
+
+	/**
+	 * Enqueue element styles
+	 *
+	 * @return void
+	 */
 	public function enqueue_elements_styles() {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 
 		foreach ( $elements_instances as $element_instance ) {
@@ -199,8 +220,13 @@ class Cache {
 		}
 	}
 
+	/**
+	 * Enqueue element scripts
+	 *
+	 * @return void
+	 */
 	public function enqueue_elements_scripts() {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 
 		foreach ( $elements_instances as $element_instance ) {
@@ -219,7 +245,7 @@ class Cache {
 	 *
 	 * Returns the cache directory config
 	 *
-	 * @return array An array containing cache directory path and url
+	 * @return array{path: string, url: string} An array containing cache directory path and url
 	 */
 	private function get_cache_directory() {
 		if ( null === $this->cache_directory_config ) {
@@ -246,7 +272,7 @@ class Cache {
 	 * @param int   $post_id
 	 * @param mixed $type
 	 *
-	 * @return array
+	 * @return array{file_name: string, path: string, url: string } The cache file paths
 	 */
 	public function get_cache_file_config( $post_id, $type = 'css' ) {
 		$post_id         = absint( $post_id );
@@ -270,7 +296,7 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_css_cache_file_for_post( $post_id ) {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 		$css                = '';
 
@@ -311,7 +337,7 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_js_cache_file_for_post( $post_id ) {
-		$elements_instances = Plugin::$instance->frontend->get_elements_instances();
+		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 		$js                 = '';
 
@@ -379,6 +405,8 @@ class Cache {
 
 	/**
 	 * Will compile dynamic css
+	 *
+	 * @return string The compiled css
 	 */
 	private function compile_dynamic_css() {
 		$cache_directory    = $this->get_cache_directory();
@@ -434,6 +462,8 @@ class Cache {
 	 * Delete all cache
 	 *
 	 * Deletes the cache directory
+	 *
+	 * @return boolean
 	 */
 	public function delete_all_cache() {
 		$cache_directory = $this->get_cache_directory();

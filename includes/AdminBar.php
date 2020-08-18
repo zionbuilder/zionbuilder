@@ -29,10 +29,22 @@ class AdminBar {
 		add_action( 'admin_bar_menu', [ $this, 'add_toolbar_items' ], 100 );
 	}
 
+	/**
+	 * Removes the body css classes
+	 *
+	 * @return array<int, string>
+	 */
 	public function remove_body_classes() {
 		return array();
 	}
 
+	/**
+	 * Adds "Edit with Zion Builder" menu item for zion builder enabled pages
+	 *
+	 * @param \WP_Admin_Bar $admin_bar
+	 *
+	 * @return void
+	 */
 	public function add_toolbar_items( $admin_bar ) {
 		// Add edit with zion link
 		global $post;
@@ -42,6 +54,10 @@ class AdminBar {
 		}
 
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
+
+		if ( ! $post_instance ) {
+			return;
+		}
 
 		if ( $post_instance->is_built_with_zion() ) {
 			$admin_bar->add_menu(

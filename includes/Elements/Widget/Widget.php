@@ -32,7 +32,7 @@ class Widget extends Element {
 	public function on_before_init( $data = [] ) {
 		// Get the widget id from data
 		if ( ! isset( $data['widget_id'] ) ) {
-			return false;
+			return;
 		}
 
 		$this->widget_id = $data['widget_id'];
@@ -71,7 +71,7 @@ class Widget extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
 		return [ 'wordpress', 'widget' ];

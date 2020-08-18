@@ -281,7 +281,7 @@ class Templates {
 	/**
 	 * This function will return the templates based on post type
 	 *
-	 * @param string  $template_type
+	 * @param string $template_type
 	 *
 	 * @return array with the templates
 	 */

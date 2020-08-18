@@ -61,7 +61,7 @@ class Nonces {
 	 *
 	 * @param string $action The nonce action we need to verify
 	 *
-	 * @return bool
+	 * @return int|false
 	 */
 	public static function verify_nonce( $action ) {
 		if ( ! isset( $_REQUEST[self::NONCE_FIELD_ID] ) ) {

@@ -554,10 +554,18 @@ export default {
 	}
 
 	&-column-wrapper {
-		position: relative;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
 		overflow-x: hidden;
+		width: 100%;
 		height: 100%;
-		padding: 0 20px;
+		height: 100%;
+		min-height: 300px;
+		padding: 0 20px 80px 20px;
+		transform: translateY(80px);
 
 		p.znpb-editor-library-modal-no-more {
 			margin-bottom: 40px;

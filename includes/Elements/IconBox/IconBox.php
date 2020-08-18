@@ -43,10 +43,10 @@ class IconBox extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'icon', 'iconbox', 'box' ];
+		return [ 'icon', 'iconbox', 'title', 'text', 'category', 'categories', 'services' ];
 	}
 
 	/**
@@ -143,6 +143,9 @@ class IconBox extends Element {
 				'description' => esc_html__( 'Set the desired title.' ),
 				'title'       => esc_html__( 'Title', 'zionbuilder' ),
 				'default'     => esc_html__( 'Just a sample title.', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -209,6 +212,8 @@ class IconBox extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
@@ -282,7 +287,7 @@ class IconBox extends Element {
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
+				$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
 				?>
 			</div>
 			<?php
@@ -303,5 +308,4 @@ class IconBox extends Element {
 		</div>
 		<?php
 	}
-
 }

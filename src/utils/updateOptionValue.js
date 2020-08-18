@@ -1,5 +1,4 @@
 export function updateOptionValue (options, path, newValue) {
-	// console.log(options)
 	const newOptions = { ...options }
 	const pathArray = path.split('.')
 	const pathLength = pathArray.length

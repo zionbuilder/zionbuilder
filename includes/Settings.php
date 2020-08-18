@@ -146,4 +146,15 @@ class Settings {
 	public static function get_global_colors() {
 		return self::get_value( 'global_colors' );
 	}
+
+	/**
+	 * Get global gradients
+	 *
+	 * Returns saved global gradients
+	 *
+	 * @return array
+	 */
+	public static function get_global_gradients() {
+		return self::get_value( 'global_gradients' );
+	}
 }

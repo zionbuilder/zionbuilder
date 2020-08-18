@@ -1,6 +1,6 @@
 <template>
 	<component
-		v-if="isValidInput && optionTypeConfig.config && optionTypeConfig.config.barebone"
+		v-if="isValidInput && ( schema.barebone || optionTypeConfig.config && optionTypeConfig.config.barebone )"
 		:is="optionTypeConfig.component"
 		v-model="optionValue"
 		v-bind="compiledSchema"
@@ -278,7 +278,7 @@ export default {
 		},
 
 		optionTypeConfig () {
-			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.options)
+			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.value)
 		},
 		labelAlignment () {
 			return this.schema['label-align'] || null
@@ -530,6 +530,9 @@ export default {
 				}
 
 				this.$parent.deleteValues(fullOptionIds)
+				this.deleteActiveElementValue({
+					path: compiledSync
+				})
 			} else {
 				if (this.schema.is_layout) {
 					const childOptionsIds = this.getChildOptionsIds(this.schema)

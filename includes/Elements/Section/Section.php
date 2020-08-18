@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Section;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Elements\Masks;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -54,10 +55,10 @@ class Section extends Element {
 	 *
 	 * Returns the keywords for this element
 	 *
-	 * @return array The list of element keywords
+	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'section', 'container' ];
+		return [ 'section', 'container', 'div', 'row', 'layout', 'sct' ];
 	}
 
 	/**
@@ -444,6 +445,23 @@ class Section extends Element {
 				],
 			]
 		);
+
+		$shape_dividers = $options->add_group(
+			'shape_dividers',
+			[
+				'type'      => 'panel_accordion',
+				'title'     => __( 'Shape Dividers', 'zionbuilder' ),
+				'collapsed' => false,
+			]
+		);
+
+		$shape_dividers->add_option(
+			'shapes',
+			[
+				'type'  => 'shape_dividers',
+				'title' => __( 'Add a mask to your element', 'zionbuilder' ),
+			]
+		);
 	}
 
 	/**
@@ -451,6 +469,8 @@ class Section extends Element {
 	 *
 	 * Returns a list of elements/tags that for which you
 	 * want to show style options
+	 *
+	 * @return void
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
@@ -513,6 +533,12 @@ class Section extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
+		$masks = $options->get_value( 'shapes' );
+
+		if ( ! empty( $masks ) ) {
+			MAsks::render_masks( $masks );
+		}
+
 		$this->render_attributes->add( 'inner_content', 'class', 'zb-section__innerWrapper' );
 		$this->render_tag( 'div', 'inner_content', $this->get_children_for_render() );
 	}

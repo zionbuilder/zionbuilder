@@ -5,6 +5,8 @@ namespace ZionBuilder;
 class RenderAttributes {
 	/**
 	 * Holds a reference of the responsive devices css classes modifiers
+	 *
+	 * @var array<string, string>
 	 */
 	private static $responsive_devices_map = [
 		'default' => '',
@@ -60,8 +62,9 @@ class RenderAttributes {
 	/**
 	 * Returns all registered attributes for a given tag id
 	 *
-	 * @param string $tag_id The tag id for which the attributes will be retrieved
-	 * @param boolean|string $type The type of attribute to return for the given tag id. If not specified, all tags will be returned
+	 * @param string         $tag_id The tag id for which the attributes will be retrieved
+	 * @param boolean|string $type   The type of attribute to return for the given tag id. If not specified, all tags will be returned
+	 *
 	 * @return array
 	 */
 	public function get_attributes( $tag_id = 'wrapper', $type = false ) {
@@ -87,10 +90,10 @@ class RenderAttributes {
 	 *
 	 * Will register a new attribute for render
 	 *
-	 * @param string $tag_id  The unique identifier for the render attribute
-	 * @param mixed  $value   The value to add to the attribute list
-	 * @param mixed  $type
-	 * @param bool|false  $replace
+	 * @param string     $tag_id  The unique identifier for the render attribute
+	 * @param mixed      $value   The value to add to the attribute list
+	 * @param mixed      $type
+	 * @param bool|false $replace
 	 */
 	public function add( $tag_id, $type, $value, $replace = false ) {
 		if ( ! isset( $this->render_attributes[$tag_id] ) ) {
@@ -113,15 +116,15 @@ class RenderAttributes {
 		$this->render_attributes[$tag_id] = $current_attributes;
 	}
 
-		/**
+	/**
 	 * Parse render attributes
 	 *
 	 * Will check if the option configuration has a render attribute to apply in case the option has a saved value.
 	 * Render attributes are automatically bound to the element.
 	 *
-	 * @var mixed $option_schema The option schema configuration
-	 * @var mixed $option_value The saved option value
-	 * @var integer $index The index of the value in case it is inside a repeater
+	 * @param mixed    $option_schema The option schema configuration
+	 * @param mixed    $option_value  The saved option value
+	 * @param int|null $index         The index of the value in case it is inside a repeater
 	 *
 	 * @return void
 	 */
@@ -136,7 +139,6 @@ class RenderAttributes {
 
 					if ( property_exists( $option_schema, 'responsive_options' ) && $option_schema->responsive_options && is_array( $option_value ) ) {
 						foreach ( $option_value as $device_id => $value ) {
-
 							if ( ! isset( self::$responsive_devices_map[$device_id] ) || empty( $value ) ) {
 								continue;
 							}

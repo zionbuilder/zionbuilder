@@ -3,11 +3,13 @@ includes:
 parameters:
     level: max
     inferPrivatePropertyTypeFromConstructor: true
+    bootstrapFiles:
+        - tests/phpstan/bootstrap.php
     paths:
         - includes/
-    autoload_files:
-        - tests/phpstan/bootstrap.php
+    scanFiles:
         - zionbuilder.php
+        - vendor/woocommerce/action-scheduler/functions.php
     ignoreErrors:
         # Uses func_get_args()
         - '#^Function apply_filters(_ref_array)? invoked with [34567] parameters, 2 required\.$#'

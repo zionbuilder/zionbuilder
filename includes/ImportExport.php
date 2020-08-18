@@ -26,14 +26,14 @@ class ImportExport {
 	/**
 	 * Holds the allowed file types on export
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private $allowed_file_types = [ 'jpg', 'png', 'gif', 'svg', 'jpeg', 'txt', 'mp4', 'm4v', 'mov', 'wmv', 'avi', 'mpg', 'ogv', '3gp', '3g2' ];
 
 	/**
 	 * Holds a reference for the uploaded images
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	private $uploaded_media = [];
 
@@ -79,6 +79,13 @@ class ImportExport {
 	public $upload_dir_url_without_www = null;
 
 	/**
+	 * Holds a refference to the temporary file location for the extracted archive
+	 *
+	 * @var string
+	 */
+	private $temp_location = null;
+
+	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
@@ -105,7 +112,7 @@ class ImportExport {
 		}
 
 		// if the zip was created return the zip link
-		return self::create_zip( $template_name, $template_config );
+		return $this->create_zip( $template_name, $template_config );
 	}
 
 	public function get_export_directory_config( $template_name ) {
@@ -121,7 +128,7 @@ class ImportExport {
 	/**
 	 * This function will create the template zip and insert its contents
 	 *
-	 * @param array    $data_config   [
+	 * @param array $data_config   [
 	 *                             string template name
 	 *                             object template data
 	 *                             string custom_css
@@ -157,7 +164,7 @@ class ImportExport {
 
 		// change default images url and add template images inside the zip
 		if ( ! empty( $data_config ) ) {
-			self::add_template_images( $data_config, 'export' );
+			$this->add_template_images( $data_config, 'export' );
 		};
 
 		// add the template data in zip in json format
@@ -183,7 +190,7 @@ class ImportExport {
 
 		// search for all items values inside the array
 		if ( ! is_array( $data_config ) ) {
-			return self::search_images_url( $data_config, $method );
+			return $this->search_images_url( $data_config, $method );
 		}
 
 		foreach ( $data_config as $key => $value ) {
@@ -191,10 +198,10 @@ class ImportExport {
 				continue;
 			}
 			if ( is_array( $value ) ) {
-				$data_config[$key] = self::add_template_images( $value, $method );
+				$data_config[$key] = $this->add_template_images( $value, $method );
 			} else {
 				// check if it's a valid image url and replace it with placeholder
-				$data_config[$key] = self::search_images_url( $value, $method );
+				$data_config[$key] = $this->search_images_url( $value, $method );
 			}
 		}
 
@@ -268,7 +275,7 @@ class ImportExport {
 		$path = str_replace( $this->url_placeholder, '', $file[0] );
 
 		// Upload media file
-		self::upload_media( $path );
+		$this->upload_media( $path );
 
 		return $this->upload_dir_url . $path;
 	}
@@ -290,7 +297,7 @@ class ImportExport {
 		$file_name   = basename( $path );
 		$upload_path = $this->upload_dir_path . str_replace( $file_name, '', $path );
 		$save_path   = $this->upload_dir_path . $path;
-		$temp_path   = $this->upload_dir_path . '/zionbuilder/temp/images' . $path;
+		$temp_path   = $this->temp_location . '/images' . $path;
 
 		// create file path if it doesn't exist
 		if ( ! file_exists( $upload_path ) ) {
@@ -380,6 +387,12 @@ class ImportExport {
 	public function insert_template_package( $file_path ) {
 		// create the temp folder if it doesn't exist
 		$temp_location = $this->upload_dir_path . '/zionbuilder/temp';
+		$file_info     = pathinfo( $file_path );
+		$newfilename   = wp_unique_filename( $temp_location, $file_info['filename'] );
+		$temp_location = sprintf( '%s/%s', $temp_location, $newfilename );
+
+		$this->temp_location = $temp_location;
+
 		if ( ! file_exists( $temp_location ) ) {
 			FileSystem::get_file_system()->mkdir( $temp_location, 0777, true );
 		}
@@ -418,7 +431,10 @@ class ImportExport {
 		}
 
 		// replace dummy url with the new site uploads directory & uploads all assets from zip file
-		self::add_template_images( $content_data, 'import' );
+		$this->add_template_images( $content_data, 'import' );
+
+		// Cleanup temp
+		FileSystem::get_file_system()->delete( $temp_location, true );
 
 		return $content_data;
 	}
@@ -426,7 +442,7 @@ class ImportExport {
 	/**
 	 * This function will provide the download functionality for the export archive and exit the process
 	 *
-	 * @param mixed  $template_name
+	 * @param mixed $template_name
 	 *
 	 * @return \WP_Error
 	 */

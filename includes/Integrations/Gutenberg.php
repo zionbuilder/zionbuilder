@@ -106,7 +106,7 @@ class Gutenberg implements IBaseIntegration {
 		global $post;
 		if ( $post instanceof WP_Post ) {
 			?>
-			<script id="zionbuilder-gutenberg-panel" type="text/html">
+			<script id="zionbuilder-gutenberg-buttons" type="text/html">
 				<?php Plugin::$instance->admin->add_editor_button_to_page( $post ); ?>
 			</script>
 			<script id="zionbuilder-gutenberg-editor-block" type="text/html">

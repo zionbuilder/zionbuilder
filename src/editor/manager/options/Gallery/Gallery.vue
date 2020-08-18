@@ -163,7 +163,6 @@ export default {
 		deleteImage (index) {
 			const values = [...this.value]
 			values.splice(index, 1)
-			console.log({ values })
 
 			this.$emit('input', values)
 		}

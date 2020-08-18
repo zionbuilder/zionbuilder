@@ -65,7 +65,7 @@ class Gutenberg {
 				}
 				i++
 
-				this.$buttonsWrapper = $($('#zionbuilder-gutenberg-panel').html())
+				this.$buttonsWrapper = $($('#zionbuilder-gutenberg-buttons').html())
 				this.$editorBlockFrame = $($('#zionbuilder-gutenberg-editor-block').html())
 				this.$editorHeader = $('.edit-post-header-toolbar')
 				this.$editorLayout = $('.editor-block-list__layout')
