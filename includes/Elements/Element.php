@@ -663,50 +663,51 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
-		$this->extra_render_data = $extra_render_data;
-
-		if ( $this->element_is_allowed_render() ) {
-			$this->before_render( $this->options );
-
-			$element_type_css_class = Utils::camel_case( $this->get_type() );
-
-			// Add default class for element
-			$this->render_attributes->add( 'wrapper', 'class', sprintf( 'zb-element zb-el-%s', $element_type_css_class ) );
-
-			// Add animation attributes
-			$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
-			if ( ! empty( $appear_animation ) ) {
-				wp_enqueue_script( 'zionbuilder-animatejs' );
-				$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
-				$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
-			}
-
-			// Add video BG
-			$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
-			if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
-				wp_enqueue_script( 'zb-video-bg' );
-			}
-
-			$wrapper_tag = $this->get_wrapper_tag( $this->options );
-			$wrapper_id  = $this->get_element_css_id();
-
-			// Add wrapper attributes
-			$attributes = $this->render_attributes->get_attributes_as_string( 'wrapper' );
-
-			// Render element
-			// The attributes are already escaped in RenderAttributes::get_attributes_as_string()
-			printf( '<%s id="%s" %s>', esc_html( $wrapper_tag ), esc_attr( $wrapper_id ), $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput
-
-			// Render video background
-			$video_config = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video', false );
-			self::render_video_background( $video_config );
-
-			// Render element
-			$this->render( $this->options );
-			printf( '</%s>', esc_html( $wrapper_tag ) );
-
-			$this->after_render( $this->options );
+		if ( ! $this->element_is_allowed_render() ) {
+			return;
 		}
+
+		$this->extra_render_data = $extra_render_data;
+		$this->before_render( $this->options );
+
+		$element_type_css_class = Utils::camel_case( $this->get_type() );
+
+		// Add default class for element
+		$this->render_attributes->add( 'wrapper', 'class', sprintf( 'zb-element zb-el-%s', $element_type_css_class ) );
+
+		// Add animation attributes
+		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+		if ( ! empty( $appear_animation ) ) {
+			wp_enqueue_script( 'zionbuilder-animatejs' );
+			$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
+			$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
+		}
+
+		// Add video BG
+		$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
+		if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
+			wp_enqueue_script( 'zb-video-bg' );
+		}
+
+		$wrapper_tag = $this->get_wrapper_tag( $this->options );
+		$wrapper_id  = $this->get_element_css_id();
+
+		// Add wrapper attributes
+		$attributes = $this->render_attributes->get_attributes_as_string( 'wrapper' );
+
+		// Render element
+		// The attributes are already escaped in RenderAttributes::get_attributes_as_string()
+		printf( '<%s id="%s" %s>', esc_html( $wrapper_tag ), esc_attr( $wrapper_id ), $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput
+
+		// Render video background
+		$video_config = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video', false );
+		self::render_video_background( $video_config );
+
+		// Render element
+		$this->render( $this->options );
+		printf( '</%s>', esc_html( $wrapper_tag ) );
+
+		$this->after_render( $this->options );
 	}
 
 
