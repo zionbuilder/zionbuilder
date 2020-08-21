@@ -99,14 +99,19 @@ export default class Options {
 
 	setPropperImage (optionId, schema, model) {
 		if (schema.type === 'image' && schema.show_size === true && model[optionId]) {
-			this.startLoading()
-			window.ZionBuilderApi.utils.getImage(model[optionId]).then((image) => {
-				if (image) {
-					this.setImage(model, optionId, image)
-				}
-			}).finally(() => {
-				this.endLoading()
-			})
+			const imageConfig = model[optionId]
+
+			// Only start loading if we need to fetch the image from server
+			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
+				this.startLoading()
+				window.ZionBuilderApi.utils.getImage(model[optionId]).then((image) => {
+					if (image) {
+						this.setImage(model, optionId, image)
+					}
+				}).finally(() => {
+					this.endLoading()
+				})
+			}
 		}
 	}
 
