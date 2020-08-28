@@ -64,8 +64,8 @@ class RenderAttributes {
 	/**
 	 * Combines two list of attributes
 	 *
-	 * @param $attributes array The first list of attributes
-	 * @param $extra_attributes array The second list of attributes
+	 * @param array $attributes       The first list of attributes
+	 * @param array $extra_attributes The second list of attributes
 	 *
 	 * @return array The combined list of attributes
 	 *
