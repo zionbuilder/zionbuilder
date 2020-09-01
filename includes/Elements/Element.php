@@ -752,7 +752,7 @@ class Element {
 	 * Will render a html tag based on options and render attributes previously registered
 	 *
 	 * @param string                    $html_tag_type HTML tag type (f.e. div, span )
-	 * @param string                    $tag_id        The tag is for which we have registered attributes
+	 * @param string|array              $tag_id        The tag is for which we have registered attributes
 	 * @param string|array<int, string> $content       HTML tag content
 	 * @param array<string, mixed>      $attributes
 	 *
@@ -806,7 +806,7 @@ class Element {
 			}
 
 			$content = isset( $tag_config['render_callback'] ) ? call_user_func( $tag_config['render_callback'], $value ) : '';
-			$this->render_tag( $html_tag_type, $tag_id . $index, $content );
+			$this->render_tag( $html_tag_type, [ $tag_id, $tag_id . $index ], $content );
 		}
 	}
 

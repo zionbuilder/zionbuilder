@@ -33,22 +33,24 @@ class RenderAttributes {
 	/**
 	 * Will return the string of HTML attributes for a tag
 	 *
-	 * @param string $tag_id           The tag id for which we need to build the attributes string
+	 * @param string|array $tag_ids          The tag id for which we need to build the attributes string
 	 * @param array  $extra_attributes
 	 *
 	 * @return string
 	 */
-	public function get_attributes_as_string( $tag_id, $extra_attributes = [] ) {
-		$attributes          = $this->get_attributes( $tag_id );
-		$returned_attributes = [];
-		$combined_attributes = $attributes;
+	public function get_attributes_as_string( $tag_ids, $extra_attributes = [] ) {
+		$attributes = [];
 
-		foreach ( $extra_attributes as $key => $value ) {
-			if ( ! isset( $attributes[$key] ) ) {
-				$combined_attributes[$key] = [];
+		if ( is_array( $tag_ids ) ) {
+			foreach ( $tag_ids as $tag_id ) {
+				$attributes = $this->combine_attributes( $attributes, $this->get_attributes( $tag_id ) );
 			}
-			$combined_attributes[$key][] = is_array( $value ) ? implode( ' ', $value ) : $value;
+		} else {
+			$attributes = $this->get_attributes( $tag_ids );
 		}
+
+		$returned_attributes = [];
+		$combined_attributes = $this->combine_attributes( $attributes, $extra_attributes );
 
 		foreach ( $combined_attributes as $attribute_key => $attribute_values ) {
 			if ( ! empty( $attribute_values ) ) {
@@ -57,6 +59,27 @@ class RenderAttributes {
 		}
 
 		return implode( ' ', $returned_attributes );
+	}
+
+	/**
+	 * Combines two list of attributes
+	 *
+	 * @param array $attributes       The first list of attributes
+	 * @param array $extra_attributes The second list of attributes
+	 *
+	 * @return array The combined list of attributes
+	 *
+	 * @since 1.1.0
+	 */
+	public function combine_attributes( $attributes, $extra_attributes ) {
+		foreach ( $extra_attributes as $key => $value ) {
+			if ( ! isset( $attributes[$key] ) ) {
+				$attributes[$key] = [];
+			}
+			$attributes[$key][] = is_array( $value ) ? implode( ' ', $value ) : $value . ' ' . $attributes[$key];
+		}
+
+		return $attributes;
 	}
 
 	/**
