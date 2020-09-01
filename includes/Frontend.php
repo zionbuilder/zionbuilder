@@ -45,6 +45,13 @@ class Frontend {
 	private $instantiated_elements = [];
 
 	/**
+	 * Holds a refference if this is excerpt or not
+	 *
+	 * @var boolean
+	 */
+	private $is_excerpt = null;
+
+	/**
 	 * Main class constructor
 	 *
 	 * Runs init function on WP action. At this point, the global query is set
@@ -92,6 +99,8 @@ class Frontend {
 				Plugin::$instance->renderer->register_area( 'content', $post_template_data );
 
 				// Add content filters
+				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
+				add_filter( 'get_the_excerpt', [ $this, 'remove_excerpt_flag' ], 99 );
 				add_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
 
 				// Register styles cache file for current page
@@ -101,6 +110,46 @@ class Frontend {
 
 		// Instantiate all elements that are present on the current page
 		Plugin::$instance->renderer->prepare_areas_for_render();
+	}
+
+	/**
+	 * Sets the excerpt flag to true
+	 *
+	 * This is needed to check that the 'the_content' filter runs on excerpt or not
+	 *
+	 * @param mixed $excerpt
+	 *
+	 * @return string Returns the excerpt string
+	 */
+	public function add_excerpt_flag( $excerpt ) {
+		$this->is_excerpt = true;
+
+		return $excerpt;
+	}
+
+	/**
+	 * Sets the excerpt flag to false
+	 *
+	 * This is needed to check that the 'the_content' filter runs on excerpt or not
+	 *
+	 * @param mixed $excerpt
+	 *
+	 * @return string Returns the excerpt string
+	 */
+	public function remove_excerpt_flag( $excerpt ) {
+		$this->is_excerpt = false;
+
+		return $excerpt;
+	}
+
+
+	/**
+	 * Returns the excerpt flag status
+	 *
+	 * @return boolean
+	 */
+	public function is_excertpt() {
+		return $this->is_excerpt;
 	}
 
 	public function remove_content_filter( $content = '' ) {
@@ -120,6 +169,11 @@ class Frontend {
 	 */
 	public function add_pagebuilder_content( $content ) {
 		$this->restore_content_filters();
+
+		// Don't run on excerpt
+		if ( $this->is_excertpt() ) {
+			return $content;
+		}
 
 		$pb_content = Plugin::$instance->renderer->get_content();
 		if ( ! empty( $pb_content ) ) {
