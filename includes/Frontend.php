@@ -119,7 +119,7 @@ class Frontend {
 	 *
 	 * @param mixed $excerpt
 	 *
-	 * @return void
+	 * @return string Returns the excerpt string
 	 */
 	public function add_excerpt_flag( $excerpt ) {
 		$this->is_excerpt = true;
@@ -134,7 +134,7 @@ class Frontend {
 	 *
 	 * @param mixed $excerpt
 	 *
-	 * @return void
+	 * @return string Returns the excerpt string
 	 */
 	public function remove_excerpt_flag( $excerpt ) {
 		$this->is_excerpt = false;
