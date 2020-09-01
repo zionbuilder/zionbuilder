@@ -34,7 +34,7 @@ class RenderAttributes {
 	 * Will return the string of HTML attributes for a tag
 	 *
 	 * @param string|array $tag_ids          The tag id for which we need to build the attributes string
-	 * @param array  $extra_attributes
+	 * @param array        $extra_attributes
 	 *
 	 * @return string
 	 */
@@ -76,7 +76,7 @@ class RenderAttributes {
 			if ( ! isset( $attributes[$key] ) ) {
 				$attributes[$key] = [];
 			}
-			$attributes[$key][] = is_array( $value ) ? implode( ' ', $value ) : $value . ' ' . $attributes[$key];
+			$attributes[$key][] = is_array( $value ) ? implode( ' ', $value ) : $value;
 		}
 
 		return $attributes;
