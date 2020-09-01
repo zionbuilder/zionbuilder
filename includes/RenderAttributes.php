@@ -33,7 +33,7 @@ class RenderAttributes {
 	/**
 	 * Will return the string of HTML attributes for a tag
 	 *
-	 * @param string $tag_ids          The tag id for which we need to build the attributes string
+	 * @param string|array $tag_ids          The tag id for which we need to build the attributes string
 	 * @param array  $extra_attributes
 	 *
 	 * @return string
