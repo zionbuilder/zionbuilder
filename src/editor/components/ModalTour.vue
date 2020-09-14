@@ -18,7 +18,6 @@
 				:is-last-step="(steps.length-1) === activeIndex"
 				@next-step="onNextStep"
 				@end-tour="endTour"
-				@prev-step="previousStep"
 			/>
 
 		</div>
@@ -67,7 +66,7 @@ export default {
 						this.setActiveShowElementsPopup(this.lastElem)
 					},
 					beforeActive: () => {
-						this.setActiveShowElementsPopup(null)
+						this.setActiveShowElementsPopup(this.lastElem)
 					}
 				},
 				{
@@ -84,9 +83,6 @@ export default {
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
 						window.ZionBuilderApi.trigger('change-tab-pop', 'elements')
-					},
-					previousStepActions: () => {
-						this.setActiveShowElementsPopup(null)
 					}
 				},
 				{
@@ -102,9 +98,6 @@ export default {
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
 						window.ZionBuilderApi.trigger('change-tab-pop', 'library')
-					},
-					previousStepActions: () => {
-						this.setActiveShowElementsPopup(this.lastElem)
 					}
 				},
 				{
@@ -121,9 +114,6 @@ export default {
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
 						window.ZionBuilderApi.trigger('change-tab-pop', 'columns')
-					},
-					previousStepActions: () => {
-						this.setActiveShowElementsPopup(this.lastElem)
 					}
 				},
 				{
@@ -145,9 +135,7 @@ export default {
 							childElements: this.generateElements.childElements,
 							parentElements: this.generateElements.parentElements
 						})
-					},
-					previousStepActions: () => {
-						this.setActiveShowElementsPopup(this.lastElem)
+						this.setActiveShowElementsPopup(null)
 					}
 				},
 				{
@@ -164,11 +152,6 @@ export default {
 						this.setActiveShowElementsPopup(null)
 						this.setActiveElement(this.lastElem)
 						this.openPanel('PanelElementOptions')
-					},
-					previousStepActions: () => {
-						this.setActiveShowElementsPopup(this.lastElem)
-						this.deleteAddedElement()
-						this.closePanel('PanelElementOptions')
 					}
 				},
 				{
@@ -233,9 +216,6 @@ export default {
 					},
 					onNext: () => {
 						this.openPanel('panel-history')
-					},
-					previousStepActions: () => {
-						this.openPanel('PanelElementOptions')
 					}
 				},
 				{
@@ -249,9 +229,6 @@ export default {
 					},
 					onNext: () => {
 						this.closePanel('panel-history')
-					},
-					previousStepActions: () => {
-						this.openPanel('panel-history')
 					}
 				},
 				{
@@ -264,10 +241,6 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.openPanel('panel-tree')
-					},
-					previousStepActions: () => {
-						this.closePanel('panel-history')
 						this.openPanel('panel-tree')
 					}
 				},
@@ -285,9 +258,6 @@ export default {
 						this.savePage({
 							status: 'publish'
 						})
-					},
-					previousStepActions: () => {
-						this.closePanel('panel-tree')
 					}
 				},
 				{
@@ -334,7 +304,7 @@ export default {
 		this.showTour = false
 	},
 	mounted () {
-		const finishedTour = localStorage.getItem('zion_builder_guided_tour_done')
+		const finishedTour = false // localStorage.getItem('zion_builder_guided_tour_done')
 
 		this.showTour = !finishedTour
 		if (this.showTour) {
@@ -401,8 +371,7 @@ export default {
 		listenTo ({ actionTrigger, action, step, stepSelector, completeCallback }) {
 			action({
 				nextStep: this.nextStep,
-				endTour: this.endTour,
-				previousStep: this.previousStep
+				endTour: this.endTour
 			})
 
 			// remove the event listener
@@ -443,25 +412,6 @@ export default {
 					this.TourEnded()
 				}
 			}, delay)
-		},
-		previousStep () {
-			if (this.getActiveStep.previousStepActions) {
-				this.getActiveStep.previousStepActions()
-			}
-
-			this.removeClasses()
-			this.removePointerEvents()
-
-			this.activeIndex = this.activeIndex - 1
-
-			if (this.getActiveStep.beforeActive) {
-				this.getActiveStep.beforeActive()
-			}
-			if (this.isInsideIframe) {
-				this.$nextTick(() => this.initStep(this.getActiveStep))
-			} else {
-				this.initStep(this.getActiveStep)
-			}
 		},
 		StepInIframe (step) {
 			let a = document.querySelectorAll(step['selector'])
@@ -604,7 +554,7 @@ export default {
 		position: absolute;
 		top: 0;
 		left: 0;
-		z-index: 9999999;
+		z-index: 99999;
 		display: block !important;
 		width: 100%;
 		height: 100%;
@@ -613,6 +563,7 @@ export default {
 		animation-iteration-count: infinite;
 		animation-name: scaleInfinit;
 		animation-timing-function: ease;
+		pointer-events: none;
 	}
 	&.znpb-editor-tour-button {
 		&:after {
