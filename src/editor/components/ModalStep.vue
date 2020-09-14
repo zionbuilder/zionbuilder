@@ -10,12 +10,11 @@
 		<div class="znpb-tour-modal__description" v-html="step.description"></div>
 
 		<div class="znpb-tour-modal__actions">
-			<!-- <BaseButton
+			<BaseButton
 				type="line"
-				v-if="this.step.id !== 'StartTour'"
-				@click.native="$emit('prev-step', true)"
-				v-html="prevButtonText"
-			/> -->
+				@click.native="$emit('end-tour',true)"
+				v-html="$translate('end_tour')"
+			/>
 
 			<BaseButton
 				v-if="!isLastStep"
