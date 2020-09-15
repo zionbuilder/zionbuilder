@@ -631,7 +631,7 @@ class Element {
 	 *
 	 * @return void
 	 */
-	final public function server_render() {
+	public function server_render() {
 		$this->render( $this->options );
 	}
 
