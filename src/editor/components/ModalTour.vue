@@ -304,7 +304,7 @@ export default {
 		this.showTour = false
 	},
 	mounted () {
-		const finishedTour = false // localStorage.getItem('zion_builder_guided_tour_done')
+		const finishedTour = localStorage.getItem('zion_builder_guided_tour_done')
 
 		this.showTour = !finishedTour
 		if (this.showTour) {
