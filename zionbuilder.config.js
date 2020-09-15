@@ -25,6 +25,7 @@ module.exports = {
 		'dist',
 		'includes',
 		'vendor/composer',
+		'vendor/enshrined',
 		'vendor/woocommerce',
 		'zionbuilder.php',
 		'manifest.json',
