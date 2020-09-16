@@ -398,5 +398,20 @@ svg:not(:root).icon {
 			opacity: .5;
 		}
 	}
+	&.zion-templates-body {
+		path:nth-child(2), path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-templates-footer {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-templates-header {
+		path:last-child {
+			opacity: .5;
+		}
+	}
 }
 </style>

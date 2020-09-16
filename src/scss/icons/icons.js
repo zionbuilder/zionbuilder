@@ -1768,6 +1768,38 @@ let SvgIcons = [
 			'three-dots'
 		],
 		'viewBox': ['0 0 8 40']
+	},
+	{
+		'paths': [
+			'M40 18v8H4v-8h36m4-4H0v16h44V14z',
+			'M44 34H0v10h4v-6h36v6h4V34z',
+			'M44 0h-4v6H4V0H0v10h44V0z'
+		],
+		'tags': [
+			'templates-body'
+		],
+		'viewBox': ['0 0 44 44']
+	},
+	{
+		'paths': [
+			'M40 32v8H4v-8h36m4-4H0v16h44V28z',
+			'M44 0h-4v20H4V0H0v24h44V0z',
+		],
+		'tags': [
+			'templates-footer'
+		],
+		'viewBox': ['0 0 44 44']
+	},
+	{
+		'paths': [
+			'M40 4v8H4V4h36m4-4H0v16h44V0z',
+			'M42 24v-2 20z',
+			'M44 20H0v24h4V24h36v20h4V20z'
+		],
+		'tags': [
+			'templates-header'
+		],
+		'viewBox': ['0 0 44 44']
 	}
 
 ]
