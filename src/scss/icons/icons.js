@@ -1783,7 +1783,7 @@ let SvgIcons = [
 	{
 		'paths': [
 			'M40 32v8H4v-8h36m4-4H0v16h44V28z',
-			'M44 0h-4v20H4V0H0v24h44V0z',
+			'M44 0h-4v20H4V0H0v24h44V0z'
 		],
 		'tags': [
 			'templates-footer'
