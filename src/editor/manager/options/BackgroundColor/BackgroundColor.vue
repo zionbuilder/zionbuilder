@@ -37,9 +37,12 @@
 </template>
 
 <script>
-import ColorPicker from '@/common/components/colorpicker/colorpicker.vue'
-import { EmptyList, ActionsOverlay } from '@/common/components/forms'
-import Color from '@/common/components/forms/elements/colorpicker/Color'
+import { EmptyList } from '@zb/components/forms'
+import {
+	ActionsOverlay,
+	ColorPicker,
+	Color
+} from '@zb/components'
 
 export default {
 	name: 'BackgroundColor',

@@ -28,7 +28,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { generateElements } from '@/utils/utils.js'
 import ModalStep from './ModalStep'
-import { Modal } from '@/common/components/modal'
+import { Modal } from '@zb/components'
 
 export default {
 	name: 'ModalTour',

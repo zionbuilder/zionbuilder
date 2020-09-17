@@ -73,10 +73,12 @@
 </template>
 
 <script>
-import { BaseInput } from '@/common/components/forms'
 import { mapGetters, mapActions } from 'vuex'
 import CssSelector from './CssSelector.vue'
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip,
+	BaseInput
+} from '@zb/components'
 
 export default {
 	name: 'ClassSelectorDropdown',

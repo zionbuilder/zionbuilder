@@ -64,7 +64,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { lockPage } from '@/api/Page.js'
-import { Modal } from '@/common/components/modal'
+import { Modal } from '@zb/components'
 
 export default {
 	name: 'PostLock',

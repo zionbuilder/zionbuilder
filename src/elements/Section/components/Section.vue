@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import SvgMask from '@/common/components/forms/elements/shape-dividers/SvgMask.vue'
+import { SvgMask } from '@zb/components/forms'
 export default {
 	name: 'zion_section',
 	props: ['options', 'data', 'api'],

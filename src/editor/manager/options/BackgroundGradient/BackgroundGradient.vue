@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import GradientGenerator from '@/common/components/gradient/GradientGenerator'
-import GradientLibrary from '@/common/components/gradient/GradientLibrary'
-import getDefaultGradientConfig from '@/common/components/gradient/defaultGradient'
-import { EmptyList } from '@/common/components/forms'
+import { EmptyList } from '@zb/components/forms'
+import { GradientGenerator, GradientLibrary } from '@zb/components'
+import { getDefaultGradientConfig } from '@zb/utils'
+
 export default {
 	name: 'BackgroundGradient',
 	components: {

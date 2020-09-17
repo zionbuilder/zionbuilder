@@ -50,7 +50,7 @@ import {
 	InputTextTransform,
 	InputBorderTabs,
 	InputBackgroundVideo
-} from '@/common/components/forms'
+} from '@zb/components/forms'
 
 class OptionsManager {
 	constructor () {

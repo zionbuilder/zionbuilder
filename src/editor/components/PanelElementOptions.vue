@@ -130,7 +130,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import { BaseInput } from '@/common/components/forms'
+import { BaseInput } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
 

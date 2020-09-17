@@ -58,7 +58,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import GradientBox from './GradientBox'
-import getDefaultGradientConfig from '@/common/components/gradient/defaultGradient'
+import { getDefaultGradientConfig } from '@zb/utils'
 import GradientModalContent from './GradientModalContent'
 import AddGradient from './AddGradient'
 import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro'

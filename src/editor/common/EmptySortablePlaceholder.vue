@@ -37,9 +37,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { Tooltip } from '@/common/components/tooltip'
 import ColumnTemplates from './ColumnTemplates.vue'
 import eventMarshall from './eventMarshall'
+import {
+	Tooltip
+} from '@zb/components'
 
 export default {
 	name: 'EmptySortablePlaceholder',

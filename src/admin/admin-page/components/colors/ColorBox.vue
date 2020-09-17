@@ -58,8 +58,8 @@
 	</div>
 </template>
 <script>
-import ColorPicker from '@/common/components/colorpicker/colorpicker.vue'
-import { clickOutside } from '@/common/plugins/clickOutside'
+import { ColorPicker } from '@zb/components'
+import { clickOutside } from '@zb/directives'
 
 export default {
 	name: 'ColorBox',

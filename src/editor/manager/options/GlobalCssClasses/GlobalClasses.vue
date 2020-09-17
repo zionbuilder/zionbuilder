@@ -55,7 +55,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import SingleClass from './SingleClass'
 import SingleClassOptions from './SingleClassOptions'
-import { BaseInput } from '@/common/components/forms'
+import { BaseInput } from '@zb/components/forms'
 
 export default {
 	name: 'GlobalClasses',

@@ -180,7 +180,6 @@
 import { mapGetters, mapActions } from 'vuex'
 
 // Components
-import { Tooltip } from '@/common/components/tooltip'
 import popOver from './inlineEditorComponents/popOver.vue'
 import panel from './inlineEditorComponents/panel.vue'
 import group from './inlineEditorComponents/group.vue'
@@ -189,6 +188,9 @@ import colorPicker from './inlineEditorComponents/colorPicker.vue'
 import fontWeight from './inlineEditorComponents/fontWeightButton.vue'
 import panelLink from './inlineEditorComponents/panelLink.vue'
 import editorsManager from './editorsManager'
+import {
+	Tooltip
+} from '@zb/components'
 
 export default {
 	name: 'InlineEditor',

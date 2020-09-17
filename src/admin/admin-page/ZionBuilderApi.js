@@ -2,16 +2,21 @@ import L10n from './L10n'
 import routes from './router'
 import store from './store'
 import { addFilter, applyFilters } from '@/utils/filters'
-import { InjectionComponentsManager } from '@/common/components/injections'
-import { Tooltip } from '@/common/components/tooltip'
-import { BaseInput } from '@/common/components/forms/elements/input'
+import Injections from '@zb/injections'
+
+import {
+	Tooltip,
+	IconPackGrid
+} from '@zb/components'
+import {
+	BaseInput
+} from '@zb/components/forms'
 
 // Utils
 import * as utils from '@/utils'
 import { errorInterceptor } from '@/api/ServiceInterceptor'
 
 // Components
-import IconPackGrid from '@/common/components/IconPackGrid.vue'
 import ModalTemplateSaveButton from './components/ModalTemplateSaveButton'
 
 const ZionBuilderApi = {
@@ -30,7 +35,7 @@ const ZionBuilderApi = {
 	},
 
 	// Injections Manager
-	Injections: new InjectionComponentsManager(),
+	Injections,
 
 	// Filters
 	addFilter,

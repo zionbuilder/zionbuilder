@@ -62,7 +62,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { InputBackgroundImage, InputBackgroundVideo } from '@/common/components/forms'
+import { InputBackgroundImage, InputBackgroundVideo } from '@zb/components/forms'
 
 export default {
 	name: 'Background',

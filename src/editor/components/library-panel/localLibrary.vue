@@ -55,10 +55,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ModalConfirm from '@/common/components/modal/ModalConfirm.vue'
+import { ModalConfirm } from '@zb/components'
 import CategoriesLibrary from '@/editor/components/library-panel/CategoriesLibrary.vue'
-import { BaseInput } from '@/common/components/forms'
 import TemplateList from '@/admin/admin-page/components/templates/TemplateList.vue'
+import { BaseInput } from '@zb/components/forms'
 
 export default {
 	name: 'localLibrary',

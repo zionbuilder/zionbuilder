@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup, CheckboxSwitch } from './elements/checkbox'
 import { InputSelect } from './elements/select'
-import { ColorPicker } from './elements/colorpicker'
+import { ColorPicker, Color } from './elements/colorpicker'
 import { InputNumber, InputNumberUnit } from './elements/InputNumber'
 import { InputRange, InputRangeDynamic } from './elements/range'
 import { InputMedia } from './elements/media'
@@ -12,7 +12,7 @@ import { Editor } from './elements/editor'
 import { CustomCode } from './elements/code'
 import { RadioImage } from './elements/radio_image'
 import { InputDate } from './elements/InputDate'
-import { ShapeDividers, ShapeDividerComponent } from './elements/shape-dividers'
+import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-dividers'
 
 // Layout
 import { InputWrapper } from './elements/inputWrapper'
@@ -52,6 +52,7 @@ const components = [
 	CheckboxGroup,
 	CheckboxSwitch,
 	ColorPicker,
+	Color,
 	InputNumber,
 	InputNumberUnit,
 	RadioGroup,
@@ -67,7 +68,8 @@ const components = [
 	InputImage,
 	CustomSelector,
 	ShapeDividers,
-	ShapeDividerComponent
+	ShapeDividerComponent,
+	SvgMask
 ]
 
 export const Forms = {
@@ -98,6 +100,7 @@ export default {
 	CheckboxGroup,
 	CheckboxSwitch,
 	ColorPicker,
+	Color,
 	InputNumber,
 	InputNumberUnit,
 	RadioGroup,
@@ -114,7 +117,8 @@ export default {
 	CustomSelector,
 	InputDate,
 	ShapeDividers,
-	ShapeDividerComponent
+	ShapeDividerComponent,
+	SvgMask
 }
 
 export {
@@ -140,6 +144,7 @@ export {
 	CheckboxGroup,
 	CheckboxSwitch,
 	ColorPicker,
+	Color,
 	InputNumber,
 	InputNumberUnit,
 	RadioGroup,
@@ -155,5 +160,6 @@ export {
 	InputImage,
 	CustomSelector,
 	ShapeDividers,
-	ShapeDividerComponent
+	ShapeDividerComponent,
+	SvgMask
 }

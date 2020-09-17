@@ -116,7 +116,10 @@ class Preview {
 		Plugin::instance()->scripts->enqueue_script(
 			'znpb-preview-frame-scripts',
 			'js/preview.js',
-			[ 'wp-tinymce' ],
+			[
+				'wp-tinymce',
+				'zb-common',
+			],
 			Plugin::instance()->get_version(),
 			true
 		);
@@ -178,7 +181,9 @@ class Preview {
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-frontend-styles',
 			'css/frontend.css',
-			[],
+			[
+				'zb-common',
+			],
 			Plugin::instance()->get_version()
 		);
 

@@ -36,7 +36,9 @@
 </template>
 
 <script>
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip
+} from '@zb/components'
 
 export default {
 	name: 'HasChanges',

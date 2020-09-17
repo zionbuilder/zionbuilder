@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { Modal } from '@/common/components/modal'
+import { Modal } from '@zb/components'
 import IconsLibraryModalContent from './IconsLibraryModalContent.vue'
 
 export default {

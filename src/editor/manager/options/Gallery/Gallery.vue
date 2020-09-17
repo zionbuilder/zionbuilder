@@ -50,7 +50,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
+import { EmptyList } from '@zb/components/forms'
 import { getImageIds } from '@/api/Api'
 import { Sortable } from '@/common/vue-beautifull-dnd'
 

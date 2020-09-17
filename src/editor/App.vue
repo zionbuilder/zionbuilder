@@ -138,7 +138,7 @@ import PostLock from './components/PostLock.vue'
 import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
-import { Tooltip } from '@/common/components/tooltip'
+import { Tooltip } from '@zb/components'
 
 require('@/scss/editor.scss')
 // WordPress hearbeat

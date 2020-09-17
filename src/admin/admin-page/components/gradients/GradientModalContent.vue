@@ -17,7 +17,7 @@
 	</modal>
 </template>
 <script>
-import GradientGenerator from '@/common/components/gradient/GradientGenerator.vue'
+import { GradientGenerator } from '@zb/components'
 
 export default {
 	name: 'GradientModalContent',

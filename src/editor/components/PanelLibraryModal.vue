@@ -149,8 +149,9 @@
 <script>
 import { addOverflow, removeOverflow } from '@/editor/utils/overflow'
 import { mapActions, mapGetters } from 'vuex'
-import { Modal } from '@/common/components/modal'
-import { Tooltip } from '@/common/components/tooltip'
+import { Modal,
+	Tooltip
+} from '@zb/components'
 import LibraryPanel from './LibraryPanel'
 import LibraryUploader from '@/editor/components/library-panel/LibraryUploader.vue'
 import localLibrary from '@/editor/components/library-panel/localLibrary.vue'

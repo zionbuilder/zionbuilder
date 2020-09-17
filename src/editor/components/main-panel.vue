@@ -164,7 +164,7 @@ import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
 import aboutModal from './aboutModal.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-import { Modal } from '@/common/components/modal'
+import { Modal } from '@zb/components'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 

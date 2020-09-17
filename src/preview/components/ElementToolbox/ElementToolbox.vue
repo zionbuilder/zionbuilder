@@ -128,7 +128,10 @@ import EventsManager from '@/editor/utils/events'
 import eventMarshall from '@/editor/common/eventMarshall'
 
 // Components
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip
+} from '@zb/components'
+
 import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
 import TopBarToolbox from './TopBarToolbox.vue'
 

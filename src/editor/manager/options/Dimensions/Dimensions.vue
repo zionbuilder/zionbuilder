@@ -41,7 +41,7 @@
 	</div>
 </template>
 <script>
-import InputNumberUnit from '@/common/components/forms/elements/InputNumber/InputNumberUnit'
+import { InputNumberUnit } from '@zb/components/forms'
 export default {
 	name: 'Dimensions',
 	props: {
@@ -170,8 +170,8 @@ export default {
 	}
 	&--4 {
 		margin: 10px;
-		grid-area: b;
 
+		grid-area: b;
 	}
 	&--2 {
 		.znpb-dimensions_icon {

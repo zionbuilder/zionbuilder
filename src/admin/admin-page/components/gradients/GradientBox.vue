@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import GradientPreview from '@/common/components/gradient/GradientPreview.vue'
+import { GradientPreview } from '@zb/components'
 export default {
 	name: 'GradientBox',
 	components: {

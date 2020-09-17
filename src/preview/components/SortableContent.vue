@@ -87,11 +87,13 @@ import { getOptionValue } from '@/utils'
 
 // Components
 import Element from './Element'
-import { Tooltip } from '@/common/components/tooltip'
 import SortableHelper from '@/editor/common/SortableHelper'
 import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
 import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
+import {
+	Tooltip
+} from '@zb/components'
 
 const sharedState = {
 	controlPressed: null,

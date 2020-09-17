@@ -171,6 +171,9 @@ class Editor {
 		$wp_styles  = new \WP_Styles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		$wp_scripts = new \WP_Scripts(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 
+		// Register our scripts
+		Plugin::instance()->register_scripts();
+
 		do_action( 'zionbuilder/editor/before_scripts' );
 
 		// Custom HTML widgets
@@ -196,7 +199,10 @@ class Editor {
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-editor-style',
 			'css/editor.css',
-			[ 'wp-codemirror' ],
+			[
+				'wp-codemirror',
+				'zb-common',
+			],
 			Plugin::instance()->get_version()
 		);
 
@@ -226,6 +232,7 @@ class Editor {
 				'jshint',
 				'jsonlint',
 				'jquery-masonry',
+				'zb-common',
 			],
 			Plugin::instance()->get_version(),
 			true

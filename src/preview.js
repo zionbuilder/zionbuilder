@@ -15,12 +15,7 @@ import ScriptsLoader from '@/preview/utils/ScriptsLoader'
 import './wordpress'
 
 // Load components only for styles as they are already registered on master Vue instance
-require('@/common/components/tabs/tabs.vue')
 require('@/editor/components/elementOptions/forms/OptionsForm.vue')
-require('@/common/components/modal/Modal.vue')
-require('@/common/components/modal/ModalConfirm.vue')
-require('@/common/components/tabs/tabs.vue')
-require('@/common/components/tabs/tabs.vue')
 require('@/editor/manager/options')
 
 // Load general components needed for preview

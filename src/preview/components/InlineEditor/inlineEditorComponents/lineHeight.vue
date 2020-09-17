@@ -17,8 +17,7 @@
 </template>
 
 <script>
-import { InputRangeDynamic } from '@/common/components/forms'
-
+import { InputRangeDynamic } from '@zb/components/forms'
 export default {
 	inject: {
 		Editor: {

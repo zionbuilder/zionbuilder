@@ -47,7 +47,7 @@
 
 <script>
 import ModalTemplateSaveButton from '../ModalTemplateSaveButton.vue'
-import { InputSelect } from '@/common/components/forms'
+import { InputSelect } from '@zb/components/forms'
 
 export default {
 	name: 'ModalAddNewTemplate',

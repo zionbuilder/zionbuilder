@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { ColorPicker } from '@/common/components/forms'
+import { ColorPicker } from '@zb/components/forms'
+
 export default {
 	inject: {
 		Editor: {

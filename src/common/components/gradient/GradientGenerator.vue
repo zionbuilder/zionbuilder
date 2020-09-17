@@ -80,7 +80,7 @@ import GradientOptions from './GradientOptions.vue'
 import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
-import { ActionsOverlay } from '@/common/components/forms'
+import ActionsOverlay from '@/common/components/forms/elements/actions-overlay/ActionsOverlay'
 import getDefaultGradientConfig from './defaultGradient'
 import { mapActions } from 'vuex'
 

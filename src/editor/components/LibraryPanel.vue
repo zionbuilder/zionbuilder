@@ -111,7 +111,7 @@
 import { getLibraryItems } from '@/api/Library'
 import CategoriesLibrary from '@/editor/components/library-panel/CategoriesLibrary.vue'
 import LibraryItem from '@/editor/components/library-panel/LibraryItem.vue'
-import { BaseInput } from '@/common/components/forms'
+import { BaseInput } from '@zb/components/forms'
 
 import localSt from 'localstorage-ttl'
 export default {

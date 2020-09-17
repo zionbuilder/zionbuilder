@@ -34,7 +34,10 @@
 
 <script>
 import HasChanges from './HasChanges.vue'
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip
+} from '@zb/components'
+
 import ZionLabel from '@/editor/common/Label'
 
 export default {

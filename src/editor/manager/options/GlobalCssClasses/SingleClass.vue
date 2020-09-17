@@ -39,7 +39,9 @@
 	</li>
 </template>
 <script>
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip
+} from '@zb/components'
 
 export default {
 	name: 'SingleClass',
@@ -70,9 +72,9 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: $surface-active-color;
 		width: 100%;
 		padding: 0 15px;
+		color: $surface-active-color;
 	}
 	&__actions {
 		.znpb-edit-icon-pop {

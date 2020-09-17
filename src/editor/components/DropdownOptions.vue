@@ -22,8 +22,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import templateElementMixin from '@/editor/mixins/templateElement.js'
-import { clickOutside } from '@/common/plugins/clickOutside'
 import ElementActions from '../common/ElementActions'
+import { clickOutside } from '@zb/directives'
 
 export default {
 	name: 'DropdownOptions',

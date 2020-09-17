@@ -89,9 +89,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
-import { BaseInput } from '@/common/components/forms'
-import { Tooltip } from '@/common/components/tooltip'
 import { updateOptionValue } from '@/utils/updateOptionValue.js'
+import {
+	Tooltip,
+	BaseInput
+} from '@zb/components'
+
 export default {
 	name: 'PseudoSelectors',
 	components: {

@@ -45,11 +45,10 @@
 
 <script>
 import { saveAs } from 'file-saver'
-import { Modal } from '@/common/components/modal'
+import { Modal, Loader } from '@zb/components'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@/api/Templates'
 import { compileElement } from '@/utils'
-import Loader from '@/common/components/Loader'
 
 export default {
 	name: 'SaveElementModal',

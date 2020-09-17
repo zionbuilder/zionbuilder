@@ -36,9 +36,15 @@
 </template>
 
 <script>
-import IconPackGrid from '@/common/components/IconPackGrid.vue'
-import { BaseInput, InputSelect } from '@/common/components/forms'
 import { mapGetters } from 'vuex'
+import {
+	IconPackGrid
+} from '@zb/components'
+import {
+	BaseInput,
+	InputSelect
+} from '@zb/components/forms'
+
 export default {
 	name: 'IconsLibraryModalContent',
 	components: {

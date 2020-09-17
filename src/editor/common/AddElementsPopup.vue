@@ -47,7 +47,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { BaseInput, InputSelect } from '@/common/components/forms'
+import { BaseInput, InputSelect } from '@zb/components/forms'
 import { generateUID } from '@/utils/utils.js'
 import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'

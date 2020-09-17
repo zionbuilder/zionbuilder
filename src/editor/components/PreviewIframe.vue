@@ -46,7 +46,7 @@ import keyBindingsMixin from '../mixins/keyBindingsMixin.js'
 import Cache from '@/editor/Cache'
 import Dom from '@/editor/dom.js'
 import { flattenTemplateData } from '@/utils/utils.js'
-import { Modal } from '@/common/components/modal'
+import { Modal } from '@zb/components'
 
 export default {
 	name: 'preview-iframe',

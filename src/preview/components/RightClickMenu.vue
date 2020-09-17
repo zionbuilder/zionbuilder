@@ -12,7 +12,7 @@
 
 // Utils
 import { mapGetters, mapActions } from 'vuex'
-import { clickOutside } from '@/common/plugins/clickOutside'
+import { clickOutside } from '@zb/directives'
 
 // Components
 import ElementActions from '@/editor/common/ElementActions'

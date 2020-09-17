@@ -1,21 +1,24 @@
 import './wordpress'
 import './editor/AxiosInterceptors'
 
-import Accordion from '@/common/components/accordion/Accordion.vue'
+import {
+	Accordion,
+	HorizontalAccordion,
+	Notice,
+	Tabs,
+	Tab,
+	BaseIcon
+} from '@zb/components'
+
 import BaseButton from './common/components/BaseButton.vue'
-import BaseIcon from './common/components/BaseIcon.vue'
 import BasePanel from './editor/components/BasePanel.vue'
 import EditorApp from './editor/App.vue'
 import ElementWireframeView from '@/editor/components/treeView/wireFrame/ElementWireframeView'
 import FlyoutWrapper from './editor/components/FlyoutWrapper.vue'
-import HorizontalAccordion from '@/common/components/horizontal-accordion/HorizontalAccordion.vue'
 import L10n from './editor/L10n'
 import Loader from './common/components/Loader'
 import Localization from './common/plugins/l10n'
-import Notice from '@/common/components/Notice'
 import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
-import Tab from '@/common/components/tabs/tab.vue'
-import Tabs from '@/common/components/tabs/tabs.vue'
 import Vue from 'vue'
 import ZionApi from './editorApi'
 import ZionService from '@/api/ZionService'

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import BaseIcon from '@/common/components/BaseIcon.vue'
+import { BaseIcon } from '@zb/components'
 
 export default {
 	props: ['formatter', 'icon', 'buttontext', 'value'],

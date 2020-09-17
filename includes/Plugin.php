@@ -230,6 +230,9 @@ class Plugin {
 		new AdminBar();
 		new Upgrader();
 
+		// Actions
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_scripts' ] );
+
 		/*
 		 * ZionBuilder loaded.
 		 *
@@ -240,6 +243,32 @@ class Plugin {
 		do_action( 'zionbuilder/loaded' );
 	}
 
+	public function register_scripts() {
+		$this->scripts->register_style(
+			'zb-common',
+			'css/common.css',
+			[],
+			$this->get_version()
+		);
+
+		// Register common script
+		$this->scripts->register_script(
+			'zb-common',
+			'js/common.js',
+			[],
+			$this->get_version(),
+			true
+		);
+
+		wp_localize_script(
+			'zb-common',
+			'ZnPbRestConfig',
+			[
+				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+				'rest_root' => esc_url_raw( rest_url() ),
+			]
+		);
+	}
 
 	/**
 	 * Loads extra library files required for the plugin

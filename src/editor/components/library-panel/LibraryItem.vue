@@ -107,7 +107,9 @@
 
 </template>
 <script>
-import { Tooltip } from '@/common/components/tooltip'
+import {
+	Tooltip
+} from '@zb/components'
 const { plugin_info: pluginInfo, urls } = window.ZnPbInitalData
 export default {
 	name: 'LibraryItem',

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { BaseInput, InputSelect, InputWrapper } from '@/common/components/forms'
+import { BaseInput, InputSelect, InputWrapper } from '@zb/components/forms'
 
 export default {
 	inject: {

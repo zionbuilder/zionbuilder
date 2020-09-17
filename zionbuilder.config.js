@@ -3,6 +3,7 @@ module.exports = {
 	elementsFolder: './src/elements',
 	outputDir: 'dist',
 	webpackEntries: {
+		'js/common': './src/common.js',
 		'js/editor': './src/editor.js',
 		'js/admin-page': './src/admin-page.js',
 		'js/edit-page': './src/edit-page.js',

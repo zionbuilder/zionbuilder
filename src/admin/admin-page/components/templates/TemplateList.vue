@@ -45,9 +45,8 @@
 <script>
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
-import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
-import Modal from '@/common/components/modal/Modal.vue'
-import ModalConfirm from '@/common/components/modal/ModalConfirm.vue'
+import { ModalConfirm, Modal } from '@zb/components'
+import { EmptyList } from '@zb/components/forms'
 
 import { mapActions } from 'vuex'
 export default {
