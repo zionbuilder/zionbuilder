@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import api from './admin/admin-page/api'
-import routes, { initRoutes } from '@/admin/admin-page/router'
+import { initRoutes } from '@/admin/admin-page/router'
 
 // Main
 import App from './admin/admin-page/App.vue'

@@ -6,6 +6,5 @@ export { getIconUnicode, default as getIconAttributes } from './getIconAttribute
 export { default as getLinkAttributes } from './getLinkAttributes'
 export { default as getImage } from './getImage'
 export { default as ServerRequest } from './serverRequest'
-export { getZindex, removeZindex } from './ZindexManager'
 export { default as clearTextSelection } from './clearTextSelection'
 export * from './style'

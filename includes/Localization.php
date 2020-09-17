@@ -128,6 +128,7 @@ class Localization {
 				'actions'                                => esc_html__( 'actions', 'zionbuilder' ),
 				'add_font'                               => esc_html__( 'Add Font', 'zionbuilder' ),
 				'are_you_sure_google_font_delete'        => esc_html__( 'Are you sure you want to delete this font?', 'zionbuilder' ),
+				'click_to_delete_font'                   => esc_html__( 'Delete font?', 'zionbuilder' ),
 				'font_delete_confirm'                    => esc_html__( 'Yes, delete the font', 'zionbuilder' ),
 				'font_delete_cancel'                     => esc_html__( 'No, keep the font', 'zionbuilder' ),
 				// Custom fonts

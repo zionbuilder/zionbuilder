@@ -35,6 +35,7 @@ import { getDefaultOptions } from './options.js'
 import { merge } from 'lodash-es'
 import Popper from 'popper.js'
 import { debounce } from '@/utils/'
+import { getZindex, removeZindex } from '@zb/zindex'
 let preventOutsideClickPropagation = false
 
 export default {
@@ -201,9 +202,9 @@ export default {
 		visible (newValue, oldvalue) {
 			if (!!newValue !== !!oldvalue) {
 				if (newValue) {
-					this.zIndex = window.ZionBuilderApi.utils.getZindex()
+					this.zIndex = getZindex()
 				} else {
-					window.ZionBuilderApi.utils.removeZindex(this.zIndex)
+					removeZindex()
 				}
 			}
 		}
@@ -418,7 +419,7 @@ export default {
 
 		// Destroy popper instance
 		this.destroyPopper(true)
-		window.ZionBuilderApi.utils.removeZindex(this.zIndex)
+		removeZindex()
 	},
 	mounted () {
 		this.ownerDocument = this.$el.ownerDocument
@@ -431,7 +432,7 @@ export default {
 		}
 
 		if (this.show) {
-			this.zIndex = window.ZionBuilderApi.utils.getZindex()
+			this.zIndex = getZindex()
 		}
 	}
 }

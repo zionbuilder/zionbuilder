@@ -53,6 +53,7 @@
 
 <script>
 import { addOverflow, removeOverflow } from '@/editor/utils/overflow'
+import { getZindex, removeZindex } from '@zb/zindex'
 import BaseIcon from '@/common/components/BaseIcon.vue'
 
 export default {
@@ -123,7 +124,7 @@ export default {
 	watch: {
 		show (newValue) {
 			if (newValue) {
-				this.zIndex = window.ZionBuilderApi.utils.getZindex()
+				this.zIndex = getZindex()
 				// add overflow to body
 				if (this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== undefined && this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== null) {
 					addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -131,7 +132,7 @@ export default {
 					addOverflow(this.$el.ownerDocument.body)
 				}
 			} else {
-				window.ZionBuilderApi.utils.removeZindex(this.zIndex)
+				removeZindex()
 				// remove overflow from body
 				if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
 					removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -284,7 +285,7 @@ export default {
 			this.appendToElement.removeChild(this.$el)
 		}
 
-		window.ZionBuilderApi.utils.removeZindex(this.zIndex)
+		removeZindex()
 	}
 }
 </script>
