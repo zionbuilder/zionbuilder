@@ -58,7 +58,7 @@
 	</div>
 </template>
 <script>
-import { ColorPicker } from '@zb/components'
+import { ColorPicker, BaseIcon, Tooltip } from '@zb/components'
 import { clickOutside } from '@zb/directives'
 
 export default {
@@ -67,7 +67,9 @@ export default {
 		clickOutside
 	},
 	components: {
-		ColorPicker
+		ColorPicker,
+		BaseIcon,
+		Tooltip
 	},
 	props: {
 		color: {

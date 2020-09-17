@@ -27,6 +27,7 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import InputBorderRadius from './InputBorderRadius'
 
 export default {
@@ -44,7 +45,8 @@ export default {
 		}
 	},
 	components: {
-		InputBorderRadius
+		InputBorderRadius,
+		BaseIcon
 	},
 	data () {
 		return {

@@ -21,10 +21,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
+import { BaseIcon, Tooltip, Loader } from '@zb/components'
 import { saveOptions } from '@/api/Options'
+
 export default {
 	name: 'ModalListItem',
+	components: {
+		BaseIcon,
+		Tooltip,
+		Loader
+	},
 	props: {
 		user: {
 			type: Object,

@@ -14,8 +14,13 @@
 
 </template>
 <script>
+import { BaseButton } from '@zb/components'
+
 export default {
 	name: 'ModalTemplateSaveButton',
+	components: {
+		BaseButton
+	},
 	props: ['disabled'],
 	data () {
 		return {}

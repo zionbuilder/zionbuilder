@@ -62,6 +62,7 @@ import { getDefaultGradientConfig } from '@zb/utils'
 import GradientModalContent from './GradientModalContent'
 import AddGradient from './AddGradient'
 import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro'
+import { Tabs, Tab } from '@zb/components'
 
 export default {
 	name: 'Gradients',
@@ -69,7 +70,9 @@ export default {
 		GradientBox,
 		AddGradient,
 		GradientModalContent,
-		UpgradeToPro
+		UpgradeToPro,
+		Tabs,
+		Tab
 	},
 	data () {
 		return {

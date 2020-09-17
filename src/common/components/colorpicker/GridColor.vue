@@ -9,10 +9,12 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'GridColor',
-	data () {
-		return {}
+	components: {
+		BaseIcon
 	}
 }
 </script>

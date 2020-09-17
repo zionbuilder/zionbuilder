@@ -54,7 +54,7 @@
 							<span class="znpb-add-element-icon"></span>
 							{{$translate('add_user')}}
 						</BaseButton>
-						<modal
+						<Modal
 							:show.sync="showModal"
 							:width="560"
 							:title="$translate('add_user')"
@@ -62,7 +62,7 @@
 							:show-backdrop="false"
 						>
 							<AddUserModalContent @close-modal="showModal=false" />
-						</modal>
+						</Modal>
 					</div>
 				</template>
 				<template slot="right">
@@ -81,6 +81,7 @@ import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
 import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
+import { BaseButton, Loader, Modal } from '@zb/components'
 
 export default {
 	name: 'permissions',
@@ -88,7 +89,10 @@ export default {
 		SingleRole,
 		SingleUser,
 		AddUserModalContent,
-		UpgradeToPro
+		UpgradeToPro,
+		BaseButton,
+		Loader,
+		Modal
 	},
 	data () {
 		return {

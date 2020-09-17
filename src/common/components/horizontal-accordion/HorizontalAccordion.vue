@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import OptionBreadcrumbs from './OptionBreadcrumbs.vue'
 
 export default {
@@ -72,7 +73,8 @@ export default {
 		}
 	},
 	components: {
-		OptionBreadcrumbs
+		OptionBreadcrumbs,
+		BaseIcon
 	},
 	props: {
 		/**

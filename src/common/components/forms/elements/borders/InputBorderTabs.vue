@@ -23,7 +23,9 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import InputBorderControl from './InputBorderControl'
+
 export default {
 	name: 'InputBorderTabs',
 	props: {
@@ -39,7 +41,8 @@ export default {
 		}
 	},
 	components: {
-		InputBorderControl
+		InputBorderControl,
+		BaseIcon
 	},
 	data () {
 		return {
@@ -92,7 +95,6 @@ export default {
 </script>
 <style lang="scss">
 .znpb-input-border-tabs-wrapper {
-
 	.znpb-options-form-wrapper {
 		padding: 0;
 		margin: 0 -5px;

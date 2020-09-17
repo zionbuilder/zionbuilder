@@ -5,15 +5,16 @@
 	</div>
 </template>
 <script>
+import { BaseIcon } from '@zb/components'
+
 export default {
 	name: 'AddGradient',
-
 	data () {
 		return {
 		}
 	},
-	computed: {
-
+	components: {
+		BaseIcon
 	}
 }
 

@@ -27,8 +27,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'InputLabel',
+	components: {
+		BaseIcon
+	},
 	props: {
 		/**
 		 * Label string

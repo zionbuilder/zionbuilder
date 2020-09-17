@@ -168,20 +168,27 @@ class Admin {
 
 			wp_enqueue_media();
 
-			wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
+			wp_enqueue_style(
+				'znpb-roboto-font',
+				'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+				[],
+				Plugin::instance()->get_version()
+			);
 
 			// Load styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
 				'css/admin-page.css',
-				[],
+				[ 'zb-common' ],
 				Plugin::instance()->get_version()
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-settings-page-script',
 				'js/admin-page.js',
-				[],
+				[
+					'zb-common',
+				],
 				Plugin::instance()->get_version(),
 				true
 			);

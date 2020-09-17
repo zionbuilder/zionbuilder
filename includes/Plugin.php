@@ -232,6 +232,7 @@ class Plugin {
 
 		// Actions
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_scripts' ] );
 
 		/*
 		 * ZionBuilder loaded.

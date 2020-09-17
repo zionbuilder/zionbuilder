@@ -72,8 +72,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'BaseInput',
+	components: {
+		BaseIcon
+	},
 	inheritAttrs: false,
 	props: {
 		/**

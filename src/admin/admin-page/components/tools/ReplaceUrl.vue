@@ -66,9 +66,15 @@
 
 <script>
 import { replaceUrl } from '@/api/ReplaceUrl'
+import { BaseIcon, BaseButton, Loader } from '@zb/components'
 
 export default {
 	name: 'ToolsPage',
+	components: {
+		BaseIcon,
+		BaseButton,
+		Loader
+	},
 	data () {
 		return {
 			loading: false,

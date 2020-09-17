@@ -17,12 +17,16 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 /**
  * it receives no aimation on beggining
  */
 
 export default {
 	name: 'LibraryElement',
+	components: {
+		BaseIcon
+	},
 	props: {
 		animation: {
 			type: Boolean,

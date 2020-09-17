@@ -35,7 +35,7 @@
 	</div>
 </template>
 <script>
-
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import EmptyList from '../empty-list/EmptyList'
 import Video from '@/common/vendors/Video.js'
 import { mapGetters } from 'vuex'
@@ -43,7 +43,8 @@ import { mapGetters } from 'vuex'
 export default {
 	name: 'InputBackgroundVideo',
 	components: {
-		EmptyList
+		EmptyList,
+		BaseIcon
 	},
 	props: ['value', 'options', 'exclude_options'],
 	data () {

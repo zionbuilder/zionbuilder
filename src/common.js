@@ -1,5 +1,5 @@
 import { Tooltip } from '@/common/components/tooltip'
-import forms from '@/common/components/forms'
+import forms, { Forms } from '@/common/components/forms'
 import { GradientPreview, GradientGenerator, GradientLibrary, getDefaultGradientConfig } from '@/common/components/gradient'
 import ActionsOverlay from '@/common/components/forms/elements/actions-overlay/ActionsOverlay'
 import Accordion from '@/common/components/accordion/Accordion.vue'
@@ -8,6 +8,7 @@ import Notice from '@/common/components/Notice'
 import Tab from '@/common/components/tabs/tab.vue'
 import Tabs from '@/common/components/tabs/tabs.vue'
 import BaseIcon from '@/common/components/BaseIcon.vue'
+import BaseButton from '@/common/components/BaseButton.vue'
 import { Modal, ModalConfirm } from '@/common/components/modal'
 import Loader from '@/common/components/Loader'
 import { ColorPicker } from '@/common/components/colorpicker'
@@ -27,6 +28,7 @@ window.zb.components = {
 	Modal,
 	ModalConfirm,
 	BaseIcon,
+	BaseButton,
 	Tooltip,
 	Accordion,
 	Notice,
@@ -51,6 +53,10 @@ window.zb.utils = {
 
 window.zb.directives = {
 	clickOutside
+}
+
+window.zb.plugins = {
+	Forms
 }
 
 window.zb.injections = new InjectionComponentsManager()

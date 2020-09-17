@@ -53,8 +53,13 @@
 
 <script>
 import { addOverflow, removeOverflow } from '@/editor/utils/overflow'
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'Modal',
+	components: {
+		BaseIcon
+	},
 	props: {
 		show: {
 			type: Boolean,
@@ -297,7 +302,7 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(172, 172, 172, 0.2);
+		background: rgba(172, 172, 172, .2);
 		* {
 			box-sizing: border-box;
 		}
@@ -309,9 +314,9 @@ export default {
 		max-width: 100%;
 		max-height: 80%;
 		background: $surface;
-		box-shadow: 0 0 25px -10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
 		border-radius: 3px;
-		transition: all 0.2s;
+		transition: all .2s;
 
 		&--full-size {
 			width: 100%;
@@ -339,7 +344,7 @@ export default {
 			margin-right: 15px;
 			color: $surface-headings-color;
 			font-size: 14px;
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {
@@ -360,13 +365,12 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-active,
-.modal-fade-enter-active {
-	transition: all 0.2s;
+.modal-fade-leave-active, .modal-fade-enter-active {
+	transition: all .2s;
 }
 .modal-fade-enter, .modal-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-	transform: scale(0.99);
+	transform: scale(.99);
 	opacity: 0;
 }
 </style>

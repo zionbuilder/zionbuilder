@@ -17,11 +17,14 @@
 
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import OneGradient from './OneGradient.vue'
+
 export default {
 	name: 'GradientElement',
 	components: {
-		OneGradient
+		OneGradient,
+		BaseIcon
 	},
 	props: {
 		config: {

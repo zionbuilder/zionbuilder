@@ -42,8 +42,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'RadioImage',
+	components: {
+		BaseIcon
+	},
 	props: {
 		/**
 		 * Value or v-model
@@ -92,7 +97,7 @@ export default {
 .znpb-input-wrapper.znpb-input-type--radio_image {
 	margin-bottom: 20px;
 
-	> .znpb-input-content {
+	 > .znpb-input-content {
 		width: auto;
 		margin: 0 -20px;
 	}
@@ -140,6 +145,7 @@ ul.znpb-radio-image-list {
 		align-items: center;
 		overflow: hidden;
 		height: 100px;
+		height: 88px;
 		padding: 15px;
 		margin-bottom: 8px;
 		background-color: $surface;
@@ -148,7 +154,6 @@ ul.znpb-radio-image-list {
 		border-radius: 3px;
 		transition: all .2s ease;
 		cursor: pointer;
-		height: 88px;
 
 		&:hover {
 			box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .22);

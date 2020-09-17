@@ -35,6 +35,7 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import { BaseInput, InputSelect } from '@/common/components/forms'
 /**
  * it emits:
@@ -44,7 +45,8 @@ export default {
 	name: 'PresetInput',
 	components: {
 		BaseInput,
-		InputSelect
+		InputSelect,
+		BaseIcon
 	},
 	data () {
 		return {

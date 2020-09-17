@@ -34,8 +34,14 @@
 </template>
 
 <script>
+import { BaseIcon, Tooltip } from '@zb/components'
+
 export default {
 	name: 'UserTemplate',
+	components: {
+		BaseIcon,
+		Tooltip
+	},
 	props: {
 		permission: {
 			type: Number,
@@ -44,11 +50,6 @@ export default {
 		hasDelete: {
 			type: Boolean,
 			required: false
-		}
-	},
-	data () {
-		return {
-
 		}
 	}
 }

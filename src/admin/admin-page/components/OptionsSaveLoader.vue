@@ -8,12 +8,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { BaseIcon } from '@zb/components'
 
 export default {
 	name: 'OptionsSaveLoader',
 	data () {
 		return {
 		}
+	},
+	components: {
+		BaseIcon
 	},
 	computed: {
 		...mapGetters(['isLoading'])

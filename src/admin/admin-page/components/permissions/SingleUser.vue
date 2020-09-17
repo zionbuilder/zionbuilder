@@ -8,7 +8,7 @@
 		>
 			{{userData.name}}
 		</UserTemplate>
-		<modal
+		<Modal
 			:show.sync="showModal"
 			:width="560"
 			:title="userData.name + ' ' + $translate('permissions')"
@@ -19,7 +19,7 @@
 				:permissions="permissions"
 				@edit-role="editRole($event)"
 			/>
-		</modal>
+		</Modal>
 	</div>
 </template>
 
@@ -28,11 +28,14 @@ import { mapGetters, mapActions } from 'vuex'
 
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
+import { Modal } from '@zb/components'
+
 export default {
 	name: 'SingleUser',
 	components: {
 		UserModalContent,
-		UserTemplate
+		UserTemplate,
+		Modal
 	},
 	props: {
 		permissions: {

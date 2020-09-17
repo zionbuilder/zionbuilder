@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import ActionsOverlay from '../actions-overlay/ActionsOverlay'
 import EmptyList from '../empty-list/EmptyList'
 import { InputWrapper } from '../inputWrapper'
@@ -102,7 +103,8 @@ export default {
 		EmptyList,
 		InputSelect,
 		InputWrapper,
-		CustomSize
+		CustomSize,
+		BaseIcon
 	},
 	props: {
 		/**

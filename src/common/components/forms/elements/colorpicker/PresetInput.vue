@@ -12,6 +12,7 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import BaseInput from '../input/BaseInput.vue'
 /**
  * it emits:
@@ -20,7 +21,8 @@ import BaseInput from '../input/BaseInput.vue'
 export default {
 	name: 'PresetInput',
 	components: {
-		BaseInput
+		BaseInput,
+		BaseIcon
 	},
 	props: {
 		value: {

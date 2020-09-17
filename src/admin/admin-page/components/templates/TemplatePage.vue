@@ -53,9 +53,18 @@ import { mapGetters, mapActions } from 'vuex'
 
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
 import TemplateList from './TemplateList.vue'
+import { BaseButton, Modal, Tabs, Tab } from '@zb/components'
 
 export default {
 	name: 'TemplatePage',
+	components: {
+		Modal,
+		ModalAddNewTemplate,
+		TemplateList,
+		BaseButton,
+		Tabs,
+		Tab
+	},
 	props: {
 		templateType: {
 			type: String,
@@ -67,10 +76,6 @@ export default {
 			required: true,
 			default: 'Template'
 		}
-	},
-	components: {
-		ModalAddNewTemplate,
-		TemplateList
 	},
 	data () {
 		return {

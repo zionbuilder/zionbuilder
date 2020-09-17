@@ -1,5 +1,8 @@
 
 export const clickOutside = {
+	install (Vue) {
+		Vue.directive('click-outside', this)
+	},
 	bind: function (el, binding, vNode) {
 		if (process.env.NODE_ENV !== 'production' && typeof binding.value !== 'function') {
 			const compName = vNode.context.name
@@ -28,11 +31,5 @@ export const clickOutside = {
 		document.removeEventListener('touchstart', el.__CLICK_OUTSIDE_HANDLER, true)
 		document.removeEventListener('contextmenu', el.__CLICK_OUTSIDE_HANDLER, true)
 		el.__CLICK_OUTSIDE_HANDLER = null
-	}
-}
-
-export default {
-	install (Vue) {
-		Vue.directive('click-outside', clickOutside)
 	}
 }

@@ -32,11 +32,13 @@
 
 <script>
 import { Tooltip } from '@/common/components/tooltip'
+import BaseIcon from '@/common/components/BaseIcon.vue'
 
 export default {
 	name: 'InputWrapper',
 	components: {
-		Tooltip
+		Tooltip,
+		BaseIcon
 	},
 	props: {
 		/**

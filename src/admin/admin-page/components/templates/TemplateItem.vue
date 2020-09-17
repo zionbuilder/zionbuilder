@@ -126,14 +126,16 @@
 <script>
 import { exportTemplateById } from '@/api/Templates'
 import { saveAs } from 'file-saver'
-import { Tooltip } from '@zb/components'
+import { Tooltip, BaseIcon, Loader } from '@zb/components'
 import { BaseInput } from '@zb/components/forms'
 
 export default {
 	name: 'TemplateItem',
 	components: {
 		BaseInput,
-		Tooltip
+		Tooltip,
+		BaseIcon,
+		Loader
 	},
 	props: {
 		template: {

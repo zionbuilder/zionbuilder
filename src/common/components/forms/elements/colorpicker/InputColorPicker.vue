@@ -93,6 +93,7 @@ import tinycolor from 'tinycolor2'
 import BaseInput from '@/common/components/forms/elements/input/BaseInput.vue'
 import Color from '@/common/components/forms/elements/colorpicker/Color.vue'
 import { Tooltip } from '@/common/components/tooltip'
+import BaseIcon from '@/common/components/BaseIcon.vue'
 
 export default {
 	name: 'InputColorPicker',
@@ -133,7 +134,8 @@ export default {
 	components: {
 		BaseInput,
 		Color,
-		Tooltip
+		Tooltip,
+		BaseIcon
 	},
 	methods: {},
 	beforeDestroy () {

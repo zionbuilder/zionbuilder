@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import Shape from './Shape.vue'
 import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
 import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
@@ -69,7 +70,8 @@ export default {
 	components: {
 		EmptyList,
 		Shape,
-		UpgradeToPro
+		UpgradeToPro,
+		BaseIcon
 	},
 	props: {
 		/**

@@ -14,8 +14,13 @@
 </template>
 
 <script>
+import { BaseIcon } from '@zb/components'
+
 export default {
 	name: 'GoogleFontModalElement',
+	components: {
+		BaseIcon
+	},
 	props: {
 		font: {
 			type: Object,

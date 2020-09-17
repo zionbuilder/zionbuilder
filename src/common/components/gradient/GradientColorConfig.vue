@@ -20,9 +20,13 @@
 
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 
 export default {
 	name: 'GradientColorConfig',
+	components: {
+		BaseIcon
+	},
 	props: {
 		config: {
 			type: Object,

@@ -1,5 +1,5 @@
 <template>
-	<modal
+	<Modal
 		:show.sync="showModal"
 		:width="360"
 		:title="$translate('gradients')"
@@ -14,15 +14,16 @@
 			/>
 		</div>
 
-	</modal>
+	</Modal>
 </template>
 <script>
-import { GradientGenerator } from '@zb/components'
+import { GradientGenerator, Modal } from '@zb/components'
 
 export default {
 	name: 'GradientModalContent',
 	components: {
-		GradientGenerator
+		GradientGenerator,
+		Modal
 	},
 	props: {
 		show: {

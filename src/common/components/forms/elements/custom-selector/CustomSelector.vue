@@ -43,8 +43,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'CustomSelector',
+	components: {
+		BaseIcon
+	},
 	props: {
 		options: {
 			type: Array,

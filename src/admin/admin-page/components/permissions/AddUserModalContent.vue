@@ -32,8 +32,10 @@
 <script>
 
 import { searchUser } from '@/api/Users'
-
 import ModalListItem from './ModalListItem.vue'
+
+import { Loader } from '@zb/components'
+
 export default {
 	name: 'AddUserModalContent',
 	data () {
@@ -44,7 +46,8 @@ export default {
 		}
 	},
 	components: {
-		ModalListItem
+		ModalListItem,
+		Loader
 	},
 	computed: {
 		keyword: {

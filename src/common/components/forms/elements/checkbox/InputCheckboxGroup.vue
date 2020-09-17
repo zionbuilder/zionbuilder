@@ -24,6 +24,7 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import InputCheckbox from './InputCheckbox.vue'
 
 export default {
@@ -88,9 +89,6 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {}
-	},
 	computed: {
 		model: {
 			get () {
@@ -108,7 +106,8 @@ export default {
 		}
 	},
 	components: {
-		InputCheckbox
+		InputCheckbox,
+		BaseIcon
 	}
 }
 </script>

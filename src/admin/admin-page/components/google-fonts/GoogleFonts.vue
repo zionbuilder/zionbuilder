@@ -33,7 +33,7 @@
 			</ListAnimation>
 		</div>
 
-		<modal
+		<Modal
 			:show.sync="showModal"
 			:width="570"
 			class="znpb-modal-google-fonts"
@@ -46,7 +46,7 @@
 				@font-selected="onGoogleFontAdded"
 				@font-removed="onGoogleFontRemoved"
 			/>
-		</modal>
+		</Modal>
 
 		<div class="znpb-admin-google-fonts-actions">
 			<BaseButton @click.native="showModal=true" type="line">
@@ -66,6 +66,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
+import { BaseIcon, Tooltip, BaseButton, Modal } from '@zb/components'
 
 export default {
 	name: 'GoogleFonts',
@@ -76,7 +77,11 @@ export default {
 	},
 	components: {
 		GoogleFontTab,
-		GoogleFontsModalContent
+		GoogleFontsModalContent,
+		BaseIcon,
+		Tooltip,
+		BaseButton,
+		Modal
 	},
 	computed: {
 		...mapGetters([

@@ -22,8 +22,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'RadioIconItem',
+	components: {
+		BaseIcon
+	},
 	props: {
 		/**
 		 * Value of the radio input

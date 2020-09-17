@@ -59,10 +59,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import UpgradeToPro from '@/editor/manager/options/UpgradeToPro/UpgradeToPro.vue'
+import { Tooltip } from '@zb/components'
+
 export default {
 	name: 'UserModalContent',
 	components: {
-		UpgradeToPro
+		UpgradeToPro,
+		Tooltip
 	},
 	props: {
 

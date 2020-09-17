@@ -65,6 +65,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import ZionLabel from '@/editor/common/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
+import { BaseIcon, Notice } from '@zb/components'
 
 export default {
 	name: 'App',
@@ -77,7 +78,9 @@ export default {
 	},
 	components: {
 		ZionLabel,
-		OptionsSaveLoader
+		OptionsSaveLoader,
+		BaseIcon,
+		Notice
 	},
 	computed: {
 		...mapGetters([

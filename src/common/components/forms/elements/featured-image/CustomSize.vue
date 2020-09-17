@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import BaseInput from '@/common/components/forms/elements/input/BaseInput.vue'
 import InputWrapper from '@/common/components/forms/elements/inputWrapper/InputWrapper.vue'
 
@@ -53,7 +54,8 @@ export default {
 	},
 	components: {
 		BaseInput,
-		InputWrapper
+		InputWrapper,
+		BaseIcon
 	},
 	methods: {
 		onCustomSizeClick () {

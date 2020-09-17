@@ -15,8 +15,13 @@
 </template>
 
 <script>
+import { Loader } from '@zb/components'
+
 export default {
 	name: 'modal-template-preview',
+	components: {
+		Loader
+	},
 	props: {
 		frameUrl: {
 			type: String,
@@ -47,7 +52,6 @@ export default {
 			width: 100%;
 			height: 100%;
 		}
-
 	}
 
 	&__loader {
@@ -61,7 +65,6 @@ export default {
 		height: 100%;
 		background: #fff;
 	}
-
 }
 
 </style>

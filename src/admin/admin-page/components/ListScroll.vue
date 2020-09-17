@@ -16,17 +16,19 @@
 </template>
 
 <script>
+import { Loader } from '@zb/components'
+
 export default {
 	name: 'ListScroll',
+	components: {
+		Loader
+	},
 	props: {
 		loading: {
 			type: Boolean,
 			required: false,
 			default: true
 		}
-	},
-	data () {
-		return {}
 	},
 	methods: {
 		onScroll (event) {

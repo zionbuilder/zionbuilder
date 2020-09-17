@@ -58,6 +58,7 @@
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
 import { mapGetters } from 'vuex'
+import { BaseIcon, Tooltip, ModalConfirm } from '@zb/components'
 
 export default {
 	name: 'GoogleFontTab',
@@ -73,7 +74,10 @@ export default {
 		}
 	},
 	components: {
-		HiddenContainer
+		HiddenContainer,
+		BaseIcon,
+		Tooltip,
+		ModalConfirm
 	},
 	computed: {
 		...mapGetters(['getFontData']),

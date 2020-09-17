@@ -25,10 +25,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 
 export default {
 	name: 'OptionBreadcrumbs',
-
+	components: {
+		BaseIcon
+	},
 	props: {
 		breadcrumbs: {
 			type: Array

@@ -57,8 +57,14 @@
 <script>
 import { regenerateCache } from '@/api/RegenerateCache'
 import { mapActions } from 'vuex'
+import { BaseButton, Loader } from '@zb/components'
+
 export default {
 	name: 'ToolsPage',
+	components: {
+		BaseButton,
+		Loader
+	},
 	data () {
 		return {
 			loadingSync: false,

@@ -39,7 +39,9 @@
 		</div>
 	</div>
 </template>
+
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 /*
 * this element emits change-opacity, change of hue, change of rgba, change, of hex, change of hsla and change of format
 */
@@ -56,7 +58,8 @@ export default {
 		HslaElement,
 		HexElement,
 		HueStrip,
-		OpacityStrip
+		OpacityStrip,
+		BaseIcon
 	},
 	props: {
 		value: {}
@@ -140,9 +143,9 @@ export default {
 		height: 30px;
 
 		.znpb-colorpicker-circle {
+			display: block;
 			width: 100%;
 			height: 100%;
-			display: block;
 		}
 	}
 
@@ -165,7 +168,7 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
+			box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .1);
 		}
 	}
 
@@ -181,17 +184,17 @@ export default {
 		}
 
 		.znpb-color-picker-change-color {
+			margin: 3px 0 0 10px;
 			background: none;
 			box-shadow: none;
-			margin: 3px 0 0 10px;
 
 			.znpb-arrow-increment, .znpb-arrow-decrement {
-				color: $surface-headings-color;
 				width: 12px;
 				margin: 0;
+				color: $surface-headings-color;
 				background: none;
 				border-radius: 0;
-				transition: color 0.1s;
+				transition: color .1s;
 
 				&:hover {
 					color: darken($surface-headings-color, 15%);

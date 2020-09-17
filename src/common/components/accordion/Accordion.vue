@@ -18,8 +18,13 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'Accordion',
+	components: {
+		BaseIcon
+	},
 	props: {
 		/**
 		 * If the accordion should be open or closed by default

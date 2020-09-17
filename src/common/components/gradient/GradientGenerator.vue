@@ -75,6 +75,7 @@
 	</div>
 </template>
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'
 import GradientElement from './GradientElement.vue'
@@ -92,7 +93,8 @@ export default {
 		GradientElement,
 		PresetInput,
 		ActionsOverlay,
-		Sortable
+		Sortable,
+		BaseIcon
 	},
 	props: {
 		value: {

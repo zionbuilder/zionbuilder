@@ -10,8 +10,13 @@
 	</div>
 </template>
 <script>
+import { BaseIcon } from '@zb/components'
+
 export default {
-	name: 'PageTemplate'
+	name: 'PageTemplate',
+	components: {
+		BaseIcon
+	}
 }
 </script>
 <style lang="scss">

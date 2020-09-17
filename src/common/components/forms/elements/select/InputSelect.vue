@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import BaseIcon from '@/common/components/BaseIcon.vue'
 import BaseInput from '../input/BaseInput.vue'
 import { Tooltip } from '@/common/components/tooltip'
 
@@ -160,7 +161,8 @@ export default {
 	name: 'InputSelect',
 	components: {
 		BaseInput,
-		Tooltip
+		Tooltip,
+		BaseIcon
 	},
 	props: {
 		/**

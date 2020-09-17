@@ -92,11 +92,14 @@ import { Tooltip } from '@/common/components/tooltip'
 import stringUnits from '@/common/components/forms/units'
 import BaseInput from '../input/BaseInput'
 import rafSchd from 'raf-schd'
+import BaseIcon from '@/common/components/BaseIcon.vue'
+
 export default {
 	name: 'InputNumberUnit',
 	components: {
 		Tooltip,
-		BaseInput
+		BaseInput,
+		BaseIcon
 	},
 	props: {
 		/**
