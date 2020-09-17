@@ -14,14 +14,18 @@ import Loader from '@/common/components/Loader'
 import { ColorPicker } from '@/common/components/colorpicker'
 import IconPackGrid from '@/common/components/IconPackGrid.vue'
 
-// Directives
+// Plugins and directives
 import { clickOutside } from '@/common/plugins/clickOutside'
+import L10N from '@/common/plugins/l10n'
 
 // Utilities
 import { InjectionComponentsManager, Injection } from '@/common/components/injections'
 
 window.zb = window.zb || {}
 
+/**
+ * Components
+ */
 window.zb.components = {
 	// General
 	Loader,
@@ -47,16 +51,31 @@ window.zb.components = {
 	forms
 }
 
+/**
+ * Utils
+ */
 window.zb.utils = {
 	getDefaultGradientConfig
 }
 
+/**
+ * Directives
+ */
 window.zb.directives = {
 	clickOutside
 }
 
+/**
+ * Vue plugins
+ */
 window.zb.plugins = {
-	Forms
+	Forms,
+	L10N
 }
 
+window.zb.l10n = new L10N()
+
+/**
+ * Injections utility
+ */
 window.zb.injections = new InjectionComponentsManager()

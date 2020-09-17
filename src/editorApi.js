@@ -5,7 +5,6 @@ import { addFilter, applyFilters } from './utils/filters'
 import ElementFocusMarshall from '@/editor/utils/ElementFocusMarshall'
 import ElementsManager from '@/editor/manager/elements'
 import EventBus from '@/editor/EventBus'
-import L10n from '@/editor/L10n'
 import OptionsManager from '@/editor/manager/options'
 import Vue from 'vue'
 
@@ -39,8 +38,6 @@ const ZionBuilderApi = {
 
 	// Elements Manager
 	ElementsManager,
-
-	l10n: L10n,
 
 	// Injections Manager
 	Injections,

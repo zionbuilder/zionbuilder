@@ -15,22 +15,21 @@ import BasePanel from './editor/components/BasePanel.vue'
 import EditorApp from './editor/App.vue'
 import ElementWireframeView from '@/editor/components/treeView/wireFrame/ElementWireframeView'
 import FlyoutWrapper from './editor/components/FlyoutWrapper.vue'
-import L10n from './editor/L10n'
 import Loader from './common/components/Loader'
-import Localization from './common/plugins/l10n'
 import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
 import Vue from 'vue'
 import ZionApi from './editorApi'
 import ZionService from '@/api/ZionService'
 import { errorInterceptor } from './api/ServiceInterceptor'
 import store from './editor/store/index'
+import Localization from '@zb/l10n'
 
 const debug = process.env.NODE_ENV !== 'production'
 Vue.config.devtools = debug
 Vue.config.performance = debug
 
 // Translation
-Vue.use(Localization, L10n)
+Vue.use(Localization, window.ZnPbInitalData.l10n)
 
 const ZionBuilder = {
 	init () {

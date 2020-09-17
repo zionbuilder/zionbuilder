@@ -7,7 +7,7 @@ export default class InjectionComponentsManager {
 	/**
 	 * Register a component for a location
 	 */
-	registerComponent (location, component, priority = 10) {
+	registerComponent = (location, component, priority = 10) => {
 		if (!location && !component) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to register an injection component.', {
@@ -29,7 +29,7 @@ export default class InjectionComponentsManager {
 	 *
 	 * @param {String} location The location for which we need to return the injection components
 	 */
-	getComponentsForLocation (location) {
+	getComponentsForLocation = (location) => {
 		if (!location) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to get injection components.', {

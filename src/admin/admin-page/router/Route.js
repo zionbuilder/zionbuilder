@@ -23,14 +23,6 @@ class Route {
 		return this.routeConfig.children.addRoute(routeId, routeConfig)
 	}
 
-	replaceRoute () {
-
-	}
-
-	removeRoute () {
-
-	}
-
 	getRoute (path) {
 		return this.routeConfig.children.getRoute(path)
 	}

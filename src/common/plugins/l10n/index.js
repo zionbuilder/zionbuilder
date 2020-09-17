@@ -1,17 +1,29 @@
-const ZnPbLocalization = {
-	install: function (Vue, LocalizationInstance) {
-		Vue.prototype.$translate = function (string) {
-			return LocalizationInstance.translate(string)
+export default class {
+	strings = {}
+
+	install (Vue, strings) {
+		// Add the strings
+		this.addStrings(strings)
+
+		// Add helper method
+		Vue.prototype.$translate = (string) => {
+			return this.translate(string)
 		}
 	}
-}
 
-export default ZnPbLocalization
+	addStrings = (strings) => {
+		this.strings = {
+			...this.strings,
+			...strings
+		}
+	}
 
-// Automatic installation if Vue has been added to the global scope.
-if (typeof window !== 'undefined' && window.Vue) {
-	window.Vue.use(ZnPbLocalization.install)
-	if (ZnPbLocalization.install.installed) {
-		ZnPbLocalization.install.installed = false
+	translate = (stringId) => {
+		if (typeof this.strings[stringId] !== 'undefined') {
+			return this.strings[stringId]
+		}
+
+		// eslint-disable-next-line
+		console.error(`String with id ${stringId} was not found.`)
 	}
 }
