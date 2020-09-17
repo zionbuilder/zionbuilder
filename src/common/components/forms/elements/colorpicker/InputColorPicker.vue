@@ -5,6 +5,7 @@
 			v-if="type === 'simple'"
 			@open="$emit('open')"
 			@close="$emit('close')"
+			:show-library="showLibrary"
 			class="znpb-colorpicker-circle  znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 		>
 			<span slot="trigger">
@@ -44,9 +45,12 @@
 				slot="prepend"
 				@open="$emit('open')"
 				@close="$emit('close')"
+				:show-library="showLibrary"
 				class="znpb-colorpicker-circle  znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
+
 			>
 				<span slot="trigger">
+
 					<span
 						:style="{backgroundColor: value}"
 						class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
@@ -105,6 +109,10 @@ export default {
 		dynamicContentConfig: {
 			type: Object,
 			required: false
+		},
+		showLibrary: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data () {

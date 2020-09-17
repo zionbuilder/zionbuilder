@@ -168,8 +168,9 @@
 import { mapGetters, mapActions } from 'vuex'
 import OptionsManager from '@/editor/manager/options'
 import HasChanges from '@/editor/components/elementOptions/HasChanges'
-import { InputLabel, Injection } from '@zb/components/forms'
+import { InputLabel } from '@zb/components/forms'
 import {
+	Injection,
 	Tooltip
 } from '@zb/components'
 

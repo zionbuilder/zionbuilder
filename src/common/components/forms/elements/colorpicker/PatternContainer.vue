@@ -80,7 +80,18 @@ export default {
 		PresetInput,
 		Label
 	},
-	inject: ['inputWrapper', 'optionsForm'],
+	inject: {
+		inputWrapper: {
+			default () {
+				return {}
+			}
+		},
+		optionsForm: {
+			default () {
+				return {}
+			}
+		}
+	},
 	props: {
 		model: {
 			type: [String, Object],

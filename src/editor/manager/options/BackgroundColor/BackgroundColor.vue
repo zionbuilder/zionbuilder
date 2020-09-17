@@ -37,11 +37,13 @@
 </template>
 
 <script>
-import { EmptyList } from '@zb/components/forms'
+import {
+	EmptyList,
+	Color
+} from '@zb/components/forms'
 import {
 	ActionsOverlay,
-	ColorPicker,
-	Color
+	ColorPicker
 } from '@zb/components'
 
 export default {
