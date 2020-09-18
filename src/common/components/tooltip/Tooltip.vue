@@ -419,7 +419,9 @@ export default {
 
 		// Destroy popper instance
 		this.destroyPopper(true)
-		removeZindex()
+		if (this.show) {
+			removeZindex()
+		}
 	},
 	mounted () {
 		this.ownerDocument = this.$el.ownerDocument
