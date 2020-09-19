@@ -1,3 +1,4 @@
 import Section from './components/Section'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Section)
+registerElement(Section)

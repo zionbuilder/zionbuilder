@@ -45,7 +45,7 @@ import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from '../mixins/keyBindingsMixin.js'
 import Cache from '@/editor/Cache'
 import Dom from '@/editor/dom.js'
-import { flattenTemplateData } from '@/utils/utils.js'
+import { flattenTemplateData } from '@zb/utils'
 import { Modal } from '@zb/components'
 
 export default {
@@ -262,11 +262,11 @@ export default {
 			Dom.iframeDocument.removeEventListener('scroll', this.onScroll)
 		}
 
-		window.ZionBuilderApi.off('refreshIframe', this.refreshIframe)
+		window.zb.off('refreshIframe', this.refreshIframe)
 		this.$refs.iframe.contentDocument.removeEventListener('scroll', this.onScroll)
 	},
 	mounted () {
-		window.ZionBuilderApi.on('refreshIframe', this.refreshIframe)
+		window.zb.on('refreshIframe', this.refreshIframe)
 	}
 }
 </script>

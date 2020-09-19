@@ -1,3 +1,4 @@
 import Gallery from './components/gallery'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Gallery)
+registerElement(Gallery)

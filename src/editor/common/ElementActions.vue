@@ -295,7 +295,7 @@ export default {
 		},
 		saveElement () {
 			this.close()
-			window.ZionBuilderApi.trigger('save-element', {
+			window.zb.trigger('save-element', {
 				elementUid: this.data.uid,
 				parentUid: this.getElementFocus.parentUid
 			})

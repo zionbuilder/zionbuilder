@@ -1,3 +1,4 @@
 import ProgressBars from './components/ProgressBars'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(ProgressBars)
+registerElement(ProgressBars)

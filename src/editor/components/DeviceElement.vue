@@ -64,7 +64,7 @@ export default {
 			return this.deviceConfig === this.getActiveDevice
 		},
 		hasChanges () {
-			const activeDevice = window.ZionBuilderApi.OptionsManager.getActiveResponsiveOptions()
+			const activeDevice = window.zb.OptionsManager.getActiveResponsiveOptions()
 			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
 		},
 		getActiveDeviceId () {
@@ -82,7 +82,7 @@ export default {
 			}
 		},
 		removeStylesGroup () {
-			const activeDevice = window.ZionBuilderApi.OptionsManager.getActiveResponsiveOptions()
+			const activeDevice = window.zb.OptionsManager.getActiveResponsiveOptions()
 			if (activeDevice) {
 				activeDevice.removeDeviceStyles(this.deviceConfig.id)
 			}

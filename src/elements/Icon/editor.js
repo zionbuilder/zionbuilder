@@ -1,3 +1,4 @@
 import Icon from './components/Icon'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Icon)
+registerElement(Icon)

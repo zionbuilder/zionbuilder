@@ -166,7 +166,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import OptionsManager from '@/editor/manager/options'
+import { getOption } from '@zb/options'
 import HasChanges from '@/editor/components/elementOptions/HasChanges'
 import { InputLabel } from '@zb/components/forms'
 import {
@@ -280,7 +280,7 @@ export default {
 		},
 
 		optionTypeConfig () {
-			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.value)
+			return getOption(this.schema, this.optionValue, this.optionsForm.value)
 		},
 		labelAlignment () {
 			return this.schema['label-align'] || null
@@ -385,7 +385,7 @@ export default {
 				// Check to see if we need to refresh the iframe
 				if (this.schema.on_change) {
 					if (this.schema.on_change === 'refresh_iframe') {
-						window.ZionBuilderApi.trigger('refreshIframe')
+						window.zb.trigger('refreshIframe')
 					} else if (this.schema.on_change.condition.value[0] !== newValue) {
 						// Check if we need to clear path option
 						this.deleteActiveElementValue({

@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import Vue from 'vue'
+import Vue from '@zb/vue'
 
 const state = {
 	mainBar: {

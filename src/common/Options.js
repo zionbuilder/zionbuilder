@@ -1,5 +1,5 @@
 import { getOptionValue, getStyles } from '@/utils'
-import Vue from 'vue'
+import Vue from '@zb/vue'
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -36,7 +36,7 @@ export default class Options {
 
 	parseData () {
 		// Allow external data modification
-		const options = window.ZionBuilderApi.applyFilters('zionbuilder/options/model', this.model, this)
+		const options = window.zb.applyFilters('zionbuilder/options/model', this.model, this)
 
 		// Set defaults and extract render attributes and custom css
 		this.parseOptions(this.schema, options)
@@ -104,7 +104,7 @@ export default class Options {
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
 				this.startLoading()
-				window.ZionBuilderApi.utils.getImage(model[optionId]).then((image) => {
+				window.zb.utils.getImage(model[optionId]).then((image) => {
 					if (image) {
 						this.setImage(model, optionId, image)
 					}

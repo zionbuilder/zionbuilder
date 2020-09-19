@@ -119,7 +119,7 @@ export default {
 		computedValue: {
 			get () {
 				const clonedValue = this.value === undefined || this.value === null ? getDefaultGradientConfig() : this.value
-				return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
+				return window.zb.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
 				this.$emit('input', newValue)

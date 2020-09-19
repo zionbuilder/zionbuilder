@@ -197,7 +197,7 @@ export default {
 			})
 		},
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('save-element', {
+			window.zb.trigger('save-element', {
 				elementUid: this.data.uid,
 				parentUid: this.parentUid
 			})

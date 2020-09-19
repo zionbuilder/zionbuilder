@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@/utils/filters'
+import { applyFilters } from '@zb/utils'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'
@@ -262,7 +262,7 @@ class OptionsManager {
 	 *
 	 * @param {Object} schema The option schema
 	 */
-	getOption (schema, model = null, formModel = {}) {
+	getOption = (schema, model = null, formModel = {}) => {
 		let optionConfig = this.options[schema.type]
 		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
 

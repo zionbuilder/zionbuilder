@@ -157,7 +157,7 @@ import LibraryUploader from '@/editor/components/library-panel/LibraryUploader.v
 import localLibrary from '@/editor/components/library-panel/localLibrary.vue'
 
 import { insertTemplate } from '@/api/Templates'
-import { generateElements, generateUID } from '@/utils/utils.js'
+import { generateElements, generateUID } from '@zb/utils'
 
 export default {
 	name: 'LibraryModal',

@@ -1,3 +1,4 @@
 import PricingBox from './components/PricingBox'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(PricingBox)
+registerElement(PricingBox)

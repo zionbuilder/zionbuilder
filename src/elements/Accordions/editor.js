@@ -1,5 +1,6 @@
 import accordionItem from './components/accordionItem'
 import Accordions from './components/Accordions'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(accordionItem)
-window.ZionBuilderApi.ElementsManager.registerElement(Accordions)
+registerElement(accordionItem)
+registerElement(Accordions)

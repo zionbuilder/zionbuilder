@@ -108,7 +108,7 @@ export default {
 		Tooltip
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		window.zb.on('rename-element', this.activateRenameElement)
 	},
 	computed: {
 		...mapGetters([

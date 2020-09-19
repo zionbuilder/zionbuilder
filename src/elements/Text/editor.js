@@ -1,3 +1,4 @@
 import Text from './components/Text'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Text)
+registerElement(Text)

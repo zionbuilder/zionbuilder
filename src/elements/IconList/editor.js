@@ -1,3 +1,4 @@
 import IconList from './components/IconList'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(IconList)
+registerElement(IconList)

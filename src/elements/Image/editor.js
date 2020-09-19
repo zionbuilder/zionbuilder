@@ -1,3 +1,4 @@
 import Image from './components/Image'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Image)
+registerElement(Image)

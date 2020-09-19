@@ -3,11 +3,11 @@ class ElementsFactory {
 		this.registeredElements = {}
 	}
 
-	registerElement (element) {
+	registerElement = (element) => {
 		this.registeredElements[element.name] = element
 	}
 
-	getElementComponent (elementId) {
+	getElementComponent = (elementId) => {
 		if (typeof this.registeredElements[elementId] === 'undefined') {
 			console.error(`Element with id ${elementId} not found. Did you registered it?`)
 			return false

@@ -1,3 +1,4 @@
 import googleMaps from './components/googleMaps'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(googleMaps)
+registerElement(googleMaps)

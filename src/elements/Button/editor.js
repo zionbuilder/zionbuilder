@@ -1,3 +1,4 @@
 import Button from './components/Button'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Button)
+registerElement(Button)

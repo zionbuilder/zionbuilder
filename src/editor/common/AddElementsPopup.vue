@@ -48,7 +48,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { BaseInput, InputSelect } from '@zb/components/forms'
-import { generateUID } from '@/utils/utils.js'
+import { generateUID } from '@zb/utils'
 import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'
 
@@ -117,10 +117,10 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('add-element', this.onElementAdded)
+		window.zb.on('add-element', this.onElementAdded)
 	},
 	beforeDestroy () {
-		window.ZionBuilderApi.off('add-element', this.onElementAdded)
+		window.zb.off('add-element', this.onElementAdded)
 	},
 	methods: {
 		...mapActions([

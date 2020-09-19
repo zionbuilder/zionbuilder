@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		window.zb.on('rename-element', this.activateRenameElement)
 	},
 	mounted () {
 		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(this.elementCssId)

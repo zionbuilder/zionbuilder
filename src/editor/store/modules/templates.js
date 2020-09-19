@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from '@zb/vue'
 import * as types from '../mutation-types'
 import {
 	getTemplates,

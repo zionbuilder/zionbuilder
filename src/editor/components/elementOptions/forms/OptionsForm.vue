@@ -19,8 +19,7 @@
 <script>
 import InputWrapper from './InputWrapper'
 import { mapGetters } from 'vuex'
-import { updateOptionValue } from '@/utils/updateOptionValue'
-import { getOptionValue } from '@/utils'
+import { updateOptionValue, getOptionValue } from '@zb/utils'
 
 export default {
 	name: 'OptionsForm',

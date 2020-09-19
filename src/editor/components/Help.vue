@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { youtubeUrlParser } from '@/utils/utils.js'
+import { youtubeUrlParser } from '@zb/utils'
 import { mapGetters } from 'vuex'
 export default {
 	name: 'Help',

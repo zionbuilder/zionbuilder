@@ -1,6 +1,6 @@
 
 import PreviewApp from '@/preview/App.vue'
-import Vue from '@/Vue'
+import Vue from '@zb/vue'
 
 // Preview related
 import RenderValue from '@/preview/components/RenderValue.vue'
@@ -30,18 +30,19 @@ const debug = process.env.NODE_ENV !== 'production'
 Vue.config.devtools = debug
 Vue.config.performance = debug
 
-window.ZionBuilderApi = {
-	...window.parent.ZionBuilderApi,
-	preview: {
-		scripts: new ScriptsLoader()
-	}
+window.zb = window.zb || {}
+
+window.zb.preview = {
+	scripts: new ScriptsLoader()
 }
+
+window.zb.editor = window.parent.zb.editor
 
 const ZionBuilder = {
 	init () {
 		// Trigger event so others can hook into ZionBuilder API
 		const beforeInitEvent = new CustomEvent('zionbuilder/preview/beforeInit', {
-			detail: window.ZionBuilderApi
+			detail: window.zb
 		})
 
 		window.dispatchEvent(beforeInitEvent)
@@ -49,21 +50,21 @@ const ZionBuilder = {
 		/* eslint-disable no-new */
 		const vueInstanceConfig = {
 			el: document.getElementById('znpb-preview-content-area'),
-			store: window.ZionBuilderApi.store,
+			store: window.zb.editor.store,
 			render: h => h(PreviewApp),
 			name: 'Preview'
 		}
 
 		// Only set the parent in dev mode so we can use dev tools
 		if (debug) {
-			vueInstanceConfig.parent = window.ZionBuilderApi.editorComponent
+			vueInstanceConfig.parent = window.parent.zb.editor.editorComponent
 		}
 
 		const previewInstance = new Vue(vueInstanceConfig)
 
 		// Trigger event so others can hook into ZionBuilder API
 		const afterInitEvent = new CustomEvent('zionbuilder/preview/afterInit', {
-			detail: window.ZionBuilderApi
+			detail: window.zb
 		})
 
 		window.dispatchEvent(afterInitEvent)

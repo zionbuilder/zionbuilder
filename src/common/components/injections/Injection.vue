@@ -27,7 +27,7 @@ export default {
 	},
 	computed: {
 		getComponents () {
-			return window.ZionBuilderApi.Injections.getComponentsForLocation(this.location)
+			return window.zb.injections.getComponentsForLocation(this.location)
 		}
 	},
 	methods: {

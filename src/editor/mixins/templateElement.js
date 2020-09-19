@@ -1,6 +1,6 @@
 // define a mixin object
 import { mapGetters, mapActions } from 'vuex'
-import { getOptionValue } from '@/utils'
+import { getOptionValue } from '@zb/utils'
 
 export default {
 	props: {

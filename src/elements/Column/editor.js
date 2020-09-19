@@ -1,3 +1,4 @@
 import Column from './components/column'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Column)
+registerElement(Column)

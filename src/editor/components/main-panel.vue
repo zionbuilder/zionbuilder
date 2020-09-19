@@ -372,7 +372,7 @@ export default {
 			this.shortcutsModalVisibility = true
 		},
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('save-template')
+			window.zb.trigger('save-template')
 		},
 
 		startDrag (event) {

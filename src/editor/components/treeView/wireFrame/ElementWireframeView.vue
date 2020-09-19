@@ -125,7 +125,7 @@ import SortableHelper from '@/editor/common/SortableHelper.vue'
 import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
 import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
 import eventMarshall from '@/editor/common/eventMarshall'
-import { getOptionValue } from '@/utils'
+import { getOptionValue } from '@zb/utils'
 import {
 	Tooltip
 } from '@zb/components'
@@ -155,7 +155,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		window.zb.on('rename-element', this.activateRenameElement)
 	},
 	computed: {
 		...mapGetters([

@@ -21,7 +21,7 @@ class ServerRequest {
 		this.inProgress = []
 	}
 
-	request (data, successCallback, failCallback) {
+	request = (data, successCallback, failCallback) => {
 		this.addToQueue(data, successCallback, failCallback)
 		this.doQueue()
 	}

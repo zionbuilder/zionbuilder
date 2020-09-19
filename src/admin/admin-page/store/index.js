@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import Vue from 'vue'
+import Vue from '@zb/vue'
 
 // Load modules
 import options from './modules/options'

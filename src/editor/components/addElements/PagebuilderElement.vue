@@ -54,7 +54,7 @@ export default {
 
 	methods: {
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('add-element', this.item)
+			window.zb.trigger('add-element', this.item)
 		}
 	},
 	mounted () {
@@ -67,24 +67,24 @@ export default {
 /* vars */
 
 .znpb-element-box {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
 	cursor: pointer;
 	user-select: none;
-	position: relative;
 
 	&__label {
-		padding: 3px 5px;
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		background: $column-color;
+		padding: 3px 5px;
 		color: #fff;
-		border-radius: 2px;
 		font-size: 9px;
-		letter-spacing: 0.5px;
+		letter-spacing: .5px;
+		background: $column-color;
+		border-radius: 2px;
 	}
 
 	.znpb-editor-icon-wrapper, .znpb-element-box__image {
@@ -98,7 +98,7 @@ export default {
 		transition: all .2s;
 
 		&::after {
-			content: '';
+			content: "";
 			display: block;
 			padding-top: 100%;
 		}

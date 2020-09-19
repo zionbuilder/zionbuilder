@@ -1,3 +1,4 @@
 import Counter from './components/counter'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Counter)
+registerElement(Counter)

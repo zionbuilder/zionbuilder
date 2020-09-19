@@ -62,7 +62,7 @@
 
 <script>
 // Utils
-import Vue from '@/Vue'
+import Vue from '@zb/vue'
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
 import { generateElements } from '@/utils/utils.js'
@@ -179,7 +179,7 @@ export default {
 		this.$nextTick(() => {
 			// Wait 100ms so all childs are rendered
 			setTimeout(() => {
-				window.ZionBuilderApi.trigger(`element/mounted`, this.getDefaultEventResponse())
+				window.zb.trigger(`element/mounted`, this.getDefaultEventResponse())
 			}, 100)
 		})
 	},
@@ -335,7 +335,7 @@ export default {
 			}
 
 			// Filter the custom css
-			customCSS = window.ZionBuilderApi.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
+			customCSS = window.zb.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
 
 			this.options = options
 			this.renderAttributes = renderAttributes
@@ -415,7 +415,7 @@ export default {
 
 		async getElementComponent () {
 			await this.loadElementAssets()
-			const component = window.ZionBuilderApi.ElementsManager.getElementComponent(this.data.element_type)
+			const component = window.zb.editor.elements.getElementComponent(this.data.element_type)
 
 			if (component) {
 				this.component = component
@@ -435,7 +435,7 @@ export default {
 						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
 
 						if (scriptConfig.src) {
-							return window.ZionBuilderApi.preview.scripts.loadScript(scriptConfig, window.document)
+							return window.zb.preview.scripts.loadScript(scriptConfig, window.document)
 						}
 					}),
 					...Object.keys(this.elementModel.styles).map(scriptHandle => {
@@ -446,7 +446,7 @@ export default {
 						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
 
 						if (scriptConfig.src) {
-							return window.ZionBuilderApi.preview.scripts.loadScript(scriptConfig, window.document)
+							return window.zb.preview.scripts.loadScript(scriptConfig, window.document)
 						}
 					})
 				]

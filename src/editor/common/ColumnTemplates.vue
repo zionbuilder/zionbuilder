@@ -49,9 +49,8 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { generateElements } from '@/utils/utils.js'
+import { generateElements, getOptionValue } from '@zb/utils'
 import AddElementsPopup from './AddElementsPopup.vue'
-import { getOptionValue } from '@/utils'
 
 export default {
 	name: 'ColumnTemplates',
@@ -568,7 +567,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('change-tab-pop', this.changeTab)
+		window.zb.on('change-tab-pop', this.changeTab)
 	},
 	mounted () {
 		document.addEventListener('keypress', this.onKeyPress)
@@ -584,8 +583,8 @@ export default {
 			return this.spanElements[id]
 		},
 		onKeyPress (event) {
-			window.ZionBuilderApi.trigger('change-tab-pop', null)
-			window.ZionBuilderApi.trigger('change-tab-pop', 'elements')
+			window.zb.trigger('change-tab-pop', null)
+			window.zb.trigger('change-tab-pop', 'elements')
 		},
 		changeTab (event) {
 			if (event !== undefined) {
@@ -685,7 +684,7 @@ export default {
 	beforeDestroy: function () {
 		// remove events
 		document.removeEventListener('keypress', this.onKeyPress)
-		window.ZionBuilderApi.off('change-tab-pop', this.changeTab)
+		window.zb.off('change-tab-pop', this.changeTab)
 	}
 }
 </script>

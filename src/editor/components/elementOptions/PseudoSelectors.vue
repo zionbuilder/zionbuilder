@@ -89,7 +89,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
-import { updateOptionValue } from '@/utils/updateOptionValue.js'
+import { updateOptionValue } from '@zb/utils'
 import {
 	Tooltip,
 	BaseInput

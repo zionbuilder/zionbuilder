@@ -1,5 +1,5 @@
 import * as types from '@/admin/admin-page/store/mutation-types'
-import Vue from 'vue'
+import Vue from '@zb/vue'
 import { saveOptions, getSavedOptions } from '@/api/Options'
 
 const state = {

@@ -65,7 +65,7 @@ export default {
 	},
 
 	beforeDestroy () {
-		window.ZionBuilderApi.on('beforeunload', this.setStylesLoading(true))
+		window.zb.on('beforeunload', this.setStylesLoading(true))
 	},
 	watch: {
 		isPreviewMode (newValue) {

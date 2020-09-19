@@ -26,7 +26,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { generateElements } from '@/utils/utils.js'
+import { generateElements } from '@zb/utils'
 import ModalStep from './ModalStep'
 import { Modal } from '@zb/components'
 
@@ -82,7 +82,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'elements')
+						window.zb.trigger('change-tab-pop', 'elements')
 					}
 				},
 				{
@@ -97,7 +97,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'library')
+						window.zb.trigger('change-tab-pop', 'library')
 					}
 				},
 				{
@@ -113,7 +113,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'columns')
+						window.zb.trigger('change-tab-pop', 'columns')
 					}
 				},
 				{
@@ -165,7 +165,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						window.ZionBuilderApi.trigger('change-tab-styling', 'styling')
+						window.zb.trigger('change-tab-styling', 'styling')
 					}
 				},
 				{
@@ -178,7 +178,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						window.ZionBuilderApi.trigger('change-tab-styling', 'advanced')
+						window.zb.trigger('change-tab-styling', 'advanced')
 					}
 				},
 

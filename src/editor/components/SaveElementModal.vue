@@ -48,7 +48,7 @@ import { saveAs } from 'file-saver'
 import { Modal, Loader } from '@zb/components'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@/api/Templates'
-import { compileElement } from '@/utils'
+import { compileElement } from '@zb/utils'
 
 export default {
 	name: 'SaveElementModal',
@@ -112,12 +112,12 @@ export default {
 	},
 	created () {
 		if (this.template) {
-			window.ZionBuilderApi.on('save-template', this.onSavetemplate)
-		} else window.ZionBuilderApi.on('save-element', this.onSaveElement)
+			window.zb.on('save-template', this.onSavetemplate)
+		} else window.zb.on('save-element', this.onSaveElement)
 	},
 	beforeDestroy () {
-		window.ZionBuilderApi.off('save-element', this.onSaveElement)
-		window.ZionBuilderApi.off('save-template', this.onSavetemplate)
+		window.zb.off('save-element', this.onSaveElement)
+		window.zb.off('save-template', this.onSavetemplate)
 		this.loadingMessage = ''
 		this.errorMessage = ''
 	},

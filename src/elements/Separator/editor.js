@@ -1,3 +1,4 @@
 import Separator from './components/Separator'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Separator)
+registerElement(Separator)

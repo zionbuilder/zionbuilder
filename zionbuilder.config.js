@@ -41,5 +41,6 @@ module.exports = {
 		bugReport: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
 		team: 'ZionBuilder <hello@zionbuilder.io>'
 	},
-	configureWebpack: {}
+	configureWebpack: {},
+	writeStats: true
 }

@@ -1,3 +1,4 @@
 import Testimonial from './components/Testimonial'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Testimonial)
+registerElement(Testimonial)

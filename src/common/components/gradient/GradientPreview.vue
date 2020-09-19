@@ -28,7 +28,7 @@ export default {
 	computed: {
 		// Filter the value so we can set the dynamic colors
 		filteredConfig () {
-			return window.ZionBuilderApi.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(this.config)))
+			return window.zb.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(this.config)))
 		},
 		getGradientPreviewStyle () {
 			let style = {}

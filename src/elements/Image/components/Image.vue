@@ -54,7 +54,7 @@ export default {
 			return this.options.link && this.options.link.link
 		},
 		extraAttributes () {
-			const attributes = window.ZionBuilderApi.utils.getLinkAttributes(this.options.link)
+			const attributes = window.zb.utils.getLinkAttributes(this.options.link)
 
 			if (this.options.use_modal) {
 				attributes.href = this.imageSrc

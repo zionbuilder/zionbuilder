@@ -17,12 +17,13 @@ import ElementWireframeView from '@/editor/components/treeView/wireFrame/Element
 import FlyoutWrapper from './editor/components/FlyoutWrapper.vue'
 import Loader from './common/components/Loader'
 import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
-import Vue from 'vue'
-import ZionApi from './editorApi'
+import Vue from '@zb/vue'
 import ZionService from '@/api/ZionService'
 import { errorInterceptor } from './api/ServiceInterceptor'
 import store from './editor/store/index'
 import Localization from '@zb/l10n'
+
+require('./editorApi')
 
 const debug = process.env.NODE_ENV !== 'production'
 Vue.config.devtools = debug
@@ -50,18 +51,22 @@ const ZionBuilder = {
 		// Add error interceptor for API
 		errorInterceptor(ZionService, store)
 
-		/* eslint-disable no-new */
-		ZionApi.editorComponent = new Vue({
+		const editorComponent = new Vue({
 			el: '#znpb-app',
 			store,
 			render: h => h(EditorApp)
 		})
 
-		ZionApi.store = store
+		// Only set the parent in dev mode so we can use dev tools
+		if (debug) {
+			window.zb.editor.editorComponent = editorComponent
+		}
+
+		window.zb.editor.store = store
 
 		// Trigger event so others can hook into ZionBuilder API
 		const evt = new CustomEvent('zionbuilder/editor/ready', {
-			detail: ZionApi
+			detail: window.zb
 		})
 
 		window.dispatchEvent(evt)

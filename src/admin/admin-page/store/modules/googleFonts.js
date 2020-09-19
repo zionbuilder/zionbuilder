@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import Vue from 'vue'
+import Vue from '@zb/vue'
 import { getGoogleFonts } from '@/api/GoogleFonts'
 
 const state = {

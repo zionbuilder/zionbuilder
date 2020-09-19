@@ -1,3 +1,4 @@
 import Alert from './components/Alert'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Alert)
+registerElement(Alert)

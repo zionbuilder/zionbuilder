@@ -59,7 +59,7 @@ export default {
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
 		},
 		logoUrl () {
-			return window.ZionBuilderApi.urls.logo
+			return window.zb.urls.logo
 		}
 	},
 	methods: {
@@ -135,9 +135,9 @@ export default {
 	}
 
 	&--empty {
-		height: 70px;
 		display: flex;
 		justify-content: center;
+		height: 70px;
 		padding: 10px;
 		background: $surface-variant;
 	}

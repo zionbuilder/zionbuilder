@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from '@zb/vue'
 import VueRouter from 'vue-router'
 
 import api from './admin/admin-page/api'

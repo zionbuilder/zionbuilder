@@ -20,7 +20,7 @@ export default function (imageConfig) {
 				resolve(cache[imageConfig.image][size])
 			} else {
 				// Get the image from server
-				window.ZionBuilderApi.ajax.request({
+				window.zb.ajax.request({
 					type: 'get_image',
 					config: imageConfig
 				}, (response) => {

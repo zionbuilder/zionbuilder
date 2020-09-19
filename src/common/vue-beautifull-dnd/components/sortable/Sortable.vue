@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Vue from '@/Vue'
+import Vue from '@zb/vue'
 import {
 	HostsManager,
 	EventsManager

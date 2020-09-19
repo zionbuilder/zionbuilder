@@ -1,3 +1,4 @@
 import Video from './components/Video'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Video)
+registerElement(Video)

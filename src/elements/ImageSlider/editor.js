@@ -1,3 +1,4 @@
 import ImageSlider from './components/ImageSlider'
+import { registerElement } from '@zb/editor/elements'
 
-window.ZionBuilderApi.ElementsManager.registerElement(ImageSlider)
+registerElement(ImageSlider)

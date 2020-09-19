@@ -90,7 +90,7 @@ export default {
 			})
 		},
 		triggerRename () {
-			window.ZionBuilderApi.trigger('rename-element', true)
+			window.zb.trigger('rename-element', true)
 			this.close()
 		}
 	}

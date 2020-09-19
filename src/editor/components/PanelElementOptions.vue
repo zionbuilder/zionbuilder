@@ -134,7 +134,7 @@ import { BaseInput } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
 
-import { debounce } from '@/utils/'
+import { debounce } from '@zb/utils'
 
 export default {
 	name: 'PanelElementOptions',
@@ -314,7 +314,7 @@ export default {
 	},
 	created () {
 		this.history.push(cloneDeep(this.elementOptions))
-		window.ZionBuilderApi.on('change-tab-styling', this.changeTabByEvent)
+		window.zb.on('change-tab-styling', this.changeTabByEvent)
 	},
 	watch: {
 		getActiveElementUid (newValue) {
@@ -506,7 +506,7 @@ export default {
 		document.removeEventListener('keydown', this.onKeyPress)
 		document.getElementById('znpb-editor-iframe').contentDocument.removeEventListener('keydown', this.onKeyPress)
 		// remove events
-		window.ZionBuilderApi.off('change-tab-styling', this.changeTab)
+		window.zb.off('change-tab-styling', this.changeTab)
 	}
 }
 </script>

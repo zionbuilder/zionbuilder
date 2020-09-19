@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { deepCopy } from '@/utils/utils'
+import { deepCopy } from '@zb/utils'
 import Cache from '@/editor/Cache'
 
 const state = {
