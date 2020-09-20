@@ -15,10 +15,13 @@ export default {
 		value: {
 			type: Object,
 			default () {
-				return {
-					typographySchema: getSchema('typography')
-				}
+				return {}
 			}
+		}
+	},
+	data () {
+		return {
+			typographySchema: getSchema('typography')
 		}
 	},
 	computed: {

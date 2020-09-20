@@ -28,14 +28,13 @@ import { mapGetters, mapActions } from 'vuex'
 import SaveElementModal from '@/editor/components/SaveElementModal.vue'
 import PageStyles from './components/PageStyles'
 import ElementStyles from './components/ElementStyles.vue'
-import { getSchema } from '@zb/schemas'
 
 export default {
 	name: 'PreviewApp',
 	data () {
 		return {
 			showExportModal: false,
-			pageSettingsSchema: getSchema('page_settings')
+			pageSettingsSchema: window.parent.zb.schemas.getSchema('page_settings')
 		}
 	},
 	components: {
