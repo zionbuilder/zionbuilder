@@ -14,9 +14,6 @@ import ScriptsLoader from '@/preview/utils/ScriptsLoader'
 // Import WordPress related
 import './wordpress'
 
-// Load components only for styles as they are already registered on master Vue instance
-require('@/editor/components/elementOptions/forms/OptionsForm.vue')
-
 // Load general components needed for preview
 Vue.component('RenderValue', RenderValue)
 Vue.component('RenderTag', RenderTag)
