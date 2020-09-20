@@ -1,5 +1,7 @@
 export default class {
-	zIndex = 10000
+	constructor () {
+		this.zIndex = 10000
+	}
 
 	getZindex = () => {
 		this.zIndex++

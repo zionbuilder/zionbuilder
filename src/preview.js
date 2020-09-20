@@ -16,7 +16,6 @@ import './wordpress'
 
 // Load components only for styles as they are already registered on master Vue instance
 require('@/editor/components/elementOptions/forms/OptionsForm.vue')
-require('@/editor/manager/options')
 
 // Load general components needed for preview
 Vue.component('RenderValue', RenderValue)

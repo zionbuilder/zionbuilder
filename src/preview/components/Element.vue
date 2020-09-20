@@ -76,6 +76,7 @@ import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@/util
 
 // Components
 import ServerComponent from '@/preview/components/ServerComponent'
+import { applyFilters } from '@zb/filters'
 
 export default {
 	name: 'Element',
@@ -335,7 +336,7 @@ export default {
 			}
 
 			// Filter the custom css
-			customCSS = window.zb.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
+			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
 
 			this.options = options
 			this.renderAttributes = renderAttributes

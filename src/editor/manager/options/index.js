@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@zb/utils'
+import { applyFilters } from '@zb/filters'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'
@@ -52,7 +52,7 @@ import {
 	InputBackgroundVideo
 } from '@zb/components/forms'
 
-class OptionsManager {
+export default class {
 	constructor () {
 		this.options = {}
 
@@ -310,5 +310,3 @@ class OptionsManager {
 		this.options[optionConfig.id] = optionConfig
 	}
 }
-
-export default new OptionsManager()

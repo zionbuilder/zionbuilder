@@ -8,6 +8,7 @@
 	</div>
 </template>
 <script>
+import { applyFilters } from '@zb/filters'
 
 export default {
 	name: 'GradientPreview',
@@ -28,7 +29,7 @@ export default {
 	computed: {
 		// Filter the value so we can set the dynamic colors
 		filteredConfig () {
-			return window.zb.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(this.config)))
+			return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(this.config)))
 		},
 		getGradientPreviewStyle () {
 			let style = {}

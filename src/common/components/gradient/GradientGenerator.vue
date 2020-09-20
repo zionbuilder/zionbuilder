@@ -75,6 +75,7 @@
 	</div>
 </template>
 <script>
+import { applyFilters } from '@zb/filters'
 import BaseIcon from '@/common/components/BaseIcon.vue'
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'
@@ -82,7 +83,7 @@ import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@/common/vue-beautifull-dnd/'
 import ActionsOverlay from '@/common/components/forms/elements/actions-overlay/ActionsOverlay'
-import getDefaultGradientConfig from './defaultGradient'
+import { getDefaultGradientConfig } from '@zb/utils'
 import { mapActions } from 'vuex'
 
 export default {
@@ -119,7 +120,7 @@ export default {
 		computedValue: {
 			get () {
 				const clonedValue = this.value === undefined || this.value === null ? getDefaultGradientConfig() : this.value
-				return window.zb.applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
+				return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
 				this.$emit('input', newValue)

@@ -1,3 +1,4 @@
+import { applyFilters } from '@zb/filters'
 import { getOptionValue, getStyles } from '@/utils'
 import Vue from '@zb/vue'
 
@@ -36,7 +37,7 @@ export default class Options {
 
 	parseData () {
 		// Allow external data modification
-		const options = window.zb.applyFilters('zionbuilder/options/model', this.model, this)
+		const options = applyFilters('zionbuilder/options/model', this.model, this)
 
 		// Set defaults and extract render attributes and custom css
 		this.parseOptions(this.schema, options)
