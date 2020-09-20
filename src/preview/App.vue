@@ -1,15 +1,5 @@
 <template>
 	<div class="zb">
-		<SortableContent
-			v-if="elementData"
-			class="znpb-preview-page-wrapper"
-			:content="elementData.content"
-			:data="elementData"
-		>
-		</SortableContent>
-
-		<SaveElementModal :template="false" />
-
 		<PageStyles
 			:css-classes="getClasses"
 			:page-settings-model="getPageSettings"
@@ -20,6 +10,17 @@
 		<ElementStyles
 			:styles="getPageSettings._custom_css"
 		/>
+
+		<SortableContent
+			v-if="elementData"
+			class="znpb-preview-page-wrapper"
+			:content="elementData.content"
+			:data="elementData"
+		>
+		</SortableContent>
+
+		<SaveElementModal :template="false" />
+
 	</div>
 
 </template>
