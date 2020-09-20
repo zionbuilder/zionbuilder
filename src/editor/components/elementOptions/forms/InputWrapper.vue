@@ -169,6 +169,8 @@ import { mapGetters, mapActions } from 'vuex'
 import { getOption } from '@zb/options'
 import HasChanges from '@/editor/components/elementOptions/HasChanges'
 import { InputLabel } from '@zb/components/forms'
+import { getSchema } from '@zb/schemas'
+
 import {
 	Injection,
 	Tooltip
@@ -240,9 +242,7 @@ export default {
 			'getActiveElementOptionValue',
 			'getActiveDevice',
 			'getActivePseudoSelector',
-			'getDeviceList',
-			'getBackgroundImageOptionSchema',
-			'getTypographyOptionSchema'
+			'getDeviceList'
 		]),
 		isValidInput () {
 			return this.optionTypeConfig
@@ -430,7 +430,7 @@ export default {
 
 			// Special options
 			if (schema.type === 'background') {
-				const backgroundSchema = this.getBackgroundImageOptionSchema
+				const backgroundSchema = getSchema('background_image')
 				Object.keys(backgroundSchema).forEach(optionId => {
 					const childIds = this.getChildOptionsIds(backgroundSchema[optionId])
 
@@ -450,7 +450,7 @@ export default {
 					ids.push(item.id)
 				})
 			} else if (schema.type === 'typography') {
-				const typographySchema = this.getTypographyOptionSchema
+				const typographySchema = getSchema('typography')
 				Object.keys(typographySchema).forEach(optionId => {
 					const childIds = this.getChildOptionsIds(typographySchema[optionId])
 

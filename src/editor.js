@@ -22,6 +22,7 @@ import ZionService from '@/api/ZionService'
 import { errorInterceptor } from './api/ServiceInterceptor'
 import store from './editor/store/index'
 import Localization from '@zb/l10n'
+import { addSchemas } from '@zb/schemas'
 
 require('./editorApi')
 
@@ -34,6 +35,9 @@ Vue.use(Localization, window.ZnPbInitalData.l10n)
 
 const ZionBuilder = {
 	init () {
+		// Register specific schemas for editor
+		addSchemas({ page_settings: window.ZnPbInitalData.page_settings.schema })
+
 		// Load global Vue Components
 		Vue.component('BaseIcon', BaseIcon)
 		Vue.component('FlyoutWrapper', FlyoutWrapper)

@@ -31,7 +31,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { Sortable } from '@/common/vue-beautifull-dnd'
+import { Sortable } from '@zb/components'
 import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue'
 import SortableHelper from '@/editor/common/SortableHelper.vue'
 

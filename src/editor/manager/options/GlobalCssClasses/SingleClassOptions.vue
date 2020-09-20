@@ -18,16 +18,17 @@
 		</InputWrapper>
 
 		<OptionsForm
-			:schema="getElementStyleOptionsSchema"
+			:schema="elementsStyleOptionsSchema"
 			v-model="getStyleOptionsModel"
 			class="znpb-single-class-wrapper__accordions"
 		/>
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import { BaseInput, InputWrapper } from '@zb/components/forms'
 import PseudoSelectors from '@/editor/components/elementOptions/PseudoSelectors.vue'
+import { getSchema } from '@zb/schemas'
+
 export default {
 	name: 'SingleClassOptions',
 	components: {
@@ -46,10 +47,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getElementStyleOptionsSchema'
-
-		]),
 		classTitle: {
 			get () {
 				return this.classItem.name
@@ -73,7 +70,7 @@ export default {
 	},
 	data: () => {
 		return {
-
+			elementsStyleOptionsSchema: getSchema('styles')
 		}
 	},
 	methods: {

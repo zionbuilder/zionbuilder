@@ -158,15 +158,6 @@ class Preview {
 			'before'
 		);
 
-		wp_localize_script(
-			'znpb-preview-frame-scripts',
-			'ZnPbRestConfig',
-			[
-				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-				'rest_root' => esc_url_raw( rest_url() ),
-			]
-		);
-
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
 

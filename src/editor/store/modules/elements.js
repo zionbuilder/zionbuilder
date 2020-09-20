@@ -11,9 +11,7 @@ const elementCategories = window.ZnPbInitalData.elements_categories.map(category
 const state = {
 	elements_categories: elementCategories,
 	registeredElements: elements,
-	visibleElements: [],
-	elementAdvancedOptionsSchema: Object.freeze(window.ZnPbInitalData.element_default_options_schema.advanced_options),
-	elementStyleOptionsSchema: Object.freeze(window.ZnPbInitalData.element_default_options_schema.style_options)
+	visibleElements: []
 }
 
 const getters = {
@@ -48,9 +46,7 @@ const getters = {
 	},
 	getVisibleElements: (state) => {
 		return state.visibleElements
-	},
-	getElementAdvancedOptionsSchema: state => state.elementAdvancedOptionsSchema,
-	getElementStyleOptionsSchema: state => state.elementStyleOptionsSchema
+	}
 }
 
 const actions = {

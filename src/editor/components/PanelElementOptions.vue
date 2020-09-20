@@ -65,7 +65,7 @@
 				<Tab name="Advanced">
 					<OptionsForm
 						class="znpb-element-options-content-form"
-						:schema="getElementAdvancedOptionsSchema"
+						:schema="elementsAdvancedOptionSchema"
 						v-model="advancedOptionsModel"
 					/>
 				</Tab>
@@ -133,7 +133,7 @@ import { cloneDeep } from 'lodash-es'
 import { BaseInput } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
-
+import { getSchema } from '@zb/schemas'
 import { debounce } from '@zb/utils'
 
 export default {
@@ -173,15 +173,15 @@ export default {
 			searchActive: false,
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
-			noOptionFoundMessage: 'No options found with this keyword'
+			noOptionFoundMessage: 'No options found with this keyword',
+			elementsAdvancedOptionSchema: getSchema('element_advanced'),
+			elementsStyleOptionsSchema: getSchema('styles')
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getElementById',
 			'getElementData',
-			'getElementAdvancedOptionsSchema',
-			'getElementStyleOptionsSchema',
 			'getElementName',
 			'getActiveElementUid',
 			'getElementFocus',
@@ -231,7 +231,7 @@ export default {
 			const optionsSchema = {
 				...elementOptionsSchema,
 				...this.computedStyleOptionsSchema,
-				...this.getElementAdvancedOptionsSchema
+				...this.elementsAdvancedOptionSchema
 			}
 
 			return optionsSchema
@@ -398,7 +398,7 @@ export default {
 				}
 
 				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.getElementStyleOptionsSchema, syncValue)
+					const childOptions = this.filterOtions(keyword, this.elementsStyleOptionsSchema, syncValue)
 
 					foundOptions = {
 						...foundOptions,

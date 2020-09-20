@@ -11,7 +11,8 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { getSchema } from '@zb/schemas'
+
 export default {
 	name: 'InputTextShadow',
 	props: {
@@ -43,16 +44,13 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getShadowSchema'
-		]),
 		schema () {
 			if (this.shadow_type === 'text-shadow') {
-				const { inset, spread, ...shadowSchema } = this.getShadowSchema
+				const { inset, spread, ...shadowSchema } = getSchema('shadow')
 				return shadowSchema
 			}
 
-			return this.getShadowSchema
+			return getSchema('shadow')
 		},
 		valueModel: {
 			get () {
@@ -84,7 +82,7 @@ export default {
 		.znpb-shadow-option__colorpicker.znpb-input-wrapper {
 			width: 100% !important;
 
-			> * {
+			 > * {
 				width: calc(50% - 5px);
 			}
 		}

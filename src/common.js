@@ -1,4 +1,5 @@
 require('@/common/exports/vue')
+require('@/common/exports/schemas')
 require('@/common/exports/filters')
 require('@/common/exports/utils')
 require('@/common/exports/zindex')

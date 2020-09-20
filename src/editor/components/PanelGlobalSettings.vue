@@ -19,6 +19,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
+import { getSchema } from '@zb/schemas'
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -27,8 +28,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getPageSettings',
-			'getPageSettingsSchema'
+			'getPageSettings'
 		]),
 		savedValues: {
 			get () {
@@ -57,8 +57,11 @@ export default {
 					}
 				}
 			}
+
+			const pageSettingsSchema = getSchema('page_settings')
+
 			return {
-				...this.getPageSettingsSchema,
+				...pageSettingsSchema,
 				...cssClasses
 			}
 		}
@@ -74,7 +77,6 @@ export default {
 <style lang="scss">
 
 .znpb-general-options-panel-wrapper {
-
 	.znpb-panel__content_wrapper {
 		position: relative;
 		padding-top: 0;
@@ -82,8 +84,8 @@ export default {
 
 	.znpb-accordions-wrapper {
 		display: flex;
-		flex-grow: 1;
 		flex-direction: column;
+		flex-grow: 1;
 	}
 }
 

@@ -40,7 +40,7 @@ class HeartBeat {
 				// Update rest nonce
 				if (restNonce) {
 					store.dispatch('setNonce', restNonce)
-					window.ZnPbRestConfig.nonce = restNonce
+					window.ZnCommonData.nonce = restNonce
 				}
 
 				// Update Hearbeat Nonce

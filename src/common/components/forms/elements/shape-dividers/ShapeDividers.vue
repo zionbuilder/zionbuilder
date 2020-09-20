@@ -17,7 +17,6 @@
 
 <script>
 import CustomSelector from '../custom-selector/CustomSelector'
-import { mapGetters } from 'vuex'
 
 export default {
 	name: 'ShapeDividers',

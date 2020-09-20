@@ -15,7 +15,7 @@ const state = {
 	},
 	urls: window.ZnPbInitalData.urls,
 	lockedUserInfo: window.ZnPbInitalData.post_lock_user,
-	nonce: window.ZnPbRestConfig.nonce,
+	nonce: window.ZnCommonData.nonce,
 	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active,
 	masks: window.ZnPbInitalData.masks
 }

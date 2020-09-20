@@ -2,19 +2,15 @@
 
 namespace ZionBuilder\Editor;
 
+use ZionBuilder\CommonJS;
 use ZionBuilder\Utils;
 use ZionBuilder\Nonces;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\Localization;
 use ZionBuilder\CSSClasses;
-use ZionBuilder\Options\Schemas\StyleOptions;
-use ZionBuilder\Options\Schemas\Typography;
-use ZionBuilder\Options\Schemas\Advanced;
-use ZionBuilder\Options\Schemas\Video;
-use ZionBuilder\Options\Schemas\BackgroundImage;
-use ZionBuilder\Options\Schemas\Shadow;
 use ZionBuilder\Elements\Masks;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -172,7 +168,7 @@ class Editor {
 		$wp_scripts = new \WP_Scripts(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 
 		// Register our scripts
-		Plugin::instance()->register_scripts();
+		CommonJS::register_scripts();
 
 		do_action( 'zionbuilder/editor/before_scripts' );
 
@@ -238,15 +234,6 @@ class Editor {
 			true
 		);
 
-		wp_localize_script(
-			'zion-editor-script',
-			'ZnPbRestConfig',
-			[
-				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-				'rest_root' => esc_url_raw( rest_url() ),
-			]
-		);
-
 		wp_localize_script( 'zion-editor-script', 'ZnPbInitalData', $this->get_editor_initial_data() );
 
 		do_action( 'zionbuilder/editor/after_scripts' );
@@ -296,12 +283,12 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'l10n'                           => Localization::get_strings(),
-				'page_settings'                  => [
+				'l10n'                => Localization::get_strings(),
+				'page_settings'       => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $post_instance->get_page_settings_values(),
 				],
-				'urls'                           => [
+				'urls'                => [
 					'assets_url'        => Utils::get_file_url( 'assets' ),
 					'logo'              => Utils::get_logo_url(),
 					'loader'            => Utils::get_loader_url(),
@@ -313,33 +300,25 @@ class Editor {
 					'purchase_url'      => 'https://zionbuilder.io/pricing/',
 					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 				],
-				'masks'                          => Masks::getshapes(),
-				'builder_settings'               => [],
-				'element_default_options_schema' => [
-					'style_options'           => StyleOptions::get_schema(),
-					'advanced_options'        => Advanced::get_schema(),
-					'typography_schema'       => Typography::get_schema(),
-					'video_schema'            => Video::get_schema(),
-					'background_image_schema' => BackgroundImage::get_schema(),
-					'shadow'                  => Shadow::get_schema(),
-				],
-				'page_id'                        => $this->post_id,
-				'page_data'                      => get_post( $this->post_id ),
-				'autosaveInterval'               => AUTOSAVE_INTERVAL,
+				'masks'               => Masks::getshapes(),
+				'builder_settings'    => [],
+				'page_id'             => $this->post_id,
+				'page_data'           => get_post( $this->post_id ),
+				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
 				// Elements data
-				'elements_data'                  => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
-				'elements_categories'            => Plugin::$instance->elements_manager->get_elements_categories(),
+				'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
 
 				// User data
-				'post_lock_user'                 => $locked_user_name,
-				'wp_editor'                      => $this->get_wp_editor(),
+				'post_lock_user'      => $locked_user_name,
+				'wp_editor'           => $this->get_wp_editor(),
 
 				// Css classes
-				'css_classes'                    => CSSClasses::get_classes(),
+				'css_classes'         => CSSClasses::get_classes(),
 
 				// Plugin info
-				'plugin_info'                    => [
+				'plugin_info'         => [
 					'is_pro_active'      => Utils::is_pro_active(),
 					'is_pro_connected'   => apply_filters( 'zionbuilder/pro/is_conected', false ),
 					'free_version'       => Plugin::instance()->get_version(),
@@ -349,8 +328,8 @@ class Editor {
 				],
 
 				// Templates
-				'template_types'                 => Plugin::$instance->templates->get_template_types(),
-				'template_categories'            => Plugin::$instance->templates->get_template_categories(),
+				'template_types'      => Plugin::$instance->templates->get_template_types(),
+				'template_categories' => Plugin::$instance->templates->get_template_categories(),
 			]
 		);
 	}

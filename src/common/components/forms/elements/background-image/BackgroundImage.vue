@@ -10,7 +10,7 @@
 		/>
 
 		<OptionsForm
-			:schema="getBackgroundImageOptionSchema"
+			:schema="backgroundImageSchema"
 			v-model="valueModel"
 		/>
 	</div>
@@ -18,7 +18,7 @@
 
 <script>
 import InputImage from '../featured-image/InputImage'
-import { mapGetters } from 'vuex'
+import { getSchema } from '@zb/schemas'
 
 export default {
 	name: 'InputBackgroundImage',
@@ -28,10 +28,12 @@ export default {
 	components: {
 		InputImage
 	},
+	data () {
+		return {
+			backgroundImageSchema: getSchema('background_image')
+		}
+	},
 	computed: {
-		...mapGetters([
-			'getBackgroundImageOptionSchema'
-		]),
 		valueModel: {
 			get () {
 				return this.value || {}
@@ -69,7 +71,6 @@ export default {
 
 <style lang="scss">
 .znpb-input-background-image {
-
 	&-position-wrapper {
 		display: flex;
 

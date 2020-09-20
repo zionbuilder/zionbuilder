@@ -13,7 +13,7 @@
 		<PageStyles
 			:css-classes="getClasses"
 			:page-settings-model="getPageSettings"
-			:page-settings-schema="getPageSettingsSchema"
+			:page-settings-schema="pageSettingsSchema"
 		/>
 
 		<!-- Page custom css -->
@@ -28,12 +28,14 @@ import { mapGetters, mapActions } from 'vuex'
 import SaveElementModal from '@/editor/components/SaveElementModal.vue'
 import PageStyles from './components/PageStyles'
 import ElementStyles from './components/ElementStyles.vue'
+import { getSchema } from '@zb/schemas'
 
 export default {
 	name: 'PreviewApp',
 	data () {
 		return {
-			showExportModal: false
+			showExportModal: false,
+			pageSettingsSchema: getSchema('page_settings')
 		}
 	},
 	components: {
@@ -51,8 +53,7 @@ export default {
 			'getPageContent',
 			'isPreviewMode',
 			'getClasses',
-			'getPageSettings',
-			'getPageSettingsSchema'
+			'getPageSettings'
 		]),
 		elementData () {
 			return this.getPageContent['contentRoot']

@@ -119,16 +119,16 @@ import { mapActions, mapGetters } from 'vuex'
 import templateElementMixin from '@/editor/mixins/templateElement.js'
 import DropdownOptions from '@/editor/components/DropdownOptions.vue'
 import TreeViewMixin from '../elementMixins.js'
-import { Sortable } from '@/common/vue-beautifull-dnd/'
+import {
+	Sortable,
+	Tooltip
+} from '@zb/components'
 import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue'
 import SortableHelper from '@/editor/common/SortableHelper.vue'
 import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
 import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
 import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
-import {
-	Tooltip
-} from '@zb/components'
 
 export default {
 	name: 'element-wireframe-view',

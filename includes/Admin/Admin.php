@@ -195,15 +195,6 @@ class Admin {
 
 			wp_localize_script(
 				'znpb-admin-settings-page-script',
-				'ZnPbRestConfig',
-				[
-					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-					'rest_root' => esc_url_raw( rest_url() ),
-				]
-			);
-
-			wp_localize_script(
-				'znpb-admin-settings-page-script',
 				'ZnPbAdminPageData',
 				[
 					'l10n'                => Localization::get_strings(),

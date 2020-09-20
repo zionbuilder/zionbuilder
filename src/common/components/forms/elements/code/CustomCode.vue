@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
 	name: 'CustomCode',
 	inheritAttrs: false,
@@ -55,9 +53,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getElementData'
-		]),
 		getValue () {
 			return this.editor.getValue()
 		}

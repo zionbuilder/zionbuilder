@@ -38,7 +38,7 @@
 import BaseIcon from '@/common/components/BaseIcon.vue'
 import EmptyList from '../empty-list/EmptyList'
 import Video from '@/common/vendors/Video.js'
-import { mapGetters } from 'vuex'
+import { getSchema } from '@zb/schemas'
 
 export default {
 	name: 'InputBackgroundVideo',
@@ -69,11 +69,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getVideoOptionSchema'
-		]),
 		schema () {
-			let schema = { ...this.getVideoOptionSchema }
+			let schema = { ...getSchema('video') }
 
 			if (this.exclude_options) {
 				this.exclude_options.forEach(optionToRemove => {

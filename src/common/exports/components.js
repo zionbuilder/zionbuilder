@@ -14,6 +14,8 @@ import Loader from '@/common/components/Loader'
 import IconPackGrid from '@/common/components/IconPackGrid.vue'
 import { Injection } from '@/common/components/injections'
 import forms from '@/common/components/forms'
+import { Sortable } from '@/common/vue-beautifull-dnd'
+
 window.zb = window.zb || {}
 
 window.zb.components = {
@@ -38,5 +40,6 @@ window.zb.components = {
 	HorizontalAccordion,
 	IconPackGrid,
 	// Forms
-	forms
+	forms,
+	Sortable
 }

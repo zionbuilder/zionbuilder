@@ -1,6 +1,5 @@
 
 <script>
-import { mapGetters } from 'vuex'
 import ElementStyles from './ElementStyles.vue'
 import Options from '@/common/Options'
 import { getStyles } from '@/utils'

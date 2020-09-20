@@ -48,6 +48,7 @@
 				:position="position"
 				@click.native="$emit('input', shape)"
 			></shape>
+
 			<UpgradeToPro
 				v-if="!isPro"
 				:message_title="$translate('pro_masks_title')"

@@ -57,6 +57,7 @@ export default {
 			this.Editor.editor.formatter.toggle('fontname', {
 				value: font
 			})
+
 			this.justChangedNode = true
 			this.$emit('active-font', this.activeFont)
 		},

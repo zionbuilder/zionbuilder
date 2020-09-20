@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let restConfig = window.ZnPbRestConfig
+let restConfig = window.ZnCommonData
 
 const ZionService = axios.create({
 	baseURL: `https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/`,

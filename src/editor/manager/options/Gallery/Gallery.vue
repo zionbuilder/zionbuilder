@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex'
 import { EmptyList } from '@zb/components/forms'
 import { getImageIds } from '@/api/Api'
-import { Sortable } from '@/common/vue-beautifull-dnd'
+import { Sortable } from '@zb/components'
 
 const wp = window.wp
 

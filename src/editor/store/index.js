@@ -13,7 +13,6 @@ import interactions from './modules/interactions'
 import classes from './modules/classes'
 import errors from './modules/errors'
 import help from './modules/help'
-import schemas from './modules/schemas'
 import templates from './modules/templates'
 import Library from './modules/library'
 
@@ -37,7 +36,6 @@ export default new Vuex.Store({
 		classes,
 		errors,
 		help,
-		schemas,
 		templates,
 		Library
 	},

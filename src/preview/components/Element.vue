@@ -219,7 +219,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementOptionValue',
 			'getElementFocus',
 			'getElementById',
 			'isPreviewMode',
