@@ -166,7 +166,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { getOption } from '@zb/options'
+import { getOption } from '@zb/editor/options'
 import HasChanges from '@/editor/components/elementOptions/HasChanges'
 import { InputLabel } from '@zb/components/forms'
 import { getSchema } from '@zb/schemas'

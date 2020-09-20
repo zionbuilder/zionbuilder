@@ -7,15 +7,15 @@ import {
 	Notice,
 	Tabs,
 	Tab,
-	BaseIcon
+	BaseIcon,
+	BaseButton,
+	Loader
 } from '@zb/components'
 
-import BaseButton from './common/components/BaseButton.vue'
 import BasePanel from './editor/components/BasePanel.vue'
 import EditorApp from './editor/App.vue'
 import ElementWireframeView from '@/editor/components/treeView/wireFrame/ElementWireframeView'
 import FlyoutWrapper from './editor/components/FlyoutWrapper.vue'
-import Loader from './common/components/Loader'
 import OptionsForm from '@/editor/components/elementOptions/forms/OptionsForm.vue'
 import Vue from '@zb/vue'
 import ZionService from '@/api/ZionService'
