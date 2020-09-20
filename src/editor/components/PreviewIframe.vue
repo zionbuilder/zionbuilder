@@ -202,7 +202,7 @@ export default {
 		},
 		deselectActiveElement (event) {
 			// Don't deselect the element if an element was just activated
-			if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
+			if (!window.zb.editor.ElementFocusMarshall.isHandled) {
 				if (this.getElementFocus) {
 					this.setElementFocus(null)
 				}

@@ -48,11 +48,11 @@ export default {
 	},
 	mounted () {
 		// Set the active responsive group
-		window.zb.OptionsManager.setActiveResponsiveOptions(this)
+		window.zb.options.setActiveResponsiveOptions(this)
 	},
 	beforeDestroy () {
 		// Set the active responsive group
-		window.zb.OptionsManager.removeActiveResponsiveOptions()
+		window.zb.options.removeActiveResponsiveOptions()
 	},
 	methods: {
 		updateValue (newValue) {

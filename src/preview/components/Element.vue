@@ -509,16 +509,16 @@ export default {
 
 		onElementClick (event) {
 			// don't process if this was already handled
-			if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.elementModel.is_child) {
+			if (window.zb.editor.ElementFocusMarshall.isHandled || this.elementModel.is_child) {
 				return
 			}
 
 			// Reset handled click
 			setTimeout(() => {
-				window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
+				window.zb.editor.ElementFocusMarshall.reset()
 			}, 0)
 
-			window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
+			window.zb.editor.ElementFocusMarshall.handle()
 
 			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
 				this.setRightClickMenu({
