@@ -67,7 +67,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'shouldOpenAddElementsPopup',
-			'getElementFocus',
 			'getActiveShowElementsPopup'
 		])
 	},

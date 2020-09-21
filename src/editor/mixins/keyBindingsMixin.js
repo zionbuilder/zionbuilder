@@ -62,7 +62,6 @@ export default {
 			'updateElementOptionValue',
 			'closePanel',
 			'openPanel',
-			'updateElementOptions',
 			'savePage',
 			'setCopiedElement',
 			'setPreviewMode',
@@ -242,12 +241,10 @@ export default {
 
 				// Paste element styles ctrl + shift + v
 				if (e.ctrlKey && e.shiftKey && e.which === 86) {
-					this.updateElementOptions({
-						elementUid: activeElementFocus.uid,
-						values: {
-							...activeElementFocus.elementData.options,
-							_styles: copiedStyles
-						}
+					const element = this.getElementData(activeElementFocus.uid)
+					element.options.updateValues({
+						...activeElementFocus.elementData.options,
+						_styles: copiedStyles
 					})
 				}
 			}

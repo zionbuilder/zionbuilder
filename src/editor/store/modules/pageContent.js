@@ -64,9 +64,7 @@ const state = {
 	rightClickMenu: null,
 	cuttedElement: null,
 	template_categories: window.ZnPbInitalData.template_categories,
-	isPageDirty: false,
 	activeElementUid: null
-
 }
 
 const getParents = function (currentUid, allContent, parent) {
@@ -112,7 +110,6 @@ const getChildren = function (currentUid, allContent) {
 }
 
 const getters = {
-	getIsPageDirty: state => state.isPageDirty,
 	getTemplateCategories: state => state.template_categories,
 	getContentRoot: state => state.pageContent.contentRoot,
 	getRightClickMenu: state => state.rightClickMenu,
@@ -275,14 +272,7 @@ const actions = {
 	},
 	renameElement: ({ commit, dispatch, state }, { elementUid, elementName }) => {
 		const element = state.pageContent[elementUid]
-		const elementSavedName = element.getName()
-
-		// If the element name is changed, fire the commit
-		if (elementSavedName === elementName) {
-			return
-		}
-
-		commit(types.RENAME_ELEMENT, { elementUid, elementName })
+		element.rename(elementName)
 
 		// Add to history
 		const currentTime = new Date()
@@ -342,23 +332,6 @@ const actions = {
 	deleteActiveElementValue: ({ commit }, payload) => {
 		const { path } = payload
 		commit(types.DELETE_ELEMENT_OPTION, path)
-	},
-
-	updateElementOptions: ({ commit, dispatch, getters }, { elementUid, values, type }) => {
-		const element = state.pageContent[elementUid]
-
-		// Parse settings
-		commit(types.UPDATE_ELEMENT_OPTIONS, {
-			element,
-			values
-		})
-
-		// const currentTime = new Date()
-		// dispatch('addToHistory', {
-		// 	name: `Updated ${elementName} ${type}`,
-		// 	time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
-		// 	state: state
-		// })
 	},
 
 	copyElement: ({ commit, getters, dispatch, state }, payload) => {

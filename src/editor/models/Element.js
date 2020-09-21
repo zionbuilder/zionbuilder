@@ -15,8 +15,7 @@ export default class {
 		this.content = elementData.content
 		this.uid = elementData.uid || generateUID()
 		this.element_type = elementConfig.element_type
-		// this.options = new Options(schema, model)
-		this.options = elementConfig.options
+		this.options = new Options(elementConfig.element_type.options, elementData.options)
 	}
 
 	getElementModel () {
@@ -36,8 +35,12 @@ export default class {
 		return `#${this.uid}`
 	}
 
-	getName = () => {
-		return this.elementTypeModel.name
+	getName () {
+		return this.options.getValue('_advanced_options._element_name') || this.elementTypeModel.name
+	}
+
+	rename (name) {
+		this.options.updateValue('_advanced_options._element_name', name)
 	}
 
 	addChild (childUid) {

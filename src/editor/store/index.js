@@ -35,5 +35,5 @@ export default new Vuex.Store({
 		templates,
 		Library
 	},
-	strict: debug
+	strict: false
 })

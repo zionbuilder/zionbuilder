@@ -59,7 +59,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="copyElementStyles"
-			v-if="data && data.options._styles"
+			v-if="data && data.options.getValue('_styles')"
 		>
 			<BaseIcon icon="drop"></BaseIcon>
 			{{$translate('copy_element_styles')}}
@@ -67,7 +67,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="discardElementStyles"
-			v-if="data && data.options._styles"
+			v-if="data && data.options.getValue('_styles')"
 		>
 			<BaseIcon icon="drop"></BaseIcon>
 			{{$translate('discard_element_styles')}}
@@ -83,7 +83,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="copyElementClasses"
-			v-if="data && data.options._classes"
+			v-if="data && data.options.getValue('_classes')"
 		>
 			<BaseIcon icon="braces"></BaseIcon>
 			{{$translate('copy_classes')}}
@@ -159,7 +159,6 @@ export default {
 	methods: {
 		...mapActions([
 			'copyElement',
-			'updateElementOptions',
 			'setCopiedClasses',
 			'setCopiedElement',
 			'setCopiedElementStyles',
@@ -192,13 +191,7 @@ export default {
 		},
 		pasteElementClasses () {
 			if (this.getCopiedClasses) {
-				this.updateElementOptions({
-					elementUid: this.getElementFocus.uid,
-					values: {
-						...this.data.options,
-						_classes: this.getCopiedClasses
-					}
-				})
+				this.getElementFocus.options.updateValue('_classes', this.getCopiedClasses)
 			}
 			this.close()
 		},
@@ -256,25 +249,14 @@ export default {
 			this.close()
 		},
 		discardElementStyles () {
-			this.updateElementOptions({
-				elementUid: this.getElementFocus.uid,
-				values: {
-					...this.data.options,
-					_styles: {}
-				}
-			})
+			const element = this.getElementData(this.getElementFocus.uid)
+			element.options.updateValue('_styles', {})
 			this.close()
 		},
 		pasteElementStyles () {
 			const copiedElementStyles = this.getCopiedElementStyles
 			if (this.getCopiedElementStyles) {
-				this.updateElementOptions({
-					elementUid: this.getElementFocus.uid,
-					values: {
-						...this.data.options,
-						_styles: copiedElementStyles
-					}
-				})
+				this.getElementFocus.options.updateValue('_styles', copiedElementStyles)
 				this.close()
 			}
 		},

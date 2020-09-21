@@ -259,20 +259,15 @@ export default {
 			return optionsSchema
 		},
 		elementName () {
-			console.log(this.data)
 			return this.data.getName()
 		},
 		elementOptions: {
 			get () {
-				return Array.isArray(this.data.options) ? {} : this.data.options || {}
+				return Array.isArray(this.data.options) ? {} : this.data.options.getValues() || {}
 			},
 			set (newValues) {
 				newValues = newValues === null ? {} : newValues
-
-				this.updateElementOptions({
-					elementUid: this.elementUid,
-					values: newValues
-				})
+				this.data.options.updateValues(newValues)
 
 				// Add to history
 				this.addToLocalHistory()
@@ -347,7 +342,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'updateElementOptions',
 			'setActiveElement',
 			'saveState',
 			'closePanel'
@@ -478,10 +472,7 @@ export default {
 			const prevState = this.history[this.historyIndex - 1]
 
 			if (prevState) {
-				this.updateElementOptions({
-					elementUid: this.elementUid,
-					values: prevState
-				})
+				this.data.options.updateValues(prevState)
 				this.historyIndex--
 			}
 		},
@@ -489,10 +480,7 @@ export default {
 			const nextState = this.history[this.historyIndex + 1]
 
 			if (nextState) {
-				this.updateElementOptions({
-					elementUid: this.elementUid,
-					values: nextState
-				})
+				this.data.options.updateValues(nextState)
 				this.historyIndex++
 			}
 		},

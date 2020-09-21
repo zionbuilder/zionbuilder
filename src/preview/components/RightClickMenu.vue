@@ -42,8 +42,7 @@ export default {
 		...mapGetters([
 			'getCopiedElement',
 			'getCopiedClasses',
-			'getRightClickMenu',
-			'getElementFocus'
+			'getRightClickMenu'
 		]),
 		position () {
 			if (this.getRightClickMenu && this.getRightClickMenu.position) {
