@@ -76,9 +76,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import CssSelector from './CssSelector.vue'
 import {
-	Tooltip,
-	BaseInput
+	Tooltip
 } from '@zb/components'
+
+import {
+	BaseInput
+} from '@zb/components/forms'
 
 export default {
 	name: 'ClassSelectorDropdown',
