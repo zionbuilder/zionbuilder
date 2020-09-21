@@ -805,8 +805,7 @@ class Element {
 				}
 			}
 
-			$tag_id_with_index = $tag_id . $index;
-			$content           = isset( $tag_config['render_callback'] ) ? call_user_func( $tag_config['render_callback'], $value, $index, $tag_id_with_index ) : '';
+			$content = isset( $tag_config['render_callback'] ) ? call_user_func( $tag_config['render_callback'], $value, $index ) : '';
 			$this->render_tag( $html_tag_type, [ $tag_id, $tag_id . $index ], $content );
 		}
 	}
