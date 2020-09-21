@@ -123,7 +123,6 @@ class Cache {
 		unset( $this->registered_post_ids[$post_id] );
 	}
 
-
 	/**
 	 * Enqueue dynamic css file
 	 *
@@ -457,6 +456,20 @@ class Cache {
 
 		FileSystem::get_file_system()->delete( $cache_file_config['path'] );
 	}
+
+
+	/**
+	 * Purges the dynamic css cached file
+	 *
+	 * @return void
+	 */
+	public function delete_dynamic_css_cache() {
+		$cache_directory    = $this->get_cache_directory();
+		$dynamic_cache_file = $cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
+
+		FileSystem::get_file_system()->delete( $dynamic_cache_file );
+	}
+
 
 	/**
 	 * Delete all cache
