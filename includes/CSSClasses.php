@@ -32,6 +32,9 @@ class CSSClasses {
 	 * @return bool
 	 */
 	public static function save_classes( $classes = [] ) {
+		// Clear the cache
+		Plugin::instance()->cache->delete_dynamic_css_cache();
+		// Also clear the cache
 		return update_option( self::CLASSES_OPTION_KEY, wp_json_encode( $classes ) );
 	}
 
