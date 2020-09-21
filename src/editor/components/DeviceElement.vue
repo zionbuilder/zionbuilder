@@ -64,7 +64,7 @@ export default {
 			return this.deviceConfig === this.getActiveDevice
 		},
 		hasChanges () {
-			const activeDevice = window.zb.options.getActiveResponsiveOptions()
+			const activeDevice = window.zb.editor.options.getActiveResponsiveOptions()
 			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
 		},
 		getActiveDeviceId () {
@@ -82,7 +82,7 @@ export default {
 			}
 		},
 		removeStylesGroup () {
-			const activeDevice = window.zb.options.getActiveResponsiveOptions()
+			const activeDevice = window.zb.editor.options.getActiveResponsiveOptions()
 			if (activeDevice) {
 				activeDevice.removeDeviceStyles(this.deviceConfig.id)
 			}
