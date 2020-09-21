@@ -130,14 +130,13 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementById',
 			'getElementData'
 		]),
 		closeIcon () {
 			return this.topBarOpen ? 'close' : 'edit'
 		},
 		elementModel () {
-			return this.getElementById(this.data.element_type)
+			return this.data.getElementModel()
 		}
 
 	},

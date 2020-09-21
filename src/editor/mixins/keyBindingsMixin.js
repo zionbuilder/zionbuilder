@@ -1,5 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
+import { getElement } from '@zb/editor/elements'
 
 let copiedStyles = {}
 let openedPanels = []
@@ -20,7 +21,6 @@ export default {
 			'getCopiedElement',
 			'isPreviewMode',
 			'getOpenedPanels',
-			'getElementById',
 			'getCuttedElement',
 			'getEditPageUrl'
 		])
@@ -197,7 +197,7 @@ export default {
 						const elementId = this.getElementData(activeElementFocus.uid).element_type
 						this.setCopiedElement({
 							uid: activeElementFocus.uid,
-							isWrapper: this.getElementById(elementId).wrapper
+							isWrapper: getElement(elementId).wrapper
 						})
 						this.setCuttedElement(null)
 					}
@@ -219,7 +219,7 @@ export default {
 							uid: activeElementFocus.uid,
 							parentUid: activeElementFocus.parentUid,
 							insertParent: activeElementFocus.insertParent,
-							isWrapper: this.getElementById(elementId).wrapper
+							isWrapper: getElement(elementId).wrapper
 						})
 						this.setCopiedElement(null)
 					}

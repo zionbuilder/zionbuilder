@@ -127,6 +127,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { SET_LOCKED_USERINFO } from '../store/mutation-types'
+import { getElement } from '@zb/editor/elements'
+
 export default {
 	name: 'ElementActions',
 	props: {
@@ -148,8 +150,7 @@ export default {
 			'getElementFocus',
 			'getElementOptionValue',
 			'getCuttedElement',
-			'getElementData',
-			'getElementById'
+			'getElementData'
 		]),
 		data () {
 			return this.getPageContent[this.getElementFocus.uid]
@@ -212,7 +213,7 @@ export default {
 				uid: this.getElementFocus.uid,
 				parentUid: this.getElementFocus.parentUid,
 				insertParent: this.getElementFocus.insertParent,
-				isWrapper: this.getElementById(elementId).wrapper
+				isWrapper: getElement(elementId).wrapper
 			})
 			this.setCopiedElement(null)
 			this.close()

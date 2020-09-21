@@ -1,4 +1,4 @@
 import Testimonial from './components/Testimonial'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Testimonial)
+registerElementComponent(Testimonial)

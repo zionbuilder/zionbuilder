@@ -21,6 +21,9 @@
 
 		<SaveElementModal :template="false" />
 
+		<pre>
+		{{getPageContent}}
+		</pre>
 	</div>
 
 </template>

@@ -227,7 +227,6 @@ export default {
 		...mapGetters([
 			'getElementOptionValue',
 			'getActiveDevice',
-			'getElementName',
 			'isDragging',
 			'getElementFocus'
 		]),
@@ -436,7 +435,7 @@ export default {
 		onMouseUp () {
 			// We just need to add to history
 			if (this.addToHistory) {
-				this.saveState(`Updated ${this.getElementName(this.data.uid)} ${this.activeDragType}`)
+				this.saveState(`Updated ${this.data.getName()} ${this.activeDragType}`)
 			}
 
 			// Cancel the scheduler
@@ -597,7 +596,7 @@ export default {
 
 			// We just need to add to history
 			if (this.addToHistory) {
-				this.saveState(`Updated ${this.getElementName(this.data.uid)} ${this.activeDragType}`)
+				this.saveState(`Updated ${this.data.getName()} ${this.activeDragType}`)
 			}
 
 			this.addToHistory = false

@@ -65,8 +65,8 @@
 				<Tab name="Advanced">
 					<OptionsForm
 						class="znpb-element-options-content-form"
-						:schema="elementsAdvancedOptionSchema"
-						v-model="advancedOptionsModel"
+						:schema="computedAdvancedOptionsSchema"
+						v-model="computedAdvancedOptionsModel"
 					/>
 				</Tab>
 				<Tab name="Search">
@@ -135,6 +135,8 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
 import { getSchema } from '@zb/schemas'
 import { debounce } from '@zb/utils'
+import Options from '@/common/Options'
+import { getElement } from '@zb/editor/elements'
 
 export default {
 	name: 'PanelElementOptions',
@@ -174,25 +176,32 @@ export default {
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
 			noOptionFoundMessage: 'No options found with this keyword',
-			elementsAdvancedOptionSchema: getSchema('element_advanced'),
 			elementsStyleOptionsSchema: getSchema('styles')
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getElementById',
 			'getElementData',
-			'getElementName',
 			'getActiveElementUid',
-			'getElementFocus',
-			'getElementParent'
+			'getElementParent',
+			'getActiveDevice',
+			'getActivePseudoSelector'
 		]),
-
 		elementUid () {
 			return this.getActiveElementUid
 		},
 		data () {
 			return this.getElementData(this.getActiveElementUid)
+		},
+		computedAdvancedOptionsSchema () {
+			const schema = getSchema('element_advanced')
+
+			const optionsInstance = new Options(
+				schema,
+				this.elementOptions
+			)
+
+			return optionsInstance.getValidSchema()
 		},
 		computedStyleOptionsSchema () {
 			const schema = {}
@@ -217,27 +226,41 @@ export default {
 				}
 			})
 
-			return {
-				'_styles': {
-					id: 'styles',
-					child_options: schema,
-					optionsLayout: 'full',
-					type: 'group'
-				}
-			}
+			const optionsInstance = new Options(
+				{
+					'_styles': {
+						id: 'styles',
+						child_options: schema,
+						optionsLayout: 'full',
+						type: 'group'
+					}
+				},
+				this.computedStyleOptions
+			)
+
+			return optionsInstance.getValidSchema()
+		},
+		computedElementOptionsSchema () {
+			const elementOptionsSchema = this.elementConfig.options ? this.elementConfig.options : {}
+			const optionsInstance = new Options(
+				elementOptionsSchema,
+				this.computedAdvancedOptionsModel
+			)
+
+			return optionsInstance.getValidSchema()
 		},
 		allOptionsSchema () {
-			const elementOptionsSchema = this.elementConfig.options ? this.elementConfig.options : {}
 			const optionsSchema = {
-				...elementOptionsSchema,
+				...this.computedElementOptionsSchema,
 				...this.computedStyleOptionsSchema,
-				...this.elementsAdvancedOptionSchema
+				...this.computedAdvancedOptionsSchema
 			}
 
 			return optionsSchema
 		},
 		elementName () {
-			return this.getElementName(this.elementUid)
+			console.log(this.data)
+			return this.data.getName()
 		},
 		elementOptions: {
 			get () {
@@ -270,7 +293,7 @@ export default {
 				}
 			}
 		},
-		advancedOptionsModel: {
+		computedAdvancedOptionsModel: {
 			get () {
 				return this.elementOptions._advanced_options || {}
 			},
@@ -283,7 +306,7 @@ export default {
 		},
 
 		elementConfig () {
-			return this.getElementById(this.data.element_type)
+			return getElement(this.data.element_type)
 		},
 		canUndo () {
 			return this.historyIndex > 0
@@ -345,6 +368,8 @@ export default {
 			Object.keys(optionsSchema).forEach((optionId) => {
 				const optionConfig = optionsSchema[optionId]
 
+				// Check for dependency
+
 				let syncValue = []
 				if (!optionConfig.sync) {
 					if (currentId) {
@@ -360,11 +385,12 @@ export default {
 					}
 
 					if (optionConfig.type === 'responsive_group') {
-						syncValue.push('%%RESPONSIVE_DEVICE%%')
+						console.log(this.getActiveDevice)
+						syncValue.push(this.getActiveDevice.id)
 					}
 
 					if (optionConfig.type === 'pseudo_group') {
-						syncValue.push('%%PSEUDO_SELECTOR%%')
+						syncValue.push(this.getActivePseudoSelector.id)
 					}
 				}
 
@@ -385,25 +411,17 @@ export default {
 
 				if (optionConfig.type !== 'accordion_menu') {
 					if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
-						foundOptions[syncValue.join('.')] = {
+						const syncId = optionConfig.sync || syncValue.join('.')
+						foundOptions[syncId] = {
 							...optionConfig,
-							id: syncValue.join('.'),
-							sync: optionConfig.sync || syncValue.join('.')
+							id: syncId,
+							sync: syncId
 						}
 					}
 				}
 
 				if (optionConfig.type === 'repeater') {
 					return
-				}
-
-				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.elementsStyleOptionsSchema, syncValue)
-
-					foundOptions = {
-						...foundOptions,
-						...childOptions
-					}
 				}
 
 				if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
@@ -480,8 +498,7 @@ export default {
 		},
 		closeOptionsPanel () {
 			if (this.hasChanges) {
-				const elementSavedName = this.getElementName(this.elementUid)
-				this.saveState(`Edited ${elementSavedName}`)
+				this.saveState(`Edited ${this.data.getName()}`)
 			}
 
 			this.closePanel('PanelElementOptions')

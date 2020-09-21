@@ -73,6 +73,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import Options from '@/common/Options'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@/utils'
+import { getElementComponent, getElement } from '@zb/editor/elements'
 
 // Components
 import ServerComponent from '@/preview/components/ServerComponent'
@@ -220,13 +221,12 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementFocus',
-			'getElementById',
 			'isPreviewMode',
 			'getRightClickMenu',
 			'getCuttedElement'
 		]),
 		elementModel () {
-			return this.getElementById(this.data.element_type)
+			return this.data.getElementModel()
 		},
 		stylesConfig () {
 			return this.options._styles || {}
@@ -415,7 +415,7 @@ export default {
 
 		async getElementComponent () {
 			await this.loadElementAssets()
-			const component = window.zb.editor.elements.getElementComponent(this.data.element_type)
+			const component = getElementComponent(this.data.element_type)
 
 			if (component) {
 				this.component = component

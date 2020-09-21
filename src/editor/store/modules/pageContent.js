@@ -1,7 +1,7 @@
 import Vue from '@zb/vue'
 import * as types from '../mutation-types'
 import { generateUID, deepCopy, updateOptionValue, getOptionValue } from '@zb/utils'
-
+import Element from '@/editor/models/Element'
 import { savePage } from '@/api/Page'
 import Cache from '@/editor/Cache'
 
@@ -180,14 +180,6 @@ const getters = {
 
 		return getOptionValue(elementData.options, path, defaultValue)
 	},
-	getElementName: (state, getters) => (elementUid) => {
-		if (elementUid) {
-			const elementData = getters.getElementData(elementUid)
-			const elementTypeConfig = getters.getElementById(elementData.element_type)
-			const elementSavedName = getOptionValue(elementData.options, '_advanced_options._element_name')
-			return elementSavedName || elementTypeConfig.name
-		}
-	},
 	getElementData: state => (elementUid) => state.pageContent[elementUid],
 	getPageSettings: state => state.pageSettings,
 	getCopiedClasses: state => state.copiedClasses,
@@ -231,7 +223,17 @@ const actions = {
 		commit(types.SET_COPIED_CLASSES, payload)
 	},
 	setPageContent: ({ commit }, payload) => {
-		commit(types.SET_PAGE_CONTENT, payload)
+		const content = {}
+		Object.keys(payload).forEach((elementUID) => {
+			const elementData = payload[elementUID]
+			const ElementInstance = new Element(elementData)
+
+			console.log(ElementInstance)
+
+			content[elementUID] = ElementInstance
+		})
+
+		commit(types.SET_PAGE_CONTENT, content)
 	},
 	setPageAreas: ({ commit }, payload) => {
 		commit(types.SET_PAGE_AREAS, payload)
@@ -271,9 +273,9 @@ const actions = {
 			})
 		}, 100)
 	},
-	renameElement: ({ commit, dispatch, getters, state }, { elementUid, elementName }) => {
-		const elementConfig = state.pageContent[elementUid]
-		const elementSavedName = getters.getElementName(elementUid)
+	renameElement: ({ commit, dispatch, state }, { elementUid, elementName }) => {
+		const element = state.pageContent[elementUid]
+		const elementSavedName = element.getName()
 
 		// If the element name is changed, fire the commit
 		if (elementSavedName === elementName) {
@@ -295,7 +297,7 @@ const actions = {
 		const { elementUid, path, newValue, type, addToHistory } = payload
 		const element = state.pageContent[elementUid]
 		const newValues = updateOptionValue(element.options, path, newValue)
-		const elementName = getters.getElementName(elementUid)
+		const elementName = element.getName()
 
 		commit(types.UPDATE_ELEMENT_OPTIONS, {
 			element,
@@ -314,7 +316,7 @@ const actions = {
 		// Add to history
 		if (type) {
 			if (type === 'visibility') {
-				const elementSavedName = getters.getElementName(elementUid)
+				const elementSavedName = element.getName()
 				const currentTime = new Date()
 				const action = newValue ? 'Shown' : 'Hidden'
 				dispatch('addToHistory', {
@@ -344,7 +346,6 @@ const actions = {
 
 	updateElementOptions: ({ commit, dispatch, getters }, { elementUid, values, type }) => {
 		const element = state.pageContent[elementUid]
-		// const elementName = getters.getElementName(elementUid)
 
 		// Parse settings
 		commit(types.UPDATE_ELEMENT_OPTIONS, {
@@ -370,7 +371,7 @@ const actions = {
 		const elementIndex = parentContent.indexOf(elementUid)
 		const pasteElementIndex = parentContent.indexOf(pasteElementUid)
 		const childElementsData = copyElementContent(elementConfig, {}, getters)
-		const elementSavedName = getters.getElementName(elementUid)
+		const elementSavedName = elementConfig.getName()
 
 		commit(types.ADD_ELEMENTS, {
 			elements: childElementsData.newChilds
@@ -413,7 +414,8 @@ const actions = {
 		})
 
 		const currentTime = new Date()
-		const elementSavedName = getters.getElementName(elementUid)
+		const elementConfig = getters.getElementData(elementUid)
+		const elementSavedName = elementConfig.getName()
 		dispatch('addToHistory', {
 			name: `Moved ${elementSavedName}`,
 			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
@@ -474,7 +476,7 @@ const actions = {
 
 	deleteElement: ({ commit, getters, dispatch, state }, { elementUid, parentUid }) => {
 		const elementConfig = getters.getElementData(elementUid)
-		const elementSavedName = getters.getElementName(elementUid)
+		const elementSavedName = elementConfig.getName()
 
 		// If the active element is deleted, also remove the active element
 		if (state.activeElementUid && state.activeElementUid === elementConfig.uid) {

@@ -1,4 +1,4 @@
 import customHtml from './components/customHtml'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(customHtml)
+registerElementComponent(customHtml)

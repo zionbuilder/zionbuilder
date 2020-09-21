@@ -1,4 +1,4 @@
 import iconBox from './components/iconBox'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(iconBox)
+registerElementComponent(iconBox)

@@ -1,4 +1,4 @@
 import Text from './components/Text'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Text)
+registerElementComponent(Text)

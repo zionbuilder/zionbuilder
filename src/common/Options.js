@@ -1,13 +1,15 @@
 import { applyFilters } from '@zb/filters'
 import { getOptionValue, getStyles } from '@/utils'
 import Vue from '@zb/vue'
+import { getSchema } from '@zb/schemas'
 
 /**
  * Will parse the option schema in order to get the render attributes
  * and custom css
  */
 export default class Options {
-	constructor (schema, model, selector, options) {
+	constructor (schema, model, selector = '', options = {}) {
+		// TODO: work on data after moving to computed getter
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
@@ -47,6 +49,150 @@ export default class Options {
 			renderAttributes: this.renderAttributes,
 			customCSS: this.getCustomCSS()
 		}
+	}
+
+	/**
+	 * Returns the valid schema by processing dependencies, placeholders and default value
+	 *
+	 * @param {*} schema
+	 * @param {*} model
+	 */
+	getValidSchema (schema, model) {
+		let returnSchema = {}
+		schema = schema || this.schema
+		model = model || this.model
+
+		Object.keys(schema).forEach((optionId) => {
+			const singleOptionSchema = schema[optionId]
+			let dependencyPassed = this.checkDependency(singleOptionSchema, model)
+
+			if (!dependencyPassed) {
+				return false
+			}
+
+			// Set data sources
+			if (typeof singleOptionSchema.data_source !== 'undefined') {
+				if (singleOptionSchema.data_source === 'fonts') {
+					singleOptionSchema.options = window.zb.editor.store.getters.getFontListForOption
+					delete singleOptionSchema.data_source
+				}
+			}
+
+			// Special cases for inputs
+			if (singleOptionSchema.type === 'textarea') {
+				singleOptionSchema.type = 'textarea'
+			}
+
+			// Check for special schemas
+			if (singleOptionSchema.type === 'element_styles') {
+				singleOptionSchema.child_options = getSchema('styles')
+			} else if (singleOptionSchema.type === 'typography') {
+				singleOptionSchema.child_options = getSchema('typography')
+			} else if (singleOptionSchema.type === 'background_image') {
+				singleOptionSchema.child_options = getSchema('background_image')
+			}
+
+			if (typeof singleOptionSchema.is_layout !== 'undefined' && singleOptionSchema.is_layout) {
+				if (typeof singleOptionSchema.child_options !== 'undefined') {
+					returnSchema = {
+						...returnSchema,
+						...this.getValidSchema(singleOptionSchema.child_options)
+					}
+				}
+			} else {
+				if (typeof singleOptionSchema.child_options !== 'undefined') {
+					if (singleOptionSchema.type === 'repeater') {
+
+					} else {
+						const childSchema = this.getValidSchema(singleOptionSchema.child_options, model[optionId])
+						singleOptionSchema.child_options = childSchema
+					}
+				}
+			}
+
+			returnSchema[optionId] = singleOptionSchema
+		})
+
+		return schema
+	}
+
+	// TODO: move to utils
+	isIterable (schema) {
+		return Array.isArray(schema) || (schema === Object(schema) && typeof schema !== 'function')
+	}
+
+	compilePlaceholders (schema) {
+		// Don't proceed if the object is not iterable
+		if (!this.isIterable(schema)) {
+			return this.compilePlaceholder(schema)
+		} else {
+			for (const prop in schema) {
+				// Don't process sync values
+				if (prop !== 'sync') {
+					if (schema.hasOwnProperty(prop)) {
+						schema[prop] = this.compilePlaceholders(schema[prop])
+					}
+				}
+			}
+		}
+
+		return schema
+	}
+
+	compilePlaceholder (value) {
+		if (typeof value !== 'string') {
+			return value
+		}
+
+		const replacements = [
+			{
+				search: /%%ELEMENT_TYPE%%/g,
+				replacement: this.replaceElementType
+			},
+			{
+				search: /%%ELEMENT_UID%%/g,
+				replacement: this.replaceElementUid
+			},
+			{
+				search: /%%RESPONSIVE_DEVICE%%/g,
+				replacement: this.replaceResponsiveDevice
+			},
+			{
+				search: /%%PSEUDO_SELECTOR%%/g,
+				replacement: this.replacePseudoSelector
+			}
+		]
+
+		replacements.forEach((replacementConfig) => {
+			value = value.replace(replacementConfig.search, replacementConfig.replacement)
+		})
+
+		return value
+	}
+
+	/**
+	 * Replace %%ELEMENT_TYPE%% with the element name
+	 */
+	replaceElementType () {
+		return this.elementInfo.data.elementTypeConfig.name
+	}
+	/**
+	 * Replace %%ELEMENT_UID%% constant with the element UID
+	 */
+	replaceElementUid () {
+		return this.elementInfo.data.uid
+	}
+	/**
+	 * Replace %%RESPONSIVE_DEVICE%% constant with the element UID
+	 */
+	replaceResponsiveDevice () {
+		return this.getActiveDevice.id
+	}
+	/**
+	 * Replace %%PSEUDO_SELECTOR%% constant with the element UID
+	 */
+	replacePseudoSelector () {
+		return this.getActivePseudoSelector.id
 	}
 
 	parseOptions (schema, model, index = null) {

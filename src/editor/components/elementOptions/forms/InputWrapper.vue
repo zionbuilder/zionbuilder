@@ -219,12 +219,6 @@ export default {
 		deleteValue: {
 			type: Function
 		},
-		getSchemaFromPath: {
-			type: Function
-		},
-		compilePlaceholder: {
-			type: Function
-		},
 		width: {
 			type: Number,
 			required: false
@@ -241,7 +235,6 @@ export default {
 		...mapGetters([
 			'getActiveElementOptionValue',
 			'getActiveDevice',
-			'getActivePseudoSelector',
 			'getDeviceList'
 		]),
 		isValidInput () {
@@ -292,7 +285,7 @@ export default {
 			let value = null
 
 			if (this.compiledSchema.sync) {
-				value = this.getActiveElementOptionValue(this.compilePlaceholder(this.compiledSchema.sync))
+				value = this.getActiveElementOptionValue(this.compiledSchema.sync)
 			} else {
 				value = this.value
 			}
@@ -356,7 +349,7 @@ export default {
 				// Check if the option is synced
 				if (this.compiledSchema.sync) {
 					// Compile sync value as it may contain placeholders
-					const syncValuePath = this.compilePlaceholder(this.compiledSchema.sync)
+					const syncValuePath = this.compiledSchema.sync
 
 					// Check to see if we need to delete the option
 					if (valueToUpdate === null) {
@@ -520,7 +513,7 @@ export default {
 			if (this.schema.sync) {
 				let fullOptionIds = []
 				const childOptionsIds = this.getChildOptionsIds(this.schema, false)
-				const compiledSync = this.compilePlaceholder(this.schema.sync)
+				const compiledSync = this.schema.sync
 
 				// Check if this has child options that needs to be deleted
 				if (childOptionsIds.length > 0) {

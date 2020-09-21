@@ -1,4 +1,4 @@
 import IconList from './components/IconList'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(IconList)
+registerElementComponent(IconList)

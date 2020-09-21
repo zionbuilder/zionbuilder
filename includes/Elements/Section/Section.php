@@ -268,7 +268,21 @@ class Section extends Element {
 				],
 			]
 		);
-
+		$options->add_option(
+			'test',
+			[
+				'type'                    => 'text',
+				'description'             => esc_html__( 'test', 'zionbuilder' ),
+				'title'                   => esc_html__( 'test', 'zionbuilder' ),
+				'show_responsive_buttons' => true,
+				'dependency'              => [
+					[
+						'option' => 'inner_content_layout',
+						'value'  => [ 'column' ],
+					],
+				],
+			]
+		);
 		$options->add_option(
 			'inner_content_column_alignment_horizontal',
 			[

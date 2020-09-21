@@ -1,4 +1,4 @@
 import Image from './components/Image'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Image)
+registerElementComponent(Image)

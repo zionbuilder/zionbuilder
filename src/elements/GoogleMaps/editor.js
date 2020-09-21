@@ -1,4 +1,4 @@
 import googleMaps from './components/googleMaps'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(googleMaps)
+registerElementComponent(googleMaps)

@@ -1,4 +1,4 @@
 import PricingBox from './components/PricingBox'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(PricingBox)
+registerElementComponent(PricingBox)

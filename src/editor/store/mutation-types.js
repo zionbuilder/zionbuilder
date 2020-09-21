@@ -21,7 +21,6 @@ export const COPY_ELEMENT = 'COPY_ELEMENT'
 export const DELETE_ELEMENT = 'DELETE_ELEMENT'
 export const RENAME_ELEMENT = 'RENAME_ELEMENT'
 export const SAVE_SORTING = 'SAVE_SORTING'
-export const REGISTER_ELEMENT = 'REGISTER_ELEMENT'
 
 // History
 export const HISTORY_ADD = 'HISTORY_ADD'

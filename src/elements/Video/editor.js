@@ -1,4 +1,4 @@
 import Video from './components/Video'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Video)
+registerElementComponent(Video)

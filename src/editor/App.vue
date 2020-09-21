@@ -270,7 +270,6 @@ export default {
 			'setPreviewMode',
 			'savePanelsOrder',
 			'setPageAreas',
-			'setPageContent',
 			'setActiveArea',
 			'addNotice',
 			'setElementFocus',

@@ -1,6 +1,7 @@
 // define a mixin object
 import { mapGetters, mapActions } from 'vuex'
 import { getOptionValue } from '@zb/utils'
+import { getElement } from '@zb/editor/elements'
 
 export default {
 	props: {
@@ -20,8 +21,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementData',
-			'getElementById'
+			'getElementData'
 		]),
 		elementTemplateData () {
 			return this.getElementData(this.elementUid) || {}
@@ -29,7 +29,7 @@ export default {
 		elementModel () {
 			const elementId = this.getElementData(this.elementUid).element_type
 
-			return this.getElementById(elementId)
+			return getElement(elementId)
 		},
 		elementTypeName () {
 			return this.elementModel.name

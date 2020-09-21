@@ -22,40 +22,30 @@
 			</BaseInput>
 		</div>
 		<div
-			v-if="searchKeyword.length > 2"
-			class="znpb-fancy-scrollbar"
+			class="znpb-fancy-scrollbar znpb-wrapper-category"
 		>
-			<div class="znpb-wrapper-category">
-				<ElementList
-					v-if="getVisibleElements.length > 0"
-					:elements="getVisibleElements"
-					tag="div"
-				/>
-				<div v-else>{{$translate('no_elements_found')}}</div>
-			</div>
-		</div>
-		<div
-			v-else
-			class="znpb-fancy-scrollbar"
-		>
-			<CategoriesElements
-				:category="getActiveCat"
+			<ElementList
+				:elements="visibleElements"
 				tag="div"
 			/>
+
+			<div
+				v-if="searchKeyword.length > 2 && visibleElements.length === 0"
+			>{{$translate('no_elements_found')}}</div>
 		</div>
+
 	</div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { BaseInput, InputSelect } from '@zb/components/forms'
 import { generateUID } from '@zb/utils'
-import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'
+import { getElement, getElements, getCategories } from '@zb/editor/elements'
 
 export default {
 	name: 'AddElementsPopup',
 	components: {
-		CategoriesElements,
 		ElementList,
 		BaseInput,
 		InputSelect
@@ -77,22 +67,31 @@ export default {
 	data () {
 		return {
 			searchKeyword: '',
-			categVal: 'all'
-
+			categVal: null
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getElementCategories',
-			'getVisibleElements',
-			'getElementById',
-			'getElementData'
-		]),
+		visibleElements () {
+			const allElements = getElements()
+			const keyword = this.searchKeyword
+			const category = this.categVal
+
+			if (keyword.length === 0 && !category) {
+				return allElements
+			}
+
+			return allElements.filter(element => {
+				const isInCategory = category ? element.category !== undefined && element.category === category : true
+				const hasKeyword = keyword.length > 0 ? element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 || element.keywords.join().toLowerCase().indexOf(keyword.toLowerCase()) !== -1 : true
+
+				return isInCategory && hasKeyword
+			})
+		},
 
 		getSelectOptions () {
-			let options = this.getElementCategories
+			let options = getCategories()
 			let allElement = {
-				id: 'all',
+				id: null,
 				name: 'All'
 			}
 			const newArray = [allElement].concat(options)
@@ -105,15 +104,6 @@ export default {
 			set (newVal) {
 				this.categVal = newVal
 			}
-		},
-		getActiveCat () {
-			let activeCat = null
-			this.getSelectOptions.forEach((cat) => {
-				if (cat.id === this.categVal) {
-					activeCat = cat
-				}
-			})
-			return activeCat || this.getSelectOptions[0]
 		}
 	},
 	created () {
@@ -125,7 +115,6 @@ export default {
 	methods: {
 		...mapActions([
 			'addElement',
-			'filterElementsBySearch',
 			'setShouldOpenAddElementsPopup',
 			'setActiveElement',
 			'openPanel'
@@ -146,7 +135,7 @@ export default {
 			})
 
 			// Open the popup
-			const elementModel = this.getElementById(event.detail.element_type)
+			const elementModel = getElement(event.detail.element_type)
 			if (elementModel.wrapper) {
 				this.setShouldOpenAddElementsPopup(true)
 			}
@@ -161,11 +150,6 @@ export default {
 
 		onSearchKeyword (event) {
 			this.searchKeyword = event.target.value
-			if (this.searchKeyword.length >= 2) {
-				this.filterElementsBySearch(this.searchKeyword)
-			} else {
-				this.filterElementsBySearch(null)
-			}
 		}
 	},
 	mounted () {

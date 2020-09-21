@@ -1,4 +1,4 @@
 import Gallery from './components/gallery'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Gallery)
+registerElementComponent(Gallery)

@@ -1,4 +1,4 @@
 import Column from './components/column'
-import { registerElement } from '@zb/editor/elements'
+import { registerElementComponent } from '@zb/editor/elements'
 
-registerElement(Column)
+registerElementComponent(Column)
