@@ -1,6 +1,7 @@
 {
 	"packages": [
-		"src/packages/cli-tsconfig"
+		"src/packages/cli-tsconfig",
+		"src/packages/cli"
 	],
 	"version": "1.0.0",
 	"publishConfig": {
