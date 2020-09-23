@@ -5,7 +5,7 @@ module.exports = {
 	webpackEntries: {
 		'js/common': './src/common.js',
 		// 'js/editor': './src/editor.js',
-		// 'js/admin-page': './src/admin-page.js',
+		'js/admin-page': './src/admin-page.js',
 		'js/edit-page': './src/packages/edit-page/src/index.js',
 		// 'js/gutenberg': './src/gutenberg.js',
 		// 'js/preview': './src/preview.js',

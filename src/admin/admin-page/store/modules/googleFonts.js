@@ -1,5 +1,4 @@
 import * as types from '../mutation-types'
-import Vue from '@zb/vue'
 import { getGoogleFonts } from '@/api/GoogleFonts'
 
 const state = {
@@ -24,7 +23,7 @@ const actions = {
 
 const mutations = {
 	[types.SET_GOOGLE_FONTS] (state, payload) {
-		Vue.set(state, 'fonts', payload)
+		state.fonts = payload
 	}
 }
 

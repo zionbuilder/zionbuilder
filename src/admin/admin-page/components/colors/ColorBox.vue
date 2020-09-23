@@ -51,7 +51,7 @@
 					<div class="znpb-admin-color-preset-box__circle--transparent">
 						<div ref="circleTrigger" class="znpb-admin-color-preset-box__circle" :style="{background: localColor}"></div>
 					</div>
-					<div class="znpb-admin-color-preset-box__color-name"><span>{{this.localColor}}</span></div>
+					<div class="znpb-admin-color-preset-box__color-name"><span>{{localColor}}</span></div>
 				</div>
 			</template>
 		</Tooltip>

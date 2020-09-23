@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-admin-post-types-tab" >
 
-		<span class="znpb-admin-post-types-tab__title">{{this.post.name}}</span>
+		<span class="znpb-admin-post-types-tab__title">{{post.name}}</span>
 
 		<InputCheckbox class="znpb-admin-checkbox-wrapper" :rounded="true" v-model="isActive"></InputCheckbox>
 

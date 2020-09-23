@@ -75,7 +75,7 @@ module.exports = (webpackConfig, service) => {
         .noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
 
     // vue-loader --------------------------------------------------------------
-	const vueLoaderCacheConfig = api.genCacheConfig('vue-loader', {
+	const vueLoaderCacheConfig = service.genCacheConfig('vue-loader', {
         'vue-loader': require('vue-loader/package.json').version,
         '@vue/compiler-sfc': require('@vue/compiler-sfc/package.json').version
       })
@@ -97,7 +97,7 @@ module.exports = (webpackConfig, service) => {
             .options(vueLoaderCacheConfig)
             .end()
           .use('vue-loader')
-            .loader(require.resolve('vue-loader-v16'))
+            .loader(require.resolve('vue-loader'))
             .options({
               ...vueLoaderCacheConfig,
               babelParserPlugins: ['jsx', 'classProperties', 'decorators-legacy']
@@ -107,7 +107,7 @@ module.exports = (webpackConfig, service) => {
 
       webpackConfig
         .plugin('vue-loader')
-          .use(require('vue-loader-v16').VueLoaderPlugin)
+          .use(require('vue-loader').VueLoaderPlugin)
 
       // feature flags <http://link.vuejs.org/feature-flags>
       webpackConfig

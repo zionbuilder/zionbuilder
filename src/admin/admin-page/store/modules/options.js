@@ -1,5 +1,4 @@
 import * as types from '@/admin/admin-page/store/mutation-types'
-import Vue from '@zb/vue'
 import { saveOptions, getSavedOptions } from '@/api/Options'
 
 const state = {
@@ -238,7 +237,7 @@ const mutations = {
 		state.options.typekit_fonts.splice(index, 1)
 	},
 	[types.SET_OPTIONS] (state, payload) {
-		Vue.set(state, 'options', payload)
+		state.options = payload
 	},
 	[types.ADD_CUSTOM_FONT] (state, payload) {
 		state.options.custom_fonts.push(payload)
@@ -252,7 +251,7 @@ const mutations = {
 	},
 
 	[types.ADD_TYPEKIT_TOKEN] (state, payload) {
-		Vue.set(state.options, 'typekit_token', payload)
+		state.options.typekit_token = payload
 	},
 	[types.ADD_LOCAL_COLOR] (state, payload) {
 		state.options.local_colors.push(payload)
@@ -270,11 +269,11 @@ const mutations = {
 		state.options.global_colors.splice(payload, 1)
 	},
 	[types.EDIT_GLOBAL_COLOR] (state, payload) {
-		Vue.set(state.options.global_colors, payload.index, payload.color)
+		state.options.global_colors[payload.index] = payload.color
 	},
 	// Gradients
 	[types.UPDATE_GRADIENT] (state, { gradient, newValue }) {
-		Vue.set(gradient, 'config', newValue)
+		gradient.config = newValue
 	},
 	[types.ADD_LOCAL_GRADIENT] (state, payload) {
 		state.options.local_gradients.push(payload)
@@ -293,17 +292,17 @@ const mutations = {
 		const updatedRoles = Object.assign({}, state.options.user_roles_permissions, {
 			[role]: value
 		})
-		Vue.set(state.options, 'user_roles_permissions', updatedRoles)
+		state.options.user_roles_permissions = updatedRoles
 	},
 	// wordpress users permissions
 	[types.EDIT_USER_PERMISSION] (state, { role, value }) {
 		const updatedUsers = Object.assign({}, state.options.users_permissions, {
 			[role]: value
 		})
-		Vue.set(state.options, 'users_permissions', updatedUsers)
+		state.options.users_permissions = updatedUsers
 	},
 	[types.DELETE_USER_PERMISSION] (state, payload) {
-		Vue.delete(state.options.users_permissions, payload)
+		delete state.options.users_permissions[payload]
 	},
 	// ALLOWED POST TYPES
 	[types.ADD_ALLOWED_POST_TYPE] (state, post) {

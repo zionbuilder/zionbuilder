@@ -1,5 +1,4 @@
 import * as types from '../mutation-types'
-import Vue from '@zb/vue'
 import { getSystemInfo } from '@/api/SystemInfo'
 
 const state = {
@@ -24,10 +23,10 @@ const actions = {
 
 const mutations = {
 	[types.SET_SYSTEM_INFO] (state, payload) {
-		Vue.set(state, 'systemInfo', payload)
+		state.systemInfo = payload
 	},
 	[types.SET_SYSTEM_INFO_LOADED_STATE] (state, payload) {
-		Vue.set(state, 'loaded', payload)
+		state.loaded = payload
 	}
 }
 

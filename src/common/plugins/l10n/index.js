@@ -1,12 +1,12 @@
 export default class {
 	strings = {}
 
-	install (Vue, strings) {
+	install (app, strings) {
 		// Add the strings
 		this.addStrings(strings)
 
 		// Add helper method
-		Vue.prototype.$translate = (string) => {
+		app.config.globalProperties.$translate = (string) => {
 			return this.translate(string)
 		}
 	}

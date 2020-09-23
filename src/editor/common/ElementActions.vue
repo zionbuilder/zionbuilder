@@ -54,7 +54,7 @@
 			@click="toggleVisibility"
 		>
 			<BaseIcon icon="eye"></BaseIcon>
-			{{this.getElementOptionValue(this.getElementFocus.uid, '_isVisible', true) ? $translate('visible_element') : $translate('show_element')}}
+			{{getElementOptionValue(this.getElementFocus.uid, '_isVisible', true) ? $translate('visible_element') : $translate('show_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"

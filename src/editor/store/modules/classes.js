@@ -1,5 +1,4 @@
 import * as types from '../mutation-types'
-import Vue from '@zb/vue'
 
 const state = {
 	classes: window.ZnPbInitalData.css_classes || []
@@ -50,7 +49,7 @@ const mutations = {
 	},
 
 	[types.EDIT_CSS_CLASS] (state, { cssClassIndex, newval }) {
-		Vue.set(state.classes, cssClassIndex, newval)
+		state.classes[cssClassIndex] = newval
 	},
 	[types.REMOVE_CSS_CLASS] (state, cssClass) {
 		const cssClassIndex = state.classes.indexOf(cssClass)
@@ -73,7 +72,7 @@ const mutations = {
 			...newValues
 		}
 
-		Vue.set(state.classes, cssClassIndex, updatedValues)
+		state.classes[cssClassIndex] = updatedValues
 	}
 }
 

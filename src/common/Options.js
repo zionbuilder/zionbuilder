@@ -1,6 +1,5 @@
 import { applyFilters } from '@zb/filters'
 import { getOptionValue, getStyles } from '@/utils'
-import Vue from '@zb/vue'
 import { getSchema } from '@zb/schemas'
 
 /**
@@ -273,7 +272,7 @@ export default class Options {
 			image: newValue
 		}
 
-		Vue.set(optionsModel, optionId, newValues)
+		optionsModel[optionId] = newValues
 	}
 
 	addRenderAttribute (tagId, attribute, value, replace = false) {

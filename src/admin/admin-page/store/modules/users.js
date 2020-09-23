@@ -1,5 +1,4 @@
 import * as types from '../mutation-types'
-import Vue from '@zb/vue'
 import { getUsersById } from '@/api/Users'
 
 const state = {
@@ -32,10 +31,10 @@ const actions = {
 
 const mutations = {
 	[types.SET_USERS] (state, payload) {
-		Vue.set(state, 'users', payload)
+		state.users = payload
 	},
 	[types.SET_USERS_LOADED_STATE] (state, payload) {
-		Vue.set(state, 'loaded', payload)
+		state.loaded = payload
 	},
 	[types.ADD_USER_DATA] (state, payload) {
 		state.users.push(payload)

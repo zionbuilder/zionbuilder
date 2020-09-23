@@ -1,4 +1,3 @@
-import Vue from '@zb/vue'
 import * as types from '../mutation-types'
 import { generateUID, deepCopy, updateOptionValue, getOptionValue } from '@zb/utils'
 import Element from '@/editor/models/Element.ts'
@@ -560,31 +559,31 @@ const mutations = {
 		state.rightClickMenu = payload
 	},
 	[types.SET_COPIED_ELEMENT_STYLES] (state, payload) {
-		Vue.set(state, 'copiedElementStyles', payload)
+		state.copiedElementStyles = payload
 	},
 	[types.SET_COPIED_ELEMENT] (state, payload) {
-		Vue.set(state, 'copiedElement', payload)
+		state.copiedElement = payload
 	},
 	[types.SET_CUTTED_ELEMENT] (state, payload) {
-		Vue.set(state, 'cuttedElement', payload)
+		state.cuttedElement = payload
 	},
 	[types.SET_COPIED_CLASSES] (state, payload) {
-		Vue.set(state, 'copiedClasses', payload)
+		state.copiedClasses = payload
 	},
 	[types.UPDATE_PAGE_SETTINGS] (state, newValues) {
-		Vue.set(state, 'pageSettings', newValues)
+		state.pageSettings = newValues
 	},
 	[types.SET_INITIAL_PAGE_CONTENT] (state, payload) {
 		Object.assign(state, payload)
 	},
 	[types.SET_PAGE_CONTENT] (state, payload) {
-		Vue.set(state, 'pageContent', payload)
+		state.pageContent = payload
 	},
 	[types.SET_PAGE_AREAS] (state, payload) {
-		Vue.set(state, 'pageAreas', payload)
+		state.pageAreas = payload
 	},
 	[types.SET_ACTIVE_AREA] (state, payload) {
-		Vue.set(state, 'activeArea', payload)
+		state.activeArea = payload
 	},
 	[types.SAVE_ELEMENTS_ORDER] (state, { newOrder, content }) {
 		content.splice(0, content.length, ...newOrder)
@@ -593,10 +592,10 @@ const mutations = {
 		const elementConfig = state.pageContent[elementUid]
 		const newValues = updateOptionValue(elementConfig.options, '_advanced_options._element_name', elementName)
 
-		Vue.set(elementConfig, 'options', newValues)
+		elementConfig.options = newValues
 	},
 	[types.UPDATE_ELEMENT_OPTIONS] (state, { element, values }) {
-		Vue.set(element, 'options', values)
+		element.options = values
 	},
 
 	[types.DELETE_ELEMENT_OPTION] (state, path) {
@@ -614,9 +613,9 @@ const mutations = {
 			if (index === paths.length - 1) {
 				if (upperDeletableKey) {
 					const { acc, key } = upperDeletableKey
-					Vue.delete(acc, key)
+					delete acc[key]
 				} else {
-					Vue.delete(acc, key)
+					delete acc[key]
 				}
 
 				return true
@@ -681,7 +680,7 @@ const mutations = {
 			uid
 		}
 
-		Vue.set(state.pageContent, uid, elementConfig)
+		state.pageContent[uid] = elementConfig
 		if (parent) {
 			parent.splice(index, 0, uid)
 		}
@@ -698,7 +697,7 @@ const mutations = {
 			...elements
 		}
 
-		Vue.set(state, 'pageContent', newElements)
+		state.pageContent = newElements
 	},
 	[types.INSERT_ELEMENTS_IN_PARENT] (state, payload) {
 		const { index, parentContent, elements } = payload

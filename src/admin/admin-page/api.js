@@ -1,5 +1,5 @@
 import routes from './router'
-import store from './store'
+import { store } from './store'
 
 // Utils
 import { errorInterceptor } from '@/api/ServiceInterceptor'

@@ -13,7 +13,7 @@
 							v-if="icon"
 							:icon="icon"
 						/>
-						<span v-html="title">{{title}}</span>
+						<span v-html="title"></span>
 						<slot name="title"></slot>
 					</span>
 
