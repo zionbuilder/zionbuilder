@@ -1,7 +1,7 @@
 import Vue from '@zb/vue'
 import * as types from '../mutation-types'
 import { generateUID, deepCopy, updateOptionValue, getOptionValue } from '@zb/utils'
-import Element from '@/editor/models/Element'
+import Element from '@/editor/models/Element.ts'
 import { savePage } from '@/api/Page'
 import Cache from '@/editor/Cache'
 

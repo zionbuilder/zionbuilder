@@ -1,0 +1,9 @@
+{
+	"packages": [
+		"src/packages/cli-tsconfig"
+	],
+	"version": "1.0.0",
+	"publishConfig": {
+		"access": "public"
+	}
+}

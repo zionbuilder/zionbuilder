@@ -1,0 +1,3 @@
+{
+	"extends": "@zionbuilder/cli-tsconfig/tsconfig.json"
+}

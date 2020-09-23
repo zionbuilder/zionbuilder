@@ -16,7 +16,7 @@ release/
 # Package managers
 /composer.lock
 /vendor/
-/node_modules/
+/**/node_modules/
 
 # Build
 *.zip
