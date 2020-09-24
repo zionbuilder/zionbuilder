@@ -1,12 +1,12 @@
 {
   "name": "@zb/vue",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.1",
   "description": "Vue base for Zion Builder plugin. It will expose Vue to window.zb.Vue so we can prevent conflicts with other WordPress plugins.",
   "main": "index.js",
   "author": "zionbuilder.io",
   "license": "MIT",
   "files": [
-	"dist/bundle.js"
+    "dist/bundle.js"
   ],
   "scripts": {
     "build": "webpack",

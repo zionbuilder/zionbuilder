@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/webpack-config",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.1",
   "license": "MIT",
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.0",

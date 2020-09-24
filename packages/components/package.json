@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/components",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.1",
   "description": "Global components for Zion Builder",
   "main": "index.js",
   "author": "zionbuilder.io",
