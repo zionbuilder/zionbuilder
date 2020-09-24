@@ -12,7 +12,12 @@ module.exports.mergeConfigs = function(...configs) {
 	return merge(...configs)
 }
 
-module.exports.getConfig = function getConfig(features = { js: true, css: true }, config = {}) {
+module.exports.getConfig = function getConfig(features = {}, config = {}) {
+	features = {
+		js: true,
+		css: true,
+		...features
+	}
 	const configs = []
 	const baseConfig = require('./base')
 

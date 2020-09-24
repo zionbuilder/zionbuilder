@@ -23,6 +23,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@zionbuilder/css-variables";
+
 .znpb-button {
 	display: inline-flex;
 	justify-content: center;

@@ -1,0 +1,8 @@
+{
+  "name": "@zionbuilder/css-variables",
+  "version": "1.0.0",
+  "description": "Css variables used for Zion Builder",
+  "main": "./src/variables.scss",
+  "author": "zionbuilder.io",
+  "license": "MIT"
+}
