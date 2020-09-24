@@ -1,0 +1,11 @@
+{
+  "name": "@zionbuilder/rest",
+  "version": "1.0.0",
+  "description": "Rest API helper functions",
+  "main": "index.js",
+  "author": "zionbuilder.io",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0"
+  }
+}

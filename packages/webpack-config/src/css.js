@@ -1,7 +1,9 @@
-module.exports = {
-	module: {
-		rules: [
-			{
+module.exports = (config) => {
+	const customLoaderOptions = (config.css || {}).loaderOptions || {}
+
+	return {
+		module: {
+			rules: [{
 				test: /\.s[ac]ss$/i,
 				use: [
 					// Creates `style` nodes from JS strings
@@ -9,9 +11,12 @@ module.exports = {
 					// Translates CSS into CommonJS
 					'css-loader',
 					// Compiles Sass to CSS
-					'sass-loader',
+					{
+						loader: 'sass-loader',
+						options: customLoaderOptions.sass || {}
+					},
 				],
-			},
-		],
-	},
+			}, ],
+		},
+	}
 }

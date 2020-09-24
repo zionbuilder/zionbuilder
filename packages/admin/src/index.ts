@@ -1,61 +1,63 @@
-import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+// import { createApp } from 'vue'
+// import { createRouter, createWebHashHistory } from 'vue-router'
 
-import api from './admin/admin-page/api'
-import { initRoutes } from '@/admin/admin-page/router'
+// import api from './api'
+// import { initRoutes } from './router'
 
-// Main
-import App from './admin/admin-page/App.vue'
-import {store} from './admin/admin-page/store/'
+// // Main
+// import App from './App.vue'
+// import {store} from './store/'
 
-// Set Service Interceptor
-import ZionService from '@/api/ZionService'
-import { errorInterceptor } from './api/ServiceInterceptor'
-import { Forms } from '@zb/plugins'
-import Localization from '@zb/l10n'
+// // Set Service Interceptor
+// import { ZionService } from '@zb/rest'
+// import { errorInterceptor } from '@zb/rest'
+// import { Forms } from '@zb/plugins'
+// import Localization from '@zb/l10n'
 
-// Components
-import SideMenu from '@/admin/admin-page/components/SideMenu.vue'
-import PageTemplate from './admin/admin-page/components/PageTemplate.vue'
-import ListAnimate from './admin/admin-page/components/ListAnimate'
-import ModalTwoColTemplate from './admin/admin-page/components/ModalTwoColTemplate'
+// // Components
+// import SideMenu from './components/SideMenu.vue'
+// import PageTemplate from './components/PageTemplate.vue'
+// import ListAnimate from './components/ListAnimate.vue'
+// import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
+import Vue from 'vue'
+console.log({Vue})
 
-const ZionBuilderAdmin = {
-	init () {
-		const appInstance = createApp(App)
+// const ZionBuilderAdmin = {
+// 	init () {
+// 		const appInstance = createApp(App)
 
-		appInstance.component('SideMenu', SideMenu)
-		appInstance.component('PageTemplate', PageTemplate)
-		appInstance.component('ListAnimation', ListAnimate)
-		appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
+// 		appInstance.component('SideMenu', SideMenu)
+// 		appInstance.component('PageTemplate', PageTemplate)
+// 		appInstance.component('ListAnimation', ListAnimate)
+// 		appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 
-		// Plugins
-		// appInstance.use(Forms)
-		appInstance.use(Localization, window.ZnPbAdminPageData.l10n)
+// 		// Plugins
+// 		// appInstance.use(Forms)
+// 		appInstance.use(Localization, window.ZnPbAdminPageData.l10n)
 
-		// Add error interceptor for API
-		errorInterceptor(ZionService, store)
+// 		// Add error interceptor for API
+// 		errorInterceptor(ZionService, store)
 
-		// Add default routes
-		initRoutes()
+// 		// Add default routes
+// 		initRoutes()
 
-		const router = createRouter({
-			// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-			history: createWebHashHistory(),
-			routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-		})
+// 		const router = createRouter({
+// 			// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+// 			history: createWebHashHistory(),
+// 			routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+// 		})
 
-		appInstance.use(router)
-		appInstance.use(store)
+// 		appInstance.use(router)
+// 		appInstance.use(store)
 
-		// Trigger event so others can hook into ZionBuilder API
-		const evt = new CustomEvent('zionbuilder/admin/init', {
-			detail: api
-		})
+// 		// Trigger event so others can hook into ZionBuilder API
+// 		const evt = new CustomEvent('zionbuilder/admin/init', {
+// 			detail: api
+// 		})
 
-		window.dispatchEvent(evt)
-		appInstance.mount('#znpb-admin')
-	}
-}
+// 		window.dispatchEvent(evt)
+// 		appInstance.mount('#znpb-admin')
+// 	}
+// }
 
-ZionBuilderAdmin.init()
+// ZionBuilderAdmin.init()

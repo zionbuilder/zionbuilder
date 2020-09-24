@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @zionbuilder/css-variables
+  C:\Program Files\nodejs\node.exe C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js init
 
 PATH: 
   C:\cmder\vendor\bin;C:\Python38\Scripts\;C:\Python38\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64;C:\ProgramData\ComposerSetup\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PuTTY\;D:\tools\kubectl\kubectl.exe;C:\Program Files\Git\cmd;C:\Program Files\TortoiseSVN\bin;C:\laragon\bin;C:\laragon\bin\apache\httpd-2.4.35-win64-VC15\bin;C:\laragon\bin\composer;C:\laragon\bin\git\bin;C:\laragon\bin\git\cmd;C:\laragon\bin\git\mingw64\bin;C:\laragon\bin\git\usr\bin;C:\laragon\bin\laragon\utils;C:\laragon\bin\mysql\mysql-5.7.24-winx64\bin;C:\laragon\bin\nginx\nginx-1.16.0;C:\laragon\bin\ngrok;C:\laragon\bin\nodejs\node-v12;C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64;C:\laragon\bin\putty;C:\laragon\bin\redis\redis-x64-3.2.100;C:\laragon\bin\telnet;C:\laragon\usr\bin;C:\Program Files\Sublime Text 3\;C:\Users\Zauan\AppData\Local\Yarn\config\global\node_modules\.bin;C:\Users\Zauan\AppData\Roaming\Composer\vendor\bin;C:\Users\Zauan\AppData\Roaming\npm;C:\Users\Zauan\AppData\Local\Microsoft\WindowsApps;C:\Users\Zauan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Zauan\AppData\Local\GitHubDesktop\bin;C:\Users\Zauan\AppData\Local\hyper\app-3.0.2\resources\bin;C:\Program Files (x86)\Nmap;D:\temp\okd;C:\cmder
@@ -14,31 +14,26 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@zionbuilder%2fcss-variables: Not found
-      at Request.params.callback [as _callback] (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66987:18)
-      at Request.self.callback (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140748:22)
-      at Request.emit (events.js:310:20)
-      at Request.<anonymous> (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141720:10)
-      at Request.emit (events.js:310:20)
-      at IncomingMessage.<anonymous> (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141642:12)
-      at Object.onceWrapper (events.js:416:28)
-      at IncomingMessage.emit (events.js:322:22)
-      at endReadableNT (_stream_readable.js:1187:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: canceled
+      at Interface.<anonymous> (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:137008:13)
+      at Interface.emit (events.js:310:20)
+      at Interface._ttyWrite (readline.js:893:16)
+      at ReadStream.onkeypress (readline.js:198:10)
+      at ReadStream.emit (events.js:310:20)
+      at emitKeys (internal/readline/utils.js:438:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1160:36)
+      at ReadStream.emit (events.js:310:20)
+      at addChunk (_stream_readable.js:286:12)
 
 npm manifest: 
   {
-    "name": "@zionbuilder/components",
-    "version": "1.0.1-alpha.1",
-    "description": "Global components for Zion Builder",
+    "name": "@zionbuilder/rest",
+    "version": "1.0.0",
+    "description": "Rest API helper functions",
     "main": "index.js",
     "author": "zionbuilder.io",
-    "license": "MIT",
-    "scripts": {
-      "build": "webpack",
-      "dev": "webpack --watch"
-    },
-    "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
+    "license": "MIT"
   }
 
 yarn manifest: 
@@ -1235,6 +1230,9 @@ Lockfile:
     version "4.2.2"
     resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
     integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+  
+  "@zionbuilder/css-variables@file:packages/css-variables":
+    version "1.0.1-alpha.1"
   
   "@zkochan/cmd-shim@^3.1.0":
     version "3.1.0"
@@ -2812,6 +2810,11 @@ Lockfile:
     integrity sha1-OrGi0qYsi/tDGgyUy3l6L84nyWI=
     dependencies:
       escape-string-regexp "^1.0.5"
+  
+  file-saver@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.2.tgz#06d6e728a9ea2df2cce2f8d9e84dfcdc338ec17a"
+    integrity sha512-Wz3c3XQ5xroCxd1G8b7yL0Ehkf0TC9oYC6buPFkNnU9EnaPlifeAFCyCh+iewXTyFRcg0a6j3J7FmJsIhlhBdw==
   
   file-uri-to-path@1.0.0:
     version "1.0.0"
@@ -6522,6 +6525,11 @@ Lockfile:
       hash-sum "^2.0.0"
       loader-utils "^2.0.0"
   
+  vue-router@^4.0.0-beta.11:
+    version "4.0.0-beta.11"
+    resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.0-beta.11.tgz#a236e2c4ab65cfba6c37c9e2c9d8653dc9e7c46c"
+    integrity sha512-7t1PTGvgjA8WrSNZw1qOouuRRB61GqfBzcCKjQHk/lKn30Y4hc7iVh29LgBdr0Ch7i/0RCgHcrea/jYp3/0Dtw==
+  
   vue@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/vue/-/vue-3.0.0.tgz#cfb5df5c34efce319b113a1667d12b74dcfd9c90"
@@ -6530,6 +6538,11 @@ Lockfile:
       "@vue/compiler-dom" "3.0.0"
       "@vue/runtime-dom" "3.0.0"
       "@vue/shared" "3.0.0"
+  
+  vuex@^4.0.0-beta.4:
+    version "4.0.0-beta.4"
+    resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.0-beta.4.tgz#7b319ead2ef30432b7eaa4e37258ea3c5e44f698"
+    integrity sha512-/+4E1dokq5cwbl4mohOqOj8h0vOLOWmLSqlqTf++bfmN9/JKWtwYfsBrzlK0sYrNfuYcpQeX0BVxQHoHXDfYZQ==
   
   watchpack-chokidar2@^2.0.0:
     version "2.0.0"

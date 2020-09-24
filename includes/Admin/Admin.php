@@ -165,8 +165,8 @@ class Admin {
 		// Admin settings page
 		if ( 'toplevel_page_zionbuilder' === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
-			Plugin::instance()->scripts->enqueue_script( 'zb-vue' );
-			Plugin::instance()->scripts->enqueue_script( 'zb-components' );
+			// Plugin::instance()->scripts->enqueue_script( 'zb-vue' );
+			// Plugin::instance()->scripts->enqueue_script( 'zb-components' );
 			// wp_enqueue_media();
 
 			// wp_enqueue_style(
@@ -184,31 +184,32 @@ class Admin {
 			// 	Plugin::instance()->get_version()
 			// );
 
-			// Plugin::instance()->scripts->enqueue_script(
-			// 	'znpb-admin-settings-page-script',
-			// 	'js/admin-page.js',
-			// 	[
-			// 		'zb-common',
-			// 	],
-			// 	Plugin::instance()->get_version(),
-			// 	true
-			// );
+			Plugin::instance()->scripts->enqueue_script(
+				'znpb-admin-settings-page-script',
+				'js/admin.js',
+				[
+					'zb-vue',
+					'zb-components',
+				],
+				Plugin::instance()->get_version(),
+				true
+			);
 
-			// wp_localize_script(
-			// 	'znpb-admin-settings-page-script',
-			// 	'ZnPbAdminPageData',
-			// 	[
-			// 		'l10n'                => Localization::get_strings(),
-			// 		'is_pro_active'       => Utils::is_pro_active(),
-			// 		'template_types'      => Plugin::$instance->templates->get_template_types(),
-			// 		'template_categories' => Plugin::$instance->templates->get_template_categories(),
-			// 		'plugin_version'      => Plugin::instance()->get_version(),
-			// 		'urls'                => [
-			// 			'logo'     => Utils::get_logo_url(),
-			// 			'pro_logo' => Utils::get_pro_png_url(),
-			// 		],
-			// 	]
-			// );
+			wp_localize_script(
+				'znpb-admin-settings-page-script',
+				'ZnPbAdminPageData',
+				[
+					'l10n'                => Localization::get_strings(),
+					'is_pro_active'       => Utils::is_pro_active(),
+					'template_types'      => Plugin::$instance->templates->get_template_types(),
+					'template_categories' => Plugin::$instance->templates->get_template_categories(),
+					'plugin_version'      => Plugin::instance()->get_version(),
+					'urls'                => [
+						'logo'     => Utils::get_logo_url(),
+						'pro_logo' => Utils::get_pro_png_url(),
+					],
+				]
+			);
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );
 		}

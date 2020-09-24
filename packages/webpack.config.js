@@ -3,6 +3,8 @@ const {
 } = require('@zionbuilder/webpack-config');
 
 module.exports = getConfig({
-	vue: true,
-	zionVue: true
+	features: {
+		vue: true,
+		zionVue: true
+	}
 })

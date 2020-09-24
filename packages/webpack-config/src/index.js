@@ -12,17 +12,22 @@ module.exports.mergeConfigs = function(...configs) {
 	return merge(...configs)
 }
 
-module.exports.getConfig = function getConfig(features = {}, config = {}) {
-	features = {
-		js: true,
-		css: true,
-		...features
+module.exports.getConfig = function getConfig(options = {}, config = {}) {
+	options = {
+		...options,
+		features: {
+			js: true,
+			css: true,
+			...(options.features || {})
+		},
+
 	}
+
 	const configs = []
 	const baseConfig = require('./base')
 
-	Object.keys(features).forEach(feature => {
-		const enabled = features[feature]
+	Object.keys(options.features).forEach(feature => {
+		const enabled = options.features[feature]
 
 		if (! enabled) {
 			return
@@ -31,12 +36,12 @@ module.exports.getConfig = function getConfig(features = {}, config = {}) {
 		const featureExists = existsSync( path.resolve( __dirname, `${feature}.js`) )
 
 		if (featureExists) {
-			const featureConfig = require(`./${feature}`)
-			configs.push(featureConfig)
+			const getFeatureConfig = require(`./${feature}`)
+			configs.push(getFeatureConfig(options, config))
 		} else {
 			console.warn(`The feature ${feature} does not exist!`)
 		}
 	})
 
-	return merge(baseConfig, ...configs, config)
+	return merge(baseConfig(), ...configs, config)
 }

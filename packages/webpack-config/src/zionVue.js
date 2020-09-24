@@ -1,7 +1,7 @@
-module.exports = {
-	externals: [
-		{
-			vue: 'zb.Vue'
-		}
-	]
+module.exports = () => {
+	return {
+		externals: [{
+			vue: 'zb.vue'
+		}]
+	}
 }
