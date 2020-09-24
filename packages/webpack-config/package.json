@@ -12,5 +12,6 @@
     "vue-loader": "^16.0.0-beta.8",
     "webpack-merge": "^5.1.4"
   },
-  "main": "src/index.js"
+  "main": "src/index.js",
+  "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
 }

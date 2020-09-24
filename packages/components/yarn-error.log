@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
     "name": "@zionbuilder/components",
-    "version": "1.0.0",
+    "version": "1.0.1-alpha.1",
     "description": "Global components for Zion Builder",
     "main": "index.js",
     "author": "zionbuilder.io",
@@ -37,7 +37,8 @@ npm manifest:
     "scripts": {
       "build": "webpack",
       "dev": "webpack --watch"
-    }
+    },
+    "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
   }
 
 yarn manifest: 

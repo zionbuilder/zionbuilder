@@ -24,5 +24,15 @@ module.exports = {
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(context, 'dist'),
-	}
+	},
+	externals: [
+		function( context, request, callback ){
+			if (/^@zb\/.*$/.test(request)){
+			  const modules = request.replace('@', '').split('/')
+			  // Externalize to a commonjs module using the request path
+			  return callback(null, modules, 'root');
+			}
+			callback()
+		}
+	]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@zb/vue",
+  "name": "@zionbuilder/vue",
   "version": "1.0.1-alpha.1",
   "description": "Vue base for Zion Builder plugin. It will expose Vue to window.zb.Vue so we can prevent conflicts with other WordPress plugins.",
   "main": "index.js",
@@ -10,9 +10,10 @@
   ],
   "scripts": {
     "build": "webpack",
-    "dev": "tsc ./src/index.ts --watch"
+    "dev": "webpack --watch"
   },
   "dependencies": {
     "vue": "^3.0.0"
-  }
+  },
+  "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
 }

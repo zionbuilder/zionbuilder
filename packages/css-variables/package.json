@@ -4,5 +4,6 @@
   "description": "Css variables used for Zion Builder",
   "main": "./src/variables.scss",
   "author": "zionbuilder.io",
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
 }

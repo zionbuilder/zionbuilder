@@ -165,7 +165,8 @@ class Admin {
 		// Admin settings page
 		if ( 'toplevel_page_zionbuilder' === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
-			Plugin::instance()->scripts->enqueue_script( 'zb-vue');
+			Plugin::instance()->scripts->enqueue_script( 'zb-vue' );
+			Plugin::instance()->scripts->enqueue_script( 'zb-components' );
 			// wp_enqueue_media();
 
 			// wp_enqueue_style(
