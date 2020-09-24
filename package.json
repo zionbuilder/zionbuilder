@@ -6,34 +6,23 @@
 		"url": "https://zionbuilder.io"
 	},
 	"version": "1.1.0",
-	"private": false,
+	"private": true,
 	"scripts": {
-		"lint": "vue-cli-service lint --no-fix src/",
-		"lint-php": "node ./scripts/lint-php",
-		"serve": "zionbuilder-cli serve",
-		"build": "zionbuilder-cli build",
-		"zip": "zionbuilder-cli zip",
-		"translate": "zionbuilder-cli translate"
+		"publish:packages": "lerna run build && lerna publish",
+		"publish": "yarn run publish:packages",
+		"dev:packages": "lerna run dev",
+		"dev": "yarn run dev:packages",
+		"build": "webpack",
+		"build:packages": "lerna run build"
 	},
-	"dependencies": {
-		"axios": "^0.20.0",
-		"css-box-model": "^1.2.1",
-		"file-saver": "^2.0.2",
-		"fitvids": "^2.1.1",
-		"lodash-es": "^4.17.15",
-		"memoize-one": "^5.1.1",
-		"popper.js": "^1.16.1",
-		"raf-schd": "^4.0.2",
-		"tinycolor2": "^1.4.1",
-		"vue": "^3.0.0",
-		"vue-date-pick": "^1.4.1",
-		"vue-router": "^4.0.0-beta.11",
-		"vuex": "^4.0.0-beta.4"
-	},
+	"dependencies": {},
 	"devDependencies": {
-		"@zionbuilder/cli": "^1.0.1-alpha.0",
-		"@zionbuilder/cli-tsconfig": "^1.0.1-alpha.0",
 		"lerna": "^3.22.1",
-		"typescript": "^4.0.3"
-	}
+		"typescript": "^4.0.3",
+		"webpack": "^4.44.2",
+		"webpack-cli": "^3.3.12"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }

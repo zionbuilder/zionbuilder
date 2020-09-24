@@ -1,0 +1,12 @@
+{
+  "name": "@zionbuilder/webpack-config",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.0.0",
+    "ts-loader": "^8.0.4",
+    "vue-loader": "^16.0.0-beta.8",
+    "webpack-merge": "^5.1.4"
+  },
+  "main": "src/index.js"
+}

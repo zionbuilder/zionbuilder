@@ -1,0 +1,42 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js build
+
+PATH: 
+  C:\cmder\vendor\bin;C:\Python38\Scripts\;C:\Python38\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64;C:\ProgramData\ComposerSetup\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PuTTY\;D:\tools\kubectl\kubectl.exe;C:\Program Files\Git\cmd;C:\Program Files\TortoiseSVN\bin;C:\laragon\bin;C:\laragon\bin\apache\httpd-2.4.35-win64-VC15\bin;C:\laragon\bin\composer;C:\laragon\bin\git\bin;C:\laragon\bin\git\cmd;C:\laragon\bin\git\mingw64\bin;C:\laragon\bin\git\usr\bin;C:\laragon\bin\laragon\utils;C:\laragon\bin\mysql\mysql-5.7.24-winx64\bin;C:\laragon\bin\nginx\nginx-1.16.0;C:\laragon\bin\ngrok;C:\laragon\bin\nodejs\node-v12;C:\laragon\bin\php\php-7.2.19-Win32-VC15-x64;C:\laragon\bin\putty;C:\laragon\bin\redis\redis-x64-3.2.100;C:\laragon\bin\telnet;C:\laragon\usr\bin;C:\Program Files\Sublime Text 3\;C:\Users\Zauan\AppData\Local\Yarn\config\global\node_modules\.bin;C:\Users\Zauan\AppData\Roaming\Composer\vendor\bin;C:\Users\Zauan\AppData\Roaming\npm;C:\Users\Zauan\AppData\Local\Microsoft\WindowsApps;C:\Users\Zauan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Zauan\AppData\Local\GitHubDesktop\bin;C:\Users\Zauan\AppData\Local\hyper\app-3.0.2\resources\bin;C:\Program Files (x86)\Nmap;D:\temp\okd;C:\cmder
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.16.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\laragon\www\zion-builder\wp-content\plugins\zionbuilder\packages\components\package.json: Unexpected token } in JSON at position 261
+      at JSON.parse (<anonymous>)
+      at C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\Zauan\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@zionbuilder/components",
+    "version": "1.0.0",
+    "description": "Global components for Zion Builder",
+    "main": "index.js",
+    "author": "zionbuilder.io",
+    "license": "MIT",
+    "scripts": {
+      "build": "webpack",
+      "dev": "webpack --watch"
+    },
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

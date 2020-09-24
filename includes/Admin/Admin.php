@@ -165,49 +165,49 @@ class Admin {
 		// Admin settings page
 		if ( 'toplevel_page_zionbuilder' === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
+			Plugin::instance()->scripts->enqueue_script( 'zb-vue');
+			// wp_enqueue_media();
 
-			wp_enqueue_media();
+			// wp_enqueue_style(
+			// 	'znpb-roboto-font',
+			// 	'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+			// 	[],
+			// 	Plugin::instance()->get_version()
+			// );
 
-			wp_enqueue_style(
-				'znpb-roboto-font',
-				'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
-				[],
-				Plugin::instance()->get_version()
-			);
+			// // Load styles
+			// Plugin::instance()->scripts->enqueue_style(
+			// 	'znpb-admin-settings-page-styles',
+			// 	'css/admin-page.css',
+			// 	[ 'zb-common' ],
+			// 	Plugin::instance()->get_version()
+			// );
 
-			// Load styles
-			Plugin::instance()->scripts->enqueue_style(
-				'znpb-admin-settings-page-styles',
-				'css/admin-page.css',
-				[ 'zb-common' ],
-				Plugin::instance()->get_version()
-			);
+			// Plugin::instance()->scripts->enqueue_script(
+			// 	'znpb-admin-settings-page-script',
+			// 	'js/admin-page.js',
+			// 	[
+			// 		'zb-common',
+			// 	],
+			// 	Plugin::instance()->get_version(),
+			// 	true
+			// );
 
-			Plugin::instance()->scripts->enqueue_script(
-				'znpb-admin-settings-page-script',
-				'js/admin-page.js',
-				[
-					'zb-common',
-				],
-				Plugin::instance()->get_version(),
-				true
-			);
-
-			wp_localize_script(
-				'znpb-admin-settings-page-script',
-				'ZnPbAdminPageData',
-				[
-					'l10n'                => Localization::get_strings(),
-					'is_pro_active'       => Utils::is_pro_active(),
-					'template_types'      => Plugin::$instance->templates->get_template_types(),
-					'template_categories' => Plugin::$instance->templates->get_template_categories(),
-					'plugin_version'      => Plugin::instance()->get_version(),
-					'urls'                => [
-						'logo'     => Utils::get_logo_url(),
-						'pro_logo' => Utils::get_pro_png_url(),
-					],
-				]
-			);
+			// wp_localize_script(
+			// 	'znpb-admin-settings-page-script',
+			// 	'ZnPbAdminPageData',
+			// 	[
+			// 		'l10n'                => Localization::get_strings(),
+			// 		'is_pro_active'       => Utils::is_pro_active(),
+			// 		'template_types'      => Plugin::$instance->templates->get_template_types(),
+			// 		'template_categories' => Plugin::$instance->templates->get_template_categories(),
+			// 		'plugin_version'      => Plugin::instance()->get_version(),
+			// 		'urls'                => [
+			// 			'logo'     => Utils::get_logo_url(),
+			// 			'pro_logo' => Utils::get_pro_png_url(),
+			// 		],
+			// 	]
+			// );
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );
 		}
@@ -287,8 +287,7 @@ class Admin {
 		}
 
 		// Get the post or autosave status for editor
-		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
-		?>
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID ); ?>
 			<div class="znpb-admin-post__edit-block">
 				<a href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
 					<span class="znpb-admin-post__edit-button-icon znpb-admin-post--builder-mode znpb-editor-icon-wrapper">

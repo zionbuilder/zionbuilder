@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"target": "es5",
+		"jsx": "react",
+		"lib": [
+		  "dom",
+		  "es6",
+		  "es2020"
+		]
+	},
+	"include": [
+		"./src/index.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"build",
+		"vendor",
+		"**/node_modules"
+	]
+}
