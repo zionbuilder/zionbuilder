@@ -39,11 +39,21 @@ class CommonJS {
 			Plugin::instance()->get_version()
 		);
 
+		Plugin::instance()->scripts->register_script(
+			'zb-vue',
+			'js/vue.js',
+			[],
+			'3.0.0',
+			true
+		);
+
 		// Register common script
 		Plugin::instance()->scripts->register_script(
 			'zb-common',
 			'js/common.js',
-			[],
+			[
+				'zb-vue',
+			],
 			Plugin::instance()->get_version(),
 			true
 		);

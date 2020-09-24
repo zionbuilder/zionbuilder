@@ -11,9 +11,9 @@
 		"lint": "vue-cli-service lint --no-fix src/",
 		"lint-php": "node ./scripts/lint-php",
 		"serve": "zionbuilder-cli serve",
-		"build": "zionbuilder-service build",
-		"zip": "zionbuilder-service zip",
-		"translate": "zionbuilder-service translate"
+		"build": "zionbuilder-cli build",
+		"zip": "zionbuilder-cli zip",
+		"translate": "zionbuilder-cli translate"
 	},
 	"dependencies": {
 		"axios": "^0.20.0",
