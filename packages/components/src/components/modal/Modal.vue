@@ -53,7 +53,7 @@
 
 <script>
 import { addOverflow, removeOverflow } from '@zb/utils'
-import { getZindex, removeZindex } from '@zb/zindex'
+import { getZindex, removeZindex } from '@zb/z-index-manager'
 import BaseIcon from '../BaseIcon.vue'
 
 export default {

@@ -1,6 +1,6 @@
-import * as I18n from './i18n'
+import { createI18n } from './manager'
 
-const i18n = I18n.createI18n()
+const i18n = createI18n()
 
 export const install = (app, strings: object) => {
 	// Add the strings
@@ -12,5 +12,4 @@ export const install = (app, strings: object) => {
 	}
 }
 
-export const addStrings = i18n.addStrings
-export const translate = i18n.translate
+export const { addStrings, translate } = i18n

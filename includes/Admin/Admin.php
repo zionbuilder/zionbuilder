@@ -188,10 +188,6 @@ class Admin {
 				'znpb-admin-settings-page-script',
 				'js/admin.js',
 				[
-					'zb-vue',
-					'zb-utils',
-					'zb-i18n',
-					'zb-rest',
 					'zb-components',
 				],
 				Plugin::instance()->get_version(),

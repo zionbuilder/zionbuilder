@@ -35,7 +35,7 @@ import { getDefaultOptions } from './options.js'
 import { merge } from 'lodash-es'
 import Popper from 'popper.js'
 import { debounce } from '@zb/utils'
-import { getZindex, removeZindex } from '@zb/zindex'
+import { getZindex, removeZindex } from '@zb/z-index-manager'
 let preventOutsideClickPropagation = false
 
 export default {

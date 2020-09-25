@@ -56,6 +56,14 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
+			'zb-z-index-manager',
+			'js/z-index-manager.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
 			'zb-i18n',
 			'js/i18n.js',
 			[],
@@ -94,7 +102,13 @@ class CommonJS {
 		Plugin::instance()->scripts->register_script(
 			'zb-components',
 			'js/components.js',
-			[],
+			[
+				'zb-vue',
+				'zb-utils',
+				'zb-z-index-manager',
+				'zb-i18n',
+				'zb-rest',
+			],
 			Plugin::instance()->get_version(),
 			true
 		);
