@@ -95,10 +95,10 @@ export default {
 		}
 
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.deactivatedragCircle()
 	},
-	destroyed () {
+	unmounted () {
 		window.removeEventListener('mousemove', this.dragCircle)
 	}
 }

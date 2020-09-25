@@ -196,10 +196,10 @@ export default {
 				this.localValue = draggingValue
 			}
 		},
-		beforeDestroy () {
+		beforeUnmount () {
 			this.deactivatedragNumber()
 		},
-		destroyed () {
+		unmounted () {
 			window.removeEventListener('mousemove', this.dragNumber)
 		}
 	}

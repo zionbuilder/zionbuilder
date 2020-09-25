@@ -159,7 +159,7 @@ export default {
 	created () {
 		document.body.classList.add('znpb-color-picker--backdrop')
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.body.classList.remove('znpb-color-picker--backdrop')
 		this.deactivatedragCircle()
 	}

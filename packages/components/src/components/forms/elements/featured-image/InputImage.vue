@@ -485,7 +485,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		window.removeEventListener('mousemove', this.doDrag)
 		window.removeEventListener('mouseup', this.stopDrag)
 		window.document.body.style.userSelect = null

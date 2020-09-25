@@ -277,7 +277,7 @@ export default {
 		}
 	},
 
-	beforeDestroy () {
+	beforeUnmount () {
 		window.removeEventListener('mousemove', this.drag)
 		window.removeEventListener('mouseup', this.unDrag)
 		window.removeEventListener('keydown', this.onEscapeKeyPress)

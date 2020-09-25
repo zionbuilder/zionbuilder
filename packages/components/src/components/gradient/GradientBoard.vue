@@ -93,7 +93,7 @@ export default {
 			})
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.disableDragging()
 	}
 }

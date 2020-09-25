@@ -102,7 +102,7 @@ export default {
 		}
 	},
 
-	destroyed () {
+	unmounted () {
 		document.removeEventListener('mousedown', this.closePanelOnOutsideClick)
 	}
 }

@@ -464,7 +464,7 @@ export default {
 
 		// set width
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.$el.ownerDocument.removeEventListener('click', this.closePanel)
 	}
 }

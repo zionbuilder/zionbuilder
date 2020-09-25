@@ -1,10 +1,10 @@
 <template functional>
-	<div class="znpb-loader-wrapper" :class="data.staticClass">
+	<div class="znpb-loader-wrapper">
 		<div
 			class="znpb-loader"
 			:style="{
-				height: `${props.size}px`,
-				width: `${props.size}px`
+				height: `${size}px`,
+				width: `${size}px`
 			}"
 		>
 		</div>

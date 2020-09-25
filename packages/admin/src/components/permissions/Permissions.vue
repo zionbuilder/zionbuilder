@@ -80,8 +80,7 @@ import { mapActions, mapGetters } from 'vuex'
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
-import UpgradeToPro from '@zb/components/UpgradeToPro.vue'
-import { BaseButton, Loader, Modal } from '@zb/components'
+import { BaseButton, Loader, Modal, UpgradeToPro } from '@zb/components'
 
 export default {
 	name: 'permissions',

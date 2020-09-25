@@ -155,7 +155,7 @@ export default {
 			move(event, this.initialX, this.initialY, this.$el)
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.disableDraggable()
 		this.detachEvents()
 	}

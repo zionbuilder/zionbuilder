@@ -72,15 +72,12 @@ const components = [
 	SvgMask
 ]
 
-export const Forms = {
+export default {
 	install (app) {
 		components.forEach(component => {
 			app.component(component.name, component)
 		})
-	}
-}
-
-export default {
+	},
 	BaseInput,
 	InputWrapper,
 	EmptyList,

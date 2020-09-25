@@ -200,7 +200,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.body.classList.remove('znpb-color-gradient--backdrop')
 		this.disableDragging()
 	}

@@ -61,8 +61,7 @@ import GradientBox from './GradientBox.vue'
 import { getDefaultGradientConfig } from '@zb/utils'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
-import UpgradeToPro from '@zb/components/UpgradeToPro'
-import { Tabs, Tab } from '@zb/components'
+import { Tabs, Tab, UpgradeToPro } from '@zb/components'
 
 export default {
 	name: 'Gradients',

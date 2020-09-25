@@ -11,7 +11,7 @@ import {store} from './store/'
 // Set Service Interceptor
 import { ZionService } from '@zb/rest'
 import { errorInterceptor } from '@zb/rest'
-import { Forms } from '@zb/plugins'
+import { forms } from '@zb/components'
 import { install } from '@zb/i18n'
 
 // Components
@@ -30,8 +30,7 @@ const ZionBuilderAdmin = {
 		appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 
 		// Plugins
-		// appInstance.use(Forms)
-		// console.log({Localization})
+		appInstance.use(forms)
 		appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 
 		// Add error interceptor for API

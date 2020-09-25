@@ -56,8 +56,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import ColorBox from './ColorBox.vue'
 import { generateUID } from '@zb/utils'
-import UpgradeToPro from '@zb/components/UpgradeToPro.vue'
-import { Tabs, Tab } from '@zb/components'
+import { Tabs, Tab, UpgradeToPro } from '@zb/components'
 
 export default {
 	name: 'Colors',

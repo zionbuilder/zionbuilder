@@ -409,7 +409,7 @@ export default {
 			}
 		}
 	},
-	destroyed () {
+	unmounted () {
 		// Remove event listeners
 		this.$el.removeEventListener('mouseenter', this.onMouseEnter)
 		this.$el.removeEventListener('mouseleave', this.onMouseLeave)

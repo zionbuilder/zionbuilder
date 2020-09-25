@@ -384,10 +384,10 @@ export default {
 			const value = newValue <= this.min ? this.min : newValue >= this.max ? this.max : newValue
 			this.stringValueModel = `${value}${this.valueUnit.unit || this.unit}`
 		},
-		beforeDestroy () {
+		beforeUnmount () {
 			this.removeEvents()
 		},
-		destroyed () {
+		unmounted () {
 			window.removeEventListener('mousemove', this.dragNumberThrottle)
 		}
 	}

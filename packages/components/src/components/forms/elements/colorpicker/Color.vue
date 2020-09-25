@@ -126,7 +126,7 @@ export default {
 		}
 
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.body.classList.remove('znpb-color-picker--backdrop')
 		document.removeEventListener('click', this.closePanelOnOutsideClick)
 	}

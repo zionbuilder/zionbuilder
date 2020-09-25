@@ -138,7 +138,7 @@ export default {
 		BaseIcon
 	},
 	methods: {},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.closePanelOnOutsideClick)
 	}
 }
