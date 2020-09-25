@@ -40,7 +40,7 @@ packages.forEach(directory => {
 				output: {
 					filename: `js/${directory}.js`,
 					library: [ 'zb', directory ],
-					libraryTarget: 'this'
+					libraryTarget: 'window'
 				}
 			}
 		)

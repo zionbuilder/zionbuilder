@@ -44,7 +44,7 @@ class CommonJS {
 			'js/vue.js',
 			[],
 			Plugin::instance()->get_version(),
-			true
+			false
 		);
 
 		Plugin::instance()->scripts->register_script(

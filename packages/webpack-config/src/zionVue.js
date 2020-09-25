@@ -1,7 +1,7 @@
 module.exports = () => {
 	return {
 		externals: [{
-			vue: 'zb.vue'
+			vue: ['zb', 'vue']
 		}]
 	}
 }
