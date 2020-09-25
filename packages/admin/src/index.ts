@@ -12,7 +12,7 @@ import {store} from './store/'
 import { ZionService } from '@zb/rest'
 import { errorInterceptor } from '@zb/rest'
 import { Forms } from '@zb/plugins'
-import Localization from '@zb/l10n'
+import { install } from '@zb/i18n'
 
 // Components
 import SideMenu from './components/SideMenu.vue'
@@ -31,10 +31,11 @@ const ZionBuilderAdmin = {
 
 		// Plugins
 		// appInstance.use(Forms)
-		appInstance.use(Localization, window.ZnPbAdminPageData.l10n)
+		// console.log({Localization})
+		appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 
 		// Add error interceptor for API
-		errorInterceptor(ZionService, store)
+		errorInterceptor(store)
 
 		// Add default routes
 		initRoutes()

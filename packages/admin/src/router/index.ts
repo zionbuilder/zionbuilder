@@ -14,7 +14,7 @@ import GetPro from '../components/GetPro.vue'
 import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 
-import { translate } from '@zb/l10n'
+import { translate } from '@zb/i18n'
 
 const getTemplateChildrens = () => {
 	const templateChilds = {}

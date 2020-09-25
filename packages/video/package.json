@@ -1,0 +1,11 @@
+{
+  "name": "@zionbuilder/video",
+  "version": "1.0.0",
+  "main": "src/index",
+  "author": "zionbuilder.io",
+  "license": "MIT",
+  "dependencies": {
+	"fitvids": "^2.1.1",
+	"@zionbuilder/event-bus": "^1.0.0"
+  }
+}

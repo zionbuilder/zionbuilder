@@ -1,0 +1,7 @@
+{
+  "name": "@zionbuilder/event-bus",
+  "version": "1.0.0",
+  "description": "Simple event bus",
+  "main": "./src/index.ts",
+  "license": "MIT"
+}

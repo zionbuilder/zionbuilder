@@ -1,0 +1,8 @@
+{
+  "name": "@zionbuilder/click-outside-directive",
+  "version": "1.0.0",
+  "description": "A Vue directive for detecting clicks made outside selector",
+  "main": "index.js",
+  "author": "zionbuilder.io",
+  "license": "MIT"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@zionbuilder/sortable",
+  "version": "1.0.0",
+  "description": "A sortable plugin for Vue",
+  "main": "./src/index",
+  "author": "zionbuilder.io",
+  "license": "MIT",
+  "dependencies": {
+    "css-box-model": "^1.2.1",
+    "memoize-one": "^5.1.1"
+  }
+}

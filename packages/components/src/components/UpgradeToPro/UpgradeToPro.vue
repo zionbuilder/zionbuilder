@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-option__upgrade-to-pro">
 		<div class="znpb-option__upgrade-to-pro-container">
-			<ZionLabel
+			<Label
 				:text="$translate('pro')"
 				type="warning"
 				class="znpb-option__upgrade-to-pro-label"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ZionLabel from '../Label/Label.vue'
+import Label from '../Label/Label.vue'
 
 export default {
 	name: 'UpgradeToPro',
@@ -53,7 +53,7 @@ export default {
 		}
 	},
 	components: {
-		ZionLabel
+		Label
 	}
 }
 </script>

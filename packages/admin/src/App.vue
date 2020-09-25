@@ -8,7 +8,7 @@
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
 					<img :src="logoUrl" />
-					<ZionLabel
+					<Label
 						v-if="isPro"
 						:text="$translate('pro')"
 						type="warning"
@@ -63,7 +63,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ZionLabel from '@zb/components/Label'
+import Label from '@zb/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 import { BaseIcon, Notice } from '@zb/components'
 
@@ -77,7 +77,7 @@ export default {
 		}
 	},
 	components: {
-		ZionLabel,
+		Label,
 		OptionsSaveLoader,
 		BaseIcon,
 		Notice

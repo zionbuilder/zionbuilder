@@ -48,6 +48,50 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
+			'zb-utils',
+			'js/utils.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
+			'zb-i18n',
+			'js/i18n.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
+			'zb-rest',
+			'js/rest.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		wp_localize_script(
+			'zb-rest',
+			'ZnRestConfig',
+			[
+				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+				'rest_root' => esc_url_raw( rest_url() ),
+				// 'schemas'   => apply_filters(
+				// 	'zionbuilder/commonjs/schemas',
+				// 	[
+				// 		'styles'           => StyleOptions::get_schema(),
+				// 		'element_advanced' => Advanced::get_schema(),
+				// 		'typography'       => Typography::get_schema(),
+				// 		'video'            => Video::get_schema(),
+				// 		'background_image' => BackgroundImage::get_schema(),
+				// 		'shadow'           => Shadow::get_schema(),
+				// 	]
+				// ),
+			]
+		);
+
+		Plugin::instance()->scripts->register_script(
 			'zb-components',
 			'js/components.js',
 			[],
@@ -64,26 +108,6 @@ class CommonJS {
 		// 	],
 		// 	Plugin::instance()->get_version(),
 		// 	true
-		// );
-
-		// wp_localize_script(
-		// 	'zb-common',
-		// 	'ZnCommonData',
-		// 	[
-		// 		'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-		// 		'rest_root' => esc_url_raw( rest_url() ),
-		// 		'schemas'   => apply_filters(
-		// 			'zionbuilder/commonjs/schemas',
-		// 			[
-		// 				'styles'           => StyleOptions::get_schema(),
-		// 				'element_advanced' => Advanced::get_schema(),
-		// 				'typography'       => Typography::get_schema(),
-		// 				'video'            => Video::get_schema(),
-		// 				'background_image' => BackgroundImage::get_schema(),
-		// 				'shadow'           => Shadow::get_schema(),
-		// 			]
-		// 		),
-		// 	]
 		// );
 	}
 }

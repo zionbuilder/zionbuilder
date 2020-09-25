@@ -11,6 +11,12 @@
   },
   "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a",
   "dependencies": {
-    "@zionbuilder/css-variables": "file:../css-variables"
+    "@zionbuilder/css-variables":  "^1.0.0",
+	"@zionbuilder/video":  "^1.0.0",
+	"@zionbuilder/sortable": "^1.0.0",
+    "popper.js": "^1.16.1",
+    "raf-schd": "^4.0.2",
+    "tinycolor2": "^1.4.1",
+    "vue-date-pick": "^1.4.1"
   }
 }

@@ -59,7 +59,7 @@
 </template>
 <script>
 import { ColorPicker, BaseIcon, Tooltip } from '@zb/components'
-import { clickOutside } from '@zb/directives'
+import clickOutside from '@zb/directive-click-outside'
 
 export default {
 	name: 'ColorBox',

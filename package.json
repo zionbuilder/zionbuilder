@@ -15,7 +15,9 @@
 		"build": "webpack",
 		"build:packages": "lerna run build"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"lodash-es": "^4.17.15"
+	},
 	"devDependencies": {
 		"lerna": "^3.22.1",
 		"typescript": "^4.0.3",

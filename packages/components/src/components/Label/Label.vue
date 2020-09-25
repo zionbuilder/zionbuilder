@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: 'ZionLabel',
+	name: 'Label',
 	props: ['text', 'type']
 }
 </script>
