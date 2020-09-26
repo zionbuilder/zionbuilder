@@ -35,7 +35,6 @@
 
 export default {
 	name: 'IconsPackGrid',
-
 	props: {
 		iconList: {
 			type: Array,
@@ -53,7 +52,6 @@ export default {
 			type: String,
 			required: false
 		}
-
 	},
 	data () {
 		return {

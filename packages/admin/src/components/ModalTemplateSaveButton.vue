@@ -5,7 +5,7 @@
 		</div>
 		<div class="znpb-modal-content-save-button__button">
 			<BaseButton
-				@click.native="onButtonClick"
+				@click="onButtonClick"
 				:type="buttonType"
 			>{{$translate('save')}}
 			</BaseButton>

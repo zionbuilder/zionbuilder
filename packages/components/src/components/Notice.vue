@@ -11,7 +11,7 @@
 				<BaseIcon
 					class="znpb-notice__close"
 					icon="close"
-					@click.native="$emit('close-notice')"
+					@click="$emit('close-notice')"
 				/>
 				<div
 					v-if="error.title"

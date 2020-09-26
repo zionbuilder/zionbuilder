@@ -24,12 +24,12 @@
 						spellcheck="false"
 						autocomplete="false"
 						class="znpb-admin-single-template__input"
-						@click.native="copyTextInput(template.shortcode)"
+						@click="copyTextInput(template.shortcode)"
 					>
 						<BaseIcon
 							icon="copy"
 							slot="suffix"
-							@click.native="copyTextInput(template.shortcode)"
+							@click="copyTextInput(template.shortcode)"
 						/>
 					</BaseInput>
 				</Tooltip>
@@ -65,7 +65,7 @@
 
 						<BaseIcon
 							icon="edit"
-							@click.native="editUrl"
+							@click="editUrl"
 						/>
 
 					</Tooltip>
@@ -80,7 +80,7 @@
 					>
 						<BaseIcon
 							icon="delete"
-							@click.native="$emit('delete-template', template)"
+							@click="$emit('delete-template', template)"
 						/>
 					</Tooltip>
 
@@ -94,7 +94,7 @@
 					>
 						<BaseIcon
 							icon="export"
-							@click.native="exportLocalTemplate"
+							@click="exportLocalTemplate"
 						/>
 					</Tooltip>
 
@@ -108,7 +108,7 @@
 					>
 						<BaseIcon
 							icon="eye"
-							@click.native="$emit('show-modal-preview', true)"
+							@click="$emit('show-modal-preview', true)"
 						/>
 					</Tooltip>
 				</template>

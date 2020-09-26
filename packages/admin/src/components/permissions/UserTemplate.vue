@@ -15,7 +15,7 @@
 			>
 				<BaseIcon
 					icon="edit"
-					@click.native="$emit('edit-permission')"
+					@click="$emit('edit-permission')"
 				/>
 			</Tooltip>
 
@@ -25,7 +25,7 @@
 			>
 				<BaseIcon
 					icon="delete"
-					@click.native="$emit('delete-permission')"
+					@click="$emit('delete-permission')"
 				/>
 			</Tooltip>
 

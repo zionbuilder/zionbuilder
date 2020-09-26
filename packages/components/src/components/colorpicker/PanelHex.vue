@@ -33,8 +33,8 @@
 				v-model="hexValue"
 			/>
 			<div class="znpb-color-picker-change-color znpb-input-number-arrow-wrapper">
-				<BaseIcon icon="select" :rotate="180" class="znpb-arrow-increment" @click.native="changeHex"></BaseIcon>
-				<BaseIcon icon="select" class="znpb-arrow-decrement" @click.native="changeHexback"></BaseIcon>
+				<BaseIcon icon="select" :rotate="180" class="znpb-arrow-increment" @click="changeHex"></BaseIcon>
+				<BaseIcon icon="select" class="znpb-arrow-decrement" @click="changeHexback"></BaseIcon>
 			</div>
 		</div>
 	</div>
@@ -73,7 +73,7 @@ export default {
 				return this.value.format === 'hex8' ? this.value.hex8 : this.value.hex
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		hslaValue: {
@@ -81,7 +81,7 @@ export default {
 				return this.value.hsla
 			},
 			set (hsla) {
-				this.$emit('input', hsla)
+				this.$emit('update:modelValue', hsla)
 			}
 		},
 		rgbaValue: {
@@ -89,7 +89,7 @@ export default {
 				return this.value.rgba
 			},
 			set (rgba) {
-				this.$emit('input', rgba)
+				this.$emit('update:modelValue', rgba)
 			}
 		}
 	},
@@ -103,7 +103,7 @@ export default {
 			} else if (this.value.format === 'rgb') {
 				format = 'hex'
 			}
-			this.$emit('input', {
+			this.$emit('update:modelValue', {
 				...this.value.hsla,
 				format
 			})
@@ -117,7 +117,7 @@ export default {
 			} else if (this.value.format === 'hex' || this.value.format === 'hex8' || this.value.format === 'name') {
 				format = 'rgb'
 			}
-			this.$emit('input', {
+			this.$emit('update:modelValue', {
 				...this.value.hsla,
 				format
 			})

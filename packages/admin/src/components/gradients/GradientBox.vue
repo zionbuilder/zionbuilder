@@ -8,7 +8,7 @@
 			tag="span"
 			class="znpb-admin-gradient-preset-box__delete"
 			:content="$translate('delete_gradient_from_preset')"
-			@click.native.stop="$emit('delete-gradient')"
+			@click.stop="$emit('delete-gradient')"
 		>
 			<BaseIcon
 				icon="close"

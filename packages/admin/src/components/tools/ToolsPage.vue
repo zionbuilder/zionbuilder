@@ -8,7 +8,7 @@
 				<h4>{{$translate('regenerate_css')}}</h4>
 				<BaseButton
 					type="line"
-					@click.native="onRegenerateFilesClick"
+					@click="onRegenerateFilesClick"
 					:class="{['-hasLoading'] : loading}"
 				>
 					<transition
@@ -32,7 +32,7 @@
 				<h4>{{$translate('sync_library')}}</h4>
 				<BaseButton
 					type="line"
-					@click.native="onSyncClick"
+					@click="onSyncClick"
 				>
 					<transition
 						name="fade"

@@ -38,7 +38,7 @@
 			>
 				<BaseIcon
 					icon="delete"
-					@click.native="showModalConfirm = true"
+					@click="showModalConfirm = true"
 				/>
 			</Tooltip>
 		</div>

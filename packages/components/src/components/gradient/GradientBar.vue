@@ -6,7 +6,7 @@
 		>
 			<GradientBarPreview
 				:config="computedValue"
-				@click.native="addColor"
+				@click="addColor"
 			/>
 			<GradientDragger
 				v-for="(colorConfig, i) in computedValue.colors"
@@ -14,7 +14,7 @@
 				:value="colorConfig"
 				@input="onColorConfigUpdate(colorConfig, $event)"
 				@color-picker-open="colorPickerOpen=$event"
-				@mousedown.native="enableDragging(i, $event)"
+				@mousedown="enableDragging(i, $event)"
 			/>
 		</div>
 		<div class="znpb-gradient-colors-legend">

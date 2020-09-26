@@ -99,7 +99,7 @@ export default {
 			}
 
 			if (this.lastHue !== h) {
-				this.$emit('input', newColor)
+				this.$emit('update:modelValue', newColor)
 			}
 
 			this.lastHue = h

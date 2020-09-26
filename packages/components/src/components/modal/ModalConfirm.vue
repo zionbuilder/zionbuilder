@@ -15,12 +15,12 @@
 			<Button
 				type="danger"
 				v-if="confirmText"
-				@click.native="$emit('confirm')"
+				@click="$emit('confirm')"
 			>{{confirmText}}</Button>
 			<Button
 				type="gray"
 				v-if="cancelText"
-				@click.native="$emit('cancel')"
+				@click="$emit('cancel')"
 			>{{cancelText}}</Button>
 		</div>
 	</Modal>

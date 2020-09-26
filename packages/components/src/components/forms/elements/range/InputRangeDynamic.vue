@@ -11,8 +11,8 @@
 			:min="activeOption.min"
 			:max="activeOption.max"
 			v-model="rangeModel"
-			@keydown.native="onRangeKeydown"
-			@keyup.native="onRangeKeyUp"
+			@keydown="onRangeKeydown"
+			@keyup="onRangeKeyUp"
 			:step="step"
 			:disabled="disabled"
 		>

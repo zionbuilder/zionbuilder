@@ -6,12 +6,12 @@
 		<OneGradient
 			:round="true"
 			:config="localConfig"
-			@click.native="$emit('change-active-gradient', config)"
+			@click="$emit('change-active-gradient', config)"
 		/>
 		<BaseIcon
 			icon="close"
 			v-if="showRemove"
-			@click.native.stop="$emit('delete-gradient')"
+			@click.stop="$emit('delete-gradient')"
 		/>
 	</div>
 

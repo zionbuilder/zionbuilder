@@ -12,7 +12,7 @@
 						v-bind:key="i"
 						:config="gradient.config"
 						:round="true"
-						@click.native="$emit('activate-gradient',gradient.config)"
+						@click="$emit('activate-gradient',gradient.config)"
 					/>
 				</div>
 			</Tab>
@@ -36,7 +36,7 @@
 							v-bind:key="i"
 							:config="gradient.config"
 							:round="true"
-							@click.native="onGlobalGradientSelected(gradient)"
+							@click="onGlobalGradientSelected(gradient)"
 						/>
 					</div>
 				</template>

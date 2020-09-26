@@ -88,7 +88,7 @@ export default {
 			} else {
 				value = newValue
 			}
-			this.$emit('input', {
+			this.$emit('update:modelValue', {
 				...this.value,
 				[property]: value
 			})

@@ -12,10 +12,10 @@
 						:key="index"
 						:config="gradient.config"
 						@delete-gradient="deleteGradientElement(index)"
-						@click.native="onGradientSelect(index)"
+						@click="onGradientSelect(index)"
 					/>
 
-					<AddGradient @click.native="onAddNewGradient" />
+					<AddGradient @click="onAddNewGradient" />
 				</div>
 
 			</Tab>
@@ -31,10 +31,10 @@
 							v-for="(gradient, index) in getGlobalGradients"
 							:key="index"
 							:config="gradient.config"
-							@click.native="onGradientSelect(index)"
+							@click="onGradientSelect(index)"
 							@delete-gradient="deleteGlobalGradientElement(index)"
 						/>
-						<AddGradient @click.native="onAddNewGlobalGradient" />
+						<AddGradient @click="onAddNewGlobalGradient" />
 					</div>
 				</template>
 
@@ -42,7 +42,7 @@
 		</Tabs>
 
 		<GradientModalContent
-			:show.sync="showModal"
+			v-model:show="showModal"
 			:gradient="activeGradient"
 			@update-gradient="onGradientUpdate"
 			@save-gradient="onSaveGradient"

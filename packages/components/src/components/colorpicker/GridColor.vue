@@ -2,7 +2,7 @@
 	<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
 		<BaseIcon
 			icon="plus"
-			@click.stop.native="$emit('add-new-color')"
+			@click.stop="$emit('add-new-color')"
 			class="znpb-colorpicker-circle znpb-colorpicker-add-color "
 		/>
 		<slot></slot>

@@ -7,16 +7,16 @@
 			v-model="stringValueModel"
 			class="znpb-input-number--has-units"
 			size="narrow"
-			@mousedown.native="actNumberDrag"
-			@touchstart.native.prevent="actNumberDrag"
-			@mouseup.native="deactivatedragNumber"
+			@mousedown="actNumberDrag"
+			@touchstart.prevent="actNumberDrag"
+			@mouseup="deactivatedragNumber"
 			:placeholder="placeholder"
 			ref="numberUnitInput"
-			@keydown.native="onKeyDown"
+			@keydown="onKeyDown"
 		>
 			<BaseIcon
 				class="znpb-input-number__dots"
-				@click.native="expanded = !expanded"
+				@click="expanded = !expanded"
 				slot="suffix"
 				icon="three-dots"
 			/>

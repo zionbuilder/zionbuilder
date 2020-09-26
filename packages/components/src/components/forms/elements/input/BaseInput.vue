@@ -43,7 +43,7 @@
 			class="zion-input__suffix-icon zion-input__clear-text"
 			icon="close"
 			v-if="showClear"
-			@mousedown.native.stop="inputValue = ''"
+			@mousedown.stop="inputValue = ''"
 		/>
 
 		<div
@@ -57,7 +57,7 @@
 				class="zion-input__suffix-icon"
 				:icon="icon"
 				v-if="icon"
-				@click.native="inputValue = ''"
+				@click="inputValue = ''"
 			/>
 
 			<div

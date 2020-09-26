@@ -86,7 +86,7 @@
 								icon="close"
 								:data-index="i"
 								class="close-icon"
-								@click.native.capture="onOptionSelect(savedOption)"
+								@click.capture="onOptionSelect(savedOption)"
 							/>
 						</div>
 						<BaseInput
@@ -95,7 +95,7 @@
 							:filterable="filterable"
 							:placeholder="getPlaceholder"
 							v-model="searchKeyword"
-							@keydown.native.prevent="handleKeydown"
+							@keydown.prevent="handleKeydown"
 							:readonly="!filterable"
 							ref="input"
 						>
@@ -121,7 +121,7 @@
 					:filterable="filterable"
 					:readonly="!filterable"
 					ref="input"
-					@keydown.native="handleKeydown"
+					@keydown="handleKeydown"
 					:font-family="style_type === 'font-select' ? selected : null"
 				>
 					<div

@@ -23,8 +23,8 @@
 			ref="colorpickerHolder"
 			:model="value"
 			@color-changed="updateColor"
-			@click.native.stop="onColorPickerClick"
-			@mousedown.native.stop="onColorPickerMousedown"
+			@click.stop="onColorPickerClick"
+			@mousedown.stop="onColorPickerMousedown"
 		>
 			<template v-slot:end>
 				<PatternContainer

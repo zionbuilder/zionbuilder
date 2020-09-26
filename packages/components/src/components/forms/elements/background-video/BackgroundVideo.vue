@@ -12,7 +12,7 @@
 				v-else
 				class="znpb-input-background-video__empty znpb-input-background-video__source"
 				:no-margin="true"
-				@click.native="openMediaModal"
+				@click="openMediaModal"
 			>
 				{{$translate('no_video_selected')}}
 			</EmptyList>
@@ -23,7 +23,7 @@
 				icon="delete"
 				:bg-size="30"
 				bg-color="#fff"
-				@click.native.stop="deleteVideo"
+				@click.stop="deleteVideo"
 			/>
 
 		</div>

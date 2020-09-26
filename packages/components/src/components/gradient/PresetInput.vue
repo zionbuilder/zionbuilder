@@ -24,13 +24,13 @@
 		<BaseIcon
 			icon="check"
 			class="znpb-backgroundGradient__action"
-			@click.stop.native="saveGradient"
+			@click.stop="saveGradient"
 		/>
 
 		<BaseIcon
 			icon="close"
 			class="znpb-backgroundGradient__action"
-			@click.stop.native="$emit('cancel',true)"
+			@click.stop="$emit('cancel',true)"
 		/>
 	</div>
 </template>

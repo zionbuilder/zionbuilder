@@ -9,7 +9,7 @@
 			{{userData.name}}
 		</UserTemplate>
 		<Modal
-			:show.sync="showModal"
+			v-model:show="showModal"
 			:width="560"
 			:title="userData.name + ' ' + $translate('permissions')"
 			:fullscreen="true"

@@ -13,7 +13,7 @@
 			:content="$translate('click_me_to_add_font')"
 		>
 			<EmptyList
-				@click.native="showModal=true"
+				@click="showModal=true"
 			>{{$translate('no_google_fonts')}}</EmptyList>
 		</Tooltip>
 
@@ -34,7 +34,7 @@
 		</div>
 
 		<Modal
-			:show.sync="showModal"
+			v-model:show="showModal"
 			:width="570"
 			class="znpb-modal-google-fonts"
 			:title="$translate('google_fonts')"
@@ -49,7 +49,7 @@
 		</Modal>
 
 		<div class="znpb-admin-google-fonts-actions">
-			<BaseButton @click.native="showModal=true" type="line">
+			<BaseButton @click="showModal=true" type="line">
 				<BaseIcon icon="plus"/>
 				{{$translate('add_font')}}
 			</BaseButton>

@@ -7,7 +7,7 @@
 				:key="gradient.type + index"
 				:position="gradient.position"
 				:active="activegrad===gradient"
-				@mousedown.native="enableDragging(gradient, $event)"
+				@mousedown="enableDragging(gradient, $event)"
 			/>
 		</div>
 	</div>

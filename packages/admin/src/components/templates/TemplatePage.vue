@@ -20,7 +20,7 @@
 
 		<div class="znpb-admin-templates-actions">
 			<BaseButton
-				@click.native="showModal=true"
+				@click="showModal=true"
 				type="line"
 			>
 				<span class="znpb-add-element-icon"></span>
@@ -29,7 +29,7 @@
 		</div>
 
 		<Modal
-			:show.sync="showModal"
+			v-model:show="showModal"
 			:show-maximize="false"
 			:title="$translate('add_new_template')"
 			:width="560"

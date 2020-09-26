@@ -88,7 +88,7 @@ export default {
 				a: a
 			}
 			if (this.lastA !== a) {
-				this.$emit('input', newColor)
+				this.$emit('update:modelValue', newColor)
 			}
 
 			this.lastA = a

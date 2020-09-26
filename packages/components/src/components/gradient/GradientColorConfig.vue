@@ -12,7 +12,7 @@
 		>
 			<BaseIcon
 				icon="close"
-				@click.stop.native="$emit('delete-color', config)"
+				@click.stop="$emit('delete-color', config)"
 				class="znpb-gradient-actions-delete"
 			/>
 		</div>

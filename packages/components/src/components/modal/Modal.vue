@@ -32,12 +32,12 @@
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						v-if="showMaximize"
-						@click.native.stop="fullSize = ! fullSize"
+						@click.stop="fullSize = ! fullSize"
 					/>
 					<BaseIcon
 						icon="close"
 						v-if="showClose"
-						@click.native.stop="closeModal"
+						@click.stop="closeModal"
 						class="znpb-modal__header-button"
 					/>
 				</header>
@@ -125,20 +125,29 @@ export default {
 		show (newValue) {
 			if (newValue) {
 				this.zIndex = getZindex()
-				// add overflow to body
-				if (this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== undefined && this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== null) {
-					addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-				} else {
-					addOverflow(this.$el.ownerDocument.body)
-				}
+
+				// Wait for the HTML to be added
+				this.$nextTick(() => {
+					// add overflow to body
+					if (this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== undefined && this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== null) {
+						addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
+					} else {
+						addOverflow(this.$el.ownerDocument.body)
+					}
+				})
+
 			} else {
-				removeZindex()
-				// remove overflow from body
-				if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
-					removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-				} else {
-					removeOverflow(this.$el.ownerDocument.body)
-				}
+				this.$nextTick(() => {
+					removeZindex()
+					// remove overflow from body
+					if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
+						removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
+					} else {
+						removeOverflow(this.$el.ownerDocument.body)
+					}
+				})
+
+
 			}
 		},
 		fullscreen (newValue) {

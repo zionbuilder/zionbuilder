@@ -103,19 +103,19 @@ export default {
 					}
 
 					if (this.isLimitExceeded === false) {
-						this.$emit('input', newValue)
+						this.$emit('update:modelValue', newValue)
 					} else if (allowUnselect && this.isLimitExceeded === true) {
 						const clonedValues = [...newValue]
 						clonedValues.shift()
 						// Allows to change the option check state on nextThick
 						this.isLimitExceeded = false
-						this.$emit('input', clonedValues)
+						this.$emit('update:modelValue', clonedValues)
 					}
 				} else {
 					/**
 					 * when input model changed, it emits new value
 					 */
-					this.$emit('input', newValue)
+					this.$emit('update:modelValue', newValue)
 				}
 			}
 		},

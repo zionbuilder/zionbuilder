@@ -10,7 +10,7 @@
 		>
 			<BaseIcon
 				icon="delete"
-				@click.native="deletePermission(user)"
+				@click="deletePermission(user)"
 			/>
 		</Tooltip>
 

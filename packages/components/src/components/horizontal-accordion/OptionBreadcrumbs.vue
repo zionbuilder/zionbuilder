@@ -4,7 +4,7 @@
 			v-if="showBackButton"
 			class="znpb-back-icon-breadcrumbs"
 			icon="select"
-			@click.native="onItemClicked(previousItem)"
+			@click="onItemClicked(previousItem)"
 		/>
 
 		<div

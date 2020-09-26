@@ -36,7 +36,7 @@
 						<h3>{{$translate('user_specific')}}</h3>
 						<EmptyList
 							v-if="Object.entries(getUserPermissions).length === 0"
-							@click.native="showModal=true"
+							@click="showModal=true"
 						>{{$translate('no_user_added')}}</EmptyList>
 						<SingleUser
 							v-for="(permissions, userId) in getUserPermissions"
@@ -48,14 +48,14 @@
 					</div>
 					<div class="znpb-admin-user-specific-actions">
 						<BaseButton
-							@click.native="showModal=true"
+							@click="showModal=true"
 							type="secondary"
 						>
 							<span class="znpb-add-element-icon"></span>
 							{{$translate('add_user')}}
 						</BaseButton>
 						<Modal
-							:show.sync="showModal"
+							v-model:show="showModal"
 							:width="560"
 							:title="$translate('add_user')"
 							:fullscreen="true"

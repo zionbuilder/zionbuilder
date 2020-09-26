@@ -8,10 +8,10 @@
 			:max="max"
 			:step="shiftKey ? shift_step : step"
 			v-bind="$attrs"
-			@keydown.native="onKeyDown"
-			@mousedown.native="actNumberDrag"
-			@touchstart.native.prevent="actNumberDrag"
-			@mouseup.native="deactivatedragNumber"
+			@keydown="onKeyDown"
+			@mousedown="actNumberDrag"
+			@touchstart.prevent="actNumberDrag"
+			@mouseup="deactivatedragNumber"
 		>
 			<!-- @slot Content that represents units -->
 			<slot slot="suffix"></slot>

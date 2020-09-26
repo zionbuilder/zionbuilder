@@ -1,6 +1,6 @@
 <template>
 	<Modal
-		:show.sync="showModal"
+		v-model:show="showModal"
 		:width="360"
 		:title="$translate('gradients')"
 		append-to="#znpb-admin"

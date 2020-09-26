@@ -5,8 +5,8 @@
 			:placeholder="$translate('add_preset_title')"
 		>
 			<template slot="append">
-				<BaseIcon icon="check" @click.stop.native="$emit('save-preset', colorName)" />
-				<BaseIcon icon="close" @click.stop.native="$emit('cancel',true)"/>
+				<BaseIcon icon="check" @click.stop="$emit('save-preset', colorName)" />
+				<BaseIcon icon="close" @click.stop="$emit('cancel',true)"/>
 			</template>
 		</BaseInput>
 	</div>

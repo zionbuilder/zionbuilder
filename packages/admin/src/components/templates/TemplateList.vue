@@ -23,7 +23,7 @@
 		<EmptyList v-if="templates.length === 0">{{$translate('no_template')}}</EmptyList>
 
 		<Modal
-			:show.sync="showModalPreview"
+			v-model:show="showModalPreview"
 			:title="`${templateTitle} ${$translate('preview')}`"
 			append-to="#znpb-admin"
 		>

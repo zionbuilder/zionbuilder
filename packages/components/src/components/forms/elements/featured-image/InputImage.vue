@@ -21,7 +21,7 @@
 						icon="delete"
 						:bg-size="30"
 						bg-color="#fff"
-						@click.native.stop="deleteImage"
+						@click.stop="deleteImage"
 					/>
 				</div>
 

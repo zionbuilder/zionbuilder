@@ -31,7 +31,7 @@
 			<BaseButton
 				:type="disabled ? 'disabled' : 'line'"
 				class="znpb-admin-replace-button"
-				@click.native="callReplaceUrl()"
+				@click="callReplaceUrl()"
 			>
 				<transition
 					name="fade"

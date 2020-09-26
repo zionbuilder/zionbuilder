@@ -10,7 +10,7 @@
 			<TabLink
 				v-for="(tab, i) in tabs"
 				:key="tab.tabId + i"
-				@click.native="selectTab(tab.tabId)"
+				@click="selectTab(tab.tabId)"
 				:tab="tab"
 				ref="tabLink"
 			>

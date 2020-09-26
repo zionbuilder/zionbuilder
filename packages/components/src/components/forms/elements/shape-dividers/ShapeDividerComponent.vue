@@ -35,7 +35,7 @@
 						v-else
 						icon="close"
 						:size="10"
-						@click.native.stop="$emit('input', null),showDelete=false"
+						@click.stop="$emit('input', null),showDelete=false"
 					/>
 				</transition>
 			</span>
@@ -46,7 +46,7 @@
 				:key="i"
 				:shape-path="shape"
 				:position="position"
-				@click.native="$emit('input', shape)"
+				@click="$emit('input', shape)"
 			></shape>
 
 			<UpgradeToPro

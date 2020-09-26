@@ -35,7 +35,7 @@
 					icon="delete"
 					:bg-size="30"
 					bg-color="#fff"
-					@click.stop.native="deleteGradientValue"
+					@click.stop="deleteGradientValue"
 					class="znpb-gradient-wrapper__delete-gradient"
 				/>
 			</template>
@@ -66,7 +66,7 @@
 			<BaseIcon
 				icon="plus"
 				class="znpb-colorpicker-add-grad"
-				@click.native="addGradientConfig"
+				@click="addGradientConfig"
 			/>
 		</div>
 

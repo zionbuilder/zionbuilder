@@ -8,8 +8,8 @@
 			:min="min"
 			:max="max"
 			v-model="optionValue"
-			@keydown.native="onKeydown"
-			@keyup.native="onKeyUp"
+			@keydown="onKeydown"
+			@keyup="onKeyUp"
 			:step="localStep"
 		>
 			<div
@@ -22,8 +22,8 @@
 			<InputNumber
 				class="znpb-input-range-number"
 				v-model="optionValue"
-				@keydown.native="onKeydown"
-				@keyup.native="onKeyUp"
+				@keydown="onKeydown"
+				@keyup="onKeyUp"
 				v-bind="$attrs"
 				:min="min"
 				:max="max"

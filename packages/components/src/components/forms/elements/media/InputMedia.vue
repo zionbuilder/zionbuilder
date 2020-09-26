@@ -8,7 +8,7 @@
 		/>
 
 		<BaseButton
-			@click.native="openMediaModal"
+			@click="openMediaModal"
 			type="line"
 		>{{selectButtonText}}
 		</BaseButton>

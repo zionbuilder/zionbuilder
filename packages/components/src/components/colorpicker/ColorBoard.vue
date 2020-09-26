@@ -85,7 +85,7 @@ export default {
 				s: saturation / 100
 			}
 
-			this.$emit('input', {
+			this.$emit('update:modelValue', {
 				...newColor,
 				type: 'hsva'
 			})
@@ -150,7 +150,7 @@ export default {
 				s: saturation / 100
 			}
 
-			this.$emit('input', {
+			this.$emit('update:modelValue', {
 				...newColor,
 				type: 'hsva'
 			})

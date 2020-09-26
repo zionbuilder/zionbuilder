@@ -20,8 +20,8 @@
 				:readonly="readonly"
 				class="znpb-input-number__input"
 				v-bind="$attrs"
-				@keydown.native="toggle"
-				@mouseup.native="toggle"
+				@keydown="toggle"
+				@mouseup="toggle"
 			>
 			</BaseInput>
 		</template>

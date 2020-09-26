@@ -44,7 +44,7 @@
 					>
 						<BaseIcon
 							icon="close"
-							@click.native.stop="$emit('delete-color')"
+							@click.stop="$emit('delete-color')"
 						/>
 					</Tooltip>
 
