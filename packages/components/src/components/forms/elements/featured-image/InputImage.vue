@@ -15,15 +15,17 @@
 					class="znpb-input-image-holder__image"
 					ref="image"
 				/>
-				<div slot="actions">
-					<BaseIcon
-						:rounded="true"
-						icon="delete"
-						:bg-size="30"
-						bg-color="#fff"
-						@click.stop="deleteImage"
-					/>
-				</div>
+				<template v-slot:actions>
+					<div>
+						<BaseIcon
+							:rounded="true"
+							icon="delete"
+							:bg-size="30"
+							bg-color="#fff"
+							@click.stop="deleteImage"
+						/>
+					</div>
+				</template>
 
 			</ActionsOverlay>
 			<div class="znpb-drag-icon-wrapper"

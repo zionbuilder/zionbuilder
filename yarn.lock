@@ -1189,17 +1189,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zionbuilder/css-variables@file:packages/css-variables":
+"@zionbuilder/css-variables@^1.0.0":
   version "1.0.1-alpha.1"
 
-"@zionbuilder/event-bus@file:packages/event-bus":
-  version "1.0.0"
-
-"@zionbuilder/video@file:packages/video":
-  version "1.0.0"
-  dependencies:
-    "@zionbuilder/event-bus" "file:../../../../../../Users/Zauan/AppData/Local/Yarn/Cache/v6/npm-@zionbuilder-video-1.0.0-a7b4189e-7507-4d71-b8be-e02419cb7c53-1601029006269/node_modules/@zionbuilder/event-bus"
-    fitvids "^2.1.1"
+"@zionbuilder/css-variables@file:packages/css-variables":
+  version "1.0.1-alpha.1"
 
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"

@@ -4,9 +4,8 @@
 		<div class="znpb-admin-posts-wrapper">
 			<PostTypeTab v-for="(post,i) in getPostTypes" :key="i" :post="post"/>
 		</div>
-		<template slot="right">
+		<template v-slot:right>
 			<p class="znpb-admin-info-p">{{$translate('set_allowed_types')}}</p>
-
 		</template>
 	</PageTemplate>
 

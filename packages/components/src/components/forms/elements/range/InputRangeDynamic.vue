@@ -16,11 +16,12 @@
 			:step="step"
 			:disabled="disabled"
 		>
-			<div
-				class="znpb-input-range__trackwidth"
-				:style="trackWidth"
-				slot="suffix"
-			></div>
+			<template v-slot:suffix>
+				<div
+					class="znpb-input-range__trackwidth"
+					:style="trackWidth"
+				></div>
+			</template>
 		</BaseInput>
 		<label class="znpb-input-range__label">
 			<InputNumberUnit

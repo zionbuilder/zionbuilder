@@ -50,7 +50,7 @@
 				v-html="message"
 			></p>
 		</div>
-		<template slot="right">
+		<template v-slot:right>
 			<div>
 				<p class="znpb-admin-info-p">
 					{{$translate('enter_old_and_new_url')}}

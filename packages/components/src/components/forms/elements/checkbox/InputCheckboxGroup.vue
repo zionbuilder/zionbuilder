@@ -14,7 +14,7 @@
 				:label="option.name"
 				:disabled="disabled"
 				:title="option.icon ? option.name : false"
-			>
+			>aaa
 				<BaseIcon
 					v-if="option.icon"
 					:icon="option.icon"

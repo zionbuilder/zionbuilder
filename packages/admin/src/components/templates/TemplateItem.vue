@@ -13,9 +13,11 @@
 					:hide-after="isCopied ? 500 : null"
 					@hide="isCopied = false"
 				>
-					<div slot="content">
-						<span>{{ isCopied ? copiedText : copyText }}</span>
-					</div>
+					<template v-slot:content>
+						<div>
+							<span>{{ isCopied ? copiedText : copyText }}</span>
+						</div>
+					</template>
 
 					<BaseInput
 						ref="templateInput"
@@ -26,11 +28,12 @@
 						class="znpb-admin-single-template__input"
 						@click="copyTextInput(template.shortcode)"
 					>
-						<BaseIcon
-							icon="copy"
-							slot="suffix"
-							@click="copyTextInput(template.shortcode)"
-						/>
+						<template v-slot:suffix>
+							<BaseIcon
+								icon="copy"
+								@click="copyTextInput(template.shortcode)"
+							/>
+						</template>
 					</BaseInput>
 				</Tooltip>
 			</div>

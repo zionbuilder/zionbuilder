@@ -9,10 +9,11 @@
 				size="big"
 				ref="searchInput"
 			>
-				<Loader
-					v-if="loading"
-					slot="suffix"
-				/>
+				<template v-slot:suffix>
+					<Loader
+						v-if="loading"
+					/>
+				</template>
 			</BaseInput>
 
 			<ul v-if="keyword.length > 2" class="znpb-baseselect-list">

@@ -18,7 +18,7 @@
 					:is="getNewComponent(getSystemInfo)"
 				/>
 			</template>
-			<template slot="right">
+			<template v-slot:right>
 				<div>
 					<p class="znpb-admin-info-p">{{$translate('system_info')}}</p>
 					<p class="znpb-admin-info-p">{{$translate('system_info_desc')}}</p>

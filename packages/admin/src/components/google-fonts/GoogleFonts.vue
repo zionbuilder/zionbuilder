@@ -54,7 +54,7 @@
 				{{$translate('add_font')}}
 			</BaseButton>
 		</div>
-		<template slot="right">
+		<template v-slot:right>
 			<p class="znpb-admin-info-p">{{$translate('google_fonts_1')}} <a href="https://fonts.google.com/">{{$translate('google_fonts_link')}} </a> {{$translate ('google_fonts_2')}}</p>
 		</template>
 

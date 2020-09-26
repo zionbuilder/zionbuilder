@@ -48,7 +48,7 @@
 			@save-gradient="onSaveGradient"
 		/>
 
-		<template slot="right">
+		<template v-slot:right>
 			<p class="znpb-admin-info-p">{{$translate('create_gradient_info')}} </p>
 		</template>
 	</PageTemplate>

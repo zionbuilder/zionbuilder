@@ -13,15 +13,16 @@
 				@dblclick="openColorPicker"
 			/>
 
-			<ColorPicker
-				v-if="showPicker"
-				ref="colorpickerHolder"
-				:parent-position="parentPosition"
-				:model="computedValue.color"
-				@color-changed="colorValue = $event"
-				:show-library="false"
-				slot="content"
-			/>
+			<template v-slot:content>
+				<ColorPicker
+					v-if="showPicker"
+					ref="colorpickerHolder"
+					:parent-position="parentPosition"
+					:model="computedValue.color"
+					@color-changed="colorValue = $event"
+					:show-library="false"
+				/>
+			</template>
 		</Tooltip>
 
 	</div>

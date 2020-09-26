@@ -14,7 +14,10 @@
 			@mouseup="deactivatedragNumber"
 		>
 			<!-- @slot Content that represents units -->
-			<slot slot="suffix"></slot>
+			<template v-slot:suffix>
+				<slot></slot>
+			</template>
+
 		</BaseInput>
 	</div>
 </template>

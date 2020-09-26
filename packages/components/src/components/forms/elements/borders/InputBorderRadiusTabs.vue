@@ -10,12 +10,15 @@
 				:key='index'
 			>
 				<!-- @slot title for Radius -->
-				<div slot="title">
-					<BaseIcon
-						slot="reference"
-						:icon="tab.icon"
-					></BaseIcon>
-				</div>
+				<template v-slot:title>
+					<div>
+						<!-- <template v-slot:reference>
+							<BaseIcon
+								:icon="tab.icon"
+							/>
+						</template> -->
+					</div>
+				</template>
 				<InputBorderRadius
 					:title="tab.name"
 					:value="valueModel[tab.id] || null"

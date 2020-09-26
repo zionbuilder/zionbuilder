@@ -23,7 +23,7 @@
 					</transition>
 				</BaseButton>
 			</div>
-			<template slot="right">
+			<template v-slot:right>
 				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
 			</template>
 		</PageTemplate>
@@ -46,7 +46,7 @@
 					</transition>
 				</BaseButton>
 			</div>
-			<template slot="right">
+			<template v-slot:right>
 				<p class="znpb-admin-info-p">{{$translate('regenrate_info')}}</p>
 			</template>
 		</PageTemplate>

@@ -17,12 +17,17 @@
 			:class="{ 'znpb-checkmark--rounded' : rounded }"
 		></span>
 		<span
-			v-if="$slots.default || label"
+			v-if="$slots.default() || label"
 			class="znpb-checkmark-option"
 		>
+			{{$slots.default()}}
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
-			<template v-if="showLabel && !$slots.default">{{label}}</template>
+			<template
+				v-if="showLabel && !$slots.default()"
+			>
+				{{label}}
+			</template>
 		</span>
 	</label>
 </template>
@@ -80,6 +85,12 @@ export default {
 		return {
 			isLimitExceeded: false
 		}
+	},
+	mounted () {
+		console.log(this.$slots.default())
+	},
+	created () {
+		console.log(this.$slots.default())
 	},
 	computed: {
 		model: {

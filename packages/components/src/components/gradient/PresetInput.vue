@@ -8,9 +8,9 @@
 			class="znpb-backgroundGradient__nameInput"
 			:error="hasError"
 		>
-			<template slot="append">
+
+			<template v-slot:prepend>
 				<InputSelect
-					slot="prepend"
 					class="znpb-backgroundGradient__typeDropdown"
 					:options="gradientTypes"
 					placeholder="Type"
@@ -18,6 +18,9 @@
 				/>
 
 			</template>
+			<!-- <template v-slot:append>
+
+			</template> -->
 		</BaseInput>
 
 		<!-- Actions -->

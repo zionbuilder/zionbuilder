@@ -18,53 +18,54 @@
 			}"
 			tooltip-class="znpb-baseselect-list-wrapper"
 		>
-			<ul
-				ref="dropdown"
-				slot="content"
-				class="znpb-baseselect-list hg-popper-list znpb-fancy-scrollbar"
-				:style="{'min-width': `${inputWidth}px`}"
-			>
-				<li
-					v-for="(option, i) in filteredItems"
-					v-bind:key="i"
-					:class="{'znpb-select-option-selected': isSelected(option.id), 'znpb-baseselect-list__option--active': optionIndex === i}"
-					@click.stop="onOptionSelect(option.id)"
-					class="znpb-baseselect-list__option hg-popper-list__item"
-					ref="filteredOptions"
-					:style="getStyle(option.name)"
+			<template v-slot:content>
+				<ul
+					ref="dropdown"
+					class="znpb-baseselect-list hg-popper-list znpb-fancy-scrollbar"
+					:style="{'min-width': `${inputWidth}px`}"
 				>
-					{{option.name}}
-				</li>
+					<li
+						v-for="(option, i) in filteredItems"
+						v-bind:key="i"
+						:class="{'znpb-select-option-selected': isSelected(option.id), 'znpb-baseselect-list__option--active': optionIndex === i}"
+						@click.stop="onOptionSelect(option.id)"
+						class="znpb-baseselect-list__option hg-popper-list__item"
+						ref="filteredOptions"
+						:style="getStyle(option.name)"
+					>
+						{{option.name}}
+					</li>
 
-				<li
-					v-if="filteredItems.length === 0 && !addable"
-					class="znpb-not-found-message"
-				>
-					{{$translate('no_result')}}
-				</li>
-				<li
-					class="znpb-baseselect-list__option znpb-baseselect-list__option--addable hg-popper-list__item"
-					v-if="addable && filteredItems.length === 0 && searchKeyword.length > 0"
-					@click.stop="addNewItem"
-				>
-					{{searchKeyword}}
+					<li
+						v-if="filteredItems.length === 0 && !addable"
+						class="znpb-not-found-message"
+					>
+						{{$translate('no_result')}}
+					</li>
+					<li
+						class="znpb-baseselect-list__option znpb-baseselect-list__option--addable hg-popper-list__item"
+						v-if="addable && filteredItems.length === 0 && searchKeyword.length > 0"
+						@click.stop="addNewItem"
+					>
+						{{searchKeyword}}
 
-					<BaseIcon
-						class="znpb-baseselect-list__option-add-icon"
-						icon="plus"
-						:size="10"
-						:bg-size="22"
-						:rounded="true"
-						color="#959595"
-					/>
+						<BaseIcon
+							class="znpb-baseselect-list__option-add-icon"
+							icon="plus"
+							:size="10"
+							:bg-size="22"
+							:rounded="true"
+							color="#959595"
+						/>
 
-				</li>
-				<li
-					v-if="addable && filteredItems.length === 0 && searchKeyword.length === 0"
-					class="znpb-not-found-message"
-				>{{$translate('no_items')}}</li>
+					</li>
+					<li
+						v-if="addable && filteredItems.length === 0 && searchKeyword.length === 0"
+						class="znpb-not-found-message"
+					>{{$translate('no_items')}}</li>
 
-			</ul>
+				</ul>
+			</template>
 			<div
 				class="znpb-baseselect__trigger"
 				@click.prevent="toggleDropdown"
@@ -99,15 +100,16 @@
 							:readonly="!filterable"
 							ref="input"
 						>
-							<div
-								class="znpb-baseselect__trigger-icon"
-								slot="suffix"
-							>
-								<BaseIcon
-									icon="select"
-									:rotate="expanded ? '180' : false"
-								/>
-							</div>
+							<template v-slot:suffix>
+								<div
+									class="znpb-baseselect__trigger-icon"
+								>
+									<BaseIcon
+										icon="select"
+										:rotate="expanded ? '180' : false"
+									/>
+								</div>
+							</template>
 						</BaseInput>
 					</div>
 				</div>
@@ -124,15 +126,16 @@
 					@keydown="handleKeydown"
 					:font-family="style_type === 'font-select' ? selected : null"
 				>
-					<div
-						class="znpb-baseselect__trigger-icon"
-						slot="suffix"
-					>
-						<BaseIcon
-							icon="select"
-							:rotate="expanded ? '180' : false"
-						/>
-					</div>
+					<template v-slot:suffix>
+						<div
+							class="znpb-baseselect__trigger-icon"
+						>
+							<BaseIcon
+								icon="select"
+								:rotate="expanded ? '180' : false"
+							/>
+						</div>
+					</template>
 				</BaseInput>
 
 			</div>

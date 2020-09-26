@@ -4,7 +4,7 @@
 			v-model="colorName"
 			:placeholder="$translate('add_preset_title')"
 		>
-			<template slot="append">
+			<template v-slot:append>
 				<BaseIcon icon="check" @click.stop="$emit('save-preset', colorName)" />
 				<BaseIcon icon="close" @click.stop="$emit('cancel',true)"/>
 			</template>

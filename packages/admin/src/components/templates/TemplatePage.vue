@@ -41,7 +41,7 @@
 			/>
 		</Modal>
 
-		<template slot="right">
+		<template v-slot:right>
 			<p class="znpb-admin-info-p">
 				{{$translate('templates_description')}}
 			</p>

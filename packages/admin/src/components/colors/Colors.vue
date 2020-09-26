@@ -12,13 +12,14 @@
 						@option-updated="editLColor(i,$event)"
 						@delete-color="deleteLColor(i)"
 					/>
-					<ColorBox
-						slot="end"
-						type="addcolor"
-						@option-updated="addLColor"
-					/>
-				</div>
 
+				</div>
+				<template v-slot:end>
+						<ColorBox
+							type="addcolor"
+							@option-updated="addLColor"
+						/>
+					</template>
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
@@ -46,7 +47,7 @@
 
 			</Tab>
 		</Tabs>
-		<template slot="right">
+		<template v-slot:right>
 			<p class="znpb-admin-info-p">{{$translate('create_color_palette')}} </p>
 		</template>
 	</PageTemplate>

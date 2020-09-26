@@ -5,7 +5,7 @@
 		</span>
 		<div v-show="showContent" class="znpb-admin-hidden-select__content">
 			<transition name="fadeGrow">
-				<div v-if="showContent" class="znpb-admin-hidden-select__content-slot">
+				<div class="znpb-admin-hidden-select__content-slot">
 					<slot name="content"></slot>
 				</div>
 			</transition>

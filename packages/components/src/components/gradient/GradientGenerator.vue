@@ -17,7 +17,7 @@
 				@position-changed="changePosition($event)"
 			/>
 
-			<template slot="actions">
+			<template v-slot:actions>
 				<span
 					v-if="!showPresetInput"
 					class="znpb-gradient__show-preset"

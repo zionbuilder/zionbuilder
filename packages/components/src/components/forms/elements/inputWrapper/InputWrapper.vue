@@ -17,7 +17,9 @@
 				v-if="description"
 				:enterable="false"
 			>
-				<div slot="content"> {{description}} dd</div>
+				<template v-slot:content>
+					<div> {{description}}</div>
+				</template>
 				<BaseIcon
 					icon="question-mark"
 				/>

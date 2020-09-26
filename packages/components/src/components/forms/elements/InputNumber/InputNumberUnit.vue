@@ -14,12 +14,13 @@
 			ref="numberUnitInput"
 			@keydown="onKeyDown"
 		>
-			<BaseIcon
-				class="znpb-input-number__dots"
-				@click="expanded = !expanded"
-				slot="suffix"
-				icon="three-dots"
-			/>
+			<template v-slot:suffix>
+				<BaseIcon
+					class="znpb-input-number__dots"
+					@click="expanded = !expanded"
+					icon="three-dots"
+				/>
+			</template>
 
 		</BaseInput>
 
@@ -45,28 +46,29 @@
 				}"
 				tooltip-class="znpb-input-number__units-tooltip-wrapper"
 			>
-				<div
-					slot="content"
-					class="znpb-number-unit-list hg-popper-list"
-				>
+				<template v-slot:content>
 					<div
-						class="znpb-number-unit-list__option hg-popper-list__item"
-						@click.stop="onSelectUnit(null)"
-						:class="{[`znpb-number-unit-list__option--selected`]: isCustomUnit}"
-						v-if="allow_custom"
+						class="znpb-number-unit-list hg-popper-list"
 					>
-						custom
+						<div
+							class="znpb-number-unit-list__option hg-popper-list__item"
+							@click.stop="onSelectUnit(null)"
+							:class="{[`znpb-number-unit-list__option--selected`]: isCustomUnit}"
+							v-if="allow_custom"
+						>
+							custom
+						</div>
+						<div
+							v-for="(availableUnit, i) in units"
+							v-bind:key="i"
+							@click.stop="onSelectUnit(availableUnit)"
+							class="znpb-number-unit-list__option hg-popper-list__item"
+							:class="{[`znpb-number-unit-list__option--selected`]: (valueUnit.unit === availableUnit || unit === availableUnit) && (isValidUnit || units.includes(stringValueModel) || unit === availableUnit)}"
+						>
+							{{availableUnit}}
+						</div>
 					</div>
-					<div
-						v-for="(availableUnit, i) in units"
-						v-bind:key="i"
-						@click.stop="onSelectUnit(availableUnit)"
-						class="znpb-number-unit-list__option hg-popper-list__item"
-						:class="{[`znpb-number-unit-list__option--selected`]: (valueUnit.unit === availableUnit || unit === availableUnit) && (isValidUnit || units.includes(stringValueModel) || unit === availableUnit)}"
-					>
-						{{availableUnit}}
-					</div>
-				</div>
+				</template>
 			</Tooltip>
 		</div>
 	</div>

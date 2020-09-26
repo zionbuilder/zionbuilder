@@ -5,10 +5,11 @@
 		placement="top"
 		class="znpb-admin-system-notice-wrapper"
 	>
-		<div
-			slot="content"
-			v-html="data.message"
-		></div>
+		<template v-slot:content>
+			<div
+				v-html="data.message"
+			></div>
+		</template>
 		<BaseIcon
 			:icon="icontype"
 			class="znpb-admin-system-notice"

@@ -17,7 +17,7 @@
 						</template>
 					</div>
 				</template>
-				<template slot="right">
+				<template v-slot:right>
 					<p class="znpb-admin-info-p">
 						{{$translate('manage_users_permissions')}}
 					</p>
@@ -65,7 +65,7 @@
 						</Modal>
 					</div>
 				</template>
-				<template slot="right">
+				<template v-slot:right>
 					<p class="znpb-admin-info-p">
 						{{$translate('manage_wordpress_users_permisions')}}
 					</p>

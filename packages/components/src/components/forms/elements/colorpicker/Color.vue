@@ -18,23 +18,25 @@
 		@hide="closeColorPicker"
 		:positionFixed="true"
 	>
-		<ColorPicker
-			slot="content"
-			ref="colorpickerHolder"
-			:model="value"
-			@color-changed="updateColor"
-			@click.stop="onColorPickerClick"
-			@mousedown.stop="onColorPickerMousedown"
-		>
-			<template v-slot:end>
-				<PatternContainer
-					v-if="showLibrary"
-					@color-updated="onLibraryUpdate"
-					:model="value"
-					:active-tab="dynamicContentConfig ? 'global' : 'local'"
-				/>
-			</template>
-		</ColorPicker>
+		<template v-slot:content>
+			<ColorPicker
+				ref="colorpickerHolder"
+				:model="value"
+				@color-changed="updateColor"
+				@click.stop="onColorPickerClick"
+				@mousedown.stop="onColorPickerMousedown"
+			>
+				<template v-slot:end>
+					<PatternContainer
+						v-if="showLibrary"
+						@color-updated="onLibraryUpdate"
+						:model="value"
+						:active-tab="dynamicContentConfig ? 'global' : 'local'"
+					/>
+				</template>
+			</ColorPicker>
+		</template>
+
 
 		<slot name="trigger" />
 

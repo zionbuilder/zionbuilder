@@ -15,14 +15,15 @@
 			}"
 			:show-arrows="false"
 		>
-			<ColorPicker
-				slot="content"
-				ref="colorpickerHolder"
-				:model="color || ''"
-				@color-changed="updateColor"
-				:show-library="false"
-				v-click-outside="closeColorpicker"
-			/>
+			<template v-slot:content>
+				<ColorPicker
+					ref="colorpickerHolder"
+					:model="color || ''"
+					@color-changed="updateColor"
+					:show-library="false"
+					v-click-outside="closeColorpicker"
+				/>
+			</template>
 			<template>
 				<div
 					v-if="type=='addcolor'"

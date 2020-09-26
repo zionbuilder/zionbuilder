@@ -10,9 +10,11 @@
 				:key='index'
 				class="znpb-input-border-tabs__tab"
 			>
-				<div slot="title">
-					<BaseIcon :icon="tab.icon"></BaseIcon>
-				</div>
+				<template v-slot:title>
+					<div>
+						<BaseIcon :icon="tab.icon"></BaseIcon>
+					</div>
+				</template>
 
 				<InputBorderControl
 					:value="valueModel[tab.id] || {}"
