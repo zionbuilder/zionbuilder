@@ -11,7 +11,7 @@
 		"publish:packages": "lerna run build && lerna publish",
 		"publish": "yarn run publish:packages",
 		"dev:packages": "lerna run dev",
-		"dev": "yarn run dev:packages",
+		"dev": "webpack --watch",
 		"build": "webpack",
 		"build:packages": "lerna run build"
 	},

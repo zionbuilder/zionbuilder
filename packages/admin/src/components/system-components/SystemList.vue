@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-system-list-wrapper">
-		<h2 class="znpb-system-subtitle">{{CategoryData.category_name}}</h2>
-		<SystemListItem v-for="(value,i) in CategoryData.values" :key="i" :data="value">
+		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
+		<SystemListItem v-for="(value,i) in categoryData.values" :key="i" :data="value">
 
 		</SystemListItem>
 	</div>
@@ -15,7 +15,7 @@ export default {
 		SystemListItem
 	},
 	props: {
-		CategoryData: {
+		categoryData: {
 			type: Object,
 			required: true
 		}

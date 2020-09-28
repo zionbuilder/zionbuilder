@@ -13,9 +13,9 @@
 					:category-data="category"
 					:is="getComponent(category.category_id)"
 				/>
-				<component
+
+				<CopyPasteServer
 					:category-data="getSystemInfo"
-					:is="getNewComponent(getSystemInfo)"
 				/>
 			</template>
 			<template v-slot:right>

@@ -17,7 +17,7 @@
 export default {
 	name: 'CopyPasteServer',
 	props: {
-		CategoryData: {
+		categoryData: {
 			type: Array,
 			required: true
 		}
@@ -29,7 +29,7 @@ export default {
 		getCategoryData () {
 			let result = []
 
-			this.CategoryData.forEach((category) => {
+			this.categoryData.forEach((category) => {
 				result.push(`==${category.category_name}==\n`)
 
 				Object.keys(category.values).forEach(function (key) {

@@ -1,8 +1,8 @@
 <template>
 	<div class="znpb-system-list-plugins">
-		<h2 class="znpb-system-subtitle">{{CategoryData.category_name}}</h2>
+		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
 		<div class="znpb-system-plugins-wrapper">
-			<div v-for="(value,i) in CategoryData.values" :key="i" class="znpb-system-plugins">
+			<div v-for="(value,i) in categoryData.values" :key="i" class="znpb-system-plugins">
 				<h3 class="znpb-system-plugins__item">{{value.name}}</h3>
 				<h4 class="znpb-system-plugins__item"> {{value.version}} </h4>
 				<h5 class="znpb-system-plugins__item"> {{value.author}} </h5>
@@ -17,7 +17,7 @@
 export default {
 	name: 'SystemPlugins',
 	props: {
-		CategoryData: {
+		categoryData: {
 			type: Object,
 			required: true
 		}

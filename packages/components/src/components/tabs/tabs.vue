@@ -105,7 +105,7 @@ export default {
 		 * Retrieve the list of tabs
 		 */
 		getTabs () {
-			const tabSlots = (this.$slots.default || [])
+			const tabSlots = ((this.$slots.default && this.$slots.default() ) || [])
 			const tabsInstances = tabSlots
 				.map(vnode => vnode.componentInstance)
 				.filter(tab => tab && tab._isTab)
