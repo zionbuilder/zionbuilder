@@ -79,6 +79,14 @@ class CommonJS {
 			false
 		);
 
+		Plugin::instance()->scripts->register_script(
+			'zb-events',
+			'js/event-bus.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
 		wp_localize_script(
 			'zb-rest',
 			'ZnRestConfig',
@@ -104,6 +112,7 @@ class CommonJS {
 			'js/components.js',
 			[
 				'zb-vue',
+				'zb-events',
 				'zb-utils',
 				'zb-z-index-manager',
 				'zb-i18n',

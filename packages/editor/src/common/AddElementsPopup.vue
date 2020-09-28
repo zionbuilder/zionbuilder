@@ -51,6 +51,7 @@ import { BaseInput, InputSelect } from '@zb/components/forms'
 import { generateUID } from '../utils/utils.js'
 import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'
+import { on, off } from '@zb/event-bus'
 
 export default {
 	name: 'AddElementsPopup',
@@ -117,10 +118,10 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('add-element', this.onElementAdded)
+		on('add-element', this.onElementAdded)
 	},
 	beforeDestroy () {
-		window.ZionBuilderApi.off('add-element', this.onElementAdded)
+		off('add-element', this.onElementAdded)
 	},
 	methods: {
 		...mapActions([

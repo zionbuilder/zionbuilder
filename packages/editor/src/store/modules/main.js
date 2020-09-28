@@ -103,7 +103,7 @@ const mutations = {
 		state.iFrame.order = order
 	},
 	[types.SET_PREVIEW_FRAME_LOADING] (state, payload) {
-		Vue.set(state, 'isPreviewLoading', payload)
+		state.isPreviewLoading = payload
 	},
 	[types.SET_STYLE_LOADING] (state, payload) {
 		Vue.set(state, 'isStyleLoading', payload)

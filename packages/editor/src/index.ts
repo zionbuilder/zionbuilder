@@ -7,7 +7,7 @@ import App from './App.vue'
 import { errorInterceptor } from '@zb/rest'
 import { install } from '@zb/i18n'
 
-import OptionsManager from './manager/options/'
+export * as optionsInstance from './manager/options/optionsInstance'
 
 const appInstance = createApp(App)
 
@@ -20,8 +20,3 @@ errorInterceptor(store)
 
 appInstance.mount('#znpb-app')
 
-export const options = new OptionsManager()
-
-export default {
-
-}

@@ -52,26 +52,21 @@ import {
 	InputBackgroundVideo
 } from '@zb/components/forms'
 
-class OptionsManager {
-	constructor() {
-		this.options = {}
 
-		// Register default dynamic options
-		this.registerDefaultOptions()
+export default () => {
+	const options = {}
+	const activeResponsiveOptions = null
 
-		this.activeResponsiveOptions = null
+	const setActiveResponsiveOptions = (optionInstance) => {
+		activeResponsiveOptions = optionInstance
 	}
 
-	setActiveResponsiveOptions (optionInstance) {
-		this.activeResponsiveOptions = optionInstance
+	const getActiveResponsiveOptions = () => {
+		return activeResponsiveOptions
 	}
 
-	getActiveResponsiveOptions () {
-		return this.activeResponsiveOptions
-	}
-
-	removeActiveResponsiveOptions () {
-		this.activeResponsiveOptions = null
+	const removeActiveResponsiveOptions = () => {
+		activeResponsiveOptions = null
 	}
 
 	/**
@@ -80,9 +75,9 @@ class OptionsManager {
 	 * Will register all our custom form inputs created
 	 * for Zion Builder
 	 */
-	registerDefaultOptions () {
+	const registerDefaultOptions = () => {
 		// Register global options
-		this.registerOption({
+		registerOption({
 			id: 'text',
 			component: BaseInput,
 			dynamic: {
@@ -90,7 +85,7 @@ class OptionsManager {
 			}
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'textarea',
 			component: BaseInput,
 			dynamic: {
@@ -98,22 +93,22 @@ class OptionsManager {
 			}
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'select',
 			component: InputSelect
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'slider',
 			component: InputRange
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'dynamic_slider',
 			component: InputRangeDynamic
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'editor',
 			component: Editor,
 			dynamic: {
@@ -121,42 +116,42 @@ class OptionsManager {
 			}
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'media',
 			component: InputMedia
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'image',
 			component: InputImage
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'number',
 			component: InputNumber
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'number_unit',
 			component: InputNumberUnit
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'code',
 			component: CustomCode
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'custom_selector',
 			component: CustomSelector
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'radio_image',
 			component: RadioImage
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'colorpicker',
 			component: ColorPicker,
 			dynamic: {
@@ -165,94 +160,94 @@ class OptionsManager {
 			}
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'checkbox',
 			component: Checkbox
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'checkbox_group',
 			component: CheckboxGroup
 		})
-		this.registerOption({
+		registerOption({
 			id: 'checkbox_switch',
 			component: CheckboxSwitch
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'column_size',
 			component: ColumnSize
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'text_align',
 			component: InputTextAlign
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'text_transform',
 			component: InputTextTransform
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'borders',
 			component: InputBorderTabs
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'shadow',
 			component: InputTextShadow
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'video',
 			component: InputBackgroundVideo
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'icon_library',
 			component: IconLibrary
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'date_input',
 			component: InputDate
 		})
 
-		this.registerOption({
+		registerOption({
 			id: 'shape_dividers',
 			component: ShapeDividers
 		})
-		this.registerOption({
+		registerOption({
 			id: 'shape_component',
 			component: ShapeDividerComponent
 		})
 
 		// register custom options
-		this.registerOption(AccordionMenu)
-		this.registerOption(IconLibrary)
-		this.registerOption(PseudoGroup)
-		this.registerOption(Background)
-		this.registerOption(BackgroundColor)
-		this.registerOption(BackgroundGradient)
-		this.registerOption(Typography)
-		this.registerOption(Group)
-		this.registerOption(PanelAccordion)
-		this.registerOption(ResponsiveGroup)
-		this.registerOption(Link)
-		this.registerOption(ColumnSize)
-		this.registerOption(WPWidget)
-		this.registerOption(Repeater)
-		this.registerOption(TabGroup)
-		this.registerOption(ElementStyles)
-		this.registerOption(Gallery)
-		this.registerOption(HTMLComponent)
-		this.registerOption(UpgradeToPro)
-		this.registerOption(Dimensions)
+		registerOption(AccordionMenu)
+		registerOption(IconLibrary)
+		registerOption(PseudoGroup)
+		registerOption(Background)
+		registerOption(BackgroundColor)
+		registerOption(BackgroundGradient)
+		registerOption(Typography)
+		registerOption(Group)
+		registerOption(PanelAccordion)
+		registerOption(ResponsiveGroup)
+		registerOption(Link)
+		registerOption(ColumnSize)
+		registerOption(WPWidget)
+		registerOption(Repeater)
+		registerOption(TabGroup)
+		registerOption(ElementStyles)
+		registerOption(Gallery)
+		registerOption(HTMLComponent)
+		registerOption(UpgradeToPro)
+		registerOption(Dimensions)
 
 		// options just for builder
-		this.registerOption(GlobalClasses)
-		this.registerOption(ChildAdder)
+		registerOption(GlobalClasses)
+		registerOption(ChildAdder)
 	}
 
 	/**
@@ -262,8 +257,8 @@ class OptionsManager {
 	 *
 	 * @param {Object} schema The option schema
 	 */
-	getOption (schema, model = null, formModel = {}) {
-		let optionConfig = this.options[schema.type]
+	const getOption = (schema, model = null, formModel = {}) => {
+		let optionConfig = options[schema.type]
 		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
 
 		if (!optionConfig) {
@@ -282,8 +277,8 @@ class OptionsManager {
 	 *
 	 * @param {String} optionId The option type id for which we need to return the component
 	 */
-	getOptionComponent (schema, model = null, formModel = {}) {
-		const optionConfig = this.getOption(schema.type)
+	const getOptionComponent = (schema, model = null, formModel = {}) => {
+		const optionConfig = getOption(schema.type)
 		return applyFilters('zionbuilder/getOption', optionConfig.component, schema, model, formModel)
 	}
 
@@ -294,7 +289,7 @@ class OptionsManager {
 	 *
 	 * @param {Object} optionConfig Object config
 	 */
-	registerOption (optionConfig) {
+	const registerOption = (optionConfig) => {
 		// Check if the config contains the option type id
 		if (!optionConfig.hasOwnProperty('id')) {
 			// eslint-disable-next-line
@@ -307,8 +302,18 @@ class OptionsManager {
 			console.warn('You need to specify the option type id.', optionConfig)
 		}
 
-		this.options[optionConfig.id] = optionConfig
+		options[optionConfig.id] = optionConfig
+	}
+
+	// Init
+	registerDefaultOptions()
+
+	return {
+		registerOption,
+		getOptionComponent,
+		getOption,
+		removeActiveResponsiveOptions,
+		getActiveResponsiveOptions,
+		setActiveResponsiveOptions
 	}
 }
-
-export default new OptionsManager()

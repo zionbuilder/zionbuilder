@@ -1,4 +1,4 @@
-import EventBus from '@zionbuilder/event-bus'
+import { EventBus } from '@zionbuilder/event-bus'
 import { youtubeUrlParser } from '@zionbuilder/utils'
 import fitVids from 'fitvids'
 
@@ -7,7 +7,7 @@ let vimeoApiLoadedState = 0
 let videoIndex = 0
 let vimeoVolume = 1
 
-const eventBus = new EventBus()
+const eventBus = EventBus()
 
 export default class Video {
 	constructor(domNode, options = {}) {

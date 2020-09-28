@@ -638,9 +638,9 @@ const mutations = {
 			if (index === paths.length - 1) {
 				if (upperDeletableKey) {
 					const { acc, key } = upperDeletableKey
-					Vue.delete(acc, key)
+					delete acc[key]
 				} else {
-					Vue.delete(acc, key)
+					delete acc[key]
 				}
 
 				return true

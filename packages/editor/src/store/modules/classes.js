@@ -50,7 +50,7 @@ const mutations = {
 	},
 
 	[types.EDIT_CSS_CLASS] (state, { cssClassIndex, newval }) {
-		Vue.set(state.classes, cssClassIndex, newval)
+		state.classes[cssClassIndex] = newval
 	},
 	[types.REMOVE_CSS_CLASS] (state, cssClass) {
 		const cssClassIndex = state.classes.indexOf(cssClass)

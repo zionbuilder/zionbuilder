@@ -165,7 +165,6 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import OptionsManager from '@/editor/manager/options'
 import HasChanges from '../HasChanges.vue'
 import { InputLabel } from '@zb/components/forms'
 import { Tooltip, Injection } from '@zb/components/'
@@ -276,7 +275,7 @@ export default {
 		},
 
 		optionTypeConfig () {
-			return OptionsManager.getOption(this.schema, this.optionValue, this.optionsForm.value)
+			return window.zb.editor.options.getOption(this.schema, this.optionValue, this.optionsForm.value)
 		},
 		labelAlignment () {
 			return this.schema['label-align'] || null

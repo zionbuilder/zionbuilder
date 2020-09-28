@@ -49,6 +49,8 @@ import { Modal, Loader } from '@zb/components'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
+import { on, off } from '@zb/event-bus'
+
 
 export default {
 	name: 'SaveElementModal',
@@ -112,12 +114,12 @@ export default {
 	},
 	created () {
 		if (this.template) {
-			window.ZionBuilderApi.on('save-template', this.onSavetemplate)
-		} else window.ZionBuilderApi.on('save-element', this.onSaveElement)
+			on('save-template', this.onSavetemplate)
+		} else on('save-element', this.onSaveElement)
 	},
 	beforeDestroy () {
-		window.ZionBuilderApi.off('save-element', this.onSaveElement)
-		window.ZionBuilderApi.off('save-template', this.onSavetemplate)
+		off('save-element', this.onSaveElement)
+		off('save-template', this.onSavetemplate)
 		this.loadingMessage = ''
 		this.errorMessage = ''
 	},

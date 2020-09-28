@@ -48,11 +48,11 @@ export default {
 	},
 	mounted () {
 		// Set the active responsive group
-		window.ZionBuilderApi.OptionsManager.setActiveResponsiveOptions(this)
+		window.zb.editor.options.setActiveResponsiveOptions(this)
 	},
 	beforeDestroy () {
 		// Set the active responsive group
-		window.ZionBuilderApi.OptionsManager.removeActiveResponsiveOptions()
+		window.zb.editor.options.removeActiveResponsiveOptions()
 	},
 	methods: {
 		updateValue (newValue) {

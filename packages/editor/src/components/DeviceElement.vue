@@ -36,6 +36,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import HasChanges from './elementOptions/HasChanges.vue'
+import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
 
 export default {
 	name: 'device-element',
@@ -64,7 +65,7 @@ export default {
 			return this.deviceConfig === this.getActiveDevice
 		},
 		hasChanges () {
-			const activeDevice = window.ZionBuilderApi.OptionsManager.getActiveResponsiveOptions()
+			const activeDevice = getActiveResponsiveOptions()
 			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
 		},
 		getActiveDeviceId () {
@@ -82,7 +83,7 @@ export default {
 			}
 		},
 		removeStylesGroup () {
-			const activeDevice = window.ZionBuilderApi.OptionsManager.getActiveResponsiveOptions()
+			const activeDevice = getActiveResponsiveOptions()
 			if (activeDevice) {
 				activeDevice.removeDeviceStyles(this.deviceConfig.id)
 			}
