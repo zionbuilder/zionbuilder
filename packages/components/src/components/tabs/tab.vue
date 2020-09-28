@@ -50,12 +50,12 @@ export default {
 	},
 	computed: {
 		isTabActive() {
-			return this.Tabs.computedActiveTab === this.id
+			return this.Tabs.computedActiveTab === this.tabId
 		},
 		computedTabInfo() {
 			return {
 				name: this.name,
-				id: this.id
+				id: this.tabId
 			}
 		},
 		tabId () {

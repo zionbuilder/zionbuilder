@@ -24,37 +24,35 @@
 					v-click-outside="closeColorpicker"
 				/>
 			</template>
-			<template>
-				<div
-					v-if="type=='addcolor'"
-					class="znpb-admin-color-preset-box__empty"
-					@click.stop="showColorPicker = true"
-				>
-					<BaseIcon icon="plus" />
-					<div>{{$translate('add_color')}}</div>
-				</div>
-				<div
-					v-else
-					class="znpb-admin-color-preset-box__color"
-					@click.stop="showColorPicker = true"
-				>
+			<div
+				v-if="type=='addcolor'"
+				class="znpb-admin-color-preset-box__empty"
+				@click.stop="showColorPicker = true"
+			>
+				<BaseIcon icon="plus" />
+				<div>{{$translate('add_color')}}</div>
+			</div>
+			<div
+				v-else
+				class="znpb-admin-color-preset-box__color"
+				@click.stop="showColorPicker = true"
+			>
 
-					<Tooltip
-						tag="span"
-						:content="$translate('delete_color_from_preset')"
-					>
-						<BaseIcon
-							icon="close"
-							@click.stop="$emit('delete-color')"
-						/>
-					</Tooltip>
+				<Tooltip
+					tag="span"
+					:content="$translate('delete_color_from_preset')"
+				>
+					<BaseIcon
+						icon="close"
+						@click.stop="$emit('delete-color')"
+					/>
+				</Tooltip>
 
-					<div class="znpb-admin-color-preset-box__circle--transparent">
-						<div ref="circleTrigger" class="znpb-admin-color-preset-box__circle" :style="{background: localColor}"></div>
-					</div>
-					<div class="znpb-admin-color-preset-box__color-name"><span>{{localColor}}</span></div>
+				<div class="znpb-admin-color-preset-box__circle--transparent">
+					<div ref="circleTrigger" class="znpb-admin-color-preset-box__circle" :style="{background: localColor}"></div>
 				</div>
-			</template>
+				<div class="znpb-admin-color-preset-box__color-name"><span>{{localColor}}</span></div>
+			</div>
 		</Tooltip>
 	</div>
 </template>

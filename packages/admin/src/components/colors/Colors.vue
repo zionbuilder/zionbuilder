@@ -12,14 +12,13 @@
 						@option-updated="editLColor(i,$event)"
 						@delete-color="deleteLColor(i)"
 					/>
-
 				</div>
 				<template v-slot:end>
-						<ColorBox
-							type="addcolor"
-							@option-updated="addLColor"
-						/>
-					</template>
+					<ColorBox
+						type="addcolor"
+						@option-updated="addLColor"
+					/>
+				</template>
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
