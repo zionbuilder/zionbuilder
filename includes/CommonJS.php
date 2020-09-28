@@ -85,17 +85,17 @@ class CommonJS {
 			[
 				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 				'rest_root' => esc_url_raw( rest_url() ),
-				// 'schemas'   => apply_filters(
-				// 	'zionbuilder/commonjs/schemas',
-				// 	[
-				// 		'styles'           => StyleOptions::get_schema(),
-				// 		'element_advanced' => Advanced::get_schema(),
-				// 		'typography'       => Typography::get_schema(),
-				// 		'video'            => Video::get_schema(),
-				// 		'background_image' => BackgroundImage::get_schema(),
-				// 		'shadow'           => Shadow::get_schema(),
-				// 	]
-				// ),
+				'schemas'   => apply_filters(
+					'zionbuilder/commonjs/schemas',
+					[
+						'styles'           => StyleOptions::get_schema(),
+						'element_advanced' => Advanced::get_schema(),
+						'typography'       => Typography::get_schema(),
+						'video'            => Video::get_schema(),
+						'background_image' => BackgroundImage::get_schema(),
+						'shadow'           => Shadow::get_schema(),
+					]
+				),
 			]
 		);
 
