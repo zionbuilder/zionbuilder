@@ -8,7 +8,7 @@
 			aria-hidden="true"
 			:disabled="disabled"
 			v-model="model"
-			:modelValue="optionValue"
+			:value="optionValue"
 			class="znpb-form__input-checkbox"
 			@change="onChange"
 		>
@@ -20,11 +20,10 @@
 			v-if="( $slots.default && $slots.default() ) || label"
 			class="znpb-checkmark-option"
 		>
-
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
 			<template
-				v-if="showLabel"
+				v-if="showLabel && label"
 			>
 				{{label}}
 			</template>
