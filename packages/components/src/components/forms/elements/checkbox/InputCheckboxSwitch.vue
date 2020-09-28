@@ -9,7 +9,7 @@
 				type="checkbox"
 				:disabled="disabled"
 				class="znpb-checkbox-wrapper__checkbox"
-				:value="optionValue"
+				:modelValue="optionValue"
 				v-model="model"
 			>
 			<!-- @change="onChange" -->

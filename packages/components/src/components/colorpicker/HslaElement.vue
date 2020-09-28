@@ -2,7 +2,7 @@
 	<div class="znpb-colorpicker-inner-editor-hsla">
 		<InputLabel >
 			<InputNumber
-				:value="hsla.h"
+				:modelValue="hsla.h"
 				:min="0"
 				:max="360"
 				:step="1"

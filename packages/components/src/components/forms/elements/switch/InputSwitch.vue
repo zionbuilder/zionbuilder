@@ -8,7 +8,7 @@
 			v-bind:key="i"
 			type="radio"
 			v-model="valueModel"
-			:value="option.id"
+			:modelValue="option.id"
 			:data-name="option.name"
 			class="znpb-form__input-switch"
 			name="options"

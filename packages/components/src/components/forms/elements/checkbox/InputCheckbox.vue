@@ -8,7 +8,7 @@
 			aria-hidden="true"
 			:disabled="disabled"
 			v-model="model"
-			:value="optionValue"
+			:modelValue="optionValue"
 			class="znpb-form__input-checkbox"
 			@change="onChange"
 		>

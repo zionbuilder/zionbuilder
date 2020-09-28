@@ -5,13 +5,13 @@
 		:style="pickerStyle"
 	>
 		<ColorBoard
-			:value="color"
+			:modelValue="color"
 			@input="updateColor"
 		/>
 
 		<div class="znpb-form-colorpicker-inner__panel">
 			<PanelHex
-				:value="color"
+				:modelValue="color"
 				@input="updateColor"
 			/>
 

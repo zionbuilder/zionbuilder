@@ -17,7 +17,7 @@
 				</template>
 
 				<InputBorderControl
-					:value="computedValue[tab.id] || {}"
+					:modelValue="computedValue[tab.id] || {}"
 					@input="onValueUpdated(tab.id, $event)"
 				></InputBorderControl>
 			</Tab>

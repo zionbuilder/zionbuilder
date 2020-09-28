@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-input-background-image">
 		<InputImage
-			:value="computedValue['background-image']"
+			:modelValue="computedValue['background-image']"
 			:shouldDragImage="true"
 			:position-top="backgroundPositionYModel"
 			:position-left="backgroundPositionXModel"

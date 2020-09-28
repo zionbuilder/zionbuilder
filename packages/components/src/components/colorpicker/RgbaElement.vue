@@ -2,7 +2,7 @@
 	<div class="znpb-colorpicker-inner-editor-rgba">
 		<InputLabel >
 			<InputNumber
-				:value="value.r"
+				:modelValue="value.r"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -12,7 +12,7 @@
 		</InputLabel>
 		<InputLabel >
 			<InputNumber
-				:value="value.g"
+				:modelValue="value.g"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -22,7 +22,7 @@
 		</InputLabel>
 		<InputLabel >
 			<InputNumber
-				:value="value.b"
+				:modelValue="value.b"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -32,7 +32,7 @@
 		</InputLabel>
 		<InputLabel >
 			<InputNumber
-				:value="value.a"
+				:modelValue="value.a"
 				:min="0"
 				:max="1"
 				:step="0.01"
@@ -48,7 +48,7 @@ import { InputNumber, InputLabel } from '../forms'
 export default {
 	name: 'RgbaElement',
 	props: {
-		modelValue: {
+		value: {
 			type: Object,
 			required: false
 		}

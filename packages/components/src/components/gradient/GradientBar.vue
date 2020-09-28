@@ -11,7 +11,7 @@
 			<GradientDragger
 				v-for="(colorConfig, i) in computedValue.colors"
 				:key="i"
-				:value="colorConfig"
+				:modelValue="colorConfig"
 				@input="onColorConfigUpdate(colorConfig, $event)"
 				@color-picker-open="colorPickerOpen=$event"
 				@mousedown="enableDragging(i, $event)"

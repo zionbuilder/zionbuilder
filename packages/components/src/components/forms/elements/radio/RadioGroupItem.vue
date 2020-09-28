@@ -8,7 +8,7 @@
 	>
 		<input
 			v-model="radioButtonValue"
-			:value="optionValue"
+			:modelValue="optionValue"
 			type="radio"
 			class="znpb-form__input-toggle"
 		>
