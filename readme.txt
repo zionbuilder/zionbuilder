@@ -149,6 +149,13 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 
 == Changelog ==
 
+= 1.0.2- 2020-09-29 =
+* Added filter for license check
+* Fixed image element margin drag hides the toolbox
+* Fixed Zion Builder not working with Yoast in certain conditions
+* Fixed PHP Stan erors
+* Fixed CSS classes not cleared when a new css class is added or changed
+
 = 1.0.1- 2020-08-17 =
 * Renamed plugin
 * Updated stable tag
