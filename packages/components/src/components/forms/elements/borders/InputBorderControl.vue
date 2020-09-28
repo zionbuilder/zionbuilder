@@ -11,7 +11,7 @@ export default {
 	name: 'InputBorderControl',
 	props: {
 		/**
-		 * v-model/value for border
+		 * v-model/modelValue for border
 		 */
 		modelValue: {
 			default () {
@@ -103,7 +103,7 @@ export default {
 				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('modelValue', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	}

@@ -73,7 +73,7 @@ export default {
 			window.addEventListener('mousemove', this.rafDragCircle)
 			window.addEventListener('mouseup', this.deactivatedragCircle)
 
-			/// Emit click value
+			// Emit click value
 			let newLeft = clientX - this.boardContent.left
 			let newTop = clientY - this.boardContent.top
 			let bright = 100 - ((newTop / this.boardContent.height) * 100)

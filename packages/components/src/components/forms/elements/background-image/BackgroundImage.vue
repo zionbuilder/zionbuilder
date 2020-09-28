@@ -39,7 +39,7 @@ export default {
 				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('modelValue', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		backgroundPositionXModel () {
@@ -51,7 +51,7 @@ export default {
 	},
 	methods: {
 		changeBackgroundPosition (event) {
-			this.$emit('modelValue', {
+			this.$emit('update:modelValue', {
 				...this.computedValue,
 				'background-position-x': `${event.x}%`,
 				'background-position-y': `${event.y}%`

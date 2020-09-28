@@ -44,7 +44,7 @@ export default {
 		}
 	},
 	watch: {
-		value (newValue) {
+		modelValue (newValue) {
 			const { h } = this.modelValue
 			if (h !== 0 && h > this.oldHue) { this.direction = 'right' }
 			if (h !== 0 && h < this.oldHue) { this.direction = 'left' }

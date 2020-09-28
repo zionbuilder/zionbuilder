@@ -4,7 +4,7 @@
 			<div class="znpb-colorpicker-inner-editor__current-color">
 				<span class="znpb-colorpicker-circle znpb-colorpicker-circle--opacity">
 					<span
-						:style="{backgroundColor: value.hex8}"
+						:style="{backgroundColor: modelValue.hex8}"
 						class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 					/>
 				</span>
@@ -20,16 +20,16 @@
 		</div>
 		<div class="znpb-colorpicker-inner-editor__rgba">
 			<RgbaElement
-				v-if="value.format === 'rgb'"
+				v-if="modelValue.format === 'rgb'"
 				v-model="rgbaValue"
 			/>
 
 			<HslaElement
-				v-if="value.format === 'hsl'"
+				v-if="modelValue.format === 'hsl'"
 				v-model="hslaValue"
 			/>
 			<HexElement
-				v-if="value.format === 'hex' || value.format === 'hex8' || value.format === 'name'"
+				v-if="modelValue.format === 'hex' || modelValue.format === 'hex8' || modelValue.format === 'name'"
 				v-model="hexValue"
 			/>
 			<div class="znpb-color-picker-change-color znpb-input-number-arrow-wrapper">

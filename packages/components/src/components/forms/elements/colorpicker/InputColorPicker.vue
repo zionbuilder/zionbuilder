@@ -11,7 +11,7 @@
 			<template v-slot:trigger>
 				<span>
 					<span
-						:style="{backgroundColor: value}"
+						:style="{backgroundColor: modelValue}"
 						class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 					></span>
 
@@ -26,7 +26,7 @@
 					/>
 
 					<Tooltip
-						v-if="!value"
+						v-if="!modelValue"
 						placement="top"
 						positionFixed="true"
 						:content="$translate('no_color_chosen')"
@@ -55,7 +55,7 @@
 						<span>
 
 							<span
-								:style="{backgroundColor: value}"
+								:style="{backgroundColor: modelValue}"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
 
@@ -70,7 +70,7 @@
 							/>
 
 							<Tooltip
-								v-if="!value"
+								v-if="!modelValue"
 								placement="top"
 								positionFixed="true"
 								:content="$translate('no_color_chosen')"
@@ -105,7 +105,7 @@ export default {
 	inheritAttrs: true,
 	props: {
 		/**
-		* color picker value
+		* color picker modelValue
 		*/
 		modelValue: {
 			type: String,

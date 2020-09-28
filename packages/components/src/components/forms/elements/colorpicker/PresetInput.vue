@@ -25,7 +25,7 @@ export default {
 		BaseIcon
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		}

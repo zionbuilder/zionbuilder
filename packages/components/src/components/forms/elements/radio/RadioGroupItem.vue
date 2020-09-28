@@ -26,7 +26,7 @@ export default {
 	name: 'RadioGroupItem',
 	props: {
 		/**
-		 * value/model
+		 * modelValue
 		 */
 		modelValue: {
 			type: String,

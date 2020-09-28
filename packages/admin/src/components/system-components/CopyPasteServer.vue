@@ -4,7 +4,7 @@
 		<h5 class="znpb-system-subtitle">{{$translate('copy_paste_description')}}</h5>
 
 		<BaseInput
-			:value="getCategoryData"
+			:modelValue="getCategoryData"
 			type="textarea"
 			class="znpb-system-textarea"
 			readonly spellcheck="false"

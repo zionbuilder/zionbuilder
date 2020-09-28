@@ -32,7 +32,7 @@ export default {
 	name: 'InputBorderTabs',
 	props: {
 		/**
-		 * v-model/value for borders
+		 * v-model/modelValue for borders
 		 */
 		modelValue: {
 			default () {

@@ -23,7 +23,7 @@ export default {
 	name: 'InputBorderRadius',
 	props: {
 		/**
-		 * v-model/value for border radius
+		 * v-model/modelValue for border radius
 		 */
 		modelValue: {
 			default () {
@@ -51,7 +51,7 @@ export default {
 				/**
 				 * emits new value for border radius input
 				 */
-				this.$emit('modelValue', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	}

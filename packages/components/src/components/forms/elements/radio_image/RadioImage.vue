@@ -13,7 +13,7 @@
 			>
 
 				<div class="znpb-radio-image-list__item"
-					:class="{['znpb-radio-image-list__item--active']: value === option.value}"
+					:class="{['znpb-radio-image-list__item--active']: modelValue === option.value}"
 				>
 					<img
 						v-if="option.image"
@@ -53,7 +53,7 @@ export default {
 		/**
 		 * Value or v-model
 		 */
-		value: {
+		modelValue: {
 			type: String
 		},
 		/**

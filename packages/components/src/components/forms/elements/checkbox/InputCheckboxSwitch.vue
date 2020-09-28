@@ -36,7 +36,7 @@ export default {
 			default: true
 		},
 		/**
-		 * v-model/value for checkbox
+		 * v-model/modelValue for checkbox
 		 */
 		modelValue: {
 			type: [String, Array, Boolean],
@@ -136,16 +136,10 @@ export default {
 				return
 			}
 
-			let value
-			if (event.target.checked) {
-				value = true
-			} else {
-				value = false
-			}
 			/**
 			 * when input changed, it emits new value
 			 */
-			this.$emit('change', value)
+			this.$emit('change', !!event.target.checked)
 		}
 	}
 }

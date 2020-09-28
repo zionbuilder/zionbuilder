@@ -46,7 +46,7 @@ export default {
 		EmptyList,
 		BaseIcon
 	},
-	props: ['value', 'options', 'exclude_options'],
+	props: ['modelValue', 'options', 'exclude_options'],
 	data () {
 		return {
 			videoInstance: null,

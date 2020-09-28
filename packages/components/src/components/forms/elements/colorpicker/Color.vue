@@ -21,7 +21,7 @@
 		<template v-slot:content>
 			<ColorPicker
 				ref="colorpickerHolder"
-				:model="value"
+				:model="modelValue"
 				@color-changed="updateColor"
 				@click.stop="onColorPickerClick"
 				@mousedown.stop="onColorPickerMousedown"
@@ -30,7 +30,7 @@
 					<PatternContainer
 						v-if="showLibrary"
 						@color-updated="onLibraryUpdate"
-						:model="value"
+						:model="modelValue"
 						:active-tab="dynamicContentConfig ? 'global' : 'local'"
 					/>
 				</template>
@@ -57,9 +57,9 @@ export default {
 	},
 	props: {
 		/**
-		* color picker value
+		* color picker modelValue
 		*/
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		},

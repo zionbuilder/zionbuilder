@@ -2,13 +2,13 @@
 	<div>
 		<shape
 			class="znpb-active-shape-preview"
-			:shapePath="value"
-			:class="[{'mask-active': value}]"
+			:shapePath="modelValue"
+			:class="[{'mask-active': modelValue}]"
 			:position="position"
 		>
 			<EmptyList
 				class="znpb-style-shape__empty"
-				v-if="!value"
+				v-if="!modelValue"
 				:no-margin="true"
 			>
 				{{$translate('select_shape')}}
@@ -81,7 +81,7 @@ export default {
 		position: {
 			type: String
 		},
-		value: {
+		modelValue: {
 			type: String
 		}
 	},

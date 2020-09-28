@@ -7,7 +7,7 @@
 				class="znpb-custom-selector__item"
 				:title="option.icon ? option.name : false"
 				:class="{
-					['znpb-custom-selector__item--active']: value === option.id,
+					['znpb-custom-selector__item--active']: modelValue === option.id,
 					[`znpb-custom-selector__columns-${columns}`]: columns
 				}"
 				@click="changeValue(option.id)"

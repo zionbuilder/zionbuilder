@@ -31,7 +31,7 @@ export default {
 	name: 'InputCheckboxGroup',
 	props: {
 		/**
-		 * v-model/value for checkbox
+		 * v-model/modelValue for checkbox
 		 */
 		modelValue: {
 			type: Array,

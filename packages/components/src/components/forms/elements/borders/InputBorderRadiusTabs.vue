@@ -37,7 +37,7 @@ export default {
 	name: 'InputBorderRadiusTabs',
 	props: {
 		/**
-		 * v-model/value for border radius
+		 * v-model/modelValue for border radius
 		 */
 		modelValue: {
 			default () {

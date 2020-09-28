@@ -82,7 +82,7 @@ export default {
 	inheritAttrs: false,
 	props: {
 		/**
-		 * v-model/value for the input
+		 * v-model/modelValue for the input
 		 */
 		modelValue: {
 			required: false,

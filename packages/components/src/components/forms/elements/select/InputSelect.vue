@@ -292,7 +292,7 @@ export default {
 			}
 		},
 
-		value () {
+		modelValue () {
 			this.setSelected()
 		}
 

@@ -74,7 +74,7 @@ export default {
 		}
 	},
 	watch: {
-		value (newValue, oldValue) {
+		modelValue (newValue, oldValue) {
 			const currentValue = this.editor.getContent()
 			if (this.editor && currentValue !== newValue) {
 				const value = newValue || ''

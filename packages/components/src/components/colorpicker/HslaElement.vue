@@ -82,12 +82,8 @@ export default {
 	},
 	methods: {
 		updateHex (property, newValue) {
-			let value = {}
-			if (property === 's' || property === 'l') {
-				value = newValue / 100
-			} else {
-				value = newValue
-			}
+			const value = (property === 's' || property === 'l') ? newValue / 100 : newValue
+
 			this.$emit('update:modelValue', {
 				...this.modelValue,
 				[property]: value

@@ -21,7 +21,7 @@
 
 					<BaseInput
 						ref="templateInput"
-						:value="template.shortcode"
+						:modelValue="template.shortcode"
 						readonly
 						spellcheck="false"
 						autocomplete="false"
