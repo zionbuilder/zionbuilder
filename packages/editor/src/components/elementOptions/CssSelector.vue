@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { Tooltip } from '@zb/components/Tooltip'
+import { Tooltip } from '@zb/components'
 
 export default {
 	name: 'CssSelector',

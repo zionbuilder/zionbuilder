@@ -39,7 +39,7 @@
 	</li>
 </template>
 <script>
-import { Tooltip } from '@zb/components/Tooltip'
+import { Tooltip } from '@zb/components'
 
 export default {
 	name: 'SingleClass',
@@ -64,7 +64,7 @@ export default {
 
 </script>
 <style lang="scss">
-@import "@/scss/_utility.scss";
+// @import "@/scss/_utility.scss";
 .znpb-editor-classes {
 	&__item {
 		display: flex;

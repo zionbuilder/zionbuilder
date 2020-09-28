@@ -33,7 +33,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ElementSectionView from './ElementSectionView.vue'
-import { Sortable } from '@zb/components/Sortable'
+import { Sortable } from '@zb/components'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 

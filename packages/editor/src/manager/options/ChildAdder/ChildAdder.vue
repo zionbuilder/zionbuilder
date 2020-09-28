@@ -27,8 +27,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Sortable } from '@zb/components/Sortable'
-import SingleChild from './SingleChild'
+import { Sortable } from '@zb/components'
+import SingleChild from './SingleChild.vue'
 
 export default {
 	name: 'Childs',

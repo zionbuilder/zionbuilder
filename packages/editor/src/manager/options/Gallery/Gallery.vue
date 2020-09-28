@@ -48,9 +48,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import EmptyList from '@/common/components/forms/elements/empty-list/EmptyList'
+import { EmptyList } from '@zb/components/forms'
 import { getImageIds } from '@zb/rest'
-import { Sortable } from '@zb/components/Sortable'
+import { Sortable } from '@zb/components'
 
 const wp = window.wp
 

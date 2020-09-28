@@ -166,10 +166,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import OptionsManager from '@/editor/manager/options'
-import HasChanges from '@/editor/components/elementOptions/HasChanges.vue'
+import HasChanges from '../HasChanges.vue'
 import { InputLabel } from '@zb/components/forms'
-import { Injection } from '@zb/components/injection'
-import { Tooltip } from '@zb/components/tooltip'
+import { Tooltip, Injection } from '@zb/components/'
 
 export default {
 	name: 'InputWrapper',

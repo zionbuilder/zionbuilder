@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="znpb-element-styles__wrapper"
-	>
+	<div class="znpb-element-styles__wrapper">
 		<div class="znpb-element-styles__media-wrapper">
 			<ClassSelectorDropdown
 				v-model="computedClasses"
@@ -10,9 +8,7 @@
 				:activeClass.sync="activeClass"
 			/>
 
-			<PseudoSelectors
-				v-model="computedStyles"
-			/>
+			<PseudoSelectors v-model="computedStyles" />
 		</div>
 
 		<OptionsForm
@@ -26,8 +22,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import PseudoSelectors from '@/editor/components/elementOptions/PseudoSelectors.vue'
-import ClassSelectorDropdown from '@/editor/components/elementOptions/ClassSelectorDropdown.vue'
+import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
+import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
 
 export default {
 	name: 'ElementStyles',
@@ -116,12 +112,12 @@ export default {
 	}
 
 	&__media-wrapper {
-		margin: 0 5px;
 		position: relative;
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
 		flex-grow: 1;
-		justify-content: space-between;
+		margin: 0 5px;
 	}
 }
 .znpb-options-form-wrapper.znpb-element-styles-option__options-wrapper {

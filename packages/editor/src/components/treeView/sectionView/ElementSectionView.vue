@@ -56,7 +56,7 @@ import { mapActions, mapGetters } from 'vuex'
 import domtoimage from 'dom-to-image'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import TreeViewMixin from '../elementMixins.js'
-import { Tooltip } from '@zb/components/Tooltip'
+import { Tooltip } from '@zb/components'
 
 export default {
 	name: 'element-section-view',

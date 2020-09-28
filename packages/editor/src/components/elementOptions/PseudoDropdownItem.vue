@@ -34,8 +34,8 @@
 
 <script>
 import HasChanges from './HasChanges.vue'
-import { Tooltip } from '@zb/components/Tooltip'
-import ZionLabel from '@/editor/common/Label'
+import { Tooltip } from '@zb/components'
+import ZionLabel from '../../common/Label.vue'
 
 export default {
 	name: 'PseudoDropdownItem',

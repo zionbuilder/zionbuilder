@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import ZionLabel from '@/editor/common/Label'
+import ZionLabel from '../../../common/Label.vue'
 
 export default {
 	name: 'UpgradeToPro',

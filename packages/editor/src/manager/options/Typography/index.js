@@ -1,4 +1,4 @@
-import Typography from './Typography'
+import Typography from './Typography.vue'
 
 export default {
 	id: 'typography',

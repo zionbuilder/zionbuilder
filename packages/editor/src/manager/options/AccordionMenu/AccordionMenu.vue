@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import HasChanges from '@/editor/components/elementOptions/HasChanges.vue'
-import ZionLabel from '@/editor/common/Label'
+import HasChanges from '../../../components/elementOptions/HasChanges.vue'
+import ZionLabel from '../../../common/Label.vue'
 
 export default {
 	name: 'LayoutMenu',

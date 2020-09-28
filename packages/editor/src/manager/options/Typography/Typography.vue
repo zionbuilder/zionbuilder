@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .znpb-options-form-wrapper.znpb-option__typography-wrapper {
 	flex: 1;
 	padding: 0;

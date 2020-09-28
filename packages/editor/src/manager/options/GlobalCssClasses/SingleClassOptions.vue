@@ -24,7 +24,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { BaseInput, InputWrapper } from '@zb/components/forms'
-import PseudoSelectors from '@/editor/components/elementOptions/PseudoSelectors.vue'
+import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
 export default {
 	name: 'SingleClassOptions',
 	components: {

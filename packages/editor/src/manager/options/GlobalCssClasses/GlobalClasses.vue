@@ -49,8 +49,8 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import SingleClass from './SingleClass'
-import SingleClassOptions from './SingleClassOptions'
+import SingleClass from './SingleClass.vue'
+import SingleClassOptions from './SingleClassOptions.vue'
 import { BaseInput } from '@zb/components/forms'
 
 export default {

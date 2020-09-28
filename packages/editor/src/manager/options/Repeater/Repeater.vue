@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import RepeaterOption from './RepeaterOption'
+import RepeaterOption from './RepeaterOption.vue'
 
 export default {
 	name: 'Repeater',
@@ -158,5 +158,4 @@ export default {
 	margin-top: 5px;
 	text-align: center;
 }
-
 </style>
