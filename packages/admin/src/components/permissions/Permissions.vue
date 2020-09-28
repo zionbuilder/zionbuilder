@@ -8,13 +8,11 @@
 				<template v-else>
 					<div class="znpb-admin-role-manager-wrapper">
 						<h3>{{$translate('role_manager')}}</h3>
-						<template>
-							<SingleRole
-								v-for="(role,i) in getUserRoles"
-								:key=i
-								:data="role"
-							/>
-						</template>
+						<SingleRole
+							v-for="(role,i) in getUserRoles"
+							:key=i
+							:data="role"
+						/>
 					</div>
 				</template>
 				<template v-slot:right>
