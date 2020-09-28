@@ -86,12 +86,6 @@ export default {
 			isLimitExceeded: false
 		}
 	},
-	mounted () {
-		console.log(this)
-	},
-	created () {
-		console.log(this.$slots.default())
-	},
 	computed: {
 		model: {
 			get () {

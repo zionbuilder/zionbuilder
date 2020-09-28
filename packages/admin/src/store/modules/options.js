@@ -223,6 +223,9 @@ const mutations = {
 		}
 	},
 	[types.UPDATE_GOOGLE_FONT] (state, { font, value }) {
+		console.log({
+			font, value
+		})
 		let fontIndex = state.options.google_fonts.indexOf(font)
 		state.options.google_fonts.splice(fontIndex, 1, value)
 	},

@@ -27,7 +27,7 @@
 					@delete="deleteFont(font.font_family)"
 					@font-updated="updateGoogleFont({
 						font,
-						value: arguments[0]
+						value: $event
 					})"
 				/>
 			</ListAnimation>
