@@ -89,7 +89,7 @@ export default {
 	methods: {
 
 		onLibraryUpdate (newValue) {
-			this.$emit('input', newValue)
+			this.$emit('update:modelValue', newValue)
 		},
 		onColorPickerClick () {
 			this.isDragging = false
@@ -105,7 +105,7 @@ export default {
 			/**
 			* emits new color when inputcolor changed
 			*/
-			this.$emit('input', color)
+			this.$emit('update:modelValue', color)
 		},
 		openColorPicker () {
 			this.$emit('open')

@@ -98,7 +98,7 @@ export default {
 		BaseIcon
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Array,
 			required: false,
 			default () { }
@@ -119,11 +119,11 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				const clonedValue = this.value === undefined || this.value === null ? getDefaultGradientConfig() : this.value
+				const clonedValue = this.modelValue === undefined || this.modelValue === null ? getDefaultGradientConfig() : this.modelValue
 				return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		activeGradient: {
@@ -211,7 +211,7 @@ export default {
 			}
 		},
 		deleteGradientValue () {
-			this.$emit('input', null)
+			this.$emit('update:modelValue', null)
 		}
 	}
 }

@@ -17,14 +17,14 @@
 			:class="{ 'znpb-checkmark--rounded' : rounded }"
 		></span>
 		<span
-			v-if="$slots.default() || label"
+			v-if="( $slots.default && $slots.default() ) || label"
 			class="znpb-checkmark-option"
 		>
-			{{$slots.default()}}
+
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
 			<template
-				v-if="showLabel && !$slots.default()"
+				v-if="showLabel"
 			>
 				{{label}}
 			</template>
@@ -51,7 +51,7 @@ export default {
 		/**
 		 * v-model/value for checkbox
 		 */
-		value: {
+		modelValue: {
 			type: [String, Array, Boolean],
 			required: false
 		},
@@ -87,7 +87,7 @@ export default {
 		}
 	},
 	mounted () {
-		console.log(this.$slots.default())
+		console.log(this)
 	},
 	created () {
 		console.log(this.$slots.default())
@@ -95,7 +95,7 @@ export default {
 	computed: {
 		model: {
 			get () {
-				return this.value !== undefined ? this.value : false
+				return this.modelValue !== undefined ? this.modelValue : false
 			},
 			set (newValue) {
 				this.isLimitExceeded = false
@@ -142,7 +142,7 @@ export default {
 	},
 	methods: {
 		setInitialValue () {
-			this.model = this.value || true
+			this.model = this.modelValue || true
 		},
 		onChange (event) {
 			let checked = event.target.checked

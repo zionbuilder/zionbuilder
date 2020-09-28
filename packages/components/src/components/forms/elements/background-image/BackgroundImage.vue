@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-input-background-image">
 		<InputImage
-			:value="valueModel['background-image']"
+			:value="computedValue['background-image']"
 			:shouldDragImage="true"
 			:position-top="backgroundPositionYModel"
 			:position-left="backgroundPositionXModel"
@@ -11,7 +11,7 @@
 
 		<OptionsForm
 			:schema="backgroundImageSchema"
-			v-model="valueModel"
+			v-model="computedValue"
 		/>
 	</div>
 </template>
@@ -23,7 +23,7 @@ import { getSchema } from '@zb/schemas'
 export default {
 	name: 'InputBackgroundImage',
 	props: {
-		value: {}
+		modelValue: {}
 	},
 	components: {
 		InputImage
@@ -34,36 +34,36 @@ export default {
 		}
 	},
 	computed: {
-		valueModel: {
+		computedValue: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('modelValue', newValue)
 			}
 		},
 		backgroundPositionXModel () {
-			return this.valueModel['background-position-x']
+			return this.computedValue['background-position-x']
 		},
 		backgroundPositionYModel () {
-			return this.valueModel['background-position-y']
+			return this.computedValue['background-position-y']
 		}
 	},
 	methods: {
 		changeBackgroundPosition (event) {
-			this.$emit('input', {
-				...this.valueModel,
+			this.$emit('modelValue', {
+				...this.computedValue,
 				'background-position-x': `${event.x}%`,
 				'background-position-y': `${event.y}%`
 			})
 		},
 		onOptionUpdated (optionId, newValue) {
 			const newValues = {
-				...this.value
+				...this.modelValue
 			}
 
 			newValues[optionId] = newValue
-			this.valueModel = newValues
+			this.computedValue = newValues
 		}
 	}
 }

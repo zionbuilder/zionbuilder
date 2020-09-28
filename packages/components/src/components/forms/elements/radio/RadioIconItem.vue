@@ -33,7 +33,7 @@ export default {
 		/**
 		 * Value of the radio input
 		 */
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		},
@@ -72,17 +72,17 @@ export default {
 	computed: {
 		radioButtonValue: {
 			get: function () {
-				return this.value
+				return this.modelValue
 			},
 			set: function () {
 				/**
 				 * Emits new radio
 				 */
-				this.$emit('input', this.optionValue)
+				this.$emit('update:modelValue', this.optionValue)
 			}
 		},
 		isSelected () {
-			return this.value === this.optionValue
+			return this.modelValue === this.optionValue
 		}
 	},
 	methods: {

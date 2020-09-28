@@ -19,7 +19,7 @@ export default {
 		/**
 		* Value of text shadow
 		*/
-		value: {
+		modelValue: {
 			type: Object,
 			required: false,
 			default () {
@@ -54,10 +54,10 @@ export default {
 		},
 		valueModel: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	}

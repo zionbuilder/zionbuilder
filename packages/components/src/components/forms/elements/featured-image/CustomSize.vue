@@ -42,14 +42,14 @@ import InputWrapper from '../inputWrapper/InputWrapper.vue'
 export default {
 	name: 'CustomSize',
 	props: {
-		value: {
+		modelValue: {
 			type: Object
 		}
 	},
 	data () {
 		return {
-			width: (this.value || {}).width,
-			height: (this.value || {}).height
+			width: (this.modelValue || {}).width,
+			height: (this.modelValue || {}).height
 		}
 	},
 	components: {
@@ -60,7 +60,7 @@ export default {
 	methods: {
 		onCustomSizeClick () {
 			if (this.width || this.height) {
-				this.$emit('input', {
+				this.$emit('update:modelValue', {
 					width: this.width,
 					height: this.height
 				})

@@ -59,7 +59,7 @@ export default {
 			type: Number,
 			required: false
 		},
-		value: {
+		modelValue: {
 			type: [String, Number, Boolean]
 		},
 		textIcon: {
@@ -73,11 +73,11 @@ export default {
 		changeValue (newValue) {
 			let valueToSend = newValue
 			// If the same value was selected, we need to delete it
-			if (this.value === newValue) {
+			if (this.modelValue === newValue) {
 				valueToSend = null
 			}
 
-			this.$emit('input', valueToSend)
+			this.$emit('update:modelValue', valueToSend)
 		}
 	}
 }

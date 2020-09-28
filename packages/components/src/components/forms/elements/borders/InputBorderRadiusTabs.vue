@@ -21,7 +21,7 @@
 				</template>
 				<InputBorderRadius
 					:title="tab.name"
-					:value="valueModel[tab.id] || null"
+					:value="computedValue[tab.id] || null"
 					@input="onValueUpdated(tab.id, $event)"
 				>
 				</InputBorderRadius>
@@ -39,7 +39,7 @@ export default {
 		/**
 		 * v-model/value for border radius
 		 */
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			},
@@ -89,8 +89,8 @@ export default {
 	},
 
 	computed: {
-		valueModel () {
-			return this.value || {}
+		computedValue () {
+			return this.modelValue || {}
 		}
 	},
 	methods: {
@@ -98,8 +98,8 @@ export default {
 			/**
 			 * emits new object with new value of borders
 			 */
-			this.$emit('input', {
-				...this.valueModel,
+			this.$emit('update:modelValue', {
+				...this.modelValue,
 				[position]: newValue
 			})
 		}

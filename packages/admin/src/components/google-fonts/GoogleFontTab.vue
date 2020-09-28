@@ -7,7 +7,7 @@
 		<div class="znpb-admin__google-font-tab-variants">
 			<HiddenContainer>
 				{{niceFontVariants}}
-				<template v-slot:content>
+				<template #content>
 					<InputCheckboxGroup
 						:options="fontVariantsOption"
 						v-model="variantModel"
@@ -16,11 +16,10 @@
 				</template>
 			</HiddenContainer>
 		</div>
-		{{variantModel}}
 		<div class="znpb-admin__google-font-tab-subset">
 			<HiddenContainer>
 				{{niceFontSubsets}}
-				<template v-slot:content>
+				<template #content>
 					<InputCheckboxGroup
 						:options="fontSubsetOption"
 						v-model="subsetModel"

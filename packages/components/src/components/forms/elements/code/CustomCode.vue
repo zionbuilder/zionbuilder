@@ -26,7 +26,7 @@ export default {
 		mode: {
 			type: String
 		},
-		value: {
+		modelValue: {
 			type: String,
 			required: false,
 			default () {
@@ -44,12 +44,12 @@ export default {
 			}
 		},
 		onEditorChange (instance, changeObj) {
-			this.$emit('input', instance.getValue())
+			this.$emit('update:modelValue', instance.getValue())
 		}
 	},
 	watch: {
 		shouldUpdate () {
-			this.editor.setValue(this.value)
+			this.editor.setValue(this.modelValue)
 		}
 	},
 	computed: {
@@ -119,8 +119,8 @@ export default {
 		})
 
 		// Set the editor value
-		if (this.value) {
-			this.editor.setValue(this.value)
+		if (this.modelValue) {
+			this.editor.setValue(this.modelValue)
 		}
 
 		// Bind events

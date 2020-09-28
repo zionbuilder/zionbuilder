@@ -17,7 +17,7 @@
 				</template>
 
 				<InputBorderControl
-					:value="valueModel[tab.id] || {}"
+					:value="computedValue[tab.id] || {}"
 					@input="onValueUpdated(tab.id, $event)"
 				></InputBorderControl>
 			</Tab>
@@ -34,7 +34,7 @@ export default {
 		/**
 		 * v-model/value for borders
 		 */
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			},
@@ -78,8 +78,8 @@ export default {
 		}
 	},
 	computed: {
-		valueModel () {
-			return this.value || {}
+		computedValue () {
+			return this.modelValue || {}
 		}
 	},
 	methods: {
@@ -87,8 +87,8 @@ export default {
 			/**
 			 * emits new object with new value of borders
 			 */
-			this.$emit('input', {
-				...this.valueModel,
+			this.$emit('update:modelValue', {
+				...this.modelValue,
 				[position]: newValue
 			})
 		}

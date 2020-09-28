@@ -37,7 +37,7 @@ export default {
 		/**
 		 * Value for input
 		 */
-		value: {
+		modelValue: {
 			type: String,
 			required: true
 		},
@@ -71,13 +71,13 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
 				/**
 					 *It emits the new value
 					 */
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		switchStyles () {

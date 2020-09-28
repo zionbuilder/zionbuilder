@@ -84,7 +84,7 @@ export default {
 		/**
 		 * v-model/value for the input
 		 */
-		value: {
+		modelValue: {
 			required: false,
 			type: null
 		},
@@ -133,7 +133,7 @@ export default {
 	},
 	data () {
 		return {
-			localValue: this.value || ''
+			localValue: this.modelValue || ''
 		}
 	},
 
@@ -146,11 +146,11 @@ export default {
 		},
 		inputValue: {
 			get () {
-				return this.value !== 'undefined' ? this.value : null
+				return this.modelValue !== 'undefined' ? this.modelValue : null
 			},
 			set (newValue) {
 				/** Updates the input value for the v-model **/
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 				this.localValue = newValue
 			}
 		},

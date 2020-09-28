@@ -44,7 +44,7 @@ export default {
 				return this.config
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		schema () {

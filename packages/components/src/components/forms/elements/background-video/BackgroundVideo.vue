@@ -29,7 +29,7 @@
 		</div>
 		<OptionsForm
 			:schema="schema"
-			v-model="valueModel"
+			v-model="computedValue"
 			class="znpb-input-background-video__holder"
 		/>
 	</div>
@@ -54,7 +54,7 @@ export default {
 		}
 	},
 	watch: {
-		valueModel (newValue, oldValue) {
+		computedValue (newValue, oldValue) {
 			if (this.videoInstance) {
 				this.videoInstance.destroy()
 			}
@@ -81,24 +81,24 @@ export default {
 			}
 			return schema
 		},
-		valueModel: {
+		computedValue: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		hasVideo () {
-			if (this.videoSourceModel === 'local' && this.valueModel.mp4) {
+			if (this.videoSourceModel === 'local' && this.computedValue.mp4) {
 				return true
 			}
 
-			if (this.videoSourceModel === 'youtube' && this.valueModel.youtubeURL) {
+			if (this.videoSourceModel === 'youtube' && this.computedValue.youtubeURL) {
 				return true
 			}
 
-			if (this.videoSourceModel === 'vimeo' && this.valueModel.vimeoURL) {
+			if (this.videoSourceModel === 'vimeo' && this.computedValue.vimeoURL) {
 				return true
 			}
 
@@ -106,44 +106,44 @@ export default {
 		},
 		controlsModel: {
 			get () {
-				return !!this.valueModel.controls
+				return !!this.computedValue.controls
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.valueModel,
+				this.$emit('update:modelValue', {
+					...this.computedValue,
 					'controls': newValue
 				})
 			}
 		},
 		autoplayModel: {
 			get () {
-				return typeof this.valueModel['autoplay'] === 'undefined' ? true : this.valueModel['autoplay']
+				return typeof this.computedValue['autoplay'] === 'undefined' ? true : this.computedValue['autoplay']
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.valueModel,
+				this.$emit('update:modelValue', {
+					...this.computedValue,
 					'autoplay': newValue
 				})
 			}
 		},
 		mutedModel: {
 			get () {
-				return typeof this.valueModel['muted'] === 'undefined' ? true : this.valueModel['muted']
+				return typeof this.computedValue['muted'] === 'undefined' ? true : this.computedValue['muted']
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.valueModel,
+				this.$emit('update:modelValue', {
+					...this.computedValue,
 					'muted': newValue
 				})
 			}
 		},
 		videoSourceModel: {
 			get () {
-				return this.valueModel['videoSource'] || 'local'
+				return this.computedValue['videoSource'] || 'local'
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					'videoSource': newValue
 				})
 			}
@@ -152,7 +152,7 @@ export default {
 	methods: {
 		initVideo () {
 			this.$nextTick(() => {
-				this.videoInstance = new Video(this.$refs.videoPreview, this.valueModel)
+				this.videoInstance = new Video(this.$refs.videoPreview, this.computedValue)
 			})
 		},
 		openMediaModal () {
@@ -162,7 +162,7 @@ export default {
 					state: 'library',
 					library: { type: 'video' },
 					button: { text: 'Add video' },
-					selection: this.valueModel
+					selection: this.computedValue
 				}
 
 				// Create the frame
@@ -178,14 +178,14 @@ export default {
 			let selection = this.mediaModal.state().get('selection').toJSON()
 			// In case we have multiple items
 			if (typeof e !== 'undefined') { selection = e }
-			this.$emit('input', {
-				...this.valueModel,
+			this.$emit('update:modelValue', {
+				...this.computedValue,
 				mp4: selection[0].url
 			})
 		},
 		deleteVideo () {
-			const { mp4, ...rest } = this.valueModel
-			this.$emit('input', {
+			const { mp4, ...rest } = this.computedValue
+			this.$emit('update:modelValue', {
 				...rest
 			})
 		}

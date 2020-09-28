@@ -24,7 +24,7 @@ import tinycolor from 'tinycolor2'
 export default {
 	name: 'OpacityStrip',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		}
@@ -38,11 +38,11 @@ export default {
 	computed: {
 		opacityStyles () {
 			return {
-				left: (this.value.a * 100) + '%'
+				left: (this.modelValue.a * 100) + '%'
 			}
 		},
 		barStyles () {
-			let color = tinycolor(this.value)
+			let color = tinycolor(this.modelValue)
 			return {
 				'background-image': 'linear-gradient(to right, rgba(255, 0, 0, 0),' + color.toHexString() + ')'
 			}
@@ -84,7 +84,7 @@ export default {
 			}
 
 			let newColor = {
-				...this.value,
+				...this.modelValue,
 				a: a
 			}
 			if (this.lastA !== a) {

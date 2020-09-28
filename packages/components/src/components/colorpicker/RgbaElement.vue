@@ -48,7 +48,7 @@ import { InputNumber, InputLabel } from '../forms'
 export default {
 	name: 'RgbaElement',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		}
@@ -68,7 +68,7 @@ export default {
 	methods: {
 		updateValue (property, newValue) {
 			this.$emit('update:modelValue', {
-				...this.value,
+				...this.modelValue,
 				[property]: newValue
 			})
 		}

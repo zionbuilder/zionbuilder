@@ -57,7 +57,7 @@ export default {
 		/**
 		 * Value/v-bind model
 		 */
-		value: {
+		modelValue: {
 			type: Number,
 			required: false
 		},
@@ -106,13 +106,13 @@ export default {
 		},
 		optionValue: {
 			get () {
-				return this.value || this.min || 0
+				return this.modelValue || this.min || 0
 			},
 			set (newValue) {
 				/**
 				 * Emit input value when v-model
 				 */
-				this.$emit('input', Number(newValue))
+				this.$emit('update:modelValue', Number(newValue))
 			}
 		},
 		trackWidth () {
@@ -125,7 +125,7 @@ export default {
 		},
 		width () {
 			let minmax = this.max - this.min
-			return Math.round(((this.value - this.min) * 100) / minmax)
+			return Math.round(((this.modelValue - this.min) * 100) / minmax)
 		}
 	},
 	methods: {

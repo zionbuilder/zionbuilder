@@ -112,7 +112,7 @@ export default {
 		/**
 		 * the string value: location of the image
 		 */
-		value: {
+		modelValue: {
 			type: [String, Number, Boolean, Object],
 			required: false
 		},
@@ -197,26 +197,26 @@ export default {
 		},
 		sizeValue: {
 			get () {
-				return (this.value || {}).image_size || 'full'
+				return (this.modelValue || {}).image_size || 'full'
 			},
 			set (newValue) {
 				const valueToSend = {
 					image_size: newValue
 				}
 
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					...valueToSend
 				})
 			}
 		},
 		customSizeValue: {
 			get () {
-				return (this.value || {}).custom_size || {}
+				return (this.modelValue || {}).custom_size || {}
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					custom_size: newValue
 				})
 			}
@@ -239,28 +239,28 @@ export default {
 		imageValue: {
 			get () {
 				if (this.show_size) {
-					return this.value || {}
+					return this.modelValue || {}
 				} else {
-					return this.value || null
+					return this.modelValue || null
 				}
 			},
 
 			set (newValue) {
 				if (this.show_size) {
-					this.$emit('input',	{
-						...this.value,
+					this.$emit('update:modelValue',	{
+						...this.modelValue,
 						...newValue
 					})
 				} else {
-					this.$emit('input',	newValue)
+					this.$emit('update:modelValue',	newValue)
 				}
 			}
 		},
 		imageSrc () {
 			if (this.show_size) {
-				return (this.value || {}).image || null
+				return (this.modelValue || {}).image || null
 			} else {
-				return this.value || null
+				return this.modelValue || null
 			}
 		},
 		shouldDisplayExpander () {
@@ -268,7 +268,7 @@ export default {
 		}
 	},
 	watch: {
-		value (newValue, oldValue) {
+		modelValue (newValue, oldValue) {
 			if (newValue !== oldValue) {
 				this.$nextTick(() => {
 					this.getImageHeight()
@@ -312,8 +312,8 @@ export default {
 
 		// 			this.attachmentId = event.id
 		// 			if (event.sizes[imageName]) {
-		// 				this.$emit('input',	{
-		// 					...this.value,
+		// 				this.$emit('update:modelValue',	{
+		// 					...this.modelValue,
 		// 					image: event.sizes[imageName].url
 		// 				})
 		// 			}
@@ -423,7 +423,7 @@ export default {
 
 			if (this.show_size) {
 				// Reset all other values when selecting a new image
-				this.$emit('input',	{
+				this.$emit('update:modelValue',	{
 					image: selection.get('url')
 				})
 			} else {
@@ -459,7 +459,7 @@ export default {
 			}
 		},
 		deleteImage () {
-			this.$emit('input', null)
+			this.$emit('update:modelValue', null)
 			this.attachmentId = null
 
 			// Reset the selection

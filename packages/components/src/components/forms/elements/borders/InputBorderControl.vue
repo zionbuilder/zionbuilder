@@ -1,7 +1,7 @@
 <template>
 	<OptionsForm
 		:schema="schema"
-		v-model="valueModel"
+		v-model="computedValue"
 		class="znpb-border-control-group"
 	/>
 </template>
@@ -13,7 +13,7 @@ export default {
 		/**
 		 * v-model/value for border
 		 */
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			},
@@ -98,12 +98,12 @@ export default {
 			return schema
 		},
 
-		valueModel: {
+		computedValue: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('modelValue', newValue)
 			}
 		}
 	}

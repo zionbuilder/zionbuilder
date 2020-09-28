@@ -66,7 +66,7 @@ export default {
 		/**
 		 * Input value
 		 */
-		value: {
+		modelValue: {
 			type: Number,
 			required: false
 		},
@@ -80,7 +80,7 @@ export default {
 	},
 	data () {
 		return {
-			localValue: this.value,
+			localValue: this.modelValue,
 			mouseDownPosition: {
 				left: 0,
 				top: 0
@@ -103,7 +103,7 @@ export default {
 	computed: {
 		model: {
 			get () {
-				return this.value !== undefined ? this.value : null
+				return this.modelValue !== undefined ? this.modelValue : null
 			},
 			set (newValue) {
 				// Check if minimum value is meet
@@ -119,7 +119,7 @@ export default {
 					/**
 					 * Emits new value number
 					 */
-					this.$emit('input', Number(newValue))
+					this.$emit('update:modelValue', Number(newValue))
 				}
 			}
 		}
@@ -169,12 +169,12 @@ export default {
 			this.setDraggingValue(event)
 		},
 		setDraggingValue (event) {
-			let draggingValue = this.value
+			let draggingValue = this.modelValue
 			if (this.directionSet) {
 				let dragged = this.mouseDownPosition.top - this.draggingPosition.top
 				const increment = this.toTop ? this.step : -this.step
 				let shiftIncrement = this.toTop ? this.shift_step : -this.shift_step
-				draggingValue = dragged % 2 === 0 ? (this.value || 0) + increment : (this.value || 0)
+				draggingValue = dragged % 2 === 0 ? (this.modelValue || 0) + increment : (this.modelValue || 0)
 
 				if (!this.shiftDrag) {
 					this.model = draggingValue
@@ -186,7 +186,7 @@ export default {
 
 						this.shiftDragHook = event.shiftKey
 					} else {
-						this.model = dragged % this.shift_step === 0 ? (this.value || 0) + shiftIncrement : (this.value || 0)
+						this.model = dragged % this.shift_step === 0 ? (this.modelValue || 0) + shiftIncrement : (this.modelValue || 0)
 					}
 				}
 				if (this.min && draggingValue <= this.min) {

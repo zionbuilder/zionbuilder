@@ -14,7 +14,7 @@
 				:label="option.name"
 				:disabled="disabled"
 				:title="option.icon ? option.name : false"
-			>aaa
+			>
 				<BaseIcon
 					v-if="option.icon"
 					:icon="option.icon"
@@ -33,7 +33,7 @@ export default {
 		/**
 		 * v-model/value for checkbox
 		 */
-		value: {
+		modelValue: {
 			type: Array,
 			required: false,
 			default () {
@@ -92,7 +92,7 @@ export default {
 	computed: {
 		model: {
 			get () {
-				return this.value ? this.value : []
+				return this.modelValue ? this.modelValue : []
 			},
 			set (newValue) {
 				this.$emit('update:modelValue', newValue)

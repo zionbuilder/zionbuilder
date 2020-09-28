@@ -32,7 +32,7 @@ export default {
 		/**
 		* Value of text transform
 		*/
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		},
@@ -46,13 +46,13 @@ export default {
 	computed: {
 		radioSavedValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
 				/**
 				 * Emits newValue
 				*/
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},

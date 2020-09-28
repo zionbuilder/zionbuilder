@@ -38,7 +38,7 @@ export default {
 		Tooltip
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Object
 		}
 	},
@@ -51,10 +51,10 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		colorValue: {

@@ -23,7 +23,7 @@ export default {
 		InputLabel
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		}
@@ -34,7 +34,7 @@ export default {
 	computed: {
 		hexValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
 				this.$emit('update:modelValue', newValue)

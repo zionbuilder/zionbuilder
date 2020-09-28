@@ -57,7 +57,7 @@ import { InputLabel } from '../forms'
 export default {
 	name: 'HslaElement',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		}
@@ -68,7 +68,7 @@ export default {
 	},
 	computed: {
 		hsla () {
-			const { h, s, l, a } = this.value
+			const { h, s, l, a } = this.modelValue
 			return {
 				h: Number(h.toFixed()),
 				s: Number((s * 100).toFixed()),
@@ -89,7 +89,7 @@ export default {
 				value = newValue
 			}
 			this.$emit('update:modelValue', {
-				...this.value,
+				...this.modelValue,
 				[property]: value
 			})
 		}

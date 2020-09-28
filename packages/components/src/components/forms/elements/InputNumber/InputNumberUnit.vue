@@ -107,7 +107,7 @@ export default {
 		/**
 		 * Input value
 		 */
-		value: {
+		modelValue: {
 			type: String,
 			required: false,
 			default () {
@@ -196,29 +196,29 @@ export default {
 			}
 		},
 		cursorPosition () {
-			return this.value && this.unit ? this.value.length - this.unit.length : null
+			return this.modelValue && this.unit ? this.modelValue.length - this.unit.length : null
 		},
 		stringValueModel: {
 			get () {
-				return this.value ? this.value : null
+				return this.modelValue ? this.modelValue : null
 			},
 			set (newValue) {
 				if (this.units.includes(newValue) || stringUnits.includes(newValue)) {
 					this.unit = newValue
 				}
-				if (!this.value && this.unit && this.unit !== 'custom' && this.units.includes(this.unit) && newValue && newValue.match(/^[0-9]*$/) !== null && !stringUnits.includes(this.unit)) {
-					this.$emit('input', `${newValue}${this.unit}`)
+				if (!this.modelValue && this.unit && this.unit !== 'custom' && this.units.includes(this.unit) && newValue && newValue.match(/^[0-9]*$/) !== null && !stringUnits.includes(this.unit)) {
+					this.$emit('update:modelValue', `${newValue}${this.unit}`)
 					this.$nextTick(() => {
 						this.$refs.numberUnitInput.$refs.input.setSelectionRange(this.cursorPosition, this.cursorPosition)
 					})
 				} else {
-					this.$emit('input', newValue)
+					this.$emit('update:modelValue', newValue)
 				}
 			}
 		},
 		valueUnit: {
 			get () {
-				const match = typeof this.value === 'string' && this.value ? this.value.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
+				const match = typeof this.modelValue === 'string' && this.modelValue ? this.modelValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
 				const value = match && match[1] ? match[1] : null
 				const unit = match ? match[3] : null
 				return {

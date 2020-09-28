@@ -15,7 +15,7 @@
 					class="znpb-modal-icon-wrapper"
 					:class="{'znpb-modal-icon-wrapper--active' : activeIcon===icon.name && activeFamily===family}"
 					@click="$emit('icon-selected', icon)"
-					@dblclick="$emit('input', icon)"
+					@dblclick="$emit('update:modelValue', icon)"
 				>
 					<span
 						:data-znpbiconfam="family"

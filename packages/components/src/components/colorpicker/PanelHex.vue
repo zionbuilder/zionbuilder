@@ -62,7 +62,7 @@ export default {
 		BaseIcon
 	},
 	props: {
-		value: {}
+		modelValue: {}
 	},
 	data () {
 		return {}
@@ -70,7 +70,7 @@ export default {
 	computed: {
 		hexValue: {
 			get () {
-				return this.value.format === 'hex8' ? this.value.hex8 : this.value.hex
+				return this.modelValue.format === 'hex8' ? this.modelValue.hex8 : this.modelValue.hex
 			},
 			set (newValue) {
 				this.$emit('update:modelValue', newValue)
@@ -78,7 +78,7 @@ export default {
 		},
 		hslaValue: {
 			get () {
-				return this.value.hsla
+				return this.modelValue.hsla
 			},
 			set (hsla) {
 				this.$emit('update:modelValue', hsla)
@@ -86,7 +86,7 @@ export default {
 		},
 		rgbaValue: {
 			get () {
-				return this.value.rgba
+				return this.modelValue.rgba
 			},
 			set (rgba) {
 				this.$emit('update:modelValue', rgba)
@@ -96,29 +96,29 @@ export default {
 	methods: {
 		changeHex () {
 			let format
-			if (this.value.format === 'hex' || this.value.format === 'hex8' || this.value.format === 'name') {
+			if (this.modelValue.format === 'hex' || this.modelValue.format === 'hex8' || this.modelValue.format === 'name') {
 				format = 'hsl'
-			} else if (this.value.format === 'hsl') {
+			} else if (this.modelValue.format === 'hsl') {
 				format = 'rgb'
-			} else if (this.value.format === 'rgb') {
+			} else if (this.modelValue.format === 'rgb') {
 				format = 'hex'
 			}
 			this.$emit('update:modelValue', {
-				...this.value.hsla,
+				...this.modelValue.hsla,
 				format
 			})
 		},
 		changeHexback () {
 			let format
-			if (this.value.format === 'hsl') {
+			if (this.modelValue.format === 'hsl') {
 				format = 'hex'
-			} else if (this.value.format === 'rgb') {
+			} else if (this.modelValue.format === 'rgb') {
 				format = 'hsl'
-			} else if (this.value.format === 'hex' || this.value.format === 'hex8' || this.value.format === 'name') {
+			} else if (this.modelValue.format === 'hex' || this.modelValue.format === 'hex8' || this.modelValue.format === 'name') {
 				format = 'rgb'
 			}
 			this.$emit('update:modelValue', {
-				...this.value.hsla,
+				...this.modelValue.hsla,
 				format
 			})
 		}

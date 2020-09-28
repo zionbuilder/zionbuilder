@@ -25,7 +25,7 @@ export default {
 		/**
 		 * v-model/value for border radius
 		 */
-		value: {
+		modelValue: {
 			default () {
 				return null
 			},
@@ -45,13 +45,13 @@ export default {
 	computed: {
 		widthValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
 				/**
 				 * emits new value for border radius input
 				 */
-				this.$emit('input', newValue)
+				this.$emit('modelValue', newValue)
 			}
 		}
 	}

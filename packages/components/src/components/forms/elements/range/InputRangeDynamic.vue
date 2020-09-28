@@ -62,7 +62,7 @@ export default {
 		/**
 		 * Value/v-bind model
 		 */
-		value: {
+		modelValue: {
 			type: String,
 			required: false,
 			default () {
@@ -98,9 +98,9 @@ export default {
 		unit () {
 			if (this.valueUnit.value) {
 				if (parseInt(this.valueUnit.value) > this.activeOption.max) {
-					this.$emit('input', `${this.activeOption.max}${this.getUnit}`)
+					this.$emit('update:modelValue', `${this.activeOption.max}${this.getUnit}`)
 				} else if (parseInt(this.valueUnit.value) < this.activeOption.min) {
-					this.$emit('input', `${this.activeOption.min}${this.getUnit}`)
+					this.$emit('update:modelValue', `${this.activeOption.min}${this.getUnit}`)
 				}
 			}
 		}
@@ -111,7 +111,7 @@ export default {
 		},
 		valueUnit: {
 			get () {
-				const match = typeof this.value === 'string' ? this.value.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
+				const match = typeof this.modelValue === 'string' ? this.modelValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
 				const value = match && match[1] ? match[1] : null
 				const unit = match ? match[3] : null
 
@@ -128,10 +128,10 @@ export default {
 		},
 		computedValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		rangeModel: {
@@ -147,7 +147,7 @@ export default {
 				* Emit input value when range updates
 				*/
 				if (this.getUnit) {
-					this.$emit('input', `${newValue}${this.getUnit}`)
+					this.$emit('update:modelValue', `${newValue}${this.getUnit}`)
 				}
 			}
 		},

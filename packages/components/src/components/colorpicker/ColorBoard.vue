@@ -25,7 +25,7 @@ import rafSchd from 'raf-schd'
 export default {
 	name: 'ColorBoard',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		}
@@ -42,7 +42,7 @@ export default {
 		 * Returns the position of the pointer
 		 */
 		pointStyles () {
-			const { v, s } = this.value.hsva
+			const { v, s } = this.modelValue.hsva
 			const cssStyles = {
 				top: 100 - (v * 100) + '%',
 				left: s * 100 + '%'
@@ -53,7 +53,7 @@ export default {
 		 * Returns the background of the colorBoard
 		 */
 		bgColor () {
-			const { h } = this.value.hsva
+			const { h } = this.modelValue.hsva
 			return `hsl(${h}, 100%, 50%)`
 		},
 		boardContent () {
@@ -80,7 +80,7 @@ export default {
 			let saturation = (newLeft * 100) / this.boardContent.width
 
 			let newColor = {
-				...this.value.hsva,
+				...this.modelValue.hsva,
 				v: bright / 100,
 				s: saturation / 100
 			}
@@ -145,7 +145,7 @@ export default {
 			let saturation = (newLeft * 100) / this.boardContent.width
 
 			let newColor = {
-				...this.value.hsva,
+				...this.modelValue.hsva,
 				v: bright / 100,
 				s: saturation / 100
 			}

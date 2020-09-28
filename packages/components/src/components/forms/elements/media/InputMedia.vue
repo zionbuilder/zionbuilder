@@ -27,7 +27,7 @@ export default {
 		/**
 		 * Value for input
 		 */
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		},
@@ -72,13 +72,13 @@ export default {
 	computed: {
 		inputValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
 				/**
 				* Emits new string
 				*/
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},
@@ -119,9 +119,9 @@ export default {
 			}
 		},
 		get_selection () {
-			if (typeof this.value === 'undefined') return
+			if (typeof this.modelValue === 'undefined') return
 
-			let idArray = this.value.split(',')
+			let idArray = this.modelValue.split(',')
 			let args = { orderby: 'post__in', order: 'ASC', type: 'image', perPage: -1, post__in: idArray }
 			let attachments = window.wp.media.query(args)
 			let selection = new window.wp.media.model.Selection(attachments.models, {

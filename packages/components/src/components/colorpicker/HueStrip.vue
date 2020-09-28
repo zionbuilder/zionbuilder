@@ -17,7 +17,7 @@
 export default {
 	name: 'HueStrip',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		}
@@ -25,14 +25,14 @@ export default {
 	data () {
 		return {
 			direction: 'right',
-			oldHue: this.value.h,
+			oldHue: this.modelValue.h,
 			lastHue: null
 		}
 	},
 	computed: {
 		hueStyles () {
-			const { h } = this.value
-			let positionValue = (this.value.h / 360) * 100
+			const { h } = this.modelValue
+			let positionValue = (this.modelValue.h / 360) * 100
 
 			if (h === 0 && this.direction === 'right') {
 				positionValue = 100
@@ -45,7 +45,7 @@ export default {
 	},
 	watch: {
 		value (newValue) {
-			const { h } = this.value
+			const { h } = this.modelValue
 			if (h !== 0 && h > this.oldHue) { this.direction = 'right' }
 			if (h !== 0 && h < this.oldHue) { this.direction = 'left' }
 
@@ -94,7 +94,7 @@ export default {
 			}
 
 			let newColor = {
-				...this.value,
+				...this.modelValue,
 				h: h
 			}
 

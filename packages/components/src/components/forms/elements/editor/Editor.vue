@@ -6,7 +6,7 @@
 export default {
 	name: 'Editor',
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		}
@@ -20,13 +20,13 @@ export default {
 	computed: {
 		content: {
 			get () {
-				return this.value || ''
+				return this.modelValue || ''
 			},
 			set (newValue, oldValue) {
 				if (newValue !== oldValue) {
 
 				}
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		editorID () {
@@ -61,16 +61,16 @@ export default {
 			editor.on('change KeyUp Undo Redo', this.onEditorContentChange)
 		},
 		onEditorContentChange (event) {
-			const currentValue = this.value
+			const currentValue = this.modelValue
 
 			const newValue = this.editor.getContent()
 
 			if (currentValue !== newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		onTextChanged (event) {
-			this.$emit('input', this.editorTextarea.value)
+			this.$emit('update:modelValue', this.editorTextarea.value)
 		}
 	},
 	watch: {

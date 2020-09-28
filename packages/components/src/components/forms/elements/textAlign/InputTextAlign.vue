@@ -17,7 +17,7 @@ export default {
 		/**
 		* Value of text align
 		*/
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		}
@@ -55,10 +55,10 @@ export default {
 	computed: {
 		textAlignModel: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},

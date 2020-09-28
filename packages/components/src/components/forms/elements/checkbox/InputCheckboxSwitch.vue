@@ -38,7 +38,7 @@ export default {
 		/**
 		 * v-model/value for checkbox
 		 */
-		value: {
+		modelValue: {
 			type: [String, Array, Boolean],
 			required: false
 		},
@@ -77,7 +77,7 @@ export default {
 
 		model: {
 			get () {
-				return this.value !== undefined ? this.value : false
+				return this.modelValue !== undefined ? this.modelValue : false
 			},
 			set (newValue) {
 				this.isLimitExceeded = false
@@ -124,7 +124,7 @@ export default {
 	},
 	methods: {
 		setInitialValue () {
-			this.model = this.value || true
+			this.model = this.modelValue || true
 		},
 		onChange (event) {
 			let checked = event.target.checked

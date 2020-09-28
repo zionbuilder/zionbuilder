@@ -27,7 +27,7 @@ export default {
 		/**
 		 * Value for input
 		 */
-		value: {
+		modelValue: {
 			type: Object,
 			default () {
 				return {}
@@ -91,16 +91,16 @@ export default {
 		},
 		computedValue: {
 			get () {
-				return this.value ? this.value[this.activeMaskPosition] ? this.value[this.activeMaskPosition] : {} : {}
+				return this.modelValue ? this.modelValue[this.activeMaskPosition] ? this.modelValue[this.activeMaskPosition] : {} : {}
 			},
 			set (newValue) {
-				if (this.value[this.activeMaskPosition] !== undefined && this.value[this.activeMaskPosition]['shape'] !== newValue['shape']) {
+				if (this.modelValue[this.activeMaskPosition] !== undefined && this.modelValue[this.activeMaskPosition]['shape'] !== newValue['shape']) {
 					if (newValue.hasOwnProperty('height')) {
 						newValue['height'] = 'auto'
 					}
 				}
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					[this.activeMaskPosition]: newValue
 				})
 			}

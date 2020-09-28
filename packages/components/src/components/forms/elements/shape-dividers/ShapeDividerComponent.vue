@@ -35,7 +35,7 @@
 						v-else
 						icon="close"
 						:size="10"
-						@click.stop="$emit('input', null),showDelete=false"
+						@click.stop="$emit('update:modelValue', null),showDelete=false"
 					/>
 				</transition>
 			</span>
@@ -46,7 +46,7 @@
 				:key="i"
 				:shape-path="shape"
 				:position="position"
-				@click="$emit('input', shape)"
+				@click="$emit('update:modelValue', shape)"
 			></shape>
 
 			<UpgradeToPro

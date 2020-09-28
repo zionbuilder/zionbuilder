@@ -45,7 +45,7 @@ export default {
 		GradientColorConfig
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Object
 		},
 		config: {
@@ -65,10 +65,10 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		sortedColors () {

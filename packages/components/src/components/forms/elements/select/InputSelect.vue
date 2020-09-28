@@ -171,7 +171,7 @@ export default {
 		/**
 		* v-model or value
 		*/
-		value: {
+		modelValue: {
 			required: false
 		},
 		/**
@@ -232,7 +232,7 @@ export default {
 	data () {
 		return {
 			searchKeyword: '',
-			selected: this.value,
+			selected: this.modelValue,
 			expanded: false,
 			filteredOptions: this.options,
 			optionIndex: null,
@@ -243,14 +243,14 @@ export default {
 	computed: {
 		valueModel () {
 			if (this.multiple) {
-				if (Array.isArray(this.value)) {
-					return this.value
-				} else if (this.value) {
-					return [this.value]
+				if (Array.isArray(this.modelValue)) {
+					return this.modelValue
+				} else if (this.modelValue) {
+					return [this.modelValue]
 				}
 				return []
 			} else {
-				return this.value
+				return this.modelValue
 			}
 		},
 		getPlaceholder () {
@@ -352,7 +352,7 @@ export default {
 				}
 				if (!this.multiple) {
 					if (this.optionIndex !== null) {
-						this.$emit('input', this.options[this.optionIndex].id)
+						this.$emit('update:modelValue', this.options[this.optionIndex].id)
 					}
 				}
 				if (event.key === 'Escape') {
@@ -428,7 +428,7 @@ export default {
 				/**
 				* Will emit when the select value is updated
 				*/
-				this.$emit('input', value)
+				this.$emit('update:modelValue', value)
 			} else {
 				setTimeout(() => {
 					this.expanded = false
@@ -437,7 +437,7 @@ export default {
 				/**
 				* Will emit when the select value is updated */
 
-				this.$emit('input', selectedOption)
+				this.$emit('update:modelValue', selectedOption)
 			}
 			this.setSelected()
 		},
@@ -455,7 +455,7 @@ export default {
 		},
 		addNewItem () {
 			// emit new option to be added
-			this.$emit('input', this.searchKeyword)
+			this.$emit('update:modelValue', this.searchKeyword)
 			this.selected = this.searchKeyword
 
 			// close the list
