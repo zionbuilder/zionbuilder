@@ -7,7 +7,10 @@ module.exports = () => {
 		context: context,
 		entry: './src/index.ts',
 		resolve: {
-			extensions: ['.ts', '.tsx', '.js', 'vue']
+			extensions: ['.ts', '.tsx', '.js', 'vue'],
+			alias: {
+				'@': './packages'
+			}
 		},
 		module: {
 			rules: [
@@ -27,7 +30,7 @@ module.exports = () => {
 			path: path.resolve(context, 'dist'),
 		},
 		externals: [
-			function( context, request, callback ){
+			function( context, request, callback ) {
 				if (/^@zb\/.*$/.test(request)){
 				const modules = request.replace('@', '').split('/')
 				// Externalize to a commonjs module using the request path
