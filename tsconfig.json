@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"paths": {
 			"@zionbuilder/*": ["./packages/*"],
+			"@/*": ["./packages/*"],
 			// "@zionbuilder/event-bus": ["./packages/event-bus"]
 		}
 	}

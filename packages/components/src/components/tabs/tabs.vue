@@ -8,11 +8,11 @@
 			:class="navigationClasses"
 		>
 			<TabLink
-				v-for="(tab, i) in tabs"
-				:key="tab.tabId + i"
-				@click="selectTab(tab.tabId)"
+				v-for="tab in tabs"
+				:key="tab.id"
+				@click="selectTab(tab.id)"
+				:active="tab.id === computedActiveTab"
 				:tab="tab"
-				ref="tabLink"
 			>
 			</TabLink>
 		</div>
@@ -23,9 +23,7 @@
 		>
 
 			<!-- @slot Content that will be added inside the tab -->
-			<slot>
-				"Edit Element options"
-			</slot>
+			<slot></slot>
 		</div>
 	</div>
 </template>
@@ -66,6 +64,9 @@ export default {
 		}
 	},
 	computed: {
+		computedActiveTab () {
+			return this.localActiveTab || this.activeTab || ( this.tabs[0] && this.tabs[0].id )
+		},
 		cssClasses () {
 			return {
 				[`znpb-tabs--${this.tabStyle}`]: this.tabStyle
@@ -79,81 +80,44 @@ export default {
 	},
 	data () {
 		return {
-			tabs: []
+			tabs: [],
+			localActiveTab: this.activeTab
 		}
 	},
 	components: {
 		TabLink
 	},
 	watch: {
-		activeTab (tabId) {
-			this.selectTab(tabId)
+		activeTab (newValue) {
+			this.localActiveTab = newValue
 		}
 	},
-	mounted () {
-		this.getTabs()
-		this.setDefaultActiveTab()
-	},
-	updated () {
-		this.$nextTick(() => {
-			this.getTabs()
-			this.setDefaultActiveTab()
-		})
-	},
 	methods: {
-		/**
-		 * Retrieve the list of tabs
-		 */
-		getTabs () {
-			const tabSlots = ((this.$slots.default && this.$slots.default() ) || [])
-			const tabsInstances = tabSlots
-				.map(vnode => vnode.componentInstance)
-				.filter(tab => tab && tab._isTab)
+		registerTab (tabInfo) {
+			this.tabs.push(tabInfo)
+		},
 
-			// Check to see if the tabs has changed
-			if (
-				!(
-					tabsInstances.length === this.tabs.length &&
-					tabsInstances.every((tab, index) => tab === this.tabs[index])
-				)
-			) {
-				this.tabs = tabsInstances
-			}
-		},
-		updateTitleSlots (tab) {
-			const tabLink = this.$refs.tabLink.find(link => link.tab === tab)
-			if (tabLink) {
-				tabLink.$forceUpdate()
-			}
-		},
-		setDefaultActiveTab () {
-			if (this.activeTab) {
-				this.selectTab(this.activeTab)
-			} else {
-				const hasActiveTab = this.tabs.filter(tab => {
-					return tab.isActive
-				})
+		unRegisterTab ({ id }) {
+			const tabIndex = this.tabs.find(tabInfo => tabInfo.id === id)
 
-				if (hasActiveTab.length === 0 && this.tabs.length) {
-					this.selectTab(this.tabs[0].tabId)
-				}
+			if (tabIndex) {
+				this.tabs.splice(tabIndex, 1)
 			}
 		},
+
 		/**
 		 * Activates a tab based on tabId
 		 */
 		selectTab (tabId) {
-			if (tabId === this.selectedTab) {
+			if (tabId === this.computedActiveTab) {
 				return
 			}
+
 			/**
 			 * Activates a tab based on tabId
 			 */
 			this.$emit('changed-tab', tabId)
-			this.selectedTab = tabId
-			this.tabs.forEach(tab => {
-				tab.isActive = (tab.tabId === tabId)
-			})
+			this.localActiveTab = tabId
 		}
 	}
 }

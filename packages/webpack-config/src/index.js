@@ -20,7 +20,6 @@ module.exports.getConfig = function getConfig(options = {}, config = {}) {
 			css: true,
 			...(options.features || {})
 		},
-
 	}
 
 	const configs = []
