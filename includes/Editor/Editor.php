@@ -197,7 +197,7 @@ class Editor {
 			'css/editor.css',
 			[
 				'wp-codemirror',
-				'zb-common',
+				'zb-components',
 			],
 			Plugin::instance()->get_version()
 		);
@@ -228,7 +228,7 @@ class Editor {
 				'jshint',
 				'jsonlint',
 				'jquery-masonry',
-				'zb-common',
+				'zb-components',
 			],
 			Plugin::instance()->get_version(),
 			true
