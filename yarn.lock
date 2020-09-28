@@ -2435,6 +2435,11 @@ dir-glob@^2.2.2:
   dependencies:
     path-type "^3.0.0"
 
+dom-to-image@^2.8.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/dom-to-image/-/dom-to-image-2.3.0.tgz#728a2912aeb23849258997a85e805e21feef635a"
+  integrity sha1-coopEq6yOEkliZeoXoBeIf7vY1o=
+
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -3965,6 +3970,11 @@ loader-utils@^2.0.0:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^2.1.2"
+
+localstorage-ttl@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/localstorage-ttl/-/localstorage-ttl-1.0.2.tgz#03152eadebc78a05472689725d07a3e4a383e834"
+  integrity sha1-AxUurevHigVHJolyXQej5KOD6DQ=
 
 locate-path@^2.0.0:
   version "2.0.0"

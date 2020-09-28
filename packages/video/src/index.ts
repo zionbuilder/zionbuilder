@@ -10,7 +10,7 @@ let vimeoVolume = 1
 const eventBus = new EventBus()
 
 export default class Video {
-	constructor (domNode, options = {}) {
+	constructor(domNode, options = {}) {
 		this.options = {
 			autoplay: true,
 			muted: true,
@@ -58,13 +58,13 @@ export default class Video {
 	}
 
 	// Wait a cycle
-	nextTick (callback) {
+	nextTick(callback) {
 		setTimeout(() => {
 			callback()
 		}, 0)
 	}
 
-	setupYoutube () {
+	setupYoutube() {
 		const YtParams = {
 			mute: this.options.muted ? 1 : 0,
 			autoplay: this.options.autoplay ? 1 : 0,
@@ -112,20 +112,20 @@ export default class Video {
 			this.enableYoutube()
 		}
 	}
-	enableYoutube () {
+	enableYoutube() {
 		this.player = new window.YT.Player(
 			`znpb-video-bg-youtube-${this.videoIndex}`, {
-				height: '100%',
-				width: '100%',
-				videoId: this.YoutubeId
-			})
+			height: '100%',
+			width: '100%',
+			videoId: this.YoutubeId
+		})
 
 		this.videoContainer = this.player.getIframe()
 
 		this.trigger('video_ready')
 	}
 
-	setupVimeo () {
+	setupVimeo() {
 		const vimeoContainer = document.createElement('div')
 		vimeoContainer.id = `znpb-video-bg-vimeo-${this.videoIndex}`
 		this.domNode.appendChild(vimeoContainer)
@@ -149,7 +149,7 @@ export default class Video {
 			this.enableVimeo()
 		}
 	}
-	enableVimeo () {
+	enableVimeo() {
 		this.player = new window.Vimeo.Player(`znpb-video-bg-vimeo-${this.videoIndex}`, {
 			id: this.options.vimeoURL,
 			background: true,
@@ -162,7 +162,7 @@ export default class Video {
 
 		this.trigger('video_ready')
 	}
-	setupLocal () {
+	setupLocal() {
 		let autoplay = this.options.autoplay ? 'autoplay' : ''
 		let muted = this.options.muted ? 'muted' : ''
 		let loop = this.options.loop ? 'loop' : ''
@@ -192,11 +192,11 @@ export default class Video {
 		this.trigger('video_ready')
 	}
 
-	getVideoContainer () {
+	getVideoContainer() {
 		return this.videoContainer
 	}
 
-	play () {
+	play() {
 		if (this.videoSource === 'youtube') {
 			this.player.playVideo()
 		}
@@ -208,7 +208,7 @@ export default class Video {
 		}
 		this.playing = true
 	}
-	pause () {
+	pause() {
 		if (this.videoSource === 'youtube') {
 			this.player.pauseVideo()
 		}
@@ -221,7 +221,7 @@ export default class Video {
 		this.playing = false
 	}
 
-	togglePlay () {
+	togglePlay() {
 		if (this.playing) {
 			this.pause()
 		} else {
@@ -229,7 +229,7 @@ export default class Video {
 		}
 	}
 
-	mute () {
+	mute() {
 		if (this.videoSource === 'youtube') {
 			this.player.mute()
 		}
@@ -245,7 +245,7 @@ export default class Video {
 
 		this.muted = true
 	}
-	unMute () {
+	unMute() {
 		if (this.videoSource === 'youtube') {
 			this.player.unMute()
 		}
@@ -259,7 +259,7 @@ export default class Video {
 		this.muted = false
 	}
 
-	toggleMute () {
+	toggleMute() {
 		if (this.muted) {
 			this.unMute()
 		} else {
@@ -267,7 +267,7 @@ export default class Video {
 		}
 	}
 
-	destroy () {
+	destroy() {
 		this.player = null
 		while (this.domNode.firstChild) {
 			this.domNode.removeChild(this.domNode.firstChild)
