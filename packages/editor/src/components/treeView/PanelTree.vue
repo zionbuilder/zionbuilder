@@ -61,13 +61,14 @@ import { mapGetters, mapActions } from 'vuex'
 import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeViewPanel from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
-
+import BasePanel from '../BasePanel.vue'
 export default {
 	name: 'panel-tree',
 	components: {
 		TreeViewPanel,
 		SectionView,
-		WireframeView
+		WireframeView,
+		BasePanel
 	},
 	props: {
 		data: {

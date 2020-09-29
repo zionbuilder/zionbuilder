@@ -51,7 +51,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import EventsManager from '@/editor/utils/events'
+import EventsManager from '@zb/utils'
 import rafSchd from 'raf-schd'
 
 export default {

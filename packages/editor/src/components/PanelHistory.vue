@@ -53,12 +53,15 @@
 </template>
 
 <script>
-
+import BasePanel from './BasePanel.vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
 	name: 'panel-history',
 	data: () => {
 		return {}
+	},
+	components: {
+		BasePanel
 	},
 	computed: {
 		...mapGetters([
