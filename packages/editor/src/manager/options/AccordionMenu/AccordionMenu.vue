@@ -20,7 +20,7 @@
 		<HasChanges
 			slot="title"
 			v-if="showChanges && hasChanges"
-			@remove-styles="$emit('input', null)"
+			@remove-styles="$emit('update:modelValue', null)"
 		/>
 		<OptionsForm
 			class="znpb-option-layout__menu-options-form"
@@ -59,7 +59,7 @@ export default {
 			type: String,
 			required: true
 		},
-		value: {
+		modelValue: {
 			required: false
 		},
 		homeButtonText: {
@@ -77,17 +77,17 @@ export default {
 	},
 	computed: {
 		valueModel () {
-			return this.value || {}
+			return this.modelValue || {}
 		},
 		hasChanges () {
 			return this.$parent.hasChanges
 		},
 		optionsValue: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},

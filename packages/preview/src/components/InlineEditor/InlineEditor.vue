@@ -62,7 +62,7 @@
 				<zion-inline-editor-font-weight
 					v-for="fontWeight in fontWeights"
 					:key="fontWeight"
-					:value="fontWeight"
+					:modelValue="fontWeight"
 				/>
 			</zion-inline-editor-popover>
 
@@ -168,7 +168,7 @@
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
 			class="znpb-inline-text-editor"
 			ref="inlineEditor"
-			v-html="value"
+			v-html="modelValue"
 		>
 		</div>
 	</Tooltip>
@@ -210,7 +210,7 @@ export default {
 	},
 
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			required: false
 		},
@@ -282,10 +282,10 @@ export default {
 		},
 		content: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		// This is the initial bar position setter (through a style element)
@@ -302,7 +302,7 @@ export default {
 		}
 	},
 	created () {
-		this.localContent = this.value
+		this.localContent = this.modelValue
 	},
 	methods: {
 		...mapActions([

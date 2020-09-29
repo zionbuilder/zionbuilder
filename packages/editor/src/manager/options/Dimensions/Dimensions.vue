@@ -14,7 +14,7 @@
 			</div>
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
-				:value="valueModel[dimension.id] || null"
+				:modelValue="valueModel[dimension.id] || null"
 				@update:modelValue="onValueUpdated(dimension.id, $event)"
 				:title="dimension.id"
 				@linked-value="handleLinkValues"
@@ -48,7 +48,7 @@ export default {
 		/**
 		 * v-model/value for border radius
 		 */
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			},
@@ -77,7 +77,7 @@ export default {
 
 	computed: {
 		valueModel () {
-			return this.value || {}
+			return this.modelValue || {}
 		},
 		computedDimensions () {
 			return [
@@ -105,12 +105,12 @@ export default {
 				valuesToUpdate.forEach(value => {
 					values[value.id] = newValue
 				})
-				this.$emit('input', {
+				this.$emit('update:modelValue', {
 					...this.valueModel,
 					...values
 				})
 			} else {
-				this.$emit('input', {
+				this.$emit('update:modelValue', {
 					...this.valueModel,
 					[position]: newValue
 				})

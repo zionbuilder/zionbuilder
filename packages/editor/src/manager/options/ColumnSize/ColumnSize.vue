@@ -24,7 +24,7 @@ export default {
 		options: {
 			type: Array
 		},
-		value: {
+		modelValue: {
 			type: [String, Number],
 			required: false
 		}
@@ -32,10 +32,10 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},

@@ -52,7 +52,7 @@ export default {
 				return this.classItem.name
 			},
 			set (newVal) {
-				this.$emit('input-classname', {
+				this.$emit('update:modelValue-classname', {
 					name: newVal
 				})
 			}
@@ -62,7 +62,7 @@ export default {
 				return this.classItem.style || {}
 			},
 			set (newValue) {
-				this.$emit('input', {
+				this.$emit('update:modelValue', {
 					style: newValue
 				})
 			}

@@ -13,7 +13,7 @@
 			<InputWrapper
 				:schema="bgColorSchema"
 				:option-id="bgColorSchema.id"
-				:value="valueModel['background-color']"
+				:modelValue="valueModel['background-color']"
 				:delete-value="onDeleteOption"
 				@update:modelValue="onOptionUpdate(...$event)"
 			/>
@@ -27,7 +27,7 @@
 			<InputWrapper
 				:schema="bgGradientSchema"
 				:option-id="bgGradientSchema.id"
-				:value="valueModel['background-gradient']"
+				:modelValue="valueModel['background-gradient']"
 				:delete-value="onDeleteOption"
 				@update:modelValue="onOptionUpdate(...$event)"
 			/>
@@ -39,7 +39,7 @@
 			/>
 			<InputBackgroundImage
 				class="znpb-input__background-image"
-				:value="valueModel"
+				:modelValue="valueModel"
 				@update:modelValue="onOptionUpdate(false, $event)"
 			/>
 		</Tab>
@@ -53,7 +53,7 @@
 			/>
 			<InputBackgroundVideo
 				class="znpb-input__background-video"
-				:value="valueModel['background-video']"
+				:modelValue="valueModel['background-video']"
 				@update:modelValue="onOptionUpdate('background-video', $event)"
 			/>
 		</Tab>
@@ -77,7 +77,7 @@ export default {
 		}
 	},
 	props: {
-		value: {}
+		modelValue: {}
 	},
 	data () {
 		return {
@@ -98,10 +98,10 @@ export default {
 		]),
 		valueModel: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		// only show bg video on desktop
@@ -112,14 +112,14 @@ export default {
 	methods: {
 		onDeleteOption (optionId) {
 			const newValues = {
-				...this.value
+				...this.modelValue
 			}
 
 			delete newValues[optionId]
 			this.valueModel = newValues
 		},
 		onOptionUpdate (optionId, newValue) {
-			const clonedValue = { ...this.value }
+			const clonedValue = { ...this.modelValue }
 			if (optionId) {
 				if (newValue === null) {
 					// If this is used as layout, we need to delete the active pseudo selector
@@ -131,7 +131,7 @@ export default {
 				this.valueModel = clonedValue
 			} else {
 				if (newValue === null) {
-					this.$emit('input', null)
+					this.$emit('update:modelValue', null)
 				} else {
 					this.valueModel = newValue
 				}

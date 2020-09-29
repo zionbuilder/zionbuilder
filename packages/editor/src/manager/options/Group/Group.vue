@@ -14,7 +14,7 @@
 export default {
 	name: 'Group',
 	props: {
-		value: {},
+		modelValue: {},
 		child_options: {
 			type: Object,
 			required: false
@@ -30,10 +30,10 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	}

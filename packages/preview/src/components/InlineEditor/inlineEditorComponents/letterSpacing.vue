@@ -5,7 +5,7 @@
 	>
 		<InputRangeDynamic
 			@input="onLetterChange"
-			:value="sliderValue"
+			:modelValue="sliderValue"
 			:options="options"
 			@click.stop="onClick"
 			class="zion-inline-editor-slider-area--slider"

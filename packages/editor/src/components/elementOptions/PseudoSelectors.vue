@@ -100,7 +100,7 @@ export default {
 		Tooltip
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: [Object, Array],
 			required: false
 		}
@@ -141,7 +141,7 @@ export default {
 		},
 
 		activePseudoSelectors () {
-			return ((this.value || {}) || {})[this.getActiveDevice.id] || {}
+			return ((this.modelValue || {}) || {})[this.getActiveDevice.id] || {}
 		},
 
 		activePseudoSelectorModel () {
@@ -157,8 +157,8 @@ export default {
 				return this.pseudoStyles.content || ''
 			},
 			set (newValue) {
-				const newValues = updateOptionValue(this.value, `${this.getActiveDevice.id}.${this.activePseudoSelector.id}.content`, newValue)
-				this.$emit('input', newValues)
+				const newValues = updateOptionValue(this.modelValue, `${this.getActiveDevice.id}.${this.activePseudoSelector.id}.content`, newValue)
+				$emit('update:modelValue', newValues)
 			}
 		},
 		newPseudoModel: {
@@ -263,9 +263,9 @@ export default {
 		},
 		deleteConfigForPseudoSelector (pseudoSelectorId) {
 			const newValues = {
-				...this.value,
+				...this.modelValue,
 				[this.getActiveDevice.id]: {
-					...this.value[this.getActiveDevice.id]
+					...this.modelValue[this.getActiveDevice.id]
 				}
 			}
 			delete newValues[this.getActiveDevice.id][pseudoSelectorId]
@@ -275,7 +275,7 @@ export default {
 				delete newValues[this.getActiveDevice.id]
 			}
 
-			this.$emit('input', newValues)
+			this.$emit('update:modelValue', newValues)
 		}
 
 	},

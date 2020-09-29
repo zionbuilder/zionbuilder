@@ -47,7 +47,7 @@ export default {
 		InputWrapper
 	},
 	props: {
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			}
@@ -70,33 +70,33 @@ export default {
 	computed: {
 		link: {
 			get () {
-				return this.value && this.value['link'] ? this.value['link'] : ''
+				return this.modelValue && this.modelValue['link'] ? this.modelValue['link'] : ''
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					'link': newValue
 				})
 			}
 		},
 		target: {
 			get () {
-				return this.value && this.value['target'] ? this.value['target'] : '_self'
+				return this.modelValue && this.modelValue['target'] ? this.modelValue['target'] : '_self'
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					'target': newValue
 				})
 			}
 		},
 		title: {
 			get () {
-				return this.value && this.value['title'] ? this.value['title'] : ''
+				return this.modelValue && this.modelValue['title'] ? this.modelValue['title'] : ''
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					'title': newValue
 				})
 			}

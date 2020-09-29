@@ -44,7 +44,7 @@ import { EmptyList, ActionsOverlay, Color } from '@zb/components/forms'
 export default {
 	name: 'BackgroundColor',
 	props: {
-		value: {
+		modelValue: {
 			required: false
 		}
 	},
@@ -59,16 +59,16 @@ export default {
 		colorModel: {
 			get () {
 				let computedValue = null
-				if (this.value !== undefined) {
-					if (typeof (this.value) === 'string') {
-						computedValue = this.value
-					} else computedValue = this.value.value
+				if (this.modelValue !== undefined) {
+					if (typeof (this.modelValue) === 'string') {
+						computedValue = this.modelValue
+					} else computedValue = this.modelValue.value
 				}
 
 				return computedValue !== null ? computedValue : ''
 			},
 			set (newColor) {
-				this.$emit('input', newColor)
+				this.$emit('update:modelValue', newColor)
 			}
 		},
 		getColorStyle () {
@@ -84,7 +84,7 @@ export default {
 	},
 	methods: {
 		deleteColor () {
-			this.$emit('input', null)
+			this.$emit('update:modelValue', null)
 		}
 	}
 }

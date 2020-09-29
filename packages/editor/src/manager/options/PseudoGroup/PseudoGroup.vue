@@ -11,7 +11,7 @@ import { mapGetters } from 'vuex'
 export default {
 	name: 'PseudoGroup',
 	props: {
-		value: {},
+		modelValue: {},
 		child_options: {
 			type: Object,
 			required: true
@@ -29,10 +29,10 @@ export default {
 		},
 		valueModel: {
 			get () {
-				return (this.value || {})[this.getActivePseudoSelector.id] || {}
+				return (this.modelValue || {})[this.getActivePseudoSelector.id] || {}
 			},
 			set (newValue) {
-				const clonedValue = { ...this.value }
+				const clonedValue = { ...this.modelValue }
 				// Check if we actually need to delete the option
 				if (newValue === null && typeof clonedValue[this.getActivePseudoSelector.id]) {
 					// If this is used as layout, we need to delete the active pseudo selector
@@ -42,7 +42,7 @@ export default {
 				}
 
 				// Send the updated value back
-				this.$emit('input', clonedValue)
+				this.$emit('update:modelValue', clonedValue)
 			}
 		}
 	}

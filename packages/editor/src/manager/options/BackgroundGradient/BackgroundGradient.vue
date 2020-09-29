@@ -38,7 +38,7 @@ export default {
 		GradientLibrary
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Array,
 			required: false
 		},
@@ -56,10 +56,10 @@ export default {
 	computed: {
 		gradientModel: {
 			get () {
-				return this.value || null
+				return this.modelValue || null
 			},
 			set (newGradient) {
-				this.$emit('input', newGradient)
+				this.$emit('update:modelValue', newGradient)
 			}
 		}
 	},

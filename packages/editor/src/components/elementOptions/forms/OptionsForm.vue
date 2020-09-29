@@ -5,7 +5,7 @@
 			:key="optionId"
 			:schema="optionConfig"
 			:option-id="optionId"
-			:value="optionConfig.is_layout ? value : value[optionId]"
+			:modelValue="optionConfig.is_layout ? value : value[optionId]"
 			:delete-value="deleteValue"
 			:get-schema-from-path="getOptionSchemaFromPath"
 			:compile-placeholder="compilePlaceholder"
@@ -35,7 +35,7 @@ export default {
 		}
 	},
 	props: {
-		value: {},
+		modelValue: {},
 		schema: {
 			type: Object,
 			required: true
@@ -87,7 +87,7 @@ export default {
 						savedValue = this.getActiveElementOptionValue(optionPath, defaultValue)
 					} else {
 						// Get the saved value from option schema
-						savedValue = typeof this.value[option] !== 'undefined' ? this.value[option] : optionSchema.default
+						savedValue = typeof this.modelValue[option] !== 'undefined' ? this.modelValue[option] : optionSchema.default
 						if (optionSchema.sync) {
 							// Check to see if the option is actually a sync option
 							const syncValue = this.compilePlaceholder(optionSchema.sync)
@@ -119,12 +119,12 @@ export default {
 	},
 	methods: {
 		getValueByPath (path, defaultValue = null) {
-			return getOptionValue(this.value, path, defaultValue)
+			return getOptionValue(this.modelValue, path, defaultValue)
 		},
 		updateValueByPath (path, newValue) {
-			const updatedValues = updateOptionValue(this.value, path, newValue)
+			const updatedValues = updateOptionValue(this.modelValue, path, newValue)
 
-			this.$emit('input', updatedValues)
+			this.$emit('update:modelValue', updatedValues)
 		},
 		setValue (optionId, newValue) {
 			let newValueToSend
@@ -134,26 +134,26 @@ export default {
 				// Check to see if we need to delete the value
 				// || (typeof newValue === 'object' && Object.keys(newValue).length === 0) --- there is a problem with default value setting
 				if (newValue === null) {
-					const clonedValue = { ...this.value }
+					const clonedValue = { ...this.modelValue }
 					delete clonedValue[optionId]
 
 					if (Object.keys(clonedValue).length === 0) {
-						this.$emit('input', null)
+						this.$emit('update:modelValue', null)
 					} else {
-						this.$emit('input', clonedValue)
+						this.$emit('update:modelValue', clonedValue)
 					}
 				} else {
-					this.$emit('input', {
-						...this.value,
+					this.$emit('update:modelValue', {
+						...this.modelValue,
 						[optionId]: newValue
 					})
 				}
 			} else {
 				// Check to see if the value was actually deleted
 				if (newValue === null || (Object.keys(newValue).length === 0)) {
-					this.$emit('input', null)
+					this.$emit('update:modelValue', null)
 				} else {
-					let clonedValue = { ...this.value }
+					let clonedValue = { ...this.modelValue }
 					Object.keys(clonedValue).reduce((acc, key, index) => {
 						if (typeof newValue[key] === 'undefined') {
 							delete acc[key]
@@ -162,7 +162,7 @@ export default {
 						return acc
 					}, clonedValue)
 
-					this.$emit('input', {
+					this.$emit('update:modelValue', {
 						...clonedValue,
 						...newValue
 					})
@@ -171,7 +171,7 @@ export default {
 		},
 		deleteValue (path) {
 			const paths = path.split('.')
-			let newValues = { ...this.value }
+			let newValues = { ...this.modelValue }
 
 			paths.reduce((acc, key, index) => {
 				if (index === paths.length - 1) {
@@ -183,10 +183,10 @@ export default {
 				return acc[key]
 			}, newValues)
 
-			this.$emit('input', newValues)
+			this.$emit('update:modelValue', newValues)
 		},
 		deleteValues (allPaths) {
-			let newValues = { ...this.value }
+			let newValues = { ...this.modelValue }
 			allPaths.forEach((path) => {
 				const paths = path.split('.')
 
@@ -201,16 +201,16 @@ export default {
 				}, newValues)
 			})
 
-			this.$emit('input', newValues)
+			this.$emit('update:modelValue', newValues)
 		},
 		onDeleteOptions (optionIds) {
 			this.deleteValues(optionIds)
 		},
 		getValue (optionSchema) {
 			if (optionSchema.is_layout) {
-				return this.value
+				return this.modelValue
 			} else {
-				return this.value[optionSchema.id]
+				return this.modelValue[optionSchema.id]
 			}
 		},
 		getOptionConfigFromId (optionId) {

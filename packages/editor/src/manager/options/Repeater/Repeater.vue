@@ -1,10 +1,10 @@
 <template>
 	<div class="znpb-option-repeater">
 		<RepeaterOption
-			v-for="(item, index) in value"
+			v-for="(item, index) in modelValue"
 			:key="index"
 			:schema="child_options"
-			:value="item"
+			:modelValue="item"
 			:propertyIndex="index"
 			:item_title="item_title"
 			:default_item_title="default_item_title"
@@ -37,7 +37,7 @@ export default {
 		}
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Array,
 			required: false,
 			default () {
@@ -96,7 +96,7 @@ export default {
 	},
 	computed: {
 		valueModel () {
-			return this.value || []
+			return this.modelValue || []
 		},
 		showButton () {
 			return this.maxItems ? this.addable && (this.valueModel.length < this.maxItems) : this.addable
@@ -123,12 +123,12 @@ export default {
 				}
 			}
 
-			this.$emit('input', copiedValues)
+			this.$emit('update:modelValue', copiedValues)
 		},
 		addProperty () {
 			const clone = [...this.valueModel]
 			clone.push({})
-			this.$emit('input', clone)
+			this.$emit('update:modelValue', clone)
 
 			this.$nextTick(() => {
 				const itemsLength = this.$refs.repeaterItem.length
@@ -137,16 +137,16 @@ export default {
 		},
 		cloneOption (event, index) {
 			if ((this.maxItems && this.addable && (this.valueModel.length < this.maxItems)) || (this.maxItems === undefined)) {
-				const repeaterClone = [...this.value]
+				const repeaterClone = [...this.modelValue]
 				repeaterClone.splice(index, 0, event)
 
-				this.$emit('input', repeaterClone)
+				this.$emit('update:modelValue', repeaterClone)
 			}
 		},
 		deleteOption (optionIndex) {
 			let copiedValues = [...this.valueModel]
 			copiedValues.splice(optionIndex, 1)
-			this.$emit('input', copiedValues)
+			this.$emit('update:modelValue', copiedValues)
 		}
 	}
 }

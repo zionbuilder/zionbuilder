@@ -19,7 +19,7 @@
 			>
 				<div class="znpb-search-wrapper">
 					<BaseInput
-						:value="keyword"
+						:modelValue="keyword"
 						:filterable="true"
 						:clearable="true"
 						:placeholder="$translate('enter_class_name')"
@@ -85,7 +85,7 @@ export default {
 			type: String,
 			required: true
 		},
-		value: {
+		modelValue: {
 			type: Array
 		},
 		title: {
@@ -117,10 +117,10 @@ export default {
 		]),
 		computedValue: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		computedSelectorConfig () {
