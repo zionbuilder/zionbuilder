@@ -10,7 +10,7 @@
 			:options="options"
 			class="zion-inline-editor-slider-area--slider"
 			ref="inputRangeDynamic"
-			@click.native="onClick"
+			@click="onClick"
 		/>
 
 	</div>

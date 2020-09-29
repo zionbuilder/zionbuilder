@@ -1,14 +1,19 @@
 <template>
-	<div class="zion-inline-editor-panel-wrapper"
+	<div
+		class="zion-inline-editor-panel-wrapper"
 		:class="{'zion-inline-editor-popover-wrapper--open' : visible && isPanelvisibile}"
 	>
 		<BaseIcon
 			:icon="icon"
-			@click.native="togglePanel"
+			@click="togglePanel"
 			:class="buttonClasses"
 		/>
 		<transition name="panel-show">
-			<div v-if="isPanelvisibile" :class="classes" class="zion-inline-editor-dropdown zion-inline-editor-dropdown--panel">
+			<div
+				v-if="isPanelvisibile"
+				:class="classes"
+				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--panel"
+			>
 				<slot></slot>
 			</div>
 		</transition>
@@ -122,5 +127,4 @@ export default {
 .panel-show-enter, .panel-show-leave-to {
 	opacity: 0;
 }
-
 </style>

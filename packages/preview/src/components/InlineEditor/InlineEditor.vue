@@ -112,25 +112,25 @@
 
 				<!-- Align left -->
 				<zion-inline-editor-button
-					@click.native="alignButtonIcon = 'align--left'"
+					@click="alignButtonIcon = 'align--left'"
 					formatter="alignleft"
 					icon="align--left"
 				/>
 				<!-- Align center -->
 				<zion-inline-editor-button
-					@click.native="alignButtonIcon = 'align--center'"
+					@click="alignButtonIcon = 'align--center'"
 					formatter="aligncenter"
 					icon="align--center"
 				/>
 				<!-- Align right -->
 				<zion-inline-editor-button
-					@click.native="alignButtonIcon = 'align--right'"
+					@click="alignButtonIcon = 'align--right'"
 					formatter="alignright"
 					icon="align--right"
 				/>
 				<!-- Align justify -->
 				<zion-inline-editor-button
-					@click.native="alignButtonIcon = 'align--justify'"
+					@click="alignButtonIcon = 'align--justify'"
 					formatter="alignjustify"
 					icon="align--justify"
 				/>

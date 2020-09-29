@@ -22,7 +22,7 @@
 		>
 			<BaseIcon
 				icon="close"
-				v-on:click.native.stop='handleDeleteClass(name)'
+				v-on:click.stop='handleDeleteClass(name)'
 			>
 			</BaseIcon>
 		</Tooltip>

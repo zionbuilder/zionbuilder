@@ -7,7 +7,7 @@
 			@input="onLetterChange"
 			:value="sliderValue"
 			:options="options"
-			@click.native.stop="onClick"
+			@click.stop="onClick"
 			class="zion-inline-editor-slider-area--slider"
 			ref="inputRangeDynamic"
 		/>

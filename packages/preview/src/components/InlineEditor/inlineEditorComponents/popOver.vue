@@ -1,17 +1,22 @@
 <template>
-	<div class="zion-inline-editor-popover-wrapper"
-	:class="{
+	<div
+		class="zion-inline-editor-popover-wrapper"
+		:class="{
 		'zion-inline-editor-popover-wrapper--full-width' : fullWidth,
 		'zion-inline-editor-popover-wrapper--vertical': direction,
 		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible,
-	}">
+	}"
+	>
 		<BaseIcon
 			:icon="icon"
-			@mousedown.native.prevent="togglePopper"
+			@mousedown.prevent="togglePopper"
 			:class='buttonClasses'
 		/>
 		<transition name="bar-show">
-			<div v-if="isPopOverVisible" class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover">
+			<div
+				v-if="isPopOverVisible"
+				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover"
+			>
 				<slot></slot>
 			</div>
 		</transition>

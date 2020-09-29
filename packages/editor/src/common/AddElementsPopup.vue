@@ -14,7 +14,7 @@
 				:placeholder="$translate('search_elements')"
 				:clearable="true"
 				icon="search"
-				@keyup.native.stop="onSearchKeyword"
+				@keyup.stop="onSearchKeyword"
 				autocomplete="off"
 				ref="searchInput"
 			>

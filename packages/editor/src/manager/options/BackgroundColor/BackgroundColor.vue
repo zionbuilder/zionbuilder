@@ -27,7 +27,7 @@
 						icon="delete"
 						:bg-size="30"
 						bg-color="#fff"
-						@click.stop.native="deleteColor"
+						@click.stop="deleteColor"
 					/>
 				</div>
 			</ActionsOverlay>

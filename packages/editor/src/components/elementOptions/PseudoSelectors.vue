@@ -79,7 +79,7 @@
 				v-model="newPseudoModel"
 				:clearable="true"
 				ref="newpseudoInput"
-				@keypress.native.enter="createNewPseudoSelector"
+				@keypress.enter="createNewPseudoSelector"
 				:placeholder="$translate('new_pseudo')"
 			/>
 		</div>

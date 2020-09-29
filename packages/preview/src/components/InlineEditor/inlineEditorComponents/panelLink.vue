@@ -9,7 +9,7 @@
 	>
 		<BaseIcon
 			icon="ite-link"
-			@mousedown.native="togglePopper"
+			@mousedown="togglePopper"
 			:class='buttonClasses'
 		/>
 		<transition name="bar-show">
@@ -22,12 +22,12 @@
 						v-model="linkModel"
 						:clearable="true"
 						placeholder="www.address.com"
-						@keyup.enter.native="addLink"
+						@keyup.enter="addLink"
 					>
 						<BaseIcon
 							slot="prepend"
 							icon="link"
-							@click.native="addLink"
+							@click="addLink"
 						/>
 					</BaseInput>
 				</inputWrapper>

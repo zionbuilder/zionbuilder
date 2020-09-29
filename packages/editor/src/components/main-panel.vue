@@ -121,7 +121,7 @@
 					v-if="!getSavingPage"
 					icon="check"
 					slot="panel-icon"
-					@mousedown.native.stop="onSaving"
+					@mousedown.stop="onSaving"
 				/>
 				<Loader
 					v-else

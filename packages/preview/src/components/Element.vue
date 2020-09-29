@@ -8,11 +8,11 @@
 		:id="`${elementCssId}`"
 		:options="options"
 		:data="data"
-		@mouseenter.native="onMouseEnter"
-		@mouseleave.native="onMouseLeave"
-		@click.native="onElementClick"
-		@dblclick.native="editElement"
-		@contextmenu.native="showContextMenu"
+		@mouseenter="onMouseEnter"
+		@mouseleave="onMouseLeave"
+		@click="onElementClick"
+		@dblclick="editElement"
+		@contextmenu="showContextMenu"
 		v-bind="getExtraAttributes"
 	>
 
@@ -49,7 +49,7 @@
 				<div class="znpb-hidden-element-placeholder">
 					<BaseIcon
 						icon="eye"
-						@click.native.stop="restoreHiddenElement"
+						@click.stop="restoreHiddenElement"
 					>
 					</BaseIcon>
 				</div>

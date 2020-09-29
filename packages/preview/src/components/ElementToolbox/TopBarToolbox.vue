@@ -22,7 +22,7 @@
 
 					<BaseIcon
 						icon="edit"
-						@click.native.stop="openOptionsPanel"
+						@click.stop="openOptionsPanel"
 					/>
 				</Tooltip>
 				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
@@ -34,7 +34,7 @@
 					</div>
 					<BaseIcon
 						icon="export"
-						@click.native.stop="emitEventbus"
+						@click.stop="emitEventbus"
 					/>
 				</Tooltip>
 				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
@@ -46,7 +46,7 @@
 					</div>
 					<BaseIcon
 						icon="eye"
-						@click.native.stop="setInvisible"
+						@click.stop="setInvisible"
 					/>
 				</Tooltip>
 				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
@@ -58,7 +58,7 @@
 					</div>
 					<BaseIcon
 						icon="copy"
-						@click.native.stop="duplicateElement"
+						@click.stop="duplicateElement"
 					/>
 				</Tooltip>
 				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
@@ -70,7 +70,7 @@
 					</div>
 					<BaseIcon
 						icon="delete"
-						@click.native.stop="deleteParentElement"
+						@click.stop="deleteParentElement"
 					/>
 				</Tooltip>
 			</div>
@@ -88,7 +88,7 @@
 				</div>
 				<BaseIcon
 					:icon="closeIcon"
-					@click.native.stop="toggleOpen"
+					@click.stop="toggleOpen"
 					class="znpb-editor-toolbox__element-options-button"
 				/>
 			</Tooltip>
