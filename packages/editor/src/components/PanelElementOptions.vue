@@ -133,7 +133,7 @@ import { cloneDeep } from 'lodash-es'
 import { BaseInput } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
-import { on, off } from '@zb/event-bus'
+import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 
 export default {

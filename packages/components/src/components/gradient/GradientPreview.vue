@@ -8,7 +8,7 @@
 	</div>
 </template>
 <script>
-import { applyFilters } from '@zb/filters'
+import { applyFilters } from '@zb/hooks'
 
 export default {
 	name: 'GradientPreview',

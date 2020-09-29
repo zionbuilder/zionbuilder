@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@zb/utils'
+import { applyFilters } from '@zb/hooks'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'

@@ -6,6 +6,6 @@
   "license": "MIT",
   "dependencies": {
 	"fitvids": "^2.1.1",
-	"@zionbuilder/event-bus": "^1.0.0"
+	"@zionbuilder/hooks": "^1.0.0"
   }
 }

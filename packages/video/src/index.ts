@@ -1,4 +1,4 @@
-import { EventBus } from '@zionbuilder/event-bus'
+import { createActionInstance } from '@zionbuilder/hooks'
 import { youtubeUrlParser } from '@zionbuilder/utils'
 import fitVids from 'fitvids'
 
@@ -7,10 +7,10 @@ let vimeoApiLoadedState = 0
 let videoIndex = 0
 let vimeoVolume = 1
 
-const eventBus = EventBus()
+const globalEventBus = createActionInstance()
 
 export default class Video {
-	constructor(domNode, options = {}) {
+	constructor(domNode: HTMLElement, options = {}) {
 		this.options = {
 			autoplay: true,
 			muted: true,
@@ -23,10 +23,10 @@ export default class Video {
 		}
 
 		// Add event bus for this instance
-		this.eventBusInstance = new EventBus()
-		this.on = this.eventBusInstance.addEventListener.bind(this.eventBusInstance)
-		this.off = this.eventBusInstance.removeEventListener.bind(this.eventBusInstance)
-		this.trigger = this.eventBusInstance.dispatchEvent.bind(this.eventBusInstance)
+		this.eventBus = createActionInstance()
+		this.on = this.eventBus.on
+		this.off = this.eventBus.off
+		this.trigger = this.eventBus.trigger
 
 		this.domNode = domNode
 		this.videoIndex = videoIndex++
@@ -102,12 +102,12 @@ export default class Video {
 			window.onYouTubeIframeAPIReady = function () {
 				self.enableYoutube()
 				// trigger event
-				eventBus.dispatchEvent('youtube_api_ready')
+				globalEventBus.dispatchEvent('youtube_api_ready')
 				YoutubeApiLoadedState = 2
 			}
 			YoutubeApiLoadedState = 1
 		} else if (YoutubeApiLoadedState === 1) {
-			eventBus.addEventListener('youtube_api_ready', this.enableYoutube.bind(this))
+			globalEventBus.addEventListener('youtube_api_ready', this.enableYoutube.bind(this))
 		} else if (YoutubeApiLoadedState === 2) {
 			this.enableYoutube()
 		}
@@ -139,12 +139,12 @@ export default class Video {
 
 			vimeoTag.onload = function () {
 				self.enableVimeo()
-				eventBus.dispatchEvent('vimeo_api_ready')
+				globalEventBus.dispatchEvent('vimeo_api_ready')
 				vimeoApiLoadedState = 2
 			}
 			vimeoApiLoadedState = 1
 		} else if (vimeoApiLoadedState === 1) {
-			eventBus.addEventListener('vimeo_api_ready', this.enableVimeo.bind(this))
+			globalEventBus.addEventListener('vimeo_api_ready', this.enableVimeo.bind(this))
 		} else if (vimeoApiLoadedState === 2) {
 			this.enableVimeo()
 		}

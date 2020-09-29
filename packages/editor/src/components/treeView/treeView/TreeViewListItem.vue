@@ -73,7 +73,8 @@ import { mapActions, mapGetters } from 'vuex'
 import TreeViewMixin from '../elementMixins.js'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import { Tooltip } from '@zb/components'
-import { on } from '@zb/event-bus'
+import { on } from '@zb/hooks'
+
 export default {
 	name: 'TreeViewListItem',
 	mixins: [

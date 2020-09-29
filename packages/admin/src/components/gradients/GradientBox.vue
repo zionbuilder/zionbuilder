@@ -32,7 +32,8 @@ export default {
 	name: 'GradientBox',
 	components: {
 		GradientPreview,
-		Tooltip
+		Tooltip,
+		BaseIcon
 	},
 	props: {
 		config: {

@@ -69,6 +69,7 @@ import ElementToolbox from './ElementToolbox/ElementToolbox'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
+import { applyFilters } from '@zb/hooks'
 // import Options from '@/common/Options'
 
 
@@ -333,7 +334,7 @@ export default {
 			}
 
 			// Filter the custom css
-			customCSS = window.ZionBuilderApi.applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
+			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
 
 			this.options = options
 			this.renderAttributes = renderAttributes

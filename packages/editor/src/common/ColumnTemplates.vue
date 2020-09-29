@@ -55,7 +55,8 @@ import { mapActions, mapGetters } from 'vuex'
 import { generateElements } from '../utils/utils.js'
 import AddElementsPopup from './AddElementsPopup.vue'
 import { getOptionValue } from '@zb/utils'
-import { on, off } from '@zb/event-bus'
+import { on, off } from '@zb/hooks'
+
 export default {
 	name: 'ColumnTemplates',
 	inject: {

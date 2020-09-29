@@ -51,7 +51,7 @@ import { BaseInput, InputSelect } from '@zb/components/forms'
 import { generateUID } from '../utils/utils.js'
 import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'
-import { on, off } from '@zb/event-bus'
+import { on, off } from '@zb/hooks'
 
 export default {
 	name: 'AddElementsPopup',

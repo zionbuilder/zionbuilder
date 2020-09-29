@@ -1,7 +1,7 @@
 {
-  "name": "@zionbuilder/event-bus",
+  "name": "@zionbuilder/hooks",
   "version": "1.0.0",
-  "description": "Simple event bus",
+  "description": "Hooks methods",
   "main": "./src/index.ts",
   "license": "MIT"
 }
