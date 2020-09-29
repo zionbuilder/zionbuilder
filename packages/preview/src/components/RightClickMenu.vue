@@ -16,6 +16,7 @@ import { clickOutside } from '@/common/plugins/clickOutside'
 
 // Components
 import ElementActions from '@/editor/common/ElementActions'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'RightClickMenu',
@@ -90,7 +91,7 @@ export default {
 			})
 		},
 		triggerRename () {
-			window.ZionBuilderApi.trigger('rename-element', true)
+			trigger('rename-element', true)
 			this.close()
 		}
 	}

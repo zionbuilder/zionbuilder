@@ -29,6 +29,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { generateElements } from '@zb/utils'
 import ModalStep from './ModalStep.vue'
 import { Modal } from '@zb/components'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'ModalTour',
@@ -82,7 +83,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'elements')
+						trigger('change-tab-pop', 'elements')
 					}
 				},
 				{
@@ -97,7 +98,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'library')
+						trigger('change-tab-pop', 'library')
 					}
 				},
 				{
@@ -113,7 +114,7 @@ export default {
 					},
 					onNext: () => {
 						this.setActiveShowElementsPopup(this.lastElem)
-						window.ZionBuilderApi.trigger('change-tab-pop', 'columns')
+						trigger('change-tab-pop', 'columns')
 					}
 				},
 				{
@@ -165,7 +166,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						window.ZionBuilderApi.trigger('change-tab-styling', 'styling')
+						trigger('change-tab-styling', 'styling')
 					}
 				},
 				{
@@ -178,7 +179,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						window.ZionBuilderApi.trigger('change-tab-styling', 'advanced')
+						trigger('change-tab-styling', 'advanced')
 					}
 				},
 

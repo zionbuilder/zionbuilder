@@ -26,6 +26,7 @@ import { mapGetters, mapActions } from 'vuex'
 // import SaveElementModal from '@zionbuilder/editor/src/components/SaveElementModal.vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
+import { on } from '@zb/hooks'
 
 export default {
 	name: 'PreviewApp',
@@ -63,7 +64,7 @@ export default {
 	},
 
 	beforeDestroy () {
-		window.ZionBuilderApi.on('beforeunload', this.setStylesLoading(true))
+		on('beforeunload', this.setStylesLoading(true))
 	},
 	watch: {
 		isPreviewMode (newValue) {
