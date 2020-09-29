@@ -19,6 +19,8 @@ import { Injection } from './components/injections'
 import forms from './components/forms'
 import { Sortable } from '@zionbuilder/sortable'
 
+export * as utils from './utils/'
+
 export {
 	BaseButton,
 	UpgradeToPro,

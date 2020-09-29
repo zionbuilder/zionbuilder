@@ -67,6 +67,7 @@
 <script>
 import GradientBar from './GradientBar.vue'
 import { InputWrapper, InputNumber, InputRange } from '../forms'
+import { Tabs, Tab } from "../tabs/";
 
 export default {
 	name: 'GradientOptions',
@@ -74,7 +75,9 @@ export default {
 		GradientBar,
 		InputWrapper,
 		InputNumber,
-		InputRange
+		InputRange,
+		Tabs,
+		Tab
 	},
 	props: {
 		modelValue: {
