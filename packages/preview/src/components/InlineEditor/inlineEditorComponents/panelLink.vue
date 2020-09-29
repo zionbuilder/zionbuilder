@@ -24,11 +24,12 @@
 						placeholder="www.address.com"
 						@keyup.enter="addLink"
 					>
-						<BaseIcon
-							slot="prepend"
-							icon="link"
-							@click="addLink"
-						/>
+						<template v-slot:prepend>
+							<BaseIcon
+								icon="link"
+								@click="addLink"
+							/>
+						</template>
 					</BaseInput>
 				</inputWrapper>
 				<div class="zion-inline-editor-popover__link-title">

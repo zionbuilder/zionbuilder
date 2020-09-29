@@ -5,11 +5,9 @@
 		title-position="center"
 	>
 		<Tab name="background-color">
-			<BaseIcon
-				icon="drop"
-				slot="title"
-			/>
-
+			<template v-slot:title>
+				<BaseIcon icon="drop" />
+			</template>
 			<InputWrapper
 				:schema="bgColorSchema"
 				:option-id="bgColorSchema.id"
@@ -20,10 +18,9 @@
 
 		</Tab>
 		<Tab name="background-gradient">
-			<BaseIcon
-				icon="gradient"
-				slot="title"
-			/>
+			<template v-slot:title>
+				<BaseIcon icon="gradient" />
+			</template>
 			<InputWrapper
 				:schema="bgGradientSchema"
 				:option-id="bgGradientSchema.id"
@@ -33,10 +30,9 @@
 			/>
 		</Tab>
 		<Tab name="background-image">
-			<BaseIcon
-				slot="title"
-				icon="picture"
-			/>
+			<template v-slot:title>
+				<BaseIcon icon="picture" />
+			</template>
 			<InputBackgroundImage
 				class="znpb-input__background-image"
 				:modelValue="valueModel"
@@ -47,10 +43,9 @@
 			name="background-video"
 			v-if="canShowBackground"
 		>
-			<BaseIcon
-				slot="title"
-				icon="video"
-			/>
+			<template v-slot:title>
+				<BaseIcon icon="video" />
+			</template>
 			<InputBackgroundVideo
 				class="znpb-input__background-video"
 				:modelValue="valueModel['background-video']"
