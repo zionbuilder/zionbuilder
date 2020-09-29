@@ -56,7 +56,7 @@ export default {
 			const widgetId = `widget-${this.element_type}`
 			const formData = serialize(this.$refs.form)
 
-			this.$emit('input', formData[widgetId]['ZION_BUILDER_PLACEHOLDER_ID'])
+			this.$emit('update:modelValue', formData[widgetId]['ZION_BUILDER_PLACEHOLDER_ID'])
 		}
 	},
 	created () {

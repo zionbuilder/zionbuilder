@@ -2,7 +2,7 @@
 	<div class="zion-inline-editor-panel-color">
 		<div class="zion-inline-editor-button">
 			<ColorPicker
-				:value="color"
+				:modelValue="color"
 				@input="onColorChange"
 				:show-library="false"
 				@open="onOpen"

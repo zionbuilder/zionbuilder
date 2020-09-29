@@ -17,7 +17,7 @@
 				>
 				</span>
 				<BaseIcon
-					@click="$emit('input',null)"
+					@click="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
 					bg-color="#fff"
@@ -46,7 +46,7 @@
 				<div class="znpb-icon-library-modal-header__actions">
 					<BaseButton
 						type="secondary"
-						@click="$emit('input',valueModel),showModal=false"
+						@click="$emit('update:modelValue',valueModel),showModal=false"
 					>
 						Insert
 					</BaseButton>
@@ -60,7 +60,7 @@
 			</div>
 			<IconsLibraryModalContent
 				v-model="valueModel"
-				@selected="$emit('input',$event),showModal=false"
+				@selected="$emit('update:modelValue',$event),showModal=false"
 				:special-filter-pack="specialFilterPack"
 			/>
 		</Modal>
@@ -87,7 +87,7 @@ export default {
 			type: String,
 			required: true
 		},
-		value: {
+		modelValue: {
 			required: false
 		}
 	},
@@ -100,17 +100,17 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},
 	watch: {
 		showModal (newValue) {
 			if (newValue) {
-				this.cachedValue = this.value
+				this.cachedValue = this.modelValue
 			}
 		}
 	},

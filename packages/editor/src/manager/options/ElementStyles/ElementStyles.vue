@@ -27,7 +27,7 @@ import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelec
 
 export default {
 	name: 'ElementStyles',
-	props: ['value', 'title', 'selector'],
+	props: ['modelValue', 'title', 'selector'],
 	data () {
 		return {
 			activeClass: null
@@ -44,11 +44,11 @@ export default {
 		]),
 		computedClasses: {
 			get () {
-				return this.value.classes || []
+				return this.modelValue.classes || []
 			},
 			set (newValue) {
-				this.$emit('input', {
-					...this.value,
+				this.$emit('update:modelValue', {
+					...this.modelValue,
 					classes: newValue
 				})
 			}
@@ -65,7 +65,7 @@ export default {
 					console.warn(`Class with id ${this.activeClass} not found`)
 					return {}
 				} else {
-					return this.value.styles
+					return this.modelValue.styles
 				}
 			},
 			set (newValues) {
@@ -87,7 +87,7 @@ export default {
 			'updateClassSettings'
 		]),
 		updateValues (type, newValue) {
-			const clonedValue = { ...this.value }
+			const clonedValue = { ...this.modelValue }
 			if (newValue === null && typeof clonedValue[type]) {
 				// If this is used as layout, we need to delete the active pseudo selector
 				delete clonedValue[type]
@@ -95,7 +95,7 @@ export default {
 				clonedValue[type] = newValue
 			}
 
-			this.$emit('input', clonedValue)
+			this.$emit('update:modelValue', clonedValue)
 		}
 	},
 	created () {

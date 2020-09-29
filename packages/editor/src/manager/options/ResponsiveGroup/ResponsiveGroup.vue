@@ -12,7 +12,7 @@ export default {
 	name: 'ResponsiveGroup',
 	showWrappers: false,
 	props: {
-		value: {},
+		modelValue: {},
 		child_options: {
 			type: Object,
 			required: true
@@ -29,10 +29,10 @@ export default {
 		]),
 		valueModel: {
 			get () {
-				return (this.value || {})[this.getActiveDevice.id] || {}
+				return (this.modelValue || {})[this.getActiveDevice.id] || {}
 			},
 			set (newValue) {
-				const clonedValue = { ...this.value }
+				const clonedValue = { ...this.modelValue }
 				// Check if we actually need to delete the option
 				if (newValue === null && typeof clonedValue[this.getActiveDevice.id]) {
 					// If this is used as layout, we need to delete the active pseudo selector
@@ -42,7 +42,7 @@ export default {
 				}
 
 				// Send the updated value back
-				this.$emit('input', clonedValue)
+				this.$emit('update:modelValue', clonedValue)
 			}
 		}
 	},
@@ -59,10 +59,10 @@ export default {
 
 		},
 		removeDeviceStyles (device) {
-			const clonedValues = { ...this.value }
+			const clonedValues = { ...this.modelValue }
 			delete clonedValues[device]
 
-			this.$emit('input', clonedValues)
+			this.$emit('update:modelValue', clonedValues)
 		}
 	}
 

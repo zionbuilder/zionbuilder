@@ -5,7 +5,7 @@
 	>
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
-				:value="activeCategory"
+				:modelValue="activeCategory"
 				@update:modelValue="activeCategory = $event"
 				:options="packsOptions"
 				class="znpb-icons-category-select"
@@ -47,7 +47,7 @@ export default {
 		InputSelect
 	},
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		},
@@ -71,7 +71,7 @@ export default {
 				name: this.activeIcon.name,
 				unicode: this.activeIcon.unicode
 			}
-			this.$emit('input', icon)
+			this.$emit('update:modelValue', icon)
 		},
 		insertIcon (event, name) {
 			this.activeIcon = event
@@ -88,7 +88,7 @@ export default {
 			'getIconsList'
 		]),
 		iconValue () {
-			return this.value || {}
+			return this.modelValue || {}
 		},
 		searchModel: {
 			get () {

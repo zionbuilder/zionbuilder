@@ -12,7 +12,7 @@ import { mapGetters } from 'vuex'
 export default {
 	name: 'Typography',
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			default () {
 				return {}
@@ -25,10 +25,10 @@ export default {
 		]),
 		valueModel: {
 			get () {
-				return this.value || {}
+				return this.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	}

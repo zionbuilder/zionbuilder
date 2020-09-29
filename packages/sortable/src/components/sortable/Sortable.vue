@@ -69,7 +69,7 @@ const memoizedGetOffset = memoizeOne(getOffset)
 export default {
 	name: 'Sortable',
 	props: {
-		value: {
+		modelValue: {
 			required: false,
 			type: Array,
 			default () {
@@ -252,7 +252,7 @@ export default {
 	},
 
 	watch: {
-		value (newValue) {
+		modelValue (newValue) {
 			this.setSortableItems()
 		}
 	},
@@ -571,12 +571,12 @@ export default {
 					const toVm = this.getVmFromElement(to)
 
 					// Update values if exists
-					if (this.value !== null) {
+					if (this.modelValue !== null) {
 						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
 						if (from === to && startIndex !== newIndex) {
 							this.updatePositionInList(startIndex, modifiedNewIndex)
 						} else if (from !== to) {
-							const item = this.value[startIndex]
+							const item = this.modelValue[startIndex]
 							// Send 2 events for each container
 							// Remove from first list
 							this.removeItemFromList(startIndex)
@@ -613,30 +613,30 @@ export default {
 		},
 
 		updatePositionInList (oldIndex, newIndex) {
-			if (this.value) {
-				const list = [...this.value]
+			if (this.modelValue) {
+				const list = [...this.modelValue]
 				if (oldIndex >= newIndex) {
 					list.splice(newIndex, 0, list.splice(oldIndex, 1)[0])
 				} else {
 					list.splice(newIndex - 1, 0, list.splice(oldIndex, 1)[0])
 				}
-				this.$emit('input', list)
+				this.$emit('update:modelValue', list)
 			}
 		},
 
 		addItemToList (item, index) {
-			if (this.value) {
-				const list = [...this.value]
+			if (this.modelValue) {
+				const list = [...this.modelValue]
 				list.splice(index, 0, item)
-				this.$emit('input', list)
+				this.$emit('update:modelValue', list)
 			}
 		},
 
 		removeItemFromList (index) {
-			if (this.value) {
-				const list = [...this.value]
+			if (this.modelValue) {
+				const list = [...this.modelValue]
 				list.splice(index, 1)
-				this.$emit('input', list)
+				this.$emit('update:modelValue', list)
 			}
 		},
 
@@ -799,7 +799,7 @@ export default {
 								// Empty sortable container
 								this.movePlaceholderMemoized(overItem.container, null, this.dragItemInfo.placeBefore)
 								this.dragItemInfo.newIndex = 0
-							} else if (sameContainer && this.value.length === 1) {
+							} else if (sameContainer && this.modelValue.length === 1) {
 								this.movePlaceholderMemoized(overItem.container, null, this.dragItemInfo.placeBefore)
 							}
 						}
@@ -811,7 +811,7 @@ export default {
 				container: from,
 				item,
 				index:
-        startIndex,
+				startIndex,
 				to,
 				newIndex,
 				toItem,
@@ -860,7 +860,7 @@ export default {
 				container: from,
 				item,
 				index:
-        startIndex,
+				startIndex,
 				to,
 				newIndex,
 				toItem

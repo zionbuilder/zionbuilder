@@ -21,7 +21,7 @@
 
 		<OptionsForm
 			:schema="schema"
-			:value="selectedOptionModel"
+			:modelValue="selectedOptionModel"
 			@update:modelValue="onItemChange($event, propertyIndex)"
 			class="znpb-option-repeater-form"
 		/>
@@ -38,7 +38,7 @@ export default {
 		}
 	},
 	props: {
-		value: {
+		modelValue: {
 			default () {
 				return {}
 			}
@@ -75,10 +75,10 @@ export default {
 	computed: {
 		selectedOptionModel: {
 			get () {
-				return this.value
+				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		},
 		title () {
@@ -91,7 +91,7 @@ export default {
 	},
 	methods: {
 		cloneOption () {
-			const clone = JSON.parse(JSON.stringify(this.value))
+			const clone = JSON.parse(JSON.stringify(this.modelValue))
 			this.$emit('clone-option', clone)
 		},
 		deleteOption (propertyIndex) {
@@ -101,7 +101,7 @@ export default {
 			this.folded = !this.folded
 		},
 		onItemChange (newValues, index) {
-			this.$emit('input', { newValues, index })
+			this.$emit('update:modelValue', { newValues, index })
 		},
 		expand () {
 			this.folded = false

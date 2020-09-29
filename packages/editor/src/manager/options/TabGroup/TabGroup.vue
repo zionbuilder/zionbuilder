@@ -28,7 +28,7 @@ export default {
 		/**
 		 * v-model/value
 		 */
-		value: {
+		modelValue: {
 			type: Object,
 			required: false
 		},
@@ -44,15 +44,15 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return typeof (this.value || {})[this.activeTab] !== 'undefined' ? (this.value || {})[this.activeTab] : {}
+				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
 			},
 			set (newValue) {
 				// Check if we actually need to delete the option
 				const newValues = {
-					...this.value,
+					...this.modelValue,
 					[this.activeTab]: newValue
 				}
-				this.$emit('input', newValues)
+				this.$emit('update:modelValue', newValues)
 			}
 		}
 	},

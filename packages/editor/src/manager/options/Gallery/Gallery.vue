@@ -13,7 +13,7 @@
 			class="znpb-option__image-gallery__images-wrapper"
 		>
 			<div
-				v-for="(image, index) in value"
+				v-for="(image, index) in modelValue"
 				:key="index"
 				class="znpb-option__image-gallery__images-item"
 				:style="{
@@ -57,7 +57,7 @@ const wp = window.wp
 export default {
 	name: 'Gallery',
 	props: {
-		value: {
+		modelValue: {
 			type: Array,
 			required: false
 		},
@@ -93,10 +93,10 @@ export default {
 		]),
 		sortableModel: {
 			get () {
-				return this.value || []
+				return this.modelValue || []
 			},
 			set (newValue) {
-				this.$emit('input', newValue)
+				this.$emit('update:modelValue', newValue)
 			}
 		}
 	},
@@ -129,10 +129,10 @@ export default {
 			this.mediaModal.open()
 		},
 		setMediaModalSelection (e) {
-			if (typeof this.value === 'undefined') return
+			if (typeof this.modelValue === 'undefined') return
 
 			// Get image ids from DB
-			let imagesUrls = this.value.map(image => image.image)
+			let imagesUrls = this.modelValue.map(image => image.image)
 			getImageIds({
 				images: imagesUrls
 			}).then((response) => {
@@ -156,13 +156,13 @@ export default {
 				return { image: selectedItem.url }
 			})
 
-			this.$emit('input', values)
+			this.$emit('update:modelValue', values)
 		},
 		deleteImage (index) {
-			const values = [...this.value]
+			const values = [...this.modelValue]
 			values.splice(index, 1)
 
-			this.$emit('input', values)
+			this.$emit('update:modelValue', values)
 		}
 	}
 }

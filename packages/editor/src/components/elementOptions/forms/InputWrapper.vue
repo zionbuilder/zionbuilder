@@ -194,7 +194,7 @@ export default {
 		Tooltip
 	},
 	props: {
-		value: {},
+		modelValue: {},
 		schema: {
 			type: Object,
 			required: true
@@ -289,7 +289,7 @@ export default {
 			if (this.compiledSchema.sync) {
 				value = this.getActiveElementOptionValue(this.compilePlaceholder(this.compiledSchema.sync))
 			} else {
-				value = this.value
+				value = this.modelValue
 			}
 
 			return value
@@ -323,18 +323,18 @@ export default {
 				// check to see if this has pseudo selectors
 				if (Array.isArray(this.schema.pseudo_options)) {
 					const activePseudo = this.activePseudo || this.schema.pseudo_options[0]
-					let oldValues = this.value
+					let oldValues = this.modelValue
 
 					// Check to see if this also a responsive option
 					if (this.compiledSchema.responsive_options === true) {
-						oldValues = typeof (this.value || {})[this.activeResponsiveMedia] !== 'undefined' ? (this.value || {})[this.activeResponsiveMedia] : undefined
+						oldValues = typeof (this.modelValue || {})[this.activeResponsiveMedia] !== 'undefined' ? (this.modelValue || {})[this.activeResponsiveMedia] : undefined
 						newValues = {
 							...oldValues,
 							[activePseudo]: newValue
 						}
 					} else {
 						valueToUpdate = {
-							...this.value,
+							...this.modelValue,
 							[activePseudo]: newValues
 						}
 					}
@@ -343,7 +343,7 @@ export default {
 				// Check to see if we need to save for responsive
 				if (this.compiledSchema.responsive_options === true) {
 					valueToUpdate = {
-						...this.value,
+						...this.modelValue,
 						[this.activeResponsiveMedia]: newValues
 					}
 				}
@@ -373,7 +373,7 @@ export default {
 						this.onDeleteOption()
 					} else {
 						const optionId = this.schema.is_layout ? false : this.optionId
-						this.$emit('input', [optionId, valueToUpdate])
+						this.$emit('update:modelValue', [optionId, valueToUpdate])
 					}
 				}
 
