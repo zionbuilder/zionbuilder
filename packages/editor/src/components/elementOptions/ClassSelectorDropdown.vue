@@ -24,8 +24,8 @@
 						:clearable="true"
 						:placeholder="$translate('enter_class_name')"
 						ref="input"
-						@input="handleClassInput"
-						@keydown.native.enter.stop="addNewCssClass"
+						@update:modelValue="handleClassInput"
+						@keydown.enter.stop="addNewCssClass"
 					></BaseInput>
 					<BaseButton
 						@click="addNewCssClass"

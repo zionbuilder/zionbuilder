@@ -15,7 +15,7 @@
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
 				:value="valueModel[dimension.id] || null"
-				@input="onValueUpdated(dimension.id, $event)"
+				@update:modelValue="onValueUpdated(dimension.id, $event)"
 				:title="dimension.id"
 				@linked-value="handleLinkValues"
 				:min="min"

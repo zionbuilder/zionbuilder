@@ -12,7 +12,7 @@
 				v-for="(colorConfig, i) in computedValue.colors"
 				:key="i"
 				:modelValue="colorConfig"
-				@input="onColorConfigUpdate(colorConfig, $event)"
+				@update:modelValue="onColorConfigUpdate(colorConfig, $event)"
 				@color-picker-open="colorPickerOpen=$event"
 				@mousedown="enableDragging(i, $event)"
 			/>
@@ -25,7 +25,7 @@
 			v-for="(colorConfig, i) in sortedColors"
 			:key="i"
 			:config="colorConfig"
-			@input="onColorConfigUpdate(colorConfig, $event)"
+			@update:modelValue="onColorConfigUpdate(colorConfig, $event)"
 			@delete-color="onDeleteColor(colorConfig)"
 			:show-delete="sortedColors.length > 2"
 		/>

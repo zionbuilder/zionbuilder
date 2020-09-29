@@ -58,7 +58,7 @@
 </template>
 <script>
 import { ColorPicker, BaseIcon, Tooltip } from '@zb/components'
-import clickOutside from '@zb/directive-click-outside'
+import clickOutside from '@zionbuilder/click-outside-directive'
 
 export default {
 	name: 'ColorBox',

@@ -5,7 +5,7 @@
 			:shouldDragImage="true"
 			:position-top="backgroundPositionYModel"
 			:position-left="backgroundPositionXModel"
-			@input="onOptionUpdated('background-image', $event)"
+			@update:modelValue="onOptionUpdated('background-image', $event)"
 			@background-position-change="changeBackgroundPosition"
 		/>
 

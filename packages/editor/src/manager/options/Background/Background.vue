@@ -15,7 +15,7 @@
 				:option-id="bgColorSchema.id"
 				:value="valueModel['background-color']"
 				:delete-value="onDeleteOption"
-				@input="onOptionUpdate(...$event)"
+				@update:modelValue="onOptionUpdate(...$event)"
 			/>
 
 		</Tab>
@@ -29,7 +29,7 @@
 				:option-id="bgGradientSchema.id"
 				:value="valueModel['background-gradient']"
 				:delete-value="onDeleteOption"
-				@input="onOptionUpdate(...$event)"
+				@update:modelValue="onOptionUpdate(...$event)"
 			/>
 		</Tab>
 		<Tab name="background-image">
@@ -40,7 +40,7 @@
 			<InputBackgroundImage
 				class="znpb-input__background-image"
 				:value="valueModel"
-				@input="onOptionUpdate(false, $event)"
+				@update:modelValue="onOptionUpdate(false, $event)"
 			/>
 		</Tab>
 		<Tab
@@ -54,7 +54,7 @@
 			<InputBackgroundVideo
 				class="znpb-input__background-video"
 				:value="valueModel['background-video']"
-				@input="onOptionUpdate('background-video', $event)"
+				@update:modelValue="onOptionUpdate('background-video', $event)"
 			/>
 		</Tab>
 	</Tabs>

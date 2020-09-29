@@ -22,7 +22,7 @@
 		<OptionsForm
 			:schema="schema"
 			:value="selectedOptionModel"
-			@input="onItemChange($event, propertyIndex)"
+			@update:modelValue="onItemChange($event, propertyIndex)"
 			class="znpb-option-repeater-form"
 		/>
 	</HorizontalAccordion>
