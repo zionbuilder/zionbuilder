@@ -1,0 +1,14 @@
+{
+	"name": "preview",
+	"version": "1.0.0",
+	"description": "Creates the iframe",
+	"main": "./src/index",
+	"author": "zionbuilder.io",
+	"license": "MIT",
+	"dependencies": {
+		"vue": "^3.0.0",
+		"vue-router": "^4.0.0-beta.11",
+		"vuex": "^4.0.0-beta.4"
+	},
+	"private": false
+}
