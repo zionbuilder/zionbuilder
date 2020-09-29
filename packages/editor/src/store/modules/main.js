@@ -106,16 +106,16 @@ const mutations = {
 		state.isPreviewLoading = payload
 	},
 	[types.SET_STYLE_LOADING] (state, payload) {
-		Vue.set(state, 'isStyleLoading', payload)
+		state.isStyleLoading = payload
 	},
 	[types.SET_LOCKED_USERINFO] (state, payload) {
-		Vue.set(state, 'lockedUserInfo', payload)
+		state.lockedUserInfo = payload
 	},
 	[types.TAKE_OVER_POST] (state, payload) {
-		Vue.set(state, 'lockedUserInfo', {})
+		state.lockedUserInfo = {}
 	},
 	[types.SET_NONCE] (state, payload) {
-		Vue.set(state, 'nonce', payload)
+		state.nonce = payload
 	}
 }
 

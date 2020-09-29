@@ -219,7 +219,7 @@ const mutations = {
 		Vue.set(state.panelsState[index].width, 'value', panelWidth)
 	},
 	[types.SET_PANELS_ORDER] (state, payload) {
-		Vue.set(state, 'openPanels', payload)
+		state.openPanels = payload
 	},
 	[types.SET_PANEL_POS] (state, { panelId, panelPos }) {
 		let index = state.panelsState.findIndex(k => k.id === panelId)

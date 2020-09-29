@@ -51,7 +51,7 @@ const actions = {
 
 const mutations = {
 	[types.SET_LOCAL_TEMPLATES] (state, payload) {
-		Vue.set(state, 'templates', payload)
+		state.templates = payload
 	},
 	[types.DELETE_TEMPLATE] (state, template) {
 		const templateIndex = state.templates.indexOf(template)
