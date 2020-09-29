@@ -73,7 +73,7 @@ import { mapActions, mapGetters } from 'vuex'
 import TreeViewMixin from '../elementMixins.js'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import { Tooltip } from '@zb/components'
-
+import { on } from '@zb/event-bus'
 export default {
 	name: 'TreeViewListItem',
 	mixins: [
@@ -106,7 +106,7 @@ export default {
 		Tooltip
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		on('rename-element', this.activateRenameElement)
 	},
 	computed: {
 		...mapGetters([

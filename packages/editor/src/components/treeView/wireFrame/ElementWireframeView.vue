@@ -126,6 +126,7 @@ import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
 import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
 import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
+import { on } from '@zb/event-bus'
 
 export default {
 	name: 'element-wireframe-view',
@@ -152,7 +153,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		on('rename-element', this.activateRenameElement)
 	},
 	computed: {
 		...mapGetters([

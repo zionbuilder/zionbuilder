@@ -57,7 +57,7 @@ import domtoimage from 'dom-to-image'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import TreeViewMixin from '../elementMixins.js'
 import { Tooltip } from '@zb/components'
-
+import { on } from '@zb/event-bus'
 export default {
 	name: 'element-section-view',
 	components: {
@@ -78,7 +78,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('rename-element', this.activateRenameElement)
+		on('rename-element', this.activateRenameElement)
 	},
 	mounted () {
 		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(this.elementCssId)

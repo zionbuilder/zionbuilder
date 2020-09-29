@@ -133,7 +133,7 @@ import { cloneDeep } from 'lodash-es'
 import { BaseInput } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
-
+import { on, off } from '@zb/event-bus'
 import { debounce } from '@zb/utils'
 
 export default {
@@ -314,7 +314,7 @@ export default {
 	},
 	created () {
 		this.history.push(cloneDeep(this.elementOptions))
-		window.ZionBuilderApi.on('change-tab-styling', this.changeTabByEvent)
+		on('change-tab-styling', this.changeTabByEvent)
 	},
 	watch: {
 		getActiveElementUid (newValue) {
@@ -506,7 +506,7 @@ export default {
 		document.removeEventListener('keydown', this.onKeyPress)
 		document.getElementById('znpb-editor-iframe').contentDocument.removeEventListener('keydown', this.onKeyPress)
 		// remove events
-		window.ZionBuilderApi.off('change-tab-styling', this.changeTab)
+		off('change-tab-styling', this.changeTab)
 	}
 }
 </script>

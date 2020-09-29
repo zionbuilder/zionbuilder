@@ -47,7 +47,7 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { Modal } from '@zb/components'
-
+import { on, off } from '@zb/event-bus'
 export default {
 	name: 'preview-iframe',
 	data () {
@@ -262,11 +262,11 @@ export default {
 			Dom.iframeDocument.removeEventListener('scroll', this.onScroll)
 		}
 
-		window.ZionBuilderApi.off('refreshIframe', this.refreshIframe)
+		off('refreshIframe', this.refreshIframe)
 		this.$refs.iframe.contentDocument.removeEventListener('scroll', this.onScroll)
 	},
 	mounted () {
-		window.ZionBuilderApi.on('refreshIframe', this.refreshIframe)
+		on('refreshIframe', this.refreshIframe)
 	}
 }
 </script>

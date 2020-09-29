@@ -55,7 +55,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { generateElements } from '../utils/utils.js'
 import AddElementsPopup from './AddElementsPopup.vue'
 import { getOptionValue } from '@zb/utils'
-
+import { on, off } from '@zb/event-bus'
 export default {
 	name: 'ColumnTemplates',
 	inject: {
@@ -571,7 +571,7 @@ export default {
 		}
 	},
 	created () {
-		window.ZionBuilderApi.on('change-tab-pop', this.changeTab)
+		on('change-tab-pop', this.changeTab)
 	},
 	mounted () {
 		document.addEventListener('keypress', this.onKeyPress)
@@ -688,7 +688,7 @@ export default {
 	beforeDestroy: function () {
 		// remove events
 		document.removeEventListener('keypress', this.onKeyPress)
-		window.ZionBuilderApi.off('change-tab-pop', this.changeTab)
+		off('change-tab-pop', this.changeTab)
 	}
 }
 </script>
