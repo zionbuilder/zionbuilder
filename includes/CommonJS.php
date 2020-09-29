@@ -80,8 +80,8 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
-			'zb-events',
-			'js/event-bus.js',
+			'zb-hooks',
+			'js/hooks.js',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -112,7 +112,7 @@ class CommonJS {
 			'js/components.js',
 			[
 				'zb-vue',
-				'zb-events',
+				'zb-hooks',
 				'zb-utils',
 				'zb-z-index-manager',
 				'zb-i18n',

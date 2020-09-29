@@ -75,7 +75,7 @@
 	</div>
 </template>
 <script>
-import { applyFilters } from '@zb/filters'
+import { applyFilters } from '@zb/hooks'
 import BaseIcon from '../BaseIcon.vue'
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'

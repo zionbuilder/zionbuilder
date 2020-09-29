@@ -47,7 +47,8 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { Modal } from '@zb/components'
-import { on, off } from '@zb/event-bus'
+import { on, off } from '@zb/hooks'
+
 export default {
 	name: 'preview-iframe',
 	data () {

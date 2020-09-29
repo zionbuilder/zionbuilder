@@ -49,7 +49,7 @@ import { Modal, Loader } from '@zb/components'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
-import { on, off } from '@zb/event-bus'
+import { on, off } from '@zb/hooks'
 import OptionsForm from './elementOptions/forms/OptionsForm.vue'
 
 
