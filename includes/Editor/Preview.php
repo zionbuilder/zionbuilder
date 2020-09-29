@@ -118,7 +118,7 @@ class Preview {
 			'js/preview.js',
 			[
 				'wp-tinymce',
-				'zb-common',
+				'zb-components',
 			],
 			Plugin::instance()->get_version(),
 			true
@@ -173,7 +173,7 @@ class Preview {
 			'zion-frontend-styles',
 			'css/frontend.css',
 			[
-				'zb-common',
+				'zb-components',
 			],
 			Plugin::instance()->get_version()
 		);
