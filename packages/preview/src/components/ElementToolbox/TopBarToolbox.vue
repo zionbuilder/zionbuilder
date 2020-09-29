@@ -103,6 +103,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 // Components
 import { Tooltip } from '@/common/components/tooltip'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'TopBarToolbox',
@@ -195,7 +196,7 @@ export default {
 			})
 		},
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('save-element', {
+			trigger('save-element', {
 				elementUid: this.data.uid,
 				parentUid: this.parentUid
 			})

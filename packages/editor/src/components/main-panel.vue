@@ -168,6 +168,7 @@ import Help from './Help.vue'
 import { Modal, Loader } from '@zb/components'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -375,7 +376,7 @@ export default {
 			this.shortcutsModalVisibility = true
 		},
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('save-template')
+			trigger('save-template')
 		},
 
 		startDrag (event) {

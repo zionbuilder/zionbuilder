@@ -72,9 +72,9 @@ import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 // import Options from '@/common/Options'
 
-
 // Components
 import ServerComponent from '@/preview/components/ServerComponent'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'Element',
@@ -178,7 +178,7 @@ export default {
 		this.$nextTick(() => {
 			// Wait 100ms so all childs are rendered
 			setTimeout(() => {
-				window.ZionBuilderApi.trigger(`element/mounted`, this.getDefaultEventResponse())
+				trigger(`element/mounted`, this.getDefaultEventResponse())
 			}, 100)
 		})
 	},

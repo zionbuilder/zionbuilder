@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { trigger } from '@zb/hooks'
+
 export default {
 	name: 'PagebuilderElement',
 	props: {
@@ -54,7 +56,7 @@ export default {
 
 	methods: {
 		emitEventbus (event) {
-			window.ZionBuilderApi.trigger('add-element', this.item)
+			trigger('add-element', this.item)
 		}
 	},
 	mounted () {

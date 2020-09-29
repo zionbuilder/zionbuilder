@@ -168,6 +168,7 @@ import { mapGetters, mapActions } from 'vuex'
 import HasChanges from '../HasChanges.vue'
 import { InputLabel } from '@zb/components/forms'
 import { Tooltip, Injection } from '@zb/components/'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'InputWrapper',
@@ -380,7 +381,7 @@ export default {
 				// Check to see if we need to refresh the iframe
 				if (this.schema.on_change) {
 					if (this.schema.on_change === 'refresh_iframe') {
-						window.ZionBuilderApi.trigger('refreshIframe')
+						trigger('refreshIframe')
 					} else if (this.schema.on_change.condition.value[0] !== newValue) {
 						// Check if we need to clear path option
 						this.deleteActiveElementValue({

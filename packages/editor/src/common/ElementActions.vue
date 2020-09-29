@@ -127,6 +127,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { SET_LOCKED_USERINFO } from '../store/mutation-types'
+import { trigger } from '@zb/hooks'
+
 export default {
 	name: 'ElementActions',
 	props: {
@@ -295,7 +297,7 @@ export default {
 		},
 		saveElement () {
 			this.close()
-			window.ZionBuilderApi.trigger('save-element', {
+			trigger('save-element', {
 				elementUid: this.data.uid,
 				parentUid: this.getElementFocus.parentUid
 			})

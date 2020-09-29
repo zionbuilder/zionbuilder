@@ -55,7 +55,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { generateElements } from '../utils/utils.js'
 import AddElementsPopup from './AddElementsPopup.vue'
 import { getOptionValue } from '@zb/utils'
-import { on, off } from '@zb/hooks'
+import { on, off, trigger } from '@zb/hooks'
 
 export default {
 	name: 'ColumnTemplates',
@@ -588,8 +588,8 @@ export default {
 			return this.spanElements[id]
 		},
 		onKeyPress (event) {
-			window.ZionBuilderApi.trigger('change-tab-pop', null)
-			window.ZionBuilderApi.trigger('change-tab-pop', 'elements')
+			trigger('change-tab-pop', null)
+			trigger('change-tab-pop', 'elements')
 		},
 		changeTab (event) {
 			if (event !== undefined) {
