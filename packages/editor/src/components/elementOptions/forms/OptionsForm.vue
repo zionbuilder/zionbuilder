@@ -9,7 +9,7 @@
 			:delete-value="deleteValue"
 			:get-schema-from-path="getOptionSchemaFromPath"
 			:compile-placeholder="compilePlaceholder"
-			@input="setValue(...$event)"
+			@update:modelValue="setValue(...$event)"
 			@change="onOptionChange"
 		/>
 

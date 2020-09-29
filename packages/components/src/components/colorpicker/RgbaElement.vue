@@ -6,7 +6,7 @@
 				:min="0"
 				:max="255"
 				:step="1"
-				@input="updateValue('r', $event)"
+				@update:modelValue="updateValue('r', $event)"
 			/>
 			R
 		</InputLabel>
@@ -16,7 +16,7 @@
 				:min="0"
 				:max="255"
 				:step="1"
-				@input="updateValue('g', $event)"
+				@update:modelValue="updateValue('g', $event)"
 			/>
 			G
 		</InputLabel>
@@ -26,7 +26,7 @@
 				:min="0"
 				:max="255"
 				:step="1"
-				@input="updateValue('b', $event)"
+				@update:modelValue="updateValue('b', $event)"
 			/>
 			B
 		</InputLabel>
@@ -36,7 +36,7 @@
 				:min="0"
 				:max="1"
 				:step="0.01"
-				@input="updateValue('a', $event)"
+				@update:modelValue="updateValue('a', $event)"
 			/>
 			A
 		</InputLabel>

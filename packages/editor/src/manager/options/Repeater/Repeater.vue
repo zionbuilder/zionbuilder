@@ -12,7 +12,7 @@
 			:clonable="checkClonable"
 			@clone-option="cloneOption($event, index)"
 			@delete-option="deleteOption"
-			@input="onItemChange($event)"
+			@update:modelValue="onItemChange($event)"
 			ref="repeaterItem"
 		>
 		</RepeaterOption>

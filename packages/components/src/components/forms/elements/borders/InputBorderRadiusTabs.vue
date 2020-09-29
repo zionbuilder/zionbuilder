@@ -22,7 +22,7 @@
 				<InputBorderRadius
 					:title="tab.name"
 					:modelValue="computedValue[tab.id] || null"
-					@input="onValueUpdated(tab.id, $event)"
+					@update:modelValue="onValueUpdated(tab.id, $event)"
 				>
 				</InputBorderRadius>
 			</Tab>

@@ -6,13 +6,13 @@
 	>
 		<ColorBoard
 			:modelValue="color"
-			@input="updateColor"
+			@update:modelValue="updateColor"
 		/>
 
 		<div class="znpb-form-colorpicker-inner__panel">
 			<PanelHex
 				:modelValue="color"
-				@input="updateColor"
+				@update:modelValue="updateColor"
 			/>
 
 			<slot name="end" />

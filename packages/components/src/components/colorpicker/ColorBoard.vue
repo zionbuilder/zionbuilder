@@ -10,7 +10,7 @@
 			<div class="znpb-form-colorpicker-saturation__white">
 				<div class="znpb-form-colorpicker-saturation__black">
 					<div
-						:style="this.isDragging ? null : pointStyles"
+						:style="pointStyles"
 						ref="boardPointer"
 						class="znpb-color-picker-pointer"
 					></div>
@@ -57,12 +57,9 @@ export default {
 			return `hsl(${h}, 100%, 50%)`
 		},
 		boardContent () {
+			console.log('aaaa')
 			return this.$refs.boardContent.getBoundingClientRect()
-		},
-		pointer () {
-			return this.$refs.boardPointer.getBoundingClientRect()
 		}
-
 	},
 
 	methods: {
@@ -89,17 +86,10 @@ export default {
 				...newColor,
 				type: 'hsva'
 			})
-
-			const movedX = clientX - this.initialX - this.boardContent.left
-			const movedY = clientY + this.initialY - this.boardContent.top - (this.boardContent.height / 2)
-			this.translatePointer(movedX, movedY)
 		},
 		deactivatedragCircle () {
 			window.removeEventListener('mousemove', this.rafDragCircle)
 			window.removeEventListener('mouseup', this.deactivatedragCircle)
-		},
-		translatePointer (x, y) {
-			this.$refs.boardPointer.style.transform = `translate3d(${x - this.pointer.width / 2}px, ${y - this.pointer.width / 2}px, 0)`
 		},
 		dragCircle (event) {
 			// If the mouseup happened outside window
@@ -109,8 +99,8 @@ export default {
 			}
 			let { clientX, clientY } = event
 
-			let movedX = clientX - this.initialX - this.boardContent.left
-			let movedY = clientY + this.initialY - this.boardContent.top - (this.boardContent.height / 2)
+			let movedX = clientX - this.boardContent.left
+			let movedY = clientY - this.boardContent.top - (this.boardContent.height / 2)
 			if (clientX < this.boardContent.left) {
 				movedX = 0
 			}
@@ -123,7 +113,7 @@ export default {
 			if (clientY > this.boardContent.top + this.boardContent.height) {
 				movedY = this.boardContent.height / 2
 			}
-			this.translatePointer(movedX, movedY)
+
 			// don't let the circle outside hue area
 			let newLeft = clientX - this.boardContent.left
 			if (newLeft > this.boardContent.width) {

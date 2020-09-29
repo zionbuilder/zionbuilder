@@ -33,7 +33,7 @@
 				</template>
 				<SingleClassOptions
 					:class-item="classItem"
-					@input="saveClass"
+					@update:modelValue="saveClass"
 					@input-classname="saveClass"
 				/>
 

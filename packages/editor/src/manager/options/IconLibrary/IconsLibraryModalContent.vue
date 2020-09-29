@@ -6,7 +6,7 @@
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
 				:value="activeCategory"
-				@input="activeCategory = $event"
+				@update:modelValue="activeCategory = $event"
 				:options="packsOptions"
 				class="znpb-icons-category-select"
 				placement="bottom-start"
@@ -26,7 +26,7 @@
 				:icon-list="pack.icons"
 				:family="pack.name"
 				@icon-selected="selectIcon($event,pack.name)"
-				@input="insertIcon($event,pack.name)"
+				@update:modelValue="insertIcon($event,pack.name)"
 				:active-icon="iconValue.name"
 				:active-family="iconValue.family"
 			/>

@@ -6,7 +6,7 @@
 				:min="0"
 				:max="360"
 				:step="1"
-				@input="updateHex('h', $event)"
+				@update:modelValue="updateHex('h', $event)"
 			/>
 			H
 		</InputLabel>
@@ -16,7 +16,7 @@
 				:min="0"
 				:max="100"
 				:step="1"
-				@input="updateHex('s', $event)"
+				@update:modelValue="updateHex('s', $event)"
 			>
 				<span class="znpb-colorpicker-inner-editor__number-unit">%</span>
 			</InputNumber>
@@ -28,7 +28,7 @@
 				:min="0"
 				:max="100"
 				:step="1"
-				@input="updateHex('l', $event)"
+				@update:modelValue="updateHex('l', $event)"
 			>
 				<span class="znpb-colorpicker-inner-editor__number-unit">%</span>
 			</InputNumber>
@@ -40,7 +40,7 @@
 				:min="0"
 				:max="1"
 				:step="0.01"
-				@input="updateHex('a', $event)"
+				@update:modelValue="updateHex('a', $event)"
 			/>
 			A
 		</InputLabel>
