@@ -58,7 +58,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import GradientBox from './GradientBox.vue'
-import { getDefaultGradientConfig } from '@zb/utils'
+import { getDefaultGradient } from '@zb/components/utils'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
 import { Tabs, Tab, UpgradeToPro } from '@zb/components'
@@ -140,7 +140,7 @@ export default {
 			const defaultGradient = {
 				id: dynamicName,
 				name: dynamicName,
-				config: getDefaultGradientConfig()
+				config: getDefaultGradient()
 			}
 
 			// Add the gradient to store
@@ -156,7 +156,7 @@ export default {
 			const defaultGradient = {
 				id: dynamicName,
 				name: dynamicName,
-				config: getDefaultGradientConfig()
+				config: getDefaultGradient()
 			}
 
 			this.addGlobalGradient(defaultGradient)

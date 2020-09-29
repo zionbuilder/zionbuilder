@@ -28,7 +28,7 @@
 
 <script>
 import { GradientGenerator, GradientLibrary } from '@zb/components'
-import getDefaultGradientConfig from '@zb/utils'
+import { getDefaultGradient } from '@zb/components/utils'
 import { EmptyList } from '@zb/components/forms'
 export default {
 	name: 'BackgroundGradient',
@@ -65,7 +65,7 @@ export default {
 	},
 	methods: {
 		addNewGradient () {
-			this.gradientModel = getDefaultGradientConfig()
+			this.gradientModel = getDefaultGradient()
 		}
 	}
 }

@@ -83,7 +83,7 @@ import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
 import ActionsOverlay from '../forms/elements/actions-overlay/ActionsOverlay.vue'
-import { getDefaultGradientConfig } from '@zb/utils'
+import { getDefaultGradient } from '../../utils/'
 import { mapActions } from 'vuex'
 
 export default {
@@ -119,7 +119,7 @@ export default {
 	computed: {
 		computedValue: {
 			get () {
-				const clonedValue = this.modelValue === undefined || this.modelValue === null ? getDefaultGradientConfig() : this.modelValue
+				const clonedValue = this.modelValue === undefined || this.modelValue === null ? getDefaultGradient() : this.modelValue
 				return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
 			},
 			set (newValue) {
@@ -152,7 +152,7 @@ export default {
 
 			const defaultGradient = {
 				name: name,
-				config: getDefaultGradientConfig()
+				config: getDefaultGradient()
 			}
 
 			if (type === 'local') {
@@ -187,7 +187,7 @@ export default {
 			this.computedValue = updatedValues
 		},
 		addGradientConfig () {
-			const defaultConfig = getDefaultGradientConfig()
+			const defaultConfig = getDefaultGradient()
 
 			this.computedValue = [
 				...this.computedValue,
