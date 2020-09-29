@@ -17,7 +17,7 @@
 				>
 				</span>
 				<BaseIcon
-					@click.native="$emit('input',null)"
+					@click="$emit('input',null)"
 					icon="delete"
 					:rounded="true"
 					bg-color="#fff"
@@ -46,14 +46,14 @@
 				<div class="znpb-icon-library-modal-header__actions">
 					<BaseButton
 						type="secondary"
-						@click.native="$emit('input',valueModel),showModal=false"
+						@click="$emit('input',valueModel),showModal=false"
 					>
 						Insert
 					</BaseButton>
 					<BaseIcon
 						icon="close"
 						:size="16"
-						@click.native="onClose"
+						@click="onClose"
 						class="znpb-modal__header-button"
 					/>
 				</div>

@@ -28,12 +28,12 @@
 				<BaseButton
 					type="secondary"
 					v-if="true"
-					@click.native="useLocalVersion"
+					@click="useLocalVersion"
 				> {{$translate('use_local_version')}} </BaseButton>
 				<BaseButton
 					type="line"
 					v-if="true"
-					@click.native="useServerVersion"
+					@click="useServerVersion"
 				> {{$translate('use_server_version')}} </BaseButton>
 			</div>
 		</Modal>
@@ -254,7 +254,7 @@ export default {
 		}
 	},
 	// end checkMousePosition
-	beforeDestroy () {
+	beforeUnmount () {
 		if (Dom.iframeDocument) {
 			Dom.iframeDocument.removeEventListener('click', this.deselectActiveElement)
 			Dom.iframeDocument.removeEventListener('keydown', this.applyShortcuts)

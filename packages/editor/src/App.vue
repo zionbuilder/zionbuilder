@@ -138,7 +138,7 @@ import PostLock from './components/PostLock.vue'
 import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
-import { Tooltip } from '@zb/components'
+import { Tooltip, Notice } from '@zb/components'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -155,7 +155,8 @@ export default {
 		PostLock,
 		// RightClickMenu,
 		DeviceElement,
-		Tooltip
+		Tooltip,
+		Notice
 	},
 	mixins: [keyBindingsMixin],
 	data: () => {
@@ -327,7 +328,7 @@ export default {
 		this.initialiseDataSets()
 		window.addEventListener('resize', this.onResize)
 	},
-	beforeDestroy: function () {
+	beforeUnmount: function () {
 		// remove events
 		document.removeEventListener('click', this.deselectActiveElement)
 		document.removeEventListener('keydown', this.applyShortcuts)

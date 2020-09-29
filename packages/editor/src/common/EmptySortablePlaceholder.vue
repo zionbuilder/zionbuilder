@@ -117,7 +117,7 @@ export default {
 			}, 10)
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.resetAddElementsPopup()
 	}
 }

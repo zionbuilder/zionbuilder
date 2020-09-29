@@ -143,7 +143,7 @@ export default {
 			})
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		// Detach the listener when the component is gone
 
 		window.removeEventListener('scroll', this.startScroll())

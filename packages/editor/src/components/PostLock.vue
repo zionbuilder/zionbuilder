@@ -29,7 +29,7 @@
 						<a :href="getAllPagesUrl">{{$translate('post_go_back')}}</a>
 					</BaseButton>
 					<BaseButton
-						@click.native.prevent="lockPages"
+						@click.prevent="lockPages"
 						type="gray"
 					>
 						<a href="">{{$translate('post_take_over')}}</a>

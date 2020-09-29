@@ -7,24 +7,24 @@
 		<BaseIcon
 			v-if="clonable"
 			class="znpb-option-repeater-selector__clone-icon"
-			@click.native.stop="cloneOption"
+			@click.stop="cloneOption"
 			icon="copy"
 			slot="actions"
 		></BaseIcon>
 		<BaseIcon
 			v-if="deletable"
 			class="znpb-option-repeater-selector__delete-icon"
-			@click.native.stop="deleteOption(propertyIndex)"
+			@click.stop="deleteOption(propertyIndex)"
 			icon="delete"
 			slot="actions"
 		></BaseIcon>
 
-			<OptionsForm
-				:schema="schema"
-				:value="selectedOptionModel"
-				@input="onItemChange($event, propertyIndex)"
-				class="znpb-option-repeater-form"
-			/>
+		<OptionsForm
+			:schema="schema"
+			:value="selectedOptionModel"
+			@input="onItemChange($event, propertyIndex)"
+			class="znpb-option-repeater-form"
+		/>
 	</HorizontalAccordion>
 
 </template>

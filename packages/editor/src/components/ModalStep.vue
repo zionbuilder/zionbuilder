@@ -4,22 +4,25 @@
 		<BaseIcon
 			icon="close"
 			class="znpb-tour-modal__header-icon-close"
-			@click.native="$emit('end-tour',true)"
+			@click="$emit('end-tour',true)"
 		/>
 		<span class="znpb-tour-modal__title">{{step.title}}</span>
-		<div class="znpb-tour-modal__description" v-html="step.description"></div>
+		<div
+			class="znpb-tour-modal__description"
+			v-html="step.description"
+		></div>
 
 		<div class="znpb-tour-modal__actions">
 			<BaseButton
 				type="line"
-				@click.native="$emit('end-tour',true)"
+				@click="$emit('end-tour',true)"
 				v-html="$translate('end_tour')"
 			/>
 
 			<BaseButton
 				v-if="!isLastStep"
 				:type="!isPreviewLoading ? 'secondary' : 'disabled'"
-				@click.native="moveToStep"
+				@click="moveToStep"
 				v-html="buttonText"
 				class="znpb-tour-modal__actions-next"
 			>

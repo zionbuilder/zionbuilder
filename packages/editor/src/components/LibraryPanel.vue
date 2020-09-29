@@ -501,7 +501,7 @@ export default {
 
 	},
 
-	beforeDestroy () {
+	beforeUnmount () {
 		if (this.msnry) {
 			this.msnry.destroy()
 		}

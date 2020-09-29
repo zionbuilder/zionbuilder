@@ -121,7 +121,7 @@ export default {
 	mounted () {
 		this.$el.parentNode.classList.add('znpb-option-layout__menu-container')
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		if (this.breadCrumbConfig) {
 			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
 		}

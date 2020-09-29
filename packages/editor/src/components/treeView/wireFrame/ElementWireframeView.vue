@@ -14,7 +14,7 @@
 					v-if="elementTemplateData.content && elementTemplateData.content.length"
 					icon="select"
 					:rotate="expanded ? '180' : false"
-					@click.native="expanded = !expanded"
+					@click="expanded = !expanded"
 				/>
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-utility__flex znpb-wireframe-item__header-area--center znpb-utility__flex--center">
@@ -37,7 +37,7 @@
 						<transition name="fade">
 							<BaseIcon
 								icon="visibility-hidden"
-								@click.native="makeElementVisible"
+								@click="makeElementVisible"
 								class="znpb-editor-icon-wrapper--show-element"
 							>
 							</BaseIcon>
@@ -53,7 +53,7 @@
 				></DropdownOptions>
 				<BaseIcon
 					icon="delete"
-					@click.native.stop="deleteElementMenu"
+					@click.stop="deleteElementMenu"
 					class="znpb-wireframe-item__delete-icon"
 				/>
 

@@ -4,15 +4,15 @@
 		<div class="znpb-options-childs__element-action">
 			<BaseIcon
 				icon="copy"
-				@click.native.stop="cloneElement"
+				@click.stop="cloneElement"
 			/>
 			<BaseIcon
 				icon="delete"
-				@click.native.stop="deleteElement"
+				@click.stop="deleteElement"
 			/>
 			<BaseIcon
 				icon="edit"
-				@click.native.stop="editElement"
+				@click.stop="editElement"
 			/>
 		</div>
 

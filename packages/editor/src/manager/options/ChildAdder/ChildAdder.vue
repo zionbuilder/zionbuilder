@@ -18,7 +18,7 @@
 		<BaseButton
 			class="znpb-option-repeater__add-button"
 			type="line"
-			@click.native="addChild"
+			@click="addChild"
 		>
 			ADD
 		</BaseButton>

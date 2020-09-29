@@ -20,7 +20,7 @@
 				:class="{
 					'znpb-tree-view__item-header-expand--expanded': expanded
 				}"
-				@click.native.stop="expanded = !expanded"
+				@click.stop="expanded = !expanded"
 				v-if="elementModel.wrapper"
 			></BaseIcon>
 
@@ -41,7 +41,7 @@
 						<BaseIcon
 							icon="visibility-hidden"
 							v-if="!isElementVisible"
-							@click.native="makeElementVisible"
+							@click="makeElementVisible"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
 						</BaseIcon>

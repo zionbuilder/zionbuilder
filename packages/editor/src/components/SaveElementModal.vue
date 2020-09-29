@@ -15,13 +15,13 @@
 
 			<div class="znpb-modal-content-save-buttons">
 				<BaseButton
-					@click.native="saveElement"
+					@click="saveElement"
 					class="znpb-button--secondary"
 				>
 					<span>{{$translate('save')}}</span>
 				</BaseButton>
 				<BaseButton
-					@click.native="downloadElement"
+					@click="downloadElement"
 					class="znpb-button--line"
 				>
 					{{$translate('download')}}
@@ -50,13 +50,15 @@ import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
 import { on, off } from '@zb/event-bus'
+import OptionsForm from './elementOptions/forms/OptionsForm.vue'
 
 
 export default {
 	name: 'SaveElementModal',
 	components: {
 		Modal,
-		Loader
+		Loader,
+		OptionsForm
 	},
 	props: {
 		template: {
@@ -117,7 +119,7 @@ export default {
 			on('save-template', this.onSavetemplate)
 		} else on('save-element', this.onSaveElement)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		off('save-element', this.onSaveElement)
 		off('save-template', this.onSavetemplate)
 		this.loadingMessage = ''

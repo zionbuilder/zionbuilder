@@ -120,7 +120,7 @@ export default {
 	created () {
 		on('add-element', this.onElementAdded)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		off('add-element', this.onElementAdded)
 	},
 	methods: {

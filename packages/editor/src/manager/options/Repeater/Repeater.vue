@@ -20,7 +20,7 @@
 			v-if="showButton"
 			class="znpb-option-repeater__add-button"
 			type="line"
-			@click.native="addProperty"
+			@click="addProperty"
 		>
 			{{add_button_text}}
 		</BaseButton>

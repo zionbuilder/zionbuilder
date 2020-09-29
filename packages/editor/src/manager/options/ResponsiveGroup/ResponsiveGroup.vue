@@ -50,7 +50,7 @@ export default {
 		// Set the active responsive group
 		window.zb.editor.options.setActiveResponsiveOptions(this)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		// Set the active responsive group
 		window.zb.editor.options.removeActiveResponsiveOptions()
 	},

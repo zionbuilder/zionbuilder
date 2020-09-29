@@ -74,7 +74,7 @@
 				>
 					<BaseIcon
 						icon="eye"
-						@click.native="$emit('activate-item', item)"
+						@click="$emit('activate-item', item)"
 					/>
 				</Tooltip>
 
@@ -86,7 +86,7 @@
 				>
 					<BaseIcon
 						icon="heart"
-						@click.native="$emit('added-to-favorite',item.id)"
+						@click="$emit('added-to-favorite',item.id)"
 					/>
 				</Tooltip> -->
 			</div>

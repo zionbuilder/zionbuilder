@@ -28,7 +28,7 @@
 						@keydown.native.enter.stop="addNewCssClass"
 					></BaseInput>
 					<BaseButton
-						@click.native="addNewCssClass"
+						@click="addNewCssClass"
 						type="secondary"
 						class="znpb-class-selector__add-class-button"
 					>
@@ -45,7 +45,7 @@
 						:is-selected="cssClassItem.selector === activeClass"
 						:show-delete="cssClassItem.deletable"
 						@remove-class="removeClass"
-						@click.native="selectClass(cssClassItem.selector), dropdownState = false"
+						@click="selectClass(cssClassItem.selector), dropdownState = false"
 					/>
 				</template>
 				<div
@@ -63,7 +63,7 @@
 			<CssSelector
 				v-bind="activeClassConfig"
 				:show-delete="false"
-				@click.native="dropdownState = !dropdownState"
+				@click="dropdownState = !dropdownState"
 				class="znpb-class-selector-trigger"
 			/>
 
@@ -309,7 +309,7 @@ export default {
 			this.$emit('update:activeClass', selector)
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.closePanel)
 	}
 }

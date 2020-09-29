@@ -27,7 +27,7 @@
 				icon="close"
 				:size="14"
 				class="znpb-panel__header-icon-close"
-				@click.native.stop="$emit('close-panel')"
+				@click.stop="$emit('close-panel')"
 			/>
 		</div>
 
@@ -509,7 +509,7 @@ export default {
 		}
 
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		EventsManager.removeEventListener('keydown', this.onKeyDown)
 	}
 }

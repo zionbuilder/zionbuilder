@@ -33,7 +33,7 @@
 					:title="linked ? 'Unlink' : 'Link'"
 					class="znpb-dimensions__link"
 					:class="{['znpb-dimensions__link--linked']: linked}"
-					@click.native="handleLinkValues"
+					@click="handleLinkValues"
 				></BaseIcon>
 			</div>
 		</div>

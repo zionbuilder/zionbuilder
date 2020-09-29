@@ -60,7 +60,7 @@
 				>
 					<BaseButton
 						type="secondary"
-						@click.native="insertLibraryItem"
+						@click="insertLibraryItem"
 						class="znpb-library-modal-header__insert-button"
 					>
 						<span v-if="!insertItemLoading">{{$translate('library_insert')}}</span>
@@ -75,7 +75,7 @@
 					<BaseButton
 						v-if="localActive"
 						type="secondary"
-						@click.native="importActive = !importActive , templateUploaded=!templateUploaded "
+						@click="importActive = !importActive , templateUploaded=!templateUploaded "
 					>
 
 						<BaseIcon icon="import" />
@@ -93,7 +93,7 @@
 					>
 						<BaseIcon
 							icon="refresh"
-							@click.native="onRefresh"
+							@click="onRefresh"
 							:size="14"
 							:class="{['loading']: libLoading}"
 						/>
@@ -105,13 +105,13 @@
 					:icon="fullSize ? 'shrink' : 'maximize'"
 					class="znpb-modal__header-button"
 					:size="14"
-					@click.native="fullSize = ! fullSize"
+					@click="fullSize = ! fullSize"
 				/>
 
 				<BaseIcon
 					icon="close"
 					:size="14"
-					@click.native="togglePanel('PanelLibraryModal', false)"
+					@click="togglePanel('PanelLibraryModal', false)"
 					class="znpb-modal__header-button"
 				/>
 			</div>
@@ -149,7 +149,7 @@
 <script>
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { mapActions, mapGetters } from 'vuex'
-import { Modal, Tooltip } from '@zb/components'
+import { Modal, Tooltip, Loader } from '@zb/components'
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
@@ -164,7 +164,8 @@ export default {
 		Modal,
 		Tooltip,
 		LibraryUploader,
-		localLibrary
+		localLibrary,
+		Loader
 	},
 	provide () {
 		return {
@@ -335,7 +336,7 @@ export default {
 			return element
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
 	}
 }

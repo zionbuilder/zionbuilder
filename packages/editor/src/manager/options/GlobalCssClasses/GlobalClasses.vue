@@ -26,7 +26,7 @@
 				<template slot="header">
 					<SingleClass
 						:class-item="classItem"
-						@click.native="activeClass=classItem"
+						@click="activeClass=classItem"
 						@delete-class="deleteClass($event)"
 						@edit-class="activeClass=classItem"
 					/>
@@ -117,7 +117,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		if (this.activeClass) {
 			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
 		}

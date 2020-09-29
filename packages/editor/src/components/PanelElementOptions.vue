@@ -502,7 +502,7 @@ export default {
 		document.addEventListener('keydown', this.onKeyPress)
 		document.getElementById('znpb-editor-iframe').contentDocument.addEventListener('keydown', this.onKeyPress)
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('keydown', this.onKeyPress)
 		document.getElementById('znpb-editor-iframe').contentDocument.removeEventListener('keydown', this.onKeyPress)
 		// remove events

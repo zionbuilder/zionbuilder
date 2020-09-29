@@ -40,7 +40,7 @@
 				v-if="activeTreeView.id === 'wireframe-view'"
 				class="znpb-tree-view__header-menu-close-icon"
 				icon="close"
-				@click.native="closeWireframe"
+				@click="closeWireframe"
 			/>
 		</div>
 		<div

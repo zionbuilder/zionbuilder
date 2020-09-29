@@ -33,7 +33,7 @@
 					<transition name="fade">
 						<BaseIcon
 							icon="visibility-hidden"
-							@click.native="makeElementVisible"
+							@click="makeElementVisible"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
 						</BaseIcon>

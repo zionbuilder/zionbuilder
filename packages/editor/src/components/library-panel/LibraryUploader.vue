@@ -140,7 +140,7 @@ export default {
 			return this.decode_utf8(s)
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		let dropArea = this.$refs.formupload
 		dropArea.removeEventListener('dragenter', this.highlightForm)
 		dropArea.removeEventListener('dragleave', this.dragOut)

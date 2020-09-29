@@ -18,7 +18,7 @@
 				icon="edit"
 				:size="12"
 				class="znpb-pseudo-selector__edit"
-				@click.native.stop="contentOpen=!contentOpen, selectorIsOpen=false"
+				@click.stop="contentOpen=!contentOpen, selectorIsOpen=false"
 			/>
 		</Tooltip>
 		<Tooltip
@@ -279,7 +279,7 @@ export default {
 		}
 
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		document.removeEventListener('click', this.closePanel)
 	}
 }

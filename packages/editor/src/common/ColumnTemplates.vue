@@ -42,7 +42,7 @@
 				<div class="znpb-columns-templates__library-buttonWrap">
 					<BaseButton
 						type="secondary"
-						@click.native.stop="openLibrary"
+						@click.stop="openLibrary"
 					>{{$translate('open_library')}}</BaseButton>
 				</div>
 			</Tab>
@@ -685,7 +685,7 @@ export default {
 			this.togglePanel('PanelLibraryModal', false)
 		}
 	},
-	beforeDestroy: function () {
+	beforeUnmount: function () {
 		// remove events
 		document.removeEventListener('keypress', this.onKeyPress)
 		off('change-tab-pop', this.changeTab)

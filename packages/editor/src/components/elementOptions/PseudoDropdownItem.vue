@@ -13,7 +13,7 @@
 			>
 				<BaseIcon
 					icon="delete"
-					@click.native="$emit('delete-selector', selector.id)"
+					@click="$emit('delete-selector', selector.id)"
 				></BaseIcon>
 			</Tooltip>
 			<HasChanges

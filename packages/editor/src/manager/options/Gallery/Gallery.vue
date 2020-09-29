@@ -2,7 +2,7 @@
 	<div class="znpb-option__image-gallery">
 		<EmptyList
 			v-if="!sortableModel.length"
-			@click.native="openMediaModal"
+			@click="openMediaModal"
 		>
 			{{$translate('no_images_selected')}}
 		</EmptyList>

@@ -162,6 +162,7 @@ import SaveElementModal from './SaveElementModal.vue'
 import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
 import aboutModal from './aboutModal.vue'
+import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import { Modal } from '@zb/components'
@@ -172,6 +173,7 @@ export default {
 	name: 'ZnpbPanelMain',
 	components: {
 		DeviceElement,
+		FlyoutWrapper,
 		FlyoutMenuItem,
 		Help,
 		keyShortcuts,
@@ -442,7 +444,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.disablePanelMove()
 	}
 }

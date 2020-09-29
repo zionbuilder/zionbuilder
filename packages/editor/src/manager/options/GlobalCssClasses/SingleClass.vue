@@ -16,7 +16,7 @@
 				<BaseIcon
 					class="znpb-edit-icon-pop"
 					icon="edit"
-					@click.native="$emit('edit-class',classItem)"
+					@click="$emit('edit-class',classItem)"
 				/>
 			</Tooltip>
 
@@ -31,7 +31,7 @@
 			>
 				<BaseIcon
 					icon="delete"
-					@click.native.stop="$emit('delete-class',classItem)"
+					@click.stop="$emit('delete-class',classItem)"
 				/>
 			</Tooltip>
 
