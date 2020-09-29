@@ -55,7 +55,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ModalConfirm from '@zb/components/ModalConfirm.vue'
+import { ModalConfirm, Loader } from '@zb/components'
 import CategoriesLibrary from './CategoriesLibrary.vue'
 import { BaseInput } from '@zb/components/forms'
 import TemplateList from '@zionbuilder/admin/src/components/templates/TemplateList.vue'
@@ -64,7 +64,9 @@ export default {
 	name: 'localLibrary',
 	components: {
 		CategoriesLibrary,
-		TemplateList
+		TemplateList,
+		Loader,
+		ModalConfirm
 	},
 	inject: {
 		Library: {

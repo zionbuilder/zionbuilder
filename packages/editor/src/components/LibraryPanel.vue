@@ -112,14 +112,15 @@ import { getLibraryItems } from '@zb/rest'
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/CategoriesLibrary.vue'
 import { BaseInput } from '@zb/components/forms'
-
+import { Loader } from '@zb/components'
 import localSt from 'localstorage-ttl'
 export default {
 	name: 'LibraryPanel',
 	components: {
 		CategoriesLibrary,
 		LibraryItem,
-		BaseInput
+		BaseInput,
+		Loader
 	},
 	props: {
 		previewOpen: {

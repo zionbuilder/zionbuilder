@@ -165,7 +165,7 @@ import aboutModal from './aboutModal.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-import { Modal } from '@zb/components'
+import { Modal, Loader } from '@zb/components'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 
@@ -180,7 +180,8 @@ export default {
 		Modal,
 		SaveElementModal,
 		aboutModal,
-		ModalTour
+		ModalTour,
+		Loader
 	},
 	props: {
 
