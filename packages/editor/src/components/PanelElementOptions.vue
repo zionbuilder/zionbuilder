@@ -11,34 +11,32 @@
 		:allow-vertical-resize="false"
 		:key="getActiveElementUid"
 	>
-		<div
-			slot="header"
-			class="znpb-element-options__header"
-		>
-			<!-- Show back button for child elements -->
-			<div
-				class="znpb-element-options__header-back"
-				v-if="elementConfig.is_child"
-				@click="onBackButtonClick"
-			>
-				<BaseIcon
-					class="znpb-element-options__header-back-icon"
-					icon="select"
-				/>
+		<template v-slot:header>
+			<div class="znpb-element-options__header">
+				<!-- Show back button for child elements -->
+				<div
+					class="znpb-element-options__header-back"
+					v-if="elementConfig.is_child"
+					@click="onBackButtonClick"
+				>
+					<BaseIcon
+						class="znpb-element-options__header-back-icon"
+						icon="select"
+					/>
+				</div>
+
+				<h4
+					class="znpb-panel__header-name"
+					@mouseenter="showBreadcrumbs=true"
+					@mouseleave="showBreadcrumbs=false"
+				>
+					{{`${elementName} ${$translate('options')}`}}
+					<BaseIcon icon="select" />
+					<BreadcrumbsWrapper v-if="showBreadcrumbs" />
+				</h4>
+
 			</div>
-
-			<h4
-				class="znpb-panel__header-name"
-				@mouseenter="showBreadcrumbs=true"
-				@mouseleave="showBreadcrumbs=false"
-			>
-				{{`${elementName} ${$translate('options')}`}}
-				<BaseIcon icon="select" />
-				<BreadcrumbsWrapper v-if="showBreadcrumbs" />
-			</h4>
-
-		</div>
-
+		</template>
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
@@ -70,23 +68,24 @@
 					/>
 				</Tab>
 				<Tab name="Search">
-					<div
-						slot="title"
-						@click="toggleSearchIcon"
-						class="znpb-element-options__search-tab-title"
-					>
-						<BaseIcon :icon="searchIcon" />
-					</div>
-					<BaseInput
-						v-if="searchActive"
-						slot="title"
-						v-model="optionsFilterKeyword"
-						:filterable="true"
-						ref="search"
-						placeholder="Search option"
-						class="znpb-tabs__header-item-search-options"
-					>
-					</BaseInput>
+					<template v-slot:title>
+						<div
+							@click="toggleSearchIcon"
+							class="znpb-element-options__search-tab-title"
+						>
+							<BaseIcon :icon="searchIcon" />
+						</div>
+
+						<BaseInput
+							v-if="searchActive"
+							v-model="optionsFilterKeyword"
+							:filterable="true"
+							ref="search"
+							placeholder="Search option"
+							class="znpb-tabs__header-item-search-options"
+						>
+						</BaseInput>
+					</template>
 					<p
 						class="znpb-element-options-default-message"
 						v-if="this.optionsFilterKeyword.length > 2 && this.filteredOptions.length === 0"

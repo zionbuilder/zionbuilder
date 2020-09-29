@@ -11,17 +11,17 @@
 		:has-breadcrumbs="showBreadcrumbs"
 		ref="accordion"
 	>
-		<ZionLabel
-			v-if="label"
-			slot="title"
-			:text="label.text"
-			:type="label.type"
-		/>
-		<HasChanges
-			slot="title"
-			v-if="showChanges && hasChanges"
-			@remove-styles="$emit('update:modelValue', null)"
-		/>
+		<template v-slot:title>
+			<ZionLabel
+				v-if="label"
+				:text="label.text"
+				:type="label.type"
+			/>
+			<HasChanges
+				v-if="showChanges && hasChanges"
+				@remove-styles="$emit('update:modelValue', null)"
+			/>
+		</template>
 		<OptionsForm
 			class="znpb-option-layout__menu-options-form"
 			:schema="child_options"

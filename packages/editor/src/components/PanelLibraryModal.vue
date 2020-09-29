@@ -6,116 +6,115 @@
 		class="znpb-library-modal"
 		:fullscreen="showMaximize"
 	>
-		<div
-			slot="header"
-			class="znpb-library-modal-header"
-		>
-			<span
-				v-if="previewOpen || multiple || importActive"
-				@click="closeBody"
-				class="znpb-library-modal-header-preview__back"
-			>
-				<BaseIcon
-					icon="long-arrow-right"
-					rotate="180"
-				/>
-				{{$translate('go_back')}}
-			</span>
-			<div
-				v-if="previewOpen || importActive"
-				class="znpb-library-modal-header-preview"
-			>
+		<template v-slot:header>
+			<div class="znpb-library-modal-header">
+				<span
+					v-if="previewOpen || multiple || importActive"
+					@click="closeBody"
+					class="znpb-library-modal-header-preview__back"
+				>
+					<BaseIcon
+						icon="long-arrow-right"
+						rotate="180"
+					/>
+					{{$translate('go_back')}}
+				</span>
+				<div
+					v-if="previewOpen || importActive"
+					class="znpb-library-modal-header-preview"
+				>
 
-				<h2
-					class="znpb-library-modal-header-preview__title"
-					v-html="computedTitle"
-				>
-				</h2>
-			</div>
-			<template v-else>
-				<h2
-					class="znpb-library-modal-header__title"
-					:class="{'znpb-library-modal-header__title--active': localActive}"
-					@click="localActive=true, zionActive=false"
-				>
-					{{$translate('local_library')}}
-				</h2>
-				<h2
-					class="znpb-library-modal-header__title"
-					:class="{'znpb-library-modal-header__title--active': zionActive}"
-					@click="localActive=false, zionActive=true"
-				>
-					{{$translate('zion_library')}}
-				</h2>
-			</template>
-			<div class="znpb-library-modal-header__actions">
-				<Tooltip
-					v-if="previewOpen"
-					append-to="element"
-					tag="span"
-					:content="$translate('library_insert_tooltip')"
-					placement="top"
-					:modifiers="{ offset: { offset: '0,10px' } }"
-					:positionFixed="true"
-				>
-					<BaseButton
-						type="secondary"
-						@click="insertLibraryItem"
-						class="znpb-library-modal-header__insert-button"
+					<h2
+						class="znpb-library-modal-header-preview__title"
+						v-html="computedTitle"
 					>
-						<span v-if="!insertItemLoading">{{$translate('library_insert')}}</span>
-						<Loader
-							v-else
-							:size="13"
-						/>
-					</BaseButton>
-				</Tooltip>
-
+					</h2>
+				</div>
 				<template v-else>
-					<BaseButton
-						v-if="localActive"
-						type="secondary"
-						@click="importActive = !importActive , templateUploaded=!templateUploaded "
+					<h2
+						class="znpb-library-modal-header__title"
+						:class="{'znpb-library-modal-header__title--active': localActive}"
+						@click="localActive=true, zionActive=false"
 					>
-
-						<BaseIcon icon="import" />
-						{{$translate('import')}}
-					</BaseButton>
-
+						{{$translate('local_library')}}
+					</h2>
+					<h2
+						class="znpb-library-modal-header__title"
+						:class="{'znpb-library-modal-header__title--active': zionActive}"
+						@click="localActive=false, zionActive=true"
+					>
+						{{$translate('zion_library')}}
+					</h2>
+				</template>
+				<div class="znpb-library-modal-header__actions">
 					<Tooltip
-						v-if="!importActive"
-						:content="$translate('refresh_tooltip')"
+						v-if="previewOpen"
 						append-to="element"
 						tag="span"
+						:content="$translate('library_insert_tooltip')"
 						placement="top"
 						:modifiers="{ offset: { offset: '0,10px' } }"
-						class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
+						:positionFixed="true"
 					>
-						<BaseIcon
-							icon="refresh"
-							@click="onRefresh"
-							:size="14"
-							:class="{['loading']: libLoading}"
-						/>
+						<BaseButton
+							type="secondary"
+							@click="insertLibraryItem"
+							class="znpb-library-modal-header__insert-button"
+						>
+							<span v-if="!insertItemLoading">{{$translate('library_insert')}}</span>
+							<Loader
+								v-else
+								:size="13"
+							/>
+						</BaseButton>
 					</Tooltip>
 
-				</template>
+					<template v-else>
+						<BaseButton
+							v-if="localActive"
+							type="secondary"
+							@click="importActive = !importActive , templateUploaded=!templateUploaded "
+						>
 
-				<BaseIcon
-					:icon="fullSize ? 'shrink' : 'maximize'"
-					class="znpb-modal__header-button"
-					:size="14"
-					@click="fullSize = ! fullSize"
-				/>
+							<BaseIcon icon="import" />
+							{{$translate('import')}}
+						</BaseButton>
 
-				<BaseIcon
-					icon="close"
-					:size="14"
-					@click="togglePanel('PanelLibraryModal', false)"
-					class="znpb-modal__header-button"
-				/>
+						<Tooltip
+							v-if="!importActive"
+							:content="$translate('refresh_tooltip')"
+							append-to="element"
+							tag="span"
+							placement="top"
+							:modifiers="{ offset: { offset: '0,10px' } }"
+							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
+						>
+							<BaseIcon
+								icon="refresh"
+								@click="onRefresh"
+								:size="14"
+								:class="{['loading']: libLoading}"
+							/>
+						</Tooltip>
+
+					</template>
+
+					<BaseIcon
+						:icon="fullSize ? 'shrink' : 'maximize'"
+						class="znpb-modal__header-button"
+						:size="14"
+						@click="fullSize = ! fullSize"
+					/>
+
+					<BaseIcon
+						icon="close"
+						:size="14"
+						@click="togglePanel('PanelLibraryModal', false)"
+						class="znpb-modal__header-button"
+					/>
+				</div>
 			</div>
-		</div>
+		</template>
 		<LibraryUploader
 			v-if="importActive"
 			@file-uploaded="onTemplateUpload"

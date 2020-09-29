@@ -64,7 +64,6 @@ export default {
 
 </script>
 <style lang="scss">
-// @import "@/scss/_utility.scss";
 .znpb-editor-classes {
 	&__item {
 		display: flex;

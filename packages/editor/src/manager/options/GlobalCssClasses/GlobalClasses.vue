@@ -23,7 +23,7 @@
 				class="znpb-global-css-classes__accordion-wrapper"
 				ref="horizontalAccordion"
 			>
-				<template slot="header">
+				<template v-slot:header>
 					<SingleClass
 						:class-item="classItem"
 						@click="activeClass=classItem"

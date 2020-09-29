@@ -42,10 +42,9 @@
 		<div class="znpb-editor-header__last">
 			<!-- devices -->
 			<FlyoutWrapper>
-				<BaseIcon
-					slot="panel-icon"
-					:icon="device"
-				></BaseIcon>
+				<template v-slot:panel-icon>
+					<BaseIcon :icon="device" />
+				</template>
 				<FlyoutMenuItem
 					v-for="(deviceConfig, i) in getDeviceList"
 					v-bind:key="i"
@@ -66,10 +65,9 @@
 
 			<!-- help section -->
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper">
-				<BaseIcon
-					icon="info"
-					slot="panel-icon"
-				/>
+				<template v-slot:panel-icon>
+					<BaseIcon icon="info" />
+				</template>
 				<FlyoutMenuItem
 					v-for="(menuItem, i) in helpMenuItems"
 					:key="i"
@@ -116,18 +114,18 @@
 			<SaveElementModal :template="true" />
 
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
+				<template v-slot:panel-icon>
+					<BaseIcon
+						v-if="!getSavingPage"
+						icon="check"
+						@mousedown.stop="onSaving"
+					/>
 
-				<BaseIcon
-					v-if="!getSavingPage"
-					icon="check"
-					slot="panel-icon"
-					@mousedown.stop="onSaving"
-				/>
-				<Loader
-					v-else
-					slot="panel-icon"
-					:size="12"
-				/>
+					<Loader
+						v-else
+						:size="12"
+					/>
+				</template>
 				<FlyoutMenuItem
 					v-for="(menuItem, i) in saveActions"
 					v-bind:key="i"

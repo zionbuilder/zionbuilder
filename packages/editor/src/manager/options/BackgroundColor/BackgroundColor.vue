@@ -4,35 +4,35 @@
 		@open="$emit('open')"
 		@close="$emit('close')"
 	>
-		<div
-			class="znpb-style-background-color"
-			slot="trigger"
-		>
-			<EmptyList
-				class="znpb-input-background-image__empty"
-				v-if="! value"
-				:no-margin="true"
-			>
-				{{$translate('select_background_color')}}
-			</EmptyList>
-			<ActionsOverlay v-if="value">
-				<div
-					class="znpb-style-background-color__holder"
-					:style="getColorStyle"
-				></div>
+		<template v-slot:trigger>
+			<div class="znpb-style-background-color">
+				<EmptyList
+					class="znpb-input-background-image__empty"
+					v-if="! value"
+					:no-margin="true"
+				>
+					{{$translate('select_background_color')}}
+				</EmptyList>
+				<ActionsOverlay v-if="value">
+					<div
+						class="znpb-style-background-color__holder"
+						:style="getColorStyle"
+					></div>
+					<template v-slot:actions>
+						<div>
+							<BaseIcon
+								:rounded="true"
+								icon="delete"
+								:bg-size="30"
+								bg-color="#fff"
+								@click.stop="deleteColor"
+							/>
+						</div>
+					</template>
+				</ActionsOverlay>
 
-				<div slot="actions">
-					<BaseIcon
-						:rounded="true"
-						icon="delete"
-						:bg-size="30"
-						bg-color="#fff"
-						@click.stop="deleteColor"
-					/>
-				</div>
-			</ActionsOverlay>
-
-		</div>
+			</div>
+		</template>
 	</Color>
 </template>
 

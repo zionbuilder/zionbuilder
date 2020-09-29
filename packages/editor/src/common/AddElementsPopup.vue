@@ -1,13 +1,14 @@
 <template>
 	<div class="znpb-tab__wrapper--columns-template-elements">
 		<div class="znpb-add-elements__filter">
-			<InputSelect
-				slot="prepend"
-				class="znpb-add-elements__filter-category"
-				:options="getSelectOptions"
-				:placeholder="getSelectOptions[0].name"
-				v-model="categoryValue"
-			/>
+			<template v-slot:prepend>
+				<InputSelect
+					class="znpb-add-elements__filter-category"
+					:options="getSelectOptions"
+					:placeholder="getSelectOptions[0].name"
+					v-model="categoryValue"
+				/>
+			</template>
 			<BaseInput
 				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
 				v-model="searchKeyword"
