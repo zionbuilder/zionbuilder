@@ -17,5 +17,5 @@ appInstance.component('BaseButton', BaseButton)
 appInstance.use({ install }, window.ZnPbInitalData.l10n)
 
 
-appInstance.mount('#znpb-app')
+appInstance.mount('#znpb-preview-content-area')
 
