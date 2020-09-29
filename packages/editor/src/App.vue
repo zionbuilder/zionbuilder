@@ -20,11 +20,12 @@
 					@click="devicesVisible = !devicesVisible"
 					class="znpb-editor-layout__preview-button"
 				>
+
 					<BaseIcon
-						slot="panel-icon"
 						:icon="device"
-					>
-					</BaseIcon>
+						slot="panel-icon"
+					/>
+
 				</div>
 				<div
 					class="znpb-editor-layout__preview-breakpoints"
@@ -41,16 +42,17 @@
 					>
 						<!-- @show="openResponsive"
 						@hide="closeresponsive" -->
-						<div
-							slot="content"
-							v-for="(device, index) in getDeviceList"
-							:key='index'
-							@click="activateDevice(device)"
-							class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
-							ref="dropdown"
-						>
-							<BaseIcon :icon="device.icon" />
-						</div>
+						<template v-slot:content>
+							<div
+								v-for="(device, index) in getDeviceList"
+								:key='index'
+								@click="activateDevice(device)"
+								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+								ref="dropdown"
+							>
+								<BaseIcon :icon="device.icon" />
+							</div>
+						</template>
 					</Tooltip>
 				</div>
 			</div>

@@ -42,10 +42,9 @@
 		<div class="znpb-editor-header__last">
 			<!-- devices -->
 			<FlyoutWrapper>
-				<BaseIcon
-					slot="panel-icon"
-					:icon="device"
-				></BaseIcon>
+				<template v-slot:panel-icon>
+					<BaseIcon :icon="device" />
+				</template>
 				<FlyoutMenuItem
 					v-for="(deviceConfig, i) in getDeviceList"
 					v-bind:key="i"
