@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-import CustomSelector from '../custom-selector/CustomSelector.vue'
+import CustomSelector from '../forms/elements/custom-selector/CustomSelector.vue'
 
 export default {
 	name: 'InputTextAlign',

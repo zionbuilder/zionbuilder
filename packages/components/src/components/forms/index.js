@@ -27,7 +27,7 @@ import OptionsForm from './elements/OptionsForm.vue'
 import { InputLabel } from '../InputLabel'
 import { InputRadioGroup, InputRadio, InputRadioIcon } from '../InputRadio'
 
-import { InputTextAlign } from './elements/textAlign'
+import { InputTextAlign } from '../InputTextAlign'
 import { InputTextTransform } from './elements/textTransform'
 import { InputTextShadow } from './elements/textShadow'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './elements/borders'
