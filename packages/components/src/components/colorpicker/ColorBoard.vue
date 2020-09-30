@@ -57,7 +57,6 @@ export default {
 			return `hsl(${h}, 100%, 50%)`
 		},
 		boardContent () {
-			console.log('aaaa')
 			return this.$refs.boardContent.getBoundingClientRect()
 		}
 	},
