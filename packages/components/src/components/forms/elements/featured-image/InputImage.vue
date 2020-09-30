@@ -94,7 +94,7 @@ import Icon from '../../../Icon/Icon.vue'
 import { ActionsOverlay } from '../../../ActionsOverlay'
 import { EmptyList } from '../../../EmptyList'
 import { InputWrapper } from '../inputWrapper'
-import { InputSelect } from '../select'
+import { InputSelect } from '../../../InputSelect'
 import CustomSize from './CustomSize.vue'
 
 const wp = window.wp

@@ -5,7 +5,7 @@ import { applyFilters } from '@zionbuilder/hooks'
 import {
 	BaseInput,
 	InputDatePicker,
-	ShapeDividers,
+	InputShapeDividers,
 	ShapeDividerComponent,
 	InputColorPicker,
 	InputCustomSelector,
@@ -182,7 +182,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'shape_dividers',
-			component: ShapeDividers
+			component: InputShapeDividers
 		})
 		registerOption({
 			id: 'shape_component',

@@ -3,7 +3,7 @@ import { createOptionsInstance } from './options'
 
 // General components
 import { InputCheckboxSwitch, InputCheckboxGroup, InputCheckbox } from '../InputCheckbox'
-import { InputSelect } from './elements/select'
+import { InputSelect } from '../InputSelect'
 import { InputColorPicker, Color } from '../InputColorPicker'
 import { InputNumber, InputNumberUnit } from '../InputNumber'
 import { InputRange, InputRangeDynamic } from '../InputRange'

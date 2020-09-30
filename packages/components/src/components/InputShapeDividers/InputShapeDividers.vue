@@ -19,7 +19,7 @@
 import { InputCustomSelector } from '../InputCustomSelector'
 
 export default {
-	name: 'ShapeDividers',
+	name: 'InputShapeDividers',
 	components: {
 		InputCustomSelector
 	},

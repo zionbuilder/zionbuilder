@@ -30,7 +30,7 @@ import { InputRadio, InputRadioGroup, InputRadioIcon } from "./components/InputR
 import { InputDatePicker } from './components/InputDatePicker'
 import { InputColorPicker } from './components/InputColorPicker'
 import { InputCustomSelector } from './components/InputCustomSelector'
-import { InputShapeDividers } from './InputShapeDividers'
+import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
 
 export {
 	Button,
@@ -74,7 +74,9 @@ export {
 	InputDatePicker,
 	InputColorPicker,
 	InputCustomSelector,
-	InputShapeDividers
+	InputShapeDividers,
+	ShapeDividerComponent,
+	SvgMask
 }
 
 export const options = createOptionsInstance()
