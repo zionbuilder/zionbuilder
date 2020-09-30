@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import CustomSelector from '../custom-selector/CustomSelector.vue'
+import { InputCustomSelector } from '../../../InputCustomSelector'
 
 export default {
 	name: 'ShapeDividers',
 	components: {
-		CustomSelector
+		InputCustomSelector
 	},
 	props: {
 		/**

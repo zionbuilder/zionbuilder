@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import { Icon } from '../../../Icon'
+import { Icon } from '../Icon'
 
 export default {
-	name: 'CustomSelector',
+	name: 'InputCustomSelector',
 	components: {
 		Icon
 	},

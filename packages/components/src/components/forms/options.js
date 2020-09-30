@@ -8,7 +8,7 @@ import {
 	ShapeDividers,
 	ShapeDividerComponent,
 	InputColorPicker,
-	CustomSelector,
+	InputCustomSelector,
 	InputSelect,
 	RadioImage,
 	InputRange,
@@ -119,7 +119,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'custom_selector',
-			component: CustomSelector
+			component: InputCustomSelector
 		})
 
 		registerOption({

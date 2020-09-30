@@ -32,7 +32,7 @@ import { InputTextTransform } from './elements/textTransform'
 import { InputTextShadow } from './elements/textShadow'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './elements/borders'
 import { BaseInput } from './elements/input'
-import { CustomSelector } from './elements/custom-selector'
+import { InputCustomSelector } from '../InputCustomSelector'
 
 // Misc
 import { EmptyList } from '../EmptyList'
@@ -75,7 +75,7 @@ const components = [
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector,
+	InputCustomSelector,
 	ShapeDividers,
 	ShapeDividerComponent,
 	SvgMask,
@@ -124,7 +124,7 @@ export default {
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector,
+	InputCustomSelector,
 	InputDatePicker,
 	ShapeDividers,
 	ShapeDividerComponent,
@@ -171,7 +171,7 @@ export {
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputImage,
-	CustomSelector,
+	InputCustomSelector,
 	ShapeDividers,
 	ShapeDividerComponent,
 	SvgMask,
