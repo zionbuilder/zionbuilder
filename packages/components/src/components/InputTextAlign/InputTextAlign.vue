@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-import { CustomSelector } from '../InputCustomSelector'
+import { InputCustomSelector  } from '../InputCustomSelector'
 
 export default {
 	name: 'InputTextAlign',

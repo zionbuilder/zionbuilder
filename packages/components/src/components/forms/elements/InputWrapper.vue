@@ -132,7 +132,7 @@
 				v-if="schema.itemIcon"
 				:icon="schema.itemIcon"
 			/>
-			<Label
+			<InputLabel
 				v-if="schema.label || schema['label-icon']"
 				:label="schema.label"
 				:align="schema['label-align']"
@@ -149,7 +149,7 @@
 						{{schema.content}}
 					</template>
 				</component>
-			</Label>
+			</InputLabel>
 			<component
 				v-else
 				:is="optionTypeConfig.component"
@@ -191,7 +191,7 @@ export default {
 	},
 	components: {
 		ChangesBullet,
-		Label,
+		InputLabel,
 		Injection,
 		Tooltip
 	},

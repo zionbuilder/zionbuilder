@@ -34,7 +34,7 @@
 
 <script>
 import { Tooltip } from '@zionbuilder/tooltip'
-import Icon from '../../../Icon/Icon.vue'
+import { Icon } from '../../../Icon'
 
 export default {
 	name: 'InputWrapper',
