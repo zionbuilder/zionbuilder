@@ -49,7 +49,7 @@
 					>
 						{{searchKeyword}}
 
-						<BaseIcon
+						<Icon
 							class="znpb-baseselect-list__option-add-icon"
 							icon="plus"
 							:size="10"
@@ -83,7 +83,7 @@
 							class="znpb-multiple-options-list__item"
 						>
 							<span>{{getNameFromOptionId(savedOption)}}</span>
-							<BaseIcon
+							<Icon
 								icon="close"
 								:data-index="i"
 								class="close-icon"
@@ -104,7 +104,7 @@
 								<div
 									class="znpb-baseselect__trigger-icon"
 								>
-									<BaseIcon
+									<Icon
 										icon="select"
 										:rotate="expanded ? '180' : false"
 									/>
@@ -130,7 +130,7 @@
 						<div
 							class="znpb-baseselect__trigger-icon"
 						>
-							<BaseIcon
+							<Icon
 								icon="select"
 								:rotate="expanded ? '180' : false"
 							/>
@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 import BaseInput from '../input/BaseInput.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
 
@@ -165,7 +165,7 @@ export default {
 	components: {
 		BaseInput,
 		Tooltip,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

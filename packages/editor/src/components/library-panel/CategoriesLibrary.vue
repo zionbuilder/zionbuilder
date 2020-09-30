@@ -12,7 +12,7 @@
 			<h6 class="znpb-editor-library-modal-category__title">
 				{{ category.name }}
 			</h6>
-			<BaseIcon
+			<Icon
 				icon="select"
 				:rotate="getRotate"
 				class="znpb-editor-library-modal-category__header-icon"

@@ -28,7 +28,7 @@
 					class="znpb-option__image-gallery__images-item--delete"
 					@click="deleteImage(index)"
 				>
-					<BaseIcon
+					<Icon
 						:rounded="true"
 						icon="delete"
 						:bg-size="30"

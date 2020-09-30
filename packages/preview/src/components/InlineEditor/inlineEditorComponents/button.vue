@@ -1,5 +1,5 @@
 <template>
-	<BaseIcon
+	<Icon
 		v-if="icon"
 		:icon="icon"
 		@mousedown="setTextStyle"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import BaseIcon from '@/common/components/BaseIcon.vue'
+import Icon from '@zionbuilder/components'
 
 export default {
 	props: ['formatter', 'icon', 'buttontext', 'value'],
@@ -27,7 +27,7 @@ export default {
 		}
 	},
 	components: {
-		BaseIcon
+		Icon
 	},
 	data: function () {
 		return {

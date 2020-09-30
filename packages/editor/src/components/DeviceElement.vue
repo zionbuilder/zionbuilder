@@ -11,13 +11,13 @@
 		}"
 	>
 		<div class="znpb-device__item-content">
-			<BaseIcon
+			<Icon
 				:icon="deviceConfig.icon"
 				class="znpb-device__item-icon"
 				:style="{
 					'margin-right': showDeviceTitles ? '5px' : 0
 				}"
-			></BaseIcon>
+			></Icon>
 			<span
 				v-if="showDeviceTitles"
 				class="znpb-device__item-name"

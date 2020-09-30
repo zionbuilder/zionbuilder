@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { getSearchIcon } from '../icons.js'
+import { getSearchIcon } from './icons.js'
 export default {
-	name: 'BaseIcon',
+	name: 'Icon',
 	props: {
 		/**
 		 * The Name of the icon - String

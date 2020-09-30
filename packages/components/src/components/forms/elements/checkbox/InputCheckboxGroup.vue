@@ -15,16 +15,16 @@
 				:disabled="disabled"
 				:title="option.icon ? option.name : false"
 			>
-				<BaseIcon
+				<Icon
 					v-if="option.icon"
 					:icon="option.icon"
-				></BaseIcon>
+				></Icon>
 			</InputCheckbox>
 		</template>
 	</div>
 </template>
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 import InputCheckbox from './InputCheckbox.vue'
 
 export default {
@@ -107,7 +107,7 @@ export default {
 	},
 	components: {
 		InputCheckbox,
-		BaseIcon
+		Icon
 	}
 }
 </script>

@@ -33,15 +33,15 @@
 				v-model="hexValue"
 			/>
 			<div class="znpb-color-picker-change-color znpb-input-number-arrow-wrapper">
-				<BaseIcon icon="select" :rotate="180" class="znpb-arrow-increment" @click="changeHex"></BaseIcon>
-				<BaseIcon icon="select" class="znpb-arrow-decrement" @click="changeHexback"></BaseIcon>
+				<Icon icon="select" :rotate="180" class="znpb-arrow-increment" @click="changeHex"></Icon>
+				<Icon icon="select" class="znpb-arrow-decrement" @click="changeHexback"></Icon>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import { Icon } from '../Icon'
 /*
 * this element emits change-opacity, change of hue, change of rgba, change, of hex, change of hsla and change of format
 */
@@ -59,7 +59,7 @@ export default {
 		HexElement,
 		HueStrip,
 		OpacityStrip,
-		BaseIcon
+		Icon
 	},
 	props: {
 		modelValue: {}

@@ -35,7 +35,7 @@
 				@mouseup="stopDrag"
 				v-if="dragButtonOnScreen"
 			>
-				<BaseIcon icon="ite-move" />
+				<Icon icon="ite-move" />
 			</div>
 
 			<!-- Fonts & text style panel -->
@@ -144,7 +144,7 @@
 				@mouseup="stopDrag"
 				v-if="!dragButtonOnScreen"
 			>
-				<BaseIcon
+				<Icon
 					icon="more"
 					:rotate="90"
 				/>

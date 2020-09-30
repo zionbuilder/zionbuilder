@@ -13,7 +13,7 @@
 			<div class="znpb-empty-list__content">
 
 				<template v-if="isInitial && !isSaving">
-					<BaseIcon icon="import-big-icon" />
+					<Icon icon="import-big-icon" />
 					<p class="znpb-editor-library-upload__text">
 						{{$translate('drag_drop')}}
 						<span class="">{{$translate('browse')}}</span>
@@ -25,7 +25,7 @@
 					class="znpb-library-uploading-wrapper"
 				>
 
-					<BaseIcon
+					<Icon
 						icon="long-arrow-right"
 						:bg-size="68"
 						bg-color="#06bee1"

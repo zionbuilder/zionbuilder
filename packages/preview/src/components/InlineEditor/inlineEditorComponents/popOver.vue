@@ -7,7 +7,7 @@
 		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible,
 	}"
 	>
-		<BaseIcon
+		<Icon
 			:icon="icon"
 			@mousedown.prevent="togglePopper"
 			:class='buttonClasses'

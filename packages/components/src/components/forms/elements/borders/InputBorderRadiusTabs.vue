@@ -13,7 +13,7 @@
 				<template v-slot:title>
 					<div>
 						<!-- <template v-slot:reference>
-							<BaseIcon
+							<Icon
 								:icon="tab.icon"
 							/>
 						</template> -->
@@ -30,7 +30,7 @@
 	</div>
 </template>
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 import InputBorderRadius from './InputBorderRadius.vue'
 
 export default {
@@ -49,7 +49,7 @@ export default {
 	},
 	components: {
 		InputBorderRadius,
-		BaseIcon
+		Icon
 	},
 	data () {
 		return {

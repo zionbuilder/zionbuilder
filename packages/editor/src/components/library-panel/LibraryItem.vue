@@ -72,7 +72,7 @@
 					:modifiers="{ offset: { offset: '0,3px' } }"
 					:positionFixed="true"
 				>
-					<BaseIcon
+					<Icon
 						icon="eye"
 						@click="$emit('activate-item', item)"
 					/>
@@ -84,7 +84,7 @@
 					placement="top"
 					:modifiers="{ offset: { offset: '0,10px' } }"
 				>
-					<BaseIcon
+					<Icon
 						icon="heart"
 						@click="$emit('added-to-favorite',item.id)"
 					/>

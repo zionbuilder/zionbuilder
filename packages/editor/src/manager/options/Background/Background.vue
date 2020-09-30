@@ -6,7 +6,7 @@
 	>
 		<Tab name="background-color">
 			<template v-slot:title>
-				<BaseIcon icon="drop" />
+				<Icon icon="drop" />
 			</template>
 			<InputWrapper
 				:schema="bgColorSchema"
@@ -19,7 +19,7 @@
 		</Tab>
 		<Tab name="background-gradient">
 			<template v-slot:title>
-				<BaseIcon icon="gradient" />
+				<Icon icon="gradient" />
 			</template>
 			<InputWrapper
 				:schema="bgGradientSchema"
@@ -31,7 +31,7 @@
 		</Tab>
 		<Tab name="background-image">
 			<template v-slot:title>
-				<BaseIcon icon="picture" />
+				<Icon icon="picture" />
 			</template>
 			<InputBackgroundImage
 				class="znpb-input__background-image"
@@ -44,7 +44,7 @@
 			v-if="canShowBackground"
 		>
 			<template v-slot:title>
-				<BaseIcon icon="video" />
+				<Icon icon="video" />
 			</template>
 			<InputBackgroundVideo
 				class="znpb-input__background-video"

@@ -20,7 +20,7 @@
 						{{$translate('edit_element')}}
 					</div>
 
-					<BaseIcon
+					<Icon
 						icon="edit"
 						@click.stop="openOptionsPanel"
 					/>
@@ -32,7 +32,7 @@
 					>
 						{{$translate('save_element')}}
 					</div>
-					<BaseIcon
+					<Icon
 						icon="export"
 						@click.stop="emitEventbus"
 					/>
@@ -44,7 +44,7 @@
 					>
 						{{$translate('visible_element')}}
 					</div>
-					<BaseIcon
+					<Icon
 						icon="eye"
 						@click.stop="setInvisible"
 					/>
@@ -56,7 +56,7 @@
 					>
 						{{$translate('clone_element')}}
 					</div>
-					<BaseIcon
+					<Icon
 						icon="copy"
 						@click.stop="duplicateElement"
 					/>
@@ -68,7 +68,7 @@
 					>
 						{{$translate('delete_element')}}
 					</div>
-					<BaseIcon
+					<Icon
 						icon="delete"
 						@click.stop="deleteParentElement"
 					/>
@@ -86,7 +86,7 @@
 						{{$translate('open')}} {{elementModel.name}} {{$translate('toolbox')}}
 					</span>
 				</div>
-				<BaseIcon
+				<Icon
 					:icon="closeIcon"
 					@click.stop="toggleOpen"
 					class="znpb-editor-toolbox__element-options-button"

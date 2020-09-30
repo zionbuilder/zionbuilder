@@ -14,7 +14,7 @@
 			:content="$translate('add_pseudo_content')"
 			placement="top"
 		>
-			<BaseIcon
+			<Icon
 				icon="edit"
 				:size="12"
 				class="znpb-pseudo-selector__edit"
@@ -50,7 +50,7 @@
 				class="znpb-element-options__media-class-pseudo-title"
 				:class="{'znpb-element-options__media-class-pseudo-title--has-edit' : activePseudoSelector.id===':before' || activePseudoSelector.id===':after' }"
 			>
-				<BaseIcon
+				<Icon
 					icon="select"
 					:rotate="selectorIsOpen ? 180 : null"
 				/>

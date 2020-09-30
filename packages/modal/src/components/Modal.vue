@@ -28,13 +28,13 @@
 						{{title}}
 					</div>
 
-					<BaseIcon
+					<Icon
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						v-if="showMaximize"
 						@click.stop="fullSize = ! fullSize"
 					/>
-					<BaseIcon
+					<Icon
 						icon="close"
 						v-if="showClose"
 						@click.stop="closeModal"
@@ -54,12 +54,12 @@
 <script>
 import { addOverflow, removeOverflow } from '@zionbuilder/utils'
 import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
-import { BaseIcon } from '../../../components'
+import { Icon } from '../../../components'
 
 export default {
 	name: 'Modal',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		show: {

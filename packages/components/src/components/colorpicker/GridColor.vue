@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
-		<BaseIcon
+		<Icon
 			icon="plus"
 			@click.stop="$emit('add-new-color')"
 			class="znpb-colorpicker-circle znpb-colorpicker-add-color "
@@ -9,12 +9,12 @@
 	</div>
 </template>
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import Icon from '../Icon/Icon.vue'
 
 export default {
 	name: 'GridColor',
 	components: {
-		BaseIcon
+		Icon
 	}
 }
 </script>

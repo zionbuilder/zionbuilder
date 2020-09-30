@@ -24,13 +24,13 @@
 		</BaseInput>
 
 		<!-- Actions -->
-		<BaseIcon
+		<Icon
 			icon="check"
 			class="znpb-backgroundGradient__action"
 			@click.stop="saveGradient"
 		/>
 
-		<BaseIcon
+		<Icon
 			icon="close"
 			class="znpb-backgroundGradient__action"
 			@click.stop="$emit('cancel',true)"
@@ -38,7 +38,7 @@
 	</div>
 </template>
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import { Icon } from '../Icon'
 import { BaseInput, InputSelect } from '../forms'
 /**
  * it emits:
@@ -49,7 +49,7 @@ export default {
 	components: {
 		BaseInput,
 		InputSelect,
-		BaseIcon
+		Icon
 	},
 	data () {
 		return {

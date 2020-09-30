@@ -1,14 +1,14 @@
 <template>
 	<transition name="save">
 		<div v-if="isLoading"   class="znpb-admin__options-save-loader">
-			<BaseIcon icon="check"/>
+			<Icon icon="check"/>
 		</div>
 	</transition>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { BaseIcon } from '@zionbuilder/components'
+import { Icon } from '@zionbuilder/components'
 
 export default {
 	name: 'OptionsSaveLoader',
@@ -17,7 +17,7 @@ export default {
 		}
 	},
 	components: {
-		BaseIcon
+		Icon
 	},
 	computed: {
 		...mapGetters(['isLoading'])

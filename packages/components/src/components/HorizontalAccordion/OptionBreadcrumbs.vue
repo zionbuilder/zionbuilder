@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-options-breadcrumbs">
-		<BaseIcon
+		<Icon
 			v-if="showBackButton"
 			class="znpb-back-icon-breadcrumbs"
 			icon="select"
@@ -15,7 +15,7 @@
 			@click="onItemClicked(previousItem)"
 		>
 			<span v-html="breadcrumb.title"></span>
-			<BaseIcon
+			<Icon
 				icon="select"
 				rotate="-90"
 				v-if="i +1 < computedBreadcrumbs.length"
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import { Icon } from '../Icon'
 
 export default {
 	name: 'OptionBreadcrumbs',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		breadcrumbs: {

@@ -22,7 +22,7 @@
 						class="znpb-button znpb-button--secondary"
 						v-if="!isPro"
 					>
-						<BaseIcon icon="quality"></BaseIcon>
+						<Icon icon="quality"></Icon>
 						{{$translate('upgrade_to_pro')}}
 					</router-link>
 
@@ -65,7 +65,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import Label from '@zionbuilder/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
-import { BaseIcon, Notice } from '@zionbuilder/components'
+import { Icon, Notice } from '@zionbuilder/components'
 
 export default {
 	name: 'App',
@@ -79,7 +79,7 @@ export default {
 	components: {
 		Label,
 		OptionsSaveLoader,
-		BaseIcon,
+		Icon,
 		Notice
 	},
 	computed: {

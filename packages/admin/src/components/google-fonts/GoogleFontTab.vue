@@ -36,7 +36,7 @@
 				placement="bottom"
 				:content="$translate('click_to_delete_font')"
 			>
-				<BaseIcon
+				<Icon
 					icon="delete"
 					@click="showModalConfirm = true"
 				/>
@@ -58,7 +58,7 @@
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
 import { mapGetters } from 'vuex'
-import { BaseIcon, Tooltip, ModalConfirm } from '@zionbuilder/components'
+import { Icon, Tooltip, ModalConfirm } from '@zionbuilder/components'
 
 export default {
 	name: 'GoogleFontTab',
@@ -75,7 +75,7 @@ export default {
 	},
 	components: {
 		HiddenContainer,
-		BaseIcon,
+		Icon,
 		Tooltip,
 		ModalConfirm
 	},

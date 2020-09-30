@@ -94,7 +94,7 @@
 					class="znpb-element-toolbox__add-element-button"
 				>
 
-					<BaseIcon
+					<Icon
 						icon="plus"
 						:rounded="true"
 					/>

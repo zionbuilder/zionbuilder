@@ -16,7 +16,7 @@
 					:data-znpbicon="unicode(value.unicode)"
 				>
 				</span>
-				<BaseIcon
+				<Icon
 					@click="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
@@ -50,7 +50,7 @@
 					>
 						Insert
 					</Button>
-					<BaseIcon
+					<Icon
 						icon="close"
 						:size="16"
 						@click="onClose"

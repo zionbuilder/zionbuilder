@@ -9,7 +9,7 @@
 			>
 				<template v-if="!$slots.header">
 					<span class="znpb-horizontal-accordion__title">
-						<BaseIcon
+						<Icon
 							v-if="icon"
 							:icon="icon"
 						/>
@@ -24,7 +24,7 @@
 				<!-- @slot Actions that will be placed inside the header -->
 				<div class="znpb-horizontal-accordion__header-actions">
 					<slot name="actions"></slot>
-					<BaseIcon
+					<Icon
 						v-if="showTriggerArrow"
 						icon="right-arrow"
 					/>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import { Icon } from '../Icon'
 import OptionBreadcrumbs from './OptionBreadcrumbs.vue'
 
 export default {
@@ -74,7 +74,7 @@ export default {
 	},
 	components: {
 		OptionBreadcrumbs,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

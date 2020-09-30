@@ -29,7 +29,7 @@
 				class="znpb-admin-color-preset-box__empty"
 				@click.stop="showColorPicker = true"
 			>
-				<BaseIcon icon="plus" />
+				<Icon icon="plus" />
 				<div>{{$translate('add_color')}}</div>
 			</div>
 			<div
@@ -42,7 +42,7 @@
 					tag="span"
 					:content="$translate('delete_color_from_preset')"
 				>
-					<BaseIcon
+					<Icon
 						icon="close"
 						@click.stop="$emit('delete-color')"
 					/>
@@ -57,7 +57,7 @@
 	</div>
 </template>
 <script>
-import { ColorPicker, BaseIcon, Tooltip } from '@zionbuilder/components'
+import { ColorPicker, Icon, Tooltip } from '@zionbuilder/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
 
 export default {
@@ -67,7 +67,7 @@ export default {
 	},
 	components: {
 		ColorPicker,
-		BaseIcon,
+		Icon,
 		Tooltip
 	},
 	props: {

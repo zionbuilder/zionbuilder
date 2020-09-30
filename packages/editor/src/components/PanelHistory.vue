@@ -25,10 +25,10 @@
 							class="znpb-action-active"
 							v-if="activeHistoryIndex === index"
 						>{{$translate('history_now')}}</span>
-						<BaseIcon
+						<Icon
 							v-else
 							icon="history"
-						></BaseIcon>
+						></Icon>
 					</li>
 				</ul>
 			</div>
@@ -38,14 +38,14 @@
 					:class="{'znpb-history__action--inactive': ! canUndo }"
 					@click="doUndo"
 				>
-					<BaseIcon icon="undo"></BaseIcon>
+					<Icon icon="undo"></Icon>
 				</div>
 				<div
 					class="znpb-history__action"
 					:class="{'znpb-history__action--inactive': ! canRedo }"
 					@click="doRedo"
 				>
-					<BaseIcon icon="redo"></BaseIcon>
+					<Icon icon="redo"></Icon>
 				</div>
 			</div>
 		</div>

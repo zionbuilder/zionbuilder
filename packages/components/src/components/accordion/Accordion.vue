@@ -8,7 +8,7 @@
 		>
 			<!-- @slot Content that will be placed inside the accordion header -->
 			<slot name="header">{{header}}</slot>
-			<BaseIcon icon="select" class="znpb-accordion-title-icon" />
+			<Icon icon="select" class="znpb-accordion-title-icon" />
 		</div>
 		<div class="znpb-accordion__content" v-if="localCollapsed">
 			<!-- @slot Content that will be placed inside the accordion content -->
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import Icon from '../Icon/Icon.vue'
 
 export default {
 	name: 'Accordion',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

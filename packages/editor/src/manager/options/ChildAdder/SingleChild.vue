@@ -2,15 +2,15 @@
 	<div class="znpb-options-childs__element">
 		<div class="znpb-options-childs__element-title">{{ computedOptions[itemOptionName] || 'ITEM' }}</div>
 		<div class="znpb-options-childs__element-action">
-			<BaseIcon
+			<Icon
 				icon="copy"
 				@click.stop="cloneElement"
 			/>
-			<BaseIcon
+			<Icon
 				icon="delete"
 				@click.stop="deleteElement"
 			/>
-			<BaseIcon
+			<Icon
 				icon="edit"
 				@click.stop="editElement"
 			/>

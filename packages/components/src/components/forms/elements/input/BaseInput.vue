@@ -39,7 +39,7 @@
 		>
 		</textarea>
 
-		<BaseIcon
+		<Icon
 			class="zion-input__suffix-icon zion-input__clear-text"
 			icon="close"
 			v-if="showClear"
@@ -53,7 +53,7 @@
 			<!-- @slot Content that will be placed after input -->
 			<slot name="suffix"></slot>
 
-			<BaseIcon
+			<Icon
 				class="zion-input__suffix-icon"
 				:icon="icon"
 				v-if="icon"
@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'BaseInput',
 	components: {
-		BaseIcon
+		Icon
 	},
 	inheritAttrs: false,
 	props: {

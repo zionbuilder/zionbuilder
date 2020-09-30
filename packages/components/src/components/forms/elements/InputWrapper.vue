@@ -49,7 +49,7 @@
 					{{schema.description}}
 				</div>
 
-				<BaseIcon icon="question-mark" />
+				<Icon icon="question-mark" />
 
 			</Tooltip>
 
@@ -74,14 +74,14 @@
 					@click="activatePseudo(pseudo_selector)"
 					class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons"
 				>
-					<BaseIcon :icon="getPseudoIcon(pseudo_selector)" />
+					<Icon :icon="getPseudoIcon(pseudo_selector)" />
 				</div>
 
 				<div
 					class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons znpb-has-responsive-options__icon-button--trigger"
 					@click="showPseudo=!showPseudo"
 				>
-					<BaseIcon :icon="getPseudoIcon(activePseudo)" />
+					<Icon :icon="getPseudoIcon(activePseudo)" />
 				</div>
 			</Tooltip>
 
@@ -108,14 +108,14 @@
 					class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
 					ref="dropdown"
 				>
-					<BaseIcon :icon="device.icon" />
+					<Icon :icon="device.icon" />
 				</div>
 
 				<div
 					class="znpb-has-responsive-options__icon-button--trigger"
 					@click="showDevices=!showDevices"
 				>
-					<BaseIcon :icon="getActiveDevice.icon" />
+					<Icon :icon="getActiveDevice.icon" />
 				</div>
 
 			</Tooltip>
@@ -128,7 +128,7 @@
 
 		</div>
 		<div class="znpb-input-content">
-			<BaseIcon
+			<Icon
 				v-if="schema.itemIcon"
 				:icon="schema.itemIcon"
 			/>

@@ -17,7 +17,7 @@
 				/>
 				<template v-slot:actions>
 					<div>
-						<BaseIcon
+						<Icon
 							:rounded="true"
 							icon="delete"
 							:bg-size="30"
@@ -48,7 +48,7 @@
 					{{ previewExpanded ? 'CONTRACT' : 'EXPAND' }}
 				</strong>
 				<!-- <span>{{mouseOverExpander}}</span> -->
-				<BaseIcon
+				<Icon
 					icon="select"
 					:bg-size="12"
 				/>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 import ActionsOverlay from '../actions-overlay/ActionsOverlay.vue'
 import EmptyList from '../empty-list/EmptyList.vue'
 import { InputWrapper } from '../inputWrapper'
@@ -106,7 +106,7 @@ export default {
 		InputSelect,
 		InputWrapper,
 		CustomSize,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

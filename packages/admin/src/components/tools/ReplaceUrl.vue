@@ -14,7 +14,7 @@
 			>
 
 			</BaseInput>
-			<BaseIcon
+			<Icon
 				icon="long-arrow-right"
 				class="znpb-admin-replace__icon"
 			/>
@@ -66,12 +66,12 @@
 
 <script>
 import { replaceUrl } from '@zionbuilder/rest'
-import { BaseIcon, Button, Loader } from '@zionbuilder/components'
+import { Icon, Button, Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'ToolsPage',
 	components: {
-		BaseIcon,
+		Icon,
 		Button,
 		Loader
 	},

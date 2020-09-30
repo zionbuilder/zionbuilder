@@ -31,12 +31,12 @@
 			>
 				<span>
 					<transition name="fade">
-						<BaseIcon
+						<Icon
 							icon="visibility-hidden"
 							@click="makeElementVisible"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
-						</BaseIcon>
+						</Icon>
 					</transition>
 				</span>
 			</Tooltip>

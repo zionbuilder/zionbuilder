@@ -13,7 +13,7 @@
 				:content="$translate('customize_permissions_for_user')"
 				class="znpb-edit-icon-pop"
 			>
-				<BaseIcon
+				<Icon
 					icon="edit"
 					@click="$emit('edit-permission')"
 				/>
@@ -23,7 +23,7 @@
 				v-if="hasDelete"
 				:content="$translate('delete_permissions_for_user')"
 			>
-				<BaseIcon
+				<Icon
 					icon="delete"
 					@click="$emit('delete-permission')"
 				/>
@@ -34,12 +34,12 @@
 </template>
 
 <script>
-import { BaseIcon, Tooltip } from '@zionbuilder/components'
+import { Icon, Tooltip } from '@zionbuilder/components'
 
 export default {
 	name: 'UserTemplate',
 	components: {
-		BaseIcon,
+		Icon,
 		Tooltip
 	},
 	props: {

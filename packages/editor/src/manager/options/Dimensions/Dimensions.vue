@@ -10,7 +10,7 @@
 				class="znpb-dimensions_icon"
 				v-if="dimension.name !== 'link'"
 			>
-				<BaseIcon :icon="dimension.icon"></BaseIcon>
+				<Icon :icon="dimension.icon"></Icon>
 			</div>
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
@@ -28,13 +28,13 @@
 				class="znpb-dimensions__center"
 				v-if="dimension.name === 'link'"
 			>
-				<BaseIcon
+				<Icon
 					:icon="linked ? 'link' : 'unlink'"
 					:title="linked ? 'Unlink' : 'Link'"
 					class="znpb-dimensions__link"
 					:class="{['znpb-dimensions__link--linked']: linked}"
 					@click="handleLinkValues"
-				></BaseIcon>
+				></Icon>
 			</div>
 		</div>
 

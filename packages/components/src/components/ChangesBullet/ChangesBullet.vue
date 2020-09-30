@@ -22,7 +22,7 @@
 		>
 			<span v-if="!showIcon">
 			</span>
-			<BaseIcon
+			<Icon
 				v-else
 				class="znpb-options-has-changes-wrapper__delete"
 				icon="close"

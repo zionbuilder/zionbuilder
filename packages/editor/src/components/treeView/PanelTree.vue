@@ -28,7 +28,7 @@
 					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView===treeType}"
 					:key="`tree-view-type-${index}`"
 				>
-					<BaseIcon
+					<Icon
 						class="znpb-tree-view__header-menu-item-icon"
 						:icon="treeType.icon"
 						:size="16"
@@ -36,7 +36,7 @@
 					<h4>{{ treeType.name }}</h4>
 				</div>
 			</div>
-			<BaseIcon
+			<Icon
 				v-if="activeTreeView.id === 'wireframe-view'"
 				class="znpb-tree-view__header-menu-close-icon"
 				icon="close"

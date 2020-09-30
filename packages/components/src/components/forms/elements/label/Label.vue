@@ -12,7 +12,7 @@
 			class="znpb-form-label-content"
 			v-if="$slots.label || label || icon"
 		>
-			<BaseIcon
+			<Icon
 				v-if="icon"
 				:icon="icon"
 			/>
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'InputLabel',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

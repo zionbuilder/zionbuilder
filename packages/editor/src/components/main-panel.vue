@@ -14,7 +14,7 @@
 				@mousedown.stop.prevent="togglePanel('panel-tree', false)"
 				v-bind:class="checkActivePanel('panel-tree')"
 			>
-				<BaseIcon icon="layout"></BaseIcon>
+				<Icon icon="layout"></Icon>
 			</div>
 			<!-- libary -->
 			<div
@@ -22,7 +22,7 @@
 				v-bind:class="checkActivePanel('PanelLibraryModal')"
 				class="znpb-editor-header__menu_button"
 			>
-				<BaseIcon icon="lib"></BaseIcon>
+				<Icon icon="lib"></Icon>
 			</div>
 			<!-- history -->
 			<div
@@ -30,7 +30,7 @@
 				@mousedown.stop.prevent="togglePanel('panel-history', false)"
 				v-bind:class="checkActivePanel('panel-history')"
 			>
-				<BaseIcon icon="history"></BaseIcon>
+				<Icon icon="history"></Icon>
 			</div>
 		</div>
 		<!-- center part -->
@@ -43,7 +43,7 @@
 			<!-- devices -->
 			<FlyoutWrapper>
 				<template v-slot:panel-icon>
-					<BaseIcon :icon="device" />
+					<Icon :icon="device" />
 				</template>
 				<FlyoutMenuItem
 					v-for="(deviceConfig, i) in getDeviceList"
@@ -60,13 +60,13 @@
 				@mousedown.stop="togglePanel('panel-global-settings', false)"
 				v-bind:class="checkActivePanel('panel-global-settings')"
 			>
-				<BaseIcon icon="sliders" />
+				<Icon icon="sliders" />
 			</div>
 
 			<!-- help section -->
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper">
 				<template v-slot:panel-icon>
-					<BaseIcon icon="info" />
+					<Icon icon="info" />
 				</template>
 				<FlyoutMenuItem
 					v-for="(menuItem, i) in helpMenuItems"
@@ -115,7 +115,7 @@
 
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
 				<template v-slot:panel-icon>
-					<BaseIcon
+					<Icon
 						v-if="!getSavingPage"
 						icon="check"
 						@mousedown.stop="onSaving"
@@ -146,7 +146,7 @@
 			class="znpb-editor-header__helper"
 			:style="helperStyle"
 		>
-			<BaseIcon
+			<Icon
 				icon="more"
 				rotate="90"
 			/>

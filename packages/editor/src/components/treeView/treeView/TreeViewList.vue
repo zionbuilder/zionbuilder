@@ -25,7 +25,7 @@
 			@click="toggleAddElementsPopup"
 			slot="end"
 		>
-			<BaseIcon
+			<Icon
 				:bgColor="addButtonColor"
 				icon="plus"
 				:size="11"
@@ -33,7 +33,7 @@
 				:rounded="true"
 				color="#fff"
 				class="znpb-tree-view__item-add-element-button-icon"
-			></BaseIcon>
+			></Icon>
 		</div>
 	</Sortable>
 </template>

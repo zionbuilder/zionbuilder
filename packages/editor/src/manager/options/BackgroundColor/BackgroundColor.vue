@@ -20,7 +20,7 @@
 					></div>
 					<template v-slot:actions>
 						<div>
-							<BaseIcon
+							<Icon
 								:rounded="true"
 								icon="delete"
 								:bg-size="30"

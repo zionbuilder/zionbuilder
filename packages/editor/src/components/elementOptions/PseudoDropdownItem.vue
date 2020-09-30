@@ -11,10 +11,10 @@
 				v-if="clearable"
 				tag="span"
 			>
-				<BaseIcon
+				<Icon
 					icon="delete"
 					@click="$emit('delete-selector', selector.id)"
-				></BaseIcon>
+				></Icon>
 			</Tooltip>
 			<ChangesBullet
 				v-if="hasChanges"

@@ -15,7 +15,7 @@
 						class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 					></span>
 
-					<BaseIcon
+					<Icon
 						v-if="dynamicContentConfig"
 						icon="globe"
 						:rounded="true"
@@ -59,7 +59,7 @@
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
 
-							<BaseIcon
+							<Icon
 								v-if="dynamicContentConfig"
 								icon="globe"
 								:rounded="true"
@@ -98,7 +98,7 @@ import tinycolor from 'tinycolor2'
 import BaseInput from '../input/BaseInput.vue'
 import Color from '../colorpicker/Color.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 
 export default {
 	name: 'InputColorPicker',
@@ -140,7 +140,7 @@ export default {
 		BaseInput,
 		Color,
 		Tooltip,
-		BaseIcon
+		Icon
 	},
 	methods: {},
 	beforeUnmount () {

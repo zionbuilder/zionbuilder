@@ -1,7 +1,7 @@
 <template>
 
 	<div class="znpb-tour-modal__content">
-		<BaseIcon
+		<Icon
 			icon="close"
 			class="znpb-tour-modal__header-icon-close"
 			@click="$emit('end-tour',true)"

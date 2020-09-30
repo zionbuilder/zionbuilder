@@ -7,7 +7,7 @@
 			class="znpb-right-click__menu-item"
 			@click="editElement"
 		>
-			<BaseIcon icon="edit"></BaseIcon>
+			<Icon icon="edit"></Icon>
 			{{$translate('action_edit')}}
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
@@ -15,7 +15,7 @@
 			class="znpb-right-click__menu-item"
 			@click="duplicateElement"
 		>
-			<BaseIcon icon="copy"></BaseIcon>
+			<Icon icon="copy"></Icon>
 			{{$translate('duplicate_element')}}
 		</li>
 
@@ -23,14 +23,14 @@
 			class="znpb-right-click__menu-item"
 			@click="copyElementAction"
 		>
-			<BaseIcon icon="copy"></BaseIcon>
+			<Icon icon="copy"></Icon>
 			{{$translate('copy_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="cutElementAction"
 		>
-			<BaseIcon icon="close"></BaseIcon>
+			<Icon icon="close"></Icon>
 			{{$translate('cut_element')}}
 		</li>
 		<li
@@ -38,7 +38,7 @@
 			@click="pasteElementAction"
 			v-if="getCopiedElement || getCuttedElement"
 		>
-			<BaseIcon icon="copy"></BaseIcon>
+			<Icon icon="copy"></Icon>
 			{{$translate('paste_element')}}
 		</li>
 		<li
@@ -46,14 +46,14 @@
 			@click="triggerRename"
 			v-if="showRename"
 		>
-			<BaseIcon icon="edit"></BaseIcon>
+			<Icon icon="edit"></Icon>
 			{{$translate('rename_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="toggleVisibility"
 		>
-			<BaseIcon icon="eye"></BaseIcon>
+			<Icon icon="eye"></Icon>
 			{{this.getElementOptionValue(this.getElementFocus.uid, '_isVisible', true) ? $translate('visible_element') : $translate('show_element')}}
 		</li>
 		<li
@@ -61,7 +61,7 @@
 			@click="copyElementStyles"
 			v-if="data && data.options._styles"
 		>
-			<BaseIcon icon="drop"></BaseIcon>
+			<Icon icon="drop"></Icon>
 			{{$translate('copy_element_styles')}}
 		</li>
 		<li
@@ -69,7 +69,7 @@
 			@click="discardElementStyles"
 			v-if="data && data.options._styles"
 		>
-			<BaseIcon icon="drop"></BaseIcon>
+			<Icon icon="drop"></Icon>
 			{{$translate('discard_element_styles')}}
 		</li>
 		<li
@@ -77,7 +77,7 @@
 			@click="pasteElementStyles"
 			v-if="getCopiedElementStyles"
 		>
-			<BaseIcon icon="drop"></BaseIcon>
+			<Icon icon="drop"></Icon>
 			{{$translate('paste_element_styles')}}
 		</li>
 		<li
@@ -85,7 +85,7 @@
 			@click="copyElementClasses"
 			v-if="data && data.options._classes"
 		>
-			<BaseIcon icon="braces"></BaseIcon>
+			<Icon icon="braces"></Icon>
 			{{$translate('copy_classes')}}
 		</li>
 		<li
@@ -93,7 +93,7 @@
 			class="znpb-right-click__menu-item"
 			@click="pasteElementClasses"
 		>
-			<BaseIcon icon="braces"></BaseIcon>
+			<Icon icon="braces"></Icon>
 			{{$translate('paste_classes')}}
 		</li>
 		<li class="znpb-right-click__menu-separator">
@@ -103,14 +103,14 @@
 			class="znpb-right-click__menu-item"
 			@click="saveElement"
 		>
-			<BaseIcon icon="check"></BaseIcon>
+			<Icon icon="check"></Icon>
 			{{$translate('save_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="savePageAction"
 		>
-			<BaseIcon icon="check"></BaseIcon>
+			<Icon icon="check"></Icon>
 			{{$translate('save_draft')}}
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
@@ -118,7 +118,7 @@
 			class="znpb-right-click__menu-item"
 			@click="deleteElementMenu"
 		>
-			<BaseIcon icon="delete"></BaseIcon>
+			<Icon icon="delete"></Icon>
 			{{$translate('delete_element')}}
 		</li>
 	</ul>

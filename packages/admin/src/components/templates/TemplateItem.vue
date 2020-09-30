@@ -29,7 +29,7 @@
 						@click="copyTextInput(template.shortcode)"
 					>
 						<template v-slot:suffix>
-							<BaseIcon
+							<Icon
 								icon="copy"
 								@click="copyTextInput(template.shortcode)"
 							/>
@@ -66,7 +66,7 @@
 						class="znpb-admin-single-template__action znpb-edit-icon-pop"
 					>
 
-						<BaseIcon
+						<Icon
 							icon="edit"
 							@click="editUrl"
 						/>
@@ -81,7 +81,7 @@
 						placement="top"
 						:positionFixed="true"
 					>
-						<BaseIcon
+						<Icon
 							icon="delete"
 							@click="$emit('delete-template', template)"
 						/>
@@ -95,7 +95,7 @@
 						:modifiers="{ offset: { offset: '0,15px' } }"
 						:positionFixed="true"
 					>
-						<BaseIcon
+						<Icon
 							icon="export"
 							@click="exportLocalTemplate"
 						/>
@@ -109,7 +109,7 @@
 						:modifiers="{ offset: { offset: '0,15px' } }"
 						:positionFixed="true"
 					>
-						<BaseIcon
+						<Icon
 							icon="eye"
 							@click="$emit('show-modal-preview', true)"
 						/>
@@ -129,7 +129,7 @@
 <script>
 import { exportTemplateById } from '@zionbuilder/rest'
 import { saveAs } from 'file-saver'
-import { Tooltip, BaseIcon, Loader } from '@zionbuilder/components'
+import { Tooltip, Icon, Loader } from '@zionbuilder/components'
 import { BaseInput } from '@zionbuilder/components/forms'
 
 export default {
@@ -137,7 +137,7 @@ export default {
 	components: {
 		BaseInput,
 		Tooltip,
-		BaseIcon,
+		Icon,
 		Loader
 	},
 	props: {

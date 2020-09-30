@@ -30,7 +30,7 @@
 					@cancel="showPresetInput=false"
 				/>
 
-				<BaseIcon
+				<Icon
 					v-if="!showPresetInput"
 					icon="delete"
 					:bg-size="30"
@@ -63,7 +63,7 @@
 					@delete-gradient="deleteGradient(gradient)"
 				/>
 			</Sortable>
-			<BaseIcon
+			<Icon
 				icon="plus"
 				class="znpb-colorpicker-add-grad"
 				@click="addGradientConfig"
@@ -76,7 +76,7 @@
 </template>
 <script>
 import { applyFilters } from '@zb/hooks'
-import BaseIcon from '../BaseIcon.vue'
+import Icon from '../Icon/Icon.vue'
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'
 import GradientElement from './GradientElement.vue'
@@ -95,7 +95,7 @@ export default {
 		PresetInput,
 		ActionsOverlay,
 		Sortable,
-		BaseIcon
+		Icon
 	},
 	props: {
 		modelValue: {

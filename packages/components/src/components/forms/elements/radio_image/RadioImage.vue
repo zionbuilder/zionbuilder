@@ -24,7 +24,7 @@
 						v-if="option.class"
 						class="znpb-radio-image-list__preview-element animated" :class="option.value">
 					</span>
-					<BaseIcon
+					<Icon
 						class="znpb-radio-image-list__icon"
 						v-if="option.icon"
 						:icon="option.icon"
@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'RadioImage',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

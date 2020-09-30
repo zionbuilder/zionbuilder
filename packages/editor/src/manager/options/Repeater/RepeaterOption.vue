@@ -4,20 +4,20 @@
 		:combine-breadcrumbs="true"
 		:show-back-button="true"
 	>
-		<BaseIcon
+		<Icon
 			v-if="clonable"
 			class="znpb-option-repeater-selector__clone-icon"
 			@click.stop="cloneOption"
 			icon="copy"
 			slot="actions"
-		></BaseIcon>
-		<BaseIcon
+		></Icon>
+		<Icon
 			v-if="deletable"
 			class="znpb-option-repeater-selector__delete-icon"
 			@click.stop="deleteOption(propertyIndex)"
 			icon="delete"
 			slot="actions"
-		></BaseIcon>
+		></Icon>
 
 		<OptionsForm
 			:schema="schema"

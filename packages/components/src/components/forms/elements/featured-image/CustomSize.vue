@@ -12,7 +12,7 @@
 			/>
 		</InputWrapper>
 		<div class="znpb-forms-image-custom-size__option-separator">
-			<BaseIcon icon="close" :size="10" />
+			<Icon icon="close" :size="10" />
 		</div>
 		<InputWrapper
 			:title="$translate('custom_height')"
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 import BaseInput from '../input/BaseInput.vue'
 import InputWrapper from '../inputWrapper/InputWrapper.vue'
 
@@ -55,7 +55,7 @@ export default {
 	components: {
 		BaseInput,
 		InputWrapper,
-		BaseIcon
+		Icon
 	},
 	methods: {
 		onCustomSizeClick () {

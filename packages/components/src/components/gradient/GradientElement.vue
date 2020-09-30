@@ -8,7 +8,7 @@
 			:config="localConfig"
 			@click="$emit('change-active-gradient', config)"
 		/>
-		<BaseIcon
+		<Icon
 			icon="close"
 			v-if="showRemove"
 			@click.stop="$emit('delete-gradient')"
@@ -17,14 +17,14 @@
 
 </template>
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import Icon from '../Icon/Icon.vue'
 import OneGradient from './OneGradient.vue'
 
 export default {
 	name: 'GradientElement',
 	components: {
 		OneGradient,
-		BaseIcon
+		Icon
 	},
 	props: {
 		config: {

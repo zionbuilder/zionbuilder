@@ -10,7 +10,7 @@
 			:content="$translate('delete_gradient_from_preset')"
 			@click.stop="$emit('delete-gradient')"
 		>
-			<BaseIcon
+			<Icon
 				icon="close"
 			/>
 		</Tooltip>
@@ -26,14 +26,14 @@
 </template>
 
 <script>
-import { GradientPreview, BaseIcon, Tooltip } from '@zionbuilder/components'
+import { GradientPreview, Icon, Tooltip } from '@zionbuilder/components'
 
 export default {
 	name: 'GradientBox',
 	components: {
 		GradientPreview,
 		Tooltip,
-		BaseIcon
+		Icon
 	},
 	props: {
 		config: {

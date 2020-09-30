@@ -4,13 +4,13 @@ import Label from './components/Label/Label.vue'
 import Tab from './components/Tabs/Tab.vue'
 import Tabs from './components/Tabs/Tabs.vue'
 import Accordion from './components/Accordion/Accordion.vue'
-import Notice from './components/Notice.vue'
+import { Notice } from './components/Notice'
 import UpgradeToPro from './components/UpgradeToPro/UpgradeToPro.vue'
 import { ColorPicker } from './components/colorpicker'
 import { GradientPreview, GradientGenerator, GradientLibrary } from './components/gradient'
 import ActionsOverlay from './components/forms/elements/actions-overlay/ActionsOverlay.vue'
-import HorizontalAccordion from './components/horizontal-accordion/HorizontalAccordion.vue'
-import BaseIcon from './components/BaseIcon.vue'
+import HorizontalAccordion from './components/HorizontalAccordion/HorizontalAccordion.vue'
+import { Icon } from './components/Icon'
 import IconPackGrid from './components/IconPackGrid.vue'
 import { Injection } from './components/injections'
 import { Sortable } from '@zionbuilder/sortable'
@@ -29,7 +29,7 @@ export {
 	// General
 	Modal,
 	ModalConfirm,
-	BaseIcon,
+	Icon,
 	Tooltip,
 	Loader,
 	Accordion,

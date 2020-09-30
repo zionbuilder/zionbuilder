@@ -3,10 +3,10 @@
 		<div class="znpb-admin__google-fonts-modal-item-header">
 			<div>{{font.family}}</div>
 			<div v-if="! isActive" @click="$emit('font-selected', font)" class="znpb-circle-icon-line">
-				<BaseIcon icon="plus"></BaseIcon>
+				<Icon icon="plus"></Icon>
 			</div>
 			<div v-if="isActive" @click="$emit('font-removed', font.family)" class="znpb-circle-icon-line znpb-circle-delete">
-				<BaseIcon icon="minus"></BaseIcon>
+				<Icon icon="minus"></Icon>
 			</div>
 		</div>
 		<div class="znpb-admin__google-fonts-modal-item-preview" contenteditable="true" :style="fontStyle">{{previewText}}</div>
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import { BaseIcon } from '@zionbuilder/components'
+import { Icon } from '@zionbuilder/components'
 
 export default {
 	name: 'GoogleFontModalElement',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		font: {

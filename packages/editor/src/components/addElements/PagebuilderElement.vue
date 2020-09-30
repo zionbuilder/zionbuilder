@@ -17,7 +17,7 @@
 			class="znpb-element-box__image"
 		/>
 
-		<BaseIcon
+		<Icon
 			v-else
 			:icon="get_element_icon"
 			:size="48"

@@ -11,7 +11,7 @@
 			type="radio"
 			class="znpb-form__input-toggle"
 		>
-		<BaseIcon
+		<Icon
 			v-if="icon"
 			:icon="icon"
 			:bg-size="bgSize"
@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'RadioIconItem',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

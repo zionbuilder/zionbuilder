@@ -1,10 +1,10 @@
 <template>
-	<BaseIcon
+	<Icon
 		icon="plus"
 		:bgSize="40"
 		:rounded="true"
 		color="#fff"
-	></BaseIcon>
+	></Icon>
 </template>
 
 <script>

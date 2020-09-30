@@ -20,11 +20,11 @@
 			placement="top"
 			class="znpb-css-class-selector__item-close"
 		>
-			<BaseIcon
+			<Icon
 				icon="close"
 				v-on:click.stop='handleDeleteClass(name)'
 			>
-			</BaseIcon>
+			</Icon>
 		</Tooltip>
 
 	</div>

@@ -3,7 +3,7 @@
 		class="znpb-about-modal__version-card"
 		:class="{'znpb-about-modal__version-card--active' : !isPro }"
 	>
-		<BaseIcon icon="zion-icon-logo"/>
+		<Icon icon="zion-icon-logo"/>
 		<div v-if="isPro" class="znpb-pro-item">{{$translate('pro')}}</div>
 		<span class="znpb-about-modal__plugin-title">Zion Builder
 			<span v-if="isPro">{{$translate('pro')}}</span>

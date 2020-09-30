@@ -10,14 +10,14 @@
 				v-html="data.message"
 			></div>
 		</template>
-		<BaseIcon
+		<Icon
 			:icon="icontype"
 			class="znpb-admin-system-notice"
 			:class="`znpb-admin-system-notice--${this.data.icon}`"
 		/>
 
 	</Tooltip>
-	<BaseIcon
+	<Icon
 		v-else
 		:icon="icontype"
 		class="znpb-admin-system-notice znpb-admin-system-notice--no-tooltip"
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import { BaseIcon, Tooltip } from '@zionbuilder/components'
+import { Icon, Tooltip } from '@zionbuilder/components'
 
 export default {
 	name: 'SmallNotice',
 	components: {
-		BaseIcon,
+		Icon,
 		Tooltip
 	},
 	props: {

@@ -8,7 +8,7 @@
 			v-if="checkUser(user)"
 			:content="$translate('user_has_permissions_remove')"
 		>
-			<BaseIcon
+			<Icon
 				icon="delete"
 				@click="deletePermission(user)"
 			/>
@@ -21,13 +21,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseIcon, Tooltip, Loader } from '@zionbuilder/components'
+import { Icon, Tooltip, Loader } from '@zionbuilder/components'
 import { saveOptions } from '@zionbuilder/rest'
 
 export default {
 	name: 'ModalListItem',
 	components: {
-		BaseIcon,
+		Icon,
 		Tooltip,
 		Loader
 	},

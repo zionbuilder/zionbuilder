@@ -50,14 +50,14 @@
 						class="znpb-editor-library-modal-subheader__action-title"
 						:class="{ 'znpb-editor-library-modal-subheader__action-title--favorite' : favActive }"
 					>
-						<BaseIcon icon="heart"/>
+						<Icon icon="heart"/>
 						{{$translate('favorites')}}
 					</div> -->
 					<div
 						@click="sort=!sort"
 						class="znpb-editor-library-modal-subheader__action-title"
 					>
-						<BaseIcon icon="reverse-y" />{{$translate('sort')}}
+						<Icon icon="reverse-y" />{{$translate('sort')}}
 					</div>
 
 				</div>

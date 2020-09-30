@@ -5,14 +5,14 @@
 			:placeholder="$translate('add_preset_title')"
 		>
 			<template v-slot:append>
-				<BaseIcon icon="check" @click.stop="$emit('save-preset', colorName)" />
-				<BaseIcon icon="close" @click.stop="$emit('cancel',true)"/>
+				<Icon icon="check" @click.stop="$emit('save-preset', colorName)" />
+				<Icon icon="close" @click.stop="$emit('cancel',true)"/>
 			</template>
 		</BaseInput>
 	</div>
 </template>
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 import BaseInput from '../input/BaseInput.vue'
 /**
  * it emits:
@@ -22,7 +22,7 @@ export default {
 	name: 'PresetInput',
 	components: {
 		BaseInput,
-		BaseIcon
+		Icon
 	},
 	props: {
 		modelValue: {

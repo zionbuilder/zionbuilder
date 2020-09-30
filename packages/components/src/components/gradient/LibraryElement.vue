@@ -10,14 +10,14 @@
 		}"
 	>
 		<template v-if="!hasInput">
-			<BaseIcon v-if="animation" icon="more" @click="expand =! expand, onstart = false" class="znpb-form-library-inner-action-icon"/>
-			<BaseIcon  v-if="icon" :icon="icon" @click="$emit('close-library')" class="znpb-form-library-inner-action-icon"/>
+			<Icon v-if="animation" icon="more" @click="expand =! expand, onstart = false" class="znpb-form-library-inner-action-icon"/>
+			<Icon  v-if="icon" :icon="icon" @click="$emit('close-library')" class="znpb-form-library-inner-action-icon"/>
 		</template>
 		<slot></slot>
 	</div>
 </template>
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import { Icon } from '../Icon'
 /**
  * it receives no aimation on beggining
  */
@@ -25,7 +25,7 @@ import BaseIcon from '../BaseIcon.vue'
 export default {
 	name: 'LibraryElement',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		animation: {

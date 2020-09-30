@@ -4,18 +4,18 @@
 			<slot></slot>
 		</div>
 		<div class="znpb-admin-content__right">
-			<BaseIcon icon="infobig" class="znpb-admin-right-info"/>
+			<Icon icon="infobig" class="znpb-admin-right-info"/>
 			<slot name="right"></slot>
 		</div>
 	</div>
 </template>
 <script>
-import { BaseIcon } from '@zionbuilder/components'
+import { Icon } from '@zionbuilder/components'
 
 export default {
 	name: 'PageTemplate',
 	components: {
-		BaseIcon
+		Icon
 	}
 }
 </script>

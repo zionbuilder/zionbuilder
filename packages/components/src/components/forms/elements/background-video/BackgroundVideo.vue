@@ -17,7 +17,7 @@
 				{{$translate('no_video_selected')}}
 			</EmptyList>
 
-			<BaseIcon
+			<Icon
 				v-if="this.videoSourceModel == 'local' && hasVideo"
 				class="znpb-input-background-video__delete"
 				icon="delete"
@@ -35,7 +35,7 @@
 	</div>
 </template>
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 import EmptyList from '../empty-list/EmptyList.vue'
 import Video from '@zionbuilder/video'
 import { getSchema } from '@zb/schemas'
@@ -44,7 +44,7 @@ export default {
 	name: 'InputBackgroundVideo',
 	components: {
 		EmptyList,
-		BaseIcon
+		Icon
 	},
 	props: ['modelValue', 'options', 'exclude_options'],
 	data () {

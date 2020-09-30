@@ -18,7 +18,7 @@
 				>
 					{{option.name}}
 				</span>
-				<BaseIcon
+				<Icon
 					v-if="!textIcon && option.icon"
 					:icon="option.icon"
 				/>
@@ -26,7 +26,7 @@
 					class="znpb-custom-selector__icon-text-content"
 					v-if="textIcon"
 				>
-					<BaseIcon
+					<Icon
 						v-if="option.icon"
 						:icon="option.icon"
 					/>
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import { Icon } from '../../../Icon'
 
 export default {
 	name: 'CustomSelector',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		options: {

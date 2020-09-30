@@ -6,10 +6,10 @@
 				:placeholder="$translate('add_an_url')"
 				:title="$translate('link_url')"
 			>
-				<BaseIcon
+				<Icon
 					slot="prepend"
 					icon="link"
-				></BaseIcon>
+				></Icon>
 			</BaseInput>
 		</InputWrapper>
 		<InputWrapper

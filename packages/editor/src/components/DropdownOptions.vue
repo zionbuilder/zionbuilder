@@ -4,7 +4,7 @@
 		@click.stop="toggleOptions"
 		v-click-outside="hideOptions"
 	>
-		<BaseIcon
+		<Icon
 			class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
 			icon="more"
 		/>

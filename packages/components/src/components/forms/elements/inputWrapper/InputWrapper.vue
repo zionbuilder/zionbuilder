@@ -20,7 +20,7 @@
 				<template v-slot:content>
 					<div> {{description}}</div>
 				</template>
-				<BaseIcon
+				<Icon
 					icon="question-mark"
 				/>
 			</Tooltip>
@@ -34,13 +34,13 @@
 
 <script>
 import { Tooltip } from '@zionbuilder/tooltip'
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'InputWrapper',
 	components: {
 		Tooltip,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

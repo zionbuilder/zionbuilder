@@ -15,7 +15,7 @@
 			@keydown="onKeyDown"
 		>
 			<template v-slot:suffix>
-				<BaseIcon
+				<Icon
 					class="znpb-input-number__dots"
 					@click="expanded = !expanded"
 					icon="three-dots"
@@ -94,14 +94,14 @@ import { Tooltip } from '@zionbuilder/tooltip'
 import stringUnits from '../../units'
 import BaseInput from '../input/BaseInput.vue'
 import rafSchd from 'raf-schd'
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 
 export default {
 	name: 'InputNumberUnit',
 	components: {
 		Tooltip,
 		BaseInput,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

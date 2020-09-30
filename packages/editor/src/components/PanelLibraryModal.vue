@@ -13,7 +13,7 @@
 					@click="closeBody"
 					class="znpb-library-modal-header-preview__back"
 				>
-					<BaseIcon
+					<Icon
 						icon="long-arrow-right"
 						rotate="180"
 					/>
@@ -76,7 +76,7 @@
 							@click="importActive = !importActive , templateUploaded=!templateUploaded "
 						>
 
-							<BaseIcon icon="import" />
+							<Icon icon="import" />
 							{{$translate('import')}}
 						</Button>
 
@@ -89,7 +89,7 @@
 							:modifiers="{ offset: { offset: '0,10px' } }"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
 						>
-							<BaseIcon
+							<Icon
 								icon="refresh"
 								@click="onRefresh"
 								:size="14"
@@ -99,14 +99,14 @@
 
 					</template>
 
-					<BaseIcon
+					<Icon
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						:size="14"
 						@click="fullSize = ! fullSize"
 					/>
 
-					<BaseIcon
+					<Icon
 						icon="close"
 						:size="14"
 						@click="togglePanel('PanelLibraryModal', false)"

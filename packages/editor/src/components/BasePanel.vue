@@ -22,7 +22,7 @@
 				{{ panelName }}
 			</h4>
 			<slot name="header" />
-			<BaseIcon
+			<Icon
 				v-if="showClose"
 				icon="close"
 				:size="14"

@@ -8,7 +8,7 @@
 				class="znpb-notice"
 				:class="`znpb-notice--${type}`"
 			>
-				<BaseIcon
+				<Icon
 					class="znpb-notice__close"
 					icon="close"
 					@click="$emit('close-notice')"
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import BaseIcon from './BaseIcon.vue'
+import { Icon } from '../Icon'
 
 export default {
 	name: 'Notice',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		error: {

@@ -3,7 +3,7 @@
 		class="zion-inline-editor-panel-wrapper"
 		:class="{'zion-inline-editor-popover-wrapper--open' : visible && isPanelvisibile}"
 	>
-		<BaseIcon
+		<Icon
 			:icon="icon"
 			@click="togglePanel"
 			:class="buttonClasses"

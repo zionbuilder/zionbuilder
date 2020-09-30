@@ -13,7 +13,7 @@
 					class="znpb-editor-layout__preview-button"
 					v-on:click="showPanels"
 				>
-					<BaseIcon icon="layout" />
+					<Icon icon="layout" />
 				</div>
 				<!-- devices -->
 				<div
@@ -21,7 +21,7 @@
 					class="znpb-editor-layout__preview-button"
 				>
 
-					<BaseIcon
+					<Icon
 						:icon="device"
 						slot="panel-icon"
 					/>
@@ -50,7 +50,7 @@
 								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
 								ref="dropdown"
 							>
-								<BaseIcon :icon="device.icon" />
+								<Icon :icon="device.icon" />
 							</div>
 						</template>
 					</Tooltip>

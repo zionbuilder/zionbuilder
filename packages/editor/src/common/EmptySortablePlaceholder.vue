@@ -15,7 +15,7 @@
 				tag="div"
 			>
 
-				<BaseIcon
+				<Icon
 					icon="plus"
 					:rounded="true"
 					class="znpb-empty-placeholder__tour-icon"

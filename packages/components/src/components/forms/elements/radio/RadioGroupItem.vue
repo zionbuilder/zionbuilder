@@ -15,7 +15,7 @@
 		<span
 			class="znpb-radio-item-input"
 		></span>
-		<!-- @slot Content such as BaseIcon -->
+		<!-- @slot Content such as Icon -->
 		<slot></slot>
 		<span class="znpb-radio-item-label" v-if="label">{{label}}</span>
 	</label>

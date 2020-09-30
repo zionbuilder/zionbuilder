@@ -14,7 +14,7 @@
 			class="znpb-tree-view__item-header"
 			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
 		>
-			<BaseIcon
+			<Icon
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
 				:class="{
@@ -22,7 +22,7 @@
 				}"
 				@click.stop="expanded = !expanded"
 				v-if="elementModel.wrapper"
-			></BaseIcon>
+			></Icon>
 
 			<ElementRename
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
@@ -38,13 +38,13 @@
 			>
 				<span>
 					<transition name="fade">
-						<BaseIcon
+						<Icon
 							icon="visibility-hidden"
 							v-if="!isElementVisible"
 							@click="makeElementVisible"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
-						</BaseIcon>
+						</Icon>
 					</transition>
 				</span>
 			</Tooltip>

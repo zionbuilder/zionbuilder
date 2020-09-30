@@ -7,7 +7,7 @@
 		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible
 		}"
 	>
-		<BaseIcon
+		<Icon
 			icon="ite-link"
 			@mousedown="togglePopper"
 			:class='buttonClasses'
@@ -25,7 +25,7 @@
 						@keyup.enter="addLink"
 					>
 						<template v-slot:prepend>
-							<BaseIcon
+							<Icon
 								icon="link"
 								@click="addLink"
 							/>

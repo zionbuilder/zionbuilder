@@ -10,7 +10,7 @@
 			class="znpb-gradient-actions__delete"
 			v-if="showDelete"
 		>
-			<BaseIcon
+			<Icon
 				icon="close"
 				@click.stop="$emit('delete-color', config)"
 				class="znpb-gradient-actions-delete"
@@ -20,12 +20,12 @@
 
 </template>
 <script>
-import BaseIcon from '../BaseIcon.vue'
+import Icon from '../Icon/Icon.vue'
 
 export default {
 	name: 'GradientColorConfig',
 	components: {
-		BaseIcon
+		Icon
 	},
 	props: {
 		config: {

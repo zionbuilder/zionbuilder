@@ -23,14 +23,14 @@
 					name="slide-fade"
 					mode="out-in"
 				>
-					<BaseIcon
+					<Icon
 						v-if="!showDelete"
 						icon="check"
 						:size="10"
 						key=1
 					/>
 
-					<BaseIcon
+					<Icon
 						key=2
 						v-else
 						icon="close"
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import BaseIcon from '../../../BaseIcon.vue'
+import Icon from '../../../Icon/Icon.vue'
 import Shape from './Shape.vue'
 import EmptyList from '../empty-list/EmptyList.vue'
 import { UpgradeToPro } from '../../../UpgradeToPro'
@@ -72,7 +72,7 @@ export default {
 		EmptyList,
 		Shape,
 		UpgradeToPro,
-		BaseIcon
+		Icon
 	},
 	props: {
 		/**

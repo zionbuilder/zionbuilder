@@ -5,10 +5,10 @@
 			@click="toggle"
 		>
 			<p class="znpb-pannel-accordion__header-title">{{title}}</p>
-			<BaseIcon
+			<Icon
 				class="znpb-option-group-selector__clone-icon"
 				:icon=" this.expanded ? 'minus' : 'plus'"
-			></BaseIcon>
+			></Icon>
 		</div>
 		<OptionsForm
 			v-if="child_options && expanded"

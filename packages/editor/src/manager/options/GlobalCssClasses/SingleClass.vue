@@ -13,7 +13,7 @@
 					}
 				}"
 			>
-				<BaseIcon
+				<Icon
 					class="znpb-edit-icon-pop"
 					icon="edit"
 					@click="$emit('edit-class',classItem)"
@@ -29,7 +29,7 @@
 					}
 				}"
 			>
-				<BaseIcon
+				<Icon
 					icon="delete"
 					@click.stop="$emit('delete-class',classItem)"
 				/>

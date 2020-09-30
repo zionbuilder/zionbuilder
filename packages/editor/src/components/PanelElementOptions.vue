@@ -19,7 +19,7 @@
 					v-if="elementConfig.is_child"
 					@click="onBackButtonClick"
 				>
-					<BaseIcon
+					<Icon
 						class="znpb-element-options__header-back-icon"
 						icon="select"
 					/>
@@ -31,7 +31,7 @@
 					@mouseleave="showBreadcrumbs=false"
 				>
 					{{`${elementName} ${$translate('options')}`}}
-					<BaseIcon icon="select" />
+					<Icon icon="select" />
 					<BreadcrumbsWrapper v-if="showBreadcrumbs" />
 				</h4>
 
@@ -73,7 +73,7 @@
 							@click="toggleSearchIcon"
 							class="znpb-element-options__search-tab-title"
 						>
-							<BaseIcon :icon="searchIcon" />
+							<Icon :icon="searchIcon" />
 						</div>
 
 						<BaseInput
@@ -112,14 +112,14 @@
 				:class="{'znpb-element-options-action__undo--disabled': ! canUndo}"
 				@click="undo"
 			>
-				<BaseIcon icon="undo" />
+				<Icon icon="undo" />
 			</div>
 			<div
 				class="znpb-element-options-action__redo"
 				:class="{'znpb-element-options-action__redo--disabled': ! canRedo}"
 				@click="redo"
 			>
-				<BaseIcon icon="redo" />
+				<Icon icon="redo" />
 			</div>
 
 		</div>

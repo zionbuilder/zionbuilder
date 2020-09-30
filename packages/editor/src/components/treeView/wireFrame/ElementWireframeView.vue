@@ -9,7 +9,7 @@
 	>
 		<div class="znpb-wireframe-item__header znpb-utility__flex">
 			<div class="znpb-wireframe-item__header-area znpb-utility__flex znpb-wireframe-item__header-area--left">
-				<BaseIcon
+				<Icon
 					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					v-if="elementTemplateData.content && elementTemplateData.content.length"
 					icon="select"
@@ -35,12 +35,12 @@
 				>
 					<span>
 						<transition name="fade">
-							<BaseIcon
+							<Icon
 								icon="visibility-hidden"
 								@click="makeElementVisible"
 								class="znpb-editor-icon-wrapper--show-element"
 							>
-							</BaseIcon>
+							</Icon>
 						</transition>
 					</span>
 				</Tooltip>
@@ -51,7 +51,7 @@
 					:isActive="isActiveItem"
 					@changename="isNameChangeActive=true"
 				></DropdownOptions>
-				<BaseIcon
+				<Icon
 					icon="delete"
 					@click.stop="deleteElementMenu"
 					class="znpb-wireframe-item__delete-icon"
@@ -97,7 +97,7 @@
 				key="addElements"
 			>
 				<div class="znpb-element-toolbox__add-element-button">
-					<BaseIcon
+					<Icon
 						icon="plus"
 						:rounded="true"
 					/>

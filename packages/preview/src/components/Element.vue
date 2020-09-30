@@ -47,11 +47,11 @@
 			>
 
 				<div class="znpb-hidden-element-placeholder">
-					<BaseIcon
+					<Icon
 						icon="eye"
 						@click.stop="restoreHiddenElement"
 					>
-					</BaseIcon>
+					</Icon>
 				</div>
 			</div>
 		</transition>
