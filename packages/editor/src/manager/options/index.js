@@ -27,7 +27,7 @@ import Dimensions from './Dimensions'
 // Forms component
 import {
 	BaseInput,
-	InputDate,
+	InputDatePicker,
 	ShapeDividers,
 	ShapeDividerComponent,
 	ColorPicker,
@@ -211,7 +211,7 @@ export default () => {
 
 		registerOption({
 			id: 'date_input',
-			component: InputDate
+			component: InputDatePicker
 		})
 
 		registerOption({

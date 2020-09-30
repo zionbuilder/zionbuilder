@@ -4,7 +4,7 @@ import { applyFilters } from '@zionbuilder/hooks'
 // Forms component
 import {
 	BaseInput,
-	InputDate,
+	InputDatePicker,
 	ShapeDividers,
 	ShapeDividerComponent,
 	ColorPicker,
@@ -177,7 +177,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'date_input',
-			component: InputDate
+			component: InputDatePicker
 		})
 
 		registerOption({

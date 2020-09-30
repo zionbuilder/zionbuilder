@@ -27,6 +27,7 @@ import { InputCheckbox, InputCheckboxGroup, InputCheckboxSwitch } from './compon
 import { InputLabel } from "./components/InputLabel";
 import { InputCode } from "./components/InputCode";
 import { InputRadio, InputRadioGroup, InputRadioIcon } from "./components/InputRadio";
+import { InputDatePicker } from './components/InputDatePicker'
 
 export {
 	Button,
@@ -66,7 +67,8 @@ export {
 	InputCode,
 	InputRadio,
 	InputRadioGroup,
-	InputRadioIcon
+	InputRadioIcon,
+	InputDatePicker
 }
 
 export const options = createOptionsInstance()

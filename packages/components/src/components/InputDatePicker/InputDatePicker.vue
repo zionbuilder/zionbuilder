@@ -37,7 +37,7 @@ import BaseInput from '../forms/elements/input/BaseInput.vue'
  *   model - string
  */
 export default {
-	name: 'InputDate',
+	name: 'InputDatePicker',
 	components: {
 		DatePick,
 		BaseInput
