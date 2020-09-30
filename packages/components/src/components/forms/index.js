@@ -17,7 +17,7 @@ import { InputImage } from './elements/featured-image'
 import { Editor } from './elements/editor'
 import { InputCode } from '../InputCode'
 import { RadioImage } from './elements/radio_image'
-import { InputDate } from './elements/InputDate'
+import { InputDate } from '../InputDate'
 import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-dividers'
 
 // Layout
