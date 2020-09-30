@@ -6,7 +6,7 @@ import { InputCheckboxSwitch, InputCheckboxGroup, InputCheckbox } from '../Input
 import { InputSelect } from './elements/select'
 import { InputColorPicker, Color } from '../InputColorPicker'
 import { InputNumber, InputNumberUnit } from '../InputNumber'
-import { InputRange, InputRangeDynamic } from './elements/range'
+import { InputRange, InputRangeDynamic } from '../InputRange'
 import { InputMedia } from './elements/media'
 import { InputSwitch } from './elements/switch'
 

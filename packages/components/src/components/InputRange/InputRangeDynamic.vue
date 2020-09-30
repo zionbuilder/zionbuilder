@@ -47,9 +47,9 @@
  * this type of element supports
  *   model - Number
  */
-import BaseInput from '../input/BaseInput.vue'
-import { InputNumberUnit } from '../../../InputNumber'
-import stringUnits from '../../units'
+import BaseInput from '../forms/elements/input/BaseInput.vue'
+import { InputNumberUnit } from '../InputNumber'
+import stringUnits from '../forms/units'
 
 export default {
 	name: 'InputRangeDynamic',
