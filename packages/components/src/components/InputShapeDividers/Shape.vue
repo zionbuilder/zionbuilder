@@ -12,6 +12,7 @@
 
 <script>
 import SvgMask from './SvgMask.vue'
+
 export default {
 	name: 'Shape',
 	components: {

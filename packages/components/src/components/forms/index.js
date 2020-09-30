@@ -18,7 +18,7 @@ import { Editor } from './elements/editor'
 import { InputCode } from '../InputCode'
 import { RadioImage } from './elements/radio_image'
 import { InputDatePicker } from '../InputDatePicker'
-import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-dividers'
+import { InputShapeDividers, ShapeDividerComponent, SvgMask } from '../InputShapeDividers'
 
 // Layout
 import { InputWrapper } from './elements/inputWrapper'
@@ -76,7 +76,7 @@ const components = [
 	InputBorderRadiusTabs,
 	InputImage,
 	InputCustomSelector,
-	ShapeDividers,
+	InputShapeDividers,
 	ShapeDividerComponent,
 	SvgMask,
 	InputWrapper2,
@@ -126,7 +126,7 @@ export default {
 	InputImage,
 	InputCustomSelector,
 	InputDatePicker,
-	ShapeDividers,
+	InputShapeDividers,
 	ShapeDividerComponent,
 	SvgMask,
 	InputWrapper2,
@@ -172,7 +172,7 @@ export {
 	InputBorderRadiusTabs,
 	InputImage,
 	InputCustomSelector,
-	ShapeDividers,
+	InputShapeDividers,
 	ShapeDividerComponent,
 	SvgMask,
 	InputWrapper2,

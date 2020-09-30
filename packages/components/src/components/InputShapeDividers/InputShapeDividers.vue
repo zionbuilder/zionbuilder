@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { InputCustomSelector } from '../../../InputCustomSelector'
+import { InputCustomSelector } from '../InputCustomSelector'
 
 export default {
 	name: 'ShapeDividers',

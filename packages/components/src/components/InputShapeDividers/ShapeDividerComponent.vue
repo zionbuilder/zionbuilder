@@ -61,11 +61,12 @@
 </template>
 
 <script>
-import Icon from '../../../Icon/Icon.vue'
+import { Icon } from '../Icon'
 import Shape from './Shape.vue'
-import { EmptyList } from '../../../EmptyList'
-import { UpgradeToPro } from '../../../UpgradeToPro'
+import { EmptyList } from '../EmptyList'
+import { UpgradeToPro } from '../UpgradeToPro'
 import { mapGetters } from 'vuex'
+
 export default {
 	name: 'ShapeDividerComponent',
 	components: {

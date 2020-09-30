@@ -28,7 +28,7 @@ import Dimensions from './Dimensions'
 import {
 	BaseInput,
 	InputDatePicker,
-	ShapeDividers,
+	InputShapeDividers,
 	ShapeDividerComponent,
 	ColorPicker,
 	CustomSelector,
@@ -216,7 +216,7 @@ export default () => {
 
 		registerOption({
 			id: 'shape_dividers',
-			component: ShapeDividers
+			component: InputShapeDividers
 		})
 		registerOption({
 			id: 'shape_component',
