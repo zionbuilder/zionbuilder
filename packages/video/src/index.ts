@@ -2,6 +2,17 @@ import { createActionInstance } from '@zionbuilder/hooks'
 import { youtubeUrlParser } from '@zionbuilder/utils'
 import fitVids from 'fitvids'
 
+export interface VideoOptions {
+	autoplay?: boolean,
+	muted?: boolean,
+	loop?: boolean,
+	controls?: boolean,
+	controlsPosition?: string,
+	videoSource?: string,
+	responsive?: boolean,
+}
+
+
 let YoutubeApiLoadedState = 0
 let vimeoApiLoadedState = 0
 let videoIndex = 0
@@ -10,7 +21,9 @@ let vimeoVolume = 1
 const globalEventBus = createActionInstance()
 
 export default class Video {
-	constructor(domNode: HTMLElement, options = {}) {
+	options: VideoOptions = {}
+
+	constructor(domNode: HTMLElement, options: VideoOptions = {}) {
 		this.options = {
 			autoplay: true,
 			muted: true,

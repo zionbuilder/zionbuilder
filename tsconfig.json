@@ -1,7 +1,5 @@
 {
 	"references": [
-		{ "path": "./packages/admin" },
-		{ "path": "./packages/components" },
 		{ "path": "./packages/z-index-manager" },
 	]
 }

@@ -1,10 +1,12 @@
+export type CallbackFunction = (...args: any[]) => void
+
 export default () => {
-	const actions: Object = {}
+	const actions: {[key: string]: CallbackFunction[]} = {}
 
 	/**
 	 * Add an event listener.
 	 */
-	const on = (event: string, callback) => {
+	const on = (event: string, callback: CallbackFunction) => {
 		if (typeof actions[event] === 'undefined') {
 			actions[event] = []
 		}
@@ -15,7 +17,7 @@ export default () => {
 	/**
 	 * Remove an event listener.
 	 */
-	const off = (event: string, callback) => {
+	const off = (event: string, callback: CallbackFunction) => {
 		if (typeof actions[event] !== 'undefined') {
 			const callbackIndex = actions[event].indexOf(callback)
 			if (callbackIndex !== -1) {
