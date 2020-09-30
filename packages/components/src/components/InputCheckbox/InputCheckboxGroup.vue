@@ -24,7 +24,7 @@
 	</div>
 </template>
 <script>
-import { Icon } from '../../../Icon'
+import { Icon } from '../Icon'
 import InputCheckbox from './InputCheckbox.vue'
 
 export default {

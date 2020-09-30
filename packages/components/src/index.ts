@@ -21,6 +21,11 @@ export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm } from '@zionbuilder/modal'
 
+// Inputs
+import { InputBackgroundVideo } from './components/InputBackgroundVideo'
+import { InputCheckbox, InputCheckboxGroup, InputCheckboxSwitch } from './components/InputCheckbox'
+
+
 export {
 	Button,
 	UpgradeToPro,
@@ -38,6 +43,7 @@ export {
 	Tab,
 	ColorPicker,
 	Injection,
+
 	// Specific
 	ActionsOverlay,
 	GradientPreview,
@@ -47,7 +53,13 @@ export {
 	IconPackGrid,
 	// Forms
 	Sortable,
-	ChangesBullet
+	ChangesBullet,
+
+	// Inputs
+	InputBackgroundVideo,
+	InputCheckboxGroup,
+	InputCheckbox,
+	InputCheckboxSwitch
 }
 
 export const options = createOptionsInstance()

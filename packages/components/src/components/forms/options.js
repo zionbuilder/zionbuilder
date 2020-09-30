@@ -20,9 +20,9 @@ import {
 	CustomCode,
 	InputNumber,
 	InputNumberUnit,
-	Checkbox,
-	CheckboxGroup,
-	CheckboxSwitch,
+	InputCheckbox,
+	InputCheckboxGroup,
+	InputCheckboxSwitch,
 	InputTextAlign,
 	InputTextTransform,
 	InputBorderTabs,
@@ -138,16 +138,16 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'checkbox',
-			component: Checkbox
+			component: InputCheckbox
 		})
 
 		registerOption({
 			id: 'checkbox_group',
-			component: CheckboxGroup
+			component: InputCheckboxGroup
 		})
 		registerOption({
 			id: 'checkbox_switch',
-			component: CheckboxSwitch
+			component: InputCheckboxSwitch
 		})
 
 		registerOption({

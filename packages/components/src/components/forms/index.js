@@ -2,7 +2,7 @@
 import { createOptionsInstance } from './options'
 
 // General components
-import { Checkbox, CheckboxGroup, CheckboxSwitch } from './elements/checkbox'
+import { InputCheckboxSwitch, InputCheckboxGroup, InputCheckbox } from '../InputCheckbox'
 import { InputSelect } from './elements/select'
 import { ColorPicker, Color } from './elements/Colorpicker'
 import { InputNumber, InputNumberUnit } from './elements/InputNumber'
@@ -12,7 +12,7 @@ import { InputSwitch } from './elements/switch'
 
 // Inputs
 import { InputBackgroundImage } from '../InputBackgroundImage'
-import { InputBackgroundVideo } from './elements/background-video'
+import { InputBackgroundVideo } from '../InputBackgroundVideo'
 import { InputImage } from './elements/featured-image'
 import { Editor } from './elements/editor'
 import { CustomCode } from './elements/code'
@@ -57,9 +57,9 @@ const components = [
 	InputDate,
 	// Needs testing
 	InputSelect,
-	Checkbox,
-	CheckboxGroup,
-	CheckboxSwitch,
+	InputCheckboxSwitch,
+	InputCheckboxGroup,
+	InputCheckbox,
 	ColorPicker,
 	Color,
 	InputNumber,
@@ -106,9 +106,9 @@ export default {
 	ActionsOverlay,
 	InputLabel,
 	InputSelect,
-	Checkbox,
-	CheckboxGroup,
-	CheckboxSwitch,
+	InputCheckboxSwitch,
+	InputCheckboxGroup,
+	InputCheckbox,
 	ColorPicker,
 	Color,
 	InputNumber,
@@ -153,9 +153,9 @@ export {
 	InputDate,
 	// Needs testing
 	InputSelect,
-	Checkbox,
-	CheckboxGroup,
-	CheckboxSwitch,
+	InputCheckboxSwitch,
+	InputCheckboxGroup,
+	InputCheckbox,
 	ColorPicker,
 	Color,
 	InputNumber,
