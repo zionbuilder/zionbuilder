@@ -29,7 +29,7 @@ import { InputRadioGroup, InputRadio, InputRadioIcon } from '../InputRadio'
 
 import { InputTextAlign } from '../InputTextAlign'
 import { InputTextTransform } from './elements/textTransform'
-import { InputTextShadow } from './elements/textShadow'
+import { InputTextShadow } from '../InputTextShadow'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './elements/borders'
 import { BaseInput } from './elements/input'
 import { InputCustomSelector } from '../InputCustomSelector'
