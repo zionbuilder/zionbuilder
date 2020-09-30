@@ -40,10 +40,12 @@
 				<h3 class="znpb-columns-templates__library-title">{{$translate('access_library_templates')}}</h3>
 				<p class="znpb-columns-templates__libray-text">{{$translate('access_video_library')}}</p>
 				<div class="znpb-columns-templates__library-buttonWrap">
-					<BaseButton
+					<Button
 						type="secondary"
 						@click.stop="openLibrary"
-					>{{$translate('open_library')}}</BaseButton>
+					>
+						{{$translate('open_library')}}
+					</Button>
 				</div>
 			</Tab>
 

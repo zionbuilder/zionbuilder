@@ -28,7 +28,7 @@
 
 		</div>
 		<div class="znpb-admin-replace__actions">
-			<BaseButton
+			<Button
 				:type="disabled ? 'disabled' : 'line'"
 				class="znpb-admin-replace-button"
 				@click="callReplaceUrl()"
@@ -43,7 +43,7 @@
 					/>
 					<span v-else>{{$translate('update_url')}}</span>
 				</transition>
-			</BaseButton>
+			</Button>
 
 			<p
 				v-if="message.length"
@@ -65,14 +65,14 @@
 </template>
 
 <script>
-import { replaceUrl } from '@zb/rest'
-import { BaseIcon, BaseButton, Loader } from '@zb/components'
+import { replaceUrl } from '@zionbuilder/rest'
+import { BaseIcon, Button, Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'ToolsPage',
 	components: {
 		BaseIcon,
-		BaseButton,
+		Button,
 		Loader
 	},
 	data () {

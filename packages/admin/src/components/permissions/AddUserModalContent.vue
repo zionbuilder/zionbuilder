@@ -32,10 +32,10 @@
 
 <script>
 
-import { searchUser } from '@zb/rest'
+import { searchUser } from '@zionbuilder/rest'
 import ModalListItem from './ModalListItem.vue'
 
-import { Loader } from '@zb/components'
+import { Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'AddUserModalContent',

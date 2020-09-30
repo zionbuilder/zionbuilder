@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { getSystemInfo } from '@zb/rest'
+import { getSystemInfo } from '@zionbuilder/rest'
 
 const state = {
 	systemInfo: [],

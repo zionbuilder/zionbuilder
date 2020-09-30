@@ -9,7 +9,7 @@
 
 <script lang="ts">
 export default {
-	name: 'BaseButton',
+	name: 'Button',
 	props: {
 		/**
 		 * Button type

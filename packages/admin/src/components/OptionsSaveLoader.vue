@@ -8,7 +8,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { BaseIcon } from '@zb/components'
+import { BaseIcon } from '@zionbuilder/components'
 
 export default {
 	name: 'OptionsSaveLoader',

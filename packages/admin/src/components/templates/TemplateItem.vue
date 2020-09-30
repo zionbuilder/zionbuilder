@@ -127,10 +127,10 @@
 </template>
 
 <script>
-import { exportTemplateById } from '@zb/rest'
+import { exportTemplateById } from '@zionbuilder/rest'
 import { saveAs } from 'file-saver'
-import { Tooltip, BaseIcon, Loader } from '@zb/components'
-import { BaseInput } from '@zb/components/forms'
+import { Tooltip, BaseIcon, Loader } from '@zionbuilder/components'
+import { BaseInput } from '@zionbuilder/components/forms'
 
 export default {
 	name: 'TemplateItem',

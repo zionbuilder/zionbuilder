@@ -19,7 +19,7 @@
 <script>
 import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
-import { updateOptionValue, getOptionValue } from '@zb/utils'
+import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
 
 export default {
 	name: 'OptionsForm',

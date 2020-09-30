@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { getUsersById } from '@zb/rest'
+import { getUsersById } from '@zionbuilder/rest'
 
 const state = {
 	users: [],

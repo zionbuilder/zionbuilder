@@ -3,7 +3,7 @@ import {
 	getTemplates,
 	deleteTemplate,
 	addTemplate
-} from '@zb/rest'
+} from '@zionbuilder/rest'
 
 const state = {
 	templates: [],

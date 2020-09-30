@@ -14,18 +14,18 @@
 			/>
 
 			<div class="znpb-modal-content-save-buttons">
-				<BaseButton
+				<Button
 					@click="saveElement"
 					class="znpb-button--secondary"
 				>
 					<span>{{$translate('save')}}</span>
-				</BaseButton>
-				<BaseButton
+				</Button>
+				<Button
 					@click="downloadElement"
 					class="znpb-button--line"
 				>
 					{{$translate('download')}}
-				</BaseButton>
+				</Button>
 			</div>
 			<p
 				class="znpb-modal-save-element-wrapper__message"

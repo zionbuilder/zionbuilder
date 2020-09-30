@@ -58,7 +58,7 @@
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
 import { mapGetters } from 'vuex'
-import { BaseIcon, Tooltip, ModalConfirm } from '@zb/components'
+import { BaseIcon, Tooltip, ModalConfirm } from '@zionbuilder/components'
 
 export default {
 	name: 'GoogleFontTab',

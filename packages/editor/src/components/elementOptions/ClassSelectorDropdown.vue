@@ -27,13 +27,13 @@
 						@update:modelValue="handleClassInput"
 						@keydown.enter.stop="addNewCssClass"
 					></BaseInput>
-					<BaseButton
+					<Button
 						@click="addNewCssClass"
 						type="secondary"
 						class="znpb-class-selector__add-class-button"
 					>
 						{{$translate('add_class')}}
-					</BaseButton>
+					</Button>
 				</div>
 
 				<template v-if="filteredClasses.length > 0">

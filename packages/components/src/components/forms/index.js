@@ -79,12 +79,14 @@ const components = [
 	OptionsForm
 ]
 
+const install = (app) => {
+	components.forEach(component => {
+		app.component(component.name, component)
+	})
+}
+
 export default {
-	install (app) {
-		components.forEach(component => {
-			app.component(component.name, component)
-		})
-	},
+	install,
 	BaseInput,
 	InputWrapper,
 	EmptyList,
@@ -128,6 +130,7 @@ export default {
 }
 
 export {
+	install,
 	// ALL DONE
 	BaseInput,
 	InputWrapper,

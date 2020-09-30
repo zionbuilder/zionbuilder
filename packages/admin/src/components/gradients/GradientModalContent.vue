@@ -17,7 +17,7 @@
 	</Modal>
 </template>
 <script>
-import { GradientGenerator, Modal } from '@zb/components'
+import { GradientGenerator, Modal } from '@zionbuilder/components'
 
 export default {
 	name: 'GradientModalContent',

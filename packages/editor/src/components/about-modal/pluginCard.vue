@@ -26,22 +26,22 @@
 				{{$translate('not_installed')}}
 			</span>
 		</div>
-		<BaseButton
+		<Button
 			v-if="updateVersion !== version && version !== null"
 			class="znpb-about-modal__version-card-button"
 		>{{$translate('update_to_version')}} {{updateVersion}}
-		</BaseButton>
+		</Button>
 		<span
 			v-if="updateVersion === version && updateVersion !== null"
 			class="znpb-about-modal-text-wrapper__up-to-date">
 			{{$translate('you_are_upto_date')}}
 		</span>
 
-		<BaseButton
+		<Button
 			v-if="version === null && isPro"
 			type="secondary"
 		>{{$translate('buy_pro')}}
-		</BaseButton>
+		</Button>
 
 	</div>
 

@@ -9,10 +9,10 @@ import App from './App.vue'
 import {store} from './store/'
 
 // Set Service Interceptor
-import { errorInterceptor } from '@zb/rest'
+import { errorInterceptor } from '@zionbuilder/rest'
 
-import { forms } from '@zb/components'
-import { install } from '@zb/i18n'
+import { forms } from '@zionbuilder/components'
+import { install } from '@zionbuilder/i18n'
 
 // Components
 import SideMenu from './components/SideMenu.vue'

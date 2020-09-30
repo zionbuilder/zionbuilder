@@ -36,7 +36,7 @@ import SystemList from './system-components/SystemList.vue'
 import SystemPlugins from './system-components/SystemPlugins.vue'
 import CopyPasteServer from './system-components/CopyPasteServer.vue'
 
-import { Loader } from '@zb/components'
+import { Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'SystemInfo',

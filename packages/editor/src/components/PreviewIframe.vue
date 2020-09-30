@@ -25,16 +25,16 @@
 			</div>
 
 			<div class="znpb-modal__confirm-buttons-wrapper znpb-storage-recover-modal">
-				<BaseButton
+				<Button
 					type="secondary"
 					v-if="true"
 					@click="useLocalVersion"
-				> {{$translate('use_local_version')}} </BaseButton>
-				<BaseButton
+				> {{$translate('use_local_version')}} </Button>
+				<Button
 					type="line"
 					v-if="true"
 					@click="useServerVersion"
-				> {{$translate('use_server_version')}} </BaseButton>
+				> {{$translate('use_server_version')}} </Button>
 			</div>
 		</Modal>
 	</div>

@@ -7,11 +7,11 @@
 			placeholder="Type your text here"
 		/>
 
-		<BaseButton
+		<Button
 			@click="openMediaModal"
 			type="line"
 		>{{selectButtonText}}
-		</BaseButton>
+		</Button>
 	</div>
 </template>
 <script>

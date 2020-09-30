@@ -15,13 +15,13 @@
 			/>
 
 		</Sortable>
-		<BaseButton
+		<Button
 			class="znpb-option-repeater__add-button"
 			type="line"
 			@click="addChild"
 		>
 			ADD
-		</BaseButton>
+		</Button>
 	</div>
 </template>
 

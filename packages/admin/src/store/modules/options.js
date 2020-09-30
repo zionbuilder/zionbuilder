@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { saveOptions, getSavedOptions } from '@zb/rest'
+import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
 
 const state = {
 	options: {

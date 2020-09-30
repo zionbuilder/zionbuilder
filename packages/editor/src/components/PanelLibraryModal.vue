@@ -56,7 +56,7 @@
 						:modifiers="{ offset: { offset: '0,10px' } }"
 						:positionFixed="true"
 					>
-						<BaseButton
+						<Button
 							type="secondary"
 							@click="insertLibraryItem"
 							class="znpb-library-modal-header__insert-button"
@@ -66,11 +66,11 @@
 								v-else
 								:size="13"
 							/>
-						</BaseButton>
+						</Button>
 					</Tooltip>
 
 					<template v-else>
-						<BaseButton
+						<Button
 							v-if="localActive"
 							type="secondary"
 							@click="importActive = !importActive , templateUploaded=!templateUploaded "
@@ -78,7 +78,7 @@
 
 							<BaseIcon icon="import" />
 							{{$translate('import')}}
-						</BaseButton>
+						</Button>
 
 						<Tooltip
 							v-if="!importActive"

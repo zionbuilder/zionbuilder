@@ -58,10 +58,10 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import GradientBox from './GradientBox.vue'
-import { getDefaultGradient } from '@zb/components/utils'
+import { getDefaultGradient } from '@zionbuilder/components/utils'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
-import { Tabs, Tab, UpgradeToPro } from '@zb/components'
+import { Tabs, Tab, UpgradeToPro } from '@zionbuilder/components'
 
 export default {
 	name: 'Gradients',

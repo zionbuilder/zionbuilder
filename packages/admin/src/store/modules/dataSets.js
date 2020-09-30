@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { getFontsDataSet } from '@zb/rest'
+import { getFontsDataSet } from '@zionbuilder/rest'
 
 const state = {
 	dataSets: {

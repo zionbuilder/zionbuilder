@@ -8,7 +8,7 @@ declare global {
 }
 
 // Main
-import { forms, BaseIcon, BaseButton } from '@zionbuilder/components'
+import { forms, BaseIcon, Button } from '@zionbuilder/components'
 import App from './App.vue'
 import { install } from '@zionbuilder/i18n'
 
@@ -17,7 +17,7 @@ const appInstance = createApp(App)
 // Plugins
 appInstance.use(forms)
 appInstance.component('BaseIcon', BaseIcon)
-appInstance.component('BaseButton', BaseButton)
+appInstance.component('Button', Button)
 appInstance.use({ install }, window.ZnPbInitalData.l10n)
 
 

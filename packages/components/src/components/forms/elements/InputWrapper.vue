@@ -169,7 +169,7 @@ import { ChangesBullet } from '../../ChangesBullet'
 import { Label } from './label'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Injection } from '../../injections'
-import { trigger } from '@zb/hooks'
+import { trigger } from '@zionbuilder/hooks'
 
 export default {
 	name: 'InputWrapper',

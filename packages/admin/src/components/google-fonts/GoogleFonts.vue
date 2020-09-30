@@ -49,10 +49,10 @@
 		</Modal>
 
 		<div class="znpb-admin-google-fonts-actions">
-			<BaseButton @click="showModal=true" type="line">
+			<Button @click="showModal=true" type="line">
 				<BaseIcon icon="plus"/>
 				{{$translate('add_font')}}
-			</BaseButton>
+			</Button>
 		</div>
 		<template v-slot:right>
 			<p class="znpb-admin-info-p">{{$translate('google_fonts_1')}} <a href="https://fonts.google.com/">{{$translate('google_fonts_link')}} </a> {{$translate ('google_fonts_2')}}</p>
@@ -66,7 +66,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
-import { BaseIcon, Tooltip, BaseButton, Modal } from '@zb/components'
+import { BaseIcon, Tooltip, Button, Modal } from '@zionbuilder/components'
 
 export default {
 	name: 'GoogleFonts',
@@ -80,7 +80,7 @@ export default {
 		GoogleFontsModalContent,
 		BaseIcon,
 		Tooltip,
-		BaseButton,
+		Button,
 		Modal
 	},
 	computed: {

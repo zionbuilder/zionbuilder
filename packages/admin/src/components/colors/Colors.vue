@@ -55,8 +55,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ColorBox from './ColorBox.vue'
-import { generateUID } from '@zb/utils'
-import { Tabs, Tab, UpgradeToPro } from '@zb/components'
+import { generateUID } from '@zionbuilder/utils'
+import { Tabs, Tab, UpgradeToPro } from '@zionbuilder/components'
 
 export default {
 	name: 'Colors',

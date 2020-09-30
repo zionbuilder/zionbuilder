@@ -4,22 +4,22 @@
 			<slot></slot>
 		</div>
 		<div class="znpb-modal-content-save-button__button">
-			<BaseButton
+			<Button
 				@click="onButtonClick"
 				:type="buttonType"
 			>{{$translate('save')}}
-			</BaseButton>
+			</Button>
 		</div>
 	</div>
 
 </template>
 <script>
-import { BaseButton } from '@zb/components'
+import { Button } from '@zionbuilder/components'
 
 export default {
 	name: 'ModalTemplateSaveButton',
 	components: {
-		BaseButton
+		Button
 	},
 	props: ['disabled'],
 	data () {

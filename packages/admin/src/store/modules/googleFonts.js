@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import { getGoogleFonts } from '@zb/rest'
+import { getGoogleFonts } from '@zionbuilder/rest'
 
 const state = {
 	fonts: [],

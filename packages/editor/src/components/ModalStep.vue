@@ -13,20 +13,20 @@
 		></div>
 
 		<div class="znpb-tour-modal__actions">
-			<BaseButton
+			<Button
 				type="line"
 				@click="$emit('end-tour',true)"
 				v-html="$translate('end_tour')"
 			/>
 
-			<BaseButton
+			<Button
 				v-if="!isLastStep"
 				:type="!isPreviewLoading ? 'secondary' : 'disabled'"
 				@click="moveToStep"
 				v-html="buttonText"
 				class="znpb-tour-modal__actions-next"
 			>
-			</BaseButton>
+			</Button>
 
 		</div>
 	</div>

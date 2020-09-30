@@ -63,9 +63,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Label from '@zb/components/Label'
+import Label from '@zionbuilder/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
-import { BaseIcon, Notice } from '@zb/components'
+import { BaseIcon, Notice } from '@zionbuilder/components'
 
 export default {
 	name: 'App',

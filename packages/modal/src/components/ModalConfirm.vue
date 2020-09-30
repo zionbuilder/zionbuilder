@@ -28,7 +28,7 @@
 
 <script>
 import Modal from './Modal.vue'
-import Button from '../BaseButton/BaseButton.vue'
+import { Button } from '../../../components'
 
 export default {
 	name: 'ModalConfirm',

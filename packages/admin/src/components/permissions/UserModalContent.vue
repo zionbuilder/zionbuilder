@@ -58,7 +58,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Tooltip, UpgradeToPro } from '@zb/components'
+import { Tooltip, UpgradeToPro } from '@zionbuilder/components'
 
 export default {
 	name: 'UserModalContent',

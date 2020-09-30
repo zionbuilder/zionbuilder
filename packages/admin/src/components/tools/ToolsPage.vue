@@ -6,7 +6,7 @@
 
 			<div class="znpb-admin-regenerate">
 				<h4>{{$translate('regenerate_css')}}</h4>
-				<BaseButton
+				<Button
 					type="line"
 					@click="onRegenerateFilesClick"
 					:class="{['-hasLoading'] : loading}"
@@ -21,7 +21,7 @@
 						/>
 						<span v-else>{{$translate('regenerate_files')}}</span>
 					</transition>
-				</BaseButton>
+				</Button>
 			</div>
 			<template v-slot:right>
 				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
@@ -30,7 +30,7 @@
 		<PageTemplate>
 			<div class="znpb-admin-regenerate">
 				<h4>{{$translate('sync_library')}}</h4>
-				<BaseButton
+				<Button
 					type="line"
 					@click="onSyncClick"
 				>
@@ -44,7 +44,7 @@
 						/>
 						<span v-else>{{$translate('sync_library')}}</span>
 					</transition>
-				</BaseButton>
+				</Button>
 			</div>
 			<template v-slot:right>
 				<p class="znpb-admin-info-p">{{$translate('regenrate_info')}}</p>
@@ -55,14 +55,14 @@
 </template>
 
 <script>
-import { regenerateCache } from '@zb/rest'
+import { regenerateCache } from '@zionbuilder/rest'
 import { mapActions } from 'vuex'
-import { BaseButton, Loader } from '@zb/components'
+import { Button, Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'ToolsPage',
 	components: {
-		BaseButton,
+		Button,
 		Loader
 	},
 	data () {

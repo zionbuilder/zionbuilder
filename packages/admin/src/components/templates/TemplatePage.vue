@@ -19,13 +19,13 @@
 		</Tabs>
 
 		<div class="znpb-admin-templates-actions">
-			<BaseButton
+			<Button
 				@click="showModal=true"
 				type="line"
 			>
 				<span class="znpb-add-element-icon"></span>
 				{{$translate('add_new_template')}}
-			</BaseButton>
+			</Button>
 		</div>
 
 		<Modal
@@ -53,7 +53,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
 import TemplateList from './TemplateList.vue'
-import { BaseButton, Modal, Tabs, Tab } from '@zb/components'
+import { Button, Modal, Tabs, Tab } from '@zionbuilder/components'
 
 export default {
 	name: 'TemplatePage',
@@ -61,7 +61,7 @@ export default {
 		Modal,
 		ModalAddNewTemplate,
 		TemplateList,
-		BaseButton,
+		Button,
 		Tabs,
 		Tab
 	},

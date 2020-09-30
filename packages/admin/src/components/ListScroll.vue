@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { Loader } from '@zb/components'
+import { Loader } from '@zionbuilder/components'
 
 export default {
 	name: 'ListScroll',

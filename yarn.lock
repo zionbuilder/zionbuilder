@@ -1249,6 +1249,19 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+"@zionbuilder/components@^1.0.0":
+  version "1.0.1-alpha.1"
+  dependencies:
+    "@zionbuilder/css-variables" "^1.0.0"
+    "@zionbuilder/modal" "^1.0.0"
+    "@zionbuilder/sortable" "^1.0.0"
+    "@zionbuilder/tooltip" "^1.0.0"
+    "@zionbuilder/video" "^1.0.0"
+    popper.js "^1.16.1"
+    raf-schd "^4.0.2"
+    tinycolor2 "^1.4.1"
+    vue-date-pick "^1.4.1"
+
 "@zionbuilder/css-variables@^1.0.0":
   version "1.0.1-alpha.1"
 

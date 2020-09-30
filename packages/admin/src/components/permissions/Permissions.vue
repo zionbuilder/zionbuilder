@@ -45,13 +45,13 @@
 						/>
 					</div>
 					<div class="znpb-admin-user-specific-actions">
-						<BaseButton
+						<Button
 							@click="showModal=true"
 							type="secondary"
 						>
 							<span class="znpb-add-element-icon"></span>
 							{{$translate('add_user')}}
-						</BaseButton>
+						</Button>
 						<Modal
 							v-model:show="showModal"
 							:width="560"
@@ -78,7 +78,7 @@ import { mapActions, mapGetters } from 'vuex'
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
-import { BaseButton, Loader, Modal, UpgradeToPro } from '@zb/components'
+import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
 
 export default {
 	name: 'permissions',
@@ -87,7 +87,7 @@ export default {
 		SingleUser,
 		AddUserModalContent,
 		UpgradeToPro,
-		BaseButton,
+		Button,
 		Loader,
 		Modal
 	},

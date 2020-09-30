@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { GradientPreview, BaseIcon, Tooltip } from '@zb/components'
+import { GradientPreview, BaseIcon, Tooltip } from '@zionbuilder/components'
 
 export default {
 	name: 'GradientBox',

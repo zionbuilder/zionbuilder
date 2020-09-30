@@ -21,8 +21,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseIcon, Tooltip, Loader } from '@zb/components'
-import { saveOptions } from '@zb/rest'
+import { BaseIcon, Tooltip, Loader } from '@zionbuilder/components'
+import { saveOptions } from '@zionbuilder/rest'
 
 export default {
 	name: 'ModalListItem',

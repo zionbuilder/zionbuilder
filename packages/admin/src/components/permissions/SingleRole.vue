@@ -26,7 +26,7 @@ import { mapGetters, mapActions } from 'vuex'
 
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
-import { Modal } from '@zb/components'
+import { Modal } from '@zionbuilder/components'
 
 export default {
 	name: 'SingleRole',

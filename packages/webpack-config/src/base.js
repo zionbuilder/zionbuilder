@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = () => {
 	return {
-		mode: "development",
+		mode: "production",
 		context: context,
 		entry: './src/index.ts',
 		resolve: {

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { BaseIcon } from '@zb/components'
+import { BaseIcon } from '@zionbuilder/components'
 
 export default {
 	name: 'GoogleFontModalElement',

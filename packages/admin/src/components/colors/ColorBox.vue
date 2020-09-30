@@ -57,7 +57,7 @@
 	</div>
 </template>
 <script>
-import { ColorPicker, BaseIcon, Tooltip } from '@zb/components'
+import { ColorPicker, BaseIcon, Tooltip } from '@zionbuilder/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
 
 export default {

@@ -44,12 +44,12 @@
 			>
 				<h2 class="znpb-icon-library-modal-header__title">Icon Library</h2>
 				<div class="znpb-icon-library-modal-header__actions">
-					<BaseButton
+					<Button
 						type="secondary"
 						@click="$emit('update:modelValue',valueModel),showModal=false"
 					>
 						Insert
-					</BaseButton>
+					</Button>
 					<BaseIcon
 						icon="close"
 						:size="16"

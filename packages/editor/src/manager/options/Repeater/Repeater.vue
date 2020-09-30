@@ -16,14 +16,14 @@
 			ref="repeaterItem"
 		>
 		</RepeaterOption>
-		<BaseButton
+		<Button
 			v-if="showButton"
 			class="znpb-option-repeater__add-button"
 			type="line"
 			@click="addProperty"
 		>
 			{{add_button_text}}
-		</BaseButton>
+		</Button>
 	</div>
 </template>
 

@@ -23,7 +23,18 @@ const getWebpackConfig = (folder) => {
 	return existsSync( webpackFileLocation ) ? webpackFileLocation : false
 }
 
-const packages = getDirectories('./packages')
+// const packages = getDirectories('./packages')
+
+const packages = [
+	'admin',
+	'components',
+	'editor',
+	'hooks',
+	'i18n',
+	'rest',
+	'utils',
+	'vue'
+]
 
 packages.forEach(directory => {
 	const folder = path.resolve('./packages', directory)
@@ -41,7 +52,20 @@ packages.forEach(directory => {
 					filename: `js/${directory}.js`,
 					library: [ 'zb', directory ],
 					libraryTarget: 'window'
-				}
+				},
+				externals: [
+					// /^@zionbuilder\/[packages.join('|')]/
+					function( context, request, callback ) {
+						// Convert packages to window.zb[package]
+						let matcher = new RegExp("@zionbuilder/(" + packages.join('|') + ")");
+						if (matcher.test(request)){
+							const modules = request.replace('@zionbuilder', 'zb').split('/')
+							// Externalize to a commonjs module using the request path
+							return callback(null, modules, 'root');
+						}
+						callback()
+					}
+				]
 			}
 		)
 

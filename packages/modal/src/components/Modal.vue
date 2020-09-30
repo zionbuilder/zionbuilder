@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import { addOverflow, removeOverflow } from '@zb/utils'
-import { getZindex, removeZindex } from '@zb/z-index-manager'
-import BaseIcon from '../BaseIcon.vue'
+import { addOverflow, removeOverflow } from '@zionbuilder/utils'
+import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
+import { BaseIcon } from '../../../components'
 
 export default {
 	name: 'Modal',

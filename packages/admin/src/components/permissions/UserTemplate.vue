@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { BaseIcon, Tooltip } from '@zb/components'
+import { BaseIcon, Tooltip } from '@zionbuilder/components'
 
 export default {
 	name: 'UserTemplate',

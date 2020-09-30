@@ -22,18 +22,18 @@
 					<p>{{getMessage}}</p>
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
-					<BaseButton type="gray">
+					<Button type="gray">
 						<a :href="previewUrl">{{$translate('post_preview')}}</a>
-					</BaseButton>
-					<BaseButton type="gray">
+					</Button>
+					<Button type="gray">
 						<a :href="getAllPagesUrl">{{$translate('post_go_back')}}</a>
-					</BaseButton>
-					<BaseButton
+					</Button>
+					<Button
 						@click.prevent="lockPages"
 						type="gray"
 					>
 						<a href="">{{$translate('post_take_over')}}</a>
-					</BaseButton>
+					</Button>
 				</div>
 			</div>
 			<div
