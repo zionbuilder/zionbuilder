@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@zb/hooks'
+import { applyFilters } from '@zionbuilder/hooks'
 
 // Forms component
 import {

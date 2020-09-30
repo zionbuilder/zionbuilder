@@ -2,7 +2,7 @@
   "name": "@zionbuilder/rest",
   "version": "1.0.0",
   "description": "Rest API helper functions",
-  "main": "src/index.ts",
+  "main": "src/index",
   "author": "zionbuilder.io",
   "license": "MIT",
   "dependencies": {

@@ -90,7 +90,7 @@
 		units: ['px','%','rem']
 	}
  */
-import { Tooltip } from '../../../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 import stringUnits from '../../units'
 import BaseInput from '../input/BaseInput.vue'
 import rafSchd from 'raf-schd'

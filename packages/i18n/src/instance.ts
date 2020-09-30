@@ -1,8 +1,9 @@
 import { createI18n } from './manager'
+import { App } from 'vue'
 
 const i18n = createI18n()
 
-export const install = (app, strings: object) => {
+export const install = (app: App, strings: translateString) => {
 	// Add the strings
 	i18n.addStrings(strings)
 

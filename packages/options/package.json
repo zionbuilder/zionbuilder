@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/options",
   "version": "1.0.0",
-  "main": "./src/index.ts",
+  "main": "./src/index",
   "license": "MIT"
 }

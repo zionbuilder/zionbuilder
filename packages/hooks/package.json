@@ -2,6 +2,6 @@
   "name": "@zionbuilder/hooks",
   "version": "1.0.0",
   "description": "Hooks methods",
-  "main": "./src/index.ts",
+  "main": "./src/index",
   "license": "MIT"
 }

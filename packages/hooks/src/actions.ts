@@ -1,7 +1,5 @@
-export type CallbackFunction = (...args: any[]) => void
-
 export default () => {
-	const actions: {[key: string]: CallbackFunction[]} = {}
+	const actions: Hook = {}
 
 	/**
 	 * Add an event listener.

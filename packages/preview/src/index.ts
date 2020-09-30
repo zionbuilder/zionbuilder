@@ -1,12 +1,16 @@
 
 import { createApp } from 'vue'
 
+declare global {
+	interface Window {
+		ZnPbInitalData: any
+	}
+}
 
 // Main
-import { forms, BaseIcon, BaseButton } from '@zb/components'
+import { forms, BaseIcon, BaseButton } from '@zionbuilder/components'
 import App from './App.vue'
-import { errorInterceptor } from '@zb/rest'
-import { install } from '@zb/i18n'
+import { install } from '@zionbuilder/i18n'
 
 const appInstance = createApp(App)
 

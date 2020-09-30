@@ -4,7 +4,10 @@ export default class AbstractEvent {
 	static type = 'Event'
 	static cancelable = false
 
-	constructor (data) {
+	cancelled: boolean
+	data: any
+
+	constructor (data: any) {
 		this.cancelled = false
 		this.data = data
 	}
@@ -14,7 +17,7 @@ export default class AbstractEvent {
 	}
 
 	cancel () {
-		invariant(!this.cancelAble, 'You are trying to cancel an event that cannot be canceled!')
+		invariant(!AbstractEvent.cancelable, 'You are trying to cancel an event that cannot be canceled!')
 
 		if (this.isCancelable) {
 			this.cancelled = true
@@ -22,10 +25,10 @@ export default class AbstractEvent {
 	}
 
 	get type () {
-		return this.constructor.type
+		return AbstractEvent.type
 	}
 
 	get isCancelable () {
-		return this.constructor.cancelable
+		return AbstractEvent.cancelable
 	}
 }

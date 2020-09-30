@@ -29,7 +29,7 @@
 </template>
 <script>
 import ColorPicker from '../colorpicker/colorpicker.vue'
-import { Tooltip } from '../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 
 export default {
 	name: 'GradientDragger',

@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@zb/hooks'
+import { applyFilters } from '@zionbuilder/hooks'
 import AccordionMenu from './AccordionMenu'
 import PseudoGroup from './PseudoGroup'
 import Background from './Background'
@@ -50,12 +50,12 @@ import {
 	InputTextTransform,
 	InputBorderTabs,
 	InputBackgroundVideo
-} from '@zb/components/forms'
+} from '@zionbuilder/components/forms'
 
 
 export default () => {
 	const options = {}
-	const activeResponsiveOptions = null
+	let activeResponsiveOptions = null
 
 	const setActiveResponsiveOptions = (optionInstance) => {
 		activeResponsiveOptions = optionInstance

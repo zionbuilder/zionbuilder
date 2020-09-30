@@ -1,22 +1,28 @@
 class Cache {
 	static CACHE_KEY = 'znpb_page_cache'
 
-	getCacheKey(postId: String) {
-		const cacheKey = this.constructor.CACHE_KEY
+	getCacheKey(postId: number) {
+		const cacheKey = Cache.CACHE_KEY
 		return `${cacheKey}-${postId}`
 	}
 
-	saveItem(postId: Number, data: Object) {
+	saveItem(postId: number, data: Object) {
 		const key = this.getCacheKey(postId)
 		localStorage.setItem(key, JSON.stringify(data))
 	}
 
-	getItem(postId: Number) {
+	getItem(postId: number) {
 		const key = this.getCacheKey(postId)
-		return JSON.parse(localStorage.getItem(key))
+		const storedValue = localStorage.getItem(key)
+
+		if (storedValue !== null) {
+			return JSON.parse(storedValue)
+		}
+
+		return false
 	}
 
-	deleteItem(postId: Number) {
+	deleteItem(postId: number) {
 		const key = this.getCacheKey(postId)
 		localStorage.removeItem(key)
 	}

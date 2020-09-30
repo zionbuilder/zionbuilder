@@ -147,7 +147,7 @@
 <script>
 import BaseIcon from '../../../BaseIcon.vue'
 import BaseInput from '../input/BaseInput.vue'
-import { Tooltip } from '../../../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 
 export default {
 	/**

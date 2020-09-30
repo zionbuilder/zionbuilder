@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { Tooltip } from '../../../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 import BaseIcon from '../../../BaseIcon.vue'
 
 export default {

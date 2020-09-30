@@ -44,7 +44,7 @@
 </template>
 <script>
 import PatternContainer from './PatternContainer.vue'
-import { Tooltip } from '../../../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 import ColorPicker from '../../../colorpicker/colorpicker.vue'
 
 export default {

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { Tooltip } from '../tooltip'
+import { Tooltip } from '@zionbuilder/tooltip'
 
 export default {
 	name: 'changesBullet',
