@@ -41,7 +41,7 @@
 
 <script>
 import BaseInput from '../input/BaseInput.vue'
-import InputNumber from '../InputNumber/InputNumber.vue'
+import { InputNumber } from '../../../InputNumber'
 /**
  * this type of element supports
  *   model - Number

@@ -91,10 +91,10 @@
 	}
  */
 import { Tooltip } from '@zionbuilder/tooltip'
-import stringUnits from '../../units'
-import BaseInput from '../input/BaseInput.vue'
+import stringUnits from '../forms/units'
+import BaseInput from '../forms/elements/input/BaseInput.vue'
 import rafSchd from 'raf-schd'
-import Icon from '../../../Icon/Icon.vue'
+import { Icon } from '../Icon'
 
 export default {
 	name: 'InputNumberUnit',

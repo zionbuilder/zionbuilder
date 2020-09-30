@@ -51,8 +51,8 @@
  * this type of element supports
 
  */
-import { InputNumber } from '../forms/elements/InputNumber'
-import { InputLabel } from '../forms'
+import { InputNumber } from '../InputNumber'
+import { InputLabel } from '../InputLabel'
 
 export default {
 	name: 'HslaElement',

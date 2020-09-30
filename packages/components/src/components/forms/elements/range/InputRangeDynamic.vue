@@ -48,7 +48,7 @@
  *   model - Number
  */
 import BaseInput from '../input/BaseInput.vue'
-import InputNumberUnit from '../InputNumber/InputNumberUnit.vue'
+import { InputNumberUnit } from '../../../InputNumber'
 import stringUnits from '../../units'
 
 export default {

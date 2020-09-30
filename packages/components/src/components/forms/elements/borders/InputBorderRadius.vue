@@ -17,7 +17,7 @@
 	</div>
 </template>
 <script>
-import InputNumberUnit from '../InputNumber/InputNumberUnit.vue'
+import { InputNumberUnit } from '../../../InputNumber'
 
 export default {
 	name: 'InputBorderRadius',
