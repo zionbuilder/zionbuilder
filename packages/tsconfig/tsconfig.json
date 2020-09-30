@@ -27,15 +27,7 @@
 			"dom",
 			"es2020"
 		],
-		"paths": {
-			"@zionbuilder/*": ["./packages/*"]
-		},
 	},
-	"lib": [
-		"es2018",
-		"dom",
-		"es2020.string"
-	],
 	"exclude": [
 		"./node_modules"
 	]
