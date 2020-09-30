@@ -1,25 +1,15 @@
 {
+	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"sourceMap": true,
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"experimentalDecorators": true,
-		"target": "es5",
-		"jsx": "react",
-		"lib": [
-		  "dom",
-		  "es6",
-		  "es2020"
-		]
+		"rootDir": "./src",
+		"declarationDir": "./build-types"
 	},
-	"include": [
-		"./src/index.ts"
+	"references": [
+		{ "path": "../z-index-manager" },
+		{ "path": "../utils" },
 	],
-	"exclude": [
-		"node_modules",
-		"build",
-		"vendor",
-		"**/node_modules"
+	"include": [
+		"src/**/*",
+		"../shims-vue.d.ts"
 	]
 }
