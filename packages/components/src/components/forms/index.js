@@ -2,7 +2,7 @@ import { createOptionsInstance } from './options'
 
 import { Checkbox, CheckboxGroup, CheckboxSwitch } from './elements/checkbox'
 import { InputSelect } from './elements/select'
-import { ColorPicker, Color } from './elements/colorpicker'
+import { ColorPicker, Color } from './elements/Colorpicker'
 import { InputNumber, InputNumberUnit } from './elements/InputNumber'
 import { InputRange, InputRangeDynamic } from './elements/range'
 import { InputMedia } from './elements/media'

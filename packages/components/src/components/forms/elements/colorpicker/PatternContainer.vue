@@ -67,8 +67,8 @@
  *  - the new color chosen
  */
 import { mapGetters, mapActions } from 'vuex'
-import GridColor from '../../../colorpicker/GridColor.vue'
-import LibraryElement from '../../../gradient/LibraryElement.vue'
+import GridColor from '../../../Colorpicker/GridColor.vue'
+import LibraryElement from '../../../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../../../Label'
 

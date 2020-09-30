@@ -96,7 +96,7 @@
  */
 import tinycolor from 'tinycolor2'
 import BaseInput from '../input/BaseInput.vue'
-import Color from '../colorpicker/Color.vue'
+import Color from '../Colorpicker/Color.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Icon } from '../../../Icon'
 

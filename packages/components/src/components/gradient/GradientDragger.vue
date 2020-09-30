@@ -28,7 +28,7 @@
 	</div>
 </template>
 <script>
-import ColorPicker from '../colorpicker/colorpicker.vue'
+import { ColorPicker } from '../Colorpicker'
 import { Tooltip } from '@zionbuilder/tooltip'
 
 export default {
