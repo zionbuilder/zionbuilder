@@ -91,7 +91,7 @@
 
 <script>
 import Icon from '../../../Icon/Icon.vue'
-import ActionsOverlay from '../actions-overlay/ActionsOverlay.vue'
+import { ActionsOverlay } from '../../../ActionsOverlay'
 import EmptyList from '../empty-list/EmptyList.vue'
 import { InputWrapper } from '../inputWrapper'
 import { InputSelect } from '../select'

@@ -82,7 +82,7 @@ import GradientOptions from './GradientOptions.vue'
 import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
-import ActionsOverlay from '../forms/elements/actions-overlay/ActionsOverlay.vue'
+import { ActionsOverlay } from '../ActionsOverlay'
 import { getDefaultGradient } from '../../utils/'
 import { mapActions } from 'vuex'
 

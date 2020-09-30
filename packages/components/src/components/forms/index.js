@@ -32,7 +32,7 @@ import { CustomSelector } from './elements/custom-selector'
 
 // Misc
 import { EmptyList } from './elements/empty-list'
-import { ActionsOverlay } from './elements/actions-overlay'
+import { ActionsOverlay } from '../ActionsOverlay'
 
 const components = [
 	// ALL DONE
