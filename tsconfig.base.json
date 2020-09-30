@@ -5,8 +5,9 @@
 			"@zionbuilder/*": ["./packages/*"]
 		},
 	},
-	"include": [
-		"./packages/**/*.ts",
-		"./packages/**/*.vue"
-	],
+	"exclude": [
+		"**/test/**",
+		"**/build/**",
+		"**/build-*/**"
+	]
 }

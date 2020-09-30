@@ -30,8 +30,8 @@
 	</component>
 </template>
 
-<script>
-import { getDefaultOptions } from '../options.ts'
+<script lang="ts">
+import { getDefaultOptions } from '../options'
 import { merge } from 'lodash-es'
 import Popper from 'popper.js'
 import { debounce } from '@zionbuilder/utils'
@@ -216,14 +216,14 @@ export default {
 			}
 		},
 		popperProps () {
-			const props = {}
+			const props: { enterActiveClass?: string, leaveActiveClass?: string } = {}
 
 			if (this.enterActiveClass) {
 				props.enterActiveClass = this.enterActiveClass
 			}
 
 			if (this.leaveActiveClass) {
-				props.enterActiveClass = this.leaveActiveClass
+				props.leaveActiveClass = this.leaveActiveClass
 			}
 
 			return props

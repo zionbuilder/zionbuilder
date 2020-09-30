@@ -9,5 +9,9 @@
 		"dev": "webpack --mode=development",
 		"types": "tsc"
 	},
-	"types": "./build-types"
+	"types": "./build-types",
+	"dependencies": {
+		"@zionbuilder/z-index-manager": "^1.0.0",
+		"@zionbuilder/utils": "^1.0.0"
+	}
 }

@@ -1,3 +1,7 @@
 {
-	"extends": "./tsconfig.base.json"
+	"references": [
+		{ "path": "./packages/admin" },
+		{ "path": "./packages/components" },
+		{ "path": "./packages/z-index-manager" },
+	]
 }

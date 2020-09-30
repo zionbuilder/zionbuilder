@@ -8,5 +8,8 @@
 		{ "path": "../z-index-manager" },
 		{ "path": "../utils" },
 	],
-	"include": [ "src/**/*" ]
+	"include": [
+		"src/**/*",
+		"../shims-vue.d.ts"
+	]
 }
