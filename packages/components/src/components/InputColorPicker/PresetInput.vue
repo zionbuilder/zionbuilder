@@ -12,8 +12,8 @@
 	</div>
 </template>
 <script>
-import { Icon } from '../../../Icon'
-import BaseInput from '../input/BaseInput.vue'
+import { Icon } from '../Icon'
+import BaseInput from '../forms/elements/input/BaseInput.vue'
 /**
  * it emits:
  *  - the new color chosen

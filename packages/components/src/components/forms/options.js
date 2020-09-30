@@ -7,7 +7,7 @@ import {
 	InputDatePicker,
 	ShapeDividers,
 	ShapeDividerComponent,
-	ColorPicker,
+	InputColorPicker,
 	CustomSelector,
 	InputSelect,
 	RadioImage,
@@ -129,7 +129,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'colorpicker',
-			component: ColorPicker,
+			component: InputColorPicker,
 			dynamic: {
 				type: 'TYPE_HIDDEN',
 				custom_dynamic: true

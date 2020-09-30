@@ -95,10 +95,10 @@
  * On change it emits this.$emit('colorpicker-updated', this.localModel)
  */
 import tinycolor from 'tinycolor2'
-import BaseInput from '../input/BaseInput.vue'
-import Color from '../Colorpicker/Color.vue'
+import BaseInput from '../forms/elements/input/BaseInput.vue'
+import Color from './Color.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
-import { Icon } from '../../../Icon'
+import { Icon } from '../Icon'
 
 export default {
 	name: 'InputColorPicker',

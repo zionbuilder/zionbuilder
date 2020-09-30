@@ -28,6 +28,7 @@ import { InputLabel } from "./components/InputLabel";
 import { InputCode } from "./components/InputCode";
 import { InputRadio, InputRadioGroup, InputRadioIcon } from "./components/InputRadio";
 import { InputDatePicker } from './components/InputDatePicker'
+import { InputColorPicker } from './components/InputColorPicker'
 
 export {
 	Button,
@@ -68,7 +69,8 @@ export {
 	InputRadio,
 	InputRadioGroup,
 	InputRadioIcon,
-	InputDatePicker
+	InputDatePicker,
+	InputColorPicker
 }
 
 export const options = createOptionsInstance()

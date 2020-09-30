@@ -4,7 +4,7 @@ import { createOptionsInstance } from './options'
 // General components
 import { InputCheckboxSwitch, InputCheckboxGroup, InputCheckbox } from '../InputCheckbox'
 import { InputSelect } from './elements/select'
-import { ColorPicker, Color } from './elements/Colorpicker'
+import { InputColorPicker, Color } from '../InputColorPicker'
 import { InputNumber, InputNumberUnit } from './elements/InputNumber'
 import { InputRange, InputRangeDynamic } from './elements/range'
 import { InputMedia } from './elements/media'
@@ -60,7 +60,7 @@ const components = [
 	InputCheckboxSwitch,
 	InputCheckboxGroup,
 	InputCheckbox,
-	ColorPicker,
+	InputColorPicker,
 	Color,
 	InputNumber,
 	InputNumberUnit,
@@ -109,7 +109,7 @@ export default {
 	InputCheckboxSwitch,
 	InputCheckboxGroup,
 	InputCheckbox,
-	ColorPicker,
+	InputColorPicker,
 	Color,
 	InputNumber,
 	InputNumberUnit,
@@ -156,7 +156,7 @@ export {
 	InputCheckboxSwitch,
 	InputCheckboxGroup,
 	InputCheckbox,
-	ColorPicker,
+	InputColorPicker,
 	Color,
 	InputNumber,
 	InputNumberUnit,

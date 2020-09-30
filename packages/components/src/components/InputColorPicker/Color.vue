@@ -45,7 +45,7 @@
 <script>
 import PatternContainer from './PatternContainer.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
-import ColorPicker from '../../../Colorpicker/Colorpicker.vue'
+import { ColorPicker } from '../Colorpicker'
 
 export default {
 	name: 'Color',
