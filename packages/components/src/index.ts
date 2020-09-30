@@ -1,5 +1,5 @@
 import Button from './components/Button/Button.vue'
-import Loader from './components/Loader.vue'
+import { Loader } from './components/Loader'
 import Label from './components/Label/Label.vue'
 import Tab from './components/Tabs/Tab.vue'
 import Tabs from './components/Tabs/Tabs.vue'
