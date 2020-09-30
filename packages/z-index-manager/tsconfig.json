@@ -1,3 +1,8 @@
 {
-	"extends": "@zionbuilder/tsconfig/tsconfig.json"
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "./src",
+		"declarationDir": "./build-types"
+	},
+	"include": [ "src/**/*" ]
 }
