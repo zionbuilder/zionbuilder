@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import TabLink from './tabLink.vue'
+import TabLink from './TabLink.vue'
 
 export default {
 	name: 'Tabs',

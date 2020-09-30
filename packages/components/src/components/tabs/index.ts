@@ -1,2 +1,2 @@
-export { default as Tab } from './tab.vue'
-export { default as Tabs } from './tabs.vue'
+export { default as Tab } from './Tab.vue'
+export { default as Tabs } from './Tabs.vue'
