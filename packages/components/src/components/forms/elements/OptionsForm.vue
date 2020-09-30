@@ -5,7 +5,7 @@
 			:key="optionId"
 			:schema="optionConfig"
 			:option-id="optionId"
-			:modelValue="optionConfig.is_layout ? value : value[optionId]"
+			:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
 			:delete-value="deleteValue"
 			:get-schema-from-path="getOptionSchemaFromPath"
 			:compile-placeholder="compilePlaceholder"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import InputWrapper from '@zb/components/forms/InputWrapper'
+import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zb/utils'
 
@@ -48,7 +48,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementData',
 			'getActiveElementOptionValue',
 			'getActiveDevice',
 			'getActivePseudoSelector',

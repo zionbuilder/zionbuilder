@@ -1,5 +1,11 @@
 {
 	"compilerOptions": {
+		"declarationDir": "build-types",
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true,
+		"emitDeclarationOnly": true,
+
 		// Target latest version of ECMAScript.
 		"target": "esnext",
 		"module": "ES2015",
@@ -7,8 +13,6 @@
 		"moduleResolution": "node",
 		// Process & infer types from .js files.
 		"allowJs": true,
-		// Don't emit; allow Babel to transform files.
-		"noEmit": true,
 		// Enable strictest settings like strictNullChecks & noImplicitAny.
 		"strict": true,
 		// Disallow features that require cross-file information for emit.
@@ -21,8 +25,11 @@
 		"lib": [
 			"es2018",
 			"dom",
-			"es2020.string"
+			"es2020"
 		],
+		"paths": {
+			"@zionbuilder/*": ["./packages/*"]
+		},
 	},
 	"lib": [
 		"es2018",
@@ -30,9 +37,6 @@
 		"es2020.string"
 	],
 	"exclude": [
-		// "node_modules",
-		// "build",
-		// "vendor",
-		// "**/node_modules"
+		"./node_modules"
 	]
 }

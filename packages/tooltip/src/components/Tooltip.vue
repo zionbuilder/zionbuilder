@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import { getDefaultOptions } from './options.js'
+import { getDefaultOptions } from '../options.ts'
 import { merge } from 'lodash-es'
 import Popper from 'popper.js'
-import { debounce } from '@zb/utils'
-import { getZindex, removeZindex } from '@zb/z-index-manager'
+import { debounce } from '@zionbuilder/utils'
+import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
 let preventOutsideClickPropagation = false
 
 export default {

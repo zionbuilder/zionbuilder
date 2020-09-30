@@ -16,7 +16,7 @@
 					@click="$emit('delete-selector', selector.id)"
 				></BaseIcon>
 			</Tooltip>
-			<HasChanges
+			<ChangesBullet
 				v-if="hasChanges"
 				@remove-styles="$emit('remove-styles', selector.id)"
 			/>
@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import HasChanges from './HasChanges.vue'
+import { ChangesBullet } from '@zb/components'
 import { Tooltip } from '@zb/components'
 import ZionLabel from '../../common/Label.vue'
 
 export default {
 	name: 'PseudoDropdownItem',
 	components: {
-		HasChanges,
+		ChangesBullet,
 		Tooltip,
 		ZionLabel
 	},

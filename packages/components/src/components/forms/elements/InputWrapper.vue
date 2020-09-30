@@ -27,7 +27,7 @@
 			<!-- schema.description -->
 			{{schema.title}}
 
-			<HasChanges
+			<ChangesBullet
 				v-if="showChanges && hasChanges"
 				:content="$translate('discard_changes')"
 				@remove-styles="onDeleteOption"
@@ -132,7 +132,7 @@
 				v-if="schema.itemIcon"
 				:icon="schema.itemIcon"
 			/>
-			<InputLabel
+			<Label
 				v-if="schema.label || schema['label-icon']"
 				:label="schema.label"
 				:align="schema['label-align']"
@@ -149,7 +149,7 @@
 						{{schema.content}}
 					</template>
 				</component>
-			</InputLabel>
+			</Label>
 			<component
 				v-else
 				:is="optionTypeConfig.component"
@@ -165,9 +165,10 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import HasChanges from '../HasChanges.vue'
-import { InputLabel } from '@zb/components/forms'
-import { Tooltip, Injection } from '@zb/components/'
+import { ChangesBullet } from '../../ChangesBullet'
+import { Label } from './label'
+import { Tooltip } from '../../tooltip'
+import { Injection } from '../../injections'
 import { trigger } from '@zb/hooks'
 
 export default {
@@ -189,8 +190,8 @@ export default {
 		}
 	},
 	components: {
-		HasChanges,
-		InputLabel,
+		ChangesBullet,
+		Label,
 		Injection,
 		Tooltip
 	},
@@ -235,7 +236,6 @@ export default {
 		...mapGetters([
 			'getActiveElementOptionValue',
 			'getActiveDevice',
-			'getActivePseudoSelector',
 			'getDeviceList',
 			'getBackgroundImageOptionSchema',
 			'getTypographyOptionSchema'

@@ -32,9 +32,9 @@ module.exports = () => {
 		externals: [
 			function( context, request, callback ) {
 				if (/^@zb\/.*$/.test(request)){
-				const modules = request.replace('@', '').split('/')
-				// Externalize to a commonjs module using the request path
-				return callback(null, modules, 'root');
+					const modules = request.replace('@', '').split('/')
+					// Externalize to a commonjs module using the request path
+					return callback(null, modules, 'root');
 				}
 				callback()
 			}

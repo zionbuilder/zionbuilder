@@ -12,7 +12,6 @@
 				enabled: false
 			},
 			offset: { offset: '0,5px' },
-
 		}"
 	>
 		<span
@@ -36,10 +35,10 @@
 </template>
 
 <script>
-import { Tooltip } from '@zb/components'
+import { Tooltip } from '../tooltip'
 
 export default {
-	name: 'HasChanges',
+	name: 'changesBullet',
 	components: {
 		Tooltip
 	},

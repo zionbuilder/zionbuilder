@@ -9,8 +9,8 @@ import App from './App.vue'
 import {store} from './store/'
 
 // Set Service Interceptor
-import { ZionService } from '@zb/rest'
 import { errorInterceptor } from '@zb/rest'
+
 import { forms } from '@zb/components'
 import { install } from '@zb/i18n'
 

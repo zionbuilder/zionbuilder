@@ -1,3 +1,5 @@
+import { createOptionsInstance } from './options'
+
 import { Checkbox, CheckboxGroup, CheckboxSwitch } from './elements/checkbox'
 import { InputSelect } from './elements/select'
 import { ColorPicker, Color } from './elements/colorpicker'
@@ -16,6 +18,8 @@ import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-
 
 // Layout
 import { InputWrapper } from './elements/inputWrapper'
+import InputWrapper2 from './elements/InputWrapper.vue'
+import OptionsForm from './elements/OptionsForm.vue'
 import { Label as InputLabel } from './elements/label'
 import { RadioGroup, RadioGroupItem, RadioIconItem } from './elements/radio'
 
@@ -29,6 +33,7 @@ import { CustomSelector } from './elements/custom-selector'
 // Misc
 import { EmptyList } from './elements/empty-list'
 import { ActionsOverlay } from './elements/actions-overlay'
+
 const components = [
 	// ALL DONE
 	BaseInput,
@@ -69,7 +74,9 @@ const components = [
 	CustomSelector,
 	ShapeDividers,
 	ShapeDividerComponent,
-	SvgMask
+	SvgMask,
+	InputWrapper2,
+	OptionsForm
 ]
 
 export default {
@@ -115,7 +122,9 @@ export default {
 	InputDate,
 	ShapeDividers,
 	ShapeDividerComponent,
-	SvgMask
+	SvgMask,
+	InputWrapper2,
+	OptionsForm
 }
 
 export {
@@ -158,5 +167,8 @@ export {
 	CustomSelector,
 	ShapeDividers,
 	ShapeDividerComponent,
-	SvgMask
+	SvgMask,
+	InputWrapper2,
+	OptionsForm,
+	createOptionsInstance
 }

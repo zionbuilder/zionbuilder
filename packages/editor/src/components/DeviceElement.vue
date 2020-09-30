@@ -24,7 +24,7 @@
 			>
 				{{deviceConfig.name}}
 			</span>
-			<HasChanges
+			<ChangesBullet
 				v-if="hasChanges"
 				:discard-changes-title="discardChangesTitle"
 				@remove-styles="removeStylesGroup"
@@ -35,7 +35,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import HasChanges from './elementOptions/HasChanges.vue'
+import { ChangesBullet } from '@zb/components'
 import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
 
 export default {
@@ -52,7 +52,7 @@ export default {
 		return {}
 	},
 	components: {
-		HasChanges
+		ChangesBullet
 	},
 	computed: {
 		...mapGetters([

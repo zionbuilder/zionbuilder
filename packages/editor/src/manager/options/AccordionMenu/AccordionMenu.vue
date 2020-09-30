@@ -17,7 +17,7 @@
 				:text="label.text"
 				:type="label.type"
 			/>
-			<HasChanges
+			<ChangesBullet
 				v-if="showChanges && hasChanges"
 				@remove-styles="$emit('update:modelValue', null)"
 			/>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import HasChanges from '../../../components/elementOptions/HasChanges.vue'
+import { ChangesBullet } from '@zb/components'
 import ZionLabel from '../../../common/Label.vue'
 
 export default {
@@ -47,7 +47,7 @@ export default {
 		}
 	},
 	components: {
-		HasChanges,
+		ChangesBullet,
 		ZionLabel
 	},
 	props: {

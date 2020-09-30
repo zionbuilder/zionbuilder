@@ -21,3 +21,4 @@ release/
 # Build
 *.zip
 /dist/
+**/dist/

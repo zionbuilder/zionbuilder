@@ -13,7 +13,8 @@
 		"dev:packages": "lerna run dev",
 		"dev": "webpack --watch",
 		"build": "webpack",
-		"build:packages": "lerna run build"
+		"build:packages": "lerna run build",
+		"build:types": "tsc --build"
 	},
 	"dependencies": {
 		"lodash-es": "^4.17.15"

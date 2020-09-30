@@ -50,8 +50,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import OptionsForm from './elementOptions/forms/OptionsForm.vue'
-
+import { OptionsForm } from '@zb/components/forms'
 
 export default {
 	name: 'SaveElementModal',

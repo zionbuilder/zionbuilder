@@ -1,0 +1,13 @@
+{
+	"name": "@zionbuilder/tooltip",
+	"version": "1.0.0",
+	"description": "A Vue plugin and component for creatign tooltips",
+	"main": "src/index.ts",
+	"license": "MIT",
+	"scripts": {
+		"build": "webpack --mode=production",
+		"dev": "webpack --mode=development",
+		"types": "tsc"
+	},
+	"types": "./build-types"
+}

@@ -18,7 +18,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import OptionsForm from './elementOptions/forms/OptionsForm.vue'
+import { OptionsForm } from '@zb/components/forms'
 
 export default {
 	name: 'PanelGlobalSettings',

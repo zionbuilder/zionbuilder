@@ -2,7 +2,8 @@
 	<div
 		class="znpb-colorpicker-inner-editor__opacity-wrapper"
 		@click="dragCircle"
-		@mousedown="actCircleDrag">
+		@mousedown="actCircleDrag"
+	>
 		<div class="znpb-colorpicker-inner-editor__opacity">
 			<div
 				:style="barStyles"
