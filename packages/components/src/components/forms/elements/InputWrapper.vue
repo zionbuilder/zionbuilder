@@ -166,7 +166,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { ChangesBullet } from '../../ChangesBullet'
-import { Label } from './label'
+import { InputLabel } from '../../InputLabel'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Injection } from '../../injections'
 import { trigger } from '@zionbuilder/hooks'

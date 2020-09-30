@@ -13,7 +13,7 @@
 
 <script>
 export default {
-	name: 'CustomCode',
+	name: 'InputCode',
 	inheritAttrs: false,
 	data () {
 		return {

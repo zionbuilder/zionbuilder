@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Icon from '../../../Icon/Icon.vue'
+import { Icon } from '../Icon'
 
 export default {
 	name: 'InputLabel',

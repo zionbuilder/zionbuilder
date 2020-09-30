@@ -23,7 +23,7 @@
 
 <script>
 export default {
-	name: 'RadioGroupItem',
+	name: 'InputRadio',
 	props: {
 		/**
 		 * modelValue

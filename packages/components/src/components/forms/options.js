@@ -17,7 +17,7 @@ import {
 	InputMedia,
 	InputImage,
 	InputTextShadow,
-	CustomCode,
+	InputCode,
 	InputNumber,
 	InputNumberUnit,
 	InputCheckbox,
@@ -114,7 +114,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'code',
-			component: CustomCode
+			component: InputCode
 		})
 
 		registerOption({

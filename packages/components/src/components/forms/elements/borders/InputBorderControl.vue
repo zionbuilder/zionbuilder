@@ -6,7 +6,7 @@
 	/>
 </template>
 <script>
-import InputLabel from '../label/Label.vue'
+import { InputLabel } from '../../../InputLabel'
 export default {
 	name: 'InputBorderControl',
 	props: {

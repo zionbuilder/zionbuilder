@@ -3,10 +3,10 @@
 		:class="`znpb-input-text-transform__wrapper--${layout}`"
 	>
 
-		<RadioGroup
+		<InputRadioGroup
 			layout="row"
 		>
-			<RadioIconItem
+			<InputRadio
 				class="zion-form-text-align_element"
 				v-model="radioSavedValue"
 				v-for="(option, index) in radioOptions"
@@ -14,19 +14,19 @@
 				:option-value="option.value"
 				:icon="option.icon"
 			>
-			</RadioIconItem>
-		</RadioGroup>
+			</InputRadio>
+		</InputRadioGroup>
 	</div>
 </template>
 
 <script>
-import RadioIconItem from '../radio/RadioIconItem.vue'
-import RadioGroup from '../radio/RadioGroup.vue'
+import { InputRadio, InputRadioGroup } from '../../../InputRadio'
+
 export default {
 	name: 'InputTextTransform',
 	components: {
-		RadioIconItem,
-		RadioGroup
+		InputRadio,
+		InputRadioGroup
 	},
 	props: {
 		/**

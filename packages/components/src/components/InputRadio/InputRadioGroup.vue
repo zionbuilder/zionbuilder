@@ -24,7 +24,7 @@ export default {
 	data () {
 		return {}
 	},
-	name: 'RadioGroup'
+	name: 'InputRadioGroup'
 }
 </script>
 <style lang="scss">

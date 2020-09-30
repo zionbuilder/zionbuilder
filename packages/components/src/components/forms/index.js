@@ -15,7 +15,7 @@ import { InputBackgroundImage } from '../InputBackgroundImage'
 import { InputBackgroundVideo } from '../InputBackgroundVideo'
 import { InputImage } from './elements/featured-image'
 import { Editor } from './elements/editor'
-import { CustomCode } from './elements/code'
+import { InputCode } from '../InputCode'
 import { RadioImage } from './elements/radio_image'
 import { InputDate } from './elements/InputDate'
 import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-dividers'
@@ -24,8 +24,8 @@ import { ShapeDividers, ShapeDividerComponent, SvgMask } from './elements/shape-
 import { InputWrapper } from './elements/inputWrapper'
 import InputWrapper2 from './elements/InputWrapper.vue'
 import OptionsForm from './elements/OptionsForm.vue'
-import { Label as InputLabel } from './elements/label'
-import { RadioGroup, RadioGroupItem, RadioIconItem } from './elements/radio'
+import { InputLabel } from '../InputLabel'
+import { InputRadioGroup, InputRadio, InputRadioIcon } from '../InputRadio'
 
 import { InputTextAlign } from './elements/textAlign'
 import { InputTextTransform } from './elements/textTransform'
@@ -52,7 +52,7 @@ const components = [
 	EmptyList,
 	ActionsOverlay,
 	Editor,
-	CustomCode,
+	InputCode,
 	RadioImage,
 	InputDate,
 	// Needs testing
@@ -64,9 +64,9 @@ const components = [
 	Color,
 	InputNumber,
 	InputNumberUnit,
-	RadioGroup,
-	RadioGroupItem,
-	RadioIconItem,
+	InputRadioGroup,
+	InputRadio,
+	InputRadioIcon,
 	InputTextAlign,
 	InputTextTransform,
 	InputTextShadow,
@@ -101,7 +101,7 @@ export default {
 	InputBackgroundVideo,
 	InputSwitch,
 	Editor,
-	CustomCode,
+	InputCode,
 	RadioImage,
 	ActionsOverlay,
 	InputLabel,
@@ -113,9 +113,9 @@ export default {
 	Color,
 	InputNumber,
 	InputNumberUnit,
-	RadioGroup,
-	RadioGroupItem,
-	RadioIconItem,
+	InputRadioGroup,
+	InputRadio,
+	InputRadioIcon,
 	InputTextAlign,
 	InputTextTransform,
 	InputTextShadow,
@@ -148,7 +148,7 @@ export {
 	EmptyList,
 	ActionsOverlay,
 	Editor,
-	CustomCode,
+	InputCode,
 	RadioImage,
 	InputDate,
 	// Needs testing
@@ -160,9 +160,9 @@ export {
 	Color,
 	InputNumber,
 	InputNumberUnit,
-	RadioGroup,
-	RadioGroupItem,
-	RadioIconItem,
+	InputRadioGroup,
+	InputRadio,
+	InputRadioIcon,
 	InputTextAlign,
 	InputTextTransform,
 	InputTextShadow,

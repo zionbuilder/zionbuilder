@@ -24,7 +24,9 @@ import { Modal, ModalConfirm } from '@zionbuilder/modal'
 // Inputs
 import { InputBackgroundVideo } from './components/InputBackgroundVideo'
 import { InputCheckbox, InputCheckboxGroup, InputCheckboxSwitch } from './components/InputCheckbox'
-
+import { InputLabel } from "./components/InputLabel";
+import { InputCode } from "./components/InputCode";
+import { InputRadio, InputRadioGroup, InputRadioIcon } from "./components/InputRadio";
 
 export {
 	Button,
@@ -59,7 +61,12 @@ export {
 	InputBackgroundVideo,
 	InputCheckboxGroup,
 	InputCheckbox,
-	InputCheckboxSwitch
+	InputCheckboxSwitch,
+	InputLabel,
+	InputCode,
+	InputRadio,
+	InputRadioGroup,
+	InputRadioIcon
 }
 
 export const options = createOptionsInstance()

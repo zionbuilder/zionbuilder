@@ -11,7 +11,7 @@
 </template>
 <script>
 import BaseInput from '../forms/elements/input/BaseInput.vue'
-import InputLabel from '../forms/elements/label/Label.vue'
+import { InputLabel } from '../InputLabel'
 
 /**
  * this type of element supports
