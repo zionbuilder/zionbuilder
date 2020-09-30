@@ -8,6 +8,7 @@
 	"exclude": [
 		"**/test/**",
 		"**/build/**",
-		"**/build-*/**"
+		"**/build-*/**",
+		"./vendor/**"
 	]
 }

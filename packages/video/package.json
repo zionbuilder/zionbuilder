@@ -5,7 +5,8 @@
   "author": "zionbuilder.io",
   "license": "MIT",
   "dependencies": {
-	"fitvids": "^2.1.1",
-	"@zionbuilder/hooks": "^1.0.0"
+    "@types/fitvids": "^2.1.0",
+    "@zionbuilder/hooks": "^1.0.0",
+    "fitvids": "^2.1.1"
   }
 }
