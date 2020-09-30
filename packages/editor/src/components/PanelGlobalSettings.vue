@@ -19,11 +19,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { OptionsForm } from '@zb/components/forms'
+import BasePanel from './BasePanel.vue'
 
 export default {
 	name: 'PanelGlobalSettings',
 	components: {
-		OptionsForm
+		OptionsForm,
+		BasePanel
 	},
 	computed: {
 		...mapGetters([
