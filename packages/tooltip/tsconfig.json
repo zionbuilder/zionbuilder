@@ -1,12 +1,7 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"rootDir": "src",
-		"declarationDir": "build-types"
-	},
-	"include": [
-		"../shims-vue.d.ts",
-		"./src/**/*.ts",
-		"./src/**/*.vue",
-	]
+		"rootDir": "./src",
+		"declarationDir": "./build-types"
+	}
 }
