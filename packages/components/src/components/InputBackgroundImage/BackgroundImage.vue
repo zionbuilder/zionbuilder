@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import InputImage from '../featured-image/InputImage.vue'
+import InputImage from '../forms/elements/featured-image/InputImage.vue'
 import { getSchema } from '@zb/schemas'
 
 export default {

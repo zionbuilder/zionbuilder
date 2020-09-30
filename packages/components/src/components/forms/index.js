@@ -1,5 +1,7 @@
+// Utils
 import { createOptionsInstance } from './options'
 
+// General components
 import { Checkbox, CheckboxGroup, CheckboxSwitch } from './elements/checkbox'
 import { InputSelect } from './elements/select'
 import { ColorPicker, Color } from './elements/Colorpicker'
@@ -7,7 +9,9 @@ import { InputNumber, InputNumberUnit } from './elements/InputNumber'
 import { InputRange, InputRangeDynamic } from './elements/range'
 import { InputMedia } from './elements/media'
 import { InputSwitch } from './elements/switch'
-import { InputBackgroundImage } from './elements/background-image'
+
+// Inputs
+import { InputBackgroundImage } from '../InputBackgroundImage'
 import { InputBackgroundVideo } from './elements/background-video'
 import { InputImage } from './elements/featured-image'
 import { Editor } from './elements/editor'
