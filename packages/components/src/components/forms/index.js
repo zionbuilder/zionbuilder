@@ -35,7 +35,7 @@ import { BaseInput } from './elements/input'
 import { CustomSelector } from './elements/custom-selector'
 
 // Misc
-import { EmptyList } from './elements/empty-list'
+import { EmptyList } from '../EmptyList'
 import { ActionsOverlay } from '../ActionsOverlay'
 
 const components = [

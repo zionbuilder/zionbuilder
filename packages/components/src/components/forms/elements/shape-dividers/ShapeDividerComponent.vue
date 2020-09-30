@@ -63,7 +63,7 @@
 <script>
 import Icon from '../../../Icon/Icon.vue'
 import Shape from './Shape.vue'
-import EmptyList from '../empty-list/EmptyList.vue'
+import { EmptyList } from '../../../EmptyList'
 import { UpgradeToPro } from '../../../UpgradeToPro'
 import { mapGetters } from 'vuex'
 export default {

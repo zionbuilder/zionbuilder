@@ -36,7 +36,7 @@
 </template>
 <script>
 import { Icon } from '../Icon'
-import EmptyList from '../forms/elements/empty-list/EmptyList.vue'
+import { EmptyList } from '../EmptyList'
 import Video from '@zionbuilder/video'
 import { getSchema } from '@zb/schemas'
 

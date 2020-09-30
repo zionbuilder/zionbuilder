@@ -92,7 +92,7 @@
 <script>
 import Icon from '../../../Icon/Icon.vue'
 import { ActionsOverlay } from '../../../ActionsOverlay'
-import EmptyList from '../empty-list/EmptyList.vue'
+import { EmptyList } from '../../../EmptyList'
 import { InputWrapper } from '../inputWrapper'
 import { InputSelect } from '../select'
 import CustomSize from './CustomSize.vue'
