@@ -8,7 +8,7 @@ import { InputColorPicker, Color } from '../InputColorPicker'
 import { InputNumber, InputNumberUnit } from '../InputNumber'
 import { InputRange, InputRangeDynamic } from '../InputRange'
 import { InputMedia } from './elements/media'
-import { InputSwitch } from './elements/switch'
+import { InputSwitch } from '../InputSwitch'
 
 // Inputs
 import { InputBackgroundImage } from '../InputBackgroundImage'
