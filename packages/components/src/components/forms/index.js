@@ -28,7 +28,7 @@ import { InputLabel } from '../InputLabel'
 import { InputRadioGroup, InputRadio, InputRadioIcon } from '../InputRadio'
 
 import { InputTextAlign } from '../InputTextAlign'
-import { InputTextTransform } from './elements/textTransform'
+import { InputTextTransform } from '../InputTextTransform'
 import { InputTextShadow } from '../InputTextShadow'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './elements/borders'
 import { BaseInput } from './elements/input'

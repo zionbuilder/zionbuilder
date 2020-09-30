@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { InputRadio, InputRadioGroup } from '../../../InputRadio'
+import { InputRadio, InputRadioGroup } from '../InputRadio'
 
 export default {
 	name: 'InputTextTransform',
