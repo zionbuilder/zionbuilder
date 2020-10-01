@@ -16,6 +16,7 @@ import { Injection } from './components/injections'
 import { Sortable } from '@zionbuilder/sortable'
 import { ChangesBullet } from './components/ChangesBullet'
 import { createOptionsInstance } from './components/forms'
+import { RadioImage } from './components/RadioImage'
 export * as forms from './components/forms'
 export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
@@ -31,6 +32,11 @@ import { InputDatePicker } from './components/InputDatePicker'
 import { InputColorPicker } from './components/InputColorPicker'
 import { InputCustomSelector } from './components/InputCustomSelector'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
+import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './components/borders'
+import { InputMedia } from './components/InputMedia'
+import { InputImage } from './components/InputImage'
+import { InputEditor } from './components/InputEditor'
+import { BaseInput } from './components/BaseInput'
 
 export {
 	Button,
@@ -49,6 +55,7 @@ export {
 	Tab,
 	ColorPicker,
 	Injection,
+	RadioImage,
 
 	// Specific
 	ActionsOverlay,
@@ -76,7 +83,15 @@ export {
 	InputCustomSelector,
 	InputShapeDividers,
 	ShapeDividerComponent,
-	SvgMask
+	SvgMask,
+	InputBorderControl,
+	InputBorderTabs,
+	InputBorderRadius,
+	InputBorderRadiusTabs,
+	InputMedia,
+	InputImage,
+	InputEditor,
+	BaseInput
 }
 
 export const options = createOptionsInstance()

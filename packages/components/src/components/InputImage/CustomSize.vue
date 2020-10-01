@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import { Icon } from '../../../Icon'
-import BaseInput from '../input/BaseInput.vue'
+import { Icon } from '../Icon'
+import BaseInput from '../BaseInput/BaseInput.vue'
 import InputWrapper from '../inputWrapper/InputWrapper.vue'
 
 export default {

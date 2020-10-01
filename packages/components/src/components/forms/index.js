@@ -7,16 +7,16 @@ import { InputSelect } from '../InputSelect'
 import { InputColorPicker, Color } from '../InputColorPicker'
 import { InputNumber, InputNumberUnit } from '../InputNumber'
 import { InputRange, InputRangeDynamic } from '../InputRange'
-import { InputMedia } from './elements/media'
+import { InputMedia } from '../InputMedia'
 import { InputSwitch } from '../InputSwitch'
 
 // Inputs
 import { InputBackgroundImage } from '../InputBackgroundImage'
 import { InputBackgroundVideo } from '../InputBackgroundVideo'
-import { InputImage } from './elements/featured-image'
-import { Editor } from './elements/editor'
+import { InputImage } from '../InputImage'
+import { InputEditor } from '../InputEditor'
 import { InputCode } from '../InputCode'
-import { RadioImage } from './elements/radio_image'
+import { RadioImage } from '../RadioImage'
 import { InputDatePicker } from '../InputDatePicker'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from '../InputShapeDividers'
 
@@ -30,8 +30,8 @@ import { InputRadioGroup, InputRadio, InputRadioIcon } from '../InputRadio'
 import { InputTextAlign } from '../InputTextAlign'
 import { InputTextTransform } from '../InputTextTransform'
 import { InputTextShadow } from '../InputTextShadow'
-import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './elements/borders'
-import { BaseInput } from './elements/input'
+import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from '../borders'
+import { BaseInput } from '../BaseInput'
 import { InputCustomSelector } from '../InputCustomSelector'
 
 // Misc
@@ -51,7 +51,7 @@ const components = [
 	InputBackgroundVideo,
 	EmptyList,
 	ActionsOverlay,
-	Editor,
+	InputEditor,
 	InputCode,
 	RadioImage,
 	InputDatePicker,
@@ -100,7 +100,7 @@ export default {
 	InputBackgroundImage,
 	InputBackgroundVideo,
 	InputSwitch,
-	Editor,
+	InputEditor,
 	InputCode,
 	RadioImage,
 	ActionsOverlay,
@@ -147,7 +147,7 @@ export {
 	InputBackgroundVideo,
 	EmptyList,
 	ActionsOverlay,
-	Editor,
+	InputEditor,
 	InputCode,
 	RadioImage,
 	InputDatePicker,

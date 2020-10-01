@@ -31,7 +31,7 @@
 
 <script>
 import DatePick from 'vue-date-pick'
-import BaseInput from '../forms/elements/input/BaseInput.vue'
+import BaseInput from '../BaseInput/BaseInput.vue'
 
 /**
  *   model - string

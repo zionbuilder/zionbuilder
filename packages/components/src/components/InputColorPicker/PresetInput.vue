@@ -13,7 +13,7 @@
 </template>
 <script>
 import { Icon } from '../Icon'
-import BaseInput from '../forms/elements/input/BaseInput.vue'
+import BaseInput from '../BaseInput/BaseInput.vue'
 /**
  * it emits:
  *  - the new color chosen

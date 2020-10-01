@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import BaseInput from '../forms/elements/input/BaseInput.vue'
+import BaseInput from '../BaseInput/BaseInput.vue'
 
 export default {
 	name: 'InputNumber',
