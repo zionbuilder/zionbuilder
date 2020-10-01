@@ -123,13 +123,13 @@ export default {
 	}
 }
 
-.move-enter-active {
+.move-enter-to {
 	transition: all .2s cubic-bezier(1, .5, .8, 1);
 }
-.move-leave-active {
+.move-leave-from {
 	transition: all .2s cubic-bezier(1, .5, .8, 1);
 }
-.move-enter {
+.move-enter-from {
 	transform: translateX(20px);
 	opacity: 0;
 }

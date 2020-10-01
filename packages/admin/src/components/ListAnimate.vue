@@ -25,12 +25,11 @@ export default {
 </script>
 
 <style lang="scss">
-.znpb-list-animate-enter-active, .znpb-list-animate-leave-active {
+.znpb-list-animate-enter-to, .znpb-list-animate-leave-from {
 	transition: all .3s;
 }
-.znpb-list-animate-enter, .znpb-list-animate-leave-to {
+.znpb-list-animate-enter-from, .znpb-list-animate-leave-to {
 	transform: translateX(50px);
 	opacity: 0;
 }
-
 </style>

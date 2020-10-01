@@ -113,11 +113,11 @@ export default {
 }
 
 /* Enter and leave transitions for delete mask */
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-to, .slide-fade-leave-from {
 	transition: all .1s;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter-to, .slide-fade-leave-to {
 	opacity: 0;
 }
 </style>

@@ -627,19 +627,19 @@ export default {
 	height: 100%;
 	background: #fff;
 }
-.slide-preview-enter {
+.slide-preview-enter-from {
 	opacity: .2;
 }
-.slide-preview-after-enter {
+.slide-preview-enter-to {
 	opacity: 1;
 }
-.slide-preview-before-leave {
+.slide-preview-leave-from {
 	opacity: .4;
 }
 .slide-preview-leave-to {
 	opacity: 0;
 }
-.slide-preview-enter-active, .slide-preview-leave-active {
+.slide-preview-enter-to, .slide-preview-leave-to {
 	transition: all .2s;
 }
 </style>

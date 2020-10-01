@@ -12,9 +12,7 @@
 		@mouseover.stop="zIndex = 1001"
 		@mouseout.stop="zIndex = null"
 	>
-		<template
-			v-if="computedStyle"
-		>
+		<template v-if="computedStyle">
 			<!-- Width/height -->
 			<Tooltip
 				v-for="(position, positionIndex) in positions"
@@ -49,9 +47,7 @@
 			</Tooltip>
 
 			<!-- Paddings -->
-			<template
-				v-for="( positions, type ) in positions2"
-			>
+			<template v-for="( positions, type ) in positions2">
 				<div
 					v-for="position in positions"
 					:key="`${type}-${position}`"
@@ -382,18 +378,18 @@ export default {
 			let reversePositionLocation
 
 			switch (positionLocation) {
-			case 'Top':
-				reversePositionLocation = 'Bottom'
-				break
-			case 'Bottom':
-				reversePositionLocation = 'Top'
-				break
-			case 'Left':
-				reversePositionLocation = 'Right'
-				break
-			case 'Right':
-				reversePositionLocation = 'Left'
-				break
+				case 'Top':
+					reversePositionLocation = 'Bottom'
+					break
+				case 'Bottom':
+					reversePositionLocation = 'Top'
+					break
+				case 'Left':
+					reversePositionLocation = 'Right'
+					break
+				case 'Right':
+					reversePositionLocation = 'Left'
+					break
 			}
 
 			return `${typeAndPosition[0]}${reversePositionLocation}`
@@ -1040,22 +1036,19 @@ export default {
 	line-height: 1;
 }
 
-.bounce-add-icon-enter {
+.bounce-add-icon-enter-from {
 	transform: translate(-50%, -50%) scale(.9);
 }
 .bounce-add-icon-enter-to {
 	transform: translate(-50%, -50%) scale(1);
 }
-.bounce-add-icon-leave {
+.bounce-add-icon-leave-from {
 	transform: translate(-50%, -50%) scale(.5);
-}
-.bounce-add-icon-leave-active {
-	transform: scale(0);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-add-icon-enter-active, .bounce-add-icon-leave-active {
+.bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
 	transition: all .2s;
 }
 </style>

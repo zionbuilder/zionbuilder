@@ -555,30 +555,30 @@ body * {
 }
 /*  Transitions */
 /*  slide from right */
-.slide-from-right-enter-active {
+.slide-from-right-enter-to {
 	transform: translateX(0);
 	transition: all .3s ease-out;
 	transition-delay: .1s;
 }
 
-.slide-from-right-leave-active {
+.slide-from-right-leave-from {
 	transition: all .3s ease-in;
 }
-.slide-from-right-enter, .slide-from-right-leave-to {
+.slide-from-right-enter-from, .slide-from-right-leave-to {
 	transform: translateX(60px);
 	opacity: 0;
 }
 /*  slide from left */
-.slide-from-left-enter-active {
+.slide-from-left-enter-to {
 	transform: translateX(0);
 	transition: all .3s ease-out;
 	transition-delay: .1s;
 }
 
-.slide-from-left-leave-active {
+.slide-from-left-leave-from {
 	transition: all .3s ease-in;
 }
-.slide-from-left-enter, .slide-from-left-leave-to {
+.slide-from-left-enter-from, .slide-from-left-leave-to {
 	transform: translateX(-60px);
 	opacity: 0;
 }

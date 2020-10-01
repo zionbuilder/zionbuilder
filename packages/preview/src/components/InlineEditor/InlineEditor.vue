@@ -671,10 +671,10 @@ export default {
 }
 
 /* Bar animations */
-.barShow-enter-active, .barShow-leave-active {
+.barShow-enter-to, .barShow-leave-from {
 	transition: all .2s;
 }
-.barShow-enter, .barShow-leave-to {
+.barShow-enter-from, .barShow-leave-to {
 	opacity: 0;
 }
 

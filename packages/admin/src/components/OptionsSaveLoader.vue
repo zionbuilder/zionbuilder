@@ -1,7 +1,10 @@
 <template>
 	<transition name="save">
-		<div v-if="isLoading"   class="znpb-admin__options-save-loader">
-			<Icon icon="check"/>
+		<div
+			v-if="isLoading"
+			class="znpb-admin__options-save-loader"
+		>
+			<BaseIcon icon="check" />
 		</div>
 	</transition>
 </template>
@@ -64,7 +67,7 @@ export default {
 		border: none;
 	}
 
-	&.save-enter, &.save-enter-active, &.save-enter-to, &.save-leave {
+	&.save-enter-from, &.save-enter-to, &.save-leave {
 		.znpb-editor-icon-wrapper {
 			opacity: 0;
 		}
@@ -75,11 +78,11 @@ export default {
 			opacity: 1;
 		}
 	}
-	.save-leave-to, .save-leave-active {
+	.save-leave-to, .save-leave-from {
 		opacity: 0;
 	}
 
-	.save-enter-active, .save-leave-to, .save-leave-active {
+	.save-enter-to, .save-leave-to, .save-leave-from {
 		transition: all .8s;
 	}
 }
@@ -95,5 +98,4 @@ export default {
 		transform: scale(1);
 	}
 }
-
 </style>

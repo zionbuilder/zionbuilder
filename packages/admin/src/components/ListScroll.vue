@@ -42,10 +42,10 @@ export default {
 
 <style lang="scss">
 // Transitions
-.fadeFromBottom-enter-active, .fadeFromBottom-leave-active {
+.fadeFromBottom-enter-to, .fadeFromBottom-leave-from {
 	transition: opacity .5s;
 }
-.fadeFromBottom-enter, .fadeFromBottom-leave-to {
+.fadeFromBottom-enter-from, .fadeFromBottom-leave-to {
 	opacity: 0;
 }
 

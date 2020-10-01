@@ -169,11 +169,11 @@ export default {
 	}
 }
 
-.list-enter-active, .list-leave-active {
+.list-enter-to, .list-leave-from {
 	transition: all .2s;
 }
 
-.list-enter, .list-leave-to {
+.list-enter-from, .list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
 }

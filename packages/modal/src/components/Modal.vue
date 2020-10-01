@@ -375,11 +375,10 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-active, .modal-fade-enter-active {
+.modal-fade-leave-from, .modal-fade-enter-to {
 	transition: all .2s;
 }
-.modal-fade-enter, .modal-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+.modal-fade-enter-from, .modal-fade-leave-to {
 	transform: scale(.99);
 	opacity: 0;
 }

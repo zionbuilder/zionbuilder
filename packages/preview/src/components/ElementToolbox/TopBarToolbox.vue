@@ -325,22 +325,19 @@ export default {
 		width: 0;
 	}
 }
-.bounce-icon-enter {
+.bounce-icon-enter-from {
 	transform: translate(17px, -50%) scale(.9);
 }
 .bounce-icon-enter-to {
 	transform: translate(17px, -50%) scale(1);
 }
-.bounce-icon-leave {
+.bounce-icon-leave-from {
 	transform: translate(17px, -50%) scale(.2);
-}
-.bounce-icon-leave-active {
-	transform: scale(0);
 }
 .bounce-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-icon-enter-active, .bounce-icon-leave-active {
+.bounce-icon-enter-to, .bounce-icon-leave-from {
 	transition: all .2s;
 }
 

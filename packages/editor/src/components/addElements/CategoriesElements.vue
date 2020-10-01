@@ -183,7 +183,7 @@ export default {
 	}
 }
 
-.expand-enter-active, .expand-leave-active {
+.expand-enter-from, .expand-leave-to {
 	overflow: hidden;
 	transition: height .5s ease-in-out;
 	will-change: height;

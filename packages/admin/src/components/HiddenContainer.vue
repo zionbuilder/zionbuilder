@@ -1,9 +1,15 @@
 <template>
-	<div class="znpb-admin-hidden-select__wrapper" @click="showContent = true, addEventListeners()">
+	<div
+		class="znpb-admin-hidden-select__wrapper"
+		@click="showContent = true, addEventListeners()"
+	>
 		<span class="znpb-admin-hidden-select__title">
 			<slot></slot>
 		</span>
-		<div v-show="showContent" class="znpb-admin-hidden-select__content">
+		<div
+			v-show="showContent"
+			class="znpb-admin-hidden-select__content"
+		>
 			<transition name="fadeGrow">
 				<div class="znpb-admin-hidden-select__content-slot">
 					<slot name="content"></slot>
@@ -43,7 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .znpb-admin {
 	&-hidden-select {
 		&__content {
@@ -75,11 +80,10 @@ export default {
 	}
 }
 
-.fadeGrow-enter-active, .fadeGrow-leave-active {
+.fadeGrow-enter-to, .fadeGrow-leave-from {
 	transition: transform .1s;
 }
-.fadeGrow-enter, .fadeGrow-leave-to {
+.fadeGrow-enter-from, .fadeGrow-leave-to {
 	transform: scale(.9);
 }
-
 </style>

@@ -155,10 +155,10 @@ export default {
 	}
 }
 /* popover animations */
-.bar-show-enter-active, .bar-show-leave-active {
+.bar-show-enter-to, .bar-show-leave-from {
 	transition: all .2s;
 }
-.bar-show-enter, .bar-show-leave-to {
+.bar-show-enter-from, .bar-show-leave-to {
 	opacity: 0;
 }
 </style>

@@ -121,10 +121,10 @@ export default {
 }
 
 /* popover animations */
-.panel-show-enter-active, .panel-show-leave-active {
+.panel-show-enter-to, .panel-show-leave-from {
 	transition: all .2s;
 }
-.panel-show-enter, .panel-show-leave-to {
+.panel-show-enter-from, .panel-show-leave-to {
 	opacity: 0;
 }
 </style>
