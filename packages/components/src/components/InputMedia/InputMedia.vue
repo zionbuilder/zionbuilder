@@ -20,7 +20,7 @@
  *   model - string
  * other properties received:
  */
-import BaseInput from '../input/BaseInput.vue'
+import BaseInput from '../BaseInput/BaseInput.vue'
 export default {
 	name: 'InputMedia',
 	props: {
