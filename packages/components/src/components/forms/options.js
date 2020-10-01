@@ -13,7 +13,7 @@ import {
 	RadioImage,
 	InputRange,
 	InputRangeDynamic,
-	Editor,
+	InputEditor,
 	InputMedia,
 	InputImage,
 	InputTextShadow,
@@ -86,7 +86,7 @@ export const createOptionsInstance = () => {
 
 		registerOption({
 			id: 'editor',
-			component: Editor,
+			component: InputEditor,
 			dynamic: {
 				type: 'TEXT'
 			}
