@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import Icon from '../../../Icon/Icon.vue'
+import Icon from '../Icon/Icon.vue'
 
 export default {
 	name: 'BaseInput',
