@@ -4,7 +4,7 @@
 			v-if="isLoading"
 			class="znpb-admin__options-save-loader"
 		>
-			<BaseIcon icon="check" />
+			<Icon icon="check" />
 		</div>
 	</transition>
 </template>
