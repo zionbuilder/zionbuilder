@@ -21,7 +21,7 @@ import { InputDatePicker } from '../InputDatePicker'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from '../InputShapeDividers'
 
 // Layout
-import { InputWrapper } from './elements/inputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import InputWrapper2 from './elements/InputWrapper.vue'
 import OptionsForm from './elements/OptionsForm.vue'
 import { InputLabel } from '../InputLabel'
