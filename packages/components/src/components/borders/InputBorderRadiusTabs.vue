@@ -30,7 +30,7 @@
 	</div>
 </template>
 <script>
-import Icon from '../../../Icon/Icon.vue'
+import Icon from '../Icon/Icon.vue'
 import InputBorderRadius from './InputBorderRadius.vue'
 
 export default {
