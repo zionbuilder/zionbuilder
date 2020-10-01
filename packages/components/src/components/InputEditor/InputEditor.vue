@@ -4,7 +4,7 @@
 
 <script>
 export default {
-	name: 'Editor',
+	name: 'InputEditor',
 	props: {
 		modelValue: {
 			type: String,
