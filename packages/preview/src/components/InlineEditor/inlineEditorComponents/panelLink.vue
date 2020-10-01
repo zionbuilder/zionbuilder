@@ -17,7 +17,7 @@
 				v-if="isPopOverVisible"
 				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover"
 			>
-				<inputWrapper :title="$translate('add_a_link')">
+				<InputWrapper :title="$translate('add_a_link')">
 					<BaseInput
 						v-model="linkModel"
 						:clearable="true"
@@ -31,7 +31,7 @@
 							/>
 						</template>
 					</BaseInput>
-				</inputWrapper>
+				</InputWrapper>
 				<div class="zion-inline-editor-popover__link-title">
 					<InputWrapper :title="$translate('target')">
 						<InputSelect

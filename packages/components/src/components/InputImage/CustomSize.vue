@@ -37,7 +37,7 @@
 <script>
 import { Icon } from '../Icon'
 import BaseInput from '../BaseInput/BaseInput.vue'
-import InputWrapper from '../inputWrapper/InputWrapper.vue'
+import InputWrapper from '../InputWrapper/InputWrapper.vue'
 
 export default {
 	name: 'CustomSize',

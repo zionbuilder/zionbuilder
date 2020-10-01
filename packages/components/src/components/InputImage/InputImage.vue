@@ -93,7 +93,7 @@
 import Icon from '../Icon/Icon.vue'
 import { ActionsOverlay } from '../ActionsOverlay'
 import { EmptyList } from '../EmptyList'
-import { InputWrapper } from '../inputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { InputSelect } from '../InputSelect'
 import CustomSize from './CustomSize.vue'
 
