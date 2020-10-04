@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import * as types from '../mutation-types'
 
 const state = {
@@ -203,7 +202,7 @@ const mutations = {
 	[types.SET_PANEL_PROP] (state, payload) {
 		const { id, prop, value } = payload
 		let index = state.panelsState.findIndex(k => k.id === id)
-		Vue.set(state.panelsState[index], prop, value)
+		state.panelsState[index][prop] = value
 	},
 	[types.OPEN_PANEL] (state, panelConfig) {
 		state.openPanels.push(panelConfig)
@@ -216,14 +215,14 @@ const mutations = {
 	},
 	[types.SET_PANEL_WIDTH] (state, { panelConfig, panelWidth }) {
 		let index = state.panelsState.indexOf(panelConfig)
-		Vue.set(state.panelsState[index].width, 'value', panelWidth)
+		state.panelsState[index].width.value = panelWidth
 	},
 	[types.SET_PANELS_ORDER] (state, payload) {
 		state.openPanels = payload
 	},
 	[types.SET_PANEL_POS] (state, { panelId, panelPos }) {
 		let index = state.panelsState.findIndex(k => k.id === panelId)
-		Vue.set(state.panelsState[index], 'panelPos', panelPos)
+		state.panelsState[index].panelPos = panelPos
 	}
 }
 

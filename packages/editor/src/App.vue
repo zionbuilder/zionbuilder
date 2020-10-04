@@ -127,7 +127,7 @@
 </template>
 
 <script>
-// import RightClickMenu from '@/preview/components/RightClickMenu'
+import RightClickMenu from '../../preview/src/components/RightClickMenu.vue'
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
 import PanelTree from './components/treeView/PanelTree.vue'
@@ -155,7 +155,7 @@ export default {
 		PanelGlobalSettings,
 		PanelElementOptions,
 		PostLock,
-		// RightClickMenu,
+		RightClickMenu,
 		DeviceElement,
 		Tooltip,
 		Notice

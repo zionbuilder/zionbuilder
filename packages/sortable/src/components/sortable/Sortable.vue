@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import Vue from '@zb/vue'
+import Vue from '@zionbuilder/vue'
+
 import {
 	HostsManager,
 	EventsManager

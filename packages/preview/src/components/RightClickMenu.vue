@@ -12,10 +12,10 @@
 
 // Utils
 import { mapGetters, mapActions } from 'vuex'
-import { clickOutside } from '@/common/plugins/clickOutside'
+import clickOutside from '@zionbuilder/click-outside-directive'
 
 // Components
-import ElementActions from '@/editor/common/ElementActions'
+import ElementActions from '../../../editor/src/common/ElementActions.vue'
 import { trigger } from '@zb/hooks'
 
 export default {

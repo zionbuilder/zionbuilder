@@ -17,7 +17,7 @@ import templates from './modules/templates'
 import Library from './modules/library'
 
 // Load modules from admin
-import options from '@zionbuilder/admin/src/store/modules/options'
+import options from '../../../admin/src/store/modules/options'
 
 
 const debug = process.env.NODE_ENV !== 'production'
