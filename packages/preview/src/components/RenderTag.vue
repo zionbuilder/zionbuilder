@@ -14,7 +14,7 @@ export default {
 		}
 	},
 	render (createElement, context) {
-		const tagId = context.props.tagId
+		const tagId = context.tagId
 		const children = context.children
 
 		if (children.length === 0) {

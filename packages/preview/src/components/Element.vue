@@ -60,20 +60,19 @@
 
 <script>
 // Utils
-import Vue from '@/Vue'
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import importCSS from '@zionbuilder/importcss'
-import ElementToolbox from './ElementToolbox/ElementToolbox'
+import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
-// import Options from '@/common/Options'
+import Options from '../Options'
 
 // Components
-import ServerComponent from '@/preview/components/ServerComponent'
+import ServerComponent from './ServerComponent.vue'
 import { trigger } from '@zb/hooks'
 
 export default {
@@ -182,7 +181,7 @@ export default {
 			}, 100)
 		})
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.trigger('destroyed')
 	},
 	watch: {

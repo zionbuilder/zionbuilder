@@ -102,7 +102,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 // Components
-import { Tooltip } from '@/common/components/tooltip'
+import { Tooltip } from '@zb/components'
 import { trigger } from '@zb/hooks'
 
 export default {

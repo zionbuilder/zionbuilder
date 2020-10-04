@@ -180,7 +180,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 // Components
-import { Tooltip } from '@/common/components/tooltip'
+import { Tooltip } from '@zb/components'
 import popOver from './inlineEditorComponents/popOver.vue'
 import panel from './inlineEditorComponents/panel.vue'
 import group from './inlineEditorComponents/group.vue'
@@ -554,7 +554,7 @@ export default {
 		}
 	},
 
-	beforeDestroy () {
+	beforeUnmount () {
 		editorsManager.closeEditor()
 		document.removeEventListener('keydown', this.hideEditorOnEscapeKey, true)
 		document.removeEventListener('click', this.onOutsideClick, true)

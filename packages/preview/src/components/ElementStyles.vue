@@ -1,4 +1,6 @@
 <script>
+import { h } from 'vue'
+
 export default {
 	functional: true,
 	name: 'ElementStyles',
@@ -8,10 +10,10 @@ export default {
 		}
 	},
 	render (h, context) {
-		if (context.props.styles) {
+		if (context.styles) {
 			return h('style', {
 				domProps: {
-					innerHTML: context.props.styles
+					innerHTML: context.styles
 				}
 			})
 		}

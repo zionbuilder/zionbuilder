@@ -35,7 +35,8 @@ const packages = [
 	'utils',
 	'vue',
 	'edit-page',
-	'gutenberg'
+	'gutenberg',
+	'preview'
 ]
 
 packages.forEach(directory => {

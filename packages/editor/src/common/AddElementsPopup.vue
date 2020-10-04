@@ -48,7 +48,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { BaseInput, InputSelect } from '@zb/components/forms'
+import { BaseInput, InputSelect } from '@zb/components'
 import { generateUID } from '../utils/utils.js'
 import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
 import ElementList from '@/editor/components/addElements/ElementList.vue'
@@ -249,8 +249,7 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-
-// margin-left: 10px;
+		// margin-left: 10px;
 		background: transparent;
 	}
 }

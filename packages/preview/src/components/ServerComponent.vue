@@ -26,7 +26,7 @@
 
 <script>
 // Utils
-import { getElementRender } from '@/api/Elements'
+import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
 
 export default {

@@ -46,9 +46,10 @@
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
 import { ModalConfirm, Modal } from '@zionbuilder/components'
-import { EmptyList } from '@zionbuilder/components/forms'
+import { EmptyList } from '@zionbuilder/components'
 
 import { mapActions } from 'vuex'
+
 export default {
 	name: 'TemplateList',
 	props: ['templates', 'showInsert', 'activeItem', 'loadingItem'],

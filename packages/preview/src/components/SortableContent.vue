@@ -81,13 +81,12 @@
 <script>
 // Utils
 import { mapActions, mapGetters } from 'vuex'
-import { Sortable } from '@/common/vue-beautifull-dnd'
+import { Sortable, Tooltip } from '@zb/components'
 import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 
 // Components
-import Element from './Element'
-import { Tooltip } from '@/common/components/tooltip'
+import Element from './Element.vue'
 import SortableHelper from '@/editor/common/SortableHelper'
 import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
@@ -314,7 +313,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.resetAddElementsPopup()
 	}
 }

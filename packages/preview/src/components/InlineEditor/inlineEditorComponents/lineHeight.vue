@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { InputRangeDynamic } from '@/common/components/forms'
+import { InputRangeDynamic } from '@zb/components'
 
 export default {
 	inject: {
@@ -81,7 +81,7 @@ export default {
 		this.getLineHeight(this.Editor.editor.selection.getNode())
 	},
 
-	beforeDestroy () {
+	beforeUnmount () {
 		this.Editor.editor.off('NodeChange', this.onNodeChange)
 	},
 	methods: {

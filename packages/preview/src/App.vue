@@ -27,6 +27,7 @@ import { mapGetters, mapActions } from 'vuex'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
+import SortableContent from './components/SortableContent.vue'
 
 export default {
 	name: 'PreviewApp',
@@ -37,6 +38,7 @@ export default {
 	},
 	components: {
 		// SaveElementModal,
+		SortableContent,
 		PageStyles,
 		ElementStyles
 	},
@@ -63,7 +65,7 @@ export default {
 		])
 	},
 
-	beforeDestroy () {
+	beforeUnmount () {
 		on('beforeunload', this.setStylesLoading(true))
 	},
 	watch: {

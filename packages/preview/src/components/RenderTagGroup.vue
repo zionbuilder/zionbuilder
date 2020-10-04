@@ -20,7 +20,7 @@ export default {
 		}
 	},
 	render (createElement, context) {
-		const tagId = context.props.tagId
+		const tagId = context.tagId
 		const children = context.children || []
 		const elementInstance = context.injections.elementInfo.elementInstance
 		const renderAttributes = elementInstance.renderAttributes
@@ -60,9 +60,9 @@ export default {
 		}
 
 		const vNodes = []
-		for (let i = 0; i < context.props.repeaterValue.length; i++) {
+		for (let i = 0; i < context.repeaterValue.length; i++) {
 			const vNode = context.scopedSlots.item({
-				item: context.props.repeaterValue[i],
+				item: context.repeaterValue[i],
 				index: i
 			})[0]
 			addRenderAttributeToVnode(vNode, i)

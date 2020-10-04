@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ColorPicker } from '@/common/components/forms'
+import { ColorPicker } from '@zb/components'
 export default {
 	inject: {
 		Editor: {
@@ -36,7 +36,7 @@ export default {
 		this.Editor.editor.on('NodeChange', this.onNodeChange)
 		this.getActiveColor()
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.Editor.editor.off('NodeChange', this.onNodeChange)
 	},
 	methods: {

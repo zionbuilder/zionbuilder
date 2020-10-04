@@ -16,7 +16,7 @@
 
 <script>
 
-import { InputRangeDynamic } from '@/common/components/forms'
+import { InputRangeDynamic } from '@zb/components'
 
 export default {
 	inject: {
@@ -68,7 +68,7 @@ export default {
 		// Set default letter spacing
 		this.getLetterSpacing(this.Editor.editor.selection.getNode())
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		this.Editor.editor.off('NodeChange', this.onNodeChange)
 	},
 	methods: {

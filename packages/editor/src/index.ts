@@ -24,3 +24,6 @@ errorInterceptor(store)
 
 appInstance.mount('#znpb-app')
 
+export {
+	appInstance
+}
