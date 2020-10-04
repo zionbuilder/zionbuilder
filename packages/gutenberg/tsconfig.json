@@ -5,6 +5,9 @@
 		"declarationDir": "./build-types"
 	},
 	"references": [
+		{ "path": "../tooltip" },
+		{ "path": "../utils" },
+		{ "path": "../modal" },
 	],
 	"include": [
 		"src/**/*",

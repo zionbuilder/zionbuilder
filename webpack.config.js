@@ -33,7 +33,9 @@ const packages = [
 	'i18n',
 	'rest',
 	'utils',
-	'vue'
+	'vue',
+	'edit-page',
+	'gutenberg'
 ]
 
 packages.forEach(directory => {
