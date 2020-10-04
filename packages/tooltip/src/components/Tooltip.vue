@@ -1,5 +1,5 @@
 <template>
-	<component :is="tag">
+	<component :is="tag" v-bind="$attrs">
 		<transition
 			appear
 			:name="transition"

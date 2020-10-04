@@ -59,7 +59,7 @@
 <script>
 import { ColorPicker, Icon, Tooltip } from '@zionbuilder/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
-console.log({clickOutside})
+
 export default {
 	name: 'ColorBox',
 	directives: {
@@ -168,18 +168,11 @@ export default {
 		border: 1px solid $border-color;
 		transition: all .15s;
 		cursor: pointer;
-		opacity: 0;
-		visibility: hidden;
 		.zion-icon.zion-svg-inline {
 			width: 8px;
 			margin: 0 auto;
 			color: $surface-headings-color;
 		}
-	}
-
-	&:hover .znpb-editor-icon-wrapper {
-		opacity: 1;
-		visibility: visible;
 	}
 
 	&__circle {
