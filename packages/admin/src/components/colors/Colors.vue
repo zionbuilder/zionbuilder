@@ -12,13 +12,12 @@
 						@option-updated="editLColor(i,$event)"
 						@delete-color="deleteLColor(i)"
 					/>
-				</div>
-				<template v-slot:end>
 					<ColorBox
 						type="addcolor"
 						@option-updated="addLColor"
 					/>
-				</template>
+				</div>
+
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
@@ -92,6 +91,7 @@ export default {
 			this.editLocalColor({ index, color })
 		},
 		addLColor (color) {
+			console.log({color})
 			this.addLocalColor(color)
 		},
 		deleteLColor (index) {

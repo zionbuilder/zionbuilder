@@ -3,7 +3,7 @@ export default {
 	install (app) {
 		app.directive('click-outside', this)
 	},
-	bind: function (el, binding, vNode) {
+	beforeMount: function (el, binding, vNode) {
 		if (process.env.NODE_ENV !== 'production' && typeof binding.value !== 'function') {
 			const compName = vNode.context.name
 			let warn = `[Vue Outside Click:] provided expression '${binding.expression}' is not a function!`
@@ -26,7 +26,7 @@ export default {
 		document.addEventListener('click', el.__CLICK_OUTSIDE_HANDLER, true)
 		document.addEventListener('touchstart', el.__CLICK_OUTSIDE_HANDLER, true)
 	},
-	unbind: function (el) {
+	beforeUnmount: function (el) {
 		document.removeEventListener('click', el.__CLICK_OUTSIDE_HANDLER, true)
 		document.removeEventListener('touchstart', el.__CLICK_OUTSIDE_HANDLER, true)
 		document.removeEventListener('contextmenu', el.__CLICK_OUTSIDE_HANDLER, true)

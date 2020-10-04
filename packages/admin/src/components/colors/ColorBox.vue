@@ -59,7 +59,7 @@
 <script>
 import { ColorPicker, Icon, Tooltip } from '@zionbuilder/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
-
+console.log({clickOutside})
 export default {
 	name: 'ColorBox',
 	directives: {
@@ -187,8 +187,7 @@ export default {
 		cursor: pointer;
 		&--transparent {
 			@include circlesimple(60px);
-
-@extend %opacitybg;
+			@extend %opacitybg;
 			margin-bottom: 18px;
 			box-shadow: 0 0 0 2px #e5e5e5;
 		}
