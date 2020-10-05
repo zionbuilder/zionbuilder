@@ -51,7 +51,6 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import EventsManager from '@zb/utils'
 import rafSchd from 'raf-schd'
 
 export default {
@@ -127,7 +126,7 @@ export default {
 	},
 	mounted () {
 		if (this.closeOnEscape) {
-			EventsManager.addEventListener('keydown', this.onKeyDown)
+			window.zb.editor.pageEvents.addEventListener('keydown', this.onKeyDown)
 		}
 		this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
 		this.position = {
@@ -510,7 +509,7 @@ export default {
 
 	},
 	beforeUnmount () {
-		EventsManager.removeEventListener('keydown', this.onKeyDown)
+		window.zb.editor.removeEventListener('keydown', this.onKeyDown)
 	}
 }
 </script>

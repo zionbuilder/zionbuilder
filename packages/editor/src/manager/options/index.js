@@ -263,7 +263,7 @@ export default () => {
 
 		if (!optionConfig) {
 			// eslint-disable-next-line
-			console.warn(`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`)
+			console.warn(`Option type ${schema.type} not found. Please register the option type using zb.options.registerOption!`)
 			return null
 		}
 

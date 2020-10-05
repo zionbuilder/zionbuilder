@@ -56,6 +56,7 @@ export default {
 			'getPageSettingsSchema'
 		]),
 		elementData () {
+			console.log(this.getPageContent)
 			return this.getPageContent['contentRoot']
 		}
 	},

@@ -1268,6 +1268,11 @@
 "@zionbuilder/css-variables@file:packages/css-variables":
   version "1.0.1-alpha.1"
 
+"@zionbuilder/importcss@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@zionbuilder/importcss/-/importcss-1.1.0.tgz#d0acdf49590e77c9637ed794617d08082f761e16"
+  integrity sha512-o4Rz25nO1id5gEDFmkM5YSo6FjZtgMoY4k172EK9RzULQyKhMU0ztudTLjJmkVGRVzCEdqrBM6qtaIePaDSgCQ==
+
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@zkochan/cmd-shim/-/cmd-shim-3.1.0.tgz#2ab8ed81f5bb5452a85f25758eb9b8681982fd2e"

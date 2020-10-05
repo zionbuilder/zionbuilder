@@ -120,12 +120,13 @@
 // Utils
 import rafSchd from 'raf-schd'
 import { mapActions, mapGetters } from 'vuex'
-import EventsManager from '@/editor/utils/events'
-import eventMarshall from '@/editor/common/eventMarshall'
+import { pageEvents } from '@zb/editor'
+// TODO: implement this
+// import eventMarshall from '@/editor/common/eventMarshall'
 
 // Components
 import { Tooltip } from '@zb/components'
-import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
+import ColumnTemplates from '../../../../editor/src/common/ColumnTemplates.vue'
 import TopBarToolbox from './TopBarToolbox.vue'
 
 export default {
@@ -369,8 +370,8 @@ export default {
 				this.setComputedStyle()
 			})
 
-			EventsManager.addEventListener('mousemove', this.onMouseMoveDebounced)
-			EventsManager.addEventListener('mouseup', this.onMouseUp)
+			pageEvents.addEventListener('mousemove', this.onMouseMoveDebounced)
+			pageEvents.addEventListener('mouseup', this.onMouseUp)
 		},
 		getReversedPosition (position) {
 			const typeAndPosition = position.split(/(?=[A-Z])/)
@@ -435,8 +436,8 @@ export default {
 			// Cancel the scheduler
 			this.onMouseMoveDebounced.cancel()
 
-			EventsManager.removeEventListener('mousemove', this.onMouseMoveDebounced)
-			EventsManager.removeEventListener('mouseup', this.onMouseUp)
+			pageEvents.removeEventListener('mousemove', this.onMouseMoveDebounced)
+			pageEvents.removeEventListener('mouseup', this.onMouseUp)
 
 			// Reset properties
 			this.onMouseMoveDebounced = null
@@ -479,10 +480,10 @@ export default {
 			this.computedStyle = window.getComputedStyle(this.$parent.$el)
 		},
 		removeEvents () {
-			EventsManager.removeEventListener('mousemove', this.changeSizeDebounced)
-			EventsManager.removeEventListener('mousemove', this.changePaddingWidth)
-			EventsManager.removeEventListener('mousemove', this.changeMarginWidth)
-			EventsManager.removeEventListener('mouseup', this.endDragging)
+			pageEvents.removeEventListener('mousemove', this.changeSizeDebounced)
+			pageEvents.removeEventListener('mousemove', this.changePaddingWidth)
+			pageEvents.removeEventListener('mousemove', this.changeMarginWidth)
+			pageEvents.removeEventListener('mouseup', this.endDragging)
 		},
 		getSizeChangePropertyFromPosition (position) {
 			let propertyToChange = null
@@ -514,8 +515,8 @@ export default {
 
 			this.changeSizeDebounced = rafSchd(this.changeSize)
 
-			EventsManager.addEventListener('mousemove', this.changeSizeDebounced)
-			EventsManager.addEventListener('mouseup', this.endDragging)
+			pageEvents.addEventListener('mousemove', this.changeSizeDebounced)
+			pageEvents.addEventListener('mouseup', this.endDragging)
 		},
 		getSizeValue (type) {
 			// Return min-height

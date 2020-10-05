@@ -82,15 +82,16 @@
 // Utils
 import { mapActions, mapGetters } from 'vuex'
 import { Sortable, Tooltip } from '@zb/components'
-import eventMarshall from '@/editor/common/eventMarshall'
+// TODO: implement this
+// import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 
 // Components
 import Element from './Element.vue'
-import SortableHelper from '@/editor/common/SortableHelper'
-import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue'
-import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
-import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
+import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
+import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
+import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
+import ColumnTemplates from '../../../editor/src/common/ColumnTemplates.vue'
 
 const sharedState = {
 	controlPressed: null,

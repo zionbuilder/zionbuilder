@@ -117,14 +117,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import templateElementMixin from '../../../mixins/templateElement.js'
-import DropdownOptions from '@/editor/components/DropdownOptions.vue'
+import DropdownOptions from '../../DropdownOptions.vue'
 import TreeViewMixin from '../elementMixins.js'
 import { Sortable, Tooltip } from '@zb/components'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
-import ColumnTemplates from '@/editor/common/ColumnTemplates.vue'
-import EmptySortablePlaceholder from '@/editor/common/EmptySortablePlaceholder'
-import eventMarshall from '@/editor/common/eventMarshall'
+import ColumnTemplates from '../../../common/ColumnTemplates.vue'
+import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder'
+import eventMarshall from '../../../common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
 

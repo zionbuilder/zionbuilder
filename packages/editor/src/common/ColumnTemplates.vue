@@ -54,9 +54,8 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { generateElements } from '../utils/utils.js'
 import AddElementsPopup from './AddElementsPopup.vue'
-import { getOptionValue } from '@zb/utils'
+import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 
 export default {

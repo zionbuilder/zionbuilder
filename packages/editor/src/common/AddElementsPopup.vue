@@ -1,14 +1,12 @@
 <template>
 	<div class="znpb-tab__wrapper--columns-template-elements">
 		<div class="znpb-add-elements__filter">
-			<template v-slot:prepend>
-				<InputSelect
-					class="znpb-add-elements__filter-category"
-					:options="getSelectOptions"
-					:placeholder="getSelectOptions[0].name"
-					v-model="categoryValue"
-				/>
-			</template>
+			<InputSelect
+				class="znpb-add-elements__filter-category"
+				:options="getSelectOptions"
+				:placeholder="getSelectOptions[0].name"
+				v-model="categoryValue"
+			/>
 			<BaseInput
 				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
 				v-model="searchKeyword"
@@ -49,9 +47,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { BaseInput, InputSelect } from '@zb/components'
-import { generateUID } from '../utils/utils.js'
-import CategoriesElements from '@/editor/components/addElements/CategoriesElements.vue'
-import ElementList from '@/editor/components/addElements/ElementList.vue'
+import { generateUID } from '@zb/utils'
+import CategoriesElements from '../components/addElements/CategoriesElements.vue'
+import ElementList from '../components/addElements/ElementList.vue'
 import { on, off } from '@zb/hooks'
 
 export default {

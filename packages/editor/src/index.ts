@@ -7,8 +7,11 @@ import { forms, Icon, Button } from '@zb/components'
 import App from './App.vue'
 import { errorInterceptor } from '@zb/rest'
 import { install } from '@zb/i18n'
-
+import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
+
+const pageEvents = createInstance()
+pageEvents.addDocument(window)
 
 const appInstance = createApp(App)
 
@@ -25,5 +28,6 @@ errorInterceptor(store)
 appInstance.mount('#znpb-app')
 
 export {
-	appInstance
+	appInstance,
+	pageEvents
 }
