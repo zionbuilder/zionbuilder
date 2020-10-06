@@ -75,8 +75,7 @@
 				v-if="getPanelPlaceholder.visibility"
 				:style="{'left':getPanelPlaceholder.left + 'px'}"
 			>
-				<div class="
-				znpb-panel-placeholder"></div>
+				<div class="znpb-panel-placeholder"></div>
 			</div>
 			<transition
 				:name="panelPreviewTransition"
@@ -88,9 +87,10 @@
 			</transition>
 			<!-- Start panels -->
 			<component
-				v-for="panelConfig in openPanels"
-				:is="panelConfig.id"
-				:key="panelConfig.id"
+				v-for="panel in openPanels"
+				:is="panel.id"
+				:key="panel.id"
+				:panel="panel"
 				:show-move="false"
 				:data="rootData"
 				@show-helper="showPlaceholderHelper=$event"

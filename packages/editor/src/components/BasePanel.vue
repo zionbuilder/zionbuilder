@@ -5,7 +5,6 @@
 		:style="panelStyles"
 		:id='panelId'
 		class="znpb-editor-panel"
-		@click="onClick"
 	>
 		<!-- start panel header -->
 		<div
@@ -98,7 +97,8 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
-		}
+		},
+		panel: {}
 	},
 	data () {
 		return {
@@ -150,9 +150,6 @@ export default {
 			selectors.push('#znpb-editor-iframe')
 			selectors.push('#znpb-panel-placeholder')
 			return selectors
-		},
-		panel () {
-			return this.$zb.panels.getPanel(this.panelId)
 		},
 		orders () {
 			const orders = []
@@ -221,11 +218,7 @@ export default {
 		...mapActions([
 			'setIframePointerEvents',
 			'setIframeOrder',
-			'setPanelPos',
-			'setPanelProp',
-			'setPanelPlaceholder',
-			'setActivePanel',
-			'setIsAnyPanelDragging'
+			'setPanelPlaceholder'
 		]),
 		onKeyDown (event) {
 			if (event.which === 27) {
@@ -236,7 +229,7 @@ export default {
 
 		startDrag (event) {
 			this.$refs.panelContainer.style.pointerEvents = 'none'
-			this.setIsAnyPanelDragging(true)
+			this.panel.set('isDragging', true)
 			window.addEventListener('mousemove', this.movePanel)
 			window.addEventListener('mouseup', this.disablePanelMove)
 			this.setIframePointerEvents(true)
@@ -251,13 +244,7 @@ export default {
 
 			this.isDragging = true
 
-			this.setPanelProp({
-				id: this.panelId,
-				prop: 'isDetached',
-				value: true
-			})
-
-			this.setActivePanel(this.panelId)
+			this.panel.set('isDetached', true)
 			this.userSel = 'none'
 
 			this.initialPosition = {
@@ -359,17 +346,10 @@ export default {
 				if (id === 'znpb-editor-iframe') {
 					this.setIframeOrder(otherPanelOrder)
 				} else {
-					this.setPanelProp({
-						id: id,
-						prop: 'panelPos',
-						value: otherPanelOrder
-					})
+					this.panel.set('panelPos', otherPanelOrder )
 				}
-				this.setPanelProp({
-					id: this.panelId,
-					prop: 'panelPos',
-					value: order
-				})
+
+				this.panel.set('panelPos', order )
 			}
 			this.mapOrders()
 		},
@@ -386,17 +366,13 @@ export default {
 				if (order[0] === 'znpb-editor-iframe') {
 					this.setIframeOrder(index + 1)
 				} else {
-					this.setPanelProp({
-						id: order[0],
-						prop: 'panelPos',
-						value: index + 1
-					})
+					this.panel.set('panelPos', index + 1 )
 				}
 			})
 		},
 		disablePanelMove () {
 			this.$refs.panelContainer.style.pointerEvents = null
-			this.setIsAnyPanelDragging(false)
+			this.panel.set('isDragging', true)
 			window.removeEventListener('mousemove', this.movePanel)
 			window.removeEventListener('mouseup', this.disablePanelMove)
 			const order = this.getPanelPlaceholder.order
@@ -406,11 +382,7 @@ export default {
 				if (order !== this.panel.panelPos) {
 					this.setOrderAndPlaceholder(order, this.getPanelPlaceholder.visibility, this.placement)
 				}
-				this.setPanelProp({
-					id: this.panelId,
-					prop: 'isDetached',
-					value: false
-				})
+				this.panel.set('isDetached', false)
 			}
 
 			this.initialPosition = null
@@ -443,13 +415,9 @@ export default {
 
 			const width = this.panelPosition === 'left' || this.panel.isDetached ? draggedHorizontal + this.initialWidth : -draggedHorizontal + this.initialWidth
 
-			this.setPanelProp({
-				id: this.panelId,
-				prop: 'width',
-				value: {
-					value: width < 360 ? 360 : width,
-					unit: 'px'
-				}
+			this.panel.set('width', {
+				value: width < 360 ? 360 : width,
+				unit: 'px'
 			})
 		},
 		deactivateHorizontal () {
@@ -468,23 +436,16 @@ export default {
 			window.addEventListener('mouseup', this.deactivateVertical)
 		},
 		resizeVertical (event) {
-			this.setPanelProp({
-				id: this.panelId,
-				prop: 'isDetached',
-				value: true
-			})
+			this.panel.set('isDetached', true)
 			document.body.style.cursor = 'n-resize'
 			const draggedVertical = event.clientY - this.initialVMouseY
 			const newHeightValue = this.initialHeight + draggedVertical
 
-			this.setPanelProp({
-				id: this.panelId,
-				prop: 'height',
-				value: {
-					value: newHeightValue < this.$refs.panelHeader.clientHeight ? this.$refs.panelHeader.clientHeight : newHeightValue,
-					unit: 'px'
-				}
+			this.panel.set('height', {
+				value: newHeightValue < this.$refs.panelHeader.clientHeight ? this.$refs.panelHeader.clientHeight : newHeightValue,
+				unit: 'px'
 			})
+
 		},
 		deactivateVertical () {
 			window.removeEventListener('mousemove', this.rafResizeVertical)
@@ -495,7 +456,7 @@ export default {
 
 	},
 	beforeUnmount () {
-		window.zb.editor.removeEventListener('keydown', this.onKeyDown)
+		window.zb.editor.pageEvents.removeEventListener('keydown', this.onKeyDown)
 	}
 }
 </script>

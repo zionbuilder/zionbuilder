@@ -23,7 +23,7 @@
 import TreeViewList from './TreeViewList.vue'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-	name: 'tree-view-panel',
+	name: 'TreeViewPanel',
 	props: {
 		content: {
 			type: Array,

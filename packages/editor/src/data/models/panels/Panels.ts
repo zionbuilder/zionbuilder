@@ -23,14 +23,14 @@ export default class Panels extends Collection {
 		const panel = this.find({id: panelId})
 
 		if (panel) {
-			panel.set('isActive', true)
+			panel.open()
 		}
 	}
 	togglePanel (panelId: string) {
 		const panel = this.find({id: panelId})
 
 		if (panel) {
-			panel.set('isActive', !panel.isActive)
+			panel.toggle()
 		}
 	}
 

@@ -109,49 +109,14 @@ const getters = {
 }
 
 const actions = {
-	setIsAnyPanelDragging: ({ commit }, payload) => {
-		commit(types.SET_IS_ANY_PANEL_DRAGGING, payload)
-	},
 	setActivePanel: ({ commit, state }, payload) => {
 		commit(types.SET_ACTIVE_PANEL, payload)
 	},
 	setPanelPlaceholder: ({ commit, state }, payload) => {
 		commit(types.SET_PANEL_PLACEHOLDER, payload)
 	},
-	setPanelProp: ({ commit, state }, payload) => {
-		commit(types.SET_PANEL_PROP, payload)
-	},
-	openPanel: ({ commit, state }, panelId) => {
-		// Get panel config from panelName
-		let panelConfig = state.panelsState.find((panelConfig) => {
-			return panelConfig.id === panelId
-		})
-
-		// If this panel is part of a group,
-		// close other panels from the same group that are already opened
-		if (panelConfig && typeof panelConfig.group !== 'undefined') {
-			state.openPanels.forEach(panel => {
-				if (typeof panel.group !== 'undefined' && panel.group === panelConfig.group && panel !== panelConfig) {
-					commit(types.CLOSE_PANEL, panel)
-				}
-			})
-		}
-		// Check to see if the panel is already opened
-		if (!state.openPanels.includes(panelConfig)) {
-			commit(types.OPEN_PANEL, panelConfig)
-		}
-
-		// Set the active panel
-		commit(types.SET_ACTIVE_PANEL, panelConfig.id)
-	},
-	setPanelWidth: ({ commit }, { panelConfig, panelWidth }) => {
-		commit(types.SET_PANEL_WIDTH, { panelConfig, panelWidth })
-	},
 	savePanelsOrder: ({ commit }, payload) => {
 		commit(types.SET_PANELS_ORDER, payload)
-	},
-	setPanelPos: ({ commit, dispatch }, { panelId, panelPos }) => {
-		commit(types.SET_PANEL_POS, { panelId, panelPos })
 	}
 }
 

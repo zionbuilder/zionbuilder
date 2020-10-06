@@ -1,5 +1,5 @@
 <template>
-	<base-panel
+	<BasePanel
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
 		v-on:close-panel="$zb.panels.closePanel('panel-global-settings')"
@@ -14,7 +14,7 @@
 			/>
 
 		</div>
-	</base-panel>
+	</BasePanel>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'

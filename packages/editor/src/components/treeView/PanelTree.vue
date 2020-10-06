@@ -1,13 +1,14 @@
 <template>
-	<base-panel
+	<BasePanel
 		ref="basepanel"
-		@close-panel="$zb.panels.closePanel('panel-tree')"
+		@close-panel="panel.close()"
 		:panel-name="$translate('tree_view_panel')"
 		panel-id="panel-tree"
 		:css-class="activeTreeView.basePanelCssClass"
 		:expanded="activeTreeView.expandMainPanel"
 		:show-header="activeTreeView.showBasePanelHeader"
 		:show-expand="false"
+		:panel="panel"
 	>
 
 		<div
@@ -48,12 +49,12 @@
 			class="znpb-tree-view__type_wrapper"
 		>
 			<component
-				:is="activeTreeView.component"
+				:is="activeTreeView.id"
 				:parentUid="data.uid"
 				:content="elementData.content"
 			/>
 		</div>
-	</base-panel>
+	</BasePanel>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -74,7 +75,8 @@ export default {
 		data: {
 			type: Object,
 			required: true
-		}
+		},
+		panel: {}
 	},
 	data () {
 		return {
@@ -98,14 +100,12 @@ export default {
 		this.treeViewTypes = [{
 			name: this.$translate('tree_view'),
 			id: 'tree-view',
-			icon: 'treeview',
-			component: TreeViewPanel
+			icon: 'treeview'
 		},
 		{
 			name: this.$translate('section_view'),
 			id: 'section-view',
-			icon: 'structure',
-			component: SectionView
+			icon: 'structure'
 		},
 		{
 			name: this.$translate('wireframe_view'),
@@ -121,32 +121,20 @@ export default {
 		this.activeTreeView = this.treeViewTypes[0]
 	},
 	methods: {
-		...mapActions([
-			'setPanelPos',
-			'setPanelProp'
-		]),
 		activateTree (treeType) {
 			this.activeTreeView = treeType
 			if (treeType.id === 'wireframe-view') {
 				this.cachedDetached = this.$refs.basepanel.panel.isDetached
-				this.setPanelProp({
-					id: 'panel-tree',
-					prop: 'isDetached',
-					value: false
-				})
+				this.panel.set('isDetached', false)
 			} else {
 				if (this.cachedDetached) {
-					this.setPanelProp({
-						id: 'panel-tree',
-						prop: 'isDetached',
-						value: this.cachedDetached
-					})
+					this.panel.set('isDetached', this.cachedDetached)
 					this.cachedDetached = null
 				}
 			}
 		},
 		closeWireframe () {
-			this.$zb.panels.closePanel('panel-tree')
+			this.panel.close()
 		}
 	}
 }

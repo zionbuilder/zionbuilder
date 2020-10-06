@@ -1,5 +1,5 @@
 <template>
-	<base-panel
+	<BasePanel
 		v-if="getActiveElementUid"
 		class="znpb-element-options__panel-wrapper"
 		@close-panel="closeOptionsPanel"
@@ -10,6 +10,7 @@
 		:allow-horizontal-resize="false"
 		:allow-vertical-resize="false"
 		:key="getActiveElementUid"
+		:panel="panel"
 	>
 		<template v-slot:header>
 			<div class="znpb-element-options__header">
@@ -123,7 +124,7 @@
 			</div>
 
 		</div>
-	</base-panel>
+	</BasePanel>
 </template>
 
 <script>
@@ -134,6 +135,7 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
+
 export default {
 	name: 'PanelElementOptions',
 
@@ -160,6 +162,7 @@ export default {
 		OptionsForm,
 		BasePanel
 	},
+	props: ['panel'],
 	data () {
 		return {
 			showBreadcrumbs: false,
@@ -482,7 +485,7 @@ export default {
 				this.saveState(`Edited ${elementSavedName}`)
 			}
 
-			this.$zb.panels.closePanel('PanelElementOptions')
+			this.panel.close()
 			this.setActiveElement(null)
 		},
 		onKeyPress (e) {

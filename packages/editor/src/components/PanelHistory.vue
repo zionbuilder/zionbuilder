@@ -1,5 +1,5 @@
 <template>
-	<base-panel
+	<BasePanel
 		:panel-name="$translate('history_panel')"
 		panel-id="panel-history"
 		:show-expand="false"
@@ -49,7 +49,7 @@
 				</div>
 			</div>
 		</div>
-	</base-panel>
+	</BasePanel>
 </template>
 
 <script>
