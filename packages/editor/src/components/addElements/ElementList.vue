@@ -14,7 +14,7 @@
 			class="znpb-element-category-list"
 		>
 
-			{{elements}}
+
 			<!-- list of elements -->
 			<PagebuilderElement
 				v-for="( item, itemId ) in computedElements"
@@ -69,8 +69,7 @@ export default {
 .znpb-element-category-list {
 	display: grid;
 	padding: 0;
-
-// padding: 15px 30px;
+	// padding: 15px 30px;
 
 	grid-gap: 20px 18px;
 	grid-template-columns: 1fr 1fr 1fr;

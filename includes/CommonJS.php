@@ -32,12 +32,12 @@ class CommonJS {
 	}
 
 	public static function register_scripts() {
-		// Plugin::instance()->scripts->register_style(
-		// 	'zb-common',
-		// 	'css/common.css',
-		// 	[],
-		// 	Plugin::instance()->get_version()
-		// );
+		Plugin::instance()->scripts->register_style(
+			'zb-components',
+			'css/components.css',
+			[],
+			Plugin::instance()->get_version()
+		);
 
 		Plugin::instance()->scripts->register_script(
 			'zb-vue',

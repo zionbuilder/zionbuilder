@@ -16,7 +16,7 @@
 			}"
 		@show="openColorPicker"
 		@hide="closeColorPicker"
-		:positionFixed="true"
+		strategy="fixed"
 	>
 		<template v-slot:content>
 			<ColorPicker

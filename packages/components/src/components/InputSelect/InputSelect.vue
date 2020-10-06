@@ -7,7 +7,7 @@
 			append-to="element"
 			:show="expanded"
 			ref="tooltip"
-			positionFixed="true"
+			strategy="fixed"
 			:modifiers="{
 				preventOverflow: {
 					enabled: false

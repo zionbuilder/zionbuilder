@@ -8,7 +8,7 @@
 		>
 		</SortableContent>
 
-		<!-- <SaveElementModal :template="false" /> -->
+		<SaveElementModal :template="false" />
 
 		<PageStyles
 			:css-classes="getClasses"
@@ -23,7 +23,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import SaveElementModal from '@zionbuilder/editor/src/components/SaveElementModal.vue'
+import SaveElementModal from '../../editor/src/components/SaveElementModal.vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
@@ -37,7 +37,7 @@ export default {
 		}
 	},
 	components: {
-		// SaveElementModal,
+		SaveElementModal,
 		SortableContent,
 		PageStyles,
 		ElementStyles
@@ -56,7 +56,6 @@ export default {
 			'getPageSettingsSchema'
 		]),
 		elementData () {
-			console.log(this.getPageContent)
 			return this.getPageContent['contentRoot']
 		}
 	},

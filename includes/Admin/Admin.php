@@ -165,24 +165,21 @@ class Admin {
 		// Admin settings page
 		if ( 'toplevel_page_zionbuilder' === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
-			// Plugin::instance()->scripts->enqueue_script( 'zb-vue' );
-			// Plugin::instance()->scripts->enqueue_script( 'zb-components' );
-			// wp_enqueue_media();
 
-			// wp_enqueue_style(
-			// 	'znpb-roboto-font',
-			// 	'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
-			// 	[],
-			// 	Plugin::instance()->get_version()
-			// );
+			wp_enqueue_style(
+				'znpb-roboto-font',
+				'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+				[],
+				Plugin::instance()->get_version()
+			);
 
-			// // Load styles
-			// Plugin::instance()->scripts->enqueue_style(
-			// 	'znpb-admin-settings-page-styles',
-			// 	'css/admin-page.css',
-			// 	[ 'zb-common' ],
-			// 	Plugin::instance()->get_version()
-			// );
+			// Load styles
+			Plugin::instance()->scripts->enqueue_style(
+				'znpb-admin-settings-page-styles',
+				'css/admin.css',
+				[ 'zb-components' ],
+				Plugin::instance()->get_version()
+			);
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-settings-page-script',

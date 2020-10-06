@@ -215,6 +215,16 @@ class Editor {
 		// Load animations
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
+		Plugin::instance()->scripts->enqueue_script(
+			'znpb-preview-frame-scripts',
+			'js/preview.js',
+			[
+				'zb-components',
+			],
+			Plugin::instance()->get_version(),
+			true
+		);
+
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
 			'zion-editor-script',
@@ -233,6 +243,8 @@ class Editor {
 			Plugin::instance()->get_version(),
 			true
 		);
+
+
 
 		wp_localize_script( 'zion-editor-script', 'ZnPbInitalData', $this->get_editor_initial_data() );
 

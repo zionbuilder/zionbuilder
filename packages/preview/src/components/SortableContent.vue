@@ -40,35 +40,37 @@
 			{{emptyPlaceholderText}}
 		</div>
 
-		<Tooltip
-			slot="end"
-			ref="addElementsPopup"
-			tooltip-class="hg-popper--big-arrows"
-			placement='bottom'
-			append-to="body"
-			trigger="click"
-			:show="showAddElementsPopup"
-			:close-on-outside-click="true"
-			:close-on-escape="true"
-			:modifiers="{ offset: { offset: '0,10px' } }"
-			@hide="onAddElementsHide"
-			@show="onAddElementsShow"
-			key="addElements"
-			class="znpb-add-elemenets-tooltip-placeholder"
-		>
-			<ColumnTemplates
-				slot="content"
-				:parentUid="data.uid"
-				:insertIndex="insertIndex"
-				@close-popper="showColumnTemplates=false"
-				:data="data"
-				:empty-sortable="false"
-			/>
-		</Tooltip>
+		<template #content>
+			<Tooltip
+				ref="addElementsPopup"
+				tooltip-class="hg-popper--big-arrows"
+				placement='bottom'
+				append-to="body"
+				trigger="click"
+				v-if="showAddElementsPopup"
+				:show="showAddElementsPopup"
+				:close-on-outside-click="true"
+				:close-on-escape="true"
+				@hide="onAddElementsHide"
+				@show="onAddElementsShow"
+				key="addElements"
+				class="znpb-add-elemenets-tooltip-placeholder"
+			>
+				<template #content>
+					<ColumnTemplates
 
-		<SortableHelper slot="helper" />
+						:parentUid="data.uid"
+						:insertIndex="insertIndex"
+						@close-popper="showColumnTemplates=false"
+						:data="data"
+						:empty-sortable="false"
+					/>
+				</template>
+			</Tooltip>
+		</template>
+		<SortableHelper #helper />
 
-		<SortablePlaceholder slot="placeholder" />
+		<SortablePlaceholder #placeholder />
 
 		<slot
 			name="end"

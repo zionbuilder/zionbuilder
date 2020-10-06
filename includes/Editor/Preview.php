@@ -113,21 +113,12 @@ class Preview {
 
 		wp_enqueue_media();
 
-		Plugin::instance()->scripts->enqueue_script(
-			'znpb-preview-frame-scripts',
-			'js/preview.js',
-			[
-				'wp-tinymce',
-				'zb-components',
-			],
-			Plugin::instance()->get_version(),
-			true
-		);
+
 
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
-		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		wp_localize_script( 'zb-video-bg', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 
 		wp_add_inline_script(
 			'znpb-preview-frame-scripts',
@@ -169,19 +160,21 @@ class Preview {
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Load styles
-		Plugin::instance()->scripts->enqueue_style(
-			'zion-frontend-styles',
-			'css/frontend.css',
-			[
-				'zb-components',
-			],
-			Plugin::instance()->get_version()
-		);
+		// Plugin::instance()->scripts->enqueue_style(
+		// 	'zion-frontend-styles',
+		// 	'css/frontend.css',
+		// 	[
+		// 		'zb-components',
+		// 	],
+		// 	Plugin::instance()->get_version()
+		// );
 
 		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',
 			'css/preview.css',
-			[],
+			[
+				'zb-components',
+			],
 			Plugin::instance()->get_version()
 		);
 

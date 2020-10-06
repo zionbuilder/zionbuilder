@@ -1,25 +1,55 @@
 <template>
 	<component :is="tag" v-bind="$attrs">
+		<teleport
+			v-if="appendTo && appendTo !== 'element'"
+			:to="appendTo"
+		>
+			<transition
+				appear
+				:name="transition"
+				@after-leave="onTransitionLeave"
+				@enter="onTransitionEnter"
+				v-bind="popperProps"
+			>
+				<div
+					class="hg-popper"
+					:class="tooltipClass"
+					:style="getStyle"
+					ref="popper"
+					v-if="visible"
+				>
+					{{ content }}
+
+					<slot name="content"/>
+
+					<span
+						data-popper-arrow="true"
+						v-if="showArrows"
+						class="hg-popper--with-arrows"
+					/>
+				</div>
+			</transition>
+		</teleport>
 		<transition
 			appear
 			:name="transition"
 			@after-leave="onTransitionLeave"
 			@enter="onTransitionEnter"
 			v-bind="popperProps"
+			v-else-if="visible"
 		>
 			<div
 				class="hg-popper"
 				:class="tooltipClass"
-				v-if="visible"
 				:style="getStyle"
 				ref="popper"
 			>
 				{{ content }}
-				<!-- @slot Content that will populate popper -->
-				<slot name="content" />
+
+				<slot name="content"/>
 
 				<span
-					x-arrow
+					data-popper-arrow="true"
 					v-if="showArrows"
 					class="hg-popper--with-arrows"
 				/>
@@ -33,9 +63,10 @@
 <script lang="ts">
 import { getDefaultOptions } from '../options'
 import { merge } from 'lodash-es'
-import Popper from 'popper.js'
+import { createPopper } from '@popperjs/core';
 import { debounce } from '@zionbuilder/utils'
 import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
+
 let preventOutsideClickPropagation = false
 
 export default {
@@ -306,24 +337,22 @@ export default {
 			preventOutsideClickPropagation = false
 		},
 		instantiatePopper () {
-			this.$nextTick(() => {
-				this.popperElement = this.$refs.popper
+			this.popperElement = this.$refs.popper
 
-				this.addPopperToDom()
+			this.addPopperToDom()
 
-				if (this.popperInstance && this.popperInstance.destroy) {
-					this.popperInstance.destroy()
-					this.popperInstance = null
-				}
+			if (this.popperInstance && this.popperInstance.destroy) {
+				this.popperInstance.destroy()
+				this.popperInstance = null
+			}
 
-				const ref = this.popperRef || this.$el
-				if (ref) {
-					this.popperInstance = new Popper(ref, this.popperElement, this.popperOptions)
-				}
+			const ref = this.popperRef || this.$el
+			if (ref) {
+				this.popperInstance = createPopper(ref, this.popperElement, this.popperOptions)
+			}
 
-				this.onHideAfter()
-				this.addPopperEvents()
-			})
+			this.onHideAfter()
+			this.addPopperEvents()
 		},
 		onMouseEnter (event) {
 			if (!this.showOnMouseEnter) {
@@ -377,7 +406,7 @@ export default {
 		},
 		scheduleUpdate () {
 			if (this.popperInstance) {
-				this.popperInstance.scheduleUpdate()
+				this.popperInstance.update()
 			}
 		},
 		addPopperEvents () {
@@ -478,42 +507,49 @@ export default {
 	}
 
 	&--with-arrows {
-		position: absolute;
-		z-index: -1;
-		width: 8px;
-		height: 8px;
-		background: #fff;
-		transform: rotate(45deg);
+		&:before {
+			content: "";
+			top: 0;
+			left: 0;
+			display: block;
+			width: 8px;
+			height: 8px;
+			background: #fff;
+			transform: rotate(45deg);
+		}
 	}
 
-	&[x-placement^="top"] {
+	&[data-popper-placement^="top"] {
 		margin-bottom: 5px;
 	}
-	&[x-placement^="top"] &--with-arrows {
+
+	&[data-popper-placement^="top"] &--with-arrows {
 		bottom: -4px;
-		left: 50%;
 	}
-	&[x-placement^="bottom"] {
+
+	&[data-popper-placement^="bottom"] {
 		margin-top: 5px;
 	}
-	&[x-placement^="bottom"] &--with-arrows {
+
+	&[data-popper-placement^="bottom"] &--with-arrows {
 		top: -4px;
 		left: 50%;
 	}
 
-	&[x-placement^="left"] {
+	&[data-popper-placement^="left"] {
 		margin-right: 5px;
 	}
-	&[x-placement^="left"] &--with-arrows {
+
+	&[data-popper-placement^="left"] &--with-arrows {
 		top: 50%;
 		right: -4px;
 		margin-top: -5px;
 	}
 
-	&[x-placement^="right"] {
+	&[data-popper-placement^="right"] {
 		margin-left: 5px;
 	}
-	&[x-placement^="right"] &--with-arrows {
+	&[data-popper-placement^="right"] &--with-arrows {
 		top: 50%;
 		left: -4px;
 		margin-top: -5px;

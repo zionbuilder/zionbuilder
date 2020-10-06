@@ -46,7 +46,7 @@
 						tag="div"
 						:modifiers="{ offset: { offset: '0,15px' } }"
 						placement="top"
-						:positionFixed="true"
+						strategy="fixed"
 						v-if="showInsert"
 					>
 						<span
@@ -62,7 +62,7 @@
 						append-to="element"
 						:modifiers="{ offset: { offset: '0,15px' } }"
 						placement="top"
-						:positionFixed="true"
+						strategy="fixed"
 						class="znpb-admin-single-template__action znpb-edit-icon-pop"
 					>
 
@@ -79,7 +79,7 @@
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						:modifiers="{ offset: { offset: '0,15px' } }"
 						placement="top"
-						:positionFixed="true"
+						strategy="fixed"
 					>
 						<Icon
 							icon="delete"
@@ -93,7 +93,7 @@
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
 						placement="top"
 						:modifiers="{ offset: { offset: '0,15px' } }"
-						:positionFixed="true"
+						strategy="fixed"
 					>
 						<Icon
 							icon="export"
@@ -107,7 +107,7 @@
 						append-to="element"
 						placement="top"
 						:modifiers="{ offset: { offset: '0,15px' } }"
-						:positionFixed="true"
+						strategy="fixed"
 					>
 						<Icon
 							icon="eye"

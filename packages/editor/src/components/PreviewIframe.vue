@@ -13,6 +13,14 @@
 			:src="getPreviewFrameUrl"
 			:style="deviceStyle"
 		/>
+
+		<teleport
+			v-if="iframeLoaded"
+			:to="getPreviewAppElement()"
+		>
+			<previewApp  />
+		</teleport>
+
 		<Modal
 			:show-close="false"
 			:show-maximize="false"
@@ -48,6 +56,7 @@ import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { Modal } from '@zb/components'
 import { on, off } from '@zb/hooks'
+import { previewApp } from '@zb/preview'
 
 export default {
 	name: 'preview-iframe',
@@ -55,11 +64,13 @@ export default {
 		return {
 			ignoreNextReload: false,
 			showRecoverModal: false,
-			localStoragePageData: {}
+			localStoragePageData: {},
+			iframeLoaded: false
 		}
 	},
 	components: {
-		Modal
+		Modal,
+		previewApp
 	},
 	mixins: [keyBindingsMixin],
 	computed: {
@@ -125,21 +136,22 @@ export default {
 			this.showRecoverModal = false
 		},
 		useServerVersion () {
+
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
+	console.log('asdasdasd')
+				// if (!contentWindow.ZnPbPreviewData) {
+				// 	this.addNotice({
+				// 		message: this.$translate('page_content_error'),
+				// 		type: 'error',
+				// 		delayClose: 0
+				// 	})
 
-				if (!contentWindow.ZnPbPreviewData) {
-					this.addNotice({
-						message: this.$translate('page_content_error'),
-						type: 'error',
-						delayClose: 0
-					})
+				// 	this.setPreviewFrameLoading(false)
+				// 	this.ignoreNextReload = false
 
-					this.setPreviewFrameLoading(false)
-					this.ignoreNextReload = false
-
-					return false
-				}
+				// 	return false
+				// }
 
 				// Set preview data
 				const areaConfig = this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content
@@ -168,7 +180,7 @@ export default {
 						uid: 'contentRoot'
 					}
 				}
-
+console.log({pageContentAreas})
 				this.setPageAreas(pageContentAreas)
 				this.setPageContent(pageContentElements)
 				this.setActiveArea('content')
@@ -179,6 +191,7 @@ export default {
 			}
 		},
 		onIframeLoaded () {
+			this.iframeLoaded = true
 			Dom.iframe = this.$refs.iframe
 			Dom.iframeDocument = this.$refs.iframe.contentDocument
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
@@ -189,11 +202,15 @@ export default {
 			const cachedData = Cache.getItem(this.getPageId)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
+				console.log('asdasdasd')
 				this.localStoragePageData = cachedData
 				this.showRecoverModal = true
 			} else {
 				this.useServerVersion()
 			}
+		},
+		getPreviewAppElement () {
+			return Dom.iframeDocument.getElementById('znpb-preview-content-area')
 		},
 		attachIframeEvents () {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)

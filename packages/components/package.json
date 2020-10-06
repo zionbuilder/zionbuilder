@@ -16,7 +16,6 @@
 		"@zionbuilder/modal": "^1.0.0",
 		"@zionbuilder/video": "^1.0.0",
 		"@zionbuilder/sortable": "^1.0.0",
-		"popper.js": "^1.16.1",
 		"raf-schd": "^4.0.2",
 		"tinycolor2": "^1.4.1",
 		"vue-date-pick": "^1.4.1"

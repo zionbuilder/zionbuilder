@@ -54,7 +54,7 @@
 						:content="$translate('library_insert_tooltip')"
 						placement="top"
 						:modifiers="{ offset: { offset: '0,10px' } }"
-						:positionFixed="true"
+						strategy="fixed"
 					>
 						<Button
 							type="secondary"

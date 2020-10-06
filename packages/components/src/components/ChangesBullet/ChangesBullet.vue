@@ -3,7 +3,7 @@
 		:content="discardChangesTitle"
 		class="znpb-options-has-changes-wrapper"
 		tag="span"
-		:positionFixed="true"
+		strategy="fixed"
 		:modifiers="{
 			preventOverflow: {
 				enabled: false

@@ -28,7 +28,7 @@
 					<Tooltip
 						v-if="!modelValue"
 						placement="top"
-						positionFixed="true"
+						strategy="fixed"
 						:content="$translate('no_color_chosen')"
 					>
 						<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
@@ -72,7 +72,7 @@
 							<Tooltip
 								v-if="!modelValue"
 								placement="top"
-								positionFixed="true"
+								strategy="fixed"
 								:content="$translate('no_color_chosen')"
 							>
 								<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>

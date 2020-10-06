@@ -9,9 +9,9 @@
 				trigger="click"
 				:close-on-outside-click="true"
 				:close-on-escape="true"
-				:modifiers="{ offset: { offset: '0,10px' } }"
 				@hide="onAddElementsHide"
 				@show="onAddColumnsShow"
+				strategy="fixed"
 				tag="div"
 			>
 
@@ -22,14 +22,16 @@
 					key="12"
 				/>
 
-				<ColumnTemplates
-					slot="content"
-					:empty-sortable="true"
-					@close-popper="showColumnTemplates=false"
-					:parentUid="parentUid"
-					:data="data"
-					key="123"
-				/>
+				<template #content>
+					<ColumnTemplates
+						slot="content"
+						:empty-sortable="true"
+						@close-popper="showColumnTemplates=false"
+						:parentUid="parentUid"
+						:data="data"
+						key="123"
+					/>
+				</template>
 			</Tooltip>
 		</div>
 	</div>

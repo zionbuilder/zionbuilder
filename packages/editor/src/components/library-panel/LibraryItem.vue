@@ -55,7 +55,7 @@
 					:modifiers="{
 						offset: { offset: '0,3px' },
 					}"
-					:positionFixed="true"
+					strategy="fixed"
 				>
 					<span
 						@click="insertLibraryItem"
@@ -70,7 +70,7 @@
 					class="znpb-editor-library-modal__item-action"
 					placement="top"
 					:modifiers="{ offset: { offset: '0,3px' } }"
-					:positionFixed="true"
+					strategy="fixed"
 				>
 					<Icon
 						icon="eye"
@@ -181,8 +181,7 @@ export default {
 
 .znpb-editor-library-modal__item {
 	position: relative;
-
-// min-height: 235px;
+	// min-height: 235px;
 	margin-bottom: 30px;
 	background: $surface;
 	box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);

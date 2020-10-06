@@ -35,7 +35,7 @@
 				placement="bottom-end"
 				:append-to="'element'"
 				:show-arrows="false"
-				:positionFixed="true"
+				strategy="fixed"
 				:modifiers="{
 					preventOverflow: {
 						enabled: false

@@ -48,6 +48,9 @@ packages.forEach(directory => {
 		const config = mergeConfigs(
 			packageWebpackConfig,
 			{
+				entry: {
+					[directory]: packageWebpackConfig.entry
+				},
 				// Change context to package folder so that webpack knows where to look for files
 				context: folder,
 				// Export all packages to window.zb

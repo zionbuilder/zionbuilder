@@ -13,7 +13,7 @@
 			offset: { offset: '0,0' }
 		}"
 		@hide="hideInlineEditor"
-		:positionFixed="true"
+		strategy="fixed"
 		ref="inlineEditorWrapper"
 		@mousedown.stop=""
 	>

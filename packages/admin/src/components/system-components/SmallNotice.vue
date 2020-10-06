@@ -1,7 +1,6 @@
 <template>
 	<Tooltip
 		v-if="data.message"
-		append-to="element"
 		placement="top"
 		class="znpb-admin-system-notice-wrapper"
 	>
