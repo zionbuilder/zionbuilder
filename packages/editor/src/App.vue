@@ -634,7 +634,6 @@ body {
 }
 #znpb-panel-placeholder {
 	position: absolute;
-	z-index: 111;
 	width: 5px;
 	height: 100%;
 	background-color: rgba($secondary, .6);
