@@ -57,6 +57,7 @@ import { flattenTemplateData } from '@zb/utils'
 import { Modal } from '@zb/components'
 import { on, off } from '@zb/hooks'
 import { previewApp } from '@zb/preview'
+import { ScriptsLoader } from '../utils/ScriptsLoader.js'
 
 export default {
 	name: 'preview-iframe',
@@ -139,7 +140,8 @@ export default {
 
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
-	console.log('asdasdasd')
+
+				// TODO: decomment this
 				// if (!contentWindow.ZnPbPreviewData) {
 				// 	this.addNotice({
 				// 		message: this.$translate('page_content_error'),
@@ -180,7 +182,7 @@ export default {
 						uid: 'contentRoot'
 					}
 				}
-console.log({pageContentAreas})
+
 				this.setPageAreas(pageContentAreas)
 				this.setPageContent(pageContentElements)
 				this.setActiveArea('content')
@@ -195,6 +197,9 @@ console.log({pageContentAreas})
 			Dom.iframe = this.$refs.iframe
 			Dom.iframeDocument = this.$refs.iframe.contentDocument
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
+
+			this.$zb.scripts = ScriptsLoader(Dom.iframeDocument)
+
 			this.attachIframeEvents()
 			this.setPreviewFrameLoading(false)
 			this.ignoreNextReload = false
@@ -202,7 +207,6 @@ console.log({pageContentAreas})
 			const cachedData = Cache.getItem(this.getPageId)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
-				console.log('asdasdasd')
 				this.localStoragePageData = cachedData
 				this.showRecoverModal = true
 			} else {

@@ -432,7 +432,7 @@ export default {
 						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
 
 						if (scriptConfig.src) {
-							return window.ZionBuilderApi.preview.scripts.loadScript(scriptConfig, window.document)
+							return this.$zb.scripts.loadScript(scriptConfig, window.document)
 						}
 					}),
 					...Object.keys(this.elementModel.styles).map(scriptHandle => {
@@ -443,7 +443,7 @@ export default {
 						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
 
 						if (scriptConfig.src) {
-							return window.ZionBuilderApi.preview.scripts.loadScript(scriptConfig, window.document)
+							return this.$zb.scripts.loadScript(scriptConfig, window.document)
 						}
 					})
 				]

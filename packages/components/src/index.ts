@@ -38,6 +38,7 @@ import { InputImage } from './components/InputImage'
 import { InputEditor } from './components/InputEditor'
 import { BaseInput } from './components/BaseInput'
 import { InputWrapper } from './components/InputWrapper'
+
 export {
 	Button,
 	UpgradeToPro,

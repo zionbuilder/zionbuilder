@@ -1,6 +1,1 @@
-
-import previewApp from './App.vue'
-
-export {
-	previewApp
-}
+export { default as previewApp } from './App.vue'

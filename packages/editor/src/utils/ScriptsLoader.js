@@ -1,12 +1,7 @@
-export default class ScriptsLoader {
-	constructor () {
-		this.loadedScripts = this.getAvailableScripts()
-		this.loadedStyles = this.getAvailableStyles()
-	}
-
-	getAvailableScripts () {
+export const ScriptsLoader = (context = window.document) => {
+	const getAvailableScripts = () => {
 		let scripts = {}
-		const allScripts = window.document.getElementsByTagName('script')
+		const allScripts = context.getElementsByTagName('script')
 
 		Array.from(allScripts).forEach(domNode => {
 			if (domNode.src) {
@@ -17,9 +12,9 @@ export default class ScriptsLoader {
 		return scripts
 	}
 
-	getAvailableStyles () {
+	const getAvailableStyles = () => {
 		let styles = {}
-		const allStyles = window.document.getElementsByTagName('link')
+		const allStyles = context.getElementsByTagName('link')
 
 		Array.from(allStyles).forEach(domNode => {
 			if (domNode.rel === 'stylesheet') {
@@ -30,32 +25,35 @@ export default class ScriptsLoader {
 		return styles
 	}
 
-	loadScript (scriptConfig, context = window.document) {
+	const loadedScripts = getAvailableScripts()
+	const loadedStyles = getAvailableStyles()
+
+	const loadScript = (scriptConfig) => {
 		const scriptType = scriptConfig.src.indexOf('.js') !== -1 ? 'javascript' : scriptConfig.src.indexOf('.css') !== -1 ? 'css' : false
 
 		if (scriptType === 'javascript') {
 			if (scriptConfig.data) {
-				this.addInlineJavascript(scriptConfig.data, context)
+				addInlineJavascript(scriptConfig.data, context)
 			}
 
 			if (scriptConfig.before) {
-				this.addInlineJavascript(scriptConfig.before, context)
+				addInlineJavascript(scriptConfig.before, context)
 			}
 
-			return this.loadJavaScriptFile(scriptConfig.src, context)
+			return loadJavaScriptFile(scriptConfig.src, context)
 				.then(() => {
 					if (scriptConfig.after) {
-						this.addInlineJavascript(scriptConfig.after, context)
+						addInlineJavascript(scriptConfig.after, context)
 					}
 				})
 				.catch(err => console.error(err))
 		} else if (scriptType === 'css') {
-			return this.loadCssFile(scriptConfig.src, context)
+			return loadCssFile(scriptConfig.src, context)
 				.catch(err => console.error(err))
 		}
 	}
 
-	addInlineJavascript (code, context = window.document) {
+	const addInlineJavascript = (code) => {
 		const javascriptTag = context.createElement('script')
 		javascriptTag.type = 'text/javascript'
 		const inlineScript = context.createTextNode(code)
@@ -63,13 +61,13 @@ export default class ScriptsLoader {
 		context.body.appendChild(javascriptTag)
 	}
 
-	loadJavaScriptFile (url, context = window.document) {
+	const loadJavaScriptFile = (url) => {
 		// Check to see if the asset was already loaded or is pending
-		if (typeof this.loadedScripts[url] === 'object') {
-			return this.loadedScripts[url]
-		} else if (this.loadedScripts[url] === 'done') {
+		if (typeof loadedScripts[url] === 'object') {
+			return loadedScripts[url]
+		} else if (loadedScripts[url] === 'done') {
 			return Promise.resolve(url)
-		} else if (this.loadedScripts[url] === 'error') {
+		} else if (loadedScripts[url] === 'error') {
 			return Promise.reject(url)
 		}
 
@@ -79,30 +77,30 @@ export default class ScriptsLoader {
 
 			javascriptTag.onload = () => {
 				resolve(context)
-				this.loadedScripts[url] = 'done'
+				loadedScripts[url] = 'done'
 			}
 
 			javascriptTag.onerror = () => {
 				reject(context)
-				this.loadedScripts[url] = 'error'
+				loadedScripts[url] = 'error'
 			}
 
 			context.body.appendChild(javascriptTag)
 		})
 
 		// add the file to imported files
-		this.loadedScripts[url] = promise
+		loadedScripts[url] = promise
 
 		return promise
 	}
 
-	loadCssFile (url, context = window.document) {
+	const loadCssFile = (url) => {
 		// Check to see if the asset was already loaded or is pending
-		if (typeof this.loadedStyles[url] === 'object') {
-			return this.loadedStyles[url]
-		} else if (this.loadedStyles[url] === 'done') {
+		if (typeof loadedStyles[url] === 'object') {
+			return loadedStyles[url]
+		} else if (loadedStyles[url] === 'done') {
 			return Promise.resolve(url)
-		} else if (this.loadedStyles[url] === 'error') {
+		} else if (loadedStyles[url] === 'error') {
 			return Promise.reject(url)
 		}
 
@@ -114,20 +112,29 @@ export default class ScriptsLoader {
 
 			styleLink.onload = () => {
 				resolve(context)
-				this.loadedStyles[url] = 'done'
+				loadedStyles[url] = 'done'
 			}
 
 			styleLink.onerror = () => {
 				reject(context)
-				this.loadedStyles[url] = 'error'
+				loadedStyles[url] = 'error'
 			}
 
 			context.getElementsByTagName('head')[0].appendChild(styleLink)
 		})
 
 		// add the file to imported files
-		this.loadedStyles[url] = promise
+		loadedStyles[url] = promise
 
 		return promise
+	}
+
+	return {
+		getAvailableScripts,
+		getAvailableStyles,
+		loadScript,
+		addInlineJavascript,
+		loadJavaScriptFile,
+		loadCssFile
 	}
 }

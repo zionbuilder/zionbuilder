@@ -1,0 +1,81 @@
+.zb-el-pricingBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.zb-el-pricingBox-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-bottom: 30px;
+	border: 1px solid #ededed;
+}
+.zb-el-pricingBox-featured {
+	padding: 8px 16px;
+	color: $primary-color--accent;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1;
+	background-color: $secondary;
+}
+.zb-el-pricingBox-title {
+	margin-bottom: 0;
+	font-size: 22px;
+	font-weight: 500;
+}
+.zb-el-pricingBox-description {
+	margin-bottom: 0;
+	font-size: 15px;
+}
+.zb-el-pricingBox-price {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	margin-bottom: 5px;
+	color: $black;
+	font-size: 42px;
+	font-weight: 500;
+}
+.zb-el-pricingBox-period {
+	display: block;
+	line-height: 1;
+}
+.zb-el-pricingBox-heading {
+	width: 100%;
+	padding: 20px;
+	text-align: center;
+	border-bottom: 1px solid #ededed;
+}
+.zb-el-pricingBox-plan-price {
+	width: 100%;
+	padding: 20px;
+	text-align: center;
+	border-bottom: 1px solid #ededed;
+}
+.zb-el-pricingBox-action {
+	padding: 15px 20px;
+	font-size: 14px;
+	font-weight: 500;
+}
+.zb-el-pricingBox-plan-features {
+	width: 100%;
+	padding: 20px;
+}
+.zb-el-pricingBox-plan-feature {
+	display: block;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	line-height: 1.8;
+	text-align: center;
+}
+.zb-el-pricingBox-price-float {
+	font-size: 24px;
+	line-height: 1;
+}
+.zb-el-pricingBox-price-price {
+	line-height: 1;
+}

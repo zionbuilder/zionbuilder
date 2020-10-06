@@ -1,0 +1,33 @@
+.zb-el-icon {
+	color: #06bee1;
+	line-height: 1;
+}
+
+a.zb-el-icon-icon.zb-el-icon-link {
+	text-decoration: none;
+}
+
+.zb-el-icon-icon {
+	display: inline-block;
+	padding: .8em;
+	line-height: 1;
+}
+
+.zb-el-icon--bordered .zb-el-icon-icon {
+	border: 1px solid #06bee1;
+}
+
+.zb-el-icon--filled .zb-el-icon-icon {
+	color: #fff;
+	background-color: #06bee1;
+}
+
+.zb-el-icon--circle .zb-el-icon-icon {
+	line-height: 1;
+	border-radius: 50% !important;
+}
+
+.zb-el-icon--square .zb-el-icon-icon {
+	line-height: 1;
+	border-radius: 0;
+}
