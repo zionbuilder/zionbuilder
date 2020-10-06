@@ -202,13 +202,12 @@ export default {
 			return cssStyles
 		},
 		getCssClass () {
-			const panel = this.panel
 			let classes = ''
-			classes += panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
+			classes += this.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
 			classes += this.cssClass ? this.cssClass : ''
 			classes += this.touchesTop ? ' znpb-editor-panel--top' : ''
-			if (!panel.isDetached) {
-				classes += panel.panelPos > this.getIframeOrder ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
+			if (!this.panel.isDetached) {
+				classes += this.panel.panelPos > this.getIframeOrder ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
 			}
 			return classes
 		}
@@ -372,7 +371,7 @@ export default {
 		},
 		disablePanelMove () {
 			this.$refs.panelContainer.style.pointerEvents = null
-			this.panel.set('isDragging', true)
+			this.panel.set('isDragging', false)
 			window.removeEventListener('mousemove', this.movePanel)
 			window.removeEventListener('mouseup', this.disablePanelMove)
 			const order = this.getPanelPlaceholder.order

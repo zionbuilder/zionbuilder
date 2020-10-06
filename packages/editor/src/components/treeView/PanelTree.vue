@@ -60,13 +60,13 @@
 import { mapGetters, mapActions } from 'vuex'
 
 import SectionView from './sectionView/SectionViewPanel.vue'
-import TreeViewPanel from './treeView/TreeViewPanel.vue'
+import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
 export default {
 	name: 'panel-tree',
 	components: {
-		TreeViewPanel,
+		TreeView,
 		SectionView,
 		WireframeView,
 		BasePanel
@@ -99,19 +99,18 @@ export default {
 	created () {
 		this.treeViewTypes = [{
 			name: this.$translate('tree_view'),
-			id: 'tree-view',
+			id: 'TreeView',
 			icon: 'treeview'
 		},
 		{
 			name: this.$translate('section_view'),
-			id: 'section-view',
+			id: 'SectionView',
 			icon: 'structure'
 		},
 		{
 			name: this.$translate('wireframe_view'),
-			id: 'wireframe-view',
+			id: 'WireframeView',
 			icon: 'layout',
-			component: WireframeView,
 			basePanelCssClass: ' znpb-editor-panel__container--wireframe',
 			expandMainPanel: true,
 			showBasePanelHeader: false
