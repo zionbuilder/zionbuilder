@@ -78,7 +78,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'openPanel',
 			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup'
 		]),

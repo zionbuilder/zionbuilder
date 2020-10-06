@@ -1,7 +1,7 @@
 <template>
 	<base-panel
 		ref="basepanel"
-		@close-panel="closePanel('panel-tree')"
+		@close-panel="$zb.panels.closePanel('panel-tree')"
 		:panel-name="$translate('tree_view_panel')"
 		panel-id="panel-tree"
 		:css-class="activeTreeView.basePanelCssClass"
@@ -122,7 +122,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'closePanel',
 			'setPanelPos',
 			'setPanelProp'
 		]),
@@ -147,7 +146,7 @@ export default {
 			}
 		},
 		closeWireframe () {
-			this.closePanel('panel-tree')
+			this.$zb.panels.closePanel('panel-tree')
 		}
 	}
 }

@@ -2,7 +2,7 @@
 	<base-panel
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
-		v-on:close-panel="closePanel('panel-global-settings')"
+		v-on:close-panel="$zb.panels.closePanel('panel-global-settings')"
 		class="znpb-general-options-panel-wrapper"
 	>
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">
@@ -67,7 +67,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'closePanel',
 			'updatePageSettings'
 		])
 	}

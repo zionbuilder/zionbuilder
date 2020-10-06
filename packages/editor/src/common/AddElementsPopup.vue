@@ -128,7 +128,6 @@ export default {
 			'filterElementsBySearch',
 			'setShouldOpenAddElementsPopup',
 			'setActiveElement',
-			'openPanel'
 		]),
 		onElementAdded (event) {
 			const uid = generateUID()
@@ -155,7 +154,7 @@ export default {
 			// Check if we need to open the element options
 			if (elementModel.auto_open) {
 				this.setActiveElement(uid)
-				this.openPanel('PanelElementOptions')
+				this.$zb.panels.openPanel('PanelElementOptions')
 			}
 		},
 

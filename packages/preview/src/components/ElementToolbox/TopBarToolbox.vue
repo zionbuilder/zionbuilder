@@ -147,8 +147,7 @@ export default {
 			'deleteElement',
 			'updateElementOptionValue',
 			'setElementFocus',
-			'setRightClickMenu',
-			'openPanel'
+			'setRightClickMenu'
 		]),
 		setInvisible () {
 			this.updateElementOptionValue({
@@ -180,7 +179,7 @@ export default {
 		},
 		openOptionsPanel () {
 			this.setActiveElement(this.data.uid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 		},
 		duplicateElement () {
 			this.copyElement({

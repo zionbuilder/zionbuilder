@@ -48,12 +48,11 @@ export default {
 	methods: {
 		...mapActions([
 			'setActiveElement',
-			'openPanel',
 			'deleteElement'
 		]),
 		editElement () {
 			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 		},
 		deleteElement () {
 			this.$emit('delete', this.elementUid)

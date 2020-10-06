@@ -580,7 +580,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'togglePanel',
 			'insertElements',
 			'setShouldOpenAddElementsPopup',
 			'setElementConfigForLibrary'
@@ -684,7 +683,7 @@ export default {
 				index: this.getInsertIndex()
 			})
 
-			this.togglePanel('PanelLibraryModal', false)
+			this.$zb.panels.togglePanel('PanelLibraryModal')
 		}
 	},
 	beforeUnmount: function () {

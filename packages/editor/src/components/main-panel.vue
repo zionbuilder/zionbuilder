@@ -11,7 +11,7 @@
 			<!-- treeview -->
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
-				@mousedown.stop.prevent="togglePanel('panel-tree', false)"
+				@mousedown.stop.prevent="$zb.panels.togglePanel('panel-tree')"
 				v-bind:class="checkActivePanel('panel-tree')"
 			>
 				<Icon icon="layout"></Icon>
@@ -27,7 +27,7 @@
 			<!-- history -->
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
-				@mousedown.stop.prevent="togglePanel('panel-history', false)"
+				@mousedown.stop.prevent="$zb.panels.togglePanel('panel-history')"
 				v-bind:class="checkActivePanel('panel-history')"
 			>
 				<Icon icon="history"></Icon>
@@ -57,7 +57,7 @@
 			<!-- options -->
 			<div
 				class="znpb-editor-header__menu_button"
-				@mousedown.stop="togglePanel('panel-global-settings', false)"
+				@mousedown.stop="$zb.panels.togglePanel('panel-global-settings')"
 				v-bind:class="checkActivePanel('panel-global-settings')"
 			>
 				<Icon icon="sliders" />
@@ -225,7 +225,6 @@ export default {
 			'getMainBarPointerEvents',
 			'getDeviceList',
 			'getActiveDevice',
-			'getOpenedPanels',
 			'getIsSavingPage',
 			'activeHistoryIndex',
 			'getPageContent',
@@ -316,7 +315,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'togglePanel',
 			'savePage',
 			'setIframePointerEvents',
 			'setMainbarOrder',
@@ -325,6 +323,9 @@ export default {
 			'addNotice',
 			'setMainbarPosition'
 		]),
+		togglePanel (panelId) {
+			this.$zb.panels.togglePanel(panelId)
+		},
 		onSaving (status) {
 			this.savePage(this, {
 				status
@@ -363,7 +364,7 @@ export default {
 			this.helpModalVisibility = true
 		},
 		checkActivePanel: function (panel) {
-			let panelIsOpen = this.getOpenedPanels.find(function (panelIsOpen) {
+			let panelIsOpen = this.$zb.panels.openPanels.find(function (panelIsOpen) {
 				return panelIsOpen.id === panel
 			})
 			return {
@@ -423,7 +424,7 @@ export default {
 				parentUid: 'contentRoot',
 				index: -1
 			})
-			this.togglePanel('PanelLibraryModal', false)
+			this.$zb.panels.togglePanel('PanelLibraryModal')
 		},
 		helpMenuClick () {
 			// do nothing

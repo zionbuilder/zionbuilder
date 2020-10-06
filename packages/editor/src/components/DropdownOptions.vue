@@ -74,7 +74,6 @@ export default {
 			'copyElement',
 			'deleteElement',
 			'updateElementOptionValue',
-			'openPanel',
 			'setElementFocus',
 			'setRightClickMenu'
 		]),

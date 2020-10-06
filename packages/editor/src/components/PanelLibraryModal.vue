@@ -109,7 +109,7 @@
 					<Icon
 						icon="close"
 						:size="14"
-						@click="togglePanel('PanelLibraryModal', false)"
+						@click="$zb.panels.togglePanel('PanelLibraryModal')"
 						class="znpb-modal__header-button"
 					/>
 				</div>
@@ -208,10 +208,8 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'togglePanel',
 			'insertElements'
 		]),
-
 		onTemplateUpload () {
 			this.importActive = false
 			this.localActive = true
@@ -291,7 +289,7 @@ export default {
 					})
 
 					resolve(true)
-					this.togglePanel('PanelLibraryModal', false)
+					this.$zb.panels.togglePanel('PanelLibraryModal')
 				}).catch((error) => {
 					reject(error)
 				})

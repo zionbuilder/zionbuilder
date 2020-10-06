@@ -3,7 +3,7 @@
 		:panel-name="$translate('history_panel')"
 		panel-id="panel-history"
 		:show-expand="false"
-		v-on:close-panel="closePanel('panel-history')"
+		v-on:close-panel="$zb.panels.closePanel('panel-history')"
 	>
 		<div class="znpb-panel__history_panel_wrapper">
 			<div
@@ -74,7 +74,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'closePanel',
 			'restoreHistoryState',
 			'undo',
 			'redo'

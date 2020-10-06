@@ -103,21 +103,8 @@ const state = {
 }
 
 const getters = {
-	getOpenedPanels: state => state.openPanels,
-	getPanelConfig: state => state.panelsState.find((panelsState) => {
-		return state.panelsState.id === state.currentState
-	}),
-	getStateList: state => {
-		return state.panelsState
-	},
 	getPanelPlaceholder: state => {
 		return state.panelPlaceholder
-	},
-	getActivePanel: state => {
-		return state.activePanel
-	},
-	getIsAnyPanelDragging: state => {
-		return state.isAnyPanelDragging
 	}
 }
 
@@ -156,25 +143,6 @@ const actions = {
 
 		// Set the active panel
 		commit(types.SET_ACTIVE_PANEL, panelConfig.id)
-	},
-	closePanel: ({ commit }, panelId) => {
-		// Get panel config from panelName
-		let panelConfig = state.panelsState.find((panelConfig) => {
-			return panelConfig.id === panelId
-		})
-		commit(types.CLOSE_PANEL, panelConfig)
-	},
-	togglePanel: ({ commit, state, dispatch }, panelId) => {
-		// Get panel config from panelName
-		let panelConfig = state.panelsState.find((panelConfig) => {
-			return panelConfig.id === panelId
-		})
-
-		if (state.openPanels.includes(panelConfig)) {
-			dispatch('closePanel', panelConfig.id)
-		} else {
-			dispatch('openPanel', panelConfig.id)
-		}
 	},
 	setPanelWidth: ({ commit }, { panelConfig, panelWidth }) => {
 		commit(types.SET_PANEL_WIDTH, { panelConfig, panelWidth })

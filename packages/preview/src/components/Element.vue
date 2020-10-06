@@ -301,7 +301,6 @@ export default {
 			'insertElements',
 			'attachSlots',
 			'setActiveElement',
-			'openPanel',
 			'saveElementsOrder',
 			'updateElementOptionValue',
 			'setRightClickMenu',
@@ -539,7 +538,7 @@ export default {
 
 			if (!this.isPreviewMode) {
 				this.setActiveElement(this.data.uid)
-				this.openPanel('PanelElementOptions')
+				this.$zb.panels.openPanel('PanelElementOptions')
 
 				// Clear text selection that may appear
 				clearTextSelection(window)

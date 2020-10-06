@@ -325,8 +325,7 @@ export default {
 		...mapActions([
 			'updateElementOptions',
 			'setActiveElement',
-			'saveState',
-			'closePanel'
+			'saveState'
 		]),
 		onBackButtonClick () {
 			const parentElement = this.getElementParent(this.elementUid)
@@ -483,7 +482,7 @@ export default {
 				this.saveState(`Edited ${elementSavedName}`)
 			}
 
-			this.closePanel('PanelElementOptions')
+			this.$zb.panels.closePanel('PanelElementOptions')
 			this.setActiveElement(null)
 		},
 		onKeyPress (e) {

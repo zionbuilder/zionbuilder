@@ -55,8 +55,7 @@ export default {
 		...mapActions([
 			'renameElement',
 			'updateElementOptionValue',
-			'setActiveElement',
-			'openPanel'
+			'setActiveElement'
 		]),
 		doRenameElement (newName) {
 			this.renameElement({
@@ -76,7 +75,7 @@ export default {
 		},
 		editElement () {
 			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 		},
 		highlightElement () {
 			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(this.elementCssId)

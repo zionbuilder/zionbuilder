@@ -47,13 +47,12 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'setActiveElement',
-			'openPanel'
+			'setActiveElement'
 		]),
 
 		onItemClick (elementUid) {
 			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 		}
 	}
 }

@@ -112,7 +112,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementFocus',
-			'getOpenedPanels',
 			'isDragging'
 		]),
 		addElementIconColor () {
@@ -150,8 +149,7 @@ export default {
 		...mapActions([
 			'setElementFocus',
 			'setRightClickMenu',
-			'setActiveElement',
-			'openPanel'
+			'setActiveElement'
 		]),
 		onMouseup () {
 			this.scrollIntoView = !this.isDragging
@@ -194,7 +192,7 @@ export default {
 		},
 		openOptions () {
 			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 		}
 	}
 }

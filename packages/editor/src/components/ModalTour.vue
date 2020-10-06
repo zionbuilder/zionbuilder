@@ -152,7 +152,7 @@ export default {
 					onNext: () => {
 						this.setActiveShowElementsPopup(null)
 						this.setActiveElement(this.lastElem)
-						this.openPanel('PanelElementOptions')
+						this.$zb.panels.openPanel('PanelElementOptions')
 					}
 				},
 				{
@@ -193,7 +193,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.closePanel('PanelElementOptions')
+						this.$zb.panels.closePanel('PanelElementOptions')
 					}
 				},
 				{
@@ -216,7 +216,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.openPanel('panel-history')
+						this.$zb.panels.openPanel('panel-history')
 					}
 				},
 				{
@@ -229,7 +229,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.closePanel('panel-history')
+						this.$zb.panels.closePanel('panel-history')
 					}
 				},
 				{
@@ -242,7 +242,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.openPanel('panel-tree')
+						this.$zb.panels.openPanel('panel-tree')
 					}
 				},
 
@@ -317,7 +317,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getPageContent',
-			'getOpenedPanels',
 			'getIframePointerEvents'
 		]),
 
@@ -357,9 +356,7 @@ export default {
 			'setMainBarPointerEvents',
 			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup',
-			'openPanel',
 			'setActiveElement',
-			'closePanel',
 			'savePage',
 			'insertElements',
 			'deleteElement'
@@ -468,7 +465,7 @@ export default {
 			} else this.setIframePointerEvents(true)
 
 			this.setMainBarPointerEvents(true)
-			if (this.getOpenedPanels.length > 0) {
+			if (this.$zb.panels.openPanels.length > 0) {
 				setTimeout(() => {
 					// let panel = document.getElementsByClassName('znpb-editor-panel__container')
 					// panel[0].style.pointerEvents = 'none'
@@ -485,7 +482,7 @@ export default {
 			}
 
 			this.setMainBarPointerEvents(false)
-			if (this.getOpenedPanels.length > 0) {
+			if (this.$zb.panels.openPanels.length > 0) {
 				// document.getElementsByClassName('znpb-editor-panel__container')[0].style.pointerEvents = null
 			}
 		},
@@ -511,9 +508,9 @@ export default {
 			this.removePointerEvents()
 			this.removeClasses()
 			this.setActiveShowElementsPopup(null)
-			this.closePanel('panel-history')
-			this.closePanel('panel-tree')
-			this.closePanel('PanelElementOptions')
+			this.$zb.panels.closePanel('panel-history')
+			this.$zb.panels.closePanel('panel-tree')
+			this.$zb.panels.closePanel('PanelElementOptions')
 			this.deleteAddedElement()
 			this.showTour = false
 			localStorage.setItem('zion_builder_guided_tour_done', true)
@@ -544,8 +541,7 @@ export default {
 		height: auto;
 		background: transparent;
 		transform: translate(-50%, -50%);
-
-// bug fix for Chrome blurry text
+		// bug fix for Chrome blurry text
 
 		-webkit-font-smoothing: subpixel-antialiased;
 	}

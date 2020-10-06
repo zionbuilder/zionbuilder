@@ -169,13 +169,14 @@ export default {
 	},
 	watch: {
 		openPanels () {
-			this.$nextTick(() => {
-				const previewIframeLeft = document.getElementById('znpb-editor-iframe').getBoundingClientRect().left
-				this.setRightClickMenu({
-					visibility: false,
-					previewIframeLeft: previewIframeLeft
-				})
-			})
+			// TODO: implement this
+			// this.$nextTick(() => {
+			// 	const previewIframeLeft = document.getElementById('znpb-editor-iframe').getBoundingClientRect().left
+			// 	this.setRightClickMenu({
+			// 		visibility: false,
+			// 		previewIframeLeft: previewIframeLeft
+			// 	})
+			// })
 		},
 		rightClickSource (newValue) {
 			if (newValue === 'preview') {
@@ -188,7 +189,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getOpenedPanels',
 			'getErrors',
 			'isPreviewMode',
 			'getRightClickMenu',
@@ -238,7 +238,7 @@ export default {
 		},
 		openPanels: {
 			get () {
-				return this.getOpenedPanels
+				return this.$zb.panels.openPanels
 			},
 			set (newOrder) {
 				this.savePanelsOrder(newOrder)
@@ -294,17 +294,18 @@ export default {
 		},
 		deselectActiveElement () {
 			// Don't deselect the element if an element was just activated
-			if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-				if (this.getElementFocus) {
-					this.setElementFocus(null)
-				}
+			// TODO: implement this
+			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
+			// 	if (this.getElementFocus) {
+			// 		this.setElementFocus(null)
+			// 	}
 
-				if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-					this.setRightClickMenu({
-						visibility: false
-					})
-				}
-			}
+			// 	if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
+			// 		this.setRightClickMenu({
+			// 			visibility: false
+			// 		})
+			// 	}
+			// }
 		},
 		onResize () {
 			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {

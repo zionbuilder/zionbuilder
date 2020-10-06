@@ -49,14 +49,13 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'setActiveElement',
-			'openPanel'
+			'setActiveElement'
 		]),
 
 		editElement (uid) {
 			if (uid !== this.activeElementUid) {
 				this.setActiveElement(uid)
-				this.openPanel('PanelElementOptions')
+				this.$zb.panels.openPanel('PanelElementOptions')
 			}
 		}
 

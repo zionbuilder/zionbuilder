@@ -19,7 +19,6 @@ export default {
 			'canRedo',
 			'getCopiedElement',
 			'isPreviewMode',
-			'getOpenedPanels',
 			'getElementById',
 			'getCuttedElement',
 			'getEditPageUrl'
@@ -30,12 +29,12 @@ export default {
 			if (!newValue) {
 				// restore panels
 				openedPanels.forEach((panelId) => {
-					this.openPanel(panelId)
+					this.$zb.panels.openPanel(panelId)
 				})
 			} else {
 				// Set panels
 				openedPanels.forEach((panelId) => {
-					this.closePanel(panelId)
+					this.$zb.panels.closePanel(panelId)
 				})
 			}
 		},
@@ -47,7 +46,7 @@ export default {
 				this.isPanelElementOptionsOpen = false
 			}
 			if (!this.isPreviewMode) {
-				openedPanels = this.getOpenedPanels.map((panel) => {
+				openedPanels = this.$zb.panels.openPanels.map((panel) => {
 					return panel.id
 				})
 			}
@@ -60,8 +59,6 @@ export default {
 			'copyElement',
 			'deleteElement',
 			'updateElementOptionValue',
-			'closePanel',
-			'openPanel',
 			'updateElementOptions',
 			'savePage',
 			'setCopiedElement',
@@ -70,7 +67,6 @@ export default {
 			'redo',
 			'setCuttedElement',
 			'addNotice',
-			'togglePanel',
 			'moveElement'
 		]),
 		debounceDelete: debounce(function (uid, parentUid) {
@@ -313,17 +309,17 @@ export default {
 			}
 			// Toggle treeView panel
 			if (e.shiftKey && e.code === 'KeyT') {
-				this.togglePanel('panel-tree')
+				this.$zb.panels.togglePanel('panel-tree')
 				e.preventDefault()
 			}
 			// Opens Library
 			if (e.shiftKey && e.code === 'KeyL') {
-				this.togglePanel('PanelLibraryModal')
+				this.$zb.panels.togglePanel('PanelLibraryModal')
 				e.preventDefault()
 			}
 			// Opens Page options
 			if (e.shiftKey && e.code === 'KeyO') {
-				this.togglePanel('panel-global-settings')
+				this.$zb.panels.togglePanel('panel-global-settings')
 				e.preventDefault()
 			}
 		}

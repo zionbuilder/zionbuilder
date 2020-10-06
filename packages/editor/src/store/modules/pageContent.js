@@ -242,7 +242,7 @@ const actions = {
 		if (state.activeElementUid) {
 			if (!newState.pageContent[state.activeElementUid]) {
 				// Close the panel
-				dispatch('closePanel', 'PanelElementOptions')
+				window.zb.editor.panels.closePanel('PanelElementOptions')
 				dispatch('setActiveElement', null)
 			}
 		}
@@ -477,13 +477,13 @@ const actions = {
 		// If the active element is deleted, also remove the active element
 		if (state.activeElementUid && state.activeElementUid === elementConfig.uid) {
 			// close panel
-			dispatch('closePanel', 'PanelElementOptions')
+			window.zb.editor.panels.closePanel('PanelElementOptions')
 			dispatch('setActiveElement', null)
 		} else {
 			const childsToDelete = getChildElementsUids(elementConfig.content, state.pageContent)
 			if (childsToDelete.includes(state.activeElementUid)) {
 				// close panel
-				dispatch('closePanel', 'PanelElementOptions')
+				window.zb.editor.panels.closePanel('PanelElementOptions')
 				dispatch('setActiveElement', null)
 			}
 		}

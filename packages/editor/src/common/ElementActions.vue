@@ -167,7 +167,6 @@ export default {
 			'setActiveElement',
 			'deleteElement',
 			'updateElementOptionValue',
-			'openPanel',
 			'setCuttedElement',
 			'savePage',
 			'addNotice',
@@ -248,7 +247,7 @@ export default {
 		},
 		editElement () {
 			this.setActiveElement(this.getElementFocus.uid)
-			this.openPanel('PanelElementOptions')
+			this.$zb.panels.openPanel('PanelElementOptions')
 			this.close()
 		},
 		copyElementStyles () {

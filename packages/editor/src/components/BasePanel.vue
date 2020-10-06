@@ -40,12 +40,12 @@
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--horizontal"
 			@mousedown="activateHorizontalResize"
-			v-if="!getIsAnyPanelDragging"
+			v-if="!$zb.panels.isAnyPanelDragging"
 		/>
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--vertical"
 			@mousedown="activateVerticalResize"
-			v-if="!getIsAnyPanelDragging"
+			v-if="!$zb.panels.isAnyPanelDragging"
 		/>
 	</div>
 </template>
@@ -139,16 +139,12 @@ export default {
 	computed: {
 		...mapGetters([
 			'getMainbarPosition',
-			'getOpenedPanels',
-			'getStateList',
 			'getPanelPlaceholder',
-			'getActivePanel',
-			'getIsAnyPanelDragging',
 			'getIframeOrder'
 		]),
 		selectors () {
 			let selectors = []
-			this.getOpenedPanels.forEach(panel => {
+			this.$zb.panels.openPanels.forEach(panel => {
 				selectors.push('#' + panel.id)
 			})
 			selectors.push('#znpb-editor-iframe')
@@ -156,11 +152,11 @@ export default {
 			return selectors
 		},
 		panel () {
-			return this.getPanelById(this.panelId)
+			return this.$zb.panels.getPanel(this.panelId)
 		},
 		orders () {
 			const orders = []
-			const panels = this.getOpenedPanels.forEach(panel => {
+			const panels = this.$zb.panels.openPanels.forEach(panel => {
 				orders.push(panel.panelPos)
 			})
 			orders.push(this.getIframeOrder)
@@ -168,7 +164,7 @@ export default {
 		},
 		panelsAndIframe () {
 			const panels = {}
-			this.getOpenedPanels.forEach(panel => {
+			this.$zb.panels.openPanels.forEach(panel => {
 				panels[panel.id] = panel.panelPos
 			})
 			panels['znpb-editor-iframe'] = this.getIframeOrder
@@ -176,7 +172,7 @@ export default {
 		},
 		filteredOpenedPanels () {
 			const panels = {}
-			this.getOpenedPanels.forEach(panel => {
+			this.$zb.panels.openPanels.forEach(panel => {
 				if (panel.id !== this.panelId) {
 					panels[panel.id] = panel.panelPos
 				}
@@ -196,7 +192,6 @@ export default {
 		panelStyles () {
 			const panel = this.panel
 			const cssStyles = {
-				zIndex: this.getActivePanel === this.panelId ? 999 : 1,
 				'min-width': panel.width.value + panel.width.unit,
 				width: panel.width.value + panel.width.unit,
 				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '99.9%' : panel.height.value + panel.height.unit,
@@ -232,20 +227,11 @@ export default {
 			'setActivePanel',
 			'setIsAnyPanelDragging'
 		]),
-		onClick () {
-			if (this.getActivePanel !== this.panelId) {
-				this.setActivePanel(this.panelId)
-			}
-		},
 		onKeyDown (event) {
 			if (event.which === 27) {
 				this.$emit('close-panel')
 				event.stopImmediatePropagation()
 			}
-		},
-		getPanelById (id) {
-			const panels = this.getStateList
-			return panels.find(panel => panel.id === id)
 		},
 
 		startDrag (event) {
@@ -299,7 +285,7 @@ export default {
 				}
 				if (closest) {
 					const overlappedPanelId = closest.id
-					const idProps = this.getPanelById(overlappedPanelId)
+					const idProps = this.$zb.panels.getPanel(overlappedPanelId)
 					if (idProps && !idProps.isDetached) {
 						const domElement = document.getElementById(overlappedPanelId)
 						if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
