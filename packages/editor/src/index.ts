@@ -11,6 +11,7 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
+import { initElements } from './data/elements'
 
 // Components
 import App from './App.vue'
@@ -18,7 +19,7 @@ import App from './App.vue'
 // Data
 import { initPanels } from './data'
 
-
+// It will allow us to add events to both the editor document and iframe document
 const pageEvents = createInstance()
 pageEvents.addDocument(window)
 
@@ -35,12 +36,16 @@ appInstance.use(store)
 // Add error interceptor for API
 errorInterceptor(store)
 
+// Init elements registration
+const elements = new ElementsCollection()
+
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	hooks,
 	appInstance,
 	pageEvents,
-	panels
+	panels,
+	elements
 }
 
 appInstance.mount('#znpb-app')
@@ -49,5 +54,6 @@ appInstance.mount('#znpb-app')
 export {
 	appInstance,
 	pageEvents,
-	panels
+	panels,
+	elements
 }
