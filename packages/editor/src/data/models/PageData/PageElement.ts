@@ -7,7 +7,8 @@ export default class PageElement extends Model {
 			element_type: null,
 			options: {},
 			uid: null,
-			content: []
+			content: [],
+			elementType: null
 		}
 	}
 

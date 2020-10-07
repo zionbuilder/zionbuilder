@@ -11,7 +11,8 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
-import { initElements } from './data/elements'
+import { initElements, initElementCategories } from './data/elements'
+import { PageAreas } from './data/models/PageData'
 
 // Components
 import App from './App.vue'
@@ -37,7 +38,9 @@ appInstance.use(store)
 errorInterceptor(store)
 
 // Init elements registration
-const elements = new ElementsCollection()
+const elements = initElements()
+const elementCategories = initElementCategories()
+const pageAreas = new PageAreas()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
@@ -45,7 +48,9 @@ appInstance.config.globalProperties.$zb = {
 	appInstance,
 	pageEvents,
 	panels,
-	elements
+	elements,
+	elementCategories,
+	pageAreas
 }
 
 appInstance.mount('#znpb-app')
@@ -55,5 +60,7 @@ export {
 	appInstance,
 	pageEvents,
 	panels,
-	elements
+	elements,
+	elementCategories,
+	pageAreas
 }
