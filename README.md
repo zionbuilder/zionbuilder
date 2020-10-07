@@ -157,6 +157,22 @@ Please make sure to update tests as appropriate.
 
 ## Changelog ##
 
+### 1.0.2- 2020-09-29 ###
+
+* Added filter for license check
+* Fixed image element margin drag hides the toolbox
+* Fixed Zion Builder not working with Yoast in certain conditions
+* Fixed PHP Stan erors
+* Fixed CSS classes not cleared when a new css class is added or changed
+* Update Data Fonts Google set
+* Improved getting started tour
+* Fix modal tours appear always
+* Add ability to get render attributes for multiple tag ids
+* Fix render "Array" string on elements classes
+* Fixed section masks not working
+* Fixed element with no options shows values as array
+* Add padding to element icon for image element
+
 ### 1.0.1- 2020-08-17 ###
 
 * Renamed plugin
