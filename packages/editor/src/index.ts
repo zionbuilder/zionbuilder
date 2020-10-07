@@ -2,6 +2,8 @@
 import { createApp } from 'vue'
 import { store } from './store/'
 
+import hooks from '@zb/hooks'
+
 // Main
 import { install as ComponentsInstall } from '@zb/components'
 import App from './App.vue'
@@ -30,6 +32,7 @@ errorInterceptor(store)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
+	hooks,
 	appInstance,
 	pageEvents,
 	panels
