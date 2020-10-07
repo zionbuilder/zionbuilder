@@ -163,7 +163,6 @@ import aboutModal from './aboutModal.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-import { Modal, Loader } from '@zb/components'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
@@ -176,11 +175,9 @@ export default {
 		FlyoutMenuItem,
 		Help,
 		keyShortcuts,
-		Modal,
 		SaveElementModal,
 		aboutModal,
-		ModalTour,
-		Loader
+		ModalTour
 	},
 	props: {
 

@@ -39,13 +39,8 @@
 	</li>
 </template>
 <script>
-import { Tooltip } from '@zb/components'
-
 export default {
 	name: 'SingleClass',
-	components: {
-		Tooltip
-	},
 	props: {
 		classItem: {
 			type: Object,

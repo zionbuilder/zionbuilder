@@ -31,9 +31,9 @@
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { Sortable } from '@zb/components/Sortable'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
+import ElementWireframeView from './ElementWireframeView.vue'
 
 export default {
 	name: 'wireframe-view',
@@ -51,9 +51,9 @@ export default {
 		}
 	},
 	components: {
-		Sortable,
 		SortablePlaceholder,
-		SortableHelper
+		SortableHelper,
+		ElementWireframeView
 	},
 	computed: {
 		...mapGetters([

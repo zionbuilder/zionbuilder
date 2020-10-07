@@ -27,13 +27,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Sortable } from '@zb/components'
 import SingleChild from './SingleChild.vue'
 
 export default {
 	name: 'Childs',
 	components: {
-		Sortable,
 		SingleChild
 	},
 	inject: {

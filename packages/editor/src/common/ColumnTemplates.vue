@@ -57,7 +57,6 @@ import { mapActions, mapGetters } from 'vuex'
 import AddElementsPopup from './AddElementsPopup.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
-import { Tabs, Tab } from '@zb/components'
 
 export default {
 	name: 'ColumnTemplates',
@@ -86,9 +85,7 @@ export default {
 		}
 	},
 	components: {
-		AddElementsPopup,
-		Tabs,
-		Tab
+		AddElementsPopup
 	},
 
 	data () {

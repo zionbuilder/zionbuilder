@@ -81,9 +81,10 @@
 </template>
 
 <script>
+const Vue = window.parent.zb.vue
 // Utils
 import { mapActions, mapGetters } from 'vuex'
-import { Sortable, Tooltip } from '@zb/components'
+
 // TODO: implement this
 // import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
@@ -207,12 +208,10 @@ export default {
 	},
 
 	components: {
-		Sortable,
 		SortableHelper,
 		SortablePlaceholder,
 		EmptySortablePlaceholder,
 		ColumnTemplates,
-		Tooltip,
 		Element
 	},
 	methods: {

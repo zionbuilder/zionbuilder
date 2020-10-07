@@ -21,7 +21,7 @@ import { trigger } from '@zb/hooks'
 export default {
 	name: 'RightClickMenu',
 	directives: {
-		clickOutside
+		// clickOutside
 	},
 	props: {
 		showRename: {

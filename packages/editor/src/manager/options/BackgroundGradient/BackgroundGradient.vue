@@ -27,16 +27,9 @@
 </template>
 
 <script>
-import { GradientGenerator, GradientLibrary } from '@zb/components'
 import { getDefaultGradient } from '@zb/components/utils'
-import { EmptyList } from '@zb/components/forms'
 export default {
 	name: 'BackgroundGradient',
-	components: {
-		GradientGenerator,
-		EmptyList,
-		GradientLibrary
-	},
 	props: {
 		modelValue: {
 			type: Array,

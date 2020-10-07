@@ -22,7 +22,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import templateElementMixin from '../mixins/templateElement.js'
-import clickOutside from '@zb/directive-click-outside'
+import clickOutside from '@zionbuilder/click-outside-directive'
 import ElementActions from '../common/ElementActions.vue'
 
 export default {

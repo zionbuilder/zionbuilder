@@ -41,7 +41,6 @@
 	</div>
 </template>
 <script>
-import InputNumberUnit from '@zb/components/forms'
 export default {
 	name: 'Dimensions',
 	props: {
@@ -65,9 +64,6 @@ export default {
 		max: {
 			type: Number
 		}
-	},
-	components: {
-		InputNumberUnit
 	},
 	data () {
 		return {

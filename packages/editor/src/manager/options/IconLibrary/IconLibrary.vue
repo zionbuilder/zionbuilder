@@ -69,13 +69,11 @@
 </template>
 
 <script>
-import { Modal } from '@zb/components'
 import IconsLibraryModalContent from './IconsLibraryModalContent.vue'
 
 export default {
 	name: 'IconLibrary',
 	components: {
-		Modal,
 		IconsLibraryModalContent
 	},
 	props: {

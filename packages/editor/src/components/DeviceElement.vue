@@ -35,7 +35,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { ChangesBullet } from '@zb/components'
 import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
 
 export default {
@@ -50,9 +49,6 @@ export default {
 	},
 	data: function () {
 		return {}
-	},
-	components: {
-		ChangesBullet
 	},
 	computed: {
 		...mapGetters([

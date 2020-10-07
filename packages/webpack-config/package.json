@@ -16,6 +16,7 @@
   "main": "src/index.js",
   "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a",
   "devDependencies": {
-    "mini-css-extract-plugin": "^0.11.3"
+    "mini-css-extract-plugin": "^0.11.3",
+    "source-map-loader": "^1.1.0"
   }
 }

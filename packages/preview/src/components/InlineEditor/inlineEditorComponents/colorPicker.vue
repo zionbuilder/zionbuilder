@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { ColorPicker } from '@zb/components'
+
 export default {
 	inject: {
 		Editor: {
@@ -22,9 +22,6 @@ export default {
 				return {}
 			}
 		}
-	},
-	components: {
-		ColorPicker
 	},
 	data () {
 		return {

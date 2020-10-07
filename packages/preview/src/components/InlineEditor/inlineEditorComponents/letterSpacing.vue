@@ -15,9 +15,6 @@
 </template>
 
 <script>
-
-import { InputRangeDynamic } from '@zb/components'
-
 export default {
 	inject: {
 		Editor: {
@@ -25,9 +22,6 @@ export default {
 				return {}
 			}
 		}
-	},
-	components: {
-		InputRangeDynamic
 	},
 	data () {
 		return {

@@ -33,15 +33,11 @@
 </template>
 
 <script>
-import { ChangesBullet } from '@zb/components'
-import { Tooltip } from '@zb/components'
 import ZionLabel from '../../common/Label.vue'
 
 export default {
 	name: 'PseudoDropdownItem',
 	components: {
-		ChangesBullet,
-		Tooltip,
 		ZionLabel
 	},
 	props: {

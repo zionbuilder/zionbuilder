@@ -39,14 +39,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { Sortable } from '@zb/components'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 
 export default {
 	name: 'TreeViewList',
 	components: {
-		Sortable,
 		SortableHelper,
 		SortablePlaceholder
 	},

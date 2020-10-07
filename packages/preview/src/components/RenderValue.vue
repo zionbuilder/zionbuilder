@@ -1,9 +1,9 @@
 <template>
-	<InlineEditor
+	<!-- <InlineEditor
 		v-if="renderType === 'editor'"
 		v-model="optionValue"
 		v-bind="$attrs"
-	/>
+	/> -->
 
 	<span
 		v-else-if="renderType === 'dynamic_html'"
@@ -34,7 +34,7 @@ import { getOptionValue } from '@zb/utils'
 import { mapActions } from 'vuex'
 
 // Components
-import InlineEditor from './InlineEditor'
+// import InlineEditor from './InlineEditor'
 
 export default {
 	name: 'RenderValue',
@@ -57,7 +57,7 @@ export default {
 		}
 	},
 	components: {
-		InlineEditor
+		// InlineEditor
 	},
 	computed: {
 		optionValue: {

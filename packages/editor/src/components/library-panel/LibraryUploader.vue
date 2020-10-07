@@ -59,12 +59,9 @@
 <script>
 import { importTemplateLibrary } from '@zb/rest'
 import { mapActions } from 'vuex'
-import { Loader } from '@zb/components'
+
 export default {
 	name: 'LibraryUploader',
-	components: {
-		Loader
-	},
 	props: {
 		noMargin: {
 			type: Boolean,

@@ -125,7 +125,6 @@ import { pageEvents } from '@zb/editor'
 // import eventMarshall from '@/editor/common/eventMarshall'
 
 // Components
-import { Tooltip } from '@zb/components'
 import ColumnTemplates from '../../../../editor/src/common/ColumnTemplates.vue'
 import TopBarToolbox from './TopBarToolbox.vue'
 
@@ -133,8 +132,7 @@ export default {
 	name: 'ElementToolbox',
 	components: {
 		ColumnTemplates,
-		TopBarToolbox,
-		Tooltip
+		TopBarToolbox
 	},
 	props: {
 		data: {

@@ -32,7 +32,6 @@
 
 <script>
 import PagebuilderElement from './PagebuilderElement.vue'
-import { Sortable } from '@zb/components/Sortable'
 import SortablePlaceholder from '../../common/SortablePlaceholder.vue'
 
 export default {
@@ -50,7 +49,6 @@ export default {
 	},
 	components: {
 		PagebuilderElement,
-		Sortable,
 		SortablePlaceholder
 	},
 	computed: {

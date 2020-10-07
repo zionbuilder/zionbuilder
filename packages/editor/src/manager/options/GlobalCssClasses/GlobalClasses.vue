@@ -51,15 +51,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
-import { BaseInput } from '@zb/components/forms'
 
 export default {
 	name: 'GlobalClasses',
 	inject: ['parentAccordion'],
 	components: {
 		SingleClass,
-		SingleClassOptions,
-		BaseInput
+		SingleClassOptions
 	},
 	computed: {
 		...mapGetters([

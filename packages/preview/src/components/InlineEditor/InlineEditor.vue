@@ -180,7 +180,6 @@
 import { mapGetters, mapActions } from 'vuex'
 
 // Components
-import { Tooltip } from '@zb/components'
 import popOver from './inlineEditorComponents/popOver.vue'
 import panel from './inlineEditorComponents/panel.vue'
 import group from './inlineEditorComponents/group.vue'
@@ -205,8 +204,7 @@ export default {
 		'zion-inline-editor-button': buttonComponent,
 		'zion-inline-editor-color-picker': colorPicker,
 		'zion-inline-editor-font-weight': fontWeight,
-		panelLink,
-		Tooltip
+		panelLink
 	},
 
 	props: {

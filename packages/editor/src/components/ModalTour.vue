@@ -28,14 +28,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import { generateElements } from '@zb/utils'
 import ModalStep from './ModalStep.vue'
-import { Modal } from '@zb/components'
 import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'ModalTour',
 	components: {
-		ModalStep,
-		Modal
+		ModalStep
 	},
 	data () {
 		return {

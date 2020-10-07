@@ -14,13 +14,6 @@
 			:style="deviceStyle"
 		/>
 
-		<teleport
-			v-if="iframeLoaded"
-			:to="getPreviewAppElement()"
-		>
-			<previewApp  />
-		</teleport>
-
 		<Modal
 			:show-close="false"
 			:show-maximize="false"
@@ -54,10 +47,7 @@ import keyBindingsMixin from '../mixins/keyBindingsMixin.js'
 import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
-import { Modal } from '@zb/components'
 import { on, off } from '@zb/hooks'
-import { previewApp } from '@zb/preview'
-import { ScriptsLoader } from '../utils/ScriptsLoader.js'
 
 export default {
 	name: 'preview-iframe',
@@ -68,10 +58,6 @@ export default {
 			localStoragePageData: {},
 			iframeLoaded: false
 		}
-	},
-	components: {
-		Modal,
-		previewApp
 	},
 	mixins: [keyBindingsMixin],
 	computed: {
@@ -198,8 +184,6 @@ export default {
 			Dom.iframeDocument = this.$refs.iframe.contentDocument
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
 
-			this.$zb.scripts = ScriptsLoader(Dom.iframeDocument)
-
 			this.attachIframeEvents()
 			this.setPreviewFrameLoading(false)
 			this.ignoreNextReload = false
@@ -212,9 +196,6 @@ export default {
 			} else {
 				this.useServerVersion()
 			}
-		},
-		getPreviewAppElement () {
-			return Dom.iframeDocument.getElementById('znpb-preview-content-area')
 		},
 		attachIframeEvents () {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)

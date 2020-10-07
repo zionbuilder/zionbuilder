@@ -22,7 +22,13 @@ module.exports = () => {
 						appendTsSuffixTo: [/\.vue$/],
 						transpileOnly: true,
 					}
-				}
+				},
+				// Fix browser errors for packaged source maps
+				{
+					test: /\.js$/,
+					enforce: 'pre',
+					use: ['source-map-loader'],
+				},
 			],
 		},
 		output: {

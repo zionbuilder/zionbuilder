@@ -8,22 +8,23 @@
 		>
 		</SortableContent>
 
-		<SaveElementModal :template="false" />
-
 		<PageStyles
 			:css-classes="getClasses"
 			:page-settings-model="getPageSettings"
 			:page-settings-schema="getPageSettingsSchema"
 		/>
 
-		<!-- Page custom css -->
 		<ElementStyles :styles="getPageSettings._custom_css" />
+		{{elementData}}
+
+		<!-- <div v-for="panel in openPanels">
+			{{panel.id}}
+		</div> -->
 	</div>
 
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import SaveElementModal from '../../editor/src/components/SaveElementModal.vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
@@ -37,7 +38,6 @@ export default {
 		}
 	},
 	components: {
-		SaveElementModal,
 		SortableContent,
 		PageStyles,
 		ElementStyles
@@ -57,6 +57,9 @@ export default {
 		]),
 		elementData () {
 			return this.getPageContent['contentRoot']
+		},
+		openPanels () {
+			return this.$zb.panels.openPanels
 		}
 	},
 	methods: {

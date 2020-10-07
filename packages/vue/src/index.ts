@@ -1,1 +1,1 @@
-export * from 'vue'
+module.exports = (window.parent.zb || {}).vue || require('vue')

@@ -45,20 +45,13 @@
 
 <script>
 import { saveAs } from 'file-saver'
-import { Modal, Loader } from '@zb/components'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { OptionsForm } from '@zb/components/forms'
 
 export default {
 	name: 'SaveElementModal',
-	components: {
-		Modal,
-		Loader,
-		OptionsForm
-	},
 	props: {
 		template: {
 			type: Boolean,

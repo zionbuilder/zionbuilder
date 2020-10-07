@@ -107,8 +107,8 @@
 
 </template>
 <script>
-import { Tooltip, Loader } from '@zb/components'
 const { plugin_info: pluginInfo, urls } = window.ZnPbInitalData
+
 export default {
 	name: 'LibraryItem',
 	inject: {
@@ -117,10 +117,6 @@ export default {
 				return {}
 			}
 		}
-	},
-	components: {
-		Tooltip,
-		Loader
 	},
 	props: {
 		item: {

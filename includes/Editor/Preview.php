@@ -118,7 +118,18 @@ class Preview {
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
-		wp_localize_script( 'zb-video-bg', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		Plugin::instance()->scripts->enqueue_script(
+			'znpb-preview-frame-scripts',
+			'js/preview.js',
+			[
+				'zb-components',
+			],
+			Plugin::instance()->get_version(),
+			true
+		);
+
+
+		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 
 		wp_add_inline_script(
 			'znpb-preview-frame-scripts',

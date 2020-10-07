@@ -37,10 +37,6 @@
 </template>
 
 <script>
-import ColorPicker from '@zb/components'
-import { EmptyList, ActionsOverlay, Color } from '@zb/components/forms'
-
-
 export default {
 	name: 'BackgroundColor',
 	props: {
@@ -76,11 +72,6 @@ export default {
 				'background-color': this.colorModel
 			}
 		}
-	},
-	components: {
-		Color,
-		EmptyList,
-		ActionsOverlay
 	},
 	methods: {
 		deleteColor () {

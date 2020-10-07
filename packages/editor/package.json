@@ -12,7 +12,8 @@
 		"dom-form-serializer": "^1.0.8",
 		"vue": "^3.0.0",
 		"vue-router": "^4.0.0-beta.11",
-		"vuex": "^4.0.0-beta.4"
+		"vuex": "^4.0.0-beta.4",
+		"@zionbuilder/click-outside-directive": "^1.0.0"
 	},
 	"private": false
 }

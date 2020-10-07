@@ -1,3 +1,5 @@
+import { App } from 'vue'
+
 // General components
 import { Accordion } from './components/Accordion'
 import { ActionsOverlay } from './components/ActionsOverlay'
@@ -44,7 +46,75 @@ import { Modal, ModalConfirm } from '@zionbuilder/modal'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
 import { InputWrapper } from './components/InputWrapper'
 
+const components = [
+	Button,
+	UpgradeToPro,
+	Label,
+	EmptyList,
+
+	// General
+	Modal,
+	ModalConfirm,
+	Icon,
+	Tooltip,
+	Loader,
+	Accordion,
+	Notice,
+	Tabs,
+	Tab,
+	ColorPicker,
+	Injection,
+	RadioImage,
+
+	// Specific
+	ActionsOverlay,
+	GradientPreview,
+	GradientGenerator,
+	GradientLibrary,
+	HorizontalAccordion,
+	IconPackGrid,
+	// Forms
+	Sortable,
+	ChangesBullet,
+
+	// Inputs
+	InputBackgroundImage,
+	InputBackgroundVideo,
+	InputCheckboxGroup,
+	InputCheckbox,
+	InputCheckboxSwitch,
+	InputLabel,
+	InputCode,
+	InputRadio,
+	InputRadioGroup,
+	InputRadioIcon,
+	InputDatePicker,
+	InputColorPicker,
+	InputCustomSelector,
+	InputShapeDividers,
+	ShapeDividerComponent,
+	SvgMask,
+	InputBorderControl,
+	InputBorderTabs,
+	InputBorderRadius,
+	InputBorderRadiusTabs,
+	InputMedia,
+	InputImage,
+	InputEditor,
+	BaseInput,
+	InputWrapper
+]
+
+const install = (app: App) => {
+	components.forEach(component => {
+		app.component(component.name, component);
+	});
+}
+
+export const options = createOptionsInstance()
+
 export {
+	install,
 	Button,
 	UpgradeToPro,
 	Label,
@@ -102,5 +172,3 @@ export {
 	BaseInput,
 	InputWrapper
 }
-
-export const options = createOptionsInstance()

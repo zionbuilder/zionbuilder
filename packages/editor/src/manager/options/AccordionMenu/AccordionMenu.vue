@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { ChangesBullet } from '@zb/components'
 import ZionLabel from '../../../common/Label.vue'
 
 export default {
@@ -47,7 +46,6 @@ export default {
 		}
 	},
 	components: {
-		ChangesBullet,
 		ZionLabel
 	},
 	props: {

@@ -148,7 +148,6 @@
 <script>
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { mapActions, mapGetters } from 'vuex'
-import { Modal, Tooltip, Loader } from '@zb/components'
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
@@ -160,11 +159,8 @@ export default {
 	name: 'LibraryModal',
 	components: {
 		LibraryPanel,
-		Modal,
-		Tooltip,
 		LibraryUploader,
 		localLibrary,
-		Loader
 	},
 	provide () {
 		return {

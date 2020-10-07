@@ -31,13 +31,8 @@
 </template>
 
 <script>
-import { Tooltip } from '@zb/components'
-
 export default {
 	name: 'CssSelector',
-	components: {
-		Tooltip
-	},
 	props: {
 		name: {
 			type: String,

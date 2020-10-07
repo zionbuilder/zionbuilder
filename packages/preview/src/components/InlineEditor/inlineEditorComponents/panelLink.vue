@@ -55,8 +55,6 @@
 </template>
 
 <script>
-import { BaseInput, InputSelect, InputWrapper } from '@zb/components'
-
 export default {
 	inject: {
 		Editor: {
@@ -64,11 +62,6 @@ export default {
 				return {}
 			}
 		}
-	},
-	components: {
-		BaseInput,
-		InputSelect,
-		InputWrapper
 	},
 	props: {
 		fullWidth: {

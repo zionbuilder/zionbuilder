@@ -50,13 +50,9 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { lockPage } from '@zb/rest'
-import { Modal } from '@zb/components'
 
 export default {
 	name: 'PostLock',
-	components: {
-		Modal
-	},
 	data () {
 		return {
 			showing: true,

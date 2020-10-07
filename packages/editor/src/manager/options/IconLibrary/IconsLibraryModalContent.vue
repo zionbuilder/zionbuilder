@@ -36,16 +36,10 @@
 </template>
 
 <script>
-import { IconPackGrid } from '@zb/components'
-import { BaseInput, InputSelect } from '@zb/components/forms'
 import { mapGetters } from 'vuex'
+
 export default {
 	name: 'IconsLibraryModalContent',
-	components: {
-		IconPackGrid,
-		BaseInput,
-		InputSelect
-	},
 	props: {
 		modelValue: {
 			type: Object,

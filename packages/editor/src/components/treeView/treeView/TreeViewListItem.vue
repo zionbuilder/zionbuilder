@@ -72,7 +72,6 @@
 import { mapActions, mapGetters } from 'vuex'
 import TreeViewMixin from '../elementMixins.js'
 import templateElementMixin from '../../../mixins/templateElement.js'
-import { Tooltip } from '@zb/components'
 import { on } from '@zb/hooks'
 
 export default {
@@ -103,8 +102,7 @@ export default {
 
 	},
 	components: {
-		TreeViewList: () => import('./TreeViewList.vue'),
-		Tooltip
+		TreeViewList: () => import('./TreeViewList.vue')
 	},
 	created () {
 		on('rename-element', this.activateRenameElement)

@@ -130,7 +130,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import { BaseInput, OptionsForm } from '@zb/components/forms'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
@@ -158,8 +157,6 @@ export default {
 	},
 	components: {
 		BreadcrumbsWrapper,
-		BaseInput,
-		OptionsForm,
 		BasePanel
 	},
 	props: ['panel'],

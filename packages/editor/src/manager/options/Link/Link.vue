@@ -37,15 +37,8 @@
 </template>
 
 <script>
-import { BaseInput, InputSelect, InputWrapper } from '@zb/components/forms'
-
 export default {
 	name: 'Link',
-	components: {
-		BaseInput,
-		InputSelect,
-		InputWrapper
-	},
 	props: {
 		modelValue: {
 			default () {

@@ -46,7 +46,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { BaseInput, InputSelect } from '@zb/components'
 import { generateUID } from '@zb/utils'
 import CategoriesElements from '../components/addElements/CategoriesElements.vue'
 import ElementList from '../components/addElements/ElementList.vue'
@@ -56,9 +55,7 @@ export default {
 	name: 'AddElementsPopup',
 	components: {
 		CategoriesElements,
-		ElementList,
-		BaseInput,
-		InputSelect
+		ElementList
 	},
 	props: {
 		parentUid: {

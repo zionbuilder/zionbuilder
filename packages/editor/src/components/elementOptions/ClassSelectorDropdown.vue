@@ -73,10 +73,8 @@
 </template>
 
 <script>
-import { BaseInput } from '@zb/components/forms'
 import { mapGetters, mapActions } from 'vuex'
 import CssSelector from './CssSelector.vue'
-import { Tooltip } from '@zb/components'
 
 export default {
 	name: 'ClassSelectorDropdown',
@@ -106,9 +104,7 @@ export default {
 		}
 	},
 	components: {
-		CssSelector,
-		BaseInput,
-		Tooltip
+		CssSelector
 	},
 	computed: {
 		...mapGetters([

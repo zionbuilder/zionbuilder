@@ -57,15 +57,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { InputBackgroundImage, InputBackgroundVideo, InputWrapper } from '@zb/components/forms'
 
 export default {
 	name: 'Background',
-	components: {
-		InputBackgroundImage,
-		InputBackgroundVideo,
-		InputWrapper
-	},
 	inject: {
 		panel: {
 			default: null

@@ -119,11 +119,10 @@ import { mapActions, mapGetters } from 'vuex'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import DropdownOptions from '../../DropdownOptions.vue'
 import TreeViewMixin from '../elementMixins.js'
-import { Sortable, Tooltip } from '@zb/components'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import ColumnTemplates from '../../../common/ColumnTemplates.vue'
-import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder'
+import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder.vue'
 import eventMarshall from '../../../common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
@@ -137,10 +136,8 @@ export default {
 
 	components: {
 		DropdownOptions,
-		Sortable,
 		SortablePlaceholder,
 		SortableHelper,
-		Tooltip,
 		ColumnTemplates,
 		EmptySortablePlaceholder
 	},
@@ -302,7 +299,8 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "@/scss/frontend/_grid.scss";
+// TODO: decomment this
+// @import "@/scss/frontend/_grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 10px 5px 10px;

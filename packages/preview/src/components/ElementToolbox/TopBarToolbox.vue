@@ -102,14 +102,10 @@
 import { mapActions, mapGetters } from 'vuex'
 
 // Components
-import { Tooltip } from '@zb/components'
 import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'TopBarToolbox',
-	components: {
-		Tooltip
-	},
 	props: {
 		data: {
 			type: Object,

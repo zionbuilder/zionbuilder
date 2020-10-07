@@ -48,9 +48,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { EmptyList } from '@zb/components/forms'
 import { getImageIds } from '@zb/rest'
-import { Sortable } from '@zb/components'
 
 const wp = window.wp
 
@@ -78,10 +76,6 @@ export default {
 			type: String,
 			default: 'Select'
 		}
-	},
-	components: {
-		EmptyList,
-		Sortable
 	},
 	data () {
 		return {
