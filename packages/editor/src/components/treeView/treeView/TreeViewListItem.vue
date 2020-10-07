@@ -69,6 +69,8 @@
 	</li>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue'
+
 import { mapActions, mapGetters } from 'vuex'
 import TreeViewMixin from '../elementMixins.js'
 import templateElementMixin from '../../../mixins/templateElement.js'
@@ -102,7 +104,7 @@ export default {
 
 	},
 	components: {
-		TreeViewList: () => import('./TreeViewList.vue')
+		TreeViewList: defineAsyncComponent(() => import('./TreeViewList.vue'))
 	},
 	created () {
 		on('rename-element', this.activateRenameElement)

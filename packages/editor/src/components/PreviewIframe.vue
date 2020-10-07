@@ -48,6 +48,7 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
+import { PageElement } from '../data/models/PageElements'
 
 export default {
 	name: 'preview-iframe',
@@ -127,19 +128,18 @@ export default {
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
 
-				// TODO: decomment this
-				// if (!contentWindow.ZnPbPreviewData) {
-				// 	this.addNotice({
-				// 		message: this.$translate('page_content_error'),
-				// 		type: 'error',
-				// 		delayClose: 0
-				// 	})
+				if (!contentWindow.ZnPbPreviewData) {
+					this.addNotice({
+						message: this.$translate('page_content_error'),
+						type: 'error',
+						delayClose: 0
+					})
 
-				// 	this.setPreviewFrameLoading(false)
-				// 	this.ignoreNextReload = false
+					this.setPreviewFrameLoading(false)
+					this.ignoreNextReload = false
 
-				// 	return false
-				// }
+					return false
+				}
 
 				// Set preview data
 				const areaConfig = this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content
@@ -169,8 +169,14 @@ export default {
 					}
 				}
 
+				const elementsWithInstances = {}
+				Object.keys(pageContentElements).forEach(uid => {
+					const elementConfig = pageContentElements[uid]
+					elementsWithInstances[uid] = new PageElement(elementConfig)
+				});
+
 				this.setPageAreas(pageContentAreas)
-				this.setPageContent(pageContentElements)
+				this.setPageContent(elementsWithInstances)
 				this.setActiveArea('content')
 				this.setInitialHistory(this.$translate('initial_state'))
 

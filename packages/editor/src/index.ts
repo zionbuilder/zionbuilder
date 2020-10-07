@@ -2,17 +2,22 @@
 import { createApp } from 'vue'
 import { store } from './store/'
 
-import hooks from '@zb/hooks'
-
 // Main
+import * as hooks from '@zb/hooks'
+
+// Plugins
 import { install as ComponentsInstall } from '@zb/components'
-import App from './App.vue'
-import { errorInterceptor } from '@zb/rest'
 import { install as L18NInstall } from '@zb/i18n'
+import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
 
+// Components
+import App from './App.vue'
+
+// Data
 import { initPanels } from './data'
+
 
 const pageEvents = createInstance()
 pageEvents.addDocument(window)

@@ -8,7 +8,6 @@ module.exports = (config) => {
 			new MiniCssExtractPlugin({
 				filename: '[name].css',
 				moduleFilename: ({name}) => {
-					console.log(name)
 					return `css/${name}.css`
 				},
 			})

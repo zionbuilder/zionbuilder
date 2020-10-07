@@ -34,6 +34,8 @@ module.exports = () => {
 		output: {
 			filename: 'bundle.js',
 			path: path.resolve(context, 'dist'),
+			// TODO: change this to prorper url
+			publicPath: 'http://zionbuilder.test/wp-content/plugins/zionbuilder/dist/'
 		},
 		externals: [
 			function( context, request, callback ) {

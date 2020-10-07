@@ -17,45 +17,53 @@
 			:key="'tree-view-element-' + childElementUid"
 			@scroll-to-item="onScrollToItem"
 		/>
-		<SortableHelper slot="helper"></SortableHelper>
-		<SortablePlaceholder slot="placeholder"></SortablePlaceholder>
-		<div
-			class="znpb-tree-view__item-add-element-button"
-			v-if="addButton"
-			@click="toggleAddElementsPopup"
-			slot="end"
-		>
-			<Icon
-				:bgColor="addButtonColor"
-				icon="plus"
-				:size="11"
-				:bgSize="25"
-				:rounded="true"
-				color="#fff"
-				class="znpb-tree-view__item-add-element-button-icon"
-			></Icon>
-		</div>
+		<template #helper>
+			<SortableHelper/>
+		</template>
+
+		<template #placeholder>
+			<SortablePlaceholder/>
+		</template>
+
+		<template #end>
+			<div
+				class="znpb-tree-view__item-add-element-button"
+				v-if="addButton"
+				@click="toggleAddElementsPopup"
+			>
+				<Icon
+					:bgColor="addButtonColor"
+					icon="plus"
+					:size="11"
+					:bgSize="25"
+					:rounded="true"
+					color="#fff"
+					class="znpb-tree-view__item-add-element-button-icon"
+				></Icon>
+			</div>
+		</template>
+
+
 	</Sortable>
 </template>
 <script>
+import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
+// import TreeViewListItem from './TreeViewListItem.vue'
 
 export default {
 	name: 'TreeViewList',
 	components: {
 		SortableHelper,
-		SortablePlaceholder
+		SortablePlaceholder,
+		TreeViewListItem: defineAsyncComponent(() => import('./TreeViewListItem.vue'))
 	},
 	data () {
 		return {
 			// hovered: false
 		}
-	},
-	beforeCreate: function () {
-		// Use this method to fix circular dependency + sortable functionality
-		this.$options.components.TreeViewListItem = require('./TreeViewListItem.vue').default
 	},
 	props: {
 		content: {
