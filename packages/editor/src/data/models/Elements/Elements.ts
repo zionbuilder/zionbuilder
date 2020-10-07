@@ -1,5 +1,5 @@
 import Collection from "../Collection";
-import PageElement from './PageElement'
+import PageElement from './Element'
 
 export default class PageElements extends Collection {
 

@@ -48,7 +48,7 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { PageElement } from '../data/models/PageElements'
+import { PageElement } from '../data/models/PageData'
 
 export default {
 	name: 'preview-iframe',

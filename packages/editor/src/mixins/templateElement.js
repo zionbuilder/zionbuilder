@@ -35,7 +35,7 @@ export default {
 			return this.elementModel.name
 		},
 		elementName () {
-			const elementSavedName = getOptionValue(this.elementTemplateData.options, '_advanced_options._element_name')
+			const elementSavedName = this.elementTemplateData.name
 			return elementSavedName || this.elementTypeName
 		},
 		isElementVisible () {

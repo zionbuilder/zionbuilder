@@ -1,4 +1,5 @@
 import Model from '../Model'
+import { getOptionValue } from '@zb/utils'
 
 export default class PageElement extends Model {
 	defaults () {
@@ -11,6 +12,8 @@ export default class PageElement extends Model {
 	}
 
 	get name () {
+		// TODO: implement options system
+		return getOptionValue(this.options, '_advanced_options._element_name') || 'My Name'
 		return this.options.getValue('_advanced_options._element_name')
 	}
 
