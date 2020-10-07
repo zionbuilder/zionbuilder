@@ -25,7 +25,6 @@ export default class Collection {
 		})
 	}
 
-
 	find(where) {
 		return find(this.models, where);
 	}

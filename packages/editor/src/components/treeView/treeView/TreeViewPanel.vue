@@ -46,7 +46,6 @@ export default {
 		...mapGetters([
 			'getRightClickMenu',
 			'getElementFocus',
-			'getElementData',
 			'getParents'
 		])
 	},

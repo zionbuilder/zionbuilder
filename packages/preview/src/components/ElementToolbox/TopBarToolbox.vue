@@ -125,8 +125,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementById',
-			'getElementData'
+			'getElementById'
 		]),
 		closeIcon () {
 			return this.topBarOpen ? 'close' : 'edit'

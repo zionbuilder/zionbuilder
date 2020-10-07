@@ -154,8 +154,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementFocus',
-			'getElementData'
+			'getElementFocus'
 		]),
 		columnSize () {
 			return this.elementTemplateData.options.column_size

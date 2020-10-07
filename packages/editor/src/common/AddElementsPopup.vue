@@ -82,8 +82,7 @@ export default {
 		...mapGetters([
 			'getElementCategories',
 			'getVisibleElements',
-			'getElementById',
-			'getElementData'
+			'getElementById'
 		]),
 
 		getSelectOptions () {
