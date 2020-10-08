@@ -52,8 +52,7 @@ appInstance.config.globalProperties.$zb = {
 	hooks,
 	appInstance,
 	pageEvents,
-	panels,
-
+	panels
 }
 
 appInstance.mount('#znpb-app')

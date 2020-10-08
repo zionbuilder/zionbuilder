@@ -1,1 +1,1 @@
-export { InlineEdit } from './InlineEdit.vue'
+export { default as InlineEdit } from './InlineEdit.vue'

@@ -26,6 +26,15 @@ export default class Panels extends Collection {
 			panel.open()
 		}
 	}
+
+	closePanel (panelId: string) {
+		const panel = this.find({id: panelId})
+
+		if (panel) {
+			panel.close()
+		}
+	}
+
 	togglePanel (panelId: string) {
 		const panel = this.find({id: panelId})
 
