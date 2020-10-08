@@ -36,13 +36,9 @@
 </template>
 
 <script>
-import SvgMask from '@/common/components/forms/elements/shape-dividers/SvgMask.vue'
 export default {
 	name: 'zion_section',
 	props: ['options', 'data', 'api'],
-	components: {
-		SvgMask
-	},
 	computed: {
 		topMask () {
 			return this.shapes['top']

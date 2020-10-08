@@ -1,3 +1,3 @@
-import Section from './components/Section'
+import Section from './components/Section.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Section)
+window.zb.editor.elements.registerElementComponent(Section)

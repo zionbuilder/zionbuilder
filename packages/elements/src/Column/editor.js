@@ -1,3 +1,3 @@
-import Column from './components/column'
+import Column from './components/column.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Column)
+window.zb.editor.elements.registerElementComponent(Column)

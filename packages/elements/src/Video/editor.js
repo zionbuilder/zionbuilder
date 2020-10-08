@@ -1,3 +1,3 @@
-import Video from './components/Video'
+import Video from './components/Video.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Video)
+window.zb.editor.elements.registerElementComponent(Video)

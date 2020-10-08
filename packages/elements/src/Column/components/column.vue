@@ -39,12 +39,8 @@
 </template>
 
 <script>
-import SvgMask from '@/common/components/forms/elements/shape-dividers/SvgMask.vue'
 export default {
 	name: 'zion_column',
-	components: {
-		SvgMask
-	},
 	props: ['options', 'data', 'api'],
 	computed: {
 		htmlTag () {

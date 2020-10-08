@@ -1,3 +1,3 @@
-import ImageBox from './components/ImageBox'
+import ImageBox from './components/ImageBox.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(ImageBox)
+window.zb.editor.elements.registerElementComponent(ImageBox)

@@ -1,3 +1,3 @@
-import googleMaps from './components/googleMaps'
+import googleMaps from './components/googleMaps.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(googleMaps)
+window.zb.editor.elements.registerElementComponent(googleMaps)

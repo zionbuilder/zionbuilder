@@ -59,7 +59,7 @@ export default {
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
 		},
 		logoUrl () {
-			return window.ZionBuilderApi.urls.logo
+			return this.$zb.urls.logo
 		}
 	},
 	methods: {

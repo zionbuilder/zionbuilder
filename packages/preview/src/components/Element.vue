@@ -70,6 +70,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
+import { markRaw } from 'vue';
 
 // Components
 import ServerComponent from './ServerComponent.vue'
@@ -412,12 +413,14 @@ export default {
 
 		async getElementComponent () {
 			await this.loadElementAssets()
-			const component = window.ZionBuilderApi.ElementsManager.getElementComponent(this.data.element_type)
+
+			const element = this.$zb.data.elements.getElement(this.data.element_type)
+			const component = element.getComponent()
 
 			if (component) {
-				this.component = component
+				this.component = markRaw(component)
 			} else {
-				this.component = ServerComponent
+				this.component = markRaw(ServerComponent)
 			}
 		},
 

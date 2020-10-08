@@ -1,3 +1,3 @@
-import ImageSlider from './components/ImageSlider'
+import ImageSlider from './components/ImageSlider.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(ImageSlider)
+window.zb.editor.elements.registerElementComponent(ImageSlider)

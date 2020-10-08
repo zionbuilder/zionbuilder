@@ -1,3 +1,3 @@
-import Icon from './components/Icon'
+import Icon from './components/Icon.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Icon)
+window.zb.editor.elements.registerElementComponent(Icon)

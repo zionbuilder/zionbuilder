@@ -1,3 +1,3 @@
-import Gallery from './components/gallery'
+import Gallery from './components/gallery.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Gallery)
+window.zb.editor.elements.registerElementComponent(Gallery)

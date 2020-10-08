@@ -1,3 +1,3 @@
-import anchorPoint from './components/anchorPoint'
+import anchorPoint from './components/anchorPoint.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(anchorPoint)
+window.zb.editor.elements.registerElementComponent(anchorPoint)

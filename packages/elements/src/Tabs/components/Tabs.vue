@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import TabLink from './TabLink'
+import TabLink from './TabLink.vue'
 
 export default {
 	name: 'tabs',

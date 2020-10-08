@@ -1,5 +1,5 @@
-import accordionItem from './components/accordionItem'
-import Accordions from './components/Accordions'
+import accordionItem from './components/accordionItem.vue'
+import Accordions from './components/Accordions.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(accordionItem)
-window.ZionBuilderApi.ElementsManager.registerElement(Accordions)
+window.zb.editor.elements.registerElementComponent(accordionItem)
+window.zb.editor.elements.registerElementComponent(Accordions)

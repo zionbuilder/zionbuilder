@@ -1,5 +1,6 @@
 import Collection from "../Collection";
 import Element from './Element'
+import { markRaw } from 'vue'
 
 export default class Elements extends Collection {
 	getModel() {
@@ -18,7 +19,7 @@ export default class Elements extends Collection {
 		if (!element) {
 			console.warn(`Element with id: ${elementType} was not found. Make sure to also register it in PHP!`)
 		} else {
-			element.component = elementComponent
+			element.component = markRaw(elementComponent)
 		}
 	}
 

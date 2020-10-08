@@ -91,7 +91,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .zion-inline-editor-slider-area {
 	width: 100%;
 	padding: 16px;

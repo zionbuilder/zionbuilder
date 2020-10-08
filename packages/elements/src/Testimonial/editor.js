@@ -1,3 +1,3 @@
-import Testimonial from './components/Testimonial'
+import Testimonial from './components/Testimonial.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Testimonial)
+window.zb.editor.elements.registerElementComponent(Testimonial)

@@ -1,3 +1,3 @@
-import Heading from './components/Heading'
+import Heading from './components/Heading.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Heading)
+window.zb.editor.elements.registerElementComponent(Heading)

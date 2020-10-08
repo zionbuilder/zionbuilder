@@ -1,3 +1,3 @@
-import Text from './components/Text'
+import Text from './components/Text.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Text)
+window.zb.editor.elements.registerElementComponent(Text)

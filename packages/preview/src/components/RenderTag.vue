@@ -1,4 +1,10 @@
+<template>
+	<slot />
+</template>
+
 <script>
+import { h } from 'vue'
+
 export default {
 	name: 'RenderTag',
 	functional: true,
@@ -13,7 +19,9 @@ export default {
 			required: true
 		}
 	},
-	render (createElement, context) {
+	render (context) {
+		console.log({context})
+
 		const tagId = context.tagId
 		const children = context.children
 

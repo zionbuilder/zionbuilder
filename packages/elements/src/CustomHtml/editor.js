@@ -1,3 +1,3 @@
-import customHtml from './components/customHtml'
+import customHtml from './components/customHtml.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(customHtml)
+window.zb.editor.elements.registerElementComponent(customHtml)

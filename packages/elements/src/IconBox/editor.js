@@ -1,3 +1,3 @@
-import iconBox from './components/iconBox'
+import iconBox from './components/iconBox.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(iconBox)
+window.zb.editor.elements.registerElementComponent(iconBox)

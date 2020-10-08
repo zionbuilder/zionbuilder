@@ -1,3 +1,3 @@
-import Image from './components/Image'
+import Image from './components/Image.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Image)
+window.zb.editor.elements.registerElementComponent(Image)

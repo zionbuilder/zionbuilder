@@ -21,4 +21,8 @@ export default class Element extends Model {
 			wrapper: false
 		}
 	}
+
+	getComponent () {
+		return this.component
+	}
 }

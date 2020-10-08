@@ -1,3 +1,3 @@
-import PricingBox from './components/PricingBox'
+import PricingBox from './components/PricingBox.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(PricingBox)
+window.zb.editor.elements.registerElementComponent(PricingBox)

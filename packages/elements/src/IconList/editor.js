@@ -1,3 +1,3 @@
-import IconList from './components/IconList'
+import IconList from './components/IconList.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(IconList)
+window.zb.editor.elements.registerElementComponent(IconList)

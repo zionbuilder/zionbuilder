@@ -262,8 +262,11 @@ export default {
 			return this.computedCssClasses[cssClass] || null
 		},
 		setSortableItems () {
-			const defaultSlots = this.$slots.default
+			const defaultSlots = this.$slots.default()
 			let isTransitionMode = false
+
+			console.log({defaultSlots})
+
 			// Check to see if we have a transition group
 			if (defaultSlots && defaultSlots.length > 0) {
 				const { componentOptions } = defaultSlots[0]

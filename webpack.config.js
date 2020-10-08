@@ -79,4 +79,15 @@ packages.forEach(directory => {
 	}
 })
 
+// Add elements config
+const elementsPackage = path.resolve('./packages/elements')
+const webpackConfigPath = getWebpackConfig(elementsPackage)
+const elementsWebpackConfigFile = require(webpackConfigPath)
+
+elementsWebpackConfigFile.forEach(singleElementConfig => {
+	configs.push(mergeConfigs(singleElementConfig, {
+		context: elementsPackage
+	}))
+})
+
 module.exports = configs

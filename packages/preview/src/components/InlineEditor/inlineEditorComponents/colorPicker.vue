@@ -8,13 +8,12 @@
 				@open="onOpen"
 				@close="onClose"
 				type="simple"
-			></ColorPicker>
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
-
 export default {
 	inject: {
 		Editor: {
@@ -62,12 +61,11 @@ export default {
 			this.color = this.Editor.editor.queryCommandValue('forecolor')
 		}
 	}
-
 }
 </script>
 
 <style lang="scss">
-.vc-chrome {
+	.vc-chrome {
 	width: 100% !important;
 }
 .vc-chrome * {
@@ -114,3 +112,4 @@ export default {
 	border-radius: 50%;
 	transform: translate(-50%, -50%);
 }
+</style>

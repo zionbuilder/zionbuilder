@@ -1,3 +1,3 @@
-import Separator from './components/Separator'
+import Separator from './components/Separator.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Separator)
+window.zb.editor.elements.registerElementComponent(Separator)

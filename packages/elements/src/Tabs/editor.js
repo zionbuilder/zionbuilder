@@ -1,5 +1,5 @@
-import Tabs from './components/Tabs'
-import TabsItem from './components/TabsItem'
+import Tabs from './components/Tabs.vue'
+import TabsItem from './components/TabsItem.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(TabsItem)
-window.ZionBuilderApi.ElementsManager.registerElement(Tabs)
+window.zb.editor.elements.registerElementComponent(TabsItem)
+window.zb.editor.elements.registerElementComponent(Tabs)

@@ -1,3 +1,3 @@
-import Counter from './components/counter'
+import Counter from './components/counter.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Counter)
+window.zb.editor.elements.registerElementComponent(Counter)

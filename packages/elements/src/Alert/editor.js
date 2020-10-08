@@ -1,3 +1,3 @@
-import Alert from './components/Alert'
+import Alert from './components/Alert.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Alert)
+window.zb.editor.elements.registerElementComponent(Alert)

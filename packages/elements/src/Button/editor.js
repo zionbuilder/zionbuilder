@@ -1,3 +1,3 @@
-import Button from './components/Button'
+import Button from './components/Button.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(Button)
+window.zb.editor.elements.registerElementComponent(Button)

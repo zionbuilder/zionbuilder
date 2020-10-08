@@ -6,7 +6,7 @@
 	"author": "zionbuilder.io",
 	"license": "MIT",
 	"dependencies": {
-		"dom-to-image": "^2.8.0",
+		"dom-to-image": "^2.6.0",
 		"file-saver": "^2.0.2",
 		"localstorage-ttl": "1.0.2",
 		"dom-form-serializer": "^1.0.8",

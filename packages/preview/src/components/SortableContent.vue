@@ -21,24 +21,29 @@
 			:parentUid="data.uid"
 		/>
 
-		<slot
-			name="start"
-			slot="start"
-		/>
+		<template #start>
+			<slot
+				name="start"
+			/>
+		</template>
 
-		<EmptySortablePlaceholder
-			slot="empty-placeholder"
-			v-if="allowElementsAdd && !isPreviewMode"
-			:parentUid="data.uid"
-			:data="data"
-		/>
-		<div
-			v-else-if="emptyPlaceholderText && !isPreviewMode"
-			slot="empty-placeholder"
-			class="znpb-empty-placeholder-text-wrapper"
+		<template
+			#empty-placeholder
 		>
-			{{emptyPlaceholderText}}
-		</div>
+			<EmptySortablePlaceholder
+				:parentUid="data.uid"
+				:data="data"
+				v-if="allowElementsAdd && !isPreviewMode"
+			/>
+
+			<div
+				v-else-if="emptyPlaceholderText && !isPreviewMode"
+				class="znpb-empty-placeholder-text-wrapper"
+			>
+				{{emptyPlaceholderText}}
+			</div>
+
+		</template>
 
 		<template #content>
 			<Tooltip
@@ -70,12 +75,16 @@
 		</template>
 		<SortableHelper #helper />
 
-		<SortablePlaceholder #placeholder />
+		<template #placeholder>
+			<SortablePlaceholder />
+		</template>
 
-		<slot
-			name="end"
-			slot="end"
-		/>
+		<template #end>
+			<slot
+				name="end"
+			/>
+		</template>
+
 
 	</Sortable>
 </template>

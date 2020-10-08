@@ -1,3 +1,3 @@
-import ProgressBars from './components/ProgressBars'
+import ProgressBars from './components/ProgressBars.vue'
 
-window.ZionBuilderApi.ElementsManager.registerElement(ProgressBars)
+window.zb.editor.elements.registerElementComponent(ProgressBars)
