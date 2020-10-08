@@ -7,6 +7,11 @@ export default class Elements extends Collection {
 	}
 
 	registerElement (elementComponent) {
+		console.warn(`registerElement was deprecated and was replaced with registerElementComponent.`)
+		this.registerElementComponent(elementComponent)
+	}
+
+	registerElementComponent (elementComponent) {
 		const elementType = elementComponent.name
 		const element = this.getElement(elementType)
 

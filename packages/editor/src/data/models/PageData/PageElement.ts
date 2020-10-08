@@ -12,6 +12,14 @@ export default class PageElement extends Model {
 		}
 	}
 
+	mutations () {
+		return {
+			options: (value) => {
+				return 'asdasda'
+			}
+		}
+	}
+
 	get name () {
 		// TODO: implement options system
 		return getOptionValue(this.options, '_advanced_options._element_name') || 'My Name'

@@ -44,13 +44,16 @@ const pageAreas = new PageAreas()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
+	data: {
+		elements,
+		elementCategories,
+		pageAreas
+	},
 	hooks,
 	appInstance,
 	pageEvents,
 	panels,
-	elements,
-	elementCategories,
-	pageAreas
+
 }
 
 appInstance.mount('#znpb-app')

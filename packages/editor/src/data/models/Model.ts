@@ -1,4 +1,4 @@
-import { merge } from 'lodash-es'
+import { each, merge } from 'lodash-es'
 import Collection from './Collection'
 
 export type genericObject = {
@@ -10,7 +10,12 @@ export default class Model {
 	private readonly collection: Collection
 
 	constructor (values: genericObject = {}, collection: Collection) {
-		Object.assign(this, merge(this.defaults(), values))
+		const valuesWithDefaults = merge(this.defaults(), values)
+		// TODO: implement this
+		// const mutatedValues = this.applyMutations(valuesWithDefaults)
+
+		// Assign the values
+		Object.assign(this, valuesWithDefaults)
 
 		// Assign the collection
 		this.collection = collection
@@ -32,5 +37,31 @@ export default class Model {
 		this[id] = value
 	}
 
+	/**
+	 * Allows data mutation
+	 */
+	mutations() {
+		return null
+	}
 
+	applyMutations (valuesWithDefaults) {
+		const mutations = this.mutations()
+
+		if (mutations) {
+			each(mutations, (mutationCallback, mutationValueKey) => {
+				if (typeof valuesWithDefaults[mutationValueKey] !== 'undefined') {
+
+					valuesWithDefaults[mutationValueKey] = {
+						get () {
+							return valuesWithDefaults[mutationValueKey]
+						},
+						set () {
+							valuesWithDefaults[mutationValueKey] = mutationCallback( valuesWithDefaults[mutationValueKey] )
+						}
+					}
+				}
+			})
+		}
+		return valuesWithDefaults
+	}
 }

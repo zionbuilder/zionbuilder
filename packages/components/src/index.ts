@@ -12,6 +12,7 @@ import { GradientPreview, GradientGenerator, GradientLibrary } from './component
 import { HorizontalAccordion } from './components/HorizontalAccordion'
 import { Icon } from './components/Icon'
 import { Injection } from './components/injections'
+import { InlineEdit } from './components/InlineEdit'
 
 // Inputs
 import { InputBackgroundImage } from './components/InputBackgroundImage'
@@ -65,6 +66,7 @@ const components = [
 	ColorPicker,
 	Injection,
 	RadioImage,
+	InlineEdit,
 
 	// Specific
 	ActionsOverlay,

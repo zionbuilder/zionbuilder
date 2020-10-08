@@ -9,13 +9,9 @@
 	>
 
 		<TreeViewListItem
-			v-for="childElementUid in templateItems"
-			@on:delete-element="deleteElement"
-			:parentUid="elementUid || parentUid"
-			:elementUid="childElementUid"
-			:parentsToExpand="parentsToExpand"
-			:key="'tree-view-element-' + childElementUid"
-			@scroll-to-item="onScrollToItem"
+			v-for="element in templateItems"
+			:element="element"
+			:key="'tree-view-element-' + element.uid"
 		/>
 		<template #helper>
 			<SortableHelper/>
@@ -28,11 +24,9 @@
 		<template #end>
 			<div
 				class="znpb-tree-view__item-add-element-button"
-				v-if="addButton"
 				@click="toggleAddElementsPopup"
 			>
 				<Icon
-					:bgColor="addButtonColor"
 					icon="plus"
 					:size="11"
 					:bgSize="25"
@@ -51,7 +45,6 @@ import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-// import TreeViewListItem from './TreeViewListItem.vue'
 
 export default {
 	name: 'TreeViewList',
@@ -69,33 +62,13 @@ export default {
 		content: {
 			type: Array,
 			required: false
-		},
-		elementUid: {
-			type: String
-		},
-		addButton: {
-			type: Boolean,
-			required: false
-		},
-		addButtonColor: {
-			type: String,
-			required: false
-		},
-		parentUid: {
-			type: String
-		},
-		parentsToExpand: {
-			type: Array,
-			default () {
-				return []
-			}
 		}
 	},
 	computed: {
 		...mapGetters(['getActiveShowElementsPopup']),
 		templateItems: {
 			get () {
-				return this.content || []
+				return this.content
 			},
 			set (value) {
 				this.saveElementsOrder({

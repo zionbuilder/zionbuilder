@@ -1,6 +1,47 @@
 <template>
 	<li
 		class="znpb-tree-view__item"
+		:id="element.uid"
+	>
+		<div
+			class="znpb-tree-view__item-header"
+		>
+			<Icon
+				icon="select"
+				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
+			></Icon>
+
+			<InlineEdit
+				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
+				:v-model="element.name"
+			/>
+
+			<Tooltip
+				:content="$translate('enable_hidden_element')"
+				placement="top"
+			>
+				<span>
+					<transition name="fade">
+						<Icon
+							icon="visibility-hidden"
+							class="znpb-editor-icon-wrapper--show-element"
+						>
+						</Icon>
+					</transition>
+				</span>
+			</Tooltip>
+
+			<DropdownOptions
+				:element-uid="element.uid"
+			/>
+		</div>
+		<TreeViewList
+			:content="element.content.models"
+		/>
+	</li>
+
+	<!-- <li
+		class="znpb-tree-view__item"
 		:class="{'znpb-tree-view__item--hidden': !isElementVisible}"
 		@mouseenter.capture="highlightElement"
 		@mouseleave="unHighlightElement"
@@ -66,7 +107,7 @@
 			:addButtonColor="addElementIconColor"
 			@scroll-to-item="onScrollToItem"
 		/>
-	</li>
+	</li> -->
 </template>
 <script>
 import { defineAsyncComponent } from 'vue'
@@ -78,10 +119,10 @@ import { on } from '@zb/hooks'
 
 export default {
 	name: 'TreeViewListItem',
-	mixins: [
-		templateElementMixin,
-		TreeViewMixin
-	],
+	// mixins: [
+	// 	templateElementMixin,
+	// 	TreeViewMixin
+	// ],
 	data: function () {
 		return {
 			expanded: false,
@@ -94,106 +135,98 @@ export default {
 			scrollIntoView: false
 		}
 	},
-	props: {
-		parentsToExpand: {
-			type: Array,
-			default () {
-				return []
-			}
-		}
-
-	},
+	props: ['element'],
 	components: {
 		TreeViewList: defineAsyncComponent(() => import('./TreeViewList.vue'))
 	},
-	created () {
-		on('rename-element', this.activateRenameElement)
-	},
+	// created () {
+	// 	on('rename-element', this.activateRenameElement)
+	// },
 	computed: {
-		...mapGetters([
-			'getElementFocus',
-			'isDragging'
-		]),
-		addElementIconColor () {
-			return this.elementTemplateData.element_type === 'zion_column' ? '#eec643' : '#404be3'
-		},
-		isActiveItem () {
-			return this.getElementFocus && this.getElementFocus.uid === this.elementUid
-		},
-		ownCoordonates () {
-			const { left, top } = this.$el.getBoundingClientRect()
-			return {
-				left,
-				top
-			}
-		}
+		// ...mapGetters([
+		// 	'getElementFocus',
+		// 	'isDragging'
+		// ]),
+		// addElementIconColor () {
+		// 	return this.elementTemplateData.element_type === 'zion_column' ? '#eec643' : '#404be3'
+		// },
+		// isActiveItem () {
+		// 	return this.getElementFocus && this.getElementFocus.uid === this.elementUid
+		// },
+		// ownCoordonates () {
+		// 	const { left, top } = this.$el.getBoundingClientRect()
+		// 	return {
+		// 		left,
+		// 		top
+		// 	}
+		// }
 	},
 	watch: {
-		getElementFocus () {
-			if (this.getElementFocus && this.getElementFocus.uid === this.elementUid && this.allowPanelScroll) {
-				this.$emit('scroll-to-item', this.$el)
-			}
-		},
-		parentsToExpand (newValue) {
-			if (newValue.indexOf(this.elementUid) !== -1 && !this.expanded) {
-				this.expanded = true
-			}
-		},
-		isActiveItem (newValue) {
-			if (!newValue) {
-				this.allowPanelScroll = true
-			}
-		}
+		// getElementFocus () {
+		// 	if (this.getElementFocus && this.getElementFocus.uid === this.elementUid && this.allowPanelScroll) {
+		// 		this.$emit('scroll-to-item', this.$el)
+		// 	}
+		// },
+		// parentsToExpand (newValue) {
+		// 	if (newValue.indexOf(this.elementUid) !== -1 && !this.expanded) {
+		// 		this.expanded = true
+		// 	}
+		// },
+		// isActiveItem (newValue) {
+		// 	if (!newValue) {
+		// 		this.allowPanelScroll = true
+		// 	}
+		// }
 	},
 	methods: {
-		...mapActions([
-			'setElementFocus',
-			'setRightClickMenu',
-			'setActiveElement'
-		]),
-		onMouseup () {
-			this.scrollIntoView = !this.isDragging
-		},
-		onScrollToItem (event) {
-			this.$emit('scroll-to-item', this.$el)
-		},
-		activateRenameElement () {
-			if (this.isActiveItem) {
-				this.isNameChangeActive = true
-			}
-		},
-		onItemClick () {
-			if (this.scrollIntoView) {
-				this.allowPanelScroll = false
-				this.setElementFocus({
-					uid: this.elementUid,
-					parentUid: this.parentUid,
-					insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid,
-					scrollIntoView: this.scrollIntoView
-				})
-			}
-		},
-		showContextMenu (e) {
-			this.setRightClickMenu({
-				visibility: true,
-				previewIframeLeft: 0,
-				initialScrollTop: document.getElementById('znpb-tree-view-panel').scrollTop,
-				position: {
-					top: e.clientY + window.pageYOffset,
-					left: e.clientX
-				},
-				source: 'editor'
-			})
-			this.setElementFocus({
-				uid: this.elementUid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid
-			})
-		},
-		openOptions () {
-			this.setActiveElement(this.elementUid)
-			this.$zb.panels.openPanel('PanelElementOptions')
-		}
+		// ...mapActions([
+		// 	'setElementFocus',
+		// 	'setRightClickMenu',
+		// 	'setActiveElement'
+		// ]),
+		// onMouseup () {
+		// 	this.scrollIntoView = !this.isDragging
+		// },
+		// onScrollToItem (event) {
+		// 	this.$emit('scroll-to-item', this.$el)
+		// },
+		// activateRenameElement () {
+		// 	if (this.isActiveItem) {
+		// 		this.isNameChangeActive = true
+		// 	}
+		// },
+		// onItemClick () {
+		// 	if (this.scrollIntoView) {
+		// 		this.allowPanelScroll = false
+		// 		this.setElementFocus({
+		// 			uid: this.elementUid,
+		// 			parentUid: this.parentUid,
+		// 			insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid,
+		// 			scrollIntoView: this.scrollIntoView
+		// 		})
+		// 	}
+		// },
+		// showContextMenu (e) {
+		// 	this.setRightClickMenu({
+		// 		visibility: true,
+		// 		previewIframeLeft: 0,
+		// 		initialScrollTop: document.getElementById('znpb-tree-view-panel').scrollTop,
+		// 		position: {
+		// 			top: e.clientY + window.pageYOffset,
+		// 			left: e.clientX
+		// 		},
+		// 		source: 'editor'
+		// 	})
+		// 	this.setElementFocus({
+		// 		uid: this.elementUid,
+		// 		parentUid: this.parentUid,
+		// 		insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid
+		// 	})
+		// },
+		// openOptions () {
+		// 	this.setActiveElement(this.elementUid)
+		// 	this.$zb.panels.openPanel('PanelElementOptions')
+		// }
 	}
 }
 </script>

@@ -1,0 +1,1 @@
+export { InlineEdit } from './InlineEdit.vue'

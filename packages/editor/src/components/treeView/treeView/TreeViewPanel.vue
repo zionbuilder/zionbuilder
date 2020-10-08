@@ -6,17 +6,14 @@
 	>
 		<div
 			class="znpb-tree-view--no_content"
-			v-if="content.length === 0"
+			v-if="getPageContent.length === 0"
 		>
 			No elements added to page
 		</div>
 
 		<TreeViewList
-			:content="this.content"
-			:parentUid="parentUid"
-			:parentsToExpand="parentsToExpand"
-			v-show="content.length > 0"
-			@scroll-to-item="onScrollToItem"
+			v-else
+			:content="getPageContent"
 		/>
 	</div>
 </template>
@@ -47,7 +44,10 @@ export default {
 			'getRightClickMenu',
 			'getElementFocus',
 			'getParents'
-		])
+		]),
+		getPageContent () {
+			return this.$zb.data.pageAreas.activeAreaContent
+		}
 	},
 	methods: {
 		...mapActions([

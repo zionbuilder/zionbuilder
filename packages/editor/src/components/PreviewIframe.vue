@@ -48,7 +48,8 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { PageElement } from '../data/models/PageData'
+import { PageElement, PageElements } from '../data/models/PageData'
+import { each } from 'lodash-es'
 
 export default {
 	name: 'preview-iframe',
@@ -145,6 +146,19 @@ export default {
 				const areaConfig = this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content
 				let pageContentElements = {}
 				let pageContentAreas = {}
+
+
+				// New system
+				each(areaConfig, (value, id) => {
+					this.$zb.data.pageAreas.add({
+						name: id,
+						id: id,
+						content: new PageElements(value),
+						// TODO: implement better active area system
+						active: id === 'content'
+					})
+				})
+
 
 				Object.keys(areaConfig).forEach(areaId => {
 					const areaContent = areaConfig[areaId]
