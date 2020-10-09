@@ -5,7 +5,7 @@ import { reactive } from 'vue'
 export default class Collection {
 	models: Model[] = reactive([])
 
-	constructor (data = []) {
+	constructor(data = []) {
 		this.add(data)
 	}
 
@@ -13,20 +13,26 @@ export default class Collection {
 		return Model
 	}
 
-	add (data: {[key: string]: any}): void
-	add (data: Model): void {
+	add(data: { [key: string]: any }): void
+	add(data: Model): void {
 		const validModel = this.getModel()
 		if (typeof data === typeof validModel) {
 			this.models.push(data)
 		} else if (Array.isArray(data)) {
 			forEach(data, (value) => {
-				this.models.push( new validModel(value, this) )
+				this.models.push(new validModel(value, this))
 			})
 		} else {
-			this.models.push( new validModel(data, this) )
+			this.models.push(new validModel(data, this))
 		}
+	}
 
-
+	remove(data: Model): void {
+		const validModel = this.getModel()
+		let index = validModel.indexOf(data)
+		if (index !== -1) {
+			validModel.splice(index, 1)
+		}
 	}
 
 	find(where) {
