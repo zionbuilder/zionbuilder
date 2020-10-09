@@ -157,7 +157,6 @@ export default {
 			return this.disabled ? null : 'mousedown'
 		},
 		canShowEmptyPlaceholder () {
-			console.log(this.sortableItems);
 			return this.sortableItems.length === 0 || (this.dragging && this.sortableItems.length === 1)
 		},
 		getPlaceholder () {
@@ -284,7 +283,6 @@ export default {
 						.filter(vnode => vnode.component)
 						.map(vNode => vNode)
 				})
-				console.log(this.sortableItems);
 			} else {
 				this.sortableItems = []
 			}

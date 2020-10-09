@@ -123,6 +123,9 @@
 			v-if="rightClickVisibility"
 			:show-rename="rightClickSource!=='preview'"
 		/>
+
+		<!-- Add Elements Popup -->
+		<AddElementPopup />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
@@ -142,6 +145,7 @@ import PostLock from './components/PostLock.vue'
 import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
+import { AddElementPopup } from './components/AddElementPopup'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -158,6 +162,7 @@ export default {
 		PostLock,
 		RightClickMenu,
 		DeviceElement,
+		AddElementPopup
 	},
 	mixins: [keyBindingsMixin],
 	data: () => {

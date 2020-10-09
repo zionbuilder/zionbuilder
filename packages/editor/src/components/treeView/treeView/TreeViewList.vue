@@ -25,6 +25,7 @@
 			<div
 				class="znpb-tree-view__item-add-element-button"
 				@click="toggleAddElementsPopup"
+				ref="addElementsPopupButton"
 			>
 				<Icon
 					icon="plus"
@@ -59,7 +60,7 @@ export default {
 		}
 	},
 	props: {
-		content: {
+		element: {
 			type: Array,
 			required: false
 		}
@@ -68,7 +69,7 @@ export default {
 		...mapGetters(['getActiveShowElementsPopup']),
 		templateItems: {
 			get () {
-				return this.content
+				return this.element.content.models
 			},
 			set (value) {
 				this.saveElementsOrder({
@@ -90,7 +91,8 @@ export default {
 			this.$emit('scroll-to-item', event)
 		},
 		toggleAddElementsPopup () {
-			this.getActiveShowElementsPopup === this.elementUid ? this.setActiveShowElementsPopup(null) : this.setActiveShowElementsPopup(this.elementUid)
+			const selector = this.$refs.addElementsPopupButton
+			this.$zb.editor.interactions.addElementPopup.show(this.element, selector)
 		},
 		sortableStart () {
 			this.setDraggingState(true)

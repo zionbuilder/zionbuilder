@@ -42,9 +42,9 @@
 				:element-uid="element.uid"
 			/>
 		</div>
-		<TreeViewList
-			:content="element.content.a"
-		/>
+		<!-- <TreeViewList
+			:content="element.content"
+		/> -->
 	</li>
 
 	<!-- <li

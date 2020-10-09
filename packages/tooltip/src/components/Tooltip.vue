@@ -287,7 +287,7 @@ export default {
 				return this.$el
 			} else {
 				// Get content document
-				return this.ownerDocument.querySelector(this.appendToOption)
+				return this.$el.ownerDocument.querySelector(this.appendToOption)
 			}
 		},
 		showPopper () {
@@ -411,7 +411,7 @@ export default {
 		},
 		addPopperEvents () {
 			if (this.closeOnOutsideClick) {
-				this.ownerDocument.addEventListener('click', this.onOutsideClick, true)
+				this.$el.ownerDocument.addEventListener('click', this.onOutsideClick, true)
 			}
 
 			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
@@ -421,11 +421,11 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.ownerDocument.addEventListener('keydown', this.onKeyDown)
+				this.$el.ownerDocument.addEventListener('keydown', this.onKeyDown)
 			}
 		},
 		removePopperEvents () {
-			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+			this.$el.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
 
 			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
 				this.popperElement.removeEventListener('mouseenter', this.onMouseEnter)
@@ -434,7 +434,7 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+				this.$el.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 			}
 		}
 	},
@@ -443,8 +443,8 @@ export default {
 		this.$el.removeEventListener('mouseenter', this.onMouseEnter)
 		this.$el.removeEventListener('mouseleave', this.onMouseLeave)
 		this.$el.removeEventListener('click', this.onClick)
-		this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
-		this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+		this.$el.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+		this.$el.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 
 		// Destroy popper instance
 		this.destroyPopper(true)
@@ -453,8 +453,6 @@ export default {
 		}
 	},
 	mounted () {
-		this.ownerDocument = this.$el.ownerDocument
-
 		if (this.trigger === 'hover') {
 			this.$el.addEventListener('mouseenter', this.onMouseEnter)
 			this.$el.addEventListener('mouseleave', this.onMouseLeave)

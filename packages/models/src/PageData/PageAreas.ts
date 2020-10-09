@@ -7,12 +7,7 @@ export default class PageAreas extends Collection {
 		return PageArea
 	}
 
-	get activeAreaContent () {
-		const activeArea = this.find({active: true})
-		if (activeArea) {
-			return activeArea.content.models
-		}
-
-		return []
+	get activeArea () {
+		return this.find({active: true}) || []
 	}
 }
