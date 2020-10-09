@@ -36,8 +36,6 @@
 				></Icon>
 			</div>
 		</template>
-
-
 	</Sortable>
 </template>
 <script>
@@ -45,13 +43,14 @@ import { defineAsyncComponent } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
+import TreeViewListItem from './TreeViewListItem.vue'
 
 export default {
 	name: 'TreeViewList',
 	components: {
 		SortableHelper,
 		SortablePlaceholder,
-		TreeViewListItem: defineAsyncComponent(() => import('./TreeViewListItem.vue'))
+		TreeViewListItem: () => import('./TreeViewListItem.vue')
 	},
 	data () {
 		return {

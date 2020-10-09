@@ -30,7 +30,7 @@ export const ScriptsLoader = (context = window.document) => {
 
 	const loadScript = (scriptConfig) => {
 		const scriptType = scriptConfig.src.indexOf('.js') !== -1 ? 'javascript' : scriptConfig.src.indexOf('.css') !== -1 ? 'css' : false
-		console.log({scriptType});
+
 		if (scriptType === 'javascript') {
 			if (scriptConfig.data) {
 				addInlineJavascript(scriptConfig.data, context)

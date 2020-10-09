@@ -6,14 +6,14 @@
 		<div
 			class="znpb-tree-view__item-header"
 		>
-			<Icon
+			<!-- <Icon
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
-			></Icon>
+			></Icon> -->
 
-			<InlineEdit
+			<!-- <InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				:v-model="element.name"
+				v-model="element.name"
 			/>
 
 			<Tooltip
@@ -33,11 +33,11 @@
 
 			<DropdownOptions
 				:element-uid="element.uid"
-			/>
+			/> -->
 		</div>
-		<TreeViewList
+		<!-- <TreeViewList
 			:content="element.content.models"
-		/>
+		/> -->
 	</li>
 
 	<!-- <li
@@ -113,9 +113,11 @@
 import { defineAsyncComponent } from 'vue'
 
 import { mapActions, mapGetters } from 'vuex'
-import TreeViewMixin from '../elementMixins.js'
-import templateElementMixin from '../../../mixins/templateElement.js'
+// import TreeViewMixin from '../elementMixins.js'
+// import templateElementMixin from '../../../mixins/templateElement.js'
+import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
+import TreeViewList from './TreeViewList.vue'
 
 export default {
 	name: 'TreeViewListItem',
@@ -137,7 +139,8 @@ export default {
 	},
 	props: ['element'],
 	components: {
-		TreeViewList: defineAsyncComponent(() => import('./TreeViewList.vue'))
+		DropdownOptions,
+		TreeViewList: () => import('./TreeViewList.vue')
 	},
 	// created () {
 	// 	on('rename-element', this.activateRenameElement)
