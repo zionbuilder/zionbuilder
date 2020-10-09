@@ -1,4 +1,4 @@
-import { Elements, ElementCategories } from './models/Elements'
+import { Elements, ElementCategories } from '@zb/models/Elements'
 
 export const initElements = () => {
 	return new Elements(window.ZnPbInitalData.elements_data)

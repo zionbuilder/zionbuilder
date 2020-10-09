@@ -1,4 +1,4 @@
-import { Panels } from './models/panels'
+import { Panels } from '@zb/models/panels'
 
 export const initPanels = () => {
 	return new Panels([
