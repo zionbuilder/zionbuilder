@@ -1,7 +1,8 @@
 <template>
 	<li
 		@click.self="addNewUser(user)"
-		class="znpb-baseselect-list__option znpb-add-specific-permissions__list-item" >
+		class="znpb-baseselect-list__option znpb-add-specific-permissions__list-item"
+	>
 		{{user.name}}
 
 		<Tooltip
@@ -14,7 +15,7 @@
 			/>
 		</Tooltip>
 
-		<Loader v-if="loadingDelete"/>
+		<Loader v-if="loadingDelete" />
 
 	</li>
 </template>
@@ -22,7 +23,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { Icon, Tooltip, Loader } from '@zionbuilder/components'
-import { saveOptions } from '@zionbuilder/rest'
+import { saveOptions, getUsersById } from '@zionbuilder/rest'
 
 export default {
 	name: 'ModalListItem',
@@ -44,7 +45,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getUserById',
 			'getUserPermissions'
 		])
 	},
@@ -80,7 +80,7 @@ export default {
 			// create variables for id, showDelete
 			let id = null
 			let showDelete = false
-			if (this.getUserById(user.id)) {
+			if (getUsersById(user.id)) {
 				// get the id of the current list item
 				id = user.id
 			}
@@ -121,5 +121,4 @@ export default {
 		margin-right: 0;
 	}
 }
-
 </style>
