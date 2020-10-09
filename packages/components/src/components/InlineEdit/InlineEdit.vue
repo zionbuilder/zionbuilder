@@ -30,7 +30,6 @@ export default {
 	},
 	computed: {
 		isActive() {
-			console.log(this.active);
 			return this.active !== null ? this.active : this.localActive
 		}
 	},

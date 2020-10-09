@@ -14,6 +14,7 @@ export * as optionsInstance from './manager/options/optionsInstance'
 import { initElements, initElementCategories } from './data/elements'
 import { PageAreas } from '@zionbuilder/models'
 import { Errors } from '@zionbuilder/models'
+import * as interactions from './interactions/'
 
 // Components
 import App from './App.vue'
@@ -50,6 +51,9 @@ appInstance.config.globalProperties.$zb = {
 		elementCategories,
 		pageAreas
 	},
+	editor: {
+		interactions
+	},
 	errors,
 	hooks,
 	appInstance,
@@ -68,5 +72,6 @@ export {
 	elements,
 	elementCategories,
 	pageAreas,
-	errors
+	errors,
+	interactions
 }

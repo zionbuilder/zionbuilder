@@ -13,7 +13,7 @@
 
 		<TreeViewList
 			v-else
-			:content="getPageContent"
+			:element="getPageContent"
 		/>
 	</div>
 </template>
@@ -46,7 +46,7 @@ export default {
 			'getParents'
 		]),
 		getPageContent () {
-			return this.$zb.data.pageAreas.activeAreaContent
+			return this.$zb.data.pageAreas.activeArea
 		}
 	},
 	methods: {
