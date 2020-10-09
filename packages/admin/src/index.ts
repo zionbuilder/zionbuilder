@@ -11,7 +11,7 @@ import {store} from './store/'
 // Set Service Interceptor
 import { errorInterceptor } from '@zionbuilder/rest'
 
-import { forms } from '@zionbuilder/components'
+import { install as ComponentsInstall } from '@zb/components'
 import { install } from '@zionbuilder/i18n'
 
 // Components
@@ -19,43 +19,49 @@ import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
+import { Errors } from '@zionbuilder/models'
 
-const ZionBuilderAdmin = {
-	init () {
-		const appInstance = createApp(App)
+const appInstance = createApp(App)
 
-		appInstance.component('SideMenu', SideMenu)
-		appInstance.component('PageTemplate', PageTemplate)
-		appInstance.component('ListAnimation', ListAnimate)
-		appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
+appInstance.component('SideMenu', SideMenu)
+appInstance.component('PageTemplate', PageTemplate)
+appInstance.component('ListAnimation', ListAnimate)
+appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 
-		// Plugins
-		appInstance.use(forms)
-		appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
+// Plugins
+appInstance.use(ComponentsInstall)
+appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 
-		// Add error interceptor for API
-		errorInterceptor(store)
+const errors = new Errors()
 
-		// Add default routes
-		initRoutes()
-
-		const router = createRouter({
-			// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-			history: createWebHashHistory(),
-			routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-		})
-
-		appInstance.use(router)
-		appInstance.use(store)
-
-		// Trigger event so others can hook into ZionBuilder API
-		const evt = new CustomEvent('zionbuilder/admin/init', {
-			detail: api
-		})
-
-		window.dispatchEvent(evt)
-		appInstance.mount('#znpb-admin')
-	}
+// Add editor methods and utilities to all components
+appInstance.config.globalProperties.$zb = {
+	errors
 }
 
-ZionBuilderAdmin.init()
+// Add error interceptor for API
+errorInterceptor(errors)
+
+// Add default routes
+initRoutes()
+
+const router = createRouter({
+	// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+	history: createWebHashHistory(),
+	routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+})
+
+appInstance.use(router)
+appInstance.use(store)
+
+// Trigger event so others can hook into ZionBuilder API
+const evt = new CustomEvent('zionbuilder/admin/init', {
+	detail: api
+})
+
+window.dispatchEvent(evt)
+appInstance.mount('#znpb-admin')
+
+export {
+	errors
+}

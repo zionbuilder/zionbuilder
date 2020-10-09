@@ -64,9 +64,9 @@
 
 		<!-- notices -->
 		<Notice
-			v-for="(error) in getErrors"
+			v-for="(error) in $zb.errors.models"
 			:key="error.message"
-			@close-notice="removeNotice(error)"
+			@close-notice="error.remove()"
 			:error="error"
 		/>
 
@@ -267,13 +267,11 @@ export default {
 			'undo',
 			'redo',
 			'setIsSavingPage',
-			'removeNotice',
 			'setPreviewMode',
 			'savePanelsOrder',
 			'setPageAreas',
 			'setPageContent',
 			'setActiveArea',
-			'addNotice',
 			'setElementFocus',
 			'setRightClickMenu',
 			'setActiveDevice',
@@ -339,7 +337,7 @@ export default {
 	mounted () {
 		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
-		this.addNotice({
+		this.$zb.errors.add({
 			message: this.$translate('autosave_notice'),
 			type: 'info',
 			delayClose: 5000

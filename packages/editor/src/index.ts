@@ -13,6 +13,7 @@ import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
 import { initElements, initElementCategories } from './data/elements'
 import { PageAreas } from '@zionbuilder/models'
+import { Errors } from '@zionbuilder/models'
 
 // Components
 import App from './App.vue'
@@ -26,7 +27,7 @@ pageEvents.addDocument(window)
 
 // init data
 const panels = initPanels()
-
+const errors = new Errors()
 const appInstance = createApp(App)
 
 // Init global components
@@ -35,7 +36,7 @@ appInstance.use(ComponentsInstall)
 appInstance.use(store)
 
 // Add error interceptor for API
-errorInterceptor(store)
+errorInterceptor(errors)
 
 // Init elements registration
 const elements = initElements()
@@ -49,6 +50,7 @@ appInstance.config.globalProperties.$zb = {
 		elementCategories,
 		pageAreas
 	},
+	errors,
 	hooks,
 	appInstance,
 	pageEvents,
@@ -65,5 +67,6 @@ export {
 	panels,
 	elements,
 	elementCategories,
-	pageAreas
+	pageAreas,
+	errors
 }

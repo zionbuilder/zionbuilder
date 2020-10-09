@@ -66,7 +66,6 @@ export default {
 			'undo',
 			'redo',
 			'setCuttedElement',
-			'addNotice',
 			'moveElement'
 		]),
 		debounceDelete: debounce(function (uid, parentUid) {
@@ -275,13 +274,13 @@ export default {
 				if (!this.isDisplayingSaveNotice) {
 					this.isDisplayingSaveNotice = true
 					this.savePage({ status: 'publish' }).catch(error => {
-						this.addNotice({
+						this.$zb.errors.add({
 							message: error.message,
 							type: 'error',
 							delayClose: 5000
 						})
 					}).finally(() => {
-						this.addNotice({
+						this.$zb.errors.add({
 							message: this.$translate('success_save'),
 							delayClose: 5000
 						}).then(() => {

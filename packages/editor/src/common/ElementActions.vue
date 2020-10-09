@@ -169,7 +169,6 @@ export default {
 			'updateElementOptionValue',
 			'setCuttedElement',
 			'savePage',
-			'addNotice',
 			'moveElement'
 		]),
 		triggerRename () {
@@ -305,13 +304,13 @@ export default {
 			this.savePage({
 				status: 'autosave'
 			}).catch(error => {
-				this.addNotice({
+				this.$zb.errors.add({
 					message: error.message,
 					type: 'error',
 					delayClose: 5000
 				})
 			}).finally(() => {
-				this.addNotice({
+				this.$zb.errors.add({
 					message: this.$translate('page_saved'),
 					delayClose: 5000
 				})

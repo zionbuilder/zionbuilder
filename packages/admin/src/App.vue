@@ -51,8 +51,8 @@
 		<!-- notices -->
 		<div class="znpb-admin-notices-wrapper">
 			<Notice
-				@close-notice="removeNotice(error)"
-				v-for="(error, index) in getErrors"
+				@close-notice="error.remove()"
+				v-for="(error, index) in $zb.errors.models"
 				:error="error"
 				:key="index"
 			/>
@@ -116,7 +116,6 @@ export default {
 		...mapActions([
 			'fetchGoogleFonts',
 			'fetchOptions',
-			'removeNotice',
 			'initialiseDataSets'
 		])
 	},
@@ -172,8 +171,7 @@ export default {
 	input[type=number] {
 		padding: 10.5px 12px;
 		background: transparent;
-
-// added to fix the arrows for mozilla firefox
+		// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}

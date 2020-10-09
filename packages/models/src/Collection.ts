@@ -28,10 +28,9 @@ export default class Collection {
 	}
 
 	remove(data: Model): void {
-		const validModel = this.getModel()
-		let index = validModel.indexOf(data)
+		let index = this.models.indexOf(data)
 		if (index !== -1) {
-			validModel.splice(index, 1)
+			this.models.splice(index, 1)
 		}
 	}
 

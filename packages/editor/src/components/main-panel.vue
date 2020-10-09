@@ -317,7 +317,6 @@ export default {
 			'setMainbarOrder',
 			'setElementConfigForLibrary',
 			'setActiveShowElementsPopup',
-			'addNotice',
 			'setMainbarPosition'
 		]),
 		togglePanel (panelId) {
@@ -327,14 +326,14 @@ export default {
 			this.savePage(this, {
 				status
 			}).catch(error => {
-				this.addNotice({
+				this.$zb.errors.add({
 					message: error.message,
 					type: 'error',
 					delayClose: 5000
 				})
 			}).finally(() => {
 				const noticeText = status
-				this.addNotice({
+				this.$zb.errors.add({
 					message: status === 'publish' ? this.$translate('page_saved_publish') : this.$translate('page_saved'),
 					delayClose: 5000
 				}).then(() => {

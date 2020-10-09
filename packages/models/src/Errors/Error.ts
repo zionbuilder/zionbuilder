@@ -4,7 +4,12 @@ export default class error extends Model {
 	defaults() {
 		return {
 			title: '',
-			message: ''
+			message: '',
+			type: 'info'
 		}
+	}
+
+	remove () {
+		this.collection.remove(this)
 	}
 }

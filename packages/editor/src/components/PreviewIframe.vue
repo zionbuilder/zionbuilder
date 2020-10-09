@@ -112,8 +112,7 @@ export default {
 			'setInitialHistory',
 			'setActiveArea',
 			'setElementFocus',
-			'setRightClickMenu',
-			'addNotice'
+			'setRightClickMenu'
 		]),
 		useLocalVersion () {
 			if (Object.keys(this.localStoragePageData).length) {
@@ -130,7 +129,7 @@ export default {
 				const { contentWindow } = this.$refs.iframe
 
 				if (!contentWindow.ZnPbPreviewData) {
-					this.addNotice({
+					this.$zb.errors.add({
 						message: this.$translate('page_content_error'),
 						type: 'error',
 						delayClose: 0

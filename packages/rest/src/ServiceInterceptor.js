@@ -1,16 +1,17 @@
 import ZionService from './ZionService'
 
-export const errorInterceptor = function (store) {
+export const errorInterceptor = function (errors) {
 	// Handle response errors
 	ZionService.interceptors.response.use(function (response) {
 		// Do something with response data
 		if (typeof response.data !== 'object') {
 			// Do something with response error
-			store.dispatch('addNotice', {
+			errors.add({
 				title: 'Server error',
 				message: 'There was a server error. Please refresh the page and try again',
 				type: 'error'
 			})
+
 			// eslint-disable-next-line
 			console.warn(response)
 		}
@@ -24,7 +25,7 @@ export const errorInterceptor = function (store) {
 		}
 
 		// Do something with response error
-		store.dispatch('addNotice', {
+		errors.add({
 			title: 'Error',
 			message: message,
 			type: 'error'
