@@ -79,7 +79,7 @@ import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
 import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
-
+import { getUsersById } from '@zionbuilder/rest'
 export default {
 	name: 'permissions',
 	components: {
@@ -107,7 +107,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'fetchUsersById',
 			'editUserPermission',
 			'deleteUserPermission'
 		]),
@@ -121,7 +120,7 @@ export default {
 		const userIds = Object.keys(this.getUserPermissions)
 
 		if (userIds.length > 0) {
-			const activeUsersData = this.fetchUsersById(userIds)
+			const activeUsersData = getUsersById(userIds)
 
 			activeUsersData.finally((result) => {
 				this.loaded = true

@@ -85,7 +85,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'get_options',
-			'getErrors'
 		]),
 		menuItems () {
 			var routes = []
@@ -114,17 +113,17 @@ export default {
 
 	methods: {
 		...mapActions([
-			'fetchGoogleFonts',
 			'fetchOptions',
 			'initialiseDataSets'
 		])
 	},
 	created () {
 		Promise.all([
-			this.fetchGoogleFonts(),
+			this.$zb.googleFonts,
 			this.fetchOptions(),
 			this.initialiseDataSets()
 		]).then((values) => {
+			console.log(values)
 		}).catch(error => {
 			this.hasError = true
 			// eslint-disable-next-line
@@ -167,11 +166,11 @@ export default {
 		border-radius: 3px;
 	}
 
-
-	input[type=number] {
+	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-		// added to fix the arrows for mozilla firefox
+
+// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}
@@ -197,7 +196,7 @@ export default {
 	& * {
 		box-sizing: border-box;
 	}
-	input[type=checkbox]:checked:before, input[type=radio]:checked:before {
+	input[type="checkbox"]:checked:before, input[type="radio"]:checked:before {
 		display: none;
 	}
 }
