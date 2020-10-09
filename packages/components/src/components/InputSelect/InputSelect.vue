@@ -10,10 +10,12 @@
 			strategy="fixed"
 			:modifiers="[
 				{
-					name: 'preventOverflow'
+					name: 'preventOverflow',
+					enabled: true
 				},
 				{
-					name: 'hide'
+					name: 'hide',
+					enabled: true
 				}
 			]"
 			tooltip-class="znpb-baseselect-list-wrapper"

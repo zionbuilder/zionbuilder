@@ -43,7 +43,7 @@
 			/>
 		</div>
 		<TreeViewList
-			:content="element.content.models"
+			:content="element.content.a"
 		/>
 	</li>
 

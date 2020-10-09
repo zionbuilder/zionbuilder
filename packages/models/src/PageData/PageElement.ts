@@ -1,5 +1,6 @@
 import Model from '../Model'
 import { getOptionValue } from '@zb/utils'
+import { each } from 'lodash-es'
 
 export default class PageElement extends Model {
 	defaults () {
@@ -23,7 +24,21 @@ export default class PageElement extends Model {
 				}
 
 				return value
-			}
+			},
+			// content: (value) => {
+			// 	if (Array.isArray(value)) {
+			// 		const content = []
+			// 		each(value, (child, childUid) => {
+			// 			console.log(child);
+
+			// 			content.push( new PageElement(child) )
+			// 		})
+
+			// 		return content
+			// 	}
+
+			// 	return value
+			// }
 		}
 	}
 
