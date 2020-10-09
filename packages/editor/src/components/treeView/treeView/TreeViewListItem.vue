@@ -1,6 +1,7 @@
 <template>
 	<li
 		class="znpb-tree-view__item"
+		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
 		:id="element.uid"
 	>
 		<div
@@ -13,7 +14,7 @@
 					'znpb-tree-view__item-header-expand--expanded': expanded
 				}"
 				@click.stop="expanded = !expanded"
-				v-if="elementModel.wrapper"
+				v-if="element.elementTypeModel.wrapper"
 			/>
 
 			<InlineEdit
@@ -29,6 +30,8 @@
 					<transition name="fade">
 						<Icon
 							icon="visibility-hidden"
+							v-if="!element.isVisible"
+							@click="element.isVisible = true"
 							class="znpb-editor-icon-wrapper--show-element"
 						/>
 					</transition>
@@ -59,16 +62,6 @@
 			class="znpb-tree-view__item-header"
 			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
 		>
-			<Icon
-				icon="select"
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
-				:class="{
-					'znpb-tree-view__item-header-expand--expanded': expanded
-				}"
-				@click.stop="expanded = !expanded"
-				v-if="elementModel.wrapper"
-			></Icon>
-
 			<ElementRename
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				@name-changed="doRenameElement"
@@ -76,23 +69,6 @@
 				:is-active="isNameChangeActive"
 				:content="elementName"
 			/>
-
-			<Tooltip
-				:content="$translate('enable_hidden_element')"
-				placement="top"
-			>
-				<span>
-					<transition name="fade">
-						<Icon
-							icon="visibility-hidden"
-							v-if="!isElementVisible"
-							@click="makeElementVisible"
-							class="znpb-editor-icon-wrapper--show-element"
-						>
-						</Icon>
-					</transition>
-				</span>
-			</Tooltip>
 
 			<DropdownOptions
 				:element-uid="elementUid"

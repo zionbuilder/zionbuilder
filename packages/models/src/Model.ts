@@ -12,10 +12,10 @@ export default class Model {
 	constructor (values: genericObject = {}, collection: Collection) {
 		const valuesWithDefaults = merge(this.defaults(), values)
 		// TODO: implement this
-		// const mutatedValues = this.applyMutations(valuesWithDefaults)
+		const mutatedValues = this.applyMutations(valuesWithDefaults)
 
 		// Assign the values
-		Object.assign(this, valuesWithDefaults)
+		Object.assign(this, mutatedValues)
 
 		// Assign the collection
 		this.collection = collection
@@ -50,15 +50,7 @@ export default class Model {
 		if (mutations) {
 			each(mutations, (mutationCallback, mutationValueKey) => {
 				if (typeof valuesWithDefaults[mutationValueKey] !== 'undefined') {
-
-					valuesWithDefaults[mutationValueKey] = {
-						get () {
-							return valuesWithDefaults[mutationValueKey]
-						},
-						set () {
-							valuesWithDefaults[mutationValueKey] = mutationCallback( valuesWithDefaults[mutationValueKey] )
-						}
-					}
+					valuesWithDefaults[mutationValueKey] = mutationCallback( valuesWithDefaults[mutationValueKey], valuesWithDefaults )
 				}
 			})
 		}

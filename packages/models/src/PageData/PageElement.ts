@@ -8,14 +8,21 @@ export default class PageElement extends Model {
 			options: {},
 			uid: null,
 			content: [],
-			elementType: null
+			elementTypeModel: null
 		}
 	}
 
 	mutations () {
 		return {
-			options: (value) => {
-				return 'asdasda'
+			elementTypeModel: (value, allValues) => {
+				const elementType = allValues.element_type
+				const elementTypeModel = window.zb.editor.elements.getElement(elementType)
+
+				if (elementTypeModel) {
+					return elementTypeModel
+				}
+
+				return value
 			}
 		}
 	}
@@ -28,5 +35,13 @@ export default class PageElement extends Model {
 
 	set name (name) {
 		this.options.setValue('_advanced_options._element_name', name)
+	}
+
+	get isVisible () {
+		return getOptionValue(this.options, '_isVisible', true)
+	}
+
+	set isVisible (value) {
+		this.options._isVisible = value
 	}
 }
