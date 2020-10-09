@@ -8,15 +8,13 @@
 			<template v-else>
 				<h3>{{$translate('system_info')}}</h3>
 				<component
-					v-for="category in getSystemInfo"
+					v-for="category in  $zb.systemInfo.models"
 					:key="category.category_id"
 					:category-data="category"
 					:is="getComponent(category.category_id)"
 				/>
 
-				<CopyPasteServer
-					:category-data="getSystemInfo"
-				/>
+				<CopyPasteServer :category-data="$zb.systemInfo.models" />
 			</template>
 			<template v-slot:right>
 				<div>
@@ -30,7 +28,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 
 import SystemList from './system-components/SystemList.vue'
 import SystemPlugins from './system-components/SystemPlugins.vue'
@@ -51,16 +48,8 @@ export default {
 			loaded: false
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getSystemInfo'
-		])
-
-	},
 	methods: {
-		...mapActions([
-			'fetchSystemInfo'
-		]),
+
 		getComponent (categoryId) {
 			if ((categoryId === 'wordpress_environment') || (categoryId === 'theme_info') || (categoryId === 'server_environment')) {
 				return 'SystemList'
@@ -75,10 +64,15 @@ export default {
 	},
 	created () {
 		// Fetch system information from rest api
-		const syst = this.fetchSystemInfo()
-		Promise.all([syst]).finally((result) => {
+		// const syst = this.$zb.systemInfo.fetch()
+		// Promise.all([syst]).finally((result) => {
+		// 	this.loaded = true
+		// })
+		this.$zb.systemInfo.fetch().then((response) => {
+			this.$zb.systemInfo.add(response.data)
 			this.loaded = true
 		})
+
 	}
 }
 </script>

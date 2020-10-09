@@ -3,7 +3,6 @@ import { createStore } from 'vuex'
 // Load modules
 import options from './modules/options'
 import googleFonts from './modules/googleFonts'
-import systemInfo from './modules/systemInfo'
 import users from './modules/users'
 import templates from './modules/templates'
 import dataSets from './modules/dataSets'
@@ -15,7 +14,6 @@ export const store = createStore({
 	modules: {
 		options,
 		googleFonts,
-		systemInfo,
 		users,
 		templates,
 		dataSets,

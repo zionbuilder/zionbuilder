@@ -3,5 +3,6 @@ export { default as Collection } from './Collection'
 
 export * from './Elements'
 export * from './PageData'
-export * from './panels'
+export * from './Panels'
 export * from './Errors'
+export * from './SystemInfo'

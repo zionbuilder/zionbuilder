@@ -6,7 +6,7 @@ import { initRoutes } from './router'
 
 // Main
 import App from './App.vue'
-import {store} from './store/'
+import { store } from './store/'
 
 // Set Service Interceptor
 import { errorInterceptor } from '@zionbuilder/rest'
@@ -20,6 +20,7 @@ import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
 import { Errors } from '@zionbuilder/models'
+import { SystemInfo } from '@zionbuilder/models'
 
 const appInstance = createApp(App)
 
@@ -33,10 +34,12 @@ appInstance.use(ComponentsInstall)
 appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 
 const errors = new Errors()
+const systemInfo = new SystemInfo()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	errors
+	errors,
+	systemInfo
 }
 
 // Add error interceptor for API
@@ -63,5 +66,6 @@ window.dispatchEvent(evt)
 appInstance.mount('#znpb-admin')
 
 export {
-	errors
+	errors,
+	systemInfo
 }
