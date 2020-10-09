@@ -3,20 +3,22 @@
 		<div class="znpb-admin-content znpb-admin-content--left">
 		</div>
 		<PageTemplate>
-
 			<Loader v-if="!loaded" />
+
 			<template v-else>
 				<h3>{{$translate('system_info')}}</h3>
+
 				<component
-					v-for="category in  $zb.systemInfo.models"
+					v-for="category in systemInfoData"
 					:key="category.category_id"
 					:category-data="category"
 					:is="getComponent(category.category_id)"
 				/>
 
-				<CopyPasteServer :category-data="$zb.systemInfo.models" />
+				<CopyPasteServer :category-data="systemInfoData" />
 			</template>
-			<template v-slot:right>
+
+			<template #right>
 				<div>
 					<p class="znpb-admin-info-p">{{$translate('system_info')}}</p>
 					<p class="znpb-admin-info-p">{{$translate('system_info_desc')}}</p>
@@ -32,7 +34,7 @@
 import SystemList from './system-components/SystemList.vue'
 import SystemPlugins from './system-components/SystemPlugins.vue'
 import CopyPasteServer from './system-components/CopyPasteServer.vue'
-
+import { getSystemInfo } from '@zionbuilder/rest'
 import { Loader } from '@zionbuilder/components'
 
 export default {
@@ -45,31 +47,22 @@ export default {
 	},
 	data () {
 		return {
-			loaded: false
+			loaded: false,
+			systemInfoData: {}
 		}
 	},
 	methods: {
-
 		getComponent (categoryId) {
 			if ((categoryId === 'wordpress_environment') || (categoryId === 'theme_info') || (categoryId === 'server_environment')) {
 				return 'SystemList'
 			} else if (categoryId === 'plugins_info') {
 				return 'SystemPlugins'
 			}
-		},
-		getNewComponent (getSystemInfo) {
-			return 'CopyPasteServer'
 		}
-
 	},
 	created () {
-		// Fetch system information from rest api
-		// const syst = this.$zb.systemInfo.fetch()
-		// Promise.all([syst]).finally((result) => {
-		// 	this.loaded = true
-		// })
-		this.$zb.systemInfo.fetch().then((response) => {
-			this.$zb.systemInfo.add(response.data)
+		getSystemInfo().then((response) => {
+			this.systemInfoData = response.data
 			this.loaded = true
 		})
 
