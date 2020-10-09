@@ -37,5 +37,5 @@ export const store = createStore({
 		templates,
 		Library
 	},
-	strict: debug
+	strict: false
 })

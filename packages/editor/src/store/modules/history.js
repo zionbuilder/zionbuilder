@@ -16,6 +16,8 @@ const getters = {
 
 const actions = {
 	addToHistory: ({ commit, getters, state }, payload) => {
+		// TODO: implement this
+		return
 		// Check to see if this is not the latest state
 		const isNewChange = state.currentHistoryIndex + 1 !== state.historyItems.length
 

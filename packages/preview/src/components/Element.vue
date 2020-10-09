@@ -507,17 +507,18 @@ export default {
 		},
 
 		onElementClick (event) {
+			// TODO: implement this
 			// don't process if this was already handled
-			if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.elementModel.is_child) {
-				return
-			}
+			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.elementModel.is_child) {
+			// 	return
+			// }
 
 			// Reset handled click
-			setTimeout(() => {
-				window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
-			}, 0)
+			// setTimeout(() => {
+			// 	window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
+			// }, 0)
 
-			window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
+			// window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
 
 			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
 				this.setRightClickMenu({

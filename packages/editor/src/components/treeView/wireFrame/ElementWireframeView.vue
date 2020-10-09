@@ -18,12 +18,9 @@
 				/>
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-utility__flex znpb-wireframe-item__header-area--center znpb-utility__flex--center">
-				<ElementRename
+				<InlineEdit
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-					@name-changed="doRenameElement"
-					@dblclick="isNameChangeActive=true"
-					:is-active="isNameChangeActive"
-					:content="elementName"
+					v-model="elementTemplateData.name"
 				/>
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right znpb-utility__flex znpb-utility__flex--end">

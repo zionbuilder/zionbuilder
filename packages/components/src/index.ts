@@ -27,6 +27,7 @@ import { InputEditor } from './components/InputEditor'
 import { InputImage } from './components/InputImage'
 import { InputLabel } from './components/InputLabel'
 import { InputMedia } from './components/InputMedia'
+import { InputSelect } from './components/InputSelect'
 // INPUTNUMBER
 import { InputRadio, InputRadioGroup, InputRadioIcon } from './components/InputRadio'
 
@@ -104,7 +105,8 @@ const components = [
 	InputImage,
 	InputEditor,
 	BaseInput,
-	InputWrapper
+	InputWrapper,
+	InputSelect
 ]
 
 const install = (app: App) => {
@@ -172,5 +174,6 @@ export {
 	InputImage,
 	InputEditor,
 	BaseInput,
-	InputWrapper
+	InputWrapper,
+	InputSelect
 }
