@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import api from './api'
@@ -20,6 +20,8 @@ import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
 import { Errors } from '@zionbuilder/models'
+import { Users } from '@zionbuilder/models'
+import { GoogleFonts } from '@zionbuilder/models'
 
 const appInstance = createApp(App)
 
@@ -33,10 +35,13 @@ appInstance.use(ComponentsInstall)
 appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 
 const errors = new Errors()
-
+const users = new Users()
+const googleFonts = new GoogleFonts()
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	errors
+	errors,
+	users,
+	googleFonts
 }
 
 // Add error interceptor for API
@@ -63,5 +68,7 @@ window.dispatchEvent(evt)
 appInstance.mount('#znpb-admin')
 
 export {
-	errors
+	errors,
+	users,
+	googleFonts
 }

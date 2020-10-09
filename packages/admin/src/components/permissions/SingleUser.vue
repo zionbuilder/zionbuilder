@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-admin-user-template" v-if="userData">
+	<div
+		class="znpb-admin-user-template"
+		v-if="userData"
+	>
 		<UserTemplate
 			:permission="permissionsNumber"
 			:has-delete="true"
@@ -29,7 +32,7 @@ import { mapGetters, mapActions } from 'vuex'
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
 import { Modal } from '@zionbuilder/components'
-
+// import { getUsersById } from '@zionbuilder/rest'
 export default {
 	name: 'SingleUser',
 	components: {
@@ -49,14 +52,18 @@ export default {
 	},
 	data () {
 		return {
-			showModal: false
+			showModal: false,
+			userData: {}
 		}
 	},
+	created () {
+		Promise(this.$zb.users.getUsersById(this.userId)).then((response) => {
+			console.log(response.data)
+			this.userData = response.data
+		})
+	},
 	computed: {
-		...mapGetters([	'getUserById' ]),
-		userData () {
-			return this.getUserById(this.userId)
-		},
+
 		permissionsNumber () {
 			let permNumber = []
 			if (this.permissions.allowed_access === false) {

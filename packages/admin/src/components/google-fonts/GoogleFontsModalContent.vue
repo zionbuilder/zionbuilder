@@ -28,9 +28,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import GoogleFontModalElement from './GoogleFontModalElement.vue'
 import ListScroll from '../ListScroll.vue'
+// import { ref } from "vue"
+
 export default {
 	name: 'GoogleFontsModalContent',
 	props: {
@@ -51,7 +53,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getGoogleFonts']),
 		maxPages () {
 			return Math.ceil(this.filteredList.length / this.fontsPerPage)
 		}
@@ -62,8 +63,13 @@ export default {
 	},
 	created () {
 		// Set initial fonts
-		this.fontsList = this.getGoogleFonts
-		this.filteredList = this.getGoogleFonts
+		Promise(this.$zb.googleFonts).then((response) => {
+			this.fontsList = response.data
+			this.filteredList = response.data
+		}).finally(() => {
+			this.loading = false
+		})
+
 		this.visibleFonts = this.getfontsPage(1)
 	},
 	watch: {
