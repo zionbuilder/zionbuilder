@@ -1,6 +1,8 @@
 import * as types from '../mutation-types'
 import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
 
+// Move to model collection
+
 const state = {
 	options: {
 		allowed_post_types: ['post', 'page'],

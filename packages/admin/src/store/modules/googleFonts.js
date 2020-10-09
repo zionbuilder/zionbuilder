@@ -1,6 +1,8 @@
 import * as types from '../mutation-types'
 import { getGoogleFonts } from '@zionbuilder/rest'
 
+// Move to model collection
+
 const state = {
 	fonts: [],
 	loaded: false

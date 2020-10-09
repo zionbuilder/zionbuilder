@@ -1,4 +1,7 @@
 import * as types from '../mutation-types'
+
+// Move to model collection
+
 import {
 	getTemplates,
 	deleteTemplate,

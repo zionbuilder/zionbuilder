@@ -1,6 +1,8 @@
 import * as types from '../mutation-types'
 import { getUsersById } from '@zionbuilder/rest'
 
+// Move to model collection
+
 const state = {
 	users: [],
 	loaded: false
