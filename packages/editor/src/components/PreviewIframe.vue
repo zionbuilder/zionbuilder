@@ -223,18 +223,19 @@ export default {
 			// Dom.iframeDocument.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
+			// TODO: implement this
 			// Don't deselect the element if an element was just activated
-			if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-				if (this.getElementFocus) {
-					this.setElementFocus(null)
-				}
+			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
+			// 	if (this.getElementFocus) {
+			// 		this.setElementFocus(null)
+			// 	}
 
-				if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-					this.setRightClickMenu({
-						visibility: false
-					})
-				}
-			}
+			// 	if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
+			// 		this.setRightClickMenu({
+			// 			visibility: false
+			// 		})
+			// 	}
+			// }
 		},
 		preventClicks (event) {
 			const e = window.e || event

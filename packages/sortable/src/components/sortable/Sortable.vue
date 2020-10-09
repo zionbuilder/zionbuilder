@@ -157,6 +157,7 @@ export default {
 			return this.disabled ? null : 'mousedown'
 		},
 		canShowEmptyPlaceholder () {
+			console.log(this.sortableItems);
 			return this.sortableItems.length === 0 || (this.dragging && this.sortableItems.length === 1)
 		},
 		getPlaceholder () {
@@ -265,15 +266,14 @@ export default {
 			const defaultSlots = this.$slots.default()
 			let isTransitionMode = false
 
-			console.log({defaultSlots})
-
+			// TODO: deomment this
 			// Check to see if we have a transition group
-			if (defaultSlots && defaultSlots.length > 0) {
-				const { componentOptions } = defaultSlots[0]
-				if (componentOptions) {
-					isTransitionMode = this.componentIsTransitionGroup(componentOptions.tag)
-				}
-			}
+			// if (defaultSlots && defaultSlots.length > 0) {
+			// 	const { componentOptions } = defaultSlots[0]
+			// 	if (componentOptions) {
+			// 		isTransitionMode = this.componentIsTransitionGroup(componentOptions.tag)
+			// 	}
+			// }
 
 			const contentContainer = isTransitionMode ? defaultSlots[0].componentInstance.$slots.default : defaultSlots
 			this.sortableContainer = isTransitionMode ? defaultSlots[0].elm : this.$el
@@ -281,8 +281,10 @@ export default {
 			if (contentContainer) {
 				this.$nextTick(() => {
 					this.sortableItems = contentContainer
+						.filter(vnode => vnode.component)
 						.map(vNode => vNode)
 				})
+				console.log(this.sortableItems);
 			} else {
 				this.sortableItems = []
 			}

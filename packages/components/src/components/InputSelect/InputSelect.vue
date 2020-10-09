@@ -8,14 +8,14 @@
 			:show="expanded"
 			ref="tooltip"
 			strategy="fixed"
-			:modifiers="{
-				preventOverflow: {
-					enabled: false
+			:modifiers="[
+				{
+					name: 'preventOverflow'
 				},
-				hide: {
-					enabled: false
+				{
+					name: 'hide'
 				}
-			}"
+			]"
 			tooltip-class="znpb-baseselect-list-wrapper"
 		>
 			<template v-slot:content>

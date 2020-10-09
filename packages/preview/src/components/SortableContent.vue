@@ -73,7 +73,10 @@
 				</template>
 			</Tooltip>
 		</template>
-		<SortableHelper #helper />
+
+		<template #helper>
+			<SortableHelper  />
+		</template>
 
 		<template #placeholder>
 			<SortablePlaceholder />
