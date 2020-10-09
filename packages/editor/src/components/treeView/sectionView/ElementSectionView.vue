@@ -17,12 +17,11 @@
 			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
 		>
 			<div class="znpb-section-view-item__header-left">
-				<ElementRename
+				<InlineEdit
 					class="znpb-section-view-item__header-title"
-					@name-changed="doRenameElement"
-					:is-active="isNameChangeActive"
-					:content="elementName"
+					v-model="elementTemplateData.name"
 				/>
+
 			</div>
 
 			<Tooltip
