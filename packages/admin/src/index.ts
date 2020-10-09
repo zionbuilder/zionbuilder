@@ -37,6 +37,7 @@ appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 const errors = new Errors()
 const users = new Users()
 const googleFonts = new GoogleFonts()
+
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	errors,

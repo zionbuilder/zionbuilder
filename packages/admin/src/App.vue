@@ -66,6 +66,7 @@ import { mapActions, mapGetters } from 'vuex'
 import Label from '@zionbuilder/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 import { Icon, Notice } from '@zionbuilder/components'
+import { getGoogleFonts } from '@zb/rest'
 
 export default {
 	name: 'App',
@@ -119,11 +120,12 @@ export default {
 	},
 	created () {
 		Promise.all([
-			this.$zb.googleFonts,
+			getGoogleFonts(),
 			this.fetchOptions(),
 			this.initialiseDataSets()
 		]).then((values) => {
 			console.log(values)
+			this.$zb.googleFonts.add(values[0].data)
 		}).catch(error => {
 			this.hasError = true
 			// eslint-disable-next-line
@@ -169,8 +171,7 @@ export default {
 	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-
-// added to fix the arrows for mozilla firefox
+		// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}

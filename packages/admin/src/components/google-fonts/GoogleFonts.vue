@@ -97,7 +97,12 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['deleteGoogleFont', 'updateGoogleFont', 'addGoogleFont', 'saveOptions']),
+		...mapActions([
+			'deleteGoogleFont',
+			'updateGoogleFont',
+			'addGoogleFont',
+			'saveOptions'
+		]),
 		deleteFont (font) {
 			this.deleteGoogleFont(font)
 		},
