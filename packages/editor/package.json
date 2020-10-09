@@ -13,7 +13,8 @@
 		"vue": "^3.0.0",
 		"vue-router": "^4.0.0-beta.11",
 		"vuex": "^4.0.0-beta.4",
-		"@zionbuilder/click-outside-directive": "^1.0.0"
+		"@zionbuilder/click-outside-directive": "^1.0.0",
+		"@zionbuilder/models": "^1.0.0"
 	},
 	"private": false
 }

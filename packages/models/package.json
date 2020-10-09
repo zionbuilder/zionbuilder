@@ -1,5 +1,5 @@
 {
-	"name": "models",
+	"name": "@zionbuilder/models",
 	"version": "1.0.0",
 	"description": "Models Zion Builder",
 	"main": "./src/index",

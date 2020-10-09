@@ -48,7 +48,7 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { PageElement, PageElements } from '@zb/models/PageData'
+import { PageElement, PageElements } from '@zionbuilder/models'
 import { each } from 'lodash-es'
 
 export default {

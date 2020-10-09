@@ -1,8 +1,8 @@
 <template>
 	<div
-		:class="{'znpb-utility__text--elipse': !active}"
-		:contenteditable="active"
-		v-on:dblclick.stop="activate"
+		:class="{'znpb-utility__text--elipse': !isActive}"
+		:contenteditable="isActive"
+		@dblclick.stop="activate"
 		@blur="deactivate"
 	>
 		{{modelValue}}
@@ -20,7 +20,18 @@ export default {
 		active: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: null
+		}
+	},
+	data () {
+		return {
+			localActive: false
+		}
+	},
+	computed: {
+		isActive() {
+			console.log(this.active);
+			return this.active !== null ? this.active : this.localActive
 		}
 	},
 	methods: {
@@ -28,14 +39,17 @@ export default {
 		 * Activates the name change input
 		 */
 		activate (event) {
-			$emit('update:active', true)
+			console.log('dbclick')
+			this.localActive = true
+			this.$emit('update:active', true)
 			this.$nextTick(() => this.$el.focus())
 		},
 		deactivate (event) {
 			// only rename if content is editable
-			if (!this.active) {
+			if (!this.isActive) {
 				return
 			}
+
 
 			let el = event.target
 			let range = document.createRange()
@@ -45,8 +59,9 @@ export default {
 			sel.removeAllRanges()
 			sel.addRange(range)
 
-			$emit('update:active', false)
-			$emit('update:modelValue', event.target.innerText)
+			this.localActive = false
+			this.$emit('update:active', false)
+			this.$emit('update:modelValue', event.target.innerText)
 		}
 	}
 }

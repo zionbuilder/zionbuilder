@@ -12,7 +12,7 @@ import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
 import { initElements, initElementCategories } from './data/elements'
-import { PageAreas } from '@zb/models/PageData'
+import { PageAreas } from '@zionbuilder/models'
 
 // Components
 import App from './App.vue'

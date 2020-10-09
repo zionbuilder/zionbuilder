@@ -1,4 +1,4 @@
-import { Elements, ElementCategories } from '@zb/models/Elements'
+import { Elements, ElementCategories } from '@zionbuilder/models'
 
 export const initElements = () => {
 	return new Elements(window.ZnPbInitalData.elements_data)

@@ -1,4 +1,4 @@
-import { Panels } from '@zb/models/panels'
+import { Panels } from '@zionbuilder/models'
 
 export const initPanels = () => {
 	return new Panels([
