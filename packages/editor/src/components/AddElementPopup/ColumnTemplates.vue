@@ -25,15 +25,15 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsList
+				<!-- <ElementsList
 					@close-popper="$emit('close-popper', true)"
 					:parentUid="this.element.uid"
 					:data="data"
 					:insertIndex="getInsertIndex()"
-				/>
+				/> -->
 			</Tab>
 			<Tab name="Library">
-				<Icon
+				<!-- <Icon
 					icon="library-illustration"
 					class="znpb-columns-templates__library-img"
 				/>
@@ -46,7 +46,7 @@
 					>
 						{{$translate('open_library')}}
 					</Button>
-				</div>
+				</div> -->
 			</Tab>
 
 		</Tabs>
@@ -61,31 +61,9 @@ import { getLayoutConfigs } from './layouts.js'
 
 export default {
 	name: 'ColumnTemplates',
-	inject: {
-		elementInfo: {
-			default: {}
-		}
-	},
 	props: {
 		element: {
 			required: true
-		},
-		parentUid: {
-			type: String,
-			required: false
-		},
-		data: {
-			type: Object,
-			required: false
-		},
-		insertIndex: {
-			type: Number,
-			required: false
-		},
-		emptySortable: {
-			type: Boolean,
-			required: false,
-			default: false
 		}
 	},
 	components: {
@@ -117,7 +95,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getElementData']),
 		activeTab () {
 			if (this.active !== null) {
 				return this.active
@@ -126,29 +103,9 @@ export default {
 			} else return null
 		}
 	},
-	created () {
-		on('change-tab-pop', this.changeTab)
-	},
-	mounted () {
-		document.addEventListener('keypress', this.onKeyPress)
-	},
 	methods: {
-		...mapActions([
-			'insertElements',
-			'setShouldOpenAddElementsPopup',
-			'setElementConfigForLibrary'
-		]),
 		getSpanNumber (id) {
 			return this.spanElements[id]
-		},
-		onKeyPress (event) {
-			trigger('change-tab-pop', null)
-			trigger('change-tab-pop', 'elements')
-		},
-		changeTab (event) {
-			if (event !== undefined) {
-				this.active = event.detail
-			}
 		},
 		wrapColumn (config) {
 			return [
@@ -173,61 +130,62 @@ export default {
 			]
 		},
 		addElements (config) {
-			const elementType = this.element.element_type
-
-			// Add a section if this will be inserted on root
-			if (elementType === 'root') {
-				config = [
-					{
-						element_type: 'zion_section',
-						content: config
-					}
-				]
+			// If it's a wrapper, it means that it can have childs
+			if (this.element.isWrapper) {
+				this.element.addChilds(config)
 			} else {
-				if (this.emptySortable) {
-					if (elementType === 'zion_column') {
-						// Check content orientation
-						if (getOptionValue(this.elementInfo.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-							config = this.wrapColumn(config)
-						}
-					} else if (elementType === 'zion_section') {
-						if (getOptionValue(this.elementInfo.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-							config = this.wrapColumn(config)
-						}
-					}
-				} else {
-					// check parent orientation
-					if (elementType === 'zion_column') {
-						if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-							config = this.wrapColumn(config)
-						}
-					} else if (elementType === 'zion_section') {
-						if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-							config = this.wrapColumn(config)
-						}
-					}
-				}
+				this.element.parent.addChilds(config)
 			}
 
-			const elements = generateElements(config)
+			// Send close event
+			this.$emit('added-element', true)
+			// const elementType = this.element.element_type
 
-			// Get index
-			// this.setShouldOpenAddElementsPopup(true)
-			// deactivate setPopup because on multiple columns multiple popups appear
-			this.insertElements({
-				parentUid: this.parentUid,
-				index: this.getInsertIndex(),
-				childElements: elements.childElements,
-				parentElements: elements.parentElements
-			})
-		},
-		getInsertIndex () {
-			if (!this.data) {
-				return 0
-			}
-			const parentContent = this.getElementData(this.parentUid).content
-			const currentIndex = parentContent.indexOf(this.data.uid)
-			return this.insertIndex ? this.insertIndex : currentIndex + 1
+			// // Add a section if this will be inserted on root
+			// if (elementType === 'root') {
+			// 	config = [
+			// 		{
+			// 			element_type: 'zion_section',
+			// 			content: config
+			// 		}
+			// 	]
+			// } else {
+			// 	if (this.emptySortable) {
+			// 		if (elementType === 'zion_column') {
+			// 			// Check content orientation
+			// 			if (getOptionValue(this.elementInfo.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+			// 				config = this.wrapColumn(config)
+			// 			}
+			// 		} else if (elementType === 'zion_section') {
+			// 			if (getOptionValue(this.elementInfo.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+			// 				config = this.wrapColumn(config)
+			// 			}
+			// 		}
+			// 	} else {
+			// 		// check parent orientation
+			// 		if (elementType === 'zion_column') {
+			// 			if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+			// 				config = this.wrapColumn(config)
+			// 			}
+			// 		} else if (elementType === 'zion_section') {
+			// 			if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+			// 				config = this.wrapColumn(config)
+			// 			}
+			// 		}
+			// 	}
+			// }
+
+			// const elements = generateElements(config)
+
+			// // Get index
+			// // this.setShouldOpenAddElementsPopup(true)
+			// // deactivate setPopup because on multiple columns multiple popups appear
+			// this.insertElements({
+			// 	parentUid: this.parentUid,
+			// 	index: this.getInsertIndex(),
+			// 	childElements: elements.childElements,
+			// 	parentElements: elements.parentElements
+			// })
 		},
 		openLibrary () {
 			this.$emit('close-popper', true)

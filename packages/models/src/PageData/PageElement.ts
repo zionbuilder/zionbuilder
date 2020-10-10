@@ -48,10 +48,6 @@ export default class PageElement extends Model {
 		return this.options.getValue('_advanced_options._element_name')
 	}
 
-	set name (name) {
-		this.options.setValue('_advanced_options._element_name', name)
-	}
-
 	get isVisible () {
 		return getOptionValue(this.options, '_isVisible', true)
 	}
@@ -59,4 +55,17 @@ export default class PageElement extends Model {
 	set isVisible (value) {
 		this.options._isVisible = value
 	}
+
+	get isWrapper () {
+		return this.elementTypeModel.wrapper
+	}
+
+	addChild (element, index = -1) {
+		this.content.addChild(element, index)
+	}
+
+	addChilds (elements, index = -1) {
+		this.content.addChilds(elements, index)
+	}
+
 }

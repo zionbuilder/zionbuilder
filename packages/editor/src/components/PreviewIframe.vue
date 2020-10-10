@@ -150,8 +150,7 @@ export default {
 				// New system
 				each(areaConfig, (value, id) => {
 					this.$zb.data.pageAreas.add({
-						name: id,
-						id: id,
+						uid: id,
 						content: new PageElements(value),
 						// TODO: implement better active area system
 						active: id === 'content'

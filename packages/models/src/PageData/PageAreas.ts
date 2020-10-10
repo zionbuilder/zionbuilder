@@ -1,10 +1,10 @@
 import Collection from "../Collection";
-import PageArea from './PageArea'
+import PageElement from './PageElement'
 
 export default class PageAreas extends Collection {
 
-	getModel() {
-		return PageArea
+	getModel () {
+		return PageElement
 	}
 
 	get activeArea () {

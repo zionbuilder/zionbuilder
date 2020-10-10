@@ -10,13 +10,14 @@
 		:close-on-outside-click="true"
 		:close-on-escape="true"
 		:popperRef="activeElementConfig.selector"
-		@hide="this.$zb.editor.interactions.addElementPopup.hide"
+		@hide="close"
 	>
 		<template #content>
 			<ColumnTemplates
 				:empty-sortable="true"
 				:data="activeElementConfig.element"
 				:element="activeElementConfig.element"
+				@added-element="close"
 			/>
 		</template>
 	</Tooltip>
@@ -34,6 +35,11 @@ export default {
 	},
 	components: {
 		ColumnTemplates
+	},
+	methods: {
+		close () {
+			this.$zb.editor.interactions.addElementPopup.hide()
+		}
 	}
 }
 </script>
