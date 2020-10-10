@@ -32,7 +32,7 @@ import { mapGetters, mapActions } from 'vuex'
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
 import { Modal } from '@zionbuilder/components'
-// import { getUsersById } from '@zionbuilder/rest'
+import { getUsersById } from '@zionbuilder/rest'
 export default {
 	name: 'SingleUser',
 	components: {
@@ -57,9 +57,8 @@ export default {
 		}
 	},
 	created () {
-		Promise(this.$zb.users.getUsersById(this.userId)).then((response) => {
-			console.log(response.data)
-			this.userData = response.data
+		Promise.all([getUsersById(this.userId)]).then((response) => {
+			this.userData = response[0].data[0]
 		})
 	},
 	computed: {

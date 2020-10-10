@@ -7,6 +7,8 @@ export default class GoogleFonts extends Collection {
 	}
 
 	getFontData (fontFamily) {
-		return font = this.find({ family: fontFamily })
+		return this.models.find((font) => {
+			font.family === fontFamily
+		})
 	}
 }

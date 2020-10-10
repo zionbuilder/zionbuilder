@@ -80,7 +80,6 @@ export default {
 		ModalConfirm
 	},
 	computed: {
-		...mapGetters(['getFontData']),
 		variantModel: {
 			get () {
 				return this.font.font_variants
@@ -120,7 +119,7 @@ export default {
 			return subsets.join(', ')
 		},
 		fontData () {
-			return this.getFontData(this.font.font_family)
+			return this.$zb.googleFonts.getFontData(this.font.font_family)
 		},
 		fontVariantsOption () {
 			let options = []

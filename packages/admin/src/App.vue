@@ -124,7 +124,6 @@ export default {
 			this.fetchOptions(),
 			this.initialiseDataSets()
 		]).then((values) => {
-			console.log(values)
 			this.$zb.googleFonts.add(values[0].data)
 		}).catch(error => {
 			this.hasError = true
@@ -171,7 +170,8 @@ export default {
 	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-		// added to fix the arrows for mozilla firefox
+
+// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}
