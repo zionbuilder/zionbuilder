@@ -28,7 +28,7 @@
 </template>
 
 <script>
-
+import { getGoogleFonts } from '@zb/rest'
 import GoogleFontModalElement from './GoogleFontModalElement.vue'
 import ListScroll from '../ListScroll.vue'
 // import { ref } from "vue"
@@ -63,12 +63,19 @@ export default {
 	},
 	created () {
 		// Set initial fonts
-		Promise(this.$zb.googleFonts).then((response) => {
-			this.fontsList = response.data
-			this.filteredList = response.data
-		}).finally(() => {
-			this.loading = false
-		})
+		if (this.$zb.googleFonts.models.length) {
+			console.log('this.$zb.googleFonts',this.$zb.googleFonts)
+			this.fontsList = this.$zb.googleFonts.models
+			this.filteredList = this.$zb.googleFonts.models
+		} else {
+			Promise.all([getGoogleFonts]).then((values) => {
+				this.fontsList = this.$zb.googleFonts.add(values[0].data)
+				this.filteredList = this.$zb.googleFonts.add(values[0].data)
+			}).finally(() => {
+				this.loading = false
+			})
+		}
+
 
 		this.visibleFonts = this.getfontsPage(1)
 	},

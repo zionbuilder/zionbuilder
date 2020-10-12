@@ -83,12 +83,15 @@ export default {
 		Button,
 		Modal
 	},
+	created() {
+		console.log('this.$zb.googleFontsData',this.$zb.googleFontsData)
+	},
 	computed: {
 		...mapGetters([
 			'getOptionValue'
 		]),
 		googleFonts () {
-			return this.getOptionValue('google_fonts')
+			return this.$zb.googleFontsData.models
 		},
 		activeFontNames () {
 			return this.googleFonts.map((font) => {
@@ -107,7 +110,12 @@ export default {
 			this.deleteGoogleFont(font)
 		},
 		onGoogleFontAdded (font) {
-			this.addGoogleFont({
+			// this.addGoogleFont({
+			// 	font_family: font.family,
+			// 	font_variants: ['regular'],
+			// 	font_subset: ['latin']
+			// })
+			this.$zb.googleFontsData.add({
 				font_family: font.family,
 				font_variants: ['regular'],
 				font_subset: ['latin']
@@ -115,7 +123,8 @@ export default {
 			this.showModal = false
 		},
 		onGoogleFontRemoved (font) {
-			this.deleteGoogleFont(font)
+			// this.deleteGoogleFont(font)
+			this.$zb.googleFontsData.remove(font)
 			this.showModal = false
 		}
 	}

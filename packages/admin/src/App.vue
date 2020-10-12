@@ -125,6 +125,7 @@ export default {
 			this.initialiseDataSets()
 		]).then((values) => {
 			this.$zb.googleFonts.add(values[0].data)
+
 		}).catch(error => {
 			this.hasError = true
 			// eslint-disable-next-line

@@ -65,7 +65,6 @@ export default {
 	props: {
 		font: {
 			type: Object,
-			required: true
 		}
 	},
 	data () {
@@ -78,6 +77,9 @@ export default {
 		Icon,
 		Tooltip,
 		ModalConfirm
+	},
+	created () {
+		console.log('fonts', this.$zb.googleFonts)
 	},
 	computed: {
 		variantModel: {
@@ -119,7 +121,7 @@ export default {
 			return subsets.join(', ')
 		},
 		fontData () {
-			return this.$zb.googleFonts.getFontData(this.font.font_family)
+			return this.$zb.googleFonts.getFontData(this.font['font_family'])
 		},
 		fontVariantsOption () {
 			let options = []

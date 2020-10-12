@@ -2,13 +2,13 @@ import Collection from "../Collection";
 import GoogleFont from './GoogleFont'
 
 export default class GoogleFonts extends Collection {
-	getModel () {
+	getModel() {
 		return GoogleFont
 	}
-
-	getFontData (fontFamily) {
+	getFontData(family: String) {
+		console.log('family', family)
 		return this.models.find((font) => {
-			font.family === fontFamily
+			font['family'] == family
 		})
 	}
 }
