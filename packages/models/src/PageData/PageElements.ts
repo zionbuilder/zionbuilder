@@ -7,7 +7,7 @@ export default class PageElements extends Collection {
 		return PageElement
 	}
 
-	addChild (element, index = -1) {
+	addChild(element, index = -1) {
 		if (typeof element !== PageElement) {
 			element = new PageElement(element, this)
 		}
@@ -15,9 +15,11 @@ export default class PageElements extends Collection {
 		this.models.splice(index, 0, element)
 	}
 
-	addChilds (elements, index = -1) {
-		elements.forEach(element => {{
-			this.addChild(element, index)
-		}})
+	addChildren(elements, index = -1) {
+		elements.forEach(element => {
+			{
+				this.addChild(element, index)
+			}
+		})
 	}
 }

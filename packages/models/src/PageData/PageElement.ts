@@ -3,7 +3,7 @@ import { getOptionValue } from '@zb/utils'
 import { each } from 'lodash-es'
 
 export default class PageElement extends Model {
-	defaults () {
+	defaults() {
 		return {
 			element_type: null,
 			options: {},
@@ -13,7 +13,7 @@ export default class PageElement extends Model {
 		}
 	}
 
-	mutations () {
+	mutations() {
 		return {
 			elementTypeModel: (value, allValues) => {
 				const elementType = allValues.element_type
@@ -42,30 +42,30 @@ export default class PageElement extends Model {
 		}
 	}
 
-	get name () {
+	get name() {
 		// TODO: implement options system
 		return getOptionValue(this.options, '_advanced_options._element_name') || 'My Name'
 		return this.options.getValue('_advanced_options._element_name')
 	}
 
-	get isVisible () {
+	get isVisible() {
 		return getOptionValue(this.options, '_isVisible', true)
 	}
 
-	set isVisible (value) {
+	set isVisible(value) {
 		this.options._isVisible = value
 	}
 
-	get isWrapper () {
+	get isWrapper() {
 		return this.elementTypeModel.wrapper
 	}
 
-	addChild (element, index = -1) {
+	addChild(element, index = -1) {
 		this.content.addChild(element, index)
 	}
 
-	addChilds (elements, index = -1) {
-		this.content.addChilds(elements, index)
+	addChildren(elements, index = -1) {
+		this.content.addChildren(elements, index)
 	}
 
 }
