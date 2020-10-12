@@ -5,42 +5,35 @@ import { each } from 'lodash-es'
 export default class PageElement extends Model {
 	defaults () {
 		return {
+			// Element data
 			element_type: null,
 			options: {},
 			uid: null,
 			content: [],
-			elementTypeModel: null
+			// Helpers
 		}
 	}
 
-	mutations () {
-		return {
-			elementTypeModel: (value, allValues) => {
-				const elementType = allValues.element_type
-				const elementTypeModel = window.zb.editor.elements.getElement(elementType)
+	get elementTypeModel () {
+		const elementType = allValues.element_type
+		const elementTypeModel = window.zb.editor.elements.getElement(elementType)
 
-				if (elementTypeModel) {
-					return elementTypeModel
-				}
-
-				return value
-			},
-			// content: (value) => {
-			// 	if (Array.isArray(value)) {
-			// 		const content = []
-			// 		each(value, (child, childUid) => {
-			// 			console.log(child);
-
-			// 			content.push( new PageElement(child) )
-			// 		})
-
-			// 		return content
-			// 	}
-
-			// 	return value
-			// }
+		if (elementTypeModel) {
+			return elementTypeModel
 		}
+
+		return null
 	}
+
+	get parent () {
+
+	}
+
+	get isWrapper () {
+		return true
+		return this.elementTypeModel && this.elementTypeModel.wrapper || false
+	}
+
 
 	get name () {
 		// TODO: implement options system
@@ -56,16 +49,18 @@ export default class PageElement extends Model {
 		this.options._isVisible = value
 	}
 
-	get isWrapper () {
-		return this.elementTypeModel.wrapper
-	}
-
 	addChild (element, index = -1) {
-		this.content.addChild(element, index)
+		if (typeof element !== PageElement) {
+			element = new PageElement(element, this)
+		}
+
+		this.content.splice(index, 0, element)
 	}
 
 	addChilds (elements, index = -1) {
-		this.content.addChilds(elements, index)
+		elements.forEach(element => {{
+			this.addChild(element, index)
+		}})
 	}
 
 }

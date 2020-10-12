@@ -61,7 +61,6 @@ export default {
 	},
 	props: {
 		element: {
-			type: Array,
 			required: false
 		}
 	},
@@ -69,13 +68,15 @@ export default {
 		...mapGetters(['getActiveShowElementsPopup']),
 		templateItems: {
 			get () {
-				return this.element.content.models
+				return this.element.content
 			},
 			set (value) {
-				this.saveElementsOrder({
-					newOrder: value,
-					content: this.content
-				})
+				console.log({value})
+				// this.element.content = value
+				// this.saveElementsOrder({
+				// 	newOrder: value,
+				// 	content: this.content
+				// })
 			}
 		}
 

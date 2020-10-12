@@ -12,9 +12,10 @@ import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 export * as optionsInstance from './manager/options/optionsInstance'
 import { initElements, initElementCategories } from './data/elements'
-import { PageAreas } from '@zionbuilder/models'
 import { Errors } from '@zionbuilder/models'
 import * as interactions from './interactions/'
+
+import { PageElements } from './store2'
 
 // Components
 import App from './App.vue'
@@ -42,14 +43,14 @@ errorInterceptor(errors)
 // Init elements registration
 const elements = initElements()
 const elementCategories = initElementCategories()
-const pageAreas = new PageAreas()
+const pageElements = new PageElements()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	data: {
 		elements,
 		elementCategories,
-		pageAreas
+		pageElements
 	},
 	editor: {
 		interactions
@@ -71,7 +72,7 @@ export {
 	panels,
 	elements,
 	elementCategories,
-	pageAreas,
+	pageElements,
 	errors,
 	interactions
 }

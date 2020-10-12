@@ -14,7 +14,7 @@
 					'znpb-tree-view__item-header-expand--expanded': expanded
 				}"
 				@click.stop="expanded = !expanded"
-				v-if="element.elementTypeModel.wrapper"
+				v-if="element.isWrapper"
 			/>
 
 			<InlineEdit

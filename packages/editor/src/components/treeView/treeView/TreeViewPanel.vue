@@ -6,14 +6,14 @@
 	>
 		<div
 			class="znpb-tree-view--no_content"
-			v-if="getPageContent.length === 0"
+			v-if="getRootElement.content.length === 0"
 		>
 			No elements added to page
 		</div>
 
 		<TreeViewList
 			v-else
-			:element="getPageContent"
+			:element="getRootElement"
 		/>
 	</div>
 </template>
@@ -45,8 +45,8 @@ export default {
 			'getElementFocus',
 			'getParents'
 		]),
-		getPageContent () {
-			return this.$zb.data.pageAreas.activeArea
+		getRootElement () {
+			return this.$zb.data.pageElements.getElement('contentRoot')
 		}
 	},
 	methods: {

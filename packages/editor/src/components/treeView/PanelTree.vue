@@ -92,7 +92,7 @@ export default {
 			'getIframeOrder'
 		]),
 		elementData () {
-			return this.getPageContent['contentRoot']
+			return this.$zb.data.pageElements.getElement('contentRoot')
 		}
 	},
 

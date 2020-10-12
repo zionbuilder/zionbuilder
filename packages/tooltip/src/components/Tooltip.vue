@@ -309,12 +309,6 @@ export default {
 				appendElement.appendChild(this.popperElement)
 			}
 		},
-		removePopperFromDom () {
-			if (this.popperElement && this.appendToOption !== 'element') {
-				const appendToElement = this.getAppendToElement()
-				appendToElement.removeChild(this.popperElement)
-			}
-		},
 		destroyPopper (completeRemove) {
 			if (this.visible && !completeRemove) {
 				return
@@ -328,10 +322,6 @@ export default {
 			}
 
 			this.removePopperEvents()
-
-			if (completeRemove) {
-				this.removePopperFromDom()
-			}
 
 			this.popperElement = null
 			preventOutsideClickPropagation = false

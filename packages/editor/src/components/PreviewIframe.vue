@@ -149,12 +149,7 @@ export default {
 
 				// New system
 				each(areaConfig, (value, id) => {
-					this.$zb.data.pageAreas.add({
-						uid: id,
-						content: new PageElements(value),
-						// TODO: implement better active area system
-						active: id === 'content'
-					})
+					this.$zb.data.pageElements.getElement('contentRoot').addChildren(value)
 				})
 
 
@@ -184,13 +179,15 @@ export default {
 				const elementsWithInstances = {}
 				Object.keys(pageContentElements).forEach(uid => {
 					const elementConfig = pageContentElements[uid]
+					this.$zb.data.pageElements.addElement
+
 					elementsWithInstances[uid] = new PageElement(elementConfig)
 				});
 
-				this.setPageAreas(pageContentAreas)
-				this.setPageContent(elementsWithInstances)
-				this.setActiveArea('content')
-				this.setInitialHistory(this.$translate('initial_state'))
+				// this.setPageAreas(pageContentAreas)
+				// this.setPageContent(pageContentElements)
+				// this.setActiveArea('content')
+				// this.setInitialHistory(this.$translate('initial_state'))
 
 				// Hide recover modal
 				this.showRecoverModal = false
