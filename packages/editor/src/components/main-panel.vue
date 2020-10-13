@@ -166,6 +166,7 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
+import { savePage } from '../actions/savePage.ts'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -312,7 +313,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'savePage',
 			'setIframePointerEvents',
 			'setMainbarOrder',
 			'setElementConfigForLibrary',
@@ -323,9 +323,8 @@ export default {
 			this.$zb.panels.togglePanel(panelId)
 		},
 		onSaving (status) {
-			this.savePage(this, {
-				status
-			}).catch(error => {
+			const pageContent = this.$zb.data.pageElements.toJSON()
+			savePage(pageContent, status).catch(error => {
 				this.$zb.errors.add({
 					message: error.message,
 					type: 'error',

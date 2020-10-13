@@ -31,9 +31,10 @@
 						<Icon
 							icon="visibility-hidden"
 							v-if="!element.isVisible"
-							@click="element.isVisible = true"
 							class="znpb-editor-icon-wrapper--show-element"
+							@click="element.delete()"
 						/>
+							<!-- @click="element.isVisible = true" -->
 					</transition>
 				</span>
 			</Tooltip>
@@ -42,9 +43,10 @@
 				:element-uid="element.uid"
 			/>
 		</div>
-		<!-- <TreeViewList
-			:content="element.content"
-		/> -->
+		<TreeViewList
+			v-if="expanded"
+			:element="element"
+		/>
 	</li>
 
 	<!-- <li

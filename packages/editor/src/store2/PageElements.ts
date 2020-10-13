@@ -35,11 +35,32 @@ export default class {
 		return this.elements[elementId]
 	}
 
-	deleteElement (elementId) {
-		const element = this.getElement(elementId)
+	removeElement (element) {
+		const uid = element.uid
+		const parent = this.elements[element.parent.uid]
+		const indexInParent = parent.content.indexOf(uid)
 
-		if (element) {
-			element.delete()
-		}
+		delete this.elements[uid]
+		parent.content.splice(indexInParent, 1)
+
+		// Delete all child elements
+		element.content.forEach(uid => {
+			const childElement = this.getElement(uid)
+			this.removeElement(childElement)
+		})
+	}
+
+	replaceUIDWithElement (elementContent) {
+		return elementContent.map(elementUID => {
+			const element = this.getElement(elementUID)
+
+			return element.toJSON()
+		})
+	}
+
+	toJSON () {
+		const rootElement = this.getElement('contentRoot')
+
+		return rootElement.toJSON().content
 	}
 }

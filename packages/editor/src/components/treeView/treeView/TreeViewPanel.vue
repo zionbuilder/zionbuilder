@@ -4,15 +4,7 @@
 		ref="treeViewPanel"
 		id="znpb-tree-view-panel"
 	>
-		<div
-			class="znpb-tree-view--no_content"
-			v-if="getRootElement.content.length === 0"
-		>
-			No elements added to page
-		</div>
-
 		<TreeViewList
-			v-else
 			:element="getRootElement"
 		/>
 	</div>
@@ -42,7 +34,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getRightClickMenu',
-			'getElementFocus',
 			'getParents'
 		]),
 		getRootElement () {

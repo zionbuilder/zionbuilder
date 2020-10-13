@@ -7,6 +7,14 @@ export default class Elements extends Collection {
 		return Element
 	}
 
+	onAfterInit () {
+		this.models.push(new Element({
+			element_type: 'contentRoot',
+			name: 'contentRoot',
+			wrapper: true
+		}, this))
+	}
+
 	registerElement (elementComponent) {
 		console.warn(`registerElement was deprecated and was replaced with registerElementComponent.`)
 		this.registerElementComponent(elementComponent)

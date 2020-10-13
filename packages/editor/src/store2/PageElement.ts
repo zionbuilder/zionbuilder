@@ -1,12 +1,12 @@
-import { generateUID } from '@zb/utils'
+import { generateUID, getOptionValue } from '@zb/utils'
 import { each } from 'lodash-es'
 
 export default class Element {
 	public element_type: string = ''
+	public options: object = {}
 	public content: array = []
 	public uid:string = ''
 	public parentUid: string = ''
-	public elementTypeModel = null
 
 	constructor(data, parentUid) {
 		const {
@@ -17,21 +17,26 @@ export default class Element {
 		} = data
 
 		this.uid = uid || generateUID()
-		this.options = options
+		this.options = options || []
 		this.element_type = element_type
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
-			each(content, elementConfig => {
-				console.log(elementConfig)
-				this.addChildren(elementConfig)
-			})
+			this.addChildren(content)
 		}
 
 		this.parentUid = parentUid
 	}
 
-	get collection (){
+	get isWrapper () {
+		return this.elementTypeModel.wrapper
+	}
+
+	get elementTypeModel () {
+		return window.zb.editor.elements.getElement(this.element_type)
+	}
+
+	get collection () {
 		return window.zb.editor.pageElements
 	}
 
@@ -39,7 +44,15 @@ export default class Element {
 		return this.collection.getElement(this.parentUid)
 	}
 
-	addChildren (element, index = -1) {
+	get name () {
+		return getOptionValue(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
+	}
+
+	get isVisible () {
+		return getOptionValue(this.options, '_isVisible', true)
+	}
+
+	addChild (element, index = -1) {
 		let uid = null
 
 		if (typeof element === 'string') {
@@ -54,28 +67,43 @@ export default class Element {
 		this.content.splice(index, 0, uid)
 	}
 
-	addChildrens (elements, index) {
+	addChildren (elements, index = -1) {
 		each(elements, (element) => {
 			console.log({element});
 
-			this.addChildren(element, -1)
+			this.addChild(element, -1)
 		})
 	}
 
-	removeChildren(elementUID) {
+	removeChild(elementUID) {
 		const index = this.data.content.indexOf(elementUID)
 		this.content.splice(index, 1)
 	}
 
 	move (newParent, index = -1) {
-		this.parent.removeChildren(this.uid)
-		newParent.addChildren(this.uid, index)
+		this.parent.removeChild(this.uid)
+		newParent.addChild(this.uid, index)
 	}
 
 	/**
 	 * Will delete the element and all it's childrens
 	 */
 	delete () {
-		this.collection.deleteElement(this)
+		this.collection.removeElement(this)
+	}
+
+	toJSON () {
+		const content = this.content.map(elementUID => {
+			const element = this.collection.getElement(elementUID)
+
+			return element.toJSON()
+		})
+
+		return {
+			uid: this.uid,
+			content: content,
+			element_type: this.element_type,
+			options: this.options
+		}
 	}
 }

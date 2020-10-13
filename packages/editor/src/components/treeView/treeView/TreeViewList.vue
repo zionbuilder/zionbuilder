@@ -7,7 +7,6 @@
 		@start="sortableStart"
 		@end="sortableEnd"
 	>
-
 		<TreeViewListItem
 			v-for="element in templateItems"
 			:element="element"
@@ -68,7 +67,10 @@ export default {
 		...mapGetters(['getActiveShowElementsPopup']),
 		templateItems: {
 			get () {
-				return this.element.content
+				return this.element.content.map(elementUID => {
+					console.log(this.$zb.data.pageElements.getElement(elementUID));
+					return this.$zb.data.pageElements.getElement(elementUID)
+				})
 			},
 			set (value) {
 				console.log({value})
@@ -83,10 +85,8 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'deleteElement',
 			'saveElementsOrder',
-			'setDraggingState',
-			'setActiveShowElementsPopup'
+			'setDraggingState'
 		]),
 		onScrollToItem (event) {
 			this.$emit('scroll-to-item', event)
