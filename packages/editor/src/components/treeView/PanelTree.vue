@@ -44,6 +44,7 @@
 				@click="closeWireframe"
 			/>
 		</div>
+		{{focusedElement}}
 		<div
 			v-if="!isPreviewLoading"
 			class="znpb-tree-view__type_wrapper"
@@ -63,6 +64,8 @@ import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
+import { focusedElement } from '../../interactions/focusedElement.ts'
+
 export default {
 	name: 'panel-tree',
 	components: {
@@ -93,6 +96,9 @@ export default {
 		]),
 		elementData () {
 			return this.$zb.data.pageElements.getElement('contentRoot')
+		},
+		focusedElement () {
+			return focusedElement.value
 		}
 	},
 

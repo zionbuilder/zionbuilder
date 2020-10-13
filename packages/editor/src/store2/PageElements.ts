@@ -1,5 +1,5 @@
 import { each } from 'lodash-es'
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import PageElement from './PageElement'
 
 export default class {
@@ -11,10 +11,6 @@ export default class {
 			uid: 'contentRoot',
 			element_type: 'contentRoot',
 			content: []
-		})
-
-		watch(this.elements, function(newValue) {
-			console.log({...newValue} )
 		})
 	}
 

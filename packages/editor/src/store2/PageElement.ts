@@ -1,12 +1,16 @@
 import { generateUID, getOptionValue } from '@zb/utils'
 import { each } from 'lodash-es'
+import { setFocusedElement } from '../interactions/focusedElement.ts'
 
 export default class Element {
+	// Element data for DB
 	public element_type: string = ''
 	public options: object = {}
-	public content: array = []
+	public content: [] = []
 	public uid:string = ''
+	// Helpers
 	public parentUid: string = ''
+	public isHighlighted: boolean = false
 
 	constructor(data, parentUid) {
 		const {
@@ -50,6 +54,18 @@ export default class Element {
 
 	get isVisible () {
 		return getOptionValue(this.options, '_isVisible', true)
+	}
+
+	focus () {
+		setFocusedElement(this)
+	}
+
+	highlight () {
+		this.isHighlighted = true
+	}
+
+	unHighlight () {
+		this.isHighlighted = false
 	}
 
 	addChild (element, index = -1) {

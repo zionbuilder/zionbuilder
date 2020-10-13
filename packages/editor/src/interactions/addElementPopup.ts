@@ -7,7 +7,6 @@ export const initAddElementsPopup = () => {
 		activePopup.element = element
 		activePopup.selector = selector
 		activePopup.active = true
-		console.log({activePopup})
 	}
 
 	const hide = () => {
