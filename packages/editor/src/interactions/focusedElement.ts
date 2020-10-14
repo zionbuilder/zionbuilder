@@ -1,11 +1,10 @@
 import { ref, Ref, readonly } from 'vue'
-import { PageElement } from '../store2'
 
 const focusedElementRef: Ref = ref(null)
 
-export const focusedElement: Ref<PageElement> = readonly(focusedElementRef)
+export const focusedElement: Ref = readonly(focusedElementRef)
 
-export const setFocusedElement = (element: PageElement) => {
+export const setFocusedElement = (element) => {
 	focusedElementRef.value = element
 }
 

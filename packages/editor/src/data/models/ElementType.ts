@@ -16,6 +16,10 @@ export class ElementType {
 	style_elements: object = {}
 	wrapper: boolean = false
 
+	constructor(config) {
+		Object.assign(this, config)
+	}
+
 	getComponent () {
 		return this.component
 	}

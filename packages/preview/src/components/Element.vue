@@ -71,6 +71,7 @@ import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
 import { markRaw } from 'vue';
+import { useElementTypes } from '@zb/editor'
 
 // Components
 import ServerComponent from './ServerComponent.vue'
@@ -414,11 +415,11 @@ export default {
 		async getElementComponent () {
 			await this.loadElementAssets()
 
-			const element = this.$zb.data.elements.getElement(this.data.element_type)
-			const component = element.getComponent()
+			const { getElementType } = useElementTypes()
+			const element = getElementType(this.data.element_type)
 
-			if (component) {
-				this.component = markRaw(component)
+			if (element.component) {
+				this.component = markRaw(element.component)
 			} else {
 				this.component = markRaw(ServerComponent)
 			}

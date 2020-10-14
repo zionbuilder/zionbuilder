@@ -6,6 +6,7 @@
 		@mouseenter.capture="element.highlight"
 		@mouseleave="element.unHighlight"
 		@click.stop.left="element.focus"
+		@contextmenu.stop.prevent="onRightClick"
 	>
 		<div
 			class="znpb-tree-view__item-header"
@@ -42,9 +43,16 @@
 				</span>
 			</Tooltip>
 
-			<DropdownOptions
-				:element-uid="element.uid"
-			/>
+			<div
+				class="znpb-element-options__container"
+				@click.stop="onRightClick"
+				ref="elementOptions"
+			>
+				<Icon
+					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
+					icon="more"
+				/>
+			</div>
 		</div>
 		<TreeViewList
 			v-if="expanded"
@@ -99,7 +107,7 @@ import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-import { Element } from '@data'
+import { Element, useElementMenu } from '@data'
 
 export default defineComponent({
 	components: {
@@ -110,6 +118,8 @@ export default defineComponent({
 	},
 	setup (props, { attrs, slots, emit }) {
 		const expanded = ref(false)
+		const elementOptions = ref(null)
+
 		const elementName = computed({
 			get () {
 				return props.element.name
@@ -118,9 +128,18 @@ export default defineComponent({
 				props.element.rename(newValue)
 			}
 		})
+
+		const onRightClick = function () {
+			console.log('click')
+			const { showElementMenu } = useElementMenu()
+			showElementMenu(this.element, elementOptions.value)
+		}
+
 		return {
 			expanded,
-			elementName
+			elementName,
+			elementOptions,
+			onRightClick
 		}
 	}
 })

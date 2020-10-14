@@ -1,7 +1,10 @@
 import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
 import { each } from 'lodash-es'
-import { useElements } from '../index'
-// import { setFocusedElement } from '../interactions/focusedElement.ts'
+import { useElements } from '../useElements'
+import { useElementTypes } from '../useElementTypes'
+
+const { registerElement, unregisterElement, getElement } = useElements()
+const { getElementType } = useElementTypes()
 
 export class Element {
 	// Element data for DB
@@ -15,13 +18,13 @@ export class Element {
 
 	constructor(data, parentUid = '') {
 		const {
-			uid,
+			uid = generateUID(),
 			content,
 			options,
 			element_type
 		} = data
 
-		this.uid = uid || generateUID()
+		this.uid = uid
 		this.options = options || []
 		this.element_type = element_type
 
@@ -38,11 +41,10 @@ export class Element {
 	}
 
 	get elementTypeModel () {
-		return window.zb.editor.elements.getElement(this.element_type)
+		return getElementType(this.element_type)
 	}
 
 	get parent () {
-		const { getElement } = useElements()
 		return getElement(this.parentUid)
 	}
 
@@ -55,7 +57,6 @@ export class Element {
 	}
 
 	rename (name: string) {
-		console.log(name);
 		updateOptionValue(this.options, '_advanced_options._element_name', name)
 	}
 
@@ -79,7 +80,6 @@ export class Element {
 		} else if (element instanceof Element) {
 			uid = element.uid
 		} else {
-			const { registerElement } = useElements()
 			const elementInstance = registerElement(element, this.uid)
 			uid = elementInstance.uid
 		}
@@ -89,8 +89,6 @@ export class Element {
 
 	addChildren (elements, index = -1) {
 		each(elements, (element) => {
-			console.log({element});
-
 			this.addChild(element, -1)
 		})
 	}
@@ -106,11 +104,21 @@ export class Element {
 	}
 
 	/**
+	 * Duplicates the current element instance and replaces the UID's
+	 * for it and all it's nested elements
+	 */
+	duplicate () {
+		const indexInParent = this.parent.content.indexOf(this.uid)
+		const elementAsJSON = this.getClone()
+
+		this.parent.addChild(elementAsJSON, indexInParent + 1)
+
+	}
+
+	/**
 	 * Will delete the element and all it's childrens
 	 */
 	delete () {
-		const { unregisterElement } = useElements()
-
 		if (this.parent) {
 			this.parent.removeChild(this.uid)
 		}
@@ -118,7 +126,6 @@ export class Element {
 	}
 
 	toJSON(): {[key:string]: any} {
-		const { getElement } = useElements()
 		const content = this.content.map(elementUID => {
 			const element = getElement(elementUID)
 
@@ -131,5 +138,31 @@ export class Element {
 			element_type: this.element_type,
 			options: this.options
 		}
+	}
+
+	getClone () {
+		const uid = generateUID()
+		const cloneConfig = JSON.parse(JSON.stringify({
+			uid,
+			content: this.content,
+			element_type: this.element_type,
+			options: this.options
+		}))
+
+		const clonedContent = cloneConfig.content.map((childElementUID: string) => {
+			const elementInstance = getElement(childElementUID)
+			// Add the instance to all elements
+			const cloneInstance = registerElement(elementInstance.getClone(), uid)
+
+			return cloneInstance.uid
+		})
+
+		// Replace content with new one that has updated uids
+		cloneConfig.content = clonedContent
+		// Add the instance to all elements
+		const clonedInstance = registerElement(cloneConfig, this.parent.uid)
+
+		// Return the duplicated element isntance
+		return clonedInstance
 	}
 }

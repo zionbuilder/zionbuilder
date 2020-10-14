@@ -558,6 +558,7 @@ export default {
 	&.znpb-class-selector__popper {
 		padding: 15px;
 	}
+
 	ul {
 		list-style-type: none;
 	}

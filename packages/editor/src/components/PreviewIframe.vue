@@ -159,8 +159,6 @@ export default {
 				})
 
 				const { elements } = useElements()
-				console.log({elements});
-				console.log({templateParts});
 
 				// TODO: implement history
 				// this.setInitialHistory(this.$translate('initial_state'))

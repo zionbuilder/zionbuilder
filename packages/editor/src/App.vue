@@ -126,6 +126,7 @@
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
+		<ElementMenu />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
@@ -146,6 +147,7 @@ import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
+import { ElementMenu } from './components/ElementMenu'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -162,7 +164,8 @@ export default {
 		PostLock,
 		RightClickMenu,
 		DeviceElement,
-		AddElementPopup
+		AddElementPopup,
+		ElementMenu
 	},
 	mixins: [keyBindingsMixin],
 	data: () => {

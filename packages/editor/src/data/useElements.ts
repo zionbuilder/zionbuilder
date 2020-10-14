@@ -1,4 +1,4 @@
-import { ref, readonly, Ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { Element } from './models'
 
 // Global template parts store

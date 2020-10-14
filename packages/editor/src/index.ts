@@ -10,7 +10,6 @@ import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
-import { initElements, initElementCategories } from './data/elements'
 import { Errors } from '@zionbuilder/models'
 import * as interactions from './interactions/'
 import {
@@ -45,16 +44,8 @@ errorInterceptor(errors)
 appInstance.component('TreeViewList', TreeViewList)
 appInstance.component('TreeViewListItem', TreeViewListItem)
 
-// Init elements registration
-const elements = initElements()
-const elementCategories = initElementCategories()
-
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	data: {
-		elements,
-		elementCategories
-	},
 	editor: {
 		interactions
 	},
@@ -73,8 +64,6 @@ export {
 	appInstance,
 	pageEvents,
 	panels,
-	elements,
-	elementCategories,
 	errors,
 	interactions
 }

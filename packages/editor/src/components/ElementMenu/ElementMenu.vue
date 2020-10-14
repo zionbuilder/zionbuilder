@@ -1,35 +1,35 @@
 <template>
-	<div
-		class="znpb-element-options__container"
-		@click.stop="toggleOptions"
-		v-click-outside="hideOptions"
+	<Tooltip
+		v-if="activeElementMenu"
+		tooltip-class="hg-popper--big-arrows znpb-rightClickMenu__Tooltip"
+		placement='auto'
+		:show="true"
+		append-to="body"
+		trigger="click"
+		:close-on-outside-click="true"
+		:close-on-escape="true"
+		:popperRef="activeElementMenu.selector"
+		@hide="hideElementMenu"
 	>
-		<Icon
-			class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
-			icon="more"
-		/>
-		<transition name="list">
+		<template #content>
 			<ElementActions
 				class="znpb-element-options__element-actions"
-				v-if="showOptions && getElementFocus"
-				@close="close"
+				@click.stop="hideElementMenu"
 				@changename="$emit('changename',true), showOptions=false"
+				:element="activeElementMenu.element"
 			/>
-		</transition>
-
-	</div>
+		</template>
+	</Tooltip>
 </template>
+
 <script>
+import { ref } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import templateElementMixin from '../mixins/templateElement.js'
-import clickOutside from '@zionbuilder/click-outside-directive'
-import ElementActions from '../common/ElementActions.vue'
+import ElementActions from './ElementActions.vue'
+import { useElementMenu } from '@data'
 
 export default {
-	name: 'DropdownOptions',
-	mixins: [
-		templateElementMixin
-	],
+	name: 'ElementMenu',
 	components: {
 		ElementActions
 	},
@@ -41,15 +41,16 @@ export default {
 			required: false
 		}
 	},
-	data: function () {
+	setup () {
+		const showOptions = ref(false)
+		const { activeElementMenu, hideElementMenu } = useElementMenu()
+
 		return {
-			showOptions: false
+			showOptions,
+			activeElementMenu,
+			hideElementMenu
 		}
 	},
-	directives: {
-		clickOutside
-	},
-
 	computed: {
 		...mapGetters([
 			'isDragging',
@@ -111,22 +112,6 @@ export default {
 		hideOptions () {
 			this.showOptions = false
 		}
-	},
-	watch: {
-		rightClickOpen (newValue) {
-			if (!newValue) {
-				this.hideOptions()
-			} else {
-				this.setRightClickMenu({
-					editorScrollTop: document.getElementsByClassName('znpb-panel-view-wrapper')[0].scrollTop
-				})
-			}
-		},
-		isActive (newValue) {
-			if (!newValue) {
-				this.hideOptions()
-			}
-		}
 	}
 }
 </script>
@@ -175,5 +160,9 @@ export default {
 .list-enter-from, .list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
+}
+
+.znpb-rightClickMenu__Tooltip {
+	padding: 0;
 }
 </style>

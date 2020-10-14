@@ -13,7 +13,7 @@
 		<li class="znpb-right-click__menu-separator"></li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="duplicateElement"
+			@click="element.duplicate"
 		>
 			<Icon icon="copy"></Icon>
 			{{$translate('duplicate_element')}}
@@ -116,7 +116,7 @@
 		<li class="znpb-right-click__menu-separator"></li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="deleteElementMenu"
+			@click="element.delete"
 		>
 			<Icon icon="delete"></Icon>
 			{{$translate('delete_element')}}
@@ -135,10 +135,11 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
+		},
+		element: {
+			type: Object,
+			required: true
 		}
-	},
-	data () {
-		return {}
 	},
 	computed: {
 		...mapGetters([
@@ -164,7 +165,6 @@ export default {
 			'setCopiedElement',
 			'setCopiedElementStyles',
 			'setActiveElement',
-			'deleteElement',
 			'updateElementOptionValue',
 			'setCuttedElement',
 			'savePage',
@@ -282,14 +282,6 @@ export default {
 				parentUid: this.getElementFocus.parentUid,
 				insertParent: this.getElementFocus.parentUid
 			})
-			this.close()
-		},
-		deleteElementMenu () {
-			this.deleteElement({
-				elementUid: this.getElementFocus.uid,
-				parentUid: this.getElementFocus.parentUid
-			})
-
 			this.close()
 		},
 		saveElement () {
