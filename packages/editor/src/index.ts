@@ -10,10 +10,13 @@ import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
-export * as optionsInstance from './manager/options/optionsInstance'
 import { initElements, initElementCategories } from './data/elements'
 import { Errors } from '@zionbuilder/models'
 import * as interactions from './interactions/'
+import {
+	TreeViewList,
+	TreeViewListItem
+} from './components/treeView'
 
 // Components
 import App from './App.vue'
@@ -37,6 +40,10 @@ appInstance.use(store)
 
 // Add error interceptor for API
 errorInterceptor(errors)
+
+// Register nested components
+appInstance.component('TreeViewList', TreeViewList)
+appInstance.component('TreeViewListItem', TreeViewListItem)
 
 // Init elements registration
 const elements = initElements()

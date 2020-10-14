@@ -15,6 +15,7 @@
 		"allowJs": true,
 		// Enable strictest settings like strictNullChecks & noImplicitAny.
 		"strict": true,
+		"noImplicitThis": true,
 		// Disallow features that require cross-file information for emit.
 		"isolatedModules": false,
 		// Import non-ES modules as default imports.

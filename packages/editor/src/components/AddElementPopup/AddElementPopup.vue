@@ -1,5 +1,4 @@
 <template>
-
 	<Tooltip
 		v-if="activePopup"
 		tooltip-class="hg-popper--big-arrows"

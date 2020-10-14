@@ -9,8 +9,8 @@
 		/>
 	</div>
 </template>
-<script>
-import TreeViewList from './TreeViewList.vue'
+<script lang="ts">
+import { PropType } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import { Element } from '@data'
 
@@ -18,7 +18,7 @@ export default {
 	name: 'TreeViewPanel',
 	props: {
 		element: {
-			type: Element,
+			type: Object,
 			required: true
 		}
 	},
@@ -26,9 +26,6 @@ export default {
 		return {
 			parentsToExpand: []
 		}
-	},
-	components: {
-		TreeViewList
 	},
 	computed: {
 		...mapGetters([

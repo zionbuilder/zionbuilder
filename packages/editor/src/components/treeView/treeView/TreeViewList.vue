@@ -1,6 +1,5 @@
 <template>
 	<Sortable
-		ref="root"
 		tag="ul"
 		class="znpb-tree-view-wrapper"
 		v-model="templateItems"
@@ -40,7 +39,7 @@
 	</Sortable>
 </template>
 <script>
-import { defineAsyncComponent, computed, ref } from 'vue'
+import { computed, ref, isReadonly } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
@@ -50,18 +49,18 @@ export default {
 	name: 'TreeViewList',
 	components: {
 		SortableHelper,
-		SortablePlaceholder,
-		TreeViewListItem: defineAsyncComponent(() => import('./TreeViewListItem.vue'))
+		SortablePlaceholder
 	},
 	props: {
 		element: {
+			type: Object,
 			required: false
 		}
 	},
 	setup (props, context) {
 		// Add elements button DOM element will be populated after mount
 		const $root = ref(null)
-		const $addElementsPopupButton = ref(null)
+		const addElementsPopupButton = ref(null)
 		const { getElement } = useElements()
 
 		const templateItems = computed({
@@ -78,7 +77,8 @@ export default {
 
 		function toggleAddElementsPopup () {
 			const { showAddElementsPopup } = useAddElementsPopup()
-			showAddElementsPopup($root.value, $addElementsPopupButton.value)
+
+			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 
 		function sortableStart () {
@@ -90,6 +90,7 @@ export default {
 		}
 
 		return {
+			addElementsPopupButton,
 			templateItems,
 			toggleAddElementsPopup,
 			sortableStart,

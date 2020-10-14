@@ -1,19 +1,18 @@
-import { ref, readonly, Ref } from 'vue'
+import { ref, Ref } from 'vue'
 
-const activePopupRef: Ref<null | object> = ref(null)
+const activePopup: Ref<null | object> = ref(null)
 
 export function useAddElementsPopup () {
-	const activePopup = readonly(activePopupRef)
-
 	const showAddElementsPopup = (element, selector) => {
-		activePopupRef.value = {
+		activePopup.value = {
 			element,
 			selector
 		}
+		console.log({element, selector})
 	}
 
 	const hideAddElementsPopup = () => {
-		activePopupRef.value = null
+		activePopup.value = null
 	}
 
 	return {

@@ -22,7 +22,7 @@
 
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				v-model="element.name"
+				v-model="elementName"
 			/>
 
 			<Tooltip
@@ -94,30 +94,36 @@
 		/>
 	</li> -->
 </template>
-<script>
-import { defineAsyncComponent, ref } from 'vue'
-
+<script lang="ts">
+import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-import { PageElement } from '../../../store2'
+import { Element } from '@data'
 
-export default {
+export default defineComponent({
 	components: {
-		DropdownOptions,
-		TreeViewList: defineAsyncComponent(() => import('./TreeViewList.vue'))
+		DropdownOptions
 	},
 	props: {
-		element: PageElement
+		element: Object as PropType<Element>
 	},
 	setup (props, { attrs, slots, emit }) {
 		const expanded = ref(false)
-
+		const elementName = computed({
+			get () {
+				return props.element.name
+			},
+			set (newValue) {
+				props.element.rename(newValue)
+			}
+		})
 		return {
-			expanded
+			expanded,
+			elementName
 		}
 	}
-}
+})
 </script>
 <style lang="scss">
 .znpb-tree-view__item {

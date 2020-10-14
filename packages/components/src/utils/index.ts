@@ -1,1 +1,1 @@
-export * from './defaultGradient.ts'
+export * from './defaultGradient'

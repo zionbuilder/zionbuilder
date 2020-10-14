@@ -1,4 +1,4 @@
-import { generateUID, getOptionValue } from '@zb/utils'
+import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
 import { each } from 'lodash-es'
 import { useElements } from '../index'
 // import { setFocusedElement } from '../interactions/focusedElement.ts'
@@ -7,7 +7,7 @@ export class Element {
 	// Element data for DB
 	public element_type: string = ''
 	public options: object = {}
-	public content: [] = []
+	public content: string[] = []
 	public uid:string = ''
 	// Helpers
 	public parentUid: string = ''
@@ -41,10 +41,6 @@ export class Element {
 		return window.zb.editor.elements.getElement(this.element_type)
 	}
 
-	get collection () {
-		return window.zb.editor.pageElements
-	}
-
 	get parent () {
 		const { getElement } = useElements()
 		return getElement(this.parentUid)
@@ -56,6 +52,11 @@ export class Element {
 
 	get isVisible () {
 		return getOptionValue(this.options, '_isVisible', true)
+	}
+
+	rename (name: string) {
+		console.log(name);
+		updateOptionValue(this.options, '_advanced_options._element_name', name)
 	}
 
 	focus () {
@@ -70,12 +71,12 @@ export class Element {
 		this.isHighlighted = false
 	}
 
-	addChild (element, index = -1) {
+	addChild (element: Element | string | Object, index = -1) {
 		let uid = null
 
 		if (typeof element === 'string') {
 			uid = element
-		} else if (typeof element === Element) {
+		} else if (element instanceof Element) {
 			uid = element.uid
 		} else {
 			const { registerElement } = useElements()
@@ -94,12 +95,12 @@ export class Element {
 		})
 	}
 
-	removeChild(elementUID) {
-		const index = this.data.content.indexOf(elementUID)
+	removeChild(elementUID: string) {
+		const index = this.content.indexOf(elementUID)
 		this.content.splice(index, 1)
 	}
 
-	move (newParent, index = -1) {
+	move (newParent: Element, index = -1) {
 		this.parent.removeChild(this.uid)
 		newParent.addChild(this.uid, index)
 	}
@@ -108,12 +109,18 @@ export class Element {
 	 * Will delete the element and all it's childrens
 	 */
 	delete () {
-		this.collection.removeElement(this)
+		const { unregisterElement } = useElements()
+
+		if (this.parent) {
+			this.parent.removeChild(this.uid)
+		}
+		unregisterElement(this.uid)
 	}
 
-	toJSON () {
+	toJSON(): {[key:string]: any} {
+		const { getElement } = useElements()
 		const content = this.content.map(elementUID => {
-			const element = this.collection.getElement(elementUID)
+			const element = getElement(elementUID)
 
 			return element.toJSON()
 		})

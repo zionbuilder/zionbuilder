@@ -18,7 +18,10 @@ export class TemplatePart {
 
 		const { registerElement } = useElements()
 
-		this.element = registerElement({ uid: id }, null)
+		this.element = registerElement({
+			uid: id,
+			element_type: 'contentRoot'
+		}, null)
 	}
 
 	toJSON () {
