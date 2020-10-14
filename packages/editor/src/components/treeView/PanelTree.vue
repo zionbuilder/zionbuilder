@@ -52,7 +52,7 @@
 			<component
 				:is="activeTreeView.id"
 				:parentUid="data.uid"
-				:content="elementData.content"
+				:element="elementData"
 			/>
 		</div>
 	</BasePanel>
@@ -65,6 +65,7 @@ import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
 import { focusedElement } from '../../interactions/focusedElement.ts'
+import { useElements } from '@data'
 
 export default {
 	name: 'panel-tree',
@@ -95,7 +96,8 @@ export default {
 			'getIframeOrder'
 		]),
 		elementData () {
-			return this.$zb.data.pageElements.getElement('contentRoot')
+			const { getElement, elements } = useElements()
+			return getElement('content')
 		},
 		focusedElement () {
 			return focusedElement.value

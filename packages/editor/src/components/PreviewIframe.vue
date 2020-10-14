@@ -48,8 +48,8 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { PageElement, PageElements } from '@zionbuilder/models'
 import { each } from 'lodash-es'
+import { useTemplateParts, useElements } from '@data'
 
 export default {
 	name: 'preview-iframe',
@@ -146,47 +146,23 @@ export default {
 				let pageContentElements = {}
 				let pageContentAreas = {}
 
+				const { registerTemplatePart, templateParts } = useTemplateParts()
 
 				// New system
 				each(areaConfig, (value, id) => {
-					this.$zb.data.pageElements.getElement('contentRoot').addChildren(value)
+					const area = registerTemplatePart({
+						name: id,
+						id: id
+					})
+
+					area.element.addChildren(value)
 				})
 
+				const { elements } = useElements()
+				console.log({elements});
+				console.log({templateParts});
 
-				Object.keys(areaConfig).forEach(areaId => {
-					const areaContent = areaConfig[areaId]
-					let flattenData = flattenTemplateData(areaContent)
-					pageContentElements = { ...flattenData, ...pageContentElements }
-					pageContentAreas[areaId] = []
-
-					if (Array.isArray(areaContent)) {
-						areaContent.forEach(elementConfig => {
-							pageContentAreas[areaId].push(elementConfig.uid)
-						})
-					}
-				})
-
-				pageContentElements = {
-					...pageContentElements,
-					contentRoot: {
-						element_type: 'root',
-						content: pageContentAreas.content,
-						options: {},
-						uid: 'contentRoot'
-					}
-				}
-
-				const elementsWithInstances = {}
-				Object.keys(pageContentElements).forEach(uid => {
-					const elementConfig = pageContentElements[uid]
-					this.$zb.data.pageElements.addElement
-
-					elementsWithInstances[uid] = new PageElement(elementConfig)
-				});
-
-				// this.setPageAreas(pageContentAreas)
-				// this.setPageContent(pageContentElements)
-				// this.setActiveArea('content')
+				// TODO: implement history
 				// this.setInitialHistory(this.$translate('initial_state'))
 
 				// Hide recover modal

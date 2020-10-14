@@ -98,17 +98,14 @@
 import { defineAsyncComponent, ref } from 'vue'
 
 import { mapActions, mapGetters } from 'vuex'
-// import TreeViewMixin from '../elementMixins.js'
-// import templateElementMixin from '../../../mixins/templateElement.js'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-// import TreeViewList from './TreeViewList.vue'
 import { PageElement } from '../../../store2'
 
 export default {
 	components: {
 		DropdownOptions,
-		TreeViewList: () => { return require('./TreeViewList.vue').default }
+		TreeViewList: defineAsyncComponent(() => import('./TreeViewList.vue'))
 	},
 	props: {
 		element: PageElement

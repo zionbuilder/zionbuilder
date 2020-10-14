@@ -1,5 +1,6 @@
 <template>
 	<Sortable
+		ref="root"
 		tag="ul"
 		class="znpb-tree-view-wrapper"
 		v-model="templateItems"
@@ -39,67 +40,60 @@
 	</Sortable>
 </template>
 <script>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, computed, ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
+import { useElements, useAddElementsPopup } from '@data'
 
 export default {
 	name: 'TreeViewList',
 	components: {
 		SortableHelper,
-		SortablePlaceholder
-	},
-	beforeCreate: function () {
-		this.$options.components.TreeViewListItem = require('./TreeViewListItem.vue').default
-	},
-	data () {
-		return {
-			// hovered: false
-		}
+		SortablePlaceholder,
+		TreeViewListItem: defineAsyncComponent(() => import('./TreeViewListItem.vue'))
 	},
 	props: {
 		element: {
 			required: false
 		}
 	},
-	computed: {
-		...mapGetters(['getActiveShowElementsPopup']),
-		templateItems: {
+	setup (props, context) {
+		// Add elements button DOM element will be populated after mount
+		const $root = ref(null)
+		const $addElementsPopupButton = ref(null)
+		const { getElement } = useElements()
+
+		const templateItems = computed({
 			get () {
-				return this.element.content.map(elementUID => {
-					console.log(this.$zb.data.pageElements.getElement(elementUID));
-					return this.$zb.data.pageElements.getElement(elementUID)
+
+				return props.element.content.map(elementUID => {
+					return getElement(elementUID)
 				})
 			},
 			set (value) {
 				console.log({value})
-				// this.element.content = value
-				// this.saveElementsOrder({
-				// 	newOrder: value,
-				// 	content: this.content
-				// })
 			}
+		})
+
+		function toggleAddElementsPopup () {
+			const { showAddElementsPopup } = useAddElementsPopup()
+			showAddElementsPopup($root.value, $addElementsPopupButton.value)
 		}
 
-	},
-	methods: {
-		...mapActions([
-			'saveElementsOrder',
-			'setDraggingState'
-		]),
-		onScrollToItem (event) {
-			this.$emit('scroll-to-item', event)
-		},
-		toggleAddElementsPopup () {
-			const selector = this.$refs.addElementsPopupButton
-			this.$zb.editor.interactions.addElementPopup.show(this.element, selector)
-		},
-		sortableStart () {
+		function sortableStart () {
 			this.setDraggingState(true)
-		},
-		sortableEnd () {
+		}
+
+		function sortableEnd () {
 			this.setDraggingState(false)
+		}
+
+		return {
+			templateItems,
+			toggleAddElementsPopup,
+			sortableStart,
+			sortableEnd
 		}
 	}
 }

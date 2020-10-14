@@ -4,6 +4,9 @@
 		"rootDir": "./src",
 		"declarationDir": "./build-types"
 	},
+	// "paths":{
+	// 	"data": ["./src/data"]
+	// },
 	"references": [
 		{
 			"path": "../z-index-manager"

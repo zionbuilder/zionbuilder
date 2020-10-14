@@ -167,6 +167,7 @@ import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
 import { savePage } from '../actions/savePage.ts'
+import { useTemplateParts } from '@data'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -179,9 +180,6 @@ export default {
 		SaveElementModal,
 		aboutModal,
 		ModalTour
-	},
-	props: {
-
 	},
 	data: function () {
 		return {
@@ -323,7 +321,16 @@ export default {
 			this.$zb.panels.togglePanel(panelId)
 		},
 		onSaving (status) {
-			const pageContent = this.$zb.data.pageElements.toJSON()
+			const { getTemplatePart, templateParts } = useTemplateParts()
+			const contentTemplatePart = getTemplatePart('content')
+console.log({contentTemplatePart, templateParts});
+			if (!contentTemplatePart) {
+				console.error('Content template data not found.')
+				return
+			}
+
+			const pageContent = contentTemplatePart.toJSON()
+
 			savePage(pageContent, status).catch(error => {
 				this.$zb.errors.add({
 					message: error.message,

@@ -1,7 +1,7 @@
 <template>
 
 	<Tooltip
-		v-if="activeElementConfig.active"
+		v-if="activePopup"
 		tooltip-class="hg-popper--big-arrows"
 		placement='auto'
 		:show="true"
@@ -9,15 +9,15 @@
 		trigger="click"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
-		:popperRef="activeElementConfig.selector"
-		@hide="close"
+		:popperRef="activePopup.selector"
+		@hide="hideAddElementsPopup"
 	>
 		<template #content>
 			<ColumnTemplates
 				:empty-sortable="true"
-				:data="activeElementConfig.element"
-				:element="activeElementConfig.element"
-				@added-element="close"
+				:data="activePopup.element"
+				:element="activePopup.element"
+				@added-element="hideAddElementsPopup"
 			/>
 		</template>
 	</Tooltip>
@@ -25,20 +25,19 @@
 
 <script>
 import ColumnTemplates from './ColumnTemplates.vue'
+import { useAddElementsPopup } from '@data'
 
 export default {
 	name: "AddElementPopup",
-	computed: {
-		activeElementConfig () {
-			return this.$zb.editor.interactions.addElementPopup.activePopup
-		}
-	},
 	components: {
 		ColumnTemplates
 	},
-	methods: {
-		close () {
-			this.$zb.editor.interactions.addElementPopup.hide()
+	setup() {
+		const { activePopup, hideAddElementsPopup } = useAddElementsPopup()
+
+		return {
+			activePopup,
+			hideAddElementsPopup
 		}
 	}
 }

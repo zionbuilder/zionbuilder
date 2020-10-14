@@ -1,6 +1,7 @@
 const {
 	getConfig
 } = require('@zionbuilder/webpack-config');
+const path = require('path')
 
 module.exports = getConfig(
 	{
@@ -15,6 +16,15 @@ module.exports = getConfig(
 		{
 			vue: true,
 			zionVue: true
+		}
+	},
+	{
+		resolve: {
+			alias: {
+				'@data': path.resolve(__dirname, './src/data'),
+				'@components': path.resolve(__dirname, './src/components'),
+				'@utils': path.resolve(__dirname, './src/utils')
+			}
 		}
 	}
 

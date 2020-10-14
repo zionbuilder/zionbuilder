@@ -5,22 +5,21 @@
 		id="znpb-tree-view-panel"
 	>
 		<TreeViewList
-			:element="getRootElement"
+			:element="element"
 		/>
 	</div>
 </template>
 <script>
 import TreeViewList from './TreeViewList.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { Element } from '@data'
+
 export default {
 	name: 'TreeViewPanel',
 	props: {
-		content: {
-			type: Array,
+		element: {
+			type: Element,
 			required: true
-		},
-		parentUid: {
-			type: String
 		}
 	},
 	data: function () {
@@ -35,10 +34,7 @@ export default {
 		...mapGetters([
 			'getRightClickMenu',
 			'getParents'
-		]),
-		getRootElement () {
-			return this.$zb.data.pageElements.getElement('contentRoot')
-		}
+		])
 	},
 	methods: {
 		...mapActions([
