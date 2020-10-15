@@ -8,4 +8,5 @@ export * from './useAddElementsPopup'
 export * from './useElementMenu'
 export * from './useCopyElementStyles'
 export * from './useSavePage'
+export * from './usePreviewLoading'
 

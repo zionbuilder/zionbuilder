@@ -10,15 +10,7 @@
 		:show-expand="false"
 		:panel="panel"
 	>
-
 		<div
-			v-if="isPreviewLoading"
-			class="znpb-todo-loading"
-		>
-			Loading
-		</div>
-		<div
-			v-if="!isPreviewLoading"
 			class="znpb-tree-view__header"
 		>
 			<div class="znpb-tree-view__header-menu">
@@ -45,8 +37,10 @@
 			/>
 		</div>
 
+		<Loader v-if="isPreviewLoading" />
+
 		<div
-			v-if="!isPreviewLoading"
+			v-else
 			class="znpb-tree-view__type_wrapper"
 		>
 			<component
@@ -57,14 +51,15 @@
 		</div>
 	</BasePanel>
 </template>
-<script>
-import { mapGetters, mapActions } from 'vuex'
 
+<script>
+import { ref } from 'vue'
 import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
-import { useElements } from '@data'
+import { useElements, usePreviewLoading } from '@data'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'panel-tree',
@@ -84,6 +79,7 @@ export default {
 	setup (props) {
 		const { getElement, elements } = useElements()
 		const element = getElement('content')
+		const { isPreviewLoading } = usePreviewLoading()
 
 		// Tree view types
 		const treeViewTypes = [{
@@ -132,13 +128,8 @@ export default {
 			treeViewTypes,
 			activateTree,
 			closeWireframe,
-			basepanel
-		}
-	},
-	data () {
-		return {
-			treeViewTypes: [],
-			cachedDetached: null
+			basepanel,
+			isPreviewLoading
 		}
 	}
 }

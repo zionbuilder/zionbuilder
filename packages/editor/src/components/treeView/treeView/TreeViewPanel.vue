@@ -10,10 +10,6 @@
 	</div>
 </template>
 <script lang="ts">
-import { PropType } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
-import { Element } from '@data'
-
 export default {
 	name: 'TreeViewPanel',
 	props: {

@@ -50,6 +50,7 @@ import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import { useTemplateParts, useElements } from '@data'
+import { usePreviewLoading } from '@data'
 
 export default {
 	name: 'preview-iframe',
@@ -106,7 +107,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'setPreviewFrameLoading',
 			'setPageAreas',
 			'setPageContent',
 			'setInitialHistory',
@@ -124,7 +124,6 @@ export default {
 			this.showRecoverModal = false
 		},
 		useServerVersion () {
-
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
 
@@ -135,7 +134,6 @@ export default {
 						delayClose: 0
 					})
 
-					this.setPreviewFrameLoading(false)
 					this.ignoreNextReload = false
 
 					return false
@@ -168,13 +166,14 @@ export default {
 			}
 		},
 		onIframeLoaded () {
+			const { setPreviewLoading } = usePreviewLoading()
 			this.iframeLoaded = true
 			Dom.iframe = this.$refs.iframe
 			Dom.iframeDocument = this.$refs.iframe.contentDocument
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
 
 			this.attachIframeEvents()
-			this.setPreviewFrameLoading(false)
+			setPreviewLoading(false)
 			this.ignoreNextReload = false
 
 			const cachedData = Cache.getItem(this.getPageId)
