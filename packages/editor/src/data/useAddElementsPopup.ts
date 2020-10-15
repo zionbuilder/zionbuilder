@@ -8,7 +8,6 @@ export function useAddElementsPopup () {
 			element,
 			selector
 		}
-		console.log({element, selector})
 	}
 
 	const hideAddElementsPopup = () => {

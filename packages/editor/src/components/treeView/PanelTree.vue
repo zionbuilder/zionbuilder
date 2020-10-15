@@ -18,8 +18,7 @@
 					class="znpb-tree-view__header-menu-item"
 					v-for="(treeType, index) in treeViewTypes"
 					@click="activateTree(treeType)"
-					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView===treeType}"
-					:key="`tree-view-type-${index}`"
+					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView.id===treeType.id}"
 				>
 					<Icon
 						class="znpb-tree-view__header-menu-item-icon"
@@ -40,12 +39,11 @@
 		<Loader v-if="isPreviewLoading" />
 
 		<div
-			v-else
+			v-if="element && !isPreviewLoading"
 			class="znpb-tree-view__type_wrapper"
 		>
 			<component
 				:is="activeTreeView.id"
-				:parentUid="data.uid"
 				:element="element"
 			/>
 		</div>
@@ -53,7 +51,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
@@ -78,7 +76,7 @@ export default {
 	},
 	setup (props) {
 		const { getElement, elements } = useElements()
-		const element = getElement('content')
+		const element = computed(() => getElement('content'))
 		const { isPreviewLoading } = usePreviewLoading()
 
 		// Tree view types
@@ -106,7 +104,7 @@ export default {
 		const panelDetachedState = ref(null)
 
 		const activateTree = (treeType) => {
-			activeTreeView = treeType
+			activeTreeView.value = treeType
 			if (treeType.id === 'wireframe-view') {
 				panelDetachedState.value = basepanel.panel.isDetached
 				props.panel.set('isDetached', false)

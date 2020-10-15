@@ -5,7 +5,6 @@ const activeElementMenu: Ref<null | object> = ref(null)
 
 export function useElementMenu () {
 	const showElementMenu = (element: Element, selector) => {
-		console.log({selector});
 		activeElementMenu.value = {
 			element,
 			selector

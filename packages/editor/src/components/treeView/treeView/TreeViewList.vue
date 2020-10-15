@@ -32,6 +32,7 @@
 					:bgSize="25"
 					:rounded="true"
 					color="#fff"
+					:bgColor="addButtonBgColor"
 					class="znpb-tree-view__item-add-element-button-icon"
 				></Icon>
 			</div>
@@ -63,9 +64,10 @@ export default {
 		const addElementsPopupButton = ref(null)
 		const { getElement } = useElements()
 
+		const addButtonBgColor = props.element.element_type === 'zion_column' ? '#eec643' : '#404be3'
+
 		const templateItems = computed({
 			get () {
-
 				return props.element.content.map(elementUID => {
 					return getElement(elementUID)
 				})
@@ -94,7 +96,8 @@ export default {
 			templateItems,
 			toggleAddElementsPopup,
 			sortableStart,
-			sortableEnd
+			sortableEnd,
+			addButtonBgColor
 		}
 	}
 }

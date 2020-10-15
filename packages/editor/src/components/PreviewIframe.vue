@@ -173,7 +173,7 @@ export default {
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
 
 			this.attachIframeEvents()
-			setPreviewLoading(false)
+
 			this.ignoreNextReload = false
 
 			const cachedData = Cache.getItem(this.getPageId)
@@ -184,6 +184,8 @@ export default {
 			} else {
 				this.useServerVersion()
 			}
+
+			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)
