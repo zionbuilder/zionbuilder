@@ -108,10 +108,10 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="savePageAction"
+			@click="savePage"
 		>
 			<Icon icon="check"></Icon>
-			{{$translate('save_draft')}}
+			{{$translate('save_page')}}
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
 		<li
@@ -127,7 +127,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles } from '@data'
+import { useCopyElementStyles, useSavePage } from '@data'
 export default {
 	name: 'ElementActions',
 	props: {
@@ -143,11 +143,13 @@ export default {
 	},
 	setup () {
 		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
+		const { savePage } = useSavePage()
 
 		return {
 			copyElementStyles,
 			pasteElementStyles,
-			copiedElementStyles
+			copiedElementStyles,
+			savePage
 		}
 	},
 	computed: {
@@ -281,23 +283,6 @@ export default {
 			trigger('save-element', {
 				elementUid: this.data.uid,
 				parentUid: this.getElementFocus.parentUid
-			})
-		},
-		savePageAction () {
-			this.savePage({
-				status: 'autosave'
-			}).catch(error => {
-				this.$zb.errors.add({
-					message: error.message,
-					type: 'error',
-					delayClose: 5000
-				})
-			}).finally(() => {
-				this.$zb.errors.add({
-					message: this.$translate('page_saved'),
-					delayClose: 5000
-				})
-				this.close()
 			})
 		},
 		close () {

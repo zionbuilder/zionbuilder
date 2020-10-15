@@ -23,9 +23,6 @@ export default {
 			default: null
 		}
 	},
-	setup (props) {
-
-	},
 	methods: {
 		/**
 		 * Activates the name change input
