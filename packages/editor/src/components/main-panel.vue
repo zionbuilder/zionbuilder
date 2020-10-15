@@ -116,7 +116,7 @@
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
 				<template v-slot:panel-icon>
 					<Icon
-						v-if="!getSavingPage"
+						v-if="!isSavePageLoading"
 						icon="check"
 						@mousedown.stop="onSaving"
 					/>
@@ -198,7 +198,7 @@ export default {
 		}
 	},
 	setup () {
-		const { saveDraft, savePage } = useSavePage()
+		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
 
 		const saveActions = [
 			{
@@ -220,7 +220,8 @@ export default {
 		]
 
 		return {
-			saveActions
+			saveActions,
+			isSavePageLoading
 		}
 	},
 	computed: {
@@ -287,9 +288,6 @@ export default {
 		},
 		orientation: function () {
 			return this.getActiveDevice.isLandscape && this.getActiveDevice.allowsLandscape
-		},
-		getSavingPage () {
-			return this.getIsSavingPage
 		},
 		getCssClasses () {
 			let classes = this.isDragging ? 'znpb-editor-panel__container--dragging ' : ''

@@ -156,8 +156,6 @@ export default {
 					area.element.addChildren(value)
 				})
 
-				const { elements } = useElements()
-
 				// TODO: implement history
 				// this.setInitialHistory(this.$translate('initial_state'))
 

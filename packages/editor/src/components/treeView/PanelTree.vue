@@ -106,12 +106,12 @@ export default {
 		const activateTree = (treeType) => {
 			activeTreeView.value = treeType
 			if (treeType.id === 'wireframe-view') {
-				panelDetachedState.value = basepanel.panel.isDetached
+				panelDetachedState.value = basepanel.value.panel.isDetached
 				props.panel.set('isDetached', false)
 			} else {
-				if (panelDetachedState) {
-					props.panel.set('isDetached', panelDetachedState)
-					panelDetachedState = null
+				if (panelDetachedState.value) {
+					props.panel.set('isDetached', panelDetachedState.value)
+					panelDetachedState.value = null
 				}
 			}
 		}

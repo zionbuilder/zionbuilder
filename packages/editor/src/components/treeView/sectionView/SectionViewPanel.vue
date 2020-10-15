@@ -10,100 +10,55 @@
 			group="pagebuilder-sectionview-elements"
 			@start="sortableStart"
 			@end="sortableEnd"
-			v-if="content.length !== 0"
 		>
 			<ElementSectionView
-				v-for="elementUid in templateItems"
-				:content="content"
-				:parentUid="parentUid"
-				:element-uid="elementUid"
-				:key="'tree-view-element-' + elementUid"
+				v-for="element in templateItems"
+				:element="element"
+				:key="element.uid"
 			/>
 			<SortableHelper slot="helper"></SortableHelper>
 			<SortablePlaceholder slot="placeholder"></SortablePlaceholder>
 		</Sortable>
-		<div
-			class="znpb-tree-view--no_content"
-			v-if="content.length === 0"
-		>
-			No elements added to page
-		</div>
 	</div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import ElementSectionView from './ElementSectionView.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
+import { useTreeView } from '../useTreeViewHelper'
 
 export default {
 	name: 'section-view',
-	props: {
-		content: {
-			type: Array,
-			required: true
-		},
-		parentUid: {
-			type: String
-		}
-	},
-	data: function () {
-		return {}
-	},
-	computed: {
-		...mapGetters([
-			'getRightClickMenu'
-		]),
-		templateItems: {
-			get () {
-				return this.content || []
-			},
-			set (value) {
-				this.saveElementsOrder({
-					newOrder: value,
-					content: this.content
-				})
-			}
-		}
-	},
 	components: {
 		ElementSectionView,
 		SortableHelper,
 		SortablePlaceholder
 	},
-	methods: {
-		...mapActions([
-			'saveElementsOrder',
-			'setDraggingState',
-			'setRightClickMenu'
-		]),
-		sortableStart () {
-			this.setDraggingState(true)
-		},
-		sortableEnd () {
-			this.setDraggingState(false)
-		},
-		onScroll (e) {
-			this.setRightClickMenu({
-				editorScrollTop: parseInt(this.$el.scrollTop)
-			})
+	props: {
+		element: {
+			type: Object,
+			required: true
 		}
 	},
-	watch: {
-		getRightClickMenu (newValue) {
-			if (newValue.visibility) {
-				this.$el.addEventListener('scroll', this.onScroll)
-			} else {
-				this.$el.removeEventListener('scroll', this.onScroll)
-			}
+	setup (props) {
+		const {
+			addElementsPopupButton,
+			templateItems,
+			addButtonBgColor,
+			toggleAddElementsPopup,
+			sortableStart,
+			sortableEnd
+		} = useTreeView(props)
+
+		return {
+			addElementsPopupButton,
+			templateItems,
+			toggleAddElementsPopup,
+			sortableStart,
+			sortableEnd,
+			addButtonBgColor
 		}
-	},
-	getRightClickMenu (newValue) {
-		if (newValue.visibility) {
-			this.$el.addEventListener('scroll', this.onScroll)
-		} else {
-			this.$el.removeEventListener('scroll', this.onScroll)
-		}
+
 	}
 }
 </script>

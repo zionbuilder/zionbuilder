@@ -10,6 +10,7 @@
 	>
 		<div
 			class="znpb-tree-view__item-header"
+			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
 			<Icon
 				icon="select"
@@ -23,7 +24,7 @@
 
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				v-model="elementName"
+				v-model="element.name"
 				v-model:active="element.activeElementRename"
 			/>
 
@@ -47,7 +48,7 @@
 			<div
 				class="znpb-element-options__container"
 				@click.stop="onRightClick"
-				ref="elementOptions"
+				ref="elementOptionsRef"
 			>
 				<Icon
 					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
@@ -60,55 +61,14 @@
 			:element="element"
 		/>
 	</li>
-
-	<!-- <li
-		class="znpb-tree-view__item"
-		:class="{'znpb-tree-view__item--hidden': !isElementVisible}"
-		@mouseenter.capture="highlightElement"
-		@mouseleave="unHighlightElement"
-		@mouseup="onMouseup"
-		@click.stop.left="onItemClick"
-		@contextmenu.stop.prevent="showContextMenu"
-		@dblclick.stop="openOptions"
-		:id="elementUid"
-	>
-		<div
-			class="znpb-tree-view__item-header"
-			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
-		>
-			<ElementRename
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				@name-changed="doRenameElement"
-				@dblclick="isNameChangeActive=true"
-				:is-active="isNameChangeActive"
-				:content="elementName"
-			/>
-
-			<DropdownOptions
-				:element-uid="elementUid"
-				:parentUid="parentUid"
-				:position="dropdownPosition"
-				:isActive="isActiveItem"
-				@changename="isNameChangeActive=true"
-			/>
-		</div>
-		<TreeViewList
-			:content="templateItems"
-			v-show="expanded && elementModel.wrapper"
-			:elementUid="elementUid"
-			:parentsToExpand="parentsToExpand"
-			:addButton="elementModel.wrapper && expanded"
-			:addButtonColor="addElementIconColor"
-			@scroll-to-item="onScrollToItem"
-		/>
-	</li> -->
 </template>
+
 <script lang="ts">
 import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-import { Element, useElementMenu } from '@data'
+import { Element, useElementMenu, useElementFocus } from '@data'
 
 export default defineComponent({
 	components: {
@@ -118,27 +78,19 @@ export default defineComponent({
 		element: Object as PropType<Element>
 	},
 	setup (props, { attrs, slots, emit }) {
+		const { focusedElement } = useElementFocus()
 		const expanded = ref(false)
-		const elementOptions = ref(null)
-
-		const elementName = computed({
-			get () {
-				return props.element.name
-			},
-			set (newValue) {
-				props.element.rename(newValue)
-			}
-		})
+		const elementOptionsRef = ref(null)
+		const isActiveItem = computed(() => focusedElement.value === props.element)
 
 		const onRightClick = function () {
 			const { showElementMenu } = useElementMenu()
-			showElementMenu(this.element, elementOptions.value)
+			showElementMenu(props.element, elementOptionsRef.value)
 		}
 
 		return {
 			expanded,
-			elementName,
-			elementOptions,
+			elementOptionsRef,
 			onRightClick
 		}
 	}
@@ -172,7 +124,7 @@ export default defineComponent({
 		background-color: $surface-variant;
 		border-radius: 3px;
 
-		&.znpb-panel-item--hovered {
+		&:hover {
 			background-color: darken($surface-variant, 3%);
 		}
 
@@ -235,8 +187,5 @@ export default defineComponent({
 			}
 		}
 	}
-}
-.znpb-tree-view__item .znpb-element-options__dropdown-icon {
-	padding-left: 5px;
 }
 </style>

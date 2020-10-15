@@ -59,6 +59,7 @@ export function useSavePage () {
 	return {
 		savePage,
 		saveDraft,
-		saveAutosave
+		saveAutosave,
+		isSavePageLoading
 	}
 }

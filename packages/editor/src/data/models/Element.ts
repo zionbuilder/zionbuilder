@@ -1,8 +1,8 @@
 import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
-import { each, update } from 'lodash-es'
+import { each, update, isPlainObject } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
-
+import { useElementFocus } from '../useElementFocus'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -22,12 +22,13 @@ export class Element {
 		const {
 			uid = generateUID(),
 			content,
-			options,
+			options = {},
 			element_type
 		} = data
-
+console.log(isPlainObject(options), 'object');
+console.log(options);
 		this.uid = uid
-		this.options = options || []
+		this.options = isPlainObject(options) ? options : {}
 		this.element_type = element_type
 
 		// Keep only the uid for content
@@ -54,9 +55,19 @@ export class Element {
 		return getOptionValue(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
 	}
 
+	set name (newName) {
+		console.log({newName})
+		update(this.options, '_advanced_options._element_name', () => newName)
+		console.log(this.options)
+	}
+
 	// Element visibility
 	get isVisible () {
 		return getOptionValue(this.options, '_isVisible', true)
+	}
+
+	get elementCssId () {
+		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
 	set isVisible (visbility) {
@@ -67,12 +78,9 @@ export class Element {
 		update(this.options, '_isVisible', () => !this.isVisible)
 	}
 
-	rename (name: string) {
-		update(this.options, '_advanced_options._element_name', () => name)
-	}
-
 	focus () {
-		// setFocusedElement(this)
+		const { focusElement } = useElementFocus()
+		focusElement(this)
 	}
 
 	highlight () {
@@ -143,10 +151,14 @@ export class Element {
 			return element.toJSON()
 		})
 
+		const options = this.options
+		const element_type = this.element_type
+		console.log({options});
+		console.log({element_type});
 		return {
 			uid: this.uid,
 			content: content,
-			element_type: this.element_type,
+			element_type,
 			options: this.options
 		}
 	}
