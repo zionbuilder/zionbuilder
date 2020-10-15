@@ -24,7 +24,6 @@
 
 <script>
 import { ref } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
 import ElementActions from './ElementActions.vue'
 import { useElementMenu } from '@data'
 
@@ -49,68 +48,6 @@ export default {
 			showOptions,
 			activeElementMenu,
 			hideElementMenu
-		}
-	},
-	computed: {
-		...mapGetters([
-			'isDragging',
-			'getRightClickMenu',
-			'getElementFocus',
-			'getElementData'
-		]),
-		elementVisibilityValue: function () {
-			let elVisibility = this.getElementData(this.elementUid)['options']['_isVisible']
-			return elVisibility
-		},
-		rightClickOpen () {
-			if (this.getRightClickMenu) {
-				return this.getRightClickMenu.visibility
-			}
-
-			return null
-		}
-	},
-	methods: {
-		...mapActions([
-			'copyElement',
-			'deleteElement',
-			'updateElementOptionValue',
-			'setElementFocus',
-			'setRightClickMenu'
-		]),
-		close () {
-			this.showOptions = false
-		},
-		updateElementVisibility (payload) {
-			this.updateElementOptionValue({
-				elementUid: this.elementUid,
-				path: '_isVisible',
-				newValue: payload,
-				type: 'visibility'
-			})
-		},
-		toggleElement () {
-			if (this.elementVisibilityValue === true || this.elementVisibilityValue === undefined) {
-				this.updateElementVisibility(false)
-			} else {
-				this.updateElementVisibility(true)
-			}
-		},
-		toggleOptions () {
-			this.showOptions = !this.showOptions && !this.isDragging
-
-			this.setElementFocus({
-				uid: this.elementUid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.parentUid : this.elementUid,
-				scrollIntoView: false
-			})
-			this.setRightClickMenu({
-				visibility: false
-			})
-		},
-		hideOptions () {
-			this.showOptions = false
 		}
 	}
 }

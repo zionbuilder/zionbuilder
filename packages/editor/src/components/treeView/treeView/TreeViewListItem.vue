@@ -24,6 +24,7 @@
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				v-model="elementName"
+				v-model:active="element.activeElementRename"
 			/>
 
 			<Tooltip
@@ -130,7 +131,6 @@ export default defineComponent({
 		})
 
 		const onRightClick = function () {
-			console.log('click')
 			const { showElementMenu } = useElementMenu()
 			showElementMenu(this.element, elementOptions.value)
 		}

@@ -43,7 +43,7 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="triggerRename"
+			@click="element.activeElementRename = true"
 			v-if="showRename"
 		>
 			<Icon icon="edit"></Icon>
@@ -51,15 +51,15 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="toggleVisibility"
+			@click="element.toggleVisibility"
 		>
 			<Icon icon="eye"></Icon>
-			{{this.getElementOptionValue(this.getElementFocus.uid, '_isVisible', true) ? $translate('visible_element') : $translate('show_element')}}
+			{{element.isVisible ? $translate('visible_element') : $translate('show_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="copyElementStyles"
-			v-if="data && data.options._styles"
+			v-if="copiedElementStyles"
 		>
 			<Icon icon="drop"></Icon>
 			{{$translate('copy_element_styles')}}
@@ -74,8 +74,8 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="pasteElementStyles"
-			v-if="getCopiedElementStyles"
+			@click="pasteElementStyles(this.element)"
+			v-if="copiedElementStyles"
 		>
 			<Icon icon="drop"></Icon>
 			{{$translate('paste_element_styles')}}
@@ -127,7 +127,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-
+import { useCopyElementStyles } from '@data'
 export default {
 	name: 'ElementActions',
 	props: {
@@ -139,6 +139,15 @@ export default {
 		element: {
 			type: Object,
 			required: true
+		}
+	},
+	setup () {
+		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
+
+		return {
+			copyElementStyles,
+			pasteElementStyles,
+			copiedElementStyles
 		}
 	},
 	computed: {
@@ -173,15 +182,6 @@ export default {
 		triggerRename () {
 			this.setActiveElement(this.getElementFocus.uid)
 			this.$emit('changename', true)
-		},
-		toggleVisibility () {
-			this.updateElementOptionValue({
-				elementUid: this.getElementFocus.uid,
-				path: '_isVisible',
-				newValue: !this.getElementOptionValue(this.getElementFocus.uid, '_isVisible', true),
-				type: 'visibility'
-			})
-			this.close()
 		},
 		copyElementClasses () {
 			const elementClasses = this.data.options._classes
@@ -275,14 +275,6 @@ export default {
 				})
 				this.close()
 			}
-		},
-		duplicateElement () {
-			this.copyElement({
-				elementUid: this.getElementFocus.uid,
-				parentUid: this.getElementFocus.parentUid,
-				insertParent: this.getElementFocus.parentUid
-			})
-			this.close()
 		},
 		saveElement () {
 			this.close()

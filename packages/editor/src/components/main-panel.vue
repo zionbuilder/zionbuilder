@@ -166,8 +166,8 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { savePage } from '../actions/savePage.ts'
-import { useTemplateParts } from '@data'
+import { useTemplateParts, useSavePage } from '@data'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -185,23 +185,6 @@ export default {
 		return {
 			showModal: false,
 			aboutModalVisibility: false,
-			saveActions: [
-				{
-					icon: 'save-template',
-					title: this.$translate('save_template'),
-					action: this.emitEventbus
-				},
-				{
-					icon: 'save-draft',
-					title: this.$translate('save_draft'),
-					action: this.onSavePage
-				},
-				{
-					icon: 'save-page',
-					title: this.$translate('save_page'),
-					action: this.onSave
-				}
-			],
 			helpModalVisibility: false,
 			shortcutsModalVisibility: false,
 			canAutosave: true,
@@ -214,7 +197,32 @@ export default {
 			sticked: false
 		}
 	},
+	setup () {
+		const { saveDraft, savePage } = useSavePage()
 
+		const saveActions = [
+			{
+				icon: 'save-template',
+				title: translate('save_template'),
+				// TODO: implement this
+				// action: this.emitEventbus
+			},
+			{
+				icon: 'save-draft',
+				title: translate('save_draft'),
+				action: saveDraft
+			},
+			{
+				icon: 'save-page',
+				title: translate('save_page'),
+				action: savePage
+			}
+		]
+
+		return {
+			saveActions
+		}
+	},
 	computed: {
 		...mapGetters([
 			'getMainBarOrder',
@@ -321,9 +329,9 @@ export default {
 			this.$zb.panels.togglePanel(panelId)
 		},
 		onSaving (status) {
-			const { getTemplatePart, templateParts } = useTemplateParts()
+			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')
-console.log({contentTemplatePart, templateParts});
+
 			if (!contentTemplatePart) {
 				console.error('Content template data not found.')
 				return
@@ -346,12 +354,6 @@ console.log({contentTemplatePart, templateParts});
 					this.isDisplayingSaveNotice = false
 				})
 			})
-		},
-		onSave () {
-			this.onSaving('publish')
-		},
-		onSavePage () {
-			this.onSaving('autosave')
 		},
 		showAbout () {
 			this.aboutModalVisibility = true
@@ -435,10 +437,8 @@ console.log({contentTemplatePart, templateParts});
 	watch: {
 		activeHistoryIndex (newValue) {
 			if (this.canAutosave && newValue > 0) {
-				this.savePage({
-					status: 'autosave',
-					showPreloader: false
-				})
+				const { saveAutosave } = useSavePage()
+				saveAutosave()
 				this.canAutosave = false
 
 				setTimeout(() => {

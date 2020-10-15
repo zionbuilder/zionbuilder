@@ -1,7 +1,8 @@
 import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
-import { each } from 'lodash-es'
+import { each, update } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
+
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -15,6 +16,7 @@ export class Element {
 	// Helpers
 	public parentUid: string = ''
 	public isHighlighted: boolean = false
+	public activeElementRename: boolean = false
 
 	constructor(data, parentUid = '') {
 		const {
@@ -52,12 +54,21 @@ export class Element {
 		return getOptionValue(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
 	}
 
+	// Element visibility
 	get isVisible () {
 		return getOptionValue(this.options, '_isVisible', true)
 	}
 
+	set isVisible (visbility) {
+		update(this.options, '_isVisible', () => visbility)
+	}
+
+	toggleVisibility () {
+		update(this.options, '_isVisible', () => !this.isVisible)
+	}
+
 	rename (name: string) {
-		updateOptionValue(this.options, '_advanced_options._element_name', name)
+		update(this.options, '_advanced_options._element_name', () => name)
 	}
 
 	focus () {

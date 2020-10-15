@@ -315,7 +315,6 @@ export default {
 			}
 
 			this.visible = false
-
 			if (this.popperInstance) {
 				this.popperInstance.destroy()
 				this.popperInstance = null
