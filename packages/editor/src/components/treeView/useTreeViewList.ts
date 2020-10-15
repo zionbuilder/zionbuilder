@@ -1,9 +1,10 @@
-import { useElements, useAddElementsPopup } from '@data'
+import { useElements, useAddElementsPopup, useElementMenu } from '@data'
 import { ref, computed } from 'vue'
 
-export function useTreeView(props: Object) {
+export function useTreeViewList(props: Object) {
 		// Add elements button DOM element will be populated after mount
 		const addElementsPopupButton = ref(null)
+		const elementOptionsRef = ref(null)
 		const { getElement } = useElements()
 
 		const addButtonBgColor = props.element.element_type === 'zion_column' ? '#eec643' : '#404be3'
@@ -33,12 +34,19 @@ export function useTreeView(props: Object) {
 			// setDraggingState(false)
 		}
 
+		const showElementMenu = function () {
+			const { showElementMenu } = useElementMenu()
+			showElementMenu(props.element, elementOptionsRef.value)
+		}
+
 		return {
 			addElementsPopupButton,
 			templateItems,
 			addButtonBgColor,
+			elementOptionsRef,
 			toggleAddElementsPopup,
 			sortableStart,
-			sortableEnd
+			sortableEnd,
+			showElementMenu
 		}
 }

@@ -66,12 +66,12 @@ console.log(options);
 		return getOptionValue(this.options, '_isVisible', true)
 	}
 
-	get elementCssId () {
-		return (this.options._advanced_options || {})._element_id || this.uid
-	}
-
 	set isVisible (visbility) {
 		update(this.options, '_isVisible', () => visbility)
+	}
+
+	get elementCssId () {
+		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
 	toggleVisibility () {
@@ -151,10 +151,8 @@ console.log(options);
 			return element.toJSON()
 		})
 
-		const options = this.options
 		const element_type = this.element_type
-		console.log({options});
-		console.log({element_type});
+
 		return {
 			uid: this.uid,
 			content: content,

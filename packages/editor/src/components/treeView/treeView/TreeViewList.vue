@@ -42,7 +42,7 @@
 <script>
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import { useTreeView } from '../useTreeViewHelper'
+import { useTreeViewList } from '../useTreeViewList'
 
 export default {
 	name: 'TreeViewList',
@@ -64,7 +64,7 @@ export default {
 			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd
-		} = useTreeView(props)
+		} = useTreeViewList(props)
 
 		return {
 			addElementsPopupButton,

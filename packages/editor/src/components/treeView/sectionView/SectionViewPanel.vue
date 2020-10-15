@@ -16,8 +16,15 @@
 				:element="element"
 				:key="element.uid"
 			/>
-			<SortableHelper slot="helper"></SortableHelper>
-			<SortablePlaceholder slot="placeholder"></SortablePlaceholder>
+
+			<template #helper>
+				<SortableHelper />
+			</template>
+
+			<template #placeholder>
+				<SortablePlaceholder />
+			</template>
+
 		</Sortable>
 	</div>
 </template>
@@ -25,7 +32,7 @@
 import ElementSectionView from './ElementSectionView.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import { useTreeView } from '../useTreeViewHelper'
+import { useTreeViewList } from '../useTreeViewList'
 
 export default {
 	name: 'section-view',
@@ -48,7 +55,7 @@ export default {
 			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd
-		} = useTreeView(props)
+		} = useTreeViewList(props)
 
 		return {
 			addElementsPopupButton,

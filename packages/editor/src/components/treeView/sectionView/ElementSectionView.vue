@@ -2,7 +2,7 @@
 	<li
 		class="znpb-section-view-item"
 		:class="{'znpb-section-view-item--hidden': !element.isVisible}"
-		@contextmenu.stop.prevent="onRightClick"
+		@contextmenu.stop.prevent="showElementMenu"
 		@mouseenter.capture="element.highlight"
 		@mouseleave="element.unHighlight"
 		@click.stop.left="element.focus"
@@ -35,7 +35,7 @@
 					<transition name="fade">
 						<Icon
 							icon="visibility-hidden"
-							@click="makeElementVisible"
+							@click="element.toggleVisibility()"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
 						</Icon>
@@ -45,7 +45,7 @@
 
 			<div
 				class="znpb-element-options__container"
-				@click.stop="onRightClick"
+				@click.stop="showElementMenu"
 				ref="elementOptionsRef"
 			>
 				<Icon
@@ -63,6 +63,7 @@ import { on } from '@zb/hooks'
 import { onMounted, onUpdated, onUnmounted } from 'vue'
 import { translate } from '@zb/i18n'
 import { Element, useElementMenu, useElementFocus } from '@data'
+import { useTreeViewItem } from '../useTreeViewItem'
 
 export default {
 	name: 'element-section-view',
@@ -70,12 +71,15 @@ export default {
 		element: Object as PropType<Element>
 	},
 	setup (props) {
-		const { focusedElement } = useElementFocus()
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
+		} = useTreeViewItem(props)
+
 		const imageSrc = ref(null)
 		const error = ref(null)
 		const loading: Ref<boolean> = ref(false)
-		const elementOptionsRef = ref(null)
-		const isActiveItem = computed(() => focusedElement.value === props.element)
 
 		onMounted(() => {
 			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId)
@@ -114,16 +118,11 @@ export default {
 				})
 		})
 
-		const onRightClick = function () {
-			const { showElementMenu } = useElementMenu()
-			showElementMenu(props.element, elementOptionsRef.value)
-		}
-
 		return {
 			imageSrc,
 			error,
 			loading,
-			onRightClick,
+			showElementMenu,
 			elementOptionsRef,
 			isActiveItem
 		}

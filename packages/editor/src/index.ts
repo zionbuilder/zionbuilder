@@ -1,4 +1,4 @@
-
+require('./scss/index.scss')
 import { createApp } from 'vue'
 import { store } from './store/'
 
@@ -16,6 +16,11 @@ import {
 	TreeViewList,
 	TreeViewListItem
 } from './components/treeView'
+import {
+	WireframeList,
+	WireframeListItem
+} from './components/treeView'
+
 
 // Components
 import App from './App.vue'
@@ -43,6 +48,8 @@ errorInterceptor(errors)
 // Register nested components
 appInstance.component('TreeViewList', TreeViewList)
 appInstance.component('TreeViewListItem', TreeViewListItem)
+appInstance.component('WireframeList', WireframeList)
+appInstance.component('WireframeListItem', WireframeListItem)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {

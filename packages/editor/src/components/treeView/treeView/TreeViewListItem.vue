@@ -6,7 +6,7 @@
 		@mouseenter.capture="element.highlight"
 		@mouseleave="element.unHighlight"
 		@click.stop.left="element.focus"
-		@contextmenu.stop.prevent="onRightClick"
+		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div
 			class="znpb-tree-view__item-header"
@@ -38,16 +38,15 @@
 							icon="visibility-hidden"
 							v-if="!element.isVisible"
 							class="znpb-editor-icon-wrapper--show-element"
-							@click="element.delete()"
+							@click="element.toggleVisibility()"
 						/>
-							<!-- @click="element.isVisible = true" -->
 					</transition>
 				</span>
 			</Tooltip>
 
 			<div
 				class="znpb-element-options__container"
-				@click.stop="onRightClick"
+				@click.stop="showElementMenu"
 				ref="elementOptionsRef"
 			>
 				<Icon
@@ -68,7 +67,8 @@ import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-import { Element, useElementMenu, useElementFocus } from '@data'
+import { Element } from '@data'
+import { useTreeViewItem } from '../useTreeViewItem'
 
 export default defineComponent({
 	components: {
@@ -77,21 +77,21 @@ export default defineComponent({
 	props: {
 		element: Object as PropType<Element>
 	},
-	setup (props, { attrs, slots, emit }) {
-		const { focusedElement } = useElementFocus()
-		const expanded = ref(false)
-		const elementOptionsRef = ref(null)
-		const isActiveItem = computed(() => focusedElement.value === props.element)
+	setup (props) {
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
+		} = useTreeViewItem(props)
 
-		const onRightClick = function () {
-			const { showElementMenu } = useElementMenu()
-			showElementMenu(props.element, elementOptionsRef.value)
-		}
+		const expanded = ref(false)
 
 		return {
 			expanded,
+			showElementMenu,
 			elementOptionsRef,
-			onRightClick
+			showElementMenu,
+			isActiveItem
 		}
 	}
 })

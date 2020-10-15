@@ -2,31 +2,32 @@
 	<li
 		class="znpb-wireframe-item"
 		:class="getClasses"
-		@contextmenu.stop.prevent="showContextMenu"
-		@mouseenter.capture="highlightElement"
-		@mouseleave="unHighlightElement"
-		@click.stop="onItemClick"
+		@mouseenter.capture="element.highlight"
+		@mouseleave="element.unHighlight"
+		@click.stop="element.focus"
+		@contextmenu.stop.prevent="showElementMenu"
 	>
-		<div class="znpb-wireframe-item__header znpb-utility__flex">
-			<div class="znpb-wireframe-item__header-area znpb-utility__flex znpb-wireframe-item__header-area--left">
+		<div class="znpb-wireframe-item__header">
+			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--left">
 				<Icon
 					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
-					v-if="elementTemplateData.content && elementTemplateData.content.length"
+					v-if="element.content && element.content.length"
 					icon="select"
 					:rotate="expanded ? '180' : false"
 					@click="expanded = !expanded"
 				/>
 			</div>
-			<div class="znpb-wireframe-item__header-area znpb-utility__flex znpb-wireframe-item__header-area--center znpb-utility__flex--center">
+			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--center">
 				<InlineEdit
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-					v-model="elementTemplateData.name"
+					v-model="element.name"
+					v-model:active="element.activeElementRename"
 				/>
 			</div>
-			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right znpb-utility__flex znpb-utility__flex--end">
+			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 
 				<Tooltip
-					v-if="!isElementVisible"
+					v-if="!element.isVisible"
 					:content="$translate('enable_hidden_element')"
 					class="znpb-wireframe-item__header-area--visibility-icon"
 				>
@@ -34,7 +35,7 @@
 						<transition name="fade">
 							<Icon
 								icon="visibility-hidden"
-								@click="makeElementVisible"
+								@click="element.toggleVisibility()"
 								class="znpb-editor-icon-wrapper--show-element"
 							>
 							</Icon>
@@ -42,37 +43,48 @@
 					</span>
 				</Tooltip>
 
-				<DropdownOptions
-					:element-uid="elementUid"
-					:parentUid="parentUid"
-					:isActive="isActiveItem"
-					@changename="isNameChangeActive=true"
-				></DropdownOptions>
+				<div
+					class="znpb-element-options__container"
+					@click.stop="showElementMenu"
+					ref="elementOptionsRef"
+				>
+					<Icon
+						class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
+						icon="more"
+					/>
+				</div>
 				<Icon
 					icon="delete"
-					@click.stop="deleteElementMenu"
+					@click.stop="element.delete()"
 					class="znpb-wireframe-item__delete-icon"
 				/>
 
 			</div>
 		</div>
+
 		<EmptySortablePlaceholder
 			slot="empty-placeholder"
-			v-if="!elementTemplateData.content.length && elementModel.wrapper"
-			:parentUid="elementUid"
-			:data="elementTemplateData"
+			v-if="!element.content.length && element.isWrapper"
+			:parentUid="element.uid"
+			:data="element"
 		/>
-		<Sortable
+
+		<WireframeList
+			:element="element"
+			class="znpb-wireframe-item__content"
+		/>
+
+		<!-- <Sortable
 			class="znpb-wireframe-item__content"
 			v-model="templateDataModel"
-			v-if="expanded && elementModel.wrapper"
+			v-if="expanded && element.isWrapper"
 			tag="ul"
 			group="pagebuilder-wireframe-elements"
 			@start="sortableStart"
 			@end="sortableEnd"
 			:class="{[`-flex--${hasFlexDirection}`]: hasFlexDirection}"
-		>
-			<SortableHelper slot="helper"></SortableHelper>
+		> -->
+			<!-- <SortableHelper slot="helper"></SortableHelper>
 			<SortablePlaceholder slot="placeholder"></SortablePlaceholder>
 			<ElementWireframeView
 				v-for="(childElementUid, i) in templateDataModel"
@@ -104,14 +116,15 @@
 					slot="content"
 					@close-popper="showColumnTemplates=false"
 					:parentUid="parentUid"
-					:data="elementTemplateData"
+					:data="element"
 					:empty-sortable="false"
 				/>
-			</Tooltip>
-		</Sortable>
+			</Tooltip> -->
+		<!-- </Sortable> -->
 	</li>
 </template>
 <script>
+import { computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import templateElementMixin from '../../../mixins/templateElement.js'
 import DropdownOptions from '../../DropdownOptions.vue'
@@ -123,20 +136,37 @@ import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder.v
 import eventMarshall from '../../../common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
+import { useTreeViewItem } from '../useTreeViewItem'
 
 export default {
 	name: 'element-wireframe-view',
-	mixins: [
-		templateElementMixin,
-		TreeViewMixin
-	],
-
 	components: {
 		DropdownOptions,
 		SortablePlaceholder,
 		SortableHelper,
 		ColumnTemplates,
 		EmptySortablePlaceholder
+	},
+	props: {
+		element: {
+			type: Object,
+			required: true
+		}
+	},
+	setup (props) {
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
+		} = useTreeViewItem(props)
+		const columnSize = computed(() => props.element.options.column_size)
+
+		return {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem,
+			columnSize
+		}
 	},
 	data () {
 		return {
@@ -146,37 +176,24 @@ export default {
 			showColumnTemplates: false
 		}
 	},
-	created () {
-		on('rename-element', this.activateRenameElement)
-	},
 	computed: {
-		...mapGetters([
-			'getElementFocus'
-		]),
-		columnSize () {
-			return this.elementTemplateData.options.column_size
-		},
 		templateDataModel: {
 			get () {
-				return this.elementTemplateData.content !== undefined ? this.elementTemplateData.content : ''
+				return this.element.content !== undefined ? this.element.content : ''
 			},
 			set (value) {
 				this.saveElementsOrder({
 					newOrder: value,
-					content: this.elementTemplateData.content
+					content: this.element.content
 				})
 			}
 		},
-		isActiveItem () {
-			return this.getElementFocus && this.getElementFocus.uid === this.elementUid
-		},
-
 		hasFlexDirection () {
 			let orientation = 'column'
-			let mediaOrientation = getOptionValue(this.elementTemplateData.options, '_styles.wrapper.styles.default.default.flex-direction')
+			let mediaOrientation = getOptionValue(this.element.options, '_styles.wrapper.styles.default.default.flex-direction')
 
-			if (this.elementTemplateData['element_type'] === 'zion_section') {
-				mediaOrientation = getOptionValue(this.elementTemplateData.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row')
+			if (this.element.element_type === 'zion_section') {
+				mediaOrientation = getOptionValue(this.element.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row')
 			}
 
 			if (mediaOrientation) {
@@ -185,14 +202,11 @@ export default {
 
 			return orientation
 		},
-		hasName () {
-			return this.elementTypeName !== undefined ? this.elementTypeName.toLowerCase() : null
-		},
 		getClasses () {
 			let cssClass = {
-				[`znpb-wireframe-item--item--hidden`]: !this.isElementVisible,
-				[`znpb-wireframe-item--${this.hasName}`]: this.hasName,
-				[`znpb-wireframe-item__empty`]: !this.elementTemplateData.content.length && this.elementModel.wrapper
+				[`znpb-wireframe-item--item--hidden`]: !this.element.isVisible,
+				[`znpb-wireframe-item--${this.element.elementTypeModel}`]: this.element.elementTypeModel,
+				[`znpb-wireframe-item__empty`]: !this.element.content.length && this.element.isWrapper
 			}
 
 			if (this.columnSize) {
@@ -212,19 +226,12 @@ export default {
 				'setDraggingState',
 				'setRightClickMenu',
 				'setElementFocus',
-				'deleteElement'
 			]
 		),
 		activateRenameElement () {
 			if (this.isActiveItem) {
 				this.isNameChangeActive = true
 			}
-		},
-		deleteElementMenu () {
-			this.deleteElement({
-				elementUid: this.elementTemplateData.uid,
-				parentUid: this.parentUid
-			})
 		},
 		getColumnResponsivePrefix (responsiveMediaId) {
 			const devices = {
@@ -244,7 +251,7 @@ export default {
 				eventMarshall.getActiveTooltip.showColumnTemplates = false
 			}
 
-			eventMarshall.addActiveTooltip(this)
+			eventMarshall.addActiveTooltip(tonAddColumnsShowhis)
 		},
 		onAddColumnsHide () {
 			this.$emit('update:canHideToolbox', true)
@@ -258,9 +265,9 @@ export default {
 		},
 		onItemClick () {
 			this.setElementFocus({
-				uid: this.elementUid,
+				uid: this.element.uid,
 				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.elementTemplateData.uid : this.parentUid,
+				insertParent: this.element.isWrapper ? this.element.uid : this.parentUid,
 				scrollIntoView: true
 			})
 		},
@@ -278,7 +285,7 @@ export default {
 			this.setElementFocus({
 				uid: this.elementUid,
 				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.elementTemplateData.uid : this.parentUid,
+				insertParent: this.elementModel.isWrapper ? this.element.uid : this.parentUid,
 				scrollIntoView: true
 			})
 		},
@@ -377,19 +384,25 @@ export default {
 	}
 
 	&__header {
+		display: flex;
 		width: 100%;
 		color: $primary-color--accent;
 		text-align: center;
 		transition: all .2s;
 
 		&-area {
+			display: flex;
 			flex-basis: 0;
 			flex-grow: 1;
+
 			&--visibility-icon {
 				display: flex;
 				align-items: center;
 			}
 			&--center {
+				justify-content: center;
+				align-items: center;
+
 				.znpb-utility__text--elipse {
 					&:after {
 						display: none;
@@ -401,6 +414,7 @@ export default {
 			}
 			&--right {
 				position: relative;
+				justify-content: flex-end;
 				min-width: 110px;
 			}
 		}
@@ -512,5 +526,9 @@ export default {
 ul.znpb-wireframe-item__content {
 	padding: 30px 15px;
 	cursor: pointer;
+}
+
+.znpb-utility__flex {
+	display: flex;
 }
 </style>
