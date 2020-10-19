@@ -25,8 +25,7 @@ export class Element {
 			options = {},
 			element_type
 		} = data
-console.log(isPlainObject(options), 'object');
-console.log(options);
+
 		this.uid = uid
 		this.options = isPlainObject(options) ? options : {}
 		this.element_type = element_type

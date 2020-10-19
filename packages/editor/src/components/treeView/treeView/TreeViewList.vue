@@ -12,6 +12,7 @@
 			:element="element"
 			:key="'tree-view-element-' + element.uid"
 		/>
+
 		<template #helper>
 			<SortableHelper/>
 		</template>
