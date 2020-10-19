@@ -19,14 +19,20 @@
 			<SortablePlaceholder />
 		</template>
 
-		<template
-			v-if="showAdd"
-			#end
-		>
+		<template #end>
+			<EmptySortablePlaceholder
+				slot="empty-placeholder"
+				v-if="!element.content.length && element.isWrapper"
+				:parentUid="element.uid"
+				:data="element"
+			/>
+
+
 			<div
 				class="znpb-element-toolbox__add-element-button"
 				@click="toggleAddElementsPopup"
 				ref="addElementsPopupButton"
+				v-if="showAdd"
 			>
 				<Icon
 					icon="plus"
@@ -44,12 +50,14 @@ import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import ElementWireframeView from './ElementWireframeView.vue'
 import { useTreeViewList } from '../useTreeViewList'
+import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder.vue'
 
 export default {
 	name: 'WireframeList',
 	components: {
 		SortablePlaceholder,
-		SortableHelper
+		SortableHelper,
+		EmptySortablePlaceholder
 	},
 	props: {
 		element: {
