@@ -16,7 +16,7 @@ export function useTreeViewList(props: Object) {
 				})
 			},
 			set (value) {
-				console.log({value})
+				props.element.content = value.map(element => element.uid)
 			}
 		})
 

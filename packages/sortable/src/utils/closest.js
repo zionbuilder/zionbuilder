@@ -4,7 +4,6 @@ function matches (element, value, context = null) {
 	} else if (value === '> *') {
 		return matches(element.parentElement, context)
 	} else if (value instanceof HTMLElement && value.nodeType > 0) {
-		console.log(element, value);
 		return element === value
 	} else if (typeof value === 'string') {
 		return element.matches(value)

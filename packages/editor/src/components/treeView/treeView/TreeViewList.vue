@@ -7,10 +7,10 @@
 		@start="sortableStart"
 		@end="sortableEnd"
 	>
+
 		<TreeViewListItem
 			v-for="element in templateItems"
 			:element="element"
-			:key="'tree-view-element-' + element.uid"
 		/>
 
 		<template #helper>

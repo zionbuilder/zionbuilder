@@ -1,7 +1,6 @@
 
 <script>
-import Vue from '@zionbuilder/vue'
-import { computed, ref, onMounted, h, Fragment } from 'vue'
+import { computed, ref, onMounted, h, Fragment, watch, nextTick } from 'vue'
 
 import {
 	HostsManager,
@@ -122,18 +121,31 @@ export default {
 	},
 	setup (props, { slots, emit }) {
 		let draggedItem = null
+		let dragItemInfo = null
+		let dragDelayCompleted = null
+		let dimensions = null
+		let initialX = null
+		let initialY = null
+		let currentDocument = null
+		let helperNode = null
+		let placeholderNode = null
+		let dragTimeout = null
+		let eventScheduler = null
+		let hasHelperSlot = false
+		let childItems = []
+		let hasPlaceholderSlot = false
+		let lastEvent = null
+		let offset = null
 
 		// Reactivity items
 		const sortableContainer = ref(null)
 		const dragging = ref(null)
-		const dragItemInfo = ref(null)
 		const sortableItems = ref([])
-		const initialX = ref(null)
-		const initialY = ref(null)
+		const helper = ref(null)
+		const placeholder = ref(null)
 
 		// Computed
-		const mousedown = computed(() => props.disabled ? null : 'mousedown')
-		const canShowEmptyPlaceholder = computed(() => sortableItems.value.length === 0 || (dragging && sortableItems.value.length === 1))
+		const canShowEmptyPlaceholder = computed(() => sortableItems.value.length === 0 || (dragging.value && sortableItems.value.length === 1))
 		const computedCssClasses = computed(() => {
 			const defaultClasses = {
 				// Body when dragging
@@ -156,13 +168,7 @@ export default {
 			}
 
 		})
-		const sortableInfo = computed(() => {
-			return {
-				group: props.group,
-				getInfoFromTarget: this.getInfoFromTarget,
-				canPut: canPut
-			}
-		})
+
 		const groupInfo = computed(() => {
 			let group = props.group
 
@@ -181,7 +187,6 @@ export default {
 			if( Array.isArray(slotContent) ) {
 				slotContent.forEach(element => {
 					if (element.type === Fragment) {
-						console.log({element});
 						const fragmentItems = extractSortableItems(element.children)
 						items.push(...fragmentItems)
 					} else {
@@ -194,7 +199,7 @@ export default {
 		}
 
 		const getCssClass = (cssClass) => {
-			return this.computedCssClasses[cssClass] || null
+			return computedCssClasses[cssClass] || null
 		}
 
 		/**
@@ -203,7 +208,6 @@ export default {
 		 * @returns {boolean} If the dragged item can be placed inside current container
 		 */
 		const canPut = (dragItemInfo) => {
-			const groupInfo = this.groupInfo
 			const dragGroupInfo = dragItemInfo.group
 			const sameGroup = dragGroupInfo.name === groupInfo.name
 			const put = groupInfo.put || null
@@ -234,7 +238,7 @@ export default {
 			}
 
 			// Move placeholder if we are allowed to move it
-			if (placeholder) {
+			if (props.placeholder) {
 				container.insertBefore(placeholderNode, element)
 			}
 
@@ -250,7 +254,7 @@ export default {
 				to,
 				newIndex,
 				toItem
-			} = this.dragItemInfo
+			} = dragItemInfo
 
 			// Trigger change
 			const changeEvent = new ChangeEvent({
@@ -304,7 +308,9 @@ export default {
 			draggedItem = closest(event.target, props.draggable, sortableContainer.value)
 
 			// Don't proceed if the dragged item is not part of sortable nodes
-			const sortableDomElements = sortableItems.value.map(vNode => vNode.elm).filter(el => el && el.nodeType === 1)
+			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
+
+
 			if (!draggedItem || !sortableDomElements.includes(draggedItem)) {
 				return
 			}
@@ -325,7 +331,7 @@ export default {
 			// Flag for drag delay
 			dragDelayCompleted = !props.dragDelay
 
-			if (dragDelay) {
+			if (props.dragDelay) {
 				clearTimeout(dragTimeout)
 				dragTimeout = setTimeout(() => {
 					dragDelayCompleted = true
@@ -403,7 +409,7 @@ export default {
 			helperNode.style.position = 'fixed'
 
 			// Only set dimensions if the helper is not user generated
-			if (getHelper) {
+			if (hasHelperSlot) {
 				draggedItem.style.display = 'none'
 				const { width, height } = helperNode.getBoundingClientRect()
 				helperNode.style.left = `${initialX - width / 2}px`
@@ -454,8 +460,8 @@ export default {
 		}
 
 		const attachHelper = () => {
-			if (getHelper) {
-				helperNode = getHelper
+			if (hasHelperSlot) {
+				helperNode = helper.value
 				sortableContainer.value.insertBefore(helperNode, draggedItem)
 				draggedItem.insertAdjacentElement('afterend', helperNode)
 			} else if (groupInfo.pull === 'clone') {
@@ -469,29 +475,13 @@ export default {
 			addCssClass('helper')
 		}
 
-		const detachHelper = () => {
-			if (helperNode) {
-				// Remove css class
-				removeCssClass('helper')
-
-				if (getHelper || groupInfo.pull === 'clone') {
-					// Remove helper
-					const helperContainer = helperNode.parentNode
-					// There are cases where the placeholder is not yet present in the dom
-					if (helperContainer) {
-						helperContainer.removeChild(helperNode)
-					}
-				}
-			}
-		}
-
 		const attachPlaceholder = () => {
-			if (!placeholder) {
+			if (!props.placeholder) {
 				return
 			}
 
-			if (getPlaceholder) {
-				placeholderNode = getPlaceholder
+			if (hasPlaceholderSlot) {
+				placeholderNode = placeholder.value
 			} else {
 				placeholderNode = draggedItem.cloneNode(true)
 				placeholderNode.style.visibility = 'hidden'
@@ -504,24 +494,12 @@ export default {
 			addCssClass('placeholder')
 		}
 
-		const detachPlaceholder = () => {
-			if (placeholderNode) {
-				// Remove placeholder css class
-				removeCssClass('placeholder')
-
-				const placeholderContainer = placeholderNode.parentNode
-				// There are cases where the placeholder is not yet present in the dom
-				if (placeholderContainer) {
-					placeholderContainer.removeChild(placeholderNode)
-				}
-			}
-		}
-
 		const finishDrag = () => {
 			clearTimeout(dragTimeout)
 			detachEvents()
 
-			if (dragging) {
+			if (dragging.value) {
+				dragging.value = false
 				document.body.style.userSelect = null
 				// Add css class for body
 				removeCssClass('body')
@@ -530,39 +508,38 @@ export default {
 				removeCssClass('placeholder:container')
 
 				// If the revert option is set to true the element will regain initial position
-				if (props.revert) {
-					helperNode.style.position = null
-					helperNode.style.left = null
-					helperNode.style.top = null
-					helperNode.style.width = null
-					helperNode.style.height = null
+				if (helperNode) {
+					if (props.revert) {
+						helperNode.style.position = null
+						helperNode.style.left = null
+						helperNode.style.top = null
+						helperNode.style.width = null
+						helperNode.style.height = null
+						helperNode.style.zIndex = null
+						helperNode.style.transform = null
+					}
+
+					helperNode.style.willChange = null
+					helperNode.style.pointerEvents = null
 					helperNode.style.zIndex = null
-					helperNode.style.transform = null
 				}
 
-				helperNode.style.willChange = null
-				helperNode.style.pointerEvents = null
-				helperNode.style.zIndex = null
-
-				// Remove placeholder
-				detachPlaceholder()
-				detachHelper()
-
-				if (getHelper) {
+				if (hasHelperSlot) {
 					draggedItem.style.display = null
 				}
+
 				const { from, to, startIndex, newIndex, placeBefore } = lastEvent.data
 
 				// Check to see if a change was made
 				if (from && to && newIndex !== -1) {
 					// Send event for second list
-					const toVm = getVmFromElement(to)
-
+					const toVm = to.__SORTABLE_INFO__
 					// Update values if exists
 					if (props.modelValue !== null) {
 						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
 						if (from === to && startIndex !== newIndex) {
 							updatePositionInList(startIndex, modifiedNewIndex)
+							return
 						} else if (from !== to) {
 							const item = props.modelValue[startIndex]
 							// Send 2 events for each container
@@ -593,7 +570,6 @@ export default {
 				initialY = null
 				dimensions = null
 				draggedItem = null
-				dragging = null
 				dragDelayCompleted = null
 				offset = 0
 				dragItemInfo = null
@@ -631,27 +607,31 @@ export default {
 		}
 
 		const onDraggableMouseMove = (event) => {
-			if (dragging) {
+			if (dragging.value) {
 				eventScheduler.move(event)
 			} else {
 				const { clientX, clientY } = event
 				const xDistance = Math.abs(clientX - initialX)
 				const yDistance = Math.abs(clientY - initialY)
 				if (dragDelayCompleted && (xDistance >= props.dragTreshold || yDistance >= props.dragTreshold)) {
-					dragging = true
-					startDrag()
+					dragging.value = true
+					// Wait a cycle so the placeholder and helper to render
+					nextTick(() => {
+						startDrag()
+					})
 				}
 			}
 		}
 
 		/**
 		 * Returns information like HTMLElement, index and other usefull info from an HTMLElement
+		 *
 		 * @param {HTMLElement} target The target for which we need to get the info.
 		 * @returns {object} The information about the requested target
 		 */
 		const getInfoFromTarget = (target) => {
 			const validItem = closest(target, props.draggable, sortableContainer.value)
-			const sortableDomElements = sortableItems.value.map(vNode => vNode.elm).filter(el => el && el.nodeType === 1)
+			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
 			const item = sortableDomElements.includes(validItem) ? validItem : false
 			const index = sortableDomElements.indexOf(item)
 
@@ -685,16 +665,6 @@ export default {
 			return ['transition-group', 'TransitionGroup'].includes(componentTag)
 		}
 
-		/**
-		 * Return the VUE instance from target
-		 */
-		const getVmFromElement = ({ __vue__ }) => {
-			if (!__vue__ || !__vue__.$options || !componentIsTransitionGroup(__vue__.$options._componentTag)) {
-				return __vue__
-			}
-			return __vue__.$parent
-		}
-
 		const onMouseMove = (event) => {
 			let { clientX, clientY } = event
 			let offset = {
@@ -723,6 +693,7 @@ export default {
 			}
 
 			const target = currentDocument.elementFromPoint(clientX, clientY)
+
 			if (target) {
 				const to = closest(target, getSortableContainer)
 				const sameContainer = to === sortableContainer.value
@@ -730,7 +701,7 @@ export default {
 				if (sameContainer && !props.sort) {
 					// Do nothing if we cannot sort inside same container
 				} else if (to) {
-					const targetVM = getVmFromElement(to)
+					const targetVM = to.__SORTABLE_INFO__
 
 					// check if we can drop
 					const overItemInfo = targetVM.getInfoFromTarget(target)
@@ -745,8 +716,8 @@ export default {
 
 					if (overItem.container) {
 						if (overItem.item) {
-							const collisionInfo = collisionInfo(event, overItem.item, targetVM)
-							dragItemInfo.placeBefore = collisionInfo.before
+							const collisionInfoData = collisionInfo(event, overItem.item, targetVM)
+							dragItemInfo.placeBefore = collisionInfoData.before
 							const whereToPutPlaceholder = targetVM.getItemFromList(overItem.index)
 							const nextSibling = whereToPutPlaceholder.nextElementSibling
 							const insertBeforeElement = dragItemInfo.placeBefore ? whereToPutPlaceholder : nextSibling
@@ -818,99 +789,96 @@ export default {
 		}
 
 		const getItemFromList = (index) => {
-			const sortableDomElements = sortableItems.value.map(vNode => vNode.elm).filter(el => el && el.nodeType === 1)
+			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
 			return sortableDomElements[index]
 		}
 
 		const getSortableContainer = (target) => {
-			return target && target.__SORTABLE_INFO__ && getVmFromElement(target).canPut(dragItemInfo)
+			return target && target.__SORTABLE_INFO__ && target.__SORTABLE_INFO__.canPut(dragItemInfo)
 		}
 
 		// Lifecycle
 		onMounted(() => {
 			sortableItems.value = extractSortableItems(childItems)
 			eventScheduler = EventScheduler(getEvents())
-			sortableContainer.__SORTABLE_INFO__ = sortableInfo
+
+			sortableContainer.value.__SORTABLE_INFO__ = sortableInfo
 		})
 
-
-		// return {
-		// 	mousedown,
-		// 	sortableContainer,
-		// 	draggedItem,
-		// 	dragging,
-		// 	eventScheduler,
-		// 	dragItemInfo,
-		// 	sortableItems,
-		// 	initialX,
-		// 	initialY,
-		// 	canShowEmptyPlaceholder
-		// }
-
-		// const start = slots.start()
-		// const end = slots.end()
-
-		// const emptyPlaceholder = slots['empty-placeholder']()
+		watch(() => props.modelValue, (newModelValue) => {
+			sortableItems.value = extractSortableItems(childItems)
+		})
 
 		// Don't make this ref as it isn't necessary
-		let childItems = []
 		const movePlaceholderMemoized = memoizeOne(movePlaceholder)
-		let dragTimeout = null
-		let eventScheduler = null
+		const sortableInfo = {
+			group: props.group,
+			axis: props.axis,
+			getInfoFromTarget,
+			canPut,
+			getInfoFromTarget,
+			getItemFromList,
+			addItemToList
+		}
 
 		return () => {
-			console.log({slots});
+			const childElements = []
 			childItems = slots.default()
+			childElements.push(childItems)
+
+			// Add the helper node
+			if (dragging.value) {
+				if (slots.helper) {
+					hasHelperSlot = true
+
+					// Wrap the helper with our class
+					childElements.push(
+						h(
+							'div',
+							{
+								class: 'zion-editor__sortable-helper',
+								ref: helper
+							},
+							slots.helper()
+						)
+					)
+				}
+
+				if (slots.placeholder) {
+					hasPlaceholderSlot = true
+
+					// Wrap the helper with our class
+					childElements.push(
+						h(
+							'div',
+							{
+								class: 'znpb-sortable__placeholder',
+								ref: placeholder
+							},
+							slots.placeholder()
+						)
+					)
+				}
+			}
+
+			if (slots.start) {
+				childElements.push(slots.start())
+			}
+
+			if (slots.end) {
+				childElements.push(slots.end())
+			}
+
 			return h(
 				props.tag,
 				{
-					onMouseDown,
+					onMouseDown: props.disabled ? null : onMouseDown,
 					onDragStart,
 					ref: sortableContainer
 				},
-				[ childItems ]
+				[ childElements ]
 			)
 		}
-	},
-	computed: {
-		getPlaceholder () {
-			if (this.$slots.placeholder && this.$slots.placeholder.length > 0) {
-				const placeholder = new Vue({
-					render: (h) => {
-						return h('div', {
-							class: {
-								'znpb-sortable__placeholder': true
-							}
-						}, [this.$slots.placeholder])
-					}
-				})
-
-				placeholder.$mount()
-
-				return placeholder.$el
-			}
-
-			return false
-		},
-		getHelper () {
-			if (this.$slots.helper && this.$slots.helper.length > 0) {
-				const helper = new Vue({
-					render: (h) => {
-						return h('div', {
-							class: {
-								'zion-editor__sortable-helper': true
-							}
-						}, [this.$slots.helper])
-					}
-				})
-
-				helper.$mount()
-
-				return helper.$el
-			}
-
-			return false
-		},
 	}
 }
 </script>
