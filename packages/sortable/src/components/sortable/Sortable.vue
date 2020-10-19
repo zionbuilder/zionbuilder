@@ -806,7 +806,9 @@ export default {
 		})
 
 		watch(() => props.modelValue, (newModelValue) => {
-			sortableItems.value = extractSortableItems(childItems)
+			nextTick(() => {
+				sortableItems.value = extractSortableItems(childItems)
+			})
 		})
 
 		// Don't make this ref as it isn't necessary
