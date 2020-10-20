@@ -1,3 +1,5 @@
+import { markRaw } from 'vue'
+
 export class ElementType {
 	element_type: string = ''
 	name: string = ''
@@ -25,6 +27,6 @@ export class ElementType {
 	}
 
 	registerComponent (component) {
-		this.component = component
+		this.component = markRaw( component )
 	}
 }
