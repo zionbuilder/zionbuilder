@@ -97,7 +97,6 @@ export default {
 				message.value = response.data.message
 			}).catch((error) => {
 				loading.value = false
-				console.error('error', error.message)
 			}).finally(() => {
 				setTimeout(() => {
 					message.value = ''
