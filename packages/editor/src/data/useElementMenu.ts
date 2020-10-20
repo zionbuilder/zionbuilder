@@ -12,7 +12,6 @@ export function useElementMenu () {
 	}
 
 	const showElementMenuFromEvent = (element, event) => {
-		console.log({event});
 		showElementMenu(element, {
 			ownerDocument: event.view.document,
 			getBoundingClientRect () {
