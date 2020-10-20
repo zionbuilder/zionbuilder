@@ -68,54 +68,6 @@
 			:element="element"
 			class="znpb-wireframe-item__content"
 		/>
-
-		<!-- <Sortable
-			class="znpb-wireframe-item__content"
-			v-model="templateDataModel"
-			v-if="expanded && element.isWrapper"
-			tag="ul"
-			group="pagebuilder-wireframe-elements"
-			@start="sortableStart"
-			@end="sortableEnd"
-			:class="{[`-flex--${hasFlexDirection}`]: hasFlexDirection}"
-		> -->
-			<!-- <SortableHelper slot="helper"></SortableHelper>
-			<SortablePlaceholder slot="placeholder"></SortablePlaceholder>
-			<ElementWireframeView
-				v-for="(childElementUid, i) in templateDataModel"
-				v-bind:key="i"
-				:parentUid="elementUid"
-				:elementUid="childElementUid"
-			/>
-			<Tooltip
-				tooltip-class="hg-popper--big-arrows"
-				placement='auto'
-				:show="showColumnTemplates"
-				append-to="body"
-				trigger="click"
-				:close-on-outside-click="true"
-				:close-on-escape="true"
-				:modifiers="{ offset: { offset: '0,10px' } }"
-				@hide="onAddColumnsHide"
-				@show="onAddColumnsShow"
-				key="addElements"
-			>
-				<div class="znpb-element-toolbox__add-element-button">
-					<Icon
-						icon="plus"
-						:rounded="true"
-					/>
-				</div>
-
-				<ColumnTemplates
-					slot="content"
-					@close-popper="showColumnTemplates=false"
-					:parentUid="parentUid"
-					:data="element"
-					:empty-sortable="false"
-				/>
-			</Tooltip> -->
-		<!-- </Sortable> -->
 	</li>
 </template>
 <script>
