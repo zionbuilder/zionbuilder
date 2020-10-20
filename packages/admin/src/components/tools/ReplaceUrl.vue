@@ -31,8 +31,7 @@
 			<Button
 				:type="disabled ? 'disabled' : 'line'"
 				class="znpb-admin-replace-button"
-				@click="callReplaceUrl()"
-			>
+				@click="callReplaceUrl"			>
 				<transition
 					name="fade"
 					mode="out-in"
@@ -67,7 +66,7 @@
 <script>
 import { replaceUrl } from '@zionbuilder/rest'
 import { Icon, Button, Loader } from '@zionbuilder/components'
-
+import { ref , computed} from 'vue'
 export default {
 	name: 'ToolsPage',
 	components: {
@@ -75,39 +74,47 @@ export default {
 		Button,
 		Loader
 	},
-	data () {
-		return {
-			loading: false,
-			oldUrl: '',
-			newUrl: '',
-			message: ''
-		}
-	},
-	computed: {
-		disabled () {
-			return !((this.oldUrl.length > 0 && this.newUrl.length > 0))
-		}
-	},
-	methods: {
-		callReplaceUrl () {
-			this.message = ''
-			this.loading = true
+	setup () {
+		const loading = ref(false)
+		const message = ref('')
+		const oldUrl = ref('')
+		const newUrl = ref('')
+
+		const disabled = computed(() => {
+			let check = !((oldUrl.value.length > 0 && newUrl.value.length > 0))
+			console.log('check', check)
+			return check
+		 } )
+
+
+		function callReplaceUrl () {
+			message.value = ''
+			loading.value = true
 			replaceUrl({
-				find: this.oldUrl,
-				replace: this.newUrl
+				find: oldUrl,
+				replace: newUrl
 			}).then((response) => {
-				this.loading = false
-				this.message = response.data.message
+				loading.value = false
+				message.value = response.data.message
 			}).catch((error) => {
-				this.loading = false
+				loading.value = false
 				console.error('error', error.message)
 			}).finally(() => {
 				setTimeout(() => {
-					this.message = ''
+					message.value = ''
 				}, 5000)
 			})
 		}
+		return {
+			loading,
+			message,
+			oldUrl,
+			newUrl,
+			callReplaceUrl,
+			disabled
+		}
 	}
+
 
 }
 </script>
