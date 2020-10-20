@@ -82,7 +82,6 @@ export default {
 
 		const disabled = computed(() => {
 			let check = !((oldUrl.value.length > 0 && newUrl.value.length > 0))
-			console.log('check', check)
 			return check
 		 } )
 
