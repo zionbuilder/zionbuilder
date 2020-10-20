@@ -46,10 +46,9 @@
 		</template>
 
 		<template #end>
-
 			<EmptySortablePlaceholder
 				:element="element"
-				v-if="allowElementsAdd && !isPreviewMode"
+				v-if="element.content.length === 0 && allowElementsAdd && !isPreviewMode"
 			/>
 
 			<div
@@ -71,9 +70,6 @@ import { computed, ref } from 'vue'
 
 // Utils
 import { mapActions, mapGetters } from 'vuex'
-
-// TODO: implement this
-// import eventMarshall from '@/editor/common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 
 // Components
@@ -221,26 +217,6 @@ export default {
 		},
 		onAddElementsHide () {
 			this.showColumnTemplates = false
-			this.resetAddElementsPopup()
-
-			// remove active element popup
-			if (this.element && this.getActiveShowElementsPopup === this.element.uid) {
-				this.setActiveShowElementsPopup(null)
-			}
-		},
-		onAddElementsShow () {
-			this.showColumnTemplates = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(this)
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
 		},
 		onSortableDrop (event) {
 			const { placeBefore, newIndex, toVm, item } = event.data
@@ -289,9 +265,6 @@ export default {
 				}
 			}
 		}
-	},
-	beforeUnmount () {
-		this.resetAddElementsPopup()
 	}
 }
 </script>

@@ -133,9 +133,6 @@ import { mapActions, mapGetters } from 'vuex'
 import { pageEvents } from '@zb/editor'
 import { useAddElementsPopup } from '@zb/editor'
 
-// TODO: implement this
-// import eventMarshall from '@/editor/common/eventMarshall'
-
 // Components
 import TopBarToolbox from './TopBarToolbox.vue'
 
@@ -476,26 +473,6 @@ export default {
 		setTopBarDisplay (event) {
 			this.isTopBarOpen = event
 		},
-		onAddColumnsShow () {
-			this.$emit('update:canHideToolbox', false)
-			this.showColumnTemplates = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(this)
-		},
-		onAddColumnsHide () {
-			this.$emit('update:canHideToolbox', true)
-			this.showColumnTemplates = false
-			this.resetAddElementsPopup()
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
-		},
 		getNumberFromString (string) {
 			return parseInt(string.match(/\d+/)[0])
 		},
@@ -624,7 +601,6 @@ export default {
 	},
 	beforeUnmount () {
 		this.removeEvents()
-		this.resetAddElementsPopup()
 	},
 	created () {
 		this.setComputedStyle()

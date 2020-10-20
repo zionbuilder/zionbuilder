@@ -18,7 +18,6 @@
 import { ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import ColumnTemplates from './ColumnTemplates.vue'
-import eventMarshall from './eventMarshall'
 import { useAddElementsPopup } from '@zb/editor'
 
 export default {
@@ -62,32 +61,7 @@ export default {
 		...mapActions([
 			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup'
-		]),
-
-		onAddElementsHide () {
-			this.showColumnTemplates.value = false
-
-			this.resetAddElementsPopup()
-
-			// remove active element popup
-			if (this.element && this.getActiveShowElementsPopup === this.element.uid) {
-				this.setActiveShowElementsPopup(null)
-			}
-		},
-		onAddColumnsShow () {
-			this.showColumnTemplates.value = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(this)
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
-		}
+		])
 	},
 	mounted () {
 		if (this.shouldOpenAddElementsPopup) {
@@ -97,9 +71,6 @@ export default {
 				this.setShouldOpenAddElementsPopup(false)
 			}, 10)
 		}
-	},
-	beforeUnmount () {
-		this.resetAddElementsPopup()
 	}
 }
 </script>

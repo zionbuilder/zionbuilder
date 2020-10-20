@@ -431,7 +431,9 @@ export default {
 			}
 		},
 		removePopperEvents () {
-			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+			if (this.ownerDocument) {
+				this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+			}
 
 			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
 				this.popperElement.removeEventListener('mouseenter', this.onMouseEnter)
@@ -439,7 +441,7 @@ export default {
 			}
 
 			// Attache close on escape
-			if (this.closeOnEscape) {
+			if (this.closeOnEscape && this.ownerDocument) {
 				this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 			}
 		}
@@ -449,8 +451,11 @@ export default {
 		this.$el.removeEventListener('mouseenter', this.onMouseEnter)
 		this.$el.removeEventListener('mouseleave', this.onMouseLeave)
 		this.$el.removeEventListener('click', this.onClick)
-		this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
-		this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+
+		if (this.ownerDocument) {
+			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+			this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+		}
 
 		// Destroy popper instance
 		this.destroyPopper(true)
