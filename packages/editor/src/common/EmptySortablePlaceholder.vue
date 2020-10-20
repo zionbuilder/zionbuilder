@@ -17,14 +17,10 @@
 <script>
 import { ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import ColumnTemplates from './ColumnTemplates.vue'
 import { useAddElementsPopup } from '@zb/editor'
 
 export default {
 	name: 'EmptySortablePlaceholder',
-	components: {
-		ColumnTemplates
-	},
 	props: {
 		element: Object
 	},

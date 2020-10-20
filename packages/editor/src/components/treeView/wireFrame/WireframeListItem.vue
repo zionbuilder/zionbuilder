@@ -75,7 +75,6 @@ import { computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
-import ColumnTemplates from '../../../common/ColumnTemplates.vue'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
 import { useTreeViewItem } from '../useTreeViewItem'
@@ -84,8 +83,7 @@ export default {
 	name: 'element-wireframe-view',
 	components: {
 		SortablePlaceholder,
-		SortableHelper,
-		ColumnTemplates
+		SortableHelper
 	},
 	props: {
 		element: {
