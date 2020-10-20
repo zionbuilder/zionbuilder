@@ -176,8 +176,4 @@ export default {
 	transform: translateY(10%);
 	opacity: 0;
 }
-.znpb-element-options__element-actions {
-	position: absolute;
-	right: 0;
-}
 </style>

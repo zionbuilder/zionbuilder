@@ -7,7 +7,6 @@ const state = {
 		pointerEvents: false
 	},
 	isStyleLoading: true,
-	isPreviewLoading: true,
 	iFrame: {
 		pointerEvents: false,
 		order: 6
@@ -25,7 +24,6 @@ const getters = {
 	isPro: state => state.is_pro_active,
 	getLogoUrl: state => state.urls.logo,
 	getLoadingUrl: state => state.urls.loader,
-	isPreviewLoading: state => state.isPreviewLoading,
 	getStylesLoading: state => state.isStyleLoading,
 	getMainbarPosition: state => {
 		return state.mainBar.position
@@ -68,9 +66,6 @@ const actions = {
 	setIframeOrder: ({ commit, state, dispatch }, order) => {
 		commit(types.SET_IFRAME_ORDER, order)
 	},
-	setPreviewFrameLoading: ({ commit }, payload) => {
-		commit(types.SET_PREVIEW_FRAME_LOADING, payload)
-	},
 	setStylesLoading: ({ commit }, payload) => {
 		commit(types.SET_STYLE_LOADING, payload)
 	},
@@ -100,9 +95,6 @@ const mutations = {
 	},
 	[types.SET_IFRAME_ORDER] (state, order) {
 		state.iFrame.order = order
-	},
-	[types.SET_PREVIEW_FRAME_LOADING] (state, payload) {
-		state.isPreviewLoading = payload
 	},
 	[types.SET_STYLE_LOADING] (state, payload) {
 		state.isStyleLoading = payload

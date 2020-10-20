@@ -10,15 +10,7 @@
 		:show-expand="false"
 		:panel="panel"
 	>
-
 		<div
-			v-if="isPreviewLoading"
-			class="znpb-todo-loading"
-		>
-			Loading
-		</div>
-		<div
-			v-if="!isPreviewLoading"
 			class="znpb-tree-view__header"
 		>
 			<div class="znpb-tree-view__header-menu">
@@ -26,8 +18,7 @@
 					class="znpb-tree-view__header-menu-item"
 					v-for="(treeType, index) in treeViewTypes"
 					@click="activateTree(treeType)"
-					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView===treeType}"
-					:key="`tree-view-type-${index}`"
+					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView.id===treeType.id}"
 				>
 					<Icon
 						class="znpb-tree-view__header-menu-item-icon"
@@ -44,25 +35,30 @@
 				@click="closeWireframe"
 			/>
 		</div>
+
+		<Loader v-if="isPreviewLoading" />
+
 		<div
-			v-if="!isPreviewLoading"
+			v-if="element && !isPreviewLoading"
 			class="znpb-tree-view__type_wrapper"
 		>
 			<component
 				:is="activeTreeView.id"
-				:parentUid="data.uid"
-				:content="elementData.content"
+				:element="element"
 			/>
 		</div>
 	</BasePanel>
 </template>
-<script>
-import { mapGetters, mapActions } from 'vuex'
 
+<script>
+import { ref, computed } from 'vue'
 import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
+import { useElements, usePreviewLoading } from '@data'
+import { translate } from '@zb/i18n'
+
 export default {
 	name: 'panel-tree',
 	components: {
@@ -72,43 +68,27 @@ export default {
 		BasePanel
 	},
 	props: {
-		data: {
-			type: Object,
-			required: true
-		},
 		panel: {}
 	},
-	data () {
-		return {
-			activeTreeView: null,
-			treeViewTypes: [],
-			cachedDetached: null
-		}
-	},
-	computed: {
-		...mapGetters([
-			'isPreviewLoading',
-			'getPageContent',
-			'getIframeOrder'
-		]),
-		elementData () {
-			return this.getPageContent['contentRoot']
-		}
-	},
+	setup (props) {
+		const { getElement } = useElements()
+		const element = computed(() => getElement('content'))
+		const { isPreviewLoading } = usePreviewLoading()
+		const myReactiveValue = ref(true)
 
-	created () {
-		this.treeViewTypes = [{
-			name: this.$translate('tree_view'),
+		// Tree view types
+		const treeViewTypes = [{
+			name: translate('tree_view'),
 			id: 'TreeView',
 			icon: 'treeview'
 		},
 		{
-			name: this.$translate('section_view'),
+			name: translate('section_view'),
 			id: 'SectionView',
 			icon: 'structure'
 		},
 		{
-			name: this.$translate('wireframe_view'),
+			name: translate('wireframe_view'),
 			id: 'WireframeView',
 			icon: 'layout',
 			basePanelCssClass: ' znpb-editor-panel__container--wireframe',
@@ -116,24 +96,35 @@ export default {
 			showBasePanelHeader: false
 		}]
 
-		// Set main panel as active
-		this.activeTreeView = this.treeViewTypes[0]
-	},
-	methods: {
-		activateTree (treeType) {
-			this.activeTreeView = treeType
+		const activeTreeView = ref(treeViewTypes[0])
+		const basepanel = ref(null)
+		const panelDetachedState = ref(null)
+
+		const activateTree = (treeType) => {
+			activeTreeView.value = treeType
 			if (treeType.id === 'wireframe-view') {
-				this.cachedDetached = this.$refs.basepanel.panel.isDetached
-				this.panel.set('isDetached', false)
+				panelDetachedState.value = basepanel.value.panel.isDetached
+				props.panel.set('isDetached', false)
 			} else {
-				if (this.cachedDetached) {
-					this.panel.set('isDetached', this.cachedDetached)
-					this.cachedDetached = null
+				if (panelDetachedState.value) {
+					props.panel.set('isDetached', panelDetachedState.value)
+					panelDetachedState.value = null
 				}
 			}
-		},
-		closeWireframe () {
-			this.panel.close()
+		}
+
+		const closeWireframe = () => {
+			props.panel.close()
+		}
+
+		return {
+			element,
+			activeTreeView,
+			treeViewTypes,
+			activateTree,
+			closeWireframe,
+			basepanel,
+			isPreviewLoading
 		}
 	}
 }

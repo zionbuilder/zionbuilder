@@ -4,92 +4,24 @@
 		class="znpb-tree-view-bar znpb-wireframe-container znpb-fancy-scrollbar znpb-panel-view-wrapper"
 	>
 		<!-- content -->
-		<Sortable
-			tag="ul"
-			class="znpb-wireframe-view-wrapper"
-			v-model="templateItems"
-			group="pagebuilder-wireframe-elements"
-			v-if="content.length !== 0"
-		>
-			<ElementWireframeView
-				v-for="(elementUid, i) in templateItems"
-				:parent="content"
-				:parentUid="parentUid"
-				:element-uid="elementUid"
-				v-bind:key="i"
-			/>
-			<SortableHelper slot="helper" />
-			<SortablePlaceholder slot="placeholder" />
-		</Sortable>
-		<div
-			class="znpb-tree-view--no_content"
-			v-if="content.length === 0"
-		>
-			No elements added to page
-		</div>
+		<WireframeList
+			:element="element"
+			:showAdd="false"
+		/>
 	</div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import SortableHelper from '../../../common/SortableHelper.vue'
-import ElementWireframeView from './ElementWireframeView.vue'
+import WireframeList from './WireframeList.vue'
 
 export default {
-	name: 'wireframe-view',
-	props: {
-		content: {
-			type: Array,
-			required: true
-		},
-		parentUid: {
-			type: String
-		}
-	},
-	data: function () {
-		return {
-		}
-	},
+	name: 'WireframePanel',
 	components: {
-		SortablePlaceholder,
-		SortableHelper,
-		ElementWireframeView
+		WireframeList
 	},
-	computed: {
-		...mapGetters([
-			'getRightClickMenu'
-		]),
-		templateItems: {
-			get () {
-				return this.content || []
-			},
-			set (value) {
-				this.saveElementsOrder({
-					newOrder: value,
-					content: this.content
-				})
-			}
-		}
-
-	},
-	methods: {
-		...mapActions([
-			'saveElementsOrder',
-			'setRightClickMenu'
-		]),
-		onScroll (e) {
-			this.setRightClickMenu({
-				editorScrollTop: parseInt(this.$el.scrollTop)
-			})
-		}
-	},
-	watch: {
-		getRightClickMenu (newValue) {
-			if (newValue.visibility) {
-				this.$el.addEventListener('scroll', this.onScroll)
-			} else {
-				this.$el.removeEventListener('scroll', this.onScroll)
-			}
+	props: {
+		element: {
+			type: Object,
+			required: true
 		}
 	}
 }

@@ -1,18 +1,12 @@
 <template>
 	<SortableContent
 		class="zb-column"
-		:content="data.content"
-		:data="data"
+		:element="data"
 		:tag="htmlTag"
 	>
-		<slot
-			name="start"
-			slot="start"
-		/>
-		<template
-			slot="start"
-			name="start"
-		>
+
+		<template #start>
+			<slot name="start" />
 			<SvgMask
 				v-if="topMask!==undefined && topMask.shape"
 				:shapePath="topMask['shape']"
@@ -31,9 +25,10 @@
 				position="bottom"
 			/>
 		</template>
+
 		<slot
 			name="end"
-			slot="start"
+			slot="end"
 		/>
 	</SortableContent>
 </template>

@@ -116,7 +116,7 @@
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
 				<template v-slot:panel-icon>
 					<Icon
-						v-if="!getSavingPage"
+						v-if="!isSavePageLoading"
 						icon="check"
 						@mousedown.stop="onSaving"
 					/>
@@ -166,6 +166,8 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
+import { useTemplateParts, useSavePage } from '@data'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -179,30 +181,10 @@ export default {
 		aboutModal,
 		ModalTour
 	},
-	props: {
-
-	},
 	data: function () {
 		return {
 			showModal: false,
 			aboutModalVisibility: false,
-			saveActions: [
-				{
-					icon: 'save-template',
-					title: this.$translate('save_template'),
-					action: this.emitEventbus
-				},
-				{
-					icon: 'save-draft',
-					title: this.$translate('save_draft'),
-					action: this.onSavePage
-				},
-				{
-					icon: 'save-page',
-					title: this.$translate('save_page'),
-					action: this.onSave
-				}
-			],
 			helpModalVisibility: false,
 			shortcutsModalVisibility: false,
 			canAutosave: true,
@@ -215,7 +197,33 @@ export default {
 			sticked: false
 		}
 	},
+	setup () {
+		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
 
+		const saveActions = [
+			{
+				icon: 'save-template',
+				title: translate('save_template'),
+				// TODO: implement this
+				// action: this.emitEventbus
+			},
+			{
+				icon: 'save-draft',
+				title: translate('save_draft'),
+				action: saveDraft
+			},
+			{
+				icon: 'save-page',
+				title: translate('save_page'),
+				action: savePage
+			}
+		]
+
+		return {
+			saveActions,
+			isSavePageLoading
+		}
+	},
 	computed: {
 		...mapGetters([
 			'getMainBarOrder',
@@ -281,9 +289,6 @@ export default {
 		orientation: function () {
 			return this.getActiveDevice.isLandscape && this.getActiveDevice.allowsLandscape
 		},
-		getSavingPage () {
-			return this.getIsSavingPage
-		},
 		getCssClasses () {
 			let classes = this.isDragging ? 'znpb-editor-panel__container--dragging ' : ''
 
@@ -312,7 +317,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'savePage',
 			'setIframePointerEvents',
 			'setMainbarOrder',
 			'setElementConfigForLibrary',
@@ -323,9 +327,17 @@ export default {
 			this.$zb.panels.togglePanel(panelId)
 		},
 		onSaving (status) {
-			this.savePage(this, {
-				status
-			}).catch(error => {
+			const { getTemplatePart } = useTemplateParts()
+			const contentTemplatePart = getTemplatePart('content')
+
+			if (!contentTemplatePart) {
+				console.error('Content template data not found.')
+				return
+			}
+
+			const pageContent = contentTemplatePart.toJSON()
+
+			savePage(pageContent, status).catch(error => {
 				this.$zb.errors.add({
 					message: error.message,
 					type: 'error',
@@ -340,12 +352,6 @@ export default {
 					this.isDisplayingSaveNotice = false
 				})
 			})
-		},
-		onSave () {
-			this.onSaving('publish')
-		},
-		onSavePage () {
-			this.onSaving('autosave')
 		},
 		showAbout () {
 			this.aboutModalVisibility = true
@@ -429,10 +435,8 @@ export default {
 	watch: {
 		activeHistoryIndex (newValue) {
 			if (this.canAutosave && newValue > 0) {
-				this.savePage({
-					status: 'autosave',
-					showPreloader: false
-				})
+				const { saveAutosave } = useSavePage()
+				saveAutosave()
 				this.canAutosave = false
 
 				setTimeout(() => {

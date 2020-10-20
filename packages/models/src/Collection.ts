@@ -7,6 +7,12 @@ export default class Collection {
 
 	constructor(data = []) {
 		this.add(data)
+
+		this.onAfterInit(data)
+	}
+
+	onAfterInit (data) {
+		return
 	}
 
 	getModel() {

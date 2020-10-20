@@ -126,6 +126,7 @@
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
+		<ElementMenu />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
@@ -146,6 +147,7 @@ import { mapGetters, mapActions } from 'vuex'
 import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
+import { ElementMenu } from './components/ElementMenu'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -162,7 +164,8 @@ export default {
 		PostLock,
 		RightClickMenu,
 		DeviceElement,
-		AddElementPopup
+		AddElementPopup,
+		ElementMenu
 	},
 	mixins: [keyBindingsMixin],
 	data: () => {
@@ -356,111 +359,6 @@ export default {
 <style lang="scss">
 // @import('./scss/editor.scss');
 /* style default elements */
-
-#znpb-app {
-	height: 100%;
-}
-html, body, .znpb-main-wrapper {
-	width: 100%;
-	height: 100%;
-	margin: 0 !important;
-	font-family: $font-stack;
-	font-size: 14px;
-}
-
-body * {
-	box-sizing: border-box;
-}
-
-.znpb-main-wrapper {
-	display: flex;
-	flex-direction: column;
-	color: $font-color;
-	font-family: $font-stack;
-	font-size: 13px;
-	line-height: 1;
-
-	a, a:hover, a:focus, a:visited {
-		text-decoration: none;
-	}
-
-	h1, h2, h3, h4, h5, h6 {
-		margin: 0;
-		line-height: 1;
-	}
-
-	p {
-		padding: 0;
-		margin: 0;
-		font-size: 13px;
-		font-weight: 400;
-		line-height: 1.7;
-	}
-
-	ul {
-		padding: 0;
-		margin: 0;
-		list-style-type: none;
-	}
-
-	img {
-		max-width: 100%;
-	}
-
-	.znpb-button {
-		font-family: $font-stack;
-		font-size: 13px;
-		text-decoration: none;
-
-		-webkit-appearance: none;
-	}
-
-	b, strong {
-		font-weight: 700;
-	}
-
-	textarea {
-		min-width: 100%;
-		min-height: 140px;
-		padding: 16px 14px;
-		color: $font-color;
-		font-family: $font-stack;
-		background-color: $surface;
-		border: 0;
-		border-radius: 3px;
-
-		&:focus {
-			outline: 0;
-		}
-	}
-}
-
-.znpb-main-wrapper, .znpb-main-wrapper * {
-	box-sizing: border-box;
-}
-
-.znpb-editor-icon-wrapper {
-	font-size: 14px;
-}
-
-/* Text meant only for screen readers. */
-.screen-reader-text {
-	position: absolute;
-	overflow: hidden;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	clip: rect(1px, 1px, 1px, 1px);
-	clip-path: inset(50%);
-	word-wrap: normal !important;
-	border: 0;
-}
-
-.znpb-popper-trigger {
-	display: inline-flex;
-	cursor: pointer;
-}
 
 .znpb-editor {
 	&-layout {

@@ -18,24 +18,17 @@
 	</div>
 </template>
 <script>
+import { ref } from 'vue'
+
 export default {
 	name: 'FlyoutWrapper',
-	props: {
-		items: {
-			type: Array,
-			default: () => []
-		}
-	},
-	data: function () {
+	setup (props) {
+		const showflyout = ref(false)
+
 		return {
-			showflyout: false
+			showflyout,
+			items: props.items
 		}
-	},
-	computed: {
-
-	},
-	methods: {
-
 	}
 }
 </script>

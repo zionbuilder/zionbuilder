@@ -1,20 +1,26 @@
-
+require('./scss/index.scss')
 import { createApp } from 'vue'
 import { store } from './store/'
-
+export * from './data'
 // Main
 import * as hooks from '@zb/hooks'
+import { useElementTypes } from './data'
 
 // Plugins
 import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
-export * as optionsInstance from './manager/options/optionsInstance'
-import { initElements, initElementCategories } from './data/elements'
-import { PageAreas } from '@zionbuilder/models'
 import { Errors } from '@zionbuilder/models'
-import * as interactions from './interactions/'
+import {
+	TreeViewList,
+	TreeViewListItem
+} from './components/treeView'
+import {
+	WireframeList,
+	WireframeListItem
+} from './components/treeView'
+
 
 // Components
 import App from './App.vue'
@@ -39,21 +45,14 @@ appInstance.use(store)
 // Add error interceptor for API
 errorInterceptor(errors)
 
-// Init elements registration
-const elements = initElements()
-const elementCategories = initElementCategories()
-const pageAreas = new PageAreas()
+// Register nested components
+appInstance.component('TreeViewList', TreeViewList)
+appInstance.component('TreeViewListItem', TreeViewListItem)
+appInstance.component('WireframeList', WireframeList)
+appInstance.component('WireframeListItem', WireframeListItem)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	data: {
-		elements,
-		elementCategories,
-		pageAreas
-	},
-	editor: {
-		interactions
-	},
 	errors,
 	hooks,
 	appInstance,
@@ -64,14 +63,14 @@ appInstance.config.globalProperties.$zb = {
 
 appInstance.mount('#znpb-app')
 
+// Expose common methods
+const { registerElementComponent } = useElementTypes()
+
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
 	pageEvents,
 	panels,
-	elements,
-	elementCategories,
-	pageAreas,
 	errors,
-	interactions
+	registerElementComponent
 }
