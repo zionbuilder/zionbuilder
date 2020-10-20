@@ -56,7 +56,7 @@
 <script>
 import { ref, computed } from 'vue'
 // Utils
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { translate } from '@zb/i18n'
 
 // Components
