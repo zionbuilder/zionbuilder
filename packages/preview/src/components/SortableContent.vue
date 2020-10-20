@@ -77,7 +77,7 @@ import Element from './Element.vue'
 import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
 import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
-import { useElements, useAddElementsPopup } from '@zb/editor'
+import { useElements, useAddElementsPopup, usePreviewMode } from '@zb/editor'
 
 const sharedStateGlobal = {
 	controlPressed: null,
@@ -169,8 +169,10 @@ export default {
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 
+		const { isPreviewMode } = usePreviewMode()
 
 		return {
+			isPreviewMode,
 			contentModel,
 			groupInfo,
 			getSortableAxis,
@@ -184,20 +186,13 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'isPreviewMode',
-			'getActiveShowElementsPopup',
-			'isDragging',
-			'getElementData',
-			'getPageContent'
+			'isDragging'
 		])
 	},
 
 	methods: {
 		...mapActions([
-			'saveElementsOrder',
-			'setActiveShowElementsPopup',
 			'setDraggingState',
-			'addElement',
 			'copyElement'
 		]),
 		onKeyup (event) {
@@ -207,13 +202,6 @@ export default {
 		},
 		onKeydown (event) {
 			this.sharedState.controlPressed = event.ctrlKey
-		},
-		addNewItemToList (toVm, modifiedNewIndex, draggedItemId) {
-			this.addElement({
-				parentUid: toVm.$parent.data.uid,
-				index: modifiedNewIndex,
-				data: this.getElementData(draggedItemId)
-			})
 		},
 		onAddElementsHide () {
 			this.showColumnTemplates = false
@@ -246,9 +234,6 @@ export default {
 		}
 	},
 	watch: {
-		getActiveShowElementsPopup (newValue, oldValue) {
-			this.showColumnTemplates = this.element && newValue === this.element.uid
-		},
 		'sharedState.controlPressed' (newValue, oldValue) {
 			const draggedItem = this.sharedState.draggedItemData.item
 			if (newValue) {

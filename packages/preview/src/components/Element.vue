@@ -1,18 +1,17 @@
 <template>
 	<ElementLoading v-if="loading" />
-
 	<component
-		v-else-if="isActive && !(element.isVisible === false && isPreviewMode)"
-		:is="component"
+		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
+		:is="elementComponent"
 		class="znpb-element__wrapper zb-element"
-		:id="`${elementCssId}`"
+		:id="`${element.elementCssId}`"
 		:options="options"
 		:data="element"
 		@mouseenter="onMouseEnter"
 		@mouseleave="onMouseLeave"
 		@click="onElementClick"
 		@dblclick="editElement"
-		@contextmenu="showContextMenu"
+		@contextmenu="showElementMenu"
 		v-bind="getExtraAttributes"
 	>
 
@@ -59,6 +58,7 @@
 
 <script>
 // Utils
+import { ref, markRaw } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
@@ -69,8 +69,8 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
-import { markRaw } from 'vue';
-import { useElementTypes } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu } from '@zb/editor'
+import { useElementComponent } from '@data'
 
 // Components
 import ServerComponent from './ServerComponent.vue'
@@ -99,7 +99,7 @@ export default {
 
 		Object.defineProperty(elementInfo, 'elementModel', {
 			enumerable: true,
-			get: () => this.elementModel
+			get: () => this.element.elementTypeModel
 		})
 
 		Object.defineProperty(elementInfo, 'options', {
@@ -121,19 +121,47 @@ export default {
 			type: Object,
 			required: true
 		},
-		uid: {
-			type: String,
-			required: true
-		},
 		parentUid: {
 			type: String,
 			required: true
 		}
 	},
 	setup (props) {
+		const { isPreviewMode } = usePreviewMode()
+		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
+		// const isActive = ref(false)
+
+		// TODO: implement this
+		// this.setupModel(this.element.options)
+
+		// Get the element component
+		fetchElementComponent()
+
+		// Set the active state
+		// isActive.value = true
+
+		/**
+		 * On context menu open
+		 */
+		const showElementMenu = function (event) {
+			const { showElementMenu } = useElementMenu()
+			showElementMenu(props.element, {
+				getBoundingClientRect: () => {
+					return {
+						top: event.clientY,
+						left: event.clientX,
+					}
+
+				}
+			})
+		}
 
 		return {
-			element: props.element
+			elementComponent,
+			element: props.element,
+			isPreviewMode,
+			// isActive,
+			showElementMenu
 		}
 	},
 	data () {
@@ -141,7 +169,6 @@ export default {
 			loading: false,
 			options: {},
 			optionsWithDefaults: {},
-			isActive: false,
 			component: null,
 			// From base component
 			showToolbox: false,
@@ -151,33 +178,6 @@ export default {
 			renderAttributes: {},
 			customCSS: '',
 			registeredEvents: {}
-		}
-	},
-	created () {
-		this.setupModel(this.element.options)
-
-		this.getElementComponent()
-		this.isActive = true
-
-		if (Array.isArray(this.elementModel.content_composition) && this.elementModel.content_composition.length > 0) {
-			if (this.element.content.length === 0 && Object.keys(this.options).length === 0) {
-				const childElements = generateElements(this.elementModel.content_composition)
-
-				this.insertElements({
-					parentUid: this.element.uid,
-					index: 0,
-					childElements: childElements.childElements,
-					parentElements: childElements.parentElements
-				})
-
-				// Check to see if the element has slots
-				if (childElements.slots) {
-					this.attachSlots({
-						elementData: this.element,
-						slots: childElements.slots
-					})
-				}
-			}
 		}
 	},
 	mounted () {
@@ -281,14 +281,8 @@ export default {
 				}
 			}
 		},
-		isElementVisible () {
-			return this.element.options._isVisible !== false
-		},
 		canShowToolbox () {
-			return this.isElementVisible && this.showToolbox && !this.isPreviewMode && !this.elementModel.is_child
-		},
-		elementCssId () {
-			return (this.options._advanced_options || {})._element_id || this.element.uid
+			return this.element.isVisible && this.showToolbox && !this.isPreviewMode && !this.element.elementTypeModel.is_child
 		},
 		shouldScrollIntoView () {
 			return this.getElementFocus && this.getElementFocus.uid === this.element.uid && this.getElementFocus.scrollIntoView
@@ -308,7 +302,6 @@ export default {
 			'insertElements',
 			'attachSlots',
 			'setActiveElement',
-			'saveElementsOrder',
 			'updateElementOptionValue',
 			'setRightClickMenu',
 			'setElementFocus'
@@ -319,8 +312,8 @@ export default {
 			})
 		}),
 		setupModel (model) {
-			const schema = this.elementModel.options || {}
-			const cssSelector = `#${this.elementCssId}`
+			const schema = this.element.elementTypeModel.options || {}
+			const cssSelector = `#${this.element.elementCssId}`
 			const optionsInstance = new Options(schema, model, cssSelector, {
 				onLoadingStart: this.onLoadingStart,
 				onLoadingEnd: this.onLoadingEnd
@@ -328,11 +321,11 @@ export default {
 
 			let { options, renderAttributes, customCSS } = optionsInstance.parseData()
 
-			if (this.elementModel.style_elements) {
-				Object.keys(this.elementModel.style_elements).forEach(styleId => {
+			if (this.element.elementTypeModel.style_elements) {
+				Object.keys(this.element.elementTypeModel.style_elements).forEach(styleId => {
 					if (options._styles && options._styles[styleId] && options._styles[styleId].styles) {
-						const styleConfig = this.elementModel.style_elements[styleId]
-						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${this.elementCssId}`)
+						const styleConfig = this.element.elementTypeModel.style_elements[styleId]
+						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`)
 						customCSS += getStyles(formattedSelector, options._styles[styleId].styles)
 					}
 				})
@@ -350,7 +343,7 @@ export default {
 		},
 		applyCustomClassesToRenderTags () {
 			const elementSavedStyles = getOptionValue(this.options, '_styles', {})
-			const stylesConfig = this.elementModel.style_elements
+			const stylesConfig = this.element.elementTypeModel.style_elements
 
 			Object.keys(elementSavedStyles).forEach(styleConfigId => {
 				const { classes } = elementSavedStyles[styleConfigId]
@@ -395,12 +388,12 @@ export default {
 			}
 		},
 		getOptionSchemaFromPath (optionPath) {
-			if (!this.elementModel.options) {
+			if (!this.element.elementTypeModel.options) {
 				return false
 			}
 
 			const pathArray = optionPath.split('.')
-			let activeSchema = this.elementModel.options
+			let activeSchema = this.element.elementTypeModel.options
 			const pathLength = pathArray.length
 			let foundSchema = false
 
@@ -415,48 +408,6 @@ export default {
 			})
 
 			return foundSchema
-		},
-
-		async getElementComponent () {
-			await this.loadElementAssets()
-
-			const { getElementType } = useElementTypes()
-			const element = getElementType(this.element.element_type)
-
-			if (element.component) {
-				this.component = markRaw(element.component)
-			} else {
-				this.component = markRaw(ServerComponent)
-			}
-		},
-
-		loadElementAssets () {
-			return Promise.all(
-				[
-					...Object.keys(this.elementModel.scripts).map(scriptHandle => {
-						// Script can sometimes be false
-						const scriptConfig = this.elementModel.scripts[scriptHandle]
-
-						// Set the handle if it was not provided
-						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
-
-						if (scriptConfig.src) {
-							return this.$zb.preview.scripts.loadScript(scriptConfig, window.document)
-						}
-					}),
-					...Object.keys(this.elementModel.styles).map(scriptHandle => {
-						// Script can sometimes be false
-						const scriptConfig = this.elementModel.styles[scriptHandle]
-
-						// Set the handle if it was not provided
-						scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
-
-						if (scriptConfig.src) {
-							return this.$zb.preview.scripts.loadScript(scriptConfig, window.document)
-						}
-					})
-				]
-			)
 		},
 
 		/**
@@ -485,37 +436,10 @@ export default {
 				}
 			}
 		},
-		/**
-		 * On context menu open
-		 */
-		showContextMenu (event) {
-			if (!this.isPreviewMode) {
-				event.preventDefault()
-				event.stopPropagation()
-				this.setElementFocus({
-					uid: this.element.uid,
-					parentUid: this.parentUid,
-					insertParent: this.elementModel.wrapper ? this.element.uid : this.parentUid
-				})
-
-				this.setRightClickMenu({
-					uid: this.element.uid,
-					visibility: true,
-					previewScrollTop: window.pageYOffset,
-					initialScrollTop: parseInt(window.pageYOffset),
-					position: {
-						top: event.clientY,
-						left: event.clientX
-					},
-					source: 'preview'
-				})
-			}
-		},
-
 		onElementClick (event) {
 			// TODO: implement this
 			// don't process if this was already handled
-			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.elementModel.is_child) {
+			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.element.elementTypeModel.is_child) {
 			// 	return
 			// }
 
@@ -535,7 +459,7 @@ export default {
 			this.setElementFocus({
 				uid: this.element.uid,
 				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.element.uid : this.parentUid
+				insertParent: this.element.elementTypeModel.wrapper ? this.element.uid : this.parentUid
 			})
 		},
 		/**

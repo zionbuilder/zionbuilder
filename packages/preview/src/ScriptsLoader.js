@@ -1,7 +1,11 @@
-export const ScriptsLoader = (context = window.document) => {
+const scripts = {}
+let loaded = false
+let loadedScripts
+let loadedStyles
+
+export const ScriptsLoader = () => {
 	const getAvailableScripts = () => {
-		let scripts = {}
-		const allScripts = context.getElementsByTagName('script')
+		const allScripts = window.document.getElementsByTagName('script')
 
 		Array.from(allScripts).forEach(domNode => {
 			if (domNode.src) {
@@ -14,7 +18,7 @@ export const ScriptsLoader = (context = window.document) => {
 
 	const getAvailableStyles = () => {
 		let styles = {}
-		const allStyles = context.getElementsByTagName('link')
+		const allStyles = window.document.getElementsByTagName('link')
 
 		Array.from(allStyles).forEach(domNode => {
 			if (domNode.rel === 'stylesheet') {
@@ -25,40 +29,43 @@ export const ScriptsLoader = (context = window.document) => {
 		return styles
 	}
 
-	const loadedScripts = getAvailableScripts()
-	const loadedStyles = getAvailableStyles()
+	if (!loaded) {
+		loadedScripts = getAvailableScripts()
+		loadedStyles = getAvailableStyles()
+		loaded = true
+	}
 
 	const loadScript = (scriptConfig) => {
 		const scriptType = scriptConfig.src.indexOf('.js') !== -1 ? 'javascript' : scriptConfig.src.indexOf('.css') !== -1 ? 'css' : false
 
 		if (scriptType === 'javascript') {
 			if (scriptConfig.data) {
-				addInlineJavascript(scriptConfig.data, context)
+				addInlineJavascript(scriptConfig.data)
 			}
 
 			if (scriptConfig.before) {
-				addInlineJavascript(scriptConfig.before, context)
+				addInlineJavascript(scriptConfig.before)
 			}
 
-			return loadJavaScriptFile(scriptConfig.src, context)
+			return loadJavaScriptFile(scriptConfig.src)
 				.then(() => {
 					if (scriptConfig.after) {
-						addInlineJavascript(scriptConfig.after, context)
+						addInlineJavascript(scriptConfig.after)
 					}
 				})
 				.catch(err => console.error(err))
 		} else if (scriptType === 'css') {
-			return loadCssFile(scriptConfig.src, context)
+			return loadCssFile(scriptConfig.src)
 				.catch(err => console.error(err))
 		}
 	}
 
 	const addInlineJavascript = (code) => {
-		const javascriptTag = context.createElement('script')
+		const javascriptTag = window.document.createElement('script')
 		javascriptTag.type = 'text/javascript'
-		const inlineScript = context.createTextNode(code)
+		const inlineScript = window.document.createTextNode(code)
 		javascriptTag.appendChild(inlineScript)
-		context.body.appendChild(javascriptTag)
+		window.document.body.appendChild(javascriptTag)
 	}
 
 	const loadJavaScriptFile = (url) => {
@@ -72,20 +79,20 @@ export const ScriptsLoader = (context = window.document) => {
 		}
 
 		const promise = new Promise((resolve, reject) => {
-			const javascriptTag = context.createElement('script')
+			const javascriptTag = window.document.createElement('script')
 			javascriptTag.src = url
 
 			javascriptTag.onload = () => {
-				resolve(context)
+				resolve(window.document)
 				loadedScripts[url] = 'done'
 			}
 
 			javascriptTag.onerror = () => {
-				reject(context)
+				reject(window.document)
 				loadedScripts[url] = 'error'
 			}
 
-			context.body.appendChild(javascriptTag)
+			window.document.body.appendChild(javascriptTag)
 		})
 
 		// add the file to imported files
@@ -105,22 +112,22 @@ export const ScriptsLoader = (context = window.document) => {
 		}
 
 		const promise = new Promise((resolve, reject) => {
-			const styleLink = context.createElement('link')
+			const styleLink = window.document.createElement('link')
 			styleLink.type = 'text/css'
 			styleLink.rel = 'stylesheet'
 			styleLink.href = url
 
 			styleLink.onload = () => {
-				resolve(context)
+				resolve(window.document)
 				loadedStyles[url] = 'done'
 			}
 
 			styleLink.onerror = () => {
-				reject(context)
+				reject(window.document)
 				loadedStyles[url] = 'error'
 			}
 
-			context.getElementsByTagName('head')[0].appendChild(styleLink)
+			window.document.getElementsByTagName('head')[0].appendChild(styleLink)
 		})
 
 		// add the file to imported files

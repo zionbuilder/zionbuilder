@@ -10,4 +10,5 @@ export * from './useCopyElementStyles'
 export * from './useSavePage'
 export * from './usePreviewLoading'
 export * from './useElementFocus'
+export * from './usePreviewMode'
 
