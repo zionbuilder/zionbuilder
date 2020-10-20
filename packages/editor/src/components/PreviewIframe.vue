@@ -48,8 +48,9 @@ import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import { PageElement, PageElements } from '@zionbuilder/models'
 import { each } from 'lodash-es'
+import { useTemplateParts, useElements } from '@data'
+import { usePreviewLoading } from '@data'
 
 export default {
 	name: 'preview-iframe',
@@ -106,7 +107,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'setPreviewFrameLoading',
 			'setPageAreas',
 			'setPageContent',
 			'setInitialHistory',
@@ -124,7 +124,6 @@ export default {
 			this.showRecoverModal = false
 		},
 		useServerVersion () {
-
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
 
@@ -135,7 +134,6 @@ export default {
 						delayClose: 0
 					})
 
-					this.setPreviewFrameLoading(false)
 					this.ignoreNextReload = false
 
 					return false
@@ -146,64 +144,34 @@ export default {
 				let pageContentElements = {}
 				let pageContentAreas = {}
 
+				const { registerTemplatePart, templateParts } = useTemplateParts()
 
 				// New system
 				each(areaConfig, (value, id) => {
-					this.$zb.data.pageAreas.add({
-						uid: id,
-						content: new PageElements(value),
-						// TODO: implement better active area system
-						active: id === 'content'
+					const area = registerTemplatePart({
+						name: id,
+						id: id
 					})
+
+					area.element.addChildren(value)
 				})
 
-
-				Object.keys(areaConfig).forEach(areaId => {
-					const areaContent = areaConfig[areaId]
-					let flattenData = flattenTemplateData(areaContent)
-					pageContentElements = { ...flattenData, ...pageContentElements }
-					pageContentAreas[areaId] = []
-
-					if (Array.isArray(areaContent)) {
-						areaContent.forEach(elementConfig => {
-							pageContentAreas[areaId].push(elementConfig.uid)
-						})
-					}
-				})
-
-				pageContentElements = {
-					...pageContentElements,
-					contentRoot: {
-						element_type: 'root',
-						content: pageContentAreas.content,
-						options: {},
-						uid: 'contentRoot'
-					}
-				}
-
-				const elementsWithInstances = {}
-				Object.keys(pageContentElements).forEach(uid => {
-					const elementConfig = pageContentElements[uid]
-					elementsWithInstances[uid] = new PageElement(elementConfig)
-				});
-
-				this.setPageAreas(pageContentAreas)
-				this.setPageContent(elementsWithInstances)
-				this.setActiveArea('content')
-				this.setInitialHistory(this.$translate('initial_state'))
+				// TODO: implement history
+				// this.setInitialHistory(this.$translate('initial_state'))
 
 				// Hide recover modal
 				this.showRecoverModal = false
 			}
 		},
 		onIframeLoaded () {
+			const { setPreviewLoading } = usePreviewLoading()
 			this.iframeLoaded = true
 			Dom.iframe = this.$refs.iframe
 			Dom.iframeDocument = this.$refs.iframe.contentDocument
 			Dom.iframeWindow = this.$refs.iframe.contentWindow
 
 			this.attachIframeEvents()
-			this.setPreviewFrameLoading(false)
+
 			this.ignoreNextReload = false
 
 			const cachedData = Cache.getItem(this.getPageId)
@@ -214,6 +182,8 @@ export default {
 			} else {
 				this.useServerVersion()
 			}
+
+			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
 			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)

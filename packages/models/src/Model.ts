@@ -19,6 +19,7 @@ export default class Model {
 
 		// Assign the collection
 		this.collection = collection
+
 	}
 
 	defaults () {

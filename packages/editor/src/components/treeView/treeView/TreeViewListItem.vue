@@ -3,9 +3,14 @@
 		class="znpb-tree-view__item"
 		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
 		:id="element.uid"
+		@mouseenter.capture="element.highlight"
+		@mouseleave="element.unHighlight"
+		@click.stop.left="element.focus"
+		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div
 			class="znpb-tree-view__item-header"
+			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
 			<Icon
 				icon="select"
@@ -14,12 +19,13 @@
 					'znpb-tree-view__item-header-expand--expanded': expanded
 				}"
 				@click.stop="expanded = !expanded"
-				v-if="element.elementTypeModel.wrapper"
+				v-if="element.isWrapper"
 			/>
 
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				v-model="element.name"
+				v-model:active="element.activeElementRename"
 			/>
 
 			<Tooltip
@@ -31,189 +37,64 @@
 						<Icon
 							icon="visibility-hidden"
 							v-if="!element.isVisible"
-							@click="element.isVisible = true"
 							class="znpb-editor-icon-wrapper--show-element"
+							@click="element.toggleVisibility()"
 						/>
 					</transition>
 				</span>
 			</Tooltip>
 
-			<DropdownOptions
-				:element-uid="element.uid"
-			/>
-		</div>
-		<!-- <TreeViewList
-			:content="element.content"
-		/> -->
-	</li>
-
-	<!-- <li
-		class="znpb-tree-view__item"
-		:class="{'znpb-tree-view__item--hidden': !isElementVisible}"
-		@mouseenter.capture="highlightElement"
-		@mouseleave="unHighlightElement"
-		@mouseup="onMouseup"
-		@click.stop.left="onItemClick"
-		@contextmenu.stop.prevent="showContextMenu"
-		@dblclick.stop="openOptions"
-		:id="elementUid"
-	>
-		<div
-			class="znpb-tree-view__item-header"
-			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
-		>
-			<ElementRename
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				@name-changed="doRenameElement"
-				@dblclick="isNameChangeActive=true"
-				:is-active="isNameChangeActive"
-				:content="elementName"
-			/>
-
-			<DropdownOptions
-				:element-uid="elementUid"
-				:parentUid="parentUid"
-				:position="dropdownPosition"
-				:isActive="isActiveItem"
-				@changename="isNameChangeActive=true"
-			/>
+			<div
+				class="znpb-element-options__container"
+				@click.stop="showElementMenu"
+				ref="elementOptionsRef"
+			>
+				<Icon
+					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
+					icon="more"
+				/>
+			</div>
 		</div>
 		<TreeViewList
-			:content="templateItems"
-			v-show="expanded && elementModel.wrapper"
-			:elementUid="elementUid"
-			:parentsToExpand="parentsToExpand"
-			:addButton="elementModel.wrapper && expanded"
-			:addButtonColor="addElementIconColor"
-			@scroll-to-item="onScrollToItem"
+			v-if="expanded"
+			:element="element"
 		/>
-	</li> -->
+	</li>
 </template>
-<script>
-import { defineAsyncComponent } from 'vue'
 
+<script lang="ts">
+import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-// import TreeViewMixin from '../elementMixins.js'
-// import templateElementMixin from '../../../mixins/templateElement.js'
 import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
-// import TreeViewList from './TreeViewList.vue'
+import { Element } from '@data'
+import { useTreeViewItem } from '../useTreeViewItem'
 
-export default {
-	name: 'TreeViewListItem',
-	// mixins: [
-	// 	templateElementMixin,
-	// 	TreeViewMixin
-	// ],
-	data: function () {
-		return {
-			expanded: false,
-			isNameChangeActive: false,
-			hovered: false,
-			panelOpen: false,
-			rightClickMenu: false,
-			dropdownPosition: {},
-			allowPanelScroll: true,
-			scrollIntoView: false
-		}
-	},
-	props: ['element'],
+export default defineComponent({
 	components: {
 		DropdownOptions
 	},
-	beforeCreate: function () {
-		this.$options.components.TreeViewList = require('./TreeViewList.vue').default
+	props: {
+		element: Object as PropType<Element>
 	},
-	// created () {
-	// 	on('rename-element', this.activateRenameElement)
-	// },
-	computed: {
-		// ...mapGetters([
-		// 	'getElementFocus',
-		// 	'isDragging'
-		// ]),
-		// addElementIconColor () {
-		// 	return this.elementTemplateData.element_type === 'zion_column' ? '#eec643' : '#404be3'
-		// },
-		// isActiveItem () {
-		// 	return this.getElementFocus && this.getElementFocus.uid === this.elementUid
-		// },
-		// ownCoordonates () {
-		// 	const { left, top } = this.$el.getBoundingClientRect()
-		// 	return {
-		// 		left,
-		// 		top
-		// 	}
-		// }
-	},
-	watch: {
-		// getElementFocus () {
-		// 	if (this.getElementFocus && this.getElementFocus.uid === this.elementUid && this.allowPanelScroll) {
-		// 		this.$emit('scroll-to-item', this.$el)
-		// 	}
-		// },
-		// parentsToExpand (newValue) {
-		// 	if (newValue.indexOf(this.elementUid) !== -1 && !this.expanded) {
-		// 		this.expanded = true
-		// 	}
-		// },
-		// isActiveItem (newValue) {
-		// 	if (!newValue) {
-		// 		this.allowPanelScroll = true
-		// 	}
-		// }
-	},
-	methods: {
-		// ...mapActions([
-		// 	'setElementFocus',
-		// 	'setRightClickMenu',
-		// 	'setActiveElement'
-		// ]),
-		// onMouseup () {
-		// 	this.scrollIntoView = !this.isDragging
-		// },
-		// onScrollToItem (event) {
-		// 	this.$emit('scroll-to-item', this.$el)
-		// },
-		// activateRenameElement () {
-		// 	if (this.isActiveItem) {
-		// 		this.isNameChangeActive = true
-		// 	}
-		// },
-		// onItemClick () {
-		// 	if (this.scrollIntoView) {
-		// 		this.allowPanelScroll = false
-		// 		this.setElementFocus({
-		// 			uid: this.elementUid,
-		// 			parentUid: this.parentUid,
-		// 			insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid,
-		// 			scrollIntoView: this.scrollIntoView
-		// 		})
-		// 	}
-		// },
-		// showContextMenu (e) {
-		// 	this.setRightClickMenu({
-		// 		visibility: true,
-		// 		previewIframeLeft: 0,
-		// 		initialScrollTop: document.getElementById('znpb-tree-view-panel').scrollTop,
-		// 		position: {
-		// 			top: e.clientY + window.pageYOffset,
-		// 			left: e.clientX
-		// 		},
-		// 		source: 'editor'
-		// 	})
-		// 	this.setElementFocus({
-		// 		uid: this.elementUid,
-		// 		parentUid: this.parentUid,
-		// 		insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid
-		// 	})
-		// },
-		// openOptions () {
-		// 	this.setActiveElement(this.elementUid)
-		// 	this.$zb.panels.openPanel('PanelElementOptions')
-		// }
+	setup (props) {
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
+		} = useTreeViewItem(props)
+
+		const expanded = ref(false)
+
+		return {
+			expanded,
+			showElementMenu,
+			elementOptionsRef,
+			showElementMenu,
+			isActiveItem
+		}
 	}
-}
+})
 </script>
 <style lang="scss">
 .znpb-tree-view__item {
@@ -243,7 +124,7 @@ export default {
 		background-color: $surface-variant;
 		border-radius: 3px;
 
-		&.znpb-panel-item--hovered {
+		&:hover {
 			background-color: darken($surface-variant, 3%);
 		}
 
@@ -306,8 +187,5 @@ export default {
 			}
 		}
 	}
-}
-.znpb-tree-view__item .znpb-element-options__dropdown-icon {
-	padding-left: 5px;
 }
 </style>

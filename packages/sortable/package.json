@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "css-box-model": "^1.2.1",
-    "memoize-one": "^5.1.1"
+	"memoize-one": "^5.1.1",
+	"raf-schd": "^4.0.2"
   }
 }

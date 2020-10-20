@@ -131,7 +131,7 @@ export default {
 		},
 		addElements (config) {
 			// If it's a wrapper, it means that it can have childs
-			if (this.element.isWrapper) {
+			if (this.element.isWrapper || this.element.element_type === 'contentRoot') {
 				this.element.addChildren(config)
 			} else {
 				this.element.parent.addChildren(config)

@@ -11,8 +11,8 @@
 		<TreeViewListItem
 			v-for="element in templateItems"
 			:element="element"
-			:key="'tree-view-element-' + element.uid"
 		/>
+
 		<template #helper>
 			<SortableHelper/>
 		</template>
@@ -33,6 +33,7 @@
 					:bgSize="25"
 					:rounded="true"
 					color="#fff"
+					:bgColor="addButtonBgColor"
 					class="znpb-tree-view__item-add-element-button-icon"
 				></Icon>
 			</div>
@@ -40,10 +41,9 @@
 	</Sortable>
 </template>
 <script>
-import { defineAsyncComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
+import { useTreeViewList } from '../useTreeViewList'
 
 export default {
 	name: 'TreeViewList',
@@ -51,54 +51,29 @@ export default {
 		SortableHelper,
 		SortablePlaceholder
 	},
-	beforeCreate: function () {
-		this.$options.components.TreeViewListItem = require('./TreeViewListItem.vue').default
-	},
-	data () {
-		return {
-			// hovered: false
-		}
-	},
 	props: {
 		element: {
-			type: Array,
+			type: Object,
 			required: false
 		}
 	},
-	computed: {
-		...mapGetters(['getActiveShowElementsPopup']),
-		templateItems: {
-			get () {
-				return this.element.content.models
-			},
-			set (value) {
-				this.saveElementsOrder({
-					newOrder: value,
-					content: this.content
-				})
-			}
-		}
+	setup (props, context) {
+		const {
+			addElementsPopupButton,
+			templateItems,
+			addButtonBgColor,
+			toggleAddElementsPopup,
+			sortableStart,
+			sortableEnd
+		} = useTreeViewList(props)
 
-	},
-	methods: {
-		...mapActions([
-			'deleteElement',
-			'saveElementsOrder',
-			'setDraggingState',
-			'setActiveShowElementsPopup'
-		]),
-		onScrollToItem (event) {
-			this.$emit('scroll-to-item', event)
-		},
-		toggleAddElementsPopup () {
-			const selector = this.$refs.addElementsPopupButton
-			this.$zb.editor.interactions.addElementPopup.show(this.element, selector)
-		},
-		sortableStart () {
-			this.setDraggingState(true)
-		},
-		sortableEnd () {
-			this.setDraggingState(false)
+		return {
+			addElementsPopupButton,
+			templateItems,
+			toggleAddElementsPopup,
+			sortableStart,
+			sortableEnd,
+			addButtonBgColor
 		}
 	}
 }

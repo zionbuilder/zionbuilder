@@ -309,29 +309,18 @@ export default {
 				appendElement.appendChild(this.popperElement)
 			}
 		},
-		removePopperFromDom () {
-			if (this.popperElement && this.appendToOption !== 'element') {
-				const appendToElement = this.getAppendToElement()
-				appendToElement.removeChild(this.popperElement)
-			}
-		},
 		destroyPopper (completeRemove) {
 			if (this.visible && !completeRemove) {
 				return
 			}
 
 			this.visible = false
-
 			if (this.popperInstance) {
 				this.popperInstance.destroy()
 				this.popperInstance = null
 			}
 
 			this.removePopperEvents()
-
-			if (completeRemove) {
-				this.removePopperFromDom()
-			}
 
 			this.popperElement = null
 			preventOutsideClickPropagation = false
@@ -568,6 +557,7 @@ export default {
 	&.znpb-class-selector__popper {
 		padding: 15px;
 	}
+
 	ul {
 		list-style-type: none;
 	}

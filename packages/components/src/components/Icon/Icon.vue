@@ -177,8 +177,7 @@ export default {
 .znpb-editor-icon-wrapper {
 	// icon is inline
 	display: inline-flex;
-
-// if icon has background it stays aligned vertically
+	// if icon has background it stays aligned vertically
 	align-items: center;
 }
 .znpb-editor-icon {

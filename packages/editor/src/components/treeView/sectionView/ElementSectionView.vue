@@ -1,38 +1,41 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{'znpb-section-view-item--hidden': !isElementVisible}"
-		@contextmenu.stop.prevent="showContextMenu"
-		@mouseenter.capture="highlightElement"
-		@mouseleave="unHighlightElement"
-		@click.stop="onItemClick"
+		:class="{'znpb-section-view-item--hidden': !element.isVisible}"
+		@contextmenu.stop.prevent="showElementMenu"
+		@mouseenter.capture="element.highlight"
+		@mouseleave="element.unHighlight"
+		@click.stop.left="element.focus"
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
 			<span v-if="error">{{ $translate('preview_not_available')}}</span>
 		</div>
+
 		<img :src="imageSrc">
+
 		<div
 			class="znpb-section-view-item__header"
-			:class="{'znpb-panel-item--hovered': hovered, 'znpb-panel-item--active': isActiveItem}"
+			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
 			<div class="znpb-section-view-item__header-left">
 				<InlineEdit
 					class="znpb-section-view-item__header-title"
-					v-model="elementTemplateData.name"
+					v-model="element.name"
+					v-model:active="element.activeElementRename"
 				/>
 
 			</div>
 
 			<Tooltip
-				v-if="!isElementVisible"
+				v-if="!element.isVisible"
 				:content="$translate('enable_hidden_element')"
 			>
 				<span>
 					<transition name="fade">
 						<Icon
 							icon="visibility-hidden"
-							@click="makeElementVisible"
+							@click="element.toggleVisibility()"
 							class="znpb-editor-icon-wrapper--show-element"
 						>
 						</Icon>
@@ -40,123 +43,90 @@
 				</span>
 			</Tooltip>
 
-			<DropdownOptions
-				class="znpb-section-view-item__header-right"
-				:element-uid="elementUid"
-				:parentUid="parentUid"
-				:isActive="isActiveItem"
-				@changename="isNameChangeActive=true"
-			></DropdownOptions>
+			<div
+				class="znpb-element-options__container"
+				@click.stop="showElementMenu"
+				ref="elementOptionsRef"
+			>
+				<Icon
+					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
+					icon="more"
+				/>
+			</div>
 		</div>
 	</li>
 </template>
-<script>
-import { mapActions, mapGetters } from 'vuex'
+<script lang="ts">
+import { ref, Ref, PropType, computed } from 'vue'
 import domtoimage from 'dom-to-image'
-import templateElementMixin from '../../../mixins/templateElement.js'
-import TreeViewMixin from '../elementMixins.js'
 import { on } from '@zb/hooks'
+import { onMounted, onUpdated, onUnmounted } from 'vue'
+import { translate } from '@zb/i18n'
+import { Element, useElementMenu, useElementFocus } from '@data'
+import { useTreeViewItem } from '../useTreeViewItem'
 
 export default {
 	name: 'element-section-view',
-	mixins: [
-		templateElementMixin,
-		TreeViewMixin
-	],
-	data: function () {
-		return {
-			showIconMore: false,
-			imageSrc: null,
-			loading: true,
-			error: false,
-			isNameChangeActive: false,
-			hovered: false
-		}
+	props: {
+		element: Object as PropType<Element>
 	},
-	created () {
-		on('rename-element', this.activateRenameElement)
-	},
-	mounted () {
-		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(this.elementCssId)
-		const filter = function (node) {
-			if (node && node.classList) {
-				if (node.classList.contains('znpb-empty-placeholder')) {
-					return false
+	setup (props) {
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
+		} = useTreeViewItem(props)
+
+		const imageSrc = ref(null)
+		const error = ref(null)
+		const loading: Ref<boolean> = ref(false)
+
+		onMounted(() => {
+			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId)
+
+			if (!domElement) {
+				console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`)
+				return
+			}
+
+			const filter = function (node) {
+				if (node && node.classList) {
+					if (node.classList.contains('znpb-empty-placeholder')) {
+						return false
+					}
 				}
+				return true
 			}
-			return true
-		}
 
-		domtoimage.toSvg(domElement, {
-			style: {
-				'width': '100%',
-				'margin': 0
-			},
-			filter: filter
-		})
-			.then((dataUrl) => {
-				this.imageSrc = dataUrl
-			})
-			.catch((error) => {
-				this.error = true
-				// eslint-disable-next-line
-				console.error(this.$translate('oops_something_wrong'), error)
-			})
-			.finally(() => {
-				this.loading = false
-			})
-	},
-	computed: {
-		...mapGetters([
-			'getElementFocus'
-		]),
-		options () {
-			return this.elementTemplateData.options || {}
-		},
-		isActiveItem () {
-			return this.getElementFocus && this.getElementFocus.uid === this.elementUid
-		},
-		elementCssId () {
-			return (this.options._advanced_options || {})._element_id || this.elementTemplateData.uid
-		}
-	},
-	methods: {
-		...mapActions([
-			'setElementFocus',
-			'setRightClickMenu'
-		]),
-		activateRenameElement () {
-			if (this.isActiveItem) {
-				this.isNameChangeActive = true
-			}
-		},
-		onItemClick () {
-			this.setElementFocus({
-				uid: this.elementUid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid,
-				scrollIntoView: true
-			})
-		},
-		showContextMenu (e) {
-			this.setRightClickMenu({
-				visibility: true,
-				previewIframeLeft: 0,
-				initialScrollTop: document.getElementById('znpb-section-view').scrollTop,
-				position: {
-					top: e.clientY + window.pageYOffset,
-					left: e.clientX
+			domtoimage.toSvg(domElement, {
+				style: {
+					'width': '100%',
+					'margin': 0
 				},
-				source: 'editor'
+				filter: filter
 			})
+				.then((dataUrl) => {
+					imageSrc.value = dataUrl
+				})
+				.catch((error) => {
+					error = true
+					// eslint-disable-next-line
+					console.error(translate('oops_something_wrong'), error)
+				})
+				.finally(() => {
+					loading.value = false
+				})
+		})
 
-			this.setElementFocus({
-				uid: this.elementUid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.elementUid : this.parentUid,
-				scrollIntoView: false
-			})
+		return {
+			imageSrc,
+			error,
+			loading,
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem
 		}
+
 	}
 }
 </script>
@@ -216,11 +186,8 @@ export default {
 		border-bottom-left-radius: 3px;
 
 		&:hover {
-			cursor: move;
-		}
-
-		&.znpb-panel-item--hovered {
 			background-color: darken($surface-variant, 3%);
+			cursor: move;
 		}
 
 		&.znpb-panel-item--active {

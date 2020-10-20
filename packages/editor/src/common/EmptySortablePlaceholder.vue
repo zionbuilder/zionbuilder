@@ -1,46 +1,25 @@
 <template>
 	<div class="znpb-empty-placeholder">
-		<div class="znpb-empty-placeholder__add-element-button">
-			<Tooltip
-				tooltip-class="hg-popper--big-arrows"
-				placement='auto'
-				:show="showColumnTemplates"
-				append-to="body"
-				trigger="click"
-				:close-on-outside-click="true"
-				:close-on-escape="true"
-				@hide="onAddElementsHide"
-				@show="onAddColumnsShow"
-				strategy="fixed"
-				tag="div"
-			>
-
-				<Icon
-					icon="plus"
-					:rounded="true"
-					class="znpb-empty-placeholder__tour-icon"
-					key="12"
-				/>
-
-				<template #content>
-					<ColumnTemplates
-						slot="content"
-						:empty-sortable="true"
-						@close-popper="showColumnTemplates=false"
-						:parentUid="parentUid"
-						:data="data"
-						key="123"
-					/>
-				</template>
-			</Tooltip>
+		<div
+			class="znpb-empty-placeholder__add-element-button"
+			@click="toggleAddElementsPopup"
+			ref="addElementsPopupButton"
+		>
+			<Icon
+				icon="plus"
+				:rounded="true"
+				class="znpb-empty-placeholder__tour-icon"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import ColumnTemplates from './ColumnTemplates.vue'
 import eventMarshall from './eventMarshall'
+import { useAddElementsPopup } from '@zb/editor'
 
 export default {
 	name: 'EmptySortablePlaceholder',
@@ -48,13 +27,27 @@ export default {
 		ColumnTemplates
 	},
 	props: {
+		element: Object,
 		parentUid: {
 			type: String,
-			required: true
+			required: false
 		},
 		data: {
 			type: Object,
 			required: false
+		}
+	},
+	setup(props) {
+		const addElementsPopupButton = ref(null)
+
+		function toggleAddElementsPopup () {
+			const { showAddElementsPopup } = useAddElementsPopup()
+			showAddElementsPopup(props.element, addElementsPopupButton)
+		}
+
+		return {
+			toggleAddElementsPopup,
+			addElementsPopupButton
 		}
 	},
 	data () {

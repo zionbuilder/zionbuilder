@@ -1,3 +1,5 @@
+import connector from './connector'
+console.log(connector)
 import { createVNode, render } from 'vue'
 
 import previewApp from './App.vue'
@@ -11,7 +13,6 @@ import RenderTag from './components/RenderTag.vue'
 import RenderTagGroup from './components/RenderTagGroup.vue'
 import RenderValue from './components/RenderValue.vue'
 
-window.zb = window.parent.zb
 editorApp.component('SortableContent', SortableContent)
 editorApp.component('RenderTag', RenderTag)
 editorApp.component('RenderValue', RenderValue)

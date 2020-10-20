@@ -50,7 +50,7 @@ import {
 	InputTextTransform,
 	InputBorderTabs,
 	InputBackgroundVideo
-} from '@zionbuilder/components/forms'
+} from '@zionbuilder/components'
 
 
 export default () => {

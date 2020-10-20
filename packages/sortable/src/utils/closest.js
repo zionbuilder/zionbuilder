@@ -3,7 +3,7 @@ function matches (element, value, context = null) {
 		return false
 	} else if (value === '> *') {
 		return matches(element.parentElement, context)
-	} else if (typeof value === HTMLElement && value.nodeType > 0) {
+	} else if (value instanceof HTMLElement && value.nodeType > 0) {
 		return element === value
 	} else if (typeof value === 'string') {
 		return element.matches(value)

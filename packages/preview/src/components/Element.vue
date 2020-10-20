@@ -16,26 +16,25 @@
 		v-bind="getExtraAttributes"
 	>
 
-		<ElementToolbox
-			slot="start"
-			v-if="canShowToolbox"
-			:data="data"
-			:parentUid="parentUid"
-			:can-hide-toolbox.sync="canHideToolbox"
-			:is-toolbox-dragging.sync="isToolboxDragging"
-		/>
+		<template #start>
+			<ElementToolbox
+				v-if="canShowToolbox"
+				:data="data"
+				:parentUid="parentUid"
+				:can-hide-toolbox.sync="canHideToolbox"
+				:is-toolbox-dragging.sync="isToolboxDragging"
+			/>
 
-		<!-- ELEMENT VIDEO HERE -->
-		<VideoBackground
-			slot="start"
-			v-if="videoConfig"
-			:video-config="videoConfig"
-		/>
+			<!-- ELEMENT VIDEO HERE -->
+			<VideoBackground
+				v-if="videoConfig"
+				:video-config="videoConfig"
+			/>
 
-		<ElementStyles
-			slot="start"
-			:styles="customCSS"
-		/>
+			<ElementStyles
+				:styles="customCSS"
+			/>
+		</template>
 
 		<transition
 			name="znpb-fade"
@@ -71,6 +70,7 @@ import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
 import { markRaw } from 'vue';
+import { useElementTypes } from '@zb/editor'
 
 // Components
 import ServerComponent from './ServerComponent.vue'
@@ -414,11 +414,11 @@ export default {
 		async getElementComponent () {
 			await this.loadElementAssets()
 
-			const element = this.$zb.data.elements.getElement(this.data.element_type)
-			const component = element.getComponent()
+			const { getElementType } = useElementTypes()
+			const element = getElementType(this.data.element_type)
 
-			if (component) {
-				this.component = markRaw(component)
+			if (element.component) {
+				this.component = markRaw(element.component)
 			} else {
 				this.component = markRaw(ServerComponent)
 			}

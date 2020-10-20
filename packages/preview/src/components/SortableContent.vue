@@ -14,35 +14,16 @@
 	>
 
 		<Element
-			v-for="childElementUid in contentModel"
-			:key="childElementUid"
-			:uid="childElementUid"
-			:data="getPageContent[childElementUid]"
-			:parentUid="data.uid"
+			v-for="childElement in contentModel"
+			:uid="childElement.uid"
+			:data="childElement"
+			:parentUid="element.uid"
 		/>
 
 		<template #start>
 			<slot
 				name="start"
 			/>
-		</template>
-
-		<template
-			#empty-placeholder
-		>
-			<EmptySortablePlaceholder
-				:parentUid="data.uid"
-				:data="data"
-				v-if="allowElementsAdd && !isPreviewMode"
-			/>
-
-			<div
-				v-else-if="emptyPlaceholderText && !isPreviewMode"
-				class="znpb-empty-placeholder-text-wrapper"
-			>
-				{{emptyPlaceholderText}}
-			</div>
-
 		</template>
 
 		<template #content>
@@ -64,7 +45,7 @@
 				<template #content>
 					<ColumnTemplates
 
-						:parentUid="data.uid"
+						:parentUid="element.uid"
 						:insertIndex="insertIndex"
 						@close-popper="showColumnTemplates=false"
 						:data="data"
@@ -75,7 +56,7 @@
 		</template>
 
 		<template #helper>
-			<SortableHelper  />
+			<SortableHelper />
 		</template>
 
 		<template #placeholder>
@@ -83,17 +64,29 @@
 		</template>
 
 		<template #end>
+
+			<EmptySortablePlaceholder
+				:element="element"
+				v-if="allowElementsAdd && !isPreviewMode"
+			/>
+
+			<div
+				v-else-if="emptyPlaceholderText && !isPreviewMode"
+				class="znpb-empty-placeholder-text-wrapper"
+			>
+				{{emptyPlaceholderText}}
+			</div>
+
 			<slot
 				name="end"
 			/>
 		</template>
-
-
 	</Sortable>
 </template>
 
 <script>
-const Vue = window.parent.zb.vue
+import { computed, ref } from 'vue'
+
 // Utils
 import { mapActions, mapGetters } from 'vuex'
 
@@ -107,8 +100,9 @@ import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
 import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
 import ColumnTemplates from '../../../editor/src/common/ColumnTemplates.vue'
+import { useElements } from '@zb/editor'
 
-const sharedState = {
+const sharedStateGlobal = {
 	controlPressed: null,
 	draggedItemData: null
 }
@@ -116,29 +110,18 @@ const sharedState = {
 export default {
 	name: 'SortableContent',
 	inheritAttrs: false,
+	components: {
+		SortableHelper,
+		SortablePlaceholder,
+		EmptySortablePlaceholder,
+		ColumnTemplates,
+		Element
+	},
 	props: {
-		data: {
-			type: Object,
-			required: true
-		},
-		level: {
-			type: Number,
-			required: false,
-			default: 3
-		},
-		content: {
-			type: Array,
-			required: false,
-			default () {
-				return []
-			}
-		},
+		element: Object,
+
 		group: {
 			type: Object,
-			required: false
-		},
-		accepts: {
-			type: Array,
 			required: false
 		},
 		allowElementsAdd: {
@@ -149,23 +132,68 @@ export default {
 			type: String
 		}
 	},
-	data () {
+	setup(props) {
+		const defaultSortableGroup = {
+			name: 'elements'
+		}
+
+		const { getElement } = useElements()
+
+		const draggedItemData = ref(null)
+		const showColumnTemplates = ref(false)
+		const positionRect = ref({
+			left: 0,
+			top: 0
+		})
+		const addColumnsRef = ref({
+			getBoundingClientRect: () => {
+				return this.positionRect
+			}
+		})
+
+		const sharedState = ref(sharedStateGlobal)
+
+		const contentModel = computed({
+			get () {
+				return props.element.content.map(elementUID => {
+					return getElement(elementUID)
+				})
+			},
+			set (value) {
+				props.element.content = value.map(element => element.uid)
+			}
+		})
+		const showAddElementsPopup = computed(() => contentModel.length > 0 && showColumnTemplates.value)
+		const insertIndex = computed(() => contentModel.length)
+		const groupInfo = computed(() => props.group || defaultSortableGroup)
+		const getSortableAxis = computed(() => {
+			if (props.element.element_type === 'contentRoot') {
+				return 'vertical'
+			}
+
+			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal'
+
+			// Check columns and section direction
+			if (props.element.options.inner_content_layout) {
+				orientation = props.element.options.inner_content_layout
+			}
+
+			// Check media settings
+			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.default.default.flex-direction')
+			if (mediaOrientation) {
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+			}
+
+			return orientation
+		})
+
 		return {
-			draggedItemData: null,
-			showColumnTemplates: false,
-			positionRect: {
-				left: 0,
-				top: 0
-			},
-			addColumnsRef: {
-				getBoundingClientRect: () => {
-					return this.positionRect
-				}
-			},
-			defaultSortableGroup: {
-				name: 'elements'
-			},
-			sharedState: sharedState
+			contentModel,
+			groupInfo,
+			getSortableAxis,
+			insertIndex,
+			showAddElementsPopup,
+			sharedState
 		}
 	},
 	computed: {
@@ -175,57 +203,9 @@ export default {
 			'isDragging',
 			'getElementData',
 			'getPageContent'
-		]),
-		getSortableAxis () {
-			if (this.data.element_type === 'root') {
-				return 'vertical'
-			}
-			let orientation = this.data.element_type === 'zion_column' ? 'vertical' : 'horizontal'
-
-			// Check columns and section direction
-			if (this.data.options.inner_content_layout) {
-				orientation = this.data.options.inner_content_layout
-			}
-
-			// Check media settings
-			const mediaOrientation = getOptionValue(this.data.options, '_styles.wrapper.default.default.flex-direction')
-			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
-			}
-
-			return orientation
-		},
-		showAddElementsPopup () {
-			return this.contentModel.length > 0 && this.showColumnTemplates
-		},
-		contentModel: {
-			get () {
-				return this.content
-			},
-			set (newValue) {
-				if (!this.sharedState.controlPressed) {
-					this.saveElementsOrder({
-						newOrder: newValue,
-						content: this.content
-					})
-				}
-			}
-		},
-		insertIndex () {
-			return this.contentModel.length
-		},
-		groupInfo () {
-			return this.group || this.defaultSortableGroup
-		}
+		])
 	},
 
-	components: {
-		SortableHelper,
-		SortablePlaceholder,
-		EmptySortablePlaceholder,
-		ColumnTemplates,
-		Element
-	},
 	methods: {
 		...mapActions([
 			'saveElementsOrder',
@@ -254,7 +234,7 @@ export default {
 			this.resetAddElementsPopup()
 
 			// remove active element popup
-			if (this.data && this.getActiveShowElementsPopup === this.data.uid) {
+			if (this.element && this.getActiveShowElementsPopup === this.element.uid) {
 				this.setActiveShowElementsPopup(null)
 			}
 		},
@@ -301,7 +281,7 @@ export default {
 	},
 	watch: {
 		getActiveShowElementsPopup (newValue, oldValue) {
-			this.showColumnTemplates = this.data && newValue === this.data.uid
+			this.showColumnTemplates = this.element && newValue === this.element.uid
 		},
 		showAddElementsPopup (newValue) {
 			if (newValue) {

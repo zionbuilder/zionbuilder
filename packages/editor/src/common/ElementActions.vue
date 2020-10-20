@@ -126,7 +126,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { SET_LOCKED_USERINFO } from '../store/mutation-types'
 import { trigger } from '@zb/hooks'
 
 export default {
@@ -327,8 +326,6 @@ export default {
 
 <style lang="scss">
 .znpb-right-click__menu {
-	position: fixed;
-	z-index: 9999;
 	min-width: 200px;
 	padding: 0;
 	margin: 0;
@@ -349,6 +346,7 @@ export default {
 	line-height: 20px;
 	transition: all .1s ease;
 	cursor: pointer;
+
 	&:first-child {
 		padding-top: 13px;
 	}
