@@ -138,19 +138,10 @@ export default {
 			closeIcon
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getElementById'
-		])
-	},
 	methods: {
 		...mapActions([
 			'setActiveElement',
-			'copyElement',
-			'deleteElement',
-			'updateElementOptionValue',
-			'setElementFocus',
-			'setRightClickMenu'
+			'setElementFocus'
 		])
 	}
 }

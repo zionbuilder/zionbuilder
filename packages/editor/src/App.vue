@@ -119,11 +119,6 @@
 		<!-- bottom area -->
 		<div class="znpb-bottom-area " />
 
-		<RightClickMenu
-			v-if="rightClickVisibility"
-			:show-rename="rightClickSource!=='preview'"
-		/>
-
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
 		<ElementMenu />
@@ -133,7 +128,6 @@
 </template>
 
 <script>
-import RightClickMenu from '../../preview/src/components/RightClickMenu.vue'
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
 import PanelTree from './components/treeView/PanelTree.vue'
@@ -162,7 +156,6 @@ export default {
 		PanelGlobalSettings,
 		PanelElementOptions,
 		PostLock,
-		RightClickMenu,
 		DeviceElement,
 		AddElementPopup,
 		ElementMenu

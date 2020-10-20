@@ -73,9 +73,6 @@
 <script>
 import { computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import templateElementMixin from '../../../mixins/templateElement.js'
-import DropdownOptions from '../../DropdownOptions.vue'
-import TreeViewMixin from '../elementMixins.js'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import ColumnTemplates from '../../../common/ColumnTemplates.vue'
@@ -86,7 +83,6 @@ import { useTreeViewItem } from '../useTreeViewItem'
 export default {
 	name: 'element-wireframe-view',
 	components: {
-		DropdownOptions,
 		SortablePlaceholder,
 		SortableHelper,
 		ColumnTemplates

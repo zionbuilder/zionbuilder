@@ -65,15 +65,11 @@
 <script lang="ts">
 import { ref, PropType, defineComponent, computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import DropdownOptions from '../../DropdownOptions.vue'
 import { on } from '@zb/hooks'
 import { Element } from '@data'
 import { useTreeViewItem } from '../useTreeViewItem'
 
 export default defineComponent({
-	components: {
-		DropdownOptions
-	},
 	props: {
 		element: Object as PropType<Element>
 	},
