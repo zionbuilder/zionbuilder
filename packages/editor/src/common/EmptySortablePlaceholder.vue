@@ -27,17 +27,10 @@ export default {
 		ColumnTemplates
 	},
 	props: {
-		element: Object,
-		parentUid: {
-			type: String,
-			required: false
-		},
-		data: {
-			type: Object,
-			required: false
-		}
+		element: Object
 	},
 	setup(props) {
+		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 
 		function toggleAddElementsPopup () {
@@ -47,12 +40,8 @@ export default {
 
 		return {
 			toggleAddElementsPopup,
-			addElementsPopupButton
-		}
-	},
-	data () {
-		return {
-			showColumnTemplates: false
+			addElementsPopupButton,
+			showColumnTemplates
 		}
 	},
 	computed: {
@@ -64,8 +53,8 @@ export default {
 	},
 	watch: {
 		getActiveShowElementsPopup (newValue, oldValue) {
-			if (this.data) {
-				this.showColumnTemplates = newValue === this.data.uid
+			if (this.element) {
+				this.showColumnTemplates.value = newValue === this.element.uid
 			}
 		}
 	},
@@ -76,17 +65,17 @@ export default {
 		]),
 
 		onAddElementsHide () {
-			this.showColumnTemplates = false
+			this.showColumnTemplates.value = false
 
 			this.resetAddElementsPopup()
 
 			// remove active element popup
-			if (this.data && this.getActiveShowElementsPopup === this.data.uid) {
+			if (this.element && this.getActiveShowElementsPopup === this.element.uid) {
 				this.setActiveShowElementsPopup(null)
 			}
 		},
 		onAddColumnsShow () {
-			this.showColumnTemplates = true
+			this.showColumnTemplates.value = true
 
 			if (eventMarshall.getActiveTooltip) {
 				eventMarshall.getActiveTooltip.showColumnTemplates = false
@@ -104,7 +93,7 @@ export default {
 		if (this.shouldOpenAddElementsPopup) {
 			// Use a timeout because the pop-up triggers a clickoutside event and hides the tooltip
 			setTimeout(() => {
-				this.showColumnTemplates = true
+				this.showColumnTemplates.value = true
 				this.setShouldOpenAddElementsPopup(false)
 			}, 10)
 		}

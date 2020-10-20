@@ -15,6 +15,7 @@
 
 		<Element
 			v-for="childElement in contentModel"
+			:element="childElement"
 			:uid="childElement.uid"
 			:data="childElement"
 			:parentUid="element.uid"
@@ -27,32 +28,13 @@
 		</template>
 
 		<template #content>
-			<Tooltip
-				ref="addElementsPopup"
-				tooltip-class="hg-popper--big-arrows"
-				placement='bottom'
-				append-to="body"
-				trigger="click"
-				v-if="showAddElementsPopup"
-				:show="showAddElementsPopup"
-				:close-on-outside-click="true"
-				:close-on-escape="true"
-				@hide="onAddElementsHide"
-				@show="onAddElementsShow"
-				key="addElements"
-				class="znpb-add-elemenets-tooltip-placeholder"
-			>
-				<template #content>
-					<ColumnTemplates
-
-						:parentUid="element.uid"
-						:insertIndex="insertIndex"
-						@close-popper="showColumnTemplates=false"
-						:data="data"
-						:empty-sortable="false"
-					/>
-				</template>
-			</Tooltip>
+			<Icon
+				icon="plus"
+				:rounded="true"
+				class="znpb-empty-placeholder__tour-icon"
+				@click="toggleAddElementsPopup"
+				ref="addElementsPopupButton"
+			/>
 		</template>
 
 		<template #helper>
@@ -99,8 +81,7 @@ import Element from './Element.vue'
 import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
 import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
-import ColumnTemplates from '../../../editor/src/common/ColumnTemplates.vue'
-import { useElements } from '@zb/editor'
+import { useElements, useAddElementsPopup } from '@zb/editor'
 
 const sharedStateGlobal = {
 	controlPressed: null,
@@ -114,7 +95,6 @@ export default {
 		SortableHelper,
 		SortablePlaceholder,
 		EmptySortablePlaceholder,
-		ColumnTemplates,
 		Element
 	},
 	props: {
@@ -137,10 +117,11 @@ export default {
 			name: 'elements'
 		}
 
+		const showColumnTemplates = ref(false)
+		const addElementsPopupButton = ref(null)
 		const { getElement } = useElements()
 
 		const draggedItemData = ref(null)
-		const showColumnTemplates = ref(false)
 		const positionRect = ref({
 			left: 0,
 			top: 0
@@ -187,13 +168,22 @@ export default {
 			return orientation
 		})
 
+		const toggleAddElementsPopup = () => {
+			const { showAddElementsPopup } = useAddElementsPopup()
+			showAddElementsPopup(props.element, addElementsPopupButton)
+		}
+
+
 		return {
 			contentModel,
 			groupInfo,
 			getSortableAxis,
 			insertIndex,
 			showAddElementsPopup,
-			sharedState
+			sharedState,
+			toggleAddElementsPopup,
+			addElementsPopupButton,
+			showColumnTemplates
 		}
 	},
 	computed: {
@@ -282,13 +272,6 @@ export default {
 	watch: {
 		getActiveShowElementsPopup (newValue, oldValue) {
 			this.showColumnTemplates = this.element && newValue === this.element.uid
-		},
-		showAddElementsPopup (newValue) {
-			if (newValue) {
-				const elementRect = this.$el.getBoundingClientRect()
-				this.positionRect = elementRect
-				this.$refs.addElementsPopup.scheduleUpdate()
-			}
 		},
 		'sharedState.controlPressed' (newValue, oldValue) {
 			const draggedItem = this.sharedState.draggedItemData.item

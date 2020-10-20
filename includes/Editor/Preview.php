@@ -181,6 +181,13 @@ class Preview {
 		// );
 
 		Plugin::instance()->scripts->enqueue_style(
+			'znpb-editor-styles',
+			'css/editor.css',
+			[],
+			Plugin::instance()->get_version()
+		);
+
+		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',
 			'css/preview.css',
 			[

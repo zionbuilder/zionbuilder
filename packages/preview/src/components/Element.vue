@@ -2,12 +2,12 @@
 	<ElementLoading v-if="loading" />
 
 	<component
-		v-else-if="isActive && !(data.options._isVisible === false && isPreviewMode)"
+		v-else-if="isActive && !(element.isVisible === false && isPreviewMode)"
 		:is="component"
 		class="znpb-element__wrapper zb-element"
 		:id="`${elementCssId}`"
 		:options="options"
-		:data="data"
+		:data="element"
 		@mouseenter="onMouseEnter"
 		@mouseleave="onMouseLeave"
 		@click="onElementClick"
@@ -19,7 +19,7 @@
 		<template #start>
 			<ElementToolbox
 				v-if="canShowToolbox"
-				:data="data"
+				:data="element"
 				:parentUid="parentUid"
 				:can-hide-toolbox.sync="canHideToolbox"
 				:is-toolbox-dragging.sync="isToolboxDragging"
@@ -42,7 +42,7 @@
 		>
 			<div
 				class="znpb-hidden-element-container"
-				v-if="data.options._isVisible === false"
+				v-if="element.isVisible === false"
 			>
 
 				<div class="znpb-hidden-element-placeholder">
@@ -78,12 +78,18 @@ import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'Element',
+	components: {
+		ElementToolbox,
+		VideoBackground,
+		ElementLoading,
+		ElementStyles
+	},
 	provide () {
 		const elementInfo = {}
 
 		Object.defineProperty(elementInfo, 'data', {
 			enumerable: true,
-			get: () => this.data
+			get: () => this.element
 		})
 
 		Object.defineProperty(elementInfo, 'parentUid', {
@@ -110,24 +116,24 @@ export default {
 			elementInfo
 		}
 	},
-	components: {
-		ElementToolbox,
-		VideoBackground,
-		ElementLoading,
-		ElementStyles
-	},
 	props: {
-		uid: {
-			type: String,
+		element: {
+			type: Object,
 			required: true
 		},
-		data: {
-			type: Object,
+		uid: {
+			type: String,
 			required: true
 		},
 		parentUid: {
 			type: String,
 			required: true
+		}
+	},
+	setup (props) {
+
+		return {
+			element: props.element
 		}
 	},
 	data () {
@@ -148,17 +154,17 @@ export default {
 		}
 	},
 	created () {
-		this.setupModel(this.data.options)
+		this.setupModel(this.element.options)
 
 		this.getElementComponent()
 		this.isActive = true
 
 		if (Array.isArray(this.elementModel.content_composition) && this.elementModel.content_composition.length > 0) {
-			if (this.data.content.length === 0 && Object.keys(this.options).length === 0) {
+			if (this.element.content.length === 0 && Object.keys(this.options).length === 0) {
 				const childElements = generateElements(this.elementModel.content_composition)
 
 				this.insertElements({
-					parentUid: this.data.uid,
+					parentUid: this.element.uid,
 					index: 0,
 					childElements: childElements.childElements,
 					parentElements: childElements.parentElements
@@ -167,7 +173,7 @@ export default {
 				// Check to see if the element has slots
 				if (childElements.slots) {
 					this.attachSlots({
-						elementData: this.data,
+						elementData: this.element,
 						slots: childElements.slots
 					})
 				}
@@ -225,17 +231,17 @@ export default {
 			'getCuttedElement'
 		]),
 		elementModel () {
-			return this.getElementById(this.data.element_type)
+			return this.getElementById(this.element.element_type)
 		},
 		stylesConfig () {
 			return this.options._styles || {}
 		},
 		getClasses () {
-			const elementClass = camelCase(this.data.element_type)
+			const elementClass = camelCase(this.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
 				[`znpb-element__wrapper--toolbox-dragging`]: this.isToolboxDragging,
-				'znpb-element__wrapper--cutted': this.getCuttedElement && this.data.uid === this.getCuttedElement.uid,
+				'znpb-element__wrapper--cutted': this.getCuttedElement && this.element.uid === this.getCuttedElement.uid,
 				'znpb-element--loading': this.loading
 			}
 
@@ -276,20 +282,20 @@ export default {
 			}
 		},
 		isElementVisible () {
-			return this.data.options._isVisible !== false
+			return this.element.options._isVisible !== false
 		},
 		canShowToolbox () {
 			return this.isElementVisible && this.showToolbox && !this.isPreviewMode && !this.elementModel.is_child
 		},
 		elementCssId () {
-			return (this.options._advanced_options || {})._element_id || this.data.uid
+			return (this.options._advanced_options || {})._element_id || this.element.uid
 		},
 		shouldScrollIntoView () {
-			return this.getElementFocus && this.getElementFocus.uid === this.data.uid && this.getElementFocus.scrollIntoView
+			return this.getElementFocus && this.getElementFocus.uid === this.element.uid && this.getElementFocus.scrollIntoView
 		},
 		canShowElement () {
 			if (this.isPreviewMode) {
-				return !(this.data.options._isVisible === false)
+				return !(this.element.options._isVisible === false)
 			}
 			return true
 		},
@@ -415,7 +421,7 @@ export default {
 			await this.loadElementAssets()
 
 			const { getElementType } = useElementTypes()
-			const element = getElementType(this.data.element_type)
+			const element = getElementType(this.element.element_type)
 
 			if (element.component) {
 				this.component = markRaw(element.component)
@@ -487,13 +493,13 @@ export default {
 				event.preventDefault()
 				event.stopPropagation()
 				this.setElementFocus({
-					uid: this.data.uid,
+					uid: this.element.uid,
 					parentUid: this.parentUid,
-					insertParent: this.elementModel.wrapper ? this.data.uid : this.parentUid
+					insertParent: this.elementModel.wrapper ? this.element.uid : this.parentUid
 				})
 
 				this.setRightClickMenu({
-					uid: this.data.uid,
+					uid: this.element.uid,
 					visibility: true,
 					previewScrollTop: window.pageYOffset,
 					initialScrollTop: parseInt(window.pageYOffset),
@@ -527,9 +533,9 @@ export default {
 			}
 
 			this.setElementFocus({
-				uid: this.data.uid,
+				uid: this.element.uid,
 				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.data.uid : this.parentUid
+				insertParent: this.elementModel.wrapper ? this.element.uid : this.parentUid
 			})
 		},
 		/**
@@ -541,7 +547,7 @@ export default {
 			event.stopPropagation()
 
 			if (!this.isPreviewMode) {
-				this.setActiveElement(this.data.uid)
+				this.setActiveElement(this.element.uid)
 				this.$zb.panels.openPanel('PanelElementOptions')
 
 				// Clear text selection that may appear
@@ -552,7 +558,7 @@ export default {
 
 		restoreHiddenElement () {
 			this.updateElementOptionValue({
-				elementUid: this.data.uid,
+				elementUid: this.element.uid,
 				path: '_isVisible',
 				newValue: true,
 				type: 'visibility'
@@ -587,10 +593,10 @@ export default {
 		},
 		getDefaultEventResponse () {
 			return {
-				elementType: this.data.element_type,
+				elementType: this.element.element_type,
 				element: this.$el,
 				options: this.options || {},
-				elementUid: this.data.uid,
+				elementUid: this.element.uid,
 
 				// Actions that the user can subscribe to
 				on: this.on,

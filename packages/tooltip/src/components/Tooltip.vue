@@ -1,5 +1,9 @@
 <template>
-	<component :is="tag" v-bind="$attrs">
+	<component
+		:is="tag"
+		v-bind="$attrs"
+		ref="root"
+	>
 		<teleport
 			v-if="appendTo && appendTo !== 'element'"
 			:to="appendTo"
@@ -61,6 +65,7 @@
 </template>
 
 <script lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { getDefaultOptions } from '../options'
 import { merge } from 'lodash-es'
 import { createPopper } from '@popperjs/core';
@@ -212,6 +217,17 @@ export default {
 			required: false
 		}
 	},
+	setup(props) {
+		const root = ref(null)
+		const popperSelector = ref(null)
+		const ownerDocument = ref(null)
+
+		return {
+			popperSelector,
+			root,
+			ownerDocument
+		}
+	},
 	data () {
 		return {
 			visible: !!this.show,
@@ -287,7 +303,7 @@ export default {
 				return this.$el
 			} else {
 				// Get content document
-				return this.$el.ownerDocument.querySelector(this.appendToOption)
+				return this.ownerDocument.querySelector(this.appendToOption)
 			}
 		},
 		showPopper () {
@@ -327,6 +343,8 @@ export default {
 		},
 		instantiatePopper () {
 			this.popperElement = this.$refs.popper
+			this.popperSelector = this.popperRef || this.root
+			this.ownerDocument = this.popperSelector.ownerDocument || this.root.ownerDocument
 
 			this.addPopperToDom()
 
@@ -335,9 +353,8 @@ export default {
 				this.popperInstance = null
 			}
 
-			const ref = this.popperRef || this.$el
-			if (ref) {
-				this.popperInstance = createPopper(ref, this.popperElement, this.popperOptions)
+			if (this.popperSelector) {
+				this.popperInstance = createPopper(this.popperSelector, this.popperElement, this.popperOptions)
 			}
 
 			this.onHideAfter()
@@ -400,7 +417,7 @@ export default {
 		},
 		addPopperEvents () {
 			if (this.closeOnOutsideClick) {
-				this.$el.ownerDocument.addEventListener('click', this.onOutsideClick, true)
+				this.ownerDocument.addEventListener('click', this.onOutsideClick, true)
 			}
 
 			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
@@ -410,11 +427,11 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.$el.ownerDocument.addEventListener('keydown', this.onKeyDown)
+				this.ownerDocument.addEventListener('keydown', this.onKeyDown)
 			}
 		},
 		removePopperEvents () {
-			this.$el.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
 
 			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
 				this.popperElement.removeEventListener('mouseenter', this.onMouseEnter)
@@ -423,7 +440,7 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.$el.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+				this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 			}
 		}
 	},
@@ -432,8 +449,8 @@ export default {
 		this.$el.removeEventListener('mouseenter', this.onMouseEnter)
 		this.$el.removeEventListener('mouseleave', this.onMouseLeave)
 		this.$el.removeEventListener('click', this.onClick)
-		this.$el.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
-		this.$el.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+		this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+		this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 
 		// Destroy popper instance
 		this.destroyPopper(true)
