@@ -79,7 +79,6 @@ import TreeViewMixin from '../elementMixins.js'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import ColumnTemplates from '../../../common/ColumnTemplates.vue'
-import eventMarshall from '../../../common/eventMarshall'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
 import { useTreeViewItem } from '../useTreeViewItem'
@@ -187,58 +186,6 @@ export default {
 			}
 
 			return devices[responsiveMediaId]
-		},
-		onAddColumnsShow () {
-			this.$emit('update:canHideToolbox', false)
-			this.showColumnTemplates = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(tonAddColumnsShowhis)
-		},
-		onAddColumnsHide () {
-			this.$emit('update:canHideToolbox', true)
-			this.showColumnTemplates = false
-			this.resetAddElementsPopup()
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
-		},
-		onItemClick () {
-			this.setElementFocus({
-				uid: this.element.uid,
-				parentUid: this.parentUid,
-				insertParent: this.element.isWrapper ? this.element.uid : this.parentUid,
-				scrollIntoView: true
-			})
-		},
-		showContextMenu (e) {
-			this.setRightClickMenu({
-				visibility: true,
-				previewIframeLeft: 0,
-				initialScrollTop: document.getElementById('znpb-wireframe-panel').scrollTop,
-				position: {
-					top: e.clientY + window.pageYOffset,
-					left: e.clientX
-				},
-				source: 'editor'
-			})
-			this.setElementFocus({
-				uid: this.elementUid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.isWrapper ? this.element.uid : this.parentUid,
-				scrollIntoView: true
-			})
-		},
-		sortableStart () {
-			this.setDraggingState(true)
-		},
-		sortableEnd () {
-			this.setDraggingState(false)
 		},
 		shrinkPanel () {
 			this.expanded = false

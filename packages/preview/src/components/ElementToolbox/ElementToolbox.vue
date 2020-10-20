@@ -74,7 +74,16 @@
 				appear
 				name="bounce-add-icon"
 			>
-				<Tooltip
+				<Icon
+					v-if="!isAnyDragging"
+					icon="plus"
+					:rounded="true"
+					class="znpb-empty-placeholder__tour-icon"
+					@click="toggleAddElementsPopup"
+					ref="addElementsPopupButton"
+				/>
+
+				<!-- <Tooltip
 					v-show="!isAnyDragging"
 					tooltip-class="hg-popper--big-arrows"
 					placement='auto'
@@ -102,7 +111,7 @@
 						:data="data"
 						:empty-sortable="false"
 					/>
-				</Tooltip>
+				</Tooltip> -->
 			</transition>
 
 			<TopBarToolbox
@@ -118,20 +127,18 @@
 
 <script>
 // Utils
+import { ref } from 'vue'
 import rafSchd from 'raf-schd'
 import { mapActions, mapGetters } from 'vuex'
 import { pageEvents } from '@zb/editor'
-// TODO: implement this
-// import eventMarshall from '@/editor/common/eventMarshall'
+import { useAddElementsPopup } from '@zb/editor'
 
 // Components
-import ColumnTemplates from '../../../../editor/src/common/ColumnTemplates.vue'
 import TopBarToolbox from './TopBarToolbox.vue'
 
 export default {
 	name: 'ElementToolbox',
 	components: {
-		ColumnTemplates,
 		TopBarToolbox
 	},
 	props: {
@@ -152,6 +159,21 @@ export default {
 			type: Boolean,
 			required: true,
 			default: false
+		}
+	},
+	setup () {
+		const showColumnTemplates = ref(false)
+		const addElementsPopupButton = ref(null)
+
+		const toggleAddElementsPopup = () => {
+			const { showAddElementsPopup } = useAddElementsPopup()
+			showAddElementsPopup(props.element, addElementsPopupButton)
+		}
+
+		return {
+			showColumnTemplates,
+			addElementsPopupButton,
+			toggleAddElementsPopup
 		}
 	},
 	data () {
@@ -451,26 +473,6 @@ export default {
 		setTopBarDisplay (event) {
 			this.isTopBarOpen = event
 		},
-		onAddColumnsShow () {
-			this.$emit('update:canHideToolbox', false)
-			this.showColumnTemplates = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(this)
-		},
-		onAddColumnsHide () {
-			this.$emit('update:canHideToolbox', true)
-			this.showColumnTemplates = false
-			this.resetAddElementsPopup()
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
-		},
 		getNumberFromString (string) {
 			return parseInt(string.match(/\d+/)[0])
 		},
@@ -599,7 +601,6 @@ export default {
 	},
 	beforeUnmount () {
 		this.removeEvents()
-		this.resetAddElementsPopup()
 	},
 	created () {
 		this.setComputedStyle()

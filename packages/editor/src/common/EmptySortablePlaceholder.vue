@@ -18,7 +18,6 @@
 import { ref } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import ColumnTemplates from './ColumnTemplates.vue'
-import eventMarshall from './eventMarshall'
 import { useAddElementsPopup } from '@zb/editor'
 
 export default {
@@ -27,17 +26,10 @@ export default {
 		ColumnTemplates
 	},
 	props: {
-		element: Object,
-		parentUid: {
-			type: String,
-			required: false
-		},
-		data: {
-			type: Object,
-			required: false
-		}
+		element: Object
 	},
 	setup(props) {
+		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 
 		function toggleAddElementsPopup () {
@@ -47,12 +39,8 @@ export default {
 
 		return {
 			toggleAddElementsPopup,
-			addElementsPopupButton
-		}
-	},
-	data () {
-		return {
-			showColumnTemplates: false
+			addElementsPopupButton,
+			showColumnTemplates
 		}
 	},
 	computed: {
@@ -64,8 +52,8 @@ export default {
 	},
 	watch: {
 		getActiveShowElementsPopup (newValue, oldValue) {
-			if (this.data) {
-				this.showColumnTemplates = newValue === this.data.uid
+			if (this.element) {
+				this.showColumnTemplates.value = newValue === this.element.uid
 			}
 		}
 	},
@@ -73,44 +61,16 @@ export default {
 		...mapActions([
 			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup'
-		]),
-
-		onAddElementsHide () {
-			this.showColumnTemplates = false
-
-			this.resetAddElementsPopup()
-
-			// remove active element popup
-			if (this.data && this.getActiveShowElementsPopup === this.data.uid) {
-				this.setActiveShowElementsPopup(null)
-			}
-		},
-		onAddColumnsShow () {
-			this.showColumnTemplates = true
-
-			if (eventMarshall.getActiveTooltip) {
-				eventMarshall.getActiveTooltip.showColumnTemplates = false
-			}
-
-			eventMarshall.addActiveTooltip(this)
-		},
-		resetAddElementsPopup () {
-			if (eventMarshall.getActiveTooltip && eventMarshall.getActiveTooltip === this) {
-				eventMarshall.reset()
-			}
-		}
+		])
 	},
 	mounted () {
 		if (this.shouldOpenAddElementsPopup) {
 			// Use a timeout because the pop-up triggers a clickoutside event and hides the tooltip
 			setTimeout(() => {
-				this.showColumnTemplates = true
+				this.showColumnTemplates.value = true
 				this.setShouldOpenAddElementsPopup(false)
 			}, 10)
 		}
-	},
-	beforeUnmount () {
-		this.resetAddElementsPopup()
 	}
 }
 </script>
