@@ -15,26 +15,25 @@
 </template>
 <script>
 import { Button } from '@zionbuilder/components'
-
+import { computed } from 'vue'
 export default {
 	name: 'ModalTemplateSaveButton',
 	components: {
 		Button
 	},
-	props: ['disabled'],
-	data () {
-		return {}
-	},
-	computed: {
-		buttonType () {
-			return this.disabled ? 'gray' : 'secondary'
-		}
-	},
-	methods: {
-		onButtonClick () {
-			if (!this.disabled) {
-				this.$emit('save-modal')
+	setup (props, {emit}) {
+
+		const buttonType = computed(() => {
+				return props.disabled ? 'gray' : 'secondary'
+			} )
+		function onButtonClick () {
+			if (!props.disabled) {
+				emit('save-modal')
 			}
+		}
+		return {
+			buttonType,
+			onButtonClick
 		}
 	}
 }
