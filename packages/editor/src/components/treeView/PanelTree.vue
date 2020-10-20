@@ -68,16 +68,13 @@ export default {
 		BasePanel
 	},
 	props: {
-		data: {
-			type: Object,
-			required: true
-		},
 		panel: {}
 	},
 	setup (props) {
-		const { getElement, elements } = useElements()
+		const { getElement } = useElements()
 		const element = computed(() => getElement('content'))
 		const { isPreviewLoading } = usePreviewLoading()
+		const myReactiveValue = ref(true)
 
 		// Tree view types
 		const treeViewTypes = [{

@@ -6,16 +6,6 @@
 <script>
 
 export default {
-	name: 'flyout-menu-item',
-	props: [],
-	data: () => {
-		return {}
-	},
-	components: {
-
-	},
-	methods: {
-
-	}
+	name: 'flyout-menu-item'
 }
 </script>

@@ -1,46 +1,49 @@
 <template>
 	<div class="zb">
 		<SortableContent
-			v-if="elementData"
+			v-if="element"
 			class="znpb-preview-page-wrapper"
-			:content="elementData.content"
-			:data="elementData"
-		>
-		</SortableContent>
-
+			:element="element"
+		/>
+<!--
 		<PageStyles
 			:css-classes="getClasses"
 			:page-settings-model="getPageSettings"
 			:page-settings-schema="getPageSettingsSchema"
 		/>
 
-		<ElementStyles :styles="getPageSettings._custom_css" />
-		{{elementData}}
-
-		<!-- <div v-for="panel in openPanels">
-			{{panel.id}}
-		</div> -->
+		<ElementStyles :styles="getPageSettings._custom_css" /> -->
 	</div>
 
 </template>
 <script>
+import { computed } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
 import SortableContent from './components/SortableContent.vue'
+import { useElements } from '@zb/editor'
 
 export default {
 	name: 'PreviewApp',
-	data () {
-		return {
-			showExportModal: false
-		}
-	},
 	components: {
 		SortableContent,
 		PageStyles,
 		ElementStyles
+	},
+	setup () {
+		const { getElement } = useElements()
+		const element = computed(() => getElement('content'))
+		return {
+			element
+		}
+	},
+
+	data () {
+		return {
+			showExportModal: false
+		}
 	},
 
 	created () {

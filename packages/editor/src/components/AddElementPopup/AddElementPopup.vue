@@ -9,6 +9,7 @@
 		:close-on-outside-click="true"
 		:close-on-escape="true"
 		:popperRef="activePopup.selector"
+		:modifiers="activePopup.modifiers"
 		@hide="hideAddElementsPopup"
 	>
 		<template #content>

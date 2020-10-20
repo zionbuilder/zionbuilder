@@ -1,9 +1,10 @@
 require('./scss/index.scss')
 import { createApp } from 'vue'
 import { store } from './store/'
-
+export * from './data'
 // Main
 import * as hooks from '@zb/hooks'
+import { useElementTypes } from './data'
 
 // Plugins
 import { install as ComponentsInstall } from '@zb/components'
@@ -11,7 +12,6 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
 import { Errors } from '@zionbuilder/models'
-import * as interactions from './interactions/'
 import {
 	TreeViewList,
 	TreeViewListItem
@@ -53,9 +53,6 @@ appInstance.component('WireframeListItem', WireframeListItem)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	editor: {
-		interactions
-	},
 	errors,
 	hooks,
 	appInstance,
@@ -66,11 +63,14 @@ appInstance.config.globalProperties.$zb = {
 
 appInstance.mount('#znpb-app')
 
+// Expose common methods
+const { registerElementComponent } = useElementTypes()
+
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
 	pageEvents,
 	panels,
 	errors,
-	interactions
+	registerElementComponent
 }

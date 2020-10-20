@@ -16,26 +16,25 @@
 		v-bind="getExtraAttributes"
 	>
 
-		<ElementToolbox
-			slot="start"
-			v-if="canShowToolbox"
-			:data="data"
-			:parentUid="parentUid"
-			:can-hide-toolbox.sync="canHideToolbox"
-			:is-toolbox-dragging.sync="isToolboxDragging"
-		/>
+		<template #start>
+			<ElementToolbox
+				v-if="canShowToolbox"
+				:data="data"
+				:parentUid="parentUid"
+				:can-hide-toolbox.sync="canHideToolbox"
+				:is-toolbox-dragging.sync="isToolboxDragging"
+			/>
 
-		<!-- ELEMENT VIDEO HERE -->
-		<VideoBackground
-			slot="start"
-			v-if="videoConfig"
-			:video-config="videoConfig"
-		/>
+			<!-- ELEMENT VIDEO HERE -->
+			<VideoBackground
+				v-if="videoConfig"
+				:video-config="videoConfig"
+			/>
 
-		<ElementStyles
-			slot="start"
-			:styles="customCSS"
-		/>
+			<ElementStyles
+				:styles="customCSS"
+			/>
+		</template>
 
 		<transition
 			name="znpb-fade"

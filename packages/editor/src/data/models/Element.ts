@@ -130,7 +130,6 @@ export class Element {
 		const elementAsJSON = this.getClone()
 
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
-
 	}
 
 	/**
