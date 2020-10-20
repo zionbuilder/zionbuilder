@@ -180,7 +180,7 @@ class Preview {
 		// 	Plugin::instance()->get_version()
 		// );
 
-		Plugin::instance()->scripts->enqueue_style(
+		Plugin::instance()->scripts->register_style(
 			'znpb-editor-styles',
 			'css/editor.css',
 			[],
@@ -192,6 +192,7 @@ class Preview {
 			'css/preview.css',
 			[
 				'zb-components',
+				'znpb-editor-styles'
 			],
 			Plugin::instance()->get_version()
 		);

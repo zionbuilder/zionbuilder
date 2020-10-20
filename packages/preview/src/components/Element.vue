@@ -11,7 +11,7 @@
 		@mouseleave="onMouseLeave"
 		@click="onElementClick"
 		@dblclick="editElement"
-		@contextmenu="showElementMenu"
+		@contextmenu.prevent.stop="showElementMenu"
 		v-bind="getExtraAttributes"
 	>
 
@@ -129,7 +129,6 @@ export default {
 	setup (props) {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
-		// const isActive = ref(false)
 
 		// TODO: implement this
 		// this.setupModel(this.element.options)
@@ -137,30 +136,18 @@ export default {
 		// Get the element component
 		fetchElementComponent()
 
-		// Set the active state
-		// isActive.value = true
-
 		/**
 		 * On context menu open
 		 */
 		const showElementMenu = function (event) {
-			const { showElementMenu } = useElementMenu()
-			showElementMenu(props.element, {
-				getBoundingClientRect: () => {
-					return {
-						top: event.clientY,
-						left: event.clientX,
-					}
-
-				}
-			})
+			const { showElementMenuFromEvent } = useElementMenu()
+			showElementMenuFromEvent(props.element, event)
 		}
 
 		return {
 			elementComponent,
 			element: props.element,
 			isPreviewMode,
-			// isActive,
 			showElementMenu
 		}
 	},
