@@ -23,7 +23,6 @@
 				trigger="null"
 				:show-arrows="false"
 				:show="activeDragType === 'size' && activeDragPosition === position && newValues!= undefined"
-				:modifiers="{ offset: { offset: '0,10px' } }"
 				:key="`size-${position}`"
 				:popper-ref="popperRef"
 				@mousedown.left.stop="startSizeDrag($event, position)"
@@ -117,6 +116,7 @@
 			<TopBarToolbox
 				v-if="!isAnyDragging"
 				slot="start"
+				:element="element"
 				:data="data"
 				:parentUid="parentUid"
 				@set-top-bar-display="setTopBarDisplay($event)"
@@ -142,6 +142,7 @@ export default {
 		TopBarToolbox
 	},
 	props: {
+		element: Object,
 		data: {
 			type: Object,
 			required: true

@@ -12,80 +12,36 @@
 				:class="{['znpb-editor-toolbox__top-bar--open']: topBarOpen, ['znpb-editor-toolbox__top-bar--reverse']: reverseAnimation}"
 				v-if="topBarOpen"
 			>
-				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-					<div
-						slot="content"
-						class="znpb-popper--tooltip"
-					>
-						{{$translate('edit_element')}}
-					</div>
+				<Tooltip
+					v-for="action in actions"
+				>
+					<template #content>
+						<div
+							class="znpb-popper--tooltip"
+						>
+							{{action.title}}
+						</div>
+					</template>
 
 					<Icon
-						icon="edit"
-						@click.stop="openOptionsPanel"
-					/>
-				</Tooltip>
-				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-					<div
-						slot="content"
-						class="znpb-popper--tooltip"
-					>
-						{{$translate('save_element')}}
-					</div>
-					<Icon
-						icon="export"
-						@click.stop="emitEventbus"
-					/>
-				</Tooltip>
-				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-					<div
-						slot="content"
-						class="znpb-popper--tooltip"
-					>
-						{{$translate('visible_element')}}
-					</div>
-					<Icon
-						icon="eye"
-						@click.stop="setInvisible"
-					/>
-				</Tooltip>
-				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-					<div
-						slot="content"
-						class="znpb-popper--tooltip"
-					>
-						{{$translate('clone_element')}}
-					</div>
-					<Icon
-						icon="copy"
-						@click.stop="duplicateElement"
-					/>
-				</Tooltip>
-				<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-					<div
-						slot="content"
-						class="znpb-popper--tooltip"
-					>
-						{{$translate('delete_element')}}
-					</div>
-					<Icon
-						icon="delete"
-						@click.stop="deleteParentElement"
+						:icon="action.icon"
+						@click.stop="action.action"
 					/>
 				</Tooltip>
 			</div>
-			<Tooltip :modifiers="{offset: { offset: '0,5px' }}">
-				<div
-					slot="content"
-					class="znpb-popper--tooltip"
-				>
-					<span v-if="topBarOpen">
-						{{$translate('close')}} {{elementModel.name}} {{$translate('toolbox')}}
-					</span>
-					<span v-else>
-						{{$translate('open')}} {{elementModel.name}} {{$translate('toolbox')}}
-					</span>
-				</div>
+			<Tooltip>
+				<template #content>
+					<div
+						class="znpb-popper--tooltip"
+					>
+						<span v-if="topBarOpen">
+							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
+						</span>
+						<span v-else>
+							{{$translate('open')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
+						</span>
+					</div>
+				</template>
 				<Icon
 					:icon="closeIcon"
 					@click.stop="toggleOpen"
@@ -98,8 +54,10 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
 // Utils
 import { mapActions, mapGetters } from 'vuex'
+import { translate } from '@zb/i18n'
 
 // Components
 import { trigger } from '@zb/hooks'
@@ -107,33 +65,83 @@ import { trigger } from '@zb/hooks'
 export default {
 	name: 'TopBarToolbox',
 	props: {
-		data: {
-			type: Object,
-			required: true
-		},
-		parentUid: {
-			type: String,
-			required: true
-		}
+		element: Object
 	},
-	data () {
+	setup(props, { emit }) {
+		const topBarOpen = ref(false)
+		const reverseAnimation = ref(false)
+		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
+
+		function toggleOpen () {
+			// this.setElementFocus({
+			// 	uid: props.element.uid,
+			// 	parentUid: props.element.parent.uid,
+			// 	insertParent: props.element.elementTypeModel.wrapper ? props.element.uid : props.element.parent.uid,
+			// 	scrollIntoView: false
+			// })
+
+			topBarOpen.value = !topBarOpen.value
+			emit('set-top-bar-display', topBarOpen.value)
+			if (!topBarOpen.value) {
+				reverseAnimation.value = true
+				setTimeout(() => {
+					reverseAnimation.value = false
+				}, 200)
+			}
+		}
+
+		function openOptionsPanel () {
+			this.setActiveElement(props.element.uid)
+			this.$zb.panels.openPanel('PanelElementOptions')
+		}
+
+		function emitEventbus (event) {
+			trigger('save-element', {
+				elementUid: props.element.uid,
+				parentUid: props.element.parent.uid
+			})
+		}
+
+		const actions = [
+			{
+				title: translate('edit_element'),
+				action: 'openOptionsPanel',
+				icon: 'edit'
+			},
+			{
+				title: translate('save_element'),
+				action: emitEventbus,
+				icon: 'export'
+			},
+			{
+				title: translate('visible_element'),
+				action: () => { props.element.isVisible = false },
+				icon: 'eye'
+			},
+			{
+				title: translate('clone_element'),
+				action: () => props.element.duplicate(),
+				icon: 'copy'
+			},
+			{
+				title: translate('delete_element'),
+				action: () => props.element.delete(),
+				icon: 'delete'
+			}
+		]
+
 		return {
-			topBarOpen: false,
-			reverseAnimation: false,
-			ExportModal: false
+			toggleOpen,
+			actions,
+			topBarOpen,
+			reverseAnimation,
+			closeIcon
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getElementById'
-		]),
-		closeIcon () {
-			return this.topBarOpen ? 'close' : 'edit'
-		},
-		elementModel () {
-			return this.getElementById(this.data.element_type)
-		}
-
+		])
 	},
 	methods: {
 		...mapActions([
@@ -143,58 +151,7 @@ export default {
 			'updateElementOptionValue',
 			'setElementFocus',
 			'setRightClickMenu'
-		]),
-		setInvisible () {
-			this.updateElementOptionValue({
-				elementUid: this.data.uid,
-				path: '_isVisible',
-				newValue: false,
-				type: 'visibility'
-			})
-		},
-		toggleOpen () {
-			this.setElementFocus({
-				uid: this.data.uid,
-				parentUid: this.parentUid,
-				insertParent: this.elementModel.wrapper ? this.data.uid : this.parentUid,
-				scrollIntoView: false
-			})
-
-			this.topBarOpen = !this.topBarOpen
-			this.$emit('set-top-bar-display', this.topBarOpen)
-			if (!this.topBarOpen) {
-				this.reverseAnimation = true
-				setTimeout(() => {
-					this.reverseAnimation = false
-				}, 200)
-			}
-			this.setRightClickMenu({
-				visibility: false
-			})
-		},
-		openOptionsPanel () {
-			this.setActiveElement(this.data.uid)
-			this.$zb.panels.openPanel('PanelElementOptions')
-		},
-		duplicateElement () {
-			this.copyElement({
-				elementUid: this.data.uid,
-				insertParent: this.parentUid
-			})
-		},
-
-		deleteParentElement () {
-			this.deleteElement({
-				elementUid: this.data.uid,
-				parentUid: this.parentUid
-			})
-		},
-		emitEventbus (event) {
-			trigger('save-element', {
-				elementUid: this.data.uid,
-				parentUid: this.parentUid
-			})
-		}
+		])
 	}
 }
 </script>

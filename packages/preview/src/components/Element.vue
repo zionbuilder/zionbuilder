@@ -1,5 +1,6 @@
 <template>
 	<ElementLoading v-if="loading" />
+
 	<component
 		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
 		:is="elementComponent"
@@ -18,6 +19,7 @@
 		<template #start>
 			<ElementToolbox
 				v-if="canShowToolbox"
+				:element="element"
 				:data="element"
 				:parentUid="parentUid"
 				:can-hide-toolbox.sync="canHideToolbox"
@@ -35,24 +37,27 @@
 			/>
 		</template>
 
-		<transition
-			name="znpb-fade"
-			slot="end"
-		>
-			<div
-				class="znpb-hidden-element-container"
-				v-if="element.isVisible === false"
+		<template #end>
+				<div
+					class="znpb-hidden-element-container"
+					v-if="element.isVisible === false"
+				>
+
+					<div class="znpb-hidden-element-placeholder">
+						<Icon
+							icon="eye"
+							@click.stop="element.toggleVisibility()"
+						>
+						</Icon>
+					</div>
+				</div>
+
+			<transition
+				name="znpb-fade"
 			>
 
-				<div class="znpb-hidden-element-placeholder">
-					<Icon
-						icon="eye"
-						@click.stop="restoreHiddenElement"
-					>
-					</Icon>
-				</div>
-			</div>
-		</transition>
+			</transition>
+		</template>
 	</component>
 </template>
 

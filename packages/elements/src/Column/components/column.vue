@@ -26,10 +26,11 @@
 			/>
 		</template>
 
-		<slot
-			name="end"
-			slot="end"
-		/>
+		<template #end>
+			<slot
+				name="end"
+			/>
+		</template>
 	</SortableContent>
 </template>
 
