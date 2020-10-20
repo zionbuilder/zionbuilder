@@ -64,7 +64,6 @@ export default {
 	created () {
 		// Set initial fonts
 		if (this.$zb.googleFonts.models.length) {
-			console.log('this.$zb.googleFonts',this.$zb.googleFonts)
 			this.fontsList = this.$zb.googleFonts.models
 			this.filteredList = this.$zb.googleFonts.models
 		} else {

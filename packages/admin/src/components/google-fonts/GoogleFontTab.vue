@@ -78,19 +78,22 @@ export default {
 		Tooltip,
 		ModalConfirm
 	},
-	created () {
-		console.log('fonts', this.$zb.googleFonts)
-	},
+
 	computed: {
 		variantModel: {
 			get () {
 				return this.font.font_variants
 			},
 			set (newValue) {
-				this.$emit('font-updated', {
+				// this.$emit('font-updated', {
+				// 	...this.font,
+				// 	font_variants: newValue
+				// })
+				let updatedValue = {
 					...this.font,
 					font_variants: newValue
-				})
+				}
+				this.$zb.options.updateOptionValue('google_fonts', {font,	value: updatedValue})
 			}
 		},
 		subsetModel: {
@@ -98,10 +101,11 @@ export default {
 				return this.font.font_subset
 			},
 			set (newValue) {
-				this.$emit('font-updated', {
+				let updatedValue = {
 					...this.font,
 					font_subset: newValue
-				})
+				}
+			this.$zb.options.updateOptionValue('google_fonts', {font,	value: updatedValue})
 			}
 		},
 		niceFontVariants () {

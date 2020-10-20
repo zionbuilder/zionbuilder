@@ -6,9 +6,14 @@ export default class GoogleFonts extends Collection {
 		return GoogleFont
 	}
 	getFontData(family: String) {
-		console.log('family', family)
-		return this.models.find((font) => {
-			font['family'] == family
-		})
+		let fontData = []
+
+		this.models.forEach(function (font) {
+			if (font['family'] == family) {
+				fontData = font
+			}
+		});
+		return fontData
+
 	}
 }

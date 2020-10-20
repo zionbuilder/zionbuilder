@@ -114,14 +114,14 @@ export default {
 
 	methods: {
 		...mapActions([
-			'fetchOptions',
+
 			'initialiseDataSets'
 		])
 	},
 	created () {
 		Promise.all([
 			getGoogleFonts(),
-			this.fetchOptions(),
+			this.$zb.options.fetchOptions(),
 			this.initialiseDataSets()
 		]).then((values) => {
 			this.$zb.googleFonts.add(values[0].data)

@@ -25,10 +25,7 @@
 					class="znpb-admin-tab"
 					:font="font"
 					@delete="deleteFont(font.font_family)"
-					@font-updated="updateGoogleFont({
-						font,
-						value: $event
-					})"
+					@font-updated="onGoogleFontUpdated($event, font)"
 				/>
 			</ListAnimation>
 		</div>
@@ -83,15 +80,10 @@ export default {
 		Button,
 		Modal
 	},
-	created() {
-		console.log('this.$zb.googleFontsData',this.$zb.googleFontsData)
-	},
+
 	computed: {
-		...mapGetters([
-			'getOptionValue'
-		]),
 		googleFonts () {
-			return this.$zb.googleFontsData.models
+			return this.$zb.options.getOptionValue('google_fonts')
 		},
 		activeFontNames () {
 			return this.googleFonts.map((font) => {
@@ -102,20 +94,17 @@ export default {
 	methods: {
 		...mapActions([
 			'deleteGoogleFont',
-			'updateGoogleFont',
-			'addGoogleFont',
-			'saveOptions'
 		]),
 		deleteFont (font) {
 			this.deleteGoogleFont(font)
 		},
+		onGoogleFontUpdated (value, font) {
+			console.log('{font,	value: $event}', {font,	value: value})
+			this.$zb.options.updateOptionValue('google_fonts', {font,	value: value})
+		},
 		onGoogleFontAdded (font) {
-			// this.addGoogleFont({
-			// 	font_family: font.family,
-			// 	font_variants: ['regular'],
-			// 	font_subset: ['latin']
-			// })
-			this.$zb.googleFontsData.add({
+
+			this.$zb.options.addOptionValue('google_fonts', {
 				font_family: font.family,
 				font_variants: ['regular'],
 				font_subset: ['latin']

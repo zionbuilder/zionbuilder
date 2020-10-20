@@ -19,7 +19,8 @@ import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
-import { Errors, Users, GoogleFonts, GoogleFontsData, Options } from '@zionbuilder/models'
+import { Errors, Users, GoogleFonts, Options } from '@zionbuilder/models'
+
 
 const appInstance = createApp(App)
 
@@ -35,15 +36,12 @@ appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
 const errors = new Errors()
 const users = new Users()
 const googleFonts = new GoogleFonts()
-const googleFontsData = new GoogleFontsData()
 const options = new Options()
-
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	errors,
 	users,
 	googleFonts,
-	googleFontsData,
 	options
 }
 
@@ -74,6 +72,5 @@ export {
 	errors,
 	users,
 	googleFonts,
-	googleFontsData,
 	options
 }

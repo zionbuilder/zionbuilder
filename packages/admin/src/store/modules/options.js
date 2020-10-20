@@ -83,10 +83,10 @@ const actions = {
 		commit(types.DELETE_GOOGLE_FONT, payload)
 		dispatch('saveOptions')
 	},
-	updateGoogleFont: ({ commit, dispatch }, { font, value }) => {
-		commit(types.UPDATE_GOOGLE_FONT, { font, value })
-		dispatch('saveOptions')
-	},
+	// updateGoogleFont: ({ commit, dispatch }, { font, value }) => {
+	// 	commit(types.UPDATE_GOOGLE_FONT, { font, value })
+	// 	dispatch('saveOptions')
+	// },
 	addGoogleFont: ({ commit, dispatch }, payload) => {
 		commit(types.ADD_GOOGLE_FONT, payload)
 		dispatch('saveOptions')

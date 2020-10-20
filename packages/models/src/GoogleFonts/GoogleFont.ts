@@ -10,4 +10,5 @@ export default class GoogleFont extends Model {
 			variants: []
 		}
 	}
+
 }
