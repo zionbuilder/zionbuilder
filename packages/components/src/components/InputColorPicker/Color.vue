@@ -5,15 +5,27 @@
 		placement="right-center"
 		append-to="body"
 		ref="popper"
-		:modifiers="{
-				flip: {
-					behavior: ['left', 'bottom', 'top']
+		:modifiers="[
+			{
+				name: 'preventOverflow',
+				options: {
+					rootBoundary: 'viewport',
 				},
-				offset: { offset: '0,10px' },
-				preventOverflow: {
-					boundariesElement: 'viewport',
+			},
+			{
+				name: 'offset',
+				options: {
+					offset: [0, 15],
 				},
-			}"
+			},
+			{
+				name: 'flip',
+				options: {
+					fallbackPlacements: ['left', 'bottom', 'top'],
+				},
+			},
+
+		]"
 		@show="openColorPicker"
 		@hide="closeColorPicker"
 		strategy="fixed"
