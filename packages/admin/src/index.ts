@@ -37,6 +37,7 @@ const errors = new Errors()
 const users = new Users()
 const googleFonts = new GoogleFonts()
 const options = new Options()
+
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	errors,

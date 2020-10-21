@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
 	name: 'PostTypeTab',
 	props: {
@@ -26,33 +24,23 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getAllowedPosts'
-		]),
 		isActive: {
 			get () {
-				return this.getAllowedPosts.includes(this.post.id)
+				return this.$zb.options.options['allowed_post_types'].includes(this.post.id)
 			},
 			set (newValue) {
 				// Save the value
 				if (newValue) {
 					// Add post type
-					this.addAllowedPostType(this.post.id)
+					this.$zb.options.addOptionValue('allowed_post_types', this.post.id)
 				} else {
 					// Remove post type
-					this.deleteAllowedPostType(this.post.id)
+					this.$zb.options.deleteOptionValue('allowed_post_types', this.post.id)
 				}
 			}
 		}
 
 	},
-	methods: {
-		...mapActions([
-			'addAllowedPostType',
-			'deleteAllowedPostType'
-		])
-	}
-
 }
 </script>
 <style lang="scss">

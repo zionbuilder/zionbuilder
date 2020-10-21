@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import { Icon } from '@zionbuilder/components'
 
 export default {
@@ -23,7 +23,9 @@ export default {
 		Icon
 	},
 	computed: {
-		...mapGetters(['isLoading'])
+		isLoading () {
+			return this.$zb.options.isLoading()
+		}
 	}
 }
 </script>

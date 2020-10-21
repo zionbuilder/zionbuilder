@@ -1,5 +1,5 @@
 import Model from '../Model'
-// import { saveOptions } from './SaveOptions'
+
 import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
 import { ref, Ref } from 'vue'
 
@@ -39,12 +39,12 @@ export default class Options extends Model {
 		this.saveOptions()
 	}
 
-	addOptionValue(optionId, key: Object) {
+	addOptionValue(optionId, key) {
 		this.options[optionId].push(key)
 		this.saveOptions()
 	}
 
-	deleteOptionValue(optionId, key: Object) {
+	deleteOptionValue(optionId, key) {
 		let optionIndex = this.options[optionId].indexOf(key)
 		if (optionIndex !== undefined) {
 			this.options[optionId].splice(optionIndex, 1)
@@ -58,6 +58,7 @@ export default class Options extends Model {
 
 	saveOptions() {
 
+		isLoading.value = true
 		return new Promise((resolve, reject) => {
 			saveOptions(this.options)
 				.then((response) => { })
@@ -69,6 +70,10 @@ export default class Options extends Model {
 					resolve()
 				})
 		})
+	}
+
+	isLoading() {
+		return isLoading.value
 	}
 
 	fetchOptions() {
