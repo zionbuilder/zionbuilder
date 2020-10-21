@@ -56,7 +56,6 @@
 <script>
 import { ref, computed } from 'vue'
 // Utils
-import { mapActions } from 'vuex'
 import { translate } from '@zb/i18n'
 
 // Components
@@ -73,15 +72,10 @@ export default {
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
 
 		function toggleOpen () {
-			// this.setElementFocus({
-			// 	uid: props.element.uid,
-			// 	parentUid: props.element.parent.uid,
-			// 	insertParent: props.element.elementTypeModel.wrapper ? props.element.uid : props.element.parent.uid,
-			// 	scrollIntoView: false
-			// })
-
 			topBarOpen.value = !topBarOpen.value
+
 			emit('set-top-bar-display', topBarOpen.value)
+
 			if (!topBarOpen.value) {
 				reverseAnimation.value = true
 				setTimeout(() => {
@@ -91,11 +85,11 @@ export default {
 		}
 
 		function openOptionsPanel () {
-			this.setActiveElement(props.element.uid)
-			this.$zb.panels.openPanel('PanelElementOptions')
+			// TODO: implement edit element
 		}
 
 		function emitEventbus (event) {
+			// TODO: implement element save panel
 			trigger('save-element', {
 				elementUid: props.element.uid,
 				parentUid: props.element.parent.uid
@@ -137,12 +131,6 @@ export default {
 			reverseAnimation,
 			closeIcon
 		}
-	},
-	methods: {
-		...mapActions([
-			'setActiveElement',
-			'setElementFocus'
-		])
 	}
 }
 </script>

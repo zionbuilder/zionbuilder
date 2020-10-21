@@ -17,140 +17,141 @@
 		ref="inlineEditorWrapper"
 		@mousedown.stop=""
 	>
-		<div
-			v-if="!isPreviewMode"
-			slot="content"
-			class="zion-inline-editor zion-inline-editor-container"
-			:class="{'zion-inline-editor--dragging': isDragging}"
-			:style="barStyles"
-			ref="content"
-			@mousedown.stop=""
-			contenteditable="false"
-		>
-			<!--Normally positioned drag button-->
+		<template #content>
 			<div
-				class="zion-inline-editor-dragbutton"
-				ref="dragButton"
-				@mousedown.stop="startDrag"
-				@mouseup="stopDrag"
-				v-if="dragButtonOnScreen"
+				v-if="!isPreviewMode"
+				class="zion-inline-editor zion-inline-editor-container"
+				:class="{'zion-inline-editor--dragging': isDragging}"
+				:style="barStyles"
+				ref="content"
+				@mousedown.stop=""
+				contenteditable="false"
 			>
-				<Icon icon="ite-move" />
+				<!--Normally positioned drag button-->
+				<div
+					class="zion-inline-editor-dragbutton"
+					ref="dragButton"
+					@mousedown.stop="startDrag"
+					@mouseup="stopDrag"
+					v-if="dragButtonOnScreen"
+				>
+					<Icon icon="ite-move" />
+				</div>
+
+				<!-- Fonts & text style panel -->
+				<zion-inline-editor-panel
+					icon="ite-font"
+					:visible="activePanel==='fontsPanel'"
+					@open-panel="activePanel='fontsPanel'"
+				>
+					<zion-inline-editor-group
+						@active-font="activeFont=$event"
+						@started-dragging="onStartedSliderDragging"
+						@units-expanded="onUnitsExpanded"
+					/>
+
+				</zion-inline-editor-panel>
+
+				<!-- Bold popover -->
+				<zion-inline-editor-popover
+					icon="ite-weight"
+					:full-width="true"
+					:visible="activePanel==='boldPanel'"
+					@open-panel="activePanel='boldPanel'"
+				>
+					<zion-inline-editor-font-weight
+						v-for="fontWeight in fontWeights"
+						:key="fontWeight"
+						:modelValue="fontWeight"
+					/>
+				</zion-inline-editor-popover>
+
+				<!-- Italic button -->
+				<zion-inline-editor-button
+					formatter="italic"
+					icon="ite-italic"
+				/>
+
+				<!-- Underline button -->
+				<zion-inline-editor-button
+					formatter="underline"
+					icon="ite-underline"
+				/>
+				<!-- Uppercase button -->
+				<zion-inline-editor-button
+					formatter="uppercase"
+					icon="ite-uppercase"
+				/>
+
+				<!-- Link button -->
+
+				<panelLink
+					:full-width="true"
+					direction="vertical"
+					:visible="activePanel==='linkPanel'"
+					@open-panel="activePanel='linkPanel'"
+				/>
+
+				<!-- Quote button -->
+				<zion-inline-editor-button
+					formatter="blockquote"
+					icon="ite-quote"
+				/>
+
+				<!-- Color Picker -->
+				<zion-inline-editor-color-picker
+					@close-color-picker="onColorPickerClose"
+					@open-color-picker="onColorPickerOpen"
+				/>
+				<!-- Text align button -->
+				<zion-inline-editor-popover
+					icon="ite-alignment"
+					:visible="activePanel==='alignPanel'"
+					@open-panel="activePanel='alignPanel'"
+				>
+
+					<!-- Align left -->
+					<zion-inline-editor-button
+						@click="alignButtonIcon = 'align--left'"
+						formatter="alignleft"
+						icon="align--left"
+					/>
+					<!-- Align center -->
+					<zion-inline-editor-button
+						@click="alignButtonIcon = 'align--center'"
+						formatter="aligncenter"
+						icon="align--center"
+					/>
+					<!-- Align right -->
+					<zion-inline-editor-button
+						@click="alignButtonIcon = 'align--right'"
+						formatter="alignright"
+						icon="align--right"
+					/>
+					<!-- Align justify -->
+					<zion-inline-editor-button
+						@click="alignButtonIcon = 'align--justify'"
+						formatter="alignjustify"
+						icon="align--justify"
+					/>
+
+				</zion-inline-editor-popover>
+
+				<!--Alternatively positioned drag button (if the normal one is out of bounds)-->
+				<div
+					class="zion-inline-editor-dragbutton"
+					@mousedown.stop="startDrag"
+					@mouseup="stopDrag"
+					v-if="!dragButtonOnScreen"
+				>
+					<Icon
+						icon="more"
+						:rotate="90"
+					/>
+
+				</div>
 			</div>
-
-			<!-- Fonts & text style panel -->
-			<zion-inline-editor-panel
-				icon="ite-font"
-				:visible="activePanel==='fontsPanel'"
-				@open-panel="activePanel='fontsPanel'"
-			>
-				<zion-inline-editor-group
-					@active-font="activeFont=$event"
-					@started-dragging="onStartedSliderDragging"
-					@units-expanded="onUnitsExpanded"
-				/>
-
-			</zion-inline-editor-panel>
-
-			<!-- Bold popover -->
-			<zion-inline-editor-popover
-				icon="ite-weight"
-				:full-width="true"
-				:visible="activePanel==='boldPanel'"
-				@open-panel="activePanel='boldPanel'"
-			>
-				<zion-inline-editor-font-weight
-					v-for="fontWeight in fontWeights"
-					:key="fontWeight"
-					:modelValue="fontWeight"
-				/>
-			</zion-inline-editor-popover>
-
-			<!-- Italic button -->
-			<zion-inline-editor-button
-				formatter="italic"
-				icon="ite-italic"
-			/>
-
-			<!-- Underline button -->
-			<zion-inline-editor-button
-				formatter="underline"
-				icon="ite-underline"
-			/>
-			<!-- Uppercase button -->
-			<zion-inline-editor-button
-				formatter="uppercase"
-				icon="ite-uppercase"
-			/>
-
-			<!-- Link button -->
-
-			<panelLink
-				:full-width="true"
-				direction="vertical"
-				:visible="activePanel==='linkPanel'"
-				@open-panel="activePanel='linkPanel'"
-			/>
-
-			<!-- Quote button -->
-			<zion-inline-editor-button
-				formatter="blockquote"
-				icon="ite-quote"
-			/>
-
-			<!-- Color Picker -->
-			<zion-inline-editor-color-picker
-				@close-color-picker="onColorPickerClose"
-				@open-color-picker="onColorPickerOpen"
-			/>
-			<!-- Text align button -->
-			<zion-inline-editor-popover
-				icon="ite-alignment"
-				:visible="activePanel==='alignPanel'"
-				@open-panel="activePanel='alignPanel'"
-			>
-
-				<!-- Align left -->
-				<zion-inline-editor-button
-					@click="alignButtonIcon = 'align--left'"
-					formatter="alignleft"
-					icon="align--left"
-				/>
-				<!-- Align center -->
-				<zion-inline-editor-button
-					@click="alignButtonIcon = 'align--center'"
-					formatter="aligncenter"
-					icon="align--center"
-				/>
-				<!-- Align right -->
-				<zion-inline-editor-button
-					@click="alignButtonIcon = 'align--right'"
-					formatter="alignright"
-					icon="align--right"
-				/>
-				<!-- Align justify -->
-				<zion-inline-editor-button
-					@click="alignButtonIcon = 'align--justify'"
-					formatter="alignjustify"
-					icon="align--justify"
-				/>
-
-			</zion-inline-editor-popover>
-
-			<!--Alternatively positioned drag button (if the normal one is out of bounds)-->
-			<div
-				class="zion-inline-editor-dragbutton"
-				@mousedown.stop="startDrag"
-				@mouseup="stopDrag"
-				v-if="!dragButtonOnScreen"
-			>
-				<Icon
-					icon="more"
-					:rotate="90"
-				/>
-
-			</div>
-		</div>
+		</template>
 		<div
 			v-if="editor"
 			ref="inlineEditor"
