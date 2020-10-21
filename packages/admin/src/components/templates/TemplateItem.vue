@@ -44,7 +44,14 @@
 						append-to="element"
 						class="znpb-admin-single-template__action znpb-insert-icon-pop"
 						tag="div"
-						:modifiers="{ offset: { offset: '0,15px' } }"
+						:modifiers="[
+							{
+								name: 'offset',
+								options: {
+									offset: [0, 15],
+								},
+							},
+						]"
 						placement="top"
 						strategy="fixed"
 						v-if="showInsert"
@@ -60,7 +67,14 @@
 					<Tooltip
 						:content="$translate('edit_template')"
 						append-to="element"
-						:modifiers="{ offset: { offset: '0,15px' } }"
+						:modifiers="[
+							{
+								name: 'offset',
+								options: {
+									offset: [0, 15],
+								},
+							},
+						]"
 						placement="top"
 						strategy="fixed"
 						class="znpb-admin-single-template__action znpb-edit-icon-pop"
@@ -77,7 +91,14 @@
 						:content="$translate('delete_template')"
 						append-to="element"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
-						:modifiers="{ offset: { offset: '0,15px' } }"
+						:modifiers="[
+							{
+							name: 'offset',
+							options: {
+								offset: [0, 15],
+							},
+							},
+						]"
 						placement="top"
 						strategy="fixed"
 					>
@@ -92,7 +113,14 @@
 						append-to="element"
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
 						placement="top"
-						:modifiers="{ offset: { offset: '0,15px' } }"
+						:modifiers="[
+								{
+								name: 'offset',
+								options: {
+									offset: [0, 15],
+								},
+								},
+							]"
 						strategy="fixed"
 					>
 						<Icon
@@ -106,7 +134,14 @@
 						class="znpb-admin-single-template__action znpb-preview-icon-pop"
 						append-to="element"
 						placement="top"
-						:modifiers="{ offset: { offset: '0,15px' } }"
+						:modifiers="[
+							{
+							name: 'offset',
+							options: {
+								offset: [0, 15],
+							},
+							},
+						]"
 						strategy="fixed"
 					>
 						<Icon

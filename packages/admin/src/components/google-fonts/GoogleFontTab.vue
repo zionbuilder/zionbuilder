@@ -32,8 +32,14 @@
 			<Tooltip
 				class="znpb-edit-icon-pop"
 				append-to="element"
-				:modifiers="{ offset: { offset: '0,15px' } }"
-				placement="bottom"
+				:modifiers="[
+					{
+					name: 'offset',
+					options: {
+						offset: [0, 15],
+					},
+					},
+				]"
 				:content="$translate('click_to_delete_font')"
 			>
 				<Icon
