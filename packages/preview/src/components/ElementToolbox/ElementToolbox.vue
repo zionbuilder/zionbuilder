@@ -963,6 +963,7 @@ export default {
 
 		& svg {
 			position: relative;
+			pointer-events: none;
 		}
 
 		&:before {

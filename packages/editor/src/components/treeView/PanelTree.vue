@@ -29,7 +29,7 @@
 				</div>
 			</div>
 			<Icon
-				v-if="activeTreeView.id === 'wireframe-view'"
+				v-if="activeTreeView.id === 'WireframeView'"
 				class="znpb-tree-view__header-menu-close-icon"
 				icon="close"
 				@click="closeWireframe"
@@ -102,7 +102,7 @@ export default {
 
 		const activateTree = (treeType) => {
 			activeTreeView.value = treeType
-			if (treeType.id === 'wireframe-view') {
+			if (treeType.id === 'WireframeView') {
 				panelDetachedState.value = basepanel.value.panel.isDetached
 				props.panel.set('isDetached', false)
 			} else {
