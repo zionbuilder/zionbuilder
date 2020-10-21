@@ -4,43 +4,13 @@
 		v-bind="$attrs"
 		ref="root"
 	>
-		<teleport
-			v-if="appendTo && appendTo !== 'element'"
-			:to="appendTo"
-		>
-			<transition
-				appear
-				:name="transition"
-				@after-leave="onTransitionLeave"
-				@enter="onTransitionEnter"
-				v-bind="popperProps"
-			>
-				<div
-					class="hg-popper"
-					:class="tooltipClass"
-					:style="getStyle"
-					ref="popper"
-					v-if="visible"
-				>
-					{{ content }}
-
-					<slot name="content"/>
-
-					<span
-						data-popper-arrow="true"
-						v-if="showArrows"
-						class="hg-popper--with-arrows"
-					/>
-				</div>
-			</transition>
-		</teleport>
 		<transition
 			appear
 			:name="transition"
 			@after-leave="onTransitionLeave"
 			@enter="onTransitionEnter"
 			v-bind="popperProps"
-			v-else-if="visible"
+			v-if="visible"
 		>
 			<div
 				class="hg-popper"
@@ -149,7 +119,6 @@ export default {
 		 * Append to specific element. This uses document.querySelector. By default, the tooltip will be appended to the first child
 		 */
 		appendTo: {
-			type: String,
 			required: false
 		},
 		/**
@@ -299,7 +268,7 @@ export default {
 			this.$emit('update:show', false)
 		},
 		getAppendToElement () {
-			if (!this.appendToOption || this.appendToOption === 'element') {
+			if (this.appendToOption === 'element') {
 				return this.$el
 			} else {
 				// Get content document
@@ -316,6 +285,7 @@ export default {
 			if (this.popperElement && this.appendToOption !== 'element') {
 				// Append to
 				const appendElement = this.getAppendToElement()
+
 				if (!appendElement) {
 					// eslint-disable-next-line
 					console.warn(`No HTMLElement was found matching ${appendElement}`)
@@ -346,6 +316,7 @@ export default {
 			this.popperSelector = this.popperRef || this.root
 			this.ownerDocument = this.popperSelector.ownerDocument || this.root.ownerDocument
 
+			// We cannot use teleport as we need to get the document from ref
 			this.addPopperToDom()
 
 			if (this.popperInstance && this.popperInstance.destroy) {

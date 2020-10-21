@@ -27,16 +27,6 @@
 			/>
 		</template>
 
-		<template #content>
-			<Icon
-				icon="plus"
-				:rounded="true"
-				class="znpb-empty-placeholder__tour-icon"
-				@click="toggleAddElementsPopup"
-				ref="addElementsPopupButton"
-			/>
-		</template>
-
 		<template #helper>
 			<SortableHelper />
 		</template>

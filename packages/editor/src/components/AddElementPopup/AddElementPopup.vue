@@ -10,6 +10,7 @@
 		:close-on-escape="true"
 		:popperRef="activePopup.selector"
 		@hide="hideAddElementsPopup"
+		:key="activePopup.key"
 	>
 		<template #content>
 			<ColumnTemplates

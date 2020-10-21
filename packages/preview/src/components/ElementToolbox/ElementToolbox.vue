@@ -74,14 +74,18 @@
 				appear
 				name="bounce-add-icon"
 			>
-				<Icon
+				<div
 					v-if="!isAnyDragging"
-					icon="plus"
-					:rounded="true"
 					class="znpb-element-toolbox__add-element-button"
 					@click="toggleAddElementsPopup"
 					ref="addElementsPopupButton"
-				/>
+				>
+					<Icon
+						icon="plus"
+						:rounded="true"
+					/>
+				</div>
+
 			</transition>
 
 			<TopBarToolbox
@@ -130,7 +134,7 @@ export default {
 			default: false
 		}
 	},
-	setup () {
+	setup (props) {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 
@@ -956,6 +960,10 @@ export default {
 		transition: all .2s;
 		cursor: pointer;
 		pointer-events: auto;
+
+		& svg {
+			position: relative;
+		}
 
 		&:before {
 			@extend %iconbg;

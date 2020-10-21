@@ -6,7 +6,8 @@ export function useAddElementsPopup () {
 	const showAddElementsPopup = (element, selector) => {
 		activePopup.value = {
 			element,
-			selector
+			selector,
+			key: Math.random()
 		}
 	}
 
