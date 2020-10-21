@@ -17,7 +17,7 @@
 
 </template>
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
@@ -35,14 +35,11 @@ export default {
 	setup () {
 		const { getElement } = useElements()
 		const element = computed(() => getElement('content'))
-		return {
-			element
-		}
-	},
+		const showExportModal = ref(false)
 
-	data () {
 		return {
-			showExportModal: false
+			element,
+			showExportModal
 		}
 	},
 
@@ -52,18 +49,11 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'getPageContent',
 			'isPreviewMode',
 			'getClasses',
 			'getPageSettings',
 			'getPageSettingsSchema'
-		]),
-		elementData () {
-			return this.getPageContent['contentRoot']
-		},
-		openPanels () {
-			return this.$zb.panels.openPanels
-		}
+		])
 	},
 	methods: {
 		...mapActions([
