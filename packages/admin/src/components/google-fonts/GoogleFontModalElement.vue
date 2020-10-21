@@ -9,13 +9,13 @@
 				<Icon icon="minus"></Icon>
 			</div>
 		</div>
-		<div class="znpb-admin__google-fonts-modal-item-preview" contenteditable="true" :style="fontStyle">{{previewText}}</div>
+		<div class="znpb-admin__google-fonts-modal-item-preview" contenteditable="true" :style="fontStyle">{{font.family}}</div>
 	</div>
 </template>
 
 <script>
 import { Icon } from '@zionbuilder/components'
-
+import { computed } from 'vue'
 export default {
 	name: 'GoogleFontModalElement',
 	components: {
@@ -31,16 +31,15 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {
-			previewText: this.font.family
-		}
-	},
-	computed: {
-		fontStyle () {
+	setup (props) {
+		const fontStyle = computed(() => {
 			return {
-				'font-family': this.font.family
+				'font-family': props.font.family
 			}
+		})
+
+		return {
+			fontStyle
 		}
 	}
 }

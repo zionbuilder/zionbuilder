@@ -24,7 +24,7 @@
 					:key="font.font_family"
 					class="znpb-admin-tab"
 					:font="font"
-					@delete="deleteFont(font.font_family)"
+					@delete="deleteFont"
 					@font-updated="onGoogleFontUpdated($event, font)"
 				/>
 			</ListAnimation>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
 import { Icon, Tooltip, Button, Modal } from '@zionbuilder/components'
@@ -92,11 +92,8 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'deleteGoogleFont',
-		]),
 		deleteFont (font) {
-			this.deleteGoogleFont(font)
+			this.$zb.options.deleteOptionValue('google_fonts',font)
 		},
 		onGoogleFontUpdated (value, font) {
 			console.log('{font,	value: $event}', {font,	value: value})
@@ -112,8 +109,7 @@ export default {
 			this.showModal = false
 		},
 		onGoogleFontRemoved (font) {
-			// this.deleteGoogleFont(font)
-			this.$zb.googleFontsData.remove(font)
+			this.$zb.options.deleteOptionValue('google_fonts',font)
 			this.showModal = false
 		}
 	}

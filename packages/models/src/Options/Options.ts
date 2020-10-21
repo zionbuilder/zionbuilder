@@ -34,7 +34,6 @@ export default class Options extends Model {
 	}
 
 	updateOptionValue(optionId, { key, value }) {
-		console.log('{ key, value }', { key, value })
 		let optionIndex = this.options[optionId].indexOf(key)
 		this.options[optionId].splice(optionIndex, 1, value)
 		this.saveOptions()
@@ -46,18 +45,15 @@ export default class Options extends Model {
 	}
 
 	deleteOptionValue(optionId, key: Object) {
-		let fontConfig = this.options[optionId].find((font) => {
-			return font.font_family === key
-		})
-		if (fontConfig) {
-			let fontIndex = this.options[optionId].indexOf(fontConfig)
-			if (fontIndex !== undefined) {
-				this.options[optionId].splice(fontIndex, 1)
-			} else {
-				// eslint-disable-next-line
-				console.warn('option for deletion was not found')
-			}
+		let optionIndex = this.options[optionId].indexOf(key)
+		if (optionIndex !== undefined) {
+			this.options[optionId].splice(optionIndex, 1)
+		} else {
+			// eslint-disable-next-line
+			console.warn('option for deletion was not found')
 		}
+		this.saveOptions()
+
 	}
 
 	saveOptions() {
