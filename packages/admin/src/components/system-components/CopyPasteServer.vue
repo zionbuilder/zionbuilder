@@ -12,8 +12,8 @@
 		/>
 	</div>
 </template>
-
 <script>
+import { computed } from 'vue'
 export default {
 	name: 'CopyPasteServer',
 	props: {
@@ -22,14 +22,11 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {}
-	},
-	computed: {
-		getCategoryData () {
+	setup (props) {
+		const getCategoryData = computed(() => {
 			let result = []
 
-			this.categoryData.forEach((category) => {
+			props.categoryData.forEach((category) => {
 				result.push(`==${category.category_name}==\n`)
 
 				Object.keys(category.values).forEach(function (key) {
@@ -43,8 +40,13 @@ export default {
 			})
 
 			return result.join('')
+		})
+
+		return {
+			getCategoryData
 		}
 	}
+
 }
 </script>
 <style lang="scss" scoped>
