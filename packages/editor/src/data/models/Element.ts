@@ -55,9 +55,7 @@ export class Element {
 	}
 
 	set name (newName) {
-		console.log({newName})
 		update(this.options, '_advanced_options._element_name', () => newName)
-		console.log(this.options)
 	}
 
 	// Element visibility

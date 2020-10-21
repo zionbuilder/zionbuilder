@@ -27,10 +27,11 @@
 				:popper-ref="popperRef"
 				@mousedown.left.stop="startSizeDrag($event, position)"
 			>
-
-				<span slot="content">
-					{{newValues !== undefined ? newValues + 'px' : ''}}
-				</span>
+				<template #content>
+					<span>
+						{{newValues !== undefined ? newValues + 'px' : ''}}
+					</span>
+				</template>
 
 				<div
 					class="znpb-element-toolbox__resize-width znpb-element-toolbox__resize-dimensions"
@@ -77,48 +78,15 @@
 					v-if="!isAnyDragging"
 					icon="plus"
 					:rounded="true"
-					class="znpb-empty-placeholder__tour-icon"
+					class="znpb-element-toolbox__add-element-button"
 					@click="toggleAddElementsPopup"
 					ref="addElementsPopupButton"
 				/>
-
-				<!-- <Tooltip
-					v-show="!isAnyDragging"
-					tooltip-class="hg-popper--big-arrows"
-					placement='auto'
-					:show="showColumnTemplates"
-					append-to="body"
-					trigger="click"
-					:close-on-outside-click="true"
-					:close-on-escape="true"
-					:modifiers="{ offset: { offset: '0,10px' } }"
-					@hide="onAddColumnsHide"
-					@show="onAddColumnsShow"
-					key="addElements"
-					class="znpb-element-toolbox__add-element-button"
-				>
-
-					<Icon
-						icon="plus"
-						:rounded="true"
-					/>
-
-					<ColumnTemplates
-						slot="content"
-						@close-popper="showColumnTemplates=false"
-						:parentUid="parentUid"
-						:data="data"
-						:empty-sortable="false"
-					/>
-				</Tooltip> -->
 			</transition>
 
 			<TopBarToolbox
 				v-if="!isAnyDragging"
-				slot="start"
 				:element="element"
-				:data="data"
-				:parentUid="parentUid"
 				@set-top-bar-display="setTopBarDisplay($event)"
 			/>
 		</template>
