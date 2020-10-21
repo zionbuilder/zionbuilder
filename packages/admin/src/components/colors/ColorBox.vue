@@ -5,14 +5,7 @@
 			:trigger="null"
 			:show="showColorPicker"
 			placement="right-start"
-			:modifiers="{
-				flip: {
-					behavior: ['left', 'bottom', 'top']
-				},
-				preventOverflow: {
-					boundariesElement: 'viewport',
-				},
-			}"
+			:modifiers="[]"
 			:show-arrows="false"
 		>
 			<template v-slot:content>
@@ -59,7 +52,7 @@
 <script>
 import { ColorPicker, Icon, Tooltip } from '@zionbuilder/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
-
+import { ref ,watchEffect} from 'vue'
 export default {
 	name: 'ColorBox',
 	directives: {
@@ -80,24 +73,35 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {
-			localColor: this.color,
-			showColorPicker: false
+	setup (props, { emit }) {
+		const localColor = ref('')
+		const showColorPicker = ref(false)
+
+		watchEffect(() => {
+			localColor.value = props.color
+		})
+
+		function updateColor (color) {
+			localColor.value = color
 		}
-	},
-	methods: {
-		updateColor (color) {
-			this.localColor = color
-		},
-		closeColorpicker () {
-			this.showColorPicker = false
+
+		function closeColorpicker() {
+			showColorPicker.value = false
+
 			// Check if color has changed
-			if (this.color !== this.localColor) {
-				this.$emit('option-updated', this.localColor)
+			if (props.color !== localColor.value) {
+				emit('option-updated', localColor.value)
 			}
 		}
+
+		return {
+			localColor,
+			showColorPicker,
+			updateColor,
+			closeColorpicker,
+		}
 	}
+
 }
 </script>
 
@@ -180,7 +184,8 @@ export default {
 		cursor: pointer;
 		&--transparent {
 			@include circlesimple(60px);
-			@extend %opacitybg;
+
+@extend %opacitybg;
 			margin-bottom: 18px;
 			box-shadow: 0 0 0 2px #e5e5e5;
 		}
