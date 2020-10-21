@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 export default {
 	name: 'ElementIcon',
 	props: {
@@ -22,15 +24,15 @@ export default {
 			}
 		}
 	},
-	computed: {
-		iconUnicode () {
+	setup (props) {
+		const iconUnicode = computed (() => {
 			const unicode = JSON.parse(`"\\${this.iconConfig.unicode}"`)
 			return unicode.trim()
+		})
+
+		return {
+			iconUnicode
 		}
 	}
 }
 </script>
-
-<style>
-
-</style>
