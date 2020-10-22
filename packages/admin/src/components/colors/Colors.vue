@@ -9,8 +9,8 @@
 						v-for="(color,i) in localColorPatterns"
 						:color="color"
 						v-bind:key="color + i"
-						@option-updated="editLColor(i,$event)"
-						@delete-color="deleteLColor(i)"
+						@option-updated="editLColor(color,$event)"
+						@delete-color="deleteLColor(color)"
 					/>
 					<ColorBox
 						type="addcolor"
@@ -38,7 +38,7 @@
 							v-bind:key="color.color + i"
 							:color="color.color"
 							@option-updated="editGColor(i, $event)"
-							@delete-color="deleteGColor(i)"
+							@delete-color="deleteGColor(color)"
 						/>
 					</div>
 				</template>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import ColorBox from './ColorBox.vue'
 import { generateUID } from '@zionbuilder/utils'
 import { Tabs, Tab, UpgradeToPro } from '@zionbuilder/components'
@@ -67,35 +67,27 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getOptionValue',
 			'isPro'
 		]),
 		localColorPatterns () {
-			return this.getOptionValue('local_colors')
+			return this.$zb.options.getOptionValue('local_colors')
 		},
 		globalColorPatterns () {
-			return this.getOptionValue('global_colors')
+			return this.$zb.options.getOptionValue('global_colors')
 		}
 	},
 	methods: {
-		...mapActions([
-			'addLocalColor',
-			'deleteLocalColor',
-			'editLocalColor',
-			'addGlobalColor',
-			'deleteGlobalColor',
-			'editGlobalColor'
-		]),
 		// local colors
-		editLColor (index, color) {
-			this.editLocalColor({ index, color })
+		editLColor (oldColor, color) {
+			let key = oldColor
+			let value = color
+			this.$zb.options.updateOptionValue('local_colors', { key, value })
 		},
 		addLColor (color) {
-			console.log({color})
-			this.addLocalColor(color)
+			this.$zb.options.addOptionValue('local_colors', color)
 		},
-		deleteLColor (index) {
-			this.deleteLocalColor(index)
+		deleteLColor (color) {
+			this.$zb.options.deleteOptionValue('local_colors', color)
 		},
 		// global colors
 		addGColor (color) {
@@ -104,7 +96,7 @@ export default {
 				color: color,
 				name: color
 			}
-			this.addGlobalColor(globalColor)
+			this.$zb.options.addOptionValue('global_colors', globalColor)
 		},
 		editGColor (index, newcolor) {
 			let editColor = this.globalColorPatterns[index]
@@ -112,10 +104,10 @@ export default {
 			let clone = { ...editColor }
 			clone.color = newcolor
 
-			this.editGlobalColor({ index: index, color: clone })
+			this.$zb.options.editGlobalColor({ index: index, color: clone })
 		},
-		deleteGColor (index) {
-			this.deleteGlobalColor(index)
+		deleteGColor (color) {
+			this.$zb.options.deleteOptionValue('global_colors', color)
 		}
 	}
 }

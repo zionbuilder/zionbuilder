@@ -85,4 +85,9 @@ export default class Options extends Model {
 			this.options = newOptions
 		})
 	}
+
+	editGlobalColor({ index, color }) {
+		this.options.global_colors[index] = color
+		this.saveOptions()
+	}
 }
