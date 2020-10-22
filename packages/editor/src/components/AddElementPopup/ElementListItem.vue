@@ -1,7 +1,6 @@
 <template>
 	<li
 		class="znpb-element-box"
-		@click="emitEventbus($event)"
 		ref="elementBox"
 		:class="['znpb-element-box--' + item.element_type]"
 	>
@@ -29,38 +28,24 @@
 </template>
 
 <script>
-import { trigger } from '@zb/hooks'
-
 export default {
-	name: 'PagebuilderElement',
+	name: 'ElementListItem',
 	props: {
 		item: {
 			type: Object,
 			required: true
 		}
 	},
-	data () {
-		return {}
-	},
-	computed: {
-		get_element_image () {
-			return this.item.thumb ? this.item.thumb : null
-		},
-		get_element_icon () {
-			return this.item.icon ? this.item.icon : 'element-default'
-		},
-		label () {
-			return this.item.label
-		}
-	},
+	setup (props) {
+		const get_element_image = props.item.thumb ? props.item.thumb : null
+		const get_element_icon = props.item.icon ? props.item.icon : 'element-default'
+		const label = props.item.label
 
-	methods: {
-		emitEventbus (event) {
-			trigger('add-element', this.item)
+		return {
+			get_element_image,
+			get_element_icon,
+			label
 		}
-	},
-	mounted () {
-		this.$el.zionElement = this.item
 	}
 }
 </script>

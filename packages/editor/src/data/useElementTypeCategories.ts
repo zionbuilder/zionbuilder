@@ -13,6 +13,7 @@ export function useElementTypeCategories() {
 	}
 
 	return {
+		categories,
 		addElementTypeCategory,
 		getElementTypeCategory
 	}

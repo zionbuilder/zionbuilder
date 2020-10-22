@@ -4,7 +4,6 @@ const activePopup: Ref<null | object> = ref(null)
 
 export function useAddElementsPopup () {
 	const showAddElementsPopup = (element, selector) => {
-		console.log(activePopup.value && activePopup.value.element === element);
 		if (activePopup.value && activePopup.value.element === element) {
 			hideAddElementsPopup()
 			return

@@ -1,5 +1,5 @@
-import { each, find } from 'lodash-es'
-import { ref, Ref } from 'vue'
+import { find } from 'lodash-es'
+import { ref, Ref, computed } from 'vue'
 import { ElementType } from './models'
 
 const zionElements = window.ZnPbInitalData.elements_data.map(config => {
@@ -19,6 +19,12 @@ export function useElementTypes() {
 		elementTypes.value.push(new ElementType(config))
 	}
 
+	const getVisibleElements = computed(() => {
+		return elementTypes.value.filter((element) => {
+			return element.show_in_ui
+		})
+	})
+
 	const getElementType = (elementType: string) => {
 		return find(elementTypes.value, {element_type: elementType})
 	}
@@ -34,6 +40,8 @@ export function useElementTypes() {
 	}
 
 	return {
+		elementTypes,
+		getVisibleElements,
 		addElementType,
 		getElementType,
 		registerElementComponent

@@ -25,9 +25,8 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsList
+				<ElementsTab
 					:element="element"
-					:insertIndex="getInsertIndex()"
 				/>
 			</Tab>
 			<Tab name="Library">
@@ -53,7 +52,7 @@
 <script>
 import { ref, computed, onBeforeUnmount } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
-import ElementsList from './ElementsList.vue'
+import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
@@ -66,7 +65,7 @@ export default {
 		}
 	},
 	components: {
-		ElementsList
+		ElementsTab
 	},
 	setup (props, { emit }) {
 		const active = ref(null)

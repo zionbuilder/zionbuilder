@@ -1,5 +1,4 @@
-import connector from './connector'
-console.log(connector)
+import './connector'
 import { createVNode, render } from 'vue'
 
 import previewApp from './App.vue'

@@ -57,46 +57,6 @@ const actions = {
 	registerElement: ({ commit }, elementConfig) => {
 		commit(types.REGISTER_ELEMENT, elementConfig)
 	},
-	filterElementsBySearch ({ commit, state }, searchTerm) {
-		if (searchTerm === null) {
-			commit(types.SET_VISIBLE_ELEMENTS, [])
-		} else {
-			let visibleElements = Object.assign(
-				[],
-				state.registeredElements.filter(element => {
-					return (
-						element.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
-						element.keywords
-							.join()
-							.toLowerCase()
-							.indexOf(searchTerm.toLowerCase()) !== -1
-					)
-				})
-			)
-
-			commit(types.SET_VISIBLE_ELEMENTS, visibleElements)
-		}
-	},
-
-	filterElementsByLevel ({ commit, state }, elementDropLevel) {
-		let visibleElements = Object.assign(
-			[],
-			state.registeredElements.filter(element => {
-				// Columns
-				if (elementDropLevel === 1) {
-					return parseInt(element.level) === 2
-				} else if (elementDropLevel === 2) {
-					// Level 3 elements
-					return parseInt(element.level) === 3
-				} else {
-					// level 1 elements
-					return parseInt(element.level) === 3 || parseInt(element.level) === 1
-				}
-			})
-		)
-
-		commit(types.SET_VISIBLE_ELEMENTS, visibleElements)
-	}
 }
 
 const mutations = {

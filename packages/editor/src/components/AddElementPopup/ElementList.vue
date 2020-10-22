@@ -1,61 +1,39 @@
 <template>
-	<component
-		:is="tag"
-		:sort="false"
-		:group="{
-			name: 'elements',
-			pull: 'clone',
-			put: false
-		}"
-	>
+	<div>
 		<TransitionGroup
 			name="pb_element"
 			tag="ul"
 			class="znpb-element-category-list"
 		>
-
-
 			<!-- list of elements -->
-			<PagebuilderElement
-				v-for="( item, itemId ) in computedElements"
-				:key="itemId"
-				:item="item"
+			<ElementListItem
+				v-for="element in elements"
+				:item="element"
+				:key="element.element_type"
+				@click="$emit('add-element', element)"
 			/>
 		</TransitionGroup>
-
-		<SortablePlaceholder
-			slot="placeholder"
-			v-if="tag === 'Sortable'"
-		/>
-	</component>
+	</div>
 </template>
 
 <script>
-import PagebuilderElement from './PagebuilderElement.vue'
-import SortablePlaceholder from '../../common/SortablePlaceholder.vue'
+import ElementListItem from './ElementListItem.vue'
 
 export default {
 	name: 'ElementList',
+	components: {
+		ElementListItem
+	},
 	props: {
 		elements: {
 			type: Array,
 			required: true
 		},
-		tag: {
-			type: String,
-			required: false,
-			default: 'Sortable'
-		}
+		element: Object
 	},
-	components: {
-		PagebuilderElement,
-		SortablePlaceholder
-	},
-	computed: {
-		computedElements () {
-			return this.elements.filter(function (element) {
-				return element.show_in_ui
-			})
+	setup () {
+		return {
+
 		}
 	}
 }
