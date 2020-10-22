@@ -25,12 +25,10 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<!-- <ElementsList
-					@close-popper="$emit('close-popper', true)"
-					:parentUid="this.element.uid"
-					:data="data"
+				<ElementsList
+					:element="element"
 					:insertIndex="getInsertIndex()"
-				/> -->
+				/>
 			</Tab>
 			<Tab name="Library">
 				<!-- <Icon
@@ -53,6 +51,7 @@
 	</div>
 </template>
 <script>
+import { ref, computed, onBeforeUnmount } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import ElementsList from './ElementsList.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
@@ -69,45 +68,44 @@ export default {
 	components: {
 		ElementsList
 	},
+	setup (props, { emit }) {
+		const active = ref(null)
+		const spanElements = {
+			'full': 1,
+			'one-of-two': 2,
+			'one-of-three': 3,
+			'one-of-four': 4,
+			'one-of-five': 5,
+			'one-of-six': 6,
+			'4-8': 2,
+			'8-4': 2,
+			'3-9': 2,
+			'9-3': 2,
+			'3-6-3': 3,
+			'3-3-6': 3,
+			'6-3-3': 3,
+			'6-3-3-3-3': 5,
+			'3-3-3-3-6': 5,
+			'3-3-6-3-3': 5
+		}
+		const layouts = getLayoutConfigs()
 
-	data () {
-		return {
-			active: null,
-			spanElements: {
-				'full': 1,
-				'one-of-two': 2,
-				'one-of-three': 3,
-				'one-of-four': 4,
-				'one-of-five': 5,
-				'one-of-six': 6,
-				'4-8': 2,
-				'8-4': 2,
-				'3-9': 2,
-				'9-3': 2,
-				'3-6-3': 3,
-				'3-3-6': 3,
-				'6-3-3': 3,
-				'6-3-3-3-3': 5,
-				'3-3-3-3-6': 5,
-				'3-3-6-3-3': 5
-			},
-			layouts: getLayoutConfigs()
-		}
-	},
-	computed: {
-		activeTab () {
-			if (this.active !== null) {
-				return this.active
-			} else if (this.element.element_type === 'zion_column') {
+		const activeTab = computed(() => {
+			if (active.value !== null) {
+				return active.value
+			} else if (props.element.element_type === 'zion_column') {
 				return 'elements'
-			} else return null
+			}
+
+			return null
+		})
+
+
+		const getSpanNumber = (id) => {
+			return spanElements[id]
 		}
-	},
-	methods: {
-		getSpanNumber (id) {
-			return this.spanElements[id]
-		},
-		wrapColumn (config) {
+
+		const wrapColumn = (config) => {
 			return [
 				{
 					element_type: 'zion_column',
@@ -128,18 +126,20 @@ export default {
 
 				}
 			]
-		},
-		addElements (config) {
+		}
+
+		const addElements = (config) => {
 			// If it's a wrapper, it means that it can have childs
-			if (this.element.isWrapper || this.element.element_type === 'contentRoot') {
-				this.element.addChildren(config)
+			if (props.element.isWrapper || props.element.element_type === 'contentRoot') {
+				props.element.addChildren(config)
 			} else {
-				this.element.parent.addChildren(config)
+				props.element.parent.addChildren(config)
 			}
 
 			// Send close event
-			this.$emit('added-element', true)
-			// const elementType = this.element.element_type
+			emit('close')
+
+			// const elementType = props.element.element_type
 
 			// // Add a section if this will be inserted on root
 			// if (elementType === 'root') {
@@ -186,22 +186,29 @@ export default {
 			// 	childElements: elements.childElements,
 			// 	parentElements: elements.parentElements
 			// })
-		},
-		openLibrary () {
-			this.$emit('close-popper', true)
-
-			this.setElementConfigForLibrary({
-				parentUid: this.parentUid,
-				index: this.getInsertIndex()
-			})
-
-			this.$zb.panels.togglePanel('PanelLibraryModal')
 		}
-	},
-	beforeUnmount: function () {
-		// remove events
-		document.removeEventListener('keypress', this.onKeyPress)
-		off('change-tab-pop', this.changeTab)
+
+		const openLibrary = () => {
+			// TODO: implement open library
+			emit('close')
+
+			// this.setElementConfigForLibrary({
+			// 	parentUid: this.parentUid,
+			// 	index: this.getInsertIndex()
+			// })
+
+			// this.$zb.panels.togglePanel('PanelLibraryModal')
+		}
+
+		return {
+			layouts,
+			active,
+			spanElements,
+			activeTab,
+			// methods
+			getSpanNumber,
+			addElements
+		}
 	}
 }
 </script>

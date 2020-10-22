@@ -14,10 +14,8 @@
 	>
 		<template #content>
 			<ColumnTemplates
-				:empty-sortable="true"
-				:data="activePopup.element"
 				:element="activePopup.element"
-				@added-element="hideAddElementsPopup"
+				@close="hideAddElementsPopup"
 			/>
 		</template>
 	</Tooltip>

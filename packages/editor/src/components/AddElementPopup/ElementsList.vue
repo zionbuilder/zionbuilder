@@ -48,8 +48,8 @@
 import { mapActions, mapGetters } from 'vuex'
 import { generateUID } from '@zb/utils'
 import { on, off } from '@zb/hooks'
-import CategoriesElements from '../addElements/CategoriesElements.vue'
-import ElementList from '../addElements/ElementList.vue'
+import CategoriesElements from './CategoriesElements.vue'
+import ElementList from './ElementList.vue'
 
 export default {
 	name: 'ElementsList',
@@ -75,7 +75,6 @@ export default {
 		return {
 			searchKeyword: '',
 			categVal: 'all'
-
 		}
 	},
 	computed: {
