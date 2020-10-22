@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import Image from './components/Image.vue'
 
-window.zb.editor.elements.registerElementComponent(Image)
+registerElementComponent({
+	elementType: 'zion_image',
+	component: Image
+})

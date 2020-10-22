@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import Video from './components/Video.vue'
 
-window.zb.editor.elements.registerElementComponent(Video)
+registerElementComponent({
+	elementType: 'zion_video',
+	component: Video
+})

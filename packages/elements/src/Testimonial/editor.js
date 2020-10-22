@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import Testimonial from './components/Testimonial.vue'
 
-window.zb.editor.elements.registerElementComponent(Testimonial)
+registerElementComponent({
+	elementType: 'testimonial',
+	component: Testimonial
+})

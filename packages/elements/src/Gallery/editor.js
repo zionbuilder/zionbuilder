@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import Gallery from './components/gallery.vue'
 
-window.zb.editor.elements.registerElementComponent(Gallery)
+registerElementComponent({
+	elementType: 'gallery',
+	component: Gallery
+})

@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import ImageBox from './components/ImageBox.vue'
 
-window.zb.editor.elements.registerElementComponent(ImageBox)
+registerElementComponent({
+	elementType: 'image_box',
+	component: ImageBox
+})

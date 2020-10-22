@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import Heading from './components/Heading.vue'
 
-window.zb.editor.elements.registerElementComponent(Heading)
+registerElementComponent({
+	elementType: 'zion_heading',
+	component: Heading
+})

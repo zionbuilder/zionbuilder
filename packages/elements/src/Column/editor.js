@@ -1,4 +1,7 @@
 import { registerElementComponent } from '@zb/editor'
 import Column from './components/column.vue'
 
-registerElementComponent(Column)
+registerElementComponent({
+	elementType: 'column',
+	component: Column
+})

@@ -29,11 +29,12 @@ export function useElementTypes() {
 		return find(elementTypes.value, {element_type: elementType})
 	}
 
-	const registerElementComponent = (component) => {
-		const element = getElementType(component.name)
+	const registerElementComponent = (config) => {
+		const { elementType, component } = config
+		const element = getElementType(elementType)
 
 		if (!element) {
-			console.warn(`element with ${component.name} could not be found.`)
+			console.warn(`element with ${elementType} could not be found.`)
 		}
 
 		element.registerComponent(component)

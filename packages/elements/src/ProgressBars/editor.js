@@ -1,3 +1,7 @@
+import { registerElementComponent } from '@zb/editor'
 import ProgressBars from './components/ProgressBars.vue'
 
-window.zb.editor.elements.registerElementComponent(ProgressBars)
+registerElementComponent({
+	elementType: 'progress_bars',
+	component: ProgressBars
+})
