@@ -14,18 +14,15 @@ export default {
 			default: false
 		}
 	},
-	data () {
-		return {}
-	},
-	render () {
+	setup (props) {
 		// TODO: reimplement this this.tab.$slots.title
-		const title = this.tab.name
-		return h(
+		const title = props.tab.titleSlot ? props.tab.titleSlot() : props.tab.name
+		return () => h(
 			'div',
 			{
 				class: {
-					'znpb-tabs__header-item--active': this.active,
-					[`znpb-tabs__header-item--${this.tab.name.toLowerCase()}`]: title,
+					'znpb-tabs__header-item--active': props.active,
+					[`znpb-tabs__header-item--${props.tab.name.toLowerCase()}`]: props.tab.name,
 					'znpb-tabs__header-item': true
 				}
 			},

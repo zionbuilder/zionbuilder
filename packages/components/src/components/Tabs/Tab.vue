@@ -55,7 +55,8 @@ export default {
 		computedTabInfo() {
 			return {
 				name: this.name,
-				id: this.tabId
+				id: this.tabId,
+				titleSlot: this.$slots.title
 			}
 		},
 		tabId () {

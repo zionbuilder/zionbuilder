@@ -2,14 +2,13 @@
 	<div>
 		<slot name="start" />
 
-		<ul class="zb-el-tabs-nav" ref="test">
+		<ul class="zb-el-tabs-nav">
 			<TabLink
 				v-for="{uid, title, active} in tabs"
 				:key="uid"
 				:title="title"
 				:active="active"
-			>
-			</TabLink>
+			/>
 		</ul>
 
 		<div
