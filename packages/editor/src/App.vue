@@ -21,12 +21,10 @@
 					class="znpb-editor-layout__preview-button"
 				>
 
-					<template>
-						<Icon
-							:icon="device"
-							slot="panel-icon"
-						/>
-					</template>
+					<Icon
+						:icon="device"
+
+					/>
 
 				</div>
 				<div

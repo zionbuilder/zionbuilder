@@ -40,7 +40,7 @@
 
 			</div>
 		</template>
-		<!-- <div class="znpb-element-options-content-wrapper">
+		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
 				:activeTab="activeKeyTab"
@@ -58,20 +58,20 @@
 					/>
 				</Tab>
 				<Tab name="Styling">
-					<OptionsForm
+					<!-- <OptionsForm
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
-					/>
+					/> -->
 				</Tab>
 				<Tab name="Advanced">
-					<OptionsForm
+					<!-- <OptionsForm
 						class="znpb-element-options-content-form"
 						:schema="getElementAdvancedOptionsSchema"
 						v-model="advancedOptionsModel"
-					/>
+					/> -->
 				</Tab>
 				<Tab name="Search">
-					<template v-slot:title>
+					<template #title>
 						<div
 							@click="toggleSearchIcon"
 							class="znpb-element-options__search-tab-title"
@@ -108,7 +108,7 @@
 
 				</Tab>
 			</Tabs>
-		</div> -->
+		</div>
 		<div class="znpb-element-options-action">
 			<div
 				class="znpb-element-options-action__undo"

@@ -65,12 +65,6 @@ export default {
 			// For parent sniffing of child
 			return true
 		}
-	},
-	// TODO: check if this is needed
-	updated () {
-		if (this.$slots.title) {
-			this.Tabs.updateTitleSlots(this)
-		}
 	}
 }
 </script>

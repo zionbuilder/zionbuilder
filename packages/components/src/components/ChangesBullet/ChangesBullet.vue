@@ -38,7 +38,7 @@
 import { Tooltip } from '@zionbuilder/tooltip'
 
 export default {
-	name: 'changesBullet',
+	name: 'ChangesBullet',
 	components: {
 		Tooltip
 	},
