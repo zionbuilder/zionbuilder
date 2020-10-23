@@ -28,7 +28,7 @@
 			v-model="optionsValue"
 			:show-changes="showChanges"
 			v-if="expanded"
-		></OptionsForm>
+		/>
 	</HorizontalAccordion>
 </template>
 
