@@ -51,7 +51,6 @@
 </template>
 <script>
 import { ref, computed, onBeforeUnmount } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
 import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
