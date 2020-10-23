@@ -64,14 +64,9 @@
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
 import { Icon, Tooltip, Button, Modal } from '@zionbuilder/components'
-
+import { computed, inject, ref, reactive} from 'vue'
 export default {
 	name: 'GoogleFonts',
-	data () {
-		return {
-			showModal: false
-		}
-	},
 	components: {
 		GoogleFontTab,
 		GoogleFontsModalContent,
@@ -80,39 +75,54 @@ export default {
 		Button,
 		Modal
 	},
+	setup (props) {
+		const $zb = inject('$zb')
+		const showModal = ref(false)
 
-	computed: {
-		googleFonts () {
-			return this.$zb.options.getOptionValue('google_fonts')
-		},
-		activeFontNames () {
-			return this.googleFonts.map((font) => {
+		let state = reactive({
+			googleFonts: computed(() => {
+				return $zb.options.getOptionValue('google_fonts')
+			}),
+			activeFontNames:computed(() => {
+			return state.googleFonts.map((font) => {
 				return font.font_family
+				})
 			})
-		}
-	},
-	methods: {
-		deleteFont (font) {
-			this.$zb.options.deleteOptionValue('google_fonts',font)
-		},
-		onGoogleFontUpdated (value, font) {
-			console.log('{font,	value: $event}', {font,	value: value})
-			this.$zb.options.updateOptionValue('google_fonts', {font,	value: value})
-		},
-		onGoogleFontAdded (font) {
+		})
 
-			this.$zb.options.addOptionValue('google_fonts', {
+		function deleteFont (font) {
+			$zb.options.deleteOptionValue('google_fonts',font)
+		}
+		function onGoogleFontUpdated (value, font) {
+			console.log('{font,	value: $event}', {font,	value: value})
+			let key = font
+			$zb.options.updateOptionValue('google_fonts', {font, value})
+		}
+		function onGoogleFontAdded (font) {
+			$zb.options.addOptionValue('google_fonts', {
 				font_family: font.family,
 				font_variants: ['regular'],
 				font_subset: ['latin']
 			})
-			this.showModal = false
-		},
-		onGoogleFontRemoved (font) {
-			this.$zb.options.deleteOptionValue('google_fonts',font)
-			this.showModal = false
+			showModal.value = false
+		}
+		function onGoogleFontRemoved (font) {
+			$zb.options.deleteOptionValue('google_fonts',font)
+			showModal.value = false
+		}
+
+
+		return {
+			googleFonts: state.googleFonts,
+			activeFontNames: state.activeFontNames,
+			onGoogleFontRemoved,
+			onGoogleFontAdded,
+			onGoogleFontUpdated,
+			deleteFont,
+			showModal
 		}
 	}
+
 }
 </script>
 
