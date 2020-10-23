@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/css-variables",
-  "version": "1.0.1-alpha.1",
+  "version": "1.0.2-alpha.0",
   "description": "Css variables used for Zion Builder",
   "main": "./src/variables.scss",
   "author": "zionbuilder.io",

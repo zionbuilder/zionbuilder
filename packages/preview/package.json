@@ -1,17 +1,17 @@
 {
 	"name": "@zionbuilder/preview",
-	"version": "1.0.0",
+	"version": "1.0.2-alpha.0",
 	"description": "Creates the iframe",
 	"main": "./src/index",
 	"author": "zionbuilder.io",
 	"license": "MIT",
 	"dependencies": {
-		"vue": "^3.0.0",
-		"vue-router": "^4.0.0-beta.11",
-		"vuex": "^4.0.0-beta.4",
+		"@zionbuilder/click-outside-directive": "^1.0.2-alpha.0",
 		"@zionbuilder/components": "^1.0.0",
 		"@zionbuilder/importcss": "^1.1.0",
-		"@zionbuilder/click-outside-directive": "^1.0.0"
+		"vue": "^3.0.0",
+		"vue-router": "^4.0.0-beta.11",
+		"vuex": "^4.0.0-beta.4"
 	},
 	"private": false
 }

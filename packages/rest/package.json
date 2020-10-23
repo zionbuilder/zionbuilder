@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/rest",
-  "version": "1.0.0",
+  "version": "1.0.2-alpha.0",
   "description": "Rest API helper functions",
   "main": "src/index",
   "author": "zionbuilder.io",
