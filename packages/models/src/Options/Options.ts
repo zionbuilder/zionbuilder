@@ -102,4 +102,51 @@ export default class Options extends Model {
 			...gradient
 		})
 	}
+
+	addTypeKitToken(token: String) {
+		this.options.value['typekit_token'] = token
+	}
+
+	getUserPermissions() {
+		return this.options.value.users_permissions
+	}
+
+	getPermissions(userRole) {
+		const roleConfig = this.options.value.user_roles_permissions[userRole]
+		const defaults = {
+			allowed_access: false,
+			permissions: {
+				only_content: false,
+				features: [],
+				post_types: []
+			}
+		}
+
+		return {
+			...defaults,
+			...(roleConfig || {})
+		}
+	}
+
+	editUserRole({ role, value }) {
+		const updatedRoles = Object.assign({}, this.options.value.user_roles_permissions, {
+			[role]: value
+		})
+		this.options.value.user_roles_permissions = updatedRoles
+
+		this.saveOptions()
+	}
+
+	editUserPermission({ role, value }) {
+		const updatedUsers = Object.assign({}, this.options.value.users_permissions, {
+			[role]: value
+		})
+		this.options.value.users_permissions = updatedUsers
+		this.saveOptions()
+	}
+
+	deleteUserPermission(value) {
+		delete this.options.value.users_permissions[value]
+		this.saveOptions()
+	}
 }

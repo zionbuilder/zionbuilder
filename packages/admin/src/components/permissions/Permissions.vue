@@ -29,7 +29,7 @@
 					:message_title="$translate('manage_users_permissions_title')"
 					:message_description="$translate('manage_users_permissions_free')"
 				/>
-				<template v-else-if="loaded">
+				<template v-else-if="userloaded">
 					<div class="znpb-admin-user-specific-wrapper">
 						<h3>{{$translate('user_specific')}}</h3>
 						<EmptyList
@@ -74,12 +74,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
 import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
 import { getUsersById } from '@zionbuilder/rest'
+import { useIsPro } from '@zionbuilder/models'
 export default {
 	name: 'permissions',
 	components: {
@@ -95,39 +96,44 @@ export default {
 		return {
 			loaded: false,
 			showModal: false,
-			proLink: null
+			proLink: null,
+			userloaded: false,
+			userList: []
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getUserRoles',
-			'getUserPermissions',
 			'isPro'
-		])
+		]),
+		getUserPermissions () {
+			return this.$zb.options.getUserPermissions()
+		},
 	},
 	methods: {
-		...mapActions([
-			'editUserPermission',
-			'deleteUserPermission'
-		]),
-
 		deleteUser (value) {
-			this.deleteUserPermission(value)
+			this.$zb.options.deleteUserPermission(value)
 		}
 	},
 	created () {
 		// Fetch system information from rest api
-		const userIds = Object.keys(this.getUserPermissions)
+		const userIds = Object.keys(this.$zb.options.getUserPermissions())
 
-		if (userIds.length > 0) {
-			const activeUsersData = getUsersById(userIds)
+			if (userIds.length > 0) {
+			Promise.all([getUsersById(userIds)]).then((values) => {
 
-			activeUsersData.finally((result) => {
+				this.userList = this.$zb.users.add(values[0].data[0])
+				})
+				.finally((result)=> {
+					this.userloaded = true
+					this.loaded = true
+				})
+			} else {
 				this.loaded = true
-			})
-		} else {
-			this.loaded = true
-		}
+				this.userloaded = true
+			}
+
+
 	}
 }
 </script>

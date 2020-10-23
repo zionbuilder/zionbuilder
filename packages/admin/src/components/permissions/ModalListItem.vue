@@ -60,10 +60,10 @@ export default {
 				return
 			}
 			// Add user data to users object
-			this.addUserData(user)
+			this.$zb.users.add(user)
 
 			// Add default User permissions to user permissions object
-			this.editUserPermission({
+			this.$zb.options.editUserPermission({
 				role: user.id,
 				value: {
 					allowed_access: true,

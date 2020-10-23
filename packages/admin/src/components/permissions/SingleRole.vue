@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
 import { Modal } from '@zionbuilder/components'
@@ -47,9 +45,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getPermissions']),
 		permissionConfig () {
-			return this.getPermissions(this.data.id)
+			return this.$zb.options.getPermissions(this.data.id)
 		},
 		isPro () {
 			return window.ZnPbAdminPageData.is_pro_active
@@ -78,10 +75,10 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['editUserRole']),
+
 		editRole (value) {
 			let role = this.data.id
-			this.editUserRole({ role, value })
+			this.$zb.options.editUserRole({ role, value })
 		}
 	}
 }
