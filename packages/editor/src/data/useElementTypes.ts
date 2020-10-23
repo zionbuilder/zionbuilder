@@ -35,6 +35,7 @@ export function useElementTypes() {
 
 		if (!element) {
 			console.warn(`element with ${elementType} could not be found.`)
+			return
 		}
 
 		element.registerComponent(component)
