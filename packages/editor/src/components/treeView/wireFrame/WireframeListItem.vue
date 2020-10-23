@@ -72,7 +72,6 @@
 </template>
 <script>
 import { computed } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import { getOptionValue } from '@zb/utils'
@@ -115,17 +114,6 @@ export default {
 		}
 	},
 	computed: {
-		templateDataModel: {
-			get () {
-				return this.element.content !== undefined ? this.element.content : ''
-			},
-			set (value) {
-				this.saveElementsOrder({
-					newOrder: value,
-					content: this.element.content
-				})
-			}
-		},
 		hasFlexDirection () {
 			let orientation = 'column'
 			let mediaOrientation = getOptionValue(this.element.options, '_styles.wrapper.styles.default.default.flex-direction')
@@ -158,14 +146,6 @@ export default {
 
 	},
 	methods: {
-		...mapActions(
-			[
-				'saveElementsOrder',
-				'setDraggingState',
-				'setRightClickMenu',
-				'setElementFocus',
-			]
-		),
 		activateRenameElement () {
 			if (this.isActiveItem) {
 				this.isNameChangeActive = true
