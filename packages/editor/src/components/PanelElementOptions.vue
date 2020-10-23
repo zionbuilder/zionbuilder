@@ -189,7 +189,6 @@ export default {
 			'getElementById',
 			'getElementAdvancedOptionsSchema',
 			'getElementStyleOptionsSchema',
-			'getElementName',
 			'getActiveElementUid',
 			'getElementFocus',
 			'getElementParent'
@@ -473,7 +472,7 @@ export default {
 		},
 		closeOptionsPanel () {
 			if (this.hasChanges) {
-				const elementSavedName = this.getElementName(this.element.uid)
+				const elementSavedName = this.element.name
 				this.saveState(`Edited ${elementSavedName}`)
 			}
 
