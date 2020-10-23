@@ -164,7 +164,7 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		const { element } = useEditElement()
-console.log(element);
+
 		return {
 			element
 		}

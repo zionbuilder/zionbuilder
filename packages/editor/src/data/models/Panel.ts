@@ -27,7 +27,6 @@ export class Panel {
 	}
 
 	close () {
-		console.log('close');
 		this.isActive = false
 	}
 
