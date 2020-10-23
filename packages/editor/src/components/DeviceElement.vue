@@ -35,7 +35,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
+// TODO: extract active device methods from options form manager
+// import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
+// import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
 
 export default {
 	name: 'device-element',
@@ -47,8 +49,8 @@ export default {
 			required: false
 		}
 	},
-	data: function () {
-		return {}
+	setup () {
+
 	},
 	computed: {
 		...mapGetters([

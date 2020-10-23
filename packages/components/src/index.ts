@@ -3,7 +3,6 @@ import { App } from 'vue'
 // General components
 import { Accordion } from './components/Accordion'
 import { ActionsOverlay } from './components/ActionsOverlay'
-import { BaseInput } from './components/BaseInput'
 import { Button } from './components/Button'
 import { ChangesBullet } from './components/ChangesBullet'
 import { ColorPicker } from './components/Colorpicker'
@@ -11,10 +10,11 @@ import { EmptyList } from './components/EmptyList'
 import { GradientPreview, GradientGenerator, GradientLibrary } from './components/Gradient'
 import { HorizontalAccordion } from './components/HorizontalAccordion'
 import { Icon } from './components/Icon'
-import { Injection } from './components/injections'
+import { Injection } from './components/Injection'
 import { InlineEdit } from './components/InlineEdit'
 
 // Inputs
+import { BaseInput } from './components/BaseInput'
 import { InputBackgroundImage } from './components/InputBackgroundImage'
 import { InputBackgroundVideo } from './components/InputBackgroundVideo'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './components/InputBorders'
@@ -28,8 +28,16 @@ import { InputImage } from './components/InputImage'
 import { InputLabel } from './components/InputLabel'
 import { InputMedia } from './components/InputMedia'
 import { InputSelect } from './components/InputSelect'
-// INPUTNUMBER
 import { InputRadio, InputRadioGroup, InputRadioIcon } from './components/InputRadio'
+import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
+import { InputWrapper } from './components/InputWrapper'
+import { RadioImage } from './components/RadioImage'
+import { InputRange, InputRangeDynamic } from './components/InputRange'
+import { InputTextShadow } from './components/InputTextShadow'
+import { InputNumber, InputNumberUnit } from './components/InputNumber'
+import { InputTextAlign } from './components/InputTextAlign'
+import { InputTextTransform } from './components/InputTextTransform'
+import { OptionsForm } from './components/OptionsForm'
 
 import { Loader } from './components/Loader'
 import { Label } from './components/Label'
@@ -38,14 +46,10 @@ import { Notice } from './components/Notice'
 import { UpgradeToPro } from './components/UpgradeToPro'
 import IconPackGrid from './components/IconPackGrid.vue'
 import { Sortable } from '@zionbuilder/sortable'
-import { createOptionsInstance } from './components/forms'
-import { RadioImage } from './components/RadioImage'
 export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm } from '@zionbuilder/modal'
-
-import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
-import { InputWrapper } from './components/InputWrapper'
+export * from '@data'
 
 const components = [
 	Button,
@@ -105,7 +109,15 @@ const components = [
 	InputEditor,
 	BaseInput,
 	InputWrapper,
-	InputSelect
+	InputSelect,
+	InputRange,
+	InputRangeDynamic,
+	InputTextShadow,
+	InputNumber,
+	InputNumberUnit,
+	InputTextAlign,
+	InputTextTransform,
+	OptionsForm
 ]
 
 const install = (app: App) => {
@@ -113,8 +125,6 @@ const install = (app: App) => {
 		app.component(component.name, component);
 	});
 }
-
-export const options = createOptionsInstance()
 
 export {
 	install,
@@ -174,5 +184,13 @@ export {
 	InputEditor,
 	BaseInput,
 	InputWrapper,
-	InputSelect
+	InputSelect,
+	InputRange,
+	InputRangeDynamic,
+	InputTextShadow,
+	InputNumber,
+	InputNumberUnit,
+	InputTextAlign,
+	InputTextTransform,
+	OptionsForm
 }

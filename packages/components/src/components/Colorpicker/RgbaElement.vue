@@ -43,7 +43,7 @@
 	</div>
 </template>
 <script>
-import { InputNumber, InputLabel } from '../forms'
+import { InputNumber, InputLabel } from '../index.ts'
 
 export default {
 	name: 'RgbaElement',

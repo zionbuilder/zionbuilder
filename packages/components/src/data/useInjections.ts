@@ -1,14 +1,11 @@
-export default class InjectionComponentsManager {
-	registeredLocations: any
-	constructor () {
-		// Holds a refference to all locations and coponents registered
-		this.registeredLocations = {}
-	}
+const registeredLocations: {[key:string]: []} = {}
+
+export const useInjections = () => {
 
 	/**
 	 * Register a component for a location
 	 */
-	registerComponent = (location: string, component: any, priority = 10) => {
+	const registerComponent = (location: string, component: any, priority = 10) => {
 		if (!location && !component) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to register an injection component.', {
@@ -19,18 +16,18 @@ export default class InjectionComponentsManager {
 			return false
 		}
 
-		if (!Array.isArray(this.registeredLocations[location])) {
-			this.registeredLocations[location] = []
+		if (!Array.isArray(registeredLocations[location])) {
+			registeredLocations[location] = []
 		}
 
-		this.registeredLocations[location].push(component)
+		registeredLocations[location].push(component)
 	}
 
 	/**
 	 *
 	 * @param {String} location The location for which we need to return the injection components
 	 */
-	getComponentsForLocation = (location: string) => {
+	const getComponentsForLocation = (location: string) => {
 		if (!location) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to get injection components.', {
@@ -40,10 +37,17 @@ export default class InjectionComponentsManager {
 			return false
 		}
 
-		if (!Array.isArray(this.registeredLocations[location])) {
+		if (!Array.isArray(registeredLocations[location])) {
 			return []
 		}
 
-		return this.registeredLocations[location]
+		return registeredLocations[location]
+	}
+
+
+	return {
+		registerComponent,
+		getComponentsForLocation,
+		registeredLocations
 	}
 }

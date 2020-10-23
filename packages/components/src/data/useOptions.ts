@@ -27,12 +27,127 @@ import {
 	InputTextTransform,
 	InputBorderTabs,
 	InputBackgroundVideo
-} from './index'
+} from '../components'
 
-export const createOptionsInstance = () => {
-	const options = {}
-	const activeResponsiveOptions = null
+const options = {
+	text: {
+		id: '',
+		component: BaseInput,
+		dynamic: {
+			type: 'TEXT'
+		}
+	},
+	textarea: {
+		id: 'textarea',
+		component: BaseInput,
+		dynamic: {
+			type: 'TEXT'
+		}
+	},
+	select: {
+		id: 'select',
+		component: InputSelect
+	},
+	slider: {
+		id: 'slider',
+		component: InputRange
+	},
+	dynamic_slider: {
+		id: 'dynamic_slider',
+		component: InputRangeDynamic
+	},
+	editor: {
+		id: 'editor',
+		component: InputEditor,
+		dynamic: {
+			type: 'TEXT'
+		}
+	},
+	media: {
+		id: 'media',
+		component: InputMedia
+	},
+	image: {
+		id: 'image',
+		component: InputImage
+	},
+	number: {
+		id: 'number',
+		component: InputNumber
+	},
+	number_unit: {
+		id: 'number_unit',
+		component: InputNumberUnit
+	},
+	code: {
+		id: 'code',
+		component: InputCode
+	},
+	custom_selector: {
+		id: 'custom_selector',
+		component: InputCustomSelector
+	},
+	colorpicker: {
+		id: 'colorpicker',
+		component: InputColorPicker,
+		dynamic: {
+			type: 'TYPE_HIDDEN',
+			custom_dynamic: true
+		}
+	},
+	checkbox: {
+		id: 'checkbox',
+		component: InputCheckbox
+	},
+	radio_image: {
+		id: 'radio_image',
+		component: RadioImage
+	},
+	checkbox_group: {
+		id: 'checkbox_group',
+		component: InputCheckboxGroup
+	},
+	checkbox_switch: {
+		id: 'checkbox_switch',
+		component: InputCheckboxSwitch
+	},
+	text_align:{
+		id: 'text_align',
+		component: InputTextAlign
+	},
+	text_transform: {
+		id: 'text_transform',
+		component: InputTextTransform
+	},
+	borders: {
+		id: 'borders',
+		component: InputBorderTabs
+	},
+	shadow: {
+		id: 'shadow',
+		component: InputTextShadow
+	},
+	video: {
+		id: 'video',
+		component: InputBackgroundVideo
+	},
+	date_input: {
+		id: 'date_input',
+		component: InputDatePicker
+	},
+	shape_dividers: {
+		id: 'shape_dividers',
+		component: InputShapeDividers
+	},
+	shape_component: {
+		id: 'shape_component',
+		component: ShapeDividerComponent
+	}
 
+}
+let activeResponsiveOptions = null
+
+export const useOptions = () => {
 	const setActiveResponsiveOptions = (optionInstance) => {
 		activeResponsiveOptions = optionInstance
 	}
@@ -43,151 +158,6 @@ export const createOptionsInstance = () => {
 
 	const removeActiveResponsiveOptions = () => {
 		activeResponsiveOptions = null
-	}
-
-	/**
-	 * Register default dynamic options
-	 *
-	 * Will register all our custom form inputs created
-	 * for Zion Builder
-	 */
-	const registerDefaultOptions = () => {
-		// Register global options
-		registerOption({
-			id: 'text',
-			component: BaseInput,
-			dynamic: {
-				type: 'TEXT'
-			}
-		})
-
-		registerOption({
-			id: 'textarea',
-			component: BaseInput,
-			dynamic: {
-				type: 'TEXT'
-			}
-		})
-
-		registerOption({
-			id: 'select',
-			component: InputSelect
-		})
-
-		registerOption({
-			id: 'slider',
-			component: InputRange
-		})
-
-		registerOption({
-			id: 'dynamic_slider',
-			component: InputRangeDynamic
-		})
-
-		registerOption({
-			id: 'editor',
-			component: InputEditor,
-			dynamic: {
-				type: 'TEXT'
-			}
-		})
-
-		registerOption({
-			id: 'media',
-			component: InputMedia
-		})
-
-		registerOption({
-			id: 'image',
-			component: InputImage
-		})
-
-		registerOption({
-			id: 'number',
-			component: InputNumber
-		})
-
-		registerOption({
-			id: 'number_unit',
-			component: InputNumberUnit
-		})
-
-		registerOption({
-			id: 'code',
-			component: InputCode
-		})
-
-		registerOption({
-			id: 'custom_selector',
-			component: InputCustomSelector
-		})
-
-		registerOption({
-			id: 'radio_image',
-			component: RadioImage
-		})
-
-		registerOption({
-			id: 'colorpicker',
-			component: InputColorPicker,
-			dynamic: {
-				type: 'TYPE_HIDDEN',
-				custom_dynamic: true
-			}
-		})
-
-		registerOption({
-			id: 'checkbox',
-			component: InputCheckbox
-		})
-
-		registerOption({
-			id: 'checkbox_group',
-			component: InputCheckboxGroup
-		})
-		registerOption({
-			id: 'checkbox_switch',
-			component: InputCheckboxSwitch
-		})
-
-		registerOption({
-			id: 'text_align',
-			component: InputTextAlign
-		})
-
-		registerOption({
-			id: 'text_transform',
-			component: InputTextTransform
-		})
-
-		registerOption({
-			id: 'borders',
-			component: InputBorderTabs
-		})
-
-		registerOption({
-			id: 'shadow',
-			component: InputTextShadow
-		})
-
-		registerOption({
-			id: 'video',
-			component: InputBackgroundVideo
-		})
-
-		registerOption({
-			id: 'date_input',
-			component: InputDatePicker
-		})
-
-		registerOption({
-			id: 'shape_dividers',
-			component: InputShapeDividers
-		})
-		registerOption({
-			id: 'shape_component',
-			component: ShapeDividerComponent
-		})
 	}
 
 	/**
@@ -244,9 +214,6 @@ export const createOptionsInstance = () => {
 
 		options[optionConfig.id] = optionConfig
 	}
-
-	// Init
-	registerDefaultOptions()
 
 	return {
 		registerOption,
