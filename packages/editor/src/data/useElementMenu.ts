@@ -7,7 +7,8 @@ export function useElementMenu () {
 	const showElementMenu = (element: Element, selector) => {
 		activeElementMenu.value = {
 			element,
-			selector
+			selector,
+			key: Math.random()
 		}
 	}
 

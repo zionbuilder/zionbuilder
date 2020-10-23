@@ -10,6 +10,7 @@
 		:close-on-escape="true"
 		:popperRef="activeElementMenu.selector"
 		@hide="hideElementMenu"
+		:key="activeElementMenu.key"
 	>
 		<template #content>
 			<ElementActions
