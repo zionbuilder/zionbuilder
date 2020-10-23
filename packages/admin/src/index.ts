@@ -67,6 +67,7 @@ const evt = new CustomEvent('zionbuilder/admin/init', {
 })
 
 window.dispatchEvent(evt)
+appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 appInstance.mount('#znpb-admin')
 
 export {
