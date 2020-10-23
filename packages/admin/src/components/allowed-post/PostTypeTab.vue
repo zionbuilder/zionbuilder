@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { computed, inject,} from 'vue'
 export default {
 	name: 'PostTypeTab',
 	props: {
@@ -18,29 +19,28 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {
-			loaded: false
-		}
-	},
-	computed: {
-		isActive: {
-			get () {
-				return this.$zb.options.options['allowed_post_types'].includes(this.post.id)
-			},
-			set (newValue) {
-				// Save the value
-				if (newValue) {
-					// Add post type
-					this.$zb.options.addOptionValue('allowed_post_types', this.post.id)
-				} else {
-					// Remove post type
-					this.$zb.options.deleteOptionValue('allowed_post_types', this.post.id)
+	setup (props) {
+		const $zb = inject('$zb')
+		let isActive = computed({
+				get: () => {
+					return $zb.options.getOptionValue('allowed_post_types').includes(props.post.id)
+				},
+				set: val => {
+					if (val) {
+						// Add post type
+						$zb.options.addOptionValue('allowed_post_types', props.post.id)
+					} else {
+						// Remove post type
+						$zb.options.deleteOptionValue('allowed_post_types', props.post.id)
+					}
 				}
-			}
+		})
+		return {
+			isActive,
+			post: props.post
 		}
+	}
 
-	},
 }
 </script>
 <style lang="scss">
