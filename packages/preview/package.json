@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@zionbuilder/click-outside-directive": "^1.0.2-alpha.0",
-		"@zionbuilder/components": "^1.0.0",
+		"@zionbuilder/components": "^1.0.2-alpha.0",
 		"@zionbuilder/importcss": "^1.1.0",
 		"vue": "^3.0.0",
 		"vue-router": "^4.0.0-beta.11",

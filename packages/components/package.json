@@ -11,7 +11,7 @@
 	},
 	"gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a",
 	"dependencies": {
-		"@zionbuilder/css-variables": "^1.0.0",
+		"@zionbuilder/css-variables": "^1.0.1-alpha.1",
 		"@zionbuilder/modal": "^1.0.2-alpha.0",
 		"@zionbuilder/sortable": "^1.0.2-alpha.0",
 		"@zionbuilder/tooltip": "^1.0.2-alpha.0",

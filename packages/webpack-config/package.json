@@ -4,7 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.0",
-    "@zionbuilder/css-variables": "file:../css-variables",
+    "@zionbuilder/css-variables": "^1.0.1-alpha.0",
     "css-loader": "^4.3.0",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
