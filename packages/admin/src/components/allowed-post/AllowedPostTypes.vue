@@ -14,7 +14,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import PostTypeTab from './PostTypeTab.vue'
-import { useDataSets } from '@zionbuilder/models'
+
 export default {
 	name: 'AllowedPostTypes',
 	components: {
@@ -28,11 +28,8 @@ export default {
 	computed: {
 		...mapGetters([
 			'getPostTypes'
-		]),
-		getPostTypes () {
-			const { getPostTypes } = useDataSets()
-			return getPostTypes()
-		}
+		])
+
 	}
 }
 </script>

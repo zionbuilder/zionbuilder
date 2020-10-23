@@ -62,12 +62,12 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Label from '@zionbuilder/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 import { Icon, Notice } from '@zionbuilder/components'
 import { getGoogleFonts } from '@zb/rest'
-import { useDataSets } from '@zionbuilder/models'
+
 export default {
 	name: 'App',
 	data () {
@@ -84,6 +84,9 @@ export default {
 		Notice
 	},
 	computed: {
+		...mapGetters([
+			'get_options',
+		]),
 		menuItems () {
 			var routes = []
 			for (var i in this.$router.options.routes) {
@@ -112,16 +115,14 @@ export default {
 	methods: {
 		...mapActions([
 
-			// 'initialiseDataSets'
+			'initialiseDataSets'
 		])
 	},
 	created () {
-		const { initialiseDataSets } = useDataSets()
 		Promise.all([
 			getGoogleFonts(),
 			this.$zb.options.fetchOptions(),
-			// this.initialiseDataSets()
-			initialiseDataSets()
+			this.initialiseDataSets()
 		]).then((values) => {
 			this.$zb.googleFonts.add(values[0].data)
 

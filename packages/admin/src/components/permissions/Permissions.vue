@@ -80,8 +80,7 @@ import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
 import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
 import { getUsersById } from '@zionbuilder/rest'
-import { useIsPro, useDataSets} from '@zionbuilder/models'
-
+import { useIsPro } from '@zionbuilder/models'
 export default {
 	name: 'permissions',
 	components: {
@@ -104,15 +103,12 @@ export default {
 	},
 	computed: {
 		...mapGetters([
+			'getUserRoles',
 			'isPro'
 		]),
 		getUserPermissions () {
 			return this.$zb.options.getUserPermissions()
 		},
-		getUserRoles () {
-			const { getUserRoles } = useDataSets()
-			return getUserRoles()
-		}
 	},
 	methods: {
 		deleteUser (value) {
