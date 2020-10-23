@@ -6,4 +6,9 @@ export default class Users extends Collection {
 		return User
 	}
 
+	get Users() {
+		return []
+	}
+
+
 }
