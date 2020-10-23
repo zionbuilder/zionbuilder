@@ -1,5 +1,5 @@
 {
-	"name": "preview",
+	"name": "@zionbuilder/preview",
 	"version": "1.0.0",
 	"description": "Creates the iframe",
 	"main": "./src/index",
