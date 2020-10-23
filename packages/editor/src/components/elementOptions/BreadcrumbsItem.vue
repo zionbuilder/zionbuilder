@@ -1,66 +1,47 @@
 <template>
 	<div
-		@click.stop="onItemClick"
-		@mouseenter.capture="highlightElement"
-		@mouseleave="unHighlightElement"
 		class="znpb-element-options__vertical-breadcrumbs-item"
-		:class="{'znpb-element-options__vertical-breadcrumbs-item--active': getActiveElementUid===elementUid}"
+		:class="{'znpb-element-options__vertical-breadcrumbs-item--active': activeElement === parents.element}"
+		@mouseenter.capture="parents.element.highlight"
+		@mouseleave="parents.element.unHighlight"
+		@click.stop="editElement(parents.element)"
 	>
 
-		<span>{{elementName}}</span>
-		<template v-if="parents.length > 0">
-			<Breadcrumbs
+		<span>{{parents.element.name}}</span>
+
+		<template v-if="parents.children.length > 0">
+			<component
+				:is="breadcrumbsComponent"
 				class="znpb-element-options__vertical-breadcrumbs-wrapper--inner"
-				v-for="(parent, i) in parents"
-				:key="i"
-				:elementUid="parent.uid"
-				:parents="parent"
-				:active-element-uid="getActiveElementUid"
+				v-for="child in parents.children"
+				:parents="child"
 			/>
 		</template>
 	</div>
 </template>
 
 <script>
-import templateElementMixin from '../../mixins/templateElement.js'
-import { mapGetters, mapActions } from 'vuex'
-import { usePanels } from '@data'
+import { resolveComponent } from 'vue'
+import { usePanels, useEditElement } from '@data'
 
 export default {
 	name: 'BreadcrumbsItem',
-	mixins: [
-		templateElementMixin
-	],
-	components: {
-		Breadcrumbs: () => import('./Breadcrumbs.vue')
-	},
 	props: {
 		parents: {
-			type: Array,
+			type: Object,
 			required: false
 		}
 	},
 	setup (props) {
 		const { openPanel } = usePanels()
+		const { editElement, element: activeElement } = useEditElement()
+		const breadcrumbsComponent = require('./Breadcrumbs.vue').default
 
 		return {
-			openPanel
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getActiveElementUid'
-		])
-
-	},
-	methods: {
-		...mapActions([
-			'setActiveElement'
-		]),
-
-		onItemClick (elementUid) {
-			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
+			openPanel,
+			editElement,
+			activeElement,
+			breadcrumbsComponent
 		}
 	}
 }

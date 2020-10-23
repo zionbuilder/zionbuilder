@@ -12,4 +12,5 @@ export * from './usePreviewLoading'
 export * from './useElementFocus'
 export * from './usePreviewMode'
 export * from './usePanels'
+export * from './useEditElement'
 

@@ -3,10 +3,8 @@
 		class="znpb-element-options__breadcrumbs znpb-fancy-scrollbar"
 	>
 		<Breadcrumbs
-			v-if="parents.children.length>0 "
-			:element-uid="parents.uid"
+			v-if="parents.children.length > 0"
 			:parents="parents"
-			:active-element-uid="getActiveElementUid"
 		/>
 		<span v-else>This element has no children</span>
 
@@ -14,27 +12,59 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed } from 'vue'
 import Breadcrumbs from './Breadcrumbs.vue'
+import { useEditElement, useElements } from '@data'
 
 export default {
 	name: 'BreadcrumbsWrapper',
 	components: {
 		Breadcrumbs
 	},
-	data () {
-		return {}
+	props: {
+		element: Object
 	},
-	computed: {
-		...mapGetters([
-			'getParentsAndChildren',
-			'getActiveElementUid'
-		]),
-		parents () {
-			let par = this.getParentsAndChildren
-			if (par.hasOwnProperty('children')) {
-				return par.children[0]
-			} else return null
+	setup (props) {
+
+		const { getElement } = useElements()
+
+		const getChildren = function (element) {
+			const { element: activeElement } = useEditElement()
+			const children = {
+				element: element,
+				children: [],
+				active: activeElement.value === element
+			}
+
+			if (element.content) {
+				element.content.forEach((childUid) => {
+					children.children.push(getChildren(getElement(childUid)))
+				})
+			}
+
+			return children
+		}
+
+		const parents = computed(() => {
+			const { element: activeElement } = useEditElement()
+			let parentStructure = getChildren(props.element)
+			let element = props.element
+
+			while (element.parent && element.parent.element_type !== 'contentRoot') {
+				parentStructure = {
+					element: element.parent,
+					children: [parentStructure],
+					active: activeElement.value === element.parent
+				}
+
+				element = element.parent
+			}
+
+			return parentStructure
+		})
+
+		return {
+			parents
 		}
 	}
 }

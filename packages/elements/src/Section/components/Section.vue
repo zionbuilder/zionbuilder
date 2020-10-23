@@ -25,8 +25,7 @@
 
 		<RenderTag tag-id="inner_content">
 			<SortableContent
-				:content="data.content"
-				:data="data"
+				:element="data"
 				class="zb-section__innerWrapper"
 			></SortableContent>
 		</RenderTag>

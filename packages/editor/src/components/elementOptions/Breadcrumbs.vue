@@ -3,19 +3,17 @@
 	<div class="znpb-element-options__vertical-breadcrumbs-wrapper">
 		<div
 			class="znpb-element-options__vertical-breadcrumbs-item znpb-element-options__vertical-breadcrumbs-item--first"
-			:class="{'znpb-element-options__vertical-breadcrumbs-item--active': activeElementUid===elementTemplateData.uid}"
-			@mouseenter.capture="highlightElement"
-			@mouseleave="unHighlightElement"
-			@click.stop="editElement(elementTemplateData.uid)"
+			:class="{'znpb-element-options__vertical-breadcrumbs-item--active': activeElement === parents.element}"
+			@mouseenter.capture="parents.element.highlight"
+			@mouseleave="parents.element.unHighlight"
+			@click.stop="editElement(parents.element)"
 		>
-			<span>{{elementName}}</span>
+			<span>{{parents.element.name}}</span>
 		</div>
 		<template v-if="parents.children.length > 0">
 			<BreadcrumbsItem
-				v-for="(child,i) in parents.children"
-				:key="i"
-				:element-uid="child.uid"
-				:parents="child.children"
+				v-for="child in parents.children"
+				:parents="child"
 			/>
 		</template>
 	</div>
@@ -24,46 +22,28 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { usePanels, useEditElement } from '@data'
 import BreadcrumbsItem from './BreadcrumbsItem.vue'
-import templateElementMixin from '../../mixins/templateElement.js'
-import { usePanels } from '@data'
 
 export default {
 	name: 'Breadcrumbs',
-	mixins: [
-		templateElementMixin
-	],
 	components: {
 		BreadcrumbsItem
 	},
 	props: {
 		parents: {
 			type: Object
-		},
-		activeElementUid: {
-			type: String,
-			required: false
 		}
 	},
 	setup (props) {
 		const { openPanel } = usePanels()
+		const { editElement, element: activeElement } = useEditElement()
 
 		return {
-			openPanel
+			openPanel,
+			editElement,
+			activeElement
 		}
-	},
-	methods: {
-		...mapActions([
-			'setActiveElement'
-		]),
-
-		editElement (uid) {
-			if (uid !== this.activeElementUid) {
-				this.setActiveElement(uid)
-				this.openPanel('PanelElementOptions')
-			}
-		}
-
 	}
 }
 </script>
@@ -83,7 +63,7 @@ export default {
 			top: 21px;
 			left: 0;
 			width: 1px;
-			height: calc(100% - 38px);
+			height: calc(100% - 44px);
 			margin-top: 0;
 			background: rgba($surface-headings-color, .3);
 		}

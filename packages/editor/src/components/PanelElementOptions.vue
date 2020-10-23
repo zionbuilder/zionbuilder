@@ -1,23 +1,22 @@
 <template>
 	<BasePanel
-		v-if="getActiveElementUid"
+		v-if="element"
 		class="znpb-element-options__panel-wrapper"
 		@close-panel="closeOptionsPanel"
-		:panel-name="`${elementName} ${$translate('options')}`"
+		:panel-name="`${element.name} ${$translate('options')}`"
 		panel-id="PanelElementOptions"
 		:show-move="true"
 		:show-expand="false"
 		:allow-horizontal-resize="false"
 		:allow-vertical-resize="false"
-		:key="getActiveElementUid"
 		:panel="panel"
 	>
-		<template v-slot:header>
+		<template #header>
 			<div class="znpb-element-options__header">
 				<!-- Show back button for child elements -->
 				<div
 					class="znpb-element-options__header-back"
-					v-if="elementConfig.is_child"
+					v-if="element.elementTypeModel.is_child"
 					@click="onBackButtonClick"
 				>
 					<Icon
@@ -31,14 +30,17 @@
 					@mouseenter="showBreadcrumbs=true"
 					@mouseleave="showBreadcrumbs=false"
 				>
-					{{`${elementName} ${$translate('options')}`}}
+					{{`${element.name} ${$translate('options')}`}}
 					<Icon icon="select" />
-					<BreadcrumbsWrapper v-if="showBreadcrumbs" />
+					<BreadcrumbsWrapper
+						v-if="showBreadcrumbs"
+						:element="element"
+					/>
 				</h4>
 
 			</div>
 		</template>
-		<div class="znpb-element-options-content-wrapper">
+		<!-- <div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
 				:activeTab="activeKeyTab"
@@ -47,11 +49,11 @@
 			>
 				<Tab
 					name="General"
-					v-if="elementConfig.hasOwnProperty('options')"
+					v-if="element.elementTypeModel.hasOwnProperty('options')"
 				>
 					<OptionsForm
 						class="znpb-element-options-content-form"
-						:schema="elementConfig.options"
+						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
 					/>
 				</Tab>
@@ -106,7 +108,7 @@
 
 				</Tab>
 			</Tabs>
-		</div>
+		</div> -->
 		<div class="znpb-element-options-action">
 			<div
 				class="znpb-element-options-action__undo"
@@ -134,32 +136,39 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
+import { useEditElement } from '@data'
 
 export default {
 	name: 'PanelElementOptions',
-
-	provide () {
-		const elementInfo = {}
-
-		Object.defineProperty(elementInfo, 'data', {
-			enumerable: true,
-			get: () => this.getElementInfo
-		})
-
-		if (this.elementConfig.hasOwnProperty('options')) {
-			elementInfo.optionsSchema = this.allOptionsSchema
-		}
-
-		return {
-			elementInfo,
-			panel: this
-		}
-	},
 	components: {
 		BreadcrumbsWrapper,
 		BasePanel
 	},
+	provide () {
+		// const elementInfo = {}
+
+		// Object.defineProperty(elementInfo, 'data', {
+		// 	enumerable: true,
+		// 	get: () => this.getElementInfo
+		// })
+
+		// if (this.element.elementTypeModel.hasOwnProperty('options')) {
+		// 	elementInfo.optionsSchema = this.allOptionsSchema
+		// }
+
+		// return {
+		// 	elementInfo,
+		// 	panel: this
+		// }
+	},
 	props: ['panel'],
+	setup (props) {
+		const { element } = useEditElement()
+console.log(element);
+		return {
+			element
+		}
+	},
 	data () {
 		return {
 			showBreadcrumbs: false,
@@ -178,7 +187,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementById',
-			'getElementData',
 			'getElementAdvancedOptionsSchema',
 			'getElementStyleOptionsSchema',
 			'getElementName',
@@ -187,15 +195,9 @@ export default {
 			'getElementParent'
 		]),
 
-		elementUid () {
-			return this.getActiveElementUid
-		},
-		data () {
-			return this.getElementData(this.getActiveElementUid)
-		},
 		computedStyleOptionsSchema () {
 			const schema = {}
-			let styledElements = this.elementConfig.style_elements
+			let styledElements = this.element.elementTypeModel.style_elements
 
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
@@ -209,7 +211,7 @@ export default {
 							type: 'element_styles',
 							id: 'styles',
 							is_layout: true,
-							selector: config.selector.replace('{{ELEMENT}}', this.data.uid),
+							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
 							title: config.title
 						}
 					}
@@ -226,7 +228,7 @@ export default {
 			}
 		},
 		allOptionsSchema () {
-			const elementOptionsSchema = this.elementConfig.options ? this.elementConfig.options : {}
+			const elementOptionsSchema = this.element.elementTypeModel.options ? this.element.elementTypeModel.options : {}
 			const optionsSchema = {
 				...elementOptionsSchema,
 				...this.computedStyleOptionsSchema,
@@ -235,18 +237,15 @@ export default {
 
 			return optionsSchema
 		},
-		elementName () {
-			return this.getElementName(this.elementUid)
-		},
 		elementOptions: {
 			get () {
-				return Array.isArray(this.data.options) ? {} : this.data.options || {}
+				return Array.isArray(this.element.options) ? {} : this.element.options || {}
 			},
 			set (newValues) {
 				newValues = newValues === null ? {} : newValues
 
 				this.updateElementOptions({
-					elementUid: this.elementUid,
+					elementUid: this.element.uid,
 					values: newValues
 				})
 
@@ -280,10 +279,6 @@ export default {
 				}
 			}
 		},
-
-		elementConfig () {
-			return this.getElementById(this.data.element_type)
-		},
 		canUndo () {
 			return this.historyIndex > 0
 		},
@@ -295,9 +290,9 @@ export default {
 		},
 		getElementInfo () {
 			return {
-				uid: this.elementUid,
-				elementTypeConfig: this.elementConfig,
-				data: this.data
+				uid: this.element.uid,
+				elementTypeConfig: this.element.elementTypeModel,
+				data: this.element
 			}
 		},
 		searchIcon () {
@@ -328,7 +323,7 @@ export default {
 			'saveState'
 		]),
 		onBackButtonClick () {
-			const parentElement = this.getElementParent(this.elementUid)
+			const parentElement = this.getElementParent(this.element.uid)
 			this.setActiveElement(parentElement)
 		},
 		changeTabByEvent (event) {
@@ -459,7 +454,7 @@ export default {
 
 			if (prevState) {
 				this.updateElementOptions({
-					elementUid: this.elementUid,
+					elementUid: this.element.uid,
 					values: prevState
 				})
 				this.historyIndex--
@@ -470,7 +465,7 @@ export default {
 
 			if (nextState) {
 				this.updateElementOptions({
-					elementUid: this.elementUid,
+					elementUid: this.element.uid,
 					values: nextState
 				})
 				this.historyIndex++
@@ -478,7 +473,7 @@ export default {
 		},
 		closeOptionsPanel () {
 			if (this.hasChanges) {
-				const elementSavedName = this.getElementName(this.elementUid)
+				const elementSavedName = this.getElementName(this.element.uid)
 				this.saveState(`Edited ${elementSavedName}`)
 			}
 

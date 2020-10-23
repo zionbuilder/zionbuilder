@@ -89,26 +89,6 @@ const getParents = function (currentUid, allContent, parent) {
 	return parentsToReturn
 }
 
-const getChildren = function (currentUid, allContent) {
-	let children = null
-
-	const elementData = allContent[currentUid]
-	if (elementData) {
-		children = {
-			uid: elementData.uid,
-			children: []
-		}
-
-		if (elementData.content) {
-			elementData.content.forEach((childUid) => {
-				children.children.push(getChildren(childUid, allContent))
-			})
-		}
-	}
-
-	return children
-}
-
 const getters = {
 	getIsPageDirty: state => state.isPageDirty,
 	getTemplateCategories: state => state.template_categories,
@@ -126,41 +106,6 @@ const getters = {
 		}
 
 		return null
-	},
-	getParentsAndChildren: (state, getters) => {
-		const children = getChildren(state.activeElementUid, getters.getPageContent)
-		const parentsWithChildren = getParents(state.activeElementUid, getters.getPageContent, children)
-		return parentsWithChildren
-	},
-	getParents: (state, getters) => {
-		return getParents(getters.getElementFocus.uid, getters.getPageContent)
-	},
-	getNineActiveElementParentUids: (state, getters) => {
-		let needleElementUid = state.activeElementUid ? state.activeElementUid : null
-		let parents = []
-
-		if (!needleElementUid) {
-			return []
-		}
-
-		for (let i = 0; i < 9; i++) {
-			const pageContent = getters.getPageContent
-			let parentElementConfig = Object.keys(pageContent).find((elementUid) => {
-				if (pageContent[elementUid].content) {
-					if (pageContent[elementUid].element_type !== 'root') {
-						return pageContent[elementUid].content.includes(needleElementUid)
-					}
-				}
-				return false
-			})
-
-			if (parentElementConfig) {
-				needleElementUid = parentElementConfig
-				parents.push(parentElementConfig)
-			}
-		}
-
-		return parents
 	},
 	getActiveElementOptionValue: (state, getters) => (path, defaultValue) => {
 		if (!state.activeElementUid) {

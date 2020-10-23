@@ -27,6 +27,7 @@ export class Panel {
 	}
 
 	close () {
+		console.log('close');
 		this.isActive = false
 	}
 
@@ -38,7 +39,7 @@ export class Panel {
 		// close other panels from the same group that are already opened
 		if (this.group !== 'undefined') {
 			openPanels.value.forEach(panel => {
-				if (typeof panel.group !== 'undefined' && panel.group === this.group && panel !== this.panel) {
+				if (typeof panel.group !== 'undefined' && panel.group === this.group && panel !== this) {
 					panel.close()
 				}
 			})

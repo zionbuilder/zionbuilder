@@ -5,7 +5,7 @@
 	>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="editElement"
+			@click="editElement(element)"
 		>
 			<Icon icon="edit"></Icon>
 			{{$translate('action_edit')}}
@@ -127,7 +127,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles, useSavePage, usePanels } from '@data'
+import { useCopyElementStyles, useSavePage, usePanels, useEditElement } from '@data'
 
 export default {
 	name: 'ElementActions',
@@ -146,13 +146,15 @@ export default {
 		const { openPanel } = usePanels()
 		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
 		const { savePage } = useSavePage()
+		const { editElement } = useEditElement()
 
 		return {
 			copyElementStyles,
 			pasteElementStyles,
 			copiedElementStyles,
 			savePage,
-			openPanel
+			openPanel,
+			editElement
 		}
 	},
 	computed: {
@@ -246,11 +248,6 @@ export default {
 
 				this.setCuttedElement(null)
 			}
-			this.close()
-		},
-		editElement () {
-			this.setActiveElement(this.getElementFocus.uid)
-			this.openPanel('PanelElementOptions')
 			this.close()
 		},
 		copyElementStyles () {

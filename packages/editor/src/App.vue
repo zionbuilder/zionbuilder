@@ -88,6 +88,7 @@
 				<mainPanel v-show="!isPreviewMode" />
 			</transition>
 			<!-- Start panels -->
+
 			<component
 				v-for="panel in openPanels"
 				:is="panel.id"
