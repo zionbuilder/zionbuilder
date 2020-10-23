@@ -109,7 +109,7 @@
 					<Icon
 						icon="close"
 						:size="14"
-						@click="$zb.panels.togglePanel('PanelLibraryModal')"
+						@click="togglePanel('PanelLibraryModal')"
 						class="znpb-modal__header-button"
 					/>
 				</div>
@@ -154,6 +154,8 @@ import localLibrary from './library-panel/localLibrary.vue'
 
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
+import { usePanels } from '@data'
+
 
 export default {
 	name: 'LibraryModal',
@@ -165,6 +167,13 @@ export default {
 	provide () {
 		return {
 			Library: this
+		}
+	},
+	setup (props) {
+		const { togglePanel } = usePanels()
+
+		return {
+			togglePanel
 		}
 	},
 	data () {
@@ -285,7 +294,7 @@ export default {
 					})
 
 					resolve(true)
-					this.$zb.panels.togglePanel('PanelLibraryModal')
+					this.togglePanel('PanelLibraryModal')
 				}).catch((error) => {
 					reject(error)
 				})

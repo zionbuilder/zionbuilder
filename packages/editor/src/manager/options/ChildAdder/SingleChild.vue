@@ -21,6 +21,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { usePanels } from '@data'
 
 export default {
 	name: 'SingleChild',
@@ -32,6 +33,13 @@ export default {
 		itemOptionName: {
 			type: String,
 			required: true
+		}
+	},
+	setup (props) {
+		const { openPanel } = usePanels()
+
+		return {
+			openPanel
 		}
 	},
 	computed: {
@@ -52,7 +60,7 @@ export default {
 		]),
 		editElement () {
 			this.setActiveElement(this.elementUid)
-			this.$zb.panels.openPanel('PanelElementOptions')
+			this.openPanel('PanelElementOptions')
 		},
 		deleteElement () {
 			this.$emit('delete', this.elementUid)

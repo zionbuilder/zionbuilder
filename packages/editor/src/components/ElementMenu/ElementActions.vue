@@ -127,7 +127,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles, useSavePage } from '@data'
+import { useCopyElementStyles, useSavePage, usePanels } from '@data'
+
 export default {
 	name: 'ElementActions',
 	props: {
@@ -142,6 +143,7 @@ export default {
 		}
 	},
 	setup () {
+		const { openPanel } = usePanels()
 		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
 		const { savePage } = useSavePage()
 
@@ -149,7 +151,8 @@ export default {
 			copyElementStyles,
 			pasteElementStyles,
 			copiedElementStyles,
-			savePage
+			savePage,
+			openPanel
 		}
 	},
 	computed: {
@@ -247,7 +250,7 @@ export default {
 		},
 		editElement () {
 			this.setActiveElement(this.getElementFocus.uid)
-			this.$zb.panels.openPanel('PanelElementOptions')
+			this.openPanel('PanelElementOptions')
 			this.close()
 		},
 		copyElementStyles () {

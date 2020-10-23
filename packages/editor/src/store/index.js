@@ -3,7 +3,6 @@ import { createStore } from 'vuex'
 // Load modules
 import main from './modules/main'
 import devices from './modules/devices'
-import panels from './modules/panels'
 import elements from './modules/elements'
 import history from './modules/history'
 import pageContent from './modules/pageContent'
@@ -24,7 +23,6 @@ export const store = createStore({
 	modules: {
 		main,
 		devices,
-		panels,
 		history,
 		elements,
 		pageContent,

@@ -24,6 +24,7 @@
 <script>
 import templateElementMixin from '../../mixins/templateElement.js'
 import { mapGetters, mapActions } from 'vuex'
+import { usePanels } from '@data'
 
 export default {
 	name: 'BreadcrumbsItem',
@@ -39,6 +40,13 @@ export default {
 			required: false
 		}
 	},
+	setup (props) {
+		const { openPanel } = usePanels()
+
+		return {
+			openPanel
+		}
+	},
 	computed: {
 		...mapGetters([
 			'getActiveElementUid'
@@ -52,7 +60,7 @@ export default {
 
 		onItemClick (elementUid) {
 			this.setActiveElement(this.elementUid)
-			this.$zb.panels.openPanel('PanelElementOptions')
+			this.openPanel('PanelElementOptions')
 		}
 	}
 }

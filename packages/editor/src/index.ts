@@ -25,15 +25,11 @@ import {
 // Components
 import App from './App.vue'
 
-// Data
-import { initPanels } from './data'
-
 // It will allow us to add events to both the editor document and iframe document
 const pageEvents = createInstance()
 pageEvents.addDocument(window)
 
 // init data
-const panels = initPanels()
 const errors = new Errors()
 const appInstance = createApp(App)
 
@@ -57,7 +53,6 @@ appInstance.config.globalProperties.$zb = {
 	hooks,
 	appInstance,
 	pageEvents,
-	panels,
 	urls: window.ZnPbInitalData.urls
 }
 
@@ -70,7 +65,6 @@ const { registerElementComponent } = useElementTypes()
 export {
 	appInstance,
 	pageEvents,
-	panels,
 	errors,
 	registerElementComponent
 }

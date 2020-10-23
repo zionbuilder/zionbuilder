@@ -11,7 +11,7 @@
 			<!-- treeview -->
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
-				@mousedown.stop.prevent="$zb.panels.togglePanel('panel-tree')"
+				@mousedown.stop.prevent="togglePanel('panel-tree')"
 				v-bind:class="checkActivePanel('panel-tree')"
 			>
 				<Icon icon="layout"></Icon>
@@ -27,7 +27,7 @@
 			<!-- history -->
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
-				@mousedown.stop.prevent="$zb.panels.togglePanel('panel-history')"
+				@mousedown.stop.prevent="togglePanel('panel-history')"
 				v-bind:class="checkActivePanel('panel-history')"
 			>
 				<Icon icon="history"></Icon>
@@ -57,7 +57,7 @@
 			<!-- options -->
 			<div
 				class="znpb-editor-header__menu_button"
-				@mousedown.stop="$zb.panels.togglePanel('panel-global-settings')"
+				@mousedown.stop="togglePanel('panel-global-settings')"
 				v-bind:class="checkActivePanel('panel-global-settings')"
 			>
 				<Icon icon="sliders" />
@@ -166,7 +166,7 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage } from '@data'
+import { useTemplateParts, useSavePage, usePanels } from '@data'
 import { translate } from '@zb/i18n'
 
 export default {
@@ -199,6 +199,7 @@ export default {
 	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
+		const { togglePanel, openPanels } = usePanels()
 
 		const saveActions = [
 			{
@@ -221,7 +222,9 @@ export default {
 
 		return {
 			saveActions,
-			isSavePageLoading
+			isSavePageLoading,
+			togglePanel,
+			openPanels
 		}
 	},
 	computed: {
@@ -323,9 +326,6 @@ export default {
 			'setActiveShowElementsPopup',
 			'setMainbarPosition'
 		]),
-		togglePanel (panelId) {
-			this.$zb.panels.togglePanel(panelId)
-		},
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')
@@ -366,7 +366,7 @@ export default {
 			this.helpModalVisibility = true
 		},
 		checkActivePanel: function (panel) {
-			let panelIsOpen = this.$zb.panels.openPanels.find(function (panelIsOpen) {
+			let panelIsOpen = this.openPanels.find(function (panelIsOpen) {
 				return panelIsOpen.id === panel
 			})
 			return {
@@ -426,7 +426,7 @@ export default {
 				parentUid: 'contentRoot',
 				index: -1
 			})
-			this.$zb.panels.togglePanel('PanelLibraryModal')
+			this.togglePanel('PanelLibraryModal')
 		},
 		helpMenuClick () {
 			// do nothing

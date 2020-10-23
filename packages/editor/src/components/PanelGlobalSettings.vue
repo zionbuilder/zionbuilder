@@ -2,7 +2,7 @@
 	<BasePanel
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
-		v-on:close-panel="$zb.panels.closePanel('panel-global-settings')"
+		v-on:close-panel="closePanel('panel-global-settings')"
 		class="znpb-general-options-panel-wrapper"
 	>
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">
@@ -19,11 +19,19 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import BasePanel from './BasePanel.vue'
+import { usePanels } from '@data'
 
 export default {
 	name: 'PanelGlobalSettings',
 	components: {
 		BasePanel
+	},
+	setup() {
+		const { closePanel } = usePanels()
+
+		return {
+			closePanel
+		}
 	},
 	computed: {
 		...mapGetters([

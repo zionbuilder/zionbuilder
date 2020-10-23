@@ -26,6 +26,7 @@
 import { mapActions } from 'vuex'
 import BreadcrumbsItem from './BreadcrumbsItem.vue'
 import templateElementMixin from '../../mixins/templateElement.js'
+import { usePanels } from '@data'
 
 export default {
 	name: 'Breadcrumbs',
@@ -44,8 +45,12 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {}
+	setup (props) {
+		const { openPanel } = usePanels()
+
+		return {
+			openPanel
+		}
 	},
 	methods: {
 		...mapActions([
@@ -55,7 +60,7 @@ export default {
 		editElement (uid) {
 			if (uid !== this.activeElementUid) {
 				this.setActiveElement(uid)
-				this.$zb.panels.openPanel('PanelElementOptions')
+				this.openPanel('PanelElementOptions')
 			}
 		}
 

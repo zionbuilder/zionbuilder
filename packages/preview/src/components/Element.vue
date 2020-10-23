@@ -74,7 +74,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
-import { useElementTypes, usePreviewMode, useElementMenu } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, usePanels } from '@zb/editor'
 import { useElementComponent } from '@data'
 
 // Components
@@ -132,6 +132,7 @@ export default {
 		}
 	},
 	setup (props) {
+		const { openPanel } = usePanels()
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 
@@ -153,7 +154,8 @@ export default {
 			elementComponent,
 			element: props.element,
 			isPreviewMode,
-			showElementMenu
+			showElementMenu,
+			openPanel
 		}
 	},
 	data () {
@@ -464,7 +466,7 @@ export default {
 
 			if (!this.isPreviewMode) {
 				this.setActiveElement(this.element.uid)
-				this.$zb.panels.openPanel('PanelElementOptions')
+				this.openPanel('PanelElementOptions')
 
 				// Clear text selection that may appear
 				clearTextSelection(window)

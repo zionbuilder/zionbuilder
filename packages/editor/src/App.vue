@@ -74,8 +74,8 @@
 		<div class="znpb-center-area">
 			<div
 				id="znpb-panel-placeholder"
-				v-if="getPanelPlaceholder.visibility"
-				:style="{'left':getPanelPlaceholder.left + 'px'}"
+				v-if="panelPlaceholder.visibility"
+				:style="{'left':panelPlaceholder.left + 'px'}"
 			>
 				<div class="znpb-panel-placeholder"></div>
 			</div>
@@ -142,6 +142,7 @@ import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
+import { usePanels } from '@data'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -161,6 +162,14 @@ export default {
 		ElementMenu
 	},
 	mixins: [keyBindingsMixin],
+	setup (props) {
+		const { openPanels, panelPlaceholder } = usePanels()
+
+		return {
+			panelPlaceholder,
+			openPanels
+		}
+	},
 	data: () => {
 		return Object.assign({
 			devicesVisible: false,
@@ -197,7 +206,6 @@ export default {
 			'getDeviceList',
 			'getActiveDevice',
 			'getStylesLoading',
-			'getPanelPlaceholder',
 			'getMainbarPosition'
 		]),
 		device: function () {
@@ -238,7 +246,7 @@ export default {
 		},
 		openPanels: {
 			get () {
-				return this.$zb.panels.openPanels
+				return this.openPanels
 			},
 			set (newOrder) {
 				this.savePanelsOrder(newOrder)

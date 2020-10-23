@@ -1,6 +1,6 @@
 // define a mixin object
 import { mapGetters, mapActions } from 'vuex'
-import { getOptionValue } from '@zb/utils'
+import { usePanels } from '@data'
 
 export default {
 	props: {
@@ -11,6 +11,13 @@ export default {
 		parentUid: {
 			type: String,
 			required: false
+		}
+	},
+	setup (props) {
+		const { openPanel } = usePanels()
+
+		return {
+			openPanel
 		}
 	},
 	data: function () {
@@ -75,7 +82,7 @@ export default {
 		},
 		editElement () {
 			this.setActiveElement(this.elementUid)
-			this.$zb.panels.openPanel('PanelElementOptions')
+			this.openPanel('PanelElementOptions')
 		},
 		highlightElement () {
 			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(this.elementCssId)

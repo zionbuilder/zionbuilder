@@ -1,5 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
+import { usePanels } from '@data'
 
 let copiedStyles = {}
 let openedPanels = []
@@ -24,17 +25,27 @@ export default {
 			'getEditPageUrl'
 		])
 	},
+	setup (props) {
+		const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
+
+		return {
+			openPanel,
+			closePanel,
+			openPanels,
+			togglePanel
+		}
+	},
 	watch: {
 		isPreviewMode (newValue) {
 			if (!newValue) {
 				// restore panels
 				openedPanels.forEach((panelId) => {
-					this.$zb.panels.openPanel(panelId)
+					this.openPanel(panelId)
 				})
 			} else {
 				// Set panels
 				openedPanels.forEach((panelId) => {
-					this.$zb.panels.closePanel(panelId)
+					this.closePanel(panelId)
 				})
 			}
 		},
@@ -46,7 +57,7 @@ export default {
 				this.isPanelElementOptionsOpen = false
 			}
 			if (!this.isPreviewMode) {
-				openedPanels = this.$zb.panels.openPanels.map((panel) => {
+				openedPanels = this.openPanels.map((panel) => {
 					return panel.id
 				})
 			}
@@ -308,17 +319,17 @@ export default {
 			}
 			// Toggle treeView panel
 			if (e.shiftKey && e.code === 'KeyT') {
-				this.$zb.panels.togglePanel('panel-tree')
+				this.togglePanel('panel-tree')
 				e.preventDefault()
 			}
 			// Opens Library
 			if (e.shiftKey && e.code === 'KeyL') {
-				this.$zb.panels.togglePanel('PanelLibraryModal')
+				this.togglePanel('PanelLibraryModal')
 				e.preventDefault()
 			}
 			// Opens Page options
 			if (e.shiftKey && e.code === 'KeyO') {
-				this.$zb.panels.togglePanel('panel-global-settings')
+				this.togglePanel('panel-global-settings')
 				e.preventDefault()
 			}
 		}

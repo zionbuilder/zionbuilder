@@ -29,11 +29,20 @@ import { mapGetters, mapActions } from 'vuex'
 import { generateElements } from '@zb/utils'
 import ModalStep from './ModalStep.vue'
 import { trigger } from '@zb/hooks'
+import { usePanels } from '@data'
 
 export default {
 	name: 'ModalTour',
 	components: {
 		ModalStep
+	},
+	setup() {
+		const { openPanel, closePanel } = usePanels()
+
+		return {
+			openPanel,
+			closePanel
+		}
 	},
 	data () {
 		return {
@@ -150,7 +159,7 @@ export default {
 					onNext: () => {
 						this.setActiveShowElementsPopup(null)
 						this.setActiveElement(this.lastElem)
-						this.$zb.panels.openPanel('PanelElementOptions')
+						this.openPanel('PanelElementOptions')
 					}
 				},
 				{
@@ -191,7 +200,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.$zb.panels.closePanel('PanelElementOptions')
+						this.closePanel('PanelElementOptions')
 					}
 				},
 				{
@@ -214,7 +223,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.$zb.panels.openPanel('panel-history')
+						this.openPanel('panel-history')
 					}
 				},
 				{
@@ -227,7 +236,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.$zb.panels.closePanel('panel-history')
+						this.closePanel('panel-history')
 					}
 				},
 				{
@@ -240,7 +249,7 @@ export default {
 						}
 					},
 					onNext: () => {
-						this.$zb.panels.openPanel('panel-tree')
+						this.openPanel('panel-tree')
 					}
 				},
 
@@ -463,7 +472,7 @@ export default {
 			} else this.setIframePointerEvents(true)
 
 			this.setMainBarPointerEvents(true)
-			if (this.$zb.panels.openPanels.length > 0) {
+			if (this.openPanels.length > 0) {
 				setTimeout(() => {
 					// let panel = document.getElementsByClassName('znpb-editor-panel__container')
 					// panel[0].style.pointerEvents = 'none'
@@ -480,7 +489,7 @@ export default {
 			}
 
 			this.setMainBarPointerEvents(false)
-			if (this.$zb.panels.openPanels.length > 0) {
+			if (this.openPanels.length > 0) {
 				// document.getElementsByClassName('znpb-editor-panel__container')[0].style.pointerEvents = null
 			}
 		},
@@ -506,9 +515,9 @@ export default {
 			this.removePointerEvents()
 			this.removeClasses()
 			this.setActiveShowElementsPopup(null)
-			this.$zb.panels.closePanel('panel-history')
-			this.$zb.panels.closePanel('panel-tree')
-			this.$zb.panels.closePanel('PanelElementOptions')
+			this.closePanel('panel-history')
+			this.closePanel('panel-tree')
+			this.closePanel('PanelElementOptions')
 			this.deleteAddedElement()
 			this.showTour = false
 			localStorage.setItem('zion_builder_guided_tour_done', true)

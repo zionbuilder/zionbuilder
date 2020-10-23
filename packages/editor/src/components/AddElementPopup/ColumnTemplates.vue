@@ -55,6 +55,7 @@ import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
+import { usePanels } from '@data'
 
 export default {
 	name: 'ColumnTemplates',
@@ -67,6 +68,7 @@ export default {
 		ElementsTab
 	},
 	setup (props, { emit }) {
+		const { closePanel } = usePanels()
 		const active = ref(null)
 		const spanElements = {
 			'full': 1,
@@ -195,7 +197,7 @@ export default {
 			// 	index: this.getInsertIndex()
 			// })
 
-			// this.$zb.panels.togglePanel('PanelLibraryModal')
+			// this.closePanel('PanelLibraryModal')
 		}
 
 		return {
@@ -205,7 +207,8 @@ export default {
 			activeTab,
 			// methods
 			getSpanNumber,
-			addElements
+			addElements,
+			closePanel
 		}
 	}
 }

@@ -39,18 +39,19 @@
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--horizontal"
 			@mousedown="activateHorizontalResize"
-			v-if="!$zb.panels.isAnyPanelDragging"
+			v-if="!isAnyPanelDragging"
 		/>
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--vertical"
 			@mousedown="activateVerticalResize"
-			v-if="!$zb.panels.isAnyPanelDragging"
+			v-if="!isAnyPanelDragging"
 		/>
 	</div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import rafSchd from 'raf-schd'
+import { usePanels } from '@data'
 
 export default {
 	name: 'BasePanel',
@@ -100,6 +101,17 @@ export default {
 		},
 		panel: {}
 	},
+	setup () {
+		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
+
+		return {
+			isAnyPanelDragging,
+			openPanels,
+			getPanel,
+			panelPlaceholder,
+			setPanelPlaceholder
+		}
+	},
 	data () {
 		return {
 			unit: 'px',
@@ -139,12 +151,11 @@ export default {
 	computed: {
 		...mapGetters([
 			'getMainbarPosition',
-			'getPanelPlaceholder',
 			'getIframeOrder'
 		]),
 		selectors () {
 			let selectors = []
-			this.$zb.panels.openPanels.forEach(panel => {
+			this.openPanels.forEach(panel => {
 				selectors.push('#' + panel.id)
 			})
 			selectors.push('#znpb-editor-iframe')
@@ -153,7 +164,7 @@ export default {
 		},
 		orders () {
 			const orders = []
-			const panels = this.$zb.panels.openPanels.forEach(panel => {
+			const panels = this.openPanels.forEach(panel => {
 				orders.push(panel.panelPos)
 			})
 			orders.push(this.getIframeOrder)
@@ -161,7 +172,7 @@ export default {
 		},
 		panelsAndIframe () {
 			const panels = {}
-			this.$zb.panels.openPanels.forEach(panel => {
+			this.openPanels.forEach(panel => {
 				panels[panel.id] = panel.panelPos
 			})
 			panels['znpb-editor-iframe'] = this.getIframeOrder
@@ -169,7 +180,7 @@ export default {
 		},
 		filteredOpenedPanels () {
 			const panels = {}
-			this.$zb.panels.openPanels.forEach(panel => {
+			this.openPanels.forEach(panel => {
 				if (panel.id !== this.panelId) {
 					panels[panel.id] = panel.panelPos
 				}
@@ -217,7 +228,6 @@ export default {
 		...mapActions([
 			'setIframePointerEvents',
 			'setIframeOrder',
-			'setPanelPlaceholder'
 		]),
 		onKeyDown (event) {
 			if (event.which === 27) {
@@ -271,7 +281,7 @@ export default {
 				}
 				if (closest) {
 					const overlappedPanelId = closest.id
-					const idProps = this.$zb.panels.getPanel(overlappedPanelId)
+					const idProps = this.getPanel(overlappedPanelId)
 					if (idProps && !idProps.isDetached) {
 						const domElement = document.getElementById(overlappedPanelId)
 						if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
@@ -374,12 +384,12 @@ export default {
 			this.panel.set('isDragging', false)
 			window.removeEventListener('mousemove', this.movePanel)
 			window.removeEventListener('mouseup', this.disablePanelMove)
-			const order = this.getPanelPlaceholder.order
+			const order = this.panelPlaceholder.order
 
 			this.isDragging = false
-			if (this.getPanelPlaceholder.visibility) {
+			if (this.panelPlaceholder.visibility) {
 				if (order !== this.panel.panelPos) {
-					this.setOrderAndPlaceholder(order, this.getPanelPlaceholder.visibility, this.placement)
+					this.setOrderAndPlaceholder(order, this.panelPlaceholder.visibility, this.placement)
 				}
 				this.panel.set('isDetached', false)
 			}
@@ -388,7 +398,7 @@ export default {
 			this.setIframePointerEvents(false)
 			this.userSel = null
 			this.setPanelPlaceholder({
-				...this.getPanelPlaceholder,
+				...this.panelPlaceholder,
 				visibility: false
 			})
 		},

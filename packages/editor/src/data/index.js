@@ -1,5 +1,5 @@
 export * from './models'
-export * from './panels'
+export * from './usePanels'
 export * from './useElements'
 export * from './useElementTypeCategories'
 export * from './useElementTypes'
@@ -11,4 +11,5 @@ export * from './useSavePage'
 export * from './usePreviewLoading'
 export * from './useElementFocus'
 export * from './usePreviewMode'
+export * from './usePanels'
 
