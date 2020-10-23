@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { useInjections } from '@data'
 export default {
 	name: 'Injection',
 	props: {
@@ -25,17 +26,12 @@ export default {
 			default: 'div'
 		}
 	},
-	computed: {
-		getComponents () {
-			return window.zb.injections.getComponentsForLocation(this.location)
-		}
-	},
-	methods: {
-		/**
-		 * Returns the list of components to load for the requested position
-		 */
-		getComponent () {
+	setup () {
+		const { getComponentsForLocation } = useInjections()
+		const getComponents = getComponentsForLocation
 
+		return {
+			getComponents
 		}
 	}
 }

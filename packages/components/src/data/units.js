@@ -1,4 +1,4 @@
-export default [
+export const units = [
 	'auto',
 	'fit-content',
 	'inherit',

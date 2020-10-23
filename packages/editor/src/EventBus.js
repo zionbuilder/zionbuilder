@@ -1,14 +1,14 @@
 class EventBus {
 	/**
-     * Initialize a new event bus instance.
-     */
+	 * Initialize a new event bus instance.
+	 */
 	constructor () {
 		this.callbacks = {}
 	}
 
 	/**
-     * Add an event listener.
-     */
+	 * Add an event listener.
+	 */
 	addEventListener (event, callback) {
 		if (typeof this.callbacks[event] === 'undefined') {
 			this.callbacks[event] = []
@@ -18,8 +18,8 @@ class EventBus {
 	}
 
 	/**
-     * Remove an event listener.
-     */
+	 * Remove an event listener.
+	 */
 	removeEventListener (event, callback) {
 		if (typeof this.callbacks[event] !== 'undefined') {
 			const callbackIndex = this.callbacks[event].indexOf(callback)
@@ -30,8 +30,8 @@ class EventBus {
 	}
 
 	/**
-     * Dispatch an event.
-     */
+	 * Dispatch an event.
+	 */
 	dispatchEvent (event, detail = {}) {
 		if (typeof this.callbacks[event] !== 'undefined') {
 			this.callbacks[event].forEach(callbackFunction => {

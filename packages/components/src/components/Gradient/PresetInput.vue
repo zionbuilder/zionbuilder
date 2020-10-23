@@ -39,7 +39,7 @@
 </template>
 <script>
 import { Icon } from '../Icon'
-import { BaseInput, InputSelect } from '../forms'
+import { BaseInput, InputSelect } from '../index.ts'
 /**
  * it emits:
  *  - the new color chosen

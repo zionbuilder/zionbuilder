@@ -45,9 +45,11 @@
 				class="znpb-popper-trigger znpb-popper-trigger--circle"
 				tooltip-class="znpb-form__input-description-tooltip"
 			>
-				<div slot="content">
-					{{schema.description}}
-				</div>
+				<template #content>
+					<div>
+						{{schema.description}}
+					</div>
+				</template>
 
 				<Icon icon="question-mark" />
 
@@ -67,15 +69,16 @@
 				@hide="closePseudo"
 			>
 
-				<div
-					slot="content"
-					v-for="(pseudo_selector, index) in schema.pseudo_options"
-					:key='index'
-					@click="activatePseudo(pseudo_selector)"
-					class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons"
-				>
-					<Icon :icon="getPseudoIcon(pseudo_selector)" />
-				</div>
+				<template #content>
+					<div
+						v-for="(pseudo_selector, index) in schema.pseudo_options"
+						:key='index'
+						@click="activatePseudo(pseudo_selector)"
+						class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons"
+					>
+						<Icon :icon="getPseudoIcon(pseudo_selector)" />
+					</div>
+				</template>
 
 				<div
 					class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons znpb-has-responsive-options__icon-button--trigger"
@@ -99,18 +102,17 @@
 				@show="openResponsive"
 				@hide="closeresponsive"
 			>
-
-				<div
-					slot="content"
-					v-for="(device, index) in getDeviceList"
-					:key='index'
-					@click="activateDevice(device)"
-					class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
-					ref="dropdown"
-				>
-					<Icon :icon="device.icon" />
-				</div>
-
+				<template #content>
+					<div
+						v-for="(device, index) in getDeviceList"
+						:key='index'
+						@click="activateDevice(device)"
+						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+						ref="dropdown"
+					>
+						<Icon :icon="device.icon" />
+					</div>
+				</template>
 				<div
 					class="znpb-has-responsive-options__icon-button--trigger"
 					@click="showDevices=!showDevices"
@@ -163,13 +165,15 @@
 		</div>
 	</div>
 </template>
-<script>
+<script lang="ts">
 import { mapGetters, mapActions } from 'vuex'
-import { ChangesBullet } from '../../ChangesBullet'
-import { InputLabel } from '../../InputLabel'
+import { ChangesBullet } from '../ChangesBullet'
+import { InputLabel } from '../InputLabel'
 import { Tooltip } from '@zionbuilder/tooltip'
-import { Injection } from '../../injections'
+import { Injection } from '../Injection'
 import { trigger } from '@zionbuilder/hooks'
+import { useOptions } from '@data'
+
 
 export default {
 	name: 'InputWrapper',
@@ -276,7 +280,8 @@ export default {
 		},
 
 		optionTypeConfig () {
-			return window.zb.editor.options.getOption(this.schema, this.optionValue, this.optionsForm.value)
+			const { getOption } = useOptions()
+			return getOption(this.schema, this.optionValue, this.optionsForm.modelValue)
 		},
 		labelAlignment () {
 			return this.schema['label-align'] || null

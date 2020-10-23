@@ -91,7 +91,7 @@
 	}
  */
 import { Tooltip } from '@zionbuilder/tooltip'
-import stringUnits from '../forms/units'
+import { units as stringUnits } from '../../data/units'
 import BaseInput from '../BaseInput/BaseInput.vue'
 import rafSchd from 'raf-schd'
 import { Icon } from '../Icon'
