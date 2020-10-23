@@ -32,11 +32,12 @@ export class Panel {
 
 	open () {
 		this.isActive = true
+		const { openPanels } = usePanels()
 
 		// If this panel is part of a group,
 		// close other panels from the same group that are already opened
 		if (this.group !== 'undefined') {
-			(this.getCollection()).openPanels.forEach(panel => {
+			openPanels.value.forEach(panel => {
 				if (typeof panel.group !== 'undefined' && panel.group === this.group && panel !== this.panel) {
 					panel.close()
 				}
