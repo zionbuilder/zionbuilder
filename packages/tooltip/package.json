@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/tooltip",
-	"version": "1.0.2-alpha.0",
+	"version": "1.0.0",
 	"description": "A Vue plugin and component for creatign tooltips",
 	"main": "src/index",
 	"license": "MIT",
@@ -12,7 +12,7 @@
 	"types": "./build-types",
 	"dependencies": {
 		"@popperjs/core": "^2.5.3",
-		"@zionbuilder/utils": "file:../utils",
-		"@zionbuilder/z-index-manager": "file:../z-index-manager"
+		"@zionbuilder/utils": "^1.0.0",
+		"@zionbuilder/z-index-manager": "^1.0.0"
 	}
 }

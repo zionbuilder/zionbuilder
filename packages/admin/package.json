@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/admin",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.0",
   "description": "Creates the admin page for Zion Builder",
   "main": "./src/index.js",
   "author": "zionbuilder.io",

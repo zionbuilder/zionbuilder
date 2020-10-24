@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/components",
-	"version": "1.0.2-alpha.0",
+	"version": "1.0.0",
 	"description": "Global components for Zion Builder",
 	"main": "./src/index",
 	"author": "zionbuilder.io",
@@ -11,11 +11,11 @@
 	},
 	"gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a",
 	"dependencies": {
-		"@zionbuilder/css-variables": "file:../css-variables",
-		"@zionbuilder/modal": "file:../modal",
-		"@zionbuilder/sortable": "file:../sortable",
-		"@zionbuilder/tooltip": "file:../tooltip",
-		"@zionbuilder/video": "file:../video",
+		"@zionbuilder/css-variables": "1.0.0",
+		"@zionbuilder/modal": "^1.0.0",
+		"@zionbuilder/sortable": "^1.0.0",
+		"@zionbuilder/tooltip": "^1.0.0",
+		"@zionbuilder/video": "^1.0.0",
 		"raf-schd": "^4.0.2",
 		"tinycolor2": "^1.4.1",
 		"vue-date-pick": "^1.4.1"

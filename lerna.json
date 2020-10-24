@@ -1,6 +1,13 @@
 {
 	"packages": [
-		"packages/*"
+		"packages/modal",
+		"packages/click-outside-directive",
+		"packages/components",
+		"packages/hooks",
+		"packages/modal",
+		"packages/sortable",
+		"packages/tooltip",
+		"packages/video"
 	],
 	"version": "1.0.2-alpha.0",
 	"publishConfig": {

@@ -1,12 +1,12 @@
 {
 	"name": "@zionbuilder/preview",
-	"version": "1.0.2-alpha.0",
+	"version": "1.0.0",
 	"description": "Creates the iframe",
 	"main": "./src/index",
 	"author": "zionbuilder.io",
 	"license": "MIT",
 	"dependencies": {
-		"@zionbuilder/click-outside-directive": "file:../click-outside-directive",
+		"@zionbuilder/click-outside-directive": "^1.0.0",
 		"@zionbuilder/importcss": "^1.1.0",
 		"vue": "^3.0.0",
 		"vue-router": "^4.0.0-beta.11",

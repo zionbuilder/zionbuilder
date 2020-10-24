@@ -1,12 +1,12 @@
 {
   "name": "@zionbuilder/video",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.0",
   "main": "src/index",
   "author": "zionbuilder.io",
   "license": "MIT",
   "dependencies": {
     "@types/fitvids": "^2.1.0",
-    "@zionbuilder/hooks": "file:../hooks",
+    "@zionbuilder/hooks": "^1.0.0",
     "fitvids": "^2.1.1"
   }
 }

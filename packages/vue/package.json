@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/vue",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.0",
   "description": "Vue base for Zion Builder plugin. It will expose Vue to window.zb.Vue so we can prevent conflicts with other WordPress plugins.",
   "main": "index.js",
   "author": "zionbuilder.io",

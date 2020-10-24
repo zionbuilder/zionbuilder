@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/sortable",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.0",
   "description": "A sortable plugin for Vue",
   "main": "./src/index",
   "author": "zionbuilder.io",
