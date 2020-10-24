@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Icon from '@zionbuilder/components'
+import { Icon } from '@zb/components'
 
 export default {
 	props: ['formatter', 'icon', 'buttontext', 'value'],

@@ -15,7 +15,8 @@ import templates from './modules/templates'
 import Library from './modules/library'
 
 // Load modules from admin
-import options from '../../../admin/src/store/modules/options'
+// TODO: use data
+// import options from '../../../admin/src/store/modules/options'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -28,7 +29,6 @@ export const store = createStore({
 		pageContent,
 		dataSets,
 		interactions,
-		options,
 		classes,
 		help,
 		schemas,

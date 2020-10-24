@@ -1,7 +1,0 @@
-{
-  "name": "@zionbuilder/forms",
-  "version": "1.0.2-alpha.0",
-  "main": "./src/index",
-  "author": "zionbuilder.io",
-  "license": "MIT"
-}

@@ -23,6 +23,7 @@
 		"@types/lodash-es": "^4.17.3",
 		"@types/webpack": "^4.41.22",
 		"lerna": "^3.22.1",
+		"ts-loader": "^8.0.6",
 		"typescript": "^4.0.3",
 		"webpack": "^4.44.2",
 		"webpack-cli": "^3.3.12"

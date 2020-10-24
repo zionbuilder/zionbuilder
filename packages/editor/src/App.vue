@@ -330,9 +330,11 @@ export default {
 	},
 
 	created: function () {
-		this.fetchOptions().finally((result) => {
-			this.loadedMainApp = true
-		})
+		// TODO: get the options
+		// this.fetchOptions().finally((result) => {
+		// 	this.loadedMainApp = true
+		// })
+		this.loadedMainApp = true
 		this.initialiseDataSets()
 		window.addEventListener('resize', this.onResize)
 	},

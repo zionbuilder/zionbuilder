@@ -1254,15 +1254,61 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zionbuilder/css-variables@^1.0.1-alpha.0", "@zionbuilder/css-variables@^1.0.1-alpha.1":
-  version "1.0.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@zionbuilder/css-variables/-/css-variables-1.0.1-alpha.1.tgz#6e8b3c0356d3b923ff147773c9ab0e0caa450bee"
-  integrity sha512-biclSTgIYkfaMtGLNz66uziBiObJ/MrcSrX6yaRXLlMAD8YntKa38gg7SqlgTO5AiZM7RN5ACU7ZuWHJlJYAKA==
+"@zionbuilder/click-outside-directive@file:packages/click-outside-directive":
+  version "1.0.2-alpha.0"
+
+"@zionbuilder/css-variables@file:packages/css-variables":
+  version "1.0.2-alpha.0"
+
+"@zionbuilder/hooks@file:packages/hooks":
+  version "1.0.2-alpha.0"
 
 "@zionbuilder/importcss@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@zionbuilder/importcss/-/importcss-1.1.0.tgz#d0acdf49590e77c9637ed794617d08082f761e16"
   integrity sha512-o4Rz25nO1id5gEDFmkM5YSo6FjZtgMoY4k172EK9RzULQyKhMU0ztudTLjJmkVGRVzCEdqrBM6qtaIePaDSgCQ==
+
+"@zionbuilder/modal@file:packages/modal":
+  version "1.0.2-alpha.0"
+
+"@zionbuilder/models@file:packages/models":
+  version "1.0.2-alpha.0"
+  dependencies:
+    "@zionbuilder/click-outside-directive" "file:../../../../../../../.cache/yarn/v6/npm-@zionbuilder-models-1.0.2-alpha.0-fdd9485d-106a-4580-a1f6-eb7ace47744f-1603482406606/node_modules/@zionbuilder/click-outside-directive"
+    dom-form-serializer "^1.0.8"
+    dom-to-image "^2.6.0"
+    file-saver "^2.0.2"
+    localstorage-ttl "1.0.2"
+    vue "^3.0.0"
+    vue-router "^4.0.0-beta.11"
+    vuex "^4.0.0-beta.4"
+
+"@zionbuilder/sortable@file:packages/sortable":
+  version "1.0.2-alpha.0"
+  dependencies:
+    css-box-model "^1.2.1"
+    memoize-one "^5.1.1"
+    raf-schd "^4.0.2"
+
+"@zionbuilder/tooltip@file:packages/tooltip":
+  version "1.0.2-alpha.0"
+  dependencies:
+    "@popperjs/core" "^2.5.3"
+    "@zionbuilder/utils" "file:../../../../../../../.cache/yarn/v6/npm-@zionbuilder-tooltip-1.0.2-alpha.0-8e8726c6-ede8-4ef3-aca3-a1f387d2a200-1603482406603/node_modules/@zionbuilder/utils"
+    "@zionbuilder/z-index-manager" "file:../../../../../../../.cache/yarn/v6/npm-@zionbuilder-tooltip-1.0.2-alpha.0-8e8726c6-ede8-4ef3-aca3-a1f387d2a200-1603482406603/node_modules/@zionbuilder/z-index-manager"
+
+"@zionbuilder/utils@file:packages/utils":
+  version "1.0.2-alpha.0"
+
+"@zionbuilder/video@file:packages/video":
+  version "1.0.2-alpha.0"
+  dependencies:
+    "@types/fitvids" "^2.1.0"
+    "@zionbuilder/hooks" "file:../../../../../../../.cache/yarn/v6/npm-@zionbuilder-video-1.0.2-alpha.0-24e40c52-b0b4-4152-b526-2a9224e6b33f-1603482406602/node_modules/@zionbuilder/hooks"
+    fitvids "^2.1.1"
+
+"@zionbuilder/z-index-manager@file:packages/z-index-manager":
+  version "1.0.2-alpha.0"
 
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
@@ -6475,7 +6521,7 @@ trim-off-newlines@^1.0.0:
   resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz#9f9ba9d9efa8764c387698bcbfeb2c848f11adb3"
   integrity sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
 
-ts-loader@^8.0.4:
+ts-loader@^8.0.4, ts-loader@^8.0.6:
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-8.0.6.tgz#8f47d203ef8fc95826a292a09f97a02bf1f57565"
   integrity sha512-c8XkRbhKxFLbiIwZR7FBGWDq0MIz/QSpx3CGpj0abJxD5YVX8oDhQkJLeGbXUPRIlaX4Ajmr77fOiFVZ3gSU7g==

@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/fitvids": "^2.1.0",
-    "@zionbuilder/hooks": "^1.0.2-alpha.0",
+    "@zionbuilder/hooks": "file:../hooks",
     "fitvids": "^2.1.1"
   }
 }
