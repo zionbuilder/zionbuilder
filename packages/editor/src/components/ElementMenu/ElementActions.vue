@@ -167,7 +167,6 @@ export default {
 			'getElementOptionValue',
 			'getCuttedElement',
 			'getElementData',
-			'getElementById'
 		]),
 		data () {
 			return this.getPageContent[this.getElementFocus.uid]
@@ -213,6 +212,7 @@ export default {
 			this.close()
 		},
 		cutElementAction () {
+			// TODO: implement actions
 			const elementId = this.getElementData(this.getElementFocus.uid).element_type
 			this.setCuttedElement({
 				uid: this.getElementFocus.uid,

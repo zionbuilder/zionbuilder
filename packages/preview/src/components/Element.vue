@@ -224,9 +224,6 @@ export default {
 			'getRightClickMenu',
 			'getCuttedElement'
 		]),
-		elementModel () {
-			return this.getElementById(this.element.element_type)
-		},
 		stylesConfig () {
 			return this.options._styles || {}
 		},

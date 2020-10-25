@@ -65,10 +65,7 @@ export default {
 					}
 				}
 			}
-			return {
-				...this.getPageSettingsSchema,
-				...cssClasses
-			}
+			return Object.assign({}, this.getPageSettingsSchema, cssClasses)
 		}
 	},
 	methods: {

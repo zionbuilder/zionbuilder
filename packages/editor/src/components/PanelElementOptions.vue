@@ -66,7 +66,7 @@
 				<Tab name="Advanced">
 					<!-- <OptionsForm
 						class="znpb-element-options-content-form"
-						:schema="getElementAdvancedOptionsSchema"
+						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/> -->
 				</Tab>
@@ -136,7 +136,7 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
-import { useEditElement } from '@data'
+import { useEditElement, useOptionsSchemas } from '@data'
 
 export default {
 	name: 'PanelElementOptions',
@@ -164,9 +164,11 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		const { element } = useEditElement()
+		const { getSchema } = useOptionsSchemas()
 
 		return {
-			element
+			element,
+			getSchema
 		}
 	},
 	data () {
@@ -186,9 +188,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementById',
-			'getElementAdvancedOptionsSchema',
-			'getElementStyleOptionsSchema',
 			'getActiveElementUid',
 			'getElementFocus',
 			'getElementParent'
@@ -231,7 +230,7 @@ export default {
 			const optionsSchema = {
 				...elementOptionsSchema,
 				...this.computedStyleOptionsSchema,
-				...this.getElementAdvancedOptionsSchema
+				...this.getSchema('element_advanced')
 			}
 
 			return optionsSchema
@@ -390,7 +389,7 @@ export default {
 				}
 
 				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.getElementStyleOptionsSchema, syncValue)
+					const childOptions = this.filterOtions(keyword, this.getSchema('element_styles'), syncValue)
 
 					foundOptions = {
 						...foundOptions,

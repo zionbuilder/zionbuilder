@@ -20,7 +20,6 @@ export default {
 			'canRedo',
 			'getCopiedElement',
 			'isPreviewMode',
-			'getElementById',
 			'getCuttedElement',
 			'getEditPageUrl'
 		])

@@ -12,7 +12,7 @@
 		</div>
 
 		<OptionsForm
-			:schema="getElementStyleOptionsSchema"
+			:schema="getSchema('element_styles')"
 			v-model="computedStyles"
 			class="znpb-element-styles-option__options-wrapper"
 		/>
@@ -24,10 +24,18 @@
 import { mapGetters, mapActions } from 'vuex'
 import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
 import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
+import { useOptionsSchemas } from '@data'
 
 export default {
 	name: 'ElementStyles',
 	props: ['modelValue', 'title', 'selector'],
+	setup() {
+		const { getSchema } = useOptionsSchemas()
+
+		return {
+			getSchema
+		}
+	},
 	data () {
 		return {
 			activeClass: null
@@ -39,7 +47,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementStyleOptionsSchema',
 			'getClassConfig'
 		]),
 		computedClasses: {
