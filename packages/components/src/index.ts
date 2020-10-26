@@ -50,6 +50,8 @@ export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm } from '@zionbuilder/modal'
 export * from '@data'
+import { Options } from '@zionbuilder/models'
+const options = new Options()
 
 const components = [
 	Button,
@@ -123,6 +125,12 @@ const components = [
 const install = (app: App) => {
 	components.forEach(component => {
 		app.component(component.name, component);
+		app.config.globalProperties.$zb = {
+			options
+		}
+		app.provide('$zb', app.config.globalProperties.$zb)
+		app.provide('inputWrapper', InputWrapper)
+		app.provide('optionsForm', OptionsForm)
 	});
 }
 

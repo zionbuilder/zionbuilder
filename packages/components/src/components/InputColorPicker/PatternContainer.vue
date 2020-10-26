@@ -6,7 +6,7 @@
 				:active-tab="activeTab"
 			>
 				<Tab name="Local">
-					<GridColor @add-new-color="addLocalColor(model)">
+					<GridColor @add-new-color="options.addOptionValue('local_colors', model)">
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -66,12 +66,12 @@
  * it emits:
  *  - the new color chosen
  */
-import { mapGetters, mapActions } from 'vuex'
+
 import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../Label'
-
+import { computed, inject, ref} from 'vue'
 export default {
 	name: 'PatternContainer',
 	components: {
@@ -79,18 +79,6 @@ export default {
 		LibraryElement,
 		PresetInput,
 		Label
-	},
-	inject: {
-		inputWrapper: {
-			default () {
-				return {}
-			}
-		},
-		optionsForm: {
-			default () {
-				return {}
-			}
-		}
 	},
 	props: {
 		model: {
@@ -101,56 +89,44 @@ export default {
 			}
 		}
 	},
-	data () {
-		return {
-			showPresetInput: false,
-			presetName: this.$translate('add_preset_title'),
-			onstart: true,
-			expand: false
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getOptionValue',
-			'isPro'
-		]),
-		selectedGlobalColor () {
-			const { id } = this.inputWrapper.schema
-			const { options = {} } = this.optionsForm.getValueByPath(`__dynamic_content__.${id}`, {})
+	setup (props) {
+		const $zb = inject('$zb')
+		const optionsForm = inject('optionsForm')
+		const inputWrapper = inject('inputWrapper')
+		const showPresetInput = ref(false)
+
+		let localColorPatterns =  computed(() => {
+				return [...$zb.options.getOptionValue('local_colors')].reverse()
+			})
+		let globalColorPatterns = computed(() => {
+				return [...$zb.options.getOptionValue('global_colors')].reverse()
+			})
+
+		let selectedGlobalColor =  computed(() => {
+			const { id } = inputWrapper.schema
+			const { options = {} } = optionsForm.getValueByPath(`__dynamic_content__.${id}`, {})
 
 			return options.color_id
-		},
+		})
 
-		activeTab () {
-			return this.selectedGlobalColor ? 'global' : 'local'
-		},
-		localColorPatterns () {
-			return [...this.getOptionValue('local_colors')].reverse()
-		},
-		globalColorPatterns () {
-			return [...this.getOptionValue('global_colors')].reverse()
-		}
+		let activeTab =  computed(() => {
+			return selectedGlobalColor ? 'global' : 'local'
+		})
 
-	},
-	methods: {
-		...mapActions([
-			'addLocalColor',
-			'addGlobalColor'
-		]),
-
-		addGlobal (name) {
+		function addGlobal (name) {
 			let globalColor = {
 				id: name.split(' ').join('_'),
-				color: this.model,
+				color: props.model,
 				name: name
 			}
-			this.showPresetInput = false
-			this.addGlobalColor(globalColor)
-		},
-		onGlobalColorSelected (colorConfig) {
-			const { id } = this.inputWrapper.schema
+			showPresetInput.value = false
+			$zb.options.addOptionValue('global_colors', globalColor)
+		}
 
-			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+		function onGlobalColorSelected (colorConfig) {
+			const { id } = inputWrapper.schema
+
+			optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-color',
 				options: {
 					color_id: colorConfig.id
@@ -158,7 +134,24 @@ export default {
 			})
 		}
 
-	}
+		return {
+			localColorPatterns,
+			globalColorPatterns,
+			onGlobalColorSelected,
+			addGlobal,
+			onAddLocalColor,
+			showPresetInput,
+			selectedGlobalColor,
+			activeTab,
+			options: $zb.options
+		}
+	},
+	computed: {
+		isPro () {
+			return window.ZnPbAdminPageData.is_pro_active
+		},
+	},
+
 
 }
 </script>
