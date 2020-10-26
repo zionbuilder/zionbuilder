@@ -11,7 +11,9 @@
 				:id="tab.id"
 				:name="tab.title"
 			>
+				<Loader v-if="loading"/>
 				<TemplateList
+					v-else
 					:templates="getFilteredTemplates"
 				/>
 
@@ -37,7 +39,7 @@
 		>
 			<ModalAddNewTemplate
 				:template-type="templateType"
-				@save-template="addTemplate($event), showModal=false"
+				@save-template="onAddTemplate"
 			/>
 		</Modal>
 
@@ -49,12 +51,11 @@
 	</PageTemplate>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
+import { getTemplates, addTemplate } from '@zionbuilder/rest'
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
 import TemplateList from './TemplateList.vue'
 import { Button, Modal, Tabs, Tab } from '@zionbuilder/components'
-
+import { computed, inject, ref, reactive, watchEffect} from 'vue'
 export default {
 	name: 'TemplatePage',
 	components: {
@@ -77,14 +78,18 @@ export default {
 			default: 'Template'
 		}
 	},
-	data () {
-		return {
-			showModalConfirm: false,
-			showModal: false,
-			activeTemplate: null,
-			templatePreview: '',
-			activeFilter: 'publish',
-			tabs: [
+	setup (props) {
+		const $zb = inject('$zb')
+
+		const loading = ref(true)
+		const hasError = ref(false)
+		const showModalConfirm = ref(false)
+		const showModal = ref(false)
+		const activeTemplate = ref(null)
+		const activeFilter = ref('publish')
+		const localtemplates = ref([])
+
+		const tabs = ref([
 				{
 					title: 'Published',
 					id: 'publish'
@@ -97,28 +102,54 @@ export default {
 					title: 'Trashed',
 					id: 'trash'
 				}
-			]
+			])
+
+		Promise.all([
+			getTemplates()
+		]).then((values) => {
+			$zb.templates.add(values[0].data)
+			localtemplates.value = $zb.templates.models
+		}).catch(error => {
+			hasError = true
+			console.error(error)
+		}).finally(() => {
+			loading.value = false
+		})
+
+		const getFilteredTemplates = computed(() => {
+			return localtemplates.value.filter((template) => {
+				return template.post_status === activeFilter.value && template.template_type && template.template_type === props.templateType
+			})
+		})
+
+		function onTabChange (tabId) {
+			activeFilter.value = tabId
 		}
-	},
-	computed: {
-		...mapGetters(['getTemplates']),
-		getFilteredTemplates () {
-			return this.getTemplates.filter((template) => {
-				return template.post_status === this.activeFilter && template.template_type && template.template_type === this.templateType
+
+		function onAddTemplate (template) {
+
+			addTemplate(template).then(() => {
+				showModal.value=false
+				loading.value = true
+				$zb.templates.addTemplate(template)
+
+			}).finally(() => {
+				loading.value = false
 			})
 		}
-	},
-	methods: {
-		...mapActions([
-			'fetchTemplates',
-			'addTemplate'
-		]),
-		onTabChange (tabId) {
-			this.activeFilter = tabId
+
+		return {
+			showModalConfirm,
+			showModal,
+			activeTemplate,
+			activeFilter,
+			tabs,
+			loading,
+			getFilteredTemplates,
+			onAddTemplate,
+			onTabChange,
+			localtemplates
 		}
-	},
-	created () {
-		this.fetchTemplates()
 	}
 }
 </script>

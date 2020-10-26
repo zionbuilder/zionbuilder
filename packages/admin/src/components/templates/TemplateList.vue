@@ -47,8 +47,7 @@ import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
 import { ModalConfirm, Modal } from '@zionbuilder/components'
 import { EmptyList } from '@zionbuilder/components'
-
-import { mapActions } from 'vuex'
+import { deleteTemplate } from '@zionbuilder/rest'
 
 export default {
 	name: 'TemplateList',
@@ -80,9 +79,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'deleteTemplate'
-		]),
 		showConfirmDelete (template) {
 			this.showModalConfirm = true
 			this.activeTemplate = template
@@ -95,9 +91,10 @@ export default {
 		onTemplateDelete () {
 			this.localLoadingItem = this.activeTemplate
 
-			this.deleteTemplate(this.activeTemplate).then(() => {
+			deleteTemplate(this.activeTemplate.ID).then(() => {
 				this.localLoadingItem = false
 				this.showModalConfirm = false
+				this.$zb.templates.remove(this.activeTemplate)
 			})
 		}
 	}

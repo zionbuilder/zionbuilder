@@ -56,9 +56,8 @@
 
 <script>
 import { regenerateCache } from '@zionbuilder/rest'
-import { mapActions } from 'vuex'
 import { Button, Loader } from '@zionbuilder/components'
-
+import { getTemplates } from '@zionbuilder/rest'
 export default {
 	name: 'ToolsPage',
 	components: {
@@ -72,9 +71,7 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'fetchTemplates'
-		]),
+
 		onRegenerateFilesClick () {
 			this.loading = true
 			regenerateCache().then(() => {
@@ -83,14 +80,16 @@ export default {
 		},
 		onSyncClick () {
 			this.loadingSync = true
-			this.fetchTemplates(true).then(() => {
-			}).catch((error) => {
+			Promise.all([
+				getTemplates()
+			]).then((values) => {
+			}).catch(error => {
 				this.loadingSync = false
 				console.error('error', error.message)
+			}).finally(() => {
+				this.loadingSync = false
 			})
-				.finally(() => {
-					this.loadingSync = false
-				})
+
 		}
 	}
 }

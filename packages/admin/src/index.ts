@@ -6,7 +6,6 @@ import { initRoutes } from './router'
 
 // Main
 import App from './App.vue'
-import { store } from './store/'
 
 // Set Service Interceptor
 import { errorInterceptor } from '@zionbuilder/rest'
@@ -19,7 +18,7 @@ import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
-import { Errors, Users, GoogleFonts, Options } from '@zionbuilder/models'
+import { Errors, Users, GoogleFonts, Options, Templates } from '@zionbuilder/models'
 
 
 const appInstance = createApp(App)
@@ -37,13 +36,15 @@ const errors = new Errors()
 const users = new Users()
 const googleFonts = new GoogleFonts()
 const options = new Options()
+const templates = new Templates()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	errors,
 	users,
 	googleFonts,
-	options
+	options,
+	templates
 }
 
 // Add error interceptor for API
@@ -59,7 +60,6 @@ const router = createRouter({
 })
 
 appInstance.use(router)
-appInstance.use(store)
 
 // Trigger event so others can hook into ZionBuilder API
 const evt = new CustomEvent('zionbuilder/admin/init', {
@@ -74,5 +74,6 @@ export {
 	errors,
 	users,
 	googleFonts,
-	options
+	options,
+	templates
 }
