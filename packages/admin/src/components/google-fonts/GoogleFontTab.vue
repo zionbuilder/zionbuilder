@@ -63,7 +63,7 @@
 
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
-import { mapGetters } from 'vuex'
+
 import { Icon, Tooltip, ModalConfirm } from '@zionbuilder/components'
 
 export default {
@@ -91,15 +91,10 @@ export default {
 				return this.font.font_variants
 			},
 			set (newValue) {
-				// this.$emit('font-updated', {
-				// 	...this.font,
-				// 	font_variants: newValue
-				// })
-				let updatedValue = {
+				this.$emit('font-updated', {
 					...this.font,
 					font_variants: newValue
-				}
-				this.$zb.options.updateOptionValue('google_fonts', {font,	value: updatedValue})
+				})
 			}
 		},
 		subsetModel: {
@@ -107,11 +102,10 @@ export default {
 				return this.font.font_subset
 			},
 			set (newValue) {
-				let updatedValue = {
+				this.$emit('font-updated', {
 					...this.font,
 					font_subset: newValue
-				}
-			this.$zb.options.updateOptionValue('google_fonts', {font,	value: updatedValue})
+				})
 			}
 		},
 		niceFontVariants () {

@@ -25,7 +25,10 @@
 					class="znpb-admin-tab"
 					:font="font"
 					@delete="deleteFont"
-					@font-updated="onGoogleFontUpdated($event, font)"
+					@font-updated="onGoogleFontUpdated({
+						font,
+						value: $event
+					})"
 				/>
 			</ListAnimation>
 		</div>
@@ -93,10 +96,9 @@ export default {
 		function deleteFont (font) {
 			$zb.options.deleteOptionValue('google_fonts',font)
 		}
-		function onGoogleFontUpdated (value, font) {
-			console.log('{font,	value: $event}', {font,	value: value})
-			let key = font
-			$zb.options.updateOptionValue('google_fonts', {font, value})
+		function onGoogleFontUpdated ({font, value: newValue}) {
+			let key = { ...font }
+			$zb.options.updateOptionValue('google_fonts', {key, value: newValue})
 		}
 		function onGoogleFontAdded (font) {
 			$zb.options.addOptionValue('google_fonts', {
