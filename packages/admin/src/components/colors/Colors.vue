@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import ColorBox from './ColorBox.vue'
 import { generateUID } from '@zionbuilder/utils'
 import { Tabs, Tab, UpgradeToPro } from '@zionbuilder/components'
@@ -66,9 +66,9 @@ export default {
 		Tab
 	},
 	computed: {
-		...mapGetters([
-			'isPro'
-		]),
+		isPro () {
+			return window.ZnPbAdminPageData.is_pro_active
+		},
 		localColorPatterns () {
 			return this.$zb.options.getOptionValue('local_colors')
 		},

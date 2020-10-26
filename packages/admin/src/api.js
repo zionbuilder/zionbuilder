@@ -1,5 +1,4 @@
 import routes from './router'
-import { store } from './store'
 
 // Utils
 import { errorInterceptor } from '@zionbuilder/rest'
@@ -8,7 +7,6 @@ window.zb = window.zb || {}
 
 const api = {
 	routes,
-	store,
 	interceptors: {
 		errorInterceptor
 	}

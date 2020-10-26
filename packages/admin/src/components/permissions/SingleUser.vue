@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
 import { Modal } from '@zionbuilder/components'
@@ -83,10 +81,11 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions(['editUserPermission']),
+
 		editRole (value) {
 			let role = this.userId
-			this.editUserPermission({ role, value })
+
+			this.$zb.options.editUserPermission( {role, value })
 		},
 		deletePermission (value) {
 			let role = this.userId

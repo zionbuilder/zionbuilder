@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+
 import { Icon, Tooltip, Loader } from '@zionbuilder/components'
 import { saveOptions, getUsersById } from '@zionbuilder/rest'
 
@@ -43,17 +43,8 @@ export default {
 			loadingDelete: false
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getUserPermissions'
-		])
-	},
+
 	methods: {
-		...mapActions([
-			'addUserData',
-			'editUserPermission',
-			'deleteUserPermission'
-		]),
 		addNewUser (user) {
 			if (this.checkUser(user)) {
 				// check if user already has permissions added
@@ -85,7 +76,7 @@ export default {
 				id = user.id
 			}
 
-			if (this.getUserPermissions.hasOwnProperty(id)) {
+			if (this.$zb.options.getUserPermissions.hasOwnProperty(id)) {
 				showDelete = true
 			} else showDelete = false
 
@@ -94,7 +85,7 @@ export default {
 
 		deletePermission (role) {
 			this.loadingDelete = true
-			this.deleteUserPermission(role.id)
+			this.$zb.options.deleteUserPermission(role.id)
 
 			saveOptions()
 				.finally(() => {

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import PostTypeTab from './PostTypeTab.vue'
 import { useDataSets } from '@zionbuilder/models'
 export default {
@@ -26,9 +26,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getPostTypes'
-		]),
 		getPostTypes () {
 			const { getPostTypes } = useDataSets()
 			return getPostTypes()

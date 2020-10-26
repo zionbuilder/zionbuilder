@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
@@ -103,9 +103,9 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'isPro'
-		]),
+		isPro () {
+			return window.ZnPbAdminPageData.is_pro_active
+		},
 		getUserPermissions () {
 			return this.$zb.options.getUserPermissions()
 		},

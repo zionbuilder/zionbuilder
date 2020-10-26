@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 import { computed , ref, inject , reactive } from 'vue'
 import GradientBox from './GradientBox.vue'
 import { getDefaultGradient } from '@zionbuilder/components/utils'
@@ -171,11 +171,7 @@ export default {
 			activeGradient
 		}
 	},
-	computed: {
-		...mapGetters([
-			'isPro'
-		]),
-	},
+
 }
 </script>
 

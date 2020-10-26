@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { Tooltip, UpgradeToPro } from '@zionbuilder/components'
 
+import { Tooltip, UpgradeToPro } from '@zionbuilder/components'
+import { useDataSets } from '@zionbuilder/models'
 export default {
 	name: 'UserModalContent',
 	components: {
@@ -79,10 +79,13 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getPostTypes',
-			'isPro'
-		]),
+		getPostTypes () {
+			const { getPostTypes } = useDataSets()
+			return getPostTypes()
+		},
+		isPro () {
+			return window.ZnPbAdminPageData.is_pro_active
+		},
 		allowConfig: {
 			get () {
 				return this.permissions.allowed_access

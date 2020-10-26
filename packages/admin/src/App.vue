@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import Label from '@zionbuilder/components/Label'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 import { Icon, Notice } from '@zionbuilder/components'
@@ -109,12 +108,6 @@ export default {
 		}
 	},
 
-	methods: {
-		...mapActions([
-
-			// 'initialiseDataSets'
-		])
-	},
 	created () {
 		const { initialiseDataSets } = useDataSets()
 		Promise.all([
