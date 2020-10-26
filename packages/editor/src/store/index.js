@@ -9,7 +9,6 @@ import dataSets from './modules/dataSets'
 import interactions from './modules/interactions'
 import classes from './modules/classes'
 import help from './modules/help'
-import schemas from './modules/schemas'
 import templates from './modules/templates'
 import Library from './modules/library'
 
@@ -29,7 +28,6 @@ export const store = createStore({
 		interactions,
 		classes,
 		help,
-		schemas,
 		templates,
 		Library
 	},

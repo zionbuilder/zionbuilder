@@ -9,7 +9,7 @@
 		<PageStyles
 			:css-classes="getClasses"
 			:page-settings-model="getPageSettings"
-			:page-settings-schema="getPageSettingsSchema"
+			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/>
 
 		<ElementStyles :styles="getPageSettings._custom_css" /> -->
@@ -24,6 +24,7 @@ import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
 import SortableContent from './components/SortableContent.vue'
 import { useElements } from '@zb/editor'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'PreviewApp',
@@ -36,10 +37,12 @@ export default {
 		const { getElement } = useElements()
 		const element = computed(() => getElement('content'))
 		const showExportModal = ref(false)
+		const { getSchema } = useOptionsSchemas()
 
 		return {
 			element,
-			showExportModal
+			showExportModal,
+			getSchema
 		}
 	},
 
@@ -51,8 +54,7 @@ export default {
 		...mapGetters([
 			'isPreviewMode',
 			'getClasses',
-			'getPageSettings',
-			'getPageSettingsSchema'
+			'getPageSettings'
 		])
 	},
 	methods: {

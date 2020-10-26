@@ -13,7 +13,6 @@ const state = {
 	},
 	urls: window.ZnPbInitalData.urls,
 	lockedUserInfo: window.ZnPbInitalData.post_lock_user,
-	nonce: window.ZnRestConfig.nonce,
 	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active,
 	masks: window.ZnPbInitalData.masks
 }
@@ -46,8 +45,7 @@ const getters = {
 	getZionAdminUrl: state => state.urls.zion_admin,
 	getAllPagesUrl: state => state.urls.all_pages_url,
 	getLockedUserInfo: state => state.lockedUserInfo,
-	isPostLocked: state => state.lockedUserInfo && !!state.lockedUserInfo.message,
-	getNonce: state => state.nonce
+	isPostLocked: state => state.lockedUserInfo && !!state.lockedUserInfo.message
 }
 
 const actions = {

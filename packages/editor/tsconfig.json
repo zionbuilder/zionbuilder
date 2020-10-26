@@ -19,7 +19,6 @@
 		"src/**/*",
 		"../shims-vue.d.ts",
 		"../preview/src/ScriptsLoader.js",
-		"../models",
 		"../models"
 	]
 }

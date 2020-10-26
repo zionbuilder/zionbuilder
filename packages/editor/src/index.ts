@@ -20,7 +20,11 @@ import {
 	WireframeList,
 	WireframeListItem
 } from './components/treeView'
+import { useOptionsSchemas } from '@zb/components'
 
+// Register editor options schemas
+const { registerSchema } = useOptionsSchemas()
+registerSchema('pageSettingsSchema', window.ZnPbInitalData.page_settings.schema)
 
 // Components
 import App from './App.vue'

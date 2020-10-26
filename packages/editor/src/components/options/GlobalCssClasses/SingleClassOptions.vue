@@ -24,7 +24,7 @@
 
 <script>
 import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
-import { useOptionsSchemas } from '@data'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'SingleClassOptions',

@@ -24,7 +24,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
 import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
-import { useOptionsSchemas } from '@data'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'ElementStyles',

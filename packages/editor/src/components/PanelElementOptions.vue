@@ -136,7 +136,8 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
-import { useEditElement, useOptionsSchemas } from '@data'
+import { useEditElement } from '@data'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'PanelElementOptions',

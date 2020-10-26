@@ -172,8 +172,7 @@ import { InputLabel } from '../InputLabel'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Injection } from '../Injection'
 import { trigger } from '@zionbuilder/hooks'
-import { useOptions } from '@data'
-
+import { useOptions, useOptionsSchemas } from '@data'
 
 export default {
 	name: 'InputWrapper',
@@ -229,6 +228,13 @@ export default {
 			required: false
 		}
 	},
+	setup (props) {
+		const { getSchema } = useOptionsSchemas()
+
+		return {
+			getSchema
+		}
+	},
 	data () {
 		return {
 			activePseudo: null,
@@ -240,9 +246,7 @@ export default {
 		...mapGetters([
 			'getActiveElementOptionValue',
 			'getActiveDevice',
-			'getDeviceList',
-			'getBackgroundImageOptionSchema',
-			'getTypographyOptionSchema'
+			'getDeviceList'
 		]),
 		isValidInput () {
 			return this.optionTypeConfig
@@ -431,7 +435,7 @@ export default {
 
 			// Special options
 			if (schema.type === 'background') {
-				const backgroundSchema = this.getBackgroundImageOptionSchema
+				const backgroundSchema = this.getSchema('backgroundImageSchema')
 				Object.keys(backgroundSchema).forEach(optionId => {
 					const childIds = this.getChildOptionsIds(backgroundSchema[optionId])
 
@@ -451,7 +455,7 @@ export default {
 					ids.push(item.id)
 				})
 			} else if (schema.type === 'typography') {
-				const typographySchema = this.getTypographyOptionSchema
+				const typographySchema = this.getSchema('typographyOptionSchema')
 				Object.keys(typographySchema).forEach(optionId => {
 					const childIds = this.getChildOptionsIds(typographySchema[optionId])
 

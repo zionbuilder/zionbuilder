@@ -20,6 +20,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import BasePanel from './BasePanel.vue'
 import { usePanels } from '@data'
+import { useOptionsSchema } from '@zb/components'
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -28,15 +29,16 @@ export default {
 	},
 	setup() {
 		const { closePanel } = usePanels()
+		const { getSchema } = useOptionsSchema()
 
 		return {
-			closePanel
+			closePanel,
+			getSchema
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getPageSettings',
-			'getPageSettingsSchema'
+			'getPageSettings'
 		]),
 		savedValues: {
 			get () {
@@ -65,7 +67,7 @@ export default {
 					}
 				}
 			}
-			return Object.assign({}, this.getPageSettingsSchema, cssClasses)
+			return Object.assign({}, this.getSchema('pageSettingsSchema'), cssClasses)
 		}
 	},
 	methods: {

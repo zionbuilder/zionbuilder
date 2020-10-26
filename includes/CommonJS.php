@@ -113,6 +113,24 @@ class CommonJS {
 			true
 		);
 
+		wp_localize_script(
+			'zb-components',
+			'ZnPbComponentsData',
+			[
+				'schemas'   => apply_filters(
+					'zionbuilder/commonjs/schemas',
+					[
+						'styles'           => StyleOptions::get_schema(),
+						'element_advanced' => Advanced::get_schema(),
+						'typography'       => Typography::get_schema(),
+						'video'            => Video::get_schema(),
+						'background_image' => BackgroundImage::get_schema(),
+						'shadow'           => Shadow::get_schema(),
+					]
+				),
+			]
+		);
+
 		// Register common script
 		// Plugin::instance()->scripts->register_script(
 		// 	'zb-common',

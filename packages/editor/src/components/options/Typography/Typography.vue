@@ -1,6 +1,6 @@
 <template>
 	<OptionsForm
-		:schema="getTypographyOptionSchema"
+		:schema="getSchema('typographyOptionSchema')"
 		v-model="valueModel"
 		class="znpb-option__typography-wrapper"
 	/>
@@ -8,6 +8,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { useOptionsSchemas } from '@data'
 
 export default {
 	name: 'Typography',
@@ -19,10 +20,14 @@ export default {
 			}
 		}
 	},
+	setup () {
+		const { getSchema } = useOptionsSchemas()
+
+		return {
+			getSchema
+		}
+	},
 	computed: {
-		...mapGetters([
-			'getTypographyOptionSchema'
-		]),
 		valueModel: {
 			get () {
 				return this.modelValue || {}
