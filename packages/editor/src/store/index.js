@@ -8,7 +8,6 @@ import pageContent from './modules/pageContent'
 import dataSets from './modules/dataSets'
 import interactions from './modules/interactions'
 import classes from './modules/classes'
-import help from './modules/help'
 import templates from './modules/templates'
 import Library from './modules/library'
 
@@ -27,7 +26,6 @@ export const store = createStore({
 		dataSets,
 		interactions,
 		classes,
-		help,
 		templates,
 		Library
 	},

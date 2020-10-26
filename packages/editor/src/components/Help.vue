@@ -4,7 +4,7 @@
 			<div
 				class="znpb-help-modal__list-item"
 				:class="{['znpb-help-modal__list-item--active']: activeIndex === index}"
-				v-for="(item, index) in getHelpData"
+				v-for="(item, index) in helpData"
 				:key="index"
 				@click="selectContent(index)"
 			>
@@ -29,30 +29,99 @@
 
 <script>
 import { youtubeUrlParser } from '@zb/utils'
-import { mapGetters } from 'vuex'
+
 export default {
 	name: 'Help',
 	data () {
 		return {
 			content: {},
 			activeIndex: 0,
-			videoUrl: ''
+			videoUrl: '',
+			helpData: [
+				{
+					title: 'Page builder overview 1',
+					description: 'In this and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 1 In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 1 In this and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 1 In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 1 ',
+					video: 'https://www.youtube.com/watch?v=ZsBAkSxwU5c',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 2',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 2',
+					video: 'https://www.youtube.com/watch?v=UrouueTnZYo',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 3',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 3',
+					video: 'https://www.youtube.com/watch?v=M1F81V-NhP0',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 4',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 4',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 5',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.5 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 6',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.6 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 4',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 4',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 5',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.5 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 6',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.6 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 4',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas. 4',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 5',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.5 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				},
+				{
+					title: 'Page builder overview 6',
+					description: 'In this video we will explain how to Install and register Kallyas and how to install one of the demos that comes with it. This video is based on a more recent version of Kallyas.6 ',
+					video: 'https://www.youtube.com/embed/7Mz92k2r7AY',
+					duration: '4:32'
+				}
+			]
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getHelpData'
-		])
-	},
 	mounted () {
-		this.content = this.getHelpData[0]
-		this.videoUrl = youtubeUrlParser(this.getHelpData[0].video)
+		this.content = this.helpData[0]
+		this.videoUrl = youtubeUrlParser(this.helpData[0].video)
 	},
 	methods: {
 		selectContent (index) {
 			this.activeIndex = index
-			this.content = this.getHelpData[index]
-			this.videoUrl = youtubeUrlParser(this.getHelpData[index].video)
+			this.content = this.helpData[index]
+			this.videoUrl = youtubeUrlParser(this.helpData[index].video)
 		}
 	}
 
