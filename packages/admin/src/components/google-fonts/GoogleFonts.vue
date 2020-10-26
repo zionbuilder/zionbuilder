@@ -82,16 +82,15 @@ export default {
 		const $zb = inject('$zb')
 		const showModal = ref(false)
 
-		let state = reactive({
-			googleFonts: computed(() => {
+		let googleFonts =  computed(() => {
 				return $zb.options.getOptionValue('google_fonts')
-			}),
-			activeFontNames:computed(() => {
-			return state.googleFonts.map((font) => {
+			})
+		let activeFontNames = computed(() => {
+			return googleFonts.value.map((font) => {
 				return font.font_family
 				})
 			})
-		})
+
 
 		function deleteFont (font) {
 			$zb.options.deleteOptionValue('google_fonts',font)
@@ -115,8 +114,8 @@ export default {
 
 
 		return {
-			googleFonts: state.googleFonts,
-			activeFontNames: state.activeFontNames,
+			googleFonts,
+			activeFontNames,
 			onGoogleFontRemoved,
 			onGoogleFontAdded,
 			onGoogleFontUpdated,
