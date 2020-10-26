@@ -60,7 +60,7 @@ const responsiveDevices: Ref<[]> = ref([
 
 export const useResponsiveDevices = () => {
 	const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value))
-	const setActiveResponsiveDevice = (device) => {
+	const setActiveResponsiveDeviceId = (device) => {
 		activeResponsiveDeviceId.value = device
 	}
 
@@ -68,6 +68,6 @@ export const useResponsiveDevices = () => {
 		activeResponsiveDeviceId,
 		activeResponsiveDeviceInfo,
 		responsiveDevices,
-		setActiveResponsiveDevice
+		setActiveResponsiveDeviceId
 	}
 }

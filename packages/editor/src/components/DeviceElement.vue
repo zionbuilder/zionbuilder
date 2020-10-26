@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { useResponsiveDevices } from '@zb/components'
 
 // TODO: extract active device methods from options form manager
@@ -52,10 +51,11 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId } = useResponsiveDevices()
 
 		return {
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			setActiveResponsiveDeviceId
 		}
 	},
 	computed: {
@@ -74,13 +74,10 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'setActiveDevice'
-		]),
 		changeDevice () {
 			if (this.activeResponsiveDeviceInfo.id !== this.deviceConfig.id) {
 				// Set a new active device
-				this.setActiveDevice(this.deviceConfig.id)
+				this.setActiveResponsiveDeviceId(this.deviceConfig.id)
 			}
 		},
 		removeStylesGroup () {

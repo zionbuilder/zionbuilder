@@ -223,12 +223,13 @@ export default {
 	},
 	setup (props) {
 		const { getSchema } = useOptionsSchemas()
-		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 
 		return {
 			getSchema,
 			activeResponsiveDeviceInfo,
-			responsiveDevices
+			responsiveDevices,
+			setActiveResponsiveDeviceId
 		}
 	},
 	data () {
@@ -420,7 +421,6 @@ export default {
 	methods: {
 		...mapActions([
 			'updateActiveElementValue',
-			'setActiveDevice',
 			'deleteActiveElementValue'
 		]),
 
@@ -494,7 +494,7 @@ export default {
 			this.showPseudo = true
 		},
 		activateDevice (device) {
-			this.setActiveDevice(device.id)
+			this.setActiveResponsiveDeviceId(device.id)
 			setTimeout(() => {
 				this.showDevices = false
 			}, 50)

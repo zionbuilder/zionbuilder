@@ -165,13 +165,14 @@ export default {
 	mixins: [keyBindingsMixin],
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
-		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 
 		return {
 			panelPlaceholder,
 			openPanels,
 			activeResponsiveDeviceInfo,
-			responsiveDevices
+			responsiveDevices,
+			setActiveResponsiveDeviceId
 		}
 	},
 	data: () => {
@@ -282,11 +283,10 @@ export default {
 			'setActiveArea',
 			'setElementFocus',
 			'setRightClickMenu',
-			'setActiveDevice',
 			'fetchOptions'
 		]),
 		activateDevice (device) {
-			this.setActiveDevice(device.id)
+			this.setActiveResponsiveDeviceId(device.id)
 			setTimeout(() => {
 				this.showDevices = false
 			}, 50)
