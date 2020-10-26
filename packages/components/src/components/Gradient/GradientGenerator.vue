@@ -84,8 +84,7 @@ import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
 import { ActionsOverlay } from '../ActionsOverlay'
 import { getDefaultGradient } from '../../utils/'
-import { mapActions } from 'vuex'
-
+import { Options } from '@zionbuilder/models'
 export default {
 	name: 'GradientGenerator',
 	components: {
@@ -139,11 +138,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'addGlobalGradient',
-			'addLocalGradient',
-			'saveOptions'
-		]),
 		getValue () {
 			return this.computedValue
 		},
@@ -154,14 +148,14 @@ export default {
 				name: name,
 				config: getDefaultGradient()
 			}
-
+			const options = new Options()
 			if (type === 'local') {
-				this.addLocalGradient(defaultGradient)
+				options.addGradient('local_gradients', defaultGradient)
 			} else {
-				this.addGlobalGradient(defaultGradient)
+				options.addGradient('global_gradients', defaultGradient)
 			}
 
-			this.saveOptions()
+			options.saveOptions()
 		},
 		deleteGradient (gradientConfig) {
 			const deletedGradientIndex = this.computedValue.indexOf(gradientConfig)
