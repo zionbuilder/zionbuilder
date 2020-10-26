@@ -109,12 +109,9 @@ export default {
 	},
 
 	created () {
-		const { initialiseDataSets } = useDataSets()
 		Promise.all([
 			getGoogleFonts(),
 			this.$zb.options.fetchOptions(),
-			// this.initialiseDataSets()
-			initialiseDataSets()
 		]).then((values) => {
 			this.$zb.googleFonts.add(values[0].data)
 
@@ -163,8 +160,7 @@ export default {
 	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-
-// added to fix the arrows for mozilla firefox
+		// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}

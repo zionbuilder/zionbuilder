@@ -9,7 +9,7 @@
 					<div class="znpb-admin-role-manager-wrapper">
 						<h3>{{$translate('role_manager')}}</h3>
 						<SingleRole
-							v-for="(role,i) in getUserRoles"
+							v-for="(role,i) in dataSets.user_roles"
 							:key=i
 							:data="role"
 						/>
@@ -80,7 +80,8 @@ import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
 import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
 import { getUsersById } from '@zionbuilder/rest'
-import { useIsPro, useDataSets} from '@zionbuilder/models'
+import { useIsPro } from '@zionbuilder/models'
+import { useDataSets } from '@zb/components'
 
 export default {
 	name: 'permissions',
@@ -92,6 +93,13 @@ export default {
 		Button,
 		Loader,
 		Modal
+	},
+	setup() {
+		const { dataSets } = useDataSets()
+
+		return {
+			dataSets
+		}
 	},
 	data () {
 		return {
@@ -108,10 +116,6 @@ export default {
 		},
 		getUserPermissions () {
 			return this.$zb.options.getUserPermissions()
-		},
-		getUserRoles () {
-			const { getUserRoles } = useDataSets()
-			return getUserRoles()
 		}
 	},
 	methods: {

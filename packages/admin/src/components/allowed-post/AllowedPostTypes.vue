@@ -2,9 +2,9 @@
 	<PageTemplate>
 		<h3>{{$translate('allowed_post_types')}}</h3>
 		<div class="znpb-admin-posts-wrapper">
-			<PostTypeTab v-for="(post,i) in getPostTypes" :key="i" :post="post"/>
+			<PostTypeTab v-for="postType in dataSets.post_types" :post="postType"/>
 		</div>
-		<template v-slot:right>
+		<template #right>
 			<p class="znpb-admin-info-p">{{$translate('set_allowed_types')}}</p>
 		</template>
 	</PageTemplate>
@@ -14,21 +14,18 @@
 <script>
 
 import PostTypeTab from './PostTypeTab.vue'
-import { useDataSets } from '@zionbuilder/models'
+import { useDataSets } from '@zb/components'
+
 export default {
 	name: 'AllowedPostTypes',
 	components: {
 		PostTypeTab
 	},
-	data () {
+	setup () {
+		const { dataSets } = useDataSets()
+
 		return {
-			loaded: false
-		}
-	},
-	computed: {
-		getPostTypes () {
-			const { getPostTypes } = useDataSets()
-			return getPostTypes()
+			dataSets
 		}
 	}
 }

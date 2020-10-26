@@ -20,7 +20,7 @@
 import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
-import { useResponsiveDevices } from '@data'
+import { useResponsiveDevices, useDataSets } from '@data'
 
 export default {
 	name: 'OptionsForm',
@@ -49,16 +49,17 @@ export default {
 	},
 	setup() {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { fontsListForOption } = useDataSets()
 
 		return {
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			fontsListForOption
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getActiveElementOptionValue',
 			'getActivePseudoSelector',
-			'getFontListForOption'
 		]),
 		optionsSchema () {
 			const schema = {}
@@ -264,7 +265,7 @@ export default {
 			// Set data sources
 			if (typeof schema.data_source !== 'undefined') {
 				if (schema.data_source === 'fonts') {
-					schema.options = this.getFontListForOption
+					schema.options = this.fontsListForOption
 					delete schema.data_source
 				}
 			}

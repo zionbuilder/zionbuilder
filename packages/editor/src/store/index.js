@@ -4,7 +4,6 @@ import { createStore } from 'vuex'
 import main from './modules/main'
 import history from './modules/history'
 import pageContent from './modules/pageContent'
-import dataSets from './modules/dataSets'
 import interactions from './modules/interactions'
 import classes from './modules/classes'
 import templates from './modules/templates'
@@ -21,7 +20,6 @@ export const store = createStore({
 		main,
 		history,
 		pageContent,
-		dataSets,
 		interactions,
 		classes,
 		templates,

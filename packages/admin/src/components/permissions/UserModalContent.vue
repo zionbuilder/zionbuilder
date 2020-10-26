@@ -36,7 +36,7 @@
 			<div class="znpb-content-permission-wrapper">
 				<h4 class="znpb-single-role-modal-title">{{$translate('post_types')}}</h4>
 				<InputCheckboxGroup
-					:options="getPostTypes"
+					:options="dataSets.post_types"
 					v-model="postModel"
 					:min="0"
 					:disabled="allowConfig===false"
@@ -59,12 +59,20 @@
 <script>
 
 import { Tooltip, UpgradeToPro } from '@zionbuilder/components'
-import { useDataSets } from '@zionbuilder/models'
+import { useDataSets } from '@zb/components'
+
 export default {
 	name: 'UserModalContent',
 	components: {
 		UpgradeToPro,
 		Tooltip
+	},
+	setup() {
+		const { dataSets } = useDataSets()
+
+		return {
+			dataSets
+		}
 	},
 	props: {
 
@@ -73,16 +81,7 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {
-
-		}
-	},
 	computed: {
-		getPostTypes () {
-			const { getPostTypes } = useDataSets()
-			return getPostTypes()
-		},
 		isPro () {
 			return window.ZnPbAdminPageData.is_pro_active
 		},

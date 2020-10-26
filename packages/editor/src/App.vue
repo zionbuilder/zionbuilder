@@ -272,7 +272,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'initialiseDataSets',
 			'undo',
 			'redo',
 			'setIsSavingPage',
@@ -335,7 +334,6 @@ export default {
 		// 	this.loadedMainApp = true
 		// })
 		this.loadedMainApp = true
-		this.initialiseDataSets()
 		window.addEventListener('resize', this.onResize)
 	},
 	beforeUnmount: function () {

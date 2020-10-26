@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { useDataSets } from '@zb/components'
 
 export default {
 	name: 'IconsLibraryModalContent',
@@ -48,6 +48,13 @@ export default {
 		specialFilterPack: {
 			type: Array,
 			required: false
+		}
+	},
+	setup () {
+		const { dataSets } = useDataSets()
+
+		return {
+			dataSets
 		}
 	},
 	data () {
@@ -78,9 +85,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getIconsList'
-		]),
 		iconValue () {
 			return this.modelValue || {}
 		},
@@ -124,10 +128,10 @@ export default {
 				return this.specialFilterPack
 			}
 			if (this.activeCategory === 'all') {
-				return this.getIconsList
+				return this.dataSets.value.icons
 			} else {
 				let newArray = []
-				for (const pack of this.getIconsList) {
+				for (const pack of this.dataSets.value.icons) {
 					if (pack.id === this.activeCategory) {
 						newArray.push(pack)
 					}
@@ -143,7 +147,7 @@ export default {
 				}
 			]
 			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
-				this.getIconsList.forEach((pack) => {
+				this.dataSets.value.icons.forEach((pack) => {
 					let a = {
 						name: pack.name,
 						id: pack.id

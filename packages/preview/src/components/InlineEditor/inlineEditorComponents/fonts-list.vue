@@ -2,7 +2,7 @@
 	<div class=" ">
 		<ul class="zion-inline-editor__font-panel znpb-fancy-scrollbar">
 			<li
-				v-for="(font, i) in getFontListForOption"
+				v-for="(font, i) in fontsListForOption"
 				:key="i"
 				@click="changeFont(font.id, $event)"
 				class="zion-inline-editor__font-list-item"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-
+import { useDataSets } from '@zb/components'
 import { mapGetters } from 'vuex'
 export default {
 	inject: {
@@ -24,6 +24,13 @@ export default {
 			default () {
 				return {}
 			}
+		}
+	},
+	setup() {
+		const { fontsListForOption } = useDataSets()
+
+		return {
+			fontsListForOption
 		}
 	},
 	data: function () {
@@ -35,11 +42,6 @@ export default {
 	beforeMount: function () {
 		this.Editor.editor.on('NodeChange', this.onNodeChange)
 		this.getFontName(this.Editor.editor.selection.getNode())
-	},
-	computed: {
-		...mapGetters([
-			'getFontListForOption'
-		])
 	},
 	methods: {
 		isActive (fontName) {
