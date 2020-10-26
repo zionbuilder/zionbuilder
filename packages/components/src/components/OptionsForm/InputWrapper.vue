@@ -36,11 +36,6 @@
 			<Tooltip
 				v-if="schema.description"
 				placement="top"
-				:modifiers="{
-					preventOverflow: {
-						boundariesElement: 'viewport'
-					}
-				}"
 				:enterable="false"
 				class="znpb-popper-trigger znpb-popper-trigger--circle"
 				tooltip-class="znpb-form__input-description-tooltip"
@@ -64,7 +59,6 @@
 				append-to="element"
 				:trigger="null"
 				placement="bottom-end"
-				:modifiers="{ offset: {offset: '5px,5px' } }"
 				@show="openPseudo"
 				@hide="closePseudo"
 			>
@@ -96,7 +90,6 @@
 				append-to="element"
 				:trigger="null"
 				placement="bottom-end"
-				:modifiers="{ offset: {offset: '5px,5px' } }"
 				tooltip-class="znpb-has-responsive-options"
 				:close-on-outside-click="true"
 				@show="openResponsive"
@@ -104,7 +97,7 @@
 			>
 				<template #content>
 					<div
-						v-for="(device, index) in getDeviceList"
+						v-for="(device, index) in responsiveDevices"
 						:key='index'
 						@click="activateDevice(device)"
 						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
@@ -117,7 +110,7 @@
 					class="znpb-has-responsive-options__icon-button--trigger"
 					@click="showDevices=!showDevices"
 				>
-					<Icon :icon="getActiveDevice.icon" />
+					<Icon :icon="activeResponsiveDeviceInfo.icon" />
 				</div>
 
 			</Tooltip>
@@ -172,7 +165,7 @@ import { InputLabel } from '../InputLabel'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Injection } from '../Injection'
 import { trigger } from '@zionbuilder/hooks'
-import { useOptions, useOptionsSchemas } from '@data'
+import { useOptions, useOptionsSchemas, useResponsiveDevices } from '@data'
 
 export default {
 	name: 'InputWrapper',
@@ -230,9 +223,12 @@ export default {
 	},
 	setup (props) {
 		const { getSchema } = useOptionsSchemas()
+		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 
 		return {
-			getSchema
+			getSchema,
+			activeResponsiveDeviceInfo,
+			responsiveDevices
 		}
 	},
 	data () {
@@ -244,9 +240,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getActiveElementOptionValue',
-			'getActiveDevice',
-			'getDeviceList'
+			'getActiveElementOptionValue'
 		]),
 		isValidInput () {
 			return this.optionTypeConfig
@@ -291,7 +285,7 @@ export default {
 			return this.schema['label-align'] || null
 		},
 		activeResponsiveMedia () {
-			return this.getActiveDevice.id
+			return this.activeResponsiveDeviceInfo.id
 		},
 		savedOptionValue () {
 			let value = null

@@ -20,6 +20,7 @@
 import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
+import { useResponsiveDevices } from '@data'
 
 export default {
 	name: 'OptionsForm',
@@ -46,10 +47,16 @@ export default {
 			default: true
 		}
 	},
+	setup() {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+
+		return {
+			activeResponsiveDeviceInfo
+		}
+	},
 	computed: {
 		...mapGetters([
 			'getActiveElementOptionValue',
-			'getActiveDevice',
 			'getActivePseudoSelector',
 			'getFontListForOption'
 		]),
@@ -345,7 +352,7 @@ export default {
 		 * Replace %%RESPONSIVE_DEVICE%% constant with the element UID
 		 */
 		replaceResponsiveDevice (match) {
-			return this.getActiveDevice.id
+			return this.activeResponsiveDeviceInfo.id
 		},
 		/**
 		 * Replace %%PSEUDO_SELECTOR%% constant with the element UID

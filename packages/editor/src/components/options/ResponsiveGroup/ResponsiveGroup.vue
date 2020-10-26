@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { useResponsiveDevices } from '@zb/components'
+
 export default {
 	name: 'ResponsiveGroup',
 	showWrappers: false,
@@ -18,27 +19,32 @@ export default {
 			required: true
 		}
 	},
+	setup () {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+
+		return {
+			activeResponsiveDeviceInfo
+		}
+	},
+
 	data () {
 		return {
 			showWrappers: false
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getActiveDevice'
-		]),
 		valueModel: {
 			get () {
-				return (this.modelValue || {})[this.getActiveDevice.id] || {}
+				return (this.modelValue || {})[this.activeResponsiveDeviceInfo.id] || {}
 			},
 			set (newValue) {
 				const clonedValue = { ...this.modelValue }
 				// Check if we actually need to delete the option
-				if (newValue === null && typeof clonedValue[this.getActiveDevice.id]) {
+				if (newValue === null && typeof clonedValue[this.activeResponsiveDeviceInfo.id]) {
 					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[this.getActiveDevice.id]
+					delete clonedValue[this.activeResponsiveDeviceInfo.id]
 				} else {
-					clonedValue[this.getActiveDevice.id] = newValue
+					clonedValue[this.activeResponsiveDeviceInfo.id] = newValue
 				}
 
 				// Send the updated value back

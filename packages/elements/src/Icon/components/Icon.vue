@@ -22,15 +22,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
 	name: 'icon',
 	props: ['options', 'data', 'api'],
 	computed: {
-		...mapGetters([
-			'getActiveDevice'
-		]),
 		hasLink () {
 			return this.options.link && this.options.link.link && this.options.link.link !== ''
 		},

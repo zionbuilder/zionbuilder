@@ -104,6 +104,7 @@ import rafSchd from 'raf-schd'
 import { mapActions, mapGetters } from 'vuex'
 import { pageEvents } from '@zb/editor'
 import { useAddElementsPopup } from '@zb/editor'
+import { useResponsiveDevices } from '@zb/components'
 
 // Components
 import TopBarToolbox from './TopBarToolbox.vue'
@@ -137,6 +138,7 @@ export default {
 	setup (props) {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -146,7 +148,8 @@ export default {
 		return {
 			showColumnTemplates,
 			addElementsPopupButton,
-			toggleAddElementsPopup
+			toggleAddElementsPopup,
+			activeResponsiveDeviceInfo
 		}
 	},
 	data () {
@@ -213,7 +216,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementOptionValue',
-			'getActiveDevice',
 			'isDragging',
 			'getElementFocus'
 		]),
@@ -221,7 +223,7 @@ export default {
 		 * Returns the saved value for each property defaulting to actual size
 		 */
 		computedSavedValues () {
-			const savedValues = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.getActiveDevice.id}.default`, {})
+			const savedValues = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
 				paddingRight: savedValues[this.styleMap.paddingRight] || this.computedStyle.paddingRight,
@@ -395,7 +397,7 @@ export default {
 
 			this.updateElementOptionValue({
 				elementUid: this.data.uid,
-				path: `_styles.wrapper.styles.${this.getActiveDevice.id}.default.${activeDragCssProperty}`,
+				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
 				newValue: `${newValue}`
 			})
 
@@ -405,7 +407,7 @@ export default {
 
 				this.updateElementOptionValue({
 					elementUid: this.data.uid,
-					path: `_styles.wrapper.styles.${this.getActiveDevice.id}.default.${activeDragReversedCssProperty}`,
+					path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
 					newValue: `${newValue}`
 				})
 			}
@@ -492,7 +494,7 @@ export default {
 		},
 		getSizeValue (type) {
 			// Return min-height
-			let value = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.getActiveDevice.id}.default.${type}`)
+			let value = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
 			if (value !== null) {
 				return value
 			}
@@ -532,7 +534,7 @@ export default {
 
 			this.updateElementOptionValue({
 				elementUid: this.data.uid,
-				path: `_styles.wrapper.styles.${this.getActiveDevice.id}.default.${property}`,
+				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
 				newValue: `${newValue}px`
 			})
 

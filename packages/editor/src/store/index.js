@@ -2,7 +2,6 @@ import { createStore } from 'vuex'
 
 // Load modules
 import main from './modules/main'
-import devices from './modules/devices'
 import history from './modules/history'
 import pageContent from './modules/pageContent'
 import dataSets from './modules/dataSets'
@@ -20,7 +19,6 @@ const debug = process.env.NODE_ENV !== 'production'
 export const store = createStore({
 	modules: {
 		main,
-		devices,
 		history,
 		pageContent,
 		dataSets,

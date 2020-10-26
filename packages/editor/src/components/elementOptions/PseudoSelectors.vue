@@ -90,6 +90,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
 import { updateOptionValue } from '@zb/utils'
+import { useResponsiveDevices } from '@zb/components'
 
 export default {
 	name: 'PseudoSelectors',
@@ -102,11 +103,17 @@ export default {
 			required: false
 		}
 	},
+	setup () {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+
+		return {
+			activeResponsiveDeviceInfo
+		}
+	},
 	computed: {
 		...mapGetters([
 			'getActivePseudoSelector',
 			'getPseudoSelectors',
-			'getActiveDevice',
 			'isPro'
 		]),
 
@@ -138,7 +145,7 @@ export default {
 		},
 
 		activePseudoSelectors () {
-			return ((this.modelValue || {}) || {})[this.getActiveDevice.id] || {}
+			return ((this.modelValue || {}) || {})[this.actactiveResponsiveDeviceInfoue.id] || {}
 		},
 
 		activePseudoSelectorModel () {
@@ -154,7 +161,7 @@ export default {
 				return this.pseudoStyles.content || ''
 			},
 			set (newValue) {
-				const newValues = updateOptionValue(this.modelValue, `${this.getActiveDevice.id}.${this.activePseudoSelector.id}.content`, newValue)
+				const newValues = updateOptionValue(this.modelValue, `${this.actactiveResponsiveDeviceInfoue.id}.${this.activePseudoSelector.id}.content`, newValue)
 				$emit('update:modelValue', newValues)
 			}
 		},
@@ -261,15 +268,15 @@ export default {
 		deleteConfigForPseudoSelector (pseudoSelectorId) {
 			const newValues = {
 				...this.modelValue,
-				[this.getActiveDevice.id]: {
-					...this.modelValue[this.getActiveDevice.id]
+				[this.actactiveResponsiveDeviceInfoue.id]: {
+					...this.modelValue[this.actactiveResponsiveDeviceInfoue.id]
 				}
 			}
-			delete newValues[this.getActiveDevice.id][pseudoSelectorId]
+			delete newValues[this.actactiveResponsiveDeviceInfoue.id][pseudoSelectorId]
 
 			// Check if there are any remaining styles for this responsive device
-			if (Object.keys((newValues[this.getActiveDevice.id]) || {}).length === 0) {
-				delete newValues[this.getActiveDevice.id]
+			if (Object.keys((newValues[this.actactiveResponsiveDeviceInfoue.id]) || {}).length === 0) {
+				delete newValues[this.actactiveResponsiveDeviceInfoue.id]
 			}
 
 			this.$emit('update:modelValue', newValues)

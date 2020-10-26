@@ -22,8 +22,7 @@
 				>
 
 					<Icon
-						:icon="device"
-
+						:icon="activeResponsiveDeviceInfo.icon"
 					/>
 
 				</div>
@@ -44,7 +43,7 @@
 						@hide="closeresponsive" -->
 						<template v-slot:content>
 							<div
-								v-for="(device, index) in getDeviceList"
+								v-for="(device, index) in responsiveDevices"
 								:key='index'
 								@click="activateDevice(device)"
 								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
@@ -127,6 +126,8 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
 import PanelTree from './components/treeView/PanelTree.vue'
@@ -142,6 +143,7 @@ import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
 import { usePanels } from '@data'
+import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -163,10 +165,13 @@ export default {
 	mixins: [keyBindingsMixin],
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
+		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 
 		return {
 			panelPlaceholder,
-			openPanels
+			openPanels,
+			activeResponsiveDeviceInfo,
+			responsiveDevices
 		}
 	},
 	data: () => {
@@ -202,14 +207,9 @@ export default {
 			'getRightClickMenu',
 			'getElementFocus',
 			'getAllContent',
-			'getDeviceList',
-			'getActiveDevice',
 			'getStylesLoading',
 			'getMainbarPosition'
 		]),
-		device: function () {
-			return this.getActiveDevice.icon
-		},
 		areaContent () {
 			return this.getAllContent['content']
 		},

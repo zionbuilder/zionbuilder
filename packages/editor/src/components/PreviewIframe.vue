@@ -51,6 +51,7 @@ import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import { useTemplateParts, useElements } from '@data'
 import { usePreviewLoading } from '@data'
+import { useResponsiveDevices } from '@zb/components'
 
 export default {
 	name: 'preview-iframe',
@@ -62,10 +63,17 @@ export default {
 			iframeLoaded: false
 		}
 	},
+	setup () {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+
+		return {
+			activeResponsiveDeviceInfo
+		}
+	},
+
 	mixins: [keyBindingsMixin],
 	computed: {
 		...mapGetters([
-			'getActiveDevice',
 			'getPreviewFrameUrl',
 			'getIframePointerEvents',
 			'canUndo',
@@ -80,13 +88,13 @@ export default {
 		},
 		deviceStyle: function () {
 			let style = {}
-			if (this.getActiveDevice) {
-				if (this.getActiveDevice.isLandscape) {
-					style.width = this.getActiveDevice.height.value + this.getActiveDevice.height.unit
-					style.height = this.getActiveDevice.width.value + this.getActiveDevice.width.unit
+			if (this.activeResponsiveDeviceInfo) {
+				if (this.activeResponsiveDeviceInfo.isLandscape) {
+					style.width = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
+					style.height = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
 				} else {
-					style.width = this.getActiveDevice.width.value + this.getActiveDevice.width.unit
-					style.height = this.getActiveDevice.height.value + this.getActiveDevice.height.unit
+					style.width = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
+					style.height = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
 				}
 			}
 
@@ -102,7 +110,7 @@ export default {
 			return style
 		},
 		getWrapperClasses () {
-			return `znpb-editor-iframe-wrapper--${this.getActiveDevice.id}`
+			return `znpb-editor-iframe-wrapper--${this.activeResponsiveDeviceInfo.id}`
 		}
 	},
 	methods: {

@@ -57,6 +57,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { useResponsiveDevices } from '@zb/components'
 
 export default {
 	name: 'Background',
@@ -68,6 +69,14 @@ export default {
 	props: {
 		modelValue: {}
 	},
+	setup () {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+
+		return {
+			activeResponsiveDeviceInfo
+		}
+	},
+
 	data () {
 		return {
 			bgColorSchema: {
@@ -82,7 +91,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getActiveDevice',
 			'getActivePseudoSelector'
 		]),
 		valueModel: {
@@ -95,7 +103,7 @@ export default {
 		},
 		// only show bg video on desktop
 		canShowBackground () {
-			return this.getActiveDevice.id === 'default' && this.getActivePseudoSelector.id === 'default'
+			return this.activeResponsiveDeviceInfo.id === 'default' && this.getActivePseudoSelector.id === 'default'
 		}
 	},
 	methods: {

@@ -46,7 +46,7 @@
 					<Icon :icon="device" />
 				</template>
 				<FlyoutMenuItem
-					v-for="(deviceConfig, i) in getDeviceList"
+					v-for="(deviceConfig, i) in responsiveDevices"
 					v-bind:key="i"
 				>
 					<DeviceElement :device-config="deviceConfig" />
@@ -168,6 +168,7 @@ import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
 import { useTemplateParts, useSavePage, usePanels } from '@data'
 import { translate } from '@zb/i18n'
+import { useResponsiveDevices } from '@zb/components'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -200,6 +201,7 @@ export default {
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
 		const { togglePanel, openPanels } = usePanels()
+		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 
 		const saveActions = [
 			{
@@ -224,15 +226,15 @@ export default {
 			saveActions,
 			isSavePageLoading,
 			togglePanel,
-			openPanels
+			openPanels,
+			activeResponsiveDeviceInfo,
+			responsiveDevices
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getMainBarOrder',
 			'getMainBarPointerEvents',
-			'getDeviceList',
-			'getActiveDevice',
 			'getIsSavingPage',
 			'activeHistoryIndex',
 			'getPageContent',
@@ -287,10 +289,10 @@ export default {
 			return helpArray.filter(item => item.canShow !== false)
 		},
 		device: function () {
-			return this.getActiveDevice.icon
+			return this.activeResponsiveDeviceInfo.icon
 		},
 		orientation: function () {
-			return this.getActiveDevice.isLandscape && this.getActiveDevice.allowsLandscape
+			return this.activeResponsiveDeviceInfo.isLandscape && this.activeResponsiveDeviceInfo.allowsLandscape
 		},
 		getCssClasses () {
 			let classes = this.isDragging ? 'znpb-editor-panel__container--dragging ' : ''
