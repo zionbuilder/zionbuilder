@@ -2,7 +2,6 @@
 	<Tooltip
 		tooltip-class="hg-popper--no-padding"
 		trigger="click"
-		placement="right-center"
 		append-to="body"
 		ref="popper"
 		:modifiers="[
