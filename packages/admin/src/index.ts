@@ -53,13 +53,7 @@ errorInterceptor(errors)
 // Add default routes
 initRoutes()
 
-const router = createRouter({
-	// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-	history: createWebHashHistory(),
-	routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-})
 
-appInstance.use(router)
 
 // Trigger event so others can hook into ZionBuilder API
 const evt = new CustomEvent('zionbuilder/admin/init', {
@@ -67,6 +61,13 @@ const evt = new CustomEvent('zionbuilder/admin/init', {
 })
 
 window.dispatchEvent(evt)
+const router = createRouter({
+	// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+	history: createWebHashHistory(),
+	routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+})
+
+appInstance.use(router)
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 appInstance.mount('#znpb-admin')
 
