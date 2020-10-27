@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
-import { usePanels } from '@data'
+import { usePanels, usePrevieMode } from '@data'
 
 let copiedStyles = {}
 let openedPanels = []
@@ -19,19 +19,20 @@ export default {
 			'canUndo',
 			'canRedo',
 			'getCopiedElement',
-			'isPreviewMode',
 			'getCuttedElement',
 			'getEditPageUrl'
 		])
 	},
 	setup (props) {
 		const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
+		const { isPreviewMode } = usePrevieMode()
 
 		return {
 			openPanel,
 			closePanel,
 			openPanels,
-			togglePanel
+			togglePanel,
+			isPreviewMode
 		}
 	},
 	watch: {
@@ -55,7 +56,7 @@ export default {
 			if (!newValue.length) {
 				this.isPanelElementOptionsOpen = false
 			}
-			if (!this.isPreviewMode) {
+			if (!this.isPreviewMode.value) {
 				openedPanels = this.openPanels.map((panel) => {
 					return panel.id
 				})
@@ -176,12 +177,12 @@ export default {
 
 			// Set preview mode
 			if (e.which === 80 && e.ctrlKey) {
-				this.setPreviewMode(!this.isPreviewMode)
+				this.setPreviewMode(!this.isPreviewMode.value)
 				e.preventDefault()
 			}
 
 			// Keys bellow don't run in preview mode
-			if (this.isPreviewMode) {
+			if (this.isPreviewMode.value) {
 				return
 			}
 

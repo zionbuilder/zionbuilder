@@ -361,7 +361,6 @@ export default {
 		...mapActions([
 			'setIframePointerEvents',
 			'setMainBarPointerEvents',
-			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup',
 			'setActiveElement',
 			'savePage',

@@ -23,7 +23,7 @@ import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
 import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses } from '@zb/editor'
+import { useElements, useCSSClasses, usePrevieMode } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -39,12 +39,14 @@ export default {
 		const showExportModal = ref(false)
 		const { getSchema } = useOptionsSchemas()
 		const { CSSClasses } = useCSSClasses()
+		const { isPreviewMode } = usePrevieMode()
 
 		return {
 			element,
 			showExportModal,
 			getSchema,
-			CSSClasses
+			CSSClasses,
+			isPreviewMode
 		}
 	},
 
@@ -54,7 +56,6 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'isPreviewMode',
 			'getPageSettings'
 		])
 	},

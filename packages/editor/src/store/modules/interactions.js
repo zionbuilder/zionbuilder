@@ -49,15 +49,9 @@ const state = {
 }
 
 const getters = {
-	getActiveShowElementsPopup: state => state.activeShowAddElementsPopup,
 	isDragging: state => state.isDragging,
-	shouldOpenAddElementsPopup: state => state.shouldOpenAddElementsPopup,
-	getIsSavingPage: state => state.isSavingPage,
-	isPreviewMode: state => state.isPreviewMode,
-	getPseudoSelectors: state => state.pseudoSelectors,
 	getActivePseudoSelector: state => state.activePseudoSelector || state.pseudoSelectors[0],
 	getElementFocus: state => state.elementFocus
-
 }
 
 const actions = {

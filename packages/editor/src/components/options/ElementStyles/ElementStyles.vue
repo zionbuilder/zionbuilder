@@ -21,19 +21,22 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
 import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
 import { useOptionsSchemas } from '@zb/components'
+import { useCSSClasses } from '@data'
 
 export default {
 	name: 'ElementStyles',
 	props: ['modelValue', 'title', 'selector'],
 	setup() {
 		const { getSchema } = useOptionsSchemas()
+		const { getClassConfig, updateCSSClass } = useCSSClasses()
 
 		return {
-			getSchema
+			getSchema,
+			getClassConfig,
+			updateCSSClass
 		}
 	},
 	data () {
@@ -46,9 +49,6 @@ export default {
 		ClassSelectorDropdown
 	},
 	computed: {
-		...mapGetters([
-			'getClassConfig'
-		]),
 		computedClasses: {
 			get () {
 				return this.modelValue.classes || []
@@ -77,7 +77,7 @@ export default {
 			},
 			set (newValues) {
 				if (this.activeClass !== this.selector) {
-					this.updateClassSettings({
+					this.updateCSSClass({
 						classId: this.activeClass,
 						newValues: {
 							style: newValues
@@ -90,9 +90,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'updateClassSettings'
-		]),
 		updateValues (type, newValue) {
 			const clonedValue = { ...this.modelValue }
 			if (newValue === null && typeof clonedValue[type]) {

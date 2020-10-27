@@ -48,7 +48,6 @@
 
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
 import { useCSSClasses } from '@data'
@@ -61,16 +60,16 @@ export default {
 		SingleClassOptions
 	},
 	setup() {
-		const { CSSClasses } = useCSSClasses()
+		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass } = useCSSClasses()
 
 		return {
-			CSSClasses
+			CSSClasses,
+			removeCSSClass,
+			getClassesByFilter,
+			updateCSSClass
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getClassesByFilter'
-		]),
 		filteredClasses () {
 			if (this.keyword.length === 0) {
 				return this.CSSClasses.value
@@ -90,11 +89,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'removeClass',
-			'editClass',
-			'updateClassSettings'
-		]),
 		onItemSelected () {
 			this.breadCrumbConfig.title = this.activeClass.name
 			this.parentAccordion.addBreadcrumb(this.breadCrumbConfig)
@@ -104,7 +98,7 @@ export default {
 			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
 		},
 		deleteClass (classItem) {
-			this.removeClass(classItem)
+			this.removeCSSClass(classItem)
 		},
 		saveClass (newValues) {
 			this.updateClassSettings({

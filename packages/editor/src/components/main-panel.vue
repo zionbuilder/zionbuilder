@@ -235,7 +235,6 @@ export default {
 		...mapGetters([
 			'getMainBarOrder',
 			'getMainBarPointerEvents',
-			'getIsSavingPage',
 			'activeHistoryIndex',
 			'getPageContent',
 			'getEditPageUrl',

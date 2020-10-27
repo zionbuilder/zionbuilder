@@ -142,7 +142,7 @@ import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels } from '@data'
+import { usePanels, usePrevieMode } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -166,13 +166,15 @@ export default {
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
+		const { isPreviewMode } = usePrevieMode()
 
 		return {
 			panelPlaceholder,
 			openPanels,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setActiveResponsiveDeviceId
+			setActiveResponsiveDeviceId,
+			isPreviewMode
 		}
 	},
 	data: () => {
@@ -204,7 +206,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getErrors',
-			'isPreviewMode',
 			'getRightClickMenu',
 			'getElementFocus',
 			'getAllContent',
@@ -230,7 +231,7 @@ export default {
 			return null
 		},
 		rightClickVisibility () {
-			return !this.isPreviewMode && this.getRightClickMenu && this.getRightClickMenu.visibility && this.getElementFocus
+			return !this.isPreviewMode.value && this.getRightClickMenu && this.getRightClickMenu.visibility && this.getElementFocus
 		},
 		showEditorTransition: function () {
 			if (this.getMainbarPosition === 'left') {

@@ -105,20 +105,51 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const pseudoSelectors = [
+			{
+				name: 'default',
+				id: 'default'
+			},
+			{
+				name: ':hover',
+				id: ':hover'
+			},
+			{
+				name: ':before',
+				id: ':before'
+			},
+			{
+				name: ':after',
+				id: ':after'
+			},
+			{
+				name: ':active',
+				id: ':active'
+			},
+			{
+				name: ':focus',
+				id: ':focus'
+			},
+			{
+				name: ':custom',
+				id: 'custom'
+			}
+		]
+
 
 		return {
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			pseudoSelectors
 		}
 	},
 	computed: {
 		...mapGetters([
 			'getActivePseudoSelector',
-			'getPseudoSelectors',
 			'isPro'
 		]),
 
 		pseudoSelectors () {
-			return this.getPseudoSelectors.map((selectorConfig) => {
+			return this.pseudoSelectors.map((selectorConfig) => {
 				const returnedSelector = {
 					...selectorConfig,
 					active: true

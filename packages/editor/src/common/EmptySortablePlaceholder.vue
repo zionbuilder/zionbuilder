@@ -41,32 +41,13 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'shouldOpenAddElementsPopup',
 			'getElementFocus',
-			'getActiveShowElementsPopup'
 		])
-	},
-	watch: {
-		getActiveShowElementsPopup (newValue, oldValue) {
-			if (this.element) {
-				this.showColumnTemplates.value = newValue === this.element.uid
-			}
-		}
 	},
 	methods: {
 		...mapActions([
-			'setShouldOpenAddElementsPopup',
 			'setActiveShowElementsPopup'
 		])
-	},
-	mounted () {
-		if (this.shouldOpenAddElementsPopup) {
-			// Use a timeout because the pop-up triggers a clickoutside event and hides the tooltip
-			setTimeout(() => {
-				this.showColumnTemplates.value = true
-				this.setShouldOpenAddElementsPopup(false)
-			}, 10)
-		}
 	}
 }
 </script>

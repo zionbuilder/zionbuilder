@@ -19,7 +19,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import BasePanel from './BasePanel.vue'
-import { usePanels } from '@data'
+import { usePanels, useCSSClasses } from '@data'
 import { useOptionsSchema } from '@zb/components'
 
 export default {
@@ -30,10 +30,12 @@ export default {
 	setup() {
 		const { closePanel } = usePanels()
 		const { getSchema } = useOptionsSchema()
+		const { getClassesByFilter } = useCSSClasses()
 
 		return {
 			closePanel,
-			getSchema
+			getSchema,
+			getClassesByFilter
 		}
 	},
 	computed: {
