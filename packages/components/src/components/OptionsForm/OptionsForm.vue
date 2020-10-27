@@ -21,7 +21,7 @@ import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
 import { useResponsiveDevices, useDataSets } from '@data'
-
+import { provide } from 'vue'
 export default {
 	name: 'OptionsForm',
 	provide () {
@@ -47,13 +47,27 @@ export default {
 			default: true
 		}
 	},
-	setup() {
+	setup(props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
 
+		function updateValueByPath (path, newValue) {
+			const updatedValues = updateOptionValue(props.modelValue, path, newValue)
+			emit('update:modelValue', updatedValues)
+		}
+
+		function getValueByPath (path, defaultValue = null) {
+			return getOptionValue(props.modelValue, path, defaultValue)
+		}
+
+		provide('updateValueByPath', updateValueByPath)
+		provide('getValueByPath', getValueByPath)
+
 		return {
 			activeResponsiveDeviceInfo,
-			fontsListForOption
+			fontsListForOption,
+			updateValueByPath,
+			getValueByPath
 		}
 	},
 	computed: {
@@ -125,14 +139,7 @@ export default {
 		InputWrapper
 	},
 	methods: {
-		getValueByPath (path, defaultValue = null) {
-			return getOptionValue(this.modelValue, path, defaultValue)
-		},
-		updateValueByPath (path, newValue) {
-			const updatedValues = updateOptionValue(this.modelValue, path, newValue)
 
-			this.$emit('update:modelValue', updatedValues)
-		},
 		setValue (optionId, newValue) {
 			let newValueToSend
 
