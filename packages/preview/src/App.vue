@@ -7,7 +7,7 @@
 		/>
 <!--
 		<PageStyles
-			:css-classes="getClasses"
+			:css-classes="CSSClasses"
 			:page-settings-model="getPageSettings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/>
@@ -23,7 +23,7 @@ import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import { on } from '@zb/hooks'
 import SortableContent from './components/SortableContent.vue'
-import { useElements } from '@zb/editor'
+import { useElements, useCSSClasses } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -38,11 +38,13 @@ export default {
 		const element = computed(() => getElement('content'))
 		const showExportModal = ref(false)
 		const { getSchema } = useOptionsSchemas()
+		const { CSSClasses } = useCSSClasses()
 
 		return {
 			element,
 			showExportModal,
-			getSchema
+			getSchema,
+			CSSClasses
 		}
 	},
 
@@ -53,7 +55,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'isPreviewMode',
-			'getClasses',
 			'getPageSettings'
 		])
 	},

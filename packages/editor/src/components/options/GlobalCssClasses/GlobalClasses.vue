@@ -51,6 +51,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
+import { useCSSClasses } from '@data'
 
 export default {
 	name: 'GlobalClasses',
@@ -59,14 +60,20 @@ export default {
 		SingleClass,
 		SingleClassOptions
 	},
+	setup() {
+		const { CSSClasses } = useCSSClasses()
+
+		return {
+			CSSClasses
+		}
+	},
 	computed: {
 		...mapGetters([
-			'getClassesByFilter',
-			'getClasses'
+			'getClassesByFilter'
 		]),
 		filteredClasses () {
 			if (this.keyword.length === 0) {
-				return this.getClasses
+				return this.CSSClasses.value
 			} else {
 				return this.getClassesByFilter(this.keyword)
 			}

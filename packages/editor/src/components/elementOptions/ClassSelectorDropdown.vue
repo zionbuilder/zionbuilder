@@ -75,6 +75,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import CssSelector from './CssSelector.vue'
+import { useCSSClasses } from '@data'
 
 export default {
 	name: 'ClassSelectorDropdown',
@@ -94,6 +95,13 @@ export default {
 			required: true
 		}
 	},
+	setup() {
+		const { CSSClasses } = useCSSClasses()
+
+		return {
+			CSSClasses
+		}
+	},
 	data () {
 		return {
 			dropdownState: false,
@@ -108,8 +116,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getClassesByFilter',
-			'getClasses'
+			'getClassesByFilter'
 		]),
 		computedValue: {
 			get () {
@@ -277,7 +284,7 @@ export default {
 				this.dropdownState = false
 
 				// check if the class already exists
-				const existingClass = Object.values(this.getClasses).find(classItem => {
+				const existingClass = Object.values(this.CSSClasses.value).find(classItem => {
 					return classItem.name.toLowerCase() === this.keyword
 				})
 

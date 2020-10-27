@@ -5,7 +5,6 @@ const state = {
 }
 
 const getters = {
-	getClasses: state => state.classes,
 	getClassesByFilter: (state) => (keyword) => {
 		const keyToLower = keyword.toLowerCase()
 		return state.classes.filter(className => className.name.toLowerCase().indexOf(keyToLower) !== -1 || className.id.toLowerCase().indexOf(keyToLower) !== -1)
@@ -18,9 +17,6 @@ const getters = {
 }
 
 const actions = {
-	setActiveClass: ({ commit, state }, activeClass) => {
-		commit(types.SET_ACTIVE_CSS_CLASS, activeClass)
-	},
 	addClass: ({ commit, state }, cssClass) => {
 		commit(types.ADD_CSS_CLASS, cssClass)
 	},

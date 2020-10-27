@@ -13,4 +13,4 @@ export * from './useElementFocus'
 export * from './usePreviewMode'
 export * from './usePanels'
 export * from './useEditElement'
-
+export * from './useCSSClasses'
