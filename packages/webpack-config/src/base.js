@@ -17,7 +17,7 @@ module.exports = () => {
 				{
 					test: /\.tsx?$/,
 					exclude: /node_modules/,
-					loader: "ts-loader",
+					loader: require.resolve('ts-loader'),
 					options: {
 						appendTsSuffixTo: [/\.vue$/],
 						transpileOnly: true,
@@ -26,8 +26,13 @@ module.exports = () => {
 				// Fix browser errors for packaged source maps
 				{
 					test: /\.js$/,
-					enforce: 'pre',
-					use: ['source-map-loader'],
+					use: [
+						{
+							loader: require.resolve('source-map-loader')
+						}
+					]
+
+
 				},
 			],
 		},

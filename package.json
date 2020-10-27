@@ -5,10 +5,10 @@
 		"email": "hello@zionbuilder.io",
 		"url": "https://zionbuilder.io"
 	},
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"private": true,
 	"scripts": {
-		"publish:packages": "lerna run build && lerna publish",
+		"publish:packages": "lerna publish",
 		"publish": "yarn run publish:packages",
 		"dev:packages": "lerna run dev",
 		"dev": "webpack --watch --mode=development",

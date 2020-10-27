@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/tsconfig",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Base TypeScript config file for Zion Builder core and plugins",
 	"author": "zionbuilder.io",
 	"license": "MIT",

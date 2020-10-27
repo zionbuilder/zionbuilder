@@ -1,7 +1,6 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 module.exports = (config) => {
 	const customLoaderOptions = (config.css || {}).loaderOptions || {}
+	const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 	return {
 		plugins: [
@@ -17,7 +16,7 @@ module.exports = (config) => {
 				test: /\.s[ac]ss$/i,
 				use: [
 					{
-						loader: MiniCssExtractPlugin.loader,
+						loader: require('mini-css-extract-plugin').loader,
 						options: {
 							hmr: true
 						}
@@ -25,7 +24,9 @@ module.exports = (config) => {
 					// Creates `style` nodes from JS strings
 					// 'style-loader',
 					// Translates CSS into CommonJS
-					'css-loader',
+					{
+						loader: require.resolve('css-loader')
+					},
 					// Compiles Sass to CSS
 					{
 						loader: 'sass-loader',
