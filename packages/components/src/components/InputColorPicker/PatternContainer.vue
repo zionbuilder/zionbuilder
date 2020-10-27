@@ -93,7 +93,7 @@ export default {
 		const $zb = inject('$zb')
 		const getValueByPath = inject('getValueByPath')
 		const updateValueByPath = inject('updateValueByPath')
-		const inputWrapper = inject('inputWrapper')
+		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
 		let localColorPatterns =  computed(() => {
@@ -104,9 +104,8 @@ export default {
 			})
 
 		let selectedGlobalColor =  computed(() => {
-			const { id } = inputWrapper.schema
+			const { id } = schema
 			const { options = {} } = getValueByPath(`__dynamic_content__.${id}`, {})
-
 			return options.color_id
 		})
 
@@ -125,7 +124,7 @@ export default {
 		}
 
 		function onGlobalColorSelected (colorConfig) {
-			const { id } = inputWrapper.schema
+			const { id } = schema
 
 			updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-color',

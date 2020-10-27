@@ -35,7 +35,6 @@
 <script>
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Icon } from '../Icon'
-
 export default {
 	name: 'InputWrapper',
 	components: {
@@ -77,9 +76,6 @@ export default {
 			type: Object,
 			required: false
 		}
-	},
-	data () {
-		return {}
 	},
 	computed: {
 		computedWrapperStyle () {

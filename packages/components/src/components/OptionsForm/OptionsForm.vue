@@ -51,12 +51,12 @@ export default {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
 
-		function updateValueByPath (path, newValue) {
+		const updateValueByPath = (path, newValue) => {
 			const updatedValues = updateOptionValue(props.modelValue, path, newValue)
 			emit('update:modelValue', updatedValues)
 		}
 
-		function getValueByPath (path, defaultValue = null) {
+		const getValueByPath = (path, defaultValue = null) =>  {
 			return getOptionValue(props.modelValue, path, defaultValue)
 		}
 
