@@ -166,7 +166,7 @@ import { Tooltip } from '@zionbuilder/tooltip'
 import { Injection } from '../Injection'
 import { trigger } from '@zionbuilder/hooks'
 import { useOptions, useOptionsSchemas, useResponsiveDevices } from '@data'
-
+import { provide, readonly, toRef } from 'vue'
 export default {
 	name: 'InputWrapper',
 	provide () {
@@ -224,7 +224,9 @@ export default {
 	setup (props) {
 		const { getSchema } = useOptionsSchemas()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
+		const localSchema = toRef(props, 'schema')
 
+		provide('schema', readonly(localSchema.value))
 		return {
 			getSchema,
 			activeResponsiveDeviceInfo,

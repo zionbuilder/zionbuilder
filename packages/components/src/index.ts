@@ -125,12 +125,6 @@ const components = [
 const install = (app: App) => {
 	components.forEach(component => {
 		app.component(component.name, component);
-		app.config.globalProperties.$zb = {
-			options
-		}
-		app.provide('$zb', app.config.globalProperties.$zb)
-		app.provide('inputWrapper', InputWrapper)
-		app.provide('optionsForm', OptionsForm)
 	});
 }
 

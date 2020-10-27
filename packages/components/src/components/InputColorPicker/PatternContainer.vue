@@ -91,8 +91,9 @@ export default {
 	},
 	setup (props) {
 		const $zb = inject('$zb')
-		const optionsForm = inject('optionsForm')
-		const inputWrapper = inject('inputWrapper')
+		const getValueByPath = inject('getValueByPath')
+		const updateValueByPath = inject('updateValueByPath')
+		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
 		let localColorPatterns =  computed(() => {
@@ -103,9 +104,8 @@ export default {
 			})
 
 		let selectedGlobalColor =  computed(() => {
-			const { id } = inputWrapper.schema
-			const { options = {} } = optionsForm.getValueByPath(`__dynamic_content__.${id}`, {})
-
+			const { id } = schema
+			const { options = {} } = getValueByPath(`__dynamic_content__.${id}`, {})
 			return options.color_id
 		})
 
@@ -124,9 +124,9 @@ export default {
 		}
 
 		function onGlobalColorSelected (colorConfig) {
-			const { id } = inputWrapper.schema
+			const { id } = schema
 
-			optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+			updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-color',
 				options: {
 					color_id: colorConfig.id
@@ -139,7 +139,6 @@ export default {
 			globalColorPatterns,
 			onGlobalColorSelected,
 			addGlobal,
-			onAddLocalColor,
 			showPresetInput,
 			selectedGlobalColor,
 			activeTab,
