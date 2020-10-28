@@ -336,7 +336,6 @@ export default {
 		window.removeEventListener('resize', this.onResize)
 	},
 	mounted () {
-		console.log(this.applyShortcuts);
 		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
 		this.$zb.errors.add({

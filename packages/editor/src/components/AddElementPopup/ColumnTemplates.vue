@@ -30,7 +30,7 @@
 				/>
 			</Tab>
 			<Tab name="Library">
-				<!-- <Icon
+				<Icon
 					icon="library-illustration"
 					class="znpb-columns-templates__library-img"
 				/>

@@ -141,6 +141,7 @@ export default {
 			.znpb-wrapper-category {
 				align-items: center;
 				max-height: 321px;
+				padding-top: 20px;
 				& > div {
 					width: 100%;
 				}
