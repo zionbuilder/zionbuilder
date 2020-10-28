@@ -50,7 +50,6 @@ const state = {
 
 const getters = {
 	isDragging: state => state.isDragging,
-	getActivePseudoSelector: state => state.activePseudoSelector || state.pseudoSelectors[0],
 	getElementFocus: state => state.elementFocus
 }
 

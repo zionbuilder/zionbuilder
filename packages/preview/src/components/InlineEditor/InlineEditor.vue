@@ -189,7 +189,7 @@ import colorPicker from './inlineEditorComponents/colorPicker.vue'
 import fontWeight from './inlineEditorComponents/fontWeightButton.vue'
 import panelLink from './inlineEditorComponents/panelLink.vue'
 import editorsManager from './editorsManager'
-import { usePrevieMode } from '@zb/editor'
+import { usePreviewMode } from '@zb/editor'
 
 export default {
 	name: 'InlineEditor',
@@ -220,7 +220,7 @@ export default {
 		}
 	},
 	setup() {
-		const { isPreviewMode } = usePrevieMode()
+		const { isPreviewMode } = usePreviewMode()
 
 		return {
 			isPreviewMode

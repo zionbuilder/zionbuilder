@@ -56,8 +56,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { useResponsiveDevices } from '@zb/components'
+import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 
 export default {
 	name: 'Background',
@@ -71,9 +70,11 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { activePseudoSelector } = usePseudoSelectors()
 
 		return {
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			activePseudoSelector
 		}
 	},
 
@@ -90,9 +91,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getActivePseudoSelector'
-		]),
 		valueModel: {
 			get () {
 				return this.modelValue || {}
@@ -103,7 +101,7 @@ export default {
 		},
 		// only show bg video on desktop
 		canShowBackground () {
-			return this.activeResponsiveDeviceInfo.id === 'default' && this.getActivePseudoSelector.id === 'default'
+			return this.activeResponsiveDeviceInfo.id === 'default' && this.activePseudoSelector.value.id === 'default'
 		}
 	},
 	methods: {

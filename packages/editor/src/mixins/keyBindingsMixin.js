@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
-import { usePanels, usePrevieMode } from '@data'
+import { usePanels, usePreviewMode } from '@data'
 
 let copiedStyles = {}
 let openedPanels = []
@@ -25,7 +25,7 @@ export default {
 	},
 	setup (props) {
 		const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
-		const { isPreviewMode } = usePrevieMode()
+		const { isPreviewMode } = usePreviewMode()
 
 		return {
 			openPanel,

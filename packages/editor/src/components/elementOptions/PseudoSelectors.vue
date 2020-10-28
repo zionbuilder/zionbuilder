@@ -90,7 +90,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
 import { updateOptionValue } from '@zb/utils'
-import { useResponsiveDevices } from '@zb/components'
+import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 
 export default {
 	name: 'PseudoSelectors',
@@ -105,46 +105,16 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const pseudoSelectors = [
-			{
-				name: 'default',
-				id: 'default'
-			},
-			{
-				name: ':hover',
-				id: ':hover'
-			},
-			{
-				name: ':before',
-				id: ':before'
-			},
-			{
-				name: ':after',
-				id: ':after'
-			},
-			{
-				name: ':active',
-				id: ':active'
-			},
-			{
-				name: ':focus',
-				id: ':focus'
-			},
-			{
-				name: ':custom',
-				id: 'custom'
-			}
-		]
-
+		const { pseudoSelectors, activePseudoSelector } = usePseudoSelectors()
 
 		return {
 			activeResponsiveDeviceInfo,
-			pseudoSelectors
+			pseudoSelectors,
+			activePseudoSelector
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getActivePseudoSelector',
 			'isPro'
 		]),
 
@@ -172,7 +142,7 @@ export default {
 		},
 
 		activePseudoSelector () {
-			return this.getActivePseudoSelector
+			return this.activePseudoSelector.value
 		},
 
 		activePseudoSelectors () {
@@ -266,10 +236,10 @@ export default {
 			this.selectorIsOpen = false
 
 			await this.setActivePseudoSelector(pseudoConfig)
-			if (this.activePseudoSelector.id === 'custom') {
+			if (this.activePseudoSelector.value.id === 'custom') {
 				this.newPseudoName = true
 			}
-			if (this.pseudoContentModel === '' && (this.getActivePseudoSelector.id === 'before' || this.getActivePseudoSelector.id === 'after')) {
+			if (this.pseudoContentModel === '' && (this.activePseudoSelector.value.id === 'before' || this.activePseudoSelector.value.id === 'after')) {
 				this.showContentTooltip = false
 				this.contentOpen = true
 			}

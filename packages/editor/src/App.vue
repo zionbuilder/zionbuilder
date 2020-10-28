@@ -142,7 +142,7 @@ import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePrevieMode } from '@data'
+import { usePanels, usePreviewMode } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -166,7 +166,7 @@ export default {
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
-		const { isPreviewMode } = usePrevieMode()
+		const { isPreviewMode } = usePreviewMode()
 
 		return {
 			panelPlaceholder,
