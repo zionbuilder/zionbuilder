@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
+
 export default {
 	name: 'PseudoGroup',
 	props: {
@@ -20,25 +21,29 @@ export default {
 			type: Boolean
 		}
 	},
+	setup() {
+		const { activePseudoSelector } = usePseudoSelectors()
+
+		return {
+			activePseudoSelector
+		}
+	},
 	computed: {
-		...mapGetters([
-			'getActivePseudoSelector'
-		]),
 		optionId () {
 			return this.$parent.optionId
 		},
 		valueModel: {
 			get () {
-				return (this.modelValue || {})[this.getActivePseudoSelector.id] || {}
+				return (this.modelValue || {})[this.activePseudoSelector.value.id] || {}
 			},
 			set (newValue) {
 				const clonedValue = { ...this.modelValue }
 				// Check if we actually need to delete the option
-				if (newValue === null && typeof clonedValue[this.getActivePseudoSelector.id]) {
+				if (newValue === null && typeof clonedValue[this.activePseudoSelector.value.id]) {
 					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[this.getActivePseudoSelector.id]
+					delete clonedValue[this.activePseudoSelector.value.id]
 				} else {
-					clonedValue[this.getActivePseudoSelector.id] = newValue
+					clonedValue[this.activePseudoSelector.value.id] = newValue
 				}
 
 				// Send the updated value back

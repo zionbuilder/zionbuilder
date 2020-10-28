@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import CssSelector from './CssSelector.vue'
 import { useCSSClasses } from '@data'
 
@@ -96,10 +95,12 @@ export default {
 		}
 	},
 	setup() {
-		const { CSSClasses } = useCSSClasses()
+		const { CSSClasses, getClassesByFilter, addCSSClass } = useCSSClasses()
 
 		return {
-			CSSClasses
+			CSSClasses,
+			getClassesByFilter,
+			addCSSClass
 		}
 	},
 	data () {
@@ -115,9 +116,6 @@ export default {
 		CssSelector
 	},
 	computed: {
-		...mapGetters([
-			'getClassesByFilter'
-		]),
 		computedValue: {
 			get () {
 				return this.modelValue
@@ -192,9 +190,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'addClass'
-		]),
 		onKeyDown (event) {
 			let nextClass
 
@@ -289,7 +284,7 @@ export default {
 				})
 
 				if (!existingClass) {
-					this.addClass(this.keyword)
+					this.addCSSClass(this.keyword)
 				}
 
 				// Add css class to element options

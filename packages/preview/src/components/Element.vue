@@ -220,7 +220,6 @@ export default {
 			'getElementOptionValue',
 			'getElementFocus',
 			'getElementById',
-			'isPreviewMode',
 			'getRightClickMenu',
 			'getCuttedElement'
 		]),
@@ -273,13 +272,13 @@ export default {
 			}
 		},
 		canShowToolbox () {
-			return this.element.isVisible && this.showToolbox && !this.isPreviewMode && !this.element.elementTypeModel.is_child
+			return this.element.isVisible && this.showToolbox && !this.isPreviewMode.value && !this.element.elementTypeModel.is_child
 		},
 		shouldScrollIntoView () {
 			return this.getElementFocus && this.getElementFocus.uid === this.element.uid && this.getElementFocus.scrollIntoView
 		},
 		canShowElement () {
-			if (this.isPreviewMode) {
+			if (this.isPreviewMode.value) {
 				return !(this.element.options._isVisible === false)
 			}
 			return true
@@ -461,7 +460,7 @@ export default {
 		editElement (event) {
 			event.stopPropagation()
 
-			if (!this.isPreviewMode) {
+			if (!this.isPreviewMode.value) {
 				this.setActiveElement(this.element.uid)
 				this.openPanel('PanelElementOptions')
 

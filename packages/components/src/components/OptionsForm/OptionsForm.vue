@@ -20,7 +20,7 @@
 import InputWrapper from './InputWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
-import { useResponsiveDevices, useDataSets } from '@data'
+import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@data'
 import { provide } from 'vue'
 export default {
 	name: 'OptionsForm',
@@ -50,6 +50,7 @@ export default {
 	setup(props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
+		const { activePseudoSelector } = usePseudoSelectors()
 
 		const updateValueByPath = (path, newValue) => {
 			const updatedValues = updateOptionValue(props.modelValue, path, newValue)
@@ -67,13 +68,13 @@ export default {
 			activeResponsiveDeviceInfo,
 			fontsListForOption,
 			updateValueByPath,
-			getValueByPath
+			getValueByPath,
+			activePseudoSelector
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getActiveElementOptionValue',
-			'getActivePseudoSelector',
+			'getActiveElementOptionValue'
 		]),
 		optionsSchema () {
 			const schema = {}
@@ -366,7 +367,7 @@ export default {
 		 * Replace %%PSEUDO_SELECTOR%% constant with the element UID
 		 */
 		replacePseudoSelector (match) {
-			return this.getActivePseudoSelector.id
+			return this.activePseudoSelector.value.id
 		}
 
 	}

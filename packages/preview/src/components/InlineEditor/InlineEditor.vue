@@ -189,6 +189,7 @@ import colorPicker from './inlineEditorComponents/colorPicker.vue'
 import fontWeight from './inlineEditorComponents/fontWeightButton.vue'
 import panelLink from './inlineEditorComponents/panelLink.vue'
 import editorsManager from './editorsManager'
+import { usePreviewMode } from '@zb/editor'
 
 export default {
 	name: 'InlineEditor',
@@ -216,6 +217,13 @@ export default {
 		forcedRootNode: {
 			type: [Boolean, String],
 			default: 'p'
+		}
+	},
+	setup() {
+		const { isPreviewMode } = usePreviewMode()
+
+		return {
+			isPreviewMode
 		}
 	},
 	data () {
@@ -264,9 +272,6 @@ export default {
 	},
 
 	computed: {
-		...mapGetters([
-			'isPreviewMode'
-		]),
 		uid () {
 			return this.$parent.data.uid
 		},
@@ -277,7 +282,7 @@ export default {
 			return `znpbwpeditor${this._uid}`
 		},
 		canShowEditor () {
-			return this.isInlineEditorVisible && this.tinyMceReady && !this.isPreviewMode
+			return this.isInlineEditorVisible && this.tinyMceReady && !this.isPreviewMode.value
 		},
 		content: {
 			get () {
@@ -335,7 +340,7 @@ export default {
 			}
 		},
 		onMouseDown () {
-			if (!this.isInlineEditorVisible && !this.isPreviewMode) {
+			if (!this.isInlineEditorVisible && !this.isPreviewMode.value) {
 				this.showEditor()
 			}
 		},
@@ -366,7 +371,7 @@ export default {
 			this.isInlineEditorVisible = false
 		},
 		showEditor () {
-			if (!this.isPreviewMode && !this.isInlineEditorVisible) {
+			if (!this.isPreviewMode.value && !this.isInlineEditorVisible) {
 				this.isInlineEditorVisible = true
 			}
 		},
