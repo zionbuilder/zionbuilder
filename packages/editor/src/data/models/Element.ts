@@ -91,16 +91,21 @@ export class Element {
 
 	addChild (element: Element | string | Object, index = -1) {
 		let uid = null
+		let elementInstance = null
 
 		if (typeof element === 'string') {
+			elementInstance = getElement(element)
 			uid = element
 		} else if (element instanceof Element) {
+			elementInstance = element
 			uid = element.uid
 		} else {
-			const elementInstance = registerElement(element, this.uid)
+			elementInstance = registerElement(element, this.uid)
 			uid = elementInstance.uid
 		}
 
+		// Set the parent
+		elementInstance.parentUid = this.uid
 		this.content.splice(index, 0, uid)
 	}
 

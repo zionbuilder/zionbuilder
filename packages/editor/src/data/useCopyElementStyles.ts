@@ -4,7 +4,7 @@ import { ref, Ref } from 'vue'
 const copiedElementStyles: Ref<null | object> = ref(null)
 
 export function useCopyElementStyles () {
-	const copyElementStyles = (element: Element, selector) => {
+	const copyElementStyles = (element: Element) => {
 		copiedElementStyles.value = cloneDeep(element.options._styles)
 	}
 

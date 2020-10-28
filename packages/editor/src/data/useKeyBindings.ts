@@ -1,11 +1,14 @@
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode, useElementFocus, useSavePage } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useSavePage, useCopyElementStyles, useEditorData, useCopyCutPasteElement } from '@data'
 
 export const useKeyBindings = () => {
-	const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
+	const { openPanels, togglePanel } = usePanels()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { focusedElement, focusElement } = useElementFocus()
 	const { savePage, isSavePageLoading } = useSavePage()
+	const { copyElementStyles, pasteElementStyles } = useCopyElementStyles()
+	const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
+	const { urls } = useEditorData()
 
 	const debounceDelete = debounce(function (element) {
 		const parentContent = element.parent.content
@@ -109,39 +112,28 @@ export const useKeyBindings = () => {
 			// copy
 			if (e.which === 67 && e.ctrlKey && !e.shiftKey) {
 				if (!e.target.getAttribute('contenteditable')) {
-					const elementId = this.getElementData(activeElementFocus.uid).element_type
-					this.setCopiedElement({
-						uid: activeElementFocus.uid,
-						isWrapper: this.getElementById(elementId).wrapper
-					})
-					this.setCuttedElement(null)
+					copyElement(activeElementFocus)
+
+					// TODO: this
+					// this.setCuttedElement(null)
 				}
 			}
 
 			// Paste
-			if (e.which === 86 && e.ctrlKey && !e.shiftKey) {
+			if (e.which === 86 && e.ctrlKey && !e.shiftKey && copiedElement.value.element) {
 				if (!e.target.getAttribute('contenteditable')) {
-					if ((this.getCopiedElement || this.getCuttedElement) && activeElementFocus.insertParent) {
-						this.debouncePaste(activeElementFocus.uid, activeElementFocus.parentUid, activeElementFocus.insertParent)
-					}
+					pasteElement(activeElementFocus)
 				}
 			}
 			// Cut - CTRL + X
 			if (e.which === 88 && e.ctrlKey) {
 				if (!e.target.getAttribute('contenteditable')) {
-					const elementId = this.getElementData(activeElementFocus.uid).element_type
-					this.setCuttedElement({
-						uid: activeElementFocus.uid,
-						parentUid: activeElementFocus.parentUid,
-						insertParent: activeElementFocus.insertParent,
-						isWrapper: this.getElementById(elementId).wrapper
-					})
-					this.setCopiedElement(null)
+					copyElement(activeElementFocus, 'cut')
 				}
 			}
 
-			if (e.code === 'Escape' && this.getCuttedElement) {
-				this.setCuttedElement(null)
+			if (e.code === 'Escape' && copiedElement.value.element) {
+				resetCopiedElement()
 			}
 
 			// Delete element
@@ -153,19 +145,14 @@ export const useKeyBindings = () => {
 
 			// Copy element styles ctrl+shift+c
 			if (e.ctrlKey && e.shiftKey && e.which === 67) {
+				copyElementStyles(activeElementFocus)
 				e.preventDefault()
-				copiedStyles = activeElementFocus.elementData.options._styles
 			}
 
 			// Paste element styles ctrl + shift + v
 			if (e.ctrlKey && e.shiftKey && e.which === 86) {
-				this.updateElementOptions({
-					elementUid: activeElementFocus.uid,
-					values: {
-						...activeElementFocus.elementData.options,
-						_styles: copiedStyles
-					}
-				})
+				pasteElementStyles(activeElementFocus)
+				e.preventDefault()
 			}
 
 			// Hide element/panel
@@ -189,7 +176,7 @@ export const useKeyBindings = () => {
 		// Redo CTRL+SHIFT+D -- Back to WP Dashboard
 		if (e.code === 'KeyD' && e.ctrlKey && e.shiftKey) {
 			window.open(
-				getEditPageUrl,
+				urls.edit_page,
 				'_blank'
 			)
 		}
