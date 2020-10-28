@@ -63,14 +63,12 @@ export default {
 			return this.$translate('discard_changes_for') + ' ' + this.deviceConfig.name
 		},
 		isActiveDevice: function () {
-			return this.deviceConfig === this.activeResponsiveDeviceInfo
+			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id
 		},
 		hasChanges () {
+			return false
 			const activeDevice = getActiveResponsiveOptions()
 			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
-		},
-		getActiveDeviceId () {
-			return this.activeResponsiveDeviceInfo.id
 		}
 	},
 	methods: {

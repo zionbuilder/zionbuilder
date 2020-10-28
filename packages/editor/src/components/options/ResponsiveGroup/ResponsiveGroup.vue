@@ -61,9 +61,6 @@ export default {
 		window.zb.editor.options.removeActiveResponsiveOptions()
 	},
 	methods: {
-		updateValue (newValue) {
-
-		},
 		removeDeviceStyles (device) {
 			const clonedValues = { ...this.modelValue }
 			delete clonedValues[device]
