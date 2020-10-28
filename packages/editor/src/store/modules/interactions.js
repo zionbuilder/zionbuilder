@@ -59,12 +59,6 @@ const actions = {
 	setActiveShowElementsPopup: ({ commit }, payload) => {
 		commit(types.SET_ACTIVE_SHOW_ADD_ELEMENT_POPUP, payload)
 	},
-	setPreviewMode: ({ commit }, payload) => {
-		commit(types.SET_PREVIEW_MODE, payload)
-	},
-	setIsSavingPage: ({ commit }, payload) => {
-		commit(types.SET_IS_SAVING_PAGE, payload)
-	},
 	setDraggingState: ({ commit }, payload) => {
 		commit(types.SET_DRAGGING_STATE, payload)
 	},

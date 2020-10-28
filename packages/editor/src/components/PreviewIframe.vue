@@ -205,13 +205,6 @@ export default {
 			// 	if (this.focusedElement.value) {
 			// 		this.setElementFocus(null)
 			// 	}
-
-			// 	if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-			// 		this.setRightClickMenu({
-			// 			visibility: false
-			// 		})
-			// 	}
-			// }
 		},
 		preventClicks (event) {
 			const e = window.e || event

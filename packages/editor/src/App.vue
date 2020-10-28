@@ -164,8 +164,8 @@ export default {
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
-		const { isPreviewMode } = usePreviewMode()
-		const { focusedElement } = useElementFocus()
+		const { isPreviewMode, setPreviewMode } = usePreviewMode()
+		const { focusedElement, unFocusElement } = useElementFocus()
 		const { applyShortcuts } = useKeyBindings()
 
 		return {
@@ -276,13 +276,10 @@ export default {
 		...mapActions([
 			'undo',
 			'redo',
-			'setIsSavingPage',
-			'setPreviewMode',
 			'savePanelsOrder',
 			'setPageAreas',
 			'setPageContent',
 			'setActiveArea',
-			'setElementFocus',
 			'setRightClickMenu',
 			'fetchOptions'
 		]),
@@ -303,15 +300,8 @@ export default {
 			// TODO: implement this
 			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
 			// 	if (this.focusedElement.value) {
-			// 		this.setElementFocus(null)
+			// 		this.unFocusElement()
 			// 	}
-
-			// 	if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-			// 		this.setRightClickMenu({
-			// 			visibility: false
-			// 		})
-			// 	}
-			// }
 		},
 		onResize () {
 			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {

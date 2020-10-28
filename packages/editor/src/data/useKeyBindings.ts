@@ -27,45 +27,6 @@ export const useKeyBindings = () => {
 		element.delete()
 	})
 
-	const debouncePaste = debounce(function (uid, parentUid, insertParent) {
-		const copiedElement = this.getCopiedElement
-		const cuttedElement = this.getCuttedElement
-		if (copiedElement) {
-			this.copyElement({
-				elementUid: copiedElement.uid,
-				pasteElementUid: uid,
-				insertParent: copiedElement.isWrapper ? parentUid : insertParent,
-				parentUid: insertParent
-			})
-
-			this.setElementFocus({
-				uid: copiedElement.uid,
-				parentUid: parentUid,
-				insertParent: insertParent
-			})
-		}
-
-		if (cuttedElement) {
-			const newParent = insertParent
-			const parentContent = this.getElementData(newParent).content
-			const newIndex = parentContent.indexOf(uid) + 1
-
-			this.moveElement({
-				elementUid: cuttedElement.uid,
-				oldParentUid: cuttedElement.parentUid,
-				newParentUid: newParent,
-				newIndex
-			})
-
-			this.setElementFocus({
-				uid: cuttedElement.uid,
-				parentUid: parentUid,
-				insertParent
-			})
-			this.setCuttedElement(null)
-		}
-	})
-
 	const debounceDuplicate = debounce(function (element) {
 		element.duplicate()
 	})
