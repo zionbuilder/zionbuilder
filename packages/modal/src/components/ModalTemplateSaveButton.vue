@@ -14,7 +14,7 @@
 
 </template>
 <script>
-import { Button } from '@zionbuilder/components'
+import { Button } from '../../../components'
 import { computed } from 'vue'
 export default {
 	name: 'ModalTemplateSaveButton',
