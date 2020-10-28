@@ -5,7 +5,7 @@
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="element.focus"
+		@click.stop.left="onItemClick"
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
@@ -118,13 +118,19 @@ export default {
 				})
 		})
 
+		const onItemClick = () => {
+			props.element.focus
+			props.element.scrollTo = true
+		}
+
 		return {
 			imageSrc,
 			error,
 			loading,
 			showElementMenu,
 			elementOptionsRef,
-			isActiveItem
+			isActiveItem,
+			onItemClick
 		}
 
 	}

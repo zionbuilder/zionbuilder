@@ -17,6 +17,7 @@ export class Element {
 	public parentUid: string = ''
 	public isHighlighted: boolean = false
 	public activeElementRename: boolean = false
+	public scrollTo: boolean = false
 
 	constructor(data, parentUid = '') {
 		const {

@@ -5,7 +5,7 @@
 		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="element.focus"
+		@click.stop.left="onItemClick"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div
@@ -81,12 +81,18 @@ export default defineComponent({
 
 		const expanded = ref(false)
 
+		const onItemClick = () => {
+			props.element.focus
+			props.element.scrollTo = true
+		}
+
 		return {
 			expanded,
 			showElementMenu,
 			elementOptionsRef,
 			showElementMenu,
-			isActiveItem
+			isActiveItem,
+			onItemClick
 		}
 	}
 })

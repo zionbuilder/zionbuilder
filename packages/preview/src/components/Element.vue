@@ -197,21 +197,14 @@ export default {
 		'data.content' (newValue, oldValue) {
 			this.debounceUpdate()
 		},
-		shouldScrollIntoView (scrollInViewport) {
-			if (scrollInViewport) {
+		'element.scrollTo' (newValue) {
+			if (newValue) {
 				this.$el.scrollIntoView({
 					behavior: 'smooth'
 				})
 
-				this.setElementFocus({
-					...this.getElementFocus,
-					scrollIntoView: false
-				})
-
 				setTimeout(() => {
-					this.setRightClickMenu({
-						previewScrollTop: window.pageYOffset
-					})
+					this.element.scrollTo = false
 				}, 1000)
 			}
 		}
@@ -274,9 +267,6 @@ export default {
 		},
 		canShowToolbox () {
 			return this.element.isVisible && this.showToolbox && !this.isPreviewMode.value && !this.element.elementTypeModel.is_child
-		},
-		shouldScrollIntoView () {
-			return this.getElementFocus && this.getElementFocus.uid === this.element.uid && this.getElementFocus.scrollIntoView
 		},
 		canShowElement () {
 			if (this.isPreviewMode.value) {
