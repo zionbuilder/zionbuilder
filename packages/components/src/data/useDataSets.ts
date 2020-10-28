@@ -1,7 +1,7 @@
 import { ref, Ref, computed } from 'vue'
 import { getFontsDataSet } from '@zb/rest'
 
-const dataSets: Ref<{[key: string]: object}> = ref({
+const dataSets: Ref<{ [key: string]: object }> = ref({
 	fonts_list: {
 		google_fonts: [],
 		custom_fonts: [],
@@ -57,8 +57,26 @@ export const useDataSets = () => {
 		return option
 	})
 
+	const addIconsSet = (iconSet) => {
+		dataSets.value.icons.push(iconSet)
+	}
+
+	const deleteIconSet = (icons) => {
+		const iconsPackage = dataSets.value.icons.find((iconSet) => {
+			return iconSet.id === icons
+		})
+
+		if (iconsPackage !== undefined) {
+			const iconsPackageIndex = dataSets.value.icons.indexOf(iconsPackage)
+			dataSets.value.icons.splice(iconsPackageIndex, 1)
+		}
+
+	}
+
 	return {
 		dataSets,
-		fontsListForOption
+		fontsListForOption,
+		addIconsSet,
+		deleteIconSet
 	}
 }
