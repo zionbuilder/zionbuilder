@@ -1,10 +1,11 @@
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode, useElementFocus } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useSavePage } from '@data'
 
 export const useKeyBindings = () => {
 	const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { focusedElement, focusElement } = useElementFocus()
+	const { savePage, isSavePageLoading } = useSavePage()
 
 	const debounceDelete = debounce(function (element) {
 		const parentContent = element.parent.content
@@ -202,22 +203,8 @@ export const useKeyBindings = () => {
 		// Save CTRL+S
 		if (e.which === 83 && e.ctrlKey && !e.shiftKey) {
 			e.preventDefault()
-			if (!this.isDisplayingSaveNotice) {
-				this.isDisplayingSaveNotice = true
-				this.savePage({ status: 'publish' }).catch(error => {
-					this.$zb.errors.add({
-						message: error.message,
-						type: 'error',
-						delayClose: 5000
-					})
-				}).finally(() => {
-					this.$zb.errors.add({
-						message: this.$translate('success_save'),
-						delayClose: 5000
-					}).then(() => {
-						this.isDisplayingSaveNotice = false
-					})
-				})
+			if (!isSavePageLoading.value) {
+				savePage()
 			}
 		}
 
