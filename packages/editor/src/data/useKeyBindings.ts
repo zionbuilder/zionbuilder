@@ -138,10 +138,12 @@ export const useKeyBindings = () => {
 					this.setCopiedElement(null)
 				}
 			}
+
 			if (e.code === 'Escape' && this.getCuttedElement) {
 				this.setCuttedElement(null)
 			}
 
+			// Delete element
 			if (e.which === 46) {
 				if (!e.target.getAttribute('contenteditable')) {
 					debounceDelete(activeElementFocus)
@@ -164,6 +166,15 @@ export const useKeyBindings = () => {
 					}
 				})
 			}
+
+			// Hide element/panel
+			if (e.which === 72 && e.ctrlKey) {
+				if (activeElementFocus) {
+					activeElementFocus.toggleVisibility()
+					e.preventDefault()
+				}
+			}
+
 		}
 
 		// Undo CTRL+Z
@@ -210,35 +221,21 @@ export const useKeyBindings = () => {
 			}
 		}
 
-		// Hide element/panel
-		if (e.which === 72 && e.ctrlKey) {
-			if (this.focusedElement.value) {
-				let elementVisibility = this.getElementData(this.focusedElement.value.uid).options._isVisible
-				if (elementVisibility === undefined) {
-					elementVisibility = true
-				}
-				this.updateElementOptionValue({
-					elementUid: this.focusedElement.value.uid,
-					path: '_isVisible',
-					newValue: !elementVisibility,
-					type: 'visibility'
-				})
-				e.preventDefault()
-			}
-		}
 		// Toggle treeView panel
 		if (e.shiftKey && e.code === 'KeyT') {
-			this.togglePanel('panel-tree')
+			togglePanel('panel-tree')
 			e.preventDefault()
 		}
+
 		// Opens Library
 		if (e.shiftKey && e.code === 'KeyL') {
-			this.togglePanel('PanelLibraryModal')
+			togglePanel('PanelLibraryModal')
 			e.preventDefault()
 		}
+
 		// Opens Page options
 		if (e.shiftKey && e.code === 'KeyO') {
-			this.togglePanel('panel-global-settings')
+			togglePanel('panel-global-settings')
 			e.preventDefault()
 		}
 	}
