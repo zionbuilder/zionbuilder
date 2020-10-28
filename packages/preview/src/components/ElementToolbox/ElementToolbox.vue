@@ -272,14 +272,6 @@ export default {
 			}
 
 			return 'horizontal'
-		},
-		isFocused () {
-			return this.data.uid === this.focusedElement.uid
-		}
-	},
-	watch: {
-		isFocused (newValue) {
-			this.$emit('update:canHideToolbox', !newValue)
 		}
 	},
 	methods: {
