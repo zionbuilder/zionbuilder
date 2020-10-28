@@ -48,7 +48,7 @@ import IconPackGrid from './components/IconPackGrid.vue'
 import { Sortable } from '@zionbuilder/sortable'
 export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
-import { Modal, ModalConfirm } from '@zionbuilder/modal'
+import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 export * from '@data'
 import { Options } from '@zionbuilder/models'
 const options = new Options()
@@ -62,6 +62,7 @@ const components = [
 	// General
 	Modal,
 	ModalConfirm,
+	ModalTemplateSaveButton,
 	Icon,
 	Tooltip,
 	Loader,
@@ -138,6 +139,7 @@ export {
 	// General
 	Modal,
 	ModalConfirm,
+	ModalTemplateSaveButton,
 	Icon,
 	Tooltip,
 	Loader,
