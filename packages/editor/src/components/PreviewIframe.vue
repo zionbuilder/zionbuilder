@@ -43,14 +43,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import keyBindingsMixin from '../mixins/keyBindingsMixin.js'
 import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import { useTemplateParts, useElements } from '@data'
-import { usePreviewLoading, useElementFocus } from '@data'
+import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -66,14 +64,14 @@ export default {
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { focusedElement } = useElementFocus()
+		const { applyShortcuts } = useKeyBindings()
 
 		return {
 			activeResponsiveDeviceInfo,
-			focusedElement
+			focusedElement,
+			applyShortcuts
 		}
 	},
-
-	mixins: [keyBindingsMixin],
 	computed: {
 		...mapGetters([
 			'getPreviewFrameUrl',

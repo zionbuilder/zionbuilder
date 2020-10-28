@@ -27,63 +27,9 @@ export default {
 		const { isPreviewMode } = usePreviewMode()
 		const { focusedElement } = useElementFocus()
 
-		return {
-			openPanel,
-			closePanel,
-			openPanels,
-			togglePanel,
-			isPreviewMode,
-			focusedElement
-		}
-	},
-	watch: {
-		isPreviewMode (newValue) {
-			if (!newValue) {
-				// restore panels
-				openedPanels.forEach((panelId) => {
-					this.openPanel(panelId)
-				})
-			} else {
-				// Set panels
-				openedPanels.forEach((panelId) => {
-					this.closePanel(panelId)
-				})
-			}
-		},
-		getOpenedPanels (newValue) {
-			newValue.forEach(panel => {
-				this.isPanelElementOptionsOpen = panel.id === 'PanelElementOptions'
-			})
-			if (!newValue.length) {
-				this.isPanelElementOptionsOpen = false
-			}
-			if (!this.isPreviewMode.value) {
-				openedPanels = this.openPanels.map((panel) => {
-					return panel.id
-				})
-			}
-		}
-	},
-
-	methods: {
-		...mapActions([
-			'setElementFocus',
-			'copyElement',
-			'deleteElement',
-			'updateElementOptionValue',
-			'updateElementOptions',
-			'savePage',
-			'setCopiedElement',
-			'setPreviewMode',
-			'undo',
-			'redo',
-			'setCuttedElement',
-			'moveElement'
-		]),
-		debounceDelete: debounce(function (uid, parentUid) {
-			const parentContent = this.getElementData(this.focusedElement.value.parent.uid).content
-
-			const elementIndex = parentContent.indexOf(this.focusedElement.value.uid)
+		const debounceDelete = debounce(function (uid, parentUid) {
+			const parentContent = focusedElement.value.parent.content
+			const elementIndex = parentContent.indexOf(focusedElement.value.uid)
 			const previewElementUid = parentContent[elementIndex - 1]
 			const nextElementUid = parentContent[elementIndex + 1]
 
@@ -106,8 +52,9 @@ export default {
 				elementUid: uid,
 				parentUid: parentUid
 			})
-		}),
-		debouncePaste: debounce(function (uid, parentUid, insertParent) {
+		})
+
+		const debouncePaste = debounce(function (uid, parentUid, insertParent) {
 			const copiedElement = this.getCopiedElement
 			const cuttedElement = this.getCuttedElement
 			if (copiedElement) {
@@ -144,8 +91,9 @@ export default {
 				})
 				this.setCuttedElement(null)
 			}
-		}),
-		debounceDuplicate: debounce(function (uid, parentUid, insertParent) {
+		})
+
+		const debounceDuplicate = debounce(function (uid, parentUid, insertParent) {
 			this.copyElement({
 				elementUid: uid,
 				parentUid: parentUid,
@@ -159,31 +107,34 @@ export default {
 				parentUid: parentUid,
 				insertParent: insertParent
 			})
-		}),
-		debounceUndo: debounce(function () {
+		})
+
+		const debounceUndo = debounce(function () {
 			if (this.canUndo) {
 				this.undo()
 			}
-		}),
-		debounceRedo: debounce(function () {
+		})
+
+		const debounceRedo = debounce(function () {
 			if (this.canRedo) {
 				this.redo()
 			}
-		}),
+		})
+
 		// end checkMousePosition
-		applyShortcuts (e) {
+		const applyShortcuts = (e) => {
 			if (e.target.isContentEditable) {
 				return
 			}
 
 			// Set preview mode
 			if (e.which === 80 && e.ctrlKey) {
-				this.setPreviewMode(!this.isPreviewMode.value)
+				setPreviewMode(!isPreviewMode.value)
 				e.preventDefault()
 			}
 
 			// Keys bellow don't run in preview mode
-			if (this.isPreviewMode.value) {
+			if (isPreviewMode.value) {
 				return
 			}
 
@@ -334,5 +285,62 @@ export default {
 				e.preventDefault()
 			}
 		}
+
+		return {
+			openPanel,
+			closePanel,
+			openPanels,
+			togglePanel,
+			isPreviewMode,
+			focusedElement,
+			applyShortcuts
+		}
+	},
+	watch: {
+		isPreviewMode (newValue) {
+			if (!newValue) {
+				// restore panels
+				openedPanels.forEach((panelId) => {
+					this.openPanel(panelId)
+				})
+			} else {
+				// Set panels
+				openedPanels.forEach((panelId) => {
+					this.closePanel(panelId)
+				})
+			}
+		},
+		getOpenedPanels (newValue) {
+			newValue.forEach(panel => {
+				this.isPanelElementOptionsOpen = panel.id === 'PanelElementOptions'
+			})
+			if (!newValue.length) {
+				this.isPanelElementOptionsOpen = false
+			}
+
+			if (!this.isPreviewMode.value) {
+				openedPanels = this.openPanels.map((panel) => {
+					return panel.id
+				})
+			}
+		}
+	},
+
+	methods: {
+		...mapActions([
+			'setElementFocus',
+			'copyElement',
+			'deleteElement',
+			'updateElementOptionValue',
+			'updateElementOptions',
+			'savePage',
+			'setCopiedElement',
+			'setPreviewMode',
+			'undo',
+			'redo',
+			'setCuttedElement',
+			'moveElement'
+		])
+
 	}
 }

@@ -138,11 +138,10 @@ import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
 import { mapGetters, mapActions } from 'vuex'
-import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementFocus } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useKeyBindings } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -162,12 +161,12 @@ export default {
 		AddElementPopup,
 		ElementMenu
 	},
-	mixins: [keyBindingsMixin],
 	setup (props) {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode } = usePreviewMode()
 		const { focusedElement } = useElementFocus()
+		const { applyShortcuts } = useKeyBindings()
 
 		return {
 			panelPlaceholder,
@@ -176,7 +175,8 @@ export default {
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
 			isPreviewMode,
-			focusedElement
+			focusedElement,
+			applyShortcuts
 		}
 	},
 	data: () => {
@@ -339,12 +339,14 @@ export default {
 		window.addEventListener('resize', this.onResize)
 	},
 	beforeUnmount: function () {
+
 		// remove events
 		document.removeEventListener('click', this.deselectActiveElement)
 		document.removeEventListener('keydown', this.applyShortcuts)
 		window.removeEventListener('resize', this.onResize)
 	},
 	mounted () {
+		console.log(this.applyShortcuts);
 		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
 		this.$zb.errors.add({

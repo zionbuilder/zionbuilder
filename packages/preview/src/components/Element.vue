@@ -11,7 +11,7 @@
 		:data="element"
 		@mouseenter="onMouseEnter"
 		@mouseleave="onMouseLeave"
-		@click="onElementClick"
+		@click.stop="onElementClick"
 		@dblclick="editElement"
 		@contextmenu.prevent.stop="showElementMenu"
 		v-bind="getExtraAttributes"
@@ -75,7 +75,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
-import { useElementTypes, usePreviewMode, useElementMenu, usePanels } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, usePanels, useElementFocus } from '@zb/editor'
 import { useElementComponent } from '@data'
 
 // Components
@@ -136,6 +136,7 @@ export default {
 		const { openPanel } = usePanels()
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
+		const { focusElement } = useElementFocus()
 
 		// TODO: implement this
 		// this.setupModel(this.element.options)
@@ -151,12 +152,31 @@ export default {
 			showElementMenuFromEvent(props.element, event)
 		}
 
+		const onElementClick = (event) => {
+			// TODO: implement this
+			// don't process if this was already handled
+			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.element.elementTypeModel.is_child) {
+			// 	return
+			// }
+
+			// Reset handled click
+			// setTimeout(() => {
+			// 	window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
+			// }, 0)
+
+			// window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
+
+			focusElement(props.element)
+		}
+
 		return {
 			elementComponent,
 			element: props.element,
 			isPreviewMode,
 			showElementMenu,
-			openPanel
+			openPanel,
+			focusElement,
+			onElementClick
 		}
 	},
 	data () {
@@ -284,8 +304,7 @@ export default {
 			'attachSlots',
 			'setActiveElement',
 			'updateElementOptionValue',
-			'setRightClickMenu',
-			'setElementFocus'
+			'setRightClickMenu'
 		]),
 		debounceUpdate: debounce(function () {
 			this.$nextTick(() => {
@@ -416,32 +435,6 @@ export default {
 					})
 				}
 			}
-		},
-		onElementClick (event) {
-			// TODO: implement this
-			// don't process if this was already handled
-			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.element.elementTypeModel.is_child) {
-			// 	return
-			// }
-
-			// Reset handled click
-			// setTimeout(() => {
-			// 	window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
-			// }, 0)
-
-			// window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
-
-			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-				this.setRightClickMenu({
-					visibility: false
-				})
-			}
-
-			this.setElementFocus({
-				uid: this.element.uid,
-				parentUid: this.parentUid,
-				insertParent: this.element.elementTypeModel.wrapper ? this.element.uid : this.parentUid
-			})
 		},
 		/**
 		 * Edit element
