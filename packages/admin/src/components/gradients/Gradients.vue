@@ -89,6 +89,10 @@ export default {
 			return $zb.options.getOptionValue('global_gradients')
 		})
 
+		const isPro = computed(() => {
+			return window.ZnPbAdminPageData.is_pro_active
+		})
+
 		const activeGradient = computed({
 				get: () => {
 					const gradientsArray = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
@@ -155,6 +159,7 @@ export default {
 			showModal.value = true
 		}
 
+
 		return {
 			getLocalGradients,
 			getGlobalGradients,
@@ -168,7 +173,8 @@ export default {
 			onSaveGradient,
 			onAddNewGlobalGradient,
 			onAddNewGradient,
-			activeGradient
+			activeGradient,
+			isPro
 		}
 	},
 
