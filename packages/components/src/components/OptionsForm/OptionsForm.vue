@@ -61,14 +61,33 @@ export default {
 			return getOptionValue(props.modelValue, path, defaultValue)
 		}
 
+		const deleteValue = (path) => {
+			const paths = path.split('.')
+			let newValues = { ...props.modelValue }
+
+			paths.reduce((acc, key, index) => {
+				if (index === paths.length - 1) {
+					delete acc[key]
+					return true
+				}
+
+				acc[key] = acc[key] ? { ...acc[key] } : {}
+				return acc[key]
+			}, newValues)
+
+			emit('update:modelValue', newValues)
+		}
+
 		provide('updateValueByPath', updateValueByPath)
 		provide('getValueByPath', getValueByPath)
+		provide('deleteValue', deleteValue)
 
 		return {
 			activeResponsiveDeviceInfo,
 			fontsListForOption,
 			updateValueByPath,
 			getValueByPath,
+			deleteValue,
 			activePseudoSelector
 		}
 	},
@@ -184,22 +203,7 @@ export default {
 				}
 			}
 		},
-		deleteValue (path) {
-			const paths = path.split('.')
-			let newValues = { ...this.modelValue }
 
-			paths.reduce((acc, key, index) => {
-				if (index === paths.length - 1) {
-					delete acc[key]
-					return true
-				}
-
-				acc[key] = acc[key] ? { ...acc[key] } : {}
-				return acc[key]
-			}, newValues)
-
-			this.$emit('update:modelValue', newValues)
-		},
 		deleteValues (allPaths) {
 			let newValues = { ...this.modelValue }
 			allPaths.forEach((path) => {
