@@ -3,8 +3,8 @@
 		class="znpb-section-view-item"
 		:class="{'znpb-section-view-item--hidden': !element.isVisible}"
 		@contextmenu.stop.prevent="showElementMenu"
-		@mouseenter.capture="element.highlight"
-		@mouseleave="element.unHighlight"
+		@mouseover.stop="element.highlight"
+		@mouseout.stop="element.unHighlight"
 		@click.stop.left="element.focus"
 	>
 		<div v-if="loading || error">

@@ -2,8 +2,6 @@
 	<li
 		class="znpb-wireframe-item"
 		:class="getClasses"
-		@mouseenter.capture="element.highlight"
-		@mouseleave="element.unHighlight"
 		@click.stop="element.focus"
 		@contextmenu.stop.prevent="showElementMenu"
 	>

@@ -50,7 +50,7 @@ import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import { useTemplateParts, useElements } from '@data'
-import { usePreviewLoading } from '@data'
+import { usePreviewLoading, useElementFocus } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -65,9 +65,11 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { focusedElement } = useElementFocus()
 
 		return {
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			focusedElement
 		}
 	},
 
@@ -80,8 +82,7 @@ export default {
 			'canRedo',
 			'getRightClickMenu',
 			'getIframeOrder',
-			'getPageId',
-			'getElementFocus'
+			'getPageId'
 		]),
 		storageRecover () {
 			return this.localStoragePageData && this.showRecoverModal
@@ -203,7 +204,7 @@ export default {
 			// TODO: implement this
 			// Don't deselect the element if an element was just activated
 			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-			// 	if (this.getElementFocus) {
+			// 	if (this.focusedElement.value) {
 			// 		this.setElementFocus(null)
 			// 	}
 

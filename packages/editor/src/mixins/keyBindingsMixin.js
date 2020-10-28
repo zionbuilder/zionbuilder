@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode } from '@data'
+import { usePanels, usePreviewMode, useElementFocus } from '@data'
 
 let copiedStyles = {}
 let openedPanels = []
@@ -14,7 +14,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementFocus',
 			'getElementData',
 			'canUndo',
 			'canRedo',
@@ -23,16 +22,18 @@ export default {
 			'getEditPageUrl'
 		])
 	},
-	setup (props) {
+	setup () {
 		const { openPanel, closePanel, openPanels, togglePanel } = usePanels()
 		const { isPreviewMode } = usePreviewMode()
+		const { focusedElement } = useElementFocus()
 
 		return {
 			openPanel,
 			closePanel,
 			openPanels,
 			togglePanel,
-			isPreviewMode
+			isPreviewMode,
+			focusedElement
 		}
 	},
 	watch: {
@@ -80,23 +81,23 @@ export default {
 			'moveElement'
 		]),
 		debounceDelete: debounce(function (uid, parentUid) {
-			const parentContent = this.getElementData(this.getElementFocus.parentUid).content
+			const parentContent = this.getElementData(this.focusedElement.value.parent.uid).content
 
-			const elementIndex = parentContent.indexOf(this.getElementFocus.uid)
+			const elementIndex = parentContent.indexOf(this.focusedElement.value.uid)
 			const previewElementUid = parentContent[elementIndex - 1]
 			const nextElementUid = parentContent[elementIndex + 1]
 
 			if (previewElementUid) {
 				this.setElementFocus({
 					uid: previewElementUid,
-					parentUid: this.getElementFocus.parentUid,
-					insertParent: this.getElementFocus.insertParent
+					parentUid: this.focusedElement.value.parentUid,
+					insertParent: this.focusedElement.value.insertParent
 				})
 			} else if (nextElementUid) {
 				this.setElementFocus({
 					uid: nextElementUid,
-					parentUid: this.getElementFocus.parentUid,
-					insertParent: this.getElementFocus.insertParent
+					parentUid: this.focusedElement.value.parentUid,
+					insertParent: this.focusedElement.value.insertParent
 				})
 			} else {
 				this.setElementFocus(null)
@@ -187,8 +188,8 @@ export default {
 			}
 
 			// Shortcuts that needs an active element
-			if (this.getElementFocus) {
-				const activeElementFocus = this.getElementFocus
+			if (this.focusedElement.value) {
+				const activeElementFocus = this.focusedElement.value
 
 				// Duplicate - CTRL+D
 				if (e.which === 68 && e.ctrlKey && !e.shiftKey) {
@@ -303,13 +304,13 @@ export default {
 
 			// Hide element/panel
 			if (e.which === 72 && e.ctrlKey) {
-				if (this.getElementFocus) {
-					let elementVisibility = this.getElementData(this.getElementFocus.uid).options._isVisible
+				if (this.focusedElement.value) {
+					let elementVisibility = this.getElementData(this.focusedElement.value.uid).options._isVisible
 					if (elementVisibility === undefined) {
 						elementVisibility = true
 					}
 					this.updateElementOptionValue({
-						elementUid: this.getElementFocus.uid,
+						elementUid: this.focusedElement.value.uid,
 						path: '_isVisible',
 						newValue: !elementVisibility,
 						type: 'visibility'

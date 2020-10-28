@@ -16,7 +16,7 @@
 
 <script>
 import { ref } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { useAddElementsPopup } from '@zb/editor'
 
 export default {
@@ -38,11 +38,6 @@ export default {
 			addElementsPopupButton,
 			showColumnTemplates
 		}
-	},
-	computed: {
-		...mapGetters([
-			'getElementFocus',
-		])
 	},
 	methods: {
 		...mapActions([

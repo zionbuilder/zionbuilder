@@ -5,6 +5,7 @@
 		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
 		:is="elementComponent"
 		class="znpb-element__wrapper zb-element"
+		:class="{'znpb-element__wrapper--panel-hovered': element.isHighlighted}"
 		:id="`${element.elementCssId}`"
 		:options="options"
 		:data="element"

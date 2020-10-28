@@ -142,7 +142,7 @@ import keyBindingsMixin from './mixins/keyBindingsMixin.js'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode } from '@data'
+import { usePanels, usePreviewMode, useElementFocus } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -167,6 +167,7 @@ export default {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode } = usePreviewMode()
+		const { focusedElement } = useElementFocus()
 
 		return {
 			panelPlaceholder,
@@ -174,7 +175,8 @@ export default {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
-			isPreviewMode
+			isPreviewMode,
+			focusedElement
 		}
 	},
 	data: () => {
@@ -207,7 +209,6 @@ export default {
 		...mapGetters([
 			'getErrors',
 			'getRightClickMenu',
-			'getElementFocus',
 			'getAllContent',
 			'getStylesLoading',
 			'getMainbarPosition'
@@ -231,7 +232,7 @@ export default {
 			return null
 		},
 		rightClickVisibility () {
-			return !this.isPreviewMode.value && this.getRightClickMenu && this.getRightClickMenu.visibility && this.getElementFocus
+			return !this.isPreviewMode.value && this.getRightClickMenu && this.getRightClickMenu.visibility && this.focusedElement.value
 		},
 		showEditorTransition: function () {
 			if (this.getMainbarPosition === 'left') {
@@ -301,7 +302,7 @@ export default {
 			// Don't deselect the element if an element was just activated
 			// TODO: implement this
 			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-			// 	if (this.getElementFocus) {
+			// 	if (this.focusedElement.value) {
 			// 		this.setElementFocus(null)
 			// 	}
 

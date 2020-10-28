@@ -49,8 +49,7 @@ const state = {
 }
 
 const getters = {
-	isDragging: state => state.isDragging,
-	getElementFocus: state => state.elementFocus
+	isDragging: state => state.isDragginggetElementFocus
 }
 
 const actions = {

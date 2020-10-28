@@ -190,7 +190,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getActiveElementUid',
-			'getElementFocus',
 			'getElementParent'
 		]),
 

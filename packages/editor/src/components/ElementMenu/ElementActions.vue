@@ -67,7 +67,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="discardElementStyles"
-			v-if="data && data.options._styles"
+			v-if="element && element.options._styles"
 		>
 			<Icon icon="drop"></Icon>
 			{{$translate('discard_element_styles')}}
@@ -83,7 +83,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="copyElementClasses"
-			v-if="data && data.options._classes"
+			v-if="element && element.options._classes"
 		>
 			<Icon icon="braces"></Icon>
 			{{$translate('copy_classes')}}
@@ -127,7 +127,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles, useSavePage, usePanels, useEditElement } from '@data'
+import { useCopyElementStyles, useSavePage, usePanels, useEditElement, useElementFocus } from '@data'
 
 export default {
 	name: 'ElementActions',
@@ -147,6 +147,7 @@ export default {
 		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
+		const { focusedElement } = useElementFocus()
 
 		return {
 			copyElementStyles,
@@ -154,7 +155,8 @@ export default {
 			copiedElementStyles,
 			savePage,
 			openPanel,
-			editElement
+			editElement,
+			focusedElement
 		}
 	},
 	computed: {
@@ -163,14 +165,10 @@ export default {
 			'getCopiedElement',
 			'getCopiedElementStyles',
 			'getCopiedClasses',
-			'getElementFocus',
 			'getElementOptionValue',
 			'getCuttedElement',
 			'getElementData',
-		]),
-		data () {
-			return this.getPageContent[this.getElementFocus.uid]
-		}
+		])
 	},
 	methods: {
 		...mapActions([
@@ -186,20 +184,20 @@ export default {
 			'moveElement'
 		]),
 		triggerRename () {
-			this.setActiveElement(this.getElementFocus.uid)
+			this.setActiveElement(this.element.uid)
 			this.$emit('changename', true)
 		},
 		copyElementClasses () {
-			const elementClasses = this.data.options._classes
+			const elementClasses = this.element.options._classes
 			this.setCopiedClasses(elementClasses)
 			this.copy()
 		},
 		pasteElementClasses () {
 			if (this.getCopiedClasses) {
 				this.updateElementOptions({
-					elementUid: this.getElementFocus.uid,
+					elementUid: this.element.uid,
 					values: {
-						...this.data.options,
+						...this.element.options,
 						_classes: this.getCopiedClasses
 					}
 				})
@@ -207,17 +205,17 @@ export default {
 			this.close()
 		},
 		copyElementAction () {
-			this.setCopiedElement(this.getElementFocus.uid)
+			this.setCopiedElement(this.element.uid)
 			this.setCuttedElement(null)
 			this.close()
 		},
 		cutElementAction () {
 			// TODO: implement actions
-			const elementId = this.getElementData(this.getElementFocus.uid).element_type
+			const elementId = this.getElementData(this.element.uid).element_type
 			this.setCuttedElement({
-				uid: this.getElementFocus.uid,
-				parentUid: this.getElementFocus.parentUid,
-				insertParent: this.getElementFocus.insertParent,
+				uid: this.element.uid,
+				parentUid: this.element.parentUid,
+				insertParent: this.element.insertParent,
 				isWrapper: this.getElementById(elementId).wrapper
 			})
 			this.setCopiedElement(null)
@@ -227,15 +225,15 @@ export default {
 			if (this.getCopiedElement) {
 				this.copyElement({
 					elementUid: this.getCopiedElement,
-					parentUid: this.getElementFocus.parentUid,
-					pasteElementUid: this.getElementFocus.uid,
-					insertParent: this.getElementFocus.insertParent
+					parentUid: this.element.parentUid,
+					pasteElementUid: this.element.uid,
+					insertParent: this.element.insertParent
 				})
 			}
 			if (this.getCuttedElement) {
 				const cuttedElement = this.getCuttedElement
 
-				const newParent = this.getElementFocus.insertParent
+				const newParent = this.element.insertParent
 				const parentContent = this.getElementData(newParent).content
 				const newIndex = parentContent.indexOf(cuttedElement.uid) + 1
 
@@ -251,15 +249,15 @@ export default {
 			this.close()
 		},
 		copyElementStyles () {
-			const copiedElementStyles = this.data.options._styles
+			const copiedElementStyles = this.element.options._styles
 			this.setCopiedElementStyles(copiedElementStyles)
 			this.close()
 		},
 		discardElementStyles () {
 			this.updateElementOptions({
-				elementUid: this.getElementFocus.uid,
+				elementUid: this.element.uid,
 				values: {
-					...this.data.options,
+					...this.element.options,
 					_styles: {}
 				}
 			})
@@ -269,9 +267,9 @@ export default {
 			const copiedElementStyles = this.getCopiedElementStyles
 			if (this.getCopiedElementStyles) {
 				this.updateElementOptions({
-					elementUid: this.getElementFocus.uid,
+					elementUid: this.element.uid,
 					values: {
-						...this.data.options,
+						...this.element.options,
 						_styles: copiedElementStyles
 					}
 				})
@@ -281,8 +279,8 @@ export default {
 		saveElement () {
 			this.close()
 			trigger('save-element', {
-				elementUid: this.data.uid,
-				parentUid: this.getElementFocus.parentUid
+				elementUid: this.element.uid,
+				parentUid: this.element.parentUid
 			})
 		},
 		close () {

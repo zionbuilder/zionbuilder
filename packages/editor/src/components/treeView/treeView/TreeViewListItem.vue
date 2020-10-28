@@ -3,8 +3,8 @@
 		class="znpb-tree-view__item"
 		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
 		:id="element.uid"
-		@mouseenter.capture="element.highlight"
-		@mouseleave="element.unHighlight"
+		@mouseover.stop="element.highlight"
+		@mouseout.stop="element.unHighlight"
 		@click.stop.left="element.focus"
 		@contextmenu.stop.prevent="showElementMenu"
 	>

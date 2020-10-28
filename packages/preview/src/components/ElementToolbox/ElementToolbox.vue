@@ -103,7 +103,7 @@ import { ref } from 'vue'
 import rafSchd from 'raf-schd'
 import { mapActions, mapGetters } from 'vuex'
 import { pageEvents } from '@zb/editor'
-import { useAddElementsPopup } from '@zb/editor'
+import { useAddElementsPopup, useElementFocus } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 
 // Components
@@ -139,6 +139,7 @@ export default {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { focusedElement } = useElementFocus()
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -149,7 +150,8 @@ export default {
 			showColumnTemplates,
 			addElementsPopupButton,
 			toggleAddElementsPopup,
-			activeResponsiveDeviceInfo
+			activeResponsiveDeviceInfo,
+			focusedElement
 		}
 	},
 	data () {
@@ -216,8 +218,7 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementOptionValue',
-			'isDragging',
-			'getElementFocus'
+			'isDragging'
 		]),
 		/**
 		 * Returns the saved value for each property defaulting to actual size
@@ -273,7 +274,7 @@ export default {
 			return 'horizontal'
 		},
 		isFocused () {
-			return this.data.uid === this.getElementFocus
+			return this.data.uid === this.focusedElement.uid
 		}
 	},
 	watch: {
