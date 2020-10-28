@@ -75,7 +75,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 import { applyFilters } from '@zb/hooks'
 import Options from '../Options'
-import { useElementTypes, usePreviewMode, useElementMenu, usePanels, useElementFocus } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, usePanels, useElementFocus, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@data'
 
 // Components
@@ -442,11 +442,11 @@ export default {
 		 * Triggered when double click on the element
 		 */
 		editElement (event) {
+			const { editElement } = useEditElement()
 			event.stopPropagation()
 
 			if (!this.isPreviewMode.value) {
-				this.setActiveElement(this.element.uid)
-				this.openPanel('PanelElementOptions')
+				editElement(this.element)
 
 				// Clear text selection that may appear
 				clearTextSelection(window)
