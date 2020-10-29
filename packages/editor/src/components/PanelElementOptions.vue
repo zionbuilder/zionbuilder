@@ -241,11 +241,7 @@ export default {
 			},
 			set (newValues) {
 				newValues = newValues === null ? {} : newValues
-
-				this.updateElementOptions({
-					elementUid: this.element.uid,
-					values: newValues
-				})
+				this.element.options = newValues
 
 				// Add to history
 				this.addToLocalHistory()

@@ -49,7 +49,6 @@
 					@close="$emit('close')"
 					:show-library="showLibrary"
 					class="znpb-colorpicker-circle  znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
-
 				>
 					<template v-slot:trigger>
 						<span>

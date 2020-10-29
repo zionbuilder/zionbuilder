@@ -67,11 +67,12 @@
  *  - the new color chosen
  */
 
+import { computed, inject, ref} from 'vue'
 import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../Label'
-import { computed, inject, ref} from 'vue'
+
 export default {
 	name: 'PatternContainer',
 	components: {
@@ -97,11 +98,12 @@ export default {
 		const showPresetInput = ref(false)
 
 		let localColorPatterns =  computed(() => {
-				return [...$zb.options.getOptionValue('local_colors')].reverse()
-			})
+			return [...$zb.options.getOptionValue('local_colors')].reverse()
+		})
+
 		let globalColorPatterns = computed(() => {
-				return [...$zb.options.getOptionValue('global_colors')].reverse()
-			})
+			return [...$zb.options.getOptionValue('global_colors')].reverse()
+		})
 
 		let selectedGlobalColor =  computed(() => {
 			const { id } = schema

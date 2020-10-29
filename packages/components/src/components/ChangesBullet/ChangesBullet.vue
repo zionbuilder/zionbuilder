@@ -4,15 +4,7 @@
 		class="znpb-options-has-changes-wrapper"
 		tag="span"
 		strategy="fixed"
-		:modifiers="{
-			preventOverflow: {
-				enabled: false
-			},
-			hide: {
-				enabled: false
-			},
-			offset: { offset: '0,5px' },
-		}"
+
 	>
 		<span
 			@click.stop="$emit('remove-styles')"
@@ -36,6 +28,7 @@
 
 <script>
 import { Tooltip } from '@zionbuilder/tooltip'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'ChangesBullet',
@@ -52,7 +45,7 @@ export default {
 			type: String,
 			required: false,
 			default () {
-				return this.$translate('discard_changes')
+				return translate('discard_changes')
 			}
 		}
 	}

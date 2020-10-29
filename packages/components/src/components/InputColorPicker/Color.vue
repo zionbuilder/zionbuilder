@@ -94,11 +94,7 @@ export default {
 			required: false
 		}
 	},
-	computed: {
-
-	},
 	methods: {
-
 		onLibraryUpdate (newValue) {
 			this.$emit('update:modelValue', newValue)
 		},
