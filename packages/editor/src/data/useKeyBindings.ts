@@ -95,7 +95,6 @@ export const useKeyBindings = () => {
 				if (!e.target.getAttribute('contenteditable')) {
 					const nextFocusElement = getNextFocusedElement(activeElementFocus)
 					activeElementFocus.delete()
-					console.log(nextFocusElement);
 					focusElement(nextFocusElement)
 				}
 			}
