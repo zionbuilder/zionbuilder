@@ -10,8 +10,11 @@ export function useCopyElementStyles () {
 
 	const pasteElementStyles = (element) => {
 		const styles = copiedElementStyles.value
-
-		merge(element.options._styles, styles)
+		if (!element.options._styles) {
+			element.options._styles = styles
+		} else {
+			merge(element.options._styles, styles)
+		}
 
 		copiedElementStyles.value = null
 	}

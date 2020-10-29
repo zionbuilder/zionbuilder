@@ -58,8 +58,8 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="copyElementStyles"
-			v-if="copiedElementStyles"
+			@click="copyElementStyles(element)"
+			v-if="element && element.options._styles"
 		>
 			<Icon icon="drop"></Icon>
 			{{$translate('copy_element_styles')}}
@@ -244,28 +244,12 @@ export default {
 			}
 			this.close()
 		},
-		copyElementStyles () {
-			const copiedElementStyles = this.element.options._styles
-			this.setCopiedElementStyles(copiedElementStyles)
-			this.close()
-		},
 		discardElementStyles () {
 			this.element.options = {
 				...this.element.options,
 				_styles: {}
 			}
 			this.close()
-		},
-		pasteElementStyles () {
-			const copiedElementStyles = this.getCopiedElementStyles
-			if (this.getCopiedElementStyles) {
-				this.element.options = {
-					...this.element.options,
-					_styles: copiedElementStyles
-				}
-
-				this.close()
-			}
 		},
 		saveElement () {
 			this.close()

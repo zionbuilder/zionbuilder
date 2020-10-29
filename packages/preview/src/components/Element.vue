@@ -65,7 +65,6 @@
 <script>
 // Utils
 import { ref, markRaw } from 'vue'
-import { mapGetters } from 'vuex'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import importCSS from '@zionbuilder/importcss'
@@ -230,9 +229,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getCuttedElement'
-		]),
 		stylesConfig () {
 			return this.options._styles || {}
 		},
