@@ -10,27 +10,6 @@ export const useKeyBindings = () => {
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
 	const { urls } = useEditorData()
 
-	const debounceDelete = debounce(function (element) {
-		const parentContent = element.parent.content
-		const elementIndex = parentContent.indexOf(element.uid)
-		const previousElement = parentContent[elementIndex - 1]
-		const nextElement = parentContent[elementIndex + 1]
-
-		if (previousElement) {
-			focusElement(previousElement)
-		} else if (nextElement) {
-			focusElement(nextElement)
-		} else {
-			focusElement(element.parent)
-		}
-
-		element.delete()
-	})
-
-	const debounceDuplicate = debounce(function (element) {
-		element.duplicate()
-	})
-
 	const debounceUndo = debounce(function () {
 		if (this.canUndo) {
 			this.undo()
@@ -42,6 +21,23 @@ export const useKeyBindings = () => {
 			this.redo()
 		}
 	})
+
+	const getNextFocusedElement = (element) => {
+		const parentContent = element.parent.content
+		const elementIndex = parentContent.indexOf(element.uid)
+		const previousElement = parentContent[elementIndex - 1]
+		const nextElement = parentContent[elementIndex + 1]
+
+		if (previousElement) {
+			return previousElement
+		} else if (nextElement) {
+			return nextElement
+		} else if (element.parent && element.parent.element_type !== 'contentRoot') {
+			return element.parent
+		}
+
+		return null
+	}
 
 	// end checkMousePosition
 	const applyShortcuts = (e) => {
@@ -66,7 +62,7 @@ export const useKeyBindings = () => {
 
 			// Duplicate - CTRL+D
 			if (e.which === 68 && e.ctrlKey && !e.shiftKey) {
-				debounceDuplicate(activeElementFocus)
+				activeElementFocus.duplicate()
 				e.preventDefault()
 			}
 
@@ -74,9 +70,6 @@ export const useKeyBindings = () => {
 			if (e.which === 67 && e.ctrlKey && !e.shiftKey) {
 				if (!e.target.getAttribute('contenteditable')) {
 					copyElement(activeElementFocus)
-
-					// TODO: this
-					// this.setCuttedElement(null)
 				}
 			}
 
@@ -100,7 +93,10 @@ export const useKeyBindings = () => {
 			// Delete element
 			if (e.which === 46) {
 				if (!e.target.getAttribute('contenteditable')) {
-					debounceDelete(activeElementFocus)
+					const nextFocusElement = getNextFocusedElement(activeElementFocus)
+					activeElementFocus.delete()
+					console.log(nextFocusElement);
+					focusElement(nextFocusElement)
 				}
 			}
 
