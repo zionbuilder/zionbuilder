@@ -312,7 +312,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'updateElementOptions',
 			'setActiveElement',
 			'saveState'
 		]),
@@ -447,10 +446,7 @@ export default {
 			const prevState = this.history[this.historyIndex - 1]
 
 			if (prevState) {
-				this.updateElementOptions({
-					elementUid: this.element.uid,
-					values: prevState
-				})
+				this.element.options = prevState
 				this.historyIndex--
 			}
 		},
@@ -458,10 +454,7 @@ export default {
 			const nextState = this.history[this.historyIndex + 1]
 
 			if (nextState) {
-				this.updateElementOptions({
-					elementUid: this.element.uid,
-					values: nextState
-				})
+				this.element.options = nextState
 				this.historyIndex++
 			}
 		},
