@@ -82,7 +82,7 @@
 				</FlyoutMenuItem>
 			</FlyoutWrapper>
 			<Modal
-				:show.sync="shortcutsModalVisibility"
+				v-model:show="shortcutsModalVisibility"
 				:width="560"
 				:title="$translate('key_shortcuts')"
 				append-to="#znpb-main-wrapper"
@@ -91,7 +91,7 @@
 			</Modal>
 			<!-- show about -->
 			<Modal
-				:show.sync="aboutModalVisibility"
+				v-model:show="aboutModalVisibility"
 				:width="580"
 				:title="$translate('about_zion_builder')"
 				:show-maximize="false"
@@ -101,7 +101,7 @@
 			</Modal>
 			<!-- save -->
 			<Modal
-				:show.sync="helpModalVisibility"
+				v-model:show="helpModalVisibility"
 				:width="840"
 				:title="$translate('help_modal_title')"
 				append-to="#znpb-main-wrapper"

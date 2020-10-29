@@ -31,7 +31,7 @@
 			</span>
 		</div>
 		<Modal
-			:show.sync="showModal"
+			v-model:show="showModal"
 			:width="590"
 			:fullscreen="false"
 			append-to=".znpb-center-area"

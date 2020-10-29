@@ -3,7 +3,7 @@
 		:show-close="false"
 		:show-maximize="false"
 		:width="400"
-		:show.sync="showTour"
+		v-model:show="showTour"
 		:show-backdrop="false"
 		class="zion-tour--modal-backdrop"
 		:position="modalPosition"
@@ -547,7 +547,8 @@ export default {
 		height: auto;
 		background: transparent;
 		transform: translate(-50%, -50%);
-		// bug fix for Chrome blurry text
+
+// bug fix for Chrome blurry text
 
 		-webkit-font-smoothing: subpixel-antialiased;
 	}

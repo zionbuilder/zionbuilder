@@ -11,7 +11,7 @@ import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { createInstance } from './utils/events'
-import { Errors } from '@zionbuilder/models'
+import { Errors, Options, Templates } from '@zionbuilder/models'
 import {
 	TreeViewList,
 	TreeViewListItem
@@ -38,6 +38,8 @@ pageEvents.addDocument(window)
 
 // init data
 const errors = new Errors()
+const options = new Options()
+const templates = new Templates()
 const appInstance = createApp(App)
 
 // Init global components
@@ -57,6 +59,8 @@ appInstance.component('WireframeListItem', WireframeListItem)
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	errors,
+	options,
+	templates,
 	hooks,
 	appInstance,
 	pageEvents,
@@ -73,5 +77,7 @@ export {
 	appInstance,
 	pageEvents,
 	errors,
+	options,
+	templates,
 	registerElementComponent
 }
