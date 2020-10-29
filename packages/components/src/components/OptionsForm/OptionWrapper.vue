@@ -168,7 +168,7 @@ import { trigger } from '@zionbuilder/hooks'
 import { useOptions, useOptionsSchemas, useResponsiveDevices } from '@data'
 import { provide, readonly, toRef } from 'vue'
 export default {
-	name: 'InputWrapper',
+	name: 'OptionWrapper',
 	provide () {
 		return {
 			inputWrapper: this

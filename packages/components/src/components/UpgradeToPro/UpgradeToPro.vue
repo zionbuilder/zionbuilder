@@ -58,8 +58,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "~@zionbuilder/css-variables";
-
 .znpb-option__upgrade-to-pro {
 	text-align: center;
 

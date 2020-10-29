@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-options-form-wrapper znpb-fancy-scrollbar">
-		<InputWrapper
+		<OptionWrapper
 			v-for="(optionConfig, optionId) in optionsSchema"
 			:key="optionId"
 			:schema="optionConfig"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import InputWrapper from './InputWrapper.vue'
+import OptionWrapper from './OptionWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@data'
@@ -156,7 +156,7 @@ export default {
 		}
 	},
 	components: {
-		InputWrapper
+		OptionWrapper
 	},
 	methods: {
 

@@ -115,6 +115,7 @@ export default {
 		font-size: 13px;
 		font-weight: 500;
 	}
+
 	&-close {
 		display: flex;
 		font-size: 8px;

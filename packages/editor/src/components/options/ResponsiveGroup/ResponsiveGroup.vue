@@ -22,7 +22,7 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo, setActiveResponsiveOptions, removeActiveResponsiveOptions } = useResponsiveDevices()
-console.log({activeResponsiveDeviceInfo, setActiveResponsiveOptions, removeActiveResponsiveOptions});
+
 		onMounted(() => setActiveResponsiveOptions(this))
 		onBeforeUnmount(() => removeActiveResponsiveOptions(this))
 

@@ -8,7 +8,7 @@
 			<template v-slot:title>
 				<Icon icon="drop" />
 			</template>
-			<InputWrapper
+			<OptionWrapper
 				:schema="bgColorSchema"
 				:option-id="bgColorSchema.id"
 				:modelValue="valueModel['background-color']"
@@ -21,7 +21,7 @@
 			<template v-slot:title>
 				<Icon icon="gradient" />
 			</template>
-			<InputWrapper
+			<OptionWrapper
 				:schema="bgGradientSchema"
 				:option-id="bgGradientSchema.id"
 				:modelValue="valueModel['background-gradient']"
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 
 export default {
@@ -68,13 +69,26 @@ export default {
 	props: {
 		modelValue: {}
 	},
-	setup () {
+	setup ( props, { emit } ) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { activePseudoSelector } = usePseudoSelectors()
 
+		const valueModel = computed({
+			get () {
+				return props.modelValue || {}
+			},
+			set (newValue) {
+				emit('update:modelValue', newValue)
+			}
+		})
+
+		const canShowBackground = computed(() => activeResponsiveDeviceInfo.id === 'default' && activePseudoSelector.value.id === 'default')
+
 		return {
 			activeResponsiveDeviceInfo,
-			activePseudoSelector
+			activePseudoSelector,
+			valueModel,
+			canShowBackground
 		}
 	},
 
@@ -88,20 +102,6 @@ export default {
 				id: 'background-gradient',
 				type: 'background_gradient'
 			}
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return this.modelValue || {}
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		// only show bg video on desktop
-		canShowBackground () {
-			return this.activeResponsiveDeviceInfo.id === 'default' && this.activePseudoSelector.value.id === 'default'
 		}
 	},
 	methods: {

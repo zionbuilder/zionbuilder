@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<CustomSelector
+		<InputCustomSelector
 			v-model="textAlignModel"
 			:options="textAlignOptions"
 			:columns="4"
 		>
-		</CustomSelector>
+		</InputCustomSelector>
 	</div>
 </template>
 <script>

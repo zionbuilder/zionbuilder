@@ -11,7 +11,8 @@
 	</div>
 </template>
 <script>
-import { getSchema } from '@zb/schemas'
+import { computed } from 'vue'
+import { useOptionsSchemas } from '@data/useOptionsSchemas'
 
 export default {
 	name: 'InputTextShadow',
@@ -43,22 +44,29 @@ export default {
 			default: 'text-shadow'
 		}
 	},
-	computed: {
-		schema () {
-			if (this.shadow_type === 'text-shadow') {
-				const { inset, spread, ...shadowSchema } = getSchema('shadow')
+	setup (props, { emit }) {
+		const { getSchema } = useOptionsSchemas()
+		const schema = computed(() => {
+			if (props.shadow_type === 'text-shadow') {
+				const { inset, spread, ...shadowSchema } = getSchema('shadowSchema')
 				return shadowSchema
 			}
 
 			return getSchema('shadow')
-		},
-		valueModel: {
+		})
+
+		const valueModel = computed({
 			get () {
-				return this.modelValue || {}
+				return props.modelValue || {}
 			},
 			set (newValue) {
-				this.$emit('update:modelValue', newValue)
+				emit('update:modelValue', newValue)
 			}
+		})
+		return {
+			getSchema,
+			schema,
+			valueModel
 		}
 	}
 }

@@ -155,10 +155,6 @@ export default {
 	&-container {
 		overflow-x: hidden;
 	}
-
-	&-options-form {
-		padding: 0;
-	}
 }
 .znpb-option-layout__menu > .znpb-horizontal-accordion__header {
 	& > .znpb-horizontal-accordion__title {

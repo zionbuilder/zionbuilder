@@ -8,12 +8,12 @@
 			<div class="znpb-style-background-color">
 				<EmptyList
 					class="znpb-input-background-image__empty"
-					v-if="! value"
+					v-if="! modelValue"
 					:no-margin="true"
 				>
 					{{$translate('select_background_color')}}
 				</EmptyList>
-				<ActionsOverlay v-if="value">
+				<ActionsOverlay v-if="modelValue">
 					<div
 						class="znpb-style-background-color__holder"
 						:style="getColorStyle"

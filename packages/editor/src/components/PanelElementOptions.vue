@@ -237,7 +237,6 @@ export default {
 		},
 		elementOptions: {
 			get () {
-				console.log(this);
 				return Array.isArray(this.element.options) ? {} : this.element.options || {}
 			},
 			set (newValues) {

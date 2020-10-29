@@ -15,8 +15,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@zionbuilder/css-variables";
-
 .znpb-label {
 	display: inline-block;
 	padding: 5px 8px 5px;

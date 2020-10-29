@@ -20,7 +20,7 @@ import { InputBackgroundVideo } from './components/InputBackgroundVideo'
 import { InputBorderControl, InputBorderTabs, InputBorderRadius, InputBorderRadiusTabs } from './components/InputBorders'
 import { InputCheckbox, InputCheckboxGroup, InputCheckboxSwitch } from './components/InputCheckbox'
 import { InputCode } from "./components/InputCode"
-import { InputColorPicker } from './components/InputColorPicker'
+import { InputColorPicker, Color } from './components/InputColorPicker'
 import { InputCustomSelector } from './components/InputCustomSelector'
 import { InputDatePicker } from './components/InputDatePicker'
 import { InputEditor } from './components/InputEditor'
@@ -37,7 +37,7 @@ import { InputTextShadow } from './components/InputTextShadow'
 import { InputNumber, InputNumberUnit } from './components/InputNumber'
 import { InputTextAlign } from './components/InputTextAlign'
 import { InputTextTransform } from './components/InputTextTransform'
-import { OptionsForm } from './components/OptionsForm'
+import { OptionsForm, OptionWrapper } from './components/OptionsForm'
 
 import { Loader } from './components/Loader'
 import { Label } from './components/Label'
@@ -71,6 +71,7 @@ const components = [
 	Tabs,
 	Tab,
 	ColorPicker,
+	Color,
 	Injection,
 	RadioImage,
 	InlineEdit,
@@ -120,7 +121,8 @@ const components = [
 	InputNumberUnit,
 	InputTextAlign,
 	InputTextTransform,
-	OptionsForm
+	OptionsForm,
+	OptionWrapper
 ]
 
 const install = (app: App) => {
@@ -148,6 +150,7 @@ export {
 	Tabs,
 	Tab,
 	ColorPicker,
+	Color,
 	Injection,
 	RadioImage,
 
@@ -196,5 +199,6 @@ export {
 	InputNumberUnit,
 	InputTextAlign,
 	InputTextTransform,
-	OptionsForm
+	OptionsForm,
+	OptionWrapper
 }

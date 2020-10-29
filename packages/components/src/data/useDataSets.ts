@@ -48,8 +48,8 @@ export const useDataSets = () => {
 		]
 
 		// Add fonts
-		Object.keys(state.dataSets.fonts_list).forEach(fontProviderId => {
-			const fontsList = state.dataSets.fonts_list[fontProviderId]
+		Object.keys(dataSets.value.fonts_list).forEach(fontProviderId => {
+			const fontsList = dataSets.value.fonts_list[fontProviderId]
 
 			option = [...option, ...fontsList]
 		})

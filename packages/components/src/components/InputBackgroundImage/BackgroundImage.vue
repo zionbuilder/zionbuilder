@@ -18,7 +18,7 @@
 
 <script>
 import InputImage from '../InputImage/InputImage.vue'
-import { getSchema } from '@zb/schemas'
+import { useOptionsSchemas } from '@data/useOptionsSchemas'
 
 export default {
 	name: 'InputBackgroundImage',
@@ -28,9 +28,12 @@ export default {
 	components: {
 		InputImage
 	},
-	data () {
+	setup () {
+		const { getSchema } = useOptionsSchemas()
+		const backgroundImageSchema = getSchema('backgroundImageSchema')
 		return {
-			backgroundImageSchema: getSchema('background_image')
+			getSchema,
+			backgroundImageSchema
 		}
 	},
 	computed: {
