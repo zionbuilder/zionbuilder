@@ -66,7 +66,7 @@ appInstance.config.globalProperties.$zb = {
 	pageEvents,
 	urls: window.ZnPbInitalData.urls
 }
-
+appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 appInstance.mount('#znpb-app')
 
 // Expose common methods
