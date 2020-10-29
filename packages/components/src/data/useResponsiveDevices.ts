@@ -57,6 +57,7 @@ const responsiveDevices: Ref<[]> = ref([
 		icon: 'mobile'
 	}
 ])
+const activeResponsiveOptions = ref(null)
 
 export const useResponsiveDevices = () => {
 	const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value))
@@ -64,10 +65,26 @@ export const useResponsiveDevices = () => {
 		activeResponsiveDeviceId.value = device
 	}
 
+	const setActiveResponsiveOptions = (optionInstance) => {
+		activeResponsiveOptions.value = optionInstance
+	}
+
+	const getActiveResponsiveOptions = () => {
+		return activeResponsiveOptions
+	}
+
+	const removeActiveResponsiveOptions = () => {
+		activeResponsiveOptions.value = null
+	}
+
+
 	return {
 		activeResponsiveDeviceId,
 		activeResponsiveDeviceInfo,
 		responsiveDevices,
-		setActiveResponsiveDeviceId
+		setActiveResponsiveDeviceId,
+		removeActiveResponsiveOptions,
+		getActiveResponsiveOptions,
+		setActiveResponsiveOptions
 	}
 }

@@ -145,20 +145,8 @@ const options = {
 	}
 
 }
-let activeResponsiveOptions = null
 
 export const useOptions = () => {
-	const setActiveResponsiveOptions = (optionInstance) => {
-		activeResponsiveOptions = optionInstance
-	}
-
-	const getActiveResponsiveOptions = () => {
-		return activeResponsiveOptions
-	}
-
-	const removeActiveResponsiveOptions = () => {
-		activeResponsiveOptions = null
-	}
 
 	/**
 	 * Get Option Component
@@ -218,9 +206,6 @@ export const useOptions = () => {
 	return {
 		registerOption,
 		getOptionComponent,
-		getOption,
-		removeActiveResponsiveOptions,
-		getActiveResponsiveOptions,
-		setActiveResponsiveOptions
+		getOption
 	}
 }

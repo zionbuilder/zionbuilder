@@ -36,10 +36,6 @@
 <script>
 import { useResponsiveDevices } from '@zb/components'
 
-// TODO: extract active device methods from options form manager
-// import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
-// import { getActiveResponsiveOptions, removeDeviceStyles } from '../manager/options/optionsInstance'
-
 export default {
 	name: 'device-element',
 	props: {
@@ -51,11 +47,12 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions } = useResponsiveDevices()
 
 		return {
 			activeResponsiveDeviceInfo,
-			setActiveResponsiveDeviceId
+			setActiveResponsiveDeviceId,
+			getActiveResponsiveOptions
 		}
 	},
 	computed: {
@@ -66,8 +63,7 @@ export default {
 			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id
 		},
 		hasChanges () {
-			return false
-			const activeDevice = getActiveResponsiveOptions()
+			const activeDevice = this.getActiveResponsiveOptions()
 			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
 		}
 	},

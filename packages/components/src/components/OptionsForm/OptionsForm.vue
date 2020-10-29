@@ -382,6 +382,7 @@ export default {
 .znpb-options-form-wrapper {
 	display: flex;
 	flex-wrap: wrap;
+	max-height: 100%;
 	padding: 20px 15px 0;
 }
 </style>
