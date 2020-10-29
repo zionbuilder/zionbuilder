@@ -85,7 +85,9 @@ export default {
 			type: Number,
 			default: 1,
 			required: false
-		}
+		},
+		min: Number,
+		max: Number
 	},
 	data () {
 		return {

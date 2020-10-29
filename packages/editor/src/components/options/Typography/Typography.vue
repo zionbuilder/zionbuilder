@@ -8,7 +8,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { useOptionsSchemas } from '@data'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'Typography',

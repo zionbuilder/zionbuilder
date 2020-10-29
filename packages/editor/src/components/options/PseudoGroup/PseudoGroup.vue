@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 
 export default {
@@ -21,34 +22,30 @@ export default {
 			type: Boolean
 		}
 	},
-	setup() {
+	setup(props, { emit }) {
 		const { activePseudoSelector } = usePseudoSelectors()
-
-		return {
-			activePseudoSelector
-		}
-	},
-	computed: {
-		optionId () {
-			return this.$parent.optionId
-		},
-		valueModel: {
+		const valueModel = computed({
 			get () {
-				return (this.modelValue || {})[this.activePseudoSelector.value.id] || {}
+				return (props.modelValue || {})[activePseudoSelector.value.id] || {}
 			},
 			set (newValue) {
-				const clonedValue = { ...this.modelValue }
+				const clonedValue = { ...props.modelValue }
 				// Check if we actually need to delete the option
-				if (newValue === null && typeof clonedValue[this.activePseudoSelector.value.id]) {
+				if (newValue === null && typeof clonedValue[activePseudoSelector.value.id]) {
 					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[this.activePseudoSelector.value.id]
+					delete clonedValue[activePseudoSelector.value.id]
 				} else {
-					clonedValue[this.activePseudoSelector.value.id] = newValue
+					clonedValue[activePseudoSelector.value.id] = newValue
 				}
 
 				// Send the updated value back
-				this.$emit('update:modelValue', clonedValue)
+				emit('update:modelValue', clonedValue)
 			}
+		})
+
+		return {
+			activePseudoSelector,
+			valueModel
 		}
 	}
 }

@@ -58,10 +58,10 @@
 					/>
 				</Tab>
 				<Tab name="Styling">
-					<!-- <OptionsForm
+					<OptionsForm
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
-					/> -->
+					/>
 				</Tab>
 				<Tab name="Advanced">
 					<!-- <OptionsForm

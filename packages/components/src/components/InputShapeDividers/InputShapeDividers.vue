@@ -1,7 +1,7 @@
 <template>
 
 	<div>
-		<CustomSelector
+		<InputCustomSelector
 			v-model="activeMaskPosition"
 			:options="maskPosOptions"
 			:columns="2"

@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-options-form-wrapper">
+	<div class="znpb-options-form-wrapper znpb-fancy-scrollbar">
 		<InputWrapper
 			v-for="(optionConfig, optionId) in optionsSchema"
 			:key="optionId"

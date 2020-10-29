@@ -1,5 +1,6 @@
 <template>
 	<div class="znpb-pannel-accordion">
+		{{expanded}}
 		<div
 			class="znpb-pannel-accordion__header"
 			@click="toggle"

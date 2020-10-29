@@ -50,10 +50,10 @@
  * it emits:
  *  - the new color chosen
  */
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import GradientPreview from './GradientPreview.vue'
 import LibraryElement from './LibraryElement.vue'
-import {Label} from '../Label'
+import { Label } from '../Label'
 
 export default {
 	name: 'GradientLibrary',

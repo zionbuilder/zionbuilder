@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { mapActions, mapGetters } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
 import { updateOptionValue } from '@zb/utils'
@@ -103,14 +104,29 @@ export default {
 			required: false
 		}
 	},
-	setup () {
+	setup (props) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { pseudoSelectors, activePseudoSelector } = usePseudoSelectors()
+
+		const hasContent = computed(() => activePseudoSelector.value.id === ':before' || activePseudoSelector.value.id === ':after')
+		const activePseudoSelectors = computed(() => ((props.modelValue || {}) || {})[activeResponsiveDeviceInfo.value.id] || {})
+		const pseudoStyles = computed(() => (activePseudoSelectors || {})[activePseudoSelector.value.id] || {})
+		const pseudoContentModel = computed({
+			get () {
+				return pseudoStyles.content || ''
+			},
+			set (newValue) {
+				const newValues = updateOptionValue(props.modelValue, `${activeResponsiveDeviceInfo.value.id}.${activePseudoSelector.value.id}.content`, newValue)
+				$emit('update:modelValue', newValues)
+			}
+		})
 
 		return {
 			activeResponsiveDeviceInfo,
 			pseudoSelectors,
-			activePseudoSelector
+			activePseudoSelector,
+			hasContent,
+			activePseudoSelectors
 		}
 	},
 	computed: {
@@ -137,32 +153,12 @@ export default {
 			})
 		},
 
-		hasContent () {
-			return this.activePseudoSelector.id === ':before' || this.activePseudoSelector.id === ':after'
-		},
-
-		activePseudoSelector () {
-			return this.activePseudoSelector.value
-		},
-
-		activePseudoSelectors () {
-			return ((this.modelValue || {}) || {})[this.actactiveResponsiveDeviceInfoue.id] || {}
-		},
-
-		activePseudoSelectorModel () {
-			return null
-		},
-
-		pseudoStyles () {
-			return (this.activePseudoSelectors || {})[this.activePseudoSelector.id] || {}
-		},
-
 		pseudoContentModel: {
 			get () {
 				return this.pseudoStyles.content || ''
 			},
 			set (newValue) {
-				const newValues = updateOptionValue(this.modelValue, `${this.actactiveResponsiveDeviceInfoue.id}.${this.activePseudoSelector.id}.content`, newValue)
+				const newValues = updateOptionValue(this.modelValue, `${this.activeResponsiveDeviceInfo.id}.${this.activePseudoSelector.id}.content`, newValue)
 				$emit('update:modelValue', newValues)
 			}
 		},
@@ -269,15 +265,15 @@ export default {
 		deleteConfigForPseudoSelector (pseudoSelectorId) {
 			const newValues = {
 				...this.modelValue,
-				[this.actactiveResponsiveDeviceInfoue.id]: {
-					...this.modelValue[this.actactiveResponsiveDeviceInfoue.id]
+				[this.activeResponsiveDeviceInfo.id]: {
+					...this.modelValue[this.activeResponsiveDeviceInfo.id]
 				}
 			}
-			delete newValues[this.actactiveResponsiveDeviceInfoue.id][pseudoSelectorId]
+			delete newValues[this.activeResponsiveDeviceInfo.id][pseudoSelectorId]
 
 			// Check if there are any remaining styles for this responsive device
-			if (Object.keys((newValues[this.actactiveResponsiveDeviceInfoue.id]) || {}).length === 0) {
-				delete newValues[this.actactiveResponsiveDeviceInfoue.id]
+			if (Object.keys((newValues[this.activeResponsiveDeviceInfo.id]) || {}).length === 0) {
+				delete newValues[this.activeResponsiveDeviceInfo.id]
 			}
 
 			this.$emit('update:modelValue', newValues)

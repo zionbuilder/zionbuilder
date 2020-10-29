@@ -5,7 +5,7 @@ export * from './data'
 // Main
 import * as hooks from '@zb/hooks'
 import { useElementTypes } from './data'
-
+import { registerEditorOptions } from './components/options'
 // Plugins
 import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
@@ -25,6 +25,9 @@ import { useOptionsSchemas } from '@zb/components'
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas()
 registerSchema('pageSettingsSchema', window.ZnPbInitalData.page_settings.schema)
+
+// Register options
+registerEditorOptions()
 
 // Components
 import App from './App.vue'
