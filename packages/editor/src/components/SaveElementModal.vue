@@ -1,6 +1,6 @@
 <template>
 	<Modal
-		:show.sync="showExportModal"
+		v-model:show="showExportModal"
 		:title="$translate('save_to_library')"
 		append-to="body"
 		:width="560"
