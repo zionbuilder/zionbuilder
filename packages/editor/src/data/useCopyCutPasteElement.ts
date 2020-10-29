@@ -11,20 +11,27 @@ export function useCopyCutPasteElement () {
 			element,
 			action
 		}
+
+		if (action === 'cut') {
+			element.isCutted = true
+		}
 	}
 
 	const pasteElement = (element) => {
 		if (copiedElement.value.action === 'copy') {
 			element.addChild(copiedElement.value.element.getClone())
 		} else if (copiedElement.value.action === 'cut') {
+			copiedElement.value.element.isCutted = false
 			copiedElement.value.element.move(element)
 		}
-
 
 		copiedElement.value = {}
 	}
 
 	const resetCopiedElement = () => {
+		if (copiedElement.value && copiedElement.value.action === 'cut') {
+			copiedElement.value.element.isCutted = false
+		}
 		copiedElement.value = {}
 	}
 

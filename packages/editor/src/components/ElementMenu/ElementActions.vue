@@ -173,7 +173,6 @@ export default {
 	methods: {
 		...mapActions([
 			'copyElement',
-			'updateElementOptions',
 			'setCopiedClasses',
 			'setCopiedElement',
 			'setCopiedElementStyles',
@@ -194,13 +193,10 @@ export default {
 		},
 		pasteElementClasses () {
 			if (this.getCopiedClasses) {
-				this.updateElementOptions({
-					elementUid: this.element.uid,
-					values: {
-						...this.element.options,
-						_classes: this.getCopiedClasses
-					}
-				})
+				this.element.options = {
+					...this.element.options,
+					_classes: this.getCopiedClasses
+				}
 			}
 			this.close()
 		},
@@ -254,25 +250,20 @@ export default {
 			this.close()
 		},
 		discardElementStyles () {
-			this.updateElementOptions({
-				elementUid: this.element.uid,
-				values: {
-					...this.element.options,
-					_styles: {}
-				}
-			})
+			this.element.options = {
+				...this.element.options,
+				_styles: {}
+			}
 			this.close()
 		},
 		pasteElementStyles () {
 			const copiedElementStyles = this.getCopiedElementStyles
 			if (this.getCopiedElementStyles) {
-				this.updateElementOptions({
-					elementUid: this.element.uid,
-					values: {
-						...this.element.options,
-						_styles: copiedElementStyles
-					}
-				})
+				this.element.options = {
+					...this.element.options,
+					_styles: copiedElementStyles
+				}
+
 				this.close()
 			}
 		},

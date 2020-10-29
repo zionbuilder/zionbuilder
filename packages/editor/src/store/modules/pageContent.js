@@ -285,24 +285,6 @@ const actions = {
 		commit(types.DELETE_ELEMENT_OPTION, path)
 	},
 
-	updateElementOptions: ({ commit, dispatch, getters }, { elementUid, values, type }) => {
-		const element = state.pageContent[elementUid]
-		// const elementName = getters.getElementName(elementUid)
-
-		// Parse settings
-		commit(types.UPDATE_ELEMENT_OPTIONS, {
-			element,
-			values
-		})
-
-		// const currentTime = new Date()
-		// dispatch('addToHistory', {
-		// 	name: `Updated ${elementName} ${type}`,
-		// 	time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
-		// 	state: state
-		// })
-	},
-
 	copyElement: ({ commit, getters, dispatch, state }, payload) => {
 		const { elementUid, pasteElementUid, insertParent } = payload
 		let parentContent
@@ -384,17 +366,6 @@ const actions = {
 			name: `Added columns layout`,
 			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
-		})
-	},
-
-	attachSlots: ({ commit, getters }, payload) => {
-		const { elementUid, slots } = payload
-
-		const elementData = getters.getElementData(elementUid)
-
-		commit(types.ATTACH_SLOTS_TO_ELEMENT, {
-			elementData,
-			slots
 		})
 	},
 

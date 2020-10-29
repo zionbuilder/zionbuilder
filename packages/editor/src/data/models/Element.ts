@@ -18,6 +18,7 @@ export class Element {
 	public isHighlighted: boolean = false
 	public activeElementRename: boolean = false
 	public scrollTo: boolean = false
+	public isCutted: boolean = false
 
 	constructor(data, parentUid = '') {
 		const {

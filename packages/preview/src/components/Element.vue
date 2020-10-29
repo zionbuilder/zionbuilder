@@ -65,7 +65,7 @@
 <script>
 // Utils
 import { ref, markRaw } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import importCSS from '@zionbuilder/importcss'
@@ -231,10 +231,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getElementOptionValue',
-			'getElementFocus',
-			'getElementById',
-			'getRightClickMenu',
 			'getCuttedElement'
 		]),
 		stylesConfig () {
@@ -245,7 +241,7 @@ export default {
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
 				[`znpb-element__wrapper--toolbox-dragging`]: this.isToolboxDragging,
-				'znpb-element__wrapper--cutted': this.getCuttedElement && this.element.uid === this.getCuttedElement.uid,
+				'znpb-element__wrapper--cutted': this.element.isCutted,
 				'znpb-element--loading': this.loading
 			}
 
@@ -299,13 +295,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'insertElements',
-			'attachSlots',
-			'setActiveElement',
-			'updateElementOptionValue',
-			'setRightClickMenu'
-		]),
 		debounceUpdate: debounce(function () {
 			this.$nextTick(() => {
 				this.trigger('updated')
@@ -455,12 +444,7 @@ export default {
 		},
 
 		restoreHiddenElement () {
-			this.updateElementOptionValue({
-				elementUid: this.element.uid,
-				path: '_isVisible',
-				newValue: true,
-				type: 'visibility'
-			})
+			this.element.toggleVisibility()
 		},
 		/**
 		 * Register an event for an action
