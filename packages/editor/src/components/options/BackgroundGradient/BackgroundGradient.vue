@@ -2,7 +2,7 @@
 	<div class="znpb-style-background-gradient">
 		<EmptyList
 			class="znpb-style-background-gradient__empty"
-			v-if="!value && !showLibrary"
+			v-if="!modelValue && !showLibrary"
 			:no-margin="true"
 		>
 			<a @click="addNewGradient">{{$translate('add_background_gradient')}}</a>
@@ -13,7 +13,7 @@
 		</EmptyList>
 
 		<GradientGenerator
-			v-if="value"
+			v-if="modelValue"
 			v-model="gradientModel"
 			ref="gradientGenerator"
 		/>
