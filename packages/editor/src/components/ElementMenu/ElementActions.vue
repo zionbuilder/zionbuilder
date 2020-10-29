@@ -1,7 +1,7 @@
 <template>
 	<ul
 		class="znpb-right-click__menu"
-		@click.stop=""
+		@click.stop="close"
 	>
 		<li
 			class="znpb-right-click__menu-item"
@@ -161,11 +161,8 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'getPageContent',
 			'getCopiedElement',
-			'getCopiedElementStyles',
 			'getCopiedClasses',
-			'getElementOptionValue',
 			'getCuttedElement',
 			'getElementData',
 		])
@@ -175,11 +172,8 @@ export default {
 			'copyElement',
 			'setCopiedClasses',
 			'setCopiedElement',
-			'setCopiedElementStyles',
 			'setActiveElement',
-			'updateElementOptionValue',
 			'setCuttedElement',
-			'savePage',
 			'moveElement'
 		]),
 		triggerRename () {

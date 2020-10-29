@@ -177,9 +177,6 @@
 </template>
 
 <script>
-// Utils
-import { mapGetters, mapActions } from 'vuex'
-
 // Components
 import popOver from './inlineEditorComponents/popOver.vue'
 import panel from './inlineEditorComponents/panel.vue'
@@ -309,9 +306,6 @@ export default {
 		this.localContent = this.modelValue
 	},
 	methods: {
-		...mapActions([
-			'updateElementOptionValue'
-		]),
 		onColorPickerOpen () {
 			this.activePanel = 'colorPicker'
 			const editor = this.$refs.inlineEditor

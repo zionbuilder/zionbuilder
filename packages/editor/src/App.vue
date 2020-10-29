@@ -86,15 +86,17 @@
 			</transition>
 			<!-- Start panels -->
 
-			<component
-				v-for="panel in openPanels"
-				:is="panel.id"
-				:key="panel.id"
-				:panel="panel"
-				:show-move="false"
-				:data="rootData"
-				@show-helper="showPlaceholderHelper=$event"
-			/>
+			<template v-if="!isPreviewMode">
+				<component
+					v-for="panel in openPanels"
+					:is="panel.id"
+					:key="panel.id"
+					:panel="panel"
+					:show-move="false"
+					:data="rootData"
+					@show-helper="showPlaceholderHelper=$event"
+				/>
+			</template>
 
 			<!-- iframe wrapper area -->
 			<PreviewIframe />

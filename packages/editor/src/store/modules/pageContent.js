@@ -136,7 +136,6 @@ const getters = {
 	getCopiedClasses: state => state.copiedClasses,
 	getCopiedElement: state => state.copiedElement,
 	getCuttedElement: state => state.cuttedElement,
-	getCopiedElementStyles: state => state.copiedElementStyles,
 	getElementParent: state => (elementUid) => {
 		return Object.keys(state.pageContent).find(searchElUid => {
 			const elementConfig = state.pageContent[searchElUid]
@@ -160,9 +159,6 @@ const actions = {
 	},
 	setActiveElement ({ commit }, elementUid) {
 		commit(types.SET_ACTIVE_ELEMENT, elementUid)
-	},
-	setCopiedElementStyles ({ commit }, payload) {
-		commit(types.SET_COPIED_ELEMENT_STYLES, payload)
 	},
 	setCopiedElement ({ commit }, payload) {
 		commit(types.SET_COPIED_ELEMENT, payload)
