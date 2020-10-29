@@ -29,22 +29,23 @@
 			placement="bottom-end"
 			tooltipClass="hg-popper--no-padding znpb-element-options__media-class-pseudo-selector-dropdown"
 		>
-			<div
-				slot="content"
-				class="znpb-element-options__media-class-pseudo-selector-list hg-popper-list"
-			>
-				<PseudoDropdownItem
-					v-for="(selectorConfig, index) in pseudoSelectors"
-					:selector="selectorConfig"
-					:selectors-model="activePseudoSelectors"
-					:key="index"
-					:clearable="selectorConfig.canBeDeleted"
-					@remove-styles="deleteConfigForPseudoSelector"
-					@selector-selected="onPseudoSelectorSelected"
-					@delete-selector="deleteNewSelector(selectorConfig)"
-					class="hg-popper-list__item"
-				/>
-			</div>
+			<template #content>
+				<div
+					class="znpb-element-options__media-class-pseudo-selector-list hg-popper-list"
+				>
+					<PseudoDropdownItem
+						v-for="(selectorConfig, index) in pseudoSelectors"
+						:selector="selectorConfig"
+						:selectors-model="activePseudoSelectors"
+						:key="index"
+						:clearable="selectorConfig.canBeDeleted"
+						@remove-styles="deleteConfigForPseudoSelector"
+						@selector-selected="onPseudoSelectorSelected"
+						@delete-selector="deleteNewSelector(selectorConfig)"
+						class="hg-popper-list__item"
+					/>
+				</div>
+			</template>
 
 			<div
 				class="znpb-element-options__media-class-pseudo-title"

@@ -7,58 +7,59 @@
 			tooltip-class="znpb-class-selector__popper"
 			:show-arrows="false"
 		>
-			<div
-				class="znpb-class-selector-body"
-				slot="content"
-				tabindex="0"
-				ref="dropDownWrapper"
-				@keydown.down="onKeyDown"
-				@keydown.up="onKeyUp"
-				@keydown.enter="onKeyEnter"
-				@keydown.esc.stop="dropdownState = false"
-			>
-				<div class="znpb-search-wrapper">
-					<BaseInput
-						:modelValue="keyword"
-						:filterable="true"
-						:clearable="true"
-						:placeholder="$translate('enter_class_name')"
-						ref="input"
-						@update:modelValue="handleClassInput"
-						@keydown.enter.stop="addNewCssClass"
-					></BaseInput>
-					<Button
-						@click="addNewCssClass"
-						type="secondary"
-						class="znpb-class-selector__add-class-button"
-					>
-						{{$translate('add_class')}}
-					</Button>
-				</div>
+			<template #content>
+				<div
+					class="znpb-class-selector-body"
+					tabindex="0"
+					ref="dropDownWrapper"
+					@keydown.down="onKeyDown"
+					@keydown.up="onKeyUp"
+					@keydown.enter="onKeyEnter"
+					@keydown.esc.stop="dropdownState = false"
+				>
+					<div class="znpb-search-wrapper">
+						<BaseInput
+							:modelValue="keyword"
+							:filterable="true"
+							:clearable="true"
+							:placeholder="$translate('enter_class_name')"
+							ref="input"
+							@update:modelValue="handleClassInput"
+							@keydown.enter.stop="addNewCssClass"
+						></BaseInput>
+						<Button
+							@click="addNewCssClass"
+							type="secondary"
+							class="znpb-class-selector__add-class-button"
+						>
+							{{$translate('add_class')}}
+						</Button>
+					</div>
 
-				<template v-if="filteredClasses.length > 0">
-					<CssSelector
-						v-for="(cssClassItem) in filteredClasses"
-						:key="cssClassItem.selector"
-						:name="cssClassItem.name"
-						:type="cssClassItem.type"
-						:is-selected="cssClassItem.selector === activeClass"
-						:show-delete="cssClassItem.deletable"
-						@remove-class="removeClass"
-						@click="selectClass(cssClassItem.selector), dropdownState = false"
-					/>
-				</template>
-				<div
-					v-if="!errorMessage && filteredClasses.length === 0"
-					class="znpb-class-selector-noclass"
-				>{{$translate('no_class_found')}}
+					<template v-if="filteredClasses.length > 0">
+						<CssSelector
+							v-for="(cssClassItem) in filteredClasses"
+							:key="cssClassItem.selector"
+							:name="cssClassItem.name"
+							:type="cssClassItem.type"
+							:is-selected="cssClassItem.selector === activeClass"
+							:show-delete="cssClassItem.deletable"
+							@remove-class="removeClass"
+							@click="selectClass(cssClassItem.selector), dropdownState = false"
+						/>
+					</template>
+					<div
+						v-if="!errorMessage && filteredClasses.length === 0"
+						class="znpb-class-selector-noclass"
+					>{{$translate('no_class_found')}}
+					</div>
+					<div
+						class="znpb-class-selector-validator"
+						v-if="invalidClass"
+					>{{ errorMessage }}
+					</div>
 				</div>
-				<div
-					class="znpb-class-selector-validator"
-					v-if="invalidClass"
-				>{{ errorMessage }}
-				</div>
-			</div>
+			</template>
 
 			<CssSelector
 				v-bind="activeClassConfig"
