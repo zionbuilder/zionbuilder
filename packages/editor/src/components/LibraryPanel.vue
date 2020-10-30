@@ -177,31 +177,10 @@ export default {
 
 		const cachedData = localSt.get('znpbLibraryCache')
 		// check if get items from server or from local storage
-		if (cachedData === null) {
-			console.log('cahe null get from server')
-			// getDataFromServer()
-		} else {
-			categories.value = cachedData.categories
-			items.value = cachedData.items
 
-		}
+		categories.value = cachedData.categories
+		items.value = cachedData.items
 
-		const getDataFromServer = inject('LibrarygetDataFromServer')
-
-		getDataFromServer().then((response)=> {
-				console.log('res', response)
-				const { data = {} } = response
-				const { categories = {}, items = [] } = data
-				categories.value = categories
-				items.value = items
-				localSt.set('znpbLibraryCache', {
-					categories,
-					items
-				}, 604800000)
-			}).finally(() => {
-
-				emit('loading-end', true)
-			})
 
 		const computedCategories = computed(() => {
 			if ((keyword.value.length > 1) && (searchCategories.value.length > 0)) {

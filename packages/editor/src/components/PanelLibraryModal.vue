@@ -303,17 +303,26 @@ export default {
 			})
 		}
 
+		const cachedData = localSt.get('znpbLibraryCache')
+		if (cachedData === null) {
+			LibrarygetDataFromServer()
+		}
+
 		function LibrarygetDataFromServer (useCache = true) {
 			libLoading.value = true
-			return Promise.all([getLibraryItems()]).then((response) => {
-				console.log('response')
+			return getLibraryItems().then((response) => {
+				const { data = {} } = response
+				const { categories = {}, items = [] } = data
+				localSt.set('znpbLibraryCache', {
+					categories,
+					items
+				}, 604800000)
 			})
 			.finally(() => {
 				loadingLibrary.value = false
 			})
 		}
 		provide('localgetDataFromServer', localgetDataFromServer)
-		provide('LibrarygetDataFromServer', LibrarygetDataFromServer)
 
 		return {
 			togglePanel,
