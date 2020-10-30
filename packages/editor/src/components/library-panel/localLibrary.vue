@@ -12,7 +12,7 @@
 				:parent="category"
 				:subcategory="getSubCategories"
 				:activeSubcategory="activeSubcategory"
-				@activate-category="activeCategory=$event, activeSubcategory=getSubCategories[0], $emit('active-upload-finished',true)"
+				@activate-category="onActivateCategory"
 				@activate-subcategory="onSubCategoryChanged"
 			/>
 
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 
-			<Loader v-if="loadingLibrary" />
+			<!-- <Loader v-if="loadingLibrary" /> -->
 
 			<div
 				v-else
@@ -54,22 +54,16 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+// import { getTemplates, addTemplate } from '@zionbuilder/rest'
 import CategoriesLibrary from './CategoriesLibrary.vue'
 import TemplateList from '../../../../admin/src/components/templates/TemplateList.vue'
-
+import { computed, inject, ref, reactive, watchEffect, provide } from 'vue'
+import { translate } from '@zb/i18n'
 export default {
 	name: 'localLibrary',
 	components: {
 		CategoriesLibrary,
 		TemplateList
-	},
-	inject: {
-		Library: {
-			default () {
-				return {}
-			}
-		}
 	},
 	props: {
 		previewOpen: {
@@ -77,112 +71,48 @@ export default {
 			required: false
 		}
 	},
-	data: function () {
-		return {
-			showModalConfirm: false,
-			activeTemplate: null,
-			loadingLibrary: true,
-			iframeLoaded: false,
-			enteredValue: '',
-			searchCategories: [],
-			searchElements: [],
-			activeSubcategory: null,
-			activeCategory: {},
-			timeExpired: true,
-			ItemLoading: false,
-			errorMessage: '',
-			allItems: []
-		}
-	},
+	setup (props, {emit}) {
+		const zb = inject('$zb')
+		const templateUploaded = inject('templateUploaded')
+		const insertItem = inject('insertItem')
+		const searchElements = ref([])
+		// const loadingLibrary = ref(true)
+		const activeCategory = ref({})
+		const allItems = ref([])
+		const activeSubcategory = ref({})
+		const timeExpired = ref(false)
+		const allTemplateTypes = ref([])
+		const enteredValue = ref('')
+		const errorMessage = ref('')
+		const ItemLoading=  ref(false)
+		const activeTemplate = ref(null)
+		const searchCategories = ref([])
 
-	computed: {
-		...mapGetters([
-			'getTemplates'
-		]),
-		allTemplateTypes () {
-			return window.ZnPbInitalData.template_types
-		},
-		getActiveCategory () {
-			// Don't proceed if we have no categories
-			if (Object.keys(this.allTemplateTypes).length === 0) {
-				return {}
-			}
+		const getDataFromServer = inject('localgetDataFromServer')
 
-			// If an active category was not set, get the first category
-			if (this.Library['_data'].templateUploaded && this.lastItemImported !== undefined) {
-				return this.allTemplateTypes.find(cat => cat.id === this.lastItemImported.template_type) || {}
-			}
-
-			if (this.activeCategory && Object.keys(this.activeCategory).length === 0 && this.activeCategory.constructor === Object) {
-				return this.allTemplateTypes[0]
-			} else {
-				return this.activeCategory
-			}
-		},
-		lastItemImported () {
-			return this.Library['_data'].templateUploaded ? this.allItems[0] : {}
-		},
-		getFilteredTemplates () {
-			if (this.keyword.length > 1) {
-				return this.searchElements
-			} else {
-				const activeCategory = this.getActiveCategory.id
-				const activeSubcategory = this.activeSubcategory ? this.activeSubcategory.slug : false
-				return this.allItems.filter((template) => {
-					if (activeSubcategory && activeSubcategory !== 'all') {
-						// Check to see if the subactegory match
-						const templateCategories = template.template_category
-						const sameSubcategory = templateCategories.find(category => category.slug === activeSubcategory)
-						return template.post_status === 'publish' && template.template_type && template.template_type === activeCategory && sameSubcategory
-					} else {
-						return template.post_status === 'publish' && template.template_type && template.template_type === activeCategory
-					}
-				})
-			}
-		},
-
-		getCategoryCount () {
-			return this.getActiveCategory.category_type
-		},
-		keyword: {
-			get () {
-				return this.enteredValue
-			},
-			set (newValue) {
-				this.enteredValue = newValue
-				if (newValue.length > 1) {
-					const searchResult = this.searchResult(newValue)
-
-					if (searchResult) {
-						this.searchElements = searchResult
-						this.searchCategories = this.searchResultCategories()
-					} else this.searchCategories = []
-				} else if (this.keyword.length === 0) {
-					this.searchCategories = []
+		getDataFromServer().then(()=>{
+				allItems.value = zb.templates.models
+				if (templateUploaded.value) {
+					activeCategory.value = allTemplateTypes.value.find(cat => cat.id === allItems.value[0].template_type)
+					activeSubcategory.value = getSubCategories.value[0]
+					timeExpired.value = false
+					setExpireClass()
 				}
-			}
-		},
-		getCategoriesForDisplay () {
-			const categories = []
-
-			this.allTemplateTypes.forEach(templateType => {
-				// Attach subcategories
-				categories.push(templateType)
+			}).finally(() => {
+				// loadingLibrary.value = false
+				emit('loading-end', true)
 			})
 
-			return categories
-		},
+		allTemplateTypes.value= window.ZnPbInitalData.template_types
 
-		getSubCategories () {
+
+		const getSubCategories = computed(() => {
 			// get subcategories from the active category
-			let categoryId = this.getActiveCategory.id
+			let categoryId = getActiveCategory.value.id
 			let allCount = 0
 			const subcategories = []
-
-			const templateByActiveType = this.getTemplatesByType(categoryId)
-
+			const templateByActiveType = getTemplatesByType(categoryId)
 			const addedCategories = []
-
 			if (templateByActiveType && templateByActiveType.length > 0) {
 				templateByActiveType.forEach(template => {
 					if (template.template_category) {
@@ -195,99 +125,114 @@ export default {
 					}
 				})
 			}
-
 			subcategories.unshift({
 				id: 'all',
 				slug: 'all',
-				name: this.$translate('all'),
+				name: translate('all'),
 				count: allCount
 			})
-
 			return subcategories
-		},
-		activeItem () {
-			if (this.timeExpired) {
+		})
+
+		const getActiveCategory = computed(() => {
+			// Don't proceed if we have no categories
+			if (Object.keys(allTemplateTypes.value).length === 0) {
+				return {}
+			}
+
+			// If an active category was not set, get the first category
+			if (templateUploaded && lastItemImported.value !== undefined) {
+				return allTemplateTypes.value.find(cat => cat.id === lastItemImported.value.template_type) || {}
+			}
+
+			if (activeCategory.value && Object.keys(activeCategory.value).length === 0) {
+				return allTemplateTypes.value[0]
+			} else {
+				return activeCategory.value
+			}
+		})
+
+		const lastItemImported  = computed(() => {
+			return templateUploaded ? allItems.value[0] : {}
+		})
+
+		const activeItem = computed(() => {
+			if (timeExpired.value) {
 				return null
 			}
 
-			return this.lastItemImported.ID
-		},
-		loadingItem () {
-			if (!this.ItemLoading) {
+			return lastItemImported.value.ID
+		})
+
+		const 	getCategoriesForDisplay= computed(() => {
+			const categories = []
+			allTemplateTypes.value.forEach(templateType => {
+				// Attach subcategories
+				categories.push(templateType)
+			})
+
+			return categories
+		})
+
+		const getFilteredTemplates = computed(() => {
+			if (keyword.value.length > 1) {
+				return searchElements.value
+			} else {
+				const localactiveCategory = getActiveCategory.value.id
+				const localactiveSubcategory = activeSubcategory.value ? activeSubcategory.value.slug : false
+				console.log('localactiveCategory',localactiveCategory)
+				console.log('localactiveSubcategory',localactiveSubcategory)
+				return allItems.value.filter((template) => {
+					if (localactiveSubcategory && localactiveSubcategory !== 'all') {
+						// Check to see if the subcategory match
+						const templateCategories = template.template_category
+						const sameSubcategory = templateCategories.find(category => category.slug === localactiveSubcategory)
+						return template.post_status === 'publish' && template.template_type && template.template_type === localactiveCategory && sameSubcategory
+					} else {
+						console.log('here')
+						return template.post_status === 'publish' && template.template_type && template.template_type === localactiveCategory
+					}
+				})
+			}
+		})
+
+		const 	loadingItem = computed(() => {
+			if (!ItemLoading.value) {
 				return null
 			}
+			return activeTemplate.value
+		})
 
-			return this.activeTemplate
-		}
-	},
-	created () {
-		this.getDataFromServer()
-	},
-	methods: {
-		...mapActions([
-			'fetchTemplates'
-		]),
-		getDataFromServer (force = false) {
-			this.loadingLibrary = true
-			this.$emit('loading-start', true)
-			this.fetchTemplates(force).then(() => {
-				this.allItems = this.getTemplates
+		const keyword= computed({
+			get: () =>{
+				return enteredValue.value
+			},
+			set:newValue => {
+				enteredValue = newValue
+				if (newValue.length > 1) {
+					const searchResult = searchResult(newValue)
 
-				if (this.Library['_data'].templateUploaded) {
-					this.activeCategory = this.allTemplateTypes.find(cat => cat.id === this.allItems[0].template_type)
-					this.activeSubcategory = this.getSubCategories[0]
-					this.timeExpired = false
-					this.setExpireClass()
+					if (searchResult) {
+						searchElements.value = searchResult
+						searchCategories.value = searchResultCategories()
+					} else searchCategories.value = []
+				} else if (keyword.value.length === 0) {
+					searchCategories.value = []
 				}
-			}).finally(() => {
-				this.loadingLibrary = false
-				this.$emit('loading-end', true)
-			})
-		},
+			}
+		})
 
-		setExpireClass (startTime) {
-			setTimeout(() => {
-				this.timeExpired = true
-			}, 5000)
-		},
-		onTemplateInsert (template) {
-			this.errorMessage = ''
-			this.ItemLoading = true
-			this.activeTemplate = template
-			this.Library.insertItem(template).then(() => {
-				// this.ItemLoading = false
-			}).catch((error) => {
-				this.errorMessage = error.response.data.message
-			})
-		},
-		getTemplatesByType (type) {
-			return this.allItems.filter(template => {
+		function getTemplatesByType (type) {
+			return allItems.value.filter(template => {
 				return template.template_type === type
 			})
-		},
-		searchResult (keyword) {
-			let scArray = []
+		}
 
-			this.allItems.forEach(function (item, index) {
-				// check if item exists in the search array
-
-				if (scArray.find(k => k.id === item.id) === undefined) {
-					// check if name includes keyword
-					let name = item.post_name.toLowerCase()
-
-					if (name.includes(keyword.toLowerCase())) {
-						scArray.push(item)
-					}
-				}
-			})
-
-			return scArray
-		},
-		searchResultCategories () {
+		function searchResultCategories () {
 			let catArray = []
 
 			// show only categories that have the elements matching keyword
-			this.searchElements.forEach((item, index) => {
+			searchElements.value.forEach((item, index) => {
 				let categExists = false
 
 				catArray.forEach(function (cat, catindex) {
@@ -297,7 +242,7 @@ export default {
 				})
 
 				if (!categExists) {
-					this.getCategoriesForDisplay.forEach((category, index) => {
+					getCategoriesForDisplay.value.forEach((category, index) => {
 						if (item.template_type.slug.includes(category.id)) {
 							catArray.push(category)
 						}
@@ -305,14 +250,81 @@ export default {
 				}
 			})
 			return catArray
-		},
-		onSubCategoryChanged (payload) {
-			this.activeSubcategory = payload
-			this.$emit('active-upload-finished', true)
 		}
 
-	}
+		function setExpireClass (startTime) {
+			setTimeout(() => {
+				timeExpired.value = true
+			}, 5000)
+		}
 
+		function searchResult (keyword) {
+			let scArray = []
+
+			allItems.value.forEach(function (item, index) {
+				// check if item exists in the search array
+				if (scArray.find(k => k.id === item.id) === undefined) {
+					// check if name includes keyword
+					let name = item.post_name.toLowerCase()
+
+					if (name.includes(keyword.toLowerCase())) {
+						scArray.push(item)
+					}
+				}
+			})
+			return scArray
+		}
+
+		function onSubCategoryChanged (payload) {
+			activeSubcategory.value = payload
+			emit('active-upload-finished', true)
+		}
+
+		function onTemplateInsert (template) {
+			errorMessage.value = ''
+			ItemLoading.value = true
+			activeTemplate.value = template
+			console.log('template,', template)
+			console.log('injected,', insertItem)
+			insertItem(template).then(() => {
+				// this.ItemLoading = false
+			}).catch((error) => {
+				console.log('error', error)
+				errorMessage.value = error
+			})
+		}
+
+		function onActivateCategory (newCategory) {
+			activeCategory.value=newCategory
+			activeSubcategory.value = getSubCategories[0]
+			emit('active-upload-finished',true)
+		}
+
+		return {
+			// loadingLibrary,
+			getDataFromServer,
+			allItems,
+			activeCategory,
+			activeSubcategory,
+			timeExpired,
+			getSubCategories,
+			getActiveCategory,
+			getCategoriesForDisplay,
+			searchResultCategories,
+			getFilteredTemplates,
+			keyword,
+			onSubCategoryChanged,
+			onTemplateInsert,
+			allTemplateTypes,
+			lastItemImported,
+			activeItem,
+			loadingItem,
+			getTemplatesByType,
+			setExpireClass,
+			searchResult,
+			onActivateCategory
+		}
+	}
 }
 </script>
 <style lang="scss">

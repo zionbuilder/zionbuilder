@@ -5,7 +5,6 @@ import main from './modules/main'
 import history from './modules/history'
 import pageContent from './modules/pageContent'
 import interactions from './modules/interactions'
-import templates from './modules/templates'
 import Library from './modules/library'
 
 // Load modules from admin
@@ -20,7 +19,6 @@ export const store = createStore({
 		history,
 		pageContent,
 		interactions,
-		templates,
 		Library
 	},
 	strict: false

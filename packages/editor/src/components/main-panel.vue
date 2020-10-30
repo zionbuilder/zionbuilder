@@ -166,7 +166,7 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels } from '@data'
+import { useTemplateParts, useSavePage, usePanels, useLibraryElements } from '@data'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 
@@ -202,7 +202,7 @@ export default {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
 		const { togglePanel, openPanels } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
-
+		const { setElementConfigForLibrary } = useLibraryElements()
 		const saveActions = [
 			{
 				icon: 'save-template',
@@ -228,7 +228,8 @@ export default {
 			togglePanel,
 			openPanels,
 			activeResponsiveDeviceInfo,
-			responsiveDevices
+			responsiveDevices,
+			setElementConfigForLibrary
 		}
 	},
 	computed: {
@@ -323,7 +324,7 @@ export default {
 		...mapActions([
 			'setIframePointerEvents',
 			'setMainbarOrder',
-			'setElementConfigForLibrary',
+			// 'setElementConfigForLibrary',
 			'setActiveShowElementsPopup',
 			'setMainbarPosition'
 		]),
