@@ -8,7 +8,7 @@
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">
 
 			<OptionsForm
-				:schema="schema"
+				:schema="optionsSchema"
 				v-model="savedValues"
 				:show-changes="false"
 			/>
@@ -17,10 +17,11 @@
 	</BasePanel>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { computed } from 'vue'
 import BasePanel from './BasePanel.vue'
-import { usePanels, useCSSClasses } from '@data'
-import { useOptionsSchema } from '@zb/components'
+import { usePanels, useCSSClasses, usePageSettings } from '@data'
+import { useOptionsSchemas } from '@zb/components'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -29,53 +30,37 @@ export default {
 	},
 	setup() {
 		const { closePanel } = usePanels()
-		const { getSchema } = useOptionsSchema()
-		const { getClassesByFilter } = useCSSClasses()
+		const { getSchema } = useOptionsSchemas()
+		const { pageSettings, updatePageSettings } = usePageSettings()
 
-		return {
-			closePanel,
-			getSchema,
-			getClassesByFilter
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getPageSettings'
-		]),
-		savedValues: {
+		const savedValues = computed({
 			get () {
-				return this.getPageSettings
+				return pageSettings.value
 			},
 			set (newValues) {
-				this.updatePageSettings(newValues)
+				updatePageSettings(newValues)
 			}
-		},
-		filteredClasses () {
-			if (this.keyword.length === 0) {
-				return this.getClasses
-			} else {
-				return this.getClassesByFilter(this.keyword)
-			}
-		},
-		schema () {
-			const cssClasses = {
-				'global_css': {
-					type: 'accordion_menu',
-					title: this.$translate('global_css_classes'),
-					child_options: {
-						'global_css_classes': {
-							type: 'global_css_classes'
-						}
+		})
+
+		const cssClassesSchema = {
+			'global_css': {
+				type: 'accordion_menu',
+				title: translate('global_css_classes'),
+				child_options: {
+					'global_css_classes': {
+						type: 'global_css_classes'
 					}
 				}
 			}
-			return Object.assign({}, this.getSchema('pageSettingsSchema'), cssClasses)
 		}
-	},
-	methods: {
-		...mapActions([
-			'updatePageSettings'
-		])
+
+		const optionsSchema = Object.assign({}, getSchema('pageSettingsSchema'), cssClassesSchema)
+
+		return {
+			closePanel,
+			savedValues,
+			optionsSchema
+		}
 	}
 }
 </script>

@@ -93,7 +93,6 @@
 					:key="panel.id"
 					:panel="panel"
 					:show-move="false"
-					:data="rootData"
 					@show-helper="showPlaceholderHelper=$event"
 				/>
 			</template>
@@ -102,7 +101,7 @@
 			<PreviewIframe />
 			<div
 				class="znpb-loading-wrapper-gif"
-				v-if="getStylesLoading && !loadedMainApp"
+				v-if="isPreviewLoading"
 			>
 				<img :src="urls.loader" />
 				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
@@ -143,7 +142,7 @@ import { mapGetters, mapActions } from 'vuex'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementFocus, useKeyBindings } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -169,6 +168,7 @@ export default {
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { focusedElement, unFocusElement } = useElementFocus()
 		const { applyShortcuts } = useKeyBindings()
+		const { isPreviewLoading } = usePreviewLoading()
 
 		return {
 			panelPlaceholder,
@@ -178,64 +178,19 @@ export default {
 			setActiveResponsiveDeviceId,
 			isPreviewMode,
 			focusedElement,
-			applyShortcuts
+			applyShortcuts,
+			isPreviewLoading
 		}
 	},
 	data: () => {
 		return Object.assign({
-			devicesVisible: false,
-			loadedMainApp: false
+			devicesVisible: false
 		}, window.ZnPbInitalData)
-	},
-	watch: {
-		openPanels () {
-			// TODO: implement this
-			// this.$nextTick(() => {
-			// 	const previewIframeLeft = document.getElementById('znpb-editor-iframe').getBoundingClientRect().left
-			// 	this.setRightClickMenu({
-			// 		visibility: false,
-			// 		previewIframeLeft: previewIframeLeft
-			// 	})
-			// })
-		},
-		rightClickSource (newValue) {
-			if (newValue === 'preview') {
-				const previewIframeLeft = document.getElementById('znpb-editor-iframe').getBoundingClientRect().left
-				this.setRightClickMenu({
-					previewIframeLeft: previewIframeLeft
-				})
-			}
-		}
 	},
 	computed: {
 		...mapGetters([
-			'getErrors',
-			'getRightClickMenu',
-			'getAllContent',
-			'getStylesLoading',
 			'getMainbarPosition'
 		]),
-		areaContent () {
-			return this.getAllContent['content']
-		},
-		rootData () {
-			return {
-				element_type: 'root',
-				content: this.areaContent,
-				options: {},
-				uid: 'contentRoot'
-			}
-		},
-		rightClickSource () {
-			if (this.getRightClickMenu) {
-				return this.getRightClickMenu.source
-			}
-
-			return null
-		},
-		rightClickVisibility () {
-			return !this.isPreviewMode.value && this.getRightClickMenu && this.getRightClickMenu.visibility && this.focusedElement.value
-		},
 		showEditorTransition: function () {
 			if (this.getMainbarPosition === 'left') {
 				return 'slide-from-right'
@@ -305,13 +260,6 @@ export default {
 			// 		this.unFocusElement()
 			// 	}
 		},
-		onResize () {
-			if (this.getRightClickMenu && this.getRightClickMenu.visibility) {
-				this.setRightClickMenu({
-					visibility: false
-				})
-			}
-		},
 		onAfterLeave () {
 			const el = document.querySelector('iframe')
 			el.style.transform = 'translateZ(0)'
@@ -323,11 +271,6 @@ export default {
 	},
 
 	created: function () {
-		// TODO: get the options
-		// this.fetchOptions().finally((result) => {
-		// 	this.loadedMainApp = true
-		// })
-		this.loadedMainApp = true
 		window.addEventListener('resize', this.onResize)
 	},
 	beforeUnmount: function () {

@@ -5,25 +5,23 @@
 			class="znpb-preview-page-wrapper"
 			:element="element"
 		/>
-<!--
+
 		<PageStyles
 			:css-classes="CSSClasses"
-			:page-settings-model="getPageSettings"
+			:page-settings-model="pageSettings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/>
 
-		<ElementStyles :styles="getPageSettings._custom_css" /> -->
+		<ElementStyles :styles="pageSettings._custom_css" />
 	</div>
 
 </template>
 <script>
-import { computed, ref } from 'vue'
-import { mapGetters, mapActions } from 'vuex'
+import { computed, ref, onBeforeUnmount, watch } from 'vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
-import { on } from '@zb/hooks'
 import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses, usePreviewMode } from '@zb/editor'
+import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -35,46 +33,34 @@ export default {
 	},
 	setup () {
 		const { getElement } = useElements()
-		const element = computed(() => getElement('content'))
-		const showExportModal = ref(false)
 		const { getSchema } = useOptionsSchemas()
 		const { CSSClasses } = useCSSClasses()
 		const { isPreviewMode } = usePreviewMode()
+		const { setPreviewLoading } = usePreviewLoading()
+		const { pageSettings } = usePageSettings()
+
+		const element = computed(() => getElement('content'))
+		const showExportModal = ref(false)
+
+		onBeforeUnmount(() => {
+			window.addEventListener('beforeunload', setPreviewLoading(true))
+		})
+
+		watch(isPreviewMode, (newValue) => {
+			if (newValue) {
+				window.document.body.classList.add('znpb-editor-preview--active')
+			} else {
+				window.document.body.classList.remove('znpb-editor-preview--active')
+			}
+		})
 
 		return {
 			element,
 			showExportModal,
 			getSchema,
 			CSSClasses,
-			isPreviewMode
-		}
-	},
-
-	created () {
-		this.setStylesLoading(false)
-	},
-
-	computed: {
-		...mapGetters([
-			'getPageSettings'
-		])
-	},
-	methods: {
-		...mapActions([
-			'setStylesLoading'
-		])
-	},
-
-	beforeUnmount () {
-		on('beforeunload', this.setStylesLoading(true))
-	},
-	watch: {
-		isPreviewMode (newValue) {
-			if (newValue) {
-				window.document.body.classList.add('znpb-editor-preview--active')
-			} else {
-				window.document.body.classList.remove('znpb-editor-preview--active')
-			}
+			isPreviewMode,
+			pageSettings
 		}
 	}
 }

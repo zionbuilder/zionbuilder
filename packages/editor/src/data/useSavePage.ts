@@ -3,6 +3,8 @@ import { store } from '../store'
 import Cache from '../Cache'
 import { ref, Ref } from 'vue'
 import { useTemplateParts } from './useTemplateParts'
+import { usePageSettings } from './usePageSettings'
+import { useCSSClasses } from './useCSSClasses'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 
@@ -10,6 +12,8 @@ export function useSavePage () {
 	const save = (status = 'publish') => {
 		const { getTemplatePart } = useTemplateParts()
 		const contentTemplatePart = getTemplatePart('content')
+		const { pageSettings } = usePageSettings()
+		const { CSSClasses } = useCSSClasses()
 
 		if (!contentTemplatePart) {
 			console.error('Content template data not found.')
@@ -20,8 +24,8 @@ export function useSavePage () {
 		const pageData = {
 			page_id: pageID,
 			template_data: contentTemplatePart.toJSON(),
-			// page_settings: getters.getPageSettings,
-			// css_classes: getters.getClasses
+			page_settings: pageSettings.value,
+			css_classes: CSSClasses.value
 		}
 
 		// Check if this is a draft
