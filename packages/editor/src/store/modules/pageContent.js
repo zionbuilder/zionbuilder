@@ -56,7 +56,6 @@ const state = {
 	activeArea: null,
 	activeElement: null,
 	pageId: window.ZnPbInitalData.page_id,
-	pageSettings: window.ZnPbInitalData.page_settings.values,
 	copiedClasses: null,
 	copiedElement: null,
 	rightClickMenu: null,
@@ -132,7 +131,6 @@ const getters = {
 		}
 	},
 	getElementData: state => (elementUid) => state.pageContent[elementUid],
-	getPageSettings: state => state.pageSettings,
 	getCopiedClasses: state => state.copiedClasses,
 	getCopiedElement: state => state.copiedElement,
 	getCuttedElement: state => state.cuttedElement,
@@ -411,9 +409,6 @@ const actions = {
 		})
 	},
 
-	updatePageSettings: ({ commit }, newValues) => {
-		commit(types.UPDATE_PAGE_SETTINGS, newValues)
-	},
 	getPageContentNested: ({ getters }) => {
 		// Save the page
 		const pageTemplateData = []
@@ -424,46 +419,6 @@ const actions = {
 		})
 
 		return pageTemplateData
-	},
-	savePage: ({ dispatch, getters }, payload = {}) => {
-		const { status } = payload
-
-		if (!payload.showPreloader && payload.showPreloader !== false) {
-			dispatch('setIsSavingPage', true)
-		}
-
-		// Save the page
-		const pageTemplateData = []
-
-		getters.getContentRoot.content.forEach(elementUid => {
-			let elementData = getElementObject(elementUid, getters)
-			pageTemplateData.push(elementData)
-		})
-
-		const pageData = {
-			page_id: getters.getPageId,
-			template_data: pageTemplateData,
-			page_settings: getters.getPageSettings,
-			css_classes: getters.getClasses
-		}
-
-		// Check if this is a draft
-		if (status) {
-			pageData.status = status
-		}
-
-		return new Promise((resolve, reject) => {
-			const cloneSavedData = Cache.getItem(getters.getPageId)
-			Cache.deleteItem(getters.getPageId)
-			savePage(pageData).catch(error => {
-				Cache.saveItem(getters.getPageId, cloneSavedData)
-				// eslint-disable-next-line
-				console.error(error)
-			}).finally(() => {
-				dispatch('setIsSavingPage', false)
-				resolve()
-			})
-		})
 	}
 }
 
@@ -505,9 +460,6 @@ const mutations = {
 	},
 	[types.SET_COPIED_CLASSES] (state, payload) {
 		state.copiedClasses = payload
-	},
-	[types.UPDATE_PAGE_SETTINGS] (state, newValues) {
-		state.pageSettings = newValues
 	},
 	[types.SET_INITIAL_PAGE_CONTENT] (state, payload) {
 		Object.assign(state, payload)

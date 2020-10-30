@@ -48,7 +48,7 @@ import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements } from '@data'
+import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -65,11 +65,13 @@ export default {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { focusedElement } = useElementFocus()
 		const { applyShortcuts } = useKeyBindings()
+		const { saveDraft } = useSavePage()
 
 		return {
 			activeResponsiveDeviceInfo,
 			focusedElement,
-			applyShortcuts
+			applyShortcuts,
+			saveDraft
 		}
 	},
 	computed: {
@@ -214,7 +216,7 @@ export default {
 			}
 		},
 		refreshIframe () {
-			this.savePage({ status: 'autosave' }).then(() => {
+			this.saveDraft().then(() => {
 				this.ignoreNextReload = true
 				Dom.iframeWindow.location.reload()
 			})
