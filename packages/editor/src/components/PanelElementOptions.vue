@@ -130,7 +130,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { ref, watch } from 'vue'
+import { mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
@@ -164,12 +165,22 @@ export default {
 	},
 	props: ['panel'],
 	setup (props) {
-		const { element } = useEditElement()
+		const { element, editElement } = useEditElement()
 		const { getSchema } = useOptionsSchemas()
+		const activeKeyTab = ref(null)
+		const searchActive = ref(false)
+
+		watch(() => element.value.uid, ()=> {
+			activeKeyTab.value = 'general'
+			searchActive.value = false
+		})
 
 		return {
 			element,
-			getSchema
+			getSchema,
+			editElement,
+			activeKeyTab,
+			searchActive
 		}
 	},
 	data () {
@@ -178,21 +189,14 @@ export default {
 			history: [],
 			historyIndex: 0,
 			elementClasses: [],
-			activeKeyTab: null,
 			lastTab: null,
 			optionsFilterKeyword: '',
-			searchActive: false,
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
 			noOptionFoundMessage: 'No options found with this keyword'
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getActiveElementUid',
-			'getElementParent'
-		]),
-
 		computedStyleOptionsSchema () {
 			const schema = {}
 			let styledElements = this.element.elementTypeModel.style_elements
@@ -304,20 +308,12 @@ export default {
 		this.history.push(cloneDeep(this.elementOptions))
 		on('change-tab-styling', this.changeTabByEvent)
 	},
-	watch: {
-		getActiveElementUid (newValue) {
-			this.activeKeyTab = 'general'
-			this.searchActive = false
-		}
-	},
 	methods: {
 		...mapActions([
-			'setActiveElement',
 			'saveState'
 		]),
 		onBackButtonClick () {
-			const parentElement = this.getElementParent(this.element.uid)
-			this.setActiveElement(parentElement)
+			this.editElement(this.element.parent)
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
@@ -465,7 +461,7 @@ export default {
 			}
 
 			this.panel.close()
-			this.setActiveElement(null)
+			this.editElement(null)
 		},
 		onKeyPress (e) {
 			// Undo CTRL+Z
