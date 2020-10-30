@@ -16,7 +16,6 @@
 
 <script>
 import { ref } from 'vue'
-import { mapActions } from 'vuex'
 import { useAddElementsPopup } from '@zb/editor'
 
 export default {
@@ -38,11 +37,6 @@ export default {
 			addElementsPopupButton,
 			showColumnTemplates
 		}
-	},
-	methods: {
-		...mapActions([
-			'setActiveShowElementsPopup'
-		])
 	}
 }
 </script>

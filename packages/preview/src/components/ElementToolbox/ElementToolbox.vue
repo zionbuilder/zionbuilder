@@ -388,6 +388,7 @@ export default {
 			// Save to history
 			this.addToHistory = true
 
+
 			this.updateElementOptionValue({
 				elementUid: this.data.uid,
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,

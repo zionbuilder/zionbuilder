@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import { usePanels, useEditElement } from '@data'
 import BreadcrumbsItem from './BreadcrumbsItem.vue'
 
