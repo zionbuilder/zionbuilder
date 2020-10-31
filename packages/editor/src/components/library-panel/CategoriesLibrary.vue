@@ -1,16 +1,15 @@
 <template>
 	<div
-		ref="currentCateg"
 		:class="{'znpb-active': isExpanded}"
 		class="znpb-editor-library-modal-category znpb-fancy-scrollbar"
-		v-if="!category.parent"
+		v-if="hasParent"
 	>
 		<div
 			class="znpb-editor-library-modal-category__header"
 			@click="selectCategory"
 		>
-			<h6 class="znpb-editor-library-modal-category__title">
-				{{ category.name }}
+			<h6 class="znpb-editor-library-modal-category__title" v-html="category.name || ''">
+
 			</h6>
 			<Icon
 				icon="select"
@@ -46,7 +45,7 @@ export default {
 	props: {
 		category: {
 			type: Object,
-			required: true
+			required: false
 		},
 		isExpanded: {
 			type: Boolean,
@@ -84,6 +83,9 @@ export default {
 		},
 		getActiveSubcategory () {
 			return this.activeSubcategory ? this.activeSubcategory : this.subcategory[0]
+		},
+		hasParent () {
+			return this.category !== undefined ? !this.category.parent : false
 		}
 	},
 	methods: {

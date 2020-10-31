@@ -18,18 +18,19 @@
 				/>
 			</div>
 
-			<CategoriesLibrary
-				v-for="(category, index) in computedCategories"
-				:key="index"
-				class="znpb-editor-library-modal-sidebar-category"
-				:category="category"
-				:is-expanded="category===activeCategory"
-				:parent="category"
-				:subcategory="getSubCategories"
-				:active-subcategory="activeSubcategory"
-				@activate-category="activeCategory=$event, activeSubcategory=null"
-				@activate-subcategory="activeSubcategory=$event"
-			/>
+				<CategoriesLibrary
+					v-for="(category, index) in computedCategories"
+					:key="index"
+					class="znpb-editor-library-modal-sidebar-category"
+					:category="category"
+					:is-expanded="category===activeCategory"
+					:parent="category"
+					:subcategory="getSubCategories"
+					:active-subcategory="activeSubcategory"
+					@activate-category="activeCategory=$event, activeSubcategory=null"
+					@activate-subcategory="activeSubcategory=$event"
+				/>
+
 
 		</div>
 		<div class="znpb-editor-library-modal-body">
@@ -108,10 +109,12 @@
 </template>
 
 <script>
-import { getLibraryItems } from '@zb/rest'
+// import { getLibraryItems } from '@zb/rest'
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/CategoriesLibrary.vue'
 import localSt from 'localstorage-ttl'
+import { onBeforeUnmount, computed,provide, inject, ref, reactive, onMounted, nextTick, watch } from 'vue'
+import { translate } from '@zb/i18n'
 export default {
 	name: 'LibraryPanel',
 	components: {
@@ -148,179 +151,170 @@ export default {
 			// } else if (!foundSubcategory) {
 			// 	this.activeSubcategory = null
 			// }
-		},
-		previewOpen (newVal) {
-			let self = this
-			if (newVal === false && this.multiple) {
-				this.items.forEach(function (item, index) {
-					if (item.id === self.activeItem.parent) {
-						self.activeItem = item
-					}
-				})
-			}
-		},
-		filteredItems (newVal) {
-			if (newVal) {
-				this.$nextTick(() => {
-					this.onLayout()
-				})
-			}
-		},
-		multiple (newVal) {
-			if (newVal === true) {
-				this.enteredValue = ''
-			}
-		},
-		loadingLibrary (newVal) {
-			if (!newVal) {
-				// start masonry
-				this.initMasonry()
+		}
+	},
 
-				// focus input
-				this.$nextTick(() => this.$refs.searchInput.focus())
+	setup (props, {emit}) {
+		const gridlist = ref()
+		const searchInput = ref()
+		const msnry = ref(null)
+		const loadingLibrary = ref(true)
+		const iframeLoaded= ref(true)
+		const enteredValue= ref('')
+		const previewOpen  = ref(false)
+		const searchCategories= ref([])
+		const searchElements = ref([])
+		const computedItems = ref(false)
+		const favActive = ref(false)
+		const sort = ref(false)
+		const activeItem = ref(null)
+		const activeCategory = ref(null)
+		const activeSubcategory = ref(null)
+		const allCategory = ref({term_id: 'all',name: 'All'})
+		const favorites = ref([])
+		const categories = ref({})
+		const items = ref([])
+
+		const cachedData = localSt.get('znpbLibraryCache')
+		// check if get items from server or from local storage
+
+		categories.value = cachedData.categories
+		items.value = cachedData.items
+
+
+		const computedCategories = computed(() => {
+			if ((keyword.value.length > 1) && (searchCategories.value.length > 0)) {
+				return searchCategories.value
+			} else {
+				return categories.value
 			}
-		}
-	},
-	data: function () {
-		return {
-			loadingLibrary: true,
-			iframeLoaded: false,
-			enteredValue: '',
-			searchCategories: [],
-			searchElements: [],
-			computedItems: false,
-			favActive: false,
-			sort: false,
-			activeItem: null,
-			activeCategory: null,
-			activeSubcategory: null,
-			allCategory: {
-				term_id: 'all',
-				name: 'All'
-			},
-			favorites: [],
-			categories: {},
-			items: []
-		}
-	},
-	computed: {
-		libraryTitle () {
-			if (this.favActive) {
-				return this.$translate('my_favorites')
-			} else if (this.multiple === false) {
-				if (this.activeSubcategory) {
-					return this.activeSubcategory.name
-				} else {
-					return this.getActiveCategory.name
+		})
+
+
+		onMounted(() => {
+
+			if (cachedData !== null) {
+				loadingLibrary.value = false
+				console.log('gridlist,', gridlist)
 				}
-			} else if (this.activeItem) {
-				return `${this.activeItem.name} ${this.$translate('pages')}`
+
+		})
+
+
+		const libraryTitle = computed(() => {
+			if (favActive.value) {
+				return translate('my_favorites')
+			} else if (props.multiple === false) {
+				if (activeSubcategory.value) {
+					return activeSubcategory.value.name
+				} else {
+					return getActiveCategory.value.name
+				}
+			} else if (activeItem.value) {
+				return `${activeItem.value.name} ${translate('pages')}`
 			}
 
 			return ''
-		},
-		keyword: {
-			get () {
-				return this.enteredValue
-			},
-			set (newValue) {
-				this.enteredValue = newValue
-				if (newValue.length > 1) {
-					this.favActive = false
-					const searchResult = this.searchResult(newValue)
+		})
 
-					if (searchResult) {
-						this.searchElements = searchResult
-						this.searchCategories = this.searchResultCategories()
-					} else this.searchCategories = []
-				} else if (this.keyword.length === 0) {
-					this.searchCategories = []
+		const keyword = computed({
+				get: () => {
+					return enteredValue.value
+				},
+				set: newValue => {
+					enteredValue = newValue
+					if (newValue.length > 1) {
+						favActive.value = false
+						const searchResultValue = searchResult(newValue)
+
+						if (searchResultValue) {
+							searchElements.value = searchResultValue
+							searchCategories.value = searchResultCategories()
+						} else searchCategories.value = []
+					} else if (keyword.value.length === 0) {
+						searchCategories.value = []
+					}
 				}
-			}
-		},
-		computedCategories () {
-			if ((this.keyword.length > 1) && (this.searchCategories.length > 0)) {
-				return this.searchCategories
-			} else {
-				return this.categories
-			}
-		},
-		getActiveCategory () {
+		})
+
+
+
+		const getActiveCategory = computed(() => {
 			// Don't proceed if we have no categories
-			if (Object.keys(this.computedCategories).length === 0) {
+			if (Object.keys(computedCategories.value).length === 0) {
 				return {}
 			}
 
 			// If an active category was not set, get the first category
-			if (!this.activeCategory) {
-				return this.computedCategories[Object.keys(this.computedCategories)[0]]
+			if (activeCategory.value === null) {
+				return computedCategories.value[Object.keys(computedCategories.value)[0]]
 			} else {
-				return this.activeCategory
+				return activeCategory.value
 			}
-		},
-		getCategoryIdByIndex () {
-			return this.getActiveCategory.term_id
-		},
-		filteredItems () {
-			let self = this
-			let a = []
-			if (this.multiple || (this.multiple && this.favActive)) {
+		})
+
+		const getCategoryIdByIndex = computed(() => {
+			return getActiveCategory.value.term_id
+		})
+
+		const filteredItems = computed(() => {
+			let filteredarray = []
+			if (props.multiple || (props.multiple && favActive.value)) {
 				let multipleArray = []
-				this.items.forEach(function (item, index) {
-					if (item.parent === self.activeItem.id) {
+				items.value.forEach(function (item, index) {
+					if (item.parent === activeItem.value.id) {
 						multipleArray.push(item)
 					}
 				})
-
-				a = multipleArray
-			} else if (this.favActive) {
-				a = this.favorites
+				filteredarray = multipleArray
+			} else if (favActive.value) {
+				filteredarray = favorites.value
 			} else {
-				a = this.getSubcategoryItems
+				filteredarray = getSubcategoryItems.value
 			}
 
 			// Create a clone for reverse since the reverse is in place
-			if (this.sort) {
-				a = [...a].reverse()
+			if (sort.value) {
+				filteredarray = [...filteredarray].reverse()
 			}
+			return filteredarray
+		})
 
-			return a
-		},
-		getSubcategoryItems () {
+		const getSubcategoryItems = computed(() => {
 			let newArrayItems = []
 			let itemsArray = []
 
-			if (this.keyword.length > 1) {
-				itemsArray = this.searchElements
+			if (keyword.value.length > 1) {
+				itemsArray = searchElements.value
 			} else {
-				itemsArray = this.items
+				itemsArray = items.value
 			}
 			// iterate through itemsArray to check for subcategory
 			itemsArray.forEach((item, index) => {
 				// check if a subcategory is active
-				if (this.activeSubcategory && this.activeSubcategory.term_id !== 'all') {
-					if (item.category.includes(this.getCategoryIdByIndex) && item.category.includes(this.activeSubcategory.term_id)) {
+				if (activeSubcategory.value && activeSubcategory.value.term_id !== 'all') {
+					if (item.category.includes(getCategoryIdByIndex.value) && item.category.includes(activeSubcategory.value.term_id)) {
 						newArrayItems.push(item)
 					}
 				} else {
-					if (item.category.includes(this.getCategoryIdByIndex)) {
+					if (item.category.includes(getCategoryIdByIndex.value)) {
 						newArrayItems.push(item)
 					}
 				}
 			})
 
 			return newArrayItems
-		},
+		})
 
-		getSubCategories () {
+		const getSubCategories = computed(() => {
 			// get subcategories from the active category
-			let categoryId = this.getCategoryIdByIndex
+			let categoryId = getCategoryIdByIndex.value
 			let allCount = 0
 			const subcategories = []
 
-			if (typeof this.computedCategories === 'object') {
-				Object.keys(this.computedCategories).forEach((categoryIndex) => {
-					const category = this.computedCategories[categoryIndex]
+			if (typeof computedCategories.value === 'object') {
+				Object.keys(computedCategories.value).forEach((categoryIndex) => {
+					const category = computedCategories.value[categoryIndex]
 					if (category.parent && category.parent === categoryId) {
 						subcategories.push(category)
 						allCount += category.count
@@ -330,70 +324,67 @@ export default {
 
 			subcategories.unshift({
 				term_id: 'all',
-				name: this.$translate('all'),
+				name: translate('all'),
 				count: allCount
 			})
 
 			return subcategories
-		}
-	},
-	mounted () {
-		const cachedData = localSt.get('znpbLibraryCache')
-		// check if get items from server or from local storage
-		if (cachedData === null) {
-			this.getDataFromServer()
-		} else {
-			this.categories = cachedData.categories
-			this.items = cachedData.items
-			this.loadingLibrary = false
-		}
-	},
-	methods: {
-		initMasonry () {
-			this.$nextTick(() => {
-				window.jQuery(this.$refs.gridlist).imagesLoaded(() => {
-					this.msnry = new window.Masonry(this.$refs.gridlist, {
+		})
+
+		watch(previewOpen, (previewOpen, prevpreviewOpen) => {
+
+			if (previewOpen === false && props.multiple.value) {
+				items.value.forEach(function (item, index) {
+					if (item.id === activeItem.value.parent) {
+						activeItem.value = item
+					}
+				})
+			}
+		})
+
+		watch(filteredItems, (filteredItems, prevfilteredItems) => {
+
+			if (filteredItems) {
+				nextTick(() => {
+					onLayout()
+				})
+			}
+		})
+
+		watch(props.multiple, (multiple, prevmultiple) => {
+			if (multiple === true) {
+				enteredValue.value = ''
+			}
+		})
+
+		watch(loadingLibrary, (loadingLibrary, prevloadingLibrary) => {
+			if (!loadingLibrary) {
+				// start masonry
+				initMasonry()
+
+				// focus input
+				nextTick(() => searchInput.value.focus())
+			}
+		})
+
+
+		function initMasonry () {
+			console.log('init masonry',gridlist)
+				window.jQuery(gridlist.value).imagesLoaded(() => {
+					msnry.value = new window.Masonry(gridlist.value, {
 						columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
 						itemSelector: '.znpb-editor-library-modal__item',
 						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
 						transitionDuration: 0
-
 					})
 				})
-			})
-		},
-		getDataFromServer (useCache = true) {
-			this.loadingLibrary = true
-			this.$emit('loading-start', true)
-			getLibraryItems(useCache).then((response) => {
-				const { data = {} } = response
-				const { categories = {}, items = [] } = data
-				this.categories = categories
-				this.items = items
-				localSt.set('znpbLibraryCache', {
-					categories,
-					items
-				}, 604800000)
-			}).finally(() => {
-				this.loadingLibrary = false
-				this.$emit('loading-end', true)
-			})
-		},
-		onLayout () {
-			// destroy old masonry
-			if (this.msnry) {
-				this.msnry.destroy()
-			}
+		}
 
-			// create new masonry
-			this.initMasonry()
-		},
-
-		searchResult (keyword) {
+		function searchResult (keyword) {
 			let scArray = []
 
 			// search after elements
-			this.items.forEach(function (item, index) {
+			items.value.forEach(function (item, index) {
 				// check if item exists in the search array
 
 				if (scArray.find(k => k.id === item.id) === undefined) {
@@ -414,12 +405,24 @@ export default {
 			})
 
 			return scArray
-		},
-		searchResultCategories () {
+		}
+
+
+
+		function onLayout () {
+			// destroy old masonry
+			if (msnry.value.length) {
+				msnry.destroy()
+			}
+			// create new masonry
+			initMasonry()
+		}
+
+		function searchResultCategories () {
 			let catArray = []
 
 			// show only categories that have the elements matching keyword
-			this.searchElements.forEach((item, index) => {
+			searchElements.value.forEach((item, index) => {
 				let categExists = false
 
 				catArray.forEach(function (cat, catindex) {
@@ -429,8 +432,8 @@ export default {
 				})
 
 				if (!categExists) {
-					for (let category in this.categories) {
-						if (this.categories.hasOwnProperty(category)) {
+					for (let category in categories.value) {
+						if (categories.value.hasOwnProperty(category)) {
 							if (item.category.includes(category.term_id)) {
 								catArray.push(category)
 							}
@@ -439,52 +442,51 @@ export default {
 				}
 			})
 			return catArray
-		},
+		}
 
-		getNumberOfElements () {
-			return `(${this.filteredItems.length})`
-		},
+		const getNumberOfElements = () => {
+			return `(${filteredItems.value.length})`
+		}
 
-		checkActiveItem (item) {
-			this.activeItem = item
+		function checkActiveItem (item) {
+			activeItem.value = item
 			if (item.type === 'single') {
-				this.$emit('activate-preview', this.activeItem)
+				emit('activate-preview', activeItem.value)
 			} else {
-				this.$emit('activate-multiple', true)
+				emit('activate-multiple', true)
 			}
-		},
+		}
 
-		checkFavorite (item) {
+		function checkFavorite (item) {
 			let favorite = false
-			this.favorites.forEach(function (favItem, index) {
+			favorites.value.forEach(function (favItem, index) {
 				if (favItem.id === item.id) {
 					favorite = true
 				}
 			})
 			return favorite
-		},
+		}
 
-		addFavorite (item) {
-			let self = this
+		function addFavorite (item) {
 			let foundIndex = -1
-			this.favorites.forEach(function (favItem, index) {
+			favorites.value.forEach(function (favItem, index) {
 				if (favItem.id === item.id) {
 					foundIndex = index
 				}
 			})
 			if (foundIndex === -1) {
-				self.favorites.push(item)
+				favorites.value.push(item)
 			} else {
-				self.favorites.splice(foundIndex, 1)
+				favorites.value.splice(foundIndex, 1)
 			}
-		},
+		}
 
-		getCategoryTitle (category) {
+		function getCategoryTitle (category) {
 			// get the category id === key
 			let categoryId = Object.keys(category)
 			let catObejct = null
-			for (let categoryId in this.computedCategories) {
-				if (this.computedCategories.hasOwnProperty(category)) {
+			for (let categoryId in computedCategories.value) {
+				if (computedCategories.hasOwnProperty(category)) {
 					catObejct = category[categoryId]
 				}
 			}
@@ -496,13 +498,47 @@ export default {
 			return catObejct.title
 		}
 
-	},
+		onBeforeUnmount(() => {
+			if (msnry) {
+				msnry.value.destroy()
+			}
+		})
 
-	beforeUnmount () {
-		if (this.msnry) {
-			this.msnry.destroy()
+		return {
+			gridlist,
+			initMasonry,
+			msnry,
+			loadingLibrary,
+			iframeLoaded,
+			enteredValue,
+			searchCategories,
+			searchElements,
+			computedItems,
+			sort,
+			activeItem,
+			activeCategory,
+			activeSubcategory,
+			allCategory,
+			favorites,
+			categories,
+			items,
+			libraryTitle,
+			keyword,
+			computedCategories,
+			getActiveCategory,
+			getCategoryIdByIndex,
+			filteredItems,
+			getSubCategories,
+			getNumberOfElements,
+			checkActiveItem,
+			checkFavorite,
+			addFavorite,
+			getCategoryTitle,
+			searchInput,
+			previewOpen
 		}
 	}
+
 }
 </script>
 <style lang="scss">
