@@ -21,22 +21,22 @@
 
 		<li
 			class="znpb-right-click__menu-item"
-			@click="copyElementAction"
+			@click="copyElement(element)"
 		>
 			<Icon icon="copy"></Icon>
 			{{$translate('copy_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="cutElementAction"
+			@click="copyElement(element, 'cut')"
 		>
 			<Icon icon="close"></Icon>
 			{{$translate('cut_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="pasteElementAction"
-			v-if="getCopiedElement || getCuttedElement"
+			@click="pasteElement"
+			v-if="copiedElement"
 		>
 			<Icon icon="copy"></Icon>
 			{{$translate('paste_element')}}
@@ -127,7 +127,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles, useSavePage, usePanels, useEditElement, useElementFocus } from '@data'
+import { useCopyElementStyles, useSavePage, usePanels, useEditElement, useElementFocus, useCopyCutPasteElement } from '@data'
 
 export default {
 	name: 'ElementActions',
@@ -148,6 +148,7 @@ export default {
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
 		const { focusedElement } = useElementFocus()
+		const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
 
 		return {
 			copyElementStyles,
@@ -156,25 +157,23 @@ export default {
 			savePage,
 			openPanel,
 			editElement,
-			focusedElement
+			focusedElement,
+			copyElement,
+			pasteElement,
+			copiedElement,
+			resetCopiedElement
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getCopiedElement',
-			'getCopiedClasses',
-			'getCuttedElement',
-			'getElementData',
+			'getCopiedClasses'
 		])
 	},
 	methods: {
 		...mapActions([
 			'copyElement',
 			'setCopiedClasses',
-			'setCopiedElement',
 			'setActiveElement',
-			'setCuttedElement',
-			'moveElement'
 		]),
 		triggerRename () {
 			this.setActiveElement(this.element.uid)
@@ -191,50 +190,6 @@ export default {
 					...this.element.options,
 					_classes: this.getCopiedClasses
 				}
-			}
-			this.close()
-		},
-		copyElementAction () {
-			this.setCopiedElement(this.element.uid)
-			this.setCuttedElement(null)
-			this.close()
-		},
-		cutElementAction () {
-			// TODO: implement actions
-			const elementId = this.getElementData(this.element.uid).element_type
-			this.setCuttedElement({
-				uid: this.element.uid,
-				parentUid: this.element.parentUid,
-				insertParent: this.element.insertParent,
-				isWrapper: this.getElementById(elementId).wrapper
-			})
-			this.setCopiedElement(null)
-			this.close()
-		},
-		pasteElementAction () {
-			if (this.getCopiedElement) {
-				this.copyElement({
-					elementUid: this.getCopiedElement,
-					parentUid: this.element.parentUid,
-					pasteElementUid: this.element.uid,
-					insertParent: this.element.insertParent
-				})
-			}
-			if (this.getCuttedElement) {
-				const cuttedElement = this.getCuttedElement
-
-				const newParent = this.element.insertParent
-				const parentContent = this.getElementData(newParent).content
-				const newIndex = parentContent.indexOf(cuttedElement.uid) + 1
-
-				this.moveElement({
-					elementUid: cuttedElement.uid,
-					oldParentUid: cuttedElement.parentUid,
-					newParentUid: newParent,
-					newIndex
-				})
-
-				this.setCuttedElement(null)
 			}
 			this.close()
 		},

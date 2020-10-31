@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getImageIds } from '@zb/rest'
 
 const wp = window.wp
@@ -83,8 +82,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-		]),
 		sortableModel: {
 			get () {
 				return this.modelValue || []

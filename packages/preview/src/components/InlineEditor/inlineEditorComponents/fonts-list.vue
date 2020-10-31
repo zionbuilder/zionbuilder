@@ -17,7 +17,7 @@
 
 <script>
 import { useDataSets } from '@zb/components'
-import { mapGetters } from 'vuex'
+
 export default {
 	inject: {
 		Editor: {

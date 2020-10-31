@@ -308,6 +308,11 @@ export default {
 
 			this.removePopperEvents()
 
+			if (this.popperElement && this.appendToOption !== 'element') {
+				// Append to
+				this.popperElement.parentNode.removeChild(this.popperElement)
+			}
+
 			this.popperElement = null
 			preventOutsideClickPropagation = false
 		},
@@ -427,7 +432,7 @@ export default {
 			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
 			this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 		}
-
+console.log('unmounted');
 		// Destroy popper instance
 		this.destroyPopper(true)
 		if (this.show) {

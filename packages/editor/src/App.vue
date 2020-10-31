@@ -231,14 +231,7 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'undo',
-			'redo',
-			'savePanelsOrder',
-			'setPageAreas',
-			'setPageContent',
-			'setActiveArea',
-			'setRightClickMenu',
-			'fetchOptions'
+			'savePanelsOrder'
 		]),
 		activateDevice (device) {
 			this.setActiveResponsiveDeviceId(device.id)
