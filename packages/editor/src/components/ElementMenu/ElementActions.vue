@@ -35,7 +35,7 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="pasteElement"
+			@click="pasteElement(element)"
 			v-if="copiedElement"
 		>
 			<Icon icon="copy"></Icon>
@@ -43,7 +43,7 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="element.activeElementRename = true"
+			@click="element.rename()"
 			v-if="showRename"
 		>
 			<Icon icon="edit"></Icon>
@@ -171,13 +171,10 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'copyElement',
 			'setCopiedClasses',
-			'setActiveElement',
 		]),
 		triggerRename () {
-			this.setActiveElement(this.element.uid)
-			this.$emit('changename', true)
+			this.element.rename()
 		},
 		copyElementClasses () {
 			const elementClasses = this.element.options._classes

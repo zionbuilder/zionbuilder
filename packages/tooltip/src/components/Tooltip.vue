@@ -432,7 +432,7 @@ export default {
 			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
 			this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
 		}
-console.log('unmounted');
+
 		// Destroy popper instance
 		this.destroyPopper(true)
 		if (this.show) {

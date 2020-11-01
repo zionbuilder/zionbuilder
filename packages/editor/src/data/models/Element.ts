@@ -73,6 +73,10 @@ export class Element {
 		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
+	rename () {
+		this.activeElementRename = true
+	}
+
 	toggleVisibility () {
 		update(this.options, '_isVisible', () => !this.isVisible)
 	}

@@ -132,8 +132,6 @@ const getters = {
 	},
 	getElementData: state => (elementUid) => state.pageContent[elementUid],
 	getCopiedClasses: state => state.copiedClasses,
-	getCopiedElement: state => state.copiedElement,
-	getCuttedElement: state => state.cuttedElement,
 	getElementParent: state => (elementUid) => {
 		return Object.keys(state.pageContent).find(searchElUid => {
 			const elementConfig = state.pageContent[searchElUid]
