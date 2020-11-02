@@ -9,7 +9,7 @@
 	>
 		<div class="znpb-post-lock-modal">
 			<div class="znpb-post-lock-modal__avatar">
-				<img :src="userAvatar" />
+				<img :src="getLockedUserInfo.avatar" />
 			</div>
 			<div class="znpb-post-lock-modal__content">
 				<div class="znpb-post-lock-modal__content-text">
@@ -19,7 +19,7 @@
 					>
 						{{$translate("post_could_not_lock")}}
 					</p>
-					<p>{{getMessage}}</p>
+					<p>{{getLockedUserInfo.message}}</p>
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
 					<Button type="gray">
@@ -48,9 +48,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import { lockPage } from '@zb/rest'
 import { useEditorData } from '@data'
+import { usePostLock } from '@data'
 
 export default {
 	name: 'PostLock',
@@ -63,32 +64,25 @@ export default {
 	},
 	setup () {
 		const { page_id: pageId } = useEditorData()
+		const { isPostLocked, lockedUserInfo, takeOverPost } = usePostLock()
 
 		return {
-			pageId
+			pageId,
+			isPostLocked,
+			lockedUserInfo,
+			takeOverPost
 		}
 	},
 	computed: {
 		...mapGetters([
-			'isPostLocked',
-			'getLockedUserInfo',
 			'getPreviewUrl',
 			'getAllPagesUrl',
 		]),
-		userAvatar () {
-			return this.getLockedUserInfo.avatar
-		},
-		getMessage () {
-			return this.getLockedUserInfo.message
-		},
 		previewUrl () {
 			return this.getPreviewUrl
 		}
 	},
 	methods: {
-		...mapActions([
-			'takeOverPost'
-		]),
 		lockPages () {
 			this.showLoader = true
 			lockPage(this.pageId).then((result) => {

@@ -1,16 +1,17 @@
 import { store } from './store/'
-import { useEditorData } from '@data'
+import { useEditorData, usePostLock } from '@data'
 
 class HeartBeat {
 	constructor() {
 		const { page_id } = useEditorData()
+		const { isPostLocked } = usePostLock()
 		/**
 		 * Check if the post was locked by another user
 		 */
 		window.jQuery(document).on({
 			'heartbeat-tick.refresh-lock': (event, response) => {
 				// Don't proceed if the post is already locked
-				if (!store.getters.isPostLocked && response['wp-refresh-post-lock']) {
+				if (!isPostLocked && response['wp-refresh-post-lock']) {
 					const { lock_error: LockError } = response['wp-refresh-post-lock']
 					if (LockError) {
 						store.dispatch('setLockedUser', {
