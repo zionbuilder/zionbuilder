@@ -240,14 +240,10 @@ export default {
 			'getMainBarOrder',
 			'getMainBarPointerEvents',
 			'activeHistoryIndex',
-			'getPageContent',
 			'getZionAdminUrl',
 			'getPreviewUrl',
 			'getMainbarPosition'
 		]),
-		pageCont () {
-			return this.getPageContent['contentRoot'] !== undefined ? this.getPageContent['contentRoot'].content : []
-		},
 
 		helpMenuItems () {
 			let helpArray = [
@@ -255,11 +251,11 @@ export default {
 				// 	title: this.$translate('help'),
 				// 	action: this.showHelpModal
 				// },
-				{
-					title: this.$translate('tour'),
-					action: this.showTour,
-					canShow: this.pageCont !== undefined && this.pageCont.length === 0
-				},
+				// {
+				// 	title: this.$translate('tour'),
+				// 	action: this.showTour,
+				// 	canShow: this.pageCont !== undefined && this.pageCont.length === 0
+				// },
 				{
 					title: this.$translate('key_shortcuts'),
 					action: this.showShortcutsModal

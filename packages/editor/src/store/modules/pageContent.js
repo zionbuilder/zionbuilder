@@ -33,21 +33,6 @@ const copyElementContent = (elementConfig, newChildsObject, getters) => {
 	}
 }
 
-const getElementObject = (elementUid, getters) => {
-	let elementData = getters.getElementData(elementUid)
-	let data = {
-		...getters.getElementData(elementUid)
-	}
-
-	if (elementData.content && elementData.content.length > 0) {
-		data.content = elementData.content.map(childElementUid => {
-			return getElementObject(childElementUid, getters)
-		})
-	}
-
-	return data
-}
-
 const state = {
 	pageAreas: {
 		content: []
@@ -92,7 +77,6 @@ const getters = {
 	getIsPageDirty: state => state.isPageDirty,
 	getTemplateCategories: state => state.template_categories,
 	getContentRoot: state => state.pageContent.contentRoot,
-	getPageContentState: state => state,
 	getPageContent: state => state.pageContent,
 	getAllContent: state => state.pageAreas,
 	getAreasContent: state => state.pageAreas,
@@ -396,18 +380,6 @@ const actions = {
 			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
 			state: state
 		})
-	},
-
-	getPageContentNested: ({ getters }) => {
-		// Save the page
-		const pageTemplateData = []
-
-		getters.getContentRoot.content.forEach(elementUid => {
-			let elementData = getElementObject(elementUid, getters)
-			pageTemplateData.push(elementData)
-		})
-
-		return pageTemplateData
 	}
 }
 

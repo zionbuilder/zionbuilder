@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { useElements } from '@data'
 import { saveAs } from 'file-saver'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
@@ -59,6 +60,16 @@ export default {
 			default: false
 		}
 	},
+	setup () {
+		const { getElement } = useElements()
+		const { getTemplatePart } = useTemplateParts()
+
+		return {
+			getElement,
+			getTemplatePart
+		}
+	},
+
 	data () {
 		return {
 			savedCategory: null,
@@ -73,7 +84,6 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'getPageContent',
 			'getTemplateCategories'
 		]),
 		templateCategoriesOption () {
@@ -120,7 +130,6 @@ export default {
 	methods: {
 		...mapActions([
 			'addTemplate',
-			'getPageContentNested',
 			'updateTemplateCategories'
 		]),
 		async saveElement () {
@@ -128,7 +137,7 @@ export default {
 			this.loading = true
 			this.loadingMessage = ''
 			this.errorMessage = ''
-			const compiledElementData = (this.template) ? await this.getPageContentNested() : [compileElement(this.uid, this.getPageContent)]
+			const compiledElementData = (this.template) ? await this.getTemplatePart('content').toJSON() : [this.getElement(this.uid).toJSON()]
 			let templateType = (this.template) ? 'template' : 'block'
 
 			this.addTemplate({
@@ -170,7 +179,8 @@ export default {
 		},
 
 		async downloadElement () {
-			const compiledElementData = (this.template) ? await this.getPageContentNested() : compileElement(this.uid, this.getPageContent)
+			const compiledElementData = (this.template) ? await this.getTemplatePart('content').toJSON() : this.getElement(this.uid).toJSON()
+
 			let templateType = (this.template) ? 'template' : 'block'
 			this.loading = true
 			this.loadingMessage = ''

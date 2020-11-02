@@ -18,7 +18,7 @@
 				v-for="(elementUid, i) in data.content"
 				:key="elementUid"
 				:uid="elementUid"
-				:data="getPageContent[elementUid]"
+				:data="getElement(elementUid)"
 				:parentUid="data.uid"
 				:class="{'zb-el-tabs-nav--active': i === 0}"
 				ref="tabs"
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { useElements } from '@zb/editor'
 import TabLink from './TabLink.vue'
 
 export default {
@@ -39,15 +39,19 @@ export default {
 	components: {
 		TabLink
 	},
+	setup () {
+		const { getElement } = useElements()
+
+		return {
+			getElement
+		}
+	},
 	data () {
 		return {
 			mounted: 0
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getPageContent'
-		]),
 		tabs () {
 			let i = 0
 
