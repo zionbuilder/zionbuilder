@@ -1,4 +1,4 @@
-import { ref, readonly, Ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { TemplatePartConfig, TemplatePart } from './models'
 import { find } from 'lodash-es'
 
