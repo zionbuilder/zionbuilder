@@ -166,7 +166,7 @@ import Help from './Help.vue'
 import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels, useLibraryElements } from '@data'
+import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData } from '@data'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 
