@@ -50,6 +50,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { lockPage } from '@zb/rest'
+import { useEditorData } from '@data'
 
 export default {
 	name: 'PostLock',
@@ -60,13 +61,19 @@ export default {
 			showError: false
 		}
 	},
+	setup () {
+		const { page_id: pageId } = useEditorData()
+
+		return {
+			pageId
+		}
+	},
 	computed: {
 		...mapGetters([
 			'isPostLocked',
 			'getLockedUserInfo',
 			'getPreviewUrl',
 			'getAllPagesUrl',
-			'getPageId'
 		]),
 		userAvatar () {
 			return this.getLockedUserInfo.avatar
@@ -84,7 +91,7 @@ export default {
 		]),
 		lockPages () {
 			this.showLoader = true
-			lockPage(this.getPageId).then((result) => {
+			lockPage(this.pageId).then((result) => {
 				if (result.status === 200) {
 					this.takeOverPost()
 				} else if (result.status === 500) {

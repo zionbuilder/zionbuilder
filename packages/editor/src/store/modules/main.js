@@ -41,7 +41,6 @@ const getters = {
 	},
 	getPreviewFrameUrl: state => state.urls.preview_frame_url,
 	getPreviewUrl: state => state.urls.preview_url,
-	getEditPageUrl: state => state.urls.edit_page,
 	getZionAdminUrl: state => state.urls.zion_admin,
 	getAllPagesUrl: state => state.urls.all_pages_url,
 	getLockedUserInfo: state => state.lockedUserInfo,

@@ -92,9 +92,7 @@ const getters = {
 	getIsPageDirty: state => state.isPageDirty,
 	getTemplateCategories: state => state.template_categories,
 	getContentRoot: state => state.pageContent.contentRoot,
-	getRightClickMenu: state => state.rightClickMenu,
 	getPageContentState: state => state,
-	getPageId: state => state.pageId,
 	getPageContent: state => state.pageContent,
 	getAllContent: state => state.pageAreas,
 	getAreasContent: state => state.pageAreas,
@@ -143,13 +141,6 @@ const getters = {
 let droppingTimeout = null
 
 const actions = {
-	setRightClickMenu ({ commit, getters }, payload) {
-		const allSettings = {
-			...getters.getRightClickMenu,
-			...payload
-		}
-		commit(types.SET_RIGHT_CLICK_MENU, allSettings)
-	},
 	updateTemplateCategories ({ commit }, payload) {
 		commit(types.SET_TEMPLATE_CATEGORIES, payload)
 	},

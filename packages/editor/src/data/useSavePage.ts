@@ -1,10 +1,10 @@
 import { savePage as savePageREST } from '@zb/rest'
-import { store } from '../store'
 import Cache from '../Cache'
 import { ref, Ref } from 'vue'
 import { useTemplateParts } from './useTemplateParts'
 import { usePageSettings } from './usePageSettings'
 import { useCSSClasses } from './useCSSClasses'
+import { useEditorData } from './useEditorData'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 
@@ -14,15 +14,15 @@ export function useSavePage () {
 		const contentTemplatePart = getTemplatePart('content')
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
+		const { page_id: pageId } = useEditorData()
 
 		if (!contentTemplatePart) {
 			console.error('Content template data not found.')
 			return
 		}
 
-		const pageID = store.getters.getPageId
 		const pageData = {
-			page_id: pageID,
+			page_id: pageId,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
 			css_classes: CSSClasses.value

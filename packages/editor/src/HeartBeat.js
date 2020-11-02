@@ -1,6 +1,9 @@
 import { store } from './store/'
+import { useEditorData } from '@data'
+
 class HeartBeat {
 	constructor() {
+		const { page_id } = useEditorData()
 		/**
 		 * Check if the post was locked by another user
 		 */
@@ -25,7 +28,7 @@ class HeartBeat {
 		window.jQuery(document).on({
 			'heartbeat-send': (event, data) => {
 				data['wp-refresh-post-lock'] = {
-					post_id: store.getters.getPageId
+					post_id: page_id
 				}
 			}
 		})

@@ -48,7 +48,7 @@ import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage } from '@data'
+import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage, useEditorData } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -66,12 +66,14 @@ export default {
 		const { focusedElement } = useElementFocus()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveDraft } = useSavePage()
+		const { page_id: pageId } = useEditorData()
 
 		return {
 			activeResponsiveDeviceInfo,
 			focusedElement,
 			applyShortcuts,
-			saveDraft
+			saveDraft,
+			pageId
 		}
 	},
 	computed: {
@@ -80,9 +82,7 @@ export default {
 			'getIframePointerEvents',
 			'canUndo',
 			'canRedo',
-			'getRightClickMenu',
-			'getIframeOrder',
-			'getPageId'
+			'getIframeOrder'
 		]),
 		storageRecover () {
 			return this.localStoragePageData && this.showRecoverModal
@@ -120,8 +120,7 @@ export default {
 			'setPageContent',
 			'setInitialHistory',
 			'setActiveArea',
-			'setElementFocus',
-			'setRightClickMenu'
+			'setElementFocus'
 		]),
 		useLocalVersion () {
 			if (Object.keys(this.localStoragePageData).length) {
@@ -183,7 +182,7 @@ export default {
 
 			this.ignoreNextReload = false
 
-			const cachedData = Cache.getItem(this.getPageId)
+			const cachedData = Cache.getItem(this.pageId)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
 				this.localStoragePageData = cachedData
@@ -221,11 +220,6 @@ export default {
 				Dom.iframeWindow.location.reload()
 			})
 		},
-		onScroll (e) {
-			this.setRightClickMenu({
-				visibility: false
-			})
-		},
 		checkIframeLoading () {
 			if (this.$refs.iframe && this.$refs.iframe.contentDocument) {
 				if (this.$refs.iframe.contentDocument.readyState === 'complete') {
@@ -235,15 +229,6 @@ export default {
 				}
 			} else {
 				setTimeout(this.checkIframeLoading, 100)
-			}
-		}
-	},
-	watch: {
-		getRightClickMenu (newValue) {
-			if (newValue && newValue.visibility) {
-				this.$refs.iframe.contentDocument.addEventListener('scroll', this.onScroll)
-			} else {
-				this.$refs.iframe.contentDocument.removeEventListener('scroll', this.onScroll)
 			}
 		}
 	},

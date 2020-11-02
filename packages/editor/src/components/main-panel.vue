@@ -203,6 +203,8 @@ export default {
 		const { togglePanel, openPanels } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { setElementConfigForLibrary } = useLibraryElements()
+		const { urls } = useEditorData()
+
 		const saveActions = [
 			{
 				icon: 'save-template',
@@ -229,7 +231,8 @@ export default {
 			openPanels,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setElementConfigForLibrary
+			setElementConfigForLibrary,
+			urls
 		}
 	},
 	computed: {
@@ -238,7 +241,6 @@ export default {
 			'getMainBarPointerEvents',
 			'activeHistoryIndex',
 			'getPageContent',
-			'getEditPageUrl',
 			'getZionAdminUrl',
 			'getPreviewUrl',
 			'getMainbarPosition'
@@ -268,7 +270,7 @@ export default {
 				},
 				{
 					title: this.$translate('back_to_wp_dashboard'),
-					url: this.getEditPageUrl,
+					url: this.urls.edit_page,
 					action: this.helpMenuClick,
 					target: '_blank'
 				},
