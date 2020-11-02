@@ -67,9 +67,6 @@ const actions = {
 	setLockedUser: ({ commit }, payload) => {
 		commit(types.SET_LOCKED_USERINFO, payload)
 	},
-	takeOverPost: ({ commit }) => {
-		commit(types.TAKE_OVER_POST)
-	},
 	setNonce: ({ commit }, payload) => {
 		commit(types.SET_NONCE, payload)
 	}
