@@ -146,13 +146,13 @@
 </template>
 
 <script>
-import { getTemplates, addTemplate, getLibraryItems} from '@zionbuilder/rest'
+import { getTemplates, addTemplate, getLibraryItems } from '@zb/rest'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { mapActions, mapGetters } from 'vuex'
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
-import { computed, inject, provide, ref,nextTick, watch } from 'vue'
+import { computed, inject, provide, ref, nextTick, watch } from 'vue'
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
 import { usePanels, useLibraryElements } from '@data'
@@ -243,8 +243,8 @@ export default {
 				})
 			})
 		}
-		provide ('templateUploaded', templateUploaded)
-		provide ('insertItem', insertItem)
+		provide('templateUploaded', templateUploaded)
+		provide('insertItem', insertItem)
 
 		function activatePreview (item) {
 			activeItem.value = item
@@ -318,9 +318,9 @@ export default {
 					items
 				}, 604800000)
 			})
-			.finally(() => {
-				loadingLibrary.value = false
-			})
+				.finally(() => {
+					loadingLibrary.value = false
+				})
 		}
 		provide('localgetDataFromServer', localgetDataFromServer)
 

@@ -28,10 +28,7 @@
 
 			<!-- <Loader v-if="loadingLibrary" /> -->
 
-			<div
-				v-else
-				class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar"
-			>
+			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
 				<TemplateList
 					v-if="getFilteredTemplates.length > 0"
 					:templates="getFilteredTemplates"
@@ -71,7 +68,7 @@ export default {
 			required: false
 		}
 	},
-	setup (props, {emit}) {
+	setup (props, { emit }) {
 		const zb = inject('$zb')
 		const templateUploaded = inject('templateUploaded')
 		const insertItem = inject('insertItem')
@@ -84,26 +81,26 @@ export default {
 		const allTemplateTypes = ref([])
 		const enteredValue = ref('')
 		const errorMessage = ref('')
-		const ItemLoading=  ref(false)
+		const ItemLoading = ref(false)
 		const activeTemplate = ref(null)
 		const searchCategories = ref([])
 
 		const getDataFromServer = inject('localgetDataFromServer')
 
-		getDataFromServer().then(()=>{
-				allItems.value = zb.templates.models
-				if (templateUploaded.value) {
-					activeCategory.value = allTemplateTypes.value.find(cat => cat.id === allItems.value[0].template_type)
-					activeSubcategory.value = getSubCategories.value[0]
-					timeExpired.value = false
-					setExpireClass()
-				}
-			}).finally(() => {
-				// loadingLibrary.value = false
-				emit('loading-end', true)
-			})
+		getDataFromServer().then(() => {
+			allItems.value = zb.templates.models
+			if (templateUploaded.value) {
+				activeCategory.value = allTemplateTypes.value.find(cat => cat.id === allItems.value[0].template_type)
+				activeSubcategory.value = getSubCategories.value[0]
+				timeExpired.value = false
+				setExpireClass()
+			}
+		}).finally(() => {
+			// loadingLibrary.value = false
+			emit('loading-end', true)
+		})
 
-		allTemplateTypes.value= window.ZnPbInitalData.template_types
+		allTemplateTypes.value = window.ZnPbInitalData.template_types
 
 
 		const getSubCategories = computed(() => {
@@ -152,7 +149,7 @@ export default {
 			}
 		})
 
-		const lastItemImported  = computed(() => {
+		const lastItemImported = computed(() => {
 			return templateUploaded ? allItems.value[0] : {}
 		})
 
@@ -164,7 +161,7 @@ export default {
 			return lastItemImported.value.ID
 		})
 
-		const 	getCategoriesForDisplay= computed(() => {
+		const getCategoriesForDisplay = computed(() => {
 			const categories = []
 			allTemplateTypes.value.forEach(templateType => {
 				// Attach subcategories
@@ -180,8 +177,8 @@ export default {
 			} else {
 				const localactiveCategory = getActiveCategory.value.id
 				const localactiveSubcategory = activeSubcategory.value ? activeSubcategory.value.slug : false
-				console.log('localactiveCategory',localactiveCategory)
-				console.log('localactiveSubcategory',localactiveSubcategory)
+				console.log('localactiveCategory', localactiveCategory)
+				console.log('localactiveSubcategory', localactiveSubcategory)
 				return allItems.value.filter((template) => {
 					if (localactiveSubcategory && localactiveSubcategory !== 'all') {
 						// Check to see if the subcategory match
@@ -196,18 +193,18 @@ export default {
 			}
 		})
 
-		const 	loadingItem = computed(() => {
+		const loadingItem = computed(() => {
 			if (!ItemLoading.value) {
 				return null
 			}
 			return activeTemplate.value
 		})
 
-		const keyword= computed({
-			get: () =>{
+		const keyword = computed({
+			get: () => {
 				return enteredValue.value
 			},
-			set:newValue => {
+			set: newValue => {
 				enteredValue = newValue
 				if (newValue.length > 1) {
 					const searchResult = searchResult(newValue)
@@ -295,9 +292,9 @@ export default {
 		}
 
 		function onActivateCategory (newCategory) {
-			activeCategory.value=newCategory
+			activeCategory.value = newCategory
 			activeSubcategory.value = getSubCategories[0]
-			emit('active-upload-finished',true)
+			emit('active-upload-finished', true)
 		}
 
 		return {
