@@ -19,7 +19,7 @@ const state = {
 
 const getters = {
 	getMasks: state => state.masks,
-	getAssetsUrl: state => state.urls.assets_url,
+	// getAssetsUrl: state => state.urls.assets_url,
 	isPro: state => state.is_pro_active,
 	getLogoUrl: state => state.urls.logo,
 	getLoadingUrl: state => state.urls.loader,
@@ -39,10 +39,10 @@ const getters = {
 	getIframeOrder: state => {
 		return state.iFrame.order
 	},
-	getPreviewFrameUrl: state => state.urls.preview_frame_url,
-	getPreviewUrl: state => state.urls.preview_url,
-	getZionAdminUrl: state => state.urls.zion_admin,
-	getAllPagesUrl: state => state.urls.all_pages_url
+	// getPreviewFrameUrl: state => state.urls.preview_frame_url,
+	// getPreviewUrl: state => state.urls.preview_url,
+	// getZionAdminUrl: state => state.urls.zion_admin,
+	// getAllPagesUrl: state => state.urls.all_pages_url
 }
 
 const actions = {

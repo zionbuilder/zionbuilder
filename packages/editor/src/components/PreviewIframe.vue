@@ -6,11 +6,11 @@
 	>
 
 		<iframe
-			v-if="getPreviewFrameUrl"
+			v-if="urls.preview_frame_url"
 			ref="iframe"
 			@load="checkIframeLoading"
 			id="znpb-editor-iframe"
-			:src="getPreviewFrameUrl"
+			:src="urls.preview_frame_url"
 			:style="deviceStyle"
 		/>
 
@@ -67,18 +67,19 @@ export default {
 		const { applyShortcuts } = useKeyBindings()
 		const { saveDraft } = useSavePage()
 		const { page_id: pageId } = useEditorData()
+		const { urls } = useEditorData()
 
 		return {
 			activeResponsiveDeviceInfo,
 			focusedElement,
 			applyShortcuts,
 			saveDraft,
-			pageId
+			pageId,
+			urls
 		}
 	},
 	computed: {
 		...mapGetters([
-			'getPreviewFrameUrl',
 			'getIframePointerEvents',
 			'canUndo',
 			'canRedo',

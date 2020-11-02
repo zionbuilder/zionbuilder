@@ -240,8 +240,6 @@ export default {
 			'getMainBarOrder',
 			'getMainBarPointerEvents',
 			'activeHistoryIndex',
-			'getZionAdminUrl',
-			'getPreviewUrl',
 			'getMainbarPosition'
 		]),
 
@@ -272,13 +270,13 @@ export default {
 				},
 				{
 					title: this.$translate('back_to_zion_dashboard'),
-					url: this.getZionAdminUrl,
+					url: this.urls.zion_admin,
 					action: this.helpMenuClick,
 					target: '_blank'
 				},
 				{
 					title: this.$translate('view_post'),
-					url: this.getPreviewUrl,
+					url: this.urls.preview_url,
 					action: this.helpMenuClick,
 					target: '_blank'
 				}

@@ -5,20 +5,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+
 export default {
 	name: 'ElementLoading',
-	data () {
+	setup () {
+		const { urls } = useEditorData()
+
 		return {
-			loading: false
+			urls
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getAssetsUrl'
-		]),
 		loadingUrl () {
-			return this.getAssetsUrl + '/img/zion-loader-slim--small.gif'
+			return this.urls.assets_url + '/img/zion-loader-slim--small.gif'
 		}
 	}
 }

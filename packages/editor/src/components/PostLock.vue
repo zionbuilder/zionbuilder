@@ -23,10 +23,10 @@
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
 					<Button type="gray">
-						<a :href="previewUrl">{{$translate('post_preview')}}</a>
+						<a :href="urls.preview_url">{{$translate('post_preview')}}</a>
 					</Button>
 					<Button type="gray">
-						<a :href="getAllPagesUrl">{{$translate('post_go_back')}}</a>
+						<a :href="urls.all_pages_url">{{$translate('post_go_back')}}</a>
 					</Button>
 					<Button
 						@click.prevent="lockPages"
@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { lockPage } from '@zb/rest'
 import { useEditorData } from '@data'
 import { usePostLock } from '@data'
@@ -65,21 +64,14 @@ export default {
 	setup () {
 		const { page_id: pageId } = useEditorData()
 		const { isPostLocked, lockedUserInfo, takeOverPost } = usePostLock()
+		const { urls } = useEditorData()
 
 		return {
 			pageId,
 			isPostLocked,
 			lockedUserInfo,
-			takeOverPost
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getPreviewUrl',
-			'getAllPagesUrl',
-		]),
-		previewUrl () {
-			return this.getPreviewUrl
+			takeOverPost,
+			urls
 		}
 	},
 	methods: {

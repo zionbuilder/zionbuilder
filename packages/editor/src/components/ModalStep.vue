@@ -34,8 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import { usePreviewLoading } from '@data'
 export default {
 	name: 'ModalStep',
 	props: {
@@ -48,11 +47,13 @@ export default {
 			default: false
 		}
 	},
-
+	setup () {
+		const { isPreviewLoading } = usePreviewLoading()
+		return {
+			isPreviewLoading
+		}
+	},
 	computed: {
-		...mapGetters([
-			'isPreviewLoading'
-		]),
 		buttonText () {
 			if (this.isPreviewLoading) {
 				return `<div class="znpb-admin-small-loader"></div> ${this.$translate('take_tour')}`
