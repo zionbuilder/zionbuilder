@@ -3,7 +3,10 @@
 	<div class="znpb-single-role-modal-wrapper znpb-fancy-scrollbar">
 		<div class="znpb-permission-wrapper">
 
-			<Tooltip :content="$translate('check_access_to_editor')" class="znpb-single-role-modal-title-wrapper">
+			<Tooltip
+				:content="$translate('check_access_to_editor')"
+				class="znpb-single-role-modal-title-wrapper"
+			>
 				<h4 class="znpb-single-role-modal-title">
 					{{$translate('access_to_editor')}}
 				</h4>
@@ -58,7 +61,7 @@
 
 <script>
 
-import { Tooltip, UpgradeToPro } from '@zionbuilder/components'
+import { Tooltip, UpgradeToPro } from '@zb/components'
 import { useDataSets } from '@zb/components'
 
 export default {
@@ -67,7 +70,7 @@ export default {
 		UpgradeToPro,
 		Tooltip
 	},
-	setup() {
+	setup () {
 		const { dataSets } = useDataSets()
 
 		return {

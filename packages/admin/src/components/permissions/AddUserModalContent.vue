@@ -10,13 +10,14 @@
 				ref="searchInput"
 			>
 				<template v-slot:suffix>
-					<Loader
-						v-if="loading"
-					/>
+					<Loader v-if="loading" />
 				</template>
 			</BaseInput>
 
-			<ul v-if="keyword.length > 2" class="znpb-baseselect-list">
+			<ul
+				v-if="keyword.length > 2"
+				class="znpb-baseselect-list"
+			>
 				<ModalListItem
 					v-for="(user, i) in users"
 					v-bind:key="i"
@@ -25,7 +26,10 @@
 				/>
 			</ul>
 
-			<span v-if="!loading && (users.length === 0) && (keyword.length > 2)" class="znpb-not-found-message">{{$translate('no_result')}}</span>
+			<span
+				v-if="!loading && (users.length === 0) && (keyword.length > 2)"
+				class="znpb-not-found-message"
+			>{{$translate('no_result')}}</span>
 		</div>
 	</div>
 </template>
@@ -35,7 +39,7 @@
 import { searchUser } from '@zionbuilder/rest'
 import ModalListItem from './ModalListItem.vue'
 
-import { Loader } from '@zionbuilder/components'
+import { Loader } from '@zb/components'
 
 export default {
 	name: 'AddUserModalContent',

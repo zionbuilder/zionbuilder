@@ -5,9 +5,7 @@
 		class="znpb-admin-system-notice-wrapper"
 	>
 		<template v-slot:content>
-			<div
-				v-html="data.message"
-			></div>
+			<div v-html="data.message"></div>
 		</template>
 		<Icon
 			:icon="icontype"
@@ -26,7 +24,7 @@
 </template>
 
 <script>
-import { Icon, Tooltip } from '@zionbuilder/components'
+import { Icon, Tooltip } from '@zb/components'
 
 export default {
 	name: 'SmallNotice',

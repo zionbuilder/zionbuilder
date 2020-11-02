@@ -46,8 +46,7 @@
 </template>
 
 <script>
-import { ModalTemplateSaveButton } from '@zionbuilder/components'
-import { InputSelect } from '@zionbuilder/components'
+import { ModalTemplateSaveButton, InputSelect } from '@zb/components'
 
 export default {
 	name: 'ModalAddNewTemplate',

@@ -164,8 +164,7 @@
 <script>
 import { exportTemplateById } from '@zionbuilder/rest'
 import { saveAs } from 'file-saver'
-import { Tooltip, Icon, Loader } from '@zionbuilder/components'
-import { BaseInput } from '@zionbuilder/components'
+import { Tooltip, Icon, Loader, BaseInput } from '@zb/components'
 
 export default {
 	name: 'TemplateItem',

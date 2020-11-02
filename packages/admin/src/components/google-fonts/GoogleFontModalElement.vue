@@ -2,19 +2,31 @@
 	<div class="znpb-admin__google-fonts-modal-item">
 		<div class="znpb-admin__google-fonts-modal-item-header">
 			<div>{{font.family}}</div>
-			<div v-if="! isActive" @click="$emit('font-selected', font)" class="znpb-circle-icon-line">
+			<div
+				v-if="! isActive"
+				@click="$emit('font-selected', font)"
+				class="znpb-circle-icon-line"
+			>
 				<Icon icon="plus"></Icon>
 			</div>
-			<div v-if="isActive" @click="$emit('font-removed', font.family)" class="znpb-circle-icon-line znpb-circle-delete">
+			<div
+				v-if="isActive"
+				@click="$emit('font-removed', font.family)"
+				class="znpb-circle-icon-line znpb-circle-delete"
+			>
 				<Icon icon="minus"></Icon>
 			</div>
 		</div>
-		<div class="znpb-admin__google-fonts-modal-item-preview" contenteditable="true" :style="fontStyle">{{font.family}}</div>
+		<div
+			class="znpb-admin__google-fonts-modal-item-preview"
+			contenteditable="true"
+			:style="fontStyle"
+		>{{font.family}}</div>
 	</div>
 </template>
 
 <script>
-import { Icon } from '@zionbuilder/components'
+import { Icon } from '@zb/components'
 import { computed } from 'vue'
 export default {
 	name: 'GoogleFontModalElement',
@@ -46,7 +58,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .znpb-admin__google-fonts-modal-item {
 	flex-basis: 100%;
 	padding: 20px;
@@ -95,5 +106,4 @@ export default {
 		}
 	}
 }
-
 </style>

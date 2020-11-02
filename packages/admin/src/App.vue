@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import Label from '@zionbuilder/components/Label'
+
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
-import { Icon, Notice } from '@zionbuilder/components'
+import { Icon, Notice, Label } from '@zb/components'
 import { getGoogleFonts } from '@zb/rest'
 import { useDataSets } from '@zionbuilder/models'
 export default {
@@ -160,7 +160,8 @@ export default {
 	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-		// added to fix the arrows for mozilla firefox
+
+// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}

@@ -24,7 +24,7 @@
 <script>
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
-import { Modal } from '@zionbuilder/components'
+import { Modal } from '@zb/components'
 
 export default {
 	name: 'SingleRole',

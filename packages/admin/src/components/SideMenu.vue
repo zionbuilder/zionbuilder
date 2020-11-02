@@ -23,7 +23,7 @@
 
 <script>
 import SideMenuItem from './SideMenuItem.vue'
-import { Label } from '@zionbuilder/components'
+import { Label } from '@zb/components'
 
 export default {
 	name: 'SideMenu',

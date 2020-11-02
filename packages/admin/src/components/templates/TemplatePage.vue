@@ -11,7 +11,7 @@
 				:id="tab.id"
 				:name="tab.title"
 			>
-				<Loader v-if="loading"/>
+				<Loader v-if="loading" />
 				<TemplateList
 					v-else
 					:templates="getFilteredTemplates"
@@ -54,8 +54,8 @@
 import { getTemplates, addTemplate } from '@zionbuilder/rest'
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
 import TemplateList from './TemplateList.vue'
-import { Button, Modal, Tabs, Tab } from '@zionbuilder/components'
-import { computed, inject, ref, reactive, watchEffect} from 'vue'
+import { Button, Modal, Tabs, Tab } from '@zb/components'
+import { computed, inject, ref, reactive, watchEffect } from 'vue'
 export default {
 	name: 'TemplatePage',
 	components: {
@@ -90,19 +90,19 @@ export default {
 		const localtemplates = ref([])
 
 		const tabs = ref([
-				{
-					title: 'Published',
-					id: 'publish'
-				},
-				{
-					title: 'Drafts',
-					id: 'draft'
-				},
-				{
-					title: 'Trashed',
-					id: 'trash'
-				}
-			])
+			{
+				title: 'Published',
+				id: 'publish'
+			},
+			{
+				title: 'Drafts',
+				id: 'draft'
+			},
+			{
+				title: 'Trashed',
+				id: 'trash'
+			}
+		])
 
 		Promise.all([
 			getTemplates()
@@ -129,7 +129,7 @@ export default {
 		function onAddTemplate (template) {
 
 			addTemplate(template).then(() => {
-				showModal.value=false
+				showModal.value = false
 				loading.value = true
 				$zb.templates.addTemplate(template)
 

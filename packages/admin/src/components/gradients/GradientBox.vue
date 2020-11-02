@@ -10,13 +10,9 @@
 			:content="$translate('delete_gradient_from_preset')"
 			@click.stop="$emit('delete-gradient')"
 		>
-			<Icon
-				icon="close"
-			/>
+			<Icon icon="close" />
 		</Tooltip>
-		<div
-			class="znpb-admin-gradient-preset-box__gradient"
-		>
+		<div class="znpb-admin-gradient-preset-box__gradient">
 			<GradientPreview
 				:config="config"
 				:round="true"
@@ -26,7 +22,7 @@
 </template>
 
 <script>
-import { GradientPreview, Icon, Tooltip } from '@zionbuilder/components'
+import { GradientPreview, Icon, Tooltip } from '@zb/components'
 
 export default {
 	name: 'GradientBox',

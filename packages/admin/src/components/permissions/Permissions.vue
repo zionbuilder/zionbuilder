@@ -78,10 +78,9 @@
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
-import { Button, Loader, Modal, UpgradeToPro } from '@zionbuilder/components'
+import { Button, Loader, Modal, UpgradeToPro, useDataSets } from '@zb/components'
 import { getUsersById } from '@zionbuilder/rest'
 import { useIsPro } from '@zionbuilder/models'
-import { useDataSets } from '@zb/components'
 
 export default {
 	name: 'permissions',
@@ -94,7 +93,7 @@ export default {
 		Loader,
 		Modal
 	},
-	setup() {
+	setup () {
 		const { dataSets } = useDataSets()
 
 		return {
@@ -127,19 +126,19 @@ export default {
 		// Fetch system information from rest api
 		const userIds = Object.keys(this.$zb.options.getUserPermissions())
 
-			if (userIds.length > 0) {
+		if (userIds.length > 0) {
 			Promise.all([getUsersById(userIds)]).then((values) => {
 
 				this.userList = this.$zb.users.add(values[0].data[0])
-				})
-				.finally((result)=> {
+			})
+				.finally((result) => {
 					this.userloaded = true
 					this.loaded = true
 				})
-			} else {
-				this.loaded = true
-				this.userloaded = true
-			}
+		} else {
+			this.loaded = true
+			this.userloaded = true
+		}
 
 
 	}

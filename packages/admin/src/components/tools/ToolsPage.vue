@@ -55,9 +55,9 @@
 </template>
 
 <script>
-import { regenerateCache } from '@zionbuilder/rest'
-import { Button, Loader } from '@zionbuilder/components'
-import { getTemplates } from '@zionbuilder/rest'
+import { regenerateCache, getTemplates } from '@zionbuilder/rest'
+import { Button, Loader } from '@zb/components'
+
 export default {
 	name: 'ToolsPage',
 	components: {

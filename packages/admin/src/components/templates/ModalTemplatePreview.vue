@@ -1,6 +1,7 @@
 <template>
 	<div class="znpb-template-preview__wrapper znpb-fancy-scrollbar">
-		<Loader v-if="!loaded"
+		<Loader
+			v-if="!loaded"
 			class="znpb-template-preview__loader"
 		/>
 		<iframe
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-import { Loader } from '@zionbuilder/components'
+import { Loader } from '@zb/components'
 
 export default {
 	name: 'modal-template-preview',
@@ -66,5 +67,4 @@ export default {
 		background: #fff;
 	}
 }
-
 </style>

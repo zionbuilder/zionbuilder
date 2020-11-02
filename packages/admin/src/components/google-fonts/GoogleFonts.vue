@@ -1,7 +1,10 @@
 <template>
 	<PageTemplate>
 		<h3>{{$translate('google_fonts')}}</h3>
-		<div v-if="googleFonts.length > 0" class="znpb-admin__google-font-tab znpb-admin__google-font-tab--titles">
+		<div
+			v-if="googleFonts.length > 0"
+			class="znpb-admin__google-font-tab znpb-admin__google-font-tab--titles"
+		>
 			<div class="znpb-admin__google-font-tab-title">{{$translate('font_name')}}</div>
 			<div class="znpb-admin__google-font-tab-variants">{{$translate('variants')}}</div>
 			<div class="znpb-admin__google-font-tab-subset">{{$translate('subsets')}}</div>
@@ -12,12 +15,13 @@
 			v-if="googleFonts.length === 0"
 			:content="$translate('click_me_to_add_font')"
 		>
-			<EmptyList
-				@click="showModal=true"
-			>{{$translate('no_google_fonts')}}</EmptyList>
+			<EmptyList @click="showModal=true">{{$translate('no_google_fonts')}}</EmptyList>
 		</Tooltip>
 
-		<div v-if="googleFonts.length > 0" class="znpb-admin-google-fonts-wrapper">
+		<div
+			v-if="googleFonts.length > 0"
+			class="znpb-admin-google-fonts-wrapper"
+		>
 			<ListAnimation>
 				<GoogleFontTab
 					v-for="font in googleFonts"
@@ -49,8 +53,11 @@
 		</Modal>
 
 		<div class="znpb-admin-google-fonts-actions">
-			<Button @click="showModal=true" type="line">
-				<Icon icon="plus"/>
+			<Button
+				@click="showModal=true"
+				type="line"
+			>
+				<Icon icon="plus" />
 				{{$translate('add_font')}}
 			</Button>
 		</div>
@@ -66,8 +73,8 @@
 
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
-import { Icon, Tooltip, Button, Modal } from '@zionbuilder/components'
-import { computed, inject, ref, reactive} from 'vue'
+import { Icon, Tooltip, Button, Modal } from '@zb/components'
+import { computed, inject, ref, reactive } from 'vue'
 export default {
 	name: 'GoogleFonts',
 	components: {
@@ -82,22 +89,22 @@ export default {
 		const $zb = inject('$zb')
 		const showModal = ref(false)
 
-		let googleFonts =  computed(() => {
-				return $zb.options.getOptionValue('google_fonts')
-			})
+		let googleFonts = computed(() => {
+			return $zb.options.getOptionValue('google_fonts')
+		})
 		let activeFontNames = computed(() => {
 			return googleFonts.value.map((font) => {
 				return font.font_family
-				})
 			})
+		})
 
 
 		function deleteFont (font) {
-			$zb.options.deleteOptionValue('google_fonts',font)
+			$zb.options.deleteOptionValue('google_fonts', font)
 		}
-		function onGoogleFontUpdated ({font, value: newValue}) {
+		function onGoogleFontUpdated ({ font, value: newValue }) {
 			let key = { ...font }
-			$zb.options.updateOptionValue('google_fonts', {key, value: newValue})
+			$zb.options.updateOptionValue('google_fonts', { key, value: newValue })
 		}
 		function onGoogleFontAdded (font) {
 			$zb.options.addOptionValue('google_fonts', {
@@ -108,7 +115,7 @@ export default {
 			showModal.value = false
 		}
 		function onGoogleFontRemoved (font) {
-			$zb.options.deleteOptionValue('google_fonts',font)
+			$zb.options.deleteOptionValue('google_fonts', font)
 			showModal.value = false
 		}
 

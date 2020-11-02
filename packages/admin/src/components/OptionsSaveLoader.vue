@@ -11,7 +11,7 @@
 
 <script>
 
-import { Icon } from '@zionbuilder/components'
+import { Icon } from '@zb/components'
 
 export default {
 	name: 'OptionsSaveLoader',

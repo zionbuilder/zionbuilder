@@ -31,7 +31,8 @@
 			<Button
 				:type="disabled ? 'disabled' : 'line'"
 				class="znpb-admin-replace-button"
-				@click="callReplaceUrl"			>
+				@click="callReplaceUrl"
+			>
 				<transition
 					name="fade"
 					mode="out-in"
@@ -65,8 +66,8 @@
 
 <script>
 import { replaceUrl } from '@zionbuilder/rest'
-import { Icon, Button, Loader } from '@zionbuilder/components'
-import { ref , computed} from 'vue'
+import { Icon, Button, Loader } from '@zb/components'
+import { ref, computed } from 'vue'
 export default {
 	name: 'ToolsPage',
 	components: {
@@ -83,7 +84,7 @@ export default {
 		const disabled = computed(() => {
 			let check = !((oldUrl.value.length > 0 && newUrl.value.length > 0))
 			return check
-		 } )
+		})
 
 
 		function callReplaceUrl () {

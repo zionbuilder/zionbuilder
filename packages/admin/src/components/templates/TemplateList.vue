@@ -45,8 +45,7 @@
 <script>
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
-import { ModalConfirm, Modal } from '@zionbuilder/components'
-import { EmptyList } from '@zionbuilder/components'
+import { ModalConfirm, Modal, EmptyList } from '@zb/components'
 import { deleteTemplate } from '@zionbuilder/rest'
 
 export default {

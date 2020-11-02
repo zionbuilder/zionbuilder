@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-admin-color-preset-box" :class="{['znpb-admin-color-preset-box--' + type]: type}">
+	<div
+		class="znpb-admin-color-preset-box"
+		:class="{['znpb-admin-color-preset-box--' + type]: type}"
+	>
 		<Tooltip
 			tooltip-class="hg-popper--no-padding"
 			:trigger="null"
@@ -42,7 +45,11 @@
 				</Tooltip>
 
 				<div class="znpb-admin-color-preset-box__circle--transparent">
-					<div ref="circleTrigger" class="znpb-admin-color-preset-box__circle" :style="{background: localColor}"></div>
+					<div
+						ref="circleTrigger"
+						class="znpb-admin-color-preset-box__circle"
+						:style="{background: localColor}"
+					></div>
 				</div>
 				<div class="znpb-admin-color-preset-box__color-name"><span>{{localColor}}</span></div>
 			</div>
@@ -50,9 +57,9 @@
 	</div>
 </template>
 <script>
-import { ColorPicker, Icon, Tooltip } from '@zionbuilder/components'
+import { ColorPicker, Icon, Tooltip } from '@zb/components'
 import clickOutside from '@zionbuilder/click-outside-directive'
-import { ref ,watchEffect} from 'vue'
+import { ref, watchEffect } from 'vue'
 export default {
 	name: 'ColorBox',
 	directives: {
@@ -85,7 +92,7 @@ export default {
 			localColor.value = color
 		}
 
-		function closeColorpicker() {
+		function closeColorpicker () {
 			showColorPicker.value = false
 
 			// Check if color has changed
@@ -132,7 +139,7 @@ export default {
 	&--addcolor {
 		position: relative;
 		color: lighten($font-color, 25%);
-		background: lighten( $surface-variant, 3 );
+		background: lighten($surface-variant, 3);
 		box-shadow: none;
 		border: 2px dashed lighten($font-color, 25%);
 		cursor: pointer;

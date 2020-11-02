@@ -22,7 +22,7 @@
 
 <script>
 
-import { Icon, Tooltip, Loader } from '@zionbuilder/components'
+import { Icon, Tooltip, Loader } from '@zb/components'
 import { saveOptions, getUsersById } from '@zionbuilder/rest'
 
 export default {

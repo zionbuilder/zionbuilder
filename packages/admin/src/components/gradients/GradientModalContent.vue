@@ -17,8 +17,7 @@
 	</Modal>
 </template>
 <script>
-import { GradientGenerator, Modal } from '@zionbuilder/components'
-
+import { GradientGenerator, Modal } from '@zb/components'
 export default {
 	name: 'GradientModalContent',
 	components: {
@@ -66,12 +65,11 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-admin__gradient-modal-wrapper {
 	overflow: auto;
 	min-width: 360px;
 	.znpb-toggle-switch {
-		input[type=radio]:checked:before {
+		input[type="radio"]:checked:before {
 			display: none;
 		}
 	}

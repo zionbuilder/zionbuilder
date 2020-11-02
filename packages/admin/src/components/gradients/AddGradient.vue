@@ -1,11 +1,11 @@
 <template>
-	<div class="znpb-admin-gradient-preset-box__empty" >
+	<div class="znpb-admin-gradient-preset-box__empty">
 		<Icon icon="plus" />
 		<div>{{$translate('add_gradient')}}</div>
 	</div>
 </template>
 <script>
-import { Icon } from '@zionbuilder/components'
+import { Icon } from '@zb/components'
 
 export default {
 	name: 'AddGradient',

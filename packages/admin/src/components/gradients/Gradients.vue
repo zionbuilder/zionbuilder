@@ -56,12 +56,12 @@
 
 <script>
 
-import { computed , ref, inject , reactive } from 'vue'
+import { computed, ref, inject, reactive } from 'vue'
 import GradientBox from './GradientBox.vue'
 import { getDefaultGradient } from '@zionbuilder/components/utils'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
-import { Tabs, Tab, UpgradeToPro } from '@zionbuilder/components'
+import { Tabs, Tab, UpgradeToPro } from '@zb/components'
 
 export default {
 	name: 'Gradients',
@@ -94,24 +94,24 @@ export default {
 		})
 
 		const activeGradient = computed({
-				get: () => {
-					const gradientsArray = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
-					return gradientsArray !== undefined && gradientsArray[activeGradientIndex.value]!== undefined ? gradientsArray[activeGradientIndex.value]['config'] : []
+			get: () => {
+				const gradientsArray = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
+				return gradientsArray !== undefined && gradientsArray[activeGradientIndex.value] !== undefined ? gradientsArray[activeGradientIndex.value]['config'] : []
 
-				},
-				set: val => {
-					const gradientslocal = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
-					const gradient = gradientslocal[activeGradientIndex.value]
-					storegradient.value = val
-				}
+			},
+			set: val => {
+				const gradientslocal = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
+				const gradient = gradientslocal[activeGradientIndex.value]
+				storegradient.value = val
+			}
 		})
 
 		function deleteGradientElement (gradient) {
-			$zb.options.deleteOptionValue('local_gradients',gradient)
+			$zb.options.deleteOptionValue('local_gradients', gradient)
 		}
 
 		function deleteGlobalGradientElement (gradient) {
-			$zb.options.deleteOptionValue('global_gradients',gradient)
+			$zb.options.deleteOptionValue('global_gradients', gradient)
 			activeGradientIndex.value = getGlobalGradients.length - 1
 		}
 
@@ -139,7 +139,7 @@ export default {
 			}
 
 			// Add the gradient to store
-			$zb.options.addGradient('local_gradients',defaultGradient)
+			$zb.options.addGradient('local_gradients', defaultGradient)
 			// activeGradient.value = defaultGradient
 
 			activeGradientIndex.value = getLocalGradients.value.length - 1
@@ -154,7 +154,7 @@ export default {
 				name: dynamicName,
 				config: getDefaultGradient()
 			}
-			$zb.options.addGradient('global_gradients',defaultGradient)
+			$zb.options.addGradient('global_gradients', defaultGradient)
 			activeGradientIndex.value = getGlobalGradients.value.length === 1 ? 0 : getGlobalGradients.value.length - 1
 			showModal.value = true
 		}

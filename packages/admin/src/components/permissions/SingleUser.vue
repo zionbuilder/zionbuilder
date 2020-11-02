@@ -29,7 +29,7 @@
 <script>
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
-import { Modal } from '@zionbuilder/components'
+import { Modal } from '@zb/components'
 import { getUsersById } from '@zionbuilder/rest'
 export default {
 	name: 'SingleUser',
@@ -85,7 +85,7 @@ export default {
 		editRole (value) {
 			let role = this.userId
 
-			this.$zb.options.editUserPermission( {role, value })
+			this.$zb.options.editUserPermission({ role, value })
 		},
 		deletePermission (value) {
 			let role = this.userId
