@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { useElements } from '@data'
+import { useElements, useTemplateParts } from '@data'
 import { saveAs } from 'file-saver'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
