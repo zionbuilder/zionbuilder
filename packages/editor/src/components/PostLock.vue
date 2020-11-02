@@ -9,7 +9,7 @@
 	>
 		<div class="znpb-post-lock-modal">
 			<div class="znpb-post-lock-modal__avatar">
-				<img :src="getLockedUserInfo.avatar" />
+				<img :src="lockedUserInfo.avatar" />
 			</div>
 			<div class="znpb-post-lock-modal__content">
 				<div class="znpb-post-lock-modal__content-text">
@@ -19,7 +19,7 @@
 					>
 						{{$translate("post_could_not_lock")}}
 					</p>
-					<p>{{getLockedUserInfo.message}}</p>
+					<p>{{lockedUserInfo.message}}</p>
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
 					<Button type="gray">
