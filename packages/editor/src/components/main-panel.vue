@@ -110,7 +110,7 @@
 				<Help></Help>
 			</Modal>
 
-			<ModalTour ref="modalTour" />
+			<!-- <ModalTour ref="modalTour" /> -->
 			<SaveElementModal :template="true" />
 
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
@@ -163,7 +163,7 @@ import aboutModal from './aboutModal.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-import ModalTour from './ModalTour.vue'
+// import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
 import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData } from '@data'
@@ -180,7 +180,7 @@ export default {
 		keyShortcuts,
 		SaveElementModal,
 		aboutModal,
-		ModalTour
+		// ModalTour
 	},
 	data: function () {
 		return {
