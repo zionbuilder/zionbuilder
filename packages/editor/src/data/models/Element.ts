@@ -3,6 +3,7 @@ import { each, update, isPlainObject } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { useElementFocus } from '../useElementFocus'
+import { Options } from './Options'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -10,10 +11,10 @@ const { getElementType } = useElementTypes()
 export class Element {
 	// Element data for DB
 	public element_type: string = ''
-	public options: object = {}
 	public content: string[] = []
 	public uid:string = ''
 	// Helpers
+	private _options: Object = {}
 	public parentUid: string = ''
 	public isHighlighted: boolean = false
 	public activeElementRename: boolean = false
@@ -31,7 +32,7 @@ export class Element {
 		} = data
 
 		this.uid = uid
-		this.options = isPlainObject(options) ? options : {}
+		this.options = options
 		this.element_type = element_type
 
 		if (widgetID) {
@@ -45,6 +46,15 @@ export class Element {
 
 		this.parentUid = parentUid
 	}
+
+	get options () {
+		return this._options
+	}
+
+	set options (options) {
+		this._options = new Options(isPlainObject(options) ? options : {}, this)
+	}
+
 
 	get isWrapper () {
 		return this.elementTypeModel.wrapper

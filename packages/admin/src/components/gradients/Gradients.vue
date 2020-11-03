@@ -58,7 +58,7 @@
 
 import { computed, ref, inject, reactive } from 'vue'
 import GradientBox from './GradientBox.vue'
-import { getDefaultGradient } from '@zionbuilder/components/utils'
+import { getDefaultGradient } from '@zionbuilder/components'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
 import { Tabs, Tab, UpgradeToPro } from '@zb/components'
