@@ -229,7 +229,6 @@ export default {
 
 					// Get the element where we need to insert the template
 					const { parentUid = 'contentRoot', index = -1 } = elementInsertConfig.value
-					console.log('pareent uid', parentUid)
 					this.insertElements({
 						parentUid,
 						index,
@@ -324,7 +323,7 @@ export default {
 				}, 604800000)
 			})
 				.finally(() => {
-					loadingLibrary.value = false
+					libLoading.value = false
 				})
 		}
 		provide('localgetDataFromServer', localgetDataFromServer)

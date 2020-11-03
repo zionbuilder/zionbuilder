@@ -55,6 +55,7 @@ import GradientPreview from './GradientPreview.vue'
 import LibraryElement from './LibraryElement.vue'
 import { Label } from '../Label'
 
+import { computed, inject } from 'vue'
 export default {
 	name: 'GradientLibrary',
 	components: {
@@ -69,25 +70,23 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {
-			onstart: true,
-			expand: false
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getLocalGradients',
-			'getGlobalGradients',
-			'isPro'
-		])
+	setup (props, { emit }) {
+		const $zb = inject('$zb')
+		const getValueByPath = inject('getValueByPath')
+		const updateValueByPath = inject('updateValueByPath')
+		const schema = inject('schema')
 
-	},
-	methods: {
-		onGlobalGradientSelected (gradient) {
-			const { id } = this.inputWrapper.schema
+		const getGlobalGradients = computed(() => {
+			return $zb.options.getOptionValue('global_gradients')
+		})
 
-			this.optionsForm.updateValueByPath(`__dynamic_content__.${id}`, {
+		const getLocalGradients = computed(() => {
+			return $zb.options.getOptionValue('local_gradients')
+		})
+
+		function onGlobalGradientSelected (gradient) {
+			const { id } = schema
+			updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-gradient',
 				options: {
 					gradient_id: gradient.id
@@ -95,10 +94,22 @@ export default {
 			})
 
 			// Delete the saved value
-			this.$nextTick(() => {
-				this.$emit('activate-gradient', null)
+			nextTick(() => {
+				emit('activate-gradient', null)
 			})
 		}
+
+		return {
+			getGlobalGradients,
+			getLocalGradients,
+			onGlobalGradientSelected
+		}
+	},
+	computed: {
+		...mapGetters([
+			'isPro'
+		])
+
 	}
 }
 </script>

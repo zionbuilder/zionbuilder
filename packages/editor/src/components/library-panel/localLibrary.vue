@@ -12,8 +12,8 @@
 				:parent="category"
 				:subcategory="getSubCategories"
 				:activeSubcategory="activeSubcategory"
-				@activate-category="onActivateCategory"
-				@activate-subcategory="onSubCategoryChanged"
+				@activate-category="activeCategory=$event, activeSubcategory=null"
+				@activate-subcategory="activeSubcategory=$event"
 			/>
 
 		</div>
@@ -187,8 +187,6 @@ export default {
 			} else {
 				const localactiveCategory = getActiveCategory.value.id
 				const localactiveSubcategory = activeSubcategory.value ? activeSubcategory.value.slug : false
-				console.log('localactiveCategory', localactiveCategory)
-				console.log('localactiveSubcategory', localactiveSubcategory)
 				return allItems.value.filter((template) => {
 					if (localactiveSubcategory && localactiveSubcategory !== 'all') {
 						// Check to see if the subcategory match
@@ -196,7 +194,6 @@ export default {
 						const sameSubcategory = templateCategories.find(category => category.slug === localactiveSubcategory)
 						return template.post_status === 'publish' && template.template_type && template.template_type === localactiveCategory && sameSubcategory
 					} else {
-						console.log('here')
 						return template.post_status === 'publish' && template.template_type && template.template_type === localactiveCategory
 					}
 				})
@@ -291,10 +288,8 @@ export default {
 			errorMessage.value = ''
 			ItemLoading.value = true
 			activeTemplate.value = template
-			console.log('template,', template)
-			console.log('injected,', insertItem)
 			insertItem(template).then(() => {
-				// this.ItemLoading = false
+				ItemLoading.value = false
 			}).catch((error) => {
 				console.log('error', error)
 				errorMessage.value = error

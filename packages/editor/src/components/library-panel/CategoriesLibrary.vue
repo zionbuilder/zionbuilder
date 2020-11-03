@@ -8,7 +8,10 @@
 			class="znpb-editor-library-modal-category__header"
 			@click="selectCategory"
 		>
-			<h6 class="znpb-editor-library-modal-category__title" v-html="category.name || ''">
+			<h6
+				class="znpb-editor-library-modal-category__title"
+				v-html="category.name || ''"
+			>
 
 			</h6>
 			<Icon
