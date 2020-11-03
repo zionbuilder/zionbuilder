@@ -20,6 +20,8 @@ export default {
 		}
 	},
 	render (context) {
+		// TODO: implement this
+		return
 		const returnVnodes = []
 
 		const createVnode = function (styles) {

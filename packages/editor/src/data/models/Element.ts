@@ -1,9 +1,10 @@
 import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
-import { each, update, isPlainObject } from 'lodash-es'
+import { each, update, isPlainObject, cloneDeep } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { useElementFocus } from '../useElementFocus'
 import { Options } from './Options'
+import { RenderAttributes } from './RenderAttributes'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -14,7 +15,9 @@ export class Element {
 	public content: string[] = []
 	public uid:string = ''
 	// Helpers
+	public receivedOptions = {}
 	private _options: Object = {}
+	public renderAttributes: RenderAttributes
 	public parentUid: string = ''
 	public isHighlighted: boolean = false
 	public activeElementRename: boolean = false
@@ -39,7 +42,10 @@ export class Element {
 		}
 
 		// Setup options
-		this.options = options
+		this.receivedOptions = isPlainObject(options) ? options : {}
+
+		this.renderAttributes = new RenderAttributes()
+		this.options = this.receivedOptions
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
@@ -53,10 +59,19 @@ export class Element {
 		return this._options
 	}
 
-	set options (options) {
-		this._options = new Options(isPlainObject(options) ? options : {}, this)
-	}
+	set options (newValues) {
+		const schema = this.elementTypeModel.options || {}
 
+		// Clear render attributes
+		this.renderAttributes.clear()
+
+		// this.customCSS = new CustomCSS()
+		this._options = new Options(cloneDeep(newValues), schema, {
+			parsers: [
+				this.renderAttributes.parseValue.bind(this.renderAttributes)
+			]
+		})
+	}
 
 	get isWrapper () {
 		return this.elementTypeModel.wrapper

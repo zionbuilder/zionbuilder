@@ -249,7 +249,8 @@ export default {
 		},
 		elementOptions: {
 			get () {
-				return Array.isArray(this.element.options) ? {} : this.element.options || {}
+				// Use received options so we do not save default options that are set to element.options
+				return Array.isArray(this.element.receivedOptions) ? {} : this.element.receivedOptions || {}
 			},
 			set (newValues) {
 				newValues = newValues === null ? {} : newValues

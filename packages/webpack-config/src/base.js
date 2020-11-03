@@ -15,6 +15,18 @@ module.exports = () => {
 		module: {
 			rules: [
 				{
+					// find these extensions in our css, copy the files to the outputPath,
+					// and rewrite the url() in our css to point them to the new (copied) location
+					test: /\.(woff(2)?|eot|otf|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+					use: {
+						loader: 'file-loader',
+						options: {
+							outputPath: 'fonts/',
+							publicPath: '../fonts'
+						}
+					}
+				},
+				{
 					test: /\.tsx?$/,
 					exclude: /node_modules/,
 					loader: require.resolve('ts-loader'),

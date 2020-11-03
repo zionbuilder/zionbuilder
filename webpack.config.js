@@ -1,6 +1,7 @@
 const path = require('path')
 const {
-	mergeConfigs
+	mergeConfigs,
+	getConfig
 } = require('@zionbuilder/webpack-config');
 
 const {
@@ -11,19 +12,10 @@ const {
 
 const configs = []
 
-const getDirectories = source =>
-	readdirSync(source, {
-		withFileTypes: true
-	})
-	.filter(dirent => dirent.isDirectory())
-	.map(dirent => dirent.name)
-
 const getWebpackConfig = (folder) => {
 	const webpackFileLocation = path.resolve( folder, 'webpack.config.js' )
 	return existsSync( webpackFileLocation ) ? webpackFileLocation : false
 }
-
-// const packages = getDirectories('./packages')
 
 const packages = [
 	'admin',
@@ -58,26 +50,35 @@ packages.forEach(directory => {
 					filename: `js/${directory}.js`,
 					library: [ 'zb', directory ],
 					libraryTarget: 'window'
-				},
-				externals: [
-					// /^@zionbuilder\/[packages.join('|')]/
-					function( context, request, callback ) {
-						// Convert packages to window.zb[package]
-						let matcher = new RegExp("@zionbuilder/(" + packages.join('|') + ")");
-						if (matcher.test(request)){
-							const modules = request.replace('@zionbuilder', 'zb').split('/')
-							// Externalize to a commonjs module using the request path
-							return callback(null, modules, 'root');
-						}
-						callback()
-					}
-				]
+				}
 			}
 		)
 
 		configs.push(config)
 	}
 })
+
+// CSS
+const cssFiles = [
+	'frontend'
+]
+
+cssFiles.forEach(entry => {
+	const folder = path.resolve(`./packages/css-variables/${entry}/`)
+	const scssFile = path.resolve(`./packages/css-variables/${entry}.scss`)
+	console.log({folder});
+	configs.push(getConfig({}, {
+		entry: {
+			[entry]: scssFile
+		},
+		context: folder,
+		// Export all packages to window.zb
+		output: {
+			filename: `js/${entry}.js`
+		}
+	}))
+})
+
 
 // Add elements config
 const elementsPackage = path.resolve('./packages/elements')

@@ -32,9 +32,9 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles
+			<!-- <ElementStyles
 				:styles="customCSS"
-			/>
+			/> -->
 		</template>
 
 		<template #end>
@@ -107,14 +107,56 @@ export default {
 		const showToolbox = ref(false)
 		const canHideToolbox = ref(true)
 		const isToolboxDragging = ref(false)
-		const renderAttributes = ref({})
 		const registeredEvents = ref({})
 
 		// computed
 		const stylesConfig = computed(() => options._styles || {})
+		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
+		const canShowElement = computed(() => isPreviewMode.value ? !(options._isVisible === false) : true)
+		const videoConfig = computed(() => getOptionValue(options, '_styles.wrapper.styles.default.default.background-video', {}))
 
-		// TODO: implement this
-		// setupModel(options.value)
+		const getExtraAttributes = computed(() => {
+			const wrapperAttributes = props.element.renderAttributes.getRenderAttribute('wrapper') || {}
+			const elementClass = camelCase(props.element.element_type)
+			const classes = {
+				[`zb-el-${elementClass}`]: true,
+				[`znpb-element__wrapper--toolbox-dragging`]: isToolboxDragging.value,
+				'znpb-element__wrapper--cutted': props.element.isCutted,
+				'znpb-element--loading': loading.value
+			}
+
+			// Add animation classes
+			const appearAnimation = (options._advanced_options || {})._appear_animation
+			if (appearAnimation) {
+				classes['animated'] = true
+				classes[appearAnimation] = true
+			}
+
+			if (stylesConfig.wrapper) {
+				const wrapperConfig = stylesConfig.wrapper
+				if (wrapperConfig.classes) {
+					wrapperConfig.classes.forEach(classSelector => {
+						classes[classSelector] = true
+					})
+				}
+			}
+
+			// Add classes added by render attributes
+			const wrapperClasses = typeof wrapperAttributes.class !== 'undefined' ? wrapperAttributes.class : []
+
+			wrapperClasses.forEach(cssClass => {
+				classes[cssClass] = true
+			})
+
+			// Add render attributes classes
+			return {
+				...wrapperAttributes,
+				class: classes,
+				api: {
+					getStyleClasses
+				}
+			}
+		})
 
 		// Get the element component
 		fetchElementComponent()
@@ -151,22 +193,28 @@ export default {
 			}
 		}
 
+		const getStyleClasses = (styleId, extraClasses = {}) => {
+			const classes = {}
 
-		const onLoadingStart = () => {
-			if (!loading.value) {
-				loading.value = true
+			if (stylesConfig[styleId]) {
+				const elementStylesClasses = stylesConfig[styleId]
+				if (elementStylesClasses.classes) {
+					elementStylesClasses.classes.forEach(classSelector => {
+						classes[classSelector] = true
+					})
+				}
 			}
-		}
 
-		const onLoadingEnd = () => {
-			if (loading.value) {
-				loading.value = false
-			}
+			return classes
 		}
 
 		return {
 			// Computed
 			stylesConfig,
+			canShowToolbox,
+			canShowElement,
+			videoConfig,
+			getExtraAttributes,
 			// Data
 			elementComponent,
 			element: props.element,
@@ -180,7 +228,6 @@ export default {
 			canHideToolbox,
 			isToolboxDragging,
 			toolboxWatcher,
-			renderAttributes,
 			registeredEvents,
 			showToolbox,
 			// Methods
@@ -190,7 +237,6 @@ export default {
 	watch: {
 		'element.options': {
 			handler (newValue, oldValue) {
-				this.setupModel(newValue)
 				this.debounceUpdate()
 			},
 			deep: true
@@ -208,65 +254,6 @@ export default {
 					this.element.scrollTo = false
 				}, 1000)
 			}
-		}
-	},
-	computed: {
-		getClasses () {
-			const elementClass = camelCase(this.element.element_type)
-			const classes = {
-				[`zb-el-${elementClass}`]: true,
-				[`znpb-element__wrapper--toolbox-dragging`]: this.isToolboxDragging,
-				'znpb-element__wrapper--cutted': this.element.isCutted,
-				'znpb-element--loading': this.loading.value
-			}
-
-			// Add animation classes
-			const appearAnimation = (this.options._advanced_options || {})._appear_animation
-			if (appearAnimation) {
-				classes['animated'] = true
-				classes[appearAnimation] = true
-			}
-
-			if (this.stylesConfig.wrapper) {
-				const wrapperConfig = this.stylesConfig.wrapper
-				if (wrapperConfig.classes) {
-					wrapperConfig.classes.forEach(classSelector => {
-						classes[classSelector] = true
-					})
-				}
-			}
-
-			// Add classes added by render attributes
-			const wrapperClasses = typeof (this.renderAttributes.wrapper || {}).class !== 'undefined' ? this.renderAttributes.wrapper.class : []
-			wrapperClasses.forEach(cssClass => {
-				classes[cssClass] = true
-			})
-
-			return classes
-		},
-		getExtraAttributes () {
-			let attributes = this.renderAttributes.wrapper || {}
-
-			// Add render attributes classes
-			return {
-				...attributes,
-				class: this.getClasses,
-				api: {
-					getStyleClasses: this.getStyleClasses
-				}
-			}
-		},
-		canShowToolbox () {
-			return this.element.isVisible && this.showToolbox.value && !this.isPreviewMode.value && !this.element.elementTypeModel.is_child
-		},
-		canShowElement () {
-			if (this.isPreviewMode.value) {
-				return !(this.element.options._isVisible === false)
-			}
-			return true
-		},
-		videoConfig () {
-			return getOptionValue(this.options, '_styles.wrapper.styles.default.default.background-video', {})
 		}
 	},
 	methods: {
@@ -287,29 +274,11 @@ export default {
 					const { render_tag: renderTag } = stylesConfig[styleConfigId]
 					if (renderTag && classes && classes.length > 0) {
 						classes.forEach(cssClass => {
-							this.addRenderAttribute(renderTag, 'class', cssClass)
+							this.element.renderAttributes.addRenderAttribute(renderTag, 'class', cssClass)
 						})
 					}
 				}
 			})
-		},
-
-		addRenderAttribute (tagId, attribute, value, replace = false) {
-			if (!this.renderAttributes[tagId]) {
-				this.renderAttributes[tagId] = {}
-			}
-
-			const currentAttributes = this.renderAttributes[tagId]
-
-			if (!currentAttributes[attribute]) {
-				currentAttributes[attribute] = []
-			}
-
-			if (replace) {
-				currentAttributes[attribute] = [value]
-			} else {
-				currentAttributes[attribute].push(value)
-			}
 		},
 
 		/**
@@ -383,21 +352,8 @@ export default {
 					})
 				})
 			}
-		},
-		getStyleClasses (styleId, extraClasses = {}) {
-			const classes = {}
-
-			if (this.stylesConfig[styleId]) {
-				const elementStylesClasses = this.stylesConfig[styleId]
-				if (elementStylesClasses.classes) {
-					elementStylesClasses.classes.forEach(classSelector => {
-						classes[classSelector] = true
-					})
-				}
-			}
-
-			return classes
 		}
+
 	}
 }
 </script>
