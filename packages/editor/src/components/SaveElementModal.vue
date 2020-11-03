@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { useElements, useTemplateParts } from '@data'
+import { useElements, useTemplateParts, useEditorData } from '@data'
 import { saveAs } from 'file-saver'
 import { mapActions, mapGetters } from 'vuex'
 import { exportTemplate } from '@zb/rest'
@@ -63,10 +63,11 @@ export default {
 	setup () {
 		const { getElement } = useElements()
 		const { getTemplatePart } = useTemplateParts()
-
+		const { template_categories } = useEditorData()
 		return {
 			getElement,
-			getTemplatePart
+			getTemplatePart,
+			template_categories
 		}
 	},
 
@@ -83,13 +84,10 @@ export default {
 	},
 
 	computed: {
-		...mapGetters([
-			'getTemplateCategories'
-		]),
 		templateCategoriesOption () {
 			let options = []
 
-			this.getTemplateCategories.forEach((category) => {
+			this.template_categories.forEach((category) => {
 				options.push({
 					id: category.slug,
 					name: category.name

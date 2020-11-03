@@ -75,7 +75,6 @@ const getParents = function (currentUid, allContent, parent) {
 
 const getters = {
 	getIsPageDirty: state => state.isPageDirty,
-	getTemplateCategories: state => state.template_categories,
 	getContentRoot: state => state.pageContent.contentRoot,
 	getPageContent: state => state.pageContent,
 	getAllContent: state => state.pageAreas,
