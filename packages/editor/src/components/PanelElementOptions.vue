@@ -130,14 +130,14 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, provide } from 'vue'
 import { mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
-import { useEditElement } from '@data'
+import { useEditElement, useElementProvide } from '@data'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -166,6 +166,7 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		const { element, editElement } = useEditElement()
+		const { provideElement } = useElementProvide()
 		const { getSchema } = useOptionsSchemas()
 		const activeKeyTab = ref(null)
 		const searchActive = ref(false)
@@ -174,6 +175,8 @@ export default {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
+
+		provideElement(element)
 
 		return {
 			element,

@@ -115,6 +115,8 @@ export class Element {
 			uid = elementInstance.uid
 		}
 
+		console.log({elementInstance});
+
 		// Set the parent
 		elementInstance.parentUid = this.uid
 		this.content.splice(index, 0, uid)
@@ -155,6 +157,21 @@ export class Element {
 			this.parent.removeChild(this.uid)
 		}
 		unregisterElement(this.uid)
+	}
+
+	deleteChild (child: string | Element) {
+		let element = null
+		if (typeof child === 'string') {
+			element = getElement(child)
+		} else if (typeof child === Element) {
+			element = child
+		}
+
+		if (element) {
+			element.delete()
+		} else {
+			console.error(`Could not find element for deletion!`, child)
+		}
 	}
 
 	toJSON(): {[key:string]: any} {

@@ -7,8 +7,8 @@
 
 			<SingleChild
 				v-for="element in elementContent"
-				:key="element"
-				:element-uid="element"
+				:key="element.uid"
+				:element="element"
 				:item-option-name="item_name"
 				@delete="onElementDelete"
 				@clone="onCloneElement"
@@ -26,18 +26,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { computed } from 'vue'
+import { useElementProvide, useElements } from '@data'
 import SingleChild from './SingleChild.vue'
 
 export default {
 	name: 'Childs',
 	components: {
 		SingleChild
-	},
-	inject: {
-		elementInfo: {
-			default: null
-		}
 	},
 	props: {
 		value: {
@@ -54,54 +50,42 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {}
-	},
-	computed: {
-		elementUid () {
-			return this.elementInfo.data.data.uid
-		},
-		elementContent: {
+	setup(props) {
+		const { injectElement } = useElementProvide()
+		const { getElement } = useElements()
+		const element = injectElement()
+
+		const elementContent = computed({
 			get () {
-				return this.elementInfo.data.data.content
+				return element.value.content.map(element => getElement(element))
 			},
 			set (newValue) {
-				this.saveElementsOrder({
-					newOrder: newValue,
-					content: this.elementInfo.data.data.content
-				})
+				element.value.content = newValue.map(element => element.uid)
 			}
-		}
-	},
-	methods: {
-		...mapActions([
-			'addElement',
-			'saveElementsOrder',
-			'deleteElement',
-			'copyElement'
-		]),
-		addChild () {
-			let elementData = {
-				element_type: this.child_type
-			}
+		})
 
-			this.addElement({
-				parentUid: this.elementUid,
-				index: this.elementContent.length,
-				data: elementData
+		const addChild = () => {
+			element.value.addChild({
+				element_type: props.child_type
 			})
-		},
-		onElementDelete (elementUid) {
-			this.deleteElement({
-				elementUid,
-				parentUid: this.elementUid
-			})
-		},
-		onCloneElement (elementUid) {
-			this.copyElement({
-				elementUid,
-				insertParent: this.elementUid
-			})
+		}
+
+		const onElementDelete = (elementUid) => {
+			const element = getElement(elementUid)
+			element.delete()
+		}
+
+		const onCloneElement = (elementUid) => {
+			const element = getElement(elementUid)
+			element.duplicate()
+		}
+
+		return {
+			element,
+			elementContent,
+			addChild,
+			onElementDelete,
+			onCloneElement
 		}
 	}
 }

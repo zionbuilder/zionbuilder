@@ -1,18 +1,18 @@
 <template>
 	<div class="znpb-options-childs__element">
-		<div class="znpb-options-childs__element-title">{{ computedOptions[itemOptionName] || 'ITEM' }}</div>
+		<div class="znpb-options-childs__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
 		<div class="znpb-options-childs__element-action">
 			<Icon
 				icon="copy"
-				@click.stop="cloneElement"
+				@click.stop="element.duplicate()"
 			/>
 			<Icon
 				icon="delete"
-				@click.stop="deleteElement"
+				@click.stop="element.delete()"
 			/>
 			<Icon
 				icon="edit"
-				@click.stop="editElement"
+				@click.stop="editElement(element)"
 			/>
 		</div>
 
@@ -20,14 +20,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { usePanels } from '@data'
+import { usePanels, useEditElement } from '@data'
 
 export default {
 	name: 'SingleChild',
 	props: {
-		elementUid: {
-			type: String,
+		element: {
+			type: Object,
 			required: true
 		},
 		itemOptionName: {
@@ -37,36 +36,12 @@ export default {
 	},
 	setup (props) {
 		const { openPanel } = usePanels()
+		const { editElement } = useEditElement()
 
 		return {
-			openPanel
-		}
-	},
-	computed: {
-		...mapGetters([
-			'getElementData'
-		]),
-		elementData () {
-			return this.getElementData(this.elementUid)
-		},
-		computedOptions () {
-			return this.elementData.options ? this.elementData.options : {}
-		}
-	},
-	methods: {
-		...mapActions([
-			'setActiveElement',
-			'deleteElement'
-		]),
-		editElement () {
-			this.setActiveElement(this.elementUid)
-			this.openPanel('PanelElementOptions')
-		},
-		deleteElement () {
-			this.$emit('delete', this.elementUid)
-		},
-		cloneElement () {
-			this.$emit('clone', this.elementUid)
+			openPanel,
+			editElement,
+			element: props.element
 		}
 	}
 }
