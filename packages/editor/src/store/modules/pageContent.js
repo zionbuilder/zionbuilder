@@ -158,9 +158,6 @@ const actions = {
 			}
 		}
 
-		// Cleanup varius saved elements
-		dispatch('setElementFocus', null)
-
 		// Cleanup copied elements and styles to prevent errors
 		commit(types.SET_COPIED_CLASSES, null)
 		commit(types.SET_COPIED_ELEMENT, null)

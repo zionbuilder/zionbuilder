@@ -73,24 +73,6 @@ const actions = {
 	},
 	setShouldOpenAddElementsPopup: ({ commit }, payload) => {
 		commit(types.SET_SHOULD_OPEN_ELEMENTS_POPUP, payload)
-	},
-	setElementFocus: ({ commit, getters }, payload) => {
-		if (payload) {
-			const { uid } = payload
-
-			// Get the options for the active element
-			const elementData = getters.getElementData(uid)
-
-			// Don't proceed if we have no config for this element
-			if (elementData) {
-				payload = {
-					...payload,
-					elementData
-				}
-			}
-		}
-
-		commit(types.SET_ELEMENT_FOCUS, payload)
 	}
 }
 

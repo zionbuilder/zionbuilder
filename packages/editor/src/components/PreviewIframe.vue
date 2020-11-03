@@ -63,7 +63,7 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement } = useElementFocus()
+		const { focusedElement, unFocusElement } = useElementFocus()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveDraft } = useSavePage()
 		const { page_id: pageId } = useEditorData()
@@ -72,6 +72,7 @@ export default {
 		return {
 			activeResponsiveDeviceInfo,
 			focusedElement,
+			unFocusElement,
 			applyShortcuts,
 			saveDraft,
 			pageId,
@@ -120,8 +121,7 @@ export default {
 			'setPageAreas',
 			'setPageContent',
 			'setInitialHistory',
-			'setActiveArea',
-			'setElementFocus'
+			'setActiveArea'
 		]),
 		useLocalVersion () {
 			if (Object.keys(this.localStoragePageData).length) {
@@ -195,18 +195,13 @@ export default {
 			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
-			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement)
+			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement, true)
 			Dom.iframeDocument.addEventListener('click', this.preventClicks, true)
 			Dom.iframeDocument.addEventListener('keydown', this.applyShortcuts)
 			// Dom.iframeDocument.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
-			// TODO: implement this
-			// Don't deselect the element if an element was just activated
-			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-			// 	if (this.focusedElement.value) {
-			// 		this.setElementFocus(null)
-			// 	}
+			this.unFocusElement()
 		},
 		preventClicks (event) {
 			const e = window.e || event
@@ -239,11 +234,9 @@ export default {
 			Dom.iframeDocument.removeEventListener('click', this.deselectActiveElement)
 			Dom.iframeDocument.removeEventListener('keydown', this.applyShortcuts)
 			Dom.iframeDocument.removeEventListener('click', this.preventClicks, true)
-			Dom.iframeDocument.removeEventListener('scroll', this.onScroll)
 		}
 
 		off('refreshIframe', this.refreshIframe)
-		this.$refs.iframe.contentDocument.removeEventListener('scroll', this.onScroll)
 	},
 	mounted () {
 		on('refreshIframe', this.refreshIframe)
