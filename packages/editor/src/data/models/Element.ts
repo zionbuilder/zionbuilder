@@ -32,12 +32,14 @@ export class Element {
 		} = data
 
 		this.uid = uid
-		this.options = options
 		this.element_type = element_type
 
 		if (widgetID) {
 			this.widgetID = widgetID
 		}
+
+		// Setup options
+		this.options = options
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {

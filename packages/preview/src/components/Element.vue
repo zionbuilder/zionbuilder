@@ -63,7 +63,7 @@
 
 <script>
 // Utils
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
