@@ -60,6 +60,7 @@ export class Element {
 	}
 
 	set options (newValues) {
+		this.receivedOptions = newValues
 		const schema = this.elementTypeModel.options || {}
 
 		// Clear render attributes
