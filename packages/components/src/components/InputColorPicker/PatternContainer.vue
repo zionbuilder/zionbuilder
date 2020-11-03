@@ -67,7 +67,7 @@
  *  - the new color chosen
  */
 
-import { computed, inject, ref} from 'vue'
+import { computed, inject, ref } from 'vue'
 import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
@@ -97,7 +97,7 @@ export default {
 		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
-		let localColorPatterns =  computed(() => {
+		let localColorPatterns = computed(() => {
 			return [...$zb.options.getOptionValue('local_colors')].reverse()
 		})
 
@@ -105,13 +105,13 @@ export default {
 			return [...$zb.options.getOptionValue('global_colors')].reverse()
 		})
 
-		let selectedGlobalColor =  computed(() => {
+		let selectedGlobalColor = computed(() => {
 			const { id } = schema
 			const { options = {} } = getValueByPath(`__dynamic_content__.${id}`, {})
 			return options.color_id
 		})
 
-		let activeTab =  computed(() => {
+		let activeTab = computed(() => {
 			return selectedGlobalColor ? 'global' : 'local'
 		})
 
@@ -149,7 +149,8 @@ export default {
 	},
 	computed: {
 		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
+			return false
+			// return window.ZnPbAdminPageData.is_pro_active
 		},
 	},
 
