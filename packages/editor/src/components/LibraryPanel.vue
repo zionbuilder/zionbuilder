@@ -18,19 +18,18 @@
 				/>
 			</div>
 
-				<CategoriesLibrary
-					v-for="(category, index) in computedCategories"
-					:key="index"
-					class="znpb-editor-library-modal-sidebar-category"
-					:category="category"
-					:is-expanded="category===activeCategory"
-					:parent="category"
-					:subcategory="getSubCategories"
-					:active-subcategory="activeSubcategory"
-					@activate-category="activeCategory=$event, activeSubcategory=null"
-					@activate-subcategory="activeSubcategory=$event"
-				/>
-
+			<CategoriesLibrary
+				v-for="(category, index) in computedCategories"
+				:key="index"
+				class="znpb-editor-library-modal-sidebar-category"
+				:category="category"
+				:is-expanded="category===activeCategory"
+				:parent="category"
+				:subcategory="getSubCategories"
+				:active-subcategory="activeSubcategory"
+				@activate-category="activeCategory=$event, activeSubcategory=null"
+				@activate-subcategory="activeSubcategory=$event"
+			/>
 
 		</div>
 		<div class="znpb-editor-library-modal-body">
@@ -113,7 +112,7 @@
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/CategoriesLibrary.vue'
 import localSt from 'localstorage-ttl'
-import { onBeforeUnmount, computed,provide, inject, ref, reactive, onMounted, nextTick, watch } from 'vue'
+import { onBeforeUnmount, computed, provide, inject, ref, reactive, onMounted, nextTick, watch } from 'vue'
 import { translate } from '@zb/i18n'
 export default {
 	name: 'LibraryPanel',
@@ -154,15 +153,15 @@ export default {
 		}
 	},
 
-	setup (props, {emit}) {
+	setup (props, { emit }) {
 		const gridlist = ref()
 		const searchInput = ref()
 		const msnry = ref(null)
 		const loadingLibrary = ref(true)
-		const iframeLoaded= ref(true)
-		const enteredValue= ref('')
-		const previewOpen  = ref(false)
-		const searchCategories= ref([])
+		const iframeLoaded = ref(true)
+		const enteredValue = ref('')
+		const previewOpen = ref(false)
+		const searchCategories = ref([])
 		const searchElements = ref([])
 		const computedItems = ref(false)
 		const favActive = ref(false)
@@ -170,7 +169,7 @@ export default {
 		const activeItem = ref(null)
 		const activeCategory = ref(null)
 		const activeSubcategory = ref(null)
-		const allCategory = ref({term_id: 'all',name: 'All'})
+		const allCategory = ref({ term_id: 'all', name: 'All' })
 		const favorites = ref([])
 		const categories = ref({})
 		const items = ref([])
@@ -178,8 +177,10 @@ export default {
 		const cachedData = localSt.get('znpbLibraryCache')
 		// check if get items from server or from local storage
 
-		categories.value = cachedData.categories
-		items.value = cachedData.items
+		if (cachedData !== null) {
+			categories.value = cachedData.categories
+			items.value = cachedData.items
+		}
 
 
 		const computedCategories = computed(() => {
@@ -196,7 +197,7 @@ export default {
 			if (cachedData !== null) {
 				loadingLibrary.value = false
 				console.log('gridlist,', gridlist)
-				}
+			}
 
 		})
 
@@ -218,23 +219,23 @@ export default {
 		})
 
 		const keyword = computed({
-				get: () => {
-					return enteredValue.value
-				},
-				set: newValue => {
-					enteredValue = newValue
-					if (newValue.length > 1) {
-						favActive.value = false
-						const searchResultValue = searchResult(newValue)
+			get: () => {
+				return enteredValue.value
+			},
+			set: newValue => {
+				enteredValue = newValue
+				if (newValue.length > 1) {
+					favActive.value = false
+					const searchResultValue = searchResult(newValue)
 
-						if (searchResultValue) {
-							searchElements.value = searchResultValue
-							searchCategories.value = searchResultCategories()
-						} else searchCategories.value = []
-					} else if (keyword.value.length === 0) {
-						searchCategories.value = []
-					}
+					if (searchResultValue) {
+						searchElements.value = searchResultValue
+						searchCategories.value = searchResultCategories()
+					} else searchCategories.value = []
+				} else if (keyword.value.length === 0) {
+					searchCategories.value = []
 				}
+			}
 		})
 
 
@@ -369,15 +370,15 @@ export default {
 
 
 		function initMasonry () {
-			console.log('init masonry',gridlist)
-				window.jQuery(gridlist.value).imagesLoaded(() => {
-					msnry.value = new window.Masonry(gridlist.value, {
-						columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
-						itemSelector: '.znpb-editor-library-modal__item',
-						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
-						transitionDuration: 0
-					})
+			console.log('init masonry', gridlist)
+			window.jQuery(gridlist.value).imagesLoaded(() => {
+				msnry.value = new window.Masonry(gridlist.value, {
+					columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
+					itemSelector: '.znpb-editor-library-modal__item',
+					gutter: '.znpb-editor-library-modal__item--gutter-sizer',
+					transitionDuration: 0
 				})
+			})
 		}
 
 		function searchResult (keyword) {

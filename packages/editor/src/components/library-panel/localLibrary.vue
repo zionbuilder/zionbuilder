@@ -26,9 +26,12 @@
 				</div>
 			</div>
 
-			<!-- <Loader v-if="loadingLibrary" /> -->
+			<Loader v-if="loadingLibrary" />
 
-			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
+			<div
+				v-else
+				class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar"
+			>
 				<TemplateList
 					v-if="getFilteredTemplates.length > 0"
 					:templates="getFilteredTemplates"
@@ -51,11 +54,11 @@
 </template>
 
 <script>
-// import { getTemplates, addTemplate } from '@zionbuilder/rest'
 import CategoriesLibrary from './CategoriesLibrary.vue'
 import TemplateList from '../../../../admin/src/components/templates/TemplateList.vue'
 import { computed, inject, ref, reactive, watchEffect, provide } from 'vue'
 import { translate } from '@zb/i18n'
+import { useEditorData } from '@data'
 export default {
 	name: 'localLibrary',
 	components: {
@@ -69,11 +72,11 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
-		const zb = inject('$zb')
+		const $zb = inject('$zb')
 		const templateUploaded = inject('templateUploaded')
 		const insertItem = inject('insertItem')
 		const searchElements = ref([])
-		// const loadingLibrary = ref(true)
+		const loadingLibrary = ref(true)
 		const activeCategory = ref({})
 		const allItems = ref([])
 		const activeSubcategory = ref({})
@@ -86,21 +89,28 @@ export default {
 		const searchCategories = ref([])
 
 		const getDataFromServer = inject('localgetDataFromServer')
+		const localItems = inject('localItems')
 
-		getDataFromServer().then(() => {
-			allItems.value = zb.templates.models
-			if (templateUploaded.value) {
-				activeCategory.value = allTemplateTypes.value.find(cat => cat.id === allItems.value[0].template_type)
-				activeSubcategory.value = getSubCategories.value[0]
-				timeExpired.value = false
-				setExpireClass()
-			}
-		}).finally(() => {
-			// loadingLibrary.value = false
-			emit('loading-end', true)
-		})
+		if (localItems.value.length) {
+			allItems.value = localItems.value
+		} else {
+			getDataFromServer().then(() => {
+				allItems.value = $zb.templates.models
+				loadingLibrary.value = true
+				if (templateUploaded.value) {
+					activeCategory.value = allTemplateTypes.value.find(cat => cat.id === allItems.value[0].template_type)
+					activeSubcategory.value = getSubCategories.value[0]
+					timeExpired.value = false
+					setExpireClass()
+				}
+			}).finally(() => {
+				loadingLibrary.value = false
+				emit('loading-end', true)
+			})
+		}
 
-		allTemplateTypes.value = window.ZnPbInitalData.template_types
+		const { template_types } = useEditorData()
+		allTemplateTypes.value = template_types
 
 
 		const getSubCategories = computed(() => {
@@ -293,12 +303,12 @@ export default {
 
 		function onActivateCategory (newCategory) {
 			activeCategory.value = newCategory
-			activeSubcategory.value = getSubCategories[0]
+			activeSubcategory.value = null
 			emit('active-upload-finished', true)
 		}
 
 		return {
-			// loadingLibrary,
+			loadingLibrary,
 			getDataFromServer,
 			allItems,
 			activeCategory,

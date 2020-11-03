@@ -46,7 +46,7 @@
 <script>
 import { useElements, useTemplateParts, useEditorData } from '@data'
 import { saveAs } from 'file-saver'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
 import { on, off } from '@zb/hooks'

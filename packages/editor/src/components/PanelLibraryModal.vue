@@ -157,7 +157,7 @@ import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
 import { usePanels, useLibraryElements } from '@data'
 import { translate } from '@zb/i18n'
-
+import localSt from 'localstorage-ttl'
 export default {
 	name: 'LibraryModal',
 	components: {
@@ -171,7 +171,7 @@ export default {
 		}
 	},
 	setup (props) {
-		const zb = inject('$zb')
+		const $zb = inject('$zb')
 		const { togglePanel } = usePanels()
 		const templateUploaded = ref(false)
 		const insertItemLoading = ref(false)
@@ -184,6 +184,7 @@ export default {
 		const multiple = ref(false)
 		const importActive = ref(false)
 		const libLoading = ref(false)
+		const localItems = ref([])
 
 		const { elementInsertConfig } = useLibraryElements()
 
@@ -297,7 +298,11 @@ export default {
 		function localgetDataFromServer (force = false) {
 			libLoading.value = true
 			return Promise.all([getTemplates()]).then((values) => {
-				zb.templates.add(values.data)
+				if (!localItems.value.length) {
+					$zb.templates.add(values[0].data)
+				}
+				localItems.value = $zb.templates.models
+
 			}).finally(() => {
 				libLoading.value = false
 			})
@@ -323,6 +328,7 @@ export default {
 				})
 		}
 		provide('localgetDataFromServer', localgetDataFromServer)
+		provide('localItems', localItems)
 
 		return {
 			togglePanel,
@@ -370,9 +376,9 @@ export default {
 			this.localActive = true
 			this.templateUploaded = true
 
-			this.$nextTick(() => {
-				this.$refs.localLibraryContent.getDataFromServer()
-			})
+			// this.$nextTick(() => {
+			// 	this.$refs.localLibraryContent.getDataFromServer()
+			// })
 		},
 		insertLibraryItem () {
 			this.insertItemLoading = true

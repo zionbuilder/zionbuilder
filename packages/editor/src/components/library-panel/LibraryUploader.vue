@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import { importTemplateLibrary } from '@zb/rest'
+import { importTemplateLibrary, addTemplate } from '@zb/rest'
 import { mapActions } from 'vuex'
-
+import { inject } from 'vue'
 export default {
 	name: 'LibraryUploader',
 	props: {
@@ -85,10 +85,17 @@ export default {
 		dropArea.addEventListener('dragover', this.highlightForm)
 		dropArea.addEventListener('drop', this.dragDropped)
 	},
+	setup () {
+		const $zb = inject('$zb')
+
+		function addLocalTemplate (template) {
+			$zb.templates.addTemplate(template)
+		}
+		return {
+			addLocalTemplate
+		}
+	},
 	methods: {
-		...mapActions([
-			'insertTemplate'
-		]),
 		highlightForm () {
 			this.isInitial = false
 		},
@@ -117,8 +124,15 @@ export default {
 			this.errorMessage = ''
 			importTemplateLibrary(formData).then((result) => {
 				this.isInitial = false
-				this.insertTemplate(result.data)
+				addTemplate(result.data).then((value) => {
+					showModal.value = false
+					loading.value = true
+					console.log('form', value.data)
+					this.addLocalTemplate(value.data)
+
+				})
 			}).catch(error => {
+				console.log('error', error)
 				if (typeof error.response.data === 'string') {
 					this.errorMessage = error.response.data
 				} else this.errorMessage = this.arrayBufferToString(error.response.data)
