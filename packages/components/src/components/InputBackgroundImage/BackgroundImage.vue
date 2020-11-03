@@ -31,6 +31,7 @@ export default {
 	setup () {
 		const { getSchema } = useOptionsSchemas()
 		const backgroundImageSchema = getSchema('backgroundImageSchema')
+
 		return {
 			getSchema,
 			backgroundImageSchema

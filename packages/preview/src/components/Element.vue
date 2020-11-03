@@ -10,7 +10,7 @@
 		:options="options"
 		:data="element"
 		:element="element"
-		@mouseenter="onMouseEnter"
+		@mouseenter="showToolbox = true"
 		@mouseleave="onMouseLeave"
 		@click.stop="onElementClick"
 		@dblclick="editElement"
@@ -63,22 +63,21 @@
 
 <script>
 // Utils
-import { ref, markRaw } from 'vue'
+import { ref, watch } from 'vue'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
-import importCSS from '@zionbuilder/importcss'
+import { applyFilters, trigger } from '@zb/hooks'
+
+// Components
+import ServerComponent from './ServerComponent.vue'
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
-import { applyFilters } from '@zb/hooks'
-import Options from '../Options'
+
+// Composables
 import { useElementTypes, usePreviewMode, useElementMenu, usePanels, useElementFocus, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@data'
-
-// Components
-import ServerComponent from './ServerComponent.vue'
-import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'Element',
@@ -88,45 +87,9 @@ export default {
 		ElementLoading,
 		ElementStyles
 	},
-	provide () {
-		const elementInfo = {}
-
-		Object.defineProperty(elementInfo, 'data', {
-			enumerable: true,
-			get: () => this.element
-		})
-
-		Object.defineProperty(elementInfo, 'parentUid', {
-			enumerable: true,
-			get: () => this.parentUid
-		})
-
-		Object.defineProperty(elementInfo, 'elementModel', {
-			enumerable: true,
-			get: () => this.element.elementTypeModel
-		})
-
-		Object.defineProperty(elementInfo, 'options', {
-			enumerable: true,
-			get: () => this.options
-		})
-
-		Object.defineProperty(elementInfo, 'elementInstance', {
-			enumerable: true,
-			get: () => this
-		})
-
-		return {
-			elementInfo
-		}
-	},
 	props: {
 		element: {
 			type: Object,
-			required: true
-		},
-		parentUid: {
-			type: String,
 			required: true
 		}
 	},
@@ -136,8 +99,22 @@ export default {
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementFocus()
 
+		let toolboxWatcher = null
+
+		// Data
+		const options = ref(props.element.options)
+		const loading = ref(false)
+		const showToolbox = ref(false)
+		const canHideToolbox = ref(true)
+		const isToolboxDragging = ref(false)
+		const renderAttributes = ref({})
+		const registeredEvents = ref({})
+
+		// computed
+		const stylesConfig = computed(() => options._styles || {})
+
 		// TODO: implement this
-		// this.setupModel(this.element.options)
+		// setupModel(options.value)
 
 		// Get the element component
 		fetchElementComponent()
@@ -151,68 +128,74 @@ export default {
 		}
 
 		const onElementClick = (event) => {
-			// TODO: implement this
-			// don't process if this was already handled
-			// if (window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled || this.element.elementTypeModel.is_child) {
-			// 	return
-			// }
-
-			// Reset handled click
-			// setTimeout(() => {
-			// 	window.ZionBuilderApi.editor.ElementFocusMarshall.reset()
-			// }, 0)
-
-			// window.ZionBuilderApi.editor.ElementFocusMarshall.handle()
-
 			focusElement(props.element)
 		}
 
+		/**
+		 * On element mouseleave
+		 */
+		const onMouseLeave = () => {
+			if (canHideToolbox.value) {
+				showToolbox.value = false
+			} else {
+				if (!toolboxWatcher) {
+					// Set a watcher so we can hide the toolbox
+					toolboxWatcher = watch(canHideToolbox, (newValue) => {
+						if (newValue) {
+							showToolbox.value = false
+							toolboxWatcher()
+							toolboxWatcher = null
+						}
+					})
+				}
+			}
+		}
+
+
+		const onLoadingStart = () => {
+			if (!loading.value) {
+				loading.value = true
+			}
+		}
+
+		const onLoadingEnd = () => {
+			if (loading.value) {
+				loading.value = false
+			}
+		}
+
 		return {
+			// Computed
+			stylesConfig,
+			// Data
 			elementComponent,
 			element: props.element,
 			isPreviewMode,
 			showElementMenu,
 			openPanel,
 			focusElement,
-			onElementClick
+			onElementClick,
+			options,
+			loading,
+			canHideToolbox,
+			isToolboxDragging,
+			toolboxWatcher,
+			renderAttributes,
+			registeredEvents,
+			showToolbox,
+			// Methods
+			onMouseLeave
 		}
-	},
-	data () {
-		return {
-			loading: false,
-			options: {},
-			optionsWithDefaults: {},
-			component: null,
-			// From base component
-			showToolbox: false,
-			canHideToolbox: true,
-			isToolboxDragging: false,
-			toolboxWatcher: null,
-			renderAttributes: {},
-			customCSS: '',
-			registeredEvents: {}
-		}
-	},
-	mounted () {
-		this.$nextTick(() => {
-			// Wait 100ms so all childs are rendered
-			setTimeout(() => {
-				trigger(`element/mounted`, this.getDefaultEventResponse())
-			}, 100)
-		})
-	},
-	beforeUnmount () {
-		this.trigger('destroyed')
 	},
 	watch: {
-		'data.options': {
+		'element.options': {
 			handler (newValue, oldValue) {
 				this.setupModel(newValue)
 				this.debounceUpdate()
 			},
 			deep: true
 		},
-		'data.content' (newValue, oldValue) {
+		'element.content' (newValue, oldValue) {
 			this.debounceUpdate()
 		},
 		'element.scrollTo' (newValue) {
@@ -228,16 +211,13 @@ export default {
 		}
 	},
 	computed: {
-		stylesConfig () {
-			return this.options._styles || {}
-		},
 		getClasses () {
 			const elementClass = camelCase(this.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
 				[`znpb-element__wrapper--toolbox-dragging`]: this.isToolboxDragging,
 				'znpb-element__wrapper--cutted': this.element.isCutted,
-				'znpb-element--loading': this.loading
+				'znpb-element--loading': this.loading.value
 			}
 
 			// Add animation classes
@@ -277,7 +257,7 @@ export default {
 			}
 		},
 		canShowToolbox () {
-			return this.element.isVisible && this.showToolbox && !this.isPreviewMode.value && !this.element.elementTypeModel.is_child
+			return this.element.isVisible && this.showToolbox.value && !this.isPreviewMode.value && !this.element.elementTypeModel.is_child
 		},
 		canShowElement () {
 			if (this.isPreviewMode.value) {
@@ -295,36 +275,7 @@ export default {
 				this.trigger('updated')
 			})
 		}),
-		setupModel (model) {
-			const schema = this.element.elementTypeModel.options || {}
-			const cssSelector = `#${this.element.elementCssId}`
-			const optionsInstance = new Options(schema, model, cssSelector, {
-				onLoadingStart: this.onLoadingStart,
-				onLoadingEnd: this.onLoadingEnd
-			})
 
-			let { options, renderAttributes, customCSS } = optionsInstance.parseData()
-
-			if (this.element.elementTypeModel.style_elements) {
-				Object.keys(this.element.elementTypeModel.style_elements).forEach(styleId => {
-					if (options._styles && options._styles[styleId] && options._styles[styleId].styles) {
-						const styleConfig = this.element.elementTypeModel.style_elements[styleId]
-						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`)
-						customCSS += getStyles(formattedSelector, options._styles[styleId].styles)
-					}
-				})
-			}
-
-			// Filter the custom css
-			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, this)
-
-			this.options = options
-			this.renderAttributes = renderAttributes
-			this.customCSS = customCSS
-
-			// Add custom css classes
-			this.applyCustomClassesToRenderTags()
-		},
 		applyCustomClassesToRenderTags () {
 			const elementSavedStyles = getOptionValue(this.options, '_styles', {})
 			const stylesConfig = this.element.elementTypeModel.style_elements
@@ -361,65 +312,6 @@ export default {
 			}
 		},
 
-		onLoadingStart () {
-			if (!this.loading) {
-				this.loading = true
-			}
-		},
-		onLoadingEnd () {
-			if (this.loading) {
-				this.loading = false
-			}
-		},
-		getOptionSchemaFromPath (optionPath) {
-			if (!this.element.elementTypeModel.options) {
-				return false
-			}
-
-			const pathArray = optionPath.split('.')
-			let activeSchema = this.element.elementTypeModel.options
-			const pathLength = pathArray.length
-			let foundSchema = false
-
-			pathArray.forEach((pathItem, i) => {
-				if (i + 1 === pathLength) {
-					foundSchema = activeSchema[pathItem]
-				}
-
-				if (typeof activeSchema[pathItem] !== 'undefined') {
-					activeSchema = activeSchema[pathItem]
-				}
-			})
-
-			return foundSchema
-		},
-
-		/**
-		 * On Mouse enter
-		 */
-		onMouseEnter () {
-			this.showToolbox = true
-		},
-
-		/**
-		 * On element mouseleave
-		 */
-		onMouseLeave () {
-			if (this.canHideToolbox) {
-				this.showToolbox = false
-			} else {
-				if (!this.toolboxWatcher) {
-					// Set a watcher so we can hide the toolbox
-					this.toolboxWatcher = this.$watch('canHideToolbox', (newValue, oldValue) => {
-						if (newValue) {
-							this.showToolbox = false
-							this.toolboxWatcher()
-							this.toolboxWatcher = null
-						}
-					})
-				}
-			}
-		},
 		/**
 		 * Edit element
 		 *

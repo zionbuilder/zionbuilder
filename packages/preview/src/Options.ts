@@ -128,24 +128,6 @@ export default class Options {
 		optionsModel[optionId] = newValues
 	}
 
-	addRenderAttribute (tagId, attribute, value, replace = false) {
-		if (!this.renderAttributes[tagId]) {
-			this.renderAttributes[tagId] = {}
-		}
-
-		const currentAttributes = this.renderAttributes[tagId]
-
-		if (!currentAttributes[attribute]) {
-			currentAttributes[attribute] = []
-		}
-
-		if (replace) {
-			currentAttributes[attribute] = [value]
-		} else {
-			currentAttributes[attribute].push(value)
-		}
-	}
-
 	setRenderAttributes (schema, model, index = null) {
 		const CSSDeviceMap = {
 			default: '',
@@ -186,6 +168,24 @@ export default class Options {
 					this.addRenderAttribute(tagId, attribute, attributeValue)
 				}
 			})
+		}
+	}
+
+	addRenderAttribute (tagId, attribute, value, replace = false) {
+		if (!this.renderAttributes[tagId]) {
+			this.renderAttributes[tagId] = {}
+		}
+
+		const currentAttributes = this.renderAttributes[tagId]
+
+		if (!currentAttributes[attribute]) {
+			currentAttributes[attribute] = []
+		}
+
+		if (replace) {
+			currentAttributes[attribute] = [value]
+		} else {
+			currentAttributes[attribute].push(value)
 		}
 	}
 
