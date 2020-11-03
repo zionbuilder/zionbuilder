@@ -14,7 +14,7 @@ export function useElementComponent(element) {
 			if (elementType.component) {
 				elementComponent.value = elementType.component
 			} else {
-				elementComponent.value = ServerComponent
+				elementComponent.value = markRaw(ServerComponent)
 			}
 		})
 	}

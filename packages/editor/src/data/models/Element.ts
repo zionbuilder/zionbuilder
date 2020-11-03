@@ -19,18 +19,21 @@ export class Element {
 	public activeElementRename: boolean = false
 	public scrollTo: boolean = false
 	public isCutted: boolean = false
+	public widgetID: string = ''
 
 	constructor(data, parentUid = '') {
 		const {
 			uid = generateUID(),
 			content,
 			options = {},
-			element_type
+			element_type,
+			widget_id: widgetID
 		} = data
 
 		this.uid = uid
 		this.options = isPlainObject(options) ? options : {}
 		this.element_type = element_type
+		this.widgetID = widgetID
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
@@ -160,12 +163,19 @@ export class Element {
 
 		const element_type = this.element_type
 
-		return {
+		const elementData = {
 			uid: this.uid,
 			content: content,
 			element_type,
 			options: this.options
 		}
+
+		// Set the widget ID for widget elements
+		if (this.widgetID.length > 0) {
+			elementData.widget_id = this.widgetID
+		}
+
+		return elementData
 	}
 
 	getClone () {

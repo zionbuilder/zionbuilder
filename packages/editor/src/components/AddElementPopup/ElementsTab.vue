@@ -101,7 +101,8 @@ export default {
 			console.log({element});
 
 			const config = {
-				element_type: element.element_type
+				element_type: element.element_type,
+				...element.extra_data
 			}
 
 			// If it's a wrapper, it means that it can have childs

@@ -9,6 +9,7 @@
 		:id="`${element.elementCssId}`"
 		:options="options"
 		:data="element"
+		:element="element"
 		@mouseenter="onMouseEnter"
 		@mouseleave="onMouseLeave"
 		@click.stop="onElementClick"

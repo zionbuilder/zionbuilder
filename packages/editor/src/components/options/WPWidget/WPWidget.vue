@@ -24,12 +24,8 @@ import { serialize } from 'dom-form-serializer'
 
 export default {
 	name: 'WPWidget',
-	inject: {
-		elementInfo: {
-			default: null
-		}
-	},
 	props: {
+		element: Object,
 		value: {
 			default () {
 				return {}
@@ -46,11 +42,6 @@ export default {
 			optionsFormContent: ''
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getElementData'
-		])
-	},
 	methods: {
 		onInputChange (event) {
 			const widgetId = `widget-${this.element_type}`
@@ -61,8 +52,7 @@ export default {
 	},
 	created () {
 		// Get the options form from server
-		const elementData = this.getElementData(this.elementInfo.data.uid)
-		getOptionsForm(elementData).then((response) => {
+		getOptionsForm(this.element).then((response) => {
 			this.optionsFormContent = response.data.form
 			this.loading = false
 
