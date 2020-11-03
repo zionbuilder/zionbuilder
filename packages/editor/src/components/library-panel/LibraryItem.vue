@@ -52,9 +52,14 @@
 					append-to="element"
 					class="znpb-editor-library-modal__item-action"
 					placement="top"
-					:modifiers="{
-						offset: { offset: '0,3px' },
-					}"
+					:modifiers="[
+						{
+						name: 'offset',
+						options: {
+							offset: [0, 3],
+						},
+						},
+					]"
 					strategy="fixed"
 				>
 					<span
@@ -69,7 +74,14 @@
 					append-to="element"
 					class="znpb-editor-library-modal__item-action"
 					placement="top"
-					:modifiers="{ offset: { offset: '0,3px' } }"
+					:modifiers="[
+						{
+						name: 'offset',
+						options: {
+							offset: [0, 3],
+						},
+						},
+					]"
 					strategy="fixed"
 				>
 					<Icon
@@ -107,17 +119,10 @@
 
 </template>
 <script>
-const { plugin_info: pluginInfo, urls } = window.ZnPbInitalData
 
+import { useEditorData } from '@data'
 export default {
 	name: 'LibraryItem',
-	inject: {
-		Library: {
-			default () {
-				return {}
-			}
-		}
-	},
 	props: {
 		item: {
 			type: Object,
@@ -130,11 +135,28 @@ export default {
 	},
 	data () {
 		return {
-			insertItemLoading: false,
-			isProActive: pluginInfo.is_pro_active,
-			isProConnected: pluginInfo.is_pro_connected,
-			dashboardURL: `${urls.zion_admin}#/pro-license`,
-			purchaseURL: urls.purchase_url
+			insertItemLoading: false
+		}
+	},
+	setup (props, { emit }) {
+		const useinsertItem = inject('insertItem')
+		const { urls, plugin_info } = useEditorData()
+		const isProActive = ref(false)
+		const isProConnected = ref(false)
+		const dashboardURL = ref('')
+		const purchaseURL = ref('')
+
+		isProActive.value = plugin_info.is_pro_active
+		isProConnected.value = plugin_info.is_pro_connected
+		dashboardURL.value = `${urls.zion_admin}#/pro-license`
+		purchaseURL.value = urls.purchase_url
+
+		return {
+			useinsertItem,
+			purchaseURL,
+			dashboardURL,
+			isProConnected,
+			isProActive
 		}
 	},
 	methods: {
@@ -142,7 +164,7 @@ export default {
 			this.insertItemLoading = true
 			// If it's pro, get the download URL
 
-			this.Library.insertItem(this.item).then(() => {
+			this.useinsertItem(this.item).then(() => {
 
 			}).catch((error) => {
 				// eslint-disable-next-line
@@ -177,7 +199,8 @@ export default {
 
 .znpb-editor-library-modal__item {
 	position: relative;
-	// min-height: 235px;
+
+// min-height: 235px;
 	margin-bottom: 30px;
 	background: $surface;
 	box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);

@@ -70,6 +70,7 @@
 				>
 					<li class="znpb-editor-library-modal__item--grid-sizer"></li>
 					<li class="znpb-editor-library-modal__item--gutter-sizer"></li>
+
 					<LibraryItem
 						v-for="(item, index) in filteredItems"
 						:key="index"
@@ -78,6 +79,7 @@
 						@activate-item="checkActiveItem($event)"
 						:favorite="checkFavorite(item)"
 					/>
+
 				</ul>
 
 				<p
@@ -112,7 +114,7 @@
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/CategoriesLibrary.vue'
 import localSt from 'localstorage-ttl'
-import { onBeforeUnmount, computed, provide, inject, ref, reactive, onMounted, nextTick, watch } from 'vue'
+import { onBeforeUnmount, computed, provide, inject, ref, reactive, onMounted, nextTick, watch, toRefs } from 'vue'
 import { translate } from '@zb/i18n'
 export default {
 	name: 'LibraryPanel',
@@ -150,17 +152,43 @@ export default {
 			// } else if (!foundSubcategory) {
 			// 	this.activeSubcategory = null
 			// }
+		},
+		previewOpen (newVal) {
+
+			if (newVal === false && this.multiple) {
+				this.items.value.forEach(function (item, index) {
+					if (item.id === this.activeItem.value.parent) {
+						activeItem.value = item
+					}
+				})
+			}
+		},
+		filteredItems (newVal) {
+
+			if (newVal) {
+				// nextTick(() => {
+				this.onLayout()
+				// })
+			}
+		},
+		loadingLibrary (loadingLibrary, prevloadingLibrary) {
+			if (!loadingLibrary) {
+				// start masonry
+				this.initMasonry()
+
+				// focus input
+				// nextTick(() => searchInput.value.focus())
+			}
 		}
 	},
 
 	setup (props, { emit }) {
-		const gridlist = ref()
+		// const gridlist = ref()
 		const searchInput = ref()
-		const msnry = ref(null)
+		// const msnry = ref(null)
 		const loadingLibrary = ref(true)
 		const iframeLoaded = ref(true)
 		const enteredValue = ref('')
-		const previewOpen = ref(false)
 		const searchCategories = ref([])
 		const searchElements = ref([])
 		const computedItems = ref(false)
@@ -193,12 +221,9 @@ export default {
 
 
 		onMounted(() => {
-
 			if (cachedData !== null) {
 				loadingLibrary.value = false
-				console.log('gridlist,', gridlist)
 			}
-
 		})
 
 
@@ -332,55 +357,6 @@ export default {
 			return subcategories
 		})
 
-		watch(previewOpen, (previewOpen, prevpreviewOpen) => {
-
-			if (previewOpen === false && props.multiple.value) {
-				items.value.forEach(function (item, index) {
-					if (item.id === activeItem.value.parent) {
-						activeItem.value = item
-					}
-				})
-			}
-		})
-
-		watch(filteredItems, (filteredItems, prevfilteredItems) => {
-
-			if (filteredItems) {
-				nextTick(() => {
-					onLayout()
-				})
-			}
-		})
-
-		watch(props.multiple, (multiple, prevmultiple) => {
-			if (multiple === true) {
-				enteredValue.value = ''
-			}
-		})
-
-		watch(loadingLibrary, (loadingLibrary, prevloadingLibrary) => {
-			if (!loadingLibrary) {
-				// start masonry
-				initMasonry()
-
-				// focus input
-				nextTick(() => searchInput.value.focus())
-			}
-		})
-
-
-		function initMasonry () {
-			console.log('init masonry', gridlist)
-			window.jQuery(gridlist.value).imagesLoaded(() => {
-				msnry.value = new window.Masonry(gridlist.value, {
-					columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
-					itemSelector: '.znpb-editor-library-modal__item',
-					gutter: '.znpb-editor-library-modal__item--gutter-sizer',
-					transitionDuration: 0
-				})
-			})
-		}
-
 		function searchResult (keyword) {
 			let scArray = []
 
@@ -410,14 +386,14 @@ export default {
 
 
 
-		function onLayout () {
-			// destroy old masonry
-			if (msnry.value.length) {
-				msnry.destroy()
-			}
-			// create new masonry
-			initMasonry()
-		}
+		// function onLayout () {
+		// 	// destroy old masonry
+		// 	if (msnry.value.length) {
+		// 		msnry.destroy()
+		// 	}
+		// 	// create new masonry
+		// 	initMasonry()
+		// }
 
 		function searchResultCategories () {
 			let catArray = []
@@ -499,16 +475,16 @@ export default {
 			return catObejct.title
 		}
 
-		onBeforeUnmount(() => {
-			if (msnry) {
-				msnry.value.destroy()
-			}
-		})
+		// onBeforeUnmount(() => {
+		// 	if (msnry) {
+		// 		msnry.value.destroy()
+		// 	}
+		// })
 
 		return {
-			gridlist,
-			initMasonry,
-			msnry,
+			// gridlist,
+			// initMasonry,
+			// msnry,
 			loadingLibrary,
 			iframeLoaded,
 			enteredValue,
@@ -535,8 +511,36 @@ export default {
 			checkFavorite,
 			addFavorite,
 			getCategoryTitle,
-			searchInput,
-			previewOpen
+			searchInput
+		}
+	},
+	methods: {
+		onLayout () {
+			// destroy old masonry
+			if (this.msnry.length) {
+				this.msnry.destroy()
+			}
+			// create new masonry
+			this.initMasonry()
+		},
+		initMasonry () {
+			nextTick(() => {
+				let grid = document.querySelectorAll('.znpb-editor-library-modal-item-list')
+
+				window.jQuery(grid[0]).imagesLoaded(() => {
+					this.msnry = new window.Masonry(grid[0], {
+						columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
+						itemSelector: '.znpb-editor-library-modal__item',
+						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
+						transitionDuration: 0
+					})
+				})
+			})
+		}
+	},
+	beforeUnmount () {
+		if (this.msnry) {
+			this.msnry.destroy()
 		}
 	}
 

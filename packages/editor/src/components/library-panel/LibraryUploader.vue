@@ -127,7 +127,6 @@ export default {
 				addTemplate(result.data).then((value) => {
 					showModal.value = false
 					loading.value = true
-					console.log('form', value.data)
 					this.addLocalTemplate(value.data)
 
 				})
