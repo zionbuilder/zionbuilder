@@ -65,8 +65,7 @@ import { Icon } from '../Icon'
 import Shape from './Shape.vue'
 import { EmptyList } from '../EmptyList'
 import { UpgradeToPro } from '../UpgradeToPro'
-import { mapGetters } from 'vuex'
-
+import { toRefs, onMounted, ref, readonly, inject } from 'vue'
 export default {
 	name: 'ShapeDividerComponent',
 	components: {
@@ -91,13 +90,19 @@ export default {
 			showDelete: false
 		}
 	},
+	setup () {
+		const masks = inject('masks')
+
+		return {
+			masks
+		}
+	},
 	computed: {
-		...mapGetters([
-			'isPro',
-			'getMasks'
-		]),
+		isPro () {
+			return true
+		},
 		shapes () {
-			return Object.values(this.getMasks)
+			return Object.values(this.masks)
 		}
 	}
 }

@@ -14,11 +14,11 @@ const state = {
 	urls: window.ZnPbInitalData.urls,
 	lockedUserInfo: window.ZnPbInitalData.post_lock_user,
 	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active,
-	masks: window.ZnPbInitalData.masks
+
 }
 
 const getters = {
-	getMasks: state => state.masks,
+
 	isPro: state => state.is_pro_active,
 	getLogoUrl: state => state.urls.logo,
 	getLoadingUrl: state => state.urls.loader,

@@ -137,8 +137,10 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
-import { useEditElement, useElementProvide } from '@data'
+import { useEditElement, useElementProvide, useEditorData } from '@data'
+// import { useEditorData } from '@data'
 import { useOptionsSchemas } from '@zb/components'
+import { ShapeDividerComponent } from '../../../components/src'
 
 export default {
 	name: 'PanelElementOptions',
@@ -171,10 +173,14 @@ export default {
 		const activeKeyTab = ref(null)
 		const searchActive = ref(false)
 
-		watch(() => element.value.uid, ()=> {
+		watch(() => element.value.uid, () => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
+
+		// provide masks for ShapeDividerComponent option
+		const { masks } = useEditorData()
+		provide('masks', masks)
 
 		provideElement(element)
 

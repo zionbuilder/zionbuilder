@@ -50,8 +50,7 @@ export * as utils from './utils/'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 export * from '@data'
-import { Options } from '@zionbuilder/models'
-const options = new Options()
+
 
 const components = [
 	Button,
