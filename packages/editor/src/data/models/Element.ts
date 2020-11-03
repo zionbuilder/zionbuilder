@@ -142,8 +142,6 @@ export class Element {
 			uid = elementInstance.uid
 		}
 
-		console.log({elementInstance});
-
 		// Set the parent
 		elementInstance.parentUid = this.uid
 		this.content.splice(index, 0, uid)
