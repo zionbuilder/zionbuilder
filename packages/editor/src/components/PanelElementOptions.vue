@@ -140,7 +140,6 @@ import BasePanel from './BasePanel.vue'
 import { useEditElement, useElementProvide, useEditorData } from '@data'
 // import { useEditorData } from '@data'
 import { useOptionsSchemas } from '@zb/components'
-import { ShapeDividerComponent } from '../../../components/src'
 
 export default {
 	name: 'PanelElementOptions',
