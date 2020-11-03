@@ -33,7 +33,10 @@ export class Element {
 		this.uid = uid
 		this.options = isPlainObject(options) ? options : {}
 		this.element_type = element_type
-		this.widgetID = widgetID
+
+		if (widgetID) {
+			this.widgetID = widgetID
+		}
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
