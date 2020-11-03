@@ -129,6 +129,42 @@ export default {
 		}
 
 		const addElements = (config) => {
+			const elementType = props.element.element_type
+
+			// Add a section if this will be inserted on root
+			if (elementType === 'contentRoot') {
+				config = [
+					{
+						element_type: 'zion_section',
+						content: config
+					}
+				]
+			} else {
+				// if (this.emptySortable) {
+				// 	if (elementType === 'zion_column') {
+				// 		// Check content orientation
+				// 		if (getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+				// 			config = this.wrapColumn(config)
+				// 		}
+				// 	} else if (elementType === 'zion_section') {
+				// 		if (getOptionValue(props.element.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+				// 			config = this.wrapColumn(config)
+				// 		}
+				// 	}
+				// } else {
+					// check parent orientation
+					if (elementType === 'zion_column') {
+						if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+							config = wrapColumn(config)
+						}
+					} else if (elementType === 'zion_section') {
+						if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+							config = wrapColumn(config)
+						}
+					}
+				// }
+			}
+
 			// If it's a wrapper, it means that it can have childs
 			if (props.element.isWrapper || props.element.element_type === 'contentRoot') {
 				props.element.addChildren(config)
@@ -138,54 +174,6 @@ export default {
 
 			// Send close event
 			emit('close')
-
-			// const elementType = props.element.element_type
-
-			// // Add a section if this will be inserted on root
-			// if (elementType === 'root') {
-			// 	config = [
-			// 		{
-			// 			element_type: 'zion_section',
-			// 			content: config
-			// 		}
-			// 	]
-			// } else {
-			// 	if (this.emptySortable) {
-			// 		if (elementType === 'zion_column') {
-			// 			// Check content orientation
-			// 			if (getOptionValue(this.elementInfo.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-			// 				config = this.wrapColumn(config)
-			// 			}
-			// 		} else if (elementType === 'zion_section') {
-			// 			if (getOptionValue(this.elementInfo.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-			// 				config = this.wrapColumn(config)
-			// 			}
-			// 		}
-			// 	} else {
-			// 		// check parent orientation
-			// 		if (elementType === 'zion_column') {
-			// 			if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-			// 				config = this.wrapColumn(config)
-			// 			}
-			// 		} else if (elementType === 'zion_section') {
-			// 			if (getOptionValue(this.getElementData(this.parentUid).options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-			// 				config = this.wrapColumn(config)
-			// 			}
-			// 		}
-			// 	}
-			// }
-
-			// const elements = generateElements(config)
-
-			// // Get index
-			// // this.setShouldOpenAddElementsPopup(true)
-			// // deactivate setPopup because on multiple columns multiple popups appear
-			// this.insertElements({
-			// 	parentUid: this.parentUid,
-			// 	index: this.getInsertIndex(),
-			// 	childElements: elements.childElements,
-			// 	parentElements: elements.parentElements
-			// })
 		}
 
 		const openLibrary = () => {

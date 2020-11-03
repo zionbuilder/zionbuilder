@@ -22,8 +22,6 @@
 			<ElementToolbox
 				v-if="canShowToolbox"
 				:element="element"
-				:data="element"
-				:parentUid="parentUid"
 				:can-hide-toolbox.sync="canHideToolbox"
 				:is-toolbox-dragging.sync="isToolboxDragging"
 			/>

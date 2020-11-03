@@ -116,14 +116,6 @@ export default {
 	},
 	props: {
 		element: Object,
-		data: {
-			type: Object,
-			required: true
-		},
-		parentUid: {
-			type: String,
-			required: true
-		},
 		canHideToolbox: {
 			type: Boolean,
 			required: true,
@@ -224,7 +216,7 @@ export default {
 		 * Returns the saved value for each property defaulting to actual size
 		 */
 		computedSavedValues () {
-			const savedValues = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+			const savedValues = this.getElementOptionValue(this.element.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
 				paddingRight: savedValues[this.styleMap.paddingRight] || this.computedStyle.paddingRight,
@@ -390,7 +382,7 @@ export default {
 
 
 			this.updateElementOptionValue({
-				elementUid: this.data.uid,
+				elementUid: this.element.uid,
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
 				newValue: `${newValue}`
 			})
@@ -400,7 +392,7 @@ export default {
 				const activeDragReversedCssProperty = this.styleMap[reversedPosition]
 
 				this.updateElementOptionValue({
-					elementUid: this.data.uid,
+					elementUid: this.element.uid,
 					path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
 					newValue: `${newValue}`
 				})
@@ -488,7 +480,7 @@ export default {
 		},
 		getSizeValue (type) {
 			// Return min-height
-			let value = this.getElementOptionValue(this.data.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
+			let value = this.getElementOptionValue(this.element.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
 			if (value !== null) {
 				return value
 			}
@@ -527,7 +519,7 @@ export default {
 			this.newValues = newValue
 
 			this.updateElementOptionValue({
-				elementUid: this.data.uid,
+				elementUid: this.element.uid,
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
 				newValue: `${newValue}px`
 			})
