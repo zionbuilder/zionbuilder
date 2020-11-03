@@ -20,9 +20,6 @@ const state = {
 const getters = {
 
 	isPro: state => state.is_pro_active,
-	getLogoUrl: state => state.urls.logo,
-	getLoadingUrl: state => state.urls.loader,
-	getStylesLoading: state => state.isStyleLoading,
 	getMainbarPosition: state => {
 		return state.mainBar.position
 	},
@@ -55,9 +52,6 @@ const actions = {
 	},
 	setIframeOrder: ({ commit, state, dispatch }, order) => {
 		commit(types.SET_IFRAME_ORDER, order)
-	},
-	setStylesLoading: ({ commit }, payload) => {
-		commit(types.SET_STYLE_LOADING, payload)
 	},
 	setLockedUser: ({ commit }, payload) => {
 		commit(types.SET_LOCKED_USERINFO, payload)

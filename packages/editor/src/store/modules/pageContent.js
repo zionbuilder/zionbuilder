@@ -74,19 +74,7 @@ const getParents = function (currentUid, allContent, parent) {
 }
 
 const getters = {
-	getIsPageDirty: state => state.isPageDirty,
-	getContentRoot: state => state.pageContent.contentRoot,
 	getPageContent: state => state.pageContent,
-	getAllContent: state => state.pageAreas,
-	getAreasContent: state => state.pageAreas,
-	getActiveElementUid: state => state.activeElementUid,
-	getActiveElementData: state => {
-		if (state.activeElementUid) {
-			return state.pageContent[state.activeElementUid]
-		}
-
-		return null
-	},
 	getActiveElementOptionValue: (state, getters) => (path, defaultValue) => {
 		if (!state.activeElementUid) {
 			return defaultValue
@@ -103,22 +91,7 @@ const getters = {
 
 		return getOptionValue(elementData.options, path, defaultValue)
 	},
-	getElementName: (state, getters) => (elementUid) => {
-		if (elementUid) {
-			const elementData = getters.getElementData(elementUid)
-			const elementTypeConfig = getters.getElementById(elementData.element_type)
-			const elementSavedName = getOptionValue(elementData.options, '_advanced_options._element_name')
-			return elementSavedName || elementTypeConfig.name
-		}
-	},
-	getElementData: state => (elementUid) => state.pageContent[elementUid],
-	getCopiedClasses: state => state.copiedClasses,
-	getElementParent: state => (elementUid) => {
-		return Object.keys(state.pageContent).find(searchElUid => {
-			const elementConfig = state.pageContent[searchElUid]
-			return elementConfig.content.includes(elementUid)
-		})
-	}
+	getCopiedClasses: state => state.copiedClasses
 }
 
 let droppingTimeout = null

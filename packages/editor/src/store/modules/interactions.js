@@ -70,9 +70,6 @@ const actions = {
 	},
 	deleteNewSelector: ({ commit }, payload) => {
 		commit(types.DELETE_NEW_SELECTOR, payload)
-	},
-	setShouldOpenAddElementsPopup: ({ commit }, payload) => {
-		commit(types.SET_SHOULD_OPEN_ELEMENTS_POPUP, payload)
 	}
 }
 
