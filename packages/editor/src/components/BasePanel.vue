@@ -51,7 +51,7 @@
 <script>
 
 import rafSchd from 'raf-schd'
-import { usePanels, useEditorInteractions } from '@data'
+import { usePanels, useEditorInteractions, useWindows } from '@data'
 
 export default {
 	name: 'BasePanel',
@@ -104,6 +104,8 @@ export default {
 	setup () {
 		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
 		const { getMainbarPosition, getIframeOrder, iFrame } = useEditorInteractions()
+		const { addEventListener, removeEventListener } = useWindows()
+
 		return {
 			isAnyPanelDragging,
 			openPanels,
@@ -112,7 +114,9 @@ export default {
 			setPanelPlaceholder,
 			getIframeOrder,
 			getMainbarPosition,
-			iFrame
+			iFrame,
+			addEventListener,
+			removeEventListener
 		}
 	},
 	data () {
@@ -141,7 +145,7 @@ export default {
 	},
 	mounted () {
 		if (this.closeOnEscape) {
-			window.zb.editor.pageEvents.addEventListener('keydown', this.onKeyDown)
+			this.addEventListener('keydown', this.onKeyDown)
 		}
 		this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
 		this.position = {
@@ -460,7 +464,7 @@ export default {
 
 	},
 	beforeUnmount () {
-		window.zb.editor.pageEvents.removeEventListener('keydown', this.onKeyDown)
+		this.removeEventListener('keydown', this.onKeyDown)
 	}
 }
 </script>

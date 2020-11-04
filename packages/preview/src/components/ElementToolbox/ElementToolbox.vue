@@ -101,8 +101,8 @@
 // Utils
 import { ref } from 'vue'
 import rafSchd from 'raf-schd'
-import { mapActions, mapGetters } from 'vuex'
-import { pageEvents } from '@zb/editor'
+import { mapActions } from 'vuex'
+import { useWindows } from '@zb/editor'
 import { useAddElementsPopup, useElementFocus, useIsDragging } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 
@@ -132,6 +132,7 @@ export default {
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { focusedElement } = useElementFocus()
+		const { addEventListener, removeEventListener } = useWindows()
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -145,7 +146,9 @@ export default {
 			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
 			focusedElement,
-			isDragging
+			isDragging,
+			addEventListener,
+			removeEventListener
 		}
 	},
 	data () {
@@ -210,14 +213,11 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getElementOptionValue',
-		]),
 		/**
 		 * Returns the saved value for each property defaulting to actual size
 		 */
 		computedSavedValues () {
-			const savedValues = this.getElementOptionValue(this.element.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+			const savedValues = this.element.getOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
 				paddingRight: savedValues[this.styleMap.paddingRight] || this.computedStyle.paddingRight,
@@ -269,7 +269,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'updateElementOptionValue',
 			'saveState'
 		]),
 		startSpacingDrag ({ event, type, position }) {
@@ -343,15 +342,15 @@ export default {
 					type,
 					position,
 					even: event.ctrlKey,
-					reversedPosition: this.reversedPosition
+					reversedPositgetDocumentsion: this.reversedPosition
 				})
 
 				// Refresh sizes
 				this.setComputedStyle()
 			})
 
-			pageEvents.addEventListener('mousemove', this.onMouseMoveDebounced)
-			pageEvents.addEventListener('mouseup', this.onMouseUp)
+			this.addEventListener('mousemove', this.onMouseMoveDebounced)
+			this.addEventListener('mouseup', this.onMouseUp)
 		},
 		getReversedPosition (position) {
 			const typeAndPosition = position.split(/(?=[A-Z])/)
@@ -381,22 +380,12 @@ export default {
 			// Save to history
 			this.addToHistory = true
 
-
-			this.updateElementOptionValue({
-				elementUid: this.element.uid,
-				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
-				newValue: `${newValue}`
-			})
+			this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`, newValue)
 
 			// If we need to update the opposite position
 			if (even) {
 				const activeDragReversedCssProperty = this.styleMap[reversedPosition]
-
-				this.updateElementOptionValue({
-					elementUid: this.element.uid,
-					path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
-					newValue: `${newValue}`
-				})
+				this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`, newValue)
 			}
 		},
 		getDragInfo ({ event, type, position, startClientX, startClientY }) {
@@ -417,8 +406,8 @@ export default {
 			// Cancel the scheduler
 			this.onMouseMoveDebounced.cancel()
 
-			pageEvents.removeEventListener('mousemove', this.onMouseMoveDebounced)
-			pageEvents.removeEventListener('mouseup', this.onMouseUp)
+			this.removeEventListener('mousemove', this.onMouseMoveDebounced)
+			this.removeEventListener('mouseup', this.onMouseUp)
 
 			// Reset properties
 			this.onMouseMoveDebounced = null
@@ -441,10 +430,10 @@ export default {
 			this.computedStyle = window.getComputedStyle(this.$parent.$el)
 		},
 		removeEvents () {
-			pageEvents.removeEventListener('mousemove', this.changeSizeDebounced)
-			pageEvents.removeEventListener('mousemove', this.changePaddingWidth)
-			pageEvents.removeEventListener('mousemove', this.changeMarginWidth)
-			pageEvents.removeEventListener('mouseup', this.endDragging)
+			this.removeEventListener('mousemove', this.changeSizeDebounced)
+			this.removeEventListener('mousemove', this.changePaddingWidth)
+			this.removeEventListener('mousemove', this.changeMarginWidth)
+			this.removeEventListener('mouseup', this.endDragging)
 		},
 		getSizeChangePropertyFromPosition (position) {
 			let propertyToChange = null
@@ -476,12 +465,12 @@ export default {
 
 			this.changeSizeDebounced = rafSchd(this.changeSize)
 
-			pageEvents.addEventListener('mousemove', this.changeSizeDebounced)
-			pageEvents.addEventListener('mouseup', this.endDragging)
+			this.addEventListener('mousemove', this.changeSizeDebounced)
+			this.addEventListener('mouseup', this.endDragging)
 		},
 		getSizeValue (type) {
 			// Return min-height
-			let value = this.getElementOptionValue(this.element.uid, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
+			let value = this.element.getOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
 			if (value !== null) {
 				return value
 			}
@@ -518,12 +507,7 @@ export default {
 			}
 
 			this.newValues = newValue
-
-			this.updateElementOptionValue({
-				elementUid: this.element.uid,
-				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
-				newValue: `${newValue}px`
-			})
+			this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`, `${newValue}px`)
 
 			// reposition tooltip
 			if (this.$refs[`sizeDrag--${this.activeDragPosition}`]) {

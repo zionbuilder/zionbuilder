@@ -32,10 +32,6 @@ registerEditorOptions()
 // Components
 import App from './App.vue'
 
-// It will allow us to add events to both the editor document and iframe document
-const pageEvents = createInstance()
-pageEvents.addDocument(window)
-
 // init data
 const errors = new Errors()
 const options = new Options()
@@ -63,7 +59,6 @@ appInstance.config.globalProperties.$zb = {
 	templates,
 	hooks,
 	appInstance,
-	pageEvents,
 	urls: window.ZnPbInitalData.urls
 }
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
@@ -75,7 +70,6 @@ const { registerElementComponent } = useElementTypes()
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
-	pageEvents,
 	errors,
 	options,
 	templates,

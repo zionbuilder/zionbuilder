@@ -44,11 +44,20 @@
 <script>
 import { mapActions } from 'vuex'
 import Cache from '../Cache.ts'
-import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage, useEditorData, useEditorInteractions } from '@data'
+import {
+	useTemplateParts,
+	usePreviewLoading,
+	useElementFocus,
+	useKeyBindings,
+	useElements,
+	useSavePage,
+	useEditorData,
+	useEditorInteractions,
+	useWindows
+} from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -69,6 +78,7 @@ export default {
 		const { page_id: pageId } = useEditorData()
 		const { urls } = useEditorData()
 		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
+		const { addWindow, addEventListener, removeEventListener } = useWindows()
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -79,7 +89,10 @@ export default {
 			pageId,
 			urls,
 			getIframeOrder,
-			getIframePointerEvents
+			getIframePointerEvents,
+			addWindow,
+			addEventListener,
+			removeEventListener
 		}
 	},
 	computed: {
@@ -170,12 +183,14 @@ export default {
 			}
 		},
 		onIframeLoaded () {
-			const { setPreviewLoading } = usePreviewLoading()
-			this.iframeLoaded = true
-			Dom.iframe = this.$refs.iframe
-			Dom.iframeDocument = this.$refs.iframe.contentDocument
-			Dom.iframeWindow = this.$refs.iframe.contentWindow
 
+			const { setPreviewLoading } = usePreviewLoading()
+
+			this.iframeLoaded = true
+			const iframeWindow = this.$refs.iframe.contentWindow
+
+			// Register the document
+			this.addWindow('preview', iframeWindow)
 			this.attachIframeEvents()
 
 			this.ignoreNextReload = false
@@ -192,10 +207,10 @@ export default {
 			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
-			Dom.iframeDocument.addEventListener('click', this.deselectActiveElement, true)
-			Dom.iframeDocument.addEventListener('click', this.preventClicks, true)
-			Dom.iframeDocument.addEventListener('keydown', this.applyShortcuts)
-			// Dom.iframeDocument.addEventListener('scroll', this.onScroll)
+			this.addEventListener('click', this.deselectActiveElement, true)
+			this.addEventListener('click', this.preventClicks, true)
+			this.addEventListener('keydown', this.applyShortcuts)
+			// this.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
 			this.unFocusElement()
@@ -227,11 +242,9 @@ export default {
 	},
 	// end checkMousePosition
 	beforeUnmount () {
-		if (Dom.iframeDocument) {
-			Dom.iframeDocument.removeEventListener('click', this.deselectActiveElement)
-			Dom.iframeDocument.removeEventListener('keydown', this.applyShortcuts)
-			Dom.iframeDocument.removeEventListener('click', this.preventClicks, true)
-		}
+		this.removeEventListener('click', this.deselectActiveElement)
+		this.removeEventListener('keydown', this.applyShortcuts)
+		this.removeEventListener('click', this.preventClicks, true)
 
 		off('refreshIframe', this.refreshIframe)
 	},

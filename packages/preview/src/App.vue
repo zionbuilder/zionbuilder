@@ -21,7 +21,7 @@ import { computed, ref, onBeforeUnmount, watch } from 'vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings } from '@zb/editor'
+import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -38,12 +38,15 @@ export default {
 		const { isPreviewMode } = usePreviewMode()
 		const { setPreviewLoading } = usePreviewLoading()
 		const { pageSettings } = usePageSettings()
+		const { removeWindow } = useWindows()
 
 		const element = computed(() => getElement('content'))
 		const showExportModal = ref(false)
 
-		onBeforeUnmount(() => {
-			window.addEventListener('beforeunload', setPreviewLoading(true))
+		// Add event listener to cleanup
+		window.addEventListener('beforeunload', () => {
+			removeWindow('preview')
+			setPreviewLoading(true)
 		})
 
 		watch(isPreviewMode, (newValue) => {
