@@ -148,7 +148,7 @@
 <script>
 import { getTemplates, addTemplate, getLibraryItems } from '@zb/rest'
 import { addOverflow, removeOverflow } from '../utils/overflow'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
@@ -354,13 +354,6 @@ export default {
 				this.showMaximize = newVal
 			} else this.showMaximize = this.fullSize
 		}
-
-	},
-	computed: {
-		...mapGetters([
-			// 'getElementInsertConfig'
-		]),
-
 
 	},
 	mounted () {
