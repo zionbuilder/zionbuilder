@@ -113,8 +113,6 @@ class Preview {
 
 		wp_enqueue_media();
 
-
-
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
@@ -123,11 +121,11 @@ class Preview {
 			'js/preview.js',
 			[
 				'zb-components',
+				'wp-tinymce',
 			],
 			Plugin::instance()->get_version(),
 			true
 		);
-
 
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 

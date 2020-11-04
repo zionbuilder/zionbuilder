@@ -6,12 +6,6 @@
 		append-to="body"
 		:show-arrows="false"
 		:show="canShowEditor"
-		:modifiers="{
-			flip: {
-				behavior: ['left', 'bottom', 'top']
-			},
-			offset: { offset: '0,0' }
-		}"
 		@hide="hideInlineEditor"
 		strategy="fixed"
 		ref="inlineEditorWrapper"
@@ -153,7 +147,7 @@
 			</div>
 		</template>
 		<div
-			v-if="editor"
+			v-if="isInlineEditorVisible"
 			ref="inlineEditor"
 			class="znpb-inline-text-editor"
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
@@ -168,7 +162,6 @@
 			@dblclick.stop=""
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
 			class="znpb-inline-text-editor"
-			ref="inlineEditor"
 			v-html="modelValue"
 		>
 		</div>
@@ -460,11 +453,11 @@ export default {
 					e.preventDefault()
 				}
 			})
-			editor.on('init', () => {
+			editor.on('init', (e) => {
 				this.tinyMceReady = true
 
 				// Set editor content
-				this.editor.setContent(this.content)
+				editor.setContent(this.content)
 				this.currentContent = this.content
 
 				this.showEditor()
@@ -535,8 +528,10 @@ export default {
 		},
 		isInlineEditorVisible (newValue) {
 			if (newValue) {
-				this.initTinyMCE()
-				editorsManager.opendEditor(this)
+				this.$nextTick(() => {
+					this.initTinyMCE()
+					editorsManager.opendEditor(this)
+				})
 			} else {
 				editorsManager.closeEditor()
 				// Destroy tinyMce
@@ -549,6 +544,7 @@ export default {
 					this.editor = null
 				})
 			}
+
 		}
 	},
 

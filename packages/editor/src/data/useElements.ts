@@ -1,24 +1,24 @@
-import { ref, Ref } from 'vue'
+import { reactive } from 'vue'
 import { Element } from './models'
 
 // Global template parts store
-const elements: Ref<{[key: string]: Element}> = ref({})
+const elements: {[key: string]: Element} = reactive({})
 
 export function useElements() {
 	const registerElement = (config, parent: string): Element => {
 		const element = new Element(config, parent)
 
-		elements.value[element.uid] = element
+		elements[element.uid] = element
 
 		return element
 	}
 
 	const unregisterElement = (uid: string) => {
-		delete elements.value[uid]
+		delete elements[uid]
 	}
 
 	const getElement = (elementUID: string) => {
-		return elements.value[elementUID]
+		return elements[elementUID]
 	}
 
 	return {

@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { ref, watch, provide } from 'vue'
+import { ref, watch, provide, computed } from 'vue'
 import { mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
@@ -172,6 +172,15 @@ export default {
 		const activeKeyTab = ref(null)
 		const searchActive = ref(false)
 
+		const elementOptions = computed({
+			get () {
+				return element.value.options
+			},
+			set (newValues) {
+				element.value.updateOptions(newValues)
+			}
+		})
+
 		watch(() => element.value.uid, () => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
@@ -185,6 +194,8 @@ export default {
 
 		return {
 			element,
+			// Computed
+			elementOptions,
 			getSchema,
 			editElement,
 			activeKeyTab,
@@ -246,19 +257,6 @@ export default {
 			}
 
 			return optionsSchema
-		},
-		elementOptions: {
-			get () {
-				// Use received options so we do not save default options that are set to element.options
-				return Array.isArray(this.element.receivedOptions) ? {} : this.element.receivedOptions || {}
-			},
-			set (newValues) {
-				newValues = newValues === null ? {} : newValues
-				this.element.options = newValues
-
-				// Add to history
-				this.addToLocalHistory()
-			}
 		},
 		computedStyleOptions: {
 			get () {

@@ -1,7 +1,7 @@
 <template>
 	<div class="zion-inline-editor-panel-color">
 		<div class="zion-inline-editor-button">
-			<ColorPicker
+			<InputColorPicker
 				:modelValue="color"
 				@input="onColorChange"
 				:show-library="false"

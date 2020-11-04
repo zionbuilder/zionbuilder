@@ -33,9 +33,6 @@
 import { getOptionValue } from '@zb/utils'
 import { mapActions } from 'vuex'
 
-// Components
-import InlineEditor from './InlineEditor'
-
 export default {
 	name: 'RenderValue',
 	inheritAttrs: false,
@@ -55,9 +52,6 @@ export default {
 			required: false,
 			default: 'span'
 		}
-	},
-	components: {
-		InlineEditor
 	},
 	computed: {
 		optionValue: {

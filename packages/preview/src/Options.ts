@@ -1,11 +1,12 @@
-import { getOptionValue, getStyles } from '@zb/utils'
-import { applyFilters, getImage } from '@zb/hooks'
+import { getOptionValue, getStyles } from '@zb/editor'
+import { applyFilters } from '@zb/hooks'
+
 /**
  * Will parse the option schema in order to get the render attributes
  * and custom css
  */
 export default class Options {
-	constructor (schema = {}, model = {}, selector, options) {
+	constructor (schema, model, selector, options) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
@@ -33,8 +34,68 @@ export default class Options {
 		}
 	}
 
+	parseData () {
+		// Allow external data modification
+		const options = applyFilters('zionbuilder/options/model', this.model, this)
 
+		// Set defaults and extract render attributes and custom css
+		this.parseOptions(this.schema, options)
 
+		return {
+			options: options,
+			renderAttributes: this.renderAttributes,
+			customCSS: this.getCustomCSS()
+		}
+	}
+
+	parseOptions (schema, model, index = null) {
+		Object.keys(schema).forEach((optionId) => {
+			const singleOptionSchema = schema[optionId]
+			let dependencyPassed = this.checkDependency(singleOptionSchema, model)
+
+			if (!dependencyPassed) {
+				return false
+			}
+
+			if (typeof singleOptionSchema.is_layout !== 'undefined' && singleOptionSchema.is_layout) {
+				if (typeof singleOptionSchema.child_options !== 'undefined') {
+					this.parseOptions(singleOptionSchema.child_options, model)
+				}
+			} else {
+				if (typeof model[optionId] !== 'undefined') {
+					// Check for images
+					this.setPropperImage(optionId, singleOptionSchema, model)
+
+					// Get render attributes
+					this.setRenderAttributes(singleOptionSchema, model[optionId], index)
+
+					// Get custom css
+					this.setCustomCSS(singleOptionSchema, model[optionId], index)
+				} else if (typeof singleOptionSchema.default !== 'undefined') {
+					model[optionId] = singleOptionSchema.default
+				}
+
+				if (typeof singleOptionSchema.child_options !== 'undefined') {
+					if (singleOptionSchema.type === 'repeater') {
+						if (typeof model[optionId] !== 'undefined' && Array.isArray(model[optionId])) {
+							model[optionId].forEach((optionValue, index) => {
+								this.parseOptions(singleOptionSchema.child_options, optionValue, index)
+							})
+						}
+					} else {
+						const savedValue = typeof model[optionId] !== 'undefined' ? model[optionId] : []
+						this.parseOptions(singleOptionSchema.child_options, savedValue)
+
+						if (Object.keys(savedValue).length > 0) {
+							model[optionId] = savedValue
+						}
+					}
+				}
+			}
+		})
+
+		return model
+	}
 
 	setPropperImage (optionId, schema, model) {
 		if (schema.type === 'image' && schema.show_size === true && model[optionId]) {
@@ -43,7 +104,7 @@ export default class Options {
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
 				this.startLoading()
-				getImage(model[optionId]).then((image) => {
+				window.ZionBuilderApi.utils.getImage(model[optionId]).then((image) => {
 					if (image) {
 						this.setImage(model, optionId, image)
 					}
@@ -66,6 +127,67 @@ export default class Options {
 		}
 
 		optionsModel[optionId] = newValues
+	}
+
+	addRenderAttribute (tagId, attribute, value, replace = false) {
+		if (!this.renderAttributes[tagId]) {
+			this.renderAttributes[tagId] = {}
+		}
+
+		const currentAttributes = this.renderAttributes[tagId]
+
+		if (!currentAttributes[attribute]) {
+			currentAttributes[attribute] = []
+		}
+
+		if (replace) {
+			currentAttributes[attribute] = [value]
+		} else {
+			currentAttributes[attribute].push(value)
+		}
+	}
+
+	setRenderAttributes (schema, model, index = null) {
+		const CSSDeviceMap = {
+			default: '',
+			laptop: '--lg',
+			tablet: '--md',
+			mobile: '--sm'
+		}
+
+		if (schema.render_attribute) {
+			schema.render_attribute.forEach(config => {
+				// create render attribute for tag id if doesn't exists
+				let tagId = config.tag_id || 'wrapper'
+				tagId = index === null ? tagId : `${tagId}${index}`
+				const attribute = config.attribute || 'class'
+				let attributeValue = config.value || ''
+
+				if (schema.responsive_options && typeof model === 'object' && model !== null) {
+					Object.keys(model).forEach(deviceId => {
+						// Don't proceed if we do not have a value
+						if (!model[deviceId] || typeof CSSDeviceMap[deviceId] === 'undefined') {
+							return
+						}
+
+						const deviceSavedValue = model[deviceId]
+						attributeValue = config.value || ''
+						attributeValue = attributeValue.replace('{{RESPONSIVE_DEVICE_CSS}}', CSSDeviceMap[deviceId])
+						attributeValue = attributeValue.replace('{{VALUE}}', deviceSavedValue) || deviceSavedValue
+
+						this.addRenderAttribute(tagId, attribute, attributeValue)
+					})
+				} else {
+					// Don't proceed if we do not have a value
+					if (!model) {
+						return
+					}
+
+					attributeValue = attributeValue.replace('{{VALUE}}', model) || model
+					this.addRenderAttribute(tagId, attribute, attributeValue)
+				}
+			})
+		}
 	}
 
 	setCustomCSS (schema, model, index = null) {
@@ -170,7 +292,40 @@ export default class Options {
 		return returnedStyles
 	}
 
+	checkDependency (optionSchema, model) {
+		let passedDependency = true
 
+		if (optionSchema.dependency) {
+			optionSchema.dependency.forEach((dependencyConfig) => {
+				if (!passedDependency) {
+					return
+				}
+
+				passedDependency = this.checkSingleDependency(dependencyConfig, model)
+			})
+		}
+
+		return passedDependency
+	}
+
+	checkSingleDependency (dependencyConfig, model) {
+		const { type = 'includes', option, option_path: optionPath, value: searchValue } = dependencyConfig
+		let optionValue = null
+
+		if (option) {
+			optionValue = typeof model[option] !== 'undefined' ? model[option] : null
+		} else if (optionPath) {
+			optionValue = getOptionValue(this.model, optionPath)
+		}
+
+		if (type === 'includes' && searchValue.includes(optionValue)) {
+			return true
+		} else if (type === 'not_in' && !searchValue.includes(optionValue)) {
+			return true
+		}
+
+		return false
+	}
 
 	getValue (optionPath, defaultValue) {
 		return getOptionValue(this.model, optionPath, defaultValue)

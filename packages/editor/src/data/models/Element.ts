@@ -1,9 +1,8 @@
-import { generateUID, getOptionValue, updateOptionValue } from '@zb/utils'
-import { each, update, isPlainObject, cloneDeep } from 'lodash-es'
+import { generateUID } from '@zb/utils'
+import { each, update, get } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { useElementFocus } from '../useElementFocus'
-import { Options } from './Options'
 import { RenderAttributes } from './RenderAttributes'
 
 const { registerElement, unregisterElement, getElement } = useElements()
@@ -14,9 +13,9 @@ export class Element {
 	public element_type: string = ''
 	public content: string[] = []
 	public uid:string = ''
+	// Make it ref so we can watch it
+	public options: {[key: string]: any} = {}
 	// Helpers
-	public receivedOptions = {}
-	private _options: Object = {}
 	public renderAttributes: RenderAttributes
 	public parentUid: string = ''
 	public isHighlighted: boolean = false
@@ -34,6 +33,7 @@ export class Element {
 			widget_id: widgetID
 		} = data
 
+		this.options = options
 		this.uid = uid
 		this.element_type = element_type
 
@@ -41,11 +41,7 @@ export class Element {
 			this.widgetID = widgetID
 		}
 
-		// Setup options
-		this.receivedOptions = isPlainObject(options) ? options : {}
-
 		this.renderAttributes = new RenderAttributes()
-		this.options = this.receivedOptions
 
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
@@ -55,23 +51,16 @@ export class Element {
 		this.parentUid = parentUid
 	}
 
-	get options () {
-		return this._options
+	updateOptions (newValues)  {
+		this.options = newValues
 	}
 
-	set options (newValues) {
-		this.receivedOptions = newValues
-		const schema = this.elementTypeModel.options || {}
+	getOptionValue(path, defaultValue) {
+		return get(this.options, path, defaultValue)
+	}
 
-		// Clear render attributes
-		this.renderAttributes.clear()
-
-		// this.customCSS = new CustomCSS()
-		this._options = new Options(cloneDeep(newValues), schema, {
-			parsers: [
-				this.renderAttributes.parseValue.bind(this.renderAttributes)
-			]
-		})
+	updateOptionValue(path, newValue) {
+		update(this.options, path, () => newValue)
 	}
 
 	get isWrapper () {
@@ -87,7 +76,7 @@ export class Element {
 	}
 
 	get name () {
-		return getOptionValue(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
+		return get(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
 	}
 
 	set name (newName) {
@@ -96,7 +85,7 @@ export class Element {
 
 	// Element visibility
 	get isVisible () {
-		return getOptionValue(this.options, '_isVisible', true)
+		return get(this.options, '_isVisible', true)
 	}
 
 	set isVisible (visbility) {

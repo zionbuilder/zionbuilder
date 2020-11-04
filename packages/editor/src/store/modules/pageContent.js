@@ -251,7 +251,7 @@ const mutations = {
 		elementConfig.options = newValues
 	},
 	[types.UPDATE_ELEMENT_OPTIONS] (state, { element, values }) {
-		element.options = values
+		// element.options = values
 	},
 
 	[types.DELETE_ELEMENT_OPTION] (state, path) {
@@ -262,7 +262,7 @@ const mutations = {
 			return
 		}
 
-		const options = activeElement.options
+		// const options = activeElement.options
 		let upperDeletableKey = null
 
 		paths.reduce((acc, key, index) => {

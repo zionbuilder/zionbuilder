@@ -7,9 +7,9 @@
 		class="znpb-element__wrapper zb-element"
 		:class="{'znpb-element__wrapper--panel-hovered': element.isHighlighted}"
 		:id="`${element.elementCssId}`"
-		:options="options"
-		:data="element"
 		:element="element"
+		:data="element"
+		:options="options"
 		@mouseenter="showToolbox = true"
 		@mouseleave="onMouseLeave"
 		@click.stop="onElementClick"
@@ -32,9 +32,9 @@
 				:video-config="videoConfig"
 			/>
 
-			<!-- <ElementStyles
+			<ElementStyles
 				:styles="customCSS"
-			/> -->
+			/>
 		</template>
 
 		<template #end>
@@ -76,8 +76,9 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { useElementTypes, usePreviewMode, useElementMenu, usePanels, useElementFocus, useEditElement } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, useElementFocus, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@data'
+import Options from '../Options'
 
 export default {
 	name: 'Element',
@@ -87,14 +88,8 @@ export default {
 		ElementLoading,
 		ElementStyles
 	},
-	props: {
-		element: {
-			type: Object,
-			required: true
-		}
-	},
+	props: ['element'],
 	setup (props) {
-		const { openPanel } = usePanels()
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementFocus()
@@ -102,7 +97,6 @@ export default {
 		let toolboxWatcher = null
 
 		// Data
-		const options = ref(props.element.options)
 		const loading = ref(false)
 		const showToolbox = ref(false)
 		const canHideToolbox = ref(true)
@@ -110,13 +104,41 @@ export default {
 		const registeredEvents = ref({})
 
 		// computed
+		const parsedData = computed(() => {
+			const schema = props.element.elementTypeModel.options || {}
+			const cssSelector = `#${props.element.elementCssId}`
+			const optionsInstance = new Options(schema, props.element.options, cssSelector, {
+				onLoadingStart: () => loading.value = true,
+				onLoadingEnd: () => loading.value = false,
+			})
+
+			return optionsInstance.parseData()
+		})
+
+		const options = computed(() => parsedData.value.options)
+		const renderAttributes = computed(() => parsedData.value.renderAttributes)
+		const customCSS = computed(() => {
+			let customCSS = parsedData.value.customCSS
+			const elementStyleConfig = props.element.elementTypeModel.style_elements
+
+			if (elementStyleConfig) {
+				Object.keys(elementStyleConfig).forEach(styleId => {
+					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].styles) {
+						const styleConfig = elementStyleConfig[styleId]
+						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${props.element.elementCssId}`)
+						customCSS += getStyles(formattedSelector, options.value._styles[styleId].styles)
+					}
+				})
+			}
+
+			return customCSS
+		})
 		const stylesConfig = computed(() => options._styles || {})
 		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
-		const canShowElement = computed(() => isPreviewMode.value ? !(options._isVisible === false) : true)
-		const videoConfig = computed(() => getOptionValue(options, '_styles.wrapper.styles.default.default.background-video', {}))
-
+		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
+		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
 		const getExtraAttributes = computed(() => {
-			const wrapperAttributes = props.element.renderAttributes.getRenderAttribute('wrapper') || {}
+			const wrapperAttributes = renderAttributes.wrapper || {}
 			const elementClass = camelCase(props.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
@@ -220,10 +242,10 @@ export default {
 			element: props.element,
 			isPreviewMode,
 			showElementMenu,
-			openPanel,
 			focusElement,
 			onElementClick,
 			options,
+			customCSS,
 			loading,
 			canHideToolbox,
 			isToolboxDragging,
@@ -235,15 +257,15 @@ export default {
 		}
 	},
 	watch: {
-		'element.options': {
-			handler (newValue, oldValue) {
-				this.debounceUpdate()
-			},
-			deep: true
-		},
-		'element.content' (newValue, oldValue) {
-			this.debounceUpdate()
-		},
+		// 'element.options': {
+		// 	handler (newValue, oldValue) {
+		// 		this.debounceUpdate()
+		// 	},
+		// 	deep: true
+		// },
+		// 'element.content' (newValue, oldValue) {
+		// 	this.debounceUpdate()
+		// },
 		'element.scrollTo' (newValue) {
 			if (newValue) {
 				this.$el.scrollIntoView({

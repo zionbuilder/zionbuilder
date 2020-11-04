@@ -9,15 +9,13 @@ export default {
 			type: String
 		}
 	},
-	render (h, context) {
-		if (context.styles) {
-			return h('style', {
-				domProps: {
-					innerHTML: context.styles
-				}
-			})
+	setup (props) {
+		return () => {
+			if (props.styles) {
+				return h('style', props.styles)
+			}
+			return null
 		}
-		return null
 	}
 }
 </script>
