@@ -49,9 +49,9 @@
 	</div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+
 import rafSchd from 'raf-schd'
-import { usePanels } from '@data'
+import { usePanels, useEditorInteractions } from '@data'
 
 export default {
 	name: 'BasePanel',
@@ -103,13 +103,16 @@ export default {
 	},
 	setup () {
 		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
-
+		const { getMainbarPosition, getIframeOrder, iFrame } = useEditorInteractions()
 		return {
 			isAnyPanelDragging,
 			openPanels,
 			getPanel,
 			panelPlaceholder,
-			setPanelPlaceholder
+			setPanelPlaceholder,
+			getIframeOrder,
+			getMainbarPosition,
+			iFrame
 		}
 	},
 	data () {
@@ -149,10 +152,6 @@ export default {
 		this.lastPositionY = this.panelOffset.top
 	},
 	computed: {
-		...mapGetters([
-			'getMainbarPosition',
-			'getIframeOrder'
-		]),
 		selectors () {
 			let selectors = []
 			this.openPanels.forEach(panel => {
@@ -225,10 +224,6 @@ export default {
 
 	},
 	methods: {
-		...mapActions([
-			'setIframePointerEvents',
-			'setIframeOrder',
-		]),
 		onKeyDown (event) {
 			if (event.which === 27) {
 				this.$emit('close-panel')
@@ -241,7 +236,7 @@ export default {
 			this.panel.set('isDragging', true)
 			window.addEventListener('mousemove', this.movePanel)
 			window.addEventListener('mouseup', this.disablePanelMove)
-			this.setIframePointerEvents(true)
+			this.iFrame.set('pointerEvents', true)
 			this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
 			this.lastPositionX = this.panelOffset.left
 			this.lastPositionY = this.panelOffset.top
@@ -271,8 +266,8 @@ export default {
 			this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
 			this.position.posX = this.lastPositionX + event.pageX - this.initialPosition.posX
 			this.position.posY = this.lastPositionY + event.pageY - this.initialPosition.posY
-			const touchesRight = event.clientX + this.position.toPanelRight > window.innerWidth - 10 - (this.getMainbarPosition === 'right' ? 60 : 0)
-			const touchesLeft = event.clientX - this.position.toPanelLeft < (this.getMainbarPosition === 'left' ? 60 : 10)
+			const touchesRight = event.clientX + this.position.toPanelRight > window.innerWidth - 10 - (this.getMainbarPosition() === 'right' ? 60 : 0)
+			const touchesLeft = event.clientX - this.position.toPanelLeft < (this.getMainbarPosition() === 'left' ? 60 : 10)
 
 			if (document.elementFromPoint(event.clientX, event.clientY)) {
 				target = document.elementFromPoint(event.clientX, event.clientY)
@@ -287,7 +282,7 @@ export default {
 						if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
 							order = idProps.panelPos + 1
 							this.placement = 'after'
-							left = domElement.offsetLeft + idProps.width.value - (Math.max(...this.orders) === idProps.panelPos && this.getMainbarPosition === 'right' ? 5 : 0)
+							left = domElement.offsetLeft + idProps.width.value - (Math.max(...this.orders) === idProps.panelPos && this.getMainbarPosition() === 'right' ? 5 : 0)
 						}
 						if (event.clientX > domElement.offsetLeft && event.clientX < domElement.offsetLeft + idProps.width.value / 2) {
 							order = idProps.panelPos
@@ -303,12 +298,12 @@ export default {
 				if (touchesLeft) {
 					visibility = true
 					order = Math.min(...this.orders) - 1
-					if (this.getMainbarPosition === 'left') {
+					if (this.getMainbarPosition() === 'left') {
 						left = 60
 					}
 				} else if (touchesRight) {
 					left = window.innerWidth - 5
-					if (this.getMainbarPosition === 'right') {
+					if (this.getMainbarPosition() === 'right') {
 						left = window.innerWidth - 65
 					} else {
 						left = window.innerWidth - 5
@@ -353,12 +348,12 @@ export default {
 					otherPanelOrder = panelOrder
 				}
 				if (id === 'znpb-editor-iframe') {
-					this.setIframeOrder(otherPanelOrder)
+					this.iFrame.set('order', otherPanelOrder)
 				} else {
-					this.panel.set('panelPos', otherPanelOrder )
+					this.panel.set('panelPos', otherPanelOrder)
 				}
 
-				this.panel.set('panelPos', order )
+				this.panel.set('panelPos', order)
 			}
 			this.mapOrders()
 		},
@@ -373,9 +368,9 @@ export default {
 			})
 			orders.forEach((order, index) => {
 				if (order[0] === 'znpb-editor-iframe') {
-					this.setIframeOrder(index + 1)
+					this.iFrame.set('order', index + 1)
 				} else {
-					this.panel.set('panelPos', index + 1 )
+					this.panel.set('panelPos', index + 1)
 				}
 			})
 		},
@@ -395,7 +390,7 @@ export default {
 			}
 
 			this.initialPosition = null
-			this.setIframePointerEvents(false)
+			this.iFrame.set('pointerEvents', false)
 			this.userSel = null
 			this.setPanelPlaceholder({
 				...this.panelPlaceholder,
@@ -410,7 +405,7 @@ export default {
 			document.body.style.userSelect = null
 		},
 		activateHorizontalResize () {
-			this.setIframePointerEvents(true)
+			this.iFrame.set('pointerEvents', true)
 			this.deactivateSelection()
 			this.initialHMouseX = event.clientX
 			this.initialWidth = this.panel.width.value
@@ -431,12 +426,12 @@ export default {
 		},
 		deactivateHorizontal () {
 			window.removeEventListener('mousemove', this.rafResizeHorizontal)
-			this.setIframePointerEvents(false)
+			this.iFrame.set('pointerEvents', false)
 			this.resetSelection()
 			document.body.style.cursor = null
 		},
 		activateVerticalResize (event) {
-			this.setIframePointerEvents(true)
+			this.iFrame.set('pointerEvents', true)
 			this.deactivateSelection()
 			this.initialHeight = this.$refs.panelContainer.clientHeight
 			this.initialVMouseY = event.clientY
@@ -459,7 +454,7 @@ export default {
 		deactivateVertical () {
 			window.removeEventListener('mousemove', this.rafResizeVertical)
 			document.body.style.cursor = null
-			this.setIframePointerEvents(false)
+			this.iFrame.set('pointerEvents', false)
 			this.resetSelection()
 		}
 
