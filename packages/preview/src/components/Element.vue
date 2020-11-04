@@ -138,7 +138,7 @@ export default {
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
 		const getExtraAttributes = computed(() => {
-			const wrapperAttributes = renderAttributes.wrapper || {}
+			const wrapperAttributes = renderAttributes.value.wrapper || {}
 			const elementClass = camelCase(props.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
