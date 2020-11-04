@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage, useEditorData } from '@data'
+import { useTemplateParts, usePreviewLoading, useElementFocus, useKeyBindings, useElements, useSavePage, useEditorData, useEditorInteractions } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -68,6 +68,7 @@ export default {
 		const { saveDraft } = useSavePage()
 		const { page_id: pageId } = useEditorData()
 		const { urls } = useEditorData()
+		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -76,16 +77,12 @@ export default {
 			applyShortcuts,
 			saveDraft,
 			pageId,
-			urls
+			urls,
+			getIframeOrder,
+			getIframePointerEvents
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getIframePointerEvents',
-			'canUndo',
-			'canRedo',
-			'getIframeOrder'
-		]),
 		storageRecover () {
 			return this.localStoragePageData && this.showRecoverModal
 		},
@@ -106,10 +103,10 @@ export default {
 		pointerevents: function () {
 			let style = {}
 
-			if (this.getIframePointerEvents) {
+			if (this.getIframePointerEvents()) {
 				style.pointerEvents = 'none'
 			}
-			style.order = this.getIframeOrder
+			style.order = this.getIframeOrder()
 			return style
 		},
 		getWrapperClasses () {

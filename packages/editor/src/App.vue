@@ -21,9 +21,7 @@
 					class="znpb-editor-layout__preview-button"
 				>
 
-					<Icon
-						:icon="activeResponsiveDeviceInfo.icon"
-					/>
+					<Icon :icon="activeResponsiveDeviceInfo.icon" />
 
 				</div>
 				<div
@@ -138,11 +136,11 @@ import MainPanel from './components/main-panel.vue'
 import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@data'
 import { useResponsiveDevices } from '@zb/components'
 
 // WordPress hearbeat
@@ -170,6 +168,8 @@ export default {
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
 
+		const { getMainbarPosition } = useEditorInteractions()
+
 		return {
 			panelPlaceholder,
 			openPanels,
@@ -179,7 +179,8 @@ export default {
 			isPreviewMode,
 			focusedElement,
 			applyShortcuts,
-			isPreviewLoading
+			isPreviewLoading,
+			getMainbarPosition
 		}
 	},
 	data: () => {
@@ -188,20 +189,17 @@ export default {
 		}, window.ZnPbInitalData)
 	},
 	computed: {
-		...mapGetters([
-			'getMainbarPosition'
-		]),
 		showEditorTransition: function () {
-			if (this.getMainbarPosition === 'left') {
+			if (this.getMainbarPosition() === 'left') {
 				return 'slide-from-right'
 			}
-			if (this.getMainbarPosition === 'right') {
+			if (this.getMainbarPosition() === 'right') {
 				return 'slide-from-left'
 			}
 			return 'slide-from-right'
 		},
 		panelPreviewTransition: function () {
-			return `znpb-main-panel--out--position-${this.getMainbarPosition}`
+			return `znpb-main-panel--out--position-${this.getMainbarPosition()}`
 		},
 		openPanels: {
 			get () {
@@ -212,7 +210,7 @@ export default {
 			}
 		},
 		showEditorButtonStyle () {
-			const mainBarPosition = this.getMainbarPosition
+			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
 			if (mainBarPosition === 'right') {
 				buttonStyle = {
@@ -265,6 +263,14 @@ export default {
 
 	created: function () {
 		window.addEventListener('resize', this.onResize)
+		Promise.all([
+			this.$zb.options.fetchOptions(),
+		]).then((values) => {
+		}).catch(error => {
+			// eslint-disable-next-line
+			console.error(error)
+		}).finally(() => {
+		})
 	},
 	beforeUnmount: function () {
 

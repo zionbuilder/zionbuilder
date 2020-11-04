@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import SaveElementModal from './SaveElementModal.vue'
 import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
@@ -166,7 +166,7 @@ import Help from './Help.vue'
 // import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData } from '@data'
+import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData, useEditorInteractions, useHistory } from '@data'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 
@@ -204,7 +204,8 @@ export default {
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { setElementConfigForLibrary } = useLibraryElements()
 		const { urls } = useEditorData()
-
+		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
+		const { currentHistoryIndex } = useHistory()
 		const saveActions = [
 			{
 				icon: 'save-template',
@@ -232,16 +233,16 @@ export default {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setElementConfigForLibrary,
-			urls
+			urls,
+			getMainBarOrder,
+			getMainBarPointerEvents,
+			getMainbarPosition,
+			iFrame,
+			mainBar,
+			currentHistoryIndex
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getMainBarOrder',
-			'getMainBarPointerEvents',
-			'activeHistoryIndex',
-			'getMainbarPosition'
-		]),
 
 		helpMenuItems () {
 			let helpArray = [
@@ -293,7 +294,7 @@ export default {
 		getCssClasses () {
 			let classes = this.isDragging ? 'znpb-editor-panel__container--dragging ' : ''
 
-			if (this.getMainbarPosition === 'right') {
+			if (this.getMainbarPosition() === 'right') {
 				classes = classes + 'znpb-editor-header--right '
 			}
 			if (this.sticked) {
@@ -303,26 +304,22 @@ export default {
 			return classes
 		},
 		helperStyle () {
-			const xTranslate = this.getMainbarPosition === 'right' ? `${this.left + 70 - window.innerWidth}${this.unit}` : `${this.left + 10}${this.unit}`
+			const xTranslate = this.getMainbarPosition() === 'right' ? `${this.left + 70 - window.innerWidth}${this.unit}` : `${this.left + 10}${this.unit}`
 			return {
 				transform: (this.isDragging) ? `translate3d(${xTranslate},${this.top - 22}${this.unit},0)` : null
 			}
 		},
 		panelStyles () {
 			return {
-				order: this.getMainBarOrder,
+				order: this.getMainBarOrder(),
 				userSelect: this.userSel,
-				pointerEvents: this.isDragging || this.getMainBarPointerEvents ? 'none' : null
+				pointerEvents: this.isDragging || this.getMainBarPointerEvents() ? 'none' : null
 			}
 		}
 	},
 	methods: {
 		...mapActions([
-			'setIframePointerEvents',
-			'setMainbarOrder',
-			// 'setElementConfigForLibrary',
 			'setActiveShowElementsPopup',
-			'setMainbarPosition'
 		]),
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
@@ -380,7 +377,7 @@ export default {
 
 		startDrag (event) {
 			this.isDragging = true
-			this.setIframePointerEvents(true)
+			this.iFrame.set('pointerEvents', true)
 			this.rafMovePanel = rafSchd(this.movePanel)
 			this.rafEndDragging = rafSchd(this.disablePanelMove)
 			window.addEventListener('mousemove', this.rafMovePanel)
@@ -402,17 +399,17 @@ export default {
 			this.top = newTop
 
 			if (event.clientX > window.innerWidth / 2) {
-				this.setMainbarPosition('right')
-				this.setMainbarOrder(999)
+				this.mainBar.set('position', 'right')
+				this.mainBar.set('order', 999)
 			} else {
-				this.setMainbarPosition('left')
-				this.setMainbarOrder(-999)
+				this.mainBar.set('position', 'left')
+				this.mainBar.set('order', -999)
 			}
 		},
 		disablePanelMove (event) {
 			window.removeEventListener('mousemove', this.rafMovePanel)
 			window.removeEventListener('mouseup', this.rafEndDragging)
-			this.setIframePointerEvents(false)
+			this.iFrame.set('pointerEvents', false)
 			this.userSel = null
 			document.body.style.cursor = null
 			this.isDragging = false
@@ -431,7 +428,7 @@ export default {
 		}
 	},
 	watch: {
-		activeHistoryIndex (newValue) {
+		currentHistoryIndex (newValue) {
 			if (this.canAutosave && newValue > 0) {
 				const { saveAutosave } = useSavePage()
 				saveAutosave()

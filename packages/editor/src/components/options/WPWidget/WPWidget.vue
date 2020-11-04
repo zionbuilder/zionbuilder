@@ -19,7 +19,6 @@
 
 <script>
 import { getOptionsForm } from '@zb/rest'
-import { mapGetters } from 'vuex'
 import { serialize } from 'dom-form-serializer'
 
 export default {

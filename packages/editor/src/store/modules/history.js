@@ -8,9 +8,9 @@ const state = {
 }
 
 const getters = {
-	getHistoryItems: state => state.historyItems,
-	canUndo: state => state.currentHistoryIndex > 0,
-	canRedo: state => state.currentHistoryIndex < state.historyItems.length - 1,
+	// getHistoryItems: state => state.historyItems,
+	// canUndo: state => state.currentHistoryIndex > 0,
+	// canRedo: state => state.currentHistoryIndex < state.historyItems.length - 1,
 	activeHistoryIndex: state => state.currentHistoryIndex
 }
 

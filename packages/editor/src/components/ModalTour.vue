@@ -29,19 +29,23 @@ import { mapGetters, mapActions } from 'vuex'
 import { generateElements } from '@zb/utils'
 import ModalStep from './ModalStep.vue'
 import { trigger } from '@zb/hooks'
-import { usePanels } from '@data'
+import { usePanels, useEditorInteractions } from '@data'
 
 export default {
 	name: 'ModalTour',
 	components: {
 		ModalStep
 	},
-	setup() {
+	setup () {
 		const { openPanel, closePanel } = usePanels()
+		const { mainBar, iFrame, getIframePointerEvents } = useEditorInteractions()
 
 		return {
 			openPanel,
-			closePanel
+			closePanel,
+			getIframePointerEvents,
+			mainBar,
+			iFrame
 		}
 	},
 	data () {
@@ -324,7 +328,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getPageContent',
-			'getIframePointerEvents'
 		]),
 
 		generateElements () {
@@ -359,8 +362,6 @@ export default {
 	},
 	methods: {
 		...mapActions([
-			'setIframePointerEvents',
-			'setMainBarPointerEvents',
 			'setActiveShowElementsPopup',
 			'setActiveElement',
 			'savePage',
@@ -468,9 +469,9 @@ export default {
 				// if (popEl.length > 0) {
 				// 	popEl[0].style.pointerEvents = 'none'
 				// }
-			} else this.setIframePointerEvents(true)
+			} else this.iFrame.set('pointerEvents', true)
 
-			this.setMainBarPointerEvents(true)
+			this.mainBar.set('pointerEvents', true)
 			if (this.openPanels.length > 0) {
 				setTimeout(() => {
 					// let panel = document.getElementsByClassName('znpb-editor-panel__container')
@@ -483,11 +484,11 @@ export default {
 				document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.pointerEvents = null
 			}
 
-			if (this.getIframePointerEvents) {
-				this.setIframePointerEvents(false)
+			if (this.getIframePointerEvents()) {
+				this.iFrame.set('pointerEvents', false)
 			}
 
-			this.setMainBarPointerEvents(false)
+			this.mainBar.set('pointerEvents', false)
 			if (this.openPanels.length > 0) {
 				// document.getElementsByClassName('znpb-editor-panel__container')[0].style.pointerEvents = null
 			}

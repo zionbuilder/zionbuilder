@@ -1,17 +1,7 @@
 import * as types from '../mutation-types'
 
 const state = {
-	mainBar: {
-		position: 'left',
-		order: -999,
-		pointerEvents: false
-	},
 	isStyleLoading: true,
-	iFrame: {
-		pointerEvents: false,
-		order: 6
-	},
-	urls: window.ZnPbInitalData.urls,
 	lockedUserInfo: window.ZnPbInitalData.post_lock_user,
 	is_pro_active: window.ZnPbInitalData.plugin_info.is_pro_active,
 
@@ -20,39 +10,9 @@ const state = {
 const getters = {
 
 	isPro: state => state.is_pro_active,
-	getMainbarPosition: state => {
-		return state.mainBar.position
-	},
-	getMainBarOrder: state => {
-		return state.mainBar.order
-	},
-	getMainBarPointerEvents: state => {
-		return state.mainBar.pointerEvents
-	},
-	getIframePointerEvents: state => {
-		return state.iFrame.pointerEvents
-	},
-	getIframeOrder: state => {
-		return state.iFrame.order
-	}
 }
 
 const actions = {
-	setMainbarPosition: ({ commit }, payload) => {
-		commit(types.SET_MAINBAR_POSITION, payload)
-	},
-	setMainbarOrder: ({ commit, state, dispatch }, order) => {
-		commit(types.SET_MAINBAR_ORDER, order)
-	},
-	setMainBarPointerEvents: ({ commit, state }, pointerEvents) => {
-		commit(types.SET_MAINBAR_POINTER_EVENTS, pointerEvents)
-	},
-	setIframePointerEvents: ({ commit, state }, pointerEvents) => {
-		commit(types.SET_IFRAME_POINTER_EVENTS, pointerEvents)
-	},
-	setIframeOrder: ({ commit, state, dispatch }, order) => {
-		commit(types.SET_IFRAME_ORDER, order)
-	},
 	setLockedUser: ({ commit }, payload) => {
 		commit(types.SET_LOCKED_USERINFO, payload)
 	},
@@ -62,21 +22,6 @@ const actions = {
 }
 
 const mutations = {
-	[types.SET_MAINBAR_ORDER] (state, order) {
-		state.mainBar.order = order
-	},
-	[types.SET_MAINBAR_POSITION] (state, payload) {
-		state.mainBar.position = payload
-	},
-	[types.SET_MAINBAR_POINTER_EVENTS] (state, pointerEvents) {
-		state.mainBar.pointerEvents = pointerEvents
-	},
-	[types.SET_IFRAME_POINTER_EVENTS] (state, pointerEvents) {
-		state.iFrame.pointerEvents = pointerEvents
-	},
-	[types.SET_IFRAME_ORDER] (state, order) {
-		state.iFrame.order = order
-	},
 	[types.SET_STYLE_LOADING] (state, payload) {
 		state.isStyleLoading = payload
 	},

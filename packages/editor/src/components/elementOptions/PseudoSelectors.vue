@@ -30,9 +30,7 @@
 			tooltipClass="hg-popper--no-padding znpb-element-options__media-class-pseudo-selector-dropdown"
 		>
 			<template #content>
-				<div
-					class="znpb-element-options__media-class-pseudo-selector-list hg-popper-list"
-				>
+				<div class="znpb-element-options__media-class-pseudo-selector-list hg-popper-list">
 					<PseudoDropdownItem
 						v-for="(selectorConfig, index) in pseudoSelectors"
 						:selector="selectorConfig"
@@ -89,11 +87,11 @@
 
 <script>
 import { computed } from 'vue'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
 import { updateOptionValue } from '@zb/utils'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
-
+import { useEditorData } from '@data'
 export default {
 	name: 'PseudoSelectors',
 	components: {
@@ -121,19 +119,20 @@ export default {
 				$emit('update:modelValue', newValues)
 			}
 		})
-
+		const { plugin_info } = useEditorData()
 		return {
 			activeResponsiveDeviceInfo,
 			pseudoSelectors,
 			activePseudoSelector,
 			hasContent,
-			activePseudoSelectors
+			activePseudoSelectors,
+			plugin_info
 		}
 	},
 	computed: {
-		...mapGetters([
-			'isPro'
-		]),
+		isPro () {
+			return this.plugin_info.is_pro_active
+		},
 
 		pseudoSelectors () {
 			return this.pseudoSelectors.map((selectorConfig) => {
