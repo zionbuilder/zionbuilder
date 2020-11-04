@@ -63,7 +63,7 @@
 
 <script>
 // Utils
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, readonly } from 'vue'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
@@ -115,7 +115,7 @@ export default {
 			return optionsInstance.parseData()
 		})
 
-		const options = computed(() => parsedData.value.options)
+		const options = computed(() => readonly(parsedData.value.options))
 		const renderAttributes = computed(() => parsedData.value.renderAttributes)
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS

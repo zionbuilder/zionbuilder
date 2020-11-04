@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<slot name="start" />
-		{{options}}
 		<InlineEditor v-model="content" />
 		<slot name="end" />
 	</div>
@@ -10,7 +9,7 @@
 <script>
 import { computed } from 'vue'
 export default {
-	name: 'zion_text',
+	name: 'ZionText',
 	props: ['options', 'element', 'api'],
 	setup (props) {
 		const content = computed({
