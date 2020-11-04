@@ -103,7 +103,7 @@ import { ref } from 'vue'
 import rafSchd from 'raf-schd'
 import { mapActions, mapGetters } from 'vuex'
 import { pageEvents } from '@zb/editor'
-import { useAddElementsPopup, useElementFocus } from '@zb/editor'
+import { useAddElementsPopup, useElementFocus, useIsDragging } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 
 // Components
@@ -137,13 +137,15 @@ export default {
 			const { showAddElementsPopup } = useAddElementsPopup()
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
+		const { isDragging } = useIsDragging()
 
 		return {
 			showColumnTemplates,
 			addElementsPopupButton,
 			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
-			focusedElement
+			focusedElement,
+			isDragging
 		}
 	},
 	data () {
@@ -210,7 +212,6 @@ export default {
 	computed: {
 		...mapGetters([
 			'getElementOptionValue',
-			'isDragging'
 		]),
 		/**
 		 * Returns the saved value for each property defaulting to actual size
@@ -256,7 +257,7 @@ export default {
 			} else return 'right'
 		},
 		isAnyDragging () {
-			return this.isDragging || this.isToolboxDragging
+			return this.isDragging.value || this.isToolboxDragging
 		},
 		dragDimension () {
 			if (this.activeDragPosition === 'Top' || this.activeDragPosition === 'Bottom') {

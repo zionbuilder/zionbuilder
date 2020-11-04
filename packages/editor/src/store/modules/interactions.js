@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 
 const state = {
-	isDragging: false,
+
 	isSavingPage: false,
 	isPreviewMode: false,
 	pseudoSelectors: [
@@ -49,7 +49,7 @@ const state = {
 }
 
 const getters = {
-	isDragging: state => state.isDragginggetElementFocus
+
 }
 
 const actions = {
@@ -58,9 +58,6 @@ const actions = {
 	 */
 	setActiveShowElementsPopup: ({ commit }, payload) => {
 		commit(types.SET_ACTIVE_SHOW_ADD_ELEMENT_POPUP, payload)
-	},
-	setDraggingState: ({ commit }, payload) => {
-		commit(types.SET_DRAGGING_STATE, payload)
 	},
 	setActivePseudoSelector: ({ commit }, payload) => {
 		commit(types.SET_ACTIVE_PSEUDO_SELECTOR, payload)
@@ -79,9 +76,6 @@ const mutations = {
 	},
 	[types.SET_IS_SAVING_PAGE] (state, payload) {
 		state.isSavingPage = payload
-	},
-	[types.SET_DRAGGING_STATE] (state, payload) {
-		state.isDragging = payload
 	},
 	[types.SET_ACTIVE_PSEUDO_SELECTOR] (state, payload) {
 		state.activePseudoSelector = payload

@@ -22,9 +22,7 @@
 		/>
 
 		<template #start>
-			<slot
-				name="start"
-			/>
+			<slot name="start" />
 		</template>
 
 		<template #helper>
@@ -48,9 +46,7 @@
 				{{emptyPlaceholderText}}
 			</div>
 
-			<slot
-				name="end"
-			/>
+			<slot name="end" />
 		</template>
 	</Sortable>
 </template>
@@ -59,15 +55,14 @@
 import { computed, ref } from 'vue'
 
 // Utils
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { getOptionValue } from '@zb/utils'
-
 // Components
 import Element from './Element.vue'
 import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
 import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
-import { useElements, useAddElementsPopup, usePreviewMode } from '@zb/editor'
+import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging } from '@zb/editor'
 
 const sharedStateGlobal = {
 	controlPressed: null,
@@ -98,7 +93,7 @@ export default {
 			type: String
 		}
 	},
-	setup(props) {
+	setup (props) {
 		const defaultSortableGroup = {
 			name: 'elements'
 		}
@@ -160,6 +155,7 @@ export default {
 		}
 
 		const { isPreviewMode } = usePreviewMode()
+		const { isDragging, setDraggingState } = useIsDragging()
 
 		return {
 			isPreviewMode,
@@ -171,18 +167,14 @@ export default {
 			sharedState,
 			toggleAddElementsPopup,
 			addElementsPopupButton,
-			showColumnTemplates
+			showColumnTemplates,
+			isDragging,
+			setDraggingState
 		}
-	},
-	computed: {
-		...mapGetters([
-			'isDragging'
-		])
 	},
 
 	methods: {
 		...mapActions([
-			'setDraggingState',
 			'copyElement'
 		]),
 		onKeyup (event) {
@@ -229,12 +221,12 @@ export default {
 			if (newValue) {
 				draggedItem.style.display = null
 				draggedItem.style.opacity = 0.2
-				if (!this.isDragging) {
+				if (!this.isDragging.value) {
 					draggedItem.style.opacity = null
 					draggedItem.style.display = null
 				}
 			} else {
-				if (this.isDragging) {
+				if (this.isDragging.value) {
 					draggedItem.style.opacity = null
 					draggedItem.style.display = 'none'
 				}
