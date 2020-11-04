@@ -21,9 +21,7 @@
 					class="znpb-editor-layout__preview-button"
 				>
 
-					<Icon
-						:icon="activeResponsiveDeviceInfo.icon"
-					/>
+					<Icon :icon="activeResponsiveDeviceInfo.icon" />
 
 				</div>
 				<div
@@ -265,6 +263,14 @@ export default {
 
 	created: function () {
 		window.addEventListener('resize', this.onResize)
+		Promise.all([
+			this.$zb.options.fetchOptions(),
+		]).then((values) => {
+		}).catch(error => {
+			// eslint-disable-next-line
+			console.error(error)
+		}).finally(() => {
+		})
 	},
 	beforeUnmount: function () {
 
