@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import Cache from '../Cache.ts'
 import Dom from '../dom.js'
 import { flattenTemplateData } from '@zb/utils'
