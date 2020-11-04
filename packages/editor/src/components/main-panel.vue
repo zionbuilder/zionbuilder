@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import SaveElementModal from './SaveElementModal.vue'
 import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
@@ -166,7 +166,7 @@ import Help from './Help.vue'
 // import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData, useEditorInteractions } from '@data'
+import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData, useEditorInteractions, useHistory } from '@data'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 
@@ -205,7 +205,7 @@ export default {
 		const { setElementConfigForLibrary } = useLibraryElements()
 		const { urls } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
-
+		const { currentHistoryIndex } = useHistory()
 		const saveActions = [
 			{
 				icon: 'save-template',
@@ -238,13 +238,11 @@ export default {
 			getMainBarPointerEvents,
 			getMainbarPosition,
 			iFrame,
-			mainBar
+			mainBar,
+			currentHistoryIndex
 		}
 	},
 	computed: {
-		...mapGetters([
-			'activeHistoryIndex',
-		]),
 
 		helpMenuItems () {
 			let helpArray = [
@@ -430,7 +428,7 @@ export default {
 		}
 	},
 	watch: {
-		activeHistoryIndex (newValue) {
+		currentHistoryIndex (newValue) {
 			if (this.canAutosave && newValue > 0) {
 				const { saveAutosave } = useSavePage()
 				saveAutosave()

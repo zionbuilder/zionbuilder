@@ -83,10 +83,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'canUndo',
-			'canRedo',
-		]),
 		storageRecover () {
 			return this.localStoragePageData && this.showRecoverModal
 		},

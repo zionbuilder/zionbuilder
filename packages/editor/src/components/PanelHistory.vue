@@ -14,8 +14,8 @@
 				<ul class="znpb-history-actions">
 					<li
 						:title="item.name"
-						v-for="(item, index) in getHistoryItems"
-						:class="{'znpb-history-action--active': activeHistoryIndex === index }"
+						v-for="(item, index) in historyItems"
+						:class="{'znpb-history-action--active': currentHistoryIndex === index }"
 						v-bind:key="index"
 						ref="index"
 						@click="restoreHistoryState(index)"
@@ -24,7 +24,7 @@
 						<span class="znpb-action-name">{{item.name}}</span>
 						<span
 							class="znpb-action-active"
-							v-if="activeHistoryIndex === index"
+							v-if="currentHistoryIndex === index"
 						>{{$translate('history_now')}}</span>
 						<Icon
 							v-else
@@ -56,6 +56,7 @@
 <script>
 import BasePanel from './BasePanel.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { useHistory } from '@data'
 export default {
 	name: 'panel-history',
 	data: () => {
@@ -67,13 +68,18 @@ export default {
 	props: {
 		panel: {}
 	},
+	setup (props) {
+		const { canUndo, canRedo, currentHistoryIndex, historyItems } = useHistory()
+		return {
+			canUndo,
+			canRedo,
+			currentHistoryIndex,
+			historyItems
+		}
+	},
 	computed: {
 		...mapGetters([
-			'getHistoryItems',
 			'getActiveAreaContent',
-			'canUndo',
-			'canRedo',
-			'activeHistoryIndex'
 		])
 	},
 	methods: {
@@ -98,7 +104,7 @@ export default {
 		this.$refs.historyPanelWrapper.scrollTop = this.$refs.historyPanelWrapper.scrollHeight
 	},
 	watch: {
-		getHistoryItems () {
+		historyItems () {
 			this.$nextTick(() => {
 				this.$refs.historyPanelWrapper.scrollTop = this.$refs.historyPanelWrapper.scrollHeight
 			})
