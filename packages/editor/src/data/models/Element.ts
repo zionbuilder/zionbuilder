@@ -117,6 +117,7 @@ export class Element {
 		this.isHighlighted = false
 	}
 
+
 	addChild (element: Element | string | Object, index = -1) {
 		let uid = null
 		let elementInstance = null
@@ -128,19 +129,25 @@ export class Element {
 			elementInstance = element
 			uid = element.uid
 		} else {
+
 			elementInstance = registerElement(element, this.uid)
 			uid = elementInstance.uid
 		}
 
 		// Set the parent
+		index = index === -1 ? this.content.length : index
 		elementInstance.parentUid = this.uid
 		this.content.splice(index, 0, uid)
 	}
 
 	addChildren (elements, index = -1) {
 		each(elements, (element) => {
-			this.addChild(element, -1)
+			this.addChild(element, index)
 		})
+	}
+
+	getIndexInParent () {
+		return this.parent.content.indexOf(this.uid)
 	}
 
 	removeChild(elementUID: string) {
@@ -160,7 +167,6 @@ export class Element {
 	duplicate () {
 		const indexInParent = this.parent.content.indexOf(this.uid)
 		const elementAsJSON = this.getClone()
-
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
 	}
 
@@ -233,9 +239,6 @@ export class Element {
 		// Replace content with new one that has updated uids
 		cloneConfig.content = clonedContent
 		// Add the instance to all elements
-		const clonedInstance = registerElement(cloneConfig, this.parent.uid)
-
-		// Return the duplicated element isntance
-		return clonedInstance
+		return registerElement(cloneConfig, this.parent.uid)
 	}
 }

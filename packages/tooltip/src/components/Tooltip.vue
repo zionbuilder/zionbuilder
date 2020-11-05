@@ -396,6 +396,8 @@ export default {
 					!this.popperElement.contains(event.target)
 				) {
 					this.hidePopper();
+					this.$emit("hide");
+					this.$emit("update:show", false);
 					preventOutsideClickPropagation = false;
 				}
 			}, 0);

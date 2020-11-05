@@ -107,7 +107,8 @@ export default {
 
 			// If it's a wrapper, it means that it can have childs
 			const elementParent = props.element.isWrapper || props.element.element_type === 'contentRoot' ? props.element : props.element.parent
-			elementParent.addChild(config)
+			const index = props.element.getIndexInParent() + 1
+			elementParent.addChild(config, index)
 
 			hideAddElementsPopup()
 
