@@ -37,10 +37,16 @@ export default {
 .znpb-shape-divider-icon {
 	width: 100%;
 	color: #fff;
+	svg {
+		display: block;
+
+		fill: currentColor;
+	}
 }
 .znpb-editor-shapeWrapper {
 	position: relative;
 	display: flex;
+	align-items: flex-end;
 	min-height: 72px;
 	margin-bottom: 18px;
 	color: #fff;
