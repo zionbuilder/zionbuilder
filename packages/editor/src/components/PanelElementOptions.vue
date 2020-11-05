@@ -181,7 +181,7 @@ export default {
 			}
 		})
 
-		watch(() => element.value.uid, () => {
+		watch(element, () => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
