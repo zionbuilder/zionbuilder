@@ -325,8 +325,9 @@ class Templates {
 
 		// Set the template type
 		$template_args['meta_input'][self::TEMPLATE_TYPE_META] = sanitize_text_field( $template_config['template_type'] );
+		$template_args['meta_input'] = wp_slash( $template_args['meta_input'] );
 
-		$post_id = wp_insert_post( wp_slash( $template_args ), true );
+		$post_id = wp_insert_post( $template_args, true );
 
 		// Check to see if the post was succesfully created
 		if ( is_wp_error( $post_id ) ) {
