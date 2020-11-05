@@ -40,7 +40,7 @@ import { ref, computed, onMounted } from 'vue'
 import { generateUID } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import ElementList from './ElementList.vue'
-import { useElementTypes, useElementTypeCategories } from '@data'
+import { useElementTypes, useElementTypeCategories, useAddElementsPopup } from '@data'
 
 export default {
 	name: 'ElementsTab',
@@ -98,7 +98,7 @@ export default {
 
 		// Methods
 		const onAddElement = (element) => {
-			console.log({element});
+			const { hideAddElementsPopup } = useAddElementsPopup()
 
 			const config = {
 				element_type: element.element_type,
@@ -108,6 +108,8 @@ export default {
 			// If it's a wrapper, it means that it can have childs
 			const elementParent = props.element.isWrapper || props.element.element_type === 'contentRoot' ? props.element : props.element.parent
 			elementParent.addChild(config)
+
+			hideAddElementsPopup()
 
 		}
 
