@@ -58,8 +58,8 @@
 
 <script>
 import { importTemplateLibrary, addTemplate } from '@zb/rest'
-import { mapActions } from 'vuex'
 import { inject } from 'vue'
+
 export default {
 	name: 'LibraryUploader',
 	props: {
