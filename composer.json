@@ -2,18 +2,6 @@
     "name": "zionbuilder/zionbuilder",
     "type": "wordpress-plugin",
     "description": "A visual builder for WordPress",
-    "autoload": {
-        "psr-4": {"ZionBuilder\\": "includes/"}
-    },
-    "require-dev": {
-        "wp-coding-standards/wpcs": "^2.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
-        "phpcompatibility/phpcompatibility-wp": "^2.1.0",
-        "squizlabs/php_codesniffer": "^3.5.5",
-        "phpstan/phpstan": "^0.12.28",
-        "szepeviktor/phpstan-wordpress": "^0.6.0",
-        "bvanhoekelen/performance": "^2.5"
-    },
     "license": "GPL-3.0-or-later",
     "authors": [
         {
@@ -22,7 +10,20 @@
         }
     ],
     "require": {
-        "woocommerce/action-scheduler": "^3.1",
-        "enshrined/svg-sanitize": "^0.13.3"
+        "enshrined/svg-sanitize": "^0.13.3",
+        "woocommerce/action-scheduler": "^3.1"
+    },
+    "require-dev": {
+        "bvanhoekelen/performance": "^2.5",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+        "phpcompatibility/phpcompatibility-wp": "^2.1.0",
+        "squizlabs/php_codesniffer": "^3.5.5",
+        "szepeviktor/phpstan-wordpress": "^0.7.0",
+        "wp-coding-standards/wpcs": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZionBuilder\\": "includes/"
+        }
     }
 }
