@@ -7,7 +7,7 @@
 				:key="index"
 				class="znpb-editor-library-modal-sidebar-category"
 				:category="category"
-				:is-expanded="category===getActiveCategory"
+				:is-expanded="category===activeCategory"
 				:show-count="false"
 				:parent="category"
 				:subcategory="getSubCategories"
@@ -21,7 +21,7 @@
 			<div class="znpb-editor-library-modal-subheader">
 				<div class="znpb-editor-library-modal-subheader__left">
 					<h3 class="znpb-editor-library-modal-subheader__left-title">
-						{{getActiveCategory.name}}
+						{{activeCategory.name}}
 					</h3>
 				</div>
 			</div>
@@ -115,9 +115,10 @@ export default {
 
 		const getSubCategories = computed(() => {
 			// get subcategories from the active category
-			let categoryId = getActiveCategory.value.id
+			let categoryId = activeCategory.value.id
 			let allCount = 0
 			const subcategories = []
+			console.log('getTemplatesByType(categoryId)', getTemplatesByType(categoryId))
 			const templateByActiveType = getTemplatesByType(categoryId)
 			const addedCategories = []
 			if (templateByActiveType && templateByActiveType.length > 0) {
