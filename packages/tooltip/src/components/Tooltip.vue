@@ -20,7 +20,7 @@
 			>
 				{{ content }}
 
-				<slot name="content"/>
+				<slot name="content" />
 
 				<span
 					data-popper-arrow="true"
@@ -35,21 +35,21 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { getDefaultOptions } from '../options'
-import { merge } from 'lodash-es'
-import { createPopper } from '@popperjs/core';
-import { debounce } from '@zionbuilder/utils'
-import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
+import { ref, computed, onMounted } from "vue";
+import { getDefaultOptions } from "../options";
+import { merge } from "lodash-es";
+import { createPopper } from "@popperjs/core";
+import { debounce } from "@zionbuilder/utils";
+import { getZindex, removeZindex } from "@zionbuilder/z-index-manager";
 
-let preventOutsideClickPropagation = false
+let preventOutsideClickPropagation = false;
 
 export default {
 	inheritAttrs: false,
-	name: 'Tooltip',
+	name: "Tooltip",
 	props: {
 		tag: {
-			default: 'div'
+			default: "div",
 		},
 		/**
 		 * The content that will be placed inside tooltip
@@ -57,7 +57,7 @@ export default {
 		content: {
 			type: String,
 			required: false,
-			default: null
+			default: null,
 		},
 		/**
 		 * If the tooltip will be visible by default
@@ -65,7 +65,7 @@ export default {
 		show: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		/**
 		 * If the tooltip will be visible when you hover the element
@@ -73,7 +73,7 @@ export default {
 		showOnMouseEnter: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		/**
 		 * Time in miliseconds until the tooltip is visible
@@ -81,7 +81,7 @@ export default {
 		openDelay: {
 			type: Number,
 			required: false,
-			default: 10
+			default: 10,
 		},
 		/**
 		 * Time in miliseconds until the tooltip is closed after the mouse leaves the tooltip trigger
@@ -89,7 +89,7 @@ export default {
 		closeDelay: {
 			type: Number,
 			required: false,
-			default: 10
+			default: 10,
 		},
 		/**
 		 * If the tooltip should remain active if the user enters it's container
@@ -97,7 +97,7 @@ export default {
 		enterable: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		/**
 		 * Time in miliseconds until the tooltip is auto hidden
@@ -105,7 +105,7 @@ export default {
 		hideAfter: {
 			type: Number,
 			required: false,
-			default: null
+			default: null,
 		},
 		/**
 		 * Show tooltip arrows or not
@@ -113,13 +113,13 @@ export default {
 		showArrows: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		/**
 		 * Append to specific element. This uses document.querySelector. By default, the tooltip will be appended to the first child
 		 */
 		appendTo: {
-			required: false
+			required: false,
 		},
 		/**
 		 * Popper trigger. Can be click, hover or even null if you want to manually controll the popper visibility
@@ -127,7 +127,7 @@ export default {
 		trigger: {
 			type: String,
 			required: false,
-			default: 'hover'
+			default: "hover",
 		},
 		/**
 		 * When clicked outside tooltip, it closes
@@ -135,7 +135,7 @@ export default {
 		closeOnOutsideClick: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		/**
 		 * tooltip closes on Esc key
@@ -143,7 +143,7 @@ export default {
 		closeOnEscape: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		/**
 		 * Popper refference
@@ -151,16 +151,16 @@ export default {
 		popperRef: {
 			type: Object,
 			required: false,
-			default () {
-				return null
-			}
+			default() {
+				return null;
+			},
 		},
 		/**
 		 * Transition name
 		 */
 		transition: {
 			type: String,
-			required: false
+			required: false,
 		},
 		/**
 		 * Class for animation on enter
@@ -168,7 +168,7 @@ export default {
 		enterActiveClass: {
 			type: String,
 			required: false,
-			default: ''
+			default: "",
 		},
 		/**
 		 * Class for animation on leave
@@ -176,188 +176,202 @@ export default {
 		leaveActiveClass: {
 			type: String,
 			required: false,
-			default: ''
+			default: "",
 		},
 		/**
 		 * Custom Class
 		 */
 		tooltipClass: {
 			type: String,
-			required: false
-		}
+			required: false,
+		},
 	},
 	setup(props) {
-		const root = ref(null)
-		const popperSelector = ref(null)
-		const ownerDocument = ref(null)
+		const root = ref(null);
+		const popperSelector = ref(null);
+		const ownerDocument = ref(null);
 
 		return {
 			popperSelector,
 			root,
-			ownerDocument
-		}
+			ownerDocument,
+		};
 	},
-	data () {
+	data() {
 		return {
 			visible: !!this.show,
 			showTimeout: null,
 			hideTimeout: null,
 			hideAfterTimeout: null,
-			zIndex: null
-		}
+			zIndex: null,
+		};
 	},
 	watch: {
-		hideAfter (newValue) {
+		hideAfter(newValue) {
 			if (newValue) {
-				this.onHideAfter()
+				this.onHideAfter();
 			}
 		},
-		show (newValue, oldValue) {
-			this.visible = !!newValue
+		show(newValue, oldValue) {
+			this.visible = !!newValue;
 		},
-		visible (newValue, oldvalue) {
+		visible(newValue, oldvalue) {
 			if (!!newValue !== !!oldvalue) {
 				if (newValue) {
-					this.zIndex = getZindex()
+					this.zIndex = getZindex();
 				} else {
-					removeZindex()
+					removeZindex();
 				}
 			}
-		}
+		},
 	},
 	computed: {
-		getStyle () {
+		getStyle() {
 			return {
-				'z-index': this.zIndex
-			}
+				"z-index": this.zIndex,
+			};
 		},
-		popperProps () {
-			const props: { enterActiveClass?: string, leaveActiveClass?: string } = {}
+		popperProps() {
+			const props: {
+				enterActiveClass?: string;
+				leaveActiveClass?: string;
+			} = {};
 
 			if (this.enterActiveClass) {
-				props.enterActiveClass = this.enterActiveClass
+				props.enterActiveClass = this.enterActiveClass;
 			}
 
 			if (this.leaveActiveClass) {
-				props.leaveActiveClass = this.leaveActiveClass
+				props.leaveActiveClass = this.leaveActiveClass;
 			}
 
-			return props
+			return props;
 		},
-		popperOptions () {
-			const options = JSON.parse(JSON.stringify(getDefaultOptions()))
-			return merge(options, this.$attrs)
+		popperOptions() {
+			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
+			return merge(options, this.$attrs);
 		},
-		appendToOption () {
-			const options = JSON.parse(JSON.stringify(getDefaultOptions()))
-			return this.appendTo || options.appendTo
-		}
+		appendToOption() {
+			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
+			return this.appendTo || options.appendTo;
+		},
 	},
 	methods: {
-		preventOutsideClickPropagation () {
-			preventOutsideClickPropagation = true
+		preventOutsideClickPropagation() {
+			preventOutsideClickPropagation = true;
 		},
-		onTransitionEnter () {
-			this.instantiatePopper()
-			this.$emit('show')
-			this.$emit('update:show', true)
+		onTransitionEnter() {
+			this.instantiatePopper();
+			this.$emit("show");
+			this.$emit("update:show", true);
 		},
-		onTransitionLeave () {
-			this.destroyPopper()
-			this.$emit('hide')
-			this.$emit('update:show', false)
+		onTransitionLeave() {
+			this.destroyPopper();
+			this.$emit("hide");
+			this.$emit("update:show", false);
 		},
-		getAppendToElement () {
-			if (this.appendToOption === 'element') {
-				return this.$el
+		getAppendToElement() {
+			if (this.appendToOption === "element") {
+				return this.$el;
 			} else {
 				// Get content document
-				return this.ownerDocument.querySelector(this.appendToOption)
+				return this.ownerDocument.querySelector(this.appendToOption);
 			}
 		},
-		showPopper () {
-			this.visible = true
+		showPopper() {
+			this.visible = true;
 		},
-		hidePopper () {
-			this.visible = false
+		hidePopper() {
+			this.visible = false;
 		},
-		addPopperToDom () {
-			if (this.popperElement && this.appendToOption !== 'element') {
+		addPopperToDom() {
+			if (this.popperElement && this.appendToOption !== "element") {
 				// Append to
-				const appendElement = this.getAppendToElement()
+				const appendElement = this.getAppendToElement();
 
 				if (!appendElement) {
 					// eslint-disable-next-line
-					console.warn(`No HTMLElement was found matching ${appendElement}`)
-					return
+					console.warn(
+						`No HTMLElement was found matching ${appendElement}`
+					);
+					return;
 				}
 
-				appendElement.appendChild(this.popperElement)
+				appendElement.appendChild(this.popperElement);
 			}
 		},
-		destroyPopper (completeRemove) {
+		destroyPopper(completeRemove) {
 			if (this.visible && !completeRemove) {
-				return
+				return;
 			}
 
-			this.visible = false
+			this.visible = false;
 			if (this.popperInstance) {
-				this.popperInstance.destroy()
-				this.popperInstance = null
+				this.popperInstance.destroy();
+				this.popperInstance = null;
 			}
 
-			this.removePopperEvents()
+			this.removePopperEvents();
 
-			if (this.popperElement && this.appendToOption !== 'element') {
+			if (
+				this.popperElement &&
+				this.popperElement.parentNode &&
+				this.appendToOption !== "element"
+			) {
 				// Append to
-				this.popperElement.parentNode.removeChild(this.popperElement)
+				this.popperElement.parentNode.removeChild(this.popperElement);
 			}
 
-			this.popperElement = null
-			preventOutsideClickPropagation = false
+			this.popperElement = null;
+			preventOutsideClickPropagation = false;
 		},
-		instantiatePopper () {
-			this.popperElement = this.$refs.popper
-			this.popperSelector = this.popperRef || this.root
-			this.ownerDocument = this.popperSelector.ownerDocument || this.root.ownerDocument
+		instantiatePopper() {
+			this.popperElement = this.$refs.popper;
+			this.popperSelector = this.popperRef || this.root;
+			this.ownerDocument =
+				this.popperSelector.ownerDocument || this.root.ownerDocument;
 
 			// We cannot use teleport as we need to get the document from ref
-			this.addPopperToDom()
+			this.addPopperToDom();
 
 			if (this.popperInstance && this.popperInstance.destroy) {
-				this.popperInstance.destroy()
-				this.popperInstance = null
+				this.popperInstance.destroy();
+				this.popperInstance = null;
 			}
 
 			if (this.popperSelector) {
-				this.popperInstance = createPopper(this.popperSelector, this.popperElement, this.popperOptions)
+				this.popperInstance = createPopper(
+					this.popperSelector,
+					this.popperElement,
+					this.popperOptions
+				);
 			}
 
-			this.onHideAfter()
-			this.addPopperEvents()
+			this.onHideAfter();
+			this.addPopperEvents();
 		},
-		onMouseEnter (event) {
+		onMouseEnter(event) {
 			if (!this.showOnMouseEnter) {
-				return
+				return;
 			}
 
-			clearTimeout(this.timeout)
+			clearTimeout(this.timeout);
 			this.timeout = setTimeout(() => {
-				this.showPopper()
-			}, this.openDelay)
+				this.showPopper();
+			}, this.openDelay);
 		},
-		onMouseLeave (event) {
-			clearTimeout(this.timeout)
+		onMouseLeave(event) {
+			clearTimeout(this.timeout);
 			this.timeout = setTimeout(() => {
-				this.hidePopper()
-			}, this.closeDelay)
+				this.hidePopper();
+			}, this.closeDelay);
 		},
-		onHideAfter () {
+		onHideAfter() {
 			if (this.hideAfter) {
-				clearTimeout(this.timeout)
+				clearTimeout(this.timeout);
 				this.timeout = setTimeout(() => {
-					this.hidePopper()
-				}, this.hideAfter)
+					this.hidePopper();
+				}, this.hideAfter);
 			}
 		},
 		/**
@@ -368,90 +382,131 @@ export default {
 		 * inside a label
 		 */
 		onClick: debounce(function (event) {
-			this.visible = !this.visible
+			this.visible = !this.visible;
 		}, 10),
-		onOutsideClick (event) {
+		onOutsideClick(event) {
 			// Allow tooltip creators to prevent all clickoutside handlers
 			setTimeout(() => {
 				// Hide popper if clicked outside
-				if (this.visible && !preventOutsideClickPropagation && !this.$el.contains(event.target) && this.popperElement && !this.popperElement.contains(event.target)) {
-					this.hidePopper()
-					preventOutsideClickPropagation = false
+				if (
+					this.visible &&
+					!preventOutsideClickPropagation &&
+					!this.$el.contains(event.target) &&
+					this.popperElement &&
+					!this.popperElement.contains(event.target)
+				) {
+					this.hidePopper();
+					preventOutsideClickPropagation = false;
 				}
-			}, 0)
+			}, 0);
 		},
-		onKeyDown (event) {
+		onKeyDown(event) {
 			if (event.which === 27) {
-				this.hidePopper()
-				event.stopPropagation()
+				this.hidePopper();
+				event.stopPropagation();
 			}
 		},
-		scheduleUpdate () {
+		scheduleUpdate() {
 			if (this.popperInstance) {
-				this.popperInstance.update()
+				this.popperInstance.update();
 			}
 		},
-		addPopperEvents () {
+		addPopperEvents() {
 			if (this.closeOnOutsideClick) {
-				this.ownerDocument.addEventListener('click', this.onOutsideClick, true)
+				this.ownerDocument.addEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
 			}
 
-			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
-				this.popperElement.addEventListener('mouseenter', this.onMouseEnter)
-				this.popperElement.addEventListener('mouseleave', this.onMouseLeave)
+			if (
+				this.trigger === "hover" &&
+				this.enterable &&
+				this.popperElement
+			) {
+				this.popperElement.addEventListener(
+					"mouseenter",
+					this.onMouseEnter
+				);
+				this.popperElement.addEventListener(
+					"mouseleave",
+					this.onMouseLeave
+				);
 			}
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.ownerDocument.addEventListener('keydown', this.onKeyDown)
+				this.ownerDocument.addEventListener("keydown", this.onKeyDown);
 			}
 		},
-		removePopperEvents () {
+		removePopperEvents() {
 			if (this.ownerDocument) {
-				this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
+				this.ownerDocument.removeEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
 			}
 
-			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
-				this.popperElement.removeEventListener('mouseenter', this.onMouseEnter)
-				this.popperElement.removeEventListener('mouseleave', this.onMouseLeave)
+			if (
+				this.trigger === "hover" &&
+				this.enterable &&
+				this.popperElement
+			) {
+				this.popperElement.removeEventListener(
+					"mouseenter",
+					this.onMouseEnter
+				);
+				this.popperElement.removeEventListener(
+					"mouseleave",
+					this.onMouseLeave
+				);
 			}
 
 			// Attache close on escape
 			if (this.closeOnEscape && this.ownerDocument) {
-				this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+				this.ownerDocument.removeEventListener(
+					"keydown",
+					this.onKeyDown
+				);
 			}
-		}
+		},
 	},
-	unmounted () {
+	unmounted() {
 		// Remove event listeners
-		this.$el.removeEventListener('mouseenter', this.onMouseEnter)
-		this.$el.removeEventListener('mouseleave', this.onMouseLeave)
-		this.$el.removeEventListener('click', this.onClick)
+		this.$el.removeEventListener("mouseenter", this.onMouseEnter);
+		this.$el.removeEventListener("mouseleave", this.onMouseLeave);
+		this.$el.removeEventListener("click", this.onClick);
 
 		if (this.ownerDocument) {
-			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true)
-			this.ownerDocument.removeEventListener('keydown', this.onKeyDown)
+			this.ownerDocument.removeEventListener(
+				"click",
+				this.onOutsideClick,
+				true
+			);
+			this.ownerDocument.removeEventListener("keydown", this.onKeyDown);
 		}
 
 		// Destroy popper instance
-		this.destroyPopper(true)
+		this.destroyPopper(true);
 		if (this.show) {
-			removeZindex()
+			removeZindex();
 		}
 	},
-	mounted () {
-		if (this.trigger === 'hover') {
-			this.$el.addEventListener('mouseenter', this.onMouseEnter)
-			this.$el.addEventListener('mouseleave', this.onMouseLeave)
-		} else if (this.trigger === 'click') {
-			this.$el.addEventListener('click', this.onClick)
+	mounted() {
+		if (this.trigger === "hover") {
+			this.$el.addEventListener("mouseenter", this.onMouseEnter);
+			this.$el.addEventListener("mouseleave", this.onMouseLeave);
+		} else if (this.trigger === "click") {
+			this.$el.addEventListener("click", this.onClick);
 		}
 
 		if (this.show) {
-			this.zIndex = getZindex()
+			this.zIndex = getZindex();
 		}
-	}
-}
+	},
+};
 </script>
 
 <style lang="scss">
