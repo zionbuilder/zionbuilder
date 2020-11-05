@@ -15,6 +15,7 @@
 
 		<Element
 			v-for="childElement in contentModel"
+			:key="childElement.uid"
 			:element="childElement"
 			:uid="childElement.uid"
 			:data="childElement"
@@ -126,7 +127,6 @@ export default {
 			}
 		})
 		const showAddElementsPopup = computed(() => contentModel.length > 0 && showColumnTemplates.value)
-		const insertIndex = computed(() => contentModel.length)
 		const groupInfo = computed(() => props.group || defaultSortableGroup)
 		const getSortableAxis = computed(() => {
 			if (props.element.element_type === 'contentRoot') {
@@ -162,7 +162,6 @@ export default {
 			contentModel,
 			groupInfo,
 			getSortableAxis,
-			insertIndex,
 			showAddElementsPopup,
 			sharedState,
 			toggleAddElementsPopup,
