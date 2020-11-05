@@ -117,6 +117,7 @@ export class Element {
 		this.isHighlighted = false
 	}
 
+
 	addChild (element: Element | string | Object, index = -1) {
 		let uid = null
 		let elementInstance = null
@@ -134,16 +135,19 @@ export class Element {
 		}
 
 		// Set the parent
+		index = index === -1 ? this.content.length : index
 		elementInstance.parentUid = this.uid
 		this.content.splice(index, 0, uid)
 	}
 
-	addChildren (elements) {
-		let index = 0
+	addChildren (elements, index = -1) {
 		each(elements, (element) => {
 			this.addChild(element, index)
-			index++
 		})
+	}
+
+	getIndexInParent () {
+		return this.parent.content.indexOf(this.uid)
 	}
 
 	removeChild(elementUID: string) {

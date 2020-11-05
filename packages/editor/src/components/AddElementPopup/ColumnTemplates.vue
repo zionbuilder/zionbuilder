@@ -169,7 +169,8 @@ export default {
 			if (props.element.isWrapper || props.element.element_type === 'contentRoot') {
 				props.element.addChildren(config)
 			} else {
-				props.element.parent.addChildren(config)
+				const index = props.element.getIndexInParent() + 1
+				props.element.parent.addChildren(config, index)
 			}
 
 			// Send close event
