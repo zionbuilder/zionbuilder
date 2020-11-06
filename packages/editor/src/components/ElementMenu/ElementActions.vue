@@ -173,9 +173,6 @@ export default {
 		...mapActions([
 			'setCopiedClasses',
 		]),
-		triggerRename () {
-			this.element.rename()
-		},
 		copyElementClasses () {
 			const elementClasses = this.element.options._classes
 			this.setCopiedClasses(elementClasses)

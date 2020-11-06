@@ -23,6 +23,13 @@ export default {
 			default: null
 		}
 	},
+	watch: {
+		active (newVal) {
+			if (newVal) {
+				this.activate()
+			}
+		}
+	},
 	methods: {
 		/**
 		 * Activates the name change input
@@ -60,14 +67,26 @@ export default {
 	bottom: 0;
 	width: 35px;
 	height: calc(100% - 2px);
-	background: linear-gradient(-90deg, $surface-variant 0%, rgba($surface-variant, .3) 100%);
+	background: linear-gradient(
+	-90deg,
+	$surface-variant 0%,
+	rgba($surface-variant, .3) 100%
+	);
 }
 
 .znpb-panel-item--hovered .znpb-utility__text--elipse::after {
-	background: linear-gradient(-90deg, darken($surface-variant, 3%) 0%, rgba(darken($surface-variant, 3%), .3) 100%);
+	background: linear-gradient(
+	-90deg,
+	darken($surface-variant, 3%) 0%,
+	rgba(darken($surface-variant, 3%), .3) 100%
+	);
 }
 
 .znpb-panel-item--active .znpb-utility__text--elipse::after {
-	background: linear-gradient(-90deg, $secondary 0%, rgba($secondary, .3) 100%);
+	background: linear-gradient(
+	-90deg,
+	$secondary 0%,
+	rgba($secondary, .3) 100%
+	);
 }
 </style>
