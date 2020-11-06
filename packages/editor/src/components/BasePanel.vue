@@ -170,7 +170,8 @@ export default {
 			const panels = this.openPanels.forEach(panel => {
 				orders.push(panel.panelPos)
 			})
-			orders.push(this.getIframeOrder)
+
+			orders.push(this.getIframeOrder())
 			return orders
 		},
 		panelsAndIframe () {
@@ -178,7 +179,7 @@ export default {
 			this.openPanels.forEach(panel => {
 				panels[panel.id] = panel.panelPos
 			})
-			panels['znpb-editor-iframe'] = this.getIframeOrder
+			panels['znpb-editor-iframe'] = this.getIframeOrder()
 			return panels
 		},
 		filteredOpenedPanels () {
@@ -188,11 +189,11 @@ export default {
 					panels[panel.id] = panel.panelPos
 				}
 			})
-			panels['znpb-editor-iframe'] = this.getIframeOrder
+			panels['znpb-editor-iframe'] = this.getIframeOrder()
 			return panels
 		},
 		panelPosition () {
-			return this.panel.panelPos > this.getIframeOrder ? 'right' : 'left'
+			return this.panel.panelPos > this.getIframeOrder() ? 'right' : 'left'
 		},
 		hasHeaderSlot () {
 			return !!this.$slots['header']
@@ -221,7 +222,7 @@ export default {
 			classes += this.cssClass ? this.cssClass : ''
 			classes += this.touchesTop ? ' znpb-editor-panel--top' : ''
 			if (!this.panel.isDetached) {
-				classes += this.panel.panelPos > this.getIframeOrder ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
+				classes += this.panel.panelPos > this.getIframeOrder() ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
 			}
 			return classes
 		}
