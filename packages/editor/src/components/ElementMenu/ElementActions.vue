@@ -44,7 +44,7 @@
 		<li
 			class="znpb-right-click__menu-item"
 			@click="element.rename()"
-			v-if="showRename"
+			v-if="actions.rename"
 		>
 			<Icon icon="edit"></Icon>
 			{{$translate('rename_element')}}
@@ -127,28 +127,40 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
-import { useCopyElementStyles, useSavePage, usePanels, useEditElement, useElementFocus, useCopyCutPasteElement } from '@data'
+import {
+	useCopyElementStyles,
+	useSavePage,
+	usePanels,
+	useEditElement,
+	useElementFocus,
+	useCopyCutPasteElement,
+	useSaveTemplate
+} from '@data'
 
 export default {
 	name: 'ElementActions',
 	props: {
-		showRename: {
-			type: Boolean,
-			required: false,
-			default: true
+		actions: {
+			type: Object,
+			required: false
 		},
 		element: {
 			type: Object,
 			required: true
 		}
 	},
-	setup () {
+	setup (props) {
 		const { openPanel } = usePanels()
 		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
 		const { focusedElement } = useElementFocus()
 		const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
+
+		const actions = {
+			rename: true,
+			...props.actions
+		}
 
 		return {
 			copyElementStyles,
@@ -161,7 +173,8 @@ export default {
 			copyElement,
 			pasteElement,
 			copiedElement,
-			resetCopiedElement
+			resetCopiedElement,
+			actions
 		}
 	},
 	computed: {
@@ -195,11 +208,11 @@ export default {
 			this.close()
 		},
 		saveElement () {
+			const { showSaveElement } = useSaveTemplate()
+
+			showSaveElement(this.element, 'block')
+
 			this.close()
-			trigger('save-element', {
-				elementUid: this.element.uid,
-				parentUid: this.element.parentUid
-			})
 		},
 		close () {
 			this.$emit('close', false)

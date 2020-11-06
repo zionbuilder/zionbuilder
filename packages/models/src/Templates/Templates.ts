@@ -12,7 +12,6 @@ export default class Templates extends Collection {
 
 	addTemplate(data) {
 		this.models.push(data)
-
 	}
 	fetchTemplates(data) {
 		this.models = data

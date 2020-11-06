@@ -188,7 +188,9 @@ export default {
 		 */
 		const showElementMenu = function (event) {
 			const { showElementMenuFromEvent } = useElementMenu()
-			showElementMenuFromEvent(props.element, event)
+			showElementMenuFromEvent(props.element, event, {
+				rename: false
+			})
 		}
 
 		const onElementClick = (event) => {
