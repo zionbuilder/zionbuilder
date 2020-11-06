@@ -127,7 +127,6 @@ export default {
 			const { element, type } = this.activeSaveElement
 			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : [element.toJSON()]
 			const templateType = type === 'template' ? 'template' : 'block'
-console.log(this.$zb);
 
 			// save template
 			this.loading = true

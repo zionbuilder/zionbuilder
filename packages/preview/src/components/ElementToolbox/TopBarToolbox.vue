@@ -61,6 +61,9 @@ import { translate } from '@zb/i18n'
 // Components
 import { trigger } from '@zb/hooks'
 
+// Composables
+import { useEditElement } from '@zb/editor'
+
 export default {
 	name: 'TopBarToolbox',
 	props: {
@@ -70,6 +73,7 @@ export default {
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
+		const { editElement } = useEditElement()
 
 		function toggleOpen () {
 			topBarOpen.value = !topBarOpen.value
@@ -85,7 +89,7 @@ export default {
 		}
 
 		function openOptionsPanel () {
-			// TODO: implement edit element
+			editElement(props.element)
 		}
 
 		function emitEventbus (event) {
@@ -99,7 +103,7 @@ export default {
 		const actions = [
 			{
 				title: translate('edit_element'),
-				action: 'openOptionsPanel',
+				action: openOptionsPanel,
 				icon: 'edit'
 			},
 			{
