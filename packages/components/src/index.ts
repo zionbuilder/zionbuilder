@@ -49,6 +49,7 @@ import { Sortable } from '@zionbuilder/sortable'
 export * as utils from '@utils'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
+import { getDefaultGradient } from './utils'
 export * from '@data'
 
 
@@ -121,7 +122,8 @@ const components = [
 	InputTextAlign,
 	InputTextTransform,
 	OptionsForm,
-	OptionWrapper
+	OptionWrapper,
+	getDefaultGradient
 ]
 
 const install = (app: App) => {
@@ -199,5 +201,6 @@ export {
 	InputTextAlign,
 	InputTextTransform,
 	OptionsForm,
-	OptionWrapper
+	OptionWrapper,
+	getDefaultGradient
 }

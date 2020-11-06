@@ -104,10 +104,9 @@ export default {
 			}
 		])
 
-		Promise.all([
-			getTemplates()
-		]).then((values) => {
-			$zb.templates.add(values[0].data)
+
+		getTemplates().then((values) => {
+			$zb.templates.fetchTemplates(values.data)
 			localtemplates.value = $zb.templates.models
 		}).catch(error => {
 			hasError = true
@@ -132,7 +131,10 @@ export default {
 				showModal.value = false
 				loading.value = true
 				$zb.templates.addTemplate(template)
-
+			})
+			getTemplates().then((values) => {
+				$zb.templates.fetchTemplates(values.data)
+				localtemplates.value = $zb.templates.models
 			}).finally(() => {
 				loading.value = false
 			})
