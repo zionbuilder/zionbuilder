@@ -80,15 +80,15 @@ export default {
 		},
 		onSyncClick () {
 			this.loadingSync = true
-			Promise.all([
-				getTemplates()
-			]).then((values) => {
+			getTemplates().then((values) => {
+				this.$zb.templates.fetchTemplates(values.data)
 			}).catch(error => {
 				this.loadingSync = false
 				console.error('error', error.message)
-			}).finally(() => {
-				this.loadingSync = false
 			})
+				.finally(() => {
+					this.loadingSync = false
+				})
 
 		}
 	}
