@@ -52,8 +52,8 @@
 						append-to="element"
 						tag="span"
 						:content="$translate('library_insert_tooltip')"
-						placement="top"
 						:modifiers="[{name: 'offset',options: {	offset: [0, 10]}}]"
+						placement="top"
 						strategy="fixed"
 					>
 						<Button
@@ -146,18 +146,17 @@
 </template>
 
 <script>
-import { getTemplates, addTemplate, getLibraryItems } from '@zb/rest'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { mapActions } from 'vuex'
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
-import { computed, inject, provide, ref, nextTick, watch } from 'vue'
+
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
 import { usePanels, useLibraryElements } from '@data'
-import { translate } from '@zb/i18n'
-import localSt from 'localstorage-ttl'
+
+
 export default {
 	name: 'LibraryModal',
 	components: {
@@ -171,27 +170,84 @@ export default {
 		}
 	},
 	setup (props) {
-		const $zb = inject('$zb')
 		const { togglePanel } = usePanels()
-		const templateUploaded = ref(false)
-		const insertItemLoading = ref(false)
-		const activeItem = ref(null)
-		const previewOpen = ref(false)
-		const zionActive = ref(true)
-		const localActive = ref(false)
-		const fullSize = ref(false)
-		const showMaximize = ref(false)
-		const multiple = ref(false)
-		const importActive = ref(false)
-		const libLoading = ref(false)
-		const localItems = ref([])
-
 		const { elementInsertConfig } = useLibraryElements()
 
-		const computedTitle = computed(() => {
-			previewOpen.value ? activeItem.value.post_title : translate('import')
-		})
+		return {
+			togglePanel,
+			elementInsertConfig
+		}
+	},
+	data () {
+		return {
+			libLoading: false,
+			importActive: false,
+			multiple: false,
+			showMaximize: false,
+			fullSize: false,
+			localActive: false,
+			zionActive: true,
+			previewOpen: false,
+			activeItem: null,
+			insertItemLoading: false,
+			templateUploaded: false
+		}
+	},
+	watch: {
+		fullSize (newVal) {
+			if (newVal) {
+				this.showMaximize = newVal
+			} else this.showMaximize = this.fullSize
+		}
 
+	},
+	computed: {
+		computedTitle () {
+			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
+		}
+
+	},
+	mounted () {
+		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
+	},
+	methods: {
+		...mapActions([
+			'insertElements'
+		]),
+		onTemplateUpload () {
+			this.importActive = false
+			this.localActive = true
+			this.templateUploaded = true
+
+			this.$nextTick(() => {
+				this.$refs.localLibraryContent.getDataFromServer()
+			})
+		},
+		insertLibraryItem () {
+			this.insertItemLoading = true
+			this.insertItem(this.activeItem).then(() => {
+				this.insertItemLoading = false
+			})
+		},
+
+		onRefresh () {
+			this.templateUploaded = false
+
+			this.localActive ? this.$refs.localLibraryContent.getDataFromServer(true) : this.$refs.libraryContent.getDataFromServer(false)
+		},
+		closeBody () {
+			if (this.multiple && this.previewOpen) {
+				this.previewOpen = false
+			} else {
+				this.previewOpen = false
+				this.multiple = false
+				this.importActive = false
+			}
+		},
+		activatePreview (item) {
+			this.activeItem = item
+			this.previewOpen = true
+		},
 
 		/**
 		 * Insert item
@@ -201,7 +257,7 @@ export default {
 		 * Will add the page custom css and js
 		 * Will add the custom css classes used for element
 		 */
-		const insertItem = (item) => {
+		insertItem (item) {
 			return new Promise((resolve, reject) => {
 				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
@@ -217,7 +273,7 @@ export default {
 					Object.keys(newElements.childElements).forEach(index => {
 						const element = newElements.childElements[index]
 						const oldUid = element.uid
-						const newElementConfig = resetUidForElement(element, uidMap)
+						const newElementConfig = this.resetUidForElement(element, uidMap)
 
 						// Set the proper child elements with resetted UIDs
 						childElements[newElementConfig.uid] = newElementConfig
@@ -228,7 +284,7 @@ export default {
 					})
 
 					// Get the element where we need to insert the template
-					const { parentUid = 'contentRoot', index = -1 } = elementInsertConfig.value
+					const { parentUid = 'contentRoot', index = -1 } = this.elementInsertConfig.value
 					this.insertElements({
 						parentUid,
 						index,
@@ -237,21 +293,13 @@ export default {
 					})
 
 					resolve(true)
-					togglePanel('PanelLibraryModal')
+					this.togglePanel('PanelLibraryModal')
 				}).catch((error) => {
 					reject(error)
 				})
 			})
-		}
-		provide('templateUploaded', templateUploaded)
-		provide('insertItem', insertItem)
-
-		function activatePreview (item) {
-			activeItem.value = item
-			previewOpen.value = true
-		}
-
-		function resetUidForElement (element, uidMap) {
+		},
+		resetUidForElement (element, uidMap) {
 			// Generate new uid for element
 			let newUid
 
@@ -288,111 +336,6 @@ export default {
 
 			return element
 		}
-
-		function onRefresh () {
-			templateUploaded.value = false
-			localActive.value ? localgetDataFromServer(true) : LibrarygetDataFromServer(false)
-		}
-
-		function localgetDataFromServer (force = false) {
-			libLoading.value = true
-			return Promise.all([getTemplates()]).then((values) => {
-				if (!localItems.value.length) {
-					$zb.templates.add(values[0].data)
-				}
-				localItems.value = $zb.templates.models
-
-			}).finally(() => {
-				libLoading.value = false
-			})
-		}
-
-		const cachedData = localSt.get('znpbLibraryCache')
-		if (cachedData === null) {
-			LibrarygetDataFromServer()
-		}
-
-		function LibrarygetDataFromServer (useCache = true) {
-			libLoading.value = true
-			return getLibraryItems().then((response) => {
-				const { data = {} } = response
-				const { categories = {}, items = [] } = data
-				localSt.set('znpbLibraryCache', {
-					categories,
-					items
-				}, 604800000)
-			})
-				.finally(() => {
-					libLoading.value = false
-				})
-		}
-		provide('localgetDataFromServer', localgetDataFromServer)
-		provide('localItems', localItems)
-
-		return {
-			togglePanel,
-			libLoading,
-			importActive,
-			multiple,
-			showMaximize,
-			fullSize,
-			localActive,
-			zionActive,
-			previewOpen,
-			activeItem,
-			insertItemLoading,
-			templateUploaded,
-			activatePreview,
-			insertItem,
-			onRefresh,
-			localgetDataFromServer
-		}
-	},
-	watch: {
-		fullSize (newVal) {
-			if (newVal) {
-				this.showMaximize = newVal
-			} else this.showMaximize = this.fullSize
-		}
-
-	},
-	mounted () {
-		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-	},
-	methods: {
-		...mapActions([
-			'insertElements'
-		]),
-		onTemplateUpload () {
-			this.importActive = false
-			this.localActive = true
-			this.templateUploaded = true
-
-			// this.$nextTick(() => {
-			// 	this.$refs.localLibraryContent.getDataFromServer()
-			// })
-		},
-		insertLibraryItem () {
-			this.insertItemLoading = true
-			this.insertItem(this.activeItem).then(() => {
-				this.insertItemLoading = false
-			})
-		},
-
-
-		closeBody () {
-			if (this.multiple && this.previewOpen) {
-				this.previewOpen = false
-			} else {
-				this.previewOpen = false
-				this.multiple = false
-				this.importActive = false
-			}
-		},
-		activatePreview (item) {
-			this.activeItem = item
-			this.previewOpen = true
-		},
 	},
 	beforeUnmount () {
 		removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
