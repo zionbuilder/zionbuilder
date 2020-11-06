@@ -1,15 +1,16 @@
 <template>
 	<Modal
-		v-model:show="showExportModal"
 		:title="$translate('save_to_library')"
 		append-to="body"
 		:width="560"
 		:show-maximize="true"
 		class="znpb-modal-save-element"
+		v-if="activeSaveElement.type"
+		:show="true"
 	>
 		<div class="znpb-modal-save-element-wrapper">
 			<OptionsForm
-				v-model="model"
+				v-model="formModel"
 				:schema="optionsSchema"
 			/>
 
@@ -44,7 +45,8 @@
 </template>
 
 <script>
-import { useElements, useTemplateParts, useEditorData } from '@data'
+import { reactive, inject } from 'vue'
+import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@data'
 import { saveAs } from 'file-saver'
 import { mapActions } from 'vuex'
 import { exportTemplate } from '@zb/rest'
@@ -53,33 +55,30 @@ import { on, off } from '@zb/hooks'
 
 export default {
 	name: 'SaveElementModal',
-	props: {
-		template: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
-	},
 	setup () {
+		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
 		const { getElement } = useElements()
 		const { getTemplatePart } = useTemplateParts()
 		const { template_categories } = useEditorData()
+		const formModel = reactive({})
+		const $zb = inject('$zb')
+
 		return {
 			getElement,
 			getTemplatePart,
-			template_categories
+			template_categories,
+			activeSaveElement,
+			showSaveElement,
+			hideSaveElement,
+			formModel
 		}
 	},
 
 	data () {
 		return {
-			savedCategory: null,
-			showExportModal: false,
-			uid: null,
 			loading: false,
 			loadingMessage: false,
-			errorMessage: '',
-			model: {}
+			errorMessage: ''
 		}
 	},
 
@@ -114,14 +113,7 @@ export default {
 			}
 		}
 	},
-	created () {
-		if (this.template) {
-			on('save-template', this.onSavetemplate)
-		} else on('save-element', this.onSaveElement)
-	},
 	beforeUnmount () {
-		off('save-element', this.onSaveElement)
-		off('save-template', this.onSavetemplate)
 		this.loadingMessage = ''
 		this.errorMessage = ''
 	},
@@ -130,21 +122,26 @@ export default {
 			'addTemplate',
 			'updateTemplateCategories'
 		]),
-		async saveElement () {
+
+		saveElement () {
+			const { element, type } = this.activeSaveElement
+			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : [element.toJSON()]
+			const templateType = type === 'template' ? 'template' : 'block'
+console.log(this.$zb);
+
 			// save template
 			this.loading = true
 			this.loadingMessage = ''
 			this.errorMessage = ''
-			const compiledElementData = (this.template) ? await this.getTemplatePart('content').toJSON() : [this.getElement(this.uid).toJSON()]
-			let templateType = (this.template) ? 'template' : 'block'
 
-			this.addTemplate({
-				title: this.model.title,
+			this.$zb.templates.addTemplate({
+				title: this.formModel.title,
+				template_category: this.formModel.category,
 				template_type: templateType,
-				template_category: this.model.category,
 				template_data: compiledElementData
 			}).then((response) => {
 				this.loadingMessage = this.$translate('template_was_added')
+
 				if (response.data.template_category.length > 0) {
 					let addedCat = response.data.template_category[0]
 					const found = this.templateCategoriesOption.findIndex(cat => cat.id === addedCat.slug)
@@ -176,21 +173,24 @@ export default {
 				})
 		},
 
-		async downloadElement () {
-			const compiledElementData = (this.template) ? await this.getTemplatePart('content').toJSON() : this.getElement(this.uid).toJSON()
+		downloadElement () {
+			const { element, type } = this.activeSaveElement
+			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : element.toJSON()
+			const templateType = type === 'template' ? 'template' : 'block'
 
-			let templateType = (this.template) ? 'template' : 'block'
 			this.loading = true
 			this.loadingMessage = ''
 			this.errorMessage = ''
+
 			exportTemplate({
-				title: this.model.title,
+				title: this.formModel.title,
+				template_category: this.formModel.category,
 				template_type: templateType,
-				template_category: this.model.category,
 				template_data: compiledElementData
 			})
 				.then((response) => {
-					const fileName = this.model.title.length > 0 ? this.model.title : 'export'
+					const fileName = this.formModel.title && this.formModel.title.length > 0 ? this.formModel.title : 'export'
+
 					var blob = new Blob([response.data], { type: 'application/zip' })
 					saveAs(blob, `${fileName}.zip`)
 					this.loadingMessage = ''
@@ -199,19 +199,11 @@ export default {
 					if (typeof error.response.data === 'string') {
 						this.errorMessage = error.response.data
 					} else this.errorMessage = this.arrayBufferToString(error.response.data)
-					this.model = {}
 				})
 				.finally(() => {
 					this.loading = false
-					this.model = {}
+					this.formModel = {}
 				})
-		},
-		onSaveElement (event) {
-			this.uid = event.detail.elementUid
-			this.showExportModal = true
-		},
-		onSavetemplate (event) {
-			this.showExportModal = true
 		},
 		decode_utf8 (s) {
 			let obj = JSON.parse(s)

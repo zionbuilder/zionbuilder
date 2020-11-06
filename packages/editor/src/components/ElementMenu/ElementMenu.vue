@@ -18,6 +18,7 @@
 				@click.stop="hideElementMenu"
 				@changename="$emit('changename',true), showOptions=false"
 				:element="activeElementMenu.element"
+				:actions="activeElementMenu.actions"
 			/>
 		</template>
 	</Tooltip>

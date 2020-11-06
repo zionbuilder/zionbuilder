@@ -111,7 +111,7 @@
 			</Modal>
 
 			<!-- <ModalTour ref="modalTour" /> -->
-			<SaveElementModal :template="true" />
+			<SaveElementModal />
 
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
 				<template v-slot:panel-icon>
