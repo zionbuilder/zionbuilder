@@ -28,21 +28,35 @@
 // Utils
 import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
-
+import { useElements } from '@zb/editor'
+import { computed } from 'vue'
 export default {
 	name: 'ServerComponent',
-	inject: {
-		elementInfo: {
-			from: 'elementInfo',
-			default: () => { }
-		}
-	},
+
 	props: {
+		element: Object,
 		options: {
 			type: Object
 		},
 		data: {
 			type: Object
+		}
+	},
+	setup (props) {
+		const { getElement } = useElements()
+		const contentModel = computed({
+			get () {
+				return props.element.content.map(elementUID => {
+					return getElement(elementUID)
+				})
+			},
+			set (value) {
+				props.element.content = value.map(element => element.uid)
+			}
+		})
+
+		return {
+			contentModel
 		}
 	},
 	data () {
@@ -54,7 +68,7 @@ export default {
 	},
 	computed: {
 		requiresDataForRender () {
-			const elementModel = this.getElementModel()
+			const elementModel = this.contentModel
 			const { _styles, _advanced_options: advancedOptions, ...options } = this.options
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
 		},
@@ -63,9 +77,7 @@ export default {
 		}
 	},
 	methods: {
-		getElementModel () {
-			return this.elementInfo.elementModel
-		},
+
 		getElementFromServer () {
 			this.loading = true
 			getElementRender(this.data).then((response) => {
