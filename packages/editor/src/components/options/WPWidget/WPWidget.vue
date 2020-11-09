@@ -111,6 +111,10 @@ export default {
 			margin-bottom: 15px;
 		}
 	}
+
+	.widget-inside {
+		display: block;
+	}
 }
 .widget-content {
 	input[type="text"], input[type="number"], select {
