@@ -20,8 +20,7 @@
 <script>
 import { getOptionsForm } from '@zb/rest'
 import { serialize } from 'dom-form-serializer'
-import { vue } from 'vue'
-import { useEditElement, useElementProvide } from '@data'
+import { useEditElement } from '@data'
 
 export default {
 	name: 'WPWidget',
@@ -34,19 +33,10 @@ export default {
 		element_type: {
 			type: String,
 			required: true
-		},
-		data: {
-			type: Object
 		}
 	},
 	setup (props) {
 		const { element } = useEditElement()
-		const { injectElement } = useElementProvide()
-
-
-		injectElement(element)
-
-
 		return {
 			element
 		}

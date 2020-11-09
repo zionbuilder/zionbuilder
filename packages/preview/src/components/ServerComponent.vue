@@ -28,8 +28,7 @@
 // Utils
 import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
-import { useElements } from '@zb/editor'
-import { computed } from 'vue'
+
 export default {
 	name: 'ServerComponent',
 
@@ -43,17 +42,8 @@ export default {
 		}
 	},
 	setup (props) {
-		const { getElement } = useElements()
-		const contentModel = computed({
-			get () {
-				return props.element.content.map(elementUID => {
-					return getElement(elementUID)
-				})
-			},
-			set (value) {
-				props.element.content = value.map(element => element.uid)
-			}
-		})
+		const contentModel = props.element.elementTypeModel
+
 
 		return {
 			contentModel
