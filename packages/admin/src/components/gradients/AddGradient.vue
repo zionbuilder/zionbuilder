@@ -5,17 +5,8 @@
 	</div>
 </template>
 <script>
-import { Icon } from '@zb/components'
-
 export default {
-	name: 'AddGradient',
-	data () {
-		return {
-		}
-	},
-	components: {
-		Icon
-	}
+	name: 'AddGradient'
 }
 
 </script>
