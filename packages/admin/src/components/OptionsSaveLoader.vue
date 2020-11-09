@@ -10,21 +10,19 @@
 </template>
 
 <script>
-
+import { useBuilderOptions } from '@zionbuilder/composables'
 import { Icon } from '@zb/components'
 
 export default {
 	name: 'OptionsSaveLoader',
-	data () {
-		return {
-		}
-	},
 	components: {
 		Icon
 	},
-	computed: {
-		isLoading () {
-			return this.$zb.options.isLoading()
+	setup() {
+		const { isLoading } = useBuilderOptions()
+
+		return {
+			isLoading
 		}
 	}
 }

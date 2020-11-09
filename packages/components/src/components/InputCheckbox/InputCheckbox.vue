@@ -7,11 +7,11 @@
 			type="checkbox"
 			aria-hidden="true"
 			:disabled="disabled"
+			:value="optionValue"
 			v-model="model"
-			:modelValue="optionValue"
 			class="znpb-form__input-checkbox"
 			@change="onChange"
-		>
+		/>
 		<span
 			class="znpb-checkmark"
 			:class="{ 'znpb-checkmark--rounded' : rounded }"
@@ -92,7 +92,7 @@ export default {
 				this.isLimitExceeded = false
 				const allowUnselect = this.parentGroup.allowUnselect
 
-				if (this.isInGroup) {
+				if (Array.isArray(newValue)) {
 					this.isLimitExceeded = false
 					// Check if minimum limit is meet
 					if (this.parentGroup.min !== undefined && newValue.length < this.parentGroup.min) {
