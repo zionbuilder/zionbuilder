@@ -103,9 +103,7 @@
 							ref="input"
 						>
 							<template v-slot:suffix>
-								<div
-									class="znpb-baseselect__trigger-icon"
-								>
+								<div class="znpb-baseselect__trigger-icon">
 									<Icon
 										icon="select"
 										:rotate="expanded ? '180' : false"
@@ -129,9 +127,7 @@
 					:font-family="style_type === 'font-select' ? selected : null"
 				>
 					<template v-slot:suffix>
-						<div
-							class="znpb-baseselect__trigger-icon"
-						>
+						<div class="znpb-baseselect__trigger-icon">
 							<Icon
 								icon="select"
 								:rotate="expanded ? '180' : false"
@@ -276,8 +272,9 @@ export default {
 			if (newValue) {
 				if (!this.multiple) {
 					this.$nextTick(() => {
+
 						if (this.optionIndex) {
-							this.$refs.dropdown.scrollTop = this.$refs.filteredOptions[this.optionIndex].offsetTop
+							this.$refs.dropdown.scrollTop = this.$refs.filteredOptions.offsetTop
 						}
 					})
 				}
@@ -333,22 +330,22 @@ export default {
 						this.optionIndex = 0
 						optionsContainer.scrollTop = 0
 					}
-					if (optionsElements[this.optionIndex].offsetTop > optionsContainer.scrollTop + this.containerHeight - 39) {
+					if (optionsElements.offsetTop > optionsContainer.scrollTop + this.containerHeight - 39) {
 						optionsContainer.scrollTop += 39
 					}
 				}
 				if (event.key === 'ArrowUp') {
 					if (this.optionIndex === null) {
 						this.optionIndex = this.options.length - 1
-						optionsContainer.scrollTop = optionsElements[this.optionIndex].offsetTop
+						optionsContainer.scrollTop = optionsElements.offsetTop
 					} else {
 						this.optionIndex--
 					}
 					if (this.optionIndex < 0) {
 						this.optionIndex = this.options.length - 1
-						optionsContainer.scrollTop = optionsElements[this.optionIndex].offsetTop + 39
+						optionsContainer.scrollTop = optionsElements.offsetTop + 39
 					}
-					if (optionsElements[this.optionIndex].offsetTop < optionsContainer.scrollTop) {
+					if (optionsElements.offsetTop < optionsContainer.scrollTop) {
 						optionsContainer.scrollTop -= 39
 					}
 				}
