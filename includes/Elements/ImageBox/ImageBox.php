@@ -193,8 +193,8 @@ class ImageBox extends Element {
 						'id'   => 'h3',
 					],
 					[
-						'name' => __( 'h3', 'zionbuilder' ),
-						'id'   => 'h3',
+						'name' => __( 'h4', 'zionbuilder' ),
+						'id'   => 'h4',
 					],
 					[
 						'name' => __( 'h5', 'zionbuilder' ),

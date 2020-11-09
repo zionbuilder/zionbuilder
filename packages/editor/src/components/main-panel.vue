@@ -82,6 +82,22 @@
 				</FlyoutMenuItem>
 			</FlyoutWrapper>
 			<Modal
+				:width="840"
+				v-model:show="tourVisibility"
+				:title="$translate('getting_started')"
+				append-to="#znpb-main-wrapper"
+				class="znpb-helpmodal-wrapper"
+			>
+				<iframe
+					width="840"
+					height="100%"
+					src="https://www.youtube.com/embed/rQ_2lUyhCAY"
+					frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen
+				></iframe>
+			</Modal>
+			<Modal
 				v-model:show="shortcutsModalVisibility"
 				:width="560"
 				:title="$translate('key_shortcuts')"
@@ -155,7 +171,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+
 import SaveElementModal from './SaveElementModal.vue'
 import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
@@ -186,6 +202,7 @@ export default {
 	data: function () {
 		return {
 			showModal: false,
+			tourVisibility: true,
 			aboutModalVisibility: false,
 			helpModalVisibility: false,
 			shortcutsModalVisibility: false,
@@ -247,15 +264,14 @@ export default {
 
 		helpMenuItems () {
 			let helpArray = [
-				// {
-				// 	title: this.$translate('help'),
-				// 	action: this.showHelpModal
-				// },
-				// {
-				// 	title: this.$translate('tour'),
-				// 	action: this.showTour,
-				// 	canShow: this.pageCont !== undefined && this.pageCont.length === 0
-				// },
+				{
+					title: this.$translate('help'),
+					action: this.showHelpModal
+				},
+				{
+					title: this.$translate('tour'),
+					action: this.showTour
+				},
 				{
 					title: this.$translate('key_shortcuts'),
 					action: this.showShortcutsModal
@@ -318,10 +334,19 @@ export default {
 			}
 		}
 	},
+	created () {
+		const finishedTour = localStorage.getItem('zion_builder_guided_tour_done')
+		if (finishedTour !== null) {
+			this.tourVisibility = false
+		} else {
+			localStorage.setItem('zion_builder_guided_tour_done', false)
+			this.tourVisibility = true
+		}
+	},
 	methods: {
-		...mapActions([
-			'setActiveShowElementsPopup',
-		]),
+		// ...mapActions([
+		// 	'setActiveShowElementsPopup',
+		// ]),
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')
@@ -355,10 +380,10 @@ export default {
 			this.aboutModalVisibility = true
 		},
 		showTour () {
-			localStorage.setItem('zion_builder_guided_tour_done', false)
-			this.$refs.modalTour.show()
 
-			this.setActiveShowElementsPopup(null)
+			// this.$refs.modalTour.show()
+			this.tourVisibility = true
+			// this.setActiveShowElementsPopup(null)
 		},
 		showHelpModal () {
 			this.helpModalVisibility = true
