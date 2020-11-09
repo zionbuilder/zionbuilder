@@ -89,7 +89,6 @@ export default {
 				return this.modelValue !== undefined ? this.modelValue : false
 			},
 			set (newValue) {
-				console.log(newValue);
 				this.isLimitExceeded = false
 				const allowUnselect = this.parentGroup.allowUnselect
 

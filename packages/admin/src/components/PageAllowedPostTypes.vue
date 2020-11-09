@@ -40,12 +40,8 @@ export default {
 		const { getOptionValue, updateOptionValue, deleteOptionValue } = useBuilderOptions()
 
 		const allowedPostTypes = computed({
-			get () {
-				return getOptionValue('allowed_post_types')
-			},
-			set (newValue) {
-				updateOptionValue('allowed_post_types', newValue)
-			}
+			get: () => getOptionValue('allowed_post_types'),
+			set: (newValue) => updateOptionValue('allowed_post_types', newValue)
 		})
 		return {
 			dataSets,
