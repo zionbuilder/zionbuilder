@@ -28,59 +28,53 @@
 </template>
 
 <script>
-import { getGoogleFonts } from '@zb/rest'
+import { ref, computed } from 'vue'
+import { useGoogleFonts } from '@zionbuilder/composables'
+
+// Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue'
 import ListScroll from '../ListScroll.vue'
-// import { ref } from "vue"
 
 export default {
 	name: 'GoogleFontsModalContent',
+	components: {
+		GoogleFontModalElement,
+		ListScroll
+	},
 	props: {
 		activeFonts: {
 			type: Array,
 			required: true
 		}
 	},
-	data () {
-		return {
-			visibleFonts: [],
-			fontsList: [],
-			filteredList: [],
-			currentPage: 1,
-			fontsPerPage: 20,
-			keyword: '',
-			loading: false
-		}
-	},
-	computed: {
-		maxPages () {
-			return Math.ceil(this.filteredList.length / this.fontsPerPage)
-		}
-	},
-	components: {
-		GoogleFontModalElement,
-		ListScroll
-	},
-	created () {
-		// Set initial fonts
-		if (this.$zb.googleFonts.models.length) {
-			this.fontsList = this.$zb.googleFonts.models
-			this.filteredList = this.$zb.googleFonts.models
-		} else {
-			Promise.all([getGoogleFonts]).then((values) => {
-				this.fontsList = this.$zb.googleFonts.add(values[0].data)
-				this.filteredList = this.$zb.googleFonts.add(values[0].data)
-			}).finally(() => {
-				this.loading = false
-			})
-		}
+	setup (props) {
+		const { googleFonts } = useGoogleFonts()
+		const fontsPerPage = 20
 
+		const currentPage = ref(1)
+		const keyword = ref('')
+		const loading = ref(false)
+		const allFonts = computed(() => {
+			let fonts = googleFonts.value
 
-		this.visibleFonts = this.getfontsPage(1)
-	},
-	watch: {
-		// Update font link source
-		visibleFonts (newValue) {
+			if (keyword.value.length > 0) {
+				fonts = googleFonts.value.filter((font) => {
+					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1
+				})
+			}
+
+			return fonts
+		})
+
+		const visibleFonts = computed(() => {
+			const end = fontsPerPage * currentPage.value
+
+			return allFonts.value.slice(0, end)
+		})
+
+		const maxPages = computed(() => Math.ceil(allFonts.value.length / fontsPerPage))
+
+		watch(visibleFonts, (newValue) => {
 			let fontLink = document.getElementById('znpb-google-fonts-script')
 
 			let fontsSource = newValue.map((font) => {
@@ -103,39 +97,25 @@ export default {
 			}
 
 			fontLink.href = `https://fonts.googleapis.com/css?family=${fontsSource.join('|')}`
-		},
-		keyword (newValue) {
-			if (this.keyword.length > 3) {
-				this.loading = true
+		})
+
+		function onScrollEnd (event) {
+			if (currentPage.value !== maxPages.value) {
+				currentPage.value++
+				loading.value = true
+
+				// Fake loading
 				setTimeout(() => {
-					this.visibleFonts = this.getfontsPage(1)
-					this.loading = false
-					this.$refs.fontsContainer.scrollTo(0, 0)
+					loading.value = false
 				}, 300)
-				this.filteredList = this.fontsList.filter((font) => {
-					return font.family.toLowerCase().indexOf(this.keyword.toLowerCase()) !== -1
-				})
-			} else if (this.keyword.length === 0) {
-				this.filteredList = this.fontsList
-				this.visibleFonts = this.getfontsPage(1)
 			}
 		}
-	},
-	methods: {
-		onScrollEnd (event) {
-			if (this.currentPage !== this.maxPages) {
-				this.currentPage++
-				this.loading = true
-				setTimeout(() => {
-					this.visibleFonts.push(...this.getfontsPage(this.currentPage))
-					this.loading = false
-				}, 300)
-			}
-		},
-		getfontsPage (page) {
-			const start = this.fontsPerPage * page - this.fontsPerPage
-			const end = this.fontsPerPage * page
-			return this.filteredList.slice(start, end)
+
+		return {
+			visibleFonts,
+			keyword,
+			loading,
+			onScrollEnd
 		}
 	}
 }
