@@ -10,8 +10,7 @@ export class Notification {
 	}
 
 	remove () {
-		const { removeNotification } = useNotifications()
-
-		removeNotification(this)
+		const { remove } = useNotifications()
+		remove(this)
 	}
 }

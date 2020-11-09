@@ -67,16 +67,11 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
-import { Icon, Notice, Label } from '@zb/components'
-import { useDataSets } from '@zionbuilder/models'
 
 export default {
 	name: 'App',
 	components: {
-		Label,
-		OptionsSaveLoader,
-		Icon,
-		Notice
+		OptionsSaveLoader
 	},
 	setup (props) {
 		const router = useRouter()
