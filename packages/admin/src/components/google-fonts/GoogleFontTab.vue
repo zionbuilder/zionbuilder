@@ -63,12 +63,21 @@
 
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
+import { useGoogleFonts } from '@zionbuilder/composables'
 
 export default {
 	name: 'GoogleFontTab',
 	props: {
 		font: {
 			type: Object,
+		}
+	},
+	setup (props) {
+		const { getFontData } = useGoogleFonts()
+		const fontData = getFontData(props.font['font_family'])
+
+		return {
+			fontData
 		}
 	},
 	data () {
@@ -118,9 +127,6 @@ export default {
 			})
 
 			return subsets.join(', ')
-		},
-		fontData () {
-			return this.$zb.googleFonts.getFontData(this.font['font_family'])
 		},
 		fontVariantsOption () {
 			let options = []

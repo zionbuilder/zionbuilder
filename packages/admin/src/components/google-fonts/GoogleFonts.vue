@@ -84,7 +84,12 @@ export default {
 		GoogleFontsModalContent
 	},
 	setup (props) {
-		const { getOptionValue, updateOptionValue, deleteOptionValue } = useBuilderOptions()
+		const {
+			getOptionValue,
+			addGoogleFont,
+			removeGoogleFont,
+			updateGoogleFont
+		} = useBuilderOptions()
 		const showModal = ref(false)
 
 		let googleFonts = computed(() => {
@@ -98,26 +103,23 @@ export default {
 
 
 		function deleteFont (font) {
-			$zb.options.deleteOptionValue('google_fonts', font)
+			removeGoogleFont(font.font_family)
+			showModal.value = false
 		}
 
 		function onGoogleFontUpdated ({ font, value: newValue }) {
-			let key = { ...font }
-			updateOptionValue('google_fonts', { key, value: newValue })
+			updateGoogleFont(font.font_family, newValue)
 		}
+
 		function onGoogleFontAdded (font) {
-			$zb.options.addOptionValue('google_fonts', {
-				font_family: font.family,
-				font_variants: ['regular'],
-				font_subset: ['latin']
-			})
-			showModal.value = false
-		}
-		function onGoogleFontRemoved (font) {
-			$zb.options.deleteOptionValue('google_fonts', font)
+			addGoogleFont(font.family)
 			showModal.value = false
 		}
 
+		function onGoogleFontRemoved (font) {
+			removeGoogleFont(font)
+			showModal.value = false
+		}
 
 		return {
 			googleFonts,
@@ -129,7 +131,6 @@ export default {
 			showModal
 		}
 	}
-
 }
 </script>
 

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { getGoogleFonts } from '@zb/rest'
+import { getFontsDataSet } from '@zionbuilder/rest'
 
 const googleFonts = ref([])
 const fetchedOptions = ref(false)
@@ -16,9 +17,15 @@ export const useGoogleFonts = () => {
 		})
 	}
 
+	const getFontData = (family: String) => {
+		return googleFonts.value.find((font) => {
+			return font['family'] == family
+		})
+	}
 
 	return {
 		googleFonts,
-		fetchGoogleFonts
+		fetchGoogleFonts,
+		getFontData
 	}
 }
