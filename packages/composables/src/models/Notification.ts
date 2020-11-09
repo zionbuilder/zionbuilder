@@ -5,13 +5,13 @@ export class Notification {
 	public message: string = ''
 	public type: string = 'info'
 
-	constructor (data: Notification) {
+	constructor(data: Notification) {
 		Object.assign(this, data)
 	}
 
-	remove () {
-		const { removeNotification } = useNotifications()
+	remove() {
+		const { remove } = useNotifications()
 
-		removeNotification(this)
+		remove(this)
 	}
 }
