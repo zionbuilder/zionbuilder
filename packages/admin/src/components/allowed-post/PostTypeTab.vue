@@ -10,7 +10,9 @@
 </template>
 
 <script>
-import { computed, inject,} from 'vue'
+import { useBuilderOptions } from '@zionbuilder/composables'
+import { computed, inject } from 'vue'
+
 export default {
 	name: 'PostTypeTab',
 	props: {
@@ -20,6 +22,7 @@ export default {
 		}
 	},
 	setup (props) {
+		// const {  } = useBuilderOptions()
 		const $zb = inject('$zb')
 		let isActive = computed({
 				get: () => {

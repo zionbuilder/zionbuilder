@@ -185,6 +185,7 @@ import { trigger } from '@zb/hooks'
 import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData, useEditorInteractions, useHistory } from '@data'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
+import { useNotifications } from '@zionbuilder/composables'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -349,6 +350,7 @@ export default {
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')
+			const { add } = useNotifications()
 
 			if (!contentTemplatePart) {
 				console.error('Content template data not found.')
@@ -357,15 +359,16 @@ export default {
 
 			const pageContent = contentTemplatePart.toJSON()
 
+
 			savePage(pageContent, status).catch(error => {
-				this.$zb.errors.add({
+				add({
 					message: error.message,
 					type: 'error',
 					delayClose: 5000
 				})
 			}).finally(() => {
 				const noticeText = status
-				this.$zb.errors.add({
+				add({
 					message: status === 'publish' ? this.$translate('page_saved_publish') : this.$translate('page_saved'),
 					delayClose: 5000
 				}).then(() => {
