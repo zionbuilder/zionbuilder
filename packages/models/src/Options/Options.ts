@@ -59,7 +59,6 @@ export default class Options extends Model {
 	}
 
 	saveOptions() {
-
 		isLoading.value = true
 		return new Promise((resolve, reject) => {
 			saveOptions(this.options.value)

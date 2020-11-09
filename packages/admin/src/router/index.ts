@@ -7,7 +7,7 @@ import Colors from '../components/colors/Colors.vue'
 import Permissions from '../components/permissions/Permissions.vue'
 import TemplatePage from '../components/templates/TemplatePage.vue'
 import GoogleFonts from '../components/google-fonts/GoogleFonts.vue'
-import AllowedPostTypes from '../components/allowed-post/AllowedPostTypes.vue'
+import PageAllowedPostTypes from '../components/PageAllowedPostTypes.vue'
 import PageContent from '../components/PageContent.vue'
 import Gradients from '../components/gradients/Gradients.vue'
 import GetPro from '../components/GetPro.vue'
@@ -68,7 +68,7 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'allowed-post-types'
 		},
-		component: AllowedPostTypes,
+		component: PageAllowedPostTypes,
 		title: translate('general_settings'),
 		name: 'general-settings'
 	})
@@ -77,7 +77,7 @@ export const initRoutes = function () {
 		path: 'allowed-post-types',
 		name: 'allowed-post-types',
 		title: translate('allowed_post_types'),
-		component: AllowedPostTypes
+		component: PageAllowedPostTypes
 	})
 
 	const FontOptionsRoute = SettingsRoute.addRoute('font-options', {

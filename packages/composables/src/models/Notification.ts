@@ -11,6 +11,7 @@ export class Notification {
 
 	remove () {
 		const { remove } = useNotifications()
+
 		remove(this)
 	}
 }

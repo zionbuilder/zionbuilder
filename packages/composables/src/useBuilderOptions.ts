@@ -1,6 +1,8 @@
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
+import { get, update } from 'lodash-es'
 
+const isLoading: Ref<boolean> = ref(false)
 const fetchedOptions = ref(false)
 const options = ref({
 	allowed_post_types: ['post', 'page'],
@@ -32,8 +34,32 @@ export const useBuilderOptions = () => {
 		})
 	}
 
+	const getOptionValue = (optionId: string, defaultValue = null) => {
+		return get(options.value, optionId, defaultValue)
+	}
+
+	const updateOptionValue = (path: string, newValue: any, saveOptions = true) => {
+		update(options.value, path, () => newValue)
+
+		if (saveOptions) {
+			saveOptionsToDB()
+		}
+	}
+
+	const saveOptionsToDB = () => {
+		isLoading.value = true
+
+		return saveOptions(options.value).finally(() => {
+			isLoading.value = false
+		})
+	}
+
 	return {
 		fetchOptions,
-		options
+		getOptionValue,
+		updateOptionValue,
+		saveOptionsToDB,
+		options,
+		isLoading
 	}
 }
