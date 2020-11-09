@@ -19,12 +19,14 @@
 			</div>
 
 			<!-- Add Pagination -->
-			<div v-if="options.dots" class="swiper-pagination" ref="pagination"></div>
+			<div
+				v-if="options.dots"
+				class="swiper-pagination"
+				ref="pagination"
+			></div>
 
 			<!-- Arrows -->
-			<template
-				v-if="options.arrows"
-			>
+			<template v-if="options.arrows">
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 			</template>
@@ -103,7 +105,7 @@ export default {
 			}
 		}
 	},
-	beforeDestroy () {
+	beforeUnmount () {
 		if (this.slider) {
 			this.slider.destroy()
 		}
