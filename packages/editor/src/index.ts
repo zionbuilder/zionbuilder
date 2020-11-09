@@ -10,8 +10,9 @@ import { registerEditorOptions } from './components/options'
 import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
-import { createInstance } from './utils/events'
-import { Errors, Options, Templates } from '@zionbuilder/models'
+import { Options, Templates } from '@zionbuilder/models'
+import { useNotifications } from '@zionbuilder/composables'
+
 import {
 	TreeViewList,
 	TreeViewListItem
@@ -21,6 +22,9 @@ import {
 	WireframeListItem
 } from './components/treeView'
 import { useOptionsSchemas } from '@zb/components'
+
+// Exports
+export * from '@zionbuilder/composables'
 
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas()
@@ -33,7 +37,6 @@ registerEditorOptions()
 import App from './App.vue'
 
 // init data
-const errors = new Errors()
 const options = new Options()
 const templates = new Templates()
 const appInstance = createApp(App)
@@ -44,7 +47,7 @@ appInstance.use(ComponentsInstall)
 appInstance.use(store)
 
 // Add error interceptor for API
-errorInterceptor(errors)
+errorInterceptor(useNotifications())
 
 // Register nested components
 appInstance.component('TreeViewList', TreeViewList)
@@ -54,7 +57,6 @@ appInstance.component('WireframeListItem', WireframeListItem)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	errors,
 	options,
 	templates,
 	hooks,
@@ -70,7 +72,6 @@ const { registerElementComponent } = useElementTypes()
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
-	errors,
 	options,
 	templates,
 	registerElementComponent

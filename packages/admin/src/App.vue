@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-if="!loading"
+		v-if="loaded"
 		class="znpb-admin__wrapper"
 		id="znpb-admin"
 	>
@@ -52,76 +52,81 @@
 		<div class="znpb-admin-notices-wrapper">
 			<Notice
 				@close-notice="error.remove()"
-				v-for="(error, index) in $zb.errors.models"
+				v-for="(error, index) in notifications"
 				:error="error"
 				:key="index"
 			/>
+
 			<OptionsSaveLoader />
 		</div>
 	</div>
 </template>
 
 <script>
-
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 import { Icon, Notice, Label } from '@zb/components'
-import { getGoogleFonts } from '@zb/rest'
 import { useDataSets } from '@zionbuilder/models'
+
 export default {
 	name: 'App',
-	data () {
-		return {
-			loading: true,
-			hasError: false,
-			savingOptions: false
-		}
-	},
 	components: {
 		Label,
 		OptionsSaveLoader,
 		Icon,
 		Notice
 	},
-	computed: {
-		menuItems () {
+	setup (props) {
+		const router = useRouter()
+		const { fetchOptions } = useBuilderOptions()
+		const { fetchGoogleFonts } = useGoogleFonts()
+		const { notifications } = useNotifications()
+
+		const loaded = ref(false)
+		const hasError = ref(false)
+		const logoUrl = window.ZnPbAdminPageData.urls.logo
+		const version = window.ZnPbAdminPageData.plugin_version
+		const isPro = window.ZnPbAdminPageData.is_pro_active
+
+		const menuItems = computed(() => {
 			var routes = []
-			for (var i in this.$router.options.routes) {
-				if (!this.$router.options.routes.hasOwnProperty(i)) {
+			for (var i in router.options.routes) {
+				if (!router.options.routes.hasOwnProperty(i)) {
 					continue
 				}
-				var route = this.$router.options.routes[i]
+				var route = router.options.routes[i]
 				if (route.hasOwnProperty('title')) {
 					routes.push(route)
 				}
 			}
 
 			return routes
-		},
-		logoUrl () {
-			return window.ZnPbAdminPageData.urls.logo
-		},
-		version () {
-			return window.ZnPbAdminPageData.plugin_version
-		},
-		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
-		}
-	},
+		})
 
-	created () {
 		Promise.all([
-			getGoogleFonts(),
-			this.$zb.options.fetchOptions(),
-		]).then((values) => {
-			this.$zb.googleFonts.add(values[0].data)
-
-		}).catch(error => {
-			this.hasError = true
+			fetchGoogleFonts(),
+			fetchOptions(),
+		]).catch(error => {
+			hasError.value = true
 			// eslint-disable-next-line
 			console.error(error)
 		}).finally(() => {
-			this.loading = false
+			loaded.value = true
 		})
+
+		return {
+			// Data
+			notifications,
+			loaded,
+			hasError,
+			logoUrl,
+			version,
+			isPro,
+			// Computed
+			menuItems
+		}
 	}
 }
 </script>
@@ -160,8 +165,7 @@ export default {
 	input[type="number"] {
 		padding: 10.5px 12px;
 		background: transparent;
-
-// added to fix the arrows for mozilla firefox
+		// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}

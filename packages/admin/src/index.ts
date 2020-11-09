@@ -1,5 +1,6 @@
-import { createApp, ref } from 'vue'
+import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useNotifications } from '@zionbuilder/composables'
 
 import api from './api'
 import { initRoutes } from './router'
@@ -11,15 +12,17 @@ import App from './App.vue'
 import { errorInterceptor } from '@zionbuilder/rest'
 
 import { install as ComponentsInstall } from '@zb/components'
-import { install } from '@zionbuilder/i18n'
+import { install as I18nInstall } from '@zionbuilder/i18n'
 
 // Components
 import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
-import { Errors, Users, GoogleFonts, Options, Templates } from '@zionbuilder/models'
+import { Users, GoogleFonts, Options, Templates } from '@zionbuilder/models'
 
+// Exports
+export * from '@zionbuilder/composables'
 
 const appInstance = createApp(App)
 
@@ -30,9 +33,9 @@ appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 
 // Plugins
 appInstance.use(ComponentsInstall)
-appInstance.use({ install }, window.ZnPbAdminPageData.l10n)
+appInstance.use(I18nInstall, window.ZnPbAdminPageData.l10n)
 
-const errors = new Errors()
+const notifications = useNotifications()
 const users = new Users()
 const googleFonts = new GoogleFonts()
 const options = new Options()
@@ -40,7 +43,6 @@ const templates = new Templates()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	errors,
 	users,
 	googleFonts,
 	options,
@@ -48,12 +50,10 @@ appInstance.config.globalProperties.$zb = {
 }
 
 // Add error interceptor for API
-errorInterceptor(errors)
+errorInterceptor(notifications)
 
 // Add default routes
 initRoutes()
-
-
 
 // Trigger event so others can hook into ZionBuilder API
 const evt = new CustomEvent('zionbuilder/admin/init', {
@@ -72,7 +72,6 @@ appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 appInstance.mount('#znpb-admin')
 
 export {
-	errors,
 	users,
 	googleFonts,
 	options,

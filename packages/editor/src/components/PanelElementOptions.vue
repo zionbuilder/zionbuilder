@@ -64,11 +64,11 @@
 					/>
 				</Tab>
 				<Tab name="Advanced">
-					<!-- <OptionsForm
+					<OptionsForm
 						class="znpb-element-options-content-form"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
-					/> -->
+					/>
 				</Tab>
 				<Tab name="Search">
 					<template #title>

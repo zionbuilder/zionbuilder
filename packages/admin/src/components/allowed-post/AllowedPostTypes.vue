@@ -2,10 +2,16 @@
 	<PageTemplate>
 		<h3>{{$translate('allowed_post_types')}}</h3>
 		<div class="znpb-admin-posts-wrapper">
-			<PostTypeTab v-for="postType in dataSets.post_types" :post="postType"/>
+			<PostTypeTab
+				v-for="postType in dataSets.post_types"
+				:key="postType.id"
+				:post="postType"
+			/>
 		</div>
 		<template #right>
-			<p class="znpb-admin-info-p">{{$translate('set_allowed_types')}}</p>
+			<p class="znpb-admin-info-p">
+				{{$translate('set_allowed_types')}}
+			</p>
 		</template>
 	</PageTemplate>
 

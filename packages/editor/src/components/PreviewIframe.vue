@@ -59,6 +59,7 @@ import {
 	useWindows
 } from '@data'
 import { useResponsiveDevices } from '@zb/components'
+import { useNotifications } from '@zionbuilder/composables'
 
 export default {
 	name: 'preview-iframe',
@@ -143,11 +144,13 @@ export default {
 			this.showRecoverModal = false
 		},
 		useServerVersion () {
+
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
+				const { add } = useNotifications()
 
 				if (!contentWindow.ZnPbPreviewData) {
-					this.$zb.errors.add({
+					add({
 						message: this.$translate('page_content_error'),
 						type: 'error',
 						delayClose: 0

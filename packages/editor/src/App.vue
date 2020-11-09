@@ -59,7 +59,7 @@
 
 		<!-- notices -->
 		<Notice
-			v-for="(error) in $zb.errors.models"
+			v-for="(error) in notifications"
 			:key="error.message"
 			@close-notice="error.remove()"
 			:error="error"
@@ -142,6 +142,7 @@ import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
 import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@data'
 import { useResponsiveDevices } from '@zb/components'
+import { useNotifications } from '@zionbuilder/composables'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -161,6 +162,7 @@ export default {
 		ElementMenu
 	},
 	setup (props) {
+		const { notifications } = useNotifications()
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
@@ -171,6 +173,7 @@ export default {
 		const { getMainbarPosition } = useEditorInteractions()
 
 		return {
+			notifications,
 			panelPlaceholder,
 			openPanels,
 			activeResponsiveDeviceInfo,
@@ -280,9 +283,12 @@ export default {
 		window.removeEventListener('resize', this.onResize)
 	},
 	mounted () {
+		const { add } = useNotifications()
+
 		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
-		this.$zb.errors.add({
+
+		add({
 			message: this.$translate('autosave_notice'),
 			type: 'info',
 			delayClose: 5000
