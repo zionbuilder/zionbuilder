@@ -136,7 +136,9 @@ export default {
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
-			showAddElementsPopup(props.element, addElementsPopupButton)
+			showAddElementsPopup(props.element, addElementsPopupButton, {
+				placement: 'next'
+			})
 		}
 		const { isDragging } = useIsDragging()
 

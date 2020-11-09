@@ -122,14 +122,10 @@ export class Element {
 		let uid = null
 		let elementInstance = null
 
-		if (typeof element === 'string') {
-			elementInstance = getElement(element)
-			uid = element
-		} else if (element instanceof Element) {
+		if (element instanceof Element) {
 			elementInstance = element
 			uid = element.uid
 		} else {
-
 			elementInstance = registerElement(element, this.uid)
 			uid = elementInstance.uid
 		}

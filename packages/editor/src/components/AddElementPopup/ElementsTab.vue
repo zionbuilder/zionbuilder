@@ -98,18 +98,14 @@ export default {
 
 		// Methods
 		const onAddElement = (element) => {
-			const { hideAddElementsPopup } = useAddElementsPopup()
+			const { hideAddElementsPopup, insertElement } = useAddElementsPopup()
 
 			const config = {
 				element_type: element.element_type,
 				...element.extra_data
 			}
 
-			// If it's a wrapper, it means that it can have childs
-			const elementParent = props.element.isWrapper || props.element.element_type === 'contentRoot' ? props.element : props.element.parent
-			const index = props.element.getIndexInParent() + 1
-			elementParent.addChild(config, index)
-
+			insertElement(config)
 			hideAddElementsPopup()
 
 		}

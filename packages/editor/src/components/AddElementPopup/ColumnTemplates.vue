@@ -56,6 +56,7 @@ import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
 import { usePanels } from '@data'
+import { useAddElementsPopup } from '../../data'
 
 export default {
 	name: 'ColumnTemplates',
@@ -130,6 +131,7 @@ export default {
 
 		const addElements = (config) => {
 			const elementType = props.element.element_type
+			const { insertElement } = useAddElementsPopup()
 
 			// Add a section if this will be inserted on root
 			if (elementType === 'contentRoot') {
@@ -166,12 +168,7 @@ export default {
 			}
 
 			// If it's a wrapper, it means that it can have childs
-			if (props.element.isWrapper || props.element.element_type === 'contentRoot') {
-				props.element.addChildren(config)
-			} else {
-				const index = props.element.getIndexInParent() + 1
-				props.element.parent.addChildren(config, index)
-			}
+			insertElement(config)
 
 			// Send close event
 			emit('close')
