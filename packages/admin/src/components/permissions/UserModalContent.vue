@@ -60,16 +60,10 @@
 </template>
 
 <script>
-
-import { Tooltip, UpgradeToPro } from '@zb/components'
 import { useDataSets } from '@zb/components'
 
 export default {
 	name: 'UserModalContent',
-	components: {
-		UpgradeToPro,
-		Tooltip
-	},
 	setup () {
 		const { dataSets } = useDataSets()
 

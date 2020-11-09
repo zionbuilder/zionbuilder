@@ -43,10 +43,11 @@
 </template>
 
 <script>
+import { deleteTemplate } from '@zionbuilder/rest'
+
+// Components
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
-import { ModalConfirm, Modal, EmptyList } from '@zb/components'
-import { deleteTemplate } from '@zionbuilder/rest'
 
 export default {
 	name: 'TemplateList',
@@ -63,10 +64,7 @@ export default {
 	},
 	components: {
 		TemplateItem,
-		ModalTemplatePreview,
-		EmptyList,
-		Modal,
-		ModalConfirm
+		ModalTemplatePreview
 	},
 	computed: {
 		getLoadingItem () {

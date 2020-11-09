@@ -51,20 +51,18 @@
 	</PageTemplate>
 </template>
 <script>
+import { computed, inject, ref, reactive, watchEffect } from 'vue'
 import { getTemplates, addTemplate } from '@zionbuilder/rest'
+
+// Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
 import TemplateList from './TemplateList.vue'
-import { Button, Modal, Tabs, Tab } from '@zb/components'
-import { computed, inject, ref, reactive, watchEffect } from 'vue'
+
 export default {
 	name: 'TemplatePage',
 	components: {
-		Modal,
 		ModalAddNewTemplate,
-		TemplateList,
-		Button,
-		Tabs,
-		Tab
+		TemplateList
 	},
 	props: {
 		templateType: {

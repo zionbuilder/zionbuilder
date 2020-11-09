@@ -35,11 +35,8 @@
 </template>
 
 <script>
-
 import { searchUser } from '@zionbuilder/rest'
 import ModalListItem from './ModalListItem.vue'
-
-import { Loader } from '@zb/components'
 
 export default {
 	name: 'AddUserModalContent',
@@ -51,8 +48,7 @@ export default {
 		}
 	},
 	components: {
-		ModalListItem,
-		Loader
+		ModalListItem
 	},
 	computed: {
 		keyword: {

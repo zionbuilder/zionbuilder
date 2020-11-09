@@ -56,14 +56,9 @@
 
 <script>
 import { regenerateCache, getTemplates } from '@zionbuilder/rest'
-import { Button, Loader } from '@zb/components'
 
 export default {
 	name: 'ToolsPage',
-	components: {
-		Button,
-		Loader
-	},
 	data () {
 		return {
 			loadingSync: false,
@@ -71,7 +66,6 @@ export default {
 		}
 	},
 	methods: {
-
 		onRegenerateFilesClick () {
 			this.loading = true
 			regenerateCache().then(() => {

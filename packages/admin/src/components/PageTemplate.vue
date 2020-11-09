@@ -15,16 +15,13 @@
 		</div>
 	</div>
 </template>
-<script>
-import { Icon } from '@zb/components'
 
+<script>
 export default {
-	name: 'PageTemplate',
-	components: {
-		Icon
-	}
+	name: 'PageTemplate'
 }
 </script>
+
 <style lang="scss">
 .znpb-admin-content-wrapper {
 	display: flex;

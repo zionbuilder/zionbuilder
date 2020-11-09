@@ -26,13 +26,10 @@
 </template>
 
 <script>
-import { Icon } from '@zb/components'
 import { computed } from 'vue'
+
 export default {
 	name: 'GoogleFontModalElement',
-	components: {
-		Icon
-	},
 	props: {
 		font: {
 			type: Object,

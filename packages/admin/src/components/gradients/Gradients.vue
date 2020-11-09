@@ -57,21 +57,19 @@
 <script>
 
 import { computed, ref, inject, reactive } from 'vue'
-import GradientBox from './GradientBox.vue'
 import { getDefaultGradient } from '@zb/components'
+
+// Components
+import GradientBox from './GradientBox.vue'
 import GradientModalContent from './GradientModalContent.vue'
 import AddGradient from './AddGradient.vue'
-import { Tabs, Tab, UpgradeToPro } from '@zb/components'
 
 export default {
 	name: 'Gradients',
 	components: {
 		GradientBox,
 		AddGradient,
-		GradientModalContent,
-		UpgradeToPro,
-		Tabs,
-		Tab
+		GradientModalContent
 	},
 	setup (props, context) {
 		const $zb = inject('$zb')

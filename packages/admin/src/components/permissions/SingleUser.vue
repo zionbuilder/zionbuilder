@@ -27,16 +27,17 @@
 </template>
 
 <script>
+import { getUsersById } from '@zionbuilder/rest'
+
+// Components
 import UserModalContent from './UserModalContent.vue'
 import UserTemplate from './UserTemplate.vue'
-import { Modal } from '@zb/components'
-import { getUsersById } from '@zionbuilder/rest'
+
 export default {
 	name: 'SingleUser',
 	components: {
 		UserModalContent,
-		UserTemplate,
-		Modal
+		UserTemplate
 	},
 	props: {
 		permissions: {

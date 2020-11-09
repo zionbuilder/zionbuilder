@@ -34,14 +34,8 @@
 </template>
 
 <script>
-import { Icon, Tooltip } from '@zb/components'
-
 export default {
 	name: 'UserTemplate',
-	components: {
-		Icon,
-		Tooltip
-	},
 	props: {
 		permission: {
 			type: Number,

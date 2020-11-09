@@ -22,15 +22,8 @@
 </template>
 
 <script>
-import { GradientPreview, Icon, Tooltip } from '@zb/components'
-
 export default {
 	name: 'GradientBox',
-	components: {
-		GradientPreview,
-		Tooltip,
-		Icon
-	},
 	props: {
 		config: {
 			type: Array,

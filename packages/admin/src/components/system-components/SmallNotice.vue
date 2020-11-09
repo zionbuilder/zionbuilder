@@ -24,14 +24,8 @@
 </template>
 
 <script>
-import { Icon, Tooltip } from '@zb/components'
-
 export default {
 	name: 'SmallNotice',
-	components: {
-		Icon,
-		Tooltip
-	},
 	props: {
 		data: {
 			type: Object,

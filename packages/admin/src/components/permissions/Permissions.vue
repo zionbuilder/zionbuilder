@@ -74,24 +74,21 @@
 </template>
 
 <script>
+import { useDataSets } from '@zb/components'
+import { getUsersById } from '@zionbuilder/rest'
+import { useIsPro } from '@zionbuilder/models'
 
+// Components
 import SingleRole from './SingleRole.vue'
 import SingleUser from './SingleUser.vue'
 import AddUserModalContent from './AddUserModalContent.vue'
-import { Button, Loader, Modal, UpgradeToPro, useDataSets } from '@zb/components'
-import { getUsersById } from '@zionbuilder/rest'
-import { useIsPro } from '@zionbuilder/models'
 
 export default {
 	name: 'permissions',
 	components: {
 		SingleRole,
 		SingleUser,
-		AddUserModalContent,
-		UpgradeToPro,
-		Button,
-		Loader,
-		Modal
+		AddUserModalContent
 	},
 	setup () {
 		const { dataSets } = useDataSets()

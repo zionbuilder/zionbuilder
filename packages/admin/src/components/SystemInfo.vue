@@ -35,15 +35,13 @@ import SystemList from './system-components/SystemList.vue'
 import SystemPlugins from './system-components/SystemPlugins.vue'
 import CopyPasteServer from './system-components/CopyPasteServer.vue'
 import { getSystemInfo } from '@zionbuilder/rest'
-import { Loader } from '@zb/components'
 
 export default {
 	name: 'SystemInfo',
 	components: {
 		SystemList,
 		SystemPlugins,
-		CopyPasteServer,
-		Loader
+		CopyPasteServer
 	},
 	data () {
 		return {

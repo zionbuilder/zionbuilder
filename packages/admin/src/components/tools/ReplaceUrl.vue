@@ -65,16 +65,11 @@
 </template>
 
 <script>
-import { replaceUrl } from '@zionbuilder/rest'
-import { Icon, Button, Loader } from '@zb/components'
 import { ref, computed } from 'vue'
+import { replaceUrl } from '@zionbuilder/rest'
+
 export default {
 	name: 'ToolsPage',
-	components: {
-		Icon,
-		Button,
-		Loader
-	},
 	setup () {
 		const loading = ref(false)
 		const message = ref('')

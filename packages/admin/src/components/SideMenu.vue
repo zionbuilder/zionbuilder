@@ -23,7 +23,6 @@
 
 <script>
 import SideMenuItem from './SideMenuItem.vue'
-import { Label } from '@zb/components'
 
 export default {
 	name: 'SideMenu',
@@ -43,8 +42,7 @@ export default {
 		}
 	},
 	components: {
-		SideMenuItem,
-		Label
+		SideMenuItem
 	},
 	methods: {
 		isActive (path) {

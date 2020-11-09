@@ -70,27 +70,25 @@
 </template>
 
 <script>
+import { computed, inject, ref, reactive } from 'vue'
+import { useBuilderOptions } from '@zionbuilder/composables'
 
+// Components
 import GoogleFontTab from './GoogleFontTab.vue'
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue'
-import { Icon, Tooltip, Button, Modal } from '@zb/components'
-import { computed, inject, ref, reactive } from 'vue'
+
 export default {
 	name: 'GoogleFonts',
 	components: {
 		GoogleFontTab,
-		GoogleFontsModalContent,
-		Icon,
-		Tooltip,
-		Button,
-		Modal
+		GoogleFontsModalContent
 	},
 	setup (props) {
-		const $zb = inject('$zb')
+		const { getOptionValue, updateOptionValue, deleteOptionValue } = useBuilderOptions()
 		const showModal = ref(false)
 
 		let googleFonts = computed(() => {
-			return $zb.options.getOptionValue('google_fonts')
+			return getOptionValue('google_fonts')
 		})
 		let activeFontNames = computed(() => {
 			return googleFonts.value.map((font) => {
@@ -102,9 +100,10 @@ export default {
 		function deleteFont (font) {
 			$zb.options.deleteOptionValue('google_fonts', font)
 		}
+
 		function onGoogleFontUpdated ({ font, value: newValue }) {
 			let key = { ...font }
-			$zb.options.updateOptionValue('google_fonts', { key, value: newValue })
+			updateOptionValue('google_fonts', { key, value: newValue })
 		}
 		function onGoogleFontAdded (font) {
 			$zb.options.addOptionValue('google_fonts', {

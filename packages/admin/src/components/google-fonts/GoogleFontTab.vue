@@ -64,8 +64,6 @@
 <script>
 import HiddenContainer from '../HiddenContainer.vue'
 
-import { Icon, Tooltip, ModalConfirm } from '@zb/components'
-
 export default {
 	name: 'GoogleFontTab',
 	props: {
@@ -79,10 +77,7 @@ export default {
 		}
 	},
 	components: {
-		HiddenContainer,
-		Icon,
-		Tooltip,
-		ModalConfirm
+		HiddenContainer
 	},
 
 	computed: {

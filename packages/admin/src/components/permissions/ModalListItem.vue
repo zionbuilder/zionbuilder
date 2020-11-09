@@ -21,17 +21,10 @@
 </template>
 
 <script>
-
-import { Icon, Tooltip, Loader } from '@zb/components'
 import { saveOptions, getUsersById } from '@zionbuilder/rest'
 
 export default {
 	name: 'ModalListItem',
-	components: {
-		Icon,
-		Tooltip,
-		Loader
-	},
 	props: {
 		user: {
 			type: Object,

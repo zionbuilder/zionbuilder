@@ -16,13 +16,8 @@
 </template>
 
 <script>
-import { Loader } from '@zb/components'
-
 export default {
 	name: 'modal-template-preview',
-	components: {
-		Loader
-	},
 	props: {
 		frameUrl: {
 			type: String,

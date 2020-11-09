@@ -57,18 +57,13 @@
 	</div>
 </template>
 <script>
-import { ColorPicker, Icon, Tooltip } from '@zb/components'
-import clickOutside from '@zionbuilder/click-outside-directive'
 import { ref, watchEffect } from 'vue'
+import clickOutside from '@zionbuilder/click-outside-directive'
+
 export default {
 	name: 'ColorBox',
 	directives: {
 		clickOutside
-	},
-	components: {
-		ColorPicker,
-		Icon,
-		Tooltip
 	},
 	props: {
 		color: {
@@ -191,8 +186,7 @@ export default {
 		cursor: pointer;
 		&--transparent {
 			@include circlesimple(60px);
-
-@extend %opacitybg;
+			@extend %opacitybg;
 			margin-bottom: 18px;
 			box-shadow: 0 0 0 2px #e5e5e5;
 		}

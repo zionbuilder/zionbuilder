@@ -55,16 +55,11 @@
 
 import ColorBox from './ColorBox.vue'
 import { generateUID } from '@zionbuilder/utils'
-import { Tabs, Tab, UpgradeToPro } from '@zb/components'
-
 
 export default {
 	name: 'Colors',
 	components: {
-		ColorBox,
-		UpgradeToPro,
-		Tabs,
-		Tab
+		ColorBox
 	},
 	computed: {
 		isPro () {

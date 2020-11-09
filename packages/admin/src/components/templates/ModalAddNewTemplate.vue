@@ -46,14 +46,8 @@
 </template>
 
 <script>
-import { ModalTemplateSaveButton, InputSelect } from '@zb/components'
-
 export default {
 	name: 'ModalAddNewTemplate',
-	components: {
-		ModalTemplateSaveButton,
-		InputSelect
-	},
 	props: {
 		templateType: {
 			type: String,

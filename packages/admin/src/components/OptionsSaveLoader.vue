@@ -11,13 +11,9 @@
 
 <script>
 import { useBuilderOptions } from '@zionbuilder/composables'
-import { Icon } from '@zb/components'
 
 export default {
 	name: 'OptionsSaveLoader',
-	components: {
-		Icon
-	},
 	setup() {
 		const { isLoading } = useBuilderOptions()
 

@@ -16,14 +16,10 @@
 
 	</Modal>
 </template>
+
 <script>
-import { GradientGenerator, Modal } from '@zb/components'
 export default {
 	name: 'GradientModalContent',
-	components: {
-		GradientGenerator,
-		Modal
-	},
 	props: {
 		show: {
 			type: Boolean,
