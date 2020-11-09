@@ -1,9 +1,10 @@
 <template>
 	<div class="znpb-checkbox-wrapper">
+
 		<label
 			class="znpb-checkbox-wrapper__label"
-			:class="{[`znpb-checkbox--${this.model? 'checked' : 'unchecked'}`]: true}"
-			:content="this.model? $translate('yes') : $translate('no')"
+			:class="{[`znpb-checkbox--${model? 'checked' : 'unchecked'}`]: true}"
+			:content="model? $translate('yes') : $translate('no')"
 		>
 			<input
 				type="checkbox"
