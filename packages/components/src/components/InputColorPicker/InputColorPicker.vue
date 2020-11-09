@@ -9,31 +9,28 @@
 			class="znpb-colorpicker-circle  znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 		>
 			<template v-slot:trigger>
-				<span>
-					<span
-						:style="{backgroundColor: modelValue}"
-						class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
-					></span>
+				<span
+					:style="{backgroundColor: modelValue}"
+					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
+				></span>
 
-					<Icon
-						v-if="dynamicContentConfig"
-						icon="globe"
-						:rounded="true"
-						bg-color="#fff"
-						:bg-size="16"
-						:size="12"
-						class="znpb-colorpicker-circle__global-icon"
-					/>
+				<Icon
+					v-if="dynamicContentConfig"
+					icon="globe"
+					:rounded="true"
+					bg-color="#fff"
+					:bg-size="16"
+					:size="12"
+					class="znpb-colorpicker-circle__global-icon"
+				/>
 
-					<Tooltip
-						v-if="!modelValue"
-						placement="top"
-						strategy="fixed"
-						:content="$translate('no_color_chosen')"
-					>
-						<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
-					</Tooltip>
-				</span>
+				<Tooltip
+					v-if="!modelValue"
+					:content="$translate('no_color_chosen')"
+				>
+					<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
+				</Tooltip>
+
 			</template>
 		</Color>
 
@@ -70,8 +67,6 @@
 
 							<Tooltip
 								v-if="!modelValue"
-								placement="top"
-								strategy="fixed"
 								:content="$translate('no_color_chosen')"
 							>
 								<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
@@ -173,6 +168,9 @@ export default {
 			color: $surface-headings-color;
 		}
 	}
+}
+span.znpb-form-colorpicker__color-trigger:not(.znpb-colorpicker-circle--no-color) {
+	display: block;
 }
 
 .znpb-input-wrapper--inline.znpb-input-type--colorpicker > .znpb-input-content {
