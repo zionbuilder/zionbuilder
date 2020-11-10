@@ -2,7 +2,7 @@ import { generateUID } from '@zb/utils'
 import { each, update, get } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
-import { useElementFocus } from '../useElementFocus'
+import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
 
 const { registerElement, unregisterElement, getElement } = useElements()
@@ -12,9 +12,9 @@ export class Element {
 	// Element data for DB
 	public element_type: string = ''
 	public content: string[] = []
-	public uid:string = ''
+	public uid: string = ''
 	// Make it ref so we can watch it
-	public options: {[key: string]: any} = {}
+	public options: { [key: string]: any } = {}
 	// Helpers
 	public renderAttributes: RenderAttributes
 	public parentUid: string = ''
@@ -51,7 +51,7 @@ export class Element {
 		this.parentUid = parentUid
 	}
 
-	updateOptions (newValues)  {
+	updateOptions(newValues) {
 		this.options = newValues
 	}
 
@@ -63,62 +63,62 @@ export class Element {
 		update(this.options, path, () => newValue)
 	}
 
-	get isWrapper () {
+	get isWrapper() {
 		return this.elementTypeModel.wrapper
 	}
 
-	get elementTypeModel () {
+	get elementTypeModel() {
 		return getElementType(this.element_type)
 	}
 
-	get parent () {
+	get parent() {
 		return getElement(this.parentUid)
 	}
 
-	get name () {
+	get name() {
 		return get(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
 	}
 
-	set name (newName) {
+	set name(newName) {
 		update(this.options, '_advanced_options._element_name', () => newName)
 	}
 
 	// Element visibility
-	get isVisible () {
+	get isVisible() {
 		return get(this.options, '_isVisible', true)
 	}
 
-	set isVisible (visbility) {
+	set isVisible(visbility) {
 		update(this.options, '_isVisible', () => visbility)
 	}
 
-	get elementCssId () {
+	get elementCssId() {
 		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
-	rename () {
+	rename() {
 		this.activeElementRename = true
 	}
 
-	toggleVisibility () {
+	toggleVisibility() {
 		update(this.options, '_isVisible', () => !this.isVisible)
 	}
 
-	focus () {
-		const { focusElement } = useElementFocus()
+	focus() {
+		const { focusElement } = useElementActions()
 		focusElement(this)
 	}
 
-	highlight () {
+	highlight() {
 		this.isHighlighted = true
 	}
 
-	unHighlight () {
+	unHighlight() {
 		this.isHighlighted = false
 	}
 
 
-	addChild (element: Element | string | Object, index = -1) {
+	addChild(element: Element | string | Object, index = -1) {
 		let uid = null
 		let elementInstance = null
 
@@ -136,13 +136,13 @@ export class Element {
 		this.content.splice(index, 0, uid)
 	}
 
-	addChildren (elements, index = -1) {
+	addChildren(elements, index = -1) {
 		each(elements, (element) => {
 			this.addChild(element, index)
 		})
 	}
 
-	getIndexInParent () {
+	getIndexInParent() {
 		return this.parent.content.indexOf(this.uid)
 	}
 
@@ -151,7 +151,7 @@ export class Element {
 		this.content.splice(index, 1)
 	}
 
-	move (newParent: Element, index = -1) {
+	move(newParent: Element, index = -1) {
 		this.parent.removeChild(this.uid)
 		newParent.addChild(this.uid, index)
 	}
@@ -160,7 +160,7 @@ export class Element {
 	 * Duplicates the current element instance and replaces the UID's
 	 * for it and all it's nested elements
 	 */
-	duplicate () {
+	duplicate() {
 		const indexInParent = this.parent.content.indexOf(this.uid)
 		const elementAsJSON = this.getClone()
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
@@ -169,14 +169,14 @@ export class Element {
 	/**
 	 * Will delete the element and all it's childrens
 	 */
-	delete () {
+	delete() {
 		if (this.parent) {
 			this.parent.removeChild(this.uid)
 		}
 		unregisterElement(this.uid)
 	}
 
-	deleteChild (child: string | Element) {
+	deleteChild(child: string | Element) {
 		let element = null
 		if (typeof child === 'string') {
 			element = getElement(child)
@@ -191,7 +191,7 @@ export class Element {
 		}
 	}
 
-	toJSON(): {[key:string]: any} {
+	toJSON(): { [key: string]: any } {
 		const content = this.content.map(elementUID => {
 			const element = getElement(elementUID)
 
@@ -215,7 +215,7 @@ export class Element {
 		return elementData
 	}
 
-	getClone () {
+	getClone() {
 		const uid = generateUID()
 		const cloneConfig = JSON.parse(JSON.stringify({
 			uid,

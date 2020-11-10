@@ -50,7 +50,7 @@ import { each } from 'lodash-es'
 import {
 	useTemplateParts,
 	usePreviewLoading,
-	useElementFocus,
+	useElementActions,
 	useKeyBindings,
 	useElements,
 	useSavePage,
@@ -73,7 +73,7 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement, unFocusElement } = useElementFocus()
+		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveDraft } = useSavePage()
 		const { page_id: pageId } = useEditorData()

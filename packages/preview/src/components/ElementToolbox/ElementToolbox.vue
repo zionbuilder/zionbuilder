@@ -103,7 +103,7 @@ import { ref } from 'vue'
 import rafSchd from 'raf-schd'
 import { mapActions } from 'vuex'
 import { useWindows } from '@zb/editor'
-import { useAddElementsPopup, useElementFocus, useIsDragging } from '@zb/editor'
+import { useAddElementsPopup, useElementActions, useIsDragging } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 
 // Components
@@ -131,7 +131,7 @@ export default {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement } = useElementFocus()
+		const { focusedElement } = useElementActions()
 		const { addEventListener, removeEventListener } = useWindows()
 
 		const toggleAddElementsPopup = () => {

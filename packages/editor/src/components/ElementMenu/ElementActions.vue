@@ -128,12 +128,10 @@
 import { mapGetters, mapActions } from 'vuex'
 import { trigger } from '@zb/hooks'
 import {
-	useCopyElementStyles,
 	useSavePage,
 	usePanels,
 	useEditElement,
-	useElementFocus,
-	useCopyCutPasteElement,
+	useElementActions,
 	useSaveTemplate
 } from '@composables'
 
@@ -151,11 +149,10 @@ export default {
 	},
 	setup (props) {
 		const { openPanel } = usePanels()
-		const { copyElementStyles, pasteElementStyles, copiedElementStyles } = useCopyElementStyles()
+
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
-		const { focusedElement } = useElementFocus()
-		const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
+		const { focusedElement, copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, copiedElementStyles } = useElementActions()
 
 		const actions = {
 			rename: true,
