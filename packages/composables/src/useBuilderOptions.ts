@@ -1,12 +1,6 @@
 import { ref, Ref } from 'vue'
 import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
-import { get, update } from 'lodash-es'
-
-interface GoogleFontSavedItem {
-	font_family: string,
-	font_variants: string[],
-	font_subset: string[],
-}
+import { get, update, find } from 'lodash-es'
 
 const isLoading: Ref<boolean> = ref(false)
 const fetchedOptions = ref(false)
@@ -226,6 +220,34 @@ export const useBuilderOptions = () => {
 	}
 
 
+	const addUserPermissions = (user) => {
+		options.value.users_permissions[user.id] = {
+			allowed_access: true,
+			permissions: {
+				only_content: false,
+				features: [],
+				post_types: []
+			}
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editUserPermission = (userID, newValues) => {
+		options.value.users_permissions[userID] = newValues
+
+		saveOptionsToDB()
+	}
+
+	const deleteUserPermission = (userID) => {
+		delete options.value.users_permissions[userID]
+		saveOptionsToDB()
+	}
+
+	const getUserPermissions = (userID) => {
+		return options.value.users_permissions[userID]
+	}
+
 	return {
 		fetchOptions,
 		getOptionValue,
@@ -249,6 +271,7 @@ export const useBuilderOptions = () => {
 		addCustomFont,
 		updateCustomFont,
 		deleteCustomFont,
+
 		// Gradients
 		addLocalGradient,
 		deleteLocalGradient,
@@ -256,6 +279,12 @@ export const useBuilderOptions = () => {
 		addGlobalGradient,
 		deleteGlobalGradient,
 		editGlobalGradient,
+
+		// Permissions
+		addUserPermissions,
+		getUserPermissions,
+		deleteUserPermission,
+		editUserPermission,
 
 		// General
 		options,
