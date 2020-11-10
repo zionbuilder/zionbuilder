@@ -148,6 +148,34 @@ export const useBuilderOptions = () => {
 		}
 	}
 
+	const addCustomFont = (font) => {
+		options.value.custom_fonts.push(font)
+		saveOptionsToDB()
+	}
+
+	const updateCustomFont = (fontFamily: string, newValue: object) => {
+		const savedFont = options.value.custom_fonts.find(fontItem => fontItem.font_family === fontFamily)
+
+		if (savedFont) {
+			const fontIndex = options.value.custom_fonts.indexOf(savedFont)
+			options.value.custom_fonts.splice(fontIndex, 1, newValue)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const deleteCustomFont = (fontFamily: string) => {
+		const savedFont = options.value.custom_fonts.find(fontItem => fontItem.font_family === fontFamily)
+		if (savedFont) {
+			const fontIndex = options.value.custom_fonts.indexOf(savedFont)
+			options.value.custom_fonts.splice(fontIndex, 1)
+		} else {
+			console.warn('Font for deletion was not found')
+		}
+
+		saveOptionsToDB()
+	}
+
 
 	return {
 		fetchOptions,
@@ -167,6 +195,11 @@ export const useBuilderOptions = () => {
 		addGlobalColor,
 		deleteGlobalColor,
 		editGlobalColor,
+
+		//Custom Fonts
+		addCustomFont,
+		updateCustomFont,
+		deleteCustomFont,
 
 		// General
 		options,
