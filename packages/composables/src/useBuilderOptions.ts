@@ -15,7 +15,6 @@ const options = ref({
 	google_fonts: [],
 	custom_fonts: [],
 	typekit_token: '',
-	typekit_fonts: [],
 	local_colors: [],
 	global_colors: [],
 	local_gradients: [],
