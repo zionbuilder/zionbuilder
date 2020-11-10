@@ -226,10 +226,10 @@ export default {
 }
 .znpb-gradient-wrapper {
 	.znpb-gradient-elements-wrapper {
-		padding: 10px 0 0 0;
+		padding: 10px 15px 0;
 	}
 	.znpb-gradient-options-wrapper {
-		padding: 20px 0 0 0;
+		padding: 20px 15px;
 
 		.znpb-input-wrapper {
 			width: 100%;

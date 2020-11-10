@@ -3,16 +3,16 @@
 		<h3>{{$translate('gradients')}}</h3>
 		<Tabs
 			tab-style="minimal"
-			@changed-tab="activeLibrary=$event,activeGradientIndex=0 "
+			@changed-tab="activeLibrary=$event,activeGradient.value={}"
 		>
 			<Tab name="Local">
 				<div class="znpb-admin-gradient__container">
 					<GradientBox
-						v-for="(gradient, index) in getLocalGradients"
+						v-for="(gradient, index) in localGradients"
 						:key="index"
 						:config="gradient.config"
-						@delete-gradient="deleteGradientElement(gradient)"
-						@click="onGradientSelect(index)"
+						@delete-gradient="deleteLocalGradient(gradient)"
+						@click="onGradientSelect(gradient)"
 					/>
 
 					<AddGradient @click="onAddNewGradient" />
@@ -28,13 +28,13 @@
 				<template v-else>
 					<div class="znpb-admin-gradient__container">
 						<GradientBox
-							v-for="(gradient, index) in getGlobalGradients"
+							v-for="(gradient, index) in globalGradients"
 							:key="index"
 							:config="gradient.config"
-							@click="onGradientSelect(index)"
-							@delete-gradient="deleteGlobalGradientElement(gradient)"
+							@click="onGradientSelect(gradient)"
+							@delete-gradient="deleteGlobalGradient(gradient)"
 						/>
-						<AddGradient @click="onAddNewGlobalGradient" />
+						<AddGradient @click="onAddNewGradient" />
 					</div>
 				</template>
 
@@ -43,9 +43,9 @@
 
 		<GradientModalContent
 			v-model:show="showModal"
-			:gradient="activeGradient"
+			:gradient="activeGradient.config"
 			@update-gradient="onGradientUpdate"
-			@save-gradient="onSaveGradient"
+			@save-gradient="saveOptionsToDB"
 		/>
 
 		<template v-slot:right>
@@ -55,9 +55,9 @@
 </template>
 
 <script>
-
 import { computed, ref, inject, reactive } from 'vue'
 import { getDefaultGradient } from '@zb/components'
+import { useBuilderOptions } from '@zionbuilder/composables'
 
 // Components
 import GradientBox from './GradientBox.vue'
@@ -72,105 +72,72 @@ export default {
 		GradientModalContent
 	},
 	setup (props, context) {
-		const $zb = inject('$zb')
+		const isPro = window.ZnPbAdminPageData.is_pro_active
+
+		const {
+			getOptionValue,
+			saveOptionsToDB,
+			addLocalGradient,
+			deleteLocalGradient,
+			editLocalGradient,
+			addGlobalGradient,
+			deleteGlobalGradient,
+			editGlobalGradient,
+		} = useBuilderOptions()
 
 		const activeLibrary = ref('local')
-		const activeGradientIndex = ref(0)
 		const showModal = ref(false)
-		const storegradient = reactive({})
 
-		const getLocalGradients = computed(() => {
-			return $zb.options.getOptionValue('local_gradients')
-		})
+		const localGradients = getOptionValue('local_gradients')
+		const globalGradients = getOptionValue('global_gradients')
+		const activeGradient = ref({})
 
-		const getGlobalGradients = computed(() => {
-			return $zb.options.getOptionValue('global_gradients')
-		})
-
-		const isPro = computed(() => {
-			return window.ZnPbAdminPageData.is_pro_active
-		})
-
-		const activeGradient = computed({
-			get: () => {
-				const gradientsArray = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
-				return gradientsArray !== undefined && gradientsArray[activeGradientIndex.value] !== undefined ? gradientsArray[activeGradientIndex.value]['config'] : []
-
-			},
-			set: val => {
-				const gradientslocal = activeLibrary.value === 'local' ? getLocalGradients.value : getGlobalGradients.value
-				const gradient = gradientslocal[activeGradientIndex.value]
-				storegradient.value = val
-			}
-		})
-
-		function deleteGradientElement (gradient) {
-			$zb.options.deleteOptionValue('local_gradients', gradient)
-		}
-
-		function deleteGlobalGradientElement (gradient) {
-			$zb.options.deleteOptionValue('global_gradients', gradient)
-			activeGradientIndex.value = getGlobalGradients.length - 1
-		}
-
-		function onGradientSelect (index) {
-			activeGradientIndex.value = index
+		function onGradientSelect (gradient) {
+			activeGradient.value = gradient
 			showModal.value = true
 		}
 
-		function onGradientUpdate (gradient) {
-			activeGradient.value = gradient
-		}
-
-		function onSaveGradient () {
-			$zb.options.saveOptions()
+		function onGradientUpdate (newValue) {
+			if (activeLibrary.value === 'local' ) {
+				editLocalGradient(activeGradient.value.id, newValue)
+			} else {
+				editGlobalGradient(activeGradient.value.id, newValue)
+			}
 		}
 
 		function onAddNewGradient () {
-			let arrayLength = getLocalGradients.value.length
+			let arrayLength = localGradients.length
 
 			let dynamicName = `gradientPreset${arrayLength + 1}`
+
 			const defaultGradient = {
 				id: dynamicName,
 				name: dynamicName,
 				config: getDefaultGradient()
+			}
+
+			if (activeLibrary.value === 'local' ) {
+				addLocalGradient(defaultGradient)
+			} else {
+				addGlobalGradient(defaultGradient)
 			}
 
 			// Add the gradient to store
-			$zb.options.addGradient('local_gradients', defaultGradient)
-			// activeGradient.value = defaultGradient
-
-			activeGradientIndex.value = getLocalGradients.value.length - 1
-			showModal.value = true
+			onGradientSelect(defaultGradient)
 		}
-		function onAddNewGlobalGradient () {
-			let arrayLength = getGlobalGradients.length
-
-			let dynamicName = `gradientPreset${arrayLength + 1}`
-			const defaultGradient = {
-				id: dynamicName,
-				name: dynamicName,
-				config: getDefaultGradient()
-			}
-			$zb.options.addGradient('global_gradients', defaultGradient)
-			activeGradientIndex.value = getGlobalGradients.value.length === 1 ? 0 : getGlobalGradients.value.length - 1
-			showModal.value = true
-		}
-
 
 		return {
-			getLocalGradients,
-			getGlobalGradients,
+			localGradients,
+			globalGradients,
+			addLocalGradient,
+			deleteLocalGradient,
+			editLocalGradient,
+			saveOptionsToDB,
+			onAddNewGradient,
 			activeLibrary,
-			activeGradientIndex,
 			showModal,
-			deleteGradientElement,
-			deleteGlobalGradientElement,
 			onGradientSelect,
 			onGradientUpdate,
-			onSaveGradient,
-			onAddNewGlobalGradient,
-			onAddNewGradient,
 			activeGradient,
 			isPro
 		}
