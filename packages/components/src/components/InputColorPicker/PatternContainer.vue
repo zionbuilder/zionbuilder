@@ -6,7 +6,7 @@
 				:active-tab="activeTab"
 			>
 				<Tab name="Local">
-					<GridColor @add-new-color="options.addOptionValue('local_colors', model)">
+					<GridColor @add-new-color="addLocalColor(model)">
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -72,7 +72,7 @@ import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../Label'
-
+import { useBuilderOptions } from '@zionbuilder/composables'
 export default {
 	name: 'PatternContainer',
 	components: {
@@ -91,18 +91,25 @@ export default {
 		}
 	},
 	setup (props) {
-		const $zb = inject('$zb')
 		const getValueByPath = inject('getValueByPath')
 		const updateValueByPath = inject('updateValueByPath')
 		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
+		const {
+			addLocalColor,
+			getOptionValue,
+			addGlobalColor,
+		} = useBuilderOptions()
+		const localColors = getOptionValue('local_colors')
+		const globalColors = getOptionValue('global_colors')
+
 		let localColorPatterns = computed(() => {
-			return [...$zb.options.getOptionValue('local_colors')].reverse()
+			return [...localColors].reverse()
 		})
 
 		let globalColorPatterns = computed(() => {
-			return [...$zb.options.getOptionValue('global_colors')].reverse()
+			return [...globalColors].reverse()
 		})
 
 		let selectedGlobalColor = computed(() => {
@@ -122,7 +129,7 @@ export default {
 				name: name
 			}
 			showPresetInput.value = false
-			$zb.options.addOptionValue('global_colors', globalColor)
+			addGlobalColor(globalColor)
 		}
 
 		function onGlobalColorSelected (colorConfig) {
@@ -143,7 +150,7 @@ export default {
 			showPresetInput,
 			selectedGlobalColor,
 			activeTab,
-			options: $zb.options
+			addLocalColor
 		}
 	},
 	computed: {
