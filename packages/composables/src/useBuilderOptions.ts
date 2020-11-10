@@ -19,6 +19,7 @@ const options = ref({
 	local_colors: [],
 	global_colors: [],
 	local_gradients: [],
+	global_gradients: [],
 	user_roles_permissions: {},
 	users_permissions: {}
 })
@@ -176,6 +177,54 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
+	const addLocalGradient = (gradient) => {
+		options.value.local_gradients.push(gradient)
+		saveOptionsToDB()
+	}
+
+	const deleteLocalGradient = (gradient) => {
+		const gradientIndex = options.value.local_gradients.indexOf(gradient)
+
+		if (gradientIndex !== -1) {
+			options.value.local_gradients.splice(gradientIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editLocalGradient = (gradientId, newgradient) => {
+		const editedGradient = options.value.local_gradients.find(gradient => gradient.id === gradientId)
+
+		if (editedGradient) {
+			editedGradient.config = newgradient
+
+
+		}
+	}
+
+	const addGlobalGradient = (gradient) => {
+		options.value.global_gradients.push(gradient)
+		saveOptionsToDB()
+	}
+
+	const deleteGlobalGradient = (gradient) => {
+		const gradientIndex = options.value.global_gradients.indexOf(gradient)
+
+		if (gradientIndex !== -1) {
+			options.value.global_gradients.splice(gradientIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editGlobalGradient = (gradientId, newgradient) => {
+		const editedGradient = options.value.global_gradients.find(gradient => gradient.id === gradientId)
+
+		if (editedGradient) {
+			editedGradient.config = newgradient
+		}
+	}
+
 
 	return {
 		fetchOptions,
@@ -200,6 +249,13 @@ export const useBuilderOptions = () => {
 		addCustomFont,
 		updateCustomFont,
 		deleteCustomFont,
+		// Gradients
+		addLocalGradient,
+		deleteLocalGradient,
+		editLocalGradient,
+		addGlobalGradient,
+		deleteGlobalGradient,
+		editGlobalGradient,
 
 		// General
 		options,

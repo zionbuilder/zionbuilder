@@ -127,6 +127,10 @@ export default {
 </script>
 
 <style lang="scss">
+:root {
+	--zion-border-color: #e5e5e5;
+}
+
 .znpb-admin__wrapper {
 	color: $font-color;
 	font-family: $font-stack;
