@@ -114,6 +114,7 @@ import { getLibraryItems } from '@zb/rest'
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/CategoriesLibrary.vue'
 import localSt from 'localstorage-ttl'
+
 export default {
 	name: 'LibraryPanel',
 	components: {
@@ -370,6 +371,7 @@ export default {
 			getLibraryItems(useCache).then((response) => {
 				const { data = {} } = response
 				const { categories = {}, items = [] } = data
+
 				this.categories = categories
 				this.items = items
 				localSt.set('znpbLibraryCache', {

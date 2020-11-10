@@ -36,14 +36,10 @@ appInstance.use(ComponentsInstall)
 appInstance.use(I18nInstall, window.ZnPbAdminPageData.l10n)
 
 const notifications = useNotifications()
-const users = new Users()
-const options = new Options()
 const templates = new Templates()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	users,
-	options,
 	templates
 }
 
@@ -73,7 +69,5 @@ window.addEventListener('load', function() {
 })
 
 export {
-	users,
-	options,
 	templates
 }

@@ -55,35 +55,39 @@
 </template>
 
 <script>
-import { regenerateCache, getTemplates } from '@zionbuilder/rest'
+import { ref } from 'vue'
+import { regenerateCache } from '@zionbuilder/rest'
+import { useLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'ToolsPage',
-	data () {
-		return {
-			loadingSync: false,
-			loading: false
-		}
-	},
-	methods: {
-		onRegenerateFilesClick () {
-			this.loading = true
-			regenerateCache().then(() => {
-				this.loading = false
-			})
-		},
-		onSyncClick () {
-			this.loadingSync = true
-			getTemplates().then((values) => {
-				this.$zb.templates.fetchTemplates(values.data)
-			}).catch(error => {
-				this.loadingSync = false
-				console.error('error', error.message)
-			})
-				.finally(() => {
-					this.loadingSync = false
-				})
+	setup() {
+		const loadingSync = ref(false)
+		const loading = ref(false)
 
+		const { fetchLibraryItems } = useLibrary()
+
+		function onRegenerateFilesClick () {
+			loading.value = true
+			regenerateCache().then(() => {
+				loading.value = false
+			})
+		}
+
+		function onSyncClick () {
+			loadingSync.value = true
+			fetchLibraryItems().finally(() => {
+				loadingSync.value = false
+			})
+
+		}
+
+
+		return {
+			loadingSync,
+			loading,
+			onRegenerateFilesClick,
+			onSyncClick
 		}
 	}
 }

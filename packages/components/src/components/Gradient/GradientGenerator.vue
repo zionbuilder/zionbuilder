@@ -84,7 +84,7 @@ import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
 import { ActionsOverlay } from '../ActionsOverlay'
 import { getDefaultGradient } from '../../utils/'
-import { Options } from '@zionbuilder/models'
+
 export default {
 	name: 'GradientGenerator',
 	components: {
