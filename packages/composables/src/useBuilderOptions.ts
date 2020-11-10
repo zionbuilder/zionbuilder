@@ -251,6 +251,25 @@ export const useBuilderOptions = () => {
 		return options.value.users_permissions[userID]
 	}
 
+	const getRolePermissions = (roleID) => {
+		return options.value.user_roles_permissions[roleID] || {
+			allowed_access: false,
+			permissions: {
+				only_content: false,
+				features: [],
+				post_types: []
+			}
+		}
+	}
+
+	const editRolePermission = (roleID, newValues) => {
+		console.log({roleID, newValues});
+		options.value.user_roles_permissions[roleID] = newValues
+
+		saveOptionsToDB()
+	}
+
+
 	return {
 		fetchOptions,
 		getOptionValue,
@@ -282,6 +301,7 @@ export const useBuilderOptions = () => {
 		addGlobalGradient,
 		deleteGlobalGradient,
 		editGlobalGradient,
+
 		// Typekit token
 		addTypeKitToken,
 
@@ -290,6 +310,8 @@ export const useBuilderOptions = () => {
 		getUserPermissions,
 		deleteUserPermission,
 		editUserPermission,
+		getRolePermissions,
+		editRolePermission,
 
 		// General
 		options,

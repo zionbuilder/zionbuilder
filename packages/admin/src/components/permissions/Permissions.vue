@@ -11,7 +11,7 @@
 						<SingleRole
 							v-for="(role,i) in dataSets.user_roles"
 							:key=i
-							:data="role"
+							:role="role"
 						/>
 					</div>
 				</template>
