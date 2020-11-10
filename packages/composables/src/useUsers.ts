@@ -12,6 +12,10 @@ export const useUsers = () => {
 		})
 	}
 
+	function getUserInfo(userID) {
+		return loadedUsers.value.find(user => user.id === userID)
+	}
+
 	function addUser (user) {
 		loadedUsers.value.push(user)
 	}
@@ -19,6 +23,7 @@ export const useUsers = () => {
 	return {
 		loadedUsers,
 		fetchUsersData,
-		addUser
+		addUser,
+		getUserInfo
 	}
 }

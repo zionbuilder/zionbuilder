@@ -7,10 +7,11 @@
 			:permission="permissionsNumber"
 			:has-delete="true"
 			@edit-permission="showModal=true"
-			@delete-permission="deletePermission($event)"
+			@delete-permission="deleteUserPermission(userId)"
 		>
 			{{userData.name}}
 		</UserTemplate>
+
 		<Modal
 			v-model:show="showModal"
 			:width="560"
@@ -20,14 +21,15 @@
 		>
 			<UserModalContent
 				:permissions="permissions"
-				@edit-role="editRole($event)"
+				@edit-role="editUserPermission(userId, $event)"
 			/>
 		</Modal>
 	</div>
 </template>
 
 <script>
-import { getUsersById } from '@zionbuilder/rest'
+import { computed } from 'vue'
+import { useBuilderOptions, useUsers } from '@zionbuilder/composables'
 
 // Components
 import UserModalContent from './UserModalContent.vue'
@@ -55,43 +57,37 @@ export default {
 			userData: {}
 		}
 	},
-	created () {
-		Promise.all([getUsersById(this.userId)]).then((response) => {
-			this.userData = response[0].data[0]
-		})
-	},
-	computed: {
+	setup (props, { emit }) {
+		const { getUserInfo } = useUsers()
+		const { editUserPermission, deleteUserPermission } = useBuilderOptions()
+		const userData = getUserInfo(props.userId)
 
-		permissionsNumber () {
-			let permNumber = []
-			if (this.permissions.allowed_access === false) {
+		const permissionsNumber = computed(() => {
+			let permNumber = 1
+			if (props.permissions.allowed_access === false) {
 				return 0
 			} else {
-				if (this.permissions.permissions.only_content === true) {
-					permNumber.push('only_content')
+				if (props.permissions.permissions.only_content === true) {
+					permNumber++
 				}
-				for (let i in this.permissions.permissions.features) {
-					permNumber.push(this.permissions.permissions.features[i])
+				for (let i in props.permissions.permissions.features) {
+					permNumber++
 				}
-				for (let i in this.permissions.permissions.post_types) {
-					permNumber.push(this.permissions.permissions.post_types[i])
+				for (let i in props.permissions.permissions.post_types) {
+					permNumber++
 				}
 
-				return permNumber.length
+				return permNumber
 			}
-		}
-	},
-	methods: {
+		})
 
-		editRole (value) {
-			let role = this.userId
-
-			this.$zb.options.editUserPermission({ role, value })
-		},
-		deletePermission (value) {
-			let role = this.userId
-			this.$emit('delete-permission', role)
+		return {
+			permissionsNumber,
+			userData,
+			editUserPermission,
+			deleteUserPermission
 		}
+
 	}
 }
 </script>

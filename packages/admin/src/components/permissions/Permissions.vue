@@ -32,16 +32,17 @@
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
 						<h3>{{$translate('user_specific')}}</h3>
+
 						<EmptyList
 							v-if="Object.entries(userPermissions).length === 0"
 							@click="showModal=true"
 						>{{$translate('no_user_added')}}</EmptyList>
+
 						<SingleUser
 							v-for="(permissions, userId) in userPermissions"
 							:key="userId"
 							:user-id="parseInt(userId)"
 							:permissions="permissions"
-							@delete-permission="deleteUser($event)"
 						/>
 					</div>
 					<div class="znpb-admin-user-specific-actions">
@@ -93,16 +94,13 @@ export default {
 	setup () {
 		const isPro = window.ZnPbAdminPageData.is_pro_active
 		const { fetchUsersData } = useUsers()
-		const {
-			getOptionValue
-		} = useBuilderOptions()
+		const { getOptionValue } = useBuilderOptions()
 
 		const { dataSets } = useDataSets()
 		const userPermissions = getOptionValue('users_permissions')
 		const loading = ref(true)
 		const showModal = ref(false)
 		const proLink = ref(null)
-		const userList = ref([])
 
 		// Fetch system information from rest api
 		const userIds = Object.keys(userPermissions)
@@ -115,20 +113,13 @@ export default {
 			loading.value = false
 		}
 
-		function deleteUser (value) {
-			// TODO:
-			deleteUserPermission(value)
-		}
-
 		return {
 			isPro,
 			dataSets,
 			userPermissions,
 			loading,
 			showModal,
-			proLink,
-			userList,
-			deleteUser
+			proLink
 		}
 	}
 }

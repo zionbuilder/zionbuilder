@@ -1,17 +1,17 @@
 <template>
 	<li
-		@click.self="addNewUser(user)"
+		@click.self="addNewUser"
 		class="znpb-baseselect-list__option znpb-add-specific-permissions__list-item"
 	>
 		{{user.name}}
 
 		<Tooltip
-			v-if="checkUser(user)"
+			v-if="userPermissionsExists"
 			:content="$translate('user_has_permissions_remove')"
 		>
 			<Icon
 				icon="delete"
-				@click="deletePermission(user)"
+				@click.stop="deletePermission"
 			/>
 		</Tooltip>
 
@@ -21,8 +21,9 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
 import { saveOptions, getUsersById } from '@zionbuilder/rest'
-import { useUsers } from '@zionbuilder/composables'
+import { useUsers, useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'ModalListItem',
@@ -32,66 +33,31 @@ export default {
 			required: true
 		}
 	},
-	data () {
-		return {
-			loadingDelete: false
-		}
-	},
-	setup () {
+	setup (props, { emit }) {
 		const { addUser } = useUsers()
+		const { getUserPermissions, addUserPermissions, deleteUserPermission } = useBuilderOptions()
+		const loadingDelete = ref(false)
+		const userPermissionsExists = computed(() => getUserPermissions(props.user.id))
 
-		return {
-			addUser
-		}
-	},
-
-	methods: {
-		addNewUser (user) {
-			if (this.checkUser(user)) {
-				// check if user already has permissions added
-				return
-			}
+		function addNewUser () {
 			// Add user data to users object
-			this.addUser(user)
+			addUser(props.user)
 
 			// Add default User permissions to user permissions object
-			this.$zb.options.editUserPermission({
-				role: user.id,
-				value: {
-					allowed_access: true,
-					permissions: {
-						only_content: false,
-						features: [],
-						post_types: []
-					}
-				}
-			})
-			this.$emit('close-modal', true)
-		},
-		checkUser (user) {
-			// create variables for id, showDelete
-			let id = null
-			let showDelete = false
-			if (getUsersById(user.id)) {
-				// get the id of the current list item
-				id = user.id
-			}
+			addUserPermissions(props.user)
 
-			if (this.$zb.options.getUserPermissions.hasOwnProperty(id)) {
-				showDelete = true
-			} else showDelete = false
+			emit('close-modal', true)
+		}
 
-			return showDelete
-		},
+		function deletePermission () {
+			deleteUserPermission(props.user.id)
+		}
 
-		deletePermission (role) {
-			this.loadingDelete = true
-			this.$zb.options.deleteUserPermission(role.id)
-
-			saveOptions()
-				.finally(() => {
-					this.loadingDelete = false
-				})
+		return {
+			loadingDelete,
+			addNewUser,
+			deletePermission,
+			userPermissionsExists
 		}
 	}
 }
