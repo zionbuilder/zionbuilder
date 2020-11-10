@@ -182,7 +182,7 @@ class Admin {
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
-				'znpb-admin-settings-page-script',
+				'zb-admin',
 				'js/admin.js',
 				[
 					'zb-components',
@@ -192,7 +192,7 @@ class Admin {
 			);
 
 			wp_localize_script(
-				'znpb-admin-settings-page-script',
+				'zb-admin',
 				'ZnPbAdminPageData',
 				[
 					'l10n'                => Localization::get_strings(),

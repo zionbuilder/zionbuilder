@@ -49,27 +49,32 @@ appInstance.config.globalProperties.$zb = {
 	templates
 }
 
-// Add error interceptor for API
-errorInterceptor(notifications)
+window.addEventListener('load', function() {
+	// Trigger event so others can hook into ZionBuilder API
+	const evt = new CustomEvent('zionbuilder/admin/init', {
+		detail: api
+	})
 
-// Add default routes
-initRoutes()
+	// Add error interceptor for API
+	errorInterceptor(notifications)
 
-// Trigger event so others can hook into ZionBuilder API
-const evt = new CustomEvent('zionbuilder/admin/init', {
-	detail: api
+	// Add default routes
+	initRoutes()
+
+	window.dispatchEvent(evt)
+
+
+
+	const router = createRouter({
+		// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+		history: createWebHashHistory(),
+		routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+	})
+
+	appInstance.use(router)
+	appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
+	appInstance.mount('#znpb-admin')
 })
-
-window.dispatchEvent(evt)
-const router = createRouter({
-	// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-	history: createWebHashHistory(),
-	routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-})
-
-appInstance.use(router)
-appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
-appInstance.mount('#znpb-admin')
 
 export {
 	users,
