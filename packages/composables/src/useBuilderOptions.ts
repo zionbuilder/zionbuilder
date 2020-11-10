@@ -2,6 +2,12 @@ import { ref, Ref } from 'vue'
 import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
 import { get, update } from 'lodash-es'
 
+interface GoogleFontSavedItem {
+	font_family: string,
+	font_variants: string[],
+	font_subset: string[],
+}
+
 const isLoading: Ref<boolean> = ref(false)
 const fetchedOptions = ref(false)
 const options = ref({
@@ -13,7 +19,6 @@ const options = ref({
 	local_colors: [],
 	global_colors: [],
 	local_gradients: [],
-	global_gradients: [],
 	user_roles_permissions: {},
 	users_permissions: {}
 })
@@ -54,7 +59,7 @@ export const useBuilderOptions = () => {
 		})
 	}
 
-	const updateGoogleFont = (fontFamily, newValue) => {
+	const updateGoogleFont = (fontFamily: string, newValue: object) => {
 		const savedFont = options.value.google_fonts.find(fontItem => fontItem.font_family === fontFamily)
 
 		if (savedFont) {
@@ -65,7 +70,7 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
-	const removeGoogleFont = (fontFamily) => {
+	const removeGoogleFont = (fontFamily: string) => {
 		const savedFont = options.value.google_fonts.find(fontItem => fontItem.font_family === fontFamily)
 		if (savedFont) {
 			const fontIndex = options.value.google_fonts.indexOf(savedFont)
@@ -77,7 +82,7 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
-	const addGoogleFont = (fontFamily) => {
+	const addGoogleFont = (fontFamily: string) => {
 		options.value.google_fonts.push({
 			font_family: fontFamily,
 			font_variants: ['regular'],
@@ -87,15 +92,83 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
+	const addLocalColor = (color) => {
+		options.value.local_colors.push(color)
+
+		saveOptionsToDB()
+	}
+
+	const deleteLocalColor = (color) => {
+		const colorIndex = options.value.local_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.local_colors.splice(colorIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editLocalColor = (color, newColor, saveToDB = true) => {
+		const colorIndex = options.value.local_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.local_colors.splice(colorIndex, 1, newColor)
+		}
+
+		if (saveToDB) {
+			saveOptionsToDB()
+		}
+	}
+
+	const addGlobalColor = (color) => {
+		options.value.global_colors.push(color)
+
+		saveOptionsToDB()
+	}
+
+	const deleteGlobalColor = (color) => {
+		const colorIndex = options.value.global_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.global_colors.splice(colorIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editGlobalColor = (color, newColor, saveToDB = true) => {
+		const colorIndex = options.value.global_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.global_colors.splice(colorIndex, 1, newColor)
+		}
+
+		if (saveToDB) {
+			saveOptionsToDB()
+		}
+	}
+
+
 	return {
 		fetchOptions,
 		getOptionValue,
 		updateOptionValue,
 		saveOptionsToDB,
+
 		// Google fonts
 		addGoogleFont,
 		removeGoogleFont,
 		updateGoogleFont,
+
+		// Colors
+		addLocalColor,
+		deleteLocalColor,
+		editLocalColor,
+		addGlobalColor,
+		deleteGlobalColor,
+		editGlobalColor,
+
+		// General
 		options,
 		isLoading
 	}

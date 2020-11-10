@@ -6,15 +6,15 @@
 			<Tab name="Local">
 				<div class="znpb-admin-colors__container">
 					<ColorBox
-						v-for="(color,i) in localColorPatterns"
+						v-for="(color,i) in localColors"
 						:color="color"
 						v-bind:key="color + i"
-						@option-updated="editLColor(color,$event)"
-						@delete-color="deleteLColor(color)"
+						@option-updated="editLocalColor(color, $event)"
+						@delete-color="deleteLocalColor(color)"
 					/>
 					<ColorBox
 						type="addcolor"
-						@option-updated="addLColor"
+						@option-updated="addLocalColor"
 					/>
 				</div>
 
@@ -25,20 +25,20 @@
 					:message_title="$translate('pro_manage_global_colors_free_title')"
 					:message_description="$translate('pro_manage_global_colors_free')"
 				/>
-				<template v-else>
 
+				<template v-else>
 					<div class="znpb-admin-colors__container">
 						<ColorBox
 							type="addcolor"
-							@option-updated="addGColor"
+							@option-updated="addGlobalColor"
 						/>
 
 						<ColorBox
-							v-for="(color,i) in globalColorPatterns"
+							v-for="(color,i) in globalColors"
 							v-bind:key="color.color + i"
 							:color="color.color"
-							@option-updated="editGColor(i, $event)"
-							@delete-color="deleteGColor(color)"
+							@option-updated="editGlobalColor(i, $event)"
+							@delete-color="deleteGlobalColor(color)"
 						/>
 					</div>
 				</template>
@@ -52,58 +52,43 @@
 </template>
 
 <script>
-
-import ColorBox from './ColorBox.vue'
+import { computed } from 'vue'
 import { generateUID } from '@zionbuilder/utils'
+import { useBuilderOptions } from '@zionbuilder/composables'
+
+// Components
+import ColorBox from './ColorBox.vue'
 
 export default {
 	name: 'Colors',
 	components: {
 		ColorBox
 	},
-	computed: {
-		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
-		},
-		localColorPatterns () {
-			return this.$zb.options.getOptionValue('local_colors')
-		},
-		globalColorPatterns () {
-			return this.$zb.options.getOptionValue('global_colors')
-		}
-	},
-	methods: {
-		// local colors
-		editLColor (oldColor, color) {
-			let key = oldColor
-			let value = color
-			this.$zb.options.updateOptionValue('local_colors', { key, value })
-		},
-		addLColor (color) {
-			this.$zb.options.addOptionValue('local_colors', color)
-		},
-		deleteLColor (color) {
-			this.$zb.options.deleteOptionValue('local_colors', color)
-		},
-		// global colors
-		addGColor (color) {
-			let globalColor = {
-				id: generateUID(),
-				color: color,
-				name: color
-			}
-			this.$zb.options.addOptionValue('global_colors', globalColor)
-		},
-		editGColor (index, newcolor) {
-			let editColor = this.globalColorPatterns[index]
+	setup () {
+		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const {
+			addLocalColor,
+			getOptionValue,
+			deleteLocalColor,
+			editLocalColor,
+			addGlobalColor,
+			deleteGlobalColor,
+			editGlobalColor,
+		} = useBuilderOptions()
+		const localColors = getOptionValue('local_colors')
+		const globalColors = getOptionValue('global_colors')
 
-			let clone = { ...editColor }
-			clone.color = newcolor
-
-			this.$zb.options.editGlobalColor({ index: index, color: clone })
-		},
-		deleteGColor (color) {
-			this.$zb.options.deleteOptionValue('global_colors', color)
+		return {
+			isPro,
+			localColors,
+			addLocalColor,
+			editLocalColor,
+			deleteLocalColor,
+			// Global colors
+			globalColors,
+			addGlobalColor,
+			deleteGlobalColor,
+			editGlobalColor
 		}
 	}
 }
