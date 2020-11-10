@@ -4,7 +4,7 @@
 		</div>
 		<div class="znpb-admin-content__permission-container">
 			<PageTemplate>
-				<Loader v-if="!loaded" />
+				<Loader v-if="loading" />
 				<template v-else>
 					<div class="znpb-admin-role-manager-wrapper">
 						<h3>{{$translate('role_manager')}}</h3>
@@ -29,15 +29,15 @@
 					:message_title="$translate('manage_users_permissions_title')"
 					:message_description="$translate('manage_users_permissions_free')"
 				/>
-				<template v-else-if="userloaded">
+				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
 						<h3>{{$translate('user_specific')}}</h3>
 						<EmptyList
-							v-if="Object.entries(getUserPermissions).length === 0"
+							v-if="Object.entries(userPermissions).length === 0"
 							@click="showModal=true"
 						>{{$translate('no_user_added')}}</EmptyList>
 						<SingleUser
-							v-for="(permissions, userId) in getUserPermissions"
+							v-for="(permissions, userId) in userPermissions"
 							:key="userId"
 							:user-id="parseInt(userId)"
 							:permissions="permissions"
@@ -74,9 +74,10 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { useDataSets } from '@zb/components'
 import { getUsersById } from '@zionbuilder/rest'
-import { useIsPro } from '@zionbuilder/models'
+import { useBuilderOptions } from '@zionbuilder/composables'
 
 // Components
 import SingleRole from './SingleRole.vue'
@@ -91,53 +92,47 @@ export default {
 		AddUserModalContent
 	},
 	setup () {
-		const { dataSets } = useDataSets()
+		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const {
+			getOptionValue
+		} = useBuilderOptions()
 
-		return {
-			dataSets
-		}
-	},
-	data () {
-		return {
-			loaded: false,
-			showModal: false,
-			proLink: null,
-			userloaded: false,
-			userList: []
-		}
-	},
-	computed: {
-		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
-		},
-		getUserPermissions () {
-			return this.$zb.options.getUserPermissions()
-		}
-	},
-	methods: {
-		deleteUser (value) {
-			this.$zb.options.deleteUserPermission(value)
-		}
-	},
-	created () {
+		const { dataSets } = useDataSets()
+		const userPermissions = getOptionValue('users_permissions')
+		const loading = ref(true)
+		const showModal = ref(false)
+		const proLink = ref(null)
+		const userList = ref([])
+
 		// Fetch system information from rest api
-		const userIds = Object.keys(this.$zb.options.getUserPermissions())
+		const userIds = Object.keys(userPermissions)
 
 		if (userIds.length > 0) {
 			Promise.all([getUsersById(userIds)]).then((values) => {
-
-				this.userList = this.$zb.users.add(values[0].data[0])
+				userList.value = this.$zb.users.add(values[0].data[0])
 			})
 				.finally((result) => {
-					this.userloaded = true
-					this.loaded = true
+					loading.value = false
 				})
 		} else {
-			this.loaded = true
-			this.userloaded = true
+			loading.value = false
 		}
 
+		function deleteUser (value) {
+			// TODO:
+			deleteUserPermission(value)
+		}
 
+		return {
+			isPro,
+			dataSets,
+			userPermissions,
+			loading,
+			showModal,
+			proLink,
+			userList,
+			deleteUser
+		}
 	}
 }
 </script>

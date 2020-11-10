@@ -37,14 +37,12 @@ appInstance.use(I18nInstall, window.ZnPbAdminPageData.l10n)
 
 const notifications = useNotifications()
 const users = new Users()
-const googleFonts = new GoogleFonts()
 const options = new Options()
 const templates = new Templates()
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	users,
-	googleFonts,
 	options,
 	templates
 }
@@ -78,7 +76,6 @@ window.addEventListener('load', function() {
 
 export {
 	users,
-	googleFonts,
 	options,
 	templates
 }
