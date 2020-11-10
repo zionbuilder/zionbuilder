@@ -6,15 +6,15 @@
 			<Tab name="Local">
 				<div class="znpb-admin-colors__container">
 					<ColorBox
-						v-for="(color,i) in localColorPatterns"
+						v-for="(color,i) in localColors"
 						:color="color"
 						v-bind:key="color + i"
-						@option-updated="editLColor(color,$event)"
-						@delete-color="deleteLColor(color)"
+						@option-updated="editLocalColor(color, $event)"
+						@delete-color="deleteLocalColor(color)"
 					/>
 					<ColorBox
 						type="addcolor"
-						@option-updated="addLColor"
+						@option-updated="addLocalColor"
 					/>
 				</div>
 
@@ -25,8 +25,8 @@
 					:message_title="$translate('pro_manage_global_colors_free_title')"
 					:message_description="$translate('pro_manage_global_colors_free')"
 				/>
-				<template v-else>
 
+				<template v-else>
 					<div class="znpb-admin-colors__container">
 						<ColorBox
 							type="addcolor"
@@ -52,39 +52,48 @@
 </template>
 
 <script>
-
-import ColorBox from './ColorBox.vue'
+import { computed } from 'vue'
 import { generateUID } from '@zionbuilder/utils'
+import { useBuilderOptions } from '@zionbuilder/composables'
+
+// Components
+import ColorBox from './ColorBox.vue'
 
 export default {
 	name: 'Colors',
 	components: {
 		ColorBox
 	},
+	setup () {
+		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const { addLocalColor, getOptionValue, deleteLocalColor } = useBuilderOptions()
+		const localColors = getOptionValue('local_colors')
+		const globalColors = getOptionValue('global_colors')
+
+		// local colors
+		function editLocalColor (oldColor, color) {
+			let key = oldColor
+			let value = color
+			this.$zb.options.updateOptionValue('local_colors', { key, value })
+		}
+
+		return {
+			isPro,
+			localColors,
+			addLocalColor,
+			editLocalColor,
+			deleteLocalColor,
+			// Global colors
+			globalColors
+		}
+	},
 	computed: {
-		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
-		},
-		localColorPatterns () {
-			return this.$zb.options.getOptionValue('local_colors')
-		},
 		globalColorPatterns () {
 			return this.$zb.options.getOptionValue('global_colors')
 		}
 	},
 	methods: {
-		// local colors
-		editLColor (oldColor, color) {
-			let key = oldColor
-			let value = color
-			this.$zb.options.updateOptionValue('local_colors', { key, value })
-		},
-		addLColor (color) {
-			this.$zb.options.addOptionValue('local_colors', color)
-		},
-		deleteLColor (color) {
-			this.$zb.options.deleteOptionValue('local_colors', color)
-		},
+
 		// global colors
 		addGColor (color) {
 			let globalColor = {
