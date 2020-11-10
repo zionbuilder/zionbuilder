@@ -1,58 +1,108 @@
 <template>
 	<div
 		class="znpb-about-modal__version-card"
-		:class="{'znpb-about-modal__version-card--active' : !isPro }"
+		:class="{'znpb-about-modal__version-card--active' : !isPro || isProActive }"
 	>
-		<Icon icon="zion-icon-logo"/>
-		<div v-if="isPro" class="znpb-pro-item">{{$translate('pro')}}</div>
+		<Icon icon="zion-icon-logo" />
+		<div
+			v-if="isPro"
+			class="znpb-pro-item"
+		>{{$translate('pro')}}</div>
 		<span class="znpb-about-modal__plugin-title">Zion Builder
 			<span v-if="isPro">{{$translate('pro')}}</span>
 			<span v-else>{{$translate('free')}}</span>
 		</span>
 		<div class="znpb-about-modal-text-wrapper">
+			<template v-if="!isPro">
+				<template v-if="version!==null && updateVersion!==null">
+					<span>{{version}}</span>
+					<a
+						href="https://github.com/zionbuilder/zionbuilder"
+						target="_blank"
+						title="changelog"
+						class="znpb-about-modal__help"
+						@click="openWindow(urls.updates_page)"
+					>{{$translate('view_changelog')}}</a>
 
-			<template
-				v-if="version!==null && updateVersion!==null"
-
-			>
-				<span >{{version}}</span>
-				<a	href="#" class="znpb-about-modal__help"
-				>{{$translate('view_changelog')}}</a>
-
+				</template>
 			</template>
-			<span
-				v-if="version === null && isPro"
-			>
-				{{$translate('not_installed')}}
-			</span>
-		</div>
-		<Button
-			v-if="updateVersion !== version && version !== null"
-			class="znpb-about-modal__version-card-button"
-		>{{$translate('update_to_version')}} {{updateVersion}}
-		</Button>
-		<span
-			v-if="updateVersion === version && updateVersion !== null"
-			class="znpb-about-modal-text-wrapper__up-to-date">
-			{{$translate('you_are_upto_date')}}
-		</span>
+			<template v-else>
+				<span v-if="!isProActive && isPro">
+					{{$translate('not_installed')}}
+				</span>
+				<template v-if="version!==null && updateVersion!==null">
+					<span>{{version}}</span>
+					<a
+						href="https://github.com/zionbuilder/zionbuilder"
+						target="_blank"
+						title="changelog"
+						class="znpb-about-modal__help"
+						@click="openWindow(urls.updates_page)"
+					>{{$translate('view_changelog')}}</a>
 
-		<Button
-			v-if="version === null && isPro"
-			type="secondary"
-		>{{$translate('buy_pro')}}
-		</Button>
+				</template>
+			</template>
+		</div>
+		<template v-if="!isPro">
+			<a
+				v-if="updateVersion !== undefined && updateVersion !== version && version !== null"
+				:href="urls.updates_page"
+				@click="openWindow(urls.updates_page)"
+				target="_blank"
+				class="znpb-button znpb-about-modal__version-card-button"
+			>{{$translate('update_to_version')}} {{updateVersion}}
+			</a>
+			<span
+				v-else
+				class="znpb-about-modal-text-wrapper__up-to-date"
+			>
+				{{$translate('you_are_upto_date')}}
+			</span>
+		</template>
+		<template v-else>
+			<a
+				v-if="!isProActive"
+				:href="urls.purchase_url"
+				target="_blank"
+				title="purchase"
+				class="znpb-button znpb-button--secondary"
+				@click="openWindow(urls.purchase_url)"
+			>{{$translate('buy_pro')}}
+			</a>
+			<template v-else>
+				<span
+					v-if="updateVersion===undefined || version === null || updateVersion === version"
+					class="znpb-about-modal-text-wrapper__up-to-date"
+				>
+					{{$translate('you_are_upto_date')}}
+				</span>
+				<a
+					v-else
+					:href="urls.updates_page"
+					@click="openWindow(urls.updates_page)"
+					title="updates"
+					target="_blank"
+					class="znpb-button znpb-about-modal__version-card-button"
+				>{{$translate('update_to_version')}} {{updateVersion}}
+				</a>
+			</template>
+
+		</template>
 
 	</div>
 
 </template>
 
 <script>
-
+import { useEditorData } from '@data'
 export default {
 	name: 'pluginCard',
 	props: {
 		isPro: {
+			type: Boolean,
+			required: false
+		},
+		isProActive: {
 			type: Boolean,
 			required: false
 		},
@@ -65,9 +115,15 @@ export default {
 			required: false
 		}
 	},
-	data () {
+	setup (props) {
+		const { urls } = useEditorData()
 		return {
-
+			urls
+		}
+	},
+	methods: {
+		openWindow (link) {
+			window.open(link);
 		}
 	}
 }
@@ -98,7 +154,7 @@ export default {
 		align-items: center;
 		flex: 1;
 		margin-bottom: 25px;
-		border: 1px solid rgba($surface-variant,.7);
+		border: 1px solid rgba($surface-variant, .7);
 		border-radius: 3px;
 
 		span {
