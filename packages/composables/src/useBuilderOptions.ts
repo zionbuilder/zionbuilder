@@ -225,6 +225,10 @@ export const useBuilderOptions = () => {
 		}
 	}
 
+	const addTypeKitToken = (token) => {
+		options.value.typekit_token = token
+	}
+
 
 	return {
 		fetchOptions,
@@ -256,6 +260,8 @@ export const useBuilderOptions = () => {
 		addGlobalGradient,
 		deleteGlobalGradient,
 		editGlobalGradient,
+		// Typekit token
+		addTypeKitToken,
 
 		// General
 		options,
