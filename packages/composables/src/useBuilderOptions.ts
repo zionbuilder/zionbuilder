@@ -94,14 +94,29 @@ export const useBuilderOptions = () => {
 
 	const addLocalColor = (color) => {
 		options.value.local_colors.push(color)
+
+		saveOptionsToDB()
 	}
-	addLocalColor
 
 	const deleteLocalColor = (color) => {
 		const colorIndex = options.value.local_colors.indexOf(color)
 
 		if (colorIndex !== -1) {
 			options.value.local_colors.splice(colorIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editLocalColor = (color, newColor, saveToDB = true) => {
+		const colorIndex = options.value.local_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.local_colors.splice(colorIndex, 1, newColor)
+		}
+
+		if (saveToDB) {
+			saveOptionsToDB()
 		}
 	}
 
@@ -110,13 +125,16 @@ export const useBuilderOptions = () => {
 		getOptionValue,
 		updateOptionValue,
 		saveOptionsToDB,
+
 		// Google fonts
 		addGoogleFont,
 		removeGoogleFont,
 		updateGoogleFont,
+
 		// Colors
 		addLocalColor,
 		deleteLocalColor,
+		editLocalColor,
 
 		// General
 		options,

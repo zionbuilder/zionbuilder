@@ -34,7 +34,7 @@
 						/>
 
 						<ColorBox
-							v-for="(color,i) in globalColorPatterns"
+							v-for="(color,i) in globalColors"
 							v-bind:key="color.color + i"
 							:color="color.color"
 							@option-updated="editGColor(i, $event)"
@@ -66,16 +66,14 @@ export default {
 	},
 	setup () {
 		const isPro = window.ZnPbAdminPageData.is_pro_active
-		const { addLocalColor, getOptionValue, deleteLocalColor } = useBuilderOptions()
+		const {
+			addLocalColor,
+			getOptionValue,
+			deleteLocalColor,
+			editLocalColor
+		} = useBuilderOptions()
 		const localColors = getOptionValue('local_colors')
 		const globalColors = getOptionValue('global_colors')
-
-		// local colors
-		function editLocalColor (oldColor, color) {
-			let key = oldColor
-			let value = color
-			this.$zb.options.updateOptionValue('local_colors', { key, value })
-		}
 
 		return {
 			isPro,
@@ -87,13 +85,7 @@ export default {
 			globalColors
 		}
 	},
-	computed: {
-		globalColorPatterns () {
-			return this.$zb.options.getOptionValue('global_colors')
-		}
-	},
 	methods: {
-
 		// global colors
 		addGColor (color) {
 			let globalColor = {
