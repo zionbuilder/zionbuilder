@@ -219,6 +219,10 @@ export const useBuilderOptions = () => {
 		}
 	}
 
+	const addTypeKitToken = (token) => {
+		options.value.typekit_token = token
+	}
+
 
 	const addUserPermissions = (user) => {
 		options.value.users_permissions[user.id] = {
@@ -279,6 +283,8 @@ export const useBuilderOptions = () => {
 		addGlobalGradient,
 		deleteGlobalGradient,
 		editGlobalGradient,
+		// Typekit token
+		addTypeKitToken,
 
 		// Permissions
 		addUserPermissions,
