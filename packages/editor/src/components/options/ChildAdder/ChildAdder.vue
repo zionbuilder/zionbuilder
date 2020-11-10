@@ -27,7 +27,7 @@
 
 <script>
 import { computed } from 'vue'
-import { useElementProvide, useElements } from '@data'
+import { useElementProvide, useElements } from '@composables'
 import SingleChild from './SingleChild.vue'
 
 export default {
@@ -50,7 +50,7 @@ export default {
 			required: true
 		}
 	},
-	setup(props) {
+	setup (props) {
 		const { injectElement } = useElementProvide()
 		const { getElement } = useElements()
 		const element = injectElement()

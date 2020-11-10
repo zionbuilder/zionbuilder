@@ -1,4 +1,4 @@
-import { useElementFocus, useElementMenu } from '@data'
+import { useElementFocus, useElementMenu } from '@composables'
 import { ref, computed } from 'vue'
 
 export function useTreeViewItem(props: Object) {

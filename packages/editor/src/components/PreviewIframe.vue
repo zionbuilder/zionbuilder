@@ -57,7 +57,7 @@ import {
 	useEditorData,
 	useEditorInteractions,
 	useWindows
-} from '@data'
+} from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
 

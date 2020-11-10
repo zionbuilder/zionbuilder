@@ -1,5 +1,5 @@
 import { store } from './store/'
-import { useEditorData, usePostLock } from '@data'
+import { useEditorData, usePostLock } from '@composables'
 
 class HeartBeat {
 	constructor() {

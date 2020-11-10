@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { useEditorData } from '@data'
+import { useEditorData } from '@composables'
 export default {
 	name: 'pluginCard',
 	props: {

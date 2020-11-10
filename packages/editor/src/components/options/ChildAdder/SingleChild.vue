@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { usePanels, useEditElement } from '@data'
+import { usePanels, useEditElement } from '@composables'
 
 export default {
 	name: 'SingleChild',

@@ -1,5 +1,5 @@
 import { Element } from './Element'
-import { useElements } from '@data'
+import { useElements } from '@composables'
 
 export interface TemplatePartConfig {
 	id: string,
@@ -11,7 +11,7 @@ export class TemplatePart {
 	public name: string = ''
 	public element: Element
 
-	constructor (config: TemplatePartConfig) {
+	constructor(config: TemplatePartConfig) {
 		const { name = '', id = '' } = config
 		this.name = name
 		this.id = id
@@ -24,7 +24,7 @@ export class TemplatePart {
 		}, null)
 	}
 
-	toJSON () {
+	toJSON() {
 		return this.element.toJSON().content
 	}
 }

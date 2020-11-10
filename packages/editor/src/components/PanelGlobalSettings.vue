@@ -19,7 +19,7 @@
 <script>
 import { computed } from 'vue'
 import BasePanel from './BasePanel.vue'
-import { usePanels, useCSSClasses, usePageSettings } from '@data'
+import { usePanels, useCSSClasses, usePageSettings } from '@composables'
 import { useOptionsSchemas } from '@zb/components'
 import { translate } from '@zb/i18n'
 
@@ -28,7 +28,7 @@ export default {
 	components: {
 		BasePanel
 	},
-	setup() {
+	setup () {
 		const { closePanel } = usePanels()
 		const { getSchema } = useOptionsSchemas()
 		const { pageSettings, updatePageSettings } = usePageSettings()

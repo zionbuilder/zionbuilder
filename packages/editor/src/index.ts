@@ -1,10 +1,10 @@
 require('./scss/index.scss')
 import { createApp } from 'vue'
 import { store } from './store/'
-export * from './data'
+export * from './composables'
 // Main
 import * as hooks from '@zb/hooks'
-import { useElementTypes } from './data'
+import { useElementTypes } from './composables'
 import { registerEditorOptions } from './components/options'
 // Plugins
 import { install as ComponentsInstall } from '@zb/components'

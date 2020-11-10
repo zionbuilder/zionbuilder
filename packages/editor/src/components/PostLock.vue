@@ -49,8 +49,7 @@
 
 <script>
 import { lockPage } from '@zb/rest'
-import { useEditorData } from '@data'
-import { usePostLock } from '@data'
+import { useEditorData, usePostLock } from '@composables'
 
 export default {
 	name: 'PostLock',

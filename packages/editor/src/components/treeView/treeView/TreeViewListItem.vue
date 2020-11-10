@@ -63,28 +63,28 @@
 </template>
 
 <script lang="ts">
-import { ref, PropType, defineComponent, computed } from 'vue'
-import { on } from '@zb/hooks'
-import { Element } from '@data'
-import { useTreeViewItem } from '../useTreeViewItem'
+import { ref, PropType, defineComponent, computed } from "vue";
+import { on } from "@zb/hooks";
+import { Element } from "@composables";
+import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
 	props: {
-		element: Object as PropType<Element>
+		element: Object as PropType<Element>,
 	},
-	setup (props) {
+	setup(props) {
 		const {
 			showElementMenu,
 			elementOptionsRef,
-			isActiveItem
-		} = useTreeViewItem(props)
+			isActiveItem,
+		} = useTreeViewItem(props);
 
-		const expanded = ref(false)
+		const expanded = ref(false);
 
 		const onItemClick = () => {
-			props.element.focus
-			props.element.scrollTo = true
-		}
+			props.element.focus;
+			props.element.scrollTo = true;
+		};
 
 		return {
 			expanded,
@@ -92,10 +92,10 @@ export default defineComponent({
 			elementOptionsRef,
 			showElementMenu,
 			isActiveItem,
-			onItemClick
-		}
-	}
-})
+			onItemClick,
+		};
+	},
+});
 </script>
 <style lang="scss">
 .znpb-tree-view__item {

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { usePanels, useEditElement } from '@data'
+import { usePanels, useEditElement } from '@composables'
 import BreadcrumbsItem from './BreadcrumbsItem.vue'
 
 export default {

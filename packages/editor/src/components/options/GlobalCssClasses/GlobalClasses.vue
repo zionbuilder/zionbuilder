@@ -50,7 +50,7 @@
 <script>
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
-import { useCSSClasses } from '@data'
+import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'GlobalClasses',
@@ -59,7 +59,7 @@ export default {
 		SingleClass,
 		SingleClassOptions
 	},
-	setup() {
+	setup () {
 		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass } = useCSSClasses()
 
 		return {

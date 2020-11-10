@@ -56,7 +56,7 @@
 <script>
 import BasePanel from './BasePanel.vue'
 import { mapGetters, mapActions } from 'vuex'
-import { useHistory } from '@data'
+import { useHistory } from '@composables'
 export default {
 	name: 'panel-history',
 	data: () => {

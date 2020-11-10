@@ -154,7 +154,7 @@ import localLibrary from './library-panel/localLibrary.vue'
 
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
-import { usePanels, useLibraryElements } from '@data'
+import { usePanels, useLibraryElements } from '@composables'
 
 
 export default {

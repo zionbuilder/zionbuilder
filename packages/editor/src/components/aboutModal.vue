@@ -36,7 +36,7 @@
 
 <script>
 import pluginCard from './about-modal/pluginCard.vue'
-import { useEditorData } from '@data'
+import { useEditorData } from '@composables'
 export default {
 	name: 'aboutModal',
 	components: {

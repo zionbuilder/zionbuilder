@@ -51,7 +51,7 @@
 <script>
 
 import rafSchd from 'raf-schd'
-import { usePanels, useEditorInteractions, useWindows } from '@data'
+import { usePanels, useEditorInteractions, useWindows } from '@composables'
 
 export default {
 	name: 'BasePanel',

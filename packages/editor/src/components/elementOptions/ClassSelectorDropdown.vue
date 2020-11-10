@@ -75,7 +75,7 @@
 
 <script>
 import CssSelector from './CssSelector.vue'
-import { useCSSClasses } from '@data'
+import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'ClassSelectorDropdown',
@@ -95,7 +95,7 @@ export default {
 			required: true
 		}
 	},
-	setup() {
+	setup () {
 		const { CSSClasses, getClassesByFilter, addCSSClass } = useCSSClasses()
 
 		return {

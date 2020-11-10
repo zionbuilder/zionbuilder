@@ -27,7 +27,7 @@
 <script>
 import { ref } from 'vue'
 import ElementActions from './ElementActions.vue'
-import { useElementMenu } from '@data'
+import { useElementMenu } from '@composables'
 
 export default {
 	name: 'ElementMenu',

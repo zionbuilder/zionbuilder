@@ -25,9 +25,7 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsTab
-					:element="element"
-				/>
+				<ElementsTab :element="element" />
 			</Tab>
 			<Tab name="Library">
 				<Icon
@@ -55,8 +53,7 @@ import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels } from '@data'
-import { useAddElementsPopup } from '../../data'
+import { usePanels, useAddElementsPopup } from '@composables'
 
 export default {
 	name: 'ColumnTemplates',
@@ -154,16 +151,16 @@ export default {
 				// 		}
 				// 	}
 				// } else {
-					// check parent orientation
-					if (elementType === 'zion_column') {
-						if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-							config = wrapColumn(config)
-						}
-					} else if (elementType === 'zion_section') {
-						if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-							config = wrapColumn(config)
-						}
+				// check parent orientation
+				if (elementType === 'zion_column') {
+					if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+						config = wrapColumn(config)
 					}
+				} else if (elementType === 'zion_section') {
+					if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+						config = wrapColumn(config)
+					}
+				}
 				// }
 			}
 
