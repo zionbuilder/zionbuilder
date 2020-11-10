@@ -35,52 +35,46 @@
 </template>
 
 <script>
+import { nextTick, watch, ref } from 'vue'
 import { searchUser } from '@zionbuilder/rest'
+
+// Components
 import ModalListItem from './ModalListItem.vue'
 
 export default {
 	name: 'AddUserModalContent',
-	data () {
-		return {
-			enteredValue: '',
-			loading: false,
-			users: []
-		}
-	},
 	components: {
 		ModalListItem
 	},
-	computed: {
-		keyword: {
-			get () {
-				return this.enteredValue
-			},
-			set (newValue) {
-				this.enteredValue = newValue
-				if (newValue.length > 2) {
-					this.loading = true
+	setup () {
+		const searchInput = ref(null)
+		const keyword = ref('')
+		const loading = ref(false)
+		const users = ref([])
 
-					searchUser(this.keyword).then((result) => {
-						this.users = result.data
-					}).finally(() => {
-						this.loading = false
-					})
-				} else if (this.keyword.length === 0) {
-					this.users = []
-					this.loading = false
-				}
-				if (this.users.length > 0) {
-					this.loading = false
-				}
+		nextTick(() => searchInput.value.focus())
+
+		watch(keyword, (newValue, oldValue) => {
+			if (newValue.length > 2) {
+				loading.value = true
+
+				searchUser(newValue).then((result) => {
+					users.value = result.data
+				}).finally(() => {
+					loading.value = false
+				})
+			} else if (newValue.length === 0) {
+				users.value = []
+				loading.value = false
 			}
-		}
-	},
-	methods: {
+		})
 
-	},
-	created () {
-		// Add focus on the input element when modal is created
-		this.$nextTick(() => this.$refs.searchInput.focus())
+		return {
+			searchInput,
+			keyword,
+			loading,
+			users
+		}
 	}
 }
 </script>

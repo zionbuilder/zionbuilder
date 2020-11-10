@@ -1,6 +1,5 @@
 import { ref } from 'vue'
 import { getGoogleFonts } from '@zb/rest'
-import { getFontsDataSet } from '@zionbuilder/rest'
 
 const googleFonts = ref([])
 const fetchedOptions = ref(false)

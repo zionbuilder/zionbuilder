@@ -76,8 +76,7 @@
 <script>
 import { ref } from 'vue'
 import { useDataSets } from '@zb/components'
-import { getUsersById } from '@zionbuilder/rest'
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { useBuilderOptions, useUsers } from '@zionbuilder/composables'
 
 // Components
 import SingleRole from './SingleRole.vue'
@@ -93,6 +92,7 @@ export default {
 	},
 	setup () {
 		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const { fetchUsersData } = useUsers()
 		const {
 			getOptionValue
 		} = useBuilderOptions()
@@ -108,12 +108,9 @@ export default {
 		const userIds = Object.keys(userPermissions)
 
 		if (userIds.length > 0) {
-			Promise.all([getUsersById(userIds)]).then((values) => {
-				userList.value = this.$zb.users.add(values[0].data[0])
+			fetchUsersData(userIds).finally((result) => {
+				loading.value = false
 			})
-				.finally((result) => {
-					loading.value = false
-				})
 		} else {
 			loading.value = false
 		}

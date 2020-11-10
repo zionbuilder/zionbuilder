@@ -22,6 +22,7 @@
 
 <script>
 import { saveOptions, getUsersById } from '@zionbuilder/rest'
+import { useUsers } from '@zionbuilder/composables'
 
 export default {
 	name: 'ModalListItem',
@@ -36,6 +37,13 @@ export default {
 			loadingDelete: false
 		}
 	},
+	setup () {
+		const { addUser } = useUsers()
+
+		return {
+			addUser
+		}
+	},
 
 	methods: {
 		addNewUser (user) {
@@ -44,7 +52,7 @@ export default {
 				return
 			}
 			// Add user data to users object
-			this.$zb.users.add(user)
+			this.addUser(user)
 
 			// Add default User permissions to user permissions object
 			this.$zb.options.editUserPermission({
