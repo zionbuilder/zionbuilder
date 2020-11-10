@@ -1,7 +1,8 @@
 <template>
 	<div class="znpb-about-modal znpb-fancy-scrollbar">
 		<div class="znpb-about-modal__content">
-			<p class="znpb-about-modal__description"
+			<p
+				class="znpb-about-modal__description"
 				v-html="$translate('about_zion_description')"
 			></p>
 			<div class="znpb-about-modal__card-wrapper">
@@ -9,18 +10,25 @@
 				<pluginCard
 					:is-pro="false"
 					:version="pluginInfo.free_version"
-					:update-version="pluginFreeUpdate.new_version "
+					:update-version="pluginFreeUpdate.new_version"
 				/>
 
 				<!-- pro -->
 				<pluginCard
 					:is-pro="true"
+					:is-pro-active="IsPro"
 					:version="pluginInfo.pro_version"
-					:update-version="pluginProUpdate.new_version "
+					:update-version="pluginProUpdate.new_version"
 				/>
 
 			</div>
-			<a href="" class="znpb-about-modal__help">{{$translate('need_help')}}</a>
+			<a
+				v-bind:href="urls.documentation_url"
+				class="znpb-about-modal__help"
+				target="_blank"
+				title="documentation"
+				@click="openWindow(urls.documentation_url)"
+			>{{$translate('need_help')}}</a>
 
 		</div>
 	</div>
@@ -28,15 +36,18 @@
 
 <script>
 import pluginCard from './about-modal/pluginCard.vue'
+import { useEditorData } from '@data'
 export default {
 	name: 'aboutModal',
 	components: {
 		pluginCard
 	},
-	data () {
+	setup () {
+		const { urls } = useEditorData()
 		return {
-
+			urls
 		}
+
 	},
 	computed: {
 		pluginInfo () {
@@ -45,10 +56,18 @@ export default {
 		pluginProUpdate () {
 			return this.pluginInfo.pro_plugin_update || {}
 		},
+		IsPro () {
+			return this.pluginInfo.is_pro_active
+		},
 		pluginFreeUpdate () {
 			return this.pluginInfo.free_plugin_update || {}
 		}
 
+	},
+	methods: {
+		openWindow (link) {
+			window.open(link);
+		}
 	}
 }
 </script>

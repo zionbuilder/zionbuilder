@@ -66,6 +66,7 @@ import Shape from './Shape.vue'
 import { EmptyList } from '../EmptyList'
 import { UpgradeToPro } from '../UpgradeToPro'
 import { toRefs, onMounted, ref, readonly, inject } from 'vue'
+
 export default {
 	name: 'ShapeDividerComponent',
 	components: {
@@ -92,14 +93,15 @@ export default {
 	},
 	setup () {
 		const masks = inject('masks')
-
+		const plugin_info = inject('plugin_info')
 		return {
-			masks
+			masks,
+			plugin_info
 		}
 	},
 	computed: {
 		isPro () {
-			return true
+			return this.plugin_info.is_pro_active
 		},
 		shapes () {
 			return Object.values(this.masks)

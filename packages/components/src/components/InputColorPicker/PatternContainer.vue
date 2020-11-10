@@ -135,7 +135,6 @@ export default {
 				}
 			})
 		}
-
 		return {
 			localColorPatterns,
 			globalColorPatterns,
@@ -149,8 +148,13 @@ export default {
 	},
 	computed: {
 		isPro () {
-			return false
-			// return window.ZnPbAdminPageData.is_pro_active
+			if (window.ZnPbInitalData !== undefined) {
+				return window.ZnPbInitalData.plugin_info.is_pro_active
+			}
+			if (window.ZnPbAdminPageData !== undefined) {
+				return window.ZnPbAdminPageData.is_pro_active
+			}
+
 		},
 	},
 

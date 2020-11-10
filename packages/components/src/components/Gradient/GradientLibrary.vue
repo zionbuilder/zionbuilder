@@ -53,7 +53,7 @@
 import GradientPreview from './GradientPreview.vue'
 import LibraryElement from './LibraryElement.vue'
 import { Label } from '../Label'
-
+import { useIsPro } from '@zionbuilder/models'
 import { computed, inject } from 'vue'
 export default {
 	name: 'GradientLibrary',
@@ -74,7 +74,7 @@ export default {
 		const getValueByPath = inject('getValueByPath')
 		const updateValueByPath = inject('updateValueByPath')
 		const schema = inject('schema')
-
+		const { isPro } = useIsPro
 		const getGlobalGradients = computed(() => {
 			return $zb.options.getOptionValue('global_gradients')
 		})
@@ -99,14 +99,10 @@ export default {
 		}
 
 		return {
+			isPro,
 			getGlobalGradients,
 			getLocalGradients,
 			onGlobalGradientSelected
-		}
-	},
-	computed: {
-		isPro () {
-			return true
 		}
 	}
 }
