@@ -30,15 +30,15 @@
 					<div class="znpb-admin-colors__container">
 						<ColorBox
 							type="addcolor"
-							@option-updated="addGColor"
+							@option-updated="addGlobalColor"
 						/>
 
 						<ColorBox
 							v-for="(color,i) in globalColors"
 							v-bind:key="color.color + i"
 							:color="color.color"
-							@option-updated="editGColor(i, $event)"
-							@delete-color="deleteGColor(color)"
+							@option-updated="editGlobalColor(i, $event)"
+							@delete-color="deleteGlobalColor(color)"
 						/>
 					</div>
 				</template>
@@ -70,7 +70,10 @@ export default {
 			addLocalColor,
 			getOptionValue,
 			deleteLocalColor,
-			editLocalColor
+			editLocalColor,
+			addGlobalColor,
+			deleteGlobalColor,
+			editGlobalColor,
 		} = useBuilderOptions()
 		const localColors = getOptionValue('local_colors')
 		const globalColors = getOptionValue('global_colors')
@@ -82,29 +85,10 @@ export default {
 			editLocalColor,
 			deleteLocalColor,
 			// Global colors
-			globalColors
-		}
-	},
-	methods: {
-		// global colors
-		addGColor (color) {
-			let globalColor = {
-				id: generateUID(),
-				color: color,
-				name: color
-			}
-			this.$zb.options.addOptionValue('global_colors', globalColor)
-		},
-		editGColor (index, newcolor) {
-			let editColor = this.globalColorPatterns[index]
-
-			let clone = { ...editColor }
-			clone.color = newcolor
-
-			this.$zb.options.editGlobalColor({ index: index, color: clone })
-		},
-		deleteGColor (color) {
-			this.$zb.options.deleteOptionValue('global_colors', color)
+			globalColors,
+			addGlobalColor,
+			deleteGlobalColor,
+			editGlobalColor
 		}
 	}
 }

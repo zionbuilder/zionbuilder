@@ -120,6 +120,35 @@ export const useBuilderOptions = () => {
 		}
 	}
 
+	const addGlobalColor = (color) => {
+		options.value.global_colors.push(color)
+
+		saveOptionsToDB()
+	}
+
+	const deleteGlobalColor = (color) => {
+		const colorIndex = options.value.global_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.global_colors.splice(colorIndex, 1)
+		}
+
+		saveOptionsToDB()
+	}
+
+	const editGlobalColor = (color, newColor, saveToDB = true) => {
+		const colorIndex = options.value.global_colors.indexOf(color)
+
+		if (colorIndex !== -1) {
+			options.value.global_colors.splice(colorIndex, 1, newColor)
+		}
+
+		if (saveToDB) {
+			saveOptionsToDB()
+		}
+	}
+
+
 	return {
 		fetchOptions,
 		getOptionValue,
@@ -135,6 +164,9 @@ export const useBuilderOptions = () => {
 		addLocalColor,
 		deleteLocalColor,
 		editLocalColor,
+		addGlobalColor,
+		deleteGlobalColor,
+		editGlobalColor,
 
 		// General
 		options,
