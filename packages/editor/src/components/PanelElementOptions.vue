@@ -138,7 +138,6 @@ import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import BasePanel from './BasePanel.vue'
 import { useEditElement, useElementProvide, useEditorData } from '@data'
-// import { useEditorData } from '@data'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -187,8 +186,9 @@ export default {
 		})
 
 		// provide masks for ShapeDividerComponent option
-		const { masks } = useEditorData()
+		const { masks, plugin_info } = useEditorData()
 		provide('masks', masks)
+		provide('plugin_info', plugin_info)
 
 		provideElement(element)
 
