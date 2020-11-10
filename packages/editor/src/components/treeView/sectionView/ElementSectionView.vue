@@ -57,71 +57,76 @@
 	</li>
 </template>
 <script lang="ts">
-import { ref, Ref, PropType, computed } from 'vue'
-import domtoimage from 'dom-to-image'
-import { on } from '@zb/hooks'
-import { onMounted, onUpdated, onUnmounted } from 'vue'
-import { translate } from '@zb/i18n'
-import { Element, useElementMenu, useElementFocus } from '@data'
-import { useTreeViewItem } from '../useTreeViewItem'
+import { ref, Ref, PropType, computed } from "vue";
+import domtoimage from "dom-to-image";
+import { on } from "@zb/hooks";
+import { onMounted, onUpdated, onUnmounted } from "vue";
+import { translate } from "@zb/i18n";
+import { Element, useElementMenu, useElementActions } from "@data";
+import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {
-	name: 'element-section-view',
+	name: "element-section-view",
 	props: {
-		element: Object as PropType<Element>
+		element: Object as PropType<Element>,
 	},
-	setup (props) {
+	setup(props) {
 		const {
 			showElementMenu,
 			elementOptionsRef,
-			isActiveItem
-		} = useTreeViewItem(props)
+			isActiveItem,
+		} = useTreeViewItem(props);
 
-		const imageSrc = ref(null)
-		const error = ref(null)
-		const loading: Ref<boolean> = ref(false)
+		const imageSrc = ref(null);
+		const error = ref(null);
+		const loading: Ref<boolean> = ref(false);
 
 		onMounted(() => {
-			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId)
+			const domElement = window.frames[
+				"znpb-editor-iframe"
+			].contentDocument.getElementById(props.element.elementCssId);
 
 			if (!domElement) {
-				console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`)
-				return
+				console.warn(
+					`Element with id "${props.element.elementCssId}" could not be found in page`
+				);
+				return;
 			}
 
 			const filter = function (node) {
 				if (node && node.classList) {
-					if (node.classList.contains('znpb-empty-placeholder')) {
-						return false
+					if (node.classList.contains("znpb-empty-placeholder")) {
+						return false;
 					}
 				}
-				return true
-			}
+				return true;
+			};
 
-			domtoimage.toSvg(domElement, {
-				style: {
-					'width': '100%',
-					'margin': 0
-				},
-				filter: filter
-			})
+			domtoimage
+				.toSvg(domElement, {
+					style: {
+						width: "100%",
+						margin: 0,
+					},
+					filter: filter,
+				})
 				.then((dataUrl) => {
-					imageSrc.value = dataUrl
+					imageSrc.value = dataUrl;
 				})
 				.catch((error) => {
-					error = true
+					error = true;
 					// eslint-disable-next-line
-					console.error(translate('oops_something_wrong'), error)
+					console.error(translate("oops_something_wrong"), error);
 				})
 				.finally(() => {
-					loading.value = false
-				})
-		})
+					loading.value = false;
+				});
+		});
 
 		const onItemClick = () => {
-			props.element.focus
-			props.element.scrollTo = true
-		}
+			props.element.focus;
+			props.element.scrollTo = true;
+		};
 
 		return {
 			imageSrc,
@@ -130,11 +135,10 @@ export default {
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			onItemClick
-		}
-
-	}
-}
+			onItemClick,
+		};
+	},
+};
 </script>
 
 <style lang="scss" >

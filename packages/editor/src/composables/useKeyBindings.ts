@@ -1,13 +1,11 @@
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode, useElementFocus, useSavePage, useCopyElementStyles, useEditorData, useCopyCutPasteElement } from '@composables'
+import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions } from '@composables'
 
 export const useKeyBindings = () => {
 	const { openPanels, togglePanel } = usePanels()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
-	const { focusedElement, focusElement } = useElementFocus()
 	const { savePage, isSavePageLoading } = useSavePage()
-	const { copyElementStyles, pasteElementStyles } = useCopyElementStyles()
-	const { copyElement, pasteElement, copiedElement, resetCopiedElement } = useCopyCutPasteElement()
+	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
 	const { urls } = useEditorData()
 
 	const debounceUndo = debounce(function () {

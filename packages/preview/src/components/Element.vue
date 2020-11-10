@@ -72,7 +72,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { useElementTypes, usePreviewMode, useElementMenu, useElementFocus, useEditElement } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 
@@ -88,7 +88,7 @@ export default {
 	setup (props) {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
-		const { focusElement } = useElementFocus()
+		const { focusElement } = useElementActions()
 
 		let toolboxWatcher = null
 
