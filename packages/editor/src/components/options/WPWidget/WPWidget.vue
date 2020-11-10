@@ -20,7 +20,7 @@
 <script>
 import { getOptionsForm } from '@zb/rest'
 import { serialize } from 'dom-form-serializer'
-import { useEditElement } from '@data'
+import { useEditElement } from '@composables'
 
 export default {
 	name: 'WPWidget',

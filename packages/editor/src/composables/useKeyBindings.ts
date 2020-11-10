@@ -1,5 +1,5 @@
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode, useElementFocus, useSavePage, useCopyElementStyles, useEditorData, useCopyCutPasteElement } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useSavePage, useCopyElementStyles, useEditorData, useCopyCutPasteElement } from '@composables'
 
 export const useKeyBindings = () => {
 	const { openPanels, togglePanel } = usePanels()

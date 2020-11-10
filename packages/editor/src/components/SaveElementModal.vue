@@ -46,7 +46,7 @@
 
 <script>
 import { reactive, inject } from 'vue'
-import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@data'
+import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@composables'
 import { saveAs } from 'file-saver'
 import { mapActions } from 'vuex'
 import { exportTemplate } from '@zb/rest'

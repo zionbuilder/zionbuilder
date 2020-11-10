@@ -6,7 +6,7 @@ import { applyFilters } from '@zb/hooks'
  * and custom css
  */
 export default class Options {
-	constructor (schema, model, selector, options) {
+	constructor(schema, model, selector, options) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
@@ -22,19 +22,19 @@ export default class Options {
 		this.renderAttributes = {}
 	}
 
-	startLoading () {
+	startLoading() {
 		if (typeof this.options.onLoadingStart === 'function') {
 			this.options.onLoadingStart()
 		}
 	}
 
-	endLoading () {
+	endLoading() {
 		if (typeof this.options.onLoadingEnd === 'function') {
 			this.options.onLoadingEnd()
 		}
 	}
 
-	parseData () {
+	parseData() {
 		// Allow external data modification
 		const options = applyFilters('zionbuilder/options/model', this.model, this)
 
@@ -48,7 +48,7 @@ export default class Options {
 		}
 	}
 
-	parseOptions (schema, model, index = null) {
+	parseOptions(schema, model, index = null) {
 		Object.keys(schema).forEach((optionId) => {
 			const singleOptionSchema = schema[optionId]
 			let dependencyPassed = this.checkDependency(singleOptionSchema, model)
@@ -97,7 +97,7 @@ export default class Options {
 		return model
 	}
 
-	setPropperImage (optionId, schema, model) {
+	setPropperImage(optionId, schema, model) {
 		if (schema.type === 'image' && schema.show_size === true && model[optionId]) {
 			const imageConfig = model[optionId]
 
@@ -115,7 +115,7 @@ export default class Options {
 		}
 	}
 
-	setImage (optionsModel, optionId, newValue) {
+	setImage(optionsModel, optionId, newValue) {
 		const oldImage = (optionsModel[optionId] || {}).image
 		if (oldImage === newValue) {
 			return
@@ -129,7 +129,7 @@ export default class Options {
 		optionsModel[optionId] = newValues
 	}
 
-	addRenderAttribute (tagId, attribute, value, replace = false) {
+	addRenderAttribute(tagId, attribute, value, replace = false) {
 		if (!this.renderAttributes[tagId]) {
 			this.renderAttributes[tagId] = {}
 		}
@@ -147,7 +147,7 @@ export default class Options {
 		}
 	}
 
-	setRenderAttributes (schema, model, index = null) {
+	setRenderAttributes(schema, model, index = null) {
 		const CSSDeviceMap = {
 			default: '',
 			laptop: '--lg',
@@ -190,7 +190,7 @@ export default class Options {
 		}
 	}
 
-	setCustomCSS (schema, model, index = null) {
+	setCustomCSS(schema, model, index = null) {
 		if (schema.css_style && Array.isArray(schema.css_style)) {
 			schema.css_style.forEach(cssStyleConfig => {
 				if (schema.responsive_options && typeof model === 'object' && model !== null) {
@@ -202,7 +202,7 @@ export default class Options {
 		}
 	}
 
-	extractResponsiveCSSRules (optionType, cssStyleConfig, model, index) {
+	extractResponsiveCSSRules(optionType, cssStyleConfig, model, index) {
 		if (typeof model !== 'object' || model === null) {
 			return ''
 		}
@@ -213,7 +213,7 @@ export default class Options {
 		})
 	}
 
-	extractCSSRule (device, optionType, cssStyleConfig, model, index) {
+	extractCSSRule(device, optionType, cssStyleConfig, model, index) {
 		let { selector, value } = cssStyleConfig
 
 		if (!selector || !value) {
@@ -239,7 +239,7 @@ export default class Options {
 		}
 	}
 
-	addCustomCSS (device, selector, css) {
+	addCustomCSS(device, selector, css) {
 		if (typeof this.customCSS[device] === 'undefined') {
 			return
 		}
@@ -248,7 +248,7 @@ export default class Options {
 		this.customCSS[device][selector].push(css)
 	}
 
-	getCustomCSS () {
+	getCustomCSS() {
 		const CSSDeviceMap = {
 			laptop: '991.98px',
 			tablet: '767.98px',
@@ -280,7 +280,7 @@ export default class Options {
 		return returnedCSS
 	}
 
-	extractStyles (stylesData) {
+	extractStyles(stylesData) {
 		let returnedStyles = ''
 		if (typeof stylesData === 'object' && stylesData !== null) {
 			Object.keys(stylesData).forEach(selector => {
@@ -292,7 +292,7 @@ export default class Options {
 		return returnedStyles
 	}
 
-	checkDependency (optionSchema, model) {
+	checkDependency(optionSchema, model) {
 		let passedDependency = true
 
 		if (optionSchema.dependency) {
@@ -308,7 +308,7 @@ export default class Options {
 		return passedDependency
 	}
 
-	checkSingleDependency (dependencyConfig, model) {
+	checkSingleDependency(dependencyConfig, model) {
 		const { type = 'includes', option, option_path: optionPath, value: searchValue } = dependencyConfig
 		let optionValue = null
 
@@ -327,7 +327,7 @@ export default class Options {
 		return false
 	}
 
-	getValue (optionPath, defaultValue) {
+	getValue(optionPath, defaultValue) {
 		return getOptionValue(this.model, optionPath, defaultValue)
 	}
 }

@@ -135,7 +135,7 @@ import {
 	useElementFocus,
 	useCopyCutPasteElement,
 	useSaveTemplate
-} from '@data'
+} from '@composables'
 
 export default {
 	name: 'ElementActions',

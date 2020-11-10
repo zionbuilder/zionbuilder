@@ -91,7 +91,7 @@ import { mapActions } from 'vuex'
 import PseudoDropdownItem from './PseudoDropdownItem.vue'
 import { updateOptionValue } from '@zb/utils'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
-import { useEditorData } from '@data'
+import { useEditorData } from '@composables'
 export default {
 	name: 'PseudoSelectors',
 	components: {

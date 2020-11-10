@@ -22,7 +22,7 @@
 
 <script>
 import { resolveComponent } from 'vue'
-import { usePanels, useEditElement } from '@data'
+import { usePanels, useEditElement } from '@composables'
 
 export default {
 	name: 'BreadcrumbsItem',

@@ -21,7 +21,7 @@ module.exports = getConfig(
 	{
 		resolve: {
 			alias: {
-				'@data': path.resolve(__dirname, './src/data'),
+				'@composables': path.resolve(__dirname, './src/composables'),
 				'@components': path.resolve(__dirname, './src/components')
 			}
 		}

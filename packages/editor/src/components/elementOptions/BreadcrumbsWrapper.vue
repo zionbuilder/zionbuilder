@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="znpb-element-options__breadcrumbs znpb-fancy-scrollbar"
-	>
+	<div class="znpb-element-options__breadcrumbs znpb-fancy-scrollbar">
 		<Breadcrumbs
 			v-if="parents.children.length > 0"
 			:parents="parents"
@@ -14,7 +12,7 @@
 <script>
 import { computed } from 'vue'
 import Breadcrumbs from './Breadcrumbs.vue'
-import { useEditElement, useElements } from '@data'
+import { useEditElement, useElements } from '@composables'
 
 export default {
 	name: 'BreadcrumbsWrapper',

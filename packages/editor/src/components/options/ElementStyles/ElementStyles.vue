@@ -24,12 +24,12 @@
 import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
 import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
 import { useOptionsSchemas } from '@zb/components'
-import { useCSSClasses } from '@data'
+import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'ElementStyles',
 	props: ['modelValue', 'title', 'selector'],
-	setup() {
+	setup () {
 		const { getSchema } = useOptionsSchemas()
 		const { getClassConfig, updateCSSClass } = useCSSClasses()
 

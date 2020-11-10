@@ -32,29 +32,25 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles
-				:styles="customCSS"
-			/>
+			<ElementStyles :styles="customCSS" />
 		</template>
 
 		<template #end>
-				<div
-					class="znpb-hidden-element-container"
-					v-if="element.isVisible === false"
-				>
-
-					<div class="znpb-hidden-element-placeholder">
-						<Icon
-							icon="eye"
-							@click.stop="element.toggleVisibility()"
-						>
-						</Icon>
-					</div>
-				</div>
-
-			<transition
-				name="znpb-fade"
+			<div
+				class="znpb-hidden-element-container"
+				v-if="element.isVisible === false"
 			>
+
+				<div class="znpb-hidden-element-placeholder">
+					<Icon
+						icon="eye"
+						@click.stop="element.toggleVisibility()"
+					>
+					</Icon>
+				</div>
+			</div>
+
+			<transition name="znpb-fade">
 
 			</transition>
 		</template>
@@ -77,7 +73,7 @@ import VideoBackground from './VideoBackground.vue'
 
 // Composables
 import { useElementTypes, usePreviewMode, useElementMenu, useElementFocus, useEditElement } from '@zb/editor'
-import { useElementComponent } from '@data'
+import { useElementComponent } from '@composables'
 import Options from '../Options'
 
 export default {

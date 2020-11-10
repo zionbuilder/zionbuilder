@@ -23,14 +23,14 @@
 
 <script>
 import ColumnTemplates from './ColumnTemplates.vue'
-import { useAddElementsPopup } from '@data'
+import { useAddElementsPopup } from '@composables'
 
 export default {
 	name: "AddElementPopup",
 	components: {
 		ColumnTemplates
 	},
-	setup() {
+	setup () {
 		const { activePopup, hideAddElementsPopup } = useAddElementsPopup()
 
 		return {

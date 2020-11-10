@@ -19,9 +19,7 @@
 			/>
 		</div>
 
-		<div
-			class="znpb-fancy-scrollbar"
-		>
+		<div class="znpb-fancy-scrollbar">
 			<div class="znpb-wrapper-category">
 				<ElementList
 					v-if="visibleElements.length > 0"
@@ -40,7 +38,7 @@ import { ref, computed, onMounted } from 'vue'
 import { generateUID } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import ElementList from './ElementList.vue'
-import { useElementTypes, useElementTypeCategories, useAddElementsPopup } from '@data'
+import { useElementTypes, useElementTypeCategories, useAddElementsPopup } from '@composables'
 
 export default {
 	name: 'ElementsTab',
@@ -68,7 +66,7 @@ export default {
 		}].concat(categories.value)
 
 		// Computed
- 		const visibleElements = computed(() => {
+		const visibleElements = computed(() => {
 			let elements = getVisibleElements.value
 			const category = categoryValue.value
 			const keyword = searchKeyword.value
@@ -200,7 +198,8 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-		// margin-left: 10px;
+
+// margin-left: 10px;
 		background: transparent;
 	}
 }

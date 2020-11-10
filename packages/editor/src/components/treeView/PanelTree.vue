@@ -10,13 +10,12 @@
 		:show-expand="false"
 		:panel="panel"
 	>
-		<div
-			class="znpb-tree-view__header"
-		>
+		<div class="znpb-tree-view__header">
 			<div class="znpb-tree-view__header-menu">
 				<div
 					class="znpb-tree-view__header-menu-item"
 					v-for="(treeType, index) in treeViewTypes"
+					:key="index"
 					@click="activateTree(treeType)"
 					:class="{'znpb-tree-view__header-menu-item--active': activeTreeView.id===treeType.id}"
 				>
@@ -56,7 +55,7 @@ import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
-import { useElements, usePreviewLoading } from '@data'
+import { useElements, usePreviewLoading } from '@composables'
 import { translate } from '@zb/i18n'
 
 export default {

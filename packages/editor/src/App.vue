@@ -140,7 +140,7 @@ import { mapActions } from 'vuex'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@data'
+import { usePanels, usePreviewMode, useElementFocus, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
 
