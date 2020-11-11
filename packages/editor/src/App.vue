@@ -142,10 +142,11 @@ import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
 import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
-import { useNotifications } from '@zionbuilder/composables'
+import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
+
 export default {
 	name: 'znpb-editor-app',
 	components: {
@@ -162,6 +163,7 @@ export default {
 		ElementMenu
 	},
 	setup (props) {
+		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
@@ -264,23 +266,10 @@ export default {
 		}
 	},
 
-	created: function () {
-		window.addEventListener('resize', this.onResize)
-		Promise.all([
-			this.$zb.options.fetchOptions(),
-		]).then((values) => {
-		}).catch(error => {
-			// eslint-disable-next-line
-			console.error(error)
-		}).finally(() => {
-		})
-	},
 	beforeUnmount: function () {
-
 		// remove events
 		document.removeEventListener('click', this.deselectActiveElement)
 		document.removeEventListener('keydown', this.applyShortcuts)
-		window.removeEventListener('resize', this.onResize)
 	},
 	mounted () {
 		const { add } = useNotifications()

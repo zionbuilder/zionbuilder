@@ -327,7 +327,7 @@ class Editor {
 					'is_pro_active'      => Utils::is_pro_active(),
 					'is_pro_connected'   => apply_filters( 'zionbuilder/pro/is_conected', false ),
 					'free_version'       => Plugin::instance()->get_version(),
-					'pro_version'        => ( Utils::is_pro_active() && defined( 'ZIONBUILDERPRO_VERSION' ) ? Plugin::instance()->get_version() : null ),
+					'pro_version'        => Utils::is_pro_active() ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
 					'free_plugin_update' => $free_plugin_update,
 					'pro_plugin_update'  => $pro_plugin_update,
 				],
