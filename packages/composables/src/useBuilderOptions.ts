@@ -9,6 +9,7 @@ const options = ref({
 	google_fonts: [],
 	custom_fonts: [],
 	typekit_token: '',
+	typekit_fonts: [],
 	local_colors: [],
 	global_colors: [],
 	local_gradients: [],
@@ -222,6 +223,23 @@ export const useBuilderOptions = () => {
 		options.value.typekit_token = token
 	}
 
+	const addFontProject = (fontId) => {
+		const fontIndex = options.value.typekit_fonts.indexOf(fontId)
+
+		if (fontIndex === -1) {
+			options.value.typekit_fonts.push(fontId)
+		}
+		saveOptionsToDB()
+	}
+
+	const removeFontProject = (fontId) => {
+		const fontIndex = options.value.typekit_fonts.indexOf(fontId)
+
+		if (fontIndex !== -1) {
+			options.value.typekit_fonts.splice(fontIndex, 1)
+		}
+		saveOptionsToDB()
+	}
 
 	const addUserPermissions = (user) => {
 		options.value.users_permissions[user.id] = {
@@ -263,7 +281,6 @@ export const useBuilderOptions = () => {
 	}
 
 	const editRolePermission = (roleID, newValues) => {
-		console.log({roleID, newValues});
 		options.value.user_roles_permissions[roleID] = newValues
 
 		saveOptionsToDB()
@@ -304,6 +321,8 @@ export const useBuilderOptions = () => {
 
 		// Typekit token
 		addTypeKitToken,
+		removeFontProject,
+		addFontProject,
 
 		// Permissions
 		addUserPermissions,
