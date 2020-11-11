@@ -17,11 +17,11 @@
 				<template v-if="version!==null && updateVersion!==null">
 					<span>{{version}}</span>
 					<a
-						href="https://github.com/zionbuilder/zionbuilder"
+						:href="urls.free_changelog"
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						@click="openWindow(urls.updates_page)"
+						@click="openWindow(urls.free_changelog)"
 					>{{$translate('view_changelog')}}</a>
 
 				</template>
@@ -33,11 +33,11 @@
 				<template v-if="version!==null && updateVersion!==null">
 					<span>{{version}}</span>
 					<a
-						href="https://github.com/zionbuilder/zionbuilder"
+						:href="urls.pro_changelog"
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						@click="openWindow(urls.updates_page)"
+						@click="openWindow(urls.pro_changelog)"
 					>{{$translate('view_changelog')}}</a>
 
 				</template>
