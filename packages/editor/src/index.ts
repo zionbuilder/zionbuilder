@@ -1,7 +1,7 @@
 require('./scss/index.scss')
 import { createApp } from 'vue'
 import { store } from './store/'
-export * from './composables'
+
 // Main
 import * as hooks from '@zb/hooks'
 import { useElementTypes } from './composables'
@@ -23,6 +23,7 @@ import {
 import { useOptionsSchemas } from '@zb/components'
 
 // Exports
+export * from './composables'
 export * from '@zionbuilder/composables'
 
 // Register editor options schemas

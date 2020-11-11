@@ -53,7 +53,6 @@
 
 <script>
 import { computed } from 'vue'
-import { generateUID } from '@zionbuilder/utils'
 import { useBuilderOptions } from '@zionbuilder/composables'
 
 // Components

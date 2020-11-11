@@ -1,4 +1,5 @@
 import { generateUID } from '@zb/utils'
+import { regenerateUIDs } from '@utils'
 import { each, update, get } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
@@ -216,25 +217,10 @@ export class Element {
 	}
 
 	getClone() {
-		const uid = generateUID()
-		const cloneConfig = JSON.parse(JSON.stringify({
-			uid,
-			content: this.content,
-			element_type: this.element_type,
-			options: this.options
-		}))
+		const configAsJSON = this.toJSON()
+		regenerateUIDs(configAsJSON)
 
-		const clonedContent = cloneConfig.content.map((childElementUID: string) => {
-			const elementInstance = getElement(childElementUID)
-			// Add the instance to all elements
-			const cloneInstance = registerElement(elementInstance.getClone(), uid)
-
-			return cloneInstance.uid
-		})
-
-		// Replace content with new one that has updated uids
-		cloneConfig.content = clonedContent
 		// Add the instance to all elements
-		return registerElement(cloneConfig, this.parent.uid)
+		return registerElement(configAsJSON, this.parent.uid)
 	}
 }

@@ -1,12 +1,13 @@
 <template>
 	<Modal
+		v-if="activeSaveElement.type"
 		:title="$translate('save_to_library')"
 		append-to="body"
 		:width="560"
 		:show-maximize="true"
 		class="znpb-modal-save-element"
-		v-if="activeSaveElement.type"
 		:show="true"
+		@close-modal="hideSaveElement"
 	>
 		<div class="znpb-modal-save-element-wrapper">
 			<OptionsForm
@@ -45,10 +46,11 @@
 </template>
 
 <script>
-import { reactive, inject } from 'vue'
-import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@composables'
+import { inject, ref } from 'vue'
 import { saveAs } from 'file-saver'
-import { mapActions } from 'vuex'
+
+import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@composables'
+import { useLocalLibrary } from '@zionbuilder/composables'
 import { exportTemplate } from '@zb/rest'
 import { compileElement } from '@zb/utils'
 import { on, off } from '@zb/hooks'
@@ -56,19 +58,18 @@ import { on, off } from '@zb/hooks'
 export default {
 	name: 'SaveElementModal',
 	setup () {
-		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
+		const { activeSaveElement, hideSaveElement } = useSaveTemplate()
 		const { getElement } = useElements()
 		const { getTemplatePart } = useTemplateParts()
-		const { template_categories } = useEditorData()
-		const formModel = reactive({})
+		const { editorData } = useEditorData()
+		const formModel = ref({})
 		const $zb = inject('$zb')
 
 		return {
 			getElement,
 			getTemplatePart,
-			template_categories,
+			templateCategories: editorData.value.template_categories,
 			activeSaveElement,
-			showSaveElement,
 			hideSaveElement,
 			formModel
 		}
@@ -86,7 +87,7 @@ export default {
 		templateCategoriesOption () {
 			let options = []
 
-			this.template_categories.forEach((category) => {
+			this.templateCategories.forEach((category) => {
 				options.push({
 					id: category.slug,
 					name: category.name
@@ -118,12 +119,8 @@ export default {
 		this.errorMessage = ''
 	},
 	methods: {
-		...mapActions([
-			'addTemplate',
-			'updateTemplateCategories'
-		]),
-
 		saveElement () {
+			const { addTemplate } = useLocalLibrary()
 			const { element, type } = this.activeSaveElement
 			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : [element.toJSON()]
 			const templateType = type === 'template' ? 'template' : 'block'
@@ -133,7 +130,7 @@ export default {
 			this.loadingMessage = ''
 			this.errorMessage = ''
 
-			this.$zb.templates.addTemplate({
+			addTemplate({
 				title: this.formModel.title,
 				template_category: this.formModel.category,
 				template_type: templateType,
@@ -144,8 +141,10 @@ export default {
 				if (response.data.template_category.length > 0) {
 					let addedCat = response.data.template_category[0]
 					const found = this.templateCategoriesOption.findIndex(cat => cat.id === addedCat.slug)
+
 					if (found === -1) {
-						this.updateTemplateCategories(addedCat)
+						console.log(this.templateCategories);
+						this.templateCategories.push(addedCat)
 					}
 				}
 			})
@@ -158,17 +157,19 @@ export default {
 						// add console warn if template was saved without a category
 						// in this case there is also success and error
 						// eslint-disable-next-line
-						console.warn(error)
+						console.error(error)
 						this.errorMessage = error
 					}
 				})
 				.finally(() => {
 					this.loading = false
+					this.formModel = {}
+
 					setTimeout(() => {
 						this.loadingMessage = false
 						this.errorMessage = false
-						this.model = {}
 					}, 3500)
+
 				})
 		},
 
@@ -193,6 +194,7 @@ export default {
 					var blob = new Blob([response.data], { type: 'application/zip' })
 					saveAs(blob, `${fileName}.zip`)
 					this.loadingMessage = ''
+					this.hideSaveElement()
 				})
 				.catch((error) => {
 					if (typeof error.response.data === 'string') {

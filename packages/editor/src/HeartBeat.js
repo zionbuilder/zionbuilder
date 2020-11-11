@@ -3,7 +3,7 @@ import { useEditorData, usePostLock } from '@composables'
 
 class HeartBeat {
 	constructor() {
-		const { page_id } = useEditorData()
+		const { editorData } = useEditorData()
 		const { isPostLocked } = usePostLock()
 		/**
 		 * Check if the post was locked by another user
@@ -29,7 +29,7 @@ class HeartBeat {
 		window.jQuery(document).on({
 			'heartbeat-send': (event, data) => {
 				data['wp-refresh-post-lock'] = {
-					post_id: page_id
+					post_id: editorData.value.page_id
 				}
 			}
 		})

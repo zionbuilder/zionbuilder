@@ -221,7 +221,7 @@ export default {
 		const { togglePanel, openPanels } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { setElementConfigForLibrary } = useLibraryElements()
-		const { urls } = useEditorData()
+		const { editorData } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
 		const { currentHistoryIndex } = useHistory()
 		const saveActions = [
@@ -251,7 +251,7 @@ export default {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setElementConfigForLibrary,
-			urls,
+			urls: editorData.value.urls,
 			getMainBarOrder,
 			getMainBarPointerEvents,
 			getMainbarPosition,
@@ -344,9 +344,6 @@ export default {
 		}
 	},
 	methods: {
-		// ...mapActions([
-		// 	'setActiveShowElementsPopup',
-		// ]),
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')

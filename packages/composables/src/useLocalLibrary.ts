@@ -15,6 +15,8 @@ export const useLocalLibrary = () => {
 
 		return getTemplates().then((response) => {
 			libaryItems.value = response.data
+			// Allow chaining
+			return Promise.resolve(response)
 		}).finally(() => {
 			loading.value = false
 		})
@@ -25,6 +27,9 @@ export const useLocalLibrary = () => {
 
 		return addTemplateToDB(template).then((response) => {
 			libaryItems.value.push(response.data)
+
+			// Allow chaining
+			return Promise.resolve(response)
 		}).finally(() => {
 			loading.value = false
 		})
@@ -35,6 +40,9 @@ export const useLocalLibrary = () => {
 
 		return deleteTemplateToDB(templateID).then((response) => {
 			remove(libaryItems.value, (template) => template.ID === templateID)
+
+			// Allow chaining
+			return Promise.resolve(response)
 		}).finally(() => {
 			loading.value = false
 		})

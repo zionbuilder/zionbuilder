@@ -6,7 +6,7 @@ export const useKeyBindings = () => {
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
-	const { urls } = useEditorData()
+	const { editorData } = useEditorData()
 
 	const debounceUndo = debounce(function () {
 		if (this.canUndo) {
@@ -130,7 +130,7 @@ export const useKeyBindings = () => {
 		// Redo CTRL+SHIFT+D -- Back to WP Dashboard
 		if (e.code === 'KeyD' && e.ctrlKey && e.shiftKey) {
 			window.open(
-				urls.edit_page,
+				editorData.value.urls.edit_page,
 				'_blank'
 			)
 		}

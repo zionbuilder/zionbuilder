@@ -43,9 +43,10 @@ export default {
 		pluginCard
 	},
 	setup () {
-		const { urls } = useEditorData()
+		const { editorData } = useEditorData()
+
 		return {
-			urls
+			urls: editorData.value.urls
 		}
 
 	},

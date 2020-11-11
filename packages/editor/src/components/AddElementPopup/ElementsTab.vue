@@ -35,10 +35,11 @@
 </template>
 <script>
 import { ref, computed, onMounted } from 'vue'
-import { generateUID } from '@zb/utils'
-import { on, off } from '@zb/hooks'
-import ElementList from './ElementList.vue'
 import { useElementTypes, useElementTypeCategories, useAddElementsPopup } from '@composables'
+import { on, off } from '@zb/hooks'
+
+// Components
+import ElementList from './ElementList.vue'
 
 export default {
 	name: 'ElementsTab',
@@ -198,8 +199,7 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-
-// margin-left: 10px;
+		// margin-left: 10px;
 		background: transparent;
 	}
 }

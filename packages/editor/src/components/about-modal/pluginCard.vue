@@ -116,9 +116,10 @@ export default {
 		}
 	},
 	setup (props) {
-		const { urls } = useEditorData()
+		const { editorData } = useEditorData()
+
 		return {
-			urls
+			urls: editorData.value.urls
 		}
 	},
 	methods: {

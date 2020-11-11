@@ -14,6 +14,7 @@
 			>
 				<Tooltip
 					v-for="action in actions"
+					:key="action.title"
 				>
 					<template #content>
 						<div
@@ -62,7 +63,7 @@ import { translate } from '@zb/i18n'
 import { trigger } from '@zb/hooks'
 
 // Composables
-import { useEditElement } from '@zb/editor'
+import { useEditElement, useSaveTemplate } from '@zb/editor'
 
 export default {
 	name: 'TopBarToolbox',
@@ -70,6 +71,7 @@ export default {
 		element: Object
 	},
 	setup(props, { emit }) {
+		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
@@ -88,27 +90,15 @@ export default {
 			}
 		}
 
-		function openOptionsPanel () {
-			editElement(props.element)
-		}
-
-		function emitEventbus (event) {
-			// TODO: implement element save panel
-			trigger('save-element', {
-				elementUid: props.element.uid,
-				parentUid: props.element.parent.uid
-			})
-		}
-
 		const actions = [
 			{
 				title: translate('edit_element'),
-				action: openOptionsPanel,
+				action: () => editElement(props.element),
 				icon: 'edit'
 			},
 			{
 				title: translate('save_element'),
-				action: emitEventbus,
+				action: () => showSaveElement(props.element, 'block'),
 				icon: 'export'
 			},
 			{

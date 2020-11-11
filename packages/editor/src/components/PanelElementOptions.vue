@@ -186,9 +186,9 @@ export default {
 		})
 
 		// provide masks for ShapeDividerComponent option
-		const { masks, plugin_info } = useEditorData()
-		provide('masks', masks)
-		provide('plugin_info', plugin_info)
+		const { editorData } = useEditorData()
+		provide('masks', editorData.value.masks)
+		provide('plugin_info', editorData.value.plugin_info)
 
 		provideElement(element)
 

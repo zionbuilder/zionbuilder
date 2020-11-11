@@ -76,8 +76,7 @@ export default {
 		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveDraft } = useSavePage()
-		const { page_id: pageId } = useEditorData()
-		const { urls } = useEditorData()
+		const { editorData } = useEditorData()
 		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
 		const { addWindow, addEventListener, removeEventListener } = useWindows()
 
@@ -87,8 +86,8 @@ export default {
 			unFocusElement,
 			applyShortcuts,
 			saveDraft,
-			pageId,
-			urls,
+			pageId: editorData.value.page_id,
+			urls: editorData.value.urls,
 			getIframeOrder,
 			getIframePointerEvents,
 			addWindow,

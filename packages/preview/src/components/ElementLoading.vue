@@ -9,10 +9,10 @@
 export default {
 	name: 'ElementLoading',
 	setup () {
-		const { urls } = useEditorData()
+		const { editorData } = useEditorData()
 
 		return {
-			urls
+			urls: editorData.value.urls
 		}
 	},
 	computed: {

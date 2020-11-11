@@ -14,7 +14,7 @@ export function useSavePage () {
 		const contentTemplatePart = getTemplatePart('content')
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
-		const { page_id: pageId } = useEditorData()
+		const { editorData } = useEditorData()
 
 		if (!contentTemplatePart) {
 			console.error('Content template data not found.')
@@ -22,7 +22,7 @@ export function useSavePage () {
 		}
 
 		const pageData = {
-			page_id: pageId,
+			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
 			css_classes: CSSClasses.value

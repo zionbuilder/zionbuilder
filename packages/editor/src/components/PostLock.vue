@@ -61,16 +61,15 @@ export default {
 		}
 	},
 	setup () {
-		const { page_id: pageId } = useEditorData()
+		const { editorData } = useEditorData()
 		const { isPostLocked, lockedUserInfo, takeOverPost } = usePostLock()
-		const { urls } = useEditorData()
 
 		return {
-			pageId,
+			pageId: editorData.value.page_id,
 			isPostLocked,
 			lockedUserInfo,
 			takeOverPost,
-			urls
+			urls: editorData.value.urls
 		}
 	},
 	methods: {

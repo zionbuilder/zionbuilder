@@ -119,14 +119,14 @@ export default {
 				$emit('update:modelValue', newValues)
 			}
 		})
-		const { plugin_info } = useEditorData()
+		const { editorData } = useEditorData()
 		return {
 			activeResponsiveDeviceInfo,
 			pseudoSelectors,
 			activePseudoSelector,
 			hasContent,
 			activePseudoSelectors,
-			plugin_info
+			plugin_info: editorData.value.plugin_info
 		}
 	},
 	computed: {

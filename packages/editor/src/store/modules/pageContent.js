@@ -97,9 +97,6 @@ const getters = {
 let droppingTimeout = null
 
 const actions = {
-	updateTemplateCategories ({ commit }, payload) {
-		commit(types.SET_TEMPLATE_CATEGORIES, payload)
-	},
 	setActiveElement ({ commit }, elementUid) {
 		commit(types.SET_ACTIVE_ELEMENT, elementUid)
 	},
