@@ -1,5 +1,8 @@
 <template>
-	<div class="zb-el-counter">
+	<div
+		class="zb-el-counter"
+		ref="root"
+	>
 		<slot name="start" />
 
 		<div
@@ -25,36 +28,39 @@
 </template>
 
 <script>
+import { ref, watch, nextTick, onMounted, computed } from 'vue'
+
 export default {
 	name: 'counter',
 	props: ['options', 'data', 'api'],
-	mounted () {
-		this.$nextTick(() => {
-			this.runScript()
+	setup (props) {
+		const root = ref(null)
+
+		onMounted(() => {
+			runScript()
 		})
-	},
-	methods: {
-		runScript () {
+
+		watch(
+			() => [
+				props.options.start,
+				props.options.end,
+				props.options.duration
+			].toString()
+		, (newValue, oldValue) => {
+			runScript()
+		})
+
+		function runScript () {
 			const script = window.ZionBuilderFrontend.getScript('counter')
 
 			if (script) {
-				script.run(this.$el)
+				script.run(root.value)
 			}
 		}
-	},
-	created () {
-		this.$watch((vm) => {
-			return [
-				vm.options.start,
-				vm.options.end,
-				vm.options.duration,
-				vm.options.before,
-				vm.options.after,
-				Date.now()
-			]
-		}, () => {
-			this.runScript()
-		})
+
+		return {
+			root
+		}
 	}
 }
 </script>
