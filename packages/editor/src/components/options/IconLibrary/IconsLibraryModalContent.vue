@@ -21,7 +21,7 @@
 		</div>
 		<div class="znpb-icon-pack-modal-scroll znpb-fancy-scrollbar">
 			<IconPackGrid
-				v-for='(pack,i) in filteredList'
+				v-for="(pack,i) in filteredList"
 				:key=i
 				:icon-list="pack.icons"
 				:family="pack.name"
@@ -36,10 +36,13 @@
 </template>
 
 <script>
-import { useDataSets } from '@zb/components'
+import { useDataSets, IconPackGrid } from '@zb/components'
 
 export default {
 	name: 'IconsLibraryModalContent',
+	components: {
+		IconPackGrid
+	},
 	props: {
 		modelValue: {
 			type: Object,
@@ -88,6 +91,9 @@ export default {
 		iconValue () {
 			return this.modelValue || {}
 		},
+		getPacks () {
+			return this.dataSets.icons !== undefined ? this.dataSets.icons : []
+		},
 		searchModel: {
 			get () {
 				return this.keyword
@@ -128,10 +134,10 @@ export default {
 				return this.specialFilterPack
 			}
 			if (this.activeCategory === 'all') {
-				return this.dataSets.value.icons
+				return this.getPacks
 			} else {
 				let newArray = []
-				for (const pack of this.dataSets.value.icons) {
+				for (const pack of this.getPacks) {
 					if (pack.id === this.activeCategory) {
 						newArray.push(pack)
 					}
@@ -147,7 +153,7 @@ export default {
 				}
 			]
 			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
-				this.dataSets.value.icons.forEach((pack) => {
+				this.getPacks.forEach((pack) => {
 					let a = {
 						name: pack.name,
 						id: pack.id

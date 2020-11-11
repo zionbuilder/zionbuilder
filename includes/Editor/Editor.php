@@ -303,6 +303,8 @@ class Editor {
 					'all_pages_url'          => $post_instance->get_all_pages_url(),
 					'purchase_url'           => 'https://zionbuilder.io/pricing/',
 					'documentation_url'      => 'https://zionbuilder.io/help-center/',
+					'free_changelog'         => 'https://zionbuilder.io/changelog-free-version/',
+					'pro_changelog'          => 'https://zionbuilder.io/changelog-pro-version/',
 					'ajax_url'               => admin_url( 'admin-ajax.php', 'relative' ),
 				],
 				'masks'               => Masks::getshapes(),

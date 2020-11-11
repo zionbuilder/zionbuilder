@@ -3,17 +3,17 @@
 		<div
 			class="znpb-icon-trigger"
 			@click.self="open"
-			:class="{['znpb-icon-trigger--no-icon']: !value}"
+			:class="{['znpb-icon-trigger--no-icon']: !modelValue}"
 		>
 			<div
-				v-if="value"
+				v-if="modelValue"
 				class="znpb-icon-options__delete"
 			>
 				<span
 					@click="showModal=true"
 					class="znpb-icon-preview"
-					:data-znpbiconfam="value.family"
-					:data-znpbicon="unicode(value.unicode)"
+					:data-znpbiconfam="modelValue.family"
+					:data-znpbicon="unicode(modelValue.unicode)"
 				>
 				</span>
 				<Icon
