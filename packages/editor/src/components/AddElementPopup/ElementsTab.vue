@@ -49,14 +49,23 @@ export default {
 	props: {
 		element: {
 			type: Object
-		}
+		},
+		searchKeyword: String
 	},
 	setup (props) {
 		const { getVisibleElements } = useElementTypes()
 		const { categories } = useElementTypeCategories()
 
 		// Refs
-		const searchKeyword = ref('')
+		const localSearchKeyword = ref(null)
+		const searchKeyword = computed(
+			{
+				get: () => localSearchKeyword.value ? localSearchKeyword.value : props.searchKeyword,
+				set: (newValue) => {
+					localSearchKeyword.value = newValue
+				}
+			}
+		)
 		const categoryValue = ref('all')
 		const searhInputEl = ref(null)
 

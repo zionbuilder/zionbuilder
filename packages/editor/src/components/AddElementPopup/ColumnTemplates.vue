@@ -1,8 +1,11 @@
 <template>
-	<div class="znpb-columns-templates-wrapper">
+	<div
+		class="znpb-columns-templates-wrapper"
+	>
 		<Tabs
 			title-position="center"
 			:active-tab="activeTab"
+			@changed-tab="active=$event, searchKeyword=''"
 		>
 			<Tab
 				name="Columns"
@@ -25,7 +28,10 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsTab :element="element" />
+				<ElementsTab
+					:element="element"
+					:search-keyword="searchKeyword"
+				/>
 			</Tab>
 			<Tab name="Library">
 				<Icon
@@ -48,12 +54,12 @@
 	</div>
 </template>
 <script>
-import { ref, computed, onBeforeUnmount } from 'vue'
+import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick } from 'vue'
 import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels, useAddElementsPopup } from '@composables'
+import { usePanels, useAddElementsPopup, useWindows } from '@composables'
 
 export default {
 	name: 'ColumnTemplates',
@@ -68,6 +74,8 @@ export default {
 	setup (props, { emit }) {
 		const { closePanel } = usePanels()
 		const active = ref(null)
+		const { addEventListener, removeEventListener } = useWindows()
+
 		const spanElements = {
 			'full': 1,
 			'one-of-two': 2,
@@ -86,8 +94,8 @@ export default {
 			'3-3-3-3-6': 5,
 			'3-3-6-3-3': 5
 		}
-		const layouts = getLayoutConfigs()
 
+		const layouts = getLayoutConfigs()
 		const activeTab = computed(() => {
 			if (active.value !== null) {
 				return active.value
@@ -183,6 +191,15 @@ export default {
 			// this.closePanel('PanelLibraryModal')
 		}
 
+		const searchKeyword = ref('')
+		function onKeyDown(event) {
+			active.value = 'elements'
+			searchKeyword.value += event.key
+		}
+
+		onMounted(() => addEventListener('keyup', onKeyDown))
+		onUnmounted(() => removeEventListener('keydown', onKeyDown))
+
 		return {
 			layouts,
 			active,
@@ -191,7 +208,8 @@ export default {
 			// methods
 			getSpanNumber,
 			addElements,
-			closePanel
+			closePanel,
+			searchKeyword
 		}
 	}
 }
