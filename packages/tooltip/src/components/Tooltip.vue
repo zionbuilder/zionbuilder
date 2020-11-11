@@ -249,7 +249,25 @@ export default {
 		},
 		popperOptions() {
 			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
-			return merge(options, this.$attrs);
+			const instanceOptions = JSON.parse(JSON.stringify(this.$attrs))
+
+			// Apply offset for arrow
+			if (this.showArrows) {
+				instanceOptions.modifiers = instanceOptions.modifiers || []
+
+				const hasOffsetModifier = instanceOptions.modifiers.find(modfier => modifier.name === 'offset')
+
+				if (!hasOffsetModifier) {
+					instanceOptions.modifiers.push({
+						name: 'offset',
+						options: {
+							offset: [0, 10],
+						},
+					})
+				}
+			}
+
+			return merge(options, instanceOptions);
 		},
 		appendToOption() {
 			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
@@ -553,6 +571,7 @@ export default {
 			content: "";
 			top: 0;
 			left: 0;
+			z-index: -1;
 			display: block;
 			width: 8px;
 			height: 8px;

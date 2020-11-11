@@ -58,7 +58,6 @@
 				:show-arrows="false"
 				append-to="element"
 				:trigger="null"
-				placement="bottom-end"
 				@show="openPseudo"
 				@hide="closePseudo"
 			>
@@ -89,7 +88,7 @@
 				:show-arrows="false"
 				append-to="element"
 				:trigger="null"
-				placement="bottom-end"
+				placement="bottom"
 				tooltip-class="znpb-has-responsive-options"
 				:close-on-outside-click="true"
 				@show="openResponsive"

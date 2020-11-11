@@ -20,6 +20,7 @@
 				<template v-slot:content>
 					<div> {{description}}</div>
 				</template>
+
 				<Icon
 					icon="question-mark"
 				/>
