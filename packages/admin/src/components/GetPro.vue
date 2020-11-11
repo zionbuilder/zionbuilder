@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { translate } from '@zb/i18n'
+
 export default {
 	name: 'GetPro',
 	props: {
@@ -31,7 +33,7 @@ export default {
 			type: String,
 			required: false,
 			default () {
-				return this.$translate('pro_features')
+				return translate('pro_features')
 			}
 		}
 	},

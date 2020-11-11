@@ -12,7 +12,7 @@ import App from './App.vue'
 import { errorInterceptor } from '@zionbuilder/rest'
 
 import { install as ComponentsInstall } from '@zb/components'
-import { install as I18nInstall } from '@zionbuilder/i18n'
+import { install as I18nInstall } from '@zb/i18n'
 
 // Components
 import SideMenu from './components/SideMenu.vue'
