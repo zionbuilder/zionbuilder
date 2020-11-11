@@ -29,7 +29,6 @@
 				{{$translate('add_new_template')}}
 			</Button>
 		</div>
-
 		<Modal
 			v-model:show="showModal"
 			:show-maximize="false"
@@ -39,7 +38,7 @@
 		>
 			<ModalAddNewTemplate
 				:template-type="templateType"
-				@save-template="onAddTemplate"
+				@save-template="onAddNewTemplate"
 			/>
 		</Modal>
 
@@ -52,7 +51,7 @@
 </template>
 <script>
 import { computed, inject, ref, reactive, watchEffect } from 'vue'
-import { getTemplates, addTemplate } from '@zionbuilder/rest'
+import { useLocalLibrary } from '@zionbuilder/composables'
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
@@ -77,15 +76,17 @@ export default {
 		}
 	},
 	setup (props) {
-		const $zb = inject('$zb')
+		const {
+			fetchTemplates,
+			libaryItems,
+			loading,
+			addTemplate
+		} = useLocalLibrary()
 
-		const loading = ref(true)
-		const hasError = ref(false)
 		const showModalConfirm = ref(false)
 		const showModal = ref(false)
 		const activeTemplate = ref(null)
 		const activeFilter = ref('publish')
-		const localtemplates = ref([])
 
 		const tabs = ref([
 			{
@@ -102,40 +103,23 @@ export default {
 			}
 		])
 
-
-		getTemplates().then((values) => {
-			$zb.templates.fetchTemplates(values.data)
-			localtemplates.value = $zb.templates.models
-		}).catch(error => {
-			hasError = true
-			console.error(error)
-		}).finally(() => {
-			loading.value = false
-		})
+		// Load all templates
+		fetchTemplates()
 
 		const getFilteredTemplates = computed(() => {
-			return localtemplates.value.filter((template) => {
+			return libaryItems.value.filter((template) => {
 				return template.post_status === activeFilter.value && template.template_type && template.template_type === props.templateType
 			})
 		})
 
-		function onTabChange (tabId) {
-			activeFilter.value = tabId
+		function onAddNewTemplate(template) {
+			addTemplate(template).finally(() => {
+				showModal.value = false
+			})
 		}
 
-		function onAddTemplate (template) {
-
-			addTemplate(template).then(() => {
-				showModal.value = false
-				loading.value = true
-				$zb.templates.addTemplate(template)
-			})
-			getTemplates().then((values) => {
-				$zb.templates.fetchTemplates(values.data)
-				localtemplates.value = $zb.templates.models
-			}).finally(() => {
-				loading.value = false
-			})
+		function onTabChange (tabId) {
+			activeFilter.value = tabId
 		}
 
 		return {
@@ -146,9 +130,8 @@ export default {
 			tabs,
 			loading,
 			getFilteredTemplates,
-			onAddTemplate,
-			onTabChange,
-			localtemplates
+			onAddNewTemplate,
+			onTabChange
 		}
 	}
 }

@@ -10,7 +10,6 @@ import { registerEditorOptions } from './components/options'
 import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
-import { Options, Templates } from '@zionbuilder/models'
 import { useNotifications } from '@zionbuilder/composables'
 
 import {
@@ -37,8 +36,6 @@ registerEditorOptions()
 import App from './App.vue'
 
 // init data
-const options = new Options()
-const templates = new Templates()
 const appInstance = createApp(App)
 
 // Init global components
@@ -57,8 +54,6 @@ appInstance.component('WireframeListItem', WireframeListItem)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	options,
-	templates,
 	hooks,
 	appInstance,
 	urls: window.ZnPbInitalData.urls
@@ -72,7 +67,5 @@ const { registerElementComponent } = useElementTypes()
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
-	options,
-	templates,
 	registerElementComponent
 }

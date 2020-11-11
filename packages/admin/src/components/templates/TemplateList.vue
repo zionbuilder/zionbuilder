@@ -43,56 +43,72 @@
 </template>
 
 <script>
-import { deleteTemplate } from '@zionbuilder/rest'
+import { ref, computed } from 'vue'
 
 // Components
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
+import { useLocalLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'TemplateList',
-	props: ['templates', 'showInsert', 'activeItem', 'loadingItem'],
-	data () {
-		return {
-			showModalConfirm: false,
-			activeTemplate: null,
-			showModalPreview: false,
-			templateTitle: null,
-			templatePreview: null,
-			localLoadingItem: null
-		}
-	},
 	components: {
 		TemplateItem,
 		ModalTemplatePreview
 	},
-	computed: {
-		getLoadingItem () {
-			return this.loadingItem ? this.loadingItem : this.localLoadingItem ? this.localLoadingItem : {}
-		},
-		sortedTemplates () {
-			let a = [...this.templates].sort((a, b) => (a.post_modified < b.post_modified) ? 1 : -1)
-			return a
-		}
-	},
-	methods: {
-		showConfirmDelete (template) {
-			this.showModalConfirm = true
-			this.activeTemplate = template
-		},
-		activateModalPreview (template) {
-			this.showModalPreview = true
-			this.templateTitle = template.post_title
-			this.templatePreview = template.preview_url
-		},
-		onTemplateDelete () {
-			this.localLoadingItem = this.activeTemplate
+	props: ['templates', 'showInsert', 'activeItem', 'loadingItem'],
+	setup(props) {
+		const { deleteTemplate } = useLocalLibrary()
 
-			deleteTemplate(this.activeTemplate.ID).then(() => {
-				this.localLoadingItem = false
-				this.showModalConfirm = false
-				this.$zb.templates.remove(this.activeTemplate)
+
+		const showModalConfirm = ref(false)
+		const activeTemplate = ref(null)
+		const showModalPreview = ref(false)
+		const templateTitle = ref(null)
+		const templatePreview = ref(null)
+		const localLoadingItem = ref(null)
+
+		// Computed
+		const getLoadingItem = computed(() => props.loadingItem ? props.loadingItem : localLoadingItem.value ? localLoadingItem.value : {})
+		const sortedTemplates = computed(() => [...props.templates].sort((a, b) => (a.post_modified < b.post_modified) ? 1 : -1))
+
+		// Methods
+		function showConfirmDelete (template) {
+			showModalConfirm.value = true
+			activeTemplate.value = template
+		}
+
+		function activateModalPreview (template) {
+			showModalPreview.value = true
+			templateTitle.value = template.post_title
+			templatePreview.value = template.preview_url
+		}
+
+		function onTemplateDelete () {
+			localLoadingItem.value = activeTemplate.value
+
+			deleteTemplate(activeTemplate.value.ID).then(() => {
+				localLoadingItem.value = false
+				showModalConfirm.value = false
 			})
+		}
+
+		return {
+			// Data
+			localLoadingItem,
+			showModalPreview,
+			templateTitle,
+			templatePreview,
+			showModalConfirm,
+
+			// Computed
+			getLoadingItem,
+			sortedTemplates,
+
+			// methods
+			showConfirmDelete,
+			activateModalPreview,
+			onTemplateDelete
 		}
 	}
 }

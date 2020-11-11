@@ -19,7 +19,6 @@ import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
 import ListAnimate from './components/ListAnimate.vue'
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
-import { Users, GoogleFonts, Options, Templates } from '@zionbuilder/models'
 
 // Exports
 export * from '@zionbuilder/composables'
@@ -36,12 +35,6 @@ appInstance.use(ComponentsInstall)
 appInstance.use(I18nInstall, window.ZnPbAdminPageData.l10n)
 
 const notifications = useNotifications()
-const templates = new Templates()
-
-// Add editor methods and utilities to all components
-appInstance.config.globalProperties.$zb = {
-	templates
-}
 
 window.addEventListener('load', function() {
 	// Trigger event so others can hook into ZionBuilder API
@@ -64,10 +57,5 @@ window.addEventListener('load', function() {
 	})
 
 	appInstance.use(router)
-	appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 	appInstance.mount('#znpb-admin')
 })
-
-export {
-	templates
-}
