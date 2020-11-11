@@ -25,8 +25,8 @@ export default {
 		}
 	},
 	setup (props) {
-		const iconUnicode = computed (() => {
-			const unicode = JSON.parse(`"\\${this.iconConfig.unicode}"`)
+		const iconUnicode = computed(() => {
+			const unicode = JSON.parse(`"\\${props.iconConfig.unicode}"`)
 			return unicode.trim()
 		})
 
