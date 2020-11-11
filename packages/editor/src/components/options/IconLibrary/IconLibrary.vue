@@ -37,27 +37,25 @@
 			append-to=".znpb-center-area"
 			:show-maximize="false"
 			class="znpb-icon-library-modal"
-		>
-			<div
-				slot="header"
-				class="znpb-icon-library-modal-header"
-			>
-				<h2 class="znpb-icon-library-modal-header__title">Icon Library</h2>
-				<div class="znpb-icon-library-modal-header__actions">
-					<Button
-						type="secondary"
-						@click="$emit('update:modelValue',valueModel),showModal=false"
-					>
-						Insert
-					</Button>
-					<Icon
-						icon="close"
-						:size="16"
-						@click="onClose"
-						class="znpb-modal__header-button"
-					/>
+		><template v-slot:header>
+				<div class="znpb-icon-library-modal-header">
+					<h2 class="znpb-icon-library-modal-header__title">Icon Library</h2>
+					<div class="znpb-icon-library-modal-header__actions">
+						<Button
+							type="secondary"
+							@click="$emit('update:modelValue',valueModel),showModal=false"
+						>
+							Insert
+						</Button>
+						<Icon
+							icon="close"
+							:size="16"
+							@click="onClose"
+							class="znpb-modal__header-button"
+						/>
+					</div>
 				</div>
-			</div>
+			</template>
 			<IconsLibraryModalContent
 				v-model="valueModel"
 				@selected="$emit('update:modelValue',$event),showModal=false"
