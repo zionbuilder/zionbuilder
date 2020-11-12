@@ -36,12 +36,12 @@
 					/>
 				</span>
 			</div>
-
-			<div
-				slot="end"
-				@click="openMediaModal"
-				class="znpb-option__image-gallery__images-item--add"
-			>+</div>
+			<template v-slot:end>
+				<div
+					@click="openMediaModal"
+					class="znpb-option__image-gallery__images-item--add"
+				>+</div>
+			</template>
 		</Sortable>
 	</div>
 </template>

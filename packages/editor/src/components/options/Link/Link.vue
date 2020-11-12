@@ -6,10 +6,9 @@
 				:placeholder="$translate('add_an_url')"
 				:title="$translate('link_url')"
 			>
-				<Icon
-					slot="prepend"
-					icon="link"
-				></Icon>
+				<template v-slot:prepend>
+					<Icon icon="link"></Icon>
+				</template>
 			</BaseInput>
 		</InputWrapper>
 		<InputWrapper
