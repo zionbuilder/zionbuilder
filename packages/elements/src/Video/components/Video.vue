@@ -1,12 +1,11 @@
 <template>
 	<div
 		:data-zion-video="getElementOptions"
+		ref="root"
 	>
 		<slot name="start" />
 
-		<div
-			class="zb-el-zionVideo-wrapper"
-		/>
+		<div class="zb-el-zionVideo-wrapper" />
 
 		<component
 			:is="imageOverlayTag"
@@ -28,40 +27,59 @@
 
 <script>
 import { isEqual } from 'lodash-es'
-
+import { ref, watch, nextTick, onMounted, computed } from 'vue'
 export default {
 	name: 'zion_video',
 	props: ['options', 'data', 'api'],
 	data () {
 		return {}
 	},
-	mounted () {
-		this.runScript()
-
-		this.$watch((vm) => {
-			return [
-				vm.options.video_config,
-				vm.options.use_image_overlay,
-				vm.options.show_play_icon,
-				vm.options.use_modal
-			]
-		}, (newValue, oldValue) => {
-			if (isEqual(newValue, oldValue)) {
-				return
-			}
-
-			if (this.videoPlayer) {
-				this.videoPlayer.destroy()
-				if (this.$refs.videoOverlay) {
-					window.jQuery(this.$refs.videoOverlay).show()
-				}
-			}
-
-			this.$nextTick(() => {
-				this.runScript()
-			})
+	setup (props) {
+		const root = ref(null)
+		const videoOverlay = ref(null)
+		const videoPlayer = ref(null)
+		onMounted(() => {
+			runScript()
 		})
+
+		watch(
+			() => [
+				props.options.video_config,
+				props.options.use_image_overlay,
+				props.options.show_play_icon,
+				props.options.use_modal
+			].toString()
+			, (newValue, oldValue) => {
+				if (isEqual(newValue, oldValue)) {
+					return
+				}
+
+				if (videoPlayer.value) {
+					videoPlayer.destroy()
+					if (videoOverlay.value) {
+						window.jQuery(videoOverlay.value).show()
+					}
+				}
+
+				nextTick(() => {
+					runScript()
+				})
+			})
+
+		function runScript () {
+			const script = window.ZionBuilderFrontend.getScript('video')
+
+			if (script) {
+				videoPlayer.value = script.initVideo(root.value)
+			}
+		}
+
+		return {
+			root,
+			videoOverlay
+		}
 	},
+
 	computed: {
 		videoSourceModel () {
 			return this.options.video_config || {}
@@ -145,15 +163,6 @@ export default {
 				styles['background-image'] = `url(${this.imageSrc})`
 			}
 			return styles
-		}
-	},
-	methods: {
-		runScript () {
-			const script = window.ZionBuilderFrontend.getScript('video')
-
-			if (script) {
-				this.videoPlayer = script.initVideo(this.$el)
-			}
 		}
 	}
 }

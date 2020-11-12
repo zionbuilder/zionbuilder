@@ -54,16 +54,14 @@
 
 <script>
 import { computed, ref } from 'vue'
-
 // Utils
-import { mapActions } from 'vuex'
 import { getOptionValue } from '@zb/utils'
 // Components
 import Element from './Element.vue'
 import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
 import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
 import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
-import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging } from '@zb/editor'
+import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions } from '@zb/editor'
 
 const sharedStateGlobal = {
 	controlPressed: null,
@@ -156,6 +154,7 @@ export default {
 
 		const { isPreviewMode } = usePreviewMode()
 		const { isDragging, setDraggingState } = useIsDragging()
+		const { copyElement } = useElementActions()
 
 		return {
 			isPreviewMode,
@@ -168,14 +167,12 @@ export default {
 			addElementsPopupButton,
 			showColumnTemplates,
 			isDragging,
-			setDraggingState
+			setDraggingState,
+			copyElement
 		}
 	},
 
 	methods: {
-		...mapActions([
-			'copyElement'
-		]),
 		onKeyup (event) {
 			if (event.keyCode === 17) {
 				this.sharedState.controlPressed = false

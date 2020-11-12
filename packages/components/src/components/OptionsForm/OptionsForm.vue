@@ -20,7 +20,7 @@
 import OptionWrapper from './OptionWrapper.vue'
 import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
-import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@data'
+import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
 import { provide } from 'vue'
 export default {
 	name: 'OptionsForm',
@@ -47,7 +47,7 @@ export default {
 			default: true
 		}
 	},
-	setup(props, { emit }) {
+	setup (props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
 		const { activePseudoSelector } = usePseudoSelectors()
@@ -57,7 +57,7 @@ export default {
 			emit('update:modelValue', updatedValues)
 		}
 
-		const getValueByPath = (path, defaultValue = null) =>  {
+		const getValueByPath = (path, defaultValue = null) => {
 			return getOptionValue(props.modelValue, path, defaultValue)
 		}
 

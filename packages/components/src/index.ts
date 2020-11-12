@@ -50,7 +50,7 @@ export * as utils from '@utils'
 import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 import { getDefaultGradient } from './utils'
-export * from '@data'
+export * from '@composables'
 
 
 const components = [

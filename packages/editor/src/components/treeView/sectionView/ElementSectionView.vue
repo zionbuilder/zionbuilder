@@ -62,7 +62,7 @@ import domtoimage from "dom-to-image";
 import { on } from "@zb/hooks";
 import { onMounted, onUpdated, onUnmounted } from "vue";
 import { translate } from "@zb/i18n";
-import { Element, useElementMenu, useElementActions } from "@data";
+import { Element, useElementMenu, useElementActions } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {

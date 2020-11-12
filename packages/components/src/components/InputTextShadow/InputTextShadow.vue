@@ -12,7 +12,7 @@
 </template>
 <script>
 import { computed } from 'vue'
-import { useOptionsSchemas } from '@data/useOptionsSchemas'
+import { useOptionsSchemas } from '@composables'
 
 export default {
 	name: 'InputTextShadow',
@@ -48,7 +48,7 @@ export default {
 		const { getSchema } = useOptionsSchemas()
 		const schema = computed(() => {
 			if (props.shadow_type === 'text-shadow') {
-				const { inset, spread, ...shadowSchema } = getSchema('shadowSchema')
+				const { inset, spread, ...shadowSchema } = getSchema('shadow')
 				return shadowSchema
 			}
 

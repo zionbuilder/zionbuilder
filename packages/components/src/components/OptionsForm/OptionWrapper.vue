@@ -158,191 +158,224 @@
 	</div>
 </template>
 <script lang="ts">
-import { mapGetters, mapActions } from 'vuex'
-import { ChangesBullet } from '../ChangesBullet'
-import { InputLabel } from '../InputLabel'
-import { Tooltip } from '@zionbuilder/tooltip'
-import { Injection } from '../Injection'
-import { trigger } from '@zionbuilder/hooks'
-import { useOptions, useOptionsSchemas, useResponsiveDevices } from '@data'
-import { provide, readonly, toRef } from 'vue'
+import { mapGetters, mapActions } from "vuex";
+import { ChangesBullet } from "../ChangesBullet";
+import { InputLabel } from "../InputLabel";
+import { Tooltip } from "@zionbuilder/tooltip";
+import { Injection } from "../Injection";
+import { trigger } from "@zionbuilder/hooks";
+import {
+	useOptions,
+	useOptionsSchemas,
+	useResponsiveDevices,
+} from "@composables";
+import { provide, readonly, toRef } from "vue";
 export default {
-	name: 'OptionWrapper',
-	provide () {
+	name: "OptionWrapper",
+	provide() {
 		return {
-			inputWrapper: this
-		}
+			inputWrapper: this,
+		};
 	},
 	inject: {
 		panel: {
-			default: null
+			default: null,
 		},
 		showChanges: {
-			default: true
+			default: true,
 		},
 		optionsForm: {
-			default: null
-		}
+			default: null,
+		},
 	},
 	components: {
 		ChangesBullet,
 		InputLabel,
 		Injection,
-		Tooltip
+		Tooltip,
 	},
 	props: {
 		modelValue: {},
 		schema: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		optionId: {
 			type: String,
-			required: true
+			required: true,
 		},
 		search_tags: {
-			type: Array
+			type: Array,
 		},
-		label: {
-
-		},
+		label: {},
 		deleteValue: {
-			type: Function
+			type: Function,
 		},
 		getSchemaFromPath: {
-			type: Function
+			type: Function,
 		},
 		compilePlaceholder: {
-			type: Function
+			type: Function,
 		},
 		width: {
 			type: Number,
-			required: false
-		}
+			required: false,
+		},
 	},
-	setup (props) {
-		const { getSchema } = useOptionsSchemas()
-		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
-		const localSchema = toRef(props, 'schema')
+	setup(props) {
+		const { getSchema } = useOptionsSchemas();
+		const {
+			activeResponsiveDeviceInfo,
+			responsiveDevices,
+			setActiveResponsiveDeviceId,
+		} = useResponsiveDevices();
+		const localSchema = toRef(props, "schema");
 
-		provide('schema', readonly(localSchema.value))
+		provide("schema", readonly(localSchema.value));
 		return {
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setActiveResponsiveDeviceId
-		}
+			setActiveResponsiveDeviceId,
+		};
 	},
-	data () {
+	data() {
 		return {
 			activePseudo: null,
 			showDevices: false,
-			showPseudo: false
-		}
+			showPseudo: false,
+		};
 	},
 	computed: {
-		...mapGetters([
-			'getActiveElementOptionValue'
-		]),
-		isValidInput () {
-			return this.optionTypeConfig
+		...mapGetters(["getActiveElementOptionValue"]),
+		isValidInput() {
+			return this.optionTypeConfig;
 		},
-		computedShowTitle () {
-			if (typeof this.schema.show_title !== 'undefined') {
-				return this.schema.show_title
+		computedShowTitle() {
+			if (typeof this.schema.show_title !== "undefined") {
+				return this.schema.show_title;
 			}
 
-			return true
+			return true;
 		},
-		computedWrapperStyle () {
-			const styles = {}
+		computedWrapperStyle() {
+			const styles = {};
 
 			if (this.schema.grow) {
-				styles.flex = this.schema.grow
+				styles.flex = this.schema.grow;
 			}
 
 			if (this.schema.width) {
-				styles.width = `${this.schema.width}%`
+				styles.width = `${this.schema.width}%`;
 			}
 
-			return styles
+			return styles;
 		},
-		hasChanges () {
+		hasChanges() {
 			if (this.schema.is_layout) {
-				const childOptionsIds = this.getChildOptionsIds(this.schema)
+				const childOptionsIds = this.getChildOptionsIds(this.schema);
 
 				return childOptionsIds.find((optionId) => {
-					return this.savedOptionValue && this.savedOptionValue[optionId]
-				})
+					return (
+						this.savedOptionValue && this.savedOptionValue[optionId]
+					);
+				});
 			} else {
-				return typeof this.savedOptionValue !== 'undefined'
+				return typeof this.savedOptionValue !== "undefined";
 			}
 		},
 
-		optionTypeConfig () {
-			const { getOption } = useOptions()
-			return getOption(this.schema, this.optionValue, this.optionsForm.modelValue)
+		optionTypeConfig() {
+			const { getOption } = useOptions();
+			return getOption(
+				this.schema,
+				this.optionValue,
+				this.optionsForm.modelValue
+			);
 		},
-		labelAlignment () {
-			return this.schema['label-align'] || null
+		labelAlignment() {
+			return this.schema["label-align"] || null;
 		},
-		activeResponsiveMedia () {
-			return this.activeResponsiveDeviceInfo.id
+		activeResponsiveMedia() {
+			return this.activeResponsiveDeviceInfo.id;
 		},
-		savedOptionValue () {
-			let value = null
+		savedOptionValue() {
+			let value = null;
 
 			if (this.compiledSchema.sync) {
-				value = this.getActiveElementOptionValue(this.compilePlaceholder(this.compiledSchema.sync))
+				value = this.getActiveElementOptionValue(
+					this.compilePlaceholder(this.compiledSchema.sync)
+				);
 			} else {
-				value = this.modelValue
+				value = this.modelValue;
 			}
 
-			return value
+			return value;
 		},
 
 		optionValue: {
-			get () {
-				let value = typeof this.savedOptionValue !== 'undefined' ? this.savedOptionValue : this.schema.default
+			get() {
+				let value =
+					typeof this.savedOptionValue !== "undefined"
+						? this.savedOptionValue
+						: this.schema.default;
 
 				// Check to see if we need to save for responsive
 				if (this.schema.responsive_options === true) {
-					let schemaDefault = this.schema.default
-					if (typeof this.schema.default === 'object') {
-						schemaDefault = (this.schema.default || {})[this.activeResponsiveMedia]
+					let schemaDefault = this.schema.default;
+					if (typeof this.schema.default === "object") {
+						schemaDefault = (this.schema.default || {})[
+							this.activeResponsiveMedia
+						];
 					}
-					value = typeof (value || {})[this.activeResponsiveMedia] !== 'undefined' ? (value || {})[this.activeResponsiveMedia] : schemaDefault
+					value =
+						typeof (value || {})[this.activeResponsiveMedia] !==
+						"undefined"
+							? (value || {})[this.activeResponsiveMedia]
+							: schemaDefault;
 				}
 
 				// check to see if this has pseudo selectors
 				if (Array.isArray(this.schema.pseudo_options)) {
-					const activePseudo = this.activePseudo || this.schema.pseudo_options[0]
-					value = typeof (value || {})[activePseudo] !== 'undefined' ? (value || {})[activePseudo] : undefined
+					const activePseudo =
+						this.activePseudo || this.schema.pseudo_options[0];
+					value =
+						typeof (value || {})[activePseudo] !== "undefined"
+							? (value || {})[activePseudo]
+							: undefined;
 				}
 
-				return value
+				return value;
 			},
-			set (newValue) {
-				let valueToUpdate = newValue
-				let newValues = newValue
+			set(newValue) {
+				let valueToUpdate = newValue;
+				let newValues = newValue;
 
 				// check to see if this has pseudo selectors
 				if (Array.isArray(this.schema.pseudo_options)) {
-					const activePseudo = this.activePseudo || this.schema.pseudo_options[0]
-					let oldValues = this.modelValue
+					const activePseudo =
+						this.activePseudo || this.schema.pseudo_options[0];
+					let oldValues = this.modelValue;
 
 					// Check to see if this also a responsive option
 					if (this.compiledSchema.responsive_options === true) {
-						oldValues = typeof (this.modelValue || {})[this.activeResponsiveMedia] !== 'undefined' ? (this.modelValue || {})[this.activeResponsiveMedia] : undefined
+						oldValues =
+							typeof (this.modelValue || {})[
+								this.activeResponsiveMedia
+							] !== "undefined"
+								? (this.modelValue || {})[
+										this.activeResponsiveMedia
+								  ]
+								: undefined;
 						newValues = {
 							...oldValues,
-							[activePseudo]: newValue
-						}
+							[activePseudo]: newValue,
+						};
 					} else {
 						valueToUpdate = {
 							...this.modelValue,
-							[activePseudo]: newValues
-						}
+							[activePseudo]: newValues,
+						};
 					}
 				}
 
@@ -350,51 +383,60 @@ export default {
 				if (this.compiledSchema.responsive_options === true) {
 					valueToUpdate = {
 						...this.modelValue,
-						[this.activeResponsiveMedia]: newValues
-					}
+						[this.activeResponsiveMedia]: newValues,
+					};
 				}
 
 				// Check if the option is synced
 				if (this.compiledSchema.sync) {
 					// Compile sync value as it may contain placeholders
-					const syncValuePath = this.compilePlaceholder(this.compiledSchema.sync)
+					const syncValuePath = this.compilePlaceholder(
+						this.compiledSchema.sync
+					);
 
 					// Check to see if we need to delete the option
 					if (valueToUpdate === null) {
 						this.deleteActiveElementValue({
-							path: syncValuePath
-						})
+							path: syncValuePath,
+						});
 					} else {
 						this.updateActiveElementValue({
 							path: syncValuePath,
-							newValue: valueToUpdate
-						})
+							newValue: valueToUpdate,
+						});
 					}
 
 					if (this.panel) {
-						this.panel.addToLocalHistory()
+						this.panel.addToLocalHistory();
 					}
 				} else {
 					if (valueToUpdate === null) {
-						this.onDeleteOption()
+						this.onDeleteOption();
 					} else {
-						const optionId = this.schema.is_layout ? false : this.optionId
-						this.$emit('update:modelValue', [optionId, valueToUpdate])
+						const optionId = this.schema.is_layout
+							? false
+							: this.optionId;
+						this.$emit("update:modelValue", [
+							optionId,
+							valueToUpdate,
+						]);
 					}
 				}
 
 				// Check to see if we need to refresh the iframe
 				if (this.schema.on_change) {
-					if (this.schema.on_change === 'refresh_iframe') {
-						trigger('refreshIframe')
-					} else if (this.schema.on_change.condition.value[0] !== newValue) {
+					if (this.schema.on_change === "refresh_iframe") {
+						trigger("refreshIframe");
+					} else if (
+						this.schema.on_change.condition.value[0] !== newValue
+					) {
 						// Check if we need to clear path option
 						this.deleteActiveElementValue({
-							path: this.schema.on_change.option_path
-						})
+							path: this.schema.on_change.option_path,
+						});
 					}
 				}
-			}
+			},
 		},
 		/**
 		 * Compiled Schema
@@ -402,7 +444,7 @@ export default {
 		 * WIll search for predefined constants and replace them with correct information
 		 * from the currently edited element
 		 */
-		compiledSchema () {
+		compiledSchema() {
 			// Remove unnecesarry data from schema so we don't overpopulate DOM with unnecessary attributes
 			const {
 				description,
@@ -413,102 +455,109 @@ export default {
 				id,
 				css_class: cssClass,
 				...schema
-			} = this.schema
+			} = this.schema;
 
-			return schema
-		}
+			return schema;
+		},
 	},
 
 	methods: {
-		...mapActions([
-			'updateActiveElementValue',
-			'deleteActiveElementValue'
-		]),
+		...mapActions(["updateActiveElementValue", "deleteActiveElementValue"]),
 
-		getChildOptionsIds (schema, includeSchemaId = true) {
-			let ids = []
+		getChildOptionsIds(schema, includeSchemaId = true) {
+			let ids = [];
 
 			// Special options
-			if (schema.type === 'background') {
-				const backgroundSchema = this.getSchema('backgroundImageSchema')
-				Object.keys(backgroundSchema).forEach(optionId => {
-					const childIds = this.getChildOptionsIds(backgroundSchema[optionId])
+			if (schema.type === "background") {
+				const backgroundSchema = this.getSchema(
+					"backgroundImageSchema"
+				);
+				Object.keys(backgroundSchema).forEach((optionId) => {
+					const childIds = this.getChildOptionsIds(
+						backgroundSchema[optionId]
+					);
 
 					if (childIds) {
 						ids = [
 							...ids,
 							...childIds,
-							'background-color',
-							'background-gradient',
-							'background-video',
-							'background-image'
-						]
+							"background-color",
+							"background-gradient",
+							"background-video",
+							"background-image",
+						];
 					}
-				})
-			} else if (schema.type === 'dimensions' && typeof schema.dimensions === 'object') {
-				schema.dimensions.forEach(item => {
-					ids.push(item.id)
-				})
-			} else if (schema.type === 'typography') {
-				const typographySchema = this.getSchema('typographyOptionSchema')
-				Object.keys(typographySchema).forEach(optionId => {
-					const childIds = this.getChildOptionsIds(typographySchema[optionId])
+				});
+			} else if (
+				schema.type === "dimensions" &&
+				typeof schema.dimensions === "object"
+			) {
+				schema.dimensions.forEach((item) => {
+					ids.push(item.id);
+				});
+			} else if (schema.type === "typography") {
+				const typographySchema = this.getSchema(
+					"typographyOptionSchema"
+				);
+				Object.keys(typographySchema).forEach((optionId) => {
+					const childIds = this.getChildOptionsIds(
+						typographySchema[optionId]
+					);
 
 					if (childIds) {
-						ids = [
-							...ids,
-							...childIds
-						]
+						ids = [...ids, ...childIds];
 					}
-				})
-			} else if (schema.type === 'responsive_group') {
-				ids.push(this.activeResponsiveMedia)
-			} else if (schema.type === 'pseudo_group') {
-				ids.push(this.activePseudo)
+				});
+			} else if (schema.type === "responsive_group") {
+				ids.push(this.activeResponsiveMedia);
+			} else if (schema.type === "pseudo_group") {
+				ids.push(this.activePseudo);
 			}
 
 			if (schema.is_layout && schema.child_options) {
-				Object.keys(schema.child_options).forEach(optionId => {
-					const childIds = this.getChildOptionsIds(schema.child_options[optionId])
+				Object.keys(schema.child_options).forEach((optionId) => {
+					const childIds = this.getChildOptionsIds(
+						schema.child_options[optionId]
+					);
 
 					if (childIds) {
-						ids = [...ids, ...childIds]
+						ids = [...ids, ...childIds];
 					}
-				})
+				});
 			} else if (includeSchemaId) {
-				ids.push(schema.id)
+				ids.push(schema.id);
 			}
 
-			return ids
+			return ids;
 		},
 
-		openResponsive () {
-			this.showDevices = true
+		openResponsive() {
+			this.showDevices = true;
 		},
-		closeresponsive () {
-			this.showDevices = false
+		closeresponsive() {
+			this.showDevices = false;
 		},
-		closePseudo () {
-			this.showPseudo = false
+		closePseudo() {
+			this.showPseudo = false;
 		},
-		openPseudo () {
-			this.showPseudo = true
+		openPseudo() {
+			this.showPseudo = true;
 		},
-		activateDevice (device) {
-			this.setActiveResponsiveDeviceId(device.id)
+		activateDevice(device) {
+			this.setActiveResponsiveDeviceId(device.id);
 			setTimeout(() => {
-				this.showDevices = false
-			}, 50)
+				this.showDevices = false;
+			}, 50);
 		},
-		activatePseudo (selector) {
-			this.activePseudo = selector
+		activatePseudo(selector) {
+			this.activePseudo = selector;
 
 			setTimeout(() => {
-				this.showPseudo = false
-			}, 50)
+				this.showPseudo = false;
+			}, 50);
 		},
-		getPseudoIcon (pseudo) {
-			return pseudo === 'hover' ? 'hover-state' : 'default-state'
+		getPseudoIcon(pseudo) {
+			return pseudo === "hover" ? "hover-state" : "default-state";
 		},
 
 		/**
@@ -516,46 +565,51 @@ export default {
 		 *
 		 * Delete the value
 		 */
-		onDeleteOption (optionId) {
+		onDeleteOption(optionId) {
 			if (this.schema.sync) {
-				let fullOptionIds = []
-				const childOptionsIds = this.getChildOptionsIds(this.schema, false)
-				const compiledSync = this.compilePlaceholder(this.schema.sync)
+				let fullOptionIds = [];
+				const childOptionsIds = this.getChildOptionsIds(
+					this.schema,
+					false
+				);
+				const compiledSync = this.compilePlaceholder(this.schema.sync);
 
 				// Check if this has child options that needs to be deleted
 				if (childOptionsIds.length > 0) {
 					childOptionsIds.forEach((id) => {
-						fullOptionIds.push(`${compiledSync}.${id}`)
-					})
+						fullOptionIds.push(`${compiledSync}.${id}`);
+					});
 				} else {
-					fullOptionIds.push(compiledSync)
+					fullOptionIds.push(compiledSync);
 				}
 
-				this.$parent.deleteValues(fullOptionIds)
+				this.$parent.deleteValues(fullOptionIds);
 				this.deleteActiveElementValue({
-					path: compiledSync
-				})
+					path: compiledSync,
+				});
 			} else {
 				if (this.schema.is_layout) {
-					const childOptionsIds = this.getChildOptionsIds(this.schema)
-					this.$parent.deleteValues(childOptionsIds)
+					const childOptionsIds = this.getChildOptionsIds(
+						this.schema
+					);
+					this.$parent.deleteValues(childOptionsIds);
 				} else {
-					optionId = optionId || this.optionId
-					this.deleteValue(optionId)
+					optionId = optionId || this.optionId;
+					this.deleteValue(optionId);
 				}
 			}
 		},
-		getNestedOptionsIds (schemas) {
-			let ids = []
+		getNestedOptionsIds(schemas) {
+			let ids = [];
 
 			Object.keys(schemas).forEach((optionId) => {
-				ids.push(optionId)
-			})
+				ids.push(optionId);
+			});
 
-			return ids
-		}
-	}
-}
+			return ids;
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-input-content {
