@@ -49,7 +49,7 @@
  */
 import BaseInput from '../BaseInput/BaseInput.vue'
 import { InputNumberUnit } from '../InputNumber'
-import { units as stringUnits } from '../../composables/units'
+import { units as stringUnits } from '@composables'
 
 export default {
 	name: 'InputRangeDynamic',

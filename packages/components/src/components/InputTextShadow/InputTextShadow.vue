@@ -48,7 +48,7 @@ export default {
 		const { getSchema } = useOptionsSchemas()
 		const schema = computed(() => {
 			if (props.shadow_type === 'text-shadow') {
-				const { inset, spread, ...shadowSchema } = getSchema('shadowSchema')
+				const { inset, spread, ...shadowSchema } = getSchema('shadow')
 				return shadowSchema
 			}
 

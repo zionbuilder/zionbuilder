@@ -1,6 +1,6 @@
 <template>
 	<OptionsForm
-		:schema="getSchema('typographyOptionSchema')"
+		:schema="getSchema('typography')"
 		v-model="valueModel"
 		class="znpb-option__typography-wrapper"
 	/>
@@ -21,7 +21,6 @@ export default {
 	},
 	setup () {
 		const { getSchema } = useOptionsSchemas()
-
 		return {
 			getSchema
 		}
