@@ -182,7 +182,7 @@ import Help from './Help.vue'
 // import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
 import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels, useLibraryElements, useEditorData, useEditorInteractions, useHistory } from '@composables'
+import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useHistory } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
@@ -220,7 +220,6 @@ export default {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
 		const { togglePanel, openPanels } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
-		const { setElementConfigForLibrary } = useLibraryElements()
 		const { editorData } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
 		const { currentHistoryIndex } = useHistory()
@@ -250,7 +249,6 @@ export default {
 			openPanels,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setElementConfigForLibrary,
 			urls: editorData.value.urls,
 			getMainBarOrder,
 			getMainBarPointerEvents,
@@ -441,11 +439,6 @@ export default {
 			this.$refs.editorHeader.style.transition = null
 		},
 		openLibraryPanel () {
-			// Set the active element library
-			this.setElementConfigForLibrary({
-				parentUid: 'contentRoot',
-				index: -1
-			})
 			this.togglePanel('PanelLibraryModal')
 		},
 		helpMenuClick () {

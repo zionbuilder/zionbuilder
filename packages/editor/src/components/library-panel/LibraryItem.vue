@@ -139,7 +139,7 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
-		const useinsertItem = inject('insertItem')
+		const Library = inject('Library')
 		const { editorData } = useEditorData()
 		const isProActive = ref(false)
 		const isProConnected = ref(false)
@@ -152,11 +152,11 @@ export default {
 		purchaseURL.value = editorData.value.urls.purchase_url
 
 		return {
-			useinsertItem,
 			purchaseURL,
 			dashboardURL,
 			isProConnected,
-			isProActive
+			isProActive,
+			Library
 		}
 	},
 	methods: {
@@ -164,11 +164,8 @@ export default {
 			this.insertItemLoading = true
 			// If it's pro, get the download URL
 
-			this.useinsertItem(this.item).then(() => {
+			this.Library.insertItem(this.item).then(() => {
 
-			}).catch((error) => {
-				// eslint-disable-next-line
-				console.log('error', error)
 			}).finally(() => {
 				this.insertItemLoading = false
 			})

@@ -5,6 +5,7 @@ import { getLibraryItems } from '@zb/rest'
 const cachedData = localSt.get('znpbLibraryCache')
 const libraryItems = ref(cachedData.items || [])
 const libraryCategories = ref(cachedData.categories || [])
+const activeElementForLibrary = ref(null)
 
 export const useLibrary = () => {
 	function fetchLibraryItems () {
@@ -20,9 +21,20 @@ export const useLibrary = () => {
 		})
 	}
 
+	function setActiveElementForLibrary(element) {
+		activeElementForLibrary.value = element
+	}
+
+	function unsetActiveElementForLibrary() {
+		activeElementForLibrary.value = null
+	}
+
 	return {
 		libraryItems,
 		libraryCategories,
+		activeElementForLibrary,
+		setActiveElementForLibrary,
+		unsetActiveElementForLibrary,
 		fetchLibraryItems
 	}
 }

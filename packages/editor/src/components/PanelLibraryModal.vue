@@ -146,13 +146,17 @@
 <script>
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { mapActions } from 'vuex'
+import { regenerateUIDsForContent } from '@utils'
+import { insertTemplate } from '@zb/rest'
+import { generateElements, generateUID } from '@zb/utils'
+import { usePanels, useElements } from '@composables'
+import { useLibrary } from '@zionbuilder/composables'
+
+// Components
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
 
-import { insertTemplate } from '@zb/rest'
-import { generateElements, generateUID } from '@zb/utils'
-import { usePanels, useLibraryElements } from '@composables'
 
 
 export default {
@@ -169,11 +173,9 @@ export default {
 	},
 	setup (props) {
 		const { togglePanel } = usePanels()
-		const { elementInsertConfig } = useLibraryElements()
 
 		return {
-			togglePanel,
-			elementInsertConfig
+			togglePanel
 		}
 	},
 	data () {
@@ -259,80 +261,22 @@ export default {
 			return new Promise((resolve, reject) => {
 				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
+					const { activeElementForLibrary } = useLibrary()
+					const { getElement } = useElements()
 
 					// Check to see if this is a single element or a group of elements
 					let compiledTemplateData = templateData.element_type ? [templateData] : templateData
-					const newElements = generateElements(compiledTemplateData)
-					const childElements = {}
-					const parentElements = []
-					const uidMap = {}
+					const activeElement = activeElementForLibrary.value ? activeElementForLibrary.value : getElement('content')
 
-					// Reset the UIDs
-					Object.keys(newElements.childElements).forEach(index => {
-						const element = newElements.childElements[index]
-						const oldUid = element.uid
-						const newElementConfig = this.resetUidForElement(element, uidMap)
+					activeElement.addChildren(regenerateUIDsForContent(compiledTemplateData))
 
-						// Set the proper child elements with resetted UIDs
-						childElements[newElementConfig.uid] = newElementConfig
-
-						if (newElements.parentElements.includes(oldUid)) {
-							parentElements.push(newElementConfig.uid)
-						}
-					})
-
-					// Get the element where we need to insert the template
-					const { parentUid = 'contentRoot', index = -1 } = this.elementInsertConfig.value
-					this.insertElements({
-						parentUid,
-						index,
-						childElements,
-						parentElements
-					})
+					this.togglePanel('PanelLibraryModal')
 
 					resolve(true)
-					this.togglePanel('PanelLibraryModal')
 				}).catch((error) => {
 					reject(error)
 				})
 			})
-		},
-		resetUidForElement (element, uidMap) {
-			// Generate new uid for element
-			let newUid
-
-			if (typeof uidMap[element.uid] !== 'undefined') {
-				newUid = uidMap[element.uid]
-			} else {
-				newUid = generateUID()
-				uidMap[element.uid] = newUid
-			}
-
-			// reset the element uid
-			element.uid = newUid
-
-			// Check for content
-			if (element.content) {
-				let newContent = []
-
-				element.content.forEach(childUid => {
-					let newChildUid
-					// check to see if the child content was already registered
-					if (typeof uidMap[childUid] !== 'undefined') {
-						newChildUid = uidMap[childUid]
-					} else {
-						newChildUid = generateUID()
-						uidMap[childUid] = generateUID()
-					}
-
-					newContent.push(newChildUid)
-				})
-
-				// Set the new element content
-				element.content = newContent
-			}
-
-			return element
 		}
 	},
 	beforeUnmount () {

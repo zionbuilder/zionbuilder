@@ -13,3 +13,7 @@ export const regenerateUIDs = (element) => {
 
 	return element
 }
+
+export const regenerateUIDsForContent = (elements: []) => {
+	return elements.map(element => regenerateUIDs(element))
+}
