@@ -59,7 +59,7 @@
 
 <script>
 // Utils
-import { ref, watch, computed, readonly } from 'vue'
+import { ref, watch, computed, readonly, provide } from 'vue'
 import { debounce } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
@@ -227,6 +227,9 @@ export default {
 
 			return classes
 		}
+
+		provide('elementInfo', props.element)
+		provide('elementOptions', options.value)
 
 		return {
 			// Computed

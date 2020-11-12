@@ -32,16 +32,11 @@
 // Utils
 import { getOptionValue } from '@zb/utils'
 import { mapActions } from 'vuex'
-
+import { inject } from 'vue'
 export default {
 	name: 'RenderValue',
 	inheritAttrs: false,
-	inject: {
-		elementInfo: {
-			from: 'elementInfo',
-			default: () => { }
-		}
-	},
+
 	props: {
 		option: {
 			type: String,
@@ -53,11 +48,20 @@ export default {
 			default: 'span'
 		}
 	},
+	setup () {
+		const elementInfo = inject('elementInfo')
+		const elementOptions = inject('elementOptions')
+
+		return {
+			elementInfo,
+			elementOptions
+		}
+	},
 	computed: {
 		optionValue: {
 			get () {
 				const schema = this.getOptionSchemaFromPath
-				return getOptionValue(this.elementInfo.options, this.option, schema.default)
+				return getOptionValue(this.elementOptions, this.option, schema.default)
 			},
 			set (newValue) {
 				this.updateElementOptionValue({
@@ -68,7 +72,7 @@ export default {
 			}
 		},
 		elementOptionsSchema () {
-			return this.elementInfo.elementModel.options
+			return this.elementInfo.elementTypeModel.options
 		},
 		optionType () {
 			return this.getOptionSchemaFromPath.type
