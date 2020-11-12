@@ -119,8 +119,8 @@
 
 </template>
 <script>
-
-import { useEditorData } from '@data'
+import { ref, computed, inject } from 'vue'
+import { useEditorData } from '@composables'
 export default {
 	name: 'LibraryItem',
 	props: {

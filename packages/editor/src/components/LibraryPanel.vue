@@ -112,7 +112,7 @@
 <script>
 import { getLibraryItems } from '@zb/rest'
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
-import LibraryItem from './library-panel/CategoriesLibrary.vue'
+import LibraryItem from './library-panel/LibraryItem.vue'
 import localSt from 'localstorage-ttl'
 
 export default {

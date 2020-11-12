@@ -83,10 +83,8 @@
 						<Tooltip
 							v-if="!importActive"
 							:content="$translate('refresh_tooltip')"
-							append-to="element"
 							tag="span"
 							placement="top"
-							:modifiers="[{name: 'offset',options: {	offset: [0, 10]}}]"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
 						>
 							<Icon

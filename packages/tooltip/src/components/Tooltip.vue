@@ -255,7 +255,7 @@ export default {
 			if (this.showArrows) {
 				instanceOptions.modifiers = instanceOptions.modifiers || []
 
-				const hasOffsetModifier = instanceOptions.modifiers.find(modfier => modifier.name === 'offset')
+				const hasOffsetModifier = instanceOptions.modifiers.find(modifier => modifier.name === 'offset')
 
 				if (!hasOffsetModifier) {
 					instanceOptions.modifiers.push({
