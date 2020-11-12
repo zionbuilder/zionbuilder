@@ -131,8 +131,7 @@ export default {
 			this.$emit('update:modelValue', clone)
 
 			this.$nextTick(() => {
-				const itemsLength = this.$refs.repeaterItem.length
-				this.$refs.repeaterItem[itemsLength - 1].expand()
+				this.$refs.repeaterItem.expand()
 			})
 		},
 		cloneOption (event, index) {
