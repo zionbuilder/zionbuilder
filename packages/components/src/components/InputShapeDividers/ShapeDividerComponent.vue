@@ -61,11 +61,11 @@
 </template>
 
 <script>
+import { toRefs, onMounted, ref, readonly, inject } from 'vue'
 import { Icon } from '../Icon'
 import Shape from './Shape.vue'
 import { EmptyList } from '../EmptyList'
 import { UpgradeToPro } from '../UpgradeToPro'
-import { toRefs, onMounted, ref, readonly, inject } from 'vue'
 
 export default {
 	name: 'ShapeDividerComponent',

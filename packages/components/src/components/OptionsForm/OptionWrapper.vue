@@ -168,7 +168,8 @@ import {
 	useOptions,
 	useOptionsSchemas,
 	useResponsiveDevices,
-} from "@composables";
+} from "@composables"
+
 import { provide, readonly, toRef } from "vue";
 export default {
 	name: "OptionWrapper",
@@ -286,12 +287,13 @@ export default {
 		},
 
 		optionTypeConfig() {
-			const { getOption } = useOptions();
+			const { getOption } = useOptions()
+
 			return getOption(
 				this.schema,
 				this.optionValue,
 				this.optionsForm.modelValue
-			);
+			)
 		},
 		labelAlignment() {
 			return this.schema["label-align"] || null;

@@ -38,7 +38,7 @@
 import { Icon } from '../Icon'
 import { EmptyList } from '../EmptyList'
 import Video from '@zionbuilder/video'
-import { useOptionsSchemas } from '@composables'
+import { useOptionsSchemas } from '@composables/useOptionsSchemas'
 
 export default {
 	name: 'InputBackgroundVideo',

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { useInjections } from '@composables'
+import { useInjections } from '@composables/useInjections'
 export default {
 	name: 'Injection',
 	props: {

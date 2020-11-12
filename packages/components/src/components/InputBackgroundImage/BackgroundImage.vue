@@ -18,7 +18,7 @@
 
 <script>
 import InputImage from '../InputImage/InputImage.vue'
-import { useOptionsSchemas } from '@composables'
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas'
 
 export default {
 	name: 'InputBackgroundImage',

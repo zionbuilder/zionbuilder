@@ -12,7 +12,7 @@
 </template>
 <script>
 import { computed } from 'vue'
-import { useOptionsSchemas } from '@composables'
+import { useOptionsSchemas } from '@composables/useOptionsSchemas'
 
 export default {
 	name: 'InputTextShadow',
