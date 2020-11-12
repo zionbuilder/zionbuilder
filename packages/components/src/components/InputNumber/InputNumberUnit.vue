@@ -47,9 +47,7 @@
 				tooltip-class="znpb-input-number__units-tooltip-wrapper"
 			>
 				<template v-slot:content>
-					<div
-						class="znpb-number-unit-list hg-popper-list"
-					>
+					<div class="znpb-number-unit-list hg-popper-list">
 						<div
 							class="znpb-number-unit-list__option hg-popper-list__item"
 							@click.stop="onSelectUnit(null)"
@@ -84,14 +82,14 @@
  *
  * Example of props:
  * options:{
- 		min: 12,
+			min: 12,
 		max: 50,
 		step: 1,
 		units: ['px','%','rem']
 	}
  */
 import { Tooltip } from '@zionbuilder/tooltip'
-import { units as stringUnits } from '../../data/units'
+import { units as stringUnits } from '../../composables/units'
 import BaseInput from '../BaseInput/BaseInput.vue'
 import rafSchd from 'raf-schd'
 import { Icon } from '../Icon'
