@@ -6,7 +6,7 @@
 			tag-id="single-bar"
 			:repeater-value="bars"
 		>
-			<template slot="item" slot-scope="{ item, index }">
+			<template v-slot:item="{ item, index }">
 				<li
 					class="zb-el-progressBars__singleBar"
 					:class="[`zb-el-progressBars__bar--${index}`]"
@@ -18,9 +18,7 @@
 					>
 						{{item.title}}
 					</h5>
-					<span
-						class="zb-el-progressBars__barTrack"
-					>
+					<span class="zb-el-progressBars__barTrack">
 
 						<span
 							class="zb-el-progressBars__barProgress"

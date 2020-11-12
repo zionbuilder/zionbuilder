@@ -19,10 +19,10 @@ export default {
 			}
 		}
 	},
-	render (createElement, context) {
+	render (context) {
 		const tagId = context.tagId
 		const children = context.children || []
-		const elementInstance = context.injections.elementInfo.elementInstance
+		const elementInstance = context.elementInfo
 		const renderAttributes = elementInstance.renderAttributes
 
 		const addRenderAttributeToVnode = function (vNode, index) {
@@ -61,7 +61,7 @@ export default {
 
 		const vNodes = []
 		for (let i = 0; i < context.repeaterValue.length; i++) {
-			const vNode = context.scopedSlots.item({
+			const vNode = context.$slots.item({
 				item: context.repeaterValue[i],
 				index: i
 			})[0]
