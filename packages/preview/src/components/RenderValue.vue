@@ -31,8 +31,8 @@
 <script>
 // Utils
 import { getOptionValue } from '@zb/utils'
-import { mapActions } from 'vuex'
 import { inject } from 'vue'
+
 export default {
 	name: 'RenderValue',
 	inheritAttrs: false,
@@ -64,11 +64,7 @@ export default {
 				return getOptionValue(this.elementOptions, this.option, schema.default)
 			},
 			set (newValue) {
-				this.updateElementOptionValue({
-					elementUid: this.elementInfo.data.uid,
-					path: this.option,
-					newValue
-				})
+				this.elementInfo.updateOptionValue(this.option, newValue)
 			}
 		},
 		elementOptionsSchema () {
@@ -133,11 +129,6 @@ export default {
 				return 'default'
 			}
 		}
-	},
-	methods: {
-		...mapActions([
-			'updateElementOptionValue'
-		])
 	}
 }
 </script>

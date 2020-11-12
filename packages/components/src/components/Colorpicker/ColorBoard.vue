@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-form-colorpicker-saturation">
+	<div
+		class="znpb-form-colorpicker-saturation"
+		ref="root"
+	>
 		<div
 			ref="boardContent"
 			:style="{background: bgColor}"
@@ -66,8 +69,8 @@ export default {
 			this.isDragging = true
 			let { clientX, clientY } = event
 			this.rafDragCircle = rafSchd(this.dragCircle)
-			window.addEventListener('mousemove', this.rafDragCircle)
-			window.addEventListener('mouseup', this.deactivatedragCircle)
+			this.$refs.root.ownerDocument.defaultView.addEventListener('mousemove', this.rafDragCircle)
+			this.$refs.root.ownerDocument.defaultView.addEventListener('mouseup', this.deactivatedragCircle)
 
 			// Emit click value
 			let newLeft = clientX - this.boardContent.left
@@ -87,8 +90,8 @@ export default {
 			})
 		},
 		deactivatedragCircle () {
-			window.removeEventListener('mousemove', this.rafDragCircle)
-			window.removeEventListener('mouseup', this.deactivatedragCircle)
+			this.$refs.root.ownerDocument.defaultView.removeEventListener('mousemove', this.rafDragCircle)
+			this.$refs.root.ownerDocument.defaultView.removeEventListener('mouseup', this.deactivatedragCircle)
 		},
 		dragCircle (event) {
 			// If the mouseup happened outside window
@@ -145,16 +148,25 @@ export default {
 			})
 		}
 	},
-	created () {
-		document.body.classList.add('znpb-color-picker--backdrop')
+	mounted () {
+		this.$refs.root.ownerDocument.body.classList.add('znpb-color-picker--backdrop')
 	},
 	beforeUnmount () {
-		document.body.classList.remove('znpb-color-picker--backdrop')
+		this.$refs.root.ownerDocument.body.classList.remove('znpb-color-picker--backdrop')
 		this.deactivatedragCircle()
 	}
 }
 </script>
 <style lang="scss">
+.znpb-color-picker--backdrop, .znpb-color-gradient--backdrop {
+	&:before {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+}
+
 .znpb-form-colorpicker-saturation {
 	position: relative;
 	overflow: hidden;

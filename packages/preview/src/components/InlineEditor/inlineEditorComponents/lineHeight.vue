@@ -5,7 +5,7 @@
 	>
 
 		<InputRangeDynamic
-			@input="onHeightChange"
+			@update:modelValue="onHeightChange"
 			:modelValue="sliderValue"
 			:options="options"
 			class="zion-inline-editor-slider-area--slider"

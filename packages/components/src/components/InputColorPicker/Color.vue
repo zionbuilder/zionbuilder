@@ -117,12 +117,10 @@ export default {
 		openColorPicker () {
 			this.$emit('open')
 			document.addEventListener('click', this.closePanelOnOutsideClick, true)
-			document.body.classList.add('znpb-color-picker--backdrop')
 		},
 		closeColorPicker () {
 			this.$emit('close')
 			document.removeEventListener('click', this.closePanelOnOutsideClick)
-			document.body.classList.remove('znpb-color-picker--backdrop')
 		},
 		closePanelOnOutsideClick (event) {
 			if (this.$el.contains(event.target) || (this.$refs.colorpickerHolder && this.$refs.colorpickerHolder.$el.contains(event.target))) {
@@ -136,19 +134,7 @@ export default {
 
 	},
 	beforeUnmount () {
-		document.body.classList.remove('znpb-color-picker--backdrop')
 		document.removeEventListener('click', this.closePanelOnOutsideClick)
 	}
 }
 </script>
-
-<style lang="scss">
-.znpb-color-picker--backdrop, .znpb-color-gradient--backdrop {
-	&:before {
-		content: "";
-		position: absolute;
-		width: 100%;
-		height: 100%;
-	}
-}
-</style>

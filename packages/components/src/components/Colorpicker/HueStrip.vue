@@ -1,5 +1,6 @@
 <template>
 	<div
+		ref="root"
 		@click="dragHueCircle"
 		class="znpb-colorpicker-inner-editor__hue-wrapper"
 	>
@@ -26,7 +27,8 @@ export default {
 		return {
 			direction: 'right',
 			oldHue: this.modelValue.h,
-			lastHue: null
+			lastHue: null,
+			ownerWindow: null
 		}
 	},
 	computed: {
@@ -54,12 +56,12 @@ export default {
 	},
 	methods: {
 		actHueCircleDrag () {
-			window.addEventListener('mousemove', this.dragHueCircle)
-			window.addEventListener('mouseup', this.deactivatedragHueCircle)
+			this.ownerWindow.addEventListener('mousemove', this.dragHueCircle)
+			this.ownerWindow.addEventListener('mouseup', this.deactivatedragHueCircle)
 		},
 		deactivatedragHueCircle (event) {
-			window.removeEventListener('mousemove', this.dragHueCircle)
-			window.removeEventListener('mouseup', this.deactivatedragHueCircle)
+			this.ownerWindow.removeEventListener('mousemove', this.dragHueCircle)
+			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragHueCircle)
 		},
 		isMouseUpOutsideWindow (event) {
 			if (!event.which) {
@@ -103,14 +105,19 @@ export default {
 			}
 
 			this.lastHue = h
+
+
 		}
 
+	},
+	mounted () {
+		this.ownerWindow = this.$refs.root.ownerDocument.defaultView
 	},
 	beforeUnmount () {
 		this.deactivatedragHueCircle()
 	},
 	unmounted () {
-		window.removeEventListener('mousemove', this.dragHueCircle)
+		this.ownerWindow.removeEventListener('mousemove', this.dragHueCircle)
 	}
 }
 </script>

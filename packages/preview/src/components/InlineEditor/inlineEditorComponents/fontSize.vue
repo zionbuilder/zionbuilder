@@ -4,7 +4,7 @@
 		@click.stop=""
 	>
 		<InputRangeDynamic
-			@input="onFontChange"
+			@update:modelValue="onFontChange"
 			:modelValue="sliderValue"
 			:options="options"
 			@click.stop="onClick"

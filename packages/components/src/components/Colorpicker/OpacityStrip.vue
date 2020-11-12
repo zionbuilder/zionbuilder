@@ -3,6 +3,7 @@
 		class="znpb-colorpicker-inner-editor__opacity-wrapper"
 		@click="dragCircle"
 		@mousedown="actCircleDrag"
+		ref="root"
 	>
 		<div class="znpb-colorpicker-inner-editor__opacity">
 			<div
@@ -33,8 +34,12 @@ export default {
 	data () {
 		return {
 			stripOffset: {},
-			lastA: null
+			lastA: null,
+			ownerWindow: null
 		}
+	},
+	mounted () {
+		this.ownerWindow = this.$refs.root.ownerDocument.defaultView
 	},
 	computed: {
 		opacityStyles () {
@@ -51,12 +56,12 @@ export default {
 	},
 	methods: {
 		actCircleDrag () {
-			window.addEventListener('mousemove', this.dragCircle)
-			window.addEventListener('mouseup', this.deactivatedragCircle)
+			this.ownerWindow.addEventListener('mousemove', this.dragCircle)
+			this.ownerWindow.addEventListener('mouseup', this.deactivatedragCircle)
 		},
 		deactivatedragCircle () {
-			window.removeEventListener('mousemove', this.dragCircle)
-			window.removeEventListener('mouseup', this.deactivatedragCircle)
+			this.ownerWindow.removeEventListener('mousemove', this.dragCircle)
+			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragCircle)
 		},
 		dragCircle (event) {
 			// If the mouseup happened outside window
@@ -100,7 +105,7 @@ export default {
 		this.deactivatedragCircle()
 	},
 	unmounted () {
-		window.removeEventListener('mousemove', this.dragCircle)
+		this.ownerWindow.removeEventListener('mousemove', this.dragCircle)
 	}
 }
 </script>

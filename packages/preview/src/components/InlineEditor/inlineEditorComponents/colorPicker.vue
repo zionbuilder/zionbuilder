@@ -3,7 +3,7 @@
 		<div class="zion-inline-editor-button">
 			<InputColorPicker
 				:modelValue="color"
-				@input="onColorChange"
+				@update:modelValue="onColorChange"
 				:show-library="false"
 				@open="onOpen"
 				@close="onClose"
