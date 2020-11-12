@@ -47,7 +47,7 @@
 					>
 						{{$translate('open_library')}}
 					</Button>
-				</div> -->
+				</div>
 			</Tab>
 
 		</Tabs>
@@ -55,11 +55,14 @@
 </template>
 <script>
 import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick } from 'vue'
-import ElementsTab from './ElementsTab.vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
 import { usePanels, useAddElementsPopup, useWindows } from '@composables'
+import { useLibrary } from '@zionbuilder/composables'
+
+// Components
+import ElementsTab from './ElementsTab.vue'
 
 export default {
 	name: 'ColumnTemplates',
@@ -72,7 +75,7 @@ export default {
 		ElementsTab
 	},
 	setup (props, { emit }) {
-		const { closePanel } = usePanels()
+		const { closePanel, togglePanel } = usePanels()
 		const active = ref(null)
 		const { addEventListener, removeEventListener } = useWindows()
 
@@ -180,15 +183,12 @@ export default {
 		}
 
 		const openLibrary = () => {
-			// TODO: implement open library
+			const { setActiveElementForLibrary } = useLibrary()
+
+			setActiveElementForLibrary(props.element)
+
+			togglePanel('PanelLibraryModal')
 			emit('close')
-
-			// this.setElementConfigForLibrary({
-			// 	parentUid: this.parentUid,
-			// 	index: this.getInsertIndex()
-			// })
-
-			// this.closePanel('PanelLibraryModal')
 		}
 
 		const searchKeyword = ref('')
@@ -209,7 +209,8 @@ export default {
 			getSpanNumber,
 			addElements,
 			closePanel,
-			searchKeyword
+			searchKeyword,
+			openLibrary
 		}
 	}
 }

@@ -280,7 +280,9 @@ export default {
 		}
 	},
 	beforeUnmount () {
+		const { unsetActiveElementForLibrary } = useLibrary()
 		removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
+		unsetActiveElementForLibrary()
 	}
 }
 </script>
