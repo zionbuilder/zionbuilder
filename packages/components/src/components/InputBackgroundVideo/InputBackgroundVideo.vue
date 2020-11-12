@@ -38,13 +38,19 @@
 import { Icon } from '../Icon'
 import { EmptyList } from '../EmptyList'
 import Video from '@zionbuilder/video'
-import { getSchema } from '@zb/schemas'
+import { useOptionsSchemas } from '@composables'
 
 export default {
 	name: 'InputBackgroundVideo',
 	components: {
 		EmptyList,
 		Icon
+	},
+	setup () {
+		const { getSchema } = useOptionsSchemas()
+		return {
+			getSchema
+		}
 	},
 	props: ['modelValue', 'options', 'exclude_options'],
 	data () {
@@ -70,7 +76,7 @@ export default {
 	},
 	computed: {
 		schema () {
-			let schema = { ...getSchema('video') }
+			let schema = { ...this.getSchema('video') }
 
 			if (this.exclude_options) {
 				this.exclude_options.forEach(optionToRemove => {
