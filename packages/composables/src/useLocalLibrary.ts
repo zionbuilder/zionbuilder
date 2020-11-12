@@ -2,7 +2,8 @@ import { ref } from 'vue'
 import {
 	getTemplates,
 	addTemplate as addTemplateToDB,
-	deleteTemplate as deleteTemplateToDB
+	deleteTemplate as deleteTemplateToDB,
+	importTemplateLibrary
 } from '@zionbuilder/rest'
 import { remove } from 'lodash-es'
 
@@ -35,6 +36,18 @@ export const useLocalLibrary = () => {
 		})
 	}
 
+	function importTemplate(formData) {
+		loading.value = true
+
+		return importTemplateLibrary(formData).then((result) => {
+			// addTemplate(result.data)
+			return Promise.resolve(result)
+		})
+		.finally(() => {
+			loading.value = false
+		})
+	}
+
 	function deleteTemplate(templateID) {
 		loading.value = true
 
@@ -53,6 +66,7 @@ export const useLocalLibrary = () => {
 		loading,
 		fetchTemplates,
 		addTemplate,
-		deleteTemplate
+		deleteTemplate,
+		importTemplate
 	}
 }

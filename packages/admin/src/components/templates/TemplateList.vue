@@ -25,7 +25,7 @@
 		<Modal
 			v-model:show="showModalPreview"
 			:title="`${templateTitle} ${$translate('preview')}`"
-			append-to="#znpb-admin"
+			append-to="body"
 		>
 			<ModalTemplatePreview :frameUrl="templatePreview" />
 		</Modal>

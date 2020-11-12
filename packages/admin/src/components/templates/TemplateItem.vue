@@ -2,7 +2,7 @@
 	<div>
 		<div
 			class="znpb-admin-single-template"
-			:class="{'znpb-admin-single-template--active' : active}"
+			:class="{'znpb-admin-single-template--active': isActive}"
 		>
 
 			<span class="znpb-admin-single-template__title">{{template.post_title}}</span>
@@ -162,6 +162,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { exportTemplateById } from '@zionbuilder/rest'
 import { saveAs } from 'file-saver'
 
@@ -189,13 +190,27 @@ export default {
 			required: false
 		}
 	},
+
+	setup(props) {
+		const isActive = ref(props.active)
+
+		if (isActive.value) {
+			setTimeout(() => {
+				isActive.value = false
+			}, 1000);
+		}
+
+		return {
+			isActive
+		}
+	},
 	data () {
 		return {
 			isCopied: false,
 			copiedText: 'Copied',
 			copyText: 'Copy',
 			localLoading: this.loading,
-			errorMessage: ''
+			errorMessage: '',
 		}
 	},
 
@@ -252,7 +267,7 @@ export default {
 </script>
 <style lang="scss">
 .znpb-admin-single-template--active {
-	border-color: $secondary;
+	box-shadow: 0 0 4px #006dd2;
 }
 .znpb-admin-single-template {
 	@extend %list-item-helper;

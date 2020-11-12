@@ -135,7 +135,6 @@
 			v-if="localActive && !importActive"
 			:preview-open="previewOpen"
 			@activate-preview="activatePreview"
-			@active-upload-finished="templateUploaded=false"
 			@loading-start="libLoading = true"
 			@loading-end="libLoading = false"
 		/>
@@ -218,10 +217,6 @@ export default {
 			this.importActive = false
 			this.localActive = true
 			this.templateUploaded = true
-
-			this.$nextTick(() => {
-				this.$refs.localLibraryContent.getDataFromServer()
-			})
 		},
 		insertLibraryItem () {
 			this.insertItemLoading = true

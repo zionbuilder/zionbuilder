@@ -44,9 +44,9 @@
 					type="file"
 					accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
 					multiple
-					:name="uploadFieldName"
+					name="file"
 					:disabled="isSaving"
-					@change="uploadFiles($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+					@change="uploadFiles($event.target.name, $event.target.files)"
 					class="znpb-library-input-file"
 				/>
 				<Loader v-if="isSaving" />
@@ -59,6 +59,7 @@
 <script>
 import { importTemplateLibrary, addTemplate } from '@zb/rest'
 import { inject } from 'vue'
+import { useLocalLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'LibraryUploader',
@@ -73,8 +74,6 @@ export default {
 		return {
 			isInitial: true,
 			isSaving: false,
-			fileCount: 0,
-			uploadFieldName: 'file',
 			errorMessage: ''
 		}
 	},
@@ -86,14 +85,7 @@ export default {
 		dropArea.addEventListener('drop', this.dragDropped)
 	},
 	setup () {
-		const $zb = inject('$zb')
-
-		function addLocalTemplate (template) {
-			$zb.templates.addTemplate(template)
-		}
-		return {
-			addLocalTemplate
-		}
+		return {}
 	},
 	methods: {
 		highlightForm () {
@@ -120,18 +112,14 @@ export default {
 			this.saveFile(formData)
 		},
 		saveFile (formData) {
+			const { importTemplate } = useLocalLibrary()
+
 			this.isSaving = true
 			this.errorMessage = ''
-			importTemplateLibrary(formData).then((result) => {
-				this.isInitial = false
-				addTemplate(result.data).then((value) => {
-					showModal.value = false
-					loading.value = true
-					this.addLocalTemplate(value.data)
 
-				})
-			}).catch(error => {
-				console.log('error', error)
+			importTemplate(formData).catch(error => {
+				console.error(error)
+
 				if (typeof error.response.data === 'string') {
 					this.errorMessage = error.response.data
 				} else this.errorMessage = this.arrayBufferToString(error.response.data)
