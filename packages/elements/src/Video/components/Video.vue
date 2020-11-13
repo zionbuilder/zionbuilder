@@ -5,7 +5,10 @@
 	>
 		<slot name="start" />
 
-		<div class="zb-el-zionVideo-wrapper" />
+		<div
+			class="zb-el-zionVideo-wrapper"
+			ref="videoPlayer"
+		/>
 
 		<component
 			:is="imageOverlayTag"
@@ -37,7 +40,7 @@ export default {
 	setup (props) {
 		const root = ref(null)
 		const videoOverlay = ref(null)
-		const videoPlayer = ref(null)
+		let videoPlayer = null
 		onMounted(() => {
 			runScript()
 		})
@@ -54,7 +57,8 @@ export default {
 					return
 				}
 
-				if (videoPlayer.value) {
+				if (videoPlayer) {
+
 					videoPlayer.destroy()
 					if (videoOverlay.value) {
 						window.jQuery(videoOverlay.value).show()
@@ -70,13 +74,14 @@ export default {
 			const script = window.ZionBuilderFrontend.getScript('video')
 
 			if (script) {
-				videoPlayer.value = script.initVideo(root.value)
+				videoPlayer = script.initVideo(root.value)
 			}
 		}
 
 		return {
 			root,
-			videoOverlay
+			videoOverlay,
+			videoPlayer
 		}
 	},
 
