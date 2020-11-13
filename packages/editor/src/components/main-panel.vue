@@ -255,7 +255,8 @@ export default {
 			getMainbarPosition,
 			iFrame,
 			mainBar,
-			currentHistoryIndex
+			currentHistoryIndex,
+			savePage
 		}
 	},
 	computed: {
@@ -355,7 +356,7 @@ export default {
 			const pageContent = contentTemplatePart.toJSON()
 
 
-			savePage(pageContent, status).catch(error => {
+			this.savePage(pageContent, status).catch(error => {
 				add({
 					message: error.message,
 					type: 'error',
@@ -366,9 +367,9 @@ export default {
 				add({
 					message: status === 'publish' ? this.$translate('page_saved_publish') : this.$translate('page_saved'),
 					delayClose: 5000
-				}).then(() => {
-					this.isDisplayingSaveNotice = false
 				})
+				this.isDisplayingSaveNotice = false
+
 			})
 		},
 		showAbout () {
