@@ -18,7 +18,7 @@
 			</EmptyList>
 
 			<Icon
-				v-if="this.videoSourceModel == 'local' && hasVideo"
+				v-if="videoSourceModel == 'local' && hasVideo"
 				class="znpb-input-background-video__delete"
 				icon="delete"
 				:bg-size="30"
@@ -38,7 +38,7 @@
 import { Icon } from '../Icon'
 import { EmptyList } from '../EmptyList'
 import Video from '@zionbuilder/video'
-import { useOptionsSchemas } from '@composables/useOptionsSchemas'
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas'
 
 export default {
 	name: 'InputBackgroundVideo',
@@ -48,6 +48,7 @@ export default {
 	},
 	setup () {
 		const { getSchema } = useOptionsSchemas()
+
 		return {
 			getSchema
 		}
@@ -76,7 +77,7 @@ export default {
 	},
 	computed: {
 		schema () {
-			let schema = { ...this.getSchema('video') }
+			let schema = { ...this.getSchema('videoOptionSchema') }
 
 			if (this.exclude_options) {
 				this.exclude_options.forEach(optionToRemove => {
