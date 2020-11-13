@@ -191,6 +191,7 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info)
 
 		provideElement(element)
+		provide('elementInfo', element)
 
 		return {
 			element,

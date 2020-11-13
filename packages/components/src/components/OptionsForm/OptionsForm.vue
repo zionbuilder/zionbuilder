@@ -19,9 +19,9 @@
 <script>
 import OptionWrapper from './OptionWrapper.vue'
 import { mapGetters } from 'vuex'
-import { updateOptionValue, getOptionValue } from '@zionbuilder/utils'
+import { updateOptionValue, getOptionValue } from '@zb/utils'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
-import { provide } from 'vue'
+import { provide, inject } from 'vue'
 export default {
 	name: 'OptionsForm',
 	provide () {
@@ -30,18 +30,12 @@ export default {
 			optionsForm: this
 		}
 	},
-	inject: {
-		elementInfo: {
-			default: null
-		}
-	},
 	props: {
 		modelValue: {},
 		schema: {
 			type: Object,
 			required: true
 		},
-
 		showChanges: {
 			required: false,
 			default: true
@@ -51,6 +45,8 @@ export default {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
 		const { activePseudoSelector } = usePseudoSelectors()
+
+		const elementInfo = inject('elementInfo')
 
 		const updateValueByPath = (path, newValue) => {
 			const updatedValues = updateOptionValue(props.modelValue, path, newValue)
@@ -82,13 +78,15 @@ export default {
 		provide('getValueByPath', getValueByPath)
 		provide('deleteValue', deleteValue)
 
+
 		return {
 			activeResponsiveDeviceInfo,
 			fontsListForOption,
 			updateValueByPath,
 			getValueByPath,
 			deleteValue,
-			activePseudoSelector
+			activePseudoSelector,
+			elementInfo
 		}
 	},
 	computed: {
