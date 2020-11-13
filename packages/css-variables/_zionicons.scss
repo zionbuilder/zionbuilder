@@ -3,12 +3,12 @@
 	font-style: normal;
 	font-weight: normal;
 
-	src: url("./zionicons/zion.eot?76473992#iefix") format("embedded-opentype"),
-	url("./zionicons/zion.woff2?76473992") format("woff2"),
-	url("./zionicons/zion.woff?76473992") format("woff"),
-	url("./zionicons/zion.ttf?76473992") format("truetype"),
-	url("./zionicons/zion.svg?76473992#zion") format("svg");
-	src: url("./zionicons/zion.eot");
+	src: url("./fonts/zion.eot") format("embedded-opentype"),
+	url("./fonts/zion.woff2") format("woff2"),
+	url("./fonts/zion.woff") format("woff"),
+	url("./fonts/zion.ttf") format("truetype"),
+	url("./fonts/zion.svg#zion") format("svg");
+	src: url("./fonts/zion.eot");
 }
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
 /* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */

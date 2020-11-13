@@ -21,6 +21,7 @@ module.exports = () => {
 					use: {
 						loader: 'file-loader',
 						options: {
+							name: '[name].[ext]',
 							outputPath: 'fonts/',
 							publicPath: '../fonts'
 						}
@@ -55,8 +56,8 @@ module.exports = () => {
 			publicPath: 'http://zionbuilder.test/wp-content/plugins/zionbuilder/dist/'
 		},
 		externals: [
-			function( context, request, callback ) {
-				if (/^@zb\/.*$/.test(request)){
+			function (context, request, callback) {
+				if (/^@zb\/.*$/.test(request)) {
 					const modules = request.replace('@', '').split('/')
 					// Externalize to a commonjs module using the request path
 					return callback(null, modules, 'root');
