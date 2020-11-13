@@ -1,4 +1,4 @@
-import { getOptionValue, getStyles } from '@zb/editor'
+import { getOptionValue, getStyles } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
 /**
