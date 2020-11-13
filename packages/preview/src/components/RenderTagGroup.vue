@@ -1,12 +1,8 @@
 <script>
+import { inject } from 'vue'
 export default {
 	name: 'RenderTagGroup',
 	functional: true,
-	inject: {
-		elementInfo: {
-			default: {}
-		}
-	},
 	props: {
 		tagId: {
 			type: String,
@@ -17,6 +13,12 @@ export default {
 			default () {
 				return []
 			}
+		}
+	},
+	setup () {
+		const elementInfo = inject('elementInfo')
+		return {
+			elementInfo
 		}
 	},
 	render (context) {

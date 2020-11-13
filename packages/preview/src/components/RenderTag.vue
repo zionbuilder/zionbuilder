@@ -3,24 +3,24 @@
 </template>
 
 <script>
-import { h } from 'vue'
+import { inject } from 'vue'
 
 export default {
 	name: 'RenderTag',
 	functional: true,
-	inject: {
-		elementInfo: {
-			default: {}
-		}
-	},
 	props: {
 		tagId: {
 			type: String,
 			required: true
 		}
 	},
+	setup () {
+		const elementInfo = inject('elementInfo')
+		return {
+			elementInfo
+		}
+	},
 	render (context) {
-		console.log({context})
 
 		const tagId = context.tagId
 		const children = context.children
