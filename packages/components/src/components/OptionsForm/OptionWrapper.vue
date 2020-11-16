@@ -157,23 +157,23 @@
 		</div>
 	</div>
 </template>
-<script lang="ts">
-import { mapGetters, mapActions } from "vuex";
-import { ChangesBullet } from "../ChangesBullet";
-import { InputLabel } from "../InputLabel";
-import { Tooltip } from "@zionbuilder/tooltip";
-import { Injection } from "../Injection";
-import { trigger } from "@zionbuilder/hooks";
+<script>
+import { mapGetters, mapActions } from "vuex"
+import { ChangesBullet } from "../ChangesBullet"
+import { InputLabel } from "../InputLabel"
+import { Tooltip } from "@zionbuilder/tooltip"
+import { Injection } from "../Injection"
+import { trigger } from "@zionbuilder/hooks"
 import {
 	useOptions,
 	useOptionsSchemas,
 	useResponsiveDevices,
 } from "@composables"
 
-import { provide, readonly, toRef } from "vue";
+import { provide, inject, readonly, toRef } from "vue"
 export default {
 	name: "OptionWrapper",
-	provide() {
+	provide () {
 		return {
 			inputWrapper: this,
 		};
@@ -223,7 +223,7 @@ export default {
 			required: false,
 		},
 	},
-	setup(props) {
+	setup (props) {
 		const { getSchema } = useOptionsSchemas();
 		const {
 			activeResponsiveDeviceInfo,
@@ -233,14 +233,21 @@ export default {
 		const localSchema = toRef(props, "schema");
 
 		provide("schema", readonly(localSchema.value));
+
+		const updateValueByPath = inject("updateValueByPath")
+		const deleteValue = inject("deleteValue")
+		const getValueByPath = inject('getValueByPath')
 		return {
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
+			updateValueByPath,
+			deleteValue,
+			getValueByPath
 		};
 	},
-	data() {
+	data () {
 		return {
 			activePseudo: null,
 			showDevices: false,
@@ -248,18 +255,18 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(["getActiveElementOptionValue"]),
-		isValidInput() {
+
+		isValidInput () {
 			return this.optionTypeConfig;
 		},
-		computedShowTitle() {
+		computedShowTitle () {
 			if (typeof this.schema.show_title !== "undefined") {
 				return this.schema.show_title;
 			}
 
 			return true;
 		},
-		computedWrapperStyle() {
+		computedWrapperStyle () {
 			const styles = {};
 
 			if (this.schema.grow) {
@@ -272,22 +279,22 @@ export default {
 
 			return styles;
 		},
-		hasChanges() {
+		hasChanges () {
 			if (this.schema.is_layout) {
 				const childOptionsIds = this.getChildOptionsIds(this.schema);
 
 				return childOptionsIds.find((optionId) => {
 					return (
 						this.savedOptionValue && this.savedOptionValue[optionId]
-					);
-				});
+					)
+				})
 			} else {
-				return typeof this.savedOptionValue !== "undefined";
+				return typeof this.savedOptionValue !== "undefined"
 			}
 		},
 
-		optionTypeConfig() {
-			const { getOption } = useOptions()
+		optionTypeConfig () {
+			const { getOption } = useOptions();
 
 			return getOption(
 				this.schema,
@@ -295,28 +302,28 @@ export default {
 				this.optionsForm.modelValue
 			)
 		},
-		labelAlignment() {
-			return this.schema["label-align"] || null;
+		labelAlignment () {
+			return this.schema["label-align"] || null
 		},
-		activeResponsiveMedia() {
-			return this.activeResponsiveDeviceInfo.id;
+		activeResponsiveMedia () {
+			return this.activeResponsiveDeviceInfo.id
 		},
-		savedOptionValue() {
+		savedOptionValue () {
 			let value = null;
 
 			if (this.compiledSchema.sync) {
-				value = this.getActiveElementOptionValue(
+				value = this.getValueByPath(
 					this.compilePlaceholder(this.compiledSchema.sync)
-				);
+				)
 			} else {
-				value = this.modelValue;
+				value = this.modelValue
 			}
 
-			return value;
+			return value
 		},
 
 		optionValue: {
-			get() {
+			get () {
 				let value =
 					typeof this.savedOptionValue !== "undefined"
 						? this.savedOptionValue
@@ -332,7 +339,7 @@ export default {
 					}
 					value =
 						typeof (value || {})[this.activeResponsiveMedia] !==
-						"undefined"
+							"undefined"
 							? (value || {})[this.activeResponsiveMedia]
 							: schemaDefault;
 				}
@@ -349,36 +356,30 @@ export default {
 
 				return value;
 			},
-			set(newValue) {
-				let valueToUpdate = newValue;
-				let newValues = newValue;
+			set (newValue) {
+				let valueToUpdate = newValue
+				let newValues = newValue
+
 
 				// check to see if this has pseudo selectors
 				if (Array.isArray(this.schema.pseudo_options)) {
-					const activePseudo =
-						this.activePseudo || this.schema.pseudo_options[0];
-					let oldValues = this.modelValue;
+					const activePseudo = this.activePseudo || this.schema.pseudo_options[0]
+					let oldValues = this.modelValue
 
 					// Check to see if this also a responsive option
 					if (this.compiledSchema.responsive_options === true) {
-						oldValues =
-							typeof (this.modelValue || {})[
-								this.activeResponsiveMedia
-							] !== "undefined"
-								? (this.modelValue || {})[
-										this.activeResponsiveMedia
-								  ]
-								: undefined;
+						oldValues = typeof (this.modelValue || {})[this.activeResponsiveMedia] !== "undefined" ? (this.modelValue || {})[this.activeResponsiveMedia] : undefined;
 						newValues = {
 							...oldValues,
 							[activePseudo]: newValue,
-						};
+						}
 					} else {
 						valueToUpdate = {
 							...this.modelValue,
 							[activePseudo]: newValues,
-						};
+						}
 					}
+
 				}
 
 				// Check to see if we need to save for responsive
@@ -386,7 +387,7 @@ export default {
 					valueToUpdate = {
 						...this.modelValue,
 						[this.activeResponsiveMedia]: newValues,
-					};
+					}
 				}
 
 				// Check if the option is synced
@@ -398,30 +399,20 @@ export default {
 
 					// Check to see if we need to delete the option
 					if (valueToUpdate === null) {
-						this.deleteActiveElementValue({
-							path: syncValuePath,
-						});
+						this.deleteValue(syncValuePath)
 					} else {
-						this.updateActiveElementValue({
-							path: syncValuePath,
-							newValue: valueToUpdate,
-						});
+						this.updateValueByPath(syncValuePath, valueToUpdate)
 					}
 
 					if (this.panel) {
-						this.panel.addToLocalHistory();
+						this.panel.addToLocalHistory()
 					}
 				} else {
 					if (valueToUpdate === null) {
-						this.onDeleteOption();
+						this.onDeleteOption()
 					} else {
-						const optionId = this.schema.is_layout
-							? false
-							: this.optionId;
-						this.$emit("update:modelValue", [
-							optionId,
-							valueToUpdate,
-						]);
+						const optionId = this.schema.is_layout ? false : this.optionId
+						this.$emit("update:modelValue", [optionId, valueToUpdate])
 					}
 				}
 
@@ -433,9 +424,9 @@ export default {
 						this.schema.on_change.condition.value[0] !== newValue
 					) {
 						// Check if we need to clear path option
-						this.deleteActiveElementValue({
+						this.deleteValue({
 							path: this.schema.on_change.option_path,
-						});
+						})
 					}
 				}
 			},
@@ -446,7 +437,7 @@ export default {
 		 * WIll search for predefined constants and replace them with correct information
 		 * from the currently edited element
 		 */
-		compiledSchema() {
+		compiledSchema () {
 			// Remove unnecesarry data from schema so we don't overpopulate DOM with unnecessary attributes
 			const {
 				description,
@@ -464,9 +455,8 @@ export default {
 	},
 
 	methods: {
-		...mapActions(["updateActiveElementValue", "deleteActiveElementValue"]),
 
-		getChildOptionsIds(schema, includeSchemaId = true) {
+		getChildOptionsIds (schema, includeSchemaId = true) {
 			let ids = [];
 
 			// Special options
@@ -533,32 +523,32 @@ export default {
 			return ids;
 		},
 
-		openResponsive() {
+		openResponsive () {
 			this.showDevices = true;
 		},
-		closeresponsive() {
+		closeresponsive () {
 			this.showDevices = false;
 		},
-		closePseudo() {
+		closePseudo () {
 			this.showPseudo = false;
 		},
-		openPseudo() {
+		openPseudo () {
 			this.showPseudo = true;
 		},
-		activateDevice(device) {
+		activateDevice (device) {
 			this.setActiveResponsiveDeviceId(device.id);
 			setTimeout(() => {
 				this.showDevices = false;
 			}, 50);
 		},
-		activatePseudo(selector) {
+		activatePseudo (selector) {
 			this.activePseudo = selector;
 
 			setTimeout(() => {
 				this.showPseudo = false;
 			}, 50);
 		},
-		getPseudoIcon(pseudo) {
+		getPseudoIcon (pseudo) {
 			return pseudo === "hover" ? "hover-state" : "default-state";
 		},
 
@@ -567,7 +557,7 @@ export default {
 		 *
 		 * Delete the value
 		 */
-		onDeleteOption(optionId) {
+		onDeleteOption (optionId) {
 			if (this.schema.sync) {
 				let fullOptionIds = [];
 				const childOptionsIds = this.getChildOptionsIds(
@@ -586,7 +576,7 @@ export default {
 				}
 
 				this.$parent.deleteValues(fullOptionIds);
-				this.deleteActiveElementValue({
+				this.deleteValue({
 					path: compiledSync,
 				});
 			} else {
@@ -601,7 +591,7 @@ export default {
 				}
 			}
 		},
-		getNestedOptionsIds(schemas) {
+		getNestedOptionsIds (schemas) {
 			let ids = [];
 
 			Object.keys(schemas).forEach((optionId) => {

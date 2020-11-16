@@ -123,14 +123,14 @@ export default {
 					// Check to see if we need to get the schema from the path
 					if (optionPath) {
 						const defaultValue = optionSchema ? optionSchema.default : false
-						savedValue = this.getActiveElementOptionValue(optionPath, defaultValue)
+						savedValue = this.getValueByPath(optionPath, defaultValue)
 					} else {
 						// Get the saved value from option schema
 						savedValue = typeof this.modelValue[option] !== 'undefined' ? this.modelValue[option] : optionSchema.default
 						if (optionSchema.sync) {
 							// Check to see if the option is actually a sync option
 							const syncValue = this.compilePlaceholder(optionSchema.sync)
-							savedValue = this.getActiveElementOptionValue(syncValue, savedValue)
+							savedValue = this.getValueByPath(syncValue, savedValue)
 						}
 					}
 
