@@ -26,14 +26,28 @@ export function useElementActions() {
 	}
 
 	const pasteElement = (element) => {
-		if (copiedElement.value.action === 'copy') {
-			element.addChild(copiedElement.value.element.getClone())
-		} else if (copiedElement.value.action === 'cut') {
-			copiedElement.value.element.isCutted = false
-			copiedElement.value.element.move(element)
+		let insertElement = element
+		let index = -1
+
+		// If the element is not a wrapper, add to parent element
+		if (!element.isWrapper || copiedElement.value.element === element) {
+			insertElement = element.parent
+			index = element.getIndexInParent() + 1
 		}
 
-		copiedElement.value = {}
+		if (copiedElement.value.action === 'copy') {
+			insertElement.addChild(copiedElement.value.element.getClone(), index)
+		} else if (copiedElement.value.action === 'cut') {
+			if (copiedElement.value.element === element) {
+				copiedElement.value.element.isCutted = false
+				copiedElement.value = {}
+			} else {
+				copiedElement.value.element.isCutted = false
+				copiedElement.value.element.move(insertElement, index)
+			}
+
+			copiedElement.value = {}
+		}
 	}
 
 	const resetCopiedElement = () => {

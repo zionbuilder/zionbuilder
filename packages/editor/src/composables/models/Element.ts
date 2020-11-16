@@ -155,7 +155,8 @@ export class Element {
 
 	move(newParent: Element, index = -1) {
 		this.parent.removeChild(this.uid)
-		newParent.addChild(this.uid, index)
+		const element = getElement(this.uid)
+		newParent.addChild(element, index)
 	}
 
 	/**
