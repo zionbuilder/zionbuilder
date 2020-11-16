@@ -330,21 +330,13 @@ export default {
 					return
 				}
 
-				// Check if we need to set even spacing
-				if (event.ctrlKey) {
-					even = true
-					this.reversedPosition = this.getReversedPosition(position)
-				} else {
-					even = false
-					this.reversedPosition = null
-				}
 
 				this.updateElementStyle({
 					newValue: `${updatedValue}${initialUnit}`,
 					type,
 					position,
 					even: event.ctrlKey,
-					reversedPositgetDocumentsion: this.reversedPosition
+					reversedPosition: event.ctrlKey ? this.getReversedPosition(position) : null
 				})
 
 				// Refresh sizes
@@ -358,6 +350,7 @@ export default {
 			const typeAndPosition = position.split(/(?=[A-Z])/)
 			const positionLocation = typeAndPosition[1]
 			let reversePositionLocation
+
 
 			switch (positionLocation) {
 				case 'Top':
