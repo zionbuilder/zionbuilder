@@ -1,6 +1,5 @@
 <template>
-
-	<date-pick
+	<vueDatePick
 		v-model="valueModel"
 		class="znpb-input-date"
 		:next-month-caption="$translate('next_month')"
@@ -13,7 +12,6 @@
 		:format="format"
 		:is-date-disabled="disableDate"
 	>
-
 		<template v-slot:default="{toggle}">
 			<BaseInput
 				v-model="valueModel"
@@ -25,12 +23,13 @@
 			>
 			</BaseInput>
 		</template>
-	</date-pick>
+	</vueDatePick>
 
 </template>
 
 <script>
-import DatePick from 'vue-date-pick'
+
+import vueDatePick from './src/vueDatePick.vue'
 import BaseInput from '../BaseInput/BaseInput.vue'
 
 /**
@@ -39,7 +38,7 @@ import BaseInput from '../BaseInput/BaseInput.vue'
 export default {
 	name: 'InputDatePicker',
 	components: {
-		DatePick,
+		vueDatePick,
 		BaseInput
 	},
 	props: {
@@ -133,6 +132,4 @@ export default {
 }
 </script>
 <style lang="scss">
-$vdpColor: $secondary;
-@import "vue-date-pick/src/vueDatePick.scss";
 </style>
