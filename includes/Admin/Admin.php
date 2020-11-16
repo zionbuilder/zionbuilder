@@ -5,9 +5,7 @@ namespace ZionBuilder\Admin;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
-use ZionBuilder\Localization;
 use ZionBuilder\WPMedia;
-use ZionBuilder\Nonces;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -195,7 +193,6 @@ class Admin {
 				'zb-admin',
 				'ZnPbAdminPageData',
 				[
-					'l10n'                => Localization::get_strings(),
 					'is_pro_active'       => Utils::is_pro_active(),
 					'template_types'      => Plugin::$instance->templates->get_template_types(),
 					'template_categories' => Plugin::$instance->templates->get_template_categories(),

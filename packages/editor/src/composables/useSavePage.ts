@@ -5,11 +5,14 @@ import { useTemplateParts } from './useTemplateParts'
 import { usePageSettings } from './usePageSettings'
 import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
+import { translate } from '@zb/i18n'
+import { useNotifications } from '@zionbuilder/composables'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 
 export function useSavePage () {
 	const save = (status = 'publish') => {
+		const { add } = useNotifications()
 		const { getTemplatePart } = useTemplateParts()
 		const contentTemplatePart = getTemplatePart('content')
 		const { pageSettings } = usePageSettings()
@@ -38,8 +41,27 @@ export function useSavePage () {
 		}
 
 		return new Promise((resolve, reject) => {
-			savePageREST(pageData).catch(error => {
+			savePageREST(pageData)
+			.then((response) => {
+				if (status !== 'autosave') {
+					add({
+						message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
+						delayClose: 5000,
+						type: 'success'
+					})
+				}
+
+				return Promise.resolve(response)
+			})
+			.catch(error => {
 				Cache.saveItem(pageID, pageContent)
+
+				add({
+					message: error.message,
+					type: 'error',
+					delayClose: 5000
+				})
+
 				reject(error)
 			}).finally(() => {
 				isSavePageLoading.value = false

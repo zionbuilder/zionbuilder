@@ -346,7 +346,6 @@ export default {
 		onSaving (status) {
 			const { getTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getTemplatePart('content')
-			const { add } = useNotifications()
 
 			if (!contentTemplatePart) {
 				console.error('Content template data not found.')
@@ -355,22 +354,7 @@ export default {
 
 			const pageContent = contentTemplatePart.toJSON()
 
-
-			this.savePage(pageContent, status).catch(error => {
-				add({
-					message: error.message,
-					type: 'error',
-					delayClose: 5000
-				})
-			}).finally(() => {
-				const noticeText = status
-				add({
-					message: status === 'publish' ? this.$translate('page_saved_publish') : this.$translate('page_saved'),
-					delayClose: 5000
-				})
-				this.isDisplayingSaveNotice = false
-
-			})
+			this.savePage(pageContent, status)
 		},
 		showAbout () {
 			this.aboutModalVisibility = true

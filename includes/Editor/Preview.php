@@ -5,7 +5,6 @@ namespace ZionBuilder\Editor;
 use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
-use ZionBuilder\Localization;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -203,7 +202,6 @@ class Preview {
 
 	public function get_preview_initial_data() {
 		return [
-			'l10n'                => Localization::get_strings(),
 			'nonce'               => Nonces::generate_nonce( 'preview-frame' ),
 			'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'      => Plugin::$instance->templates->get_template_types(),
