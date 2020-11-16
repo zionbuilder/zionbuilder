@@ -109,7 +109,7 @@ class Localization {
 				'template_delete_confirm'                => esc_html__( 'Yes, delete template', 'zionbuilder' ),
 				'template_delete_cancel'                 => esc_html__( 'No, keep template', 'zionbuilder' ),
 				'are_you_sure_template_delete'           => esc_html__( 'Are you sure you want to delete this template?', 'zionbuilder' ),
-				'template_was_added'                     => esc_html__( 'The template was susscesfully added to library', 'zionbuilder' ),
+				'template_was_added'                     => esc_html__( 'The template was successfully added to library', 'zionbuilder' ),
 				'success'                                => esc_html__( 'success', 'zionbuilder' ),
 				'select_template'                        => esc_html__( 'Select a template', 'zionbuilder' ),
 				'select_type'                            => esc_html__( 'Select type', 'zionbuilder' ),
