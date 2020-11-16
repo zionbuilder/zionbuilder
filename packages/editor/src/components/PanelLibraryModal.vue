@@ -144,7 +144,6 @@
 
 <script>
 import { addOverflow, removeOverflow } from '../utils/overflow'
-import { mapActions } from 'vuex'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
@@ -209,9 +208,6 @@ export default {
 		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
 	},
 	methods: {
-		...mapActions([
-			'insertElements'
-		]),
 		onTemplateUpload () {
 			this.importActive = false
 			this.localActive = true

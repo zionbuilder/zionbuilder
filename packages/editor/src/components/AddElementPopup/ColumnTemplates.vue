@@ -136,8 +136,9 @@ export default {
 		}
 
 		const addElements = (config) => {
-			const elementType = props.element.element_type
-			const { insertElement } = useAddElementsPopup()
+			const { insertElement, getElementForInsert } = useAddElementsPopup()
+			const activeElementForInsert = getElementForInsert()
+			const elementType = activeElementForInsert.element.element_type
 
 			// Add a section if this will be inserted on root
 			if (elementType === 'contentRoot') {
