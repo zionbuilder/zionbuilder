@@ -1,14 +1,12 @@
 <template>
-	<div
-		class="znpb-columns-templates-wrapper"
-	>
+	<div class="znpb-columns-templates-wrapper">
 		<Tabs
 			title-position="center"
 			:active-tab="activeTab"
 			@changed-tab="active=$event, searchKeyword=''"
 		>
 			<Tab
-				name="Columns"
+				name="Layouts"
 				class="znpb-tab__wrapper--columns-template"
 			>
 				<div class="znpb-columns-templates">
@@ -192,7 +190,7 @@ export default {
 		}
 
 		const searchKeyword = ref('')
-		function onKeyDown(event) {
+		function onKeyDown (event) {
 			active.value = 'elements'
 			searchKeyword.value += event.key
 		}
