@@ -348,13 +348,13 @@ export default {
 		 * Replace %%ELEMENT_TYPE%% with the element name
 		 */
 		replaceElementType (match) {
-			return this.elementInfo.data.elementTypeConfig.name
+			return this.elementInfo.elementTypeModel.name
 		},
 		/**
 		 * Replace %%ELEMENT_UID%% constant with the element UID
 		 */
 		replaceElementUid (match) {
-			return this.elementInfo.data.uid
+			return this.elementInfo.uid
 		},
 		/**
 		 * Replace %%RESPONSIVE_DEVICE%% constant with the element UID

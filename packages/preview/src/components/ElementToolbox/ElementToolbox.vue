@@ -503,6 +503,7 @@ export default {
 					newValue = distance + this.initialSizeValue
 				}
 			}
+
 			// Prevent negative values
 			if (newValue < 0) {
 				newValue = 0
@@ -514,6 +515,7 @@ export default {
 			// reposition tooltip
 			if (this.$refs[`sizeDrag--${this.activeDragPosition}`]) {
 				const { bottom, left, top, right } = this.$refs.rectangle.getBoundingClientRect()
+
 				if (this.activeDragPosition === 'Top') {
 					this.popperRefValues.clientY = top
 				} else if (this.activeDragPosition === 'Right') {
@@ -522,7 +524,7 @@ export default {
 					this.popperRefValues.clientY = bottom
 				} else this.popperRefValues.clientX = left
 
-				this.$refs[`sizeDrag--${this.activeDragPosition}`][0].scheduleUpdate()
+				this.$refs[`sizeDrag--${this.activeDragPosition}`].scheduleUpdate()
 			}
 		},
 		endDragging () {

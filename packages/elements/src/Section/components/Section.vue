@@ -25,7 +25,7 @@
 
 		<RenderTag tag-id="inner_content">
 			<SortableContent
-				:element="data"
+				:element="element"
 				class="zb-section__innerWrapper"
 			></SortableContent>
 		</RenderTag>
@@ -37,7 +37,7 @@
 <script>
 export default {
 	name: 'zion_section',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'api', 'element'],
 	computed: {
 		topMask () {
 			return this.shapes['top']

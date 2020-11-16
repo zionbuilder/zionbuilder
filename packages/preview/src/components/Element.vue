@@ -22,8 +22,8 @@
 			<ElementToolbox
 				v-if="canShowToolbox"
 				:element="element"
-				:can-hide-toolbox.sync="canHideToolbox"
-				:is-toolbox-dragging.sync="isToolboxDragging"
+				v-model:can-hide-toolbox="canHideToolbox"
+				v-model:is-toolbox-dragging="isToolboxDragging"
 			/>
 
 			<!-- ELEMENT VIDEO HERE -->

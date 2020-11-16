@@ -57,7 +57,7 @@ export class Element {
 		this.options = newValues
 	}
 
-	getOptionValue(path, defaultValue) {
+	getOptionValue(path, defaultValue = null) {
 		return get(this.options, path, defaultValue)
 	}
 
