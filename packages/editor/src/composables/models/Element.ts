@@ -165,6 +165,7 @@ export class Element {
 	duplicate() {
 		const indexInParent = this.parent.content.indexOf(this.uid)
 		const elementAsJSON = this.getClone()
+
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
 	}
 
@@ -225,7 +226,7 @@ export class Element {
 	}
 
 	getClone() {
-		const configAsJSON = this.toJSON()
+		const configAsJSON = JSON.parse(JSON.stringify(this.toJSON()))
 		regenerateUIDs(configAsJSON)
 
 		// Add the instance to all elements

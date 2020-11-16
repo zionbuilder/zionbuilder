@@ -7,11 +7,6 @@
 			<Tooltip
 				tag="span"
 				:content="$translate('click_to_edit_class')"
-				:modifiers="{
-					offset: {
-						offset: '0,0'
-					}
-				}"
 			>
 				<Icon
 					class="znpb-edit-icon-pop"
@@ -23,11 +18,6 @@
 			<Tooltip
 				tag="span"
 				:content="$translate('click_to_delete_globally')"
-				:modifiers="{
-					offset: {
-						offset: '0,0'
-					}
-				}"
 			>
 				<Icon
 					icon="delete"

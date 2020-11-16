@@ -3,7 +3,6 @@
 		<InputWrapper
 			class="znpb-input-wrapper--class-styling"
 			title="Class name"
-			description="change class name"
 		>
 			<BaseInput
 				v-model="classTitle"

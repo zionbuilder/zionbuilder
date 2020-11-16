@@ -2,15 +2,16 @@
 
 	<div class="znpb-global-css-classes__wrapper">
 
-		<BaseInput
-			class="znpb-global-css-classes__search"
-			v-model="keyword"
-			:filterable="true"
-			icon="search"
-			:clearable="true"
-			placeholder="Search for a class"
-			ref="input"
-		/>
+		<div class="znpb-global-css-classes__search">
+			<BaseInput
+				v-model="keyword"
+				:filterable="true"
+				icon="search"
+				:clearable="true"
+				placeholder="Search for a class"
+				ref="input"
+			/>
+		</div>
 
 		<template v-if="filteredClasses.length">
 			<HorizontalAccordion
