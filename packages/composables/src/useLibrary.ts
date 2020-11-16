@@ -3,8 +3,8 @@ import localSt from 'localstorage-ttl'
 import { getLibraryItems } from '@zb/rest'
 
 const cachedData = localSt.get('znpbLibraryCache')
-const libraryItems = ref(cachedData.items || [])
-const libraryCategories = ref(cachedData.categories || [])
+const libraryItems = ref(cachedData ? cachedData.items : [])
+const libraryCategories = ref(cachedData ? cachedData.categories : [])
 const activeElementForLibrary = ref(null)
 
 export const useLibrary = () => {

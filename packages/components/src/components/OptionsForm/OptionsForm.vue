@@ -18,10 +18,10 @@
 
 <script>
 import OptionWrapper from './OptionWrapper.vue'
-import { mapGetters } from 'vuex'
 import { updateOptionValue, getOptionValue } from '@zb/utils'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
 import { provide, inject } from 'vue'
+
 export default {
 	name: 'OptionsForm',
 	provide () {
@@ -90,9 +90,6 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'getActiveElementOptionValue'
-		]),
 		optionsSchema () {
 			const schema = {}
 
