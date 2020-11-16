@@ -158,7 +158,7 @@
 	</div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex"
+
 import { ChangesBullet } from "../ChangesBullet"
 import { InputLabel } from "../InputLabel"
 import { Tooltip } from "@zionbuilder/tooltip"
@@ -176,7 +176,7 @@ export default {
 	provide () {
 		return {
 			inputWrapper: this,
-		};
+		}
 	},
 	inject: {
 		panel: {
@@ -224,15 +224,15 @@ export default {
 		},
 	},
 	setup (props) {
-		const { getSchema } = useOptionsSchemas();
+		const { getSchema } = useOptionsSchemas()
 		const {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
 		} = useResponsiveDevices();
-		const localSchema = toRef(props, "schema");
+		const localSchema = toRef(props, "schema")
 
-		provide("schema", readonly(localSchema.value));
+		provide("schema", readonly(localSchema.value))
 
 		const updateValueByPath = inject("updateValueByPath")
 		const deleteValue = inject("deleteValue")
@@ -245,14 +245,14 @@ export default {
 			updateValueByPath,
 			deleteValue,
 			getValueByPath
-		};
+		}
 	},
 	data () {
 		return {
 			activePseudo: null,
 			showDevices: false,
 			showPseudo: false,
-		};
+		}
 	},
 	computed: {
 
@@ -267,17 +267,17 @@ export default {
 			return true;
 		},
 		computedWrapperStyle () {
-			const styles = {};
+			const styles = {}
 
 			if (this.schema.grow) {
-				styles.flex = this.schema.grow;
+				styles.flex = this.schema.grow
 			}
 
 			if (this.schema.width) {
-				styles.width = `${this.schema.width}%`;
+				styles.width = `${this.schema.width}%`
 			}
 
-			return styles;
+			return styles
 		},
 		hasChanges () {
 			if (this.schema.is_layout) {
@@ -448,16 +448,16 @@ export default {
 				id,
 				css_class: cssClass,
 				...schema
-			} = this.schema;
+			} = this.schema
 
-			return schema;
+			return schema
 		},
 	},
 
 	methods: {
 
 		getChildOptionsIds (schema, includeSchemaId = true) {
-			let ids = [];
+			let ids = []
 
 			// Special options
 			if (schema.type === "background") {
@@ -467,7 +467,7 @@ export default {
 				Object.keys(backgroundSchema).forEach((optionId) => {
 					const childIds = this.getChildOptionsIds(
 						backgroundSchema[optionId]
-					);
+					)
 
 					if (childIds) {
 						ids = [
@@ -477,9 +477,9 @@ export default {
 							"background-gradient",
 							"background-video",
 							"background-image",
-						];
+						]
 					}
-				});
+				})
 			} else if (
 				schema.type === "dimensions" &&
 				typeof schema.dimensions === "object"
@@ -490,7 +490,7 @@ export default {
 			} else if (schema.type === "typography") {
 				const typographySchema = this.getSchema(
 					"typographyOptionSchema"
-				);
+				)
 				Object.keys(typographySchema).forEach((optionId) => {
 					const childIds = this.getChildOptionsIds(
 						typographySchema[optionId]
@@ -499,57 +499,57 @@ export default {
 					if (childIds) {
 						ids = [...ids, ...childIds];
 					}
-				});
+				})
 			} else if (schema.type === "responsive_group") {
-				ids.push(this.activeResponsiveMedia);
+				ids.push(this.activeResponsiveMedia)
 			} else if (schema.type === "pseudo_group") {
-				ids.push(this.activePseudo);
+				ids.push(this.activePseudo)
 			}
 
 			if (schema.is_layout && schema.child_options) {
 				Object.keys(schema.child_options).forEach((optionId) => {
 					const childIds = this.getChildOptionsIds(
 						schema.child_options[optionId]
-					);
+					)
 
 					if (childIds) {
-						ids = [...ids, ...childIds];
+						ids = [...ids, ...childIds]
 					}
-				});
+				})
 			} else if (includeSchemaId) {
-				ids.push(schema.id);
+				ids.push(schema.id)
 			}
 
 			return ids;
 		},
 
 		openResponsive () {
-			this.showDevices = true;
+			this.showDevices = true
 		},
 		closeresponsive () {
-			this.showDevices = false;
+			this.showDevices = false
 		},
 		closePseudo () {
-			this.showPseudo = false;
+			this.showPseudo = false
 		},
 		openPseudo () {
-			this.showPseudo = true;
+			this.showPseudo = true
 		},
 		activateDevice (device) {
 			this.setActiveResponsiveDeviceId(device.id);
 			setTimeout(() => {
-				this.showDevices = false;
+				this.showDevices = false
 			}, 50);
 		},
 		activatePseudo (selector) {
-			this.activePseudo = selector;
+			this.activePseudo = selector
 
 			setTimeout(() => {
-				this.showPseudo = false;
-			}, 50);
+				this.showPseudo = false
+			}, 50)
 		},
 		getPseudoIcon (pseudo) {
-			return pseudo === "hover" ? "hover-state" : "default-state";
+			return pseudo === "hover" ? "hover-state" : "default-state"
 		},
 
 		/**
