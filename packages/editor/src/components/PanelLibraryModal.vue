@@ -149,14 +149,12 @@ import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
 import { usePanels, useElements } from '@composables'
-import { useLibrary } from '@zionbuilder/composables'
+import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
 
 // Components
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
 import localLibrary from './library-panel/localLibrary.vue'
-
-
 
 export default {
 	name: 'LibraryModal',
@@ -172,9 +170,10 @@ export default {
 	},
 	setup (props) {
 		const { togglePanel } = usePanels()
-
+		const { fetchTemplates } = useLocalLibrary()
 		return {
-			togglePanel
+			togglePanel,
+			fetchTemplates
 		}
 	},
 	data () {
@@ -228,7 +227,7 @@ export default {
 		onRefresh () {
 			this.templateUploaded = false
 
-			this.localActive ? this.$refs.localLibraryContent.getDataFromServer(true) : this.$refs.libraryContent.getDataFromServer(false)
+			this.localActive ? this.fetchTemplates() : this.$refs.libraryContent.getDataFromServer(false)
 		},
 		closeBody () {
 			if (this.multiple && this.previewOpen) {
