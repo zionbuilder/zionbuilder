@@ -11,7 +11,7 @@
 			>
 				<div
 					class="znpb-editor-layout__preview-button"
-					v-on:click="showPanels"
+					@click="showPanels"
 				>
 					<Icon icon="layout" />
 				</div>
@@ -186,6 +186,7 @@ export default {
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
 			isPreviewMode,
+			setPreviewMode,
 			focusedElement,
 			applyShortcuts,
 			isPreviewLoading,

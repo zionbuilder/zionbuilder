@@ -210,9 +210,9 @@ export default {
 			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
-			this.addEventListener('click', this.deselectActiveElement, true)
-			this.addEventListener('click', this.preventClicks, true)
-			this.addEventListener('keydown', this.applyShortcuts)
+			this.getWindows('preview').addEventListener('click', this.deselectActiveElement, true)
+			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
+			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
 			// this.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
@@ -245,9 +245,9 @@ export default {
 	},
 	// end checkMousePosition
 	beforeUnmount () {
-		this.removeEventListener('click', this.deselectActiveElement)
-		this.removeEventListener('keydown', this.applyShortcuts)
-		this.removeEventListener('click', this.preventClicks, true)
+		this.getWindows('preview').removeEventListener('click', this.deselectActiveElement)
+		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
+		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 
 		off('refreshIframe', this.refreshIframe)
 	},

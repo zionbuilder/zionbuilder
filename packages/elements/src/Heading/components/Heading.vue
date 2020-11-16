@@ -20,7 +20,7 @@
 		<RenderValue
 			v-else
 			option="content"
-				:forced-root-node="false"
+			:forced-root-node="false"
 		/>
 
 		<slot name="end" />
