@@ -229,6 +229,7 @@ export default {
 		}
 
 		provide('elementInfo', props.element)
+		provide('renderAttributes', renderAttributes)
 		provide('elementOptions', options)
 
 		return {

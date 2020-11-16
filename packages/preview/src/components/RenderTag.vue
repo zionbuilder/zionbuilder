@@ -1,67 +1,38 @@
-<template>
-	<slot />
-</template>
-
 <script>
-import { inject } from 'vue'
+import { inject, h, cloneVNode } from 'vue'
 
 export default {
 	name: 'RenderTag',
-	functional: true,
 	props: {
 		tagId: {
 			type: String,
 			required: true
 		}
 	},
-	setup () {
+	setup (props, { attrs, emit, slots }) {
 		const elementInfo = inject('elementInfo')
-		return {
-			elementInfo
-		}
-	},
-	render (context) {
+		const renderAttributes = inject('renderAttributes')
+		const childSlot = slots.default()
+		const tagId = props.tagId
 
-		const tagId = context.tagId
-		const children = context.children
-
-		if (children.length === 0) {
-			console.warn('RenderTag must have only one child. Remaining childs will not be rendered. For rendering repeater option data please use RemderTagGroup')
-			return
-		}
-
-		if (children && children.length > 1) {
-			console.warn('RenderTag must have only one child. Remaining childs will not be rendered')
-			return
-		}
-
-		const vNode = children[0]
-		const elementInstance = context.injections.elementInfo.elementInstance
-		const renderAttributes = elementInstance.renderAttributes
-		const extraData = vNode.data
-
-		// Check to see if we have tags associated to this tagId
-		if (typeof renderAttributes[tagId] !== 'undefined') {
-			const { class: cssClasses, ...remainingAttributes } = renderAttributes[tagId]
-
-			// Set css classes
-			if (cssClasses) {
-				extraData.class = extraData.class || {}
-				cssClasses.forEach(cssClass => {
-					extraData.class[cssClass] = true
-				})
+		if (typeof renderAttributes.value[tagId] !== 'undefined') {
+			if (childSlot.length === 0) {
+				console.warn('RenderTag must have only one child. Remaining childs will not be rendered. For rendering repeater option data please use RemderTagGroup')
+				return
 			}
 
-			// Set other attributes
-			if (Object.keys(remainingAttributes).length > 0) {
-				extraData.attrs = {
-					...(extraData.attrs || {}),
-					...remainingAttributes
-				}
+			if (childSlot.length > 1) {
+				console.warn('RenderTag must have only one child. Remaining childs will not be rendered')
+				return
 			}
+
+			const clonedNode = childSlot.map(vnode => cloneVNode(vnode, renderAttributes.value[tagId]))
+
+			return () => clonedNode
 		}
 
-		return [children]
+		return () => childSlot
+
 	}
 }
 </script>
