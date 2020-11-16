@@ -17,7 +17,6 @@
 		"@zionbuilder/tooltip": "^1.0.0",
 		"@zionbuilder/video": "^1.0.0",
 		"raf-schd": "^4.0.2",
-		"tinycolor2": "^1.4.1",
-		"vue-date-pick": "^1.4.1"
+		"tinycolor2": "^1.4.1"
 	}
 }
