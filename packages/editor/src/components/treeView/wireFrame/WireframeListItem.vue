@@ -60,7 +60,6 @@
 			</div>
 		</div>
 
-
 		<WireframeList
 			v-if="expanded"
 			:element="element"
@@ -129,8 +128,8 @@ export default {
 		getClasses () {
 			let cssClass = {
 				[`znpb-wireframe-item--item--hidden`]: !this.element.isVisible,
-				[`znpb-wireframe-item--${this.element.elementTypeModel}`]: this.element.elementTypeModel,
-				[`znpb-wireframe-item__empty`]: !this.element.content.length && this.element.isWrapper
+				[`znpb-wireframe-item--${this.element.element_type}`]: this.element.element_type,
+				[`znpb-wireframe-item__empty`]: !this.element.content.length
 			}
 
 			if (this.columnSize) {
@@ -307,7 +306,7 @@ export default {
 		}
 	}
 
-	&--section {
+	&--zion_section {
 		position: relative;
 		display: flex;
 		flex-wrap: wrap;
@@ -329,7 +328,7 @@ export default {
 		}
 	}
 
-	&--column {
+	&--zion_column {
 		position: relative;
 		display: flex;
 		flex-direction: column;
