@@ -11,8 +11,16 @@ export function useEditElement () {
 		openPanel('PanelElementOptions')
 	}
 
+	const unEditElement = () => {
+		const { closePanel } = usePanels()
+
+		element.value = null
+		closePanel('PanelElementOptions')
+	}
+
 	return {
 		element,
-		editElement
+		editElement,
+		unEditElement
 	}
 }

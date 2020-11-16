@@ -5,6 +5,7 @@ import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
+import { useEditElement } from '../useEditElement'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -172,8 +173,15 @@ export class Element {
 	 */
 	delete() {
 		if (this.parent) {
+			const { element, unEditElement } = useEditElement()
+
+			if (element.value === this) {
+				unEditElement()
+			}
+
 			this.parent.removeChild(this.uid)
 		}
+
 		unregisterElement(this.uid)
 	}
 

@@ -1,4 +1,4 @@
-import { usePanels } from '../index'
+import { usePanels } from '../usePanels'
 
 export class Panel {
 	id = ''

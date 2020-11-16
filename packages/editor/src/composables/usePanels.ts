@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { filter } from 'lodash-es'
-import { Panel } from './models'
+import { Panel } from './models/Panel'
 
 const defaultPanels = [
 	{
