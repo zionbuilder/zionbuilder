@@ -7,7 +7,7 @@
 				class="znpb-custom-selector__item"
 				:title="option.icon ? option.name : false"
 				:class="{
-					['znpb-custom-selector__item--active']: modelValue === option.id,
+					['znpb-custom-selector__item--active']: localValue === option.id,
 					[`znpb-custom-selector__columns-${columns}`]: columns
 				}"
 				@click="changeValue(option.id)"
@@ -67,7 +67,9 @@ export default {
 		}
 	},
 	data () {
-		return {}
+		return {
+			localValue: this.modelValue
+		}
 	},
 	methods: {
 		changeValue (newValue) {
@@ -76,6 +78,7 @@ export default {
 			if (this.modelValue === newValue) {
 				valueToSend = null
 			}
+			this.localValue = newValue
 
 			this.$emit('update:modelValue', valueToSend)
 		}
