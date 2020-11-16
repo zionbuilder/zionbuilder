@@ -12,6 +12,7 @@
 	</div>
 </template>
 <script>
+import { inject } from 'vue'
 import axios from 'axios'
 
 export default {
@@ -41,6 +42,13 @@ export default {
 			required: false
 		}
 	},
+	setup(){
+		const masks = inject('masks')
+
+		return {
+			masks
+		}
+	},
 	data () {
 		return {
 			svgData: ''
@@ -64,8 +72,9 @@ export default {
 	},
 	methods: {
 		getFile (shapePath) {
+			const url = shapePath.indexOf('.svg') === -1 ? this.masks[shapePath] : shapePath
 			axios({
-				url: shapePath,
+				url,
 				method: 'GET'
 			}).then((response) => {
 				this.svgData = response.data

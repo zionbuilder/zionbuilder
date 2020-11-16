@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -140,7 +140,7 @@ import { mapActions } from 'vuex'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions } from '@composables'
+import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -171,8 +171,12 @@ export default {
 		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
-
 		const { getMainbarPosition } = useEditorInteractions()
+		const { editorData } = useEditorData()
+
+ 		// provide masks for ShapeDividerComponent option
+		provide('masks', editorData.value.masks)
+		provide('plugin_info', editorData.value.plugin_info)
 
 		return {
 			notifications,
@@ -289,9 +293,9 @@ export default {
 </script>
 
 <style lang="scss">
-// @import('./scss/editor.scss');
-/* style default elements */
+@import "./scss/index.scss";
 
+/* style default elements */
 .znpb-editor {
 	&-layout {
 		&__preview-buttons {

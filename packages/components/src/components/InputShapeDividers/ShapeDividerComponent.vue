@@ -42,11 +42,11 @@
 		</shape>
 		<div class="znpb-shape-list znpb-fancy-scrollbar">
 			<shape
-				v-for="(shape,i) in shapes"
-				:key="i"
+				v-for="(shape,shapeID) in masks"
+				:key="shapeID"
 				:shape-path="shape"
 				:position="position"
-				@click="$emit('update:modelValue', shape)"
+				@click="$emit('update:modelValue', shapeID)"
 			></shape>
 
 			<UpgradeToPro
@@ -94,6 +94,7 @@ export default {
 	setup () {
 		const masks = inject('masks')
 		const plugin_info = inject('plugin_info')
+
 		return {
 			masks,
 			plugin_info
@@ -102,9 +103,6 @@ export default {
 	computed: {
 		isPro () {
 			return this.plugin_info.is_pro_active
-		},
-		shapes () {
-			return Object.values(this.masks)
 		}
 	}
 }

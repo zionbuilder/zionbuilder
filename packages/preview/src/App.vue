@@ -17,11 +17,11 @@
 
 </template>
 <script>
-import { computed, ref, onBeforeUnmount, watch } from 'vue'
+import { computed, ref, onBeforeUnmount, watch, provide } from 'vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows } from '@zb/editor'
+import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows, useEditorData } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 
 export default {
@@ -32,6 +32,7 @@ export default {
 		ElementStyles
 	},
 	setup () {
+		const { editorData } = useEditorData()
 		const { getElement } = useElements()
 		const { getSchema } = useOptionsSchemas()
 		const { CSSClasses } = useCSSClasses()
@@ -42,6 +43,10 @@ export default {
 
 		const element = computed(() => getElement('content'))
 		const showExportModal = ref(false)
+
+ 		// provide masks for ShapeDividerComponent option
+		provide('masks', editorData.value.masks)
+		provide('plugin_info', editorData.value.plugin_info)
 
 		// Add event listener to cleanup
 		window.addEventListener('beforeunload', () => {
