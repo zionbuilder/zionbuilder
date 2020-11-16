@@ -48,72 +48,82 @@
 
 </template>
 <script>
+import { ref, computed, inject } from 'vue'
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
 import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'GlobalClasses',
-	inject: ['parentAccordion'],
 	components: {
 		SingleClass,
 		SingleClassOptions
 	},
-	setup () {
+	setup (props) {
 		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass } = useCSSClasses()
+		const keyword = ref('')
+		const activeClass = ref(null)
+		const breadCrumbConfig = ref({
+			title: null,
+			previousCallback: closeAccordion
+		})
+		const horizontalAccordion = ref(null)
 
-		return {
-			CSSClasses,
-			removeCSSClass,
-			getClassesByFilter,
-			updateCSSClass
-		}
-	},
-	computed: {
-		filteredClasses () {
-			if (this.keyword.length === 0) {
-				return this.CSSClasses.value
+		const parentAccordion = inject('parentAccordion')
+
+		const filteredClasses = computed(() => {
+			if (keyword.value.length === 0) {
+				return CSSClasses.value
 			} else {
-				return this.getClassesByFilter(this.keyword)
+
+				return getClassesByFilter(keyword.value)
 			}
+		})
+
+
+		function onItemSelected () {
+			breadCrumbConfig.value.title = activeClass.value.name
+			parentAccordion.addBreadcrumb(breadCrumbConfig.value)
 		}
-	},
-	data () {
-		return {
-			keyword: '',
-			activeClass: null,
-			breadCrumbConfig: {
-				title: null,
-				previousCallback: this.closeAccordion
-			}
+
+		function onItemCollapsed () {
+			breadCrumbConfig.value.title = null
+			parentAccordion.removeBreadcrumb(breadCrumbConfig.value)
 		}
-	},
-	methods: {
-		onItemSelected () {
-			this.breadCrumbConfig.title = this.activeClass.name
-			this.parentAccordion.addBreadcrumb(this.breadCrumbConfig)
-		},
-		onItemCollapsed () {
-			this.breadCrumbConfig.title = null
-			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
-		},
-		deleteClass (classItem) {
-			this.removeCSSClass(classItem)
-		},
-		saveClass (newValues) {
-			this.updateClassSettings({
-				classId: this.activeClass.id,
-				newValues
-			})
-		},
-		closeAccordion () {
+
+		function deleteClass (classItem) {
+			removeCSSClass(classItem)
+		}
+
+		function saveClass (newValues) {
+			updateCSSClass( activeClass.value.id, newValues )
+		}
+
+		function closeAccordion () {
 			// Find the expanded accordion from ref
-			const activeAccordion = this.$refs.horizontalAccordion.find((accordion) => {
+			const activeAccordion = horizontalAccordion.value.find((accordion) => {
 				return accordion.localCollapsed
 			})
 			if (activeAccordion) {
 				activeAccordion.closeAccordion()
 			}
+		}
+
+		return {
+			// Computed
+			filteredClasses,
+			keyword,
+			activeClass,
+			breadCrumbConfig,
+			CSSClasses,
+			removeCSSClass,
+			getClassesByFilter,
+			updateCSSClass,
+			horizontalAccordion,
+			// Methods
+			onItemSelected,
+			onItemCollapsed,
+			saveClass
 		}
 	},
 	beforeUnmount () {

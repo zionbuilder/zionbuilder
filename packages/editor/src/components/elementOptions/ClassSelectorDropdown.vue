@@ -280,7 +280,7 @@ export default {
 				this.dropdownState = false
 
 				// check if the class already exists
-				const existingClass = Object.values(this.CSSClasses.value).find(classItem => {
+				const existingClass = this.CSSClasses.find(classItem => {
 					return classItem.name.toLowerCase() === this.keyword
 				})
 
