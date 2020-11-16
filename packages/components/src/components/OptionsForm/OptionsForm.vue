@@ -46,7 +46,7 @@ export default {
 		const { fontsListForOption } = useDataSets()
 		const { activePseudoSelector } = usePseudoSelectors()
 
-		const elementInfo = inject('elementInfo')
+		const elementInfo = inject('elementInfo', null)
 
 		const updateValueByPath = (path, newValue) => {
 			const updatedValues = updateOptionValue(props.modelValue, path, newValue)

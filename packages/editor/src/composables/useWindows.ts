@@ -6,8 +6,8 @@ const windows: {[key: string]: Window } = {
 
 export const useWindows = () => {
 
-	const getWindows = () => {
-		return windows
+	const getWindows = (windowID = null) => {
+		return windowID ? windows[windowID] : windows
 	}
 
 	const addWindow = (id: string, document: Window) => {

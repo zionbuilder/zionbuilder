@@ -163,7 +163,7 @@ import { ChangesBullet } from "../ChangesBullet"
 import { InputLabel } from "../InputLabel"
 import { Tooltip } from "@zionbuilder/tooltip"
 import { Injection } from "../Injection"
-import { trigger } from "@zionbuilder/hooks"
+import { trigger } from "@zb/hooks"
 import {
 	useOptions,
 	useOptionsSchemas,
