@@ -445,7 +445,7 @@ class Localization {
 
 				// ColumnTemplates
 				'access_library_templates'               => __( 'Access Library Templates', 'zionbuilder' ),
-				'access_video_library'                   => __( 'Access over 200+ templates from our library, it’s just one click away', 'zionbuilder' ),
+				'access_video_library'                   => __( 'Access over 150+ templates from our library, it’s just one click away', 'zionbuilder' ),
 				'open_library'                           => __( 'Open Library', 'zionbuilder' ),
 
 				// Select
