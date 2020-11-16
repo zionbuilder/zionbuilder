@@ -61,7 +61,7 @@ export default {
 		optionValue: {
 			get () {
 				const schema = this.getOptionSchemaFromPath
-				return getOptionValue(this.elementOptions, this.option, schema.default)
+				return getOptionValue(this.elementOptions.value, this.option, schema.default)
 			},
 			set (newValue) {
 				this.elementInfo.updateOptionValue(this.option, newValue)

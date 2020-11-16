@@ -229,7 +229,7 @@ export default {
 		}
 
 		provide('elementInfo', props.element)
-		provide('elementOptions', options.value)
+		provide('elementOptions', options)
 
 		return {
 			// Computed
