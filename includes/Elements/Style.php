@@ -353,7 +353,7 @@ class Style {
 					$compiled_css .= self::compile_transform( $value );
 					break;
 				default:
-					if ( ( ! empty( $value ) || ( strlen( $value ) >= 0 ) ) && ! is_array( $value ) ) {
+					if ( ( ! empty( $value ) || $value === 0 ) && ! is_array( $value ) ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					}
 					break;
