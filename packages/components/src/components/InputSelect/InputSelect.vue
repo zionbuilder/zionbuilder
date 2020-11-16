@@ -75,7 +75,7 @@
 				<!-- if select multiple -->
 				<div
 					class="znpb-multiple-options"
-					v-if="this.multiple"
+					v-if="multiple"
 				>
 					<div class="znpb-multiple-options-list">
 
