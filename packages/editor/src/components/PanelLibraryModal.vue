@@ -223,7 +223,7 @@ export default {
 		onRefresh () {
 			this.templateUploaded = false
 
-			this.localActive ? this.fetchTemplates() : this.$refs.libraryContent.getDataFromServer(false)
+			this.localActive ? this.fetchTemplates(true) : this.$refs.libraryContent.getDataFromServer(false)
 		},
 		closeBody () {
 			if (this.multiple && this.previewOpen) {

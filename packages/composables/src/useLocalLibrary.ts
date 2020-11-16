@@ -9,9 +9,14 @@ import { remove } from 'lodash-es'
 
 const libaryItems = ref([])
 const loading = ref(false)
+let fetched = false
 
 export const useLocalLibrary = () => {
-	function fetchTemplates () {
+	function fetchTemplates (force = false) {
+		if (fetched && !force) {
+			return
+		}
+
 		loading.value = true
 
 		return getTemplates().then((response) => {
@@ -20,6 +25,7 @@ export const useLocalLibrary = () => {
 			return Promise.resolve(response)
 		}).finally(() => {
 			loading.value = false
+			fetched = true
 		})
 	}
 
