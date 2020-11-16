@@ -5,7 +5,7 @@
 	>
 		<!-- @slot content for checkbox if no checkbox -->
 		<slot></slot>
-		<template v-if="!$slots.default">
+		<template v-if="!hasSlots">
 			<InputCheckbox
 				v-for="(option,i) in options"
 				:key="i"
@@ -24,6 +24,7 @@
 	</div>
 </template>
 <script>
+import { Comment, computed } from 'vue'
 import { Icon } from '../Icon'
 import InputCheckbox from './InputCheckbox.vue'
 
@@ -87,6 +88,29 @@ export default {
 		displayStyle: {
 			type: String,
 			required: false
+		}
+	},
+	setup(props, { slots }) {
+		const hasSlots = computed(() => {
+			if (!slots.default) {
+				return false
+			}
+
+			const defaultSlot = slots.default()
+			const normalNodes = []
+			if (Array.isArray(defaultSlot)) {
+				defaultSlot.forEach(vNode => {
+					if (vNode.type !== Comment) {
+						normalNodes.push(vNode)
+					}
+				})
+			}
+
+			return normalNodes.length > 0
+		})
+
+		return {
+			hasSlots
 		}
 	},
 	computed: {

@@ -488,9 +488,7 @@ export default {
 					ids.push(item.id);
 				});
 			} else if (schema.type === "typography") {
-				const typographySchema = this.getSchema(
-					"typographyOptionSchema"
-				)
+				const typographySchema = this.getSchema("typography")
 				Object.keys(typographySchema).forEach((optionId) => {
 					const childIds = this.getChildOptionsIds(
 						typographySchema[optionId]

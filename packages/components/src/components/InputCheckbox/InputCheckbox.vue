@@ -17,12 +17,12 @@
 			:class="{ 'znpb-checkmark--rounded' : rounded }"
 		></span>
 		<span
-			v-if="( $slots.default && $slots.default() ) || label"
+			v-if="hasSlots || label"
 			class="znpb-checkmark-option"
 		>
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
-			<template v-if="showLabel && label">
+			<template v-if="showLabel && label && !hasSlots">
 				{{label}}
 			</template>
 		</span>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { Comment, computed } from 'vue'
+
 export default {
 	name: 'InputCheckbox',
 	props: {
@@ -76,6 +78,29 @@ export default {
 		rounded: {
 			type: Boolean,
 			required: false
+		}
+	},
+	setup(props, { slots }) {
+		const hasSlots = computed(() => {
+			if (!slots.default) {
+				return false
+			}
+
+			const defaultSlot = slots.default()
+			const normalNodes = []
+			if (Array.isArray(defaultSlot)) {
+				defaultSlot.forEach(vNode => {
+					if (vNode.type !== Comment) {
+						normalNodes.push(vNode)
+					}
+				})
+			}
+
+			return normalNodes.length > 0
+		})
+
+		return {
+			hasSlots
 		}
 	},
 	data () {
