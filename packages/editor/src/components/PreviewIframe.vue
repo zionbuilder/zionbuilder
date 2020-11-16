@@ -78,7 +78,7 @@ export default {
 		const { saveDraft } = useSavePage()
 		const { editorData } = useEditorData()
 		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
-		const { addWindow, addEventListener, removeEventListener } = useWindows()
+		const { addWindow, addEventListener, removeEventListener, getWindows } = useWindows()
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -91,6 +91,7 @@ export default {
 			getIframeOrder,
 			getIframePointerEvents,
 			addWindow,
+			getWindows,
 			addEventListener,
 			removeEventListener
 		}
@@ -227,7 +228,7 @@ export default {
 		refreshIframe () {
 			this.saveDraft().then(() => {
 				this.ignoreNextReload = true
-				Dom.iframeWindow.location.reload()
+				this.getWindows('preview').location.reload()
 			})
 		},
 		checkIframeLoading () {
