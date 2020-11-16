@@ -1,4 +1,5 @@
 <template>
+
 	<InlineEditor
 		v-if="renderType === 'editor'"
 		v-model="optionValue"
@@ -30,8 +31,8 @@
 
 <script>
 // Utils
+import { inject, computed } from 'vue'
 import { getOptionValue } from '@zb/utils'
-import { inject } from 'vue'
 
 export default {
 	name: 'RenderValue',
@@ -48,34 +49,22 @@ export default {
 			default: 'span'
 		}
 	},
-	setup () {
+	setup (props) {
 		const elementInfo = inject('elementInfo')
 		const elementOptions = inject('elementOptions')
 
-		return {
-			elementInfo,
-			elementOptions
-		}
-	},
-	computed: {
-		optionValue: {
-			get () {
-				const schema = this.getOptionSchemaFromPath
-				return getOptionValue(this.elementOptions.value, this.option, schema.default)
-			},
-			set (newValue) {
-				this.elementInfo.updateOptionValue(this.option, newValue)
-			}
-		},
-		elementOptionsSchema () {
-			return this.elementInfo.elementTypeModel.options
-		},
-		optionType () {
-			return this.getOptionSchemaFromPath.type
-		},
-		getOptionSchemaFromPath () {
-			const paths = this.option.split('.')
-			let currentSchema = this.elementOptionsSchema
+
+		const elementOptionsSchema = computed(() => {
+			return elementInfo.elementTypeModel.options
+		})
+
+		const optionType = computed(() => {
+			return getOptionSchemaFromPath.value.type
+		})
+
+		const getOptionSchemaFromPath = computed(() => {
+			const paths = props.option.split('.')
+			let currentSchema = elementOptionsSchema.value
 			const pathLength = paths.length
 			let returnSchema = null
 
@@ -91,10 +80,11 @@ export default {
 			})
 
 			return returnSchema
-		},
-		isValueDynamic () {
-			const paths = this.option.split('.')
-			let currentModel = this.elementInfo.options
+		})
+
+		const isValueDynamic = computed(() => {
+			const paths = props.option.split('.')
+			let currentModel = elementInfo.options
 			const pathLength = paths.length
 			let isDynamic = false
 
@@ -110,24 +100,43 @@ export default {
 					currentModel = currentModel[path]
 				} else {
 					// eslint-disable-next-line
-					console.error(`model could not be found for ${this.option}`)
+					console.error(`model could not be found for ${props.option}`)
 				}
 			})
 
 			return isDynamic
-		},
-		renderType () {
-			if (this.optionType === 'editor' && !this.isValueDynamic) {
+		})
+
+
+		const renderType = computed(() => {
+			if (optionType.value === 'editor' && !isValueDynamic.value) {
 				return 'editor'
-			} else if (this.isValueDynamic && (this.isValueDynamic.options || {})._enable_raw_html) {
+			} else if (isValueDynamic.value && (isValueDynamic.value.options || {})._enable_raw_html) {
 				return 'dynamic_html'
-			} else if (this.optionType === 'icon_library') {
+			} else if (optionType.value === 'icon_library') {
 				return 'icon'
-			} else if (this.optionType === 'image') {
+			} else if (optionType.value === 'image') {
 				return 'image'
 			} else {
 				return 'default'
 			}
+		})
+
+		const optionValue = computed({
+			get () {
+				const schema = getOptionSchemaFromPath.value
+				return getOptionValue(elementOptions.value, props.option, schema.default)
+			},
+			set (newValue) {
+				elementInfo.updateOptionValue(props.option, newValue)
+			}
+		})
+
+		return {
+			elementInfo,
+			elementOptions,
+			renderType,
+			optionValue
 		}
 	}
 }

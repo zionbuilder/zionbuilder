@@ -185,11 +185,6 @@ export default {
 			searchActive.value = false
 		})
 
-		// provide masks for ShapeDividerComponent option
-		const { editorData } = useEditorData()
-		provide('masks', editorData.value.masks)
-		provide('plugin_info', editorData.value.plugin_info)
-
 		provideElement(element)
 		provide('elementInfo', element)
 
