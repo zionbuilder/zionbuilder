@@ -21,7 +21,7 @@
 				@expand="onItemSelected"
 				@collapse="onItemCollapsed"
 				class="znpb-global-css-classes__accordion-wrapper"
-				ref="horizontalAccordion"
+				:ref="el => { if (el) horizontalAccordion[index] = el }"
 			>
 				<template v-slot:header>
 					<SingleClass
@@ -48,7 +48,7 @@
 
 </template>
 <script>
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, onBeforeUnmount } from 'vue'
 import SingleClass from './SingleClass.vue'
 import SingleClassOptions from './SingleClassOptions.vue'
 import { useCSSClasses } from '@composables'
@@ -67,7 +67,7 @@ export default {
 			title: null,
 			previousCallback: closeAccordion
 		})
-		const horizontalAccordion = ref(null)
+		const horizontalAccordion = ref([])
 
 		const parentAccordion = inject('parentAccordion')
 
@@ -104,10 +104,18 @@ export default {
 			const activeAccordion = horizontalAccordion.value.find((accordion) => {
 				return accordion.localCollapsed
 			})
+
 			if (activeAccordion) {
 				activeAccordion.closeAccordion()
 			}
 		}
+
+		// Lifecycle
+		onBeforeUnmount(() => {
+			if (activeClass.value) {
+				parentAccordion.removeBreadcrumb(breadCrumbConfig.value)
+			}
+		})
 
 		return {
 			// Computed
@@ -124,11 +132,6 @@ export default {
 			onItemSelected,
 			onItemCollapsed,
 			saveClass
-		}
-	},
-	beforeUnmount () {
-		if (this.activeClass) {
-			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
 		}
 	}
 }
