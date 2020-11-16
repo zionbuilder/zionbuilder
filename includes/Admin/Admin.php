@@ -232,7 +232,7 @@ class Admin {
 
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 		if ( $post_instance->is_built_with_zion() ) {
-			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . esc_html__( 'Edit with Zion builder', 'zionbuilder' ) . '</a>';
+			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . esc_html__( 'Edit with Zion Builder', 'zionbuilder' ) . '</a>';
 		}
 
 		return $actions;
