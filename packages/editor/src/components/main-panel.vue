@@ -179,10 +179,9 @@ import aboutModal from './aboutModal.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-// import ModalTour from './ModalTour.vue'
 import rafSchd from 'raf-schd'
-import { trigger } from '@zb/hooks'
-import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useHistory } from '@composables'
+
+import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useHistory, useSaveTemplate } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
@@ -223,12 +222,17 @@ export default {
 		const { editorData } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
 		const { currentHistoryIndex } = useHistory()
+		const { showSaveElement } = useSaveTemplate()
+
+		function saveTemplate () {
+			showSaveElement(null)
+		}
+
 		const saveActions = [
 			{
 				icon: 'save-template',
 				title: translate('save_template'),
-				// TODO: implement this
-				// action: this.emitEventbus
+				action: saveTemplate
 			},
 			{
 				icon: 'save-draft',
@@ -378,9 +382,6 @@ export default {
 		},
 		showShortcutsModal () {
 			this.shortcutsModalVisibility = true
-		},
-		emitEventbus (event) {
-			trigger('save-template')
 		},
 
 		startDrag (event) {
