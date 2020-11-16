@@ -40,7 +40,7 @@ import App from './App.vue'
 const appInstance = createApp(App)
 
 // Init global components
-appInstance.use(L18NInstall, window.ZnPbInitalData.l10n)
+appInstance.use(L18NInstall, window.ZnI18NStrings)
 appInstance.use(ComponentsInstall)
 appInstance.use(store)
 

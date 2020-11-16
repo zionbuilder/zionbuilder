@@ -7,7 +7,6 @@ use ZionBuilder\Utils;
 use ZionBuilder\Nonces;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
-use ZionBuilder\Localization;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Elements\Masks;
 
@@ -286,7 +285,6 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'l10n'                => Localization::get_strings(),
 				'page_settings'       => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $post_instance->get_page_settings_values(),

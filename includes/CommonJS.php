@@ -9,6 +9,7 @@ use ZionBuilder\Options\Schemas\Advanced;
 use ZionBuilder\Options\Schemas\Video;
 use ZionBuilder\Options\Schemas\BackgroundImage;
 use ZionBuilder\Options\Schemas\Shadow;
+use ZionBuilder\Localization;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -61,6 +62,11 @@ class CommonJS {
 			[],
 			Plugin::instance()->get_version(),
 			false
+		);
+		wp_localize_script(
+			'zb-i18n',
+			'ZnI18NStrings',
+			Localization::get_strings()
 		);
 
 		Plugin::instance()->scripts->register_script(

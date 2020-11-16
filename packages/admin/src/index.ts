@@ -32,7 +32,7 @@ appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 
 // Plugins
 appInstance.use(ComponentsInstall)
-appInstance.use(I18nInstall, window.ZnPbAdminPageData.l10n)
+appInstance.use(I18nInstall, window.ZnI18NStrings)
 
 const notifications = useNotifications()
 
