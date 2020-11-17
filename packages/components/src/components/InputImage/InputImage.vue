@@ -562,6 +562,9 @@ export default {
 	margin-bottom: 20px;
 	transition: all .5s ease;
 	cursor: pointer;
+	border-radius: 3px;
+    box-shadow: 0 0 0 2px var(--zion-border-color);
+    padding: 5px;
 	&__image {
 		display: block;
 		margin: 0 auto;
