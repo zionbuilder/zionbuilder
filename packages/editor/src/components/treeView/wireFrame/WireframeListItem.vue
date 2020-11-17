@@ -287,7 +287,7 @@ export default {
 			position: relative;
 			padding: 13px 20px;
 			transition: opacity .2s;
-			cursor: text;
+
 			&:hover {
 				opacity: .5;
 			}
@@ -300,6 +300,7 @@ export default {
 			width: auto;
 			color: $surface;
 			font-weight: 500;
+			cursor: text;
 			.znpb-utility__text--elipse {
 				width: 100%;
 				max-width: 170px;
