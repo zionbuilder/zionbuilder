@@ -12,10 +12,16 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { useNotifications } from '@zionbuilder/composables'
 
+
+// Global components
 import {
 	TreeViewList,
 	TreeViewListItem
 } from './components/treeView'
+import EmptySortablePlaceholder from './common/EmptySortablePlaceholder.vue'
+import SortableHelper from './common/SortableHelper.vue'
+import SortablePlaceholder from './common/SortablePlaceholder.vue'
+
 import {
 	WireframeList,
 	WireframeListItem
@@ -51,7 +57,9 @@ errorInterceptor(useNotifications())
 appInstance.component('TreeViewList', TreeViewList)
 appInstance.component('TreeViewListItem', TreeViewListItem)
 appInstance.component('WireframeList', WireframeList)
-appInstance.component('WireframeListItem', WireframeListItem)
+appInstance.component('EmptySortablePlaceholder', EmptySortablePlaceholder)
+appInstance.component('SortableHelper', SortableHelper)
+appInstance.component('SortablePlaceholder', SortablePlaceholder)
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {

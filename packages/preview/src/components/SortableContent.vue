@@ -54,14 +54,12 @@
 
 <script>
 import { computed, ref } from 'vue'
+import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions } from '@zb/editor'
+
 // Utils
 import { getOptionValue } from '@zb/utils'
 // Components
 import Element from './Element.vue'
-import SortableHelper from '../../../editor/src/common/SortableHelper.vue'
-import SortablePlaceholder from '../../../editor/src/common/SortablePlaceholder.vue'
-import EmptySortablePlaceholder from '../../../editor/src/common/EmptySortablePlaceholder.vue'
-import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions } from '@zb/editor'
 
 const sharedStateGlobal = {
 	controlPressed: null,
@@ -72,9 +70,6 @@ export default {
 	name: 'SortableContent',
 	inheritAttrs: false,
 	components: {
-		SortableHelper,
-		SortablePlaceholder,
-		EmptySortablePlaceholder,
 		Element
 	},
 	props: {

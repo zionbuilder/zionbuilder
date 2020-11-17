@@ -44,19 +44,10 @@
 </template>
 
 <script lang="ts">
-import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import SortableHelper from '../../../common/SortableHelper.vue'
-import ElementWireframeView from './ElementWireframeView.vue'
 import { useTreeViewList } from '../useTreeViewList'
-import EmptySortablePlaceholder from '../../../common/EmptySortablePlaceholder.vue'
 
 export default {
 	name: 'WireframeList',
-	components: {
-		SortablePlaceholder,
-		SortableHelper,
-		EmptySortablePlaceholder
-	},
 	props: {
 		element: {
 			type: Object,
