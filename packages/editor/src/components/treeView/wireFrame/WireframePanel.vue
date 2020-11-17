@@ -39,13 +39,5 @@ export default {
 	height: 100%;
 	padding: 0 30px;
 	margin: 0 auto;
-
-	.znpb-wireframe__item {
-		margin-right: 0;
-
-		.znpb-wireframe__item {
-			margin-right: 30px;
-		}
-	}
 }
 </style>
