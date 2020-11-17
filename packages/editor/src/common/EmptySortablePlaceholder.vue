@@ -16,7 +16,7 @@
 
 <script>
 import { ref } from 'vue'
-import { useAddElementsPopup } from '@zb/editor'
+import { useAddElementsPopup } from '@composables'
 
 export default {
 	name: 'EmptySortablePlaceholder',

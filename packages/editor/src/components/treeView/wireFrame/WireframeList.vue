@@ -21,12 +21,11 @@
 
 		<template #end>
 			<EmptySortablePlaceholder
-				slot="empty-placeholder"
 				v-if="!element.content.length && element.isWrapper"
+				:element="element"
 				:parentUid="element.uid"
 				:data="element"
 			/>
-
 
 			<div
 				class="znpb-element-toolbox__add-element-button"
