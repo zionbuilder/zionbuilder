@@ -4,7 +4,6 @@
 			:show="showPicker"
 			:trigger="null"
 			placement="top"
-			:modifiers="{offset: { offset: '0,50px' }}"
 		>
 			<span
 				ref="gradientCircle"
