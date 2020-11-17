@@ -36,7 +36,9 @@ class CommonJS {
 		Plugin::instance()->scripts->register_style(
 			'zb-components',
 			'css/components.css',
-			[],
+			[
+				'media-views',
+			],
 			Plugin::instance()->get_version()
 		);
 
@@ -63,6 +65,7 @@ class CommonJS {
 			Plugin::instance()->get_version(),
 			false
 		);
+
 		wp_localize_script(
 			'zb-i18n',
 			'ZnI18NStrings',

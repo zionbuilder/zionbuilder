@@ -189,6 +189,11 @@ class Admin {
 				true
 			);
 
+			wp_enqueue_media();
+
+			// This is needed because wp_editor somehow unloads dashicons
+			wp_print_styles( 'media-views' );
+
 			wp_localize_script(
 				'zb-admin',
 				'ZnPbAdminPageData',
