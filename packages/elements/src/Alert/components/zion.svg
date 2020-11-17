@@ -3,8 +3,8 @@
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
 <defs>
-<font id="zion" horiz-adv-x="1000" >
-<font-face font-family="zion" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<font id="zion-icons" horiz-adv-x="1000" >
+<font-face font-family="zion-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
 <missing-glyph horiz-adv-x="1000" />
 <glyph glyph-name="pause" unicode="&#xe800;" d="M180 680h160v-660h-160z m480 0h160v-660h-160z" horiz-adv-x="1000" />
 

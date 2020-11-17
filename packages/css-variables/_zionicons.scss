@@ -1,25 +1,16 @@
 @font-face {
-	font-family: "zion";
+	font-family: "zion-icons";
 	font-style: normal;
 	font-weight: normal;
 
+	src: url("./fonts/zion.eot");
 	src: url("./fonts/zion.eot") format("embedded-opentype"),
 	url("./fonts/zion.woff2") format("woff2"),
 	url("./fonts/zion.woff") format("woff"),
 	url("./fonts/zion.ttf") format("truetype"),
 	url("./fonts/zion.svg#zion") format("svg");
-	src: url("./fonts/zion.eot");
 }
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'zion';
-    src: url('../font/zion.svg?2326321#zion') format('svg');
-  }
-}
-*/
+
 @mixin zion-font {
 	display: inline-block;
 	width: 1em;
@@ -27,7 +18,7 @@
 	/* Animation center compensation - margins should be symmetric */
 	/* remove if not needed */
 	margin-left: .2em;
-	font-family: "zion";
+	font-family: "zion-icons";
 	font-style: normal;
 	/* opacity: .8; */
 	/* For safety - reset parent styles, that can break glyph codes*/
