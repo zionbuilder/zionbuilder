@@ -43,7 +43,7 @@ class HeartBeat {
 
 				// Update rest nonce
 				if (restNonce) {
-					window.ZnPbRestConfig.nonce = restNonce
+					window.ZnRestConfig.nonce = restNonce
 				}
 
 				// Update Hearbeat Nonce
