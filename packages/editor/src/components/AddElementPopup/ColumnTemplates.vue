@@ -196,8 +196,8 @@ export default {
 			searchKeyword.value += event.key
 		}
 
-		onMounted(() => addEventListener('keyup', onKeyDown))
-		onUnmounted(() => removeEventListener('keydown', onKeyDown))
+		onMounted(() => addEventListener('keypress', onKeyDown))
+		onUnmounted(() => removeEventListener('keypress', onKeyDown))
 
 		return {
 			layouts,

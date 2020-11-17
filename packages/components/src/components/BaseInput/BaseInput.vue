@@ -168,7 +168,9 @@ export default {
 			}
 		},
 		focus () {
-			this.$refs.input.focus()
+			this.$nextTick(() => {
+				this.$refs.input.focus()
+			})
 		},
 		blur () {
 			this.$refs.input.blur()

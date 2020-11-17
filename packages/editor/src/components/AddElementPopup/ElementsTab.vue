@@ -60,7 +60,7 @@ export default {
 		const localSearchKeyword = ref(null)
 		const searchKeyword = computed(
 			{
-				get: () => localSearchKeyword.value ? localSearchKeyword.value : props.searchKeyword,
+				get: () => localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword,
 				set: (newValue) => {
 					localSearchKeyword.value = newValue
 				}
