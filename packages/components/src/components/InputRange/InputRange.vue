@@ -228,9 +228,9 @@ export default {
 	input[type="range"]::-moz-range-thumb {
 		width: 18px;
 		height: 18px;
-		background: $surface;
+		background: $secondary;
 		border-radius: 50%;
-		transform: translate(0px, -8px);
+		transform: translate(0px, 0px);
 		transition: all .2s ease;
 		cursor: pointer;
 	}

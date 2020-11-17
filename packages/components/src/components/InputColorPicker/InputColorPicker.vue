@@ -49,8 +49,17 @@
 				>
 					<template v-slot:trigger>
 						<span>
-
-							<span
+							<Tooltip
+								v-if="!modelValue || modelValue===undefined"
+								:content="$translate('no_color_chosen')"
+								tag="span"
+							>
+								<span
+									:style="{backgroundColor: modelValue}"
+									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
+								></span>
+							</Tooltip>
+							<span v-else
 								:style="{backgroundColor: modelValue}"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
@@ -64,13 +73,6 @@
 								:size="12"
 								class="znpb-colorpicker-circle__global-icon"
 							/>
-
-							<Tooltip
-								v-if="!modelValue"
-								:content="$translate('no_color_chosen')"
-							>
-								<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
-							</Tooltip>
 						</span>
 					</template>
 				</Color>
