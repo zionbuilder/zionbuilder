@@ -1,6 +1,6 @@
 
 <script>
-import { computed, ref, onMounted, h, Fragment, watch, nextTick } from 'vue'
+import { computed, ref, onMounted, h, Fragment, watch, nextTick, cloneVNode } from 'vue'
 
 import {
 	HostsManager,
@@ -143,6 +143,7 @@ export default {
 		const sortableItems = ref([])
 		const helper = ref(null)
 		const placeholder = ref(null)
+		const test = ref([])
 
 		// Computed
 		const canShowEmptyPlaceholder = computed(() => sortableItems.value.length === 0 || (dragging.value && sortableItems.value.length === 1))
@@ -307,9 +308,9 @@ export default {
 			// Check handle
 			draggedItem = closest(event.target, props.draggable, sortableContainer.value)
 
-			// Don't proceed if the dragged item is not part of sortable nodes
-			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
 
+			// Don't proceed if the dragged item is not part of sortable nodes
+			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
 
 			if (!draggedItem || !sortableDomElements.includes(draggedItem)) {
 				return
@@ -397,14 +398,6 @@ export default {
 			attachHelper()
 
 			// Add css classes
-			addCssClass('body')
-			addCssClass('source')
-			addCssClass('source:container')
-			addCssClass('placeholder:container')
-
-			// Make transition faster
-			helperNode.style.willChange = 'transform'
-			helperNode.style.zIndex = 99999
 			helperNode.style.pointerEvents = 'none'
 			helperNode.style.position = 'fixed'
 
@@ -631,7 +624,7 @@ export default {
 		 */
 		const getInfoFromTarget = (target) => {
 			const validItem = closest(target, props.draggable, sortableContainer.value)
-			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
+			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
 			const item = sortableDomElements.includes(validItem) ? validItem : false
 			const index = sortableDomElements.indexOf(item)
 
@@ -789,7 +782,7 @@ export default {
 		}
 
 		const getItemFromList = (index) => {
-			const sortableDomElements = sortableItems.value.filter(el => el && el.nodeType === 1)
+			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
 			return sortableDomElements[index]
 		}
 
@@ -799,16 +792,8 @@ export default {
 
 		// Lifecycle
 		onMounted(() => {
-			sortableItems.value = extractSortableItems(childItems)
 			eventScheduler = EventScheduler(getEvents())
-
 			sortableContainer.value.__SORTABLE_INFO__ = sortableInfo
-		})
-
-		watch(() => props.modelValue, (newModelValue) => {
-			nextTick(() => {
-				sortableItems.value = extractSortableItems(childItems)
-			})
 		})
 
 		// Don't make this ref as it isn't necessary
@@ -823,9 +808,29 @@ export default {
 			addItemToList
 		}
 
+		const attachRef = function (children) {
+			if (Array.isArray( children )) {
+				children.forEach((child, i) => {
+					if (child.type === Fragment) {
+						const fragmentItems = attachRef(child.children)
+					} else {
+						const clone = cloneVNode(child, {
+							ref: (el) => {
+								sortableItems.value[i] = el
+							}
+						})
+						children[i] = clone
+					}
+				})
+			}
+
+			return children
+		}
+
 		return () => {
 			const childElements = []
-			childItems = slots.default()
+			let i = 0
+			childItems = attachRef(slots.default())
 			childElements.push(childItems)
 
 			// Add the helper node
