@@ -51,15 +51,22 @@ export const useKeyBindings = () => {
 
 	// end checkMousePosition
 	const applyShortcuts = (e) => {
-
-		if (isEditable()) {
-			return
+		// Save CTRL+S
+		if (e.which === 83 && e.ctrlKey && !e.shiftKey) {
+			e.preventDefault()
+			if (!isSavePageLoading.value) {
+				savePage()
+			}
 		}
 
 		// Set preview mode
 		if (e.which === 80 && e.ctrlKey) {
 			setPreviewMode(!isPreviewMode.value)
 			e.preventDefault()
+		}
+
+		if (isEditable()) {
+			return
 		}
 
 		// Keys bellow don't run in preview mode
@@ -144,14 +151,6 @@ export const useKeyBindings = () => {
 		if (!isPanelElementOptionsOpen) {
 			if ((e.which === 90 && e.ctrlKey && e.shiftKey) || (e.ctrlKey && e.which === 89)) {
 				debounceRedo()
-			}
-		}
-
-		// Save CTRL+S
-		if (e.which === 83 && e.ctrlKey && !e.shiftKey) {
-			e.preventDefault()
-			if (!isSavePageLoading.value) {
-				savePage()
 			}
 		}
 
