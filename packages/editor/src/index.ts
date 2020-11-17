@@ -60,10 +60,20 @@ appInstance.config.globalProperties.$zb = {
 	urls: window.ZnPbInitalData.urls
 }
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
-appInstance.mount('#znpb-app')
+
 
 // Expose common methods
 const { registerElementComponent } = useElementTypes()
+
+
+window.addEventListener('load', function() {
+	// Trigger event so others can hook into ZionBuilder API
+	const evt = new CustomEvent('zionbuilder/editor/ready')
+	window.dispatchEvent(evt)
+
+	appInstance.mount('#znpb-app')
+})
+
 
 // Export so we can access them from window.zb.editor
 export {

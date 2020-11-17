@@ -63,7 +63,6 @@ export default {
 		const { getTemplatePart } = useTemplateParts()
 		const { editorData } = useEditorData()
 		const formModel = ref({})
-		const $zb = inject('$zb')
 
 		return {
 			getElement,

@@ -91,6 +91,7 @@ export default {
 		const { focusElement } = useElementActions()
 
 		let toolboxWatcher = null
+		let optionsInstance = null
 
 		// Data
 		const loading = ref(false)
@@ -103,7 +104,7 @@ export default {
 		const parsedData = computed(() => {
 			const schema = props.element.elementTypeModel.options || {}
 			const cssSelector = `#${props.element.elementCssId}`
-			const optionsInstance = new Options(schema, props.element.options, cssSelector, {
+			optionsInstance = new Options(schema, props.element.options, cssSelector, {
 				onLoadingStart: () => loading.value = true,
 				onLoadingEnd: () => loading.value = false,
 			})
@@ -126,6 +127,8 @@ export default {
 					}
 				})
 			}
+
+			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element)
 
 			return customCSS
 		})
