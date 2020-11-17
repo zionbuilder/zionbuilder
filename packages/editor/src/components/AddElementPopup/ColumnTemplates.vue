@@ -193,7 +193,9 @@ export default {
 		const searchKeyword = ref('')
 		function onKeyDown (event) {
 			active.value = 'elements'
-			searchKeyword.value += event.key
+			if (active.value !== 'elements') {
+				searchKeyword.value += event.key
+			}
 		}
 
 		onMounted(() => addEventListener('keypress', onKeyDown))
