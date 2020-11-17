@@ -56,6 +56,14 @@ export default {
 				return null
 			}
 		},
+		allowDuplicate: {
+			type: Boolean,
+			default: false
+		},
+		duplicateCallback: {
+			type: Function,
+			default: false
+		},
 		tag: {
 			type: String,
 			required: false,
@@ -120,6 +128,7 @@ export default {
 		}
 	},
 	setup (props, { slots, emit }) {
+		let duplicateValue = false
 		let draggedItem = null
 		let dragItemInfo = null
 		let dragDelayCompleted = null
@@ -502,6 +511,7 @@ export default {
 			if (dragging.value) {
 				dragging.value = false
 				document.body.style.userSelect = null
+
 				// Add css class for body
 				removeCssClass('body')
 				removeCssClass('source')
@@ -520,6 +530,12 @@ export default {
 						helperNode.style.transform = null
 					}
 
+					if (props.allowDuplicate && duplicateValue) {
+						draggedItem.style.display = null
+						draggedItem.style.opacity = null
+					}
+
+
 					helperNode.style.willChange = null
 					helperNode.style.pointerEvents = null
 					helperNode.style.zIndex = null
@@ -531,6 +547,8 @@ export default {
 
 				const { from, to, startIndex, newIndex, placeBefore } = lastEvent.data
 
+				let draggedValueModel = null
+
 				// Check to see if a change was made
 				if (from && to && newIndex !== -1) {
 					// Send event for second list
@@ -538,22 +556,27 @@ export default {
 					// Update values if exists
 					if (props.modelValue !== null) {
 						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
+						draggedValueModel = props.duplicateCallback ? props.duplicateCallback(props.modelValue[startIndex]) : props.modelValue[startIndex]
+
 						if (from === to && startIndex !== newIndex) {
 							updatePositionInList(startIndex, modifiedNewIndex)
 							return
 						} else if (from !== to) {
-							const item = props.modelValue[startIndex]
 							// Send 2 events for each container
 							// Remove from first list
-							removeItemFromList(startIndex)
-							toVm.addItemToList(item, modifiedNewIndex)
+							if (!duplicateValue) {
+								removeItemFromList(startIndex)
+							}
+							toVm.addItemToList(draggedValueModel, modifiedNewIndex)
 						}
 					}
 
 					// Send drop Event
 					const dropEvent = new DropEvent({
 						...lastEvent.data,
-						toVm
+						toVm,
+						draggedValueModel,
+						fromDraggedValueModel: props.modelValue
 					})
 					emit('drop', dropEvent)
 				}
@@ -673,6 +696,17 @@ export default {
 				top: 0
 			}
 			const { document: currentDocument } = event.view
+
+			// Check to see if we need to duplicate the elemeent
+			if (props.allowDuplicate && event.ctrlKey) {
+				draggedItem.style.display = null
+				draggedItem.style.opacity = 0.2
+				duplicateValue = true
+			} else {
+				draggedItem.style.display = 'none'
+				draggedItem.style.opacity = null
+				duplicateValue = false
+			}
 
 			// Calculate offset in case of iframes
 			if (document !== currentDocument) {

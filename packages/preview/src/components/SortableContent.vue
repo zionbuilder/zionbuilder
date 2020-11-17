@@ -2,10 +2,11 @@
 	<Sortable
 		v-model="contentModel"
 		@start="onSortableStart"
-		@drop="onSortableDrop"
 		@end="onSortableEnd"
 		:group="groupInfo"
 		:disabled="isPreviewMode"
+		:allow-duplicate="true"
+		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
 		:class="{
 			[`znpb__sortable-container--${getSortableAxis}`]: isDragging
@@ -168,42 +169,14 @@ export default {
 	},
 
 	methods: {
-		onKeyup (event) {
-			if (event.keyCode === 17) {
-				this.sharedState.controlPressed = false
-			}
-		},
-		onKeydown (event) {
-			this.sharedState.controlPressed = event.ctrlKey
-		},
-		onAddElementsHide () {
-			this.showColumnTemplates = false
-		},
-		onSortableDrop (event) {
-			const { placeBefore, newIndex, toVm, item } = event.data
-
-			if (this.sharedState.controlPressed) {
-				const modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
-				this.copyElement({
-					elementUid: item.id,
-					insertParent: toVm.$parent.data.uid
-				})
-
-				item.style.display = null
-				item.style.opacity = null
-			}
+		onSortableDuplicate (item) {
+			return item.getClone()
 		},
 		onSortableStart (event) {
-			this.sharedState.controlPressed = false
-			this.sharedState.draggedItemData = event.data
 			this.setDraggingState(true)
-			document.addEventListener('keydown', this.onKeydown)
-			document.addEventListener('keyup', this.onKeyup)
 		},
 		onSortableEnd (event) {
 			this.setDraggingState(false)
-			document.removeEventListener('keydown', this.onKeydown)
-			document.removeEventListener('keyup', this.onKeyup)
 		}
 	},
 	watch: {
