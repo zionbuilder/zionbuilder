@@ -178,7 +178,6 @@ export default {
 
 }
 </script>
-
 <style lang="scss">
 .zion-input {
 	position: relative;
@@ -229,6 +228,7 @@ export default {
 	}
 	input {
 		max-height: 42px;
+		min-width: 0;
 		// prevent other themes to add their own style uppon input fixed height
 	}
 	input::placeholder {
