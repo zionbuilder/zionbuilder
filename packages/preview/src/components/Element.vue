@@ -14,7 +14,7 @@
 		@mouseleave="onMouseLeave"
 		@click.stop="onElementClick"
 		@dblclick="editElement"
-		@contextmenu.prevent.stop="showElementMenu"
+		@contextmenu="showElementMenu"
 		v-bind="getExtraAttributes"
 	>
 
@@ -186,10 +186,16 @@ export default {
 		 * On context menu open
 		 */
 		const showElementMenu = function (event) {
-			const { showElementMenuFromEvent } = useElementMenu()
-			showElementMenuFromEvent(props.element, event, {
-				rename: false
-			})
+			if (!isPreviewMode.value) {
+				event.preventDefault()
+				event.stopPropagation()
+
+				const { showElementMenuFromEvent } = useElementMenu()
+				showElementMenuFromEvent(props.element, event, {
+					rename: false
+				})
+			}
+
 		}
 
 		const onElementClick = (event) => {
