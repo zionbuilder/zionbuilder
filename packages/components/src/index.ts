@@ -1,5 +1,6 @@
-import { App } from 'vue'
+import './wordpress'
 
+import { App } from 'vue'
 // General components
 import { Accordion } from './components/Accordion'
 import { ActionsOverlay } from './components/ActionsOverlay'
