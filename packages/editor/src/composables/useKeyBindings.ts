@@ -37,9 +37,22 @@ export const useKeyBindings = () => {
 		return null
 	}
 
+	function isEditable() {
+		let el = document.activeElement; // focused element
+		if(el && ~['input','textarea'].indexOf(el.tagName.toLowerCase())) {
+			return !el.readOnly && !el.disabled;
+		}
+
+		el = getSelection().anchorNode; // selected node
+		if(!el) return undefined; // no selected node
+		el = el.parentNode; // selected element
+		return el.isContentEditable;
+	}
+
 	// end checkMousePosition
 	const applyShortcuts = (e) => {
-		if (e.target.isContentEditable) {
+
+		if (isEditable()) {
 			return
 		}
 
@@ -66,22 +79,17 @@ export const useKeyBindings = () => {
 
 			// copy
 			if (e.which === 67 && e.ctrlKey && !e.shiftKey) {
-				if (!e.target.getAttribute('contenteditable')) {
-					copyElement(activeElementFocus)
-				}
+				copyElement(activeElementFocus)
 			}
 
 			// Paste
 			if (e.which === 86 && e.ctrlKey && !e.shiftKey && copiedElement.value.element) {
-				if (!e.target.getAttribute('contenteditable')) {
-					pasteElement(activeElementFocus)
-				}
+				pasteElement(activeElementFocus)
 			}
+
 			// Cut - CTRL + X
 			if (e.which === 88 && e.ctrlKey) {
-				if (!e.target.getAttribute('contenteditable')) {
-					copyElement(activeElementFocus, 'cut')
-				}
+				copyElement(activeElementFocus, 'cut')
 			}
 
 			if (e.code === 'Escape' && copiedElement.value.element) {
@@ -90,11 +98,9 @@ export const useKeyBindings = () => {
 
 			// Delete element
 			if (e.which === 46) {
-				if (!e.target.getAttribute('contenteditable')) {
-					const nextFocusElement = getNextFocusedElement(activeElementFocus)
-					activeElementFocus.delete()
-					focusElement(nextFocusElement)
-				}
+				const nextFocusElement = getNextFocusedElement(activeElementFocus)
+				activeElementFocus.delete()
+				focusElement(nextFocusElement)
 			}
 
 			// Copy element styles ctrl+shift+c
