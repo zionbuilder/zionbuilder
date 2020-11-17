@@ -43,11 +43,14 @@
 	</Sortable>
 </template>
 
-<script lang="ts">
+<script>
 import { useTreeViewList } from '../useTreeViewList'
-
+import WireframeListItem  from './WireframeListItem.vue'
 export default {
 	name: 'WireframeList',
+	components:{
+		WireframeListItem
+	},
 	props: {
 		element: {
 			type: Object,

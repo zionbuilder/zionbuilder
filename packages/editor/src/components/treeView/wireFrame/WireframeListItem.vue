@@ -64,6 +64,7 @@
 			v-if="expanded && element.isWrapper"
 			:element="element"
 			class="znpb-wireframe-item__content"
+			:class="{[`znpb-flex--${hasFlexDirection}`]: hasFlexDirection}"
 		/>
 
 	</li>
@@ -136,7 +137,7 @@ export default {
 			if (this.columnSize) {
 				Object.keys(this.columnSize).forEach((key) => {
 					let responsivePrefix = this.getColumnResponsivePrefix(key)
-					cssClass[`zb-column zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key]
+					cssClass[`zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key]
 				})
 			}
 			return cssClass
@@ -166,8 +167,7 @@ export default {
 }
 </script>
 <style lang="scss">
-// TODO: decomment this
-// @import "@/scss/frontend/_grid.scss";
+@import "~@zionbuilder/css-variables/frontend/_grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 10px 5px 10px;
@@ -191,7 +191,7 @@ export default {
 .znpb-wireframe-item {
 	flex-grow: 1;
 	flex-shrink: 1;
-	margin: 0 0 30px;
+	    margin: 0 15px 30px 15px;
 	background: $primary-color--accent;
 	.znpb-wireframe-item--column .znpb-empty-placeholder {
 		border-right: 2px solid #faeec6;
@@ -324,7 +324,6 @@ export default {
 		& > .znpb-wireframe-item__content {
 			position: relative;
 			display: flex;
-			display: block;
 			flex-wrap: wrap;
 			flex: 1 1 auto;
 			width: 100%;
@@ -338,8 +337,6 @@ export default {
 		flex-wrap: wrap;
 		flex-grow: 1;
 		min-height: 1px;
-		padding-right: 15px;
-		padding-left: 15px;
 
 		& > .znpb-wireframe-item__header {
 			background: $column-color;
@@ -366,12 +363,14 @@ export default {
 	&__content {
 		position: relative;
 		width: 100%;
-		&.-flex {
+		&.znpb-flex {
 			&--row {
 				flex-direction: row;
 			}
 			&--column {
 				flex-direction: column;
+				flex-wrap: nowrap;
+				justify-content: center;
 			}
 		}
 	}
