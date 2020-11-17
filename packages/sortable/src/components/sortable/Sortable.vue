@@ -398,6 +398,14 @@ export default {
 			attachHelper()
 
 			// Add css classes
+			addCssClass('body')
+			addCssClass('source')
+			addCssClass('source:container')
+			addCssClass('placeholder:container')
+
+			// Make transition faster
+			helperNode.style.willChange = 'transform'
+			helperNode.style.zIndex = 99999
 			helperNode.style.pointerEvents = 'none'
 			helperNode.style.position = 'fixed'
 
