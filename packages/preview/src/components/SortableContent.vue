@@ -13,7 +13,6 @@
 		}"
 		:axis="getSortableAxis"
 	>
-
 		<Element
 			v-for="childElement in contentModel"
 			:key="childElement.uid"
@@ -135,7 +134,8 @@ export default {
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.default.default.flex-direction')
+			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction')
+
 			if (mediaOrientation) {
 				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
 			}

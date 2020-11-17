@@ -259,7 +259,7 @@ export default {
 			} else return 'right'
 		},
 		isAnyDragging () {
-			return this.isDragging.value || this.isToolboxDragging
+			return this.isDragging || this.isToolboxDragging
 		},
 		dragDimension () {
 			if (this.activeDragPosition === 'Top' || this.activeDragPosition === 'Bottom') {

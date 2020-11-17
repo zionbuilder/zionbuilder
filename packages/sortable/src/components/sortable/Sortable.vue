@@ -208,7 +208,7 @@ export default {
 		}
 
 		const getCssClass = (cssClass) => {
-			return computedCssClasses[cssClass] || null
+			return computedCssClasses.value[cssClass] || null
 		}
 
 		/**
@@ -218,7 +218,7 @@ export default {
 		 */
 		const canPut = (dragItemInfo) => {
 			const dragGroupInfo = dragItemInfo.group
-			const sameGroup = dragGroupInfo.name === groupInfo.name
+			const sameGroup = dragItemInfo.group.value.name === groupInfo.value.name
 			const put = groupInfo.put || null
 
 			if (put === null && sameGroup) {
@@ -231,9 +231,9 @@ export default {
 				if (put === true) {
 					return true
 				} else if (typeof put === 'string') {
-					return put === dragGroupInfo.name
+					return put === dragItemInfo.group.value.name
 				} else if (Array.isArray(put)) {
-					return put.indexOf(dragGroupInfo.name) > -1
+					return put.indexOf(dragItemInfo.group.value.name) > -1
 				}
 			}
 
@@ -730,6 +730,7 @@ export default {
 
 			if (target) {
 				const to = closest(target, getSortableContainer)
+
 				const sameContainer = to === sortableContainer.value
 
 				if (sameContainer && !props.sort) {
@@ -739,6 +740,7 @@ export default {
 
 					// check if we can drop
 					const overItemInfo = targetVM.getInfoFromTarget(target)
+
 					overItem = {
 						...overItem,
 						...overItemInfo
@@ -760,13 +762,8 @@ export default {
 							movePlaceholderMemoized(overItem.container, insertBeforeElement, dragItemInfo.placeBefore)
 							dragItemInfo.newIndex = overItem.index
 						} else {
-							if (targetVM.value && targetVM.value.length === 0) {
-								// Empty sortable container
-								movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
-								dragItemInfo.newIndex = 0
-							} else if (sameContainer && props.modelValue.length === 1) {
-								movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
-							}
+							dragItemInfo.newIndex = 0
+							movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
 						}
 					}
 				}
@@ -844,7 +841,6 @@ export default {
 			axis: props.axis,
 			getInfoFromTarget,
 			canPut,
-			getInfoFromTarget,
 			getItemFromList,
 			addItemToList
 		}
@@ -922,7 +918,10 @@ export default {
 				{
 					onMouseDown: props.disabled ? null : onMouseDown,
 					onDragStart,
-					ref: sortableContainer
+					ref: sortableContainer,
+					class: {
+						[`vuebdnd__placeholder-empty-container`]: canShowEmptyPlaceholder.value
+					}
 				},
 				[ childElements ]
 			)

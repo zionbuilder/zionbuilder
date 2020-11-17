@@ -28,6 +28,7 @@
 // Utils
 import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
+import { useEditorData } from '@zb/editor'
 
 export default {
 	name: 'ServerComponent',
@@ -42,11 +43,14 @@ export default {
 		}
 	},
 	setup (props) {
+		const { editorData } = useEditorData()
 		const contentModel = props.element.elementTypeModel
 
+		const logoUrl = editorData.value.urls.logoUrl
 
 		return {
-			contentModel
+			contentModel,
+			logoUrl
 		}
 	},
 	data () {
@@ -61,9 +65,6 @@ export default {
 			const elementModel = this.contentModel
 			const { _styles, _advanced_options: advancedOptions, ...options } = this.options
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
-		},
-		logoUrl () {
-			return this.$zb.urls.logo
 		}
 	},
 	methods: {

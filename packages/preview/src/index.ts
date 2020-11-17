@@ -23,10 +23,6 @@ editorApp.component('RenderValue', RenderValue)
 editorApp.component('RenderTagGroup', RenderTagGroup)
 editorApp.component('ElementIcon', ElementIcon)
 
-editorApp.config.globalProperties.$zb.preview = {
-	scripts: ScriptsLoader(window.document)
-}
-
 vNode.appContext = appContext
 
 const renderElement = document.getElementById('znpb-preview-content-area')
