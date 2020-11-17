@@ -135,7 +135,7 @@ export default {
 			if (this.columnSize) {
 				Object.keys(this.columnSize).forEach((key) => {
 					let responsivePrefix = this.getColumnResponsivePrefix(key)
-					cssClass[`zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key]
+					cssClass[`zb-column zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key]
 				})
 			}
 			return cssClass
@@ -213,7 +213,7 @@ export default {
 	}
 
 	& > .znpb-wireframe-item__header {
-		background: $secondary;
+		background: $elements-toolbox-color;
 	}
 
 	&__delete-icon {
@@ -325,6 +325,7 @@ export default {
 			flex-wrap: wrap;
 			flex: 1 1 auto;
 			width: 100%;
+			display: block;
 		}
 	}
 
@@ -384,14 +385,13 @@ export default {
 		box-shadow: none;
 		border-top: none;
 	}
-}
-//nested children
-ul.znpb-wireframe-item__content {
+
+	//nested children
+ ul.znpb-wireframe-item__content {
 	padding: 30px 15px;
 	cursor: pointer;
 }
-
-.znpb-utility__flex {
-	display: flex;
 }
+
+
 </style>
