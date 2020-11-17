@@ -61,10 +61,11 @@
 		</div>
 
 		<WireframeList
-			v-if="expanded"
+			v-if="expanded && element.isWrapper"
 			:element="element"
 			class="znpb-wireframe-item__content"
 		/>
+
 	</li>
 </template>
 <script>
@@ -322,10 +323,10 @@ export default {
 		& > .znpb-wireframe-item__content {
 			position: relative;
 			display: flex;
+			display: block;
 			flex-wrap: wrap;
 			flex: 1 1 auto;
 			width: 100%;
-			display: block;
 		}
 	}
 
@@ -387,11 +388,9 @@ export default {
 	}
 
 	//nested children
- ul.znpb-wireframe-item__content {
-	padding: 30px 15px;
-	cursor: pointer;
+	ul.znpb-wireframe-item__content {
+		padding: 30px 15px;
+		cursor: pointer;
+	}
 }
-}
-
-
 </style>
