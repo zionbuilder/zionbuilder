@@ -6,7 +6,7 @@ import previewApp from './App.vue'
 const vNode = createVNode(previewApp)
 const editorApp = window.parent.zb.editor.appInstance
 const appContext = editorApp._context
-import { ScriptsLoader } from './ScriptsLoader'
+
 import { InlineEditor } from './components/InlineEditor'
 import Element from './components/Element.vue'
 import SortableContent from './components/SortableContent.vue'

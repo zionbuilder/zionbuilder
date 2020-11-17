@@ -144,7 +144,6 @@ export default {
 			this.showRecoverModal = false
 		},
 		useServerVersion () {
-
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
 				const { add } = useNotifications()
@@ -195,8 +194,6 @@ export default {
 			// Register the document
 			this.addWindow('preview', iframeWindow)
 			this.attachIframeEvents()
-
-			this.ignoreNextReload = false
 
 			const cachedData = Cache.getItem(this.pageId)
 
