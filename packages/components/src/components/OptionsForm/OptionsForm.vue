@@ -17,10 +17,13 @@
 </template>
 
 <script>
-import OptionWrapper from './OptionWrapper.vue'
+import { provide, inject } from 'vue'
 import { updateOptionValue, getOptionValue } from '@zb/utils'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
-import { provide, inject } from 'vue'
+import { unset } from 'lodash-es'
+
+// Components
+import OptionWrapper from './OptionWrapper.vue'
 
 export default {
 	name: 'OptionsForm',
@@ -42,19 +45,28 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
+		// Provide the top model value so we can check for sync options values
+		const topModelValue = inject('topModelValue', null)
+		if (topModelValue === null) {
+			provide('topModelValue', props.modelValue)
+		}
+
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { fontsListForOption } = useDataSets()
 		const { activePseudoSelector } = usePseudoSelectors()
-
 		const elementInfo = inject('elementInfo', null)
 
 		const updateValueByPath = (path, newValue) => {
-			const updatedValues = updateOptionValue(props.modelValue, path, newValue)
+			const updatedValues = updateOptionValue(topModelValue || props.modelValue, path, newValue)
 			emit('update:modelValue', updatedValues)
 		}
 
 		const getValueByPath = (path, defaultValue = null) => {
-			return getOptionValue(props.modelValue, path, defaultValue)
+			return getOptionValue(topModelValue || props.modelValue, path, defaultValue)
+		}
+
+		const deleteValueByPath = (path) => {
+			return unset(topModelValue || props.modelValue, path)
 		}
 
 		const deleteValue = (path) => {
@@ -74,10 +86,15 @@ export default {
 			emit('update:modelValue', newValues)
 		}
 
+		const topOptionsForm = inject('topOptionsForm', null)
+		if (!topOptionsForm) {
+			provide(topOptionsForm, )
+		}
+
 		provide('updateValueByPath', updateValueByPath)
 		provide('getValueByPath', getValueByPath)
+		provide('deleteValueByPath', deleteValueByPath)
 		provide('deleteValue', deleteValue)
-
 
 		return {
 			activeResponsiveDeviceInfo,

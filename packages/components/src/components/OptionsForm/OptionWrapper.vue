@@ -235,15 +235,17 @@ export default {
 		provide("schema", readonly(localSchema.value))
 
 		const updateValueByPath = inject("updateValueByPath")
-		const deleteValue = inject("deleteValue")
 		const getValueByPath = inject('getValueByPath')
+		const deleteValueByPath = inject('deleteValueByPath')
+
 		return {
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
 			updateValueByPath,
-			deleteValue,
+			deleteValueByPath,
+			deleteValue: props.deleteValue,
 			getValueByPath
 		}
 	},
@@ -289,7 +291,7 @@ export default {
 					)
 				})
 			} else {
-				return typeof this.savedOptionValue !== "undefined"
+				return typeof this.savedOptionValue !== 'undefined' && this.savedOptionValue !== null
 			}
 		},
 
@@ -312,9 +314,7 @@ export default {
 			let value = null;
 
 			if (this.compiledSchema.sync) {
-				value = this.getValueByPath(
-					this.compilePlaceholder(this.compiledSchema.sync)
-				)
+				value = this.getValueByPath( this.compilePlaceholder(this.compiledSchema.sync))
 			} else {
 				value = this.modelValue
 			}
@@ -574,9 +574,7 @@ export default {
 				}
 
 				this.$parent.deleteValues(fullOptionIds);
-				this.deleteValue({
-					path: compiledSync,
-				});
+				this.deleteValueByPath(compiledSync);
 			} else {
 				if (this.schema.is_layout) {
 					const childOptionsIds = this.getChildOptionsIds(
