@@ -6,6 +6,10 @@ const lockedUserInfo = ref(window.ZnPbInitalData.post_lock_user)
 export const usePostLock = () => {
 	const isPostLocked = computed(() => lockedUserInfo.value && !!lockedUserInfo.value.message)
 
+	const setPostLock = (lockedData) => {
+		lockedUserInfo.value = lockedData
+	}
+
 	const takeOverPost = () => {
 		lockedUserInfo.value = {}
 	}
@@ -13,6 +17,7 @@ export const usePostLock = () => {
 	return {
 		isPostLocked,
 		lockedUserInfo,
+		setPostLock,
 		takeOverPost
 	}
 }

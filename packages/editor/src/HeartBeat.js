@@ -1,20 +1,20 @@
-import { store } from './store/'
 import { useEditorData, usePostLock } from '@composables'
 
 class HeartBeat {
 	constructor() {
 		const { editorData } = useEditorData()
-		const { isPostLocked } = usePostLock()
+		const { isPostLocked, setPostLock } = usePostLock()
 		/**
 		 * Check if the post was locked by another user
 		 */
 		window.jQuery(document).on({
 			'heartbeat-tick.refresh-lock': (event, response) => {
 				// Don't proceed if the post is already locked
-				if (!isPostLocked && response['wp-refresh-post-lock']) {
+				if (!isPostLocked.value && response['wp-refresh-post-lock']) {
 					const { lock_error: LockError } = response['wp-refresh-post-lock']
 					if (LockError) {
-						store.dispatch('setLockedUser', {
+						console.log('lock error');
+						setPostLock({
 							message: LockError.text,
 							avatar: LockError.avatar_src
 						})
@@ -43,7 +43,6 @@ class HeartBeat {
 
 				// Update rest nonce
 				if (restNonce) {
-					store.dispatch('setNonce', restNonce)
 					window.ZnPbRestConfig.nonce = restNonce
 				}
 
