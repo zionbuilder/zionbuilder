@@ -61,8 +61,7 @@ export default {
 			default: false
 		},
 		duplicateCallback: {
-			type: Function,
-			default: false
+			type: Function
 		},
 		tag: {
 			type: String,
