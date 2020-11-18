@@ -25,9 +25,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ElementActions from './ElementActions.vue'
-import { useElementMenu } from '@composables'
+
+import { useElementMenu, useWindows } from '@composables'
 
 export default {
 	name: 'ElementMenu',
@@ -45,6 +46,15 @@ export default {
 	setup () {
 		const showOptions = ref(false)
 		const { activeElementMenu, hideElementMenu } = useElementMenu()
+		const { addEventListener, removeEventListener } = useWindows()
+
+		watch(activeElementMenu, (newValue) => {
+			if (newValue) {
+				addEventListener('scroll', hideElementMenu)
+			} else {
+				removeEventListener('scroll', hideElementMenu)
+			}
+		})
 
 		return {
 			showOptions,
