@@ -297,10 +297,15 @@ export default {
 		}
 
 		&-title {
+			overflow: hidden;
 			width: auto;
+			max-width: 75px;
 			color: $surface;
 			font-weight: 500;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 			cursor: text;
+
 			.znpb-utility__text--elipse {
 				width: 100%;
 				max-width: 170px;
@@ -369,8 +374,8 @@ export default {
 			}
 			&--column {
 				flex-direction: column;
-				flex-wrap: nowrap;
 				justify-content: center;
+				align-items: stretch;
 			}
 		}
 	}
