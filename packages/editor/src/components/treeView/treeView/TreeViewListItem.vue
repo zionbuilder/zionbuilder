@@ -77,10 +77,9 @@ export default defineComponent({
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-		} = useTreeViewItem(props);
+		} = useTreeViewItem(props)
 
-		const expanded = ref(false);
-
+		const expanded = ref(false)
 		const onItemClick = () => {
 			props.element.focus;
 			props.element.scrollTo = true;
@@ -90,7 +89,6 @@ export default defineComponent({
 			expanded,
 			showElementMenu,
 			elementOptionsRef,
-			showElementMenu,
 			isActiveItem,
 			onItemClick,
 		};

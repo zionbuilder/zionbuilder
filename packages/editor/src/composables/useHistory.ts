@@ -6,7 +6,7 @@ import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import Cache from '../Cache'
-import { usePanels } from './usePanels'
+import { useEditElement } from './useEditElement'
 
 const historyItems: Ref = ref([])
 const currentHistoryIndex: Ref = ref(-1)
@@ -79,8 +79,8 @@ export function useHistory() {
 		currentHistoryIndex.value = index
 
 		// Close element options panel
-		const { closePanel } = usePanels()
-		closePanel('PanelElementOptions')
+		const { unEditElement } = useEditElement()
+		unEditElement()
 	}
 
 	function addInitialHistory() {
@@ -99,12 +99,12 @@ export function useHistory() {
 			return
 		}
 
-		return {
+		return JSON.parse(JSON.stringify({
 			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
 			css_classes: CSSClasses.value
-		}
+		}))
 	}
 
 

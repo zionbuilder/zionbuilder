@@ -17,9 +17,6 @@
 			v-for="childElement in contentModel"
 			:key="childElement.uid"
 			:element="childElement"
-			:uid="childElement.uid"
-			:data="childElement"
-			:parentUid="element.uid"
 		/>
 
 		<template #start>

@@ -10,6 +10,7 @@
 
 		<TreeViewListItem
 			v-for="element in templateItems"
+			:key="element.uid"
 			:element="element"
 		/>
 
