@@ -33,10 +33,7 @@ import { isEqual } from 'lodash-es'
 import { ref, watch, nextTick, onMounted, computed } from 'vue'
 export default {
 	name: 'zion_video',
-	props: ['options', 'data', 'api'],
-	data () {
-		return {}
-	},
+	props: ['options', 'element', 'api'],
 	setup (props) {
 		const root = ref(null)
 		const videoOverlay = ref(null)

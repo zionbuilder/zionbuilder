@@ -23,6 +23,6 @@
 <script>
 export default {
 	name: 'accordion_item',
-	props: ['options', 'data', 'api']
+	props: ['options', 'element', 'api']
 }
 </script>

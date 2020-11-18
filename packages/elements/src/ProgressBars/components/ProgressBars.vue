@@ -36,7 +36,7 @@
 <script>
 export default {
 	name: 'progress_bars',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	watch: {
 		barsWidth () {
 			this.doResetAnimation()

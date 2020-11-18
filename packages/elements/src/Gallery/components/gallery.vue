@@ -9,8 +9,7 @@
 			class="zb-el-gallery-item"
 			v-for="(image, index) in getImages"
 			:key="index"
-			v-bind="getImageWrapperAttrs(image)"
-			:class="api.getStyleClasses('image_wrapper_styles')"
+			v-bind="api.getAttributesForTag('image_wrapper_styles', getImageWrapperAttrs(image))"
 		>
 			<img
 				:src="image.image"
@@ -24,7 +23,7 @@
 <script>
 export default {
 	name: 'gallery',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		getImages () {
 			return this.options.images

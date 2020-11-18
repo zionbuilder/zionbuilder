@@ -11,7 +11,7 @@
 			<ElementIcon
 				class="zb-el-iconBox-icon"
 				:iconConfig="options.icon"
-				:class="api.getStyleClasses('icon_styles')"
+				v-bind="api.getAttributesForTag('icon_styles')"
 			/>
 		</div>
 		<div class="zb-el-iconBox-text">
@@ -19,14 +19,14 @@
 				v-if="options.title"
 				:is="titleTag"
 				class="zb-el-iconBox-title"
-				:class="api.getStyleClasses('title_styles')"
+				v-bind="api.getAttributesForTag('title_styles')"
 			>
 				{{options.title ? options.title: null}}
 			</component>
 			<div
 				v-if="options.description"
 				class="zb-el-iconBox-description"
-				:class="api.getStyleClasses('description_styles')"
+				v-bind="api.getAttributesForTag('description_styles')"
 			>
 				<RenderValue option="description" />
 			</div>
@@ -39,7 +39,7 @@
 <script>
 export default {
 	name: 'icon_box',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		titleTag () {
 			return this.options.title_tag || 'h3'

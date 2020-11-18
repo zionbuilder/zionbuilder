@@ -11,6 +11,6 @@
 <script>
 export default {
 	name: 'custom_html',
-	props: ['options', 'data', 'api']
+	props: ['options', 'element', 'api']
 }
 </script>

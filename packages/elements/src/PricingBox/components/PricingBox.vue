@@ -5,14 +5,14 @@
 		<span
 			v-if="options.plan_featured==='featured'"
 			class="zb-el-pricingBox-featured"
-			:class="api.getStyleClasses('featured_label_styles')"
+			v-bind="api.getAttributesForTag('featured_label_styles')"
 		>{{$translate('featured')}}
 		</span>
 		<div class="zb-el-pricingBox-content">
 			<div class="zb-el-pricingBox-heading">
 				<h3
 					class="zb-el-pricingBox-title"
-					:class="api.getStyleClasses('title_styles')"
+					v-bind="api.getAttributesForTag('title_styles')"
 				>
 					<RenderValue option="plan_title" />
 				</h3>
@@ -24,7 +24,7 @@
 				<span class="zb-el-pricingBox-price">
 					<span
 						class="zb-el-pricingBox-price-price"
-						:class="api.getStyleClasses('price_styles')"
+						v-bind="api.getAttributesForTag('price_styles')"
 					>
 						{{pricingPrice || '$999'}}<span class="zb-el-pricingBox-price-dot">{{priceFloat ? '.' : ''}}</span>
 					</span>
@@ -38,7 +38,7 @@
 				class="zb-el-pricingBox-plan-features"
 				v-if="options.plan_details"
 				v-html="options.plan_details"
-				:class="api.getStyleClasses('features_styles')"
+				v-bind="api.getAttributesForTag('features_styles')"
 			>
 			</div>
 			<a
@@ -46,7 +46,7 @@
 				:href="options.button_link.link"
 				:title="options.button_link.title"
 				:target="options.button_link.target"
-				:class="api.getStyleClasses('button_styles')"
+				v-bind="api.getAttributesForTag('button_styles')"
 				class="zb-el-pricingBox-action zb-el-button"
 			>
 				<RenderValue option="button_text" />
@@ -54,7 +54,7 @@
 			<div
 				v-else
 				class="zb-el-pricingBox-action zb-el-button"
-				:class="api.getStyleClasses('button_styles')"
+				v-bind="api.getAttributesForTag('button_styles')"
 			>
 				<RenderValue option="button_text" />
 			</div>
@@ -66,7 +66,7 @@
 <script>
 export default {
 	name: 'pricing_box',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		pricingPrice () {
 			return this.options.price ? this.options.price.split('.')[0] : null

@@ -4,20 +4,20 @@
 		<img
 			v-if="image && options.position!==undefined && options.position ==='top'"
 			class="zb-el-testimonial__userImage"
-			:class="api.getStyleClasses('inner_content_styles_image')"
+			v-bind="api.getAttributesForTag('inner_content_styles_image')"
 			:src="image"
 		/>
 		<RenderValue
 			option="content"
 			class="zb-el-testimonial-content"
-			:class="api.getStyleClasses('inner_content_styles_misc')"
+			v-bind="api.getAttributesForTag('inner_content_styles_misc')"
 		/>
 
 		<div class="zb-el-testimonial__user">
 			<img
 				v-if="image && options.position !==undefined && options.position !=='top'"
 				class="zb-el-testimonial__userImage"
-				:class="api.getStyleClasses('inner_content_styles_image')"
+				v-bind="api.getAttributesForTag('inner_content_styles_image')"
 				:src="image"
 			/>
 
@@ -25,16 +25,16 @@
 				<RenderValue
 					option="name"
 					class="zb-el-testimonial__userInfo-name"
-					:class="api.getStyleClasses('inner_content_styles_user')"
+					v-bind="api.getAttributesForTag('inner_content_styles_user')"
 				/>
 				<RenderValue
 					option="description"
 					class="zb-el-testimonial__userInfo-description"
-					:class="api.getStyleClasses('inner_content_styles_description')"
+					v-bind="api.getAttributesForTag('inner_content_styles_description')"
 				/>
 				<div
 					class="zb-el-testimonial__stars"
-					:class="api.getStyleClasses('inner_content_styles_stars')"
+					v-bind="api.getAttributesForTag('inner_content_styles_stars')"
 					v-if="stars && stars !== 'no_stars'"
 				>
 					<ElementIcon
@@ -58,10 +58,7 @@
 <script>
 export default {
 	name: 'testimonial',
-	props: ['data', 'options', 'api'],
-	data () {
-		return {}
-	},
+	props: ['element', 'options', 'api'],
 	computed: {
 		image () {
 			return this.options && this.options.image ? this.options.image : null

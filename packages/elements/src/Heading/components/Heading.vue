@@ -30,7 +30,7 @@
 <script>
 export default {
 	name: 'zion_heading',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		hasLink () {
 			return this.options.link && this.options.link.link

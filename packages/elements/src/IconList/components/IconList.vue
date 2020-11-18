@@ -10,14 +10,14 @@
 		>
 			<ElementIcon
 				class="zb-el-iconList__itemIcon"
-				:class="api.getStyleClasses('icon_styles')"
+				v-bind="api.getAttributesForTag('icon_styles')"
 				:iconConfig="item.icon"
 			/>
 
 			<span
 				v-if="item.text"
 				class="zb-el-iconList__itemText"
-				:class="api.getStyleClasses('text_styles')"
+				v-bind="api.getAttributesForTag('text_styles')"
 				v-html="item.text"
 			/>
 		</component>
@@ -29,7 +29,7 @@
 <script>
 export default {
 	name: 'icon_list',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		getTag (item) {
 			// Check if has link else span

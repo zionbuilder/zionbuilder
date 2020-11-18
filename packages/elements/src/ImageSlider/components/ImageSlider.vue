@@ -40,12 +40,7 @@
 <script>
 export default {
 	name: 'image_slider',
-	props: ['options', 'data', 'api'],
-	data () {
-		return {
-
-		}
-	},
+	props: ['options', 'element', 'api'],
 	mounted () {
 		this.runScript()
 	},

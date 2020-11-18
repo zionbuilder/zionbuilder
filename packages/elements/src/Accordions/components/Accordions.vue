@@ -1,18 +1,23 @@
 <template>
 	<SortableContent
-		:content="data.content"
-		:data="data"
+		:element="data"
 		:allow-elements-add="false"
 		empty-placeholder-text="Edit Element options"
 	>
-		<slot name="start" slot="start" />
-		<slot name="end" slot="start" />
+		<template #start>
+			<slot name="start" />
+		</template>
+
+		<template #end>
+			<slot name="end" />
+		</template>
+
 	</SortableContent>
 </template>
 
 <script>
 module.exports = {
 	name: 'accordions',
-	props: ['options', 'data', 'api']
+	props: ['options', 'element', 'api']
 }
 </script>

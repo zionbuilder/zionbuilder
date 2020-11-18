@@ -15,7 +15,7 @@
 			class="zb-el-tabs-content"
 		>
 			<Element
-				v-for="(elementUid, i) in data.content"
+				v-for="(elementUid, i) in element.content"
 				:key="elementUid"
 				:element="getElement(elementUid)"
 				:class="{'zb-el-tabs-nav--active': i === 0}"
@@ -33,7 +33,7 @@ import TabLink from './TabLink.vue'
 
 export default {
 	name: 'tabs',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	components: {
 		TabLink
 	},
@@ -57,7 +57,7 @@ export default {
 				return []
 			}
 
-			const tabsContent = this.data.content
+			const tabsContent = this.element.content
 			const items = this.$refs.tabs || []
 
 			return items.map(tab => {
@@ -66,14 +66,14 @@ export default {
 				return {
 					title: tab.options.title,
 					active: i === 1,
-					data: tab.data,
-					uid: tab.data.uid
+					data: tab.element,
+					uid: tab.element.uid
 				}
 			})
 		}
 	},
 	watch: {
-		'data.content': {
+		'element.content': {
 			handler: function () {
 				this.$nextTick(() => {
 					this.mounted++

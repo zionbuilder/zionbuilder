@@ -11,10 +11,10 @@
 <script>
 export default {
 	name: 'anchor_point',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		getCssID () {
-			return (this.options._advanced_options || {})._element_id || this.data.uid
+			return (this.options._advanced_options || {})._element_id || this.element.uid
 		}
 	}
 }

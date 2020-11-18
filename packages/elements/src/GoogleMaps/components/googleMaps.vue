@@ -16,7 +16,7 @@
 <script>
 export default {
 	name: 'google_maps',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		location () {
 			return encodeURIComponent(this.options.location || 'Chicago')

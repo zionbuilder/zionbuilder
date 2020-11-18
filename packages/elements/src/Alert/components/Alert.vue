@@ -29,7 +29,7 @@
 <script>
 export default {
 	name: 'alert',
-	props: ['options', 'data', 'api']
+	props: ['options', 'element', 'api']
 }
 </script>
 
@@ -39,5 +39,4 @@ export default {
 		margin: 0;
 	}
 }
-
 </style>

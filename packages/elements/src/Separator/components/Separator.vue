@@ -28,7 +28,7 @@
 <script>
 export default {
 	name: 'zion_separator',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'element', 'api'],
 	computed: {
 		iconConfig () {
 			return this.options.icon || {
