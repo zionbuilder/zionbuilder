@@ -101,9 +101,8 @@
 // Utils
 import { ref } from 'vue'
 import rafSchd from 'raf-schd'
-import { mapActions } from 'vuex'
 import { useWindows } from '@zb/editor'
-import { useAddElementsPopup, useElementActions, useIsDragging } from '@zb/editor'
+import { useAddElementsPopup, useElementActions, useIsDragging, useHistory } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 
 // Components
@@ -270,9 +269,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'saveState'
-		]),
 		startSpacingDrag ({ event, type, position }) {
 			const { clientX, clientY } = event
 
@@ -395,7 +391,8 @@ export default {
 		onMouseUp () {
 			// We just need to add to history
 			if (this.addToHistory) {
-				this.saveState(`Updated ${this.element.name} ${this.activeDragType}`)
+				const { addToHistory } = useHistory()
+				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`)
 			}
 
 			// Cancel the scheduler
@@ -533,7 +530,8 @@ export default {
 
 			// We just need to add to history
 			if (this.addToHistory) {
-				this.saveState(`Updated ${this.element.name} ${this.activeDragType}`)
+				const { addToHistory } = useHistory()
+				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`)
 			}
 
 			this.addToHistory = false
