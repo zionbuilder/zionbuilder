@@ -4,6 +4,14 @@
 		class="znpb-wireframe-view-wrapper"
 		v-model="templateItems"
 		group="pagebuilder-wireframe-elements"
+		:class="{
+			[`znpb__sortable-container--${getSortableAxis}`]: isDragging
+		}"
+		:axis="getSortableAxis"
+		@start="onSortableStart"
+		@end="onSortableEnd"
+		:allow-duplicate="true"
+		:duplicate-callback="onSortableDuplicate"
 	>
 		<WireframeListItem
 			v-for="element in templateItems"
@@ -44,7 +52,13 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 import { useTreeViewList } from '../useTreeViewList'
+import { useIsDragging } from '@composables'
+
+// Utils
+import { getOptionValue } from '@zb/utils'
 
 export default {
 	name: 'WireframeList',
@@ -67,6 +81,41 @@ export default {
 			sortableStart,
 			sortableEnd
 		} = useTreeViewList(props)
+		const { isDragging, setDraggingState } = useIsDragging()
+
+		const getSortableAxis = computed(() => {
+			if (props.element.element_type === 'contentRoot') {
+				return 'vertical'
+			}
+
+			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal'
+
+			// Check columns and section direction
+			if (props.element.options.inner_content_layout) {
+				orientation = props.element.options.inner_content_layout
+			}
+
+			// Check media settings
+			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction')
+
+			if (mediaOrientation) {
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+			}
+
+			return orientation
+		})
+
+		function onSortableDuplicate (item) {
+			return item.getClone()
+		}
+
+		function onSortableStart (event) {
+			setDraggingState(true)
+		}
+
+		function onSortableEnd (event) {
+			setDraggingState(false)
+		}
 
 		return {
 			addElementsPopupButton,
@@ -74,7 +123,14 @@ export default {
 			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd,
-			addButtonBgColor
+			addButtonBgColor,
+			getSortableAxis,
+			isDragging,
+
+			// Methods
+			onSortableDuplicate,
+			onSortableStart,
+			onSortableEnd
 		}
 	}
 }

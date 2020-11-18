@@ -183,15 +183,11 @@ export default {
 .znpb-wireframe-view-wrapper {
 	padding-top: 5px;
 	padding-bottom: 50px;
-
-	& > li {
-		box-shadow: 0 10px 35px 0 rgba(192, 192, 192, .3);
-	}
 }
 .znpb-wireframe-item {
 	flex-grow: 1;
 	flex-shrink: 1;
-	margin: 0 15px 30px 15px;
+	padding: 0 15px 30px 15px;
 	background: $primary-color--accent;
 	.znpb-wireframe-item--column .znpb-empty-placeholder {
 		border-right: 2px solid #faeec6;
@@ -394,8 +390,8 @@ export default {
 
 	//nested children
 	ul.znpb-wireframe-item__content {
-		align-items: flex-start;
 		padding: 30px 15px;
+		box-shadow: 0 10px 35px 0 rgba(192, 192, 192, .3);
 		cursor: pointer;
 	}
 }
