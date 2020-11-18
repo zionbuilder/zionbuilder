@@ -171,7 +171,6 @@ export default {
 	&__images-wrapper {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
 		margin: 0 -4px;
 	}
 
@@ -182,7 +181,7 @@ export default {
 		align-items: center;
 		flex: 0 0 calc((100% - 16px) / 3);
 		max-width: calc((100% - 16px) / 3);
-		margin: 0 0 8px;
+		margin: 0 8px 8px 0;
 		box-shadow: 0 0 0 0 #f1f1f1;
 
 		&::after {
@@ -223,6 +222,10 @@ export default {
 		&:hover &--delete {
 			opacity: 1;
 			visibility: visible;
+		}
+
+		&:nth-child(3n) {
+			margin-right: 0;
 		}
 	}
 }
