@@ -559,7 +559,6 @@ export default {
 
 						if (from === to && startIndex !== newIndex) {
 							updatePositionInList(startIndex, modifiedNewIndex)
-							return
 						} else if (from !== to) {
 							// Send 2 events for each container
 							// Remove from first list

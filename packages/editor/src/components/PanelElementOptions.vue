@@ -130,7 +130,6 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue'
-import { mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
