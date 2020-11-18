@@ -100,7 +100,6 @@ export class Element {
 	}
 
 	set isVisible(visbility) {
-		console.log({visbility});
 		update(this.options, '_isVisible', () => visbility)
 
 		// Add to history

@@ -1,7 +1,8 @@
-import { ref, Ref } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import { cloneDeep, merge } from 'lodash-es'
 import { Element } from './models/Element'
 import { useElements } from './useElements'
+import { useHistory } from './useHistory'
 
 const copiedElement: Ref<object> = ref({
 	element: null,
@@ -11,6 +12,14 @@ const copiedElement: Ref<object> = ref({
 const copiedElementStyles: Ref<null | object> = ref(null)
 const focusedElement: Ref<null | Element> = ref(null)
 
+// Preserve focused element on history change
+const { currentHistoryIndex } = useHistory()
+const { getElement } = useElements()
+watch(currentHistoryIndex, (newValue) => {
+	if (focusedElement.value !== null) {
+		focusedElement.value = getElement(focusedElement.value.uid)
+	}
+})
 
 export function useElementActions() {
 	const copyElement = (element: Element, action = 'copy') => {

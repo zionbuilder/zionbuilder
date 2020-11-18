@@ -19,7 +19,6 @@
 	>
 
 		<template #start>
-			{{element}}
 			<ElementToolbox
 				v-if="canShowToolbox"
 				:element="element"
