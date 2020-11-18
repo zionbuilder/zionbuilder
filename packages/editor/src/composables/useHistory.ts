@@ -42,12 +42,22 @@ export function useHistory() {
 			return
 		}
 
-		historyItems.value.push({
+		const historyData = {
 			state,
 			name,
 			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`
-		})
+		}
+
 		currentHistoryIndex.value += 1
+
+		// If this is a new change tree, remove the old one
+		if (currentHistoryIndex.value !== historyItems.value.length) {
+			const itemsToRemove = historyItems.value.length - currentHistoryIndex.value
+			historyItems.value.splice(currentHistoryIndex.value, itemsToRemove, historyData)
+		} else {
+			historyItems.value.push(historyData)
+
+		}
 
 		Cache.saveItem(state.page_id, state)
 	}

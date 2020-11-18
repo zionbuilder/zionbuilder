@@ -28,6 +28,12 @@ export class Element {
 	public widgetID: string = ''
 
 	constructor(data, parentUid = '') {
+		this.setElementData(data)
+		this.renderAttributes = new RenderAttributes()
+		this.parentUid = parentUid
+	}
+
+	setElementData (data) {
 		const {
 			uid = generateUID(),
 			content,
@@ -44,14 +50,10 @@ export class Element {
 			this.widgetID = widgetID
 		}
 
-		this.renderAttributes = new RenderAttributes()
-
 		// Keep only the uid for content
 		if (Array.isArray(content)) {
 			this.addChildren(content)
 		}
-
-		this.parentUid = parentUid
 	}
 
 	updateOptions(newValues) {
@@ -79,15 +81,17 @@ export class Element {
 	}
 
 	get name() {
-		return get(this.options, '_advanced_options._element_name') || this.elementTypeModel.name
+		return get(this.options, '_advanced_options._element_name', this.elementTypeModel.name)
 	}
 
 	set name(newName) {
+		const oldName = this.name
+		update(this.options, '_advanced_options._element_name', () => newName)
+
 		// Add to history
 		const { addToHistory } = useHistory()
-		addToHistory(`Renamed ${this.name} to ${newName}`)
+		addToHistory(`Renamed ${oldName} to ${newName}`)
 
-		update(this.options, '_advanced_options._element_name', () => newName)
 	}
 
 	// Element visibility
@@ -96,12 +100,13 @@ export class Element {
 	}
 
 	set isVisible(visbility) {
+		console.log({visbility});
+		update(this.options, '_isVisible', () => visbility)
+
 		// Add to history
 		const { addToHistory } = useHistory()
 		const visibilityText = visbility ? 'visible' : 'hidden'
 		addToHistory(`Set ${this.name} visibility to ${visibilityText}`)
-
-		update(this.options, '_isVisible', () => visbility)
 	}
 
 	get elementCssId() {
@@ -113,7 +118,7 @@ export class Element {
 	}
 
 	toggleVisibility() {
-		this.isVisible = !this.isVisible
+	this.isVisible = !this.isVisible
 	}
 
 	focus() {

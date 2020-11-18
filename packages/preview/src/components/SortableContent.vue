@@ -15,8 +15,8 @@
 	>
 		<Element
 			v-for="childElement in contentModel"
-			:key="childElement.uid"
-			:element="childElement"
+			:key="childElement"
+			:uid="childElement"
 		/>
 
 		<template #start>
@@ -92,7 +92,7 @@ export default {
 
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
-		const { getElement } = useElements()
+		const { getElement, elements } = useElements()
 
 		const draggedItemData = ref(null)
 		const positionRect = ref({
@@ -109,12 +109,10 @@ export default {
 
 		const contentModel = computed({
 			get () {
-				return props.element.content.map(elementUID => {
-					return getElement(elementUID)
-				})
+				return props.element.content
 			},
 			set (value) {
-				props.element.content = value.map(element => element.uid)
+				props.element.content = value
 			}
 		})
 		const showAddElementsPopup = computed(() => contentModel.length > 0 && showColumnTemplates.value)
