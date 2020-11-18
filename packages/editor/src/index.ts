@@ -57,6 +57,7 @@ errorInterceptor(useNotifications())
 appInstance.component('TreeViewList', TreeViewList)
 appInstance.component('TreeViewListItem', TreeViewListItem)
 appInstance.component('WireframeList', WireframeList)
+appInstance.component('WireframeListItem', WireframeListItem)
 appInstance.component('EmptySortablePlaceholder', EmptySortablePlaceholder)
 appInstance.component('SortableHelper', SortableHelper)
 appInstance.component('SortablePlaceholder', SortablePlaceholder)
@@ -74,7 +75,7 @@ appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 const { registerElementComponent } = useElementTypes()
 
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
 	const evt = new CustomEvent('zionbuilder/editor/ready')
 	window.dispatchEvent(evt)
