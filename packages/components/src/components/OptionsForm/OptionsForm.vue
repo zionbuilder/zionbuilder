@@ -383,7 +383,7 @@ export default {
 		 * Replace %%PSEUDO_SELECTOR%% constant with the element UID
 		 */
 		replacePseudoSelector (match) {
-			return this.activePseudoSelector.value.id
+			return this.activePseudoSelector.id
 		}
 
 	}
