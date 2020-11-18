@@ -1,6 +1,5 @@
 <template>
 	<BasePanel
-		v-if="element"
 		class="znpb-element-options__panel-wrapper"
 		@close-panel="closeOptionsPanel"
 		:panel-name="`${element.name} ${$translate('options')}`"
@@ -133,12 +132,14 @@
 import { ref, watch, provide, computed } from 'vue'
 import { mapActions } from 'vuex'
 import { cloneDeep } from 'lodash-es'
-import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
-import BasePanel from './BasePanel.vue'
-import { useEditElement, useElementProvide, useEditorData } from '@composables'
+import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { useOptionsSchemas } from '@zb/components'
+
+// Components
+import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
+import BasePanel from './BasePanel.vue'
 
 export default {
 	name: 'PanelElementOptions',
@@ -146,30 +147,16 @@ export default {
 		BreadcrumbsWrapper,
 		BasePanel
 	},
-	provide () {
-		// const elementInfo = {}
-
-		// Object.defineProperty(elementInfo, 'data', {
-		// 	enumerable: true,
-		// 	get: () => this.getElementInfo
-		// })
-
-		// if (this.element.elementTypeModel.hasOwnProperty('options')) {
-		// 	elementInfo.optionsSchema = this.allOptionsSchema
-		// }
-
-		// return {
-		// 	elementInfo,
-		// 	panel: this
-		// }
-	},
 	props: ['panel'],
 	setup (props) {
-		const { element, editElement } = useEditElement()
+		let ignoreLocalHistory = false
+		const { element, editElement, unEditElement } = useEditElement()
 		const { provideElement } = useElementProvide()
 		const { getSchema } = useOptionsSchemas()
 		const activeKeyTab = ref(null)
 		const searchActive = ref(false)
+		const history = ref([])
+		const historyIndex = ref(0)
 
 		const elementOptions = computed({
 			get () {
@@ -177,13 +164,66 @@ export default {
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
+				// Add to history
+				if (!ignoreLocalHistory) {
+					addToLocalHistory()
+					ignoreLocalHistory = false
+				}
 			}
 		})
+
+		const canUndo = computed(() => {
+			return historyIndex.value > 0
+		})
+
+		const canRedo = computed(() => {
+			return historyIndex.value + 1 < history.value.length
+		})
+
+		const hasChanges = computed(() => {
+			history.value.length > 1 && historyIndex.value > 0
+		})
+
+		const addToLocalHistory = debounce(function () {
+			// Clone store
+			const clonedValues = JSON.parse(JSON.stringify(elementOptions.value))
+
+			if (historyIndex.value + 1 < history.value.length) {
+				history.value.splice(historyIndex.value + 1)
+			}
+
+			history.value.push(clonedValues)
+			historyIndex.value++
+		}, 500)
 
 		watch(element, () => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
+
+
+		function undo () {
+			const prevState = history.value[historyIndex.value - 1]
+
+			if (prevState) {
+				ignoreLocalHistory = true
+				elementOptions.value = prevState
+				historyIndex.value--
+			}
+		}
+
+		function redo () {
+			const nextState = history.value[historyIndex.value + 1]
+
+			if (nextState) {
+				ignoreLocalHistory = true
+				elementOptions.value = nextState
+				historyIndex.value++
+			}
+		}
+
+		// Set initial history
+		history.value.push(JSON.parse(JSON.stringify(elementOptions.value)))
 
 		provideElement(element)
 		provide('elementInfo', element)
@@ -194,15 +234,19 @@ export default {
 			elementOptions,
 			getSchema,
 			editElement,
+			unEditElement,
 			activeKeyTab,
-			searchActive
+			searchActive,
+			canUndo,
+			canRedo,
+			// Methods
+			undo,
+			redo
 		}
 	},
 	data () {
 		return {
 			showBreadcrumbs: false,
-			history: [],
-			historyIndex: 0,
 			elementClasses: [],
 			lastTab: null,
 			optionsFilterKeyword: '',
@@ -280,15 +324,6 @@ export default {
 				}
 			}
 		},
-		canUndo () {
-			return this.historyIndex > 0
-		},
-		canRedo () {
-			return this.historyIndex + 1 < this.history.length
-		},
-		hasChanges () {
-			return this.history.length > 1 && this.historyIndex > 0
-		},
 		getElementInfo () {
 			return {
 				uid: this.element.uid,
@@ -308,13 +343,9 @@ export default {
 		}
 	},
 	created () {
-		this.history.push(cloneDeep(this.elementOptions))
 		on('change-tab-styling', this.changeTabByEvent)
 	},
 	methods: {
-		...mapActions([
-			'saveState'
-		]),
 		onBackButtonClick () {
 			this.editElement(this.element.parent)
 		},
@@ -428,62 +459,40 @@ export default {
 				}
 			}
 		},
-
-		addToLocalHistory: debounce(function () {
-			// Clone store
-			const clonedValues = cloneDeep(this.elementOptions)
-
-			if (this.historyIndex + 1 < this.history.length) {
-				this.history.splice(this.historyIndex + 1)
-			}
-
-			this.history.push(clonedValues)
-			this.historyIndex++
-		}, 500),
-
-		undo () {
-			const prevState = this.history[this.historyIndex - 1]
-
-			if (prevState) {
-				this.element.options = prevState
-				this.historyIndex--
-			}
-		},
-		redo () {
-			const nextState = this.history[this.historyIndex + 1]
-
-			if (nextState) {
-				this.element.options = nextState
-				this.historyIndex++
-			}
-		},
 		closeOptionsPanel () {
 			if (this.hasChanges) {
+				const { addToHistory } = useHistory()
 				const elementSavedName = this.element.name
-				this.saveState(`Edited ${elementSavedName}`)
+				addToHistory(`Edited ${elementSavedName}`)
 			}
 
 			this.panel.close()
-			this.editElement(null)
+			this.unEditElement()
 		},
 		onKeyPress (e) {
+			console.log('on key press');
 			// Undo CTRL+Z
 			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
 				this.undo()
+				e.preventDefault()
+				e.stopPropagation()
 			}
 			// Redo CTRL+SHIFT+Z CTRL + Y
 			if ((e.which === 90 && e.ctrlKey && e.shiftKey) || (e.ctrlKey && e.which === 89)) {
 				this.redo()
+				e.preventDefault()
+				e.stopPropagation()
 			}
 		}
 	},
 	mounted () {
-		document.addEventListener('keydown', this.onKeyPress)
-		document.getElementById('znpb-editor-iframe').contentDocument.addEventListener('keydown', this.onKeyPress)
+		const { addEventListener } = useWindows()
+		addEventListener('keydown', this.onKeyPress, true)
 	},
-	beforeUnmount () {
-		document.removeEventListener('keydown', this.onKeyPress)
-		document.getElementById('znpb-editor-iframe').contentDocument.removeEventListener('keydown', this.onKeyPress)
+	unmounted () {
+		const { removeEventListener } = useWindows()
+		removeEventListener('keydown', this.onKeyPress, true)
+
 		// remove events
 		off('change-tab-styling', this.changeTab)
 	}

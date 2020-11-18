@@ -24,9 +24,9 @@ export const useWindows = () => {
 		delete windows[id]
 	}
 
-	const removeEventListener = (type: string, callback) => {
+	const removeEventListener = (type: string, callback, options) => {
 		each(windows, doc => {
-			doc.removeEventListener(type, callback)
+			doc.removeEventListener(type, callback, options)
 		})
 	}
 

@@ -6,6 +6,7 @@ import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import Cache from '../Cache'
+import { usePanels } from './usePanels'
 
 const historyItems: Ref = ref([])
 const currentHistoryIndex: Ref = ref(-1)
@@ -19,30 +20,16 @@ export function useHistory() {
 	})
 
 	function undo () {
-
+		if (currentHistoryIndex.value - 1 >= 0) {
+			currentHistoryIndex.value = currentHistoryIndex.value - 1
+			restoreHistoryState(currentHistoryIndex.value)
+		}
 	}
 
 	function redo() {
-
-	}
-
-	function getDataForSave() {
-		const { getTemplatePart } = useTemplateParts()
-		const contentTemplatePart = getTemplatePart('content')
-		const { pageSettings } = usePageSettings()
-		const { CSSClasses } = useCSSClasses()
-		const { editorData } = useEditorData()
-
-		if (!contentTemplatePart) {
-			console.error('Content template data not found.')
-			return
-		}
-
-		return {
-			page_id: editorData.value.page_id,
-			template_data: contentTemplatePart.toJSON(),
-			page_settings: pageSettings.value,
-			css_classes: CSSClasses.value
+		if (currentHistoryIndex.value + 1 <= historyItems.value.length - 1) {
+			currentHistoryIndex.value = currentHistoryIndex.value +1
+			restoreHistoryState(currentHistoryIndex.value)
 		}
 	}
 
@@ -90,11 +77,36 @@ export function useHistory() {
 		})
 
 		currentHistoryIndex.value = index
+
+		// Close element options panel
+		const { closePanel } = usePanels()
+		closePanel('PanelElementOptions')
 	}
 
 	function addInitialHistory() {
 		addToHistory( translate('initial_state') )
 	}
+
+	function getDataForSave() {
+		const { getTemplatePart } = useTemplateParts()
+		const contentTemplatePart = getTemplatePart('content')
+		const { pageSettings } = usePageSettings()
+		const { CSSClasses } = useCSSClasses()
+		const { editorData } = useEditorData()
+
+		if (!contentTemplatePart) {
+			console.error('Content template data not found.')
+			return
+		}
+
+		return {
+			page_id: editorData.value.page_id,
+			template_data: contentTemplatePart.toJSON(),
+			page_settings: pageSettings.value,
+			css_classes: CSSClasses.value
+		}
+	}
+
 
 	return {
 		historyItems,

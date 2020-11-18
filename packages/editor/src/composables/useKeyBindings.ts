@@ -1,5 +1,5 @@
 import { debounce } from 'lodash-es'
-import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions } from '@composables'
+import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory } from '@composables'
 
 export const useKeyBindings = () => {
 	const { openPanels, togglePanel } = usePanels()
@@ -7,18 +7,6 @@ export const useKeyBindings = () => {
 	const { savePage, isSavePageLoading } = useSavePage()
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
 	const { editorData } = useEditorData()
-
-	const debounceUndo = debounce(function () {
-		if (this.canUndo) {
-			this.undo()
-		}
-	})
-
-	const debounceRedo = debounce(function () {
-		if (this.canRedo) {
-			this.redo()
-		}
-	})
 
 	const getNextFocusedElement = (element) => {
 		const parentContent = element.parent.content
@@ -133,10 +121,10 @@ export const useKeyBindings = () => {
 		}
 
 		// Undo CTRL+Z
-		const isPanelElementOptionsOpen = openPanels.value.filter(panel => panel.isActive)
-		if (!isPanelElementOptionsOpen) {
-			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
-				debounceUndo()
+		if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
+			const { canUndo, undo } = useHistory()
+			if (canUndo.value) {
+				undo()
 			}
 		}
 
@@ -147,12 +135,15 @@ export const useKeyBindings = () => {
 				'_blank'
 			)
 		}
+
 		// Redo CTRL+SHIFT+Z CTRL + Y
-		if (!isPanelElementOptionsOpen) {
-			if ((e.which === 90 && e.ctrlKey && e.shiftKey) || (e.ctrlKey && e.which === 89)) {
-				debounceRedo()
+		if ((e.which === 90 && e.ctrlKey && e.shiftKey) || (e.ctrlKey && e.which === 89)) {
+			const { canRedo, redo } = useHistory()
+			if (canRedo.value) {
+				redo()
 			}
 		}
+
 
 		// Toggle treeView panel
 		if (e.shiftKey && e.code === 'KeyT') {
