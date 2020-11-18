@@ -18,6 +18,7 @@ export function useSavePage () {
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
 		const { editorData } = useEditorData()
+		const pageID = editorData.value.page_id
 
 		if (!contentTemplatePart) {
 			console.error('Content template data not found.')
@@ -50,11 +51,11 @@ export function useSavePage () {
 						type: 'success'
 					})
 				}
-
+				Cache.deleteItem(pageID)
 				return Promise.resolve(response)
 			})
 			.catch(error => {
-				Cache.saveItem(pageID, pageContent)
+				Cache.saveItem(pageID, pageData)
 
 				add({
 					message: error.message,

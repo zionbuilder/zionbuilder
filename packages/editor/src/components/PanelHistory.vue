@@ -54,9 +54,11 @@
 </template>
 
 <script>
-import BasePanel from './BasePanel.vue'
-import { mapGetters, mapActions } from 'vuex'
 import { useHistory } from '@composables'
+
+// Components
+import BasePanel from './BasePanel.vue'
+
 export default {
 	name: 'panel-history',
 	data: () => {
@@ -69,25 +71,19 @@ export default {
 		panel: {}
 	},
 	setup (props) {
-		const { canUndo, canRedo, currentHistoryIndex, historyItems } = useHistory()
+		const { canUndo, canRedo, currentHistoryIndex, historyItems, restoreHistoryState, undo, redo } = useHistory()
+
 		return {
 			canUndo,
 			canRedo,
 			currentHistoryIndex,
-			historyItems
+			historyItems,
+			restoreHistoryState,
+			undo,
+			redo
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getActiveAreaContent',
-		])
-	},
 	methods: {
-		...mapActions([
-			'restoreHistoryState',
-			'undo',
-			'redo'
-		]),
 		doUndo () {
 			if (this.canUndo) {
 				this.undo()

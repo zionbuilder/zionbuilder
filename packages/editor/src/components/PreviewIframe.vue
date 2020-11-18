@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import Cache from '../Cache.ts'
 import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
@@ -56,7 +55,8 @@ import {
 	useSavePage,
 	useEditorData,
 	useEditorInteractions,
-	useWindows
+	useWindows,
+	useHistory
 } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
@@ -128,18 +128,29 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'setPageAreas',
-			'setPageContent',
-			'setInitialHistory',
-			'setActiveArea'
-		]),
+		setPageContent(areas) {
+			const { registerTemplatePart } = useTemplateParts()
+
+			// New system
+			each(areas, (value, id) => {
+				const area = registerTemplatePart({
+					name: id,
+					id: id
+				})
+
+				area.element.addChildren(value)
+			})
+
+			// Add to history
+			const { addInitialHistory } = useHistory()
+			addInitialHistory()
+		},
 		useLocalVersion () {
-			if (Object.keys(this.localStoragePageData).length) {
-				this.setPageAreas(this.localStoragePageData.pageContent.contentRoot)
-				this.setPageContent(this.localStoragePageData.pageContent)
-				this.setActiveArea('content')
-				this.setInitialHistory(this.$translate('initial_state'))
+			if (Object.keys(this.localStoragePageData.template_data).length) {
+				const content = {
+					content: this.localStoragePageData.template_data
+				}
+				this.setPageContent(content)
 			}
 			this.showRecoverModal = false
 		},
@@ -161,24 +172,7 @@ export default {
 				}
 
 				// Set preview data
-				const areaConfig = this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content
-				let pageContentElements = {}
-				let pageContentAreas = {}
-
-				const { registerTemplatePart, templateParts } = useTemplateParts()
-
-				// New system
-				each(areaConfig, (value, id) => {
-					const area = registerTemplatePart({
-						name: id,
-						id: id
-					})
-
-					area.element.addChildren(value)
-				})
-
-				// TODO: implement history
-				// this.setInitialHistory(this.$translate('initial_state'))
+				this.setPageContent(this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content)
 
 				// Hide recover modal
 				this.showRecoverModal = false

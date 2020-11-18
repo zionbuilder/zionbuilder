@@ -6,6 +6,7 @@ import { useElementTypes } from '../useElementTypes'
 import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
 import { useEditElement } from '../useEditElement'
+import { useHistory } from '../useHistory'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -82,6 +83,10 @@ export class Element {
 	}
 
 	set name(newName) {
+		// Add to history
+		const { addToHistory } = useHistory()
+		addToHistory(`Renamed ${this.name} to ${newName}`)
+
 		update(this.options, '_advanced_options._element_name', () => newName)
 	}
 
@@ -91,6 +96,11 @@ export class Element {
 	}
 
 	set isVisible(visbility) {
+		// Add to history
+		const { addToHistory } = useHistory()
+		const visibilityText = visbility ? 'visible' : 'hidden'
+		addToHistory(`Set ${this.name} visibility to ${visibilityText}`)
+
 		update(this.options, '_isVisible', () => visbility)
 	}
 
@@ -98,12 +108,12 @@ export class Element {
 		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
-	rename() {
+	rename () {
 		this.activeElementRename = true
 	}
 
 	toggleVisibility() {
-		update(this.options, '_isVisible', () => !this.isVisible)
+		this.isVisible = !this.isVisible
 	}
 
 	focus() {
@@ -164,10 +174,13 @@ export class Element {
 	 * for it and all it's nested elements
 	 */
 	duplicate() {
+		const { addToHistory } = useHistory()
 		const indexInParent = this.parent.content.indexOf(this.uid)
 		const elementAsJSON = this.getClone()
 
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
+
+		addToHistory(`Duplicated ${this.name}`)
 	}
 
 	/**
@@ -185,6 +198,11 @@ export class Element {
 		}
 
 		unregisterElement(this.uid)
+
+		// Add to history
+		const { addToHistory } = useHistory()
+		addToHistory(`Deleted ${this.name}`)
+
 	}
 
 	deleteChild(child: string | Element) {
