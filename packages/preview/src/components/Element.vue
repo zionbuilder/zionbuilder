@@ -182,7 +182,8 @@ export default {
 		// Get the element component
 		fetchElementComponent()
 
-		function getAttributesForTag(tagID, extraArgs = {}) {
+		function getAttributesForTag(tagID, extraArgs = {}, index = null) {
+			tagID = index !== null ? `${tagID}${index}` : tagID
 			return Object.assign(renderAttributes.value[tagID] || {}, extraArgs)
 		}
 

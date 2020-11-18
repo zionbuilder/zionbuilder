@@ -2,37 +2,34 @@
 	<ul :class="{ 'znpb-progressBars--resetAnimation': resetAnimation}">
 		<slot name="start" />
 
-		<RenderTagGroup
-			tag-id="single-bar"
-			:repeater-value="bars"
+		<li
+			v-for="(item, index) in bars"
+			:key="index"
+			class="zb-el-progressBars__singleBar"
+			:class="[`zb-el-progressBars__bar--${index}`]"
+			v-bind="api.getAttributesForTag('single-bar', {}, index)"
 		>
-			<template v-slot:item="{ item, index }">
-				<li
-					class="zb-el-progressBars__singleBar"
-					:class="[`zb-el-progressBars__bar--${index}`]"
+			<h5
+				v-if="item.title"
+				class="zb-el-progressBars__barTitle"
+				v-bind="api.getAttributesForTag('title_styles-bar')"
+			>
+				{{item.title}}
+			</h5>
+
+			<span class="zb-el-progressBars__barTrack">
+				<span
+					class="zb-el-progressBars__barProgress"
+					:data-width="item.fill_percentage !== undefined ? item.fill_percentage : 50"
 				>
-					<h5
-						v-if="item.title"
-						class="zb-el-progressBars__barTitle"
-						:class="api.getStyleClasses('title_styles')"
-					>
-						{{item.title}}
-					</h5>
-					<span class="zb-el-progressBars__barTrack">
+				</span>
 
-						<span
-							class="zb-el-progressBars__barProgress"
-							:data-width="item.fill_percentage !== undefined ? item.fill_percentage : 50"
-						>
-						</span>
+			</span>
 
-					</span>
-
-				</li>
-			</template>
-		</RenderTagGroup>
+		</li>
 
 		<slot name="end" />
+
 	</ul>
 </template>
 

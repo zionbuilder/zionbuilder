@@ -10,17 +10,13 @@ const appContext = editorApp._context
 import { InlineEditor } from './components/InlineEditor'
 import Element from './components/Element.vue'
 import SortableContent from './components/SortableContent.vue'
-import RenderTag from './components/RenderTag.vue'
-import RenderTagGroup from './components/RenderTagGroup.vue'
 import RenderValue from './components/RenderValue.vue'
 import ElementIcon from './components/ElementIcon.vue'
 
 editorApp.component('Element', Element)
 editorApp.component('InlineEditor', InlineEditor)
 editorApp.component('SortableContent', SortableContent)
-editorApp.component('RenderTag', RenderTag)
 editorApp.component('RenderValue', RenderValue)
-editorApp.component('RenderTagGroup', RenderTagGroup)
 editorApp.component('ElementIcon', ElementIcon)
 
 vNode.appContext = appContext

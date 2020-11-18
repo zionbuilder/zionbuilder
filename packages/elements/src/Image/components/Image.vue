@@ -2,35 +2,21 @@
 	<div>
 		<slot name="start" />
 
-		<RenderTag
-			tag-id="link"
+		<a
 			v-if="hasLink"
-		>
-			<a
-				v-bind="extraAttributes"
-			>
-				<RenderTag
-					tag-id="image"
-				>
-					<img
-						:src="imageSrc"
-					/>
-
-				</RenderTag>
-			</a>
-
-		</RenderTag>
-
-		<RenderTag
-			tag-id="image"
-			v-else
+			v-bind="api.getAttributesForTag('link', extraAttributes)"
 		>
 			<img
+				v-bind="api.getAttributesForTag('image')"
 				:src="imageSrc"
 			/>
+		</a>
 
-		</RenderTag>
-
+		<img
+			v-else
+			v-bind="api.getAttributesForTag('image', extraAttributes)"
+			:src="imageSrc"
+		/>
 		<div
 			class="zb-el-zionImage-caption"
 			v-if="options.show_caption"
@@ -45,7 +31,7 @@
 <script>
 export default {
 	name: 'zion_image',
-	props: ['data', 'options', 'api'],
+	props: ['element', 'options', 'api'],
 	computed: {
 		imageSrc () {
 			return (this.options.image || {}).image

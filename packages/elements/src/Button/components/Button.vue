@@ -16,7 +16,7 @@
 			<ElementIcon
 				v-if="options.icon"
 				class="zb-el-button__icon"
-				v-bind="api.getAttributesForTag('icon_styles', getButtonAttributes)"
+				v-bind="api.getAttributesForTag('icon_styles')"
 				:iconConfig="iconConfig"
 			/>
 
