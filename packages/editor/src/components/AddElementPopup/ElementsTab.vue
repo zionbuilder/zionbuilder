@@ -35,7 +35,7 @@
 </template>
 <script>
 import { ref, computed, onMounted } from 'vue'
-import { useElementTypes, useElementTypeCategories, useAddElementsPopup } from '@composables'
+import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory } from '@composables'
 import { on, off } from '@zb/hooks'
 
 // Components
@@ -114,8 +114,13 @@ export default {
 			}
 
 			insertElement(config)
-			hideAddElementsPopup()
 
+			const { getElementType } = useElementTypes()
+			const { addToHistory } = useHistory()
+			const elementType = getElementType(config.element_type)
+			addToHistory(`Added ${elementType.name}`)
+
+			hideAddElementsPopup()
 		}
 
 		// Lifecycle

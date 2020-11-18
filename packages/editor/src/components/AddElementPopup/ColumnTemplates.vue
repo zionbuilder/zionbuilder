@@ -56,7 +56,7 @@ import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick } from
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels, useAddElementsPopup, useWindows } from '@composables'
+import { usePanels, useAddElementsPopup, useWindows, useHistory } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -176,6 +176,9 @@ export default {
 
 			// If it's a wrapper, it means that it can have childs
 			insertElement(config)
+
+			const { addToHistory } = useHistory()
+			addToHistory(`Added Columns Layout`)
 
 			// Send close event
 			emit('close')

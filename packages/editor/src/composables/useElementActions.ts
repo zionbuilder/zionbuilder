@@ -13,8 +13,9 @@ const copiedElementStyles: Ref<null | object> = ref(null)
 const focusedElement: Ref<null | Element> = ref(null)
 
 // Preserve focused element on history change
-const { currentHistoryIndex } = useHistory()
+const { currentHistoryIndex, addToHistory } = useHistory()
 const { getElement } = useElements()
+
 watch(currentHistoryIndex, (newValue) => {
 	if (focusedElement.value !== null) {
 		focusedElement.value = getElement(focusedElement.value.uid)
@@ -45,6 +46,7 @@ export function useElementActions() {
 
 		if (copiedElement.value.action === 'copy') {
 			insertElement.addChild(copiedElement.value.element.getClone(), index)
+			addToHistory(`Copied ${copiedElement.value.element.name}`)
 		} else if (copiedElement.value.action === 'cut') {
 			if (copiedElement.value.element === element) {
 				copiedElement.value.element.isCutted = false
@@ -52,6 +54,7 @@ export function useElementActions() {
 			} else {
 				copiedElement.value.element.isCutted = false
 				copiedElement.value.element.move(insertElement, index)
+				addToHistory(`Moved ${copiedElement.value.element.name}`)
 			}
 
 			copiedElement.value = {}
