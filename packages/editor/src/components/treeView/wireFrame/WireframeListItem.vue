@@ -262,6 +262,7 @@ export default {
 			&--center {
 				justify-content: center;
 				align-items: center;
+				overflow: hidden;
 
 				.znpb-utility__text--elipse {
 					&:after {
@@ -294,8 +295,8 @@ export default {
 
 		&-title {
 			overflow: hidden;
-			width: auto;
-			max-width: 75px;
+			width: 100%;
+			padding: 0;
 			color: $surface;
 			font-weight: 500;
 			text-overflow: ellipsis;
