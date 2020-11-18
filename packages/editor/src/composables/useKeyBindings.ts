@@ -1,8 +1,7 @@
-import { debounce } from 'lodash-es'
 import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory } from '@composables'
 
 export const useKeyBindings = () => {
-	const { openPanels, togglePanel } = usePanels()
+	const { togglePanel } = usePanels()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
@@ -10,7 +9,7 @@ export const useKeyBindings = () => {
 
 	const getNextFocusedElement = (element) => {
 		const parentContent = element.parent.content
-		const elementIndex = parentContent.indexOf(element.uid)
+		const elementIndex = parentContent.indexOf(element)
 		const previousElement = parentContent[elementIndex - 1]
 		const nextElement = parentContent[elementIndex + 1]
 
@@ -94,6 +93,7 @@ export const useKeyBindings = () => {
 			// Delete element
 			if (e.which === 46) {
 				const nextFocusElement = getNextFocusedElement(activeElementFocus)
+
 				activeElementFocus.delete()
 				focusElement(nextFocusElement)
 			}

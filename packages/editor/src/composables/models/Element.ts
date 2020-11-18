@@ -1,7 +1,6 @@
-import { computed, ComputedRef, watch } from 'vue'
 import { generateUID } from '@zb/utils'
 import { regenerateUIDs } from '@utils'
-import { each, update, get } from 'lodash-es'
+import { each, update, get, set, isPlainObject } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { useElementActions } from '../useElementActions'
@@ -15,7 +14,7 @@ const { getElementType } = useElementTypes()
 export class Element {
 	// Element data for DB
 	public element_type: string = ''
-	public content: string[] = []
+	public content: Element[] = []
 	public uid: string = ''
 	// Make it ref so we can watch it
 	public options: { [key: string]: any } = {}
@@ -27,27 +26,11 @@ export class Element {
 	public scrollTo: boolean = false
 	public isCutted: boolean = false
 	public widgetID: string = ''
-	public contentRef
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
 		this.renderAttributes = new RenderAttributes()
 		this.parentUid = parentUid
-
-		const { currentHistoryIndex } = useHistory()
-		let that = this
-		this.contentRef = computed({
-			get () {
-				const index = currentHistoryIndex.value
-				return that.content.map(elementUID => {
-					return getElement(elementUID)
-				})
-			},
-			set (newValue) {
-				that.content = newValue.map(element => element.uid)
-			}
-		})
-
 	}
 
 	setElementData (data) {
@@ -58,8 +41,7 @@ export class Element {
 			element_type,
 			widget_id: widgetID
 		} = data
-
-		this.options = options
+		this.options = isPlainObject(options) ? options : {}
 		this.uid = uid
 		this.element_type = element_type
 
@@ -103,7 +85,8 @@ export class Element {
 
 	set name(newName) {
 		const oldName = this.name
-		update(this.options, '_advanced_options._element_name', () => newName)
+		this.updateOptionValue('_advanced_options._element_name', newName)
+		// set(this.options, '_advanced_options._element_name', newName)
 
 		// Add to history
 		const { addToHistory } = useHistory()
@@ -166,7 +149,7 @@ export class Element {
 		// Set the parent
 		index = index === -1 ? this.content.length : index
 		elementInstance.parentUid = this.uid
-		this.content.splice(index, 0, uid)
+		this.content.splice(index, 0, elementInstance)
 	}
 
 	addChildren(elements, index = -1) {
@@ -176,16 +159,16 @@ export class Element {
 	}
 
 	getIndexInParent() {
-		return this.parent.content.indexOf(this.uid)
+		return this.parent.content.indexOf(this)
 	}
 
-	removeChild(elementUID: string) {
-		const index = this.content.indexOf(elementUID)
+	removeChild(element) {
+		const index = this.content.indexOf(element)
 		this.content.splice(index, 1)
 	}
 
 	move(newParent: Element, index = -1) {
-		this.parent.removeChild(this.uid)
+		this.parent.removeChild(this)
 		const element = getElement(this.uid)
 		newParent.addChild(element, index)
 	}
@@ -195,12 +178,12 @@ export class Element {
 	 * for it and all it's nested elements
 	 */
 	duplicate() {
-		const { addToHistory } = useHistory()
-		const indexInParent = this.parent.content.indexOf(this.uid)
+		const indexInParent = this.parent.content.indexOf(this)
 		const elementAsJSON = this.getClone()
 
 		this.parent.addChild(elementAsJSON, indexInParent + 1)
 
+		const { addToHistory } = useHistory()
 		addToHistory(`Duplicated ${this.name}`)
 	}
 
@@ -215,7 +198,7 @@ export class Element {
 				unEditElement()
 			}
 
-			this.parent.removeChild(this.uid)
+			this.parent.removeChild(this)
 		}
 
 		unregisterElement(this.uid)
@@ -223,7 +206,6 @@ export class Element {
 		// Add to history
 		const { addToHistory } = useHistory()
 		addToHistory(`Deleted ${this.name}`)
-
 	}
 
 	deleteChild(child: string | Element) {
@@ -242,9 +224,7 @@ export class Element {
 	}
 
 	toJSON(): { [key: string]: any } {
-		const content = this.content.map(elementUID => {
-			const element = getElement(elementUID)
-
+		const content = this.content.map(element => {
 			return element.toJSON()
 		})
 

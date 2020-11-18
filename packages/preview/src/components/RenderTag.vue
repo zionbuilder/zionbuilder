@@ -31,7 +31,7 @@ export default {
 			return () => clonedNode
 		}
 
-		return () => childSlot
+		return () => slots.default()
 
 	}
 }

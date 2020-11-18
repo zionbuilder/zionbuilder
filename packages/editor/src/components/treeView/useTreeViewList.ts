@@ -12,12 +12,10 @@ export function useTreeViewList(props: Object) {
 
 	const templateItems = computed({
 		get() {
-			return props.element.content.map(elementUID => {
-				return getElement(elementUID)
-			})
+			return props.element.content
 		},
 		set(value) {
-			props.element.content = value.map(element => element.uid)
+			props.element.content = value
 		}
 	})
 

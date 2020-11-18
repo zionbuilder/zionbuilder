@@ -35,8 +35,8 @@ export default {
 			}
 
 			if (element.content) {
-				element.content.forEach((childUid) => {
-					children.children.push(getChildren(getElement(childUid)))
+				element.content.forEach((childElement) => {
+					children.children.push(getChildren(childElement))
 				})
 			}
 

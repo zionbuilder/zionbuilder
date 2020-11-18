@@ -1,7 +1,7 @@
 <template>
 	<SortableContent
 		class="zb-column"
-		:element="data"
+		:element="element"
 		:tag="htmlTag"
 	>
 
@@ -37,7 +37,7 @@
 <script>
 export default {
 	name: 'zion_column',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'api', 'element'],
 	computed: {
 		htmlTag () {
 			return this.options.tag || 'div'
