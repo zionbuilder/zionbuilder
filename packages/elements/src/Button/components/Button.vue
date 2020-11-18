@@ -4,33 +4,30 @@
 		}">
 		<slot name="start" />
 
-		<RenderTag
-			tag-id="button"
+		<component
+			:is="getTag"
+			v-bind="api.getAttributesForTag('button', getButtonAttributes)"
+			ref="button"
+			class="zb-el-button"
+			:class="{
+				['zb-el-button--has-icon']: options.icon
+			}"
 		>
-			<component
-				:is="getTag"
-				v-bind="getButtonAttributes"
-				ref="button"
-				class="zb-el-button"
-				:class="api.getStyleClasses('button_styles', {
-					['zb-el-button--has-icon']: options.icon
-				})"
-			>
-				<ElementIcon
-					v-if="options.icon"
-					class="zb-el-button__icon"
-					:class="api.getStyleClasses('icon_styles')"
-					:iconConfig="iconConfig"
-				/>
+			<ElementIcon
+				v-if="options.icon"
+				class="zb-el-button__icon"
+				v-bind="api.getAttributesForTag('icon_styles', getButtonAttributes)"
+				:iconConfig="iconConfig"
+			/>
 
-				<span
-					v-if="options.button_text"
-					class="zb-el-button__text"
-				>
-					{{options.button_text}}
-				</span>
-			</component>
-		</RenderTag>
+			<span
+				v-if="options.button_text"
+				class="zb-el-button__text"
+			>
+				{{options.button_text}}
+			</span>
+		</component>
+
 		<slot name="end" />
 	</div>
 </template>
@@ -38,7 +35,7 @@
 <script>
 export default {
 	name: 'zion_button',
-	props: ['options', 'data', 'api'],
+	props: ['options', 'api', 'element'],
 	computed: {
 		iconConfig () {
 			return this.options.icon

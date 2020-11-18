@@ -23,14 +23,14 @@
 			position="bottom"
 		/>
 
-		<RenderTag tag-id="inner_content">
-			<SortableContent
-				:element="element"
-				class="zb-section__innerWrapper"
-			></SortableContent>
-		</RenderTag>
+		<SortableContent
+			v-bind="api.getAttributesForTag('inner_content')"
+			:element="element"
+			class="zb-section__innerWrapper"
+		></SortableContent>
 
 		<slot name="end" />
+
 	</component>
 </template>
 

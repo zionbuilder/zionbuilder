@@ -77,8 +77,8 @@ class Preview {
 		add_filter( 'body_class', [ $this, 'add_body_class' ] );
 
 		// Load preview scripts. We use a high order so we can create a list of other loaded scripts
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 999 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 999 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
 		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}

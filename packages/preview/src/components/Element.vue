@@ -8,7 +8,6 @@
 		:class="{'znpb-element__wrapper--panel-hovered': element.isHighlighted}"
 		:id="`${element.elementCssId}`"
 		:element="element"
-		:data="element"
 		:options="options"
 		@mouseenter="showToolbox = true"
 		@mouseleave="onMouseLeave"
@@ -174,13 +173,18 @@ export default {
 				...wrapperAttributes,
 				class: classes,
 				api: {
-					getStyleClasses
+					getStyleClasses,
+					getAttributesForTag
 				}
 			}
 		})
 
 		// Get the element component
 		fetchElementComponent()
+
+		function getAttributesForTag(tagID, extraArgs = {}) {
+			return Object.assign(renderAttributes.value[tagID] || {}, extraArgs)
+		}
 
 		/**
 		 * On context menu open
