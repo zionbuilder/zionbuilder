@@ -1,3 +1,4 @@
+import { computed, ComputedRef, watch } from 'vue'
 import { generateUID } from '@zb/utils'
 import { regenerateUIDs } from '@utils'
 import { each, update, get } from 'lodash-es'
@@ -26,11 +27,27 @@ export class Element {
 	public scrollTo: boolean = false
 	public isCutted: boolean = false
 	public widgetID: string = ''
+	public contentRef
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
 		this.renderAttributes = new RenderAttributes()
 		this.parentUid = parentUid
+
+		const { currentHistoryIndex } = useHistory()
+		let that = this
+		this.contentRef = computed({
+			get () {
+				const index = currentHistoryIndex.value
+				return that.content.map(elementUID => {
+					return getElement(elementUID)
+				})
+			},
+			set (newValue) {
+				that.content = newValue.map(element => element.uid)
+			}
+		})
+
 	}
 
 	setElementData (data) {

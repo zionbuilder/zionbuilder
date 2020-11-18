@@ -17,7 +17,7 @@
 			<Element
 				v-for="(elementUid, i) in data.content"
 				:key="elementUid"
-				:uid="elementUid"
+				:element="getElement(elementUid)"
 				:class="{'zb-el-tabs-nav--active': i === 0}"
 				ref="tabs"
 			/>

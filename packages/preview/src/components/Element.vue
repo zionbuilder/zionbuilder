@@ -72,7 +72,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { useElementTypes, usePreviewMode, useElementMenu, useElementActions, useEditElement, useElements } from '@zb/editor'
+import { useElementTypes, usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 
@@ -84,15 +84,10 @@ export default {
 		ElementLoading,
 		ElementStyles
 	},
-	props: ['uid'],
+	props: ['element'],
 	setup (props) {
-		const { getElement } = useElements()
-		const element = computed(() => {
-			return getElement(props.uid)
-		})
-
 		const { isPreviewMode } = usePreviewMode()
-		const { elementComponent, fetchElementComponent } = useElementComponent(element.value)
+		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementActions()
 
 		let toolboxWatcher = null
@@ -107,9 +102,9 @@ export default {
 
 		// computed
 		const parsedData = computed(() => {
-			const schema = element.value.elementTypeModel.options || {}
-			const cssSelector = `#${element.value.elementCssId}`
-			optionsInstance = new Options(schema, element.value.options, cssSelector, {
+			const schema = props.element.elementTypeModel.options || {}
+			const cssSelector = `#${props.element.elementCssId}`
+			optionsInstance = new Options(schema, props.element.options, cssSelector, {
 				onLoadingStart: () => loading.value = true,
 				onLoadingEnd: () => loading.value = false,
 			})
@@ -121,33 +116,33 @@ export default {
 		const renderAttributes = computed(() => parsedData.value.renderAttributes)
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS
-			const elementStyleConfig = element.value.elementTypeModel.style_elements
+			const elementStyleConfig = props.element.elementTypeModel.style_elements
 
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
 					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].styles) {
 						const styleConfig = elementStyleConfig[styleId]
-						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${element.value.elementCssId}`)
+						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${props.element.elementCssId}`)
 						customCSS += getStyles(formattedSelector, options.value._styles[styleId].styles)
 					}
 				})
 			}
 
-			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, element.value)
+			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element)
 
 			return customCSS
 		})
 		const stylesConfig = computed(() => options._styles || {})
-		const canShowToolbox = computed(() => element.value.isVisible && showToolbox.value && !isPreviewMode.value && !element.value.elementTypeModel.is_child)
+		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
 		const getExtraAttributes = computed(() => {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}
-			const elementClass = camelCase(element.value.element_type)
+			const elementClass = camelCase(props.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
 				[`znpb-element__wrapper--toolbox-dragging`]: isToolboxDragging.value,
-				'znpb-element__wrapper--cutted': element.value.isCutted,
+				'znpb-element__wrapper--cutted': props.element.isCutted,
 				'znpb-element--loading': loading.value
 			}
 
@@ -196,7 +191,7 @@ export default {
 				event.stopPropagation()
 
 				const { showElementMenuFromEvent } = useElementMenu()
-				showElementMenuFromEvent(element.value, event, {
+				showElementMenuFromEvent(props.element, event, {
 					rename: false
 				})
 			}
@@ -204,7 +199,7 @@ export default {
 		}
 
 		const onElementClick = (event) => {
-			focusElement(element.value)
+			focusElement(props.element)
 		}
 
 		/**
@@ -242,7 +237,7 @@ export default {
 			return classes
 		}
 
-		provide('elementInfo', element.value)
+		provide('elementInfo', props.element)
 		provide('renderAttributes', renderAttributes)
 		provide('elementOptions', options)
 
@@ -255,7 +250,6 @@ export default {
 			getExtraAttributes,
 			// Data
 			elementComponent,
-			element,
 			isPreviewMode,
 			showElementMenu,
 			focusElement,

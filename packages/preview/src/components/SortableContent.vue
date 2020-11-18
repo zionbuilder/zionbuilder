@@ -1,6 +1,6 @@
 <template>
 	<Sortable
-		v-model="contentModel"
+		v-model="element.contentRef"
 		@start="onSortableStart"
 		@end="onSortableEnd"
 		:group="groupInfo"
@@ -14,9 +14,9 @@
 		:axis="getSortableAxis"
 	>
 		<Element
-			v-for="childElement in contentModel"
-			:key="childElement"
-			:uid="childElement"
+			v-for="childElement in element.contentRef"
+			:key="childElement.uid"
+			:element="childElement"
 		/>
 
 		<template #start>
@@ -92,7 +92,7 @@ export default {
 
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
-		const { getElement, elements } = useElements()
+		const { getElement } = useElements()
 
 		const draggedItemData = ref(null)
 		const positionRect = ref({
@@ -106,16 +106,7 @@ export default {
 		})
 
 		const sharedState = ref(sharedStateGlobal)
-
-		const contentModel = computed({
-			get () {
-				return props.element.content
-			},
-			set (value) {
-				props.element.content = value
-			}
-		})
-		const showAddElementsPopup = computed(() => contentModel.length > 0 && showColumnTemplates.value)
+		const showAddElementsPopup = computed(() => props.element.contentRef.value.length > 0 && showColumnTemplates.value)
 		const groupInfo = computed(() => props.group || defaultSortableGroup)
 		const getSortableAxis = computed(() => {
 			if (props.element.element_type === 'contentRoot') {
@@ -150,7 +141,6 @@ export default {
 
 		return {
 			isPreviewMode,
-			contentModel,
 			groupInfo,
 			getSortableAxis,
 			showAddElementsPopup,
