@@ -9,7 +9,6 @@ const copiedElement: Ref<object> = ref({
 })
 
 const copiedElementStyles: Ref<null | object> = ref(null)
-
 const focusedElement: Ref<null | Element> = ref(null)
 
 
@@ -68,8 +67,6 @@ export function useElementActions() {
 		} else {
 			merge(element.options._styles, styles)
 		}
-
-		copiedElementStyles.value = null
 	}
 
 	const focusElement = (element: Element) => {

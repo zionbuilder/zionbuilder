@@ -469,7 +469,6 @@ export default {
 			this.unEditElement()
 		},
 		onKeyPress (e) {
-			console.log('on key press');
 			// Undo CTRL+Z
 			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
 				this.undo()
