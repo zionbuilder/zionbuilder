@@ -30,7 +30,7 @@
 					<div class="znpb-admin-colors__container">
 						<ColorBox
 							type="addcolor"
-							@option-updated="addGlobalColor"
+							@option-updated="addGlobal"
 						/>
 
 						<ColorBox
@@ -54,7 +54,7 @@
 <script>
 import { computed } from 'vue'
 import { useBuilderOptions } from '@zionbuilder/composables'
-
+import { generateUID } from '@zb/utils'
 // Components
 import ColorBox from './ColorBox.vue'
 
@@ -77,6 +77,17 @@ export default {
 		const localColors = getOptionValue('local_colors')
 		const globalColors = getOptionValue('global_colors')
 
+		const colorId = generateUID()
+		function addGlobal (color) {
+			let globalColor = {
+				id: colorId,
+				color: color,
+				name: colorId
+			}
+
+			addGlobalColor(globalColor)
+		}
+
 		return {
 			isPro,
 			localColors,
@@ -85,7 +96,7 @@ export default {
 			deleteLocalColor,
 			// Global colors
 			globalColors,
-			addGlobalColor,
+			addGlobal,
 			deleteGlobalColor,
 			editGlobalColor
 		}
