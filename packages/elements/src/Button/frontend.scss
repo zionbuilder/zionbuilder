@@ -169,3 +169,40 @@ $styleprimary: #06bee1;
 		width: 100%;
 	}
 }
+@mixin generate-position() {
+	$breakpoints: (
+	lg: "991.98px",
+	md: "767.98px",
+	sm: "575.98px",
+	);
+
+
+	// Generate css for all media queries
+	@each $breakpointId, $breakpointValue in $breakpoints {
+		$suffix: "--#{$breakpointId}";
+		$pos: ('--left','--right', '--center');
+
+		@media (max-width: $breakpointValue) {
+
+			@each $posId in $pos {
+				@if ($posId  == "--center") {
+					.zb-el-zionButton#{$suffix}#{$posId}  {
+						justify-content: center;
+					}
+				}
+				@if ($posId  == "--left") {
+					.zb-el-zionButton#{$suffix}#{$posId}  {
+						justify-content: flex-start;
+					}
+				}
+				@if ($posId  == "--right") {
+					.zb-el-zionButton#{$suffix}#{$posId}  {
+						justify-content: flex-end;
+					}
+				}
+			}
+		}
+
+	}
+}
+@include generate-position();
