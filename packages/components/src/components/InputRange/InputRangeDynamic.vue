@@ -96,17 +96,6 @@ export default {
 			customUnit: false
 		}
 	},
-	watch: {
-		unit () {
-			if (this.valueUnit.value) {
-				if (parseInt(this.valueUnit.value) > this.activeOption.max) {
-					this.$emit('update:modelValue', `${this.activeOption.max}${this.getUnit}`)
-				} else if (parseInt(this.valueUnit.value) < this.activeOption.min) {
-					this.$emit('update:modelValue', `${this.activeOption.min}${this.getUnit}`)
-				}
-			}
-		}
-	},
 	computed: {
 		activeOption () {
 			return this.getActiveOption(this.valueUnit)
@@ -124,7 +113,11 @@ export default {
 			},
 			set (newValue) {
 				if (newValue.value && newValue.unit) {
-					this.computedValue = `${newValue.value}${newValue.unit}`
+					if (parseInt(newValue.value) > this.activeOption.max) {
+						this.computedValue = `${this.activeOption.max}${newValue.unit}`
+					} else if (parseInt(newValue.value) < this.activeOption.min) {
+						this.computedValue = `${this.activeOption.min}${newValue.unit}`
+					}
 				}
 			}
 		},
@@ -149,7 +142,7 @@ export default {
 				* Emit input value when range updates
 				*/
 				if (this.getUnit) {
-					this.$emit('update:modelValue', `${newValue}${this.getUnit}`)
+					this.computedValue = `${newValue}${this.getUnit}`
 				}
 			}
 		},

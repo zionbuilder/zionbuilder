@@ -232,13 +232,13 @@ class Advanced extends BaseSchema {
 				'title'       => esc_html__( 'Appear duration', 'zionbuilder' ),
 				'default'     => '1000ms',
 				'content'     => 'ms',
-				// 'dependency'  => [
-				// 	[
-				// 		'option' => '_appear_animation',
-				// 		'type'   => 'not_in',
-				// 		'value'  => [ '' ],
-				// 	],
-				// ],
+				'dependency'  => [
+					[
+						'option' => '_appear_animation',
+						'type'   => 'not_in',
+						'value'  => [ '' ],
+					],
+				],
 				'options'     => [
 					[
 						'min'        => 0,

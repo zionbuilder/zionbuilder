@@ -195,12 +195,6 @@ export default {
 			historyIndex.value++
 		}, 500)
 
-		watch(element, () => {
-			activeKeyTab.value = 'general'
-			searchActive.value = false
-		})
-
-
 		function undo () {
 			const prevState = history.value[historyIndex.value - 1]
 
@@ -224,8 +218,15 @@ export default {
 		// Set initial history
 		history.value.push(JSON.parse(JSON.stringify(elementOptions.value)))
 
+		// Change the tab when a new element is selected
+		watch(element, () => {
+			activeKeyTab.value = 'general'
+			searchActive.value = false
+		})
+
 		provideElement(element)
 		provide('elementInfo', element)
+		provide('topModelValue', elementOptions.value)
 
 		return {
 			element,

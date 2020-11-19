@@ -18,9 +18,8 @@
 
 <script>
 import { provide, inject } from 'vue'
-import { updateOptionValue, getOptionValue } from '@zb/utils'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
-import { unset } from 'lodash-es'
+import { unset, set, get } from 'lodash-es'
 
 // Components
 import OptionWrapper from './OptionWrapper.vue'
@@ -46,9 +45,10 @@ export default {
 	},
 	setup (props, { emit }) {
 		// Provide the top model value so we can check for sync options values
-		const topModelValue = inject('topModelValue', null)
+		let topModelValue = inject('topModelValue', null)
 		if (topModelValue === null) {
 			provide('topModelValue', props.modelValue)
+			topModelValue = props.modelValue
 		}
 
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
@@ -57,16 +57,15 @@ export default {
 		const elementInfo = inject('elementInfo', null)
 
 		const updateValueByPath = (path, newValue) => {
-			const updatedValues = updateOptionValue(topModelValue || props.modelValue, path, newValue)
-			emit('update:modelValue', updatedValues)
+			const updatedValues = set(topModelValue, path, newValue)
 		}
 
 		const getValueByPath = (path, defaultValue = null) => {
-			return getOptionValue(topModelValue || props.modelValue, path, defaultValue)
+			return get(topModelValue, path, defaultValue)
 		}
 
 		const deleteValueByPath = (path) => {
-			return unset(topModelValue || props.modelValue, path)
+			return unset(topModelValue, path)
 		}
 
 		const deleteValue = (path) => {
