@@ -14,10 +14,11 @@
 		<div
 			class="zb-el-tabs-content"
 		>
+
 			<Element
-				v-for="(elementUid, i) in element.content"
-				:key="elementUid"
-				:element="getElement(elementUid)"
+				v-for="(element, i) in element.content"
+				:key="element.uid"
+				:element="element"
 				:class="{'zb-el-tabs-nav--active': i === 0}"
 				ref="tabs"
 			/>

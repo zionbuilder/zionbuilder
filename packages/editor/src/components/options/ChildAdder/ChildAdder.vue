@@ -2,16 +2,16 @@
 	<div class="znpb-options-childs__wrapper">
 		<Sortable
 			class="znpb-options-childs__items-wrapper"
-			v-model="elementContent"
+			v-model="element.content"
 		>
 
 			<SingleChild
-				v-for="element in elementContent"
+				v-for="element in element.content"
 				:key="element.uid"
 				:element="element"
 				:item-option-name="item_name"
-				@delete="onElementDelete"
-				@clone="onCloneElement"
+				@delete="element.delete"
+				@clone="element.duplicate"
 			/>
 
 		</Sortable>
@@ -52,40 +52,17 @@ export default {
 	},
 	setup (props) {
 		const { injectElement } = useElementProvide()
-		const { getElement } = useElements()
 		const element = injectElement()
 
-		const elementContent = computed({
-			get () {
-				return element.value.content.map(element => getElement(element))
-			},
-			set (newValue) {
-				element.value.content = newValue.map(element => element.uid)
-			}
-		})
-
-		const addChild = () => {
+		function addChild () {
 			element.value.addChild({
 				element_type: props.child_type
 			})
 		}
 
-		const onElementDelete = (elementUid) => {
-			const element = getElement(elementUid)
-			element.delete()
-		}
-
-		const onCloneElement = (elementUid) => {
-			const element = getElement(elementUid)
-			element.duplicate()
-		}
-
 		return {
-			element,
-			elementContent,
 			addChild,
-			onElementDelete,
-			onCloneElement
+			element
 		}
 	}
 }

@@ -108,7 +108,7 @@ export default {
 				child_options: getSchema('element_advanced')
 			}
 		}
-
+console.log(props.element);
 		const elementOptionsSchema = Object.assign({}, props.element.elementTypeModel.options || {}, advancedSchema)
 
 		// computed
