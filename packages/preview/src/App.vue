@@ -47,7 +47,7 @@ export default {
  		// provide masks for ShapeDividerComponent option
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)
-
+		provide('editor_urls', editorData.value.urls)
 		// Add event listener to cleanup
 		window.addEventListener('beforeunload', () => {
 			removeWindow('preview')
