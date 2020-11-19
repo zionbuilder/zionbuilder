@@ -1,7 +1,5 @@
 <template>
-	<div :class="{
-			[`zb-el-zionButton--${options.button_position}`]: options.button_position
-		}">
+	<div >
 		<slot name="start" />
 
 		<component

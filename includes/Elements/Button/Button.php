@@ -266,10 +266,18 @@ class Button extends Element {
 						'icon' => 'align--right',
 					],
 				],
+				'responsive_options' => true,
 				'dependency'  => [
 					[
 						'option' => 'full_width',
 						'value'  => [ false ],
+					],
+				],
+				'render_attribute'   => [
+					[
+						'tag_id'    => 'wrapper',
+						'attribute' => 'class',
+						'value'     => 'zb-el-zionButton{{RESPONSIVE_DEVICE_CSS}}--{{VALUE}}',
 					],
 				],
 			]
@@ -363,21 +371,6 @@ class Button extends Element {
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Button/frontend.css' ) );
-	}
-
-	/**
-	 * Sets wrapper css classes
-	 *
-	 * @param \ZionBuilder\Options\Options $options
-	 *
-	 * @return void
-	 */
-	public function before_render( $options ) {
-		$button_position = $options->get_value( 'button_position' );
-
-		if ( $button_position ) {
-			$this->render_attributes->add( 'wrapper', 'class', sprintf( 'zb-el-zionButton--%s', $button_position ) );
-		}
 	}
 
 	/**
