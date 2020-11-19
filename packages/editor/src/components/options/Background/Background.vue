@@ -82,7 +82,7 @@ export default {
 			}
 		})
 
-		const canShowBackground = computed(() => activeResponsiveDeviceInfo.id === 'default' && activePseudoSelector.value.id === 'default')
+		const canShowBackground = computed(() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default')
 
 		return {
 			activeResponsiveDeviceInfo,

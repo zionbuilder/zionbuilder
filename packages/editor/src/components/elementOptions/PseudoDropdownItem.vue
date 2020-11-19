@@ -13,7 +13,7 @@
 			>
 				<Icon
 					icon="delete"
-					@click="$emit('delete-selector', selector.id)"
+					@click.stop="onDeleteSelector"
 				></Icon>
 			</Tooltip>
 			<ChangesBullet
@@ -67,6 +67,10 @@ export default {
 		}
 	},
 	methods: {
+		onDeleteSelector (selector) {
+			this.$emit('delete-selector', selector.id)
+			this.$emit('selector-selected', null)
+		},
 		onSelectorSelected () {
 			if (this.selector.active) {
 				this.$emit('selector-selected', this.selector)
