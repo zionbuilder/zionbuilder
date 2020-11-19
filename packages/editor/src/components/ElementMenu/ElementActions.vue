@@ -82,16 +82,16 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="copyElementClasses"
-			v-if="element && element.options._classes"
+			@click="copyElementClasses(this.element)"
+			v-if="computedHasElementClasses"
 		>
 			<Icon icon="braces"></Icon>
 			{{$translate('copy_classes')}}
 		</li>
 		<li
-			v-if="getCopiedClasses"
+			v-if="copiedElementClasses"
 			class="znpb-right-click__menu-item"
-			@click="pasteElementClasses"
+			@click="pasteElementClasses(this.element)"
 		>
 			<Icon icon="braces"></Icon>
 			{{$translate('paste_classes')}}
@@ -125,7 +125,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { computed } from 'vue'
+import { get } from 'lodash-es'
 import { trigger } from '@zb/hooks'
 import {
 	useSavePage,
@@ -152,12 +153,28 @@ export default {
 
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
-		const { focusedElement, copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, copiedElementStyles } = useElementActions()
+		const {
+			focusedElement,
+			copyElement,
+			pasteElement,
+			copiedElement,
+			resetCopiedElement,
+			copyElementStyles,
+			pasteElementStyles,
+			copiedElementStyles,
+			copyElementClasses,
+			pasteElementClasses,
+			copiedElementClasses
+		} = useElementActions()
 
 		const actions = {
 			rename: true,
 			...props.actions
 		}
+
+		const computedHasElementClasses = computed(() => {
+			return get(props.element.options, '_styles.wrapper.classes')
+		})
 
 		return {
 			copyElementStyles,
@@ -171,32 +188,14 @@ export default {
 			pasteElement,
 			copiedElement,
 			resetCopiedElement,
-			actions
+			actions,
+			copyElementClasses,
+			computedHasElementClasses,
+			copiedElementClasses,
+			pasteElementClasses
 		}
 	},
-	computed: {
-		...mapGetters([
-			'getCopiedClasses'
-		])
-	},
 	methods: {
-		...mapActions([
-			'setCopiedClasses',
-		]),
-		copyElementClasses () {
-			const elementClasses = this.element.options._classes
-			this.setCopiedClasses(elementClasses)
-			this.copy()
-		},
-		pasteElementClasses () {
-			if (this.getCopiedClasses) {
-				this.element.options = {
-					...this.element.options,
-					_classes: this.getCopiedClasses
-				}
-			}
-			this.close()
-		},
 		discardElementStyles () {
 			this.element.options = {
 				...this.element.options,

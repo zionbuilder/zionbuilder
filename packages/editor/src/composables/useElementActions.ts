@@ -1,5 +1,5 @@
 import { ref, Ref, watch } from 'vue'
-import { cloneDeep, merge } from 'lodash-es'
+import { cloneDeep, merge, get } from 'lodash-es'
 import { Element } from './models/Element'
 import { useElements } from './useElements'
 import { useHistory } from './useHistory'
@@ -11,6 +11,7 @@ const copiedElement: Ref<object> = ref({
 
 const copiedElementStyles: Ref<null | object> = ref(null)
 const focusedElement: Ref<null | Element> = ref(null)
+const copiedElementClasses: Ref<null | object> = ref(null)
 
 // Preserve focused element on history change
 const { currentHistoryIndex, addToHistory } = useHistory()
@@ -99,6 +100,21 @@ export function useElementActions() {
 		return element === focusedElement.value
 	}
 
+	const copyElementClasses = (element: Element) => {
+		copiedElementClasses.value = cloneDeep(get(element.options, '_styles.wrapper.classes', null))
+	}
+
+	const pasteElementClasses = (element) => {
+		merge(element.options, {
+			_styles: {
+				wrapper: {
+					classes: copiedElementClasses.value
+				}
+			}
+		})
+
+	}
+
 	return {
 		copyElement,
 		pasteElement,
@@ -110,6 +126,10 @@ export function useElementActions() {
 		focusElement,
 		unFocusElement,
 		isElementFocused,
-		focusedElement
+		focusedElement,
+		// Copy element classes
+		copiedElementClasses,
+		copyElementClasses,
+		pasteElementClasses
 	}
 }

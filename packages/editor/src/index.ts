@@ -1,6 +1,5 @@
 require('./scss/index.scss')
 import { createApp } from 'vue'
-import { store } from './store/'
 
 // Main
 import * as hooks from '@zb/hooks'
@@ -50,7 +49,6 @@ const appInstance = createApp(App)
 // Init global components
 appInstance.use(L18NInstall, window.ZnI18NStrings)
 appInstance.use(ComponentsInstall)
-appInstance.use(store)
 
 // Add error interceptor for API
 errorInterceptor(useNotifications())

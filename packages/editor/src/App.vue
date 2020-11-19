@@ -136,7 +136,6 @@ import MainPanel from './components/main-panel.vue'
 import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
-import { mapActions } from 'vuex'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
@@ -214,14 +213,6 @@ export default {
 		panelPreviewTransition: function () {
 			return `znpb-main-panel--out--position-${this.getMainbarPosition()}`
 		},
-		openPanels: {
-			get () {
-				return this.openPanels
-			},
-			set (newOrder) {
-				this.savePanelsOrder(newOrder)
-			}
-		},
 		showEditorButtonStyle () {
 			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
@@ -241,9 +232,6 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions([
-			'savePanelsOrder'
-		]),
 		activateDevice (device) {
 			this.setActiveResponsiveDeviceId(device.id)
 			setTimeout(() => {
