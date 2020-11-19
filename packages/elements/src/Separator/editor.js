@@ -2,6 +2,6 @@ import { registerElementComponent } from '@zb/editor'
 import Separator from './components/Separator.vue'
 
 registerElementComponent({
-	elementType: 'accordions',
+	elementType: 'zion_separator',
 	component: Separator
 })
