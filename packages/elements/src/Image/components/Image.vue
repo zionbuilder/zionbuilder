@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {getLinkAttributes} from '@zionbuilder/utils'
 export default {
 	name: 'zion_image',
 	props: ['element', 'options', 'api'],
@@ -40,7 +41,7 @@ export default {
 			return this.options.link && this.options.link.link
 		},
 		extraAttributes () {
-			const attributes = window.ZionBuilderApi.utils.getLinkAttributes(this.options.link)
+			const attributes = getLinkAttributes(this.options.link)
 
 			if (this.options.use_modal) {
 				attributes.href = this.imageSrc

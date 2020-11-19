@@ -596,8 +596,7 @@ export default {
 		.znpb-tabs {
 			display: flex;
 			flex-direction: column;
-			height: 100%;
-
+			height: calc(100% - 20px);
 			.znpb-tabs__content, .znpb-tabs__wrapper {
 				height: 100%;
 			}

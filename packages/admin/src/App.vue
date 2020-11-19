@@ -65,7 +65,7 @@
 <script>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables'
+import { useBuilderOptions, useGoogleFonts, useNotifications, useAdminData } from '@zionbuilder/composables'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 
 export default {
@@ -81,9 +81,11 @@ export default {
 
 		const loaded = ref(false)
 		const hasError = ref(false)
-		const logoUrl = window.ZnPbAdminPageData.urls.logo
-		const version = window.ZnPbAdminPageData.plugin_version
-		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const {adminData} = useAdminData()
+		const logoUrl = adminData.value.urls.logo
+		const version = adminData.value.plugin_version
+		const isPro = adminData.value.is_pro_active
+
 
 		const menuItems = computed(() => {
 			var routes = []
