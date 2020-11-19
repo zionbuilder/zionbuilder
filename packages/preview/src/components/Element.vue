@@ -74,6 +74,7 @@ import VideoBackground from './VideoBackground.vue'
 import { useElementTypes, usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
+import { useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'Element',
@@ -88,6 +89,7 @@ export default {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementActions()
+		const { getSchema } = useOptionsSchemas()
 
 		let toolboxWatcher = null
 		let optionsInstance = null
@@ -99,11 +101,20 @@ export default {
 		const isToolboxDragging = ref(false)
 		const registeredEvents = ref({})
 
+		// Options schema
+		const advancedSchema = {
+			_advanced_options: {
+				type: 'group',
+				child_options: getSchema('element_advanced')
+			}
+		}
+
+		const elementOptionsSchema = Object.assign(props.element.elementTypeModel.options || {}, advancedSchema)
+
 		// computed
 		const parsedData = computed(() => {
-			const schema = props.element.elementTypeModel.options || {}
 			const cssSelector = `#${props.element.elementCssId}`
-			optionsInstance = new Options(schema, props.element.options, cssSelector, {
+			optionsInstance = new Options(elementOptionsSchema, props.element.options, cssSelector, {
 				onLoadingStart: () => loading.value = true,
 				onLoadingEnd: () => loading.value = false,
 			})
@@ -145,12 +156,6 @@ export default {
 				'znpb-element--loading': loading.value
 			}
 
-			// Add animation classes
-			const appearAnimation = (options._advanced_options || {})._appear_animation
-			if (appearAnimation) {
-				classes['animated'] = true
-				classes[appearAnimation] = true
-			}
 
 			if (stylesConfig.wrapper) {
 				const wrapperConfig = stylesConfig.wrapper

@@ -36,14 +36,6 @@
 				:append-to="'element'"
 				:show-arrows="false"
 				strategy="fixed"
-				:modifiers="{
-					preventOverflow: {
-						enabled: false
-					},
-					hide: {
-						enabled: false
-					}
-				}"
 				tooltip-class="znpb-input-number__units-tooltip-wrapper"
 			>
 				<template v-slot:content>
