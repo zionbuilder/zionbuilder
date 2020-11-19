@@ -38,7 +38,7 @@ export default {
 		options: {
 			type: Object
 		},
-		data: {
+		api: {
 			type: Object
 		}
 	},
@@ -71,7 +71,7 @@ export default {
 
 		getElementFromServer () {
 			this.loading = true
-			getElementRender(this.data).then((response) => {
+			getElementRender(this.element).then((response) => {
 				this.elementContent = response.data.element
 				this.loading = false
 				this.$nextTick(() => {
