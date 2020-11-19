@@ -174,6 +174,9 @@ export default {
 		const { getMainbarPosition } = useEditorInteractions()
 		const { editorData } = useEditorData()
 
+		// Fetch the builder options
+		fetchOptions()
+
  		// provide masks for ShapeDividerComponent option
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)

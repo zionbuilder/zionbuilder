@@ -73,6 +73,7 @@ import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../Label'
 import { useBuilderOptions } from '@zionbuilder/composables'
+
 export default {
 	name: 'PatternContainer',
 	components: {
@@ -101,8 +102,8 @@ export default {
 			getOptionValue,
 			addGlobalColor,
 		} = useBuilderOptions()
-		const localColors = getOptionValue('local_colors')
-		const globalColors = getOptionValue('global_colors')
+		const localColors = getOptionValue('local_colors', [])
+		const globalColors = getOptionValue('global_colors', [])
 
 		let localColorPatterns = computed(() => {
 			return [...localColors].reverse()
