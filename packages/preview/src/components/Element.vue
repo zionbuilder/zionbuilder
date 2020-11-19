@@ -109,7 +109,7 @@ export default {
 			}
 		}
 
-		const elementOptionsSchema = Object.assign(props.element.elementTypeModel.options || {}, advancedSchema)
+		const elementOptionsSchema = Object.assign({}, props.element.elementTypeModel.options || {}, advancedSchema)
 
 		// computed
 		const parsedData = computed(() => {
