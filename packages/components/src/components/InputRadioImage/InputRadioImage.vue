@@ -45,7 +45,7 @@
 import Icon from '../Icon/Icon.vue'
 
 export default {
-	name: 'RadioImage',
+	name: 'InputRadioImage',
 	components: {
 		Icon
 	},
@@ -69,11 +69,6 @@ export default {
 		columns: {
 			type: Number,
 			required: false
-		}
-	},
-	data () {
-		return {
-
 		}
 	},
 	methods: {

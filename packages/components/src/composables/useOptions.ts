@@ -10,7 +10,7 @@ import {
 	InputColorPicker,
 	InputCustomSelector,
 	InputSelect,
-	RadioImage,
+	InputRadioImage,
 	InputRange,
 	InputRangeDynamic,
 	InputEditor,
@@ -101,7 +101,7 @@ const options = {
 	},
 	radio_image: {
 		id: 'radio_image',
-		component: RadioImage
+		component: InputRadioImage
 	},
 	checkbox_group: {
 		id: 'checkbox_group',

@@ -32,7 +32,7 @@ import { InputSelect } from './components/InputSelect'
 import { InputRadio, InputRadioGroup, InputRadioIcon } from './components/InputRadio'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
 import { InputWrapper } from './components/InputWrapper'
-import { RadioImage } from './components/RadioImage'
+import { InputRadioImage } from './components/InputRadioImage'
 import { InputRange, InputRangeDynamic } from './components/InputRange'
 import { InputTextShadow } from './components/InputTextShadow'
 import { InputNumber, InputNumberUnit } from './components/InputNumber'
@@ -52,7 +52,6 @@ import { Tooltip } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 import { getDefaultGradient } from './utils'
 export * from '@composables'
-
 
 const components = [
 	Button,
@@ -74,7 +73,7 @@ const components = [
 	ColorPicker,
 	Color,
 	Injection,
-	RadioImage,
+	InputRadioImage,
 	InlineEdit,
 
 	// Specific
@@ -154,7 +153,7 @@ export {
 	ColorPicker,
 	Color,
 	Injection,
-	RadioImage,
+	InputRadioImage,
 
 	// Specific
 	ActionsOverlay,
