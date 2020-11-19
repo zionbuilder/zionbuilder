@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import {getLinkAttributes} from '@zionbuilder/utils'
+import { getLinkAttributes } from '@zionbuilder/utils'
+
 export default {
 	name: 'zion_image',
 	props: ['element', 'options', 'api'],
