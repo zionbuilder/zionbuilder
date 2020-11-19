@@ -5,14 +5,14 @@
 </template>
 
 <script>
-
+import { inject } from 'vue'
 export default {
 	name: 'ElementLoading',
 	setup () {
-		const { editorData } = useEditorData()
+		const urls =inject('editor_urls')
 
 		return {
-			urls: editorData.value.urls
+			urls
 		}
 	},
 	computed: {
