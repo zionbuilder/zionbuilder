@@ -157,6 +157,7 @@ export default class Options {
 
 		if (schema.render_attribute) {
 			schema.render_attribute.forEach(config => {
+
 				// create render attribute for tag id if doesn't exists
 				let tagId = config.tag_id || 'wrapper'
 				tagId = index === null ? tagId : `${tagId}${index}`
