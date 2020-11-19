@@ -32,6 +32,8 @@ import { useOptionsSchemas } from '@zb/components'
 export * from './composables'
 export * from '@zionbuilder/composables'
 
+import { ServerRequest } from '@utils'
+
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas()
 registerSchema('pageSettingsSchema', window.ZnPbInitalData.page_settings.schema)
@@ -83,9 +85,11 @@ window.addEventListener('load', function () {
 	appInstance.mount('#znpb-app')
 })
 
+const serverRequest = new ServerRequest()
 
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
-	registerElementComponent
+	registerElementComponent,
+	serverRequest
 }

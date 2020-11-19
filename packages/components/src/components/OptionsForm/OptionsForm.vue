@@ -19,7 +19,7 @@
 <script>
 import { provide, inject } from 'vue'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
-import { unset, set, get } from 'lodash-es'
+import { unset, set, get, cloneDeep } from 'lodash-es'
 
 // Components
 import OptionWrapper from './OptionWrapper.vue'
@@ -170,7 +170,12 @@ export default {
 		OptionWrapper
 	},
 	methods: {
+		updateModelValueByPath(path, newValue) {
+			const clonedValue = cloneDeep(this.modelValue || {})
+			const newValues = set(clonedValue, path, newValue )
 
+			this.$emit('update:modelValue', newValues)
+		},
 		setValue (optionId, newValue) {
 			let newValueToSend
 

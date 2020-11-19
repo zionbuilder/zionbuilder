@@ -4,7 +4,7 @@
 		class="znpb-injection-component"
 	>
 		<component
-			v-for="(customComponent, i) in getComponents"
+			v-for="(customComponent, i) in computedComponents"
 			:key="i"
 			:is="customComponent"
 		/>
@@ -12,7 +12,9 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useInjections } from '@composables/useInjections'
+
 export default {
 	name: 'Injection',
 	props: {
@@ -26,12 +28,12 @@ export default {
 			default: 'div'
 		}
 	},
-	setup () {
+	setup (props) {
 		const { getComponentsForLocation } = useInjections()
-		const getComponents = getComponentsForLocation
+		const computedComponents = computed(() => getComponentsForLocation(props.location))
 
 		return {
-			getComponents
+			computedComponents
 		}
 	}
 }

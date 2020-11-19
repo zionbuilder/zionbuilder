@@ -126,7 +126,6 @@
 				<Help></Help>
 			</Modal>
 
-			<!-- <ModalTour ref="modalTour" /> -->
 			<SaveElementModal />
 
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
@@ -195,8 +194,8 @@ export default {
 		Help,
 		keyShortcuts,
 		SaveElementModal,
-		aboutModal,
-		// ModalTour
+		aboutModal
+		//
 	},
 	data: function () {
 		return {
@@ -364,10 +363,7 @@ export default {
 			this.aboutModalVisibility = true
 		},
 		showTour () {
-
-			// this.$refs.modalTour.show()
 			this.tourVisibility = true
-			// this.setActiveShowElementsPopup(null)
 		},
 		showHelpModal () {
 			this.helpModalVisibility = true

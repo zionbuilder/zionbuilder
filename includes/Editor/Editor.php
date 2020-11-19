@@ -217,7 +217,7 @@ class Editor {
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
-			'zion-editor-script',
+			'zb-editor',
 			'js/editor.js',
 			[
 				'wp-auth-check',
@@ -236,7 +236,7 @@ class Editor {
 
 
 
-		wp_localize_script( 'zion-editor-script', 'ZnPbInitalData', $this->get_editor_initial_data() );
+		wp_localize_script( 'zb-editor', 'ZnPbInitalData', $this->get_editor_initial_data() );
 
 		do_action( 'zionbuilder/editor/after_scripts' );
 	}
