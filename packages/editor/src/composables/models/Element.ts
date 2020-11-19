@@ -1,3 +1,4 @@
+import { watch } from 'vue'
 import { generateUID } from '@zb/utils'
 import { regenerateUIDs } from '@utils'
 import { each, update, get, set, isPlainObject } from 'lodash-es'
@@ -14,7 +15,7 @@ const { getElementType } = useElementTypes()
 export class Element {
 	// Element data for DB
 	public element_type: string = ''
-	public content: Element[] = []
+	public _content: Element[] = []
 	public uid: string = ''
 	// Make it ref so we can watch it
 	public options: { [key: string]: any } = {}
@@ -55,16 +56,17 @@ export class Element {
 		}
 	}
 
-	updateOptions(newValues) {
-		this.options = newValues
+	get content () {
+		return this._content
 	}
 
-	getOptionValue(path, defaultValue = null) {
-		return get(this.options, path, defaultValue)
-	}
-
-	updateOptionValue(path, newValue) {
-		update(this.options, path, () => newValue)
+	set content (newValue) {
+		if (Array.isArray(newValue)) {
+			newValue.forEach(element => {
+				element.setParent(this.uid)
+			})
+		}
+		this._content = newValue
 	}
 
 	get isWrapper() {
@@ -112,12 +114,29 @@ export class Element {
 		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
+
+	updateOptions(newValues) {
+		this.options = newValues
+	}
+
+	getOptionValue(path, defaultValue = null) {
+		return get(this.options, path, defaultValue)
+	}
+
+	updateOptionValue(path, newValue) {
+		update(this.options, path, () => newValue)
+	}
+
+	setParent (parentUid: string) {
+		this.parentUid = parentUid
+	}
+
 	rename () {
 		this.activeElementRename = true
 	}
 
 	toggleVisibility() {
-	this.isVisible = !this.isVisible
+		this.isVisible = !this.isVisible
 	}
 
 	focus() {
