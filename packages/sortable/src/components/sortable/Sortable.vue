@@ -484,6 +484,22 @@ export default {
 			addCssClass('helper')
 		}
 
+		function detachHelper () {
+			if (helperNode) {
+				// Remove css class
+				removeCssClass('helper')
+
+				if (hasHelperSlot || groupInfo.pull === 'clone') {
+					// Remove helper
+					const helperContainer = helperNode.parentNode
+					// There are cases where the placeholder is not yet present in the dom
+					if (helperContainer) {
+						helperContainer.removeChild(helperNode)
+					}
+				}
+			}
+		}
+
 		const attachPlaceholder = () => {
 			if (!props.placeholder) {
 				return
@@ -503,6 +519,19 @@ export default {
 			addCssClass('placeholder')
 		}
 
+		function detachPlaceholder () {
+			if (placeholderNode) {
+				// Remove placeholder css class
+				removeCssClass('placeholder')
+
+				const placeholderContainer = placeholderNode.parentNode
+				// There are cases where the placeholder is not yet present in the dom
+				if (placeholderContainer) {
+					placeholderContainer.removeChild(placeholderNode)
+				}
+			}
+		}
+
 		const finishDrag = () => {
 			clearTimeout(dragTimeout)
 			detachEvents()
@@ -516,6 +545,9 @@ export default {
 				removeCssClass('source')
 				removeCssClass('source:container')
 				removeCssClass('placeholder:container')
+
+				detachPlaceholder()
+				detachHelper()
 
 				// If the revert option is set to true the element will regain initial position
 				if (helperNode) {
@@ -701,7 +733,7 @@ export default {
 				draggedItem.style.opacity = 0.2
 				duplicateValue = true
 			} else {
-				draggedItem.style.display = 'none'
+				// draggedItem.style.display = 'none'
 				draggedItem.style.opacity = null
 				duplicateValue = false
 			}
@@ -761,7 +793,8 @@ export default {
 							movePlaceholderMemoized(overItem.container, insertBeforeElement, dragItemInfo.placeBefore)
 							dragItemInfo.newIndex = overItem.index
 						} else {
-							dragItemInfo.newIndex = 0
+							// TODO: check if this is needed based on tests
+							dragItemInfo.newIndex = -1
 							movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
 						}
 					}
