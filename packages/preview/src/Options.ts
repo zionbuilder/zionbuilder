@@ -164,8 +164,18 @@ export default class Options {
 				const attribute = config.attribute || 'class'
 				let attributeValue = config.value || ''
 
-				if (schema.responsive_options && typeof model === 'object' && model !== null) {
+				if (schema.responsive_options && model !== null) {
+					// Check to see if the option is saved as string
+					if (model && typeof model !== 'object') {
+						model = {
+							default: model
+						}
+						console.log(model);
+					}
+
 					Object.keys(model).forEach(deviceId => {
+
+
 						// Don't proceed if we do not have a value
 						if (!model[deviceId] || typeof CSSDeviceMap[deviceId] === 'undefined') {
 							return

@@ -276,7 +276,7 @@ class Button extends Element {
 					[
 						'tag_id'    => 'wrapper',
 						'attribute' => 'class',
-						'value'     => 'zb-el-zionButton{{RESPONSIVE_DEVICE_CSS}}--{{VALUE}}',
+						'value'     => 'zb-el-zionButton{{RESPONSIVE_DEVICE_CSS}}--align--{{VALUE}}',
 					],
 				],
 			]

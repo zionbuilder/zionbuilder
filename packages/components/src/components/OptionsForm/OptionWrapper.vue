@@ -349,6 +349,14 @@ export default {
 							this.activeResponsiveMedia
 						];
 					}
+
+					// Check to see if the option is saved as string
+					if (value && typeof value !== 'object') {
+						value = {
+							default: value
+						}
+					}
+
 					value =
 						typeof (value || {})[this.activeResponsiveMedia] !==
 							"undefined"

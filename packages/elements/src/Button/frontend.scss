@@ -66,15 +66,15 @@ $styleprimary: #06bee1;
 	}
 }
 
-.zb-el-zionButton--right {
+.zb-el-zionButton--align--right {
 	justify-content: flex-end;
 }
 
-.zb-el-zionButton--left {
+.zb-el-zionButton--align--left {
 	justify-content: flex-start;
 }
 
-.zb-el-zionButton--center {
+.zb-el-zionButton--align--center {
 	justify-content: center;
 }
 
@@ -180,29 +180,27 @@ $styleprimary: #06bee1;
 	// Generate css for all media queries
 	@each $breakpointId, $breakpointValue in $breakpoints {
 		$suffix: "--#{$breakpointId}";
-		$pos: ('--left','--right', '--center');
+		$pos: ("--left","--right", "--center");
 
 		@media (max-width: $breakpointValue) {
-
 			@each $posId in $pos {
 				@if ($posId  == "--center") {
-					.zb-el-zionButton#{$suffix}#{$posId}  {
+					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: center;
 					}
 				}
 				@if ($posId  == "--left") {
-					.zb-el-zionButton#{$suffix}#{$posId}  {
+					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-start;
 					}
 				}
 				@if ($posId  == "--right") {
-					.zb-el-zionButton#{$suffix}#{$posId}  {
+					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-end;
 					}
 				}
 			}
 		}
-
 	}
 }
 @include generate-position();
