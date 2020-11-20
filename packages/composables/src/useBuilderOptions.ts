@@ -26,9 +26,16 @@ export const useBuilderOptions = () => {
 		}
 
 		return getSavedOptions().then((response) => {
+			const data = response.data
+
+			// Set data
+			if (Array.isArray(data.user_roles_permissions)) {
+				data.user_roles_permissions = {}
+			}
+
 			const newOptions = {
 				...options.value,
-				...response.data
+				...data
 			}
 			options.value = newOptions
 		})
