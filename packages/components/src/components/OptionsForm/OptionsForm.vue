@@ -17,12 +17,15 @@
 </template>
 
 <script>
-import { provide, inject } from 'vue'
+import { provide, inject, watch, computed, reactive } from 'vue'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
 import { unset, set, get, cloneDeep } from 'lodash-es'
 
 // Components
 import OptionWrapper from './OptionWrapper.vue'
+
+export const OptionsFormSymbol = Symbol('OptionsForm')
+export const OptionsFormTopModelValueSymbol = Symbol('OptionsFormTopModelValue')
 
 export default {
 	name: 'OptionsForm',
@@ -45,10 +48,11 @@ export default {
 	},
 	setup (props, { emit }) {
 		// Provide the top model value so we can check for sync options values
-		let topModelValue = inject('topModelValue', null)
-		if (topModelValue === null) {
-			provide('topModelValue', props.modelValue)
-			topModelValue = props.modelValue
+		let topModelValue = inject(OptionsFormTopModelValueSymbol, null)
+
+		if (null === topModelValue) {
+			topModelValue = computed(() => props.modelValue)
+			provide(OptionsFormTopModelValueSymbol, () => topModelValue)
 		}
 
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
@@ -56,18 +60,57 @@ export default {
 		const { activePseudoSelector } = usePseudoSelectors()
 		const elementInfo = inject('elementInfo', null)
 
+		/**
+		 * Will update the top model
+		 *
+		 * This will mutate state
+		 */
+		function updateTopModelValueByPath (path, newValue) {
+			set(topModelValue.value, path, newValue)
+		}
+
+		/**
+		 * Will delete the top model value by specifying a path
+		 *
+		 * This will mutate state
+		 */
+		function deleteTopModelValueByPath (path) {
+			unset(topModelValue.value, path)
+		}
+
+		/**
+		 * Returns a value for the top level model value by specifying a path
+		 */
+		function getTopModelValueByPath (path) {
+			return get(topModelValue.value, path)
+		}
+
+		/**
+		 * Will update a value by path
+		 */
 		const updateValueByPath = (path, newValue) => {
-			const updatedValues = set(topModelValue, path, newValue)
+			set(props.modelValue, path, newValue)
 		}
 
 		const getValueByPath = (path, defaultValue = null) => {
-			return get(topModelValue, path, defaultValue)
+			return get(props.modelValue, path, defaultValue)
 		}
 
 		const deleteValueByPath = (path) => {
-			return unset(topModelValue, path)
+			return unset(props.modelValue, path)
 		}
 
+		// Provide methods for child inputs
+		provide(OptionsFormSymbol, {
+			getValueByPath,
+			updateValueByPath,
+			deleteValueByPath,
+			getTopModelValueByPath,
+			updateTopModelValueByPath,
+			deleteTopModelValueByPath
+		})
+
+		// OLD
 		const deleteValue = (path) => {
 			const paths = path.split('.')
 			let newValues = { ...props.modelValue }
@@ -87,7 +130,7 @@ export default {
 
 		const topOptionsForm = inject('topOptionsForm', null)
 		if (!topOptionsForm) {
-			provide(topOptionsForm, )
+			provide(topOptionsForm, props.modelValue)
 		}
 
 		provide('updateValueByPath', updateValueByPath)

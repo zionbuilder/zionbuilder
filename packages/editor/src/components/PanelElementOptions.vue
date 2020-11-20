@@ -227,7 +227,6 @@ export default {
 
 		provideElement(element)
 		provide('elementInfo', element)
-		provide('topModelValue', elementOptions.value)
 
 		return {
 			element,

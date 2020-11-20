@@ -149,29 +149,35 @@ export default {
 					}
 				]
 			} else {
-				// if (this.emptySortable) {
-				// 	if (elementType === 'zion_column') {
-				// 		// Check content orientation
-				// 		if (getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-				// 			config = this.wrapColumn(config)
-				// 		}
-				// 	} else if (elementType === 'zion_section') {
-				// 		if (getOptionValue(props.element.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-				// 			config = this.wrapColumn(config)
-				// 		}
-				// 	}
-				// } else {
-				// check parent orientation
-				if (elementType === 'zion_column') {
-					if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-						config = wrapColumn(config)
-					}
-				} else if (elementType === 'zion_section') {
+				let orientation = props.element.parent.default_content_orientation || 'column'
+				orientation = getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', orientation)
+
+				if (elementType === 'zion_section') {
 					if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
 						config = wrapColumn(config)
 					}
 				}
+
+				if (orientation === 'column') {
+					config = wrapColumn(config)
+				}
+
+
+
+				// // check parent orientation
+				// if (elementType === 'zion_column') {
+				// 	if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
+				// 		config = wrapColumn(config)
+				// 	}
+				// } else if (elementType === 'zion_section') {
+				// 	if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
+				// 		config = wrapColumn(config)
+				// 	}
 				// }
+				console.log({elementType});
+				console.log({orientation});
+				console.log({config});
+
 			}
 
 			// If it's a wrapper, it means that it can have childs

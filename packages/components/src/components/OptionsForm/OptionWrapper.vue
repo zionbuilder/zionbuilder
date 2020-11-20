@@ -158,19 +158,21 @@
 	</div>
 </template>
 <script>
-
-import { ChangesBullet } from "../ChangesBullet"
-import { InputLabel } from "../InputLabel"
-import { Tooltip } from "@zionbuilder/tooltip"
-import { Injection } from "../Injection"
+import { provide, inject, readonly, toRef } from "vue"
 import { trigger } from "@zb/hooks"
 import {
 	useOptions,
 	useOptionsSchemas,
 	useResponsiveDevices,
 } from "@composables"
+import { OptionsFormSymbol } from './OptionsForm.vue'
 
-import { provide, inject, readonly, toRef } from "vue"
+// Components
+import { Tooltip } from "@zionbuilder/tooltip"
+import { ChangesBullet } from "../ChangesBullet"
+import { InputLabel } from "../InputLabel"
+import { Injection } from "../Injection"
+
 export default {
 	name: "OptionWrapper",
 	provide () {
@@ -224,29 +226,39 @@ export default {
 		},
 	},
 	setup (props) {
+		const {
+			getValueByPath,
+			updateValueByPath,
+			deleteValueByPath,
+			getTopModelValueByPath,
+			updateTopModelValueByPath,
+			deleteTopModelValueByPath
+		 } = inject(OptionsFormSymbol)
+
 		const { getSchema } = useOptionsSchemas()
 		const {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
 		} = useResponsiveDevices();
-		const localSchema = toRef(props, "schema")
 
+		const localSchema = toRef(props, "schema")
 		provide("schema", readonly(localSchema.value))
 
-		const updateValueByPath = inject("updateValueByPath")
-		const getValueByPath = inject('getValueByPath')
-		const deleteValueByPath = inject('deleteValueByPath')
-
 		return {
+			getValueByPath,
+			updateValueByPath,
+			deleteValueByPath,
+			getTopModelValueByPath,
+			updateTopModelValueByPath,
+			deleteTopModelValueByPath,
+
+			// OLD
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
-			updateValueByPath,
-			deleteValueByPath,
 			deleteValue: props.deleteValue,
-			getValueByPath
 		}
 	},
 	data () {
@@ -314,7 +326,7 @@ export default {
 			let value = null;
 
 			if (this.compiledSchema.sync) {
-				value = this.getValueByPath( this.compilePlaceholder(this.compiledSchema.sync))
+				value = this.getTopModelValueByPath( this.compilePlaceholder(this.compiledSchema.sync))
 			} else {
 				value = this.modelValue
 			}
@@ -399,9 +411,9 @@ export default {
 
 					// Check to see if we need to delete the option
 					if (valueToUpdate === null) {
-						this.deleteValue(syncValuePath)
+						this.deleteTopModelValueByPath(syncValuePath)
 					} else {
-						this.updateValueByPath(syncValuePath, valueToUpdate)
+						this.updateTopModelValueByPath(syncValuePath, valueToUpdate)
 					}
 
 					if (this.panel) {
@@ -420,13 +432,9 @@ export default {
 				if (this.schema.on_change) {
 					if (this.schema.on_change === "refresh_iframe") {
 						trigger("refreshIframe");
-					} else if (
-						this.schema.on_change.condition.value[0] !== newValue
-					) {
+					} else if ( this.schema.on_change.condition.value[0] !== newValue ) {
 						// Check if we need to clear path option
-						this.deleteValue({
-							path: this.schema.on_change.option_path,
-						})
+						this.deleteTopModelValueByPath(this.schema.on_change.option_path)
 					}
 				}
 			},
@@ -574,7 +582,7 @@ export default {
 				}
 
 				this.$parent.deleteValues(fullOptionIds);
-				this.deleteValueByPath(compiledSync);
+				this.deleteTopModelValueByPath(compiledSync);
 			} else {
 				if (this.schema.is_layout) {
 					const childOptionsIds = this.getChildOptionsIds(
