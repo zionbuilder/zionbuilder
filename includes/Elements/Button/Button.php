@@ -250,7 +250,6 @@ class Button extends Element {
 				'type'        => 'custom_selector',
 				'title'       => __( 'Button position', 'zionbuilder' ),
 				'description' => __( 'Choose button position.' ),
-				'default'     => 'left',
 				'columns'     => 3,
 				'options'     => [
 					[
@@ -267,7 +266,7 @@ class Button extends Element {
 					],
 				],
 				'responsive_options' => true,
-				'dependency'  => [
+				'dependency'         => [
 					[
 						'option' => 'full_width',
 						'value'  => [ false ],
