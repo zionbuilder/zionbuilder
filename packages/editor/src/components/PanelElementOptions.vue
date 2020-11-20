@@ -347,7 +347,7 @@ export default {
 	},
 	methods: {
 		onBackButtonClick () {
-			if (this.element.parent && this.element.parent.elementTypeModel !== 'contentRoot') {
+			if (this.element.parent && this.element.parent.elementTypeModel.element_type !== 'contentRoot') {
 				this.editElement(this.element.parent)
 			}
 		},

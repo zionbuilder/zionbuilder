@@ -170,7 +170,6 @@ export default class Options {
 						model = {
 							default: model
 						}
-						console.log(model);
 					}
 
 					Object.keys(model).forEach(deviceId => {
