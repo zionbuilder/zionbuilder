@@ -56,7 +56,8 @@ import {
 	useEditorData,
 	useEditorInteractions,
 	useWindows,
-	useHistory
+	useHistory,
+	usePageSettings
 } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
@@ -78,7 +79,7 @@ export default {
 		const { saveDraft } = useSavePage()
 		const { editorData } = useEditorData()
 		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
-		const { addWindow, addEventListener, removeEventListener, getWindows } = useWindows()
+		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -93,7 +94,8 @@ export default {
 			addWindow,
 			getWindows,
 			addEventListener,
-			removeEventListener
+			removeEventListener,
+			removeWindow
 		}
 	},
 	computed: {
@@ -204,6 +206,7 @@ export default {
 			this.getWindows('preview').addEventListener('click', this.deselectActiveElement, true)
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
 			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
+			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe)
 			// this.addEventListener('scroll', this.onScroll)
 		},
 		deselectActiveElement (event) {
@@ -216,10 +219,17 @@ export default {
 				e.preventDefault()
 			}
 		},
+		onBeforeUnloadIframe () {
+			const { setPreviewLoading } = usePreviewLoading()
+			const { unsetPageSettings } = usePageSettings()
+
+			setPreviewLoading(true)
+		},
 		refreshIframe () {
 			this.saveDraft().then(() => {
 				this.ignoreNextReload = true
-				this.getWindows('preview').location.reload()
+				this.getWindows('preview').location.reload(true)
+				this.removeWindow('preview')
 			})
 		},
 		checkIframeLoading () {

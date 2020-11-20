@@ -90,13 +90,13 @@ export const ScriptsLoader = () => {
 			javascriptTag.src = url
 
 			javascriptTag.onload = () => {
-				resolve(window.document)
 				loadedScripts[url] = 'done'
+				resolve(window.document)
 			}
 
 			javascriptTag.onerror = () => {
-				reject(window.document)
 				loadedScripts[url] = 'error'
+				reject(window.document)
 			}
 
 			window.document.body.appendChild(javascriptTag)

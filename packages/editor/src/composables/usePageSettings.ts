@@ -7,8 +7,13 @@ export const usePageSettings = () => {
 		pageSettings.value = newValues
 	}
 
+	function unsetPageSettings () {
+		pageSettings.value = {}
+	}
+
 	return {
 		pageSettings,
-		updatePageSettings
+		updatePageSettings,
+		unsetPageSettings
 	}
 }

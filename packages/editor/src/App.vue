@@ -192,13 +192,14 @@ export default {
 			focusedElement,
 			applyShortcuts,
 			isPreviewLoading,
-			getMainbarPosition
+			getMainbarPosition,
+			urls: editorData.value.urls
 		}
 	},
 	data: () => {
-		return Object.assign({
+		return {
 			devicesVisible: false
-		}, window.ZnPbInitalData)
+		}
 	},
 	computed: {
 		showEditorTransition: function () {
