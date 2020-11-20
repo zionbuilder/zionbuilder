@@ -1,4 +1,4 @@
-const scripts = {}
+let scripts = {}
 let loaded = false
 let loadedScripts
 let loadedStyles
@@ -14,6 +14,13 @@ export const ScriptsLoader = () => {
 		})
 
 		return scripts
+	}
+
+	function reset () {
+		let scripts = {}
+		let loaded = false
+		let loadedScripts = {}
+		let loadedStyles = {}
 	}
 
 	const getAvailableStyles = () => {
@@ -142,6 +149,10 @@ export const ScriptsLoader = () => {
 		loadScript,
 		addInlineJavascript,
 		loadJavaScriptFile,
-		loadCssFile
+		loadCssFile,
+		reset,
+		scripts,
+		loadedScripts,
+		loadedStyles
 	}
 }
