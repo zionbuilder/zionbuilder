@@ -14,13 +14,11 @@
 		<div
 			class="zb-el-tabs-content"
 		>
-
 			<Element
 				v-for="(element, i) in element.content"
 				:key="element.uid"
 				:element="element"
 				:class="{'zb-el-tabs-nav--active': i === 0}"
-				ref="tabs"
 			/>
 		</div>
 
@@ -29,6 +27,7 @@
 </template>
 
 <script>
+import { ref, computed, onBeforeUpdate } from 'vue'
 import { useElements } from '@zb/editor'
 import TabLink from './TabLink.vue'
 
@@ -38,49 +37,26 @@ export default {
 	components: {
 		TabLink
 	},
-	setup () {
-		const { getElement } = useElements()
+	setup (props) {
 
-		return {
-			getElement
+		// Check to see if we need to add some tabs
+		if (props.element.content.length === 0 && props.options.tabs) {
+			props.element.addChildren(props.options.tabs)
 		}
-	},
-	data () {
-		return {
-			mounted: 0
-		}
-	},
-	computed: {
-		tabs () {
-			let i = 0
 
-			if (this.mounted === 0) {
-				return []
-			}
-
-			const tabsContent = this.element.content
-			const items = this.$refs.tabs || []
-
-			return items.map(tab => {
-				i++
-
+		const tabs = computed(() => {
+			return props.element.content.map((tabsElement, i) => {
 				return {
-					title: tab.options.title,
+					title: tabsElement.options.title,
 					active: i === 1,
-					data: tab.element,
-					uid: tab.element.uid
+					uid: tabsElement.uid
 				}
+
 			})
-		}
-	},
-	watch: {
-		'element.content': {
-			handler: function () {
-				this.$nextTick(() => {
-					this.mounted++
-				})
-			},
-			immediate: true
+		})
+
+		return {
+			tabs
 		}
 	}
 }

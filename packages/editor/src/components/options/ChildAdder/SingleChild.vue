@@ -8,6 +8,7 @@
 			/>
 			<Icon
 				icon="delete"
+				v-if="showDelete"
 				@click.stop="element.delete()"
 			/>
 			<Icon
@@ -32,6 +33,10 @@ export default {
 		itemOptionName: {
 			type: String,
 			required: true
+		},
+		showDelete: {
+			type: Boolean,
+			default: true
 		}
 	},
 	setup (props) {

@@ -26,6 +26,7 @@
 
 				<h4
 					class="znpb-panel__header-name"
+					@click="onBackButtonClick"
 					@mouseenter="showBreadcrumbs=true"
 					@mouseleave="showBreadcrumbs=false"
 				>
@@ -347,7 +348,9 @@ export default {
 	},
 	methods: {
 		onBackButtonClick () {
-			this.editElement(this.element.parent)
+			if (this.element.elementTypeModel.is_child) {
+				this.editElement(this.element.parent)
+			}
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
