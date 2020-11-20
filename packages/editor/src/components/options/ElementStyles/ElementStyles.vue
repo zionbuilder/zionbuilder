@@ -5,7 +5,7 @@
 				v-model="computedClasses"
 				:selector="selector"
 				:title="title"
-				:activeClass.sync="activeClass"
+				v-model:activeClass="activeClass"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
@@ -77,12 +77,10 @@ export default {
 			},
 			set (newValues) {
 				if (this.activeClass !== this.selector) {
-					this.updateCSSClass({
-						classId: this.activeClass,
-						newValues: {
+					this.updateCSSClass(this.activeClass, {
 							style: newValues
 						}
-					})
+					)
 				} else {
 					this.updateValues('styles', newValues)
 				}

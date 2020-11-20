@@ -142,7 +142,7 @@ export default {
 
 			return customCSS
 		})
-		const stylesConfig = computed(() => options._styles || {})
+		const stylesConfig = computed(() => options.value._styles || {})
 		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
@@ -156,10 +156,11 @@ export default {
 				'znpb-element--loading': loading.value
 			}
 
-
-			if (stylesConfig.wrapper) {
-				const wrapperConfig = stylesConfig.wrapper
+console.log(stylesConfig);
+			if (stylesConfig.value.wrapper) {
+				const wrapperConfig = stylesConfig.value.wrapper
 				if (wrapperConfig.classes) {
+
 					wrapperConfig.classes.forEach(classSelector => {
 						classes[classSelector] = true
 					})

@@ -19,36 +19,37 @@ export default {
 			type: Object
 		}
 	},
-	render (context) {
-		// TODO: implement this
-		return
-		const returnVnodes = []
+	setup (props) {
+		return () => {
+			// return h('div', 'asasdasd')
+			const returnVnodes = []
 
-		const createVnode = function (styles) {
-			return h(ElementStyles, {
-				props: {
+			const createVnode = function (styles) {
+				return h(ElementStyles, {
 					styles
-				}
-			})
+
+				})
+			}
+
+			// PageSettings
+			const pageSettingsOptionsInstance = new Options(props.pageSettingsSchema, props.pageSettingsModel)
+			const { customCSS: pageSettingsCustomCSS } = pageSettingsOptionsInstance.parseData()
+
+			returnVnodes.push(createVnode(pageSettingsCustomCSS))
+
+			// Custom css classes
+			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
+
+				Object.keys(props.cssClasses).forEach(cssClassId => {
+					const styleData = props.cssClasses[cssClassId]
+					const customCSS = getStyles(`.zb .${styleData.id}`, styleData.style)
+
+					returnVnodes.push(createVnode(customCSS))
+				})
+			}
+
+			return returnVnodes
 		}
-
-		// PageSettings
-		const pageSettingsOptionsInstance = new Options(context.pageSettingsSchema, context.pageSettingsModel)
-		const { customCSS: pageSettingsCustomCSS } = pageSettingsOptionsInstance.parseData()
-
-		returnVnodes.push(createVnode(pageSettingsCustomCSS))
-
-		// Custom css classes
-		if (typeof context.cssClasses === 'object' && context.cssClasses !== null) {
-			Object.keys(context.cssClasses).forEach(cssClassId => {
-				const styleData = context.cssClasses[cssClassId]
-				const customCSS = getStyles(`.zb .${styleData.id}`, styleData.style)
-
-				returnVnodes.push(createVnode(customCSS))
-			})
-		}
-
-		return returnVnodes
 	}
 }
 </script>
