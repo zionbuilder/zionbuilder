@@ -54,7 +54,7 @@ class Cache {
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ], 99 );
+			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
 		} else {
 			// Register default scripts so we can use them in edit mode
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ], 99 );
@@ -67,6 +67,7 @@ class Cache {
 	 * @return void
 	 */
 	public function on_enqueue_scripts() {
+
 		$this->register_default_scripts();
 		$this->enqueue_post_styles();
 		$this->enqueue_post_scripts();
