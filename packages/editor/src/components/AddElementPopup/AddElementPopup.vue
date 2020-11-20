@@ -22,8 +22,11 @@
 </template>
 
 <script>
+import { watch } from 'vue'
+import { useAddElementsPopup, useWindows } from '@composables'
+
+// Components
 import ColumnTemplates from './ColumnTemplates.vue'
-import { useAddElementsPopup } from '@composables'
 
 export default {
 	name: "AddElementPopup",
@@ -32,6 +35,15 @@ export default {
 	},
 	setup () {
 		const { activePopup, hideAddElementsPopup } = useAddElementsPopup()
+		const { addEventListener, removeEventListener } = useWindows()
+
+		watch(activePopup, (newValue) => {
+			if (newValue) {
+				addEventListener('scroll', hideAddElementsPopup)
+			} else {
+				removeEventListener('scroll', hideAddElementsPopup)
+			}
+		})
 
 		return {
 			activePopup,
