@@ -793,8 +793,7 @@ export default {
 							movePlaceholderMemoized(overItem.container, insertBeforeElement, dragItemInfo.placeBefore)
 							dragItemInfo.newIndex = overItem.index
 						} else {
-							// TODO: check if this is needed based on tests
-							dragItemInfo.newIndex = -1
+							dragItemInfo.newIndex = 0
 							movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
 						}
 					}
