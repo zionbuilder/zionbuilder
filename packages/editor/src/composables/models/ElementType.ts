@@ -29,4 +29,8 @@ export class ElementType {
 	registerComponent (component) {
 		this.component = markRaw( component )
 	}
+
+	resetComponent () {
+		this.component = null
+	}
 }

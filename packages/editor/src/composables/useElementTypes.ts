@@ -41,11 +41,18 @@ export function useElementTypes() {
 		element.registerComponent(component)
 	}
 
+	function resetElementComponents() {
+		elementTypes.value.forEach(elementType => {
+			elementType.resetComponent()
+		})
+	}
+
 	return {
 		elementTypes,
 		getVisibleElements,
 		addElementType,
 		getElementType,
-		registerElementComponent
+		registerElementComponent,
+		resetElementComponents
 	}
 }
