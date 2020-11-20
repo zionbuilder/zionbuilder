@@ -1,22 +1,23 @@
 <template>
 	<div class="znpb-options-childs__element">
-		<div class="znpb-options-childs__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
-		<div class="znpb-options-childs__element-action">
-			<Icon
-				icon="copy"
-				@click.stop="element.duplicate()"
-			/>
-			<Icon
-				icon="delete"
-				v-if="showDelete"
-				@click.stop="element.delete()"
-			/>
-			<Icon
-				icon="edit"
-				@click.stop="editElement(element)"
-			/>
+		<div class="znpb-options-childs__element-inner">
+			<div class="znpb-options-childs__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
+			<div class="znpb-options-childs__element-action">
+				<Icon
+					icon="copy"
+					@click.stop="element.duplicate()"
+				/>
+				<Icon
+					icon="delete"
+					v-if="showDelete"
+					@click.stop="element.delete()"
+				/>
+				<Icon
+					icon="edit"
+					@click.stop="editElement(element)"
+				/>
+			</div>
 		</div>
-
 	</div>
 </template>
 
@@ -53,14 +54,21 @@ export default {
 </script>
 <style lang="scss">
 .znpb-options-childs__element {
-	z-index: 9;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
 	background-color: $surface-variant;
-	border-radius: 3px;
-	cursor: pointer;
+
+
+	&-inner {
+		z-index: 9;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: 12px 15px;
+		margin-bottom: 5px;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+
 	.znpb-editor-icon-wrapper {
 		padding: 5px;
 	}

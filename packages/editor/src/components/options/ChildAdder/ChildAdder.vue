@@ -52,6 +52,9 @@ export default {
 		},
 		min: {
 			type: Number
+		},
+		add_template: {
+			type: Object
 		}
 	},
 	setup (props) {
@@ -72,9 +75,11 @@ export default {
 		}
 
 		function addChild () {
-			element.value.addChild({
+			console.log(props);
+			const template = props.add_template ? props.add_template : {
 				element_type: props.child_type
-			})
+			}
+			element.value.addChild(template)
 		}
 
 		return {
@@ -89,12 +94,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.znpb-options-childs {
-	&__element {
-		padding: 12px 15px;
-		margin-bottom: 5px;
-	}
-}
-</style>
