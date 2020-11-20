@@ -1,4 +1,4 @@
-import { getOptionValue, getStyles } from '@zb/utils'
+import { getOptionValue, getStyles, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
 /**
@@ -104,7 +104,7 @@ export default class Options {
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
 				this.startLoading()
-				window.ZionBuilderApi.utils.getImage(model[optionId]).then((image) => {
+				getImage(model[optionId]).then((image) => {
 					if (image) {
 						this.setImage(model, optionId, image)
 					}
