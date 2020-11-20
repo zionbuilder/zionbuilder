@@ -1,6 +1,6 @@
 <template>
 	<SortableContent
-		:element="data"
+		:element="element"
 		:allow-elements-add="false"
 		empty-placeholder-text="Edit Element options"
 	>

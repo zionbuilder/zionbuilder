@@ -4,7 +4,7 @@
 
 		<div
 			:class="{'znpb__server-element--loading': loading}"
-			v-html="elementContent"
+			v-html="showElementContent"
 			ref="elementContent"
 		/>
 
@@ -65,6 +65,9 @@ export default {
 			const elementModel = this.contentModel
 			const { _styles, _advanced_options: advancedOptions, ...options } = this.options
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
+		},
+		showElementContent () {
+			return this.requiresDataForRender ? '' : this.elementContent
 		}
 	},
 	methods: {

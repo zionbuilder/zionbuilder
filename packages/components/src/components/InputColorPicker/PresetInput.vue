@@ -6,7 +6,7 @@
 		>
 			<template v-slot:append>
 				<Icon icon="check" @click.stop="$emit('save-preset', colorName)" />
-				<Icon icon="close" @click.stop="$emit('cancel',true)"/>
+				<Icon icon="close" @click.prevent="$emit('cancel',true)"/>
 			</template>
 		</BaseInput>
 	</div>
