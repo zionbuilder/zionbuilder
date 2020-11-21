@@ -33,6 +33,11 @@ export const useBuilderOptions = () => {
 				data.user_roles_permissions = {}
 			}
 
+			// Set data
+			if (Array.isArray(data.users_permissions)) {
+				data.users_permissions = {}
+			}
+
 			const newOptions = {
 				...options.value,
 				...data
