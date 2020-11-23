@@ -73,7 +73,7 @@ class Localization {
 				// Tools
 				'tools'                                  => esc_html__( 'Tools', 'zionbuilder' ),
 				'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
-				'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
+				'regenerate_css'                         => esc_html__( 'Regenerate CSS & JS', 'zionbuilder' ),
 				'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                => esc_html__( 'New Url', 'zionbuilder' ),
