@@ -138,9 +138,11 @@ export default {
 		},
 		activeClassConfig () {
 			if (this.activeClass !== this.selector) {
+				let that = this
+				let className = this.CSSClasses.find( ({ id }) => id === that.activeClass )
 				return {
 					type: 'class',
-					name: this.activeClass
+					name: className.name
 				}
 			} else {
 				return this.computedSelectorConfig
@@ -149,10 +151,11 @@ export default {
 		filteredClasses () {
 			if (this.keyword.length === 0) {
 				const extraClasses = this.computedValue.map(selector => {
+					let className = this.CSSClasses.find( ({ id }) => id === selector )
 					return {
 						type: 'class',
 						selector,
-						name: selector,
+						name: className.name,
 						deletable: true
 					}
 				})
