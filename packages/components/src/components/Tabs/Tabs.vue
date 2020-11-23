@@ -106,7 +106,7 @@ export default {
 				const tabId = getIdForTab(vNode)
 
 				if (!computedActiveTab.value && i === 0) {
-					computedActiveTab.value = tabId
+					localActiveTab.value = tabId
 				}
 
 				return cloneVNode(vNode, {
