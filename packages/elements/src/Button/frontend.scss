@@ -180,21 +180,21 @@ $styleprimary: #06bee1;
 	// Generate css for all media queries
 	@each $breakpointId, $breakpointValue in $breakpoints {
 		$suffix: "--#{$breakpointId}";
-		$pos: ("--left","--right", "--center");
+		$pos: ("--align--left","--align--right", "--align--center");
 
 		@media (max-width: $breakpointValue) {
 			@each $posId in $pos {
-				@if ($posId  == "--center") {
+				@if ($posId  == "--align--center") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: center;
 					}
 				}
-				@if ($posId  == "--left") {
+				@if ($posId  == "--align--left") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-start;
 					}
 				}
-				@if ($posId  == "--right") {
+				@if ($posId  == "--align--right") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-end;
 					}
