@@ -141,13 +141,11 @@ export default {
 	setup (props, { emit }) {
 		const Library = inject('Library')
 		const { editorData } = useEditorData()
-		const isProActive = ref(false)
-		const isProConnected = ref(false)
+		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
+		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const dashboardURL = ref('')
 		const purchaseURL = ref('')
 
-		isProActive.value = editorData.value.plugin_info.is_pro_active
-		isProConnected.value = editorData.value.plugin_info.is_pro_connected
 		dashboardURL.value = `${editorData.value.urls.zion_admin}#/pro-license`
 		purchaseURL.value = editorData.value.urls.purchase_url
 

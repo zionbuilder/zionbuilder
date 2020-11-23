@@ -56,17 +56,38 @@
 						placement="top"
 						strategy="fixed"
 					>
-						<Button
-							type="secondary"
-							@click="insertLibraryItem"
-							class="znpb-library-modal-header__insert-button"
-						>
-							<span v-if="!insertItemLoading">{{$translate('library_insert')}}</span>
-							<Loader
-								v-else
-								:size="13"
-							/>
-						</Button>
+
+
+								<a
+									v-if="!isProActive && activeItem.pro"
+									class="znpb-button znpb-button--line znpb-button-buy-pro"
+									:href="purchaseURL"
+									target="_blank"
+								>{{$translate('buy_pro')}}
+								</a>
+
+								<a
+									v-else-if="isProActive && !isProConnected && activeItem.pro"
+									class="znpb-button znpb-button--line"
+									target="_blank"
+									:href="dashboardURL"
+								>{{$translate('activate_pro')}}
+								</a>
+
+								<Button
+									v-else
+									type="secondary"
+									@click="insertLibraryItem"
+									class="znpb-library-modal-header__insert-button"
+								>
+									<span v-if="!insertItemLoading">
+										{{$translate('library_insert')}}
+									</span>
+									<Loader
+										v-else
+										:size="13"
+									/>
+							</Button>
 					</Tooltip>
 
 					<template v-else>
@@ -143,11 +164,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { generateElements, generateUID } from '@zb/utils'
-import { usePanels, useElements } from '@composables'
+import { usePanels, useElements, useEditorData } from '@composables'
 import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -170,9 +192,19 @@ export default {
 	setup (props) {
 		const { togglePanel } = usePanels()
 		const { fetchTemplates } = useLocalLibrary()
+
+		const { editorData } = useEditorData()
+		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
+		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
+		const purchaseURL = ref(editorData.value.urls.purchase_url)
+
 		return {
 			togglePanel,
-			fetchTemplates
+			fetchTemplates,
+			editorData,
+			isProActive,
+			isProConnected,
+			purchaseURL
 		}
 	},
 	data () {
@@ -347,7 +379,7 @@ export default {
 		align-items: center;
 		align-self: center;
 
-		.znpb-button--secondary {
+		.znpb-button--secondary, .znpb-button-buy-pro {
 			display: flex;
 			align-items: center;
 			padding: 13px 20px;
