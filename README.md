@@ -182,7 +182,13 @@ Please make sure to update tests as appropriate.
 * Fixed Bug Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
 * Fixed css classes not cleared when a new css class is added or changed
 * Change Tab name from "Columns" to "Layouts"
+* Updated elements registration
+* Created methods for adding childs to elements
 * Added ability to use zion builder version of Vue
+* Made components package as vue plugin
+* Reorganized components
+* Updated to Popper2
+* Removed Vuex from dependencies
 * Add v1.0.0 to lerna
 * Update to Vue 3 and fix compatibility syntax
 * Switched to monorepo
