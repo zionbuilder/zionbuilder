@@ -151,11 +151,11 @@ export default {
 		filteredClasses () {
 			if (this.keyword.length === 0) {
 				const extraClasses = this.computedValue.map(selector => {
-					let className = this.CSSClasses.find( ({ id }) => id === selector )
+					let className = this.CSSClasses.map(function(classObject) { return classObject.id===selector ? classObject.name : selector})
 					return {
 						type: 'class',
 						selector,
-						name: className.name,
+						name: className[0],
 						deletable: true
 					}
 				})
