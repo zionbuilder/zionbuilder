@@ -165,7 +165,6 @@ import {
 	useOptionsSchemas,
 	useResponsiveDevices,
 } from "@composables"
-import { OptionsFormSymbol } from './OptionsForm.vue'
 
 // Components
 import { Tooltip } from "@zionbuilder/tooltip"
@@ -230,7 +229,7 @@ export default {
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
 			deleteTopModelValueByPath
-		 } = inject(OptionsFormSymbol)
+		 } = inject('OptionsForm')
 
 		const { getSchema } = useOptionsSchemas()
 		const {

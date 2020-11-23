@@ -20,6 +20,7 @@
 
 </template>
 <script>
+import { cloneDeep } from 'lodash-es'
 import Icon from '../Icon/Icon.vue'
 
 export default {
@@ -41,7 +42,11 @@ export default {
 	computed: {
 		valueModel: {
 			get () {
-				return this.config
+				const value = cloneDeep(this.config)
+				if (Array.isArray(value.__dynamic_content__)) {
+					value.__dynamic_content__ = {}
+				}
+				return value
 			},
 			set (newValue) {
 				this.$emit('update:modelValue', newValue)

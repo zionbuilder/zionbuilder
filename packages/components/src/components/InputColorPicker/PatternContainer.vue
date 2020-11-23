@@ -1,6 +1,7 @@
 <template>
 	<LibraryElement :has-input="showPresetInput">
 		<div v-if="!showPresetInput">
+
 			<Tabs
 				tab-style="minimal"
 				:activeTab="activeTab"
@@ -93,6 +94,7 @@ export default {
 		}
 	},
 	setup (props) {
+		const formApi = inject('OptionsForm')
 		const getValueByPath = inject('getValueByPath')
 		const updateValueByPath = inject('updateValueByPath')
 		const schema = inject('schema')
@@ -141,7 +143,7 @@ export default {
 		function onGlobalColorSelected (colorConfig) {
 			const { id } = schema
 
-			updateValueByPath(`__dynamic_content__.${id}`, {
+			formApi.updateValueByPath(`__dynamic_content__.${id}`, {
 				type: 'global-color',
 				options: {
 					color_id: colorConfig.id

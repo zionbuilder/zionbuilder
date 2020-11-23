@@ -23,8 +23,6 @@ import { unset, set, get, cloneDeep } from 'lodash-es'
 // Components
 import OptionWrapper from './OptionWrapper.vue'
 
-export const OptionsFormSymbol = Symbol('OptionsForm')
-
 export default {
 	name: 'OptionsForm',
 	provide () {
@@ -87,7 +85,9 @@ export default {
 		 * Will update a value by path
 		 */
 		const updateValueByPath = (path, newValue) => {
-			set(props.modelValue, path, newValue)
+			const clonedValue = cloneDeep(props.modelValue)
+			set(clonedValue, path, newValue)
+			emit('update:modelValue', clonedValue)
 		}
 
 		const getValueByPath = (path, defaultValue = null) => {
@@ -99,7 +99,7 @@ export default {
 		}
 
 		// Provide methods for child inputs
-		provide(OptionsFormSymbol, {
+		provide('OptionsForm', {
 			getValueByPath,
 			updateValueByPath,
 			deleteValueByPath,
