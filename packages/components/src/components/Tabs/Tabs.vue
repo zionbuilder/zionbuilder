@@ -1,5 +1,5 @@
 <script>
-import { computed, h, ref, watch, cloneVNode } from 'vue'
+import { computed, h, ref, watch, cloneVNode, Fragment } from 'vue'
 import { cloneDeep } from 'lodash-es'
 
 // Components
@@ -72,11 +72,12 @@ export default {
 			}
 
 			computedActiveTab.value = tabId
-			emit('change-tab', tabId)
+			emit('changed-tab', tabId)
 			localActiveTab.value = tabId
 		}
 
-		function getIdForTab({ props }) {
+		function getIdForTab(vnode) {
+			const props = vnode.props
 			return props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
 		}
 
@@ -99,10 +100,26 @@ export default {
 			)
 		}
 
+		function extractChilds (slotContent) {
+			const items = []
+			if( Array.isArray(slotContent) ) {
+				slotContent.forEach(vNode => {
+					if (vNode.type === Fragment) {
+						const fragmentItems = extractChilds(vNode.children)
+						items.push(...fragmentItems)
+					} else {
+						items.push(vNode)
+					}
+				})
+			}
+
+			return items
+		}
+
 		return () => {
 			const childContent = slots.default()
 
-			const childItems = childContent.map((vNode, i) => {
+			const childItems = extractChilds(childContent).map((vNode, i) => {
 				const tabId = getIdForTab(vNode)
 
 				if (!computedActiveTab.value && i === 0) {
