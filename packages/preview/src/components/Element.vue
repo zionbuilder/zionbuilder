@@ -11,7 +11,7 @@
 		:options="options"
 		@mouseenter="showToolbox = true"
 		@mouseleave="onMouseLeave"
-		@click.stop="onElementClick"
+		@click="onElementClick"
 		@dblclick="editElement"
 		@contextmenu="showElementMenu"
 		v-bind="getExtraAttributes"
@@ -156,7 +156,7 @@ export default {
 				'znpb-element--loading': loading.value
 			}
 
-console.log(stylesConfig);
+
 			if (stylesConfig.value.wrapper) {
 				const wrapperConfig = stylesConfig.value.wrapper
 				if (wrapperConfig.classes) {
@@ -209,7 +209,18 @@ console.log(stylesConfig);
 
 		}
 
+		// Prevents us using stop propagation that can affect other elements
+		let handled = false
 		const onElementClick = (event) => {
+			if (handled) {
+				return
+			}
+
+			handled = true
+			setTimeout(() => {
+				handled = false
+			}, 10);
+
 			focusElement(props.element)
 		}
 
