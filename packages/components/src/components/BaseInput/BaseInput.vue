@@ -181,6 +181,7 @@ export default {
 }
 </script>
 <style lang="scss">
+body {
 .zion-input {
 	position: relative;
 	display: flex;
@@ -231,6 +232,7 @@ export default {
 	input {
 		max-height: 42px;
 		min-width: 0;
+		border: none;
 		// prevent other themes to add their own style uppon input fixed height
 	}
 	input::placeholder {
@@ -290,4 +292,6 @@ export default {
 		padding: 20px;
 	}
 }
+}
+
 </style>
