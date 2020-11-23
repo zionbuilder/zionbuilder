@@ -83,7 +83,7 @@
 							v-if="searchActive"
 							v-model="optionsFilterKeyword"
 							:filterable="true"
-							ref="search"
+							ref="searchInput"
 							placeholder="Search option"
 							class="znpb-tabs__header-item-search-options"
 						>
@@ -91,12 +91,12 @@
 					</template>
 					<p
 						class="znpb-element-options-default-message"
-						v-if="this.optionsFilterKeyword.length > 2 && this.filteredOptions.length === 0"
+						v-if="optionsFilterKeyword.length > 2 && filteredOptions.length === 0"
 					>
 						{{noOptionFoundMessage}}
 					</p>
 					<p
-						v-if="this.optionsFilterKeyword.length < 3"
+						v-if="optionsFilterKeyword.length < 3"
 						class="znpb-element-options-no-option-message"
 					>
 						{{defaultMessage}}
@@ -157,6 +157,7 @@ export default {
 		const searchActive = ref(false)
 		const history = ref([])
 		const historyIndex = ref(0)
+		const searchInput = ref(null)
 
 		const elementOptions = computed({
 			get () {
@@ -174,6 +175,10 @@ export default {
 
 		const canUndo = computed(() => {
 			return historyIndex.value > 0
+		})
+
+		const searchIcon = computed(() => {
+			return searchActive.value ? 'close' : 'search'
 		})
 
 		const canRedo = computed(() => {
@@ -231,6 +236,7 @@ export default {
 
 		return {
 			element,
+			searchInput,
 			// Computed
 			elementOptions,
 			getSchema,
@@ -238,6 +244,7 @@ export default {
 			unEditElement,
 			activeKeyTab,
 			searchActive,
+			searchIcon,
 			canUndo,
 			canRedo,
 			// Methods
@@ -332,9 +339,7 @@ export default {
 				data: this.element
 			}
 		},
-		searchIcon () {
-			return this.searchActive ? 'close' : 'search'
-		},
+
 		filteredOptions () {
 			const keyword = this.optionsFilterKeyword
 			if (keyword.length > 2) {
@@ -344,7 +349,7 @@ export default {
 		}
 	},
 	created () {
-		on('change-tab-styling', this.changeTabByEvent)
+		on('change-tab-styling', this.changeTabByEvent())
 	},
 	methods: {
 		onBackButtonClick () {
@@ -354,7 +359,7 @@ export default {
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
-				this.activeKeyTab = event.detail
+				this.activeKeyTab.value = event.detail
 			}
 		},
 		filterOtions (keyword, optionsSchema, currentId) {
@@ -457,8 +462,8 @@ export default {
 			}
 
 			if (tabId === 'search' && this.searchActive) {
-				if (this.$refs.search) {
-					this.$refs.search.focus()
+				if (this.$refs.searchInput) {
+					this.$refs.searchInput.focus()
 				}
 			}
 		},
@@ -496,7 +501,7 @@ export default {
 		removeEventListener('keydown', this.onKeyPress, true)
 
 		// remove events
-		off('change-tab-styling', this.changeTab)
+		off('change-tab-styling', this.changeTab())
 	}
 }
 </script>
