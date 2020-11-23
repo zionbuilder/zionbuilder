@@ -156,7 +156,47 @@ Please make sure to update tests as appropriate.
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
-
+### 1.1.0- 2020-11-24 ###
+* Improved history
+* Fixed poper behaviour on scroll
+* Allow save page on content editable
+* Allow browser context on right click in preview mode
+* Hide element menu when scrolling
+* Replaced pageEvents with windows
+* Fix image wrapper border on image option
+* Fixed element custom css not working
+* Fixed Mozilla bug on input
+* Fixed locked user data
+* Update plugin info card for pro version
+* Update Urls for changelog
+* Improve Tabs Element
+* Implemented element scroll to
+* Replace modal tour with intro video
+* Feature: Add Elements Popup pens automatically when column layouts are inserted
+* Feature: Element options panel: Added ability to click on the element title to select the parent element
+* Feature: Abillity to change Column setting for each viewport for Zion's Gallery Element
+* Feature: Make Button Position option changeable per viewport
+* Fixed CSS not generated when using 0 (zero) without any suffix like 'px' for input values
+* Fixed Bug: Absolute Positioning of elements in Zion Builder is not the same as on the front end
+* Fixed Bug CSS not working correctly inside Zion Builder after changing Column ID
+* Fixed Bug Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
+* Fixed css classes not cleared when a new css class is added or changed
+* Change Tab name from "Columns" to "Layouts"
+* Added ability to use zion builder version of Vue
+* Add v1.0.0 to lerna
+* Update to Vue 3 and fix compatibility syntax
+* Switched to monorepo
+* Added filter for license check
+* Fixed image element margin drag hides the toolbox
+* Fixed Zion Builder not working with Yoast in certain conditions
+* Fixed PHP Stan erors
+* Fixed CSS classes not cleared when a new css class is added or changed
+* Update Data Fonts Google set
+* Add ability to get render attributes for multiple tag ids
+* Fix render "Array" string on elements classes
+* Fixed section masks not working
+* Fixed element with no options shows values as array
+* Add padding to element icon for image element
 ### 1.0.1- 2020-08-17 ###
 
 * Renamed plugin
