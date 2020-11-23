@@ -3,10 +3,12 @@
 		<div v-if="!showPresetInput">
 			<Tabs
 				tab-style="minimal"
-				:active-tab="activeTab"
+				:activeTab="activeTab"
 			>
 				<Tab name="Local">
-					<GridColor @add-new-color="addLocalColor(model)">
+					<GridColor
+						@add-new-color="addLocalColor(model)"
+					>
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -62,17 +64,16 @@
 	</LibraryElement>
 </template>
 <script>
+
 /**
  * it emits:
  *  - the new color chosen
  */
-
 import { computed, inject, ref } from 'vue'
 import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Label } from '../Label'
-import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'PatternContainer',
@@ -97,11 +98,15 @@ export default {
 		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
+		// This should be provided by Apps that are using this component
+		const useBuilderOptions = inject('builderOptions')
+
 		const {
 			addLocalColor,
 			getOptionValue,
 			addGlobalColor,
 		} = useBuilderOptions()
+
 		const localColors = getOptionValue('local_colors', [])
 		const globalColors = getOptionValue('global_colors', [])
 
@@ -120,7 +125,7 @@ export default {
 		})
 
 		let activeTab = computed(() => {
-			return selectedGlobalColor ? 'global' : 'local'
+			return selectedGlobalColor.value ? 'global' : 'local'
 		})
 
 		function addGlobal (name) {
@@ -162,7 +167,6 @@ export default {
 			if (window.ZnPbAdminPageData !== undefined) {
 				return window.ZnPbAdminPageData.is_pro_active
 			}
-
 		},
 	},
 

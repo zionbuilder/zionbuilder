@@ -45,16 +45,14 @@
 	</LibraryElement>
 </template>
 <script>
-/**
- * it receives no aimation on beggining
- * it emits:
- *  - the new color chosen
- */
+import { computed, inject, nextTick } from 'vue'
+import { useAdminData } from '@zionbuilder/composables'
+
+// Components
 import GradientPreview from './GradientPreview.vue'
 import LibraryElement from './LibraryElement.vue'
 import { Label } from '../Label'
-import { useAdminData } from '@zionbuilder/composables'
-import { computed, inject } from 'vue'
+
 export default {
 	name: 'GradientLibrary',
 	components: {
@@ -70,18 +68,36 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
-		const $zb = inject('$zb')
+		function getPro () {
+			if (window.ZnPbInitalData !== undefined) {
+				return window.ZnPbInitalData.plugin_info.is_pro_active
+			}
+			if (window.ZnPbAdminPageData !== undefined) {
+				return window.ZnPbAdminPageData.is_pro_active
+			}
+
+			return false
+		}
+
+		let isPro = getPro()
 		const getValueByPath = inject('getValueByPath')
 		const updateValueByPath = inject('updateValueByPath')
+
 		const schema = inject('schema')
 		const { adminData } = useAdminData()
-		let isPro = adminData.value.is_pro_active
+
+		// This should be provided by Apps that are using this component
+		const useBuilderOptions = inject('builderOptions')
+		const {
+			getOptionValue
+		} = useBuilderOptions()
+
 		const getGlobalGradients = computed(() => {
-			return $zb.options.getOptionValue('global_gradients')
+			return getOptionValue('global_gradients')
 		})
 
 		const getLocalGradients = computed(() => {
-			return $zb.options.getOptionValue('local_gradients')
+			return getOptionValue('local_gradients')
 		})
 
 		function onGlobalGradientSelected (gradient) {

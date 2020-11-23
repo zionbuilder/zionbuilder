@@ -38,15 +38,19 @@ export default {
 		}
 	},
 	setup (props, { emit, slots }) {
-		const localActiveTab = ref(null)
+		const localActiveTab = ref(props.activeTab)
 		const computedActiveTab = computed({
 			get: () => {
-				return props.activeTab || localActiveTab.value
+				return localActiveTab.value
 			},
 			set: (newValue) => {
 				emit('update:activeTab', newValue)
 
 			}
+		})
+
+		watch(() => props.activeTab, (newValue) => {
+			localActiveTab.value = newValue
 		})
 
 		// Computed

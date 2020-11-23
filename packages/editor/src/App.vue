@@ -176,6 +176,9 @@ export default {
 		// Fetch the builder options
 		fetchOptions()
 
+		// Provide globalColors
+		provide('builderOptions', useBuilderOptions)
+
  		// provide masks for ShapeDividerComponent option
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)

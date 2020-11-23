@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBuilderOptions, useGoogleFonts, useNotifications, useAdminData } from '@zionbuilder/composables'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
@@ -86,6 +86,8 @@ export default {
 		const version = adminData.value.plugin_version
 		const isPro = adminData.value.is_pro_active
 
+		// Provide globalColors
+		provide('builderOptions', useBuilderOptions)
 
 		const menuItems = computed(() => {
 			var routes = []

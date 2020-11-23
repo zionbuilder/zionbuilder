@@ -75,7 +75,11 @@
 	</div>
 </template>
 <script>
+import { inject } from 'vue'
 import { applyFilters } from '@zb/hooks'
+import { getDefaultGradient } from '../../utils/'
+
+// Components
 import Icon from '../Icon/Icon.vue'
 import GradientBoard from './GradientBoard.vue'
 import GradientOptions from './GradientOptions.vue'
@@ -83,7 +87,6 @@ import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
 import { ActionsOverlay } from '../ActionsOverlay'
-import { getDefaultGradient } from '../../utils/'
 
 export default {
 	name: 'GradientGenerator',
@@ -108,6 +111,23 @@ export default {
 			default: true
 		}
 	},
+
+	setup() {
+		// This should be provided by Apps that are using this component
+		const useBuilderOptions = inject('builderOptions')
+		const {
+			addLocalGradient,
+			addGlobalGradient,
+			getOptionValue
+		} = useBuilderOptions()
+
+		return {
+			addLocalGradient,
+			addGlobalGradient,
+			getOptionValue
+		}
+	},
+
 	data () {
 		return {
 			showPresetInput: false,
@@ -148,14 +168,12 @@ export default {
 				name: name,
 				config: getDefaultGradient()
 			}
-			const options = new Options()
-			if (type === 'local') {
-				options.addGradient('local_gradients', defaultGradient)
-			} else {
-				options.addGradient('global_gradients', defaultGradient)
-			}
 
-			options.saveOptions()
+			if (type === 'local') {
+				this.addLocalGradient(defaultGradient)
+			} else {
+				this.addGlobalGradient(defaultGradient)
+			}
 		},
 		deleteGradient (gradientConfig) {
 			const deletedGradientIndex = this.computedValue.indexOf(gradientConfig)

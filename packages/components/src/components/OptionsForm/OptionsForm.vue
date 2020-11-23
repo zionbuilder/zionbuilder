@@ -122,8 +122,7 @@ export default {
 				acc[key] = acc[key] ? { ...acc[key] } : {}
 				return acc[key]
 			}, newValues)
-console.log(props.modelValue);
-console.log(newValues);
+
 			emit('update:modelValue', newValues)
 		}
 
@@ -440,6 +439,7 @@ console.log(newValues);
 .znpb-options-form-wrapper {
 	display: flex;
 	flex-wrap: wrap;
+	width: 100%;
 	max-height: 100%;
 	padding: 20px 15px 0;
 }

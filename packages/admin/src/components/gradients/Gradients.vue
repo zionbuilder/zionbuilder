@@ -57,7 +57,6 @@
 <script>
 import { computed, ref, inject, reactive } from 'vue'
 import { getDefaultGradient } from '@zb/components'
-import { useBuilderOptions } from '@zionbuilder/composables'
 
 // Components
 import GradientBox from './GradientBox.vue'
@@ -72,7 +71,23 @@ export default {
 		GradientModalContent
 	},
 	setup (props, context) {
-		const isPro = window.ZnPbAdminPageData.is_pro_active
+		function getPro () {
+			if (window.ZnPbInitalData !== undefined) {
+				return window.ZnPbInitalData.plugin_info.is_pro_active
+			}
+			if (window.ZnPbAdminPageData !== undefined) {
+				return window.ZnPbAdminPageData.is_pro_active
+			}
+
+			return false
+		}
+
+
+
+		const isPro = getPro()
+
+		// This should be provided by Apps that are using this component
+		const useBuilderOptions = inject('builderOptions')
 
 		const {
 			getOptionValue,
