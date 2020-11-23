@@ -6,7 +6,6 @@
 			:schema="optionConfig"
 			:option-id="optionId"
 			:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
-			:delete-value="deleteValue"
 			:get-schema-from-path="getOptionSchemaFromPath"
 			:compile-placeholder="compilePlaceholder"
 			@update:modelValue="setValue(...$event)"
@@ -25,7 +24,6 @@ import { unset, set, get, cloneDeep } from 'lodash-es'
 import OptionWrapper from './OptionWrapper.vue'
 
 export const OptionsFormSymbol = Symbol('OptionsForm')
-export const OptionsFormTopModelValueSymbol = Symbol('OptionsFormTopModelValue')
 
 export default {
 	name: 'OptionsForm',
@@ -48,11 +46,11 @@ export default {
 	},
 	setup (props, { emit }) {
 		// Provide the top model value so we can check for sync options values
-		let topModelValue = inject(OptionsFormTopModelValueSymbol, null)
+		let topModelValue = inject('OptionsFormTopModelValue', null)
 
 		if (null === topModelValue) {
 			topModelValue = computed(() => props.modelValue)
-			provide(OptionsFormTopModelValueSymbol, () => topModelValue)
+			provide('OptionsFormTopModelValue', () => topModelValue)
 		}
 
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
@@ -124,7 +122,8 @@ export default {
 				acc[key] = acc[key] ? { ...acc[key] } : {}
 				return acc[key]
 			}, newValues)
-
+console.log(props.modelValue);
+console.log(newValues);
 			emit('update:modelValue', newValues)
 		}
 

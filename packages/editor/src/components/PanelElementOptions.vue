@@ -227,6 +227,7 @@ export default {
 
 		provideElement(element)
 		provide('elementInfo', element)
+		provide('OptionsFormTopModelValue', elementOptions)
 
 		return {
 			element,

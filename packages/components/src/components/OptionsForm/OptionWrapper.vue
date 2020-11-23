@@ -211,9 +211,6 @@ export default {
 			type: Array,
 		},
 		label: {},
-		deleteValue: {
-			type: Function,
-		},
 		getSchemaFromPath: {
 			type: Function,
 		},
@@ -257,8 +254,7 @@ export default {
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setActiveResponsiveDeviceId,
-			deleteValue: props.deleteValue,
+			setActiveResponsiveDeviceId
 		}
 	},
 	data () {
@@ -269,7 +265,6 @@ export default {
 		}
 	},
 	computed: {
-
 		isValidInput () {
 			return this.optionTypeConfig;
 		},
@@ -419,6 +414,7 @@ export default {
 
 					// Check to see if we need to delete the option
 					if (valueToUpdate === null) {
+
 						this.deleteTopModelValueByPath(syncValuePath)
 					} else {
 						this.updateTopModelValueByPath(syncValuePath, valueToUpdate)
@@ -599,7 +595,7 @@ export default {
 					this.$parent.deleteValues(childOptionsIds);
 				} else {
 					optionId = optionId || this.optionId;
-					this.deleteValue(optionId);
+					this.deleteValueByPath(optionId);
 				}
 			}
 		},
