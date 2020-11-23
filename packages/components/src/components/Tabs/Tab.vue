@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-if="isTabActive"
+		v-if="active"
 		class="znpb-tab__wrapper"
 	>
 		<!-- @slot Content that will be added inside button -->
@@ -9,15 +9,10 @@
 </template>
 
 <script>
+import { inject, computed } from 'vue'
+
 export default {
 	name: 'Tab',
-	inject: {
-		Tabs: {
-			default () {
-				return {}
-			}
-		}
-	},
 	props: {
 		/**
 		 * Tab Name
@@ -34,37 +29,7 @@ export default {
 			default: null
 		},
 		active: {
-
-		}
-	},
-	data () {
-		return {
-			isActive: false
-		}
-	},
-	created () {
-		this.Tabs.registerTab(this.computedTabInfo)
-	},
-	beforeUnmount () {
-		this.Tabs.unRegisterTab(this.computedTabInfo)
-	},
-	computed: {
-		isTabActive() {
-			return this.Tabs.computedActiveTab === this.tabId
-		},
-		computedTabInfo() {
-			return {
-				name: this.name,
-				id: this.tabId,
-				titleSlot: this.$slots.title
-			}
-		},
-		tabId () {
-			return this.id ? this.id : this.name.toLowerCase().replace(/ /g, '-')
-		},
-		_isTab () {
-			// For parent sniffing of child
-			return true
+			type: Boolean
 		}
 	}
 }

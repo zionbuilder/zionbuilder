@@ -10,12 +10,12 @@
 
 			<BaseInput
 				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
-				v-model="searchKeyword"
+				v-model="computedSearchKeyword"
 				:placeholder="$translate('search_elements')"
 				:clearable="true"
 				icon="search"
 				autocomplete="off"
-				ref="searhInputEl"
+				ref="searchInputEl"
 			/>
 		</div>
 
@@ -34,7 +34,7 @@
 	</div>
 </template>
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory } from '@composables'
 import { on, off } from '@zb/hooks'
 
@@ -58,16 +58,18 @@ export default {
 
 		// Refs
 		const localSearchKeyword = ref(null)
-		const searchKeyword = computed(
+		const computedSearchKeyword = computed(
 			{
-				get: () => localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword,
+				get: () => {
+					return localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword
+				},
 				set: (newValue) => {
 					localSearchKeyword.value = newValue
 				}
 			}
 		)
 		const categoryValue = ref('all')
-		const searhInputEl = ref(null)
+		const searchInputEl = ref(null)
 
 		// Normal data
 		const elementCategories = [{
@@ -79,7 +81,7 @@ export default {
 		const visibleElements = computed(() => {
 			let elements = getVisibleElements.value
 			const category = categoryValue.value
-			const keyword = searchKeyword.value
+			const keyword = computedSearchKeyword.value
 
 			// Check if we have a specific category selected
 			if (category !== 'all') {
@@ -125,16 +127,18 @@ export default {
 
 		// Lifecycle
 		onMounted(() => {
-			searhInputEl.value.focus()
+			setTimeout(() => {
+				searchInputEl.value.focus()
+			}, 0)
 		})
 
 		return {
 			// Normal values
 			elementCategories,
 			// Refs
-			searchKeyword,
+			computedSearchKeyword,
 			categoryValue,
-			searhInputEl,
+			searchInputEl,
 			// Computed
 			visibleElements,
 			// Methods

@@ -1,34 +1,8 @@
-<template>
-	<div
-		class="znpb-tabs"
-		:class="cssClasses"
-	>
-		<div
-			class="znpb-tabs__header"
-			:class="navigationClasses"
-		>
-			<TabLink
-				v-for="tab in tabs"
-				:key="tab.id"
-				@click="selectTab(tab.id)"
-				:active="tab.id === computedActiveTab"
-				:tab="tab"
-			>
-			</TabLink>
-		</div>
-
-		<div
-			class="znpb-tabs__content"
-			:class="{['znpb-fancy-scrollbar']: hasScroll.includes(activeTab) }"
-		>
-
-			<!-- @slot Content that will be added inside the tab -->
-			<slot></slot>
-		</div>
-	</div>
-</template>
-
 <script>
+import { computed, h, ref, watch, cloneVNode } from 'vue'
+import { cloneDeep } from 'lodash-es'
+
+// Components
 import TabLink from './TabLink.vue'
 
 export default {
@@ -63,61 +37,113 @@ export default {
 			default () { return [] }
 		}
 	},
-	computed: {
-		computedActiveTab () {
-			return this.localActiveTab || this.activeTab || ( this.tabs[0] && this.tabs[0].id )
-		},
-		cssClasses () {
-			return {
-				[`znpb-tabs--${this.tabStyle}`]: this.tabStyle
-			}
-		},
-		navigationClasses () {
-			return {
-				[`znpb-tabs__header--${this.titlePosition}`]: true
-			}
-		}
-	},
-	data () {
-		return {
-			tabs: [],
-			localActiveTab: this.activeTab
-		}
-	},
-	components: {
-		TabLink
-	},
-	watch: {
-		activeTab (newValue) {
-			this.localActiveTab = newValue
-		}
-	},
-	methods: {
-		registerTab (tabInfo) {
-			this.tabs.push(tabInfo)
-		},
+	setup (props, { emit, slots }) {
+		const localActiveTab = ref(null)
+		const computedActiveTab = computed({
+			get: () => {
+				return props.activeTab || localActiveTab.value
+			},
+			set: (newValue) => {
+				emit('update:activeTab', newValue)
 
-		unRegisterTab ({ id }) {
-			const tabIndex = this.tabs.find(tabInfo => tabInfo.id === id)
-
-			if (tabIndex) {
-				this.tabs.splice(tabIndex, 1)
 			}
-		},
+		})
+
+		// Computed
+		const cssClasses = computed(() => {
+			return {
+				'znpb-tabs': true,
+				[`znpb-tabs--${props.tabStyle}`]: props.tabStyle
+			}
+		})
+		const navigationClasses = computed(() => {
+			return {
+				'znpb-tabs__header': true,
+				[`znpb-tabs__header--${props.titlePosition}`]: true
+			}
+		})
 
 		/**
 		 * Activates a tab based on tabId
 		 */
-		selectTab (tabId) {
-			if (tabId === this.computedActiveTab) {
+		function selectTab (tabId) {
+			if (tabId === computedActiveTab.value) {
 				return
 			}
 
-			/**
-			 * Activates a tab based on tabId
-			 */
-			this.$emit('changed-tab', tabId)
-			this.localActiveTab = tabId
+			computedActiveTab.value = tabId
+			emit('change-tab', tabId)
+			localActiveTab.value = tabId
+		}
+
+		function getIdForTab({ props }) {
+			return props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
+		}
+
+		function generateTitleVNode ({ props, children }) {
+			const title = children.title ? children.title() : props.name
+
+			return h(
+				'div',
+				{
+					class: {
+						'znpb-tabs__header-item--active': props.active,
+						[`znpb-tabs__header-item--${props.name.toLowerCase()}`]: props.name,
+						'znpb-tabs__header-item': true
+					},
+					onClick: function () {
+						selectTab(props.id)
+					}
+				},
+				[title]
+			)
+		}
+
+		return () => {
+			const childContent = slots.default()
+
+			const childItems = childContent.map((vNode, i) => {
+				const tabId = getIdForTab(vNode)
+
+				if (!computedActiveTab.value && i === 0) {
+					computedActiveTab.value = tabId
+				}
+
+				return cloneVNode(vNode, {
+					id: tabId,
+					active: computedActiveTab.value === tabId
+				})
+			})
+
+			const headerItems = childItems.map(vNode => {
+				return generateTitleVNode(vNode)
+			})
+
+			const header = h(
+				'div',
+				{
+					class: navigationClasses.value
+				},
+				headerItems
+			)
+
+			const content = h(
+				'div', {
+					class: {
+						'znpb-tabs__content': true,
+						['znpb-fancy-scrollbar']: props.hasScroll.includes(computedActiveTab.value)
+					}
+				},
+				[childItems]
+			)
+
+			return h(
+				'div',
+				{
+					class: cssClasses.value
+				},
+				[header, content]
+			)
 		}
 	}
 }

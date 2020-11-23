@@ -2,8 +2,8 @@
 	<div class="znpb-columns-templates-wrapper">
 		<Tabs
 			title-position="center"
-			:active-tab="activeTab"
-			@changed-tab="active=$event, searchKeyword=''"
+			v-model:activeTab="active"
+			@change-tab="onTabChange"
 		>
 			<Tab
 				name="Layouts"
@@ -52,7 +52,7 @@
 	</div>
 </template>
 <script>
-import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
@@ -74,8 +74,10 @@ export default {
 	},
 	setup (props, { emit }) {
 		const { closePanel, togglePanel } = usePanels()
-		const active = ref(null)
+		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts'
+		const active = ref(defaultTab)
 		const { addEventListener, removeEventListener } = useWindows()
+		const searchKeyword = ref('')
 
 		const spanElements = {
 			'full': 1,
@@ -97,16 +99,6 @@ export default {
 		}
 
 		const layouts = getLayoutConfigs()
-		const activeTab = computed(() => {
-			if (active.value !== null) {
-				return active.value
-			} else if (props.element.element_type === 'zion_column') {
-				return 'elements'
-			}
-
-			return null
-		})
-
 
 		const getSpanNumber = (id) => {
 			return spanElements[id]
@@ -161,23 +153,6 @@ export default {
 				if (orientation === 'column') {
 					config = wrapColumn(config)
 				}
-
-
-
-				// // check parent orientation
-				// if (elementType === 'zion_column') {
-				// 	if (getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', 'column') === 'column') {
-				// 		config = wrapColumn(config)
-				// 	}
-				// } else if (elementType === 'zion_section') {
-				// 	if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-				// 		config = wrapColumn(config)
-				// 	}
-				// }
-				console.log({elementType});
-				console.log({orientation});
-				console.log({config});
-
 			}
 
 			// If it's a wrapper, it means that it can have childs
@@ -199,12 +174,19 @@ export default {
 			emit('close')
 		}
 
-		const searchKeyword = ref('')
+
 		function onKeyDown (event) {
+			const currentTab = active.value
 			active.value = 'elements'
-			if (active.value !== 'elements') {
+
+			if (currentTab !== 'elements') {
 				searchKeyword.value += event.key
 			}
+
+		}
+
+		function onTabChange () {
+			searchKeyword.value = ''
 		}
 
 		onMounted(() => addEventListener('keypress', onKeyDown))
@@ -214,13 +196,13 @@ export default {
 			layouts,
 			active,
 			spanElements,
-			activeTab,
 			// methods
 			getSpanNumber,
 			addElements,
 			closePanel,
 			searchKeyword,
-			openLibrary
+			openLibrary,
+			onTabChange
 		}
 	}
 }

@@ -1,4 +1,5 @@
 <template>
+
 	<div
 		class="zion-input"
 		:class="{
@@ -6,7 +7,8 @@
 			'zion-input--has-append': $slots.append,
 			'zion-input--has-suffix': hasSuffixContent,
 			'zion-input--error': error,
-			[`zion-input--size-${size}`]: size
+			[`zion-input--size-${size}`]: size,
+			[cssClass]: cssClass
 		}"
 		@keydown="onKeyDown"
 	>
@@ -129,6 +131,9 @@ export default {
 		fontFamily: {
 			type: String,
 			required: false
+		},
+		class: {
+
 		}
 	},
 	data () {
@@ -138,6 +143,9 @@ export default {
 	},
 
 	computed: {
+		cssClass () {
+			return this.class
+		},
 		showClear () {
 			return this.clearable && this.localValue && this.localValue.length > 0
 		},
@@ -168,9 +176,7 @@ export default {
 			}
 		},
 		focus () {
-			this.$nextTick(() => {
-				this.$refs.input.focus()
-			})
+			this.$refs.input.focus()
 		},
 		blur () {
 			this.$refs.input.blur()
