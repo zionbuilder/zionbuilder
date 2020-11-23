@@ -128,7 +128,7 @@ export default {
 		}
 
 		const addElements = (config) => {
-			const { insertElement, getElementForInsert } = useAddElementsPopup()
+			const { insertElement, getElementForInsert, shouldOpenPopup } = useAddElementsPopup()
 			const activeElementForInsert = getElementForInsert()
 			const elementType = activeElementForInsert.element.element_type
 
@@ -154,6 +154,9 @@ export default {
 					config = wrapColumn(config)
 				}
 			}
+
+			// Open the first sortable content popup
+			shouldOpenPopup.value = true
 
 			// If it's a wrapper, it means that it can have childs
 			insertElement(config)

@@ -1,6 +1,7 @@
 import { ref, Ref } from 'vue'
 
 const activePopup: Ref<null | object> = ref(null)
+const shouldOpenPopup = ref(false)
 
 export function useAddElementsPopup () {
 	const showAddElementsPopup = (element, selector, config = {}) => {
@@ -50,6 +51,7 @@ export function useAddElementsPopup () {
 		hideAddElementsPopup,
 		getElementForInsert,
 		insertElement,
-		activePopup
+		activePopup,
+		shouldOpenPopup
 	}
 }

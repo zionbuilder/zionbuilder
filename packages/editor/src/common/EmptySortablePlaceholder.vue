@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAddElementsPopup } from '@composables'
 
 export default {
@@ -24,11 +24,19 @@ export default {
 		element: Object
 	},
 	setup(props) {
+		const { showAddElementsPopup, shouldOpenPopup } = useAddElementsPopup()
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 
+		onMounted(() => {
+			if (shouldOpenPopup.value === true) {
+				showAddElementsPopup(props.element, addElementsPopupButton)
+				shouldOpenPopup.value = false
+			}
+		})
+
+
 		function toggleAddElementsPopup () {
-			const { showAddElementsPopup } = useAddElementsPopup()
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 
