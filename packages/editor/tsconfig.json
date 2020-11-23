@@ -17,7 +17,6 @@
 	],
 	"include": [
 		"src/**/*",
-		"../shims-vue.d.ts",
-		"../models"
+		"../shims-vue.d.ts"
 	]
 }
