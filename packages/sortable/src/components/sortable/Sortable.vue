@@ -24,18 +24,19 @@ const hosts = HostsManager()
 const eventsManager = EventsManager()
 
 const getOffset = (currentDocument) => {
-	const frameElement = hosts.getIframes().find((iframe) => {
-		return iframe.contentDocument === currentDocument
-	})
+	// This is not needed anymore
+	// const frameElement = hosts.getIframes().find((iframe) => {
+	// 	return iframe.contentDocument === currentDocument
+	// })
 
-	if (undefined !== frameElement) {
-		const { left, top } = frameElement.getBoundingClientRect()
+	// if (undefined !== frameElement) {
+	// 	const { left, top } = frameElement.getBoundingClientRect()
 
-		return {
-			left,
-			top
-		}
-	}
+	// 	return {
+	// 		left,
+	// 		top
+	// 	}
+	// }
 
 	return {
 		left: 0,
