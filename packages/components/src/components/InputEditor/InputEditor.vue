@@ -13,8 +13,17 @@ export default {
 	},
 	data () {
 		return {
-			editor: null,
 			editorTextarea: null
+		}
+	},
+	setup () {
+		const editor = null
+		const randomNumber = Math.floor((Math.random() * 100) + 1);
+		const editorID = `znpbwpeditor${randomNumber}`;
+
+		return {
+			editor,
+			editorID
 		}
 	},
 	computed: {
@@ -28,16 +37,12 @@ export default {
 				}
 				this.$emit('update:modelValue', newValue)
 			}
-		},
-		editorID () {
-			return `znpbwpeditor${this._uid}`
 		}
 	},
 	mounted () {
 		this.$el.innerHTML = window.ZnPbInitalData.wp_editor.replace(/znpbwpeditorid/g, this.editorID).replace('%%ZNPB_EDITOR_CONTENT%%', this.content)
 
 		this.editorTextarea = document.querySelectorAll('.wp-editor-area')[0]
-
 		this.editorTextarea.addEventListener('keyup', this.onTextChanged)
 
 		window.quicktags({
