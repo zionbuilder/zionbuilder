@@ -35,7 +35,7 @@
 				<SingleClassOptions
 					:class-item="classItem"
 					@update:modelValue="saveClass"
-					@input-classname="saveClass"
+					@update:modelValue-classname="saveClass"
 				/>
 
 			</HorizontalAccordion>
