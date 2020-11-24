@@ -61,7 +61,7 @@ class Templates extends RestApiController {
 					'permission_callback' => [ $this, 'create_item_permissions_check' ],
 					'args'                => [
 						'title'         => [
-							'required' => true,
+							'required' => false,
 						],
 						'template_type' => [
 							'required' => true,
@@ -78,7 +78,7 @@ class Templates extends RestApiController {
 			[
 				'args'   => [
 					'title'             => [
-						'required' => true,
+						'required' => false,
 					],
 					'template_type'     => [
 						'required' => true,

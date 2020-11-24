@@ -160,7 +160,8 @@ class RenderAttributes {
 					$attribute       = isset( $attribute_config['attribute'] ) ? $attribute_config['attribute'] : 'class';
 					$attribute_value = isset( $attribute_config['value'] ) ? $attribute_config['value'] : '';
 
-					if ( property_exists( $option_schema, 'responsive_options' ) && $option_schema->responsive_options && is_array( $option_value ) ) {
+					if ( property_exists( $option_schema, 'responsive_options' ) && $option_schema->responsive_options ) {
+						$option_value = ! is_array( $option_value ) ? [ 'default' => $option_value ] : $option_value;
 						foreach ( $option_value as $device_id => $value ) {
 							if ( ! isset( self::$responsive_devices_map[$device_id] ) || empty( $value ) ) {
 								continue;

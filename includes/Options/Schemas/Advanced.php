@@ -215,6 +215,12 @@ class Advanced extends BaseSchema {
 						'class' => 'bounceInUp',
 					],
 				],
+				'render_attribute' => [
+					[
+						'attribute' => 'class',
+						'value'     => 'animated {{VALUE}}',
+					],
+				],
 			]
 		);
 
@@ -230,7 +236,7 @@ class Advanced extends BaseSchema {
 					[
 						'option' => '_appear_animation',
 						'type'   => 'not_in',
-						'value'  => [ 'none' ],
+						'value'  => [ '' ],
 					],
 				],
 				'options'     => [
@@ -249,7 +255,7 @@ class Advanced extends BaseSchema {
 						'unit'       => 'ms',
 					],
 				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-duration',
+				'sync' => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-duration',
 			]
 		);
 
@@ -264,7 +270,7 @@ class Advanced extends BaseSchema {
 					[
 						'option' => '_appear_animation',
 						'type'   => 'not_in',
-						'value'  => [ 'none' ],
+						'value'  => [ '' ],
 					],
 				],
 				'options'     => [

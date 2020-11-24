@@ -73,7 +73,7 @@ class Localization {
 				// Tools
 				'tools'                                  => esc_html__( 'Tools', 'zionbuilder' ),
 				'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
-				'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
+				'regenerate_css'                         => esc_html__( 'Regenerate CSS & JS', 'zionbuilder' ),
 				'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                => esc_html__( 'New Url', 'zionbuilder' ),
@@ -109,7 +109,7 @@ class Localization {
 				'template_delete_confirm'                => esc_html__( 'Yes, delete template', 'zionbuilder' ),
 				'template_delete_cancel'                 => esc_html__( 'No, keep template', 'zionbuilder' ),
 				'are_you_sure_template_delete'           => esc_html__( 'Are you sure you want to delete this template?', 'zionbuilder' ),
-				'template_was_added'                     => esc_html__( 'The template was susscesfully added to library', 'zionbuilder' ),
+				'template_was_added'                     => esc_html__( 'The template was successfully added to library', 'zionbuilder' ),
 				'success'                                => esc_html__( 'success', 'zionbuilder' ),
 				'select_template'                        => esc_html__( 'Select a template', 'zionbuilder' ),
 				'select_type'                            => esc_html__( 'Select type', 'zionbuilder' ),
@@ -128,6 +128,7 @@ class Localization {
 				'actions'                                => esc_html__( 'actions', 'zionbuilder' ),
 				'add_font'                               => esc_html__( 'Add Font', 'zionbuilder' ),
 				'are_you_sure_google_font_delete'        => esc_html__( 'Are you sure you want to delete this font?', 'zionbuilder' ),
+				'click_to_delete_font'                   => esc_html__( 'Delete font?', 'zionbuilder' ),
 				'font_delete_confirm'                    => esc_html__( 'Yes, delete the font', 'zionbuilder' ),
 				'font_delete_cancel'                     => esc_html__( 'No, keep the font', 'zionbuilder' ),
 				// Custom fonts
@@ -444,7 +445,7 @@ class Localization {
 
 				// ColumnTemplates
 				'access_library_templates'               => __( 'Access Library Templates', 'zionbuilder' ),
-				'access_video_library'                   => __( 'Access over 200+ templates from our library, it’s just one click away', 'zionbuilder' ),
+				'access_video_library'                   => __( 'Access over 150+ templates from our library, it’s just one click away', 'zionbuilder' ),
 				'open_library'                           => __( 'Open Library', 'zionbuilder' ),
 
 				// Select
@@ -580,17 +581,18 @@ class Localization {
 				'duplicate_element_in_place'             => __( 'Duplicate element in place', 'zionbuilder' ),
 
 				// ZnpbPanelMain
-				'help'                                   => __( 'Help', 'zionbuilder' ),
-				'help_modal_title'                       => __( 'Help Center', 'zionbuilder' ),
-				'tour'                                   => __( 'Start tour', 'zionbuilder' ),
-				'key_shortcuts'                          => __( 'Key shortcuts', 'zionbuilder' ),
-				'about_zion_builder'                     => __( 'About Zion Builder', 'zionbuilder' ),
-				'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
-				'back_to_zion_dashboard'                 => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
-				'save_template'                          => __( 'Save Template', 'zionbuilder' ),
-				'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
-				'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
-				'success_save'                           => __( 'This page was successfully saved', 'zionbuilder' ),
+				'help'                                      => __( 'Help', 'zionbuilder' ),
+				'help_modal_title'                          => __( 'Help Center', 'zionbuilder' ),
+				'tour'                                      => __( 'Start tour', 'zionbuilder' ),
+				'key_shortcuts'                             => __( 'Key shortcuts', 'zionbuilder' ),
+				'about_zion_builder'                        => __( 'About Zion Builder', 'zionbuilder' ),
+				'back_to_wp_dashboard'                      => __( 'Back to WP Dashboard', 'zionbuilder' ),
+				'back_to_zion_dashboard'                    => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
+				'save_template'                             => __( 'Save Template', 'zionbuilder' ),
+				'save_draft'                                => __( 'Save Page', 'zionbuilder' ),
+				'save_page'                                 => __( 'Save & Publish Page', 'zionbuilder' ),
+				'success_save'                              => __( 'This page was successfully saved', 'zionbuilder' ),
+				'getting_started'                           => __( 'Getting started', 'zionbuilder' ),
 				// inline editor
 				'target'                                 => __( 'Target', 'zionbuilder' ),
 				'family'                                 => __( 'family', 'zionbuilder' ),

@@ -164,6 +164,7 @@ class Style {
 		$flex_reverse            = isset( $style_options['flex-reverse'] ) ? $style_options['flex-reverse'] : false;
 
 		foreach ( $style_options as $attribute => $value ) {
+
 			switch ( $attribute ) {
 				case in_array( $attribute, $filter_properties, true ):
 					switch ( $attribute ) {
@@ -334,13 +335,13 @@ class Style {
 					break;
 				case 'border-radius':
 					$border_radius = self::compile_border_radius( $value );
-					if ( ! empty( $border_radius ) ) {
+					if ( ! empty( $border_radius || $value === 0 ) ) {
 						$compiled_css .= $border_radius;
 					}
 					break;
 				case 'box-shadow':
 					$box_shadow = self::compile_box_shadow( $value );
-					if ( ! empty( $box_shadow ) ) {
+					if ( ! empty( $box_shadow || $value === 0 ) ) {
 						$compiled_css .= sprintf( 'box-shadow: %s;', $box_shadow );
 					}
 					break;
@@ -353,7 +354,7 @@ class Style {
 					$compiled_css .= self::compile_transform( $value );
 					break;
 				default:
-					if ( ! empty( $value ) && ! is_array( $value ) ) {
+					if ( ( ! empty( $value ) || $value === 0 || $value === '0' ) && ! is_array( $value ) ) {
 						$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					}
 					break;
@@ -402,7 +403,7 @@ class Style {
 		if ( ! empty( $background_image_config ) ) {
 			sort( $background_image_config );
 			$background_value = implode( ', ', $background_image_config );
-			$compiled_css    .= sprintf( 'background-image: %s;', $background_value );
+			$compiled_css .= sprintf( 'background-image: %s;', $background_value );
 		}
 
 		// Background position
@@ -413,7 +414,7 @@ class Style {
 		// Text decoration
 		if ( ! empty( $text_decoration_value ) ) {
 			$text_decoration_value_string = implode( ' ', $text_decoration_value );
-			$compiled_css                .= sprintf( 'text-decoration: %s;', $text_decoration_value_string );
+			$compiled_css .= sprintf( 'text-decoration: %s;', $text_decoration_value_string );
 		}
 
 		// Check for transitions
@@ -555,7 +556,7 @@ class Style {
 				$x_axis .= ! empty( $perspective_origin_x ) ? $perspective_origin_x : '50%';
 				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
 
-				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
+				$origin .= sprintf( '%s %s', $x_axis, $y_axis );
 				$combined_styles .= sprintf( '-ms-perspective-origin: %s; -moz-perspective-origin: %s; -webkit-perspective-origin: %s; perspective-origin: %s;', $origin, $origin, $origin, $origin );
 			}
 

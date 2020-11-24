@@ -54,7 +54,7 @@ class Cache {
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ], 99 );
+			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
 		} else {
 			// Register default scripts so we can use them in edit mode
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ], 99 );
@@ -67,6 +67,7 @@ class Cache {
 	 * @return void
 	 */
 	public function on_enqueue_scripts() {
+
 		$this->register_default_scripts();
 		$this->enqueue_post_styles();
 		$this->enqueue_post_scripts();
@@ -122,7 +123,6 @@ class Cache {
 		$post_id = absint( $post_id );
 		unset( $this->registered_post_ids[$post_id] );
 	}
-
 
 	/**
 	 * Enqueue dynamic css file
@@ -457,6 +457,20 @@ class Cache {
 
 		FileSystem::get_file_system()->delete( $cache_file_config['path'] );
 	}
+
+
+	/**
+	 * Purges the dynamic css cached file
+	 *
+	 * @return void
+	 */
+	public function delete_dynamic_css_cache() {
+		$cache_directory    = $this->get_cache_directory();
+		$dynamic_cache_file = $cache_directory['path'] . self::DYNAMIC_CSS_FILENAME;
+
+		FileSystem::get_file_system()->delete( $dynamic_cache_file );
+	}
+
 
 	/**
 	 * Delete all cache
