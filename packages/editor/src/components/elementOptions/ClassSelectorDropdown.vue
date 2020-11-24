@@ -142,7 +142,7 @@ export default {
 				let className = this.CSSClasses.find(({ id }) => id === that.activeClass)
 				return {
 					type: 'class',
-					name: className ? className.name : selector
+					name: className ? className.name : that.activeClass
 				}
 			} else {
 				return this.computedSelectorConfig
