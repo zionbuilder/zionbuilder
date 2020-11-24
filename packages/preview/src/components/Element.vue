@@ -76,6 +76,8 @@ import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
 
+let handled = false
+
 export default {
 	name: 'Element',
 	components: {
@@ -210,18 +212,17 @@ export default {
 		}
 
 		// Prevents us using stop propagation that can affect other elements
-		let handled = false
 		const onElementClick = (event) => {
 			if (handled) {
 				return
 			}
 
+			focusElement(props.element)
+
 			handled = true
 			setTimeout(() => {
 				handled = false
 			}, 10);
-
-			focusElement(props.element)
 		}
 
 		/**
