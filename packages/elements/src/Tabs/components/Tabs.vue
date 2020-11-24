@@ -47,7 +47,7 @@ export default {
 			return props.element.content.map((tabsElement, i) => {
 				return {
 					title: tabsElement.options.title,
-					active: i === 1,
+					active: i === 0,
 					uid: tabsElement.uid
 				}
 
