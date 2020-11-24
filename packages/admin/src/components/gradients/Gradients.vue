@@ -57,6 +57,7 @@
 <script>
 import { computed, ref, inject, reactive } from 'vue'
 import { getDefaultGradient } from '@zb/components'
+import { generateUID } from '@zb/utils'
 
 // Components
 import GradientBox from './GradientBox.vue'
@@ -121,9 +122,7 @@ export default {
 		}
 
 		function onAddNewGradient () {
-			let arrayLength = localGradients.length
-
-			let dynamicName = `gradientPreset${arrayLength + 1}`
+			let dynamicName = generateUID()
 
 			const defaultGradient = {
 				id: dynamicName,
