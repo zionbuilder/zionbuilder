@@ -133,11 +133,10 @@ Zion Page Builder is a front end visual page builder plugin for WordPress. Zion 
 Yes you can. You can edit posts, pages, and custom post types with Zion Page Builder by activating them from the plugin Admin panel.
 
 == Screenshots ==
-
-1. Plugin edit screen
-2. Plugin edit screen while hovering an element
-3. Element options
-4. Add new element in page
+1. Editing experience
+2. Editing experience
+3. Responsive options
+4. Inline edit
 5. ZionBuilder online library
 6. ZionBuilder online library
 7. Tree view
@@ -146,6 +145,11 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 10. History panel. You can get back in time
 11. Two builder panel open
 12. Responsive options. You can style an element for each device
+13. Plugin edit screen
+14. Plugin edit screen while hovering an element
+15. Element options
+16. Add new element in page
+17. ZionBuilder online library
 
 == Changelog ==
 
