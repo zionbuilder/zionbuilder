@@ -1,19 +1,17 @@
-# Copyright (C) 2020 Zionbuilder
-# This file is distributed under the same license as the Zionbuilder package.
+# Copyright (C) 2020 unnamed project
+# This file is distributed under the same license as the unnamed project package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Zionbuilder\n"
+"Project-Id-Version: unnamed project\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
-"X-Domain: zionbuilder\n"
+"X-Domain: undefined\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:239
-msgid "Edit with Zion builder"
+#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:237, ../includes/Admin/Admin.php:276, ../includes/Admin/Admin.php:298
+msgid "Edit with Zion Builder"
 msgstr ""
 
 #: ../includes/FileSystem.php:56
@@ -117,7 +115,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:40, ../includes/Options/Schemas/Advanced.php:305, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:483, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
+#: ../includes/Localization.php:40, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:483, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -230,7 +228,7 @@ msgid "Regenerate Files"
 msgstr ""
 
 #: ../includes/Localization.php:76
-msgid "Regenerate CSS"
+msgid "Regenerate CSS & JS"
 msgstr ""
 
 #: ../includes/Localization.php:77
@@ -321,7 +319,7 @@ msgstr ""
 msgid "Template Name"
 msgstr ""
 
-#: ../includes/Localization.php:104
+#: ../includes/Localization.php:104, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:35
 msgid "Edit"
 msgstr ""
 
@@ -329,7 +327,7 @@ msgstr ""
 msgid "Conditions"
 msgstr ""
 
-#: ../includes/Localization.php:106, ../includes/Localization.php:475
+#: ../includes/Localization.php:106, ../includes/Localization.php:476, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:92
 msgid "Delete"
 msgstr ""
 
@@ -337,7 +335,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: ../includes/Localization.php:108, ../includes/Localization.php:376
+#: ../includes/Localization.php:108, ../includes/Localization.php:377
 msgid "Preview"
 msgstr ""
 
@@ -354,7 +352,7 @@ msgid "Are you sure you want to delete this template?"
 msgstr ""
 
 #: ../includes/Localization.php:112
-msgid "The template was susscesfully added to library"
+msgid "The template was successfully added to library"
 msgstr ""
 
 #: ../includes/Localization.php:113
@@ -414,1342 +412,1350 @@ msgid "Are you sure you want to delete this font?"
 msgstr ""
 
 #: ../includes/Localization.php:131
-msgid "Yes, delete the font"
+msgid "Delete font?"
 msgstr ""
 
 #: ../includes/Localization.php:132
+msgid "Yes, delete the font"
+msgstr ""
+
+#: ../includes/Localization.php:133
 msgid "No, keep the font"
 msgstr ""
 
-#: ../includes/Localization.php:134
+#: ../includes/Localization.php:135
 msgid "Save"
 msgstr ""
 
-#: ../includes/Localization.php:135, ../includes/Options/Schemas/Typography.php:50
+#: ../includes/Localization.php:136, ../includes/Options/Schemas/Typography.php:50
 msgid "Font Weight"
 msgstr ""
 
-#: ../includes/Localization.php:136
+#: ../includes/Localization.php:137
 msgid ".woff file"
 msgstr ""
 
-#: ../includes/Localization.php:137
+#: ../includes/Localization.php:138
 msgid ".ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:138
+#: ../includes/Localization.php:139
 msgid ".svg file"
 msgstr ""
 
-#: ../includes/Localization.php:139
+#: ../includes/Localization.php:140
 msgid ".eot file"
 msgstr ""
 
-#: ../includes/Localization.php:141
+#: ../includes/Localization.php:142
 msgid "No icons added"
 msgstr ""
 
-#: ../includes/Localization.php:143
+#: ../includes/Localization.php:144
 msgid "Icon pack"
 msgstr ""
 
-#: ../includes/Localization.php:144
+#: ../includes/Localization.php:145
 msgid "Search through"
 msgstr ""
 
-#: ../includes/Localization.php:145
+#: ../includes/Localization.php:146
 msgid "icons"
 msgstr ""
 
-#: ../includes/Localization.php:146
+#: ../includes/Localization.php:147
 msgid "No icons were found in package"
 msgstr ""
 
-#: ../includes/Localization.php:147
+#: ../includes/Localization.php:148
 msgid "Select an icon"
 msgstr ""
 
-#: ../includes/Localization.php:153
+#: ../includes/Localization.php:154
 msgid "Please provide the token you got from the"
 msgstr ""
 
-#: ../includes/Localization.php:154
+#: ../includes/Localization.php:155
 msgid "Adobe fonts website"
 msgstr ""
 
-#: ../includes/Localization.php:155
+#: ../includes/Localization.php:156
 msgid "After adding a valid token, your web projects will appear bellow."
 msgstr ""
 
-#: ../includes/Localization.php:157
+#: ../includes/Localization.php:158
 msgid "submit"
 msgstr ""
 
-#: ../includes/Localization.php:158
+#: ../includes/Localization.php:159
 msgid "Loading"
 msgstr ""
 
-#: ../includes/Localization.php:161
+#: ../includes/Localization.php:162
 msgid "Add color"
 msgstr ""
 
-#: ../includes/Localization.php:164
+#: ../includes/Localization.php:165
 msgid "Add Gradient"
 msgstr ""
 
-#: ../includes/Localization.php:165
+#: ../includes/Localization.php:166
 msgid "Gradient type"
 msgstr ""
 
-#: ../includes/Localization.php:166
+#: ../includes/Localization.php:167
 msgid "Gradient angle"
 msgstr ""
 
-#: ../includes/Localization.php:167
+#: ../includes/Localization.php:168
 msgid "Gradient bar"
 msgstr ""
 
-#: ../includes/Localization.php:168
+#: ../includes/Localization.php:169
 msgid "Click to add gradient point"
 msgstr ""
 
-#: ../includes/Localization.php:169
+#: ../includes/Localization.php:170
 msgid "Global colors are available in"
 msgstr ""
 
-#: ../includes/Localization.php:170, ../includes/Api/RestControllers/SystemInfo.php:145
+#: ../includes/Localization.php:171, ../includes/Api/RestControllers/SystemInfo.php:145
 msgid "name"
 msgstr ""
 
-#: ../includes/Localization.php:173
+#: ../includes/Localization.php:174
 msgid "Copy and paste info"
 msgstr ""
 
-#: ../includes/Localization.php:174
+#: ../includes/Localization.php:175
 msgid "You can copy the below info as simple text with Ctrl+C / Ctrl+V:"
 msgstr ""
 
-#: ../includes/Localization.php:176
+#: ../includes/Localization.php:177
 msgid "Role manager"
 msgstr ""
 
-#: ../includes/Localization.php:177
+#: ../includes/Localization.php:178
 msgid "User specific permissions"
 msgstr ""
 
-#: ../includes/Localization.php:178
+#: ../includes/Localization.php:179
 msgid "Add a User"
 msgstr ""
 
-#: ../includes/Localization.php:179, ../includes/Localization.php:183
+#: ../includes/Localization.php:180, ../includes/Localization.php:184
 msgid "Access to editor"
 msgstr ""
 
-#: ../includes/Localization.php:180
+#: ../includes/Localization.php:181
 msgid "Post types"
 msgstr ""
 
-#: ../includes/Localization.php:181, ../includes/Elements/PricingBox/PricingBox.php:157
+#: ../includes/Localization.php:182, ../includes/Elements/PricingBox/PricingBox.php:157
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:182, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:190, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:183, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:190, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
-#: ../includes/Localization.php:184
+#: ../includes/Localization.php:185
 msgid "Edit only Content"
 msgstr ""
 
-#: ../includes/Localization.php:185
+#: ../includes/Localization.php:186
 msgid "Permissions"
 msgstr ""
 
-#: ../includes/Localization.php:186
+#: ../includes/Localization.php:187
 msgid "no user added yet"
 msgstr ""
 
-#: ../includes/Localization.php:187
+#: ../includes/Localization.php:188
 msgid "Search for users"
 msgstr ""
 
-#: ../includes/Localization.php:188
+#: ../includes/Localization.php:189
 msgid "Type in the search below to find an user and press enter to add it."
 msgstr ""
 
-#: ../includes/Localization.php:194
+#: ../includes/Localization.php:195
 msgid "Add new"
 msgstr ""
 
-#: ../includes/Localization.php:195
+#: ../includes/Localization.php:196
 msgid "Generating preview..."
 msgstr ""
 
-#: ../includes/Localization.php:197
+#: ../includes/Localization.php:198
 msgid "Edit Element"
 msgstr ""
 
-#: ../includes/Localization.php:198
+#: ../includes/Localization.php:199
 msgid "Save Element "
 msgstr ""
 
-#: ../includes/Localization.php:199
+#: ../includes/Localization.php:200
 msgid "Clone Element "
 msgstr ""
 
-#: ../includes/Localization.php:200
+#: ../includes/Localization.php:201
 msgid "Rename Element"
 msgstr ""
 
-#: ../includes/Localization.php:201
+#: ../includes/Localization.php:202
 msgid "Hide Element "
 msgstr ""
 
-#: ../includes/Localization.php:202, ../includes/Localization.php:203
+#: ../includes/Localization.php:203, ../includes/Localization.php:204
 msgid "Show Element "
 msgstr ""
 
-#: ../includes/Localization.php:204
+#: ../includes/Localization.php:205
 msgid "Copy element style"
 msgstr ""
 
-#: ../includes/Localization.php:205, ../includes/Localization.php:303
+#: ../includes/Localization.php:206, ../includes/Localization.php:304
 msgid "Cut Element"
 msgstr ""
 
-#: ../includes/Localization.php:206
+#: ../includes/Localization.php:207
 msgid "Delete Element"
 msgstr ""
 
-#: ../includes/Localization.php:207
+#: ../includes/Localization.php:208
 msgid "Open"
 msgstr ""
 
-#: ../includes/Localization.php:208
+#: ../includes/Localization.php:209
 msgid "Close"
 msgstr ""
 
-#: ../includes/Localization.php:209
+#: ../includes/Localization.php:210
 msgid "Toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:211
+#: ../includes/Localization.php:212
 msgid "Save to library"
 msgstr ""
 
-#: ../includes/Localization.php:212
+#: ../includes/Localization.php:213
 msgid "Choose a title"
 msgstr ""
 
-#: ../includes/Localization.php:213
+#: ../includes/Localization.php:214
 msgid "Write a suggestive name for your element"
 msgstr ""
 
-#: ../includes/Localization.php:214
+#: ../includes/Localization.php:215
 msgid "Add it to a category"
 msgstr ""
 
-#: ../includes/Localization.php:215
+#: ../includes/Localization.php:216
 msgid "Select a category from the library, or simply create a new category"
 msgstr ""
 
-#: ../includes/Localization.php:216
+#: ../includes/Localization.php:217
 msgid "Create"
 msgstr ""
 
-#: ../includes/Localization.php:217
+#: ../includes/Localization.php:218
 msgid "Download"
 msgstr ""
 
-#: ../includes/Localization.php:219
+#: ../includes/Localization.php:220
 msgid "History"
 msgstr ""
 
-#: ../includes/Localization.php:220
+#: ../includes/Localization.php:221
 msgid "Add elements"
 msgstr ""
 
-#: ../includes/Localization.php:221
+#: ../includes/Localization.php:222
 msgid "Library"
 msgstr ""
 
-#: ../includes/Localization.php:222
+#: ../includes/Localization.php:223
 msgid "Tree view panel"
 msgstr ""
 
-#: ../includes/Localization.php:223
+#: ../includes/Localization.php:224
 msgid "Global CSS classes"
 msgstr ""
 
-#: ../includes/Localization.php:224, ../includes/Localization.php:235
+#: ../includes/Localization.php:225, ../includes/Localization.php:236
 msgid "Options"
 msgstr ""
 
-#: ../includes/Localization.php:226
+#: ../includes/Localization.php:227
 msgid "Search elements"
 msgstr ""
 
-#: ../includes/Localization.php:228
+#: ../includes/Localization.php:229
 msgid "Tree view"
 msgstr ""
 
-#: ../includes/Localization.php:229
+#: ../includes/Localization.php:230
 msgid "Section view"
 msgstr ""
 
-#: ../includes/Localization.php:230
+#: ../includes/Localization.php:231
 msgid "Wireframe"
 msgstr ""
 
-#: ../includes/Localization.php:232
+#: ../includes/Localization.php:233
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:233, ../includes/Localization.php:593
+#: ../includes/Localization.php:234, ../includes/Localization.php:594
 msgid "This page was successfully saved"
 msgstr ""
 
-#: ../includes/Localization.php:237
+#: ../includes/Localization.php:238
 msgid "No elements found matching the search criteria"
 msgstr ""
 
-#: ../includes/Localization.php:238
+#: ../includes/Localization.php:239
 msgid "Remove class from element."
 msgstr ""
 
-#: ../includes/Localization.php:240
+#: ../includes/Localization.php:241
 msgid "Custom Width"
 msgstr ""
 
-#: ../includes/Localization.php:241
+#: ../includes/Localization.php:242
 msgid "Custom Height"
 msgstr ""
 
-#: ../includes/Localization.php:243
+#: ../includes/Localization.php:244
 msgid "Days"
 msgstr ""
 
-#: ../includes/Localization.php:244
+#: ../includes/Localization.php:245
 msgid "Hours"
 msgstr ""
 
-#: ../includes/Localization.php:245
+#: ../includes/Localization.php:246
 msgid "Minutes"
 msgstr ""
 
-#: ../includes/Localization.php:246
+#: ../includes/Localization.php:247
 msgid "Seconds"
 msgstr ""
 
-#: ../includes/Localization.php:247
+#: ../includes/Localization.php:248
 msgid "Next Month"
 msgstr ""
 
-#: ../includes/Localization.php:248
+#: ../includes/Localization.php:249
 msgid "Previous month"
 msgstr ""
 
-#: ../includes/Localization.php:249
+#: ../includes/Localization.php:250
 msgid "Set time"
 msgstr ""
 
-#: ../includes/Localization.php:250
+#: ../includes/Localization.php:251
 msgid "Mon"
 msgstr ""
 
-#: ../includes/Localization.php:251
+#: ../includes/Localization.php:252
 msgid "Tue"
 msgstr ""
 
-#: ../includes/Localization.php:252
+#: ../includes/Localization.php:253
 msgid "Wed"
 msgstr ""
 
-#: ../includes/Localization.php:253
+#: ../includes/Localization.php:254
 msgid "Thu"
 msgstr ""
 
-#: ../includes/Localization.php:254
+#: ../includes/Localization.php:255
 msgid "Fri"
 msgstr ""
 
-#: ../includes/Localization.php:255
+#: ../includes/Localization.php:256
 msgid "Sat"
 msgstr ""
 
-#: ../includes/Localization.php:256
+#: ../includes/Localization.php:257
 msgid "Sun"
 msgstr ""
 
-#: ../includes/Localization.php:257
+#: ../includes/Localization.php:258
 msgid "January"
 msgstr ""
 
-#: ../includes/Localization.php:258
+#: ../includes/Localization.php:259
 msgid "February"
 msgstr ""
 
-#: ../includes/Localization.php:259
+#: ../includes/Localization.php:260
 msgid "March"
 msgstr ""
 
-#: ../includes/Localization.php:260
+#: ../includes/Localization.php:261
 msgid "April"
 msgstr ""
 
-#: ../includes/Localization.php:261
+#: ../includes/Localization.php:262
 msgid "May"
 msgstr ""
 
-#: ../includes/Localization.php:262
+#: ../includes/Localization.php:263
 msgid "June"
 msgstr ""
 
-#: ../includes/Localization.php:263
+#: ../includes/Localization.php:264
 msgid "July"
 msgstr ""
 
-#: ../includes/Localization.php:264
+#: ../includes/Localization.php:265
 msgid "August"
 msgstr ""
 
-#: ../includes/Localization.php:265
+#: ../includes/Localization.php:266
 msgid "September"
 msgstr ""
 
-#: ../includes/Localization.php:266
+#: ../includes/Localization.php:267
 msgid "October"
 msgstr ""
 
-#: ../includes/Localization.php:267
+#: ../includes/Localization.php:268
 msgid "November"
 msgstr ""
 
-#: ../includes/Localization.php:268
+#: ../includes/Localization.php:269
 msgid "December"
 msgstr ""
 
-#: ../includes/Localization.php:271
+#: ../includes/Localization.php:272
 msgid "Search in this library"
 msgstr ""
 
-#: ../includes/Localization.php:272
+#: ../includes/Localization.php:273
 msgid "Testimonials"
 msgstr ""
 
-#: ../includes/Localization.php:273
+#: ../includes/Localization.php:274
 msgid "Import"
 msgstr ""
 
-#: ../includes/Localization.php:274
+#: ../includes/Localization.php:275
 msgid "Favorites"
 msgstr ""
 
-#: ../includes/Localization.php:275
+#: ../includes/Localization.php:276
 msgid "My favorites"
 msgstr ""
 
-#: ../includes/Localization.php:276
+#: ../includes/Localization.php:277
 msgid "Sort"
 msgstr ""
 
-#: ../includes/Localization.php:277
+#: ../includes/Localization.php:278
 msgid "Go Back"
 msgstr ""
 
-#: ../includes/Localization.php:278
+#: ../includes/Localization.php:279
 msgid "Pages"
 msgstr ""
 
-#: ../includes/Localization.php:279
+#: ../includes/Localization.php:280
 msgid "No more to show :("
 msgstr ""
 
-#: ../includes/Localization.php:280
+#: ../includes/Localization.php:281
 msgid "Drag and drop your exported item here or just click to "
 msgstr ""
 
-#: ../includes/Localization.php:281
+#: ../includes/Localization.php:282
 msgid "browse"
 msgstr ""
 
-#: ../includes/Localization.php:282
+#: ../includes/Localization.php:283
 msgid "for files"
 msgstr ""
 
-#: ../includes/Localization.php:283
+#: ../includes/Localization.php:284
 msgid "Drop your files"
 msgstr ""
 
-#: ../includes/Localization.php:284
+#: ../includes/Localization.php:285
 msgid "to upload"
 msgstr ""
 
-#: ../includes/Localization.php:285
+#: ../includes/Localization.php:286
 msgid "My fancy title"
 msgstr ""
 
-#: ../includes/Localization.php:286
+#: ../includes/Localization.php:287
 msgid "Enter new category"
 msgstr ""
 
-#: ../includes/Localization.php:287
+#: ../includes/Localization.php:288
 msgid "Select category"
 msgstr ""
 
-#: ../includes/Localization.php:289
+#: ../includes/Localization.php:290
 msgid "No class found. Press \"Add class\" to create a new class and assign it to the element."
 msgstr ""
 
-#: ../includes/Localization.php:290
+#: ../includes/Localization.php:291
 msgid "Add Class"
 msgstr ""
 
-#: ../includes/Localization.php:291
+#: ../includes/Localization.php:292
 msgid "This class name already exists"
 msgstr ""
 
-#: ../includes/Localization.php:292
+#: ../includes/Localization.php:293
 msgid "Invalid class name, classes must not start with numbers and cannot contain spaces"
 msgstr ""
 
-#: ../includes/Localization.php:293
+#: ../includes/Localization.php:294
 msgid "No elements found"
 msgstr ""
 
-#: ../includes/Localization.php:294
+#: ../includes/Localization.php:295
 msgid "Add new pseudoselector ex: :hover::before "
 msgstr ""
 
-#: ../includes/Localization.php:297
+#: ../includes/Localization.php:298
 msgid "No class found"
 msgstr ""
 
-#: ../includes/Localization.php:300
+#: ../includes/Localization.php:301
 msgid "On input of type number"
 msgstr ""
 
-#: ../includes/Localization.php:301
+#: ../includes/Localization.php:302
 msgid "On input of type number with link option available"
 msgstr ""
 
-#: ../includes/Localization.php:302
+#: ../includes/Localization.php:303
 msgid "Save changes"
 msgstr ""
 
-#: ../includes/Localization.php:304
+#: ../includes/Localization.php:305
 msgid "Discard element styles"
 msgstr ""
 
-#: ../includes/Localization.php:307
+#: ../includes/Localization.php:308
 msgid "Do you need help?"
 msgstr ""
 
-#: ../includes/Localization.php:308
+#: ../includes/Localization.php:309
 msgid "FREE"
 msgstr ""
 
-#: ../includes/Localization.php:309
+#: ../includes/Localization.php:310
 msgid "View changelog"
 msgstr ""
 
-#: ../includes/Localization.php:310
+#: ../includes/Localization.php:311
 msgid "Update to version"
 msgstr ""
 
-#: ../includes/Localization.php:311
+#: ../includes/Localization.php:312
 msgid "Buy Pro"
 msgstr ""
 
-#: ../includes/Localization.php:312
+#: ../includes/Localization.php:313
 msgid "Activate PRO"
 msgstr ""
 
-#: ../includes/Localization.php:313
+#: ../includes/Localization.php:314
 msgid "Not installed!"
 msgstr ""
 
-#: ../includes/Localization.php:314
+#: ../includes/Localization.php:315
 msgid "You are up to date!"
 msgstr ""
 
-#: ../includes/Localization.php:315
+#: ../includes/Localization.php:316
 msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
 msgstr ""
 
-#: ../includes/Localization.php:318
+#: ../includes/Localization.php:319
 msgid "oops, something went wrong!"
 msgstr ""
 
-#: ../includes/Localization.php:321
+#: ../includes/Localization.php:322
 msgid "Start typing in the search field and the found options will appear here"
 msgstr ""
 
-#: ../includes/Localization.php:324
+#: ../includes/Localization.php:325
 msgid "Now"
 msgstr ""
 
-#: ../includes/Localization.php:325
+#: ../includes/Localization.php:326
 msgid "Initial State"
 msgstr ""
 
-#: ../includes/Localization.php:328
+#: ../includes/Localization.php:329
 msgid "Zion Library"
 msgstr ""
 
-#: ../includes/Localization.php:329
+#: ../includes/Localization.php:330
 msgid "Insert"
 msgstr ""
 
-#: ../includes/Localization.php:330
+#: ../includes/Localization.php:331
 msgid "Local Library"
 msgstr ""
 
-#: ../includes/Localization.php:331
+#: ../includes/Localization.php:332
 msgid "Insert this item into page"
 msgstr ""
 
-#: ../includes/Localization.php:332
+#: ../includes/Localization.php:333
 msgid "Click to preview this item"
 msgstr ""
 
-#: ../includes/Localization.php:333
+#: ../includes/Localization.php:334
 msgid "Add this item to favorites"
 msgstr ""
 
-#: ../includes/Localization.php:334
+#: ../includes/Localization.php:335
 msgid "Refresh data from the server "
 msgstr ""
 
-#: ../includes/Localization.php:337
+#: ../includes/Localization.php:338
 msgid "Take the tour"
 msgstr ""
 
-#: ../includes/Localization.php:338
+#: ../includes/Localization.php:339
 msgid "Next Step"
 msgstr ""
 
-#: ../includes/Localization.php:339
+#: ../includes/Localization.php:340
 msgid "Previous Step"
 msgstr ""
 
-#: ../includes/Localization.php:340
+#: ../includes/Localization.php:341
 msgid "End tour"
 msgstr ""
 
-#: ../includes/Localization.php:341
+#: ../includes/Localization.php:342
 msgid "Welcome to Zion Builder"
 msgstr ""
 
-#: ../includes/Localization.php:342
+#: ../includes/Localization.php:343
 msgid "Press the <b>\"Take the Tour\"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>\"Next Step\"</b>. <br/><br/><br/>Press <b>\"x\"</b> or <b>\"End tour\"</b> button to close tour, and immediatly start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time."
 msgstr ""
 
-#: ../includes/Localization.php:343
+#: ../includes/Localization.php:344
 msgid "Adding elements"
 msgstr ""
 
-#: ../includes/Localization.php:344
+#: ../includes/Localization.php:345
 msgid "The <b>colored circle with \"+\" sign </b> appears each time you hover an element. By clicking on it, a popup will appear from which you can add elements to the page.<br/> <br/>Click on the colored circle that contains <b>\"+ icon\"</b> to add elements or templates to page"
 msgstr ""
 
-#: ../includes/Localization.php:345, ../includes/Localization.php:355
+#: ../includes/Localization.php:346, ../includes/Localization.php:356
 msgid "Click the highlighted tab"
 msgstr ""
 
-#: ../includes/Localization.php:346
+#: ../includes/Localization.php:347
 msgid "The \"add elements\" popup has 3 main Tabs: <b>\"Columns Tab\"</b>, <b>\"Elements Tab\"</b> and <b>\"Library Tab\"</b>. <br /><br />From the columns tab you can immediately add a predefined set of columns. The builder is inteligent enough to know if it should also insert a section or a wrapper column to contain the selected column layout."
 msgstr ""
 
-#: ../includes/Localization.php:347
+#: ../includes/Localization.php:348
 msgid "Go to library tab"
 msgstr ""
 
-#: ../includes/Localization.php:348
+#: ../includes/Localization.php:349
 msgid "From the <b>Elements tab</b> you can add new elements in the position from which you've pressed the plus sign. They can be easily searched by introducing their name in the search box, or just by scrolling through them. <br/><br/>Now, click on the highlighted Library tab to see the link to the Library."
 msgstr ""
 
-#: ../includes/Localization.php:349
+#: ../includes/Localization.php:350
 msgid "Go to columns tab"
 msgstr ""
 
-#: ../includes/Localization.php:350
+#: ../includes/Localization.php:351
 msgid "From the Library tab you can choose from hundreds of pre-made templates.<br/> <br/>Now lets add some elements to the page. Go back to add <b>\"Columns\"</b> in order to add a column template to your page. </br><b>Click on the highlighted \"Columns tab\"</b>"
 msgstr ""
 
-#: ../includes/Localization.php:351
+#: ../includes/Localization.php:352
 msgid "Add a template to your page"
 msgstr ""
 
-#: ../includes/Localization.php:352
+#: ../includes/Localization.php:353
 msgid "Choose highlighted template to add to your page.<br/> Since you are inserting this as a root element, adding this template will create a section with a column inside."
 msgstr ""
 
-#: ../includes/Localization.php:353
+#: ../includes/Localization.php:354
 msgid "Edit Element options"
 msgstr ""
 
-#: ../includes/Localization.php:354
+#: ../includes/Localization.php:355
 msgid "Opening the settings panel for each element, can be made through multiple actions: <br/><ul><li>- DoubleClick an element </li><li>- Rightclick on the element and choose edit </li><li>- Clicking on edit toolbar from the top right of each element </li></ul> <br/><br/> Now,<b> double click </b> on the element to open the panel settings"
 msgstr ""
 
-#: ../includes/Localization.php:356
+#: ../includes/Localization.php:357
 msgid "This panel has 3 main tabs: \"General\", \"Styling\" and \"Advanced\".<br/>The \"General Tab\" is now active. Inside <b>\"General Tab\"</b> you can edit the content and other general settings of the element. This Tab content will varify from element to element. <br/> <br/>Click on the highlighted \"Styling\" Tab to continue the tour"
 msgstr ""
 
-#: ../includes/Localization.php:357
+#: ../includes/Localization.php:358
 msgid "Go to Advanced Tab"
 msgstr ""
 
-#: ../includes/Localization.php:358
+#: ../includes/Localization.php:359
 msgid "The element wrapper style rules are created within this tab. The typography, background, display and many more styling options are powerful tools to style your elements.<br/> If you click on the element id,an input will appear for entering and creating re-usable classes. The blue button gives the ability to change the state of the class and access the pseudoselectors such as hover, after, before. This tab content is the same for all the elements.<br/><br/>Now click on the highlighted \"Advanced Tab\" to see the tab content and get more explanations."
 msgstr ""
 
-#: ../includes/Localization.php:359
+#: ../includes/Localization.php:360
 msgid "Close the panel"
 msgstr ""
 
-#: ../includes/Localization.php:360
+#: ../includes/Localization.php:361
 msgid "The active tab is the <b>\"Advanced tab\"</b>. Changing the name, adding a unique Id, animations, custom Css,or element visibility could be done from the advanced tab. This tab settings are also the same for all the elements. <br/><br/>Click on the top right <b>\"x\"</b> button to close the panel"
 msgstr ""
 
-#: ../includes/Localization.php:361
+#: ../includes/Localization.php:362
 msgid "Choose device"
 msgstr ""
 
-#: ../includes/Localization.php:362
+#: ../includes/Localization.php:363
 msgid "Create design for the desired device. When you hover the icon, the other devices flyout will appear. If you choose laptop or mobile and set options from the panel, your webpage will look exactly as in preview."
 msgstr ""
 
-#: ../includes/Localization.php:363
+#: ../includes/Localization.php:364
 msgid "Open the panels"
 msgstr ""
 
-#: ../includes/Localization.php:364
+#: ../includes/Localization.php:365
 msgid "From the main bar, you can open and close treeview, history, library and general settings panels. <br/><br/> Now click on the icon to see the history of your actions"
 msgstr ""
 
-#: ../includes/Localization.php:365
+#: ../includes/Localization.php:366
 msgid "Close the panel from main bar"
 msgstr ""
 
-#: ../includes/Localization.php:366
+#: ../includes/Localization.php:367
 msgid "When a panel is open, the background of the panel icon becomes darker.<br/><br/> CLick on the icon to close the panel."
 msgstr ""
 
-#: ../includes/Localization.php:367
+#: ../includes/Localization.php:368
 msgid "Open treeview panel"
 msgstr ""
 
-#: ../includes/Localization.php:368
+#: ../includes/Localization.php:369
 msgid "Click on the icon to see the treeview panel of your page"
 msgstr ""
 
-#: ../includes/Localization.php:369
+#: ../includes/Localization.php:370
 msgid "Save your work"
 msgstr ""
 
-#: ../includes/Localization.php:370
+#: ../includes/Localization.php:371
 msgid "The treeview panel shows the simplified elements from the page. You cand add elements in the treeview and edit them just like in the page editor. <br/><br/>Now, click on the bottom icon to <b>save</b> the page. If you just hover the icon, a flyout will appear with multiple saving types such as: <b>\"draft\", \"template\" or \"publish\"</b><br/> Saving can also be done with keyshortcuts <b>\"CTRL + S\"</b>"
 msgstr ""
 
-#: ../includes/Localization.php:371
+#: ../includes/Localization.php:372
 msgid "Tour was ended"
 msgstr ""
 
-#: ../includes/Localization.php:372
+#: ../includes/Localization.php:373
 msgid "If you missed something, you can go back anytime to the “Info Icon” > “Start Tour”. To restart tour, you must be on a new empty page. <br/><br/>Good luck in building the future!"
 msgstr ""
 
-#: ../includes/Localization.php:375
+#: ../includes/Localization.php:376
 msgid "Could not lock current post"
 msgstr ""
 
-#: ../includes/Localization.php:377
+#: ../includes/Localization.php:378
 msgid "Go back"
 msgstr ""
 
-#: ../includes/Localization.php:378
+#: ../includes/Localization.php:379
 msgid "Take Over"
 msgstr ""
 
-#: ../includes/Localization.php:381
+#: ../includes/Localization.php:382
 msgid "Select background color"
 msgstr ""
 
-#: ../includes/Localization.php:384
+#: ../includes/Localization.php:385
 msgid "Background Repeat"
 msgstr ""
 
-#: ../includes/Localization.php:385
+#: ../includes/Localization.php:386
 msgid "Description for background repeat"
 msgstr ""
 
-#: ../includes/Localization.php:386
+#: ../includes/Localization.php:387
 msgid "Select background repeat"
 msgstr ""
 
-#: ../includes/Localization.php:387
+#: ../includes/Localization.php:388
 msgid "Select background attachment"
 msgstr ""
 
-#: ../includes/Localization.php:388
+#: ../includes/Localization.php:389
 msgid "Background Attachment"
 msgstr ""
 
-#: ../includes/Localization.php:389
+#: ../includes/Localization.php:390
 msgid "Description for background attachement"
 msgstr ""
 
-#: ../includes/Localization.php:390
+#: ../includes/Localization.php:391
 msgid "Background position"
 msgstr ""
 
-#: ../includes/Localization.php:391
+#: ../includes/Localization.php:392
 msgid "Description for background description"
 msgstr ""
 
-#: ../includes/Localization.php:392
+#: ../includes/Localization.php:393
 msgid "Background Size"
 msgstr ""
 
-#: ../includes/Localization.php:393
+#: ../includes/Localization.php:394
 msgid "Description for background size"
 msgstr ""
 
-#: ../includes/Localization.php:394, ../includes/Options/Schemas/BackgroundImage.php:201
+#: ../includes/Localization.php:395, ../includes/Options/Schemas/BackgroundImage.php:201
 msgid "Background Clip"
 msgstr ""
 
-#: ../includes/Localization.php:395
+#: ../includes/Localization.php:396
 msgid "Select background clip"
 msgstr ""
 
-#: ../includes/Localization.php:396
+#: ../includes/Localization.php:397
 msgid "Description for background clip"
 msgstr ""
 
-#: ../includes/Localization.php:397, ../includes/Options/Schemas/BackgroundImage.php:229
+#: ../includes/Localization.php:398, ../includes/Options/Schemas/BackgroundImage.php:229
 msgid "Background blend mode"
 msgstr ""
 
-#: ../includes/Localization.php:398
+#: ../includes/Localization.php:399
 msgid "Blend mode"
 msgstr ""
 
-#: ../includes/Localization.php:399
+#: ../includes/Localization.php:400
 msgid "Background blend mode description"
 msgstr ""
 
-#: ../includes/Localization.php:402
+#: ../includes/Localization.php:403
 msgid "Align left"
 msgstr ""
 
-#: ../includes/Localization.php:403
+#: ../includes/Localization.php:404
 msgid "Align center"
 msgstr ""
 
-#: ../includes/Localization.php:404
+#: ../includes/Localization.php:405
 msgid "Align right"
 msgstr ""
 
-#: ../includes/Localization.php:405
+#: ../includes/Localization.php:406
 msgid "Justify"
 msgstr ""
 
-#: ../includes/Localization.php:408
+#: ../includes/Localization.php:409
 msgid "Select shape divider"
 msgstr ""
 
-#: ../includes/Localization.php:409
+#: ../includes/Localization.php:410
 msgid "More shape dividers"
 msgstr ""
 
-#: ../includes/Localization.php:410
+#: ../includes/Localization.php:411
 msgid "The shape you were looking for is not listed above ?"
 msgstr ""
 
-#: ../includes/Localization.php:411
+#: ../includes/Localization.php:412
 msgid "Mask position"
 msgstr ""
 
-#: ../includes/Localization.php:412
+#: ../includes/Localization.php:413
 msgid "Selected top mask"
 msgstr ""
 
-#: ../includes/Localization.php:413
+#: ../includes/Localization.php:414
 msgid "Selected bottom mask"
 msgstr ""
 
-#: ../includes/Localization.php:414
+#: ../includes/Localization.php:415
 msgid "Add mask height"
 msgstr ""
 
-#: ../includes/Localization.php:415
+#: ../includes/Localization.php:416
 msgid "Add a color to mask"
 msgstr ""
 
-#: ../includes/Localization.php:416
+#: ../includes/Localization.php:417
 msgid "Top masks"
 msgstr ""
 
-#: ../includes/Localization.php:417
+#: ../includes/Localization.php:418
 msgid "Bottom masks"
 msgstr ""
 
-#: ../includes/Localization.php:418
+#: ../includes/Localization.php:419
 msgid "Flip mask horizontally"
 msgstr ""
 
-#: ../includes/Localization.php:421
+#: ../includes/Localization.php:422
 msgid "Select from library"
 msgstr ""
 
-#: ../includes/Localization.php:422
+#: ../includes/Localization.php:423
 msgid "Add new background gradient"
 msgstr ""
 
-#: ../includes/Localization.php:423
+#: ../includes/Localization.php:424
 msgid "or"
 msgstr ""
 
-#: ../includes/Localization.php:426
+#: ../includes/Localization.php:427
 msgid "Add an URL"
 msgstr ""
 
-#: ../includes/Localization.php:427
+#: ../includes/Localization.php:428
 msgid "New Window"
 msgstr ""
 
-#: ../includes/Localization.php:428
+#: ../includes/Localization.php:429
 msgid "Same Window"
 msgstr ""
 
-#: ../includes/Localization.php:429
+#: ../includes/Localization.php:430
 msgid "Set a title"
 msgstr ""
 
-#: ../includes/Localization.php:430
+#: ../includes/Localization.php:431
 msgid "Link Target"
 msgstr ""
 
-#: ../includes/Localization.php:431
+#: ../includes/Localization.php:432
 msgid "Link Title"
 msgstr ""
 
-#: ../includes/Localization.php:432
+#: ../includes/Localization.php:433
 msgid "Link Url"
 msgstr ""
 
-#: ../includes/Localization.php:435
+#: ../includes/Localization.php:436
 msgid "ADD TRANSFORM PROPERTY"
 msgstr ""
 
-#: ../includes/Localization.php:438
+#: ../includes/Localization.php:439
 msgid "element not found"
 msgstr ""
 
-#: ../includes/Localization.php:441
+#: ../includes/Localization.php:442
 msgid "Your browser does not support HTML5 video."
 msgstr ""
 
-#: ../includes/Localization.php:442
+#: ../includes/Localization.php:443
 msgid "No video Selected"
 msgstr ""
 
-#: ../includes/Localization.php:443
+#: ../includes/Localization.php:444
 msgid "No images selected"
 msgstr ""
 
-#: ../includes/Localization.php:446
+#: ../includes/Localization.php:447
 msgid "Access Library Templates"
 msgstr ""
 
-#: ../includes/Localization.php:447
-msgid "Access over 200+ templates from our library, it’s just one click away"
+#: ../includes/Localization.php:448
+msgid "Access over 150+ templates from our library, it’s just one click away"
 msgstr ""
 
-#: ../includes/Localization.php:448
+#: ../includes/Localization.php:449
 msgid "Open Library"
 msgstr ""
 
-#: ../includes/Localization.php:451
+#: ../includes/Localization.php:452
 msgid "Add your option"
 msgstr ""
 
-#: ../includes/Localization.php:452, ../includes/Templates.php:264
+#: ../includes/Localization.php:453, ../includes/Templates.php:264
 msgid "No items"
 msgstr ""
 
-#: ../includes/Localization.php:455
+#: ../includes/Localization.php:456
 msgid "Enter Class Name"
 msgstr ""
 
-#: ../includes/Localization.php:458
+#: ../includes/Localization.php:459
 msgid "No HTMLElement was found matching"
 msgstr ""
 
-#: ../includes/Localization.php:461
+#: ../includes/Localization.php:462
 msgid "No color chosen"
 msgstr ""
 
-#: ../includes/Localization.php:462
+#: ../includes/Localization.php:463
 msgid "Color"
 msgstr ""
 
-#: ../includes/Localization.php:465
+#: ../includes/Localization.php:466
 msgid "Global color name"
 msgstr ""
 
-#: ../includes/Localization.php:468
+#: ../includes/Localization.php:469
 msgid "No results"
 msgstr ""
 
-#: ../includes/Localization.php:471
+#: ../includes/Localization.php:472
 msgid "Inset"
 msgstr ""
 
-#: ../includes/Localization.php:474
+#: ../includes/Localization.php:475
 msgid "Location"
 msgstr ""
 
-#: ../includes/Localization.php:478
+#: ../includes/Localization.php:479
 msgid "Save as preset"
 msgstr ""
 
-#: ../includes/Localization.php:481
+#: ../includes/Localization.php:482
 msgid "Draggable"
 msgstr ""
 
-#: ../includes/Localization.php:484
+#: ../includes/Localization.php:485
 msgid "You can set from here the allowed post types"
 msgstr ""
 
-#: ../includes/Localization.php:487
+#: ../includes/Localization.php:488
 msgid "Create your color pallete to use locally or globally"
 msgstr ""
 
-#: ../includes/Localization.php:490
+#: ../includes/Localization.php:491
 msgid "Click Me or the Blue button to add a Font"
 msgstr ""
 
-#: ../includes/Localization.php:493
+#: ../includes/Localization.php:494
 msgid "Seting up"
 msgstr ""
 
-#: ../includes/Localization.php:494
+#: ../includes/Localization.php:495
 msgid "Google web fonts"
 msgstr ""
 
-#: ../includes/Localization.php:495
+#: ../includes/Localization.php:496
 msgid "has never been easier. Choose which ones to use for your website's stylish typography"
 msgstr ""
 
-#: ../includes/Localization.php:498
+#: ../includes/Localization.php:499
 msgid "Delete this gradient from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:501
+#: ../includes/Localization.php:502
 msgid "Delete this color from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:502
+#: ../includes/Localization.php:503
 msgid "Create Astonishing Gradients that you will use in all the pages of your website"
 msgstr ""
 
-#: ../includes/Localization.php:505
+#: ../includes/Localization.php:506
 msgid "Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder."
 msgstr ""
 
-#: ../includes/Localization.php:509
+#: ../includes/Localization.php:510
 msgid "Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards."
 msgstr ""
 
-#: ../includes/Localization.php:512
+#: ../includes/Localization.php:513
 msgid "Create a new template by choosing the template type and adding a name"
 msgstr ""
 
-#: ../includes/Localization.php:515
+#: ../includes/Localization.php:516
 msgid "Add Display Condition"
 msgstr ""
 
-#: ../includes/Localization.php:518
+#: ../includes/Localization.php:519
 msgid "Manage the smart areas you want to use in your project"
 msgstr ""
 
-#: ../includes/Localization.php:521
+#: ../includes/Localization.php:522
 msgid "Templates allow you to easily build a WordPress page"
 msgstr ""
 
-#: ../includes/Localization.php:524
+#: ../includes/Localization.php:525
 msgid "Update Site Address (URL)"
 msgstr ""
 
-#: ../includes/Localization.php:525
+#: ../includes/Localization.php:526
 msgid "Update URL"
 msgstr ""
 
-#: ../includes/Localization.php:526
+#: ../includes/Localization.php:527
 msgid "Enter your old and new URLs for your WordPress installation, to update all Zion data (Relevant for domain transfers or move to 'HTTPS')."
 msgstr ""
 
-#: ../includes/Localization.php:529
+#: ../includes/Localization.php:530
 msgid "This user already has permissions. Click to remove"
 msgstr ""
 
-#: ../includes/Localization.php:532
+#: ../includes/Localization.php:533
 msgid "Check to have access to editor"
 msgstr ""
 
-#: ../includes/Localization.php:535
+#: ../includes/Localization.php:536
 msgid "Customize the permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:536
+#: ../includes/Localization.php:537
 msgid "Delete permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:539
+#: ../includes/Localization.php:540
 msgid "Click to edit this template"
 msgstr ""
 
-#: ../includes/Localization.php:540
+#: ../includes/Localization.php:541
 msgid "Click to delete this template"
 msgstr ""
 
-#: ../includes/Localization.php:541
+#: ../includes/Localization.php:542
 msgid "Click to export this template"
 msgstr ""
 
-#: ../includes/Localization.php:542
+#: ../includes/Localization.php:543
 msgid "Click to preview this template"
 msgstr ""
 
-#: ../includes/Localization.php:545
+#: ../includes/Localization.php:546
 msgid "Discard changes for"
 msgstr ""
 
-#: ../includes/Localization.php:548
+#: ../includes/Localization.php:549
 msgid "Discard changes"
 msgstr ""
 
-#: ../includes/Localization.php:551
+#: ../includes/Localization.php:552
 msgid "Click to add content for pseudo selector."
 msgstr ""
 
-#: ../includes/Localization.php:554
+#: ../includes/Localization.php:555
 msgid "Click to edit this class"
 msgstr ""
 
-#: ../includes/Localization.php:555
+#: ../includes/Localization.php:556
 msgid "Click to globally delete this class"
 msgstr ""
 
-#: ../includes/Localization.php:558
+#: ../includes/Localization.php:559
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: ../includes/Localization.php:559
+#: ../includes/Localization.php:560
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:561
+#: ../includes/Localization.php:562
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:562
+#: ../includes/Localization.php:563
 msgid "Paste"
 msgstr ""
 
-#: ../includes/Localization.php:563
+#: ../includes/Localization.php:564
 msgid "Duplicate"
 msgstr ""
 
-#: ../includes/Localization.php:564
+#: ../includes/Localization.php:565
 msgid "Copy element styles"
 msgstr ""
 
-#: ../includes/Localization.php:565
+#: ../includes/Localization.php:566
 msgid "Paste element styles"
 msgstr ""
 
-#: ../includes/Localization.php:566
+#: ../includes/Localization.php:567
 msgid "Copy classes"
 msgstr ""
 
-#: ../includes/Localization.php:567
+#: ../includes/Localization.php:568
 msgid "Paste classes"
 msgstr ""
 
-#: ../includes/Localization.php:568
+#: ../includes/Localization.php:569
 msgid "Undo"
 msgstr ""
 
-#: ../includes/Localization.php:569
+#: ../includes/Localization.php:570
 msgid "Redo"
 msgstr ""
 
-#: ../includes/Localization.php:570
+#: ../includes/Localization.php:571
 msgid "Hide element"
 msgstr ""
 
-#: ../includes/Localization.php:571
+#: ../includes/Localization.php:572
 msgid "Toggle preview mode"
 msgstr ""
 
-#: ../includes/Localization.php:572
+#: ../includes/Localization.php:573
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: ../includes/Localization.php:573
+#: ../includes/Localization.php:574
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: ../includes/Localization.php:574
+#: ../includes/Localization.php:575
 msgid "Toggle page options"
 msgstr ""
 
-#: ../includes/Localization.php:575
+#: ../includes/Localization.php:576
 msgid "When dragging element"
 msgstr ""
 
-#: ../includes/Localization.php:576
+#: ../includes/Localization.php:577
 msgid "When dragging toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:577
+#: ../includes/Localization.php:578
 msgid "Set incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:578
+#: ../includes/Localization.php:579
 msgid "Set even incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:579
+#: ../includes/Localization.php:580
 msgid "Set even values"
 msgstr ""
 
-#: ../includes/Localization.php:580
+#: ../includes/Localization.php:581
 msgid "Duplicate element in place"
 msgstr ""
 
-#: ../includes/Localization.php:583
+#: ../includes/Localization.php:584
 msgid "Help"
 msgstr ""
 
-#: ../includes/Localization.php:584
+#: ../includes/Localization.php:585
 msgid "Help Center"
 msgstr ""
 
-#: ../includes/Localization.php:585
+#: ../includes/Localization.php:586
 msgid "Start tour"
 msgstr ""
 
-#: ../includes/Localization.php:586
+#: ../includes/Localization.php:587
 msgid "Key shortcuts"
 msgstr ""
 
-#: ../includes/Localization.php:587
+#: ../includes/Localization.php:588
 msgid "About Zion Builder"
 msgstr ""
 
-#: ../includes/Localization.php:588
+#: ../includes/Localization.php:589
 msgid "Back to WP Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:589
+#: ../includes/Localization.php:590
 msgid "ZionBuilder Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:590
+#: ../includes/Localization.php:591
 msgid "Save Template"
 msgstr ""
 
-#: ../includes/Localization.php:591
+#: ../includes/Localization.php:592
 msgid "Save Page"
 msgstr ""
 
-#: ../includes/Localization.php:592
+#: ../includes/Localization.php:593
 msgid "Save & Publish Page"
 msgstr ""
 
 #: ../includes/Localization.php:595
-msgid "Target"
-msgstr ""
-
-#: ../includes/Localization.php:596
-msgid "family"
+msgid "Getting started"
 msgstr ""
 
 #: ../includes/Localization.php:597
+msgid "Target"
+msgstr ""
+
+#: ../includes/Localization.php:598
+msgid "family"
+msgstr ""
+
+#: ../includes/Localization.php:599
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:598, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:600, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:599, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
+#: ../includes/Localization.php:601, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:600, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:602, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:601
+#: ../includes/Localization.php:603
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:604
+#: ../includes/Localization.php:606
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:605
+#: ../includes/Localization.php:607
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:606
+#: ../includes/Localization.php:608
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:607
+#: ../includes/Localization.php:609
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:608
+#: ../includes/Localization.php:610
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:609
+#: ../includes/Localization.php:611
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:614
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:613
+#: ../includes/Localization.php:615
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:614
+#: ../includes/Localization.php:616
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:615
+#: ../includes/Localization.php:617
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:618
+#: ../includes/Localization.php:620
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:619
+#: ../includes/Localization.php:621
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:622
+#: ../includes/Localization.php:624
 msgid "Featured"
 msgstr ""
 
@@ -1926,24 +1932,20 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:109, ../includes/Admin/Admin.php:317, ../includes/Admin/Admin.php:318, ../includes/Editor/partials/editor-template.php:16
+#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:314, ../includes/Admin/Admin.php:315, ../includes/Editor/partials/editor-template.php:16
 msgid "Zion Builder"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:158
+#: ../includes/Admin/Admin.php:156
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:269
+#: ../includes/Admin/Admin.php:267
 msgid "Disable Zion Builder"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:278, ../includes/Admin/Admin.php:301
-msgid "Edit with Zion Builder"
-msgstr ""
-
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:268
+#: ../includes/Editor/Editor.php:264
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -1951,7 +1953,7 @@ msgstr ""
 msgid "Wrapper"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:204, ../includes/Elements/Tabs/Tabs.php:87
+#: ../includes/Elements/Manager.php:204, ../includes/Elements/Tabs/Tabs.php:108
 msgid "Layout"
 msgstr ""
 
@@ -1969,6 +1971,10 @@ msgstr ""
 
 #: ../includes/Elements/Manager.php:224
 msgid "WordPress Widgets"
+msgstr ""
+
+#: ../includes/FontsManager/FontProvider.php:17
+msgid "get_id must be implemented by font provider."
 msgstr ""
 
 #: ../includes/FontsManager/FontsManager.php:36
@@ -1997,6 +2003,10 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/BulkActions.php:43
 msgid "The list of actions we need to perform."
+msgstr ""
+
+#: ../includes/Api/RestControllers/BulkActions.php:47
+msgid "The post id for which we need to retrieve data."
 msgstr ""
 
 #: ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:210, ../includes/Api/RestControllers/Templates.php:257
@@ -2029,6 +2039,11 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:227
 msgid "You do not have permissions to edit this resource."
+msgstr ""
+
+#. translators: %s: Updated option name
+#: ../includes/Api/RestControllers/Options.php:135
+msgid "The %s property has an invalid stored value."
 msgstr ""
 
 #: ../includes/Api/RestControllers/Options.php:180
@@ -2075,6 +2090,10 @@ msgstr ""
 msgid "Contains saved value for allowed post types."
 msgstr ""
 
+#: ../includes/Api/RestControllers/Pages.php:47, ../includes/Api/RestControllers/Templates.php:142, ../includes/Api/RestControllers/Templates.php:184
+msgid "Unique identifier for the object."
+msgstr ""
+
 #: ../includes/Api/RestControllers/Pages.php:88
 msgid "Could not lock post for current user."
 msgstr ""
@@ -2085,6 +2104,10 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/RegenerateCache.php:82
 msgid "Regenerate cache failed!"
+msgstr ""
+
+#: ../includes/Api/RestControllers/RegenerateCache.php:85
+msgid "Zion Builder data refreshed"
 msgstr ""
 
 #: ../includes/Api/RestControllers/ReplaceUrl.php:93
@@ -2307,10 +2330,6 @@ msgctxt "System Info"
 msgid "If you want to modify the source code of your theme, we recommend using a <a href=\"%s\">child theme</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:142, ../includes/Api/RestControllers/Templates.php:184
-msgid "Unique identifier for the object."
-msgstr ""
-
 #: ../includes/Api/RestControllers/Templates.php:170
 msgid "Whether to bypass trash and force deletion."
 msgstr ""
@@ -2383,7 +2402,7 @@ msgstr ""
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:126, ../includes/Elements/Tabs/Tabs.php:131
+#: ../includes/Elements/Accordions/Accordions.php:126, ../includes/Elements/Tabs/Tabs.php:152
 msgid "Content styles"
 msgstr ""
 
@@ -2511,6 +2530,10 @@ msgstr ""
 msgid "Button shape"
 msgstr ""
 
+#: ../includes/Elements/Button/Button.php:167
+msgid "Choose button shape."
+msgstr ""
+
 #: ../includes/Elements/Button/Button.php:172, ../includes/Elements/Button/Button.php:208, ../includes/Elements/GoogleMaps/GoogleMaps.php:164, ../includes/Elements/Icon/Icon.php:245
 msgid "Normal"
 msgstr ""
@@ -2525,6 +2548,10 @@ msgstr ""
 
 #: ../includes/Elements/Button/Button.php:198
 msgid "Button size"
+msgstr ""
+
+#: ../includes/Elements/Button/Button.php:199
+msgid "Choose button size."
 msgstr ""
 
 #: ../includes/Elements/Button/Button.php:204
@@ -2547,27 +2574,35 @@ msgstr ""
 msgid "Button position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:265, ../includes/Elements/Button/Button.php:292, ../includes/Elements/IconList/IconList.php:115
+#: ../includes/Elements/Button/Button.php:252
+msgid "Choose button position."
+msgstr ""
+
+#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/IconList/IconList.php:115
 msgid "right"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:282, ../includes/Elements/IconBox/IconBox.php:90
+#: ../includes/Elements/Button/Button.php:289, ../includes/Elements/IconBox/IconBox.php:90
 msgid "Icon position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:296, ../includes/Elements/IconList/IconList.php:119
+#: ../includes/Elements/Button/Button.php:290
+msgid "Choose icon position."
+msgstr ""
+
+#: ../includes/Elements/Button/Button.php:303, ../includes/Elements/IconList/IconList.php:119
 msgid "top"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:300, ../includes/Elements/IconList/IconList.php:123
+#: ../includes/Elements/Button/Button.php:307, ../includes/Elements/IconList/IconList.php:123
 msgid "bottom"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:327
+#: ../includes/Elements/Button/Button.php:334
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:335, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:228
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:228
 msgid "Icon styles"
 msgstr ""
 
@@ -2783,19 +2818,19 @@ msgstr ""
 msgid "// Your custom HTML here"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:38, ../includes/Elements/Gallery/Gallery.php:140
+#: ../includes/Elements/Gallery/Gallery.php:38, ../includes/Elements/Gallery/Gallery.php:141
 msgid "Gallery"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:85
+#: ../includes/Elements/Gallery/Gallery.php:85, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:139
 msgid "Columns"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:168
+#: ../includes/Elements/Gallery/Gallery.php:169
 msgid "Gallery item styles"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:236
+#: ../includes/Elements/Gallery/Gallery.php:237
 msgid "No images selected."
 msgstr ""
 
@@ -2811,12 +2846,24 @@ msgstr ""
 msgid "Enter the desired location for this map"
 msgstr ""
 
+#: ../includes/Elements/GoogleMaps/GoogleMaps.php:96
+msgid "Set the map zoom."
+msgstr ""
+
 #: ../includes/Elements/GoogleMaps/GoogleMaps.php:97
 msgid "Zoom level"
 msgstr ""
 
+#: ../includes/Elements/GoogleMaps/GoogleMaps.php:108
+msgid "Set the map height."
+msgstr ""
+
 #: ../includes/Elements/GoogleMaps/GoogleMaps.php:109
 msgid "Map height"
+msgstr ""
+
+#: ../includes/Elements/GoogleMaps/GoogleMaps.php:158
+msgid "Set the map type."
 msgstr ""
 
 #: ../includes/Elements/GoogleMaps/GoogleMaps.php:159
@@ -2843,11 +2890,11 @@ msgstr ""
 msgid "h2"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:111, ../includes/Elements/IconBox/IconBox.php:178, ../includes/Elements/ImageBox/ImageBox.php:192, ../includes/Elements/ImageBox/ImageBox.php:196
+#: ../includes/Elements/Heading/Heading.php:111, ../includes/Elements/IconBox/IconBox.php:178, ../includes/Elements/ImageBox/ImageBox.php:192
 msgid "h3"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:115, ../includes/Elements/IconBox/IconBox.php:182
+#: ../includes/Elements/Heading/Heading.php:115, ../includes/Elements/IconBox/IconBox.php:182, ../includes/Elements/ImageBox/ImageBox.php:196
 msgid "h4"
 msgstr ""
 
@@ -2955,6 +3002,10 @@ msgstr ""
 msgid "Icon on right"
 msgstr ""
 
+#: ../includes/Elements/IconBox/IconBox.php:143, ../includes/Elements/ImageBox/ImageBox.php:154
+msgid "Set the desired title."
+msgstr ""
+
 #: ../includes/Elements/IconBox/IconBox.php:145, ../includes/Elements/ImageBox/ImageBox.php:156
 msgid "Just a sample title."
 msgstr ""
@@ -3049,10 +3100,6 @@ msgstr ""
 
 #: ../includes/Elements/ImageBox/ImageBox.php:114
 msgid "Image on right"
-msgstr ""
-
-#: ../includes/Elements/ImageBox/ImageBox.php:154
-msgid "Set the desired title."
 msgstr ""
 
 #: ../includes/Elements/ImageBox/ImageBox.php:155
@@ -3395,6 +3442,14 @@ msgstr ""
 msgid "Player type"
 msgstr ""
 
+#: ../includes/Elements/Soundcloud/Soundcloud.php:101
+msgid "Simple"
+msgstr ""
+
+#: ../includes/Elements/Soundcloud/Soundcloud.php:105
+msgid "Artistic graphic"
+msgstr ""
+
 #: ../includes/Elements/Soundcloud/Soundcloud.php:116
 msgid "Autoplay audio?"
 msgstr ""
@@ -3439,19 +3494,23 @@ msgstr ""
 msgid "Tabs"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:90
+#: ../includes/Elements/Tabs/Tabs.php:83, ../includes/Elements/Tabs/Tabs.php:90, ../includes/Elements/Tabs/Tabs.php:96
+msgid "Tab"
+msgstr ""
+
+#: ../includes/Elements/Tabs/Tabs.php:111
 msgid "Horizontal"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:94
+#: ../includes/Elements/Tabs/Tabs.php:115
 msgid "Vertical"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:98
+#: ../includes/Elements/Tabs/Tabs.php:119
 msgid "Stacked"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:124
+#: ../includes/Elements/Tabs/Tabs.php:145
 msgid "Tab styles"
 msgstr ""
 
@@ -3599,12 +3658,24 @@ msgstr ""
 msgid "General options"
 msgstr ""
 
+#: ../includes/Options/Schemas/Advanced.php:37
+msgid "Set the desired name for this element. Will only appear in edit mode."
+msgstr ""
+
 #: ../includes/Options/Schemas/Advanced.php:38
 msgid "Element name"
 msgstr ""
 
+#: ../includes/Options/Schemas/Advanced.php:48
+msgid "Set the desired element id. Please note that the id must be unique accross your page"
+msgstr ""
+
 #: ../includes/Options/Schemas/Advanced.php:49
 msgid "Element unique id"
+msgstr ""
+
+#: ../includes/Options/Schemas/Advanced.php:59
+msgid "Set the visibility for this element."
 msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:60
@@ -3621,6 +3692,10 @@ msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:83
 msgid "Animations options"
+msgstr ""
+
+#: ../includes/Options/Schemas/Advanced.php:92
+msgid "Set the desired appear animation when the element becomes visible in the viewport."
 msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:93
@@ -3723,27 +3798,31 @@ msgstr ""
 msgid "bounce In Up"
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:226
+#: ../includes/Options/Schemas/Advanced.php:231
+msgid "Set the desired appear animation duration (in miliseconds)."
+msgstr ""
+
+#: ../includes/Options/Schemas/Advanced.php:232
 msgid "Appear duration"
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:260
+#: ../includes/Options/Schemas/Advanced.php:266
 msgid "Set the desired appear animation delay (in miliseconds)."
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:261
+#: ../includes/Options/Schemas/Advanced.php:267
 msgid "Appear delay"
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:294, ../includes/Options/Schemas/PageOptions.php:120
+#: ../includes/Options/Schemas/Advanced.php:300, ../includes/Options/Schemas/PageOptions.php:120
 msgid "Custom CSS"
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:303, ../includes/Options/Schemas/PageOptions.php:129
+#: ../includes/Options/Schemas/Advanced.php:309, ../includes/Options/Schemas/PageOptions.php:129
 msgid "Meet Custom CSS"
 msgstr ""
 
-#: ../includes/Options/Schemas/Advanced.php:304
+#: ../includes/Options/Schemas/Advanced.php:310
 msgid "With custom CSS you can fine tune the styling of your elements."
 msgstr ""
 
@@ -3901,6 +3980,10 @@ msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:142
 msgid "Choose the desired border radius style."
+msgstr ""
+
+#: ../includes/Options/Schemas/StyleOptions.php:173
+msgid "Box shadow options"
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:174, ../includes/Options/Schemas/StyleOptions.php:397, ../includes/Options/Schemas/StyleOptions.php:411, ../includes/Options/Schemas/StyleOptions.php:424, ../includes/Options/Schemas/StyleOptions.php:438, ../includes/Options/Schemas/StyleOptions.php:453, ../includes/Options/Schemas/StyleOptions.php:493, ../includes/Options/Schemas/StyleOptions.php:519, ../includes/Options/Schemas/StyleOptions.php:545
@@ -4138,6 +4221,630 @@ msgstr ""
 #: ../includes/Options/Schemas/Video.php:116
 msgid "Start muted?"
 msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ActionFactory.php:161
+msgid "Invalid action - must be a recurring action."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:60, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:75, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:76, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:89, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:19, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:30
+msgid "Scheduled Actions"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:127
+msgid "About"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:129
+msgid "About Action Scheduler %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:131
+msgid "Action Scheduler is a scalable, traceable job queue for background processing large sets of actions. Action Scheduler works by triggering an action hook to run at some time in the future. Scheduled actions can also be scheduled to run on a recurring schedule."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:141
+msgid "Scheduled Action Columns"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:143, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:96
+msgid "Hook"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:143
+msgid "Name of the action hook that will be triggered."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:144, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:97
+msgid "Status"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:144
+msgid "Action statuses are Pending, Complete, Canceled, Failed"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:145, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:98
+msgid "Arguments"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:145
+msgid "Optional data array passed to the action hook."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:146, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:99
+msgid "Group"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:146
+msgid "Optional action group."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:147, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:100
+msgid "Recurrence"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:147
+msgid "The action's schedule frequency."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:148
+msgid "Scheduled"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:148
+msgid "The date/time the action is/was scheduled to run."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:149, ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:102
+msgid "Log"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_AdminView.php:149
+msgid "Activity log for the action."
+msgstr ""
+
+#. translators: %d: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_DataController.php:133
+msgid "Stopped the insanity for %d second"
+msgid_plural "Stopped the insanity for %d seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_DataController.php:137
+msgid "Attempting to reduce used memory..."
+msgstr ""
+
+#. translators: 1: action ID 2: schedule
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_InvalidActionException.php:21
+msgid "Action [%1$s] has an invalid schedule: %2$s"
+msgstr ""
+
+#. translators: 1: action ID 2: arguments
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_InvalidActionException.php:40
+msgid "Action [%1$s] has invalid arguments. It cannot be JSON decoded to an array. $args = %2$s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:101
+msgid "Scheduled Date"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:122
+msgid "Claim ID"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:129
+msgid "Run"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:130
+msgid "Process the action now as if it were run as part of a queue"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:133
+msgid "Cancel"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:134
+msgid "Cancel the action now to avoid it being run in future"
+msgstr ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:144
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:149
+msgid "%s month"
+msgid_plural "%s months"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:154
+msgid "%s week"
+msgid_plural "%s weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:159
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:164
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:169
+msgid "%s minute"
+msgid_plural "%s minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:174
+msgid "%s second"
+msgid_plural "%s seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:201
+msgid "Now!"
+msgstr ""
+
+#. translators: %s: time interval
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:237
+msgid "Every %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:243
+msgid "Non-repeating"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:341
+msgid "It appears one or more database tables were missing. Attempting to re-create the missing table(s)."
+msgstr ""
+
+#. translators: %d: seconds
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:377
+msgid "The next queue will begin processing in approximately %d seconds."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:374
+msgid "A new queue has begun processing. <a href=\"%s\">View actions in-progress &raquo;</a>"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:357
+msgid "Maximum simultaneous queues already in progress (%s queue). No additional queues will begin processing until the current queues are complete."
+msgid_plural "Maximum simultaneous queues already in progress (%s queues). No additional queues will begin processing until the current queues are complete."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: action HTML 2: action ID 3: error message
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:412
+msgid "Could not process change for action: \"%1$s\" (ID: %2$d). Error: %3$s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:398
+msgid "Successfully executed action: %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:402
+msgid "Successfully canceled action: %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:406
+msgid "Successfully processed change for action: %s"
+msgstr ""
+
+#. translators: %s: date interval
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:461
+msgid " (%s)"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:458
+msgid " (%s ago)"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_ListTable.php:610
+msgid "Search hook, args and claim ID"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_QueueRunner.php:192
+msgid "Every minute"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:101
+msgid "Action Scheduler"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:101
+msgid "This section shows scheduled action counts."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:104
+msgid "Version:"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:108
+msgid "Action Status"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:110
+msgid "Count"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:111
+msgid "Oldest Scheduled Date"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_wcSystemStatus.php:112
+msgid "Newest Scheduled Date"
+msgstr ""
+
+#. translators: %s: date interval
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:103
+msgid "This data will be deleted in %s."
+msgstr ""
+
+#. translators: 1: next cleanup message 2: github issue URL
+#: ../vendor/woocommerce/action-scheduler/classes/ActionScheduler_WPCommentCleaner.php:108
+msgid "Action Scheduler has migrated data to custom tables; however, orphaned log entries exist in the WordPress Comments table. %1$s <a href=\"%2$s\">Learn more &raquo;</a>"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler.php:195
+msgid "%s() was called before the Action Scheduler data store was initialized"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:467
+msgid "Filter"
+msgstr ""
+
+#. translators: %s: search query
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:567
+msgid "Search results for \"%s\""
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Abstract_ListTable.php:672
+msgid "Search"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:72
+msgid "action created"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:76, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBLogger.php:134
+msgid "action canceled"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:84
+msgid "action started"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:82
+msgid "action started via %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:94
+msgid "action complete"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:92
+msgid "action complete via %s"
+msgstr ""
+
+#. translators: %s: exception message
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:105
+msgid "action failed: %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:102
+msgid "action failed via %1$s: %2$s"
+msgstr ""
+
+#. translators: %s: amount of time
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:112
+msgid "action timed out after %s seconds"
+msgstr ""
+
+#. translators: 1: error message 2: filename 3: line
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:118
+msgid "unexpected shutdown: PHP Fatal error %1$s in %2$s on line %3$s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:123
+msgid "action reset"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:131
+msgid "action ignored"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:129
+msgid "action ignored via %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:148
+msgid "There was a failure fetching this action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:146
+msgid "There was a failure fetching this action: %s"
+msgstr ""
+
+#. translators: %s: exception message
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Logger.php:156
+msgid "There was a failure scheduling the next instance of this action: %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:227
+msgid "ActionScheduler_Action::$args too long. To ensure the args column can be indexed, action args should not be more than %d characters when encoded as JSON."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:301
+msgid "Complete"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:302
+msgid "Pending"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:303
+msgid "In-progress"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:304
+msgid "Failed"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/abstracts/ActionScheduler_Store.php:305
+msgid "Canceled"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:67
+msgid "Database error."
+msgstr ""
+
+#. translators: %s: error message
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:75, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:25, ../vendor/woocommerce/action-scheduler/classes/migration/ActionScheduler_DBStoreMigrator.php:44
+msgid "Error saving action: %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:268
+msgid "Invalid value for select or count parameter. Cannot query actions."
+msgstr ""
+
+#. translators: %s: action ID
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:458, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:548, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:580, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:777, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:819, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:457, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:468, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:495, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:773
+msgid "Unidentified action %s"
+msgstr ""
+
+#. translators: %s: group name
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:661, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:627
+msgid "The group \"%s\" does not exist."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:675, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:607
+msgid "Unable to claim actions. Database error."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:840
+msgid "Unknown status found for action."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_DBStore.php:838, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:740
+msgid "Invalid action ID. No status found."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:62
+msgid "Unable to save action."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:283
+msgid "Invalid schedule. Cannot save action."
+msgstr ""
+
+#. translators: %s: claim ID
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:689
+msgid "Unable to unlock claim %s. Database error."
+msgstr ""
+
+#. translators: %s: action ID
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:704
+msgid "Unable to unlock claim on action %s. Database error."
+msgstr ""
+
+#. translators: %s: action ID
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:716
+msgid "Unable to mark failure on action %s. Database error."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore.php:840
+msgid "%s Support for strings longer than this will be removed in a future version."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:36
+msgctxt "post"
+msgid "Failed"
+msgstr ""
+
+#. translators: %s: count
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:38
+msgid "Failed <span class=\"count\">(%s)</span>"
+msgid_plural "Failed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:51
+msgctxt "post"
+msgid "In-Progress"
+msgstr ""
+
+#. translators: %s: count
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostStatusRegistrar.php:53
+msgid "In-Progress <span class=\"count\">(%s)</span>"
+msgid_plural "In-Progress <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:20
+msgid "Scheduled actions are hooks triggered on a cetain date and time."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:31
+msgid "Scheduled Action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:32
+msgctxt "Admin menu name"
+msgid "Scheduled Actions"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:33
+msgid "Add"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:34
+msgid "Add New Scheduled Action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:36
+msgid "Edit Scheduled Action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:37
+msgid "New Scheduled Action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:38, ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:39
+msgid "View Action"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:40
+msgid "Search Scheduled Actions"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:41
+msgid "No actions found"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_PostTypeRegistrar.php:42
+msgid "No actions found in trash"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/data-stores/ActionScheduler_wpPostStore_TaxonomyRegistrar.php:14
+msgid "Action Group"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/ActionMigrator.php:95
+msgid "Unable to remove source migrated action %s"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Config.php:52
+msgid "Source store must be configured before running a migration"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Config.php:74
+msgid "Source logger must be configured before running a migration"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Config.php:96
+msgid "Destination store must be configured before running a migration"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Config.php:118
+msgid "Destination logger must be configured before running a migration"
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Controller.php:142
+msgid "Action Scheduler migration in progress. The list of scheduled actions may be incomplete."
+msgstr ""
+
+#. translators: %d: amount of actions
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Runner.php:82
+msgid "Migrating %d action"
+msgid_plural "Migrating %d actions"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: source action ID 2: source store class 3: destination action ID 4: destination store class
+#: ../vendor/woocommerce/action-scheduler/classes/migration/Runner.php:107
+msgid "Migrated action with ID %1$d in %2$s to ID %3$d in %4$s"
+msgstr ""
+
+#. translators: %s php class name
+#. translators: %s php class name
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:33, ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ProgressBar.php:47
+msgid "The %s class can only be run within WP CLI."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:61
+msgid "There are too many concurrent batches."
+msgstr ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:59
+msgid "There are too many concurrent batches, but the run is forced to continue."
+msgstr ""
+
+#. translators: %d: amount of actions
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:93
+msgid "Running %d action"
+msgid_plural "Running %d actions"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:113
+msgid "The claim has been lost. Aborting current batch."
+msgstr ""
+
+#. translators: %s refers to the action ID
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:138
+msgid "Started processing action %s"
+msgstr ""
+
+#. translators: 1: action ID 2: hook name
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:155
+msgid "Completed processing action %1$s with hook: %2$s"
+msgstr ""
+
+#. translators: 1: action ID 2: exception message
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_QueueRunner.php:170
+msgid "Error processing action %1$s: %2$s"
+msgstr ""
+
+#. translators: %d refers to how many scheduled taks were found to run
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:100
+msgid "Found %d scheduled task"
+msgid_plural "Found %d scheduled tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d refers to the total number of batches executed
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:117
+msgid "%d batch executed."
+msgid_plural "%d batches executed."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s refers to the exception error message
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:136
+msgid "There was an error running the action scheduler: %s"
+msgstr ""
+
+#. translators: %d refers to the total number of taskes completed
+#: ../vendor/woocommerce/action-scheduler/classes/WP_CLI/ActionScheduler_WPCLI_Scheduler_command.php:153
+msgid "%d scheduled task completed."
+msgid_plural "%d scheduled tasks completed."
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %s: Minimum PHP version
 #: ../zionbuilder.php:91
