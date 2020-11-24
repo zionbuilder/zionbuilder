@@ -88,12 +88,12 @@ class Advanced extends BaseSchema {
 		$animation_group->add_option(
 			'_appear_animation',
 			[
-				'type'        => 'radio_image',
-				'description' => __( 'Set the desired appear animation when the element becomes visible in the viewport.' ),
-				'title'       => __( 'Appear animation', 'zionbuilder' ),
-				'default'     => '',
-				'columns'     => 3,
-				'options'     => [
+				'type'             => 'radio_image',
+				'description'      => __( 'Set the desired appear animation when the element becomes visible in the viewport.' ),
+				'title'            => __( 'Appear animation', 'zionbuilder' ),
+				'default'          => '',
+				'columns'          => 3,
+				'options'          => [
 					[
 						'name'  => esc_html__( 'none', 'zionbuilder' ),
 						'value' => '',
@@ -255,7 +255,7 @@ class Advanced extends BaseSchema {
 						'unit'       => 'ms',
 					],
 				],
-				'sync' => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-duration',
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.animation-duration',
 			]
 		);
 

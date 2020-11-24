@@ -214,7 +214,6 @@ class Editor {
 		// Load animations
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
-
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',
@@ -233,8 +232,6 @@ class Editor {
 			Plugin::instance()->get_version(),
 			true
 		);
-
-
 
 		wp_localize_script( 'zb-editor', 'ZnPbInitalData', $this->get_editor_initial_data() );
 
@@ -290,20 +287,20 @@ class Editor {
 					'values' => $post_instance->get_page_settings_values(),
 				],
 				'urls'                => [
-					'assets_url'             => Utils::get_file_url( 'assets' ),
-					'logo'                   => Utils::get_logo_url(),
-					'loader'                 => Utils::get_loader_url(),
-					'edit_page'              => get_edit_post_link( $this->post_id, '' ),
-					'zion_admin'             => admin_url( 'admin.php?page=zionbuilder' ),
-					'updates_page'           => admin_url( 'update-core.php' ),
-					'preview_frame_url'      => $post_instance->get_preview_frame_url(),
-					'preview_url'            => $post_instance->get_preview_url(),
-					'all_pages_url'          => $post_instance->get_all_pages_url(),
-					'purchase_url'           => 'https://zionbuilder.io/pricing/',
-					'documentation_url'      => 'https://zionbuilder.io/help-center/',
-					'free_changelog'         => 'https://zionbuilder.io/changelog-free-version/',
-					'pro_changelog'          => 'https://zionbuilder.io/changelog-pro-version/',
-					'ajax_url'               => admin_url( 'admin-ajax.php', 'relative' ),
+					'assets_url'        => Utils::get_file_url( 'assets' ),
+					'logo'              => Utils::get_logo_url(),
+					'loader'            => Utils::get_loader_url(),
+					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
+					'zion_admin'        => admin_url( 'admin.php?page=zionbuilder' ),
+					'updates_page'      => admin_url( 'update-core.php' ),
+					'preview_frame_url' => $post_instance->get_preview_frame_url(),
+					'preview_url'       => $post_instance->get_preview_url(),
+					'all_pages_url'     => $post_instance->get_all_pages_url(),
+					'purchase_url'      => 'https://zionbuilder.io/pricing/',
+					'documentation_url' => 'https://zionbuilder.io/help-center/',
+					'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
+					'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
+					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 				],
 				'masks'               => Masks::getshapes(),
 				'builder_settings'    => [],

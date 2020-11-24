@@ -247,11 +247,11 @@ class Button extends Element {
 		$options->add_option(
 			'button_position',
 			[
-				'type'        => 'custom_selector',
-				'title'       => __( 'Button position', 'zionbuilder' ),
-				'description' => __( 'Choose button position.' ),
-				'columns'     => 3,
-				'options'     => [
+				'type'               => 'custom_selector',
+				'title'              => __( 'Button position', 'zionbuilder' ),
+				'description'        => __( 'Choose button position.' ),
+				'columns'            => 3,
+				'options'            => [
 					[
 						'id'   => 'left',
 						'icon' => 'align--left',
