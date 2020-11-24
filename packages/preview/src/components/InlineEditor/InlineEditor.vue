@@ -13,7 +13,7 @@
 	>
 		<template #content>
 			<div
-				v-if="!isPreviewMode"
+				v-if="!isPreviewMode && editor"
 				class="zion-inline-editor zion-inline-editor-container"
 				:class="{'zion-inline-editor--dragging': isDragging}"
 				:style="barStyles"
@@ -221,11 +221,11 @@ export default {
 			localContent: '',
 			canClose: true,
 			activeFont: null,
-			editor: null,
 			tinyMceReady: false,
 			activePanel: null,
 			getContent: null,
 			yOffset: null,
+			editor: null,
 			/// OLD VALUES
 
 			// Visibility Variables
@@ -462,7 +462,6 @@ export default {
 
 				this.showEditor()
 			})
-
 			this.editor = editor
 			editor.on('change KeyUp Undo Redo', this.saveContent)
 		},

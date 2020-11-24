@@ -2,8 +2,8 @@
 	<Tooltip
 		tooltip-class="hg-popper--no-padding"
 		trigger="click"
-		append-to="body"
 		ref="popper"
+		:close-on-outside-click="true"
 		:modifiers="[
 			{
 				name: 'preventOverflow',
