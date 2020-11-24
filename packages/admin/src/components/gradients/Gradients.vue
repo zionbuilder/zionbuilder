@@ -153,6 +153,7 @@ export default {
 			showModal,
 			onGradientSelect,
 			onGradientUpdate,
+			deleteGlobalGradient,
 			activeGradient,
 			isPro
 		}

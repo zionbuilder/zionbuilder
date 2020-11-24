@@ -49,6 +49,7 @@ export default class Options {
 	}
 
 	parseOptions(schema, model, index = null) {
+		model = null === model ? {} : model
 		Object.keys(schema).forEach((optionId) => {
 			const singleOptionSchema = schema[optionId]
 			let dependencyPassed = this.checkDependency(singleOptionSchema, model)
@@ -83,7 +84,7 @@ export default class Options {
 							})
 						}
 					} else {
-						const savedValue = typeof model[optionId] !== 'undefined' ? model[optionId] : []
+						const savedValue = typeof model[optionId] !== 'undefined' && model[optionId] !== null ? model[optionId] : {}
 						this.parseOptions(singleOptionSchema.child_options, savedValue)
 
 						if (Object.keys(savedValue).length > 0) {
