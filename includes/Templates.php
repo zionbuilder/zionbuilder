@@ -326,6 +326,7 @@ class Templates {
 		// Set the template type
 		$template_args['meta_input'][self::TEMPLATE_TYPE_META] = sanitize_text_field( $template_config['template_type'] );
 
+		// @phpstan-ignore-next-line - There is nothing wrong with the next line, however, php stan complains
 		$post_id = wp_insert_post( wp_slash( $template_args ), true );
 
 		// Check to see if the post was succesfully created

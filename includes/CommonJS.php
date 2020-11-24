@@ -126,7 +126,7 @@ class CommonJS {
 			'zb-components',
 			'ZnPbComponentsData',
 			[
-				'schemas'   => apply_filters(
+				'schemas' => apply_filters(
 					'zionbuilder/commonjs/schemas',
 					[
 						'styles'           => StyleOptions::get_schema(),

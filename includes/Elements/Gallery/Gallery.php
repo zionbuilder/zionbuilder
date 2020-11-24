@@ -81,10 +81,10 @@ class Gallery extends Element {
 		$options->add_option(
 			'columns',
 			[
-				'type'             => 'column_size',
-				'title'            => esc_html__( 'Columns', 'zionbuilder' ),
-				'default'          => 3,
-				'options'          => [
+				'type'               => 'column_size',
+				'title'              => esc_html__( 'Columns', 'zionbuilder' ),
+				'default'            => 3,
+				'options'            => [
 					[
 						'name' => '1',
 						'id'   => 1,

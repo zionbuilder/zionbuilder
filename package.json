@@ -8,6 +8,7 @@
 	"version": "1.1.1",
 	"private": true,
 	"scripts": {
+		"translate": "zionbuilder-service translate",
 		"publish:packages": "lerna publish",
 		"publish": "yarn run publish:packages",
 		"dev:packages": "lerna run dev",
@@ -26,7 +27,8 @@
 		"ts-loader": "^8.0.6",
 		"typescript": "^4.0.3",
 		"webpack": "^4.44.2",
-		"webpack-cli": "^3.3.12"
+		"webpack-cli": "^3.3.12",
+		"@zionbuilder/service": "^1.0.0"
 	},
 	"workspaces": [
 		"packages/*"
