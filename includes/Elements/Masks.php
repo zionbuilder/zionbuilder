@@ -111,13 +111,13 @@ class Masks {
 	 */
 	public static function get_mask( $shape_path ) {
 		// bail if we do not have any attributes
-
 		if ( empty( $shape_path ) ) {
 			return;
 		}
-
-		$svg_file  = FileSystem::get_file_system()->get_contents( $shape_path );
-		$sanitizer = new Sanitizer();
+		$all_shapes = self::getshapes();
+		$shape_path = strrpos( $shape_path, '.svg' ) ? $shape_path : $all_shapes[$shape_path];
+		$svg_file   = FileSystem::get_file_system()->get_contents( $shape_path );
+		$sanitizer  = new Sanitizer();
 		echo wp_kses( $sanitizer->sanitize( $svg_file ), self::get_kses_extended_ruleset() );
 	}
 }
