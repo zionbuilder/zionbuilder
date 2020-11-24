@@ -150,6 +150,7 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 == Changelog ==
 
 = 1.1.0- 2020-11-24 =
+* Renamed regenerate css to regenerate css and js
 * Improved history
 * Fixed poper behaviour on scroll
 * Allow save page on content editable
@@ -174,6 +175,7 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 * Fixed Bug CSS not working correctly inside Zion Builder after changing Column ID
 * Fixed Bug Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
 * Fixed css classes not cleared when a new css class is added or changed
+* Fixed Bug: Custom Javascript doesn't get removed in 'Custom Javascript' under 'Page Options' when saving page
 * Change Tab name from "Columns" to "Layouts"
 * Updated elements registration
 * Created methods for adding childs to elements
