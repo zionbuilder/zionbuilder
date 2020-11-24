@@ -37,13 +37,6 @@
 				v-if="element.content.length === 0 && allowElementsAdd && !isPreviewMode"
 			/>
 
-			<div
-				v-else-if="emptyPlaceholderText && !isPreviewMode"
-				class="znpb-empty-placeholder-text-wrapper"
-			>
-				{{emptyPlaceholderText}}
-			</div>
-
 			<slot name="end" />
 		</template>
 	</Sortable>
@@ -191,29 +184,5 @@ export default {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-}
-
-.znpb-empty-placeholder-text-wrapper {
-	position: relative;
-	padding: 30px;
-	color: rgba($black, .5);
-	font-family: Roboto, sans-serif;
-	font-size: 14px;
-	text-align: center;
-
-	&:before {
-		content: "";
-		position: absolute;
-		top: 50%;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: calc(100% - 20px);
-		height: calc(100% - 20px);
-		margin: 0 auto;
-		text-align: center;
-		background-color: rgba($elements-toolbox-color, .2);
-		transform: translateY(-50%);
-	}
 }
 </style>

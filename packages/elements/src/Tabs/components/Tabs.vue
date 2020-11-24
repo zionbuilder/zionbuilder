@@ -38,7 +38,6 @@ export default {
 		TabLink
 	},
 	setup (props) {
-
 		// Check to see if we need to add some tabs
 		if (props.element.content.length === 0 && props.options.tabs) {
 			props.element.addChildren(props.options.tabs)
