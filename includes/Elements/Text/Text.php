@@ -97,19 +97,6 @@ class Text extends Element {
 	}
 
 	/**
-	 * Enqueue element styles for both frontend and editor
-	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_style(), enqueue_element_style() functions
-	 *
-	 * @return void
-	 */
-	public function enqueue_styles() {
-		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Text/frontend.css' ) );
-	}
-
-	/**
 	 * Renders the element based on options
 	 *
 	 * @param \ZionBuilder\Options\Options $options

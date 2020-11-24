@@ -174,7 +174,8 @@ class Options extends Stack {
 		$this->render_attributes = $render_attributes;
 		$this->custom_css        = $custom_css;
 		$model                   = apply_filters( 'zionbuilder/options/model_parse', $model );
-		$this->model             = $this->setup_model( $this->get_schema(), $model );
+
+		$this->model = $this->setup_model( $this->get_schema(), $model );
 	}
 
 
@@ -222,7 +223,7 @@ class Options extends Stack {
 				}
 
 				// Check for child content
-				if ( isset( $option_schema->child_options ) ) {
+				if ( ! empty( $option_schema->child_options ) ) {
 					if ( $option_schema->type === 'repeater' ) {
 						if ( ! empty( $model[$option_id] ) && is_array( $model[$option_id] ) ) {
 							foreach ( $model[$option_id] as $index => $option_value ) {

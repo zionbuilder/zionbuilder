@@ -2,6 +2,7 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\CommonJS;
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
 use ZionBuilder\Renderer;
@@ -226,6 +227,7 @@ class Plugin {
 		$this->import_export    = new ImportExport();
 		$this->icons            = new Icons();
 
+		new CommonJS();
 		new Integrations();
 		new AdminBar();
 		new Upgrader();
@@ -239,7 +241,6 @@ class Plugin {
 		 */
 		do_action( 'zionbuilder/loaded' );
 	}
-
 
 	/**
 	 * Loads extra library files required for the plugin

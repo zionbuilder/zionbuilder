@@ -88,12 +88,12 @@ class Advanced extends BaseSchema {
 		$animation_group->add_option(
 			'_appear_animation',
 			[
-				'type'        => 'radio_image',
-				'description' => __( 'Set the desired appear animation when the element becomes visible in the viewport.' ),
-				'title'       => __( 'Appear animation', 'zionbuilder' ),
-				'default'     => '',
-				'columns'     => 3,
-				'options'     => [
+				'type'             => 'radio_image',
+				'description'      => __( 'Set the desired appear animation when the element becomes visible in the viewport.' ),
+				'title'            => __( 'Appear animation', 'zionbuilder' ),
+				'default'          => '',
+				'columns'          => 3,
+				'options'          => [
 					[
 						'name'  => esc_html__( 'none', 'zionbuilder' ),
 						'value' => '',
@@ -215,6 +215,12 @@ class Advanced extends BaseSchema {
 						'class' => 'bounceInUp',
 					],
 				],
+				'render_attribute' => [
+					[
+						'attribute' => 'class',
+						'value'     => 'animated {{VALUE}}',
+					],
+				],
 			]
 		);
 
@@ -230,7 +236,7 @@ class Advanced extends BaseSchema {
 					[
 						'option' => '_appear_animation',
 						'type'   => 'not_in',
-						'value'  => [ 'none' ],
+						'value'  => [ '' ],
 					],
 				],
 				'options'     => [
@@ -264,7 +270,7 @@ class Advanced extends BaseSchema {
 					[
 						'option' => '_appear_animation',
 						'type'   => 'not_in',
-						'value'  => [ 'none' ],
+						'value'  => [ '' ],
 					],
 				],
 				'options'     => [

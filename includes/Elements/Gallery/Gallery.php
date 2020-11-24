@@ -81,10 +81,10 @@ class Gallery extends Element {
 		$options->add_option(
 			'columns',
 			[
-				'type'             => 'select',
-				'title'            => esc_html__( 'Columns', 'zionbuilder' ),
-				'default'          => 3,
-				'options'          => [
+				'type'               => 'column_size',
+				'title'              => esc_html__( 'Columns', 'zionbuilder' ),
+				'default'            => 3,
+				'options'            => [
 					[
 						'name' => '1',
 						'id'   => 1,
@@ -106,11 +106,12 @@ class Gallery extends Element {
 						'id'   => 5,
 					],
 				],
-				'render_attribute' => [
+				'responsive_options' => true,
+				'render_attribute'   => [
 					[
 						'tag_id'    => 'wrapper',
 						'attribute' => 'class',
-						'value'     => 'zb-el-gallery-columns--{{VALUE}}',
+						'value'     => 'zb-el-gallery-columns{{RESPONSIVE_DEVICE_CSS}}--{{VALUE}}',
 					],
 				],
 			]

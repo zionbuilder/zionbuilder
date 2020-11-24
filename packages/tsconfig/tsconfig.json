@@ -1,0 +1,37 @@
+{
+	"compilerOptions": {
+		"declarationDir": "build-types",
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true,
+		"emitDeclarationOnly": true,
+
+		// Target latest version of ECMAScript.
+		"target": "esnext",
+		"module": "ES2015",
+		// Search under node_modules for non-relative imports.
+		"moduleResolution": "node",
+		// Process & infer types from .js files.
+		"allowJs": true,
+		// Enable strictest settings like strictNullChecks & noImplicitAny.
+		"strict": true,
+		"noImplicitThis": true,
+		// Disallow features that require cross-file information for emit.
+		"isolatedModules": false,
+		// Import non-ES modules as default imports.
+		"esModuleInterop": true,
+		"jsx": "react",
+		"baseUrl": ".",
+		"outDir": "dist",
+		"lib": [
+			"es2018",
+			"dom",
+			"es2020"
+		],
+	},
+	"exclude": [
+		"./node_modules",
+		"./vendor",
+		"./includes"
+	]
+}

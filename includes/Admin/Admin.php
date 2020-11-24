@@ -5,9 +5,7 @@ namespace ZionBuilder\Admin;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
-use ZionBuilder\Localization;
 use ZionBuilder\WPMedia;
-use ZionBuilder\Nonces;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -166,40 +164,40 @@ class Admin {
 		if ( 'toplevel_page_zionbuilder' === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
 
-			wp_enqueue_media();
-
-			wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
-
-			// Load styles
-			Plugin::instance()->scripts->enqueue_style(
-				'znpb-admin-settings-page-styles',
-				'css/admin-page.css',
+			wp_enqueue_style(
+				'znpb-roboto-font',
+				'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
 				[],
 				Plugin::instance()->get_version()
 			);
 
+			// Load styles
+			Plugin::instance()->scripts->enqueue_style(
+				'znpb-admin-settings-page-styles',
+				'css/admin.css',
+				[ 'zb-components' ],
+				Plugin::instance()->get_version()
+			);
+
 			Plugin::instance()->scripts->enqueue_script(
-				'znpb-admin-settings-page-script',
-				'js/admin-page.js',
-				[],
+				'zb-admin',
+				'js/admin.js',
+				[
+					'zb-components',
+				],
 				Plugin::instance()->get_version(),
 				true
 			);
 
-			wp_localize_script(
-				'znpb-admin-settings-page-script',
-				'ZnPbRestConfig',
-				[
-					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-					'rest_root' => esc_url_raw( rest_url() ),
-				]
-			);
+			wp_enqueue_media();
+
+			// This is needed because wp_editor somehow unloads dashicons
+			wp_print_styles( 'media-views' );
 
 			wp_localize_script(
-				'znpb-admin-settings-page-script',
+				'zb-admin',
 				'ZnPbAdminPageData',
 				[
-					'l10n'                => Localization::get_strings(),
 					'is_pro_active'       => Utils::is_pro_active(),
 					'template_types'      => Plugin::$instance->templates->get_template_types(),
 					'template_categories' => Plugin::$instance->templates->get_template_categories(),
@@ -236,7 +234,7 @@ class Admin {
 
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 		if ( $post_instance->is_built_with_zion() ) {
-			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . esc_html__( 'Edit with Zion builder', 'zionbuilder' ) . '</a>';
+			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . esc_html__( 'Edit with Zion Builder', 'zionbuilder' ) . '</a>';
 		}
 
 		return $actions;

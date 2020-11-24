@@ -75,6 +75,27 @@ class Accordions extends Element {
 				'title'      => __( 'Accordions', 'zionbuilder' ),
 				'child_type' => 'accordion_item',
 				'item_name'  => 'title',
+				'min'          => 1,
+				'add_template' => [
+					'element_type' => 'accordion_item',
+					'options'      => [
+						'title' => __( 'Accordion', 'zionbuilder' ),
+					],
+				],
+				'default'      => [
+					[
+						'element_type' => 'accordion_item',
+						'options'      => [
+							'title' => sprintf( '%s 1', __( 'Accordion', 'zionbuilder' ) ),
+						],
+					],
+					[
+						'element_type' => 'accordion_item',
+						'options'      => [
+							'title' => sprintf( '%s 2', __( 'Accordion', 'zionbuilder' ) ),
+						],
+					],
+				],
 			]
 		);
 

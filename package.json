@@ -1,63 +1,37 @@
 {
-  "name": "zionbuilder",
-  "author": {
-    "name": "zionbuilder.io",
-    "email": "hello@zionbuilder.io",
-    "url": "https://zionbuilder.io"
-  },
-  "version": "1.0.0",
-  "private": false,
-  "scripts": {
-    "lint": "vue-cli-service lint --no-fix src/",
-    "lint-php": "node ./scripts/lint-php",
-    "serve": "zionbuilder-service serve",
-    "build": "zionbuilder-service build",
-    "zip": "zionbuilder-service zip",
-    "translate": "zionbuilder-service translate"
-  },
-  "dependencies": {
-    "@zionbuilder/importcss": "^1.1.0",
-    "axios": "^0.19.2",
-    "css-box-model": "^1.2.1",
-    "dom-form-serializer": "^1.0.7",
-    "dom-to-image": "^2.6.0",
-    "file-saver": "^2.0.2",
-    "fitvids": "^2.0.0",
-    "localstorage-ttl": "^1.0.2",
-    "lodash-es": "^4.17.15",
-    "memoize-one": "^5.1.1",
-    "popper.js": "^1.16.1",
-    "raf-schd": "^4.0.2",
-    "tiny-invariant": "^1.1.0",
-    "tinycolor2": "^1.4.1",
-    "vue": "^2.6.10",
-    "vue-date-pick": "^1.4.1",
-    "vue-router": "^3.3.2",
-    "vuex": "^3.4.0"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "^4.4.1",
-    "@vue/cli-plugin-eslint": "^4.4.1",
-    "@vue/cli-plugin-router": "^4.4.1",
-    "@vue/cli-plugin-typescript": "^4.4.1",
-    "@vue/cli-plugin-vuex": "^4.4.1",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@vue/eslint-config-typescript": "^4.0.0",
-    "@zionbuilder/zionbuilder-service": "^1.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-compat": "^3.7.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "lint-staged": "^9.5.0",
-    "typescript": "~3.5.3"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.php": [
-      "node ./scripts/lint-php",
-      "./vendor/bin/phpcs",
-      "git add"
-    ]
-  }
+	"name": "zionbuilder",
+	"author": {
+		"name": "zionbuilder.io",
+		"email": "hello@zionbuilder.io",
+		"url": "https://zionbuilder.io"
+	},
+	"version": "1.1.1",
+	"private": true,
+	"scripts": {
+		"translate": "zionbuilder-service translate",
+		"build": "zionbuilder-service build",
+		"zip": "zionbuilder-service zip",
+		"publish:packages": "lerna publish",
+		"publish": "yarn run publish:packages",
+		"dev:packages": "lerna run dev",
+		"dev": "webpack --watch --mode=development",
+		"build:packages": "lerna run build",
+		"build:types": "tsc --build"
+	},
+	"dependencies": {
+		"lodash-es": "^4.17.15"
+	},
+	"devDependencies": {
+		"@types/lodash-es": "^4.17.3",
+		"@types/webpack": "^4.41.22",
+		"lerna": "^3.22.1",
+		"ts-loader": "^8.0.6",
+		"typescript": "^4.0.3",
+		"webpack": "^4.44.2",
+		"webpack-cli": "^3.3.12",
+		"@zionbuilder/service": "^1.0.0"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }
