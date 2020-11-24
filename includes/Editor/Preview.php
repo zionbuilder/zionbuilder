@@ -190,7 +190,7 @@ class Preview {
 			'css/preview.css',
 			[
 				'zb-components',
-				'znpb-editor-styles'
+				'znpb-editor-styles',
 			],
 			Plugin::instance()->get_version()
 		);

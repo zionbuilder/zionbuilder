@@ -287,7 +287,8 @@ class Admin {
 		}
 
 		// Get the post or autosave status for editor
-		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID ); ?>
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
+		?>
 			<div class="znpb-admin-post__edit-block">
 				<a href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
 					<span class="znpb-admin-post__edit-button-icon znpb-admin-post--builder-mode znpb-editor-icon-wrapper">
