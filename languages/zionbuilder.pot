@@ -12,7 +12,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:237, ../includes/Admin/Admin.php:276, ../includes/Admin/Admin.php:298
+#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:237, ../includes/Admin/Admin.php:276, ../includes/Admin/Admin.php:299
 msgid "Edit with Zion Builder"
 msgstr ""
 
@@ -1934,7 +1934,7 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:314, ../includes/Admin/Admin.php:315, ../includes/Editor/partials/editor-template.php:16
+#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:315, ../includes/Admin/Admin.php:316, ../includes/Editor/partials/editor-template.php:16
 msgid "Zion Builder"
 msgstr ""
 
@@ -1947,7 +1947,7 @@ msgid "Disable Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:264
+#: ../includes/Editor/Editor.php:261
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -2355,7 +2355,7 @@ msgstr ""
 msgid "The uploaded template is not valid!"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:89
+#: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:82, ../includes/Elements/Accordions/Accordions.php:89, ../includes/Elements/Accordions/Accordions.php:95, ../includes/Elements/Accordions/Accordions.php:110
 msgid "Accordion"
 msgstr ""
 
@@ -2375,19 +2375,19 @@ msgstr ""
 msgid "Accordions"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:85, ../includes/Elements/Alert/Alert.php:68, ../includes/Elements/Shortcode/Shortcode.php:81
+#: ../includes/Elements/Accordions/Accordions.php:106, ../includes/Elements/Alert/Alert.php:68, ../includes/Elements/Shortcode/Shortcode.php:81
 msgid "Type"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:93
+#: ../includes/Elements/Accordions/Accordions.php:114
 msgid "Toogle"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:118, ../includes/Elements/IconBox/IconBox.php:230, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/PricingBox/PricingBox.php:254, ../includes/Elements/ProgressBars/ProgressBars.php:259
+#: ../includes/Elements/Accordions/Accordions.php:139, ../includes/Elements/IconBox/IconBox.php:230, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/PricingBox/PricingBox.php:254, ../includes/Elements/ProgressBars/ProgressBars.php:259
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:126, ../includes/Elements/Tabs/Tabs.php:152
+#: ../includes/Elements/Accordions/Accordions.php:147, ../includes/Elements/Tabs/Tabs.php:152
 msgid "Content styles"
 msgstr ""
 

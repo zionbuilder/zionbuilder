@@ -9,7 +9,7 @@ module.exports = (webpackConfig, service) => {
 
     const genAssetSubPath = dir => {
       return `${dir}/[name]${options.filenameHashing ? '.[hash:8]' : ''}.[ext]`
-      
+
     }
 
     const genUrlLoaderOptions = dir => {
