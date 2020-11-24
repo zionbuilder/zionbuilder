@@ -5,13 +5,13 @@ module.exports = {
 		'assets',
 		'dist',
 		'includes',
+		'vendor/autoload.php',
 		'vendor/composer',
 		'vendor/woocommerce',
+		'vendor/enshrined',
 		'zionbuilder.php',
 		'manifest.json',
-		'Readme.md',
-		'readme.txt',
-		'vendor/autoload.php'
+		'readme.txt'
 	],
 	l10n: {
 		locations: ['zionbuilder.php', 'includes'],

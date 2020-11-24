@@ -166,7 +166,7 @@ export default {
 
 			const defaultGradient = {
 				name: name,
-				config: getDefaultGradient()
+				config: this.computedValue
 			}
 
 			if (type === 'local') {

@@ -46,9 +46,9 @@ module.exports = (options, args) => {
 			// Build CSS and JS
 			await buildCommand(options, args)
 			done('Build files!')
-			
+
 			// Dump autoload
-			await execa("composer dump-autoload --no-dev --optimize")
+			exec("composer dump-autoload --no-dev --optimize")
 			done('Dumped autoload with no dev argument!')
 
 			// Generate translation files

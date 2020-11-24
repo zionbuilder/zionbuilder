@@ -9,11 +9,12 @@
 	"private": true,
 	"scripts": {
 		"translate": "zionbuilder-service translate",
+		"build": "zionbuilder-service build",
+		"zip": "zionbuilder-service zip",
 		"publish:packages": "lerna publish",
 		"publish": "yarn run publish:packages",
 		"dev:packages": "lerna run dev",
 		"dev": "webpack --watch --mode=development",
-		"build": "webpack",
 		"build:packages": "lerna run build",
 		"build:types": "tsc --build"
 	},

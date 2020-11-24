@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const { DefinePlugin } = require('webpack')
 const {
     info,
     done
@@ -14,36 +15,38 @@ module.exports = (options, args) => {
     return new Promise((resolve, reject) => {
         info('ZionBuilder Service is building files.')
 
-        service.chainWebpack(webpackConfig => {
-            webpackConfig.mode('production')
-
-            if (service.options.getOption('writeStats', false) === true) {
-                const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin');
-                webpackConfig
-                    .plugin('bundle-stats-webpack-plugin')
-                    .use(new BundleStatsWebpackPlugin({
-                        baseline: true
-                    }))
-            }
-
-            // webpackConfig
-            //     .plugin('clean-webpack-plugin')
-            //     .use(require('clean-webpack-plugin').CleanWebpackPlugin)
-
-        })
-
         // Webpack
-        const webpackConfig = service.resolveWebpackConfig()
-   
+		const configPath = service.resolve('webpack.config.js')
+		const webpackConfig = require(configPath)
+
         const applyDynamicPublicPathToEntries = function(entries) {
             Object.keys(entries).forEach(entry => {
                 const entryValue = entries[entry]
 
                 entries[entry] = [ path.resolve(__dirname, '../util/dynamicPublicPath.js'), entryValue]
             })
-        }
+		}
 
-        applyDynamicPublicPathToEntries(webpackConfig.entry)
+		function applyDefines(config) {
+			config.plugins = [
+				...(config.plugins || []),
+				new DefinePlugin({
+					__ZIONBUILDER__: JSON.stringify({
+						appName: webpackConfig.name
+					})
+				})
+			]
+		}
+
+		if (Array.isArray(webpackConfig)) {
+			webpackConfig.forEach(config => {
+				applyDynamicPublicPathToEntries(config.entry)
+				applyDefines(config)
+			})
+		} else {
+			applyDynamicPublicPathToEntries(webpackConfig.entry)
+			applyDefines(webpackConfig)
+		}
 
         webpack(webpackConfig, (err, stats) => {
             if (err) {
