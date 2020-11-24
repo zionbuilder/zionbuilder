@@ -143,12 +143,10 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
-	const editGlobalColor = (color, newColor, saveToDB = true) => {
-		const colorIndex = options.value.global_colors.indexOf(color)
-
-		if (colorIndex !== -1) {
-			options.value.global_colors.splice(colorIndex, 1, newColor)
-		}
+	const editGlobalColor = (index, newColor, saveToDB = true) => {
+		let colorToChange = { ...options.value.global_colors[index] }
+		colorToChange['color'] = newColor
+		options.value.global_colors.splice(index, 1, colorToChange)
 
 		if (saveToDB) {
 			saveOptionsToDB()
