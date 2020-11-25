@@ -206,7 +206,7 @@ class Templates extends RestApiController {
 	 * @return \WP_Error|bool true if the request has read access for the item, WP_Error object otherwise
 	 */
 	public function get_item_permissions_check( $request ) {
-		if ( ! $this->userCan() ) {
+		if ( ! $this->userCan( $request ) ) {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to view this resource.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
@@ -238,7 +238,7 @@ class Templates extends RestApiController {
 	 * @return true|\WP_Error true if the request has access to delete the item, WP_Error object otherwise
 	 */
 	public function delete_item_permissions_check( $request ) {
-		if ( ! $this->userCan() ) {
+		if ( ! $this->userCan( $request ) ) {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to delete this resource.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
@@ -270,7 +270,7 @@ class Templates extends RestApiController {
 	 * @return \WP_Error|bool true if the request has read access for the item, WP_Error object otherwise
 	 */
 	public function export_item_permissions_check( $request ) {
-		if ( ! $this->userCan() ) {
+		if ( ! $this->userCan( $request ) ) {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to export this template.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
