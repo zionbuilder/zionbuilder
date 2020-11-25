@@ -72,10 +72,31 @@ class Tabs extends Element {
 		$options->add_option(
 			'tabs',
 			[
-				'type'       => 'child_adder',
-				'title'      => __( 'Tabs', 'zionbuilder' ),
-				'child_type' => 'tabs_item',
-				'item_name'  => 'title',
+				'type'         => 'child_adder',
+				'title'        => __( 'Tabs', 'zionbuilder' ),
+				'child_type'   => 'tabs_item',
+				'item_name'    => 'title',
+				'min'          => 1,
+				'add_template' => [
+					'element_type' => 'tabs_item',
+					'options'      => [
+						'title' => __( 'Tab', 'zionbuilder' ),
+					],
+				],
+				'default'      => [
+					[
+						'element_type' => 'tabs_item',
+						'options'      => [
+							'title' => sprintf( '%s 1', __( 'Tab', 'zionbuilder' ) ),
+						],
+					],
+					[
+						'element_type' => 'tabs_item',
+						'options'      => [
+							'title' => sprintf( '%s 2', __( 'Tab', 'zionbuilder' ) ),
+						],
+					],
+				],
 			]
 		);
 

@@ -35,7 +35,7 @@ class AdminBar {
 	 * @return array<int, string>
 	 */
 	public function remove_body_classes() {
-		return array();
+		return [];
 	}
 
 	/**
@@ -63,10 +63,10 @@ class AdminBar {
 			$admin_bar->add_menu(
 				[
 					'id'    => 'edit-with-zion',
-					'title' => esc_html__( 'Edit with Zion builder', 'zionbuilder' ),
+					'title' => esc_html__( 'Edit with Zion Builder', 'zionbuilder' ),
 					'href'  => $post_instance->get_edit_url(),
 					'meta'  => [
-						'title' => esc_html__( 'Edit with Zion builder', 'zionbuilder' ),
+						'title' => esc_html__( 'Edit with Zion Builder', 'zionbuilder' ),
 					],
 				]
 			);

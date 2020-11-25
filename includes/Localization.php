@@ -73,7 +73,7 @@ class Localization {
 				// Tools
 				'tools'                                  => esc_html__( 'Tools', 'zionbuilder' ),
 				'regenerate_files'                       => esc_html__( 'Regenerate Files', 'zionbuilder' ),
-				'regenerate_css'                         => esc_html__( 'Regenerate CSS', 'zionbuilder' ),
+				'regenerate_css'                         => esc_html__( 'Regenerate CSS & JS', 'zionbuilder' ),
 				'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                => esc_html__( 'New Url', 'zionbuilder' ),
@@ -109,7 +109,7 @@ class Localization {
 				'template_delete_confirm'                => esc_html__( 'Yes, delete template', 'zionbuilder' ),
 				'template_delete_cancel'                 => esc_html__( 'No, keep template', 'zionbuilder' ),
 				'are_you_sure_template_delete'           => esc_html__( 'Are you sure you want to delete this template?', 'zionbuilder' ),
-				'template_was_added'                     => esc_html__( 'The template was susscesfully added to library', 'zionbuilder' ),
+				'template_was_added'                     => esc_html__( 'The template was successfully added to library', 'zionbuilder' ),
 				'success'                                => esc_html__( 'success', 'zionbuilder' ),
 				'select_template'                        => esc_html__( 'Select a template', 'zionbuilder' ),
 				'select_type'                            => esc_html__( 'Select type', 'zionbuilder' ),
@@ -128,6 +128,7 @@ class Localization {
 				'actions'                                => esc_html__( 'actions', 'zionbuilder' ),
 				'add_font'                               => esc_html__( 'Add Font', 'zionbuilder' ),
 				'are_you_sure_google_font_delete'        => esc_html__( 'Are you sure you want to delete this font?', 'zionbuilder' ),
+				'click_to_delete_font'                   => esc_html__( 'Delete font?', 'zionbuilder' ),
 				'font_delete_confirm'                    => esc_html__( 'Yes, delete the font', 'zionbuilder' ),
 				'font_delete_cancel'                     => esc_html__( 'No, keep the font', 'zionbuilder' ),
 				// Custom fonts
@@ -337,18 +338,19 @@ class Localization {
 				'take_tour'                              => __( 'Take the tour', 'zionbuilder' ),
 				'next_step'                              => __( 'Next Step', 'zionbuilder' ),
 				'previous_step'                          => __( 'Previous Step', 'zionbuilder' ),
+				'end_tour'                               => __( 'End tour', 'zionbuilder' ),
 				'welcome_to_zion'                        => __( 'Welcome to Zion Builder', 'zionbuilder' ),
-				'welcome_to_zion_description'            => __( 'Press the <b>"Take the Tour"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>"Next Step"</b>. <br/><br/><br/>Press <b>"x"</b> button located on the top right of this window, to close tour, and immediatly start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time.', 'zionbuilder' ),
+				'welcome_to_zion_description'            => __( 'Press the <b>"Take the Tour"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>"Next Step"</b>. <br/><br/><br/>Press <b>"x"</b> or <b>"End tour"</b> button to close tour, and immediatly start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time.', 'zionbuilder' ),
 				'adding_elements'                        => __( 'Adding elements', 'zionbuilder' ),
 				'adding_elements_description'            => __( 'The <b>colored circle with "+" sign </b> appears each time you hover an element. By clicking on it, a popup will appear from which you can add elements to the page.<br/> <br/>Click on the colored circle that contains <b>"+ icon"</b> to add elements or templates to page', 'zionbuilder' ),
 				'elements_popup'                         => __( 'Click the highlighted tab', 'zionbuilder' ),
-				'elements_popup_description'             => __( 'This popup has 3 main Tabs :"Columns Tab", "Elements Tab" and "Library Tab". From this popup, you can choose predefined columns template, elements or library templates to add to your page. <br/><br/> Click on the next highlighted tab to make it active and see its content. ', 'zionbuilder' ),
+				'elements_popup_description'             => __( 'The "add elements" popup has 3 main Tabs: <b>"Columns Tab"</b>, <b>"Elements Tab"</b> and <b>"Library Tab"</b>. <br /><br />From the columns tab you can immediately add a predefined set of columns. The builder is inteligent enough to know if it should also insert a section or a wrapper column to contain the selected column layout.', 'zionbuilder' ),
 				'elements_tab'                           => __( 'Go to library tab', 'zionbuilder' ),
-				'elements_tab_description'               => __( ' The active Tab is the <b>"Elements Tab"</b>.<br/>All the Zion builder elements are in this tab. They can be easily searched by introducing their name in the search box, or just by scrolling through them. <br/><br/>Now, click on the highlighted Library tab to see the link to the Library.', 'zionbuilder' ),
+				'elements_tab_description'               => __( 'From the <b>Elements tab</b> you can add new elements in the position from which you\'ve pressed the plus sign. They can be easily searched by introducing their name in the search box, or just by scrolling through them. <br/><br/>Now, click on the highlighted Library tab to see the link to the Library.', 'zionbuilder' ),
 				'columns_tab'                            => __( 'Go to columns tab', 'zionbuilder' ),
-				'columns_tab_description'                => __( ' The active Tab is the <b>" Library Tab"</b>. If you have the PRO version, you can choose from hundreds of templates from Zion library.<br/> <br/>Now lets add some elements to the page. Go back to add a predefined columns template to your page. Click on the highlighted "Columns tab"', 'zionbuilder' ),
+				'columns_tab_description'                => __( 'From the Library tab you can choose from hundreds of pre-made templates.<br/> <br/>Now lets add some elements to the page. Go back to add <b>"Columns"</b> in order to add a column template to your page. </br><b>Click on the highlighted "Columns tab"</b>', 'zionbuilder' ),
 				'add_template_to_page'                   => __( 'Add a template to your page', 'zionbuilder' ),
-				'add_template_to_page_description'       => __( 'Choose highlighted template to add to your page.<br/> Adding this template will create a section with a column inside.', 'zionbuilder' ),
+				'add_template_to_page_description'       => __( 'Choose highlighted template to add to your page.<br/> Since you are inserting this as a root element, adding this template will create a section with a column inside.', 'zionbuilder' ),
 				'edit_element_options'                   => __( 'Edit Element options', 'zionbuilder' ),
 				'edit_element_options_description'       => __( 'Opening the settings panel for each element, can be made through multiple actions: <br/><ul><li>- DoubleClick an element </li><li>- Rightclick on the element and choose edit </li><li>- Clicking on edit toolbar from the top right of each element </li></ul> <br/><br/> Now,<b> double click </b> on the element to open the panel settings', 'zionbuilder' ),
 				'panel_element_options'                  => __( 'Click the highlighted tab', 'zionbuilder' ),
@@ -443,7 +445,7 @@ class Localization {
 
 				// ColumnTemplates
 				'access_library_templates'               => __( 'Access Library Templates', 'zionbuilder' ),
-				'access_video_library'                   => __( 'Access over 200+ templates from our library, it’s just one click away', 'zionbuilder' ),
+				'access_video_library'                   => __( 'Access over 150+ templates from our library, it’s just one click away', 'zionbuilder' ),
 				'open_library'                           => __( 'Open Library', 'zionbuilder' ),
 
 				// Select
@@ -590,6 +592,7 @@ class Localization {
 				'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
 				'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
 				'success_save'                           => __( 'This page was successfully saved', 'zionbuilder' ),
+				'getting_started'                        => __( 'Getting started', 'zionbuilder' ),
 				// inline editor
 				'target'                                 => __( 'Target', 'zionbuilder' ),
 				'family'                                 => __( 'family', 'zionbuilder' ),

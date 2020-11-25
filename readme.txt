@@ -133,11 +133,10 @@ Zion Page Builder is a front end visual page builder plugin for WordPress. Zion 
 Yes you can. You can edit posts, pages, and custom post types with Zion Page Builder by activating them from the plugin Admin panel.
 
 == Screenshots ==
-
-1. Plugin edit screen
-2. Plugin edit screen while hovering an element
-3. Element options
-4. Add new element in page
+1. Editing experience
+2. Editing experience
+3. Responsive options
+4. Inline edit
 5. ZionBuilder online library
 6. ZionBuilder online library
 7. Tree view
@@ -146,8 +145,63 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 10. History panel. You can get back in time
 11. Two builder panel open
 12. Responsive options. You can style an element for each device
+13. Plugin edit screen
+14. Plugin edit screen while hovering an element
+15. Element options
+16. Add new element in page
+17. ZionBuilder online library
 
 == Changelog ==
+
+= 1.1.0- 2020-11-24 =
+* Renamed regenerate css to regenerate css and js
+* Improved history
+* Fixed poper behaviour on scroll
+* Allow save page on content editable
+* Allow browser context on right click in preview mode
+* Hide element menu when scrolling
+* Replaced pageEvents with windows
+* Fix image wrapper border on image option
+* Fixed element custom css not working
+* Fixed Mozilla bug on input
+* Fixed locked user data
+* Update plugin info card for pro version
+* Update Urls for changelog
+* Improve Tabs Element
+* Implemented element scroll to
+* Replace modal tour with intro video
+* Feature: Add Elements Popup pens automatically when column layouts are inserted
+* Feature: Element options panel: Added ability to click on the element title to select the parent element
+* Feature: Abillity to change Column setting for each viewport for Zion's Gallery Element
+* Feature: Make Button Position option changeable per viewport
+* Fixed CSS not generated when using 0 (zero) without any suffix like 'px' for input values
+* Fixed Bug: Absolute Positioning of elements in Zion Builder is not the same as on the front end
+* Fixed Bug CSS not working correctly inside Zion Builder after changing Column ID
+* Fixed Bug Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
+* Fixed css classes not cleared when a new css class is added or changed
+* Fixed Bug: Custom Javascript doesn't get removed in 'Custom Javascript' under 'Page Options' when saving page
+* Change Tab name from "Columns" to "Layouts"
+* Updated elements registration
+* Created methods for adding childs to elements
+* Added ability to use zion builder version of Vue
+* Made components package as vue plugin
+* Reorganized components
+* Updated to Popper2
+* Removed Vuex from dependencies
+* Add v1.0.0 to lerna
+* Update to Vue 3 and fix compatibility syntax
+* Switched to monorepo lerna
+* Added filter for license check
+* Fixed image element margin drag hides the toolbox
+* Fixed Zion Builder not working with Yoast in certain conditions
+* Fixed PHP Stan erors
+* Fixed CSS classes not cleared when a new css class is added or changed
+* Update Data Fonts Google set
+* Add ability to get render attributes for multiple tag ids
+* Fix render "Array" string on elements classes
+* Fixed section masks not working
+* Fixed element with no options shows values as array
+* Add padding to element icon for image element
 
 = 1.0.1- 2020-08-17 =
 * Renamed plugin
