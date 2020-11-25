@@ -1947,7 +1947,7 @@ msgid "Disable Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:261
+#: ../includes/Editor/Editor.php:260
 msgid "Post is locked by %s"
 msgstr ""
 

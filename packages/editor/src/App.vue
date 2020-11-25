@@ -139,7 +139,7 @@ import PostLock from './components/PostLock.vue'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData } from '@composables'
+import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useDemoMode } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -162,6 +162,7 @@ export default {
 		ElementMenu
 	},
 	setup (props) {
+		const { isDemoMode } = useDemoMode()
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
 		const { openPanels, panelPlaceholder } = usePanels()
@@ -196,7 +197,8 @@ export default {
 			applyShortcuts,
 			isPreviewLoading,
 			getMainbarPosition,
-			urls: editorData.value.urls
+			urls: editorData.value.urls,
+			isDemoMode
 		}
 	},
 	data: () => {
@@ -276,6 +278,11 @@ export default {
 
 		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
+
+		// Check for demo mode
+		if (this.isDemoMode) {
+			document.body.classList.add('zbpb-editor-demoMode')
+		}
 
 		add({
 			message: this.$translate('autosave_notice'),
@@ -473,5 +480,25 @@ body {
 .znpb-panel-placeholder {
 	width: 100%;
 	height: 100%;
+}
+.zbpb-editor-demoMode {
+	.znpb-editor-header__page-save-wrapper--save, .znpb-editor-header__page-save-wrapper--save a {
+		cursor: not-allowed !important;
+	}
+
+
+	.znpb-editor-header__page-save-wrapper--save .znpb-editor-header__menu_button, .znpb-editor-header__page-save-wrapper--save a {
+		pointer-events: none !important;
+	}
+
+	// Save element modal
+	.znpb-modal-save-element {
+		.znpb-modal-content-save-buttons {
+			cursor: not-allowed !important;
+			& > div {
+				pointer-events: none !important;
+			}
+		}
+	}
 }
 </style>
