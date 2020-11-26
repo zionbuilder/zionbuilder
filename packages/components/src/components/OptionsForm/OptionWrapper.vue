@@ -292,7 +292,9 @@ export default {
 				const childOptionsIds = this.getChildOptionsIds(this.schema);
 
 				return childOptionsIds.find((optionId) => {
-					return (
+					if (this.savedOptionValue && this.savedOptionValue.__dynamic_content__ && this.savedOptionValue.__dynamic_content__[optionId]) {
+						return this.savedOptionValue && this.savedOptionValue.__dynamic_content__[optionId]
+					} else 	return (
 						this.savedOptionValue && this.savedOptionValue[optionId]
 					)
 				})
