@@ -30,6 +30,12 @@ export default {
 	grid-row-gap: 10px;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	justify-items: center;
+
+	&--no-pd {
+		padding: 0;
+		margin: 0;
+	}
+
 	.znpb-colorpicker-add-color {
 		box-sizing: content-box;
 		width: 26px;

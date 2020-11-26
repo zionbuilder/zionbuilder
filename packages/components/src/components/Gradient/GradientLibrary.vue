@@ -6,7 +6,7 @@
 	>
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
-				<div class=" znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
+				<div class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar">
 					<GradientPreview
 						v-for="(gradient,i) in getLocalGradients"
 						v-bind:key="i"
@@ -30,7 +30,7 @@
 					/>
 				</div>
 				<template v-else>
-					<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
+					<div class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar">
 						<GradientPreview
 							v-for="(gradient,i) in getGlobalGradients"
 							v-bind:key="i"
