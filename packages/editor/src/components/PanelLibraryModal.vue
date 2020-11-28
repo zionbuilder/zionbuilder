@@ -156,15 +156,13 @@
 			v-if="localActive && !importActive"
 			:preview-open="previewOpen"
 			@activate-preview="activatePreview"
-			@loading-start="libLoading = true"
-			@loading-end="libLoading = false"
 		/>
 	</Modal>
 
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch} from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
@@ -191,16 +189,21 @@ export default {
 	},
 	setup (props) {
 		const { togglePanel } = usePanels()
-		const { fetchTemplates } = useLocalLibrary()
+		const { fetchTemplates, loading} = useLocalLibrary()
+		let libLoading = ref( false)
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
+		watch(loading, (newVal) => {
+			libLoading.value = newVal
+		})
 
 		return {
 			togglePanel,
 			fetchTemplates,
+			libLoading,
 			editorData,
 			isProActive,
 			isProConnected,
@@ -209,7 +212,6 @@ export default {
 	},
 	data () {
 		return {
-			libLoading: false,
 			importActive: false,
 			multiple: false,
 			showMaximize: false,

@@ -63,10 +63,11 @@
 				</div>
 			</div>
 			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
-
+				<Loader v-if="itemsLoading" />
 				<ul
 					ref="gridlist"
 					class="znpb-editor-library-modal-item-list"
+					v-else
 				>
 					<li class="znpb-editor-library-modal__item--grid-sizer"></li>
 					<li class="znpb-editor-library-modal__item--gutter-sizer"></li>
@@ -83,7 +84,7 @@
 				</ul>
 
 				<p
-					v-if="(filteredItems.length < 4)"
+					v-if="!itemsLoading && (filteredItems.length < 4)"
 					class="znpb-editor-library-modal-no-more"
 				>
 					{{$translate('no_more_to_show')}}
@@ -164,6 +165,7 @@ export default {
 		},
 		filteredItems (newVal) {
 			if (newVal) {
+				this.itemsLoading = true
 				this.$nextTick(() => {
 					this.onLayout()
 				})
@@ -177,6 +179,7 @@ export default {
 		loadingLibrary (newVal) {
 			if (!newVal) {
 				// start masonry
+				this.itemsLoading = true
 				this.initMasonry()
 
 				// focus input
@@ -187,6 +190,7 @@ export default {
 	data: function () {
 		return {
 			loadingLibrary: true,
+			itemsLoading:true,
 			iframeLoaded: false,
 			enteredValue: '',
 			searchCategories: [],
@@ -353,6 +357,7 @@ export default {
 
 	methods: {
 		initMasonry () {
+			this.itemsLoading = false
 			this.$nextTick(() => {
 				window.jQuery(this.$refs.gridlist).imagesLoaded(() => {
 					this.msnry = new window.Masonry(this.$refs.gridlist, {
@@ -360,7 +365,6 @@ export default {
 						itemSelector: '.znpb-editor-library-modal__item',
 						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
 						transitionDuration: 0
-
 					})
 				})
 			})
@@ -561,8 +565,7 @@ export default {
 		left: 0;
 		overflow-x: hidden;
 		width: 100%;
-		height: 100%;
-		height: 100%;
+		height: calc(100% - 80px);
 		min-height: 300px;
 		padding: 0 20px 80px 20px;
 		transform: translateY(80px);
