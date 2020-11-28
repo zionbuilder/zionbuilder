@@ -81,7 +81,6 @@ export default {
 		}
 
 		function getIdForTab(vnode) {
-			console.log(vnode);
 			const props = vnode.props
 			return props && props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
 		}
