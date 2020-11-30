@@ -43,7 +43,7 @@
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
-				v-model:activeKeyTab="activeKeyTab"
+				v-model:activeTab="activeKeyTab"
 				class="znpb-element-options__tabs-wrapper"
 			>
 				<Tab
