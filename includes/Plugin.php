@@ -3,9 +3,10 @@
 namespace ZionBuilder;
 
 use ZionBuilder\CommonJS;
+use ZionBuilder\Shortcodes;
+use ZionBuilder\Renderer;
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
-use ZionBuilder\Renderer;
 use ZionBuilder\Post\PostManager;
 use ZionBuilder\Elements\Manager as ElementsManager;
 use ZionBuilder\PageTemplates\PageTemplates;
@@ -227,6 +228,7 @@ class Plugin {
 		$this->import_export    = new ImportExport();
 		$this->icons            = new Icons();
 
+		new Shortcodes();
 		new CommonJS();
 		new Integrations();
 		new AdminBar();

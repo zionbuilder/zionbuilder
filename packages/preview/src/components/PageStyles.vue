@@ -21,7 +21,6 @@ export default {
 	},
 	setup (props) {
 		return () => {
-			// return h('div', 'asasdasd')
 			const returnVnodes = []
 
 			const createVnode = function (styles) {
