@@ -34,23 +34,26 @@ export default {
 		},
 		child_options: {
 			type: Object
+		},
+		activeTab: {
+			type: String
 		}
 	},
 	data () {
 		return {
-			activeTab: null
+			localActiveTab: this.activeTab
 		}
 	},
 	computed: {
 		valueModel: {
 			get () {
-				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
+				return typeof (this.modelValue || {})[this.localActiveTab] !== 'undefined' ? (this.modelValue || {})[this.localActiveTab] : {}
 			},
 			set (newValue) {
 				// Check if we actually need to delete the option
 				const newValues = {
 					...this.modelValue,
-					[this.activeTab]: newValue
+					[this.localActiveTab]: newValue
 				}
 				this.$emit('update:modelValue', newValues)
 			}
@@ -59,7 +62,7 @@ export default {
 
 	methods: {
 		changeTab (activeTab) {
-			this.activeTab = activeTab
+			this.localActiveTab = activeTab
 		}
 	}
 }
