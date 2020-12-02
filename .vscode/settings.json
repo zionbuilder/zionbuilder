@@ -54,5 +54,6 @@
 	"vetur.format.options.useTabs": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
-	}
+	},
+	"editor.formatOnSave": true
 }
