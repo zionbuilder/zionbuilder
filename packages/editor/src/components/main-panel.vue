@@ -266,10 +266,10 @@ export default {
 
 		helpMenuItems () {
 			let helpArray = [
-				{
-					title: this.$translate('help'),
-					action: this.showHelpModal
-				},
+				// {
+				// 	title: this.$translate('help'),
+				// 	action: this.showHelpModal
+				// },
 				{
 					title: this.$translate('tour'),
 					action: this.showTour
