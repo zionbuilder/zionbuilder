@@ -184,9 +184,7 @@ export default {
 			return historyIndex.value + 1 < history.value.length
 		})
 
-		const hasChanges = computed(() => {
-			history.value.length > 1 && historyIndex.value > 0
-		})
+		const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0)
 
 		const addToLocalHistory = debounce(function () {
 			// Clone store
@@ -246,6 +244,7 @@ export default {
 			searchIcon,
 			canUndo,
 			canRedo,
+			hasChanges,
 			// Methods
 			undo,
 			redo
