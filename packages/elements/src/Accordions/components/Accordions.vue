@@ -6,7 +6,13 @@
 			:key="i"
 			:element="item"
 			:options="item.options"
-		/>
+		>
+			<Element
+				v-for="(element, i) in element.content"
+				:key="element.uid"
+				:element="element"
+			/>
+		</accordionItem>
 		<slot name="end" />
 	</div>
 </template>
