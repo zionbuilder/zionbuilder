@@ -1761,6 +1761,18 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
+#: ../includes/Shortcodes.php:23
+msgid "Template id missing"
+msgstr ""
+
+#: ../includes/Shortcodes.php:29
+msgid "Template not found"
+msgstr ""
+
+#: ../includes/Shortcodes.php:33
+msgid "Template was not built with Zion Builder"
+msgstr ""
+
 #: ../includes/Templates.php:89
 msgid "Template"
 msgstr ""
