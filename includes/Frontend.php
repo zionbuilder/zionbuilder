@@ -107,9 +107,6 @@ class Frontend {
 				Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
 			}
 		}
-
-		// Instantiate all elements that are present on the current page
-		Plugin::$instance->renderer->prepare_areas_for_render();
 	}
 
 	/**
