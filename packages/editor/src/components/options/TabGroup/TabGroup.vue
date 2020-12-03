@@ -3,13 +3,13 @@
 	<Tabs
 		tab-style="group"
 		class="znpb-options__tab"
-		@changed-tab="changeTab"
-		:active-tab="activeTab"
+		v-model:activeTab="activeTab"
 	>
 		<Tab
 			:name="tabConfig.title"
 			v-for="(tabConfig, tabId) in child_options"
-			:key='tabId'
+			ref="tab"
+			:key="tabId"
 			:id="tabId"
 		>
 			<OptionsForm
@@ -34,37 +34,32 @@ export default {
 		},
 		child_options: {
 			type: Object
-		},
-		activeTab: {
-			type: String
 		}
 	},
 	data () {
 		return {
-			localActiveTab: this.activeTab
+			activeTab: null
 		}
 	},
 	computed: {
 		valueModel: {
 			get () {
-				return typeof (this.modelValue || {})[this.localActiveTab] !== 'undefined' ? (this.modelValue || {})[this.localActiveTab] : {}
+				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
 			},
 			set (newValue) {
 				// Check if we actually need to delete the option
 				const newValues = {
 					...this.modelValue,
-					[this.localActiveTab]: newValue
+					[this.activeTab]: newValue
 				}
 				this.$emit('update:modelValue', newValues)
 			}
 		}
 	},
+	mounted () {
+		this.activeTab = this.$refs.tab.id
+	},
 
-	methods: {
-		changeTab (activeTab) {
-			this.localActiveTab = activeTab
-		}
-	}
 }
 </script>
 <style lang="scss">

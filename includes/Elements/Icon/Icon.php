@@ -235,7 +235,6 @@ class Icon extends Element {
 			'icon_pseudo_tab',
 			[
 				'type'      => 'tabs',
-				'activeTab' => 'normal',
 			]
 		);
 
