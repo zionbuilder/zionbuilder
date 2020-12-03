@@ -3,13 +3,13 @@
 	<Tabs
 		tab-style="group"
 		class="znpb-options__tab"
-		@changed-tab="changeTab"
-		:active-tab="activeTab"
+		v-model:activeTab="activeTab"
 	>
 		<Tab
 			:name="tabConfig.title"
 			v-for="(tabConfig, tabId) in child_options"
-			:key='tabId'
+			ref="tab"
+			:key="tabId"
 			:id="tabId"
 		>
 			<OptionsForm
@@ -56,12 +56,10 @@ export default {
 			}
 		}
 	},
+	mounted () {
+		this.activeTab = this.$refs.tab.id
+	},
 
-	methods: {
-		changeTab (activeTab) {
-			this.activeTab = activeTab
-		}
-	}
 }
 </script>
 <style lang="scss">

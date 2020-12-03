@@ -234,7 +234,7 @@ class Icon extends Element {
 		$icon_pseudo_tab = $icon_settings_group->add_option(
 			'icon_pseudo_tab',
 			[
-				'type' => 'tabs',
+				'type'      => 'tabs',
 			]
 		);
 
