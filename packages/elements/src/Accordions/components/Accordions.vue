@@ -1,30 +1,24 @@
 <template>
-	<SortableContent
-		:element="element"
-		:allow-elements-add="false"
-	>
-		<template #start>
-			<slot name="start" />
-		</template>
-
-		<template #end>
-			<slot name="end" />
-		</template>
-
-	</SortableContent>
+	<div>
+		<slot name="start" />
+		<accordionItem
+			v-for="(item, i) in options.items"
+			:key="i"
+			:element="item"
+			:options="item.options"
+		/>
+		<slot name="end" />
+	</div>
 </template>
 
 <script>
-module.exports = {
+import accordionItem from './accordionItem.vue'
+export default {
 	name: 'accordions',
+	components: {
+		accordionItem
+	},
 	props: ['options', 'element', 'api'],
-	setup(props) {
-		// Check to see if we need to add some items
-		if (props.element.content.length === 0 && props.options.items) {
-			props.element.addChildren(props.options.items)
-		}
-
-		return {}
-	}
 }
+
 </script>
