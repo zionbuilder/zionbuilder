@@ -452,10 +452,12 @@ class Cache {
 	 * @return void
 	 */
 	public function delete_post_cache( $post_id ) {
-		$post_id           = absint( $post_id );
-		$cache_file_config = $this->get_cache_file_config( $post_id );
+		$post_id               = absint( $post_id );
+		$cache_file_config_css = $this->get_cache_file_config( $post_id );
+		$cache_file_config_js  = $this->get_cache_file_config( $post_id, 'js' );
 
-		FileSystem::get_file_system()->delete( $cache_file_config['path'] );
+		FileSystem::get_file_system()->delete( $cache_file_config_css['path'] );
+		FileSystem::get_file_system()->delete( $cache_file_config_js['path'] );
 	}
 
 
