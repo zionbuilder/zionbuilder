@@ -87,6 +87,7 @@ import GradientElement from './GradientElement.vue'
 import PresetInput from './PresetInput.vue'
 import { Sortable } from '@zionbuilder/sortable'
 import { ActionsOverlay } from '../ActionsOverlay'
+import { generateUID } from '@zb/utils'
 
 export default {
 	name: 'GradientGenerator',
@@ -165,6 +166,7 @@ export default {
 			this.showPresetInput = false
 
 			const defaultGradient = {
+				id: generateUID(),
 				name: name,
 				config: this.computedValue
 			}

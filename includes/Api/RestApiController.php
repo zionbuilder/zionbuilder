@@ -47,7 +47,7 @@ class RestApiController extends \WP_REST_Controller {
 	 *
 	 * @return bool
 	 */
-	public function userCan() {
-		return Permissions::user_allowed_edit();
+	public function userCan( $request ) {
+		return apply_filters( 'zionbuilder/rest/user_can', Permissions::user_allowed_edit(), $request );
 	}
 }

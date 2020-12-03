@@ -52,6 +52,10 @@ export default {
 		}
 	},
 	mounted () {
+		if (!this.hasVideoSource) {
+			return
+		}
+
 		if (Object.keys(this.videoConfig).length > 0) {
 			this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
 		}

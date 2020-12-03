@@ -171,7 +171,7 @@ import { Tooltip } from "@zionbuilder/tooltip"
 import { ChangesBullet } from "../ChangesBullet"
 import { InputLabel } from "../InputLabel"
 import { Injection } from "../Injection"
-
+import { get } from 'lodash-es'
 export default {
 	name: "OptionWrapper",
 	provide () {
@@ -229,7 +229,7 @@ export default {
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
 			deleteTopModelValueByPath
-		 } = inject('OptionsForm')
+		} = inject('OptionsForm')
 
 		const { getSchema } = useOptionsSchemas()
 		const {
@@ -292,9 +292,9 @@ export default {
 				const childOptionsIds = this.getChildOptionsIds(this.schema);
 
 				return childOptionsIds.find((optionId) => {
-					return (
-						this.savedOptionValue && this.savedOptionValue[optionId]
-					)
+					let hasDynamicValue = get(this.modelValue, `__dynamic_content__[${optionId}]`)
+					return this.savedOptionValue && this.savedOptionValue[optionId] || hasDynamicValue !== undefined
+
 				})
 			} else {
 				return typeof this.savedOptionValue !== 'undefined' && this.savedOptionValue !== null
@@ -320,7 +320,7 @@ export default {
 			let value = null;
 
 			if (this.compiledSchema.sync) {
-				value = this.getTopModelValueByPath( this.compilePlaceholder(this.compiledSchema.sync))
+				value = this.getTopModelValueByPath(this.compilePlaceholder(this.compiledSchema.sync))
 			} else {
 				value = this.modelValue
 			}
@@ -435,7 +435,7 @@ export default {
 				if (this.schema.on_change) {
 					if (this.schema.on_change === "refresh_iframe") {
 						trigger("refreshIframe");
-					} else if ( this.schema.on_change.condition.value[0] !== newValue ) {
+					} else if (this.schema.on_change.condition.value[0] !== newValue) {
 						// Check if we need to clear path option
 						this.deleteTopModelValueByPath(this.schema.on_change.option_path)
 					}
@@ -567,6 +567,7 @@ export default {
 		 * Delete the value
 		 */
 		onDeleteOption (optionId) {
+
 			if (this.schema.sync) {
 				let fullOptionIds = [];
 				const childOptionsIds = this.getChildOptionsIds(
@@ -588,13 +589,15 @@ export default {
 				this.deleteTopModelValueByPath(compiledSync);
 			} else {
 				if (this.schema.is_layout) {
+
 					const childOptionsIds = this.getChildOptionsIds(
 						this.schema
-					);
-					this.$parent.deleteValues(childOptionsIds);
+					)
+					this.$parent.deleteValues(childOptionsIds)
 				} else {
-					optionId = optionId || this.optionId;
-					this.deleteValueByPath(optionId);
+					optionId = optionId || this.optionId
+
+					this.deleteValueByPath(optionId)
 				}
 			}
 		},

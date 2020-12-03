@@ -1,5 +1,5 @@
 <script>
-import { computed, h, ref, watch, cloneVNode, Fragment } from 'vue'
+import { computed, h, ref, watch, cloneVNode, Fragment, Comment } from 'vue'
 import { cloneDeep } from 'lodash-es'
 
 // Components
@@ -82,7 +82,7 @@ export default {
 
 		function getIdForTab(vnode) {
 			const props = vnode.props
-			return props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
+			return props && props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
 		}
 
 		function generateTitleVNode ({ props, children }) {
@@ -112,7 +112,9 @@ export default {
 						const fragmentItems = extractChilds(vNode.children)
 						items.push(...fragmentItems)
 					} else {
-						items.push(vNode)
+						if (vNode.type !== Comment) {
+							items.push(vNode)
+						}
 					}
 				})
 			}

@@ -52,7 +52,6 @@ class Editor {
 	 * @return void
 	 */
 	public function init() {
-
 		// Verify nonce
 		if ( ! Nonces::verify_nonce( Nonces::ACTIVE_EDITOR ) ) {
 			return;

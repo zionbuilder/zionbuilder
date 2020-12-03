@@ -1761,6 +1761,18 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
+#: ../includes/Shortcodes.php:23
+msgid "Template id missing"
+msgstr ""
+
+#: ../includes/Shortcodes.php:29
+msgid "Template not found"
+msgstr ""
+
+#: ../includes/Shortcodes.php:33
+msgid "Template was not built with Zion Builder"
+msgstr ""
+
 #: ../includes/Templates.php:89
 msgid "Template"
 msgstr ""
@@ -1947,7 +1959,7 @@ msgid "Disable Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:261
+#: ../includes/Editor/Editor.php:260
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -1955,7 +1967,7 @@ msgstr ""
 msgid "Wrapper"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:204, ../includes/Elements/Tabs/Tabs.php:108
+#: ../includes/Elements/Manager.php:204, ../includes/Elements/Tabs/Tabs.php:109
 msgid "Layout"
 msgstr ""
 
@@ -2387,7 +2399,7 @@ msgstr ""
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:147, ../includes/Elements/Tabs/Tabs.php:152
+#: ../includes/Elements/Accordions/Accordions.php:147, ../includes/Elements/Tabs/Tabs.php:162
 msgid "Content styles"
 msgstr ""
 
@@ -3439,28 +3451,32 @@ msgstr ""
 msgid "Buttons color"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:39, ../includes/Elements/Tabs/Tabs.php:76
+#: ../includes/Elements/Tabs/Tabs.php:40, ../includes/Elements/Tabs/Tabs.php:77
 msgid "Tabs"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:83, ../includes/Elements/Tabs/Tabs.php:90, ../includes/Elements/Tabs/Tabs.php:96
+#: ../includes/Elements/Tabs/Tabs.php:84, ../includes/Elements/Tabs/Tabs.php:91, ../includes/Elements/Tabs/Tabs.php:97
 msgid "Tab"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:111
+#: ../includes/Elements/Tabs/Tabs.php:112
 msgid "Horizontal"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:115
+#: ../includes/Elements/Tabs/Tabs.php:116
 msgid "Vertical"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:119
+#: ../includes/Elements/Tabs/Tabs.php:120
 msgid "Stacked"
 msgstr ""
 
-#: ../includes/Elements/Tabs/Tabs.php:145
+#: ../includes/Elements/Tabs/Tabs.php:146
 msgid "Tab styles"
+msgstr ""
+
+#: ../includes/Elements/Tabs/Tabs.php:154
+msgid "Active tab styles"
 msgstr ""
 
 #: ../includes/Elements/Tabs/TabsItem.php:51

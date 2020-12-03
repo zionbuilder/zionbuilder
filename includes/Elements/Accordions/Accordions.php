@@ -71,10 +71,10 @@ class Accordions extends Element {
 		$options->add_option(
 			'items',
 			[
-				'type'       => 'child_adder',
-				'title'      => __( 'Accordions', 'zionbuilder' ),
-				'child_type' => 'accordion_item',
-				'item_name'  => 'title',
+				'type'         => 'child_adder',
+				'title'        => __( 'Accordions', 'zionbuilder' ),
+				'child_type'   => 'accordion_item',
+				'item_name'    => 'title',
 				'min'          => 1,
 				'add_template' => [
 					'element_type' => 'accordion_item',
