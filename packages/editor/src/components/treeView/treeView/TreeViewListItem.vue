@@ -31,17 +31,18 @@
 			<Tooltip
 				:content="$translate('enable_hidden_element')"
 				placement="top"
+				v-if="!element.isVisible"
+				class="znpb-tree-view__item-enable-visible"
 			>
-				<span>
-					<transition name="fade">
-						<Icon
-							icon="visibility-hidden"
-							v-if="!element.isVisible"
-							class="znpb-editor-icon-wrapper--show-element"
-							@click="element.toggleVisibility()"
-						/>
-					</transition>
-				</span>
+
+				<transition name="fade">
+					<Icon
+						icon="visibility-hidden"
+						class="znpb-editor-icon-wrapper--show-element"
+						@click="element.toggleVisibility()"
+					/>
+				</transition>
+
 			</Tooltip>
 
 			<div
@@ -77,9 +78,9 @@ export default defineComponent({
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-		} = useTreeViewItem(props)
+		} = useTreeViewItem(props);
 
-		const expanded = ref(false)
+		const expanded = ref(false);
 		const onItemClick = () => {
 			props.element.focus;
 			props.element.scrollTo = true;
@@ -97,9 +98,6 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .znpb-tree-view__item {
-	.zion-visibility-hidden {
-		cursor: pointer;
-	}
 	.znpb-element-options__dropdown-icon {
 		cursor: pointer;
 

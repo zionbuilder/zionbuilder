@@ -59,22 +59,24 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-utility__text--elipse::after {
-	content: "";
-	position: absolute;
-	top: 1px;
-	right: 1px;
-	bottom: 0;
-	width: 35px;
-	height: calc(100% - 2px);
-	background: linear-gradient(
-	-90deg,
-	$surface-variant 0%,
-	rgba($surface-variant, .3) 100%
-	);
+.znpb-tree-view__item--hidden {
+	.znpb-editor-icon-wrapper--show-element::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 44px;
+		height: 100%;
+		background: linear-gradient(
+		-90deg,
+		$surface-variant 0%,
+		rgba($surface-variant, .3) 100%
+		);
+	}
 }
 
-.znpb-panel-item--hovered .znpb-utility__text--elipse::after {
+.znpb-panel-item--hovered .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
 	-90deg,
 	darken($surface-variant, 3%) 0%,
@@ -82,11 +84,15 @@ export default {
 	);
 }
 
-.znpb-panel-item--active .znpb-utility__text--elipse::after {
+.znpb-panel-item--active .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
 	-90deg,
 	$secondary 0%,
 	rgba($secondary, .3) 100%
 	);
+}
+
+.znpb-tree-view__item-enable-visible {
+	position: relative;
 }
 </style>
