@@ -1,18 +1,13 @@
 <template>
 	<div>
 		<slot name="start" />
-		<accordionItem
-			v-for="(item, i) in options.items"
-			:key="i"
-			:element="item"
-			:options="item.options"
-		>
-			<Element
-				v-for="(element, i) in element.content"
-				:key="element.uid"
-				:element="element"
-			/>
-		</accordionItem>
+
+		<Element
+			v-for="element in element.content"
+			:key="element.uid"
+			:element="element"
+		/>
+
 		<slot name="end" />
 	</div>
 </template>
