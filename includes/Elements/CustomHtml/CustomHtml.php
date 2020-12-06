@@ -85,10 +85,21 @@ class CustomHtml extends Element {
 			'content',
 			[
 				'type'        => 'code',
-				'description' => esc_html__( 'Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type="text/css">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!', 'zionbuilder' ),
+				'description' => __( 'Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type="text/css">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!', 'zionbuilder' ),
 				'title'       => esc_html__( 'Custom html', 'zionbuilder' ),
 				'mode'        => 'htmlmixed',
 				'default'     => esc_html__( '// Your custom HTML here', 'zionbuilder' ),
+			]
+		);
+
+		$options->add_option(
+			'php',
+			[
+				'type'        => 'code',
+				'description' => esc_html__( 'Using this option you can enter you own custom PHP code.The code will apply automatically as soon as you type the ending PHP tag', 'zionbuilder' ),
+				'title'       => esc_html__( 'PHP code', 'zionbuilder' ),
+				'mode'        => 'application/x-httpd-php',
+				'default'     => sprintf( '<?php echo "%s"; ?>', esc_html__( 'Hello World', 'zionbuilder' ) ),
 			]
 		);
 	}
