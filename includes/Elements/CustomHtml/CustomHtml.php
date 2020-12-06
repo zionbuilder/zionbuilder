@@ -102,6 +102,16 @@ class CustomHtml extends Element {
 				'default'     => sprintf( '<?php echo "%s"; ?>', esc_html__( 'Hello World', 'zionbuilder' ) ),
 			]
 		);
+
+		$options->add_option(
+			'apply_button',
+			[
+				'type'        => 'element_event_button',
+				'event'       => 'apply_php_code',
+				'button_text' => esc_html__( 'Apply', 'zionbuilder' ),
+			]
+		);
+
 	}
 
 	/**
