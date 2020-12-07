@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="zb-el-iconBox"
-	>
+	<div class="zb-el-iconBox">
 		<slot name="start" />
 
 		<div
@@ -20,9 +18,9 @@
 				:is="titleTag"
 				class="zb-el-iconBox-title"
 				v-bind="api.getAttributesForTag('title_styles')"
-			>
-				{{options.title ? options.title: null}}
-			</component>
+				v-html="options.title"
+			/>
+
 			<div
 				v-if="options.description"
 				class="zb-el-iconBox-description"
