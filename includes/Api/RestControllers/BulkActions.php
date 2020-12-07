@@ -110,6 +110,7 @@ class BulkActions extends RestApiController {
 	public function parse_php( $php_code ) {
 		try {
 			ob_start();
+			// phpcs:ignore Squiz.PHP.Eval.Discouraged
 			eval( ' ?>' . $php_code );
 			return ob_get_clean();
 		} catch ( \ParseError $e ) {
