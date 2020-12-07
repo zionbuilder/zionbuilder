@@ -293,7 +293,7 @@ msgstr ""
 msgid "Smart Areas"
 msgstr ""
 
-#: ../includes/Localization.php:96, ../includes/Elements/Accordions/AccordionItem.php:69, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:95, ../includes/Elements/Tabs/TabsItem.php:66
+#: ../includes/Localization.php:96, ../includes/Elements/Accordions/AccordionItem.php:69, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:99, ../includes/Elements/Tabs/TabsItem.php:66
 msgid "Title"
 msgstr ""
 
@@ -2395,7 +2395,7 @@ msgstr ""
 msgid "Toogle"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:139, ../includes/Elements/IconBox/IconBox.php:230, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/PricingBox/PricingBox.php:254, ../includes/Elements/ProgressBars/ProgressBars.php:259
+#: ../includes/Elements/Accordions/Accordions.php:139, ../includes/Elements/IconBox/IconBox.php:230, ../includes/Elements/ImageBox/ImageBox.php:243, ../includes/Elements/PricingBox/PricingBox.php:254, ../includes/Elements/ProgressBars/ProgressBars.php:263
 msgid "Title styles"
 msgstr ""
 
@@ -2535,7 +2535,7 @@ msgstr ""
 msgid "Semi rounded"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:154, ../includes/Elements/ProgressBars/ProgressBars.php:158
+#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:154, ../includes/Elements/ProgressBars/ProgressBars.php:162
 msgid "Rounded"
 msgstr ""
 
@@ -2927,11 +2927,11 @@ msgstr ""
 msgid "Shape"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:146, ../includes/Elements/ProgressBars/ProgressBars.php:154
+#: ../includes/Elements/Icon/Icon.php:146, ../includes/Elements/ProgressBars/ProgressBars.php:158
 msgid "Square"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:150, ../includes/Elements/ProgressBars/ProgressBars.php:162
+#: ../includes/Elements/Icon/Icon.php:150, ../includes/Elements/ProgressBars/ProgressBars.php:166
 msgid "Circle"
 msgstr ""
 
@@ -3251,31 +3251,35 @@ msgstr ""
 msgid "Bar 2"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:96
+#: ../includes/Elements/ProgressBars/ProgressBars.php:89
+msgid "Progress Bar"
+msgstr ""
+
+#: ../includes/Elements/ProgressBars/ProgressBars.php:100
 msgid "Set the desired bar title"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:107
+#: ../includes/Elements/ProgressBars/ProgressBars.php:111
 msgid "Fill percentage"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:120, ../includes/Elements/ProgressBars/ProgressBars.php:180
+#: ../includes/Elements/ProgressBars/ProgressBars.php:124, ../includes/Elements/ProgressBars/ProgressBars.php:184
 msgid "Bar progress color"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:135, ../includes/Elements/ProgressBars/ProgressBars.php:196
+#: ../includes/Elements/ProgressBars/ProgressBars.php:139, ../includes/Elements/ProgressBars/ProgressBars.php:200
 msgid "Bar background color"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:150
+#: ../includes/Elements/ProgressBars/ProgressBars.php:154
 msgid "Select the desired bar style"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:212
+#: ../includes/Elements/ProgressBars/ProgressBars.php:216
 msgid "Bars height"
 msgstr ""
 
-#: ../includes/Elements/ProgressBars/ProgressBars.php:231
+#: ../includes/Elements/ProgressBars/ProgressBars.php:235
 msgid "Items distance"
 msgstr ""
 
