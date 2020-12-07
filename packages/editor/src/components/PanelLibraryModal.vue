@@ -5,6 +5,8 @@
 		:width="1440"
 		class="znpb-library-modal"
 		:fullscreen="showMaximize"
+		:close-on-escape="true"
+		@close-modal="closePanel('PanelLibraryModal')"
 	>
 		<template v-slot:header>
 			<div class="znpb-library-modal-header">
@@ -57,37 +59,36 @@
 						strategy="fixed"
 					>
 
+						<a
+							v-if="!isProActive && activeItem.pro"
+							class="znpb-button znpb-button--line znpb-button-buy-pro"
+							:href="purchaseURL"
+							target="_blank"
+						>{{$translate('buy_pro')}}
+						</a>
 
-								<a
-									v-if="!isProActive && activeItem.pro"
-									class="znpb-button znpb-button--line znpb-button-buy-pro"
-									:href="purchaseURL"
-									target="_blank"
-								>{{$translate('buy_pro')}}
-								</a>
+						<a
+							v-else-if="isProActive && !isProConnected && activeItem.pro"
+							class="znpb-button znpb-button--line"
+							target="_blank"
+							:href="dashboardURL"
+						>{{$translate('activate_pro')}}
+						</a>
 
-								<a
-									v-else-if="isProActive && !isProConnected && activeItem.pro"
-									class="znpb-button znpb-button--line"
-									target="_blank"
-									:href="dashboardURL"
-								>{{$translate('activate_pro')}}
-								</a>
-
-								<Button
-									v-else
-									type="secondary"
-									@click="insertLibraryItem"
-									class="znpb-library-modal-header__insert-button"
-								>
-									<span v-if="!insertItemLoading">
-										{{$translate('library_insert')}}
-									</span>
-									<Loader
-										v-else
-										:size="13"
-									/>
-							</Button>
+						<Button
+							v-else
+							type="secondary"
+							@click="insertLibraryItem"
+							class="znpb-library-modal-header__insert-button"
+						>
+							<span v-if="!insertItemLoading">
+								{{$translate('library_insert')}}
+							</span>
+							<Loader
+								v-else
+								:size="13"
+							/>
+						</Button>
 					</Tooltip>
 
 					<template v-else>
@@ -162,7 +163,7 @@
 </template>
 
 <script>
-import { ref, watch} from 'vue'
+import { ref, watch } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
@@ -188,9 +189,9 @@ export default {
 		}
 	},
 	setup (props) {
-		const { togglePanel } = usePanels()
-		const { fetchTemplates, loading} = useLocalLibrary()
-		let libLoading = ref( false)
+		const { togglePanel, closePanel } = usePanels()
+		const { fetchTemplates, loading } = useLocalLibrary()
+		let libLoading = ref(false)
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
@@ -201,6 +202,7 @@ export default {
 		})
 
 		return {
+			closePanel,
 			togglePanel,
 			fetchTemplates,
 			libLoading,
