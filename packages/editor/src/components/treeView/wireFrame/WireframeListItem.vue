@@ -27,18 +27,18 @@
 				<Tooltip
 					v-if="!element.isVisible"
 					:content="$translate('enable_hidden_element')"
-					class="znpb-wireframe-item__header-area--visibility-icon"
+					class="znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 				>
-					<span>
-						<transition name="fade">
-							<Icon
-								icon="visibility-hidden"
-								@click="element.toggleVisibility()"
-								class="znpb-editor-icon-wrapper--show-element"
-							>
-							</Icon>
-						</transition>
-					</span>
+
+					<transition name="fade">
+						<Icon
+							icon="visibility-hidden"
+							@click="element.toggleVisibility()"
+							class="znpb-editor-icon-wrapper--show-element"
+						>
+						</Icon>
+					</transition>
+
 				</Tooltip>
 
 				<div
@@ -170,8 +170,7 @@ export default {
 @import "~@zionbuilder/css-variables/frontend/_grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
-	padding: 10px 5px 10px;
-	margin-right: 5px;
+	padding: 15px 15px 15px;
 	transition: opacity .2s ease;
 	cursor: pointer;
 
@@ -258,6 +257,10 @@ export default {
 			&--visibility-icon {
 				display: flex;
 				align-items: center;
+
+				.znpb-editor-icon-wrapper--show-element {
+					padding-right: 0;
+				}
 			}
 			&--center {
 				justify-content: center;

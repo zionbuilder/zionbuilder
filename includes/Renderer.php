@@ -99,9 +99,8 @@ class Renderer {
 	 *
 	 * @return void
 	 */
-	private function register_element_instance( $element_data ) {
+	public function register_element_instance( $element_data ) {
 		$element_instance_with_data = Plugin::$instance->elements_manager->get_element_instance_with_data( $element_data );
-
 		// Don't proceed if we do not have an element instance
 		if ( false === $element_instance_with_data || ! isset( $element_data['uid'] ) ) {
 			return;
@@ -130,10 +129,14 @@ class Renderer {
 	 */
 	public function prepare_areas_for_render() {
 		foreach ( $this->get_registered_areas() as $area_name => $area_template_data ) {
-			if ( is_array( $area_template_data ) ) {
-				foreach ( $area_template_data as $element_data ) {
-					$this->register_element_instance( $element_data );
-				}
+			$this->prepare_area_for_render( $area_name );
+		}
+	}
+
+	public function prepare_area_for_render( $area_id ) {
+		if ( ! empty( $this->registered_areas[$area_id] ) ) {
+			foreach ( $this->registered_areas[$area_id] as $element_data ) {
+				$this->register_element_instance( $element_data );
 			}
 		}
 	}
@@ -150,6 +153,7 @@ class Renderer {
 	 */
 	public function register_area( $area_name, $area_template_data ) {
 		$this->registered_areas[$area_name] = $area_template_data;
+		$this->prepare_area_for_render( $area_name );
 	}
 
 	/**
@@ -163,9 +167,9 @@ class Renderer {
 		return $this->instantiated_elements;
 	}
 
-	public function get_content() {
+	public function get_content( $area_id = 'content' ) {
 		ob_start();
-		$this->render_area( 'content' );
+		$this->render_area( $area_id );
 		return ob_get_clean();
 	}
 }

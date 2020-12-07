@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="zb-el-accordions-accordionWrapper"
-		:class="{'zb-el-accordions--active': options.active_by_default}"
+		:class="{'zb-el-accordions--active': activeByDefault}"
 	>
 		<slot name="start" />
 
@@ -11,18 +11,31 @@
 		</div>
 		<div class="zb-el-accordions-accordionContent">
 			<div
-				v-html="options.content"
+				v-html="renderedContent"
 				class="zb-el-accordions-accordionContent__inner"
 			></div>
 		</div>
-
 		<slot name="end" />
 	</div>
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
 	name: 'accordion_item',
-	props: ['options', 'element', 'api']
+	props: ['options', 'element', 'api'],
+	setup (props) {
+		let renderedContent = computed(() => {
+			return props.options.content ? props.options.content : 'accordion content'
+		})
+		let activeByDefault = computed(() => {
+			return props.options.active_by_default ? props.options.active_by_default : false
+		})
+
+		return {
+			renderedContent,
+			activeByDefault
+		}
+	}
 }
 </script>

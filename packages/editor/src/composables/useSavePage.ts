@@ -7,11 +7,18 @@ import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import { useNotifications } from '@zionbuilder/composables'
+import { useDemoMode } from './useDemoMode'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 
 export function useSavePage () {
 	const save = (status = 'publish') => {
+		const { isDemoMode } = useDemoMode()
+
+		if (isDemoMode.value) {
+			return Promise.resolve()
+		}
+
 		const { add } = useNotifications()
 		const { getTemplatePart } = useTemplateParts()
 		const contentTemplatePart = getTemplatePart('content')

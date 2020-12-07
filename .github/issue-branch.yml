@@ -1,0 +1,10 @@
+branches:
+  - label:
+    - enhancement
+    - Feature request approved
+    prefix: feature/
+    name: develop
+  - label:
+    - bug
+    prefix: bugfix/
+    name: develop

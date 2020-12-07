@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Elements
  */
 class Tabs extends Element {
+
 	/**
 	 * Get type
 	 *
@@ -146,11 +147,20 @@ class Tabs extends Element {
 				'selector' => '{{ELEMENT}} .zb-el-tabs-nav-title',
 			]
 		);
+
+		$this->register_style_options_element(
+			'inner_content_styles_active_tab',
+			[
+				'title'    => esc_html__( 'Active tab styles', 'zionbuilder' ),
+				'selector' => '{{ELEMENT}} .zb-el-tabs-nav-title.zb-el-tabs-nav--active',
+			]
+		);
+
 		$this->register_style_options_element(
 			'inner_content_styles_content',
 			[
 				'title'    => esc_html__( 'Content styles', 'zionbuilder' ),
-				'selector' => '{{ELEMENT}} .zb-el-tabs-content ',
+				'selector' => '{{ELEMENT}} .zb-el-tabs-content',
 			]
 		);
 	}

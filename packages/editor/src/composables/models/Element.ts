@@ -27,6 +27,7 @@ export class Element {
 	public scrollTo: boolean = false
 	public isCutted: boolean = false
 	public widgetID: string = ''
+	public callbacks: {} = {}
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
@@ -34,7 +35,7 @@ export class Element {
 		this.parentUid = parentUid
 	}
 
-	setElementData (data) {
+	setElementData(data) {
 		const {
 			uid = generateUID(),
 			content,
@@ -56,11 +57,11 @@ export class Element {
 		}
 	}
 
-	get content () {
+	get content() {
 		return this._content
 	}
 
-	set content (newValue) {
+	set content(newValue) {
 		if (Array.isArray(newValue)) {
 			newValue.forEach(element => {
 				element.setParent(this.uid)
@@ -127,11 +128,11 @@ export class Element {
 		update(this.options, path, () => newValue)
 	}
 
-	setParent (parentUid: string) {
+	setParent(parentUid: string) {
 		this.parentUid = parentUid
 	}
 
-	rename () {
+	rename() {
 		this.activeElementRename = true
 	}
 
@@ -270,5 +271,27 @@ export class Element {
 
 		// Add the instance to all elements
 		return registerElement(configAsJSON, this.parent.uid)
+	}
+
+	on(type, callback) {
+		this.callbacks[type] = this.callbacks[type] || []
+		this.callbacks[type].push(callback)
+	}
+
+	off(type, callback) {
+		const callbacks = this.callbacks[type] || []
+		const callbackIndex = callbacks.indexOf(callback)
+
+		if (callbackIndex !== -1) {
+			this.callbacks[type].splice(callbackIndex, 1)
+		}
+	}
+
+	trigger(type, ...data) {
+		const callbacks = this.callbacks[type] || []
+
+		callbacks.forEach(calback => {
+			calback(...data)
+		});
 	}
 }

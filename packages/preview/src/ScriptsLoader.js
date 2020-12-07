@@ -16,11 +16,11 @@ export const ScriptsLoader = () => {
 		return scripts
 	}
 
-	function reset () {
-		let scripts = {}
-		let loaded = false
-		let loadedScripts = {}
-		let loadedStyles = {}
+	function reset() {
+		scripts = {}
+		loaded = false
+		loadedScripts = {}
+		loadedStyles = {}
 	}
 
 	const getAvailableStyles = () => {

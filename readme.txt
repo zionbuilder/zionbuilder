@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.5
-Stable tag: 1.0.1
+Stable tag: 1.2.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -152,6 +152,39 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 17. ZionBuilder online library
 
 == Changelog ==
+
+= 1.2.0- 2020-12-07 =
+* Added custom PHP option for custom HTML element
+* Fixed refs inputrange error from inline editor
+* Fixed bug accordion element
+* Fix delete dynamic content value
+* Fix bg shadow on treeview
+* Fixed element edit not adding to history in certain conditions
+* Fixed tabs not keeping active tab in editor
+* Fixed post cache not properly cleared on page save
+* Update Tabgroup with v-model
+* Removed unfinished help section
+* Fixed shortcodes not working
+* Fix icon element options not applying
+* Translate strings
+* Update vscode sttings
+* Update format of php
+* Ad inner styles for active tab
+* Check if option has dynamic value with lodash
+* Add prefix and source branch when cerating branch from bug, enhancement …
+* Fixed options panel not refreshing when changing element
+* Fix changes bullet not appearing on dynamic values
+* Fix Upper right loading not triggering on local library refresh
+* Fix grid gradient library overflow
+* Fix loading on zion library by adding extra loader before masonry starts
+* Fixed pseudo before element shows error in certain conditions
+* Remove PHPCS fixer helper
+* Fixed console error showing on video background vue compoent in certain …
+* Added demo mode
+* Delete PhpCsFixer config
+* Removing stray file
+* Fixed restore from local storage shows empty page in certain conditions
+* Added filters for rest controller permission check
 
 = 1.1.0- 2020-11-24 =
 * Renamed regenerate css to regenerate css and js
