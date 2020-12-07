@@ -117,7 +117,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:40, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:483, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
+#: ../includes/Localization.php:40, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:483, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -2783,20 +2783,36 @@ msgstr ""
 msgid "After styles"
 msgstr ""
 
-#: ../includes/Elements/CustomHtml/CustomHtml.php:38
-msgid "Custom HTML"
+#: ../includes/Elements/CustomCode/CustomCode.php:38
+msgid "Custom Code"
 msgstr ""
 
-#: ../includes/Elements/CustomHtml/CustomHtml.php:88
+#: ../includes/Elements/CustomCode/CustomCode.php:88
+msgid "Custom HTML/CSS/JavaScript"
+msgstr ""
+
+#: ../includes/Elements/CustomCode/CustomCode.php:96
 msgid "Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type=\"text/css\">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!"
 msgstr ""
 
-#: ../includes/Elements/CustomHtml/CustomHtml.php:89
+#: ../includes/Elements/CustomCode/CustomCode.php:97
 msgid "Custom html"
 msgstr ""
 
-#: ../includes/Elements/CustomHtml/CustomHtml.php:91
+#: ../includes/Elements/CustomCode/CustomCode.php:99
 msgid "// Your custom HTML here"
+msgstr ""
+
+#: ../includes/Elements/CustomCode/CustomCode.php:107
+msgid "Custom PHP"
+msgstr ""
+
+#: ../includes/Elements/CustomCode/CustomCode.php:115
+msgid "Meet Custom PHP"
+msgstr ""
+
+#: ../includes/Elements/CustomCode/CustomCode.php:116
+msgid "With custom PHP you can add additional logic to your page"
 msgstr ""
 
 #: ../includes/Elements/Gallery/Gallery.php:38, ../includes/Elements/Gallery/Gallery.php:141
