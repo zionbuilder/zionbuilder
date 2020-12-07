@@ -52,7 +52,7 @@ class RestApi {
 	 * @return void
 	 */
 	public function register_controller( $controller_instance ) {
-		$this->controllers[] = $controller_instance;
+		$this->controllers[$controller_instance->get_controller_id()] = $controller_instance;
 	}
 
 
