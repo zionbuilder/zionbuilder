@@ -77,14 +77,14 @@ export default {
 	},
 	methods: {
 		onClick (e) {
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$children[1].expanded : null)
+			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
 		},
 		onFontChange (newValue) {
 			this.Editor.editor.formatter.apply('fontsize', { value: newValue })
 			this.justChangedNode = true
 			this.sliderValue = newValue
 			this.$emit('started-dragging')
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$children[1].expanded : null)
+			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
 			this.$refs.inputRangeDynamic.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
 		},
 		onNodeChange (node) {
