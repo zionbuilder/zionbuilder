@@ -268,6 +268,7 @@ export default {
 
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
+
 				schema[styleId] = {
 					type: 'accordion_menu',
 					title: config.title,
@@ -279,7 +280,8 @@ export default {
 							id: 'styles',
 							is_layout: true,
 							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-							title: config.title
+							title: config.title,
+							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
 						}
 					}
 				}

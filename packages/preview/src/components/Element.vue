@@ -190,7 +190,7 @@ export default {
 		// Get the element component
 		fetchElementComponent()
 
-		function getAttributesForTag(tagID, extraArgs = {}, index = null) {
+		function getAttributesForTag (tagID, extraArgs = {}, index = null) {
 			tagID = index !== null ? `${tagID}${index}` : tagID
 			return Object.assign(renderAttributes.value[tagID] || {}, extraArgs)
 		}
@@ -248,8 +248,8 @@ export default {
 		const getStyleClasses = (styleId, extraClasses = {}) => {
 			const classes = {}
 
-			if (stylesConfig[styleId]) {
-				const elementStylesClasses = stylesConfig[styleId]
+			if (stylesConfig.value[styleId]) {
+				const elementStylesClasses = stylesConfig.value[styleId]
 				if (elementStylesClasses.classes) {
 					elementStylesClasses.classes.forEach(classSelector => {
 						classes[classSelector] = true
