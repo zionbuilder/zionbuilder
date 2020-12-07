@@ -38,4 +38,17 @@ export default {
 }
 </script>
 <style lang="scss">
+.znpb-option__elementEvent {
+	padding: 15px 37px;
+	color: $surface;
+	line-height: 1;
+	text-align: center;
+	background-color: $secondary;
+	border-radius: 3px;
+	transition: all .3s;
+	cursor: pointer;
+	&:hover {
+		background: lighten($secondary, 2);
+	}
+}
 </style>
