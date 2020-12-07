@@ -85,6 +85,10 @@ class ProgressBars extends Element {
 						'fill_percentage' => 80,
 					],
 				],
+				'add_template'       => [
+					'title'           => esc_html__( 'Progress Bar', 'zionbuilder' ),
+					'fill_percentage' => 50,
+				],
 			]
 		);
 
