@@ -22,11 +22,16 @@ import UpgradeToPro from './UpgradeToPro'
 import GlobalClasses from './GlobalCssClasses'
 import ChildAdder from './ChildAdder'
 import Dimensions from './Dimensions'
+import ElementEventButton from './ElementEventButton'
 
-import { useOptions } from '@zb/components'
+import {
+	useOptions
+} from '@zb/components'
 
 export const registerEditorOptions = () => {
-	const { registerOption } = useOptions()
+	const {
+		registerOption
+	} = useOptions()
 
 	// register custom options
 	registerOption(AccordionMenu)
@@ -53,4 +58,5 @@ export const registerEditorOptions = () => {
 	// options just for builder
 	registerOption(GlobalClasses)
 	registerOption(ChildAdder)
+	registerOption(ElementEventButton)
 }
