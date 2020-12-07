@@ -1,8 +1,12 @@
-import { bulkActions } from '@zb/rest'
+import {
+	bulkActions
+} from '@zb/rest'
 
 const hash = (object) => {
 	const string = JSON.stringify(object)
-	let hash = 0; let i; let chr
+	let hash = 0;
+	let i;
+	let chr
 
 	if (string.length === 0) return hash
 	for (i = 0; i < string.length; i++) {
@@ -15,22 +19,22 @@ const hash = (object) => {
 }
 
 export class ServerRequest {
-	constructor () {
+	constructor() {
 		this.queue = []
 		this.requestTimeout = 200
 		this.inProgress = []
 	}
 
-	request (data, successCallback, failCallback) {
+	request(data, successCallback, failCallback) {
 		this.addToQueue(data, successCallback, failCallback)
 		this.doQueue()
 	}
 
-	createCacheKey (object) {
+	createCacheKey(object) {
 		return hash(object)
 	}
 
-	doQueue () {
+	doQueue() {
 		setTimeout(() => {
 			const queueItems = {}
 
@@ -45,7 +49,9 @@ export class ServerRequest {
 
 			this.queue = []
 
-			bulkActions(queueItems).then(({ data }) => {
+			bulkActions(queueItems).then(({
+				data
+			}) => {
 				this.inProgress.forEach((queueItem) => {
 					if (typeof queueItem['successCallback'] === 'function') {
 						queueItem['successCallback'](data[queueItem.key])
@@ -55,6 +61,11 @@ export class ServerRequest {
 				})
 			}).catch(() => {
 				// handle error
+				this.inProgress.forEach((queueItem) => {
+					if (typeof queueItem['failCallback'] === 'function') {
+						queueItem['failCallback']()
+					}
+				})
 			}).finally(() => {
 				// Reset active queue
 				this.inProgress = []
@@ -62,7 +73,7 @@ export class ServerRequest {
 		}, this.requestTimeout)
 	}
 
-	addToQueue (data, successCallback, failCallback) {
+	addToQueue(data, successCallback, failCallback) {
 		const queueKey = this.createCacheKey({
 			data,
 			successCallback,

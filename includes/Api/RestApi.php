@@ -55,7 +55,6 @@ class RestApi {
 		$this->controllers[$controller_instance->get_controller_id()] = $controller_instance;
 	}
 
-
 	/**
 	 * Get Controllers
 	 *
