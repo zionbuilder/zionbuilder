@@ -1,6 +1,6 @@
 <?php
 
-namespace ZionBuilder\Elements\CustomHtml;
+namespace ZionBuilder\Elements\CustomCode;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package ZionBuilder\Elements
  */
-class CustomHtml extends Element {
+class CustomCode extends Element {
 	/**
 	 * Get type
 	 *
@@ -35,7 +35,7 @@ class CustomHtml extends Element {
 	 * @return string The element name
 	 */
 	public function get_name() {
-		return __( 'Custom HTML', 'zionbuilder' );
+		return __( 'Custom Code', 'zionbuilder' );
 	}
 
 	/**
@@ -81,7 +81,15 @@ class CustomHtml extends Element {
 	 * @return void
 	 */
 	public function options( $options ) {
-		$options->add_option(
+		$custom_html_group = $options->add_group(
+			'custom_html',
+			[
+				'type'  => 'panel_accordion',
+				'title' => __( 'Custom HTML/CSS/JavaScript', 'zionbuilder' ),
+			]
+		);
+
+		$custom_html_group->add_option(
 			'content',
 			[
 				'type'        => 'code',
@@ -92,26 +100,23 @@ class CustomHtml extends Element {
 			]
 		);
 
-		$options->add_option(
-			'php',
+		$custom_php_group = $options->add_group(
+			'custom_php',
 			[
-				'type'        => 'code',
-				'description' => esc_html__( 'Using this option you can enter you own custom PHP code.The code will apply automatically as soon as you type the ending PHP tag', 'zionbuilder' ),
-				'title'       => esc_html__( 'PHP code', 'zionbuilder' ),
-				'mode'        => 'application/x-httpd-php',
-				'default'     => sprintf( '<?php echo "%s"; ?>', esc_html__( 'Hello World', 'zionbuilder' ) ),
+				'type'  => 'panel_accordion',
+				'title' => __( 'Custom PHP', 'zionbuilder' ),
 			]
 		);
 
-		$options->add_option(
-			'apply_button',
+		$custom_php_group->add_option(
+			'upgrade_to_pro',
 			[
-				'type'        => 'element_event_button',
-				'event'       => 'apply_php_code',
-				'button_text' => esc_html__( 'Apply', 'zionbuilder' ),
+				'type'                => 'upgrade_to_pro',
+				'message_title'       => esc_html__( 'Meet Custom PHP', 'zionbuilder' ),
+				'message_description' => esc_html__( 'With custom PHP you can add additional logic to your page', 'zionbuilder' ),
+				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
-
 	}
 
 	/**
