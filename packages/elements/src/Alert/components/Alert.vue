@@ -11,8 +11,8 @@
 		<span
 			class="zb-el-alert__title"
 			v-if="options.title"
+			v-html="options.title"
 		>
-			{{options.title}}
 		</span>
 
 		<RenderValue
