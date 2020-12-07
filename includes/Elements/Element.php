@@ -43,13 +43,6 @@ class Element {
 	public $uid = null;
 
 	/**
-	 * If the elements holds multiple Elements inside different containers ( for example, accordion or tabs )
-	 *
-	 * @var boolean
-	 */
-	public $has_multiple = false;
-
-	/**
 	 * The element URL
 	 *
 	 * @var string
@@ -417,7 +410,6 @@ class Element {
 			'category'            => $this->get_category(),
 			'deprecated'          => $this->is_deprecated(),
 			'keywords'            => $this->get_keywords(),
-			'has_multiple'        => $this->has_multiple,
 			'options'             => $this->options->get_schema(),
 			'wrapper'             => $this->is_wrapper(),
 			'content_composition' => $this->content_composition(),
@@ -1290,18 +1282,8 @@ class Element {
 		$child_elements_data = [];
 
 		if ( ! empty( $this->content ) && is_array( $this->content ) ) {
-			if ( $this->has_multiple ) {
-				foreach ( $this->content as $multiple_content_data ) {
-					if ( is_array( $multiple_content_data ) ) {
-						foreach ( $multiple_content_data as $child_content_data ) {
-							$child_elements_data[] = $child_content_data;
-						}
-					}
-				}
-			} else {
-				foreach ( $this->content as $child_content_data ) {
-					$child_elements_data[] = $child_content_data;
-				}
+			foreach ( $this->content as $child_content_data ) {
+				$child_elements_data[] = $child_content_data;
 			}
 		}
 
