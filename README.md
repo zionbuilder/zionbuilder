@@ -158,6 +158,7 @@ Please make sure to update tests as appropriate.
 ## Changelog ##
 
 ### 1.2.0- 2020-12-07 ###
+* Added custom PHP option for custom HTML element
 * Fixed refs inputrange error from inline editor
 * Fixed bug accordion element
 * Fix delete dynamic content value
