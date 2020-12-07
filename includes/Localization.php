@@ -380,6 +380,9 @@ class Localization {
 
 				// Background color
 				'select_background_color'                => __( 'Select background color', 'zionbuilder' ),
+				// Background gradient
+				'no_local_gradients'                     => __( 'No local gradients were found', 'zionbuilder' ),
+				'no_global_gradients'                    => __( 'No global gradients were found', 'zionbuilder' ),
 
 				// Background repeat
 				'background_repeat'                      => __( 'Background Repeat', 'zionbuilder' ),
