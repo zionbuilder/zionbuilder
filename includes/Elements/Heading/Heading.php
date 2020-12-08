@@ -145,7 +145,7 @@ class Heading extends Element {
 				'type'        => 'text_align',
 				'title'       => __( 'Align', 'zionbuilder' ),
 				'description' => __( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.default.default.text-align',
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
 
 			]
 		);
