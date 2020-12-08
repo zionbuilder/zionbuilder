@@ -117,14 +117,19 @@ class AccordionItem extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$title   = $options->get_value( 'title' );
-		$content = $options->get_value( 'content' ); ?>
+		$accordions_element = $this->inject( 'accordionsElement' );
+		$title              = $options->get_value( 'title' );
+		$content            = $options->get_value( 'content' );
+		$title_classes      = $accordions_element->get_style_classes_as_string( 'inner_content_styles_title' );
+		$content_classes    = $accordions_element->get_style_classes_as_string( 'inner_content_styles_content' );
 
-		<div class="zb-el-accordions-accordionTitle" tabindex="0" role="button">
+		?>
+
+		<div class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
 			<?php echo wp_kses_post( $title ); ?>
 			<span class="zb-el-accordions-accordionIcon"></span>
 		</div>
-		<div class="zb-el-accordions-accordionContent">
+		<div class="zb-el-accordions-accordionContent <?php echo esc_attr( $content_classes ); ?>">
 
 			<div
 				class="zb-el-accordions-accordionContent__inner"

@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Element {
 
+	private static $provides = [];
+
 	/**
 	 * Element content
 	 *
@@ -1267,6 +1269,28 @@ class Element {
 		ob_start();
 		Plugin::$instance->renderer->render_children( $this->get_children() );
 		return ob_get_clean();
+	}
+
+	/**
+	 * Allows elements to pass data to nested children
+	 *
+	 * @param string $key The key used in provide/inject
+	 * @param any $value The value provided
+	 * @return void
+	 */
+	public function provide( $key, $value ) {
+		self::$provides[$key] = $value;
+	}
+
+
+	/**
+	 * Will return an injected value if it is set
+	 *
+	 * @param string $key
+	 * @return null|any
+	 */
+	public function inject( $key ) {
+		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
 	}
 
 	/**
