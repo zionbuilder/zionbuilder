@@ -1,5 +1,4 @@
 <template>
-
 	<InlineEditor
 		v-if="renderType === 'editor'"
 		v-model="optionValue"
@@ -9,20 +8,24 @@
 	<span
 		v-else-if="renderType === 'dynamic_html'"
 		v-html="optionValue"
+		v-bind="$attrs"
 	></span>
 
 	<ElementIcon
 		v-else-if="renderType === 'icon'"
 		:iconConfig="optionValue"
+		v-bind="$attrs"
 	/>
 
 	<img
 		v-else-if="renderType === 'image'"
 		:src="optionValue"
+		v-bind="$attrs"
 	/>
 
 	<component
 		:is="htmlTag"
+		v-bind="$attrs"
 		v-else
 	>
 		{{optionValue}}

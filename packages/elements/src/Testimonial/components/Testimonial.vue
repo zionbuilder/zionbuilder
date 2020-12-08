@@ -19,6 +19,7 @@
 			<img
 				v-if="image && options.position !==undefined && options.position !=='top'"
 				class="zb-el-testimonial__userImage"
+				:class="api.getStyleClasses('inner_content_styles_image')"
 				v-bind="api.getAttributesForTag('inner_content_styles_image')"
 				:src="image"
 			/>
