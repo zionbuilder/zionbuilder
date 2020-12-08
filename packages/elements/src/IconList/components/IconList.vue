@@ -10,6 +10,7 @@
 		>
 			<ElementIcon
 				class="zb-el-iconList__itemIcon"
+				:class="api.getStyleClasses('icon_styles')"
 				v-bind="api.getAttributesForTag('icon_styles')"
 				:iconConfig="item.icon"
 			/>
@@ -17,6 +18,7 @@
 			<span
 				v-if="item.text"
 				class="zb-el-iconList__itemText"
+				:class="api.getStyleClasses('text_styles')"
 				v-bind="api.getAttributesForTag('text_styles')"
 				v-html="item.text"
 			/>
