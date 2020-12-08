@@ -2023,7 +2023,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:210, ../includes/Api/RestControllers/Templates.php:257
+#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:210, ../includes/Api/RestControllers/Templates.php:257
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2031,7 +2031,7 @@ msgstr ""
 msgid "Combined fonts list"
 msgstr ""
 
-#: ../includes/Api/RestControllers/DownloadArchive.php:90
+#: ../includes/Api/RestControllers/DownloadArchive.php:94
 msgid "Invalid nonce or filename"
 msgstr ""
 
@@ -2099,11 +2099,11 @@ msgstr ""
 msgid "Contains saved value for allowed post types."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:88
+#: ../includes/Api/RestControllers/Pages.php:92
 msgid "Could not lock post for current user."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:95
+#: ../includes/Api/RestControllers/Pages.php:99
 msgid "Post locked."
 msgstr ""
 
@@ -2571,7 +2571,7 @@ msgstr ""
 msgid "Button position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/IconList/IconList.php:115
+#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/Counter/Counter.php:155, ../includes/Elements/IconList/IconList.php:115
 msgid "right"
 msgstr ""
 
@@ -2695,7 +2695,7 @@ msgstr ""
 msgid "Space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:336, ../includes/Elements/Column/Column.php:381, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
+#: ../includes/Elements/Column/Column.php:336, ../includes/Elements/Column/Column.php:381, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
 msgid "center"
 msgstr ""
 
@@ -2783,11 +2783,15 @@ msgstr ""
 msgid "Select the desired alignment."
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:161
+#: ../includes/Elements/Counter/Counter.php:147, ../includes/Elements/IconList/IconList.php:111
+msgid "left"
+msgstr ""
+
+#: ../includes/Elements/Counter/Counter.php:183
 msgid "Before styles"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:168
+#: ../includes/Elements/Counter/Counter.php:190
 msgid "After styles"
 msgstr ""
 
@@ -3021,10 +3025,6 @@ msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:88
 msgid "row"
-msgstr ""
-
-#: ../includes/Elements/IconList/IconList.php:111
-msgid "left"
 msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:141
