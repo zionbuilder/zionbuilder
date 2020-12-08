@@ -65,9 +65,13 @@ class BulkActions extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request full details about the request
 	 *
-	 * @return bool
+	 * @return true|\WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
+		if ( ! $this->userCan( $request ) ) {
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to view this resource.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+		}
+
 		return true;
 	}
 

@@ -72,6 +72,10 @@ class DownloadArchive extends RestApiController {
 	 * @return \WP_Error|bool true if the request has read access for the item, WP_Error object otherwise
 	 */
 	public function download_item_permissions_check( $request ) {
+		if ( ! $this->userCan( $request ) ) {
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to view this resource.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+		}
+
 		return true;
 	}
 

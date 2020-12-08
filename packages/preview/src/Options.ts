@@ -109,9 +109,10 @@ export default class Options {
 					if (image) {
 						this.setImage(model, optionId, image)
 					}
-				}).finally(() => {
-					this.endLoading()
 				})
+					.finally(() => {
+						this.endLoading()
+					})
 			}
 		}
 	}
