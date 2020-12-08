@@ -163,6 +163,7 @@ Please make sure to update tests as appropriate.
 * Improved: Icon element markup in editor mode
 * Improved: demo mode
 * Improved: icon tab set normal default
+* Fixed Column styling options not showing on Safari on MacOS Big Sur
 * Fixed render classes on positioning the counter element
 * Fixed accordions element not showing in page when first added
 * Fixed Box shadow inset applies even if it is set to no
