@@ -1,4 +1,49 @@
 .zb-el-counter {
 	display: flex;
 	align-items: center;
+	&--align--right {
+		justify-content: flex-end;
+	}
+
+	&--align--left {
+		justify-content: flex-start;
+	}
+
+	&--align--center {
+		justify-content: center;
+	}
 }
+
+@mixin generate-position() {
+	$breakpoints: (
+	lg: "991.98px",
+	md: "767.98px",
+	sm: "575.98px",
+	);
+	// Generate css for all media queries
+	@each $breakpointId, $breakpointValue in $breakpoints {
+		$suffix: "--#{$breakpointId}";
+		$pos: ("--align--left","--align--right", "--align--center");
+
+		@media (max-width: $breakpointValue) {
+			@each $posId in $pos {
+				@if ($posId  == "--align--center") {
+					.zb-el-counter#{$suffix}#{$posId} {
+						justify-content: center;
+					}
+				}
+				@if ($posId  == "--align--left") {
+					.zb-el-counter#{$suffix}#{$posId} {
+						justify-content: flex-start;
+					}
+				}
+				@if ($posId  == "--align--right") {
+					.zb-el-counter#{$suffix}#{$posId} {
+						justify-content: flex-end;
+					}
+				}
+			}
+		}
+	}
+}
+@include generate-position();

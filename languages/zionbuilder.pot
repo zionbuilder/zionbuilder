@@ -2575,7 +2575,7 @@ msgstr ""
 msgid "Button position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/IconList/IconList.php:115
+#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/Counter/Counter.php:155, ../includes/Elements/IconList/IconList.php:115
 msgid "right"
 msgstr ""
 
@@ -2699,7 +2699,7 @@ msgstr ""
 msgid "Space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:336, ../includes/Elements/Column/Column.php:381, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
+#: ../includes/Elements/Column/Column.php:336, ../includes/Elements/Column/Column.php:381, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
 msgid "center"
 msgstr ""
 
@@ -2787,11 +2787,15 @@ msgstr ""
 msgid "Select the desired alignment."
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:161
+#: ../includes/Elements/Counter/Counter.php:147, ../includes/Elements/IconList/IconList.php:111
+msgid "left"
+msgstr ""
+
+#: ../includes/Elements/Counter/Counter.php:183
 msgid "Before styles"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:168
+#: ../includes/Elements/Counter/Counter.php:190
 msgid "After styles"
 msgstr ""
 
@@ -3025,10 +3029,6 @@ msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:88
 msgid "row"
-msgstr ""
-
-#: ../includes/Elements/IconList/IconList.php:111
-msgid "left"
 msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:141
