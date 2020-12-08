@@ -65,7 +65,7 @@ class BulkActions extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request full details about the request
 	 *
-	 * @return true|WP_Error
+	 * @return true|\WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! $this->userCan( $request ) ) {
