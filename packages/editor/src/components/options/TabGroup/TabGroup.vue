@@ -22,7 +22,7 @@
 
 </template>
 <script>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 export default {
 	name: 'TabGroup',
 	props: {
@@ -45,9 +45,15 @@ export default {
 			itemRefs.value.push(el)
 		}
 
-		watch(itemRefs, (newValue, prevCount) => {
-			activeTab.value = itemRefs.value[0].id
-		})
+		function setActiveTab () {
+
+			if (activeTab.value === null) {
+				activeTab.value = itemRefs.value[0].id
+			}
+
+		}
+
+		onMounted(setActiveTab)
 
 		const valueModel = computed({
 			get: () => {
@@ -62,6 +68,7 @@ export default {
 				emit('update:modelValue', newValues)
 			}
 		})
+
 		return {
 			itemRefs,
 			setItemRef,
