@@ -21,6 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Element {
 
+	/**
+	 * Holds a refference to all provided properties
+	 *
+	 * @var array
+	 */
 	private static $provides = [];
 
 	/**
@@ -1275,7 +1280,7 @@ class Element {
 	 * Allows elements to pass data to nested children
 	 *
 	 * @param string $key The key used in provide/inject
-	 * @param any $value The value provided
+	 * @param mixed $value The value provided
 	 * @return void
 	 */
 	public function provide( $key, $value ) {
@@ -1287,7 +1292,7 @@ class Element {
 	 * Will return an injected value if it is set
 	 *
 	 * @param string $key
-	 * @return null|any
+	 * @return null|mixed
 	 */
 	public function inject( $key ) {
 		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
