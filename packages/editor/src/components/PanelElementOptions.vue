@@ -222,7 +222,7 @@ export default {
 		history.value.push(JSON.parse(JSON.stringify(elementOptions.value)))
 
 		// Change the tab when a new element is selected
-		watch(element, () => {
+		watch(element, (newValue) => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
