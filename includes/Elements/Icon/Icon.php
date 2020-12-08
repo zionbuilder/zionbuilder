@@ -99,7 +99,7 @@ class Icon extends Element {
 				'type'        => 'text_align',
 				'title'       => __( 'Align', 'zionbuilder' ),
 				'description' => __( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.default.default.text-align',
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
 			]
 		);
 
@@ -234,7 +234,7 @@ class Icon extends Element {
 		$icon_pseudo_tab = $icon_settings_group->add_option(
 			'icon_pseudo_tab',
 			[
-				'type'      => 'tabs',
+				'type' => 'tabs',
 			]
 		);
 
