@@ -101,7 +101,7 @@ class Image extends Element {
 				'type'        => 'text_align',
 				'title'       => esc_html__( 'Align', 'zionbuilder' ),
 				'description' => esc_html__( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.default.default.text-align',
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
 			]
 		);
 
