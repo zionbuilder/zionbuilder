@@ -180,7 +180,7 @@ export default {
 		// Provide globalColors
 		provide('builderOptions', useBuilderOptions)
 
- 		// provide masks for ShapeDividerComponent option
+		// provide masks for ShapeDividerComponent option
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)
 
@@ -482,12 +482,12 @@ body {
 	height: 100%;
 }
 .zbpb-editor-demoMode {
-	.znpb-editor-header__page-save-wrapper--save, .znpb-editor-header__page-save-wrapper--save a {
+	.znpb-editor-header__page-save-wrapper--save, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4), .znpb-editor-header__menu-list li:nth-child(5), .znpb-editor-header__menu-list li:nth-child(6) {
 		cursor: not-allowed !important;
 	}
 
-
-	.znpb-editor-header__page-save-wrapper--save .znpb-editor-header__menu_button, .znpb-editor-header__page-save-wrapper--save a {
+	.znpb-editor-header__page-save-wrapper--save
+	.znpb-editor-header__menu_button, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4) a, .znpb-editor-header__menu-list li:nth-child(5) a, .znpb-editor-header__menu-list li:nth-child(6) a {
 		pointer-events: none !important;
 	}
 
