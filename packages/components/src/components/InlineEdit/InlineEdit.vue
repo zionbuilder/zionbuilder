@@ -1,15 +1,19 @@
 <template>
-	<div
+	<component
+		:is="tag"
 		:class="{'znpb-utility__text--elipse': !active}"
-		:contenteditable="active"
+		:contenteditable="isActive"
 		@dblclick.stop="activate"
 		@blur="deactivate"
+		ref="root"
 	>
 		{{modelValue}}
-	</div>
+	</component>
 </template>
 
 <script>
+import { ref, watch, nextTick } from 'vue'
+
 export default {
 	name: 'InlineEdit',
 	props: {
@@ -20,27 +24,36 @@ export default {
 		active: {
 			type: Boolean,
 			required: false,
-			default: null
+			default: false
+		},
+		tag: {
+			type: String,
+			required: false,
+			default: 'div'
 		}
 	},
-	watch: {
-		active (newVal) {
-			if (newVal) {
-				this.activate()
+	setup (props, { emit }) {
+		const isActive = ref(props.active || false)
+		const root = ref(null)
+
+		watch(() => props.active, (newValue) => {
+			if (newValue !== isActive.value) {
+				isActive.value = newValue
 			}
-		}
-	},
-	methods: {
+		})
+
 		/**
 		 * Activates the name change input
 		 */
-		activate (event) {
-			this.$emit('update:active', true)
-			this.$nextTick(() => this.$el.focus())
-		},
-		deactivate (event) {
+		function activate (event) {
+			isActive.value = true
+			emit('update:active', true)
+			nextTick(() => root.value.focus())
+		}
+
+		function deactivate (event) {
 			// only rename if content is editable
-			if (!this.active) {
+			if (!isActive.value) {
 				return
 			}
 
@@ -52,8 +65,16 @@ export default {
 			sel.removeAllRanges()
 			sel.addRange(range)
 
-			this.$emit('update:active', false)
-			this.$emit('update:modelValue', event.target.innerText)
+			isActive.value = false
+			emit('update:active', false)
+			emit('update:modelValue', event.target.innerText)
+		}
+
+		return {
+			isActive,
+			activate,
+			deactivate,
+			root
 		}
 	}
 }
