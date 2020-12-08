@@ -10,7 +10,6 @@
 			v-for="(tabConfig, tabId) in child_options"
 			:key="tabId"
 			:id="tabId"
-			:ref="setItemRef"
 		>
 			<OptionsForm
 				:schema="child_options[tabId].child_options"
@@ -22,7 +21,7 @@
 
 </template>
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 export default {
 	name: 'TabGroup',
 	props: {
@@ -38,22 +37,11 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
-		let itemRefs = ref([])
+
 		let activeTab = ref(null)
 
-		const setItemRef = el => {
-			itemRefs.value.push(el)
-		}
-
-		function setActiveTab () {
-
-			if (activeTab.value === null) {
-				activeTab.value = itemRefs.value[0].id
-			}
-
-		}
-
-		onMounted(setActiveTab)
+		const keys = Object.keys(props.child_options)
+		activeTab.value = keys[0]
 
 		const valueModel = computed({
 			get: () => {
@@ -70,8 +58,6 @@ export default {
 		})
 
 		return {
-			itemRefs,
-			setItemRef,
 			activeTab,
 			valueModel
 		}
