@@ -8,8 +8,9 @@
 			:target="options.link.target ? options.link.target : null"
 			:title="options.link.title ? options.link.title : null"
 			class="zb-el-icon-link zb-el-icon-icon"
+			:data-znpbiconfam="iconConfig.family"
+			:data-znpbicon="iconUnicode"
 		>
-			<ElementIcon :iconConfig="iconConfig" />
 		</a>
 		<ElementIcon
 			v-else
@@ -38,6 +39,10 @@ export default {
 				'name': 'star',
 				'unicode': 'uf005'
 			}
+		},
+		iconUnicode () {
+			const unicode = JSON.parse(`"\\${this.iconConfig.unicode}"`)
+			return unicode.trim()
 		}
 	}
 }
