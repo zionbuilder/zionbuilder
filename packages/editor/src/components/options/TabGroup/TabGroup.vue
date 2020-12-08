@@ -8,9 +8,9 @@
 		<Tab
 			:name="tabConfig.title"
 			v-for="(tabConfig, tabId) in child_options"
-			ref="tab"
 			:key="tabId"
 			:id="tabId"
+			:ref="setItemRef"
 		>
 			<OptionsForm
 				:schema="child_options[tabId].child_options"
@@ -22,6 +22,7 @@
 
 </template>
 <script>
+import { ref, computed, watch } from 'vue'
 export default {
 	name: 'TabGroup',
 	props: {
@@ -36,30 +37,38 @@ export default {
 			type: Object
 		}
 	},
-	data () {
-		return {
-			activeTab: null
+	setup (props, { emit }) {
+		let itemRefs = ref([])
+		let activeTab = ref(null)
+
+		const setItemRef = el => {
+			itemRefs.value.push(el)
 		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
+
+		watch(itemRefs, (newValue, prevCount) => {
+			activeTab.value = itemRefs.value[0].id
+		})
+
+		const valueModel = computed({
+			get: () => {
+				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] : {}
 			},
-			set (newValue) {
+			set: (newValue) => {
 				// Check if we actually need to delete the option
 				const newValues = {
-					...this.modelValue,
-					[this.activeTab]: newValue
+					...props.modelValue,
+					[activeTab.value]: newValue
 				}
-				this.$emit('update:modelValue', newValues)
+				emit('update:modelValue', newValues)
 			}
+		})
+		return {
+			itemRefs,
+			setItemRef,
+			activeTab,
+			valueModel
 		}
-	},
-	mounted () {
-		this.activeTab = this.$refs.tab.id
-	},
-
+	}
 }
 </script>
 <style lang="scss">
