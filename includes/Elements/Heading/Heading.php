@@ -142,11 +142,11 @@ class Heading extends Element {
 		$options->add_option(
 			'align',
 			[
-				'type'        => 'text_align',
-				'title'       => __( 'Align', 'zionbuilder' ),
-				'description' => __( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
-
+				'type'                    => 'text_align',
+				'title'                   => __( 'Align', 'zionbuilder' ),
+				'description'             => __( 'Select the desired alignment.', 'zionbuilder' ),
+				'sync'                    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
+				'show_responsive_buttons' => true,
 			]
 		);
 	}

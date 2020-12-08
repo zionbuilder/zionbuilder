@@ -98,10 +98,11 @@ class Image extends Element {
 		$options->add_option(
 			'align',
 			[
-				'type'        => 'text_align',
-				'title'       => esc_html__( 'Align', 'zionbuilder' ),
-				'description' => esc_html__( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
+				'type'                    => 'text_align',
+				'title'                   => esc_html__( 'Align', 'zionbuilder' ),
+				'description'             => esc_html__( 'Select the desired alignment.', 'zionbuilder' ),
+				'sync'                    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
+				'show_responsive_buttons' => true,
 			]
 		);
 
