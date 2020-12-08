@@ -156,6 +156,18 @@ Please make sure to update tests as appropriate.
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
+### 1.2.1 2020-12-08 ###
+* Internal Feature: allow setting default value for repeater field
+* Improved: Add message when there are no saved gradients
+* Improved: Added allow Html in title fields in editor mode
+* Improved: Icon element markup in editor mode
+* Improved: demo mode
+* Improved: icon tab set normal default
+* Fixed render classes on positioning the counter element
+* Fixed accordions element not showing in page when first added
+* Fixed Box shadow inset applies even if it is set to no
+* Fixed heading align option not responsive
+* Fixed custom classes not applying to various elements
 
 ### 1.2.0- 2020-12-07 ###
 * Added custom PHP option for custom HTML element
