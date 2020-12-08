@@ -595,19 +595,21 @@ export default {
 
 	&-content-wrapper {
 		position: relative;
+		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
 
 		.znpb-element-options__tabs-wrapper {
+			flex-grow: 1;
 			padding-top: 20px;
 			background-color: $surface-variant;
 		}
 		.znpb-tabs {
 			display: flex;
 			flex-direction: column;
-			height: calc(100% - 20px);
+
 			.znpb-tabs__content, .znpb-tabs__wrapper {
-				height: 100%;
+				height: calc(100% - 38px);
 			}
 
 			.znpb-tab__wrapper {
