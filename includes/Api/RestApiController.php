@@ -18,6 +18,10 @@ class RestApiController extends \WP_REST_Controller {
 	protected $namespace = '/zionbuilder/v1';
 	protected $base      = '';
 
+	public function get_controller_id() {
+		return $this->namespace . '/' . $this->base;
+	}
+
 	/**
 	 * Initialize the class' default functionality
 	 */
