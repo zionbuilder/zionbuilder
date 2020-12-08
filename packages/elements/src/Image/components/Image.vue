@@ -5,10 +5,12 @@
 		<a
 			v-if="hasLink"
 			v-bind="api.getAttributesForTag('link', extraAttributes)"
+			:class="api.getStyleClasses('link_styles')"
 		>
 			<img
 				v-bind="api.getAttributesForTag('image')"
 				:src="imageSrc"
+				:class="api.getStyleClasses('image_styles')"
 			/>
 		</a>
 
@@ -16,6 +18,7 @@
 			v-else
 			v-bind="api.getAttributesForTag('image', extraAttributes)"
 			:src="imageSrc"
+			:class="api.getStyleClasses('image_styles')"
 		/>
 		<div
 			class="zb-el-zionImage-caption"
@@ -29,7 +32,7 @@
 </template>
 
 <script>
-import {getLinkAttributes} from '@zb/utils'
+import { getLinkAttributes } from '@zb/utils'
 
 export default {
 	name: 'zion_image',

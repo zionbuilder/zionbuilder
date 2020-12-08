@@ -8,7 +8,11 @@
 			:show-arrows="false"
 		>
 			<template #content>
+				<div v-if="!allow_class_assignments">
+					{{$translate('add_class_assignment_not_allowed')}}
+				</div>
 				<div
+					v-else
 					class="znpb-class-selector-body"
 					tabindex="0"
 					ref="dropDownWrapper"
@@ -93,6 +97,11 @@ export default {
 		activeClass: {
 			type: String,
 			required: true
+		},
+		allow_class_assignments: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	setup () {
@@ -179,12 +188,15 @@ export default {
 		dropdownState: function (newState, oldState) {
 			if (newState) {
 				document.addEventListener('click', this.closePanel)
-				this.$nextTick(() => {
-					// Element not focused on nect tick alone
-					setTimeout(() => {
-						this.$refs.input.focus()
-					}, 0)
-				})
+				if (this.$refs.input) {
+					this.$nextTick(() => {
+						// Element not focused on nect tick alone
+						setTimeout(() => {
+							this.$refs.input.focus()
+						}, 0)
+					})
+				}
+
 				this.keyword = ''
 			} else {
 				document.removeEventListener('click', this.closePanel)

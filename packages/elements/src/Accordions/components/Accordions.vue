@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { provide } from 'vue'
 import accordionItem from './accordionItem.vue'
 export default {
 	name: 'accordions',
@@ -25,6 +26,8 @@ export default {
 		if (props.element.content.length === 0 && props.options.items) {
 			props.element.addChildren(props.options.items)
 		}
+
+		provide('accordionsApi', props.api)
 	}
 }
 

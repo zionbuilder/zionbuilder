@@ -5,11 +5,17 @@
 	>
 		<slot name="start" />
 
-		<div class="zb-el-accordions-accordionTitle">
+		<div
+			class="zb-el-accordions-accordionTitle"
+			:class="accordionApi.getStyleClasses('inner_content_styles_title')"
+		>
 			{{options.title}}
 			<span class="zb-el-accordions-accordionIcon"></span>
 		</div>
-		<div class="zb-el-accordions-accordionContent">
+		<div
+			class="zb-el-accordions-accordionContent"
+			:class="accordionApi.getStyleClasses('inner_content_styles_content')"
+		>
 			<div
 				v-html="renderedContent"
 				class="zb-el-accordions-accordionContent__inner"
@@ -20,7 +26,8 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
+
 export default {
 	name: 'accordion_item',
 	props: ['options', 'element', 'api'],
@@ -32,9 +39,12 @@ export default {
 			return props.options.active_by_default ? props.options.active_by_default : false
 		})
 
+		const accordionApi = inject('accordionsApi')
+
 		return {
 			renderedContent,
-			activeByDefault
+			activeByDefault,
+			accordionApi
 		}
 	}
 }

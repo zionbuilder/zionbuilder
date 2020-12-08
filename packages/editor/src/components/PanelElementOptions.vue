@@ -268,6 +268,7 @@ export default {
 
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
+
 				schema[styleId] = {
 					type: 'accordion_menu',
 					title: config.title,
@@ -279,7 +280,8 @@ export default {
 							id: 'styles',
 							is_layout: true,
 							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-							title: config.title
+							title: config.title,
+							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
 						}
 					}
 				}
@@ -593,19 +595,21 @@ export default {
 
 	&-content-wrapper {
 		position: relative;
+		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
 
 		.znpb-element-options__tabs-wrapper {
+			flex-grow: 1;
 			padding-top: 20px;
 			background-color: $surface-variant;
 		}
 		.znpb-tabs {
 			display: flex;
 			flex-direction: column;
-			height: calc(100% - 20px);
+
 			.znpb-tabs__content, .znpb-tabs__wrapper {
-				height: 100%;
+				height: calc(100% - 38px);
 			}
 
 			.znpb-tab__wrapper {

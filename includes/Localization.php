@@ -440,6 +440,7 @@ class Localization {
 
 				// Not found
 				'element_not_found'                      => __( 'element not found', 'zionbuilder' ),
+				'add_class_assignment_not_allowed'       => __( 'Class asignments not allowed', 'zionbuilder' ),
 
 				// Video background
 				'browser_video_error'                    => __( 'Your browser does not support HTML5 video.', 'zionbuilder' ),
