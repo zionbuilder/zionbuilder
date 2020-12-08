@@ -6,7 +6,14 @@
 	>
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
-				<div class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar">
+				<div
+					v-if="getLocalGradients.length===0"
+					class="znpb-form-library-grid__panel-content-message"
+				>{{$translate('no_local_gradients')}}</div>
+				<div
+					v-else
+					class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar"
+				>
 					<GradientPreview
 						v-for="(gradient,i) in getLocalGradients"
 						v-bind:key="i"
@@ -30,7 +37,14 @@
 					/>
 				</div>
 				<template v-else>
-					<div class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar">
+					<div
+						v-if="getGlobalGradients.length===0"
+						class="znpb-form-library-grid__panel-content-message"
+					>{{$translate('no_global_gradients')}}</div>
+					<div
+						v-else
+						class="znpb-form-library-grid__panel-content znpb-form-library-grid__panel-content--no-pd znpb-fancy-scrollbar"
+					>
 						<GradientPreview
 							v-for="(gradient,i) in getGlobalGradients"
 							v-bind:key="i"
@@ -131,5 +145,9 @@ export default {
 		height: 40px;
 		margin-bottom: 0;
 	}
+}
+.znpb-form-library-grid__panel-content-message {
+	padding: 10px;
+	text-align: center;
 }
 </style>

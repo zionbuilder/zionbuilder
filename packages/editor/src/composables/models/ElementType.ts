@@ -6,7 +6,6 @@ export class ElementType {
 	component = null
 	category: string = ''
 	deprecated: boolean = false
-	has_multiple: boolean = false
 	icon: string = ''
 	is_child: boolean = false
 	keywords: string[] = []
@@ -22,15 +21,15 @@ export class ElementType {
 		Object.assign(this, config)
 	}
 
-	getComponent () {
+	getComponent() {
 		return this.component
 	}
 
-	registerComponent (component) {
-		this.component = markRaw( component )
+	registerComponent(component) {
+		this.component = markRaw(component)
 	}
 
-	resetComponent () {
+	resetComponent() {
 		this.component = null
 	}
 }

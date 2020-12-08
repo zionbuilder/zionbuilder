@@ -12,7 +12,8 @@
 			<h5
 				v-if="item.title"
 				class="zb-el-progressBars__barTitle"
-				v-bind="api.getAttributesForTag('title_styles-bar')"
+				:class="api.getStyleClasses('title_styles')"
+				v-bind="api.getAttributesForTag('title_styles')"
 			>
 				{{item.title}}
 			</h5>

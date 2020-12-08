@@ -6,6 +6,7 @@
 				:selector="selector"
 				:title="title"
 				v-model:activeClass="activeClass"
+				:allow_class_assignments="allow_class_assignments"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
@@ -28,7 +29,22 @@ import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'ElementStyles',
-	props: ['modelValue', 'title', 'selector'],
+	props: {
+		modelValue: {
+			type: Object
+		},
+		title: {
+			type: String
+		},
+		selector: {
+			type: String
+		},
+		allow_class_assignments: {
+			type: Boolean,
+			required: false,
+			default: true
+		}
+	},
 	setup () {
 		const { getSchema } = useOptionsSchemas()
 		const { getClassConfig, updateCSSClass } = useCSSClasses()
@@ -78,8 +94,8 @@ export default {
 			set (newValues) {
 				if (this.activeClass !== this.selector) {
 					this.updateCSSClass(this.activeClass, {
-							style: newValues
-						}
+						style: newValues
+					}
 					)
 				} else {
 					this.updateValues('styles', newValues)

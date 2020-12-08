@@ -143,7 +143,7 @@ class Tabs extends Element {
 		$this->register_style_options_element(
 			'inner_content_styles_title',
 			[
-				'title'    => esc_html__( 'Tab styles', 'zionbuilder' ),
+				'title'    => esc_html__( 'Tab title styles', 'zionbuilder' ),
 				'selector' => '{{ELEMENT}} .zb-el-tabs-nav-title',
 			]
 		);
@@ -151,8 +151,9 @@ class Tabs extends Element {
 		$this->register_style_options_element(
 			'inner_content_styles_active_tab',
 			[
-				'title'    => esc_html__( 'Active tab styles', 'zionbuilder' ),
-				'selector' => '{{ELEMENT}} .zb-el-tabs-nav-title.zb-el-tabs-nav--active',
+				'title'                   => esc_html__( 'Active tab title styles', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-tabs-nav-title.zb-el-tabs-nav--active',
+				'allow_class_assignments' => false,
 			]
 		);
 

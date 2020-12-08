@@ -380,6 +380,9 @@ class Localization {
 
 				// Background color
 				'select_background_color'                => __( 'Select background color', 'zionbuilder' ),
+				// Background gradient
+				'no_local_gradients'                     => __( 'No local gradients were found', 'zionbuilder' ),
+				'no_global_gradients'                    => __( 'No global gradients were found', 'zionbuilder' ),
 
 				// Background repeat
 				'background_repeat'                      => __( 'Background Repeat', 'zionbuilder' ),
@@ -437,6 +440,7 @@ class Localization {
 
 				// Not found
 				'element_not_found'                      => __( 'element not found', 'zionbuilder' ),
+				'add_class_assignment_not_allowed'       => __( 'Class asignments not allowed', 'zionbuilder' ),
 
 				// Video background
 				'browser_video_error'                    => __( 'Your browser does not support HTML5 video.', 'zionbuilder' ),

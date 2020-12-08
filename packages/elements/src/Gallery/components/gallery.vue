@@ -1,19 +1,16 @@
 <template>
-	<div
-		v-bind="getWrapperAttributes"
-	>
+	<div v-bind="getWrapperAttributes">
 
 		<slot name="start" />
 
 		<div
 			class="zb-el-gallery-item"
+			:class="api.getStyleClasses('image_wrapper_styles')"
 			v-for="(image, index) in getImages"
 			:key="index"
 			v-bind="api.getAttributesForTag('image_wrapper_styles', getImageWrapperAttrs(image))"
 		>
-			<img
-				:src="image.image"
-			/>
+			<img :src="image.image" />
 		</div>
 
 		<slot name="end" />

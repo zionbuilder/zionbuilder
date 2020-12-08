@@ -8,7 +8,6 @@
 		<Tab
 			:name="tabConfig.title"
 			v-for="(tabConfig, tabId) in child_options"
-			ref="tab"
 			:key="tabId"
 			:id="tabId"
 		>
@@ -22,6 +21,7 @@
 
 </template>
 <script>
+import { ref, computed } from 'vue'
 export default {
 	name: 'TabGroup',
 	props: {
@@ -36,30 +36,32 @@ export default {
 			type: Object
 		}
 	},
-	data () {
-		return {
-			activeTab: null
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
+	setup (props, { emit }) {
+
+		let activeTab = ref(null)
+
+		const keys = Object.keys(props.child_options)
+		activeTab.value = keys[0]
+
+		const valueModel = computed({
+			get: () => {
+				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] : {}
 			},
-			set (newValue) {
+			set: (newValue) => {
 				// Check if we actually need to delete the option
 				const newValues = {
-					...this.modelValue,
-					[this.activeTab]: newValue
+					...props.modelValue,
+					[activeTab.value]: newValue
 				}
-				this.$emit('update:modelValue', newValues)
+				emit('update:modelValue', newValues)
 			}
-		}
-	},
-	mounted () {
-		this.activeTab = this.$refs.tab.id
-	},
+		})
 
+		return {
+			activeTab,
+			valueModel
+		}
+	}
 }
 </script>
 <style lang="scss">

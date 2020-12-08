@@ -461,7 +461,7 @@ class Style {
 				$shadow_list[] = $options['color'];
 			}
 
-			if ( isset( $options['inset'] ) ) {
+			if ( isset( $options['inset'] ) && $options['inset'] ) {
 				$shadow_list[] = 'inset';
 			}
 

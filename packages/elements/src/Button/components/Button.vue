@@ -1,5 +1,5 @@
 <template>
-	<div >
+	<div>
 		<slot name="start" />
 
 		<component
@@ -7,15 +7,16 @@
 			v-bind="api.getAttributesForTag('button', getButtonAttributes)"
 			ref="button"
 			class="zb-el-button"
-			:class="{
-				['zb-el-button--has-icon']: options.icon
-			}"
+			:class="[api.getStyleClasses('button_styles'),
+			{'zb-el-button--has-icon': options.icon}
+			]			"
 		>
 			<ElementIcon
 				v-if="options.icon"
 				class="zb-el-button__icon"
 				v-bind="api.getAttributesForTag('icon_styles')"
 				:iconConfig="iconConfig"
+				:class="api.getStyleClasses('icon_styles')"
 			/>
 
 			<span

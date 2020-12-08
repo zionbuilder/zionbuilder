@@ -187,6 +187,8 @@ class Accordions extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
+		$this->provide( 'accordionsElement', $this );
+
 		$this->render_children();
 	}
 }

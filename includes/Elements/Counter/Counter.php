@@ -138,10 +138,32 @@ class Counter extends Element {
 		$options->add_option(
 			'align',
 			[
-				'type'        => 'text_align',
-				'title'       => esc_html__( 'Align', 'zionbuilder' ),
-				'description' => esc_html__( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.default.default.text-align',
+				'type'               => 'custom_selector',
+				'title'              => esc_html__( 'Align', 'zionbuilder' ),
+				'description'        => esc_html__( 'Select the desired alignment.', 'zionbuilder' ),
+				'columns'            => 3,
+				'options'            => [
+					[
+						'id'   => __( 'left', 'zionbuilder' ),
+						'icon' => 'align--left',
+					],
+					[
+						'id'   => __( 'center', 'zionbuilder' ),
+						'icon' => 'align--center',
+					],
+					[
+						'id'   => __( 'right', 'zionbuilder' ),
+						'icon' => 'align--right',
+					],
+				],
+				'responsive_options' => true,
+				'render_attribute'   => [
+					[
+						'tag_id'    => 'wrapper',
+						'attribute' => 'class',
+						'value'     => 'zb-el-counter{{RESPONSIVE_DEVICE_CSS}}--align--{{VALUE}}',
+					],
+				],
 			]
 		);
 	}

@@ -9,10 +9,14 @@
 				:title="title"
 				:active="active"
 				@click="activeTab = uid"
+				:class="api.getStyleClasses('inner_content_styles_title')"
 			/>
 		</ul>
 
-		<div class="zb-el-tabs-content">
+		<div
+			class="zb-el-tabs-content"
+			:class="api.getStyleClasses('inner_content_styles_content')"
+		>
 			<Element
 				v-for="(element, i) in element.content"
 				:key="element.uid"

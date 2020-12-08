@@ -70,10 +70,6 @@ export default {
 				return this.$translate('generic_add_new')
 			}
 		},
-		default_unit: {
-			type: String,
-			required: false
-		},
 		child_options: {
 			type: Object,
 			required: true
@@ -87,6 +83,10 @@ export default {
 			required: true
 		},
 		reset_repeater: {
+			type: Object,
+			required: false
+		},
+		add_template: {
 			type: Object,
 			required: false
 		}
@@ -127,7 +127,9 @@ export default {
 		},
 		addProperty () {
 			const clone = [...this.valueModel]
-			clone.push({})
+			const newItem = this.add_template ? this.add_template : {}
+			clone.push(newItem)
+
 			this.$emit('update:modelValue', clone)
 
 			this.$nextTick(() => {
