@@ -10,8 +10,8 @@
 		}"
 	>
 		<template v-if="!hasInput">
-			<Icon v-if="animation" icon="more" @click="expand =! expand, onstart = false" class="znpb-form-library-inner-action-icon"/>
-			<Icon  v-if="icon" :icon="icon" @click="$emit('close-library')" class="znpb-form-library-inner-action-icon"/>
+			<Icon v-if="animation" icon="more" @click.stop="expand =! expand, onstart = false" class="znpb-form-library-inner-action-icon"/>
+			<Icon  v-if="icon" :icon="icon" @click.stop="$emit('close-library')" class="znpb-form-library-inner-action-icon"/>
 		</template>
 		<slot></slot>
 	</div>
