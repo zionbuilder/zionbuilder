@@ -11,6 +11,7 @@ this plugin is the newest page builder on the market that comes with tools to bu
 
 **Tags:** page builder, WordPress module, editor, visual editor, design, website builder, front-end builder
 
+[Demo link] (https://demo.zionbuilder.io/?enable-zion-builder)
 ## Description
 Below are listed the core competencies
 
@@ -156,6 +157,12 @@ Please make sure to update tests as appropriate.
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
+### 1.2.2 2020-12-09 ###
+* Fixed focus on inline editor font size
+* Fixed Panel Library maximize buton click not working
+* Fixed wp 5.6 compatibility
+* Fixed click on adding global color closes colorPicker
+* Fixed tabs element not applying custom classes
 ### 1.2.1 2020-12-08 ###
 * Internal Feature: allow setting default value for repeater field
 * Improved: Add message when there are no saved gradients

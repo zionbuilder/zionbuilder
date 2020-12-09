@@ -1975,7 +1975,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:495
+#: ../includes/Elements/Element.php:500
 msgid "Wrapper"
 msgstr ""
 
@@ -2491,11 +2491,11 @@ msgstr ""
 msgid "Press me"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:90, ../includes/Elements/Icon/Icon.php:39, ../includes/Elements/Icon/Icon.php:77, ../includes/Elements/IconBox/IconBox.php:76, ../includes/Elements/IconList/IconList.php:179, ../includes/Elements/Separator/Separator.php:279
+#: ../includes/Elements/Button/Button.php:90, ../includes/Elements/Icon/Icon.php:39, ../includes/Elements/Icon/Icon.php:77, ../includes/Elements/IconBox/IconBox.php:76, ../includes/Elements/IconList/IconList.php:179, ../includes/Elements/Separator/Separator.php:281
 msgid "Icon"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:91, ../includes/Elements/Icon/Icon.php:78, ../includes/Elements/IconBox/IconBox.php:77, ../includes/Elements/IconList/IconList.php:180, ../includes/Elements/Separator/Separator.php:280
+#: ../includes/Elements/Button/Button.php:91, ../includes/Elements/Icon/Icon.php:78, ../includes/Elements/IconBox/IconBox.php:77, ../includes/Elements/IconList/IconList.php:180, ../includes/Elements/Separator/Separator.php:282
 msgid "Choose an icon"
 msgstr ""
 
@@ -2503,7 +2503,7 @@ msgstr ""
 msgid "Set the url"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:203, ../includes/Elements/Image/Image.php:113
+#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:203, ../includes/Elements/Image/Image.php:114
 msgid "Link"
 msgstr ""
 
@@ -2539,7 +2539,7 @@ msgstr ""
 msgid "Button shape"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:172, ../includes/Elements/Button/Button.php:208, ../includes/Elements/GoogleMaps/GoogleMaps.php:164, ../includes/Elements/Icon/Icon.php:245
+#: ../includes/Elements/Button/Button.php:172, ../includes/Elements/Button/Button.php:208, ../includes/Elements/GoogleMaps/GoogleMaps.php:164, ../includes/Elements/Icon/Icon.php:246
 msgid "Normal"
 msgstr ""
 
@@ -2547,7 +2547,7 @@ msgstr ""
 msgid "Semi rounded"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:154, ../includes/Elements/ProgressBars/ProgressBars.php:162
+#: ../includes/Elements/Button/Button.php:180, ../includes/Elements/Icon/Icon.php:155, ../includes/Elements/ProgressBars/ProgressBars.php:162
 msgid "Rounded"
 msgstr ""
 
@@ -2919,67 +2919,67 @@ msgstr ""
 msgid "div"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:110, ../includes/Elements/Icon/Icon.php:140, ../includes/Elements/Icon/Icon.php:177
+#: ../includes/Elements/Icon/Icon.php:111, ../includes/Elements/Icon/Icon.php:141, ../includes/Elements/Icon/Icon.php:178
 msgid "Select the desired icon style"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:111
+#: ../includes/Elements/Icon/Icon.php:112
 msgid "Style"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:116, ../includes/Options/Schemas/PageOptions.php:31
+#: ../includes/Elements/Icon/Icon.php:117, ../includes/Options/Schemas/PageOptions.php:31
 msgid "Default"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:120
+#: ../includes/Elements/Icon/Icon.php:121
 msgid "Filled"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:124
+#: ../includes/Elements/Icon/Icon.php:125
 msgid "Bordered"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:141
+#: ../includes/Elements/Icon/Icon.php:142
 msgid "Shape"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:146, ../includes/Elements/ProgressBars/ProgressBars.php:158
+#: ../includes/Elements/Icon/Icon.php:147, ../includes/Elements/ProgressBars/ProgressBars.php:158
 msgid "Square"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:150, ../includes/Elements/ProgressBars/ProgressBars.php:166
+#: ../includes/Elements/Icon/Icon.php:151, ../includes/Elements/ProgressBars/ProgressBars.php:166
 msgid "Circle"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:178
+#: ../includes/Elements/Icon/Icon.php:179
 msgid "Radius"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:230
+#: ../includes/Elements/Icon/Icon.php:231
 msgid "Icon Styles"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:255
+#: ../includes/Elements/Icon/Icon.php:256
 msgid "Hover"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:267, ../includes/Elements/Separator/Separator.php:299
+#: ../includes/Elements/Icon/Icon.php:268, ../includes/Elements/Separator/Separator.php:301
 msgid "Icon Color"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:286
+#: ../includes/Elements/Icon/Icon.php:287
 msgid "Shape Color"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:307, ../includes/Elements/Separator/Separator.php:321
+#: ../includes/Elements/Icon/Icon.php:308, ../includes/Elements/Separator/Separator.php:323
 msgid "Icon size"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:326
+#: ../includes/Elements/Icon/Icon.php:327
 msgid "Space around icon"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:345
+#: ../includes/Elements/Icon/Icon.php:346
 msgid "Icon rotate"
 msgstr ""
 
@@ -3055,23 +3055,23 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:140
+#: ../includes/Elements/Image/Image.php:141
 msgid "Show caption"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:148
+#: ../includes/Elements/Image/Image.php:149
 msgid "Caption Text"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:149
+#: ../includes/Elements/Image/Image.php:150
 msgid "Image caption."
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:172
+#: ../includes/Elements/Image/Image.php:173
 msgid "Link styles"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:180, ../includes/Elements/ImageBox/ImageBox.php:236, ../includes/Elements/Testimonial/Testimonial.php:265
+#: ../includes/Elements/Image/Image.php:181, ../includes/Elements/ImageBox/ImageBox.php:236, ../includes/Elements/Testimonial/Testimonial.php:265
 msgid "Image styles"
 msgstr ""
 
@@ -3403,15 +3403,15 @@ msgstr ""
 msgid "Choose the desired padding for this element."
 msgstr ""
 
-#: ../includes/Elements/Separator/Separator.php:234, ../includes/Options/Schemas/StyleOptions.php:240
+#: ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:240
 msgid "Margin"
 msgstr ""
 
-#: ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:241
+#: ../includes/Elements/Separator/Separator.php:236, ../includes/Options/Schemas/StyleOptions.php:241
 msgid "Choose the desired margin for this element."
 msgstr ""
 
-#: ../includes/Elements/Separator/Separator.php:270
+#: ../includes/Elements/Separator/Separator.php:272
 msgid "Use icon"
 msgstr ""
 

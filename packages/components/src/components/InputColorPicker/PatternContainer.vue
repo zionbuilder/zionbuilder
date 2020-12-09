@@ -41,7 +41,7 @@
 							v-bind:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 							:style="{backgroundColor: colorConfig.id===selectedGlobalColor ? null : colorConfig.color}"
-							@click="onGlobalColorSelected(colorConfig)"
+							@click.stop="onGlobalColorSelected(colorConfig)"
 							:class="{'znpb-colorpicker-circle--active': colorConfig.id===selectedGlobalColor}"
 						>
 							<span
@@ -61,6 +61,7 @@
 			v-if="showPresetInput"
 			@save-preset="addGlobal($event)"
 			@cancel="showPresetInput=false"
+			:isGradient="false"
 		/>
 	</LibraryElement>
 </template>
@@ -73,7 +74,7 @@
 import { computed, inject, ref } from 'vue'
 import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
-import PresetInput from './PresetInput.vue'
+import PresetInput from '../Gradient/PresetInput.vue'
 import { Label } from '../Label'
 
 export default {
@@ -150,6 +151,7 @@ export default {
 				}
 			})
 		}
+
 		return {
 			localColorPatterns,
 			globalColorPatterns,

@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, design, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.5
-Stable tag: 1.2.1
+Tested up to: 5.6
+Stable tag: 1.2.2
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -13,6 +13,8 @@ Building websites just got easier! The latest WordPress page builder plugin on t
 
 == Description ==
 Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website
+
+[Demo link] (https://demo.zionbuilder.io/?enable-zion-builder)
 
 Below are listed the core competencies
 
@@ -152,6 +154,15 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 17. ZionBuilder online library
 
 == Changelog ==
+
+== Changelog ==
+
+= 1.2.2 2020-12-09 =
+* Fixed focus on inline editor font size
+* Fixed Panel Library maximize buton click not working
+* Fixed wp 5.6 compatibility
+* Fixed click on adding global color closes colorPicker
+* Fixed tabs element not applying custom classes
 
 = 1.2.1 2020-12-08 =
 * Internal Feature: allow setting default value for repeater field

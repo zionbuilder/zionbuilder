@@ -203,14 +203,16 @@ class Tabs extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$tabs      = $this->get_children();
-		$tab_links = [];
+		$tabs            = $this->get_children();
+		$tab_links       = [];
+		$title_classes   = $this->get_style_classes_as_string( 'inner_content_styles_title' );
+		$content_classes = $this->get_style_classes_as_string( 'inner_content_styles_content' );
 
 		foreach ( $tabs as $key => $tab_data ) {
 			$title  = isset( $tab_data['options']['title'] ) ? $tab_data['options']['title'] : '';
 			$active = $key === 0 ? 'zb-el-tabs-nav--active' : '';
 
-			$tab_links[] = sprintf( '<li class="zb-el-tabs-nav-title %s">%s</li>', esc_attr( $active ), wp_kses_post( $title ) );
+			$tab_links[] = sprintf( '<li class="zb-el-tabs-nav-title %s %s">%s</li>', esc_attr( $active ), esc_attr( $title_classes ), wp_kses_post( $title ) );
 		} ?>
 		<ul class="zb-el-tabs-nav">
 			<?php
@@ -218,7 +220,7 @@ class Tabs extends Element {
 				echo implode( '', $tab_links ); // phpcs:ignore WordPress.Security.EscapeOutput
 			?>
 		</ul>
-		<div class="zb-el-tabs-content">
+		<div class="zb-el-tabs-content <?php echo esc_attr( $content_classes ); ?>">
 			<?php
 			foreach ( $tabs as $index => $element_data ) {
 				Plugin::$instance->renderer->render_element(
