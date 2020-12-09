@@ -32,7 +32,7 @@
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						v-if="showMaximize"
-						@click.stop="fullSize = ! fullSize"
+						@click.stop="fullSize = ! fullSize, $emit('update:fullscreen', fullSize)"
 					/>
 					<Icon
 						icon="close"

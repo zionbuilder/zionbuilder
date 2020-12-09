@@ -4,7 +4,7 @@
 		append-to=".znpb-center-area"
 		:width="1440"
 		class="znpb-library-modal"
-		:fullscreen="showMaximize"
+		v-model:fullscreen="fullSize"
 		:close-on-escape="true"
 		@close-modal="closePanel('PanelLibraryModal')"
 	>
@@ -123,7 +123,7 @@
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						:size="14"
-						@click="fullSize = ! fullSize"
+						@click.stop="fullSize=!fullSize"
 					/>
 
 					<Icon
@@ -216,7 +216,6 @@ export default {
 		return {
 			importActive: false,
 			multiple: false,
-			showMaximize: false,
 			fullSize: false,
 			localActive: false,
 			zionActive: true,
@@ -226,14 +225,7 @@ export default {
 			templateUploaded: false
 		}
 	},
-	watch: {
-		fullSize (newVal) {
-			if (newVal) {
-				this.showMaximize = newVal
-			} else this.showMaximize = this.fullSize
-		}
 
-	},
 	computed: {
 		computedTitle () {
 			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
