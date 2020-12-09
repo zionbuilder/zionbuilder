@@ -70,7 +70,16 @@ export default {
 
 	beforeMount: function () {
 		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.getFontSize(this.Editor.editor.selection.getNode())
+		let nodeDom = this.Editor.$refs.inlineEditor
+		let selectedNode = this.Editor.editor.selection.getNode()
+
+		if (nodeDom.contains(selectedNode)) {
+			this.getFontSize(selectedNode)
+		} else {
+			this.Editor.editor.execCommand('mceSelectNode', false, nodeDom.firstChild)
+			this.getFontSize(nodeDom.firstChild)
+		}
+
 	},
 	beforeUnmount () {
 		this.Editor.editor.off('NodeChange', this.onNodeChange)
@@ -95,6 +104,7 @@ export default {
 			this.justChangedNode = false
 		},
 		getFontSize (node) {
+
 			let fontSize = this.Editor.editor.queryCommandValue('FontSize')
 			this.sliderValue = fontSize
 		}
