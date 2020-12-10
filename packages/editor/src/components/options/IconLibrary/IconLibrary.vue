@@ -37,28 +37,11 @@
 			append-to=".znpb-center-area"
 			:show-maximize="false"
 			class="znpb-icon-library-modal"
-		><template v-slot:header>
-				<div class="znpb-icon-library-modal-header">
-					<h2 class="znpb-icon-library-modal-header__title">Icon Library</h2>
-					<div class="znpb-icon-library-modal-header__actions">
-						<Button
-							type="secondary"
-							@click="$emit('update:modelValue',valueModel),showModal=false"
-						>
-							Insert
-						</Button>
-						<Icon
-							icon="close"
-							:size="16"
-							@click="onClose"
-							class="znpb-modal__header-button"
-						/>
-					</div>
-				</div>
-			</template>
+			title="Icon Library"
+		>
 			<IconsLibraryModalContent
 				v-model="valueModel"
-				@selected="$emit('update:modelValue',$event),showModal=false"
+				@selected="$emit('update:modelValue',valueModel)"
 				:special-filter-pack="specialFilterPack"
 			/>
 		</Modal>
@@ -90,7 +73,6 @@ export default {
 	data () {
 		return {
 			showModal: false,
-			cachedValue: null
 		}
 	},
 	computed: {
@@ -103,20 +85,9 @@ export default {
 			}
 		}
 	},
-	watch: {
-		showModal (newValue) {
-			if (newValue) {
-				this.cachedValue = this.modelValue
-			}
-		}
-	},
 	methods: {
 		unicode (unicode) {
 			return JSON.parse(('"\\' + unicode + '"'))
-		},
-		onClose () {
-			this.valueModel = this.cachedValue
-			this.showModal = false
 		},
 		open () {
 			this.showModal = true
@@ -162,31 +133,5 @@ export default {
 }
 .znpb-icon-library-modal > .znpb-modal__wrapper {
 	width: 100%;
-}
-
-.znpb-icon-library-modal-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 8.5px 0;
-	border-bottom: 1px solid $surface-variant;
-
-	&__title {
-		padding-left: 20px;
-		color: $surface-active-color;
-		font-size: 16px;
-		font-weight: bold;
-	}
-
-	&__actions {
-		display: flex;
-		align-items: center;
-	}
-
-	& > &__actions {
-		& > .znpb-button {
-			margin-right: 15px;
-		}
-	}
 }
 </style>
