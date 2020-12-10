@@ -6,6 +6,7 @@
 				:options="elementCategories"
 				:placeholder="elementCategories[0].name"
 				v-model="categoryValue"
+				placement="bottom-start"
 			/>
 
 			<BaseInput
@@ -168,6 +169,10 @@ export default {
 		.znpb-fancy-scrollbar {
 			flex-grow: 1;
 			padding: 0 6px 0 10px;
+		}
+
+		.hg-popper-list {
+			padding: 0;
 		}
 	}
 	.zion-input__prepend {
