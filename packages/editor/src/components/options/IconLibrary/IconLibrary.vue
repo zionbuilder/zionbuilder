@@ -37,7 +37,7 @@
 			append-to=".znpb-center-area"
 			:show-maximize="false"
 			class="znpb-icon-library-modal"
-			title="Icon Library"
+			:title="$translate('icon_library_title')"
 		>
 			<IconsLibraryModalContent
 				v-model="valueModel"
