@@ -251,7 +251,7 @@ export default {
 		closeOnBackdropClick (event) {
 			if (this.closeOnClick) {
 				if (this.$refs.modalContent && !this.$refs.modalContent.contains(event.target)) {
-					this.closeModal()
+
 					this.closeModal()
 				}
 			}

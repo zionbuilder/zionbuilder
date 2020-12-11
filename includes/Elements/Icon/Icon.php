@@ -272,10 +272,6 @@ class Icon extends Element {
 						'selector' => sprintf( '{{ELEMENT}} .zb-el-icon-icon%s', $selector_suffix ),
 						'value'    => 'color: {{VALUE}}',
 					],
-					[
-						'selector' => sprintf( '{{ELEMENT}} .zb-el-icon-icon%s', $selector_suffix ),
-						'value'    => 'color: {{VALUE}}',
-					],
 				],
 			]
 		);

@@ -709,7 +709,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:234, ../includes/Localization.php:598
+#: ../includes/Localization.php:234, ../includes/Localization.php:601
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -978,7 +978,7 @@ msgid "You are up to date!"
 msgstr ""
 
 #: ../includes/Localization.php:316
-msgid "Producing <b>smashing design</b> is now possible with Zion builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerfull blog options are barely few of the features for this <b>blue-chip</b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
+msgid "Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active."
 msgstr ""
 
 #: ../includes/Localization.php:319
@@ -1546,230 +1546,234 @@ msgid "Discard changes for"
 msgstr ""
 
 #: ../includes/Localization.php:553
-msgid "Discard changes"
+msgid "Icon Library"
 msgstr ""
 
 #: ../includes/Localization.php:556
-msgid "Click to add content for pseudo selector."
+msgid "Discard changes"
 msgstr ""
 
 #: ../includes/Localization.php:559
+msgid "Click to add content for pseudo selector."
+msgstr ""
+
+#: ../includes/Localization.php:562
 msgid "Click to edit this class"
 msgstr ""
 
-#: ../includes/Localization.php:560
+#: ../includes/Localization.php:563
 msgid "Click to globally delete this class"
 msgstr ""
 
-#: ../includes/Localization.php:563
+#: ../includes/Localization.php:566
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: ../includes/Localization.php:564
+#: ../includes/Localization.php:567
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:566
+#: ../includes/Localization.php:569
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:567
+#: ../includes/Localization.php:570
 msgid "Paste"
 msgstr ""
 
-#: ../includes/Localization.php:568
+#: ../includes/Localization.php:571
 msgid "Duplicate"
 msgstr ""
 
-#: ../includes/Localization.php:569
+#: ../includes/Localization.php:572
 msgid "Copy element styles"
 msgstr ""
 
-#: ../includes/Localization.php:570
+#: ../includes/Localization.php:573
 msgid "Paste element styles"
 msgstr ""
 
-#: ../includes/Localization.php:571
+#: ../includes/Localization.php:574
 msgid "Copy classes"
 msgstr ""
 
-#: ../includes/Localization.php:572
+#: ../includes/Localization.php:575
 msgid "Paste classes"
 msgstr ""
 
-#: ../includes/Localization.php:573
+#: ../includes/Localization.php:576
 msgid "Undo"
 msgstr ""
 
-#: ../includes/Localization.php:574
+#: ../includes/Localization.php:577
 msgid "Redo"
 msgstr ""
 
-#: ../includes/Localization.php:575
+#: ../includes/Localization.php:578
 msgid "Hide element"
 msgstr ""
 
-#: ../includes/Localization.php:576
+#: ../includes/Localization.php:579
 msgid "Toggle preview mode"
 msgstr ""
 
-#: ../includes/Localization.php:577
+#: ../includes/Localization.php:580
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: ../includes/Localization.php:578
+#: ../includes/Localization.php:581
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: ../includes/Localization.php:579
+#: ../includes/Localization.php:582
 msgid "Toggle page options"
 msgstr ""
 
-#: ../includes/Localization.php:580
+#: ../includes/Localization.php:583
 msgid "When dragging element"
 msgstr ""
 
-#: ../includes/Localization.php:581
+#: ../includes/Localization.php:584
 msgid "When dragging toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:582
+#: ../includes/Localization.php:585
 msgid "Set incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:583
+#: ../includes/Localization.php:586
 msgid "Set even incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:584
+#: ../includes/Localization.php:587
 msgid "Set even values"
 msgstr ""
 
-#: ../includes/Localization.php:585
+#: ../includes/Localization.php:588
 msgid "Duplicate element in place"
 msgstr ""
 
-#: ../includes/Localization.php:588
+#: ../includes/Localization.php:591
 msgid "Help"
 msgstr ""
 
-#: ../includes/Localization.php:589
+#: ../includes/Localization.php:592
 msgid "Help Center"
 msgstr ""
 
-#: ../includes/Localization.php:590
+#: ../includes/Localization.php:593
 msgid "Start tour"
 msgstr ""
 
-#: ../includes/Localization.php:591
+#: ../includes/Localization.php:594
 msgid "Key shortcuts"
 msgstr ""
 
-#: ../includes/Localization.php:592
+#: ../includes/Localization.php:595
 msgid "About Zion Builder"
 msgstr ""
 
-#: ../includes/Localization.php:593
+#: ../includes/Localization.php:596
 msgid "Back to WP Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:594
+#: ../includes/Localization.php:597
 msgid "ZionBuilder Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:595
+#: ../includes/Localization.php:598
 msgid "Save Template"
 msgstr ""
 
-#: ../includes/Localization.php:596
+#: ../includes/Localization.php:599
 msgid "Save Page"
 msgstr ""
 
-#: ../includes/Localization.php:597
+#: ../includes/Localization.php:600
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:599
+#: ../includes/Localization.php:602
 msgid "Getting started"
 msgstr ""
 
-#: ../includes/Localization.php:601
+#: ../includes/Localization.php:604
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:602
+#: ../includes/Localization.php:605
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:603
+#: ../includes/Localization.php:606
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:604, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:607, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:605, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
+#: ../includes/Localization.php:608, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:606, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:609, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:607
+#: ../includes/Localization.php:610
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:610
+#: ../includes/Localization.php:613
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:611
+#: ../includes/Localization.php:614
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:615
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:613
+#: ../includes/Localization.php:616
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:614
+#: ../includes/Localization.php:617
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:615
+#: ../includes/Localization.php:618
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:618
+#: ../includes/Localization.php:621
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:619
+#: ../includes/Localization.php:622
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:620
+#: ../includes/Localization.php:623
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:621
+#: ../includes/Localization.php:624
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:624
+#: ../includes/Localization.php:627
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:625
+#: ../includes/Localization.php:628
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:628
+#: ../includes/Localization.php:631
 msgid "Featured"
 msgstr ""
 
