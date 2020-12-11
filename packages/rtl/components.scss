@@ -208,3 +208,85 @@
 		}
 	}
 }
+
+// Options wrapper
+
+.znpb-input-wrapper {
+	padding: 0 5px 20px ;
+
+	.znpb-form__input-title {
+		.znpb-popper-trigger--circle {
+			margin-right: 5px;
+			margin-left: 0;
+		}
+	}
+}
+
+.znpb-has-responsive-options {
+	&__icon-button {
+		&--trigger {
+			margin-right: 7px;
+			margin-left: 0;
+		}
+	}
+}
+
+.znpb-options-form-wrapper {
+	padding: 20px 0 0 15px;
+}
+
+// InputWrapper
+
+.znpb-forms-input-wrapper {
+	.znpb-forms-form__input-title {
+		padding: 15px 0 15px  15px;
+	}
+
+	&--inline {
+		justify-content: flex-end;
+		.znpb-forms-form__input-title {
+			justify-content: flex-end;
+			padding-right: 0;
+			padding-left: 22px;
+		}
+	}
+}
+
+// Horizaontal accordion
+.znpb-horizontal-accordion {
+	&__header {
+		.znpb-accordion-title {
+			margin-left: 15px;
+		}
+
+		&-actions {
+			& > * {
+				margin-left: 10px;
+
+				&:last-child {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+
+	&__title {
+		flex-grow: 1;
+		padding-right: 0;
+		padding-left: 15px;
+
+
+		& > .znpb-editor-icon-wrapper {
+			margin-right: 0;
+			margin-left: 15px;
+		}
+	}
+}
+.znpb-options-has-changes-wrapper {
+	margin-right: 5px;
+}
+.znpb-horizontal-accordion__header-actions {
+	.zion-right-arrow {
+		transform: rotate(180deg);
+	}
+}
