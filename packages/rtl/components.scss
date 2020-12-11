@@ -113,6 +113,33 @@
 }
 
 // Gradient
+.znpbpro-gradientActions__deleteGradient, .znpb-gradient-wrapper__delete-gradient {
+	margin-right: auto;
+	margin-left: 0;
+}
+.znpb-preset-input-wrapper {
+	.znpb-backgroundGradient__nameInput {
+		margin-right: 0;
+		margin-left: 4px;
+
+		& > .zion-input__suffix > .zion-input__append {
+			padding-right: auto;
+			padding-left: 0;
+		}
+	}
+
+	& > .zion-input {
+		.zion-input__append .znpb-editor-icon-wrapper:first-child {
+			margin-right: 0;
+			margin-left: 10px;
+		}
+	}
+
+	.znpb-backgroundGradient__typeDropdown {
+		margin-right: 0;
+		margin-left: -2px;
+	}
+}
 
 .znpb-gradient-element {
 	margin-right: 0;
@@ -232,7 +259,7 @@
 }
 
 .znpb-options-form-wrapper {
-	padding: 20px 0 0 15px;
+	padding: 20px 15px 0 15px;
 }
 
 // InputWrapper
@@ -252,7 +279,14 @@
 	}
 }
 
-// Horizaontal accordion
+// Horizontal accordion
+.znpb-options-breadcrumbs .znpb-back-icon-breadcrumbs {
+	margin-right: 0;
+	margin-left: 10px;
+}
+.znpb-options-breadcrumbs-path-icon {
+	transform: rotate(90deg);
+}
 .znpb-horizontal-accordion {
 	&__header {
 		.znpb-accordion-title {
