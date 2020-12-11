@@ -1,0 +1,181 @@
+// modal
+.znpb-modal__header-button {
+	margin-right: 0;
+	margin-left: 15px;
+
+	&:last-child {
+		margin-right: 0;
+	}
+}
+
+
+// checkbox
+.znpb-checkbox-list .znpb-checkbox-wrapper .znpb-checkmark-option, .znpb-content-permission-wrapper .znpb-checkmark-option {
+	padding: 6px 16px 6px 5px;
+	text-align: right;
+}
+.znpb-checkmark {
+	right: 0;
+	left: auto;
+}
+
+// tabs
+.znpb-tabs {
+	& > &__header {
+		// Title position
+		&--start {
+			justify-content: flex-end;
+		}
+		&--end {
+			justify-content: flex-start;
+		}
+	}
+	// Styles
+	&--minimal &__header {
+		margin: 0;
+		& > .znpb-tabs__header-item {
+			&:first-child {
+				padding-left: 25px;
+			}
+
+			&:last-child {
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+// Color picker
+
+.znpb-colorpicker-inner-editor-rgba .znpb-form-label, .znpb-colorpicker-inner-editor-hsla .znpb-form-label {
+	margin-right: 0;
+	margin-left: 5px;
+}
+.znpb-colorpicker-inner-editor-rgba .znpb-form-label:last-child, .znpb-colorpicker-inner-editor-hsla .znpb-form-label:last-child {
+	margin-left: 0;
+}
+
+.znpb-colorpicker-inner-editor-rgba .znpb-form-label .zion-input__suffix, .znpb-colorpicker-inner-editor-hsla .znpb-form-label .zion-input__suffix {
+	margin-left: 0;
+}
+.znpb-colorpicker-inner-editor-hsla .znpb-form-element:last-child {
+	margin-left: 0;
+}
+
+.znpb-colorpicker-inner-editor__number--has-percentage .znpb-input-number input {
+	text-align: left;
+}
+.znpb-colorpicker-inner-editor__number--has-percentage .znpb-input-number .zion-input__suffix {
+	justify-content: right;
+}
+.znpb-colorpicker-inner-editor__number-unit {
+	padding: 5px 0 5px 5px;
+}
+
+
+.znpb-colorpicker-inner-editor {
+	padding: 20px 20px 12px 20px;
+}
+.znpb-colorpicker-inner-editor__stripes {
+	margin-right: 10px;
+	margin-left: 0;
+}
+
+.znpb-colorpicker-inner-editor__rgba .znpb-color-picker-change-color {
+	margin: 3px 10px 0 0;
+}
+.znpb-form-colorpicker .zion-input__prepend {
+	padding: 0 10px 0 0;
+}
+// Input Number
+
+.znpb-input-number {
+	.zion-input__suffix {
+		margin-right: 0;
+		margin-left: 7px;
+	}
+}
+
+.znpb-input-number-unit {
+	.znpb-editor-icon-wrapper.znpb-input-number__dots {
+		right: auto;
+		left: 0;
+		padding-right: 0;
+		padding-left: 3px;
+	}
+	.zion-input {
+		padding-right: 0;
+		padding-left: 10px;
+	}
+	input {
+		text-align: right;
+	}
+}
+
+// Gradient
+
+.znpb-gradient-element {
+	margin-right: 0;
+	margin-left: 10px;
+}
+.znpb-gradient-element--active:before {
+	right: 0;
+	left: auto;
+}
+.znpb-gradient-element--active .znpb-gradient-preview-transparent {
+	right: 2px;
+	left: auto;
+}
+
+.znpb-gradient-element .znpb-editor-icon-wrapper {
+	right: auto;
+	left: -5px;
+}
+.znpb-gradient-element .znpb-editor-icon-wrapper::after {
+	right: 0;
+	left: auto;
+}
+
+.znpb-preset-input-wrapper .znpb-backgroundGradient__nameInput {
+	margin-left: 4px;
+}
+.znpb-preset-input-wrapper .znpb-backgroundGradient__nameInput > .zion-input__suffix > .zion-input__append {
+	padding-left: 0;
+}
+
+.znpb-preset-input-wrapper .znpb-backgroundGradient__typeDropdown {
+	margin-right: 0;
+	margin-left: -2px;
+}
+
+// Range
+.znpb-input-range {
+	&__trackwidth {
+		position: absolute;
+		right: 0;
+		left: auto;
+	}
+	&__label {
+		margin-right: 7px;
+	}
+}
+
+// style for wordpress backend
+.znpb-input-range-number {
+	.znpb-input-number__units {
+		margin-right: -10px;
+	}
+}
+.znpb-input-range {
+	&.znpb-input-range--has-multiple-units {
+		input[type="number"] {
+			padding: 12px 0 12px 10px;
+		}
+	}
+}
+
+.znpb-input-range-number {
+	.znpb-input-number__units-multiple {
+		margin-right: -7px;
+	}
+}
