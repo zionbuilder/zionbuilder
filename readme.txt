@@ -1,6 +1,6 @@
 === WordPress Page Builder – Zion Builder ===
 Contributors: zionbuilder
-Tags: page builder, editor, visual editor, design, website builder, front-end builder
+Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.6
 Stable tag: 1.2.2
@@ -14,7 +14,7 @@ Building websites just got easier! The latest WordPress page builder plugin on t
 == Description ==
 Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website
 
-[Demo link] (https://demo.zionbuilder.io/?enable-zion-builder)
+[Demo link](https://demo.zionbuilder.io/?enable-zion-builder)
 
 Below are listed the core competencies
 
