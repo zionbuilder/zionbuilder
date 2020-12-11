@@ -1,0 +1,88 @@
+#znpb-app {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+// Flyout wrapper
+
+.znpb-editor-header-flyout {
+	/* .znpb-editor-header-flyout-hidden-items */
+	&-hidden-items {
+		right: 100%;
+		left: auto;
+		transform-origin: right top;
+		li {
+			a {
+				.znpb-device-active__content {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}
+
+/* flyout for save on the left position of the bar*/
+.znpb-editor-header {
+	&__page-save-wrapper {
+		&.znpb-editor-header-flyout {
+			.znpb-editor-header-flyout-hidden-items {
+				transform-origin: right bottom;
+			}
+		}
+	}
+}
+
+/* flyout css for different positions of the bar */
+
+.znpb-top-area {
+	.znpb-editor-header {
+		.znpb-editor-header-flyout {
+			.znpb-editor-header-flyout-hidden-items {
+				right: auto;
+				left: 0;
+				transform-origin: top left;
+			}
+		}
+	}
+}
+
+.znpb-bottom-area {
+	.znpb-editor-header {
+		.znpb-editor-header-flyout {
+			.znpb-editor-header-flyout-hidden-items {
+				right: auto;
+				left: 0;
+				transform-origin: bottom left;
+			}
+		}
+	}
+}
+
+.znpb-editor-header--right {
+	.znpb-editor-header-flyout {
+		.znpb-editor-header-flyout-hidden-items {
+			right: auto;
+			left: 60px;
+			transform-origin: bottom left;
+		}
+	}
+}
+
+.znpb-device__item-content {
+	& > .znpb-device__item-icon {
+		margin-left: 5px;
+	}
+}
+
+// Notice
+
+
+.znpb-notices-wrapper {
+	right: auto;
+	left: 30px;
+}
+.znpb-notice {
+	&__close {
+		right: auto;
+		left: 10px;
+	}
+}

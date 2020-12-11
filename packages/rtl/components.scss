@@ -179,3 +179,32 @@
 		margin-right: -7px;
 	}
 }
+
+// Flyout wrapper
+
+.znpb-editor-header-flyout {
+	/* .znpb-editor-header-flyout-hidden-items */
+	&-hidden-items {
+		right: 100%;
+		left: auto;
+		transform-origin: right top;
+		li {
+			a {
+				.znpb-device-active__content {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}
+
+/* flyout for save on the left position of the bar*/
+.znpb-editor-header {
+	&__page-save-wrapper {
+		&.znpb-editor-header-flyout {
+			.znpb-editor-header-flyout-hidden-items {
+				transform-origin: right bottom;
+			}
+		}
+	}
+}

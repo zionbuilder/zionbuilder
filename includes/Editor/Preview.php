@@ -195,6 +195,16 @@ class Preview {
 			Plugin::instance()->get_version()
 		);
 
+		// Load rtl
+		if (is_rtl()){
+			Plugin::instance()->scripts->enqueue_style(
+				'znpb-preview-rtl-styles',
+				'css/rtl.css',
+				[],
+				Plugin::instance()->get_version()
+			);
+		};
+
 		// This is needed because wp_editor somehow unloads dashicons
 		wp_print_styles( 'media-views' );
 

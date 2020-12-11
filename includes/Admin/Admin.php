@@ -180,7 +180,6 @@ class Admin {
 				Plugin::instance()->get_version()
 			);
 
-			// wp_style_add_data( 'znpb-admin-settings-page-styles', 'css/rtl.css', 'replace');
 			if (is_rtl()){
 				Plugin::instance()->scripts->enqueue_style(
 					'znpb-admin-rtl-styles',
