@@ -157,6 +157,19 @@ Please make sure to update tests as appropriate.
 [license](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Changelog ##
+
+### 1.2.3 2020-12-14 ###
+* Improvement: rtl support for both editor and rendered page
+* Improvement: Error message when a template cannot be inserted
+* Improvement: Added video to plugin description
+* Improvement: Avoid extra click when inserting icon into page
+* Improvement: Added invert filter to style options
+* Fixed icon element generates color css twice
+* Fixed back button from library preview closes the panel
+* Fixed plugin name display
+* Fixed add global color visual bug
+* Fixed placement and style for Elements filtering in Add Elements popup
+* Fixed description text in about modal
 ### 1.2.2 2020-12-09 ###
 * Fixed focus on inline editor font size
 * Fixed Panel Library maximize buton click not working
