@@ -196,7 +196,7 @@ class Preview {
 		);
 
 		// Load rtl
-		if (is_rtl()){
+		if ( is_rtl() ) {
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-preview-rtl-styles',
 				'css/rtl.css',

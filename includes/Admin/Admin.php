@@ -135,7 +135,7 @@ class Admin {
 				[],
 				Plugin::instance()->get_version()
 			);
-			wp_style_add_data( 'znpb-admin-post-styles', 'css/rtl.css', 'replace');
+			wp_style_add_data( 'znpb-admin-post-styles', 'css/rtl.css', 'replace' );
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-post-script',
@@ -180,7 +180,7 @@ class Admin {
 				Plugin::instance()->get_version()
 			);
 
-			if (is_rtl()){
+			if ( is_rtl() ) {
 				Plugin::instance()->scripts->enqueue_style(
 					'znpb-admin-rtl-styles',
 					'css/rtl.css',

@@ -211,7 +211,7 @@ class Editor {
 		);
 
 		// Load rtl
-		if (is_rtl()){
+		if ( is_rtl() ) {
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-editor-rtl-styles',
 				'css/rtl.css',
@@ -341,7 +341,7 @@ class Editor {
 				// Templates
 				'template_types'      => Plugin::$instance->templates->get_template_types(),
 				'template_categories' => Plugin::$instance->templates->get_template_categories(),
-				'rtl'				  => is_rtl(),
+				'rtl'                 => is_rtl(),
 			]
 		);
 	}
