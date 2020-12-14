@@ -345,3 +345,18 @@
 .hg-popper-list__item {
 	text-align: right;
 }
+
+.znpb-dimension--0, .znpb-dimension--2 {
+	.znpb-dimensions_icon {
+		margin-right: 0;
+		margin-left: 10px;
+	}
+}
+.znpb-dimension--1, .znpb-dimension--3 {
+	.znpb-dimensions_icon {
+		margin-right: 10px;
+		margin-left: 0;
+	}
+}
+
+
