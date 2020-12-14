@@ -54,6 +54,7 @@
 				margin-left: 5px;
 
 				&:last-child {
+					margin-right: 5px;
 					margin-left: 0;
 				}
 			}
@@ -95,4 +96,42 @@
 .znpb-single-role-modal-title-wrapper {
 	margin-right: 0;
 	margin-left: 20px;
+}
+.znpb-admin-side-menu .znpb-admin-side-menu .znpb-admin-side-menu__item::before {
+	margin-right: 0;
+	margin-left: 5px;
+}
+.znpb-admin-content__right .znpb-admin-right-info {
+	margin-right: 0;
+	margin-left: 10px;
+}
+.znpb-admin__google-font-tab--titles .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab--titles .znpb-admin__google-font-tab-subset {
+	text-align: right;
+}
+.znpb-admin-google-fonts-actions .znpb-button .znpb-editor-icon-wrapper {
+	margin-right: 0;
+	margin-left: 5px;
+}
+.znpb-input-media-wrapper .zion-input {
+	margin-right: 0;
+	margin-left: 7px;
+}
+
+// pro label
+.znpb-admin-side-menu__item .znpb-label--warning {
+	right: auto;
+	left: 35px;
+}
+.znpb-admin-side-menu .znpb-admin-side-menu .znpb-admin-side-menu__item .znpb-label--pro {
+	right: auto;
+	left: 0;
+}
+
+.znpb-admin-system-notice-wrapper {
+	margin-right: 7px;
+	margin-left: 0;
+}
+.znpb-admin-system-notice--no-tooltip {
+	margin-right: 7px;
+	margin-left: 0;
 }

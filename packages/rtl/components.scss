@@ -324,3 +324,21 @@
 		transform: rotate(180deg);
 	}
 }
+
+// Input Select
+.znpb-baseselect__trigger-icon {
+	border-right: 2px solid #e3e3e3;
+	border-left: 0;
+}
+
+.znpb-multiple-options {
+	&-list {
+		&__item {
+			margin: 0 0 5px 5px;
+
+			&:last-child {
+				margin-left: 0;
+			}
+		}
+	}
+}
