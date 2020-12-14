@@ -12,7 +12,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:237, ../includes/Admin/Admin.php:276, ../includes/Admin/Admin.php:299
+#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:246, ../includes/Admin/Admin.php:285, ../includes/Admin/Admin.php:308
 msgid "Edit with Zion Builder"
 msgstr ""
 
@@ -1962,7 +1962,7 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:315, ../includes/Admin/Admin.php:316, ../includes/Editor/partials/editor-template.php:16
+#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:324, ../includes/Admin/Admin.php:325, ../includes/Editor/partials/editor-template.php:16
 msgid "Zion Builder"
 msgstr ""
 
@@ -1970,12 +1970,12 @@ msgstr ""
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:267
+#: ../includes/Admin/Admin.php:276
 msgid "Disable Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:260
+#: ../includes/Editor/Editor.php:270
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -2371,7 +2371,7 @@ msgstr ""
 msgid "Your file is empty or invalid"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:611
+#: ../includes/Api/RestControllers/Templates.php:616
 msgid "The template could not be inserted!"
 msgstr ""
 
@@ -2379,7 +2379,7 @@ msgstr ""
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:598
+#: ../includes/Api/RestControllers/Templates.php:603
 msgid "The uploaded template is not valid!"
 msgstr ""
 
@@ -2971,19 +2971,19 @@ msgstr ""
 msgid "Icon Color"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:287
+#: ../includes/Elements/Icon/Icon.php:283
 msgid "Shape Color"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:308, ../includes/Elements/Separator/Separator.php:323
+#: ../includes/Elements/Icon/Icon.php:304, ../includes/Elements/Separator/Separator.php:323
 msgid "Icon size"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:327
+#: ../includes/Elements/Icon/Icon.php:323
 msgid "Space around icon"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:346
+#: ../includes/Elements/Icon/Icon.php:342
 msgid "Icon rotate"
 msgstr ""
 
