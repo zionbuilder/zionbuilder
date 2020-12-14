@@ -1,0 +1,8 @@
+{
+	"name": "@zionbuilder/rtl",
+	"version": "1.0.0",
+	"description": "Css rtl used for Zion Builder",
+	"main": "./src/index",
+	"author": "zionbuilder.io",
+	"license": "MIT"
+}

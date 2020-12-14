@@ -36,7 +36,7 @@ appInstance.use(I18nInstall, window.ZnI18NStrings)
 
 const notifications = useNotifications()
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
 	const evt = new CustomEvent('zionbuilder/admin/init', {
 		detail: api
