@@ -210,7 +210,7 @@ export default {
 				modalStyle['position'] = 'absolute'
 			}
 			if (this.fullSize) {
-				modalStyle['max-height'] = '95%'
+				modalStyle['max-height'] = '100%'
 			}
 
 			return modalStyle
@@ -330,6 +330,7 @@ export default {
 
 		&--full-size {
 			width: 100%;
+			height: 100%;
 		}
 	}
 
