@@ -3,7 +3,7 @@ name: Build after merge in develop
 on:
   pull_request_target:
     branches:
-      - automatically-create-nighly-releases
+      - develop
     types:
       - closed
 
