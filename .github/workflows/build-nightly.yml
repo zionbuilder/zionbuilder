@@ -1,18 +1,19 @@
-# This is a basic workflow to help you get started with Actions
-
-name: TEST
+name: Build after merge in develop
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - develop
+    types:
+      - closed
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  test:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged_by != ''
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -48,18 +49,18 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install Yarn dependencies
         run: yarn install
-      - name: Check Composer configuration
-        run: composer validate --strict
       - name: Install Composer dependencies
         run: composer install
-      - name: i18n check
-        run: |
-          yarn run translate && ! git diff -U0 | grep '^[+-]\(msgid\|msgstr\) '
-      - name: Check PHP syntax
-        run: find zionbuilder.php includes/ -type f -name '*.php' -print0|xargs -0 -L1 -P4 -- php -l
-      - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1
+      - name: Build zip
+        run: yarn run zip
+      - name: Deploy release
+        uses: WebFreak001/deploy-nightly@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
         with:
-          phpcs_bin_path: "./vendor/bin/phpcs"
-      - name: PHPStan check
-        run: vendor/bin/phpstan analyze --level=5
+          upload_url: https://uploads.github.com/repos/zionbuilder/zionbuilder/releases/35053891/assets{?name,label} # find out this value by opening https://api.github.com/repos/<owner>/<repo>/releases in your browser and copy the full "upload_url" value including the {?name,label} part
+          release_id: 35053891 # same as above (id can just be taken out the upload_url, it's used to find old releases)
+          asset_path: ./zion-builder.zip # path to archive to upload
+          asset_name: zionbuilder-nightly-$$.zip # name to upload the release as, use $$ to insert date (YYYYMMDD) and 6 letter commit hash
+          asset_content_type: application/zip # required by GitHub API
+          max_releases: 5 # optional, if there are more releases than this matching the asset_name, the oldest ones are going to be deleted
