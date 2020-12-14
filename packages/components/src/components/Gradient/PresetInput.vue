@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="znpb-preset-input-wrapper"
-	>
+	<div class="znpb-preset-input-wrapper">
 		<BaseInput
 			v-model="presetName"
 			:placeholder="isGradient? $translate('save_gradient_title'):$translate('add_preset_title')"
@@ -9,7 +7,10 @@
 			:error="hasError"
 		>
 
-			<template v-slot:prepend v-if="isGradient">
+			<template
+				v-slot:prepend
+				v-if="isGradient"
+			>
 				<InputSelect
 					class="znpb-backgroundGradient__typeDropdown"
 					:options="gradientTypes"
@@ -18,23 +19,35 @@
 				/>
 
 			</template>
-			<!-- <template v-slot:append>
-
-			</template> -->
+			<template
+				v-slot:append
+				v-else
+			>
+				<Icon
+					icon="check"
+					@mousedown.stop="savePreset"
+				/>
+				<Icon
+					icon="close"
+					@mousedown.prevent="$emit('cancel',true)"
+				/>
+			</template>
 		</BaseInput>
 
 		<!-- Actions -->
-		<Icon
-			icon="check"
-			class="znpb-backgroundGradient__action"
-			@click.stop="savePreset"
-		/>
+		<template v-if="isGradient">
+			<Icon
+				icon="check"
+				class="znpb-backgroundGradient__action"
+				@click.stop="savePreset"
+			/>
 
-		<Icon
-			icon="close"
-			class="znpb-backgroundGradient__action"
-			@click.stop="$emit('cancel',true)"
-		/>
+			<Icon
+				icon="close"
+				class="znpb-backgroundGradient__action"
+				@click.stop="$emit('cancel',true)"
+			/>
+		</template>
 	</div>
 </template>
 <script>
@@ -51,7 +64,7 @@ export default {
 		InputSelect,
 		Icon
 	},
-	props:{
+	props: {
 		isGradient: {
 			type: Boolean,
 			default: true
@@ -82,7 +95,7 @@ export default {
 				return
 			}
 
-			if (this.isGradient){
+			if (this.isGradient) {
 				this.$emit('save-preset', this.presetName, this.gradientType)
 			} else this.$emit('save-preset', this.presetName)
 
@@ -118,6 +131,10 @@ export default {
 		input {
 			max-height: 40px;
 			padding: 10.5px 12px;
+		}
+
+		.zion-input__append .znpb-editor-icon-wrapper:first-child {
+			margin-right: 10px;
 		}
 	}
 

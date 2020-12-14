@@ -156,7 +156,7 @@ class Style {
 		$background_position_y   = false;
 		$background_image_config = [];
 		$text_decoration_value   = [];
-		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate' ];
+		$filter_properties       = [ 'grayscale', 'sepia', 'blur', 'brightness', 'saturate', 'opacity', 'contrast', 'hue-rotate', 'invert' ];
 		$transform_origin_x      = '';
 		$transform_origin_y      = '';
 		$transform_origin_z      = '';

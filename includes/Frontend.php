@@ -216,6 +216,16 @@ class Frontend {
 			Plugin::instance()->get_version()
 		);
 
+		// Load rtl
+		if ( is_rtl() ) {
+			Plugin::instance()->scripts->enqueue_style(
+				'zion-frontend-rtl-styles',
+				'css/rtl.css',
+				[],
+				Plugin::instance()->get_version()
+			);
+		};
+
 		// Load animations
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 

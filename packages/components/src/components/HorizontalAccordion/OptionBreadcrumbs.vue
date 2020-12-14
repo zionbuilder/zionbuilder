@@ -16,9 +16,9 @@
 		>
 			<span v-html="breadcrumb.title"></span>
 			<Icon
-				icon="select"
-				rotate="-90"
 				v-if="i +1 < computedBreadcrumbs.length"
+				icon="select"
+				class="znpb-options-breadcrumbs-path-icon"
 			/>
 		</div>
 	</div>
@@ -26,7 +26,6 @@
 
 <script>
 import { Icon } from '../Icon'
-
 export default {
 	name: 'OptionBreadcrumbs',
 	components: {
@@ -42,11 +41,6 @@ export default {
 		showBackButton: {
 			type: Boolean,
 			required: false
-		}
-	},
-	data () {
-		return {
-
 		}
 	},
 	computed: {
@@ -114,6 +108,10 @@ export default {
 			&:hover {
 				color: $surface-active-color;
 			}
+		}
+
+		&-icon {
+			transform: rotate(-90deg);
 		}
 
 		&.znpb-options-breadcrumbs-path--back {

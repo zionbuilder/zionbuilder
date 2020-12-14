@@ -179,6 +179,15 @@ class Admin {
 				Plugin::instance()->get_version()
 			);
 
+			if ( is_rtl() ) {
+				Plugin::instance()->scripts->enqueue_style(
+					'znpb-admin-rtl-styles',
+					'css/rtl.css',
+					[],
+					Plugin::instance()->get_version()
+				);
+			};
+
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'js/admin.js',

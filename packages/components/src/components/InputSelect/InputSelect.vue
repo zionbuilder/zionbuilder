@@ -16,7 +16,13 @@
 				{
 					name: 'hide',
 					enabled: true
-				}
+				},
+				{
+				name: 'flip',
+				options: {
+					fallbackPlacements: ['bottom', 'top', 'right','left'],
+					},
+				},
 			]"
 			tooltip-class="znpb-baseselect-list-wrapper"
 		>

@@ -1,9 +1,9 @@
 === WordPress Page Builder – Zion Builder ===
 Contributors: zionbuilder
-Tags: page builder, editor, visual editor, design, website builder, front-end builder
+Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.6
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -12,9 +12,12 @@ Building websites just got easier! The latest WordPress page builder plugin on t
 
 
 == Description ==
+
+https://www.youtube.com/watch?v=rQ_2lUyhCAY
+
 Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website
 
-[Demo link] (https://demo.zionbuilder.io/?enable-zion-builder)
+[Demo link](https://demo.zionbuilder.io/?enable-zion-builder)
 
 Below are listed the core competencies
 
@@ -156,6 +159,19 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 == Changelog ==
 
 == Changelog ==
+
+= 1.2.3 2020-12-14 =
+* Improvement: rtl support for both editor and rendered page
+* Improvement: Error message when a template cannot be inserted
+* Improvement: Added video to plugin description
+* Improvement: Avoid extra click when inserting icon into page
+* Improvement: Added invert filter to style options
+* Fixed icon element generates color css twice
+* Fixed back button from library preview closes the panel
+* Fixed plugin name display
+* Fixed add global color visual bug
+* Fixed placement and style for Elements filtering in Add Elements popup
+* Fixed description text in about modal
 
 = 1.2.2 2020-12-09 =
 * Fixed focus on inline editor font size

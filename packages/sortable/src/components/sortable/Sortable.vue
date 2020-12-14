@@ -194,7 +194,7 @@ export default {
 		// Methods
 		const extractSortableItems = (slotContent) => {
 			const items = []
-			if( Array.isArray(slotContent) ) {
+			if (Array.isArray(slotContent)) {
 				slotContent.forEach(element => {
 					if (element.type === Fragment) {
 						const fragmentItems = extractSortableItems(element.children)
@@ -783,6 +783,7 @@ export default {
 					dragItemInfo.toItem = overItem.item
 
 					if (overItem.container) {
+
 						if (overItem.item) {
 							const collisionInfoData = collisionInfo(event, overItem.item, targetVM)
 							dragItemInfo.placeBefore = collisionInfoData.before
@@ -794,8 +795,13 @@ export default {
 							movePlaceholderMemoized(overItem.container, insertBeforeElement, dragItemInfo.placeBefore)
 							dragItemInfo.newIndex = overItem.index
 						} else {
-							dragItemInfo.newIndex = 0
-							movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
+							if (targetVM.modelValue && targetVM.modelValue.length === 0) {
+								// Empty sortable container
+								dragItemInfo.newIndex = 0
+								movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
+							} else if (sameContainer && props.modelValue.length === 1) {
+								movePlaceholderMemoized(overItem.container, null, dragItemInfo.placeBefore)
+							}
 						}
 					}
 				}
@@ -874,11 +880,12 @@ export default {
 			getInfoFromTarget,
 			canPut,
 			getItemFromList,
-			addItemToList
+			addItemToList,
+			modelValue: props.modelValue
 		}
 
 		const attachRef = function (children) {
-			if (Array.isArray( children )) {
+			if (Array.isArray(children)) {
 				children.forEach((child, i) => {
 					if (child.type === Fragment) {
 						const fragmentItems = attachRef(child.children)
@@ -900,6 +907,11 @@ export default {
 			const childElements = []
 			let i = 0
 			childItems = attachRef(slots.default())
+
+			if (slots.start) {
+				childElements.push(slots.start())
+			}
+
 			childElements.push(childItems)
 
 			// Add the helper node
@@ -937,10 +949,6 @@ export default {
 				}
 			}
 
-			if (slots.start) {
-				childElements.push(slots.start())
-			}
-
 			if (slots.end) {
 				childElements.push(slots.end())
 			}
@@ -955,7 +963,7 @@ export default {
 						[`vuebdnd__placeholder-empty-container`]: canShowEmptyPlaceholder.value
 					}
 				},
-				[ childElements ]
+				[childElements]
 			)
 		}
 	}

@@ -13,8 +13,8 @@ const {
 const configs = []
 
 const getWebpackConfig = (folder) => {
-	const webpackFileLocation = path.resolve( folder, 'webpack.config.js' )
-	return existsSync( webpackFileLocation ) ? webpackFileLocation : false
+	const webpackFileLocation = path.resolve(folder, 'webpack.config.js')
+	return existsSync(webpackFileLocation) ? webpackFileLocation : false
 }
 
 const packages = [
@@ -28,7 +28,8 @@ const packages = [
 	'vue',
 	'edit-page',
 	'gutenberg',
-	'preview'
+	'preview',
+	'rtl'
 ]
 
 packages.forEach(directory => {
@@ -48,7 +49,7 @@ packages.forEach(directory => {
 				// Export all packages to window.zb
 				output: {
 					filename: `js/${directory}.js`,
-					library: [ 'zb', directory ],
+					library: ['zb', directory],
 					libraryTarget: 'window'
 				}
 			}
@@ -66,7 +67,7 @@ const cssFiles = [
 cssFiles.forEach(entry => {
 	const folder = path.resolve(`./packages/css-variables/${entry}/`)
 	const scssFile = path.resolve(`./packages/css-variables/${entry}.scss`)
-	console.log({folder});
+	console.log({ folder });
 	configs.push(getConfig({}, {
 		entry: {
 			[entry]: scssFile
