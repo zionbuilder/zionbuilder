@@ -135,7 +135,6 @@ class Admin {
 				[],
 				Plugin::instance()->get_version()
 			);
-			wp_style_add_data( 'znpb-admin-post-styles', 'css/rtl.css', 'replace' );
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-post-script',
