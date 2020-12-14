@@ -97,6 +97,11 @@ h4.znpb-panel__header-name {
 h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 	margin-right: 5px;
 }
+
+.znpb-tabs--card > .znpb-tabs__header > .znpb-tabs__header-item.znpb-tabs__header-item--search {
+	margin-right: auto;
+	margin-left: 0;
+}
 .znpb-element-options {
 	&__header {
 		&-back {
@@ -149,6 +154,14 @@ h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 .znpb-css-class-selector__item-name {
 	padding-right: 10px;
 	padding-left: 0;
+}
+
+.znpb-element-options__media-class-pseudo-title {
+	border-right: 2px solid #e5e5e5;
+	border-left: 0;
+}
+.znpb-button.znpb-class-selector__add-class-button {
+	margin-right: 5px;
 }
 // Options filter
 .znpb-tabs__header-item {
