@@ -12,7 +12,7 @@
 			<div class="znpb-library-modal-header">
 				<span
 					v-if="previewOpen || multiple || importActive"
-					@click="closeBody"
+					@click.stop="closeBody"
 					class="znpb-library-modal-header-preview__back"
 				>
 					<Icon
