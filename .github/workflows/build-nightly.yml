@@ -1,4 +1,4 @@
-name: Build nightly
+name: Build after merge in develop
 
 on:
   pull_request_target:
