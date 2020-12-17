@@ -41,7 +41,6 @@ export default {
 <style lang="scss">
 .znpb-options-form-wrapper.znpb-option__typography-wrapper {
 	flex: 1;
-	overflow: initial;
 	padding: 0;
 }
 </style>

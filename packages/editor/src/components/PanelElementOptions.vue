@@ -51,20 +51,21 @@
 					v-if="element.elementTypeModel.hasOwnProperty('options')"
 				>
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
 					/>
 				</Tab>
 				<Tab name="Styling">
 					<OptionsForm
+						class="znpb-fancy-scrollbar"
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
 					/>
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
