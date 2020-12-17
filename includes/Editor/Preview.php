@@ -122,6 +122,7 @@ class Preview {
 			[
 				'zb-components',
 				'wp-tinymce',
+				'jquery-masonry',
 			],
 			Plugin::instance()->get_version(),
 			true
