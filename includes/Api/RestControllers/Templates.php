@@ -101,6 +101,24 @@ class Templates extends RestApiController {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->base . '/duplicate',
+			[
+				'args'   => [
+					'template_id' => [
+						'required' => true,
+					],
+				],
+				[
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'duplicate_item' ],
+					'permission_callback' => [ $this, 'update_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->base . '/insert',
 			[
 				'args'   => [
@@ -625,5 +643,62 @@ class Templates extends RestApiController {
 				]
 			);
 		}
+	}
+
+
+	public function duplicate_item( $request ) {
+		global $wpdb;
+
+		$original_post_id = $request->get_param( 'template_id' );
+		$duplicate        = get_post( $original_post_id, 'ARRAY_A' );
+		$current_time     = current_time( 'timestamp', 0 );
+		$current_time_gmt = time();
+
+		$duplicate['post_title']        = $duplicate['post_title'] . ' (' . esc_html__( 'copy', 'zionbuilder' ) . ')';
+		$duplicate['post_name']         = sanitize_title( $duplicate['post_name'] . '-' . esc_html__( 'copy', 'zionbuilder' ) );
+		$duplicate['post_date']         = date( 'Y-m-d H:i:s', $current_time );
+		$duplicate['post_date_gmt']     = date( 'Y-m-d H:i:s', $current_time_gmt );
+		$duplicate['post_modified']     = date( 'Y-m-d H:i:s', $current_time );
+		$duplicate['post_modified_gmt'] = date( 'Y-m-d H:i:s', time() );
+
+		// Remove values that needs to be regenerated
+		unset( $duplicate['ID'] );
+		unset( $duplicate['guid'] );
+		unset( $duplicate['comment_count'] );
+
+		$duplicate_post_id = wp_insert_post( $duplicate );
+
+		// Duplicate all taxonomies
+		$taxonomies = get_object_taxonomies( $duplicate['post_type'] );
+		foreach ( $taxonomies as $taxonomy ) {
+			$terms = wp_get_post_terms( $original_post_id, $taxonomy, array( 'fields' => 'names' ) );
+			wp_set_object_terms( $duplicate_post_id, $terms, $taxonomy );
+		}
+
+		// Duplicate all post meta
+		$custom_meta_fields = get_post_meta( $original_post_id );
+		foreach ( $custom_meta_fields as $key => $value ) {
+			if ( is_array( $value ) && count( $value ) > 0 ) {
+				foreach ( $value as $value ) {
+					$wpdb->insert(
+						$wpdb->prefix . 'postmeta',
+						array(
+							'post_id'    => $duplicate_post_id,
+							'meta_key'   => $key,
+							'meta_value' => $value,
+						)
+					);
+				}
+			}
+		}
+
+		$template = get_post( $duplicate_post_id );
+
+		// check if the id is valid
+		if ( ! $template ) {
+			return new \WP_Error( 'post_not_found', __( 'Post could not be cloned!', 'zionbuilder' ) );
+		}
+
+		return rest_ensure_response( $this->attach_post_data( $template ) );
 	}
 }
