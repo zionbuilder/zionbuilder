@@ -8,6 +8,10 @@ export const addTemplate = function (template) {
 	return ZionService.post('templates', template)
 }
 
+export const updateTemplate = function (templateID, templateData) {
+	return ZionService.post(`templates/${templateID}`, templateData)
+}
+
 export const exportTemplate = function (template) {
 	return ZionService.post('templates/export', template, {
 		responseType: 'arraybuffer'

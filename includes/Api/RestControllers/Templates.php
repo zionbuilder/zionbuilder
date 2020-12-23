@@ -449,9 +449,12 @@ class Templates extends RestApiController {
 
 		// item information
 		$update_args = [
-			'ID'         => $request_id,
-			'post_title' => $request->get_param( 'title' ) ? $request->get_param( 'title' ) : __( 'Updated template', 'zionbuilder' ),
+			'ID' => $request_id,
 		];
+
+		if ( $request->get_param( 'post_title' ) ) {
+			$update_args['post_title'] = $request->get_param( 'post_title' );
+		}
 
 		$post_id = wp_update_post( wp_slash( $update_args ), true );
 
