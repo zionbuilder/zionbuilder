@@ -1,7 +1,9 @@
 import ZionService from './ZionService'
 
 export const getTemplates = function (config = {}) {
-	return ZionService.get('templates', config)
+	return ZionService.get('templates', {
+		params: config
+	})
 }
 
 export const addTemplate = function (template) {

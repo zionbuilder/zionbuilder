@@ -376,6 +376,8 @@ class Templates extends RestApiController {
 		$template_categories         = get_the_terms( $template->ID, ZiobnBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
 		$template->template_category = ! empty( $template_categories ) ? $template_categories : [];
 
+		apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
+
 		return $template;
 	}
 
@@ -387,13 +389,19 @@ class Templates extends RestApiController {
 	 * @return int|\WP_Error
 	 */
 	public function create_item( $request ) {
-		$post_id = ZiobnBuilderTemplates::create_template(
-			$request->get_param( 'title' ),
+		$template_config = apply_filters(
+			'zionbuilder/rest/templates/add',
 			[
 				'template_type' => $request->get_param( 'template_type' ),
 				'category'      => $request->get_param( 'template_category' ),
 				'template_data' => $request->get_param( 'template_data' ),
-			]
+			],
+			$request
+		);
+
+		$post_id = ZiobnBuilderTemplates::create_template(
+			$request->get_param( 'title' ),
+			$template_config
 		);
 
 		// Check to see if the post was succesfully created
@@ -414,6 +422,9 @@ class Templates extends RestApiController {
 		if ( ! $template ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
+
+		// Fire an action so others can add extra data to templates
+		do_action( 'zionbuilder/rest/templates/added', $template, $request );
 
 		return rest_ensure_response( $this->attach_post_data( $template ) );
 	}

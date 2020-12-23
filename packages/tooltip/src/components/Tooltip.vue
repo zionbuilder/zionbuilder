@@ -569,6 +569,8 @@ export default {
 	}
 
 	&--with-arrows {
+		z-index: -1;
+
 		&:before {
 			content: "";
 			top: 0;
