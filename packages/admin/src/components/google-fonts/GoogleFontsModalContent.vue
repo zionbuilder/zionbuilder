@@ -124,6 +124,7 @@ export default {
 .znpb-modal-google-fonts {
 	& > .znpb-modal__wrapper {
 		width: 100%;
+		height: 90%;
 	}
 }
 .znpb-admin__google-fonts-modal {

@@ -42,7 +42,6 @@
 			:width="570"
 			class="znpb-modal-google-fonts"
 			:title="$translate('google_fonts')"
-			:fullscreen="true"
 			:show-backdrop="false"
 		>
 			<GoogleFontsModalContent

@@ -13,10 +13,10 @@
 		</UserTemplate>
 
 		<Modal
+			class="znpb-admin-permissions-modal"
 			v-model:show="showModal"
 			:width="560"
 			:title="userData.name + ' ' + $translate('permissions')"
-			:fullscreen="true"
 			:show-backdrop="false"
 		>
 			<UserModalContent
