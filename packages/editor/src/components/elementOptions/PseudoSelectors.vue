@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="znpb-element-options__media-class-pseudo-holder"
-		@click="selectorIsOpen = !selectorIsOpen, contentOpen = false"
+		@click="selectorIsOpen = !selectorIsOpen, contentOpen = false, newPseudoName=false"
 		ref="root"
 	>
 		<span class="znpb-element-options__media-class-pseudo-name">
