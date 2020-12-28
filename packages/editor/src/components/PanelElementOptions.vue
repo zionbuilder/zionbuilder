@@ -102,6 +102,7 @@
 						{{defaultMessage}}
 					</p>
 					<OptionsForm
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="filteredOptions"
 						v-model="elementOptions"
 					/>
