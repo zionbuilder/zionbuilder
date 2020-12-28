@@ -328,6 +328,7 @@ class Templates extends RestApiController {
 
 		$templates_list = [];
 
+		/** @var \WP_Post[] $templates */
 		$templates = get_posts( $args );
 
 		foreach ( $templates as $template ) {
@@ -358,23 +359,36 @@ class Templates extends RestApiController {
 		return rest_ensure_response( $this->attach_post_data( $template ) );
 	}
 
+	/**
+	 * Adds additional information to the WP_Post object
+	 *
+	 * @param \WP_Post $template
+	 *
+	 * @return array
+	 */
 	public function attach_post_data( $template ) {
-		$shortcode             = '[zionbuilder id="' . $template->ID . '"]';
-		$template_instance     = Plugin::$instance->post_manager->get_post_type_instance( $template );
-		$template->edit_url    = $template_instance->get_edit_url();
-		$template->preview_url = $template_instance->get_preview_url_barebone();
-		$template->shortcode   = $shortcode;
+		// Convert to array
+		$template = $template->to_array();
+
+		$shortcode         = '[zionbuilder id="' . $template['ID'] . '"]';
+		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $template['ID'] );
+
+		$template['edit_url']    = $template_instance->get_edit_url();
+		$template['preview_url'] = $template_instance->get_preview_url_barebone();
+		$template['shortcode']   = $shortcode;
 
 		// Get author name
-		$user_data             = get_user_by( 'id', $template->post_author );
-		$template->author_name = $user_data->display_name;
+		$user_data = get_user_by( 'id', $template['post_author'] );
+		if ( $user_data ) {
+			$template['author_name'] = $user_data->display_name;
+		}
 
 		// Template type
-		$template->template_type = get_post_meta( $template->ID, ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
+		$template['template_type'] = get_post_meta( $template['ID'], ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
 
 		// Attach category
-		$template_categories         = get_the_terms( $template->ID, ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
-		$template->template_category = ! empty( $template_categories ) ? $template_categories : [];
+		$template_categories           = get_the_terms( $template['ID'], ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
+		$template['template_category'] = ! empty( $template_categories ) ? $template_categories : [];
 
 		apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
 
@@ -386,7 +400,7 @@ class Templates extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request
 	 *
-	 * @return int|\WP_Error
+	 * @return \WP_Error|\WP_REST_Response
 	 */
 	public function create_item( $request ) {
 		$template_config = apply_filters(
@@ -485,7 +499,7 @@ class Templates extends RestApiController {
 			$update_args['post_title'] = $request->get_param( 'post_title' );
 		}
 
-		$post_id = wp_update_post( wp_slash( $update_args ), true );
+		$post_id = wp_update_post( (array) wp_slash( $update_args ), true );
 
 		// check for errors
 		if ( is_wp_error( $post_id ) ) {
@@ -522,11 +536,19 @@ class Templates extends RestApiController {
 			$template_terms = get_the_terms( $template_id, ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
 			if ( ! is_wp_error( $template_terms ) && ! empty( $template_terms ) ) {
 				$first_term = array_pop( $template_terms );
-				$category   = $first_term->name;
+
+				if ( $first_term ) {
+					$category = $first_term->name;
+				}
 			}
 
 			// retrieves the template data
-			$post_instance     = Plugin::$instance->post_manager->get_post_instance( $template_id );
+			$post_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+
+			if ( ! $post_instance ) {
+				return new \WP_Error( 'export_item', __( 'Could not return the post instance', 'zionbuilder' ) );
+			}
+
 			$template_name     = get_the_title( $template_id );
 			$template_data     = $post_instance->get_template_data();
 			$template_category = $category;
@@ -573,6 +595,13 @@ class Templates extends RestApiController {
 		return $download;
 	}
 
+	/**
+	 * Will import a template and return the template data
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function import_template( \WP_REST_Request $request ) {
 		$files = $request->get_file_params();
 
@@ -598,6 +627,13 @@ class Templates extends RestApiController {
 		return rest_ensure_response( $this->attach_post_data( $template ) );
 	}
 
+	/**
+	 * Will insert a template and returns it's data
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function insert_template( \WP_REST_Request $request ) {
 		$source = $request->get_param( 'source' );
 
@@ -642,6 +678,11 @@ class Templates extends RestApiController {
 
 			// Insert using id
 			$post_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+
+			if ( ! $post_instance ) {
+				return new \WP_Error( 'export_item', __( 'Could not return the post instance', 'zionbuilder' ) );
+			}
+
 			$template_data = $post_instance->get_template_data();
 
 			if ( ! $template_data ) {
@@ -657,34 +698,58 @@ class Templates extends RestApiController {
 	}
 
 
+	/**
+	 * Undocumented function
+	 *
+	 * @param \WP_REST_Request $request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function duplicate_item( $request ) {
 		global $wpdb;
 
 		$original_post_id = $request->get_param( 'template_id' );
-		$duplicate        = get_post( $original_post_id, 'ARRAY_A' );
+		$duplicate        = get_post( $original_post_id );
 
-		$duplicate['post_title'] = $duplicate['post_title'] . ' (' . esc_html__( 'copy', 'zionbuilder' ) . ')';
-		$duplicate['post_name']  = sanitize_title( $duplicate['post_name'] . '-' . esc_html__( 'copy', 'zionbuilder' ) );
+		if ( ! $duplicate ) {
+			return new \WP_Error( 'post_not_found', __( 'Post could not be cloned!', 'zionbuilder' ) );
+		}
+
+		$duplicate->post_title = $duplicate->post_title . ' (' . esc_html__( 'copy', 'zionbuilder' ) . ')';
+		$duplicate->post_name  = sanitize_title( $duplicate->post_name . '-' . esc_html__( 'copy', 'zionbuilder' ) );
 
 		// Remove values that needs to be regenerated
-		unset( $duplicate['post_modified'] );
-		unset( $duplicate['post_modified_gmt'] );
-		unset( $duplicate['ID'] );
-		unset( $duplicate['ID'] );
-		unset( $duplicate['guid'] );
-		unset( $duplicate['comment_count'] );
+		unset( $duplicate->post_modified );
+		unset( $duplicate->post_modified_gmt );
+		unset( $duplicate->ID );
+		unset( $duplicate->guid );
+		unset( $duplicate->comment_count );
 
-		$duplicate_post_id = wp_insert_post( $duplicate );
+		$duplicate_post_id = wp_insert_post( (array) $duplicate );
+
+		// check if the id is valid
+		if ( is_wp_error( $duplicate_post_id ) ) {
+			return new \WP_Error( 'post_not_inserted', $duplicate_post_id->get_error_message() );
+		}
 
 		// Duplicate all taxonomies
-		$taxonomies = get_object_taxonomies( $duplicate['post_type'] );
+		/** @var string[] $taxonomies */
+		$taxonomies = get_object_taxonomies( $duplicate->post_type );
+
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = wp_get_post_terms( $original_post_id, $taxonomy, array( 'fields' => 'names' ) );
+
+			if ( is_wp_error( $terms ) ) {
+				$terms->add_data( [ 'status' => 500 ] );
+				return $terms;
+			}
+
 			wp_set_object_terms( $duplicate_post_id, $terms, $taxonomy );
 		}
 
 		// Duplicate all post meta
 		$custom_meta_fields = get_post_meta( $original_post_id );
+
 		foreach ( $custom_meta_fields as $key => $value ) {
 			if ( is_array( $value ) && count( $value ) > 0 ) {
 				foreach ( $value as $value ) {
@@ -708,5 +773,6 @@ class Templates extends RestApiController {
 		}
 
 		return rest_ensure_response( $this->attach_post_data( $template ) );
+
 	}
 }
