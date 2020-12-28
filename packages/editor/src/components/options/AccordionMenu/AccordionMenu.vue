@@ -11,7 +11,7 @@
 		:has-breadcrumbs="showBreadcrumbs"
 		ref="accordion"
 	>
-		<template v-slot:title>
+		<template #title>
 			<ZionLabel
 				v-if="label"
 				:text="label.text"

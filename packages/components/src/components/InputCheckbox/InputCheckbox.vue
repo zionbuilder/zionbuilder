@@ -80,7 +80,7 @@ export default {
 			required: false
 		}
 	},
-	setup(props, { slots }) {
+	setup (props, { slots }) {
 		const hasSlots = computed(() => {
 			if (!slots.default) {
 				return false
@@ -182,6 +182,8 @@ export default {
 .znpb-checkbox-wrapper {
 	position: relative;
 	display: flex;
+	width: 24px;
+	height: 24px;
 	cursor: pointer;
 
 	input[type="checkbox"].znpb-form__input-checkbox {

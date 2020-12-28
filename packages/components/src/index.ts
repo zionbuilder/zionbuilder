@@ -1,3 +1,5 @@
+import '@zionbuilder/css-variables/_animations.scss'
+
 import './wordpress'
 
 import { App } from 'vue'
