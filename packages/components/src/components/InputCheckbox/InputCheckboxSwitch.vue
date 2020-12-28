@@ -2,20 +2,19 @@
 	<div class="znpb-checkbox-switch-wrapper">
 
 		<label
-			class="znpb-checkbox-wrapper__label"
-			:class="{[`znpb-checkbox--${model? 'checked' : 'unchecked'}`]: true}"
+			class="znpb-checkbox-switch-wrapper__label"
+			:class="{[`znpb-checkbox-switch--${model? 'checked' : 'unchecked'}`]: true}"
 			:content="model? $translate('yes') : $translate('no')"
 		>
 			<input
 				type="checkbox"
 				:disabled="disabled"
-				class="znpb-checkbox-wrapper__checkbox"
+				class="znpb-checkbox-switch-wrapper__checkbox"
 				:modelValue="optionValue"
 				v-model="model"
 			>
-			<!-- @change="onChange" -->
 
-			<span class="znpb-checkbox-wrapper__button"></span>
+			<span class="znpb-checkbox-switch-wrapper__button"></span>
 		</label>
 	</div>
 </template>
@@ -146,148 +145,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-checkbox-wrapper__checkbox {
-	display: none;
-}
-
-.znpb-checkbox-wrapper__label {
-	position: relative;
-	display: block;
-	box-sizing: content-box;
-	width: 74px;
-	height: 40px;
-	border: 2px solid #e5e5e5;
-	border-radius: 3px;
-	cursor: pointer;
-}
-
-.znpb-checkbox-wrapper__label::before, .znpb-checkbox-wrapper__label::after {
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 50%;
-	height: 100%;
-	color: #787878;
-	font-family: Roboto;
-	font-size: 13px;
-	font-weight: 500;
-	text-align: center;
-}
-
-.znpb-checkbox-wrapper__label::before {
-	content: "" attr(content) "";
-}
-
-.znpb-checkbox-wrapper__label::after {
-	content: "" attr(content) "";
-	right: 0;
-}
-
-.znpb-checkbox-wrapper__button {
-	position: absolute;
-	top: 2px;
-	left: 2px;
-	z-index: 1;
-	width: calc(50% - 2.5px);
-	height: calc(100% - 4px);
-	background: #006dd2;
-	border-radius: 2px;
-	transition: transform .15s, background-color .1s;
-}
-.znpb-checkbox--checked {
-	&::before {
-		content: "";
-	}
-}
-.znpb-checkbox--unchecked {
-	&::after {
-		content: "";
-	}
-	.znpb-checkbox-wrapper__button {
-		background: #ebebeb;
-		transform: translateX(33px);
-	}
-}
-
-.has-changes {
-	position: relative;
-	display: inline-block;
-	width: 10px;
-	height: 10px;
-	padding: 3px;
-	cursor: pointer;
-}
-
-.has-changes::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #31d783;
-	border-radius: 50%;
-	transition: transform .15s, background-color .1s;
-}
-
-.has-changes:hover::after {
-	background-color: #ebebeb;
-	transform: scale(2);
-}
-
-/* .has-changes__icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: #959595;
-  display: inline-flex;
-  align: items: center;
-  justify-content: center;
-  font-size: 10px;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.1s;
-} */
-
-.has-changes > span {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	width: 9px;
-	height: 9px;
-	margin: .5px 0 0 .5px;
-	transition: opacity .1s;
-	opacity: 0;
-}
-
-.has-changes > span::before, .has-changes > span::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-	width: 100%;
-	height: 2px;
-	margin-top: 4px;
-	background: #959595;
-}
-
-.has-changes > span::before {
-	transform: rotate(45deg);
-}
-
-.has-changes > span::after {
-	transform: rotate(-45deg);
-}
-
-.has-changes:hover > span {
-	opacity: 1;
-}
-.znpb-checkbox-wrapper {
+.znpb-checkbox-switch-wrapper {
 	position: relative;
 	display: flex;
 	cursor: pointer;
@@ -306,54 +164,68 @@ export default {
 	&:hover .znpb-checkmark:after, input:checked ~ .znpb-checkmark:after {
 		display: block;
 	}
-}
 
-.znpb-input-type--checkbox_switch .znpb-checkbox-wrapper {
-	cursor: default;
-}
-
-input:checked ~ .znpb-checkmark {
-	background-color: $secondary;
-}
-input:checked ~ .znpb-checkmark:after {
-	display: block;
-}
-input[type="checkbox"]:disabled ~ .znpb-checkmark {
-	background-color: $surface-variant;
-	pointer-events: none;
-
-	&::after {
+	&__checkbox {
 		display: none;
 	}
-}
-.znpb-checkmark:after {
-	top: 4px;
-	left: 7px;
-	width: 4px;
-	height: 8px;
-	border: solid $primary-color--accent;
-	border-width: 0 2px 2px 0;
-	transform: rotate(45deg);
-}
+	&__label {
+		position: relative;
+		display: block;
+		box-sizing: content-box;
+		width: 74px;
+		height: 40px;
+		border: 2px solid #e5e5e5;
+		border-radius: 3px;
+		cursor: pointer;
 
-.znpb-checkmark {
-	width: 24px;
-	height: 24px;
-	background-color: $surface;
-	border-radius: 3px;
-	transition: all .2s;
-	&--rounded {
-		border-radius: 50%;
+		&:before, &:after {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 50%;
+			height: 100%;
+			color: #787878;
+			font-family: Roboto;
+			font-size: 13px;
+			font-weight: 500;
+			text-align: center;
+		}
+
+		&:before {
+			content: attr(content);
+		}
+		&:after {
+			content: "" attr(content) "";
+			right: 0;
+		}
 	}
 
-	&-option {
-		white-space: nowrap;
-	}
-
-	&:after {
-		content: "";
+	&__button {
 		position: absolute;
-		display: none;
+		top: 2px;
+		left: 2px;
+		z-index: 1;
+		width: calc(50% - 2.5px);
+		height: calc(100% - 4px);
+		background: #006dd2;
+		border-radius: 2px;
+		transition: transform .15s, background-color .1s;
+	}
+}
+
+.znpb-checkbox-switch--checked {
+	&::before {
+		content: "";
+	}
+}
+.znpb-checkbox-switch--unchecked {
+	&::after {
+		content: "";
+	}
+	.znpb-checkbox-switch-wrapper__button {
+		background: #ebebeb;
+		transform: translateX(33px);
 	}
 }
 </style>
