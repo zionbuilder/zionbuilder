@@ -315,8 +315,7 @@ class Templates {
 		$template_args = [
 			'post_title'  => $template_name,
 			'post_type'   => self::TEMPLATE_POST_TYPE,
-			'post_status' => 'publish',
-			'meta_input'  => [],
+			'post_status' => 'publish'
 		];
 
 		if ( empty( $template_config['template_type'] ) ) {
@@ -324,8 +323,7 @@ class Templates {
 		}
 
 		// Set the template type
-		$template_args['meta_input'][self::TEMPLATE_TYPE_META] = sanitize_text_field( $template_config['template_type'] );
-		$template_args['meta_input'] = wp_slash( $template_args['meta_input'] );
+		$template_args = (array) wp_slash( $template_args );
 
 		$post_id = wp_insert_post( $template_args, true );
 
@@ -333,6 +331,9 @@ class Templates {
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
+
+		// set template type
+		update_post_meta($post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ));
 
 		// Set element category
 		if ( ! empty( $template_config['category'] ) ) {
