@@ -18,7 +18,7 @@
 import { ref, computed, inject } from 'vue'
 
 export default {
-	props: ['formatter', 'icon'],
+	props: ['formatter', 'icon', 'buttontext'],
 	setup (props) {
 		const editor = inject('ZionInlineEditor')
 		// console.log(editor.value.formatter);

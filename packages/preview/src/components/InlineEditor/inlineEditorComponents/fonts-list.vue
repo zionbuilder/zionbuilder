@@ -17,54 +17,47 @@
 
 <script>
 import { useDataSets } from '@zb/components'
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
-	},
-	setup() {
+	setup (props, { emit }) {
+		const editor = inject('ZionInlineEditor')
 		const { fontsListForOption } = useDataSets()
+		const activeFont = ref(null)
 
-		return {
-			fontsListForOption
+		function isActive (fontName) {
+			return activeFont.value === fontName ? 'zion-inline-editor__font-list-item--active' : ''
 		}
-	},
-	data: function () {
-		return {
-			justChangedNode: null,
-			activeFont: null
-		}
-	},
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.getFontName(this.Editor.editor.selection.getNode())
-	},
-	methods: {
-		isActive (fontName) {
-			return this.activeFont === fontName ? 'zion-inline-editor__font-list-item--active' : ''
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getFontName(this.Editor.editor.selection.getNode())
-			}
-			this.justChangedNode = false
-		},
-		changeFont (font, event) {
-			this.activeFont = font
 
-			this.Editor.editor.formatter.toggle('fontname', {
+		function onNodeChange (node) {
+			getFontName()
+		}
+
+		function changeFont (font, event) {
+			activeFont.value = font
+
+			editor.value.formatter.toggle('fontname', {
 				value: font
 			})
-			this.justChangedNode = true
-			this.$emit('active-font', this.activeFont)
-		},
+		}
 
-		getFontName (font) {
-			this.activeFont = this.Editor.editor.queryCommandValue('fontname')
+		function getFontName () {
+			activeFont.value = editor.value.queryCommandValue('fontname')
+		}
+
+		onMounted(() => {
+			getFontName()
+			editor.value.on('SelectionChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('SelectionChange', onNodeChange)
+		})
+
+		return {
+			fontsListForOption,
+			isActive,
+			changeFont
 		}
 	}
 }

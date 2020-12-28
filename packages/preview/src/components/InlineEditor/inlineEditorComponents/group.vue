@@ -2,7 +2,7 @@
 	<div class="zion-inline-editor-group">
 		<Tabs tab-style="minimal">
 			<Tab :name="$translate('family')">
-				<FontList @active-font="$emit('active-font', $event)" />
+				<FontList />
 			</Tab>
 			<Tab
 				:name="$translate('heading')"
@@ -35,7 +35,7 @@
 					></zion-inline-editor-button>
 				</div>
 			</Tab>
-			<Tab :name="$translate('font_size')">
+			<!-- <Tab :name="$translate('font_size')">
 				<zion-inline-editor-font-size
 					@started-dragging="onStartedSliderDragging"
 					@units-expanded="$emit('units-expanded', $event)"
@@ -53,7 +53,7 @@
 					@started-dragging="onStartedSliderDragging"
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-letter-spacing>
-			</Tab>
+			</Tab> -->
 		</Tabs>
 	</div>
 </template>

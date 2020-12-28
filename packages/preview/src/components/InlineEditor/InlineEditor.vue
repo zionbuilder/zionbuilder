@@ -33,18 +33,17 @@
 				</div>
 
 				<!-- Fonts & text style panel -->
-				<!-- <zion-inline-editor-panel
+				<zion-inline-editor-panel
 					icon="ite-font"
 					:visible="activePanel==='fontsPanel'"
 					@open-panel="activePanel='fontsPanel'"
 				>
 					<zion-inline-editor-group
-						@active-font="activeFont=$event"
 						@started-dragging="onStartedSliderDragging"
 						@units-expanded="onUnitsExpanded"
 					/>
 
-				</zion-inline-editor-panel> -->
+				</zion-inline-editor-panel>
 
 				<!-- Bold popover -->
 				<zion-inline-editor-popover
@@ -206,6 +205,10 @@ export default {
 		const isDragging = ref(false);
 		const dragButtonOnScreen = ref(true);
 		const activePanel = ref(null);
+		const unitsExpanded = ref(false);
+		const isSliderDragging = ref(false);
+
+
 		const position = ref({
 			offsetY: 75,
 			offsetX: null,
@@ -299,6 +302,28 @@ export default {
 			inlineEditorRef.value.classList.remove('mce-content-body--selection-transparent')
 		}
 
+		function onUnitsExpanded (event) {
+			unitsExpanded.value = event
+		}
+
+		function onStartedSliderDragging () {
+			document.addEventListener('mouseup', onDraggingInput)
+			isSliderDragging.value = true
+		}
+
+		function onDraggingInput () {
+			setTimeout(() => {
+				isSliderDragging.value = false
+			}, 300)
+		}
+
+		function onOutsideClick (event) {
+			// TODO: add this
+			// if (this.canClose && this.$refs.content && !this.$refs.content.contains(event.target) && !this.$refs.inlineEditor.contains(event.target) && !this.isSliderDragging && !this.unitsExpanded) {
+			// 	this.isInlineEditorVisible = false
+			// }
+		}
+
 		onMounted(() => {
 			if (typeof window.tinyMCE !== "undefined") {
 				window.tinyMCE.init(getConfig());
@@ -321,10 +346,13 @@ export default {
 			dragButtonOnScreen,
 			activePanel,
 			barStyles,
+			fontWeights,
 			// Methods
 			onColorPickerOpen,
 			onColorPickerClose,
-			fontWeights
+			onUnitsExpanded,
+			onStartedSliderDragging,
+
 		};
 	},
 };
