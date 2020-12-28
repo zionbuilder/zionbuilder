@@ -161,7 +161,7 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: ../includes/Localization.php:57, ../includes/Templates.php:88
+#: ../includes/Localization.php:57, ../includes/Templates.php:100
 msgid "Templates"
 msgstr ""
 
@@ -1393,7 +1393,7 @@ msgstr ""
 msgid "Add your option"
 msgstr ""
 
-#: ../includes/Localization.php:457, ../includes/Templates.php:264
+#: ../includes/Localization.php:457, ../includes/Templates.php:276
 msgid "No items"
 msgstr ""
 
@@ -1789,160 +1789,160 @@ msgstr ""
 msgid "Template was not built with Zion Builder"
 msgstr ""
 
-#: ../includes/Templates.php:89
+#: ../includes/Templates.php:101
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:93
+#: ../includes/Templates.php:105
 msgid "Blocks"
 msgstr ""
 
-#: ../includes/Templates.php:94
+#: ../includes/Templates.php:106
 msgid "Block"
 msgstr ""
 
-#: ../includes/Templates.php:157
+#: ../includes/Templates.php:169
 msgid "The template type already exists."
 msgstr ""
 
-#: ../includes/Templates.php:203, ../includes/Templates.php:214
+#: ../includes/Templates.php:215, ../includes/Templates.php:226
 msgctxt "Zion Template Library"
 msgid "Zion Templates"
 msgstr ""
 
-#: ../includes/Templates.php:204
+#: ../includes/Templates.php:216
 msgctxt "Zion Template Library"
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:205
+#: ../includes/Templates.php:217
 msgctxt "Zion Template Library"
 msgid "Add New"
 msgstr ""
 
-#: ../includes/Templates.php:206
+#: ../includes/Templates.php:218
 msgctxt "Zion Template Library"
 msgid "Add New Template"
 msgstr ""
 
-#: ../includes/Templates.php:207
+#: ../includes/Templates.php:219
 msgctxt "Zion Template Library"
 msgid "Edit Template"
 msgstr ""
 
-#: ../includes/Templates.php:208
+#: ../includes/Templates.php:220
 msgctxt "Zion Template Library"
 msgid "New Template"
 msgstr ""
 
-#: ../includes/Templates.php:209
+#: ../includes/Templates.php:221
 msgctxt "Zion Template Library"
 msgid "All Templates"
 msgstr ""
 
-#: ../includes/Templates.php:210
+#: ../includes/Templates.php:222
 msgctxt "Zion Template Library"
 msgid "View Template"
 msgstr ""
 
-#: ../includes/Templates.php:211
+#: ../includes/Templates.php:223
 msgctxt "Zion Template Library"
 msgid "Search Template"
 msgstr ""
 
-#: ../includes/Templates.php:212
+#: ../includes/Templates.php:224
 msgctxt "Zion Template Library"
 msgid "No Templates found"
 msgstr ""
 
-#: ../includes/Templates.php:213
+#: ../includes/Templates.php:225
 msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
-#: ../includes/Templates.php:247
+#: ../includes/Templates.php:259
 msgctxt "Taxonomy General Name"
 msgid "Zion Builder Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:248
+#: ../includes/Templates.php:260
 msgctxt "Taxonomy Singular Name"
 msgid "Zion Builder Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:249
+#: ../includes/Templates.php:261
 msgid "Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:250
+#: ../includes/Templates.php:262
 msgid "All Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:251
+#: ../includes/Templates.php:263
 msgid "Parent Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:252
+#: ../includes/Templates.php:264
 msgid "Parent Template Category:"
 msgstr ""
 
-#: ../includes/Templates.php:253
+#: ../includes/Templates.php:265
 msgid "New Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:254
+#: ../includes/Templates.php:266
 msgid "Add New Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:255
+#: ../includes/Templates.php:267
 msgid "Edit Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:256
+#: ../includes/Templates.php:268
 msgid "Update Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:257
+#: ../includes/Templates.php:269
 msgid "View Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:258
+#: ../includes/Templates.php:270
 msgid "Separate items with commas"
 msgstr ""
 
-#: ../includes/Templates.php:259
+#: ../includes/Templates.php:271
 msgid "Add or remove Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:260
+#: ../includes/Templates.php:272
 msgid "Choose from the most used"
 msgstr ""
 
-#: ../includes/Templates.php:261
+#: ../includes/Templates.php:273
 msgid "Popular Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:262
+#: ../includes/Templates.php:274
 msgid "Search Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:263
+#: ../includes/Templates.php:275
 msgid "Not Found"
 msgstr ""
 
-#: ../includes/Templates.php:265
+#: ../includes/Templates.php:277
 msgid "Items list"
 msgstr ""
 
-#: ../includes/Templates.php:266
+#: ../includes/Templates.php:278
 msgid "Items list navigation"
 msgstr ""
 
-#: ../includes/Templates.php:313
+#: ../includes/Templates.php:325
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:323
+#: ../includes/Templates.php:335
 msgid "Missing template type"
 msgstr ""
 
@@ -2031,7 +2031,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:210, ../includes/Api/RestControllers/Templates.php:257
+#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:228, ../includes/Api/RestControllers/Templates.php:275
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2059,7 +2059,7 @@ msgstr ""
 msgid "Font family"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:227
+#: ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:245
 msgid "You do not have permissions to edit this resource."
 msgstr ""
 
@@ -2339,48 +2339,56 @@ msgctxt "System Info"
 msgid "If you want to modify the source code of your theme, we recommend using a <a href=\"%s\">child theme</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:142, ../includes/Api/RestControllers/Templates.php:184
+#: ../includes/Api/RestControllers/Templates.php:160, ../includes/Api/RestControllers/Templates.php:202
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:170
+#: ../includes/Api/RestControllers/Templates.php:188
 msgid "Whether to bypass trash and force deletion."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:242
+#: ../includes/Api/RestControllers/Templates.php:260
 msgid "You do not have permissions to delete this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:274
+#: ../includes/Api/RestControllers/Templates.php:292
 msgid "You do not have permissions to export this template."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:337, ../includes/Api/RestControllers/Templates.php:397, ../includes/Api/RestControllers/Templates.php:417, ../includes/Api/RestControllers/Templates.php:472, ../includes/Api/RestControllers/Templates.php:563
+#: ../includes/Api/RestControllers/Templates.php:356, ../includes/Api/RestControllers/Templates.php:437, ../includes/Api/RestControllers/Templates.php:460, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:624
 msgid "Your post id could not be found!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:430
+#: ../includes/Api/RestControllers/Templates.php:473
 msgid "The template cannot be deleted."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:453
-msgid "Updated template"
+#: ../includes/Api/RestControllers/Templates.php:549, ../includes/Api/RestControllers/Templates.php:683
+msgid "Could not return the post instance"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:548
+#: ../includes/Api/RestControllers/Templates.php:609
 msgid "Your file is empty or invalid"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:616
+#: ../includes/Api/RestControllers/Templates.php:689
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:579
+#: ../includes/Api/RestControllers/Templates.php:647
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:603
+#: ../includes/Api/RestControllers/Templates.php:671
 msgid "The uploaded template is not valid!"
+msgstr ""
+
+#: ../includes/Api/RestControllers/Templates.php:715, ../includes/Api/RestControllers/Templates.php:772
+msgid "Post could not be cloned!"
+msgstr ""
+
+#: ../includes/Api/RestControllers/Templates.php:718, ../includes/Api/RestControllers/Templates.php:719
+msgid "copy"
 msgstr ""
 
 #: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:82, ../includes/Elements/Accordions/Accordions.php:89, ../includes/Elements/Accordions/Accordions.php:95, ../includes/Elements/Accordions/Accordions.php:110

@@ -3,7 +3,7 @@ import { setDefaults, TooltipOptions } from './options'
 import { App } from 'vue'
 
 const VueTooltip = {
-	install (app: App, options: TooltipOptions) {
+	install(app: App, options: TooltipOptions) {
 		app.component('Tooltip', Tooltip)
 		setDefaults(options)
 	}

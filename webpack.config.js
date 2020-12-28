@@ -39,8 +39,7 @@ packages.forEach(directory => {
 	if (webpackConfig) {
 		const packageWebpackConfig = require(webpackConfig)
 		const config = mergeConfigs(
-			packageWebpackConfig,
-			{
+			packageWebpackConfig, {
 				entry: {
 					[directory]: packageWebpackConfig.entry
 				},
@@ -67,7 +66,7 @@ const cssFiles = [
 cssFiles.forEach(entry => {
 	const folder = path.resolve(`./packages/css-variables/${entry}/`)
 	const scssFile = path.resolve(`./packages/css-variables/${entry}.scss`)
-	console.log({ folder });
+
 	configs.push(getConfig({}, {
 		entry: {
 			[entry]: scssFile
