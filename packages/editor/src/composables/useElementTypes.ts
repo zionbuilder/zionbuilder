@@ -9,7 +9,8 @@ const zionElements = window.ZnPbInitalData.elements_data.map(config => {
 // Add content Wrapper
 zionElements.push(new ElementType({
 	element_type: 'contentRoot',
-	wrapper: true
+	wrapper: true,
+	show_in_ui: false
 }))
 
 const elementTypes: Ref = ref(zionElements)
@@ -26,7 +27,7 @@ export function useElementTypes() {
 	})
 
 	const getElementType = (elementType: string) => {
-		return find(elementTypes.value, {element_type: elementType})
+		return find(elementTypes.value, { element_type: elementType })
 	}
 
 	const registerElementComponent = (config) => {
