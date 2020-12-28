@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-checkbox-wrapper">
+	<div class="znpb-checkbox-switch-wrapper">
 
 		<label
 			class="znpb-checkbox-wrapper__label"
@@ -176,11 +176,11 @@ export default {
 }
 
 .znpb-checkbox-wrapper__label::before {
-	content: ""attr(content)"" ;
+	content: "" attr(content) "";
 }
 
 .znpb-checkbox-wrapper__label::after {
-	content: ""attr(content)"" ;
+	content: "" attr(content) "";
 	right: 0;
 }
 
