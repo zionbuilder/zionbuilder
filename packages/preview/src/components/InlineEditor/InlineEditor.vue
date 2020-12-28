@@ -47,7 +47,7 @@
 				</zion-inline-editor-panel> -->
 
 				<!-- Bold popover -->
-				<!-- <zion-inline-editor-popover
+				<zion-inline-editor-popover
 					icon="ite-weight"
 					:full-width="true"
 					:visible="activePanel==='boldPanel'"
@@ -58,7 +58,7 @@
 						:key="fontWeight"
 						:modelValue="fontWeight"
 					/>
-				</zion-inline-editor-popover> -->
+				</zion-inline-editor-popover>
 
 				<!-- Italic button -->
 				<zion-inline-editor-button
@@ -197,6 +197,7 @@ export default {
 	setup (props, { emit }) {
 		let TinyMCEEditor = ref(null);
 
+		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 		const { isPreviewMode } = usePreviewMode();
 		const { modelValue } = toRefs(props);
 		const inlineEditorRef = ref(null);
@@ -322,7 +323,8 @@ export default {
 			barStyles,
 			// Methods
 			onColorPickerOpen,
-			onColorPickerClose
+			onColorPickerClose,
+			fontWeights
 		};
 	},
 };

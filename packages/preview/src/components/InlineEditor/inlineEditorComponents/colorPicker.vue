@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="zion-inline-editor-panel-color"
-		@click.capture.prevent="aaa"
-	>
+	<div class="zion-inline-editor-panel-color">
 		<div class="zion-inline-editor-button">
 			<InputColorPicker
 				:modelValue="color"
@@ -81,8 +78,7 @@ export default {
 			color,
 			onColorChange,
 			onOpen,
-			onClose,
-			aaa
+			onClose
 		}
 	}
 }
