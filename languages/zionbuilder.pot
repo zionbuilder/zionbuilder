@@ -2355,36 +2355,40 @@ msgstr ""
 msgid "You do not have permissions to export this template."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:355, ../includes/Api/RestControllers/Templates.php:423, ../includes/Api/RestControllers/Templates.php:446, ../includes/Api/RestControllers/Templates.php:504, ../includes/Api/RestControllers/Templates.php:595
+#: ../includes/Api/RestControllers/Templates.php:356, ../includes/Api/RestControllers/Templates.php:437, ../includes/Api/RestControllers/Templates.php:460, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:624
 msgid "Your post id could not be found!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:459
+#: ../includes/Api/RestControllers/Templates.php:473
 msgid "The template cannot be deleted."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:580
+#: ../includes/Api/RestControllers/Templates.php:549, ../includes/Api/RestControllers/Templates.php:683
+msgid "Could not return the post instance"
+msgstr ""
+
+#: ../includes/Api/RestControllers/Templates.php:609
 msgid "Your file is empty or invalid"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:648
+#: ../includes/Api/RestControllers/Templates.php:689
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:611
+#: ../includes/Api/RestControllers/Templates.php:647
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:635
+#: ../includes/Api/RestControllers/Templates.php:671
 msgid "The uploaded template is not valid!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:668, ../includes/Api/RestControllers/Templates.php:669
-msgid "copy"
+#: ../includes/Api/RestControllers/Templates.php:715, ../includes/Api/RestControllers/Templates.php:772
+msgid "Post could not be cloned!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:710
-msgid "Post could not be cloned!"
+#: ../includes/Api/RestControllers/Templates.php:718, ../includes/Api/RestControllers/Templates.php:719
+msgid "copy"
 msgstr ""
 
 #: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:82, ../includes/Elements/Accordions/Accordions.php:89, ../includes/Elements/Accordions/Accordions.php:95, ../includes/Elements/Accordions/Accordions.php:110
