@@ -41,13 +41,14 @@
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-font-size>
 			</Tab>
-			<!--
+
 			<Tab :name="$translate('line_height')">
 				<zion-inline-editor-line-height
 					@started-dragging="onStartedSliderDragging"
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-line-height>
 			</Tab>
+			<!--
 			<Tab :name="$translate('letter_spacing')">
 				<zion-inline-editor-letter-spacing
 					@started-dragging="onStartedSliderDragging"
