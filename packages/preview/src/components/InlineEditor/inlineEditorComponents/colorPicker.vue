@@ -1,5 +1,8 @@
 <template>
-	<div class="zion-inline-editor-panel-color">
+	<div
+		class="zion-inline-editor-panel-color"
+		@click.capture.prevent="aaa"
+	>
 		<div class="zion-inline-editor-button">
 			<InputColorPicker
 				:modelValue="color"
@@ -14,58 +17,79 @@
 </template>
 
 <script>
-export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
-	},
-	data () {
-		return {
-			justChangedNode: false,
-			color: null
-		}
-	},
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.getActiveColor()
-	},
-	beforeUnmount () {
-		this.Editor.editor.off('NodeChange', this.onNodeChange)
-	},
-	methods: {
-		onOpen () {
-			this.$emit('open-color-picker', true)
-			this.Editor.preventClose()
-		},
-		onClose () {
-			this.$emit('close-color-picker', true)
-			this.Editor.allowClose()
-		},
-		onColorChange (newValue) {
-			this.color = newValue
-			this.Editor.editor.formatter.apply('forecolor', { value: newValue })
-			this.justChangedNode = true
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getActiveColor()
-			}
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 
-			this.justChangedNode = false
-		},
-		getActiveColor () {
+export default {
+	setup (props, { emit }) {
+		const editor = inject('ZionInlineEditor')
+		const color = ref(null)
+
+		let justChangeColor = false
+		let changeTimeout = null
+
+		function onOpen () {
+			emit('open-color-picker', true)
+			// TODO: this
+			// this.Editor.preventClose()
+		}
+
+		function onClose () {
+			emit('close-color-picker', true)
+
+			// TODO: this
+			// this.Editor.allowClose()
+		}
+
+		function onColorChange (newValue) {
+			// color.value = newValue
+			editor.value.formatter.apply('forecolor', { value: newValue })
+
+			clearTimeout(changeTimeout)
+			changeTimeout = setTimeout(() => {
+				justChangeColor = false
+			}, 100);
+
+			justChangeColor = true
+		}
+
+		function onNodeChange (node) {
+			if (!justChangeColor) {
+				getActiveColor()
+			}
+		}
+
+		function getActiveColor () {
 			// set a flag so we don't recursively update the color
-			this.color = this.Editor.editor.queryCommandValue('forecolor')
+			color.value = editor.value.queryCommandValue('forecolor')
+		}
+
+		function aaa (e) {
+			e.preventDefault()
+		}
+
+
+		onMounted(() => {
+			getActiveColor()
+			editor.value.on('SelectionChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('SelectionChange', onNodeChange)
+		})
+
+		return {
+			color,
+			onColorChange,
+			onOpen,
+			onClose,
+			aaa
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-	.vc-chrome {
+.vc-chrome {
 	width: 100% !important;
 }
 .vc-chrome * {

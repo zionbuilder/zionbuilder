@@ -91,10 +91,10 @@
 				/>
 
 				<!-- Color Picker -->
-				<!-- <zion-inline-editor-color-picker
+				<zion-inline-editor-color-picker
 					@close-color-picker="onColorPickerClose"
 					@open-color-picker="onColorPickerOpen"
-				/> -->
+				/>
 				<!-- Text align button -->
 				<zion-inline-editor-popover
 					icon="ite-alignment"
@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { ref, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue";
+import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue";
 
 // Utils
 import { usePreviewMode } from "@zb/editor";
@@ -205,8 +205,20 @@ export default {
 		const isDragging = ref(false);
 		const dragButtonOnScreen = ref(true);
 		const activePanel = ref(null);
+		const position = ref({
+			offsetY: 75,
+			offsetX: null,
+			posX: null,
+			posY: null
+		})
 
 		provide('ZionInlineEditor', TinyMCEEditor)
+
+		const barStyles = computed(() => {
+			return {
+				transform: `translate(${position.value.posX}px, ${position.value.posY}px)`
+			}
+		})
 
 		function saveContent () {
 			emit("update:modelValue", TinyMCEEditor.value.getContent());
@@ -278,12 +290,11 @@ export default {
 		}
 
 		function onColorPickerOpen () {
-			activePanel.value = null
-			inlineEditorRef.value.classList.remove('mce-content-body--selection-transparent')
+			activePanel.value = 'colorPicker'
+			inlineEditorRef.value.classList.add('mce-content-body--selection-transparent')
 		}
 
 		function onColorPickerClose () {
-			activePanel.value = 'colorPicker'
 			inlineEditorRef.value.classList.remove('mce-content-body--selection-transparent')
 		}
 
@@ -308,6 +319,7 @@ export default {
 			isDragging,
 			dragButtonOnScreen,
 			activePanel,
+			barStyles,
 			// Methods
 			onColorPickerOpen,
 			onColorPickerClose
@@ -430,7 +442,7 @@ export default {
 	cursor: text;
 	&--selection-transparent {
 		& *::selection {
-			background: transparent;
+			background: transparent !important;
 		}
 	}
 }
@@ -441,7 +453,6 @@ export default {
 	cursor: text !important;
 
 	& *::selection {
-		color: #fff;
 		background: rgba(133, 178, 232, .75);
 	}
 }
