@@ -35,13 +35,13 @@
 					></zion-inline-editor-button>
 				</div>
 			</Tab>
-			<!-- <Tab :name="$translate('font_size')">
+			<Tab :name="$translate('font_size')">
 				<zion-inline-editor-font-size
 					@started-dragging="onStartedSliderDragging"
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-font-size>
 			</Tab>
-
+			<!--
 			<Tab :name="$translate('line_height')">
 				<zion-inline-editor-line-height
 					@started-dragging="onStartedSliderDragging"
