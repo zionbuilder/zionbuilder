@@ -1,11 +1,23 @@
 import ZionService from './ZionService'
 
 export const getTemplates = function (config = {}) {
-	return ZionService.get('templates', config)
+	return ZionService.get('templates', {
+		params: config
+	})
 }
 
 export const addTemplate = function (template) {
 	return ZionService.post('templates', template)
+}
+
+export const duplicateTemplate = function (templateID) {
+	return ZionService.post('templates/duplicate', {
+		template_id: templateID
+	})
+}
+
+export const updateTemplate = function (templateID, templateData) {
+	return ZionService.post(`templates/${templateID}`, templateData)
 }
 
 export const exportTemplate = function (template) {

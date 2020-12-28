@@ -128,7 +128,10 @@
 
 			<SaveElementModal />
 
-			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save">
+			<FlyoutWrapper
+				class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save"
+				@mousedown="savePage"
+			>
 				<template v-slot:panel-icon>
 					<Icon
 						v-if="!isSavePageLoading"

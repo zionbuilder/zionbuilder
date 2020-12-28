@@ -16,21 +16,23 @@
 <script>
 import { Button } from '../../../components'
 import { computed } from 'vue'
+
 export default {
 	name: 'ModalTemplateSaveButton',
 	components: {
 		Button
 	},
-	setup (props, {emit}) {
-
+	setup (props, { emit }) {
 		const buttonType = computed(() => {
-				return props.disabled ? 'gray' : 'secondary'
-			} )
+			return props.disabled ? 'gray' : 'secondary'
+		})
+
 		function onButtonClick () {
 			if (!props.disabled) {
 				emit('save-modal')
 			}
 		}
+
 		return {
 			buttonType,
 			onButtonClick

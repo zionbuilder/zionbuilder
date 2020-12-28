@@ -550,7 +550,7 @@ class Localization {
 				'discard_changes_for'                    => __( 'Discard changes for', 'zionbuilder' ),
 
 				// icons modal
-				'icon_library_title'                    => __( 'Icon Library', 'zionbuilder' ),
+				'icon_library_title'                     => __( 'Icon Library', 'zionbuilder' ),
 
 				// InputWrapper
 				'discard_changes'                        => __( 'Discard changes', 'zionbuilder' ),
