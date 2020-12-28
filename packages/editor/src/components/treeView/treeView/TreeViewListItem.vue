@@ -22,6 +22,19 @@
 				v-if="element.isWrapper"
 			/>
 
+			<img
+				v-if="get_element_image"
+				:src="get_element_image"
+				class="znpb-tree-view__itemImage"
+			/>
+
+			<Icon
+				v-else
+				:icon="get_element_icon"
+				:size="24"
+				class="znpb-tree-view__itemIcon"
+			/>
+
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				v-model="element.name"
@@ -66,7 +79,7 @@
 <script lang="ts">
 import { ref, PropType, defineComponent, computed } from "vue";
 import { on } from "@zb/hooks";
-import { Element } from "@composables";
+import { Element, useElementTypes } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -80,6 +93,11 @@ export default defineComponent({
 			isActiveItem,
 		} = useTreeViewItem(props);
 
+		const { getElementIcon, getElementImage } = useElementTypes();
+
+		const get_element_image = getElementImage(props.element.element_type);
+		const get_element_icon = getElementIcon(props.element.element_type);
+
 		const expanded = ref(false);
 		const onItemClick = () => {
 			props.element.focus;
@@ -92,6 +110,8 @@ export default defineComponent({
 			elementOptionsRef,
 			isActiveItem,
 			onItemClick,
+			get_element_image,
+			get_element_icon,
 		};
 	},
 });
@@ -104,6 +124,13 @@ export default defineComponent({
 		&:hover {
 			color: darken($font-color, 15%);
 		}
+	}
+
+	&Image {
+		height: 24px;
+	}
+	&Image, &Icon {
+		padding-left: 15px;
 	}
 
 	&--hidden {

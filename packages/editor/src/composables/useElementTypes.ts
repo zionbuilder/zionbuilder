@@ -26,7 +26,7 @@ export function useElementTypes() {
 	})
 
 	const getElementType = (elementType: string) => {
-		return find(elementTypes.value, {element_type: elementType})
+		return find(elementTypes.value, { element_type: elementType })
 	}
 
 	const registerElementComponent = (config) => {
@@ -41,6 +41,16 @@ export function useElementTypes() {
 		element.registerComponent(component)
 	}
 
+	const getElementIcon = (elementType: string) => {
+		let element = find(elementTypes.value, { element_type: elementType })
+		return element.icon ? element.icon : null
+	}
+
+	const getElementImage = (elementType: string) => {
+		let element = find(elementTypes.value, { element_type: elementType })
+		return element.thumb ? element.thumb : null
+	}
+
 	function resetElementComponents() {
 		elementTypes.value.forEach(elementType => {
 			elementType.resetComponent()
@@ -50,6 +60,8 @@ export function useElementTypes() {
 	return {
 		elementTypes,
 		getVisibleElements,
+		getElementIcon,
+		getElementImage,
 		addElementType,
 		getElementType,
 		registerElementComponent,
