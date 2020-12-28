@@ -19,7 +19,7 @@
 			>
 				<InputWrapper :title="$translate('add_a_link')">
 					<BaseInput
-						v-model="linkModel"
+						v-model="linkUrl"
 						:clearable="true"
 						placeholder="www.address.com"
 						@keyup.enter="addLink"
@@ -36,15 +36,16 @@
 					<InputWrapper :title="$translate('target')">
 						<InputSelect
 							:options="selectOptions"
-							v-model="linkTargetModel"
+							v-model="linkTarget"
 							placeholder="Select target"
 						/>
 					</InputWrapper>
 					<InputWrapper :title="$translate('title')">
 						<BaseInput
-							v-model="linkTitleModel"
+							v-model="linkTitle"
 							placeholder="link_title"
 							:clearable="true"
+							@keyup.enter="addLink"
 						/>
 					</InputWrapper>
 				</div>
@@ -55,6 +56,8 @@
 </template>
 
 <script>
+import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue'
+
 export default {
 	inject: {
 		Editor: {
@@ -76,113 +79,105 @@ export default {
 			type: Boolean
 		}
 	},
-	watch: {
-		visible (newVal) {
-			this.isPopOverVisible = newVal
-		}
-	},
-	data: function () {
-		return {
-			isPopOverVisible: this.visible,
-			linkTarget: '_self',
-			linkUrl: '',
-			linkTitle: '',
-			selectOptions: [
-				{
-					id: '_self',
-					name: 'Self'
-				},
-				{
-					id: '_blank',
-					name: 'New Window'
-				}
-			],
-			justChangedNode: null
-		}
-	},
+	setup () {
+		const editor = inject('ZionInlineEditor')
+		const isPopOverVisible = ref(false)
+		const justChangedNode = ref(false)
+		const linkTarget = ref('_self')
+		const linkUrl = ref('')
+		const linkTitle = ref('')
+		const selectOptions = [
+			{
+				id: '_self',
+				name: 'Self'
+			},
+			{
+				id: '_blank',
+				name: 'New Window'
+			}
+		]
 
-	computed: {
-		linkModel: {
-			get () {
-				return this.linkUrl
-			},
-			set (newVal) {
-				this.linkUrl = newVal
-			}
-		},
-		linkTargetModel: {
-			get () {
-				return this.linkTarget
-			},
-			set (newVal) {
-				this.linkTarget = newVal
-			}
-		},
-		linkTitleModel: {
-			get () {
-				return this.linkTitle
-			},
-			set (newVal) {
-				this.linkTitle = newVal
-			}
-		},
-		buttonClasses () {
+		const hasLink = ref(false)
+
+
+		const buttonClasses = computed(() => {
 			let classes = []
 
-			if (this.isPopOverVisible) {
+			// Check if the button is active
+			if (hasLink.value) {
 				classes.push('zion-inline-editor-button--active')
 			}
 
 			return classes.join(' ')
+		})
+
+		function togglePopper () {
+			if (isPopOverVisible.value) {
+				addLink(false)
+			}
+
+			isPopOverVisible.value = !isPopOverVisible.value
 		}
-	},
 
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
+		function onNodeChange (node) {
+			if (node.selectionChange) {
+				getLink()
+			}
+		}
 
-		this.getLink(this.Editor.editor.selection.getNode())
-	},
-	methods: {
-		togglePopper () {
-			if (this.isPopOverVisible) {
-				this.isPopOverVisible = false
-				this.$emit('close-panel', this)
-				this.addLink()
-			} else {
-				this.isPopOverVisible = true
-				this.$emit('open-panel', this)
-			}
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getLink(node.element)
-			}
-			this.justChangedNode = false
-		},
-		getLink (node) {
-			let link = this.Editor.editor.dom.getParent(node, 'a[href]')
+		function getLink () {
+			let link = editor.value.dom.getParent(editor.value.selection.getStart(), 'a[href]')
 
 			if (link) {
-				this.linkTarget = link.target || '_self'
-				this.linkUrl = link.getAttribute('href')
+				linkTarget.value = link.target || '_self'
+				linkUrl.value = link.getAttribute('href')
+				linkTitle.value = link.getAttribute('title')
+				hasLink.value = true
 			} else {
-				this.linkUrl = null
-				this.linkTitle = ''
+				linkUrl.value = null
+				linkTitle.value = ''
+				hasLink.value = false
 			}
-		},
-		addLink () {
-			if (this.linkUrl) {
+
+		}
+
+		function addLink (closePopper = true) {
+			if (linkUrl.value) {
 				// Make the selection a link
-				this.Editor.editor.formatter.apply('link', {
-					href: this.linkUrl,
-					target: this.linkTarget,
-					title: this.linkTitle
+				editor.value.formatter.apply('link', {
+					href: linkUrl.value,
+					target: linkTarget.value,
+					title: linkTitle.value
 				})
 			} else {
-				this.Editor.editor.formatter.remove('link')
+				editor.value.formatter.remove('link')
+			}
+
+			if (closePopper) {
+				isPopOverVisible.value = false
 			}
 		}
 
+		onMounted(() => {
+			getLink()
+			editor.value.on('NodeChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('NodeChange', onNodeChange)
+		})
+
+		return {
+			isPopOverVisible,
+			linkTarget,
+			linkUrl,
+			linkTitle,
+			selectOptions,
+			buttonClasses,
+			togglePopper,
+			addLink,
+			hasLink
+		}
 	}
 }
 </script>

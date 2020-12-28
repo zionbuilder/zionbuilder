@@ -5,15 +5,15 @@
 		placement="top"
 		append-to="body"
 		:show-arrows="false"
-		:show="canShowEditor"
-		@hide="hideInlineEditor"
+		@hide="showEditor = false"
+		:show="showEditor"
 		strategy="fixed"
 		ref="inlineEditorWrapper"
 		@mousedown.stop=""
 	>
 		<template #content>
 			<div
-				v-if="!isPreviewMode && editor"
+				v-if="!isPreviewMode && tinyMceReady"
 				class="zion-inline-editor zion-inline-editor-container"
 				:class="{'zion-inline-editor--dragging': isDragging}"
 				:style="barStyles"
@@ -33,7 +33,7 @@
 				</div>
 
 				<!-- Fonts & text style panel -->
-				<zion-inline-editor-panel
+				<!-- <zion-inline-editor-panel
 					icon="ite-font"
 					:visible="activePanel==='fontsPanel'"
 					@open-panel="activePanel='fontsPanel'"
@@ -44,10 +44,10 @@
 						@units-expanded="onUnitsExpanded"
 					/>
 
-				</zion-inline-editor-panel>
+				</zion-inline-editor-panel> -->
 
 				<!-- Bold popover -->
-				<zion-inline-editor-popover
+				<!-- <zion-inline-editor-popover
 					icon="ite-weight"
 					:full-width="true"
 					:visible="activePanel==='boldPanel'"
@@ -58,7 +58,7 @@
 						:key="fontWeight"
 						:modelValue="fontWeight"
 					/>
-				</zion-inline-editor-popover>
+				</zion-inline-editor-popover> -->
 
 				<!-- Italic button -->
 				<zion-inline-editor-button
@@ -82,8 +82,6 @@
 				<panelLink
 					:full-width="true"
 					direction="vertical"
-					:visible="activePanel==='linkPanel'"
-					@open-panel="activePanel='linkPanel'"
 				/>
 
 				<!-- Quote button -->
@@ -93,10 +91,10 @@
 				/>
 
 				<!-- Color Picker -->
-				<zion-inline-editor-color-picker
+				<!-- <zion-inline-editor-color-picker
 					@close-color-picker="onColorPickerClose"
 					@open-color-picker="onColorPickerOpen"
-				/>
+				/> -->
 				<!-- Text align button -->
 				<zion-inline-editor-popover
 					icon="ite-alignment"
@@ -147,416 +145,175 @@
 			</div>
 		</template>
 		<div
-			v-if="isInlineEditorVisible"
-			ref="inlineEditor"
+			ref="inlineEditorRef"
 			class="znpb-inline-text-editor"
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
 			@click="onMouseDown"
-			@dblclick.stop=""
+			@dblclick.stop="showEditor = true"
 			:contenteditable="!isPreviewMode"
 		></div>
-		<div
-			v-else
-			@click="onMouseDown"
-			:contenteditable="!isPreviewMode"
-			@dblclick.stop=""
-			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
-			class="znpb-inline-text-editor"
-			v-html="modelValue"
-		>
-		</div>
+
 	</Tooltip>
 
 </template>
 
 <script>
+import { ref, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue";
+
+// Utils
+import { usePreviewMode } from "@zb/editor";
+
 // Components
-import popOver from './inlineEditorComponents/popOver.vue'
-import panel from './inlineEditorComponents/panel.vue'
-import group from './inlineEditorComponents/group.vue'
-import buttonComponent from './inlineEditorComponents/button.vue'
-import colorPicker from './inlineEditorComponents/colorPicker.vue'
-import fontWeight from './inlineEditorComponents/fontWeightButton.vue'
-import panelLink from './inlineEditorComponents/panelLink.vue'
-import editorsManager from './editorsManager'
-import { usePreviewMode } from '@zb/editor'
+import popOver from "./inlineEditorComponents/popOver.vue";
+import panel from "./inlineEditorComponents/panel.vue";
+import group from "./inlineEditorComponents/group.vue";
+import buttonComponent from "./inlineEditorComponents/button.vue";
+import colorPicker from "./inlineEditorComponents/colorPicker.vue";
+import fontWeight from "./inlineEditorComponents/fontWeightButton.vue";
+import panelLink from "./inlineEditorComponents/panelLink.vue";
+import editorsManager from "./editorsManager";
 
 export default {
-	name: 'InlineEditor',
-	provide () {
-		return {
-			Editor: this
-		}
-	},
-
+	name: "InlineEditor",
 	components: {
-		'zion-inline-editor-popover': popOver,
-		'zion-inline-editor-panel': panel,
-		'zion-inline-editor-group': group,
-		'zion-inline-editor-button': buttonComponent,
-		'zion-inline-editor-color-picker': colorPicker,
-		'zion-inline-editor-font-weight': fontWeight,
-		panelLink
+		"zion-inline-editor-popover": popOver,
+		"zion-inline-editor-panel": panel,
+		"zion-inline-editor-group": group,
+		"zion-inline-editor-button": buttonComponent,
+		"zion-inline-editor-color-picker": colorPicker,
+		"zion-inline-editor-font-weight": fontWeight,
+		panelLink,
 	},
-
 	props: {
 		modelValue: {
 			type: String,
-			required: false
+			required: false,
 		},
 		forcedRootNode: {
 			type: [Boolean, String],
-			default: 'p'
-		}
+			default: "p",
+		},
 	},
-	setup() {
-		const { isPreviewMode } = usePreviewMode()
+	setup (props, { emit }) {
+		let TinyMCEEditor = ref(null);
 
-		return {
-			isPreviewMode
+		const { isPreviewMode } = usePreviewMode();
+		const { modelValue } = toRefs(props);
+		const inlineEditorRef = ref(null);
+		const tinyMceReady = ref(false);
+		const showEditor = ref(false);
+		const isDragging = ref(false);
+		const dragButtonOnScreen = ref(true);
+		const activePanel = ref(null);
+
+		provide('ZionInlineEditor', TinyMCEEditor)
+
+		function saveContent () {
+			emit("update:modelValue", TinyMCEEditor.value.getContent());
 		}
-	},
-	data () {
-		return {
-			canClose: true,
-			activeFont: null,
-			tinyMceReady: false,
-			activePanel: null,
-			getContent: null,
-			yOffset: null,
-			editor: null,
-			/// OLD VALUES
 
-			// Visibility Variables
-			isInlineEditorVisible: false,
-
-			// TinyMCE Components
-			activeEditor: null,
-			activeElement: null,
-			activeEditorOptionId: null,
-
-			// Font weights
-			fontWeights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-
-			// Inline Editor position on page
-			position: {
-				offsetY: 75,
-				offsetX: null,
-				posX: null,
-				posY: null
-			},
-			lastPositionX: 0,
-			lastPositionY: 0,
-			isDragging: false,
-
-			mouseToContentLeft: 0,
-			mouseToContentTop: 0,
-			// Out of bounds variables
-			dragButtonOnScreen: true, // False if the editor drag button is out of the browser window
-			initialPosition: null,
-			isSliderDragging: false,
-			alignButtonIcon: 'align--center',
-			unitsExpanded: null
-		}
-	},
-
-	computed: {
-		uid () {
-			return this.$parent.data.uid
-		},
-		data () {
-			return this.$parent.data
-		},
-		editorID () {
-			return `znpbwpeditor${this._uid}`
-		},
-		canShowEditor () {
-			return this.isInlineEditorVisible && this.tinyMceReady && !this.isPreviewMode.value
-		},
-		content: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		// This is the initial bar position setter (through a style element)
-		barStyles: function () {
-			const styles = {
-				transform: `translate(${this.position.posX}px, ${this.position.posY}px)`
-			}
-			return styles
-		},
-
-		// Check if the bar is loaded on screen
-		isActiveBar: function () {
-			return this.isInlineEditorVisible
-		}
-	},
-	methods: {
-		onColorPickerOpen () {
-			this.activePanel = 'colorPicker'
-			const editor = this.$refs.inlineEditor
-			editor.classList.add('mce-content-body--selection-transparent')
-		},
-		onColorPickerClose () {
-			this.activePanel = 'colorPicker'
-			const editor = this.$refs.inlineEditor
-			editor.classList.remove('mce-content-body--selection-transparent')
-		},
-		onUnitsExpanded (event) {
-			this.unitsExpanded = event
-		},
-		onStartedSliderDragging () {
-			document.addEventListener('mouseup', this.onDraggingInput)
-			this.isSliderDragging = true
-		},
-		onDraggingInput () {
-			setTimeout(() => {
-				this.isSliderDragging = false
-			}, 300)
-		},
-		onOutsideClick (event) {
-			if (this.canClose && this.$refs.content && !this.$refs.content.contains(event.target) && !this.$refs.inlineEditor.contains(event.target) && !this.isSliderDragging && !this.unitsExpanded) {
-				this.isInlineEditorVisible = false
-			}
-		},
-		onMouseDown () {
-			if (!this.isInlineEditorVisible && !this.isPreviewMode.value) {
-				this.showEditor()
-			}
-		},
-		preventClose () {
-			this.canClose = false
-		},
-		allowClose () {
-			this.canClose = true
-		},
-		resetPosition () {
-			if (this.position && this.initialPosition) {
-				setTimeout(() => {
-					this.position.posX = 0
-					this.position.posY = 0
-					this.initialPosition.posX = 0
-					this.initialPosition.posY = 0
-					this.lastPositionX = 0
-					this.lastPositionY = 0
-					this.yOffset = 0
-				}, 300)
-			}
-		},
-		hideInlineEditor () {
-			this.activePanel = null
-			this.isInlineEditorVisible = false
-		},
-		hideEditor () {
-			this.isInlineEditorVisible = false
-		},
-		showEditor () {
-			if (!this.isPreviewMode.value && !this.isInlineEditorVisible) {
-				this.isInlineEditorVisible = true
-			}
-		},
-
-		startDrag (event) {
-			window.addEventListener('mouseup', this.stopDrag)
-			window.addEventListener('mousemove', this.onDragMove)
-
-			document.body.style.userSelect = 'none'
-
-			this.initialPosition = {
-				posX: event.clientX,
-				posY: event.clientY
-			}
-
-			this.isDragging = true
-			this.yOffset = window.pageYOffset
-		},
-		onDragMove (event) {
-			this.position = {
-				posX: this.lastPositionX + event.pageX - this.initialPosition.posX,
-				posY: this.lastPositionY + event.pageY - this.initialPosition.posY - this.yOffset
-			}
-		},
-		stopDrag (event) {
-			// Save the last position
-			this.lastPositionX = this.position.posX
-			this.lastPositionY = this.position.posY
-
-			// Check if the drag button is on the end of the drag action
-			this.checkDragButtonOnScreen()
-
-			// Unbind the listener that stops the drag since the drag stopper has been run
-			document.body.style.userSelect = null
-			window.removeEventListener('mouseup', this.stopDrag)
-			window.removeEventListener('mousemove', this.onDragMove)
-			this.isDragging = false
-		},
-		getInlineEditorRect () {
-			// Get and send the inline editor rect for the position - beware, this does not include the drag button
-			if (this.$refs.content) {
-				return this.$refs.content.getBoundingClientRect()
-			}
-		},
-		getContentRect () {
-			if (this.$refs.content) {
-				return this.$refs.content.getBoundingClientRect()
-			}
-		},
-		getPositionByMouseLocation (mouseLocationX) {
-			// Get the inline editor rect for the scale - beware, this does not include the drag button
-			let inlineEditorRect = this.getInlineEditorRect()
-
-			// Send back the space between the left side (x) of the screen and the start of the inline editor WITHOUT the drag button
-			return { x: (mouseLocationX - (inlineEditorRect.width / 2)) }
-		},
-
-		isDragButtonOutOfBounds () {
-			// Gets the full position of the editor
-			let inlineEditorPosition = this.getInlineEditorRect()
-
-			// Check if the drag button is out of bounds on the left (X axis) side of the screen and return the response
-			if (inlineEditorPosition) {
-				return inlineEditorPosition.x < 40
-			}
-		},
-
-		checkDragButtonOnScreen () {
-			// Set the local data to the drag button position
-			this.dragButtonOnScreen = !this.isDragButtonOutOfBounds()
-		},
-
-		checkDragButtonOnScreenByMouseLocation (mouseLocationX) {
-			// Gets the full position of the editor
-			let inlineEditorPosition = this.getPositionByMouseLocation(mouseLocationX)
-
-			// Check if the drag button is in bounds on the left (X axis) side of the screen and return the response
-			if (inlineEditorPosition) {
-				this.dragButtonOnScreen = inlineEditorPosition.x > 40
-			}
-		},
-		saveContent () {
-			if (this.editor) {
-				this.content = this.editor.getContent()
-				this.currentContent = this.content
-			}
-		},
-		onTiyMceSetup (editor) {
-			editor.onKeyDown.add(function (editor, e) {
-				if (e.keyCode === 9) {
-					editor.execCommand('mceInsertContent', false, '&emsp;')
-					e.preventDefault()
+		function initWatcher () {
+			watch(modelValue, (newValue, oldValue) => {
+				if (
+					TinyMCEEditor.value &&
+					typeof newValue === "string" &&
+					newValue !== oldValue &&
+					newValue !== TinyMCEEditor.value.getContent()
+				) {
+					TinyMCEEditor.value.setContent(newValue);
 				}
-			})
-			editor.on('init', (e) => {
-				this.tinyMceReady = true
+			});
+		}
 
-				// Set editor content
-				editor.setContent(this.content)
-				this.currentContent = this.content
-
-				this.showEditor()
-			})
-			this.editor = editor
-			editor.on('change KeyUp Undo Redo', this.saveContent)
-		},
-		initTinyMCE () {
-			if (this.editor) {
-				return
-			}
-
+		function getConfig () {
 			// let self = this
-			let config = {
-				target: this.$refs.inlineEditor,
-				entity_encoding: 'raw',
+			return {
+				target: inlineEditorRef.value,
+				entity_encoding: "raw",
 				toolbar: false,
 				menubar: false,
 				selection_toolbar: false,
 				inline: true,
 				object_resizing: false,
-				setup: this.onTiyMceSetup,
-				forced_root_block: this.forcedRootNode,
+				setup: (editor) => {
+					editor.on("init", (e) => {
+						tinyMceReady.value = true;
+						TinyMCEEditor.value = editor;
+
+						// Set the content
+						editor.setContent(props.modelValue);
+
+						// bind watchers
+						initWatcher();
+					});
+
+					editor.on("change input undo redo", saveContent);
+				},
+				forced_root_block: props.forcedRootNode,
 				formats: {
-					fontSize: { inline: 'span', classes: 'znpb-fontsize', styles: { fontSize: '%value' } },
-					fontweight: { inline: 'span', classes: 'znpb-fontweight', styles: { fontWeight: '%value' } },
-					uppercase: { inline: 'span', classes: 'znpb-uppercase', styles: { textTransform: 'uppercase' } },
-					blockquote: { block: 'blockquote', wrapper: true, classes: 'znpb-blockquote', exact: true },
-					italic: { inline: 'i', exact: true }
-				}
-			}
-			if (typeof window.tinyMCE !== 'undefined') {
-				window.tinyMCE.init(config)
-			}
-		},
-		hideEditorOnEscapeKey (event) {
-			if (event.keyCode === 27) {
-				this.isInlineEditorVisible = false
-				event.stopImmediatePropagation()
-			}
+					fontSize: {
+						inline: "span",
+						classes: "znpb-fontsize",
+						styles: { fontSize: "%value" },
+					},
+					fontweight: {
+						inline: "span",
+						classes: "znpb-fontweight",
+						styles: { fontWeight: "%value" },
+					},
+					uppercase: {
+						inline: "span",
+						classes: "znpb-uppercase",
+						styles: { textTransform: "uppercase" },
+					},
+					blockquote: {
+						block: "blockquote",
+						wrapper: true,
+						classes: "znpb-blockquote",
+						exact: true,
+					},
+					italic: { inline: "i", exact: true },
+				},
+			};
 		}
+
+		function onColorPickerOpen () {
+			activePanel.value = null
+			inlineEditorRef.value.classList.remove('mce-content-body--selection-transparent')
+		}
+
+		function onColorPickerClose () {
+			activePanel.value = 'colorPicker'
+			inlineEditorRef.value.classList.remove('mce-content-body--selection-transparent')
+		}
+
+		onMounted(() => {
+			if (typeof window.tinyMCE !== "undefined") {
+				window.tinyMCE.init(getConfig());
+			}
+		});
+
+		onBeforeUnmount(() => {
+			// Destroy tinyMce
+			if (typeof window.tinyMCE !== 'undefined' && TinyMCEEditor.value) {
+				window.tinyMCE.remove(TinyMCEEditor.value)
+			}
+		})
+
+		return {
+			isPreviewMode,
+			inlineEditorRef,
+			showEditor,
+			tinyMceReady,
+			isDragging,
+			dragButtonOnScreen,
+			activePanel,
+			// Methods
+			onColorPickerOpen,
+			onColorPickerClose
+		};
 	},
-
-	watch: {
-		content (newValue, oldValue) {
-			if (!this.editor) {
-				this.currentContent = newValue
-				return
-			}
-			const currentValue = this.editor.getContent()
-			if (currentValue !== newValue && this.currentContent !== newValue) {
-				this.editor.setContent(newValue)
-				this.currentContent = newValue
-			}
-		},
-		canShowEditor (newValue, oldValue) {
-			if (newValue) {
-				// hide on escape
-				document.addEventListener('scroll', this.hideInlineEditor)
-				document.addEventListener('click', this.onOutsideClick, true)
-				document.addEventListener('keydown', this.hideEditorOnEscapeKey, true)
-			} else {
-				document.removeEventListener('click', this.onOutsideClick, true)
-				document.removeEventListener('keydown', this.hideEditorOnEscapeKey, true)
-				document.removeEventListener('scroll', this.hideInlineEditor)
-			}
-		},
-		isInlineEditorVisible (newValue) {
-			if (newValue) {
-				this.$nextTick(() => {
-					this.initTinyMCE()
-					editorsManager.opendEditor(this)
-				})
-			} else {
-				editorsManager.closeEditor()
-				// Destroy tinyMce
-				if (typeof window.tinyMCE !== 'undefined') {
-					window.tinyMCE.remove(this.editor)
-				}
-				this.resetPosition()
-
-				this.$nextTick(() => {
-					this.editor = null
-				})
-			}
-
-		}
-	},
-
-	beforeUnmount () {
-		editorsManager.closeEditor()
-		document.removeEventListener('keydown', this.hideEditorOnEscapeKey, true)
-		document.removeEventListener('click', this.onOutsideClick, true)
-		document.removeEventListener('scroll', this.hideInlineEditor)
-
-		// Destroy tinyMce
-		if (typeof window.tinyMCE !== 'undefined') {
-			window.tinyMCE.remove(this.editor)
-		}
-	}
-
-}
-
+};
 </script>
 
 <style lang="scss">
@@ -680,9 +437,12 @@ export default {
 
 // NEW STYLES
 .znpb-inline-text-editor {
+	outline: none !important;
 	cursor: text !important;
-	&:focus {
-		outline: none;
+
+	& *::selection {
+		color: #fff;
+		background: rgba(133, 178, 232, .75);
 	}
 }
 
