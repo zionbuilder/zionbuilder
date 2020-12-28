@@ -20,9 +20,6 @@ export default {
 		getCssID () {
 			return (this.options._advanced_options || {})._element_id || this.element.uid
 		}
-	},
-	mounted () {
-		console.log('props', this.element)
 	}
 }
 </script>
