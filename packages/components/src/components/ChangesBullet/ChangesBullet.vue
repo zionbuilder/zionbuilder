@@ -4,7 +4,6 @@
 		class="znpb-options-has-changes-wrapper"
 		tag="span"
 		strategy="fixed"
-
 	>
 		<span
 			@click.stop="$emit('remove-styles')"
@@ -80,7 +79,7 @@ export default {
 }
 
 .znpb-options-has-changes-wrapper {
-	margin-left: 5px;
+	margin-left: 10px;
 	cursor: pointer;
 	.znpb-options-has-changes-wrapper__delete {
 		position: absolute;
