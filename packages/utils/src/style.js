@@ -4,7 +4,7 @@ const responsiveDevices = {
 	mobile: '575.98px'
 }
 
-export function getStyles (cssSelector, styleValues = {}) {
+export function getStyles(cssSelector, styleValues = {}) {
 	let compiledStyles = ''
 	const devices = [
 		'default',
@@ -23,7 +23,7 @@ export function getStyles (cssSelector, styleValues = {}) {
 	return compiledStyles
 }
 
-export function getPseudoStyles (cssSelector, pseudoSelectors = {}) {
+export function getPseudoStyles(cssSelector, pseudoSelectors = {}) {
 	let combinedStyles = ''
 
 	Object.keys(pseudoSelectors).forEach((pseudoSelectorId) => {
@@ -34,7 +34,7 @@ export function getPseudoStyles (cssSelector, pseudoSelectors = {}) {
 	return combinedStyles
 }
 
-function compilePseudoStyle (cssSelector, pseudoSelector, styleValues) {
+function compilePseudoStyle(cssSelector, pseudoSelector, styleValues) {
 	const append = pseudoSelector !== 'default' ? `${pseudoSelector}` : ''
 	const compiledStyles = compileStyleTabs(styleValues)
 	const content = styleValues.content
@@ -47,7 +47,7 @@ function compilePseudoStyle (cssSelector, pseudoSelector, styleValues) {
 	return ''
 }
 
-export function getResponsiveDeviceStyles (deviceId, styles) {
+export function getResponsiveDeviceStyles(deviceId, styles) {
 	// Don't proceed if we do not have
 	if (!deviceId || !styles) {
 		return ''
@@ -60,7 +60,7 @@ export function getResponsiveDeviceStyles (deviceId, styles) {
 	return `${start}${styles}${end}`
 }
 
-export function compileStyleTabs (styleValues) {
+export function compileStyleTabs(styleValues) {
 	let combineStyles = ''
 	let filtersGroup = ''
 	const backgroundImageConfig = []
@@ -106,7 +106,8 @@ export function compileStyleTabs (styleValues) {
 		'saturate',
 		'opacity',
 		'contrast',
-		'hue-rotate'
+		'hue-rotate',
+		'invert'
 	]
 
 	const specialValues = {
@@ -285,9 +286,14 @@ export function compileStyleTabs (styleValues) {
 	if (backgroundSize && backgroundSize !== 'custom') {
 		combineStyles += `background-size: ${backgroundSize};`
 	} else if (backgroundSize === 'custom') {
-		const { x, y } = backgroundSizeUnits
+		const {
+			x,
+			y
+		} = backgroundSizeUnits
 		if (x || y) {
-			const { x = 'auto', y = 'auto' } = backgroundSizeUnits
+			const {
+				x = 'auto', y = 'auto'
+			} = backgroundSizeUnits
 			combineStyles += `background-size: ${x} ${y};`
 		}
 	}
@@ -394,7 +400,7 @@ export function compileStyleTabs (styleValues) {
 	return combineStyles
 }
 
-export function getGradientCss (config) {
+export function getGradientCss(config) {
 	let gradient = []
 	let position
 
@@ -411,7 +417,13 @@ export function getGradientCss (config) {
 
 		// Set position
 		if (element.type === 'radial') {
-			const { x, y } = element.position || { x: 50, y: 50 }
+			const {
+				x,
+				y
+			} = element.position || {
+				x: 50,
+				y: 50
+			}
 			position = `circle at ${x}% ${y}%`
 		} else {
 			position = `${element.angle}deg`
@@ -424,7 +436,7 @@ export function getGradientCss (config) {
 	return gradient.join(', ')
 }
 
-function compileShadow (textShadowValue) {
+function compileShadow(textShadowValue) {
 	let {
 		'offset-x': offsetX,
 		'offset-y': offsetY,
@@ -461,7 +473,7 @@ function compileShadow (textShadowValue) {
 	return null
 }
 
-export function compileFontTab (styleValues) {
+export function compileFontTab(styleValues) {
 	let css = ''
 
 	const {
@@ -488,14 +500,20 @@ export function compileFontTab (styleValues) {
 	} = fontDisplayGroup
 
 	if (fontTypography) {
-		const { 'font-family': fontFamily, 'font-settings': fontSettings } = fontTypography
+		const {
+			'font-family': fontFamily,
+			'font-settings': fontSettings
+		} = fontTypography
 
 		if (fontFamily) {
 			css += `font-family: ${fontFamily};`
 		}
 
 		if (fontSettings) {
-			const { 'font-size': fontSize, ...remainingProperties } = fontSettings
+			const {
+				'font-size': fontSize,
+				...remainingProperties
+			} = fontSettings
 
 			if (fontSize) {
 				css += `font-size: ${fontSize};`
@@ -551,11 +569,15 @@ export function compileFontTab (styleValues) {
 	return css
 }
 
-function compileBorder (borderValue) {
+function compileBorder(borderValue) {
 	let css = ''
 	Object.keys(borderValue).forEach(borderPosition => {
 		const allBorders = borderPosition === 'all'
-		const { width, color, style } = borderValue[borderPosition]
+		const {
+			width,
+			color,
+			style
+		} = borderValue[borderPosition]
 
 		if (!width) {
 			return
@@ -574,7 +596,7 @@ function compileBorder (borderValue) {
 	return css
 }
 
-function compileBorderRadius (borderRadiusValue) {
+function compileBorderRadius(borderRadiusValue) {
 	let css = ''
 
 	if (borderRadiusValue && Object.keys(borderRadiusValue).length === 0) {

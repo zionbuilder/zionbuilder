@@ -52,7 +52,6 @@ class Editor {
 	 * @return void
 	 */
 	public function init() {
-
 		// Verify nonce
 		if ( ! Nonces::verify_nonce( Nonces::ACTIVE_EDITOR ) ) {
 			return;
@@ -211,6 +210,16 @@ class Editor {
 			Plugin::instance()->get_version()
 		);
 
+		// Load rtl
+		if ( is_rtl() ) {
+			Plugin::instance()->scripts->enqueue_style(
+				'znpb-editor-rtl-styles',
+				'css/rtl.css',
+				[],
+				Plugin::instance()->get_version()
+			);
+		};
+
 		// Load animations
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
@@ -332,6 +341,7 @@ class Editor {
 				// Templates
 				'template_types'      => Plugin::$instance->templates->get_template_types(),
 				'template_categories' => Plugin::$instance->templates->get_template_categories(),
+				'rtl'                 => is_rtl(),
 			]
 		);
 	}

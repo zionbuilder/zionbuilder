@@ -43,7 +43,7 @@
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
-				v-model:activeKeyTab="activeKeyTab"
+				v-model:activeTab="activeKeyTab"
 				class="znpb-element-options__tabs-wrapper"
 			>
 				<Tab
@@ -51,20 +51,21 @@
 					v-if="element.elementTypeModel.hasOwnProperty('options')"
 				>
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
 					/>
 				</Tab>
 				<Tab name="Styling">
 					<OptionsForm
+						class="znpb-fancy-scrollbar"
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
 					/>
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
@@ -101,6 +102,7 @@
 						{{defaultMessage}}
 					</p>
 					<OptionsForm
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="filteredOptions"
 						v-model="elementOptions"
 					/>
@@ -184,9 +186,7 @@ export default {
 			return historyIndex.value + 1 < history.value.length
 		})
 
-		const hasChanges = computed(() => {
-			history.value.length > 1 && historyIndex.value > 0
-		})
+		const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0)
 
 		const addToLocalHistory = debounce(function () {
 			// Clone store
@@ -224,7 +224,7 @@ export default {
 		history.value.push(JSON.parse(JSON.stringify(elementOptions.value)))
 
 		// Change the tab when a new element is selected
-		watch(element, () => {
+		watch(element, (newValue) => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 		})
@@ -246,6 +246,7 @@ export default {
 			searchIcon,
 			canUndo,
 			canRedo,
+			hasChanges,
 			// Methods
 			undo,
 			redo
@@ -269,6 +270,7 @@ export default {
 
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
+
 				schema[styleId] = {
 					type: 'accordion_menu',
 					title: config.title,
@@ -280,7 +282,8 @@ export default {
 							id: 'styles',
 							is_layout: true,
 							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-							title: config.title
+							title: config.title,
+							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
 						}
 					}
 				}
@@ -594,19 +597,21 @@ export default {
 
 	&-content-wrapper {
 		position: relative;
+		display: flex;
 		flex-grow: 1;
 		overflow: hidden;
 
 		.znpb-element-options__tabs-wrapper {
+			flex-grow: 1;
 			padding-top: 20px;
 			background-color: $surface-variant;
 		}
 		.znpb-tabs {
 			display: flex;
 			flex-direction: column;
-			height: calc(100% - 20px);
+
 			.znpb-tabs__content, .znpb-tabs__wrapper {
-				height: 100%;
+				height: calc(100% - 38px);
 			}
 
 			.znpb-tab__wrapper {

@@ -6,6 +6,7 @@
 				:options="elementCategories"
 				:placeholder="elementCategories[0].name"
 				v-model="categoryValue"
+				:placement="isRtl ? 'bottom-end' : 'bottom-start'"
 			/>
 
 			<BaseInput
@@ -35,7 +36,8 @@
 </template>
 <script>
 import { ref, computed, onMounted, nextTick } from 'vue'
-import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory } from '@composables'
+
+import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData } from '@composables'
 import { on, off } from '@zb/hooks'
 
 // Components
@@ -55,7 +57,7 @@ export default {
 	setup (props) {
 		const { getVisibleElements } = useElementTypes()
 		const { categories } = useElementTypeCategories()
-
+		const { editorData } = useEditorData()
 		// Refs
 		const localSearchKeyword = ref(null)
 		const computedSearchKeyword = computed(
@@ -142,7 +144,9 @@ export default {
 			// Computed
 			visibleElements,
 			// Methods
-			onAddElement
+			onAddElement,
+			// rtl
+			isRtl: editorData.value.rtl
 		}
 	}
 }
@@ -168,6 +172,10 @@ export default {
 		.znpb-fancy-scrollbar {
 			flex-grow: 1;
 			padding: 0 6px 0 10px;
+		}
+
+		.hg-popper-list {
+			padding: 0;
 		}
 	}
 	.zion-input__prepend {

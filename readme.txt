@@ -1,9 +1,9 @@
 === WordPress Page Builder – Zion Builder ===
 Contributors: zionbuilder
-Tags: page builder, editor, visual editor, design, website builder, front-end builder
+Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.5
-Stable tag: 1.0.1
+Tested up to: 5.6
+Stable tag: 1.2.3
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -12,7 +12,12 @@ Building websites just got easier! The latest WordPress page builder plugin on t
 
 
 == Description ==
+
+https://www.youtube.com/watch?v=rQ_2lUyhCAY
+
 Built and designed by [hogash team](https://hogash.com), the creator of famous WordPress theme [Kallyas](https://kallyas.net/), this plugin is the newest page builder on the market that comes with tools to build an outstanding WordPress website
+
+[Demo link](https://demo.zionbuilder.io/?enable-zion-builder)
 
 Below are listed the core competencies
 
@@ -153,33 +158,74 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 
 == Changelog ==
 
+== Changelog ==
+
+= 1.2.3 2020-12-14 =
+* Improvement: rtl support for both editor and rendered page
+* Improvement: Error message when a template cannot be inserted
+* Improvement: Added video to plugin description
+* Improvement: Avoid extra click when inserting icon into page
+* Improvement: Added invert filter to style options
+* Fixed icon element generates color css twice
+* Fixed back button from library preview closes the panel
+* Fixed plugin name display
+* Fixed add global color visual bug
+* Fixed placement and style for Elements filtering in Add Elements popup
+* Fixed description text in about modal
+
+= 1.2.2 2020-12-09 =
+* Fixed focus on inline editor font size
+* Fixed Panel Library maximize buton click not working
+* Fixed wp 5.6 compatibility
+* Fixed click on adding global color closes colorPicker
+* Fixed tabs element not applying custom classes
+
+= 1.2.1 2020-12-08 =
+* Internal Feature: allow setting default value for repeater field
+* Improved: Add message when there are no saved gradients
+* Improved: Added allow Html in title fields in editor mode
+* Improved: Icon element markup in editor mode
+* Improved: demo mode
+* Improved: icon tab set normal default
+* Fixed Column styling options not showing on Safari on MacOS Big Sur
+* Fixed render classes on positioning the counter element
+* Fixed accordions element not showing in page when first added
+* Fixed Box shadow inset applies even if it is set to no
+* Fixed heading align option not responsive
+* Fixed custom classes not applying to various elements
+
+= 1.2.0- 2020-12-07 =
+* Added options to style the active tab for Tabs element
+* Added WordPress filters for REST controllers
+* Renamed Custom HTML element to Custom Code
+* Improved: Changes green dot now appears for dynamic values
+* Improved Zion Builder library display Improved: The options panel will show the general tab when editing a different element
+* Improved: Removed help tab from builder panel.
+* Improved: Page cache not clearing properly when modifying the page
+* Fixed accordion and tabs elements not working in certain conditions
+* Fixed icon element options not applying in certain conditions
+* Fixed shortcodes not working
+* Fixed element changes not saving to history in certain conditions
+* Fixed pseudo-element before options shows console error in certain conditions
+* Fixed restoring from local storage not working in certain conditions
+* Various code cleanup and improvements
+
 = 1.1.0- 2020-11-24 =
-* Renamed regenerate css to regenerate css and js
-* Improved history
-* Fixed poper behaviour on scroll
-* Allow save page on content editable
-* Allow browser context on right click in preview mode
-* Hide element menu when scrolling
-* Replaced pageEvents with windows
-* Fix image wrapper border on image option
-* Fixed element custom css not working
-* Fixed Mozilla bug on input
-* Fixed locked user data
-* Update plugin info card for pro version
-* Update Urls for changelog
-* Improve Tabs Element
-* Implemented element scroll to
-* Replace modal tour with intro video
 * Feature: Add Elements Popup pens automatically when column layouts are inserted
 * Feature: Element options panel: Added ability to click on the element title to select the parent element
 * Feature: Abillity to change Column setting for each viewport for Zion's Gallery Element
 * Feature: Make Button Position option changeable per viewport
-* Fixed CSS not generated when using 0 (zero) without any suffix like 'px' for input values
-* Fixed Bug: Absolute Positioning of elements in Zion Builder is not the same as on the front end
-* Fixed Bug CSS not working correctly inside Zion Builder after changing Column ID
-* Fixed Bug Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
-* Fixed css classes not cleared when a new css class is added or changed
-* Fixed Bug: Custom Javascript doesn't get removed in 'Custom Javascript' under 'Page Options' when saving page
+* Renamed regenerate css to regenerate css and js
+* Improved history
+* Improved Tabs Element
+* Allow save page on content editable
+* Allow browser context on right click in preview mode
+* Hide element menu when scrolling
+* Replaced pageEvents with windows
+* Update plugin info card for pro version
+* Update Urls for changelog
+* Implemented element scroll to
+* Replace modal tour with intro video
 * Change Tab name from "Columns" to "Layouts"
 * Updated elements registration
 * Created methods for adding childs to elements
@@ -188,83 +234,92 @@ Yes you can. You can edit posts, pages, and custom post types with Zion Page Bui
 * Reorganized components
 * Updated to Popper2
 * Removed Vuex from dependencies
+* Add padding to element icon for image element
 * Add v1.0.0 to lerna
 * Update to Vue 3 and fix compatibility syntax
-* Switched to monorepo lerna
+* Switched to monorepo
 * Added filter for license check
+* Update Data Fonts Google set
+* Add ability to get render attributes for multiple tag ids
+* Fixed poper behaviour on scroll
+* Fixed image wrapper border on image option
+* Fixed element custom css not working
+* Fixed Mozilla bug on input
+* Fixed locked user data
 * Fixed image element margin drag hides the toolbox
 * Fixed Zion Builder not working with Yoast in certain conditions
 * Fixed PHP Stan erors
 * Fixed CSS classes not cleared when a new css class is added or changed
-* Update Data Fonts Google set
-* Add ability to get render attributes for multiple tag ids
-* Fix render "Array" string on elements classes
+* Fixed render "Array" string on elements classes
 * Fixed section masks not working
 * Fixed element with no options shows values as array
-* Add padding to element icon for image element
+* Fixed CSS not generated when using 0 (zero) without any suffix like 'px' for input values
+* Fixed Absolute Positioning of elements in Zion Builder is not the same as on the front end
+* Fixed CSS not working correctly inside Zion Builder after changing Column ID
+* Fixed Zion Keyboard Shortcuts prohibit from typing capital letters inside the Wordpress media popup screen
+* Fixed css classes not cleared when a new css class is added or changed
+* Fixed Custom Javascript doesn't get removed in 'Custom Javascript' under 'Page Options' when saving page
 
 = 1.0.1- 2020-08-17 =
 * Renamed plugin
-* Updated stable tag
-* Fixed data update not working properly
 * Changed register element system
 * Updated composer dependencies
 * Replaced PRO description from admin
-* Fixed template not importing images in certain conditions
 * Updated minimum PHP version
 * Performance optimizations
-* Fixed background size contain
 * Implement pro connection
-* Fix panels height dragging
 * Add pro badge to dashboard
 * Add calendar picker
-* Fix background gradient not working
 * Add new transform properties
 * Moved render methods to render class
 * Added loading gif to element loading
 * Update keywords for elements
-* Fix case sensitive icon search
-* Fixed styles not generating proper css
-* Fix duplicate renderer var
-* Fixed css duplicated
-* Fixed animations visibility glitch
 * Prevent adding emty values on transition property
-* Fix flex direction row in rendered page
-* Fixed uploaded icons not showing in frontend editor
-* Fixed css gradients
-* Fixed animation duration and delay not working properly
 * Added offset 0 value for columns
 * Added dynamic background color option type
-* Fixed missing post id for bulk actions API call
 * Implement masks for sections and columns
-* Fix inverse text shadow icons for horizontal and vertical spread
-* Fix no loader for templates library preview when inserting the item
 * Change png to svg in section view
 * Add specialFilterPak prop to iconsLibraryModal
-* Fix blur not rendering correctly
 * Add dynamic content to heading, iconbox, iconList, ImageBox,PricingBox, ProgressBars, Testimonial
 * Added vendor prefixes for css styles
 * Added filters to various locations
-* Fix compatibility with older versions of MySQL/MariaDB
 * Remove seconds from History items
-* Fix safari library scroll not working
 * Added filter for options parsing
-* Fix scrollTop and overflow hidden from accordion menu
-* Fixed compatibility with WP 5.4.2
-* Fixed error showing when using video background
 * Added form filters
-* Fixed testimonial element not showing properly in frontend
 * Added filter for element custom css
 * Updated plugin version
-* Fixed build command
 * Added namespace to plugin file
 * Updated pagebuilder meta keys
-* Fixed compatibility with legacy zionbuilder
-* Updated phpstan config for v0.12.26
-* Fixed several PHP stan errors
 * Implemented update system
-* Update phpstan config file to remove autoload
 * Added updater base code
+* Fixed data update not working properly
+* Fixed template not importing images in certain conditions
+* Fixed background size contain
+* Fixed panels height dragging
+* Fixed background gradient not working
+* Fixed case sensitive icon search
+* Fixed styles not generating proper css
+* Fixed duplicate renderer var
+* Fixed css duplicated
+* Fixed animations visibility glitch
+* Fixed flex direction row in rendered page
+* Fixed uploaded icons not showing in frontend editor
+* Fixed css gradients
+* Fixed animation duration and delay not working properly
+* Fixed missing post id for bulk actions API call
+* Fixed inverse text shadow icons for horizontal and vertical spread
+* Fixed no loader for templates library preview when inserting the item
+* Fixed blur not rendering correctly
+* Fixed compatibility with older versions of MySQL/MariaDB
+* Fixed safari library scroll not working
+* Fixed compatibility with legacy zionbuilder
+* Fixed several PHP stan errors
+* Fixed build command
+* Fixed testimonial element not showing properly in frontend
+* Fixed scrollTop and overflow hidden from accordion menu
+* Fixed compatibility with WP 5.4.2
+* Fixed error showing when using video background
+
 
 = 0.1.0 =
 * Initial Public Release

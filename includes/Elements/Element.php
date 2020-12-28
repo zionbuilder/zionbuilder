@@ -22,6 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Element {
 
 	/**
+	 * Holds a refference to all provided properties
+	 *
+	 * @var array
+	 */
+	private static $provides = [];
+
+	/**
 	 * Element content
 	 *
 	 * @var array<int, array<string, mixed>>
@@ -41,13 +48,6 @@ class Element {
 	 * @var string
 	 */
 	public $uid = null;
-
-	/**
-	 * If the elements holds multiple Elements inside different containers ( for example, accordion or tabs )
-	 *
-	 * @var boolean
-	 */
-	public $has_multiple = false;
 
 	/**
 	 * The element URL
@@ -417,7 +417,6 @@ class Element {
 			'category'            => $this->get_category(),
 			'deprecated'          => $this->is_deprecated(),
 			'keywords'            => $this->get_keywords(),
-			'has_multiple'        => $this->has_multiple,
 			'options'             => $this->options->get_schema(),
 			'wrapper'             => $this->is_wrapper(),
 			'content_composition' => $this->content_composition(),
@@ -1278,6 +1277,28 @@ class Element {
 	}
 
 	/**
+	 * Allows elements to pass data to nested children
+	 *
+	 * @param string $key The key used in provide/inject
+	 * @param mixed $value The value provided
+	 * @return void
+	 */
+	public function provide( $key, $value ) {
+		self::$provides[$key] = $value;
+	}
+
+
+	/**
+	 * Will return an injected value if it is set
+	 *
+	 * @param string $key
+	 * @return null|mixed
+	 */
+	public function inject( $key ) {
+		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
+	}
+
+	/**
 	 * Get Children
 	 *
 	 * Returns an array containing all children of this element.
@@ -1290,18 +1311,8 @@ class Element {
 		$child_elements_data = [];
 
 		if ( ! empty( $this->content ) && is_array( $this->content ) ) {
-			if ( $this->has_multiple ) {
-				foreach ( $this->content as $multiple_content_data ) {
-					if ( is_array( $multiple_content_data ) ) {
-						foreach ( $multiple_content_data as $child_content_data ) {
-							$child_elements_data[] = $child_content_data;
-						}
-					}
-				}
-			} else {
-				foreach ( $this->content as $child_content_data ) {
-					$child_elements_data[] = $child_content_data;
-				}
+			foreach ( $this->content as $child_content_data ) {
+				$child_elements_data[] = $child_content_data;
 			}
 		}
 

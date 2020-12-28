@@ -2,7 +2,7 @@
 	<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
 		<Icon
 			icon="plus"
-			@click.stop="$emit('add-new-color')"
+			@mousedown.stop="$emit('add-new-color')"
 			class="znpb-colorpicker-circle znpb-colorpicker-add-color "
 		/>
 		<slot></slot>
@@ -30,6 +30,12 @@ export default {
 	grid-row-gap: 10px;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	justify-items: center;
+
+	&--no-pd {
+		padding: 0;
+		margin: 0;
+	}
+
 	.znpb-colorpicker-add-color {
 		box-sizing: content-box;
 		width: 26px;

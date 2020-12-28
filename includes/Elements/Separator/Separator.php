@@ -196,18 +196,14 @@ class Separator extends Element {
 		$options->add_group(
 			'padding',
 			[
-				'type'        => 'dimensions',
-				'title'       => __( 'Padding', 'zionbuilder' ),
-				'description' => __( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				'min'         => 0,
-				'max'         => 99999,
-				'sync'        => '_styles.wrapper.styles.default.default',
-				'dimensions'  => [
-					[
-						'name' => 'left',
-						'icon' => 'padding-left',
-						'id'   => 'padding-left',
-					],
+				'type'                    => 'dimensions',
+				'title'                   => __( 'Padding', 'zionbuilder' ),
+				'description'             => __( 'Choose the desired padding for this element.', 'zionbuilder' ),
+				'min'                     => 0,
+				'max'                     => 99999,
+				'sync'                    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
+				'show_responsive_buttons' => true,
+				'dimensions'              => [
 					[
 						'name' => 'top',
 						'icon' => 'padding-top',
@@ -223,6 +219,11 @@ class Separator extends Element {
 						'icon' => 'padding-bottom',
 						'id'   => 'padding-bottom',
 					],
+					[
+						'name' => 'left',
+						'icon' => 'padding-left',
+						'id'   => 'padding-left',
+					],
 				],
 			]
 		);
@@ -230,18 +231,14 @@ class Separator extends Element {
 		$options->add_group(
 			'margin',
 			[
-				'type'        => 'dimensions',
-				'title'       => __( 'Margin', 'zionbuilder' ),
-				'description' => __( 'Choose the desired margin for this element.', 'zionbuilder' ),
-				'min'         => -99999,
-				'max'         => 99999,
-				'sync'        => '_styles.wrapper.styles.default.default',
-				'dimensions'  => [
-					[
-						'name' => 'left',
-						'icon' => 'margin-left',
-						'id'   => 'margin-left',
-					],
+				'type'                    => 'dimensions',
+				'title'                   => __( 'Margin', 'zionbuilder' ),
+				'description'             => __( 'Choose the desired margin for this element.', 'zionbuilder' ),
+				'min'                     => -99999,
+				'max'                     => 99999,
+				'sync'                    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default',
+				'show_responsive_buttons' => true,
+				'dimensions'              => [
 					[
 						'name' => 'top',
 						'icon' => 'margin-top',
@@ -256,6 +253,11 @@ class Separator extends Element {
 						'name' => 'bottom',
 						'icon' => 'margin-bottom',
 						'id'   => 'margin-bottom',
+					],
+					[
+						'name' => 'left',
+						'icon' => 'margin-left',
+						'id'   => 'margin-left',
 					],
 				],
 			]

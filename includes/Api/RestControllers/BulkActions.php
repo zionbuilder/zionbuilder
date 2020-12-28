@@ -65,9 +65,13 @@ class BulkActions extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request full details about the request
 	 *
-	 * @return bool
+	 * @return true|\WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
+		if ( ! $this->userCan( $request ) ) {
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'You do not have permissions to view this resource.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+		}
+
 		return true;
 	}
 
@@ -81,6 +85,7 @@ class BulkActions extends RestApiController {
 			'zionbuilder/api/bulk_actions',
 			[
 				'get_image' => [ $this, 'get_image' ],
+				'parse_php' => [ $this, 'parse_php' ],
 			]
 		);
 	}
@@ -104,6 +109,20 @@ class BulkActions extends RestApiController {
 		}
 
 		return rest_ensure_response( $response );
+	}
+
+	public function parse_php( $php_code ) {
+		try {
+			ob_start();
+			// phpcs:ignore Squiz.PHP.Eval.Discouraged
+			eval( ' ?>' . $php_code );
+			return ob_get_clean();
+		} catch ( \ParseError $e ) {
+			return [
+				'error'   => true,
+				'message' => $e->getMessage(),
+			];
+		}
 	}
 
 

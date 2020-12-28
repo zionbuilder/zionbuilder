@@ -179,6 +179,15 @@ class Admin {
 				Plugin::instance()->get_version()
 			);
 
+			if ( is_rtl() ) {
+				Plugin::instance()->scripts->enqueue_style(
+					'znpb-admin-rtl-styles',
+					'css/rtl.css',
+					[],
+					Plugin::instance()->get_version()
+				);
+			};
+
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'js/admin.js',
@@ -262,12 +271,12 @@ class Admin {
 		$editor_status = $post_instance->is_built_with_zion() ? 'active' : 'inactive'; ?>
 		<div class="znpb-admin-post__edit znpb-admin-post__edit-status--<?php echo esc_attr( $editor_status ); ?>">
 
-			<a href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
+			<a data-toolbar-item="true" href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
 				<span class="znpb-admin-post__edit-button-icon dashicons dashicons-wordpress-alt"></span>
 				<span class=""><?php esc_html_e( 'Disable Zion Builder', 'zionbuilder' ); ?></span>
 			</a>
 
-			<a href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
+			<a data-toolbar-item="true" href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
 					<span class="znpb-admin-post__edit-button-icon znpb-admin-post--builder-mode znpb-editor-icon-wrapper">
 						<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" class="zion-svg-inline zion-icon znpb-editor-icon">
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>

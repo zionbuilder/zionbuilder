@@ -70,21 +70,30 @@ export default {
 
 	beforeMount: function () {
 		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.getFontSize(this.Editor.editor.selection.getNode())
+		let nodeDom = this.Editor.$refs.inlineEditor
+		let selectedNode = this.Editor.editor.selection.getNode()
+
+		if (nodeDom.contains(selectedNode)) {
+			this.getFontSize(selectedNode)
+		} else {
+			this.Editor.editor.execCommand('mceSelectNode', false, nodeDom.firstChild)
+			this.getFontSize(nodeDom.firstChild)
+		}
+
 	},
 	beforeUnmount () {
 		this.Editor.editor.off('NodeChange', this.onNodeChange)
 	},
 	methods: {
 		onClick (e) {
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$children[1].expanded : null)
+			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
 		},
 		onFontChange (newValue) {
 			this.Editor.editor.formatter.apply('fontsize', { value: newValue })
 			this.justChangedNode = true
 			this.sliderValue = newValue
 			this.$emit('started-dragging')
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$children[1].expanded : null)
+			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
 			this.$refs.inputRangeDynamic.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
 		},
 		onNodeChange (node) {
@@ -95,6 +104,7 @@ export default {
 			this.justChangedNode = false
 		},
 		getFontSize (node) {
+
 			let fontSize = this.Editor.editor.queryCommandValue('FontSize')
 			this.sliderValue = fontSize
 		}

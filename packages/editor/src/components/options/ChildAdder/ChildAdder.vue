@@ -75,7 +75,6 @@ export default {
 		}
 
 		function addChild () {
-			console.log(props);
 			const template = props.add_template ? props.add_template : {
 				element_type: props.child_type
 			}

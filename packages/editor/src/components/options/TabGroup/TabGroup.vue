@@ -3,13 +3,12 @@
 	<Tabs
 		tab-style="group"
 		class="znpb-options__tab"
-		@changed-tab="changeTab"
-		:active-tab="activeTab"
+		v-model:activeTab="activeTab"
 	>
 		<Tab
 			:name="tabConfig.title"
 			v-for="(tabConfig, tabId) in child_options"
-			:key='tabId'
+			:key="tabId"
 			:id="tabId"
 		>
 			<OptionsForm
@@ -22,6 +21,7 @@
 
 </template>
 <script>
+import { ref, computed } from 'vue'
 export default {
 	name: 'TabGroup',
 	props: {
@@ -36,30 +36,30 @@ export default {
 			type: Object
 		}
 	},
-	data () {
-		return {
-			activeTab: null
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return typeof (this.modelValue || {})[this.activeTab] !== 'undefined' ? (this.modelValue || {})[this.activeTab] : {}
+	setup (props, { emit }) {
+
+		let activeTab = ref(null)
+
+		const keys = Object.keys(props.child_options)
+		activeTab.value = keys[0]
+
+		const valueModel = computed({
+			get: () => {
+				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] : {}
 			},
-			set (newValue) {
+			set: (newValue) => {
 				// Check if we actually need to delete the option
 				const newValues = {
-					...this.modelValue,
-					[this.activeTab]: newValue
+					...props.modelValue,
+					[activeTab.value]: newValue
 				}
-				this.$emit('update:modelValue', newValues)
+				emit('update:modelValue', newValues)
 			}
-		}
-	},
+		})
 
-	methods: {
-		changeTab (activeTab) {
-			this.activeTab = activeTab
+		return {
+			activeTab,
+			valueModel
 		}
 	}
 }

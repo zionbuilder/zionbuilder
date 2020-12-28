@@ -32,7 +32,7 @@
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						v-if="showMaximize"
-						@click.stop="fullSize = ! fullSize"
+						@click.stop="fullSize = ! fullSize, $emit('update:fullscreen', fullSize)"
 					/>
 					<Icon
 						icon="close"
@@ -210,7 +210,7 @@ export default {
 				modalStyle['position'] = 'absolute'
 			}
 			if (this.fullSize) {
-				modalStyle['max-height'] = '95%'
+				modalStyle['max-height'] = '100%'
 			}
 
 			return modalStyle
@@ -251,7 +251,7 @@ export default {
 		closeOnBackdropClick (event) {
 			if (this.closeOnClick) {
 				if (this.$refs.modalContent && !this.$refs.modalContent.contains(event.target)) {
-					this.closeModal()
+
 					this.closeModal()
 				}
 			}
@@ -330,6 +330,7 @@ export default {
 
 		&--full-size {
 			width: 100%;
+			height: 100%;
 		}
 	}
 

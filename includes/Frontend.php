@@ -107,9 +107,6 @@ class Frontend {
 				Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
 			}
 		}
-
-		// Instantiate all elements that are present on the current page
-		Plugin::$instance->renderer->prepare_areas_for_render();
 	}
 
 	/**
@@ -218,6 +215,16 @@ class Frontend {
 			[],
 			Plugin::instance()->get_version()
 		);
+
+		// Load rtl
+		if ( is_rtl() ) {
+			Plugin::instance()->scripts->enqueue_style(
+				'zion-frontend-rtl-styles',
+				'css/rtl.css',
+				[],
+				Plugin::instance()->get_version()
+			);
+		};
 
 		// Load animations
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );

@@ -9,6 +9,7 @@
 			v-if="options.before"
 			class="zb-el-counter__before"
 			v-bind="api.getAttributesForTag('before_text_styles')"
+			:class="api.getStyleClasses('before_text_styles')"
 		>
 			{{options.before}}
 		</div>
@@ -19,6 +20,7 @@
 			v-if="options.after"
 			class="zb-el-counter__after"
 			v-bind="api.getAttributesForTag('after_text_styles')"
+			:class="api.getStyleClasses('after_text_styles')"
 		>
 			{{options.after}}
 		</div>
@@ -46,9 +48,9 @@ export default {
 				props.options.end,
 				props.options.duration
 			].toString()
-		, (newValue, oldValue) => {
-			runScript()
-		})
+			, (newValue, oldValue) => {
+				runScript()
+			})
 
 		function runScript () {
 			const script = window.ZionBuilderFrontend.getScript('counter')

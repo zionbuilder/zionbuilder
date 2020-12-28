@@ -4,13 +4,15 @@
 		append-to=".znpb-center-area"
 		:width="1440"
 		class="znpb-library-modal"
-		:fullscreen="showMaximize"
+		v-model:fullscreen="fullSize"
+		:close-on-escape="true"
+		@close-modal="closePanel('PanelLibraryModal')"
 	>
 		<template v-slot:header>
 			<div class="znpb-library-modal-header">
 				<span
 					v-if="previewOpen || multiple || importActive"
-					@click="closeBody"
+					@click.stop="closeBody"
 					class="znpb-library-modal-header-preview__back"
 				>
 					<Icon
@@ -57,37 +59,36 @@
 						strategy="fixed"
 					>
 
+						<a
+							v-if="!isProActive && activeItem.pro"
+							class="znpb-button znpb-button--line znpb-button-buy-pro"
+							:href="purchaseURL"
+							target="_blank"
+						>{{$translate('buy_pro')}}
+						</a>
 
-								<a
-									v-if="!isProActive && activeItem.pro"
-									class="znpb-button znpb-button--line znpb-button-buy-pro"
-									:href="purchaseURL"
-									target="_blank"
-								>{{$translate('buy_pro')}}
-								</a>
+						<a
+							v-else-if="isProActive && !isProConnected && activeItem.pro"
+							class="znpb-button znpb-button--line"
+							target="_blank"
+							:href="dashboardURL"
+						>{{$translate('activate_pro')}}
+						</a>
 
-								<a
-									v-else-if="isProActive && !isProConnected && activeItem.pro"
-									class="znpb-button znpb-button--line"
-									target="_blank"
-									:href="dashboardURL"
-								>{{$translate('activate_pro')}}
-								</a>
-
-								<Button
-									v-else
-									type="secondary"
-									@click="insertLibraryItem"
-									class="znpb-library-modal-header__insert-button"
-								>
-									<span v-if="!insertItemLoading">
-										{{$translate('library_insert')}}
-									</span>
-									<Loader
-										v-else
-										:size="13"
-									/>
-							</Button>
+						<Button
+							v-else
+							type="secondary"
+							@click="insertLibraryItem"
+							class="znpb-library-modal-header__insert-button"
+						>
+							<span v-if="!insertItemLoading">
+								{{$translate('library_insert')}}
+							</span>
+							<Loader
+								v-else
+								:size="13"
+							/>
+						</Button>
 					</Tooltip>
 
 					<template v-else>
@@ -122,7 +123,7 @@
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						:size="14"
-						@click="fullSize = ! fullSize"
+						@click.stop="fullSize=!fullSize"
 					/>
 
 					<Icon
@@ -156,15 +157,13 @@
 			v-if="localActive && !importActive"
 			:preview-open="previewOpen"
 			@activate-preview="activatePreview"
-			@loading-start="libLoading = true"
-			@loading-end="libLoading = false"
 		/>
 	</Modal>
 
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
@@ -190,17 +189,23 @@ export default {
 		}
 	},
 	setup (props) {
-		const { togglePanel } = usePanels()
-		const { fetchTemplates } = useLocalLibrary()
+		const { togglePanel, closePanel } = usePanels()
+		const { fetchTemplates, loading } = useLocalLibrary()
+		let libLoading = ref(false)
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
+		watch(loading, (newVal) => {
+			libLoading.value = newVal
+		})
 
 		return {
+			closePanel,
 			togglePanel,
 			fetchTemplates,
+			libLoading,
 			editorData,
 			isProActive,
 			isProConnected,
@@ -209,10 +214,8 @@ export default {
 	},
 	data () {
 		return {
-			libLoading: false,
 			importActive: false,
 			multiple: false,
-			showMaximize: false,
 			fullSize: false,
 			localActive: false,
 			zionActive: true,
@@ -222,14 +225,7 @@ export default {
 			templateUploaded: false
 		}
 	},
-	watch: {
-		fullSize (newVal) {
-			if (newVal) {
-				this.showMaximize = newVal
-			} else this.showMaximize = this.fullSize
-		}
 
-	},
 	computed: {
 		computedTitle () {
 			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')

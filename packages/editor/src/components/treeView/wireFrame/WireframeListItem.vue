@@ -16,6 +16,18 @@
 				/>
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--center">
+				<img
+					v-if="get_element_image"
+					:src="get_element_image"
+					class="znpb-wireframe-itemImage"
+				/>
+
+				<Icon
+					v-else
+					:icon="get_element_icon"
+					:size="24"
+					class="znpb-wireframe-itemIcon"
+				/>
 				<InlineEdit
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
 					v-model="element.name"
@@ -27,18 +39,18 @@
 				<Tooltip
 					v-if="!element.isVisible"
 					:content="$translate('enable_hidden_element')"
-					class="znpb-wireframe-item__header-area--visibility-icon"
+					class="znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 				>
-					<span>
-						<transition name="fade">
-							<Icon
-								icon="visibility-hidden"
-								@click="element.toggleVisibility()"
-								class="znpb-editor-icon-wrapper--show-element"
-							>
-							</Icon>
-						</transition>
-					</span>
+
+					<transition name="fade">
+						<Icon
+							icon="visibility-hidden"
+							@click="element.toggleVisibility()"
+							class="znpb-editor-icon-wrapper--show-element"
+						>
+						</Icon>
+					</transition>
+
 				</Tooltip>
 
 				<div
@@ -76,7 +88,7 @@ import SortableHelper from '../../../common/SortableHelper.vue'
 import { getOptionValue } from '@zb/utils'
 import { on } from '@zb/hooks'
 import { useTreeViewItem } from '../useTreeViewItem'
-
+import { useElementTypes } from "@composables";
 export default {
 	name: 'element-wireframe-view',
 	components: {
@@ -97,11 +109,18 @@ export default {
 		} = useTreeViewItem(props)
 		const columnSize = computed(() => props.element.options.column_size)
 
+		const { getElementIcon, getElementImage } = useElementTypes();
+
+		const get_element_image = getElementImage(props.element.element_type);
+		const get_element_icon = getElementIcon(props.element.element_type);
+
 		return {
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			columnSize
+			columnSize,
+			get_element_image,
+			get_element_icon
 		}
 	},
 	data () {
@@ -170,8 +189,7 @@ export default {
 @import "~@zionbuilder/css-variables/frontend/_grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
-	padding: 10px 5px 10px;
-	margin-right: 5px;
+	padding: 15px 15px 15px;
 	transition: opacity .2s ease;
 	cursor: pointer;
 
@@ -189,6 +207,14 @@ export default {
 	flex-shrink: 1;
 	padding: 0 15px 30px 15px;
 	background: $primary-color--accent;
+
+	&Image {
+		height: 24px;
+	}
+	&Image, &Icon {
+		padding-right: 15px;
+	}
+
 	.znpb-wireframe-item--column .znpb-empty-placeholder {
 		border-right: 2px solid #faeec6;
 		border-left: 2px solid #faeec6;
@@ -258,6 +284,10 @@ export default {
 			&--visibility-icon {
 				display: flex;
 				align-items: center;
+
+				.znpb-editor-icon-wrapper--show-element {
+					padding-right: 0;
+				}
 			}
 			&--center {
 				justify-content: center;
@@ -295,7 +325,6 @@ export default {
 
 		&-title {
 			overflow: hidden;
-			width: 100%;
 			padding: 0;
 			color: $surface;
 			font-weight: 500;

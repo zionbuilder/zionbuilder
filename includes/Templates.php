@@ -31,8 +31,20 @@ class Templates {
 
 		add_filter( 'zionbuilder/permissions/get_allowed_post_types', [ $this, 'add_post_type_for_builder' ] );
 		add_filter( 'zionbuilder/data_sets/post_types', [ $this, 'remove_post_type_from_data_sets' ] );
+		add_filter( 'zionbuilder/post/post_template', [ $this, 'set_post_template' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	public function set_post_template( $template, $post_instance ) {
+		$post_id   = $post_instance->get_post_id();
+		$post_type = get_post_type( $post_id );
+
+		if ( $post_type === self::TEMPLATE_POST_TYPE ) {
+			return 'zion_builder_blank';
+		}
+
+		return $template;
 	}
 
 	public function remove_post_type_from_data_sets( $post_types ) {

@@ -50,7 +50,7 @@ class Manager {
 			'Text/Text',
 			'Section/Section',
 			'Column/Column',
-			'CustomHtml/CustomHtml',
+			'CustomCode/CustomCode',
 			'GoogleMaps/GoogleMaps',
 			'Counter/Counter',
 			'ProgressBars/ProgressBars',

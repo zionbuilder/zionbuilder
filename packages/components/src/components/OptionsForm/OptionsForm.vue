@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-options-form-wrapper znpb-fancy-scrollbar">
+	<div class="znpb-options-form-wrapper">
 		<OptionWrapper
 			v-for="(optionConfig, optionId) in optionsSchema"
 			:key="optionId"
@@ -211,9 +211,9 @@ export default {
 		OptionWrapper
 	},
 	methods: {
-		updateModelValueByPath(path, newValue) {
+		updateModelValueByPath (path, newValue) {
 			const clonedValue = cloneDeep(this.modelValue || {})
-			const newValues = set(clonedValue, path, newValue )
+			const newValues = set(clonedValue, path, newValue)
 
 			this.$emit('update:modelValue', newValues)
 		},
@@ -262,21 +262,23 @@ export default {
 		},
 
 		deleteValues (allPaths) {
+
 			let newValues = { ...this.modelValue }
 			allPaths.forEach((path) => {
 				const paths = path.split('.')
 
 				paths.reduce((acc, key, index) => {
 					if (index === paths.length - 1) {
-						delete acc[key]
+						let dynamicValue = get(acc, `__dynamic_content__[${key}]`)
+						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key]
 						return true
 					}
 
 					acc[key] = acc[key] ? { ...acc[key] } : {}
+
 					return acc[key]
 				}, newValues)
 			})
-
 			this.$emit('update:modelValue', newValues)
 		},
 		onDeleteOptions (optionIds) {

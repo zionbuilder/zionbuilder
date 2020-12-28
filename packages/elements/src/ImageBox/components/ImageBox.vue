@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="zb-el-imageBox"
-	>
+	<div class="zb-el-imageBox">
 		<slot name="
 		start" />
 
@@ -13,6 +11,7 @@
 				class="zb-el-imageBox-image"
 				:src="imageSrc"
 				v-bind="api.getAttributesForTag('image_styles')"
+				:class="api.getStyleClasses('image_styles')"
 			/>
 		</div>
 		<span class="zb-el-imageBox-spacer"></span>
@@ -26,13 +25,15 @@
 				v-if="options.title"
 				:is="titleTag"
 				class="zb-el-imageBox-title"
+				:class="api.getStyleClasses('title_styles')"
 				v-bind="api.getAttributesForTag('title_styles')"
+				v-html="options.title"
 			>
-				{{options.title ? options.title: null}}
 			</component>
 			<div
 				v-if="options.description"
 				class="zb-el-imageBox-description"
+				:class="api.getStyleClasses('description_styles')"
 				v-bind="api.getAttributesForTag('description_styles')"
 			>
 				<RenderValue option="description" />

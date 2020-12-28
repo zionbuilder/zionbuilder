@@ -1,11 +1,23 @@
 import ZionService from './ZionService'
 
-export const getTemplates = function () {
-	return ZionService.get('templates')
+export const getTemplates = function (config = {}) {
+	return ZionService.get('templates', {
+		params: config
+	})
 }
 
 export const addTemplate = function (template) {
 	return ZionService.post('templates', template)
+}
+
+export const duplicateTemplate = function (templateID) {
+	return ZionService.post('templates/duplicate', {
+		template_id: templateID
+	})
+}
+
+export const updateTemplate = function (templateID, templateData) {
+	return ZionService.post(`templates/${templateID}`, templateData)
 }
 
 export const exportTemplate = function (template) {
@@ -30,8 +42,7 @@ export const exportTemplateById = function (id) {
 export const importTemplateLibrary = function (templateFile) {
 	return ZionService.post(
 		'templates/import',
-		templateFile,
-		{
+		templateFile, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}

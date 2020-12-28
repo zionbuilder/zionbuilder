@@ -22,6 +22,19 @@
 				v-if="element.isWrapper"
 			/>
 
+			<img
+				v-if="get_element_image"
+				:src="get_element_image"
+				class="znpb-tree-view__itemImage"
+			/>
+
+			<Icon
+				v-else
+				:icon="get_element_icon"
+				:size="24"
+				class="znpb-tree-view__itemIcon"
+			/>
+
 			<InlineEdit
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				v-model="element.name"
@@ -31,17 +44,18 @@
 			<Tooltip
 				:content="$translate('enable_hidden_element')"
 				placement="top"
+				v-if="!element.isVisible"
+				class="znpb-tree-view__item-enable-visible"
 			>
-				<span>
-					<transition name="fade">
-						<Icon
-							icon="visibility-hidden"
-							v-if="!element.isVisible"
-							class="znpb-editor-icon-wrapper--show-element"
-							@click="element.toggleVisibility()"
-						/>
-					</transition>
-				</span>
+
+				<transition name="fade">
+					<Icon
+						icon="visibility-hidden"
+						class="znpb-editor-icon-wrapper--show-element"
+						@click="element.toggleVisibility()"
+					/>
+				</transition>
+
 			</Tooltip>
 
 			<div
@@ -65,7 +79,7 @@
 <script lang="ts">
 import { ref, PropType, defineComponent, computed } from "vue";
 import { on } from "@zb/hooks";
-import { Element } from "@composables";
+import { Element, useElementTypes } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -77,9 +91,14 @@ export default defineComponent({
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-		} = useTreeViewItem(props)
+		} = useTreeViewItem(props);
 
-		const expanded = ref(false)
+		const { getElementIcon, getElementImage } = useElementTypes();
+
+		const get_element_image = getElementImage(props.element.element_type);
+		const get_element_icon = getElementIcon(props.element.element_type);
+
+		const expanded = ref(false);
 		const onItemClick = () => {
 			props.element.focus;
 			props.element.scrollTo = true;
@@ -91,21 +110,27 @@ export default defineComponent({
 			elementOptionsRef,
 			isActiveItem,
 			onItemClick,
+			get_element_image,
+			get_element_icon,
 		};
 	},
 });
 </script>
 <style lang="scss">
 .znpb-tree-view__item {
-	.zion-visibility-hidden {
-		cursor: pointer;
-	}
 	.znpb-element-options__dropdown-icon {
 		cursor: pointer;
 
 		&:hover {
 			color: darken($font-color, 15%);
 		}
+	}
+
+	&Image {
+		height: 24px;
+	}
+	&Image, &Icon {
+		padding-left: 15px;
 	}
 
 	&--hidden {

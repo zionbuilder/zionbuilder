@@ -218,7 +218,6 @@ export default {
 	},
 	data () {
 		return {
-			localContent: '',
 			canClose: true,
 			activeFont: null,
 			tinyMceReady: false,
@@ -294,9 +293,6 @@ export default {
 		isActiveBar: function () {
 			return this.isInlineEditorVisible
 		}
-	},
-	created () {
-		this.localContent = this.modelValue
 	},
 	methods: {
 		onColorPickerOpen () {

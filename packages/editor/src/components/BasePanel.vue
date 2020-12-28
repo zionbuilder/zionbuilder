@@ -51,7 +51,7 @@
 <script>
 
 import rafSchd from 'raf-schd'
-import { usePanels, useEditorInteractions, useWindows } from '@composables'
+import { usePanels, useEditorInteractions, useWindows, useEditorData } from '@composables'
 
 export default {
 	name: 'BasePanel',
@@ -105,6 +105,7 @@ export default {
 		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
 		const { getMainbarPosition, getIframeOrder, iFrame } = useEditorInteractions()
 		const { addEventListener, removeEventListener } = useWindows()
+		const { editorData } = useEditorData()
 
 		return {
 			isAnyPanelDragging,
@@ -116,7 +117,8 @@ export default {
 			getMainbarPosition,
 			iFrame,
 			addEventListener,
-			removeEventListener
+			removeEventListener,
+			isRtl: editorData.value.rtl
 		}
 	},
 	data () {
@@ -208,7 +210,7 @@ export default {
 				width: panel.width.value + panel.width.unit,
 				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '99.9%' : panel.height.value + panel.height.unit,
 				top: (!this.isDragging && panel.isDetached) ? this.position.posY + this.unit : null,
-				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : null,
+				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : this.isDragging && this.isRtl ? 0 : null,
 				position: panel.isDetached ? 'fixed' : 'relative',
 				order: panel.panelPos,
 				userSelect: this.userSel,

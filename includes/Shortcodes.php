@@ -1,0 +1,45 @@
+<?php
+
+namespace ZionBuilder;
+
+// Prevent direct access
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
+/**
+ * Class Settings
+ *
+ * @package ZionBuilder
+ */
+class Shortcodes {
+	public function __construct() {
+		// Register shortcodes
+		add_shortcode( 'zionbuilder', [ $this, 'print_shortcode' ] );
+	}
+
+	public function print_shortcode( $atts, $content = null ) {
+		if ( ! isset( $atts['id'] ) ) {
+			return __( 'Template id missing', 'zionbuilder' );
+		}
+
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $atts['id'] );
+
+		if ( ! $post_instance ) {
+			return __( 'Template not found', 'zionbuilder' );
+		}
+
+		if ( ! $post_instance->is_built_with_zion() ) {
+			return __( 'Template was not built with Zion Builder', 'zionbuilder' );
+		}
+
+		// Register the elements
+		$post_template_data = $post_instance->get_template_data();
+		$zion_area_id       = sprintf( 'template_%s', $atts['id'] );
+		Plugin::$instance->renderer->register_area( $zion_area_id, $post_template_data );
+
+		Plugin::$instance->cache->register_post_id( $atts['id'] );
+
+		return Plugin::$instance->renderer->get_content( $zion_area_id );
+	}
+}

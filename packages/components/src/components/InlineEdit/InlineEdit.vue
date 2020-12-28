@@ -1,15 +1,19 @@
 <template>
-	<div
+	<component
+		:is="tag"
 		:class="{'znpb-utility__text--elipse': !active}"
-		:contenteditable="active"
+		:contenteditable="isActive"
 		@dblclick.stop="activate"
 		@blur="deactivate"
+		ref="root"
 	>
 		{{modelValue}}
-	</div>
+	</component>
 </template>
 
 <script>
+import { ref, watch, nextTick } from 'vue'
+
 export default {
 	name: 'InlineEdit',
 	props: {
@@ -20,27 +24,36 @@ export default {
 		active: {
 			type: Boolean,
 			required: false,
-			default: null
+			default: false
+		},
+		tag: {
+			type: String,
+			required: false,
+			default: 'div'
 		}
 	},
-	watch: {
-		active (newVal) {
-			if (newVal) {
-				this.activate()
+	setup (props, { emit }) {
+		const isActive = ref(props.active || false)
+		const root = ref(null)
+
+		watch(() => props.active, (newValue) => {
+			if (newValue !== isActive.value) {
+				isActive.value = newValue
 			}
-		}
-	},
-	methods: {
+		})
+
 		/**
 		 * Activates the name change input
 		 */
-		activate (event) {
-			this.$emit('update:active', true)
-			this.$nextTick(() => this.$el.focus())
-		},
-		deactivate (event) {
+		function activate (event) {
+			isActive.value = true
+			emit('update:active', true)
+			nextTick(() => root.value.focus())
+		}
+
+		function deactivate (event) {
 			// only rename if content is editable
-			if (!this.active) {
+			if (!isActive.value) {
 				return
 			}
 
@@ -52,29 +65,39 @@ export default {
 			sel.removeAllRanges()
 			sel.addRange(range)
 
-			this.$emit('update:active', false)
-			this.$emit('update:modelValue', event.target.innerText)
+			isActive.value = false
+			emit('update:active', false)
+			emit('update:modelValue', event.target.innerText)
+		}
+
+		return {
+			isActive,
+			activate,
+			deactivate,
+			root
 		}
 	}
 }
 </script>
 <style lang="scss">
-.znpb-utility__text--elipse::after {
-	content: "";
-	position: absolute;
-	top: 1px;
-	right: 1px;
-	bottom: 0;
-	width: 35px;
-	height: calc(100% - 2px);
-	background: linear-gradient(
-	-90deg,
-	$surface-variant 0%,
-	rgba($surface-variant, .3) 100%
-	);
+.znpb-tree-view__item--hidden {
+	.znpb-editor-icon-wrapper--show-element::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 44px;
+		height: 100%;
+		background: linear-gradient(
+		-90deg,
+		$surface-variant 0%,
+		rgba($surface-variant, .3) 100%
+		);
+	}
 }
 
-.znpb-panel-item--hovered .znpb-utility__text--elipse::after {
+.znpb-panel-item--hovered .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
 	-90deg,
 	darken($surface-variant, 3%) 0%,
@@ -82,11 +105,15 @@ export default {
 	);
 }
 
-.znpb-panel-item--active .znpb-utility__text--elipse::after {
+.znpb-panel-item--active .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
 	-90deg,
 	$secondary 0%,
 	rgba($secondary, .3) 100%
 	);
+}
+
+.znpb-tree-view__item-enable-visible {
+	position: relative;
 }
 </style>

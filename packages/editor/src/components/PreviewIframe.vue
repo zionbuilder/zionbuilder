@@ -148,12 +148,11 @@ export default {
 			addInitialHistory()
 		},
 		useLocalVersion () {
-			if (Object.keys(this.localStoragePageData.template_data).length) {
-				const content = {
-					content: this.localStoragePageData.template_data
-				}
-				this.setPageContent(content)
+			const content = {
+				content: this.localStoragePageData.template_data || []
 			}
+			this.setPageContent(content)
+
 			this.showRecoverModal = false
 		},
 		useServerVersion () {

@@ -1,7 +1,5 @@
 <template>
-	<div
-		class="znpb-custom-code"
-	>
+	<div class="znpb-custom-code">
 		<textarea
 			class="znpb-custom-code__text-area"
 			ref="codeMirrorTextarea"
@@ -31,7 +29,7 @@ export default {
 			}
 		}
 	},
-	setup(props, { emit }) {
+	setup (props, { emit }) {
 		let editor = null
 		const codeMirrorTextarea = ref(null)
 
@@ -45,11 +43,23 @@ export default {
 			emit('update:modelValue', instance.getValue())
 		}
 
+		const lint = [
+			'text/css',
+			'text/x-scss',
+			'text/x-less',
+			'text/javascript',
+			'application/json',
+			'application/ld+json',
+			'text/typescript',
+			'application/typescript',
+			'htmlmixed',
+		].includes(props.mode) ? true : false
+
 		onMounted(() => {
 			editor = window.wp.CodeMirror.fromTextArea(codeMirrorTextarea.value, {
 				mode: props.mode,
 				lineNumbers: true,
-				lint: true,
+				lint,
 				autoCloseBrackets: true,
 				matchBrackets: true,
 				autoCloseTags: true,

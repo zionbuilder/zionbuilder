@@ -1,15 +1,16 @@
 <template>
-	<div
-		class="znpb-preset-input-wrapper"
-	>
+	<div class="znpb-preset-input-wrapper">
 		<BaseInput
-			v-model="gradientName"
-			:placeholder="$translate('save_gradient_title')"
-			class="znpb-backgroundGradient__nameInput"
+			v-model="presetName"
+			:placeholder="isGradient? $translate('save_gradient_title'):$translate('add_preset_title')"
+			:class="{'znpb-backgroundGradient__nameInput':isGradient}"
 			:error="hasError"
 		>
 
-			<template v-slot:prepend>
+			<template
+				v-slot:prepend
+				v-if="isGradient"
+			>
 				<InputSelect
 					class="znpb-backgroundGradient__typeDropdown"
 					:options="gradientTypes"
@@ -18,23 +19,35 @@
 				/>
 
 			</template>
-			<!-- <template v-slot:append>
-
-			</template> -->
+			<template
+				v-slot:append
+				v-else
+			>
+				<Icon
+					icon="check"
+					@mousedown.stop="savePreset"
+				/>
+				<Icon
+					icon="close"
+					@mousedown.prevent="$emit('cancel',true)"
+				/>
+			</template>
 		</BaseInput>
 
 		<!-- Actions -->
-		<Icon
-			icon="check"
-			class="znpb-backgroundGradient__action"
-			@click.stop="saveGradient"
-		/>
+		<template v-if="isGradient">
+			<Icon
+				icon="check"
+				class="znpb-backgroundGradient__action"
+				@click.stop="savePreset"
+			/>
 
-		<Icon
-			icon="close"
-			class="znpb-backgroundGradient__action"
-			@click.stop="$emit('cancel',true)"
-		/>
+			<Icon
+				icon="close"
+				class="znpb-backgroundGradient__action"
+				@click.stop="$emit('cancel',true)"
+			/>
+		</template>
 	</div>
 </template>
 <script>
@@ -51,9 +64,15 @@ export default {
 		InputSelect,
 		Icon
 	},
+	props: {
+		isGradient: {
+			type: Boolean,
+			default: true
+		}
+	},
 	data () {
 		return {
-			gradientName: '',
+			presetName: '',
 			gradientType: 'local',
 			hasError: false,
 			gradientTypes: [
@@ -69,13 +88,17 @@ export default {
 		}
 	},
 	methods: {
-		saveGradient () {
-			if (this.gradientName.length === 0) {
+		savePreset () {
+
+			if (this.presetName.length === 0) {
 				this.hasError = true
 				return
 			}
 
-			this.$emit('save-preset', this.gradientName, this.gradientType)
+			if (this.isGradient) {
+				this.$emit('save-preset', this.presetName, this.gradientType)
+			} else this.$emit('save-preset', this.presetName)
+
 		}
 	},
 	watch: {
@@ -95,11 +118,23 @@ export default {
 </script>
 <style lang="scss">
 .znpb-preset-input-wrapper {
+	display: flex;
 	.znpb-backgroundGradient__nameInput {
 		margin-right: 4px;
 
 		& > .zion-input__suffix > .zion-input__append {
 			padding-right: 0;
+		}
+	}
+
+	& > .zion-input {
+		input {
+			max-height: 40px;
+			padding: 10.5px 12px;
+		}
+
+		.zion-input__append .znpb-editor-icon-wrapper:first-child {
+			margin-right: 10px;
 		}
 	}
 

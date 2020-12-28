@@ -96,10 +96,11 @@ class Icon extends Element {
 		$options->add_option(
 			'align',
 			[
-				'type'        => 'text_align',
-				'title'       => __( 'Align', 'zionbuilder' ),
-				'description' => __( 'Select the desired alignment.', 'zionbuilder' ),
-				'sync'        => '_styles.wrapper.styles.default.default.text-align',
+				'type'                    => 'text_align',
+				'title'                   => __( 'Align', 'zionbuilder' ),
+				'description'             => __( 'Select the desired alignment.', 'zionbuilder' ),
+				'sync'                    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.text-align',
+				'show_responsive_buttons' => true,
 			]
 		);
 
@@ -267,10 +268,6 @@ class Icon extends Element {
 				'title'     => __( 'Icon Color', 'zionbuilder' ),
 				'layout'    => 'inline',
 				'css_style' => [
-					[
-						'selector' => sprintf( '{{ELEMENT}} .zb-el-icon-icon%s', $selector_suffix ),
-						'value'    => 'color: {{VALUE}}',
-					],
 					[
 						'selector' => sprintf( '{{ELEMENT}} .zb-el-icon-icon%s', $selector_suffix ),
 						'value'    => 'color: {{VALUE}}',
