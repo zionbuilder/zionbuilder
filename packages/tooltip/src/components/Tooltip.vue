@@ -402,6 +402,13 @@ export default {
 		 * inside a label
 		 */
 		onClick: debounce(function (event) {
+			if (
+				this.popperElement &&
+				this.popperElement.contains(event.target)
+			) {
+				return;
+			}
+
 			this.visible = !this.visible;
 		}, 10),
 		onOutsideClick(event) {
