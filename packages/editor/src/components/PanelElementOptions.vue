@@ -450,7 +450,8 @@ export default {
 			this.searchActive = !this.searchActive
 			if (!this.searchActive) {
 				this.activeKeyTab = this.lastTab
-			} else this.optionsFilterKeyword = ''
+			}
+			this.optionsFilterKeyword = ''
 		},
 
 		changeTab (tabId) {
