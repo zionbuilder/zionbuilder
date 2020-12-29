@@ -64,7 +64,6 @@ export default {
 			e.preventDefault()
 		}
 
-
 		onMounted(() => {
 			getActiveColor()
 			editor.value.on('SelectionChange', onNodeChange)

@@ -1,22 +1,14 @@
 <template>
-	<div
-		class="zion-inline-editor-popover-wrapper zion-inline-editor-popover-wrapper--big-pd"
-		:class="{
-		'zion-inline-editor-popover-wrapper--full-width' : fullWidth,
-		'zion-inline-editor-popover-wrapper--vertical': direction,
-		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible
-		}"
+	<Tooltip
+		class="zion-inline-editor-popover-wrapper"
+		trigger="click"
+		placement="top"
+		append-to="body"
+		:close-on-outside-click="true"
 	>
-		<Icon
-			icon="ite-link"
-			@mousedown="togglePopper"
-			:class='buttonClasses'
-		/>
-		<transition name="bar-show">
-			<div
-				v-if="isPopOverVisible"
-				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover"
-			>
+
+		<template #content>
+			<div class="zion-inline-editor-dropdown--popover">
 				<InputWrapper :title="$translate('add_a_link')">
 					<BaseInput
 						v-model="linkUrl"
@@ -50,9 +42,14 @@
 					</InputWrapper>
 				</div>
 			</div>
-		</transition>
-	</div>
+		</template>
 
+		<Icon
+			icon="ite-link"
+			:class='buttonClasses'
+		/>
+
+	</Tooltip>
 </template>
 
 <script>
@@ -203,12 +200,5 @@ export default {
 	.znpb-form-label {
 		margin-bottom: 0;
 	}
-}
-/* popover animations */
-.bar-show-enter-to, .bar-show-leave-from {
-	transition: all .2s;
-}
-.bar-show-enter-from, .bar-show-leave-to {
-	opacity: 0;
 }
 </style>

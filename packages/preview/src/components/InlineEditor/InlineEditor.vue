@@ -66,11 +66,7 @@
 				/>
 
 				<!-- Link button -->
-
-				<panelLink
-					:full-width="true"
-					direction="vertical"
-				/>
+				<PanelLink />
 
 				<!-- Quote button -->
 				<InlineEditorButton
@@ -129,7 +125,7 @@ import group from "./inlineEditorComponents/group.vue"
 import InlineEditorButton from './inlineEditorComponents/button.vue'
 import ColorPicker from "./inlineEditorComponents/ColorPicker.vue"
 import FontWeight from "./inlineEditorComponents/FontWeight.vue"
-import panelLink from "./inlineEditorComponents/panelLink.vue"
+import PanelLink from "./inlineEditorComponents/PanelLink.vue"
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
 
 export default {
@@ -141,7 +137,7 @@ export default {
 		ColorPicker,
 		FontWeight,
 		PopOver,
-		panelLink,
+		PanelLink,
 		TextAlign
 	},
 	props: {
