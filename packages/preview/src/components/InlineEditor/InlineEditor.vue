@@ -93,6 +93,7 @@
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
 			@mouseup="checkTextSelection"
 			@dblclick.stop="showEditor = true"
+			@keydown.stop=""
 			:contenteditable="!isPreviewMode"
 		></div>
 
@@ -328,7 +329,6 @@ export default {
 		}
 
 		function hideEditor () {
-			console.log('shide editor');
 			showEditor.value = false
 		}
 
@@ -345,7 +345,6 @@ export default {
 		function checkTextSelection () {
 			if (window.getSelection().toString().length > 0) {
 				showEditor.value = true
-				console.log('should open');
 			}
 		}
 
