@@ -327,7 +327,7 @@ class Templates {
 		$template_args = [
 			'post_title'  => $template_name,
 			'post_type'   => self::TEMPLATE_POST_TYPE,
-			'post_status' => 'publish'
+			'post_status' => 'publish',
 		];
 
 		if ( empty( $template_config['template_type'] ) ) {
@@ -345,7 +345,7 @@ class Templates {
 		}
 
 		// set template type
-		update_post_meta($post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ));
+		update_post_meta( $post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ) );
 
 		// Set element category
 		if ( ! empty( $template_config['category'] ) ) {
