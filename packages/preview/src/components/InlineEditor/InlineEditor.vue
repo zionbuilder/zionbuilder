@@ -1,5 +1,6 @@
 <template>
 	<Tooltip
+		class="znpb-inline-editor__wrapper_all"
 		tooltip-class="znpb-inline-editor__wrapper hg-popper--no-padding hg-popper--no-bg"
 		:trigger="null"
 		placement="top"
@@ -214,17 +215,17 @@ export default {
 				forced_root_block: props.forcedRootNode,
 				formats: {
 					fontSize: {
-						inline: "span",
+						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 						classes: "znpb-fontsize",
 						styles: { fontSize: "%value" },
 					},
 					fontweight: {
-						inline: "span",
+						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 						classes: "znpb-fontweight",
 						styles: { fontWeight: "%value" },
 					},
 					uppercase: {
-						inline: "span",
+						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 						classes: "znpb-uppercase",
 						styles: { textTransform: "uppercase" },
 					},
@@ -383,6 +384,11 @@ export default {
 </script>
 
 <style lang="scss">
+.znpb-inline-editor__wrapper_all {
+	height: 100%;
+	min-height: 14px;
+}
+
 .znpb-inline-text-editor--preview {
 	.mce-visual-caret {
 		display: none;
@@ -474,6 +480,7 @@ export default {
 
 // NEW STYLES
 .znpb-inline-text-editor {
+	height: 100%;
 	outline: none !important;
 	cursor: text !important;
 
