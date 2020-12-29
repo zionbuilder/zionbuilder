@@ -1,26 +1,24 @@
 <template>
-	<div
+	<Tooltip
 		class="zion-inline-editor-popover-wrapper"
-		:class="{
-		'zion-inline-editor-popover-wrapper--full-width' : fullWidth,
-		'zion-inline-editor-popover-wrapper--vertical': direction,
-		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible,
-	}"
+		tooltip-class="zion-inline-editor-dropdown hg-popper--no-padding"
+		trigger="click"
+		placement="top"
+		append-to="element"
+		:close-on-outside-click="true"
 	>
+
+		<template #content>
+			<slot></slot>
+		</template>
+
 		<Icon
 			:icon="icon"
 			@mousedown.prevent="togglePopper"
 			:class='buttonClasses'
 		/>
-		<transition name="bar-show">
-			<div
-				v-if="isPopOverVisible"
-				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover"
-			>
-				<slot></slot>
-			</div>
-		</transition>
-	</div>
+
+	</Tooltip>
 </template>
 
 <script>
@@ -84,81 +82,11 @@ export default {
 </script>
 
 <style lang="scss">
-.zion-inline-editor {
-	.zion-inline-editor-dropdown {
-		position: absolute;
-		right: 0;
-		bottom: 100%;
-		display: flex;
-		background: $surface;
-		box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
-		border: 1px solid #f1f1f1;
-		border-radius: 3px;
+.zion-inline-editor-popover-wrapper, .zion-inline-editor-dropdown {
+	display: flex;
 
-		& > .znpb-editor-icon-wrapper {
-			padding: 6px 10px;
-		}
+	& > .znpb-editor-icon-wrapper {
+		padding: 10px 11px;
 	}
-	.zion-inline-editor-popover-wrapper {
-		display: flex;
-
-		&--full-width {
-			.zion-inline-editor-dropdown {
-				width: 100%;
-			}
-		}
-		&--vertical {
-			.zion-inline-editor-dropdown {
-				flex-direction: column;
-			}
-		}
-		&--big-pd {
-			.zion-inline-editor-dropdown--popover {
-				padding: 20px;
-			}
-		}
-		& > .znpb-editor-icon-wrapper {
-			padding: 10px 11px;
-		}
-		& > .align--center {
-			padding: 15px 12px;
-			font-size: 13px;
-		}
-
-		& .znpb-input-wrapper {
-			padding-right: 0;
-			padding-left: 0;
-		}
-
-		& .zion-inline-editor-popover__link-title .znpb-input-wrapper {
-			padding-bottom: 0;
-		}
-	}
-	.zion-inline-editor-dropdown {
-		margin-bottom: 7px;
-	}
-	.zion-inline-editor-dropdown--popover {
-		padding: 10px;
-		font-size: 14px;
-
-		.zion-inline-editor-button--active {
-			&.zion-inline-editor-button, &.znpb-editor-icon-wrapper {
-				color: $surface;
-			}
-		}
-	}
-}
-
-.zion-inline-editor-dropdown--popover {
-	& > .zion-input {
-		margin-bottom: 15px;
-	}
-}
-/* popover animations */
-.bar-show-enter-to, .bar-show-leave-from {
-	transition: all .2s;
-}
-.bar-show-enter-from, .bar-show-leave-to {
-	opacity: 0;
 }
 </style>

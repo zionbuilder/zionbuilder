@@ -134,8 +134,8 @@ export default {
 			padding: 0;
 			margin-right: 20px;
 			font-weight: 500;
-			line-height: 1;
 			transition: all .2s;
+
 			&:first-child {
 				font-size: 28px;
 			}

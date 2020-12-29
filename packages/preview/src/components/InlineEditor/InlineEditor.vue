@@ -94,6 +94,7 @@
 					@close-color-picker="onColorPickerClose"
 					@open-color-picker="onColorPickerOpen"
 				/>
+
 				<!-- Text align button -->
 				<zion-inline-editor-popover
 					icon="ite-alignment"

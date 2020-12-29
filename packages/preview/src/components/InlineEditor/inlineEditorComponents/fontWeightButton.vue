@@ -59,7 +59,7 @@ export default {
 	padding: 6px;
 	font-size: 13px;
 	font-weight: 500;
-	line-height: 1;
+	line-height: 25px;
 
 	&:hover {
 		color: darken($font-color, 10%);
