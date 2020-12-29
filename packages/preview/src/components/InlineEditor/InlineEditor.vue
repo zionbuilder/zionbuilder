@@ -20,7 +20,6 @@
 				:style="barStyles"
 				ref="tooltipContentRef"
 				@mousedown.stop=""
-				contenteditable="false"
 			>
 				<!--Normally positioned drag button-->
 				<div
@@ -99,11 +98,12 @@
 				</div>
 			</div>
 		</template>
+
 		<div
 			ref="inlineEditorRef"
 			class="znpb-inline-text-editor"
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
-			@click="showEditor = true"
+			@mousedown="showEditor = true"
 			@dblclick.stop="showEditor = true"
 			:contenteditable="!isPreviewMode"
 		></div>
@@ -117,7 +117,6 @@ import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } fro
 
 // Utils
 import { usePreviewMode } from "@zb/editor"
-import editorsManager from "./editorsManager"
 
 // Components
 import PopOver from "./inlineEditorComponents/PopOver.vue"
@@ -346,9 +345,26 @@ export default {
 			}
 		}
 
+		function hideEditorOnEscapeKey (event) {
+			if (event.keyCode === 27) {
+				hideEditor()
+				event.stopImmediatePropagation()
+			}
+		}
 
+		function hideEditor () {
+			showEditor.value = false
+		}
 
-
+		watch(showEditor, (newValue) => {
+			if (newValue) {
+				document.addEventListener('keydown', hideEditorOnEscapeKey, true)
+				document.addEventListener('scroll', hideEditor)
+			} else {
+				document.removeEventListener('keydown', hideEditorOnEscapeKey, true)
+				document.removeEventListener('scroll', hideEditor, true)
+			}
+		})
 
 		onMounted(() => {
 			if (typeof window.tinyMCE !== "undefined") {
