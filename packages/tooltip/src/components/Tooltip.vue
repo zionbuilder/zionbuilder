@@ -48,6 +48,10 @@ export default {
 	inheritAttrs: false,
 	name: "Tooltip",
 	props: {
+		modifiers: {
+			type: Array,
+			required: false,
+		},
 		tag: {
 			default: "div",
 		},
@@ -253,7 +257,7 @@ export default {
 
 			// Apply offset for arrow
 			if (this.showArrows) {
-				instanceOptions.modifiers = instanceOptions.modifiers || [];
+				instanceOptions.modifiers = this.modifiers || [];
 
 				const hasOffsetModifier = instanceOptions.modifiers.find(
 					(modifier) => modifier.name === "offset"
