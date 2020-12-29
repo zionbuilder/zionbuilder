@@ -9,7 +9,8 @@
 		:show="showEditor"
 		strategy="fixed"
 		ref="inlineEditorWrapper"
-		@mousedown.stop=""
+		:close-on-outside-click="true"
+		:hide-on-escape="true"
 	>
 		<template #content>
 			<div
@@ -17,7 +18,7 @@
 				class="zion-inline-editor zion-inline-editor-container"
 				:class="{'zion-inline-editor--dragging': isDragging}"
 				:style="barStyles"
-				ref="content"
+				ref="tooltipContentRef"
 				@mousedown.stop=""
 				contenteditable="false"
 			>
@@ -102,7 +103,7 @@
 			ref="inlineEditorRef"
 			class="znpb-inline-text-editor"
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
-			@click="onMouseDown"
+			@click="showEditor = true"
 			@dblclick.stop="showEditor = true"
 			:contenteditable="!isPreviewMode"
 		></div>
@@ -119,7 +120,7 @@ import { usePreviewMode } from "@zb/editor"
 import editorsManager from "./editorsManager"
 
 // Components
-import PopOver from "./inlineEditorComponents/popOver.vue"
+import PopOver from "./inlineEditorComponents/PopOver.vue"
 import panel from "./inlineEditorComponents/panel.vue"
 import group from "./inlineEditorComponents/group.vue"
 import InlineEditorButton from './inlineEditorComponents/button.vue'
@@ -152,16 +153,21 @@ export default {
 	},
 	setup (props, { emit }) {
 		let TinyMCEEditor = ref(null);
-		const { isPreviewMode } = usePreviewMode();
-		const { modelValue } = toRefs(props);
-		const inlineEditorRef = ref(null);
-		const tinyMceReady = ref(false);
-		const showEditor = ref(false);
-		const isDragging = ref(false);
-		const dragButtonOnScreen = ref(true);
-		const activePanel = ref(null);
-		const unitsExpanded = ref(false);
-		const isSliderDragging = ref(false);
+		const { isPreviewMode } = usePreviewMode()
+		const { modelValue } = toRefs(props)
+		const inlineEditorRef = ref(null)
+		const tooltipContentRef = ref(null)
+		const tinyMceReady = ref(false)
+		const showEditor = ref(false)
+		const isDragging = ref(false)
+		const dragButtonOnScreen = ref(true)
+		const activePanel = ref(null)
+		const unitsExpanded = ref(false)
+		const isSliderDragging = ref(false)
+		const initialPosition = ref({})
+		const lastPositionX = ref(0)
+		const lastPositionY = ref(0)
+		const yOffset = ref(0)
 
 
 		const position = ref({
@@ -272,12 +278,77 @@ export default {
 			}, 300)
 		}
 
+
+
 		function onOutsideClick (event) {
 			// TODO: add this
 			// if (this.canClose && this.$refs.content && !this.$refs.content.contains(event.target) && !this.$refs.inlineEditor.contains(event.target) && !this.isSliderDragging && !this.unitsExpanded) {
 			// 	this.isInlineEditorVisible = false
 			// }
 		}
+
+		function startDrag (event) {
+			window.addEventListener('mouseup', stopDrag)
+			window.addEventListener('mousemove', onDragMove)
+
+			document.body.style.userSelect = 'none'
+
+			initialPosition.value = {
+				posX: event.clientX,
+				posY: event.clientY
+			}
+
+			isDragging.value = true
+			yOffset.value = window.pageYOffset
+		}
+
+		function onDragMove (event) {
+			position.value = {
+				posX: lastPositionX.value + event.pageX - initialPosition.value.posX,
+				posY: lastPositionY.value + event.pageY - initialPosition.value.posY - yOffset.value
+			}
+		}
+
+		function stopDrag (event) {
+			// Save the last position
+			lastPositionX.value = position.value.posX
+			lastPositionY.value = position.value.posY
+
+			// Check if the drag button is on the end of the drag action
+			checkDragButtonOnScreen()
+
+			// Unbind the listener that stops the drag since the drag stopper has been run
+			document.body.style.userSelect = null
+			window.removeEventListener('mouseup', stopDrag)
+			window.removeEventListener('mousemove', onDragMove)
+			isDragging.value = false
+		}
+
+		function checkDragButtonOnScreen () {
+			// Set the local data to the drag button position
+			dragButtonOnScreen.value = !isDragButtonOutOfBounds()
+		}
+
+		function isDragButtonOutOfBounds () {
+			// Gets the full position of the editor
+			let inlineEditorPosition = getInlineEditorRect()
+
+			// Check if the drag button is out of bounds on the left (X axis) side of the screen and return the response
+			if (inlineEditorPosition) {
+				return inlineEditorPosition.x < 40
+			}
+		}
+
+		function getInlineEditorRect () {
+			// Get and send the inline editor rect for the position - beware, this does not include the drag button
+			if (tooltipContentRef.value) {
+				return tooltipContentRef.value.getBoundingClientRect()
+			}
+		}
+
+
+
+
 
 		onMounted(() => {
 			if (typeof window.tinyMCE !== "undefined") {
@@ -295,6 +366,7 @@ export default {
 		return {
 			isPreviewMode,
 			inlineEditorRef,
+			tooltipContentRef,
 			showEditor,
 			tinyMceReady,
 			isDragging,
@@ -306,6 +378,7 @@ export default {
 			onColorPickerClose,
 			onUnitsExpanded,
 			onStartedSliderDragging,
+			startDrag
 
 		};
 	},
