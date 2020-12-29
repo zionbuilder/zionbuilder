@@ -34,10 +34,10 @@
 				append-to="element"
 				:modifiers="[
 					{
-					name: 'offset',
-					options: {
-						offset: [0, 15],
-					},
+						name: 'offset',
+						options: {
+							offset: [0, 15],
+						},
 					},
 				]"
 				:content="$translate('click_to_delete_font')"

@@ -2,6 +2,7 @@
 	<PopOver
 		icon="ite-weight"
 		:is-active="isActive"
+		:full-size="true"
 	>
 		<InlineEditorButton
 			v-for="fontWeight in fontWeights"
@@ -73,16 +74,5 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 25px;
-
-	&:hover {
-		color: darken($font-color, 10%);
-	}
-
-	@at-root {
-		.znpb-editor-icon-wrapper.ite-weight ~ .zion-inline-editor-dropdown
-		.zion-inline-editor-button--active {
-			color: $surface-active-color;
-		}
-	}
 }
 </style>

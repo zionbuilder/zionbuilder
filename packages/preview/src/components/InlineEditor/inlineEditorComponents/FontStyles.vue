@@ -1,5 +1,8 @@
 <template>
-	<PopOver icon="ite-font">
+	<PopOver
+		icon="ite-font"
+		:full-size="true"
+	>
 		<div class="zion-inline-editor-group">
 			<Tabs tab-style="minimal">
 				<Tab :name="$translate('family')">
@@ -9,7 +12,7 @@
 					:name="$translate('heading')"
 					class="zion-inline-editor-group__heading"
 				>
-					<div class=" zion-inline-editor__font-panel znpb-fancy-scrollbar">
+					<div>
 						<zion-inline-editor-button
 							formatter="h1"
 							buttontext="H1"
@@ -97,6 +100,7 @@ export default {
 <style lang="scss">
 .zion-inline-editor-group {
 	display: flex;
+	width: 100%;
 	color: $font-color;
 	background: $surface;
 
@@ -121,37 +125,31 @@ export default {
 	}
 
 	&__heading {
-		padding: 10px 16px 4px;
-
 		.zion-inline-editor-button {
-			padding: 0;
-			margin-right: 20px;
-			font-weight: 500;
-			transition: all .2s;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			width: 45px;
+			height: 45px;
+			vertical-align: middle;
 
 			&:first-child {
-				font-size: 28px;
-			}
-			&:nth-child(2) {
 				font-size: 24px;
 			}
-			&:nth-child(3) {
+			&:nth-child(2) {
 				font-size: 20px;
 			}
-			&:nth-child(4) {
+			&:nth-child(3) {
 				font-size: 16px;
 			}
-			&:nth-child(5) {
+			&:nth-child(4) {
 				font-size: 12px;
+			}
+			&:nth-child(5) {
+				font-size: 10px;
 			}
 			&:last-child {
 				font-size: 8px;
-			}
-			&.zion-inline-editor-button--active {
-				color: $surface-active-color;
-			}
-			&:hover {
-				color: $surface-active-color;
 			}
 		}
 	}

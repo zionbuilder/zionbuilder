@@ -5,12 +5,12 @@
 		placement="top"
 		append-to="body"
 		:show-arrows="false"
-		@hide="showEditor = false"
 		:show="showEditor"
+		@hide="showEditor = false"
 		strategy="fixed"
-		ref="inlineEditorWrapper"
 		:close-on-outside-click="true"
 		:hide-on-escape="true"
+		ref="inlineEditorWrapper"
 	>
 		<template #content>
 			<div
@@ -91,7 +91,7 @@
 			ref="inlineEditorRef"
 			class="znpb-inline-text-editor"
 			:class="{'znpb-inline-text-editor--preview': isPreviewMode}"
-			@mousedown="showEditor = true"
+			@mouseup="checkTextSelection"
 			@dblclick.stop="showEditor = true"
 			:contenteditable="!isPreviewMode"
 		></div>
@@ -146,7 +146,6 @@ export default {
 		const showEditor = ref(false)
 		const isDragging = ref(false)
 		const dragButtonOnScreen = ref(true)
-		const activePanel = ref(null)
 		const unitsExpanded = ref(false)
 		const isSliderDragging = ref(false)
 		const initialPosition = ref({})
@@ -240,7 +239,6 @@ export default {
 		}
 
 		function onColorPickerOpen () {
-			activePanel.value = 'colorPicker'
 			inlineEditorRef.value.classList.add('mce-content-body--selection-transparent')
 		}
 
@@ -330,6 +328,7 @@ export default {
 		}
 
 		function hideEditor () {
+			console.log('shide editor');
 			showEditor.value = false
 		}
 
@@ -342,6 +341,13 @@ export default {
 				document.removeEventListener('scroll', hideEditor, true)
 			}
 		})
+
+		function checkTextSelection () {
+			if (window.getSelection().toString().length > 0) {
+				showEditor.value = true
+				console.log('should open');
+			}
+		}
 
 		onMounted(() => {
 			if (typeof window.tinyMCE !== "undefined") {
@@ -364,26 +370,20 @@ export default {
 			tinyMceReady,
 			isDragging,
 			dragButtonOnScreen,
-			activePanel,
 			barStyles,
 			// Methods
 			onColorPickerOpen,
 			onColorPickerClose,
 			onUnitsExpanded,
 			onStartedSliderDragging,
-			startDrag
-
+			startDrag,
+			checkTextSelection
 		};
 	},
 };
 </script>
 
 <style lang="scss">
-.znpb-inline-editor__wrapper {
-	& svg {
-		pointer-events: none;
-	}
-}
 .znpb-inline-text-editor--preview {
 	.mce-visual-caret {
 		display: none;
@@ -414,13 +414,7 @@ export default {
 	}
 }
 
-.zion-inline-editor-dropdown {
-	.zion-input input::placeholder {
-		color: $surface-headings-color;
-	}
-}
-
-.zion-inline-editor {
+.znpb-inline-editor__wrapper {
 	top: -75px;
 
 	button {
@@ -440,11 +434,6 @@ export default {
 		border-radius: 2px;
 		transition: color .15s ease;
 
-		&:not(.znpb-input-number__dots):hover {
-			color: darken($font-color, 10%);
-			background: $surface-variant;
-		}
-
 		.zion-icon {
 			width: auto;
 		}
@@ -453,11 +442,6 @@ export default {
 	.zion-inline-editor-button--active {
 		color: $surface;
 		background-color: $secondary;
-
-		&:hover {
-			color: $surface;
-			background-color: $secondary;
-		}
 	}
 
 	.zion-inline-editor-popover-wrapper--open {

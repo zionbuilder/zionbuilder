@@ -254,11 +254,9 @@ export default {
 		popperOptions() {
 			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
 			const instanceOptions = JSON.parse(JSON.stringify(this.$attrs));
-
+			instanceOptions.modifiers = this.modifiers || [];
 			// Apply offset for arrow
 			if (this.showArrows) {
-				instanceOptions.modifiers = this.modifiers || [];
-
 				const hasOffsetModifier = instanceOptions.modifiers.find(
 					(modifier) => modifier.name === "offset"
 				);

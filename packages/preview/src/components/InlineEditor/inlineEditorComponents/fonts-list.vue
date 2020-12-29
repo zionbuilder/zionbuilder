@@ -71,6 +71,7 @@ export default {
 			padding: 8px 0;
 			background: $surface;
 		}
+
 		&__font-list {
 			display: block;
 			overflow: hidden;

@@ -3,6 +3,7 @@
 		tooltip-class="hg-popper--no-padding"
 		trigger="click"
 		ref="popper"
+		append-to="element"
 		:close-on-outside-click="true"
 		:modifiers="[
 			{
@@ -47,7 +48,6 @@
 				</template>
 			</ColorPicker>
 		</template>
-
 
 		<slot name="trigger" />
 

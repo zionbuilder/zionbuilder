@@ -1,5 +1,8 @@
 <template>
-	<PopOver icon="ite-link">
+	<PopOver
+		icon="ite-link"
+		:full-size="true"
+	>
 		<div class="zion-inline-editor-link-wrapper">
 			<InputWrapper :title="$translate('add_a_link')">
 				<BaseInput

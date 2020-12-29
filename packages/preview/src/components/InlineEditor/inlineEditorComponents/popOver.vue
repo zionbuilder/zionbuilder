@@ -6,8 +6,10 @@
 		placement="top"
 		append-to="element"
 		:close-on-outside-click="true"
+		:popper-ref="popperRef"
+		:modifiers="modifiers"
+		:show-arrows="false"
 	>
-
 		<template #content>
 			<slot></slot>
 		</template>
@@ -15,13 +17,14 @@
 		<Icon
 			:icon="icon"
 			:class='buttonClasses'
+			ref="iconElementRef"
 		/>
 
 	</Tooltip>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 export default {
 	name: 'PopOver',
@@ -33,9 +36,20 @@ export default {
 		isActive: {
 			type: Boolean,
 			required: false
+		},
+		fullSize: {
+			required: false
 		}
 	},
 	setup (props) {
+		const iconElementRef = ref(null)
+		const popperRef = ref({
+			x: 0,
+			y: 0,
+			left: 0
+		})
+
+
 		const buttonClasses = computed(() => {
 			let classes = []
 
@@ -52,8 +66,40 @@ export default {
 			return classes.join(' ')
 		})
 
+		const modifiers = [{
+			name: 'flip',
+			options: {
+				fallbackPlacements: ['top', 'bottom'],
+			},
+		}]
+		if (props.fullSize) {
+			modifiers.push({
+				name: 'test',
+				enabled: true,
+				phase: 'beforeWrite',
+				requires: ["computeStyles"],
+				fn ({ state, instance }) {
+					const popperSize = state.rects.popper.width;
+					const referenceSize = state.rects.reference.width
+
+					if (popperSize >= referenceSize) return;
+					state.styles.popper.width = `${referenceSize}px`;
+
+					instance.update();
+				}
+			})
+		}
+
+		onMounted(() => {
+			const InlineEditor = window.document.getElementsByClassName('zion-inline-editor-container')[0]
+			popperRef.value = props.fullSize ? InlineEditor : iconElementRef.value.$el
+		})
+
 		return {
-			buttonClasses
+			buttonClasses,
+			modifiers,
+			popperRef,
+			iconElementRef
 		}
 	}
 }

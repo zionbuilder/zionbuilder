@@ -5,8 +5,8 @@
 				:modelValue="color"
 				@update:modelValue="onColorChange"
 				:show-library="false"
-				@open="onOpen"
-				@close="onClose"
+				@open="$emit('open-color-picker', true)"
+				@close="$emit('close-color-picker', false)"
 				type="simple"
 			/>
 		</div>
@@ -24,27 +24,14 @@ export default {
 		let justChangeColor = false
 		let changeTimeout = null
 
-		function onOpen () {
-			emit('open-color-picker', true)
-			// TODO: this
-			// this.Editor.preventClose()
-		}
-
-		function onClose () {
-			emit('close-color-picker', true)
-
-			// TODO: this
-			// this.Editor.allowClose()
-		}
-
 		function onColorChange (newValue) {
-			// color.value = newValue
+			color.value = newValue
 			editor.value.formatter.apply('forecolor', { value: newValue })
 
 			clearTimeout(changeTimeout)
 			changeTimeout = setTimeout(() => {
 				justChangeColor = false
-			}, 100);
+			}, 500);
 
 			justChangeColor = true
 		}
@@ -60,24 +47,18 @@ export default {
 			color.value = editor.value.queryCommandValue('forecolor')
 		}
 
-		function aaa (e) {
-			e.preventDefault()
-		}
-
 		onMounted(() => {
 			getActiveColor()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.value.on('NodeChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.value.off('NodeChange', onNodeChange)
 		})
 
 		return {
 			color,
-			onColorChange,
-			onOpen,
-			onClose
+			onColorChange
 		}
 	}
 }
@@ -94,9 +75,10 @@ export default {
 .zion-inline-editor-button {
 	position: relative;
 }
+
 .zion-inline-editor-panel-color {
 	& > .zion-inline-editor-button {
-		padding: 14px 11px;
+		padding: 11px 11px;
 	}
 
 	.znpb-form-colorpicker {
@@ -107,6 +89,7 @@ export default {
 			background-position: 0 0, 3px 3px;
 			background-size: 6px 6px;
 		}
+
 		.znpb-colorpicker-circle {
 			width: 15px;
 			height: 15px;
