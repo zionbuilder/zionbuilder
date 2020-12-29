@@ -6,8 +6,6 @@
 		placement="top"
 		append-to="element"
 		:close-on-outside-click="true"
-		@show="isPopOverVisible = true"
-		@hide="isPopOverVisible = false"
 	>
 
 		<template #content>
@@ -17,13 +15,14 @@
 		<Icon
 			:icon="icon"
 			:class='buttonClasses'
-			@click="isPopOverVisible = !isPopOverVisible"
 		/>
 
 	</Tooltip>
 </template>
 
 <script>
+import { computed } from 'vue'
+
 export default {
 	props: {
 		icon: {
@@ -35,26 +34,25 @@ export default {
 			required: false
 		}
 	},
-	data: function () {
-		return {
-			isPopOverVisible: false
-		}
-	},
-	computed: {
-		buttonClasses () {
+	setup (props) {
+		const buttonClasses = computed(() => {
 			let classes = []
 
 			// Check if the button has an icon
-			if (typeof this.icon !== 'undefined') {
+			if (typeof props.icon !== 'undefined') {
 				classes.push('zn_pb_icon')
-				classes.push(this.icon)
+				classes.push(props.icon)
 			}
 
-			if (this.isActive) {
+			if (props.isActive) {
 				classes.push('zion-inline-editor-button--active')
 			}
 
 			return classes.join(' ')
+		})
+
+		return {
+			buttonClasses
 		}
 	}
 }

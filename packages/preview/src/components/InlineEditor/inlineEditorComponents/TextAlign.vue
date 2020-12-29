@@ -1,5 +1,5 @@
 <template>
-	<InlineEditorPopOver
+	<PopOver
 		icon="ite-alignment"
 		:is-active="isActive"
 	>
@@ -30,7 +30,7 @@
 			formatter="alignjustify"
 			icon="align--justify"
 		/>
-	</InlineEditorPopOver>
+	</PopOver>
 </template>
 
 <script>
@@ -38,13 +38,13 @@ import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 
 // Components
 import InlineEditorButton from './button.vue'
-import InlineEditorPopOver from './popOver.vue'
+import PopOver from './popOver.vue'
 
 export default {
 	name: 'TextAlign',
 	components: {
 		InlineEditorButton,
-		InlineEditorPopOver
+		PopOver
 	},
 	setup (props) {
 		const editor = inject('ZionInlineEditor')

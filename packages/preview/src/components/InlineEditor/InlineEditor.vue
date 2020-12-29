@@ -46,13 +46,13 @@
 				</zion-inline-editor-panel>
 
 				<!-- Bold popover -->
-				<zion-inline-editor-popover icon="ite-weight">
+				<PopOver icon="ite-weight">
 					<zion-inline-editor-font-weight
 						v-for="fontWeight in fontWeights"
 						:key="fontWeight"
 						:modelValue="fontWeight"
 					/>
-				</zion-inline-editor-popover>
+				</PopOver>
 
 				<!-- Italic button -->
 				<zion-inline-editor-button
@@ -128,7 +128,7 @@ import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } fro
 import { usePreviewMode } from "@zb/editor";
 
 // Components
-import popOver from "./inlineEditorComponents/popOver.vue";
+import PopOver from "./inlineEditorComponents/popOver.vue";
 import panel from "./inlineEditorComponents/panel.vue";
 import group from "./inlineEditorComponents/group.vue";
 import buttonComponent from "./inlineEditorComponents/button.vue";
@@ -141,7 +141,7 @@ import TextAlign from './inlineEditorComponents/TextAlign.vue'
 export default {
 	name: "InlineEditor",
 	components: {
-		"zion-inline-editor-popover": popOver,
+		PopOver,
 		"zion-inline-editor-panel": panel,
 		"zion-inline-editor-group": group,
 		"zion-inline-editor-button": buttonComponent,
