@@ -79,7 +79,7 @@
 				/>
 
 				<!-- Color Picker -->
-				<zion-inline-editor-color-picker
+				<ColorPicker
 					@close-color-picker="onColorPickerClose"
 					@open-color-picker="onColorPickerOpen"
 				/>
@@ -127,7 +127,7 @@ import PopOver from "./inlineEditorComponents/popOver.vue"
 import panel from "./inlineEditorComponents/panel.vue"
 import group from "./inlineEditorComponents/group.vue"
 import InlineEditorButton from './inlineEditorComponents/button.vue'
-import colorPicker from "./inlineEditorComponents/colorPicker.vue"
+import ColorPicker from "./inlineEditorComponents/ColorPicker.vue"
 import FontWeight from "./inlineEditorComponents/FontWeight.vue"
 import panelLink from "./inlineEditorComponents/panelLink.vue"
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
@@ -138,7 +138,7 @@ export default {
 		"zion-inline-editor-panel": panel,
 		"zion-inline-editor-group": group,
 		InlineEditorButton,
-		"zion-inline-editor-color-picker": colorPicker,
+		ColorPicker,
 		FontWeight,
 		PopOver,
 		panelLink,
