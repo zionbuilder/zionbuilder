@@ -94,7 +94,6 @@ export default {
 		}
 
 		function getFontSize () {
-			console.log('object');
 			sliderValue.value = editor.value.queryCommandValue('FontSize')
 		}
 

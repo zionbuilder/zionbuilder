@@ -48,13 +48,13 @@
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-line-height>
 			</Tab>
-			<!--
+
 			<Tab :name="$translate('letter_spacing')">
 				<zion-inline-editor-letter-spacing
 					@started-dragging="onStartedSliderDragging"
 					@units-expanded="$emit('units-expanded', $event)"
 				></zion-inline-editor-letter-spacing>
-			</Tab> -->
+			</Tab>
 		</Tabs>
 	</div>
 </template>
