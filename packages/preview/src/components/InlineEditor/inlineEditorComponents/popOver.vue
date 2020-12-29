@@ -6,6 +6,8 @@
 		placement="top"
 		append-to="element"
 		:close-on-outside-click="true"
+		@show="isPopOverVisible = true"
+		@hide="isPopOverVisible = false"
 	>
 
 		<template #content>
@@ -14,8 +16,8 @@
 
 		<Icon
 			:icon="icon"
-			@mousedown.prevent="togglePopper"
 			:class='buttonClasses'
+			@click="isPopOverVisible = !isPopOverVisible"
 		/>
 
 	</Tooltip>
@@ -28,26 +30,14 @@ export default {
 			type: String,
 			required: false
 		},
-		fullWidth: {
+		isActive: {
 			type: Boolean,
 			required: false
-		},
-		direction: {
-			type: String,
-			required: false
-		},
-		visible: {
-			type: Boolean
 		}
 	},
 	data: function () {
 		return {
-			isPopOverVisible: this.visible
-		}
-	},
-	watch: {
-		visible (newVal) {
-			this.isPopOverVisible = newVal
+			isPopOverVisible: false
 		}
 	},
 	computed: {
@@ -60,22 +50,11 @@ export default {
 				classes.push(this.icon)
 			}
 
-			if (this.isPopOverVisible) {
+			if (this.isActive) {
 				classes.push('zion-inline-editor-button--active')
 			}
 
 			return classes.join(' ')
-		}
-	},
-	methods: {
-		togglePopper () {
-			if (this.isPopOverVisible) {
-				this.isPopOverVisible = false
-				this.$emit('close-panel', this)
-			} else {
-				this.isPopOverVisible = true
-				this.$emit('open-panel', this)
-			}
 		}
 	}
 }

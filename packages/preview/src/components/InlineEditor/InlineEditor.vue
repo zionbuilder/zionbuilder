@@ -46,12 +46,7 @@
 				</zion-inline-editor-panel>
 
 				<!-- Bold popover -->
-				<zion-inline-editor-popover
-					icon="ite-weight"
-					:full-width="true"
-					:visible="activePanel==='boldPanel'"
-					@open-panel="activePanel='boldPanel'"
-				>
+				<zion-inline-editor-popover icon="ite-weight">
 					<zion-inline-editor-font-weight
 						v-for="fontWeight in fontWeights"
 						:key="fontWeight"
@@ -96,38 +91,7 @@
 				/>
 
 				<!-- Text align button -->
-				<zion-inline-editor-popover
-					icon="ite-alignment"
-					:visible="activePanel==='alignPanel'"
-					@open-panel="activePanel='alignPanel'"
-				>
-
-					<!-- Align left -->
-					<zion-inline-editor-button
-						@click="alignButtonIcon = 'align--left'"
-						formatter="alignleft"
-						icon="align--left"
-					/>
-					<!-- Align center -->
-					<zion-inline-editor-button
-						@click="alignButtonIcon = 'align--center'"
-						formatter="aligncenter"
-						icon="align--center"
-					/>
-					<!-- Align right -->
-					<zion-inline-editor-button
-						@click="alignButtonIcon = 'align--right'"
-						formatter="alignright"
-						icon="align--right"
-					/>
-					<!-- Align justify -->
-					<zion-inline-editor-button
-						@click="alignButtonIcon = 'align--justify'"
-						formatter="alignjustify"
-						icon="align--justify"
-					/>
-
-				</zion-inline-editor-popover>
+				<TextAlign />
 
 				<!--Alternatively positioned drag button (if the normal one is out of bounds)-->
 				<div
@@ -172,6 +136,7 @@ import colorPicker from "./inlineEditorComponents/colorPicker.vue";
 import fontWeight from "./inlineEditorComponents/fontWeightButton.vue";
 import panelLink from "./inlineEditorComponents/panelLink.vue";
 import editorsManager from "./editorsManager";
+import TextAlign from './inlineEditorComponents/TextAlign.vue'
 
 export default {
 	name: "InlineEditor",
@@ -183,6 +148,7 @@ export default {
 		"zion-inline-editor-color-picker": colorPicker,
 		"zion-inline-editor-font-weight": fontWeight,
 		panelLink,
+		TextAlign
 	},
 	props: {
 		modelValue: {
