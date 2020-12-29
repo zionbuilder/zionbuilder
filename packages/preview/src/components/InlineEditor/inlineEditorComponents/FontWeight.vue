@@ -1,19 +1,36 @@
 <template>
-	<span
-		class="zion-inline-editor-button"
-		:class="classes"
-		@mousedown="setTextStyle"
-	>{{modelValue}}</span>
+	<PopOver
+		icon="ite-weight"
+		:is-active="isActive"
+	>
+		<InlineEditorButton
+			v-for="fontWeight in fontWeights"
+			:key="fontWeight"
+			formatter="fontweight"
+			:formatter-value="fontWeight"
+			:buttontext="fontWeight"
+		/>
+	</PopOver>
+
 </template>
 
 <script>
 import { ref, computed, inject, onBeforeMount, onBeforeUnmount } from 'vue'
 
+// Components
+import PopOver from './popOver.vue'
+import InlineEditorButton from './button.vue'
+
 export default {
 	props: ['modelValue'],
+	components: {
+		PopOver,
+		InlineEditorButton
+	},
 	setup (props) {
 		const editor = inject('ZionInlineEditor')
 		const isActive = ref(false)
+		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 
 		const classes = computed(() => {
 			let classes = []
@@ -26,35 +43,31 @@ export default {
 			return classes.join(' ')
 		})
 
-		// Apply button style
-		function setTextStyle () {
-			// Remove Style if this is already active
-			editor.value.formatter.toggle('fontweight', { value: props.modelValue })
-		}
-
-		// Check if the selection has a specific style applied
-		function hasFormat () {
-			isActive.value = editor.value.formatter.match('fontweight', { value: props.modelValue })
+		function checkIfActive () {
+			isActive.value = fontWeights.some((fontWeight) => {
+				return editor.value.formatter.match('fontweight', { value: fontWeight })
+			})
 		}
 
 		onBeforeMount(() => {
-			editor.value.on('SelectionChange', hasFormat)
+			checkIfActive()
+			editor.value.on('NodeChange', checkIfActive)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', hasFormat)
+			editor.value.off('NodeChange', checkIfActive)
 		})
 
 		return {
 			isActive,
 			classes,
-			setTextStyle
+			fontWeights
 		}
 	}
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .zion-inline-editor-button {
 	padding: 6px;
 	font-size: 13px;

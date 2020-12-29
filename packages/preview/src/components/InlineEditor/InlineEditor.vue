@@ -46,13 +46,7 @@
 				</zion-inline-editor-panel>
 
 				<!-- Bold popover -->
-				<PopOver icon="ite-weight">
-					<zion-inline-editor-font-weight
-						v-for="fontWeight in fontWeights"
-						:key="fontWeight"
-						:modelValue="fontWeight"
-					/>
-				</PopOver>
+				<FontWeight />
 
 				<!-- Italic button -->
 				<zion-inline-editor-button
@@ -133,7 +127,7 @@ import panel from "./inlineEditorComponents/panel.vue";
 import group from "./inlineEditorComponents/group.vue";
 import buttonComponent from "./inlineEditorComponents/button.vue";
 import colorPicker from "./inlineEditorComponents/colorPicker.vue";
-import fontWeight from "./inlineEditorComponents/fontWeightButton.vue";
+import FontWeight from "./inlineEditorComponents/FontWeight.vue";
 import panelLink from "./inlineEditorComponents/panelLink.vue";
 import editorsManager from "./editorsManager";
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
@@ -141,12 +135,12 @@ import TextAlign from './inlineEditorComponents/TextAlign.vue'
 export default {
 	name: "InlineEditor",
 	components: {
-		PopOver,
 		"zion-inline-editor-panel": panel,
 		"zion-inline-editor-group": group,
 		"zion-inline-editor-button": buttonComponent,
 		"zion-inline-editor-color-picker": colorPicker,
-		"zion-inline-editor-font-weight": fontWeight,
+		FontWeight,
+		PopOver,
 		panelLink,
 		TextAlign
 	},
@@ -162,8 +156,6 @@ export default {
 	},
 	setup (props, { emit }) {
 		let TinyMCEEditor = ref(null);
-
-		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
 		const { isPreviewMode } = usePreviewMode();
 		const { modelValue } = toRefs(props);
 		const inlineEditorRef = ref(null);
@@ -313,7 +305,6 @@ export default {
 			dragButtonOnScreen,
 			activePanel,
 			barStyles,
-			fontWeights,
 			// Methods
 			onColorPickerOpen,
 			onColorPickerClose,
@@ -394,15 +385,15 @@ export default {
 		.zion-icon {
 			width: auto;
 		}
+	}
 
-		&.zion-inline-editor-button--active {
+	.zion-inline-editor-button--active {
+		color: $surface;
+		background-color: $secondary;
+
+		&:hover {
 			color: $surface;
 			background-color: $secondary;
-
-			&:hover {
-				color: $surface;
-				background-color: $secondary;
-			}
 		}
 	}
 

@@ -3,38 +3,17 @@
 		icon="ite-alignment"
 		:is-active="isActive"
 	>
-		<!-- Align left -->
 		<InlineEditorButton
-			@click="alignButtonIcon = 'align--left'"
-			formatter="alignleft"
-			icon="align--left"
-		/>
-
-		<!-- Align center -->
-		<InlineEditorButton
-			@click="alignButtonIcon = 'align--center'"
-			formatter="aligncenter"
-			icon="align--center"
-		/>
-
-		<!-- Align right -->
-		<InlineEditorButton
-			@click="alignButtonIcon = 'align--right'"
-			formatter="alignright"
-			icon="align--right"
-		/>
-
-		<!-- Align justify -->
-		<InlineEditorButton
-			@click="alignButtonIcon = 'align--justify'"
-			formatter="alignjustify"
-			icon="align--justify"
+			v-for="button in buttons"
+			:key="button.formatter"
+			:formatter="button.formatter"
+			:icon="button.icon"
 		/>
 	</PopOver>
 </template>
 
 <script>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue'
 
 // Components
 import InlineEditorButton from './button.vue'
@@ -50,6 +29,25 @@ export default {
 		const editor = inject('ZionInlineEditor')
 		const isActive = ref(false);
 
+		const buttons = [
+			{
+				formatter: 'alignleft',
+				icon: 'align--left'
+			},
+			{
+				formatter: 'aligncenter',
+				icon: 'align--center'
+			},
+			{
+				formatter: 'alignright',
+				icon: 'align--right'
+			},
+			{
+				formatter: 'alignjustify',
+				icon: 'align--justify'
+			}
+		]
+
 		function checkIfActive () {
 			isActive.value = editor.value.formatter.matchAll([
 				'alignleft',
@@ -59,18 +57,18 @@ export default {
 			]).length > 0
 		}
 
-
-		onMounted(() => {
+		onBeforeMount(() => {
 			checkIfActive()
-			editor.value.on('SelectionChange', checkIfActive)
+			editor.value.on('NodeChange', checkIfActive)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', checkIfActive)
+			editor.value.off('NodeChange', checkIfActive)
 		})
 
 		return {
-			isActive
+			isActive,
+			buttons
 		}
 	}
 }
