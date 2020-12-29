@@ -1,67 +1,49 @@
 <template>
-	<Tooltip
-		class="zion-inline-editor-popover-wrapper"
-		trigger="click"
-		placement="top"
-		append-to="body"
-		:close-on-outside-click="true"
-	>
-
-		<template #content>
-			<div class="zion-inline-editor-dropdown--popover">
-				<InputWrapper :title="$translate('add_a_link')">
-					<BaseInput
-						v-model="linkUrl"
-						:clearable="true"
-						placeholder="www.address.com"
-						@keyup.enter="addLink"
-					>
-						<template v-slot:prepend>
-							<Icon
-								icon="link"
-								@click="addLink"
-							/>
-						</template>
-					</BaseInput>
+	<PopOver icon="ite-link">
+		<div class="zion-inline-editor-link-wrapper">
+			<InputWrapper :title="$translate('add_a_link')">
+				<BaseInput
+					v-model="linkUrl"
+					:clearable="true"
+					placeholder="www.address.com"
+					@keyup.enter="addLink"
+				>
+					<template v-slot:prepend>
+						<Icon icon="link" />
+					</template>
+				</BaseInput>
+			</InputWrapper>
+			<div class="zion-inline-editor-popover__link-title">
+				<InputWrapper :title="$translate('target')">
+					<InputSelect
+						:options="selectOptions"
+						v-model="linkTarget"
+						placeholder="Select target"
+					/>
 				</InputWrapper>
-				<div class="zion-inline-editor-popover__link-title">
-					<InputWrapper :title="$translate('target')">
-						<InputSelect
-							:options="selectOptions"
-							v-model="linkTarget"
-							placeholder="Select target"
-						/>
-					</InputWrapper>
-					<InputWrapper :title="$translate('title')">
-						<BaseInput
-							v-model="linkTitle"
-							placeholder="link_title"
-							:clearable="true"
-							@keyup.enter="addLink"
-						/>
-					</InputWrapper>
-				</div>
+				<InputWrapper :title="$translate('title')">
+					<BaseInput
+						v-model="linkTitle"
+						placeholder="link_title"
+						:clearable="true"
+						@keyup.enter="addLink"
+					/>
+				</InputWrapper>
 			</div>
-		</template>
+		</div>
 
-		<Icon
-			icon="ite-link"
-			:class='buttonClasses'
-		/>
-
-	</Tooltip>
+	</PopOver>
 </template>
 
 <script>
 import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 
+// Components
+import PopOver from './PopOver.vue'
+
 export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
+	components: {
+		PopOver
 	},
 	props: {
 		fullWidth: {
@@ -107,14 +89,6 @@ export default {
 
 			return classes.join(' ')
 		})
-
-		function togglePopper () {
-			if (isPopOverVisible.value) {
-				addLink(false)
-			}
-
-			isPopOverVisible.value = !isPopOverVisible.value
-		}
 
 		function onNodeChange (node) {
 			if (node.selectionChange) {
@@ -171,7 +145,6 @@ export default {
 			linkTitle,
 			selectOptions,
 			buttonClasses,
-			togglePopper,
 			addLink,
 			hasLink
 		}
@@ -180,6 +153,10 @@ export default {
 </script>
 
 <style lang="scss">
+.zion-inline-editor-link-wrapper {
+	padding: 15px 15px 0;
+}
+
 .zion-inline-editor-popover__link-title {
 	display: flex;
 

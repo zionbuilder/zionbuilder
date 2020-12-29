@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="zion-inline-editor-slider-area"
-		@click.stop=""
-	>
+	<div class="zion-inline-editor-slider-area">
 		<InputRangeDynamic
 			@update:modelValue="onLetterChange"
 			:modelValue="sliderValue"

@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="zion-inline-editor-slider-area"
-		@click.stop=""
-	>
+	<div class="zion-inline-editor-slider-area">
 
 		<InputRangeDynamic
 			@update:modelValue="onHeightChange"
@@ -10,7 +7,6 @@
 			:options="options"
 			class="zion-inline-editor-slider-area--slider"
 			ref="inputRangeDynamicRef"
-			@click="onClick"
 		/>
 
 	</div>

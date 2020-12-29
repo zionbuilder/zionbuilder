@@ -24,6 +24,7 @@
 import { computed } from 'vue'
 
 export default {
+	name: 'PopOver',
 	props: {
 		icon: {
 			type: String,

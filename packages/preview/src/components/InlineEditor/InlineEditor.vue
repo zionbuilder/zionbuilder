@@ -26,24 +26,13 @@
 					class="zion-inline-editor-dragbutton"
 					ref="dragButton"
 					@mousedown.stop="startDrag"
-					@mouseup="stopDrag"
 					v-if="dragButtonOnScreen"
 				>
 					<Icon icon="ite-move" />
 				</div>
 
 				<!-- Fonts & text style panel -->
-				<zion-inline-editor-panel
-					icon="ite-font"
-					:visible="activePanel==='fontsPanel'"
-					@open-panel="activePanel='fontsPanel'"
-				>
-					<zion-inline-editor-group
-						@started-dragging="onStartedSliderDragging"
-						@units-expanded="onUnitsExpanded"
-					/>
-
-				</zion-inline-editor-panel>
+				<FontStyle />
 
 				<!-- Bold popover -->
 				<FontWeight />
@@ -87,7 +76,6 @@
 				<div
 					class="zion-inline-editor-dragbutton"
 					@mousedown.stop="startDrag"
-					@mouseup="stopDrag"
 					v-if="!dragButtonOnScreen"
 				>
 					<Icon
@@ -120,25 +108,23 @@ import { usePreviewMode } from "@zb/editor"
 
 // Components
 import PopOver from "./inlineEditorComponents/PopOver.vue"
-import panel from "./inlineEditorComponents/panel.vue"
-import group from "./inlineEditorComponents/group.vue"
 import InlineEditorButton from './inlineEditorComponents/button.vue'
 import ColorPicker from "./inlineEditorComponents/ColorPicker.vue"
 import FontWeight from "./inlineEditorComponents/FontWeight.vue"
 import PanelLink from "./inlineEditorComponents/PanelLink.vue"
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
+import FontStyle from './inlineEditorComponents/FontStyles.vue'
 
 export default {
 	name: "InlineEditor",
 	components: {
-		"zion-inline-editor-panel": panel,
-		"zion-inline-editor-group": group,
 		InlineEditorButton,
 		ColorPicker,
 		FontWeight,
 		PopOver,
 		PanelLink,
-		TextAlign
+		TextAlign,
+		FontStyle
 	},
 	props: {
 		modelValue: {
@@ -277,15 +263,6 @@ export default {
 			}, 300)
 		}
 
-
-
-		function onOutsideClick (event) {
-			// TODO: add this
-			// if (this.canClose && this.$refs.content && !this.$refs.content.contains(event.target) && !this.$refs.inlineEditor.contains(event.target) && !this.isSliderDragging && !this.unitsExpanded) {
-			// 	this.isInlineEditorVisible = false
-			// }
-		}
-
 		function startDrag (event) {
 			window.addEventListener('mouseup', stopDrag)
 			window.addEventListener('mousemove', onDragMove)
@@ -403,7 +380,9 @@ export default {
 
 <style lang="scss">
 .znpb-inline-editor__wrapper {
-	pointer-events: none;
+	& svg {
+		pointer-events: none;
+	}
 }
 .znpb-inline-text-editor--preview {
 	.mce-visual-caret {
@@ -443,8 +422,7 @@ export default {
 
 .zion-inline-editor {
 	top: -75px;
-	transition: all .2s;
-	pointer-events: all;
+
 	button {
 		padding: 0;
 		margin: 0;
@@ -500,15 +478,6 @@ export default {
 		transition: none;
 	}
 }
-
-/* Bar animations */
-.barShow-enter-to, .barShow-leave-from {
-	transition: all .2s;
-}
-.barShow-enter-from, .barShow-leave-to {
-	opacity: 0;
-}
-
 .mce-content-body {
 	line-height: inherit !important;
 	outline: none;
