@@ -49,18 +49,18 @@
 				<FontWeight />
 
 				<!-- Italic button -->
-				<zion-inline-editor-button
+				<InlineEditorButton
 					formatter="italic"
 					icon="ite-italic"
 				/>
 
 				<!-- Underline button -->
-				<zion-inline-editor-button
+				<InlineEditorButton
 					formatter="underline"
 					icon="ite-underline"
 				/>
 				<!-- Uppercase button -->
-				<zion-inline-editor-button
+				<InlineEditorButton
 					formatter="uppercase"
 					icon="ite-uppercase"
 				/>
@@ -73,7 +73,7 @@
 				/>
 
 				<!-- Quote button -->
-				<zion-inline-editor-button
+				<InlineEditorButton
 					formatter="blockquote"
 					icon="ite-quote"
 				/>
@@ -116,20 +116,20 @@
 </template>
 
 <script>
-import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue";
+import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue"
 
 // Utils
-import { usePreviewMode } from "@zb/editor";
+import { usePreviewMode } from "@zb/editor"
+import editorsManager from "./editorsManager"
 
 // Components
-import PopOver from "./inlineEditorComponents/popOver.vue";
-import panel from "./inlineEditorComponents/panel.vue";
-import group from "./inlineEditorComponents/group.vue";
-import buttonComponent from "./inlineEditorComponents/button.vue";
-import colorPicker from "./inlineEditorComponents/colorPicker.vue";
-import FontWeight from "./inlineEditorComponents/FontWeight.vue";
-import panelLink from "./inlineEditorComponents/panelLink.vue";
-import editorsManager from "./editorsManager";
+import PopOver from "./inlineEditorComponents/popOver.vue"
+import panel from "./inlineEditorComponents/panel.vue"
+import group from "./inlineEditorComponents/group.vue"
+import InlineEditorButton from './inlineEditorComponents/button.vue'
+import colorPicker from "./inlineEditorComponents/colorPicker.vue"
+import FontWeight from "./inlineEditorComponents/FontWeight.vue"
+import panelLink from "./inlineEditorComponents/panelLink.vue"
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
 
 export default {
@@ -137,7 +137,7 @@ export default {
 	components: {
 		"zion-inline-editor-panel": panel,
 		"zion-inline-editor-group": group,
-		"zion-inline-editor-button": buttonComponent,
+		InlineEditorButton,
 		"zion-inline-editor-color-picker": colorPicker,
 		FontWeight,
 		PopOver,
