@@ -29,7 +29,7 @@ export default {
 		// Apply button style
 		function setTextStyle () {
 			// Remove Style if this is already active
-			editor.value.formatter.apply('fontweight', { value: props.modelValue })
+			editor.value.formatter.toggle('fontweight', { value: props.modelValue })
 		}
 
 		// Check if the selection has a specific style applied
