@@ -159,6 +159,7 @@ export default {
 		const history = ref([])
 		const historyIndex = ref(0)
 		const searchInput = ref(null)
+		const optionsFilterKeyword = ref('')
 
 		const elementOptions = computed({
 			get () {
@@ -227,6 +228,7 @@ export default {
 		watch(element, (newValue) => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
+			optionsFilterKeyword.value = ''
 		})
 
 		provideElement(element)
@@ -249,7 +251,8 @@ export default {
 			hasChanges,
 			// Methods
 			undo,
-			redo
+			redo,
+			optionsFilterKeyword
 		}
 	},
 	data () {
@@ -257,7 +260,6 @@ export default {
 			showBreadcrumbs: false,
 			elementClasses: [],
 			lastTab: null,
-			optionsFilterKeyword: '',
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
 			noOptionFoundMessage: 'No options found with this keyword'
@@ -449,6 +451,7 @@ export default {
 			if (!this.searchActive) {
 				this.activeKeyTab = this.lastTab
 			}
+			this.optionsFilterKeyword = ''
 		},
 
 		changeTab (tabId) {
