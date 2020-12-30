@@ -50,6 +50,7 @@
 import BaseInput from '../BaseInput/BaseInput.vue'
 import { InputNumberUnit } from '../InputNumber'
 import { units as stringUnits } from '../../composables/units'
+import rafSchd from 'raf-schd'
 
 export default {
 	name: 'InputRangeDynamic',
@@ -96,6 +97,9 @@ export default {
 			customUnit: false
 		}
 	},
+	created () {
+		this.rafUpdateValue = rafSchd(this.updateValue)
+	},
 	computed: {
 		activeOption () {
 			return this.getActiveOption(this.valueUnit)
@@ -126,7 +130,7 @@ export default {
 				return this.modelValue
 			},
 			set (newValue) {
-				this.$emit('update:modelValue', newValue)
+				this.rafUpdateValue(newValue)
 			}
 		},
 		rangeModel: {
@@ -182,6 +186,10 @@ export default {
 		}
 	},
 	methods: {
+		updateValue (newValue) {
+			this.$emit('update:modelValue', newValue)
+
+		},
 		onUnitUpdate (event) {
 			this.unit = event
 		},

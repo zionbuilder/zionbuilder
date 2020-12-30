@@ -33,7 +33,7 @@
 				:trigger="null"
 				:show="expanded"
 				placement="bottom-end"
-				:append-to="'element'"
+				append-to="element"
 				:show-arrows="false"
 				strategy="fixed"
 				tooltip-class="znpb-input-number__units-tooltip-wrapper"

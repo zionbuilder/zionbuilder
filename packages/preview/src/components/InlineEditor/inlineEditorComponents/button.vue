@@ -2,73 +2,79 @@
 	<Icon
 		v-if="icon"
 		:icon="icon"
-		@mousedown="setTextStyle"
-		:class="classses"
+		@mousedown="toggleFormatter"
+		:class="classes"
 	/>
 
 	<span
 		v-else
 		class="zion-inline-editor-button"
-		:class="classses"
-		@mousedown="setTextStyle"
+		:class="classes"
+		@mousedown="toggleFormatter"
 	>{{buttontext}}</span>
 </template>
 
 <script>
-import { Icon } from '@zb/components'
+import { ref, computed, inject, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
-	props: ['formatter', 'icon', 'buttontext', 'value'],
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
-	},
-	components: {
-		Icon
-	},
-	data: function () {
-		return {
-			isActive: null
-		}
-	},
-	computed: {
-		classses () {
+	props: ['formatter', 'icon', 'buttontext', 'formatterValue'],
+	setup (props) {
+		const editor = inject('ZionInlineEditor')
+		const isActive = ref(false)
+
+		const classes = computed(() => {
 			let classes = []
+
 			// Check if the button is active
-			if (this.isActive) {
+			if (isActive.value) {
 				classes.push('zion-inline-editor-button--active')
 			}
 
 			return classes.join(' ')
-		}
-	},
-	beforeMount: function () {
-		var self = this
-
-		this.Editor.editor.formatter.formatChanged(this.formatter, function (state, args) {
-			self.isActive = state
 		})
 
-		this.isActive = this.hasFormat(this.formatter)
-	},
+		function checkIsActive () {
+			isActive.value = editor.value.formatter.match(...getFormatterArguments())
+		}
 
-	methods: {
-		// Apply button style
-		setTextStyle (event) {
+		function getFormatterArguments () {
+			const formatterArguments = [props.formatter]
+
+			if (props.formatterValue) {
+				formatterArguments.push({
+					value: props.formatterValue
+				})
+			}
+
+			return formatterArguments
+		}
+
+		function toggleFormatter (event) {
 			event.preventDefault()
+
 			// Remove Style if this is already active
-			this.Editor.editor.formatter.toggle(this.formatter)
-		},
-		// Check if the selection has a specific style applied
-		hasFormat (styleType) {
-			return this.Editor.editor.formatter.match(styleType)
+			editor.value.formatter.toggle(...getFormatterArguments())
+		}
+
+		function onNodeChange () {
+			checkIsActive()
+		}
+
+		onMounted(() => {
+			checkIsActive()
+			editor.value.on('SelectionChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('SelectionChange', onNodeChange)
+		})
+
+		return {
+			isActive,
+			classes,
+			toggleFormatter
 		}
 	}
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
