@@ -88,7 +88,7 @@ export default {
 
 		onMounted(() => {
 			editor.value.formatter.register('lineHeight', {
-				selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+				inline: 'span',
 				styles: { 'line-height': '%value' }
 			})
 

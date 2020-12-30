@@ -104,6 +104,7 @@
 
 <script>
 import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } from "vue"
+import rafSchd from 'raf-schd'
 
 // Utils
 import { usePreviewMode } from "@zb/editor"
@@ -174,6 +175,8 @@ export default {
 		function saveContent () {
 			emit("update:modelValue", TinyMCEEditor.value.getContent());
 		}
+		const saveContentRaf = rafSchd(saveContent)
+
 
 		function initWatcher () {
 			watch(modelValue, (newValue, oldValue) => {
@@ -210,22 +213,23 @@ export default {
 						initWatcher();
 					});
 
-					editor.on("change input undo redo", saveContent);
+					editor.on("Change input Undo Redo", saveContentRaf);
+					// editor.on("PostProcess", saveContentRaf);
 				},
 				forced_root_block: props.forcedRootNode,
 				formats: {
 					fontSize: {
-						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+						inline: 'span',
 						classes: "znpb-fontsize",
 						styles: { fontSize: "%value" },
 					},
 					fontweight: {
-						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+						inline: 'span',
 						classes: "znpb-fontweight",
 						styles: { fontWeight: "%value" },
 					},
 					uppercase: {
-						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+						inline: 'span',
 						classes: "znpb-uppercase",
 						styles: { textTransform: "uppercase" },
 					},

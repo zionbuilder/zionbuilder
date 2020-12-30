@@ -26,7 +26,8 @@ export default {
 
 		function onColorChange (newValue) {
 			color.value = newValue
-			editor.value.formatter.apply('forecolor', { value: newValue })
+
+			editor.value.execCommand('forecolor', false, newValue)
 
 			clearTimeout(changeTimeout)
 			changeTimeout = setTimeout(() => {
