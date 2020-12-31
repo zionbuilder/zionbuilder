@@ -109,11 +109,11 @@ import { ref, computed, toRefs, onMounted, watch, onBeforeUnmount, provide } fro
 import { usePreviewMode } from "@zb/editor"
 
 // Components
-import PopOver from "./inlineEditorComponents/PopOver.vue"
+import PopOver from "./inlineEditorComponents/popOver.vue"
 import InlineEditorButton from './inlineEditorComponents/button.vue'
 import ColorPicker from "./inlineEditorComponents/ColorPicker.vue"
 import FontWeight from "./inlineEditorComponents/FontWeight.vue"
-import PanelLink from "./inlineEditorComponents/PanelLink.vue"
+import PanelLink from "./inlineEditorComponents/panelLink.vue"
 import TextAlign from './inlineEditorComponents/TextAlign.vue'
 import FontStyle from './inlineEditorComponents/FontStyles.vue'
 

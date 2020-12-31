@@ -42,7 +42,7 @@
 import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Components
-import PopOver from './PopOver.vue'
+import PopOver from './popOver.vue'
 
 export default {
 	components: {

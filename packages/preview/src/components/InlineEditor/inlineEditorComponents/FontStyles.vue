@@ -64,7 +64,7 @@ import lineHeight from './lineHeight.vue'
 import letterSpacing from './letterSpacing.vue'
 import buttonComponent from './button.vue'
 import FontList from './fonts-list.vue'
-import PopOver from './PopOver.vue'
+import PopOver from './popOver.vue'
 
 export default {
 	name: 'FontStyles',
