@@ -34,7 +34,7 @@ const activePseudoSelector = ref(pseudoSelectors.value[0])
 
 export const usePseudoSelectors = () => {
 	function setActivePseudoSelector(value) {
-		activePseudoSelector.value = value
+		activePseudoSelector.value = value || pseudoSelectors.value[0]
 	}
 
 	function deleteCustomSelector(selector) {
