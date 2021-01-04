@@ -63,8 +63,15 @@ export default {
 			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id
 		},
 		hasChanges () {
-			const activeDevice = this.getActiveResponsiveOptions()
-			return (activeDevice && activeDevice.value && activeDevice.value[this.deviceConfig.id]) || false
+			const activeDeviceConfig = this.getActiveResponsiveOptions()
+
+			if (!activeDeviceConfig) {
+				return false
+			}
+
+			const modelValue = activeDeviceConfig.modelValue
+
+			return (modelValue && modelValue && modelValue[this.deviceConfig.id]) || false
 		}
 	},
 	methods: {
@@ -75,9 +82,9 @@ export default {
 			}
 		},
 		removeStylesGroup () {
-			const activeDevice = getActiveResponsiveOptions()
-			if (activeDevice) {
-				activeDevice.removeDeviceStyles(this.deviceConfig.id)
+			const activeDeviceConfig = this.getActiveResponsiveOptions()
+			if (activeDeviceConfig) {
+				activeDeviceConfig.removeDeviceStyles(this.deviceConfig.id)
 			}
 		}
 	}
