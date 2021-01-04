@@ -136,6 +136,7 @@ import { cloneDeep } from 'lodash-es'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
+import { usePseudoSelectors } from '@zb/components'
 import { useOptionsSchemas } from '@zb/components'
 
 // Components
@@ -151,6 +152,7 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		let ignoreLocalHistory = false
+		const { setActivePseudoSelector } = usePseudoSelectors()
 		const { element, editElement, unEditElement } = useEditElement()
 		const { provideElement } = useElementProvide()
 		const { getSchema } = useOptionsSchemas()
@@ -229,6 +231,9 @@ export default {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
 			optionsFilterKeyword.value = ''
+
+			// Clear selected pseudo selector
+			setActivePseudoSelector(null)
 		})
 
 		provideElement(element)

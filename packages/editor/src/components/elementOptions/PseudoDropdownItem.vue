@@ -7,7 +7,7 @@
 
 		<div class="znpb-element-options__pseudo-actions">
 			<Tooltip
-				content="Delete PseudoClass"
+				content="Delete Pseudo Selector"
 				v-if="clearable"
 				tag="span"
 			>
@@ -67,14 +67,12 @@ export default {
 		}
 	},
 	methods: {
-		onDeleteSelector (selector) {
-			this.$emit('delete-selector', selector.id)
+		onDeleteSelector () {
+			this.$emit('delete-selector', this.selector)
 			this.$emit('selector-selected', null)
 		},
 		onSelectorSelected () {
-			if (this.selector.active) {
-				this.$emit('selector-selected', this.selector)
-			}
+			this.$emit('selector-selected', this.selector)
 		}
 	}
 
