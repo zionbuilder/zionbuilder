@@ -59,12 +59,12 @@
 import { ref, computed } from 'vue'
 
 // Components
-import fontSize from './fontSize.vue'
-import lineHeight from './lineHeight.vue'
-import letterSpacing from './letterSpacing.vue'
-import buttonComponent from './button.vue'
-import FontList from './fonts-list.vue'
-import PopOver from './popOver.vue'
+import fontSize from './FontSize.vue'
+import lineHeight from './LineHeight.vue'
+import letterSpacing from './LetterSpacing.vue'
+import buttonComponent from './Button.vue'
+import FontList from './FontsList.vue'
+import PopOver from './PopOver.vue'
 
 export default {
 	name: 'FontStyles',
