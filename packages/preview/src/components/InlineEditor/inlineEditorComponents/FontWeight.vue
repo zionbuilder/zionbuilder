@@ -19,8 +19,8 @@
 import { ref, computed, inject, onBeforeMount, onBeforeUnmount } from 'vue'
 
 // Components
-import PopOver from './popOver.vue'
-import InlineEditorButton from './button.vue'
+import PopOver from './PopOver.vue'
+import InlineEditorButton from './Button.vue'
 
 export default {
 	props: ['modelValue'],
