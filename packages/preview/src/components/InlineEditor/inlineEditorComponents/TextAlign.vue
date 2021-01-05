@@ -16,8 +16,8 @@
 import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue'
 
 // Components
-import InlineEditorButton from './button.vue'
-import PopOver from './popOver.vue'
+import InlineEditorButton from './Button.vue'
+import PopOver from './PopOver.vue'
 
 export default {
 	name: 'TextAlign',
