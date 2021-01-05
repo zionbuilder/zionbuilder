@@ -8,9 +8,16 @@ a.zb-el-icon-icon.zb-el-icon-link {
 }
 
 .zb-el-icon-icon {
-	display: inline-block;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
 	padding: .8em;
 	line-height: 1;
+	&:before {
+		width: 1em;
+		height: 1em;
+		text-align: center;
+	}
 }
 
 .zb-el-icon--bordered .zb-el-icon-icon {
