@@ -1,10 +1,7 @@
 <template>
 	<div>
 		<slot name="start" />
-		<InlineEditor
-			v-model="content"
-			@click.prevent="(e) => {e.preventDefault()}"
-		/>
+		<InlineEditor v-model="content" />
 		<slot name="end" />
 	</div>
 </template>

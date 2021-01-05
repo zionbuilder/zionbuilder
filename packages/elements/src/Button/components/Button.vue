@@ -3,7 +3,6 @@
 		<slot name="start" />
 
 		<component
-			@click.prevent="(e) => {e.preventDefault()}"
 			:is="getTag"
 			v-bind="api.getAttributesForTag('button', getButtonAttributes)"
 			ref="button"
