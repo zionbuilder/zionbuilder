@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Zionbuilder
+# Copyright (C) 2021 Zionbuilder
 # This file is distributed under the same license as the Zionbuilder package.
 msgid ""
 msgstr ""
@@ -1942,7 +1942,7 @@ msgstr ""
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:335
+#: ../includes/Templates.php:334
 msgid "Missing template type"
 msgstr ""
 
@@ -2607,7 +2607,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:228
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:270
 msgid "Icon styles"
 msgstr ""
 
@@ -2975,7 +2975,7 @@ msgstr ""
 msgid "Hover"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:268, ../includes/Elements/Separator/Separator.php:301
+#: ../includes/Elements/Icon/Icon.php:268, ../includes/Elements/IconList/IconList.php:211, ../includes/Elements/Separator/Separator.php:301
 msgid "Icon Color"
 msgstr ""
 
@@ -3059,8 +3059,24 @@ msgstr ""
 msgid "Enter item text"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:220
+#: ../includes/Elements/IconList/IconList.php:212
+msgid "Select the color of the icon"
+msgstr ""
+
+#: ../includes/Elements/IconList/IconList.php:228
+msgid "Text Color"
+msgstr ""
+
+#: ../includes/Elements/IconList/IconList.php:229
+msgid "Select the color of the text"
+msgstr ""
+
+#: ../includes/Elements/IconList/IconList.php:254
 msgid "Item styles"
+msgstr ""
+
+#: ../includes/Elements/IconList/IconList.php:262
+msgid "Text styles"
 msgstr ""
 
 #: ../includes/Elements/Image/Image.php:40, ../includes/Elements/Image/Image.php:90, ../includes/Elements/ImageBox/ImageBox.php:89
