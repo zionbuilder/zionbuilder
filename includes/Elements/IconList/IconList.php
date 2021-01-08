@@ -312,13 +312,13 @@ class IconList extends Element {
 		$icons = $options->get_value( 'icons', [] );
 		$index = 0;
 		foreach ( $icons as $config ) {
-			$this->render_single_icon( $config, $options, $index);
+			$this->render_single_icon( $config, $options, $index );
 			$index++;
 
 		}
 	}
 
-	public function render_single_icon( $config, $options, $index) {
+	public function render_single_icon( $config, $options, $index ) {
 		$icon_position = $options->get_value( 'icon_position', 'left' );
 		$icon_html     = '';
 		$text_html     = '';
