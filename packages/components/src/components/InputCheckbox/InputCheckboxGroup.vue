@@ -90,7 +90,7 @@ export default {
 			required: false
 		}
 	},
-	setup(props, { slots }) {
+	setup (props, { slots }) {
 		const hasSlots = computed(() => {
 			if (!slots.default) {
 				return false
@@ -150,15 +150,7 @@ export default {
 	&--horizontal {
 		display: flex;
 	}
-	.znpb-checkbox-wrapper {
-		flex: 1;
-		.znpb-checkmark-option {
-			width: 100%;
-			padding: 6px 5px 6px 16px;
-			font-weight: 500;
-			text-align: left;
-		}
-	}
+
 	// Styles
 	&-style--buttons {
 		.znpb-checkbox-wrapper {

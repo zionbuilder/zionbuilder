@@ -414,22 +414,19 @@ export default {
 			this.visible = !this.visible;
 		}, 10),
 		onOutsideClick(event) {
-			// Allow tooltip creators to prevent all clickoutside handlers
-			setTimeout(() => {
-				// Hide popper if clicked outside
-				if (
-					this.visible &&
-					!preventOutsideClickPropagation &&
-					!this.$el.contains(event.target) &&
-					this.popperElement &&
-					!this.popperElement.contains(event.target)
-				) {
-					this.hidePopper();
-					this.$emit("hide");
-					this.$emit("update:show", false);
-					preventOutsideClickPropagation = false;
-				}
-			}, 0);
+			// Hide popper if clicked outside
+			if (
+				this.visible &&
+				!preventOutsideClickPropagation &&
+				!this.$el.contains(event.target) &&
+				this.popperElement &&
+				!this.popperElement.contains(event.target)
+			) {
+				this.hidePopper();
+				this.$emit("hide");
+				this.$emit("update:show", false);
+				preventOutsideClickPropagation = false;
+			}
 		},
 		onKeyDown(event) {
 			if (event.which === 27) {
