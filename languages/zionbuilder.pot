@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Zionbuilder
+# Copyright (C) 2021 Zionbuilder
 # This file is distributed under the same license as the Zionbuilder package.
 msgid ""
 msgstr ""
@@ -1942,7 +1942,7 @@ msgstr ""
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:335
+#: ../includes/Templates.php:334
 msgid "Missing template type"
 msgstr ""
 
