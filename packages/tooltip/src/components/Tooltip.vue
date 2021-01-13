@@ -48,6 +48,10 @@ export default {
 	inheritAttrs: false,
 	name: "Tooltip",
 	props: {
+		modifiers: {
+			type: Array,
+			required: false,
+		},
 		tag: {
 			default: "div",
 		},
@@ -250,11 +254,9 @@ export default {
 		popperOptions() {
 			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
 			const instanceOptions = JSON.parse(JSON.stringify(this.$attrs));
-
+			instanceOptions.modifiers = this.modifiers || [];
 			// Apply offset for arrow
 			if (this.showArrows) {
-				instanceOptions.modifiers = instanceOptions.modifiers || [];
-
 				const hasOffsetModifier = instanceOptions.modifiers.find(
 					(modifier) => modifier.name === "offset"
 				);
@@ -402,6 +404,13 @@ export default {
 		 * inside a label
 		 */
 		onClick: debounce(function (event) {
+			if (
+				this.popperElement &&
+				this.popperElement.contains(event.target)
+			) {
+				return;
+			}
+
 			this.visible = !this.visible;
 		}, 10),
 		onOutsideClick(event) {

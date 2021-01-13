@@ -51,20 +51,21 @@
 					v-if="element.elementTypeModel.hasOwnProperty('options')"
 				>
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
 					/>
 				</Tab>
 				<Tab name="Styling">
 					<OptionsForm
+						class="znpb-fancy-scrollbar"
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
 					/>
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
@@ -101,6 +102,7 @@
 						{{defaultMessage}}
 					</p>
 					<OptionsForm
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="filteredOptions"
 						v-model="elementOptions"
 					/>
@@ -134,6 +136,7 @@ import { cloneDeep } from 'lodash-es'
 import { on, off } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
+import { usePseudoSelectors } from '@zb/components'
 import { useOptionsSchemas } from '@zb/components'
 
 // Components
@@ -149,6 +152,7 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		let ignoreLocalHistory = false
+		const { setActivePseudoSelector } = usePseudoSelectors()
 		const { element, editElement, unEditElement } = useEditElement()
 		const { provideElement } = useElementProvide()
 		const { getSchema } = useOptionsSchemas()
@@ -157,6 +161,7 @@ export default {
 		const history = ref([])
 		const historyIndex = ref(0)
 		const searchInput = ref(null)
+		const optionsFilterKeyword = ref('')
 
 		const elementOptions = computed({
 			get () {
@@ -225,6 +230,10 @@ export default {
 		watch(element, (newValue) => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
+			optionsFilterKeyword.value = ''
+
+			// Clear selected pseudo selector
+			setActivePseudoSelector(null)
 		})
 
 		provideElement(element)
@@ -247,7 +256,8 @@ export default {
 			hasChanges,
 			// Methods
 			undo,
-			redo
+			redo,
+			optionsFilterKeyword
 		}
 	},
 	data () {
@@ -255,7 +265,6 @@ export default {
 			showBreadcrumbs: false,
 			elementClasses: [],
 			lastTab: null,
-			optionsFilterKeyword: '',
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
 			noOptionFoundMessage: 'No options found with this keyword'
@@ -447,6 +456,7 @@ export default {
 			if (!this.searchActive) {
 				this.activeKeyTab = this.lastTab
 			}
+			this.optionsFilterKeyword = ''
 		},
 
 		changeTab (tabId) {

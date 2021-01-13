@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, computed } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -20,11 +20,23 @@ export default {
 			required: true
 		}
 	},
-	setup () {
+	setup (props, { emit }) {
 		const { activeResponsiveDeviceInfo, setActiveResponsiveOptions, removeActiveResponsiveOptions } = useResponsiveDevices()
+		const modelValue = computed(() => props.modelValue)
 
-		onMounted(() => setActiveResponsiveOptions(this))
-		onBeforeUnmount(() => removeActiveResponsiveOptions(this))
+		onMounted(() => setActiveResponsiveOptions({
+			modelValue,
+			removeDeviceStyles
+		}))
+		onBeforeUnmount(() => removeActiveResponsiveOptions())
+
+		function removeDeviceStyles (device) {
+			const clonedValues = { ...this.modelValue }
+			delete clonedValues[device]
+
+			emit('update:modelValue', clonedValues)
+		}
+
 
 		return {
 			activeResponsiveDeviceInfo
@@ -54,14 +66,6 @@ export default {
 				// Send the updated value back
 				this.$emit('update:modelValue', clonedValue)
 			}
-		}
-	},
-	methods: {
-		removeDeviceStyles (device) {
-			const clonedValues = { ...this.modelValue }
-			delete clonedValues[device]
-
-			this.$emit('update:modelValue', clonedValues)
 		}
 	}
 

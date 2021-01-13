@@ -152,6 +152,8 @@ export default {
 			return item.getClone()
 		},
 		onSortableStart (event) {
+			const { hideAddElementsPopup } = useAddElementsPopup()
+			hideAddElementsPopup()
 			this.setDraggingState(true)
 		},
 		onSortableEnd (event) {

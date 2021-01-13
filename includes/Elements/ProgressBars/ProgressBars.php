@@ -292,7 +292,16 @@ class ProgressBars extends Element {
 		// Using helper methods will go through caching policy
 		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/ProgressBars/frontend.css' ) );
 	}
-
+	/**
+	 * Sets wrapper css classes
+	 *
+	 * @param \ZionBuilder\Options\Options $options
+	 *
+	 * @return void
+	 */
+	public function before_render( $options ) {
+		$this->set_wrapper_tag( 'ul' );
+	}
 	/**
 	 * Renders the element based on options
 	 *
@@ -301,7 +310,6 @@ class ProgressBars extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$this->set_wrapper_tag( 'ul' );
 
 		$this->render_tag_group(
 			'li',

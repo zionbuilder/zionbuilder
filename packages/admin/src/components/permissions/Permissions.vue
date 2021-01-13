@@ -54,10 +54,10 @@
 							{{$translate('add_user')}}
 						</Button>
 						<Modal
+							class="znpb-admin-permissions-modal"
 							v-model:show="showModal"
 							:width="560"
 							:title="$translate('add_user')"
-							:fullscreen="true"
 							:show-backdrop="false"
 						>
 							<AddUserModalContent @close-modal="showModal=false" />
@@ -126,6 +126,12 @@ export default {
 </script>
 
 <style lang="scss" >
+.znpb-admin-permissions-modal {
+	& > .znpb-modal__wrapper--full-size {
+		width: 100%;
+		height: 90%;
+	}
+}
 .znpb-admin-content__permission-container {
 	display: block;
 	.znpb-admin-content--center {

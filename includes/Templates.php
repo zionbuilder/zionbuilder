@@ -328,7 +328,6 @@ class Templates {
 			'post_title'  => $template_name,
 			'post_type'   => self::TEMPLATE_POST_TYPE,
 			'post_status' => 'publish',
-			'meta_input'  => [],
 		];
 
 		if ( empty( $template_config['template_type'] ) ) {
@@ -336,15 +335,17 @@ class Templates {
 		}
 
 		// Set the template type
-		$template_args['meta_input'][self::TEMPLATE_TYPE_META] = sanitize_text_field( $template_config['template_type'] );
+		$template_args = (array) wp_slash( $template_args );
 
-		// @phpstan-ignore-next-line - There is nothing wrong with the next line, however, php stan complains
-		$post_id = wp_insert_post( wp_slash( $template_args ), true );
+		$post_id = wp_insert_post( $template_args, true );
 
 		// Check to see if the post was succesfully created
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
+
+		// set template type
+		update_post_meta( $post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ) );
 
 		// Set element category
 		if ( ! empty( $template_config['category'] ) ) {

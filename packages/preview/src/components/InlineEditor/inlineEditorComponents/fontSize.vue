@@ -1,112 +1,115 @@
 <template>
-	<div
-		class="zion-inline-editor-slider-area"
-		@click.stop=""
-	>
+	<div class="zion-inline-editor-slider-area">
 		<InputRangeDynamic
 			@update:modelValue="onFontChange"
 			:modelValue="sliderValue"
 			:options="options"
 			@click.stop="onClick"
 			class="zion-inline-editor-slider-area--slider"
-			ref="inputRangeDynamic"
+			ref="inputRangeDynamicRef"
 		/>
 	</div>
 </template>
 
 <script>
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+
 export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
+	setup (props, { emit }) {
+		const editor = inject('ZionInlineEditor')
+		const unitsExpanded = ref(false)
+		const sliderValue = ref(null)
+		const inputRangeDynamicRef = ref(null)
+		let changeTimeout = null
+		let isCurrentChange = false
+
+		const options = [
+			{
+				unit: 'px',
+				min: 6,
+				max: 300,
+				step: 1,
+				shiftStep: 5
+			},
+			{
+				unit: '%',
+				min: 1,
+				max: 100,
+				step: 1,
+				shiftStep: 5
+			},
+			{
+				unit: 'rem',
+				min: 1,
+				max: 6,
+				step: 1,
+				shiftStep: 1
+			},
+			{
+				unit: 'pt',
+				min: 1,
+				max: 60,
+				step: 1,
+				shiftStep: 1
+			},
+			{
+				unit: 'vh',
+				min: 1,
+				max: 100,
+				step: 5,
+				shiftStep: 1
+			}
+		]
+
+
+		function onClick (e) {
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
+		}
+
+		function onFontChange (newValue) {
+			editor.value.formatter.apply('fontsize', { value: newValue })
+			sliderValue.value = newValue
+
+			emit('started-dragging')
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
+
+			inputRangeDynamicRef.value.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
+
+			clearTimeout(changeTimeout)
+			changeTimeout = setTimeout(() => {
+				isCurrentChange = false
+			}, 100);
+
+			isCurrentChange = true
+
+		}
+
+		function onNodeChange (node) {
+			if (!isCurrentChange) {
+				getFontSize()
 			}
 		}
-	},
-	data () {
+
+		function getFontSize () {
+			sliderValue.value = editor.value.queryCommandValue('FontSize')
+		}
+
+		onMounted(() => {
+			getFontSize()
+			editor.value.on('SelectionChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('SelectionChange', onNodeChange)
+		})
+
 		return {
-			unitsExpanded: null,
-			options: [
-				{
-					unit: 'px',
-					min: 6,
-					max: 300,
-					step: 1,
-					shiftStep: 5
-				},
-				{
-					unit: '%',
-					min: 1,
-					max: 100,
-					step: 1,
-					shiftStep: 5
-				},
-				{
-					unit: 'rem',
-					min: 1,
-					max: 6,
-					step: 1,
-					shiftStep: 1
-				},
-				{
-					unit: 'pt',
-					min: 1,
-					max: 60,
-					step: 1,
-					shiftStep: 1
-				},
-				{
-					unit: 'vh',
-					min: 1,
-					max: 100,
-					step: 5,
-					shiftStep: 1
-				}
-			],
-			sliderValue: null,
-			justChangedNode: null
-		}
-	},
-
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		let nodeDom = this.Editor.$refs.inlineEditor
-		let selectedNode = this.Editor.editor.selection.getNode()
-
-		if (nodeDom.contains(selectedNode)) {
-			this.getFontSize(selectedNode)
-		} else {
-			this.Editor.editor.execCommand('mceSelectNode', false, nodeDom.firstChild)
-			this.getFontSize(nodeDom.firstChild)
-		}
-
-	},
-	beforeUnmount () {
-		this.Editor.editor.off('NodeChange', this.onNodeChange)
-	},
-	methods: {
-		onClick (e) {
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
-		},
-		onFontChange (newValue) {
-			this.Editor.editor.formatter.apply('fontsize', { value: newValue })
-			this.justChangedNode = true
-			this.sliderValue = newValue
-			this.$emit('started-dragging')
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
-			this.$refs.inputRangeDynamic.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getFontSize(node.element)
-			}
-
-			this.justChangedNode = false
-		},
-		getFontSize (node) {
-
-			let fontSize = this.Editor.editor.queryCommandValue('FontSize')
-			this.sliderValue = fontSize
+			unitsExpanded,
+			options,
+			sliderValue,
+			onClick,
+			onFontChange,
+			inputRangeDynamicRef
 		}
 	}
 

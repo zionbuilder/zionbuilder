@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss">
 .znpb-options-form-wrapper.znpb-option__typography-wrapper {
-	flex: 1;
+	flex-grow: 1;
 	padding: 0;
 }
 </style>

@@ -1,92 +1,105 @@
 <template>
-	<div
-		class="zion-inline-editor-slider-area"
-		@click.stop=""
-	>
+	<div class="zion-inline-editor-slider-area">
 		<InputRangeDynamic
 			@update:modelValue="onLetterChange"
 			:modelValue="sliderValue"
 			:options="options"
 			@click.stop="onClick"
 			class="zion-inline-editor-slider-area--slider"
-			ref="inputRangeDynamic"
+			ref="inputRangeDynamicRef"
 		/>
 	</div>
 </template>
 
 <script>
-export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
-	},
-	data () {
-		return {
-			sliderValue: null,
-			justChangedNode: null,
-			options: [
-				{
-					unit: 'px',
-					min: 0,
-					max: 300,
-					step: 1,
-					shiftStep: 5
-				},
-				{
-					unit: 'rem',
-					min: 1,
-					max: 10,
-					step: 1,
-					shiftStep: 1
-				},
-				{
-					unit: 'normal',
-					min: null,
-					max: null,
-					step: null,
-					shiftStep: null
-				}
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 
-			]
-		}
-	},
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.Editor.editor.formatter.register('letterSpacing', {
-			inline: 'span',
-			styles: { 'letter-spacing': '%value' }
-		})
-		// Set default letter spacing
-		this.getLetterSpacing(this.Editor.editor.selection.getNode())
-	},
-	beforeUnmount () {
-		this.Editor.editor.off('NodeChange', this.onNodeChange)
-	},
-	methods: {
-		onClick (e) {
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
-		},
-		onLetterChange (newValue) {
-			this.Editor.editor.formatter.apply('letterSpacing', { value: newValue })
-			this.justChangedNode = true
-			this.sliderValue = newValue
-			this.$emit('started-dragging')
-			this.$emit('units-expanded', this.$refs.inputRangeDynamic ? this.$refs.inputRangeDynamic.$refs.InputNumberUnit.expanded : null)
-			this.$refs.inputRangeDynamic.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getLetterSpacing(node.element)
+export default {
+	setup (props, { emit }) {
+		const editor = inject('ZionInlineEditor')
+		const sliderValue = ref(null)
+		const inputRangeDynamicRef = ref(null)
+		let isCurrentChange = false
+		let changeTimeout = null
+
+		const options = [
+			{
+				unit: 'px',
+				min: 0,
+				max: 300,
+				step: 1,
+				shiftStep: 5
+			},
+			{
+				unit: 'rem',
+				min: 1,
+				max: 10,
+				step: 1,
+				shiftStep: 1
+			},
+			{
+				unit: 'normal',
+				min: null,
+				max: null,
+				step: null,
+				shiftStep: null
 			}
-			this.justChangedNode = false
-		},
-		getLetterSpacing (node) {
-			let letterSpacing = window.getComputedStyle(node).getPropertyValue('letter-spacing')
-			this.sliderValue = letterSpacing
+		]
+
+		function onClick (e) {
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
 		}
+
+		function onLetterChange (newValue) {
+			editor.value.formatter.apply('letterSpacing', { value: newValue })
+			sliderValue.value = newValue
+			emit('started-dragging')
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
+			inputRangeDynamicRef.value.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
+
+			clearTimeout(changeTimeout)
+			changeTimeout = setTimeout(() => {
+				isCurrentChange = false
+			}, 100);
+
+			isCurrentChange = true
+
+		}
+
+		function onNodeChange (node) {
+			if (!isCurrentChange) {
+				getLetterSpacing()
+			}
+		}
+
+		function getLetterSpacing () {
+			let letterSpacing = window.getComputedStyle(editor.value.selection.getNode()).getPropertyValue('letter-spacing')
+			sliderValue.value = letterSpacing
+		}
+
+		onMounted(() => {
+			editor.value.formatter.register('letterSpacing', {
+				selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+				styles: { 'letter-spacing': '%value' }
+			})
+
+
+			getLetterSpacing()
+			editor.value.on('SelectionChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('SelectionChange', onNodeChange)
+		})
+
+		return {
+			onLetterChange,
+			sliderValue,
+			options,
+			onClick,
+			inputRangeDynamicRef
+		}
+
 	}
 }
 </script>

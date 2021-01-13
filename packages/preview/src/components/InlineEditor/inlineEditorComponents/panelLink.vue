@@ -1,67 +1,52 @@
 <template>
-	<div
-		class="zion-inline-editor-popover-wrapper zion-inline-editor-popover-wrapper--big-pd"
-		:class="{
-		'zion-inline-editor-popover-wrapper--full-width' : fullWidth,
-		'zion-inline-editor-popover-wrapper--vertical': direction,
-		'zion-inline-editor-popover-wrapper--open': visible && isPopOverVisible
-		}"
+	<PopOver
+		icon="ite-link"
+		:full-size="true"
 	>
-		<Icon
-			icon="ite-link"
-			@mousedown="togglePopper"
-			:class='buttonClasses'
-		/>
-		<transition name="bar-show">
-			<div
-				v-if="isPopOverVisible"
-				class="zion-inline-editor-dropdown zion-inline-editor-dropdown--popover"
-			>
-				<InputWrapper :title="$translate('add_a_link')">
-					<BaseInput
-						v-model="linkModel"
-						:clearable="true"
-						placeholder="www.address.com"
-						@keyup.enter="addLink"
-					>
-						<template v-slot:prepend>
-							<Icon
-								icon="link"
-								@click="addLink"
-							/>
-						</template>
-					</BaseInput>
+		<div class="zion-inline-editor-link-wrapper">
+			<InputWrapper :title="$translate('add_a_link')">
+				<BaseInput
+					v-model="linkUrl"
+					:clearable="true"
+					placeholder="www.address.com"
+					@keyup.enter="addLink"
+				>
+					<template v-slot:prepend>
+						<Icon icon="link" />
+					</template>
+				</BaseInput>
+			</InputWrapper>
+			<div class="zion-inline-editor-popover__link-title">
+				<InputWrapper :title="$translate('target')">
+					<InputSelect
+						:options="selectOptions"
+						v-model="linkTarget"
+						placeholder="Select target"
+					/>
 				</InputWrapper>
-				<div class="zion-inline-editor-popover__link-title">
-					<InputWrapper :title="$translate('target')">
-						<InputSelect
-							:options="selectOptions"
-							v-model="linkTargetModel"
-							placeholder="Select target"
-						/>
-					</InputWrapper>
-					<InputWrapper :title="$translate('title')">
-						<BaseInput
-							v-model="linkTitleModel"
-							placeholder="link_title"
-							:clearable="true"
-						/>
-					</InputWrapper>
-				</div>
+				<InputWrapper :title="$translate('title')">
+					<BaseInput
+						v-model="linkTitle"
+						placeholder="link_title"
+						:clearable="true"
+						@keyup.enter="addLink"
+					/>
+				</InputWrapper>
 			</div>
-		</transition>
-	</div>
+		</div>
 
+	</PopOver>
 </template>
 
 <script>
+import { inject, computed, ref, onMounted, onBeforeUnmount } from 'vue'
+
+// Components
+import PopOver from './PopOver.vue'
+
 export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
+	components: {
+		PopOver
 	},
 	props: {
 		fullWidth: {
@@ -76,118 +61,105 @@ export default {
 			type: Boolean
 		}
 	},
-	watch: {
-		visible (newVal) {
-			this.isPopOverVisible = newVal
-		}
-	},
-	data: function () {
-		return {
-			isPopOverVisible: this.visible,
-			linkTarget: '_self',
-			linkUrl: '',
-			linkTitle: '',
-			selectOptions: [
-				{
-					id: '_self',
-					name: 'Self'
-				},
-				{
-					id: '_blank',
-					name: 'New Window'
-				}
-			],
-			justChangedNode: null
-		}
-	},
+	setup () {
+		const editor = inject('ZionInlineEditor')
+		const isPopOverVisible = ref(false)
+		const justChangedNode = ref(false)
+		const linkTarget = ref('_self')
+		const linkUrl = ref('')
+		const linkTitle = ref('')
+		const selectOptions = [
+			{
+				id: '_self',
+				name: 'Self'
+			},
+			{
+				id: '_blank',
+				name: 'New Window'
+			}
+		]
 
-	computed: {
-		linkModel: {
-			get () {
-				return this.linkUrl
-			},
-			set (newVal) {
-				this.linkUrl = newVal
-			}
-		},
-		linkTargetModel: {
-			get () {
-				return this.linkTarget
-			},
-			set (newVal) {
-				this.linkTarget = newVal
-			}
-		},
-		linkTitleModel: {
-			get () {
-				return this.linkTitle
-			},
-			set (newVal) {
-				this.linkTitle = newVal
-			}
-		},
-		buttonClasses () {
+		const hasLink = ref(false)
+
+
+		const buttonClasses = computed(() => {
 			let classes = []
 
-			if (this.isPopOverVisible) {
+			// Check if the button is active
+			if (hasLink.value) {
 				classes.push('zion-inline-editor-button--active')
 			}
 
 			return classes.join(' ')
+		})
+
+		function onNodeChange (node) {
+			if (node.selectionChange) {
+				getLink()
+			}
 		}
-	},
 
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-
-		this.getLink(this.Editor.editor.selection.getNode())
-	},
-	methods: {
-		togglePopper () {
-			if (this.isPopOverVisible) {
-				this.isPopOverVisible = false
-				this.$emit('close-panel', this)
-				this.addLink()
-			} else {
-				this.isPopOverVisible = true
-				this.$emit('open-panel', this)
-			}
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getLink(node.element)
-			}
-			this.justChangedNode = false
-		},
-		getLink (node) {
-			let link = this.Editor.editor.dom.getParent(node, 'a[href]')
+		function getLink () {
+			let link = editor.value.dom.getParent(editor.value.selection.getStart(), 'a[href]')
 
 			if (link) {
-				this.linkTarget = link.target || '_self'
-				this.linkUrl = link.getAttribute('href')
+				linkTarget.value = link.target || '_self'
+				linkUrl.value = link.getAttribute('href')
+				linkTitle.value = link.getAttribute('title')
+				hasLink.value = true
 			} else {
-				this.linkUrl = null
-				this.linkTitle = ''
+				linkUrl.value = null
+				linkTitle.value = ''
+				hasLink.value = false
 			}
-		},
-		addLink () {
-			if (this.linkUrl) {
+
+		}
+
+		function addLink (closePopper = true) {
+			if (linkUrl.value) {
 				// Make the selection a link
-				this.Editor.editor.formatter.apply('link', {
-					href: this.linkUrl,
-					target: this.linkTarget,
-					title: this.linkTitle
+				editor.value.formatter.apply('link', {
+					href: linkUrl.value,
+					target: linkTarget.value,
+					title: linkTitle.value
 				})
 			} else {
-				this.Editor.editor.formatter.remove('link')
+				editor.value.formatter.remove('link')
+			}
+
+			if (closePopper) {
+				isPopOverVisible.value = false
 			}
 		}
 
+		onMounted(() => {
+			getLink()
+			editor.value.on('NodeChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('NodeChange', onNodeChange)
+		})
+
+		return {
+			isPopOverVisible,
+			linkTarget,
+			linkUrl,
+			linkTitle,
+			selectOptions,
+			buttonClasses,
+			addLink,
+			hasLink
+		}
 	}
 }
 </script>
 
 <style lang="scss">
+.zion-inline-editor-link-wrapper {
+	padding: 15px 15px 0;
+}
+
 .zion-inline-editor-popover__link-title {
 	display: flex;
 
@@ -208,12 +180,5 @@ export default {
 	.znpb-form-label {
 		margin-bottom: 0;
 	}
-}
-/* popover animations */
-.bar-show-enter-to, .bar-show-leave-from {
-	transition: all .2s;
-}
-.bar-show-enter-from, .bar-show-leave-to {
-	opacity: 0;
 }
 </style>
