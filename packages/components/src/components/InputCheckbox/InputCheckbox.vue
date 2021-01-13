@@ -51,14 +51,12 @@ export default {
 		 * v-model/modelValue for checkbox
 		 */
 		modelValue: {
-			type: [String, Array, Boolean],
 			required: false
 		},
 		/**
 		 * value for checkbox
 		 */
 		optionValue: {
-			type: [String, Boolean],
 			required: false
 		},
 		/**
