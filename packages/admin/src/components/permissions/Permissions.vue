@@ -131,8 +131,13 @@ export default {
 		width: 100%;
 		height: 90%;
 	}
+
+	& > .znpb-modal__wrapper {
+		width: calc(100% - 40px)
+	}
 }
 .znpb-admin-content__permission-container {
+	width: 100%;
 	display: block;
 	.znpb-admin-content--center {
 		flex: 0;

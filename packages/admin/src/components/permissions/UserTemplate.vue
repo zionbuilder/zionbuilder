@@ -53,6 +53,16 @@ export default {
 	@extend %list-item-helper;
 	padding: 17px 20px;
 
+	@media (max-width: 767px) {
+		flex-direction: column;
+		align-items: flex-start;
+
+		&__item,
+		&__permission {
+			margin-bottom: 10px !important;
+		}
+	}
+
 	&__permission {
 		display: flex;
 		justify-content: space-between;

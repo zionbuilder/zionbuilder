@@ -34,14 +34,31 @@ export default {
 	padding: 30px 30px;
 	border-bottom: 1px solid $surface-variant;
 
+	@media (max-width: 575px) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	&__title-block {
 		flex-basis: 40%;
 		flex-shrink: 0;
 		padding-right: 28px;
+
+		@media (max-width: 575px) {
+			width: 100%;
+			flex-basis: 100%;
+			padding-right: 0;
+			margin-bottom: 20px;
+		}
 	}
 
 	&__option-block {
 		flex-basis: 60%;
+
+		@media (max-width: 575px) {
+			width: 100%;
+			flex-basis: 100%;
+		}
 	}
 
 	&:last-child {

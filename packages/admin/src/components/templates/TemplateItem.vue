@@ -273,6 +273,12 @@ export default {
 	@extend %list-item-helper;
 	padding: 9px 0;
 
+	@media (max-width: 767px) {
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 18px 0;
+	}
+
 	.zion-input {
 		background: $surface;
 	}
@@ -299,6 +305,11 @@ export default {
 		position: relative;
 		flex-basis: 160px;
 		padding: 0 14px;
+
+		@media (max-width: 767px) {
+			flex-basis: auto;
+			width: 100%;
+		}
 
 		.zion-input input {
 			padding: 10.5px 12px;
@@ -357,6 +368,18 @@ export default {
 			&:hover {
 				color: darken($font-color, 10);
 			}
+		}
+	}
+
+	@media (max-width: 767px) {
+		&__title,
+		&__author,
+		&__shortcode {
+			margin-bottom: 10px;
+		}
+
+		&__title {
+			padding: 0 14px;
 		}
 	}
 

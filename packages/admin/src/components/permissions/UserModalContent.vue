@@ -168,6 +168,11 @@ export default {
 	max-width: calc(33.33333% - 20px);
 	margin-bottom: 20px;
 
+	@media (max-width: 575px) {
+		flex-basis: 100%;
+		max-width: 100%;
+	}
+
 	.znpb-single-role-modal-title {
 		margin-bottom: 20px;
 	}

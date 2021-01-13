@@ -323,6 +323,7 @@ export default {
 		flex-direction: column;
 		max-width: 100%;
 		max-height: 80%;
+		width: calc(100% - 40px);
 		background: $surface;
 		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
 		border-radius: 3px;

@@ -84,6 +84,59 @@ export default {
 			right: 0;
 		}
 	}
+
+	&-trigger {
+		display: none;
+		color: #bbb;
+		cursor: pointer;
+		padding: 10px;
+		margin-top: 10px;
+		transition: color 0.25s;
+
+		&:hover {
+			color: #858585;
+		}
+
+		@media (max-width: 1399px) {
+			display: block;
+		}
+
+		> span {
+			width: 20px;
+			height: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative;
+
+			> span {
+				display: block;
+			}
+
+			> span,
+			> span::before,
+			> span::after {
+				width: 100%;
+				height: 2px;
+				background: currentColor;
+			}
+
+			> span::before,
+			> span::after {
+				content: "";
+				position: absolute;
+				left: 0;
+			}
+
+			> span::before {
+				top: 0;
+			}
+
+			> span::after {
+				bottom: 0;
+			}
+		}
+	}
 }
 
 .znpb-admin-content > .znpb-admin-side-menu > .znpb-admin-side-menu__item {

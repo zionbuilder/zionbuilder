@@ -1,6 +1,11 @@
 <template>
 	<div class="znpb-admin-content-wrapper">
 		<div class="znpb-admin-content znpb-admin-content--left">
+			<span class="znpb-admin-side-menu-trigger js-side-menu-trigger">
+				<span>
+					<span></span>
+				</span>
+			</span>
 			<SideMenu
 				:menu-items="childMenus"
 				:base-path="basePath"
