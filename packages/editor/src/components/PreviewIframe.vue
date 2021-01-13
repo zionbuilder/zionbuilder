@@ -130,7 +130,7 @@ export default {
 		}
 	},
 	methods: {
-		setPageContent(areas) {
+		setPageContent (areas) {
 			const { registerTemplatePart } = useTemplateParts()
 
 			// New system
@@ -214,7 +214,7 @@ export default {
 		preventClicks (event) {
 			const e = window.e || event
 
-			if (e.target.tagName === 'A' && !e.target.classList.contains('znpb-allow-click')) {
+			if (e.target.tagName === 'a' || !e.target.classList.contains('znpb-allow-click')) {
 				e.preventDefault()
 			}
 		},
