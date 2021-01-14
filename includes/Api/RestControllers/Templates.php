@@ -390,7 +390,7 @@ class Templates extends RestApiController {
 		$template_categories           = get_the_terms( $template['ID'], ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
 		$template['template_category'] = ! empty( $template_categories ) ? $template_categories : [];
 
-		apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
+		$template = apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
 
 		return $template;
 	}

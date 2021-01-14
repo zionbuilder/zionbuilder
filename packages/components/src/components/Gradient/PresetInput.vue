@@ -52,7 +52,9 @@
 </template>
 <script>
 import { Icon } from '../Icon'
-import { BaseInput, InputSelect } from '../index.ts'
+import { BaseInput } from '../BaseInput'
+import { InputSelect } from '../InputSelect'
+
 /**
  * it emits:
  *  - the new color chosen

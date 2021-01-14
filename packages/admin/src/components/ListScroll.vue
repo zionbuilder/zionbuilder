@@ -4,8 +4,9 @@
 		:class="{'znpb-scroll-list-wrapper--loading': loading}"
 	>
 		<div
-			@scroll="onScroll"
+			@wheel="onScroll"
 			class="znpb-fancy-scrollbar znpb-scroll-list-container"
+			ref="listScrollRef"
 		>
 			<slot></slot>
 		</div>
@@ -16,6 +17,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
 	name: 'ListScroll',
 	props: {
@@ -25,11 +28,18 @@ export default {
 			default: true
 		}
 	},
-	methods: {
-		onScroll (event) {
-			if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight) {
-				this.$emit('scroll-end')
+	setup (props, { emit }) {
+		const listScrollRef = ref(null)
+
+		function onScroll (event, delta) {
+			if (listScrollRef.value.scrollHeight - listScrollRef.value.scrollTop === listScrollRef.value.clientHeight) {
+				emit('scroll-end')
 			}
+		}
+
+		return {
+			listScrollRef,
+			onScroll
 		}
 	}
 }
@@ -46,10 +56,6 @@ export default {
 
 .znpb-scroll-list-wrapper {
 	position: relative;
-
-	&--loading {
-		padding-bottom: 75px;
-	}
 }
 
 .znpb-scroll-list-container {

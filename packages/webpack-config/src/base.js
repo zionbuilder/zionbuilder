@@ -13,8 +13,7 @@ module.exports = () => {
 			}
 		},
 		module: {
-			rules: [
-				{
+			rules: [{
 					test: /\.tsx?$/,
 					exclude: /node_modules/,
 					loader: require.resolve('ts-loader'),
@@ -26,11 +25,9 @@ module.exports = () => {
 				// Fix browser errors for packaged source maps
 				{
 					test: /\.js$/,
-					use: [
-						{
-							loader: require.resolve('source-map-loader')
-						}
-					]
+					use: [{
+						loader: require.resolve('source-map-loader')
+					}]
 
 
 				},
@@ -43,10 +40,16 @@ module.exports = () => {
 			publicPath: 'http://zionbuilder.test/wp-content/plugins/zionbuilder/dist/'
 		},
 		externals: [
-			function (context, request, callback) {
+			function ({
+				context,
+				request
+			}, callback) {
 				if (/^@zb\/.*$/.test(request)) {
 					const modules = request.replace('@', '').split('/')
 					// Externalize to a commonjs module using the request path
+					console.log({
+						modules
+					});
 					return callback(null, modules, 'root');
 				}
 				callback()

@@ -2,238 +2,235 @@ const fs = require('fs')
 const path = require('path')
 
 const findExisting = (context, files) => {
-    for (const file of files) {
-        if (fs.existsSync(path.join(context, file))) {
-        return file
-        }
-    }
+	for (const file of files) {
+		if (fs.existsSync(path.join(context, file))) {
+			return file
+		}
+	}
 }
 
 module.exports = (webpackConfig, service) => {
-    const rootOptions = service.options.getOptions()
-    const shadowMode = !!process.env.ZIONBUILDER_CLI_CSS_SHADOW_MODE
-    const isProd = process.env.NODE_ENV === 'production'
+	const rootOptions = service.options.getOptions()
+	const shadowMode = !!process.env.ZIONBUILDER_CLI_CSS_SHADOW_MODE
+	const isProd = process.env.NODE_ENV === 'production'
 
-    let sassLoaderVersion
-    try {
-      sassLoaderVersion = semver.major(require('sass-loader/package.json').version)
-    } catch (e) {}
-    if (sassLoaderVersion < 8) {
-      pauseSpinner()
-      warn('A new version of sass-loader is available. Please upgrade for best experience.')
-      resumeSpinner()
-    }
+	let sassLoaderVersion
+	try {
+		sassLoaderVersion = semver.major(require('sass-loader/package.json').version)
+	} catch (e) {}
+	if (sassLoaderVersion < 8) {
+		pauseSpinner()
+		warn('A new version of sass-loader is available. Please upgrade for best experience.')
+		resumeSpinner()
+	}
 
-    const defaultSassLoaderOptions = {}
-    try {
-      defaultSassLoaderOptions.implementation = require('sass')
-      // since sass-loader 8, fibers will be automatically detected and used
-      if (sassLoaderVersion < 8) {
-        defaultSassLoaderOptions.fiber = require('fibers')
-      }
-    } catch (e) {}
+	const defaultSassLoaderOptions = {}
+	try {
+		defaultSassLoaderOptions.implementation = require('sass')
+		// since sass-loader 8, fibers will be automatically detected and used
+		if (sassLoaderVersion < 8) {
+			defaultSassLoaderOptions.fiber = require('fibers')
+		}
+	} catch (e) {}
 
-    const {
-      extract = true,
-      sourceMap = false,
-      loaderOptions = {}
-    } = rootOptions.css || {}
+	const {
+		extract = true,
+			sourceMap = false,
+			loaderOptions = {}
+	} = rootOptions.css || {}
 
-    let { requireModuleExtension } = rootOptions.css || {}
-    if (typeof requireModuleExtension === 'undefined') {
-      if (loaderOptions.css && loaderOptions.css.modules) {
-        throw new Error('`css.requireModuleExtension` is required when custom css modules options provided')
-      }
-      requireModuleExtension = true
-    }
+	let {
+		requireModuleExtension
+	} = rootOptions.css || {}
+	if (typeof requireModuleExtension === 'undefined') {
+		if (loaderOptions.css && loaderOptions.css.modules) {
+			throw new Error('`css.requireModuleExtension` is required when custom css modules options provided')
+		}
+		requireModuleExtension = true
+	}
 
-    const shouldExtract = extract !== false && !shadowMode
-    const extractOptions = Object.assign({
-      filename: '[name].css',
-      moduleFilename: ({ name }) => {
-        return `${name.replace('js/', 'css/')}.css`
-      }
-    }, extract && typeof extract === 'object' ? extract : {})
+	const shouldExtract = extract !== false && !shadowMode
+	const extractOptions = Object.assign({
+		filename: '[name].css',
+		moduleFilename: ({
+			name
+		}) => {
+			return `${name.replace('js/', 'css/')}.css`
+		}
+	}, extract && typeof extract === 'object' ? extract : {})
 
-    // check if the project has a valid postcss config
-    // if it doesn't, don't use postcss-loader for direct style imports
-    // because otherwise it would throw error when attempting to load postcss config
-    const hasPostCSSConfig = !!(loaderOptions.postcss || service.pkg.postcss || findExisting(service.resolve('.'), [
-      '.postcssrc',
-      '.postcssrc.js',
-      'postcss.config.js',
-      '.postcssrc.yaml',
-      '.postcssrc.json'
-    ]))
+	// check if the project has a valid postcss config
+	// if it doesn't, don't use postcss-loader for direct style imports
+	// because otherwise it would throw error when attempting to load postcss config
+	const hasPostCSSConfig = !!(loaderOptions.postcss || service.pkg.postcss || findExisting(service.resolve('.'), [
+		'.postcssrc',
+		'.postcssrc.js',
+		'postcss.config.js',
+		'.postcssrc.yaml',
+		'.postcssrc.json'
+	]))
 
-    if (!hasPostCSSConfig) {
-      loaderOptions.postcss = {
-        plugins: [
-          require('autoprefixer')
-        ]
-      }
-    }
+	if (!hasPostCSSConfig) {
+		loaderOptions.postcss = {
+			plugins: [
+				require('autoprefixer')
+			]
+		}
+	}
 
-    // if building for production but not extracting CSS, we need to minimize
-    // the embbeded inline CSS as they will not be going through the optimizing
-    // plugin.
-    const needInlineMinification = isProd && !shouldExtract
+	// if building for production but not extracting CSS, we need to minimize
+	// the embbeded inline CSS as they will not be going through the optimizing
+	// plugin.
+	const needInlineMinification = isProd && !shouldExtract
 
-    const cssnanoOptions = {
-      preset: ['default', {
-        mergeLonghand: false,
-        cssDeclarationSorter: false
-      }]
-    }
-    if (rootOptions.productionSourceMap && sourceMap) {
-      cssnanoOptions.map = { inline: false }
-    }
+	const cssnanoOptions = {
+		preset: ['default', {
+			mergeLonghand: false,
+			cssDeclarationSorter: false
+		}]
+	}
+	if (rootOptions.productionSourceMap && sourceMap) {
+		cssnanoOptions.map = {
+			inline: false
+		}
+	}
 
-    function createCSSRule (lang, test, loader, options) {
-      const baseRule = webpackConfig.module.rule(lang).test(test)
+	function createCSSRule(lang, test, loader, options) {
+		const baseRule = webpackConfig.module.rule(lang).test(test)
 
-      // rules for <style lang="module">
-      const vueModulesRule = baseRule.oneOf('vue-modules').resourceQuery(/module/)
-      applyLoaders(vueModulesRule, true)
+		// rules for <style lang="module">
+		const vueModulesRule = baseRule.oneOf('vue-modules').resourceQuery(/module/)
+		applyLoaders(vueModulesRule, true)
 
-      // rules for <style>
-      const vueNormalRule = baseRule.oneOf('vue').resourceQuery(/\?vue/)
-      applyLoaders(vueNormalRule, false)
+		// rules for <style>
+		const vueNormalRule = baseRule.oneOf('vue').resourceQuery(/\?vue/)
+		applyLoaders(vueNormalRule, false)
 
-      // rules for *.module.* files
-      const extModulesRule = baseRule.oneOf('normal-modules').test(/\.module\.\w+$/)
-      applyLoaders(extModulesRule, true)
+		// rules for *.module.* files
+		const extModulesRule = baseRule.oneOf('normal-modules').test(/\.module\.\w+$/)
+		applyLoaders(extModulesRule, true)
 
-      // rules for normal CSS imports
-      const normalRule = baseRule.oneOf('normal')
-      applyLoaders(normalRule, !requireModuleExtension)
+		// rules for normal CSS imports
+		const normalRule = baseRule.oneOf('normal')
+		applyLoaders(normalRule, !requireModuleExtension)
 
-      function applyLoaders (rule, isCssModule) {
-        if (shouldExtract) {
-          rule
-            .use('extract-css-loader')
-            .loader(require('mini-css-extract-plugin').loader)
-            .options({
-              hmr: !isProd,
-              // publicPath: (resourcePath, context) => {
-              //   return path.relative(path.dirname(resourcePath), context) + '/';
-              // }
-            })
-        } else {
-          rule
-            .use('vue-style-loader')
-            .loader(require.resolve('vue-style-loader'))
-            .options({
-              sourceMap,
-              shadowMode
-            })
-        }
+		function applyLoaders(rule, isCssModule) {
+			if (shouldExtract) {
+				rule
+					.use('extract-css-loader')
+					.loader(require('mini-css-extract-plugin').loader)
+			} else {
+				rule
+					.use('vue-style-loader')
+					.loader(require.resolve('vue-style-loader'))
+					.options({
+						sourceMap,
+						shadowMode
+					})
+			}
 
-        const cssLoaderOptions = Object.assign({
-          sourceMap,
-          importLoaders: (
-            1 + // stylePostLoader injected by vue-loader
-            1 + // postcss-loader
-            (needInlineMinification ? 1 : 0)
-          )
-        }, loaderOptions.css)
+			const cssLoaderOptions = Object.assign({
+				sourceMap,
+				importLoaders: (
+					1 + // stylePostLoader injected by vue-loader
+					1 + // postcss-loader
+					(needInlineMinification ? 1 : 0)
+				)
+			}, loaderOptions.css)
 
-        if (isCssModule) {
-          cssLoaderOptions.modules = {
-            localIdentName: '[name]_[local]_[hash:base64:5]',
-            ...cssLoaderOptions.modules
-          }
-        } else {
-          delete cssLoaderOptions.modules
-        }
+			if (isCssModule) {
+				cssLoaderOptions.modules = {
+					localIdentName: '[name]_[local]_[hash:base64:5]',
+					...cssLoaderOptions.modules
+				}
+			} else {
+				delete cssLoaderOptions.modules
+			}
 
-        rule
-          .use('css-loader')
-          .loader(require.resolve('css-loader'))
-          .options(cssLoaderOptions)
+			rule
+				.use('css-loader')
+				.loader(require.resolve('css-loader'))
+				.options(cssLoaderOptions)
 
-        if (needInlineMinification) {
-          rule
-            .use('cssnano')
-            .loader(require.resolve('postcss-loader'))
-            .options({
-              sourceMap,
-              plugins: [require('cssnano')(cssnanoOptions)]
-            })
-        }
+			if (needInlineMinification) {
+				rule
+					.use('cssnano')
+					.loader(require.resolve('postcss-loader'))
+					.options({
+						sourceMap,
+						plugins: [require('cssnano')(cssnanoOptions)]
+					})
+			}
 
-        rule
-          .use('postcss-loader')
-          .loader(require.resolve('postcss-loader'))
-          .options(Object.assign({ sourceMap }, loaderOptions.postcss))
+			rule
+				.use('postcss-loader')
+				.loader(require.resolve('postcss-loader'))
+				.options(Object.assign({
+					sourceMap
+				}, loaderOptions.postcss))
 
-        if (loader) {
-          let resolvedLoader
-          try {
-            resolvedLoader = require.resolve(loader)
-          } catch (error) {
-            resolvedLoader = loader
-          }
+			if (loader) {
+				let resolvedLoader
+				try {
+					resolvedLoader = require.resolve(loader)
+				} catch (error) {
+					resolvedLoader = loader
+				}
 
-          rule
-            .use(loader)
-            .loader(resolvedLoader)
-            .options(Object.assign({ sourceMap }, options))
-        }
-      }
-    }
+				rule
+					.use(loader)
+					.loader(resolvedLoader)
+					.options(Object.assign({
+						sourceMap
+					}, options))
+			}
+		}
+	}
 
-    createCSSRule('css', /\.css$/)
-    createCSSRule('postcss', /\.p(ost)?css$/)
-    createCSSRule('scss', /\.scss$/, 'sass-loader', Object.assign(
-      {},
-      defaultSassLoaderOptions,
-      loaderOptions.scss || loaderOptions.sass
-    ))
-    if (sassLoaderVersion < 8) {
-      createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign(
-        {},
-        defaultSassLoaderOptions,
-        {
-          indentedSyntax: true
-        },
-        loaderOptions.sass
-      ))
-    } else {
-      createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign(
-        {},
-        defaultSassLoaderOptions,
-        loaderOptions.sass,
-        {
-          sassOptions: Object.assign(
-            {},
-            loaderOptions.sass && loaderOptions.sass.sassOptions,
-            {
-              indentedSyntax: true
-            }
-          )
-        }
-      ))
-    }
-    createCSSRule('less', /\.less$/, 'less-loader', loaderOptions.less)
-    createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', Object.assign({
-      preferPathResolver: 'webpack'
-    }, loaderOptions.stylus))
+	createCSSRule('css', /\.css$/)
+	createCSSRule('postcss', /\.p(ost)?css$/)
+	createCSSRule('scss', /\.scss$/, 'sass-loader', Object.assign({},
+		defaultSassLoaderOptions,
+		loaderOptions.scss || loaderOptions.sass
+	))
+	if (sassLoaderVersion < 8) {
+		createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign({},
+			defaultSassLoaderOptions, {
+				indentedSyntax: true
+			},
+			loaderOptions.sass
+		))
+	} else {
+		createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign({},
+			defaultSassLoaderOptions,
+			loaderOptions.sass, {
+				sassOptions: Object.assign({},
+					loaderOptions.sass && loaderOptions.sass.sassOptions, {
+						indentedSyntax: true
+					}
+				)
+			}
+		))
+	}
+	createCSSRule('less', /\.less$/, 'less-loader', loaderOptions.less)
+	createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', Object.assign({
+		preferPathResolver: 'webpack'
+	}, loaderOptions.stylus))
 
-    // inject CSS extraction plugin
-    if (shouldExtract) {
-      webpackConfig
-        .plugin('extract-css')
-          .use(require('mini-css-extract-plugin'), [extractOptions])
+	// inject CSS extraction plugin
+	if (shouldExtract) {
+		webpackConfig
+			.plugin('extract-css')
+			.use(require('mini-css-extract-plugin'), [extractOptions])
 
-      // minify extracted CSS
-      if (isProd) {
-        webpackConfig
-          .plugin('optimize-css')
-            .use(require('@intervolga/optimize-cssnano-plugin'), [{
-              sourceMap: rootOptions.productionSourceMap && sourceMap,
-              cssnanoOptions
-            }])
-      }
-    }
+		// minify extracted CSS
+		if (isProd) {
+			webpackConfig
+				.plugin('optimize-css')
+				.use(require('@intervolga/optimize-cssnano-plugin'), [{
+					sourceMap: rootOptions.productionSourceMap && sourceMap,
+					cssnanoOptions
+				}])
+		}
+	}
 }
