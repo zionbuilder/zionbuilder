@@ -80,7 +80,7 @@ export default {
 			localActiveTab.value = tabId
 		}
 
-		function getIdForTab(vnode) {
+		function getIdForTab (vnode) {
 			const props = vnode.props
 			return props && props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
 		}
@@ -106,7 +106,7 @@ export default {
 
 		function extractChilds (slotContent) {
 			const items = []
-			if( Array.isArray(slotContent) ) {
+			if (Array.isArray(slotContent)) {
 				slotContent.forEach(vNode => {
 					if (vNode.type === Fragment) {
 						const fragmentItems = extractChilds(vNode.children)
@@ -152,11 +152,11 @@ export default {
 
 			const content = h(
 				'div', {
-					class: {
-						'znpb-tabs__content': true,
-						['znpb-fancy-scrollbar']: props.hasScroll.includes(computedActiveTab.value)
-					}
-				},
+				class: {
+					'znpb-tabs__content': true,
+					['znpb-fancy-scrollbar']: props.hasScroll.includes(computedActiveTab.value)
+				}
+			},
 				[childItems]
 			)
 
@@ -174,6 +174,8 @@ export default {
 
 <style lang="scss">
 .znpb-tabs {
+	max-width: 100%;
+
 	& > &__header {
 		display: flex;
 		margin: 0 20px;
