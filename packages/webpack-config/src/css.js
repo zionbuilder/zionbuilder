@@ -5,10 +5,7 @@ module.exports = (config) => {
 	return {
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: '[name].css',
-				moduleFilename: ({name}) => {
-					return `css/${name}.css`
-				},
+				filename: 'css/[name].css'
 			})
 		],
 		module: {
@@ -29,12 +26,8 @@ module.exports = (config) => {
 				},
 				{
 					test: /\.css$/i,
-					use: [
-						{
+					use: [{
 							loader: require('mini-css-extract-plugin').loader,
-							options: {
-								hmr: true
-							}
 						},
 						{
 							loader: require.resolve('css-loader'),
@@ -46,12 +39,8 @@ module.exports = (config) => {
 				},
 				{
 					test: /\.s[ac]ss$/i,
-					use: [
-						{
-							loader: require('mini-css-extract-plugin').loader,
-							options: {
-								hmr: true
-							}
+					use: [{
+							loader: require('mini-css-extract-plugin').loader
 						},
 						// Translates CSS into CommonJS
 						{
