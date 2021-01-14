@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-admin-content-wrapper znpb-permissions-wrapper">
-		<div class="znpb-admin-content znpb-admin-content--left">
+		<div class="znpb-admin-content znpb-admin-content--left znpb-admin-content--hiddenXs">
 		</div>
 		<div class="znpb-admin-content__permission-container">
 			<PageTemplate>
@@ -131,9 +131,14 @@ export default {
 		width: 100%;
 		height: 90%;
 	}
+
+	& > .znpb-modal__wrapper {
+		width: calc(100% - 40px);
+	}
 }
 .znpb-admin-content__permission-container {
 	display: block;
+	width: 100%;
 	.znpb-admin-content--center {
 		flex: 0;
 	}

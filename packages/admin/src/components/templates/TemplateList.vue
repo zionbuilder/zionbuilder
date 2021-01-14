@@ -121,10 +121,18 @@ export default {
 		width: 100%;
 		height: 90%;
 	}
+
+	& > .znpb-modal__wrapper {
+		width: calc(100% - 40px);
+	}
 }
 .znpb-admin-templates-titles {
 	display: flex;
 	padding: 12px 0;
+
+	@media (max-width: 767px) {
+		display: none;
+	}
 
 	h5.znpb-admin-templates-titles__heading {
 		flex: 1;

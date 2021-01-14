@@ -213,8 +213,14 @@ export default {
 	&__wrapper {
 		position: relative;
 		box-sizing: border-box;
-		max-width: 80%;
+		max-width: 1400px;
+		width: 100%;
+		padding-right: 20px;
 		margin: 20px 0 40px 0;
+
+		@media (max-width: 782px) {
+			padding-right: 10px;
+		}
 
 		.znpb-admin__header-menu {
 			.znpb-admin__header-menu-item {
@@ -314,9 +320,18 @@ export default {
 			font-weight: 500;
 			list-style: none;
 
+			@media (max-width: 991px) {
+				padding-bottom: 12px;
+				margin-left: -16px;
+			}
+
 			&-item {
 				display: inline-block;
 				padding: 20px;
+
+				@media (max-width: 991px) {
+					padding: 8px 16px;
+				}
 			}
 		}
 	}

@@ -118,10 +118,23 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 13px;
+
+	@media (max-width: 575px) {
+		flex-wrap: wrap;
+
+		.zion-input {
+			margin-bottom: 8px;
+		}
+	}
+
 	h4.znpb-admin-replace__title {
 		flex-basis: 80%;
 		margin-right: 30px;
 		margin-bottom: 0;
+
+		@media (max-width: 575px) {
+			margin-bottom: 12px;
+		}
 	}
 	&__actions {
 		display: flex;
@@ -136,6 +149,10 @@ export default {
 	&__icon {
 		margin: 0 10px;
 		font-size: 14px;
+
+		@media (max-width: 575px) {
+			display: none;
+		}
 	}
 }
 </style>

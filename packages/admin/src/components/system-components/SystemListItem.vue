@@ -42,7 +42,13 @@ export default {
 		flex-basis: 50%;
 		margin-bottom: 0;
 		color: $font-color;
-		line-height: 1;
+		line-height: 1.4;
+
+		@media (max-width: 767px) {
+			&:first-child {
+				margin-bottom: 5px;
+			}
+		}
 	}
 	h3 {
 		font-size: 12px;

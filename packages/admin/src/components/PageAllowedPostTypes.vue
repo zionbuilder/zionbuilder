@@ -57,6 +57,10 @@ export default {
 
 	grid-column-gap: 20px;
 	grid-template-columns: 1fr 1fr;
+
+	@media (max-width: 991px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .znpb-admin-post-types-tab {

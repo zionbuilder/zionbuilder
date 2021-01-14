@@ -123,7 +123,6 @@ export default {
 <style lang="scss">
 .znpb-modal-google-fonts {
 	& > .znpb-modal__wrapper {
-		width: 100%;
 		height: 90%;
 	}
 }

@@ -26,20 +26,29 @@ export default {
 </script>
 <style lang="scss" scoped>
 .znpb-system-plugins {
-	display: grid;
+	display: flex;
+	flex-wrap: wrap;
 	padding: 20px;
 	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
 	border: 1px solid $surface-variant;
 	border-radius: 3px;
 
-	grid-gap: 10px;
-	grid-template-columns: 1fr 1fr;
+	@media (max-width: 767px) {
+		&:not(:last-child) {
+			margin-bottom: 20px;
+		}
+	}
+
 	&-wrapper {
 		display: grid;
 		padding-bottom: 40px;
 
 		grid-gap: 20px;
 		grid-template-columns: 1fr 1fr;
+
+		@media (max-width: 767px) {
+			display: block;
+		}
 	}
 	&__item {
 		margin: 0;
@@ -54,13 +63,14 @@ export default {
 		align-self: center;
 		color: $font-color;
 		font-weight: 500;
-
-		justify-self: end;
+		margin-left: auto;
 	}
 	h5 {
 		color: $font-color;
 		font-size: 13px;
 		font-weight: 400;
+		width: 100%;
+		margin-top: 8px;
 	}
 }
 </style>

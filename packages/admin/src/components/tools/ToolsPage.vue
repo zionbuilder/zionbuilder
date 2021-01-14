@@ -113,5 +113,9 @@ export default {
 	justify-content: space-between;
 	padding-bottom: 90px;
 	border-bottom: 1px solid $surface-variant;
+
+	@media (max-width: 575px) {
+		flex-direction: column;
+	}
 }
 </style>

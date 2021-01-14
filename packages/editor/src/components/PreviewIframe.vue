@@ -19,6 +19,7 @@
 			:show-maximize="false"
 			:show="storageRecover"
 			append-to="body"
+			:width="520"
 		>
 			<div class="znpb-modal__confirm">
 				<!-- @slot Content that will be placed inside the modal body -->
