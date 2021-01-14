@@ -167,17 +167,14 @@ class Typography extends BaseSchema {
 				'options'       => [
 					[
 						'icon' => 'italic',
-						'name' => 'italic',
 						'id'   => 'italic',
 					],
 					[
 						'icon' => 'underline',
-						'name' => 'underline',
 						'id'   => 'underline',
 					],
 					[
 						'icon' => 'strikethrough',
-						'name' => 'strikethrough',
 						'id'   => 'line-through',
 					],
 				],
