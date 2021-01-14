@@ -52,6 +52,10 @@ export default {
 				box-shadow: 0px 4px 40px -20px #00000063;
 				border-radius: 3px;
 				border: 1px solid #f1f1f1;
+
+				&.znpb-admin-side-menu--open {
+					display: block;
+				}
 			}
 		}
 	}
