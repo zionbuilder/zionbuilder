@@ -66,6 +66,7 @@ export default {
 	}
 
 	.znpb-admin-modal-title-block__title {
+		margin-top: 0;
 		margin-bottom: 10px;
 		font-family: $font-stack;
 		font-size: 14px;
