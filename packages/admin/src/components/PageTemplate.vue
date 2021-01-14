@@ -1,10 +1,16 @@
 <template>
-	<div class="znpb-admin-content znpb-admin-content--center" functional>
+	<div
+		class="znpb-admin-content znpb-admin-content--center"
+		functional
+	>
 		<div class="znpb-admin-content__center">
 			<slot></slot>
 		</div>
 		<div class="znpb-admin-content__right">
-			<Icon icon="infobig" class="znpb-admin-right-info" />
+			<Icon
+				icon="infobig"
+				class="znpb-admin-right-info"
+			/>
 			<slot name="right"></slot>
 		</div>
 	</div>
@@ -36,23 +42,29 @@ export default {
 		border-right: 1px solid $surface-variant;
 
 		@media (max-width: 1399px) {
-			width: 40px;
-			flex-basis: 40px;
-			align-items: flex-start;
 			justify-content: center;
+			align-items: flex-start;
+			flex-basis: 40px;
+			width: 40px;
 
-			> .znpb-admin-side-menu {
-				display: none;
+			 > .znpb-admin-side-menu {
 				position: absolute;
 				top: 0;
-				width: 200px;
-				background: #fff;
 				left: 39px;
 				z-index: 10;
-				box-shadow: 0px 4px 40px -20px #00000063;
-				border-radius: 3px;
+				display: none;
+				width: 200px;
+				background: #fff;
+				box-shadow: 0 4px 40px -20px rgba(0, 0, 0, .4);
 				border: 1px solid #f1f1f1;
+				border-radius: 3px;
 			}
+		}
+	}
+
+	&.znpb-admin-content--hiddenXs {
+		@media (max-width: 1399px) {
+			display: none;
 		}
 	}
 
@@ -101,5 +113,4 @@ export default {
 		background: $surface;
 	}
 }
-
 </style>
