@@ -105,7 +105,8 @@ export default {
 	props: {
 		modelValue: {
 			type: [Object, Array],
-			required: false
+			required: false,
+			default: {}
 		}
 	},
 	setup (props, { emit }) {
@@ -198,6 +199,7 @@ export default {
 		}
 
 		function deleteConfigForPseudoSelector (pseudoSelectorId) {
+
 			const newValues = {
 				...props.modelValue,
 				[activeResponsiveDeviceInfo.value.id]: {
