@@ -4159,15 +4159,15 @@ msgstr ""
 msgid "Letter spacings sets the width between letters."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:197
+#: ../includes/Options/Schemas/Typography.php:194
 msgid "uppercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:202
+#: ../includes/Options/Schemas/Typography.php:199
 msgid "lowercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:207
+#: ../includes/Options/Schemas/Typography.php:204
 msgid "capitalize"
 msgstr ""
 
