@@ -7,13 +7,13 @@
 		@blur="deactivate"
 		ref="root"
 	>
-		{{modelValue}}
+		{{computedModelValue}}
 	</component>
 </template>
 
 <script>
-import { ref, watch, nextTick } from 'vue'
-
+import { ref, watch, nextTick, computed } from 'vue'
+import { translate } from '@zb/i18n'
 export default {
 	name: 'InlineEdit',
 	props: {
@@ -40,6 +40,10 @@ export default {
 			if (newValue !== isActive.value) {
 				isActive.value = newValue
 			}
+		})
+
+		let computedModelValue = computed(() => {
+			return props.modelValue.length ? props.modelValue : translate('editable_name')
 		})
 
 		/**
@@ -74,7 +78,8 @@ export default {
 			isActive,
 			activate,
 			deactivate,
-			root
+			root,
+			computedModelValue
 		}
 	}
 }
