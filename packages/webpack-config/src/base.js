@@ -47,9 +47,6 @@ module.exports = () => {
 				if (/^@zb\/.*$/.test(request)) {
 					const modules = request.replace('@', '').split('/')
 					// Externalize to a commonjs module using the request path
-					console.log({
-						modules
-					});
 					return callback(null, modules, 'root');
 				}
 				callback()
