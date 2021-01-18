@@ -78,7 +78,7 @@
 				<Tab name="Search">
 					<template #title>
 						<div
-							@click="toggleSearchIcon"
+							@click.stop="toggleSearchIcon"
 							class="znpb-element-options__search-tab-title"
 						>
 							<Icon :icon="searchIcon" />
@@ -94,9 +94,10 @@
 						>
 						</BaseInput>
 					</template>
+
 					<p
 						class="znpb-element-options-default-message"
-						v-if="optionsFilterKeyword.length > 2 && filteredOptions.length === 0"
+						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 					>
 						{{$translate('no_options_found')}}
 					</p>
@@ -372,6 +373,10 @@ export default {
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
+				if (tabId !== 'search') {
+					this.lastTab = this.activeKeyTab
+					this.optionsFilterKeyword = ''
+				}
 				this.activeKeyTab.value = event.detail
 			}
 		},
@@ -458,7 +463,9 @@ export default {
 		toggleSearchIcon () {
 			this.searchActive = !this.searchActive
 			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
+				this.changeTab('general')
+			} else {
+				this.changeTab('search')
 			}
 			this.optionsFilterKeyword = ''
 		},
@@ -469,15 +476,11 @@ export default {
 			if (tabId !== 'search') {
 				this.lastTab = this.activeKeyTab
 				this.optionsFilterKeyword = ''
-			}
-
-			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
-			}
-
-			if (tabId === 'search' && this.searchActive) {
+			} else if (this.searchActive) {
 				if (this.$refs.searchInput) {
-					this.$refs.searchInput.focus()
+					this.$nextTick(() => {
+						this.$refs.searchInput.focus()
+					})
 				}
 			}
 		},
