@@ -77,10 +77,6 @@ class IconList extends Element {
 				'title'            => 'Layout',
 				'options'          => [
 					[
-						'name' => __( 'inherit', 'zionbuilder' ),
-						'id'   => 'inherit',
-					],
-					[
 						'name' => __( 'column', 'zionbuilder' ),
 						'id'   => 'column',
 					],
