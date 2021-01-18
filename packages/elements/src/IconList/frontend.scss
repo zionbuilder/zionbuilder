@@ -16,9 +16,18 @@
 		text-decoration: none;
 
 		&Icon {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
 			margin-right: 10px;
 			color: $secondary;
 			font-size: 18px;
+			line-height: 1;
+			&:before {
+				width: 1em;
+				height: 1em;
+				text-align: center;
+			}
 		}
 
 		&--iconLeft .zb-el-iconList__item {

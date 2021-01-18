@@ -73,13 +73,9 @@ class IconList extends Element {
 			[
 				'type'             => 'custom_selector',
 				'columns'          => 2,
-				'default'          => 'inherit',
+				'default'          => '',
 				'title'            => 'Layout',
 				'options'          => [
-					[
-						'name' => __( 'inherit', 'zionbuilder' ),
-						'id'   => 'inherit',
-					],
 					[
 						'name' => __( 'column', 'zionbuilder' ),
 						'id'   => 'column',
@@ -207,12 +203,12 @@ class IconList extends Element {
 		$icons->add_option(
 			'icon_color',
 			[
-				'type'               => 'colorpicker',
-				'title'              => __( 'Icon Color', 'zionbuilder' ),
-				'description'        => __( 'Select the color of the icon', 'zionbuilder' ),
-				'layout'             => 'inline',
-				'default'            => '#006dd2',
-				'css_style'          => [
+				'type'        => 'colorpicker',
+				'title'       => __( 'Icon Color', 'zionbuilder' ),
+				'description' => __( 'Select the color of the icon', 'zionbuilder' ),
+				'layout'      => 'inline',
+				'default'     => '#006dd2',
+				'css_style'   => [
 					[
 						'selector' => '{{ELEMENT}} .zb-el-iconList__item--{{INDEX}} .zb-el-iconList__itemIcon',
 						'value'    => 'color: {{VALUE}}',
@@ -224,12 +220,12 @@ class IconList extends Element {
 		$icons->add_option(
 			'text_color',
 			[
-				'type'               => 'colorpicker',
-				'title'              => __( 'Text Color', 'zionbuilder' ),
-				'description'        => __( 'Select the color of the text', 'zionbuilder' ),
-				'layout'             => 'inline',
-				'default'            => '#000',
-				'css_style'          => [
+				'type'        => 'colorpicker',
+				'title'       => __( 'Text Color', 'zionbuilder' ),
+				'description' => __( 'Select the color of the text', 'zionbuilder' ),
+				'layout'      => 'inline',
+				'default'     => '#000',
+				'css_style'   => [
 					[
 						'selector' => '{{ELEMENT}} .zb-el-iconList__item--{{INDEX}} .zb-el-iconList__itemText',
 						'value'    => 'color: {{VALUE}}',
@@ -251,8 +247,8 @@ class IconList extends Element {
 		$this->register_style_options_element(
 			'item_styles',
 			[
-				'title'      => esc_html__( 'Item styles', 'zionbuilder' ),
-				'selector'   => '{{ELEMENT}} .zb-el-iconList__item',
+				'title'    => esc_html__( 'Item styles', 'zionbuilder' ),
+				'selector' => '{{ELEMENT}} .zb-el-iconList__item',
 
 			]
 		);
@@ -319,12 +315,12 @@ class IconList extends Element {
 	}
 
 	public function render_single_icon( $config, $options, $index ) {
-		$icon_position = $options->get_value( 'icon_position', 'left' );
-		$icon_html     = '';
-		$text_html     = '';
-		$html_tag      = 'span';
-		$link          = ! empty( $config['link'] ) ? $config['link'] : false;
-		$item_index_class = sprintf( 'zb-el-iconList__item zb-el-iconList__item--%s', $index );
+		$icon_position      = $options->get_value( 'icon_position', 'left' );
+		$icon_html          = '';
+		$text_html          = '';
+		$html_tag           = 'span';
+		$link               = ! empty( $config['link'] ) ? $config['link'] : false;
+		$item_index_class   = sprintf( 'zb-el-iconList__item zb-el-iconList__item--%s', $index );
 		$item_style_classes = $this->get_style_classes_as_string( 'item_styles', [ $item_index_class ] );
 
 		if ( ! empty( $link['link'] ) ) {

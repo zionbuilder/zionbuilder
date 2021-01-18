@@ -565,7 +565,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:190, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -2515,11 +2515,11 @@ msgstr ""
 msgid "Press me"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:90, ../includes/Elements/Icon/Icon.php:39, ../includes/Elements/Icon/Icon.php:77, ../includes/Elements/IconBox/IconBox.php:76, ../includes/Elements/IconList/IconList.php:179, ../includes/Elements/Separator/Separator.php:281
+#: ../includes/Elements/Button/Button.php:90, ../includes/Elements/Icon/Icon.php:39, ../includes/Elements/Icon/Icon.php:77, ../includes/Elements/IconBox/IconBox.php:76, ../includes/Elements/IconList/IconList.php:175, ../includes/Elements/Separator/Separator.php:281
 msgid "Icon"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:91, ../includes/Elements/Icon/Icon.php:78, ../includes/Elements/IconBox/IconBox.php:77, ../includes/Elements/IconList/IconList.php:180, ../includes/Elements/Separator/Separator.php:282
+#: ../includes/Elements/Button/Button.php:91, ../includes/Elements/Icon/Icon.php:78, ../includes/Elements/IconBox/IconBox.php:77, ../includes/Elements/IconList/IconList.php:176, ../includes/Elements/Separator/Separator.php:282
 msgid "Choose an icon"
 msgstr ""
 
@@ -2527,7 +2527,7 @@ msgstr ""
 msgid "Set the url"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:203, ../includes/Elements/Image/Image.php:114
+#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:114
 msgid "Link"
 msgstr ""
 
@@ -2599,7 +2599,7 @@ msgstr ""
 msgid "Button position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/Counter/Counter.php:155, ../includes/Elements/IconList/IconList.php:115
+#: ../includes/Elements/Button/Button.php:264, ../includes/Elements/Button/Button.php:299, ../includes/Elements/Counter/Counter.php:155, ../includes/Elements/IconList/IconList.php:111
 msgid "right"
 msgstr ""
 
@@ -2607,11 +2607,11 @@ msgstr ""
 msgid "Icon position"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:303, ../includes/Elements/IconList/IconList.php:119
+#: ../includes/Elements/Button/Button.php:303, ../includes/Elements/IconList/IconList.php:115
 msgid "top"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:307, ../includes/Elements/IconList/IconList.php:123
+#: ../includes/Elements/Button/Button.php:307, ../includes/Elements/IconList/IconList.php:119
 msgid "bottom"
 msgstr ""
 
@@ -2619,7 +2619,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:270
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:266
 msgid "Icon styles"
 msgstr ""
 
@@ -2811,7 +2811,7 @@ msgstr ""
 msgid "Select the desired alignment."
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:147, ../includes/Elements/IconList/IconList.php:111
+#: ../includes/Elements/Counter/Counter.php:147, ../includes/Elements/IconList/IconList.php:107
 msgid "left"
 msgstr ""
 
@@ -2987,7 +2987,7 @@ msgstr ""
 msgid "Hover"
 msgstr ""
 
-#: ../includes/Elements/Icon/Icon.php:268, ../includes/Elements/IconList/IconList.php:211, ../includes/Elements/Separator/Separator.php:301
+#: ../includes/Elements/Icon/Icon.php:268, ../includes/Elements/IconList/IconList.php:207, ../includes/Elements/Separator/Separator.php:301
 msgid "Icon Color"
 msgstr ""
 
@@ -3044,50 +3044,46 @@ msgid "Icon List"
 msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:80
-msgid "inherit"
-msgstr ""
-
-#: ../includes/Elements/IconList/IconList.php:84
 msgid "column"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:88
+#: ../includes/Elements/IconList/IconList.php:84
 msgid "row"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:141
+#: ../includes/Elements/IconList/IconList.php:137
 msgid "List items"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:142
+#: ../includes/Elements/IconList/IconList.php:138
 msgid "Add new list item"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:189, ../includes/Elements/Text/Text.php:75
+#: ../includes/Elements/IconList/IconList.php:185, ../includes/Elements/Text/Text.php:75
 msgid "Set the desired content for this element"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:191
+#: ../includes/Elements/IconList/IconList.php:187
 msgid "Enter item text"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:212
+#: ../includes/Elements/IconList/IconList.php:208
 msgid "Select the color of the icon"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:228
+#: ../includes/Elements/IconList/IconList.php:224
 msgid "Text Color"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:229
+#: ../includes/Elements/IconList/IconList.php:225
 msgid "Select the color of the text"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:254
+#: ../includes/Elements/IconList/IconList.php:250
 msgid "Item styles"
 msgstr ""
 
-#: ../includes/Elements/IconList/IconList.php:262
+#: ../includes/Elements/IconList/IconList.php:258
 msgid "Text styles"
 msgstr ""
 
