@@ -25,6 +25,10 @@ class Localization {
 		return apply_filters(
 			'zionbuilder/localization/strings',
 			[
+				// Options panel
+				'no_options_found'                       => esc_html__( 'No options found', 'zionbuilder' ),
+				'element_has_no_specific_options'        => esc_html__( 'Element has no specific options', 'zionbuilder' ),
+
 				// Free vs pro
 				'manage_users_permissions_free'          => esc_html__( 'Want to give control to specific users?', 'zionbuilder' ),
 				'manage_users_permissions_title'         => esc_html__( 'specific users control', 'zionbuilder' ),
