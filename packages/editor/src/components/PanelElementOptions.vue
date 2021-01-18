@@ -41,20 +41,25 @@
 			</div>
 		</template>
 		<div class="znpb-element-options-content-wrapper">
+
 			<Tabs
 				:has-scroll="['general','advanced']"
 				v-model:activeTab="activeKeyTab"
 				class="znpb-element-options__tabs-wrapper"
 			>
-				<Tab
-					name="General"
-					v-if="element.elementTypeModel.hasOwnProperty('options')"
-				>
+				<Tab name="General">
 					<OptionsForm
 						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
+						v-if="element.elementTypeModel.hasOwnProperty('options') && Object.keys(element.elementTypeModel.options).length > 0"
 					/>
+
+					<p
+						class="znpb-element-options-no-option-message"
+						v-else
+					>{{$translate('element_has_no_specific_options')}}</p>
+
 				</Tab>
 				<Tab name="Styling">
 					<OptionsForm
@@ -73,7 +78,7 @@
 				<Tab name="Search">
 					<template #title>
 						<div
-							@click="toggleSearchIcon"
+							@click.stop="toggleSearchIcon"
 							class="znpb-element-options__search-tab-title"
 						>
 							<Icon :icon="searchIcon" />
@@ -89,11 +94,12 @@
 						>
 						</BaseInput>
 					</template>
+
 					<p
 						class="znpb-element-options-default-message"
-						v-if="optionsFilterKeyword.length > 2 && filteredOptions.length === 0"
+						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 					>
-						{{noOptionFoundMessage}}
+						{{$translate('no_options_found')}}
 					</p>
 					<p
 						v-if="optionsFilterKeyword.length < 3"
@@ -267,7 +273,6 @@ export default {
 			lastTab: null,
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
-			noOptionFoundMessage: 'No options found with this keyword'
 		}
 	},
 	computed: {
@@ -368,6 +373,10 @@ export default {
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
+				if (tabId !== 'search') {
+					this.lastTab = this.activeKeyTab
+					this.optionsFilterKeyword = ''
+				}
 				this.activeKeyTab.value = event.detail
 			}
 		},
@@ -454,7 +463,9 @@ export default {
 		toggleSearchIcon () {
 			this.searchActive = !this.searchActive
 			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
+				this.changeTab('general')
+			} else {
+				this.changeTab('search')
 			}
 			this.optionsFilterKeyword = ''
 		},
@@ -465,15 +476,11 @@ export default {
 			if (tabId !== 'search') {
 				this.lastTab = this.activeKeyTab
 				this.optionsFilterKeyword = ''
-			}
-
-			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
-			}
-
-			if (tabId === 'search' && this.searchActive) {
+			} else if (this.searchActive) {
 				if (this.$refs.searchInput) {
-					this.$refs.searchInput.focus()
+					this.$nextTick(() => {
+						this.$refs.searchInput.focus()
+					})
 				}
 			}
 		},
@@ -696,6 +703,7 @@ export default {
 	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
+
 	.znpb-element-options-no-option-message {
 		position: absolute;
 		top: 0;
