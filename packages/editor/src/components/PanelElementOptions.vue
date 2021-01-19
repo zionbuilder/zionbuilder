@@ -296,6 +296,37 @@ export default {
 							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
 							title: config.title,
 							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
+						},
+						attributes: {
+							type: 'accordion_menu',
+							title: 'custom attributes',
+							icon: 'brush',
+							child_options: {
+								'attributes': {
+									type: 'repeater',
+									title: 'Attributes',
+									add_button_text: 'Add new attribute',
+									item_title: 'property',
+									default_item_title: 'attr %s',
+									child_options: {
+										'attribute_name': {
+											type: 'text',
+											title: 'Attribute name',
+											dynamic: {
+												enabled: true
+											}
+										},
+										'attribute_value': {
+											type: 'text',
+											title: 'Attribute value',
+											dynamic: {
+												enabled: true
+											}
+										}
+									}
+								}
+
+							}
 						}
 					}
 				}

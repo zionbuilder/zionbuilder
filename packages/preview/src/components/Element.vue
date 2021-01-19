@@ -126,6 +126,8 @@ export default {
 
 		const options = computed(() => readonly(parsedData.value.options))
 		const renderAttributes = computed(() => parsedData.value.renderAttributes)
+
+
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS
 			const elementStyleConfig = props.element.elementTypeModel.style_elements
@@ -148,8 +150,11 @@ export default {
 		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
+
+
 		const getExtraAttributes = computed(() => {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}
+
 			const elementClass = camelCase(props.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
@@ -158,6 +163,7 @@ export default {
 				'znpb-element--loading': loading.value
 			}
 
+			let customAttributes = {}
 
 			if (stylesConfig.value.wrapper) {
 				const wrapperConfig = stylesConfig.value.wrapper
@@ -165,6 +171,16 @@ export default {
 
 					wrapperConfig.classes.forEach(classSelector => {
 						classes[classSelector] = true
+					})
+				}
+
+				if (wrapperConfig.attributes) {
+
+					wrapperConfig.attributes['attributes'].forEach(attribute => {
+						console.log('attribute', attribute)
+						let attrObj = {}
+						attrObj[attribute['attribute_name']] = attribute['attribute_value']
+						customAttributes = { ...customAttributes, ...attrObj }
 					})
 				}
 			}
@@ -179,13 +195,17 @@ export default {
 			// Add render attributes classes
 			return {
 				...wrapperAttributes,
+				...customAttributes,
 				class: classes,
+
 				api: {
 					getStyleClasses,
 					getAttributesForTag
 				}
 			}
 		})
+
+
 
 		// Get the element component
 		fetchElementComponent()
@@ -321,6 +341,7 @@ export default {
 		applyCustomClassesToRenderTags () {
 			const elementSavedStyles = getOptionValue(this.options, '_styles', {})
 			const stylesConfig = this.element.elementTypeModel.style_elements
+			const attrConfig = getOptionValue(this.options, 'attributes', {})
 
 			Object.keys(elementSavedStyles).forEach(styleConfigId => {
 				const { classes } = elementSavedStyles[styleConfigId]

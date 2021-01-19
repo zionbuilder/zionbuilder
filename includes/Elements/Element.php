@@ -173,6 +173,9 @@ class Element {
 
 			// Setup render tags custom css classes
 			$this->apply_custom_classes_to_render_tags();
+
+			// Setup render tags customattributes
+			$this->apply_custom_attributes_to_render_tags();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -227,6 +230,26 @@ class Element {
 				if ( isset( $style_config['render_tag'] ) && isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
 					foreach ( $style_value['classes'] as $css_class ) {
 						$this->render_attributes->add( $style_config['render_tag'], 'class', $css_class );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Attaches all custom render attributes
+	 *
+	 * @return void
+	 */
+	public function apply_custom_attributes_to_render_tags() {
+		$styles_attrs = $this->options->get_value( '_styles', [] );
+
+		foreach ( $styles_attrs as $id => $attr_array ) {
+			if ( ! empty( $styles_attrs[$id] ) && isset( $styles_attrs[$id]['attributes'] ) ) {
+
+				foreach ( $styles_attrs[$id]['attributes'] as $attr => $attr_config ) {
+					foreach ( $attr_config as $attr_key => $attr_value ) {
+						$this->render_attributes->add( $id, $attr_config[$attr_key]['attribute_name'], $attr_config[$attr_key]['attribute_value'] );
 					}
 				}
 			}
