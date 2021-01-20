@@ -211,6 +211,21 @@ export default {
 		};
 	},
 	watch: {
+		closeOnOutsideClick(newValue) {
+			if (newValue) {
+				this.ownerDocument.addEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
+			} else {
+				this.ownerDocument.removeEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
+			}
+		},
 		hideAfter(newValue) {
 			if (newValue) {
 				this.onHideAfter();

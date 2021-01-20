@@ -248,8 +248,6 @@ export default {
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
 			deleteTopModelValueByPath,
-
-			// OLD
 			getSchema,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
@@ -303,7 +301,7 @@ export default {
 
 		optionTypeConfig () {
 			const { getOption } = useOptions();
-
+			console.log('getting new option config')
 			return getOption(
 				this.schema,
 				this.optionValue,

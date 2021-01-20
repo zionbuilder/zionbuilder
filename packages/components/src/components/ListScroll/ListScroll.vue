@@ -46,18 +46,12 @@ export default {
 </script>
 
 <style lang="scss">
-// Transitions
-.fadeFromBottom-enter-to, .fadeFromBottom-leave-from {
-	transition: opacity .5s;
-}
-.fadeFromBottom-enter-from, .fadeFromBottom-leave-to {
-	opacity: 0;
-}
-
 .znpb-scroll-list-wrapper {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 }
-
 .znpb-scroll-list-container {
 	overflow: auto;
 }

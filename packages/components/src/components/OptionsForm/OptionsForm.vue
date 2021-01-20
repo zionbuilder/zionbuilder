@@ -81,6 +81,10 @@ export default {
 			return get(topModelValue.value, path)
 		}
 
+		const getValueByPath = (path, defaultValue = null) => {
+			return get(props.modelValue, path, defaultValue)
+		}
+
 		/**
 		 * Will update a value by path
 		 */
@@ -90,12 +94,14 @@ export default {
 			emit('update:modelValue', clonedValue)
 		}
 
-		const getValueByPath = (path, defaultValue = null) => {
-			return get(props.modelValue, path, defaultValue)
-		}
-
 		const deleteValueByPath = (path) => {
-			return unset(props.modelValue, path)
+			const clonedValue = cloneDeep(props.modelValue)
+			unset(clonedValue, path)
+			console.log({ clonedValue });
+			emit('update:modelValue', clonedValue)
+			setTimeout(() => {
+				console.log({ ...props.modelValue });
+			}, 10);
 		}
 
 		// Provide methods for child inputs
@@ -105,7 +111,8 @@ export default {
 			deleteValueByPath,
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
-			deleteTopModelValueByPath
+			deleteTopModelValueByPath,
+			modelValue: props.modelValue
 		})
 
 		// OLD
@@ -262,7 +269,6 @@ export default {
 		},
 
 		deleteValues (allPaths) {
-
 			let newValues = { ...this.modelValue }
 			allPaths.forEach((path) => {
 				const paths = path.split('.')
@@ -280,9 +286,6 @@ export default {
 				}, newValues)
 			})
 			this.$emit('update:modelValue', newValues)
-		},
-		onDeleteOptions (optionIds) {
-			this.deleteValues(optionIds)
 		},
 		getValue (optionSchema) {
 			if (optionSchema.is_layout) {

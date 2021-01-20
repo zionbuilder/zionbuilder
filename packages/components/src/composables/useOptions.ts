@@ -111,7 +111,7 @@ const options = {
 		id: 'checkbox_switch',
 		component: InputCheckboxSwitch
 	},
-	text_align:{
+	text_align: {
 		id: 'text_align',
 		component: InputTextAlign
 	},
@@ -158,7 +158,7 @@ export const useOptions = () => {
 	const getOption = (schema, model = null, formModel = {}) => {
 		let optionConfig = options[schema.type]
 		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
-
+		console.log({ optionConfig });
 		if (!optionConfig) {
 			// eslint-disable-next-line
 			console.warn(`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`)

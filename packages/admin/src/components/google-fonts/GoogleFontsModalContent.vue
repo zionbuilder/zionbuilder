@@ -33,13 +33,11 @@ import { useGoogleFonts } from '@zionbuilder/composables'
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue'
-import ListScroll from '../ListScroll.vue'
 
 export default {
 	name: 'GoogleFontsModalContent',
 	components: {
-		GoogleFontModalElement,
-		ListScroll
+		GoogleFontModalElement
 	},
 	props: {
 		activeFonts: {
