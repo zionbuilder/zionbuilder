@@ -226,10 +226,11 @@ class Element {
 		foreach ( $element_saved_styles as $style_config_id => $style_value ) {
 			if ( isset( $styles_config[$style_config_id] ) ) {
 				$style_config = $styles_config[$style_config_id];
+				$render_tag   = isset( $style_config['render_tag'] ) ? $style_config['render_tag'] : $style_config_id;
 
-				if ( isset( $style_config['render_tag'] ) && isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
+				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
 					foreach ( $style_value['classes'] as $css_class ) {
-						$this->render_attributes->add( $style_config['render_tag'], 'class', $css_class );
+						$this->render_attributes->add( $render_tag, 'class', $css_class );
 					}
 				}
 			}
