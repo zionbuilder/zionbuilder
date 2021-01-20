@@ -4,7 +4,7 @@
 
 		<component
 			:is="getTag"
-			v-bind="api.getAttributesForTag('button', getButtonAttributes)"
+			v-bind="api.getAttributesForTag('button_styles', getButtonAttributes)"
 			ref="button"
 			class="zb-el-button"
 			:class="[api.getStyleClasses('button_styles'),

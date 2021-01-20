@@ -151,7 +151,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--icon-{{VALUE}}',
 					],
@@ -183,7 +183,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--{{VALUE}}',
 					],
@@ -219,7 +219,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--size-{{VALUE}}',
 					],
@@ -236,7 +236,7 @@ class Button extends Element {
 				'title'            => esc_html__( 'Full width', 'zionbuilder' ),
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--full-width',
 					],
@@ -310,7 +310,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--icon-{{VALUE}}',
 					],
@@ -333,7 +333,7 @@ class Button extends Element {
 			[
 				'title'      => esc_html__( 'Button styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-button',
-				'render_tag' => 'button',
+				'render_tag' => 'button_styles',
 			]
 		);
 		$this->register_style_options_element(
