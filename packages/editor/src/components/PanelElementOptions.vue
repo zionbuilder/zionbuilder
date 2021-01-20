@@ -139,7 +139,7 @@
 <script>
 import { ref, watch, provide, computed } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { on, off } from '@zb/hooks'
+import { on, off, applyFilters } from '@zb/hooks'
 import { debounce } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { usePseudoSelectors } from '@zb/components'
@@ -148,7 +148,7 @@ import { useOptionsSchemas } from '@zb/components'
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import BasePanel from './BasePanel.vue'
-
+import { translate } from '@zb/i18n'
 export default {
 	name: 'PanelElementOptions',
 	components: {
@@ -297,38 +297,9 @@ export default {
 							title: config.title,
 							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
 						},
-						attributes: {
-							type: 'accordion_menu',
-							title: 'custom attributes',
-							icon: 'brush',
-							is_layout: true,
-							child_options: {
-								attributes: {
-									type: 'repeater',
-									title: 'Attributes',
-									add_button_text: 'Add new attribute',
-									item_title: 'property',
-									default_item_title: 'attr %s',
-									child_options: {
-										'attribute_name': {
-											type: 'text',
-											title: 'Attribute name',
-											dynamic: {
-												enabled: true
-											}
-										},
-										'attribute_value': {
-											type: 'text',
-											title: 'Attribute value',
-											dynamic: {
-												enabled: true
-											}
-										}
-									}
-								}
+						attributes: this.attributesOtpions
 
-							}
-						}
+
 					}
 				}
 			})
@@ -341,6 +312,29 @@ export default {
 					type: 'group'
 				}
 			}
+		},
+		attributesOtpions () {
+			let attributesComponent = {
+				type: 'accordion_menu',
+				title: 'custom attributes',
+				icon: 'brush',
+				is_layout: true,
+				label: {
+					type: translate('pro'),
+					text: translate('pro')
+				},
+				show_title: false,
+				child_options: {
+					upgrade_message: {
+						type: 'upgrade_to_pro',
+						message_title: translate('meet_custom_attributes'),
+						message_description: translate('meet_custom_attributes_desc'),
+						message_link: translate('meet_custom_attributes_link')
+					}
+
+				}
+			}
+			return applyFilters('zionbuilder/options/attributes', attributesComponent)
 		},
 		allOptionsSchema () {
 			const elementOptionsSchema = this.element.elementTypeModel.options ? this.element.elementTypeModel.options : {}
