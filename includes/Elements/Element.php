@@ -244,12 +244,12 @@ class Element {
 	public function apply_custom_attributes_to_render_tags() {
 		$styles_attrs = $this->options->get_value( '_styles', [] );
 
-		foreach ( $styles_attrs as $id => $attr_array ) {
-			if ( ! empty( $styles_attrs[$id] ) && isset( $styles_attrs[$id]['attributes'] ) ) {
-
-				foreach ( $styles_attrs[$id]['attributes'] as $attr => $attr_config ) {
-					foreach ( $attr_config as $attr_key => $attr_value ) {
-						$this->render_attributes->add( $id, $attr_config[$attr_key]['attribute_name'], $attr_config[$attr_key]['attribute_value'] );
+		foreach ( $styles_attrs as $id => $style_values ) {
+			if ( isset( $style_values['attributes'] ) && is_array( $style_values['attributes'] ) ) {
+				foreach ( $style_values['attributes'] as $attributes ) {
+					if ( ! empty( $attributes['attribute_name'] ) ) {
+						$attribute_value = isset( $attributes['attribute_value'] ) ? $attributes['attribute_value'] : '';
+						$this->render_attributes->add( $id, $attributes['attribute_name'], $attribute_value );
 					}
 				}
 			}
