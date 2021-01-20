@@ -54,7 +54,7 @@ export default {
 			required: false,
 			type: Array,
 			default () {
-				return null
+				return []
 			}
 		},
 		allowDuplicate: {
@@ -125,6 +125,11 @@ export default {
 			type: String,
 			required: false,
 			default: null
+		},
+		preserveLastLocation: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	setup (props, { slots, emit }) {
@@ -219,8 +224,8 @@ export default {
 		 */
 		const canPut = (dragItemInfo) => {
 			const dragGroupInfo = dragItemInfo.group
-			const sameGroup = dragItemInfo.group.value.name === groupInfo.value.name
-			const put = groupInfo.put || null
+			const sameGroup = dragGroupInfo.value.name === groupInfo.value.name
+			const put = dragGroupInfo.put || null
 
 			if (put === null && sameGroup) {
 				return true
@@ -232,9 +237,9 @@ export default {
 				if (put === true) {
 					return true
 				} else if (typeof put === 'string') {
-					return put === dragItemInfo.group.value.name
+					return put === dragGroupInfo.value.name
 				} else if (Array.isArray(put)) {
-					return put.indexOf(dragItemInfo.group.value.name) > -1
+					return put.indexOf(dragGroupInfo.value.name) > -1
 				}
 			}
 
@@ -242,45 +247,57 @@ export default {
 		}
 
 		const movePlaceholder = (container, element, before) => {
-			// Remove css class from last container
-			if (dragItemInfo.lastContainer !== container) {
-				removeCssClass('placeholder:container')
+			// Check to see if we need to remove the nodes
+			if (null === container && element === null, before === null) {
+				if (dragItemInfo.lastContainer !== container) {
+					removeCssClass('placeholder:container')
+					if (props.placeholder) {
+						placeholderNode.remove()
+					}
+					dragItemInfo.lastContainer = null
+				}
+			} else {
+				// Remove css class from last container
+				if (dragItemInfo.lastContainer !== container) {
+					removeCssClass('placeholder:container')
+				}
+				// Move placeholder if we are allowed to move it
+				if (props.placeholder) {
+					container.insertBefore(placeholderNode, element)
+				}
+
+				if (dragItemInfo.lastContainer !== container) {
+					addCssClass('placeholder:container')
+				}
+
+				const {
+					container: from,
+					item,
+					index:
+					startIndex,
+					to,
+					newIndex,
+					toItem
+				} = dragItemInfo
+
+				// Trigger change
+				const changeEvent = new ChangeEvent({
+					from,
+					item,
+					startIndex,
+					to,
+					newIndex,
+					toItem,
+					before
+				})
+
+				dragItemInfo.lastContainer = container
+
+				// Send the event
+				emit('change', changeEvent)
 			}
 
-			// Move placeholder if we are allowed to move it
-			if (props.placeholder) {
-				container.insertBefore(placeholderNode, element)
-			}
 
-			if (dragItemInfo.lastContainer !== container) {
-				addCssClass('placeholder:container')
-			}
-
-			const {
-				container: from,
-				item,
-				index:
-				startIndex,
-				to,
-				newIndex,
-				toItem
-			} = dragItemInfo
-
-			// Trigger change
-			const changeEvent = new ChangeEvent({
-				from,
-				item,
-				startIndex,
-				to,
-				newIndex,
-				toItem,
-				before
-			})
-
-			dragItemInfo.lastContainer = container
-
-			// Send the event
-			emit('change', changeEvent)
 		}
 
 
@@ -425,7 +442,10 @@ export default {
 				helperNode.style.left = `${initialX - width / 2}px`
 				helperNode.style.top = `${initialY - height / 2}px`
 			} else {
-				helperNode.style.left = `${marginBox.left}px`
+				if (groupInfo.value.pull !== 'clone') {
+					helperNode.style.left = `${marginBox.left}px`
+				}
+
 				helperNode.style.top = `${marginBox.top}px`
 				helperNode.style.width = `${paddingBox.width}px`
 				helperNode.style.height = `${paddingBox.height}px`
@@ -474,7 +494,7 @@ export default {
 				helperNode = helper.value
 				sortableContainer.value.insertBefore(helperNode, draggedItem)
 				draggedItem.insertAdjacentElement('afterend', helperNode)
-			} else if (groupInfo.pull === 'clone') {
+			} else if (groupInfo.value.pull === 'clone') {
 				const clone = draggedItem.cloneNode(true)
 				sortableContainer.value.insertBefore(clone, draggedItem)
 				helperNode = clone
@@ -490,7 +510,7 @@ export default {
 				// Remove css class
 				removeCssClass('helper')
 
-				if (hasHelperSlot || groupInfo.pull === 'clone') {
+				if (hasHelperSlot || groupInfo.value.pull === 'clone') {
 					// Remove helper
 					const helperContainer = helperNode.parentNode
 					// There are cases where the placeholder is not yet present in the dom
@@ -513,7 +533,7 @@ export default {
 				placeholderNode.style.visibility = 'hidden'
 			}
 
-			if (placeholderNode && groupInfo.pull !== 'clone') {
+			if (placeholderNode && groupInfo.value.pull !== 'clone') {
 				sortableContainer.value.insertBefore(placeholderNode, draggedItem)
 			}
 
@@ -585,6 +605,7 @@ export default {
 				if (from && to && newIndex !== -1) {
 					// Send event for second list
 					const toVm = to.__SORTABLE_INFO__
+
 					// Update values if exists
 					if (props.modelValue !== null) {
 						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1
@@ -609,7 +630,8 @@ export default {
 						draggedValueModel,
 						fromDraggedValueModel: props.modelValue
 					})
-					emit('drop', dropEvent)
+
+					toVm.emit('drop', dropEvent)
 				}
 
 				// Trigger move event
@@ -705,7 +727,7 @@ export default {
 		 * @returns {boolean} If the dragged item can be placed inside current container
 		 */
 		const canPull = () => {
-			if (groupInfo.pull === false) {
+			if (groupInfo.value.pull === false) {
 				return false
 			}
 
@@ -783,7 +805,6 @@ export default {
 					dragItemInfo.toItem = overItem.item
 
 					if (overItem.container) {
-
 						if (overItem.item) {
 							const collisionInfoData = collisionInfo(event, overItem.item, targetVM)
 							dragItemInfo.placeBefore = collisionInfoData.before
@@ -804,6 +825,12 @@ export default {
 							}
 						}
 					}
+				} else if (!props.preserveLastLocation) {
+					dragItemInfo.to = null
+					dragItemInfo.newIndex = null
+					dragItemInfo.toItem = null
+					dragItemInfo.placeBefore = null
+					movePlaceholderMemoized(null, null, null)
 				}
 			}
 
@@ -881,7 +908,8 @@ export default {
 			canPut,
 			getItemFromList,
 			addItemToList,
-			modelValue: props.modelValue
+			modelValue: props.modelValue,
+			emit
 		}
 
 		const attachRef = function (children) {
