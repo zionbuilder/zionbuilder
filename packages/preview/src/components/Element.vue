@@ -177,7 +177,7 @@ export default {
 		})
 		const getExtraAttributes = computed(() => {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}
-			console.log('wrapperAttributes', wrapperAttributes)
+
 			const elementClass = camelCase(props.element.element_type)
 			const classes = {
 				[`zb-el-${elementClass}`]: true,
