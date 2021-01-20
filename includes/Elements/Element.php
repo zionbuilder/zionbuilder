@@ -249,7 +249,7 @@ class Element {
 				foreach ( $style_values['attributes'] as $attributes ) {
 					if ( ! empty( $attributes['attribute_name'] ) ) {
 						$attribute_value = isset( $attributes['attribute_value'] ) ? $attributes['attribute_value'] : '';
-						$this->render_attributes->add( $id, $attributes['attribute_name'], $attribute_value );
+						$this->render_attributes->add( $id, sanitize_title_with_dashes( $attributes['attribute_name'] ), esc_attr( $attribute_value ) );
 					}
 				}
 			}

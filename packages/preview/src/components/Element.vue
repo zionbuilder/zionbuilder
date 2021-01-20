@@ -59,7 +59,7 @@
 <script>
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue'
-import { debounce, each } from 'lodash-es'
+import { debounce, each, kebabCase, escape } from 'lodash-es'
 import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
 
@@ -160,7 +160,10 @@ export default {
 						each(styleData.attributes, (attributeValue) => {
 							if (attributeValue.attribute_name) {
 								additionalAttributes[styleID] = additionalAttributes[styleID] || {}
-								additionalAttributes[styleID][attributeValue.attribute_name] = attributeValue.attribute_value
+
+								let cleanAttrName = kebabCase(attributeValue.attribute_name)
+								let cleanAttrValue = escape(attributeValue.attribute_value)
+								additionalAttributes[styleID][cleanAttrName] = cleanAttrValue
 							}
 						})
 
