@@ -221,7 +221,7 @@ class IconBox extends Element {
 			[
 				'title'      => esc_html__( 'Icon styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-iconBox-icon',
-				'render_tag' => 'icon',
+				'render_tag' => 'icon_styles',
 			]
 		);
 		$this->register_style_options_element(
@@ -237,7 +237,7 @@ class IconBox extends Element {
 			[
 				'title'      => esc_html__( 'Description styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-iconBox-description',
-				'render_tag' => 'description',
+				'render_tag' => 'description_styles',
 			]
 		);
 	}
@@ -281,13 +281,15 @@ class IconBox extends Element {
 		$description              = $options->get_value( 'description' );
 		$title                    = $options->get_value( 'title' );
 		$image_custom_css_classes = $this->get_style_classes_as_string( 'image_styles', [ 'zb-el-imageBox-image' ] );
-
+		$description_classes      = $this->get_style_classes_as_string( 'description_styles', [ 'zb-el-iconBox-description' ] );
+		$title_classes            = $this->get_style_classes_as_string( 'title_styles', [ 'zb-el-iconBox-title' ] );
+		$icon_classes             = $this->get_style_classes_as_string( 'icon_styles', [ 'zb-el-iconBox-icon' ] );
 		if ( $icon ) {
 			?>
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-				$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
+				$this->render_tag( 'span', 'icon', '', [ 'class' => $icon_classes ] );
 				?>
 			</div>
 			<?php
@@ -297,12 +299,12 @@ class IconBox extends Element {
 		<div class="zb-el-iconBox-text">
 			<?php
 			if ( ! empty( $title ) ) {
-				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), [ 'class' => 'zb-el-iconBox-title' ] );
+				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), [ 'class' => $title_classes ] );
 			}
 			?>
 			<?php
 			if ( ! empty( $description ) ) {
-				$this->render_tag( 'div', 'description', wp_kses_post( $description ), [ 'class' => 'zb-el-iconBox-description' ] );
+				$this->render_tag( 'div', 'description', wp_kses_post( $description ), [ 'class' => $description_classes ] );
 			}
 			?>
 		</div>
