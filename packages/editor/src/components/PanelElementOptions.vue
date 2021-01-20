@@ -301,8 +301,9 @@ export default {
 							type: 'accordion_menu',
 							title: 'custom attributes',
 							icon: 'brush',
+							is_layout: true,
 							child_options: {
-								'attributes': {
+								attributes: {
 									type: 'repeater',
 									title: 'Attributes',
 									add_button_text: 'Add new attribute',
