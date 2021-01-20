@@ -110,7 +110,7 @@ class Section extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'inner_content',
+						'tag_id'    => 'inner_content_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-flex-width--{{VALUE}}',
 					],
@@ -200,7 +200,7 @@ class Section extends Element {
 				],
 				'render_attribute'   => [
 					[
-						'tag_id'    => 'inner_content',
+						'tag_id'    => 'inner_content_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-sct-clm-gap{{RESPONSIVE_DEVICE_CSS}}--{{VALUE}}',
 					],
@@ -478,7 +478,7 @@ class Section extends Element {
 			[
 				'title'      => esc_html__( 'Inner Content', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-section__innerWrapper',
-				'render_tag' => 'inner_content',
+				'render_tag' => 'inner_content_styles',
 			]
 		);
 	}
@@ -539,7 +539,7 @@ class Section extends Element {
 			MAsks::render_masks( $masks );
 		}
 
-		$this->render_attributes->add( 'inner_content', 'class', 'zb-section__innerWrapper' );
-		$this->render_tag( 'div', 'inner_content', $this->get_children_for_render() );
+		$this->render_attributes->add( 'inner_content_styles', 'class', 'zb-section__innerWrapper' );
+		$this->render_tag( 'div', 'inner_content_styles', $this->get_children_for_render() );
 	}
 }
