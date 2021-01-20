@@ -328,19 +328,15 @@ class Testimonial extends Element {
 			'unicode' => 'uf005',
 		];
 
-		$inner_content_styles_misc_classes        = $this->get_style_classes_as_string( 'inner_content_styles_misc', [ 'zb-el-testimonial-content' ] );
-		$inner_content_styles_user_classes        = $this->get_style_classes_as_string( 'inner_content_styles_user', [ 'zb-el-testimonial__userInfo-name' ] );
-		$inner_content_styles_description_classes = $this->get_style_classes_as_string( 'inner_content_styles_description', [ 'zb-el-testimonial__userInfo-description' ] );
-		$inner_content_styles_image_classes       = $this->get_style_classes_as_string( 'inner_content_styles_image', [ 'zb-el-testimonial__userImage' ] );
-		$inner_content_styles_stars_classes       = $this->get_style_classes_as_string( 'inner_content_styles_stars', [ 'zb-el-testimonial__stars' ] ); ?>
-		<?php if ( $image && ( $position === 'top' ) ) : ?>
+		if ( $image && ( $position === 'top' ) ) : ?>
 			<img
 				src="<?php echo esc_attr( $image ); ?>"
-				class="<?php echo esc_attr( $inner_content_styles_image_classes ); ?>"
+				   <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_image', [ 'class' => 'zb-el-testimonial__userImage' ] ); ?>
+
 			/>
-		<?php endif; ?>
+		   <?php endif; ?>
 		<?php if ( ! empty( $content ) ) : ?>
-			<div class="<?php echo esc_attr( $inner_content_styles_misc_classes ); ?>">
+			<div <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_misc', [ 'class' => 'zb-el-testimonial-content' ] ); ?>>
 				<?php echo wp_kses_post( $content ); ?>
 			</div>
 		<?php endif; ?>
@@ -350,25 +346,25 @@ class Testimonial extends Element {
 			<?php if ( $image && ( $position !== 'top' ) ) : ?>
 				<img
 					src="<?php echo esc_attr( $image ); ?>"
-					class="<?php echo esc_attr( $inner_content_styles_image_classes ); ?>"
+					<?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_image', [ 'class' => 'zb-el-testimonial__userImage' ] ); ?>
 				/>
 			<?php endif; ?>
 
 			<div class="zb-el-testimonial__userInfo">
 
 				<?php if ( ! empty( $name ) ) : ?>
-					<div class="<?php echo esc_attr( $inner_content_styles_user_classes ); ?>">
+					<div <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_user', [ 'class' => 'zb-el-testimonial__userInfo-name' ] ); ?>>
 						<?php echo wp_kses_post( $name ); ?>
 					</div>
 				<?php endif; ?>
 
 				<?php if ( ! empty( $description ) ) : ?>
-					<div class="<?php echo esc_attr( $inner_content_styles_description_classes ); ?>">
+					<div <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_description', [ 'class' => 'zb-el-testimonial__userInfo-description' ] ); ?>>
 						<?php echo wp_kses_post( $description ); ?>
 					</div>
 				<?php endif; ?>
 				<?php if ( ( $stars !== 'no_stars' ) ) : ?>
-					<div class="<?php echo esc_attr( $inner_content_styles_stars_classes ); ?>">
+					<div <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_stars', [ 'class' => 'zb-el-testimonial__stars' ] ); ?>>
 						<?php
 						for ( $x = 1; $x <= $stars; $x ++ ) {
 							$this->attach_icon_attributes( 'icon', $stars_full );
