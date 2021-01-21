@@ -97,11 +97,8 @@ export default {
 		const deleteValueByPath = (path) => {
 			const clonedValue = cloneDeep(props.modelValue)
 			unset(clonedValue, path)
-			console.log({ clonedValue });
 			emit('update:modelValue', clonedValue)
-			setTimeout(() => {
-				console.log({ ...props.modelValue });
-			}, 10);
+
 		}
 
 		// Provide methods for child inputs
