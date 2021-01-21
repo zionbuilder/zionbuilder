@@ -73,11 +73,11 @@ class Video extends BaseSchema {
 				],
 			],
 			'bgType'           => [
-				'type'    => 'custom_selector',
-				'columns' => 2,
-				'title'   => esc_html__( 'Background type', 'zionbuilder' ),
-				'default' => 'cover',
-				'options' => [
+				'type'       => 'custom_selector',
+				'columns'    => 2,
+				'title'      => esc_html__( 'Background type', 'zionbuilder' ),
+				'default'    => 'cover',
+				'options'    => [
 					[
 						'id'   => 'contain',
 						'name' => 'Contain',
@@ -85,6 +85,12 @@ class Video extends BaseSchema {
 					[
 						'id'   => 'cover',
 						'name' => 'Cover',
+					],
+				],
+				'dependency' => [
+					[
+						'option' => 'videoSource',
+						'value'  => [ 'local' ],
 					],
 				],
 			],
@@ -124,7 +130,6 @@ class Video extends BaseSchema {
 				'default' => true,
 				'layout'  => 'inline-between',
 				'title'   => esc_html__( 'Autoplay video?', 'zionbuilder' ),
-				'width'   => 50,
 
 			],
 			'muted'            => [
@@ -132,7 +137,6 @@ class Video extends BaseSchema {
 				'default' => true,
 				'layout'  => 'inline-between',
 				'title'   => esc_html__( 'Start muted?', 'zionbuilder' ),
-				'width'   => 50,
 			],
 		];
 

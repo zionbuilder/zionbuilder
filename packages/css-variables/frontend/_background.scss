@@ -44,4 +44,9 @@
 			}
 		}
 	}
+	&--contain {
+		iframe, video {
+			object-fit: contain;
+		}
+	}
 }
