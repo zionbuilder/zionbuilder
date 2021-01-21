@@ -4216,18 +4216,22 @@ msgid "Enter the Youtube video url."
 msgstr ""
 
 #: ../includes/Options/Schemas/Video.php:78
+msgid "Background type"
+msgstr ""
+
+#: ../includes/Options/Schemas/Video.php:100
 msgid "Show controls"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:84
+#: ../includes/Options/Schemas/Video.php:106
 msgid "Controls position"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:110
+#: ../includes/Options/Schemas/Video.php:132
 msgid "Autoplay video?"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:116
+#: ../includes/Options/Schemas/Video.php:139
 msgid "Start muted?"
 msgstr ""
 
