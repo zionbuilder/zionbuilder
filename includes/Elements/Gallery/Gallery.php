@@ -240,7 +240,7 @@ class Gallery extends Element {
 
 		foreach ( $images as $image ) {
 			if ( ! empty( $image['image'] ) ) {
-				$attributes               = $use_modal ? 'data-src="' . esc_attr( $image['image'] ) . '"' : '';
+				$attributes               = $use_modal ? 'data-src="' . esc_attr( $image['image'] ) . '"' : $this->render_attributes->get_attributes_as_string( 'image_wrapper_styles', [] );
 				$image_custom_css_classes = $this->get_style_classes_as_string( 'image_wrapper_styles', [ 'zb-el-gallery-item' ] );
 
 				// Disabled check as the attributes are already escaped

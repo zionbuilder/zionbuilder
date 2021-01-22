@@ -380,17 +380,16 @@ class Button extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$html_tag             = 'span';
-		$icon_html            = '';
-		$button_text_html     = '';
-		$button_text          = $options->get_value( 'button_text', false );
-		$icon                 = $options->get_value( 'icon', false );
-		$link                 = $options->get_value( 'link', false );
-		$button_attr          = $this->render_attributes->get_attributes( 'button_styles' );
-		$combined_button_attr = $this->render_attributes->combine_attributes( $button_attr, [ 'class' => 'zb-el-button' ] );
+		$html_tag         = 'span';
+		$icon_html        = '';
+		$button_text_html = '';
+		$button_text      = $options->get_value( 'button_text', false );
+		$icon             = $options->get_value( 'icon', false );
+		$link             = $options->get_value( 'link', false );
 
-		$icon_attr          = $this->render_attributes->get_attributes( 'icon_styles' );
-		$combined_icon_attr = $this->render_attributes->combine_attributes( $icon_attr, [ 'class' => 'zb-el-button__icon' ] );
+		$combined_button_attr = $this->render_attributes->get_combined_attributes( 'button_styles', [ 'class' => 'zb-el-button' ] );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-button__icon' ] );
 		if ( ! empty( $link['link'] ) ) {
 			$this->attach_link_attributes( 'button', $link );
 			$html_tag = 'a';
