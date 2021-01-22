@@ -330,19 +330,17 @@ class PricingBox extends Element {
 		$compiled_price = explode( '.', $price );
 
 		// Custom css classes
-		$featured_styles         = $this->get_style_classes_as_string( 'featured_label_styles', [ 'zb-el-pricingBox-featured' ] );
-		$title_styles_classes    = $this->get_style_classes_as_string( 'title_styles', [ 'zb-el-pricingBox-title' ] );
-		$price_styles_classes    = $this->get_style_classes_as_string( 'price_styles', [ 'zb-el-pricingBox-price-price' ] );
-		$features_styles_classes = $this->get_style_classes_as_string( 'features_styles', [ 'zb-el-pricingBox-plan-features' ] );
+
+		$featured_styles = $this->render_attributes->get_attributes_as_string( 'featured_label_styles', [ 'class' => 'zb-el-pricingBox-featured' ] ); // phpcs:ignore WordPress.Security.EscapeOutput
 
 		if ( $plan_featured === 'featured' ) {
-			printf( '<span class="%s">%s</span>', esc_attr( $featured_styles ), wp_kses_post( $plan_featured ) );
+			printf( '<span %s">%s</span>', $featured_styles, wp_kses_post( $plan_featured ) );
 		} ?>
 
 			<div class="zb-el-pricingBox-content">
 				<div class="zb-el-pricingBox-heading">
 				<?php if ( ! empty( $plan_title ) ) : ?>
-					<h3 class="<?php echo esc_attr( $title_styles_classes ); ?>">
+					<h3  <?php echo $this->render_attributes->get_attributes_as_string( 'title_styles', [ 'class' => 'zb-el-pricingBox-title' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 						<?php echo wp_kses_post( $plan_title ); ?>
 					</h3>
 				<?php endif; ?>
@@ -355,7 +353,7 @@ class PricingBox extends Element {
 				<?php if ( ! empty( $compiled_price[0] ) ) : ?>
 				<div class="zb-el-pricingBox-plan-price">
 					<span class="zb-el-pricingBox-price">
-						<span class="<?php echo esc_attr( $price_styles_classes ); ?>">
+						<span  <?php echo $this->render_attributes->get_attributes_as_string( 'price_styles', [ 'class' => 'zb-el-pricingBox-price-price' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 							<?php echo wp_kses_post( $compiled_price[0] ); ?>
 							<?php if ( isset( $compiled_price[1] ) ) : ?>
 								<span class="zb-el-pricingBox-price-dot">.</span>
@@ -375,12 +373,14 @@ class PricingBox extends Element {
 				<?php endif; ?>
 
 				<?php if ( ! empty( $plan_details ) ) : ?>
-					<div class="<?php echo esc_attr( $features_styles_classes ); ?>">
+					<div  <?php echo $this->render_attributes->get_attributes_as_string( 'features_styles', [ 'class' => 'zb-el-pricingBox-plan-features' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 						<?php echo wp_kses_post( $plan_details ); ?>
 					</div>
 				<?php endif; ?>
 				<?php
 				if ( ! empty( $button_text ) ) {
+					$combined_button_attr = $this->render_attributes->get_combined_attributes( 'button_styles', [ 'class' => 'zb-el-pricingBox-action zb-el-button' ] );
+
 					$html_tag = 'div';
 
 					if ( ! empty( $button_link['link'] ) ) {
@@ -392,9 +392,7 @@ class PricingBox extends Element {
 						$html_tag,
 						'link',
 						$button_text,
-						[
-							'class' => 'zb-el-pricingBox-action zb-el-button',
-						]
+						$combined_button_attr
 					);
 				}
 				?>
