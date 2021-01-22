@@ -8,6 +8,7 @@
 		<div
 			class="zb-el-accordions-accordionTitle"
 			:class="accordionApi.getStyleClasses('inner_content_styles_title')"
+			v-bind="accordionApi.getAttributesForTag('inner_content_styles_title')"
 		>
 			{{options.title}}
 			<span class="zb-el-accordions-accordionIcon"></span>
@@ -15,6 +16,7 @@
 		<div
 			class="zb-el-accordions-accordionContent"
 			:class="accordionApi.getStyleClasses('inner_content_styles_content')"
+			v-bind="accordionApi.getAttributesForTag('inner_content_styles_content')"
 		>
 			<div
 				v-html="renderedContent"
