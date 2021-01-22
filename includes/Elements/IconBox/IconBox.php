@@ -276,20 +276,28 @@ class IconBox extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$icon                     = $options->get_value( 'icon' );
-		$title_tag                = $options->get_value( 'title_tag', 'h3' );
-		$description              = $options->get_value( 'description' );
-		$title                    = $options->get_value( 'title' );
-		$image_custom_css_classes = $this->get_style_classes_as_string( 'image_styles', [ 'zb-el-imageBox-image' ] );
-		$description_classes      = $this->get_style_classes_as_string( 'description_styles', [ 'zb-el-iconBox-description' ] );
-		$title_classes            = $this->get_style_classes_as_string( 'title_styles', [ 'zb-el-iconBox-title' ] );
-		$icon_classes             = $this->get_style_classes_as_string( 'icon_styles', [ 'zb-el-iconBox-icon' ] );
+		$icon        = $options->get_value( 'icon' );
+		$title_tag   = $options->get_value( 'title_tag', 'h3' );
+		$description = $options->get_value( 'description' );
+		$title       = $options->get_value( 'title' );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconBox-icon' ] );
+
+		$combined_title_attr = $this->render_attributes->get_combined_attributes( 'title_styles', [ 'class' => 'zb-el-iconBox-title' ] );
+
+		$combined_desc_attr = $this->render_attributes->get_combined_attributes( 'description_styles', [ 'class' => 'zb-el-iconBox-description' ] );
+
 		if ( $icon ) {
 			?>
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-				$this->render_tag( 'span', 'icon', '', [ 'class' => $icon_classes ] );
+				$this->render_tag(
+					'span',
+					'icon',
+					'',
+					$combined_icon_attr
+				);
 				?>
 			</div>
 			<?php
@@ -299,12 +307,12 @@ class IconBox extends Element {
 		<div class="zb-el-iconBox-text">
 			<?php
 			if ( ! empty( $title ) ) {
-				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), [ 'class' => $title_classes ] );
+				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), $combined_title_attr );
 			}
 			?>
 			<?php
 			if ( ! empty( $description ) ) {
-				$this->render_tag( 'div', 'description', wp_kses_post( $description ), [ 'class' => $description_classes ] );
+				$this->render_tag( 'div', 'description', wp_kses_post( $description ), $combined_desc_attr );
 			}
 			?>
 		</div>
