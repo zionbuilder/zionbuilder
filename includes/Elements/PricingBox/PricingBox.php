@@ -331,11 +331,9 @@ class PricingBox extends Element {
 
 		// Custom css classes
 
-		$featured_styles = $this->render_attributes->get_attributes_as_string( 'featured_label_styles', [ 'class' => 'zb-el-pricingBox-featured' ] );
-
-		if ( $plan_featured === 'featured' ) {
-			printf( '<span %s">%s</span>', $featured_styles, wp_kses_post( $plan_featured ) );
-		} ?>
+		if ( $plan_featured === 'featured' ) {?>
+			<span <?php echo $this->render_attributes->get_attributes_as_string( 'featured_label_styles', [ 'class' => 'zb-el-pricingBox-featured' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> ><?php echo wp_kses_post( $plan_featured ); ?></span>
+		<?php } ?>
 
 			<div class="zb-el-pricingBox-content">
 				<div class="zb-el-pricingBox-heading">
