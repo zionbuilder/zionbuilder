@@ -172,7 +172,7 @@ class Image extends Element {
 			[
 				'title'      => esc_html__( 'Link styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} a',
-				'render_tag' => 'link',
+				'render_tag' => 'link_styles',
 			]
 		);
 		$this->register_style_options_element(
@@ -180,7 +180,7 @@ class Image extends Element {
 			[
 				'title'      => esc_html__( 'Image styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} img',
-				'render_tag' => 'image',
+				'render_tag' => 'image_styles',
 			]
 		);
 	}
@@ -235,14 +235,13 @@ class Image extends Element {
 		if ( ! isset( $image_value['image'] ) ) {
 			return;
 		}
-		$html_tag               = 'div';
-		$image_class_attributes = $this->render_attributes->get_attributes( 'image', 'class' );
+		$html_tag = 'div';
+
+		$combined_image_attr = $this->render_attributes->get_combined_attributes_as_key_value( 'image_styles', [] );
 
 		$image = WPMedia::get_imge(
 			$image_value,
-			[
-				'class' => implode( ' ', $image_class_attributes ),
-			]
+			$combined_image_attr
 		);
 
 		if ( ! empty( $link['link'] ) ) {
