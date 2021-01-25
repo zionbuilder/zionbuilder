@@ -248,7 +248,41 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 
 ## Changelog ##
-
+###  2.0.0 2021-01-25 ###
+* Feature: implement theme builder
+* Improvement: updated swiper to latest version
+* Improvement: visual improvements for Panel Element Options and OptionsForm
+* Improvement: visual improvement for has changes bullet
+* Improvement (internal): Added composer normalize
+* Improvement: Add element icons to treeview and wireframe view
+* Improvement: Update style for anchorPoint element in editor mode
+* Improvement: Performance tweaks for input range dynamic
+* Improvement: inline-editor bugfixes and code improvement
+* Improvement: add inner content styles and single item color option for iconlist
+* Improvement: Make admin dashboard responsive
+* Improvement: add string in case no value added for inline edit
+* Improvement: Added message when the element has no specific options
+* Improvement: add background video options
+* Fixed repeater option console error in case no button text added
+* Fixed several sortable related issues
+* Fixed various isseus with vue update
+* Fixed icon height bigger than width for certain icons
+* Fixed prevent link follow in text element and button element
+* Fixed delete custom-pseudoselectors
+* Fixed Added delete changes for responsive options
+* Fixed panel options search
+* Fixed pseudo selector delete keeps styling
+* Fixed pseudo selector not resetting when editing a new element
+* Fixed add elements popup show while sorting elements
+* Fixed php notice for accordion element
+* Fixed swich option styles
+* Fixed typography option not showing on general tab
+* Fixed Custom pseudoselector field not closing
+* Fixed modal visual bugs
+* Fixed Save is triggered only if clicked on the icon on the main panel
+* Fixed set Wrapper tag for ProgressBars
+* Fixed Search content tab is not displaying correctly
+* Fixed Empty element appear in Add Elements popup
 ### 1.2.3 2020-12-14 ###
 * Improvement: rtl support for both editor and rendered page
 * Improvement: Error message when a template cannot be inserted
