@@ -3,7 +3,7 @@
 		<Tabs
 			title-position="center"
 			v-model:activeTab="active"
-			@change-tab="onTabChange"
+			@changed-tab="onTabChange"
 		>
 			<Tab
 				name="Layouts"
@@ -56,7 +56,7 @@ import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick, watch
 import { getOptionValue, generateElements } from '@zb/utils'
 import { on, off, trigger } from '@zb/hooks'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels, useAddElementsPopup, useWindows, useHistory } from '@composables'
+import { usePanels, useAddElementsPopup, useWindows, useHistory, useEditorData } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -78,6 +78,8 @@ export default {
 		const active = ref(defaultTab)
 		const { addEventListener, removeEventListener } = useWindows()
 		const searchKeyword = ref('')
+		const { editorData } = useEditorData()
+		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 
 		const spanElements = {
 			'full': 1,
@@ -168,6 +170,8 @@ export default {
 			emit('close')
 		}
 
+
+
 		const openLibrary = () => {
 			const { setActiveElementForLibrary } = useLibrary()
 
@@ -188,8 +192,12 @@ export default {
 
 		}
 
-		function onTabChange () {
+		function onTabChange (tab) {
 			searchKeyword.value = ''
+
+			if (tab === 'library' && isProActive.value) {
+				openLibrary()
+			}
 		}
 
 		onMounted(() => addEventListener('keypress', onKeyDown))
