@@ -249,7 +249,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 ## Changelog ##
 ###  2.0.0 2021-01-25 ###
-* Feature: implement theme builder
+* Feature: Theme builder
 * Improvement: updated swiper to latest version
 * Improvement: visual improvements for Panel Element Options and OptionsForm
 * Improvement: visual improvement for has changes bullet
@@ -275,7 +275,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Fixed pseudo selector not resetting when editing a new element
 * Fixed add elements popup show while sorting elements
 * Fixed php notice for accordion element
-* Fixed swich option styles
+* Fixed Switch option styles
 * Fixed typography option not showing on general tab
 * Fixed Custom pseudoselector field not closing
 * Fixed modal visual bugs
