@@ -111,7 +111,7 @@ const options = {
 		id: 'checkbox_switch',
 		component: InputCheckboxSwitch
 	},
-	text_align:{
+	text_align: {
 		id: 'text_align',
 		component: InputTextAlign
 	},

@@ -21,9 +21,7 @@
 					<div> {{description}}</div>
 				</template>
 
-				<Icon
-					icon="question-mark"
-				/>
+				<Icon icon="question-mark" />
 			</Tooltip>
 		</div>
 		<div class="znpb-forms-input-content">

@@ -158,7 +158,7 @@
 	</div>
 </template>
 <script>
-import { provide, inject, readonly, toRef } from "vue"
+import { provide, inject, readonly, toRef, watch, watchEffect, ref, computed, markRaw } from "vue"
 import { trigger } from "@zb/hooks"
 import {
 	useOptions,
@@ -180,9 +180,6 @@ export default {
 		}
 	},
 	inject: {
-		panel: {
-			default: null,
-		},
 		showChanges: {
 			default: true,
 		},
@@ -220,235 +217,67 @@ export default {
 			type: Number,
 			required: false,
 		},
+		allModelValue: {}
 	},
-	setup (props) {
+	setup (props, { emit }) {
+		const { getOption } = useOptions();
 		const {
-			getValueByPath,
-			updateValueByPath,
-			deleteValueByPath,
-			getTopModelValueByPath,
-			updateTopModelValueByPath,
-			deleteTopModelValueByPath
-		} = inject('OptionsForm')
-
-		const { getSchema } = useOptionsSchemas()
-		const {
-			activeResponsiveDeviceInfo,
-			responsiveDevices,
-			setActiveResponsiveDeviceId,
-		} = useResponsiveDevices();
-
-		const localSchema = toRef(props, "schema")
-		provide("schema", readonly(localSchema.value))
-
-		return {
 			getValueByPath,
 			updateValueByPath,
 			deleteValueByPath,
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
 			deleteTopModelValueByPath,
-
-			// OLD
-			getSchema,
+			deleteValues,
+			modelValue
+		} = inject('OptionsForm')
+		const { getSchema } = useOptionsSchemas()
+		const {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
-			setActiveResponsiveDeviceId
-		}
-	},
-	data () {
-		return {
-			activePseudo: null,
-			showDevices: false,
-			showPseudo: false,
-		}
-	},
-	computed: {
-		isValidInput () {
-			return this.optionTypeConfig;
-		},
-		computedShowTitle () {
-			if (typeof this.schema.show_title !== "undefined") {
-				return this.schema.show_title;
-			}
+			setActiveResponsiveDeviceId,
+		} = useResponsiveDevices();
+		const activePseudo = ref(null)
+		const showDevices = ref(false)
+		const showPseudo = ref(false)
+		const panel = inject('panel', null)
+		const optionTypeConfig = ref(null)
 
-			return true;
-		},
-		computedWrapperStyle () {
+		const localSchema = toRef(props, "schema")
+		provide("schema", readonly(localSchema.value))
+
+		// Computed
+		const computedWrapperStyle = computed(() => {
 			const styles = {}
 
-			if (this.schema.grow) {
-				styles.flex = this.schema.grow
+			if (props.schema.grow) {
+				styles.flex = props.schema.grow
 			}
 
-			if (this.schema.width) {
-				styles.width = `${this.schema.width}%`
+			if (props.schema.width) {
+				styles.width = `${props.schema.width}%`
 			}
 
 			return styles
-		},
-		hasChanges () {
-			if (this.schema.is_layout) {
-				const childOptionsIds = this.getChildOptionsIds(this.schema);
+		})
 
-				return childOptionsIds.find((optionId) => {
-					let hasDynamicValue = get(this.modelValue, `__dynamic_content__[${optionId}]`)
-					return this.savedOptionValue && this.savedOptionValue[optionId] || hasDynamicValue !== undefined
-
-				})
-			} else {
-				return typeof this.savedOptionValue !== 'undefined' && this.savedOptionValue !== null
-			}
-		},
-
-		optionTypeConfig () {
-			const { getOption } = useOptions();
-
-			return getOption(
-				this.schema,
-				this.optionValue,
-				this.optionsForm.modelValue
-			)
-		},
-		labelAlignment () {
-			return this.schema["label-align"] || null
-		},
-		activeResponsiveMedia () {
-			return this.activeResponsiveDeviceInfo.id
-		},
-		savedOptionValue () {
-			let value = null;
-
-			if (this.compiledSchema.sync) {
-				value = this.getTopModelValueByPath(this.compilePlaceholder(this.compiledSchema.sync))
-			} else {
-				value = this.modelValue
+		const computedShowTitle = computed(() => {
+			if (typeof props.schema.show_title !== "undefined") {
+				return props.schema.show_title;
 			}
 
-			return value
-		},
+			return true;
+		})
 
-		optionValue: {
-			get () {
-				let value =
-					typeof this.savedOptionValue !== "undefined"
-						? this.savedOptionValue
-						: this.schema.default;
+		const labelAlignment = computed(() => {
+			return props.schema["label-align"] || null
+		})
 
-				// Check to see if we need to save for responsive
-				if (this.schema.responsive_options === true) {
-					let schemaDefault = this.schema.default;
-					if (typeof this.schema.default === "object") {
-						schemaDefault = (this.schema.default || {})[
-							this.activeResponsiveMedia
-						];
-					}
+		const activeResponsiveMedia = computed(() => {
+			return activeResponsiveDeviceInfo.value.id
+		})
 
-					// Check to see if the option is saved as string
-					if (value && typeof value !== 'object') {
-						value = {
-							default: value
-						}
-					}
-
-					value =
-						typeof (value || {})[this.activeResponsiveMedia] !==
-							"undefined"
-							? (value || {})[this.activeResponsiveMedia]
-							: schemaDefault;
-				}
-
-				// check to see if this has pseudo selectors
-				if (Array.isArray(this.schema.pseudo_options)) {
-					const activePseudo =
-						this.activePseudo || this.schema.pseudo_options[0];
-					value =
-						typeof (value || {})[activePseudo] !== "undefined"
-							? (value || {})[activePseudo]
-							: undefined;
-				}
-
-				return value;
-			},
-			set (newValue) {
-				let valueToUpdate = newValue
-				let newValues = newValue
-
-
-				// check to see if this has pseudo selectors
-				if (Array.isArray(this.schema.pseudo_options)) {
-					const activePseudo = this.activePseudo || this.schema.pseudo_options[0]
-					let oldValues = this.modelValue
-
-					// Check to see if this also a responsive option
-					if (this.compiledSchema.responsive_options === true) {
-						oldValues = typeof (this.modelValue || {})[this.activeResponsiveMedia] !== "undefined" ? (this.modelValue || {})[this.activeResponsiveMedia] : undefined;
-						newValues = {
-							...oldValues,
-							[activePseudo]: newValue,
-						}
-					} else {
-						valueToUpdate = {
-							...this.modelValue,
-							[activePseudo]: newValues,
-						}
-					}
-
-				}
-
-				// Check to see if we need to save for responsive
-				if (this.compiledSchema.responsive_options === true) {
-					valueToUpdate = {
-						...this.modelValue,
-						[this.activeResponsiveMedia]: newValues,
-					}
-				}
-
-				// Check if the option is synced
-				if (this.compiledSchema.sync) {
-					// Compile sync value as it may contain placeholders
-					const syncValuePath = this.compilePlaceholder(
-						this.compiledSchema.sync
-					);
-
-					// Check to see if we need to delete the option
-					if (valueToUpdate === null) {
-
-						this.deleteTopModelValueByPath(syncValuePath)
-					} else {
-						this.updateTopModelValueByPath(syncValuePath, valueToUpdate)
-					}
-
-					if (this.panel) {
-						this.panel.addToLocalHistory()
-					}
-				} else {
-					if (valueToUpdate === null) {
-						this.onDeleteOption()
-					} else {
-						const optionId = this.schema.is_layout ? false : this.optionId
-						this.$emit("update:modelValue", [optionId, valueToUpdate])
-					}
-				}
-
-				// Check to see if we need to refresh the iframe
-				if (this.schema.on_change) {
-					if (this.schema.on_change === "refresh_iframe") {
-						trigger("refreshIframe");
-					} else if (this.schema.on_change.condition.value[0] !== newValue) {
-						// Check if we need to clear path option
-						this.deleteTopModelValueByPath(this.schema.on_change.option_path)
-					}
-				}
-			},
-		},
-		/**
-		 * Compiled Schema
-		 *
-		 * WIll search for predefined constants and replace them with correct information
-		 * from the currently edited element
-		 */
-		compiledSchema () {
+		const compiledSchema = computed(() => {
 			// Remove unnecesarry data from schema so we don't overpopulate DOM with unnecessary attributes
 			const {
 				description,
@@ -459,26 +288,218 @@ export default {
 				id,
 				css_class: cssClass,
 				...schema
-			} = this.schema
+			} = props.schema
 
 			return schema
-		},
-	},
+		})
 
-	methods: {
+		const savedOptionValue = computed(() => {
+			return props.schema.sync ? getTopModelValueByPath(props.compilePlaceholder(props.schema.sync)) : props.modelValue;
+		})
 
-		getChildOptionsIds (schema, includeSchemaId = true) {
+		const hasChanges = computed(() => {
+			if (props.schema.is_layout) {
+				const childOptionsIds = getChildOptionsIds(props.schema);
+
+				return childOptionsIds.find((optionId) => {
+					let hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`)
+					return savedOptionValue.value && savedOptionValue.value[optionId] || hasDynamicValue !== undefined
+				})
+			} else {
+				return typeof savedOptionValue.value !== 'undefined' && savedOptionValue.value !== null
+			}
+		})
+
+		const optionValue = computed({
+			get () {
+				let value = typeof savedOptionValue.value !== "undefined" ? savedOptionValue.value : props.schema.default
+
+				// Check to see if we need to save for responsive
+				if (props.schema.responsive_options === true) {
+					let schemaDefault = props.schema.default
+					if (typeof props.schema.default === "object") {
+						schemaDefault = (props.schema.default || {})[activeResponsiveMedia.value]
+					}
+
+					// Check to see if the option is saved as string
+					if (value && typeof value !== 'object') {
+						value = {
+							default: value
+						}
+					}
+
+					value = typeof (value || {})[activeResponsiveMedia.value] !== "undefined" ? (value || {})[activeResponsiveMedia.value] : schemaDefault;
+				}
+
+				// check to see if this has pseudo selectors
+				if (Array.isArray(props.schema.pseudo_options)) {
+					const activePseudo = activePseudo.value || props.schema.pseudo_options[0]
+					value = typeof (value || {})[activePseudo] !== "undefined" ? (value || {})[activePseudo] : undefined;
+				}
+
+				return value;
+			},
+			set (newValue) {
+				let valueToUpdate = newValue
+				let newValues = newValue
+
+
+				// check to see if this has pseudo selectors
+				if (Array.isArray(props.schema.pseudo_options)) {
+					const activePseudo = activePseudo.value || props.schema.pseudo_options[0]
+					let oldValues = props.modelValue
+
+					// Check to see if this also a responsive option
+					if (props.schema.responsive_options === true) {
+						oldValues = typeof (props.modelValue || {})[activeResponsiveMedia.value] !== "undefined" ? (props.modelValue || {})[activeResponsiveMedia.value] : undefined;
+						newValues = {
+							...oldValues,
+							[activePseudo]: newValue,
+						}
+					} else {
+						valueToUpdate = {
+							...props.modelValue,
+							[activePseudo]: newValues,
+						}
+					}
+
+				}
+
+				// Check to see if we need to save for responsive
+				if (props.schema.responsive_options === true) {
+					valueToUpdate = {
+						...props.modelValue,
+						[activeResponsiveMedia.value]: newValues,
+					}
+				}
+
+				// Check if the option is synced
+				if (props.schema.sync) {
+					// Compile sync value as it may contain placeholders
+					const syncValuePath = props.compilePlaceholder(props.schema.sync)
+
+					// Check to see if we need to delete the option
+					if (valueToUpdate === null) {
+						deleteTopModelValueByPath(syncValuePath)
+					} else {
+						updateTopModelValueByPath(syncValuePath, valueToUpdate)
+					}
+
+					if (panel) {
+						panel.addToLocalHistory()
+					}
+				} else {
+					if (valueToUpdate === null) {
+						onDeleteOption()
+					} else {
+						const optionId = props.schema.is_layout ? false : props.optionId
+						emit("update:modelValue", [optionId, valueToUpdate])
+					}
+				}
+
+				// Check to see if we need to refresh the iframe
+				if (props.schema.on_change) {
+					if (props.schema.on_change === "refresh_iframe") {
+						trigger("refreshIframe");
+					} else if (props.schema.on_change.condition.value[0] !== newValue) {
+						// Check if we need to clear path option
+						deleteTopModelValueByPath(props.schema.on_change.option_path)
+					}
+				}
+			},
+		})
+
+		const isValidInput = computed(() => {
+			return optionTypeConfig.value;
+		})
+
+		watchEffect(() => {
+			optionTypeConfig.value = markRaw(getOption(
+				props.schema,
+				optionValue.value,
+				modelValue.value
+			))
+		})
+
+
+		// Methods
+		function openResponsive () {
+			showDevices.value = true
+		}
+
+		function closeresponsive () {
+			showDevices.value = false
+		}
+
+		function closePseudo () {
+			showPseudo.value = false
+		}
+
+		function openPseudo () {
+			showPseudo.value = true
+		}
+
+		function activateDevice (device) {
+			setActiveResponsiveDeviceId(device.id);
+			setTimeout(() => {
+				showDevices.value = false
+			}, 50);
+		}
+
+		function activatePseudo (selector) {
+			activePseudo.value = selector
+
+			setTimeout(() => {
+				showPseudo.value = false
+			}, 50)
+		}
+
+		function getPseudoIcon (pseudo) {
+			return pseudo === "hover" ? "hover-state" : "default-state"
+		}
+
+		/**
+		 * On delete option
+		 *
+		 * Delete the value
+		 */
+		function onDeleteOption (optionId) {
+			if (props.schema.sync) {
+				let fullOptionIds = [];
+				const childOptionsIds = getChildOptionsIds(props.schema, false);
+				const compiledSync = props.compilePlaceholder(props.schema.sync);
+
+				// Check if this has child options that needs to be deleted
+				if (childOptionsIds.length > 0) {
+					childOptionsIds.forEach((id) => {
+						fullOptionIds.push(`${compiledSync}.${id}`);
+					});
+				} else {
+					fullOptionIds.push(compiledSync);
+				}
+
+				deleteValues(fullOptionIds);
+				deleteTopModelValueByPath(compiledSync);
+			} else {
+				if (props.schema.is_layout) {
+					const childOptionsIds = getChildOptionsIds(props.schema)
+					deleteValues(childOptionsIds)
+				} else {
+					optionId = optionId || props.optionId
+
+					deleteValueByPath(optionId)
+				}
+			}
+		}
+
+		function getChildOptionsIds (schema, includeSchemaId = true) {
 			let ids = []
 
 			// Special options
 			if (schema.type === "background") {
-				const backgroundSchema = this.getSchema(
-					"backgroundImageSchema"
-				);
+				const backgroundSchema = getSchema("backgroundImageSchema");
 				Object.keys(backgroundSchema).forEach((optionId) => {
-					const childIds = this.getChildOptionsIds(
-						backgroundSchema[optionId]
-					)
+					const childIds = getChildOptionsIds(backgroundSchema[optionId])
 
 					if (childIds) {
 						ids = [
@@ -499,9 +520,9 @@ export default {
 					ids.push(item.id);
 				});
 			} else if (schema.type === "typography") {
-				const typographySchema = this.getSchema("typography")
+				const typographySchema = getSchema("typography")
 				Object.keys(typographySchema).forEach((optionId) => {
-					const childIds = this.getChildOptionsIds(
+					const childIds = getChildOptionsIds(
 						typographySchema[optionId]
 					);
 
@@ -510,16 +531,14 @@ export default {
 					}
 				})
 			} else if (schema.type === "responsive_group") {
-				ids.push(this.activeResponsiveMedia)
+				ids.push(activeResponsiveMedia.value)
 			} else if (schema.type === "pseudo_group") {
-				ids.push(this.activePseudo)
+				ids.push(activePseudo.value)
 			}
 
 			if (schema.is_layout && schema.child_options) {
 				Object.keys(schema.child_options).forEach((optionId) => {
-					const childIds = this.getChildOptionsIds(
-						schema.child_options[optionId]
-					)
+					const childIds = getChildOptionsIds(schema.child_options[optionId])
 
 					if (childIds) {
 						ids = [...ids, ...childIds]
@@ -530,87 +549,48 @@ export default {
 			}
 
 			return ids;
-		},
+		}
 
-		openResponsive () {
-			this.showDevices = true
-		},
-		closeresponsive () {
-			this.showDevices = false
-		},
-		closePseudo () {
-			this.showPseudo = false
-		},
-		openPseudo () {
-			this.showPseudo = true
-		},
-		activateDevice (device) {
-			this.setActiveResponsiveDeviceId(device.id);
-			setTimeout(() => {
-				this.showDevices = false
-			}, 50);
-		},
-		activatePseudo (selector) {
-			this.activePseudo = selector
+		return {
+			// Refs
+			activePseudo,
+			showDevices,
+			showPseudo,
+			// Computed
+			computedWrapperStyle,
+			computedShowTitle,
+			labelAlignment,
+			activeResponsiveMedia,
+			compiledSchema,
+			savedOptionValue,
+			hasChanges,
+			isValidInput,
+			optionTypeConfig,
+			optionValue,
+			// Methods
+			openResponsive,
+			closeresponsive,
+			closePseudo,
+			openPseudo,
+			activateDevice,
+			activatePseudo,
+			getPseudoIcon,
+			getChildOptionsIds,
+			onDeleteOption,
 
-			setTimeout(() => {
-				this.showPseudo = false
-			}, 50)
-		},
-		getPseudoIcon (pseudo) {
-			return pseudo === "hover" ? "hover-state" : "default-state"
-		},
-
-		/**
-		 * On delete option
-		 *
-		 * Delete the value
-		 */
-		onDeleteOption (optionId) {
-
-			if (this.schema.sync) {
-				let fullOptionIds = [];
-				const childOptionsIds = this.getChildOptionsIds(
-					this.schema,
-					false
-				);
-				const compiledSync = this.compilePlaceholder(this.schema.sync);
-
-				// Check if this has child options that needs to be deleted
-				if (childOptionsIds.length > 0) {
-					childOptionsIds.forEach((id) => {
-						fullOptionIds.push(`${compiledSync}.${id}`);
-					});
-				} else {
-					fullOptionIds.push(compiledSync);
-				}
-
-				this.$parent.deleteValues(fullOptionIds);
-				this.deleteTopModelValueByPath(compiledSync);
-			} else {
-				if (this.schema.is_layout) {
-
-					const childOptionsIds = this.getChildOptionsIds(
-						this.schema
-					)
-					this.$parent.deleteValues(childOptionsIds)
-				} else {
-					optionId = optionId || this.optionId
-
-					this.deleteValueByPath(optionId)
-				}
-			}
-		},
-		getNestedOptionsIds (schemas) {
-			let ids = [];
-
-			Object.keys(schemas).forEach((optionId) => {
-				ids.push(optionId);
-			});
-
-			return ids;
-		},
-	},
+			// old
+			getValueByPath,
+			updateValueByPath,
+			deleteValueByPath,
+			getTopModelValueByPath,
+			updateTopModelValueByPath,
+			deleteTopModelValueByPath,
+			getSchema,
+			activeResponsiveDeviceInfo,
+			responsiveDevices,
+			setActiveResponsiveDeviceId
+		}
+	}
 };
 </script>
 <style lang="scss">

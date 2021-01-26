@@ -81,6 +81,10 @@ export default {
 			return get(topModelValue.value, path)
 		}
 
+		const getValueByPath = (path, defaultValue = null) => {
+			return get(props.modelValue, path, defaultValue)
+		}
+
 		/**
 		 * Will update a value by path
 		 */
@@ -90,12 +94,30 @@ export default {
 			emit('update:modelValue', clonedValue)
 		}
 
-		const getValueByPath = (path, defaultValue = null) => {
-			return get(props.modelValue, path, defaultValue)
+		const deleteValueByPath = (path) => {
+			const clonedValue = cloneDeep(props.modelValue)
+			unset(clonedValue, path)
+			emit('update:modelValue', clonedValue)
 		}
 
-		const deleteValueByPath = (path) => {
-			return unset(props.modelValue, path)
+		function deleteValues (allPaths) {
+			let newValues = { ...props.modelValue }
+			allPaths.forEach((path) => {
+				const paths = path.split('.')
+
+				paths.reduce((acc, key, index) => {
+					if (index === paths.length - 1) {
+						let dynamicValue = get(acc, `__dynamic_content__[${key}]`)
+						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key]
+						return true
+					}
+
+					acc[key] = acc[key] ? { ...acc[key] } : {}
+
+					return acc[key]
+				}, newValues)
+			})
+			emit('update:modelValue', newValues)
 		}
 
 		// Provide methods for child inputs
@@ -105,7 +127,9 @@ export default {
 			deleteValueByPath,
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
-			deleteTopModelValueByPath
+			deleteTopModelValueByPath,
+			modelValue: computed(() => props.modelValue),
+			deleteValues
 		})
 
 		// OLD
@@ -143,7 +167,8 @@ export default {
 			getValueByPath,
 			deleteValue,
 			activePseudoSelector,
-			elementInfo
+			elementInfo,
+			deleteValues
 		}
 	},
 	computed: {
@@ -261,29 +286,6 @@ export default {
 			}
 		},
 
-		deleteValues (allPaths) {
-
-			let newValues = { ...this.modelValue }
-			allPaths.forEach((path) => {
-				const paths = path.split('.')
-
-				paths.reduce((acc, key, index) => {
-					if (index === paths.length - 1) {
-						let dynamicValue = get(acc, `__dynamic_content__[${key}]`)
-						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key]
-						return true
-					}
-
-					acc[key] = acc[key] ? { ...acc[key] } : {}
-
-					return acc[key]
-				}, newValues)
-			})
-			this.$emit('update:modelValue', newValues)
-		},
-		onDeleteOptions (optionIds) {
-			this.deleteValues(optionIds)
-		},
 		getValue (optionSchema) {
 			if (optionSchema.is_layout) {
 				return this.modelValue

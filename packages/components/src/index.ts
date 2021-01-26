@@ -15,6 +15,7 @@ import { HorizontalAccordion } from './components/HorizontalAccordion'
 import { Icon } from './components/Icon'
 import { Injection } from './components/Injection'
 import { InlineEdit } from './components/InlineEdit'
+import { ListScroll } from './components/ListScroll'
 
 // Inputs
 import { BaseInput } from './components/BaseInput'
@@ -56,6 +57,7 @@ import { getDefaultGradient } from './utils'
 export * from '@composables'
 
 const components = [
+	ListScroll,
 	Button,
 	UpgradeToPro,
 	Label,
@@ -135,6 +137,7 @@ const install = (app: App) => {
 }
 
 export {
+	ListScroll,
 	install,
 	Button,
 	UpgradeToPro,

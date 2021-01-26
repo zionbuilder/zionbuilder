@@ -110,6 +110,7 @@ class DataSets extends RestApiController {
 			'fonts_list' => Plugin::$instance->fonts_manager->get_data_sets(),
 			'user_roles' => $this->get_user_roles(),
 			'post_types' => $this->format_post_types(),
+			'taxonomies' => $this->format_taxonomies(),
 			'icons'      => $this->get_icons_list(),
 		];
 		return rest_ensure_response( $data_sets );
@@ -194,6 +195,21 @@ class DataSets extends RestApiController {
 		}
 
 		return apply_filters( 'zionbuilder/data_sets/post_types', $post_types_list );
+	}
+
+	public function format_taxonomies() {
+		$taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
+
+		$taxonomies_list = [];
+
+		foreach ( $taxonomies as $name => $taxonomy ) {
+			$taxonomies_list[] = [
+				'id'   => $name,
+				'name' => $taxonomy->label,
+			];
+		}
+
+		return apply_filters( 'zionbuilder/data_sets/taxonomies', $taxonomies_list );
 	}
 
 	/**
