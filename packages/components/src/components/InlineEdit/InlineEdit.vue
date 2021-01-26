@@ -39,6 +39,7 @@ export default {
 		watch(() => props.active, (newValue) => {
 			if (newValue !== isActive.value) {
 				isActive.value = newValue
+				activate()
 			}
 		})
 
