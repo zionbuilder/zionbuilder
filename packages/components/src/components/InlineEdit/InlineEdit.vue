@@ -6,8 +6,9 @@
 		@dblclick.stop="activate"
 		@blur="deactivate"
 		ref="root"
+		v-html="computedModelValue"
 	>
-		{{computedModelValue}}
+
 	</component>
 </template>
 
@@ -44,7 +45,7 @@ export default {
 		})
 
 		let computedModelValue = computed(() => {
-			return props.modelValue.length ? props.modelValue : translate('editable_name')
+			return props.modelValue && props.modelValue.length ? props.modelValue : translate('editable_name')
 		})
 
 		/**
