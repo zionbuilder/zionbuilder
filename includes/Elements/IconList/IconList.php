@@ -315,13 +315,16 @@ class IconList extends Element {
 	}
 
 	public function render_single_icon( $config, $options, $index ) {
-		$icon_position      = $options->get_value( 'icon_position', 'left' );
-		$icon_html          = '';
-		$text_html          = '';
-		$html_tag           = 'span';
-		$link               = ! empty( $config['link'] ) ? $config['link'] : false;
-		$item_index_class   = sprintf( 'zb-el-iconList__item zb-el-iconList__item--%s', $index );
-		$item_style_classes = $this->get_style_classes_as_string( 'item_styles', [ $item_index_class ] );
+		$icon_position    = $options->get_value( 'icon_position', 'left' );
+		$icon_html        = '';
+		$text_html        = '';
+		$html_tag         = 'span';
+		$link             = ! empty( $config['link'] ) ? $config['link'] : false;
+		$item_index_class = sprintf( 'zb-el-iconList__item zb-el-iconList__item--%s zb-el-iconList__item--icon%s', $index, $icon_position );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconList__itemIcon' ] );
+		$combined_text_attr = $this->render_attributes->get_combined_attributes( 'text_styles', [ 'class' => 'zb-el-iconList__itemText' ] );
+		$combined_item_attr = $this->render_attributes->get_combined_attributes( 'item_styles', [ 'class' => $item_index_class ] );
 
 		if ( ! empty( $link['link'] ) ) {
 			$this->attach_link_attributes( 'item', $link );
@@ -334,10 +337,7 @@ class IconList extends Element {
 				'span',
 				'icon',
 				'',
-				[
-					'class' => 'zb-el-iconList__itemIcon',
-
-				]
+				$combined_icon_attr
 			);
 		}
 
@@ -346,9 +346,7 @@ class IconList extends Element {
 				'span',
 				'button_text',
 				$config['text'],
-				[
-					'class' => 'zb-el-iconList__itemText',
-				]
+				$combined_text_attr
 			);
 		}
 
@@ -356,12 +354,7 @@ class IconList extends Element {
 			$html_tag,
 			'item',
 			[ $icon_html, $text_html ],
-			[
-				'class' => [
-					$item_style_classes,
-					sprintf( 'zb-el-iconList__item--icon%s', $icon_position ),
-				],
-			]
+			$combined_item_attr
 		);
 	}
 }

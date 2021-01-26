@@ -173,6 +173,9 @@ class Element {
 
 			// Setup render tags custom css classes
 			$this->apply_custom_classes_to_render_tags();
+
+			// Setup render tags customattributes
+			$this->apply_custom_attributes_to_render_tags();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -223,10 +226,31 @@ class Element {
 		foreach ( $element_saved_styles as $style_config_id => $style_value ) {
 			if ( isset( $styles_config[$style_config_id] ) ) {
 				$style_config = $styles_config[$style_config_id];
+				$render_tag   = isset( $style_config['render_tag'] ) ? $style_config['render_tag'] : $style_config_id;
 
-				if ( isset( $style_config['render_tag'] ) && isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
+				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
 					foreach ( $style_value['classes'] as $css_class ) {
-						$this->render_attributes->add( $style_config['render_tag'], 'class', $css_class );
+						$this->render_attributes->add( $render_tag, 'class', $css_class );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Attaches all custom render attributes
+	 *
+	 * @return void
+	 */
+	public function apply_custom_attributes_to_render_tags() {
+		$styles_attrs = $this->options->get_value( '_styles', [] );
+
+		foreach ( $styles_attrs as $id => $style_values ) {
+			if ( isset( $style_values['attributes'] ) && is_array( $style_values['attributes'] ) ) {
+				foreach ( $style_values['attributes'] as $attributes ) {
+					if ( ! empty( $attributes['attribute_name'] ) ) {
+						$attribute_value = isset( $attributes['attribute_value'] ) ? $attributes['attribute_value'] : '';
+						$this->render_attributes->add( $id, sanitize_title_with_dashes( $attributes['attribute_name'] ), esc_attr( $attribute_value ) );
 					}
 				}
 			}

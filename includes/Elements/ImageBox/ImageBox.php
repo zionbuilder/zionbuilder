@@ -289,19 +289,21 @@ class ImageBox extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$image                    = $options->get_value( 'image' );
-		$title                    = $options->get_value( 'title' );
-		$description              = $options->get_value( 'description' );
-		$title_tag                = $options->get_value( 'title_tag', 'h3' );
-		$image_custom_css_classes = $this->get_style_classes_as_string( 'image_styles', [ 'zb-el-imageBox-image' ] );
+		$image       = $options->get_value( 'image' );
+		$title       = $options->get_value( 'title' );
+		$description = $options->get_value( 'description' );
+		$title_tag   = $options->get_value( 'title_tag', 'h3' );
+
+		$combined_title_attr = $this->render_attributes->get_combined_attributes( 'title_styles', [ 'class' => 'zb-el-imageBox-title' ] );
+		$combined_desc_attr  = $this->render_attributes->get_combined_attributes( 'description_styles', [ 'class' => 'zb-el-imageBox-description' ] );
 
 		if ( ! empty( $image['image'] ) ) : ?>
 		<div
 			class="zb-el-imageBox-imageWrapper"
 		>
 			<img
-				class="<?php echo esc_attr( $image_custom_css_classes ); ?>"
 				src="<?php echo esc_attr( $image['image'] ); ?>"
+				<?php echo $this->render_attributes->get_attributes_as_string( 'image_styles', [ 'class' => 'zb-el-imageBox-image' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			/>
 		</div>
 		<?php endif; ?>
@@ -314,9 +316,7 @@ class ImageBox extends Element {
 					$title_tag,
 					'title',
 					$title,
-					[
-						'class' => 'zb-el-imageBox-title',
-					]
+					$combined_title_attr
 				);
 			}
 
@@ -325,9 +325,7 @@ class ImageBox extends Element {
 					'div',
 					'description',
 					$description,
-					[
-						'class' => 'zb-el-imageBox-description',
-					]
+					$combined_desc_attr
 				);
 			}
 

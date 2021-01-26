@@ -431,6 +431,11 @@ class Localization {
 				'add_background_gradient'                => __( 'Add new background gradient', 'zionbuilder' ),
 				'or'                                     => __( 'or', 'zionbuilder' ),
 
+				// Custom attributes
+				'meet_custom_attributes'                 => __( 'Meet custom attributes', 'zionbuilder' ),
+				'meet_custom_attributes_desc'            => __( 'Generate custom attributes to every inner parts of the element', 'zionbuilder' ),
+				'meet_custom_attributes_link'            => __( 'Click here to learn more about PRO.', 'zionbuilder' ),
+
 				//Link
 				'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),
 				'link_new_window'                        => __( 'New Window', 'zionbuilder' ),

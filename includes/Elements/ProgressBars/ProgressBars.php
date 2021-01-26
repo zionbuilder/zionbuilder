@@ -331,15 +331,15 @@ class ProgressBars extends Element {
 			'bar_style'       => 'square',
 		];
 
-		$settings                = wp_parse_args( $bar_settings, $defaults );
-		$title                   = $settings['title'];
-		$fill_percentage         = $settings['fill_percentage'];
-		$bar_title_style_classes = $this->get_style_classes_as_string( 'title_styles', [ 'zb-el-progressBars__barTitle' ] );
+		$settings        = wp_parse_args( $bar_settings, $defaults );
+		$title           = $settings['title'];
+		$fill_percentage = $settings['fill_percentage'];
 
 		ob_start(); ?>
 
 		<?php if ( ! empty( $title ) ) : ?>
-		<h5 class="<?php echo esc_attr( $bar_title_style_classes ); ?>">
+		<h5  <?php echo $this->render_attributes->get_attributes_as_string( 'title_styles', [ 'class' => 'zb-el-progressBars__barTitle' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+>
 			<?php echo wp_kses_post( $title ); ?>
 		</h5>
 		<?php endif; ?>
