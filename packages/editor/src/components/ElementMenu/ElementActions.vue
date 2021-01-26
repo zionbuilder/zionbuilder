@@ -7,7 +7,10 @@
 			class="znpb-right-click__menu-item"
 			@click="editElement(element)"
 		>
-			<Icon icon="edit"></Icon>
+			<Icon
+				icon="edit"
+				:bgSize="14"
+			></Icon>
 			{{$translate('action_edit')}}
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
@@ -15,7 +18,10 @@
 			class="znpb-right-click__menu-item"
 			@click="element.duplicate"
 		>
-			<Icon icon="copy"></Icon>
+			<Icon
+				icon="copy"
+				:bgSize="14"
+			></Icon>
 			{{$translate('duplicate_element')}}
 		</li>
 
@@ -23,14 +29,20 @@
 			class="znpb-right-click__menu-item"
 			@click="copyElement(element)"
 		>
-			<Icon icon="copy"></Icon>
+			<Icon
+				icon="copy"
+				:bgSize="14"
+			></Icon>
 			{{$translate('copy_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="copyElement(element, 'cut')"
 		>
-			<Icon icon="close"></Icon>
+			<Icon
+				icon="close"
+				:bgSize="14"
+			></Icon>
 			{{$translate('cut_element')}}
 		</li>
 		<li
@@ -38,7 +50,10 @@
 			@click="pasteElement(element)"
 			v-if="copiedElement"
 		>
-			<Icon icon="copy"></Icon>
+			<Icon
+				icon="copy"
+				:bgSize="14"
+			></Icon>
 			{{$translate('paste_element')}}
 		</li>
 		<li
@@ -46,14 +61,20 @@
 			@click="element.rename()"
 			v-if="actions.rename"
 		>
-			<Icon icon="edit"></Icon>
+			<Icon
+				icon="edit"
+				:bgSize="14"
+			></Icon>
 			{{$translate('rename_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="element.toggleVisibility"
 		>
-			<Icon icon="eye"></Icon>
+			<Icon
+				icon="eye"
+				:bgSize="14"
+			></Icon>
 			{{element.isVisible ? $translate('visible_element') : $translate('show_element')}}
 		</li>
 		<li
@@ -61,7 +82,10 @@
 			@click="copyElementStyles(element)"
 			v-if="element && element.options._styles"
 		>
-			<Icon icon="drop"></Icon>
+			<Icon
+				icon="drop"
+				:bgSize="14"
+			></Icon>
 			{{$translate('copy_element_styles')}}
 		</li>
 		<li
@@ -69,7 +93,10 @@
 			@click="discardElementStyles"
 			v-if="element && element.options._styles"
 		>
-			<Icon icon="drop"></Icon>
+			<Icon
+				icon="drop"
+				:bgSize="14"
+			></Icon>
 			{{$translate('discard_element_styles')}}
 		</li>
 		<li
@@ -77,7 +104,10 @@
 			@click="pasteElementStyles(this.element)"
 			v-if="copiedElementStyles"
 		>
-			<Icon icon="drop"></Icon>
+			<Icon
+				icon="drop"
+				:bgSize="14"
+			></Icon>
 			{{$translate('paste_element_styles')}}
 		</li>
 		<li
@@ -85,7 +115,10 @@
 			@click="copyElementClasses(this.element)"
 			v-if="computedHasElementClasses"
 		>
-			<Icon icon="braces"></Icon>
+			<Icon
+				icon="braces"
+				:bgSize="14"
+			></Icon>
 			{{$translate('copy_classes')}}
 		</li>
 		<li
@@ -93,7 +126,10 @@
 			class="znpb-right-click__menu-item"
 			@click="pasteElementClasses(this.element)"
 		>
-			<Icon icon="braces"></Icon>
+			<Icon
+				icon="braces"
+				:bgSize="14"
+			></Icon>
 			{{$translate('paste_classes')}}
 		</li>
 		<li class="znpb-right-click__menu-separator">
@@ -103,14 +139,20 @@
 			class="znpb-right-click__menu-item"
 			@click="saveElement"
 		>
-			<Icon icon="check"></Icon>
+			<Icon
+				icon="check"
+				:bgSize="14"
+			></Icon>
 			{{$translate('save_element')}}
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
 			@click="savePage"
 		>
-			<Icon icon="check"></Icon>
+			<Icon
+				icon="check"
+				:bgSize="14"
+			></Icon>
 			{{$translate('save_page')}}
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
@@ -118,7 +160,10 @@
 			class="znpb-right-click__menu-item"
 			@click="element.delete"
 		>
-			<Icon icon="delete"></Icon>
+			<Icon
+				icon="delete"
+				:bgSize="14"
+			></Icon>
 			{{$translate('delete_element')}}
 		</li>
 	</ul>
@@ -233,6 +278,7 @@ export default {
 }
 .znpb-right-click__menu-item {
 	display: flex;
+	align-items: center;
 	padding: 8px 16px;
 	font-family: $font-stack;
 	font-size: 13px;
