@@ -8,7 +8,7 @@
 			:is="item.link && item.link.link ? 'a' : 'span'"
 			class="zb-el-iconList__item"
 			:class="[`zb-el-iconList__item--${index} `,api.getStyleClasses('item_styles')]"
-			v-bind="api.getAttributesForTag('item_styles',{}, index)"
+			v-bind="api.getAttributesForTag('item_styles')"
 		>
 			<ElementIcon
 				class="zb-el-iconList__itemIcon"

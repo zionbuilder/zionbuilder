@@ -283,7 +283,7 @@ export default {
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
 
-				schema[styleId] = {
+				const optionConfig = {
 					type: 'accordion_menu',
 					title: config.title,
 					id: styleId,
@@ -296,12 +296,15 @@ export default {
 							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
 							title: config.title,
 							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
-						},
-						attributes: this.attributesOtpions
-
-
+						}
 					}
 				}
+
+				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
+					optionConfig.child_options.attributes = this.attributesOtpions
+				}
+
+				schema[styleId] = optionConfig
 			})
 
 			return {
@@ -334,6 +337,7 @@ export default {
 
 				}
 			}
+
 			return applyFilters('zionbuilder/options/attributes', attributesComponent)
 		},
 		allOptionsSchema () {
