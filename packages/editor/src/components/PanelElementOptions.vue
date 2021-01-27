@@ -138,7 +138,6 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue'
-import { cloneDeep } from 'lodash-es'
 import { on, off, applyFilters } from '@zb/hooks'
 import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
@@ -171,7 +170,7 @@ export default {
 
 		const elementOptions = computed({
 			get () {
-				return element.value.options
+				return element.value ? element.value.options : {}
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
