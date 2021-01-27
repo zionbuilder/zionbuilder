@@ -639,6 +639,7 @@ class Localization {
 
 				// Pricing Box
 				'featured'                               => __( 'Featured', 'zionbuilder' ),
+				'moved'                                  => __( 'Moved', 'zionbuilder' ),
 			]
 		);
 	}
