@@ -63,7 +63,7 @@
 					strategy="fixed"
 				>
 					<span
-						@click="insertLibraryItem"
+						@click.stop="insertLibraryItem"
 						class="znpb-button znpb-button--line"
 					>{{$translate('library_insert')}}</span>
 				</Tooltip>
@@ -194,7 +194,8 @@ export default {
 
 .znpb-editor-library-modal__item {
 	position: relative;
-	// min-height: 235px;
+
+// min-height: 235px;
 	margin-bottom: 30px;
 	background: $surface;
 	box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
@@ -202,7 +203,6 @@ export default {
 	border-radius: 3px;
 	transition: box-shadow .2s;
 	cursor: pointer;
-
 	&:hover {
 		box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
 
