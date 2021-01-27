@@ -140,7 +140,7 @@
 import { ref, watch, provide, computed } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { on, off, applyFilters } from '@zb/hooks'
-import { debounce } from '@zb/utils'
+import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { usePseudoSelectors } from '@zb/components'
 import { useOptionsSchemas } from '@zb/components'
@@ -525,6 +525,10 @@ export default {
 			this.unEditElement()
 		},
 		onKeyPress (e) {
+			if (isEditable()) {
+				return
+			}
+
 			// Undo CTRL+Z
 			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
 				this.undo()

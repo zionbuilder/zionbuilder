@@ -1797,6 +1797,10 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
+#: ../includes/Localization.php:642
+msgid "Moved"
+msgstr ""
+
 #: ../includes/Shortcodes.php:23
 msgid "Template id missing"
 msgstr ""

@@ -3,6 +3,7 @@
 		v-model="element.content"
 		@start="onSortableStart"
 		@end="onSortableEnd"
+		@drop="onSortableDrop"
 		:group="groupInfo"
 		:disabled="isPreviewMode"
 		:allow-duplicate="true"
@@ -17,6 +18,7 @@
 			v-for="childElement in element.content"
 			:key="childElement.uid"
 			:element="childElement"
+			:zion-element-uid="childElement.uid"
 		/>
 
 		<template #start>
@@ -44,18 +46,14 @@
 
 <script>
 import { computed, ref } from 'vue'
-import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions } from '@zb/editor'
+import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions, useHistory } from '@zb/editor'
+import { translate } from '@zb/i18n'
 
 // Utils
 import { getOptionValue } from '@zb/utils'
 
 // Components
 import Element from './Element.vue'
-
-const sharedStateGlobal = {
-	controlPressed: null,
-	draggedItemData: null
-}
 
 export default {
 	name: 'SortableContent',
@@ -79,6 +77,7 @@ export default {
 		}
 	},
 	setup (props) {
+		const { addToHistory } = useHistory()
 		const defaultSortableGroup = {
 			name: 'elements'
 		}
@@ -87,18 +86,6 @@ export default {
 		const addElementsPopupButton = ref(null)
 		const { getElement } = useElements()
 
-		const draggedItemData = ref(null)
-		const positionRect = ref({
-			left: 0,
-			top: 0
-		})
-		const addColumnsRef = ref({
-			getBoundingClientRect: () => {
-				return this.positionRect
-			}
-		})
-
-		const sharedState = ref(sharedStateGlobal)
 		const showAddElementsPopup = computed(() => props.element.content.length > 0 && showColumnTemplates.value)
 		const groupInfo = computed(() => props.group || defaultSortableGroup)
 		const getSortableAxis = computed(() => {
@@ -132,50 +119,42 @@ export default {
 		const { isDragging, setDraggingState } = useIsDragging()
 		const { copyElement } = useElementActions()
 
+		function onSortableDrop (event) {
+			const droppedElementUid = event.data.item.getAttribute('zion-element-uid')
+			const element = getElement(droppedElementUid)
+			const translateText = translate('moved')
+			addToHistory(`${translateText} ${element.name}`)
+		}
+
+		function onSortableDuplicate (item) {
+			return item.getClone()
+		}
+
+		function onSortableStart () {
+			const { hideAddElementsPopup } = useAddElementsPopup()
+			hideAddElementsPopup()
+			setDraggingState(true)
+		}
+
+		function onSortableEnd () {
+			setDraggingState(false)
+		}
+
 		return {
 			isPreviewMode,
 			groupInfo,
 			getSortableAxis,
 			showAddElementsPopup,
-			sharedState,
 			toggleAddElementsPopup,
 			addElementsPopupButton,
 			showColumnTemplates,
 			isDragging,
 			setDraggingState,
-			copyElement
-		}
-	},
-
-	methods: {
-		onSortableDuplicate (item) {
-			return item.getClone()
-		},
-		onSortableStart (event) {
-			const { hideAddElementsPopup } = useAddElementsPopup()
-			hideAddElementsPopup()
-			this.setDraggingState(true)
-		},
-		onSortableEnd (event) {
-			this.setDraggingState(false)
-		}
-	},
-	watch: {
-		'sharedState.controlPressed' (newValue, oldValue) {
-			const draggedItem = this.sharedState.draggedItemData.item
-			if (newValue) {
-				draggedItem.style.display = null
-				draggedItem.style.opacity = 0.2
-				if (!this.isDragging.value) {
-					draggedItem.style.opacity = null
-					draggedItem.style.display = null
-				}
-			} else {
-				if (this.isDragging.value) {
-					draggedItem.style.opacity = null
-					draggedItem.style.display = 'none'
-				}
-			}
+			copyElement,
+			onSortableDrop,
+			onSortableDuplicate,
+			onSortableStart,
+			onSortableEnd
 		}
 	}
 }
