@@ -320,7 +320,7 @@ export default {
 			let attributesComponent = {
 				type: 'accordion_menu',
 				title: 'custom attributes',
-				icon: 'brush',
+				icon: 'tags-attributes',
 				is_layout: true,
 				label: {
 					type: translate('pro'),
