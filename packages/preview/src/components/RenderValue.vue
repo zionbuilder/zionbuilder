@@ -114,7 +114,7 @@ export default {
 		const renderType = computed(() => {
 			if (optionType.value === 'editor' && !isValueDynamic.value) {
 				return 'editor'
-			} else if (isValueDynamic.value && (isValueDynamic.value.options || {})._enable_raw_html) {
+			} else if (isValueDynamic.value) {
 				return 'dynamic_html'
 			} else if (optionType.value === 'icon_library') {
 				return 'icon'
