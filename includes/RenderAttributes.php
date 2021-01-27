@@ -92,7 +92,7 @@ class RenderAttributes {
 	 *
 	 * @since 1.2.0
 	 */
-	public function get_combined_attributes( $tag_id = 'wrapper', $extra_attributes ) {
+	public function get_combined_attributes( $tag_id = 'wrapper', $extra_attributes = [] ) {
 
 		$string_attr   = $this->get_attributes( $tag_id );
 		$combined_attr = $this->combine_attributes( $string_attr, $extra_attributes );

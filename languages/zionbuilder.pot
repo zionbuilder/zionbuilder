@@ -2055,7 +2055,7 @@ msgstr ""
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/DataSets.php:214
+#: ../includes/Api/RestControllers/DataSets.php:230
 msgid "Combined fonts list"
 msgstr ""
 
@@ -2443,7 +2443,7 @@ msgstr ""
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:147, ../includes/Elements/Tabs/Tabs.php:163
+#: ../includes/Elements/Accordions/Accordions.php:149, ../includes/Elements/Tabs/Tabs.php:164
 msgid "Content styles"
 msgstr ""
 
