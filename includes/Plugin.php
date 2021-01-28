@@ -208,6 +208,8 @@ class Plugin {
 	 * @return void
 	 */
 	public function init() {
+		do_action( 'zionbuilder/before_init' );
+
 		$this->load_libraries();
 
 		// initiate permissions
@@ -284,6 +286,10 @@ class Plugin {
 		$this->version           = $version;
 
 		self::$instance = $this;
+
+		add_action( 'after_setup_theme', [ $this, 'init' ] );
+
+		do_action( 'zionbuilder/main' );
 	}
 
 

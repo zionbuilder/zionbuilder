@@ -74,7 +74,6 @@ if ( \version_compare( PHP_VERSION, '5.6.20', '<' ) ) {
 
 	// Fire up the plugin
 	$manager = new Plugin( trailingslashit( dirname( __FILE__ ) ), plugin_dir_url( __FILE__ ), $plugin_data['Version'] );
-	$manager->init();
 }
 
 /**
