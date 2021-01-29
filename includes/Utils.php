@@ -50,7 +50,7 @@ class Utils {
 	 * @return string
 	 */
 	public static function get_loader_url() {
-		return apply_filters( 'zionbuilder/utils/loader_url', self::get_file_url( 'assets/img/zion-loader-slim.gif' ) );
+		return apply_filters( 'zionbuilder/utils/loader_url', self::get_file_url( 'assets/img/zion-loader-slim--small.gif' ) );
 	}
 
 	/**
