@@ -450,6 +450,7 @@ class Element {
 			'is_child'            => $this->is_child(),
 			'scripts'             => $this->get_element_scripts_for_editor(),
 			'styles'              => $this->get_element_styles_for_editor(),
+			'content_orientation' => $this->get_sortable_content_orientation(),
 		];
 
 		// Add extra data
@@ -1165,6 +1166,16 @@ class Element {
 		}
 
 		return $scripts;
+	}
+
+
+	/**
+	 * Will return the default orientation for the element orientation
+	 *
+	 * @return string
+	 */
+	public function get_sortable_content_orientation() {
+		return 'horizontal';
 	}
 
 	/**

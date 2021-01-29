@@ -107,6 +107,10 @@ class AccordionItem extends Element {
 		}
 	}
 
+	public function get_sortable_content_orientation() {
+		return 'vertical';
+	}
+
 	/**
 	 * Render
 	 *

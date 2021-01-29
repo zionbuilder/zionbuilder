@@ -23,7 +23,7 @@
 				v-for="(element, i) in element.content"
 				:key="element.uid"
 				:element="element"
-				:class="{'zb-el-tabs-nav--active': element.uid === activeTab || i === 0}"
+				:class="{'zb-el-tabs-nav--active': activeTab ? element.uid === activeTab : i === 0}"
 			/>
 		</div>
 

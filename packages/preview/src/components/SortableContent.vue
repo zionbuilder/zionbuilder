@@ -46,7 +46,7 @@
 
 <script>
 import { computed, ref } from 'vue'
-import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions, useHistory } from '@zb/editor'
+import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions, useHistory, useElementTypes } from '@zb/editor'
 import { translate } from '@zb/i18n'
 
 // Utils
@@ -78,6 +78,8 @@ export default {
 	},
 	setup (props) {
 		const { addToHistory } = useHistory()
+		const { getElementType } = useElementTypes()
+
 		const defaultSortableGroup = {
 			name: 'elements'
 		}
@@ -89,11 +91,17 @@ export default {
 		const showAddElementsPopup = computed(() => props.element.content.length > 0 && showColumnTemplates.value)
 		const groupInfo = computed(() => props.group || defaultSortableGroup)
 		const getSortableAxis = computed(() => {
+			let orientation = 'horizontal'
+
 			if (props.element.element_type === 'contentRoot') {
 				return 'vertical'
 			}
 
-			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal'
+			const elementType = getElementType(props.element.element_type)
+
+			if (elementType) {
+				orientation = elementType.content_orientation
+			}
 
 			// Check columns and section direction
 			if (props.element.options.inner_content_layout) {

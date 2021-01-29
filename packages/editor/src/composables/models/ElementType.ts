@@ -16,6 +16,7 @@ export class ElementType {
 	show_in_ui: boolean = true
 	style_elements: object = {}
 	wrapper: boolean = false
+	content_orientation: string = 'horizontal'
 
 	constructor(config) {
 		Object.assign(this, config)
