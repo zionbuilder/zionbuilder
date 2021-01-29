@@ -1172,7 +1172,7 @@ class Element {
 	/**
 	 * Will return the default orientation for the element orientation
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_sortable_content_orientation() {
 		return 'horizontal';
