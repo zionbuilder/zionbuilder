@@ -220,14 +220,9 @@ class Manager {
 				'priority' => 4,
 			],
 			[
-				'id'       => 'blog',
-				'name'     => __( 'Blog related', 'zionbuilder' ),
-				'priority' => 5,
-			],
-			[
 				'id'       => 'widgets',
 				'name'     => __( 'WordPress Widgets', 'zionbuilder' ),
-				'priority' => 6,
+				'priority' => 5,
 			],
 		];
 
