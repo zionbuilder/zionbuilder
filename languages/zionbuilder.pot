@@ -4244,15 +4244,15 @@ msgid "Start muted?"
 msgstr ""
 
 #. translators: %s: Minimum PHP version
-#: ../zionbuilder.php:91
+#: ../zionbuilder.php:90
 msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
 
-#: ../zionbuilder.php:118
+#: ../zionbuilder.php:117
 msgid "Update WordPress"
 msgstr ""
 
 #. translators: %s: Minimum WordPress version
-#: ../zionbuilder.php:122
+#: ../zionbuilder.php:121
 msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed."
 msgstr ""
