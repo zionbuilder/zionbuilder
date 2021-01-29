@@ -64,6 +64,7 @@ export default {
 	}
 
 	&Title {
+		padding: 0;
 		margin-top: 0;
 		margin-bottom: 10px;
 		color: $font-color;
