@@ -84,6 +84,10 @@ class Column extends Element {
 		return true;
 	}
 
+	public function get_sortable_content_orientation() {
+		return 'vertical';
+	}
+
 	private function get_column_options() {
 		$columns = 12;
 		$options = [];

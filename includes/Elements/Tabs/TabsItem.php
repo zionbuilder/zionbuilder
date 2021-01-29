@@ -51,6 +51,10 @@ class TabsItem extends Element {
 		return __( 'Tab Item', 'zionbuilder' );
 	}
 
+	public function get_sortable_content_orientation() {
+		return 'vertical';
+	}
+
 	/**
 	 * Registers the element options
 	 *
