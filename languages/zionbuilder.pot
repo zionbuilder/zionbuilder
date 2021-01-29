@@ -565,7 +565,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -2011,16 +2011,12 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:212
+#: ../includes/Elements/Manager.php:214
 msgid "Media"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:216
+#: ../includes/Elements/Manager.php:219
 msgid "External"
-msgstr ""
-
-#: ../includes/Elements/Manager.php:220
-msgid "Blog related"
 msgstr ""
 
 #: ../includes/Elements/Manager.php:224

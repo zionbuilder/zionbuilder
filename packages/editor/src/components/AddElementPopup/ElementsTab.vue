@@ -22,14 +22,16 @@
 
 		<div class="znpb-fancy-scrollbar">
 			<div class="znpb-wrapper-category">
+
 				<ElementList
-					v-if="visibleElements.length > 0"
-					:elements="visibleElements"
+					v-for="(category,i) in computedRuleCategories"
+					:key="i"
+					:elements="getElements(category.id)"
 					:element="element"
+					:category="category.name"
 					@add-element="onAddElement"
 				/>
 
-				<div v-else>{{$translate('no_elements_found')}}</div>
 			</div>
 		</div>
 	</div>
@@ -73,40 +75,34 @@ export default {
 		const categoryValue = ref('all')
 		const searchInputEl = ref(null)
 
+		const sortedCategories = computed(() => {
+			return categories.value.sort((a, b) => {
+				return a.priority < b.priority ? -1 : 1
+			})
+		})
+
 		// Normal data
 		const elementCategories = [{
 			id: 'all',
 			name: 'All'
-		}].concat(categories.value)
+		}].concat(sortedCategories.value)
 
 		// Computed
-		const visibleElements = computed(() => {
-			let elements = getVisibleElements.value
-			const category = categoryValue.value
-			const keyword = computedSearchKeyword.value
+		const computedRuleCategories = computed(() => {
+			let categoriesArray = []
+			let category = categoryValue.value
 
-			// Check if we have a specific category selected
 			if (category !== 'all') {
-				elements = elements.filter((element) => {
-					return element.category.includes(category)
-				})
+				categoriesArray = categories.value.filter(cat => cat.id === category)
+
+			} else {
+				categoriesArray = sortedCategories.value
 			}
 
-			// Check if we have a keyword
-			if (keyword.length > 0) {
-				elements = elements.filter((element) => {
-					return (
-						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-						element.keywords
-							.join()
-							.toLowerCase()
-							.indexOf(keyword.toLowerCase()) !== -1
-					)
-				})
-			}
+			return categoriesArray
 
-			return elements
 		})
+
 
 		// Methods
 		const onAddElement = (element) => {
@@ -127,6 +123,35 @@ export default {
 			hideAddElementsPopup()
 		}
 
+		function getElements (category) {
+			let elements = getVisibleElements.value
+
+			const keyword = computedSearchKeyword.value
+
+			// Check if we have a specific category selected
+
+			elements = elements.filter((element) => {
+				return element.category.includes(category)
+			})
+
+
+			// Check if we have a keyword
+			if (keyword.length > 0) {
+				elements = elements.filter((element) => {
+					return (
+						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+						element.keywords
+							.join()
+							.toLowerCase()
+							.indexOf(keyword.toLowerCase()) !== -1
+					)
+				})
+			}
+
+			return elements
+		}
+
+
 		// Lifecycle
 		onMounted(() => {
 			setTimeout(() => {
@@ -137,12 +162,13 @@ export default {
 		return {
 			// Normal values
 			elementCategories,
+			getElements,
 			// Refs
 			computedSearchKeyword,
 			categoryValue,
 			searchInputEl,
 			// Computed
-			visibleElements,
+			computedRuleCategories,
 			// Methods
 			onAddElement,
 			// rtl
@@ -225,7 +251,8 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-		// margin-left: 10px;
+
+// margin-left: 10px;
 		background: transparent;
 	}
 }

@@ -200,28 +200,29 @@ class Manager {
 	public function get_elements_categories() {
 		$categories = [
 			[
-				'id'   => 'layout',
-				'name' => __( 'Layout', 'zionbuilder' ),
+				'id'       => 'layout',
+				'name'     => __( 'Layout', 'zionbuilder' ),
+				'priority' => 10,
 			],
 			[
-				'id'   => 'content',
-				'name' => __( 'Content', 'zionbuilder' ),
+				'id'       => 'content',
+				'name'     => __( 'Content', 'zionbuilder' ),
+				'priority' => 20,
 			],
 			[
-				'id'   => 'media',
-				'name' => __( 'Media', 'zionbuilder' ),
+				'id'       => 'media',
+				'name'     => __( 'Media', 'zionbuilder' ),
+				'priority' => 30,
 			],
 			[
-				'id'   => 'external',
-				'name' => __( 'External', 'zionbuilder' ),
+				'id'       => 'external',
+				'name'     => __( 'External', 'zionbuilder' ),
+				'priority' => 40,
 			],
 			[
-				'id'   => 'blog',
-				'name' => __( 'Blog related', 'zionbuilder' ),
-			],
-			[
-				'id'   => 'widgets',
-				'name' => __( 'WordPress Widgets', 'zionbuilder' ),
+				'id'       => 'widgets',
+				'name'     => __( 'WordPress Widgets', 'zionbuilder' ),
+				'priority' => 50,
 			],
 		];
 

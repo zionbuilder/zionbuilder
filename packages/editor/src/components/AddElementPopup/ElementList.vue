@@ -1,6 +1,9 @@
 <template>
-	<div>
+	<div class="znpb-element-category-listWrapper">
+		<h3 class="znpb-element-category-listTitle">{{this.category}}</h3>
+
 		<TransitionGroup
+			v-if="elements.length"
 			name="pb_element"
 			tag="ul"
 			class="znpb-element-category-list"
@@ -13,6 +16,8 @@
 				@click="$emit('add-element', element)"
 			/>
 		</TransitionGroup>
+
+		<div v-else>{{$translate('no_elements_found')}}</div>
 	</div>
 </template>
 
@@ -29,7 +34,10 @@ export default {
 			type: Array,
 			required: true
 		},
-		element: Object
+		element: Object,
+		category: {
+			type: String
+		}
 	},
 	setup () {
 		return {
@@ -45,10 +53,26 @@ export default {
 .znpb-element-category-list {
 	display: grid;
 	padding: 0;
-	// padding: 15px 30px;
+
+// padding: 15px 30px;
 
 	grid-gap: 20px 18px;
 	grid-template-columns: 1fr 1fr 1fr;
+
+	&Wrapper {
+		margin-bottom: 20px;
+	}
+
+	&Title {
+		padding: 0;
+		margin-top: 0;
+		margin-bottom: 10px;
+		color: $font-color;
+		font-family: $font-stack;
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 14px;
+	}
 }
 
 .pb_element {
