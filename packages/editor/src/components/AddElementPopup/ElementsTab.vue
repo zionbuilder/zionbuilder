@@ -75,11 +75,17 @@ export default {
 		const categoryValue = ref('all')
 		const searchInputEl = ref(null)
 
+		const sortedCategories = computed(() => {
+			return categories.value.sort((a, b) => {
+				return a.priority < b.priority ? -1 : 1
+			})
+		})
+
 		// Normal data
 		const elementCategories = [{
 			id: 'all',
 			name: 'All'
-		}].concat(categories.value)
+		}].concat(sortedCategories.value)
 
 		// Computed
 		const computedRuleCategories = computed(() => {
@@ -89,11 +95,8 @@ export default {
 			if (category !== 'all') {
 				categoriesArray = categories.value.filter(cat => cat.id === category)
 
-
 			} else {
-				categoriesArray = categories.value.sort((a, b) => {
-					return a.priority < b.priority ? -1 : 1
-				})
+				categoriesArray = sortedCategories.value
 			}
 
 			return categoriesArray
