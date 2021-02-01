@@ -59,6 +59,7 @@ export default {
 		})
 
 		watch(() => props.options, (newValue, oldValue) => {
+
 			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
 			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
 
@@ -66,6 +67,8 @@ export default {
 			if (JSON.stringify(remainingNewProperties) !== JSON.stringify(remainingOldProperties)) {
 				debouncedGetElementFromServer()
 			}
+		}, {
+			deep: true
 		})
 
 		function setInnerHTML (content) {
@@ -97,11 +100,10 @@ export default {
 			})
 		}
 
-		function debouncedGetElementFromServer () {
-			return debounce(function () {
-				getElementFromServer()
-			}, 500)
-		}
+		const debouncedGetElementFromServer = debounce(function () {
+			getElementFromServer()
+		}, 500)
+
 
 		function checkForContentHeight () {
 			const loadableElements = elementContentRef.value.querySelectorAll('img, iframe, video')
