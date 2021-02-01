@@ -12,7 +12,7 @@ const loading = ref(false)
 let fetched = false
 
 export const useLocalLibrary = () => {
-	function fetchTemplates (force = false) {
+	function fetchTemplates(force = false) {
 		if (fetched && !force) {
 			return
 		}
@@ -46,12 +46,12 @@ export const useLocalLibrary = () => {
 		loading.value = true
 
 		return importTemplateLibrary(formData).then((result) => {
-			// addTemplate(result.data)
+			addTemplate(result.data)
 			return Promise.resolve(result)
 		})
-		.finally(() => {
-			loading.value = false
-		})
+			.finally(() => {
+				loading.value = false
+			})
 	}
 
 	function deleteTemplate(templateID) {

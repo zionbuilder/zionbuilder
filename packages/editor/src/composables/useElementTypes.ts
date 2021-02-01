@@ -2,20 +2,21 @@ import { find } from 'lodash-es'
 import { ref, Ref, computed } from 'vue'
 import { ElementType } from './models'
 
-const zionElements = window.ZnPbInitalData.elements_data.map(config => {
-	return new ElementType(config)
-})
+const elementTypes: Ref = ref([])
 
-// Add content Wrapper
-zionElements.push(new ElementType({
+elementTypes.value.push(new ElementType({
 	element_type: 'contentRoot',
 	wrapper: true,
 	show_in_ui: false
 }))
 
-const elementTypes: Ref = ref(zionElements)
-
 export function useElementTypes() {
+	function addElementTypes(elements: []) {
+		elements.forEach(elementConfig => {
+			elementTypes.value.push(new ElementType(elementConfig))
+		})
+	}
+
 	const addElementType = (config) => {
 		elementTypes.value.push(new ElementType(config))
 	}
@@ -66,6 +67,7 @@ export function useElementTypes() {
 		addElementType,
 		getElementType,
 		registerElementComponent,
-		resetElementComponents
+		resetElementComponents,
+		addElementTypes
 	}
 }
