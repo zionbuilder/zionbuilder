@@ -1,6 +1,9 @@
 <template>
 	<div class="znpb-element-category-listWrapper">
-		<h3 class="znpb-element-category-listTitle">{{this.category}}</h3>
+		<h3
+			class="znpb-element-category-listTitle"
+			v-if="elements.length"
+		>{{this.category}}</h3>
 
 		<TransitionGroup
 			v-if="elements.length"
@@ -17,7 +20,6 @@
 			/>
 		</TransitionGroup>
 
-		<div v-else>{{$translate('no_elements_found')}}</div>
 	</div>
 </template>
 
