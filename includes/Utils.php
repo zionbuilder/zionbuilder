@@ -76,7 +76,7 @@ class Utils {
 	 * @return string
 	 */
 	public static function get_file_url( $path = '' ) {
-		return Plugin::instance()->get_root_url() . $path;
+		return set_url_scheme( Plugin::instance()->get_root_url() . $path );
 	}
 
 	/**
