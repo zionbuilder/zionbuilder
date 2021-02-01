@@ -254,7 +254,7 @@ class Cache {
 
 			$this->cache_directory_config = [
 				'path' => $zionbuilder_upload_folder['basedir'] . $relative_cache_path,
-				'url'  => esc_url( $zionbuilder_upload_folder['baseurl'] . $relative_cache_path ),
+				'url'  => esc_url( set_url_scheme( $zionbuilder_upload_folder['baseurl'] . $relative_cache_path ) ),
 			];
 
 			// Create the cache folder

@@ -251,7 +251,7 @@ class BasePostType {
 		 *
 		 * @param string $url  Zion Builder edit url
 		 */
-		return apply_filters( 'zionbuilder/post/preview_url_barebone', $url );
+		return apply_filters( 'zionbuilder/post/preview_url_barebone', set_url_scheme( $url ) );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class BasePostType {
 		 *
 		 * @param string $url  Zion Builder edit url
 		 */
-		return apply_filters( 'zionbuilder/post/preview_url', $url );
+		return apply_filters( 'zionbuilder/post/preview_url', set_url_scheme( $url ) );
 	}
 
 
@@ -355,7 +355,7 @@ class BasePostType {
 		 *
 		 * @param string $url  Zion Builder page preview frame url
 		 */
-		return apply_filters( 'zionbuilder/post/preview_frame_url', $url );
+		return apply_filters( 'zionbuilder/post/preview_frame_url', set_url_scheme( $url ) );
 	}
 
 	/**
