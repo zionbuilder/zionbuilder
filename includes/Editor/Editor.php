@@ -318,7 +318,6 @@ class Editor {
 				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
 				// Elements data
-				'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
 
 				// User data
