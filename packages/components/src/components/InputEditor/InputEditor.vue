@@ -53,9 +53,10 @@ export default {
 		const config = {
 			id: this.editorID,
 			selector: `#${this.editorID}`,
-			setup: this.onEditorSetup
+			setup: this.onEditorSetup,
+			content_style: "body { background-color: #fff; }"
 		}
-		window.tinyMCEPreInit.mceInit[ this.editorID ] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config)
+		window.tinyMCEPreInit.mceInit[this.editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config)
 
 		// Set the edit mode to tmce
 		window.switchEditors.go(this.editorID, 'tmce')
