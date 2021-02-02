@@ -301,7 +301,7 @@ msgstr ""
 msgid "Smart Areas"
 msgstr ""
 
-#: ../includes/Localization.php:100, ../includes/Elements/Accordions/AccordionItem.php:69, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:99, ../includes/Elements/Tabs/TabsItem.php:66
+#: ../includes/Localization.php:100, ../includes/Elements/Accordions/AccordionItem.php:69, ../includes/Elements/Alert/Alert.php:101, ../includes/Elements/IconBox/IconBox.php:144, ../includes/Elements/ProgressBars/ProgressBars.php:99, ../includes/Elements/Tabs/TabsItem.php:70
 msgid "Title"
 msgstr ""
 
@@ -565,7 +565,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:75, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:187, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -1801,6 +1801,10 @@ msgstr ""
 msgid "Moved"
 msgstr ""
 
+#: ../includes/Localization.php:645
+msgid "Invalid Element"
+msgstr ""
+
 #: ../includes/Shortcodes.php:23
 msgid "Template id missing"
 msgstr ""
@@ -2003,7 +2007,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:524
+#: ../includes/Elements/Element.php:525
 msgid "Wrapper"
 msgstr ""
 
@@ -2635,147 +2639,147 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:101, ../includes/Elements/Column/Column.php:118
+#: ../includes/Elements/Column/Column.php:105, ../includes/Elements/Column/Column.php:122
 msgid "auto"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:137
+#: ../includes/Elements/Column/Column.php:141
 msgid "Choose the desired column width."
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:138
+#: ../includes/Elements/Column/Column.php:142
 msgid "Column width"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:156
+#: ../includes/Elements/Column/Column.php:160
 msgid "Choose the desired column offset."
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:157
+#: ../includes/Elements/Column/Column.php:161
 msgid "Column offset"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:176, ../includes/Elements/Section/Section.php:215
+#: ../includes/Elements/Column/Column.php:180, ../includes/Elements/Section/Section.php:215
 msgid "Select the HTML tag to use for this element"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:177, ../includes/Elements/Heading/Heading.php:99, ../includes/Elements/IconBox/IconBox.php:166, ../includes/Elements/ImageBox/ImageBox.php:180, ../includes/Elements/Section/Section.php:216
+#: ../includes/Elements/Column/Column.php:181, ../includes/Elements/Heading/Heading.php:99, ../includes/Elements/IconBox/IconBox.php:166, ../includes/Elements/ImageBox/ImageBox.php:180, ../includes/Elements/Section/Section.php:216
 msgid "HTML tag"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:215, ../includes/Elements/Section/Section.php:254
+#: ../includes/Elements/Column/Column.php:219, ../includes/Elements/Section/Section.php:254
 msgid "Select the desired content orientation."
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:216, ../includes/Elements/Section/Section.php:255
+#: ../includes/Elements/Column/Column.php:220, ../includes/Elements/Section/Section.php:255
 msgid "Content orientation"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:222, ../includes/Elements/Section/Section.php:261
+#: ../includes/Elements/Column/Column.php:226, ../includes/Elements/Section/Section.php:261
 msgid "vertical"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:226, ../includes/Elements/Section/Section.php:265
+#: ../includes/Elements/Column/Column.php:230, ../includes/Elements/Section/Section.php:265
 msgid "horizontal"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:237, ../includes/Elements/Column/Column.php:325, ../includes/Elements/Section/Section.php:276, ../includes/Elements/Section/Section.php:364
+#: ../includes/Elements/Column/Column.php:241, ../includes/Elements/Column/Column.php:329, ../includes/Elements/Section/Section.php:276, ../includes/Elements/Section/Section.php:364
 msgid "Inner content horizontal alignment layout"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:238, ../includes/Elements/Column/Column.php:326, ../includes/Elements/Section/Section.php:277, ../includes/Elements/Section/Section.php:365
+#: ../includes/Elements/Column/Column.php:242, ../includes/Elements/Column/Column.php:330, ../includes/Elements/Section/Section.php:277, ../includes/Elements/Section/Section.php:365
 msgid "Inner content horizontal alignment"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:243, ../includes/Elements/Column/Column.php:331, ../includes/Elements/Section/Section.php:282, ../includes/Elements/Section/Section.php:370, ../includes/Elements/Testimonial/Testimonial.php:174
+#: ../includes/Elements/Column/Column.php:247, ../includes/Elements/Column/Column.php:335, ../includes/Elements/Section/Section.php:282, ../includes/Elements/Section/Section.php:370, ../includes/Elements/Testimonial/Testimonial.php:174
 msgid "Left"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:248, ../includes/Elements/Column/Column.php:293, ../includes/Elements/Testimonial/Testimonial.php:178
+#: ../includes/Elements/Column/Column.php:252, ../includes/Elements/Column/Column.php:297, ../includes/Elements/Testimonial/Testimonial.php:178
 msgid "Center"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:253, ../includes/Elements/Column/Column.php:341, ../includes/Elements/Section/Section.php:292, ../includes/Elements/Section/Section.php:380, ../includes/Elements/Testimonial/Testimonial.php:182
+#: ../includes/Elements/Column/Column.php:257, ../includes/Elements/Column/Column.php:345, ../includes/Elements/Section/Section.php:292, ../includes/Elements/Section/Section.php:380, ../includes/Elements/Testimonial/Testimonial.php:182
 msgid "Right"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:258
+#: ../includes/Elements/Column/Column.php:262
 msgid "Stretch"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:263
+#: ../includes/Elements/Column/Column.php:267
 msgid "Baseline"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:281, ../includes/Elements/Column/Column.php:369, ../includes/Elements/Section/Section.php:320, ../includes/Elements/Section/Section.php:408
+#: ../includes/Elements/Column/Column.php:285, ../includes/Elements/Column/Column.php:373, ../includes/Elements/Section/Section.php:320, ../includes/Elements/Section/Section.php:408
 msgid "Inner content vertical alignment layout"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:282, ../includes/Elements/Column/Column.php:370, ../includes/Elements/Section/Section.php:321, ../includes/Elements/Section/Section.php:409
+#: ../includes/Elements/Column/Column.php:286, ../includes/Elements/Column/Column.php:374, ../includes/Elements/Section/Section.php:321, ../includes/Elements/Section/Section.php:409
 msgid "Inner content vertical alignment"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:288, ../includes/Elements/Column/Column.php:376, ../includes/Elements/Section/Section.php:327, ../includes/Elements/Section/Section.php:415
+#: ../includes/Elements/Column/Column.php:292, ../includes/Elements/Column/Column.php:380, ../includes/Elements/Section/Section.php:327, ../includes/Elements/Section/Section.php:415
 msgid "Top"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:298, ../includes/Elements/Column/Column.php:386, ../includes/Elements/Section/Section.php:337, ../includes/Elements/Section/Section.php:425
+#: ../includes/Elements/Column/Column.php:302, ../includes/Elements/Column/Column.php:390, ../includes/Elements/Section/Section.php:337, ../includes/Elements/Section/Section.php:425
 msgid "Bottom"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:303
+#: ../includes/Elements/Column/Column.php:307
 msgid "Space-between"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:308
+#: ../includes/Elements/Column/Column.php:312
 msgid "Space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:336, ../includes/Elements/Column/Column.php:381, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
+#: ../includes/Elements/Column/Column.php:340, ../includes/Elements/Column/Column.php:385, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
 msgid "center"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:346, ../includes/Elements/Section/Section.php:342, ../includes/Elements/Section/Section.php:385
+#: ../includes/Elements/Column/Column.php:350, ../includes/Elements/Section/Section.php:342, ../includes/Elements/Section/Section.php:385
 msgid "space-between"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:351, ../includes/Elements/Section/Section.php:347, ../includes/Elements/Section/Section.php:390
+#: ../includes/Elements/Column/Column.php:355, ../includes/Elements/Section/Section.php:347, ../includes/Elements/Section/Section.php:390
 msgid "space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:391, ../includes/Elements/Section/Section.php:297, ../includes/Elements/Section/Section.php:430
+#: ../includes/Elements/Column/Column.php:395, ../includes/Elements/Section/Section.php:297, ../includes/Elements/Section/Section.php:430
 msgid "stretch"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:396, ../includes/Elements/Section/Section.php:302, ../includes/Elements/Section/Section.php:435
+#: ../includes/Elements/Column/Column.php:400, ../includes/Elements/Section/Section.php:302, ../includes/Elements/Section/Section.php:435
 msgid "baseline"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:415
+#: ../includes/Elements/Column/Column.php:419
 msgid "Wrap content"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:416
+#: ../includes/Elements/Column/Column.php:420
 msgid "If you choose to wrap the content, all inner elements will be placed on a new line if there is no space for them on the same line."
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:419
+#: ../includes/Elements/Column/Column.php:423
 msgid "wrap"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:423
+#: ../includes/Elements/Column/Column.php:427
 msgid "nowrap"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:427
+#: ../includes/Elements/Column/Column.php:431
 msgid "wrap-reverse"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:440, ../includes/Elements/Section/Section.php:453
+#: ../includes/Elements/Column/Column.php:444, ../includes/Elements/Section/Section.php:453
 msgid "Shape Dividers"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:449, ../includes/Elements/Section/Section.php:462
+#: ../includes/Elements/Column/Column.php:453, ../includes/Elements/Section/Section.php:462
 msgid "Add a mask to your element"
 msgstr ""
 
@@ -3559,11 +3563,11 @@ msgstr ""
 msgid "Tab Item"
 msgstr ""
 
-#: ../includes/Elements/Tabs/TabsItem.php:67
+#: ../includes/Elements/Tabs/TabsItem.php:71
 msgid "Tab title"
 msgstr ""
 
-#: ../includes/Elements/Tabs/TabsItem.php:76
+#: ../includes/Elements/Tabs/TabsItem.php:80
 msgid "Tab content"
 msgstr ""
 
