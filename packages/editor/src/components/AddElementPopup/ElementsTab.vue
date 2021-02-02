@@ -22,15 +22,17 @@
 
 		<div class="znpb-fancy-scrollbar">
 			<div class="znpb-wrapper-category">
-
-				<ElementList
-					v-for="(category,i) in computedRuleCategories"
-					:key="i"
-					:elements="getElements(category.id)"
-					:element="element"
-					:category="category.name"
-					@add-element="onAddElement"
-				/>
+				<template v-if="computedRuleCategories.length">
+					<ElementList
+						v-for="(category,i) in computedRuleCategories"
+						:key="i"
+						:elements="getElements(category.id)"
+						:element="element"
+						:category="category.name"
+						@add-element="onAddElement"
+					/>
+				</template>
+				<div v-if="!elementsAreFound">{{$translate('no_elements_found')}}</div>
 
 			</div>
 		</div>
@@ -61,6 +63,8 @@ export default {
 		const { categories } = useElementTypeCategories()
 		const { editorData } = useEditorData()
 		// Refs
+		const foundElements = ref([])
+
 		const localSearchKeyword = ref(null)
 		const computedSearchKeyword = computed(
 			{
@@ -69,6 +73,7 @@ export default {
 				},
 				set: (newValue) => {
 					localSearchKeyword.value = newValue
+					foundElements.value = []
 				}
 			}
 		)
@@ -90,6 +95,7 @@ export default {
 		// Computed
 		const computedRuleCategories = computed(() => {
 			let categoriesArray = []
+			foundElements.value = []
 			let category = categoryValue.value
 
 			if (category !== 'all') {
@@ -147,10 +153,9 @@ export default {
 					)
 				})
 			}
-
+			foundElements.value.push(elements.length)
 			return elements
 		}
-
 
 		// Lifecycle
 		onMounted(() => {
@@ -159,10 +164,17 @@ export default {
 			}, 0)
 		})
 
+		const elementsAreFound = computed(() => {
+			let foundIndex = foundElements.value.findIndex(element => element !== 0)
+			return foundIndex !== -1
+		})
+
 		return {
 			// Normal values
 			elementCategories,
 			getElements,
+			foundElements,
+			elementsAreFound,
 			// Refs
 			computedSearchKeyword,
 			categoryValue,
