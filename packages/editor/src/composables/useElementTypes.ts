@@ -1,6 +1,7 @@
 import { find } from 'lodash-es'
 import { ref, Ref, computed } from 'vue'
 import { ElementType } from './models'
+import { translate } from '@zb/i18n'
 
 const elementTypes: Ref = ref([])
 
@@ -28,7 +29,10 @@ export function useElementTypes() {
 	})
 
 	const getElementType = (elementType: string) => {
-		return find(elementTypes.value, { element_type: elementType })
+		return find(elementTypes.value, { element_type: elementType }) || new ElementType({
+			element_type: 'invalid',
+			name: translate('invalid_element'),
+		})
 	}
 
 	const registerElementComponent = (config) => {
@@ -44,12 +48,12 @@ export function useElementTypes() {
 	}
 
 	const getElementIcon = (elementType: string) => {
-		let element = find(elementTypes.value, { element_type: elementType })
+		let element = getElementType(elementType)
 		return element.icon ? element.icon : null
 	}
 
 	const getElementImage = (elementType: string) => {
-		let element = find(elementTypes.value, { element_type: elementType })
+		let element = getElementType(elementType)
 		return element.thumb ? element.thumb : null
 	}
 

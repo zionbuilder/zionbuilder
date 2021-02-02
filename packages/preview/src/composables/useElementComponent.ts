@@ -1,17 +1,19 @@
 import { ref, markRaw, Ref } from 'vue'
 import ServerComponent from '../components/ServerComponent.vue'
+import InvalidElement from '../components/InvalidElement.vue'
+
 import { ScriptsLoader } from '../ScriptsLoader'
-import { useElementTypes } from '@zb/editor'
 
 export function useElementComponent(element) {
 	const elementComponent: Ref = ref(null)
 
 	const fetchElementComponent = () => {
 		loadElementAssets().then(() => {
-			const { getElementType } = useElementTypes()
-			const elementType = getElementType(element.element_type)
+			const elementType = element.elementTypeModel
 
-			if (elementType.component) {
+			if (elementType.element_type === 'invalid') {
+				elementComponent.value = markRaw(InvalidElement)
+			} else if (elementType.component) {
 				elementComponent.value = elementType.component
 			} else {
 				elementComponent.value = markRaw(ServerComponent)
