@@ -99,6 +99,7 @@ export default {
 		color: darken($surface-headings-color, 20%);
 		font-size: 12px;
 		font-weight: 500;
+		line-height: 1.5;
 		text-align: center;
 	}
 
