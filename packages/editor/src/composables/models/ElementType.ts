@@ -7,6 +7,7 @@ export class ElementType {
 	category: string = ''
 	deprecated: boolean = false
 	icon: string = ''
+	thumb: string = ''
 	is_child: boolean = false
 	keywords: string[] = []
 	label: string = ''

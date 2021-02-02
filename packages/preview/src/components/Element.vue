@@ -59,19 +59,18 @@
 <script>
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue'
-import { debounce, each, kebabCase, escape } from 'lodash-es'
-import { generateElements, getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
+import { get, debounce, each, kebabCase, escape } from 'lodash-es'
+import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
 
 // Components
-import ServerComponent from './ServerComponent.vue'
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { useElementTypes, usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
@@ -111,7 +110,7 @@ export default {
 			}
 		}
 
-		const elementOptionsSchema = Object.assign({}, props.element.elementTypeModel.options || {}, advancedSchema)
+		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementTypeModel.options', {}), advancedSchema)
 
 		// computed
 		const parsedData = computed(() => {
