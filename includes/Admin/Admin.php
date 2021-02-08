@@ -5,6 +5,7 @@ namespace ZionBuilder\Admin;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
+use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 
 // Prevent direct access
@@ -104,7 +105,7 @@ class Admin {
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 
 		if ( $post_instance->is_built_with_zion() ) {
-			$post_states['zionbuilder'] = esc_html__( 'Zion Builder', 'zionbuilder' );
+			$post_states['zionbuilder'] = WhiteLabel::get_title();
 		}
 
 		return $post_states;
@@ -212,7 +213,7 @@ class Admin {
 					'template_categories' => Plugin::$instance->templates->get_template_categories(),
 					'plugin_version'      => Plugin::instance()->get_version(),
 					'urls'                => [
-						'logo'     => Utils::get_logo_url(),
+						'logo'     => Whitelabel::get_logo_url(),
 						'pro_logo' => Utils::get_pro_png_url(),
 					],
 				]
@@ -321,8 +322,8 @@ class Admin {
 	 */
 	public function add_admin_page() {
 		add_menu_page(
-			__( 'Zion Builder', 'zionbuilder' ),
-			__( 'Zion Builder', 'zionbuilder' ),
+			WhiteLabel::get_title(),
+			WhiteLabel::get_title(),
 			'manage_options',
 			'zionbuilder',
 			[ $this, 'render_options_page' ],
