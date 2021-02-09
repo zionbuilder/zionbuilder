@@ -228,7 +228,8 @@ export default {
 		const { getOptionValue } = useBuilderOptions()
 
 		const hasWhiteLabel = computed(() => {
-			return getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title !== 'Zion Builder' ? true : false
+			let isPro = editorData.value.plugin_info.is_pro_active
+			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false
 		})
 		function saveTemplate () {
 			showSaveElement(null)
