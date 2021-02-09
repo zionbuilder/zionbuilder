@@ -5,7 +5,7 @@ namespace ZionBuilder\Api\RestControllers;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Templates as ZionBuilderTemplates;
-
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -368,9 +368,10 @@ class Templates extends RestApiController {
 	 */
 	public function attach_post_data( $template ) {
 		// Convert to array
-		$template = $template->to_array();
+		$template         = $template->to_array();
+		$prefix_shortcode = strtolower( WhiteLabel::get_title() );
 
-		$shortcode         = '[zionbuilder id="' . $template['ID'] . '"]';
+		$shortcode         = '[' . $prefix_shortcode . ' id="' . $template['ID'] . '"]';
 		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $template['ID'] );
 
 		$template['edit_url']    = $template_instance->get_edit_url();
