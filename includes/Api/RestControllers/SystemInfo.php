@@ -455,13 +455,24 @@ class SystemInfo extends RestApiController {
 		$plugins_list   = [];
 
 		foreach ( $all_plugins as $plugin_id => $plugin_details ) {
+
 			if ( in_array( $plugin_id, $active_plugins, true ) ) {
-				$plugins_list[] = [
-					'name'    => $plugin_details['Name'],
-					'version' => $plugin_details['Version'],
-					'author'  => $plugin_details['Author'],
-					'url'     => $plugin_details['PluginURI'],
-				];
+				if ( $plugin_details['Name'] === 'Zion Builder' || $plugin_details['Name'] === 'Zion Builder Pro' ) {
+					$white_label_title = $plugin_details['Name'] === 'Zion Builder' ? WhiteLabel::get_title() : sprintf( '%s Pro', WhiteLabel::get_title() );
+					$plugins_list[]    = [
+						'name'    => $white_label_title,
+						'version' => $plugin_details['Version'],
+						'author'  => WhiteLabel::get_title(),
+						'url'     => WhiteLabel::get_help_url(),
+					];
+				} else {
+					$plugins_list[] = [
+						'name'    => $plugin_details['Name'],
+						'version' => $plugin_details['Version'],
+						'author'  => $plugin_details['Author'],
+						'url'     => $plugin_details['PluginURI'],
+					];
+				}
 			}
 		}
 
