@@ -39,7 +39,11 @@ class Localization {
 				'pro_manage_global_gradients_free'       => esc_html__( 'Global gradients allows you to define a gradient configuration that you can use in builder, and everytime this gradient configuration changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
 				'custom_fonts_upgrade_message'           => esc_html__( 'With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder' ),
 				'typekit_fonts_upgrade_message'          => esc_html__( 'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.', 'zionbuilder' ),
-				'custom_icons_upgrade_message'           => sprintf( _x( '%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ), WhiteLabel::get_title() ),
+				/* translators: %s: search term */
+				'custom_icons_upgrade_message'           => sprintf(
+					_x( '%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
+					WhiteLabel::get_title()
+				),
 				'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 				'learn_more_about_pro'                   => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 
