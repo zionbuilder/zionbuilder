@@ -4,7 +4,7 @@ namespace ZionBuilder\PageTemplates;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
-
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -35,8 +35,8 @@ class PageTemplates {
 	 */
 	public function get_custom_templates() {
 		return [
-			'zion_builder_full_width' => __( 'Zion Builder Full Width', 'zionbuilder' ),
-			'zion_builder_blank'      => __( 'Zion Builder Blank Canvas', 'zionbuilder' ),
+			'zion_builder_full_width' => sprintf( '%s Full Width', WhiteLabel::get_title() ),
+			'zion_builder_blank'      => sprintf( '%s Blank Canvas', WhiteLabel::get_title() ),
 		];
 	}
 
