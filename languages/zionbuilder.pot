@@ -12,10 +12,6 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:66, ../includes/AdminBar.php:69, ../includes/Admin/Admin.php:246, ../includes/Admin/Admin.php:285, ../includes/Admin/Admin.php:308
-msgid "Edit with Zion Builder"
-msgstr ""
-
 #: ../includes/FileSystem.php:56
 msgid "The zip file could not be extracted!"
 msgstr ""
@@ -118,7 +114,8 @@ msgid "With PRO you can use the Adobe fonts library to add your fonts along side
 msgstr ""
 
 #: ../includes/Localization.php:42
-msgid "Zion Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
+msgctxt "zionbuilder"
+msgid "%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using."
 msgstr ""
 
 #: ../includes/Localization.php:43
@@ -254,11 +251,13 @@ msgid "New Url"
 msgstr ""
 
 #: ../includes/Localization.php:84
-msgid "Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button."
+msgctxt "zionbuilder"
+msgid "%s Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button."
 msgstr ""
 
 #: ../includes/Localization.php:85
-msgid "Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings."
+msgctxt "zionbuilder"
+msgid "Styles set in %s are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings."
 msgstr ""
 
 #: ../includes/Localization.php:86
@@ -721,7 +720,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:239, ../includes/Localization.php:611
+#: ../includes/Localization.php:239, ../includes/Localization.php:612
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -1010,7 +1009,8 @@ msgid "Initial State"
 msgstr ""
 
 #: ../includes/Localization.php:334
-msgid "Zion Library"
+msgctxt "zionbuilder"
+msgid "%s Library"
 msgstr ""
 
 #: ../includes/Localization.php:335
@@ -1494,7 +1494,7 @@ msgid "Create Astonishing Gradients that you will use in all the pages of your w
 msgstr ""
 
 #: ../includes/Localization.php:520
-msgid "Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder."
+msgid "Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder."
 msgstr ""
 
 #: ../includes/Localization.php:524
@@ -1526,7 +1526,8 @@ msgid "Update URL"
 msgstr ""
 
 #: ../includes/Localization.php:541
-msgid "Enter your old and new URLs for your WordPress installation, to update all Zion data (Relevant for domain transfers or move to 'HTTPS')."
+msgctxt "zionbuilder"
+msgid "Enter your old and new URLs for your WordPress installation, to update all %s data (Relevant for domain transfers or move to \"HTTPS\")."
 msgstr ""
 
 #: ../includes/Localization.php:544
@@ -1690,131 +1691,133 @@ msgid "Key shortcuts"
 msgstr ""
 
 #: ../includes/Localization.php:605
-msgid "About Zion Builder"
-msgstr ""
-
-#: ../includes/Localization.php:606
-msgid "Back to WP Dashboard"
+msgctxt "zionbuilder"
+msgid "About %s"
 msgstr ""
 
 #: ../includes/Localization.php:607
-msgid "ZionBuilder Dashboard"
+msgid "Back to WP Dashboard"
 msgstr ""
 
 #: ../includes/Localization.php:608
-msgid "Save Template"
+msgctxt "zionbuilder"
+msgid "%s  Dashboard"
 msgstr ""
 
 #: ../includes/Localization.php:609
-msgid "Save Page"
+msgid "Save Template"
 msgstr ""
 
 #: ../includes/Localization.php:610
+msgid "Save Page"
+msgstr ""
+
+#: ../includes/Localization.php:611
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:613
 msgid "Getting started"
 msgstr ""
 
-#: ../includes/Localization.php:614
+#: ../includes/Localization.php:615
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:615
+#: ../includes/Localization.php:616
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:616
+#: ../includes/Localization.php:617
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:617, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:618, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:618, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
+#: ../includes/Localization.php:619, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:341
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:619, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:620, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:620
+#: ../includes/Localization.php:621
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:623
+#: ../includes/Localization.php:624
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:624
+#: ../includes/Localization.php:625
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:625
+#: ../includes/Localization.php:626
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:626
+#: ../includes/Localization.php:627
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:627
+#: ../includes/Localization.php:628
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:628
+#: ../includes/Localization.php:629
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:631
+#: ../includes/Localization.php:632
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:632
+#: ../includes/Localization.php:633
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:633
+#: ../includes/Localization.php:634
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:634
+#: ../includes/Localization.php:635
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:637
+#: ../includes/Localization.php:638
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:638
+#: ../includes/Localization.php:639
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:641
+#: ../includes/Localization.php:642
 msgid "Featured"
 msgstr ""
 
-#: ../includes/Localization.php:642
+#: ../includes/Localization.php:643
 msgid "Moved"
 msgstr ""
 
-#: ../includes/Localization.php:645
+#: ../includes/Localization.php:646
 msgid "Invalid Element"
 msgstr ""
 
-#: ../includes/Shortcodes.php:23
+#: ../includes/Shortcodes.php:25
 msgid "Template id missing"
 msgstr ""
 
-#: ../includes/Shortcodes.php:29
+#: ../includes/Shortcodes.php:31
 msgid "Template not found"
 msgstr ""
 
-#: ../includes/Shortcodes.php:33
-msgid "Template was not built with Zion Builder"
+#: ../includes/Shortcodes.php:35
+msgid "Template was not built with %s"
 msgstr ""
 
 #: ../includes/Templates.php:101
@@ -1890,12 +1893,12 @@ msgstr ""
 
 #: ../includes/Templates.php:259
 msgctxt "Taxonomy General Name"
-msgid "Zion Builder Template Category"
+msgid "%s Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:260
 msgctxt "Taxonomy Singular Name"
-msgid "Zion Builder Template Category"
+msgid "%s Template Category"
 msgstr ""
 
 #: ../includes/Templates.php:261
@@ -1990,16 +1993,8 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:107, ../includes/Admin/Admin.php:324, ../includes/Admin/Admin.php:325, ../includes/Editor/partials/editor-template.php:16
-msgid "Zion Builder"
-msgstr ""
-
-#: ../includes/Admin/Admin.php:156
+#: ../includes/Admin/Admin.php:157
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
-msgstr ""
-
-#: ../includes/Admin/Admin.php:276
-msgid "Disable Zion Builder"
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
@@ -2037,14 +2032,6 @@ msgstr ""
 
 #: ../includes/Options/Stack.php:53
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
-msgstr ""
-
-#: ../includes/PageTemplates/PageTemplates.php:38
-msgid "Zion Builder Full Width"
-msgstr ""
-
-#: ../includes/PageTemplates/PageTemplates.php:39
-msgid "Zion Builder Blank Canvas"
 msgstr ""
 
 #: ../includes/Post/BasePostType.php:512
@@ -2129,6 +2116,10 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/Options.php:333
 msgid "Contains saved value for allowed post types."
+msgstr ""
+
+#: ../includes/Api/RestControllers/Options.php:344
+msgid "Contains saved values for white label"
 msgstr ""
 
 #: ../includes/Api/RestControllers/Pages.php:92
@@ -2291,10 +2282,6 @@ msgstr ""
 msgid "WordPress root uploads directory"
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:282
-msgid "Zion builder uploads directory"
-msgstr ""
-
 #: ../includes/Api/RestControllers/SystemInfo.php:288
 msgid ".htaccess file"
 msgstr ""
@@ -2311,16 +2298,8 @@ msgstr ""
 msgid "There are some writing permissions issues with the following directories/files: "
 msgstr ""
 
-#: ../includes/Api/RestControllers/SystemInfo.php:323
-msgid "zion library"
-msgstr ""
-
 #: ../includes/Api/RestControllers/SystemInfo.php:328
 msgid "Disconnected"
-msgstr ""
-
-#: ../includes/Api/RestControllers/SystemInfo.php:330
-msgid "The zion library is disconnected!"
 msgstr ""
 
 #: ../includes/Api/RestControllers/SystemInfo.php:325
@@ -2379,39 +2358,39 @@ msgstr ""
 msgid "You do not have permissions to export this template."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:356, ../includes/Api/RestControllers/Templates.php:437, ../includes/Api/RestControllers/Templates.php:460, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:624
+#: ../includes/Api/RestControllers/Templates.php:356, ../includes/Api/RestControllers/Templates.php:438, ../includes/Api/RestControllers/Templates.php:461, ../includes/Api/RestControllers/Templates.php:519, ../includes/Api/RestControllers/Templates.php:625
 msgid "Your post id could not be found!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:473
+#: ../includes/Api/RestControllers/Templates.php:474
 msgid "The template cannot be deleted."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:549, ../includes/Api/RestControllers/Templates.php:683
+#: ../includes/Api/RestControllers/Templates.php:550, ../includes/Api/RestControllers/Templates.php:684
 msgid "Could not return the post instance"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:609
+#: ../includes/Api/RestControllers/Templates.php:610
 msgid "Your file is empty or invalid"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:689
+#: ../includes/Api/RestControllers/Templates.php:690
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:647
+#: ../includes/Api/RestControllers/Templates.php:648
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:671
+#: ../includes/Api/RestControllers/Templates.php:672
 msgid "The uploaded template is not valid!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:715, ../includes/Api/RestControllers/Templates.php:772
+#: ../includes/Api/RestControllers/Templates.php:716, ../includes/Api/RestControllers/Templates.php:773
 msgid "Post could not be cloned!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:718, ../includes/Api/RestControllers/Templates.php:719
+#: ../includes/Api/RestControllers/Templates.php:719, ../includes/Api/RestControllers/Templates.php:720
 msgid "copy"
 msgstr ""
 
