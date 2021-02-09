@@ -182,11 +182,11 @@ import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import rafSchd from 'raf-schd'
-
+import { computed } from 'vue'
 import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useHistory, useSaveTemplate } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
-import { useNotifications } from '@zionbuilder/composables'
+import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -225,7 +225,11 @@ export default {
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
 		const { currentHistoryIndex } = useHistory()
 		const { showSaveElement } = useSaveTemplate()
+		const { getOptionValue } = useBuilderOptions()
 
+		const hasWhiteLabel = computed(() => {
+			return getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title !== 'Zion Builder' ? true : false
+		})
 		function saveTemplate () {
 			showSaveElement(null)
 		}
@@ -262,7 +266,8 @@ export default {
 			iFrame,
 			mainBar,
 			currentHistoryIndex,
-			savePage
+			savePage,
+			hasWhiteLabel
 		}
 	},
 	computed: {
@@ -275,7 +280,8 @@ export default {
 				// },
 				{
 					title: this.$translate('tour'),
-					action: this.showTour
+					action: this.showTour,
+					canShow: !this.hasWhiteLabel
 				},
 				{
 					title: this.$translate('key_shortcuts'),
@@ -283,7 +289,8 @@ export default {
 				},
 				{
 					title: this.$translate('about_zion_builder'),
-					action: this.showAbout
+					action: this.showAbout,
+					canShow: !this.hasWhiteLabel
 				},
 				{
 					title: this.$translate('back_to_wp_dashboard'),
