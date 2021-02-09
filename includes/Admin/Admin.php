@@ -325,7 +325,7 @@ class Admin {
 	 * @return void
 	 */
 	public function add_admin_page() {
-		$admin_logo = ! empty( Whitelabel::get_logo_url() ) ? '' : Utils::get_file_url( 'assets/img/dash-icon.svg' );
+		$admin_logo = ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) ? '' : Utils::get_file_url( 'assets/img/dash-icon.svg' );
 		add_menu_page(
 			WhiteLabel::get_title(),
 			WhiteLabel::get_title(),
