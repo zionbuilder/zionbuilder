@@ -4,7 +4,7 @@ namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
-
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -82,6 +82,8 @@ class RegenerateCache extends RestApiController {
 			return new \WP_Error( 'regenerate_cache_failed', esc_html__( 'Regenerate cache failed!', 'zionbuilder' ), [ 'status' => '500' ] );
 		}
 
-		return [ 'message' => esc_html__( 'Zion Builder data refreshed', 'zionuilder' ) ];
+		return [
+			'message' => sprintf( '%s data refreshed', WhiteLabel::get_title() ),
+		];
 	}
 }

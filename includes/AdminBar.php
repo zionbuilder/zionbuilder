@@ -2,6 +2,7 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -63,10 +64,10 @@ class AdminBar {
 			$admin_bar->add_menu(
 				[
 					'id'    => 'edit-with-zion',
-					'title' => esc_html__( 'Edit with Zion Builder', 'zionbuilder' ),
+					'title' => sprintf( 'Edit with %s', WhiteLabel::get_title() ),
 					'href'  => $post_instance->get_edit_url(),
 					'meta'  => [
-						'title' => esc_html__( 'Edit with Zion Builder', 'zionbuilder' ),
+						'title' => sprintf( 'Edit with %s', WhiteLabel::get_title() ),
 					],
 				]
 			);
