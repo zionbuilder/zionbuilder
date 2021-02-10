@@ -107,12 +107,12 @@
 					>
 						{{defaultMessage}}
 					</p>
+
 					<OptionsForm
 						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="filteredOptions"
 						v-model="elementOptions"
 					/>
-
 				</Tab>
 			</Tabs>
 		</div>
@@ -141,13 +141,13 @@ import { ref, watch, provide, computed } from 'vue'
 import { on, off, applyFilters } from '@zb/hooks'
 import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
-import { usePseudoSelectors } from '@zb/components'
-import { useOptionsSchemas } from '@zb/components'
+import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import BasePanel from './BasePanel.vue'
 import { translate } from '@zb/i18n'
+
 export default {
 	name: 'PanelElementOptions',
 	components: {
@@ -272,6 +272,7 @@ export default {
 			lastTab: null,
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
+
 		}
 	},
 	computed: {
@@ -409,17 +410,28 @@ export default {
 				this.activeKeyTab.value = event.detail
 			}
 		},
-		filterOtions (keyword, optionsSchema, currentId) {
+		filterOtions (keyword, optionsSchema, currentId, currentName) {
 			let lowercaseKeyword = keyword.toLowerCase()
 			let foundOptions = {}
 
 			Object.keys(optionsSchema).forEach((optionId) => {
+
+
 				const optionConfig = optionsSchema[optionId]
 
 				let syncValue = []
+				let syncValueName = []
+
 				if (!optionConfig.sync) {
 					if (currentId) {
 						syncValue.push(...currentId)
+					}
+
+					if (currentName) {
+						let name = this.getInnerStyleName(currentName[currentName.length - 1])
+						currentName[currentName.length - 1] = name
+
+						syncValueName.push(...currentName)
 					}
 
 					if (!optionConfig.is_layout) {
@@ -428,6 +440,7 @@ export default {
 
 					if (optionConfig.type === 'element_styles') {
 						syncValue.push('styles')
+						syncValueName.push('styles')
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -437,6 +450,8 @@ export default {
 					if (optionConfig.type === 'pseudo_group') {
 						syncValue.push('%%PSEUDO_SELECTOR%%')
 					}
+
+					syncValueName.push(optionId)
 				}
 
 				// Search in areas
@@ -459,7 +474,8 @@ export default {
 						foundOptions[syncValue.join('.')] = {
 							...optionConfig,
 							id: syncValue.join('.'),
-							sync: optionConfig.sync || syncValue.join('.')
+							sync: optionConfig.sync || syncValue.join('.'),
+							breadcrumbs: currentName
 						}
 					}
 				}
@@ -469,25 +485,32 @@ export default {
 				}
 
 				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.getSchema('element_styles'), syncValue)
+					const childOptions = this.filterOtions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
 						...childOptions
 					}
+
 				}
 
 				if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
-					const childOptions = this.filterOtions(keyword, optionConfig.child_options, syncValue)
+					const childOptions = this.filterOtions(keyword, optionConfig.child_options, syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
 						...childOptions
 					}
+
+
 				}
 			})
 
 			return foundOptions
+		},
+		getInnerStyleName (id) {
+
+			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined ? this.computedStyleOptionsSchema._styles.child_options[id].title : this.allOptionsSchema[id] !== undefined ? this.allOptionsSchema[id].title : id
 		},
 		toggleSearchIcon () {
 			this.searchActive = !this.searchActive

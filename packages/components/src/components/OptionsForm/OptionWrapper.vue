@@ -1,4 +1,25 @@
 <template>
+	<div
+		v-if="schema.breadcrumbs"
+		class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search"
+	>
+		<div
+			v-for="(breadcrumb, i) in schema.breadcrumbs"
+			:key="i"
+		>
+			<span
+				v-if="i===1 || i===2 || i===schema.breadcrumbs.length-1"
+				v-html="schema.breadcrumbs[i]"
+			></span>
+			<Icon
+				icon="select"
+				class="znpb-options-breadcrumbs-path-icon"
+				v-if="i===1 || i===2 || (i  === schema.breadcrumbs.length)"
+			/>
+		</div>
+
+	</div>
+
 	<component
 		v-if="isValidInput && ( schema.barebone || optionTypeConfig.config && optionTypeConfig.config.barebone )"
 		:is="optionTypeConfig.component"
@@ -191,7 +212,7 @@ export default {
 		ChangesBullet,
 		InputLabel,
 		Injection,
-		Tooltip,
+		Tooltip
 	},
 	props: {
 		modelValue: {},
@@ -217,7 +238,7 @@ export default {
 			type: Number,
 			required: false,
 		},
-		allModelValue: {}
+		allModelValue: {},
 	},
 	setup (props, { emit }) {
 		const { getOption } = useOptions();
@@ -675,5 +696,10 @@ export default {
 .znpb-options-injection--after-title {
 	flex-direction: column;
 	flex-grow: 1;
+}
+.znpb-options-breadcrumbs-path--search {
+	display: flex;
+	width: 100%;
+	margin-bottom: 10px;
 }
 </style>
