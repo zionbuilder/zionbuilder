@@ -432,6 +432,7 @@ export default {
 						currentName[currentName.length - 1] = name
 
 						syncValueName.push(...currentName)
+
 					}
 
 					if (!optionConfig.is_layout) {
@@ -440,7 +441,6 @@ export default {
 
 					if (optionConfig.type === 'element_styles') {
 						syncValue.push('styles')
-						syncValueName.push('styles')
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -471,11 +471,17 @@ export default {
 
 				if (optionConfig.type !== 'accordion_menu') {
 					if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
+						let filteredBreadcrumbs = []
+						if (currentName) {
+							filteredBreadcrumbs = currentName.filter(function (value) {
+								return value !== undefined
+							})
+						}
 						foundOptions[syncValue.join('.')] = {
 							...optionConfig,
 							id: syncValue.join('.'),
 							sync: optionConfig.sync || syncValue.join('.'),
-							breadcrumbs: currentName
+							breadcrumbs: filteredBreadcrumbs
 						}
 					}
 				}
@@ -510,6 +516,9 @@ export default {
 		},
 		getInnerStyleName (id) {
 
+			if (id === 'pseudo_selectors') {
+				return undefined
+			}
 			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined ? this.computedStyleOptionsSchema._styles.child_options[id].title : this.allOptionsSchema[id] !== undefined ? this.allOptionsSchema[id].title : id
 		},
 		toggleSearchIcon () {

@@ -4,17 +4,15 @@
 		class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search"
 	>
 		<div
+			class="znpb-options-breadcrumbs-path"
 			v-for="(breadcrumb, i) in schema.breadcrumbs"
 			:key="i"
 		>
-			<span
-				v-if="i===1 || i===2 || i===schema.breadcrumbs.length-1"
-				v-html="schema.breadcrumbs[i]"
-			></span>
+			<span v-html="schema.breadcrumbs[i]"></span>
 			<Icon
 				icon="select"
 				class="znpb-options-breadcrumbs-path-icon"
-				v-if="i===1 || i===2 || (i  === schema.breadcrumbs.length)"
+				v-if="(i + 1  < schema.breadcrumbs.length)"
 			/>
 		</div>
 
