@@ -12,9 +12,11 @@
 			<Icon
 				icon="select"
 				class="znpb-options-breadcrumbs-path-icon"
-				v-if="(i + 1  < schema.breadcrumbs.length)"
+				v-if="(i <= schema.breadcrumbs.length)"
 			/>
+
 		</div>
+		<span v-html="schema.title"></span>
 
 	</div>
 

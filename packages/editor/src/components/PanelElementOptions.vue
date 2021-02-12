@@ -430,9 +430,11 @@ export default {
 					if (currentName) {
 						let name = this.getInnerStyleName(currentName[currentName.length - 1])
 						currentName[currentName.length - 1] = name
-
 						syncValueName.push(...currentName)
+					}
 
+					if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
+						syncValueName.push(this.$translate('advanced'))
 					}
 
 					if (!optionConfig.is_layout) {
@@ -441,6 +443,7 @@ export default {
 
 					if (optionConfig.type === 'element_styles') {
 						syncValue.push('styles')
+						syncValueName.push(this.$translate('styles'))
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -519,7 +522,8 @@ export default {
 			if (id === 'pseudo_selectors') {
 				return undefined
 			}
-			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined ? this.computedStyleOptionsSchema._styles.child_options[id].title : this.allOptionsSchema[id] !== undefined ? this.allOptionsSchema[id].title : id
+
+			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined ? this.computedStyleOptionsSchema._styles.child_options[id].title : this.allOptionsSchema[id] !== undefined ? this.allOptionsSchema[id].title : undefined
 		},
 		toggleSearchIcon () {
 			this.searchActive = !this.searchActive
