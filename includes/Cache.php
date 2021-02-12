@@ -151,14 +151,16 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_post_styles() {
-		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
-			return;
-		}
+		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
 
 		// Enqueue element styles
 		$this->enqueue_elements_styles();
 
 		foreach ( $this->registered_post_ids as $post_id ) {
+			if ( $active_post_id === $post_id ) {
+				continue;
+			}
+
 			$file_config = $this->get_cache_file_config( $post_id );
 			$style_id    = 'zionbuilder-' . $post_id;
 
@@ -178,14 +180,16 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_post_scripts() {
-		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
-			return;
-		}
+		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
 
 		// Enqueue element scripts
 		$this->enqueue_elements_scripts();
 
 		foreach ( $this->registered_post_ids as $post_id ) {
+			if ( $active_post_id === $post_id ) {
+				continue;
+			}
+
 			$file_config = $this->get_cache_file_config( $post_id, 'js' );
 			$script_id   = 'zionbuilder-' . $post_id;
 
