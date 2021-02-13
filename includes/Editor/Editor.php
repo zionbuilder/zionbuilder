@@ -298,7 +298,7 @@ class Editor {
 				'urls'                => [
 					'assets_url'        => Utils::get_file_url( 'assets' ),
 					'logo'              => Whitelabel::get_logo_url(),
-					'loader'            => Utils::get_loader_url(),
+					'loader'            => Whitelabel::get_loader_url(),
 					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
 					'zion_admin'        => admin_url( 'admin.php?page=zionbuilder' ),
 					'updates_page'      => admin_url( 'update-core.php' ),
