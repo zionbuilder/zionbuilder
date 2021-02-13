@@ -256,8 +256,16 @@ class Templates {
 	 */
 	private function register_template_category_taxonomy() {
 		$labels = [
-			'name'                       => sprintf( _x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ), WhiteLabel::get_title() ),
-			'singular_name'              => sprintf( _x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ), WhiteLabel::get_title() ),
+			'name'                       => sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				_x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ),
+				WhiteLabel::get_title()
+			),
+			'singular_name'              => sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				_x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
+				WhiteLabel::get_title()
+			),
 			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
 			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),
 			'parent_item'                => __( 'Parent Template Category', 'zionbuilder' ),

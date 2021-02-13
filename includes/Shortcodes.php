@@ -32,7 +32,11 @@ class Shortcodes {
 		}
 
 		if ( ! $post_instance->is_built_with_zion() ) {
-			return sprintf( __( 'Template was not built with %s', 'zionbuilder' ), WhiteLabel::get_title() );
+			return sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				__( 'Template was not built with %s', 'zionbuilder' ),
+				WhiteLabel::get_title()
+			);
 		}
 
 		// Register the elements
