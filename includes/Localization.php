@@ -640,7 +640,11 @@ class Localization {
 					WhiteLabel::get_title()
 				),
 				'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
-				'back_to_zion_dashboard'                 => sprintf( _x( '%s  Dashboard', 'zionbuilder' ), WhiteLabel::get_title() ),
+				'back_to_zion_dashboard'                 => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					_x( '%s  Dashboard', 'zionbuilder' ),
+					WhiteLabel::get_title()
+				),
 				'save_template'                          => __( 'Save Template', 'zionbuilder' ),
 				'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
 				'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
