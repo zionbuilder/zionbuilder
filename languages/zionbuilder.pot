@@ -2007,6 +2007,14 @@ msgstr ""
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
+#: ../includes/Admin/Admin.php:283
+msgid "Disable "
+msgstr ""
+
+#: ../includes/Admin/Admin.php:294, ../includes/Admin/Admin.php:317
+msgid "Edit with "
+msgstr ""
+
 #. translators: %s: The username who is locked from editing
 #: ../includes/Editor/Editor.php:270
 msgid "Post is locked by %s"
