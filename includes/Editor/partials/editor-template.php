@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 		echo sprintf(
 			/* translators: %s is the whitelabel plugin name */
-			_x( '%s', 'zionbuilder' ),
+			'%s',
 			WhiteLabel::get_title()
 		) . ' | ' . esc_html( get_the_title() );
 		?>
