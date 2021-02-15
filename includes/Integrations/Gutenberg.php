@@ -117,7 +117,7 @@ class Gutenberg implements IBaseIntegration {
 	}
 
 	public function create_api_posts_meta_field() {
-		$allowed_post_types = [ 'post', 'page' ];
+		$allowed_post_types = Permissions::get_allowed_post_types();
 
 		register_rest_field(
 			$allowed_post_types,
