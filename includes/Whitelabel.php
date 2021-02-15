@@ -39,6 +39,13 @@ class Whitelabel {
 	public $plugin_help_url = '';
 
 	/**
+	 * Holds a reference to the plugin loader URL
+	 *
+	 * @var string
+	 */
+	public $plugin_loader_logo = '';
+
+	/**
 	 * Whitelabel constructor.
 	 */
 	public function __construct() {

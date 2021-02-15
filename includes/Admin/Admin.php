@@ -278,7 +278,11 @@ class Admin {
 
 			<a data-toolbar-item="true" href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
 				<span class="znpb-admin-post__edit-button-icon dashicons dashicons-wordpress-alt"></span>
-				<span class=""><?php sprintf( 'Disable %s', Whitelabel::get_title() ); ?></span>
+				<span class="">
+				<?php
+				echo esc_html_e( 'Disable ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() );
+				?>
+				</span>
 			</a>
 
 			<a data-toolbar-item="true" href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
@@ -287,7 +291,7 @@ class Admin {
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
 						</svg>
 					</span>
-					<span class=""><?php sprintf( 'Enable %s', Whitelabel::get_title() ); ?></span>
+					<span class=""><?php echo esc_html_e( 'Edit with Zion Builder', 'zionbuilder' ) . esc_html( Whitelabel::get_title() ); ?></span>
 				</a>
 
 		</div>
