@@ -2404,12 +2404,6 @@ msgstr ""
 msgid "copy"
 msgstr ""
 
-#. translators: %s is the whitelabel plugin name
-#: ../includes/Editor/partials/editor-template.php:21
-msgctxt "zionbuilder"
-msgid "%s"
-msgstr ""
-
 #: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:82, ../includes/Elements/Accordions/Accordions.php:89, ../includes/Elements/Accordions/Accordions.php:95, ../includes/Elements/Accordions/Accordions.php:110
 msgid "Accordion"
 msgstr ""
