@@ -14,7 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title><?php echo /* translators: %s is the whitelabel plugin name */ sprintf( '%s', WhiteLabel::get_title() ) . ' | ' . esc_html( get_the_title() ); ?></title>
+		<title>
+		<?php
+		echo sprintf(
+			/* translators: %s is the whitelabel plugin name */
+			_x( '%s', 'zionbuilder' ),
+			WhiteLabel::get_title()
+		) . ' | ' . esc_html( get_the_title() );
+		?>
+			</title>
 		<?php wp_head(); ?>
 
 		<script>
