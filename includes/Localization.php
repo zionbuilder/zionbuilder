@@ -43,7 +43,7 @@ class Localization {
 				'custom_icons_upgrade_message'           => sprintf(
 					/* translators: %s is the whitelabel name; */
 					_x( '%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 				'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 				'learn_more_about_pro'                   => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
@@ -90,13 +90,13 @@ class Localization {
 				'regenrate_info'                         => sprintf(
 					/* translators: %s is the whitelabel library name; */
 					_x( '%s Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 
 				'tools_info'                             => sprintf(
 					/* translators: %s is the whitelabel plugin name */
 					_x( 'Styles set in %s are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 				'replace_info'                           => __( '<strong>Important:</strong> It is strongly recommended that you <a href="https://zionbuilder.io/documentation/replace-url-s/">backup your database</a> before using Replace URL.', 'zionbuilder' ),
 
@@ -350,7 +350,7 @@ class Localization {
 				'zion_library'                           => sprintf(
 					/* translators: %s is the whitelabel library name */
 					_x( '%s Library', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 				'library_insert'                         => __( 'Insert', 'zionbuilder' ),
 				'local_library'                          => __( 'Local Library', 'zionbuilder' ),
@@ -562,7 +562,7 @@ class Localization {
 				'enter_old_and_new_url'                  => sprintf(
 					/* translators: %s is the whitelabel plugin name */
 					_x( 'Enter your old and new URLs for your WordPress installation, to update all %s data (Relevant for domain transfers or move to "HTTPS").', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 
 				// ModalListItem
@@ -631,19 +631,19 @@ class Localization {
 				'about_zion_builder'                     => sprintf(
 					/* translators: %s is the whitelabel plugin name */
 					_x( 'About %s', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 
 				'zion_builder'                           => sprintf(
 					/* translators: %s is the whitelabel plugin name */
 					'%s ',
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 				'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
 				'back_to_zion_dashboard'                 => sprintf(
 					/* translators: %s is the whitelabel plugin name */
 					_x( '%s  Dashboard', 'zionbuilder' ),
-					WhiteLabel::get_title()
+					Whitelabel::get_title()
 				),
 				'save_template'                          => __( 'Save Template', 'zionbuilder' ),
 				'save_draft'                             => __( 'Save Page', 'zionbuilder' ),

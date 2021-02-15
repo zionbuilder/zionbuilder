@@ -35,8 +35,8 @@ class PageTemplates {
 	 */
 	public function get_custom_templates() {
 		return [
-			'zion_builder_full_width' => sprintf( '%s Full Width', WhiteLabel::get_title() ),
-			'zion_builder_blank'      => sprintf( '%s Blank Canvas', WhiteLabel::get_title() ),
+			'zion_builder_full_width' => sprintf( '%s Full Width', Whitelabel::get_title() ),
+			'zion_builder_blank'      => sprintf( '%s Blank Canvas', Whitelabel::get_title() ),
 		];
 	}
 

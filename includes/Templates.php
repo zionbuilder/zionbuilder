@@ -259,12 +259,12 @@ class Templates {
 			'name'                       => sprintf(
 				/* translators: %s is the whitelabel plugin name */
 				_x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ),
-				WhiteLabel::get_title()
+				Whitelabel::get_title()
 			),
 			'singular_name'              => sprintf(
 				/* translators: %s is the whitelabel plugin name */
 				_x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
-				WhiteLabel::get_title()
+				Whitelabel::get_title()
 			),
 			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
 			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),

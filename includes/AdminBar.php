@@ -64,10 +64,10 @@ class AdminBar {
 			$admin_bar->add_menu(
 				[
 					'id'    => 'edit-with-zion',
-					'title' => sprintf( 'Edit with %s', WhiteLabel::get_title() ),
+					'title' => sprintf( 'Edit with %s', Whitelabel::get_title() ),
 					'href'  => $post_instance->get_edit_url(),
 					'meta'  => [
-						'title' => sprintf( 'Edit with %s', WhiteLabel::get_title() ),
+						'title' => sprintf( 'Edit with %s', Whitelabel::get_title() ),
 					],
 				]
 			);

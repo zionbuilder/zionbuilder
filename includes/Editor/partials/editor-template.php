@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>
 		<?php
-		echo esc_attr( WhiteLabel::get_title() ) . ' | ' . esc_html( get_the_title() );
+		echo esc_attr( Whitelabel::get_title() ) . ' | ' . esc_html( get_the_title() );
 		?>
 			</title>
 		<?php wp_head(); ?>

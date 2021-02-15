@@ -83,7 +83,7 @@ class RegenerateCache extends RestApiController {
 		}
 
 		return [
-			'message' => sprintf( '%s data refreshed', WhiteLabel::get_title() ),
+			'message' => sprintf( '%s data refreshed', Whitelabel::get_title() ),
 		];
 	}
 }

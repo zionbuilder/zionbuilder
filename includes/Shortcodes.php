@@ -35,7 +35,7 @@ class Shortcodes {
 			return sprintf(
 				/* translators: %s is the whitelabel plugin name */
 				__( 'Template was not built with %s', 'zionbuilder' ),
-				WhiteLabel::get_title()
+				Whitelabel::get_title()
 			);
 		}
 
