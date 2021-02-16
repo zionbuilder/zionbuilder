@@ -1,6 +1,7 @@
 import { ref, markRaw, Ref } from 'vue'
 import ServerComponent from '../components/ServerComponent.vue'
 import InvalidElement from '../components/InvalidElement.vue'
+import { applyFilters } from '@zb/hooks'
 
 import { ScriptsLoader } from '../ScriptsLoader'
 
@@ -10,14 +11,17 @@ export function useElementComponent(element) {
 	const fetchElementComponent = () => {
 		loadElementAssets().then(() => {
 			const elementType = element.elementTypeModel
+			let component
 
 			if (elementType.element_type === 'invalid') {
-				elementComponent.value = markRaw(InvalidElement)
+				component = markRaw(InvalidElement)
 			} else if (elementType.component) {
-				elementComponent.value = elementType.component
+				component = elementType.component
 			} else {
-				elementComponent.value = markRaw(ServerComponent)
+				component = markRaw(ServerComponent)
 			}
+
+			elementComponent.value = applyFilters('zionbuilder/element/component', component, element)
 		})
 	}
 

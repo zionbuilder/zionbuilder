@@ -11,7 +11,6 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { useNotifications } from '@zionbuilder/composables'
 
-
 // Global components
 import {
 	TreeViewList,

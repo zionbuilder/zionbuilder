@@ -9,6 +9,9 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
+
+use ZionBuilderPro\Repeater;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -133,6 +136,9 @@ class Element {
 	 */
 	protected $hooks = [];
 
+	public $data         = [];
+	private $parsed_data = false;
+
 	/**
 	 * Main class constructor
 	 *
@@ -153,6 +159,8 @@ class Element {
 
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
+			$this->data = $data;
+
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
 			}
@@ -160,26 +168,31 @@ class Element {
 			if ( isset( $data['content'] ) ) {
 				$this->content = $data['content'];
 			}
-
-			//Set model
-			$model = isset( $data['options'] ) ? $data['options'] : [];
-
-			// Setup helpers
-			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
-
-			// loops through the options model and schema to set the proper model
-			$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
-
-			// Setup render tags custom css classes
-			$this->apply_custom_classes_to_render_tags();
-
-			// Setup render tags customattributes
-			$this->apply_custom_attributes_to_render_tags();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	private function prepare_element_data() {
+		$data = $this->data;
+		//Set model
+		$model = isset( $data['options'] ) ? $data['options'] : [];
+
+		// Setup helpers
+		$this->render_attributes = new RenderAttributes();
+		$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+
+		// loops through the options model and schema to set the proper model
+		$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
+
+		// Setup render tags custom css classes
+		$this->apply_custom_classes_to_render_tags();
+
+		// Setup render tags customattributes
+		$this->apply_custom_attributes_to_render_tags();
+
+		$this->parsed_data = true;
 	}
 
 	/**
@@ -196,6 +209,11 @@ class Element {
 		}
 
 		$this->hooks[$action_name][] = $callback;
+	}
+
+	public function get_clone( $data ) {
+		$element_data = array_merge( $this->data, $data );
+		return Plugin::instance()->elements_manager->get_element_instance_with_data( $element_data );
 	}
 
 	/**
@@ -679,6 +697,14 @@ class Element {
 	public function after_render( $options ) {
 	}
 
+	public function is_repeater_consumer() {
+		return $this->uid === 'uid667366875071';
+	}
+
+	public function is_repeater_provider() {
+		return $this->uid === 'uid666694841281';
+	}
+
 	/**
 	 * Private render function that will be used by us to render the element
 	 *
@@ -689,6 +715,21 @@ class Element {
 	final public function render_element( $extra_render_data ) {
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
+		}
+
+		$this->prepare_element_data();
+
+		if ( $this->is_repeater_provider() ) {
+			$repeater_provider_config = $this->options->get_value(
+				'advanced_options.repeater_provider_config',
+				[
+					'type' => 'recent_posts',
+				]
+			);
+
+			// Setting query
+			Repeater::set_query( $repeater_provider_config );
+
 		}
 
 		$this->extra_render_data = $extra_render_data;
@@ -732,6 +773,11 @@ class Element {
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
 		$this->after_render( $this->options );
+
+		if ( $this->is_repeater_provider() ) {
+			Repeater::reset_query();
+
+		}
 	}
 
 
@@ -950,6 +996,10 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
+		if ( ! $this->parsed_data ) {
+			$this->prepare_element_data();
+		}
+
 		$css = '';
 
 		// Compile styling options

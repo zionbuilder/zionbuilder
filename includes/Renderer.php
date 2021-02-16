@@ -80,8 +80,38 @@ class Renderer {
 	 */
 	public function render_element( $element_data, $extra_data = [] ) {
 		if ( isset( $element_data['uid'] ) && isset( $this->instantiated_elements[$element_data['uid']] ) ) {
-			$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
+			// Check for repeater data
+			$element_intance = $this->instantiated_elements[$element_data['uid']];
+			if ( $element_intance->is_repeater_consumer() ) {
+				if ( have_posts() ) {
+					$i = 0;
+					while ( have_posts() ) {
+						the_post();
+						if ( $i === 0 ) {
+							$element_intance->render_element( $extra_data );
+						} else {
+							$old_uid        = $element_intance->uid;
+							$new_uid        = sprintf( '%s_%s', $old_uid, $i );
+							$clone_instance = $element_intance->get_clone(
+								[
+									'uid' => $new_uid,
+								]
+							);
+
+							$clone_instance->render_element( $extra_data );
+						}
+
+						$i++;
+					};
+				}
+			} else {
+				$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
+			}
 		}
+	}
+
+	public function replace_uids( $data, $index ) {
+
 	}
 
 	public function render_area( $area_id ) {
@@ -118,7 +148,6 @@ class Renderer {
 			}
 		}
 	}
-
 
 	/**
 	 * Prepare content for render

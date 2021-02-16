@@ -1,11 +1,17 @@
 <template>
 	<ElementLoading v-if="loading" />
 
+	<template v-else-if="element.isRepeaterConsumer() && !isRepeaterItem">
+		<RepeaterContainer :element="element" />
+	</template>
+
 	<component
 		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
 		:is="elementComponent"
 		class="znpb-element__wrapper zb-element"
-		:class="{'znpb-element__wrapper--panel-hovered': element.isHighlighted}"
+		:class="{
+			'znpb-element__wrapper--panel-hovered': element.isHighlighted
+		}"
 		:id="`${element.elementCssId}`"
 		:element="element"
 		:options="options"
@@ -58,19 +64,20 @@
 
 <script>
 // Utils
-import { ref, watch, computed, readonly, provide } from 'vue'
+import { ref, watch, watchEffect, computed, readonly, provide, inject } from 'vue'
 import { get, debounce, each, kebabCase, escape } from 'lodash-es'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
-import { applyFilters, trigger } from '@zb/hooks'
+import { applyFilters } from '@zb/hooks'
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
+import RepeaterContainer from './RepeaterContainer.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement, useRepeaterData } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
@@ -83,14 +90,16 @@ export default {
 		ElementToolbox,
 		VideoBackground,
 		ElementLoading,
-		ElementStyles
+		ElementStyles,
+		RepeaterContainer
 	},
-	props: ['element'],
+	props: ['element', 'isRepeaterItem'],
 	setup (props) {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementActions()
 		const { getSchema } = useOptionsSchemas()
+		const { queryProviderData } = useRepeaterData()
 
 		let toolboxWatcher = null
 		let optionsInstance = null
@@ -101,6 +110,23 @@ export default {
 		const canHideToolbox = ref(true)
 		const isToolboxDragging = ref(false)
 		const registeredEvents = ref({})
+		const repeaterData = ref([])
+
+		// Watch for repeater data config change and query for new data
+		watchEffect(() => {
+			if (props.element.isRepeaterProvider()) {
+				queryProviderData(props.element.getRepeaterProviderConfig()).then((data) => {
+					repeaterData.value = data
+				})
+			}
+		})
+
+		// Check to see if the element is a repeater provider
+		if (props.element.isRepeaterProvider()) {
+			// Provide the repeater data to child elements
+			provide('repeaterDataValues', repeaterData)
+			provide('repeaterProviderConfig', props.element.getRepeaterProviderConfig())
+		}
 
 		// Options schema
 		const advancedSchema = {
@@ -169,8 +195,6 @@ export default {
 					}
 				})
 			}
-
-
 
 			return {
 				...optionsAttributes,
@@ -479,6 +503,7 @@ export default {
 .znpb-element__wrapper--panel-hovered {
 	box-shadow: 0 0 0 2px rgba($secondary, .3);
 }
+
 .znpb-element__wrapper {
 	position: relative;
 	transition: opacity .2s;
