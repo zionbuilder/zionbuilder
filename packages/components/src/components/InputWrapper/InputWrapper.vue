@@ -128,25 +128,8 @@ export default {
 			text-transform: uppercase;
 		}
 	}
-	&--inline {
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-start;
 
-		.znpb-forms-form__input-title {
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			min-width: 75px;
-			padding-right: 22px;
-			margin: 0;
-		}
-		.zion-radio-group {
-			display: flex;
-			flex-wrap: nowrap;
-		}
-	}
-	&--inline-between {
+	&--inline {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -157,6 +140,11 @@ export default {
 
 		.znpb-forms-input-content {
 			width: auto;
+		}
+
+		& > .znpb-input-content {
+			display: flex;
+			justify-content: flex-end;
 		}
 	}
 }

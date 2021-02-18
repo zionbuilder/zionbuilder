@@ -107,7 +107,7 @@ class ImageSlider extends Element {
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Show arrows', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -117,7 +117,7 @@ class ImageSlider extends Element {
 				'type'    => 'checkbox_switch',
 				'default' => false,
 				'title'   => esc_html__( 'Show dots', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -127,7 +127,7 @@ class ImageSlider extends Element {
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Infinte', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -137,7 +137,7 @@ class ImageSlider extends Element {
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Autoplay', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -149,7 +149,7 @@ class ImageSlider extends Element {
 				'min'     => 1,
 				'max'     => 15,
 				'default' => 1,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -161,7 +161,7 @@ class ImageSlider extends Element {
 				'min'     => 1,
 				'max'     => 5,
 				'default' => 1,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 
@@ -173,7 +173,7 @@ class ImageSlider extends Element {
 				'min'     => 1,
 				'max'     => 15000,
 				'default' => 3000,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			]
 		);
 	}
