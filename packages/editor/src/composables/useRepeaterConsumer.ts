@@ -4,9 +4,13 @@ import { get } from 'lodash-es'
 export function useRepeaterConsumer(element) {
 	const mainElement = element
 	let currentIndex = 0
-	const providedRepeaterData = inject('repeaterDataValues', [])
+	const providedRepeaterData = inject('repeaterDataValues')
 
 	const repeaterItems = computed(() => {
+		if (!providedRepeaterData) {
+			return []
+		}
+
 		// get actual data
 		const repeaterConsumerConfig = element.getRepeaterConsumerConfig()
 		const repeaterStartIndexValue = get(repeaterConsumerConfig, 'start', 0) || 0

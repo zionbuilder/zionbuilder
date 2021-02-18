@@ -23,6 +23,7 @@ import ElementStyles from './components/ElementStyles.vue'
 import SortableContent from './components/SortableContent.vue'
 import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows, useEditorData } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'PreviewApp',
@@ -44,7 +45,7 @@ export default {
 		const element = computed(() => getElement('content'))
 		const showExportModal = ref(false)
 
- 		// provide masks for ShapeDividerComponent option
+		// provide masks for ShapeDividerComponent option
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)
 		provide('editor_urls', editorData.value.urls)
@@ -56,6 +57,9 @@ export default {
 				window.document.body.classList.remove('znpb-editor-preview--active')
 			}
 		})
+
+		// Allow other to hook into setup
+		trigger('zionbuilder/preview/app/setup')
 
 		return {
 			element,

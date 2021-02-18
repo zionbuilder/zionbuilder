@@ -27,6 +27,7 @@ export class Element {
 	public isCutted: boolean = false
 	public widgetID: string = ''
 	public callbacks: {} = {}
+	public loading: boolean = false
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
@@ -112,37 +113,6 @@ export class Element {
 
 	get elementCssId() {
 		return (this.options._advanced_options || {})._element_id || this.uid
-	}
-
-	isRepeaterConsumer() {
-		// TODO: remove this
-		return this.uid.indexOf('uid667366875071') !== -1 // Column
-		return this.getOptionValue('advanced_options.is_repeater_consumer', false)
-	}
-
-	isRepeaterProvider() {
-		// TODO: remove this
-		return this.uid === 'uid666694841281' // Section
-		return this.getOptionValue('advanced_options.is_repeater_provider', false)
-	}
-
-	getRepeaterProviderConfig() {
-		// TODO: remove this after db implementation
-		let aaa = {
-			type: 'recent_posts',
-		}
-
-		const bbb = {
-			type: 'custom_query',
-			config: {
-				post_type: ['post'],
-				post_status: 'any'
-			}
-		}
-
-		set(this.options, 'advanced_options.repeater_provider_config', aaa)
-
-		return this.getOptionValue('advanced_options.repeater_provider_config', {})
 	}
 
 	getRepeaterConsumerConfig() {
