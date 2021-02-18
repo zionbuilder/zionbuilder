@@ -73,7 +73,7 @@ import VideoBackground from './VideoBackground.vue'
 import RepeaterContainer from './RepeaterContainer.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement, useRepeaterData } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
