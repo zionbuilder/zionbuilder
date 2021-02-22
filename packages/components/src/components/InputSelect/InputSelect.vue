@@ -569,9 +569,12 @@ export default {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		width: 100%;
 		padding: 8px 0 8px 0;
 
 		&__item {
+			display: flex;
+			align-items: center;
 			padding: 3px 12px;
 			margin: 0 5px 5px 0;
 			color: $font-color;
@@ -580,6 +583,10 @@ export default {
 
 			&:last-child {
 				margin-right: 0;
+			}
+
+			& .zion-icon {
+				margin-left: 5px;
 			}
 
 			.zion-icon:hover {
