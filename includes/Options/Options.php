@@ -295,10 +295,10 @@ class Options extends Stack {
 
 		if ( $validation_type === 'includes' && in_array( $value, $dependency_config['value'], true ) ) {
 			return true;
-		} else {
-			if ( $validation_type === 'not_in' && ! in_array( $value, $dependency_config['value'], true ) ) {
-				return true;
-			}
+		} elseif ( $validation_type === 'not_in' && ! in_array( $value, $dependency_config['value'], true ) ) {
+			return true;
+		} elseif ( $validation_type === 'value_set' && $value !== null ) {
+			return true;
 		}
 
 		return false;

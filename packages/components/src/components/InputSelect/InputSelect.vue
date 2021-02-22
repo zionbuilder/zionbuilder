@@ -574,7 +574,7 @@ export default {
 		flex-wrap: wrap;
 		align-items: center;
 		width: 100%;
-		padding: 8px 0 8px 0;
+		padding: 0 0 8px 0;
 
 		&__item {
 			display: flex;

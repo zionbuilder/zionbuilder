@@ -219,6 +219,8 @@ export default {
 						conditionsMet = true
 					} else if (conditionsMet && validationType === 'not_in' && !value.includes(savedValue)) {
 						conditionsMet = true
+					} else if (conditionsMet && validationType === 'value_set' && typeof savedValue !== 'undefined') {
+						conditionsMet = true
 					} else {
 						conditionsMet = false
 					}
