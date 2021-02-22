@@ -154,9 +154,10 @@ export default {
 		},
 		inputValue: {
 			get () {
-				return this.modelValue !== 'undefined' ? this.modelValue : null
+				return this.modelValue !== 'undefined' ? this.modelValue : ''
 			},
 			set (newValue) {
+				console.log({ newValue });
 				/** Updates the input value for the v-model **/
 				this.$emit('update:modelValue', newValue)
 				this.localValue = newValue
@@ -188,116 +189,123 @@ export default {
 </script>
 <style lang="scss">
 body {
-.zion-input {
-	position: relative;
-	display: flex;
-	width: 100%;
-	font-family: $font-stack;
-	font-size: 13px;
-	line-height: 1;
-	background: transparent;
-	border: 2px solid var(--zion-border-color);
-	border-radius: 3px;
-
-	.znpb-editor-icon-wrapper {
-		color: $surface-headings-color;
-		font-size: 14px;
-	}
-
-	&--error {
-		--zion-border-color: red;
-	}
-
-	&__clear-text {
-		cursor: pointer;
-	}
-
-	input, textarea {
+	.zion-input {
+		position: relative;
+		display: flex;
 		width: 100%;
-		height: auto;
-		padding: 10.5px 12px;
-		margin: 0;
-		color: $font-color;
 		font-family: $font-stack;
 		font-size: 13px;
-		font-weight: 500;
 		line-height: 1;
 		background: transparent;
-		background-image: none;
-		box-shadow: none;
-		border: 0;
+		border: 2px solid var(--zion-border-color);
 		border-radius: 3px;
 
-		-webkit-appearance: none;
+		.znpb-editor-icon-wrapper {
+			color: $surface-headings-color;
+			font-size: 14px;
+		}
 
-		&:focus, &:active, &:visited {
+		&--error {
+			--zion-border-color: red;
+		}
+
+		&__clear-text {
+			cursor: pointer;
+		}
+
+		input,
+		textarea {
+			width: 100%;
+			height: auto;
+			padding: 10.5px 12px;
+			margin: 0;
+			color: $font-color;
+			font-family: $font-stack;
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 1;
+			background: transparent;
+			background-image: none;
 			box-shadow: none;
-			outline: 0;
+			border: 0;
+			border-radius: 3px;
+
+			-webkit-appearance: none;
+
+			&:focus,
+			&:active,
+			&:visited {
+				box-shadow: none;
+				outline: 0;
+			}
 		}
-	}
-	input {
-		max-height: 42px;
-		min-width: 0;
-		border: none;
-		// prevent other themes to add their own style uppon input fixed height
-	}
-	input::placeholder {
-		color: $surface-headings-color;
-	}
-	textarea {
-		line-height: 1.8;
-	}
-	&__prepend {
-		@include border(3px, 0, 0, 3px);
-	}
-	&__append {
-		@include border(0, 3px, 3px, 0);
-	}
-	&__prepend, &__append {
-		display: flex;
-		align-items: center;
-		height: 100%;
-		padding: 0 13px;
-		color: $surface-headings-color;
-	}
-
-	&__prefix, &__suffix {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		line-height: 1;
-	}
-
-	&__suffix-icon {
-		margin: 11px;
-		margin-left: 0;
-	}
-
-	&--has-prepend {
-		input, textarea {
-			border-bottom-left-radius: 0;
-			border-top-left-radius: 0;
+		input {
+			max-height: 42px;
+			min-width: 0;
+			border: none;
+			// prevent other themes to add their own style uppon input fixed height
 		}
-	}
-
-	&--has-append {
-		input, textarea {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
+		input::placeholder {
+			color: $surface-headings-color;
 		}
-	}
-	&--size-narrow &__suffix-icon {
-		margin: 14px 7px;
-	}
+		textarea {
+			line-height: 1.8;
+		}
+		&__prepend {
+			@include border(3px, 0, 0, 3px);
+		}
+		&__append {
+			@include border(0, 3px, 3px, 0);
+		}
+		&__prepend,
+		&__append {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			padding: 0 13px;
+			color: $surface-headings-color;
+		}
 
-	&--size-narrow &__prepend, &--size-narrow &__append {
-		padding: 0 7px;
-	}
+		&__prefix,
+		&__suffix {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			line-height: 1;
+		}
 
-	&--size-big input {
-		padding: 20px;
+		&__suffix-icon {
+			margin: 11px;
+			margin-left: 0;
+		}
+
+		&--has-prepend {
+			input,
+			textarea {
+				border-bottom-left-radius: 0;
+				border-top-left-radius: 0;
+			}
+		}
+
+		&--has-append {
+			input,
+			textarea {
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+		&--size-narrow &__suffix-icon {
+			margin: 14px 7px;
+		}
+
+		&--size-narrow &__prepend,
+		&--size-narrow &__append {
+			padding: 0 7px;
+		}
+
+		&--size-big input {
+			padding: 20px;
+		}
 	}
 }
-}
-
 </style>

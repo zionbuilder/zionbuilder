@@ -98,13 +98,13 @@
 								@click.capture="onOptionSelect(savedOption)"
 							/>
 						</div>
+
 						<BaseInput
 							type="text"
 							:clearable="true"
-							:filterable="filterable"
 							:placeholder="getPlaceholder"
 							v-model="searchKeyword"
-							@keydown.prevent="handleKeydown"
+							@keydown.stop="handleKeydown"
 							:readonly="!filterable"
 							ref="input"
 						>
@@ -258,9 +258,10 @@ export default {
 			}
 		},
 		getPlaceholder () {
-			if (this.multiple && this.valueModel && this.valueModel.length > 0) {
+			if (this.multiple && this.searchKeyword.length > 0) {
 				return ''
 			}
+
 			return this.placeholder
 		},
 		filteredItems () {
@@ -362,6 +363,8 @@ export default {
 				}
 				if (event.key === 'Escape') {
 					this.expanded = false
+					event.stopPropagation()
+					event.preventDefault()
 				}
 			}
 
@@ -429,6 +432,7 @@ export default {
 					}
 				})
 				this.$refs.input.focus()
+				this.$refs.tooltip.scheduleUpdate()
 
 				/**
 				* Will emit when the select value is updated
