@@ -1,8 +1,8 @@
 const webpack = require('webpack')
-const path = require('path')
 const {
 	DefinePlugin
 } = require('webpack')
+
 const {
 	info,
 	done
@@ -10,19 +10,12 @@ const {
 const {
 	WebpackPluginServe
 } = require('webpack-plugin-serve');
-const {
-	join
-} = require('path');
+const url = require('url')
 
 module.exports = (options, args) => {
 	const service = process.ZIONBUILDER_SERVICE
-	const url = require('url')
-	const {
-		error,
-		info,
-		done
-	} = require('../util')
 	const port = service.availablePort
+
 	const defaults = {
 		host: 'localhost'
 	}
@@ -63,7 +56,6 @@ module.exports = (options, args) => {
 				entries[entry] = ['webpack-plugin-serve/client', entryValue]
 			})
 		}
-
 
 		let i = 0
 
