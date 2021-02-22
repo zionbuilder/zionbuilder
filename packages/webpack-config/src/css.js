@@ -9,9 +9,7 @@ module.exports = (config) => {
 			})
 		],
 		module: {
-			rules: [
-
-				{
+			rules: [{
 					// find these extensions in our css, copy the files to the outputPath,
 					// and rewrite the url() in our css to point them to the new (copied) location
 					test: /\.(woff(2)?|eot|otf|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,

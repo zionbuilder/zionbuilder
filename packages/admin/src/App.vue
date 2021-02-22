@@ -81,7 +81,7 @@ export default {
 
 		const loaded = ref(false)
 		const hasError = ref(false)
-		const {adminData} = useAdminData()
+		const { adminData } = useAdminData()
 		const logoUrl = adminData.value.urls.logo
 		const version = adminData.value.plugin_version
 		const isPro = adminData.value.is_pro_active
@@ -141,7 +141,10 @@ export default {
 	font-size: 13px;
 	line-height: 1;
 
-	a, a:hover, a:focus, a:visited {
+	a,
+	a:hover,
+	a:focus,
+	a:visited {
 		text-decoration: none;
 		box-shadow: none;
 	}
@@ -157,10 +160,12 @@ export default {
 		border: none;
 
 		-webkit-appearance: none;
-		   -moz-appearance: none;
+		-moz-appearance: none;
 	}
 
-	input, select, textarea {
+	input,
+	select,
+	textarea {
 		background-color: $surface;
 		border-radius: 3px;
 	}
@@ -172,10 +177,15 @@ export default {
 
 		-moz-appearance: textfield;
 	}
-	b, strong {
+	b,
+	strong {
 		font-weight: 700;
 	}
-	h2, h3, h4, h5, h6 {
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		margin-top: 0;
 		margin-bottom: 25px;
 		color: $surface-active-color;
@@ -194,7 +204,8 @@ export default {
 	& * {
 		box-sizing: border-box;
 	}
-	input[type="checkbox"]:checked:before, input[type="radio"]:checked:before {
+	input[type="checkbox"]:checked:before,
+	input[type="radio"]:checked:before {
 		display: none;
 	}
 }
@@ -227,7 +238,8 @@ export default {
 				color: $font-color;
 			}
 
-			.router-link-active, .znpb-admin__header-menu-item:hover {
+			.router-link-active,
+			.znpb-admin__header-menu-item:hover {
 				color: $surface-active-color;
 			}
 		}
@@ -238,7 +250,7 @@ export default {
 		z-index: 1;
 		padding: 0 30px;
 		background: $surface;
-		box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
+		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 
 		&-logo {
 			display: flex;

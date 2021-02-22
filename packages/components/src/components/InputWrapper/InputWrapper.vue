@@ -136,6 +136,7 @@ export default {
 
 		.znpb-forms-form__input-title {
 			flex-grow: 1;
+			margin-bottom: 0;
 		}
 
 		.znpb-forms-input-content {

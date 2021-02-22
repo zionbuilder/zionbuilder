@@ -60,7 +60,7 @@
 
 <script>
 // Utils
-import { ref, watch, watchEffect, computed, readonly, provide, inject } from 'vue'
+import { ref, watch, computed, readonly, provide, inject } from 'vue'
 import { get, debounce, each, kebabCase, escape } from 'lodash-es'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters, trigger } from '@zb/hooks'
@@ -70,7 +70,6 @@ import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
 import ElementStyles from './ElementStyles.vue'
 import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
-import RepeaterContainer from './RepeaterContainer.vue'
 
 // Composables
 import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
@@ -86,8 +85,7 @@ export default {
 		ElementToolbox,
 		VideoBackground,
 		ElementLoading,
-		ElementStyles,
-		RepeaterContainer
+		ElementStyles
 	},
 	props: ['element', 'isRepeaterItem'],
 	setup (props) {

@@ -1,7 +1,5 @@
 <template>
-	<component
-		:is="options.tag || 'h1'"
-	>
+	<component :is="options.tag || 'h1'">
 		<slot name="start" />
 
 		<a

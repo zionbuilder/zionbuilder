@@ -7,12 +7,18 @@ const hash = require('hash-sum')
 const merge = require('webpack-merge')
 const resolvePkg = require('./util/resolvePkg').resolvePkg
 const getPort = require('get-port')
-const { error, info, done } = require('./util')
+const {
+	error,
+	info,
+	done
+} = require('./util')
 
 module.exports = class Service {
-	constructor (context, { pkg } = {}) {
+	constructor(context, {
+		pkg
+	} = {}) {
 		this.context = context
-		this.options = new Options( this.resolveConfig(), {
+		this.options = new Options(this.resolveConfig(), {
 			outputDir: this.resolve(this.context, './dist/'),
 			assetsDir: this.resolve(this.context, './dist/'),
 		})
@@ -26,7 +32,7 @@ module.exports = class Service {
 
 		// Add user chain webpack
 		const userChainWebpack = this.options.getOption('chainWebpack')
-		if ( userChainWebpack && typeof userChainWebpack === 'function' ) {
+		if (userChainWebpack && typeof userChainWebpack === 'function') {
 			this.webpackChainFns.push(userChainWebpack)
 		}
 
@@ -40,19 +46,19 @@ module.exports = class Service {
 		}
 	}
 
-	resolvePkg (inlinePkg, context = this.context) {
+	resolvePkg(inlinePkg, context = this.context) {
 		if (inlinePkg) {
-		  return inlinePkg
+			return inlinePkg
 		}
 		const pkg = resolvePkg(context)
 		if (pkg.vuePlugins && pkg.vuePlugins.resolveFrom) {
-		  this.pkgContext = path.resolve(context, pkg.vuePlugins.resolveFrom)
-		  return this.resolvePkg(null, this.pkgContext)
+			this.pkgContext = path.resolve(context, pkg.vuePlugins.resolveFrom)
+			return this.resolvePkg(null, this.pkgContext)
 		}
 		return pkg
 	}
 
-	resolveConfig () {
+	resolveConfig() {
 		let fileConfig
 
 		const configPath = (
@@ -69,7 +75,7 @@ module.exports = class Service {
 
 				if (!fileConfig || typeof fileConfig !== 'object') {
 					console.error(
-					`Error loading ${chalk.bold('zionbuilder.config.js')}: should export an object or a function that returns object.`
+						`Error loading ${chalk.bold('zionbuilder.config.js')}: should export an object or a function that returns object.`
 					)
 					fileConfig = null
 				}
@@ -82,7 +88,7 @@ module.exports = class Service {
 		return fileConfig
 	}
 
-	setEnvironmentMode( environmentMode = 'production' ) {
+	setEnvironmentMode(environmentMode = 'production') {
 		process.env.NODE_ENV = environmentMode
 	}
 
@@ -103,11 +109,11 @@ module.exports = class Service {
 		return command(this.options, args)
 	}
 
-	init( environmentMode = 'production' ) {
+	init(environmentMode = 'production') {
 		this.setEnvironmentMode(environmentMode)
 	}
 
-	resolveWebpackChain () {
+	resolveWebpackChain() {
 		const chainableWebpackConfig = new Config()
 
 		// Add default rules
@@ -120,7 +126,7 @@ module.exports = class Service {
 		const baseConfigs = []
 
 		webpackConfigs.forEach(configFile => {
-			baseConfigs.push(require( configFile ))
+			baseConfigs.push(require(configFile))
 		});
 
 		baseConfigs.forEach(fn => fn(chainableWebpackConfig, this))
@@ -129,11 +135,11 @@ module.exports = class Service {
 		return chainableWebpackConfig
 	}
 
-	chainWebpack (fn) {
+	chainWebpack(fn) {
 		this.webpackChainFns.push(fn)
 	}
 
-	getPublicPath () {
+	getPublicPath() {
 		const publicPath = this.options.getOption('publicPath')
 
 		if (publicPath) {
@@ -143,7 +149,7 @@ module.exports = class Service {
 		return `http://localhost/`
 	}
 
-	resolveWebpackConfig (chainableWebpackConfig = this.resolveWebpackChain()) {
+	resolveWebpackConfig(chainableWebpackConfig = this.resolveWebpackChain()) {
 		const glob = require('glob')
 		const path = require('path')
 
@@ -155,7 +161,7 @@ module.exports = class Service {
 		const elementsFolder = this.options.getOption('elementsFolder')
 		glob.sync(`${elementsFolder}/*/*.{js,scss}`).forEach((file) => {
 			const fileInfo = path.parse(file)
-			const elementType = path.basename( fileInfo.dir )
+			const elementType = path.basename(fileInfo.dir)
 
 			entry[`js/elements/${elementType}/${fileInfo.name}`] = file
 		})
@@ -166,8 +172,7 @@ module.exports = class Service {
 		)
 
 		const userFilesConfig = merge(
-			baseWebpackConfig,
-			{
+			baseWebpackConfig, {
 				entry
 			}
 		)
@@ -175,11 +180,11 @@ module.exports = class Service {
 		return userFilesConfig
 	}
 
-	resolve (requestedPath) {
+	resolve(requestedPath) {
 		return path.resolve(this.context, requestedPath)
 	}
 
-	generateManifest( extraData = {} ) {
+	generateManifest(extraData = {}) {
 		const outputFilePath = this.resolve('manifest.json')
 		let data = {
 			appName: this.pkg.name,
@@ -196,14 +201,14 @@ module.exports = class Service {
 	/**
 	 * Generate a cache identifier from a number of variables
 	 */
-	genCacheConfig (id, partialIdentifier, configFiles = []) {
+	genCacheConfig(id, partialIdentifier, configFiles = []) {
 		const fs = require('fs')
 		const cacheDirectory = this.resolve(`node_modules/.cache/${id}`)
 
 		// replace \r\n to \n generate consistent hash
 		const fmtFunc = conf => {
 			if (typeof conf === 'function') {
-			return conf.toString().replace(/\r\n?/g, '\n')
+				return conf.toString().replace(/\r\n?/g, '\n')
 			}
 			return conf
 		}
@@ -215,7 +220,7 @@ module.exports = class Service {
 			env: process.env.NODE_ENV,
 			config: [
 				fmtFunc(this.options.getOption('chainWebpack')),
-				fmtFunc( this.options.getOption('configureWebpack') )
+				fmtFunc(this.options.getOption('configureWebpack'))
 			]
 		}
 
@@ -231,18 +236,18 @@ module.exports = class Service {
 		const readConfig = file => {
 			const absolutePath = this.resolve(file)
 			if (!fs.existsSync(absolutePath)) {
-			return
+				return
 			}
 
 			if (absolutePath.endsWith('.js')) {
-			// should evaluate config scripts to reflect environment variable changes
-			try {
-				return JSON.stringify(require(absolutePath))
-			} catch (e) {
-				return fs.readFileSync(absolutePath, 'utf-8')
-			}
+				// should evaluate config scripts to reflect environment variable changes
+				try {
+					return JSON.stringify(require(absolutePath))
+				} catch (e) {
+					return fs.readFileSync(absolutePath, 'utf-8')
+				}
 			} else {
-			return fs.readFileSync(absolutePath, 'utf-8')
+				return fs.readFileSync(absolutePath, 'utf-8')
 			}
 		}
 
@@ -252,6 +257,9 @@ module.exports = class Service {
 		})
 
 		const cacheIdentifier = hash(variables)
-		return { cacheDirectory, cacheIdentifier }
+		return {
+			cacheDirectory,
+			cacheIdentifier
+		}
 	}
 }

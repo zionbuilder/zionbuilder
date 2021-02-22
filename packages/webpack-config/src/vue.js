@@ -1,15 +1,17 @@
-const { VueLoaderPlugin } = require('vue-loader')
-const { DefinePlugin } = require('webpack')
+const {
+	VueLoaderPlugin
+} = require('vue-loader')
+const {
+	DefinePlugin
+} = require('webpack')
 
 module.exports = () => {
-	return  {
+	return {
 		module: {
-			rules: [
-				{
-					test: /\.vue$/,
-					loader: "vue-loader"
-				}
-			]
+			rules: [{
+				test: /\.vue$/,
+				loader: "vue-loader"
+			}]
 		},
 		plugins: [
 			// make sure to include the plugin!
