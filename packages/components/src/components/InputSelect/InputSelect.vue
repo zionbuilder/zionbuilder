@@ -31,6 +31,7 @@
 					ref="dropdown"
 					class="znpb-baseselect-list hg-popper-list znpb-fancy-scrollbar"
 					:style="{'min-width': `${inputWidth}px`}"
+					@wheel="onScroll"
 				>
 					<li
 						v-for="(option, i) in filteredItems"
@@ -45,7 +46,7 @@
 					</li>
 
 					<li
-						v-if="filteredItems.length === 0 && !addable"
+						v-if="filteredItems.length === 0 && !addable && !computedLoading"
 						class="znpb-not-found-message"
 					>
 						{{$translate('no_result')}}
@@ -71,7 +72,12 @@
 						v-if="addable && filteredItems.length === 0 && searchKeyword.length === 0"
 						class="znpb-not-found-message"
 					>{{$translate('no_items')}}</li>
-
+					<li
+						v-if="computedLoading"
+						class="znpb-select--loading"
+					>
+						<Loader :size="13" />
+					</li>
 				</ul>
 			</template>
 			<div
@@ -152,6 +158,7 @@
 import { Icon } from '../Icon'
 import BaseInput from '../BaseInput/BaseInput.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
+import { debounce, unionBy } from 'lodash-es'
 
 export default {
 	/**
@@ -198,7 +205,8 @@ export default {
 		*/
 		options: {
 			type: Array,
-			required: true
+			required: false,
+			default: []
 		},
 		/**
 		* If the user can enter text to filter the options
@@ -230,8 +238,18 @@ export default {
 			type: String,
 			required: false,
 			default: 'bottom'
+		},
+		loading: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		remote_method: {},
+		remote_method_params: {},
+		remote_options_per_page: {
+			type: Number,
+			default: 25
 		}
-
 	},
 	data () {
 		return {
@@ -241,10 +259,16 @@ export default {
 			filteredOptions: this.options,
 			optionIndex: null,
 			inputWidth: null,
-			containerHeight: null
+			containerHeight: null,
+			remoteOptions: [],
+			isLoading: false,
+			stopSearch: false
 		}
 	},
 	computed: {
+		computedLoading () {
+			return this.loading || this.isLoading
+		},
 		valueModel () {
 			if (this.multiple) {
 				if (Array.isArray(this.modelValue)) {
@@ -265,16 +289,35 @@ export default {
 			return this.placeholder
 		},
 		filteredItems () {
+			const options = this.remote_method ? this.remoteOptions : this.options
+
 			if (this.searchKeyword !== this.selected) {
-				return this.options.filter(item => {
+				return options.filter(item => {
 					return item.name.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) > -1
 				})
 			}
-			return this.options
+
+			return options
 		}
 
 	},
 	watch: {
+		// Check to see if we have different remote params and clear the cache
+		remote_method_params (newValue, oldValue) {
+			if (newValue !== oldValue) {
+				console.log(newValue, oldValue);
+				this.remoteOptions = []
+				this.stopSearch = false
+				this.debouncedPerformRemoteRequest()
+			}
+		},
+		searchKeyword (newValue) {
+			if (newValue.length > 0) {
+				// Reset the search end flag
+				this.stopSearch = false
+				this.debouncedPerformRemoteRequest()
+			}
+		},
 		expanded: function (newValue, oldValue) {
 			if (newValue) {
 				if (!this.multiple) {
@@ -304,6 +347,37 @@ export default {
 
 	},
 	methods: {
+		performRemoteRequest () {
+			// Check to see if we have a remote method and we didn't reached it's end
+			if (!this.remote_method || this.stopSearch === true) {
+				return
+			}
+
+			const requestParams = this.remote_method_params
+			if (this.searchKeyword.length > 0) {
+				requestParams.search = this.searchKeyword
+			}
+
+			this.isLoading = true
+			this.remote_method.apply(null, [requestParams]).then((response) => {
+				console.log({ response });
+				console.log(unionBy(this.remoteOptions, response, 'id'));
+				this.remoteOptions = unionBy(this.remoteOptions, response, 'id')
+				if (response.length < this.remote_options_per_page) {
+					this.stopSearch = true
+				} else {
+					this.stopSearch = false
+				}
+			}).finally(() => {
+				this.isLoading = false
+			})
+		},
+		onScroll (event, delta) {
+			if (this.$refs.dropdown.scrollHeight - this.$refs.dropdown.scrollTop === this.$refs.dropdown.clientHeight) {
+				// Check to see if we need to make a remote query
+				this.$emit('scroll-end')
+			}
+		},
 		getStyle (font) {
 			if (this.style_type === 'font-select') {
 				let style = {
@@ -388,7 +462,8 @@ export default {
 
 		// show the name of the selected option
 		getNameFromOptionId (optionid) {
-			let optionConfig = this.options.find((optionConfig) => {
+			const options = this.remote_method ? this.remoteOptions : this.options
+			let optionConfig = options.find((optionConfig) => {
 				return optionConfig.id === optionid
 			})
 			if (typeof optionConfig !== 'undefined' && typeof optionConfig.id !== 'undefined') {
@@ -452,10 +527,11 @@ export default {
 		},
 		setSelected () {
 			if (!this.multiple) {
+				const options = this.remote_method ? this.remoteOptions : this.options
 				const selectedOptionName = this.getNameFromOptionId(this.valueModel) || this.valueModel || ''
 				this.searchKeyword = selectedOptionName
 				this.selected = selectedOptionName
-				Object.values(this.options).forEach((option, index) => {
+				Object.values(options).forEach((option, index) => {
 					if (option.id === this.valueModel) {
 						this.optionIndex = index
 					}
@@ -471,10 +547,18 @@ export default {
 			this.expanded = false
 		}
 	},
+	created () {
+		this.debouncedPerformRemoteRequest = debounce(() => {
+			this.performRemoteRequest()
+		}, 300)
+
+		// Check to see if we need to make a remote method
+		if (this.remote_method) {
+			this.debouncedPerformRemoteRequest()
+		}
+	},
 	mounted () {
 		this.setSelected()
-
-		// set width
 	},
 	beforeUnmount () {
 		this.$el.ownerDocument.removeEventListener('click', this.closePanel)
@@ -582,7 +666,7 @@ export default {
 			padding: 3px 12px;
 			margin: 0 5px 5px 0;
 			color: $font-color;
-			background: $surface-headings-color;
+			background: $surface-variant;
 			border-radius: 15px;
 
 			&:last-child {
@@ -605,5 +689,9 @@ export default {
 
 .znpb-not-found-message {
 	padding: 5px 14px;
+}
+
+.znpb-select--loading {
+	padding: 5px;
 }
 </style>
