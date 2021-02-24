@@ -98,7 +98,8 @@ export default {
 		let optionsInstance = null
 
 		// Data
-		const loading = computed(() => props.element.loading)
+		const localLoading = ref(false)
+		const loading = computed(() => props.element.loading || localLoading.value)
 		const showToolbox = ref(false)
 		const canHideToolbox = ref(true)
 		const isToolboxDragging = ref(false)
@@ -118,8 +119,8 @@ export default {
 		const parsedData = computed(() => {
 			const cssSelector = `#${props.element.elementCssId}`
 			optionsInstance = new Options(elementOptionsSchema, props.element.options, cssSelector, {
-				onLoadingStart: () => props.element.loading = true,
-				onLoadingEnd: () => props.element.loading = false,
+				onLoadingStart: () => localLoading.value = true,
+				onLoadingEnd: () => localLoading.value = false,
 			})
 
 			return optionsInstance.parseData()
