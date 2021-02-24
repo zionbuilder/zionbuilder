@@ -29,6 +29,7 @@ import { useOptionsSchemas } from '@zb/components'
 // Exports
 export * from './composables'
 export * from '@zionbuilder/composables'
+export * from '@utils'
 
 import { ServerRequest } from '@utils'
 

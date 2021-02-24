@@ -175,7 +175,7 @@ class Element {
 		$this->on_after_init( $data );
 	}
 
-	private function prepare_element_data() {
+	public function prepare_element_data() {
 		$data = $this->data;
 		//Set model
 		$model = isset( $data['options'] ) ? $data['options'] : [];
@@ -707,7 +707,12 @@ class Element {
 	}
 
 	public function get_repeater_provider_config() {
-		return $this->options->get_value( '_advanced_options.repeater_provider_config', false );
+		return $this->options->get_value(
+			'_advanced_options.repeater_provider_config',
+			[
+				'type' => 'recent_posts',
+			]
+		);
 	}
 
 	public function get_repeater_consumer_config() {
@@ -755,10 +760,11 @@ class Element {
 
 		// Check to see if this element is a provider/consumer and add it's css class
 		if ( $this->is_repeater_consumer() || $this->is_repeater_item ) {
-			$provider_data           = \ZionBuilderPro\Repeater::get_provider_data();
-			$provider_element        = $provider_data['element'];
-			$provider_element_css_id = $provider_element->get_element_css_id();
-			$this->render_attributes->add( 'wrapper', 'class', $provider_element_css_id );
+			$provider_data = \ZionBuilderPro\Repeater::get_provider_data();
+
+			if ( $provider_data ) {
+				$this->render_attributes->add( 'wrapper', 'class', $this->get_element_css_id() );
+			}
 		}
 
 		// Add wrapper attributes
@@ -1000,19 +1006,9 @@ class Element {
 			return '';
 		}
 
-		if ( ! $this->parsed_data ) {
-			$this->prepare_element_data();
-		}
+		$this->prepare_element_data();
 
 		$css = '';
-
-		// Check to see if the element is also a provider
-		if ( $this->is_repeater_provider() ) {
-			$repeater_provider_config = $this->get_repeater_provider_config();
-
-			// Setting query
-			\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $this );
-		}
 
 		// Compile styling options
 		$styles            = $this->options->get_value( '_styles', [] );
@@ -1024,11 +1020,13 @@ class Element {
 					$css_selector = '#' . $this->get_element_css_id();
 
 					if ( $this->is_repeater_consumer() ) {
-						$provider_data           = \ZionBuilderPro\Repeater::get_provider_data();
-						$provider_element        = $provider_data['element'];
-						$provider_element_css_id = $provider_element->get_element_css_id();
+						$provider_data = \ZionBuilderPro\Repeater::get_provider_data();
+						if ( $provider_data ) {
+							$provider_element        = $provider_data['element'];
+							$provider_element_css_id = $provider_element->get_element_css_id();
 
-						$css_selector = sprintf( '.zb .%s', $provider_element_css_id );
+							$css_selector = sprintf( '.zb .%s', $provider_element_css_id );
+						}
 					}
 
 					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
@@ -1045,10 +1043,6 @@ class Element {
 
 		// Add element custom css
 		$css = apply_filters( 'zionbuilder/element/custom_css', $css, $this->options, $this );
-
-		if ( $this->is_repeater_provider() ) {
-			\ZionBuilderPro\Repeater::reset_query();
-		}
 
 		// Compile custom css
 		return $css;

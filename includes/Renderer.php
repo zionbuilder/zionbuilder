@@ -99,6 +99,7 @@ class Renderer {
 				if ( is_array( $consumer_items ) ) {
 					foreach ( $consumer_items as $index => $consumer_item['data'] ) {
 						\ZionBuilderPro\Repeater::iterate();
+
 						if ( $index === 0 ) {
 							$element_intance->is_repeater_main = true;
 							$element_intance->render_element( $extra_data );
@@ -215,6 +216,14 @@ class Renderer {
 	 */
 	public function get_elements_instances() {
 		return $this->instantiated_elements;
+	}
+
+	public function get_element_instance( $element_uid ) {
+		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
+			return $this->instantiated_elements[$element_uid];
+		}
+
+		return false;
 	}
 
 	public function get_content( $area_id = 'content' ) {

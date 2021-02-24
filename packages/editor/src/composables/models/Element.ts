@@ -41,7 +41,8 @@ export class Element {
 			content,
 			options = {},
 			element_type,
-			widget_id: widgetID
+			widget_id: widgetID,
+			...remainingProperties
 		} = data
 		this.options = isPlainObject(options) ? options : {}
 		this.uid = uid
@@ -49,6 +50,13 @@ export class Element {
 
 		if (widgetID) {
 			this.widgetID = widgetID
+		}
+
+		if (remainingProperties) {
+			Object.keys(remainingProperties).forEach(id => {
+				const value = remainingProperties[id]
+				this[id] = value
+			})
 		}
 
 		// Keep only the uid for content
