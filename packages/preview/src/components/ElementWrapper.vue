@@ -33,7 +33,10 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles :styles="customCSS" />
+			<ElementStyles
+				:styles="customCSS"
+				v-if="!element.isClone"
+			/>
 		</template>
 
 		<template #end>
@@ -136,7 +139,8 @@ export default {
 				Object.keys(elementStyleConfig).forEach(styleId => {
 					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].styles) {
 						const styleConfig = elementStyleConfig[styleId]
-						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', `#${props.element.elementCssId}`)
+						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
+						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
 						customCSS += getStyles(formattedSelector, options.value._styles[styleId].styles)
 					}
 				})
@@ -181,12 +185,18 @@ export default {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}
 
 			const elementClass = camelCase(props.element.element_type)
-			const classes = {
-				[`zb-el-${elementClass}`]: true,
-				[`znpb-element__wrapper--toolbox-dragging`]: isToolboxDragging.value,
-				'znpb-element__wrapper--cutted': props.element.isCutted,
-				'znpb-element--loading': loading.value
-			}
+			const classes = applyFilters(
+				'zionbuilder/element/css_classes',
+				{
+					[`zb-el-${elementClass}`]: true,
+					[`znpb-element__wrapper--toolbox-dragging`]: isToolboxDragging.value,
+					'znpb-element__wrapper--cutted': props.element.isCutted,
+					'znpb-element--loading': loading.value
+				},
+				optionsInstance,
+				props.element
+			)
+
 
 			if (stylesConfig.value.wrapper) {
 				const wrapperConfig = stylesConfig.value.wrapper
