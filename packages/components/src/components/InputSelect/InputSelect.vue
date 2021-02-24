@@ -304,8 +304,7 @@ export default {
 	watch: {
 		// Check to see if we have different remote params and clear the cache
 		remote_method_params (newValue, oldValue) {
-			if (newValue !== oldValue) {
-				console.log(newValue, oldValue);
+			if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
 				this.remoteOptions = []
 				this.stopSearch = false
 				this.debouncedPerformRemoteRequest()
@@ -360,8 +359,6 @@ export default {
 
 			this.isLoading = true
 			this.remote_method.apply(null, [requestParams]).then((response) => {
-				console.log({ response });
-				console.log(unionBy(this.remoteOptions, response, 'id'));
 				this.remoteOptions = unionBy(this.remoteOptions, response, 'id')
 				if (response.length < this.remote_options_per_page) {
 					this.stopSearch = true

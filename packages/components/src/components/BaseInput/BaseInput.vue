@@ -157,7 +157,6 @@ export default {
 				return this.modelValue !== 'undefined' ? this.modelValue : ''
 			},
 			set (newValue) {
-				console.log({ newValue });
 				/** Updates the input value for the v-model **/
 				this.$emit('update:modelValue', newValue)
 				this.localValue = newValue
