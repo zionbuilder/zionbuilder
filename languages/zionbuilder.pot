@@ -2007,7 +2007,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:525
+#: ../includes/Elements/Element.php:544
 msgid "Wrapper"
 msgstr ""
 
