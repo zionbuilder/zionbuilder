@@ -82,30 +82,74 @@ class Renderer {
 		if ( isset( $element_data['uid'] ) && isset( $this->instantiated_elements[$element_data['uid']] ) ) {
 			// Check for repeater data
 			$element_intance = $this->instantiated_elements[$element_data['uid']];
+
+			// Check to see if the element is also a provider
+			if ( $element_intance->is_repeater_provider() ) {
+				$repeater_provider_config = $element_intance->get_repeater_provider_config();
+
+				// Setting query
+				\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config );
+			}
+
+			// Loop through repeater items
 			if ( $element_intance->is_repeater_consumer() ) {
-				if ( have_posts() ) {
-					$i = 0;
-					while ( have_posts() ) {
-						the_post();
-						if ( $i === 0 ) {
+				\ZionBuilderPro\Repeater::set_consumer( $element_intance->get_repeater_consumer_config() );
+				$consumer_items = \ZionBuilderPro\Repeater::get_consumer_items();
+
+				if ( is_array( $consumer_items ) ) {
+					foreach ( $consumer_items as $index => $consumer_item['data'] ) {
+						\ZionBuilderPro\Repeater::iterate();
+						# code...
+						if ( $index === 0 ) {
 							$element_intance->render_element( $extra_data );
 						} else {
-							$old_uid        = $element_intance->uid;
-							$new_uid        = sprintf( '%s_%s', $old_uid, $i );
-							$clone_instance = $element_intance->get_clone(
+							$old_uid                          = $element_intance->uid;
+							$new_uid                          = sprintf( '%s_%s', $old_uid, $index );
+							$clone_instance                   = $element_intance->get_clone(
 								[
 									'uid' => $new_uid,
 								]
 							);
+							$clone_instance->is_repeater_item = true;
 
 							$clone_instance->render_element( $extra_data );
 						}
 
-						$i++;
-					};
+						\ZionBuilderPro\Repeater::next();
+					}
 				}
+
+				\ZionBuilderPro\Repeater::reset_index();
+
+				// if ( have_posts() ) {
+				// 	$i = 0;
+				// 	while ( have_posts() ) {
+				// 		the_post();
+				// 		if ( $i === 0 ) {
+				// 			$element_intance->render_element( $extra_data );
+				// 		} else {
+				// 			$old_uid        = $element_intance->uid;
+				// 			$new_uid        = sprintf( '%s_%s', $old_uid, $i );
+				// 			$clone_instance = $element_intance->get_clone(
+				// 				[
+				// 					'uid' => $new_uid,
+				// 				]
+				// 			);
+				// 			$clone_instance->is_repeater_item = true;
+
+				// 			$clone_instance->render_element( $extra_data );
+				// 		}
+
+				// 		$i++;
+				// 	};
+				// }
 			} else {
 				$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
+			}
+
+			if ( $element_intance->is_repeater_provider() ) {
+				\ZionBuilderPro\Repeater::reset_query();
+
 			}
 		}
 	}

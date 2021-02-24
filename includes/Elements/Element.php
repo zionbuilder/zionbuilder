@@ -10,8 +10,6 @@ use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
 
-use ZionBuilderPro\Repeater;
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -138,6 +136,9 @@ class Element {
 
 	public $data         = [];
 	private $parsed_data = false;
+
+	// repeater
+	public $is_repeater_item = false;
 
 	/**
 	 * Main class constructor
@@ -698,11 +699,19 @@ class Element {
 	}
 
 	public function is_repeater_consumer() {
-		return $this->uid === 'uid667366875071';
+		return $this->options->get_value( '_advanced_options.is_repeater_consumer', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
 	}
 
 	public function is_repeater_provider() {
-		return $this->uid === 'uid666694841281';
+		return $this->options->get_value( '_advanced_options.is_repeater_provider', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
+	}
+
+	public function get_repeater_provider_config() {
+		return $this->options->get_value( '_advanced_options.repeater_provider_config', false );
+	}
+
+	public function get_repeater_consumer_config() {
+		return $this->options->get_value( '_advanced_options.repeater_consumer_config', false );
 	}
 
 	/**
@@ -718,19 +727,6 @@ class Element {
 		}
 
 		$this->prepare_element_data();
-
-		if ( $this->is_repeater_provider() ) {
-			$repeater_provider_config = $this->options->get_value(
-				'advanced_options.repeater_provider_config',
-				[
-					'type' => 'recent_posts',
-				]
-			);
-
-			// Setting query
-			Repeater::set_query( $repeater_provider_config );
-
-		}
 
 		$this->extra_render_data = $extra_render_data;
 		$this->before_render( $this->options );
@@ -773,11 +769,6 @@ class Element {
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
 		$this->after_render( $this->options );
-
-		if ( $this->is_repeater_provider() ) {
-			Repeater::reset_query();
-
-		}
 	}
 
 
