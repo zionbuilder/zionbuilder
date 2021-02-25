@@ -27,10 +27,10 @@ export default () => {
 	/**
 	 * Dispatch an event.
 	 */
-	const trigger = (event: string, detail = {}) => {
+	const trigger = (event: string, ...data) => {
 		if (typeof actions[event] !== 'undefined') {
 			actions[event].forEach(callbackFunction => {
-				callbackFunction({ detail })
+				callbackFunction(...data)
 			})
 		}
 	}

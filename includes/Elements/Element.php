@@ -9,6 +9,7 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -82,21 +83,21 @@ class Element {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $extra_render_data = [];
+	public $extra_render_data = [];
 
 	/**
 	 * Holds the render attributes class object
 	 *
 	 * @var RenderAttributes
 	 */
-	protected $render_attributes = null;
+	public $render_attributes = null;
 
 	/**
 	 * Holds the custom css class object
 	 *
 	 * @var CustomCSS
 	 */
-	protected $custom_css = null;
+	public $custom_css = null;
 
 	/**
 	 * Holds a list of editor scripts URLs
@@ -133,6 +134,15 @@ class Element {
 	 */
 	protected $hooks = [];
 
+	public $data         = [];
+	private $parsed_data = false;
+
+	// repeater
+	public $is_repeater_item = false;
+	public $main_class       = null;
+
+	private $current_provides = [];
+
 	/**
 	 * Main class constructor
 	 *
@@ -153,6 +163,8 @@ class Element {
 
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
+			$this->data = $data;
+
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
 			}
@@ -161,25 +173,38 @@ class Element {
 				$this->content = $data['content'];
 			}
 
-			//Set model
-			$model = isset( $data['options'] ) ? $data['options'] : [];
+			if ( isset( $data['is_repeater_item'] ) ) {
+				$this->is_repeater_item = $data['is_repeater_item'];
+			}
 
-			// Setup helpers
-			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
-
-			// loops through the options model and schema to set the proper model
-			$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
-
-			// Setup render tags custom css classes
-			$this->apply_custom_classes_to_render_tags();
-
-			// Setup render tags customattributes
-			$this->apply_custom_attributes_to_render_tags();
+			if ( isset( $data['main_class'] ) ) {
+				$this->main_class = $data['main_class'];
+			}
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	public function prepare_element_data() {
+		$data = $this->data;
+		//Set model
+		$model = isset( $data['options'] ) ? $data['options'] : [];
+
+		// Setup helpers
+		$this->render_attributes = new RenderAttributes();
+		$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+
+		// loops through the options model and schema to set the proper model
+		$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
+
+		// Setup render tags custom css classes
+		$this->apply_custom_classes_to_render_tags();
+
+		// Setup render tags customattributes
+		$this->apply_custom_attributes_to_render_tags();
+
+		$this->parsed_data = true;
 	}
 
 	/**
@@ -196,6 +221,11 @@ class Element {
 		}
 
 		$this->hooks[$action_name][] = $callback;
+	}
+
+	public function get_clone( $data ) {
+		$element_data = array_merge( $this->data, $data );
+		return Plugin::instance()->elements_manager->get_element_instance_with_data( $element_data );
 	}
 
 	/**
@@ -679,6 +709,27 @@ class Element {
 	public function after_render( $options ) {
 	}
 
+	public function is_repeater_consumer() {
+		return $this->options->get_value( '_advanced_options.is_repeater_consumer', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
+	}
+
+	public function is_repeater_provider() {
+		return $this->options->get_value( '_advanced_options.is_repeater_provider', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
+	}
+
+	public function get_repeater_provider_config() {
+		return $this->options->get_value(
+			'_advanced_options.repeater_provider_config',
+			[
+				'type' => 'recent_posts',
+			]
+		);
+	}
+
+	public function get_repeater_consumer_config() {
+		return $this->options->get_value( '_advanced_options.repeater_consumer_config', false );
+	}
+
 	/**
 	 * Private render function that will be used by us to render the element
 	 *
@@ -690,6 +741,8 @@ class Element {
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
 		}
+
+		$this->prepare_element_data();
 
 		$this->extra_render_data = $extra_render_data;
 		$this->before_render( $this->options );
@@ -716,6 +769,21 @@ class Element {
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
 		$wrapper_id  = $this->get_element_css_id();
 
+		$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
+		// Check to see if this element is a provider/consumer and add it's css class
+		if ( $this->main_class ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->main_class );
+		}
+
+		if ( $is_repeater_consumer_child ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
+		}
+
+		if ( $this->is_repeater_consumer() ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
+			$this->provide( 'is_repeater_consumer_child', true );
+		}
+
 		// Add wrapper attributes
 		$attributes = $this->render_attributes->get_attributes_as_string( 'wrapper' );
 
@@ -732,6 +800,9 @@ class Element {
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
 		$this->after_render( $this->options );
+
+		// Reset prvides
+		$this->reset_provides();
 	}
 
 
@@ -950,6 +1021,13 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
+		// Don't process cloned items
+		if ( $this->is_repeater_item ) {
+			return '';
+		}
+
+		$this->prepare_element_data();
+
 		$css = '';
 
 		// Compile styling options
@@ -959,7 +1037,14 @@ class Element {
 		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
 			foreach ( $registered_styles as $id => $style_config ) {
 				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
-					$selector = str_replace( '{{ELEMENT}}', '#' . $this->get_element_css_id(), $style_config['selector'] );
+					$css_selector = '#' . $this->get_element_css_id();
+
+					$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
+					if ( $this->is_repeater_consumer() || $is_repeater_consumer_child ) {
+						$css_selector = sprintf( '.zb .%s', $this->get_element_css_id() );
+					}
+
+					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
 					$css     .= Style::get_styles( $selector, $styles[$id]['styles'] );
 				}
 			}
@@ -1319,7 +1404,12 @@ class Element {
 	 * @return void
 	 */
 	public function provide( $key, $value ) {
-		self::$provides[$key] = $value;
+		if ( ! isset( self::$provides[$key] ) || ! is_array( self::$provides[$key] ) ) {
+			self::$provides[$key] = [];
+		}
+
+		$this->current_provides[] = $key;
+		self::$provides[$key][]   = $value;
 	}
 
 
@@ -1330,7 +1420,15 @@ class Element {
 	 * @return null|mixed
 	 */
 	public function inject( $key ) {
-		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
+		if ( isset( self::$provides[$key] ) && is_array( self::$provides[$key] ) ) {
+			return end( self::$provides[$key] );
+		}
+	}
+
+	public function reset_provides() {
+		foreach ( $this->current_provides as $provide_key ) {
+			array_pop( self::$provides[$provide_key] );
+		}
 	}
 
 	/**

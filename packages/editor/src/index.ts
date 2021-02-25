@@ -11,7 +11,6 @@ import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
 import { useNotifications } from '@zionbuilder/composables'
 
-
 // Global components
 import {
 	TreeViewList,
@@ -30,6 +29,7 @@ import { useOptionsSchemas } from '@zb/components'
 // Exports
 export * from './composables'
 export * from '@zionbuilder/composables'
+export * from '@utils'
 
 import { ServerRequest } from '@utils'
 

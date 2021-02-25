@@ -22,29 +22,6 @@ class Frontend {
 	const CONTENT_FILTER_PRIORITY = 9;
 
 	/**
-	 * Holds a reference to the current post id
-	 * Holds a reference to the elements registered on the current page instances
-	 *
-	 * @var int
-	 * @var array
-	 */
-	private $post_id = null;
-
-	/**
-	 * Holds a reference to the registered post areas that needs to render on the current page
-	 *
-	 * @var array
-	 */
-	private $registered_areas = [];
-
-	/**
-	 * Holds a reference to the elements registered on the current page instances
-	 *
-	 * @var array
-	 */
-	private $instantiated_elements = [];
-
-	/**
 	 * Holds a refference if this is excerpt or not
 	 *
 	 * @var boolean

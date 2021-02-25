@@ -1,4 +1,3 @@
-import { watch } from 'vue'
 import { generateUID } from '@zb/utils'
 import { regenerateUIDs } from '@utils'
 import { each, update, get, set, isPlainObject } from 'lodash-es'
@@ -28,6 +27,7 @@ export class Element {
 	public isCutted: boolean = false
 	public widgetID: string = ''
 	public callbacks: {} = {}
+	public loading: boolean = false
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
@@ -41,7 +41,8 @@ export class Element {
 			content,
 			options = {},
 			element_type,
-			widget_id: widgetID
+			widget_id: widgetID,
+			...remainingProperties
 		} = data
 		this.options = isPlainObject(options) ? options : {}
 		this.uid = uid
@@ -49,6 +50,13 @@ export class Element {
 
 		if (widgetID) {
 			this.widgetID = widgetID
+		}
+
+		if (remainingProperties) {
+			Object.keys(remainingProperties).forEach(id => {
+				const value = remainingProperties[id]
+				this[id] = value
+			})
 		}
 
 		// Keep only the uid for content
@@ -115,6 +123,13 @@ export class Element {
 		return (this.options._advanced_options || {})._element_id || this.uid
 	}
 
+	getRepeaterConsumerConfig() {
+		return {
+			start: null,
+			end: null
+		}
+		return this.getOptionValue('advanced_options.repeater_consumer_config', false)
+	}
 
 	updateOptions(newValues) {
 		this.options = newValues
@@ -271,6 +286,10 @@ export class Element {
 
 		// Add the instance to all elements
 		return registerElement(configAsJSON, this.parent.uid)
+	}
+
+	setUid(uid) {
+		this.uid = uid
 	}
 
 	on(type, callback) {

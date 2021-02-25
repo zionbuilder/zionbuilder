@@ -98,7 +98,7 @@ class Video extends BaseSchema {
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Show controls', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			],
 			'controlsPosition' => [
 				'type'       => 'custom_selector',
@@ -128,14 +128,14 @@ class Video extends BaseSchema {
 			'autoplay'         => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 				'title'   => esc_html__( 'Autoplay video?', 'zionbuilder' ),
 
 			],
 			'muted'            => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 				'title'   => esc_html__( 'Start muted?', 'zionbuilder' ),
 			],
 		];

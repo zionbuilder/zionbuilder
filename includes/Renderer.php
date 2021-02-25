@@ -80,8 +80,81 @@ class Renderer {
 	 */
 	public function render_element( $element_data, $extra_data = [] ) {
 		if ( isset( $element_data['uid'] ) && isset( $this->instantiated_elements[$element_data['uid']] ) ) {
-			$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
+			// Check for repeater data
+			$element_intance = $this->instantiated_elements[$element_data['uid']];
+
+			// Check to see if the element is also a provider
+			if ( $element_intance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
+				$repeater_provider_config = $element_intance->get_repeater_provider_config();
+
+				// Setting query
+				\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $element_intance );
+			}
+
+			// Loop through repeater items
+			if ( $element_intance->is_repeater_consumer() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
+				\ZionBuilderPro\Repeater::set_consumer( $element_intance->get_repeater_consumer_config() );
+				$consumer_items = \ZionBuilderPro\Repeater::get_consumer_items();
+
+				if ( is_array( $consumer_items ) ) {
+					foreach ( $consumer_items as $index => $consumer_item['data'] ) {
+						\ZionBuilderPro\Repeater::iterate();
+
+						if ( $index === 0 ) {
+							$element_intance->render_element( $extra_data );
+						} else {
+							$element_data   = $element_intance->data;
+							$cloned_element = $this->get_repeater_item_clone( $element_data, $index );
+
+							$cloned_element->render_element( $extra_data );
+						}
+
+						\ZionBuilderPro\Repeater::next();
+					}
+				}
+
+				\ZionBuilderPro\Repeater::reset_index();
+
+			} else {
+				$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
+			}
+
+			if ( $element_intance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
+				\ZionBuilderPro\Repeater::reset_query();
+			}
 		}
+	}
+
+	public function get_repeater_item_clone( $element_data, $index ) {
+		$element_instance = $this->get_element_instance( $element_data['uid'] );
+
+		// Modify data
+		$element_to_return = $this->attach_repeater_data( $element_data, $element_instance, $index );
+		return Plugin::instance()->elements_manager->get_element_instance_with_data( $element_to_return );
+	}
+
+	public function attach_repeater_data( $element_data, $element_instance, $index ) {
+		$old_uid                          = $element_data['uid'];
+		$element_data['is_repeater_item'] = true;
+		$element_data['uid']              = sprintf( '%s_%s', $old_uid, $index );
+		$element_data['main_class']       = $old_uid;
+		$element_data['content']          = [];
+
+		// Check to see if the element has children
+		$childs = $element_instance->get_children();
+
+		if ( is_array( $childs ) ) {
+			foreach ( $childs as $child_element ) {
+				$child_element_instance = $this->get_element_instance( $child_element['uid'] );
+				if ( $child_element_instance ) {
+					$cloned_element = $this->attach_repeater_data( $child_element, $child_element_instance, $index );
+					$this->register_element_instance( $cloned_element );
+					$element_data['content'][] = $cloned_element;
+				}
+			}
+		}
+
+		return $element_data;
 	}
 
 	public function render_area( $area_id ) {
@@ -118,7 +191,6 @@ class Renderer {
 			}
 		}
 	}
-
 
 	/**
 	 * Prepare content for render
@@ -165,6 +237,14 @@ class Renderer {
 	 */
 	public function get_elements_instances() {
 		return $this->instantiated_elements;
+	}
+
+	public function get_element_instance( $element_uid ) {
+		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
+			return $this->instantiated_elements[$element_uid];
+		}
+
+		return false;
 	}
 
 	public function get_content( $area_id = 'content' ) {

@@ -36,6 +36,7 @@
 		:class="{
 			[`znpb-input-type--${schema.type}`]: true,
 			[`${schema.css_class}`]: schema.css_class,
+			[`znpb-forms-input-wrapper--${schema.layout}`]: schema.layout
 		}"
 		:style="computedWrapperStyle"
 		v-else-if="isValidInput"

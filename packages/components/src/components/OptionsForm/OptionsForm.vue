@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { provide, inject, watch, computed, reactive } from 'vue'
+import { provide, inject, computed } from 'vue'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
 import { unset, set, get, cloneDeep } from 'lodash-es'
 
@@ -218,6 +218,8 @@ export default {
 					if (conditionsMet && validationType === 'includes' && value.includes(savedValue)) {
 						conditionsMet = true
 					} else if (conditionsMet && validationType === 'not_in' && !value.includes(savedValue)) {
+						conditionsMet = true
+					} else if (conditionsMet && validationType === 'value_set' && typeof savedValue !== 'undefined') {
 						conditionsMet = true
 					} else {
 						conditionsMet = false

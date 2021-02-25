@@ -2,7 +2,6 @@
 	<PageTemplate>
 		<h3>{{$translate('allowed_post_types')}}</h3>
 		<div class="znpb-admin-posts-wrapper">
-
 			<div
 				v-for="post in dataSets.post_types"
 				:key="post.id"
@@ -51,7 +50,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-admin-posts-wrapper {
 	display: grid;
 

@@ -254,6 +254,7 @@ input[type="checkbox"]:disabled ~ .znpb-checkmark {
 
 	.znpb-checkmark-option {
 		width: 100%;
+		margin-left: 10px;
 		font-weight: 500;
 		text-align: left;
 	}

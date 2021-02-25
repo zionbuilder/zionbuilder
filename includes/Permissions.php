@@ -26,6 +26,9 @@ class Permissions {
 		add_action( 'init', [ $this, 'add_post_type_support' ] );
 	}
 
+	public static function get_allowed_post_types() {
+		return apply_filters( 'zionbuilder/permissions/get_allowed_post_types', Settings::get_allowed_post_types() );
+	}
 
 	/**
 	 * Add Post Type Support
@@ -37,7 +40,7 @@ class Permissions {
 	 * @return void
 	 */
 	public function add_post_type_support() {
-		$allowed_post_types = apply_filters( 'zionbuilder/permissions/get_allowed_post_types', Settings::get_allowed_post_types() );
+		$allowed_post_types = self::get_allowed_post_types();
 
 		if ( ! is_array( $allowed_post_types ) ) {
 			return;

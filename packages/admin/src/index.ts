@@ -60,6 +60,4 @@ window.addEventListener('load', function () {
 
 	appInstance.use(router)
 	appInstance.mount('#znpb-admin')
-
-
 })
