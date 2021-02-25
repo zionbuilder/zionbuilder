@@ -27,7 +27,7 @@
 					</router-link>
 
 					<a
-						href="https://zionbuilder.io/help-center/"
+						:href="documentationLink"
 						:title="$translate('documentation')"
 						target="_blank"
 						class="znpb-button znpb-button--line"
@@ -75,7 +75,7 @@ export default {
 	},
 	setup (props) {
 		const router = useRouter()
-		const { fetchOptions } = useBuilderOptions()
+		const { fetchOptions, getOptionValue } = useBuilderOptions()
 		const { fetchGoogleFonts } = useGoogleFonts()
 		const { notifications } = useNotifications()
 
@@ -104,6 +104,10 @@ export default {
 			return routes
 		})
 
+		const documentationLink = computed(() => {
+			return getOptionValue('white_label') !== null ? getOptionValue('white_label').plugin_help_url : 'https://zionbuilder.io/help-center/'
+		})
+
 		Promise.all([
 			fetchGoogleFonts(),
 			fetchOptions(),
@@ -124,7 +128,8 @@ export default {
 			version,
 			isPro,
 			// Computed
-			menuItems
+			menuItems,
+			documentationLink
 		}
 	}
 }

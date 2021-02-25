@@ -34,6 +34,22 @@ class Typography extends BaseSchema {
 		);
 
 		$typography_options->add_option(
+			'white-space',
+			[
+				'type'        => 'custom_selector',
+				'width'       => 50,
+				'title'       => esc_html__( 'Suppress line breaks', 'zionbuilder' ),
+				'description' => esc_html__( 'Shows the text in one line', 'zionbuilder' ),
+				'options'     => [
+					[
+						'icon' => 'long-arrow-right',
+						'id'   => 'nowrap',
+					],
+				],
+			]
+		);
+
+		$typography_options->add_option(
 			'font-family',
 			[
 				'title'       => esc_html__( 'Font Family', 'zionbuilder' ),
