@@ -338,6 +338,17 @@ class Options extends RestApiController {
 			],
 		];
 
-		return $options;
+		$options['white_label'] = [
+			'name'   => 'White Label',
+			'schema' => [
+				'description' => __( 'Contains saved values for white label', 'zionbuilder' ),
+				'type'        => 'object',
+				'items'       => [
+					'type' => 'object',
+				],
+			],
+		];
+
+		return apply_filters( 'zionbuilder/rest/options/schema', $options );
 	}
 }
