@@ -139,6 +139,9 @@ class Element {
 
 	// repeater
 	public $is_repeater_item = false;
+	public $main_class       = null;
+
+	private $current_provides = [];
 
 	/**
 	 * Main class constructor
@@ -168,6 +171,14 @@ class Element {
 
 			if ( isset( $data['content'] ) ) {
 				$this->content = $data['content'];
+			}
+
+			if ( isset( $data['is_repeater_item'] ) ) {
+				$this->is_repeater_item = $data['is_repeater_item'];
+			}
+
+			if ( isset( $data['main_class'] ) ) {
+				$this->main_class = $data['main_class'];
 			}
 		}
 
@@ -758,13 +769,19 @@ class Element {
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
 		$wrapper_id  = $this->get_element_css_id();
 
+		$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
 		// Check to see if this element is a provider/consumer and add it's css class
-		if ( $this->is_repeater_consumer() || $this->is_repeater_item ) {
-			$provider_data = \ZionBuilderPro\Repeater::get_provider_data();
+		if ( $this->main_class ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->main_class );
+		}
 
-			if ( $provider_data ) {
-				$this->render_attributes->add( 'wrapper', 'class', $this->get_element_css_id() );
-			}
+		if ( $is_repeater_consumer_child ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
+		}
+
+		if ( $this->is_repeater_consumer() ) {
+			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
+			$this->provide( 'is_repeater_consumer_child', true );
 		}
 
 		// Add wrapper attributes
@@ -783,6 +800,9 @@ class Element {
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
 		$this->after_render( $this->options );
+
+		// Reset prvides
+		$this->reset_provides();
 	}
 
 
@@ -1019,14 +1039,9 @@ class Element {
 				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
 					$css_selector = '#' . $this->get_element_css_id();
 
-					if ( $this->is_repeater_consumer() ) {
-						$provider_data = \ZionBuilderPro\Repeater::get_provider_data();
-						if ( $provider_data ) {
-							$provider_element        = $provider_data['element'];
-							$provider_element_css_id = $provider_element->get_element_css_id();
-
-							$css_selector = sprintf( '.zb .%s', $provider_element_css_id );
-						}
+					$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
+					if ( $this->is_repeater_consumer() || $is_repeater_consumer_child ) {
+						$css_selector = sprintf( '.zb .%s', $this->get_element_css_id() );
 					}
 
 					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
@@ -1389,7 +1404,12 @@ class Element {
 	 * @return void
 	 */
 	public function provide( $key, $value ) {
-		self::$provides[$key] = $value;
+		if ( ! isset( self::$provides[$key] ) || ! is_array( self::$provides[$key] ) ) {
+			self::$provides[$key] = [];
+		}
+
+		$this->current_provides[] = $key;
+		self::$provides[$key][]   = $value;
 	}
 
 
@@ -1400,7 +1420,15 @@ class Element {
 	 * @return null|mixed
 	 */
 	public function inject( $key ) {
-		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
+		if ( isset( self::$provides[$key] ) && is_array( self::$provides[$key] ) ) {
+			return end( self::$provides[$key] );
+		}
+	}
+
+	public function reset_provides() {
+		foreach ( $this->current_provides as $provide_key ) {
+			array_pop( self::$provides[$provide_key] );
+		}
 	}
 
 	/**

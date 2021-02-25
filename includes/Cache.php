@@ -346,6 +346,10 @@ class Cache {
 			\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $element_instance );
 		}
 
+		if ( $element_instance->is_repeater_consumer() ) {
+			$element_instance->provide( 'is_repeater_consumer_child', true );
+		}
+
 		$element_type = $element_instance->get_type();
 
 		if ( ! isset( self::$loaded_assets[$element_type] ) ) {
@@ -375,6 +379,11 @@ class Cache {
 
 		if ( $element_instance->is_repeater_provider() ) {
 			\ZionBuilderPro\Repeater::reset_query();
+		}
+
+		if ( $element_instance->is_repeater_consumer() ) {
+			// Reset prvides
+			$element_instance->reset_provides();
 		}
 
 		return $css;

@@ -101,19 +101,12 @@ class Renderer {
 						\ZionBuilderPro\Repeater::iterate();
 
 						if ( $index === 0 ) {
-							$element_intance->is_repeater_main = true;
 							$element_intance->render_element( $extra_data );
 						} else {
-							$old_uid        = $element_intance->uid;
-							$new_uid        = sprintf( '%s_%s', $old_uid, $index );
-							$clone_instance = $element_intance->get_clone(
-								[
-									'uid' => $new_uid,
-								]
-							);
+							$element_data   = $element_intance->data;
+							$cloned_element = $this->get_repeater_item_clone( $element_data, $index );
 
-							$clone_instance->is_repeater_item = true;
-							$clone_instance->render_element( $extra_data );
+							$cloned_element->render_element( $extra_data );
 						}
 
 						\ZionBuilderPro\Repeater::next();
@@ -132,8 +125,36 @@ class Renderer {
 		}
 	}
 
-	public function replace_uids( $data, $index ) {
+	public function get_repeater_item_clone( $element_data, $index ) {
+		$element_instance = $this->get_element_instance( $element_data['uid'] );
 
+		// Modify data
+		$element_to_return = $this->attach_repeater_data( $element_data, $element_instance, $index );
+		return Plugin::instance()->elements_manager->get_element_instance_with_data( $element_to_return );
+	}
+
+	public function attach_repeater_data( $element_data, $element_instance, $index ) {
+		$old_uid                          = $element_data['uid'];
+		$element_data['is_repeater_item'] = true;
+		$element_data['uid']              = sprintf( '%s_%s', $old_uid, $index );
+		$element_data['main_class']       = $old_uid;
+		$element_data['content']          = [];
+
+		// Check to see if the element has children
+		$childs = $element_instance->get_children();
+
+		if ( is_array( $childs ) ) {
+			foreach ( $childs as $child_element ) {
+				$child_element_instance = $this->get_element_instance( $child_element['uid'] );
+				if ( $child_element_instance ) {
+					$cloned_element = $this->attach_repeater_data( $child_element, $child_element_instance, $index );
+					$this->register_element_instance( $cloned_element );
+					$element_data['content'][] = $cloned_element;
+				}
+			}
+		}
+
+		return $element_data;
 	}
 
 	public function render_area( $area_id ) {
