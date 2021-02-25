@@ -130,7 +130,7 @@ class FileSystem {
 		$wp_uploads_dir     = self::get_wp_upload_dir();
 		$basedir            = trailingslashit( $wp_uploads_dir['basedir'] );
 		$baseurl            = trailingslashit( $wp_uploads_dir['baseurl'] );
-		$zionbuilder_folder = trailingslashit( Plugin::$instance->whitelabel->get_uploads_folder() );
+		$zionbuilder_folder = trailingslashit( 'zionbuilder' );
 
 		return [
 			'basedir' => $basedir . $zionbuilder_folder . $path,

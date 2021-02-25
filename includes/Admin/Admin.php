@@ -5,6 +5,7 @@ namespace ZionBuilder\Admin;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
+use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 
 // Prevent direct access
@@ -104,7 +105,7 @@ class Admin {
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 
 		if ( $post_instance->is_built_with_zion() ) {
-			$post_states['zionbuilder'] = esc_html__( 'Zion Builder', 'zionbuilder' );
+			$post_states['zionbuilder'] = Whitelabel::get_title();
 		}
 
 		return $post_states;
@@ -212,7 +213,7 @@ class Admin {
 					'template_categories' => Plugin::$instance->templates->get_template_categories(),
 					'plugin_version'      => Plugin::instance()->get_version(),
 					'urls'                => [
-						'logo'     => Utils::get_logo_url(),
+						'logo'     => Whitelabel::get_logo_url(),
 						'pro_logo' => Utils::get_pro_png_url(),
 					],
 				]
@@ -243,7 +244,9 @@ class Admin {
 
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 		if ( $post_instance->is_built_with_zion() ) {
-			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . esc_html__( 'Edit with Zion Builder', 'zionbuilder' ) . '</a>';
+			$whitelabel_title = sprintf( 'Edit with %s', Whitelabel::get_title() );
+
+			$actions['zionbuilder_edit_link'] = '<a href="' . $post_instance->get_edit_url() . '">' . $whitelabel_title . '</a>';
 		}
 
 		return $actions;
@@ -268,12 +271,18 @@ class Admin {
 
 		// Get the post or autosave status for editor
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
-		$editor_status = $post_instance->is_built_with_zion() ? 'active' : 'inactive'; ?>
+		$editor_status = $post_instance->is_built_with_zion() ? 'active' : 'inactive';
+
+		?>
 		<div class="znpb-admin-post__edit znpb-admin-post__edit-status--<?php echo esc_attr( $editor_status ); ?>">
 
 			<a data-toolbar-item="true" href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
 				<span class="znpb-admin-post__edit-button-icon dashicons dashicons-wordpress-alt"></span>
-				<span class=""><?php esc_html_e( 'Disable Zion Builder', 'zionbuilder' ); ?></span>
+				<span class="">
+				<?php
+				echo esc_html_e( 'Disable ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() );
+				?>
+				</span>
 			</a>
 
 			<a data-toolbar-item="true" href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
@@ -282,7 +291,7 @@ class Admin {
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
 						</svg>
 					</span>
-					<span class=""><?php esc_html_e( 'Edit with Zion Builder', 'zionbuilder' ); ?></span>
+					<span class=""><?php echo esc_html_e( 'Edit with ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() ); ?></span>
 				</a>
 
 		</div>
@@ -305,7 +314,7 @@ class Admin {
 							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
 						</svg>
 					</span>
-					<span class=""><?php esc_html_e( 'Edit with Zion Builder', 'zionbuilder' ); ?></span>
+					<span class=""><?php echo esc_html_e( 'Edit with ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() ); ?></span>
 				</a>
 			</div>
 		<?php
@@ -320,13 +329,14 @@ class Admin {
 	 * @return void
 	 */
 	public function add_admin_page() {
+		$admin_logo = ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) ? '' : Utils::get_file_url( 'assets/img/dash-icon.svg' );
 		add_menu_page(
-			__( 'Zion Builder', 'zionbuilder' ),
-			__( 'Zion Builder', 'zionbuilder' ),
+			Whitelabel::get_title(),
+			Whitelabel::get_title(),
 			'manage_options',
 			'zionbuilder',
 			[ $this, 'render_options_page' ],
-			Utils::get_file_url( 'assets/img/dash-icon.svg' )
+			$admin_logo
 		);
 	}
 

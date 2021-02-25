@@ -213,9 +213,9 @@ class Plugin {
 		$this->load_libraries();
 
 		// initiate permissions
+		$this->whitelabel       = new Whitelabel();
 		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
-		$this->whitelabel       = new Whitelabel();
 		$this->permissions      = new Permissions();
 		$this->fonts_manager    = new FontsManager();
 		$this->elements_manager = new ElementsManager();

@@ -13,7 +13,7 @@ import { errorInterceptor } from '@zionbuilder/rest'
 
 import { install as ComponentsInstall } from '@zb/components'
 import { install as I18nInstall } from '@zb/i18n'
-
+import { applyFilters } from '@zb/hooks'
 // Components
 import SideMenu from './components/SideMenu.vue'
 import PageTemplate from './components/PageTemplate.vue'
@@ -50,12 +50,16 @@ window.addEventListener('load', function () {
 
 	window.dispatchEvent(evt)
 
-	const router = createRouter({
+	const router = applyFilters('zionbuilder/router', createRouter({
 		// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
 		history: createWebHashHistory(),
 		routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-	})
+	}))
+
+
 
 	appInstance.use(router)
 	appInstance.mount('#znpb-admin')
+
+
 })

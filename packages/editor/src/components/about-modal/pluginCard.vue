@@ -8,7 +8,7 @@
 			v-if="isPro"
 			class="znpb-pro-item"
 		>{{$translate('pro')}}</div>
-		<span class="znpb-about-modal__plugin-title">Zion Builder
+		<span class="znpb-about-modal__plugin-title">{{$translate('zion_builder')}}
 			<span v-if="isPro">{{$translate('pro')}}</span>
 			<span v-else>{{$translate('free')}}</span>
 		</span>
