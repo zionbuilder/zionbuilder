@@ -343,7 +343,9 @@ class Cache {
 			$repeater_provider_config = $element_instance->get_repeater_provider_config();
 
 			// Setting query
-			\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $element_instance );
+			if ( class_exists( 'ZionBuilderPro\Repeater' ) ) {
+				\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $element_instance );
+			}
 		}
 
 		if ( $element_instance->is_repeater_consumer() ) {
@@ -377,7 +379,7 @@ class Cache {
 			}
 		}
 
-		if ( $element_instance->is_repeater_provider() ) {
+		if ( $element_instance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
 			\ZionBuilderPro\Repeater::reset_query();
 		}
 

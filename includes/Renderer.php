@@ -84,7 +84,7 @@ class Renderer {
 			$element_intance = $this->instantiated_elements[$element_data['uid']];
 
 			// Check to see if the element is also a provider
-			if ( $element_intance->is_repeater_provider() ) {
+			if ( $element_intance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
 				$repeater_provider_config = $element_intance->get_repeater_provider_config();
 
 				// Setting query
@@ -92,7 +92,7 @@ class Renderer {
 			}
 
 			// Loop through repeater items
-			if ( $element_intance->is_repeater_consumer() ) {
+			if ( $element_intance->is_repeater_consumer() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
 				\ZionBuilderPro\Repeater::set_consumer( $element_intance->get_repeater_consumer_config() );
 				$consumer_items = \ZionBuilderPro\Repeater::get_consumer_items();
 
@@ -119,7 +119,7 @@ class Renderer {
 				$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
 			}
 
-			if ( $element_intance->is_repeater_provider() ) {
+			if ( $element_intance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
 				\ZionBuilderPro\Repeater::reset_query();
 			}
 		}
