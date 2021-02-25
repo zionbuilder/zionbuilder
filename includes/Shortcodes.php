@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Whitelabel;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -30,7 +32,11 @@ class Shortcodes {
 		}
 
 		if ( ! $post_instance->is_built_with_zion() ) {
-			return __( 'Template was not built with Zion Builder', 'zionbuilder' );
+			return sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				__( 'Template was not built with %s', 'zionbuilder' ),
+				Whitelabel::get_title()
+			);
 		}
 
 		// Register the elements
