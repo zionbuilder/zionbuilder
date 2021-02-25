@@ -155,14 +155,14 @@ class Element {
 		$element_type  = $this->get_type();
 		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
 
-		// Register element options
-		$this->options( $this->options );
-
-		// Trigger internal action
-		$this->trigger( 'options/schema/set' );
-
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
+			// Register element options. We only need them on class init with data
+			$this->options( $this->options );
+
+			// Trigger internal action
+			$this->trigger( 'options/schema/set' );
+
 			$this->data = $data;
 
 			if ( isset( $data['uid'] ) ) {
@@ -188,6 +188,7 @@ class Element {
 
 	public function prepare_element_data() {
 		$data = $this->data;
+
 		//Set model
 		$model = isset( $data['options'] ) ? $data['options'] : [];
 
@@ -974,7 +975,7 @@ class Element {
 	/**
 	 * @return bool
 	 */
-	final private function element_is_allowed_render() {
+	private function element_is_allowed_render() {
 		// Check user generated render allowed
 		if ( ! $this->can_render() ) {
 			return false;
