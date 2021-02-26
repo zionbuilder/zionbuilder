@@ -35,11 +35,11 @@ class Typography extends BaseSchema {
 		$typography_options->add_option(
 			'white-space',
 			[
-				'type'        => 'custom_selector',
-				'width'       => 20,
-				'title'       => esc_html__( ' ', 'zionbuilder' ),
-				'description' => esc_html__( 'Shows the text in one line', 'zionbuilder' ),
-				'options'     => [
+				'type'      => 'custom_selector',
+				'width'     => 20,
+
+				'css_class' => 'znpb-input-wrapper--valign-end',
+				'options'   => [
 					[
 						'icon' => 'line-break',
 						'id'   => 'nowrap',
