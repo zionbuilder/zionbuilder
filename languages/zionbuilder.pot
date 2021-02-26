@@ -439,7 +439,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:66
+#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:64
 msgid "Font Weight"
 msgstr ""
 
@@ -2028,7 +2028,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:555
+#: ../includes/Elements/Element.php:556
 msgid "Wrapper"
 msgstr ""
 
@@ -4128,71 +4128,71 @@ msgstr ""
 msgid "Select the desired text align."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:54
+#: ../includes/Options/Schemas/Typography.php:53
 msgid "Font Family"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:66
+#: ../includes/Options/Schemas/Typography.php:65
 msgid "Font weight allows you to set the text thickness."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:109
+#: ../includes/Options/Schemas/Typography.php:108
 msgid "Bolder"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:113
+#: ../includes/Options/Schemas/Typography.php:112
 msgid "Lighter"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:117
+#: ../includes/Options/Schemas/Typography.php:116
 msgid "Inherit"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:121
+#: ../includes/Options/Schemas/Typography.php:120
 msgid "Initial"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:125
+#: ../includes/Options/Schemas/Typography.php:124
 msgid "Unset"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:134
+#: ../includes/Options/Schemas/Typography.php:133
 msgid "Font Color"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:143
+#: ../includes/Options/Schemas/Typography.php:142
 msgid "Font size"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:144
+#: ../includes/Options/Schemas/Typography.php:143
 msgid "The font size option sets the size of the font in various units"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:155
+#: ../includes/Options/Schemas/Typography.php:154
 msgid "Line height"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:156
+#: ../includes/Options/Schemas/Typography.php:155
 msgid "Line height sets the distance between lines of text."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:167
+#: ../includes/Options/Schemas/Typography.php:166
 msgid "Letter Spacing"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:168
+#: ../includes/Options/Schemas/Typography.php:167
 msgid "Letter spacings sets the width between letters."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:209
+#: ../includes/Options/Schemas/Typography.php:208
 msgid "uppercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:214
+#: ../includes/Options/Schemas/Typography.php:213
 msgid "lowercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:219
+#: ../includes/Options/Schemas/Typography.php:218
 msgid "capitalize"
 msgstr ""
 
