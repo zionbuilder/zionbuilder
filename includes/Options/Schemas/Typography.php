@@ -26,8 +26,7 @@ class Typography extends BaseSchema {
 			'text-align',
 			[
 				'type'        => 'text_align',
-				'layout'      => 'inline',
-				'width'       => 100,
+				'width'       => 80,
 				'title'       => esc_html__( 'Align', 'zionbuilder' ),
 				'description' => esc_html__( 'Select the desired text align.', 'zionbuilder' ),
 			]
@@ -37,12 +36,12 @@ class Typography extends BaseSchema {
 			'white-space',
 			[
 				'type'        => 'custom_selector',
-				'width'       => 50,
-				'title'       => esc_html__( 'Suppress line breaks', 'zionbuilder' ),
+				'width'       => 20,
+				'title'       => esc_html__( ' ', 'zionbuilder' ),
 				'description' => esc_html__( 'Shows the text in one line', 'zionbuilder' ),
 				'options'     => [
 					[
-						'icon' => 'long-arrow-right',
+						'icon' => 'line-break',
 						'id'   => 'nowrap',
 					],
 				],
@@ -55,7 +54,7 @@ class Typography extends BaseSchema {
 				'title'       => esc_html__( 'Font Family', 'zionbuilder' ),
 				'type'        => 'select',
 				'data_source' => 'fonts',
-				'width'       => 60,
+				'width'       => 50,
 				'style_type'  => 'font-select',
 			]
 		);
@@ -67,7 +66,7 @@ class Typography extends BaseSchema {
 				'description' => esc_html__( 'Font weight allows you to set the text thickness.', 'zionbuilder' ),
 				'type'        => 'select',
 				'default'     => '400',
-				'width'       => 40,
+				'width'       => 50,
 				'options'     => [
 					[
 						'id'   => '100',
