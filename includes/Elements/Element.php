@@ -710,27 +710,6 @@ class Element {
 	public function after_render( $options ) {
 	}
 
-	public function is_repeater_consumer() {
-		return $this->options->get_value( '_advanced_options.is_repeater_consumer', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
-	}
-
-	public function is_repeater_provider() {
-		return $this->options->get_value( '_advanced_options.is_repeater_provider', false ) && ! $this->is_repeater_item && class_exists( 'ZionBuilderPro\Repeater' );
-	}
-
-	public function get_repeater_provider_config() {
-		return $this->options->get_value(
-			'_advanced_options.repeater_provider_config',
-			[
-				'type' => 'recent_posts',
-			]
-		);
-	}
-
-	public function get_repeater_consumer_config() {
-		return $this->options->get_value( '_advanced_options.repeater_consumer_config', false );
-	}
-
 	/**
 	 * Private render function that will be used by us to render the element
 	 *
@@ -746,6 +725,7 @@ class Element {
 		$this->prepare_element_data();
 
 		$this->extra_render_data = $extra_render_data;
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 		$this->before_render( $this->options );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
@@ -770,21 +750,6 @@ class Element {
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
 		$wrapper_id  = $this->get_element_css_id();
 
-		$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
-		// Check to see if this element is a provider/consumer and add it's css class
-		if ( $this->main_class ) {
-			$this->render_attributes->add( 'wrapper', 'class', $this->main_class );
-		}
-
-		if ( $is_repeater_consumer_child ) {
-			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
-		}
-
-		if ( $this->is_repeater_consumer() ) {
-			$this->render_attributes->add( 'wrapper', 'class', $this->uid );
-			$this->provide( 'is_repeater_consumer_child', true );
-		}
-
 		// Add wrapper attributes
 		$attributes = $this->render_attributes->get_attributes_as_string( 'wrapper' );
 
@@ -800,6 +765,7 @@ class Element {
 		$this->render( $this->options );
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
+		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 		$this->after_render( $this->options );
 
 		// Reset prvides
@@ -1022,8 +988,8 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
-		// Don't process cloned items
-		if ( $this->is_repeater_item ) {
+		$can_generate = apply_filters( 'zionbuilder/element/can_generate_extra_css', true, $this );
+		if ( ! $can_generate ) {
 			return '';
 		}
 
@@ -1039,11 +1005,7 @@ class Element {
 			foreach ( $registered_styles as $id => $style_config ) {
 				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
 					$css_selector = '#' . $this->get_element_css_id();
-
-					$is_repeater_consumer_child = $this->inject( 'is_repeater_consumer_child' );
-					if ( $this->is_repeater_consumer() || $is_repeater_consumer_child ) {
-						$css_selector = sprintf( '.zb .%s', $this->get_element_css_id() );
-					}
+					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', $css_selector, $this );
 
 					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
 					$css     .= Style::get_styles( $selector, $styles[$id]['styles'] );
