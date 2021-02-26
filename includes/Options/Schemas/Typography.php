@@ -37,7 +37,6 @@ class Typography extends BaseSchema {
 			[
 				'type'      => 'custom_selector',
 				'width'     => 20,
-
 				'css_class' => 'znpb-input-wrapper--valign-end',
 				'options'   => [
 					[
