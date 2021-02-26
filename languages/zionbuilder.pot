@@ -439,7 +439,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:50
+#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:66
 msgid "Font Weight"
 msgstr ""
 
@@ -2028,7 +2028,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:544
+#: ../includes/Elements/Element.php:555
 msgid "Wrapper"
 msgstr ""
 

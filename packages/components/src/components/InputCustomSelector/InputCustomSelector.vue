@@ -5,7 +5,7 @@
 				v-for="(option, index) in options"
 				:key="index"
 				class="znpb-custom-selector__item"
-				:title="option.icon ? option.name : false"
+				:title="option.icon ? option.name : ''"
 				:class="{
 					['znpb-custom-selector__item--active']: modelValue === option.id,
 					[`znpb-custom-selector__columns-${columns}`]: columns

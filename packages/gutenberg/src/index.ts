@@ -5,7 +5,7 @@ const $ = window.jQuery
 const wp = window.wp
 
 class Gutenberg {
-	constructor (args) {
+	constructor(args) {
 		// Set class args
 		this.isEditorEnabled = args.is_editor_enabled
 		this.postId = args.post_id
@@ -32,11 +32,11 @@ class Gutenberg {
 		}
 	}
 
-	get isGuttenbergActive () {
+	get isGuttenbergActive() {
 		return typeof wp.data !== 'undefined'
 	}
 
-	cacheDom () {
+	cacheDom() {
 		// DOM CACHE
 		this.$document = $(document)
 		this.$window = $(window)
@@ -46,7 +46,7 @@ class Gutenberg {
 		this.$editorDeactivateButton = $('.znpb-admin-post__edit-button--deactivate')
 	}
 
-	attachEvents () {
+	attachEvents() {
 		// Bind events
 		this.$editorActivateButton.on('click', this.onEditButtonPress.bind(this))
 		this.$editorDeactivateButton.on('click', this.onDisableButtonPress.bind(this))
@@ -56,7 +56,7 @@ class Gutenberg {
 	 *
 	 * Add Editor buttons to Gutenberg editor
 	 */
-	attachButtons () {
+	attachButtons() {
 		let i = 0
 		return new Promise((resolve, reject) => {
 			this.guttenbergInitInterval = setInterval(() => {
@@ -74,7 +74,7 @@ class Gutenberg {
 				if (!this.$editorLayout.length) {
 					this.$editorLayout = $('.block-editor-block-list__layout')
 				}
-
+				console.log(this.$editorHeader);
 				if (this.$editorHeader.length > 0 && this.$editorLayout.length > 0) {
 					this.$editorHeader.append(this.$buttonsWrapper)
 					this.$editorLayout.append(this.$editorBlockFrame)
@@ -94,7 +94,7 @@ class Gutenberg {
 	 *
 	 * @param {string} stringId The string id for which we need to return the translated string
 	 */
-	getTranslatedString (stringId) {
+	getTranslatedString(stringId) {
 		if (typeof this.l10n[stringId] !== 'undefined') {
 			return this.l10n[stringId]
 		}
@@ -109,7 +109,7 @@ class Gutenberg {
 	 *
 	 * @param {*} event
 	 */
-	onEditButtonPress (event) {
+	onEditButtonPress(event) {
 		// If editor is already enabled, just go to edit page
 		if (!this.isEditorEnabled) {
 			event.preventDefault()
@@ -142,7 +142,7 @@ class Gutenberg {
 		}
 	}
 
-	updateUi () {
+	updateUi() {
 		if (this.isEditorEnabled) {
 			this.$body.addClass('znpb-admin-post-editor--active')
 		} else {
@@ -153,7 +153,7 @@ class Gutenberg {
 	/**
 	 * Toogle editor status ( active/inactive )
 	 */
-	setEditorStatus () {
+	setEditorStatus() {
 		this.isEditorEnabled = wp.data.select('core/editor').getEditedPostAttribute('zion_builder_status')
 
 		this.updateUi()
@@ -164,7 +164,7 @@ class Gutenberg {
 	 *
 	 * @param {function} callback The callback to call when the post is succesfully saved
 	 */
-	savePost (callback) {
+	savePost(callback) {
 		wp.data.dispatch('core/editor').savePost().then(() => {
 			this.setEditorStatus()
 
@@ -183,7 +183,7 @@ class Gutenberg {
 	 *
 	 * @param {MouseEvent} event The mouse event from click
 	 */
-	onDisableButtonPress (event) {
+	onDisableButtonPress(event) {
 		event.preventDefault()
 
 		if (this.isEditorEnabled) {
