@@ -439,7 +439,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:66
+#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:64
 msgid "Font Weight"
 msgstr ""
 
@@ -2028,7 +2028,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:555
+#: ../includes/Elements/Element.php:556
 msgid "Wrapper"
 msgstr ""
 
@@ -2820,7 +2820,7 @@ msgstr ""
 msgid "Text after"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:102, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:31
+#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:102, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:30
 msgid "Align"
 msgstr ""
 
@@ -4124,83 +4124,75 @@ msgstr ""
 msgid "With filter options you can chang the element hue, saturate, opacity, contrast and box shadow."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:32
+#: ../includes/Options/Schemas/Typography.php:31
 msgid "Select the desired text align."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:41
-msgid "Suppress line breaks"
-msgstr ""
-
-#: ../includes/Options/Schemas/Typography.php:42
-msgid "Shows the text in one line"
-msgstr ""
-
-#: ../includes/Options/Schemas/Typography.php:55
+#: ../includes/Options/Schemas/Typography.php:53
 msgid "Font Family"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:67
+#: ../includes/Options/Schemas/Typography.php:65
 msgid "Font weight allows you to set the text thickness."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:110
+#: ../includes/Options/Schemas/Typography.php:108
 msgid "Bolder"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:114
+#: ../includes/Options/Schemas/Typography.php:112
 msgid "Lighter"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:118
+#: ../includes/Options/Schemas/Typography.php:116
 msgid "Inherit"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:122
+#: ../includes/Options/Schemas/Typography.php:120
 msgid "Initial"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:126
+#: ../includes/Options/Schemas/Typography.php:124
 msgid "Unset"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:135
+#: ../includes/Options/Schemas/Typography.php:133
 msgid "Font Color"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:144
+#: ../includes/Options/Schemas/Typography.php:142
 msgid "Font size"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:145
+#: ../includes/Options/Schemas/Typography.php:143
 msgid "The font size option sets the size of the font in various units"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:156
+#: ../includes/Options/Schemas/Typography.php:154
 msgid "Line height"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:157
+#: ../includes/Options/Schemas/Typography.php:155
 msgid "Line height sets the distance between lines of text."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:168
+#: ../includes/Options/Schemas/Typography.php:166
 msgid "Letter Spacing"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:169
+#: ../includes/Options/Schemas/Typography.php:167
 msgid "Letter spacings sets the width between letters."
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:210
+#: ../includes/Options/Schemas/Typography.php:208
 msgid "uppercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:215
+#: ../includes/Options/Schemas/Typography.php:213
 msgid "lowercase"
 msgstr ""
 
-#: ../includes/Options/Schemas/Typography.php:220
+#: ../includes/Options/Schemas/Typography.php:218
 msgid "capitalize"
 msgstr ""
 

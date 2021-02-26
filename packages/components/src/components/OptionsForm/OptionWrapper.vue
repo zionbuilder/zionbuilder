@@ -643,6 +643,11 @@ export default {
 			color: $surface-headings-color;
 		}
 	}
+
+	&--valign-end {
+		display: flex;
+		align-items: flex-end;
+	}
 }
 
 .znpb-form__input-description-tooltip {
