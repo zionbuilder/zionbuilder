@@ -124,7 +124,7 @@ class Elements extends RestApiController {
 
 		if ( $element_instance ) {
 			ob_start();
-			$element_instance->server_render();
+			$element_instance->server_render( $request );
 
 			return rest_ensure_response(
 				[
