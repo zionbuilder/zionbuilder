@@ -17,7 +17,6 @@
 
 		</div>
 		<span v-html="schema.title"></span>
-
 	</div>
 
 	<component

@@ -439,7 +439,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:65
+#: ../includes/Localization.php:155, ../includes/Options/Schemas/Typography.php:66
 msgid "Font Weight"
 msgstr ""
 

@@ -248,30 +248,49 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 
 ## Changelog ##
-###  2.0.0 2021-01-25 ###
-* Feature: Theme builder
-* Improvement: updated swiper to latest version
-* Improvement: visual improvements for Panel Element Options and OptionsForm
-* Improvement: visual improvement for has changes bullet
-* Improvement (internal): Added composer normalize
-* Improvement: Add element icons to treeview and wireframe view
-* Improvement: Update style for anchorPoint element in editor mode
+###  2.0.0 2021-02-26 ###
+* Feature: Theme builder ( header and footer builder )
+* Feature: Added repeater functionality for all elements
+* Feature: Added white label functionality
+* Feature: Added ability to add custom attributes to elements
+* Feature: Added breadcrumbs above options when using element options search
+* Feature: Added element icon for elements in tree view
+* Feature: Added categories to add elements popup
+* Feature: Added move element action to history
+* Improvement: White space typography option
+* Improvement: Default WordPress themes compatibility
+* Improvement: Tooltip and rest
+* Improvement: Visual improvements for Panel Element Options and OptionsForm
+* Improvement: Visual improvement for has changes bullet
+* Improvement: Added element icons to treeview and wireframe view
+* Improvement: Updated style for anchorPoint element in editor mode
 * Improvement: Performance tweaks for input range dynamic
-* Improvement: inline-editor bugfixes and code improvement
-* Improvement: add inner content styles and single item color option for iconlist
-* Improvement: Make admin dashboard responsive
-* Improvement: add string in case no value added for inline edit
+* Improvement: Inline-editor bugfixes and code improvement
+* Improvement: Added inner content styles and single item color option for iconlist
+* Improvement: Admin dashboard responsiveness
+* Improvement: Added string in case no value added for inline edit
 * Improvement: Added message when the element has no specific options
-* Improvement: add background video options
+* Improvement: Added background video options
+* Improvement: Allow theme to hook into plugin integrations
+* Improvement: Added invalid element component
+* Fixed errors when ssl is not properly set on websites
+* Fixed cannot properly drag items inside tabs
+* Fixed console error related to open panels
+* Fixed Toggle Library Panel when inserting items
+* Fixed dynamic text can be edited with inline editor
+* Fixed visual bug for right click in tree view panel
+* Fixed rename elements with right click
+* Fixed heading from 'Add Elements' popup inheriting styles from theme
+* Fixed CSS is not loaded in editor mode when using shortcodes
+* Fixed Custom css class cannot be deleted
 * Fixed repeater option console error in case no button text added
 * Fixed several sortable related issues
-* Fixed various isseus with vue update
 * Fixed icon height bigger than width for certain icons
 * Fixed prevent link follow in text element and button element
 * Fixed delete custom-pseudoselectors
 * Fixed Added delete changes for responsive options
 * Fixed panel options search
-* Fixed pseudo selector delete keeps styling
+* Fixed pseudo selector delete kept styling
 * Fixed pseudo selector not resetting when editing a new element
 * Fixed add elements popup show while sorting elements
 * Fixed php notice for accordion element
@@ -280,9 +299,10 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Fixed Custom pseudoselector field not closing
 * Fixed modal visual bugs
 * Fixed Save is triggered only if clicked on the icon on the main panel
-* Fixed set Wrapper tag for ProgressBars
+* Fixed set wrapper tag for ProgressBars
 * Fixed Search content tab is not displaying correctly
 * Fixed Empty element appear in Add Elements popup
+
 ### 1.2.3 2020-12-14 ###
 * Improvement: rtl support for both editor and rendered page
 * Improvement: Error message when a template cannot be inserted

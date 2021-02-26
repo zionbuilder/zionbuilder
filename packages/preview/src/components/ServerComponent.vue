@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, inject } from 'vue'
+import { applyFilters } from '@zb/hooks'
 
 // Utils
 import { getElementRender } from '@zb/rest'
@@ -84,9 +85,13 @@ export default {
 			elm.addEventListener('load', checkElementHeight)
 		}
 
+		const serverComponentRenderData = applyFilters('zionbuilder/server_component/data', {
+			element_data: props.element
+		})
+
 		function getElementFromServer () {
 			loading.value = true
-			getElementRender(props.element).then((response) => {
+			getElementRender(serverComponentRenderData).then((response) => {
 				elementContent.value = response.data.element
 
 				setInnerHTML(elementContent.value)

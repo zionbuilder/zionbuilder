@@ -209,7 +209,6 @@ class Cache {
 		}
 	}
 
-
 	/**
 	 * Enqueue element styles
 	 *
@@ -338,19 +337,7 @@ class Cache {
 
 		$element_instance->prepare_element_data();
 
-		// Check to see if the element is also a provider
-		if ( $element_instance->is_repeater_provider() ) {
-			$repeater_provider_config = $element_instance->get_repeater_provider_config();
-
-			// Setting query
-			if ( class_exists( 'ZionBuilderPro\Repeater' ) ) {
-				\ZionBuilderPro\Repeater::set_active_query( $repeater_provider_config, $element_instance );
-			}
-		}
-
-		if ( $element_instance->is_repeater_consumer() ) {
-			$element_instance->provide( 'is_repeater_consumer_child', true );
-		}
+		do_action( 'zionbuilder/cache/on_before_element_css', $element_instance );
 
 		$element_type = $element_instance->get_type();
 
@@ -379,14 +366,7 @@ class Cache {
 			}
 		}
 
-		if ( $element_instance->is_repeater_provider() && class_exists( 'ZionBuilderPro\Repeater' ) ) {
-			\ZionBuilderPro\Repeater::reset_query();
-		}
-
-		if ( $element_instance->is_repeater_consumer() ) {
-			// Reset prvides
-			$element_instance->reset_provides();
-		}
+		do_action( 'zionbuilder/cache/on_after_element_css', $element_instance );
 
 		return $css;
 	}
