@@ -115,6 +115,9 @@ class Image extends Element {
 				'type'        => 'link',
 				'description' => 'This is the element content',
 				'title'       => esc_html__( 'Link', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 

@@ -2544,7 +2544,7 @@ msgstr ""
 msgid "Set the url"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:114
+#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:117
 msgid "Link"
 msgstr ""
 
@@ -2820,11 +2820,11 @@ msgstr ""
 msgid "Text after"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:102, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:30
+#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:105, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:30
 msgid "Align"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:147, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:103, ../includes/Elements/ImageBox/ImageBox.php:133
+#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:147, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:106, ../includes/Elements/ImageBox/ImageBox.php:133
 msgid "Select the desired alignment."
 msgstr ""
 
@@ -3108,23 +3108,23 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:141
+#: ../includes/Elements/Image/Image.php:147
 msgid "Show caption"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:149
+#: ../includes/Elements/Image/Image.php:155
 msgid "Caption Text"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:150
+#: ../includes/Elements/Image/Image.php:156
 msgid "Image caption."
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:173
+#: ../includes/Elements/Image/Image.php:179
 msgid "Link styles"
 msgstr ""
 
-#: ../includes/Elements/Image/Image.php:181, ../includes/Elements/ImageBox/ImageBox.php:236, ../includes/Elements/Testimonial/Testimonial.php:265
+#: ../includes/Elements/Image/Image.php:187, ../includes/Elements/ImageBox/ImageBox.php:236, ../includes/Elements/Testimonial/Testimonial.php:265
 msgid "Image styles"
 msgstr ""
 
