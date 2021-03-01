@@ -418,5 +418,30 @@ svg:not(:root).icon {
 			opacity: .5;
 		}
 	}
+	&.zion-element-woo-description {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-meta {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-images {
+		path:first-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-rating {
+		path:first-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-related {
+		path:last-child {
+			opacity: .5;
+		}
+	}
 }
 </style>
