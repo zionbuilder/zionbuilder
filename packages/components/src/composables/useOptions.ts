@@ -69,10 +69,7 @@ const options = {
 	},
 	image: {
 		id: 'image',
-		component: InputImage,
-		dynamic: {
-			type: 'IMAGE'
-		}
+		component: InputImage
 	},
 	number: {
 		id: 'number',
