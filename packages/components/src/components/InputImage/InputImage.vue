@@ -1,6 +1,11 @@
 <template>
 	<div class="znpb-input-image__wrapper">
+		<component
+			v-if="customComponent"
+			:is="customComponent"
+		/>
 		<div
+			v-else
 			class="znpb-input-image-holder"
 			:style="wrapperStyles"
 			ref="imageHolder"
@@ -13,7 +18,7 @@
 					ref="image"
 				/>
 				<template v-slot:actions>
-					<div>
+					<div class="znpb-input-image-holder__image-actions">
 						<Icon
 							:rounded="true"
 							icon="delete"
@@ -21,6 +26,9 @@
 							bg-color="#fff"
 							@click.stop="deleteImage"
 						/>
+
+						<!-- Injection point -->
+						<Injection location="options/image/actions" />
 					</div>
 				</template>
 
@@ -51,10 +59,11 @@
 			</div>
 			<EmptyList
 				class="znpb-input-image-holder__empty"
-				v-if="!imageSrc"
+				v-if="!imageSrc && !customComponent"
 				:no-margin="true"
 			>
 				{{emptyText}}
+				<Injection location="options/image/actions" />
 			</EmptyList>
 		</div>
 
@@ -86,17 +95,21 @@ import { EmptyList } from '../EmptyList'
 import { InputWrapper } from '../InputWrapper'
 import { InputSelect } from '../InputSelect'
 import CustomSize from './CustomSize.vue'
+import { Injection } from "../Injection"
+import { applyFilters } from '@zb/hooks'
 
 const wp = window.wp
 export default {
 	name: 'InputImage',
+	inject: ['inputWrapper', 'optionsForm'],
 	components: {
 		ActionsOverlay,
 		EmptyList,
 		InputSelect,
 		InputWrapper,
 		CustomSize,
-		Icon
+		Icon,
+		Injection
 	},
 	props: {
 		/**
@@ -137,7 +150,6 @@ export default {
 	},
 	data () {
 		return {
-			mediaModal: null,
 			attachmentId: null,
 			isDragging: false,
 			imageContainerPosition: {
@@ -156,6 +168,9 @@ export default {
 		}
 	},
 	computed: {
+		customComponent () {
+			return applyFilters('zionbuilder/options/image/display_component', null, this.modelValue, this.inputWrapper, this.optionsForm)
+		},
 		imageSizes () {
 			const options = []
 			const imageSizes = ((this.attachmentModel || {}).attributes || {}).sizes
@@ -311,6 +326,9 @@ export default {
 		// 	})
 		// },
 		getImageHeight () {
+			if (!this.$refs.image) {
+				return
+			}
 			// Wait for the image to load before getting it's dimensions
 			this.$refs.image.addEventListener('load', () => {
 				let imageHeight = this.$refs.image.getBoundingClientRect().height
@@ -385,7 +403,7 @@ export default {
 			if (this.isDragging) {
 				return
 			}
-			if (this.mediaModal === null) {
+			if (!this.mediaModal) {
 				const args = {
 					frame: 'select',
 					state: 'zion-media',
@@ -574,5 +592,9 @@ export default {
 	border-radius: 50%;
 	transform: translateX(-50%) translateY(-50%);
 	cursor: move;
+}
+
+.znpb-input-image-holder__image-actions {
+	display: flex;
 }
 </style>
