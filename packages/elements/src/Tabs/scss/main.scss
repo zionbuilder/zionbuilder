@@ -1,28 +1,27 @@
 .zb-el-tabs {
-	.zb-el-tabs-nav {
+	&-nav {
 		padding: 0;
 		margin: 0;
 		list-style: none;
 
-		li {
+		&-title {
 			display: inline-block;
 			padding: 8px 20px;
+			margin: 0;
 			color: $font-color;
 			font-size: 15px;
 			font-weight: 500;
 			border: 1px solid $border-color;
 			border-right: none;
 			border-bottom: none;
+			transition: color .25s linear;
 			cursor: pointer;
-			margin: 0;
-			transition: color 0.25s linear;
 
 			&:last-child {
 				border-right: 1px solid $border-color;
 			}
 
-			&:focus,
-			&:hover {
+			&:focus, &:hover {
 				color: $surface-active-color;
 			}
 
@@ -43,9 +42,10 @@
 		}
 	}
 
-	.zb-el-tabs-content {
+	&-content {
 		padding: 15px 20px;
 		border: 1px solid $border-color;
+
 		 > div {
 			position: absolute;
 			left: -99999px;
@@ -62,21 +62,25 @@
 			}
 		}
 	}
+
 	&--vertical {
 		display: flex;
 
 		.zb-el-tabs-nav {
 			width: 30%;
 			max-width: 100%;
+
 			li {
 				display: block;
 				border-right: none;
 				border-bottom: none;
 				border-left: 1px solid $border-color;
+
 				&:last-child {
 					border-right: none;
 					border-bottom: 1px solid $border-color;
 				}
+
 				&.zb-el-tabs-nav--active {
 					border-top: 1px solid $border-color;
 					border-right: none;
@@ -92,6 +96,7 @@
 				}
 			}
 		}
+
 		.zb-el-tabs-content {
 			width: 70%;
 			max-width: 100%;
@@ -110,9 +115,11 @@
 				border-top: 1px solid $border-color;
 				border-right: 1px solid $border-color;
 				border-bottom: none;
+
 				&:last-child {
 					border-bottom: none;
 				}
+
 				&.zb-el-tabs-nav--active {
 					border-top: 1px solid $border-color;
 
@@ -122,6 +129,7 @@
 				}
 			}
 		}
+
 		.zb-el-tabs-content {
 			width: 100%;
 			max-width: 100%;
