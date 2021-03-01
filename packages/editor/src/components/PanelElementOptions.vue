@@ -165,7 +165,7 @@ export default {
 		const searchActive = ref(false)
 		const history = ref([])
 		const historyIndex = ref(0)
-		const searchInput = ref(null)
+
 		const optionsFilterKeyword = ref('')
 
 		const elementOptions = computed({
@@ -247,7 +247,6 @@ export default {
 
 		return {
 			element,
-			searchInput,
 			// Computed
 			elementOptions,
 			getSchema,
@@ -301,7 +300,7 @@ export default {
 				}
 
 				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
-					optionConfig.child_options.attributes = this.attributesOtpions
+					optionConfig.child_options.attributes = this.attributesOptions
 				}
 
 				schema[styleId] = optionConfig
@@ -316,7 +315,7 @@ export default {
 				}
 			}
 		},
-		attributesOtpions () {
+		attributesOptions () {
 			let attributesComponent = {
 				type: 'accordion_menu',
 				title: 'custom attributes',
@@ -387,7 +386,7 @@ export default {
 		filteredOptions () {
 			const keyword = this.optionsFilterKeyword
 			if (keyword.length > 2) {
-				return this.filterOtions(keyword, this.allOptionsSchema)
+				return this.filterOptions(keyword, this.allOptionsSchema)
 			}
 			return {}
 		}
@@ -410,13 +409,11 @@ export default {
 				this.activeKeyTab.value = event.detail
 			}
 		},
-		filterOtions (keyword, optionsSchema, currentId, currentName) {
+		filterOptions (keyword, optionsSchema, currentId, currentName) {
 			let lowercaseKeyword = keyword.toLowerCase()
 			let foundOptions = {}
 
 			Object.keys(optionsSchema).forEach((optionId) => {
-
-
 				const optionConfig = optionsSchema[optionId]
 
 				let syncValue = []
@@ -472,7 +469,7 @@ export default {
 					searchOptions.push(optionConfig.label)
 				}
 
-				if (optionConfig.type !== 'accordion_menu') {
+				if (optionConfig.type !== 'accordion_menu' && optionConfig.type !== 'element_styles') {
 					if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
 						let filteredBreadcrumbs = []
 						if (currentName) {
@@ -494,7 +491,7 @@ export default {
 				}
 
 				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
+					const childOptions = this.filterOptions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
@@ -504,7 +501,7 @@ export default {
 				}
 
 				if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
-					const childOptions = this.filterOtions(keyword, optionConfig.child_options, syncValue, syncValueName)
+					const childOptions = this.filterOptions(keyword, optionConfig.child_options, syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
@@ -518,7 +515,6 @@ export default {
 			return foundOptions
 		},
 		getInnerStyleName (id) {
-
 			if (id === 'pseudo_selectors') {
 				return undefined
 			}
@@ -541,12 +537,6 @@ export default {
 			if (tabId !== 'search') {
 				this.lastTab = this.activeKeyTab
 				this.optionsFilterKeyword = ''
-			} else if (this.searchActive) {
-				if (this.$refs.searchInput) {
-					this.$nextTick(() => {
-						this.$refs.searchInput.focus()
-					})
-				}
 			}
 		},
 		closeOptionsPanel () {
@@ -575,6 +565,17 @@ export default {
 				this.redo()
 				e.preventDefault()
 				e.stopPropagation()
+			}
+		}
+	},
+	watch: {
+		searchActive (newValue) {
+			if (newValue) {
+				this.$nextTick(() => {
+					if (this.$refs.searchInput) {
+						this.$refs.searchInput.focus()
+					}
+				})
 			}
 		}
 	},

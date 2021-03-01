@@ -1,24 +1,4 @@
 <template>
-	<div
-		v-if="schema.breadcrumbs"
-		class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search"
-	>
-		<div
-			class="znpb-options-breadcrumbs-path"
-			v-for="(breadcrumb, i) in schema.breadcrumbs"
-			:key="i"
-		>
-			<span v-html="schema.breadcrumbs[i]"></span>
-			<Icon
-				icon="select"
-				class="znpb-options-breadcrumbs-path-icon"
-				v-if="(i <= schema.breadcrumbs.length)"
-			/>
-
-		</div>
-		<span v-html="schema.title"></span>
-	</div>
-
 	<component
 		v-if="isValidInput && ( schema.barebone || optionTypeConfig.config && optionTypeConfig.config.barebone )"
 		:is="optionTypeConfig.component"

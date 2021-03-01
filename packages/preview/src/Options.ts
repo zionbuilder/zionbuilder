@@ -1,5 +1,6 @@
 import { getOptionValue, getStyles, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
+import { cloneDeep } from 'lodash-es'
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -73,7 +74,7 @@ export default class Options {
 					// Get custom css
 					this.setCustomCSS(singleOptionSchema, model[optionId], index)
 				} else if (typeof singleOptionSchema.default !== 'undefined') {
-					model[optionId] = singleOptionSchema.default
+					model[optionId] = cloneDeep(singleOptionSchema.default)
 				}
 
 				if (typeof singleOptionSchema.child_options !== 'undefined') {

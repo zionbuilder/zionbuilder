@@ -92,6 +92,9 @@ class Image extends Element {
 				'default'     => [
 					'image' => Utils::get_file_url( 'assets/img/no-image.jpg' ),
 				],
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -112,6 +115,9 @@ class Image extends Element {
 				'type'        => 'link',
 				'description' => 'This is the element content',
 				'title'       => esc_html__( 'Link', 'zionbuilder' ),
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
@@ -232,7 +238,7 @@ class Image extends Element {
 		);
 
 		// Don't proceed if we don't have an image
-		if ( ! isset( $image_value['image'] ) ) {
+		if ( empty( $image_value['image'] ) ) {
 			return;
 		}
 		$html_tag = 'div';

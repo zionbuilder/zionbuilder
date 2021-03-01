@@ -31,7 +31,8 @@ export default {
 	name: 'ElementStyles',
 	props: {
 		modelValue: {
-			type: Object
+			type: Object,
+			default: {}
 		},
 		title: {
 			type: String
@@ -67,7 +68,7 @@ export default {
 	computed: {
 		computedClasses: {
 			get () {
-				return this.modelValue.classes || []
+				return this.modelValue ? (this.modelValue.classes || []) : []
 			},
 			set (newValue) {
 				this.$emit('update:modelValue', {

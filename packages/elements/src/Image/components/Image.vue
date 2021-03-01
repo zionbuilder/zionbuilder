@@ -15,7 +15,7 @@
 		</a>
 
 		<img
-			v-else
+			v-else-if="imageSrc"
 			v-bind="api.getAttributesForTag('image_styles', extraAttributes)"
 			:src="imageSrc"
 			:class="api.getStyleClasses('image_styles')"
