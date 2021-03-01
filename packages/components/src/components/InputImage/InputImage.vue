@@ -1,15 +1,12 @@
 <template>
-	<div class="znpb-input-image__wrapper"
-	>
+	<div class="znpb-input-image__wrapper">
 		<div
 			class="znpb-input-image-holder"
 			:style="wrapperStyles"
 			ref="imageHolder"
 			@click="openMediaModal"
 		>
-			<ActionsOverlay
-				:show-overlay="!isDragging"
-			>
+			<ActionsOverlay :show-overlay="!isDragging">
 				<img
 					:src="imageSrc"
 					class="znpb-input-image-holder__image"
@@ -28,7 +25,8 @@
 				</template>
 
 			</ActionsOverlay>
-			<div class="znpb-drag-icon-wrapper"
+			<div
+				class="znpb-drag-icon-wrapper"
 				v-if="imageSrc && shouldDragImage && ( previewExpanded || !shouldDisplayExpander )"
 				@mousedown.stop="startDrag"
 				ref="dragButton"
@@ -42,9 +40,7 @@
 				:class="{'znpb-actions-overlay__expander--icon-rotated': previewExpanded}"
 				@click.stop="toggleExpand"
 			>
-				<strong
-					class="znpb-actions-overlay__expander-text"
-				>
+				<strong class="znpb-actions-overlay__expander-text">
 					{{ previewExpanded ? 'CONTRACT' : 'EXPAND' }}
 				</strong>
 				<!-- <span>{{mouseOverExpander}}</span> -->
@@ -68,21 +64,15 @@
 			class="znpb-input-image__custom-size-wrapper"
 		>
 
-			<InputWrapper
-				title="Image size"
-			>
+			<InputWrapper title="Image size">
 				<InputSelect
 					:options="imageSizes"
 					v-model="sizeValue"
 				/>
 			</InputWrapper>
 
-			<InputWrapper
-				v-if="sizeValue === 'custom'"
-			>
-				<CustomSize
-					v-model="customSizeValue"
-				/>
+			<InputWrapper v-if="sizeValue === 'custom'">
+				<CustomSize v-model="customSizeValue" />
 			</InputWrapper>
 
 		</div>
@@ -130,12 +120,12 @@ export default {
 			default: false
 		},
 		positionLeft: {
-			type: [ Number, String ],
+			type: [Number, String],
 			required: false,
 			default: '50%'
 		},
 		positionTop: {
-			type: [ Number, String ],
+			type: [Number, String],
 			required: false,
 			default: '50%'
 		},
@@ -247,12 +237,12 @@ export default {
 
 			set (newValue) {
 				if (this.show_size) {
-					this.$emit('update:modelValue',	{
+					this.$emit('update:modelValue', {
 						...this.modelValue,
 						...newValue
 					})
 				} else {
-					this.$emit('update:modelValue',	newValue)
+					this.$emit('update:modelValue', newValue)
 				}
 			}
 		},
@@ -290,7 +280,7 @@ export default {
 		}
 	},
 	methods: {
-		capitalize (string) 		{
+		capitalize (string) {
 			return string.charAt(0).toUpperCase() + string.slice(1)
 		},
 		// onCustomSizeSelected () {
@@ -423,7 +413,7 @@ export default {
 
 			if (this.show_size) {
 				// Reset all other values when selecting a new image
-				this.$emit('update:modelValue',	{
+				this.$emit('update:modelValue', {
 					image: selection.get('url')
 				})
 			} else {
@@ -559,12 +549,12 @@ export default {
 .znpb-input-image-holder {
 	position: relative;
 	overflow: hidden;
+	padding: 5px;
 	margin-bottom: 20px;
+	box-shadow: 0 0 0 2px var(--zion-border-color);
+	border-radius: 3px;
 	transition: all .5s ease;
 	cursor: pointer;
-	border-radius: 3px;
-    box-shadow: 0 0 0 2px var(--zion-border-color);
-    padding: 5px;
 	&__image {
 		display: block;
 		margin: 0 auto;

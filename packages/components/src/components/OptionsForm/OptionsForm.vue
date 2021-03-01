@@ -1,16 +1,39 @@
 <template>
 	<div class="znpb-options-form-wrapper">
-		<OptionWrapper
+		<template
 			v-for="(optionConfig, optionId) in optionsSchema"
 			:key="optionId"
-			:schema="optionConfig"
-			:option-id="optionId"
-			:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
-			:get-schema-from-path="getOptionSchemaFromPath"
-			:compile-placeholder="compilePlaceholder"
-			@update:modelValue="setValue(...$event)"
-			@change="onOptionChange"
-		/>
+		>
+			<div
+				v-if="optionConfig.breadcrumbs"
+				class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search"
+			>
+				<div
+					class="znpb-options-breadcrumbs-path"
+					v-for="(breadcrumb, i) in optionConfig.breadcrumbs"
+					:key="i"
+				>
+					<span v-html="optionConfig.breadcrumbs[i]"></span>
+					<Icon
+						icon="select"
+						class="znpb-options-breadcrumbs-path-icon"
+						v-if="(i <= optionConfig.breadcrumbs.length)"
+					/>
+
+				</div>
+				<span v-html="optionConfig.title"></span>
+			</div>
+
+			<OptionWrapper
+				:schema="optionConfig"
+				:option-id="optionId"
+				:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
+				:get-schema-from-path="getOptionSchemaFromPath"
+				:compile-placeholder="compilePlaceholder"
+				@update:modelValue="setValue(...$event)"
+				@change="onOptionChange"
+			/>
+		</template>
 
 	</div>
 </template>

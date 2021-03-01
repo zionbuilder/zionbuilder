@@ -92,6 +92,9 @@ class Image extends Element {
 				'default'     => [
 					'image' => Utils::get_file_url( 'assets/img/no-image.jpg' ),
 				],
+				'dynamic'     => [
+					'enabled' => true,
+				],
 			]
 		);
 
