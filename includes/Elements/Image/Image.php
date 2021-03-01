@@ -238,7 +238,7 @@ class Image extends Element {
 		);
 
 		// Don't proceed if we don't have an image
-		if ( ! isset( $image_value['image'] ) ) {
+		if ( empty( $image_value['image'] ) ) {
 			return;
 		}
 		$html_tag = 'div';
