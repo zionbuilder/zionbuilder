@@ -40,7 +40,7 @@ module.exports = (options, args) => {
 			]
 
 			config.optimization = {
-				minimize: false
+				minimize: true
 			}
 		}
 
