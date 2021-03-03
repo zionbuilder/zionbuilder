@@ -3,6 +3,7 @@
 		class="zb-column"
 		:element="element"
 		:tag="htmlTag"
+		v-bind="extraAttributes"
 	>
 
 		<template #start>
@@ -27,20 +28,26 @@
 		</template>
 
 		<template #end>
-			<slot
-				name="end"
-			/>
+			<slot name="end" />
 		</template>
 	</SortableContent>
 </template>
 
 <script>
+import { getLinkAttributes } from '@zb/utils'
+
 export default {
 	name: 'zion_column',
 	props: ['options', 'api', 'element'],
 	computed: {
 		htmlTag () {
+			if (this.options.link && this.options.link.link) {
+				return 'a'
+			}
 			return this.options.tag || 'div'
+		},
+		extraAttributes () {
+			return getLinkAttributes(this.options.link)
 		},
 		topMask () {
 			return this.shapes['top']

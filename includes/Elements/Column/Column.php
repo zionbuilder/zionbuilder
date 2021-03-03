@@ -173,6 +173,15 @@ class Column extends Element {
 		);
 
 		$options->add_option(
+			'link',
+			[
+				'type'        => 'link',
+				'description' => 'Convert this column into a link tag',
+				'title'       => __( 'Link', 'zionbuilder' ),
+			]
+		);
+
+		$options->add_option(
 			'tag',
 			[
 				'type'        => 'select',
@@ -456,6 +465,12 @@ class Column extends Element {
 	}
 
 	public function get_wrapper_tag( $options ) {
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			return 'a';
+		}
+
 		return $options->get_value( 'tag', 'div' );
 	}
 
@@ -482,6 +497,11 @@ class Column extends Element {
 	public function before_render( $options ) {
 		// Add the grid column class
 		$this->render_attributes->add( 'wrapper', 'class', 'zb-column' );
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			$this->attach_link_attributes( 'wrapper', $link );
+		}
 	}
 
 	/**

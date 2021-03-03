@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.6
-Stable tag: 1.2.3
+Stable tag: 2.0.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -224,17 +224,14 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 == Changelog ==
 = 2.0.0 2021-02-26 =
-* Feature: Theme builder ( header and footer builder )
-* Feature: Added repeater functionality for all elements
-* Feature: Added white label functionality
-* Feature: Added ability to add custom attributes to elements
 * Feature: Added breadcrumbs above options when using element options search
 * Feature: Added element icon for elements in tree view
 * Feature: Added categories to add elements popup
 * Feature: Added move element action to history
+* Feature: Added link option for column
 * Improvement: White space typography option
 * Improvement: Default WordPress themes compatibility
-* Improvement: Tooltip and rest
+* Improvement: Tooltip and rest API
 * Improvement: Visual improvements for Panel Element Options and OptionsForm
 * Improvement: Visual improvement for has changes bullet
 * Improvement: Added element icons to treeview and wireframe view
@@ -246,7 +243,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Improvement: Added string in case no value added for inline edit
 * Improvement: Added message when the element has no specific options
 * Improvement: Added background video options
-* Improvement: Allow theme to hook into plugin integrations
+* Improvement: Allow themes to hook into plugin integrations
 * Improvement: Added invalid element component
 * Fixed errors when ssl is not properly set on websites
 * Fixed cannot properly drag items inside tabs
