@@ -219,21 +219,22 @@ class Icons {
 	public function get_icon_package_css( $icon_package_config ) {
 		$font_name = esc_html( $icon_package_config['name'] );
 
-		$icon_file = $icon_package_config['url'] . $icon_package_config['file_name'];
+		$icon_file            = $icon_package_config['url'] . $icon_package_config['file_name'];
+		$normalized_font_name = preg_replace( '/\s+/', '_', $font_name );
 		return "
 			@font-face {
-				font-family: '{$font_name}'; font-weight: normal; font-style: normal;
-				src: url('{$icon_file}.eot');
-				src: url('{$icon_file}.eot#iefix') format('embedded-opentype'),
-				url('{$icon_file}.woff') format('woff'),
-				url('{$icon_file}.ttf') format('truetype'),
-				url('{$icon_file}.svg#{$font_name}') format('svg');
+				font-family: \"{$font_name}\"; font-weight: normal; font-style: normal;
+				src: url(\"{$icon_file}.eot\");
+				src: url(\"{$icon_file}.eot#iefix\") format(\"embedded-opentype\"),
+				url(\"{$icon_file}.woff\") format(\"woff\"),
+				url(\"{$icon_file}.ttf\") format(\"truetype\"),
+				url(\"{$icon_file}.svg#{$normalized_font_name}\") format(\"svg\");
 				font-style: normal;
 				font-weight: 400;
 				font-display: block;
 			}
-			[data-znpbiconfam='{$font_name}']:before, [data-znpbiconfam='{$font_name}'] {
-				font-family: '{$font_name}';
+			[data-znpbiconfam=\"{$font_name}\"]:before, [data-znpbiconfam=\"{$font_name}\"] {
+				font-family: \"{$font_name}\";
 				font-weight: 400;
 			}
 		";
