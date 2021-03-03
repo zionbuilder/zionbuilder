@@ -73,13 +73,9 @@ class IconList extends Element {
 			[
 				'type'             => 'custom_selector',
 				'columns'          => 2,
-				'default'          => 'inherit',
+				'default'          => '',
 				'title'            => 'Layout',
 				'options'          => [
-					[
-						'name' => __( 'inherit', 'zionbuilder' ),
-						'id'   => 'inherit',
-					],
 					[
 						'name' => __( 'column', 'zionbuilder' ),
 						'id'   => 'column',
@@ -203,6 +199,40 @@ class IconList extends Element {
 				'title'       => __( 'Link', 'zionbuilder' ),
 			]
 		);
+
+		$icons->add_option(
+			'icon_color',
+			[
+				'type'        => 'colorpicker',
+				'title'       => __( 'Icon Color', 'zionbuilder' ),
+				'description' => __( 'Select the color of the icon', 'zionbuilder' ),
+				'layout'      => 'inline',
+				'default'     => '#006dd2',
+				'css_style'   => [
+					[
+						'selector' => '{{ELEMENT}} .zb-el-iconList__item--{{INDEX}} .zb-el-iconList__itemIcon',
+						'value'    => 'color: {{VALUE}}',
+					],
+				],
+			]
+		);
+
+		$icons->add_option(
+			'text_color',
+			[
+				'type'        => 'colorpicker',
+				'title'       => __( 'Text Color', 'zionbuilder' ),
+				'description' => __( 'Select the color of the text', 'zionbuilder' ),
+				'layout'      => 'inline',
+				'default'     => '#000',
+				'css_style'   => [
+					[
+						'selector' => '{{ELEMENT}} .zb-el-iconList__item--{{INDEX}} .zb-el-iconList__itemText',
+						'value'    => 'color: {{VALUE}}',
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -215,9 +245,17 @@ class IconList extends Element {
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
+			'item_styles',
+			[
+				'title'    => esc_html__( 'Item styles', 'zionbuilder' ),
+				'selector' => '{{ELEMENT}} .zb-el-iconList__item',
+
+			]
+		);
+		$this->register_style_options_element(
 			'text_styles',
 			[
-				'title'      => esc_html__( 'Item styles', 'zionbuilder' ),
+				'title'      => esc_html__( 'Text styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-iconList__itemText',
 				'render_tag' => 'button_text',
 			]
@@ -230,6 +268,7 @@ class IconList extends Element {
 				'render_tag' => 'icon',
 			]
 		);
+
 	}
 
 	/**
@@ -267,18 +306,25 @@ class IconList extends Element {
 	 */
 	public function render( $options ) {
 		$icons = $options->get_value( 'icons', [] );
-
+		$index = 0;
 		foreach ( $icons as $config ) {
-			$this->render_single_icon( $config, $options );
+			$this->render_single_icon( $config, $options, $index );
+			$index++;
+
 		}
 	}
 
-	public function render_single_icon( $config, $options ) {
-		$icon_position = $options->get_value( 'icon_position', 'left' );
-		$icon_html     = '';
-		$text_html     = '';
-		$html_tag      = 'span';
-		$link          = ! empty( $config['link'] ) ? $config['link'] : false;
+	public function render_single_icon( $config, $options, $index ) {
+		$icon_position    = $options->get_value( 'icon_position', 'left' );
+		$icon_html        = '';
+		$text_html        = '';
+		$html_tag         = 'span';
+		$link             = ! empty( $config['link'] ) ? $config['link'] : false;
+		$item_index_class = sprintf( 'zb-el-iconList__item zb-el-iconList__item--%s zb-el-iconList__item--icon%s', $index, $icon_position );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconList__itemIcon' ] );
+		$combined_text_attr = $this->render_attributes->get_combined_attributes( 'text_styles', [ 'class' => 'zb-el-iconList__itemText' ] );
+		$combined_item_attr = $this->render_attributes->get_combined_attributes( 'item_styles', [ 'class' => $item_index_class ] );
 
 		if ( ! empty( $link['link'] ) ) {
 			$this->attach_link_attributes( 'item', $link );
@@ -291,10 +337,7 @@ class IconList extends Element {
 				'span',
 				'icon',
 				'',
-				[
-					'class' => 'zb-el-iconList__itemIcon',
-
-				]
+				$combined_icon_attr
 			);
 		}
 
@@ -303,9 +346,7 @@ class IconList extends Element {
 				'span',
 				'button_text',
 				$config['text'],
-				[
-					'class' => 'zb-el-iconList__itemText',
-				]
+				$combined_text_attr
 			);
 		}
 
@@ -313,12 +354,7 @@ class IconList extends Element {
 			$html_tag,
 			'item',
 			[ $icon_html, $text_html ],
-			[
-				'class' => [
-					'zb-el-iconList__item',
-					sprintf( 'zb-el-iconList__item--icon%s', $icon_position ),
-				],
-			]
+			$combined_item_attr
 		);
 	}
 }

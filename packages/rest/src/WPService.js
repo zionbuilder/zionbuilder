@@ -2,7 +2,7 @@ import axios from 'axios'
 
 let restConfig = window.ZnRestConfig
 
-const Service2 = axios.create({
+export const WPService = axios.create({
 	baseURL: `${restConfig.rest_root}wp/v2`,
 	headers: {
 		'X-WP-Nonce': restConfig.nonce,
@@ -10,5 +10,3 @@ const Service2 = axios.create({
 		'Content-Type': 'application/json'
 	}
 })
-
-export default Service2

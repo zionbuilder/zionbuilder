@@ -5,10 +5,6 @@
 	"main": "./src/index",
 	"author": "zionbuilder.io",
 	"license": "MIT",
-	"scripts": {
-		"build": "webpack",
-		"dev": "webpack --watch"
-	},
 	"gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a",
 	"dependencies": {
 		"@zionbuilder/css-variables": "1.0.0",

@@ -177,7 +177,8 @@ export default {
 .znpb-editor-icon-wrapper {
 	// icon is inline
 	display: inline-flex;
-	// if icon has background it stays aligned vertically
+
+// if icon has background it stays aligned vertically
 	align-items: center;
 }
 .znpb-editor-icon {
@@ -408,6 +409,36 @@ svg:not(:root).icon {
 		}
 	}
 	&.zion-templates-header {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-tags-attributes {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-description {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-meta {
+		path:last-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-images {
+		path:first-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-rating {
+		path:first-child {
+			opacity: .5;
+		}
+	}
+	&.zion-element-woo-product-related {
 		path:last-child {
 			opacity: .5;
 		}

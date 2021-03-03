@@ -122,7 +122,7 @@ class Style {
 				usort(
 					$gradient_config['colors'],
 					function( $a, $b ) {
-						return $a['position'] > $b['position'];
+						return $a['position'] > $b['position'] ? 1 : -1;
 					}
 				);
 

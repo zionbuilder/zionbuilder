@@ -1,22 +1,45 @@
 <template>
-	<div class="znpb-options-form-wrapper znpb-fancy-scrollbar">
-		<OptionWrapper
+	<div class="znpb-options-form-wrapper">
+		<template
 			v-for="(optionConfig, optionId) in optionsSchema"
 			:key="optionId"
-			:schema="optionConfig"
-			:option-id="optionId"
-			:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
-			:get-schema-from-path="getOptionSchemaFromPath"
-			:compile-placeholder="compilePlaceholder"
-			@update:modelValue="setValue(...$event)"
-			@change="onOptionChange"
-		/>
+		>
+			<div
+				v-if="optionConfig.breadcrumbs"
+				class="znpb-options-breadcrumbs-path znpb-options-breadcrumbs-path--search"
+			>
+				<div
+					class="znpb-options-breadcrumbs-path"
+					v-for="(breadcrumb, i) in optionConfig.breadcrumbs"
+					:key="i"
+				>
+					<span v-html="optionConfig.breadcrumbs[i]"></span>
+					<Icon
+						icon="select"
+						class="znpb-options-breadcrumbs-path-icon"
+						v-if="(i <= optionConfig.breadcrumbs.length)"
+					/>
+
+				</div>
+				<span v-html="optionConfig.title"></span>
+			</div>
+
+			<OptionWrapper
+				:schema="optionConfig"
+				:option-id="optionId"
+				:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
+				:get-schema-from-path="getOptionSchemaFromPath"
+				:compile-placeholder="compilePlaceholder"
+				@update:modelValue="setValue(...$event)"
+				@change="onOptionChange"
+			/>
+		</template>
 
 	</div>
 </template>
 
 <script>
-import { provide, inject, watch, computed, reactive } from 'vue'
+import { provide, inject, computed } from 'vue'
 import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '@composables'
 import { unset, set, get, cloneDeep } from 'lodash-es'
 
@@ -81,6 +104,10 @@ export default {
 			return get(topModelValue.value, path)
 		}
 
+		const getValueByPath = (path, defaultValue = null) => {
+			return get(props.modelValue, path, defaultValue)
+		}
+
 		/**
 		 * Will update a value by path
 		 */
@@ -90,12 +117,30 @@ export default {
 			emit('update:modelValue', clonedValue)
 		}
 
-		const getValueByPath = (path, defaultValue = null) => {
-			return get(props.modelValue, path, defaultValue)
+		const deleteValueByPath = (path) => {
+			const clonedValue = cloneDeep(props.modelValue)
+			unset(clonedValue, path)
+			emit('update:modelValue', clonedValue)
 		}
 
-		const deleteValueByPath = (path) => {
-			return unset(props.modelValue, path)
+		function deleteValues (allPaths) {
+			let newValues = { ...props.modelValue }
+			allPaths.forEach((path) => {
+				const paths = path.split('.')
+
+				paths.reduce((acc, key, index) => {
+					if (index === paths.length - 1) {
+						let dynamicValue = get(acc, `__dynamic_content__[${key}]`)
+						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key]
+						return true
+					}
+
+					acc[key] = acc[key] ? { ...acc[key] } : {}
+
+					return acc[key]
+				}, newValues)
+			})
+			emit('update:modelValue', newValues)
 		}
 
 		// Provide methods for child inputs
@@ -105,7 +150,9 @@ export default {
 			deleteValueByPath,
 			getTopModelValueByPath,
 			updateTopModelValueByPath,
-			deleteTopModelValueByPath
+			deleteTopModelValueByPath,
+			modelValue: computed(() => props.modelValue),
+			deleteValues
 		})
 
 		// OLD
@@ -143,7 +190,8 @@ export default {
 			getValueByPath,
 			deleteValue,
 			activePseudoSelector,
-			elementInfo
+			elementInfo,
+			deleteValues
 		}
 	},
 	computed: {
@@ -193,6 +241,8 @@ export default {
 					if (conditionsMet && validationType === 'includes' && value.includes(savedValue)) {
 						conditionsMet = true
 					} else if (conditionsMet && validationType === 'not_in' && !value.includes(savedValue)) {
+						conditionsMet = true
+					} else if (conditionsMet && validationType === 'value_set' && typeof savedValue !== 'undefined') {
 						conditionsMet = true
 					} else {
 						conditionsMet = false
@@ -261,29 +311,6 @@ export default {
 			}
 		},
 
-		deleteValues (allPaths) {
-
-			let newValues = { ...this.modelValue }
-			allPaths.forEach((path) => {
-				const paths = path.split('.')
-
-				paths.reduce((acc, key, index) => {
-					if (index === paths.length - 1) {
-						let dynamicValue = get(acc, `__dynamic_content__[${key}]`)
-						dynamicValue !== undefined ? delete acc.__dynamic_content__ : delete acc[key]
-						return true
-					}
-
-					acc[key] = acc[key] ? { ...acc[key] } : {}
-
-					return acc[key]
-				}, newValues)
-			})
-			this.$emit('update:modelValue', newValues)
-		},
-		onDeleteOptions (optionIds) {
-			this.deleteValues(optionIds)
-		},
 		getValue (optionSchema) {
 			if (optionSchema.is_layout) {
 				return this.modelValue

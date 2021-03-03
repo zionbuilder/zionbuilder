@@ -292,7 +292,16 @@ class ProgressBars extends Element {
 		// Using helper methods will go through caching policy
 		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/ProgressBars/frontend.css' ) );
 	}
-
+	/**
+	 * Sets wrapper css classes
+	 *
+	 * @param \ZionBuilder\Options\Options $options
+	 *
+	 * @return void
+	 */
+	public function before_render( $options ) {
+		$this->set_wrapper_tag( 'ul' );
+	}
 	/**
 	 * Renders the element based on options
 	 *
@@ -301,7 +310,6 @@ class ProgressBars extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$this->set_wrapper_tag( 'ul' );
 
 		$this->render_tag_group(
 			'li',
@@ -323,15 +331,15 @@ class ProgressBars extends Element {
 			'bar_style'       => 'square',
 		];
 
-		$settings                = wp_parse_args( $bar_settings, $defaults );
-		$title                   = $settings['title'];
-		$fill_percentage         = $settings['fill_percentage'];
-		$bar_title_style_classes = $this->get_style_classes_as_string( 'title_styles', [ 'zb-el-progressBars__barTitle' ] );
+		$settings        = wp_parse_args( $bar_settings, $defaults );
+		$title           = $settings['title'];
+		$fill_percentage = $settings['fill_percentage'];
 
 		ob_start(); ?>
 
 		<?php if ( ! empty( $title ) ) : ?>
-		<h5 class="<?php echo esc_attr( $bar_title_style_classes ); ?>">
+		<h5  <?php echo $this->render_attributes->get_attributes_as_string( 'title_styles', [ 'class' => 'zb-el-progressBars__barTitle' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+>
 			<?php echo wp_kses_post( $title ); ?>
 		</h5>
 		<?php endif; ?>

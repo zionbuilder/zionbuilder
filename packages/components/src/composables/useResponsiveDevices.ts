@@ -65,12 +65,12 @@ export const useResponsiveDevices = () => {
 		activeResponsiveDeviceId.value = device
 	}
 
-	const setActiveResponsiveOptions = (optionInstance) => {
-		activeResponsiveOptions.value = optionInstance
+	const setActiveResponsiveOptions = (instanceConfig) => {
+		activeResponsiveOptions.value = instanceConfig
 	}
 
 	const getActiveResponsiveOptions = () => {
-		return activeResponsiveOptions
+		return activeResponsiveOptions.value
 	}
 
 	const removeActiveResponsiveOptions = () => {

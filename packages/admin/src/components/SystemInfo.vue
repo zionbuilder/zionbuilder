@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-admin-content-wrapper">
-		<div class="znpb-admin-content znpb-admin-content--left">
+		<div class="znpb-admin-content znpb-admin-content--left znpb-admin-content--hiddenXs">
 		</div>
 		<PageTemplate>
 			<Loader v-if="!loaded" />

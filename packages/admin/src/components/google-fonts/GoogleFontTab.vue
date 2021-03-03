@@ -34,10 +34,10 @@
 				append-to="element"
 				:modifiers="[
 					{
-					name: 'offset',
-					options: {
-						offset: [0, 15],
-					},
+						name: 'offset',
+						options: {
+							offset: [0, 15],
+						},
 					},
 				]"
 				:content="$translate('click_to_delete_font')"
@@ -191,6 +191,11 @@ export default {
 	@extend %list-item-helper;
 	padding: 17px 10px;
 
+	@media (max-width: 767px) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	& > div {
 		position: relative;
 		flex: 1;
@@ -200,6 +205,18 @@ export default {
 
 	& > &-title, & > &-variants {
 		min-width: 32%;
+
+		@media (max-width: 991px) {
+			min-width: 20%;
+		}
+	}
+
+	&-title,
+	&-variants,
+	&-subset {
+		@media (max-width: 767px) {
+			margin-bottom: 10px;
+		}
 	}
 
 	&-title {
@@ -218,14 +235,23 @@ export default {
 		background: transparent;
 		box-shadow: none;
 		border: 0;
-		.znpb-admin__google-font-tab-title, .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset, .znpb-admin__google-font-tab-actions {
+
+		@media (max-width: 767px) {
+			display: none;
+		}
+
+		.znpb-admin__google-font-tab-title,
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset,
+		.znpb-admin__google-font-tab-actions {
 			color: $font-color;
 			font-size: 11px;
 			font-weight: 700;
 			letter-spacing: .5px;
 			text-transform: uppercase;
 		}
-		.znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset {
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset {
 			text-align: left;
 		}
 		&:hover {
@@ -235,6 +261,13 @@ export default {
 	&-actions {
 		display: flex;
 		justify-content: flex-end;
+		flex-grow: 0 !important;
+		margin-left: 30px;
+
+		@media (max-width: 767px) {
+			margin-left: 0;
+		}
+
 		.znpb-edit-icon-pop {
 			cursor: pointer;
 		}

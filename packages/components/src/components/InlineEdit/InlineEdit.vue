@@ -6,14 +6,15 @@
 		@dblclick.stop="activate"
 		@blur="deactivate"
 		ref="root"
+		v-html="computedModelValue"
 	>
-		{{modelValue}}
+
 	</component>
 </template>
 
 <script>
-import { ref, watch, nextTick } from 'vue'
-
+import { ref, watch, nextTick, computed } from 'vue'
+import { translate } from '@zb/i18n'
 export default {
 	name: 'InlineEdit',
 	props: {
@@ -39,7 +40,12 @@ export default {
 		watch(() => props.active, (newValue) => {
 			if (newValue !== isActive.value) {
 				isActive.value = newValue
+				activate()
 			}
+		})
+
+		let computedModelValue = computed(() => {
+			return props.modelValue && props.modelValue.length ? props.modelValue : translate('editable_name')
 		})
 
 		/**
@@ -74,7 +80,8 @@ export default {
 			isActive,
 			activate,
 			deactivate,
-			root
+			root,
+			computedModelValue
 		}
 	}
 }

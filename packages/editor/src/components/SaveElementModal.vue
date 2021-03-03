@@ -142,7 +142,6 @@ export default {
 					const found = this.templateCategoriesOption.findIndex(cat => cat.id === addedCat.slug)
 
 					if (found === -1) {
-						console.log(this.templateCategories);
 						this.templateCategories.push(addedCat)
 					}
 				}

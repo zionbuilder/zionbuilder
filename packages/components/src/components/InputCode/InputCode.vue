@@ -59,6 +59,7 @@ export default {
 			editor = window.wp.CodeMirror.fromTextArea(codeMirrorTextarea.value, {
 				mode: props.mode,
 				lineNumbers: true,
+				lineWrapping: true,
 				lint,
 				autoCloseBrackets: true,
 				matchBrackets: true,

@@ -18,8 +18,8 @@
 
 <script>
 export default {
-	name: 'PageTemplate'
-}
+	name: "PageTemplate"
+};
 </script>
 
 <style lang="scss">
@@ -34,11 +34,42 @@ export default {
 		flex-grow: 1;
 	}
 	&--left {
+		position: relative;
 		display: flex;
 		flex-basis: 240px;
 		flex-shrink: 0;
 		padding: 0 0 40px 0;
 		border-right: 1px solid $surface-variant;
+
+		@media (max-width: 1399px) {
+			justify-content: center;
+			align-items: flex-start;
+			flex-basis: 40px;
+			width: 40px;
+
+			 > .znpb-admin-side-menu {
+				position: absolute;
+				top: 0;
+				left: 39px;
+				z-index: 10;
+				display: none;
+				width: 200px;
+				background: #fff;
+				box-shadow: 0 4px 40px -20px rgba(0, 0, 0, .4);
+				border: 1px solid #f1f1f1;
+				border-radius: 3px;
+
+				&.znpb-admin-side-menu--open {
+					display: block;
+				}
+			}
+		}
+	}
+
+	&.znpb-admin-content--hiddenXs {
+		@media (max-width: 1399px) {
+			display: none;
+		}
 	}
 
 	&__right {
@@ -48,6 +79,14 @@ export default {
 		flex-shrink: 0;
 		padding: 30px 30px 30px 15px;
 		border-left: 1px solid $surface-variant;
+
+		@media (max-width: 1399px) {
+			flex-basis: 200px;
+		}
+
+		@media (max-width: 991px) {
+			display: none;
+		}
 
 		p.znpb-admin-info-p {
 			margin-top: 0;

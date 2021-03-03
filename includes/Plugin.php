@@ -208,12 +208,14 @@ class Plugin {
 	 * @return void
 	 */
 	public function init() {
+		do_action( 'zionbuilder/before_init' );
+
 		$this->load_libraries();
 
 		// initiate permissions
+		$this->whitelabel       = new Whitelabel();
 		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
-		$this->whitelabel       = new Whitelabel();
 		$this->permissions      = new Permissions();
 		$this->fonts_manager    = new FontsManager();
 		$this->elements_manager = new ElementsManager();
@@ -284,6 +286,10 @@ class Plugin {
 		$this->version           = $version;
 
 		self::$instance = $this;
+
+		add_action( 'after_setup_theme', [ $this, 'init' ] );
+
+		do_action( 'zionbuilder/main' );
 	}
 
 

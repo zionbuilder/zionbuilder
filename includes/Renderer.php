@@ -119,7 +119,6 @@ class Renderer {
 		}
 	}
 
-
 	/**
 	 * Prepare content for render
 	 *
@@ -165,6 +164,14 @@ class Renderer {
 	 */
 	public function get_elements_instances() {
 		return $this->instantiated_elements;
+	}
+
+	public function get_element_instance( $element_uid ) {
+		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
+			return $this->instantiated_elements[$element_uid];
+		}
+
+		return false;
 	}
 
 	public function get_content( $area_id = 'content' ) {

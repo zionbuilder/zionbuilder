@@ -78,7 +78,7 @@
 						<Button
 							v-else
 							type="secondary"
-							@click="insertLibraryItem"
+							@click.stop="insertLibraryItem"
 							class="znpb-library-modal-header__insert-button"
 						>
 							<span v-if="!insertItemLoading">

@@ -22,7 +22,7 @@
 		>
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
-			<template v-if="showLabel && label && !hasSlots">
+			<template v-if="showLabel && label">
 				{{label}}
 			</template>
 		</span>
@@ -51,14 +51,12 @@ export default {
 		 * v-model/modelValue for checkbox
 		 */
 		modelValue: {
-			type: [String, Array, Boolean],
 			required: false
 		},
 		/**
 		 * value for checkbox
 		 */
 		optionValue: {
-			type: [String, Boolean],
 			required: false
 		},
 		/**
@@ -80,7 +78,7 @@ export default {
 			required: false
 		}
 	},
-	setup(props, { slots }) {
+	setup (props, { slots }) {
 		const hasSlots = computed(() => {
 			if (!slots.default) {
 				return false
@@ -185,6 +183,7 @@ export default {
 	cursor: pointer;
 
 	input[type="checkbox"].znpb-form__input-checkbox {
+		position: absolute;
 		width: 0;
 		height: 0;
 		margin: 0;
@@ -192,6 +191,10 @@ export default {
 
 		&:focus {
 			box-shadow: none;
+		}
+
+		&:before {
+			content: "";
 		}
 	}
 
@@ -220,15 +223,17 @@ input[type="checkbox"]:disabled ~ .znpb-checkmark {
 }
 
 .znpb-checkmark {
-	position: absolute;
+	position: relative;
 	top: 0;
 	left: 0;
+	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
 	background-color: $surface;
 	border: 2px solid $border-color;
 	border-radius: 3px;
 	transition: all .2s;
+
 	&--rounded {
 		border-radius: 50%;
 	}
@@ -241,6 +246,17 @@ input[type="checkbox"]:disabled ~ .znpb-checkmark {
 		content: "";
 		position: absolute;
 		display: none;
+	}
+}
+.znpb-checkbox-wrapper {
+	align-items: center;
+	margin-bottom: 10px;
+
+	.znpb-checkmark-option {
+		width: 100%;
+		margin-left: 10px;
+		font-weight: 500;
+		text-align: left;
 	}
 }
 </style>

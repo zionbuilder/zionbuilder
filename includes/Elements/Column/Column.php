@@ -84,6 +84,10 @@ class Column extends Element {
 		return true;
 	}
 
+	public function get_sortable_content_orientation() {
+		return 'vertical';
+	}
+
 	private function get_column_options() {
 		$columns = 12;
 		$options = [];
@@ -165,6 +169,15 @@ class Column extends Element {
 						'value'     => 'zb-column-offset{{RESPONSIVE_DEVICE_CSS}}--{{VALUE}}',
 					],
 				],
+			]
+		);
+
+		$options->add_option(
+			'link',
+			[
+				'type'        => 'link',
+				'description' => 'Convert this column into a link tag',
+				'title'       => __( 'Link', 'zionbuilder' ),
 			]
 		);
 
@@ -452,6 +465,12 @@ class Column extends Element {
 	}
 
 	public function get_wrapper_tag( $options ) {
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			return 'a';
+		}
+
 		return $options->get_value( 'tag', 'div' );
 	}
 
@@ -478,6 +497,11 @@ class Column extends Element {
 	public function before_render( $options ) {
 		// Add the grid column class
 		$this->render_attributes->add( 'wrapper', 'class', 'zb-column' );
+		$link = $options->get_value( 'link', false );
+
+		if ( ! empty( $link['link'] ) ) {
+			$this->attach_link_attributes( 'wrapper', $link );
+		}
 	}
 
 	/**

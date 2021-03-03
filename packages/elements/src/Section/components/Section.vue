@@ -24,7 +24,7 @@
 		/>
 
 		<SortableContent
-			v-bind="api.getAttributesForTag('inner_content')"
+			v-bind="api.getAttributesForTag('inner_content_styles')"
 			:element="element"
 			class="zb-section__innerWrapper"
 			:class="api.getStyleClasses('inner_content_styles')"

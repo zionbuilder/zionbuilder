@@ -83,6 +83,50 @@ class RenderAttributes {
 	}
 
 	/**
+	 * Combines a list of attributes with strings
+	 *
+	 * @param string $tag_id       The tag
+	 * @param array $extra_attributes The second list of attributes
+	 *
+	 * @return array The combined list of attributes
+	 *
+	 * @since 1.2.0
+	 */
+	public function get_combined_attributes( $tag_id = 'wrapper', $extra_attributes = [] ) {
+
+		$string_attr   = $this->get_attributes( $tag_id );
+		$combined_attr = $this->combine_attributes( $string_attr, $extra_attributes );
+
+		return $combined_attr;
+	}
+
+		/**
+	 * Combines a list of attributes with strings
+	 *
+	 * @param string $tag_id       The tag
+	 * @param array $extra_attributes The second list of attributes
+	 *
+	 * @return array The combined list of attributes
+	 *
+	 * @since 1.2.0
+	 */
+	public function get_combined_attributes_as_key_value( $tag_id, $extra_attributes ) {
+		$returned_value = [];
+		$string_attr    = $this->get_attributes( $tag_id );
+		$combined_attr  = $this->combine_attributes( $string_attr, $extra_attributes );
+
+		foreach ( $combined_attr as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$returned_value[$key] = esc_attr( implode( ' ', $value ) );
+			} else {
+				$returned_value[$key] = $value;
+			}
+		}
+
+		return $returned_value;
+	}
+
+	/**
 	 * Returns all registered attributes for a given tag id
 	 *
 	 * @param string         $tag_id The tag id for which the attributes will be retrieved

@@ -1,30 +1,32 @@
 const webpack = require('webpack')
 const path = require('path')
-const { DefinePlugin } = require('webpack')
 const {
-    info,
-    done
+	DefinePlugin
+} = require('webpack')
+const {
+	info,
+	done
 } = require('../util')
 
 module.exports = (options, args) => {
-    const service = process.ZIONBUILDER_SERVICE
+	const service = process.ZIONBUILDER_SERVICE
 
-    // Generate the manifest
-    service.generateManifest()
+	// Generate the manifest
+	service.generateManifest()
 
-    return new Promise((resolve, reject) => {
-        info('ZionBuilder Service is building files.')
+	return new Promise((resolve, reject) => {
+		info('ZionBuilder Service is building files.')
 
-        // Webpack
+		// Webpack
 		const configPath = service.resolve('webpack.config.js')
 		const webpackConfig = require(configPath)
 
-        const applyDynamicPublicPathToEntries = function(entries) {
-            Object.keys(entries).forEach(entry => {
-                const entryValue = entries[entry]
+		const applyDynamicPublicPathToEntries = function (entries) {
+			Object.keys(entries).forEach(entry => {
+				const entryValue = entries[entry]
 
-                entries[entry] = [ path.resolve(__dirname, '../util/dynamicPublicPath.js'), entryValue]
-            })
+				entries[entry] = [path.resolve(__dirname, '../util/dynamicPublicPath.js'), entryValue]
+			})
 		}
 
 		function applyDefines(config) {
@@ -36,6 +38,10 @@ module.exports = (options, args) => {
 					})
 				})
 			]
+
+			config.optimization = {
+				minimize: true
+			}
 		}
 
 		if (Array.isArray(webpackConfig)) {
@@ -48,36 +54,36 @@ module.exports = (options, args) => {
 			applyDefines(webpackConfig)
 		}
 
-        webpack(webpackConfig, (err, stats) => {
-            if (err) {
-                console.error(err.stack || err);
-                if (err.details) {
-                  console.error(err.details);
-                }
-                return;
-              }
+		webpack(webpackConfig, (err, stats) => {
+			if (err) {
+				console.error(err.stack || err);
+				if (err.details) {
+					console.error(err.details);
+				}
+				return;
+			}
 
-              const info = stats.toJson();
+			const info = stats.toJson();
 
-              if (stats.hasErrors()) {
-                console.error(info.errors);
-              }
+			if (stats.hasErrors()) {
+				console.error(info.errors);
+			}
 
-              if (stats.hasWarnings()) {
-                console.warn(info.warnings);
-              }
+			if (stats.hasWarnings()) {
+				console.warn(info.warnings);
+			}
 
-            if (err) {
-                return reject(err)
-            }
+			if (err) {
+				return reject(err)
+			}
 
-            if (stats.hasErrors()) {
-                return reject(`Build failed with errors.`)
-            }
+			if (stats.hasErrors()) {
+				return reject(`Build failed with errors.`)
+			}
 
-            done(`Build complete.`)
+			done(`Build complete.`)
 
-            resolve()
-        })
-    })
+			resolve()
+		})
+	})
 }

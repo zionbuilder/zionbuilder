@@ -5,16 +5,11 @@ module.exports = (config) => {
 	return {
 		plugins: [
 			new MiniCssExtractPlugin({
-				filename: '[name].css',
-				moduleFilename: ({name}) => {
-					return `css/${name}.css`
-				},
+				filename: 'css/[name].css'
 			})
 		],
 		module: {
-			rules: [
-
-				{
+			rules: [{
 					// find these extensions in our css, copy the files to the outputPath,
 					// and rewrite the url() in our css to point them to the new (copied) location
 					test: /\.(woff(2)?|eot|otf|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -29,12 +24,8 @@ module.exports = (config) => {
 				},
 				{
 					test: /\.css$/i,
-					use: [
-						{
+					use: [{
 							loader: require('mini-css-extract-plugin').loader,
-							options: {
-								hmr: true
-							}
 						},
 						{
 							loader: require.resolve('css-loader'),
@@ -46,12 +37,8 @@ module.exports = (config) => {
 				},
 				{
 					test: /\.s[ac]ss$/i,
-					use: [
-						{
-							loader: require('mini-css-extract-plugin').loader,
-							options: {
-								hmr: true
-							}
+					use: [{
+							loader: require('mini-css-extract-plugin').loader
 						},
 						// Translates CSS into CommonJS
 						{

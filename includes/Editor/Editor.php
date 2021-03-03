@@ -9,7 +9,7 @@ use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Elements\Masks;
-
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -297,8 +297,8 @@ class Editor {
 				],
 				'urls'                => [
 					'assets_url'        => Utils::get_file_url( 'assets' ),
-					'logo'              => Utils::get_logo_url(),
-					'loader'            => Utils::get_loader_url(),
+					'logo'              => Whitelabel::get_logo_url(),
+					'loader'            => Whitelabel::get_loader_url(),
 					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
 					'zion_admin'        => admin_url( 'admin.php?page=zionbuilder' ),
 					'updates_page'      => admin_url( 'update-core.php' ),
@@ -318,7 +318,6 @@ class Editor {
 				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
 				// Elements data
-				'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
 
 				// User data

@@ -25,6 +25,10 @@ class Localization {
 		return apply_filters(
 			'zionbuilder/localization/strings',
 			[
+				// Options panel
+				'no_options_found'                       => esc_html__( 'No options found', 'zionbuilder' ),
+				'element_has_no_specific_options'        => esc_html__( 'Element has no specific options', 'zionbuilder' ),
+
 				// Free vs pro
 				'manage_users_permissions_free'          => esc_html__( 'Want to give control to specific users?', 'zionbuilder' ),
 				'manage_users_permissions_title'         => esc_html__( 'specific users control', 'zionbuilder' ),
@@ -35,7 +39,12 @@ class Localization {
 				'pro_manage_global_gradients_free'       => esc_html__( 'Global gradients allows you to define a gradient configuration that you can use in builder, and everytime this gradient configuration changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
 				'custom_fonts_upgrade_message'           => esc_html__( 'With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder' ),
 				'typekit_fonts_upgrade_message'          => esc_html__( 'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.', 'zionbuilder' ),
-				'custom_icons_upgrade_message'           => esc_html__( 'Zion Builder PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
+
+				'custom_icons_upgrade_message'           => sprintf(
+					/* translators: %s is the whitelabel name; */
+					_x( '%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
 				'pro_features'                           => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 				'learn_more_about_pro'                   => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 
@@ -77,8 +86,18 @@ class Localization {
 				'sync_library'                           => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                => esc_html__( 'New Url', 'zionbuilder' ),
-				'regenrate_info'                         => esc_html__( 'Zion Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.', 'zionbuilder' ),
-				'tools_info'                             => esc_html__( 'Styles set in Zion are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.', 'zionbuilder' ),
+
+				'regenrate_info'                         => sprintf(
+					/* translators: %s is the whitelabel library name; */
+					_x( '%s Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
+
+				'tools_info'                             => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					_x( 'Styles set in %s are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
 				'replace_info'                           => __( '<strong>Important:</strong> It is strongly recommended that you <a href="https://zionbuilder.io/documentation/replace-url-s/">backup your database</a> before using Replace URL.', 'zionbuilder' ),
 
 				// System info
@@ -229,6 +248,7 @@ class Localization {
 				'tree_view'                              => __( 'Tree view', 'zionbuilder' ),
 				'section_view'                           => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                         => __( 'Wireframe', 'zionbuilder' ),
+				'editable_name'                          => __( 'editable name', 'zionbuilder' ),
 				//Save actions
 				'page_saved_publish'                     => __( 'This page was successfully saved and published', 'zionbuilder' ),
 				'page_saved'                             => __( 'This page was successfully saved', 'zionbuilder' ),
@@ -320,13 +340,20 @@ class Localization {
 
 				// PanelElementOptions
 				'element_options_default_message'        => __( 'Start typing in the search field and the found options will appear here', 'zionbuilder' ),
+				'styles'        => __( 'Styles', 'zionbuilder' ),
+				'advanced'        => __( 'Advanced', 'zionbuilder' ),
 
 				// history
 				'history_now'                            => esc_html__( 'Now', 'zionbuilder' ),
 				'initial_state'                          => esc_html__( 'Initial State', 'zionbuilder' ),
 
 				// LibraryModal
-				'zion_library'                           => __( 'Zion Library', 'zionbuilder' ),
+
+				'zion_library'                           => sprintf(
+					/* translators: %s is the whitelabel library name */
+					_x( '%s Library', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
 				'library_insert'                         => __( 'Insert', 'zionbuilder' ),
 				'local_library'                          => __( 'Local Library', 'zionbuilder' ),
 				'library_insert_tooltip'                 => __( 'Insert this item into page', 'zionbuilder' ),
@@ -426,6 +453,11 @@ class Localization {
 				'add_background_gradient'                => __( 'Add new background gradient', 'zionbuilder' ),
 				'or'                                     => __( 'or', 'zionbuilder' ),
 
+				// Custom attributes
+				'meet_custom_attributes'                 => __( 'Meet custom attributes', 'zionbuilder' ),
+				'meet_custom_attributes_desc'            => __( 'Generate custom attributes to every inner parts of the element', 'zionbuilder' ),
+				'meet_custom_attributes_link'            => __( 'Click here to learn more about PRO.', 'zionbuilder' ),
+
 				//Link
 				'add_an_url'                             => __( 'Add an URL', 'zionbuilder' ),
 				'link_new_window'                        => __( 'New Window', 'zionbuilder' ),
@@ -508,7 +540,7 @@ class Localization {
 
 				// permissions
 				'manage_users_permissions'               => __(
-					"Manage your users's permissions. Upgrade to PRO if you want to select which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.",
+					'Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.',
 					'zionbuilder'
 				),
 				'manage_wordpress_users_permisions'      => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
@@ -528,7 +560,12 @@ class Localization {
 				//ToolsPage
 				'update_site_address_url'                => __( 'Update Site Address (URL)', 'zionbuilder' ),
 				'update_url'                             => __( 'Update URL', 'zionbuilder' ),
-				'enter_old_and_new_url'                  => __( "Enter your old and new URLs for your WordPress installation, to update all Zion data (Relevant for domain transfers or move to 'HTTPS').", 'zionbuilder' ),
+
+				'enter_old_and_new_url'                  => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					_x( 'Enter your old and new URLs for your WordPress installation, to update all %s data (Relevant for domain transfers or move to "HTTPS").', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
 
 				// ModalListItem
 				'user_has_permissions_remove'            => __( 'This user already has permissions. Click to remove', 'zionbuilder' ),
@@ -550,7 +587,7 @@ class Localization {
 				'discard_changes_for'                    => __( 'Discard changes for', 'zionbuilder' ),
 
 				// icons modal
-				'icon_library_title'                    => __( 'Icon Library', 'zionbuilder' ),
+				'icon_library_title'                     => __( 'Icon Library', 'zionbuilder' ),
 
 				// InputWrapper
 				'discard_changes'                        => __( 'Discard changes', 'zionbuilder' ),
@@ -592,9 +629,24 @@ class Localization {
 				'help_modal_title'                       => __( 'Help Center', 'zionbuilder' ),
 				'tour'                                   => __( 'Start tour', 'zionbuilder' ),
 				'key_shortcuts'                          => __( 'Key shortcuts', 'zionbuilder' ),
-				'about_zion_builder'                     => __( 'About Zion Builder', 'zionbuilder' ),
+
+				'about_zion_builder'                     => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					_x( 'About %s', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
+
+				'zion_builder'                           => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					'%s ',
+					Whitelabel::get_title()
+				),
 				'back_to_wp_dashboard'                   => __( 'Back to WP Dashboard', 'zionbuilder' ),
-				'back_to_zion_dashboard'                 => __( 'ZionBuilder Dashboard', 'zionbuilder' ),
+				'back_to_zion_dashboard'                 => sprintf(
+					/* translators: %s is the whitelabel plugin name */
+					_x( '%s  Dashboard', 'zionbuilder' ),
+					Whitelabel::get_title()
+				),
 				'save_template'                          => __( 'Save Template', 'zionbuilder' ),
 				'save_draft'                             => __( 'Save Page', 'zionbuilder' ),
 				'save_page'                              => __( 'Save & Publish Page', 'zionbuilder' ),
@@ -629,6 +681,10 @@ class Localization {
 
 				// Pricing Box
 				'featured'                               => __( 'Featured', 'zionbuilder' ),
+				'moved'                                  => __( 'Moved', 'zionbuilder' ),
+
+				// Element
+				'invalid_element'                        => __( 'Invalid Element', 'zionbuilder' ),
 			]
 		);
 	}

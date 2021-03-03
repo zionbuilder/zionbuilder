@@ -9,19 +9,21 @@
 				:title="title"
 				:active="active"
 				@click="activeTab = uid"
+				v-bind="api.getAttributesForTag('inner_content_styles_title')"
 				:class="api.getStyleClasses('inner_content_styles_title')"
 			/>
 		</ul>
 
 		<div
 			class="zb-el-tabs-content"
+			v-bind="api.getAttributesForTag('inner_content_styles_content')"
 			:class="api.getStyleClasses('inner_content_styles_content')"
 		>
 			<Element
 				v-for="(element, i) in element.content"
 				:key="element.uid"
 				:element="element"
-				:class="{'zb-el-tabs-nav--active': element.uid === activeTab || i === 0}"
+				:class="{'zb-el-tabs-nav--active': activeTab ? element.uid === activeTab : i === 0}"
 			/>
 		</div>
 

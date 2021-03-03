@@ -151,7 +151,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--icon-{{VALUE}}',
 					],
@@ -183,7 +183,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--{{VALUE}}',
 					],
@@ -219,7 +219,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--size-{{VALUE}}',
 					],
@@ -236,7 +236,7 @@ class Button extends Element {
 				'title'            => esc_html__( 'Full width', 'zionbuilder' ),
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--full-width',
 					],
@@ -310,7 +310,7 @@ class Button extends Element {
 				],
 				'render_attribute' => [
 					[
-						'tag_id'    => 'button',
+						'tag_id'    => 'button_styles',
 						'attribute' => 'class',
 						'value'     => 'zb-el-button--icon-{{VALUE}}',
 					],
@@ -333,7 +333,7 @@ class Button extends Element {
 			[
 				'title'      => esc_html__( 'Button styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-button',
-				'render_tag' => 'button',
+				'render_tag' => 'button_styles',
 			]
 		);
 		$this->register_style_options_element(
@@ -387,9 +387,13 @@ class Button extends Element {
 		$icon             = $options->get_value( 'icon', false );
 		$link             = $options->get_value( 'link', false );
 
+		$combined_button_attr = $this->render_attributes->get_combined_attributes( 'button_styles', [ 'class' => 'zb-el-button' ] );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-button__icon' ] );
 		if ( ! empty( $link['link'] ) ) {
 			$this->attach_link_attributes( 'button', $link );
 			$html_tag = 'a';
+
 		}
 
 		if ( ! empty( $icon ) ) {
@@ -398,9 +402,7 @@ class Button extends Element {
 				'span',
 				'icon',
 				'',
-				[
-					'class' => 'zb-el-button__icon',
-				]
+				$combined_icon_attr
 			);
 		}
 
@@ -419,9 +421,7 @@ class Button extends Element {
 			$html_tag,
 			'button',
 			[ $icon_html, $button_text_html ],
-			[
-				'class' => 'zb-el-button',
-			]
+			$combined_button_attr
 		);
 	}
 }

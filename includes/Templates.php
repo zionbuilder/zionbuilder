@@ -31,8 +31,20 @@ class Templates {
 
 		add_filter( 'zionbuilder/permissions/get_allowed_post_types', [ $this, 'add_post_type_for_builder' ] );
 		add_filter( 'zionbuilder/data_sets/post_types', [ $this, 'remove_post_type_from_data_sets' ] );
+		add_filter( 'zionbuilder/post/post_template', [ $this, 'set_post_template' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'init' ] );
+	}
+
+	public function set_post_template( $template, $post_instance ) {
+		$post_id   = $post_instance->get_post_id();
+		$post_type = get_post_type( $post_id );
+
+		if ( $post_type === self::TEMPLATE_POST_TYPE ) {
+			return 'zion_builder_blank';
+		}
+
+		return $template;
 	}
 
 	public function remove_post_type_from_data_sets( $post_types ) {
@@ -244,8 +256,16 @@ class Templates {
 	 */
 	private function register_template_category_taxonomy() {
 		$labels = [
-			'name'                       => _x( 'Zion Builder Template Category', 'Taxonomy General Name', 'zionbuilder' ),
-			'singular_name'              => _x( 'Zion Builder Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
+			'name'                       => sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				_x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ),
+				Whitelabel::get_title()
+			),
+			'singular_name'              => sprintf(
+				/* translators: %s is the whitelabel plugin name */
+				_x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
+				Whitelabel::get_title()
+			),
 			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
 			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),
 			'parent_item'                => __( 'Parent Template Category', 'zionbuilder' ),
@@ -316,7 +336,6 @@ class Templates {
 			'post_title'  => $template_name,
 			'post_type'   => self::TEMPLATE_POST_TYPE,
 			'post_status' => 'publish',
-			'meta_input'  => [],
 		];
 
 		if ( empty( $template_config['template_type'] ) ) {
@@ -324,15 +343,17 @@ class Templates {
 		}
 
 		// Set the template type
-		$template_args['meta_input'][self::TEMPLATE_TYPE_META] = sanitize_text_field( $template_config['template_type'] );
+		$template_args = (array) wp_slash( $template_args );
 
-		// @phpstan-ignore-next-line - There is nothing wrong with the next line, however, php stan complains
-		$post_id = wp_insert_post( wp_slash( $template_args ), true );
+		$post_id = wp_insert_post( $template_args, true );
 
 		// Check to see if the post was succesfully created
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
+
+		// set template type
+		update_post_meta( $post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ) );
 
 		// Set element category
 		if ( ! empty( $template_config['category'] ) ) {

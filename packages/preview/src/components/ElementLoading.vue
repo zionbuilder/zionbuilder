@@ -9,7 +9,7 @@ import { inject } from 'vue'
 export default {
 	name: 'ElementLoading',
 	setup () {
-		const urls =inject('editor_urls')
+		const urls = inject('editor_urls')
 
 		return {
 			urls
@@ -17,7 +17,7 @@ export default {
 	},
 	computed: {
 		loadingUrl () {
-			return this.urls.assets_url + '/img/zion-loader-slim--small.gif'
+			return this.urls.loader
 		}
 	}
 }

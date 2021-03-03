@@ -1,9 +1,21 @@
+const webpack = require('webpack')
+const {
+	DefinePlugin
+} = require('webpack')
+
+const {
+	info,
+	done
+} = require('../util')
+const {
+	WebpackPluginServe
+} = require('webpack-plugin-serve');
+const url = require('url')
+
 module.exports = (options, args) => {
 	const service = process.ZIONBUILDER_SERVICE
-	const webpack = require('webpack')
-	const url = require('url')
-	const { error, info, done } = require('../util')
 	const port = service.availablePort
+
 	const defaults = {
 		host: 'localhost'
 	}
@@ -22,105 +34,97 @@ module.exports = (options, args) => {
 		devServer: hostForCLI
 	})
 
-	service.chainWebpack(webpackConfig => {
-		webpackConfig.mode('development')
-
-		webpackConfig
-			.devtool('cheap-module-eval-source-map')
-		webpackConfig
-			.stats('errors-warnings')
-
-		// https://github.com/webpack/webpack/issues/6642
-		// https://github.com/vuejs/vue-cli/issues/3539
-		webpackConfig
-			.output
-			.globalObject(`(typeof self !== 'undefined' ? self : this)`)
-
-		webpackConfig
-			.plugin('hmr')
-			.use(require('webpack/lib/HotModuleReplacementPlugin'))
-
-		if (options.getOption('progress', true) !== false) {
-			webpackConfig
-				.plugin('progress')
-				.use(require('webpack/lib/ProgressPlugin'))
-		}
-	})
-
-	const webpackConfig = service.resolveWebpackConfig()
-	const devServerOptions = {
-		logLevel: 'silent',
-		clientLogLevel: 'silent',
-		stats: false,
-		logTime: false,
-		headers: {
-			'Access-Control-Allow-Origin': '*'
-		},
-		allowedHosts: ['*'],
-		disableHostCheck: true,
-		overlay: {
-			warnings: false,
-			errors: true
-		},
+	const serveinstance = new WebpackPluginServe({
+		hmr: true,
+		host: '127.0.0.1',
 		port,
-		hot: true,
-		hotOnly: true,
-		injectClient: true,
-		injectHot: true,
-		writeToDisk (filePath) {
-			// We need to write the files to disk so plugin cache system can compile the assets
-			// Only write our own files to disk
-			return !/hot-update\.(json|js)$/.test(filePath)
-		}
-	}
-
-	webpackConfig.output.publicPath = hostForCLI
-
-	// create compiler
-	const compiler = webpack(webpackConfig)
-
-	// create dev server
-	const WebpackDevServer = require('webpack-dev-server')
-	const server = new WebpackDevServer(compiler, Object.assign(
-		devServerOptions,
-		webpackConfig.devServer || {}
-	))
-
-	const closeServer = function() {
-		// Generate the manifest file
-		service.generateManifest({
-			debug: false
-		})
-
-		server.close(() => {
-			process.exit(0)
-		})
-	}
-
-	;['SIGINT', 'SIGTERM'].forEach(signal => {
-		process.on(signal, () => {
-			closeServer()
-		})
+		static: '/dist',
+		waitForBuild: true
 	})
-  
-	if (args.stdin) {
-		process.stdin.on('end', () => {
-			closeServer()
-		})
-  
-		process.stdin.resume()
-	}
 
 	return new Promise((resolve, reject) => {
+		info('ZionBuilder Service is building files.')
 
-		compiler.hooks.done.tap('vue-cli-service serve', stats => {
-			info(`  App running at: ${hostForCLI}`)
-		})
+		// Webpack
+		const configPath = service.resolve('webpack.config.js')
+		const webpackConfig = require(configPath)
 
-		server.listen(port, host, err => {
-			if (err) {
-				reject(err)
+		const applyDynamicPublicPathToEntries = function (entries) {
+			Object.keys(entries).forEach(entry => {
+				const entryValue = entries[entry]
+
+				entries[entry] = ['webpack-plugin-serve/client', entryValue]
+			})
+		}
+
+		let i = 0
+
+		function applyDefines(config) {
+			config.plugins = [
+				i === 0 ? serveinstance : serveinstance.attach(),
+				...(config.plugins || []),
+				new DefinePlugin({
+					__ZIONBUILDER__: JSON.stringify({
+						appName: webpackConfig.name
+					}),
+					'process.env.NODE_ENV': JSON.stringify('development')
+				})
+			]
+
+			// config.output.publicPath = hostForCLI
+
+			config.optimization = {
+				minimize: false
 			}
+
+			// Enable watch
+			config.watch = true
+
+			// Set development mode
+			config.mode = 'development'
+		}
+
+		if (Array.isArray(webpackConfig)) {
+			webpackConfig.forEach(config => {
+				applyDynamicPublicPathToEntries(config.entry)
+				applyDefines(config)
+			})
+		} else {
+			applyDynamicPublicPathToEntries(webpackConfig.entry)
+			applyDefines(webpackConfig)
+		}
+
+		webpack(webpackConfig, (err, stats) => {
+			if (err) {
+				console.error(err.stack || err);
+				if (err.details) {
+					console.error(err.details);
+				}
+				return;
+			}
+
+			const info = stats.toJson();
+
+			if (stats.hasErrors()) {
+				console.error(info.errors);
+			}
+
+			if (stats.hasWarnings()) {
+				console.warn(info.warnings);
+			}
+
+			if (err) {
+				return reject(err)
+			}
+
+			if (stats.hasErrors()) {
+				return reject(`Build failed with errors.`)
+			}
+
+			done(`Build complete.`)
+
+			resolve()
 		})
 	})
+
 }

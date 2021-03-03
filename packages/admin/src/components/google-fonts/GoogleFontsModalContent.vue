@@ -33,13 +33,11 @@ import { useGoogleFonts } from '@zionbuilder/composables'
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue'
-import ListScroll from '../ListScroll.vue'
 
 export default {
 	name: 'GoogleFontsModalContent',
 	components: {
-		GoogleFontModalElement,
-		ListScroll
+		GoogleFontModalElement
 	},
 	props: {
 		activeFonts: {
@@ -123,7 +121,7 @@ export default {
 <style lang="scss">
 .znpb-modal-google-fonts {
 	& > .znpb-modal__wrapper {
-		width: 100%;
+		height: 90%;
 	}
 }
 .znpb-admin__google-fonts-modal {

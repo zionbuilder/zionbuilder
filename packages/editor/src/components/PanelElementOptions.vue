@@ -41,30 +41,36 @@
 			</div>
 		</template>
 		<div class="znpb-element-options-content-wrapper">
+
 			<Tabs
 				:has-scroll="['general','advanced']"
 				v-model:activeTab="activeKeyTab"
 				class="znpb-element-options__tabs-wrapper"
 			>
-				<Tab
-					name="General"
-					v-if="element.elementTypeModel.hasOwnProperty('options')"
-				>
+				<Tab name="General">
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="element.elementTypeModel.options"
 						v-model="elementOptions"
+						v-if="element.elementTypeModel.hasOwnProperty('options') && Object.keys(element.elementTypeModel.options).length > 0"
 					/>
+
+					<p
+						class="znpb-element-options-no-option-message"
+						v-else
+					>{{$translate('element_has_no_specific_options')}}</p>
+
 				</Tab>
 				<Tab name="Styling">
 					<OptionsForm
+						class="znpb-fancy-scrollbar"
 						:schema="computedStyleOptionsSchema"
 						v-model="computedStyleOptions"
 					/>
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form"
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
@@ -72,7 +78,7 @@
 				<Tab name="Search">
 					<template #title>
 						<div
-							@click="toggleSearchIcon"
+							@click.stop="toggleSearchIcon"
 							class="znpb-element-options__search-tab-title"
 						>
 							<Icon :icon="searchIcon" />
@@ -88,11 +94,12 @@
 						>
 						</BaseInput>
 					</template>
+
 					<p
 						class="znpb-element-options-default-message"
-						v-if="optionsFilterKeyword.length > 2 && filteredOptions.length === 0"
+						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 					>
-						{{noOptionFoundMessage}}
+						{{$translate('no_options_found')}}
 					</p>
 					<p
 						v-if="optionsFilterKeyword.length < 3"
@@ -100,11 +107,12 @@
 					>
 						{{defaultMessage}}
 					</p>
+
 					<OptionsForm
+						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
 						:schema="filteredOptions"
 						v-model="elementOptions"
 					/>
-
 				</Tab>
 			</Tabs>
 		</div>
@@ -130,15 +138,15 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue'
-import { cloneDeep } from 'lodash-es'
-import { on, off } from '@zb/hooks'
-import { debounce } from '@zb/utils'
+import { on, off, applyFilters } from '@zb/hooks'
+import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
-import { useOptionsSchemas } from '@zb/components'
+import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import BasePanel from './BasePanel.vue'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'PanelElementOptions',
@@ -149,6 +157,7 @@ export default {
 	props: ['panel'],
 	setup (props) {
 		let ignoreLocalHistory = false
+		const { setActivePseudoSelector } = usePseudoSelectors()
 		const { element, editElement, unEditElement } = useEditElement()
 		const { provideElement } = useElementProvide()
 		const { getSchema } = useOptionsSchemas()
@@ -156,11 +165,12 @@ export default {
 		const searchActive = ref(false)
 		const history = ref([])
 		const historyIndex = ref(0)
-		const searchInput = ref(null)
+
+		const optionsFilterKeyword = ref('')
 
 		const elementOptions = computed({
 			get () {
-				return element.value.options
+				return element.value ? element.value.options : {}
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
@@ -225,6 +235,10 @@ export default {
 		watch(element, (newValue) => {
 			activeKeyTab.value = 'general'
 			searchActive.value = false
+			optionsFilterKeyword.value = ''
+
+			// Clear selected pseudo selector
+			setActivePseudoSelector(null)
 		})
 
 		provideElement(element)
@@ -233,7 +247,6 @@ export default {
 
 		return {
 			element,
-			searchInput,
 			// Computed
 			elementOptions,
 			getSchema,
@@ -247,7 +260,8 @@ export default {
 			hasChanges,
 			// Methods
 			undo,
-			redo
+			redo,
+			optionsFilterKeyword
 		}
 	},
 	data () {
@@ -255,10 +269,9 @@ export default {
 			showBreadcrumbs: false,
 			elementClasses: [],
 			lastTab: null,
-			optionsFilterKeyword: '',
 			noOptionMessage: '',
 			defaultMessage: this.$translate('element_options_default_message'),
-			noOptionFoundMessage: 'No options found with this keyword'
+
 		}
 	},
 	computed: {
@@ -269,7 +282,7 @@ export default {
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
 
-				schema[styleId] = {
+				const optionConfig = {
 					type: 'accordion_menu',
 					title: config.title,
 					id: styleId,
@@ -285,6 +298,12 @@ export default {
 						}
 					}
 				}
+
+				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
+					optionConfig.child_options.attributes = this.attributesOptions
+				}
+
+				schema[styleId] = optionConfig
 			})
 
 			return {
@@ -295,6 +314,30 @@ export default {
 					type: 'group'
 				}
 			}
+		},
+		attributesOptions () {
+			let attributesComponent = {
+				type: 'accordion_menu',
+				title: 'custom attributes',
+				icon: 'tags-attributes',
+				is_layout: true,
+				label: {
+					type: translate('pro'),
+					text: translate('pro')
+				},
+				show_title: false,
+				child_options: {
+					upgrade_message: {
+						type: 'upgrade_to_pro',
+						message_title: translate('meet_custom_attributes'),
+						message_description: translate('meet_custom_attributes_desc'),
+						message_link: translate('meet_custom_attributes_link')
+					}
+
+				}
+			}
+
+			return applyFilters('zionbuilder/options/attributes', attributesComponent)
 		},
 		allOptionsSchema () {
 			const elementOptionsSchema = this.element.elementTypeModel.options ? this.element.elementTypeModel.options : {}
@@ -343,7 +386,7 @@ export default {
 		filteredOptions () {
 			const keyword = this.optionsFilterKeyword
 			if (keyword.length > 2) {
-				return this.filterOtions(keyword, this.allOptionsSchema)
+				return this.filterOptions(keyword, this.allOptionsSchema)
 			}
 			return {}
 		}
@@ -359,10 +402,14 @@ export default {
 		},
 		changeTabByEvent (event) {
 			if (event !== undefined) {
+				if (tabId !== 'search') {
+					this.lastTab = this.activeKeyTab
+					this.optionsFilterKeyword = ''
+				}
 				this.activeKeyTab.value = event.detail
 			}
 		},
-		filterOtions (keyword, optionsSchema, currentId) {
+		filterOptions (keyword, optionsSchema, currentId, currentName) {
 			let lowercaseKeyword = keyword.toLowerCase()
 			let foundOptions = {}
 
@@ -370,9 +417,21 @@ export default {
 				const optionConfig = optionsSchema[optionId]
 
 				let syncValue = []
+				let syncValueName = []
+
 				if (!optionConfig.sync) {
 					if (currentId) {
 						syncValue.push(...currentId)
+					}
+
+					if (currentName) {
+						let name = this.getInnerStyleName(currentName[currentName.length - 1])
+						currentName[currentName.length - 1] = name
+						syncValueName.push(...currentName)
+					}
+
+					if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
+						syncValueName.push(this.$translate('advanced'))
 					}
 
 					if (!optionConfig.is_layout) {
@@ -381,6 +440,7 @@ export default {
 
 					if (optionConfig.type === 'element_styles') {
 						syncValue.push('styles')
+						syncValueName.push(this.$translate('styles'))
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -390,6 +450,8 @@ export default {
 					if (optionConfig.type === 'pseudo_group') {
 						syncValue.push('%%PSEUDO_SELECTOR%%')
 					}
+
+					syncValueName.push(optionId)
 				}
 
 				// Search in areas
@@ -407,12 +469,19 @@ export default {
 					searchOptions.push(optionConfig.label)
 				}
 
-				if (optionConfig.type !== 'accordion_menu') {
+				if (optionConfig.type !== 'accordion_menu' && optionConfig.type !== 'element_styles') {
 					if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
+						let filteredBreadcrumbs = []
+						if (currentName) {
+							filteredBreadcrumbs = currentName.filter(function (value) {
+								return value !== undefined
+							})
+						}
 						foundOptions[syncValue.join('.')] = {
 							...optionConfig,
 							id: syncValue.join('.'),
-							sync: optionConfig.sync || syncValue.join('.')
+							sync: optionConfig.sync || syncValue.join('.'),
+							breadcrumbs: filteredBreadcrumbs
 						}
 					}
 				}
@@ -422,31 +491,44 @@ export default {
 				}
 
 				if (optionConfig.type === 'element_styles') {
-					const childOptions = this.filterOtions(keyword, this.getSchema('element_styles'), syncValue)
+					const childOptions = this.filterOptions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
 						...childOptions
 					}
+
 				}
 
 				if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
-					const childOptions = this.filterOtions(keyword, optionConfig.child_options, syncValue)
+					const childOptions = this.filterOptions(keyword, optionConfig.child_options, syncValue, syncValueName)
 
 					foundOptions = {
 						...foundOptions,
 						...childOptions
 					}
+
+
 				}
 			})
 
 			return foundOptions
 		},
+		getInnerStyleName (id) {
+			if (id === 'pseudo_selectors') {
+				return undefined
+			}
+
+			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined ? this.computedStyleOptionsSchema._styles.child_options[id].title : this.allOptionsSchema[id] !== undefined ? this.allOptionsSchema[id].title : undefined
+		},
 		toggleSearchIcon () {
 			this.searchActive = !this.searchActive
 			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
+				this.changeTab('general')
+			} else {
+				this.changeTab('search')
 			}
+			this.optionsFilterKeyword = ''
 		},
 
 		changeTab (tabId) {
@@ -455,16 +537,6 @@ export default {
 			if (tabId !== 'search') {
 				this.lastTab = this.activeKeyTab
 				this.optionsFilterKeyword = ''
-			}
-
-			if (!this.searchActive) {
-				this.activeKeyTab = this.lastTab
-			}
-
-			if (tabId === 'search' && this.searchActive) {
-				if (this.$refs.searchInput) {
-					this.$refs.searchInput.focus()
-				}
 			}
 		},
 		closeOptionsPanel () {
@@ -478,6 +550,10 @@ export default {
 			this.unEditElement()
 		},
 		onKeyPress (e) {
+			if (isEditable()) {
+				return
+			}
+
 			// Undo CTRL+Z
 			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
 				this.undo()
@@ -489,6 +565,17 @@ export default {
 				this.redo()
 				e.preventDefault()
 				e.stopPropagation()
+			}
+		}
+	},
+	watch: {
+		searchActive (newValue) {
+			if (newValue) {
+				this.$nextTick(() => {
+					if (this.$refs.searchInput) {
+						this.$refs.searchInput.focus()
+					}
+				})
 			}
 		}
 	},
@@ -686,6 +773,7 @@ export default {
 	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
+
 	.znpb-element-options-no-option-message {
 		position: absolute;
 		top: 0;

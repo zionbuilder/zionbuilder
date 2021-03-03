@@ -68,6 +68,7 @@ export default {
 		&__wrapper {
 			position: relative;
 			display: flex;
+			max-width: 100%;
 		}
 
 		&__title {
@@ -76,6 +77,11 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			cursor: pointer;
+
+			@media (max-width: 767px) {
+				white-space: normal;
+				line-height: 1.6;
+			}
 		}
 	}
 }

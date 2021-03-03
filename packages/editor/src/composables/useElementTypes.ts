@@ -1,20 +1,23 @@
 import { find } from 'lodash-es'
 import { ref, Ref, computed } from 'vue'
 import { ElementType } from './models'
+import { translate } from '@zb/i18n'
 
-const zionElements = window.ZnPbInitalData.elements_data.map(config => {
-	return new ElementType(config)
-})
+const elementTypes: Ref = ref([])
 
-// Add content Wrapper
-zionElements.push(new ElementType({
+elementTypes.value.push(new ElementType({
 	element_type: 'contentRoot',
-	wrapper: true
+	wrapper: true,
+	show_in_ui: false
 }))
 
-const elementTypes: Ref = ref(zionElements)
-
 export function useElementTypes() {
+	function addElementTypes(elements: []) {
+		elements.forEach(elementConfig => {
+			elementTypes.value.push(new ElementType(elementConfig))
+		})
+	}
+
 	const addElementType = (config) => {
 		elementTypes.value.push(new ElementType(config))
 	}
@@ -26,7 +29,10 @@ export function useElementTypes() {
 	})
 
 	const getElementType = (elementType: string) => {
-		return find(elementTypes.value, {element_type: elementType})
+		return find(elementTypes.value, { element_type: elementType }) || new ElementType({
+			element_type: 'invalid',
+			name: translate('invalid_element'),
+		})
 	}
 
 	const registerElementComponent = (config) => {
@@ -41,6 +47,16 @@ export function useElementTypes() {
 		element.registerComponent(component)
 	}
 
+	const getElementIcon = (elementType: string) => {
+		let element = getElementType(elementType)
+		return element.icon ? element.icon : null
+	}
+
+	const getElementImage = (elementType: string) => {
+		let element = getElementType(elementType)
+		return element.thumb ? element.thumb : null
+	}
+
 	function resetElementComponents() {
 		elementTypes.value.forEach(elementType => {
 			elementType.resetComponent()
@@ -50,9 +66,12 @@ export function useElementTypes() {
 	return {
 		elementTypes,
 		getVisibleElements,
+		getElementIcon,
+		getElementImage,
 		addElementType,
 		getElementType,
 		registerElementComponent,
-		resetElementComponents
+		resetElementComponents,
+		addElementTypes
 	}
 }

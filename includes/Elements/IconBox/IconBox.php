@@ -221,7 +221,7 @@ class IconBox extends Element {
 			[
 				'title'      => esc_html__( 'Icon styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-iconBox-icon',
-				'render_tag' => 'icon',
+				'render_tag' => 'icon_styles',
 			]
 		);
 		$this->register_style_options_element(
@@ -237,7 +237,7 @@ class IconBox extends Element {
 			[
 				'title'      => esc_html__( 'Description styles', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}} .zb-el-iconBox-description',
-				'render_tag' => 'description',
+				'render_tag' => 'description_styles',
 			]
 		);
 	}
@@ -276,18 +276,28 @@ class IconBox extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		$icon                     = $options->get_value( 'icon' );
-		$title_tag                = $options->get_value( 'title_tag', 'h3' );
-		$description              = $options->get_value( 'description' );
-		$title                    = $options->get_value( 'title' );
-		$image_custom_css_classes = $this->get_style_classes_as_string( 'image_styles', [ 'zb-el-imageBox-image' ] );
+		$icon        = $options->get_value( 'icon' );
+		$title_tag   = $options->get_value( 'title_tag', 'h3' );
+		$description = $options->get_value( 'description' );
+		$title       = $options->get_value( 'title' );
+
+		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconBox-icon' ] );
+
+		$combined_title_attr = $this->render_attributes->get_combined_attributes( 'title_styles', [ 'class' => 'zb-el-iconBox-title' ] );
+
+		$combined_desc_attr = $this->render_attributes->get_combined_attributes( 'description_styles', [ 'class' => 'zb-el-iconBox-description' ] );
 
 		if ( $icon ) {
 			?>
 			<div class="zb-el-iconBox-iconWrapper">
 				<?php
 					$this->attach_icon_attributes( 'icon', $icon );
-				$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-iconBox-icon' ] );
+				$this->render_tag(
+					'span',
+					'icon',
+					'',
+					$combined_icon_attr
+				);
 				?>
 			</div>
 			<?php
@@ -297,12 +307,12 @@ class IconBox extends Element {
 		<div class="zb-el-iconBox-text">
 			<?php
 			if ( ! empty( $title ) ) {
-				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), [ 'class' => 'zb-el-iconBox-title' ] );
+				$this->render_tag( $title_tag, 'title', wp_kses_post( $title ), $combined_title_attr );
 			}
 			?>
 			<?php
 			if ( ! empty( $description ) ) {
-				$this->render_tag( 'div', 'description', wp_kses_post( $description ), [ 'class' => 'zb-el-iconBox-description' ] );
+				$this->render_tag( 'div', 'description', wp_kses_post( $description ), $combined_desc_attr );
 			}
 			?>
 		</div>

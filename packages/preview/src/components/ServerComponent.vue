@@ -4,8 +4,7 @@
 
 		<div
 			:class="{'znpb__server-element--loading': loading}"
-			v-html="showElementContent"
-			ref="elementContent"
+			ref="elementContentRef"
 		/>
 
 		<div
@@ -25,6 +24,9 @@
 </template>
 
 <script>
+import { ref, computed, watch, nextTick, inject } from 'vue'
+import { applyFilters } from '@zb/hooks'
+
 // Utils
 import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
@@ -45,57 +47,78 @@ export default {
 	setup (props) {
 		const { editorData } = useEditorData()
 		const contentModel = props.element.elementTypeModel
+		const logoUrl = editorData.value.urls.logo
+		const elementContentRef = ref(null)
+		const elementContent = ref('')
+		const loading = ref(true)
+		const elementNotSelectable = ref(false)
 
-		const logoUrl = editorData.value.urls.logoUrl
-
-		return {
-			contentModel,
-			logoUrl
-		}
-	},
-	data () {
-		return {
-			elementContent: '',
-			loading: true,
-			elementNotSelectable: false
-		}
-	},
-	computed: {
-		requiresDataForRender () {
-			const elementModel = this.contentModel
-			const { _styles, _advanced_options: advancedOptions, ...options } = this.options
+		const requiresDataForRender = computed(() => {
+			const elementModel = contentModel
+			const { _styles, _advanced_options: advancedOptions, ...options } = props.options
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
-		},
-		showElementContent () {
-			return this.requiresDataForRender ? '' : this.elementContent
-		}
-	},
-	methods: {
+		})
 
-		getElementFromServer () {
-			this.loading = true
-			getElementRender(this.element).then((response) => {
-				this.elementContent = response.data.element
-				this.loading = false
-				this.$nextTick(() => {
-					this.checkForContentHeight()
+		watch(() => props.options, (newValue, oldValue) => {
+
+			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
+			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
+
+			// Stringify the values so we can only compare values
+			if (JSON.stringify(remainingNewProperties) !== JSON.stringify(remainingOldProperties)) {
+				debouncedGetElementFromServer()
+			}
+		}, {
+			deep: true
+		})
+
+		function setInnerHTML (content) {
+			const elm = elementContentRef.value
+			elm.innerHTML = content;
+			Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
+				const newScript = document.createElement("script");
+				Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+				newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+				oldScript.parentNode.replaceChild(newScript, oldScript);
+			});
+
+			elm.addEventListener('load', checkElementHeight)
+		}
+
+		const serverComponentRenderData = applyFilters('zionbuilder/server_component/data', {
+			element_data: props.element
+		})
+
+		function getElementFromServer () {
+			loading.value = true
+			getElementRender(serverComponentRenderData).then((response) => {
+				elementContent.value = response.data.element
+
+				setInnerHTML(elementContent.value)
+
+				loading.value = false
+				nextTick(() => {
+					checkForContentHeight()
 				})
 			}).finally(() => {
-				this.loading = false
+				loading.value = false
 			})
-		},
-		debouncedGetElementFromServer: debounce(function () {
-			this.getElementFromServer()
-		}, 500),
-		checkForContentHeight () {
-			const loadableElements = this.$refs.elementContent.querySelectorAll('img, iframe, video')
+		}
+
+		const debouncedGetElementFromServer = debounce(function () {
+			getElementFromServer()
+		}, 500)
+
+
+		function checkForContentHeight () {
+			const loadableElements = elementContentRef.value.querySelectorAll('img, iframe, video')
 			let loadableElementsCount = loadableElements.length
 
 			const loadCallback = () => {
 				loadableElementsCount--
 
 				if (loadableElementsCount === 0) {
-					this.checkElementHeight()
+					checkElementHeight()
 				}
 			}
 
@@ -105,30 +128,28 @@ export default {
 					element.addEventListener('error', loadCallback)
 				})
 			} else {
-				this.checkElementHeight()
+				checkElementHeight()
 			}
-		},
-		checkElementHeight (event) {
-			const { height } = this.$refs.elementContent.getBoundingClientRect()
-			this.elementNotSelectable = height < 2
 		}
-	},
-	watch: {
-		'options' (newValue, oldValue) {
-			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
-			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
 
-			// Stringify the values so we can only compare values
-			if (JSON.stringify(remainingNewProperties) !== JSON.stringify(remainingOldProperties)) {
-				this.debouncedGetElementFromServer()
-			}
+		function checkElementHeight () {
+			const { height } = elementContentRef.value.getBoundingClientRect()
+			elementNotSelectable.value = height < 2
 		}
-	},
-	created () {
-		this.getElementFromServer()
-	},
-	mounted () {
-		this.$refs.elementContent.addEventListener('load', this.checkElementHeight)
+
+		// Get the element from server on setup
+		getElementFromServer()
+
+		return {
+			contentModel,
+			logoUrl,
+			elementContentRef,
+			setInnerHTML,
+			requiresDataForRender,
+			elementContent,
+			loading,
+			elementNotSelectable
+		}
 	}
 }
 </script>

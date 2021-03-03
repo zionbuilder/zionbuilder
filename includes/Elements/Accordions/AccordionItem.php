@@ -107,6 +107,10 @@ class AccordionItem extends Element {
 		}
 	}
 
+	public function get_sortable_content_orientation() {
+		return 'vertical';
+	}
+
 	/**
 	 * Render
 	 *
@@ -120,8 +124,13 @@ class AccordionItem extends Element {
 		$accordions_element = $this->inject( 'accordionsElement' );
 		$title              = $options->get_value( 'title' );
 		$content            = $options->get_value( 'content' );
-		$title_classes      = $accordions_element->get_style_classes_as_string( 'inner_content_styles_title' );
-		$content_classes    = $accordions_element->get_style_classes_as_string( 'inner_content_styles_content' );
+		$title_classes      = '';
+		$content_classes    = '';
+
+		if ( $accordions_element instanceof Element ) {
+			$title_classes   = $accordions_element->get_style_classes_as_string( 'inner_content_styles_title' );
+			$content_classes = $accordions_element->get_style_classes_as_string( 'inner_content_styles_content' );
+		}
 
 		?>
 

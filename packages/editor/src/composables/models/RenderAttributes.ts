@@ -1,7 +1,7 @@
 export class RenderAttributes {
 	public renderAttributes = {}
 
-	parseValue (schema, model, index = null) {
+	parseValue(schema, model, index = null) {
 		const CSSDeviceMap = {
 			default: '',
 			laptop: '--lg',
@@ -23,7 +23,6 @@ export class RenderAttributes {
 						model = {
 							default: model
 						}
-						console.log(model);
 					}
 
 					Object.keys(model).forEach(deviceId => {
@@ -52,7 +51,7 @@ export class RenderAttributes {
 		}
 	}
 
-	addRenderAttribute (tagId, attribute, value, replace = false) {
+	addRenderAttribute(tagId, attribute, value, replace = false) {
 		if (!this.renderAttributes[tagId]) {
 			this.renderAttributes[tagId] = {}
 		}
@@ -70,11 +69,11 @@ export class RenderAttributes {
 		}
 	}
 
-	getRenderAttribute (tagID) {
+	getRenderAttribute(tagID) {
 		return this.renderAttributes[tagID]
 	}
 
-	clear () {
+	clear() {
 		this.renderAttributes = {}
 	}
 }

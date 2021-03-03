@@ -217,6 +217,7 @@ class Preview {
 			'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'      => Plugin::$instance->templates->get_template_types(),
 			'template_categories' => Plugin::$instance->templates->get_template_categories(),
+			'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 		];
 	}
 

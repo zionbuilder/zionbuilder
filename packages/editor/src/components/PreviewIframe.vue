@@ -19,6 +19,7 @@
 			:show-maximize="false"
 			:show="storageRecover"
 			append-to="body"
+			:width="520"
 		>
 			<div class="znpb-modal__confirm">
 				<!-- @slot Content that will be placed inside the modal body -->
@@ -43,7 +44,6 @@
 
 <script>
 import Cache from '../Cache.ts'
-import { flattenTemplateData } from '@zb/utils'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import {
@@ -51,13 +51,13 @@ import {
 	usePreviewLoading,
 	useElementActions,
 	useKeyBindings,
-	useElements,
 	useSavePage,
 	useEditorData,
 	useEditorInteractions,
 	useWindows,
 	useHistory,
-	usePageSettings
+	usePageSettings,
+	useElementTypes
 } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications } from '@zionbuilder/composables'
@@ -130,7 +130,7 @@ export default {
 		}
 	},
 	methods: {
-		setPageContent(areas) {
+		setPageContent (areas) {
 			const { registerTemplatePart } = useTemplateParts()
 
 			// New system
@@ -158,29 +158,16 @@ export default {
 		useServerVersion () {
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
-				const { add } = useNotifications()
 
-				if (!contentWindow.ZnPbPreviewData) {
-					add({
-						message: this.$translate('page_content_error'),
-						type: 'error',
-						delayClose: 0
-					})
-
-					this.ignoreNextReload = false
-
-					return false
-				}
-
-				// Set preview data
-				this.setPageContent(this.$refs.iframe.contentWindow.ZnPbPreviewData.page_content)
+				this.setPageContent(contentWindow.ZnPbPreviewData.page_content)
 
 				// Hide recover modal
 				this.showRecoverModal = false
 			}
 		},
 		onIframeLoaded () {
-
+			const { add } = useNotifications()
+			const { addElementTypes } = useElementTypes()
 			const { setPreviewLoading } = usePreviewLoading()
 
 			this.iframeLoaded = true
@@ -191,6 +178,21 @@ export default {
 			this.attachIframeEvents()
 
 			const cachedData = Cache.getItem(this.pageId)
+
+			if (!iframeWindow.ZnPbPreviewData) {
+				add({
+					message: this.$translate('page_content_error'),
+					type: 'error',
+					delayClose: 0
+				})
+
+				this.ignoreNextReload = false
+
+				return false
+			}
+
+			// Set preview data
+			addElementTypes(iframeWindow.ZnPbPreviewData.elements_data)
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
 				this.localStoragePageData = cachedData
@@ -214,7 +216,7 @@ export default {
 		preventClicks (event) {
 			const e = window.e || event
 
-			if (e.target.tagName === 'A' && !e.target.classList.contains('znpb-allow-click')) {
+			if (e.target.tagName === 'a' || !e.target.classList.contains('znpb-allow-click')) {
 				e.preventDefault()
 			}
 		},

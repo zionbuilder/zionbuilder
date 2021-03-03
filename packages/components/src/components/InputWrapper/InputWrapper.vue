@@ -21,9 +21,7 @@
 					<div> {{description}}</div>
 				</template>
 
-				<Icon
-					icon="question-mark"
-				/>
+				<Icon icon="question-mark" />
 			</Tooltip>
 		</div>
 		<div class="znpb-forms-input-content">
@@ -130,35 +128,24 @@ export default {
 			text-transform: uppercase;
 		}
 	}
-	&--inline {
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-start;
 
-		.znpb-forms-form__input-title {
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			min-width: 75px;
-			padding-right: 22px;
-			margin: 0;
-		}
-		.zion-radio-group {
-			display: flex;
-			flex-wrap: nowrap;
-		}
-	}
-	&--inline-between {
+	&--inline {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 
 		.znpb-forms-form__input-title {
 			flex-grow: 1;
+			margin-bottom: 0;
 		}
 
 		.znpb-forms-input-content {
 			width: auto;
+		}
+
+		& > .znpb-input-content {
+			display: flex;
+			justify-content: flex-end;
 		}
 	}
 }

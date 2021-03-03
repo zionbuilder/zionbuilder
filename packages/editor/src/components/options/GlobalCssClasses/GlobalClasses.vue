@@ -97,7 +97,7 @@ export default {
 		}
 
 		function saveClass (newValues) {
-			updateCSSClass( activeClass.value.id, newValues )
+			updateCSSClass(activeClass.value.id, newValues)
 		}
 
 		function closeAccordion () {
@@ -132,7 +132,8 @@ export default {
 			// Methods
 			onItemSelected,
 			onItemCollapsed,
-			saveClass
+			saveClass,
+			deleteClass
 		}
 	}
 }

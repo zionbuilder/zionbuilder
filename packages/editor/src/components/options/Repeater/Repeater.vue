@@ -29,7 +29,7 @@
 
 <script>
 import RepeaterOption from './RepeaterOption.vue'
-
+import { translate } from '@zb/i18n'
 export default {
 	name: 'Repeater',
 	data () {
@@ -67,7 +67,7 @@ export default {
 			type: String,
 			required: false,
 			default () {
-				return this.$translate('generic_add_new')
+				return translate('generic_add_new')
 			}
 		},
 		child_options: {

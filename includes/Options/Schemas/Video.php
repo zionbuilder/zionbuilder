@@ -72,11 +72,33 @@ class Video extends BaseSchema {
 					],
 				],
 			],
+			'bgType'           => [
+				'type'       => 'custom_selector',
+				'columns'    => 2,
+				'title'      => esc_html__( 'Background type', 'zionbuilder' ),
+				'default'    => 'cover',
+				'options'    => [
+					[
+						'id'   => 'contain',
+						'name' => 'Contain',
+					],
+					[
+						'id'   => 'cover',
+						'name' => 'Cover',
+					],
+				],
+				'dependency' => [
+					[
+						'option' => 'videoSource',
+						'value'  => [ 'local' ],
+					],
+				],
+			],
 			'controls'         => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Show controls', 'zionbuilder' ),
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 			],
 			'controlsPosition' => [
 				'type'       => 'custom_selector',
@@ -106,13 +128,14 @@ class Video extends BaseSchema {
 			'autoplay'         => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 				'title'   => esc_html__( 'Autoplay video?', 'zionbuilder' ),
+
 			],
 			'muted'            => [
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'layout'  => 'inline-between',
+				'layout'  => 'inline',
 				'title'   => esc_html__( 'Start muted?', 'zionbuilder' ),
 			],
 		];

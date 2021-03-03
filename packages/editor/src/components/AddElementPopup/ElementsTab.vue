@@ -22,14 +22,18 @@
 
 		<div class="znpb-fancy-scrollbar">
 			<div class="znpb-wrapper-category">
-				<ElementList
-					v-if="visibleElements.length > 0"
-					:elements="visibleElements"
-					:element="element"
-					@add-element="onAddElement"
-				/>
+				<template v-if="computedRuleCategories.length">
+					<ElementList
+						v-for="(category,i) in computedRuleCategories"
+						:key="i"
+						:elements="getElements(category.id)"
+						:element="element"
+						:category="category.name"
+						@add-element="onAddElement"
+					/>
+				</template>
+				<div v-if="!elementsAreFound">{{$translate('no_elements_found')}}</div>
 
-				<div v-else>{{$translate('no_elements_found')}}</div>
 			</div>
 		</div>
 	</div>
@@ -59,6 +63,8 @@ export default {
 		const { categories } = useElementTypeCategories()
 		const { editorData } = useEditorData()
 		// Refs
+		const foundElements = ref([])
+
 		const localSearchKeyword = ref(null)
 		const computedSearchKeyword = computed(
 			{
@@ -67,46 +73,42 @@ export default {
 				},
 				set: (newValue) => {
 					localSearchKeyword.value = newValue
+					foundElements.value = []
 				}
 			}
 		)
 		const categoryValue = ref('all')
 		const searchInputEl = ref(null)
 
+		const sortedCategories = computed(() => {
+			return categories.value.sort((a, b) => {
+				return a.priority < b.priority ? -1 : 1
+			})
+		})
+
 		// Normal data
 		const elementCategories = [{
 			id: 'all',
 			name: 'All'
-		}].concat(categories.value)
+		}].concat(sortedCategories.value)
 
 		// Computed
-		const visibleElements = computed(() => {
-			let elements = getVisibleElements.value
-			const category = categoryValue.value
-			const keyword = computedSearchKeyword.value
+		const computedRuleCategories = computed(() => {
+			let categoriesArray = []
+			foundElements.value = []
+			let category = categoryValue.value
 
-			// Check if we have a specific category selected
 			if (category !== 'all') {
-				elements = elements.filter((element) => {
-					return element.category.includes(category)
-				})
+				categoriesArray = categories.value.filter(cat => cat.id === category)
+
+			} else {
+				categoriesArray = sortedCategories.value
 			}
 
-			// Check if we have a keyword
-			if (keyword.length > 0) {
-				elements = elements.filter((element) => {
-					return (
-						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-						element.keywords
-							.join()
-							.toLowerCase()
-							.indexOf(keyword.toLowerCase()) !== -1
-					)
-				})
-			}
+			return categoriesArray
 
-			return elements
 		})
+
 
 		// Methods
 		const onAddElement = (element) => {
@@ -127,6 +129,34 @@ export default {
 			hideAddElementsPopup()
 		}
 
+		function getElements (category) {
+			let elements = getVisibleElements.value
+
+			const keyword = computedSearchKeyword.value
+
+			// Check if we have a specific category selected
+
+			elements = elements.filter((element) => {
+				return element.category.includes(category)
+			})
+
+
+			// Check if we have a keyword
+			if (keyword.length > 0) {
+				elements = elements.filter((element) => {
+					return (
+						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+						element.keywords
+							.join()
+							.toLowerCase()
+							.indexOf(keyword.toLowerCase()) !== -1
+					)
+				})
+			}
+			foundElements.value.push(elements.length)
+			return elements
+		}
+
 		// Lifecycle
 		onMounted(() => {
 			setTimeout(() => {
@@ -134,15 +164,23 @@ export default {
 			}, 0)
 		})
 
+		const elementsAreFound = computed(() => {
+			let foundIndex = foundElements.value.findIndex(element => element !== 0)
+			return foundIndex !== -1
+		})
+
 		return {
 			// Normal values
 			elementCategories,
+			getElements,
+			foundElements,
+			elementsAreFound,
 			// Refs
 			computedSearchKeyword,
 			categoryValue,
 			searchInputEl,
 			// Computed
-			visibleElements,
+			computedRuleCategories,
 			// Methods
 			onAddElement,
 			// rtl
@@ -225,7 +263,8 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-		// margin-left: 10px;
+
+// margin-left: 10px;
 		background: transparent;
 	}
 }

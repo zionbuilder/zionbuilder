@@ -1,7 +1,8 @@
 <template>
 	<div class="znpb-link-wrapper">
 		<InputWrapper layout="full">
-			<BaseInput
+			<component
+				:is="linkURLComponent"
 				v-model="link"
 				:placeholder="$translate('add_an_url')"
 				:title="$translate('link_url')"
@@ -9,7 +10,13 @@
 				<template v-slot:prepend>
 					<Icon icon="link"></Icon>
 				</template>
-			</BaseInput>
+
+				<template v-slot:append>
+					<!-- Injection point -->
+					<Injection location="options/link/append" />
+				</template>
+
+			</component>
 		</InputWrapper>
 		<InputWrapper
 			layout="inline"
@@ -36,6 +43,10 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { Injection } from "@zb/components"
+import { applyFilters } from '@zb/hooks'
+
 export default {
 	name: 'Link',
 	props: {
@@ -43,6 +54,18 @@ export default {
 			default () {
 				return {}
 			}
+		}
+	},
+	components: {
+		Injection
+	},
+	setup (props) {
+		const linkURLComponent = computed(() => {
+			return applyFilters('zionbuilder/options/link/url_component', 'BaseInput', props.modelValue)
+		})
+
+		return {
+			linkURLComponent
 		}
 	},
 	data () {

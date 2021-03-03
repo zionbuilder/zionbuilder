@@ -7,6 +7,7 @@ export class ElementType {
 	category: string = ''
 	deprecated: boolean = false
 	icon: string = ''
+	thumb: string = ''
 	is_child: boolean = false
 	keywords: string[] = []
 	label: string = ''
@@ -16,6 +17,7 @@ export class ElementType {
 	show_in_ui: boolean = true
 	style_elements: object = {}
 	wrapper: boolean = false
+	content_orientation: string = 'horizontal'
 
 	constructor(config) {
 		Object.assign(this, config)

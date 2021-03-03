@@ -4,19 +4,19 @@
 
 		<a
 			v-if="hasLink"
-			v-bind="api.getAttributesForTag('link', extraAttributes)"
+			v-bind="api.getAttributesForTag('link_styles', extraAttributes)"
 			:class="api.getStyleClasses('link_styles')"
 		>
 			<img
-				v-bind="api.getAttributesForTag('image')"
+				v-bind="api.getAttributesForTag('image_styles')"
 				:src="imageSrc"
 				:class="api.getStyleClasses('image_styles')"
 			/>
 		</a>
 
 		<img
-			v-else
-			v-bind="api.getAttributesForTag('image', extraAttributes)"
+			v-else-if="imageSrc"
+			v-bind="api.getAttributesForTag('image_styles', extraAttributes)"
 			:src="imageSrc"
 			:class="api.getStyleClasses('image_styles')"
 		/>

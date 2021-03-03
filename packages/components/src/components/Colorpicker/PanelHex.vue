@@ -10,12 +10,8 @@
 				</span>
 			</div>
 			<div class="znpb-colorpicker-inner-editor__stripes">
-				<HueStrip
-					v-model="hslaValue"
-				/>
-				<OpacityStrip
-					v-model="hslaValue"
-				/>
+				<HueStrip v-model="hslaValue" />
+				<OpacityStrip v-model="hslaValue" />
 			</div>
 		</div>
 		<div class="znpb-colorpicker-inner-editor__rgba">
@@ -33,8 +29,17 @@
 				v-model="hexValue"
 			/>
 			<div class="znpb-color-picker-change-color znpb-input-number-arrow-wrapper">
-				<Icon icon="select" :rotate="180" class="znpb-arrow-increment" @click="changeHex"></Icon>
-				<Icon icon="select" class="znpb-arrow-decrement" @click="changeHexback"></Icon>
+				<Icon
+					icon="select"
+					:rotate="180"
+					class="znpb-arrow-increment"
+					@click="changeHex"
+				></Icon>
+				<Icon
+					icon="select"
+					class="znpb-arrow-decrement"
+					@click="changeHexback"
+				></Icon>
 			</div>
 		</div>
 	</div>

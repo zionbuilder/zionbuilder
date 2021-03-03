@@ -5,8 +5,8 @@
 				:modelValue="color"
 				@update:modelValue="onColorChange"
 				:show-library="false"
-				@open="onOpen"
-				@close="onClose"
+				@open="$emit('open-color-picker', true)"
+				@close="$emit('close-color-picker', false)"
 				type="simple"
 			/>
 		</div>
@@ -14,58 +14,58 @@
 </template>
 
 <script>
-export default {
-	inject: {
-		Editor: {
-			default () {
-				return {}
-			}
-		}
-	},
-	data () {
-		return {
-			justChangedNode: false,
-			color: null
-		}
-	},
-	beforeMount: function () {
-		this.Editor.editor.on('NodeChange', this.onNodeChange)
-		this.getActiveColor()
-	},
-	beforeUnmount () {
-		this.Editor.editor.off('NodeChange', this.onNodeChange)
-	},
-	methods: {
-		onOpen () {
-			this.$emit('open-color-picker', true)
-			this.Editor.preventClose()
-		},
-		onClose () {
-			this.$emit('close-color-picker', true)
-			this.Editor.allowClose()
-		},
-		onColorChange (newValue) {
-			this.color = newValue
-			this.Editor.editor.formatter.apply('forecolor', { value: newValue })
-			this.justChangedNode = true
-		},
-		onNodeChange (node) {
-			if (node.selectionChange && !this.justChangedNode) {
-				this.getActiveColor()
-			}
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 
-			this.justChangedNode = false
-		},
-		getActiveColor () {
+export default {
+	setup (props, { emit }) {
+		const editor = inject('ZionInlineEditor')
+		const color = ref(null)
+
+		let justChangeColor = false
+		let changeTimeout = null
+
+		function onColorChange (newValue) {
+			color.value = newValue
+			editor.value.formatter.apply('forecolor', { value: newValue })
+
+			clearTimeout(changeTimeout)
+			changeTimeout = setTimeout(() => {
+				justChangeColor = false
+			}, 500);
+
+			justChangeColor = true
+		}
+
+		function onNodeChange (node) {
+			if (!justChangeColor) {
+				getActiveColor()
+			}
+		}
+
+		function getActiveColor () {
 			// set a flag so we don't recursively update the color
-			this.color = this.Editor.editor.queryCommandValue('forecolor')
+			color.value = editor.value.queryCommandValue('forecolor')
+		}
+
+		onMounted(() => {
+			getActiveColor()
+			editor.value.on('NodeChange', onNodeChange)
+		})
+
+		onBeforeUnmount(() => {
+			editor.value.off('NodeChange', onNodeChange)
+		})
+
+		return {
+			color,
+			onColorChange
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-	.vc-chrome {
+.vc-chrome {
 	width: 100% !important;
 }
 .vc-chrome * {
@@ -75,9 +75,10 @@ export default {
 .zion-inline-editor-button {
 	position: relative;
 }
+
 .zion-inline-editor-panel-color {
 	& > .zion-inline-editor-button {
-		padding: 14px 11px;
+		padding: 11px 11px;
 	}
 
 	.znpb-form-colorpicker {
@@ -88,6 +89,7 @@ export default {
 			background-position: 0 0, 3px 3px;
 			background-size: 6px 6px;
 		}
+
 		.znpb-colorpicker-circle {
 			width: 15px;
 			height: 15px;

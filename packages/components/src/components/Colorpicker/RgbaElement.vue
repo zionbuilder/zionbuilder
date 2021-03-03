@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-colorpicker-inner-editor-rgba">
-		<InputLabel >
+		<InputLabel>
 			<InputNumber
 				:modelValue="modelValue.r"
 				:min="0"
@@ -10,7 +10,7 @@
 			/>
 			R
 		</InputLabel>
-		<InputLabel >
+		<InputLabel>
 			<InputNumber
 				:modelValue="modelValue.g"
 				:min="0"
@@ -20,7 +20,7 @@
 			/>
 			G
 		</InputLabel>
-		<InputLabel >
+		<InputLabel>
 			<InputNumber
 				:modelValue="modelValue.b"
 				:min="0"
@@ -30,7 +30,7 @@
 			/>
 			B
 		</InputLabel>
-		<InputLabel >
+		<InputLabel>
 			<InputNumber
 				:modelValue="modelValue.a"
 				:min="0"
@@ -43,7 +43,8 @@
 	</div>
 </template>
 <script>
-import { InputNumber, InputLabel } from '../index.ts'
+import { InputNumber } from '../InputNumber'
+import { InputLabel } from '../InputLabel'
 
 export default {
 	name: 'RgbaElement',

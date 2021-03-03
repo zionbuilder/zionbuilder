@@ -136,16 +136,20 @@ class Accordions extends Element {
 		$this->register_style_options_element(
 			'inner_content_styles_title',
 			[
-				'title'    => esc_html__( 'Title styles', 'zionbuilder' ),
-				'selector' => '{{ELEMENT}} .zb-el-accordions-accordionTitle',
+				'title'                   => esc_html__( 'Title styles', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-accordions-accordionTitle',
+				'allow_custom_attributes' => false,
+				'allow_class_assignments' => false,
 			]
 		);
 
 		$this->register_style_options_element(
 			'inner_content_styles_content',
 			[
-				'title'    => esc_html__( 'Content styles', 'zionbuilder' ),
-				'selector' => '{{ELEMENT}} .zb-el-accordions-accordionContent',
+				'title'                   => esc_html__( 'Content styles', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-accordions-accordionContent',
+				'allow_custom_attributes' => false,
+				'allow_class_assignments' => false,
 			]
 		);
 	}

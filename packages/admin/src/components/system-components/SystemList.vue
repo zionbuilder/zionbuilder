@@ -36,12 +36,18 @@ export default {
 	display: flex;
 	margin-bottom: 30px;
 
+	@media (max-width: 767px) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
 	&__item {
 		flex-basis: 50%;
 		margin-bottom: 0;
 		color: $font-color;
-		line-height: 1;
+		line-height: 1.4;
 	}
+
 	h3 {
 		font-size: 12px;
 		font-weight: 700;

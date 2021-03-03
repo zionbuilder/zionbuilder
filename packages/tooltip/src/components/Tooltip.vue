@@ -48,6 +48,10 @@ export default {
 	inheritAttrs: false,
 	name: "Tooltip",
 	props: {
+		modifiers: {
+			type: Array,
+			required: false,
+		},
 		tag: {
 			default: "div",
 		},
@@ -207,6 +211,21 @@ export default {
 		};
 	},
 	watch: {
+		closeOnOutsideClick(newValue) {
+			if (newValue) {
+				this.ownerDocument.addEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
+			} else {
+				this.ownerDocument.removeEventListener(
+					"click",
+					this.onOutsideClick,
+					true
+				);
+			}
+		},
 		hideAfter(newValue) {
 			if (newValue) {
 				this.onHideAfter();
@@ -249,21 +268,21 @@ export default {
 		},
 		popperOptions() {
 			const options = JSON.parse(JSON.stringify(getDefaultOptions()));
-			const instanceOptions = JSON.parse(JSON.stringify(this.$attrs))
-
+			const instanceOptions = JSON.parse(JSON.stringify(this.$attrs));
+			instanceOptions.modifiers = this.modifiers || [];
 			// Apply offset for arrow
 			if (this.showArrows) {
-				instanceOptions.modifiers = instanceOptions.modifiers || []
-
-				const hasOffsetModifier = instanceOptions.modifiers.find(modifier => modifier.name === 'offset')
+				const hasOffsetModifier = instanceOptions.modifiers.find(
+					(modifier) => modifier.name === "offset"
+				);
 
 				if (!hasOffsetModifier) {
 					instanceOptions.modifiers.push({
-						name: 'offset',
+						name: "offset",
 						options: {
 							offset: [0, 10],
 						},
-					})
+					});
 				}
 			}
 
@@ -400,25 +419,29 @@ export default {
 		 * inside a label
 		 */
 		onClick: debounce(function (event) {
+			if (
+				this.popperElement &&
+				this.popperElement.contains(event.target)
+			) {
+				return;
+			}
+
 			this.visible = !this.visible;
 		}, 10),
 		onOutsideClick(event) {
-			// Allow tooltip creators to prevent all clickoutside handlers
-			setTimeout(() => {
-				// Hide popper if clicked outside
-				if (
-					this.visible &&
-					!preventOutsideClickPropagation &&
-					!this.$el.contains(event.target) &&
-					this.popperElement &&
-					!this.popperElement.contains(event.target)
-				) {
-					this.hidePopper();
-					this.$emit("hide");
-					this.$emit("update:show", false);
-					preventOutsideClickPropagation = false;
-				}
-			}, 0);
+			// Hide popper if clicked outside
+			if (
+				this.visible &&
+				!preventOutsideClickPropagation &&
+				!this.$el.contains(event.target) &&
+				this.popperElement &&
+				!this.popperElement.contains(event.target)
+			) {
+				this.hidePopper();
+				this.$emit("hide");
+				this.$emit("update:show", false);
+				preventOutsideClickPropagation = false;
+			}
 		},
 		onKeyDown(event) {
 			if (event.which === 27) {
@@ -567,6 +590,8 @@ export default {
 	}
 
 	&--with-arrows {
+		z-index: -1;
+
 		&:before {
 			content: "";
 			top: 0;

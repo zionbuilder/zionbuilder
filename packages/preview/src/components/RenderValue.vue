@@ -56,7 +56,6 @@ export default {
 		const elementInfo = inject('elementInfo')
 		const elementOptions = inject('elementOptions')
 
-
 		const elementOptionsSchema = computed(() => {
 			return elementInfo.elementTypeModel.options
 		})
@@ -113,8 +112,12 @@ export default {
 
 		const renderType = computed(() => {
 			if (optionType.value === 'editor' && !isValueDynamic.value) {
-				return 'editor'
-			} else if (isValueDynamic.value && (isValueDynamic.value.options || {})._enable_raw_html) {
+				if (elementInfo.isDisabled) {
+					return 'dynamic_html'
+				} else {
+					return 'editor'
+				}
+			} else if (isValueDynamic.value) {
 				return 'dynamic_html'
 			} else if (optionType.value === 'icon_library') {
 				return 'icon'

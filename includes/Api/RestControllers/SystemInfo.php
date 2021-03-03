@@ -3,7 +3,7 @@
 namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
-
+use ZionBuilder\Whitelabel;
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -279,7 +279,7 @@ class SystemInfo extends RestApiController {
 		$zion_uploads_path = $wp_upload_dir['basedir'] . '/zionbuilder';
 
 		if ( is_dir( $zion_uploads_path ) ) {
-			$paths[$zion_uploads_path] = esc_html__( 'Zion builder uploads directory', 'zionbuilder' );
+			$paths[$zion_uploads_path] = sprintf( '%s uploads directory', Whitelabel::get_title() );
 		}
 
 		$htaccess_file = ABSPATH . '/.htaccess';
@@ -320,14 +320,14 @@ class SystemInfo extends RestApiController {
 	 */
 	public function get_zion_library() {
 		$info         = [];
-		$info['name'] = esc_html__( 'zion library', 'zionbuilder' );
+		$info['name'] = sprintf( '%s library', Whitelabel::get_title() );
 		if ( post_type_exists( 'zionbuilder_library' ) ) {
 			$info['value'] = esc_html__( 'Connected', 'zionbuilder' );
 			$info['icon']  = 'ok';
 		} else {
 			$info['value']   = esc_html__( 'Disconnected', 'zionbuilder' );
 			$info['icon']    = 'not_ok';
-			$info['message'] = esc_html__( 'The zion library is disconnected!', 'zionbuilder' );
+			$info['message'] = sprintf( 'The %s library is disconnected!', Whitelabel::get_title() );
 		}
 		return $info;
 	}
@@ -455,13 +455,24 @@ class SystemInfo extends RestApiController {
 		$plugins_list   = [];
 
 		foreach ( $all_plugins as $plugin_id => $plugin_details ) {
+
 			if ( in_array( $plugin_id, $active_plugins, true ) ) {
-				$plugins_list[] = [
-					'name'    => $plugin_details['Name'],
-					'version' => $plugin_details['Version'],
-					'author'  => $plugin_details['Author'],
-					'url'     => $plugin_details['PluginURI'],
-				];
+				if ( $plugin_details['Name'] === 'Zion Builder' || $plugin_details['Name'] === 'Zion Builder Pro' ) {
+					$white_label_title = $plugin_details['Name'] === 'Zion Builder' ? Whitelabel::get_title() : sprintf( '%s Pro', Whitelabel::get_title() );
+					$plugins_list[]    = [
+						'name'    => $white_label_title,
+						'version' => $plugin_details['Version'],
+						'author'  => Whitelabel::get_title(),
+						'url'     => Whitelabel::get_help_url(),
+					];
+				} else {
+					$plugins_list[] = [
+						'name'    => $plugin_details['Name'],
+						'version' => $plugin_details['Version'],
+						'author'  => $plugin_details['Author'],
+						'url'     => $plugin_details['PluginURI'],
+					];
+				}
 			}
 		}
 

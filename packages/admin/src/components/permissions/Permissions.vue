@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-admin-content-wrapper znpb-permissions-wrapper">
-		<div class="znpb-admin-content znpb-admin-content--left">
+		<div class="znpb-admin-content znpb-admin-content--left znpb-admin-content--hiddenXs">
 		</div>
 		<div class="znpb-admin-content__permission-container">
 			<PageTemplate>
@@ -54,10 +54,10 @@
 							{{$translate('add_user')}}
 						</Button>
 						<Modal
+							class="znpb-admin-permissions-modal"
 							v-model:show="showModal"
 							:width="560"
 							:title="$translate('add_user')"
-							:fullscreen="true"
 							:show-backdrop="false"
 						>
 							<AddUserModalContent @close-modal="showModal=false" />
@@ -126,8 +126,19 @@ export default {
 </script>
 
 <style lang="scss" >
+.znpb-admin-permissions-modal {
+	& > .znpb-modal__wrapper--full-size {
+		width: 100%;
+		height: 90%;
+	}
+
+	& > .znpb-modal__wrapper {
+		width: calc(100% - 40px);
+	}
+}
 .znpb-admin-content__permission-container {
 	display: block;
+	width: 100%;
 	.znpb-admin-content--center {
 		flex: 0;
 	}

@@ -1,5 +1,6 @@
 import { getOptionValue, getStyles, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
+import { cloneDeep } from 'lodash-es'
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -36,13 +37,13 @@ export default class Options {
 
 	parseData() {
 		// Allow external data modification
-		const options = applyFilters('zionbuilder/options/model', this.model, this)
+		const options = this.model
 
 		// Set defaults and extract render attributes and custom css
 		this.parseOptions(this.schema, options)
 
 		return {
-			options: options,
+			options: applyFilters('zionbuilder/options/model', options, this),
 			renderAttributes: this.renderAttributes,
 			customCSS: this.getCustomCSS()
 		}
@@ -73,7 +74,7 @@ export default class Options {
 					// Get custom css
 					this.setCustomCSS(singleOptionSchema, model[optionId], index)
 				} else if (typeof singleOptionSchema.default !== 'undefined') {
-					model[optionId] = singleOptionSchema.default
+					model[optionId] = cloneDeep(singleOptionSchema.default)
 				}
 
 				if (typeof singleOptionSchema.child_options !== 'undefined') {

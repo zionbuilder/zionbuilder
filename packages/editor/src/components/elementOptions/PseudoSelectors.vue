@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="znpb-element-options__media-class-pseudo-holder"
-		@click="selectorIsOpen = !selectorIsOpen, contentOpen = false"
+		@click="selectorIsOpen = !selectorIsOpen, contentOpen = false, newPseudoName=false"
 		ref="root"
 	>
 		<span class="znpb-element-options__media-class-pseudo-name">
@@ -33,14 +33,14 @@
 			<template #content>
 				<div class="znpb-element-options__media-class-pseudo-selector-list hg-popper-list">
 					<PseudoDropdownItem
-						v-for="(selectorConfig, index) in pseudoSelectors"
+						v-for="(selectorConfig, index) in computedPseudoSelectors"
 						:selector="selectorConfig"
 						:selectors-model="activePseudoSelectors"
 						:key="index"
 						:clearable="selectorConfig.canBeDeleted"
 						@remove-styles="deleteConfigForPseudoSelector"
 						@selector-selected="onPseudoSelectorSelected"
-						@delete-selector="deleteCustomSelector(selectorConfig)"
+						@delete-selector="deletePseudoSelectorAndStyles"
 						class="hg-popper-list__item"
 					/>
 				</div>
@@ -89,7 +89,7 @@
 
 <script>
 import { computed, ref } from 'vue'
-import { cloneDeep, set } from 'lodash-es'
+import { cloneDeep, set, find } from 'lodash-es'
 import { updateOptionValue } from '@zb/utils'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 import { useEditorData } from '@composables'
@@ -105,12 +105,14 @@ export default {
 	props: {
 		modelValue: {
 			type: [Object, Array],
-			required: false
+			required: false,
+			default: {}
 		}
 	},
 	setup (props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { pseudoSelectors, activePseudoSelector, setActivePseudoSelector, deleteCustomSelector, addCustomSelector } = usePseudoSelectors()
+		const { editorData } = useEditorData()
 
 		// Refs / Data
 		const root = ref(null)
@@ -134,7 +136,27 @@ export default {
 				emit('update:modelValue', newValues)
 			}
 		})
-		const { editorData } = useEditorData()
+
+
+		const computedPseudoSelectors = computed(() => {
+			const savedSelectors = Object.keys(activePseudoSelectors.value)
+			const customSelectors = savedSelectors.filter((selector) => {
+				return !find(pseudoSelectors.value, ['id', selector])
+			})
+
+			// Combine selectors with custom selectors
+			return [
+				...pseudoSelectors.value,
+				...customSelectors.map(selector => {
+					return {
+						name: selector,
+						id: selector,
+						canBeDeleted: true
+					}
+				})
+			]
+		})
+
 
 		/**
 		 * emit the change of the pseudoselector
@@ -177,12 +199,14 @@ export default {
 		}
 
 		function deleteConfigForPseudoSelector (pseudoSelectorId) {
+
 			const newValues = {
 				...props.modelValue,
 				[activeResponsiveDeviceInfo.value.id]: {
 					...props.modelValue[activeResponsiveDeviceInfo.value.id]
 				}
 			}
+
 			delete newValues[activeResponsiveDeviceInfo.value.id][pseudoSelectorId]
 
 			// Check if there are any remaining styles for this responsive device
@@ -191,6 +215,11 @@ export default {
 			}
 
 			emit('update:modelValue', newValues)
+		}
+
+		function deletePseudoSelectorAndStyles (selector) {
+			deleteConfigForPseudoSelector(selector.id)
+			deleteCustomSelector(selector)
 		}
 
 		return {
@@ -202,7 +231,7 @@ export default {
 			newPseudoName,
 			customPseudoName,
 			activeResponsiveDeviceInfo,
-			pseudoSelectors,
+			computedPseudoSelectors,
 			activePseudoSelector,
 			hasContent,
 			activePseudoSelectors,
@@ -210,11 +239,11 @@ export default {
 			// Computed
 			pseudoContentModel,
 			// Methods
-			deleteCustomSelector,
 			onPseudoSelectorSelected,
 			deleteConfigForPseudoSelector,
 			createNewPseudoSelector,
-			closePanel
+			closePanel,
+			deletePseudoSelectorAndStyles
 		}
 	},
 	computed: {

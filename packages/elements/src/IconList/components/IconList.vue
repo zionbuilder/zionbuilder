@@ -5,8 +5,10 @@
 		<component
 			v-for="(item, index) in iconListConfig"
 			:key="index"
-			:is="item.link && item.link.link ? 'a' : 'div'"
+			:is="item.link && item.link.link ? 'a' : 'span'"
 			class="zb-el-iconList__item"
+			:class="[`zb-el-iconList__item--${index} `,api.getStyleClasses('item_styles')]"
+			v-bind="api.getAttributesForTag('item_styles')"
 		>
 			<ElementIcon
 				class="zb-el-iconList__itemIcon"
@@ -33,10 +35,6 @@ export default {
 	name: 'icon_list',
 	props: ['options', 'element', 'api'],
 	computed: {
-		getTag (item) {
-			// Check if has link else span
-			return item.link && item.link.link ? 'a' : 'div'
-		},
 		iconListConfig () {
 			return this.options.icons ? this.options.icons : []
 		}

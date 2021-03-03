@@ -9,6 +9,7 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -82,21 +83,21 @@ class Element {
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $extra_render_data = [];
+	public $extra_render_data = [];
 
 	/**
 	 * Holds the render attributes class object
 	 *
 	 * @var RenderAttributes
 	 */
-	protected $render_attributes = null;
+	public $render_attributes = null;
 
 	/**
 	 * Holds the custom css class object
 	 *
 	 * @var CustomCSS
 	 */
-	protected $custom_css = null;
+	public $custom_css = null;
 
 	/**
 	 * Holds a list of editor scripts URLs
@@ -133,6 +134,15 @@ class Element {
 	 */
 	protected $hooks = [];
 
+	public $data         = [];
+	private $parsed_data = false;
+
+	// repeater
+	public $is_repeater_item = false;
+	public $main_class       = null;
+
+	private $current_provides = [];
+
 	/**
 	 * Main class constructor
 	 *
@@ -145,7 +155,7 @@ class Element {
 		$element_type  = $this->get_type();
 		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
 
-		// Register element options
+		// Register element options. We only need them on class init with data
 		$this->options( $this->options );
 
 		// Trigger internal action
@@ -153,6 +163,8 @@ class Element {
 
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
+			$this->data = $data;
+
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
 			}
@@ -161,22 +173,39 @@ class Element {
 				$this->content = $data['content'];
 			}
 
-			//Set model
-			$model = isset( $data['options'] ) ? $data['options'] : [];
+			if ( isset( $data['is_repeater_item'] ) ) {
+				$this->is_repeater_item = $data['is_repeater_item'];
+			}
 
-			// Setup helpers
-			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
-
-			// loops through the options model and schema to set the proper model
-			$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
-
-			// Setup render tags custom css classes
-			$this->apply_custom_classes_to_render_tags();
+			if ( isset( $data['main_class'] ) ) {
+				$this->main_class = $data['main_class'];
+			}
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	public function prepare_element_data() {
+		$data = $this->data;
+
+		//Set model
+		$model = isset( $data['options'] ) ? $data['options'] : [];
+
+		// Setup helpers
+		$this->render_attributes = new RenderAttributes();
+		$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+
+		// loops through the options model and schema to set the proper model
+		$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
+
+		// Setup render tags custom css classes
+		$this->apply_custom_classes_to_render_tags();
+
+		// Setup render tags customattributes
+		$this->apply_custom_attributes_to_render_tags();
+
+		$this->parsed_data = true;
 	}
 
 	/**
@@ -193,6 +222,11 @@ class Element {
 		}
 
 		$this->hooks[$action_name][] = $callback;
+	}
+
+	public function get_clone( $data ) {
+		$element_data = array_merge( $this->data, $data );
+		return Plugin::instance()->elements_manager->get_element_instance_with_data( $element_data );
 	}
 
 	/**
@@ -223,10 +257,31 @@ class Element {
 		foreach ( $element_saved_styles as $style_config_id => $style_value ) {
 			if ( isset( $styles_config[$style_config_id] ) ) {
 				$style_config = $styles_config[$style_config_id];
+				$render_tag   = isset( $style_config['render_tag'] ) ? $style_config['render_tag'] : $style_config_id;
 
-				if ( isset( $style_config['render_tag'] ) && isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
+				if ( isset( $style_value['classes'] ) && is_array( $style_value['classes'] ) ) {
 					foreach ( $style_value['classes'] as $css_class ) {
-						$this->render_attributes->add( $style_config['render_tag'], 'class', $css_class );
+						$this->render_attributes->add( $render_tag, 'class', $css_class );
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Attaches all custom render attributes
+	 *
+	 * @return void
+	 */
+	public function apply_custom_attributes_to_render_tags() {
+		$styles_attrs = $this->options->get_value( '_styles', [] );
+
+		foreach ( $styles_attrs as $id => $style_values ) {
+			if ( isset( $style_values['attributes'] ) && is_array( $style_values['attributes'] ) ) {
+				foreach ( $style_values['attributes'] as $attributes ) {
+					if ( ! empty( $attributes['attribute_name'] ) ) {
+						$attribute_value = isset( $attributes['attribute_value'] ) ? $attributes['attribute_value'] : '';
+						$this->render_attributes->add( $id, sanitize_title_with_dashes( $attributes['attribute_name'] ), esc_attr( $attribute_value ) );
 					}
 				}
 			}
@@ -426,6 +481,7 @@ class Element {
 			'is_child'            => $this->is_child(),
 			'scripts'             => $this->get_element_scripts_for_editor(),
 			'styles'              => $this->get_element_styles_for_editor(),
+			'content_orientation' => $this->get_sortable_content_orientation(),
 		];
 
 		// Add extra data
@@ -630,7 +686,8 @@ class Element {
 	 *
 	 * @return void
 	 */
-	public function server_render() {
+	public function server_render( $request ) {
+		$this->prepare_element_data();
 		$this->render( $this->options );
 	}
 
@@ -666,7 +723,10 @@ class Element {
 			return;
 		}
 
+		$this->prepare_element_data();
+
 		$this->extra_render_data = $extra_render_data;
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 		$this->before_render( $this->options );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
@@ -706,7 +766,11 @@ class Element {
 		$this->render( $this->options );
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
+		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 		$this->after_render( $this->options );
+
+		// Reset prvides
+		$this->reset_provides();
 	}
 
 
@@ -878,7 +942,7 @@ class Element {
 	/**
 	 * @return bool
 	 */
-	final private function element_is_allowed_render() {
+	private function element_is_allowed_render() {
 		// Check user generated render allowed
 		if ( ! $this->can_render() ) {
 			return false;
@@ -925,6 +989,13 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
+		$can_generate = apply_filters( 'zionbuilder/element/can_generate_extra_css', true, $this );
+		if ( ! $can_generate ) {
+			return '';
+		}
+
+		$this->prepare_element_data();
+
 		$css = '';
 
 		// Compile styling options
@@ -934,7 +1005,10 @@ class Element {
 		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
 			foreach ( $registered_styles as $id => $style_config ) {
 				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
-					$selector = str_replace( '{{ELEMENT}}', '#' . $this->get_element_css_id(), $style_config['selector'] );
+					$css_selector = '#' . $this->get_element_css_id();
+					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', $css_selector, $this );
+
+					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
 					$css     .= Style::get_styles( $selector, $styles[$id]['styles'] );
 				}
 			}
@@ -1143,6 +1217,16 @@ class Element {
 		return $scripts;
 	}
 
+
+	/**
+	 * Will return the default orientation for the element orientation
+	 *
+	 * @return string
+	 */
+	public function get_sortable_content_orientation() {
+		return 'horizontal';
+	}
+
 	/**
 	 * Get Editor Scripts
 	 *
@@ -1284,7 +1368,12 @@ class Element {
 	 * @return void
 	 */
 	public function provide( $key, $value ) {
-		self::$provides[$key] = $value;
+		if ( ! isset( self::$provides[$key] ) || ! is_array( self::$provides[$key] ) ) {
+			self::$provides[$key] = [];
+		}
+
+		$this->current_provides[] = $key;
+		self::$provides[$key][]   = $value;
 	}
 
 
@@ -1295,7 +1384,15 @@ class Element {
 	 * @return null|mixed
 	 */
 	public function inject( $key ) {
-		return isset( self::$provides[$key] ) ? self::$provides[$key] : null;
+		if ( isset( self::$provides[$key] ) && is_array( self::$provides[$key] ) ) {
+			return end( self::$provides[$key] );
+		}
+	}
+
+	public function reset_provides() {
+		foreach ( $this->current_provides as $provide_key ) {
+			array_pop( self::$provides[$provide_key] );
+		}
 	}
 
 	/**

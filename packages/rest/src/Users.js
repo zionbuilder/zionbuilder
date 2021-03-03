@@ -1,4 +1,6 @@
-import WPService from './WPService'
+import {
+	WPService
+} from './WPService'
 
 export const getUsers = function (options) {
 	return WPService.get('users')

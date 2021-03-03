@@ -70,5 +70,10 @@ export default {
 	text-transform: capitalize;
 	white-space: pre-wrap;
 	border-radius: 3px;
+
+	@media (max-width: 767px) {
+		min-width: auto;
+		max-width: 100%;
+	}
 }
 </style>

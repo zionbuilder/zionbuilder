@@ -26,10 +26,24 @@ class Typography extends BaseSchema {
 			'text-align',
 			[
 				'type'        => 'text_align',
-				'layout'      => 'inline',
-				'width'       => 100,
+				'width'       => 80,
 				'title'       => esc_html__( 'Align', 'zionbuilder' ),
 				'description' => esc_html__( 'Select the desired text align.', 'zionbuilder' ),
+			]
+		);
+
+		$typography_options->add_option(
+			'white-space',
+			[
+				'type'      => 'custom_selector',
+				'width'     => 20,
+				'css_class' => 'znpb-input-wrapper--valign-end',
+				'options'   => [
+					[
+						'icon' => 'line-break',
+						'id'   => 'nowrap',
+					],
+				],
 			]
 		);
 
@@ -39,7 +53,7 @@ class Typography extends BaseSchema {
 				'title'       => esc_html__( 'Font Family', 'zionbuilder' ),
 				'type'        => 'select',
 				'data_source' => 'fonts',
-				'width'       => 60,
+				'width'       => 50,
 				'style_type'  => 'font-select',
 			]
 		);
@@ -51,7 +65,7 @@ class Typography extends BaseSchema {
 				'description' => esc_html__( 'Font weight allows you to set the text thickness.', 'zionbuilder' ),
 				'type'        => 'select',
 				'default'     => '400',
-				'width'       => 40,
+				'width'       => 50,
 				'options'     => [
 					[
 						'id'   => '100',
@@ -167,17 +181,14 @@ class Typography extends BaseSchema {
 				'options'       => [
 					[
 						'icon' => 'italic',
-						'name' => 'italic',
 						'id'   => 'italic',
 					],
 					[
 						'icon' => 'underline',
-						'name' => 'underline',
 						'id'   => 'underline',
 					],
 					[
 						'icon' => 'strikethrough',
-						'name' => 'strikethrough',
 						'id'   => 'line-through',
 					],
 				],
