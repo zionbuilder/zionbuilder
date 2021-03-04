@@ -14,7 +14,8 @@
     "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",
     "vue-loader": "^16.1.2",
-    "webpack-merge": "^5.1.4"
+    "webpack-merge": "^5.1.4",
+    "webpack": "^5.1.4"
   },
   "main": "src/index.js",
   "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
