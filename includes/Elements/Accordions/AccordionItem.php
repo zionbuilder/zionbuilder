@@ -68,6 +68,9 @@ class AccordionItem extends Element {
 				'type'    => 'text',
 				'title'   => esc_html__( 'Title', 'zionbuilder' ),
 				'default' => esc_html__( 'Accordion title', 'zionbuilder' ),
+				'dynamic' => [
+					'enabled' => true,
+				],
 			]
 		);
 
