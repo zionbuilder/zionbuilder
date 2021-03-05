@@ -74,7 +74,7 @@ class Gutenberg {
 				if (!this.$editorLayout.length) {
 					this.$editorLayout = $('.block-editor-block-list__layout')
 				}
-				console.log(this.$editorHeader);
+
 				if (this.$editorHeader.length > 0 && this.$editorLayout.length > 0) {
 					this.$editorHeader.append(this.$buttonsWrapper)
 					this.$editorLayout.append(this.$editorBlockFrame)

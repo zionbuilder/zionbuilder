@@ -3,7 +3,7 @@ import { ref, Ref } from 'vue'
 const activePopup: Ref<null | object> = ref(null)
 const shouldOpenPopup = ref(false)
 
-export function useAddElementsPopup () {
+export function useAddElementsPopup() {
 	const showAddElementsPopup = (element, selector, config = {}) => {
 		if (activePopup.value && activePopup.value.element === element) {
 			hideAddElementsPopup()
