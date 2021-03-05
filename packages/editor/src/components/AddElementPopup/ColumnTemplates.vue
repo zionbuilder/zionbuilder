@@ -55,7 +55,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { getOptionValue } from '@zb/utils'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels, useAddElementsPopup, useWindows, useHistory, useEditorData } from '@composables'
+import { usePanels, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -128,10 +128,44 @@ export default {
 			]
 		}
 
+		function getOrientation (element) {
+
+
+			const { getElementType } = useElementTypes()
+
+			let orientation = 'horizontal'
+
+			if (element.element_type === 'contentRoot') {
+				return 'vertical'
+			}
+
+			const elementType = getElementType(element.element_type)
+
+			if (elementType) {
+				orientation = elementType.content_orientation
+			}
+
+			// Check columns and section direction
+			if (element.options.inner_content_layout) {
+				orientation = element.options.inner_content_layout
+			}
+
+			// Check media settings
+			const mediaOrientation = getOptionValue(element.options, '_styles.wrapper.styles.default.default.flex-direction')
+
+			if (mediaOrientation) {
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+			}
+
+			return orientation
+
+		}
+
 		const addElements = (config) => {
 			const { insertElement, getElementForInsert, shouldOpenPopup } = useAddElementsPopup()
 			const activeElementForInsert = getElementForInsert()
 			const elementType = activeElementForInsert.element.element_type
+			const parentOrientation = getOrientation(activeElementForInsert.element)
 
 			// Add a section if this will be inserted on root
 			if (elementType === 'contentRoot') {
@@ -142,16 +176,7 @@ export default {
 					}
 				]
 			} else {
-				let orientation = props.element.parent.default_content_orientation || 'column'
-				orientation = getOptionValue(props.element.parent.options, '_styles.wrapper.styles.default.default.flex-direction', orientation)
-
-				if (elementType === 'zion_section') {
-					if (getOptionValue(props.element.parent.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row') === 'column') {
-						config = wrapColumn(config)
-					}
-				}
-
-				if (orientation === 'column') {
+				if (parentOrientation === 'vertical') {
 					config = wrapColumn(config)
 				}
 			}

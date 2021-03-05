@@ -48,7 +48,7 @@ export default {
 		},
 		item_name: {
 			type: String,
-			required: true
+			required: false
 		},
 		min: {
 			type: Number

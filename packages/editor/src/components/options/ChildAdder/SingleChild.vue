@@ -33,7 +33,7 @@ export default {
 		},
 		itemOptionName: {
 			type: String,
-			required: true
+			required: false
 		},
 		showDelete: {
 			type: Boolean,
@@ -55,7 +55,6 @@ export default {
 <style lang="scss">
 .znpb-options-childs__element {
 	background-color: $surface-variant;
-
 
 	&-inner {
 		z-index: 9;
