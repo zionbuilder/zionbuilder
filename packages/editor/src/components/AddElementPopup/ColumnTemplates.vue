@@ -52,9 +52,8 @@
 	</div>
 </template>
 <script>
-import { ref, computed, onBeforeUnmount, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { getOptionValue, generateElements } from '@zb/utils'
-import { on, off, trigger } from '@zb/hooks'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { getOptionValue } from '@zb/utils'
 import { getLayoutConfigs } from './layouts.js'
 import { usePanels, useAddElementsPopup, useWindows, useHistory, useEditorData } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
