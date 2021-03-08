@@ -719,11 +719,11 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
+		$this->prepare_element_data();
+
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
 		}
-
-		$this->prepare_element_data();
 
 		$this->extra_render_data = $extra_render_data;
 		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
