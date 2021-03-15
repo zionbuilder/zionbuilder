@@ -191,7 +191,8 @@ export default {
 			deleteValue,
 			activePseudoSelector,
 			elementInfo,
-			deleteValues
+			deleteValues,
+			getTopModelValueByPath
 		}
 	},
 	computed: {
@@ -225,14 +226,14 @@ export default {
 					// Check to see if we need to get the schema from the path
 					if (optionPath) {
 						const defaultValue = optionSchema ? optionSchema.default : false
-						savedValue = this.getValueByPath(optionPath, defaultValue)
+						savedValue = this.getTopModelValueByPath(optionPath, defaultValue)
 					} else {
 						// Get the saved value from option schema
 						savedValue = typeof this.modelValue[option] !== 'undefined' ? this.modelValue[option] : optionSchema.default
 						if (optionSchema.sync) {
 							// Check to see if the option is actually a sync option
 							const syncValue = this.compilePlaceholder(optionSchema.sync)
-							savedValue = this.getValueByPath(syncValue, savedValue)
+							savedValue = this.getTopModelValueByPath(syncValue, savedValue)
 						}
 					}
 
@@ -342,7 +343,7 @@ export default {
 			return optionConfig
 		},
 		getOptionSchemaFromPath (optionPath) {
-			if (!this.elementInfo.optionsSchema) {
+			if (!this.elementInfo.elementTypeModel.options) {
 				return false
 			}
 
@@ -353,7 +354,7 @@ export default {
 				} else {
 					return false
 				}
-			}, this.elementInfo.optionsSchema)
+			}, this.elementInfo.elementTypeModel.options)
 		},
 		onOptionChange (changed) {
 			this.$emit('change', changed)
