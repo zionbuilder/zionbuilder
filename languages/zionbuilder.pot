@@ -567,7 +567,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:202, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:78, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:202, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:81, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -2428,11 +2428,11 @@ msgstr ""
 msgid "Accordion title"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:79
+#: ../includes/Elements/Accordions/AccordionItem.php:82
 msgid "Accordion content"
 msgstr ""
 
-#: ../includes/Elements/Accordions/AccordionItem.php:89
+#: ../includes/Elements/Accordions/AccordionItem.php:92
 msgid "Active by default?"
 msgstr ""
 

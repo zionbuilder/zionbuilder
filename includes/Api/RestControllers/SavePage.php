@@ -85,7 +85,7 @@ class SavePage extends RestApiController {
 
 		// Save css classes
 		$css_classes = $request->get_param( 'css_classes' );
-		if ( ! empty( $css_classes ) ) {
+		if ( null !== $css_classes ) {
 			// Save the css classes
 			CSSClasses::save_classes( $css_classes );
 		}

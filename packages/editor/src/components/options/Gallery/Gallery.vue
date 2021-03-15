@@ -66,14 +66,6 @@ export default {
 			required: false,
 			type: String,
 			default: 'image'
-		},
-		/**
-		 * Text on button
-		 */
-		selectButtonText: {
-			required: false,
-			type: String,
-			default: 'Select'
 		}
 	},
 	data () {

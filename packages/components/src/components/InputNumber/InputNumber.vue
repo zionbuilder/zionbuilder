@@ -16,6 +16,7 @@
 			<!-- @slot Content that represents units -->
 			<template v-slot:suffix>
 				<slot></slot>
+				{{suffix}}
 			</template>
 
 		</BaseInput>
@@ -77,7 +78,10 @@ export default {
 		optionConfig: {
 			type: Object,
 			required: false
-		}
+		},
+		suffix: {
+			required: false
+		},
 	},
 	data () {
 		return {

@@ -140,15 +140,5 @@ class CommonJS {
 			]
 		);
 
-		// Register common script
-		// Plugin::instance()->scripts->register_script(
-		// 	'zb-common',
-		// 	'js/common.js',
-		// 	[
-		// 		'zb-vue',
-		// 	],
-		// 	Plugin::instance()->get_version(),
-		// 	true
-		// );
 	}
 }

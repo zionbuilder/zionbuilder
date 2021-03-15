@@ -96,7 +96,7 @@ class SystemInfo extends RestApiController {
 					'gd_installed'       => $this->gd_installed(),
 					'zip_installed'      => $this->zip_installed(),
 					'write_permissions'  => $this->get_write_permissions(),
-					'zion_library'       => $this->get_zion_library(),
+					// 'zion_library'       => $this->get_zion_library(),
 				],
 			],
 			[
