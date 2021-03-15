@@ -74,6 +74,7 @@ export default {
 					id: 'height',
 					title: this.$translate('select_mask_height'),
 					width: '100',
+					responsive_options: true,
 					options: [
 						{ 'unit': 'px', 'min': 0, 'max': 4999, 'step': 1 },
 						{ 'unit': '%', 'min': 0, 'max': 100, 'step': 1 },

@@ -60,18 +60,57 @@ class CustomCSS {
 	 * @return void
 	 */
 	public function parse_options_schema( $option_schema, $option_value, $index ) {
-		if ( ! isset( $option_schema->css_style ) || ! is_array( $option_schema->css_style ) ) {
-			return;
-		}
+		if ( isset( $option_schema->css_style ) && is_array( $option_schema->css_style ) ) {
+			// Check for custom css
+			foreach ( $option_schema->css_style as $css_style_config ) {
+				if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
+					$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
+				} else {
+					$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
+				}
+			}
+		} else {
+			if ( $option_schema->type === 'shape_dividers' ) {
+				if ( is_array( $option_value ) ) {
 
-		// Check for custom css
-		foreach ( $option_schema->css_style as $css_style_config ) {
-			if ( isset( $option_schema->responsive_options ) && $option_schema->responsive_options ) {
-				$this->extract_responsive_option_css( $option_schema->type, $css_style_config, $option_value, $index );
-			} else {
-				$this->extract_option_css( 'default', $option_schema->type, $css_style_config, $option_value, $index );
+					foreach ( $option_value as $position => $value ) {
+						$shape  = isset( $value['shape'] ) ? $value['shape'] : false;
+						$height = isset( $value['height'] ) ? $value['height'] : false;
+
+						if ( $shape && $height ) {
+							// Normalize height
+							if ( ! is_array( $value['height'] ) ) {
+								$height = [
+									'default' => $value['height'],
+								];
+							}
+
+							$selector          = sprintf( 'zb-mask-pos--%s', $position );
+							$custom_css_config = [
+								'selector' => sprintf( '%s .%s', $this->css_selector, $selector ),
+								'value'    => 'height: {{VALUE}}',
+							];
+
+							$this->extract_responsive_option_css( $option_schema->type, $custom_css_config, $height, $index );
+						}
+					}
+				}
+
+				// if (typeof model === 'object') {
+				// 	forEach(model, (maskConfig, position) => {
+				// 		const { shape, height } = maskConfig
+				// 		if (shape && height) {
+				// 			const selector = `zb-mask-pos--${position}`
+				// 			this.extractResponsiveCSSRules(schema.type, {
+				// 				selector: `${this.selector} .${selector}`,
+				// 				value: 'height: {{VALUE}}'
+				// 			}, height, index)
+				// 		}
+				// 	})
+				// }
 			}
 		}
+
 	}
 
 	/**
