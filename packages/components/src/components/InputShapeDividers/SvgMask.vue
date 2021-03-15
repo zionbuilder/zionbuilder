@@ -6,7 +6,7 @@
 			position==='top' ?'zb-mask-pos--top': 'zb-mask-pos--bottom',
 			flip ? 'zb-mask-pos--flip': ''
 		]"
-		:style="{'color':color, 'height': height}"
+		:style="{'color':color}"
 	>
 
 	</div>
@@ -42,7 +42,7 @@ export default {
 			required: false
 		}
 	},
-	setup(){
+	setup () {
 		const masks = inject('masks')
 
 		return {
@@ -56,7 +56,7 @@ export default {
 	},
 	computed: {
 		getSvgIcon () {
-			return `${this.svgData}`
+			return this.svgData
 		}
 	},
 	watch: {

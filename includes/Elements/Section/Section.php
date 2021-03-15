@@ -451,7 +451,7 @@ class Section extends Element {
 			[
 				'type'      => 'panel_accordion',
 				'title'     => __( 'Shape Dividers', 'zionbuilder' ),
-				'collapsed' => false,
+				'collapsed' => true,
 			]
 		);
 
