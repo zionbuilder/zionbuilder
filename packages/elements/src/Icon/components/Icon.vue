@@ -10,12 +10,15 @@
 			class="zb-el-icon-link zb-el-icon-icon"
 			:data-znpbiconfam="iconConfig.family"
 			:data-znpbicon="iconUnicode"
+			v-bind="api.getAttributesForTag('shape')"
 		>
 		</a>
+
 		<ElementIcon
 			v-else
 			class="zb-el-icon-icon"
 			:iconConfig="iconConfig"
+			v-bind="api.getAttributesForTag('shape')"
 		/>
 
 		<slot name="end" />
