@@ -100,8 +100,8 @@ export default {
 		/**
 		 * Returns a value for the top level model value by specifying a path
 		 */
-		function getTopModelValueByPath (path) {
-			return get(topModelValue.value, path)
+		function getTopModelValueByPath (path, defaultValue = null) {
+			return get(topModelValue.value, path, defaultValue)
 		}
 
 		const getValueByPath = (path, defaultValue = null) => {
@@ -238,7 +238,6 @@ export default {
 					}
 
 					const validationType = type || 'includes'
-
 					if (conditionsMet && validationType === 'includes' && value.includes(savedValue)) {
 						conditionsMet = true
 					} else if (conditionsMet && validationType === 'not_in' && !value.includes(savedValue)) {

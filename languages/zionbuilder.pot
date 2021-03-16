@@ -2636,7 +2636,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:266
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/Icon/Icon.php:419, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:266
 msgid "Icon styles"
 msgstr ""
 

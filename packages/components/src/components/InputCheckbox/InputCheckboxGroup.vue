@@ -158,6 +158,7 @@ export default {
 
 			.znpb-checkmark-option {
 				padding: 13px;
+				margin-left: 0;
 			}
 		}
 
