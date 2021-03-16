@@ -78,8 +78,8 @@ class Preview {
 
 		// Load preview scripts. We use a high order so we can create a list of other loaded scripts
 		// Load styles before theme styles
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 100 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 100 );
 
 		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}

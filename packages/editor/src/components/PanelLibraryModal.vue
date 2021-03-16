@@ -167,7 +167,6 @@ import { ref, watch } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
-import { generateElements, generateUID } from '@zb/utils'
 import { usePanels, useElements, useEditorData } from '@composables'
 import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
 

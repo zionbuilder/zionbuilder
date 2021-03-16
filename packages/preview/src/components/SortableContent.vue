@@ -19,6 +19,7 @@
 			:key="childElement.uid"
 			:element="childElement"
 			:zion-element-uid="childElement.uid"
+			:on-element-setup="onElementSetup"
 		/>
 
 		<template #start>
@@ -74,6 +75,9 @@ export default {
 		},
 		emptyPlaceholderText: {
 			type: String
+		},
+		onElementSetup: {
+			type: Function
 		}
 	},
 	setup (props) {

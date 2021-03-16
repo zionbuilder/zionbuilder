@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.6
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -223,6 +223,16 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.1.0 2021-03-16 =
+* Feature: Improved compatibility with caching plugins
+* Feature: Added ability to change the icon background for icon element
+* Feature: Added style options for icon element
+* Feature: Added repsonsive options for section/column mask height
+* Improvement: Added ability to use dynamic data for accordion titles
+* Fixed: 0 column offset not applying
+* Fixed: Custom css classes cannot be deleted in certain conditions
+* Fixed: Various small fixes
+
 = 2.0.0 2021-02-26 =
 * Feature: Added breadcrumbs above options when using element options search
 * Feature: Added element icon for elements in tree view

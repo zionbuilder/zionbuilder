@@ -1,5 +1,8 @@
 <template>
-	<div class="zb">
+	<div
+		class="zb"
+		:class="previewAppClasses"
+	>
 		<SortableContent
 			v-if="element"
 			class="znpb-preview-page-wrapper"
@@ -17,13 +20,13 @@
 
 </template>
 <script>
-import { computed, ref, onBeforeUnmount, watch, provide } from 'vue'
+import { computed, ref, watch, provide } from 'vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import SortableContent from './components/SortableContent.vue'
 import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows, useEditorData } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
-import { trigger } from '@zb/hooks'
+import { trigger, applyFilters } from '@zb/hooks'
 
 export default {
 	name: 'PreviewApp',
@@ -61,13 +64,16 @@ export default {
 		// Allow other to hook into setup
 		trigger('zionbuilder/preview/app/setup')
 
+		const previewAppClasses = applyFilters('zionbuilder/preview/app/css_classes', editorData.value.preview_app_css_classes)
+
 		return {
 			element,
 			showExportModal,
 			getSchema,
 			CSSClasses,
 			isPreviewMode,
-			pageSettings
+			pageSettings,
+			previewAppClasses
 		}
 	}
 }

@@ -176,6 +176,33 @@ export default {
 				})
 			}
 
+			// Check for custom css classes
+			const elementStyleConfig = props.element.elementTypeModel.style_elements
+			if (elementStyleConfig) {
+				Object.keys(elementStyleConfig).forEach(styleId => {
+					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].classes) {
+						const styleConfig = elementStyleConfig[styleId]
+						const renderTag = styleConfig.render_tag
+
+						if (renderTag) {
+							options.value._styles[styleId].classes.forEach(cssClass => {
+
+								if (!additionalAttributes[renderTag]) {
+									additionalAttributes[renderTag] = {}
+								}
+
+
+								additionalAttributes[renderTag]['class'] = [
+									...(additionalAttributes[renderTag]['class'] || []),
+									cssClass
+								]
+							})
+						}
+
+					}
+				})
+			}
+
 			return {
 				...optionsAttributes,
 				...additionalAttributes

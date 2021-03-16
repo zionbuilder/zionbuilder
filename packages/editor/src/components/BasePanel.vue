@@ -491,7 +491,7 @@ export default {
 		// box-shadow: 2px 0 0 0 $border-color;
 		border-right: 2px solid $border-color;
 		.znpb-editor-panel__resize--horizontal {
-			right: -3px;
+			right: -5px;
 		}
 	}
 
@@ -502,7 +502,7 @@ export default {
 		// box-shadow: -2px 0 0 0 $border-color;
 		border-left: 2px solid $border-color;
 		.znpb-editor-panel__resize--horizontal {
-			left: -3px;
+			left: -5px;
 		}
 	}
 	&--right + &--right {
@@ -512,7 +512,7 @@ export default {
 		box-shadow: 0 0 0 2px $border-color;
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
-			right: -3px;
+			right: -5px;
 		}
 	}
 }
@@ -582,7 +582,7 @@ h4.znpb-panel__header-name {
 
 	&--vertical {
 		right: 0;
-		bottom: -3px;
+		bottom: -5px;
 		width: 100%;
 		height: 5px;
 		&:hover {
@@ -597,5 +597,9 @@ h4.znpb-panel__header-name {
 	flex-direction: column;
 	overflow: hidden;
 	height: 100%;
+}
+
+.znpb-color-picker--backdrop .znpb-editor-panel__resize {
+	display: none;
 }
 </style>

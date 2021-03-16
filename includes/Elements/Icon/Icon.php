@@ -403,4 +403,23 @@ class Icon extends Element {
 
 		$this->render_tag( $html_tag, 'shape' );
 	}
+
+		/**
+	 * Get style elements
+	 *
+	 * Returns a list of elements/tags that for which you
+	 * want to show style options
+	 *
+	 * @return void
+	 */
+	public function on_register_styles() {
+		$this->register_style_options_element(
+			'icon_styles',
+			[
+				'title'      => esc_html__( 'Icon styles', 'zionbuilder' ),
+				'selector'   => '{{ELEMENT}} .zb-el-icon-icon',
+				'render_tag' => 'shape',
+			]
+		);
+	}
 }

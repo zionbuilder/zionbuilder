@@ -1,6 +1,6 @@
 import { getOptionValue, getStyles, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, forEach } from 'lodash-es'
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -176,8 +176,6 @@ export default class Options {
 					}
 
 					Object.keys(model).forEach(deviceId => {
-
-
 						// Don't proceed if we do not have a value
 						if (!model[deviceId] || typeof CSSDeviceMap[deviceId] === 'undefined') {
 							return
@@ -212,6 +210,28 @@ export default class Options {
 					this.extractCSSRule('default', schema.type, cssStyleConfig, model, index)
 				}
 			})
+		} else {
+			if (schema.type === 'shape_dividers') {
+				if (typeof model === 'object') {
+					forEach(model, (maskConfig, position) => {
+						let { shape, height } = maskConfig
+						if (shape && height) {
+							const selector = `zb-mask-pos--${position}`
+
+							// Normalize height
+							if (typeof height === 'string') {
+								height = {
+									default: height
+								}
+							}
+							this.extractResponsiveCSSRules(schema.type, {
+								selector: `${this.selector} .${selector}`,
+								value: 'height: {{VALUE}}'
+							}, height, index)
+						}
+					})
+				}
+			}
 		}
 	}
 
@@ -286,7 +306,7 @@ export default class Options {
 				}
 
 				const deviceWidth = CSSDeviceMap[device]
-				returnedCSS += `@media (max-width: ${deviceWidth}) { ${extractedCSS} }`
+				returnedCSS += `@media(max-width: ${deviceWidth}) { ${extractedCSS} } `
 			}
 		})
 
@@ -298,7 +318,7 @@ export default class Options {
 		if (typeof stylesData === 'object' && stylesData !== null) {
 			Object.keys(stylesData).forEach(selector => {
 				const styleCSSArray = stylesData[selector]
-				returnedStyles += `${selector} { ${styleCSSArray.join(';')} }`
+				returnedStyles += `${selector} { ${styleCSSArray.join(';')} } `
 			})
 		}
 

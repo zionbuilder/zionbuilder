@@ -56,8 +56,8 @@ class Cache {
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ], 99 );
+			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ], 99 );
 		} else {
 			// Register default scripts so we can use them in edit mode
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ], 99 );
@@ -87,6 +87,7 @@ class Cache {
 		wp_register_style( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.css' ), [], Plugin::instance()->get_version() );
 
 		// Register scripts
+		wp_register_script( 'zb-modal', Utils::get_file_url( 'assets/vendors/js/modal.min.js' ), [], Plugin::instance()->get_version(), true );
 		// Video
 		wp_register_script( 'zb-video', Utils::get_file_url( 'assets/vendors/js/ZBVideo.js' ), [], Plugin::instance()->get_version(), true );
 		wp_register_script( 'zb-video-bg', Utils::get_file_url( 'assets/vendors/js/ZBVideoBg.js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );

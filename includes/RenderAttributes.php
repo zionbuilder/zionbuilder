@@ -207,7 +207,7 @@ class RenderAttributes {
 					if ( property_exists( $option_schema, 'responsive_options' ) && $option_schema->responsive_options ) {
 						$option_value = ! is_array( $option_value ) ? [ 'default' => $option_value ] : $option_value;
 						foreach ( $option_value as $device_id => $value ) {
-							if ( ! isset( self::$responsive_devices_map[$device_id] ) || empty( $value ) ) {
+							if ( ! isset( self::$responsive_devices_map[$device_id] ) || ! isset( $value ) ) {
 								continue;
 							}
 

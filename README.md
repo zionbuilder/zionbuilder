@@ -248,6 +248,16 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 
 ## Changelog ##
+###  2.0.0 2021-03-16 ###
+* Feature: Improved compatibility with caching plugins
+* Feature: Added ability to change the icon background for icon element
+* Feature: Added style options for icon element
+* Feature: Added repsonsive options for section/column mask height
+* Improvement: Added ability to use dynamic data for accordion titles
+* Fixed: 0 column offset not applying
+* Fixed: Custom css classes cannot be deleted in certain conditions
+* Fixed: Various small fixes
+
 ###  2.0.0 2021-02-26 ###
 * Feature: Theme builder ( header and footer builder )
 * Feature: Added repeater functionality for all elements
