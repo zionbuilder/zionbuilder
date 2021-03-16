@@ -10,8 +10,13 @@
 			:style="{ background: label.color }"
 		>{{label.text}}</span>
 
+		<ElementListItemSVG
+			v-if="isSVG"
+			:svg="get_element_image"
+		/>
+
 		<img
-			v-if="get_element_image"
+			v-else-if="get_element_image"
 			:src="get_element_image"
 			class="znpb-element-box__image"
 		/>
@@ -28,8 +33,13 @@
 </template>
 
 <script>
+import ElementListItemSVG from './ElementListItemSVG.vue'
+
 export default {
 	name: 'ElementListItem',
+	components: {
+		ElementListItemSVG
+	},
 	props: {
 		item: {
 			type: Object,
@@ -38,10 +48,12 @@ export default {
 	},
 	setup (props) {
 		const get_element_image = props.item.thumb ? props.item.thumb : null
+		const isSVG = get_element_image ? get_element_image.indexOf('.svg') !== -1 : false
 		const get_element_icon = props.item.icon ? props.item.icon : 'element-default'
 		const label = props.item.label
 
 		return {
+			isSVG,
 			get_element_image,
 			get_element_icon,
 			label
