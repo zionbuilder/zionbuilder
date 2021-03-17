@@ -3056,6 +3056,10 @@ msgstr ""
 msgid "Description styles"
 msgstr ""
 
+#: ../includes/Elements/IconBox/IconBox.php:246
+msgid "Spacer styles"
+msgstr ""
+
 #: ../includes/Elements/IconList/IconList.php:38
 msgid "Icon List"
 msgstr ""
