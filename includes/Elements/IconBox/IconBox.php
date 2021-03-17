@@ -310,7 +310,7 @@ class IconBox extends Element {
 			</div>
 			<?php
 		}
-		$this->render_tag( 'span', 'description', '', $combined_spacer_attr );
+		$this->render_tag( 'span', 'spacer', '', $combined_spacer_attr );
 
 		?>
 		<div class="zb-el-iconBox-text">
