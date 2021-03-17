@@ -84,7 +84,7 @@ export default {
 	.znpb-options-has-changes-wrapper__delete {
 		position: absolute;
 		top: 0;
-		left: 1px;
+		left: 0;
 		z-index: 9;
 		display: flex;
 		justify-content: center;
