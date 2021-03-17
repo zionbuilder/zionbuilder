@@ -10,7 +10,7 @@
 			>{{ type }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
-				{{name}}
+				<span>{{name}}</span>
 			</span>
 		</div>
 
@@ -66,6 +66,38 @@ export default {
 </script>
 
 <style lang="scss">
+.znpb-class-selector {
+	.znpb-css-class-selector__item-content {
+		width: 100%;
+	}
+
+	.znpb-css-class-selector__item-name {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 20px;
+			height: 100%;
+			background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+			z-index: 1;
+		}
+
+		> span {
+			position: absolute;
+		}
+	}
+}
+
+.znpb-class-selector__popper .znpb-css-class-selector__item-name {
+	word-break: break-all;
+}
+
 .znpb-css-class-selector__item {
 	display: flex;
 	justify-content: space-between;
