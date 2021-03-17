@@ -340,8 +340,8 @@ class Localization {
 
 				// PanelElementOptions
 				'element_options_default_message'        => __( 'Start typing in the search field and the found options will appear here', 'zionbuilder' ),
-				'styles'        => __( 'Styles', 'zionbuilder' ),
-				'advanced'        => __( 'Advanced', 'zionbuilder' ),
+				'styles'                                 => __( 'Styles', 'zionbuilder' ),
+				'advanced'                               => __( 'Advanced', 'zionbuilder' ),
 
 				// history
 				'history_now'                            => esc_html__( 'Now', 'zionbuilder' ),
@@ -685,6 +685,7 @@ class Localization {
 
 				// Element
 				'invalid_element'                        => __( 'Invalid Element', 'zionbuilder' ),
+				'remove_additional_classes'              => __( 'Remove additional classes', 'zionbuilder' ),
 			]
 		);
 	}
