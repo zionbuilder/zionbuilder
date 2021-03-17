@@ -41,6 +41,10 @@ class Frontend {
 
 		// Check to see if we need to show the pagebuilder content
 		add_action( 'template_redirect', [ $this, 'init' ] );
+
+		// Load elements scripts
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	public function init() {
@@ -56,9 +60,6 @@ class Frontend {
 		// Allow others to add their own areas
 		do_action( 'zionbuilder/frontend/after_init', $this );
 
-		// Load elements scripts
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	public function prepare_content_for_post_id( $post_id ) {
