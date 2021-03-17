@@ -13,6 +13,10 @@
 				v-bind="api.getAttributesForTag('icon_styles')"
 			/>
 		</div>
+		<span
+			class="zb-el-iconBox-spacer"
+			v-bind="api.getAttributesForTag('spacer')"
+		></span>
 		<div class="zb-el-iconBox-text">
 			<component
 				v-if="options.title"
