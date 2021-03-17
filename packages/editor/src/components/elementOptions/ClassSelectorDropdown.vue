@@ -70,6 +70,8 @@
 				:show-delete="false"
 				@click="dropdownState = !dropdownState"
 				class="znpb-class-selector-trigger"
+				:show-changes-bullet="showRemoveExtraClasses"
+				@remove-extra-classes="onRemoveExtraClasses"
 			/>
 
 		</Tooltip>
@@ -78,6 +80,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import CssSelector from './CssSelector.vue'
 import { useCSSClasses } from '@composables'
 
@@ -104,10 +107,14 @@ export default {
 			default: true
 		}
 	},
-	setup () {
+	setup (props) {
 		const { CSSClasses, getClassesByFilter, addCSSClass } = useCSSClasses()
+		const showRemoveExtraClasses = computed(() => {
+			return props.modelValue && props.modelValue.length > 0
+		})
 
 		return {
+			showRemoveExtraClasses,
 			CSSClasses,
 			getClassesByFilter,
 			addCSSClass
@@ -246,6 +253,10 @@ export default {
 			if (!this.$el.contains(event.target) && event.target.tagName !== 'INPUT' && !event.target.classList.contains('znpb-class-selector__add-class-button') && !this.dragOutside) {
 				this.dropdownState = false
 			}
+		},
+
+		onRemoveExtraClasses () {
+			this.computedValue = []
 		},
 
 		removeClass (selector) {

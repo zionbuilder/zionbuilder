@@ -1823,6 +1823,10 @@ msgstr ""
 msgid "Invalid Element"
 msgstr ""
 
+#: ../includes/Localization.php:688
+msgid "Remove additional classes"
+msgstr ""
+
 #: ../includes/Shortcodes.php:25
 msgid "Template id missing"
 msgstr ""
