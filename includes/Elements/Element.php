@@ -134,8 +134,7 @@ class Element {
 	 */
 	protected $hooks = [];
 
-	public $data         = [];
-	private $parsed_data = false;
+	public $data = [];
 
 	// repeater
 	public $is_repeater_item = false;
@@ -180,6 +179,13 @@ class Element {
 			if ( isset( $data['main_class'] ) ) {
 				$this->main_class = $data['main_class'];
 			}
+
+			// Setup helpers
+			$model                   = isset( $data['options'] ) ? $data['options'] : [];
+			$this->render_attributes = new RenderAttributes();
+			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
+
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -192,20 +198,14 @@ class Element {
 		//Set model
 		$model = isset( $data['options'] ) ? $data['options'] : [];
 
-		// Setup helpers
-		$this->render_attributes = new RenderAttributes();
-		$this->custom_css        = new CustomCSS( $this->get_css_selector() );
-
 		// loops through the options model and schema to set the proper model
-		$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
+		$this->options->parse_data();
 
 		// Setup render tags custom css classes
 		$this->apply_custom_classes_to_render_tags();
 
 		// Setup render tags customattributes
 		$this->apply_custom_attributes_to_render_tags();
-
-		$this->parsed_data = true;
 	}
 
 	/**
@@ -719,6 +719,8 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
+
 		$this->prepare_element_data();
 
 		if ( ! $this->element_is_allowed_render() ) {
@@ -726,7 +728,7 @@ class Element {
 		}
 
 		$this->extra_render_data = $extra_render_data;
-		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
+
 		$this->before_render( $this->options );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
@@ -766,11 +768,11 @@ class Element {
 		$this->render( $this->options );
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
-		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 		$this->after_render( $this->options );
 
 		// Reset prvides
 		$this->reset_provides();
+		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
 
 

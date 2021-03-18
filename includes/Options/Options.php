@@ -134,6 +134,21 @@ class Options extends Stack {
 	}
 
 	/**
+	 * Sets the options model, custom css and render attributes instances
+	 *
+	 * @param array<string, mixed> $model
+	 * @param RenderAttributes     $render_attributes
+	 * @param CustomCSS            $custom_css
+	 *
+	 * @return void
+	 */
+	public function set_data( $model, RenderAttributes $render_attributes, CustomCSS $custom_css ) {
+		$this->model             = $model;
+		$this->render_attributes = $render_attributes;
+		$this->custom_css        = $custom_css;
+	}
+
+	/**
 	 * Get schema
 	 *
 	 * Returns the current schema
@@ -164,17 +179,10 @@ class Options extends Stack {
 	 *
 	 * Will set the base model and the element for which the model is attached to
 	 *
-	 * @param array<string, mixed> $model
-	 * @param RenderAttributes     $render_attributes
-	 * @param CustomCSS            $custom_css
-	 *
 	 * @return void
 	 */
-	public function parse_data( $model, RenderAttributes $render_attributes = null, CustomCSS $custom_css = null ) {
-		$this->render_attributes = $render_attributes;
-		$this->custom_css        = $custom_css;
-		$model                   = apply_filters( 'zionbuilder/options/model_parse', $model );
-
+	public function parse_data() {
+		$model       = apply_filters( 'zionbuilder/options/model_parse', $this->model );
 		$this->model = $this->setup_model( $this->get_schema(), $model );
 	}
 
