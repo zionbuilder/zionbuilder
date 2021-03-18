@@ -10,7 +10,7 @@
 			>{{ type }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
-				{{name}}
+				<span>{{name}}</span>
 			</span>
 
 			<ChangesBullet
@@ -77,11 +77,47 @@ export default {
 </script>
 
 <style lang="scss">
+.znpb-class-selector {
+	.znpb-css-class-selector__item-content {
+		width: 100%;
+	}
+
+	.znpb-css-class-selector__item-name {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 20px;
+			height: 100%;
+			background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+			z-index: 1;
+		}
+
+		> span {
+			position: absolute;
+		}
+	}
+}
+
+.znpb-class-selector__popper .znpb-css-class-selector__item {
+	margin: 0 -15px;
+
+	&-name {
+		word-break: break-all;
+	}
+}
+
 .znpb-css-class-selector__item {
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
-	padding: 9px 12px;
+	padding: 9px 15px;
 	cursor: pointer;
 
 	&:hover {
@@ -89,6 +125,15 @@ export default {
 	}
 	&-close {
 		padding-left: 15px;
+
+		.zion-icon {
+			font-size: 10px;
+			opacity: 0.5;
+		}
+
+		&:hover .zion-icon {
+			opacity: 1;
+		}
 	}
 	&-content {
 		display: flex;
@@ -127,6 +172,7 @@ export default {
 		color: darken($font-color, 10%);
 		font-size: 13px;
 		font-weight: 500;
+		line-height: 1.4;
 	}
 
 	&-close {

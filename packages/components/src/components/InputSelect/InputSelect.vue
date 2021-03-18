@@ -660,7 +660,7 @@ export default {
 		&__item {
 			display: flex;
 			align-items: center;
-			padding: 3px 12px;
+			padding: 6px 12px;
 			margin: 0 5px 5px 0;
 			color: $font-color;
 			background: $surface-variant;
@@ -671,10 +671,13 @@ export default {
 			}
 
 			& .zion-icon {
+				font-size: 10px;
+				opacity: 0.5;
 				margin-left: 5px;
 			}
 
 			.zion-icon:hover {
+				opacity: 1;
 				cursor: pointer;
 			}
 			&:hover {
