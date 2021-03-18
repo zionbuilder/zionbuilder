@@ -2,23 +2,22 @@
 	<div>
 		<slot name="start" />
 
-		<div class="zb-el-zionSeparator-item zb-el-zionSeparator-item--size"
+		<div
+			class="zb-el-zionSeparator-item zb-el-zionSeparator-item--size"
 			v-if="!options.use_icon"
+			v-bind="api.getAttributesForTag('separator_item')"
 		/>
 
-		<div class="zb-el-zionSeparator-item-icon zb-el-zionSeparator-item--size"
+		<div
+			class="zb-el-zionSeparator-item-icon zb-el-zionSeparator-item--size"
 			v-else
 		>
-			<span
-				class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-one"
-			></span>
+			<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-one"></span>
 			<ElementIcon
 				class="zb-el-zionSeparator-icon"
 				:iconConfig="iconConfig"
 			/>
-			<span
-				class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-two"
-			></span>
+			<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-two"></span>
 		</div>
 
 		<slot name="end" />

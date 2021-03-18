@@ -12,6 +12,12 @@
 			<span class="znpb-css-class-selector__item-name">
 				<span>{{name}}</span>
 			</span>
+
+			<ChangesBullet
+				v-if="showChangesBullet"
+				@remove-styles="$emit('remove-extra-classes')"
+				:discard-changes-title="$translate('remove_additional_classes')"
+			/>
 		</div>
 
 		<Tooltip
@@ -49,6 +55,11 @@ export default {
 			default: false
 		},
 		showDelete: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		showChangesBullet: {
 			type: Boolean,
 			required: false,
 			default: false
@@ -127,6 +138,7 @@ export default {
 	&-content {
 		display: flex;
 		align-items: center;
+		width: 100%;
 	}
 
 	&--selected {
@@ -155,6 +167,7 @@ export default {
 	&-name {
 		display: flex;
 		align-items: center;
+		flex-grow: 1;
 		padding-left: 10px;
 		color: darken($font-color, 10%);
 		font-size: 13px;

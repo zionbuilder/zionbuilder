@@ -375,18 +375,38 @@ class Separator extends Element {
 		$icon     = $options->get_value( 'icon' );
 
 		if ( ! $use_icon ) {
-			printf( '<div class="zb-el-zionSeparator-item zb-el-zionSeparator-item--size"></div>' );
+			$this->render_tag( 'div', 'separator_item', '', [ 'class' => [ 'zb-el-zionSeparator-item zb-el-zionSeparator-item--size' ] ] );
 		} else {
 			?>
 				<div class="zb-el-zionSeparator-item-icon zb-el-zionSeparator-item--size">
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-one"></span>
 					<?php
 						$this->attach_icon_attributes( 'icon', $icon );
-					$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-zionSeparator-icon' ] );
+						$this->render_tag( 'span', 'icon', '', [ 'class' => 'zb-el-zionSeparator-icon' ] );
 					?>
 					<span class="zb-el-zionSeparator-item zb-el-zionSeparator-icon-line zb-el-zionSeparator-icon-line-two" ></span>
 				</div>
 			<?php
 		}
+	}
+
+	/**
+	 * Get style elements
+	 *
+	 * Returns a list of elements/tags that for which you
+	 * want to show style options
+	 *
+	 * @return void
+	 */
+	public function on_register_styles() {
+		$this->register_style_options_element(
+			'separator_item',
+			[
+				'title'      => esc_html__( 'Icon styles', 'zionbuilder' ),
+				'selector'   => '{{ELEMENT}} .zb-el-zionSeparator-item',
+				'render_tag' => 'separator_item',
+			]
+		);
+
 	}
 }

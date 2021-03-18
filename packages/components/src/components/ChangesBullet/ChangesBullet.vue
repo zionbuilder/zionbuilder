@@ -54,8 +54,10 @@ export default {
 <style lang="scss">
 .znpb-options__has-changes {
 	position: relative;
-	top: 1px;
-	display: inline-flex;
+	top: 0;
+	display: flex;
+	align-items: center;
+    justify-content: center;
 	width: 10px;
 	height: 10px;
 	cursor: pointer;
@@ -82,13 +84,8 @@ export default {
 	margin-left: 10px;
 	cursor: pointer;
 	.znpb-options-has-changes-wrapper__delete {
-		position: absolute;
-		top: 0;
-		left: 1px;
 		z-index: 9;
-		display: flex;
 		justify-content: center;
-		align-items: center;
 		.zion-svg-inline {
 			margin: 0;
 		}
