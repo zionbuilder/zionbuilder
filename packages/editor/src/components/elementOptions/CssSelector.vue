@@ -94,15 +94,19 @@ export default {
 	}
 }
 
-.znpb-class-selector__popper .znpb-css-class-selector__item-name {
-	word-break: break-all;
+.znpb-class-selector__popper .znpb-css-class-selector__item {
+	margin: 0 -15px;
+
+	&-name {
+		word-break: break-all;
+	}
 }
 
 .znpb-css-class-selector__item {
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
-	padding: 9px 12px;
+	padding: 9px 15px;
 	cursor: pointer;
 
 	&:hover {
@@ -110,6 +114,15 @@ export default {
 	}
 	&-close {
 		padding-left: 15px;
+
+		.zion-icon {
+			font-size: 10px;
+			opacity: 0.5;
+		}
+
+		&:hover .zion-icon {
+			opacity: 1;
+		}
 	}
 	&-content {
 		display: flex;
@@ -146,6 +159,7 @@ export default {
 		color: darken($font-color, 10%);
 		font-size: 13px;
 		font-weight: 500;
+		line-height: 1.4;
 	}
 
 	&-close {
