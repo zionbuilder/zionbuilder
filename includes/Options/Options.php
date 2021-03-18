@@ -133,7 +133,16 @@ class Options extends Stack {
 		$this->model = $model;
 	}
 
-	public function set_data( $model, $render_attributes, $custom_css ) {
+	/**
+	 * Sets the options model, custom css and render attributes instances
+	 *
+	 * @param array<string, mixed> $model
+	 * @param RenderAttributes     $render_attributes
+	 * @param CustomCSS            $custom_css
+	 *
+	 * @return void
+	 */
+	public function set_data( $model, RenderAttributes $render_attributes, CustomCSS $custom_css ) {
 		$this->model             = $model;
 		$this->render_attributes = $render_attributes;
 		$this->custom_css        = $custom_css;
@@ -169,10 +178,6 @@ class Options extends Stack {
 	 * Parse model
 	 *
 	 * Will set the base model and the element for which the model is attached to
-	 *
-	 * @param array<string, mixed> $model
-	 * @param RenderAttributes     $render_attributes
-	 * @param CustomCSS            $custom_css
 	 *
 	 * @return void
 	 */
