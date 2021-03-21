@@ -188,7 +188,7 @@ export function compileStyleTabs(styleValues) {
 	Object.keys(keyValueStyles).forEach(property => {
 		const value = keyValueStyles[property]
 
-		if (value || value === 0) {
+		if (property !== '__dynamic_content__' && (value || value === 0)) {
 			// Add prefixes
 			if (filterProperties.includes(property)) {
 				if (property === 'hue-rotate') {

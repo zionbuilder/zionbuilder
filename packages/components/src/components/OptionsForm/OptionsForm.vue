@@ -117,10 +117,31 @@ export default {
 			emit('update:modelValue', clonedValue)
 		}
 
+		function deleteNested (path, model) {
+			const paths = path.split('.')
+			paths.pop()
+
+			paths.reduce((acc, key, index) => {
+				if (typeof acc[key] === 'object' && Object.keys(acc[key]).length === 0) {
+					delete acc[key]
+					return true
+				}
+
+				return acc[key]
+			}, model)
+			return model
+		}
+
 		const deleteValueByPath = (path) => {
 			const clonedValue = cloneDeep(props.modelValue)
 			unset(clonedValue, path)
-			emit('update:modelValue', clonedValue)
+			deleteNested(path, clonedValue)
+
+			if (Object.keys(clonedValue).length > 0) {
+				emit('update:modelValue', clonedValue)
+			} else {
+				emit('update:modelValue', null)
+			}
 		}
 
 		function deleteValues (allPaths) {
