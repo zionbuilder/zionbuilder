@@ -426,7 +426,7 @@ class Element {
 	 *
 	 * @return boolean
 	 */
-	private function can_render() {
+	protected function can_render() {
 		return true;
 	}
 
