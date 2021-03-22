@@ -40,9 +40,9 @@ class RenderAttributes {
 	 */
 	public function get_attributes_as_string( $tag_ids, $extra_attributes = [] ) {
 		$attributes = [];
-
 		if ( is_array( $tag_ids ) ) {
 			foreach ( $tag_ids as $tag_id ) {
+
 				$attributes = $this->combine_attributes( $attributes, $this->get_attributes( $tag_id ) );
 			}
 		} else {

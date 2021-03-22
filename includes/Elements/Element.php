@@ -193,19 +193,8 @@ class Element {
 	}
 
 	public function prepare_element_data() {
-		$data = $this->data;
-
-		//Set model
-		$model = isset( $data['options'] ) ? $data['options'] : [];
-
 		// loops through the options model and schema to set the proper model
 		$this->options->parse_data();
-
-		// Setup render tags custom css classes
-		$this->apply_custom_classes_to_render_tags();
-
-		// Setup render tags customattributes
-		$this->apply_custom_attributes_to_render_tags();
 	}
 
 	/**
@@ -727,6 +716,12 @@ class Element {
 			return;
 		}
 
+		// Setup render tags custom css classes
+		$this->apply_custom_classes_to_render_tags();
+
+		// Setup render tags customattributes
+		$this->apply_custom_attributes_to_render_tags();
+
 		$this->extra_render_data = $extra_render_data;
 
 		$this->before_render( $this->options );
@@ -996,7 +991,7 @@ class Element {
 			return '';
 		}
 
-		$this->prepare_element_data();
+		$this->options->parse_data();
 
 		$css = '';
 
