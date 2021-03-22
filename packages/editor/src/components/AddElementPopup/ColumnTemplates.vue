@@ -197,9 +197,13 @@ export default {
 
 
 		const openLibrary = () => {
+			const { activePopup } = useAddElementsPopup()
 			const { setActiveElementForLibrary } = useLibrary()
 
-			setActiveElementForLibrary(props.element)
+			setActiveElementForLibrary(
+				activePopup.value.element,
+				activePopup.value.config
+			)
 
 			togglePanel('PanelLibraryModal')
 			emit('close')
