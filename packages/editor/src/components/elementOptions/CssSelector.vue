@@ -10,7 +10,7 @@
 			>{{ type }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
-				<span>{{name}}</span>
+				<span :title="name">{{name}}</span>
 			</span>
 
 			<ChangesBullet
@@ -84,23 +84,28 @@ export default {
 
 	.znpb-css-class-selector__item-name {
 		position: relative;
+		overflow: hidden;
 		width: 100%;
 		height: 100%;
-		overflow: hidden;
 
 		&::before {
-			content: '';
+			content: "";
 			position: absolute;
 			top: 0;
 			right: 0;
+			z-index: 1;
 			width: 20px;
 			height: 100%;
-			background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-			z-index: 1;
+			background: linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(255, 255, 255, 1) 100%
+			);
 		}
 
-		> span {
+		 > span {
 			position: absolute;
+			white-space: pre;
 		}
 	}
 }
@@ -128,7 +133,7 @@ export default {
 
 		.zion-icon {
 			font-size: 10px;
-			opacity: 0.5;
+			opacity: .5;
 		}
 
 		&:hover .zion-icon {
