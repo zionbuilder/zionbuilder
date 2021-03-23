@@ -192,11 +192,6 @@ class Element {
 		$this->on_after_init( $data );
 	}
 
-	public function prepare_element_data() {
-		// loops through the options model and schema to set the proper model
-		$this->options->parse_data();
-	}
-
 	/**
 	 * Register an action
 	 *
@@ -676,7 +671,7 @@ class Element {
 	 * @return void
 	 */
 	public function server_render( $request ) {
-		$this->prepare_element_data();
+		$this->options->parse_data();
 		$this->render( $this->options );
 	}
 
@@ -710,7 +705,7 @@ class Element {
 	final public function render_element( $extra_render_data ) {
 		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 
-		$this->prepare_element_data();
+		$this->options->parse_data();
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;

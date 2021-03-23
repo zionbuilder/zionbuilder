@@ -95,19 +95,6 @@ class CustomCSS {
 						}
 					}
 				}
-
-				// if (typeof model === 'object') {
-				// 	forEach(model, (maskConfig, position) => {
-				// 		const { shape, height } = maskConfig
-				// 		if (shape && height) {
-				// 			const selector = `zb-mask-pos--${position}`
-				// 			this.extractResponsiveCSSRules(schema.type, {
-				// 				selector: `${this.selector} .${selector}`,
-				// 				value: 'height: {{VALUE}}'
-				// 			}, height, index)
-				// 		}
-				// 	})
-				// }
 			}
 		}
 
