@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import { ref, computed, inject } from 'vue'
-import { getTemplates } from '@zb/rest'
+import { ref, computed, inject, watch } from 'vue'
 import { useLocalLibrary } from '@zionbuilder/composables'
+import { get } from 'lodash-es'
 
 // Components
 import CategoriesLibrary from './CategoriesLibrary.vue'
@@ -81,7 +81,8 @@ export default {
 			fetchTemplates,
 			libaryItems,
 			loading,
-			addTemplate
+			importedItem,
+			resetImportedItem
 		} = useLocalLibrary()
 
 		// Load saved templates
@@ -105,7 +106,6 @@ export default {
 		const filteredTemplates = computed(() => {
 			return libaryItems.value.filter(template => {
 				const templateCategories = template.template_category
-
 				if (activeSubcategory.value && activeSubcategory.value.slug !== 'all') {
 					return templateCategories.find(category => category.slug === activeSubcategory.value.slug)
 				}
@@ -114,8 +114,8 @@ export default {
 			})
 		})
 
-		const lastItemImported = computed(() => {
-			return Library.$data.templateUploaded ? libaryItems.value[0] : false
+		const activeItem = computed(() => {
+			return get(importedItem.value, 'ID', false)
 		})
 
 		const getActiveCategory = computed(() => {
@@ -125,8 +125,8 @@ export default {
 			}
 
 			// If an active category was not set, get the first category
-			if (Library.$data.templateUploaded && lastItemImported.value) {
-				return allTemplateTypes.find(cat => cat.id === lastItemImported.value.template_type) || {}
+			if (Library.$data.templateUploaded && importedItem.value) {
+				return allTemplateTypes.find(cat => cat.id === importedItem.value.template_type) || {}
 			}
 
 			if (activeCategory.value && Object.keys(activeCategory.value).length === 0 && activeCategory.value) {
@@ -150,7 +150,7 @@ export default {
 
 		return {
 			// Computed
-			lastItemImported,
+			activeItem,
 			getActiveCategory,
 			ItemLoading,
 			timeExpired,
@@ -203,9 +203,6 @@ export default {
 			})
 
 			return subcategories
-		},
-		activeItem () {
-			return this.lastItemImported.ID
 		}
 	}
 }
