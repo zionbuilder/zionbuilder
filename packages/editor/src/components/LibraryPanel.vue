@@ -190,7 +190,7 @@ export default {
 	data: function () {
 		return {
 			loadingLibrary: true,
-			itemsLoading:true,
+			itemsLoading: true,
 			iframeLoaded: false,
 			enteredValue: '',
 			searchCategories: [],
@@ -363,7 +363,6 @@ export default {
 					this.msnry = new window.Masonry(this.$refs.gridlist, {
 						columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
 						itemSelector: '.znpb-editor-library-modal__item',
-						gutter: '.znpb-editor-library-modal__item--gutter-sizer',
 						transitionDuration: 0
 					})
 				})
@@ -575,7 +574,7 @@ export default {
 			text-align: center;
 		}
 		& > .znpb-editor-library-modal-item-list {
-			margin: 0 auto;
+			margin: 0 -10px;
 		}
 	}
 }
