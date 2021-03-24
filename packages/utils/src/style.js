@@ -573,6 +573,11 @@ function compileBorder(borderValue) {
 	let css = ''
 	Object.keys(borderValue).forEach(borderPosition => {
 		const allBorders = borderPosition === 'all'
+
+		if (!borderValue[borderPosition]) {
+			return
+		}
+
 		const {
 			width,
 			color,
