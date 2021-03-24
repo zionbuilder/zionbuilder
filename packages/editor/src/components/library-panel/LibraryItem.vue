@@ -264,7 +264,6 @@ export default {
 		align-items: center;
 		& > span, & > a {
 			margin-right: 8px;
-			text-transform: capitalize;
 		}
 
 		& > span:last-of-type {
