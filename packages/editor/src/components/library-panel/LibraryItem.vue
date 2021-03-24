@@ -29,6 +29,7 @@
 				class="znpb-editor-library-modal__item-actions"
 				v-if="!insertItemLoading"
 			>
+
 				<a
 					v-if="!isProActive && item.pro"
 					class="znpb-button znpb-button--line"
@@ -203,6 +204,7 @@ export default {
 	border-radius: 3px;
 	transition: box-shadow .2s;
 	cursor: pointer;
+
 	&:hover {
 		box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
 
@@ -260,7 +262,6 @@ export default {
 		align-items: center;
 		& > span, & > a {
 			margin-right: 8px;
-			text-transform: capitalize;
 		}
 
 		& > span:last-of-type {
