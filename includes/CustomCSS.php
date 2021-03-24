@@ -145,7 +145,7 @@ class CustomCSS {
 	 * @return void
 	 */
 	public function extract_responsive_option_css( $option_type, $style_config, $value, $index ) {
-		if ( ! empty( $value ) ) {
+		if ( ! empty( $value ) && is_array( $value ) ) {
 			foreach ( $value as $device => $css_value ) {
 				$this->extract_option_css( $device, $option_type, $style_config, $css_value, $index );
 			}
