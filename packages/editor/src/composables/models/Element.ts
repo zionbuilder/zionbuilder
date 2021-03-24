@@ -120,15 +120,7 @@ export class Element {
 	}
 
 	get elementCssId() {
-		return (this.options._advanced_options || {})._element_id || this.uid
-	}
-
-	getRepeaterConsumerConfig() {
-		return {
-			start: null,
-			end: null
-		}
-		return this.getOptionValue('advanced_options.repeater_consumer_config', false)
+		return this.getOptionValue('_advanced_options._element_id', this.uid)
 	}
 
 	updateOptions(newValues) {
