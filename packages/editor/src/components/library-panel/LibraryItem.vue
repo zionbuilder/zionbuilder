@@ -4,77 +4,55 @@
 		class="znpb-editor-library-modal__item"
 		:class="{ 'znpb-editor-library-modal__item--favorite' : favorite }"
 	>
-
-		<div
-			class="znpb-editor-library-modal__item-image"
-			:class="{['--no-image']: !item.thumbnail}"
-		>
-			<img
-				:src="item.thumbnail"
-				v-cloak
-				@click="$emit('activate-item',item)"
-				v-if="item.thumbnail"
-			/>
-		</div>
-
-		<div
-			v-if="item.pro"
-			class="znpb-editor-library-modal__item-pro"
-		>{{$translate('pro')}}
-		</div>
-
-		<div class="znpb-editor-library-modal__item-bottom">
-			<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
+		<div class="znpb-editor-library-modal__itemInner">
 			<div
-				class="znpb-editor-library-modal__item-actions"
-				v-if="!insertItemLoading"
+				class="znpb-editor-library-modal__item-image"
+				:class="{['--no-image']: !item.thumbnail}"
 			>
-				<a
-					v-if="!isProActive && item.pro"
-					class="znpb-button znpb-button--line"
-					:href="purchaseURL"
-					target="_blank"
-				>{{$translate('buy_pro')}}
-				</a>
+				<img
+					:src="item.thumbnail"
+					v-cloak
+					@click="$emit('activate-item',item)"
+					v-if="item.thumbnail"
+				/>
+			</div>
 
-				<a
-					v-else-if="isProActive && !isProConnected && item.pro"
-					class="znpb-button znpb-button--line"
-					target="_blank"
-					:href="dashboardURL"
-				>{{$translate('activate_pro')}}
-				</a>
+			<div
+				v-if="item.pro"
+				class="znpb-editor-library-modal__item-pro"
+			>{{$translate('pro')}}
+			</div>
 
-				<Tooltip
-					v-else
-					tag="span"
-					:content="$translate('library_insert_tooltip')"
-					append-to="element"
-					class="znpb-editor-library-modal__item-action"
-					placement="top"
-					:modifiers="[
-						{
-						name: 'offset',
-						options: {
-							offset: [0, 3],
-						},
-						},
-					]"
-					strategy="fixed"
+			<div class="znpb-editor-library-modal__item-bottom">
+				<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
+				<div
+					class="znpb-editor-library-modal__item-actions"
+					v-if="!insertItemLoading"
 				>
-					<span
-						@click.stop="insertLibraryItem"
+					<a
+						v-if="!isProActive && item.pro"
 						class="znpb-button znpb-button--line"
-					>{{$translate('library_insert')}}</span>
-				</Tooltip>
+						:href="purchaseURL"
+						target="_blank"
+					>{{$translate('buy_pro')}}
+					</a>
 
-				<Tooltip
-					tag="span"
-					:content="$translate('library_click_preview_tooltip')"
-					append-to="element"
-					class="znpb-editor-library-modal__item-action"
-					placement="top"
-					:modifiers="[
+					<a
+						v-else-if="isProActive && !isProConnected && item.pro"
+						class="znpb-button znpb-button--line"
+						target="_blank"
+						:href="dashboardURL"
+					>{{$translate('activate_pro')}}
+					</a>
+
+					<Tooltip
+						v-else
+						tag="span"
+						:content="$translate('library_insert_tooltip')"
+						append-to="element"
+						class="znpb-editor-library-modal__item-action"
+						placement="top"
+						:modifiers="[
 						{
 						name: 'offset',
 						options: {
@@ -82,15 +60,37 @@
 						},
 						},
 					]"
-					strategy="fixed"
-				>
-					<Icon
-						icon="eye"
-						@click="$emit('activate-item', item)"
-					/>
-				</Tooltip>
+						strategy="fixed"
+					>
+						<span
+							@click.stop="insertLibraryItem"
+							class="znpb-button znpb-button--line"
+						>{{$translate('library_insert')}}</span>
+					</Tooltip>
 
-				<!-- <Tooltip
+					<Tooltip
+						tag="span"
+						:content="$translate('library_click_preview_tooltip')"
+						append-to="element"
+						class="znpb-editor-library-modal__item-action"
+						placement="top"
+						:modifiers="[
+						{
+						name: 'offset',
+						options: {
+							offset: [0, 3],
+						},
+						},
+					]"
+						strategy="fixed"
+					>
+						<Icon
+							icon="eye"
+							@click="$emit('activate-item', item)"
+						/>
+					</Tooltip>
+
+					<!-- <Tooltip
 					:content="$translate('library_add_favorite_tooltip')"
 					append-to="element"
 					placement="top"
@@ -101,20 +101,20 @@
 						@click="$emit('added-to-favorite',item.id)"
 					/>
 				</Tooltip> -->
+				</div>
+				<Loader
+					v-else
+					:size="12"
+				/>
+
 			</div>
-			<Loader
-				v-else
-				:size="12"
-			/>
+			<div
+				v-if="item.type === 'multiple'"
+				class="znpb-editor-library-modal__item-bottom-multiple"
+			>
 
+			</div>
 		</div>
-		<div
-			v-if="item.type === 'multiple'"
-			class="znpb-editor-library-modal__item-bottom-multiple"
-		>
-
-		</div>
-
 	</li>
 
 </template>
@@ -194,20 +194,24 @@ export default {
 
 .znpb-editor-library-modal__item {
 	position: relative;
-
-// min-height: 235px;
+	float: left;
+	padding: 10px;
 	margin-bottom: 30px;
 	background: $surface;
-	box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
-	border: 1px solid $surface-variant;
 	border-radius: 3px;
 	transition: box-shadow .2s;
 	cursor: pointer;
-	&:hover {
-		box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
 
-		.znpb-editor-library-modal__item-bottom-multiple {
+	&Inner {
+		box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
+		border: 1px solid $surface-variant;
+
+		&:hover {
 			box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+
+			.znpb-editor-library-modal__item-bottom-multiple {
+				box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
+			}
 		}
 	}
 
