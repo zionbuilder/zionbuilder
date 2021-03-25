@@ -12,6 +12,7 @@
 					class="znpb-notice__close"
 					icon="close"
 					@click="$emit('close-notice')"
+					:size="12"
 				/>
 				<div
 					v-if="error.title"
@@ -81,7 +82,7 @@ export default {
 	transform: translateX(0);
 }
 .znpb-notice {
-	padding: 16px 20px;
+	padding: 16px 35px 16px 20px;
 	margin-bottom: 10px;
 	color: #fff;
 	line-height: 1.8;
