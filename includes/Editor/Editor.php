@@ -221,7 +221,7 @@ class Editor {
 		};
 
 		// Load animations
-		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+		wp_enqueue_style( 'zion-frontend-animations' );
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(

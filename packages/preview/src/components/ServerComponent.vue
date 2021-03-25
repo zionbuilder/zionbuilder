@@ -28,9 +28,8 @@ import { ref, computed, watch, nextTick, inject } from 'vue'
 import { applyFilters } from '@zb/hooks'
 
 // Utils
-import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
-import { useEditorData } from '@zb/editor'
+import { useEditorData, serverRequest } from '@zb/editor'
 
 export default {
 	name: 'ServerComponent',
@@ -60,7 +59,6 @@ export default {
 		})
 
 		watch(() => props.options, (newValue, oldValue) => {
-
 			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
 			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
 
@@ -91,17 +89,22 @@ export default {
 
 		function getElementFromServer () {
 			loading.value = true
-			getElementRender(serverComponentRenderData).then((response) => {
-				elementContent.value = response.data.element
 
-				setInnerHTML(elementContent.value)
-
+			serverRequest.request({
+				type: 'render_element',
+				config: serverComponentRenderData
+			}, (response) => {
+				// Send back the image
+				setInnerHTML(response.data.element)
 				loading.value = false
+
 				nextTick(() => {
 					checkForContentHeight()
 				})
-			}).finally(() => {
+			}, function (message) {
 				loading.value = false
+				// eslint-disable-next-line
+				console.log('server Request fail', message)
 			})
 		}
 

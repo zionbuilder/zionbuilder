@@ -729,7 +729,6 @@ class Element {
 		// Add animation attributes
 		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
 		if ( ! empty( $appear_animation ) ) {
-			wp_enqueue_script( 'zionbuilder-animatejs' );
 			$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
 			$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
 		}
@@ -1047,6 +1046,15 @@ class Element {
 	public function enqueue_scripts() {
 	}
 
+	public function do_enqueue_scripts() {
+		// Check for animation
+		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+		if ( ! empty( $appear_animation ) ) {
+			wp_enqueue_script( 'zionbuilder-animatejs' );
+		}
+
+		$this->enqueue_scripts();
+	}
 
 	/**
 	 * Enqueue Styles
@@ -1058,6 +1066,15 @@ class Element {
 	public function enqueue_styles() {
 	}
 
+	public function do_enqueue_styles() {
+		// Check for animation
+		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+		if ( ! empty( $appear_animation ) ) {
+			wp_enqueue_style( 'zion-frontend-animations' );
+		}
+
+		$this->enqueue_styles();
+	}
 
 	/**
 	 * Adds a script to the list of scripts that will be loaded in edit mode

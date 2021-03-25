@@ -113,6 +113,7 @@ class Preview {
 
 		wp_enqueue_media();
 
+		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
