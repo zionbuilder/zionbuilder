@@ -95,6 +95,7 @@ export default {
 				config: serverComponentRenderData
 			}, (response) => {
 				// Send back the image
+				elementContent.value = response.data.element
 				setInnerHTML(response.data.element)
 				loading.value = false
 
@@ -137,6 +138,7 @@ export default {
 
 		function checkElementHeight () {
 			const { height } = elementContentRef.value.getBoundingClientRect()
+
 			elementNotSelectable.value = height < 2
 		}
 
