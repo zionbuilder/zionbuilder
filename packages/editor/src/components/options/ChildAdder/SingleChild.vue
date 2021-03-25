@@ -9,8 +9,8 @@
 				/>
 				<Icon
 					icon="delete"
-					v-if="showDelete"
-					@click.stop="element.delete()"
+					:class="{'znpb-options-childs__element-actionDeleteInactive': !showDelete}"
+					@click.stop="onDelete"
 				/>
 				<Icon
 					icon="edit"
@@ -44,10 +44,17 @@ export default {
 		const { openPanel } = usePanels()
 		const { editElement } = useEditElement()
 
+		function onDelete () {
+			if (props.showDelete) {
+				props.element.delete()
+			}
+		}
+
 		return {
 			openPanel,
 			editElement,
-			element: props.element
+			element: props.element,
+			onDelete
 		}
 	}
 }
@@ -81,6 +88,10 @@ export default {
 
 	&-action {
 		flex-shrink: 0;
+
+		&DeleteInactive {
+			opacity: .4;
+		}
 	}
 }
 </style>
