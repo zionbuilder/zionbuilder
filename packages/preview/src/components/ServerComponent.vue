@@ -72,7 +72,9 @@ export default {
 
 		function setInnerHTML (content) {
 			const elm = elementContentRef.value
+			console.log(content);
 			elm.innerHTML = content;
+
 			Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
 				const newScript = document.createElement("script");
 				Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -96,7 +98,8 @@ export default {
 			}, (response) => {
 				// Send back the image
 				elementContent.value = response.data.element
-				setInnerHTML(response.data.element)
+
+				setInnerHTML(elementContent.value)
 				loading.value = false
 
 				nextTick(() => {
@@ -149,7 +152,6 @@ export default {
 			contentModel,
 			logoUrl,
 			elementContentRef,
-			setInnerHTML,
 			requiresDataForRender,
 			elementContent,
 			loading,

@@ -291,11 +291,11 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'page_settings'           => [
+				'page_settings'       => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $post_instance->get_page_settings_values(),
 				],
-				'urls'                    => [
+				'urls'                => [
 					'assets_url'        => Utils::get_file_url( 'assets' ),
 					'logo'              => Whitelabel::get_logo_url(),
 					'loader'            => Whitelabel::get_loader_url(),
@@ -311,25 +311,24 @@ class Editor {
 					'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 				],
-				'masks'                   => Masks::getshapes(),
-				'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
-				'builder_settings'        => [],
-				'page_id'                 => $this->post_id,
-				'page_data'               => get_post( $this->post_id ),
-				'autosaveInterval'        => AUTOSAVE_INTERVAL,
+				'masks'               => Masks::getshapes(),
+				'builder_settings'    => [],
+				'page_id'             => $this->post_id,
+				'page_data'           => get_post( $this->post_id ),
+				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
 				// Elements data
-				'elements_categories'     => Plugin::$instance->elements_manager->get_elements_categories(),
+				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
 
 				// User data
-				'post_lock_user'          => $locked_user_name,
-				'wp_editor'               => $this->get_wp_editor(),
+				'post_lock_user'      => $locked_user_name,
+				'wp_editor'           => $this->get_wp_editor(),
 
 				// Css classes
-				'css_classes'             => CSSClasses::get_classes(),
+				'css_classes'         => CSSClasses::get_classes(),
 
 				// Plugin info
-				'plugin_info'             => [
+				'plugin_info'         => [
 					'is_pro_active'      => Utils::is_pro_active(),
 					'is_pro_connected'   => apply_filters( 'zionbuilder/pro/is_conected', false ),
 					'free_version'       => Plugin::instance()->get_version(),
@@ -339,9 +338,9 @@ class Editor {
 				],
 
 				// Templates
-				'template_types'          => Plugin::$instance->templates->get_template_types(),
-				'template_categories'     => Plugin::$instance->templates->get_template_categories(),
-				'rtl'                     => is_rtl(),
+				'template_types'      => Plugin::$instance->templates->get_template_types(),
+				'template_categories' => Plugin::$instance->templates->get_template_categories(),
+				'rtl'                 => is_rtl(),
 			]
 		);
 	}

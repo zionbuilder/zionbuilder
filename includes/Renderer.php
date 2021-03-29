@@ -85,7 +85,9 @@ class Renderer {
 	}
 
 	public function render_area( $area_id ) {
-		echo '<div class="zb zb-area-' . esc_attr( $area_id ) . '">';
+		$area_class = sprintf( 'zb-area-%s', $area_id );
+		$classes    = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $area_id );
+		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
 		$this->render_children( $this->get_content_for_area( $area_id ) );
 		echo '</div>';
 	}
