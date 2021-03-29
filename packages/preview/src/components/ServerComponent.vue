@@ -28,9 +28,8 @@ import { ref, computed, watch, nextTick, inject } from 'vue'
 import { applyFilters } from '@zb/hooks'
 
 // Utils
-import { getElementRender } from '@zb/rest'
 import { debounce } from '@zb/utils'
-import { useEditorData } from '@zb/editor'
+import { useEditorData, serverRequest } from '@zb/editor'
 
 export default {
 	name: 'ServerComponent',
@@ -60,7 +59,6 @@ export default {
 		})
 
 		watch(() => props.options, (newValue, oldValue) => {
-
 			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
 			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
 
@@ -74,7 +72,9 @@ export default {
 
 		function setInnerHTML (content) {
 			const elm = elementContentRef.value
+
 			elm.innerHTML = content;
+
 			Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
 				const newScript = document.createElement("script");
 				Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
@@ -91,17 +91,24 @@ export default {
 
 		function getElementFromServer () {
 			loading.value = true
-			getElementRender(serverComponentRenderData).then((response) => {
+
+			serverRequest.request({
+				type: 'render_element',
+				config: serverComponentRenderData
+			}, (response) => {
+				// Send back the image
 				elementContent.value = response.data.element
 
 				setInnerHTML(elementContent.value)
-
 				loading.value = false
+
 				nextTick(() => {
 					checkForContentHeight()
 				})
-			}).finally(() => {
+			}, function (message) {
 				loading.value = false
+				// eslint-disable-next-line
+				console.log('server Request fail', message)
 			})
 		}
 
@@ -134,6 +141,7 @@ export default {
 
 		function checkElementHeight () {
 			const { height } = elementContentRef.value.getBoundingClientRect()
+
 			elementNotSelectable.value = height < 2
 		}
 
@@ -144,7 +152,6 @@ export default {
 			contentModel,
 			logoUrl,
 			elementContentRef,
-			setInnerHTML,
 			requiresDataForRender,
 			elementContent,
 			loading,

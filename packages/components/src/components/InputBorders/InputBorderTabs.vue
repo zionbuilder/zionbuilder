@@ -25,6 +25,8 @@
 	</div>
 </template>
 <script>
+import { cloneDeep, set, unset } from 'lodash-es'
+
 import { Icon } from '../Icon'
 import InputBorderControl from './InputBorderControl.vue'
 
@@ -84,13 +86,18 @@ export default {
 	},
 	methods: {
 		onValueUpdated (position, newValue) {
-			/**
-			 * emits new object with new value of borders
-			 */
-			this.$emit('update:modelValue', {
-				...this.modelValue,
-				[position]: newValue
-			})
+			const clonedValue = cloneDeep(this.modelValue)
+			if (null === newValue) {
+				unset(clonedValue, position)
+			} else {
+				set(clonedValue, position, newValue)
+			}
+
+			if (Object.keys(clonedValue).length > 0) {
+				this.$emit('update:modelValue', clonedValue)
+			} else {
+				this.$emit('update:modelValue', null)
+			}
 		}
 	}
 }

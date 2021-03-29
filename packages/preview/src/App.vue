@@ -64,7 +64,10 @@ export default {
 		// Allow other to hook into setup
 		trigger('zionbuilder/preview/app/setup')
 
-		const previewAppClasses = applyFilters('zionbuilder/preview/app/css_classes', editorData.value.preview_app_css_classes)
+		const previewAppClasses = computed(() => {
+			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes)
+		})
+
 
 		return {
 			element,

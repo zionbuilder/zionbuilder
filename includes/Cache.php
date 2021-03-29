@@ -95,6 +95,9 @@ class Cache {
 		// Swiper slider
 		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), [], Plugin::instance()->get_version(), true );
 
+		// Load animations
+		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+
 		// Animate JS
 		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'assets/vendors/js/animateJs.js' ), [], Plugin::instance()->get_version(), true );
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJs()' );
@@ -229,7 +232,7 @@ class Cache {
 
 			if ( ! isset( $loaded_assets[$element_type] ) ) {
 				// Add the style.css file if present
-				$element_instance->enqueue_styles();
+				$element_instance->do_enqueue_styles();
 				$loaded_assets[$element_type] = true;
 			}
 		}
@@ -249,7 +252,7 @@ class Cache {
 
 			if ( ! isset( $loaded_assets[$element_type] ) ) {
 				// Add the style.css file if present
-				$element_instance->enqueue_scripts();
+				$element_instance->do_enqueue_scripts();
 				$loaded_assets[$element_type] = true;
 			}
 		}

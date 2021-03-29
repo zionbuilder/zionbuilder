@@ -212,9 +212,6 @@ class Frontend {
 			);
 		};
 
-		// Load animations
-		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
-
 		do_action( 'zionbuilder/frontend/after_load_styles', $this );
 	}
 

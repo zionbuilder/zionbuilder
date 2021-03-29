@@ -84,8 +84,9 @@ class BulkActions extends RestApiController {
 		return apply_filters(
 			'zionbuilder/api/bulk_actions',
 			[
-				'get_image' => [ $this, 'get_image' ],
-				'parse_php' => [ $this, 'parse_php' ],
+				'get_image'      => [ $this, 'get_image' ],
+				'parse_php'      => [ $this, 'parse_php' ],
+				'render_element' => [ $this, 'render_element' ],
 			]
 		);
 	}
@@ -109,6 +110,34 @@ class BulkActions extends RestApiController {
 		}
 
 		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * @param array $config
+	 *
+	 * @return mixed|\WP_REST_Response
+	 */
+	public function render_element( $config ) {
+		$element_data     = $config['element_data'];
+		$elements_manager = Plugin::$instance->elements_manager;
+		$element_instance = $elements_manager->get_element_instance_with_data( $element_data );
+
+		if ( $element_instance ) {
+			ob_start();
+			$element_instance->server_render( $config );
+
+			return rest_ensure_response(
+				[
+					'element' => ob_get_clean(),
+				]
+			);
+		}
+
+		return rest_ensure_response(
+			[
+				'element' => '',
+			]
+		);
 	}
 
 	public function parse_php( $php_code ) {

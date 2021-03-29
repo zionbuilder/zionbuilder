@@ -113,6 +113,7 @@ class Preview {
 
 		wp_enqueue_media();
 
+		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
@@ -203,11 +204,12 @@ class Preview {
 
 	public function get_preview_initial_data() {
 		return [
-			'nonce'               => Nonces::generate_nonce( 'preview-frame' ),
-			'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
-			'template_types'      => Plugin::$instance->templates->get_template_types(),
-			'template_categories' => Plugin::$instance->templates->get_template_categories(),
-			'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+			'nonce'                   => Nonces::generate_nonce( 'preview-frame' ),
+			'page_content'            => Plugin::$instance->renderer->get_registered_areas(),
+			'template_types'          => Plugin::$instance->templates->get_template_types(),
+			'template_categories'     => Plugin::$instance->templates->get_template_categories(),
+			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 		];
 	}
 

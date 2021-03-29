@@ -5,6 +5,3 @@ export const getOptionsForm = function (payload) {
 		element_data: payload
 	})
 }
-export const getElementRender = function (payload) {
-	return ZionService.post('elements/render_element', payload)
-}
