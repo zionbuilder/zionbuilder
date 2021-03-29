@@ -72,7 +72,7 @@ export default {
 
 		function setInnerHTML (content) {
 			const elm = elementContentRef.value
-			console.log(content);
+
 			elm.innerHTML = content;
 
 			Array.from(elm.querySelectorAll("script")).forEach(oldScript => {
