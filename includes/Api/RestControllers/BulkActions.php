@@ -113,7 +113,7 @@ class BulkActions extends RestApiController {
 	}
 
 	/**
-	 * @param \WP_REST_Request $request
+	 * @param array $config
 	 *
 	 * @return mixed|\WP_REST_Response
 	 */
