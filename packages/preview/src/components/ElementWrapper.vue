@@ -129,7 +129,7 @@ export default {
 			return optionsInstance.parseData()
 		})
 
-		const options = computed(() => readonly(parsedData.value.options))
+		const options = computed(() => readonly(parsedData.value.options || {}))
 
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS
