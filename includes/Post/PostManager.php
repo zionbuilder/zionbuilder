@@ -38,6 +38,12 @@ class PostManager {
 	 */
 	private $active_post_id = null;
 
+	/**
+	 * Holds a reference to the previously active post
+	 *
+	 * @var integer
+	 */
+	private $old_post_id = null;
 
 	/**
 	 * Register Post Types
@@ -96,6 +102,7 @@ class PostManager {
 			return $this;
 		}
 
+		$this->old_post_id    = $this->active_post_id;
 		$this->active_post_id = absint( $post_id );
 
 		// Set the global post
@@ -104,6 +111,15 @@ class PostManager {
 
 		// Allow chaining
 		return $this;
+	}
+
+	/**
+	 * Set previous post as active
+	 *
+	 * @return void
+	 */
+	public function reset_post() {
+		$this->switch_to_post( $this->old_post_id );
 	}
 
 	/**

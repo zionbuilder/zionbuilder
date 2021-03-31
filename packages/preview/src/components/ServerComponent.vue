@@ -88,10 +88,12 @@ export default {
 			element_data: props.element
 		})
 
+		const requester = serverRequest.createRequester()
+
 		function getElementFromServer () {
 			loading.value = true
 
-			serverRequest.request({
+			requester.request({
 				type: 'render_element',
 				config: serverComponentRenderData
 			}, (response) => {
