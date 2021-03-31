@@ -1,6 +1,12 @@
 import {
 	bulkActions
 } from '@zb/rest'
+import {
+	applyFilters
+} from '@zb/hooks'
+import {
+	readonly
+} from 'vue'
 
 const hash = (object) => {
 	const string = JSON.stringify(object)
@@ -25,8 +31,22 @@ export class ServerRequest {
 		this.inProgress = []
 	}
 
+	createRequester(initialData = {}) {
+		initialData = applyFilters('zionbuilder/server_request/requester_data', initialData)
+		return {
+			request: (data, successCallback, failCallback) => {
+				const parsedData = readonly({
+					...initialData,
+					...data
+				})
+				return this.request(parsedData, successCallback, failCallback)
+			}
+		}
+	}
+
 	request(data, successCallback, failCallback) {
-		this.addToQueue(data, successCallback, failCallback)
+		const parsedData = applyFilters('zionbuilder/server_request/data', data)
+		this.addToQueue(parsedData, successCallback, failCallback)
 		this.doQueue()
 	}
 

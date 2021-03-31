@@ -93,18 +93,25 @@ class BulkActions extends RestApiController {
 
 	public function get_items( $request ) {
 		$actions  = $request->get_param( 'actions' );
-		$post_id  = $request->get_param( 'post_id' );
+		$post_id  = apply_filters( 'zionbuilder/rest/bulk_actions/post_id', $request->get_param( 'post_id' ), $request );
 		$response = [];
+
+		do_action( 'zionbuilder/rest/bulk_actions/get_items', $request );
 
 		$registered_actions = $this->get_bulk_actions();
 
 		// Set main post data
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
+
 		if ( is_array( $actions ) ) {
 			foreach ( $actions as $action_key => $action_config ) {
 				if ( array_key_exists( $action_config['type'], $registered_actions ) ) {
+					do_action( 'zionbuilder/rest/bulk_actions/before_action', $action_config );
+
 					$callback              = $registered_actions[$action_config['type']];
 					$response[$action_key] = call_user_func( $callback, $action_config['config'] );
+
+					do_action( 'zionbuilder/rest/bulk_actions/after_action', $action_config );
 				}
 			}
 		}

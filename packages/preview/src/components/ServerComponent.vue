@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { ref, computed, watch, nextTick, inject } from 'vue'
-import { applyFilters } from '@zb/hooks'
+import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
+import { applyFilters, on, off } from '@zb/hooks'
 
 // Utils
 import { debounce } from '@zb/utils'
@@ -33,7 +33,6 @@ import { useEditorData, serverRequest } from '@zb/editor'
 
 export default {
 	name: 'ServerComponent',
-
 	props: {
 		element: Object,
 		options: {
@@ -58,17 +57,17 @@ export default {
 			return elementModel.requires_data_for_render && Object.keys(options).length === 0
 		})
 
-		watch(() => props.options, (newValue, oldValue) => {
-			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = newValue
-			let { '_styles': oldMedia, '_advanced_options': oldAdvanced, ...remainingOldProperties } = oldValue
+		const elementDataForRender = computed(() => {
+			let { '_styles': newMedia, '_advanced_options': newAdvanced, ...remainingNewProperties } = props.options
 
-			// Stringify the values so we can only compare values
-			if (JSON.stringify(remainingNewProperties) !== JSON.stringify(remainingOldProperties)) {
-				debouncedGetElementFromServer()
-			}
-		}, {
-			deep: true
+			return JSON.stringify(remainingNewProperties)
 		})
+
+		watch(elementDataForRender, (newValue, oldValue) => {
+			// Stringify the values so we can only compare values
+			debouncedGetElementFromServer()
+		})
+
 
 		function setInnerHTML (content) {
 			const elm = elementContentRef.value
@@ -89,10 +88,12 @@ export default {
 			element_data: props.element
 		})
 
+		const requester = serverRequest.createRequester()
+
 		function getElementFromServer () {
 			loading.value = true
 
-			serverRequest.request({
+			requester.request({
 				type: 'render_element',
 				config: serverComponentRenderData
 			}, (response) => {
@@ -147,6 +148,12 @@ export default {
 
 		// Get the element from server on setup
 		getElementFromServer()
+
+		on('zionbuilder/server_component/refresh', debouncedGetElementFromServer)
+		onBeforeUnmount(() => {
+			off('zionbuilder/server_component/refresh', debouncedGetElementFromServer)
+
+		})
 
 		return {
 			contentModel,

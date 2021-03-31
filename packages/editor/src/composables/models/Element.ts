@@ -124,7 +124,7 @@ export class Element {
 	}
 
 	updateOptions(newValues) {
-		this.options = newValues
+		this.options = newValues ? newValues : {}
 	}
 
 	getOptionValue(path, defaultValue = null) {

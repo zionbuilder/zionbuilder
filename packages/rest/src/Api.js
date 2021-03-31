@@ -1,14 +1,16 @@
-
 import ZionService from './ZionService'
+import {
+	applyFilters
+} from '@zb/hooks'
 
 // Bulk actions
 export const bulkActions = function (payload) {
-	const postID = window.ZnPbInitalData.page_id || null
-
-	return ZionService.post('bulk-actions', {
+	const bulkActionData = applyFilters('zionbuilder/api/bulk_actions/data', {
 		actions: payload,
-		post_id: postID
+		post_id: window.ZnPbInitalData.page_id || null
 	})
+
+	return ZionService.post('bulk-actions', bulkActionData)
 }
 
 // Media
