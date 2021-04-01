@@ -162,7 +162,8 @@ class Admin {
 		}
 
 		// Admin settings page
-		if ( 'toplevel_page_zionbuilder' === $hook ) {
+		$admin_hook = sprintf( 'toplevel_page_%s', Whitelabel::get_id() );
+		if ( $admin_hook === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
 
 			wp_enqueue_style(
@@ -334,7 +335,7 @@ class Admin {
 			Whitelabel::get_title(),
 			Whitelabel::get_title(),
 			'manage_options',
-			'zionbuilder',
+			Whitelabel::get_id(),
 			[ $this, 'render_options_page' ],
 			$admin_logo
 		);
