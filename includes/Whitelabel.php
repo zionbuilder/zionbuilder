@@ -79,6 +79,10 @@ class Whitelabel {
 		return Plugin::instance()->whitelabel->plugin_title;
 	}
 
+	public static function get_id() {
+		return sanitize_title( self::get_title() );
+	}
+
 	/**
 	 * @return string
 	 */
