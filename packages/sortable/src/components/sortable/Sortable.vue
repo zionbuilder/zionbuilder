@@ -984,8 +984,8 @@ export default {
 			return h(
 				props.tag,
 				{
-					onMouseDown: props.disabled ? null : onMouseDown,
-					onDragStart,
+					onMousedown: props.disabled ? null : onMouseDown,
+					onDragstart: onDragStart,
 					ref: sortableContainer,
 					class: {
 						[`vuebdnd__placeholder-empty-container`]: canShowEmptyPlaceholder.value
