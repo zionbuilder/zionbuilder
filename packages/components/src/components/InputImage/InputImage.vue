@@ -298,33 +298,6 @@ export default {
 		capitalize (string) {
 			return string.charAt(0).toUpperCase() + string.slice(1)
 		},
-		// onCustomSizeSelected () {
-		// 	// Make the server call
-		// 	const attachment = wp.media.model.Attachment.get(this.imageSrc)
-
-		// 	attachment.fetch({
-		// 		data: {
-		// 			is_media_image: true,
-		// 			custom_size: this.customSizeValue,
-		// 			image_url: this.imageSrc
-		// 		}
-		// 	}).done((event) => {
-		// 		if (event && event.id) {
-		// 			const { width: width = 'auto', height: height = 'auto' } = this.customSizeValue
-		// 			const imageName = `custom_${width}x${height}`
-
-		// 			console.log(event)
-
-		// 			this.attachmentId = event.id
-		// 			if (event.sizes[imageName]) {
-		// 				this.$emit('update:modelValue',	{
-		// 					...this.modelValue,
-		// 					image: event.sizes[imageName].url
-		// 				})
-		// 			}
-		// 		}
-		// 	})
-		// },
 		getImageHeight () {
 			if (!this.$refs.image) {
 				return
