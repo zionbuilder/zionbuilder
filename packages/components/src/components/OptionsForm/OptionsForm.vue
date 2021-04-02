@@ -117,19 +117,26 @@ export default {
 			emit('update:modelValue', clonedValue)
 		}
 
+		function deleteNestedEmptyObjects (paths, object) {
+			paths.forEach(path => {
+				const remainingPaths = paths.slice(1, paths.length)
+
+				if (typeof object[path] === 'object') {
+					object[path] = deleteNestedEmptyObjects(remainingPaths, object[path])
+
+					if (Object.keys(object[path]).length === 0) {
+						delete object[path]
+					}
+				}
+			});
+
+			return object
+		}
+
 		function deleteNested (path, model) {
 			const paths = path.split('.')
 			paths.pop()
-
-			paths.reduce((acc, key, index) => {
-				if (typeof acc[key] === 'object' && Object.keys(acc[key]).length === 0) {
-					delete acc[key]
-					return true
-				}
-
-				return acc[key]
-			}, model)
-			return model
+			deleteNestedEmptyObjects(paths, model)
 		}
 
 		const deleteValueByPath = (path) => {
