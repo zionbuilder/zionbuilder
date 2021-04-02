@@ -77,8 +77,9 @@ export default {
 		const localColors = getOptionValue('local_colors')
 		const globalColors = getOptionValue('global_colors')
 
-		const colorId = generateUID()
+
 		function addGlobal (color) {
+			const colorId = generateUID()
 			let globalColor = {
 				id: colorId,
 				color: color,
