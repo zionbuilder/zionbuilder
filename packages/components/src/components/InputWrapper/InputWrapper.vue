@@ -96,7 +96,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-forms-input-wrapper {
+.znpb-input-wrapper.znpb-forms-input-wrapper {
 	padding: 0 20px;
 	margin-bottom: 15px;
 
@@ -137,6 +137,10 @@ export default {
 		.znpb-forms-form__input-title {
 			flex-grow: 1;
 			margin-bottom: 0;
+		}
+
+		.znpb-form__input-title {
+			margin: 0;
 		}
 
 		.znpb-forms-input-content {
