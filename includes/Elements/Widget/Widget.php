@@ -35,7 +35,12 @@ class Widget extends Element {
 			return;
 		}
 
-		$this->widget_id = $data['widget_id'];
+		$this->set_widget_id( $data['widget_id'] );
+	}
+
+
+	public function set_widget_id( $widget_id ) {
+		$this->widget_id = $widget_id;
 	}
 
 	/**

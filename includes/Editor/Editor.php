@@ -165,9 +165,6 @@ class Editor {
 		$wp_styles  = new \WP_Styles(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 		$wp_scripts = new \WP_Scripts(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
 
-		// Register our scripts
-		CommonJS::register_scripts();
-
 		do_action( 'zionbuilder/editor/before_scripts' );
 
 		// Custom HTML widgets
