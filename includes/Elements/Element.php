@@ -143,11 +143,6 @@ class Element {
 	private $current_provides = [];
 
 	/**
-	 * This is a flag that will allow the options to be set only once
-	 */
-	private static $element_options_set = false;
-
-	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -193,15 +188,11 @@ class Element {
 		$element_type  = $this->get_type();
 		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
 
-		if ( ! self::$element_options_set ) {
-			// Register element options. We only need them on class init with data
-			$this->options( $this->options );
+		// Register element options. We only need them on class init with data
+		$this->options( $this->options );
 
-			// Trigger internal action
-			$this->trigger( 'options/schema/set' );
-
-			self::$element_options_set = true;
-		}
+		// Trigger internal action
+		$this->trigger( 'options/schema/set' );
 
 	}
 
