@@ -143,6 +143,11 @@ class Element {
 	private $current_provides = [];
 
 	/**
+	 * This is a flag that will allow the options to be set only once
+	 */
+	private static $element_options_set = false;
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -151,18 +156,10 @@ class Element {
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_before_init( $data );
 
-		$element_type  = $this->get_type();
-		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
-
-		// Register element options. We only need them on class init with data
-		$this->options( $this->options );
-
-		// Trigger internal action
-		$this->trigger( 'options/schema/set' );
-
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
 			$this->data = $data;
+			$this->init_options();
 
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
@@ -190,6 +187,22 @@ class Element {
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	public function init_options() {
+		$element_type  = $this->get_type();
+		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
+
+		if ( ! self::$element_options_set ) {
+			// Register element options. We only need them on class init with data
+			$this->options( $this->options );
+
+			// Trigger internal action
+			$this->trigger( 'options/schema/set' );
+
+			self::$element_options_set = true;
+		}
+
 	}
 
 	/**
@@ -449,6 +462,9 @@ class Element {
 	 */
 	public function internal_get_config_for_editor() {
 		$show_in_ui = $this->is_child() ? false : $this->show_in_ui();
+
+		// Init options
+		$this->init_options();
 
 		$config = [
 			'element_type'        => $this->get_type(),

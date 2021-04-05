@@ -182,7 +182,8 @@ class Options extends Stack {
 	 * @return void
 	 */
 	public function parse_data() {
-		$model       = apply_filters( 'zionbuilder/options/model_parse', $this->model );
+		$model = apply_filters( 'zionbuilder/options/model_parse', $this->model );
+
 		$this->model = $this->setup_model( $this->get_schema(), $model );
 	}
 
