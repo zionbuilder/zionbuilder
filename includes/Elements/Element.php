@@ -185,15 +185,18 @@ class Element {
 	}
 
 	public function init_options() {
-		$element_type  = $this->get_type();
-		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
+		$element_type         = $this->get_type();
+		$options_schema_id    = sprintf( 'zionbuilder\element\%s\options', $element_type );
+		$is_schema_registered = Options::is_schema_registered( $options_schema_id );
+		$this->options        = new Options( $options_schema_id );
 
-		// Register element options. We only need them on class init with data
-		$this->options( $this->options );
+		if ( ! $is_schema_registered ) {
+			// Register element options. We only need them on class init with data
+			$this->options( $this->options );
 
-		// Trigger internal action
-		$this->trigger( 'options/schema/set' );
-
+			// Trigger internal action
+			$this->trigger( 'options/schema/set' );
+		}
 	}
 
 	/**
