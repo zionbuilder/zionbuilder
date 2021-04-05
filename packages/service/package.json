@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/service",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "Helper utility for developing for zion builder",
 	"homepage": "",
 	"main": "index.js",
