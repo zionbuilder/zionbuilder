@@ -7,11 +7,12 @@ import { cloneDeep, forEach } from 'lodash-es'
  * and custom css
  */
 export default class Options {
-	constructor(schema, model, selector, options) {
+	constructor(schema, model, selector, options, serverRequester = null) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
 		this.options = options
+		this.serverRequester = serverRequester || window.zb.editor.serverRequest
 
 		this.customCSS = {
 			default: {},
@@ -106,7 +107,7 @@ export default class Options {
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
 				this.startLoading()
-				getImage(model[optionId]).then((image) => {
+				getImage(model[optionId], this.serverRequester).then((image) => {
 					if (image) {
 						this.setImage(model, optionId, image)
 					}

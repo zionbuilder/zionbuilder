@@ -1,6 +1,8 @@
 const cache = {}
 
-export default function (imageConfig) {
+export default function (imageConfig, requester = null) {
+	const serverRequester = requester || window.zb.editor.serverRequest
+
 	return new Promise((resolve, reject) => {
 		// Check to see if we actually need to retrieve the image
 		if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
@@ -10,7 +12,9 @@ export default function (imageConfig) {
 			// Check to see if we have a custom size
 			if (size === 'custom') {
 				const customSize = imageConfig.custom_size || {}
-				let { width = 0, height = 0 } = customSize
+				let {
+					width = 0, height = 0
+				} = customSize
 				width = width || 0
 				height = height || 0
 				size = `zion_custom_${width}x${height}`
@@ -20,7 +24,7 @@ export default function (imageConfig) {
 				resolve(cache[imageConfig.image][size])
 			} else {
 				// Get the image from server
-				window.zb.editor.serverRequest.request({
+				serverRequester.request({
 					type: 'get_image',
 					config: imageConfig
 				}, (response) => {
@@ -43,7 +47,7 @@ export default function (imageConfig) {
 	})
 }
 
-function addToCache (imageConfig, values) {
+function addToCache(imageConfig, values) {
 	const allValues = cache[imageConfig.image]
 
 	cache[imageConfig.image] = {
