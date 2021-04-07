@@ -89,11 +89,11 @@ module.exports = (options, args) => {
 
 		if (Array.isArray(webpackConfig)) {
 			webpackConfig.forEach(config => {
-				applyDynamicPublicPathToEntries(config.entry)
+				// applyDynamicPublicPathToEntries(config.entry)
 				applyDefines(config)
 			})
 		} else {
-			applyDynamicPublicPathToEntries(webpackConfig.entry)
+			// applyDynamicPublicPathToEntries(webpackConfig.entry)
 			applyDefines(webpackConfig)
 		}
 
