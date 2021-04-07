@@ -50,7 +50,6 @@ export class ServerRequest {
 
 		if (data.useCache && this.isCached(cacheKey)) {
 			successCallback(this.getFromCache(cacheKey))
-			// return this.getFromCache(cacheKey)
 		} else {
 			this.addToQueue(parsedData, successCallback, failCallback)
 			this.doQueue()

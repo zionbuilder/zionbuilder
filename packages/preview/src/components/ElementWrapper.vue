@@ -122,6 +122,7 @@ export default {
 		// computed
 		const parsedData = computed(() => {
 			const cssSelector = `#${props.element.elementCssId}`
+
 			optionsInstance = new Options(
 				elementOptionsSchema,
 				props.element.options,
