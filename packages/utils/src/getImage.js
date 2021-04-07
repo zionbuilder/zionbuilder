@@ -1,5 +1,3 @@
-const cache = {}
-
 export default function (imageConfig, requester = null) {
 	const serverRequester = requester || window.zb.editor.serverRequest
 
@@ -20,38 +18,23 @@ export default function (imageConfig, requester = null) {
 				size = `zion_custom_${width}x${height}`
 			}
 
-			if (typeof cache[imageConfig.image] !== 'undefined' && cache[imageConfig.image][size]) {
-				resolve(cache[imageConfig.image][size])
-			} else {
-				// Get the image from server
-				serverRequester.request({
-					type: 'get_image',
-					config: imageConfig
-				}, (response) => {
-					// add to cache
-					addToCache(imageConfig, response)
-
-					// Send back the image
-					resolve(response[size])
-				}, function (message) {
-					// eslint-disable-next-line
-					console.log('server Request fail', message)
-					reject(new Error('image could not be retrieved'))
-				})
-			}
+			// New server Request feature
+			serverRequester.request({
+				type: 'get_image',
+				config: imageConfig,
+				useCache: true
+			}, (response) => {
+				// Send back the image
+				resolve(response[size])
+			}, function (message) {
+				// eslint-disable-next-line
+				console.log('server Request fail', message)
+				reject(new Error('image could not be retrieved'))
+			})
 		} else if (imageConfig.image) {
 			resolve(imageConfig.image)
 		} else {
 			reject(new Error('bad config for image', imageConfig))
 		}
 	})
-}
-
-function addToCache(imageConfig, values) {
-	const allValues = cache[imageConfig.image]
-
-	cache[imageConfig.image] = {
-		...allValues,
-		...values
-	}
 }
