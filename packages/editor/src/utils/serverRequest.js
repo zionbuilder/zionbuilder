@@ -27,7 +27,7 @@ export class ServerRequest {
 	}
 
 	isCached(cacheKey) {
-		return this.cache[cacheKey]
+		return typeof this.cache[cacheKey] !== 'undefined'
 	}
 
 	createRequester(initialData = {}) {
