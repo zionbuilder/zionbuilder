@@ -285,12 +285,14 @@ class Editor {
 			}
 		}
 
+		$autosave_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
+
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
 				'page_settings'       => [
 					'schema' => $post_instance->get_page_settings_schema(),
-					'values' => $post_instance->get_page_settings_values(),
+					'values' => $autosave_instance->get_page_settings_values(),
 				],
 				'urls'                => [
 					'assets_url'        => Utils::get_file_url( 'assets' ),

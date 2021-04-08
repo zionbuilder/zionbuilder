@@ -76,7 +76,7 @@ export default {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
-		const { saveDraft } = useSavePage()
+		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
 		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
@@ -86,7 +86,7 @@ export default {
 			focusedElement,
 			unFocusElement,
 			applyShortcuts,
-			saveDraft,
+			saveAutosave,
 			pageId: editorData.value.page_id,
 			urls: editorData.value.urls,
 			getIframeOrder,
@@ -227,7 +227,7 @@ export default {
 			setPreviewLoading(true)
 		},
 		refreshIframe () {
-			this.saveDraft().then(() => {
+			this.saveAutosave().then(() => {
 				this.ignoreNextReload = true
 				this.getWindows('preview').location.reload(true)
 				this.removeWindow('preview')
