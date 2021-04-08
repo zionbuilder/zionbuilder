@@ -1,7 +1,10 @@
 <template>
-	<div class="znpb-option-repeater">
+	<Sortable
+		class="znpb-option-repeater"
+		v-model="sortableItems"
+	>
 		<RepeaterOption
-			v-for="(item, index) in modelValue"
+			v-for="(item, index) in sortableItems"
 			:key="index"
 			:schema="child_options"
 			:modelValue="item"
@@ -16,20 +19,25 @@
 			ref="repeaterItem"
 		>
 		</RepeaterOption>
-		<Button
-			v-if="showButton"
-			class="znpb-option-repeater__add-button"
-			type="line"
-			@click="addProperty"
-		>
-			{{add_button_text}}
-		</Button>
-	</div>
+
+		<template #end>
+			<Button
+				v-if="showButton"
+				class="znpb-option-repeater__add-button"
+				type="line"
+				@click="addProperty"
+			>
+				{{add_button_text}}
+			</Button>
+		</template>
+	</Sortable>
 </template>
 
 <script>
+import { computed } from 'vue'
 import RepeaterOption from './RepeaterOption.vue'
 import { translate } from '@zb/i18n'
+
 export default {
 	name: 'Repeater',
 	data () {
@@ -89,6 +97,20 @@ export default {
 		add_template: {
 			type: Object,
 			required: false
+		}
+	},
+	setup (props, { emit }) {
+		const sortableItems = computed({
+			get () {
+				return props.modelValue
+			},
+			set (newValue) {
+				emit('update:modelValue', newValue)
+			}
+		})
+
+		return {
+			sortableItems
 		}
 	},
 	components: {
