@@ -248,6 +248,27 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 
 ## Changelog ##
+### 2.2.0 2021-04-12 ###
+* Varsious overall builder speed improvements
+* All elements that reqiures data from server are now grouped in a single server call
+* Removed various css/js files from loading if they are not needed on the page
+* Added style options for icon box spacer
+* Improved order of scripts loading
+* Added style options for modal close button
+* Added indicator showing that an element has custom css classes applied
+* Added additional style options for separator element
+* Plugin developers: You can now condition the render element from inside the element class
+* Fixed css classes added multilple times in certain conditions
+* Fixed element from library added after a section instead of inside it
+* Improvement: When a new item is added to the library, the library automatically navigates to the newly added element
+* Improved initial disply of library items
+* Added additional php actions and filters
+* Updated Vue JS to latest version
+* Fixed local changes popup appears in certain conditions even if there were not unsaved changes to a page
+* Fixed global colors generating with the same id
+* removed empty options values from saving to DB
+* Improved PRO compatiblity regarding repeated elements
+
 ###  2.0.0 2021-03-16 ###
 * Feature: Improved compatibility with caching plugins
 * Feature: Added ability to change the icon background for icon element
