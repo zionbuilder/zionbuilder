@@ -33,7 +33,7 @@
 					{{`${element.name} ${$translate('options')}`}}
 					<Icon icon="select" />
 					<BreadcrumbsWrapper
-						v-if="showBreadcrumbs"
+						v-show="showBreadcrumbs"
 						:element="element"
 					/>
 				</h4>

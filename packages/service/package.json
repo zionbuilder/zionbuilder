@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/service",
-	"version": "2.2.1",
+	"version": "2.2.3",
 	"description": "Helper utility for developing for zion builder",
 	"homepage": "",
 	"main": "index.js",
@@ -37,5 +37,5 @@
 	"bugs": {
 		"url": "https://github.com/zionbuilder/zionbuilder-cli/issues"
 	},
-	"gitHead": "e6c16a16257ad8f99e957aba9cab2759a996ac73"
+	"gitHead": "f5f4b2374a53666b7ee721e523c27de90766f268"
 }

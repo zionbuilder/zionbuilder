@@ -1,6 +1,6 @@
-const cache = {}
+export default function (imageConfig, requester = null) {
+	const serverRequester = requester || window.zb.editor.serverRequest
 
-export default function (imageConfig) {
 	return new Promise((resolve, reject) => {
 		// Check to see if we actually need to retrieve the image
 		if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
@@ -10,44 +10,31 @@ export default function (imageConfig) {
 			// Check to see if we have a custom size
 			if (size === 'custom') {
 				const customSize = imageConfig.custom_size || {}
-				let { width = 0, height = 0 } = customSize
+				let {
+					width = 0, height = 0
+				} = customSize
 				width = width || 0
 				height = height || 0
 				size = `zion_custom_${width}x${height}`
 			}
 
-			if (typeof cache[imageConfig.image] !== 'undefined' && cache[imageConfig.image][size]) {
-				resolve(cache[imageConfig.image][size])
-			} else {
-				// Get the image from server
-				window.zb.editor.serverRequest.request({
-					type: 'get_image',
-					config: imageConfig
-				}, (response) => {
-					// add to cache
-					addToCache(imageConfig, response)
-
-					// Send back the image
-					resolve(response[size])
-				}, function (message) {
-					// eslint-disable-next-line
-					console.log('server Request fail', message)
-					reject(new Error('image could not be retrieved'))
-				})
-			}
+			// New server Request feature
+			serverRequester.request({
+				type: 'get_image',
+				config: imageConfig,
+				useCache: true
+			}, (response) => {
+				// Send back the image
+				resolve(response[size])
+			}, function (message) {
+				// eslint-disable-next-line
+				console.log('server Request fail', message)
+				reject(new Error('image could not be retrieved'))
+			})
 		} else if (imageConfig.image) {
 			resolve(imageConfig.image)
 		} else {
 			reject(new Error('bad config for image', imageConfig))
 		}
 	})
-}
-
-function addToCache (imageConfig, values) {
-	const allValues = cache[imageConfig.image]
-
-	cache[imageConfig.image] = {
-		...allValues,
-		...values
-	}
 }
