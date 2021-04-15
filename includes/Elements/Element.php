@@ -134,8 +134,7 @@ class Element {
 	 */
 	protected $hooks = [];
 
-	public $data         = [];
-	private $parsed_data = false;
+	public $data = [];
 
 	// repeater
 	public $is_repeater_item = false;
@@ -152,18 +151,10 @@ class Element {
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_before_init( $data );
 
-		$element_type  = $this->get_type();
-		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
-
-		// Register element options. We only need them on class init with data
-		$this->options( $this->options );
-
-		// Trigger internal action
-		$this->trigger( 'options/schema/set' );
-
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
 			$this->data = $data;
+			$this->init_options();
 
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
@@ -180,32 +171,32 @@ class Element {
 			if ( isset( $data['main_class'] ) ) {
 				$this->main_class = $data['main_class'];
 			}
+
+			// Setup helpers
+			$model                   = isset( $data['options'] ) ? $data['options'] : [];
+			$this->render_attributes = new RenderAttributes();
+			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
+
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
 	}
 
-	public function prepare_element_data() {
-		$data = $this->data;
+	public function init_options() {
+		$element_type         = $this->get_type();
+		$options_schema_id    = sprintf( 'zionbuilder\element\%s\options', $element_type );
+		$is_schema_registered = Options::is_schema_registered( $options_schema_id );
+		$this->options        = new Options( $options_schema_id );
 
-		//Set model
-		$model = isset( $data['options'] ) ? $data['options'] : [];
+		if ( ! $is_schema_registered ) {
+			// Register element options. We only need them on class init with data
+			$this->options( $this->options );
 
-		// Setup helpers
-		$this->render_attributes = new RenderAttributes();
-		$this->custom_css        = new CustomCSS( $this->get_css_selector() );
-
-		// loops through the options model and schema to set the proper model
-		$this->options->parse_data( $model, $this->render_attributes, $this->custom_css );
-
-		// Setup render tags custom css classes
-		$this->apply_custom_classes_to_render_tags();
-
-		// Setup render tags customattributes
-		$this->apply_custom_attributes_to_render_tags();
-
-		$this->parsed_data = true;
+			// Trigger internal action
+			$this->trigger( 'options/schema/set' );
+		}
 	}
 
 	/**
@@ -437,7 +428,7 @@ class Element {
 	 *
 	 * @return boolean
 	 */
-	private function can_render() {
+	protected function can_render() {
 		return true;
 	}
 
@@ -465,6 +456,9 @@ class Element {
 	 */
 	public function internal_get_config_for_editor() {
 		$show_in_ui = $this->is_child() ? false : $this->show_in_ui();
+
+		// Init options
+		$this->init_options();
 
 		$config = [
 			'element_type'        => $this->get_type(),
@@ -687,7 +681,7 @@ class Element {
 	 * @return void
 	 */
 	public function server_render( $request ) {
-		$this->prepare_element_data();
+		$this->options->parse_data();
 		$this->render( $this->options );
 	}
 
@@ -719,14 +713,22 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
-		$this->prepare_element_data();
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
+
+		$this->options->parse_data();
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
 		}
 
+		// Setup render tags custom css classes
+		$this->apply_custom_classes_to_render_tags();
+
+		// Setup render tags customattributes
+		$this->apply_custom_attributes_to_render_tags();
+
 		$this->extra_render_data = $extra_render_data;
-		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
+
 		$this->before_render( $this->options );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
@@ -737,7 +739,6 @@ class Element {
 		// Add animation attributes
 		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
 		if ( ! empty( $appear_animation ) ) {
-			wp_enqueue_script( 'zionbuilder-animatejs' );
 			$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
 			$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
 		}
@@ -766,11 +767,11 @@ class Element {
 		$this->render( $this->options );
 		printf( '</%s>', esc_html( $wrapper_tag ) );
 
-		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 		$this->after_render( $this->options );
 
 		// Reset prvides
 		$this->reset_provides();
+		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
 
 
@@ -994,7 +995,7 @@ class Element {
 			return '';
 		}
 
-		$this->prepare_element_data();
+		$this->options->parse_data();
 
 		$css = '';
 
@@ -1055,6 +1056,15 @@ class Element {
 	public function enqueue_scripts() {
 	}
 
+	public function do_enqueue_scripts() {
+		// Check for animation
+		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+		if ( ! empty( $appear_animation ) ) {
+			wp_enqueue_script( 'zionbuilder-animatejs' );
+		}
+
+		$this->enqueue_scripts();
+	}
 
 	/**
 	 * Enqueue Styles
@@ -1066,6 +1076,15 @@ class Element {
 	public function enqueue_styles() {
 	}
 
+	public function do_enqueue_styles() {
+		// Check for animation
+		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+		if ( ! empty( $appear_animation ) ) {
+			wp_enqueue_style( 'zion-frontend-animations' );
+		}
+
+		$this->enqueue_styles();
+	}
 
 	/**
 	 * Adds a script to the list of scripts that will be loaded in edit mode

@@ -123,6 +123,16 @@ class Options extends Stack {
 	}
 
 	/**
+	 * Checks to see if an option schema was already registered
+	 *
+	 * @param string $schema_id
+	 * @return boolean
+	 */
+	public static function is_schema_registered( $schema_id ) {
+		return isset( self::$schemas[$schema_id] );
+	}
+
+	/**
 	 * Set the options model/values
 	 *
 	 * @param array<string, mixed> $model The data model for the current stack
@@ -131,6 +141,21 @@ class Options extends Stack {
 	 */
 	public function set_model( $model = [] ) {
 		$this->model = $model;
+	}
+
+	/**
+	 * Sets the options model, custom css and render attributes instances
+	 *
+	 * @param array<string, mixed> $model
+	 * @param RenderAttributes     $render_attributes
+	 * @param CustomCSS            $custom_css
+	 *
+	 * @return void
+	 */
+	public function set_data( $model, RenderAttributes $render_attributes, CustomCSS $custom_css ) {
+		$this->model             = $model;
+		$this->render_attributes = $render_attributes;
+		$this->custom_css        = $custom_css;
 	}
 
 	/**
@@ -164,16 +189,10 @@ class Options extends Stack {
 	 *
 	 * Will set the base model and the element for which the model is attached to
 	 *
-	 * @param array<string, mixed> $model
-	 * @param RenderAttributes     $render_attributes
-	 * @param CustomCSS            $custom_css
-	 *
 	 * @return void
 	 */
-	public function parse_data( $model, RenderAttributes $render_attributes = null, CustomCSS $custom_css = null ) {
-		$this->render_attributes = $render_attributes;
-		$this->custom_css        = $custom_css;
-		$model                   = apply_filters( 'zionbuilder/options/model_parse', $model );
+	public function parse_data() {
+		$model = apply_filters( 'zionbuilder/options/model_parse', $this->model );
 
 		$this->model = $this->setup_model( $this->get_schema(), $model );
 	}

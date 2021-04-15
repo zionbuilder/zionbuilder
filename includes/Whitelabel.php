@@ -25,6 +25,13 @@ class Whitelabel {
 	public $plugin_title = 'Zion Builder';
 
 	/**
+	 * Holds a reference to the plugin slug. This is used for admin urls
+	 *
+	 * @var string
+	 */
+	public $plugin_slug = 'zionbuilder';
+
+	/**
 	 * Holds a reference to the plugin logo URL
 	 *
 	 * @var string
@@ -49,20 +56,21 @@ class Whitelabel {
 	 * Whitelabel constructor.
 	 */
 	public function __construct() {
-		$white_label_data = apply_filters(
+		$white_label_data         = apply_filters(
 			'zionbuilder/whitelabel/data',
 			[
 				'plugin_title'       => 'Zion Builder',
+				'plugin_slug'        => 'zionbuilder',
 				'plugin_logo'        => Utils::get_logo_url(),
 				'plugin_help_url'    => 'https://zionbuilder.io/help-center/',
 				'plugin_loader_logo' => Utils::get_loader_url(),
 			]
 		);
-
 		$this->plugin_title       = $white_label_data['plugin_title'];
 		$this->plugin_logo        = $white_label_data['plugin_logo'];
 		$this->plugin_help_url    = $white_label_data['plugin_help_url'];
 		$this->plugin_loader_logo = $white_label_data['plugin_loader_logo'];
+		$this->plugin_slug        = $white_label_data['plugin_slug'];
 	}
 
 	/**
@@ -77,6 +85,10 @@ class Whitelabel {
 	 */
 	public static function get_title() {
 		return Plugin::instance()->whitelabel->plugin_title;
+	}
+
+	public static function get_id() {
+		return Plugin::instance()->whitelabel->plugin_slug;
 	}
 
 	/**

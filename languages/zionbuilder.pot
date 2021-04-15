@@ -1823,6 +1823,10 @@ msgstr ""
 msgid "Invalid Element"
 msgstr ""
 
+#: ../includes/Localization.php:688
+msgid "Remove additional classes"
+msgstr ""
+
 #: ../includes/Shortcodes.php:25
 msgid "Template id missing"
 msgstr ""
@@ -2636,7 +2640,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/Icon/Icon.php:419, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:266
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/Icon/Icon.php:419, ../includes/Elements/IconBox/IconBox.php:222, ../includes/Elements/IconList/IconList.php:266, ../includes/Elements/Separator/Separator.php:405
 msgid "Icon styles"
 msgstr ""
 
@@ -3054,6 +3058,10 @@ msgstr ""
 
 #: ../includes/Elements/IconBox/IconBox.php:238, ../includes/Elements/ImageBox/ImageBox.php:251, ../includes/Elements/Testimonial/Testimonial.php:258
 msgid "Description styles"
+msgstr ""
+
+#: ../includes/Elements/IconBox/IconBox.php:246
+msgid "Spacer styles"
 msgstr ""
 
 #: ../includes/Elements/IconList/IconList.php:38

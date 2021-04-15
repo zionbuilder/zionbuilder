@@ -84,31 +84,67 @@ class BulkActions extends RestApiController {
 		return apply_filters(
 			'zionbuilder/api/bulk_actions',
 			[
-				'get_image' => [ $this, 'get_image' ],
-				'parse_php' => [ $this, 'parse_php' ],
+				'get_image'      => [ $this, 'get_image' ],
+				'parse_php'      => [ $this, 'parse_php' ],
+				'render_element' => [ $this, 'render_element' ],
 			]
 		);
 	}
 
 	public function get_items( $request ) {
 		$actions  = $request->get_param( 'actions' );
-		$post_id  = $request->get_param( 'post_id' );
+		$post_id  = apply_filters( 'zionbuilder/rest/bulk_actions/post_id', $request->get_param( 'post_id' ), $request );
 		$response = [];
+
+		do_action( 'zionbuilder/rest/bulk_actions/get_items', $request );
 
 		$registered_actions = $this->get_bulk_actions();
 
 		// Set main post data
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
+
 		if ( is_array( $actions ) ) {
 			foreach ( $actions as $action_key => $action_config ) {
 				if ( array_key_exists( $action_config['type'], $registered_actions ) ) {
+					do_action( 'zionbuilder/rest/bulk_actions/before_action', $action_config );
+
 					$callback              = $registered_actions[$action_config['type']];
 					$response[$action_key] = call_user_func( $callback, $action_config['config'] );
+
+					do_action( 'zionbuilder/rest/bulk_actions/after_action', $action_config );
 				}
 			}
 		}
 
 		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * @param array $config
+	 *
+	 * @return mixed|\WP_REST_Response
+	 */
+	public function render_element( $config ) {
+		$element_data     = $config['element_data'];
+		$elements_manager = Plugin::$instance->elements_manager;
+		$element_instance = $elements_manager->get_element_instance_with_data( $element_data );
+
+		if ( $element_instance ) {
+			ob_start();
+			$element_instance->server_render( $config );
+
+			return rest_ensure_response(
+				[
+					'element' => ob_get_clean(),
+				]
+			);
+		}
+
+		return rest_ensure_response(
+			[
+				'element' => '',
+			]
+		);
 	}
 
 	public function parse_php( $php_code ) {

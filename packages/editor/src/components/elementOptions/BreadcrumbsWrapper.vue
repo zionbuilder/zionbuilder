@@ -23,9 +23,6 @@ export default {
 		element: Object
 	},
 	setup (props) {
-
-		const { getElement } = useElements()
-
 		const getChildren = function (element) {
 			const { element: activeElement } = useEditElement()
 			const children = {

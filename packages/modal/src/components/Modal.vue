@@ -26,6 +26,7 @@
 						} : null"
 					>
 						{{title}}
+						<slot name="title"></slot>
 					</div>
 
 					<Icon
@@ -34,12 +35,16 @@
 						v-if="showMaximize"
 						@click.stop="fullSize = ! fullSize, $emit('update:fullscreen', fullSize)"
 					/>
-					<Icon
-						icon="close"
+
+					<span
 						v-if="showClose"
 						@click.stop="closeModal"
 						class="znpb-modal__header-button"
-					/>
+					>
+						<slot name="close"></slot>
+						<Icon icon="close" />
+					</span>
+
 				</header>
 				<slot name="header" />
 				<div class="znpb-modal__content">
@@ -321,9 +326,9 @@ export default {
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
+		width: calc(100% - 40px);
 		max-width: 100%;
 		max-height: 80%;
-		width: calc(100% - 40px);
 		background: $surface;
 		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
 		border-radius: 3px;

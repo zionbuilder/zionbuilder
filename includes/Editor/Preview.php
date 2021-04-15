@@ -78,8 +78,8 @@ class Preview {
 
 		// Load preview scripts. We use a high order so we can create a list of other loaded scripts
 		// Load styles before theme styles
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 100 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 100 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
 		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}
@@ -113,6 +113,7 @@ class Preview {
 
 		wp_enqueue_media();
 
+		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
@@ -168,16 +169,6 @@ class Preview {
 		// Load roboto font
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
-		// Load styles
-		// Plugin::instance()->scripts->enqueue_style(
-		// 	'zion-frontend-styles',
-		// 	'css/frontend.css',
-		// 	[
-		// 		'zb-components',
-		// 	],
-		// 	Plugin::instance()->get_version()
-		// );
-
 		Plugin::instance()->scripts->register_style(
 			'znpb-editor-styles',
 			'css/editor.css',
@@ -213,11 +204,12 @@ class Preview {
 
 	public function get_preview_initial_data() {
 		return [
-			'nonce'               => Nonces::generate_nonce( 'preview-frame' ),
-			'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
-			'template_types'      => Plugin::$instance->templates->get_template_types(),
-			'template_categories' => Plugin::$instance->templates->get_template_categories(),
-			'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+			'nonce'                   => Nonces::generate_nonce( 'preview-frame' ),
+			'page_content'            => Plugin::$instance->renderer->get_registered_areas(),
+			'template_types'          => Plugin::$instance->templates->get_template_types(),
+			'template_categories'     => Plugin::$instance->templates->get_template_categories(),
+			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 		];
 	}
 

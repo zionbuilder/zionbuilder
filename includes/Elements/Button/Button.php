@@ -388,8 +388,8 @@ class Button extends Element {
 		$link             = $options->get_value( 'link', false );
 
 		$combined_button_attr = $this->render_attributes->get_combined_attributes( 'button_styles', [ 'class' => 'zb-el-button' ] );
+		$combined_icon_attr   = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-button__icon' ] );
 
-		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-button__icon' ] );
 		if ( ! empty( $link['link'] ) ) {
 			$this->attach_link_attributes( 'button', $link );
 			$html_tag = 'a';

@@ -14,6 +14,7 @@
 				:is="breadcrumbsComponent"
 				class="znpb-element-options__vertical-breadcrumbs-wrapper--inner"
 				v-for="child in parents.children"
+				:key="child.element.uid"
 				:parents="child"
 			/>
 		</template>
@@ -21,7 +22,6 @@
 </template>
 
 <script>
-import { resolveComponent } from 'vue'
 import { usePanels, useEditElement } from '@composables'
 
 export default {

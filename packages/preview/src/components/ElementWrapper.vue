@@ -63,10 +63,10 @@
 
 <script>
 // Utils
-import { ref, watch, computed, readonly, provide, inject } from 'vue'
+import { ref, watch, computed, readonly, provide, watchEffect } from 'vue'
 import { get, debounce, each, kebabCase, escape } from 'lodash-es'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
-import { applyFilters, trigger } from '@zb/hooks'
+import { applyFilters } from '@zb/hooks'
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue'
@@ -75,7 +75,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement, serverRequest } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
@@ -117,19 +117,27 @@ export default {
 		}
 
 		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementTypeModel.options', {}), advancedSchema)
+		const serverRequester = serverRequest.createRequester()
 
 		// computed
 		const parsedData = computed(() => {
 			const cssSelector = `#${props.element.elementCssId}`
-			optionsInstance = new Options(elementOptionsSchema, props.element.options, cssSelector, {
-				onLoadingStart: () => localLoading.value = true,
-				onLoadingEnd: () => localLoading.value = false,
-			})
+
+			optionsInstance = new Options(
+				elementOptionsSchema,
+				props.element.options,
+				cssSelector,
+				{
+					onLoadingStart: () => localLoading.value = true,
+					onLoadingEnd: () => localLoading.value = false,
+				},
+				serverRequester
+			)
 
 			return optionsInstance.parseData()
 		})
 
-		const options = computed(() => readonly(parsedData.value.options))
+		const options = computed(() => readonly(parsedData.value.options || {}))
 
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS
@@ -150,10 +158,12 @@ export default {
 
 			return customCSS
 		})
+
 		const stylesConfig = computed(() => options.value._styles || {})
 		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
+
 
 		const renderAttributes = computed(() => {
 			const optionsAttributes = parsedData.value.renderAttributes

@@ -41,6 +41,10 @@ class Frontend {
 
 		// Check to see if we need to show the pagebuilder content
 		add_action( 'template_redirect', [ $this, 'init' ] );
+
+		// Load elements scripts
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	public function init() {
@@ -56,9 +60,6 @@ class Frontend {
 		// Allow others to add their own areas
 		do_action( 'zionbuilder/frontend/after_init', $this );
 
-		// Load elements scripts
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	public function prepare_content_for_post_id( $post_id ) {
@@ -78,7 +79,7 @@ class Frontend {
 				// Add content filters
 				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
 				add_filter( 'get_the_excerpt', [ $this, 'remove_excerpt_flag' ], 99 );
-				add_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
+				$this->add_content_filter();
 
 				// Register styles cache file for current page
 				Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
@@ -126,10 +127,13 @@ class Frontend {
 		return $this->is_excerpt;
 	}
 
-	public function remove_content_filter( $content = '' ) {
-		remove_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
 
-		return $content;
+	public function add_content_filter() {
+		add_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
+	}
+
+	public function remove_content_filter() {
+		remove_filter( 'the_content', [ $this, 'add_pagebuilder_content' ], self::CONTENT_FILTER_PRIORITY );
 	}
 
 	/**
@@ -149,12 +153,17 @@ class Frontend {
 			return $content;
 		}
 
+		// Prevent Maximum function nesting level
+		$this->remove_content_filter();
+
 		$pb_content = Plugin::$instance->renderer->get_content();
 		if ( ! empty( $pb_content ) ) {
 			$content = $pb_content;
 			// Remove filters that may affect content
 			$this->remove_content_filters();
 		}
+
+		$this->add_content_filter();
 
 		return $content;
 	}
@@ -202,9 +211,6 @@ class Frontend {
 				Plugin::instance()->get_version()
 			);
 		};
-
-		// Load animations
-		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		do_action( 'zionbuilder/frontend/after_load_styles', $this );
 	}

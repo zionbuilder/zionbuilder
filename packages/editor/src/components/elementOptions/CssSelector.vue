@@ -10,8 +10,14 @@
 			>{{ type }}
 			</span>
 			<span class="znpb-css-class-selector__item-name">
-				{{name}}
+				<span :title="name">{{name}}</span>
 			</span>
+
+			<ChangesBullet
+				v-if="showChangesBullet"
+				@remove-styles="$emit('remove-extra-classes')"
+				:discard-changes-title="$translate('remove_additional_classes')"
+			/>
 		</div>
 
 		<Tooltip
@@ -52,6 +58,11 @@ export default {
 			type: Boolean,
 			required: false,
 			default: false
+		},
+		showChangesBullet: {
+			type: Boolean,
+			required: false,
+			default: false
 		}
 	},
 	data () {
@@ -66,11 +77,52 @@ export default {
 </script>
 
 <style lang="scss">
+.znpb-class-selector {
+	.znpb-css-class-selector__item-content {
+		width: 100%;
+	}
+
+	.znpb-css-class-selector__item-name {
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 1;
+			width: 20px;
+			height: 100%;
+			background: linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(255, 255, 255, 1) 100%
+			);
+		}
+
+		 > span {
+			position: absolute;
+			white-space: pre;
+		}
+	}
+}
+
+.znpb-class-selector__popper .znpb-css-class-selector__item {
+	margin: 0 -15px;
+
+	&-name {
+		word-break: break-all;
+	}
+}
+
 .znpb-css-class-selector__item {
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
-	padding: 9px 12px;
+	padding: 9px 15px;
 	cursor: pointer;
 
 	&:hover {
@@ -78,10 +130,20 @@ export default {
 	}
 	&-close {
 		padding-left: 15px;
+
+		.zion-icon {
+			font-size: 10px;
+			opacity: .5;
+		}
+
+		&:hover .zion-icon {
+			opacity: 1;
+		}
 	}
 	&-content {
 		display: flex;
 		align-items: center;
+		width: 100%;
 	}
 
 	&--selected {
@@ -110,10 +172,12 @@ export default {
 	&-name {
 		display: flex;
 		align-items: center;
+		flex-grow: 1;
 		padding-left: 10px;
 		color: darken($font-color, 10%);
 		font-size: 13px;
 		font-weight: 500;
+		line-height: 1.4;
 	}
 
 	&-close {

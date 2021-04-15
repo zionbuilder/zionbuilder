@@ -278,16 +278,22 @@ export default {
 			return new Promise((resolve, reject) => {
 				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
-					const { activeElementForLibrary } = useLibrary()
-					const { getElement } = useElements()
+					const { insertElement, activeElement } = useLibrary()
+					const { togglePanel } = usePanels()
 
 					// Check to see if this is a single element or a group of elements
 					let compiledTemplateData = templateData.element_type ? [templateData] : templateData
-					const activeElement = activeElementForLibrary.value ? activeElementForLibrary.value : getElement('content')
+					const newElement = regenerateUIDsForContent(compiledTemplateData)
 
-					activeElement.addChildren(regenerateUIDsForContent(compiledTemplateData))
+					if (activeElement.value) {
+						insertElement(newElement)
+					} else {
+						const { getElement } = useElements()
+						const element = getElement('content')
+						element.addChildren(newElement)
+					}
 
-					this.togglePanel('PanelLibraryModal')
+					togglePanel('PanelLibraryModal')
 
 					resolve(true)
 				}).catch((error) => {

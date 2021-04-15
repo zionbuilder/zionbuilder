@@ -240,6 +240,15 @@ class IconBox extends Element {
 				'render_tag' => 'description_styles',
 			]
 		);
+		$this->register_style_options_element(
+			'spacer_styles',
+			[
+				'title'      => esc_html__( 'Spacer styles', 'zionbuilder' ),
+				'selector'   => '{{ELEMENT}} .zb-el-iconBox-spacer',
+				'render_tag' => 'spacer',
+			]
+		);
+
 	}
 
 	/**
@@ -281,11 +290,10 @@ class IconBox extends Element {
 		$description = $options->get_value( 'description' );
 		$title       = $options->get_value( 'title' );
 
-		$combined_icon_attr = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconBox-icon' ] );
-
-		$combined_title_attr = $this->render_attributes->get_combined_attributes( 'title_styles', [ 'class' => 'zb-el-iconBox-title' ] );
-
-		$combined_desc_attr = $this->render_attributes->get_combined_attributes( 'description_styles', [ 'class' => 'zb-el-iconBox-description' ] );
+		$combined_icon_attr   = $this->render_attributes->get_combined_attributes( 'icon_styles', [ 'class' => 'zb-el-iconBox-icon' ] );
+		$combined_title_attr  = $this->render_attributes->get_combined_attributes( 'title_styles', [ 'class' => 'zb-el-iconBox-title' ] );
+		$combined_desc_attr   = $this->render_attributes->get_combined_attributes( 'description_styles', [ 'class' => 'zb-el-iconBox-description' ] );
+		$combined_spacer_attr = $this->render_attributes->get_combined_attributes( 'spacer', [ 'class' => 'zb-el-iconBox-spacer' ] );
 
 		if ( $icon ) {
 			?>
@@ -302,8 +310,9 @@ class IconBox extends Element {
 			</div>
 			<?php
 		}
+		$this->render_tag( 'span', 'spacer', '', $combined_spacer_attr );
+
 		?>
-		<span class="zb-el-iconBox-spacer"></span>
 		<div class="zb-el-iconBox-text">
 			<?php
 			if ( ! empty( $title ) ) {

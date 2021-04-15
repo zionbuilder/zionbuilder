@@ -95,19 +95,6 @@ class CustomCSS {
 						}
 					}
 				}
-
-				// if (typeof model === 'object') {
-				// 	forEach(model, (maskConfig, position) => {
-				// 		const { shape, height } = maskConfig
-				// 		if (shape && height) {
-				// 			const selector = `zb-mask-pos--${position}`
-				// 			this.extractResponsiveCSSRules(schema.type, {
-				// 				selector: `${this.selector} .${selector}`,
-				// 				value: 'height: {{VALUE}}'
-				// 			}, height, index)
-				// 		}
-				// 	})
-				// }
 			}
 		}
 
@@ -158,7 +145,7 @@ class CustomCSS {
 	 * @return void
 	 */
 	public function extract_responsive_option_css( $option_type, $style_config, $value, $index ) {
-		if ( ! empty( $value ) ) {
+		if ( ! empty( $value ) && is_array( $value ) ) {
 			foreach ( $value as $device => $css_value ) {
 				$this->extract_option_css( $device, $option_type, $style_config, $css_value, $index );
 			}

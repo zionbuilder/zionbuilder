@@ -24,8 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CommonJS {
 	public function __construct() {
 		// Actions
-		add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
+		add_action( 'zionbuilder/editor/before_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
+		add_action( 'zionbuilder/preview/before_load_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
+		add_action( 'zionbuilder/admin/before_admin_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
 	}
 
 	public function on_enqueue_scripts() {
@@ -94,17 +95,6 @@ class CommonJS {
 			[
 				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 				'rest_root' => esc_url_raw( rest_url() ),
-				'schemas'   => apply_filters(
-					'zionbuilder/commonjs/schemas',
-					[
-						'styles'           => StyleOptions::get_schema(),
-						'element_advanced' => Advanced::get_schema(),
-						'typography'       => Typography::get_schema(),
-						'video'            => Video::get_schema(),
-						'background_image' => BackgroundImage::get_schema(),
-						'shadow'           => Shadow::get_schema(),
-					]
-				),
 			]
 		);
 

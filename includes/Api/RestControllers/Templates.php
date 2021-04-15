@@ -644,13 +644,13 @@ class Templates extends RestApiController {
 			// Check to see if this a PRO plugin or not
 			$template_file_url = apply_filters( 'zionbuilder/template/insert/template_file', $template_file_url, $request );
 
-			if ( empty( $template_file_url ) ) {
-				return new \WP_Error( 'template_data_not_valid', __( 'Could not get the template zip file!', 'zionbuilder' ) );
-			}
-
 			if ( is_wp_error( $template_file_url ) ) {
 				$template_file_url->add_data( [ 'status' => 500 ] );
 				return $template_file_url;
+			}
+
+			if ( empty( $template_file_url ) ) {
+				return new \WP_Error( 'template_data_not_valid', __( 'Could not get the template zip file!', 'zionbuilder' ) );
 			}
 
 			$template_file_download = download_url( $template_file_url );

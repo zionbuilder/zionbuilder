@@ -54,24 +54,6 @@ class Elements extends RestApiController {
 				'schema' => [ $this, 'get_public_item_schema' ],
 			]
 		);
-
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->base . '/render_element',
-			[
-				[
-					'methods'             => \WP_REST_Server::CREATABLE,
-					'callback'            => [ $this, 'render_element' ],
-					'permission_callback' => [ $this, 'get_element_options_form_permissions_check' ],
-					'args'                => [
-						'element_data' => [
-							'required' => true,
-						],
-					],
-				],
-				'schema' => [ $this, 'get_public_item_schema' ],
-			]
-		);
 	}
 
 	/**
@@ -112,31 +94,4 @@ class Elements extends RestApiController {
 		);
 	}
 
-	/**
-	 * @param \WP_REST_Request $request
-	 *
-	 * @return mixed|\WP_REST_Response
-	 */
-	public function render_element( $request ) {
-		$element_data     = $request->get_param( 'element_data' );
-		$elements_manager = Plugin::$instance->elements_manager;
-		$element_instance = $elements_manager->get_element_instance_with_data( $element_data );
-
-		if ( $element_instance ) {
-			ob_start();
-			$element_instance->server_render( $request );
-
-			return rest_ensure_response(
-				[
-					'element' => ob_get_clean(),
-				]
-			);
-		}
-
-		return rest_ensure_response(
-			[
-				'element' => '',
-			]
-		);
-	}
 }

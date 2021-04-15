@@ -19,7 +19,7 @@ export function useHistory() {
 		return currentHistoryIndex.value < historyItems.value.length - 1
 	})
 
-	function undo () {
+	function undo() {
 		if (currentHistoryIndex.value - 1 >= 0) {
 			currentHistoryIndex.value = currentHistoryIndex.value - 1
 			restoreHistoryState(currentHistoryIndex.value)
@@ -28,12 +28,12 @@ export function useHistory() {
 
 	function redo() {
 		if (currentHistoryIndex.value + 1 <= historyItems.value.length - 1) {
-			currentHistoryIndex.value = currentHistoryIndex.value +1
+			currentHistoryIndex.value = currentHistoryIndex.value + 1
 			restoreHistoryState(currentHistoryIndex.value)
 		}
 	}
 
-	function addToHistory(name: string) {
+	function addToHistory(name: string, useCache = true) {
 		// Get the state
 		const state = getDataForSave()
 		const currentTime = new Date()
@@ -59,7 +59,9 @@ export function useHistory() {
 
 		}
 
-		Cache.saveItem(state.page_id, state)
+		if (useCache) {
+			Cache.saveItem(state.page_id, state)
+		}
 	}
 
 	function restoreHistoryState(index: number) {
@@ -94,7 +96,7 @@ export function useHistory() {
 	}
 
 	function addInitialHistory() {
-		addToHistory( translate('initial_state') )
+		addToHistory(translate('initial_state'), false)
 	}
 
 	function getDataForSave() {

@@ -5,8 +5,8 @@
 		class="znpb-border-control-group"
 	/>
 </template>
+
 <script>
-import { InputLabel } from '../InputLabel'
 export default {
 	name: 'InputBorderControl',
 	props: {
