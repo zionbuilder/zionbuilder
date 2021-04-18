@@ -40,7 +40,6 @@ import { InputRange, InputRangeDynamic } from './components/InputRange'
 import { InputTextShadow } from './components/InputTextShadow'
 import { InputNumber, InputNumberUnit } from './components/InputNumber'
 import { InputTextAlign } from './components/InputTextAlign'
-import { InputTextTransform } from './components/InputTextTransform'
 import { OptionsForm, OptionWrapper } from './components/OptionsForm'
 
 import { Loader } from './components/Loader'
@@ -124,7 +123,6 @@ const components = [
 	InputNumber,
 	InputNumberUnit,
 	InputTextAlign,
-	InputTextTransform,
 	OptionsForm,
 	OptionWrapper,
 	getDefaultGradient
@@ -204,7 +202,6 @@ export {
 	InputNumber,
 	InputNumberUnit,
 	InputTextAlign,
-	InputTextTransform,
 	OptionsForm,
 	OptionWrapper,
 	getDefaultGradient

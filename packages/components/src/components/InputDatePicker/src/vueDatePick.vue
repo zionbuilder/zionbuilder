@@ -129,6 +129,7 @@
 							</tr>
 						</tbody>
 					</table>
+
 					<div
 						v-if="pickTime && currentTime"
 						class="vdpTimeControls"
@@ -998,7 +999,6 @@ $vdpColor: $secondary;
 
 .vdpComponent {
 	position: relative;
-	display: inline-block;
 	color: #303030;
 	font-size: 10px;
 	/*font-family: Helvetica, Arial, sans-serif;*/

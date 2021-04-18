@@ -12,6 +12,7 @@
 		:format="format"
 		:is-date-disabled="disableDate"
 	>
+
 		<template v-slot:default="{toggle}">
 			<BaseInput
 				v-model="valueModel"
