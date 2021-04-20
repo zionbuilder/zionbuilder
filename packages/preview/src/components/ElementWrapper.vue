@@ -63,8 +63,8 @@
 
 <script>
 // Utils
-import { ref, watch, computed, readonly, provide, watchEffect } from 'vue'
-import { get, debounce, each, kebabCase, escape } from 'lodash-es'
+import { ref, watch, computed, readonly, provide } from 'vue'
+import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es'
 import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
@@ -213,10 +213,16 @@ export default {
 				})
 			}
 
-			return {
-				...optionsAttributes,
-				...additionalAttributes
-			}
+			return mergeWith(
+				{},
+				optionsAttributes,
+				additionalAttributes,
+				(a, b) => {
+					if (isArray(a)) {
+						return b.concat(a);
+					}
+				}
+			)
 		})
 		const getExtraAttributes = computed(() => {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}
