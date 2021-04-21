@@ -38,7 +38,6 @@ export default {
 
 			// Custom css classes
 			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
-
 				Object.keys(props.cssClasses).forEach(cssClassId => {
 					const styleData = props.cssClasses[cssClassId]
 					const customCSS = getStyles(`.zb .${styleData.id}`, styleData.style)

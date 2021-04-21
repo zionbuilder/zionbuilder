@@ -14,6 +14,12 @@
 		</div>
 
 		<template v-if="filteredClasses.length">
+			<OptionsForm
+				:schema="schema"
+				v-model="value"
+				class="znpb-globalCSSClassesOptionsForm"
+			/>
+
 			<HorizontalAccordion
 				v-for="(classItem, index) in filteredClasses"
 				v-bind:key="index"
@@ -81,6 +87,42 @@ export default {
 			}
 		})
 
+		const schema = computed(() => {
+			console.log({ CSSClasses });
+			const schema = {}
+			const selectors = filteredClasses.value || []
+
+			selectors.forEach(cssClassConfig => {
+				const { id, title } = cssClassConfig
+				schema[id] = {
+					type: 'css_selector',
+					name: title
+				}
+			});
+
+			return schema
+		})
+
+		const value = computed({
+			get () {
+				const modelValue = {}
+				const existingCSSClasses = CSSClasses.value
+				existingCSSClasses.forEach(cssClassConfig => {
+					const { id } = cssClassConfig
+					modelValue[id] = cssClassConfig
+				})
+
+				return modelValue
+			},
+			set (newValue) {
+				console.log({ newValue });
+				Object.keys(newValue).forEach(selectorId => {
+					const selectorValue = newValue[selectorId]
+					updateCSSClass(selectorId, selectorValue)
+				})
+
+			}
+		})
 
 		function onItemSelected () {
 			breadCrumbConfig.value.title = activeClass.value.name
@@ -133,7 +175,9 @@ export default {
 			onItemSelected,
 			onItemCollapsed,
 			saveClass,
-			deleteClass
+			deleteClass,
+			schema,
+			value
 		}
 	}
 }
@@ -142,6 +186,14 @@ export default {
 .znpb-global-css-classes {
 	&__search {
 		margin-bottom: 20px;
+	}
+}
+
+.znpb-globalCSSClassesOptionsForm {
+	padding: 0;
+
+	& > .znpb-input-type--css_selector {
+		padding: 0;
 	}
 }
 </style>

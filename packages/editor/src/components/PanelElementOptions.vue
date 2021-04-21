@@ -288,7 +288,7 @@ export default {
 					id: styleId,
 					icon: 'brush',
 					child_options: {
-						'styles': {
+						styles: {
 							type: 'element_styles',
 							id: 'styles',
 							is_layout: true,

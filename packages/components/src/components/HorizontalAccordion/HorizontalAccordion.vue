@@ -5,15 +5,17 @@
 				v-show="!localCollapsed"
 				@click="openAccordion"
 				class="znpb-horizontal-accordion__header"
-				:class="{'znpb-horizontal-accordion__header--has-slots': $slots.header}"
+				:class="{'znpb-horizontal-accordion__header--has-slots': hasHeaderSlot}"
 			>
-				<template v-if="!$slots.header">
+				<template v-if="!hasHeaderSlot">
 					<span class="znpb-horizontal-accordion__title">
-						<Icon
-							v-if="icon"
-							:icon="icon"
-						/>
-						<span v-html="title"></span>
+						<template v-if="!hasTitleSlot">
+							<Icon
+								v-if="icon"
+								:icon="icon"
+							/>
+							<span v-html="title"></span>
+						</template>
 						<slot name="title"></slot>
 					</span>
 
@@ -56,6 +58,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { Icon } from '../Icon'
 import OptionBreadcrumbs from './OptionBreadcrumbs.vue'
 
@@ -147,6 +150,15 @@ export default {
 		combineBreadcrumbs: {
 			type: Boolean,
 			required: false
+		}
+	},
+	setup (props, { slots }) {
+		const hasHeaderSlot = computed(() => !!slots.header)
+		const hasTitleSlot = computed(() => !!slots.title)
+
+		return {
+			hasHeaderSlot,
+			hasTitleSlot
 		}
 	},
 	data () {

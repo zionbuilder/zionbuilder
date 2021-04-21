@@ -1,6 +1,9 @@
 <template>
 	<div class="zb-anchorPoint">
 		<slot name="start" />
+		<pre>
+		{{options}}
+		</pre>
 
 		<span v-html="`#${getCssID}`"></span>
 		<Icon
