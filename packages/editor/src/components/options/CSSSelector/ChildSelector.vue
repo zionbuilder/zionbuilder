@@ -39,7 +39,7 @@ export default {
 .znpb-option-cssChildSelectorStyles {
 	flex-grow: 1;
 
-	& .znpb-horizontal-accordion__header {
+	& .znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header {
 		padding: 8px 10px;
 	}
 }

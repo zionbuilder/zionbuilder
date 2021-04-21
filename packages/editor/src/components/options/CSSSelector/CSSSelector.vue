@@ -17,6 +17,7 @@
 				:title="title"
 				:child_options="schema"
 				v-model="value"
+				class="znpb-option-cssSelectorAccordion"
 			>
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
