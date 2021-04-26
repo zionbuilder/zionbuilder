@@ -282,6 +282,20 @@ export default {
 			Object.keys(styledElements).forEach(styleId => {
 				const config = styledElements[styleId]
 
+				schema[styleId] = {
+					type: 'css_selector',
+					name: config.title,
+					icon: 'brush',
+					allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
+					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.uid}`),
+					allow_delete: false,
+					show_breadcrumbs: true
+				}
+
+				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
+					schema[styleId].attributes = this.attributesOptions
+				}
+
 				const optionConfig = {
 					type: 'accordion_menu',
 					title: config.title,

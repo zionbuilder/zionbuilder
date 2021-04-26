@@ -11,7 +11,7 @@
 
 			<AccordionMenu
 				:show-trigger-arrow="true"
-				:has-breadcrumbs="false"
+				:has-breadcrumbs="show_breadcrumbs"
 				:title="title"
 				:child_options="schema"
 				v-model="value"
@@ -31,6 +31,12 @@
 						:child-selectors="childSelectors"
 						@add-child="onChildAdded"
 						@toggle-view-childs="showChilds = !showChilds"
+					/>
+
+					<ChangesBullet
+						:content="$translate('discard_changes')"
+						v-if="show_changes && hasChanges"
+						@remove-styles="resetChanges"
 					/>
 
 					<Icon
@@ -57,6 +63,8 @@
 				:modelValue="childSelector"
 				@update:modelValue="onChildUpdate(childSelector, $event)"
 				:is-child="true"
+				:allow_class_assignments="false"
+				:show_breadcrumbs="show_breadcrumbs"
 			/>
 		</div>
 	</div>
@@ -92,13 +100,33 @@ export default {
 		isChild: {
 			type: Boolean,
 			default: false
+		},
+		allow_class_assignments: {
+			type: Boolean,
+			default: true
+		},
+		selector: {
+			type: String,
+			required: false
+		},
+		name: {
+			type: String,
+			required: false
+		},
+		show_breadcrumbs: {
+			type: Boolean,
+			default: false
+		},
+		show_changes: {
+			type: Boolean,
+			default: true
 		}
 	},
 	setup (props, { emit }) {
 		const showChilds = ref(false)
 
 		const title = computed(() => {
-			return props.modelValue.title || props.modelValue.id || 'New item'
+			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
 		})
 
 		const selector = computed(() => {
@@ -145,12 +173,13 @@ export default {
 					id: 'styles',
 					is_layout: true,
 					selector: selector.value,
-					// selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
 					title: title.value,
-					// allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
+					allow_class_assignments: props.allow_class_assignments
 				}
 			}
 		})
+
+		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0)
 
 		const value = computed({
 			get () {
@@ -183,6 +212,10 @@ export default {
 			emit('update:modelValue', null)
 		}
 
+		function resetChanges () {
+			delete value.value.styles
+		}
+
 		return {
 			onChildAdded,
 			showChilds,
@@ -193,7 +226,9 @@ export default {
 			schema,
 			value,
 			onChildUpdate,
-			pseudoState
+			pseudoState,
+			hasChanges,
+			resetChanges
 		}
 	}
 }

@@ -65,7 +65,7 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue'
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es'
-import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
+import { getCssFromSelector, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
 // Components
@@ -149,7 +149,7 @@ export default {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
-						customCSS += getStyles(formattedSelector, options.value._styles[styleId].styles)
+						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
 					}
 				})
 			}

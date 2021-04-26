@@ -35,7 +35,7 @@ import { useCSSClasses } from '@composables'
 export default {
 	name: 'GlobalClasses',
 	setup (props) {
-		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
+		const { CSSClasses, getClassesByFilter, removeCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
 		const keyword = ref('')
 		const activeClass = ref(null)
 		const breadCrumbConfig = ref({
@@ -63,10 +63,12 @@ export default {
 				const { id, title } = cssClassConfig
 				schema[id] = {
 					type: 'css_selector',
-					name: title
+					title: title,
+					allow_class_assignments: false,
+					show_changes: false
 				}
 			});
-			console.log({ schema });
+
 			return schema
 		})
 
@@ -112,10 +114,6 @@ export default {
 			removeCSSClass(classItem)
 		}
 
-		function saveClass (newValues) {
-			updateCSSClass(activeClass.value.id, newValues)
-		}
-
 		function closeAccordion () {
 			// Find the expanded accordion from ref
 			const activeAccordion = horizontalAccordion.value.find((accordion) => {
@@ -143,12 +141,10 @@ export default {
 			CSSClasses,
 			removeCSSClass,
 			getClassesByFilter,
-			updateCSSClass,
 			horizontalAccordion,
 			// Methods
 			onItemSelected,
 			onItemCollapsed,
-			saveClass,
 			deleteClass,
 			schema,
 			value
