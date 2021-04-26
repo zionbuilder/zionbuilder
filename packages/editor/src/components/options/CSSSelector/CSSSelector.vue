@@ -270,42 +270,69 @@ export default {
 <style lang="scss">
 .znpb-option-cssSelectorWrapper {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
+	overflow: visible;
 }
 .znpb-option-cssSelectorForm .znpb-options-form-wrapper {
 	padding: 0;
 }
 
 .znpb-option-cssSelector {
-	font-size: 9px;
-	font-weight: 300;
+	font-size: 11px;
+	font-weight: 500;
 	text-transform: none;
-	opacity: .5;
+	opacity: 0.6;
 }
 
 .znpb-option-cssSelectorTitle {
 	margin-bottom: 4px;
 }
 
-.znpb-option-cssSelectoritem--child {
-	margin-left: 10px;
+.znpb-option-cssSelectoritem--child .znpb-option-cssSelectoritem--child {
+	padding-left: 61px;
 }
 
 .znpb-option-cssChildSelectorPseudoSelector {
 	display: flex;
+	justify-content: center;
 	align-items: center;
+	position: relative;
 	flex: 1 0 auto;
-	padding: 14px 10px;
-	margin: 0 5px 5px;
-	color: #464646;
+	width: 56px;
+	padding: 5px 8px;
+	margin: 0 5px 5px 0;
+	color: #fff;
 	font-size: 11px;
+	font-weight: 500;
 	line-height: 1;
-	background: #f1f1f1;
-	border-radius: 3px;
+	background: #8bc88a;
+	border-radius: 2px;
 	cursor: pointer;
 
 	&:hover {
-		opacity: .8;
+		opacity: 0.8;
+	}
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		background: #f1f1f1;
+		z-index: -1;
+	}
+
+	&::before {
+		bottom: 100%;
+		left: 50%;
+		height: 38px;
+		width: 1px;
+	}
+
+	&::after {
+		top: 50%;
+		left: 100%;
+		width: 5px;
+		height: 1px;
 	}
 }
 
@@ -314,11 +341,7 @@ export default {
 	flex-grow: 1;
 
 	& .znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header {
-		padding: 8px 10px;
-	}
-
-	.znpb-option-cssSelectorTitle {
-		font-size: 11px;
+		padding: 12px;
 	}
 }
 
