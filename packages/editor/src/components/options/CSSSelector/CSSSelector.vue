@@ -64,6 +64,7 @@
 				@update:modelValue="onChildUpdate(childSelector, $event)"
 				:is-child="true"
 				:allow_class_assignments="false"
+				:allow_custom_attributes="false"
 				:show_breadcrumbs="show_breadcrumbs"
 			/>
 		</div>
@@ -72,6 +73,8 @@
 
 <script>
 import { computed, defineAsyncComponent, ref } from 'vue'
+import { applyFilters } from '@zb/hooks'
+import { translate } from '@zb/i18n'
 
 // Components
 import AddChildActions from './AddChildActions.vue'
@@ -102,6 +105,10 @@ export default {
 			default: false
 		},
 		allow_class_assignments: {
+			type: Boolean,
+			default: true
+		},
+		allow_custom_attributes: {
 			type: Boolean,
 			default: true
 		},
@@ -144,7 +151,6 @@ export default {
 				return props.modelValue.child_styles || []
 			},
 			set (newValue) {
-				console.log({ newValue });
 				if (null === newValue || newValue.length === 0) {
 					delete value.value.child_styles
 				} else {
@@ -167,7 +173,7 @@ export default {
 		})
 
 		const schema = computed(() => {
-			return {
+			const schema = {
 				styles: {
 					type: 'element_styles',
 					id: 'styles',
@@ -177,6 +183,33 @@ export default {
 					allow_class_assignments: props.allow_class_assignments
 				}
 			}
+
+			// attach the attribute options
+			if (props.allow_custom_attributes) {
+				schema.attributes = applyFilters('zionbuilder/options/attributes', {
+					type: 'accordion_menu',
+					title: 'custom attributes',
+					icon: 'tags-attributes',
+					is_layout: true,
+					label: {
+						type: translate('pro'),
+						text: translate('pro')
+					},
+					show_title: false,
+					child_options: {
+						upgrade_message: {
+							type: 'upgrade_to_pro',
+							message_title: translate('meet_custom_attributes'),
+							message_description: translate('meet_custom_attributes_desc'),
+							message_link: translate('meet_custom_attributes_link')
+						}
+					}
+				})
+			}
+
+
+
+			return schema
 		})
 
 		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0)

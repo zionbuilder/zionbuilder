@@ -146,7 +146,7 @@ import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue'
 import BasePanel from './BasePanel.vue'
-import { translate } from '@zb/i18n'
+
 
 export default {
 	name: 'PanelElementOptions',
@@ -289,35 +289,32 @@ export default {
 					allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
 					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.uid}`),
 					allow_delete: false,
-					show_breadcrumbs: true
+					show_breadcrumbs: true,
+					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
 				}
 
-				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
-					schema[styleId].attributes = this.attributesOptions
-				}
+				// const optionConfig = {
+				// 	type: 'accordion_menu',
+				// 	title: config.title,
+				// 	id: styleId,
+				// 	icon: 'brush',
+				// 	child_options: {
+				// 		styles: {
+				// 			type: 'element_styles',
+				// 			id: 'styles',
+				// 			is_layout: true,
+				// 			selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
+				// 			title: config.title,
+				// 			allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
+				// 		}
+				// 	}
+				// }
 
-				const optionConfig = {
-					type: 'accordion_menu',
-					title: config.title,
-					id: styleId,
-					icon: 'brush',
-					child_options: {
-						styles: {
-							type: 'element_styles',
-							id: 'styles',
-							is_layout: true,
-							selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-							title: config.title,
-							allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
-						}
-					}
-				}
+				// if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
+				// 	optionConfig.child_options.attributes = this.attributesOptions
+				// }
 
-				if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
-					optionConfig.child_options.attributes = this.attributesOptions
-				}
-
-				schema[styleId] = optionConfig
+				// schema[styleId] = optionConfig
 			})
 
 			return {
@@ -329,30 +326,7 @@ export default {
 				}
 			}
 		},
-		attributesOptions () {
-			let attributesComponent = {
-				type: 'accordion_menu',
-				title: 'custom attributes',
-				icon: 'tags-attributes',
-				is_layout: true,
-				label: {
-					type: translate('pro'),
-					text: translate('pro')
-				},
-				show_title: false,
-				child_options: {
-					upgrade_message: {
-						type: 'upgrade_to_pro',
-						message_title: translate('meet_custom_attributes'),
-						message_description: translate('meet_custom_attributes_desc'),
-						message_link: translate('meet_custom_attributes_link')
-					}
 
-				}
-			}
-
-			return applyFilters('zionbuilder/options/attributes', attributesComponent)
-		},
 		allOptionsSchema () {
 			const elementOptionsSchema = this.element.elementTypeModel.options ? this.element.elementTypeModel.options : {}
 			const optionsSchema = {
