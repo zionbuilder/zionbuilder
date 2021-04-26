@@ -34,24 +34,19 @@
 					append-to="element"
 					strategy="fixed"
 					@hide="showAddModal = false"
+					@click.stop="showAddModal = !showAddModal"
 				>
-					<Icon
-						icon="child-add"
-						@click.stop="showAddModal = !showAddModal"
-					/>
+					<Icon icon="child-add" />
 				</Tooltip>
 
 			</template>
 			<template v-else>
 				<!-- ICON -->
 				<span
-					@click.stop="showChilds = !showChilds"
+					@click.stop="showChilds = !showChilds, $emit('toggle-view-childs')"
 					class="znpb-option-cssSelectorChildActionsChildNumber"
 				>
-					<Icon
-						icon="child"
-						@click="$emit('toggle-view-childs')"
-					/>
+					<Icon icon="child" />
 					{{childSelectors.length}}
 				</span>
 				<Tooltip
@@ -60,22 +55,13 @@
 					append-to="element"
 					strategy="fixed"
 					@hide="showAddModal = false"
+					@click.stop="showAddModal = !showAddModal"
 				>
-					<Icon
-						icon="plus"
-						@click.stop="showAddModal = !showAddModal"
-					/>
+					<Icon icon="plus" />
 				</Tooltip>
 
 			</template>
 		</div>
-
-		<!-- <div
-			class="znpb-option-cssSelectorChildActionAdd"
-			@click.stop="showAddModal = !showAddModal"
-		>
-			<Icon icon="plus" />
-		</div> -->
 	</Tooltip>
 
 </template>
@@ -101,7 +87,7 @@ export default {
 				title: 'Selector nice name',
 				description: 'Enter a name for this selector'
 			},
-			id: {
+			selector: {
 				type: 'text',
 				title: 'CSS selector',
 				description: 'Enter the css selector you want to style'

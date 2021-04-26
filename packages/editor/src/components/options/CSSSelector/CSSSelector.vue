@@ -102,7 +102,13 @@ export default {
 		})
 
 		const selector = computed(() => {
-			return props.selector || `.${props.modelValue.id}`
+			if (props.selector) {
+				return props.selector
+			} else if (props.modelValue.id) {
+				return `.${props.modelValue.id}`
+			} else if (props.modelValue.selector) {
+				return props.modelValue.selector
+			}
 		})
 
 		const childSelectors = computed({
@@ -128,7 +134,6 @@ export default {
 				return value.value.states || ['default']
 			},
 			set (newStateValue) {
-				console.log({ newStateValue });
 				value.value.states = newStateValue
 			}
 		})
@@ -155,18 +160,6 @@ export default {
 				emit('update:modelValue', newValue)
 			}
 		})
-
-		function addChild () {
-			childSelectors.value = [
-				...childSelectors.value,
-				{
-					states: ['default'],
-					id: 'img'
-				}
-			]
-
-			showChilds.value = true
-		}
 
 		function onChildAdded (childData) {
 			childSelectors.value = [
@@ -196,7 +189,6 @@ export default {
 			title,
 			selector,
 			childSelectors,
-			addChild,
 			deleteItem,
 			schema,
 			value,

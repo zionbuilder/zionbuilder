@@ -19,32 +19,6 @@
 				v-model="value"
 				class="znpb-globalCSSClassesOptionsForm"
 			/>
-
-			<HorizontalAccordion
-				v-for="(classItem, index) in filteredClasses"
-				v-bind:key="index"
-				:show-trigger-arrow="false"
-				:has-breadcrumbs="false"
-				@expand="onItemSelected"
-				@collapse="onItemCollapsed"
-				class="znpb-global-css-classes__accordion-wrapper"
-				:ref="el => { if (el) horizontalAccordion[index] = el }"
-			>
-				<template v-slot:header>
-					<SingleClass
-						:class-item="classItem"
-						@click="activeClass=classItem"
-						@delete-class="deleteClass($event)"
-						@edit-class="activeClass=classItem"
-					/>
-				</template>
-				<SingleClassOptions
-					:class-item="classItem"
-					@update:modelValue="saveClass"
-					@update:modelValue-classname="saveClass"
-				/>
-
-			</HorizontalAccordion>
 		</template>
 		<div
 			v-else
@@ -56,16 +30,10 @@
 </template>
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue'
-import SingleClass from './SingleClass.vue'
-import SingleClassOptions from './SingleClassOptions.vue'
 import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'GlobalClasses',
-	components: {
-		SingleClass,
-		SingleClassOptions
-	},
 	setup (props) {
 		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
 		const keyword = ref('')
