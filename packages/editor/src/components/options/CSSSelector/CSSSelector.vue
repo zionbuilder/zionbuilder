@@ -4,12 +4,10 @@
 		:class="{'znpb-option-cssSelectoritem--child': isChild}"
 	>
 		<div class="znpb-option-cssSelectorWrapper">
-			<div
-				class="znpb-option-cssChildSelectorPseudoSelector"
+			<PseudoSelector
 				v-if="isChild"
-			>
-				PSEUDO
-			</div>
+				v-model:states="pseudoState"
+			/>
 
 			<AccordionMenu
 				:show-trigger-arrow="true"
@@ -28,20 +26,17 @@
 				</template>
 
 				<template #actions>
-					<Icon
-						icon="delete"
-						@click.stop="showChilds = !showChilds"
-					/>
-
-					<Icon
-						icon="delete"
+					<AddChildActions
 						v-if="allow_childs"
-						@click.stop="addChild"
+						:child-selectors="childSelectors"
+						@add-child="onChildAdded"
+						@toggle-view-childs="showChilds = !showChilds"
 					/>
 
 					<Icon
 						icon="delete"
 						v-if="allow_delete"
+						@click.stop="deleteItem"
 					/>
 				</template>
 
@@ -55,10 +50,13 @@
 
 		</div>
 		<div v-if="showChilds && childSelectors.length > 0">
-			<ChildSelector
+			<CSSSelector
+				class="znpb-option-cssChildSelectorStyles"
 				v-for="(childSelector, index) in childSelectors"
 				:key="index"
 				:modelValue="childSelector"
+				@update:modelValue="onChildUpdate(childSelector, $event)"
+				:is-child="true"
 			/>
 		</div>
 	</div>
@@ -68,12 +66,15 @@
 import { computed, defineAsyncComponent, ref } from 'vue'
 
 // Components
+import AddChildActions from './AddChildActions.vue'
+import PseudoSelector from './PseudoSelector.vue'
 
 export default {
 	name: 'CSSSelector',
 	components: {
 		AccordionMenu: defineAsyncComponent(() => import('../AccordionMenu/AccordionMenu.vue')),
-		ChildSelector: defineAsyncComponent(() => import('./ChildSelector.vue'))
+		AddChildActions,
+		PseudoSelector
 	},
 	props: {
 		modelValue: {
@@ -109,10 +110,26 @@ export default {
 				return props.modelValue.child_styles || []
 			},
 			set (newValue) {
-				value.value = {
-					...value.value,
-					child_styles: newValue
+				console.log({ newValue });
+				if (null === newValue || newValue.length === 0) {
+					delete value.value.child_styles
+				} else {
+					value.value = {
+						...value.value,
+						child_styles: newValue
+					}
 				}
+
+			}
+		})
+
+		const pseudoState = computed({
+			get () {
+				return value.value.states || ['default']
+			},
+			set (newStateValue) {
+				console.log({ newStateValue });
+				value.value.states = newStateValue
 			}
 		})
 
@@ -142,26 +159,55 @@ export default {
 		function addChild () {
 			childSelectors.value = [
 				...childSelectors.value,
-				{}
+				{
+					states: ['default'],
+					id: 'img'
+				}
 			]
 
 			showChilds.value = true
 		}
 
+		function onChildAdded (childData) {
+			childSelectors.value = [
+				...childSelectors.value,
+				childData
+			]
+
+			showChilds.value = true
+		}
+
+		function onChildUpdate (child, newValue) {
+			const childIndex = childSelectors.value.indexOf(child)
+			if (newValue === null) {
+				childSelectors.value.splice(childIndex, 1)
+			} else {
+				childSelectors.value.splice(childIndex, 1, newValue)
+			}
+		}
+
+		function deleteItem () {
+			emit('update:modelValue', null)
+		}
+
 		return {
+			onChildAdded,
 			showChilds,
 			title,
 			selector,
 			childSelectors,
 			addChild,
+			deleteItem,
 			schema,
-			value
+			value,
+			onChildUpdate,
+			pseudoState
 		}
 	}
 }
 </script>
 
-<style>
+<style lang="scss">
 .znpb-option-cssSelectorWrapper {
 	display: flex;
 	align-items: flex-start;
@@ -188,6 +234,7 @@ export default {
 .znpb-option-cssChildSelectorPseudoSelector {
 	display: flex;
 	align-items: center;
+	flex: 1 0 auto;
 	padding: 14px 10px;
 	margin: 0 5px 5px;
 	color: #464646;
@@ -196,5 +243,26 @@ export default {
 	background: #f1f1f1;
 	border-radius: 3px;
 	cursor: pointer;
+
+	&:hover {
+		opacity: .8;
+	}
+}
+
+/* Child styles */
+.znpb-option-cssChildSelectorStyles {
+	flex-grow: 1;
+
+	& .znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header {
+		padding: 8px 10px;
+	}
+
+	.znpb-option-cssSelectorTitle {
+		font-size: 11px;
+	}
+}
+
+.znpb-option-cssSelectorAccordion {
+	flex: 1 1 auto;
 }
 </style>

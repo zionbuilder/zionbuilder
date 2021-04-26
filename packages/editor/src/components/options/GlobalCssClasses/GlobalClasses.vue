@@ -67,7 +67,7 @@ export default {
 		SingleClassOptions
 	},
 	setup (props) {
-		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass } = useCSSClasses()
+		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
 		const keyword = ref('')
 		const activeClass = ref(null)
 		const breadCrumbConfig = ref({
@@ -88,7 +88,6 @@ export default {
 		})
 
 		const schema = computed(() => {
-			console.log({ CSSClasses });
 			const schema = {}
 			const selectors = filteredClasses.value || []
 
@@ -99,7 +98,7 @@ export default {
 					name: title
 				}
 			});
-
+			console.log({ schema });
 			return schema
 		})
 
@@ -116,11 +115,18 @@ export default {
 			},
 			set (newValue) {
 				console.log({ newValue });
-				Object.keys(newValue).forEach(selectorId => {
-					const selectorValue = newValue[selectorId]
-					updateCSSClass(selectorId, selectorValue)
-				})
+				if (null === newValue) {
+					removeAllCssClasses()
+				} else {
+					const classes = []
 
+					Object.keys(newValue).forEach(selectorId => {
+						const selectorValue = newValue[selectorId]
+						classes.push(selectorValue)
+					})
+					console.log({ classes });
+					setCSSClasses(classes)
+				}
 			}
 		})
 

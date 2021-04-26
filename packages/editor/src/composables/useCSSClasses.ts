@@ -49,12 +49,22 @@ export const useCSSClasses = () => {
 		CSSClasses.value[cssClassIndex] = updatedValues
 	}
 
+	function removeAllCssClasses() {
+		CSSClasses.value = []
+	}
+
+	function setCSSClasses(newValue) {
+		CSSClasses.value = newValue
+	}
+
 	return {
 		CSSClasses,
 		getClassesByFilter,
 		getClassConfig,
 		addCSSClass,
 		removeCSSClass,
-		updateCSSClass
+		updateCSSClass,
+		removeAllCssClasses,
+		setCSSClasses
 	}
 }
