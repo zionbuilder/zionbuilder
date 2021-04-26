@@ -64,10 +64,10 @@ class CSSClasses {
 		$css_classes = self::get_classes();
 
 		if ( is_array( $css_classes ) ) {
-			foreach ( $css_classes as $key => $class_config ) {
-				if ( ! empty( $class_config['style'] ) && isset( $class_config['id'] ) ) {
+			foreach ( $css_classes as $class_config ) {
+				if ( ! empty( $class_config['styles'] ) && isset( $class_config['id'] ) ) {
 					$class_selector = '.zb .' . $class_config['id'];
-					$css           .= Style::get_styles( $class_selector, $class_config['style'] );
+					$css           .= Style::get_css_from_selector( [ $class_selector ], $class_config );
 				}
 			}
 		}

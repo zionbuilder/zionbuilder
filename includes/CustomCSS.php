@@ -124,7 +124,7 @@ class CustomCSS {
 		$value    = str_replace( '{{VALUE}}', $saved_value, $value );
 
 		if ( $option_type === 'element_styles' ) {
-			$styles = Style::get_styles( $selector, $saved_value );
+			$styles = Style::get_css_from_selector( [ $selector ], $saved_value );
 			if ( ! empty( $styles ) ) {
 				return $styles;
 			}
