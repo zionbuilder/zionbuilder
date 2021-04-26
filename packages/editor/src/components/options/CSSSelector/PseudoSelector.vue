@@ -1,44 +1,45 @@
 <template>
-	<div class="znpb-option-cssChildSelectorPseudoSelector">
-		<Tooltip
-			trigger="click"
-			placement="bottom"
-			append-to="body"
-			strategy="fixed"
-			@hide="showAddModal = false"
-			:close-on-outside-click="true"
-		>
-			<template #content>
-				<div class="znpb-option-cssChildSelectorPseudoSelectorListWrapper">
-					<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
-						<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Active states:</li>
-						<li
-							v-for="state in activePseudo"
-							:key="state.id"
-							@click="removeState(state)"
-						>{{state.name}}</li>
-					</ul>
 
-					<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
-						<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Available states:</li>
-						<li
-							v-for="state in remainingPseudo"
-							:key="state.id"
-							@click="addState(state)"
-						>{{state.name}}</li>
-					</ul>
-				</div>
-			</template>
+	<Tooltip
+		trigger="click"
+		placement="bottom"
+		append-to="body"
+		strategy="fixed"
+		@hide="showAddModal = false"
+		:close-on-outside-click="true"
+		class="znpb-option-cssChildSelectorPseudoSelector"
+	>
+		<template #content>
+			<div class="znpb-option-cssChildSelectorPseudoSelectorListWrapper">
+				<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
+					<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Active states:</li>
+					<li
+						v-for="state in activePseudo"
+						:key="state.id"
+						@click="removeState(state)"
+					>{{state.name}}</li>
+				</ul>
 
-			<template v-if="states.length === 1">
-				{{states[0]}}
-			</template>
-			<template v-if="states.length > 1">
-				{{states.length}} states
-			</template>
-		</Tooltip>
+				<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
+					<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Available states:</li>
+					<li
+						v-for="state in remainingPseudo"
+						:key="state.id"
+						@click="addState(state)"
+					>{{state.name}}</li>
+				</ul>
+			</div>
+		</template>
 
-	</div>
+		<template v-if="states.length === 1">
+			{{states[0]}}
+		</template>
+		<template v-if="states.length > 1">
+			{{states.length}} states
+		</template>
+
+	</Tooltip>
+
 </template>
 
 <script>
@@ -65,7 +66,6 @@ export default {
 				return props.states || []
 			},
 			set (newStates) {
-				console.log({ newStates });
 				emit('update:states', newStates)
 			}
 		})
