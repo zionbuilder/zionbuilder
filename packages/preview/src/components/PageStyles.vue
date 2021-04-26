@@ -35,13 +35,12 @@ export default {
 			const { customCSS: pageSettingsCustomCSS } = pageSettingsOptionsInstance.parseData()
 
 			returnVnodes.push(createVnode(pageSettingsCustomCSS))
-			console.log(props.cssClasses);
+
 			// Custom css classes
 			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
 				Object.keys(props.cssClasses).forEach(cssClassId => {
 					const styleData = props.cssClasses[cssClassId]
 					const customCSS = getCssFromSelector([`.zb .${styleData.id}`], styleData)
-					console.log({ customCSS });
 
 					returnVnodes.push(createVnode(customCSS))
 				})
