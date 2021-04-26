@@ -143,19 +143,26 @@ export default {
 
 .znpb-option-cssSelectorChildActions {
 	display: flex;
-	border: 1px solid #a7a4a4;
-	border-radius: 3px;
 	user-select: none;
 
-	& > * {
-		padding: 3px;
+	& > [placement="top"] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		background: rgba(0, 0, 0, 0.05);
+		border-radius: 3px;
 	}
 }
 
 .znpb-option-cssSelectorChildActionsChildNumber {
 	display: flex;
 	align-items: center;
-	padding-right: 5px;
-	border-right: 1px solid;
+	margin-right: 12px;
+
+	.znpb-editor-icon-wrapper {
+		margin-right: 3px;
+	}
 }
 </style>
