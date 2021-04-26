@@ -145,10 +145,11 @@ export default {
 
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
-					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].styles) {
+					if (options.value._styles && options.value._styles[styleId]) {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
+
 						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
 					}
 				})

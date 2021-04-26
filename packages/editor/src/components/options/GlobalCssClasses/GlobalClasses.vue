@@ -166,4 +166,8 @@ export default {
 		padding: 0;
 	}
 }
+
+.znpb-input-type--css_selector {
+	padding-bottom: 0;
+}
 </style>
