@@ -334,8 +334,8 @@ export default {
 
 				// check to see if this has pseudo selectors
 				if (Array.isArray(props.schema.pseudo_options)) {
-					const activePseudo = activePseudo.value || props.schema.pseudo_options[0]
-					value = typeof (value || {})[activePseudo] !== "undefined" ? (value || {})[activePseudo] : undefined;
+					const activePseudoValue = activePseudo.value || props.schema.pseudo_options[0]
+					value = typeof (value || {})[activePseudoValue] !== "undefined" ? (value || {})[activePseudoValue] : undefined;
 				}
 
 				return value;
