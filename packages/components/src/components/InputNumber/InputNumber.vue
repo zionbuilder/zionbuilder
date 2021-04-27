@@ -10,7 +10,7 @@
 			v-bind="$attrs"
 			@keydown="onKeyDown"
 			@mousedown="actNumberDrag"
-			@touchstart.prevent="actNumberDrag"
+			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivatedragNumber"
 		>
 			<!-- @slot Content that represents units -->
@@ -124,7 +124,7 @@ export default {
 					/**
 					 * Emits new value number
 					 */
-					this.$emit('update:modelValue', Number(newValue))
+					this.$emit('update:modelValue', parseInt(newValue))
 				}
 			}
 		}

@@ -86,7 +86,6 @@ class Shadow extends BaseSchema {
 			'color',
 			[
 				'type'      => 'colorpicker',
-				'layout'    => 'inline',
 				'width'     => 50,
 				'title'     => __( 'Shadow color', 'zionbuilder' ),
 				'min'       => -999,

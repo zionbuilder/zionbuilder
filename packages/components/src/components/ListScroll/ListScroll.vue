@@ -4,7 +4,7 @@
 		:class="{'znpb-scroll-list-wrapper--loading': loading}"
 	>
 		<div
-			@wheel="onScroll"
+			@wheel.passive="onScroll"
 			class="znpb-fancy-scrollbar znpb-scroll-list-container"
 			ref="listScrollRef"
 		>

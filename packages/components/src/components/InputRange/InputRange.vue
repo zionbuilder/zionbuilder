@@ -4,7 +4,6 @@
 		<BaseInput
 			ref="rangebase"
 			type="range"
-			v-bind="$attrs"
 			:min="min"
 			:max="max"
 			v-model="optionValue"

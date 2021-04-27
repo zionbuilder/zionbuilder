@@ -31,7 +31,7 @@
 					ref="dropdown"
 					class="znpb-baseselect-list hg-popper-list znpb-fancy-scrollbar"
 					:style="{'min-width': `${inputWidth}px`}"
-					@wheel="onScroll"
+					@wheel.passive="onScroll"
 				>
 					<li
 						v-for="(option, i) in filteredItems"
@@ -671,14 +671,14 @@ export default {
 			}
 
 			& .zion-icon {
-				font-size: 10px;
-				opacity: 0.5;
 				margin-left: 5px;
+				font-size: 10px;
+				opacity: .5;
 			}
 
 			.zion-icon:hover {
-				opacity: 1;
 				cursor: pointer;
+				opacity: 1;
 			}
 			&:hover {
 				cursor: pointer;
