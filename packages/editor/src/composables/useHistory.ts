@@ -100,8 +100,8 @@ export function useHistory() {
 	}
 
 	function getDataForSave() {
-		const { getTemplatePart } = useTemplateParts()
-		const contentTemplatePart = getTemplatePart('content')
+		const { getActivePostTemplatePart } = useTemplateParts()
+		const contentTemplatePart = getActivePostTemplatePart()
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
 		const { editorData } = useEditorData()

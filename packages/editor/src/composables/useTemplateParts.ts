@@ -1,9 +1,10 @@
 import { ref, Ref } from 'vue'
 import { TemplatePartConfig, TemplatePart } from './models'
 import { find } from 'lodash-es'
+import { useEditorData } from './useEditorData'
 
 // Global template parts store
-const templateParts: Ref<{[key: string]: TemplatePart}> = ref({})
+const templateParts: Ref<{ [key: string]: TemplatePart }> = ref({})
 
 export function useTemplateParts() {
 	const registerTemplatePart = (areaConfig: TemplatePartConfig): TemplatePart => {
@@ -17,9 +18,15 @@ export function useTemplateParts() {
 		return templateParts.value[id]
 	}
 
+	const getActivePostTemplatePart = (): TemplatePartConfig => {
+		const { editorData } = useEditorData()
+		return getTemplatePart(editorData.value.page_id)
+	}
+
 	return {
 		templateParts,
 		registerTemplatePart,
-		getTemplatePart
+		getTemplatePart,
+		getActivePostTemplatePart
 	}
 }

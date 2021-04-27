@@ -45,7 +45,7 @@ export default {
 		const { pageSettings } = usePageSettings()
 		const { removeWindow } = useWindows()
 
-		const element = computed(() => getElement('content'))
+		const element = computed(() => getElement(editorData.value.page_id))
 		const showExportModal = ref(false)
 
 		// provide masks for ShapeDividerComponent option

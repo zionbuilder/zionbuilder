@@ -65,7 +65,7 @@ class Renderer {
 	 * @return void
 	 */
 	public function render_children( $children ) {
-		foreach ( $children as $element_id => $element_data ) {
+		foreach ( $children as $element_data ) {
 			$this->render_element( $element_data );
 		}
 	}
