@@ -309,6 +309,7 @@ export default {
 	border-radius: 2px;
 	cursor: pointer;
 	transition: background 0.2s;
+	z-index: 1;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
@@ -348,5 +349,6 @@ export default {
 
 .znpb-option-cssSelectorAccordion {
 	flex: 1 1 auto;
+	z-index: 1;
 }
 </style>
