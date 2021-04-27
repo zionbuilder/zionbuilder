@@ -53,6 +53,11 @@ export default {
 					...props.modelValue,
 					[activeTab.value]: newValue
 				}
+
+				if (null === newValue) {
+					delete newValues[activeTab.value]
+				}
+
 				emit('update:modelValue', newValues)
 			}
 		})
