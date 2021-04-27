@@ -326,7 +326,7 @@ export default {
 	&::before {
 		bottom: 100%;
 		left: 50%;
-		height: 38px;
+		height: 25px;
 		width: 1px;
 	}
 
@@ -336,6 +336,12 @@ export default {
 		width: 5px;
 		height: 1px;
 	}
+}
+
+.znpb-option-cssSelectoritem--child
+	+ .znpb-option-cssSelectoritem--child
+	.znpb-option-cssChildSelectorPseudoSelector::before {
+	height: 42px;
 }
 
 /* Child styles */
@@ -349,6 +355,5 @@ export default {
 
 .znpb-option-cssSelectorAccordion {
 	flex: 1 1 auto;
-	z-index: 1;
 }
 </style>
