@@ -278,14 +278,14 @@ export default {
 }
 
 .znpb-option-cssSelector {
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: 500;
 	text-transform: none;
 	opacity: 0.6;
 }
 
 .znpb-option-cssSelectorTitle {
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 }
 
 .znpb-option-cssSelectoritem--child .znpb-option-cssSelectoritem--child {
@@ -311,7 +311,7 @@ export default {
 	transition: background 0.2s;
 
 	&:hover {
-		background: darken(#8bc88a, 10%);
+		background: darken(#8bc88a, 5%);
 	}
 
 	&::before,
