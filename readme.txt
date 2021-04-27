@@ -227,6 +227,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Added ability to style any child css class or selector to all elements and global css classes
 * Fixed Adding extra css classes to column not working in editor mode
 * Fixed code helper pseudo_selector not working properly
+* Fixed admin page icon not showing properly if PRO version is active
 
 = 2.2.0 2021-04-12 =
 * Varsious overall builder speed improvements
