@@ -20,14 +20,14 @@ class CSSClasses {
 	/**
 	 * Holds a cached version of the css classes
 	 *
-	 * @var array<int, array{id: string, name: string, style: array<string, mixed>}>
+	 * @var array<int, array{id: string, name: string, styles: array<string, mixed>}>
 	 */
 	private static $cached_css_classes = null;
 
 	/**
 	 * Save the css classes to DB
 	 *
-	 * @param array<int, array{id: string, name: string, style: array<string, mixed>}> $classes
+	 * @param array<int, array{id: string, name: string, styles: array<string, mixed>}> $classes
 	 *
 	 * @return bool
 	 */
@@ -42,7 +42,7 @@ class CSSClasses {
 	/**
 	 * Get saved css classes from DB
 	 *
-	 * @return array<int, array{id: string, name: string, style: array<string, mixed>}> The css classes saved in DB
+	 * @return array<int, array{id: string, name: string, styles: array<string, mixed>}> The css classes saved in DB
 	 */
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
