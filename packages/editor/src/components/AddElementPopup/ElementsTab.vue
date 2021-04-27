@@ -226,7 +226,8 @@ export default {
 		}
 	}
 
-	.zion-input input, .zion-input input::placeholder {
+	.zion-input input,
+	.zion-input input::placeholder {
 		color: $surface-headings-color;
 	}
 
@@ -243,6 +244,10 @@ export default {
 
 	&-category {
 		margin-right: 10px;
+
+		input[type="text"][readonly] {
+			background: transparent;
+		}
 	}
 }
 
@@ -264,7 +269,7 @@ export default {
 		// padding: 0 10px;
 		margin-bottom: 20px;
 
-// margin-left: 10px;
+		// margin-left: 10px;
 		background: transparent;
 	}
 }
