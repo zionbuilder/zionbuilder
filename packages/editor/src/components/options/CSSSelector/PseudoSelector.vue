@@ -1,6 +1,7 @@
 <template>
 
 	<Tooltip
+		tooltip-class="hg-popper--no-padding"
 		trigger="click"
 		placement="bottom"
 		append-to="body"
@@ -115,20 +116,31 @@ export default {
 <style lang="scss">
 .znpb-option-cssChildSelectorPseudoSelectorList {
 	padding: 0;
-	margin: 0 0 15px 0;
+	margin: 0 0 5px 0;
 
 	& > li {
-		padding: 0;
-		margin: 0 0 8px 0;
+		color: #858585;
+		font-weight: 500;
+		padding: 8px 16px;
 		cursor: pointer;
+
+		&:hover {
+			background-color: #f6f6f6;
+		}
 	}
 
 	& > .znpb-option-cssChildSelectorPseudoSelectorListTitle {
-		color: #c3c3c3;
-		font-size: 10px;
+		color: #bcbcbc;
+		font-size: 11px;
 		font-weight: 700;
+		line-height: 1;
 		text-transform: uppercase;
 		cursor: text;
+		margin: 10px 0 0;
+
+		&:hover {
+			background-color: transparent;
+		}
 	}
 }
 </style>

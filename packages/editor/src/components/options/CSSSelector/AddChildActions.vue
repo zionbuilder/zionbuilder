@@ -151,8 +151,13 @@ export default {
 		justify-content: center;
 		width: 30px;
 		height: 30px;
-		background: rgba(0, 0, 0, 0.05);
+		background: #e5e5e5;
 		border-radius: 3px;
+		transition: background 0.2s;
+
+		&:hover {
+			background: darken(#e5e5e5, 5%);
+		}
 	}
 }
 

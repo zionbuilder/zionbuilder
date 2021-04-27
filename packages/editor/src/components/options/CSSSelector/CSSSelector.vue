@@ -308,9 +308,10 @@ export default {
 	background: #8bc88a;
 	border-radius: 2px;
 	cursor: pointer;
+	transition: background 0.2s;
 
 	&:hover {
-		opacity: 0.8;
+		background: darken(#8bc88a, 10%);
 	}
 
 	&::before,
