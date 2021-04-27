@@ -148,8 +148,9 @@ export default {
 			addInitialHistory()
 		},
 		useLocalVersion () {
+			const { editorData } = useEditorData()
 			const content = {
-				content: this.localStoragePageData.template_data || []
+				[editorData.value.page_id]: this.localStoragePageData.template_data || []
 			}
 			this.setPageContent(content)
 
