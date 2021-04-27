@@ -11,7 +11,7 @@ import { useDemoMode } from './useDemoMode'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 
-export function useSavePage () {
+export function useSavePage() {
 	const save = (status = 'publish') => {
 		const { isDemoMode } = useDemoMode()
 
@@ -20,8 +20,8 @@ export function useSavePage () {
 		}
 
 		const { add } = useNotifications()
-		const { getTemplatePart } = useTemplateParts()
-		const contentTemplatePart = getTemplatePart('content')
+		const { getActivePostTemplatePart } = useTemplateParts()
+		const contentTemplatePart = getActivePostTemplatePart()
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
 		const { editorData } = useEditorData()
@@ -50,31 +50,31 @@ export function useSavePage () {
 
 		return new Promise((resolve, reject) => {
 			savePageREST(pageData)
-			.then((response) => {
-				if (status !== 'autosave') {
-					add({
-						message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
-						delayClose: 5000,
-						type: 'success'
-					})
-				}
-				Cache.deleteItem(pageID)
-				return Promise.resolve(response)
-			})
-			.catch(error => {
-				Cache.saveItem(pageID, pageData)
-
-				add({
-					message: error.message,
-					type: 'error',
-					delayClose: 5000
+				.then((response) => {
+					if (status !== 'autosave') {
+						add({
+							message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
+							delayClose: 5000,
+							type: 'success'
+						})
+					}
+					Cache.deleteItem(pageID)
+					return Promise.resolve(response)
 				})
+				.catch(error => {
+					Cache.saveItem(pageID, pageData)
 
-				reject(error)
-			}).finally(() => {
-				isSavePageLoading.value = false
-				resolve()
-			})
+					add({
+						message: error.message,
+						type: 'error',
+						delayClose: 5000
+					})
+
+					reject(error)
+				}).finally(() => {
+					isSavePageLoading.value = false
+					resolve()
+				})
 		})
 	}
 

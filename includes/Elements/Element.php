@@ -1005,12 +1005,12 @@ class Element {
 
 		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
 			foreach ( $registered_styles as $id => $style_config ) {
-				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
+				if ( ! empty( $styles[$id] ) ) {
 					$css_selector = '#' . $this->get_element_css_id();
 					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', $css_selector, $this );
 
 					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-					$css     .= Style::get_styles( $selector, $styles[$id]['styles'] );
+					$css     .= Style::get_css_from_selector( [ $selector ], $styles[$id] );
 				}
 			}
 		}

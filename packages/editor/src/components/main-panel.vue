@@ -358,8 +358,8 @@ export default {
 	},
 	methods: {
 		onSaving (status) {
-			const { getTemplatePart } = useTemplateParts()
-			const contentTemplatePart = getTemplatePart('content')
+			const { getActivePostTemplatePart } = useTemplateParts()
+			const contentTemplatePart = getActivePostTemplatePart()
 
 			if (!contentTemplatePart) {
 				console.error('Content template data not found.')

@@ -8,3 +8,7 @@ export default {
 		barebone: true
 	}
 }
+
+export {
+	AccordionMenu
+}

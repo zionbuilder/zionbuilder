@@ -4,6 +4,78 @@ const responsiveDevices = {
 	mobile: '575.98px'
 }
 
+
+// console.log(getCssFromSelector(
+// 	['#uid726226605711'], {
+// 		styles: {
+// 			default: {
+// 				default: {
+// 					'color': 'red'
+// 				}
+// 			}
+// 		},
+// 		child_styles: [{
+// 			states: [':hover', ':active'],
+// 			selector: '.my-class',
+// 			styles: {
+// 				default: {
+// 					default: {
+// 						'color': 'blue'
+// 					}
+// 				}
+// 			},
+// 			child_styles: [{
+// 				states: [':hover', ':active'],
+// 				selector: 'img',
+// 				styles: {
+// 					default: {
+// 						default: {
+// 							'color': 'yellow'
+// 						}
+// 					}
+// 				}
+// 			}]
+// 		}]
+// 	}
+// ));
+
+export function getCssFromSelector(selectors, styleConfig) {
+	let css = ''
+
+	if (styleConfig.styles) {
+		css += getStyles(selectors.join(','), styleConfig.styles)
+	}
+
+	// Check for child classes
+	if (styleConfig.child_styles) {
+		styleConfig.child_styles.forEach(childConfig => {
+			const {
+				states = ['default'],
+					selector,
+					styles
+			} = childConfig
+
+			// Check for nested selectors
+			if (styles) {
+				const childSelectors = []
+				selectors.forEach(mainSelector => {
+					states.forEach(state => {
+						if (state === 'default') {
+							childSelectors.push(`${mainSelector} ${selector}`)
+						} else {
+							childSelectors.push(`${mainSelector}${state} ${selector}`)
+						}
+					})
+				})
+
+				css += getCssFromSelector(childSelectors, childConfig)
+			}
+		});
+	}
+
+	return css
+}
+
 export function getStyles(cssSelector, styleValues = {}) {
 	let compiledStyles = ''
 	const devices = [

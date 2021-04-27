@@ -2,7 +2,7 @@
 <script>
 import ElementStyles from './ElementStyles.vue'
 import Options from '../Options'
-import { getStyles } from '@zb/utils'
+import { getCssFromSelector } from '@zb/utils'
 import { h } from 'vue'
 
 export default {
@@ -38,10 +38,9 @@ export default {
 
 			// Custom css classes
 			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
-
 				Object.keys(props.cssClasses).forEach(cssClassId => {
 					const styleData = props.cssClasses[cssClassId]
-					const customCSS = getStyles(`.zb .${styleData.id}`, styleData.style)
+					const customCSS = getCssFromSelector([`.zb .${styleData.id}`], styleData)
 
 					returnVnodes.push(createVnode(customCSS))
 				})

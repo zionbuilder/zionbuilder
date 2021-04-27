@@ -8,7 +8,7 @@
 			class="znpb-input-number--has-units"
 			size="narrow"
 			@mousedown="actNumberDrag"
-			@touchstart.prevent="actNumberDrag"
+			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivatedragNumber"
 			:placeholder="placeholder"
 			ref="numberUnitInput"

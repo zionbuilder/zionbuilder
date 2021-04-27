@@ -13,6 +13,41 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Elements
  */
 class Style {
+	public static function get_css_from_selector( $selectors, $style_config ) {
+		$css = '';
+
+		if ( isset( $style_config['styles'] ) ) {
+			$selector = implode( ',', $selectors );
+			$css     .= self::get_styles( $selector, $style_config['styles'] );
+		}
+
+		if ( isset( $style_config['child_styles'] ) && is_array( $style_config['child_styles'] ) ) {
+			foreach ( $style_config['child_styles'] as $child_style_config ) {
+				$states   = isset( $child_style_config['states'] ) ? $child_style_config['states'] : [ 'default' ];
+				$selector = isset( $child_style_config['selector'] ) ? $child_style_config['selector'] : null;
+				$styles   = isset( $child_style_config['styles'] ) ? $child_style_config['styles'] : [];
+
+				if ( $selector && ! empty( $styles ) ) {
+					$child_selectors = [];
+
+					foreach ( $selectors as $main_selector ) {
+						foreach ( $states as $state ) {
+							if ( $state === 'default' ) {
+								$child_selectors[] = sprintf( '%s %s', $main_selector, $selector );
+							} else {
+								$child_selectors[] = sprintf( '%s%s %s', $main_selector, $state, $selector );
+							}
+						}
+					}
+
+					$css .= self::get_css_from_selector( $child_selectors, $child_style_config );
+				}
+			}
+		}
+
+		return $css;
+	}
+
 	/**
 	 * @param string               $css_selector
 	 * @param array<string, mixed> $style_options
