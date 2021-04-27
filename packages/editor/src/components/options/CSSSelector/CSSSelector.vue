@@ -368,6 +368,11 @@ export default {
 	& .znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header {
 		padding: 12px;
 	}
+
+	&.vuebdnd__source--dragging
+	.znpb-option-cssChildSelectorPseudoSelector:before {
+		display: none;
+	}
 }
 
 .znpb-option-cssSelectorAccordion {
