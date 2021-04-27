@@ -45,7 +45,7 @@ export default {
 
 		const valueModel = computed({
 			get: () => {
-				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] : {}
+				return typeof (props.modelValue || {})[activeTab.value] !== 'undefined' ? (props.modelValue || {})[activeTab.value] || {} : {}
 			},
 			set: (newValue) => {
 				// Check if we actually need to delete the option
