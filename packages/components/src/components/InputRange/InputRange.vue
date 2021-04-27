@@ -24,7 +24,6 @@
 				v-model="optionValue"
 				@keydown="onKeydown"
 				@keyup="onKeyUp"
-				v-bind="$attrs"
 				:min="min"
 				:max="max"
 				:step="localStep"

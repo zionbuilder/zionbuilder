@@ -7,7 +7,6 @@
 			:min="min"
 			:max="max"
 			:step="shiftKey ? shift_step : step"
-			v-bind="$attrs"
 			@keydown="onKeyDown"
 			@mousedown="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"

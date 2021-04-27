@@ -7,7 +7,6 @@
 		<BaseInput
 			ref="rangebase"
 			type="range"
-			v-bind="$attrs"
 			:min="activeOption.min"
 			:max="activeOption.max"
 			v-model="rangeModel"
@@ -27,7 +26,6 @@
 			<InputNumberUnit
 				class="znpb-input-range-number"
 				v-model="computedValue"
-				v-bind="$attrs"
 				:min="activeOption.min"
 				:max="activeOption.max"
 				:units="getUnits"

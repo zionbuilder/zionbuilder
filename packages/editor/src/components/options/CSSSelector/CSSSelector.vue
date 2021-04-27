@@ -233,12 +233,16 @@ export default {
 		}
 
 		function onChildUpdate (child, newValue) {
+			const value = childSelectors.value.slice()
 			const childIndex = childSelectors.value.indexOf(child)
+
 			if (newValue === null) {
-				childSelectors.value.splice(childIndex, 1)
+				value.splice(childIndex, 1)
 			} else {
-				childSelectors.value.splice(childIndex, 1, newValue)
+				value.splice(childIndex, 1, newValue)
 			}
+
+			childSelectors.value = value
 		}
 
 		function deleteItem () {
@@ -281,7 +285,7 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	text-transform: none;
-	opacity: 0.6;
+	opacity: .6;
 }
 
 .znpb-option-cssSelectorTitle {
@@ -293,10 +297,11 @@ export default {
 }
 
 .znpb-option-cssChildSelectorPseudoSelector {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: relative;
 	flex: 1 0 auto;
 	width: 56px;
 	padding: 5px 8px;
@@ -307,27 +312,25 @@ export default {
 	line-height: 1;
 	background: #8bc88a;
 	border-radius: 2px;
+	transition: background .2s;
 	cursor: pointer;
-	transition: background 0.2s;
-	z-index: 1;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
 	}
 
-	&::before,
-	&::after {
+	&::before, &::after {
 		content: "";
 		position: absolute;
-		background: #f1f1f1;
 		z-index: -1;
+		background: #f1f1f1;
 	}
 
 	&::before {
 		bottom: 100%;
 		left: 50%;
-		height: 25px;
 		width: 1px;
+		height: 25px;
 	}
 
 	&::after {
@@ -338,8 +341,7 @@ export default {
 	}
 }
 
-.znpb-option-cssSelectoritem--child
-	+ .znpb-option-cssSelectoritem--child
+.znpb-option-cssSelectoritem--child + .znpb-option-cssSelectoritem--child
 	.znpb-option-cssChildSelectorPseudoSelector::before {
 	height: 42px;
 }
