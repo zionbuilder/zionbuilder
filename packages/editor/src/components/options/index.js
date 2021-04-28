@@ -15,6 +15,7 @@ import WPWidget from './WPWidget'
 import Repeater from './Repeater'
 import TabGroup from './TabGroup'
 import ElementStyles from './ElementStyles'
+import CSSSelector from './CSSSelector'
 import Gallery from './Gallery'
 import HTMLComponent from './HTML'
 import UpgradeToPro from './UpgradeToPro'
@@ -50,6 +51,7 @@ export const registerEditorOptions = () => {
 	registerOption(Repeater)
 	registerOption(TabGroup)
 	registerOption(ElementStyles)
+	registerOption(CSSSelector)
 	registerOption(Gallery)
 	registerOption(HTMLComponent)
 	registerOption(UpgradeToPro)

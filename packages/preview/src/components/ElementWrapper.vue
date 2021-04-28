@@ -63,9 +63,9 @@
 
 <script>
 // Utils
-import { ref, watch, computed, readonly, provide, watchEffect } from 'vue'
-import { get, debounce, each, kebabCase, escape } from 'lodash-es'
-import { getStyles, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
+import { ref, watch, computed, readonly, provide } from 'vue'
+import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es'
+import { getCssFromSelector, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
 // Components
@@ -145,11 +145,12 @@ export default {
 
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
-					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].styles) {
+					if (options.value._styles && options.value._styles[styleId]) {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
-						customCSS += getStyles(formattedSelector, options.value._styles[styleId].styles)
+
+						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
 					}
 				})
 			}
@@ -213,10 +214,16 @@ export default {
 				})
 			}
 
-			return {
-				...optionsAttributes,
-				...additionalAttributes
-			}
+			return mergeWith(
+				{},
+				optionsAttributes,
+				additionalAttributes,
+				(a, b) => {
+					if (isArray(a)) {
+						return b.concat(a);
+					}
+				}
+			)
 		})
 		const getExtraAttributes = computed(() => {
 			const wrapperAttributes = renderAttributes.value.wrapper || {}

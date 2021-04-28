@@ -318,16 +318,12 @@ class Cache {
 
 		$css = '';
 
-		foreach ( $areas as $content ) {
+		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
+			foreach ( $areas[$post_id] as $element ) {
+				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
-			if ( is_array( $content ) ) {
-
-				foreach ( $content as $element ) {
-					$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-
-					if ( $element_instance ) {
-						$css .= $this->get_css_for_element( $element_instance );
-					}
+				if ( $element_instance ) {
+					$css .= $this->get_css_for_element( $element_instance );
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-import { getOptionValue, getStyles, getImage } from '@zb/utils'
+import { getOptionValue, getCssFromSelector, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { cloneDeep, forEach } from 'lodash-es'
 

@@ -24,7 +24,6 @@ import {
 	InputCheckboxGroup,
 	InputCheckboxSwitch,
 	InputTextAlign,
-	InputTextTransform,
 	InputBorderTabs,
 	InputBackgroundVideo
 } from '../components'
@@ -114,10 +113,6 @@ const options = {
 	text_align: {
 		id: 'text_align',
 		component: InputTextAlign
-	},
-	text_transform: {
-		id: 'text_transform',
-		component: InputTextTransform
 	},
 	borders: {
 		id: 'borders',

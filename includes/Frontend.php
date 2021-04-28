@@ -74,7 +74,7 @@ class Frontend {
 			$post_template_data = $post_instance->get_template_data();
 
 			if ( ! empty( $post_template_data ) ) {
-				Plugin::$instance->renderer->register_area( 'content', $post_template_data );
+				Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
 
 				// Add content filters
 				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
@@ -156,7 +156,7 @@ class Frontend {
 		// Prevent Maximum function nesting level
 		$this->remove_content_filter();
 
-		$pb_content = Plugin::$instance->renderer->get_content();
+		$pb_content = Plugin::$instance->renderer->get_content( get_the_ID() );
 		if ( ! empty( $pb_content ) ) {
 			$content = $pb_content;
 			// Remove filters that may affect content

@@ -60,13 +60,13 @@ export default {
 	setup () {
 		const { activeSaveElement, hideSaveElement } = useSaveTemplate()
 		const { getElement } = useElements()
-		const { getTemplatePart } = useTemplateParts()
+		const { getActivePostTemplatePart } = useTemplateParts()
 		const { editorData } = useEditorData()
 		const formModel = ref({})
 
 		return {
 			getElement,
-			getTemplatePart,
+			getActivePostTemplatePart,
 			templateCategories: editorData.value.template_categories,
 			activeSaveElement,
 			hideSaveElement,
@@ -121,7 +121,7 @@ export default {
 		saveElement () {
 			const { addTemplate } = useLocalLibrary()
 			const { element, type } = this.activeSaveElement
-			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : [element.toJSON()]
+			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : [element.toJSON()]
 			const templateType = type === 'template' ? 'template' : 'block'
 
 			// save template
@@ -173,7 +173,7 @@ export default {
 
 		downloadElement () {
 			const { element, type } = this.activeSaveElement
-			const compiledElementData = type === 'template' ? this.getTemplatePart('content').toJSON() : element.toJSON()
+			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : element.toJSON()
 			const templateType = type === 'template' ? 'template' : 'block'
 
 			this.loading = true

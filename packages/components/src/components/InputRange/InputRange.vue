@@ -4,7 +4,6 @@
 		<BaseInput
 			ref="rangebase"
 			type="range"
-			v-bind="$attrs"
 			:min="min"
 			:max="max"
 			v-model="optionValue"
@@ -25,7 +24,6 @@
 				v-model="optionValue"
 				@keydown="onKeydown"
 				@keyup="onKeyUp"
-				v-bind="$attrs"
 				:min="min"
 				:max="max"
 				:step="localStep"

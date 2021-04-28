@@ -11,7 +11,30 @@
 		:has-breadcrumbs="showBreadcrumbs"
 		ref="accordion"
 	>
-		<template #title>
+
+		<template
+			v-if="hasHeaderSlot"
+			#header
+		>
+			<slot name="header"></slot>
+		</template>
+
+		<template
+			v-if="hasTitleSlot"
+			#title
+		>
+			<slot name="title"></slot>
+		</template>
+
+		<template
+			v-else
+			#title
+		>
+			<Icon
+				v-if="$attrs.icon"
+				:icon="$attrs.icon"
+			/>
+			<span v-html="title"></span>
 			<ZionLabel
 				v-if="label"
 				:text="label.text"
@@ -22,6 +45,11 @@
 				@remove-styles="$emit('update:modelValue', null)"
 			/>
 		</template>
+
+		<template #actions>
+			<slot name="actions" />
+		</template>
+
 		<OptionsForm
 			class="znpb-option-layout__menu-options-form"
 			:schema="child_options"
@@ -33,6 +61,8 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 import ZionLabel from '../../../common/Label.vue'
 
 export default {
@@ -71,6 +101,15 @@ export default {
 		label: {
 			type: Object,
 			required: false
+		}
+	},
+	setup (props, { slots }) {
+		const hasHeaderSlot = computed(() => !!slots.header)
+		const hasTitleSlot = computed(() => !!slots.title)
+
+		return {
+			hasHeaderSlot,
+			hasTitleSlot
 		}
 	},
 	computed: {
@@ -129,6 +168,10 @@ export default {
 <style lang="scss">
 .znpb-options-form-wrapper .znpb-input-type--accordion_menu {
 	margin-bottom: 0;
+}
+
+.znpb-options-form-wrapper .znpb-option-layout__menu {
+	padding: 0;
 }
 
 .znpb-option-layout__menu {
