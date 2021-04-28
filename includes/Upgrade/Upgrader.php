@@ -37,7 +37,7 @@ class Upgrader {
 	/**
 	 * Runs the upgrade method with provided arguments
 	 *
-	 * @param array<mixed> $arguments The arguments passed from self::get_update_config()
+	 * @param callable $callback The arguments passed from self::get_update_config()
 	 *
 	 * @return void
 	 */
