@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.7
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -11,6 +11,8 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Building websites just got easier! The latest WordPress page builder plugin on the market,Zion Builder is a visual editor with powerful design features to help you build interactive pages and posts in WordPress.
 
 == Description ==
+
+https://www.youtube.com/watch?v=oVsxuHh-DzU
 
 Built and designed by [Hogash team](https://hogash.com/?utm_source=wp-plugins&utm_medium=link&utm_campaign=description), the creator of the famous WordPress theme [Kallyas](https://kallyas.net/?utm_source=wp-plugins&utm_medium=link&utm_campaign=description), this plugin is the fastest page builder on the market. The user-friendly tools included in Zion Page Builder make the building process for WordPress websites easier than ever before. Read more on [Zion Builder](https://zionbuilder.io/?utm_source=wp-plugins&utm_medium=link&utm_campaign=description).
 
@@ -223,6 +225,10 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.3.1 2021-04-27 =
+* Better styled child selectors display in options panel
+* Fixed child selector sortable prevents chaning draggable inner options
+
 = 2.3.0 2021-04-27 =
 * Added ability to style any child css class or selector to all elements and global css classes
 * Fixed Adding extra css classes to column not working in editor mode

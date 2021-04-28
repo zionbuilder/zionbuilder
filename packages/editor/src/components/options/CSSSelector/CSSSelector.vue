@@ -21,7 +21,10 @@
 					<!-- <Icon icon="brush" /> -->
 					<div>
 						<div class="znpb-option-cssSelectorTitle">{{title}}</div>
-						<div class="znpb-option-cssSelector">{{selector}}</div>
+						<div
+							class="znpb-option-cssSelector"
+							:title="selector"
+						>{{selector}}</div>
 					</div>
 				</template>
 
@@ -59,7 +62,7 @@
 			<Sortable
 				class="znpb-admin-colors__container"
 				v-model="childSelectors"
-				:handle="null"
+				handle=".znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header"
 				:drag-delay="0"
 				:drag-treshold="10"
 				:disabled="false"
@@ -296,11 +299,37 @@ export default {
 	padding: 0;
 }
 
+.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
+	position: relative;
+	overflow: hidden;
+	padding-right: 0;
+	padding-bottom: 12px;
+	margin-right: 15px;
+}
+
 .znpb-option-cssSelector {
+	position: absolute;
+	width: 100%;
 	font-size: 13px;
 	font-weight: 500;
 	text-transform: none;
+	white-space: nowrap;
 	opacity: .6;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 1;
+		width: 20px;
+		height: 100%;
+		background: linear-gradient(
+		90deg,
+		rgba(241, 241, 241, 0) 0%,
+		#f1f1f1 100%
+		);
+	}
 }
 
 .znpb-option-cssSelectorTitle {
