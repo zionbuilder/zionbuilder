@@ -281,7 +281,7 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
 	position: relative;
 	overflow: hidden;
 	padding-right: 0;
