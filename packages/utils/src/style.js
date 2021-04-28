@@ -5,40 +5,6 @@ const responsiveDevices = {
 }
 
 
-// console.log(getCssFromSelector(
-// 	['#uid726226605711'], {
-// 		styles: {
-// 			default: {
-// 				default: {
-// 					'color': 'red'
-// 				}
-// 			}
-// 		},
-// 		child_styles: [{
-// 			states: [':hover', ':active'],
-// 			selector: '.my-class',
-// 			styles: {
-// 				default: {
-// 					default: {
-// 						'color': 'blue'
-// 					}
-// 				}
-// 			},
-// 			child_styles: [{
-// 				states: [':hover', ':active'],
-// 				selector: 'img',
-// 				styles: {
-// 					default: {
-// 						default: {
-// 							'color': 'yellow'
-// 						}
-// 					}
-// 				}
-// 			}]
-// 		}]
-// 	}
-// ));
-
 export function getCssFromSelector(selectors, styleConfig) {
 	let css = ''
 
