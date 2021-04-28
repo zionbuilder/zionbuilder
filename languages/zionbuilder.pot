@@ -2015,15 +2015,15 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:157
+#: ../includes/Admin/Admin.php:174
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:284
+#: ../includes/Admin/Admin.php:301
 msgid "Disable "
 msgstr ""
 
-#: ../includes/Admin/Admin.php:295, ../includes/Admin/Admin.php:318
+#: ../includes/Admin/Admin.php:312, ../includes/Admin/Admin.php:335
 msgid "Edit with "
 msgstr ""
 
