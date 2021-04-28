@@ -197,11 +197,11 @@ export default {
 		&:before, &:after {
 			@extend %loading;
 			box-sizing: border-box;
-			border: 2px solid $surface-variant;
+			border: 2px solid rgba(220, 220, 220, 0.2);
 		}
 
 		&:after {
-			border-right-color: lighten($surface-headings-color, 5%);
+			border-right-color: #dedede;
 			animation: Rotate .6s linear infinite;
 		}
 	}
