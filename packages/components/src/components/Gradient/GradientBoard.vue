@@ -1,7 +1,13 @@
 <template>
-	<div ref="gradboard" class="znpb-gradient-wrapper__board">
+	<div
+		ref="gradboard"
+		class="znpb-gradient-wrapper__board"
+	>
 		<GradientPreview :config="config"></GradientPreview>
-		<div v-if="radialArr!=null" class="znpb-gradient-radial-wrapper">
+		<div
+			v-if="radialArr!=null"
+			class="znpb-gradient-radial-wrapper"
+		>
 			<GradientRadialDragger
 				v-for="(gradient, index) in radialArr"
 				:key="gradient.type + index"
@@ -37,7 +43,7 @@ export default {
 		radialArr: {
 			get () {
 				let radialarr = this.config.filter(gradient => gradient.type === 'radial')
-				return	radialarr
+				return radialarr
 			},
 			set (newArr) {
 				this.radialArr = newArr
@@ -99,7 +105,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-gradient-wrapper__board {
 	position: relative;
 	overflow: hidden;

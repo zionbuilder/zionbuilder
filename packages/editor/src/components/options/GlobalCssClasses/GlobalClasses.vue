@@ -84,7 +84,6 @@ export default {
 				return modelValue
 			},
 			set (newValue) {
-				console.log({ newValue });
 				if (null === newValue) {
 					removeAllCssClasses()
 				} else {
@@ -94,7 +93,6 @@ export default {
 						const selectorValue = newValue[selectorId]
 						classes.push(selectorValue)
 					})
-					console.log({ classes });
 					setCSSClasses(classes)
 				}
 			}

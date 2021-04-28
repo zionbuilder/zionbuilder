@@ -65,7 +65,7 @@ class CSSClasses {
 
 		if ( is_array( $css_classes ) ) {
 			foreach ( $css_classes as $class_config ) {
-				if ( ! empty( $class_config['styles'] ) && isset( $class_config['id'] ) ) {
+				if ( isset( $class_config['id'] ) ) {
 					$class_selector = '.zb .' . $class_config['id'];
 					$css           .= Style::get_css_from_selector( [ $class_selector ], $class_config );
 				}

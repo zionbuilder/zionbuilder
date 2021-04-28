@@ -56,17 +56,29 @@
 
 		</div>
 		<div v-if="showChilds && childSelectors.length > 0">
-			<CSSSelector
-				class="znpb-option-cssChildSelectorStyles"
-				v-for="(childSelector, index) in childSelectors"
-				:key="index"
-				:modelValue="childSelector"
-				@update:modelValue="onChildUpdate(childSelector, $event)"
-				:is-child="true"
-				:allow_class_assignments="false"
-				:allow_custom_attributes="false"
-				:show_breadcrumbs="show_breadcrumbs"
-			/>
+			<Sortable
+				class="znpb-admin-colors__container"
+				v-model="childSelectors"
+				:handle="null"
+				:drag-delay="0"
+				:drag-treshold="10"
+				:disabled="false"
+				:revert="true"
+				axis="vertical"
+				:group="uid"
+			>
+				<CSSSelector
+					class="znpb-option-cssChildSelectorStyles"
+					v-for="(childSelector, index) in childSelectors"
+					:key="index"
+					:modelValue="childSelector"
+					@update:modelValue="onChildUpdate(childSelector, $event)"
+					:is-child="true"
+					:allow_class_assignments="false"
+					:allow_custom_attributes="false"
+					:show_breadcrumbs="show_breadcrumbs"
+				/>
+			</Sortable>
 		</div>
 	</div>
 </template>
@@ -75,6 +87,7 @@
 import { computed, defineAsyncComponent, ref } from 'vue'
 import { applyFilters } from '@zb/hooks'
 import { translate } from '@zb/i18n'
+import { generateUID } from '@zb/utils'
 
 // Components
 import AddChildActions from './AddChildActions.vue'
@@ -131,6 +144,7 @@ export default {
 	},
 	setup (props, { emit }) {
 		const showChilds = ref(false)
+		const uid = generateUID()
 
 		const title = computed(() => {
 			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
@@ -265,7 +279,8 @@ export default {
 			onChildUpdate,
 			pseudoState,
 			hasChanges,
-			resetChanges
+			resetChanges,
+			uid
 		}
 	}
 }
@@ -352,6 +367,11 @@ export default {
 
 	& .znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header {
 		padding: 12px;
+	}
+
+	&.vuebdnd__source--dragging
+	.znpb-option-cssChildSelectorPseudoSelector:before {
+		display: none;
 	}
 }
 

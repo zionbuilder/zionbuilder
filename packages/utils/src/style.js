@@ -56,20 +56,19 @@ export function getCssFromSelector(selectors, styleConfig) {
 			} = childConfig
 
 			// Check for nested selectors
-			if (styles) {
-				const childSelectors = []
-				selectors.forEach(mainSelector => {
-					states.forEach(state => {
-						if (state === 'default') {
-							childSelectors.push(`${mainSelector} ${selector}`)
-						} else {
-							childSelectors.push(`${mainSelector}${state} ${selector}`)
-						}
-					})
+			const childSelectors = []
+			selectors.forEach(mainSelector => {
+				states.forEach(state => {
+					if (state === 'default') {
+						childSelectors.push(`${mainSelector} ${selector}`)
+					} else {
+						childSelectors.push(`${mainSelector}${state} ${selector}`)
+					}
 				})
+			})
 
-				css += getCssFromSelector(childSelectors, childConfig)
-			}
+			css += getCssFromSelector(childSelectors, childConfig)
+
 		});
 	}
 

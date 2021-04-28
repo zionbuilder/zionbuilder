@@ -37,16 +37,13 @@ class Upgrader {
 	/**
 	 * Runs the upgrade method with provided arguments
 	 *
-	 * @param array<mixed> $arguments The arguments passed from self::get_update_config()
+	 * @param callable $callback The arguments passed from self::get_update_config()
 	 *
 	 * @return void
 	 */
-	public static function run_update_callback( $arguments = [] ) {
-		$callback  = $arguments['callback'];
-		$arguments = isset( $arguments['args'] ) ? $arguments['args'] : [];
-
+	public static function run_update_callback( $callback ) {
 		if ( is_callable( $callback ) ) {
-			call_user_func_array( $callback, $arguments );
+			call_user_func_array( $callback, [] );
 		}
 	}
 
@@ -132,9 +129,7 @@ class Upgrader {
 					\as_schedule_single_action(
 						time() + $loop,
 						'zionbuilder_run_update_callback',
-						array(
-							'update_callback' => $update_callback,
-						),
+						$update_callback,
 						'zionbuilder-db-updates'
 					);
 					$loop++;
