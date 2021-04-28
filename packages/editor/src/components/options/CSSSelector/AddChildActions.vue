@@ -19,6 +19,7 @@
 				<Button
 					@click="add"
 					class="znpb-option-cssSelectorChildActionAddButton"
+					:type="buttonType"
 				>
 					Add child selector
 				</Button>
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export default {
 	name: 'AddChildActions',
@@ -96,7 +97,23 @@ export default {
 
 		const formModel = ref({})
 
+		const canSave = computed(() => {
+			return formModel.value.title && formModel.value.title.length > 0 && formModel.value.selector && formModel.value.selector.length > 0
+		})
+
+		const buttonType = computed(() => {
+			if (!canSave.value) {
+				return 'gray'
+			}
+
+			return ''
+		})
+
 		function add () {
+			if (!canSave.value) {
+				return
+			}
+
 			// Send data to parent
 			emit('addChild', formModel.value)
 
@@ -120,7 +137,8 @@ export default {
 			add,
 			schema,
 			formModel,
-			onFormClose
+			onFormClose,
+			buttonType
 		}
 	}
 }
@@ -147,13 +165,13 @@ export default {
 
 	& > [placement="top"] {
 		display: flex;
-		align-items: center;
 		justify-content: center;
+		align-items: center;
 		width: 30px;
 		height: 30px;
 		background: #e5e5e5;
 		border-radius: 3px;
-		transition: background 0.2s;
+		transition: background .2s;
 
 		&:hover {
 			background: darken(#e5e5e5, 5%);

@@ -1,5 +1,8 @@
 <template>
-	<div class="znpb-gradient-preview-transparent" :class="{'gradient-type-rounded' : round}">
+	<div
+		class="znpb-gradient-preview-transparent"
+		:class="{'gradient-type-rounded' : round}"
+	>
 		<div
 			class="znpb-gradient-preview"
 			:style="getGradientPreviewStyle"
@@ -69,7 +72,8 @@ export default {
 <style lang="scss">
 .znpb-gradient-preview-transparent {
 	@extend %opacitybg;
-	box-shadow: 0 0 0 2px rgba(255, 255, 255, 1) inset, 0 0 0 1px rgba(255,255,255,1), 0 0 2px rgba(255,255,255,1);
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 1) inset,
+	0 0 0 1px rgba(255, 255, 255, 1), 0 0 2px rgba(255, 255, 255, 1);
 
 	&.gradient-type-rounded {
 		width: 46px;

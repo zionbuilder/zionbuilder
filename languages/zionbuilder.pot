@@ -567,7 +567,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:202, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:81, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:202, ../includes/Elements/Manager.php:208, ../includes/Elements/Accordions/AccordionItem.php:81, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -2019,36 +2019,36 @@ msgstr ""
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:283
+#: ../includes/Admin/Admin.php:284
 msgid "Disable "
 msgstr ""
 
-#: ../includes/Admin/Admin.php:294, ../includes/Admin/Admin.php:317
+#: ../includes/Admin/Admin.php:295, ../includes/Admin/Admin.php:318
 msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:270
+#: ../includes/Editor/Editor.php:267
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:556
+#: ../includes/Elements/Element.php:550
 msgid "Wrapper"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:204, ../includes/Elements/Tabs/Tabs.php:109
+#: ../includes/Elements/Manager.php:203, ../includes/Elements/Tabs/Tabs.php:109
 msgid "Layout"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:214
+#: ../includes/Elements/Manager.php:213
 msgid "Media"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:219
+#: ../includes/Elements/Manager.php:218
 msgid "External"
 msgstr ""
 
-#: ../includes/Elements/Manager.php:224
+#: ../includes/Elements/Manager.php:223
 msgid "WordPress Widgets"
 msgstr ""
 
@@ -2072,7 +2072,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:90, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:228, ../includes/Api/RestControllers/Templates.php:275
+#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:72, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:228, ../includes/Api/RestControllers/Templates.php:275
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2408,7 +2408,7 @@ msgstr ""
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:648
+#: ../includes/Api/RestControllers/Templates.php:653
 msgid "Could not get the template zip file!"
 msgstr ""
 
@@ -3976,11 +3976,11 @@ msgstr ""
 msgid "Spread"
 msgstr ""
 
-#: ../includes/Options/Schemas/Shadow.php:91
+#: ../includes/Options/Schemas/Shadow.php:90
 msgid "Shadow color"
 msgstr ""
 
-#: ../includes/Options/Schemas/Shadow.php:104
+#: ../includes/Options/Schemas/Shadow.php:103
 msgid "Inset?"
 msgstr ""
 

@@ -25,9 +25,8 @@ class Style {
 			foreach ( $style_config['child_styles'] as $child_style_config ) {
 				$states   = isset( $child_style_config['states'] ) ? $child_style_config['states'] : [ 'default' ];
 				$selector = isset( $child_style_config['selector'] ) ? $child_style_config['selector'] : null;
-				$styles   = isset( $child_style_config['styles'] ) ? $child_style_config['styles'] : [];
 
-				if ( $selector && ! empty( $styles ) ) {
+				if ( $selector ) {
 					$child_selectors = [];
 
 					foreach ( $selectors as $main_selector ) {

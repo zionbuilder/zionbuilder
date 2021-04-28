@@ -117,7 +117,24 @@ class Admin {
 	 * @param string $hook
 	 */
 	public function enqueue_scripts( $hook = '' ) {
-		wp_add_inline_style( 'admin-menu', '#adminmenu .toplevel_page_zionbuilder img {padding-top: 7px;}' );
+		wp_add_inline_style(
+			'admin-menu',
+			'#adminmenu .toplevel_page_zionbuilder img {
+				max-width: 100%;
+				height: auto;
+				padding: 8px;
+				box-sizing: border-box;
+			}'
+		);
+
+		// Invert the color for admin icon
+		if ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) {
+			wp_add_inline_style(
+				'admin-menu',
+				'#adminmenu .toplevel_page_zionbuilder img {
+				filter: invert(1);}'
+			);
+		}
 
 		// Load scripts on edit page
 		if ( 'post-new.php' === $hook || 'post.php' === $hook ) {
@@ -330,7 +347,7 @@ class Admin {
 	 * @return void
 	 */
 	public function add_admin_page() {
-		$admin_logo = ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) ? '' : Utils::get_file_url( 'assets/img/dash-icon.svg' );
+		$admin_logo = ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) ? Whitelabel::get_logo_url() : Utils::get_file_url( 'assets/img/dash-icon.svg' );
 		add_menu_page(
 			Whitelabel::get_title(),
 			Whitelabel::get_title(),
