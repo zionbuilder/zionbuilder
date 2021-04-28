@@ -281,11 +281,37 @@ export default {
 	padding: 0;
 }
 
+.znpb-option-cssSelectorAccordion .znpb-horizontal-accordion__title {
+	position: relative;
+	overflow: hidden;
+	padding-right: 0;
+	padding-bottom: 12px;
+	margin-right: 15px;
+}
+
 .znpb-option-cssSelector {
+	position: absolute;
+	width: 100%;
 	font-size: 13px;
 	font-weight: 500;
 	text-transform: none;
-	opacity: .6;
+	white-space: nowrap;
+	opacity: 0.6;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 1;
+		width: 20px;
+		height: 100%;
+		background: linear-gradient(
+			90deg,
+			rgba(241, 241, 241, 0) 0%,
+			#f1f1f1 100%
+		);
+	}
 }
 
 .znpb-option-cssSelectorTitle {
@@ -312,14 +338,15 @@ export default {
 	line-height: 1;
 	background: #8bc88a;
 	border-radius: 2px;
-	transition: background .2s;
+	transition: background 0.2s;
 	cursor: pointer;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
 	}
 
-	&::before, &::after {
+	&::before,
+	&::after {
 		content: "";
 		position: absolute;
 		z-index: -1;
@@ -341,7 +368,8 @@ export default {
 	}
 }
 
-.znpb-option-cssSelectoritem--child + .znpb-option-cssSelectoritem--child
+.znpb-option-cssSelectoritem--child
+	+ .znpb-option-cssSelectoritem--child
 	.znpb-option-cssChildSelectorPseudoSelector::before {
 	height: 42px;
 }
