@@ -24,7 +24,6 @@
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.3",
 		"@types/webpack": "^4.41.22",
-		"@zionbuilder/service": "^1.0.0",
 		"lerna": "^3.22.1",
 		"ts-loader": "^8.0.6",
 		"typescript": "^4.0.3"

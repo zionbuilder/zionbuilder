@@ -82,7 +82,7 @@ export default {
 				if (this.activeClass !== this.selector) {
 					const activeClassConfig = this.getClassConfig(this.activeClass)
 					if (activeClassConfig) {
-						return activeClassConfig.style
+						return activeClassConfig.styles
 					}
 
 					// eslint-disable-next-line
@@ -95,7 +95,7 @@ export default {
 			set (newValues) {
 				if (this.activeClass !== this.selector) {
 					this.updateCSSClass(this.activeClass, {
-						style: newValues
+						styles: newValues
 					}
 					)
 				} else {

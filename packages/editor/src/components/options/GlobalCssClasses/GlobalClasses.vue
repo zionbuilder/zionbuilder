@@ -14,31 +14,11 @@
 		</div>
 
 		<template v-if="filteredClasses.length">
-			<HorizontalAccordion
-				v-for="(classItem, index) in filteredClasses"
-				v-bind:key="index"
-				:show-trigger-arrow="false"
-				:has-breadcrumbs="false"
-				@expand="onItemSelected"
-				@collapse="onItemCollapsed"
-				class="znpb-global-css-classes__accordion-wrapper"
-				:ref="el => { if (el) horizontalAccordion[index] = el }"
-			>
-				<template v-slot:header>
-					<SingleClass
-						:class-item="classItem"
-						@click="activeClass=classItem"
-						@delete-class="deleteClass($event)"
-						@edit-class="activeClass=classItem"
-					/>
-				</template>
-				<SingleClassOptions
-					:class-item="classItem"
-					@update:modelValue="saveClass"
-					@update:modelValue-classname="saveClass"
-				/>
-
-			</HorizontalAccordion>
+			<OptionsForm
+				:schema="schema"
+				v-model="value"
+				class="znpb-globalCSSClassesOptionsForm"
+			/>
 		</template>
 		<div
 			v-else
@@ -50,18 +30,12 @@
 </template>
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue'
-import SingleClass from './SingleClass.vue'
-import SingleClassOptions from './SingleClassOptions.vue'
 import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'GlobalClasses',
-	components: {
-		SingleClass,
-		SingleClassOptions
-	},
 	setup (props) {
-		const { CSSClasses, getClassesByFilter, removeCSSClass, updateCSSClass } = useCSSClasses()
+		const { CSSClasses, getClassesByFilter, removeCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
 		const keyword = ref('')
 		const activeClass = ref(null)
 		const breadCrumbConfig = ref({
@@ -81,6 +55,48 @@ export default {
 			}
 		})
 
+		const schema = computed(() => {
+			const schema = {}
+			const selectors = filteredClasses.value || []
+
+			selectors.forEach(cssClassConfig => {
+				const { id, title } = cssClassConfig
+				schema[id] = {
+					type: 'css_selector',
+					title: title,
+					allow_class_assignments: false,
+					show_changes: false
+				}
+			});
+
+			return schema
+		})
+
+		const value = computed({
+			get () {
+				const modelValue = {}
+				const existingCSSClasses = CSSClasses.value
+				existingCSSClasses.forEach(cssClassConfig => {
+					const { id } = cssClassConfig
+					modelValue[id] = cssClassConfig
+				})
+
+				return modelValue
+			},
+			set (newValue) {
+				if (null === newValue) {
+					removeAllCssClasses()
+				} else {
+					const classes = []
+
+					Object.keys(newValue).forEach(selectorId => {
+						const selectorValue = newValue[selectorId]
+						classes.push(selectorValue)
+					})
+					setCSSClasses(classes)
+				}
+			}
+		})
 
 		function onItemSelected () {
 			breadCrumbConfig.value.title = activeClass.value.name
@@ -94,10 +110,6 @@ export default {
 
 		function deleteClass (classItem) {
 			removeCSSClass(classItem)
-		}
-
-		function saveClass (newValues) {
-			updateCSSClass(activeClass.value.id, newValues)
 		}
 
 		function closeAccordion () {
@@ -127,13 +139,13 @@ export default {
 			CSSClasses,
 			removeCSSClass,
 			getClassesByFilter,
-			updateCSSClass,
 			horizontalAccordion,
 			// Methods
 			onItemSelected,
 			onItemCollapsed,
-			saveClass,
-			deleteClass
+			deleteClass,
+			schema,
+			value
 		}
 	}
 }
@@ -143,5 +155,17 @@ export default {
 	&__search {
 		margin-bottom: 20px;
 	}
+}
+
+.znpb-globalCSSClassesOptionsForm {
+	padding: 0;
+
+	& > .znpb-input-type--css_selector {
+		padding: 0;
+	}
+}
+
+.znpb-input-type--css_selector {
+	padding-bottom: 0;
 }
 </style>

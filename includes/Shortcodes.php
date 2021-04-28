@@ -41,11 +41,10 @@ class Shortcodes {
 
 		// Register the elements
 		$post_template_data = $post_instance->get_template_data();
-		$zion_area_id       = sprintf( 'template_%s', $atts['id'] );
-		Plugin::$instance->renderer->register_area( $zion_area_id, $post_template_data );
+		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
 
 		Plugin::$instance->cache->register_post_id( $atts['id'] );
 
-		return Plugin::$instance->renderer->get_content( $zion_area_id );
+		return Plugin::$instance->renderer->get_content( $atts['id'] );
 	}
 }

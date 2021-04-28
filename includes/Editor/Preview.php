@@ -65,7 +65,7 @@ class Preview {
 
 		// Prepare content
 		$post_template_data = $post_instance->get_template_data();
-		Plugin::$instance->renderer->register_area( 'content', $post_template_data );
+		Plugin::$instance->renderer->register_area( $this->get_current_post_id(), $post_template_data );
 
 		// Register styles cache file for current page
 		Plugin::$instance->cache->register_post_id( $this->get_current_post_id() );
@@ -226,7 +226,7 @@ class Preview {
 	 */
 	public function add_content_filter() {
 		if ( get_the_ID() === $this->get_current_post_id() ) {
-			return apply_filters( 'zionbuilder/preview/content', $this->render_area( 'content' ) );
+			return apply_filters( 'zionbuilder/preview/content', $this->render_area( $this->get_current_post_id() ) );
 		}
 		return '';
 	}

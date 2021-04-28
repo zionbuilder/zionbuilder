@@ -279,6 +279,7 @@ export default {
 				insertTemplate(item).then((response) => {
 					const { template_data: templateData } = response.data
 					const { insertElement, activeElement } = useLibrary()
+
 					const { togglePanel } = usePanels()
 
 					// Check to see if this is a single element or a group of elements
@@ -289,7 +290,7 @@ export default {
 						insertElement(newElement)
 					} else {
 						const { getElement } = useElements()
-						const element = getElement('content')
+						const element = getElement(this.editorData.page_id)
 						element.addChildren(newElement)
 					}
 

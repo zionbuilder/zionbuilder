@@ -100,12 +100,11 @@ class Manager {
 		global $wp_widget_factory;
 
 		foreach ( $wp_widget_factory->widgets as $widget_id => $widget ) {
+			$widget_instance = new Widget();
+			$widget_instance->set_widget_id( $widget_id );
+
 			$this->register_element(
-				new Widget(
-					[
-						'widget_id' => $widget_id,
-					]
-				)
+				$widget_instance
 			);
 		}
 	}

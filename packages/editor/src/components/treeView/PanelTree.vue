@@ -55,7 +55,7 @@ import SectionView from './sectionView/SectionViewPanel.vue'
 import TreeView from './treeView/TreeViewPanel.vue'
 import WireframeView from './wireFrame/WireframePanel.vue'
 import BasePanel from '../BasePanel.vue'
-import { useElements, usePreviewLoading } from '@composables'
+import { useElements, usePreviewLoading, useEditorData } from '@composables'
 import { translate } from '@zb/i18n'
 
 export default {
@@ -71,7 +71,8 @@ export default {
 	},
 	setup (props) {
 		const { getElement } = useElements()
-		const element = computed(() => getElement('content'))
+		const { editorData } = useEditorData()
+		const element = computed(() => getElement(editorData.value.page_id))
 		const { isPreviewLoading } = usePreviewLoading()
 		const myReactiveValue = ref(true)
 

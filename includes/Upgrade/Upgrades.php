@@ -2,7 +2,9 @@
 
 namespace ZionBuilder\Upgrade;
 
+use ZionBuilder\Plugin;
 use ZionBuilder\Settings;
+use ZionBuilder\CSSClasses;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -81,6 +83,34 @@ class Upgrades {
 		if ( ! empty( $new_values ) ) {
 			$saved_settings['local_gradients'] = $new_values;
 			Settings::save_settings( $saved_settings );
+		}
+	}
+
+	/**
+	 * Updates local gradients
+	 *
+	 * @return void
+	 */
+	public static function upgrade_v_2_3_0_update_css_classes() {
+		$saved_css_classes = CSSClasses::get_classes();
+		$new_values        = [];
+
+		if ( is_array( $saved_css_classes ) ) {
+			foreach ( $saved_css_classes as $class_config ) {
+				if ( isset( $class_config['style'] ) ) {
+
+					$class_config['styles'] = $class_config['style'];
+					unset( $class_config['style'] );
+					$new_values[] = $class_config;
+				}
+			}
+		}
+
+		if ( ! empty( $new_values ) ) {
+			$saved_css_classes = CSSClasses::save_classes( $new_values );
+
+			// Clear all cache
+			Plugin::$instance->cache->delete_all_cache();
 		}
 	}
 }

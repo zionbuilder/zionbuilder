@@ -123,6 +123,16 @@ class Options extends Stack {
 	}
 
 	/**
+	 * Checks to see if an option schema was already registered
+	 *
+	 * @param string $schema_id
+	 * @return boolean
+	 */
+	public static function is_schema_registered( $schema_id ) {
+		return isset( self::$schemas[$schema_id] );
+	}
+
+	/**
 	 * Set the options model/values
 	 *
 	 * @param array<string, mixed> $model The data model for the current stack
@@ -182,7 +192,8 @@ class Options extends Stack {
 	 * @return void
 	 */
 	public function parse_data() {
-		$model       = apply_filters( 'zionbuilder/options/model_parse', $this->model );
+		$model = apply_filters( 'zionbuilder/options/model_parse', $this->model );
+
 		$this->model = $this->setup_model( $this->get_schema(), $model );
 	}
 

@@ -20,14 +20,14 @@ class CSSClasses {
 	/**
 	 * Holds a cached version of the css classes
 	 *
-	 * @var array<int, array{id: string, name: string, style: array<string, mixed>}>
+	 * @var array<int, array{id: string, name: string, styles: array<string, mixed>}>
 	 */
 	private static $cached_css_classes = null;
 
 	/**
 	 * Save the css classes to DB
 	 *
-	 * @param array<int, array{id: string, name: string, style: array<string, mixed>}> $classes
+	 * @param array<int, array{id: string, name: string, styles: array<string, mixed>}> $classes
 	 *
 	 * @return bool
 	 */
@@ -42,7 +42,7 @@ class CSSClasses {
 	/**
 	 * Get saved css classes from DB
 	 *
-	 * @return array<int, array{id: string, name: string, style: array<string, mixed>}> The css classes saved in DB
+	 * @return array<int, array{id: string, name: string, styles: array<string, mixed>}> The css classes saved in DB
 	 */
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
@@ -64,10 +64,10 @@ class CSSClasses {
 		$css_classes = self::get_classes();
 
 		if ( is_array( $css_classes ) ) {
-			foreach ( $css_classes as $key => $class_config ) {
-				if ( ! empty( $class_config['style'] ) && isset( $class_config['id'] ) ) {
+			foreach ( $css_classes as $class_config ) {
+				if ( isset( $class_config['id'] ) ) {
 					$class_selector = '.zb .' . $class_config['id'];
-					$css           .= Style::get_styles( $class_selector, $class_config['style'] );
+					$css           .= Style::get_css_from_selector( [ $class_selector ], $class_config );
 				}
 			}
 		}

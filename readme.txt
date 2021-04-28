@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.6
-Stable tag: 2.1.1
+Tested up to: 5.7
+Stable tag: 2.3.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -223,6 +223,33 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.3.0 2021-04-27 =
+* Added ability to style any child css class or selector to all elements and global css classes
+* Fixed Adding extra css classes to column not working in editor mode
+* Fixed code helper pseudo_selector not working properly
+* Fixed admin page icon not showing properly if PRO version is active
+
+= 2.2.0 2021-04-12 =
+* Varsious overall builder speed improvements
+* All elements that reqiures data from server are now grouped in a single server call
+* Removed various css/js files from loading if they are not needed on the page
+* Added style options for icon box spacer
+* Improved order of scripts loading
+* Added style options for modal close button
+* Added indicator showing that an element has custom css classes applied
+* Added additional style options for separator element
+* Plugin developers: You can now condition the render element from inside the element class
+* Fixed css classes added multilple times in certain conditions
+* Fixed element from library added after a section instead of inside it
+* Improvement: When a new item is added to the library, the library automatically navigates to the newly added element
+* Improved initial disply of library items
+* Added additional php actions and filters
+* Updated Vue JS to latest version
+* Fixed local changes popup appears in certain conditions even if there were not unsaved changes to a page
+* Fixed global colors generating with the same id
+* removed empty options values from saving to DB
+* Improved PRO compatiblity regarding repeated elements
+
 = 2.1.1 2021-03-16 =
 * Fixed modal script not loaded properly
 

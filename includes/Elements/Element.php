@@ -151,18 +151,10 @@ class Element {
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_before_init( $data );
 
-		$element_type  = $this->get_type();
-		$this->options = new Options( sprintf( 'zionbuilder\element\%s\options', $element_type ) );
-
-		// Register element options. We only need them on class init with data
-		$this->options( $this->options );
-
-		// Trigger internal action
-		$this->trigger( 'options/schema/set' );
-
 		// Set the element data if provided
 		if ( ! empty( $data ) ) {
 			$this->data = $data;
+			$this->init_options();
 
 			if ( isset( $data['uid'] ) ) {
 				$this->uid = $data['uid'];
@@ -190,6 +182,21 @@ class Element {
 
 		// Allow elements creators to hook here without rewriting contruct
 		$this->on_after_init( $data );
+	}
+
+	public function init_options() {
+		$element_type         = $this->get_type();
+		$options_schema_id    = sprintf( 'zionbuilder\element\%s\options', $element_type );
+		$is_schema_registered = Options::is_schema_registered( $options_schema_id );
+		$this->options        = new Options( $options_schema_id );
+
+		if ( ! $is_schema_registered ) {
+			// Register element options. We only need them on class init with data
+			$this->options( $this->options );
+
+			// Trigger internal action
+			$this->trigger( 'options/schema/set' );
+		}
 	}
 
 	/**
@@ -449,6 +456,9 @@ class Element {
 	 */
 	public function internal_get_config_for_editor() {
 		$show_in_ui = $this->is_child() ? false : $this->show_in_ui();
+
+		// Init options
+		$this->init_options();
 
 		$config = [
 			'element_type'        => $this->get_type(),
@@ -995,12 +1005,12 @@ class Element {
 
 		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
 			foreach ( $registered_styles as $id => $style_config ) {
-				if ( ! empty( $styles[$id] ) && isset( $styles[$id]['styles'] ) ) {
+				if ( ! empty( $styles[$id] ) ) {
 					$css_selector = '#' . $this->get_element_css_id();
 					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', $css_selector, $this );
 
 					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-					$css     .= Style::get_styles( $selector, $styles[$id]['styles'] );
+					$css     .= Style::get_css_from_selector( [ $selector ], $styles[$id] );
 				}
 			}
 		}

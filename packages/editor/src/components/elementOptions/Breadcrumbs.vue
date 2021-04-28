@@ -12,6 +12,7 @@
 		</div>
 		<template v-if="parents.children.length > 0">
 			<BreadcrumbsItem
+				:key="child.element.uid"
 				v-for="child in parents.children"
 				:parents="child"
 			/>

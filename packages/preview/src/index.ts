@@ -2,6 +2,7 @@ import './connector'
 import { createVNode, render } from 'vue'
 
 import previewApp from './App.vue'
+import { useEditorData } from '@zb/editor'
 
 const vNode = createVNode(previewApp)
 const editorApp = window.parent.zb.editor.appInstance
@@ -24,7 +25,9 @@ editorApp.component('ElementIcon', ElementIcon)
 
 vNode.appContext = appContext
 
-const renderElement = document.getElementById('znpb-preview-content-area')
+const { editorData } = useEditorData()
+
+const renderElement = document.getElementById(`znpb-preview-${editorData.value.page_id}-area`)
 
 if (renderElement) {
 	render(vNode, renderElement)
