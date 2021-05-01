@@ -162,11 +162,11 @@ export default {
 	}
 
 	&:hover .znpb-checkmark:after, input:checked ~ .znpb-checkmark:after {
-		display: block;
+		display: block !important;
 	}
 
 	&__checkbox {
-		display: none;
+		display: none !important;
 	}
 	&__label {
 		position: relative;
