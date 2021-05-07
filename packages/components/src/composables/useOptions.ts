@@ -12,6 +12,7 @@ import {
 	InputSelect,
 	InputRadioImage,
 	InputRange,
+	InputIcon,
 	InputRangeDynamic,
 	InputEditor,
 	InputMedia,
@@ -34,6 +35,14 @@ const options = {
 		component: BaseInput,
 		dynamic: {
 			type: 'TEXT'
+		}
+	},
+	icon_library: {
+		id: 'icon_library',
+		component: InputIcon,
+		config: {
+			// Can be one of the following
+			barebone: true
 		}
 	},
 	textarea: {
@@ -157,7 +166,7 @@ export const useOptions = () => {
 		if (!optionConfig) {
 			// eslint-disable-next-line
 			console.warn(`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`)
-			return null
+			return {}
 		}
 
 		return optionConfig
