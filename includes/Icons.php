@@ -22,23 +22,6 @@ class Icons {
 	public function __construct() {
 		// Add icons css to dynamic file
 		add_filter( 'zionbuilder/cache/dynamic_css', [ $this, 'add_styles_to_dynamic_css' ] );
-
-		if ( is_admin() ) {
-			add_action( 'zionbuilder/admin/before_admin_scripts', [ $this, 'enqueue_admin_css' ] );
-		}
-	}
-
-	public function enqueue_admin_css() {
-		add_action( 'admin_print_styles', [ $this, 'print_admin_icons' ] );
-	}
-
-
-	public function print_admin_icons() {
-		echo '<!-- ICON FONTS CSS -->';
-		echo '<style type="text/css">';
-		// We ignore the warning as the output is hardcoded bellow
-		echo $this->get_icons_css(); // phpcs:ignore WordPress.Security.EscapeOutput
-		echo '</style>';
 	}
 
 	/**

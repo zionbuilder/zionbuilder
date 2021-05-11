@@ -43,6 +43,8 @@ class CommonJS {
 			Plugin::instance()->get_version()
 		);
 
+		wp_add_inline_style( 'zb-components', Plugin::instance()->icons->get_icons_css() );
+
 		Plugin::instance()->scripts->register_script(
 			'zb-vue',
 			'js/vue.js',
