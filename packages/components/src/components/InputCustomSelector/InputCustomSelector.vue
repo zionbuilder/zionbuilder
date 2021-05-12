@@ -90,6 +90,7 @@ export default {
 	&__list-wrapper {
 		display: flex;
 		flex-wrap: wrap;
+		margin: 0;
 	}
 
 	&__item {
@@ -98,6 +99,7 @@ export default {
 		align-items: center;
 		flex: 1 1 auto;
 		padding: 10px 5px;
+		margin: 0;
 		font-size: 13px;
 		font-weight: 500;
 		border-radius: 2px;
