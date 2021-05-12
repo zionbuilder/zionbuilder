@@ -1,0 +1,33 @@
+{
+  "name": "@zionbuilder/animatejs",
+  "version": "1.1.1",
+  "description": "Animate on scroll using css",
+  "keywords": [
+    "animate",
+    "scroll",
+    "animate.css"
+  ],
+  "main": "dist/animateJs.js",
+  "repository": {
+    "type": "git",
+    "url": "git+github:zionbuilder/animatejs.git"
+  },
+  "homepage": "https://github.com/zionbuilder/animatejs#readme",
+  "bugs": {
+    "url": "https://github.com/zionbuilder/project/issues"
+  },
+  "scripts": {
+    "build": "webpack --mode=production",
+    "serve": "webpack-dev-server --mode=development --open"
+  },
+  "author": "ZionBuilder",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.2"
+  }
+}
