@@ -18,6 +18,7 @@ const getWebpackConfig = (folder) => {
 }
 
 const packages = [
+	'animateJS',
 	'admin',
 	'components',
 	'editor',
