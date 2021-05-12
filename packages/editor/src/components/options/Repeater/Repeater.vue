@@ -2,6 +2,7 @@
 	<Sortable
 		class="znpb-option-repeater"
 		v-model="sortableItems"
+		handle=".znpb-horizontal-accordion > .znpb-horizontal-accordion__header"
 	>
 		<RepeaterOption
 			v-for="(item, index) in sortableItems"
@@ -131,7 +132,18 @@ export default {
 		onItemChange (payload) {
 			const { index, newValues } = payload
 			let copiedValues = [...this.valueModel]
-			copiedValues[index] = newValues
+
+
+			// Check to see if we need to delete the data
+			if (newValues === null) {
+				copiedValues.splice(index, 1)
+
+				if (copiedValues.length === 0) {
+					copiedValues = null
+				}
+			} else {
+				copiedValues[index] = newValues
+			}
 
 			if (this.reset_repeater && this.reset_repeater.option) {
 				const resetOption = this.reset_repeater.option
@@ -154,9 +166,10 @@ export default {
 
 			this.$emit('update:modelValue', clone)
 
-			this.$nextTick(() => {
-				this.$refs.repeaterItem.expand()
-			})
+			// this.$nextTick(() => {
+			// 	console.log(this.$refs.repeaterItem);
+			// 	this.$refs.repeaterItem.expand()
+			// })
 		},
 		cloneOption (event, index) {
 			if ((this.maxItems && this.addable && (this.valueModel.length < this.maxItems)) || (this.maxItems === undefined)) {
