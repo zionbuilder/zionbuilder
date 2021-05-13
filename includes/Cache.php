@@ -39,7 +39,10 @@ class Cache {
 	 */
 	private $registered_post_ids = [];
 
-	private static $loaded_assets = [];
+	private static $loaded_assets            = [];
+	private static $loaded_javascript_assets = [];
+	private static $done_areas_css           = [];
+	private static $done_areas_js            = [];
 
 	/**
 	 * Main class constructor
@@ -214,8 +217,7 @@ class Cache {
 				$this->compile_js_cache_file_for_post( $post_id );
 			}
 
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( $script_id, $file_config['url'], [], $this->get_cache_version( $post_id ), true );
+			wp_enqueue_script( $script_id, $file_config['url'], [ 'jquery' ], $this->get_cache_version( $post_id ), true );
 		}
 	}
 
@@ -240,7 +242,6 @@ class Cache {
 	public function enqueue_elements_scripts() {
 		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		foreach ( $elements_instances as $element_instance ) {
-			// Add the style.css file if present
 			$element_instance->do_enqueue_scripts();
 		}
 	}
@@ -301,9 +302,9 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_css_cache_file_for_post( $post_id ) {
-		$areas = Plugin::$instance->renderer->get_registered_areas();
-
-		$css = '';
+		$areas               = Plugin::$instance->renderer->get_registered_areas();
+		self::$loaded_assets = [];
+		$css                 = '';
 
 		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
 			foreach ( $areas[$post_id] as $element ) {
@@ -339,7 +340,7 @@ class Cache {
 				$css       .= FileSystem::get_file_system()->get_contents( $style_path );
 			}
 
-			$loaded_assets[$element_type] = true;
+			self::$loaded_assets[$element_type] = true;
 		}
 
 		$css .= $element_instance->get_element_extra_css();
@@ -371,70 +372,99 @@ class Cache {
 	 * @return boolean
 	 */
 	private function compile_js_cache_file_for_post( $post_id ) {
-		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
-		$loaded_assets      = [];
-		$js                 = '';
+		$js = '';
 
-		foreach ( $elements_instances as $element_instance ) {
-			$element_type = $element_instance->get_type();
+		// Check if we already parsed this area
+		if ( in_array( $post_id, self::$done_areas_js, true ) ) {
+			return '';
+		}
 
-			if ( ! isset( $loaded_assets[$element_type] ) ) {
-				// Add the style.css file if present
-				$element_scripts = $element_instance->get_element_scripts();
+		self::$done_areas_js[] = $post_id;
 
-				foreach ( $element_scripts as $script_url ) {
-					$script_path = Utils::get_file_path_from_url( $script_url );
-					$js         .= FileSystem::get_file_system()->get_contents( $script_path );
-				}
+		// Reset the loaded scripts in case we have multiple scripts on the same page
+		self::$loaded_javascript_assets = [];
 
-				// Add the style.css file if present
-				$js_file_path = $element_instance->get_path( 'script.js' );
-				if ( FileSystem::get_file_system()->is_file( $js_file_path ) ) {
-					$js .= FileSystem::get_file_system()->get_contents( $js_file_path );
-				}
+		$areas = Plugin::$instance->renderer->get_registered_areas();
 
-				$loaded_assets[$element_type] = true;
+		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
+			foreach ( $areas[$post_id] as $element ) {
+				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+				$js              .= $this->get_javascript_for_element( $element_instance );
 			}
 		}
 
 		$js                = apply_filters( 'zionbuilder/cache/page_js', $js, $post_id );
 		$cache_file_config = $this->get_cache_file_config( $post_id, 'js' );
 
-		$final_script = sprintf(
-			'
-		(function($) {
-			window.ZionBuilderFrontend = {
-				scripts: {},
-				registerScript: function (scriptId, scriptCallback) {
-					this.scripts[scriptId] = scriptCallback;
-				},
-				getScript(scriptId) {
-					return this.scripts[scriptId]
-				},
-				unregisterScript: function(scriptId) {
-					delete this.scripts[scriptId];
-				},
-				run: function() {
-					var that = this;
-					var $scope = $(document)
-					Object.keys(this.scripts).forEach(function(scriptId) {
-						var scriptObject = that.scripts[scriptId];
-						scriptObject.run( $scope );
-					})
-				}
-			};
+		$final_script = '';
 
-			%s
+		if ( ! empty( $js ) ) {
+			$final_script = sprintf(
+				'
+			(function($) {
+				window.ZionBuilderFrontend = {
+					scripts: {},
+					registerScript: function (scriptId, scriptCallback) {
+						this.scripts[scriptId] = scriptCallback;
+					},
+					getScript(scriptId) {
+						return this.scripts[scriptId]
+					},
+					unregisterScript: function(scriptId) {
+						delete this.scripts[scriptId];
+					},
+					run: function() {
+						var that = this;
+						var $scope = $(document)
+						Object.keys(this.scripts).forEach(function(scriptId) {
+							var scriptObject = that.scripts[scriptId];
+							scriptObject.run( $scope );
+						})
+					}
+				};
 
-			window.ZionBuilderFrontend.run();
+				%s
 
-		})(jQuery);
-		',
-			$js
-		);
+				window.ZionBuilderFrontend.run();
+
+			})(jQuery);
+			',
+				$js
+			);
+		}
 
 		// Minify the js
 		return FileSystem::get_file_system()->put_contents( $cache_file_config['path'], $final_script, 0644 );
+	}
+
+	private function get_javascript_for_element( $element_instance ) {
+		$js = '';
+
+		// Get element scripts
+		$element_scripts = $element_instance->get_element_scripts();
+		$element_type    = $element_instance->get_type();
+
+		if ( ! isset( self::$loaded_javascript_assets[$element_type] ) ) {
+			foreach ( $element_scripts as $script_url ) {
+				$script_path = Utils::get_file_path_from_url( $script_url );
+				$js         .= FileSystem::get_file_system()->get_contents( $script_path );
+				self::$loaded_javascript_assets[$element_type] = true;
+			}
+		}
+
+		// Check for children
+		$childs = $element_instance->get_children();
+
+		if ( is_array( $childs ) ) {
+			foreach ( $childs as $element ) {
+				$child_element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+				if ( $child_element_instance ) {
+					$js .= $this->get_javascript_for_element( $child_element_instance );
+				}
+			}
+		}
+
+		return $js;
 	}
 
 	/**
