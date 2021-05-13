@@ -369,7 +369,7 @@ class Cache {
 	 *
 	 * @param int $post_id
 	 *
-	 * @return boolean
+	 * @return string
 	 */
 	private function compile_js_cache_file_for_post( $post_id ) {
 		$js = '';
