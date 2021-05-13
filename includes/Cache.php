@@ -41,8 +41,6 @@ class Cache {
 
 	private static $loaded_assets = [];
 
-	private static $loaded_posts = [];
-
 	/**
 	 * Main class constructor
 	 */
@@ -228,16 +226,9 @@ class Cache {
 	 */
 	public function enqueue_elements_styles() {
 		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
-		$loaded_assets      = [];
-
 		foreach ( $elements_instances as $element_instance ) {
-			$element_type = $element_instance->get_type();
-
-			if ( ! isset( $loaded_assets[$element_type] ) ) {
-				// Add the style.css file if present
-				$element_instance->do_enqueue_styles();
-				$loaded_assets[$element_type] = true;
-			}
+			// Add the style.css file if present
+			$element_instance->do_enqueue_styles();
 		}
 	}
 
@@ -247,18 +238,10 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_elements_scripts() {
-
 		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
-		$loaded_assets      = [];
-
 		foreach ( $elements_instances as $element_instance ) {
-			$element_type = $element_instance->get_type();
-
-			if ( ! isset( $loaded_assets[$element_type] ) ) {
-				// Add the style.css file if present
-				$element_instance->do_enqueue_scripts();
-				$loaded_assets[$element_type] = true;
-			}
+			// Add the style.css file if present
+			$element_instance->do_enqueue_scripts();
 		}
 	}
 
