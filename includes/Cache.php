@@ -41,6 +41,8 @@ class Cache {
 
 	private static $loaded_assets = [];
 
+	private static $loaded_posts = [];
+
 	/**
 	 * Main class constructor
 	 */
@@ -56,8 +58,10 @@ class Cache {
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
+			add_action( 'wp_enqueue_scripts', [ $this, 'register_default_scripts' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
 			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ] );
+
 		} else {
 			// Register default scripts so we can use them in edit mode
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ] );
@@ -70,7 +74,6 @@ class Cache {
 	 * @return void
 	 */
 	public function on_enqueue_scripts() {
-		$this->register_default_scripts();
 		$this->enqueue_post_styles();
 		$this->enqueue_post_scripts();
 		$this->enqueue_dynamic_css();
@@ -86,6 +89,9 @@ class Cache {
 		// register styles
 		wp_register_style( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.css' ), [], Plugin::instance()->get_version() );
 
+		// Load animations
+		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+
 		// Register scripts
 		wp_register_script( 'zb-modal', Utils::get_file_url( 'assets/vendors/js/modal.min.js' ), [], Plugin::instance()->get_version(), true );
 		// Video
@@ -94,9 +100,6 @@ class Cache {
 
 		// Swiper slider
 		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), [], Plugin::instance()->get_version(), true );
-
-		// Load animations
-		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		// Animate JS
 		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJs.js' ), [], Plugin::instance()->get_version(), true );
@@ -244,6 +247,7 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_elements_scripts() {
+
 		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
 		$loaded_assets      = [];
 
