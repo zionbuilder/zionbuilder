@@ -6,7 +6,7 @@ const {
 module.exports = getConfig({}, {
 	output: {
 		libraryExport: 'default',
-		library: 'animateJs',
+		library: 'animateJS',
 		libraryTarget: 'umd',
 	},
 })
