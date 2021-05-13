@@ -17,7 +17,7 @@
 				>
 				</span>
 				<Icon
-					@click="$emit('update:modelValue',null)"
+					@click.stop="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
 					bg-color="#fff"
