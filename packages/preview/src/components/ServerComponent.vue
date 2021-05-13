@@ -25,7 +25,7 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
-import { applyFilters, on, off } from '@zb/hooks'
+import { applyFilters, on, off, trigger } from '@zb/hooks'
 
 // Utils
 import { debounce } from '@zb/utils'
@@ -105,6 +105,7 @@ export default {
 
 				nextTick(() => {
 					checkForContentHeight()
+					trigger('zionbuilder/server_component/rendered', elementContentRef.value, props.element, props.options)
 				})
 			}, function (message) {
 				loading.value = false
@@ -197,7 +198,7 @@ export default {
 		&:before, &:after {
 			@extend %loading;
 			box-sizing: border-box;
-			border: 2px solid rgba(220, 220, 220, 0.2);
+			border: 2px solid rgba(220, 220, 220, .2);
 		}
 
 		&:after {
