@@ -57,6 +57,7 @@ class Cache {
 		// Enqueue styles
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
+			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ] );
 		} else {
 			// Register default scripts so we can use them in edit mode
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ] );
@@ -99,7 +100,7 @@ class Cache {
 
 		// Animate JS
 		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJs.js' ), [], Plugin::instance()->get_version(), true );
-		wp_add_inline_script( 'zionbuilder-animatejs', 'zb.animateJS()' );
+		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
 	}
 
 	/**

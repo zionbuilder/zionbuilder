@@ -369,7 +369,7 @@ class Templates extends RestApiController {
 	public function attach_post_data( $template ) {
 		// Convert to array
 		$template         = $template->to_array();
-		$prefix_shortcode = strtolower( Whitelabel::get_title() );
+		$prefix_shortcode = 'zionbuilder';
 
 		$shortcode         = '[' . $prefix_shortcode . ' id="' . $template['ID'] . '"]';
 		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $template['ID'] );

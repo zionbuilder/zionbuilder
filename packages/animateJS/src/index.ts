@@ -58,11 +58,8 @@ const animateJs = function (options) {
 	 * @param IntersectionObserver observer
 	 */
 	const onElementInViewport = function (entries, observer) {
-		// console.log(entries);
-		// console.log(observer);
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
-				console.log('we have intersection');
 				if (options.mode === 'css_class' && options.animationClass) {
 					applyAnimation(entry.target)
 				} else if (options.mode === 'event') {
@@ -78,11 +75,9 @@ const animateJs = function (options) {
 		})
 	}
 
-	console.log(elements);
 	const observer = observe(elements, onElementInViewport)
 
 	const destroy = function () {
-		console.log('ssss');
 		observer.disconnect()
 		elements = null
 	}

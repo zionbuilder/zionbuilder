@@ -9,7 +9,7 @@ import './scss/main.scss'
 				$counter.each((i, el) => {
 					const $el = $(el)
 
-					window.zb.animateJs({
+					window.animateJS({
 						selector: el,
 						mode: 'event'
 					})

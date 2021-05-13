@@ -18,7 +18,6 @@ const getWebpackConfig = (folder) => {
 }
 
 const packages = [
-	'animateJS',
 	'admin',
 	'components',
 	'editor',
@@ -51,6 +50,34 @@ packages.forEach(directory => {
 					filename: `js/${directory}.js`,
 					library: ['zb', directory],
 					libraryTarget: 'window'
+				}
+			}
+		)
+
+		configs.push(config)
+	}
+})
+
+// Normal packages
+const normalPackages = [
+	'animateJS'
+]
+normalPackages.forEach(directory => {
+	const folder = path.resolve('./packages', directory)
+	const webpackConfig = getWebpackConfig(folder)
+
+	if (webpackConfig) {
+		const packageWebpackConfig = require(webpackConfig)
+		const config = mergeConfigs(
+			packageWebpackConfig, {
+				entry: {
+					[directory]: packageWebpackConfig.entry
+				},
+				// Change context to package folder so that webpack knows where to look for files
+				context: folder,
+				// Export all packages to window.zb
+				output: {
+					filename: `js/${directory}.js`
 				}
 			}
 		)
