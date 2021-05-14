@@ -4,14 +4,14 @@ $columns: 12;
 /**
 	COLUMNS
 */
-@mixin generate-column( $size, $columns: 12 ) {
+@mixin generate-column($size, $columns: 12) {
 	flex-grow: 0;
 	flex-shrink: 0;
 	width: 100%;
 	max-width: percentage($size / $columns);
 }
 
-@mixin generate-offset( $size, $columns: 12 ) {
+@mixin generate-offset($size, $columns: 12) {
 	margin-left: percentage($size / $columns);
 }
 
@@ -26,6 +26,7 @@ $columns: 12;
 
 @mixin generate-columns() {
 	@include generate-offsets();
+
 	// generate-column
 	@for $size from 1 through $columns {
 		.zb-column--#{$size} {
@@ -40,11 +41,12 @@ $columns: 12;
 	}
 
 	// Generate css for all media queries
-	@each $breakpointId, $breakpointValue in $breakpoints {
+	@each $breakpointId,
+	$breakpointValue in $breakpoints {
 		$suffix: "--#{$breakpointId}";
 
 		@media (max-width: $breakpointValue) {
-			@if ($breakpointId == "sm") {
+			@if ($breakpointId=="sm") {
 				.zb-column {
 					@include generate-column(12);
 				}
@@ -68,7 +70,7 @@ $columns: 12;
 				max-width: 20%;
 			}
 
-			@include generate-offsets( $suffix )
+			@include generate-offsets($suffix)
 		}
 	}
 }
@@ -106,3 +108,9 @@ $columns: 12;
 }
 
 @include generate-columns();
+
+.zb-el-container {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+}
