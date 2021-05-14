@@ -96,6 +96,10 @@ class Container extends Element {
 	 * @return void
 	 */
 	public function options( $options ) {
+
+		/**
+		 * General
+		 */
 		$options->add_option(
 			'tag',
 			[
@@ -137,262 +141,6 @@ class Container extends Element {
 		);
 
 		$options->add_option(
-			'display',
-			[
-				'type'        => 'custom_selector',
-				'title'       => __( 'Display', 'zionbuilder-pro' ),
-				'description' => __( 'Display css properties', 'zionbuilder-pro' ),
-				'columns'     => 3,
-				'default'     => 'flex',
-				'search_tags' => [ 'flex', 'block', 'inline', 'none' ],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.display',
-				'options'     => [
-					[
-						'name' => __( 'flex', 'zionbuilder-pro' ),
-						'id'   => 'flex',
-					],
-					[
-						'name' => __( 'block', 'zionbuilder-pro' ),
-						'id'   => 'block',
-					],
-					[
-						'name' => __( 'inline', 'zionbuilder-pro' ),
-						'id'   => 'inline',
-					],
-					[
-						'name' => __( 'inline-flex', 'zionbuilder-pro' ),
-						'id'   => 'inline-flex',
-					],
-					[
-						'name' => __( 'inline-block', 'zionbuilder-pro' ),
-						'id'   => 'inline-block',
-					],
-					[
-						'name' => __( 'none', 'zionbuilder-pro' ),
-						'id'   => 'none',
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'flex-direction',
-			[
-				'type'       => 'custom_selector',
-				'width'      => 60,
-				'options'    => [
-					[
-						'name' => __( 'vertical', 'zionbuilder-pro' ),
-						'id'   => 'column',
-					],
-					[
-						'name' => __( 'horizontal', 'zionbuilder-pro' ),
-						'id'   => 'row',
-					],
-				],
-				'title'      => __( 'Flex direction', 'zionbuilder-pro' ),
-				'sync'       => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-direction',
-				'dependency' => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'flex-reverse',
-			[
-				'type'       => 'custom_selector',
-				'width'      => 40,
-				'options'    => [
-					[
-						'name' => __( 'flex-reverse', 'zionbuilder-pro' ),
-						'icon' => 'reverse',
-						'id'   => true,
-					],
-				],
-				'title'      => __( 'Flex reverse', 'zionbuilder-pro' ),
-				'sync'       => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-reverse',
-				'dependency' => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'align-items',
-			[
-				'type'        => 'custom_selector',
-				'title'       => __( 'Align items', 'zionbuilder-pro' ),
-				'description' => __( 'Set align items', 'zionbuilder-pro' ),
-				'options'     => [
-					[
-						'name' => __( 'flex-start', 'zionbuilder-pro' ),
-						'id'   => 'flex-start',
-						'icon' => 'align-start',
-					],
-					[
-						'name' => __( 'center', 'zionbuilder-pro' ),
-						'id'   => 'center',
-						'icon' => 'align-center',
-					],
-					[
-						'name' => __( 'flex-end', 'zionbuilder-pro' ),
-						'id'   => 'flex-end',
-						'icon' => 'align-end',
-					],
-					[
-						'name' => __( 'stretch', 'zionbuilder-pro' ),
-						'id'   => 'stretch',
-						'icon' => 'align-stretch',
-					],
-					[
-						'name' => __( 'baseline', 'zionbuilder-pro' ),
-						'id'   => 'baseline',
-						'icon' => 'align-baseline',
-					],
-				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-items',
-				'dependency'  => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'justify-content',
-			[
-				'type'        => 'custom_selector',
-				'title'       => __( 'Justify', 'zionbuilder-pro' ),
-				'description' => __( 'Set float option for element', 'zionbuilder-pro' ),
-				'columns'     => 5,
-				'options'     => [
-					[
-						'name' => __( 'flex-start', 'zionbuilder-pro' ),
-						'id'   => 'flex-start',
-						'icon' => 'justify-start',
-					],
-					[
-						'name' => __( 'center', 'zionbuilder-pro' ),
-						'id'   => 'center',
-						'icon' => 'justify-center',
-					],
-					[
-						'name' => __( 'flex-end', 'zionbuilder-pro' ),
-						'id'   => 'flex-end',
-						'icon' => 'justify-end',
-					],
-					[
-						'name' => __( 'space-between', 'zionbuilder-pro' ),
-						'id'   => 'space-between',
-						'icon' => 'justify-sp-btw',
-					],
-					[
-						'name' => __( 'space-around', 'zionbuilder-pro' ),
-						'id'   => 'space-around',
-						'icon' => 'justify-sp-around',
-					],
-				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.justify-content',
-				'dependency'  => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'flex-wrap',
-			[
-				'type'        => 'custom_selector',
-				'grow'        => '5',
-				'title'       => __( 'Wrap', 'zionbuilder-pro' ),
-				'description' => __( 'Set wrap for element', 'zionbuilder-pro' ),
-				'options'     => [
-					[
-						'name' => __( 'wrap', 'zionbuilder-pro' ),
-						'id'   => 'wrap',
-					],
-					[
-						'name' => __( 'nowrap', 'zionbuilder-pro' ),
-						'id'   => 'nowrap',
-					],
-					[
-						'name' => __( 'wrap-reverse', 'zionbuilder-pro' ),
-						'id'   => 'wrap-reverse',
-						'icon' => 'reverse',
-					],
-				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-wrap',
-				'dependency'  => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
-			'align-content',
-			[
-				'type'        => 'custom_selector',
-				'title'       => __( 'Align content', 'zionbuilder-pro' ),
-				'description' => __( 'Set align content', 'zionbuilder-pro' ),
-				'columns'     => 5,
-				'options'     => [
-					[
-						'name' => __( 'flex-start', 'zionbuilder-pro' ),
-						'id'   => 'flex-start',
-						'icon' => 'content-start',
-					],
-					[
-						'name' => __( 'center', 'zionbuilder-pro' ),
-						'id'   => 'center',
-						'icon' => 'content-center',
-					],
-					[
-						'name' => __( 'flex-end', 'zionbuilder-pro' ),
-						'id'   => 'flex-end',
-						'icon' => 'content-end',
-					],
-					[
-						'name' => __( 'space-between', 'zionbuilder-pro' ),
-						'id'   => 'space-between',
-						'icon' => 'content-space-btw',
-					],
-					[
-						'name' => __( 'space-around', 'zionbuilder-pro' ),
-						'id'   => 'space-around',
-						'icon' => 'content-space-around',
-					],
-					[
-						'name' => __( 'strech', 'zionbuilder-pro' ),
-						'id'   => 'stretch',
-						'icon' => 'content-stretch',
-					],
-				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-content',
-				'dependency'  => [
-					[
-						'option' => 'display',
-						'value'  => [ 'flex' ],
-					],
-				],
-			]
-		);
-
-		$options->add_option(
 			'link',
 			[
 				'type'        => 'link',
@@ -401,11 +149,369 @@ class Container extends Element {
 			]
 		);
 
+		$options->add_option(
+			'display',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Display', 'zionbuilder' ),
+				'description' => __( 'Display css properties', 'zionbuilder' ),
+				'columns'     => 3,
+				'default'     => 'flex',
+				'search_tags' => [ 'flex', 'block', 'inline', 'none' ],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.display',
+				'options'     => [
+					[
+						'name' => __( 'flex', 'zionbuilder' ),
+						'id'   => 'flex',
+					],
+					[
+						'name' => __( 'block', 'zionbuilder' ),
+						'id'   => 'block',
+					],
+					[
+						'name' => __( 'inline', 'zionbuilder' ),
+						'id'   => 'inline',
+					],
+					[
+						'name' => __( 'inline-flex', 'zionbuilder' ),
+						'id'   => 'inline-flex',
+					],
+					[
+						'name' => __( 'inline-block', 'zionbuilder' ),
+						'id'   => 'inline-block',
+					],
+					[
+						'name' => __( 'none', 'zionbuilder' ),
+						'id'   => 'none',
+					],
+				],
+			]
+		);
+
+		/**
+		 * Flex
+		 */
+		$flex_container_group = $options->add_group(
+			'flexbox-container-group',
+			[
+				'type'       => 'panel_accordion',
+				'title'      => __( 'Flexbox container options', 'zionbuilder' ),
+				'collapsed'  => true,
+				'dependency' => [
+					[
+						'option' => 'display',
+						'value'  => [ 'flex' ],
+					],
+				],
+			]
+		);
+
+		$flex_container_group->add_option(
+			'flex-direction',
+			[
+				'type'    => 'custom_selector',
+				'width'   => 60,
+				'options' => [
+					[
+						'name' => __( 'vertical', 'zionbuilder' ),
+						'id'   => 'column',
+					],
+					[
+						'name' => __( 'horizontal', 'zionbuilder' ),
+						'id'   => 'row',
+					],
+				],
+				'title'   => __( 'Flex direction', 'zionbuilder' ),
+				'sync'    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-direction',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'flex-reverse',
+			[
+				'type'    => 'custom_selector',
+				'width'   => 40,
+				'options' => [
+					[
+						'name' => __( 'flex-reverse', 'zionbuilder' ),
+						'icon' => 'reverse',
+						'id'   => true,
+					],
+				],
+				'title'   => __( 'Flex reverse', 'zionbuilder' ),
+				'sync'    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-reverse',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'align-items',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Align items', 'zionbuilder' ),
+				'description' => __( 'Set align items', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => __( 'flex-start', 'zionbuilder' ),
+						'id'   => 'flex-start',
+						'icon' => 'align-start',
+					],
+					[
+						'name' => __( 'center', 'zionbuilder' ),
+						'id'   => 'center',
+						'icon' => 'align-center',
+					],
+					[
+						'name' => __( 'flex-end', 'zionbuilder' ),
+						'id'   => 'flex-end',
+						'icon' => 'align-end',
+					],
+					[
+						'name' => __( 'stretch', 'zionbuilder' ),
+						'id'   => 'stretch',
+						'icon' => 'align-stretch',
+					],
+					[
+						'name' => __( 'baseline', 'zionbuilder' ),
+						'id'   => 'baseline',
+						'icon' => 'align-baseline',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-items',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'justify-content',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Justify', 'zionbuilder' ),
+				'description' => __( 'Set float option for element', 'zionbuilder' ),
+				'columns'     => 5,
+				'options'     => [
+					[
+						'name' => __( 'flex-start', 'zionbuilder' ),
+						'id'   => 'flex-start',
+						'icon' => 'justify-start',
+					],
+					[
+						'name' => __( 'center', 'zionbuilder' ),
+						'id'   => 'center',
+						'icon' => 'justify-center',
+					],
+					[
+						'name' => __( 'flex-end', 'zionbuilder' ),
+						'id'   => 'flex-end',
+						'icon' => 'justify-end',
+					],
+					[
+						'name' => __( 'space-between', 'zionbuilder' ),
+						'id'   => 'space-between',
+						'icon' => 'justify-sp-btw',
+					],
+					[
+						'name' => __( 'space-around', 'zionbuilder' ),
+						'id'   => 'space-around',
+						'icon' => 'justify-sp-around',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.justify-content',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'flex-wrap',
+			[
+				'type'        => 'custom_selector',
+				'grow'        => '5',
+				'title'       => __( 'Wrap', 'zionbuilder' ),
+				'description' => __( 'Set wrap for element', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => __( 'wrap', 'zionbuilder' ),
+						'id'   => 'wrap',
+					],
+					[
+						'name' => __( 'nowrap', 'zionbuilder' ),
+						'id'   => 'nowrap',
+					],
+					[
+						'name' => __( 'wrap-reverse', 'zionbuilder' ),
+						'id'   => 'wrap-reverse',
+						'icon' => 'reverse',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-wrap',
+			]
+		);
+
+		$flex_container_group->add_option(
+			'align-content',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Align content', 'zionbuilder' ),
+				'description' => __( 'Set align content', 'zionbuilder' ),
+				'columns'     => 5,
+				'options'     => [
+					[
+						'name' => __( 'flex-start', 'zionbuilder' ),
+						'id'   => 'flex-start',
+						'icon' => 'content-start',
+					],
+					[
+						'name' => __( 'center', 'zionbuilder' ),
+						'id'   => 'center',
+						'icon' => 'content-center',
+					],
+					[
+						'name' => __( 'flex-end', 'zionbuilder' ),
+						'id'   => 'flex-end',
+						'icon' => 'content-end',
+					],
+					[
+						'name' => __( 'space-between', 'zionbuilder' ),
+						'id'   => 'space-between',
+						'icon' => 'content-space-btw',
+					],
+					[
+						'name' => __( 'space-around', 'zionbuilder' ),
+						'id'   => 'space-around',
+						'icon' => 'content-space-around',
+					],
+					[
+						'name' => __( 'strech', 'zionbuilder' ),
+						'id'   => 'stretch',
+						'icon' => 'content-stretch',
+					],
+				],
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-content',
+			]
+		);
+
+		$flex_child_group = $options->add_group(
+			'flexbox-child-group',
+			[
+				'type'       => 'panel_accordion',
+				'title'      => __( 'Flexbox child options', 'zionbuilder-pro' ),
+				'collapsed'  => true,
+				'dependency' => [
+					[
+						'option' => 'display',
+						'value'  => [ 'flex' ],
+					],
+				],
+			]
+		);
+
+		$flex_child_group->add_option(
+			'flex-grow',
+			[
+				'type'  => 'number',
+				'width' => 33.3,
+				'title' => __( 'Flex Grow', 'zionbuilder-pro' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-grow',
+			]
+		);
+
+		$flex_child_group->add_option(
+			'flex-shrink',
+			[
+				'type'  => 'number',
+				'width' => 33.3,
+				'title' => __( 'Flex Shrink', 'zionbuilder-pro' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-shrink',
+			]
+		);
+
+		$flex_child_group->add_option(
+			'flex-basis',
+			[
+				'type'  => 'number_unit',
+				'width' => 33.3,
+				'title' => __( 'Flex Basis', 'zionbuilder-pro' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
+				'units' => [
+					'px',
+					'pt',
+					'rem',
+					'vh',
+					'%',
+				],
+			]
+		);
+
+		$flex_child_group->add_option(
+			'align-self',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Align self', 'zionbuilder-pro' ),
+				'description' => __( 'Set align self', 'zionbuilder-pro' ),
+				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-self',
+				'options'     => [
+					[
+						'name' => __( 'flex-start', 'zionbuilder-pro' ),
+						'id'   => 'flex-start',
+						'icon' => 'self-start',
+					],
+					[
+						'name' => __( 'center', 'zionbuilder-pro' ),
+						'id'   => 'center',
+						'icon' => 'self-center',
+					],
+					[
+						'name' => __( 'flex-end', 'zionbuilder-pro' ),
+						'id'   => 'flex-end',
+						'icon' => 'self-end',
+					],
+					[
+						'name' => __( 'stretch', 'zionbuilder-pro' ),
+						'id'   => 'stretch',
+						'icon' => 'self-stretch',
+					],
+					[
+						'name' => __( 'baseline', 'zionbuilder-pro' ),
+						'id'   => 'baseline',
+						'icon' => 'self-baseline',
+					],
+				],
+			]
+		);
+
+		$flex_child_group->add_option(
+			'custom-order',
+			[
+				'type'    => 'custom_selector',
+				'title'   => __( 'Order', 'zionbuilder-pro' ),
+				'sync'    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.custom-order',
+				'width'   => 60,
+				'options' => [
+					[
+						'name' => __( 'first', 'zionbuilder-pro' ),
+						'id'   => -1,
+					],
+					[
+						'name' => __( 'last', 'zionbuilder-pro' ),
+						'id'   => 99,
+					],
+				],
+			]
+		);
+
+		$flex_child_group->add_option(
+			'order',
+			[
+				'type'  => 'number',
+				'title' => __( 'Custom Order', 'zionbuilder-pro' ),
+				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.order',
+				'width' => 40,
+			]
+		);
+
 		$spacing_group = $options->add_group(
 			'padding',
 			[
 				'type'      => 'panel_accordion',
 				'title'     => esc_html__( 'Spacing', 'zionbuilder' ),
+				'sync'      => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.order',
 				'collapsed' => true,
 			]
 		);
