@@ -391,7 +391,7 @@ class Container extends Element {
 			'flexbox-child-group',
 			[
 				'type'       => 'panel_accordion',
-				'title'      => __( 'Flexbox child options', 'zionbuilder-pro' ),
+				'title'      => __( 'Flexbox child options', 'zionbuilder' ),
 				'collapsed'  => true,
 				'dependency' => [
 					[
@@ -407,7 +407,7 @@ class Container extends Element {
 			[
 				'type'  => 'number',
 				'width' => 33.3,
-				'title' => __( 'Flex Grow', 'zionbuilder-pro' ),
+				'title' => __( 'Flex Grow', 'zionbuilder' ),
 				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-grow',
 			]
 		);
@@ -417,7 +417,7 @@ class Container extends Element {
 			[
 				'type'  => 'number',
 				'width' => 33.3,
-				'title' => __( 'Flex Shrink', 'zionbuilder-pro' ),
+				'title' => __( 'Flex Shrink', 'zionbuilder' ),
 				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-shrink',
 			]
 		);
@@ -427,7 +427,7 @@ class Container extends Element {
 			[
 				'type'  => 'number_unit',
 				'width' => 33.3,
-				'title' => __( 'Flex Basis', 'zionbuilder-pro' ),
+				'title' => __( 'Flex Basis', 'zionbuilder' ),
 				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
 				'units' => [
 					'px',
@@ -443,32 +443,32 @@ class Container extends Element {
 			'align-self',
 			[
 				'type'        => 'custom_selector',
-				'title'       => __( 'Align self', 'zionbuilder-pro' ),
-				'description' => __( 'Set align self', 'zionbuilder-pro' ),
+				'title'       => __( 'Align self', 'zionbuilder' ),
+				'description' => __( 'Set align self', 'zionbuilder' ),
 				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.align-self',
 				'options'     => [
 					[
-						'name' => __( 'flex-start', 'zionbuilder-pro' ),
+						'name' => __( 'flex-start', 'zionbuilder' ),
 						'id'   => 'flex-start',
 						'icon' => 'self-start',
 					],
 					[
-						'name' => __( 'center', 'zionbuilder-pro' ),
+						'name' => __( 'center', 'zionbuilder' ),
 						'id'   => 'center',
 						'icon' => 'self-center',
 					],
 					[
-						'name' => __( 'flex-end', 'zionbuilder-pro' ),
+						'name' => __( 'flex-end', 'zionbuilder' ),
 						'id'   => 'flex-end',
 						'icon' => 'self-end',
 					],
 					[
-						'name' => __( 'stretch', 'zionbuilder-pro' ),
+						'name' => __( 'stretch', 'zionbuilder' ),
 						'id'   => 'stretch',
 						'icon' => 'self-stretch',
 					],
 					[
-						'name' => __( 'baseline', 'zionbuilder-pro' ),
+						'name' => __( 'baseline', 'zionbuilder' ),
 						'id'   => 'baseline',
 						'icon' => 'self-baseline',
 					],
@@ -480,16 +480,16 @@ class Container extends Element {
 			'custom-order',
 			[
 				'type'    => 'custom_selector',
-				'title'   => __( 'Order', 'zionbuilder-pro' ),
+				'title'   => __( 'Order', 'zionbuilder' ),
 				'sync'    => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.custom-order',
 				'width'   => 60,
 				'options' => [
 					[
-						'name' => __( 'first', 'zionbuilder-pro' ),
+						'name' => __( 'first', 'zionbuilder' ),
 						'id'   => -1,
 					],
 					[
-						'name' => __( 'last', 'zionbuilder-pro' ),
+						'name' => __( 'last', 'zionbuilder' ),
 						'id'   => 99,
 					],
 				],
@@ -500,7 +500,7 @@ class Container extends Element {
 			'order',
 			[
 				'type'  => 'number',
-				'title' => __( 'Custom Order', 'zionbuilder-pro' ),
+				'title' => __( 'Custom Order', 'zionbuilder' ),
 				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.order',
 				'width' => 40,
 			]

@@ -2744,7 +2744,7 @@ msgstr ""
 msgid "Space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:349, ../includes/Elements/Column/Column.php:394, ../includes/Elements/Container/Container.php:259, ../includes/Elements/Container/Container.php:297, ../includes/Elements/Container/Container.php:361, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
+#: ../includes/Elements/Column/Column.php:349, ../includes/Elements/Column/Column.php:394, ../includes/Elements/Container/Container.php:259, ../includes/Elements/Container/Container.php:297, ../includes/Elements/Container/Container.php:361, ../includes/Elements/Container/Container.php:456, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:287, ../includes/Elements/Section/Section.php:332, ../includes/Elements/Section/Section.php:375, ../includes/Elements/Section/Section.php:420, ../includes/Elements/Separator/Separator.php:119
 msgid "center"
 msgstr ""
 
@@ -2756,11 +2756,11 @@ msgstr ""
 msgid "space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:404, ../includes/Elements/Container/Container.php:269, ../includes/Elements/Section/Section.php:297, ../includes/Elements/Section/Section.php:430
+#: ../includes/Elements/Column/Column.php:404, ../includes/Elements/Container/Container.php:269, ../includes/Elements/Container/Container.php:466, ../includes/Elements/Section/Section.php:297, ../includes/Elements/Section/Section.php:430
 msgid "stretch"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:409, ../includes/Elements/Container/Container.php:274, ../includes/Elements/Section/Section.php:302, ../includes/Elements/Section/Section.php:435
+#: ../includes/Elements/Column/Column.php:409, ../includes/Elements/Container/Container.php:274, ../includes/Elements/Container/Container.php:471, ../includes/Elements/Section/Section.php:302, ../includes/Elements/Section/Section.php:435
 msgid "baseline"
 msgstr ""
 
@@ -2852,11 +2852,11 @@ msgstr ""
 msgid "Set align items"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:254, ../includes/Elements/Container/Container.php:292, ../includes/Elements/Container/Container.php:356, ../includes/Elements/Separator/Separator.php:114
+#: ../includes/Elements/Container/Container.php:254, ../includes/Elements/Container/Container.php:292, ../includes/Elements/Container/Container.php:356, ../includes/Elements/Container/Container.php:451, ../includes/Elements/Separator/Separator.php:114
 msgid "flex-start"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:264, ../includes/Elements/Container/Container.php:302, ../includes/Elements/Container/Container.php:366, ../includes/Elements/Separator/Separator.php:124
+#: ../includes/Elements/Container/Container.php:264, ../includes/Elements/Container/Container.php:302, ../includes/Elements/Container/Container.php:366, ../includes/Elements/Container/Container.php:461, ../includes/Elements/Separator/Separator.php:124
 msgid "flex-end"
 msgstr ""
 
@@ -2882,6 +2882,46 @@ msgstr ""
 
 #: ../includes/Elements/Container/Container.php:381
 msgid "strech"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:394
+msgid "Flexbox child options"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:410
+msgid "Flex Grow"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:420
+msgid "Flex Shrink"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:430
+msgid "Flex Basis"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:446
+msgid "Align self"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:447
+msgid "Set align self"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:483
+msgid "Order"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:488
+msgid "first"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:492
+msgid "last"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:503
+msgid "Custom Order"
 msgstr ""
 
 #: ../includes/Elements/Container/Container.php:523, ../includes/Elements/Separator/Separator.php:200, ../includes/Options/Schemas/StyleOptions.php:209
@@ -4122,6 +4162,10 @@ msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:143
 msgid "Choose the desired border radius style."
+msgstr ""
+
+#: ../includes/Options/Schemas/StyleOptions.php:174
+msgid "Box shadow options"
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:175, ../includes/Options/Schemas/StyleOptions.php:401, ../includes/Options/Schemas/StyleOptions.php:415, ../includes/Options/Schemas/StyleOptions.php:428, ../includes/Options/Schemas/StyleOptions.php:442, ../includes/Options/Schemas/StyleOptions.php:457, ../includes/Options/Schemas/StyleOptions.php:497, ../includes/Options/Schemas/StyleOptions.php:523, ../includes/Options/Schemas/StyleOptions.php:549
