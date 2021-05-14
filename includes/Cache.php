@@ -275,7 +275,7 @@ class Cache {
 	 * @param int   $post_id
 	 * @param mixed $type
 	 *
-	 * @return array{file_name: string, path: string, url: string } The cache file paths
+	 * @return array{file_name: string, handle: string, path: string, url: string } The cache file paths
 	 */
 	public function get_cache_file_config( $post_id, $type = 'css' ) {
 		$post_id         = absint( $post_id );
