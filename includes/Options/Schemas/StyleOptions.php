@@ -171,7 +171,7 @@ class StyleOptions extends BaseSchema {
 			'box-shadow-group',
 			[
 				'type'             => 'panel_accordion',
-				'title'            => esc_html__( 'Box shadow options', 'zionbuilder-pro' ),
+				'title'            => esc_html__( 'Box shadow options', 'zionbuilder' ),
 				'home-button-text' => esc_html__( 'Styling', 'zionbuilder' ),
 				'icon'             => 'border',
 				'label'            => [
@@ -286,6 +286,7 @@ class StyleOptions extends BaseSchema {
 					'pt',
 					'rem',
 					'vh',
+					'vw',
 					'%',
 					'auto',
 					'initial',
@@ -306,6 +307,7 @@ class StyleOptions extends BaseSchema {
 					'pt',
 					'rem',
 					'vh',
+					'vw',
 					'%',
 					'auto',
 					'initial',
@@ -327,6 +329,7 @@ class StyleOptions extends BaseSchema {
 					'pt',
 					'rem',
 					'vh',
+					'vw',
 					'%',
 					'auto',
 					'initial',

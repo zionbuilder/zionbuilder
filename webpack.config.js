@@ -58,6 +58,34 @@ packages.forEach(directory => {
 	}
 })
 
+// Normal packages
+const normalPackages = [
+	'animateJS'
+]
+normalPackages.forEach(directory => {
+	const folder = path.resolve('./packages', directory)
+	const webpackConfig = getWebpackConfig(folder)
+
+	if (webpackConfig) {
+		const packageWebpackConfig = require(webpackConfig)
+		const config = mergeConfigs(
+			packageWebpackConfig, {
+				entry: {
+					[directory]: packageWebpackConfig.entry
+				},
+				// Change context to package folder so that webpack knows where to look for files
+				context: folder,
+				// Export all packages to window.zb
+				output: {
+					filename: `js/${directory}.js`
+				}
+			}
+		)
+
+		configs.push(config)
+	}
+})
+
 // CSS
 const cssFiles = [
 	'frontend'

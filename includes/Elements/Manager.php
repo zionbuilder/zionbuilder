@@ -76,6 +76,7 @@ class Manager {
 			'Video/Video',
 			'Button/Button',
 			'Separator/Separator',
+			'Container/Container',
 		];
 
 		foreach ( $default_elements as $element_path ) {

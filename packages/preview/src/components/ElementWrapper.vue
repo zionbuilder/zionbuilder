@@ -27,7 +27,6 @@
 				v-model:is-toolbox-dragging="isToolboxDragging"
 			/>
 
-			<!-- ELEMENT VIDEO HERE -->
 			<VideoBackground
 				v-if="videoConfig"
 				:video-config="videoConfig"

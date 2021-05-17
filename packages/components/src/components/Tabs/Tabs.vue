@@ -1,9 +1,5 @@
 <script>
 import { computed, h, ref, watch, cloneVNode, Fragment, Comment } from 'vue'
-import { cloneDeep } from 'lodash-es'
-
-// Components
-import TabLink from './TabLink.vue'
 
 export default {
 	name: 'Tabs',

@@ -132,10 +132,21 @@ class BulkActions extends RestApiController {
 		if ( $element_instance ) {
 			ob_start();
 			$element_instance->server_render( $config );
+			$element_data = ob_get_clean();
+
+			global $wp_scripts, $wp_styles;
+
+			do_action( 'wp_enqueue_scripts' );
+
+			$scripts = $this->get_dependency_config( $wp_scripts );
+			$styles  = $this->get_dependency_config( $wp_styles );
+
+			$combined_scripts = array_merge( $scripts, $styles );
 
 			return rest_ensure_response(
 				[
-					'element' => ob_get_clean(),
+					'element' => $element_data,
+					'scripts' => $combined_scripts,
 				]
 			);
 		}
@@ -145,6 +156,96 @@ class BulkActions extends RestApiController {
 				'element' => '',
 			]
 		);
+	}
+
+	/**
+	 * Returns the script dependency configuration
+	 *
+	 * @param \WP_Scripts $manager
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function get_dependency_config( $manager ) {
+		$scripts = [];
+
+		// Set all scripts
+		$manager->all_deps( $manager->queue );
+		foreach ( $manager->to_do as $handle ) {
+			// Don't proceed if the script was not registered
+			if ( ! isset( $manager->registered[$handle] ) ) {
+				continue;
+			}
+
+			$obj = $manager->registered[$handle];
+			$src = $obj->src;
+
+			if ( $src ) {
+				$scripts[$handle] = $this->prepare_script_data( $handle, $obj, $manager );
+			}
+		}
+
+		return $scripts;
+	}
+
+	/**
+	 * Returns the scripts data
+	 *
+	 * @param string          $handle  The script id
+	 * @param \_WP_Dependency $obj
+	 * @param \WP_Scripts     $manager
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function prepare_script_data( $handle, $obj, $manager ) {
+		if ( null === $obj->ver ) {
+			$ver = '';
+		} else {
+			$ver = $obj->ver ? $obj->ver : get_bloginfo( 'version' );
+		}
+
+		if ( isset( $manager->args[$handle] ) ) {
+			$ver = $ver ? $ver . '&amp;' . $manager->args[$handle] : $manager->args[$handle];
+		}
+
+		return [
+			'handle' => $handle,
+			'src'    => $this->compile_script_url(
+				$handle,
+				$manager->registered[$handle]->src,
+				$manager->base_url,
+				$manager->content_url,
+				$ver
+			),
+
+			'data'   => $manager->get_data( $handle, 'data' ),
+			'before' => $manager->get_data( $handle, 'before' ),
+			'after'  => $manager->get_data( $handle, 'after' ),
+		];
+	}
+
+
+	/**
+	 * Returns the formatter script url
+	 *
+	 * @param string $handle      The script id/handle
+	 * @param string $src         The script relative URL
+	 * @param string $base_url    The script base URL
+	 * @param string $content_url The script base URL
+	 * @param string $ver         The script version
+	 *
+	 * @return string
+	 */
+	private function compile_script_url( $handle, $src, $base_url, $content_url, $ver ) {
+		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $content_url && 0 === strpos( $src, $content_url ) ) ) {
+			$src = $base_url . $src;
+		}
+
+		if ( ! empty( $ver ) ) {
+			$src = add_query_arg( 'ver', $ver, $src );
+		}
+
+		/* This filter is documented in wp-includes/class.wp-scripts.php */
+		return esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
 	}
 
 	public function parse_php( $php_code ) {

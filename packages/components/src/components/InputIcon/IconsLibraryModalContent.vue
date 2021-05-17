@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { useDataSets, IconPackGrid } from '@zb/components'
+import { useDataSets } from '@composables'
+import IconPackGrid from '../IconPackGrid.vue'
 
 export default {
 	name: 'IconsLibraryModalContent',

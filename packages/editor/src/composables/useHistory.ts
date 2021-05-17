@@ -72,10 +72,11 @@ export function useHistory() {
 			return
 		}
 
+		const { editorData } = useEditorData()
 		const { registerTemplatePart } = useTemplateParts()
 
 		const content = {
-			content: data.state.template_data
+			[editorData.value.page_id]: data.state.template_data
 		}
 
 		// New system

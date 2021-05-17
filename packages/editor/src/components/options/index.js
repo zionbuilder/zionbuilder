@@ -10,7 +10,6 @@ import PanelAccordion from './PanelAccordion'
 import ResponsiveGroup from './ResponsiveGroup'
 import Link from './Link'
 import ColumnSize from './ColumnSize'
-import IconLibrary from './IconLibrary'
 import WPWidget from './WPWidget'
 import Repeater from './Repeater'
 import TabGroup from './TabGroup'
@@ -36,7 +35,6 @@ export const registerEditorOptions = () => {
 
 	// register custom options
 	registerOption(AccordionMenu)
-	registerOption(IconLibrary)
 	registerOption(PseudoGroup)
 	registerOption(Background)
 	registerOption(BackgroundColor)

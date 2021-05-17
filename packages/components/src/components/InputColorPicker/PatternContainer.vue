@@ -7,9 +7,7 @@
 				:activeTab="activeTab"
 			>
 				<Tab name="Local">
-					<GridColor
-						@add-new-color="addLocalColor(model)"
-					>
+					<GridColor @add-new-color="addLocalColor(model)">
 						<span
 							v-for="(color,i) in localColorPatterns"
 							v-bind:key="i"
@@ -76,6 +74,7 @@ import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from '../Gradient/PresetInput.vue'
 import { Label } from '../Label'
+import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'PatternContainer',
@@ -97,12 +96,8 @@ export default {
 	setup (props) {
 		const formApi = inject('OptionsForm')
 		const getValueByPath = inject('getValueByPath')
-		const updateValueByPath = inject('updateValueByPath')
 		const schema = inject('schema')
 		const showPresetInput = ref(false)
-
-		// This should be provided by Apps that are using this component
-		const useBuilderOptions = inject('builderOptions')
 
 		const {
 			addLocalColor,
