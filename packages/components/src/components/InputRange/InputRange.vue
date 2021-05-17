@@ -26,8 +26,8 @@
 				@keyup="onKeyUp"
 				:min="min"
 				:max="max"
-				:step="localStep"
-				:shift_step="localStep"
+				:step="step"
+				:shift_step="shift_step"
 			>
 				<!-- @slot Content for units -->
 				<slot />
@@ -62,7 +62,7 @@ export default {
 		/**
 		 * Step when pressing shift key
 		 */
-		shiftStep: {
+		shift_step: {
 			type: Number,
 			required: false,
 			default: 10
@@ -110,7 +110,7 @@ export default {
 				/**
 				 * Emit input value when v-model
 				 */
-				this.$emit('update:modelValue', Number(newValue))
+				this.$emit('update:modelValue', parseFloat(newValue))
 			}
 		},
 		trackWidth () {
@@ -129,7 +129,7 @@ export default {
 	methods: {
 		onKeydown (event) {
 			if (event.shiftKey) {
-				this.localStep = this.shiftStep
+				this.localStep = this.shift_step
 			}
 		},
 		onKeyUp (event) {

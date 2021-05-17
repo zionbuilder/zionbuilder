@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { computed, ref, onBeforeUnmount } from 'vue'
 import BaseInput from '../BaseInput/BaseInput.vue'
 
 export default {
@@ -82,9 +83,111 @@ export default {
 			required: false
 		},
 	},
+	setup (props, { emit }) {
+		let shiftKey = ref(false)
+		let initialPosition = 0
+		let lastPosition = 0
+		let dragTreshold = 3
+		let canChangeValue = false
+
+		const model = computed({
+			get () {
+				return props.modelValue !== undefined ? props.modelValue : 0
+			},
+			set (newValue) {
+				// Check if minimum value is meet
+				if (props.min !== null && newValue < props.min) {
+					newValue = props.min
+				}
+
+				if (props.max !== null && (newValue > props.max)) {
+					newValue = props.max
+				}
+
+				if (newValue !== props.model) {
+					/**
+					 * Emits new value number
+					 */
+					emit('update:modelValue', parseFloat(newValue))
+				}
+			}
+		})
+
+		function reset () {
+			initialPosition = 0
+			lastPosition = 0
+			canChangeValue = false
+		}
+
+		function actNumberDrag (event) {
+			initialPosition = event.clientY
+
+			document.body.style.userSelect = 'none'
+
+			window.addEventListener('mousemove', dragNumber)
+			window.addEventListener('mouseup', deactivatedragNumber)
+			window.addEventListener('keyup', onKeyUp)
+		}
+
+		function onKeyDown (event) {
+			if (event.altKey) {
+				emit('linked-value')
+			}
+
+			shiftKey.value = event.shiftKey
+		}
+
+		function onKeyUp (event) {
+			emit('linked-value', false)
+		}
+
+		function deactivatedragNumber (event) {
+			document.body.style.userSelect = null
+			document.body.style.pointerEvents = null
+
+			window.removeEventListener('mousemove', dragNumber)
+			window.removeEventListener('mouseup', deactivatedragNumber)
+			window.removeEventListener('keyup', onKeyUp)
+
+			reset()
+		}
+
+		function dragNumber (event) {
+			const distance = initialPosition - event.clientY
+			const directionUp = event.pageY < lastPosition
+
+			if (Math.abs(distance) > dragTreshold) {
+				canChangeValue = true
+			}
+
+			if (canChangeValue && distance % 2 === 0) {
+				document.body.style.pointerEvents = 'none'
+
+				let increment = event.shiftKey ? props.shift_step : props.step
+				model.value = directionUp ? +(model.value + increment).toFixed(12) : +(model.value - increment).toFixed(12)
+
+				event.preventDefault()
+			}
+
+			lastPosition = event.clientY
+		}
+
+		onBeforeUnmount(() => {
+			deactivatedragNumber()
+		})
+
+		return {
+			shiftKey,
+			model,
+			actNumberDrag,
+			onKeyDown,
+			actNumberDrag,
+			deactivatedragNumber
+		}
+	},
+
 	data () {
 		return {
-			localValue: this.modelValue,
 			mouseDownPosition: {
 				left: 0,
 				top: 0
@@ -99,115 +202,7 @@ export default {
 			shiftDrag: false,
 			toTop: false,
 			directionReset: 0,
-			shiftDragHook: false,
 			shiftKey: false
-		}
-	},
-
-	computed: {
-		model: {
-			get () {
-				return this.modelValue !== undefined ? this.modelValue : null
-			},
-			set (newValue) {
-				// Check if minimum value is meet
-
-				if (this.min !== null && newValue < this.min) {
-					newValue = this.min
-				}
-
-				if (this.max !== null && (newValue > this.max)) {
-					newValue = this.max
-				}
-				if (newValue !== this.model) {
-					/**
-					 * Emits new value number
-					 */
-					this.$emit('update:modelValue', parseInt(newValue))
-				}
-			}
-		}
-	},
-	methods: {
-		actNumberDrag (event) {
-			this.mouseDownPosition.left = event.clientX
-			this.mouseDownPosition.top = event.clientY
-			this.directionSet = false
-			this.shiftDrag = false
-			this.shiftDragHook = false
-			document.body.style.userSelect = 'none'
-			window.addEventListener('mousemove', this.dragNumber)
-			window.addEventListener('mouseup', this.deactivatedragNumber)
-			window.addEventListener('keyup', this.onKeyUp)
-		},
-		onKeyDown (event) {
-			if (event.altKey) {
-				this.$emit('linked-value')
-			}
-			this.shiftKey = event.shiftKey
-		},
-		onKeyUp (event) {
-			this.$emit('linked-value', false)
-		},
-		deactivatedragNumber (event) {
-			document.body.style.userSelect = null
-			document.body.style.pointerEvents = null
-			window.removeEventListener('mousemove', this.dragNumber)
-			window.removeEventListener('mouseup', this.deactivatedragNumber)
-			window.removeEventListener('keyup', this.onKeyUp)
-		},
-		dragNumber (event) {
-			this.draggingPosition.left = event.clientX
-			this.draggingPosition.top = event.clientY
-			if (Math.abs(this.mouseDownPosition.top - this.draggingPosition.top) > this.dragTreshold) {
-				this.directionSet = true
-				document.body.style.pointerEvents = 'none'
-			}
-			if (event.pageY < this.directionReset) {
-				this.toTop = true
-			} else {
-				this.toTop = false
-			}
-			this.directionReset = event.pageY
-			this.shiftDrag = event.shiftKey
-			this.setDraggingValue(event)
-		},
-		setDraggingValue (event) {
-			let draggingValue = this.modelValue
-			if (this.directionSet) {
-				let dragged = this.mouseDownPosition.top - this.draggingPosition.top
-				const increment = this.toTop ? this.step : -this.step
-				let shiftIncrement = this.toTop ? this.shift_step : -this.shift_step
-				draggingValue = dragged % 2 === 0 ? (this.modelValue || 0) + increment : (this.modelValue || 0)
-
-				if (!this.shiftDrag) {
-					this.model = draggingValue
-					this.shiftDragHook = false
-				} else if (this.shiftDrag) {
-					if (!this.shiftDragHook) {
-						const divisibleValue = this.shift_step * Math.round(this.localValue / this.shift_step)
-						this.model = divisibleValue
-
-						this.shiftDragHook = event.shiftKey
-					} else {
-						this.model = dragged % this.shift_step === 0 ? (this.modelValue || 0) + shiftIncrement : (this.modelValue || 0)
-					}
-				}
-				if (this.min && draggingValue <= this.min) {
-					draggingValue = this.min
-				}
-				if (this.max && draggingValue >= this.max) {
-					draggingValue = this.max
-				}
-
-				this.localValue = draggingValue
-			}
-		},
-		beforeUnmount () {
-			this.deactivatedragNumber()
-		},
-		unmounted () {
-			window.removeEventListener('mousemove', this.dragNumber)
 		}
 	}
 }
