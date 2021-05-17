@@ -104,7 +104,7 @@ export default {
 		},
 		optionValue: {
 			get () {
-				return this.modelValue || this.min || 0
+				return typeof this.modelValue !== 'undefined' ? this.modelValue : this.min || 0
 			},
 			set (newValue) {
 				/**
