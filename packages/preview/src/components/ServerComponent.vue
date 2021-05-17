@@ -25,11 +25,12 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
-import { applyFilters, on, off } from '@zb/hooks'
+import { applyFilters, on, off, trigger } from '@zb/hooks'
 
 // Utils
 import { debounce } from '@zb/utils'
 import { useEditorData, serverRequest } from '@zb/editor'
+import { ScriptsLoader } from '../ScriptsLoader'
 
 export default {
 	name: 'ServerComponent',
@@ -90,6 +91,26 @@ export default {
 
 		const requester = serverRequest.createRequester()
 
+		function loadScripts (scripts) {
+			const { loadScript } = ScriptsLoader()
+
+			return new Promise((resolve, reject) => {
+				Object.keys(scripts).map(scriptHandle => {
+					// Script can sometimes be false
+					const scriptConfig = scripts[scriptHandle]
+
+					// Set the handle if it was not provided
+					scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle
+
+					if (scriptConfig.src) {
+						return loadScript(scriptConfig)
+					}
+				})
+
+				resolve()
+			})
+		}
+
 		function getElementFromServer () {
 			loading.value = true
 
@@ -99,15 +120,20 @@ export default {
 			}, (response) => {
 				// Send back the image
 				elementContent.value = response.data.element
-
 				setInnerHTML(elementContent.value)
-				loading.value = false
 
-				nextTick(() => {
-					checkForContentHeight()
+				loadScripts(response.data.scripts).then(() => {
+					loading.value = false
+
+					nextTick(() => {
+						checkForContentHeight()
+						trigger('zionbuilder/server_component/rendered', elementContentRef.value, props.element, props.options)
+					})
 				})
+
 			}, function (message) {
 				loading.value = false
+
 				// eslint-disable-next-line
 				console.log('server Request fail', message)
 			})
@@ -197,7 +223,7 @@ export default {
 		&:before, &:after {
 			@extend %loading;
 			box-sizing: border-box;
-			border: 2px solid rgba(220, 220, 220, 0.2);
+			border: 2px solid rgba(220, 220, 220, .2);
 		}
 
 		&:after {

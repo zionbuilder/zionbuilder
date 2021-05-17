@@ -95,6 +95,7 @@ export default {
 		 */
 		function deleteTopModelValueByPath (path) {
 			unset(topModelValue.value, path)
+			deleteNested(path, topModelValue.value)
 		}
 
 		/**

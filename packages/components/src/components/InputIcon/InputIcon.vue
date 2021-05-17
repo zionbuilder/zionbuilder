@@ -10,14 +10,14 @@
 				class="znpb-icon-options__delete"
 			>
 				<span
-					@click="showModal=true"
+					@click.passive.stop="showModal=true"
 					class="znpb-icon-preview"
 					:data-znpbiconfam="modelValue.family"
 					:data-znpbicon="unicode(modelValue.unicode)"
 				>
 				</span>
 				<Icon
-					@click="$emit('update:modelValue',null)"
+					@click.stop="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
 					bg-color="#fff"

@@ -248,6 +248,16 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 
 ## Changelog ##
+## 2.4.0 2021-05-14 ##
+* Added container element
+* Fixed undo/redo not working from history panel
+* Fixed discard changes for repeater option shows console error
+* Fixed animation delay not working properly
+* Fixed icon option placed in a modal window closes modal when the icon is deleted
+* Improved builder assets generation and loading order
+* Added code action for server component render
+* Various small code fixes
+
 ### 2.2.0 2021-04-12 ###
 * Varsious overall builder speed improvements
 * All elements that reqiures data from server are now grouped in a single server call
