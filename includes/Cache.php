@@ -103,7 +103,7 @@ class Cache {
 		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), [], Plugin::instance()->get_version(), true );
 
 		// Animate JS
-		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJs.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJS.js' ), [], Plugin::instance()->get_version(), true );
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
 	}
 
