@@ -374,6 +374,12 @@ export default {
 	overflow: hidden;
 }
 
+#znpb-html-app, #znpb-html-app body {
+	width: 100%;
+	height: 100%;
+	margin: 0 !important;
+}
+
 .znpb-right-area {
 	.znpb-editor-header {
 		flex-direction: column;

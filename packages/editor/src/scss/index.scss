@@ -8,7 +8,8 @@
 #znpb-app {
 	height: 100%;
 }
-html, body, .znpb-main-wrapper {
+
+.znpb-main-wrapper {
 	width: 100%;
 	height: 100%;
 	margin: 0 !important;
@@ -28,11 +29,19 @@ body * {
 	font-size: 13px;
 	line-height: 1;
 
-	a, a:hover, a:focus, a:visited {
+	a,
+	a:hover,
+	a:focus,
+	a:visited {
 		text-decoration: none;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		margin: 0;
 		line-height: 1;
 	}
@@ -63,7 +72,8 @@ body * {
 		-webkit-appearance: none;
 	}
 
-	b, strong {
+	b,
+	strong {
 		font-weight: 700;
 	}
 
@@ -83,7 +93,8 @@ body * {
 	}
 }
 
-.znpb-main-wrapper, .znpb-main-wrapper * {
+.znpb-main-wrapper,
+.znpb-main-wrapper * {
 	box-sizing: border-box;
 }
 
@@ -109,6 +120,7 @@ body * {
 	display: inline-flex;
 	cursor: pointer;
 }
+
 .znpb-utility__cursor--pointer {
 	cursor: pointer;
 }
