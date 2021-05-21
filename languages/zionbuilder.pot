@@ -2028,7 +2028,7 @@ msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:267
+#: ../includes/Editor/Editor.php:262
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -2064,7 +2064,7 @@ msgstr ""
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
 msgstr ""
 
-#: ../includes/Post/BasePostType.php:512
+#: ../includes/Post/BasePostType.php:511
 msgid "Cannot create autosave for post"
 msgstr ""
 

@@ -52,11 +52,6 @@ class Editor {
 	 * @return void
 	 */
 	public function init() {
-		// Verify nonce
-		if ( ! Nonces::verify_nonce( Nonces::ACTIVE_EDITOR ) ) {
-			return;
-		}
-
 		// Get the post id
 		$post_id = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : false; // phpcs:ignore WordPress.Security.NonceVerification
 
