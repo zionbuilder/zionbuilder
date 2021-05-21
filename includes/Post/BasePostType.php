@@ -213,9 +213,8 @@ class BasePostType {
 	public function get_edit_url() {
 		$url = add_query_arg(
 			[
-				'post_id'              => absint( $this->get_post_id() ),
-				'action'               => 'zion_builder_active',
-				Nonces::NONCE_FIELD_ID => Nonces::generate_nonce( Nonces::ACTIVE_EDITOR ),
+				'post_id' => absint( $this->get_post_id() ),
+				'action'  => 'zion_builder_active',
 			],
 			admin_url( 'post.php' )
 		);
