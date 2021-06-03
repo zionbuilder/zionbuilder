@@ -96,7 +96,7 @@ class BulkActions extends RestApiController {
 		$post_id  = apply_filters( 'zionbuilder/rest/bulk_actions/post_id', $request->get_param( 'post_id' ), $request );
 		$response = [];
 
-		do_action( 'zionbuilder/rest/bulk_actions/get_items', $request );
+		do_action( 'zionbuilder/rest/bulk_actions/before_get_items', $request );
 
 		$registered_actions = $this->get_bulk_actions();
 
@@ -115,6 +115,8 @@ class BulkActions extends RestApiController {
 				}
 			}
 		}
+
+		do_action( 'zionbuilder/rest/bulk_actions/after_get_items', $request );
 
 		return rest_ensure_response( $response );
 	}
