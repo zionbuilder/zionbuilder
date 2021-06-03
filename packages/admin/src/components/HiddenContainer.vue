@@ -11,7 +11,7 @@
 			class="znpb-admin-hidden-select__content"
 		>
 			<transition name="fadeGrow">
-				<div class="znpb-admin-hidden-select__content-slot">
+				<div class="znpb-admin-hidden-select__content-slot znpb-fancy-scrollbar">
 					<slot name="content"></slot>
 				</div>
 			</transition>
@@ -58,6 +58,7 @@ export default {
 			transform: translateY(-50%);
 
 			&-slot {
+				max-height: 230px;
 				padding: 16px;
 				background: $surface;
 				box-shadow: 0 0 5px 2px rgba(0, 0, 0, .05);
@@ -79,8 +80,8 @@ export default {
 			cursor: pointer;
 
 			@media (max-width: 767px) {
-				white-space: normal;
 				line-height: 1.6;
+				white-space: normal;
 			}
 		}
 	}
