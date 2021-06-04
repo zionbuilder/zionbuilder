@@ -56,10 +56,10 @@ export default {
 			const config = this.options ? {
 				arrows: this.options.arrows,
 				pagination: this.options.dots,
+				slides_to_show: this.options.slides_to_show,
 				rawConfig: {
 					observer: true,
 					loop: this.options.infinite,
-					slidesPerView: this.options.slides_to_show,
 					slidesPerGroup: this.options.slides_to_scroll
 				}
 			} : {}
