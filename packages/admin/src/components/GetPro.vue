@@ -100,4 +100,8 @@ export default {
 		text-transform: uppercase;
 	}
 }
+
+#adminmenu div.wp-menu-image > img {
+    max-width: 16px;
+}
 </style>
