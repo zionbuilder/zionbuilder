@@ -126,7 +126,7 @@ class ImageSlider extends Element {
 			[
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'title'   => esc_html__( 'Infinte', 'zionbuilder' ),
+				'title'   => esc_html__( 'Infinite', 'zionbuilder' ),
 				'layout'  => 'inline',
 			]
 		);
