@@ -2064,7 +2064,7 @@ msgstr ""
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
 msgstr ""
 
-#: ../includes/Post/BasePostType.php:511
+#: ../includes/Post/BasePostType.php:515
 msgid "Cannot create autosave for post"
 msgstr ""
 
