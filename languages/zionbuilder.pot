@@ -3357,7 +3357,7 @@ msgid "Show dots"
 msgstr ""
 
 #: ../includes/Elements/ImageSlider/ImageSlider.php:129
-msgid "Infinte"
+msgid "Infinite"
 msgstr ""
 
 #: ../includes/Elements/ImageSlider/ImageSlider.php:139
