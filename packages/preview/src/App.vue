@@ -41,9 +41,7 @@ export default {
 		const { getSchema } = useOptionsSchemas()
 		const { CSSClasses } = useCSSClasses()
 		const { isPreviewMode } = usePreviewMode()
-		const { setPreviewLoading } = usePreviewLoading()
 		const { pageSettings } = usePageSettings()
-		const { removeWindow } = useWindows()
 
 		const element = computed(() => getElement(editorData.value.page_id))
 		const showExportModal = ref(false)
@@ -67,7 +65,6 @@ export default {
 		const previewAppClasses = computed(() => {
 			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes)
 		})
-
 
 		return {
 			element,
