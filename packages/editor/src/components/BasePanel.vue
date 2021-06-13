@@ -10,7 +10,7 @@
 		<div
 			class="znpb-panel__header"
 			v-if="showHeader"
-			@mousedown.self="startDrag"
+			@mousedown.self="onMouseDown"
 			@mouseup.self="disablePanelMove"
 			ref="panelHeader"
 		>
@@ -208,7 +208,7 @@ export default {
 			const cssStyles = {
 				'min-width': panel.width.value + panel.width.unit,
 				width: panel.width.value + panel.width.unit,
-				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '99.9%' : panel.height.value + panel.height.unit,
+				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '100%' : panel.height.value + panel.height.unit,
 				top: (!this.isDragging && panel.isDetached) ? this.position.posY + this.unit : null,
 				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : this.isDragging && this.isRtl ? 0 : null,
 				position: panel.isDetached ? 'fixed' : 'relative',
@@ -238,106 +238,124 @@ export default {
 			}
 		},
 
-		startDrag (event) {
+		onMouseDown (event) {
 			this.$refs.panelContainer.style.pointerEvents = 'none'
-			this.panel.set('isDragging', true)
+
 			window.addEventListener('mousemove', this.movePanel)
 			window.addEventListener('mouseup', this.disablePanelMove)
-			this.iFrame.set('pointerEvents', true)
+
 			this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
 			this.lastPositionX = this.panelOffset.left
 			this.lastPositionY = this.panelOffset.top
 			this.position.posX = this.panelOffset.left
 			this.position.posY = this.panelOffset.top
-
 			this.position.toPanelRight = this.panelOffset.right - event.clientX
 			this.position.toPanelLeft = event.clientX - this.panelOffset.left
 
-			this.isDragging = true
-
-			this.panel.set('isDetached', true)
-			this.userSel = 'none'
+			// Allow dragging over the iframe
+			this.iFrame.set('pointerEvents', true)
 
 			this.initialPosition = {
 				posX: event.clientX,
 				posY: event.clientY
 			}
 		},
-		movePanel (event) {
-			let target = null
-			let order = null
-			let left = null
-			let visibility = null
-			let closest = null
-			this.touchesTop = event.clientY < 10
-			this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
-			this.position.posX = this.lastPositionX + event.pageX - this.initialPosition.posX
-			this.position.posY = this.lastPositionY + event.pageY - this.initialPosition.posY
-			const touchesRight = event.clientX + this.position.toPanelRight > window.innerWidth - 10 - (this.getMainbarPosition() === 'right' ? 60 : 0)
-			const touchesLeft = event.clientX - this.position.toPanelLeft < (this.getMainbarPosition() === 'left' ? 60 : 10)
 
-			if (document.elementFromPoint(event.clientX, event.clientY)) {
-				target = document.elementFromPoint(event.clientX, event.clientY)
-				if (target) {
-					closest = target.closest([...this.selectors])
-				}
-				if (closest) {
-					const overlappedPanelId = closest.id
-					const idProps = this.getPanel(overlappedPanelId)
-					if (idProps && !idProps.isDetached) {
-						const domElement = document.getElementById(overlappedPanelId)
-						if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
-							order = idProps.panelPos + 1
-							this.placement = 'after'
-							left = domElement.offsetLeft + idProps.width.value - (Math.max(...this.orders) === idProps.panelPos && this.getMainbarPosition() === 'right' ? 5 : 0)
+		allowMoving () {
+			// Start dragging
+			this.panel.set('isDragging', true)
+			this.panel.set('isDetached', true)
+			this.isDragging = true
+			this.userSel = 'none'
+			this.deactivateSelection()
+		},
+
+		movePanel (event) {
+			if (this.isDragging) {
+				let target = null
+				let order = null
+				let left = null
+				let visibility = null
+				let closest = null
+				this.touchesTop = event.clientY < 10
+				this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
+				this.position.posX = this.lastPositionX + event.pageX - this.initialPosition.posX
+				this.position.posY = this.lastPositionY + event.pageY - this.initialPosition.posY
+				const touchesRight = event.clientX + this.position.toPanelRight > window.innerWidth - 10 - (this.getMainbarPosition() === 'right' ? 60 : 0)
+				const touchesLeft = event.clientX - this.position.toPanelLeft < (this.getMainbarPosition() === 'left' ? 60 : 10)
+
+				if (document.elementFromPoint(event.clientX, event.clientY)) {
+					target = document.elementFromPoint(event.clientX, event.clientY)
+					if (target) {
+						closest = target.closest([...this.selectors])
+					}
+					if (closest) {
+						const overlappedPanelId = closest.id
+						const idProps = this.getPanel(overlappedPanelId)
+						if (idProps && !idProps.isDetached) {
+							const domElement = document.getElementById(overlappedPanelId)
+							if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
+								order = idProps.panelPos + 1
+								this.placement = 'after'
+								left = domElement.offsetLeft + idProps.width.value - (Math.max(...this.orders) === idProps.panelPos && this.getMainbarPosition() === 'right' ? 5 : 0)
+							}
+							if (event.clientX > domElement.offsetLeft && event.clientX < domElement.offsetLeft + idProps.width.value / 2) {
+								order = idProps.panelPos
+								this.placement = 'before'
+								left = domElement.offsetLeft
+							}
+							visibility = true
 						}
-						if (event.clientX > domElement.offsetLeft && event.clientX < domElement.offsetLeft + idProps.width.value / 2) {
-							order = idProps.panelPos
-							this.placement = 'before'
-							left = domElement.offsetLeft
+					} else {
+						visibility = false
+					}
+
+					if (touchesLeft) {
+						visibility = true
+						order = Math.min(...this.orders) - 1
+						if (this.getMainbarPosition() === 'left') {
+							left = 60
+						}
+					} else if (touchesRight) {
+						left = window.innerWidth - 5
+						if (this.getMainbarPosition() === 'right') {
+							left = window.innerWidth - 65
+						} else {
+							left = window.innerWidth - 5
 						}
 						visibility = true
+						order = Math.max(...this.orders) + 1
 					}
-				} else {
-					visibility = false
+					if (left >= window.innerWidth) {
+						left -= 5
+					}
+					this.setPanelPlaceholder({
+						visibility,
+						order,
+						left
+					})
 				}
 
-				if (touchesLeft) {
-					visibility = true
-					order = Math.min(...this.orders) - 1
-					if (this.getMainbarPosition() === 'left') {
-						left = 60
-					}
-				} else if (touchesRight) {
-					left = window.innerWidth - 5
-					if (this.getMainbarPosition() === 'right') {
-						left = window.innerWidth - 65
-					} else {
-						left = window.innerWidth - 5
-					}
-					visibility = true
-					order = Math.max(...this.orders) + 1
-				}
-				if (left >= window.innerWidth) {
-					left -= 5
-				}
-				this.setPanelPlaceholder({
-					visibility,
-					order,
-					left
-				})
-			}
+				const maxBottom = window.innerHeight - this.panelOffset.height
+				let newTop = this.position.posY < 0 ? 0 : this.position.posY
+				this.position.posY = newTop > maxBottom ? maxBottom : newTop
 
-			const maxBottom = window.innerHeight - this.panelOffset.height
-			let newTop = this.position.posY < 0 ? 0 : this.position.posY
-			this.position.posY = newTop > maxBottom ? maxBottom : newTop
+				const maxLeft = window.innerWidth - this.panelOffset.width
+				const minLeft = 0
+				if (this.position.posX <= minLeft) {
+					this.position.posX = 0
+				} else if (this.position.posX > maxLeft) {
+					this.position.posX = maxLeft
+				}
+			} else {
+				const xMoved = Math.abs(this.initialPosition.posX - event.pageX)
+				const yMoved = Math.abs(this.initialPosition.posY - event.pageY)
+				const dragThreshold = 5
 
-			const maxLeft = window.innerWidth - this.panelOffset.width
-			const minLeft = 0
-			if (this.position.posX <= minLeft) {
-				this.position.posX = 0
-			} else if (this.position.posX > maxLeft) {
-				this.position.posX = maxLeft
+				// Check if we should detach the panel
+				if (xMoved > dragThreshold || yMoved > dragThreshold) {
+					this.allowMoving()
+				}
 			}
 		},
 		setOrderAndPlaceholder (order, visibility, placement) {
@@ -403,6 +421,8 @@ export default {
 				...this.panelPlaceholder,
 				visibility: false
 			})
+
+			this.resetSelection()
 		},
 
 		deactivateSelection () {
@@ -480,6 +500,10 @@ export default {
 	background: $surface;
 	&--attached {
 		height: 100%;
+
+		& .znpb-editor-panel__resize--vertical {
+			bottom: 0;
+		}
 	}
 	&:after {
 		clear: both;

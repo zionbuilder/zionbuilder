@@ -114,6 +114,8 @@ export default defineComponent({
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
 					behavior: "smooth",
+					inline: "nearest",
+					block: "nearest",
 				});
 			}
 		}
