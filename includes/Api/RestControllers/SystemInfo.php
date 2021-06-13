@@ -371,7 +371,7 @@ class SystemInfo extends RestApiController {
 		if ( wp_convert_hr_to_bytes( WP_MEMORY_LIMIT ) < wp_convert_hr_to_bytes( $recommended_memory ) ) {
 			$info['message'] = sprintf(
 				/* translators: 1: recommended memory, 2: Codex URL with details regarding how you can increase memory limit */
-				_x( 'We recommend setting memory to at least %1$s. For more information, read about <a href="%2$s">how to Increase memory allocated to PHP</a>.', 'System Info', 'zionbuilder' ),
+				_x( 'We recommend setting memory to at least %1$s. For more information, read about <a target="_blank" href="%2$s">how to Increase memory allocated to PHP</a>.', 'System Info', 'zionbuilder' ),
 				$recommended_memory,
 				'https://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP'
 			);
@@ -431,7 +431,7 @@ class SystemInfo extends RestApiController {
 			$info['icon']    = 'warning';
 			$info['message'] = sprintf(
 				/* translators: %s: Codex URL with child theme information */
-				_x( 'If you want to modify the source code of your theme, we recommend using a <a href="%s">child theme</a>.', 'System Info', 'zionbuilder' ),
+				_x( 'If you want to modify the source code of your theme, we recommend using a <a target="_blank" href="%s">child theme</a>.', 'System Info', 'zionbuilder' ),
 				'https://developer.wordpress.org/themes/advanced-topics/child-themes/'
 			);
 		}
