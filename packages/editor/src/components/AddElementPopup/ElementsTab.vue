@@ -20,29 +20,33 @@
 			/>
 		</div>
 
-		<div class="znpb-fancy-scrollbar">
-			<div class="znpb-wrapper-category">
-				<template v-if="computedRuleCategories.length">
-					<ElementList
-						v-for="(category,i) in computedRuleCategories"
-						:key="i"
-						:elements="getElements(category.id)"
-						:element="element"
-						:category="category.name"
-						@add-element="onAddElement"
-					/>
-				</template>
-				<div v-if="!elementsAreFound">{{$translate('no_elements_found')}}</div>
+		<div
+			class="znpb-fancy-scrollbar znpb-wrapper-category"
+			ref="categoriesWrapper"
+			@scroll.prevent=""
+		>
+			<template v-if="computedRuleCategories.length">
+				<ElementList
+					v-for="(category,i) in computedRuleCategories"
+					:key="i"
+					:elements="getElements(category.id)"
+					:element="element"
+					:category="category.name"
+					@add-element="onAddElement"
+				/>
+			</template>
 
-			</div>
+			<div
+				style="text-align:center;"
+				v-if="!elementsAreFound"
+			>{{$translate('no_elements_found')}}</div>
 		</div>
 	</div>
 </template>
 <script>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 
 import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData } from '@composables'
-import { on, off } from '@zb/hooks'
 
 // Components
 import ElementList from './ElementList.vue'
@@ -64,6 +68,7 @@ export default {
 		const { editorData } = useEditorData()
 		// Refs
 		const foundElements = ref([])
+		const categoriesWrapper = ref(false)
 
 		const localSearchKeyword = ref(null)
 		const computedSearchKeyword = computed(
@@ -135,11 +140,9 @@ export default {
 			const keyword = computedSearchKeyword.value
 
 			// Check if we have a specific category selected
-
 			elements = elements.filter((element) => {
 				return element.category.includes(category)
 			})
-
 
 			// Check if we have a keyword
 			if (keyword.length > 0) {
@@ -154,8 +157,20 @@ export default {
 				})
 			}
 			foundElements.value.push(elements.length)
+
 			return elements
 		}
+
+		watch(foundElements, () => {
+			if (categoriesWrapper.value) {
+				nextTick(() => {
+					console.log(categoriesWrapper.value.scrollTop);
+					console.log(categoriesWrapper.value);
+					categoriesWrapper.value.scrollTop = 0
+					console.log(categoriesWrapper.value.scrollTop);
+				})
+			}
+		})
 
 		// Lifecycle
 		onMounted(() => {
@@ -179,6 +194,7 @@ export default {
 			computedSearchKeyword,
 			categoryValue,
 			searchInputEl,
+			categoriesWrapper,
 			// Computed
 			computedRuleCategories,
 			// Methods
@@ -226,8 +242,7 @@ export default {
 		}
 	}
 
-	.zion-input input,
-	.zion-input input::placeholder {
+	.zion-input input, .zion-input input::placeholder {
 		color: $surface-headings-color;
 	}
 
@@ -268,7 +283,6 @@ export default {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
 		margin-bottom: 20px;
-
 		// margin-left: 10px;
 		background: transparent;
 	}

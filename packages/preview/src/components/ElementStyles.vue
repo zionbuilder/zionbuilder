@@ -2,7 +2,6 @@
 import { h } from 'vue'
 
 export default {
-	functional: true,
 	name: 'ElementStyles',
 	props: {
 		styles: {
