@@ -28,6 +28,7 @@ export class Element {
 	public widgetID: string = ''
 	public callbacks: {} = {}
 	public loading: boolean = false
+	public treeViewItemExpanded: boolean = false
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
