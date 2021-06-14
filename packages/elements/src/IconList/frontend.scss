@@ -5,9 +5,11 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
+
 	&.-layout--column {
 		flex-direction: column;
 	}
+
 	&__item {
 		display: flex;
 		justify-content: flex-start;
@@ -20,9 +22,10 @@
 			justify-content: center;
 			align-items: center;
 			margin-right: 10px;
-			color: $secondary;
+			color: #006dd2;
 			font-size: 18px;
 			line-height: 1;
+
 			&:before {
 				width: 1em;
 				height: 1em;
@@ -33,6 +36,7 @@
 		&--iconLeft .zb-el-iconList__item {
 			flex-direction: row;
 		}
+
 		&--iconRight {
 			.zb-el-iconList__item {
 				flex-direction: row-reverse;
@@ -43,6 +47,7 @@
 				margin-left: 10px;
 			}
 		}
+
 		&--iconTop {
 			.zb-el-iconList__item {
 				flex-direction: column;
@@ -52,6 +57,7 @@
 				margin: 0;
 			}
 		}
+
 		&--iconBottom {
 			.zb-el-iconList__item {
 				flex-direction: column-reverse;

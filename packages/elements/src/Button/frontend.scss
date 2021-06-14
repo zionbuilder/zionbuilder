@@ -83,12 +83,12 @@ $styleprimary: #06bee1;
 	color: $stylewhite;
 	line-height: 1;
 	text-decoration: none;
-	background-color: $secondary;
+	background-color: #006dd2;
 	border-radius: 3px;
 
 	&--icon-black {
 		color: $stylewhite;
-		background-color: $black;
+		background-color: #000;
 	}
 
 	&--icon-dark {
@@ -127,7 +127,7 @@ $styleprimary: #06bee1;
 	}
 
 	&--icon-link {
-		color: $secondary;
+		color: #006dd2;
 		background: none;
 	}
 
@@ -169,32 +169,35 @@ $styleprimary: #06bee1;
 		width: 100%;
 	}
 }
+
 @mixin generate-position() {
-	$breakpoints: (
-	lg: "991.98px",
+	$breakpoints: (lg: "991.98px",
 	md: "767.98px",
 	sm: "575.98px",
 	);
 
 
 	// Generate css for all media queries
-	@each $breakpointId, $breakpointValue in $breakpoints {
+	@each $breakpointId,
+	$breakpointValue in $breakpoints {
 		$suffix: "--#{$breakpointId}";
-		$pos: ("--align--left","--align--right", "--align--center");
+		$pos: ("--align--left", "--align--right", "--align--center");
 
 		@media (max-width: $breakpointValue) {
 			@each $posId in $pos {
-				@if ($posId  == "--align--center") {
+				@if ($posId=="--align--center") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: center;
 					}
 				}
-				@if ($posId  == "--align--left") {
+
+				@if ($posId=="--align--left") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-start;
 					}
 				}
-				@if ($posId  == "--align--right") {
+
+				@if ($posId=="--align--right") {
 					.zb-el-zionButton#{$suffix}#{$posId} {
 						justify-content: flex-end;
 					}
@@ -203,4 +206,5 @@ $styleprimary: #06bee1;
 		}
 	}
 }
+
 @include generate-position();
