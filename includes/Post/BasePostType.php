@@ -442,7 +442,7 @@ class BasePostType {
 		$is_autosave = $this->is_autosave();
 
 		if ( $is_autosave ) {
-
+			$post_data['page_settings']['post_status'] = 'inherit';
 		} elseif ( $post_data['page_settings']['post_status'] === 'inherit' ) {
 			// If this is not an autosave, we need to set the proper status for the post
 			$post_data['page_settings']['post_status'] = get_post_status( $post_id );
