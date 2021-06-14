@@ -2,23 +2,23 @@
 	position: relative;
 	padding: 20px 40px 20px 25px;
 	color: #fff;
-	background-color: $info;
+	background-color: #2ea1f8;
 	border-radius: 3px;
 
 	&--success {
-		background-color: $success;
+		background-color: #28a745;
 	}
 
 	&--warning {
-		background-color: $warning;
+		background-color: #eec643;
 	}
 
 	&--danger {
-		background-color: $error;
+		background-color: #e84655;
 	}
 
 	&--info {
-		background-color: $info;
+		background-color: #2ea1f8;
 	}
 }
 

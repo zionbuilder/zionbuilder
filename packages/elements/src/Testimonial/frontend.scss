@@ -23,7 +23,7 @@
 		}
 
 		&-description {
-			color: $secondary-text-gray;
+			color: #c4c4c4;
 			font-size: 14px;
 		}
 	}
@@ -39,7 +39,7 @@
 	}
 
 	&-content {
-		color: $secondary-text-gray;
+		color: #c4c4c4;
 
 		& p:last-child {
 			margin-bottom: 0;
@@ -63,27 +63,33 @@
 		.zb-el-testimonial__user {
 			flex-direction: row-reverse;
 		}
+
 		.zb-el-testimonial__userImage {
 			margin-right: 0;
 			margin-left: 15px;
 		}
 	}
+
 	&.-position--left {
 		.zb-el-testimonial__user {
 			flex-direction: row;
 		}
 	}
+
 	&.-align--right {
 		text-align: right;
+
 		.zb-el-testimonial__user {
 			justify-content: flex-end;
 		}
+
 		&.-position--right {
 			.zb-el-testimonial__user {
 				justify-content: flex-start;
 			}
 		}
 	}
+
 	&.-align--center {
 		text-align: center;
 
@@ -91,6 +97,7 @@
 			justify-content: center;
 		}
 	}
+
 	&.-align--left {
 		text-align: left;
 

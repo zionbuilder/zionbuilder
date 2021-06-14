@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "./utils/media.scss";
 $columns: 12;
 
@@ -8,16 +10,16 @@ $columns: 12;
 	flex-grow: 0;
 	flex-shrink: 0;
 	width: 100%;
-	max-width: math-percentage(math-div($size, $columns));
+	max-width: percentage(math.div($size, $columns));
 }
 
 @mixin generate-offset($size, $columns: 12) {
 	@if $size==0 {
-		margin-left: math-percentage(0);
+		margin-left: 0;
 	}
 
 	@else {
-		margin-left: math-percentage(math-div($size, $columns));
+		margin-left: percentage(math.div($size, $columns));
 	}
 }
 

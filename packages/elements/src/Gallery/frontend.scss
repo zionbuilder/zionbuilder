@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .zb-el-gallery {
 	display: flex;
 	flex-wrap: wrap;
@@ -47,7 +49,7 @@
 
 		@media (max-width: $breakpointValue) {
 			@for $size from 1 through $columns {
-				$percentage: math-div(100, $size);
+				$percentage: math.div(100, $size);
 
 				.zb-el-gallery-columns#{$suffix}--#{$size} {
 					.zb-el-gallery-item {
