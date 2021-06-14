@@ -60,7 +60,6 @@
 </template>
 <script>
 import { computed, inject, nextTick } from 'vue'
-import { useAdminData } from '@zionbuilder/composables'
 
 // Components
 import GradientPreview from './GradientPreview.vue'
@@ -98,7 +97,6 @@ export default {
 		const updateValueByPath = inject('updateValueByPath')
 
 		const schema = inject('schema')
-		const { adminData } = useAdminData()
 
 		// This should be provided by Apps that are using this component
 		const useBuilderOptions = inject('builderOptions')

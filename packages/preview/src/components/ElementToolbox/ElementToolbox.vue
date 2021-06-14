@@ -476,6 +476,11 @@ export default {
 		changeSize (event) {
 			const { clientX, clientY } = event
 
+			// Don't proceed if the mouse is already up
+			if (!this.activeDragPosition) {
+				return
+			}
+
 			let newValue = null
 			const property = this.getSizeChangePropertyFromPosition(this.activeDragPosition)
 			const direction = this.dragDimension === 'vertical' ? 'vertical' : 'horizontal'

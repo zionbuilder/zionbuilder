@@ -296,14 +296,12 @@ export default {
 				{
 					title: this.$translate('back_to_wp_dashboard'),
 					url: this.urls.edit_page,
-					action: this.helpMenuClick,
-					target: '_blank'
+					action: this.helpMenuClick
 				},
 				{
 					title: this.$translate('back_to_zion_dashboard'),
 					url: this.urls.zion_admin,
-					action: this.helpMenuClick,
-					target: '_blank'
+					action: this.helpMenuClick
 				},
 				{
 					title: this.$translate('view_post'),

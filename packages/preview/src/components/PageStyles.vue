@@ -6,7 +6,6 @@ import { getCssFromSelector } from '@zb/utils'
 import { h } from 'vue'
 
 export default {
-	functional: true,
 	name: 'PageStyles',
 	props: {
 		cssClasses: {

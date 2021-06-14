@@ -7,6 +7,7 @@
 		@mouseout.stop="element.unHighlight"
 		@click.stop.left="onItemClick"
 		@contextmenu.stop.prevent="showElementMenu"
+		ref="listItem"
 	>
 		<div
 			class="znpb-tree-view__item-header"
@@ -16,9 +17,9 @@
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
 				:class="{
-					'znpb-tree-view__item-header-expand--expanded': expanded
+					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded
 				}"
-				@click.stop="expanded = !expanded"
+				@click.stop="element.treeViewItemExpanded = !element.treeViewItemExpanded"
 				v-if="element.isWrapper"
 			/>
 
@@ -70,15 +71,14 @@
 			</div>
 		</div>
 		<TreeViewList
-			v-if="expanded"
+			v-if="element.treeViewItemExpanded"
 			:element="element"
 		/>
 	</li>
 </template>
 
 <script lang="ts">
-import { ref, PropType, defineComponent, computed } from "vue";
-import { on } from "@zb/hooks";
+import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
 import { Element, useElementTypes } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
@@ -87,31 +87,53 @@ export default defineComponent({
 		element: Object as PropType<Element>,
 	},
 	setup(props) {
-		const {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-		} = useTreeViewItem(props);
+		const listItem: Ref = ref(null);
+		const { showElementMenu, elementOptionsRef, isActiveItem } =
+			useTreeViewItem(props);
 
 		const { getElementIcon, getElementImage } = useElementTypes();
 
 		const get_element_image = getElementImage(props.element.element_type);
 		const get_element_icon = getElementIcon(props.element.element_type);
 
-		const expanded = ref(false);
 		const onItemClick = () => {
 			props.element.focus;
 			props.element.scrollTo = true;
 		};
 
+		watch(
+			() => isActiveItem.value,
+			(newValue) => {
+				if (newValue) {
+					scrollToItem();
+				}
+			}
+		);
+
+		function scrollToItem() {
+			if (listItem.value) {
+				listItem.value.scrollIntoView({
+					behavior: "smooth",
+					inline: "nearest",
+					block: "nearest",
+				});
+			}
+		}
+
+		onMounted(() => {
+			if (isActiveItem.value) {
+				scrollToItem();
+			}
+		});
+
 		return {
-			expanded,
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
 			onItemClick,
 			get_element_image,
 			get_element_icon,
+			listItem,
 		};
 	},
 });

@@ -3,6 +3,7 @@
 		v-if="data.message"
 		placement="top"
 		class="znpb-admin-system-notice-wrapper"
+		:close-delay="150"
 	>
 		<template v-slot:content>
 			<div v-html="data.message"></div>

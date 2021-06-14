@@ -88,8 +88,17 @@ export function useElementActions() {
 			element = getElement(element)
 		}
 
-		focusedElement.value = element
+		// Expand parents
+		if (element) {
+			let currentElement = element.parent
+			while (currentElement.parent) {
+				currentElement.treeViewItemExpanded = true
+				currentElement = currentElement.parent
+			}
 
+		}
+
+		focusedElement.value = element
 	}
 
 	const unFocusElement = () => {

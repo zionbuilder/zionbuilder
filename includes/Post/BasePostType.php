@@ -442,9 +442,10 @@ class BasePostType {
 		$is_autosave = $this->is_autosave();
 
 		if ( $is_autosave ) {
-			// WP autosaves have the inherit post status
-			// This is mandatory for the autosave system to work
 			$post_data['page_settings']['post_status'] = 'inherit';
+		} elseif ( $post_data['page_settings']['post_status'] === 'inherit' ) {
+			// If this is not an autosave, we need to set the proper status for the post
+			$post_data['page_settings']['post_status'] = get_post_status( $post_id );
 		}
 
 		// hold the new post data
@@ -504,6 +505,9 @@ class BasePostType {
 	protected function save_autosave( $post_data = [] ) {
 		$autosave = $this->get_autosave();
 		if ( $autosave ) {
+			// WP autosaves have the inherit post status
+			// This is mandatory for the autosave system to work
+			$post_data['page_settings']['post_status'] = 'inherit';
 			$autosave->save_current_post( $post_data );
 			return true;
 		}

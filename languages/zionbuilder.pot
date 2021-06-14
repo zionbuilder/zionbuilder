@@ -2064,7 +2064,7 @@ msgstr ""
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
 msgstr ""
 
-#: ../includes/Post/BasePostType.php:511
+#: ../includes/Post/BasePostType.php:515
 msgid "Cannot create autosave for post"
 msgstr ""
 
@@ -2347,7 +2347,7 @@ msgstr ""
 #. translators: 1: recommended memory, 2: Codex URL with details regarding how you can increase memory limit
 #: ../includes/Api/RestControllers/SystemInfo.php:374
 msgctxt "System Info"
-msgid "We recommend setting memory to at least %1$s. For more information, read about <a href=\"%2$s\">how to Increase memory allocated to PHP</a>."
+msgid "We recommend setting memory to at least %1$s. For more information, read about <a target=\"_blank\" href=\"%2$s\">how to Increase memory allocated to PHP</a>."
 msgstr ""
 
 #: ../includes/Api/RestControllers/SystemInfo.php:393
@@ -2369,7 +2369,7 @@ msgstr ""
 #. translators: %s: Codex URL with child theme information
 #: ../includes/Api/RestControllers/SystemInfo.php:434
 msgctxt "System Info"
-msgid "If you want to modify the source code of your theme, we recommend using a <a href=\"%s\">child theme</a>."
+msgid "If you want to modify the source code of your theme, we recommend using a <a target=\"_blank\" href=\"%s\">child theme</a>."
 msgstr ""
 
 #: ../includes/Api/RestControllers/Templates.php:160, ../includes/Api/RestControllers/Templates.php:202
@@ -3357,7 +3357,7 @@ msgid "Show dots"
 msgstr ""
 
 #: ../includes/Elements/ImageSlider/ImageSlider.php:129
-msgid "Infinte"
+msgid "Infinite"
 msgstr ""
 
 #: ../includes/Elements/ImageSlider/ImageSlider.php:139
@@ -3368,11 +3368,11 @@ msgstr ""
 msgid "Slides to show"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:160
+#: ../includes/Elements/ImageSlider/ImageSlider.php:161
 msgid "Slides to scroll"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:172
+#: ../includes/Elements/ImageSlider/ImageSlider.php:173
 msgid "Autoplay speed"
 msgstr ""
 
