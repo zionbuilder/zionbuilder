@@ -123,7 +123,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:49, ../includes/Localization.php:459, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:191, ../includes/Options/Schemas/StyleOptions.php:487, ../includes/Options/Schemas/StyleOptions.php:513, ../includes/Options/Schemas/StyleOptions.php:539, ../includes/Options/Schemas/StyleOptions.php:565
+#: ../includes/Localization.php:49, ../includes/Localization.php:459, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:486, ../includes/Options/Schemas/StyleOptions.php:512, ../includes/Options/Schemas/StyleOptions.php:538, ../includes/Options/Schemas/StyleOptions.php:564
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -339,7 +339,7 @@ msgstr ""
 msgid "Conditions"
 msgstr ""
 
-#: ../includes/Localization.php:125, ../includes/Localization.php:512
+#: ../includes/Localization.php:125, ../includes/Localization.php:507
 msgid "Delete"
 msgstr ""
 
@@ -723,7 +723,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:254, ../includes/Localization.php:653
+#: ../includes/Localization.php:254, ../includes/Localization.php:648
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -1410,420 +1410,408 @@ msgid "No images selected"
 msgstr ""
 
 #: ../includes/Localization.php:483
-msgid "Access Library Templates"
-msgstr ""
-
-#: ../includes/Localization.php:484
-msgid "Access over 150+ templates from our library, it’s just one click away"
-msgstr ""
-
-#: ../includes/Localization.php:485
-msgid "Open Library"
-msgstr ""
-
-#: ../includes/Localization.php:488
 msgid "Add your option"
 msgstr ""
 
-#: ../includes/Localization.php:489, ../includes/Templates.php:284
+#: ../includes/Localization.php:484, ../includes/Templates.php:284
 msgid "No items"
 msgstr ""
 
-#: ../includes/Localization.php:492
+#: ../includes/Localization.php:487
 msgid "Enter Class Name"
 msgstr ""
 
-#: ../includes/Localization.php:495
+#: ../includes/Localization.php:490
 msgid "No HTMLElement was found matching"
 msgstr ""
 
-#: ../includes/Localization.php:498
+#: ../includes/Localization.php:493
 msgid "No color chosen"
 msgstr ""
 
-#: ../includes/Localization.php:499
+#: ../includes/Localization.php:494
 msgid "Color"
 msgstr ""
 
-#: ../includes/Localization.php:502
+#: ../includes/Localization.php:497
 msgid "Global color name"
 msgstr ""
 
-#: ../includes/Localization.php:505
+#: ../includes/Localization.php:500
 msgid "No results"
 msgstr ""
 
-#: ../includes/Localization.php:508
+#: ../includes/Localization.php:503
 msgid "Inset"
 msgstr ""
 
-#: ../includes/Localization.php:511
+#: ../includes/Localization.php:506
 msgid "Location"
 msgstr ""
 
-#: ../includes/Localization.php:515
+#: ../includes/Localization.php:510
 msgid "Save as preset"
 msgstr ""
 
-#: ../includes/Localization.php:518
+#: ../includes/Localization.php:513
 msgid "Draggable"
 msgstr ""
 
-#: ../includes/Localization.php:521
+#: ../includes/Localization.php:516
 msgid "You can set from here the allowed post types"
 msgstr ""
 
-#: ../includes/Localization.php:524
+#: ../includes/Localization.php:519
 msgid "Create your color pallete to use locally or globally"
 msgstr ""
 
-#: ../includes/Localization.php:527
+#: ../includes/Localization.php:522
 msgid "Click Me or the Blue button to add a Font"
 msgstr ""
 
-#: ../includes/Localization.php:530
+#: ../includes/Localization.php:525
 msgid "Seting up"
 msgstr ""
 
-#: ../includes/Localization.php:531
+#: ../includes/Localization.php:526
 msgid "Google web fonts"
 msgstr ""
 
-#: ../includes/Localization.php:532
+#: ../includes/Localization.php:527
 msgid "has never been easier. Choose which ones to use for your website's stylish typography"
 msgstr ""
 
-#: ../includes/Localization.php:535
+#: ../includes/Localization.php:530
 msgid "Delete this gradient from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:538
+#: ../includes/Localization.php:533
 msgid "Delete this color from your preset"
 msgstr ""
 
-#: ../includes/Localization.php:539
+#: ../includes/Localization.php:534
 msgid "Create Astonishing Gradients that you will use in all the pages of your website"
 msgstr ""
 
-#: ../includes/Localization.php:542
+#: ../includes/Localization.php:537
 msgid "Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder."
 msgstr ""
 
-#: ../includes/Localization.php:546
+#: ../includes/Localization.php:541
 msgid "Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards."
 msgstr ""
 
-#: ../includes/Localization.php:549
+#: ../includes/Localization.php:544
 msgid "Create a new template by choosing the template type and adding a name"
 msgstr ""
 
-#: ../includes/Localization.php:552
+#: ../includes/Localization.php:547
 msgid "Add Display Condition"
 msgstr ""
 
-#: ../includes/Localization.php:555
+#: ../includes/Localization.php:550
 msgid "Manage the smart areas you want to use in your project"
 msgstr ""
 
-#: ../includes/Localization.php:558
+#: ../includes/Localization.php:553
 msgid "Templates allow you to easily build a WordPress page"
 msgstr ""
 
-#: ../includes/Localization.php:561
+#: ../includes/Localization.php:556
 msgid "Update Site Address (URL)"
 msgstr ""
 
-#: ../includes/Localization.php:562
+#: ../includes/Localization.php:557
 msgid "Update URL"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Localization.php:566
+#: ../includes/Localization.php:561
 msgctxt "zionbuilder"
 msgid "Enter your old and new URLs for your WordPress installation, to update all %s data (Relevant for domain transfers or move to \"HTTPS\")."
 msgstr ""
 
-#: ../includes/Localization.php:571
+#: ../includes/Localization.php:566
 msgid "This user already has permissions. Click to remove"
 msgstr ""
 
-#: ../includes/Localization.php:574
+#: ../includes/Localization.php:569
 msgid "Check to have access to editor"
 msgstr ""
 
-#: ../includes/Localization.php:577
+#: ../includes/Localization.php:572
 msgid "Customize the permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:578
+#: ../includes/Localization.php:573
 msgid "Delete permissions for this user"
 msgstr ""
 
-#: ../includes/Localization.php:581
+#: ../includes/Localization.php:576
 msgid "Click to edit this template"
 msgstr ""
 
-#: ../includes/Localization.php:582
+#: ../includes/Localization.php:577
 msgid "Click to delete this template"
 msgstr ""
 
-#: ../includes/Localization.php:583
+#: ../includes/Localization.php:578
 msgid "Click to export this template"
 msgstr ""
 
-#: ../includes/Localization.php:584
+#: ../includes/Localization.php:579
 msgid "Click to preview this template"
 msgstr ""
 
-#: ../includes/Localization.php:587
+#: ../includes/Localization.php:582
 msgid "Discard changes for"
 msgstr ""
 
-#: ../includes/Localization.php:590
+#: ../includes/Localization.php:585
 msgid "Icon Library"
 msgstr ""
 
-#: ../includes/Localization.php:593
+#: ../includes/Localization.php:588
 msgid "Discard changes"
 msgstr ""
 
-#: ../includes/Localization.php:596
+#: ../includes/Localization.php:591
 msgid "Click to add content for pseudo selector."
 msgstr ""
 
-#: ../includes/Localization.php:599
+#: ../includes/Localization.php:594
 msgid "Click to edit this class"
 msgstr ""
 
-#: ../includes/Localization.php:600
+#: ../includes/Localization.php:595
 msgid "Click to globally delete this class"
 msgstr ""
 
-#: ../includes/Localization.php:603
+#: ../includes/Localization.php:598
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: ../includes/Localization.php:604
+#: ../includes/Localization.php:599
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:606
+#: ../includes/Localization.php:601
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:607
+#: ../includes/Localization.php:602
 msgid "Paste"
 msgstr ""
 
-#: ../includes/Localization.php:608
+#: ../includes/Localization.php:603
 msgid "Duplicate"
 msgstr ""
 
-#: ../includes/Localization.php:609
+#: ../includes/Localization.php:604
 msgid "Copy element styles"
 msgstr ""
 
-#: ../includes/Localization.php:610
+#: ../includes/Localization.php:605
 msgid "Paste element styles"
 msgstr ""
 
-#: ../includes/Localization.php:611
+#: ../includes/Localization.php:606
 msgid "Copy classes"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:607
 msgid "Paste classes"
 msgstr ""
 
-#: ../includes/Localization.php:613
+#: ../includes/Localization.php:608
 msgid "Undo"
 msgstr ""
 
-#: ../includes/Localization.php:614
+#: ../includes/Localization.php:609
 msgid "Redo"
 msgstr ""
 
-#: ../includes/Localization.php:615
+#: ../includes/Localization.php:610
 msgid "Hide element"
 msgstr ""
 
-#: ../includes/Localization.php:616
+#: ../includes/Localization.php:611
 msgid "Toggle preview mode"
 msgstr ""
 
-#: ../includes/Localization.php:617
+#: ../includes/Localization.php:612
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: ../includes/Localization.php:618
+#: ../includes/Localization.php:613
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: ../includes/Localization.php:619
+#: ../includes/Localization.php:614
 msgid "Toggle page options"
 msgstr ""
 
-#: ../includes/Localization.php:620
+#: ../includes/Localization.php:615
 msgid "When dragging element"
 msgstr ""
 
-#: ../includes/Localization.php:621
+#: ../includes/Localization.php:616
 msgid "When dragging toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:622
+#: ../includes/Localization.php:617
 msgid "Set incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:623
+#: ../includes/Localization.php:618
 msgid "Set even incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:624
+#: ../includes/Localization.php:619
 msgid "Set even values"
 msgstr ""
 
-#: ../includes/Localization.php:625
+#: ../includes/Localization.php:620
 msgid "Duplicate element in place"
 msgstr ""
 
-#: ../includes/Localization.php:628
+#: ../includes/Localization.php:623
 msgid "Help"
 msgstr ""
 
-#: ../includes/Localization.php:629
+#: ../includes/Localization.php:624
 msgid "Help Center"
 msgstr ""
 
-#: ../includes/Localization.php:630
+#: ../includes/Localization.php:625
 msgid "Start tour"
 msgstr ""
 
-#: ../includes/Localization.php:631
+#: ../includes/Localization.php:626
 msgid "Key shortcuts"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Localization.php:635
+#: ../includes/Localization.php:630
 msgctxt "zionbuilder"
 msgid "About %s"
 msgstr ""
 
-#: ../includes/Localization.php:644
+#: ../includes/Localization.php:639
 msgid "Back to WP Dashboard"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Localization.php:647
+#: ../includes/Localization.php:642
 msgctxt "zionbuilder"
 msgid "%s  Dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:650
+#: ../includes/Localization.php:645
 msgid "Save Template"
 msgstr ""
 
-#: ../includes/Localization.php:651
+#: ../includes/Localization.php:646
 msgid "Save Page"
 msgstr ""
 
-#: ../includes/Localization.php:652
+#: ../includes/Localization.php:647
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:654
+#: ../includes/Localization.php:649
 msgid "Getting started"
 msgstr ""
 
-#: ../includes/Localization.php:656
+#: ../includes/Localization.php:651
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:657
+#: ../includes/Localization.php:652
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:658
+#: ../includes/Localization.php:653
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:659, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:654, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:660, ../includes/Elements/Container/Container.php:665, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:345
+#: ../includes/Localization.php:655, ../includes/Elements/Container/Container.php:665, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:344
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:661, ../includes/Elements/Container/Container.php:513, ../includes/Options/Schemas/StyleOptions.php:201
+#: ../includes/Localization.php:656, ../includes/Elements/Container/Container.php:513, ../includes/Options/Schemas/StyleOptions.php:200
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:662
+#: ../includes/Localization.php:657
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:665
+#: ../includes/Localization.php:660
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:666
+#: ../includes/Localization.php:661
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:667
+#: ../includes/Localization.php:662
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:668
+#: ../includes/Localization.php:663
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:669
+#: ../includes/Localization.php:664
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:670
+#: ../includes/Localization.php:665
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:673
+#: ../includes/Localization.php:668
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:674
+#: ../includes/Localization.php:669
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:675
+#: ../includes/Localization.php:670
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:676
+#: ../includes/Localization.php:671
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:679
+#: ../includes/Localization.php:674
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:680
+#: ../includes/Localization.php:675
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:683
+#: ../includes/Localization.php:678
 msgid "Featured"
 msgstr ""
 
-#: ../includes/Localization.php:684
+#: ../includes/Localization.php:679
 msgid "Moved"
 msgstr ""
 
-#: ../includes/Localization.php:687
+#: ../includes/Localization.php:682
 msgid "Invalid Element"
 msgstr ""
 
-#: ../includes/Localization.php:688
+#: ../includes/Localization.php:683
 msgid "Remove additional classes"
 msgstr ""
 
@@ -2800,7 +2788,7 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:156, ../includes/Options/Schemas/StyleOptions.php:456
+#: ../includes/Elements/Container/Container.php:156, ../includes/Options/Schemas/StyleOptions.php:455
 msgid "Display"
 msgstr ""
 
@@ -2928,43 +2916,43 @@ msgstr ""
 msgid "Custom Order"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:523, ../includes/Elements/Separator/Separator.php:200, ../includes/Options/Schemas/StyleOptions.php:209
+#: ../includes/Elements/Container/Container.php:523, ../includes/Elements/Separator/Separator.php:200, ../includes/Options/Schemas/StyleOptions.php:208
 msgid "Padding"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:524, ../includes/Elements/Separator/Separator.php:201, ../includes/Options/Schemas/StyleOptions.php:210
+#: ../includes/Elements/Container/Container.php:524, ../includes/Elements/Separator/Separator.php:201, ../includes/Options/Schemas/StyleOptions.php:209
 msgid "Choose the desired padding for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:556, ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:241
+#: ../includes/Elements/Container/Container.php:556, ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:240
 msgid "Margin"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:557, ../includes/Elements/Separator/Separator.php:236, ../includes/Options/Schemas/StyleOptions.php:242
+#: ../includes/Elements/Container/Container.php:557, ../includes/Elements/Separator/Separator.php:236, ../includes/Options/Schemas/StyleOptions.php:241
 msgid "Choose the desired margin for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:590, ../includes/Options/Schemas/StyleOptions.php:274
+#: ../includes/Elements/Container/Container.php:590, ../includes/Options/Schemas/StyleOptions.php:273
 msgid "Sizing"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:599, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:282
+#: ../includes/Elements/Container/Container.php:599, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:281
 msgid "Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:621, ../includes/Options/Schemas/StyleOptions.php:303
+#: ../includes/Elements/Container/Container.php:621, ../includes/Options/Schemas/StyleOptions.php:302
 msgid "Min Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:643, ../includes/Options/Schemas/StyleOptions.php:324
+#: ../includes/Elements/Container/Container.php:643, ../includes/Options/Schemas/StyleOptions.php:323
 msgid "Max Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:677, ../includes/Options/Schemas/StyleOptions.php:356
+#: ../includes/Elements/Container/Container.php:677, ../includes/Options/Schemas/StyleOptions.php:355
 msgid "Min Height"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:689, ../includes/Options/Schemas/StyleOptions.php:367
+#: ../includes/Elements/Container/Container.php:689, ../includes/Options/Schemas/StyleOptions.php:366
 msgid "Max Height"
 msgstr ""
 
@@ -4128,131 +4116,131 @@ msgstr ""
 msgid "Inset?"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:40, ../includes/Options/Schemas/StyleOptions.php:400
-msgid "Background"
-msgstr ""
-
-#: ../includes/Options/Schemas/StyleOptions.php:50
+#: ../includes/Options/Schemas/StyleOptions.php:49
 msgid "Font"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:59
+#: ../includes/Options/Schemas/StyleOptions.php:58
 msgid "Element font"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:60
+#: ../includes/Options/Schemas/StyleOptions.php:59
 msgid "Select the desired font to use for this element."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:73, ../includes/Options/Schemas/StyleOptions.php:83
+#: ../includes/Options/Schemas/StyleOptions.php:72, ../includes/Options/Schemas/StyleOptions.php:82
 msgid "Text Shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:84
+#: ../includes/Options/Schemas/StyleOptions.php:83
 msgid "Set the desired text shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:95, ../includes/Options/Schemas/StyleOptions.php:102, ../includes/Options/Schemas/StyleOptions.php:142
+#: ../includes/Options/Schemas/StyleOptions.php:94, ../includes/Options/Schemas/StyleOptions.php:101, ../includes/Options/Schemas/StyleOptions.php:141
 msgid "Border"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:103
+#: ../includes/Options/Schemas/StyleOptions.php:102
 msgid "Choose the desired border style."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:134
+#: ../includes/Options/Schemas/StyleOptions.php:133
 msgid "Border radius"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:143
+#: ../includes/Options/Schemas/StyleOptions.php:142
 msgid "Choose the desired border radius style."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:174
+#: ../includes/Options/Schemas/StyleOptions.php:173
 msgid "Box shadow options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:175, ../includes/Options/Schemas/StyleOptions.php:401, ../includes/Options/Schemas/StyleOptions.php:415, ../includes/Options/Schemas/StyleOptions.php:428, ../includes/Options/Schemas/StyleOptions.php:442, ../includes/Options/Schemas/StyleOptions.php:457, ../includes/Options/Schemas/StyleOptions.php:497, ../includes/Options/Schemas/StyleOptions.php:523, ../includes/Options/Schemas/StyleOptions.php:549
+#: ../includes/Options/Schemas/StyleOptions.php:174, ../includes/Options/Schemas/StyleOptions.php:400, ../includes/Options/Schemas/StyleOptions.php:414, ../includes/Options/Schemas/StyleOptions.php:427, ../includes/Options/Schemas/StyleOptions.php:441, ../includes/Options/Schemas/StyleOptions.php:456, ../includes/Options/Schemas/StyleOptions.php:496, ../includes/Options/Schemas/StyleOptions.php:522, ../includes/Options/Schemas/StyleOptions.php:548
 msgid "Styling"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:179, ../includes/Options/Schemas/StyleOptions.php:501, ../includes/Options/Schemas/StyleOptions.php:527, ../includes/Options/Schemas/StyleOptions.php:553
+#: ../includes/Options/Schemas/StyleOptions.php:178, ../includes/Options/Schemas/StyleOptions.php:500, ../includes/Options/Schemas/StyleOptions.php:526, ../includes/Options/Schemas/StyleOptions.php:552
 msgid "PRO"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:189
+#: ../includes/Options/Schemas/StyleOptions.php:188
 msgid "Meet Box Shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:190
+#: ../includes/Options/Schemas/StyleOptions.php:189
 msgid "With box shadow, you can create impressive 3d effects and designs"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:414
+#: ../includes/Options/Schemas/StyleOptions.php:399
+msgid "Background"
+msgstr ""
+
+#: ../includes/Options/Schemas/StyleOptions.php:413
 msgid "Typography"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:429
+#: ../includes/Options/Schemas/StyleOptions.php:428
 msgid "Borders & Shadows"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:443
+#: ../includes/Options/Schemas/StyleOptions.php:442
 msgid "Size & Spacing"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:467
+#: ../includes/Options/Schemas/StyleOptions.php:466
 msgid "Z-index options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:476
+#: ../includes/Options/Schemas/StyleOptions.php:475
 msgid "Z-index"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:477
+#: ../includes/Options/Schemas/StyleOptions.php:476
 msgid "Choose Z-index for element"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:485
+#: ../includes/Options/Schemas/StyleOptions.php:484
 msgid "Want additional display options?"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:486
+#: ../includes/Options/Schemas/StyleOptions.php:485
 msgid "With ZionBuilder PRO you have access to additional options like display, flex, position, overflow and many more."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:496
+#: ../includes/Options/Schemas/StyleOptions.php:495
 msgid "Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:511
+#: ../includes/Options/Schemas/StyleOptions.php:510
 msgid "Meet Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:512
+#: ../includes/Options/Schemas/StyleOptions.php:511
 msgid "With transitions you can bring your elements to life by animating them to suit your needs."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:522
+#: ../includes/Options/Schemas/StyleOptions.php:521
 msgid "Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:537
+#: ../includes/Options/Schemas/StyleOptions.php:536
 msgid "Meet Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:538
+#: ../includes/Options/Schemas/StyleOptions.php:537
 msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:548
+#: ../includes/Options/Schemas/StyleOptions.php:547
 msgid "Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:563
+#: ../includes/Options/Schemas/StyleOptions.php:562
 msgid "Meet Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:564
+#: ../includes/Options/Schemas/StyleOptions.php:563
 msgid "With filter options you can chang the element hue, saturate, opacity, contrast and box shadow."
 msgstr ""
 
