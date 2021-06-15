@@ -51,7 +51,7 @@ export const useDataSets = () => {
 		Object.keys(dataSets.value.fonts_list).forEach(fontProviderId => {
 			const fontsList = dataSets.value.fonts_list[fontProviderId]
 
-			option = [...option, ...fontsList]
+			option = [...fontsList, ...option]
 		})
 
 		return option
