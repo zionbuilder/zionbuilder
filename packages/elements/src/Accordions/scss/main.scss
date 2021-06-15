@@ -1,7 +1,7 @@
 .zb-el-accordions-accordionWrapper {
 	overflow: hidden;
 	margin-bottom: 8px;
-	border: 1px solid $border-color;
+	border: 1px solid #e5e5e5;
 
 	&:last-of-type {
 		margin-bottom: 0;
@@ -13,14 +13,14 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 8px 20px;
-	color: $font-color;
+	color: #858585;
 	font-size: 15px;
 	font-weight: 500;
 	transition: color .25s;
 	cursor: pointer;
 
 	.zb-el-accordions--active & {
-		color: $surface-active-color;
+		color: #464646;
 
 		 > .zb-el-accordions-accordionIcon {
 			transform: scaleY(-1);
@@ -30,14 +30,15 @@
 	&:focus {
 		outline: none;
 	}
+
 	&:hover {
-		color: $surface-active-color;
+		color: #464646;
 	}
 }
 
 .zb-el-accordions-accordionIcon {
 	font-size: 12px;
-	transition: transform 0.25s;
+	transition: transform .25s;
 
 	&:before {
 		content: "\f078";
@@ -49,7 +50,7 @@
 	position: absolute;
 	overflow: hidden;
 	width: 100%;
-	color: $font-color;
+	color: #858585;
 	opacity: 0;
 	visibility: hidden;
 

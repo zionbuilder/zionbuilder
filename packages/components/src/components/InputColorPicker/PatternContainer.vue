@@ -74,7 +74,6 @@ import GridColor from '../Colorpicker/GridColor.vue'
 import LibraryElement from '../Gradient/LibraryElement.vue'
 import PresetInput from '../Gradient/PresetInput.vue'
 import { Label } from '../Label'
-import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'PatternContainer',
@@ -99,6 +98,7 @@ export default {
 		const schema = inject('schema')
 		const showPresetInput = ref(false)
 
+		const useBuilderOptions = inject('builderOptions')
 		const {
 			addLocalColor,
 			getOptionValue,

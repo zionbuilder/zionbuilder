@@ -1,4 +1,4 @@
-<template functional>
+<template>
 	<div class="znpb-loader-wrapper">
 		<div
 			class="znpb-loader"

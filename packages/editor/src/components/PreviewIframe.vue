@@ -187,13 +187,13 @@ export default {
 					delayClose: 0
 				})
 
-				this.ignoreNextReload = false
-
 				return false
 			}
 
 			// Set preview data
-			addElementTypes(iframeWindow.ZnPbPreviewData.elements_data)
+			if (!this.ignoreNextReload) {
+				addElementTypes(iframeWindow.ZnPbPreviewData.elements_data)
+			}
 
 			if (cachedData && Object.keys(cachedData).length > 0) {
 				this.localStoragePageData = cachedData
@@ -201,6 +201,8 @@ export default {
 			} else {
 				this.useServerVersion()
 			}
+
+			this.ignoreNextReload = false
 
 			setPreviewLoading(false)
 		},

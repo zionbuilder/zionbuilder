@@ -25,7 +25,6 @@ class FontsManager {
 		$this->register_font_provider( new GoogleFonts() );
 	}
 
-
 	public function register_font_provider( FontProvider $provider ) {
 		try {
 			$provider_id = $provider::get_id();

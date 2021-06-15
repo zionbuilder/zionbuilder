@@ -12,14 +12,15 @@
 			v-for="element in templateItems"
 			:key="element.uid"
 			:element="element"
+			@expand-panel="$emit('expand-panel')"
 		/>
 
 		<template #helper>
-			<SortableHelper/>
+			<SortableHelper />
 		</template>
 
 		<template #placeholder>
-			<SortablePlaceholder/>
+			<SortablePlaceholder />
 		</template>
 
 		<template #end>
@@ -68,10 +69,15 @@ export default {
 			sortableEnd
 		} = useTreeViewList(props)
 
+		function onChildActive () {
+			expanded.value = true;
+		}
+
 		return {
 			addElementsPopupButton,
 			templateItems,
 			toggleAddElementsPopup,
+			onChildActive,
 			sortableStart,
 			sortableEnd,
 			addButtonBgColor

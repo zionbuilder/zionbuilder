@@ -362,10 +362,10 @@ class ImportExport {
 			case UPLOAD_ERR_OK:
 				break;
 			case UPLOAD_ERR_NO_FILE:
-				return new \WP_Error( 'No file sent', __( 'No file was uploaded', 'zionbuilder' ) );
+				return new \WP_Error( 'no_file_sent', __( 'No file was uploaded', 'zionbuilder' ) );
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
-				return new \WP_Error( 'Maximum file upload limit exceeded', __( 'The uploaded file exceeds the MAX_FILE_SIZE', 'zionbuilder' ) );
+				return new \WP_Error( 'maximum_size_exceeded', __( 'The uploaded file exceeds the MAX_FILE_SIZE', 'zionbuilder' ) );
 			default:
 				break;
 		}

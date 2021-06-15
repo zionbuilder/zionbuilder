@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .zb-el-gallery {
 	display: flex;
 	flex-wrap: wrap;
@@ -15,41 +17,48 @@
 	&-columns--1 &-item {
 		flex: 0 0 100%;
 	}
+
 	&-columns--2 &-item {
 		flex: 0 0 50%;
 	}
+
 	&-columns--3 &-item {
 		flex: 0 0 33.33%;
 	}
+
 	&-columns--4 &-item {
 		flex: 0 0 25%;
 	}
+
 	&-columns--5 &-item {
 		flex: 0 0 20%;
 	}
 }
 
 @mixin generate-columns() {
-	$breakpoints: (
-	lg: "991.98px",
+	$breakpoints: (lg: "991.98px",
 	md: "767.98px",
 	sm: "575.98px",
 	);
 	$columns: 5;
+
 	// Generate css for all media queries
-	@each $breakpointId, $breakpointValue in $breakpoints {
+	@each $breakpointId,
+	$breakpointValue in $breakpoints {
 		$suffix: "--#{$breakpointId}";
 
 		@media (max-width: $breakpointValue) {
 			@for $size from 1 through $columns {
-				$percentage: (100 / $size);
+				$percentage: math.div(100, $size);
+
 				.zb-el-gallery-columns#{$suffix}--#{$size} {
 					.zb-el-gallery-item {
-						flex: 0 0 #{$percentage} + unquote("%");
+						flex: 0 0 #{$percentage}+unquote("%");
 					}
 				}
 			}
 		}
 	}
 }
+
 @include generate-columns();

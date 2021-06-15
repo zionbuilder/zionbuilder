@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { computed, ref, inject, reactive } from 'vue'
+import { ref, inject } from 'vue'
 import { getDefaultGradient } from '@zb/components'
 import { generateUID } from '@zb/utils'
 
@@ -114,7 +114,7 @@ export default {
 		}
 
 		function onGradientUpdate (newValue) {
-			if (activeLibrary.value === 'local' ) {
+			if (activeLibrary.value === 'local') {
 				editLocalGradient(activeGradient.value.id, newValue)
 			} else {
 				editGlobalGradient(activeGradient.value.id, newValue)
@@ -130,7 +130,7 @@ export default {
 				config: getDefaultGradient()
 			}
 
-			if (activeLibrary.value === 'local' ) {
+			if (activeLibrary.value === 'local') {
 				addLocalGradient(defaultGradient)
 			} else {
 				addGlobalGradient(defaultGradient)

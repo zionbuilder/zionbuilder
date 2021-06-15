@@ -42,6 +42,7 @@ export const useBuilderOptions = () => {
 				...options.value,
 				...data
 			}
+
 			options.value = newOptions
 		})
 	}

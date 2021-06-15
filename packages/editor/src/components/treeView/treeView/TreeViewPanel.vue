@@ -1,24 +1,21 @@
 <template>
 	<div
 		class="znpb-tree-view znpb-fancy-scrollbar znpb-panel-view-wrapper"
-		ref="treeViewPanel"
 		id="znpb-tree-view-panel"
 	>
-		<TreeViewList
-			:element="element"
-		/>
+		<TreeViewList :element="element" />
 	</div>
 </template>
 <script lang="ts">
 export default {
-	name: 'TreeViewPanel',
+	name: "TreeViewPanel",
 	props: {
 		element: {
 			type: Object,
-			required: true
-		}
-	}
-}
+			required: true,
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-tree-view--no_content {

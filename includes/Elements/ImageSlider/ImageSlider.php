@@ -126,7 +126,7 @@ class ImageSlider extends Element {
 			[
 				'type'    => 'checkbox_switch',
 				'default' => true,
-				'title'   => esc_html__( 'Infinte', 'zionbuilder' ),
+				'title'   => esc_html__( 'Infinite', 'zionbuilder' ),
 				'layout'  => 'inline',
 			]
 		);
@@ -144,12 +144,13 @@ class ImageSlider extends Element {
 		$options->add_option(
 			'slides_to_show',
 			[
-				'type'    => 'number',
-				'title'   => __( 'Slides to show', 'zionbuilder' ),
-				'min'     => 1,
-				'max'     => 15,
-				'default' => 1,
-				'layout'  => 'inline',
+				'type'               => 'number',
+				'title'              => __( 'Slides to show', 'zionbuilder' ),
+				'min'                => 1,
+				'max'                => 15,
+				'default'            => 1,
+				'layout'             => 'inline',
+				'responsive_options' => true,
 			]
 		);
 
@@ -215,13 +216,15 @@ class ImageSlider extends Element {
 	 */
 	public function before_render( $options ) {
 		$autoplay = $options->get_value( 'autoplay' );
-		$config   = [
-			'arrows'     => $options->get_value( 'arrows' ),
-			'pagination' => $options->get_value( 'dots' ),
-			'rawConfig'  => [
+
+		$config = [
+			'arrows'         => $options->get_value( 'arrows' ),
+			'pagination'     => $options->get_value( 'dots' ),
+			'slides_to_show' => $options->get_value( 'slides_to_show' ),
+			'rawConfig'      => [
 				'loop'           => $options->get_value( 'infinite' ),
-				'slidesPerView'  => $options->get_value( 'slides_to_show' ),
 				'slidesPerGroup' => $options->get_value( 'slides_to_scroll' ),
+				'autoplay'       => $autoplay,
 			],
 		];
 

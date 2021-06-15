@@ -517,7 +517,7 @@ class Style {
 		$css = '';
 		if ( is_array( $border_config ) ) {
 			foreach ( $border_config as $border_position => $border_value ) {
-				if ( ! empty( $border_value['width'] ) && isset( $border_value['width'] ) ) {
+				if ( isset( $border_value['width'] ) ) {
 					$color = isset( $border_value['color'] ) ? $border_value['color'] : false;
 					$width = isset( $border_value['width'] ) ? $border_value['width'] : false;
 					$style = isset( $border_value['style'] ) ? $border_value['style'] : 'solid';
