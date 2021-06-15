@@ -16,6 +16,7 @@ import {
 	InputRangeDynamic,
 	InputEditor,
 	InputMedia,
+	InputFile,
 	InputImage,
 	InputTextShadow,
 	InputCode,
@@ -74,6 +75,10 @@ const options = {
 	media: {
 		id: 'media',
 		component: InputMedia
+	},
+	file: {
+		id: 'file',
+		component: InputFile
 	},
 	image: {
 		id: 'image',
