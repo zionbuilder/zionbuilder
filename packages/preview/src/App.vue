@@ -159,4 +159,8 @@ export default {
 		transform: scale(1);
 	}
 }
+
+.page-template-zion_builder_blank {
+	padding-bottom: 20px;
+}
 </style>
