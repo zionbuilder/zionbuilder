@@ -17,9 +17,7 @@
 					:key="action.title"
 				>
 					<template #content>
-						<div
-							class="znpb-popper--tooltip"
-						>
+						<div class="znpb-popper--tooltip">
 							{{action.title}}
 						</div>
 					</template>
@@ -32,9 +30,7 @@
 			</div>
 			<Tooltip>
 				<template #content>
-					<div
-						class="znpb-popper--tooltip"
-					>
+					<div class="znpb-popper--tooltip">
 						<span v-if="topBarOpen">
 							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
 						</span>
@@ -70,7 +66,7 @@ export default {
 	props: {
 		element: Object
 	},
-	setup(props, { emit }) {
+	setup (props, { emit }) {
 		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
@@ -144,7 +140,7 @@ export default {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 1001;
+	z-index: 9999;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-around;
