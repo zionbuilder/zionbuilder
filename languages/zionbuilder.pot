@@ -41,11 +41,11 @@ msgstr ""
 msgid "Empty import resource"
 msgstr ""
 
-#: ../includes/ImportExport.php:365
+#: ../includes/ImportExport.php:365, ../includes/Api/RestControllers/FileUpload.php:93
 msgid "No file was uploaded"
 msgstr ""
 
-#: ../includes/ImportExport.php:368
+#: ../includes/ImportExport.php:368, ../includes/Api/RestControllers/FileUpload.php:96
 msgid "The uploaded file exceeds the MAX_FILE_SIZE"
 msgstr ""
 
@@ -2052,7 +2052,7 @@ msgstr ""
 msgid "WordPress Widgets"
 msgstr ""
 
-#: ../includes/FontsManager/FontsManager.php:36
+#: ../includes/FontsManager/FontsManager.php:35
 msgid "get_id must be implemented by the font provider"
 msgstr ""
 
@@ -2084,6 +2084,18 @@ msgstr ""
 msgid "Invalid nonce or filename"
 msgstr ""
 
+#: ../includes/Api/RestControllers/FileUpload.php:65, ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:245
+msgid "You do not have permissions to edit this resource."
+msgstr ""
+
+#: ../includes/Api/RestControllers/FileUpload.php:85, ../includes/Api/RestControllers/Templates.php:610
+msgid "Your file is empty or invalid"
+msgstr ""
+
+#: ../includes/Api/RestControllers/FileUpload.php:124
+msgid "The file type is not supported"
+msgstr ""
+
 #: ../includes/Api/RestControllers/GoogleFonts.php:88
 msgid "Cannot extract Google fonts."
 msgstr ""
@@ -2098,10 +2110,6 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/GoogleFonts.php:118
 msgid "Font family"
-msgstr ""
-
-#: ../includes/Api/RestControllers/Options.php:89, ../includes/Api/RestControllers/Templates.php:245
-msgid "You do not have permissions to edit this resource."
 msgstr ""
 
 #: ../includes/Api/RestControllers/Options.php:180
@@ -2398,10 +2406,6 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/Templates.php:550, ../includes/Api/RestControllers/Templates.php:684
 msgid "Could not return the post instance"
-msgstr ""
-
-#: ../includes/Api/RestControllers/Templates.php:610
-msgid "Your file is empty or invalid"
 msgstr ""
 
 #: ../includes/Api/RestControllers/Templates.php:690

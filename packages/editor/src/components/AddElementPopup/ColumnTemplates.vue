@@ -31,21 +31,10 @@
 					:search-keyword="searchKeyword"
 				/>
 			</Tab>
-			<Tab name="Library">
-				<Icon
-					icon="library-illustration"
-					class="znpb-columns-templates__library-img"
-				/>
-				<h3 class="znpb-columns-templates__library-title">{{$translate('access_library_templates')}}</h3>
-				<p class="znpb-columns-templates__libray-text">{{$translate('access_video_library')}}</p>
-				<div class="znpb-columns-templates__library-buttonWrap">
-					<Button
-						type="secondary"
-						@click.stop="openLibrary"
-					>
-						{{$translate('open_library')}}
-					</Button>
-				</div>
+			<Tab
+				name="Library"
+				@click="openLibrary"
+			>
 			</Tab>
 
 		</Tabs>
@@ -222,10 +211,6 @@ export default {
 
 		function onTabChange (tab) {
 			searchKeyword.value = ''
-
-			if (tab === 'library' && isProActive.value) {
-				openLibrary()
-			}
 		}
 
 		onMounted(() => addEventListener('keypress', onKeyDown))

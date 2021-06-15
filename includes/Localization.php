@@ -479,11 +479,6 @@ class Localization {
 				'no_video_selected'                      => __( 'No video Selected', 'zionbuilder' ),
 				'no_images_selected'                     => __( 'No images selected', 'zionbuilder' ),
 
-				// ColumnTemplates
-				'access_library_templates'               => __( 'Access Library Templates', 'zionbuilder' ),
-				'access_video_library'                   => __( 'Access over 150+ templates from our library, it’s just one click away', 'zionbuilder' ),
-				'open_library'                           => __( 'Open Library', 'zionbuilder' ),
-
 				// Select
 				'add_option'                             => __( 'Add your option', 'zionbuilder' ),
 				'no_items'                               => __( 'No items', 'zionbuilder' ),
