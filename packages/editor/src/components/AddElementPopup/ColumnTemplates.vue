@@ -31,10 +31,8 @@
 					:search-keyword="searchKeyword"
 				/>
 			</Tab>
-			<Tab
-				name="Library"
-				@click="openLibrary"
-			>
+			<Tab name="Library">
+				<span />
 			</Tab>
 
 		</Tabs>
@@ -211,6 +209,10 @@ export default {
 
 		function onTabChange (tab) {
 			searchKeyword.value = ''
+
+			if (tab === 'library') {
+				openLibrary()
+			}
 		}
 
 		onMounted(() => addEventListener('keypress', onKeyDown))
