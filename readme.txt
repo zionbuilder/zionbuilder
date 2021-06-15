@@ -244,6 +244,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Fixed border size of 0 doesn't generate the CSS in preview mode
 * Fixed Add elements popup can show duplicated elements
 * Fixed Custom fonts upload not working without an external WP plugin
+* Fixed separator border line thickness default value not working
 * Updated developer plugins
 
 = 2.4.1 2021-05-18 =
