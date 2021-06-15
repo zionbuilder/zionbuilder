@@ -433,7 +433,7 @@ export default {
 			if (
 				this.visible &&
 				!preventOutsideClickPropagation &&
-				!this.$el.contains(event.target) &&
+				!this.popperSelector.contains(event.target) &&
 				this.popperElement &&
 				!this.popperElement.contains(event.target)
 			) {
