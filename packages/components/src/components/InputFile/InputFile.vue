@@ -12,20 +12,28 @@
 			ref="fileInput"
 			style="display:none"
 			:accept="type"
-			name="font"
+			name="file"
 			@change="uploadFiles($event.target.name, $event.target.files)"
 		>
 
 		<Button
 			@click="onButtonClick"
 			type="line"
-		>{{selectButtonText}}
+		>
+			<Loader
+				v-if="loading"
+				:size="14"
+			/>
+			<span v-else>{{selectButtonText}}</span>
 		</Button>
 	</div>
 </template>
 <script>
 import { ref, computed } from 'vue'
+
 import BaseInput from '../BaseInput/BaseInput.vue'
+import { uploadFile } from '@zb/rest'
+import { useNotifications } from '@zionbuilder/composables'
 
 export default {
 	name: 'InputFile',
@@ -59,6 +67,7 @@ export default {
 	},
 	setup (props, { emit }) {
 		const fileInput = ref(null)
+		const loading = ref(false)
 
 		const inputValue = computed({
 			get () {
@@ -75,32 +84,36 @@ export default {
 			}
 		}
 
-		function uploadFiles (fieldName, fileList) {
+		async function uploadFiles (fieldName, fileList) {
 			const formData = new FormData()
-			console.log({ fieldName, fileList });
+
 			if (!fileList.length) return
 
 			// append the files to FormData
 			Array.from(fileList).forEach(file => {
-				// console.log(fieldName);
-				// console.log(file);
-				// console.log(file.name);
 				formData.append(fieldName, file, file.name)
 			})
 
-			// send it to axios
-			saveFile(formData)
-		}
+			loading.value = true
 
-		function saveFile (fileData) {
-			console.log(fileData);
+			try {
+				// send it to axios
+				const response = await uploadFile(formData)
+				const responseData = response.data
+				inputValue.value = responseData.file_url
+			} catch (err) {
+				console.error(err)
+			}
+
+			loading.value = false
 		}
 
 		return {
 			onButtonClick,
 			fileInput,
 			uploadFiles,
-			inputValue
+			inputValue,
+			loading
 		}
 	}
 }

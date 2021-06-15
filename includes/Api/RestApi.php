@@ -84,6 +84,7 @@ class RestApi {
 			'ZionBuilder\Api\RestControllers\Elements',
 			'ZionBuilder\Api\RestControllers\BulkActions',
 			'ZionBuilder\Api\RestControllers\Media',
+			'ZionBuilder\Api\RestControllers\FileUpload',
 		];
 
 		foreach ( $controllers as $controller ) {

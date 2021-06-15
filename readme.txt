@@ -226,25 +226,25 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 == Changelog ==
 = 2.5.0 2021-06-14 =
-* Improvement: Scroll to top when searching for an element in the "add elements popup"
-* Improvement: Prevent bottom scrolling cloeses the "add elements popup"
+* Improvement: Scroll to the top when searching for an element in the "add elements popup"
+* Improvement: Prevent bottom scrolling closes the "add elements popup"
 * Improvement: Tree view now opens all the active element parents and highlights it
 * Improvement: Tree view scrolls automatically to the active element
 * Improvement: Added a delay while hovering over the system info tooltips
-* Improvement: Added a drag treshold before you can drag the options panel
-* Improvement: Links from main panel open in the same tab now
+* Improvement: Added a drag threshold before you can drag the options panel
+* Improvement: Links from the main panel open in the same tab now
 * Improved developer API
+* Reduced the CSS output for various elements
 * Fixed Google fonts reset in certain conditions
 * Fixed Google Font variant can exceed browser window size in certain conditions
 * Added responsive options for Image slider - slides to show
 * Fixed autosave post status not saving correctly in certain conditions
 * Fixed typo in Slider option
 * Fixed releasing the mouse click while resizing an element can reset the size in certain conditions
-* Fixed border size of 0 doesn't generate the css in preview mode
+* Fixed border size of 0 doesn't generate the CSS in preview mode
 * Fixed Add elements popup can show duplicated elements
-
+* Fixed Custom fonts upload not working without an external WP plugin
 * Updated developer plugins
-
 
 = 2.4.1 2021-05-18 =
 * Fixed animation library not loading on certain hosting platforms
