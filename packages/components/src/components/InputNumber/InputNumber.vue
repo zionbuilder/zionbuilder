@@ -92,7 +92,7 @@ export default {
 
 		const model = computed({
 			get () {
-				return props.modelValue !== undefined ? props.modelValue : 0
+				return props.modelValue
 			},
 			set (newValue) {
 				// Check if minimum value is meet
@@ -155,6 +155,7 @@ export default {
 		function dragNumber (event) {
 			const distance = initialPosition - event.clientY
 			const directionUp = event.pageY < lastPosition
+			const initialValue = typeof model.value !== 'undefined' ? model.value : props.min
 
 			if (Math.abs(distance) > dragTreshold) {
 				canChangeValue = true
@@ -164,7 +165,7 @@ export default {
 				document.body.style.pointerEvents = 'none'
 
 				let increment = event.shiftKey ? props.shift_step : props.step
-				model.value = directionUp ? +(model.value + increment).toFixed(12) : +(model.value - increment).toFixed(12)
+				model.value = directionUp ? +(initialValue + increment).toFixed(12) : +(initialValue - increment).toFixed(12)
 
 				event.preventDefault()
 			}

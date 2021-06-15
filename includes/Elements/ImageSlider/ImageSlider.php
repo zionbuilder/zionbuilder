@@ -148,7 +148,6 @@ class ImageSlider extends Element {
 				'title'              => __( 'Slides to show', 'zionbuilder' ),
 				'min'                => 1,
 				'max'                => 15,
-				'default'            => 1,
 				'layout'             => 'inline',
 				'responsive_options' => true,
 			]
