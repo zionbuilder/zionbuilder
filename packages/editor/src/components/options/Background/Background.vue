@@ -4,7 +4,10 @@
 		class="znpb-background-option-tabs"
 		title-position="center"
 	>
-		<Tab name="background-color">
+		<Tab
+			name="background-color"
+			tooltip-title="Background color"
+		>
 			<template v-slot:title>
 				<Icon icon="drop" />
 			</template>
@@ -17,7 +20,10 @@
 			/>
 
 		</Tab>
-		<Tab name="background-gradient">
+		<Tab
+			name="background-gradient"
+			tooltip-title="Background gradient"
+		>
 			<template v-slot:title>
 				<Icon icon="gradient" />
 			</template>
@@ -29,7 +35,10 @@
 				@update:modelValue="onOptionUpdate(...$event)"
 			/>
 		</Tab>
-		<Tab name="background-image">
+		<Tab
+			name="background-image"
+			tooltip-title="Background image"
+		>
 			<template v-slot:title>
 				<Icon icon="picture" />
 			</template>
@@ -42,6 +51,7 @@
 		<Tab
 			name="background-video"
 			v-if="canShowBackground"
+			tooltip-title="Background video"
 		>
 			<template v-slot:title>
 				<Icon icon="video" />
@@ -69,7 +79,7 @@ export default {
 	props: {
 		modelValue: {}
 	},
-	setup ( props, { emit } ) {
+	setup (props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { activePseudoSelector } = usePseudoSelectors()
 

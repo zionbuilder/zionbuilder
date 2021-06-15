@@ -87,6 +87,7 @@ export default {
 			return h(
 				'div',
 				{
+					title: props['tooltip-title'],
 					class: {
 						'znpb-tabs__header-item--active': props.active,
 						[`znpb-tabs__header-item--${props.name.toLowerCase()}`]: props.name,

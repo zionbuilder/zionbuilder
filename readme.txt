@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.7.2
-Stable tag: 2.4.1
+Stable tag: 2.5.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,29 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.5.0 2021-06-14 =
+* Improvement: Scroll to the top when searching for an element in the "add elements popup"
+* Improvement: Prevent bottom scrolling closes the "add elements popup"
+* Improvement: Tree view now opens all the active element parents and highlights it
+* Improvement: Tree view scrolls automatically to the active element
+* Improvement: Added a delay while hovering over the system info tooltips
+* Improvement: Added a drag threshold before you can drag the options panel
+* Improvement: Links from the main panel open in the same tab now
+* Improved developer API
+* Added proper tooltips to background option tabs
+* Reduced the CSS output for various elements
+* Fixed Google fonts reset in certain conditions
+* Fixed Google Font variant can exceed browser window size in certain conditions
+* Added responsive options for Image slider - slides to show
+* Fixed autosave post status not saving correctly in certain conditions
+* Fixed typo in Slider option
+* Fixed releasing the mouse click while resizing an element can reset the size in certain conditions
+* Fixed border size of 0 doesn't generate the CSS in preview mode
+* Fixed Add elements popup can show duplicated elements
+* Fixed Custom fonts upload not working without an external WP plugin
+* Fixed separator border line thickness default value not working
+* Updated developer plugins
+
 = 2.4.1 2021-05-18 =
 * Fixed animation library not loading on certain hosting platforms
 * Fixed transform scale not working properly while dragging to change the value

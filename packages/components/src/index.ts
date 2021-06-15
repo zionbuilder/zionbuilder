@@ -32,6 +32,7 @@ import { InputEditor } from './components/InputEditor'
 import { InputImage } from './components/InputImage'
 import { InputLabel } from './components/InputLabel'
 import { InputMedia } from './components/InputMedia'
+import { InputFile } from './components/InputFile'
 import { InputSelect } from './components/InputSelect'
 import { InputRadio, InputRadioGroup, InputRadioIcon } from './components/InputRadio'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
@@ -113,6 +114,7 @@ const components = [
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputMedia,
+	InputFile,
 	InputImage,
 	InputEditor,
 	BaseInput,
@@ -192,6 +194,7 @@ export {
 	InputBorderRadius,
 	InputBorderRadiusTabs,
 	InputMedia,
+	InputFile,
 	InputImage,
 	InputEditor,
 	BaseInput,
