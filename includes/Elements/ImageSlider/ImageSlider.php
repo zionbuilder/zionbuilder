@@ -224,6 +224,7 @@ class ImageSlider extends Element {
 			'rawConfig'      => [
 				'loop'           => $options->get_value( 'infinite' ),
 				'slidesPerGroup' => $options->get_value( 'slides_to_scroll' ),
+				'autoplay'       => $autoplay,
 			],
 		];
 

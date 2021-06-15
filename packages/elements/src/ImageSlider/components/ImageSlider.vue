@@ -60,7 +60,8 @@ export default {
 				rawConfig: {
 					observer: true,
 					loop: this.options.infinite,
-					slidesPerGroup: this.options.slides_to_scroll
+					slidesPerGroup: this.options.slides_to_scroll,
+					autoplay: this.options.autoplay
 				}
 			} : {}
 
