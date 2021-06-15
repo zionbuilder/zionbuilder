@@ -37,7 +37,6 @@ class StyleOptions extends BaseSchema {
 					'color',
 					'gradient',
 				],
-				'title'       => esc_html__( 'Background', 'zionbuilder' ),
 			]
 		);
 	}

@@ -234,6 +234,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Improvement: Added a drag threshold before you can drag the options panel
 * Improvement: Links from the main panel open in the same tab now
 * Improved developer API
+* Added proper tooltips to background option tabs
 * Reduced the CSS output for various elements
 * Fixed Google fonts reset in certain conditions
 * Fixed Google Font variant can exceed browser window size in certain conditions
