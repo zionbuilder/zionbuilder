@@ -40,6 +40,13 @@
 	// Border Color
 	--color-border: var(--color-neutral-2);
 
+	// Form Colors
+	--color-input-bg: var(--color-white);
+	--color-input-border: var(--color-border);
+	--color-input-placeholder: var(--color-neutral-4);
+	--color-input-text: var(--color-surface-accent-text);
+	--color-input-icon: var(--color-input-text);
+
 	// Toolbox Colors
 	--section-color: #404be3;
 	--section-border-color: #9aa0ec;
