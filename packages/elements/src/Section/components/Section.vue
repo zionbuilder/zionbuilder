@@ -9,7 +9,6 @@
 			v-if="topMask!==undefined && topMask.shape"
 			:shapePath="topMask['shape']"
 			:color="topMask['color']"
-			:height="topMask['height']"
 			:flip="topMask['flip']"
 			position="top"
 		/>
@@ -18,7 +17,6 @@
 			v-if="bottomMask!==undefined && bottomMask.shape"
 			:shapePath="bottomMask['shape']"
 			:color="bottomMask['color']"
-			:height="bottomMask['height']"
 			:flip="bottomMask['flip']"
 			position="bottom"
 		/>

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import { InputCustomSelector } from '../InputCustomSelector'
 
 export default {
@@ -95,7 +96,13 @@ export default {
 				return this.modelValue ? this.modelValue[this.activeMaskPosition] ? this.modelValue[this.activeMaskPosition] : {} : {}
 			},
 			set (newValue) {
-				if (this.modelValue[this.activeMaskPosition] !== undefined && this.modelValue[this.activeMaskPosition]['shape'] !== newValue['shape']) {
+				if (newValue === null) {
+					this.$emit('update:modelValue', null)
+					return
+				}
+
+				const shape = get(this.modelValue, `${this.activeMaskPosition}.shape`)
+				if (shape !== newValue['shape']) {
 					if (newValue.hasOwnProperty('height')) {
 						newValue['height'] = 'auto'
 					}
