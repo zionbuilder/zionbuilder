@@ -51,7 +51,7 @@ export default {
 		}
 
 		function onLetterChange (newValue) {
-			editor.value.formatter.apply('letterSpacing', { value: newValue })
+			editor.editor.formatter.apply('letterSpacing', { value: newValue })
 			sliderValue.value = newValue
 			emit('started-dragging')
 			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
@@ -73,23 +73,23 @@ export default {
 		}
 
 		function getLetterSpacing () {
-			let letterSpacing = window.getComputedStyle(editor.value.selection.getNode()).getPropertyValue('letter-spacing')
+			let letterSpacing = window.getComputedStyle(editor.editor.selection.getNode()).getPropertyValue('letter-spacing')
 			sliderValue.value = letterSpacing
 		}
 
 		onMounted(() => {
-			editor.value.formatter.register('letterSpacing', {
+			editor.editor.formatter.register('letterSpacing', {
 				selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 				styles: { 'letter-spacing': '%value' }
 			})
 
 
 			getLetterSpacing()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.editor.on('SelectionChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.editor.off('SelectionChange', onNodeChange)
 		})
 
 		return {

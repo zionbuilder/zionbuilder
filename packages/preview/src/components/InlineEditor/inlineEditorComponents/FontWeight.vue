@@ -7,7 +7,7 @@
 		<InlineEditorButton
 			v-for="fontWeight in fontWeights"
 			:key="fontWeight"
-			formatter="fontweight"
+			formatter="fontWeight"
 			:formatter-value="fontWeight"
 			:buttontext="fontWeight"
 		/>
@@ -46,17 +46,17 @@ export default {
 
 		function checkIfActive () {
 			isActive.value = fontWeights.some((fontWeight) => {
-				return editor.value.formatter.match('fontweight', { value: fontWeight })
+				return editor.editor.formatter.match('fontweight', { value: fontWeight })
 			})
 		}
 
 		onBeforeMount(() => {
 			checkIfActive()
-			editor.value.on('NodeChange', checkIfActive)
+			editor.editor.on('NodeChange', checkIfActive)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('NodeChange', checkIfActive)
+			editor.editor.off('NodeChange', checkIfActive)
 		})
 
 		return {
