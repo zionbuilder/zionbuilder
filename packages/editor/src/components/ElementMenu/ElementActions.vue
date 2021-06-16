@@ -272,7 +272,7 @@ export default {
 	font-size: 14px;
 	list-style-type: none;
 	background-color: $surface;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
+	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
 	border-radius: 3px;
 	outline: 1px solid $surface-variant;
 }
@@ -280,11 +280,11 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 8px 16px;
-	font-family: $font-stack;
+	font-family: var(--font-stack);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 20px;
-	transition: all .1s ease;
+	transition: all 0.1s ease;
 	cursor: pointer;
 
 	&:first-child {

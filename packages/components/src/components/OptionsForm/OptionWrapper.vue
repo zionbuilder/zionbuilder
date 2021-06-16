@@ -608,7 +608,7 @@ export default {
 		align-items: center;
 		margin-bottom: 10px;
 		color: darken($font-color, 15%);
-		font-family: $font-stack;
+		font-family: var(--font-stack);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 14px;
@@ -654,7 +654,8 @@ export default {
 		margin-bottom: 0;
 	}
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		background-color: $surface-variant;
 
 		& > .znpb-editor-icon-wrapper {
