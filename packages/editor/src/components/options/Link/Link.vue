@@ -7,11 +7,44 @@
 				:placeholder="$translate('add_an_url')"
 				:title="$translate('link_url')"
 			>
+
 				<template v-slot:prepend>
 					<Icon icon="link"></Icon>
 				</template>
 
 				<template v-slot:append>
+					<Tooltip
+						trigger="click"
+						:close-on-outside-click="true"
+						append-to="body"
+						tooltip-class="znpb-link-optionsTooltip"
+						placement="bottom-end"
+					>
+						<template #content>
+							<div class="znpb-link-options">
+								<div class="znpb-link-options-title">{{$translate('link_attributes')}}</div>
+								<div class="znpb-link-optionsAttributes">
+									<LinkAttributeForm
+										v-for="(attribute, index) in linkAttributes"
+										:key="index"
+										:attribute-config="attribute"
+										@update-attribute="onAttributeUpdate(index, $event)"
+										@delete="deleteAttribute(index)"
+									/>
+
+									<div
+										class="znpb-link-optionsAttributesAdd"
+										@click="addLinkAttribute"
+									>
+										<Icon icon="plus" /> <span>{{$translate('add_custom_link_attribute')}}</span>
+									</div>
+								</div>
+							</div>
+						</template>
+
+						<Icon icon="sliders"></Icon>
+					</Tooltip>
+
 					<!-- Injection point -->
 					<Injection location="options/link/append" />
 				</template>
@@ -43,9 +76,12 @@
 </template>
 
 <script>
+import { get } from 'lodash-es'
 import { computed } from 'vue'
 import { Injection } from "@zb/components"
 import { applyFilters } from '@zb/hooks'
+import { Tooltip } from '@zionbuilder/tooltip'
+import LinkAttributeForm from './LinkAttributeForm.vue'
 
 export default {
 	name: 'Link',
@@ -57,15 +93,62 @@ export default {
 		}
 	},
 	components: {
-		Injection
+		Injection,
+		Tooltip,
+		LinkAttributeForm
 	},
-	setup (props) {
+	setup (props, { emit }) {
 		const linkURLComponent = computed(() => {
 			return applyFilters('zionbuilder/options/link/url_component', 'BaseInput', props.modelValue)
 		})
 
+		const linkAttributes = computed({
+			get () {
+				return get(props.modelValue, 'attributes', [])
+			},
+			set (newValue) {
+				emit('update:modelValue', {
+					...props.modelValue,
+					attributes: newValue
+				})
+			}
+		})
+
+		function addLinkAttribute () {
+			linkAttributes.value = [
+				...linkAttributes.value,
+				{
+					key: '',
+					value: ''
+				}
+			]
+		}
+
+		function deleteAttribute (index) {
+			const clone = [
+				...linkAttributes.value
+			]
+
+			clone.splice(index, 1)
+			linkAttributes.value = clone
+		}
+
+		function onAttributeUpdate (index, attribute) {
+			const clone = [
+				...linkAttributes.value
+			]
+
+			clone.splice(index, 1, attribute)
+
+			linkAttributes.value = clone
+		}
+
 		return {
-			linkURLComponent
+			linkURLComponent,
+			addLinkAttribute,
+			linkAttributes,
+			deleteAttribute,
+			onAttributeUpdate
 		}
 	},
 	data () {
@@ -156,5 +239,30 @@ export default {
 	& > .zion-input {
 		margin-bottom: 15px;
 	}
+}
+
+.znpb-link-optionsTooltip {
+	width: 320px;
+}
+
+.znpb-link-optionsAttributesAdd {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.znpb-link-options-title {
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	color: #5f5f5f;
+	font-family: "Roboto", sans-serif;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 14px;
 }
 </style>

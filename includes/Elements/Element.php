@@ -918,6 +918,15 @@ class Element {
 		if ( isset( $link['title'] ) ) {
 			$this->render_attributes->add( $tag_id, 'title', $link['title'] );
 		}
+
+		if ( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) {
+			foreach ( $link['attributes'] as $attribute_config ) {
+				if ( ! empty( $attribute_config['key'] ) ) {
+					$attribute_value = isset( $attribute_config['value'] ) ? $attribute_config['value'] : null;
+					$this->render_attributes->add( $tag_id, $attribute_config['key'], $attribute_value );
+				}
+			}
+		}
 	}
 
 	/**

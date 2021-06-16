@@ -3360,11 +3360,11 @@ msgstr ""
 msgid "Slides to show"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:161
+#: ../includes/Elements/ImageSlider/ImageSlider.php:160
 msgid "Slides to scroll"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:173
+#: ../includes/Elements/ImageSlider/ImageSlider.php:172
 msgid "Autoplay speed"
 msgstr ""
 

@@ -11,6 +11,15 @@ export default function (linkConfig) {
 		if (linkConfig.target) {
 			valueToReturn.target = linkConfig.target
 		}
+		// Check for link attributes
+		if (Array.isArray(linkConfig.attributes)) {
+			linkConfig.attributes.forEach(attributeConfig => {
+				console.log(attributeConfig);
+				if (typeof attributeConfig.key !== 'undefined' && attributeConfig.key.length > 0) {
+					valueToReturn[attributeConfig.key] = attributeConfig.value
+				}
+			});
+		}
 	}
 
 	return valueToReturn

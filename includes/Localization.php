@@ -681,6 +681,10 @@ class Localization {
 				// Element
 				'invalid_element'                        => __( 'Invalid Element', 'zionbuilder' ),
 				'remove_additional_classes'              => __( 'Remove additional classes', 'zionbuilder' ),
+				'link_attributes'                        => __( 'Link attributes', 'zionbuilder' ),
+				'add_custom_link_attribute'              => __( 'Add custom link attribute', 'zionbuilder' ),
+				'attribute_key'                          => __( 'Attribute key', 'zionbuilder' ),
+				'attribute_value'                        => __( 'Attribute value', 'zionbuilder' ),
 			]
 		);
 	}
