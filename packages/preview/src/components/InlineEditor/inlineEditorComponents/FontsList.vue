@@ -88,14 +88,13 @@ export default {
 				width: 100%;
 				padding: 8px 16px;
 				color: $font-color;
-				font-family: var(--font-stack);
+				font-family: $font-stack;
 				font-size: 13px;
 				font-weight: 500;
 				text-align: left;
-				transition: all 0.2s;
+				transition: all .2s;
 
-				&:hover,
-				&--active {
+				&:hover, &--active {
 					color: $surface-active-color;
 					background-color: lighten($surface-variant, 2%);
 				}

@@ -1,6 +1,5 @@
 <template>
-	<div
-		class="znpb-button"
+	<div class="znpb-button"
 		:class="{['znpb-button--' + type]: type}"
 	>
 		<!-- @slot Content that will be added inside button -->
@@ -10,17 +9,17 @@
 
 <script lang="ts">
 export default {
-	name: "Button",
+	name: 'Button',
 	props: {
 		/**
 		 * Button type
 		 */
 		type: {
 			type: String,
-			required: false,
-		},
-	},
-};
+			required: false
+		}
+	}
+}
 </script>
 
 <style lang="scss">
@@ -30,17 +29,17 @@ export default {
 	align-items: center;
 	padding: 13.5px 20px;
 	color: $primary-color--accent;
-	font-family: var(--font-stack);
+	font-family: $font-stack;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1;
 	background: $primary-color;
 	border-radius: 3px;
-	transition: all 0.3s;
+	transition: all .3s;
 	cursor: pointer;
 
 	&:hover {
-		background: darken($primary-color, 3);
+		background: darken( $primary-color, 3 );
 	}
 
 	b {
@@ -68,14 +67,12 @@ export default {
 		color: $secondary-color--accent;
 		background: $secondary;
 
-		&:hover,
-		&:focus,
-		&:active {
+		&:hover, &:focus, &:active {
 			color: $surface;
 		}
 
 		&:hover {
-			background: lighten($secondary, 2);
+			background: lighten( $secondary, 2 );
 		}
 	}
 
@@ -91,7 +88,7 @@ export default {
 
 		&:hover {
 			background: none;
-			opacity: 0.6;
+			opacity: .6;
 		}
 	}
 
@@ -99,7 +96,7 @@ export default {
 		padding: 18px 70px;
 		background: $pro-color;
 		&:hover {
-			background: darken($pro-color, 3);
+			background: darken( $pro-color, 3 );
 		}
 	}
 
@@ -107,7 +104,7 @@ export default {
 		background: #e35364;
 
 		&:hover {
-			background: darken(#e35364, 3);
+			background: darken( #e35364, 3 );
 		}
 	}
 
@@ -116,11 +113,11 @@ export default {
 		background: #f1f1f1;
 
 		&:hover {
-			background: darken(#f1f1f1, 3);
+			background: darken( #f1f1f1, 3 );
 		}
 	}
 	&--disabled {
-		background: rgba($secondary, 0.7);
+		background: rgba( $secondary, .7);
 		pointer-events: none;
 	}
 }

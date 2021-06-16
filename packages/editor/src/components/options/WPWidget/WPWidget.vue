@@ -96,14 +96,13 @@ export default {
 	margin: 0 auto;
 	text-align: center;
 	transition: none;
-	&:before,
-	&:after {
+	&:before, &:after {
 		@extend %loading;
 		border: 2px solid $surface-variant;
 	}
 	&:after {
 		border-right-color: lighten($surface-headings-color, 5%);
-		animation: Rotate 0.6s linear infinite;
+		animation: Rotate .6s linear infinite;
 	}
 }
 .znpb-element-form__wp_widget {
@@ -118,16 +117,14 @@ export default {
 	}
 }
 .widget-content {
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;
 		padding: 13px;
 		margin: 0;
 		color: $font-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 13px;
 		line-height: 1;
 		background-color: #f1f1f1;
@@ -141,23 +138,21 @@ export default {
 	label {
 		padding: 15px 15px 15px 0;
 		color: $surface-headings-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 11px;
 		font-weight: 700;
 		line-height: 1;
 	}
 }
 .text-widget-fields {
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;
 		padding: 13px;
 		margin: 0;
 		color: $font-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 13px;
 		line-height: 1;
 		background-color: #f1f1f1;
@@ -171,7 +166,7 @@ export default {
 	label {
 		padding: 15px 15px 15px 0;
 		color: $surface-headings-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 11px;
 		font-weight: 700;
 		line-height: 1;
@@ -179,26 +174,24 @@ export default {
 	.button {
 		margin: 0;
 		margin-bottom: 15px;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 13px;
 		text-decoration: none;
 		text-transform: uppercase;
 		border: none;
 
 		-webkit-appearance: none;
-		-moz-appearance: none;
+		   -moz-appearance: none;
 	}
 }
 .media-widget-control {
-	font-family: var(--font-stack);
+	font-family: $font-stack;
 
 	.button-add-media {
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 	}
 
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;
@@ -206,7 +199,7 @@ export default {
 		margin: 0;
 		margin-bottom: 15px;
 		color: $font-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 13px;
 		line-height: 1;
 		background-color: #f1f1f1;

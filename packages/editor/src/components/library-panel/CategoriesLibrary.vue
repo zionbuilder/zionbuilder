@@ -118,7 +118,7 @@ export default {
 	flex-shrink: 0;
 	max-height: 100%;
 	padding: 0;
-	transition: all 0.2s;
+	transition: all .2s;
 
 	&__header {
 		display: flex;
@@ -144,12 +144,12 @@ export default {
 			justify-content: space-between;
 			align-items: center;
 			padding: 8px 30px;
-			font-family: var(--font-stack);
+			font-family: $font-stack;
 			font-size: 14px;
 			font-weight: 400;
 			cursor: pointer;
 			h5 {
-				font-family: var(--font-stack);
+				font-family: $font-stack;
 				font-size: 13px;
 				font-weight: 500;
 				text-transform: capitalize;

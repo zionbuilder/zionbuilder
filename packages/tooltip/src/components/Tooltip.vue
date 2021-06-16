@@ -558,11 +558,11 @@ export default {
 	box-sizing: border-box;
 	padding: 10px;
 	color: #959596;
-	font-family: var(--font-stack);
+	font-family: $font-stack;
 	font-size: 13px;
 	font-weight: normal;
 	background-color: #fff;
-	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
 	border: 1px solid #f1f1f1;
 	border-radius: 4px;
 

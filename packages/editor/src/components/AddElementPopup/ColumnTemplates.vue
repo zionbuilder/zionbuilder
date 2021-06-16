@@ -333,7 +333,7 @@ export default {
 			display: block;
 			background: darken($surface-variant, 3%);
 			border-radius: 1px;
-			transition: box-shadow 0.15s;
+			transition: box-shadow .15s;
 		}
 
 		&:hover span {
@@ -406,7 +406,7 @@ export default {
 	&__library-title {
 		margin-top: 0;
 		margin-bottom: 20px;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 28px;
 		font-weight: 700;
 		line-height: 1;

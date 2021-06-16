@@ -155,8 +155,7 @@ export default {
 		align-items: center;
 		border: none;
 	}
-	.zion-input,
-	input[type="range"] {
+	.zion-input, input[type="range"] {
 		position: relative;
 		flex: 2;
 		width: 100%;
@@ -166,7 +165,7 @@ export default {
 	& > label > .znpb-input-number > .zion-input > input[type="number"] {
 		height: auto;
 		padding: 12px 10px 12px 10px;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 	}
 
 	input.znpb-input-number__input {
@@ -230,7 +229,7 @@ export default {
 		background: $secondary;
 		border-radius: 50%;
 		transform: translate(0px, 0px);
-		transition: all 0.2s ease;
+		transition: all .2s ease;
 		cursor: pointer;
 	}
 

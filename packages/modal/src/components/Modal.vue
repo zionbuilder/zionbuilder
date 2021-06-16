@@ -317,7 +317,7 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(172, 172, 172, 0.2);
+		background: rgba(172, 172, 172, .2);
 		* {
 			box-sizing: border-box;
 		}
@@ -330,9 +330,9 @@ export default {
 		max-width: 100%;
 		max-height: 80%;
 		background: $surface;
-		box-shadow: 0 0 25px -10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
 		border-radius: 3px;
-		transition: all 0.2s;
+		transition: all .2s;
 
 		&--full-size {
 			width: 100%;
@@ -350,7 +350,7 @@ export default {
 			flex-grow: 2;
 			padding: 21px 20px;
 			color: $surface-active-color;
-			font-family: var(--font-stack);
+			font-family: $font-stack;
 			font-size: 16px;
 			font-weight: 500;
 			line-height: 1;
@@ -361,7 +361,7 @@ export default {
 			margin-right: 15px;
 			color: $surface-headings-color;
 			font-size: 14px;
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {
@@ -382,13 +382,11 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-from,
-.modal-fade-enter-to {
-	transition: all 0.2s;
+.modal-fade-leave-from, .modal-fade-enter-to {
+	transition: all .2s;
 }
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-	transform: scale(0.99);
+.modal-fade-enter-from, .modal-fade-leave-to {
+	transform: scale(.99);
 	opacity: 0;
 }
 </style>

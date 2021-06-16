@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-colorpicker-inner-editor-hex">
-		<InputLabel>
+		<InputLabel >
 			<BaseInput
 				v-model="hexValue"
 				class="znpb-form-colorpicker__input-text"
@@ -64,7 +64,7 @@ export default {
 
 		input {
 			padding: 8px 0;
-			font-family: var(--font-stack);
+			font-family: $font-stack;
 			font-size: 13px;
 			text-align: center;
 		}

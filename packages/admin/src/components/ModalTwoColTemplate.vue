@@ -68,7 +68,7 @@ export default {
 	.znpb-admin-modal-title-block__title {
 		margin-top: 0;
 		margin-bottom: 10px;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 14px;
 		font-weight: 500;
 		line-height: 1;
@@ -77,7 +77,7 @@ export default {
 	.znpb-admin-modal-title-block__desc {
 		margin-bottom: 0;
 		color: $surface-headings-color;
-		font-family: var(--font-stack);
+		font-family: $font-stack;
 		font-size: 12px;
 		font-weight: 500;
 	}
