@@ -142,7 +142,7 @@ export default {
 
 .znpb-admin__wrapper {
 	color: $font-color;
-	font-family: $font-stack;
+	font-family: var(--font-stack);
 	font-size: 13px;
 	line-height: 1;
 
@@ -157,7 +157,7 @@ export default {
 	button {
 		margin: 0;
 		color: $primary-color--accent;
-		font-family: $font-stack;
+		font-family: var(--font-stack);
 		font-size: 12px;
 		text-decoration: none;
 		text-transform: uppercase;

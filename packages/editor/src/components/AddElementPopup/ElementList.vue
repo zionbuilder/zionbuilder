@@ -56,7 +56,7 @@ export default {
 	display: grid;
 	padding: 0;
 
-// padding: 15px 30px;
+	// padding: 15px 30px;
 
 	grid-gap: 20px 18px;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -70,7 +70,7 @@ export default {
 		margin-top: 0;
 		margin-bottom: 10px;
 		color: $font-color;
-		font-family: $font-stack;
+		font-family: var(--font-stack);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 14px;

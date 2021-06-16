@@ -192,7 +192,7 @@ body {
 		position: relative;
 		display: flex;
 		width: 100%;
-		font-family: $font-stack;
+		font-family: var(--font-stack);
 		font-size: 13px;
 		line-height: 1;
 		background: transparent;
@@ -219,7 +219,7 @@ body {
 			padding: 10.5px 12px;
 			margin: 0;
 			color: $font-color;
-			font-family: $font-stack;
+			font-family: var(--font-stack);
 			font-size: 13px;
 			font-weight: 500;
 			line-height: 1;

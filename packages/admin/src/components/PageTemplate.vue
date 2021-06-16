@@ -47,7 +47,7 @@ export default {
 			flex-basis: 40px;
 			width: 40px;
 
-			 > .znpb-admin-side-menu {
+			> .znpb-admin-side-menu {
 				position: absolute;
 				top: 0;
 				left: 39px;
@@ -55,7 +55,7 @@ export default {
 				display: none;
 				width: 200px;
 				background: #fff;
-				box-shadow: 0 4px 40px -20px rgba(0, 0, 0, .4);
+				box-shadow: 0 4px 40px -20px rgba(0, 0, 0, 0.4);
 				border: 1px solid #f1f1f1;
 				border-radius: 3px;
 
@@ -91,7 +91,7 @@ export default {
 		p.znpb-admin-info-p {
 			margin-top: 0;
 			color: $font-color;
-			font-family: $font-stack;
+			font-family: var(--font-stack);
 			font-size: 13px;
 		}
 		.znpb-admin-right-info {
