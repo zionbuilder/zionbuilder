@@ -135,7 +135,7 @@ export default {
 		},
 		forcedRootNode: {
 			type: [Boolean, String],
-			default: "p",
+			default: "",
 		},
 	},
 	setup (props, { emit }) {
@@ -172,6 +172,7 @@ export default {
 		})
 
 		function saveContent () {
+			console.log(TinyMCEEditor.value.getContent());
 			emit("update:modelValue", TinyMCEEditor.value.getContent());
 		}
 
@@ -212,7 +213,7 @@ export default {
 
 					editor.on("change input undo redo", saveContent);
 				},
-				forced_root_block: props.forcedRootNode,
+				forced_root_block: '',
 				formats: {
 					fontSize: {
 						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
