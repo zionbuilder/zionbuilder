@@ -565,7 +565,6 @@ export default {
 			if (newValue && newValue !== oldValue) {
 				this.addToGlobalHistory(oldValue)
 			}
-			console.log({ newValue, oldValue });
 		},
 		searchActive (newValue) {
 			if (newValue) {
