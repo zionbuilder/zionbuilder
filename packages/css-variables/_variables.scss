@@ -1,3 +1,55 @@
+:root {
+	// Font Stack
+	--font-stack: 'Roboto', sans-serif;
+
+	// Neutral Colors
+	--color-white: #fff;
+	--color-neutral-1: #f1f1f1;
+	--color-neutral-2: #e5e5e5;
+	--color-neutral-3: #c4c4c4;
+	--color-neutral-4: #bcbcbc;
+	--color-neutral-5: #858585;
+	--color-neutral-6: #464646;
+	--color-neutral-7: #373737;
+	--color-black: #000;
+
+	// Alert Colors
+	--color-success: #28a745;
+	--color-info: #2ea1f8;
+	--color-warning: #eec643;
+	--color-error: #e84655;
+
+	// Primary Colors
+	--color-primary: #18208d;
+	--color-primary-hover: #161d80;
+	--color-primary-accent: var(--color-white);
+
+	// Secondary Colors
+	--color-secondary: #006dd2;
+	--color-secondary-hover: #0065c3;
+	--color-secondary-accent: var(--color-white);
+
+	// Surface Colors
+	--color-surface: var(--color-white);
+	--color-surface-variant: var(--color-neutral-1);
+	--color-surface-accent-text: var(--color-neutral-5);
+	--color-surface-accent-headings: var(--color-neutral-4);
+	--color-surface-accent-icons: var(--color-neutral-4);
+	--color-surface-accent-active: var(--color-neutral-6);
+
+	// Border Color
+	--color-border: var(--color-neutral-2);
+
+	// Toolbox Colors
+	--section-color: #404be3;
+	--section-border-color: #9aa0ec;
+	--column-color: #eec643;
+	--column-border-color: #faeec6;
+	--element-color: #06bee1;
+	--element-border-color: #b4ebf6;
+
+}
+
 // font family
 $font-stack: "Roboto",
 sans-serif;
