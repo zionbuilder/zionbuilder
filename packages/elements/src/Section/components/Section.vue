@@ -45,7 +45,7 @@ export default {
 			return this.shapes['bottom']
 		},
 		htmlTag () {
-			return this.options.tag || 'section'
+			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'section'
 		},
 		shapes () {
 			return this.options.shapes || {}

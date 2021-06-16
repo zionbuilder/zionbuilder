@@ -18,9 +18,9 @@
 					enabled: true
 				},
 				{
-				name: 'flip',
-				options: {
-					fallbackPlacements: ['bottom', 'top', 'right','left'],
+					name: 'flip',
+					options: {
+						fallbackPlacements: ['bottom', 'top', 'right','left'],
 					},
 				},
 			]"
@@ -137,6 +137,7 @@
 					ref="input"
 					@keydown="handleKeydown"
 					:font-family="style_type === 'font-select' ? selected : null"
+					@click="onInputClick"
 				>
 					<template v-slot:suffix>
 						<div class="znpb-baseselect__trigger-icon">
@@ -321,7 +322,6 @@ export default {
 			if (newValue) {
 				if (!this.multiple) {
 					this.$nextTick(() => {
-
 						if (this.optionIndex) {
 							this.$refs.dropdown.scrollTop = this.$refs.filteredOptions.offsetTop
 						}
@@ -383,9 +383,17 @@ export default {
 				return style
 			} else return null
 		},
+		onInputClick (event) {
+			// Don't close the dropdown if the user selects the text
+			if (this.expanded && this.filterable) {
+				event.stopPropagation()
+			}
+		},
 		toggleDropdown (event) {
 			this.expanded = !this.expanded
+
 			const inputOption = this.$refs.input
+
 			if (inputOption && inputOption.$el && !this.inputWidth) {
 				this.inputWidth = inputOption.$el.clientWidth
 			}
@@ -463,9 +471,12 @@ export default {
 			let optionConfig = options.find((optionConfig) => {
 				return optionConfig.id === optionid
 			})
+
 			if (typeof optionConfig !== 'undefined' && typeof optionConfig.id !== 'undefined') {
 				return optionConfig.name
 			}
+
+			return null
 		},
 		/**
 		 * Close panel if clicked outside of selector
@@ -526,13 +537,14 @@ export default {
 			if (!this.multiple) {
 				const options = this.remote_method ? this.remoteOptions : this.options
 				const selectedOptionName = this.getNameFromOptionId(this.valueModel) || this.valueModel || ''
+
 				this.searchKeyword = selectedOptionName
 				this.selected = selectedOptionName
-				Object.values(options).forEach((option, index) => {
-					if (option.id === this.valueModel) {
-						this.optionIndex = index
-					}
-				})
+				// Object.values(options).forEach((option, index) => {
+				// 	if (option.id === this.valueModel) {
+				// 		this.optionIndex = index
+				// 	}
+				// })
 			}
 		},
 		addNewItem () {
