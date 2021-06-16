@@ -337,8 +337,11 @@ export default {
 
 		watch(showEditor, (newValue) => {
 			if (newValue) {
-				document.addEventListener('keydown', hideEditorOnEscapeKey, true)
-				document.addEventListener('scroll', hideEditor)
+				setTimeout(() => {
+					document.addEventListener('keydown', hideEditorOnEscapeKey, true)
+					document.addEventListener('scroll', hideEditor)
+				}, 10);
+
 			} else {
 				document.removeEventListener('keydown', hideEditorOnEscapeKey, true)
 				document.removeEventListener('scroll', hideEditor, true)

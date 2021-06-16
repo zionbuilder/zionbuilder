@@ -46,7 +46,7 @@ export default {
 
 		function checkIfActive () {
 			isActive.value = fontWeights.some((fontWeight) => {
-				return editor.editor.formatter.match('fontweight', { value: fontWeight })
+				return editor.editor.formatter.match('fontWeight', { value: fontWeight })
 			})
 		}
 
