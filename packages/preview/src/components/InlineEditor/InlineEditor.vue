@@ -385,7 +385,6 @@ export default {
 
 <style lang="scss">
 .znpb-inline-editor__wrapper_all {
-	height: 100%;
 	min-height: 14px;
 }
 
@@ -480,7 +479,6 @@ export default {
 
 // NEW STYLES
 .znpb-inline-text-editor {
-	height: 100%;
 	outline: none !important;
 	cursor: text !important;
 
