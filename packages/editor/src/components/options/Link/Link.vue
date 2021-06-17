@@ -28,6 +28,7 @@
 										v-for="(attribute, index) in linkAttributes"
 										:key="index"
 										:attribute-config="attribute"
+										:can-delete="canDeleteAttributes"
 										@update-attribute="onAttributeUpdate(index, $event)"
 										@delete="deleteAttribute(index)"
 									/>
@@ -104,7 +105,17 @@ export default {
 
 		const linkAttributes = computed({
 			get () {
-				return get(props.modelValue, 'attributes', [])
+				let attributes = get(props.modelValue, 'attributes')
+				if (Array.isArray(attributes) && attributes.length > 0) {
+					return attributes
+				} else {
+					return [
+						{
+							key: '',
+							value: ''
+						}
+					]
+				}
 			},
 			set (newValue) {
 				emit('update:modelValue', {
@@ -113,6 +124,8 @@ export default {
 				})
 			}
 		})
+
+		const canDeleteAttributes = computed(() => linkAttributes.value.length > 1)
 
 		function addLinkAttribute () {
 			linkAttributes.value = [
@@ -148,7 +161,8 @@ export default {
 			addLinkAttribute,
 			linkAttributes,
 			deleteAttribute,
-			onAttributeUpdate
+			onAttributeUpdate,
+			canDeleteAttributes
 		}
 	},
 	data () {
@@ -237,8 +251,8 @@ export default {
 
 		& .zion-input__append {
 			.zion-tags-attributes {
-				cursor: pointer;
 				margin-right: 5px;
+				cursor: pointer;
 
 				&:hover {
 					color: #959595;
@@ -260,8 +274,8 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-weight: 500;
 	padding: 10px 5px 5px;
+	font-weight: 500;
 	line-height: 1;
 	cursor: pointer;
 
@@ -273,14 +287,14 @@ export default {
 .znpb-link-options-title {
 	position: relative;
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	padding: 5px;
 	margin-bottom: 10px;
 	color: #5f5f5f;
 	font-family: "Roboto", sans-serif;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 14px;
-	padding: 5px;
 }
 </style>

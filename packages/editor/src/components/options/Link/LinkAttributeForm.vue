@@ -20,6 +20,7 @@
 			<Icon
 				icon="delete"
 				@click="$emit('delete', attributeConfig)"
+				:class="{'znpb-link-optionsAttributeDelete--disabled': !canDelete}"
 			/>
 		</div>
 	</div>
@@ -36,6 +37,11 @@ export default {
 	props: {
 		attributeConfig: {
 			type: Object
+		},
+		canDelete: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	setup (props, { emit }) {
@@ -69,18 +75,24 @@ export default {
 }
 
 .znpb-link-optionsAttributeDelete {
+	transition: opacity .15s ease;
 	cursor: pointer;
-	transition: opacity 0.15s ease;
 
 	&:hover {
-		opacity: 0.7;
+		opacity: .7;
 	}
 
 	.znpb-editor-icon-wrapper {
-		border: 2px solid var(--zion-border-color);
-		border-radius: 3px;
 		width: 40px;
 		height: 40px;
+		border: 2px solid var(--zion-border-color);
+		border-radius: 3px;
 	}
+}
+
+.znpb-link-optionsAttributeDelete--disabled {
+	cursor: default;
+	opacity: .5;
+	pointer-events: none;
 }
 </style>
