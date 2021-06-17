@@ -70,6 +70,11 @@ export default {
 
 .znpb-link-optionsAttributeDelete {
 	cursor: pointer;
+	transition: opacity 0.15s ease;
+
+	&:hover {
+		opacity: 0.7;
+	}
 
 	.znpb-editor-icon-wrapper {
 		border: 2px solid var(--zion-border-color);
