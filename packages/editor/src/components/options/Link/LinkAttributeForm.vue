@@ -68,7 +68,14 @@ export default {
 	}
 }
 
-.znpb-link-optionsAttribute {
-	margin-bottom: 10px;
+.znpb-link-optionsAttributeDelete {
+	cursor: pointer;
+
+	.znpb-editor-icon-wrapper {
+		border: 2px solid var(--zion-border-color);
+		border-radius: 3px;
+		width: 40px;
+		height: 40px;
+	}
 }
 </style>

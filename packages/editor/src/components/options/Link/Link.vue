@@ -42,7 +42,7 @@
 							</div>
 						</template>
 
-						<Icon icon="sliders"></Icon>
+						<Icon icon="tags-attributes"></Icon>
 					</Tooltip>
 
 					<!-- Injection point -->
@@ -234,6 +234,17 @@ export default {
 		& .zion-input__prepend {
 			background: $surface-variant;
 		}
+
+		& .zion-input__append {
+			.zion-tags-attributes {
+				cursor: pointer;
+				margin-right: 5px;
+
+				&:hover {
+					color: #959595;
+				}
+			}
+		}
 	}
 
 	& > .zion-input {
@@ -249,20 +260,27 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5px;
+	font-weight: 500;
+	padding: 10px 5px 5px;
 	line-height: 1;
 	cursor: pointer;
+
+	.znpb-editor-icon-wrapper {
+		margin-right: 3px;
+	}
 }
 
 .znpb-link-options-title {
 	position: relative;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	margin-bottom: 10px;
 	color: #5f5f5f;
 	font-family: "Roboto", sans-serif;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 14px;
+	padding: 5px;
 }
 </style>
