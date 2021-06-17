@@ -1,0 +1,97 @@
+[data-zion-tooltip] {
+	position: relative;
+
+	&::before {
+		content: attr(data-zion-tooltip);
+		position: absolute;
+		max-width: 200px;
+		width: max-content;
+		background-color: #fff;
+		color: #858585;
+		font-size: 12px;
+		line-height: 1.6;
+		font-weight: normal;
+		text-transform: none;
+		box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+		border: 1px solid #f1f1f1;
+		border-radius: 4px;
+		box-sizing: border-box;
+		opacity: 0;
+		visibility: hidden;
+		padding: 5px 10px;
+		transition: opacity 0.2s, visibility 0.15s;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		background: #fff;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.2s, visibility 0.15s;
+	}
+
+	&:hover::before,
+	&:hover::after {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+[data-zion-tooltip-position='top'] {
+	&::before {
+		bottom: calc(100% + 10px);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&::after {
+		bottom: calc(100% + 7px);
+		left: 50%;
+		transform: translateX(-50%) rotate(45deg);
+	}
+}
+
+[data-zion-tooltip-position='right'] {
+	&::before {
+		top: 50%;
+		left: calc(100% + 10px);
+		transform: translateY(-50%);
+	}
+
+	&::after {
+		top: 50%;
+		left: calc(100% + 7px);
+		transform: translateY(-50%) rotate(45deg);
+	}
+}
+
+[data-zion-tooltip-position='bottom'] {
+	&::before {
+		top: calc(100% + 10px);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&::after {
+		top: calc(100% + 7px);
+		left: 50%;
+		transform: translateX(-50%) rotate(45deg);
+	}
+}
+
+[data-zion-tooltip-position='left'] {
+	&::before {
+		top: 50%;
+		right: calc(100% + 10px);
+		transform: translateY(-50%);
+	}
+
+	&::after {
+		top: 50%;
+		right: calc(100% + 7px);
+		transform: translateY(-50%) rotate(45deg);
+	}
+}
