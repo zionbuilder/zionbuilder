@@ -11,12 +11,11 @@
 			<div class="znpb-admin__google-font-tab-actions">{{$translate('actions')}}</div>
 		</div>
 
-		<Tooltip
+		<EmptyList
+			@click="showModal=true"
 			v-if="googleFonts.length === 0"
-			:content="$translate('click_me_to_add_font')"
-		>
-			<EmptyList @click="showModal=true">{{$translate('no_google_fonts')}}</EmptyList>
-		</Tooltip>
+			:data-zion-tooltip="$translate('click_me_to_add_font')"
+		>{{$translate('no_google_fonts')}}</EmptyList>
 
 		<div
 			v-if="googleFonts.length > 0"
@@ -69,7 +68,7 @@
 </template>
 
 <script>
-import { computed, inject, ref, reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { useBuilderOptions } from '@zionbuilder/composables'
 
 // Components

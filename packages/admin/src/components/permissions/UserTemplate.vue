@@ -9,25 +9,20 @@
 			</h4>
 		</div>
 		<div class="znpb-single-role__actions">
-			<Tooltip
-				:content="$translate('customize_permissions_for_user')"
-				class="znpb-edit-icon-pop"
-			>
-				<Icon
-					icon="edit"
-					@click="$emit('edit-permission')"
-				/>
-			</Tooltip>
 
-			<Tooltip
+			<Icon
+				class="znpb-edit-icon-pop"
+				:data-zion-tooltip="$translate('customize_permissions_for_user')"
+				icon="edit"
+				@click="$emit('edit-permission')"
+			/>
+
+			<Icon
 				v-if="hasDelete"
-				:content="$translate('delete_permissions_for_user')"
-			>
-				<Icon
-					icon="delete"
-					@click="$emit('delete-permission')"
-				/>
-			</Tooltip>
+				:data-zion-tooltip="$translate('delete_permissions_for_user')"
+				icon="delete"
+				@click="$emit('delete-permission')"
+			/>
 
 		</div>
 	</div>
@@ -57,8 +52,7 @@ export default {
 		flex-direction: column;
 		align-items: flex-start;
 
-		&__item,
-		&__permission {
+		&__item, &__permission {
 			margin-bottom: 10px !important;
 		}
 	}

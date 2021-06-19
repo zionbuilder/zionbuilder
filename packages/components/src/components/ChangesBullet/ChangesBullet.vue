@@ -1,9 +1,8 @@
 <template>
-	<Tooltip
-		:content="discardChangesTitle"
+	<span
 		class="znpb-options-has-changes-wrapper"
-		tag="span"
-		strategy="fixed"
+		:data-zion-tooltip="discardChangesTitle"
+		data-zion-tooltip-position="top"
 	>
 		<span
 			@click.stop="$emit('remove-styles')"
@@ -11,8 +10,7 @@
 			@mouseleave="showIcon=false"
 			class="znpb-options__has-changes"
 		>
-			<span v-if="!showIcon">
-			</span>
+			<span v-if="!showIcon"></span>
 			<Icon
 				v-else
 				class="znpb-options-has-changes-wrapper__delete"
@@ -22,7 +20,7 @@
 			/>
 		</span>
 
-	</Tooltip>
+	</span>
 </template>
 
 <script>
@@ -56,8 +54,8 @@ export default {
 	position: relative;
 	top: 0;
 	display: flex;
+	justify-content: center;
 	align-items: center;
-    justify-content: center;
 	width: 10px;
 	height: 10px;
 	cursor: pointer;

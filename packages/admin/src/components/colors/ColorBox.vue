@@ -34,15 +34,11 @@
 				@click.stop="showColorPicker = true"
 			>
 
-				<Tooltip
-					tag="span"
-					:content="$translate('delete_color_from_preset')"
-				>
-					<Icon
-						icon="close"
-						@click.stop="$emit('delete-color')"
-					/>
-				</Tooltip>
+				<Icon
+					:data-zion-tooltip="$translate('delete_color_from_preset')"
+					icon="close"
+					@click.stop="$emit('delete-color')"
+				/>
 
 				<div class="znpb-admin-color-preset-box__circle--transparent">
 					<div
@@ -127,7 +123,7 @@ export default {
 .znpb-admin-color-preset-box {
 	position: relative;
 	margin-bottom: 5px;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
 	border: 1px solid $surface-variant;
 	border-radius: 3px;
 
@@ -155,8 +151,7 @@ export default {
 			align-self: flex-end;
 		}
 	}
-	&__color,
-	&__empty {
+	&__color, &__empty {
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -173,7 +168,7 @@ export default {
 		align-self: flex-end;
 		margin-top: 7px;
 		border: 1px solid $border-color;
-		transition: all 0.15s;
+		transition: all .15s;
 		cursor: pointer;
 		.zion-icon.zion-svg-inline {
 			width: 8px;

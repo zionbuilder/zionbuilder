@@ -5,6 +5,7 @@ namespace ZionBuilder;
 use ZionBuilder\CommonJS;
 use ZionBuilder\Shortcodes;
 use ZionBuilder\Renderer;
+use ZionBuilder\BulkActionsData;
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
 use ZionBuilder\Post\PostManager;
@@ -235,6 +236,7 @@ class Plugin {
 		new Integrations();
 		new AdminBar();
 		new Upgrader();
+		new BulkActionsData();
 
 		/*
 		 * ZionBuilder loaded.

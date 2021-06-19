@@ -4,7 +4,7 @@
 		<label
 			class="znpb-checkbox-switch-wrapper__label"
 			:class="{[`znpb-checkbox-switch--${model? 'checked' : 'unchecked'}`]: true}"
-			:content="model? $translate('yes') : $translate('no')"
+			:content="model ? $translate('yes') : $translate('no')"
 		>
 			<input
 				type="checkbox"

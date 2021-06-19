@@ -24,12 +24,11 @@
 					class="znpb-colorpicker-circle__global-icon"
 				/>
 
-				<Tooltip
+				<span
 					v-if="!modelValue"
-					:content="$translate('no_color_chosen')"
-				>
-					<span class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"></span>
-				</Tooltip>
+					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
+					:data-zion-tooltip="$translate('no_color_chosen')"
+				></span>
 
 			</template>
 		</Color>
@@ -59,7 +58,8 @@
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
 							</Tooltip>
-							<span v-else
+							<span
+								v-else
 								:style="{backgroundColor: modelValue}"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>

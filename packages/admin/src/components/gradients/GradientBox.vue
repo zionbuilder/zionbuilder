@@ -4,14 +4,14 @@
 		@mouseover="showLink=true"
 		@mouseleave="showLink=false"
 	>
-		<Tooltip
-			tag="span"
+
+		<Icon
+			icon="close"
+			:data-zion-tooltip="$translate('delete_gradient_from_preset')"
 			class="znpb-admin-gradient-preset-box__delete"
-			:content="$translate('delete_gradient_from_preset')"
 			@click.stop="$emit('delete-gradient')"
-		>
-			<Icon icon="close" />
-		</Tooltip>
+		/>
+
 		<div class="znpb-admin-gradient-preset-box__gradient">
 			<GradientPreview
 				:config="config"

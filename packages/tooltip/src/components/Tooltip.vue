@@ -7,8 +7,8 @@
 		<transition
 			appear
 			:name="transition"
-			@after-leave="onTransitionLeave"
 			@enter="onTransitionEnter"
+			@after-leave="onTransitionLeave"
 			v-bind="popperProps"
 			v-if="visible"
 		>
@@ -189,6 +189,14 @@ export default {
 			type: String,
 			required: false,
 		},
+		/**
+		 * Custom style
+		 */
+		tooltipStyle: {
+			type: [Object, String],
+			required: false,
+			default: {},
+		},
 	},
 	setup(props) {
 		const root = ref(null);
@@ -242,11 +250,21 @@ export default {
 					removeZindex();
 				}
 			}
+
+			// If we do not have a transition, we need to manually trigger the leave hook
+			if (!this.transition && !newValue) {
+				this.$nextTick(() => {
+					this.$nextTick(() => {
+						this.onTransitionLeave();
+					});
+				});
+			}
 		},
 	},
 	computed: {
 		getStyle() {
 			return {
+				...this.tooltipStyle,
 				"z-index": this.zIndex,
 			};
 		},
@@ -418,7 +436,7 @@ export default {
 		 * It mainly fixes the problems that appear when the tooltip is wrapped
 		 * inside a label
 		 */
-		onClick: debounce(function (event) {
+		onClick: function (event) {
 			if (
 				this.popperElement &&
 				this.popperElement.contains(event.target)
@@ -427,7 +445,7 @@ export default {
 			}
 
 			this.visible = !this.visible;
-		}, 10),
+		},
 		onOutsideClick(event) {
 			// Hide popper if clicked outside
 			if (

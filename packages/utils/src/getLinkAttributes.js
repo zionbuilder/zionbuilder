@@ -14,7 +14,6 @@ export default function (linkConfig) {
 		// Check for link attributes
 		if (Array.isArray(linkConfig.attributes)) {
 			linkConfig.attributes.forEach(attributeConfig => {
-				console.log(attributeConfig);
 				if (typeof attributeConfig.key !== 'undefined' && attributeConfig.key.length > 0) {
 					valueToReturn[attributeConfig.key] = attributeConfig.value
 				}

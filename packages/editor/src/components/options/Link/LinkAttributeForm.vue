@@ -6,6 +6,7 @@
 				:placeholder="$translate('attribute_key')"
 				:modelValue="attributeConfig.key"
 				@update:modelValue="updateValue('key', $event)"
+				:spellcheck="false"
 			/>
 		</div>
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
@@ -14,6 +15,7 @@
 				:placeholder="$translate('attribute_value')"
 				:modelValue="attributeConfig.value"
 				@update:modelValue="updateValue('value', $event)"
+				:spellcheck="false"
 			/>
 		</div>
 		<div class="znpb-link-optionsAttributeDelete znpb-link-optionsAttributeField">

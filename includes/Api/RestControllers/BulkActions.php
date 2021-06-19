@@ -84,9 +84,10 @@ class BulkActions extends RestApiController {
 		return apply_filters(
 			'zionbuilder/api/bulk_actions',
 			[
-				'get_image'      => [ $this, 'get_image' ],
-				'parse_php'      => [ $this, 'parse_php' ],
-				'render_element' => [ $this, 'render_element' ],
+				'get_image'                => [ $this, 'get_image' ],
+				'parse_php'                => [ $this, 'parse_php' ],
+				'render_element'           => [ $this, 'render_element' ],
+				'get_input_select_options' => [ $this, 'get_input_select_options' ],
 			]
 		);
 	}
@@ -267,5 +268,13 @@ class BulkActions extends RestApiController {
 
 	public function get_image( $image_config ) {
 		return WPMedia::get_image_sizes( $image_config );
+	}
+
+	public function get_input_select_options( $config ) {
+		if ( ! isset( $config['server_callback_method'] ) ) {
+			return new \WP_Error( 'callback_method_missing', 'Missing callback_method param', [ 'status' => 400 ] );
+		}
+
+		return rest_ensure_response( apply_filters( sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] ), [], $config ) );
 	}
 }

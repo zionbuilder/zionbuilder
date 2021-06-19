@@ -22,7 +22,6 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { saveOptions, getUsersById } from '@zionbuilder/rest'
 import { useUsers, useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
