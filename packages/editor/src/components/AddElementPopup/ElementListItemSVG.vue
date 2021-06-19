@@ -1,15 +1,26 @@
 <script>
 import { h, ref } from 'vue'
 
+const cache = {}
+
 export default {
 	name: 'ElementListItemSVG',
 	props: ['svg'],
 	setup (props) {
-		const iconMarkup = ref(false)
+		const iconMarkup = ref('')
 
-		fetch(props.svg)
-			.then(response => response.text())
-			.then(data => iconMarkup.value = data)
+		if (cache[props.svg]) {
+			iconMarkup.value = cache[props.svg]
+		} else {
+			fetch(props.svg)
+				.then(response => response.text())
+				.then(data => {
+					iconMarkup.value = data
+					cache[props.svg] = data
+				})
+
+		}
+
 
 		return () => h('span', {
 			class: 'znpb-editor-icon-wrapper znpb-editor-icon-wrapper--isSVG',
