@@ -34,7 +34,6 @@ import { InputLabel } from './components/InputLabel'
 import { InputMedia } from './components/InputMedia'
 import { InputFile } from './components/InputFile'
 import { InputSelect } from './components/InputSelect'
-import { InputSelect2 } from './components/InputSelect2'
 import { InputRadio, InputRadioGroup, InputRadioIcon } from './components/InputRadio'
 import { InputShapeDividers, ShapeDividerComponent, SvgMask } from './components/InputShapeDividers'
 import { InputWrapper } from './components/InputWrapper'
@@ -121,7 +120,6 @@ const components = [
 	BaseInput,
 	InputWrapper,
 	InputSelect,
-	InputSelect2,
 	InputRange,
 	InputRangeDynamic,
 	InputTextShadow,
@@ -202,7 +200,6 @@ export {
 	BaseInput,
 	InputWrapper,
 	InputSelect,
-	InputSelect2,
 	InputRange,
 	InputRangeDynamic,
 	InputTextShadow,

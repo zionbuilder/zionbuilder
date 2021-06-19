@@ -10,7 +10,6 @@ import {
 	InputColorPicker,
 	InputCustomSelector,
 	InputSelect,
-	InputSelect2,
 	InputRadioImage,
 	InputRange,
 	InputIcon,
@@ -57,10 +56,6 @@ const options = {
 	select: {
 		id: 'select',
 		component: InputSelect
-	},
-	select2: {
-		id: 'select2',
-		component: InputSelect2
 	},
 	slider: {
 		id: 'slider',
