@@ -35,7 +35,7 @@ class BackgroundImage extends BaseSchema {
 						'name' => 'repeat',
 					],
 					[
-						'id'   => 'repeat',
+						'id'   => 'repeat-x',
 						'name' => 'repeat-x',
 					],
 					[
