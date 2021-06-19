@@ -685,6 +685,8 @@ class Localization {
 				'add_custom_link_attribute'              => __( 'Add custom link attribute', 'zionbuilder' ),
 				'attribute_key'                          => __( 'Attribute key', 'zionbuilder' ),
 				'attribute_value'                        => __( 'Attribute value', 'zionbuilder' ),
+				'insert_after'                           => __( 'Insert after', 'zionbuilder' ),
+				'insert_inside'                           => __( 'Insert inside', 'zionbuilder' ),
 			]
 		);
 	}

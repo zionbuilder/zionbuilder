@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref } from "vue";
 import { getDefaultOptions } from "../options";
 import { merge } from "lodash-es";
 import { createPopper } from "@popperjs/core";
@@ -250,15 +250,6 @@ export default {
 					removeZindex();
 				}
 			}
-
-			// If we do not have a transition, we need to manually trigger the leave hook
-			if (!this.transition && !newValue) {
-				this.$nextTick(() => {
-					this.$nextTick(() => {
-						this.onTransitionLeave();
-					});
-				});
-			}
 		},
 	},
 	computed: {
@@ -436,7 +427,7 @@ export default {
 		 * It mainly fixes the problems that appear when the tooltip is wrapped
 		 * inside a label
 		 */
-		onClick: function (event) {
+		onClick: debounce(function (event) {
 			if (
 				this.popperElement &&
 				this.popperElement.contains(event.target)
@@ -445,21 +436,34 @@ export default {
 			}
 
 			this.visible = !this.visible;
-		},
+		}, 10),
 		onOutsideClick(event) {
-			// Hide popper if clicked outside
-			if (
-				this.visible &&
-				!preventOutsideClickPropagation &&
-				!this.$el.contains(event.target) &&
-				this.popperElement &&
-				!this.popperElement.contains(event.target)
-			) {
-				this.hidePopper();
-				this.$emit("hide");
-				this.$emit("update:show", false);
-				preventOutsideClickPropagation = false;
+			// Only hide if visible
+			if (!this.visible || preventOutsideClickPropagation) {
+				return;
 			}
+
+			// Prevent clicks on popper selector
+			if (
+				this.popperSelector &&
+				typeof this.popperSelector.contains === "function" &&
+				this.popperSelector.contains(event.target)
+			) {
+				return;
+			}
+
+			if (
+				this.popperElement &&
+				this.popperElement.contains(event.target)
+			) {
+				return;
+			}
+
+			// Hide popper if clicked outside
+			this.hidePopper();
+			this.$emit("hide");
+			this.$emit("update:show", false);
+			preventOutsideClickPropagation = false;
 		},
 		onKeyDown(event) {
 			if (event.which === 27) {

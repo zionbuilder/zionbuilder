@@ -2,10 +2,11 @@
 	<div class="znpb-empty-placeholder">
 		<div
 			class="znpb-empty-placeholder__add-element-button"
-			@click="toggleAddElementsPopup"
+			@click.stop.capture="toggleAddElementsPopup"
 			ref="addElementsPopupButton"
 		>
 			<Icon
+				:data-zion-tooltip="$translate('insert_inside') + ' ' + element.name"
 				icon="plus"
 				:rounded="true"
 				class="znpb-empty-placeholder__tour-icon"
@@ -23,7 +24,7 @@ export default {
 	props: {
 		element: Object
 	},
-	setup(props) {
+	setup (props) {
 		const { showAddElementsPopup, shouldOpenPopup } = useAddElementsPopup()
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
@@ -37,6 +38,7 @@ export default {
 
 
 		function toggleAddElementsPopup () {
+			console.log('click');
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 

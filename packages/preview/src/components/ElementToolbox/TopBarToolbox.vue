@@ -41,7 +41,7 @@
 				</template>
 				<Icon
 					:icon="closeIcon"
-					@click.stop="toggleOpen"
+					@click="toggleOpen"
 					class="znpb-editor-toolbox__element-options-button"
 				/>
 			</Tooltip>
@@ -54,10 +54,6 @@
 import { ref, computed } from 'vue'
 // Utils
 import { translate } from '@zb/i18n'
-
-// Components
-import { trigger } from '@zb/hooks'
-
 // Composables
 import { useEditElement, useSaveTemplate } from '@zb/editor'
 
@@ -67,7 +63,7 @@ export default {
 		element: Object
 	},
 	setup (props, { emit }) {
-		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
+		const { showSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')

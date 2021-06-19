@@ -81,6 +81,7 @@
 					ref="addElementsPopupButton"
 				>
 					<Icon
+						:data-zion-tooltip="$translate('insert_after') + ' ' + element.name"
 						icon="plus"
 						:rounded="true"
 					/>

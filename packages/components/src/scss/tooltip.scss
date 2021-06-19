@@ -6,6 +6,7 @@
 		position: absolute;
 		bottom: calc(100% + 10px);
 		left: 50%;
+		z-index: 99999;
 		box-sizing: border-box;
 		width: max-content;
 		max-width: 200px;
@@ -31,6 +32,7 @@
 		position: absolute;
 		bottom: calc(100% + 7px);
 		left: 50%;
+		z-index: 99999;
 		width: 8px;
 		height: 8px;
 		background: #fff;
