@@ -23,7 +23,7 @@
 		<div
 			class="znpb-fancy-scrollbar znpb-wrapper-category"
 			ref="categoriesWrapper"
-			@wheel="onElementListScroll"
+			@wheel.passive="onElementListScroll"
 		>
 			<template v-if="computedRuleCategories.length">
 				<ElementList
