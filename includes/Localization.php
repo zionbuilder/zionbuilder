@@ -165,6 +165,7 @@ class Localization {
 				'icons'                                  => esc_html__( 'icons', 'zionbuilder' ),
 				'no_icons_in_package'                    => esc_html__( 'No icons were found in package', 'zionbuilder' ),
 				'select_icon'                            => esc_html__( 'Select an icon', 'zionbuilder' ),
+				'add_new_item'                           => esc_html__( 'Add new item', 'zionbuilder' ),
 
 				// Typekit fonts
 

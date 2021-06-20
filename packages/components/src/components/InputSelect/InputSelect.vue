@@ -70,6 +70,7 @@
 							icon="plus"
 							class="znpb-inputAddableIcon"
 							@click.stop.prevent="addItem"
+							v-znpb-tooltip="$translate('add_new_item')"
 						/>
 					</template>
 				</BaseInput>
