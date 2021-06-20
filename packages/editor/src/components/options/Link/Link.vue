@@ -59,7 +59,6 @@
 			<InputSelect
 				:options="targetOptions"
 				v-model="target"
-				:title="$translate('link_target')"
 			></InputSelect>
 		</InputWrapper>
 		<InputWrapper
@@ -69,7 +68,6 @@
 			<BaseInput
 				v-model="title"
 				:clearable="false"
-				:title="$translate('link_title')"
 				:placeholder="$translate('set_a_title')"
 			/>
 		</InputWrapper>
@@ -91,7 +89,8 @@ export default {
 			default () {
 				return {}
 			}
-		}
+		},
+		title: {}
 	},
 	components: {
 		Injection,
