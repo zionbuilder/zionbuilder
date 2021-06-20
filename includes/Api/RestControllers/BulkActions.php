@@ -291,22 +291,19 @@ class BulkActions extends RestApiController {
 			]
 		);
 
-		if ( is_array( $posts_query->posts ) ) {
-			return rest_ensure_response(
-				array_map(
-					function( $post ) {
-						$post_type = get_post_type_object( get_post_type( $post ) );
+		return rest_ensure_response(
+			array_map(
+				function( $post ) {
+					$post_type = get_post_type_object( get_post_type( $post ) );
 
-						return [
-							'url'        => get_permalink( $post->ID ),
-							'post_title' => sprintf( '%s (%s)', $post->post_title, $post_type->labels->singular_name ),
-						];
-					},
-					$posts_query->posts
-				)
-			);
-		}
+					return [
+						'url'        => get_permalink( $post->ID ),
+						'post_title' => sprintf( '%s (%s)', $post->post_title, $post_type->labels->singular_name ),
+					];
+				},
+				$posts_query->posts
+			)
+		);
 
-		return rest_ensure_response( [] );
 	}
 }

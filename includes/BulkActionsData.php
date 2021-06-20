@@ -37,20 +37,16 @@ class BulkActionsData {
 			]
 		);
 
-		if ( is_array( $posts_query->posts ) ) {
-			return array_map(
-				function( $post ) {
-					$post_type = get_post_type_object( get_post_type( $post ) );
+		return array_map(
+			function( $post ) {
+				$post_type = get_post_type_object( get_post_type( $post ) );
 
-					return [
-						'id'   => $post->ID,
-						'name' => sprintf( '%s (%s)', $post->post_title, $post_type->labels->singular_name ),
-					];
-				},
-				$posts_query->posts
-			);
-		}
-
-		return [];
+				return [
+					'id'   => $post->ID,
+					'name' => sprintf( '%s (%s)', $post->post_title, $post_type->labels->singular_name ),
+				];
+			},
+			$posts_query->posts
+		);
 	}
 }

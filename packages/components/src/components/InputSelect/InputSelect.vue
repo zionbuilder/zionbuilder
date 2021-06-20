@@ -362,7 +362,7 @@ export default {
 					emit('update:modelValue', oldValues)
 				}
 			} else {
-				emit('update:modelValue', option)
+				emit('update:modelValue', option.id)
 				showDropdown.value = false
 			}
 

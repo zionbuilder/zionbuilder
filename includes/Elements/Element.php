@@ -902,7 +902,7 @@ class Element {
 	 * Will add the link attributes to a registerd tag
 	 *
 	 * @param string                $tag_id The tag id to which we will register the link attributes
-	 * @param array<string, string> $link   The link config
+	 * @param array<string, mixed> $link   The link config
 	 *
 	 * @return void
 	 */
