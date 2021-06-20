@@ -5,7 +5,7 @@
 		:placement="placement"
 		trigger="click"
 		:close-on-outside-click="true"
-		tooltip-class="znpb-option-selectTooltip"
+		tooltip-class="znpb-option-selectTooltip hg-popper--no-padding"
 		class="znpb-option-selectWrapper"
 		@show="onModalShow"
 		:tooltip-style="{'width': tooltipWidth + 'px'}"
@@ -50,10 +50,10 @@
 		</div>
 
 		<template #content>
-			<div class="znpbpro-dynamicSourceTypeSelectorListWrapper">
+			<div class="znpb-option-selectOptionListWrapper">
 				<BaseInput
 					v-if="filterable || addable"
-					class="znpb-dynamicSourceTypeSearch"
+					class="znpb-option-selectOptionListSearchInput"
 					v-model="searchKeyword"
 					:placeholder="$translate('search')"
 					:clearable="true"
@@ -77,11 +77,11 @@
 				<ListScroll
 					@scroll-end="onScrollEnd"
 					v-model:loading="loading"
-					class="znpbpro-dynamicSourceListScroll"
+					class="znpb-menuList znpb-mh-200"
 				>
 					<div
-						class="znpbpro-dynamicSourceTypeSelectorListItem"
-						:class="{'znpbpro-dynamicSourceTypeSelectorListItem--active': modelValue === option.id}"
+						class="znpb-menuListItem"
+						:class="{'znpb-menuListItem--selected': modelValue === option.id}"
 						@click.stop="onOptionSelect(option.id)"
 						v-for="option in visibleItems"
 						:key="option.id"
@@ -93,7 +93,7 @@
 
 				<div
 					v-if="stopSearch"
-					class="znpb-optionWPPageSelectorItemNoMore"
+					class="znpb-option-selectOptionListNoMoreText"
 				>{{$translate('no_more_items')}}</div>
 
 			</div>
@@ -347,20 +347,7 @@ export default {
 </script>
 
 <style lang="scss">
-.znpbpro-dynamicSourceDropdownWrapper {
-	margin-bottom: 25px;
-}
-
-.znpbpro-dynamicSourceListScroll {
-	max-height: 240px;
-	margin: 0 -10px;
-}
-
-.znpb-dynamicSourceTypeSearch {
-	margin-bottom: 10px;
-}
-
-.znpb-optionWPPageSelectorItemNoMore {
+.znpb-option-selectOptionListNoMoreText {
 	padding: 10px 6px 5px;
 	text-align: center;
 	opacity: .8;
@@ -399,7 +386,8 @@ export default {
 	cursor: pointer;
 }
 
-.znpb-option-selectTooltip {
-	padding: 0;
+.znpb-option-selectOptionListSearchInput {
+	width: auto !important;
+	margin: 15px;
 }
 </style>
