@@ -61,6 +61,10 @@ class MaintenanceMode {
 	public function on_template_redirect() {
 		global $post;
 
+		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
+			return;
+		}
+
 		$saved_template_id = $this->get_value( 'template' );
 
 		// Only proceed if we have values
