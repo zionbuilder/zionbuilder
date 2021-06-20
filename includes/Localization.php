@@ -689,6 +689,9 @@ class Localization {
 				'insert_after'                           => __( 'Insert after', 'zionbuilder' ),
 				'insert_inside'                          => __( 'Insert inside', 'zionbuilder' ),
 				'edit_link_attributes'                   => __( 'Edit link attributes', 'zionbuilder' ),
+
+				// Maintenance mode
+				'maintenance_mode'                       => __( 'Maintenance mode', 'zionbuilder' ),
 			]
 		);
 	}

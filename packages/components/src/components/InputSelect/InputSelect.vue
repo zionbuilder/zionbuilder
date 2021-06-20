@@ -82,10 +82,10 @@
 				>
 					<div
 						class="znpb-menuListItem"
-						:class="{'znpb-menuListItem--selected': modelValue === option.id}"
-						@click.stop="onOptionSelect(option.id)"
 						v-for="option in visibleItems"
 						:key="option.id"
+						:class="{'znpb-menuListItem--selected': option.isSelected}"
+						@click.stop="onOptionSelect(option)"
 						:style="getStyle(option.name)"
 					>
 						{{option.name}}
@@ -113,7 +113,7 @@ export default {
 	name: 'InputSelect',
 	props: {
 		modelValue: {
-			type: [String, Number]
+			type: [String, Number, Array],
 		},
 		options: {
 			type: Array,
@@ -155,6 +155,14 @@ export default {
 			required: false,
 			default: false
 		},
+		/**
+		* If the user can add a new option
+		*/
+		multiple: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 	setup (props, { emit }) {
 		const optionWrapper = ref(null)
@@ -167,8 +175,20 @@ export default {
 		const tooltipWidth = ref(null)
 
 		let page = 1
-		const { fetch, getItems, getItem } = useSelectServerData({
+		const { fetch, getItems } = useSelectServerData({
 			method: props.server_callback_method
+		})
+
+		const computedModelValue = computed(() => {
+			if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
+				return [props.modelValue]
+			}
+
+			if (!props.modelValue && props.multiple) {
+				return []
+			}
+
+			return props.modelValue
 		})
 
 		const items = computed(() => {
@@ -185,12 +205,39 @@ export default {
 			}
 
 			// Check if the addable option was set
-			if (props.addable && props.modelValue && !options.find(option => option.id === props.modelValue)) {
-				options.push({
-					name: props.modelValue,
-					id: props.modelValue
-				})
+			if (props.addable && props.modelValue) {
+				if (props.multiple) {
+					computedModelValue.value.forEach(savedValue => {
+						if (!options.find(option => option.id === savedValue)) {
+							options.push({
+								name: savedValue,
+								id: savedValue,
+							})
+						}
+					})
+				} else if (!options.find(option => option.id === computedModelValue.value)) {
+					options.push({
+						name: props.modelValue,
+						id: props.modelValue,
+					})
+				}
 			}
+
+			// set active tag
+			options = options.map(option => {
+				let isSelected = false
+				if (props.multiple) {
+					isSelected = computedModelValue.value.includes(option.id)
+				} else {
+					isSelected = computedModelValue.value === option.id
+				}
+
+				// create a copy so we do not modify the initial data
+				return {
+					...option,
+					isSelected
+				}
+			})
 
 			return options
 		})
@@ -204,6 +251,11 @@ export default {
 						return optionConfig.name.toLowerCase().indexOf(searchKeyword.value.toLowerCase()) !== -1
 					})
 				}
+			}
+
+			// If this is set to multiple, sort them
+			if (props.multiple) {
+				options.sort((item) => item.isSelected ? -1 : 1)
 			}
 
 			return options
@@ -269,15 +321,25 @@ export default {
 		}
 
 		const dropdownPlaceholder = computed(() => {
-			if (typeof props.modelValue === 'undefined') {
+			if (typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0)) {
 				return props.placeholder
 			} else {
-				const activeTitle = items.value.find(option => option.id === props.modelValue)
-				if (activeTitle) {
-					return activeTitle.name
-				} else if (props.addable) {
-					return props.modelValue
+				if (props.multiple) {
+					const activeTitles = items.value.filter(option => computedModelValue.value.includes(option.id))
+					if (activeTitles) {
+						return activeTitles.map(item => item.name).join(', ')
+					} else if (props.addable) {
+						return computedModelValue.value.join(',')
+					}
+				} else {
+					const activeTitle = items.value.find(option => option.id === computedModelValue.value)
+					if (activeTitle) {
+						return activeTitle.name
+					} else if (props.addable) {
+						return props.modelValue
+					}
 				}
+
 				return null
 			}
 		})
@@ -289,8 +351,22 @@ export default {
 		})
 
 		function onOptionSelect (option) {
-			emit('update:modelValue', option)
-			showDropdown.value = false
+			if (props.multiple) {
+				const oldValues = [...computedModelValue.value]
+				if (option.isSelected) {
+					const selectedOptionIndex = oldValues.indexOf(option.id)
+					oldValues.splice(selectedOptionIndex, 1)
+					emit('update:modelValue', oldValues)
+				} else {
+					oldValues.push(option.id)
+					emit('update:modelValue', oldValues)
+				}
+			} else {
+				emit('update:modelValue', option)
+				showDropdown.value = false
+			}
+
+
 		}
 
 		function onModalShow () {
@@ -313,7 +389,10 @@ export default {
 		}
 
 		function addItem () {
-			emit('update:modelValue', searchKeyword.value)
+			onOptionSelect({
+				name: searchKeyword.value,
+				id: searchKeyword.value
+			})
 			showDropdown.value = false
 		}
 

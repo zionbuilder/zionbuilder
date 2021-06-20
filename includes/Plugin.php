@@ -14,6 +14,7 @@ use ZionBuilder\PageTemplates\PageTemplates;
 use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
+use ZionBuilder\MaintenanceMode;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -237,6 +238,7 @@ class Plugin {
 		new AdminBar();
 		new Upgrader();
 		new BulkActionsData();
+		new MaintenanceMode();
 
 		/*
 		 * ZionBuilder loaded.

@@ -25,7 +25,7 @@
 			class="znpb-form__input-title"
 			v-if="schema.title && computedShowTitle"
 		>
-			{{schema.title}}
+			<span v-html="schema.title"></span>
 
 			<ChangesBullet
 				v-if="showChanges && hasChanges"
