@@ -28,23 +28,13 @@
 					/>
 				</Tooltip>
 			</div>
-			<Tooltip>
-				<template #content>
-					<div class="znpb-popper--tooltip">
-						<span v-if="topBarOpen">
-							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-						<span v-else>
-							{{$translate('open')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-					</div>
-				</template>
-				<Icon
-					:icon="closeIcon"
-					@click="toggleOpen"
-					class="znpb-editor-toolbox__element-options-button"
-				/>
-			</Tooltip>
+
+			<Icon
+				:icon="closeIcon"
+				@click="toggleOpen"
+				class="znpb-editor-toolbox__element-options-button"
+				v-znpb-tooltip="toolboxOpenText"
+			/>
 		</div>
 	</transition>
 
@@ -68,6 +58,14 @@ export default {
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
 		const { editElement } = useEditElement()
+
+		const toolboxOpenText = computed(() => {
+			if (topBarOpen.value) {
+				return `${translate('close')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			} else {
+				return `${translate('open')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			}
+		})
 
 		function toggleOpen () {
 			topBarOpen.value = !topBarOpen.value
@@ -115,7 +113,8 @@ export default {
 			actions,
 			topBarOpen,
 			reverseAnimation,
-			closeIcon
+			closeIcon,
+			toolboxOpenText
 		}
 	}
 }

@@ -6,7 +6,7 @@
 			ref="addElementsPopupButton"
 		>
 			<Icon
-				:data-zion-tooltip="$translate('insert_inside') + ' ' + element.name"
+				v-znpb-tooltip="$translate('insert_inside') + ' ' + element.name"
 				icon="plus"
 				:rounded="true"
 				class="znpb-empty-placeholder__tour-icon"

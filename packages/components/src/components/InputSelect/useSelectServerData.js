@@ -13,7 +13,12 @@ const items = ref([])
 const cache = ref({})
 
 export function useSelectServerData(config) {
-	const requester = window.zb.editor.serverRequest
+	let requester
+	if (window.zb.editor) {
+		requester = window.zb.editor.serverRequest
+	} else if (window.zb.admin.serverRequest) {
+		requester = window.zb.admin.serverRequest
+	}
 
 	function fetch(config) {
 		const cacheKey = generateCacheKey(toRaw(config))

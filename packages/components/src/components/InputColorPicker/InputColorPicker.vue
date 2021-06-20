@@ -27,7 +27,7 @@
 				<span
 					v-if="!modelValue"
 					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
-					:data-zion-tooltip="$translate('no_color_chosen')"
+					v-znpb-tooltip="$translate('no_color_chosen')"
 				></span>
 
 			</template>

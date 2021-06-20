@@ -374,6 +374,7 @@ export default {
 		instantiatePopper() {
 			this.popperElement = this.$refs.popper;
 			this.popperSelector = this.popperRef || this.root;
+
 			this.ownerDocument =
 				this.popperSelector.ownerDocument || this.root.ownerDocument;
 
