@@ -257,7 +257,6 @@ class MaintenanceMode {
 				'multiple'    => true,
 				'options'     => $roles_list,
 				'placeholder' => esc_html__( 'Select user roles', 'zionbuilder' ),
-				'addable'     => true,
 				'dependency'  => [
 					[
 						'option' => 'mode',
