@@ -1,0 +1,19 @@
+.znpb-menuList {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.znpb-menuListItem {
+	padding: 8px 16px;
+	color: #858585;
+	font-weight: 500;
+	text-align: left;
+	cursor: pointer;
+}
+
+.znpb-menuListItem--selected, .znpb-menuListItem:hover {
+	color: #464646;
+	font-weight: 500;
+	background-color: #f6f6f6;
+}

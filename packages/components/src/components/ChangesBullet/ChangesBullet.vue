@@ -1,8 +1,7 @@
 <template>
 	<span
 		class="znpb-options-has-changes-wrapper"
-		:data-zion-tooltip="discardChangesTitle"
-		data-zion-tooltip-position="top"
+		v-znpb-tooltip="discardChangesTitle"
 	>
 		<span
 			@click.stop="$emit('remove-styles')"

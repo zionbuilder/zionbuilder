@@ -7,7 +7,7 @@
 
 		<Icon
 			icon="close"
-			:data-zion-tooltip="$translate('delete_gradient_from_preset')"
+			v-znpb-tooltip="$translate('delete_gradient_from_preset')"
 			class="znpb-admin-gradient-preset-box__delete"
 			@click.stop="$emit('delete-gradient')"
 		/>

@@ -31,7 +31,7 @@
 		<div class="znpb-admin__google-font-tab-actions">
 			<Icon
 				class="znpb-edit-icon-pop"
-				:data-zion-tooltip="$translate('click_to_delete_font')"
+				v-znpb-tooltip="$translate('click_to_delete_font')"
 				icon="delete"
 				@click="showModalConfirm = true"
 			/>

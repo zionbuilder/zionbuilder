@@ -14,7 +14,7 @@
 		<EmptyList
 			@click="showModal=true"
 			v-if="googleFonts.length === 0"
-			:data-zion-tooltip="$translate('click_me_to_add_font')"
+			v-znpb-tooltip="$translate('click_me_to_add_font')"
 		>{{$translate('no_google_fonts')}}</EmptyList>
 
 		<div

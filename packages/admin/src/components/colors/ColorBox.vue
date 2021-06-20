@@ -35,7 +35,7 @@
 			>
 
 				<Icon
-					:data-zion-tooltip="$translate('delete_color_from_preset')"
+					v-znpb-tooltip="$translate('delete_color_from_preset')"
 					icon="close"
 					@click.stop="$emit('delete-color')"
 				/>

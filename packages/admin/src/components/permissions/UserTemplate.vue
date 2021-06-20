@@ -12,14 +12,14 @@
 
 			<Icon
 				class="znpb-edit-icon-pop"
-				:data-zion-tooltip="$translate('customize_permissions_for_user')"
+				v-znpb-tooltip="$translate('customize_permissions_for_user')"
 				icon="edit"
 				@click="$emit('edit-permission')"
 			/>
 
 			<Icon
 				v-if="hasDelete"
-				:data-zion-tooltip="$translate('delete_permissions_for_user')"
+				v-znpb-tooltip="$translate('delete_permissions_for_user')"
 				icon="delete"
 				@click="$emit('delete-permission')"
 			/>
