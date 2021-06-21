@@ -9,7 +9,6 @@ import {
 } from 'vue'
 import hash from 'object-hash'
 
-
 export class ServerRequest {
 	constructor() {
 		this.queue = []

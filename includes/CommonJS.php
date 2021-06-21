@@ -106,9 +106,9 @@ class CommonJS {
 			[
 				'zb-vue',
 				'zb-hooks',
+				'zb-rest',
 				'zb-utils',
 				'zb-i18n',
-				'zb-rest',
 			],
 			Plugin::instance()->get_version(),
 			true
