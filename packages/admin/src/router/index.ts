@@ -13,6 +13,7 @@ import Gradients from '../components/gradients/Gradients.vue'
 import GetPro from '../components/GetPro.vue'
 import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
+import MaintenanceMode from '../components/MaintenanceMode.vue'
 
 import { translate } from '@zb/i18n'
 
@@ -47,13 +48,13 @@ export const initRoutes = function () {
 		}
 	})
 
-	routes.addRoute('get-pro', 	{
+	routes.addRoute('get-pro', {
 		path: '/get-pro',
 		name: 'get-pro',
 		component: GetPro
 	})
 
-	const SettingsRoute = routes.addRoute('settings', 	{
+	const SettingsRoute = routes.addRoute('settings', {
 		path: '/settings',
 		name: 'settings',
 		redirect: {
@@ -68,7 +69,7 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'allowed-post-types'
 		},
-		component: PageAllowedPostTypes,
+		component: SettingsPage,
 		title: translate('general_settings'),
 		name: 'general-settings'
 	})
@@ -80,14 +81,21 @@ export const initRoutes = function () {
 		component: PageAllowedPostTypes
 	})
 
+	GeneralSettingsRoute.addRoute('maintenance-mode', {
+		path: 'maintenance-mode',
+		name: 'maintenance-mode',
+		title: translate('maintenance_mode'),
+		component: MaintenanceMode
+	})
+
 	const FontOptionsRoute = SettingsRoute.addRoute('font-options', {
 		path: 'font-options',
+		name: 'font_options',
 		redirect: {
 			name: 'google_fonts'
 		},
-		component: SettingsPage,
 		title: translate('font_options'),
-		name: 'font_options'
+		component: SettingsPage
 	})
 
 	FontOptionsRoute.addRoute('google-fonts', {

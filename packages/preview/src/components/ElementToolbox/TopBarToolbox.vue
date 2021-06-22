@@ -17,9 +17,7 @@
 					:key="action.title"
 				>
 					<template #content>
-						<div
-							class="znpb-popper--tooltip"
-						>
+						<div class="znpb-popper--tooltip">
 							{{action.title}}
 						</div>
 					</template>
@@ -30,25 +28,13 @@
 					/>
 				</Tooltip>
 			</div>
-			<Tooltip>
-				<template #content>
-					<div
-						class="znpb-popper--tooltip"
-					>
-						<span v-if="topBarOpen">
-							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-						<span v-else>
-							{{$translate('open')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-					</div>
-				</template>
-				<Icon
-					:icon="closeIcon"
-					@click.stop="toggleOpen"
-					class="znpb-editor-toolbox__element-options-button"
-				/>
-			</Tooltip>
+
+			<Icon
+				:icon="closeIcon"
+				@click="toggleOpen"
+				class="znpb-editor-toolbox__element-options-button"
+				v-znpb-tooltip="toolboxOpenText"
+			/>
 		</div>
 	</transition>
 
@@ -58,10 +44,6 @@
 import { ref, computed } from 'vue'
 // Utils
 import { translate } from '@zb/i18n'
-
-// Components
-import { trigger } from '@zb/hooks'
-
 // Composables
 import { useEditElement, useSaveTemplate } from '@zb/editor'
 
@@ -70,12 +52,20 @@ export default {
 	props: {
 		element: Object
 	},
-	setup(props, { emit }) {
-		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
+	setup (props, { emit }) {
+		const { showSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
 		const { editElement } = useEditElement()
+
+		const toolboxOpenText = computed(() => {
+			if (topBarOpen.value) {
+				return `${translate('close')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			} else {
+				return `${translate('open')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			}
+		})
 
 		function toggleOpen () {
 			topBarOpen.value = !topBarOpen.value
@@ -123,7 +113,8 @@ export default {
 			actions,
 			topBarOpen,
 			reverseAnimation,
-			closeIcon
+			closeIcon,
+			toolboxOpenText
 		}
 	}
 }
@@ -144,7 +135,7 @@ export default {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 1001;
+	z-index: 9999;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-around;

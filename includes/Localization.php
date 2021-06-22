@@ -165,6 +165,7 @@ class Localization {
 				'icons'                                  => esc_html__( 'icons', 'zionbuilder' ),
 				'no_icons_in_package'                    => esc_html__( 'No icons were found in package', 'zionbuilder' ),
 				'select_icon'                            => esc_html__( 'Select an icon', 'zionbuilder' ),
+				'add_new_item'                           => esc_html__( 'Add new item', 'zionbuilder' ),
 
 				// Typekit fonts
 
@@ -681,6 +682,16 @@ class Localization {
 				// Element
 				'invalid_element'                        => __( 'Invalid Element', 'zionbuilder' ),
 				'remove_additional_classes'              => __( 'Remove additional classes', 'zionbuilder' ),
+				'link_attributes'                        => __( 'Link attributes', 'zionbuilder' ),
+				'add_custom_link_attribute'              => __( 'Add custom link attribute', 'zionbuilder' ),
+				'attribute_key'                          => __( 'Attribute key', 'zionbuilder' ),
+				'attribute_value'                        => __( 'Attribute value', 'zionbuilder' ),
+				'insert_after'                           => __( 'Insert after', 'zionbuilder' ),
+				'insert_inside'                          => __( 'Insert inside', 'zionbuilder' ),
+				'edit_link_attributes'                   => __( 'Edit link attributes', 'zionbuilder' ),
+
+				// Maintenance mode
+				'maintenance_mode'                       => __( 'Maintenance mode', 'zionbuilder' ),
 			]
 		);
 	}

@@ -1,9 +1,21 @@
 import routes from './router'
 
 // Utils
-import { errorInterceptor } from '@zionbuilder/rest'
-import { addFilter } from '@zb/hooks'
-import { useInjections } from '@zb/components'
+import {
+	errorInterceptor
+} from '@zionbuilder/rest'
+import {
+	addFilter
+} from '@zb/hooks'
+import {
+	useInjections
+} from '@zb/components'
+import {
+	ServerRequest
+} from '@zb/utils'
+
+const serverRequest = new ServerRequest()
+
 window.zb = window.zb || {}
 
 const api = {
@@ -12,7 +24,8 @@ const api = {
 		errorInterceptor
 	},
 	addFilter,
-	useInjections
+	useInjections,
+	serverRequest
 }
 
 // Add to global object

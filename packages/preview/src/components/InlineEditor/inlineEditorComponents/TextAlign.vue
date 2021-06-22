@@ -49,7 +49,7 @@ export default {
 		]
 
 		function checkIfActive () {
-			isActive.value = editor.value.formatter.matchAll([
+			isActive.value = editor.editor.formatter.matchAll([
 				'alignleft',
 				'aligncenter',
 				'alignright',
@@ -59,11 +59,11 @@ export default {
 
 		onBeforeMount(() => {
 			checkIfActive()
-			editor.value.on('NodeChange', checkIfActive)
+			editor.editor.on('NodeChange', checkIfActive)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('NodeChange', checkIfActive)
+			editor.editor.off('NodeChange', checkIfActive)
 		})
 
 		return {

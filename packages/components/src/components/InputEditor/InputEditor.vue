@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { onBeforeUnmount } from 'vue'
+
 export default {
 	name: 'InputEditor',
 	props: {
@@ -21,6 +23,13 @@ export default {
 		const randomNumber = Math.floor((Math.random() * 100) + 1);
 		const editorID = `znpbwpeditor${randomNumber}`;
 
+		onBeforeUnmount(() => {
+			// Destroy tinyMce
+			if (typeof window.tinyMCE !== 'undefined' && editor) {
+				window.tinyMCE.remove(editor)
+			}
+		})
+
 		return {
 			editor,
 			editorID
@@ -31,10 +40,7 @@ export default {
 			get () {
 				return this.modelValue || ''
 			},
-			set (newValue, oldValue) {
-				if (newValue !== oldValue) {
-
-				}
+			set (newValue) {
 				this.$emit('update:modelValue', newValue)
 			}
 		}

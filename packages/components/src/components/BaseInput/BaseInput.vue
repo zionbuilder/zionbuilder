@@ -41,11 +41,13 @@
 		>
 		</textarea>
 
+		<slot name="after-input"></slot>
+
 		<Icon
 			class="zion-input__suffix-icon zion-input__clear-text"
 			icon="close"
 			v-if="showClear"
-			@mousedown.stop="inputValue = ''"
+			@mousedown.stop.prevent="inputValue = ''"
 		/>
 
 		<div
@@ -59,7 +61,7 @@
 				class="zion-input__suffix-icon"
 				:icon="icon"
 				v-if="icon"
-				@click="inputValue = ''"
+				@click.stop.prevent="inputValue = ''"
 			/>
 
 			<div

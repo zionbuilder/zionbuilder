@@ -308,7 +308,9 @@ class Templates {
 	public function get_templates_by_type( $template_type ) {
 		$the_posts = get_posts(
 			[
-				'meta_query' => [
+				'post_type'      => self::TEMPLATE_POST_TYPE,
+				'posts_per_page' => -1,
+				'meta_query'     => [
 					[
 						'key'     => self::TEMPLATE_TYPE_META,
 						'value'   => $template_type,

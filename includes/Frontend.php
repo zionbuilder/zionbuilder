@@ -40,7 +40,7 @@ class Frontend {
 		}
 
 		// Check to see if we need to show the pagebuilder content
-		add_action( 'template_redirect', [ $this, 'init' ] );
+		add_action( 'template_redirect', [ $this, 'init' ], 99 );
 
 		// Load elements scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );

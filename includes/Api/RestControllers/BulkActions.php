@@ -84,9 +84,11 @@ class BulkActions extends RestApiController {
 		return apply_filters(
 			'zionbuilder/api/bulk_actions',
 			[
-				'get_image'      => [ $this, 'get_image' ],
-				'parse_php'      => [ $this, 'parse_php' ],
-				'render_element' => [ $this, 'render_element' ],
+				'get_image'                => [ $this, 'get_image' ],
+				'parse_php'                => [ $this, 'parse_php' ],
+				'render_element'           => [ $this, 'render_element' ],
+				'get_input_select_options' => [ $this, 'get_input_select_options' ],
+				'search_posts'             => [ $this, 'search_posts' ],
 			]
 		);
 	}
@@ -267,5 +269,41 @@ class BulkActions extends RestApiController {
 
 	public function get_image( $image_config ) {
 		return WPMedia::get_image_sizes( $image_config );
+	}
+
+	public function get_input_select_options( $config ) {
+		if ( ! isset( $config['server_callback_method'] ) ) {
+			return new \WP_Error( 'callback_method_missing', 'Missing callback_method param', [ 'status' => 400 ] );
+		}
+
+		return rest_ensure_response( apply_filters( sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] ), [], $config ) );
+	}
+
+	public function search_posts( $config ) {
+		$keyword = isset( $config['keyword'] ) ? $config['keyword'] : '';
+
+		$posts_query = new \WP_Query(
+			[
+				'post_type'      => 'any',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				's'              => $keyword,
+			]
+		);
+
+		return rest_ensure_response(
+			array_map(
+				function( $post ) {
+					$post_type = get_post_type_object( get_post_type( $post ) );
+
+					return [
+						'url'        => get_permalink( $post->ID ),
+						'post_title' => sprintf( '%s (%s)', $post->post_title, $post_type->labels->singular_name ),
+					];
+				},
+				$posts_query->posts
+			)
+		);
+
 	}
 }

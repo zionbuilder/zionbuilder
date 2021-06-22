@@ -9,7 +9,6 @@
 			v-if="topMask!==undefined && topMask.shape"
 			:shapePath="topMask['shape']"
 			:color="topMask['color']"
-			:height="topMask['height']"
 			:flip="topMask['flip']"
 			position="top"
 		/>
@@ -18,7 +17,6 @@
 			v-if="bottomMask!==undefined && bottomMask.shape"
 			:shapePath="bottomMask['shape']"
 			:color="bottomMask['color']"
-			:height="bottomMask['height']"
 			:flip="bottomMask['flip']"
 			position="bottom"
 		/>
@@ -47,7 +45,7 @@ export default {
 			return this.shapes['bottom']
 		},
 		htmlTag () {
-			return this.options.tag || 'section'
+			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'section'
 		},
 		shapes () {
 			return this.options.shapes || {}

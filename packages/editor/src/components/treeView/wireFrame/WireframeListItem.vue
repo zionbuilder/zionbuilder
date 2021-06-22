@@ -41,7 +41,6 @@
 					:content="$translate('enable_hidden_element')"
 					class="znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 				>
-
 					<transition name="fade">
 						<Icon
 							icon="visibility-hidden"

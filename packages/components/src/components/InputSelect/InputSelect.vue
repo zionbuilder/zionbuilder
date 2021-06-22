@@ -1,14 +1,17 @@
 <template>
-	<div class="znpb-baseselect-overwrite">
-		<Tooltip
-			:trigger="null"
-			:show-arrows="false"
-			:placement="placement"
-			append-to="element"
-			:show="expanded"
-			ref="tooltip"
-			strategy="fixed"
-			:modifiers="[
+	<Tooltip
+		v-model:show="showDropdown"
+		append-to="element"
+		:placement="placement"
+		trigger="click"
+		:close-on-outside-click="true"
+		tooltip-class="znpb-option-selectTooltip hg-popper--no-padding"
+		class="znpb-option-selectWrapper"
+		@show="onModalShow"
+		:tooltip-style="{'width': tooltipWidth + 'px'}"
+		:show-arrows="false"
+		strategy="fixed"
+		:modifiers="[
 				{
 					name: 'preventOverflow',
 					enabled: true
@@ -18,203 +21,124 @@
 					enabled: true
 				},
 				{
-				name: 'flip',
-				options: {
-					fallbackPlacements: ['bottom', 'top', 'right','left'],
+					name: 'flip',
+					options: {
+						fallbackPlacements: ['bottom', 'top', 'right','left'],
 					},
 				},
 			]"
-			tooltip-class="znpb-baseselect-list-wrapper"
+	>
+
+		<div
+			class="znpb-option-selectOptionPlaceholder"
+			ref="optionWrapper"
 		>
-			<template v-slot:content>
-				<ul
-					ref="dropdown"
-					class="znpb-baseselect-list hg-popper-list znpb-fancy-scrollbar"
-					:style="{'min-width': `${inputWidth}px`}"
-					@wheel.passive="onScroll"
-				>
-					<li
-						v-for="(option, i) in filteredItems"
-						v-bind:key="i"
-						:class="{'znpb-select-option-selected': isSelected(option.id), 'znpb-baseselect-list__option--active': optionIndex === i}"
-						@click.stop="onOptionSelect(option.id)"
-						class="znpb-baseselect-list__option hg-popper-list__item"
-						ref="filteredOptions"
-						:style="getStyle(option.name)"
-					>
-						{{option.name}}
-					</li>
+			<Loader
+				v-if="loadingTitle"
+				:size="14"
+			/>
 
-					<li
-						v-if="filteredItems.length === 0 && !addable && !computedLoading"
-						class="znpb-not-found-message"
-					>
-						{{$translate('no_result')}}
-					</li>
-					<li
-						class="znpb-baseselect-list__option znpb-baseselect-list__option--addable hg-popper-list__item"
-						v-if="addable && filteredItems.length === 0 && searchKeyword.length > 0"
-						@click.stop="addNewItem"
-					>
-						{{searchKeyword}}
+			<span
+				v-else
+				class="znpb-option-selectOptionPlaceholderText"
+			>{{dropdownPlaceholder}}</span>
+			<Icon
+				icon="select"
+				class="znpb-inputDropdownIcon"
+				:rotate="showDropdown ? '180' : false"
+			/>
+		</div>
 
-						<Icon
-							class="znpb-baseselect-list__option-add-icon"
-							icon="plus"
-							:size="10"
-							:bg-size="22"
-							:rounded="true"
-							color="#959595"
-						/>
-
-					</li>
-					<li
-						v-if="addable && filteredItems.length === 0 && searchKeyword.length === 0"
-						class="znpb-not-found-message"
-					>{{$translate('no_items')}}</li>
-					<li
-						v-if="computedLoading"
-						class="znpb-select--loading"
-					>
-						<Loader :size="13" />
-					</li>
-				</ul>
-			</template>
-			<div
-				class="znpb-baseselect__trigger"
-				@click.prevent="toggleDropdown"
-			>
-				<!-- if select multiple -->
-				<div
-					class="znpb-multiple-options"
-					v-if="multiple"
-				>
-					<div class="znpb-multiple-options-list">
-
-						<div
-							v-for="(savedOption,i) in valueModel"
-							v-bind:key="i"
-							class="znpb-multiple-options-list__item"
-						>
-							<span>{{getNameFromOptionId(savedOption)}}</span>
-							<Icon
-								icon="close"
-								:data-index="i"
-								class="close-icon"
-								@click.capture="onOptionSelect(savedOption)"
-							/>
-						</div>
-
-						<BaseInput
-							type="text"
-							:clearable="true"
-							:placeholder="getPlaceholder"
-							v-model="searchKeyword"
-							@keydown.stop="handleKeydown"
-							:readonly="!filterable"
-							ref="input"
-						>
-							<template v-slot:suffix>
-								<div class="znpb-baseselect__trigger-icon">
-									<Icon
-										icon="select"
-										:rotate="expanded ? '180' : false"
-									/>
-								</div>
-							</template>
-						</BaseInput>
-					</div>
-				</div>
-				<!-- if select simple -->
+		<template #content>
+			<div class="znpb-option-selectOptionListWrapper">
 				<BaseInput
-					v-else
-					type="text"
-					:clearable="selected !== searchKeyword"
-					:placeholder="getPlaceholder"
+					v-if="filterable || addable"
+					class="znpb-option-selectOptionListSearchInput"
 					v-model="searchKeyword"
-					:filterable="filterable"
-					:readonly="!filterable"
-					ref="input"
-					@keydown="handleKeydown"
-					:font-family="style_type === 'font-select' ? selected : null"
+					:placeholder="$translate('search')"
+					:clearable="true"
+					icon="search"
+					autocomplete="off"
+					ref="searchInput"
+					@keydown="onInputKeydown"
 				>
-					<template v-slot:suffix>
-						<div class="znpb-baseselect__trigger-icon">
-							<Icon
-								icon="select"
-								:rotate="expanded ? '180' : false"
-							/>
-						</div>
+					<template
+						#after-input
+						v-if="addable && searchKeyword.length > 0"
+					>
+						<Icon
+							icon="plus"
+							class="znpb-inputAddableIcon"
+							@click.stop.prevent="addItem"
+							v-znpb-tooltip="$translate('add_new_item')"
+						/>
 					</template>
 				</BaseInput>
 
-			</div>
+				<ListScroll
+					@scroll-end="onScrollEnd"
+					v-model:loading="loading"
+					class="znpb-menuList znpb-mh-200"
+				>
+					<div
+						class="znpb-menuListItem"
+						v-for="option in visibleItems"
+						:key="option.id"
+						:class="{'znpb-menuListItem--selected': option.isSelected}"
+						@click.stop="onOptionSelect(option)"
+						:style="getStyle(option.name)"
+					>
+						{{option.name}}
+					</div>
+				</ListScroll>
 
-		</Tooltip>
-	</div>
+				<div
+					v-if="stopSearch"
+					class="znpb-option-selectOptionListNoMoreText"
+				>{{$translate('no_more_items')}}</div>
+
+			</div>
+		</template>
+
+	</Tooltip>
 </template>
 
 <script>
-import { Icon } from '../Icon'
-import BaseInput from '../BaseInput/BaseInput.vue'
-import { Tooltip } from '@zionbuilder/tooltip'
-import { debounce, unionBy } from 'lodash-es'
+import { ref, computed, watch, watchEffect } from 'vue'
+import { debounce } from 'lodash-es'
+
+import { useSelectServerData } from './useSelectServerData.js'
 
 export default {
-	/**
-	 * this type of element supports light class
-	 *
-	 * required properties received:
-	 *   options - array of objects
-	 * other properties received:
-	 * 	 colorscheme - String
-	 *   placeholder - String
-	 *   multiple - Boolean
-	 *   model - Array | String
-	 */
 	name: 'InputSelect',
-	components: {
-		BaseInput,
-		Tooltip,
-		Icon
-	},
 	props: {
-		/**
-		* v-model or value
-		*/
 		modelValue: {
-			required: false
+			type: [String, Number, Array],
 		},
-		/**
-		* Placeholder text for the input
-		*/
-		placeholder: {
-			type: String,
-			required: false
-		},
-		/**
-		* If select multiple values
-		*/
-		multiple: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		* Array of object containing the options value
-		*/
 		options: {
 			type: Array,
-			required: false,
+			required: true,
 			default: []
 		},
-		/**
-		* If the user can enter text to filter the options
-		*/
 		filterable: {
-			type: Boolean,
+			type: Boolean
+		},
+		server_callback_method: {
+			type: String
+		},
+		server_callback_name_method: {
+			type: String
+		},
+		placeholder: {
+			type: String
+		},
+		/**
+		* Set dropdown placement
+		*/
+		placement: {
+			type: String,
 			required: false,
-			default: false
+			default: 'bottom'
 		},
 		/**
 		* If the user can enter a style type
@@ -232,466 +156,318 @@ export default {
 			default: false
 		},
 		/**
-		* Set dropdown placement
+		* If the user can add a new option
 		*/
-		placement: {
-			type: String,
-			required: false,
-			default: 'bottom'
-		},
-		loading: {
+		multiple: {
 			type: Boolean,
 			required: false,
 			default: false
 		},
-		remote_method: {},
-		remote_method_params: {},
-		remote_options_per_page: {
-			type: Number,
-			default: 25
-		}
 	},
-	data () {
-		return {
-			searchKeyword: '',
-			selected: this.modelValue,
-			expanded: false,
-			filteredOptions: this.options,
-			optionIndex: null,
-			inputWidth: null,
-			containerHeight: null,
-			remoteOptions: [],
-			isLoading: false,
-			stopSearch: false
-		}
-	},
-	computed: {
-		computedLoading () {
-			return this.loading || this.isLoading
-		},
-		valueModel () {
-			if (this.multiple) {
-				if (Array.isArray(this.modelValue)) {
-					return this.modelValue
-				} else if (this.modelValue) {
-					return [this.modelValue]
-				}
+	setup (props, { emit }) {
+		const optionWrapper = ref(null)
+		const searchInput = ref(null)
+		const searchKeyword = ref('')
+		const showDropdown = ref(false)
+		const loading = ref(false)
+		const loadingTitle = ref(false)
+		const stopSearch = ref(false)
+		const tooltipWidth = ref(null)
+
+		let page = 1
+		const { fetch, getItems } = useSelectServerData({
+			method: props.server_callback_method
+		})
+
+		const computedModelValue = computed(() => {
+			if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
+				return [props.modelValue]
+			}
+
+			if (!props.modelValue && props.multiple) {
 				return []
-			} else {
-				return this.modelValue
-			}
-		},
-		getPlaceholder () {
-			if (this.multiple && this.searchKeyword.length > 0) {
-				return ''
 			}
 
-			return this.placeholder
-		},
-		filteredItems () {
-			const options = this.remote_method ? this.remoteOptions : this.options
+			return props.modelValue
+		})
 
-			if (this.searchKeyword !== this.selected) {
-				return options.filter(item => {
-					return item.name.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) > -1
-				})
+		const items = computed(() => {
+			// Add local items
+			let options = [...props.options]
+
+			// Check if we need to get items from server
+			if (props.server_callback_method) {
+				// Add the server items
+				const serverOptions = getItems(props.server_callback_method)
+				if (serverOptions.length > 0) {
+					options.push(...serverOptions)
+				}
+			}
+
+			// Check if the addable option was set
+			if (props.addable && props.modelValue) {
+				if (props.multiple) {
+					computedModelValue.value.forEach(savedValue => {
+						if (!options.find(option => option.id === savedValue)) {
+							options.push({
+								name: savedValue,
+								id: savedValue,
+							})
+						}
+					})
+				} else if (!options.find(option => option.id === computedModelValue.value)) {
+					options.push({
+						name: props.modelValue,
+						id: props.modelValue,
+					})
+				}
+			}
+
+			// set active tag
+			options = options.map(option => {
+				let isSelected = false
+				if (props.multiple) {
+					isSelected = computedModelValue.value.includes(option.id)
+				} else {
+					isSelected = computedModelValue.value === option.id
+				}
+
+				// create a copy so we do not modify the initial data
+				return {
+					...option,
+					isSelected
+				}
+			})
+
+			return options
+		})
+
+		const visibleItems = computed(() => {
+			let options = items.value
+
+			if (props.filterable || props.addable) {
+				if (searchKeyword.value.length > 0) {
+					options = options.filter(optionConfig => {
+						return optionConfig.name.toLowerCase().indexOf(searchKeyword.value.toLowerCase()) !== -1
+					})
+				}
+			}
+
+			// If this is set to multiple, sort them
+			if (props.multiple) {
+				options.sort((item) => item.isSelected ? -1 : 1)
 			}
 
 			return options
-		}
+		})
 
-	},
-	watch: {
-		// Check to see if we have different remote params and clear the cache
-		remote_method_params (newValue, oldValue) {
-			if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-				this.remoteOptions = []
-				this.stopSearch = false
-				this.debouncedPerformRemoteRequest()
+		watch(searchKeyword, () => {
+			// Reset the search end flag
+			stopSearch.value = false
+			debouncedGetItems()
+		})
+
+		// Clear the search keyword when the dropdown is closed
+		watch(showDropdown, (newValue) => {
+			if (!newValue) {
+				searchKeyword.value = ''
 			}
-		},
-		searchKeyword (newValue) {
-			if (newValue.length > 0) {
-				// Reset the search end flag
-				this.stopSearch = false
-				this.debouncedPerformRemoteRequest()
-			}
-		},
-		expanded: function (newValue, oldValue) {
-			if (newValue) {
-				if (!this.multiple) {
-					this.$nextTick(() => {
+		})
 
-						if (this.optionIndex) {
-							this.$refs.dropdown.scrollTop = this.$refs.filteredOptions.offsetTop
-						}
-					})
-				}
+		const debouncedGetItems = debounce(() => {
+			loadNext()
+		}, 300)
 
-				this.$refs.input.focus()
-				this.$el.ownerDocument.addEventListener('click', this.closePanel)
-			} else {
-				this.$refs.input.blur()
-				this.$el.ownerDocument.removeEventListener('click', this.closePanel)
-
-				if (this.addable) {
-					this.addNewItem()
-				}
-			}
-		},
-
-		modelValue () {
-			this.setSelected()
-		}
-
-	},
-	methods: {
-		performRemoteRequest () {
-			// Check to see if we have a remote method and we didn't reached it's end
-			if (!this.remote_method || this.stopSearch === true) {
+		function loadNext () {
+			if (!props.server_callback_method) {
 				return
 			}
 
-			const requestParams = this.remote_method_params
-			if (this.searchKeyword.length > 0) {
-				requestParams.search = this.searchKeyword
+			loading.value = true
+
+			const include = props.modelValue
+
+			fetch({
+				server_callback_method: props.server_callback_method,
+				page,
+				searchKeyword: searchKeyword.value,
+				include
+			}).then((response) => {
+				// Check to see if all posts were found
+				if (response.length < 25) {
+					stopSearch.value = true
+				}
+
+				loading.value = false
+				loadingTitle.value = false
+			})
+		}
+
+		function onScrollEnd () {
+			if (!props.server_callback_method) {
+				return
 			}
 
-			this.isLoading = true
-			this.remote_method.apply(null, [requestParams]).then((response) => {
-				this.remoteOptions = unionBy(this.remoteOptions, response, 'id')
-				if (response.length < this.remote_options_per_page) {
-					this.stopSearch = true
-				} else {
-					this.stopSearch = false
-				}
-			}).finally(() => {
-				this.isLoading = false
-			})
-		},
-		onScroll (event, delta) {
-			if (this.$refs.dropdown.scrollHeight - this.$refs.dropdown.scrollTop === this.$refs.dropdown.clientHeight) {
-				// Check to see if we need to make a remote query
-				this.$emit('scroll-end')
+			if (!stopSearch.value) {
+				page++
+				loadNext()
 			}
-		},
-		getStyle (font) {
-			if (this.style_type === 'font-select') {
-				let style = {
+		}
+
+		// Load initial data
+		if (props.server_callback_method) {
+			// load inital posts
+			loadNext()
+		}
+
+		const dropdownPlaceholder = computed(() => {
+			if (typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0)) {
+				return props.placeholder
+			} else {
+				if (props.multiple) {
+					const activeTitles = items.value.filter(option => computedModelValue.value.includes(option.id))
+					if (activeTitles) {
+						return activeTitles.map(item => item.name).join(', ')
+					} else if (props.addable) {
+						return computedModelValue.value.join(',')
+					}
+				} else {
+					const activeTitle = items.value.find(option => option.id === computedModelValue.value)
+					if (activeTitle) {
+						return activeTitle.name
+					} else if (props.addable) {
+						return props.modelValue
+					}
+				}
+
+				return null
+			}
+		})
+
+		watchEffect(() => {
+			if (dropdownPlaceholder.value === null) {
+				loadingTitle.value = true
+			}
+		})
+
+		function onOptionSelect (option) {
+			if (props.multiple) {
+				const oldValues = [...computedModelValue.value]
+				if (option.isSelected) {
+					const selectedOptionIndex = oldValues.indexOf(option.id)
+					oldValues.splice(selectedOptionIndex, 1)
+					emit('update:modelValue', oldValues)
+				} else {
+					oldValues.push(option.id)
+					emit('update:modelValue', oldValues)
+				}
+			} else {
+				emit('update:modelValue', option.id)
+				showDropdown.value = false
+			}
+
+
+		}
+
+		function onModalShow () {
+			// Set the tooltip width
+			if (optionWrapper.value) {
+				tooltipWidth.value = optionWrapper.value.getBoundingClientRect().width
+			}
+
+			if ((props.filterable || props.addable) && searchInput.value) {
+				searchInput.value.focus()
+			}
+		}
+
+		function getStyle (font) {
+			if (props.style_type === 'font-select') {
+				return {
 					fontFamily: font
 				}
-				return style
 			} else return null
-		},
-		toggleDropdown (event) {
-			this.expanded = !this.expanded
-			const inputOption = this.$refs.input
-			if (inputOption && inputOption.$el && !this.inputWidth) {
-				this.inputWidth = inputOption.$el.clientWidth
-			}
-		},
-		handleKeydown (event) {
-			const optionsElements = this.$refs.filteredOptions
-			const optionsContainer = this.$refs.dropdown
+		}
 
-			if (optionsContainer && this.containerHeight === null) {
-				this.containerHeight = optionsContainer.getBoundingClientRect().height
-			}
-			if (this.expanded) {
-				if (event.key === 'ArrowDown') {
-					if (this.optionIndex === null) {
-						this.optionIndex = 0
-					} else {
-						this.optionIndex++
-					}
-					if (this.optionIndex > this.options.length - 1) {
-						this.optionIndex = 0
-						optionsContainer.scrollTop = 0
-					}
-					if (optionsElements.offsetTop > optionsContainer.scrollTop + this.containerHeight - 39) {
-						optionsContainer.scrollTop += 39
-					}
-				}
-				if (event.key === 'ArrowUp') {
-					if (this.optionIndex === null) {
-						this.optionIndex = this.options.length - 1
-						optionsContainer.scrollTop = optionsElements.offsetTop
-					} else {
-						this.optionIndex--
-					}
-					if (this.optionIndex < 0) {
-						this.optionIndex = this.options.length - 1
-						optionsContainer.scrollTop = optionsElements.offsetTop + 39
-					}
-					if (optionsElements.offsetTop < optionsContainer.scrollTop) {
-						optionsContainer.scrollTop -= 39
-					}
-				}
-				if (!this.multiple) {
-					if (this.optionIndex !== null) {
-						this.$emit('update:modelValue', this.options[this.optionIndex].id)
-					}
-				}
-				if (event.key === 'Escape') {
-					this.expanded = false
-					event.stopPropagation()
-					event.preventDefault()
-				}
-			}
-
-			if (event.key === 'Enter' && !this.multiple) {
-				this.expanded = !this.expanded
-			}
-			if (event.key === 'Enter' && this.multiple) {
-				if (this.optionIndex || this.optionIndex === 0) {
-					if (this.expanded) {
-						this.onOptionSelect(this.options[this.optionIndex].id)
-					}
-				}
-				if (!this.expanded) {
-					this.expanded = true
-				}
-			}
-			if (event.key === 'Enter' && this.addable && this.filteredItems.length === 0) {
-				this.addNewItem()
-			}
-		},
-
-		// show the name of the selected option
-		getNameFromOptionId (optionid) {
-			const options = this.remote_method ? this.remoteOptions : this.options
-			let optionConfig = options.find((optionConfig) => {
-				return optionConfig.id === optionid
+		function addItem () {
+			onOptionSelect({
+				name: searchKeyword.value,
+				id: searchKeyword.value
 			})
-			if (typeof optionConfig !== 'undefined' && typeof optionConfig.id !== 'undefined') {
-				return optionConfig.name
-			}
-		},
-		/**
-		 * Close panel if clicked outside of selector
-		 */
-		closePanel (event) {
-			if (this.$el.contains(event.target) || this.$refs.dropdown.contains(event.target)) {
-
-			} else {
-				this.expanded = false
-			}
-		},
-		isSelected (optionId) {
-			if (this.multiple) {
-				return this.valueModel.includes(optionId)
-			} else {
-				return this.valueModel === optionId
-			}
-		},
-		onOptionSelect (selectedOption) {
-			if (this.$refs.tooltip) {
-				this.$refs.tooltip.preventOutsideClickPropagation()
-			}
-
-			if (this.multiple) {
-				const value = this.valueModel.slice()
-				const existingValueIndex = value.indexOf(selectedOption)
-				// Check to see if we need to remove the item
-				if (existingValueIndex > -1) {
-					value.splice(existingValueIndex, 1)
-				} else {
-					value.push(selectedOption)
-				}
-				Object.values(this.options).forEach((option, index) => {
-					if (option.id === selectedOption) {
-						this.optionIndex = index
-					}
-				})
-				this.$refs.input.focus()
-				this.$refs.tooltip.scheduleUpdate()
-
-				/**
-				* Will emit when the select value is updated
-				*/
-				this.$emit('update:modelValue', value)
-			} else {
-				setTimeout(() => {
-					this.expanded = false
-				}, 50)
-
-				/**
-				* Will emit when the select value is updated */
-
-				this.$emit('update:modelValue', selectedOption)
-			}
-			this.setSelected()
-		},
-		setSelected () {
-			if (!this.multiple) {
-				const options = this.remote_method ? this.remoteOptions : this.options
-				const selectedOptionName = this.getNameFromOptionId(this.valueModel) || this.valueModel || ''
-				this.searchKeyword = selectedOptionName
-				this.selected = selectedOptionName
-				Object.values(options).forEach((option, index) => {
-					if (option.id === this.valueModel) {
-						this.optionIndex = index
-					}
-				})
-			}
-		},
-		addNewItem () {
-			// emit new option to be added
-			this.$emit('update:modelValue', this.searchKeyword)
-			this.selected = this.searchKeyword
-
-			// close the list
-			this.expanded = false
+			showDropdown.value = false
 		}
-	},
-	created () {
-		this.debouncedPerformRemoteRequest = debounce(() => {
-			this.performRemoteRequest()
-		}, 300)
 
-		// Check to see if we need to make a remote method
-		if (this.remote_method) {
-			this.debouncedPerformRemoteRequest()
+		function onInputKeydown (event) {
+			// if addable and enter is pressed
+			if (props.addable && event.keyCode === 13) {
+				addItem()
+			}
 		}
-	},
-	mounted () {
-		this.setSelected()
-	},
-	beforeUnmount () {
-		this.$el.ownerDocument.removeEventListener('click', this.closePanel)
+
+		return {
+			optionWrapper,
+			tooltipWidth,
+			searchInput,
+			searchKeyword,
+			dropdownPlaceholder,
+			onOptionSelect,
+			onScrollEnd,
+			onModalShow,
+			getStyle,
+			addItem,
+			onInputKeydown,
+			loading,
+			showDropdown,
+			stopSearch,
+			items,
+			loadingTitle,
+			visibleItems
+		}
 	}
 }
-
 </script>
+
 <style lang="scss">
-.znpb-baseselect {
-	&-overwrite {
-		position: relative;
-		appearance: none;
-		border-top-right-radius: 3px;
-		border-top-left-radius: 3px;
-	}
-
-	&__trigger {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		color: $surface-headings-color;
-		border-radius: 3px;
-		cursor: pointer;
-
-		input:read-only {
-			cursor: pointer;
-		}
-
-		.znpb-editor-icon {
-			transition: 0s;
-		}
-
-		&-icon {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 36px;
-			height: 100%;
-			padding: 10px;
-			color: darken($surface-variant, 30%);
-			border-left: 2px solid #e3e3e3;
-
-			.znpb-editor-icon-wrapper {
-				font-size: 14px;
-			}
-		}
-	}
-
-	&__placeholder {
-		padding: 16px 0;
-	}
+.znpb-option-selectOptionListNoMoreText {
+	padding: 10px 6px 5px;
+	text-align: center;
+	opacity: .8;
 }
-.znpb-baseselect-list {
-	overflow: auto;
-	max-height: 200px;
-	border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
 
-	&-wrapper {
-		padding: 0;
-	}
-
-	&__option {
-		&--active {
-			color: $surface-active-color;
-		}
-
-		&:hover {
-			color: $surface-active-color;
-		}
-
-		&.znpb-select-option-selected {
-			color: $surface-active-color;
-		}
-
-		&--addable {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		&-add-icon {
-			font-size: 10px;
-			text-align: center;
-			border: 2px solid $border-color;
-		}
-	}
+.znpb-inputDropdownIcon {
+	padding: 11px;
 }
-.znpb-multiple-options {
+
+.znpb-option-selectOptionPlaceholder {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	flex: 1;
-
-	&-list {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		width: 100%;
-		padding: 0 0 8px 0;
-
-		&__item {
-			display: flex;
-			align-items: center;
-			padding: 6px 12px;
-			margin: 0 5px 5px 0;
-			color: $font-color;
-			background: $surface-variant;
-			border-radius: 15px;
-
-			&:last-child {
-				margin-right: 0;
-			}
-
-			& .zion-icon {
-				margin-left: 5px;
-				font-size: 10px;
-				opacity: .5;
-			}
-
-			.zion-icon:hover {
-				cursor: pointer;
-				opacity: 1;
-			}
-			&:hover {
-				cursor: pointer;
-			}
-		}
-	}
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	font-weight: 500;
+	border: 2px solid var(--zion-border-color);
+	border-radius: 3px;
+	cursor: pointer;
 }
 
-.znpb-not-found-message {
-	padding: 5px 14px;
+.znpb-option-selectOptionPlaceholderText {
+	overflow: hidden;
+	padding: 11px;
+	line-height: 1;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.znpb-select--loading {
-	padding: 5px;
+.znpb-option-selectWrapper {
+	width: 100%;
+	color: $font-color;
+}
+
+.znpb-inputAddableIcon {
+	padding: 11px;
+	cursor: pointer;
+}
+
+.znpb-option-selectOptionListSearchInput {
+	width: auto !important;
+	margin: 15px;
 }
 </style>

@@ -60,7 +60,7 @@ export default {
 			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
 		}
 		function onHeightChange (newValue) {
-			editor.value.formatter.apply('lineHeight', { value: newValue })
+			editor.editor.formatter.apply('lineHeight', { value: newValue })
 
 			sliderValue.value = newValue
 			emit('started-dragging')
@@ -83,22 +83,22 @@ export default {
 
 		function getLineHeight () {
 			// commnad not supported
-			sliderValue.value = window.getComputedStyle(editor.value.selection.getNode()).getPropertyValue('line-height')
+			sliderValue.value = window.getComputedStyle(editor.editor.selection.getNode()).getPropertyValue('line-height')
 		}
 
 		onMounted(() => {
-			editor.value.formatter.register('lineHeight', {
+			editor.editor.formatter.register('lineHeight', {
 				selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 				styles: { 'line-height': '%value' }
 			})
 
 			// Set default line height
 			getLineHeight()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.editor.on('SelectionChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.editor.off('SelectionChange', onNodeChange)
 		})
 
 		return {
