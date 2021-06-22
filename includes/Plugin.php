@@ -5,6 +5,7 @@ namespace ZionBuilder;
 use ZionBuilder\CommonJS;
 use ZionBuilder\Shortcodes;
 use ZionBuilder\Renderer;
+use ZionBuilder\BulkActionsData;
 use ZionBuilder\Admin\Admin;
 use ZionBuilder\Editor\Editor;
 use ZionBuilder\Post\PostManager;
@@ -13,6 +14,7 @@ use ZionBuilder\PageTemplates\PageTemplates;
 use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
+use ZionBuilder\MaintenanceMode;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -235,6 +237,8 @@ class Plugin {
 		new Integrations();
 		new AdminBar();
 		new Upgrader();
+		new BulkActionsData();
+		new MaintenanceMode();
 
 		/*
 		 * ZionBuilder loaded.

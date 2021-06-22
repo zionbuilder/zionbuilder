@@ -174,6 +174,14 @@ class Options extends RestApiController {
 	private function get_options() {
 		$options = [];
 
+		$options['maintenance_mode'] = [
+			'name'   => 'Maintenance mode',
+			'schema' => [
+				'description' => __( 'Contains saved values for maintenance mode.', 'zionbuilder' ),
+				'type'        => 'object',
+			],
+		];
+
 		$options['google_fonts'] = [
 			'name'   => 'Google Fonts',
 			'schema' => [

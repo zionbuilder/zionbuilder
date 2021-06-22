@@ -25,8 +25,7 @@
 			class="znpb-form__input-title"
 			v-if="schema.title && computedShowTitle"
 		>
-			<!-- schema.description -->
-			{{schema.title}}
+			<span v-html="schema.title"></span>
 
 			<ChangesBullet
 				v-if="showChanges && hasChanges"
@@ -51,7 +50,6 @@
 
 			</Tooltip>
 
-			<!-- pseudo option -->
 			<Tooltip
 				v-if="schema.pseudo_options"
 				:show="showPseudo"
@@ -82,7 +80,6 @@
 				</div>
 			</Tooltip>
 
-			<!-- responsive option -->
 			<Tooltip
 				v-if="schema.responsive_options || schema.show_responsive_buttons"
 				:show="showDevices"
@@ -115,7 +112,6 @@
 
 			</Tooltip>
 
-			<!-- Injection point -->
 			<Injection
 				location="input_wrapper/end"
 				class="znpb-options-injection--after-title"

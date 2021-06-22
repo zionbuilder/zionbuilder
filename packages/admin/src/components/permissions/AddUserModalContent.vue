@@ -16,7 +16,7 @@
 
 			<ul
 				v-if="keyword.length > 2"
-				class="znpb-baseselect-list"
+				class="znpb-baseselect-list znpb-fancy-scrollbar"
 			>
 				<ModalListItem
 					v-for="(user, i) in users"

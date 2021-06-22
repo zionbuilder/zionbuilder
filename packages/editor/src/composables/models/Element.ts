@@ -183,6 +183,9 @@ export class Element {
 	addChildren(elements, index = -1) {
 		each(elements, (element) => {
 			this.addChild(element, index)
+
+			// In case we need to insert multiple elements at an index higher then the last item, we need to increment the index
+			index = index !== -1 ? index + 1 : index
 		})
 	}
 

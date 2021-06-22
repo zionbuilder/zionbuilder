@@ -25,7 +25,7 @@ export default {
 			if (this.options.link && this.options.link.link) {
 				return 'a'
 			}
-			return this.options.tag || 'div'
+			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'div'
 		},
 		extraAttributes () {
 			return getLinkAttributes(this.options.link)

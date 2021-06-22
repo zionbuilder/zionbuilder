@@ -356,6 +356,10 @@ class Editor {
 			'znpbwpeditorid',
 			[
 				'editor_height' => '150',
+				'wpautop'       => false,
+				'tinymce'       => [
+					'forced_root_block' => '',
+				],
 			]
 		);
 		$wp_editor = ob_get_clean();

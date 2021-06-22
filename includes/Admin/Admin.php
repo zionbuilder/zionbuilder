@@ -225,16 +225,19 @@ class Admin {
 			wp_localize_script(
 				'zb-admin',
 				'ZnPbAdminPageData',
-				[
-					'is_pro_active'       => Utils::is_pro_active(),
-					'template_types'      => Plugin::$instance->templates->get_template_types(),
-					'template_categories' => Plugin::$instance->templates->get_template_categories(),
-					'plugin_version'      => Plugin::instance()->get_version(),
-					'urls'                => [
-						'logo'     => Whitelabel::get_logo_url(),
-						'pro_logo' => Utils::get_pro_png_url(),
-					],
-				]
+				apply_filters(
+					'zionbuilder/admin/initial_data',
+					[
+						'is_pro_active'       => Utils::is_pro_active(),
+						'template_types'      => Plugin::$instance->templates->get_template_types(),
+						'template_categories' => Plugin::$instance->templates->get_template_categories(),
+						'plugin_version'      => Plugin::instance()->get_version(),
+						'urls'                => [
+							'logo'     => Whitelabel::get_logo_url(),
+							'pro_logo' => Utils::get_pro_png_url(),
+						],
+					]
+				)
 			);
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );

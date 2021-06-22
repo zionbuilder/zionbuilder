@@ -59,7 +59,6 @@ export const useLibrary = () => {
 	function insertElement(newElement) {
 		const { element, index = -1 } = getElementForInsert()
 		newElement = Array.isArray(newElement) ? newElement : [newElement]
-
 		element.addChildren(newElement, index)
 	}
 
