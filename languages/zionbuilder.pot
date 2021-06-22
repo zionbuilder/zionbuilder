@@ -275,11 +275,11 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:224, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
+#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:228, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
 msgid "Yes"
 msgstr ""
 
-#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:228, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
+#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:232, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
 msgid "No"
 msgstr ""
 
@@ -1847,55 +1847,55 @@ msgstr ""
 msgid "Edit link attributes"
 msgstr ""
 
-#: ../includes/Localization.php:694, ../includes/MaintenanceMode.php:177
+#: ../includes/Localization.php:694, ../includes/MaintenanceMode.php:181
 msgid "Maintenance mode"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:164
+#: ../includes/MaintenanceMode.php:168
 msgid "Select mode"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:165
+#: ../includes/MaintenanceMode.php:169
 msgid "Depending on the mode selected, your website will return a HTTP 200 response ( coming soon ) or a HTTP 503 mode ( maintenance mode )"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:169
+#: ../includes/MaintenanceMode.php:173
 msgid "Disabled"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:173
+#: ../includes/MaintenanceMode.php:177
 msgid "Coming Soon"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:203, ../includes/MaintenanceMode.php:205
+#: ../includes/MaintenanceMode.php:207, ../includes/MaintenanceMode.php:209
 msgid "Select template"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:204
+#: ../includes/MaintenanceMode.php:208
 msgid "Choose the template you want to use as your maintenance/coming soon page."
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:220
+#: ../includes/MaintenanceMode.php:224
 msgid "Allow logged in users to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:256
+#: ../includes/MaintenanceMode.php:260
 msgid "Allow specific user roles to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:259
+#: ../includes/MaintenanceMode.php:263
 msgid "Select user roles"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:274
+#: ../includes/MaintenanceMode.php:277
 msgid "Allow specific IP's to access the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:275
+#: ../includes/MaintenanceMode.php:278
 msgid "Enter a list of ip's separated by a comma"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:276
+#: ../includes/MaintenanceMode.php:279
 msgid "192.168.1.1, 127.0.0.1"
 msgstr ""
 

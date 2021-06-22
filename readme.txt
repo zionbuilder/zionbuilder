@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.7.2
-Stable tag: 2.5.0
+Stable tag: 2.6.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,31 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.6.0 2021-06-22 =
+* Added coming soon and maintenance mode - Options can be found in the builder settings panel
+* Added option to select the page to use for "post/page" dynamic field
+* Added ability to search for an internal link for the link option
+* Improved select option
+* Added ability to add custom attributes to link options
+* Added ability to set custom tags for section/column and container
+* Added tooltips for add element insert icon so you know where the element will be inserted
+* Allow the user to toggle the add elements popup by pressing its trigger icon
+* Removed the p tags addition for all inline editors/TinyMCE
+* Highlight elements in the tree view panel when clicking on them
+* Removed the minimum default value for number inputs
+* Allow clicking on the element options button even if the button is behind a padding overlay
+* Improved undo/redo system for editing elements
+* Various inline editor small improvements
+* Implemented new tooltips that can be used in the editor interface
+* Fixed page jumping if hovering the last element in a blank canvas page
+* Fixed featured image dynamic data not working as the background image in certain conditions
+* Fixed input shape divider value cannot be deleted
+* Fixed element button - icon on right doesn't display any space between the icon and text
+* Fixed library item import can sometimes import in revers section order
+* Fix background "repeat-x" option not working
+* Improved element icons loading in the editor by caching the icons that are received from the server
+* Fixed Chrome console warning related to wheel event used in an editor component
+
 = 2.5.0 2021-06-14 =
 * Improvement: Scroll to the top when searching for an element in the "add elements popup"
 * Improvement: Prevent bottom scrolling closes the "add elements popup"
