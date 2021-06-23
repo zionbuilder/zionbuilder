@@ -16,7 +16,7 @@
 
 	.editor-styles-wrapper .znpb-admin-post__edit-button {
 		color: #fff;
-		font-family: var(--zb-font-stack);
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	}
 }
 
@@ -34,11 +34,15 @@
 		padding: 14px 32px;
 		margin-right: 10px;
 		color: #fff;
-		font-family: var(--zb-font-stack);
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 		font-size: 13px;
 		text-decoration: none;
-		background: var(--zb-primary-color);
+		background: #006dd2;
 		cursor: pointer;
+
+		&:hover {
+			background: #0065c3;
+		}
 
 		.znpb-editor-icon-wrapper {
 			display: inline-flex;

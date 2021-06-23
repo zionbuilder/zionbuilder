@@ -39,6 +39,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 	font-weight: 500;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
+	box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
 }
 .znpb-editor-header-flyout {
 	position: relative;

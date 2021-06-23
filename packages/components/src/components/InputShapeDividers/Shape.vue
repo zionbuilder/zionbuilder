@@ -73,6 +73,10 @@ export default {
 		}
 	}
 
+	.zb-mask {
+		color: var(--zb-surface-light-color);
+	}
+
 	&.mask-active {
 		.zb-mask {
 			color: var(--zb-surface-color);
