@@ -432,10 +432,12 @@ export default {
 .znpb-option-selectOptionListNoMoreText {
 	padding: 10px 6px 5px;
 	text-align: center;
-	opacity: .8;
+	opacity: 0.8;
 }
 
 .znpb-inputDropdownIcon {
+	border-left: var(--zb-input-separator-width) solid
+		var(--zb-input-separator-color);
 	padding: 11px;
 }
 
@@ -445,6 +447,7 @@ export default {
 	align-items: center;
 	width: 100%;
 	font-weight: 500;
+	background: var(--zb-input-bg-color);
 	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	cursor: pointer;

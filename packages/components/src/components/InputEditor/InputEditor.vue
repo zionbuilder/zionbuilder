@@ -151,7 +151,7 @@ export default {
 			min-height: 34px;
 			padding: 7.5px 16px;
 			margin-bottom: 10px;
-			color: var(--zb-surface-color);
+			color: var(--zb-secondary-text-color);
 			background: var(--zb-secondary-color);
 			border-radius: 3px;
 			transition: background-color 0.15s;
@@ -188,8 +188,18 @@ export default {
 		border: none;
 	}
 
+	.switch-tmce,
+	.switch-html {
+		&:focus,
+		&:active {
+			color: var(--zb-surface-text-color);
+			background: var(--zb-surface-color);
+		}
+	}
+
 	.tmce-active .switch-tmce,
 	.html-active .switch-html {
+		color: var(--zb-surface-text-active-color);
 		background: var(--zb-surface-lighter-color);
 		border-top-right-radius: 3px;
 		border-top-left-radius: 3px;
@@ -230,6 +240,10 @@ export default {
 		border-left-color: var(--zb-surface-border-color);
 	}
 
+	.mce-toolbar .mce-ico {
+		color: var(--zb-surface-icon-color);
+	}
+
 	.mce-btn .mce-caret {
 		margin-top: 2px;
 	}
@@ -240,6 +254,8 @@ export default {
 	}
 
 	.mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
+		color: var(--zb-input-text-color);
+		background: var(--zb-input-bg-color);
 		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
 
@@ -276,7 +292,7 @@ export default {
 	.qt-dfw:hover,
 	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active,
 	.qt-dfw.active {
-		background: var(--zb-surface-light-color);
+		background: var(--zb-surface-lightest-color);
 		box-shadow: none;
 		border: 0;
 	}
@@ -286,6 +302,10 @@ export default {
 		background: var(--zb-secondary-color);
 		box-shadow: none;
 		border: 0;
+	}
+
+	.mce-btn button {
+		color: var(--zb-surface-text-color);
 	}
 
 	.mce-toolbar .mce-btn button,
