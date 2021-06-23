@@ -287,34 +287,11 @@ export default {
 					name: config.title,
 					icon: 'brush',
 					allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
-					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.uid}`),
+					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
 					allow_delete: false,
 					show_breadcrumbs: true,
 					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
 				}
-
-				// const optionConfig = {
-				// 	type: 'accordion_menu',
-				// 	title: config.title,
-				// 	id: styleId,
-				// 	icon: 'brush',
-				// 	child_options: {
-				// 		styles: {
-				// 			type: 'element_styles',
-				// 			id: 'styles',
-				// 			is_layout: true,
-				// 			selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-				// 			title: config.title,
-				// 			allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
-				// 		}
-				// 	}
-				// }
-
-				// if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
-				// 	optionConfig.child_options.attributes = this.attributesOptions
-				// }
-
-				// schema[styleId] = optionConfig
 			})
 
 			return {
