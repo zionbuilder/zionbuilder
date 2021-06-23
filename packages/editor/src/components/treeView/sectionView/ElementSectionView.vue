@@ -58,12 +58,11 @@
 	</li>
 </template>
 <script lang="ts">
-import { ref, Ref, PropType, computed } from "vue";
+import { ref, Ref, PropType } from "vue";
 import domtoimage from "dom-to-image";
-import { on } from "@zb/hooks";
-import { onMounted, onUpdated, onUnmounted } from "vue";
+import { onMounted } from "vue";
 import { translate } from "@zb/i18n";
-import { Element, useElementMenu, useElementActions } from "@composables";
+import { Element, useElementActions } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {
@@ -122,6 +121,8 @@ export default {
 		});
 
 		const onItemClick = () => {
+			const { focusElement } = useElementActions();
+			focusElement(props.element);
 			props.element.focus;
 			props.element.scrollTo = true;
 		};

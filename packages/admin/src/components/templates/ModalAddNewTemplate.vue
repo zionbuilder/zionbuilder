@@ -13,7 +13,6 @@
 		>
 			<InputSelect
 				v-model="localTemplate.template_type"
-				:multiple="false"
 				:placeholder="$translate('select_type')"
 				:options="templates"
 				class="znpb-admin-add-template-select"

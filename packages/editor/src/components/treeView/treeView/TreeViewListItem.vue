@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import { Element, useElementTypes } from "@composables";
+import { Element, useElementTypes, useElementActions } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -97,6 +97,8 @@ export default defineComponent({
 		const get_element_icon = getElementIcon(props.element.element_type);
 
 		const onItemClick = () => {
+			const { focusElement } = useElementActions();
+			focusElement(props.element);
 			props.element.focus;
 			props.element.scrollTo = true;
 		};

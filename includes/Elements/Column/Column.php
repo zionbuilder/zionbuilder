@@ -186,8 +186,10 @@ class Column extends Element {
 			[
 				'type'        => 'select',
 				'default'     => 'div',
-				'description' => esc_html__( 'Select the HTML tag to use for this element', 'zionbuilder' ),
+				'description' => esc_html__( 'Select the HTML tag to use for this element. If you want to add a custom tag, make sure to only use letters and numbers', 'zionbuilder' ),
 				'title'       => esc_html__( 'HTML tag', 'zionbuilder' ),
+				'addable'     => true,
+				'filterable'  => true,
 				'options'     => [
 					[
 						'id'   => 'section',

@@ -179,7 +179,6 @@ export default {
 		padding: 10.5px 12px;
 		background: var(--zb-input-bg-color);
 		// added to fix the arrows for mozilla firefox
-
 		-moz-appearance: textfield;
 	}
 	b,

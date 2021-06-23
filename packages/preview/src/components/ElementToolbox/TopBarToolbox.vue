@@ -28,23 +28,13 @@
 					/>
 				</Tooltip>
 			</div>
-			<Tooltip>
-				<template #content>
-					<div class="znpb-popper--tooltip">
-						<span v-if="topBarOpen">
-							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-						<span v-else>
-							{{$translate('open')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
-						</span>
-					</div>
-				</template>
-				<Icon
-					:icon="closeIcon"
-					@click.stop="toggleOpen"
-					class="znpb-editor-toolbox__element-options-button"
-				/>
-			</Tooltip>
+
+			<Icon
+				:icon="closeIcon"
+				@click="toggleOpen"
+				class="znpb-editor-toolbox__element-options-button"
+				v-znpb-tooltip="toolboxOpenText"
+			/>
 		</div>
 	</transition>
 
@@ -54,10 +44,6 @@
 import { ref, computed } from 'vue'
 // Utils
 import { translate } from '@zb/i18n'
-
-// Components
-import { trigger } from '@zb/hooks'
-
 // Composables
 import { useEditElement, useSaveTemplate } from '@zb/editor'
 
@@ -67,11 +53,19 @@ export default {
 		element: Object
 	},
 	setup (props, { emit }) {
-		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
+		const { showSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
 		const closeIcon = computed(() => topBarOpen.value ? 'close' : 'edit')
 		const { editElement } = useEditElement()
+
+		const toolboxOpenText = computed(() => {
+			if (topBarOpen.value) {
+				return `${translate('close')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			} else {
+				return `${translate('open')} ${props.element.elementTypeModel.name} ${translate('toolbox')}`
+			}
+		})
 
 		function toggleOpen () {
 			topBarOpen.value = !topBarOpen.value
@@ -119,7 +113,8 @@ export default {
 			actions,
 			topBarOpen,
 			reverseAnimation,
-			closeIcon
+			closeIcon,
+			toolboxOpenText
 		}
 	}
 }
@@ -140,7 +135,7 @@ export default {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 1001;
+	z-index: 9999;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-around;
@@ -150,7 +145,7 @@ export default {
 	line-height: 1 !important;
 	border-radius: 16px;
 	transform: translateY(-50%) translateX(17px);
-	transition: all 0.2s ease;
+	transition: all .2s ease;
 	pointer-events: auto;
 	.znpb-element__wrapper > .znpb-element-toolbox & {
 		background-color: var(--zb-element-color);
@@ -181,7 +176,7 @@ export default {
 
 	&--open {
 		padding: 0 6px;
-		box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.1);
+		box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
 		.znpb-editor-toolbox__element-options-button {
 			&:before {
 				box-shadow: none;
@@ -195,7 +190,7 @@ export default {
 		}
 		.znpb-editor-toolbox__top-bar {
 			display: flex;
-			animation: topBarAnimation 0.2s ease-in-out;
+			animation: topBarAnimation .2s ease-in-out;
 			animation-fill-mode: forwards;
 		}
 	}
@@ -220,11 +215,11 @@ export default {
 	//TO DO check this code
 	&--reverse {
 		display: flex !important;
-		animation: topBarAnimationReverse 0.2s ease-in-out;
+		animation: topBarAnimationReverse .2s ease-in-out;
 		animation-fill-mode: forwards;
 		.znpb-editor-icon-wrapper {
 			transform: scale(0);
-			transition: all 0.2s ease-in-out;
+			transition: all .2s ease-in-out;
 			opacity: 0;
 		}
 	}
@@ -246,26 +241,22 @@ export default {
 	}
 }
 .bounce-icon-enter-from {
-	transform: translate(17px, -50%) scale(0.9);
+	transform: translate(17px, -50%) scale(.9);
 }
 .bounce-icon-enter-to {
 	transform: translate(17px, -50%) scale(1);
 }
 .bounce-icon-leave-from {
-	transform: translate(17px, -50%) scale(0.2);
+	transform: translate(17px, -50%) scale(.2);
 }
 .bounce-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-icon-enter-to,
-.bounce-icon-leave-from {
-	transition: all 0.2s;
+.bounce-icon-enter-to, .bounce-icon-leave-from {
+	transition: all .2s;
 }
 
-.znpb-preview-page-wrapper
-	> .znpb-element__wrapper
-	> .znpb-element-toolbox
-	> .znpb-editor-toolbox__top-bar-wrapper {
+.znpb-preview-page-wrapper > .znpb-element__wrapper > .znpb-element-toolbox > .znpb-editor-toolbox__top-bar-wrapper {
 	top: 30px;
 	right: 34px;
 }

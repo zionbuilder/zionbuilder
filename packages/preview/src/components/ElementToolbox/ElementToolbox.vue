@@ -81,6 +81,7 @@
 					ref="addElementsPopupButton"
 				>
 					<Icon
+						v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
 						icon="plus"
 						:rounded="true"
 					/>

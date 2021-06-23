@@ -105,10 +105,10 @@ class CommonJS {
 			'js/components.js',
 			[
 				'zb-vue',
-				'zb-hooks',
-				'zb-utils',
 				'zb-i18n',
+				'zb-hooks',
 				'zb-rest',
+				'zb-utils',
 			],
 			Plugin::instance()->get_version(),
 			true

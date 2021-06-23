@@ -36,22 +36,22 @@ export default {
 		function changeFont (font, event) {
 			activeFont.value = font
 
-			editor.value.formatter.toggle('fontname', {
+			editor.editor.formatter.toggle('fontname', {
 				value: font
 			})
 		}
 
 		function getFontName () {
-			activeFont.value = editor.value.queryCommandValue('fontname')
+			activeFont.value = editor.editor.queryCommandValue('fontname')
 		}
 
 		onMounted(() => {
 			getFontName()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.editor.on('SelectionChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.editor.off('SelectionChange', onNodeChange)
 		})
 
 		return {

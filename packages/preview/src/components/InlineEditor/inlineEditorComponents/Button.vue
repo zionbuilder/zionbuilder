@@ -35,7 +35,7 @@ export default {
 		})
 
 		function checkIsActive () {
-			isActive.value = editor.value.formatter.match(...getFormatterArguments())
+			isActive.value = editor.editor.formatter.match(...getFormatterArguments())
 		}
 
 		function getFormatterArguments () {
@@ -54,7 +54,7 @@ export default {
 			event.preventDefault()
 
 			// Remove Style if this is already active
-			editor.value.formatter.toggle(...getFormatterArguments())
+			editor.editor.formatter.toggle(...getFormatterArguments())
 		}
 
 		function onNodeChange () {
@@ -63,11 +63,11 @@ export default {
 
 		onMounted(() => {
 			checkIsActive()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.editor.on('SelectionChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.editor.off('SelectionChange', onNodeChange)
 		})
 
 		return {

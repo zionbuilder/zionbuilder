@@ -67,7 +67,7 @@ export default {
 		}
 
 		function onFontChange (newValue) {
-			editor.value.formatter.apply('fontsize', { value: newValue })
+			editor.editor.formatter.apply('fontsize', { value: newValue })
 			sliderValue.value = newValue
 
 			emit('started-dragging')
@@ -91,16 +91,16 @@ export default {
 		}
 
 		function getFontSize () {
-			sliderValue.value = editor.value.queryCommandValue('FontSize')
+			sliderValue.value = editor.editor.queryCommandValue('FontSize')
 		}
 
 		onMounted(() => {
 			getFontSize()
-			editor.value.on('SelectionChange', onNodeChange)
+			editor.editor.on('SelectionChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('SelectionChange', onNodeChange)
+			editor.editor.off('SelectionChange', onNodeChange)
 		})
 
 		return {

@@ -135,11 +135,13 @@ export default {
 		},
 		forcedRootNode: {
 			type: [Boolean, String],
-			default: "p",
+			default: "",
 		},
 	},
 	setup (props, { emit }) {
-		let TinyMCEEditor = ref(null);
+		let TinyMCEEditor = {
+			editor: null
+		};
 		const { isPreviewMode } = usePreviewMode()
 		const { modelValue } = toRefs(props)
 		const inlineEditorRef = ref(null)
@@ -154,7 +156,6 @@ export default {
 		const lastPositionX = ref(0)
 		const lastPositionY = ref(0)
 		const yOffset = ref(0)
-
 
 		const position = ref({
 			offsetY: 75,
@@ -172,18 +173,18 @@ export default {
 		})
 
 		function saveContent () {
-			emit("update:modelValue", TinyMCEEditor.value.getContent());
+			emit("update:modelValue", TinyMCEEditor.editor.getContent());
 		}
 
 		function initWatcher () {
 			watch(modelValue, (newValue, oldValue) => {
 				if (
-					TinyMCEEditor.value &&
+					TinyMCEEditor.editor &&
 					typeof newValue === "string" &&
 					newValue !== oldValue &&
-					newValue !== TinyMCEEditor.value.getContent()
+					newValue !== TinyMCEEditor.editor.getContent()
 				) {
-					TinyMCEEditor.value.setContent(newValue);
+					TinyMCEEditor.editor.setContent(newValue);
 				}
 			});
 		}
@@ -201,7 +202,7 @@ export default {
 				setup: (editor) => {
 					editor.on("init", (e) => {
 						tinyMceReady.value = true;
-						TinyMCEEditor.value = editor;
+						TinyMCEEditor.editor = editor;
 
 						// Set the content
 						editor.setContent(props.modelValue);
@@ -212,14 +213,15 @@ export default {
 
 					editor.on("change input undo redo", saveContent);
 				},
-				forced_root_block: props.forcedRootNode,
+				forced_root_block: '',
 				formats: {
 					fontSize: {
 						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 						classes: "znpb-fontsize",
 						styles: { fontSize: "%value" },
 					},
-					fontweight: {
+					fontWeight: {
+						inline: 'span',
 						selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
 						classes: "znpb-fontweight",
 						styles: { fontWeight: "%value" },
@@ -335,8 +337,11 @@ export default {
 
 		watch(showEditor, (newValue) => {
 			if (newValue) {
-				document.addEventListener('keydown', hideEditorOnEscapeKey, true)
-				document.addEventListener('scroll', hideEditor)
+				setTimeout(() => {
+					document.addEventListener('keydown', hideEditorOnEscapeKey, true)
+					document.addEventListener('scroll', hideEditor)
+				}, 10);
+
 			} else {
 				document.removeEventListener('keydown', hideEditorOnEscapeKey, true)
 				document.removeEventListener('scroll', hideEditor, true)
@@ -357,8 +362,8 @@ export default {
 
 		onBeforeUnmount(() => {
 			// Destroy tinyMce
-			if (typeof window.tinyMCE !== 'undefined' && TinyMCEEditor.value) {
-				window.tinyMCE.remove(TinyMCEEditor.value)
+			if (typeof window.tinyMCE !== 'undefined' && TinyMCEEditor.editor) {
+				window.tinyMCE.remove(TinyMCEEditor.editor)
 			}
 		})
 
@@ -385,7 +390,6 @@ export default {
 
 <style lang="scss">
 .znpb-inline-editor__wrapper_all {
-	height: 100%;
 	min-height: 14px;
 }
 
@@ -481,7 +485,6 @@ export default {
 
 // NEW STYLES
 .znpb-inline-text-editor {
-	height: 100%;
 	outline: none !important;
 	cursor: text !important;
 

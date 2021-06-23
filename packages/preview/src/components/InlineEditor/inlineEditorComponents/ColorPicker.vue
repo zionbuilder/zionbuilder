@@ -26,7 +26,7 @@ export default {
 
 		function onColorChange (newValue) {
 			color.value = newValue
-			editor.value.formatter.apply('forecolor', { value: newValue })
+			editor.editor.formatter.apply('forecolor', { value: newValue })
 
 			clearTimeout(changeTimeout)
 			changeTimeout = setTimeout(() => {
@@ -44,16 +44,16 @@ export default {
 
 		function getActiveColor () {
 			// set a flag so we don't recursively update the color
-			color.value = editor.value.queryCommandValue('forecolor')
+			color.value = editor.editor.queryCommandValue('forecolor')
 		}
 
 		onMounted(() => {
 			getActiveColor()
-			editor.value.on('NodeChange', onNodeChange)
+			editor.editor.on('NodeChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('NodeChange', onNodeChange)
+			editor.editor.off('NodeChange', onNodeChange)
 		})
 
 		return {

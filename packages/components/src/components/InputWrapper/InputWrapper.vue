@@ -11,7 +11,7 @@
 			:class="{'znpb-form__input-title--fake-label': fakeLabel}"
 			v-if="title"
 		>
-			{{title}}
+			<span v-html="title"></span>
 
 			<Tooltip
 				v-if="description"

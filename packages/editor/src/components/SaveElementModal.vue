@@ -11,7 +11,7 @@
 	>
 		<div class="znpb-modal-save-element-wrapper">
 			<OptionsForm
-				v-model="formModel"
+				v-model="computedFormModel"
 				:schema="optionsSchema"
 			/>
 
@@ -46,14 +46,12 @@
 </template>
 
 <script>
-import { inject, ref } from 'vue'
+import { ref, computed } from 'vue'
 import { saveAs } from 'file-saver'
 
 import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@composables'
 import { useLocalLibrary } from '@zionbuilder/composables'
 import { exportTemplate } from '@zb/rest'
-import { compileElement } from '@zb/utils'
-import { on, off } from '@zb/hooks'
 
 export default {
 	name: 'SaveElementModal',
@@ -63,6 +61,14 @@ export default {
 		const { getActivePostTemplatePart } = useTemplateParts()
 		const { editorData } = useEditorData()
 		const formModel = ref({})
+		const computedFormModel = computed({
+			get () {
+				return formModel.value
+			},
+			set (newValue) {
+				formModel.value = null !== newValue ? newValue : {}
+			}
+		})
 
 		return {
 			getElement,
@@ -70,7 +76,8 @@ export default {
 			templateCategories: editorData.value.template_categories,
 			activeSaveElement,
 			hideSaveElement,
-			formModel
+			formModel,
+			computedFormModel
 		}
 	},
 

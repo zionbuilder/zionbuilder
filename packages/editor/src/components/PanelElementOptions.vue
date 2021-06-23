@@ -527,13 +527,17 @@ export default {
 				this.optionsFilterKeyword = ''
 			}
 		},
-		closeOptionsPanel () {
+
+		addToGlobalHistory (element) {
 			if (this.hasChanges) {
+				const activeEl = element ? element : this.element
 				const { addToHistory } = useHistory()
-				const elementSavedName = this.element.name
+				const elementSavedName = activeEl.name
 				addToHistory(`Edited ${elementSavedName}`)
 			}
-
+		},
+		closeOptionsPanel () {
+			this.addToGlobalHistory()
 			this.panel.close()
 			this.unEditElement()
 		},
@@ -557,6 +561,11 @@ export default {
 		}
 	},
 	watch: {
+		element (newValue, oldValue) {
+			if (newValue && newValue !== oldValue) {
+				this.addToGlobalHistory(oldValue)
+			}
+		},
 		searchActive (newValue) {
 			if (newValue) {
 				this.$nextTick(() => {

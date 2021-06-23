@@ -23,7 +23,7 @@
 		<div
 			class="znpb-fancy-scrollbar znpb-wrapper-category"
 			ref="categoriesWrapper"
-			@wheel="onElementListScroll"
+			@wheel.passive="onElementListScroll"
 		>
 			<template v-if="computedRuleCategories.length">
 				<ElementList
@@ -219,6 +219,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			min-height: 385px;
+
 			.znpb-wrapper-category {
 				align-items: center;
 				max-height: 321px;
@@ -229,7 +230,7 @@ export default {
 			}
 		}
 
-		.znpb-fancy-scrollbar {
+		.znpb-wrapper-category {
 			flex-grow: 1;
 			padding: 0 6px 0 10px;
 		}
@@ -248,8 +249,7 @@ export default {
 		}
 	}
 
-	.zion-input input,
-	.zion-input input::placeholder {
+	.zion-input input, .zion-input input::placeholder {
 		color: var(--zb-input-placeholder-color);
 	}
 
@@ -263,8 +263,12 @@ export default {
 .znpb-add-elements__filter {
 	display: flex;
 	padding: 0 10px;
+	margin-bottom: 20px;
 
 	&-category {
+		flex-grow: 1;
+		flex-shrink: 0;
+		width: 130px;
 		margin-right: 10px;
 
 		input[type="text"][readonly] {

@@ -100,7 +100,7 @@ export default {
 		}
 
 		function getLink () {
-			let link = editor.value.dom.getParent(editor.value.selection.getStart(), 'a[href]')
+			let link = editor.editor.dom.getParent(editor.editor.selection.getStart(), 'a[href]')
 
 			if (link) {
 				linkTarget.value = link.target || '_self'
@@ -118,13 +118,13 @@ export default {
 		function addLink (closePopper = true) {
 			if (linkUrl.value) {
 				// Make the selection a link
-				editor.value.formatter.apply('link', {
+				editor.editor.formatter.apply('link', {
 					href: linkUrl.value,
 					target: linkTarget.value,
 					title: linkTitle.value
 				})
 			} else {
-				editor.value.formatter.remove('link')
+				editor.editor.formatter.remove('link')
 			}
 
 			if (closePopper) {
@@ -134,11 +134,11 @@ export default {
 
 		onMounted(() => {
 			getLink()
-			editor.value.on('NodeChange', onNodeChange)
+			editor.editor.on('NodeChange', onNodeChange)
 		})
 
 		onBeforeUnmount(() => {
-			editor.value.off('NodeChange', onNodeChange)
+			editor.editor.off('NodeChange', onNodeChange)
 		})
 
 		return {

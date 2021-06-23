@@ -89,18 +89,6 @@
 							@click="$emit('activate-item', item)"
 						/>
 					</Tooltip>
-
-					<!-- <Tooltip
-					:content="$translate('library_add_favorite_tooltip')"
-					append-to="element"
-					placement="top"
-					:modifiers="{ offset: { offset: '0,10px' } }"
-				>
-					<Icon
-						icon="heart"
-						@click="$emit('added-to-favorite',item.id)"
-					/>
-				</Tooltip> -->
 				</div>
 				<Loader
 					v-else
@@ -119,8 +107,9 @@
 
 </template>
 <script>
-import { ref, computed, inject } from 'vue'
+import { ref, inject } from 'vue'
 import { useEditorData } from '@composables'
+
 export default {
 	name: 'LibraryItem',
 	props: {

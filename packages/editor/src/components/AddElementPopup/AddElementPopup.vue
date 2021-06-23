@@ -5,7 +5,7 @@
 		placement='auto'
 		:show="true"
 		append-to="body"
-		trigger="click"
+		:trigger="null"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
 		:popperRef="activePopup.selector"

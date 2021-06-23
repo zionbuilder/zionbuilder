@@ -52,7 +52,7 @@ import { UpgradeToPro } from './components/UpgradeToPro'
 import IconPackGrid from './components/IconPackGrid.vue'
 import { Sortable } from '@zionbuilder/sortable'
 export * as utils from '@utils'
-import { Tooltip } from '@zionbuilder/tooltip'
+import { Tooltip, PopperDirective } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 import { getDefaultGradient } from './utils'
 export * from '@composables'
@@ -135,6 +135,9 @@ const install = (app: App) => {
 	components.forEach(component => {
 		app.component(component.name, component);
 	});
+
+	// Add the tooltip directive
+	app.directive('znpb-tooltip', PopperDirective)
 }
 
 export {

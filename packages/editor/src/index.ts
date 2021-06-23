@@ -31,7 +31,7 @@ export * from './composables'
 export * from '@zionbuilder/composables'
 export * from '@utils'
 
-import { ServerRequest } from '@utils'
+import { ServerRequest } from '@zb/utils'
 
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas()

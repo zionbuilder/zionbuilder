@@ -902,7 +902,7 @@ class Element {
 	 * Will add the link attributes to a registerd tag
 	 *
 	 * @param string                $tag_id The tag id to which we will register the link attributes
-	 * @param array<string, string> $link   The link config
+	 * @param array<string, mixed> $link   The link config
 	 *
 	 * @return void
 	 */
@@ -917,6 +917,15 @@ class Element {
 
 		if ( isset( $link['title'] ) ) {
 			$this->render_attributes->add( $tag_id, 'title', $link['title'] );
+		}
+
+		if ( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) {
+			foreach ( $link['attributes'] as $attribute_config ) {
+				if ( ! empty( $attribute_config['key'] ) ) {
+					$attribute_value = isset( $attribute_config['value'] ) ? $attribute_config['value'] : null;
+					$this->render_attributes->add( $tag_id, $attribute_config['key'], $attribute_value );
+				}
+			}
 		}
 	}
 

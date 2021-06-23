@@ -29,24 +29,12 @@
 			</HiddenContainer>
 		</div>
 		<div class="znpb-admin__google-font-tab-actions">
-			<Tooltip
+			<Icon
 				class="znpb-edit-icon-pop"
-				append-to="element"
-				:modifiers="[
-					{
-						name: 'offset',
-						options: {
-							offset: [0, 15],
-						},
-					},
-				]"
-				:content="$translate('click_to_delete_font')"
-			>
-				<Icon
-					icon="delete"
-					@click="showModalConfirm = true"
-				/>
-			</Tooltip>
+				v-znpb-tooltip="$translate('click_to_delete_font')"
+				icon="delete"
+				@click="showModalConfirm = true"
+			/>
 		</div>
 		<ModalConfirm
 			v-if="showModalConfirm"
@@ -203,8 +191,7 @@ export default {
 		padding: 0 10px;
 	}
 
-	& > &-title,
-	& > &-variants {
+	& > &-title, & > &-variants {
 		min-width: 32%;
 
 		@media (max-width: 991px) {
@@ -212,9 +199,7 @@ export default {
 		}
 	}
 
-	&-title,
-	&-variants,
-	&-subset {
+	&-title, &-variants, &-subset {
 		@media (max-width: 767px) {
 			margin-bottom: 10px;
 		}
@@ -241,18 +226,14 @@ export default {
 			display: none;
 		}
 
-		.znpb-admin__google-font-tab-title,
-		.znpb-admin__google-font-tab-variants,
-		.znpb-admin__google-font-tab-subset,
-		.znpb-admin__google-font-tab-actions {
+		.znpb-admin__google-font-tab-title, .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset, .znpb-admin__google-font-tab-actions {
 			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: 700;
-			letter-spacing: 0.5px;
+			letter-spacing: .5px;
 			text-transform: uppercase;
 		}
-		.znpb-admin__google-font-tab-variants,
-		.znpb-admin__google-font-tab-subset {
+		.znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset {
 			text-align: left;
 		}
 		&:hover {
@@ -277,7 +258,7 @@ export default {
 			box-sizing: content-box;
 			padding: 5px;
 			font-size: 14px;
-			transition: color 0.15s ease;
+			transition: color .15s ease;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);

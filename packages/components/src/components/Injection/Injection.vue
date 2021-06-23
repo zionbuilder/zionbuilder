@@ -1,14 +1,9 @@
 <template>
 	<component
-		:is="htmlTag"
-		class="znpb-injection-component"
-	>
-		<component
-			v-for="(customComponent, i) in computedComponents"
-			:key="i"
-			:is="customComponent"
-		/>
-	</component>
+		v-for="(customComponent, i) in computedComponents"
+		:key="i"
+		:is="customComponent"
+	/>
 </template>
 
 <script>
@@ -16,6 +11,7 @@ import { computed } from 'vue'
 import { useInjections } from '@composables/useInjections'
 
 export default {
+	inheritAttrs: false,
 	name: 'Injection',
 	props: {
 		location: {
@@ -38,9 +34,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss">
-.znpb-injection-component {
-	display: flex;
-}
-</style>

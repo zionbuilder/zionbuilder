@@ -33,10 +33,6 @@ export default {
 			type: String,
 			required: false
 		},
-		height: {
-			type: String,
-			required: false
-		},
 		flip: {
 			type: Boolean,
 			required: false
