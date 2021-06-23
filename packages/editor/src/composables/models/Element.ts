@@ -232,6 +232,13 @@ export class Element {
 			this.parent.removeChild(this)
 		}
 
+		// Delete all childs
+		if (this.content) {
+			this.content.forEach(child => {
+				child.delete()
+			})
+		}
+
 		unregisterElement(this.uid)
 
 		// Add to history
@@ -300,6 +307,14 @@ export class Element {
 		if (callbackIndex !== -1) {
 			this.callbacks[type].splice(callbackIndex, 1)
 		}
+	}
+
+	setData(key, value) {
+		this[key] = value
+	}
+
+	unsetData(key) {
+		delete this[key]
 	}
 
 	trigger(type, ...data) {

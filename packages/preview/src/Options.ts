@@ -7,12 +7,13 @@ import { cloneDeep, forEach } from 'lodash-es'
  * and custom css
  */
 export default class Options {
-	constructor(schema, model, selector, options, serverRequester = null) {
+	constructor(schema, model, selector, options, serverRequester = null, additionalData) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
 		this.options = options
 		this.serverRequester = serverRequester || window.zb.editor.serverRequest
+		this.additionalData = additionalData
 
 		this.customCSS = {
 			default: {},

@@ -130,7 +130,10 @@ export default {
 					onLoadingStart: () => localLoading.value = true,
 					onLoadingEnd: () => localLoading.value = false,
 				},
-				serverRequester
+				serverRequester,
+				{
+					element: props.element
+				}
 			)
 
 			return optionsInstance.parseData()

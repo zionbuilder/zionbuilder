@@ -163,6 +163,10 @@ export default {
 			required: false,
 			default: false
 		},
+		local_callback_method: {
+			type: String,
+			required: false
+		}
 	},
 	setup (props, { emit }) {
 		const optionWrapper = ref(null)
@@ -201,6 +205,15 @@ export default {
 				const serverOptions = getItems(props.server_callback_method)
 				if (serverOptions.length > 0) {
 					options.push(...serverOptions)
+				}
+			}
+
+			// Check if we need to populate the data
+			if (props.local_callback_method) {
+				const localOptions = window[props.local_callback_method]
+
+				if (typeof localOptions === 'function') {
+					options.push(...localOptions())
 				}
 			}
 
