@@ -207,7 +207,7 @@ body {
 		}
 
 		&--error {
-			--zion-border-color: red;
+			--zb-input-border-color: red;
 		}
 
 		&__clear-text {

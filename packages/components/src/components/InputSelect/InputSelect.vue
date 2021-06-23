@@ -445,7 +445,7 @@ export default {
 	align-items: center;
 	width: 100%;
 	font-weight: 500;
-	border: 2px solid var(--zion-border-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 }
@@ -460,7 +460,7 @@ export default {
 
 .znpb-option-selectWrapper {
 	width: 100%;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 }
 
 .znpb-inputAddableIcon {

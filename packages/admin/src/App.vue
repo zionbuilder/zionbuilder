@@ -136,20 +136,13 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
-	--zion-border-color: #e5e5e5;
-}
-
 .znpb-admin__wrapper {
 	color: var(--zb-surface-text-color);
 	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	line-height: 1;
 
-	a,
-	a:hover,
-	a:focus,
-	a:visited {
+	a, a:hover, a:focus, a:visited {
 		text-decoration: none;
 		box-shadow: none;
 	}
@@ -165,12 +158,10 @@ export default {
 		border: none;
 
 		-webkit-appearance: none;
-		-moz-appearance: none;
+		   -moz-appearance: none;
 	}
 
-	input,
-	select,
-	textarea {
+	input, select, textarea {
 		background-color: var(--zb-surface-color);
 		border-radius: 3px;
 	}
@@ -179,17 +170,13 @@ export default {
 		padding: 10.5px 12px;
 		background: var(--zb-input-bg-color);
 		// added to fix the arrows for mozilla firefox
+
 		-moz-appearance: textfield;
 	}
-	b,
-	strong {
+	b, strong {
 		font-weight: 700;
 	}
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	h2, h3, h4, h5, h6 {
 		margin-top: 0;
 		margin-bottom: 25px;
 		color: var(--zb-surface-text-active-color);
@@ -208,8 +195,7 @@ export default {
 	& * {
 		box-sizing: border-box;
 	}
-	input[type="checkbox"]:checked:before,
-	input[type="radio"]:checked:before {
+	input[type="checkbox"]:checked:before, input[type="radio"]:checked:before {
 		display: none;
 	}
 }
@@ -228,8 +214,8 @@ export default {
 	&__wrapper {
 		position: relative;
 		box-sizing: border-box;
-		max-width: 1400px;
 		width: 100%;
+		max-width: 1400px;
 		padding-right: 20px;
 		margin: 20px 0 40px 0;
 
@@ -242,8 +228,7 @@ export default {
 				color: var(--zb-surface-text-color);
 			}
 
-			.router-link-active,
-			.znpb-admin__header-menu-item:hover {
+			.router-link-active, .znpb-admin__header-menu-item:hover {
 				color: var(--zb-surface-text-active-color);
 			}
 		}
@@ -254,7 +239,7 @@ export default {
 		z-index: 1;
 		padding: 0 30px;
 		background: var(--zb-surface-color);
-		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
 
 		&-logo {
 			display: flex;

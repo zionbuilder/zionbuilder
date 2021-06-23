@@ -87,7 +87,7 @@ export default {
 	.znpb-editor-icon-wrapper {
 		width: 40px;
 		height: 40px;
-		border: 2px solid var(--zion-border-color);
+		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 	}
 }

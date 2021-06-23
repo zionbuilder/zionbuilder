@@ -253,6 +253,7 @@ export default {
 		this.getWindows('preview').removeEventListener('click', this.deselectActiveElement)
 		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
+		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
 
 		off('refreshIframe', this.refreshIframe)
 	},
