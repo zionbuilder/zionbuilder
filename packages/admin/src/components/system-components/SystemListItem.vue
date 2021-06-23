@@ -3,7 +3,10 @@
 		<h3 class="znpb-system-list__item">{{data.name}}</h3>
 		<h4 class="znpb-system-list__item">
 			{{data.value}}
-			<SmallNotice v-if='data.icon' :data="data"></SmallNotice>
+			<SmallNotice
+				v-if='data.icon'
+				:data="data"
+			></SmallNotice>
 		</h4>
 	</div>
 </template>
@@ -41,7 +44,7 @@ export default {
 	&__item {
 		flex-basis: 50%;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		line-height: 1.4;
 
 		@media (max-width: 767px) {

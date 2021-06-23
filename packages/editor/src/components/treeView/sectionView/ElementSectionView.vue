@@ -173,7 +173,7 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		line-height: 18px;
 		border: 1px solid var(--zb-surface-lighter-color);
 		cursor: pointer;

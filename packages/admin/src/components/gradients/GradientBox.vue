@@ -44,8 +44,8 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
-	border: 1px solid $surface-variant;
+	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 
@@ -69,9 +69,9 @@ export default {
 		width: 20px;
 		height: 20px;
 		font-size: 8px;
-		border: 1px solid $border-color;
+		border: 1px solid var(--zb-surface-border-color);
 		border-radius: 50%;
-		transition: all .15s;
+		transition: all 0.15s;
 		cursor: pointer;
 		opacity: 0;
 		visibility: hidden;
@@ -83,7 +83,7 @@ export default {
 	}
 
 	.znpb-gradient-preview {
-		box-shadow: 0 0 0 2px inset rgba(0, 0, 0, .1);
+		box-shadow: 0 0 0 2px inset rgba(0, 0, 0, 0.1);
 	}
 }
 </style>

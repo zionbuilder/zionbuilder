@@ -182,7 +182,7 @@ export default {
 
 			&-icon {
 				margin-bottom: 8px;
-				color: $surface-headings-color;
+				color: var(--zb-surface-icon-color);
 				font-size: 20px;
 				font-weight: bold;
 			}
@@ -200,11 +200,11 @@ export default {
 			align-self: baseline;
 			padding: 15px;
 			margin-top: -15px;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 			cursor: pointer;
 
 			&:hover {
-				color: $font-color;
+				color: var(--zb-surface-text-color);
 			}
 		}
 	}
@@ -214,7 +214,7 @@ export default {
 		align-self: center;
 		margin-right: 30px;
 		&:hover {
-			background: darken($surface-variant, 10%);
+			background: var(--zb-surface-text-hover-color);
 		}
 	}
 }

@@ -157,7 +157,7 @@ h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 }
 
 .znpb-element-options__media-class-pseudo-title {
-	border-right: 2px solid #e5e5e5;
+	border-right: 2px solid var(--zb-surface-border-color);
 	border-left: 0;
 }
 .znpb-button.znpb-class-selector__add-class-button {
@@ -271,7 +271,7 @@ h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 }
 .znpb-editor-library-modal-sidebar {
 	border-right: 0;
-	border-left: 1px solid #f1f1f1;
+	border-left: 1px solid var(--zb-surface-border-color);
 }
 .znpb-editor-library-modal-subheader__left-number {
 	margin-right: 5px;
@@ -288,7 +288,7 @@ h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 .znpb-editor-panel {
 	&--left {
 		border-right: 0;
-		border-left: 2px solid $border-color;
+		border-left: 2px solid var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			right: auto;
 			left: -3px;
@@ -296,11 +296,11 @@ h4.znpb-panel__header-name > .znpb-editor-icon-wrapper {
 	}
 
 	&--left + &--left, &--right + &--right {
-		border-right: 1px solid $surface-variant;
+		border-right: 1px solid var(--zb-surface-border-color);
 		border-left: 0;
 	}
 	&--right {
-		border-right: 2px solid $border-color;
+		border-right: 2px solid var(--zb-surface-border-color);
 		border-left: 0;
 		.znpb-editor-panel__resize--horizontal {
 			right: -3px;

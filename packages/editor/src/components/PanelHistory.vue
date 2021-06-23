@@ -193,12 +193,12 @@ export default {
 	}
 
 	&:hover {
-		color: darken($font-color, 15%);
+		color: var(--zb-surface-text-hover-color);
 	}
 
 	// &--inactive, &--inactive:hover {
 	// 	.zion-icon.zion-svg-inline {
-	// 		color: darken($font-color, 15%);
+	// 		color: var(--zb-surface-text-hover-color);
 	// 	}
 	// }
 

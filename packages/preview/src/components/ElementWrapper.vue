@@ -528,7 +528,7 @@ export default {
 }
 
 .znpb-element__wrapper--panel-hovered {
-	box-shadow: 0 0 0 2px rgba($secondary, 0.3);
+	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), 0.3);
 }
 
 .znpb-element__wrapper {
@@ -572,7 +572,7 @@ export default {
 		}
 		.znpb-editor-icon-wrapper {
 			position: relative;
-			color: $surface;
+			color: var(--zb-surface-color);
 			cursor: pointer;
 		}
 		&:hover {

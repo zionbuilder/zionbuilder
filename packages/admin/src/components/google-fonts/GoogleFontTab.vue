@@ -203,7 +203,8 @@ export default {
 		padding: 0 10px;
 	}
 
-	& > &-title, & > &-variants {
+	& > &-title,
+	& > &-variants {
 		min-width: 32%;
 
 		@media (max-width: 991px) {
@@ -220,7 +221,7 @@ export default {
 	}
 
 	&-title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 		text-transform: capitalize;
 	}
@@ -244,10 +245,10 @@ export default {
 		.znpb-admin__google-font-tab-variants,
 		.znpb-admin__google-font-tab-subset,
 		.znpb-admin__google-font-tab-actions {
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: 700;
-			letter-spacing: .5px;
+			letter-spacing: 0.5px;
 			text-transform: uppercase;
 		}
 		.znpb-admin__google-font-tab-variants,
@@ -276,10 +277,10 @@ export default {
 			box-sizing: content-box;
 			padding: 5px;
 			font-size: 14px;
-			transition: color .15s ease;
+			transition: color 0.15s ease;
 
 			&:hover {
-				color: darken($font-color, 20%);
+				color: var(--zb-surface-text-hover-color);
 			}
 		}
 	}

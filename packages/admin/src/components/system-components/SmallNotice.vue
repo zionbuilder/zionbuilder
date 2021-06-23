@@ -66,7 +66,7 @@ export default {
 		cursor: pointer;
 	}
 	&--ok {
-		color: $green;
+		color: var(--zb-success-color);
 	}
 	&--warning {
 		color: var(--zb-error-color);

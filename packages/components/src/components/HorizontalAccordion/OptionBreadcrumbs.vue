@@ -79,7 +79,7 @@ export default {
 		transition: 0.15s all;
 		cursor: pointer;
 		&:hover {
-			color: darken($icons-color, 5%);
+			color: var(--zb-surface-text-hover-color);
 		}
 
 		svg {

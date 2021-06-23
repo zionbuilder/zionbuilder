@@ -144,7 +144,7 @@ export default defineComponent({
 		cursor: pointer;
 
 		&:hover {
-			color: darken($font-color, 15%);
+			color: var(--zb-surface-text-hover-color);
 		}
 	}
 
@@ -193,7 +193,7 @@ export default defineComponent({
 			&:hover {
 				cursor: pointer;
 				.znpb-editor-icon-wrapper {
-					color: darken($primary-color--accent, 10%);
+					color: var(--zb-surface-icon-color);
 				}
 			}
 		}

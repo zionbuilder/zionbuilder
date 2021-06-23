@@ -97,26 +97,26 @@ export default {
 		width: 44px;
 		height: 100%;
 		background: linear-gradient(
-		-90deg,
-		$surface-variant 0%,
-		rgba($surface-variant, .3) 100%
+			-90deg,
+			var(--zb-surface-lighter-color) 0%,
+			rgba(var(--zb-surface-lighter-rgb-color), 0.3) 100%
 		);
 	}
 }
 
 .znpb-panel-item--hovered .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
-	-90deg,
-	darken($surface-variant, 3%) 0%,
-	rgba(darken($surface-variant, 3%), .3) 100%
+		-90deg,
+		var(--zb-surface-lighter-color) 0%,
+		rgba(var(--zb-surface-lighter-rgb-color), 0.3) 100%
 	);
 }
 
 .znpb-panel-item--active .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
-	-90deg,
-	$secondary 0%,
-	rgba($secondary, .3) 100%
+		-90deg,
+		var(--zb-secondary-color) 0%,
+		rgba(var(--zb-secondary-rgb-color), 0.3) 100%
 	);
 }
 

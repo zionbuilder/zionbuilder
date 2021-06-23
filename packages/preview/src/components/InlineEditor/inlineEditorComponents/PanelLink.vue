@@ -164,7 +164,7 @@ export default {
 	display: flex;
 
 	label {
-		color: $surface-headings-color;
+		color: var(--zb-surface-icon-color);
 		font-size: 10px;
 		text-transform: uppercase;
 	}
@@ -173,7 +173,8 @@ export default {
 		margin-right: 15px;
 	}
 
-	.znpb-baseselect-overwrite, .znpb-form-label > .zion-input {
+	.znpb-baseselect-overwrite,
+	.znpb-form-label > .zion-input {
 		margin-bottom: 8px;
 	}
 

@@ -128,15 +128,15 @@ export default {
 	position: relative;
 	margin-bottom: 5px;
 	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
-	border: 1px solid $surface-variant;
+	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 
 	&--addcolor {
 		position: relative;
-		color: lighten($font-color, 25%);
-		background: lighten($surface-variant, 3);
+		color: var(--zb-surface-icon-color);
+		background: var(--zb-surface-lightest-color);
 		box-shadow: none;
-		border: 2px dashed lighten($font-color, 25%);
+		border: 2px dashed var(--zb-surface-border-color);
 		cursor: pointer;
 		.znpb-admin-color-preset-box__empty {
 			.znpb-editor-icon-wrapper {
@@ -172,13 +172,13 @@ export default {
 		@include circlesimple(20px);
 		align-self: flex-end;
 		margin-top: 7px;
-		border: 1px solid $border-color;
+		border: 1px solid var(--zb-surface-border-color);
 		transition: all 0.15s;
 		cursor: pointer;
 		.zion-icon.zion-svg-inline {
 			width: 8px;
 			margin: 0 auto;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 
@@ -189,7 +189,7 @@ export default {
 			@include circlesimple(60px);
 			@extend %opacitybg;
 			margin-bottom: 18px;
-			box-shadow: 0 0 0 2px #e5e5e5;
+			box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 		}
 	}
 

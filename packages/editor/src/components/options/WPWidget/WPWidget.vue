@@ -99,10 +99,10 @@ export default {
 	&:before,
 	&:after {
 		@extend %loading;
-		border: 2px solid $surface-variant;
+		border: 2px solid var(--zb-surface-lighter-color);
 	}
 	&:after {
-		border-right-color: lighten($surface-headings-color, 5%);
+		border-right-color: var(--zb-surface-border-color);
 		animation: Rotate 0.6s linear infinite;
 	}
 }
@@ -126,7 +126,7 @@ export default {
 		height: 42px;
 		padding: 13px;
 		margin: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		line-height: 1;
@@ -140,7 +140,7 @@ export default {
 	}
 	label {
 		padding: 15px 15px 15px 0;
-		color: $surface-headings-color;
+		color: var(--zb-surface-icon-color);
 		font-family: var(--zb-font-stack);
 		font-size: 11px;
 		font-weight: 700;
@@ -156,11 +156,11 @@ export default {
 		height: 42px;
 		padding: 13px;
 		margin: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		line-height: 1;
-		background-color: #f1f1f1;
+		background-color: var(--zb-surface-lighter-color);
 		background-image: none;
 		box-shadow: none;
 		border: 0;
@@ -170,7 +170,7 @@ export default {
 	}
 	label {
 		padding: 15px 15px 15px 0;
-		color: $surface-headings-color;
+		color: var(--zb-surface-icon-color);
 		font-family: var(--zb-font-stack);
 		font-size: 11px;
 		font-weight: 700;
@@ -205,7 +205,7 @@ export default {
 		padding: 13px;
 		margin: 0;
 		margin-bottom: 15px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		line-height: 1;

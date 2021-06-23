@@ -503,7 +503,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		color: $surface;
+		color: var(--zb-surface-color);
 		transform: translateX(-50%);
 		&-text {
 			font-size: 10px;

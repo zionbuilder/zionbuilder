@@ -80,7 +80,7 @@ export default {
 		& > span {
 			display: block;
 			margin-bottom: 12px;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 13px;
 			font-weight: 500;
 			white-space: nowrap;

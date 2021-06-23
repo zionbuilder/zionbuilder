@@ -26,7 +26,7 @@ export default {
 .znpb-admin-content-wrapper {
 	display: flex;
 	flex-shrink: 0;
-	background: $surface;
+	background: var(--zb-surface-color);
 }
 .znpb-admin-content {
 	&--center {
@@ -39,7 +39,7 @@ export default {
 		flex-basis: 240px;
 		flex-shrink: 0;
 		padding: 0 0 40px 0;
-		border-right: 1px solid $surface-variant;
+		border-right: 1px solid var(--zb-surface-border-color);
 
 		@media (max-width: 1399px) {
 			justify-content: center;
@@ -54,9 +54,9 @@ export default {
 				z-index: 10;
 				display: none;
 				width: 200px;
-				background: #fff;
+				background: var(--zb-surface-color);
 				box-shadow: 0 4px 40px -20px rgba(0, 0, 0, 0.4);
-				border: 1px solid #f1f1f1;
+				border: 1px solid var(--zb-surface-lighter-color);
 				border-radius: 3px;
 
 				&.znpb-admin-side-menu--open {
@@ -78,7 +78,7 @@ export default {
 		flex-grow: 0;
 		flex-shrink: 0;
 		padding: 30px 30px 30px 15px;
-		border-left: 1px solid $surface-variant;
+		border-left: 1px solid var(--zb-surface-lighter-color);
 
 		@media (max-width: 1399px) {
 			flex-basis: 200px;
@@ -90,7 +90,7 @@ export default {
 
 		p.znpb-admin-info-p {
 			margin-top: 0;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-family: var(--zb-font-stack);
 			font-size: 13px;
 		}
@@ -100,7 +100,7 @@ export default {
 			height: 20px;
 			margin-top: 5px;
 			margin-right: 10px;
-			border: 2px solid darken($border-color, 10%);
+			border: 2px solid var(--zb-surface-border-color);
 			border-radius: 50%;
 			.zion-icon.zion-svg-inline {
 				margin: 0 auto;
@@ -114,7 +114,7 @@ export default {
 		flex-grow: 1;
 		min-height: 500px;
 		padding: 30px 30px 30px;
-		background: $surface;
+		background: var(--zb-surface-color);
 	}
 }
 </style>

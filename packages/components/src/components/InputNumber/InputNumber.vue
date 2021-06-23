@@ -211,7 +211,8 @@ export default {
 input[type="number"] {
 	-moz-appearance: textfield;
 
-	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 	}
 	&:hover {
@@ -221,7 +222,7 @@ input[type="number"] {
 .znpb-input-number {
 	.zion-input__suffix {
 		margin-right: 7px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 	}
 }
 </style>

@@ -347,7 +347,7 @@ export default {
 
 	&-title {
 		display: flex;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		border-left: var(--zb-input-separator-width) solid
 			var(--zb-input-separator-color);
 		cursor: pointer;
@@ -355,9 +355,10 @@ export default {
 		.znpb-editor-icon-wrapper {
 			padding: 11px;
 		}
-		&--has-edit {
-			// margin-right: 5px;
-		}
+
+		// &--has-edit {
+		// 	margin-right: 5px;
+		// }
 
 		&__before-after-content {
 			position: absolute;
@@ -366,10 +367,10 @@ export default {
 			z-index: 20000;
 			width: 100%;
 			padding: 15px;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 			background-color: #fff;
 			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
-			border: 1px solid #f1f1f1;
+			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 4px;
 			input::placeholder {
 				color: var(--zb-input-placeholder-color);

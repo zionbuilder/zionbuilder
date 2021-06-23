@@ -245,30 +245,30 @@ export default {
 		.znpb-tabs__header {
 			padding: 3px;
 			margin: 10px 10px 20px;
-			background: $surface-variant;
+			background: var(--zb-surface-lighter-color);
 			border-radius: 3px;
 
 			.znpb-tabs__header-item {
 				flex: 1;
 				padding: 15px 20px;
-				color: $font-color;
+				color: var(--zb-surface-text-color);
 				font-size: 13px;
 				font-weight: 500;
 				border-radius: 2px;
 				cursor: pointer;
 
 				&:hover {
-					color: $font-color;
-					background-color: darken($surface-variant, 3%);
+					color: var(--zb-surface-text-color);
+					background-color: var(--zb-surface-light-color);
 				}
 
 				&--active {
-					color: $surface;
-					background: $secondary;
+					color: var(--zb-secondary-text-color);
+					background: var(--zb-secondary-color);
 
 					&:hover {
-						color: $surface;
-						background: $secondary;
+						color: var(--zb-secondary-text-color);
+						background: var(--zb-secondary-color);
 					}
 				}
 			}
@@ -290,7 +290,7 @@ export default {
 }
 .znpb-columns-templates {
 	display: grid;
-	color: $surface-variant;
+	color: var(--zb-surface-lighter-color);
 
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
@@ -301,7 +301,7 @@ export default {
 		cursor: pointer;
 
 		&:hover {
-			color: $secondary;
+			color: var(--zb-secondary-color);
 		}
 		&:last-child {
 			grid-column-start: 2;
@@ -331,13 +331,13 @@ export default {
 
 		span {
 			display: block;
-			background: darken($surface-variant, 3%);
+			background: var(--zb-surface-lightest-color);
 			border-radius: 1px;
 			transition: box-shadow 0.15s;
 		}
 
 		&:hover span {
-			background: darken($surface-variant, 10%);
+			background: var(--zb-surface-lighter-color);
 		}
 	}
 
@@ -428,7 +428,7 @@ export default {
 		&.znpb-editor-icon-wrapper {
 			width: 100%;
 			margin-bottom: 10px;
-			color: $secondary;
+			color: var(--zb-secondary-color);
 			font-size: 182px;
 		}
 	}

@@ -268,13 +268,13 @@ export default {
 	min-width: 200px;
 	padding: 0;
 	margin: 0;
-	color: $font-color;
+	color: var(--zb-dropdown-text-color);
 	font-size: 14px;
 	list-style-type: none;
-	background-color: $surface;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	background-color: var(--zb-dropdown-bg-color);
+	box-shadow: 0 5px 10px 0 var(--zb-dropdown-shadow);
 	border-radius: 3px;
-	outline: 1px solid $surface-variant;
+	outline: 1px solid var(--zb-surface-lighter-color);
 }
 .znpb-right-click__menu-item {
 	display: flex;
@@ -295,7 +295,7 @@ export default {
 	}
 
 	&:hover {
-		color: $surface-active-color;
+		color: var(--zb-dropdown-text-active-color);
 	}
 
 	& > span {
@@ -305,6 +305,6 @@ export default {
 .znpb-right-click__menu-separator {
 	height: 1px;
 	margin: 5px 0;
-	border-top: 1px solid $surface-variant;
+	border-top: 1px solid var(--zb-surface-lighter-color);
 }
 </style>

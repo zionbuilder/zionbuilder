@@ -512,7 +512,7 @@ export default {
 		height: 100%;
 	}
 	&--left {
-		// box-shadow: 2px 0 0 0 $border-color;
+		// box-shadow: 2px 0 0 0 var(--zb-surface-border-color);
 		border-right: var(--zb-panel-sideborder) solid
 			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
@@ -525,7 +525,7 @@ export default {
 		border-left: 1px solid var(--zb-surface-border-color);
 	}
 	&--right {
-		// box-shadow: -2px 0 0 0 $border-color;
+		// box-shadow: -2px 0 0 0 var(--zb-surface-border-color);
 		border-left: var(--zb-panel-sideborder) solid
 			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {

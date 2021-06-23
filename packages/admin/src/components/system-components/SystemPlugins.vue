@@ -2,7 +2,11 @@
 	<div class="znpb-system-list-plugins">
 		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
 		<div class="znpb-system-plugins-wrapper">
-			<div v-for="(value,i) in categoryData.values" :key="i" class="znpb-system-plugins">
+			<div
+				v-for="(value,i) in categoryData.values"
+				:key="i"
+				class="znpb-system-plugins"
+			>
 				<h3 class="znpb-system-plugins__item">{{value.name}}</h3>
 				<h4 class="znpb-system-plugins__item"> {{value.version}} </h4>
 				<h5 class="znpb-system-plugins__item"> {{value.author}} </h5>
@@ -29,8 +33,8 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 20px;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
-	border: 1px solid $surface-variant;
+	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 
 	@media (max-width: 767px) {
@@ -61,12 +65,12 @@ export default {
 	}
 	h4 {
 		align-self: center;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-weight: 500;
 		margin-left: auto;
 	}
 	h5 {
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 400;
 		width: 100%;

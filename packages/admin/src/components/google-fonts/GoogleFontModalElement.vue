@@ -59,14 +59,14 @@ export default {
 	flex-basis: 100%;
 	padding: 20px;
 	margin-bottom: 10px;
-	color: $font-color;
-	background: $surface;
+	color: var(--zb-surface-text-color);
+	background: var(--zb-surface-color);
 	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
-	border: 1px solid $surface-variant;
+	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 
 	&-preview {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 24px;
 		line-height: 30px;
 		word-break: break-word;
@@ -85,15 +85,15 @@ export default {
 		color: #fff;
 		font-size: 10px;
 		text-align: center;
-		border: 2px solid #fff;
+		border: 2px solid var(--zb-surface-color);
 		border-radius: 50%;
 		cursor: pointer;
 	}
 
 	&:hover {
 		.znpb-editor-icon-wrapper {
-			color: $secondary;
-			border-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			border-color: var(--zb-secondary-color);
 		}
 		.znpb-circle-delete {
 			.znpb-editor-icon-wrapper {

@@ -49,7 +49,7 @@ export default {
 	&__button {
 		padding: 15px 0;
 		text-align: center;
-		border-top: 1px solid $surface-variant;
+		border-top: 1px solid var(--zb-surface-border-color);
 	}
 }
 </style>

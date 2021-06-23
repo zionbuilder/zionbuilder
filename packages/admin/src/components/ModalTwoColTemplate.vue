@@ -32,7 +32,7 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 30px 30px;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 
 	@media (max-width: 575px) {
 		flex-direction: column;
@@ -76,7 +76,7 @@ export default {
 
 	.znpb-admin-modal-title-block__desc {
 		margin-bottom: 0;
-		color: $surface-headings-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
 		font-size: 12px;
 		font-weight: 500;

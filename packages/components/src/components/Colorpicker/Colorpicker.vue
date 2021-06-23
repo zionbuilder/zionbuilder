@@ -230,7 +230,7 @@ export default {
 	max-width: 280px;
 	border-bottom-right-radius: 3px;
 
-	// background-color: $surface-variant;
+	// background-color: var(--zb-surface-lighter-color);
 	border-bottom-left-radius: 3px;
 
 	.znpb-preset-input-wrapper {

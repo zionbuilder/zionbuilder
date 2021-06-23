@@ -241,7 +241,7 @@ export default {
 	.zion-input__prepend {
 		padding: 0;
 		background: transparent;
-		border-right: 2px solid $border-color;
+		border-right: 2px solid var(--zb-surface-icon-color);
 
 		.znpb-baseselect__trigger > .zion-input {
 			border: none;
@@ -268,7 +268,7 @@ export default {
 		margin-right: 10px;
 
 		input[type="text"][readonly] {
-			background: transparent;
+			background: var(--zb-input-bg-color);
 		}
 	}
 }
@@ -280,7 +280,7 @@ export default {
 }
 .znpb-columns-templates {
 	display: grid;
-	color: $surface-variant;
+	color: var(--zb-surface-lighter-color);
 
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
@@ -291,7 +291,7 @@ export default {
 		// padding: 0 10px;
 		margin-bottom: 20px;
 		// margin-left: 10px;
-		background: transparent;
+		background: var(--zb-input-bg-color);
 	}
 }
 </style>

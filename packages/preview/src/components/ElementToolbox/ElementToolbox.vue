@@ -934,7 +934,7 @@ export default {
 		z-index: 1001;
 		width: 34px;
 		height: 34px;
-		color: $surface;
+		color: var(--zb-surface-color);
 		font-size: 14px;
 		line-height: 1 !important;
 		transform: translate(-50%, -50%);

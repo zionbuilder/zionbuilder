@@ -89,14 +89,14 @@ export default {
 		align-items: center;
 
 		.znpb-editor-icon-wrapper:hover {
-			color: $primary-color;
+			color: var(--zb-primary-color);
 		}
 	}
 }
 .znpb-add-specific-description {
 	margin-top: 0;
 	margin-bottom: 16px;
-	color: $surface-headings-color;
+	color: var(--zb-surface-text-color);
 	font-size: 13px;
 	font-weight: 400;
 	line-height: 1;
@@ -115,7 +115,7 @@ export default {
 		position: relative;
 		padding: 18px 20px;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		&:hover {
 			color: var(--zb-dropdown-text-active-color);
 			cursor: pointer;
@@ -134,10 +134,10 @@ export default {
 	height: 14px;
 	&:before,
 	&:after {
-		border: 2px solid lighten($surface-headings-color, 10%);
+		border: 2px solid var(--zb-surface-border-color);
 	}
 	&:after {
-		border-right-color: darken($surface-headings-color, 10%);
+		border-right-color: var(--zb-surface-border-color);
 	}
 }
 </style>

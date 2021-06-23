@@ -60,8 +60,8 @@ export default {
 			&-slot {
 				max-height: 230px;
 				padding: 16px;
-				background: $surface;
-				box-shadow: 0 0 5px 2px rgba(0, 0, 0, .05);
+				background: var(--zb-surface-color);
+				box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.05);
 				border-radius: 3px;
 			}
 		}
@@ -87,10 +87,12 @@ export default {
 	}
 }
 
-.fadeGrow-enter-to, .fadeGrow-leave-from {
-	transition: transform .1s;
+.fadeGrow-enter-to,
+.fadeGrow-leave-from {
+	transition: transform 0.1s;
 }
-.fadeGrow-enter-from, .fadeGrow-leave-to {
-	transform: scale(.9);
+.fadeGrow-enter-from,
+.fadeGrow-leave-to {
+	transform: scale(0.9);
 }
 </style>

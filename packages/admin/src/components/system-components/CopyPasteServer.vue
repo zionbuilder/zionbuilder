@@ -7,7 +7,8 @@
 			:modelValue="getCategoryData"
 			type="textarea"
 			class="znpb-system-textarea"
-			readonly spellcheck="false"
+			readonly
+			spellcheck="false"
 			autocomplete="false"
 		/>
 	</div>
@@ -50,13 +51,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 .znpb-system-title {
 	font-size: 24px;
 	font-weight: 500;
 }
 .znpb-system-subtitle {
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	font-size: 13px;
 	font-weight: 400;
 	text-transform: capitalize;

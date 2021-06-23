@@ -154,12 +154,12 @@ ul.znpb-radio-image-list {
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
 		}
 		&--active {
-			border: 2px solid $secondary;
+			border: 2px solid var(--zb-secondary-color);
 		}
 
 		&:hover &__item-name,
 		&--active &__item-name {
-			color: $secondary-color--accent;
+			color: var(--zb-secondary-text-color);
 		}
 	}
 
@@ -196,7 +196,7 @@ ul.znpb-radio-image-list {
 		&:hover,
 		&.znpb-radio-image-list__item--active {
 			.znpb-image-wrapper {
-				background-color: $secondary;
+				background-color: var(--zb-secondary-color);
 
 				background-blend-mode: multiply;
 			}
@@ -217,14 +217,14 @@ ul.znpb-radio-image-list {
 	&:hover {
 		.znpb-radio-image-list__item-name,
 		.znpb-editor-icon-wrapper {
-			color: $surface;
+			color: var(--zb-surface-color);
 		}
 	}
 }
 .znpb-radio-image-list__item--active {
 	.znpb-radio-image-list__item-name,
 	.znpb-editor-icon-wrapper {
-		color: $surface;
+		color: var(--zb-surface-color);
 	}
 }
 </style>

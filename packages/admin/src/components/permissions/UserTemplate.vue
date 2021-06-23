@@ -90,7 +90,7 @@ export default {
 				margin-right: 0;
 			}
 			&:hover {
-				color: darken($font-color, 20%);
+				color: var(--zb-surface-text-hover-color);
 			}
 			&.znpb-edit-icon-pop {
 				margin-right: 10px;
@@ -102,14 +102,14 @@ h3.znpb-single-role__item {
 	flex-basis: 0;
 	flex-grow: 2;
 	margin: 0;
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1;
 }
 .znpb-single-role-permission-subtitle {
 	margin: 0;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	font-size: 13px;
 	font-weight: 400;
 }

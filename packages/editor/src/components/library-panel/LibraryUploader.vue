@@ -210,7 +210,7 @@ input.znpb-library-input-file {
 			&:before {
 				background-image: linear-gradient(
 					to right,
-					$secondary 77%,
+					var(--zb-secondary-color) 77%,
 					rgba(255, 255, 255, 0) 0%
 				);
 			}
@@ -221,7 +221,7 @@ input.znpb-library-input-file {
 			&:before {
 				background-image: linear-gradient(
 					to top,
-					$secondary 77%,
+					var(--zb-secondary-color) 77%,
 					rgba(255, 255, 255, 0) 0%
 				);
 			}
@@ -231,7 +231,7 @@ input.znpb-library-input-file {
 	&__text {
 		font-size: 16px;
 		span {
-			color: $secondary;
+			color: var(--zb-secondary-color);
 			font-weight: 500;
 		}
 	}

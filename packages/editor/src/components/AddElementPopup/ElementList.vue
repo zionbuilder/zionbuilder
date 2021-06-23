@@ -69,7 +69,7 @@ export default {
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 10px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		font-weight: 500;

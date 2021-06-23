@@ -37,7 +37,7 @@
 		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		text-decoration: none;
-		background: $primary-color;
+		background: var(--zb-primary-color);
 		cursor: pointer;
 
 		.znpb-editor-icon-wrapper {

@@ -24,7 +24,7 @@ body * {
 .znpb-main-wrapper {
 	display: flex;
 	flex-direction: column;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	line-height: 1;
@@ -81,9 +81,9 @@ body * {
 		min-width: 100%;
 		min-height: 140px;
 		padding: 16px 14px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-family: var(--zb-font-stack);
-		background-color: $surface;
+		background-color: var(--zb-surface-color);
 		border: 0;
 		border-radius: 3px;
 

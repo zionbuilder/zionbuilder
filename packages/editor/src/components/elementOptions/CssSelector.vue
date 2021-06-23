@@ -174,7 +174,7 @@ export default {
 		align-items: center;
 		flex-grow: 1;
 		padding-left: 10px;
-		color: darken($font-color, 10%);
+		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 1.4;

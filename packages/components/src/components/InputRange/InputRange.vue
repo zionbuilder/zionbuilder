@@ -183,7 +183,7 @@ export default {
 		left: 0;
 		width: 0;
 		height: 2px;
-		background-color: $secondary;
+		background-color: var(--zb-secondary-color);
 	}
 	&__label {
 		flex: 1;
