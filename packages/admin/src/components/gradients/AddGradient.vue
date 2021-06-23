@@ -10,7 +10,7 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-admin-gradient-preset-box__empty {
 	display: flex;
 	flex-direction: column;

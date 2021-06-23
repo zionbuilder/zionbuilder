@@ -44,7 +44,7 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-get-pro {
 	width: 100%;
 	padding: 60px 0 140px;

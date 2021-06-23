@@ -26,7 +26,7 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-system-list-wrapper {
 	padding-bottom: 40px;
 }

@@ -50,7 +50,7 @@ export default {
 
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-system-title {
 	font-size: 24px;
 	font-weight: 500;

@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-add-specific-permissions-wrapper {
 	overflow-y: auto;
 	padding: 30px;
@@ -107,7 +107,7 @@ export default {
 }
 .znpb-baseselect-list {
 	background: var(--zb-dropdown-bg-color);
-	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+	box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	transform: translateY(5px);
@@ -132,8 +132,7 @@ export default {
 	left: auto;
 	width: 14px;
 	height: 14px;
-	&:before,
-	&:after {
+	&:before, &:after {
 		border: 2px solid var(--zb-surface-border-color);
 	}
 	&:after {

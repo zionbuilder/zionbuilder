@@ -1,3 +1,4 @@
+require('./scss/index.scss')
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useNotifications } from '@zionbuilder/composables'
