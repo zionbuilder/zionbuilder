@@ -576,7 +576,7 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: $surface-headings-color;
+		color: var(--zb-input-icon-color);
 		border-radius: 3px;
 		cursor: pointer;
 
@@ -595,8 +595,9 @@ export default {
 			width: 36px;
 			height: 100%;
 			padding: 10px;
-			color: darken($surface-variant, 30%);
-			border-left: 2px solid #e3e3e3;
+			color: var(--zb-input-icon-color);
+			border-left: var(--zb-input-separator-width) solid
+				var(--zb-input-separator-color);
 
 			.znpb-editor-icon-wrapper {
 				font-size: 14px;
@@ -620,15 +621,15 @@ export default {
 
 	&__option {
 		&--active {
-			color: $surface-active-color;
+			color: var(--zb-dropdown-text-active-color);
 		}
 
 		&:hover {
-			color: $surface-active-color;
+			color: var(--zb-dropdown-text-active-color);
 		}
 
 		&.znpb-select-option-selected {
-			color: $surface-active-color;
+			color: var(--zb-dropdown-text-active-color);
 		}
 
 		&--addable {
@@ -640,7 +641,7 @@ export default {
 		&-add-icon {
 			font-size: 10px;
 			text-align: center;
-			border: 2px solid $border-color;
+			border: 2px solid var(--zb-surface-border-color);
 		}
 	}
 }
@@ -662,8 +663,8 @@ export default {
 			align-items: center;
 			padding: 6px 12px;
 			margin: 0 5px 5px 0;
-			color: $font-color;
-			background: $surface-variant;
+			color: var(--zb-surface-text-color);
+			background: var(--zb-surface-lighter-color);
 			border-radius: 15px;
 
 			&:last-child {
@@ -673,7 +674,7 @@ export default {
 			& .zion-icon {
 				margin-left: 5px;
 				font-size: 10px;
-				opacity: .5;
+				opacity: 0.5;
 			}
 
 			.zion-icon:hover {

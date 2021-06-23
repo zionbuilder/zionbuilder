@@ -141,9 +141,9 @@ export default {
 	width: 100%;
 	padding: 20px 20px 0 20px;
 	margin-bottom: 20px;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	text-align: center;
-	background-color: $surface;
+	background-color: var(--zb-surface-color);
 
 	&-menu {
 		display: flex;
@@ -152,7 +152,7 @@ export default {
 		max-width: 320px;
 		padding: 3px;
 		margin: 0 auto;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
 		&-item {
@@ -165,18 +165,18 @@ export default {
 			cursor: pointer;
 
 			&:hover {
-				background-color: darken($surface-variant, 3%);
+				background-color: var(--zb-surface-lightest-color);
 			}
 
 			&--active {
-				color: $primary-color--accent;
-				background-color: $secondary;
+				color: var(--zb-secondary-text-color);
+				background-color: var(--zb-secondary-color);
 				.zion-icon.zion-svg-inline {
-					color: $primary-color--accent;
+					color: var(--zb-secondary-text-color);
 				}
 
 				&:hover {
-					background-color: $secondary;
+					background-color: var(--zb-secondary-color);
 				}
 			}
 

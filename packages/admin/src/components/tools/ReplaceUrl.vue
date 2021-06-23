@@ -142,7 +142,7 @@ export default {
 		justify-content: flex-end;
 		align-items: flex-end;
 		p {
-			color: $info;
+			color: var(--zb-info-color);
 		}
 	}
 

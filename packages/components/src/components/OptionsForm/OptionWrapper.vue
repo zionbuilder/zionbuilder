@@ -607,8 +607,8 @@ export default {
 		display: flex;
 		align-items: center;
 		margin-bottom: 10px;
-		color: darken($font-color, 15%);
-		font-family: var(--font-stack);
+		color: var(--zb-surface-text-hover-color);
+		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 14px;
@@ -620,7 +620,7 @@ export default {
 		}
 
 		.znpb-editor-icon-wrapper {
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 
@@ -656,10 +656,10 @@ export default {
 
 	&:hover,
 	&:active {
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 
 		& > .znpb-editor-icon-wrapper {
-			color: $surface-active-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 }

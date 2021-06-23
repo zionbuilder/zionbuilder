@@ -350,7 +350,8 @@ export default {
 .znpb-class-selector {
 	flex: 6;
 	margin-right: 10px;
-	border: 2px solid #e5e5e5;
+	background: var(--zb-input-bg-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	.selected-class {
 		.znpb-item {
@@ -366,7 +367,7 @@ export default {
 		line-height: 20px;
 	}
 	&-validator {
-		color: $red;
+		color: var(--zb-red);
 		line-height: 18px;
 	}
 }

@@ -227,13 +227,13 @@ export default {
 		.znpb-input-number--has-units
 			.znpb-input-number__units-multiple
 			.znpb-input-number__active-unit {
-			background: $surface;
+			background: var(--zb-surface-color);
 		}
 	}
 	&.znpb-input-range--has-multiple-units {
 		input[type="number"] {
 			padding: 12px 10px 12px 0;
-			font-family: var(--font-stack);
+			font-family: var(--zb-font-stack);
 		}
 	}
 }

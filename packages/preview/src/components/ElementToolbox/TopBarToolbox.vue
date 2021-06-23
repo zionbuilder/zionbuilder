@@ -17,9 +17,7 @@
 					:key="action.title"
 				>
 					<template #content>
-						<div
-							class="znpb-popper--tooltip"
-						>
+						<div class="znpb-popper--tooltip">
 							{{action.title}}
 						</div>
 					</template>
@@ -32,9 +30,7 @@
 			</div>
 			<Tooltip>
 				<template #content>
-					<div
-						class="znpb-popper--tooltip"
-					>
+					<div class="znpb-popper--tooltip">
 						<span v-if="topBarOpen">
 							{{$translate('close')}} {{element.elementTypeModel.name}} {{$translate('toolbox')}}
 						</span>
@@ -70,7 +66,7 @@ export default {
 	props: {
 		element: Object
 	},
-	setup(props, { emit }) {
+	setup (props, { emit }) {
 		const { activeSaveElement, showSaveElement, hideSaveElement } = useSaveTemplate()
 		const topBarOpen = ref(false)
 		const reverseAnimation = ref(false)
@@ -154,38 +150,38 @@ export default {
 	line-height: 1 !important;
 	border-radius: 16px;
 	transform: translateY(-50%) translateX(17px);
-	transition: all .2s ease;
+	transition: all 0.2s ease;
 	pointer-events: auto;
 	.znpb-element__wrapper > .znpb-element-toolbox & {
-		background-color: $elements-toolbox-color;
+		background-color: var(--zb-element-color);
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $elements-toolbox-color;
+				background-color: var(--zb-element-color);
 			}
 		}
 	}
 	.zb-column > .znpb-element-toolbox & {
-		background-color: $column-color;
+		background-color: var(--zb-column-color);
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $column-color;
+				background-color: var(--zb-column-color);
 			}
 		}
 	}
 
 	.zb-section > .znpb-element-toolbox & {
-		background-color: $section-color;
+		background-color: var(--zb-section-color);
 
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $section-color;
+				background-color: var(--zb-section-color);
 			}
 		}
 	}
 
 	&--open {
 		padding: 0 6px;
-		box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
+		box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.1);
 		.znpb-editor-toolbox__element-options-button {
 			&:before {
 				box-shadow: none;
@@ -199,7 +195,7 @@ export default {
 		}
 		.znpb-editor-toolbox__top-bar {
 			display: flex;
-			animation: topBarAnimation .2s ease-in-out;
+			animation: topBarAnimation 0.2s ease-in-out;
 			animation-fill-mode: forwards;
 		}
 	}
@@ -224,11 +220,11 @@ export default {
 	//TO DO check this code
 	&--reverse {
 		display: flex !important;
-		animation: topBarAnimationReverse .2s ease-in-out;
+		animation: topBarAnimationReverse 0.2s ease-in-out;
 		animation-fill-mode: forwards;
 		.znpb-editor-icon-wrapper {
 			transform: scale(0);
-			transition: all .2s ease-in-out;
+			transition: all 0.2s ease-in-out;
 			opacity: 0;
 		}
 	}
@@ -250,22 +246,26 @@ export default {
 	}
 }
 .bounce-icon-enter-from {
-	transform: translate(17px, -50%) scale(.9);
+	transform: translate(17px, -50%) scale(0.9);
 }
 .bounce-icon-enter-to {
 	transform: translate(17px, -50%) scale(1);
 }
 .bounce-icon-leave-from {
-	transform: translate(17px, -50%) scale(.2);
+	transform: translate(17px, -50%) scale(0.2);
 }
 .bounce-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-icon-enter-to, .bounce-icon-leave-from {
-	transition: all .2s;
+.bounce-icon-enter-to,
+.bounce-icon-leave-from {
+	transition: all 0.2s;
 }
 
-.znpb-preview-page-wrapper > .znpb-element__wrapper > .znpb-element-toolbox > .znpb-editor-toolbox__top-bar-wrapper {
+.znpb-preview-page-wrapper
+	> .znpb-element__wrapper
+	> .znpb-element-toolbox
+	> .znpb-editor-toolbox__top-bar-wrapper {
 	top: 30px;
 	right: 34px;
 }

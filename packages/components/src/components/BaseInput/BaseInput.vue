@@ -192,15 +192,15 @@ body {
 		position: relative;
 		display: flex;
 		width: 100%;
-		font-family: var(--font-stack);
+		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		line-height: 1;
-		background: transparent;
-		border: 2px solid var(--zion-border-color);
+		background: var(--zb-input-bg-color);
+		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 
 		.znpb-editor-icon-wrapper {
-			color: $surface-headings-color;
+			color: var(--zb-input-icon-color);
 			font-size: 14px;
 		}
 
@@ -218,12 +218,12 @@ body {
 			height: auto;
 			padding: 10.5px 12px;
 			margin: 0;
-			color: $font-color;
-			font-family: var(--font-stack);
+			color: var(--zb-surface-text-color);
+			font-family: var(--zb-font-stack);
 			font-size: 13px;
 			font-weight: 500;
 			line-height: 1;
-			background: transparent;
+			background: var(--zb-input-bg-color);
 			background-image: none;
 			box-shadow: none;
 			border: 0;
@@ -245,7 +245,7 @@ body {
 			// prevent other themes to add their own style uppon input fixed height
 		}
 		input::placeholder {
-			color: $surface-headings-color;
+			color: var(--zb-input-placeholder-color);
 		}
 		textarea {
 			line-height: 1.8;
@@ -262,7 +262,7 @@ body {
 			align-items: center;
 			height: 100%;
 			padding: 0 13px;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 
 		&__prefix,

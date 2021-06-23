@@ -72,11 +72,8 @@ export default {
 		element: Object as PropType<Element>,
 	},
 	setup(props) {
-		const {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-		} = useTreeViewItem(props);
+		const { showElementMenu, elementOptionsRef, isActiveItem } =
+			useTreeViewItem(props);
 
 		const imageSrc = ref(null);
 		const error = ref(null);
@@ -152,7 +149,7 @@ export default {
 	padding: 0;
 	margin: 0 auto;
 	margin-bottom: 20px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	cursor: move;
@@ -163,8 +160,8 @@ export default {
 	}
 	&--hidden {
 		.znpb-section-view-item__header-left {
-			transition: opacity .5s ease;
-			opacity: .5;
+			transition: opacity 0.5s ease;
+			opacity: 0.5;
 		}
 	}
 
@@ -178,7 +175,7 @@ export default {
 		width: 100%;
 		color: $font-color;
 		line-height: 18px;
-		border: 1px solid #f1f1f1;
+		border: 1px solid var(--zb-surface-lighter-color);
 		cursor: pointer;
 	}
 
@@ -192,18 +189,18 @@ export default {
 		margin: 0;
 		font-size: 13px;
 		font-weight: 500;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 		border-bottom-right-radius: 3px;
 		border-bottom-left-radius: 3px;
 
 		&:hover {
-			background-color: darken($surface-variant, 3%);
+			background-color: var(--zb-surface-lightest-color);
 			cursor: move;
 		}
 
 		&.znpb-panel-item--active {
-			color: $surface;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
 		}
 
 		&-left {
@@ -212,13 +209,13 @@ export default {
 
 		&-title {
 			padding: 15px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			cursor: pointer;
 		}
 
 		&.znpb-panel-item--active &-title {
-			color: $surface;
+			color: var(--zb-surface-color);
 		}
 	}
 }

@@ -14,7 +14,7 @@ import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'OptionsSaveLoader',
-	setup() {
+	setup () {
 		const { isLoading } = useBuilderOptions()
 
 		return {
@@ -38,32 +38,35 @@ export default {
 		font-size: 18px;
 		opacity: 0;
 	}
-	&:before, &:after {
+	&:before,
+	&:after {
 		@extend %loading;
 	}
 
 	&:before {
 		border: 2px solid;
-		border-color: $surface-variant;
-		border-right-color: $success;
+		border-color: var(--zb-surface-lighter-color);
+		border-right-color: var(--zb-success-color);
 		transform: translateZ(0);
 		transform: scale(1);
-		animation: Rotate .6s infinite;
+		animation: Rotate 0.6s infinite;
 	}
 	&.save-leave-to {
 		width: 45px;
 		height: 45px;
 		text-align: center;
-		background-color: $success;
+		background-color: var(--zb-success-color);
 		transform: scale();
-		animation: Bounce .6s;
+		animation: Bounce 0.6s;
 	}
 
 	&.save-leave-to:before {
 		border: none;
 	}
 
-	&.save-enter-from, &.save-enter-to, &.save-leave {
+	&.save-enter-from,
+	&.save-enter-to,
+	&.save-leave {
 		.znpb-editor-icon-wrapper {
 			opacity: 0;
 		}
@@ -74,12 +77,15 @@ export default {
 			opacity: 1;
 		}
 	}
-	.save-leave-to, .save-leave-from {
+	.save-leave-to,
+	.save-leave-from {
 		opacity: 0;
 	}
 
-	.save-enter-to, .save-leave-to, .save-leave-from {
-		transition: all .8s;
+	.save-enter-to,
+	.save-leave-to,
+	.save-leave-from {
+		transition: all 0.8s;
 	}
 }
 

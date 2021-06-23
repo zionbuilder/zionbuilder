@@ -260,7 +260,7 @@ export default {
 		margin-bottom: 5px;
 		font-size: 13px;
 		font-weight: 500;
-		background: #f1f1f1;
+		background: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 		cursor: pointer;
 
@@ -269,10 +269,6 @@ export default {
 		}
 		&--has-slots {
 			padding: 0;
-		}
-
-		&:hover .znpb-horizontal-accordion__title {
-			color: darken($font-color, 30);
 		}
 
 		&-actions {
@@ -292,13 +288,13 @@ export default {
 	&__title {
 		flex-grow: 1;
 		padding-right: 15px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
-		transition: color .15s ease-in-out;
+		transition: color 0.15s ease-in-out;
 
 		& > .znpb-editor-icon-wrapper {
 			margin-right: 15px;
-			color: #c6c6c6;
+			color: var(--zb-surface-icon-color);
 			font-size: 22px;
 		}
 	}
@@ -313,7 +309,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		background: #fff;
+		background: var(--zb-surface-color);
 	}
 	&-wrapper {
 		position: relative;
@@ -336,8 +332,9 @@ export default {
 	transform: translateX(-100%);
 }
 
-.slide-title-enter-to, .slide-title-leave-from {
-	transition: all .2s;
+.slide-title-enter-to,
+.slide-title-leave-from {
+	transition: all 0.2s;
 }
 
 .slide-body-enter-from {
@@ -352,7 +349,8 @@ export default {
 .slide-body-leave-to {
 	transform: translateX(100%);
 }
-.slide-body-enter-to, .slide-body-leave-from {
-	transition: all .2s;
+.slide-body-enter-to,
+.slide-body-leave-from {
+	transition: all 0.2s;
 }
 </style>

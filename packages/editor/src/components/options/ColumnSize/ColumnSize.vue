@@ -50,7 +50,7 @@ export default {
 	flex-wrap: wrap;
 	overflow: hidden;
 	padding: 3px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 	border-radius: 3px;
 }
 .znpb-column-size__option {
@@ -62,16 +62,16 @@ export default {
 	cursor: pointer;
 
 	&:hover {
-		background-color: darken($surface-variant, 3%);
+		background-color: var(--zb-surface-lightest-color);
 	}
 }
 .znpb-column-size__option--active {
-	color: $surface;
-	background-color: $secondary;
+	color: var(--zb-secondary-text-color);
+	background-color: var(--zb-secondary-color);
 
 	&:hover {
-		color: $surface;
-		background-color: $secondary;
+		color: var(--zb-secondary-text-color);
+		background-color: var(--zb-secondary-color);
 	}
 }
 </style>

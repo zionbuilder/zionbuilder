@@ -65,7 +65,7 @@ export default {
 			width: 1px;
 			height: calc(100% - 44px);
 			margin-top: 0;
-			background: rgba($surface-headings-color, .3);
+			background: var(--zb-surface-border-color);
 		}
 	}
 
@@ -84,10 +84,10 @@ export default {
 			font-size: 13px;
 			font-weight: 500;
 			white-space: nowrap;
-			transition: all .15s ease-in;
+			transition: all 0.15s ease-in;
 
 			&:hover {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-active-color);
 			}
 		}
 
@@ -98,16 +98,12 @@ export default {
 			right: calc(100% - 2px);
 			width: 100px;
 			height: 1px;
-			background: rgba($surface-headings-color, .3);
+			background: var(--zb-surface-border-color);
 		}
 
 		&--active {
-			&::before {
-				background: rgba($surface-headings-color, .8);
-			}
-
 			& > span {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-active-color);
 			}
 		}
 
@@ -141,7 +137,9 @@ export default {
 		display: none;
 	}
 }
-.znpb-element-options__breadcrumbs > .znpb-element-options__vertical-breadcrumbs-wrapper > .znpb-element-options__vertical-breadcrumbs-item--first {
+.znpb-element-options__breadcrumbs
+	> .znpb-element-options__vertical-breadcrumbs-wrapper
+	> .znpb-element-options__vertical-breadcrumbs-item--first {
 	&:before {
 		display: none;
 	}
@@ -149,7 +147,8 @@ export default {
 		margin-left: 0;
 	}
 }
-.znpb-element-options__vertical-breadcrumbs-item--first ~ .znpb-element-options__vertical-breadcrumbs-item {
+.znpb-element-options__vertical-breadcrumbs-item--first
+	~ .znpb-element-options__vertical-breadcrumbs-item {
 	margin-left: 14px;
 }
 .znpb-element-options__vertical-breadcrumbs-wrapper--inner {

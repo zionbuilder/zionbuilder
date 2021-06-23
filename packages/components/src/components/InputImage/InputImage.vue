@@ -542,9 +542,9 @@ export default {
 	overflow: hidden;
 	padding: 5px;
 	margin-bottom: 20px;
-	box-shadow: 0 0 0 2px var(--zion-border-color);
+	box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .5s ease;
+	transition: all 0.5s ease;
 	cursor: pointer;
 	&__image {
 		display: block;

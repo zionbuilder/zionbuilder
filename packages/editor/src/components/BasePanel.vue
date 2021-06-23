@@ -497,7 +497,7 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	background: $surface;
+	background: var(--zb-surface-color);
 	&--attached {
 		height: 100%;
 
@@ -513,18 +513,21 @@ export default {
 	}
 	&--left {
 		// box-shadow: 2px 0 0 0 $border-color;
-		border-right: 2px solid $border-color;
+		border-right: var(--zb-panel-sideborder) solid
+			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
 		}
 	}
 
-	&--left + &--left, &--right + &--right {
-		border-left: 1px solid $surface-variant;
+	&--left + &--left,
+	&--right + &--right {
+		border-left: 1px solid var(--zb-surface-border-color);
 	}
 	&--right {
 		// box-shadow: -2px 0 0 0 $border-color;
-		border-left: 2px solid $border-color;
+		border-left: var(--zb-panel-sideborder) solid
+			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			left: -5px;
 		}
@@ -533,7 +536,8 @@ export default {
 		box-shadow: none;
 	}
 	&--detached {
-		box-shadow: 0 0 0 2px $border-color;
+		box-shadow: 0 0 0 var(--zb-panel-sideborder)
+			var(--zb-surface-border-color);
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
@@ -547,15 +551,14 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	flex-shrink: 0;
-	background-color: $surface;
-	border-bottom: 1px solid $surface-variant;
+	background-color: var(--zb-surface-color);
+	border-bottom: 1px solid var(--zb-panel-header-border);
 	cursor: move;
 
 	& > .znpb-editor-icon-wrapper {
 		margin-right: 15px;
-		color: $icons-color;
-		color: $surface-headings-color;
-		transition: color .15s ease-out;
+		color: var(--zb-surface-icon-color);
+		transition: color 0.15s ease-out;
 		cursor: pointer;
 
 		.zion-icon.zion-svg-inline {
@@ -565,7 +568,7 @@ export default {
 			margin-right: 0;
 		}
 		&:hover {
-			color: darken($icons-color, 10%);
+			color: var(--zb-surface-icon-active-color);
 		}
 	}
 
@@ -575,7 +578,7 @@ export default {
 }
 h4.znpb-panel__header-name {
 	padding: 19px 0 19px 20px;
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.4;
@@ -583,10 +586,10 @@ h4.znpb-panel__header-name {
 
 	& > .znpb-editor-icon-wrapper {
 		margin-left: 5px;
-		color: $icons-color;
+		color: var(--zb-surface-icon-color);
 
 		&:hover {
-			color: darken($icons-color, 10%);
+			color: var(--zb-surface-icon-active-color);
 			background: none;
 		}
 	}
@@ -600,7 +603,8 @@ h4.znpb-panel__header-name {
 		width: 5px;
 		height: 100%;
 		&:hover {
-			background-color: rgba($secondary, .6);
+			background-color: var(--zb-secondary-color);
+			opacity: 0.6;
 			cursor: ew-resize;
 		}
 	}
@@ -611,7 +615,8 @@ h4.znpb-panel__header-name {
 		width: 100%;
 		height: 5px;
 		&:hover {
-			background-color: rgba($secondary, .6);
+			background-color: var(--zb-secondary-color);
+			opacity: 0.6;
 			cursor: n-resize;
 		}
 	}

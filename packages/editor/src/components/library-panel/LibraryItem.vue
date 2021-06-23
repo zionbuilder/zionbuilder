@@ -172,13 +172,15 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
+.znpb-editor-library-modal__item--grid-sizer,
+.znpb-editor-library-modal__item {
 	width: 100%;
 }
 
 @media (min-width: 992px) {
-	.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
-		width: calc((100% - 20px) / 2);
+	.znpb-editor-library-modal__item--grid-sizer,
+	.znpb-editor-library-modal__item {
+		width: 50%;
 	}
 
 	.znpb-editor-library-modal__item--gutter-sizer {
@@ -187,8 +189,9 @@ export default {
 }
 
 @media (min-width: 1200px) {
-	.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
-		width: calc((100% - 40px) / 3);
+	.znpb-editor-library-modal__item--grid-sizer,
+	.znpb-editor-library-modal__item {
+		width: calc(100% / 3);
 	}
 }
 
@@ -196,31 +199,25 @@ export default {
 	position: relative;
 	float: left;
 	padding: 10px;
-	margin-bottom: 30px;
-	background: $surface;
+	margin-bottom: 20px;
 	border-radius: 3px;
-	transition: box-shadow .2s;
+	transition: box-shadow 0.2s;
 	cursor: pointer;
 
-	&Inner {
-		box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
-		border: 1px solid $surface-variant;
+	&Inner:hover {
+		box-shadow: 0 12px 30px 0 var(--zb-surface-shadow-hover);
 
-		&:hover {
-			box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
-
-			.znpb-editor-library-modal__item-bottom-multiple {
-				box-shadow: 0 12px 30px 0 rgba(164, 164, 164, .25);
-			}
+		.znpb-editor-library-modal__item-bottom-multiple {
+			box-shadow: 0 12px 30px 0 var(--zb-surface-shadow-hover);
 		}
 	}
 
 	&-image {
-		border-bottom: 1px solid $surface-variant;
+		border-bottom: 1px solid var(--zb-surface-lighter-color);
 
 		&.--no-image {
 			min-height: 180px;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 		}
 
 		img {
@@ -232,12 +229,12 @@ export default {
 		position: absolute;
 		top: 20px;
 		right: 20px;
-		padding: 2px 8px;
-		color: $surface;
+		padding: 5px 8px;
+		color: #fff;
 		font-size: 10px;
 		font-weight: 700;
 		text-transform: uppercase;
-		background-color: $green;
+		background-color: var(--zb-pro-color);
 		border-radius: 2px;
 	}
 
@@ -246,6 +243,9 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		background: var(--zb-surface-lighter-color);
+		border-bottom-right-radius: 3px;
+		border-bottom-left-radius: 3px;
 		padding: 10px 20px;
 
 		.znpb-loader-wrapper {
@@ -254,7 +254,7 @@ export default {
 	}
 
 	&-title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 	}
@@ -262,7 +262,8 @@ export default {
 	&-actions {
 		display: flex;
 		align-items: center;
-		& > span, & > a {
+		& > span,
+		& > a {
 			margin-right: 8px;
 		}
 
@@ -285,10 +286,10 @@ export default {
 		width: 100%;
 		height: 30px;
 		background-color: rgb(255, 255, 255);
-		border: 1px solid $surface-variant;
+		border: 1px solid var(--zb-surface-border-color);
 		border-radius: 3px;
-		transform: scale(.9) translateY(15px);
-		transition: box-shadow .2s;
+		transform: scale(0.9) translateY(15px);
+		transition: box-shadow 0.2s;
 
 		break-inside: avoid;
 
@@ -300,8 +301,8 @@ export default {
 			width: 100%;
 			height: 30px;
 			background-color: rgb(255, 255, 255);
-			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
-			border: 1px solid $surface-variant;
+			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, 0.08);
+			border: 1px solid var(--zb-surface-border-color);
 			border-radius: 3px;
 			transform: scale(1.07) translateY(-6px);
 		}
@@ -320,8 +321,9 @@ export default {
 	}
 	&--favorite {
 		.znpb-editor-icon.zion-heart {
-			path, path:first-child {
-				fill: $secondary;
+			path,
+			path:first-child {
+				fill: var(--zb-secondary-color);
 			}
 		}
 	}

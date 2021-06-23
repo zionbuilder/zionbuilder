@@ -127,7 +127,7 @@ export default {
 		padding: 16px 20px;
 		cursor: pointer;
 		.znpb-editor-icon-wrapper {
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 
@@ -144,12 +144,12 @@ export default {
 			justify-content: space-between;
 			align-items: center;
 			padding: 8px 30px;
-			font-family: var(--font-stack);
+			font-family: var(--zb-font-stack);
 			font-size: 14px;
 			font-weight: 400;
 			cursor: pointer;
 			h5 {
-				font-family: var(--font-stack);
+				font-family: var(--zb-font-stack);
 				font-size: 13px;
 				font-weight: 500;
 				text-transform: capitalize;
@@ -162,14 +162,14 @@ export default {
 		.znpb-editor-library-modal-category__title {
 			position: relative;
 			width: 100%;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 
 	&__number {
 		padding: 4px 9px;
 		font-size: 11px;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 	}
 }

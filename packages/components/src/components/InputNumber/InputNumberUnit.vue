@@ -422,7 +422,7 @@ export default {
 
 	&--has-units {
 		.znpb-input-number__units-multiple {
-			color: $surface-headings-color;
+			color: var(--zb-surface-border-color);
 			font-size: 11px;
 			font-weight: 500;
 			line-height: 1;
@@ -440,13 +440,14 @@ export default {
 		&:last-child {
 			border-bottom: 0;
 		}
-		&:hover, &--selected {
-			color: $surface-active-color;
+		&:hover,
+		&--selected {
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 }
 .znpb-input-number__units--auto {
 	padding: 7px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 }
 </style>

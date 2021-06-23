@@ -248,8 +248,9 @@ export default {
 		}
 	}
 
-	.zion-input input, .zion-input input::placeholder {
-		color: $surface-headings-color;
+	.zion-input input,
+	.zion-input input::placeholder {
+		color: var(--zb-input-placeholder-color);
 	}
 
 	.znpb-element-category-list {

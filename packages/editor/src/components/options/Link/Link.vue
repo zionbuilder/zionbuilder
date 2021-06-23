@@ -149,7 +149,7 @@ export default {
 		}
 
 		& .zion-input__prepend {
-			background: $surface-variant;
+			background: var(--zb-surface-lighter-color);
 		}
 	}
 

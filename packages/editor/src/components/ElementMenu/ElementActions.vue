@@ -280,7 +280,7 @@ export default {
 	display: flex;
 	align-items: center;
 	padding: 8px 16px;
-	font-family: var(--font-stack);
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 20px;

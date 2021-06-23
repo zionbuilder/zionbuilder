@@ -72,11 +72,11 @@ export default {
 		width: 22px;
 		height: 22px;
 		margin-right: 10px;
-		color: $icons-color;
+		color: var(--zb-surface-icon-color);
 		font-size: 14px;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
-		transition: .15s all;
+		transition: 0.15s all;
 		cursor: pointer;
 		&:hover {
 			color: darken($icons-color, 5%);
@@ -94,19 +94,19 @@ export default {
 		height: 100%;
 		font-size: 13px;
 		font-weight: 500;
-		transition: color .15s ease-out;
+		transition: color 0.15s ease-out;
 
 		&:hover:not(&--current) {
-			color: lighten($surface-active-color, 30%);
+			color: var(--zb-surface-text-color);
 		}
 
 		&--current {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-hover-color);
 		}
 
 		&__home {
 			&:hover {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-hover-color);
 			}
 		}
 
@@ -115,13 +115,14 @@ export default {
 		}
 
 		&.znpb-options-breadcrumbs-path--back {
-			&:hover, &:focus {
-				color: $surface-active-color;
+			&:hover,
+			&:focus {
+				color: var(--zb-surface-text-hover-color);
 				.znpb-editor-icon-wrapper {
-					color: $surface-headings-color;
+					color: var(--zb-surface-icon-color);
 				}
 				.znpb-options-breadcrumbs-path__current {
-					color: $surface-headings-color;
+					color: var(--zb-surface-icon-color);
 				}
 			}
 		}
@@ -130,7 +131,7 @@ export default {
 			cursor: pointer;
 			&:hover {
 				.znpb-editor-icon-wrapper {
-					color: $surface-headings-color;
+					color: var(--zb-surface-icon-color);
 				}
 			}
 		}
@@ -139,7 +140,7 @@ export default {
 			width: 10px;
 			margin-right: 5px;
 			margin-left: 5px;
-			color: $icons-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 }

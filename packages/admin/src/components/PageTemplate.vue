@@ -91,7 +91,7 @@ export default {
 		p.znpb-admin-info-p {
 			margin-top: 0;
 			color: $font-color;
-			font-family: var(--font-stack);
+			font-family: var(--zb-font-stack);
 			font-size: 13px;
 		}
 		.znpb-admin-right-info {

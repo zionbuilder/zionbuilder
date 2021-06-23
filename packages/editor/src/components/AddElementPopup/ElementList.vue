@@ -70,7 +70,7 @@ export default {
 		margin-top: 0;
 		margin-bottom: 10px;
 		color: $font-color;
-		font-family: var(--font-stack);
+		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 14px;

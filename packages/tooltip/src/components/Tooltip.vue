@@ -557,13 +557,13 @@ export default {
 	z-index: 9999;
 	box-sizing: border-box;
 	padding: 10px;
-	color: #959596;
-	font-family: var(--font-stack);
+	color: var(--zb-dropdown-text-color);
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	font-weight: normal;
-	background-color: #fff;
-	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
-	border: 1px solid #f1f1f1;
+	background-color: var(--zb-dropdown-bg-color);
+	box-shadow: var(--zb-dropdown-shadow);
+	border: 1px solid var(--zb-dropdown-border-color);
 	border-radius: 4px;
 
 	& * {
@@ -574,17 +574,18 @@ export default {
 		padding: 6px 0;
 		margin: 0;
 		list-style-type: none;
-		background: $surface;
+		background: var(--zb-dropdown-bg-color);
 
 		&__item {
 			padding: 8px 16px;
-			color: $font-color;
+			color: var(--zb-dropdown-text-color);
 			font-weight: 500;
 			text-align: left;
 			cursor: pointer;
 
 			&:hover {
-				background-color: lighten($surface-variant, 2%);
+				color: var(--zb-dropdown-text-active-color);
+				background-color: var(--zb-dropdown-bg-active-color);
 			}
 		}
 	}
@@ -600,7 +601,7 @@ export default {
 			display: block;
 			width: 8px;
 			height: 8px;
-			background: #fff;
+			background: var(--zb-dropdown-bg-color);
 			transform: rotate(45deg);
 		}
 	}

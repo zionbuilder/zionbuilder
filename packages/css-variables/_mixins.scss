@@ -5,7 +5,7 @@
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 5px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-light-color);
 	border-radius: 3px;
 	transition: all .3s;
 }
@@ -23,7 +23,7 @@
 }
 
 %opacitybg {
-	background: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+	background: linear-gradient(45deg, var(--zb-surface-lightest-color) 25%, transparent 25%, transparent 75%, var(--zb-surface-lightest-color) 75%, var(--zb-surface-lightest-color)), linear-gradient(45deg, var(--zb-surface-lightest-color) 25%, transparent 25%, transparent 75%, var(--zb-surface-lightest-color) 75%, var(--zb-surface-lightest-color));
 	background-position: 0 0, 4px 4px;
 	background-size: 8px 8px;
 }
@@ -36,10 +36,10 @@
 @mixin background-icon($width) {
 	width: $width;
 	height: $width;
-	color: $surface-headings-color;
+	color: var(--zb-surface-icon-color);
 	line-height: $width;
 	text-align: center;
-	background: $surface-variant;
+	background: var(--zb-surface-lighter-color);
 	border-radius: 50%;
 	cursor: pointer;
 }
@@ -58,9 +58,9 @@
 	align-items: center;
 	padding: 0 15px;
 	line-height: 1;
-	background-color: $surface;
+	background-color: var(--zb-surface-color);
 	box-shadow: 0 5px 10px 0 rgba(164, 186, 164, .08);
-	border: 1px solid $surface-variant;
+	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 	transition: all .3s ease;
 }
@@ -83,11 +83,11 @@
 }
 %tooltip {
 	padding: 10px;
-	color: $font-color;
-	font-family: var(--font-stack);
+	color: var(--zb-dropdown-text-color);
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
-	background-color: #fff;
-	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
-	border: 1px solid $surface-variant;
+	background-color: var(--zb-dropdown-bg-color);
+	box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
+	border: 1px solid var(--zb-dropdown-border-color);
 	border-radius: 3px;
 }

@@ -54,7 +54,7 @@ export default {
 		width: 100%;
 		margin: 0 auto;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 10px;
 		font-weight: 500;
 	}
@@ -64,7 +64,7 @@ export default {
 
 		input {
 			padding: 8px 0;
-			font-family: var(--font-stack);
+			font-family: var(--zb-font-stack);
 			font-size: 13px;
 			text-align: center;
 		}

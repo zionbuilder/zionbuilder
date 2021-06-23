@@ -8,11 +8,11 @@
 				v-for="(option, index) in options"
 				:key="index"
 				class="znpb-radio-image-list__item-wrapper"
-
 				@click="changeValue(option.value)"
 			>
 
-				<div class="znpb-radio-image-list__item"
+				<div
+					class="znpb-radio-image-list__item"
 					:class="{['znpb-radio-image-list__item--active']: modelValue === option.value}"
 				>
 					<img
@@ -22,7 +22,9 @@
 					/>
 					<span
 						v-if="option.class"
-						class="znpb-radio-image-list__preview-element animated" :class="option.value">
+						class="znpb-radio-image-list__preview-element animated"
+						:class="option.value"
+					>
 					</span>
 					<Icon
 						class="znpb-radio-image-list__icon"
@@ -84,25 +86,23 @@ export default {
 	$grid: "";
 
 	@for $i from 1 through $col {
-		$grid: str-insert($grid,"#{$fr}",(str-length($grid)+1));
+		$grid: str-insert($grid, "#{$fr}", (str-length($grid) + 1));
 	}
 
-	@return(unquote($grid));
+	@return (unquote($grid));
 }
 .znpb-input-wrapper.znpb-input-type--radio_image {
 	margin-bottom: 20px;
 
-	 > .znpb-input-content {
+	> .znpb-input-content {
 		width: auto;
 		margin: 0 -20px;
 	}
 }
 .znpb-radio-image-wrapper {
 	padding: 20px 20px;
-	color: $font-color;
-	background: #fafafa;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
-	border-radius: 3px;
+	color: var(--zb-surface-text-color);
+	background: var(--zb-surface-light-color);
 }
 .znpb-radio-image-list__item-wrapper {
 	display: flex;
@@ -113,7 +113,7 @@ export default {
 	display: block;
 	width: 20px;
 	height: 20px;
-	background: #e8e8e8;
+	background: var(--zb-surface-lightest-color);
 	border-radius: 6px;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
@@ -143,21 +143,22 @@ ul.znpb-radio-image-list {
 		height: 88px;
 		padding: 15px;
 		margin-bottom: 8px;
-		background-color: $surface;
-		box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .08);
-		border: 1px solid $surface-variant;
+		background-color: var(--zb-surface-color);
+		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
+		border: 1px solid var(--zb-surface-lighter-color);
 		border-radius: 3px;
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 		cursor: pointer;
 
 		&:hover {
-			box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .22);
+			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
 		}
 		&--active {
 			border: 2px solid $secondary;
 		}
 
-		&:hover &__item-name, &--active &__item-name {
+		&:hover &__item-name,
+		&--active &__item-name {
 			color: $secondary-color--accent;
 		}
 	}
@@ -192,7 +193,8 @@ ul.znpb-radio-image-list {
 			background-position: center center;
 			background-size: cover;
 		}
-		&:hover, &.znpb-radio-image-list__item--active {
+		&:hover,
+		&.znpb-radio-image-list__item--active {
 			.znpb-image-wrapper {
 				background-color: $secondary;
 
@@ -204,21 +206,24 @@ ul.znpb-radio-image-list {
 		display: flex;
 		flex-direction: column;
 	}
-	.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+	.znpb-radio-image-list__item-name,
+	.znpb-editor-icon-wrapper {
 		text-align: center;
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 	}
 }
 
 .znpb-radio-image-list__item {
 	&:hover {
-		.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+		.znpb-radio-image-list__item-name,
+		.znpb-editor-icon-wrapper {
 			color: $surface;
 		}
 	}
 }
 .znpb-radio-image-list__item--active {
-	.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+	.znpb-radio-image-list__item-name,
+	.znpb-editor-icon-wrapper {
 		color: $surface;
 	}
 }

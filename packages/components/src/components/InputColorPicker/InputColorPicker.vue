@@ -59,7 +59,8 @@
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
 							</Tooltip>
-							<span v-else
+							<span
+								v-else
 								:style="{backgroundColor: modelValue}"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
@@ -159,15 +160,15 @@ export default {
 		cursor: pointer;
 	}
 	.znpb-colorpicker-circle {
-		box-shadow: 0 0 0 2px #e5e5e5;
+		// box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 		&--no-color {
-			background: #fff;
+			background: var(--zb-surface-color);
 		}
 		&__global-icon {
 			position: absolute;
 			top: -2px;
 			right: 0;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 }

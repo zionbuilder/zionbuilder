@@ -132,13 +132,13 @@ export default {
 		margin-left: 5px;
 		font-size: 14px;
 		background: transparent;
-		border: 2px solid #e5e5e5;
+		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
-		transition: opacity .15s ease;
+		transition: opacity 0.15s ease;
 		cursor: pointer;
 
 		&:hover {
-			opacity: .7;
+			opacity: 0.7;
 		}
 	}
 

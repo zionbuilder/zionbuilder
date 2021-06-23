@@ -61,7 +61,7 @@ export default {
 	margin-bottom: 10px;
 	color: $font-color;
 	background: $surface;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
+	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
 	border: 1px solid $surface-variant;
 	border-radius: 3px;
 
@@ -97,8 +97,8 @@ export default {
 		}
 		.znpb-circle-delete {
 			.znpb-editor-icon-wrapper {
-				color: $red;
-				border-color: $red;
+				color: var(--zb-red);
+				border-color: var(--zb-red);
 			}
 		}
 	}

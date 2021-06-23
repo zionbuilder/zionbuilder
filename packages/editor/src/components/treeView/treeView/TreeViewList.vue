@@ -95,7 +95,7 @@ export default {
 	padding: 7.5px 0;
 	margin: 0 auto;
 	margin-bottom: 5px;
-	border: 1px dashed $border-color;
+	border: 1px dashed var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 }

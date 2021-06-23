@@ -37,6 +37,8 @@ ul.znpb-editor-header-flyout-hidden-items {
 	@extend %tooltip;
 	padding: 8px 0;
 	font-weight: 500;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 .znpb-editor-header-flyout {
 	position: relative;
@@ -45,7 +47,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 	align-items: center;
 	width: 60px;
 	height: 60px;
-	transition: background-color .15s ease;
+	transition: background-color 0.15s ease;
 	cursor: pointer;
 
 	.znpb-editor-header__menu_button {
@@ -66,7 +68,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 			a {
 				display: block;
 				padding: 8px 16px;
-				color: $font-color;
+				color: var(--zb-surface-text-color);
 				font-size: 13px;
 				line-height: 1;
 				text-decoration: none;
@@ -86,14 +88,16 @@ ul.znpb-editor-header-flyout-hidden-items {
 
 		li {
 			a:hover {
-				color: $surface-active-color;
-				background-color: lighten($surface-variant, 2%);
+				color: var(--zb-surface-text-active-color);
+				background-color: var(--zb-surface-lighter-color);
 			}
 		}
 	}
 
-	&:hover, &:active, &:focus {
-		background: $primary-variant;
+	&:hover,
+	&:active,
+	&:focus {
+		background: var(--zb-primary-hover-color);
 	}
 }
 
