@@ -41,7 +41,6 @@
 			</div>
 		</template>
 		<div class="znpb-element-options-content-wrapper">
-
 			<Tabs
 				:has-scroll="['general','advanced']"
 				v-model:activeTab="activeKeyTab"
@@ -70,7 +69,7 @@
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
+						class="znpb-element-options-content-form znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
@@ -138,7 +137,7 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue'
-import { on, off, applyFilters } from '@zb/hooks'
+import { on, off } from '@zb/hooks'
 import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
@@ -178,6 +177,18 @@ export default {
 				if (!ignoreLocalHistory) {
 					addToLocalHistory()
 					ignoreLocalHistory = false
+				}
+			}
+		})
+
+		const advancedOptionsModel = computed({
+			get () {
+				return elementOptions.value._advanced_options || {}
+			},
+			set (newValues) {
+				elementOptions.value = {
+					...elementOptions.value,
+					_advanced_options: newValues
 				}
 			}
 		})
@@ -249,6 +260,7 @@ export default {
 			element,
 			// Computed
 			elementOptions,
+			advancedOptionsModel,
 			getSchema,
 			editElement,
 			unEditElement,
@@ -326,17 +338,6 @@ export default {
 					this.elementOptions = oldValues
 				} else {
 					this.elementOptions = newValue
-				}
-			}
-		},
-		advancedOptionsModel: {
-			get () {
-				return this.elementOptions._advanced_options || {}
-			},
-			set (newValues) {
-				this.elementOptions = {
-					...this.elementOptions,
-					_advanced_options: newValues
 				}
 			}
 		},
