@@ -117,7 +117,6 @@ export default {
 		},
 		options: {
 			type: Array,
-			required: true,
 			default: []
 		},
 		filterable: {
@@ -126,6 +125,7 @@ export default {
 		server_callback_method: {
 			type: String
 		},
+		server_callback_args: {},
 		server_callback_name_method: {
 			type: String
 		},
@@ -202,7 +202,10 @@ export default {
 			// Check if we need to get items from server
 			if (props.server_callback_method) {
 				// Add the server items
-				const serverOptions = getItems(props.server_callback_method)
+				const serverOptions = getItems({
+					server_callback_method: props.server_callback_method,
+					server_callback_args: props.server_callback_args,
+				})
 				if (serverOptions.length > 0) {
 					options.push(...serverOptions)
 				}
@@ -302,6 +305,7 @@ export default {
 
 			fetch({
 				server_callback_method: props.server_callback_method,
+				server_callback_args: props.server_callback_args,
 				page,
 				searchKeyword: searchKeyword.value,
 				include
@@ -358,7 +362,7 @@ export default {
 		})
 
 		watchEffect(() => {
-			if (dropdownPlaceholder.value === null) {
+			if (dropdownPlaceholder.value === null && props.server_callback_method) {
 				loadingTitle.value = true
 			}
 		})
@@ -378,8 +382,6 @@ export default {
 				emit('update:modelValue', option.id)
 				showDropdown.value = false
 			}
-
-
 		}
 
 		function onModalShow () {
