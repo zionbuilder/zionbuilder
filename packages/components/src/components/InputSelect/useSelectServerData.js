@@ -16,12 +16,13 @@ export function useSelectServerData(config) {
 	let requester
 	if (window.zb.editor) {
 		requester = window.zb.editor.serverRequest
-	} else if (window.zb.admin.serverRequest) {
+	} else if (window.zb.admin) {
 		requester = window.zb.admin.serverRequest
 	}
 
 	function fetch(config) {
 		const cacheKey = generateCacheKey(toRaw(config))
+		const saveItemsCache = generateItemsCacheKey(toRaw(config))
 
 		if (cache[cacheKey]) {
 			return Promise.resolve(cache[cacheKey])
@@ -32,7 +33,7 @@ export function useSelectServerData(config) {
 					config: config
 				}, (response) => {
 					// Save the new items
-					saveItems(config.server_callback_method, response.data)
+					saveItems(saveItemsCache, response.data)
 
 					// add items to cache
 					addToCache(cacheKey, response.data)
@@ -46,18 +47,33 @@ export function useSelectServerData(config) {
 		}
 	}
 
-	function getItems(server_callback_method) {
-		return get(items.value, server_callback_method, [])
+	function getItems(config) {
+		const saveItemsCache = generateItemsCacheKey(toRaw(config))
+		return get(items.value, saveItemsCache, [])
 	}
 
-	function getItem(server_callback_method, id) {
-		const cachedItems = get(items.value, server_callback_method, [])
+	function getItem(config, id) {
+		const saveItemsCache = generateItemsCacheKey(toRaw(config))
+		const cachedItems = get(items.value, saveItemsCache, [])
 		return cachedItems.find(item => item.id === id)
+	}
+
+	function generateItemsCacheKey(config) {
+		const {
+			server_callback_method,
+			server_callback_args
+		} = config
+
+		return hash({
+			server_callback_method,
+			server_callback_args
+		})
 	}
 
 	function generateCacheKey(data) {
 		const {
 			server_callback_method,
+			server_callback_args,
 			page,
 			searchKeyword,
 			...remainingProperties
@@ -65,14 +81,15 @@ export function useSelectServerData(config) {
 
 		return hash({
 			server_callback_method,
+			server_callback_args,
 			page,
 			searchKeyword,
 		})
 	}
 
-	function saveItems(server_callback_method, newItems) {
-		const existingItems = get(items.value, server_callback_method, [])
-		items.value[server_callback_method] = unionBy(existingItems, newItems, 'id')
+	function saveItems(key, newItems) {
+		const existingItems = get(items.value, key, [])
+		items.value[key] = unionBy(existingItems, newItems, 'id')
 	}
 
 	function addToCache(cacheKey, cacheData) {
