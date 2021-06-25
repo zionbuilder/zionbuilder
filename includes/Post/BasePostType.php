@@ -478,7 +478,7 @@ class BasePostType {
 
 			// Page template
 			if ( isset( $page_settings['page_template'] ) ) {
-				update_post_meta( $post_id, '_wp_page_template', $page_settings['page_template'] );
+				update_metadata( 'post', $post_id, '_wp_page_template', $page_settings['page_template'] );
 			}
 
 			// Implement options changes so we don't update the posts each time
