@@ -236,6 +236,7 @@ body {
 			&:focus,
 			&:active,
 			&:visited {
+				color: inherit;
 				box-shadow: none;
 				outline: 0;
 			}

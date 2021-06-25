@@ -33,7 +33,7 @@
 						></BaseInput>
 						<Button
 							@click="addNewCssClass"
-							type="secondary"
+							type="line"
 							class="znpb-class-selector__add-class-button"
 						>
 							{{$translate('add_class')}}
@@ -342,7 +342,7 @@ export default {
 
 <style lang="scss">
 .znpb-button.znpb-class-selector__add-class-button {
-	padding: 15px;
+	padding: 12px;
 	margin-left: 5px;
 	white-space: nowrap;
 }

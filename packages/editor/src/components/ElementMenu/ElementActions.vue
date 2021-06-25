@@ -274,7 +274,6 @@ export default {
 	background-color: var(--zb-dropdown-bg-color);
 	box-shadow: 0 5px 10px 0 var(--zb-dropdown-shadow);
 	border-radius: 3px;
-	outline: 1px solid var(--zb-surface-lighter-color);
 }
 .znpb-right-click__menu-item {
 	display: flex;
@@ -296,6 +295,7 @@ export default {
 
 	&:hover {
 		color: var(--zb-dropdown-text-active-color);
+		background: var(--zb-surface-lighter-color);
 	}
 
 	& > span {

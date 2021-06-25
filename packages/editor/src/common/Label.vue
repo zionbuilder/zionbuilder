@@ -31,13 +31,13 @@ export default {
 	}
 
 	&--warning {
-		color: #fff;
+		color: var(--zb-surface-color);
 		background: var(--zb-warning-color);
 	}
 	&--pro {
 		margin-right: 0;
 		margin-left: auto;
-		color: #fff;
+		color: var(--zb-surface-color);
 		text-transform: uppercase;
 		background: var(--zb-warning-color);
 	}

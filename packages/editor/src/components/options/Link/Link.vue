@@ -394,6 +394,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color: var(--zb-surface-text-active-color);
 	padding: 10px 5px 5px;
 	font-weight: 500;
 	line-height: 1;
@@ -411,7 +412,7 @@ export default {
 	align-items: center;
 	padding: 5px;
 	margin-bottom: 10px;
-	color: #5f5f5f;
+	color: var(--zb-surface-text-color);
 	font-family: "Roboto", sans-serif;
 	font-size: 13px;
 	font-weight: 500;

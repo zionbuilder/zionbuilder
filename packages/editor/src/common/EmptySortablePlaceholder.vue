@@ -65,7 +65,7 @@ export default {
 		position: relative;
 		width: 34px;
 		height: 34px;
-		color: var(--zb-surface-color);
+		color: #fff;
 		font-size: 10px;
 		font-size: 14px;
 		line-height: 1 !important;

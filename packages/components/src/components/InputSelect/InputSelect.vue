@@ -42,11 +42,13 @@
 				v-else
 				class="znpb-option-selectOptionPlaceholderText"
 			>{{dropdownPlaceholder}}</span>
-			<Icon
-				icon="select"
-				class="znpb-inputDropdownIcon"
-				:rotate="showDropdown ? '180' : false"
-			/>
+			<span class="znpb-inputDropdownIcon-wrapper">
+				<Icon
+					icon="select"
+					class="znpb-inputDropdownIcon"
+					:rotate="showDropdown ? '180' : false"
+				/>
+			</span>
 		</div>
 
 		<template #content>
@@ -437,9 +439,12 @@ export default {
 	opacity: 0.8;
 }
 
-.znpb-inputDropdownIcon {
+.znpb-inputDropdownIcon-wrapper {
 	border-left: var(--zb-input-separator-width) solid
 		var(--zb-input-separator-color);
+}
+
+.znpb-inputDropdownIcon {
 	padding: 11px;
 }
 

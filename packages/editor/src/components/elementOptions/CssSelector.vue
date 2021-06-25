@@ -116,6 +116,14 @@ export default {
 	&-name {
 		word-break: break-all;
 	}
+
+	&:hover {
+		background-color: var(--zb-surface-lighter-color);
+
+		.znpb-css-class-selector__item-name {
+			color: var(--zb-surface-text-active-color);
+		}
+	}
 }
 
 .znpb-css-class-selector__item {
@@ -126,8 +134,9 @@ export default {
 	cursor: pointer;
 
 	&:hover {
-		color: var(--zb-surface-active-color);
+		color: var(--zb-surface-text-active-color);
 	}
+
 	&-close {
 		padding-left: 15px;
 
@@ -150,6 +159,10 @@ export default {
 		color: var(--zb-surface-active-color);
 		background-color: var(--zb-surface-lighter-color);
 		transition: all 0.22s ease-out;
+	}
+
+	&--selected &-name {
+		color: var(--zb-surface-text-active-color);
 	}
 
 	&-type {

@@ -77,24 +77,27 @@ export default {
 }
 
 .znpb-link-optionsAttributeDelete {
-	transition: opacity .15s ease;
-	cursor: pointer;
-
-	&:hover {
-		opacity: .7;
-	}
-
 	.znpb-editor-icon-wrapper {
 		width: 40px;
 		height: 40px;
-		border: 2px solid var(--zb-input-border-color);
+		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
+		transition: opacity 0.15s ease;
+		cursor: pointer;
+
+		&:hover {
+			opacity: 0.7;
+		}
 	}
 }
 
 .znpb-link-optionsAttributeDelete--disabled {
 	cursor: default;
-	opacity: .5;
+	opacity: 0.5;
 	pointer-events: none;
+
+	&:hover {
+		opacity: 0.5;
+	}
 }
 </style>

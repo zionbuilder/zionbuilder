@@ -106,6 +106,7 @@ export default {
 		cursor: pointer;
 
 		&:hover {
+			color: var(--zb-surface-text-active-color);
 			background-color: var(--zb-surface-lightest-color);
 		}
 		&--active {

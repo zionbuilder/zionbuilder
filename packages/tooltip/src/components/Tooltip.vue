@@ -671,7 +671,7 @@ export default {
 
 	&.hg-popper--no-padding {
 		padding: 0;
-		border: 0;
+		// border: 0;
 	}
 	&.hg-popper--no-bg {
 		background: transparent;

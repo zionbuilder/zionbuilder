@@ -36,7 +36,7 @@
 				append-to="element"
 				:show-arrows="false"
 				strategy="fixed"
-				tooltip-class="znpb-input-number__units-tooltip-wrapper"
+				tooltip-class="hg-popper--no-padding znpb-input-number__units-tooltip-wrapper"
 			>
 				<template v-slot:content>
 					<div class="znpb-number-unit-list hg-popper-list">

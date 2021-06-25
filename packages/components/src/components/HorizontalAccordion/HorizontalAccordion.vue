@@ -264,6 +264,10 @@ export default {
 		border-radius: 3px;
 		cursor: pointer;
 
+		&:hover {
+			background: var(--zb-surface-lightest-color);
+		}
+
 		.znpb-accordion-title {
 			margin-right: 15px;
 		}
