@@ -166,6 +166,11 @@ export default {
 		local_callback_method: {
 			type: String,
 			required: false
+		},
+		useCache: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	setup (props, { emit }) {
@@ -180,7 +185,7 @@ export default {
 
 		let page = 1
 		const { fetch, getItems } = useSelectServerData({
-			method: props.server_callback_method
+			useCache: props.useCache
 		})
 
 		const computedModelValue = computed(() => {

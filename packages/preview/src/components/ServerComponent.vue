@@ -89,8 +89,6 @@ export default {
 			element_data: props.element
 		})
 
-		const requester = serverRequest.createRequester()
-
 		function loadScripts (scripts) {
 			const { loadScript } = ScriptsLoader()
 
@@ -114,7 +112,7 @@ export default {
 		function getElementFromServer () {
 			loading.value = true
 
-			requester.request({
+			props.element.serverRequester.request({
 				type: 'render_element',
 				config: serverComponentRenderData
 			}, (response) => {

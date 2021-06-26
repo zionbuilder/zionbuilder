@@ -43,7 +43,6 @@
 				class="znpb-hidden-element-container"
 				v-if="!element.isVisible"
 			>
-
 				<div class="znpb-hidden-element-placeholder">
 					<Icon
 						icon="eye"
@@ -52,10 +51,6 @@
 					</Icon>
 				</div>
 			</div>
-
-			<transition name="znpb-fade">
-
-			</transition>
 		</template>
 	</component>
 </template>
@@ -74,7 +69,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement, serverRequest } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
@@ -89,7 +84,7 @@ export default {
 		ElementLoading,
 		ElementStyles
 	},
-	props: ['element', 'isRepeaterItem'],
+	props: ['element'],
 	setup (props) {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
@@ -116,7 +111,6 @@ export default {
 		}
 
 		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementTypeModel.options', {}), advancedSchema)
-		const serverRequester = serverRequest.createRequester()
 
 		// computed
 		const parsedData = computed(() => {
@@ -130,10 +124,7 @@ export default {
 					onLoadingStart: () => localLoading.value = true,
 					onLoadingEnd: () => localLoading.value = false,
 				},
-				serverRequester,
-				{
-					element: props.element
-				}
+				props.element
 			)
 
 			return optionsInstance.parseData()
@@ -346,8 +337,8 @@ export default {
 			return classes
 		}
 
+		// Mainly used for RenderValue component
 		provide('elementInfo', props.element)
-		provide('renderAttributes', renderAttributes)
 		provide('elementOptions', options)
 
 		return {

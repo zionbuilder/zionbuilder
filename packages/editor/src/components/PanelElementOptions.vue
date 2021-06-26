@@ -255,6 +255,7 @@ export default {
 		provideElement(element)
 		provide('elementInfo', element)
 		provide('OptionsFormTopModelValue', elementOptions)
+		provide('serverRequester', element.value.serverRequester)
 
 		return {
 			element,
