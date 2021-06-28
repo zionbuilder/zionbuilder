@@ -327,7 +327,7 @@ class IconList extends Element {
 		$combined_item_attr = $this->render_attributes->get_combined_attributes( 'item_styles', [ 'class' => $item_index_class ] );
 
 		if ( ! empty( $link['link'] ) ) {
-			$this->attach_link_attributes( 'item', $link );
+			$this->attach_link_attributes( 'item' . $index, $link );
 			$html_tag = 'a';
 		}
 
@@ -352,7 +352,7 @@ class IconList extends Element {
 
 		$this->render_tag(
 			$html_tag,
-			'item',
+			'item' . $index,
 			[ $icon_html, $text_html ],
 			$combined_item_attr
 		);

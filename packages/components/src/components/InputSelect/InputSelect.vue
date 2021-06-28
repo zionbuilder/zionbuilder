@@ -165,6 +165,15 @@ export default {
 			required: false,
 			default: false
 		},
+		local_callback_method: {
+			type: String,
+			required: false
+		},
+		useCache: {
+			type: Boolean,
+			required: false,
+			default: true
+		}
 	},
 	setup (props, { emit }) {
 		const optionWrapper = ref(null)
@@ -178,7 +187,7 @@ export default {
 
 		let page = 1
 		const { fetch, getItems } = useSelectServerData({
-			method: props.server_callback_method
+			useCache: props.useCache
 		})
 
 		const computedModelValue = computed(() => {
@@ -206,6 +215,15 @@ export default {
 				})
 				if (serverOptions.length > 0) {
 					options.push(...serverOptions)
+				}
+			}
+
+			// Check if we need to populate the data
+			if (props.local_callback_method) {
+				const localOptions = window[props.local_callback_method]
+
+				if (typeof localOptions === 'function') {
+					options.push(...localOptions())
 				}
 			}
 

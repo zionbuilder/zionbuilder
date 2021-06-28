@@ -453,7 +453,7 @@ class Column extends Element {
 			[
 				'type'      => 'panel_accordion',
 				'title'     => __( 'Shape Dividers', 'zionbuilder' ),
-				'collapsed' => false,
+				'collapsed' => true,
 			]
 		);
 

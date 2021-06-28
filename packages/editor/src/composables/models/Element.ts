@@ -1,4 +1,6 @@
+import { readonly } from 'vue'
 import { generateUID } from '@zb/utils'
+import { applyFilters } from '@zb/hooks'
 import { regenerateUIDs } from '@utils'
 import { each, update, get, set, isPlainObject } from 'lodash-es'
 import { useElements } from '../useElements'
@@ -7,6 +9,7 @@ import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
 import { useEditElement } from '../useEditElement'
 import { useHistory } from '../useHistory'
+import { serverRequest } from '../../api'
 
 const { registerElement, unregisterElement, getElement } = useElements()
 const { getElementType } = useElementTypes()
@@ -29,11 +32,30 @@ export class Element {
 	public callbacks: {} = {}
 	public loading: boolean = false
 	public treeViewItemExpanded: boolean = false
+	public serverRequester = null
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
 		this.renderAttributes = new RenderAttributes()
 		this.parentUid = parentUid
+		this.serverRequester = this.createRequester()
+	}
+
+	createRequester() {
+		const request = (data, successCallback, failCallback) => {
+			// Pass to filter with all the extra arguments
+			const parsedData = readonly({
+				...applyFilters('zionbuilder/server_request/element_requester_data', {}, this),
+				...data,
+				useCache: true
+			})
+
+			return serverRequest.request(parsedData, successCallback, failCallback)
+		}
+
+		return {
+			request
+		}
 	}
 
 	setElementData(data) {
@@ -232,6 +254,13 @@ export class Element {
 			this.parent.removeChild(this)
 		}
 
+		// Delete all childs
+		if (this.content) {
+			this.content.forEach(child => {
+				child.delete()
+			})
+		}
+
 		unregisterElement(this.uid)
 
 		// Add to history
@@ -300,6 +329,14 @@ export class Element {
 		if (callbackIndex !== -1) {
 			this.callbacks[type].splice(callbackIndex, 1)
 		}
+	}
+
+	setData(key, value) {
+		this[key] = value
+	}
+
+	unsetData(key) {
+		delete this[key]
 	}
 
 	trigger(type, ...data) {

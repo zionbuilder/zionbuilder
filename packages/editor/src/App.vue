@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { computed, provide } from 'vue'
+import { provide } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -142,6 +142,8 @@ import { ElementMenu } from './components/ElementMenu'
 import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useDemoMode } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
+
+import { serverRequest } from './api'
 
 // WordPress hearbeat
 require('./HeartBeat.js')
@@ -181,6 +183,7 @@ export default {
 		provide('builderOptions', useBuilderOptions)
 
 		// provide masks for ShapeDividerComponent option
+		provide('serverRequester', serverRequest)
 		provide('masks', editorData.value.masks)
 		provide('plugin_info', editorData.value.plugin_info)
 

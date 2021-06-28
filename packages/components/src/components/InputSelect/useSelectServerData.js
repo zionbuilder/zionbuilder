@@ -1,6 +1,7 @@
 import {
 	ref,
-	toRaw
+	toRaw,
+	inject
 } from 'vue'
 import hash from 'object-hash'
 import {
@@ -9,18 +10,27 @@ import {
 	unionBy
 } from 'lodash-es'
 
-const items = ref([])
 const cache = ref({})
 
 export function useSelectServerData(config) {
-	let requester
-	if (window.zb.editor) {
-		requester = window.zb.editor.serverRequest
-	} else if (window.zb.admin) {
-		requester = window.zb.admin.serverRequest
+	let requester = inject('serverRequester')
+	const {
+		useCache = true
+	} = config
+
+	const items = ref([])
+
+	if (!requester) {
+		if (window.zb.admin) {
+			requester = window.zb.admin.serverRequest
+		}
 	}
 
 	function fetch(config) {
+		if (!requester) {
+			return Promise.reject('Server requester not provided')
+		}
+
 		const cacheKey = generateCacheKey(toRaw(config))
 		const saveItemsCache = generateItemsCacheKey(toRaw(config))
 
@@ -35,8 +45,10 @@ export function useSelectServerData(config) {
 					// Save the new items
 					saveItems(saveItemsCache, response.data)
 
-					// add items to cache
-					addToCache(cacheKey, response.data)
+					if (useCache) {
+						// add items to cache
+						addToCache(cacheKey, response.data)
+					}
 
 					// Send back the response in case it is needed
 					resolve(response.data)

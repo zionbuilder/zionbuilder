@@ -38,7 +38,6 @@ export default {
 
 
 		function toggleAddElementsPopup () {
-			console.log('click');
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 

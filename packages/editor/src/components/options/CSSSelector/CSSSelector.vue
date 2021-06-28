@@ -358,15 +358,14 @@ export default {
 	line-height: 1;
 	background: #8bc88a;
 	border-radius: 2px;
-	transition: background 0.2s;
+	transition: background .2s;
 	cursor: pointer;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
 	}
 
-	&::before,
-	&::after {
+	&::before, &::after {
 		content: "";
 		position: absolute;
 		z-index: -1;
@@ -388,8 +387,7 @@ export default {
 	}
 }
 
-.znpb-option-cssSelectoritem--child
-	+ .znpb-option-cssSelectoritem--child
+.znpb-option-cssSelectoritem--child + .znpb-option-cssSelectoritem--child
 	.znpb-option-cssChildSelectorPseudoSelector::before {
 	height: 42px;
 }
