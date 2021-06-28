@@ -331,7 +331,7 @@ export default {
 	}
 
 	div.mce-panel {
-		background: var(--zb-input-bg-color);
+		background: var(--zb-surface-lighter-color);
 	}
 
 	.mce-edit-area {
