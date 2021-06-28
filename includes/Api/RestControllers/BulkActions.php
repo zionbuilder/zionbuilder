@@ -108,12 +108,12 @@ class BulkActions extends RestApiController {
 		if ( is_array( $actions ) ) {
 			foreach ( $actions as $action_key => $action_config ) {
 				if ( array_key_exists( $action_config['type'], $registered_actions ) ) {
-					do_action( 'zionbuilder/rest/bulk_actions/before_action', $action_config );
+					do_action( 'zionbuilder/rest/bulk_actions/before_action', $action_config, $request );
 
 					$callback              = $registered_actions[$action_config['type']];
-					$response[$action_key] = call_user_func( $callback, $action_config['config'] );
+					$response[$action_key] = call_user_func( $callback, $action_config['config'], $request );
 
-					do_action( 'zionbuilder/rest/bulk_actions/after_action', $action_config );
+					do_action( 'zionbuilder/rest/bulk_actions/after_action', $action_config, $request );
 				}
 			}
 		}
@@ -271,12 +271,12 @@ class BulkActions extends RestApiController {
 		return WPMedia::get_image_sizes( $image_config );
 	}
 
-	public function get_input_select_options( $config ) {
+	public function get_input_select_options( $config, $request ) {
 		if ( ! isset( $config['server_callback_method'] ) ) {
 			return new \WP_Error( 'callback_method_missing', 'Missing callback_method param', [ 'status' => 400 ] );
 		}
 
-		return rest_ensure_response( apply_filters( sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] ), [], $config ) );
+		return rest_ensure_response( apply_filters( sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] ), [], $config, $request ) );
 	}
 
 	public function search_posts( $config ) {

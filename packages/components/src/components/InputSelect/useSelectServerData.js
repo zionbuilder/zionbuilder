@@ -19,9 +19,7 @@ export function useSelectServerData(config) {
 	} = config
 
 	const items = ref([])
-	console.log({
-		items
-	});
+
 	if (!requester) {
 		if (window.zb.admin) {
 			requester = window.zb.admin.serverRequest
