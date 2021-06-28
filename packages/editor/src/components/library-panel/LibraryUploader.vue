@@ -202,25 +202,27 @@ input.znpb-library-input-file {
 	width: 100%;
 	max-height: 100%;
 	margin: 30px;
-	transition: all .2s;
+	transition: all 0.2s;
 
 	&--dragging {
 		.znpb-empty-list__border-top-bottom {
-			&:after, &:before {
+			&:after,
+			&:before {
 				background-image: linear-gradient(
-				to right,
-				$secondary 77%,
-				rgba(255, 255, 255, 0) 0%
+					to right,
+					var(--zb-secondary-color) 77%,
+					rgba(255, 255, 255, 0) 0%
 				);
 			}
 		}
 
 		.znpb-empty-list__border-left-right {
-			&:after, &:before {
+			&:after,
+			&:before {
 				background-image: linear-gradient(
-				to top,
-				$secondary 77%,
-				rgba(255, 255, 255, 0) 0%
+					to top,
+					var(--zb-secondary-color) 77%,
+					rgba(255, 255, 255, 0) 0%
 				);
 			}
 		}
@@ -229,7 +231,7 @@ input.znpb-library-input-file {
 	&__text {
 		font-size: 16px;
 		span {
-			color: $secondary;
+			color: var(--zb-secondary-color);
 			font-weight: 500;
 		}
 	}
@@ -247,6 +249,10 @@ input.znpb-library-input-file {
 			margin-bottom: 30px;
 			color: #06bee1;
 			font-size: 160px;
+
+			svg > circle:first-of-type {
+				fill: var(--zb-surface-lighter-color);
+			}
 		}
 	}
 }

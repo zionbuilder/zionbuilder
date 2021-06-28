@@ -338,24 +338,27 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		flex: 4;
-		color: darken($font-color, 10%);
-		border: 2px solid #e5e5e5;
+		color: var(--zb-input-text-color);
+		background: var(--zb-input-bg-color);
+		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		cursor: pointer;
 	}
 
 	&-title {
 		display: flex;
-		color: $font-color;
-		border-left: 2px solid #e5e5e5;
+		color: var(--zb-surface-text-color);
+		border-left: var(--zb-input-separator-width) solid
+			var(--zb-input-separator-color);
 		cursor: pointer;
 
 		.znpb-editor-icon-wrapper {
 			padding: 11px;
 		}
-		&--has-edit {
-			// margin-right: 5px;
-		}
+
+		// &--has-edit {
+		// 	margin-right: 5px;
+		// }
 
 		&__before-after-content {
 			position: absolute;
@@ -364,13 +367,13 @@ export default {
 			z-index: 20000;
 			width: 100%;
 			padding: 15px;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 			background-color: #fff;
-			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
-			border: 1px solid #f1f1f1;
+			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 4px;
 			input::placeholder {
-				color: $surface-headings-color;
+				color: var(--zb-input-placeholder-color);
 			}
 		}
 	}

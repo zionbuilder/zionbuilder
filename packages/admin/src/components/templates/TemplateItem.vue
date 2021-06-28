@@ -191,7 +191,7 @@ export default {
 		}
 	},
 
-	setup(props) {
+	setup (props) {
 		const isActive = ref(props.active)
 
 		if (isActive.value) {
@@ -280,10 +280,13 @@ export default {
 	}
 
 	.zion-input {
-		background: $surface;
+		background: var(--zb-input-bg-color);
 	}
 
-	&__actions, &__shortcode, &__author, &__title {
+	&__actions,
+	&__shortcode,
+	&__author,
+	&__title {
 		flex: 1;
 		padding: 0 14px;
 	}
@@ -291,13 +294,13 @@ export default {
 	&__title {
 		flex-grow: 2;
 		padding: 0 20px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 	}
 	&__author {
 		padding: 0 14px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 500;
 	}
@@ -346,7 +349,10 @@ export default {
 	}
 
 	&__action {
-		&.znpb-insert-icon-pop, &.znpb-edit-icon-pop, &.znpb-delete-icon-pop, &.znpb-export-icon-pop {
+		&.znpb-insert-icon-pop,
+		&.znpb-edit-icon-pop,
+		&.znpb-delete-icon-pop,
+		&.znpb-export-icon-pop {
 			margin-right: 10px;
 		}
 
@@ -360,13 +366,14 @@ export default {
 			display: block;
 		}
 
-		.znpb-editor-icon-wrapper, a {
-			color: $font-color;
-			transition: color .15s;
+		.znpb-editor-icon-wrapper,
+		a {
+			color: var(--zb-surface-text-color);
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
-				color: darken($font-color, 10);
+				color: var(--zb-surface-text-hover-color);
 			}
 		}
 	}
@@ -384,7 +391,7 @@ export default {
 	}
 
 	&--error {
-		color: $error;
+		color: var(--zb-error-color);
 	}
 }
 </style>

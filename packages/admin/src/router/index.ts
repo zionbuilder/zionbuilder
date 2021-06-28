@@ -14,6 +14,7 @@ import GetPro from '../components/GetPro.vue'
 import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
+import Appearance from '../components/Appearance.vue'
 
 import { translate } from '@zb/i18n'
 
@@ -86,6 +87,13 @@ export const initRoutes = function () {
 		name: 'maintenance-mode',
 		title: translate('maintenance_mode'),
 		component: MaintenanceMode
+	})
+
+	GeneralSettingsRoute.addRoute('appearance', {
+		path: 'appearance',
+		name: 'appearance',
+		title: translate('appearance'),
+		component: Appearance
 	})
 
 	const FontOptionsRoute = SettingsRoute.addRoute('font-options', {

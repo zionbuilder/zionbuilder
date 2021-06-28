@@ -121,7 +121,7 @@ export default {
 
 	&--active {
 		span {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 }

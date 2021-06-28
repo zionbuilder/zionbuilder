@@ -66,7 +66,7 @@ export default {
 	padding: 17px 20px;
 
 	&__title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 	}
 }

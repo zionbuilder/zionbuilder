@@ -253,6 +253,7 @@ export default {
 		this.getWindows('preview').removeEventListener('click', this.deselectActiveElement)
 		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
+		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
 
 		off('refreshIframe', this.refreshIframe)
 	},
@@ -269,7 +270,7 @@ export default {
 	align-items: center;
 	order: 3;
 	flex: 1 1 0;
-	background-color: #f1f1f1;
+	background-color: var(--zb-surface-darker-color);
 }
 
 // Iframe
@@ -277,9 +278,9 @@ export default {
 	max-width: 100%;
 	min-height: 150px;
 	max-height: 100%;
-	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.1);
 	border: 0;
-	transition: all .5s;
+	transition: all 0.5s;
 }
 .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default)
 	#znpb-editor-iframe {

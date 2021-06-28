@@ -404,10 +404,10 @@ export default {
 	align-items: center;
 	padding: 2px;
 	margin: 0 auto;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	font-size: 14px;
-	background: $surface;
-	box-shadow: 0 0 0 2px $border-color;
+	background: var(--zb-surface-color);
+	box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 
@@ -415,7 +415,8 @@ export default {
 		display: flex;
 		align-items: center;
 	}
-	& > .znpb-editor-icon-wrapper, & .zion-inline-editor-dragbutton .znpb-editor-icon-wrapper {
+	& > .znpb-editor-icon-wrapper,
+	& .zion-inline-editor-dragbutton .znpb-editor-icon-wrapper {
 		padding: 10px 11px;
 	}
 	.zion-inline-editor-dragbutton {
@@ -441,7 +442,7 @@ export default {
 		display: flex;
 		margin: 0 1px;
 		border-radius: 2px;
-		transition: color .15s ease;
+		transition: color 0.15s ease;
 
 		.zion-icon {
 			width: auto;
@@ -449,18 +450,18 @@ export default {
 	}
 
 	.zion-inline-editor-button--active {
-		color: $surface;
-		background-color: $secondary;
+		color: var(--zb-secondary-text-color);
+		background-color: var(--zb-secondary-color);
 	}
 
 	.zion-inline-editor-popover-wrapper--open {
 		& > .znpb-editor-icon-wrapper {
-			color: darken($font-color, 10%);
-			background: $surface-variant;
+			color: var(--zb-surface-text-color);
+			background: var(--zb-surface-lighter-color);
 
 			&:hover {
-				color: darken($font-color, 10%);
-				background: $surface-variant;
+				color: var(--zb-surface-text-color);
+				background: var(--zb-surface-lighter-color);
 			}
 		}
 	}
@@ -488,7 +489,7 @@ export default {
 	cursor: text !important;
 
 	& *::selection {
-		background: rgba(133, 178, 232, .75);
+		background: rgba(133, 178, 232, 0.75);
 	}
 }
 

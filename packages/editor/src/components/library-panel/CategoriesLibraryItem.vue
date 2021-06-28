@@ -47,7 +47,7 @@ export default {
 <style lang="scss">
 .znpb-editor-library-modal-category__item {
 	&.znpb-editor-library-modal-category__item--active {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 		h5 {
 			font-weight: 500;

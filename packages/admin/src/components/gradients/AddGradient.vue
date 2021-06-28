@@ -10,16 +10,16 @@ export default {
 }
 
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-admin-gradient-preset-box__empty {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	padding: 28px 0;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	font-weight: 500;
-	border: 2px dashed lighten($font-color, 25%);
+	border: 2px dashed var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 	.znpb-editor-icon-wrapper {

@@ -44,16 +44,16 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-get-pro {
 	width: 100%;
 	padding: 60px 0 140px;
 	text-align: center;
-	background-color: #fff;
+	background-color: var(--zb-surface-color);
 
 	.znpb-editor-icon-wrapper {
 		margin: 0 auto;
-		color: $surface-variant;
+		color: var(--zb-surface-lighter-color);
 		font-size: 125px;
 	}
 
@@ -63,7 +63,7 @@ export default {
 
 	&__title {
 		margin: 0 0 24px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 22px;
 		font-weight: 600;
 
@@ -86,12 +86,12 @@ export default {
 
 		& > a {
 			padding-bottom: 5px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			border-bottom: 1px solid #e5e5e5;
+			border-bottom: 1px solid var(--zb-surface-border-color);
 
 			&:hover {
-				color: lighten($surface-active-color, 15%);
+				color: var(--zb-surface-icon-color);
 			}
 		}
 	}
@@ -102,6 +102,6 @@ export default {
 }
 
 #adminmenu div.wp-menu-image > img {
-    max-width: 16px;
+	max-width: 16px;
 }
 </style>

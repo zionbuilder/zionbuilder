@@ -205,7 +205,6 @@ export default {
 	flex-grow: 1;
 	flex-shrink: 1;
 	padding: 0 15px 30px 15px;
-	background: $primary-color--accent;
 
 	&Image {
 		height: 24px;
@@ -235,7 +234,7 @@ export default {
 	}
 
 	& > .znpb-wireframe-item__header {
-		background: $elements-toolbox-color;
+		background: var(--zb-element-color);
 	}
 
 	&__delete-icon {
@@ -263,15 +262,15 @@ export default {
 		.znpb-editor-icon-wrapper {
 			width: 34px;
 			height: 34px;
-			color: $surface;
-			background: $elements-toolbox-color;
+			color: var(--zb-surface-color);
+			background: var(--zb-element-color);
 		}
 	}
 
 	&__header {
 		display: flex;
 		width: 100%;
-		color: $primary-color--accent;
+		color: var(--zb-primary-text-color);
 		text-align: center;
 		transition: all .2s;
 
@@ -299,7 +298,7 @@ export default {
 					}
 				}
 				& > span {
-					color: $surface-variant;
+					color: var(--zb-surface-lighter-color);
 				}
 			}
 			&--right {
@@ -325,7 +324,7 @@ export default {
 		&-title {
 			overflow: hidden;
 			padding: 0;
-			color: $surface;
+			color: var(--zb-surface-color);
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -348,7 +347,7 @@ export default {
 		width: auto;
 
 		& > .znpb-wireframe-item__header {
-			background: $section-color;
+			background: var(--zb-section-color);
 		}
 
 		& > .znpb-wireframe-item__content {
@@ -369,7 +368,7 @@ export default {
 		min-height: 1px;
 
 		& > .znpb-wireframe-item__header {
-			background: $column-color;
+			background: var(--zb-column-color);
 		}
 		& > .znpb-wireframe-item__content {
 			position: relative;
@@ -382,7 +381,7 @@ export default {
 		}
 		& > .znpb-wireframe-item__content > .znpb-element-toolbox__add-element-button {
 			& > .znpb-editor-icon-wrapper {
-				background: $column-color;
+				background: var(--zb-column-color);
 			}
 		}
 	}
@@ -420,7 +419,7 @@ export default {
 	//nested children
 	ul.znpb-wireframe-item__content {
 		padding: 30px 15px;
-		box-shadow: 0 10px 35px 0 rgba(192, 192, 192, .3);
+		background: var(--zb-surface-light-color);
 		cursor: pointer;
 	}
 }

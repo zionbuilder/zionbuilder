@@ -609,17 +609,17 @@ export default {
 				width: 22px;
 				height: 22px;
 				margin-right: 10px;
-				color: $icons-color;
+				color: var(--zb-surface-icon-color);
 				font-size: 14px;
-				background-color: $surface-variant;
+				background-color: var(--zb-surface-lighter-color);
 				border-radius: 3px;
-				transition: .15s all;
-				transition: all .3s;
+				transition: 0.15s all;
+				transition: all 0.3s;
 				cursor: pointer;
 
 				&:hover {
-					color: darken($icons-color, 5%);
-					background-color: darken($surface-variant, 2%);
+					color: var(--zb-surface-text-hover-color);
+					background-color: var(--zb-surface-lightest-color);
 				}
 
 				svg {
@@ -643,9 +643,9 @@ export default {
 			min-width: 200px;
 			max-height: 360px;
 			padding: 16px 16px 4px;
-			background-color: #fff;
-			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
-			border: 1px solid #f1f1f1;
+			background-color: var(--zb-dropdown-bg-color);
+			box-shadow: var(--zb-dropdown-shadow);
+			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 3px;
 			transform: translate(10px, -10px);
 
@@ -665,13 +665,14 @@ export default {
 		.znpb-element-options__tabs-wrapper {
 			flex-grow: 1;
 			padding-top: 20px;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-darker-color);
 		}
 		.znpb-tabs {
 			display: flex;
 			flex-direction: column;
 
-			.znpb-tabs__content, .znpb-tabs__wrapper {
+			.znpb-tabs__content,
+			.znpb-tabs__wrapper {
 				height: calc(100% - 38px);
 			}
 
@@ -702,23 +703,24 @@ export default {
 			margin-right: 10px;
 		}
 
-		&__undo, &__redo {
+		&__undo,
+		&__redo {
 			display: flex;
 			justify-content: center;
 			flex: 1;
 			padding: 15px 37px;
 			line-height: 1;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 			border-radius: 3px;
 			cursor: pointer;
 
 			&--active {
 				&:hover {
-					opacity: .9;
+					opacity: 0.9;
 				}
 			}
 			&--disabled {
-				opacity: .5;
+				opacity: 0.5;
 				pointer-events: none;
 			}
 		}
@@ -734,7 +736,7 @@ export default {
 		width: calc(100% - 78px);
 		height: 38px;
 		margin-left: 20px;
-		background: $surface-variant;
+		background: var(--zb-surface-lighter-color);
 		border: none;
 		border-radius: 0;
 
@@ -746,7 +748,8 @@ export default {
 	}
 }
 .znpb-element-options__tabs-wrapper {
-	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
+	p.znpb-element-options-default-message,
+	p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
 
@@ -758,11 +761,13 @@ export default {
 }
 
 //search tab
-.znpb-tabs--card > .znpb-tabs__header > .znpb-tabs__header-item.znpb-tabs__header-item--search {
+.znpb-tabs--card
+	> .znpb-tabs__header
+	> .znpb-tabs__header-item.znpb-tabs__header-item--search {
 	flex: 0 1 auto;
 	padding: 0;
 	margin-left: auto;
-	background: $surface;
+	background: var(--zb-surface-color);
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 

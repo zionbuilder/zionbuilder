@@ -43,68 +43,70 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
-.znpb-single-role {
-	@extend %list-item-helper;
-	padding: 17px 20px;
+<style lang="scss">
+.znpb-admin__wrapper {
+	.znpb-single-role {
+		@extend %list-item-helper;
+		padding: 17px 20px;
 
-	@media (max-width: 767px) {
-		flex-direction: column;
-		align-items: flex-start;
+		@media (max-width: 767px) {
+			flex-direction: column;
+			align-items: flex-start;
 
-		&__item, &__permission {
-			margin-bottom: 10px !important;
-		}
-	}
-
-	&__permission {
-		display: flex;
-		justify-content: space-between;
-		flex-grow: 1;
-	}
-	&__actions {
-		display: flex;
-		font-size: 14px;
-		& > .znpb-edit-icon-pop {
-			margin-right: 7px;
-
-			&:last-of-type {
-				margin-right: 0;
+			&__item, &__permission {
+				margin-bottom: 10px !important;
 			}
 		}
-		.znpb-editor-icon-wrapper {
-			display: block;
-			align-self: center;
-			box-sizing: content-box;
-			width: 15px;
-			padding: 5px;
-			margin-right: 10px;
-			cursor: pointer;
-			&:last-child {
-				margin-right: 0;
+
+		&__permission {
+			display: flex;
+			justify-content: space-between;
+			flex-grow: 1;
+		}
+		&__actions {
+			display: flex;
+			font-size: 14px;
+			& > .znpb-edit-icon-pop {
+				margin-right: 7px;
+
+				&:last-of-type {
+					margin-right: 0;
+				}
 			}
-			&:hover {
-				color: darken($font-color, 20%);
-			}
-			&.znpb-edit-icon-pop {
+			.znpb-editor-icon-wrapper {
+				display: block;
+				align-self: center;
+				box-sizing: content-box;
+				width: 15px;
+				padding: 5px;
 				margin-right: 10px;
+				cursor: pointer;
+				&:last-child {
+					margin-right: 0;
+				}
+				&:hover {
+					color: var(--zb-surface-text-hover-color);
+				}
+				&.znpb-edit-icon-pop {
+					margin-right: 10px;
+				}
 			}
 		}
 	}
-}
-h3.znpb-single-role__item {
-	flex-basis: 0;
-	flex-grow: 2;
-	margin: 0;
-	color: $surface-active-color;
-	font-size: 13px;
-	font-weight: 500;
-	line-height: 1;
-}
-.znpb-single-role-permission-subtitle {
-	margin: 0;
-	color: $font-color;
-	font-size: 13px;
-	font-weight: 400;
+	h3.znpb-single-role__item {
+		flex-basis: 0;
+		flex-grow: 2;
+		margin: 0;
+		color: var(--zb-surface-text-active-color);
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 1;
+	}
+	.znpb-single-role-permission-subtitle {
+		margin: 0;
+		color: var(--zb-surface-text-color);
+		font-size: 13px;
+		font-weight: 400;
+	}
 }
 </style>

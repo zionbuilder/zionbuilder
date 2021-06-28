@@ -299,7 +299,9 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion
+	> .znpb-horizontal-accordion__header
+	> .znpb-horizontal-accordion__title {
 	position: relative;
 	overflow: hidden;
 	padding-right: 0;
@@ -314,7 +316,7 @@ export default {
 	font-weight: 500;
 	text-transform: none;
 	white-space: nowrap;
-	opacity: .6;
+	opacity: 0.6;
 
 	&::after {
 		content: "";
@@ -325,9 +327,9 @@ export default {
 		width: 20px;
 		height: 100%;
 		background: linear-gradient(
-		90deg,
-		rgba(241, 241, 241, 0) 0%,
-		#f1f1f1 100%
+			90deg,
+			rgba(241, 241, 241, 0) 0%,
+			var(--zb-surface-lighter-color) 100%
 		);
 	}
 }
@@ -367,7 +369,7 @@ export default {
 		content: "";
 		position: absolute;
 		z-index: -1;
-		background: #f1f1f1;
+		background: var(--zb-surface-border-color);
 	}
 
 	&::before {
@@ -399,7 +401,7 @@ export default {
 	}
 
 	&.vuebdnd__source--dragging
-	.znpb-option-cssChildSelectorPseudoSelector:before {
+		.znpb-option-cssChildSelectorPseudoSelector:before {
 		display: none;
 	}
 }

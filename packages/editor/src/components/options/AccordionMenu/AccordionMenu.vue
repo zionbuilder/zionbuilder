@@ -177,12 +177,15 @@ export default {
 .znpb-option-layout__menu {
 	padding: 0 5px;
 
-	& > .znpb-horizontal-accordion__content > .znpb-horizontal-accordion-wrapper > &-options-form {
+	&
+		> .znpb-horizontal-accordion__content
+		> .znpb-horizontal-accordion-wrapper
+		> &-options-form {
 		overflow: visible;
 		padding-top: 0;
 	}
 
-	& > .znpb-horizontal-accordion__header >  {
+	& > .znpb-horizontal-accordion__header > {
 		.znpb-horizontal-accordion__title {
 			display: flex;
 			align-items: center;
@@ -201,20 +204,19 @@ export default {
 }
 .znpb-option-layout__menu > .znpb-horizontal-accordion__header {
 	& > .znpb-horizontal-accordion__title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 		text-transform: capitalize;
 	}
 	&:hover {
 		.znpb-horizontal-accordion__title {
-			color: lighten($surface-active-color, 10%);
 			& .znpb-editor-icon {
 				path {
-					fill: $surface-headings-color;
+					fill: var(--zb-surface-icon-color);
 				}
 				circle {
-					fill: $surface-headings-color;
+					fill: var(--zb-surface-icon-color);
 				}
 			}
 		}

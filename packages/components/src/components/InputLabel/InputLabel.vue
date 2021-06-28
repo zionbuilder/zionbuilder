@@ -81,7 +81,7 @@ export default {
 
 		h4 {
 			margin: 0;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 			font-size: 10px;
 			font-weight: 700;
 			letter-spacing: 1px;
@@ -112,7 +112,8 @@ export default {
 		flex-direction: row;
 	}
 
-	&--position-right, &--position-left {
+	&--position-right,
+	&--position-left {
 		.znpb-form-label-content {
 			margin: 0 10px;
 		}

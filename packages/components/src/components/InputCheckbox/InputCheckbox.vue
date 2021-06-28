@@ -198,26 +198,27 @@ export default {
 		}
 	}
 
-	&:hover .znpb-checkmark:after, input:checked ~ .znpb-checkmark:after {
+	&:hover .znpb-checkmark:after,
+	input:checked ~ .znpb-checkmark:after {
 		display: block;
 	}
 }
 
 input:checked ~ .znpb-checkmark {
-	background-color: $secondary;
+	background-color: var(--zb-secondary-color);
 }
 input:checked ~ .znpb-checkmark:after {
 	display: block;
 }
 input[type="checkbox"]:disabled ~ .znpb-checkmark {
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 }
 .znpb-checkmark:after {
 	top: 4px;
 	left: 7px;
 	width: 4px;
 	height: 8px;
-	border: solid $primary-color--accent;
+	border: solid var(--zb-primary-text-color);
 	border-width: 0 2px 2px 0;
 	transform: rotate(45deg);
 }
@@ -229,10 +230,10 @@ input[type="checkbox"]:disabled ~ .znpb-checkmark {
 	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
-	background-color: $surface;
-	border: 2px solid $border-color;
+	background-color: var(--zb-surface-color);
+	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .2s;
+	transition: all 0.2s;
 
 	&--rounded {
 		border-radius: 50%;

@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-add-specific-permissions-wrapper {
 	overflow-y: auto;
 	padding: 30px;
@@ -89,14 +89,14 @@ export default {
 		align-items: center;
 
 		.znpb-editor-icon-wrapper:hover {
-			color: $primary-color;
+			color: var(--zb-primary-color);
 		}
 	}
 }
 .znpb-add-specific-description {
 	margin-top: 0;
 	margin-bottom: 16px;
-	color: $surface-headings-color;
+	color: var(--zb-surface-text-color);
 	font-size: 13px;
 	font-weight: 400;
 	line-height: 1;
@@ -106,7 +106,7 @@ export default {
 	margin-bottom: 0;
 }
 .znpb-baseselect-list {
-	background: $surface;
+	background: var(--zb-dropdown-bg-color);
 	box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
@@ -115,13 +115,13 @@ export default {
 		position: relative;
 		padding: 18px 20px;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		&:hover {
-			color: $surface-active-color;
+			color: var(--zb-dropdown-text-active-color);
 			cursor: pointer;
 		}
 		&.znpb-select-option-selected {
-			color: $surface-active-color;
+			color: var(--zb-dropdown-text-active-color);
 		}
 	}
 }
@@ -133,10 +133,10 @@ export default {
 	width: 14px;
 	height: 14px;
 	&:before, &:after {
-		border: 2px solid lighten($surface-headings-color, 10%);
+		border: 2px solid var(--zb-surface-border-color);
 	}
 	&:after {
-		border-right-color: darken($surface-headings-color, 10%);
+		border-right-color: var(--zb-surface-border-color);
 	}
 }
 </style>

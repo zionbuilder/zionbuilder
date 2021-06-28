@@ -1,7 +1,11 @@
 <template>
 	<div class="znpb-system-list-wrapper">
 		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
-		<SystemListItem v-for="(value,i) in categoryData.values" :key="i" :data="value">
+		<SystemListItem
+			v-for="(value,i) in categoryData.values"
+			:key="i"
+			:data="value"
+		>
 
 		</SystemListItem>
 	</div>
@@ -22,7 +26,7 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-system-list-wrapper {
 	padding-bottom: 40px;
 }
@@ -42,9 +46,10 @@ export default {
 	}
 
 	&__item {
+		font-size: 13px !important;
 		flex-basis: 50%;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		line-height: 1.4;
 	}
 

@@ -206,7 +206,7 @@ export default {
 	}
 
 	&-title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 		text-transform: capitalize;
 	}
@@ -227,7 +227,7 @@ export default {
 		}
 
 		.znpb-admin__google-font-tab-title, .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset, .znpb-admin__google-font-tab-actions {
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: 700;
 			letter-spacing: .5px;
@@ -261,7 +261,7 @@ export default {
 			transition: color .15s ease;
 
 			&:hover {
-				color: darken($font-color, 20%);
+				color: var(--zb-surface-text-hover-color);
 			}
 		}
 	}

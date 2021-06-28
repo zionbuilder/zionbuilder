@@ -36,7 +36,7 @@ export default {
 <style lang="scss">
 .znpb-shape-divider-icon {
 	width: 100%;
-	color: #fff;
+	color: var(--zb-surface-color);
 	svg {
 		display: block;
 
@@ -49,10 +49,10 @@ export default {
 	align-items: flex-end;
 	min-height: 72px;
 	margin-bottom: 18px;
-	color: #fff;
-	background-color: rgb(0, 109, 210);
+	color: var(--zb-surface-color);
+	background-color: var(--zb-secondary-color);
 	border-radius: 3px;
-	transition: box-shadow .2s linear;
+	transition: box-shadow 0.2s linear;
 	cursor: pointer;
 
 	&:last-of-type {
@@ -60,21 +60,28 @@ export default {
 	}
 
 	&:hover {
-		box-shadow: 0 2px 15px 0 rgba(86, 86, 86, .1);
+		box-shadow: 0 2px 15px 0 var(--zb-surface-shadow);
 	}
 
 	&.znpb-active-shape-preview {
-		background-color: #fff;
+		background-color: var(--zb-surface-color);
 		.znpb-empty-list__container {
 			width: 100%;
 		}
 		&.mask-active {
-			background-color: rgb(0, 109, 210);
+			background-color: var(--zb-secondary-color);
 		}
 	}
 
+	.zb-mask {
+		color: var(--zb-surface-light-color);
+	}
+
 	&.mask-active {
-		box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
+		.zb-mask {
+			color: var(--zb-surface-color);
+		}
+
 		.znpb-active-shape-preview__action {
 			position: absolute;
 			top: 10px;
@@ -87,7 +94,7 @@ export default {
 			height: 20px;
 			color: #858585;
 			background-color: #fff;
-			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
+			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, 0.2);
 			border-radius: 50%;
 		}
 	}

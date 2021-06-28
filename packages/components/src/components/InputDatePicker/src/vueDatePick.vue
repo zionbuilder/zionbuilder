@@ -936,11 +936,11 @@ function boundNumber (value, min, max) {
 </script>
 
 <style lang="scss">
-$vdpColor: $secondary;
+$vdpColor: var(--zb-secondary-color);
 
 @keyframes vdpSlideFromLeft {
 	from {
-		transform: translate3d(-.5em, 0, 0);
+		transform: translate3d(-0.5em, 0, 0);
 		opacity: 0;
 	}
 	to {
@@ -951,7 +951,7 @@ $vdpColor: $secondary;
 
 @keyframes vdpSlideFromRight {
 	from {
-		transform: translate3d(.5em, 0, 0);
+		transform: translate3d(0.5em, 0, 0);
 		opacity: 0;
 	}
 	to {
@@ -962,7 +962,7 @@ $vdpColor: $secondary;
 
 @keyframes vdpToggleCalendar {
 	from {
-		transform: scale(.5);
+		transform: scale(0.5);
 		opacity: 0;
 	}
 	to {
@@ -982,19 +982,19 @@ $vdpColor: $secondary;
 
 .vdp-toggle-calendar-enter-active.vdpPositionReady {
 	transform-origin: top left;
-	animation: vdpToggleCalendar .2s;
+	animation: vdpToggleCalendar 0.2s;
 }
 
 .vdp-toggle-calendar-leave-active {
-	animation: vdpToggleCalendar .15s reverse;
+	animation: vdpToggleCalendar 0.15s reverse;
 }
 
 .vdp-toggle-calendar-enter-active.vdpPositionFixed {
-	animation: vdpFadeCalendar .3s;
+	animation: vdpFadeCalendar 0.3s;
 }
 
 .vdp-toggle-calendar-leave-active.vdpPositionFixed {
-	animation: vdpFadeCalendar .3s reverse;
+	animation: vdpFadeCalendar 0.3s reverse;
 }
 
 .vdpComponent {
@@ -1025,22 +1025,22 @@ $vdpColor: $secondary;
 	box-sizing: border-box;
 	width: 1.4em;
 	height: 1.4em;
-	margin: -.7em 0 0 -.7em;
-	color: rgba(0, 0, 0, .3);
+	margin: -0.7em 0 0 -0.7em;
+	color: rgba(0, 0, 0, 0.3);
 	line-height: 1.1em;
 	background-color: #fff;
-	border: 1px solid rgba(0, 0, 0, .15);
+	border: 1px solid rgba(0, 0, 0, 0.15);
 	border-radius: 50%;
 }
 
 .vdpClearInput:hover:before {
-	box-shadow: 0 .2em .5em rgba(0, 0, 0, .15);
+	box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.15);
 }
 
 .vdpOuterWrap.vdpFloating {
 	position: absolute;
 	z-index: 220;
-	padding: .5em 0;
+	padding: 0.5em 0;
 }
 
 .vdpOuterWrap.vdpPositionFixed {
@@ -1053,7 +1053,7 @@ $vdpColor: $secondary;
 	justify-content: center;
 	align-items: center;
 	padding: 2em;
-	background-color: rgba(0, 0, 0, .3);
+	background-color: rgba(0, 0, 0, 0.3);
 }
 
 .vdpFloating .vdpInnerWrap {
@@ -1064,7 +1064,7 @@ $vdpColor: $secondary;
 	max-width: 30em;
 	margin: 0 auto;
 	border: 0;
-	animation: vdpToggleCalendar .3s;
+	animation: vdpToggleCalendar 0.3s;
 }
 
 .vdpFloating.vdpPositionTop {
@@ -1099,9 +1099,9 @@ $vdpColor: $secondary;
 	min-width: 28em;
 	padding: 1em;
 	background: #fff;
-	box-shadow: 0 .2em 1.5em rgba(0, 0, 0, .06);
-	border: 1px solid rgba(0, 0, 0, .15);
-	border-radius: .5em;
+	box-shadow: 0 0.2em 1.5em rgba(0, 0, 0, 0.06);
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 0.5em;
 }
 
 .vdpHeader {
@@ -1112,7 +1112,10 @@ $vdpColor: $secondary;
 	background: #f5f5f5;
 }
 
-.vdpClearInput, .vdpArrow, .vdpPeriodControl > button, .vdp12HourToggleBtn {
+.vdpClearInput,
+.vdpArrow,
+.vdpPeriodControl > button,
+.vdp12HourToggleBtn {
 	padding: 0;
 	margin: 0;
 	background: none;
@@ -1120,7 +1123,10 @@ $vdpColor: $secondary;
 	cursor: pointer;
 }
 
-.vdpArrow::-moz-focus-inner, .vdpClearInput::-moz-focus-inner, .vdpPeriodControl::-moz-focus-inner, .vdp12HourToggleBtn::-moz-focus-inner {
+.vdpArrow::-moz-focus-inner,
+.vdpClearInput::-moz-focus-inner,
+.vdpPeriodControl::-moz-focus-inner,
+.vdp12HourToggleBtn::-moz-focus-inner {
 	padding: 0;
 	border: 0;
 }
@@ -1145,19 +1151,22 @@ $vdpColor: $secondary;
 	height: 2.2em;
 	margin: -1.1em 0 0 -1.1em;
 	border-radius: 100%;
-	transition: background-color .2s;
+	transition: background-color 0.2s;
 }
 
-.vdpArrow:hover, .vdpArrow:focus, .vdpArrow:active {
+.vdpArrow:hover,
+.vdpArrow:focus,
+.vdpArrow:active {
 	outline: 0;
 }
 
-.vdpArrow:hover:before, .vdpArrow:focus:before {
-	background-color: rgba(0, 0, 0, .03);
+.vdpArrow:hover:before,
+.vdpArrow:focus:before {
+	background-color: rgba(0, 0, 0, 0.03);
 }
 
 .vdpArrow:active:before {
-	background-color: rgba(0, 0, 0, .07);
+	background-color: rgba(0, 0, 0, 0.07);
 }
 
 .vdpArrowNext:before {
@@ -1171,25 +1180,25 @@ $vdpColor: $secondary;
 	left: 50%;
 	width: 0;
 	height: 0;
-	margin-top: -.5em;
-	border: .5em solid transparent;
+	margin-top: -0.5em;
+	border: 0.5em solid transparent;
 }
 
 .vdpArrowPrev {
-	left: -.3em;
+	left: -0.3em;
 }
 
 .vdpArrowPrev:after {
-	margin-left: -.8em;
+	margin-left: -0.8em;
 	border-right-color: $vdpColor;
 }
 
 .vdpArrowNext {
-	right: -.6em;
+	right: -0.6em;
 }
 
 .vdpArrowNext:after {
-	margin-left: -.5em;
+	margin-left: -0.5em;
 	border-left-color: $vdpColor;
 }
 
@@ -1200,7 +1209,7 @@ $vdpColor: $secondary;
 
 .vdpPeriodControl > button {
 	display: inline-block;
-	padding: 1em .4em;
+	padding: 1em 0.4em;
 	font-size: 1.5em;
 }
 
@@ -1223,24 +1232,25 @@ $vdpColor: $secondary;
 }
 
 .vdpNextDirection {
-	animation: vdpSlideFromRight .5s;
+	animation: vdpSlideFromRight 0.5s;
 }
 
 .vdpPrevDirection {
-	animation: vdpSlideFromLeft .5s;
+	animation: vdpSlideFromLeft 0.5s;
 }
 
-.vdpCell, .vdpHeadCell {
+.vdpCell,
+.vdpHeadCell {
 	box-sizing: border-box;
 	text-align: center;
 }
 
 .vdpCell {
-	padding: .5em 0;
+	padding: 0.5em 0;
 }
 
 .vdpHeadCell {
-	padding: .3em .5em 1.8em;
+	padding: 0.3em 0.5em 1.8em;
 }
 
 .vdpHeadCellContent {
@@ -1257,7 +1267,7 @@ $vdpColor: $secondary;
 	line-height: 1.857em;
 	text-align: center;
 	border-radius: 100%;
-	transition: background .1s, color .1s;
+	transition: background 0.1s, color 0.1s;
 }
 
 .vdpCell.outOfRange {
@@ -1285,7 +1295,7 @@ $vdpColor: $secondary;
 }
 
 .vdpCell.disabled {
-	opacity: .5;
+	opacity: 0.5;
 }
 
 .vdpTimeControls {
@@ -1303,9 +1313,10 @@ $vdpColor: $secondary;
 	vertical-align: middle;
 }
 
-.vdpTimeUnit > pre, .vdpTimeUnit > input {
+.vdpTimeUnit > pre,
+.vdpTimeUnit > input {
 	box-sizing: border-box;
-	padding: .1em .1em;
+	padding: 0.1em 0.1em;
 	margin: 0;
 	color: #000;
 	font-size: 1.7em;
@@ -1331,21 +1342,22 @@ $vdpColor: $secondary;
 	width: 100%;
 	height: 100%;
 	padding: 0;
-	        appearance: none;
-	        appearance: textfield;
+	appearance: none;
+	appearance: textfield;
 	background: transparent;
 	border-radius: 0;
 	outline: none;
 
 	-webkit-appearance: textfield;
-	   -moz-appearance: textfield;
+	-moz-appearance: textfield;
 
 	&::selection {
-		background-color: rgba($vdpColor, .15);
+		background-color: rgba($vdpColor, 0.15);
 	}
 }
 
-.vdpTimeUnit > input:hover, .vdpTimeUnit > input:focus {
+.vdpTimeUnit > input:hover,
+.vdpTimeUnit > input:focus {
 	border-bottom-color: $vdpColor;
 }
 
@@ -1353,13 +1365,15 @@ $vdpColor: $secondary;
 	border-bottom-color: transparent;
 }
 
-.vdpTimeUnit > input::-webkit-inner-spin-button, .vdpTimeUnit > input::-webkit-outer-spin-button {
+.vdpTimeUnit > input::-webkit-inner-spin-button,
+.vdpTimeUnit > input::-webkit-outer-spin-button {
 	margin: 0;
 
 	-webkit-appearance: none;
 }
 
-.vdpTimeSeparator, .vdpTimeCaption {
+.vdpTimeSeparator,
+.vdpTimeCaption {
 	display: inline-block;
 	color: #848484;
 	font-size: 1.3em;
@@ -1367,18 +1381,19 @@ $vdpColor: $secondary;
 }
 
 .vdpTimeCaption {
-	margin-right: .5em;
+	margin-right: 0.5em;
 }
 
 .vdp12HourToggleBtn {
 	display: inline-block;
-	padding: 0 .4em;
+	padding: 0 0.4em;
 	color: #303030;
 	font-size: 1.3em;
 	vertical-align: middle;
 }
 
-.vdp12HourToggleBtn:hover, .vdp12HourToggleBtn:focus {
+.vdp12HourToggleBtn:hover,
+.vdp12HourToggleBtn:focus {
 	color: $vdpColor;
 	outline: 0;
 }

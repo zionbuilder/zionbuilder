@@ -98,7 +98,7 @@ export default {
 	}
 
 	&__help {
-		color: $secondary;
+		color: var(--zb-secondary-color);
 		text-align: center;
 	}
 }

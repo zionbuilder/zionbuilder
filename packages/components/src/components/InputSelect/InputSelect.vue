@@ -42,11 +42,13 @@
 				v-else
 				class="znpb-option-selectOptionPlaceholderText"
 			>{{dropdownPlaceholder}}</span>
-			<Icon
-				icon="select"
-				class="znpb-inputDropdownIcon"
-				:rotate="showDropdown ? '180' : false"
-			/>
+			<span class="znpb-inputDropdownIcon-wrapper">
+				<Icon
+					icon="select"
+					class="znpb-inputDropdownIcon"
+					:rotate="showDropdown ? '180' : false"
+				/>
+			</span>
 		</div>
 
 		<template #content>
@@ -395,6 +397,8 @@ export default {
 				tooltipWidth.value = optionWrapper.value.getBoundingClientRect().width
 			}
 
+
+
 			if ((props.filterable || props.addable) && searchInput.value) {
 				searchInput.value.focus()
 			}
@@ -450,7 +454,12 @@ export default {
 .znpb-option-selectOptionListNoMoreText {
 	padding: 10px 6px 5px;
 	text-align: center;
-	opacity: .8;
+	opacity: 0.8;
+}
+
+.znpb-inputDropdownIcon-wrapper {
+	border-left: var(--zb-input-separator-width) solid
+		var(--zb-input-separator-color);
 }
 
 .znpb-inputDropdownIcon {
@@ -463,7 +472,8 @@ export default {
 	align-items: center;
 	width: 100%;
 	font-weight: 500;
-	border: 2px solid var(--zion-border-color);
+	background: var(--zb-input-bg-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 }
@@ -478,7 +488,7 @@ export default {
 
 .znpb-option-selectWrapper {
 	width: 100%;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 }
 
 .znpb-inputAddableIcon {

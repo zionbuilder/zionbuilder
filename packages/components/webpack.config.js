@@ -7,7 +7,7 @@ module.exports = getConfig({
 	css: {
 		loaderOptions: {
 			sass: {
-				additionalData: `@import "~@zionbuilder/css-variables/_variables.scss";@import "~@zionbuilder/css-variables/_mixins.scss";`
+				additionalData: `@import "~@zionbuilder/css-variables/_mixins.scss";`
 			}
 		}
 	},

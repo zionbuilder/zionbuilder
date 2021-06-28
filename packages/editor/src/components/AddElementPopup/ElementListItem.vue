@@ -81,20 +81,21 @@ export default {
 		padding: 3px 5px;
 		color: #fff;
 		font-size: 9px;
-		letter-spacing: .5px;
-		background: $column-color;
+		letter-spacing: 0.5px;
+		background: var(--zb-column-color);
 		border-radius: 2px;
 	}
 
-	.znpb-editor-icon-wrapper, .znpb-element-box__image {
+	.znpb-editor-icon-wrapper,
+	.znpb-element-box__image {
 		width: 100%;
 		margin-bottom: 12px;
-		color: darken($surface-variant, 15%);
-		background-color: rgb(255, 255, 255);
-		box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .08);
-		border: 1px solid rgb(241, 241, 241);
+		color: var(--zb-surface-icon-color);
+		background-color: var(--zb-surface-color);
+		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
+		border: 1px solid var(--zb-surface-lighter-color);
 		border-radius: 3px;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&::after {
 			content: "";
@@ -108,7 +109,7 @@ export default {
 	}
 
 	&__element-name {
-		color: darken($surface-headings-color, 20%);
+		color: var(--zb-surface-text-color);
 		font-size: 12px;
 		font-weight: 500;
 		line-height: 1.5;
@@ -117,7 +118,7 @@ export default {
 
 	&:hover {
 		.znpb-editor-icon-wrapper {
-			box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .15);
+			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
 		}
 	}
 }

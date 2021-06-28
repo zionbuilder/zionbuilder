@@ -1,9 +1,4 @@
-@import "~@zionbuilder/css-variables";
 @import "~@zionbuilder/css-variables/editor";
-
-:root {
-	--zion-border-color: #e5e5e5;
-}
 
 #znpb-app {
 	height: 100%;
@@ -13,7 +8,7 @@
 	width: 100%;
 	height: 100%;
 	margin: 0 !important;
-	font-family: $font-stack;
+	font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	font-size: 14px;
 }
 
@@ -24,24 +19,15 @@ body * {
 .znpb-main-wrapper {
 	display: flex;
 	flex-direction: column;
-	color: $font-color;
-	font-family: $font-stack;
+	color: #858585;
 	font-size: 13px;
 	line-height: 1;
 
-	a,
-	a:hover,
-	a:focus,
-	a:visited {
+	a, a:hover, a:focus, a:visited {
 		text-decoration: none;
 	}
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	h1, h2, h3, h4, h5, h6 {
 		margin: 0;
 		line-height: 1;
 	}
@@ -65,15 +51,14 @@ body * {
 	}
 
 	.znpb-button {
-		font-family: $font-stack;
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 		font-size: 13px;
 		text-decoration: none;
 
 		-webkit-appearance: none;
 	}
 
-	b,
-	strong {
+	b, strong {
 		font-weight: 700;
 	}
 
@@ -81,9 +66,9 @@ body * {
 		min-width: 100%;
 		min-height: 140px;
 		padding: 16px 14px;
-		color: $font-color;
-		font-family: $font-stack;
-		background-color: $surface;
+		color: #858585;
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+		background-color: #fff;
 		border: 0;
 		border-radius: 3px;
 
@@ -93,8 +78,7 @@ body * {
 	}
 }
 
-.znpb-main-wrapper,
-.znpb-main-wrapper * {
+.znpb-main-wrapper, .znpb-main-wrapper * {
 	box-sizing: border-box;
 }
 

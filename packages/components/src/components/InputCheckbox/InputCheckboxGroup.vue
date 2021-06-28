@@ -162,7 +162,8 @@ export default {
 			}
 		}
 
-		& .znpb-form__input-checkbox, & .znpb-checkmark {
+		& .znpb-form__input-checkbox,
+		& .znpb-checkmark {
 			display: none;
 		}
 
@@ -171,17 +172,17 @@ export default {
 			justify-content: center;
 			align-items: center;
 			padding: 10px;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 			border-radius: 2px;
 
 			&:hover {
-				background-color: darken($surface-variant, 3%);
+				background-color: var(--zb-surface-lightest-color);
 			}
 		}
 
 		& input:checked ~ .znpb-checkmark-option {
-			color: $primary-color--accent;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
 		}
 	}
 }

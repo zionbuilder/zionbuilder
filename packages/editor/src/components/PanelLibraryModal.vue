@@ -331,7 +331,7 @@ export default {
 		padding: 11px;
 
 		&.loading {
-			animation: rotation .55s infinite linear;
+			animation: rotation 0.55s infinite linear;
 		}
 	}
 }
@@ -351,26 +351,26 @@ export default {
 	justify-content: center;
 	flex-shrink: 0;
 	height: 58px;
-	color: $surface-variant;
-	border-bottom: 1px solid $surface-variant;
+	color: var(--zb-surface-lighter-color);
+	border-bottom: 1px solid var(--zb-surface-border-color);
 
 	&__title {
 		display: flex;
 		align-items: center;
 		padding: 10px 30px;
-		color: $surface-headings-color;
+		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 1;
-		border-right: 1px solid white;
-		border-left: 1px solid white;
+		border-right: 1px solid var(--zb-surface-color);
+		border-left: 1px solid var(--zb-surface-color);
 		cursor: pointer;
 
 		&--active {
-			color: $surface-active-color;
-			box-shadow: 0 1px 0 0 white;
-			border-right: 1px solid $surface-variant;
-			border-left: 1px solid $surface-variant;
+			color: var(--zb-surface-text-active-color);
+			box-shadow: 0 1px 0 0 var(--zb-surface-color);
+			border-right: 1px solid var(--zb-surface-border-color);
+			border-left: 1px solid var(--zb-surface-border-color);
 		}
 	}
 
@@ -381,7 +381,8 @@ export default {
 		align-items: center;
 		align-self: center;
 
-		.znpb-button--secondary, .znpb-button-buy-pro {
+		.znpb-button--secondary,
+		.znpb-button-buy-pro {
 			display: flex;
 			align-items: center;
 			padding: 13px 20px;
@@ -400,13 +401,13 @@ export default {
 			left: 20px;
 			display: flex;
 			align-self: center;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-weight: 500;
-			transition: color .15s;
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
-				color: darken($font-color, 10%);
+				color: var(--zb-surface-text-hover-color);
 			}
 
 			span:first-child {
@@ -416,7 +417,7 @@ export default {
 
 		&__title {
 			padding: 21px 20px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-size: 16px;
 			font-weight: 500;
 		}

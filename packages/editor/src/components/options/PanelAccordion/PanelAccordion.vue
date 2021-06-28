@@ -69,7 +69,7 @@ export default {
 	width: calc(100% + 40px);
 	padding: 9px 20px;
 	margin: 0 -20px 10px -20px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 	cursor: pointer;
 }
 
@@ -77,7 +77,7 @@ export default {
 	position: relative;
 	width: 100%;
 	.znpb-pannel-accordion__header-title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 	}
@@ -85,7 +85,7 @@ export default {
 
 .znpb-options-form-wrapper.znpb-option__type-option-accordion {
 	padding: 10px 0 0;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 	.znpb-input-type--dimensions {
 		padding-bottom: 10px;
 	}

@@ -28,6 +28,6 @@
 /* Handle on hover */
 .znpb-fancy-scrollbar:hover {
 	&::-webkit-scrollbar-thumb {
-		background: darken($surface-variant, 10%);
+		background: var(--zb-surface-lighter-color);
 	}
 }

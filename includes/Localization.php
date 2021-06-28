@@ -692,6 +692,12 @@ class Localization {
 
 				// Maintenance mode
 				'maintenance_mode'                       => __( 'Maintenance mode', 'zionbuilder' ),
+				'appearance'                             => __( 'Appearance', 'zionbuilder' ),
+
+				// Appearance page
+				'builder_theme'                          => __( 'Builder theme', 'zionbuilder' ),
+				'builder_theme_desc'                     => __( 'By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages', 'zionbuilder' ),
+
 			]
 		);
 	}

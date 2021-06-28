@@ -317,7 +317,7 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(172, 172, 172, .2);
+		background: rgba(172, 172, 172, 0.2);
 		* {
 			box-sizing: border-box;
 		}
@@ -329,10 +329,10 @@ export default {
 		width: calc(100% - 40px);
 		max-width: 100%;
 		max-height: 80%;
-		background: $surface;
-		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
+		background: var(--zb-surface-color);
+		box-shadow: 0 0 25px -10px rgba(0, 0, 0, 0.1);
 		border-radius: 3px;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&--full-size {
 			width: 100%;
@@ -344,13 +344,13 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		flex-shrink: 0;
-		box-shadow: 0 1px 0 0 $surface-variant;
+		box-shadow: 0 1px 0 0 var(--zb-surface-border-color);
 
 		&-title {
 			flex-grow: 2;
 			padding: 21px 20px;
-			color: $surface-active-color;
-			font-family: $font-stack;
+			color: var(--zb-surface-text-active-color);
+			font-family: var(--zb-font-stack);
 			font-size: 16px;
 			font-weight: 500;
 			line-height: 1;
@@ -359,13 +359,13 @@ export default {
 		&-button {
 			align-self: center;
 			margin-right: 15px;
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 			font-size: 14px;
-			transition: color .15s;
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
-				color: darken($surface-headings-color, 10);
+				color: var(--zb-surface-text-hover-color);
 			}
 
 			&:last-child {
@@ -382,11 +382,13 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-from, .modal-fade-enter-to {
-	transition: all .2s;
+.modal-fade-leave-from,
+.modal-fade-enter-to {
+	transition: all 0.2s;
 }
-.modal-fade-enter-from, .modal-fade-leave-to {
-	transform: scale(.99);
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+	transform: scale(0.99);
 	opacity: 0;
 }
 </style>
