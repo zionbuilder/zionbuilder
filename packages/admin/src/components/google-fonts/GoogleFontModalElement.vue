@@ -61,7 +61,7 @@ export default {
 	margin-bottom: 10px;
 	color: var(--zb-surface-text-color);
 	background: var(--zb-surface-color);
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 
