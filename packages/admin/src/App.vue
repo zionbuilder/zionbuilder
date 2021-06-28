@@ -261,8 +261,6 @@ export default {
 			img {
 				height: 36px;
 				margin-right: 10px;
-				-webkit-filter: invert(1);
-				filter: invert(1);
 			}
 			span {
 				margin-right: 5px;
@@ -360,5 +358,10 @@ export default {
 		align-items: flex-end;
 		min-width: 200px;
 	}
+}
+
+.znpb-theme-dark .znpb-admin__header-logo img {
+	-webkit-filter: invert(1);
+	filter: invert(1);
 }
 </style>
