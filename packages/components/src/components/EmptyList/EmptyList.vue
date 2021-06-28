@@ -28,7 +28,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .znpb-empty-list {
 	&__container {
 		position: relative;
@@ -36,7 +35,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		margin-bottom: 30px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-weight: 500;
 		text-align: center;
 		cursor: pointer;
@@ -51,7 +50,8 @@ export default {
 		padding: 30px;
 	}
 
-	&__border-top-bottom, &__border-left-right {
+	&__border-top-bottom,
+	&__border-left-right {
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -66,7 +66,11 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-image: linear-gradient(to right, $border-color 77%, rgba(255, 255, 255, 0) 0%);
+			background-image: linear-gradient(
+				to right,
+				var(--zb-surface-border-color) 77%,
+				rgba(255, 255, 255, 0) 0%
+			);
 			background-repeat: repeat-x;
 			background-position: top;
 			background-size: 12px 2px;
@@ -80,7 +84,11 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-image: linear-gradient(to right, $border-color 77%, rgba(255, 255, 255, 0) 0%);
+			background-image: linear-gradient(
+				to right,
+				var(--zb-surface-border-color) 77%,
+				rgba(255, 255, 255, 0) 0%
+			);
 			background-repeat: repeat-x;
 			background-position: bottom;
 			background-size: 12px 2px;
@@ -97,7 +105,11 @@ export default {
 			left: 0;
 			width: 2px;
 			height: 100%;
-			background-image: linear-gradient(to top, $border-color 77%, rgba(255, 255, 255, 0) 0%);
+			background-image: linear-gradient(
+				to top,
+				var(--zb-surface-border-color) 77%,
+				rgba(255, 255, 255, 0) 0%
+			);
 			background-repeat: repeat-y;
 			background-position: bottom;
 			background-size: 2px 12px;
@@ -111,7 +123,11 @@ export default {
 			bottom: 0;
 			width: 2px;
 			height: 100%;
-			background-image: linear-gradient(to top, $border-color 77%, rgba(255, 255, 255, 0) 0%);
+			background-image: linear-gradient(
+				to top,
+				var(--zb-surface-border-color) 77%,
+				rgba(255, 255, 255, 0) 0%
+			);
 			background-repeat: repeat-y;
 			background-position: bottom;
 			background-size: 2px 12px;

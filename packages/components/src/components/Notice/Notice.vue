@@ -94,14 +94,14 @@ export default {
 		margin-bottom: 10px;
 		color: #fff;
 		font-weight: 500;
-		border-bottom: 1px solid rgba(255, 255, 255, .4);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 	}
 
 	&__close {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		color: $surface;
+		color: var(--zb-surface-color);
 		font-size: 12px;
 		cursor: pointer;
 	}
@@ -125,10 +125,10 @@ export default {
 }
 
 .move-enter-to {
-	transition: all .2s cubic-bezier(1, .5, .8, 1);
+	transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .move-leave-from {
-	transition: all .2s cubic-bezier(1, .5, .8, 1);
+	transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .move-enter-from {
 	transform: translateX(20px);

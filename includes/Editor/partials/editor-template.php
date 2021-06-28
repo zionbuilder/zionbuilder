@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
+$body_classes = apply_filters( 'zionbulder/editor/body_class', '' );
+
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> id="znpb-html-app">
@@ -25,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			var ajaxurl = '<?php echo esc_url( admin_url( 'admin-ajax.php', 'relative' ) ); ?>';
 		</script>
 	</head>
-	<body>
+	<body class="<?php echo esc_attr( $body_classes ); ?>">
 		<div id="znpb-app"></div>
 
 		<?php

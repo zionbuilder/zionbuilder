@@ -5,6 +5,7 @@ namespace ZionBuilder\Admin;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
+use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 
@@ -50,6 +51,9 @@ class Admin {
 
 		// Add admin page
 		add_action( 'admin_menu', [ $this, 'add_admin_page' ] );
+
+		// Set admin body class
+		add_filter( 'admin_body_class', [ $this, 'set_builder_theme' ] );
 	}
 
 	/**
@@ -232,6 +236,27 @@ class Admin {
 						'template_types'      => Plugin::$instance->templates->get_template_types(),
 						'template_categories' => Plugin::$instance->templates->get_template_categories(),
 						'plugin_version'      => Plugin::instance()->get_version(),
+						'appearance'          => [
+							'schema' => [
+								'builder_theme' => [
+									'type'      => 'custom_selector',
+									'title'     => esc_html__( 'Builder theme.', 'zionbuilder' ),
+									'default'   => 'light',
+									'on_change' => 'znpb_set_editor_theme',
+									'options'   => [
+										[
+											'name' => __( 'light', 'zionbuilder' ),
+											'id'   => 'light',
+										],
+										[
+											'name' => __( 'dark', 'zionbuilder' ),
+											'id'   => 'dark',
+										],
+									],
+								],
+							],
+						],
+
 						'urls'                => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),
@@ -368,5 +393,15 @@ class Admin {
 	 */
 	public function render_options_page() {
 		echo '<div id="znpb-admin"></div>';
+	}
+
+	public function set_builder_theme( $classes ) {
+		$builder_theme = Settings::get_value_from_path( 'appearance.builder_theme', 'light' );
+
+		$classes = explode( ' ', $classes );
+
+		$classes[] = sprintf( 'znpb-theme-%s', $builder_theme );
+
+		return implode( ' ', $classes );
 	}
 }

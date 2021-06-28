@@ -123,15 +123,17 @@ export default {
 	max-height: 400px;
 	padding: 20px;
 	margin: 0 -20px;
-	background-color: #f1f1f1;
+	background-color: var(--zb-surface-light-color);
 }
 
 /* Enter and leave transitions for delete mask */
-.slide-fade-enter-to, .slide-fade-leave-from {
-	transition: all .1s;
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+	transition: all 0.1s;
 }
 
-.slide-fade-enter-from, .slide-fade-leave-to {
+.slide-fade-enter-from,
+.slide-fade-leave-to {
 	opacity: 0;
 }
 </style>

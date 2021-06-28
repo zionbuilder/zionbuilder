@@ -121,29 +121,10 @@ class Options extends RestApiController {
 	 * @return mixed|\WP_Error|\WP_REST_Response
 	 */
 	public function update_item( $request ) {
-		$options         = $this->get_options();
-		$options_to_save = Settings::get_all_values();
-		$params          = $request->get_params();
-
-		foreach ( $options as $key => $value ) {
-			if ( isset( $params[$key] ) ) {
-				$validation = rest_validate_value_from_schema( $params[$key], $value['schema'] );
-				if ( is_wp_error( $validation ) ) {
-					return new \WP_Error(
-						'rest_invalid_stored_value',
-						/* translators: %s: Updated option name */
-						sprintf( __( 'The %s property has an invalid stored value.' ), $value['name'] ),
-						[ 'status' => 500 ]
-					);
-				}
-
-				// At this point, the value should be ok
-				$options_to_save[$key] = $params[$key];
-			}
-		}
+		$params = $request->get_params();
 
 		// Update the settings
-		Settings::save_settings( $options_to_save );
+		Settings::save_settings( $params );
 		return $this->get_item( $request );
 	}
 

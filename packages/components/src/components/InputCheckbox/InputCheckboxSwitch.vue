@@ -161,7 +161,8 @@ export default {
 		}
 	}
 
-	&:hover .znpb-checkmark:after, input:checked ~ .znpb-checkmark:after {
+	&:hover .znpb-checkmark:after,
+	input:checked ~ .znpb-checkmark:after {
 		display: block !important;
 	}
 
@@ -174,19 +175,21 @@ export default {
 		box-sizing: content-box;
 		width: 74px;
 		height: 40px;
-		border: 2px solid #e5e5e5;
+		background: var(--zb-input-bg-color);
+		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
 		cursor: pointer;
 
-		&:before, &:after {
+		&:before,
+		&:after {
 			position: absolute;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			width: 50%;
 			height: 100%;
-			color: #787878;
-			font-family: Roboto;
+			color: var(--zb-input-text-color);
+			font-family: var(--zb-font-stack);
 			font-size: 13px;
 			font-weight: 500;
 			text-align: center;
@@ -198,6 +201,7 @@ export default {
 		&:after {
 			content: "" attr(content) "";
 			right: 0;
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 
@@ -210,7 +214,7 @@ export default {
 		height: calc(100% - 4px);
 		background: #006dd2;
 		border-radius: 2px;
-		transition: transform .15s, background-color .1s;
+		transition: transform 0.15s, background-color 0.1s;
 	}
 }
 
@@ -224,7 +228,7 @@ export default {
 		content: "";
 	}
 	.znpb-checkbox-switch-wrapper__button {
-		background: #ebebeb;
+		background: var(--zb-surface-lightest-color);
 		transform: translateX(33px);
 	}
 }

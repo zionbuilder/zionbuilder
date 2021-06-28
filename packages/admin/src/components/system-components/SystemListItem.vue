@@ -3,7 +3,10 @@
 		<h3 class="znpb-system-list__item">{{data.name}}</h3>
 		<h4 class="znpb-system-list__item">
 			{{data.value}}
-			<SmallNotice v-if='data.icon' :data="data"></SmallNotice>
+			<SmallNotice
+				v-if='data.icon'
+				:data="data"
+			></SmallNotice>
 		</h4>
 	</div>
 </template>
@@ -23,7 +26,7 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .znpb-system-list-wrapper {
 	padding-bottom: 40px;
 }
@@ -33,15 +36,17 @@ export default {
 	line-height: 1;
 }
 .znpb-system-list {
+	font-size: 13px;
 	position: relative;
 	display: flex;
 	align-items: center;
 	margin-bottom: 30px;
 
 	&__item {
+		font-size: 13px !important;
 		flex-basis: 50%;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		line-height: 1.4;
 
 		@media (max-width: 767px) {

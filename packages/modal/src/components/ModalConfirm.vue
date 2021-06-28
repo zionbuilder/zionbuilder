@@ -72,7 +72,7 @@ export default {
 .znpb-modal__confirm {
 	padding: 30px 30px 0;
 	margin-bottom: 20px;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 	text-align: center;
 
 	p {

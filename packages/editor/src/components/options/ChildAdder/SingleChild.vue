@@ -61,7 +61,7 @@ export default {
 </script>
 <style lang="scss">
 .znpb-options-childs__element {
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 
 	&-inner {
 		z-index: 9;
@@ -80,7 +80,7 @@ export default {
 	}
 
 	&-title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 1.4;
@@ -90,7 +90,7 @@ export default {
 		flex-shrink: 0;
 
 		&DeleteInactive {
-			opacity: .4;
+			opacity: 0.4;
 		}
 	}
 }

@@ -230,7 +230,7 @@ export default {
 	max-width: 280px;
 	border-bottom-right-radius: 3px;
 
-// background-color: $surface-variant;
+	// background-color: var(--zb-surface-lighter-color);
 	border-bottom-left-radius: 3px;
 
 	.znpb-preset-input-wrapper {
@@ -259,15 +259,15 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border: 2px dashed $border-color;
+		border: 2px dashed var(--zb-surface-border-color);
 	}
 }
 .znpb-input-number-arrow-wrapper {
 	display: flex;
 	flex-direction: column;
-	color: $surface-headings-color;
-	background-color: $surface-variant;
-	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, .1);
+	color: var(--zb-surface-icon-color);
+	background-color: var(--zb-surface-lighter-color);
+	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 3px;
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;

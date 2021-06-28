@@ -138,10 +138,10 @@ export default {
 		flex: 1;
 		padding: 0 14px;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 700;
-		letter-spacing: .5px;
+		letter-spacing: 0.5px;
 		text-transform: uppercase;
 
 		&--title {

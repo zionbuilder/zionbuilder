@@ -178,14 +178,15 @@ export default {
 	// icon is inline
 	display: inline-flex;
 
-// if icon has background it stays aligned vertically
+	// if icon has background it stays aligned vertically
 	align-items: center;
 }
 .znpb-editor-icon {
 	transform-origin: center center;
-	transition: transform .5s, opacity .2s ease-in-out;
-	path, circle {
-		transition: fill .2s ease-in-out;
+	transition: transform 0.5s, opacity 0.2s ease-in-out;
+	path,
+	circle {
+		transition: fill 0.2s ease-in-out;
 	}
 }
 svg:not(:root).icon {
@@ -199,12 +200,36 @@ svg:not(:root).icon {
 }
 // specific icons hacks
 .znpb-editor-icon {
-	&.zion-border-bottom, &.zion-border-left, &.zion-border-right, &.zion-border-top, &.zion-t-r-corner, &.zion-t-l-corner, &.zion-b-l-corner, &.zion-b-r-corner, &.zion-padding-left, &.zion-padding-right, &.zion-padding-top, &.zion-padding-bottom, &.zion-margin-left, &.zion-margin-right, &.zion-margin-top, &.zion-margin-bottom, &.zion-vertical, &.zion-horizontal, &.zion-self-baseline, &.zion-align-baseline {
+	&.zion-border-bottom,
+	&.zion-border-left,
+	&.zion-border-right,
+	&.zion-border-top,
+	&.zion-t-r-corner,
+	&.zion-t-l-corner,
+	&.zion-b-l-corner,
+	&.zion-b-r-corner,
+	&.zion-padding-left,
+	&.zion-padding-right,
+	&.zion-padding-top,
+	&.zion-padding-bottom,
+	&.zion-margin-left,
+	&.zion-margin-right,
+	&.zion-margin-top,
+	&.zion-margin-bottom,
+	&.zion-vertical,
+	&.zion-horizontal,
+	&.zion-self-baseline,
+	&.zion-align-baseline {
 		path:first-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
-	&.zion-capitalize, &.zion-lowercase, &.zion-uppercase, &.zion-eye, &.zion-hidden, &.zion-lib {
+	&.zion-capitalize,
+	&.zion-lowercase,
+	&.zion-uppercase,
+	&.zion-eye,
+	&.zion-hidden,
+	&.zion-lib {
 		width: auto;
 	}
 
@@ -213,47 +238,53 @@ svg:not(:root).icon {
 			fill: transparent;
 		}
 		&:hover {
-			path, path:first-child {
-				fill: $secondary;
+			path,
+			path:first-child {
+				fill: var(--zb-secondary-color);
 			}
 		}
 	}
 	&.zion-element-accordion {
 		path:nth-child(2) {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-archive {
-		path:nth-child(5), path:nth-child(6) {
-			opacity: .5;
+		path:nth-child(5),
+		path:nth-child(6) {
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-column {
-		path:first-child, path:last-child {
-			opacity: .5;
+		path:first-child,
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-library-illustration {
 		path:first-child {
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 		}
-		path:nth-child(2), path:last-child {
-			color: $border-color;
+		path:nth-child(2),
+		path:last-child {
+			color: var(--zb-surface-border-color);
 		}
 
 		path:last-child {
-			opacity: .3;
+			opacity: 0.3;
 		}
 	}
 	&.zion-element-bar-counter {
 		path:nth-child(3) {
-			opacity: .3;
+			opacity: 0.3;
 		}
-		path:nth-child(4), path:nth-child(6) {
-			opacity: .2;
+		path:nth-child(4),
+		path:nth-child(6) {
+			opacity: 0.2;
 		}
-		path:nth-child(5), path:nth-child(7) {
-			opacity: .5;
+		path:nth-child(5),
+		path:nth-child(7) {
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-button {
@@ -265,27 +296,28 @@ svg:not(:root).icon {
 			stroke-width: 2;
 		}
 		path:nth-child(2) {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-carousel {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-code {
 		path:last-child {
-			fill: $surface;
+			fill: var(--zb-surface-color);
 		}
 	}
 	&.zion-element-divider {
-		path:nth-child(2), path:last-child {
-			opacity: .5;
+		path:nth-child(2),
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-form {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-image {
@@ -297,8 +329,9 @@ svg:not(:root).icon {
 		}
 	}
 	&.zion-element-image-gallery {
-		path:nth-child(3), path:last-child {
-			opacity: .5;
+		path:nth-child(3),
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-media {
@@ -316,27 +349,27 @@ svg:not(:root).icon {
 			fill-rule: evenodd;
 		}
 		path:nth-child(2) {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-section {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-sidebar {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-tabs {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-testimonial {
 		circle {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-import-big-icon {
@@ -344,40 +377,42 @@ svg:not(:root).icon {
 			fill: #06bee1;
 		}
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-counter-free {
-		path:first-child, path:last-child {
-			opacity: .5;
+		path:first-child,
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-gallery {
-		path:nth-child(3), path:last-child {
-			opacity: .5;
+		path:nth-child(3),
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-borders {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-size-spacing {
 		path:first-child {
-			opacity: .8;
+			opacity: 0.8;
 		}
 	}
 	&.zion-transform {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-transitions {
 		circle:first-child {
-			opacity: .4;
+			opacity: 0.4;
 		}
 		circle:nth-child(2) {
-			opacity: .6;
+			opacity: 0.6;
 		}
 	}
 	&.zion-zion-icon-logo {
@@ -385,62 +420,63 @@ svg:not(:root).icon {
 	}
 	&.zion-element-countdown {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-social-share {
 		path:first-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-search-form {
 		path:nth-child(2) {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-templates-body {
-		path:nth-child(2), path:last-child {
-			opacity: .5;
+		path:nth-child(2),
+		path:last-child {
+			opacity: 0.5;
 		}
 	}
 	&.zion-templates-footer {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-templates-header {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-tags-attributes {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-woo-description {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-woo-product-meta {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-woo-product-images {
 		path:first-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-woo-product-rating {
 		path:first-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&.zion-element-woo-product-related {
 		path:last-child {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 }

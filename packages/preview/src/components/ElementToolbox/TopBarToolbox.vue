@@ -148,28 +148,28 @@ export default {
 	transition: all .2s ease;
 	pointer-events: auto;
 	.znpb-element__wrapper > .znpb-element-toolbox & {
-		background-color: $elements-toolbox-color;
+		background-color: var(--zb-element-color);
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $elements-toolbox-color;
+				background-color: var(--zb-element-color);
 			}
 		}
 	}
 	.zb-column > .znpb-element-toolbox & {
-		background-color: $column-color;
+		background-color: var(--zb-column-color);
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $column-color;
+				background-color: var(--zb-column-color);
 			}
 		}
 	}
 
 	.zb-section > .znpb-element-toolbox & {
-		background-color: $section-color;
+		background-color: var(--zb-section-color);
 
 		.znpb-editor-toolbox__element-options-button {
 			&:hover:before {
-				background-color: $section-color;
+				background-color: var(--zb-section-color);
 			}
 		}
 	}

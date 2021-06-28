@@ -136,13 +136,9 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
-	--zion-border-color: #e5e5e5;
-}
-
 .znpb-admin__wrapper {
-	color: $font-color;
-	font-family: $font-stack;
+	color: var(--zb-surface-text-color);
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	line-height: 1;
 
@@ -156,12 +152,12 @@ export default {
 
 	button {
 		margin: 0;
-		color: $primary-color--accent;
-		font-family: $font-stack;
+		color: var(--zb-primary-text-color);
+		font-family: var(--zb-font-stack);
 		font-size: 12px;
 		text-decoration: none;
 		text-transform: uppercase;
-		background-color: $surface-active-color;
+		background-color: var(--zb-surface-text-active-color);
 		border: none;
 
 		-webkit-appearance: none;
@@ -171,15 +167,15 @@ export default {
 	input,
 	select,
 	textarea {
-		background-color: $surface;
+		background-color: var(--zb-surface-color);
 		border-radius: 3px;
 	}
 
 	input[type="number"] {
 		padding: 10.5px 12px;
-		background: transparent;
-
+		background: var(--zb-input-bg-color);
 		// added to fix the arrows for mozilla firefox
+
 		-moz-appearance: textfield;
 	}
 	b,
@@ -193,7 +189,7 @@ export default {
 	h6 {
 		margin-top: 0;
 		margin-bottom: 25px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 	}
 
 	h3 {
@@ -218,10 +214,10 @@ export default {
 //General admin classes
 .znpb-admin-modal-title-block {
 	&__title {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 	}
 	&__desc {
-		color: $surface-headings-color;
+		color: var(--zb-surface-text-color);
 	}
 }
 
@@ -229,8 +225,8 @@ export default {
 	&__wrapper {
 		position: relative;
 		box-sizing: border-box;
-		max-width: 1400px;
 		width: 100%;
+		max-width: 1400px;
 		padding-right: 20px;
 		margin: 20px 0 40px 0;
 
@@ -240,12 +236,12 @@ export default {
 
 		.znpb-admin__header-menu {
 			.znpb-admin__header-menu-item {
-				color: $font-color;
+				color: var(--zb-surface-text-color);
 			}
 
 			.router-link-active,
 			.znpb-admin__header-menu-item:hover {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-active-color);
 			}
 		}
 	}
@@ -254,7 +250,7 @@ export default {
 		position: relative;
 		z-index: 1;
 		padding: 0 30px;
-		background: $surface;
+		background: var(--zb-surface-color);
 		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 
 		&-logo {
@@ -265,6 +261,8 @@ export default {
 			img {
 				height: 36px;
 				margin-right: 10px;
+				-webkit-filter: invert(1);
+				filter: invert(1);
 			}
 			span {
 				margin-right: 5px;
@@ -284,7 +282,7 @@ export default {
 				padding: 5px 6px 4px;
 				font-size: 11px;
 				font-weight: 500;
-				background: $surface-variant;
+				background: var(--zb-surface-lighter-color);
 				border-radius: 2px;
 			}
 		}
@@ -310,16 +308,16 @@ export default {
 			}
 			.router-link-active {
 				.zion-quality {
-					color: $pro-color;
+					color: var(--zb-pro-color);
 				}
 			}
 			a:visited {
 				color: #fff;
 			}
 			a:last-child {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-active-color);
 				&:visited {
-					color: $surface-active-color;
+					color: var(--zb-surface-text-active-color);
 				}
 			}
 		}

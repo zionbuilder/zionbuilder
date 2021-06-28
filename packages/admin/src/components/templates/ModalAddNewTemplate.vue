@@ -100,14 +100,14 @@ export default {
 .znpb-admin-title-block--heading {
 	padding: 35px 30px;
 	text-align: center;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 	h4 {
 		font-size: 20px;
 	}
 	.znpb-admin-modal-title-block__desc {
 		width: 60%;
 		margin: 0 auto;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 14px;
 		line-height: 26px;
 	}

@@ -39,7 +39,7 @@ export default {
 <style lang="scss">
 .znpb-admin__wrapper {
 	a.znpb-admin-side-menu__item {
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 	}
 }
 
@@ -73,7 +73,7 @@ export default {
 			width: 10px;
 			height: 2px;
 			margin-right: 5px;
-			background: #ccc;
+			background: var(--zb-surface-border-color);
 		}
 
 		&:last-child {
@@ -141,7 +141,7 @@ export default {
 
 .znpb-admin-content > .znpb-admin-side-menu > .znpb-admin-side-menu__item {
 	font-size: 14px;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-lighter-color);
 
 	&::after {
 		content: "";
@@ -151,31 +151,35 @@ export default {
 		width: 5px;
 		height: 5px;
 		margin-left: auto;
-		border: 2px solid $font-color;
+		border: 2px solid var(--zb-surface-icon-color);
 		border-top: 0;
 		border-left: 0;
 		transform: rotate(-45deg);
 	}
 
-	&.znpb-admin__side-menu-item--active::after, &:hover::after {
-		border-color: $surface-active-color;
+	&.znpb-admin__side-menu-item--active::after,
+	&:hover::after {
+		border-color: var(--zb-surface-text-color);
 	}
 }
 
 a.znpb-admin-side-menu__item {
-	&.router-link-active, &--active, &:hover {
-		color: $surface-active-color;
-		background: $surface;
+	&.router-link-active,
+	&--active,
+	&:hover {
+		color: var(--zb-surface-text-active-color);
+		background: var(--zb-surface-color);
 	}
 
 	& & {
 		padding: 15px 0 10px;
 		margin-bottom: 5px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-weight: 500;
 
-		&.router-link-active, &:hover {
-			color: $surface-active-color;
+		&.router-link-active,
+		&:hover {
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 }

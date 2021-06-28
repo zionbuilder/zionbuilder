@@ -567,7 +567,8 @@ export default {
 			height: 6px;
 		}
 	}
-	.znpb-even-dimensions-horizontal, .znpb-even-dimensions-vertical {
+	.znpb-even-dimensions-horizontal,
+	.znpb-even-dimensions-vertical {
 		opacity: 1;
 	}
 }
@@ -579,14 +580,14 @@ export default {
 	width: 100%;
 	height: 100%;
 	font-size: 13px;
-	transition: opacity .3s;
+	transition: opacity 0.3s;
 	pointer-events: none;
 	user-select: none;
 
 	&__resize {
 		position: absolute;
 		z-index: 1000;
-		transition: opacity .3s;
+		transition: opacity 0.3s;
 		opacity: 0;
 		pointer-events: all;
 
@@ -612,7 +613,7 @@ export default {
 			span {
 				padding: 4px;
 				line-height: 1;
-				background-color: $surface;
+				background-color: var(--zb-surface-color);
 				border-radius: 3px;
 			}
 		}
@@ -624,19 +625,19 @@ export default {
 			.znpb-element__wrapper > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $elements-toolbox-border-color;
+					background-color: var(--zb-element-border-color);
 				}
 			}
 			.zb-column > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $column-border-color;
+					background-color: var(--zb-column-border-color);
 				}
 			}
 			.zb-section > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $section-border-color;
+					background-color: var(--zb-section-border-color);
 				}
 			}
 			&-bg {
@@ -666,7 +667,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--right {
@@ -686,7 +687,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 			&--bottom {
@@ -706,7 +707,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--left {
@@ -726,7 +727,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 		}
@@ -744,8 +745,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -763,8 +764,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -782,8 +783,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -800,8 +801,8 @@ export default {
 				height: 100%;
 			}
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -819,8 +820,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -838,8 +839,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -857,8 +858,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -875,8 +876,8 @@ export default {
 				height: 100%;
 			}
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -890,10 +891,14 @@ export default {
 				text-decoration: none;
 				text-shadow: none;
 				text-transform: none;
-				background-color: rgba(6, 190, 225, .35);
+				background-color: rgba(6, 190, 225, 0.35);
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1000;
 				opacity: 1;
 				visibility: visible;
@@ -906,10 +911,14 @@ export default {
 				justify-content: center;
 				align-items: center;
 				color: #f9952d;
-				background-color: rgba(249, 149, 45, .35);
+				background-color: rgba(249, 149, 45, 0.35);
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1;
 				opacity: 1;
 				visibility: visible;
@@ -926,11 +935,11 @@ export default {
 		z-index: 1001;
 		width: 34px;
 		height: 34px;
-		color: $surface;
+		color: #fff;
 		font-size: 14px;
 		line-height: 1 !important;
 		transform: translate(-50%, -50%);
-		transition: all .2s;
+		transition: all 0.2s;
 		cursor: pointer;
 		pointer-events: auto;
 
@@ -943,15 +952,15 @@ export default {
 			@extend %iconbg;
 
 			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: $elements-toolbox-color;
+				background-color: var(--zb-element-color);
 			}
 
 			.zb-column > .znpb-element-toolbox & {
-				background-color: $column-color;
+				background-color: var(--zb-column-color);
 			}
 
 			.zb-section > .znpb-element-toolbox & {
-				background-color: $section-color;
+				background-color: var(--zb-section-color);
 			}
 		}
 		.znpb-editor-icon-wrapper {
@@ -968,8 +977,8 @@ export default {
 			width: 34px;
 			height: 34px;
 			transform: translate(-50%, -50%);
-			animation: AddCol ease-in-out .2s;
-			transition: all .2s;
+			animation: AddCol ease-in-out 0.2s;
+			transition: all 0.2s;
 		}
 		&:hover {
 			&:before {
@@ -981,25 +990,26 @@ export default {
 
 .znpb-sizing-label {
 	padding: 4px;
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 1;
 }
 
 .bounce-add-icon-enter-from {
-	transform: translate(-50%, -50%) scale(.9);
+	transform: translate(-50%, -50%) scale(0.9);
 }
 .bounce-add-icon-enter-to {
 	transform: translate(-50%, -50%) scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: translate(-50%, -50%) scale(.5);
+	transform: translate(-50%, -50%) scale(0.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
-	transition: all .2s;
+.bounce-add-icon-enter-to,
+.bounce-add-icon-leave-from {
+	transition: all 0.2s;
 }
 </style>

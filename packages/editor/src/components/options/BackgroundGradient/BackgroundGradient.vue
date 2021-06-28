@@ -74,7 +74,7 @@ export default {
 		line-height: 22px;
 
 		a {
-			color: $secondary;
+			color: var(--zb-secondary-color);
 		}
 	}
 	.znpb-empty-list__content {

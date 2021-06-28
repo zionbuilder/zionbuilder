@@ -462,9 +462,9 @@ export default {
 	flex-direction: column;
 	justify-content: space-between;
 	width: 60px;
-	color: $primary-color--accent;
-	background: $primary-color;
-	transition: margin .3s ease-out;
+	color: var(--zb-primary-text-color);
+	background: var(--zb-primary-color);
+	transition: margin 0.3s ease-out;
 	cursor: move;
 	user-select: none;
 
@@ -503,17 +503,19 @@ export default {
 		align-items: center;
 		width: 60px;
 		height: 60px;
-		color: $primary-color--accent;
+		color: var(--zb-primary-text-color);
 		font-size: 16px;
-		transition: background-color .15s ease;
+		transition: background-color 0.15s ease;
 		cursor: pointer;
 
-		&:hover, &:focus, &:active {
-			background-color: $primary-variant;
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: var(--zb-primary-hover-color);
 		}
 
 		&.active {
-			background-color: $primary-variant;
+			background-color: var(--zb-primary-hover-color);
 		}
 		.znpb-editor-icon-wrapper {
 			font-size: 16px;
@@ -523,12 +525,12 @@ export default {
 			width: 44px;
 			height: 44px;
 			margin: 0 auto;
-			color: #fff;
+			color: var(--zb-primary-text-color);
 			background-color: transparent;
 
 			.znpb-editor-icon-wrapper {
 				position: relative;
-				transition: transform .2s ease;
+				transition: transform 0.2s ease;
 			}
 
 			&:before {
@@ -538,9 +540,9 @@ export default {
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background: $primary-variant;
+				background: var(--zb-primary-hover-color);
 				border-radius: 50%;
-				transition: transform .2s ease;
+				transition: transform 0.2s ease;
 			}
 
 			&:hover:before {
@@ -557,7 +559,8 @@ export default {
 
 		.znpb-loader {
 			top: -3px;
-			&::before, &::after {
+			&::before,
+			&::after {
 				border-color: transparent;
 			}
 			&::after {
@@ -570,9 +573,9 @@ export default {
 		z-index: 1000;
 		width: auto;
 		height: auto;
-		opacity: .5;
+		opacity: 0.5;
 		&.znpb-editor-header--sticked {
-			background: $primary-color;
+			background: var(--zb-primary-color);
 		}
 	}
 }
@@ -583,12 +586,13 @@ export default {
 	align-items: center;
 	width: 44px;
 	height: 44px;
-	background: $primary-color;
+	background: var(--zb-primary-color);
 	border-radius: 50%;
 	opacity: 1;
 }
 
-.znpb-top-area, .znpb-bottom-area {
+.znpb-top-area,
+.znpb-bottom-area {
 	width: 100%;
 
 	.znpb-editor-header {

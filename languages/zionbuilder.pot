@@ -1851,6 +1851,18 @@ msgstr ""
 msgid "Maintenance mode"
 msgstr ""
 
+#: ../includes/Localization.php:695
+msgid "Appearance"
+msgstr ""
+
+#: ../includes/Localization.php:698
+msgid "Builder theme"
+msgstr ""
+
+#: ../includes/Localization.php:699
+msgid "By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages"
+msgstr ""
+
 #: ../includes/MaintenanceMode.php:168
 msgid "Select mode"
 msgstr ""
@@ -2087,20 +2099,32 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:174
+#: ../includes/Admin/Admin.php:178
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:304
+#: ../includes/Admin/Admin.php:243
+msgid "Builder theme."
+msgstr ""
+
+#: ../includes/Admin/Admin.php:248
+msgid "light"
+msgstr ""
+
+#: ../includes/Admin/Admin.php:252
+msgid "dark"
+msgstr ""
+
+#: ../includes/Admin/Admin.php:329
 msgid "Disable "
 msgstr ""
 
-#: ../includes/Admin/Admin.php:315, ../includes/Admin/Admin.php:338
+#: ../includes/Admin/Admin.php:340, ../includes/Admin/Admin.php:363
 msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:262
+#: ../includes/Editor/Editor.php:273
 msgid "Post is locked by %s"
 msgstr ""
 
@@ -2184,55 +2208,55 @@ msgstr ""
 msgid "Font family"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:180
+#: ../includes/Api/RestControllers/Options.php:161
 msgid "Contains saved values for maintenance mode."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:188
+#: ../includes/Api/RestControllers/Options.php:169
 msgid "Contains saved value for Google fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:217
+#: ../includes/Api/RestControllers/Options.php:198
 msgid "Contains saved value for Custom fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:254
+#: ../includes/Api/RestControllers/Options.php:235
 msgid "Contains the value for the typekit token if it is set."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:262
+#: ../includes/Api/RestControllers/Options.php:243
 msgid "Contains saved value for typekit fonts."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:276
+#: ../includes/Api/RestControllers/Options.php:257
 msgid "Contains saved value for local colors."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:287
+#: ../includes/Api/RestControllers/Options.php:268
 msgid "Contains saved value for global colors."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:298
+#: ../includes/Api/RestControllers/Options.php:279
 msgid "Contains saved value for local gradients."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:308
+#: ../includes/Api/RestControllers/Options.php:289
 msgid "Contains saved value for global gradients."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:319
+#: ../includes/Api/RestControllers/Options.php:300
 msgid "Contains saved value user roles permissions and user permissions."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:330
+#: ../includes/Api/RestControllers/Options.php:311
 msgid "Contains saved value users permissions."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:341
+#: ../includes/Api/RestControllers/Options.php:322
 msgid "Contains saved value for allowed post types."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Options.php:352
+#: ../includes/Api/RestControllers/Options.php:333
 msgid "Contains saved values for white label"
 msgstr ""
 

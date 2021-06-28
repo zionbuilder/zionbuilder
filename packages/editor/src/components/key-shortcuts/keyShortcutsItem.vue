@@ -47,16 +47,15 @@ export default {
 	margin-bottom: 20px;
 	&__plus {
 		padding: 10px;
-		color: $surface-active-color;
 		font-weight: 700;
-		opacity: .4;
+		opacity: 0.4;
 	}
 	&__keys-wrapper {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
 		width: 40%;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 11px;
 	}
 	&__key {
@@ -75,13 +74,11 @@ export default {
 		min-width: 30px;
 		padding: 6px;
 		font-weight: 700;
-		box-shadow: 0 5px 10px 0 rgba(164, 186, 164, .15);
-		border: 1px solid $surface-variant;
+		border: 1px solid var(--zb-surface-border-color);
 		border-radius: 2px;
 	}
 	&__description {
 		width: 40%;
-		color: $font-color;
 		font-weight: 500;
 		&--details {
 			display: inline-block;
@@ -94,7 +91,7 @@ export default {
 		height: 1px;
 		padding: 0 20px;
 		margin: 0 20px;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-border-color);
 	}
 }
 </style>

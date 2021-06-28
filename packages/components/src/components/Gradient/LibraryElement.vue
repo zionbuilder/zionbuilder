@@ -10,8 +10,18 @@
 		}"
 	>
 		<template v-if="!hasInput">
-			<Icon v-if="animation" icon="more" @click.stop="expand =! expand, onstart = false" class="znpb-form-library-inner-action-icon"/>
-			<Icon  v-if="icon" :icon="icon" @click.stop="$emit('close-library')" class="znpb-form-library-inner-action-icon"/>
+			<Icon
+				v-if="animation"
+				icon="more"
+				@click.stop="expand =! expand, onstart = false"
+				class="znpb-form-library-inner-action-icon"
+			/>
+			<Icon
+				v-if="icon"
+				:icon="icon"
+				@click.stop="$emit('close-library')"
+				class="znpb-form-library-inner-action-icon"
+			/>
 		</template>
 		<slot></slot>
 	</div>
@@ -57,9 +67,9 @@ export default {
 	&-pattern-wrapper {
 		overflow: hidden;
 		width: 100%;
-		background: $surface;
-		border-top: 2px solid $surface-variant;
-		transition: height .2s ease-in-out;
+		background: var(--zb-surface-color);
+		border-top: 2px solid var(--zb-surface-border-color);
+		transition: height 0.2s ease-in-out;
 
 		.znpb-tabs--minimal {
 			.znpb-tabs__header > .znpb-tabs__header-item {
@@ -77,7 +87,7 @@ export default {
 		&.znpb-form-library-inner-pattern-wrapper--stretch {
 			width: auto;
 			transform: translateY(0);
-			animation-duration: .2s;
+			animation-duration: 0.2s;
 			animation-name: stretchPattern;
 			animation-timing-function: ease-out;
 		}
@@ -86,7 +96,7 @@ export default {
 			width: auto;
 			min-height: 100%;
 			transform: translateY(-61%);
-			animation-duration: .2s;
+			animation-duration: 0.2s;
 			animation-name: expandPattern;
 			animation-timing-function: ease-out;
 
@@ -99,9 +109,10 @@ export default {
 			width: auto;
 			animation: none;
 		}
-		&--hasInput.znpb-form-library-inner-pattern-wrapper--expand, &--hasInput.znpb-form-library-inner-pattern-wrapper--stretch {
+		&--hasInput.znpb-form-library-inner-pattern-wrapper--expand,
+		&--hasInput.znpb-form-library-inner-pattern-wrapper--stretch {
 			background: #fff;
-			border-top: 1px solid $surface-variant;
+			border-top: 1px solid var(--zb-surface-border-color);
 			transition: none;
 		}
 
@@ -115,19 +126,15 @@ export default {
 		}
 		.znpb-tabs__header-item {
 			padding: 0;
-			color: lighten($font-color,15%);
+			color: var(--zb-surface-text-color);
 			font-size: 10px;
 
 			&:hover {
-				color: lighten($font-color,15%);
+				color: var(--zb-surface-text-hover-color);
 				background: transparent;
 			}
 			&--active {
-				color: $surface-active-color;
-
-				&:hover {
-					color: darken($surface-headings-color,10%);
-				}
+				color: var(--zb-surface-text-active-color);
 			}
 			&:first-child {
 				padding: 0;
@@ -151,7 +158,7 @@ export default {
 		position: absolute;
 		top: 9px;
 		right: 20px;
-		color: darken($surface-headings-color,10%);
+		color: var(--zb-surface-text-hover-color);
 		cursor: pointer;
 	}
 }
@@ -172,5 +179,4 @@ export default {
 		transform: translateY(-61%);
 	}
 }
-
 </style>

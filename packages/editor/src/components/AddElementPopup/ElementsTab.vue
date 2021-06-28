@@ -242,7 +242,7 @@ export default {
 	.zion-input__prepend {
 		padding: 0;
 		background: transparent;
-		border-right: 2px solid $border-color;
+		border-right: 2px solid var(--zb-surface-icon-color);
 
 		.znpb-baseselect__trigger > .zion-input {
 			border: none;
@@ -250,7 +250,7 @@ export default {
 	}
 
 	.zion-input input, .zion-input input::placeholder {
-		color: $surface-headings-color;
+		color: var(--zb-input-placeholder-color);
 	}
 
 	.znpb-element-category-list {
@@ -272,7 +272,7 @@ export default {
 		margin-right: 10px;
 
 		input[type="text"][readonly] {
-			background: transparent;
+			background: var(--zb-input-bg-color);
 		}
 	}
 }
@@ -284,14 +284,18 @@ export default {
 }
 .znpb-columns-templates {
 	display: grid;
-	color: $surface-variant;
+	color: var(--zb-surface-lighter-color);
 
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
 	grid-template-columns: 1fr 1fr 1fr;
 
 	&__search-wrapper.zion-input {
-		background: transparent;
+		// width: calc(100% - 20px);
+		// padding: 0 10px;
+		margin-bottom: 20px;
+		// margin-left: 10px;
+		background: var(--zb-input-bg-color);
 	}
 }
 </style>

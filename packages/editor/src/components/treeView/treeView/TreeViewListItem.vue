@@ -146,21 +146,23 @@ export default defineComponent({
 		cursor: pointer;
 
 		&:hover {
-			color: darken($font-color, 15%);
+			color: var(--zb-surface-text-hover-color);
 		}
 	}
 
 	&Image {
 		height: 24px;
 	}
-	&Image, &Icon {
+	&Image,
+	&Icon {
+		color: var(--zb-surface-icon-color);
 		padding-left: 15px;
 	}
 
 	&--hidden {
 		.znpb-tree-view__item-header-item {
-			transition: opacity .5s ease;
-			opacity: .5;
+			transition: opacity 0.5s ease;
+			opacity: 0.5;
 		}
 	}
 	&-header {
@@ -169,25 +171,31 @@ export default defineComponent({
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 5px;
-		background-color: $surface-variant;
+		color: var(--zb-surface-text-active-color);
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
 		&:hover {
-			background-color: darken($surface-variant, 3%);
+			background-color: var(--zb-surface-lightest-color);
 		}
 
 		&.znpb-panel-item--active {
-			color: $surface;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
+		}
+
+		.znpb-editor-icon-wrapper {
+			color: var(--zb-surface-icon-color);
 		}
 
 		&-item {
+			font-weight: 500;
 			padding-left: 15px;
 
 			&:hover {
 				cursor: pointer;
 				.znpb-editor-icon-wrapper {
-					color: darken($primary-color--accent, 10%);
+					color: var(--zb-surface-icon-color);
 				}
 			}
 		}
@@ -203,7 +211,8 @@ export default defineComponent({
 			}
 		}
 
-		&-expand, &-more {
+		&-expand,
+		&-more {
 			padding: 15px;
 		}
 
@@ -225,8 +234,9 @@ export default defineComponent({
 
 		&-options-container {
 			& > span {
-				transition: all .2s ease;
-				opacity: .7;
+				color: var(--zb-surface-icon-color);
+				transition: all 0.2s ease;
+				opacity: 0.7;
 			}
 			&:hover {
 				& > span {

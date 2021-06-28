@@ -40,15 +40,15 @@ export default {
 <style lang="scss">
 .znpb-option__elementEvent {
 	padding: 15px 37px;
-	color: $surface;
+	color: var(--zb-surface-color);
 	line-height: 1;
 	text-align: center;
-	background-color: $secondary;
+	background-color: var(--zb-secondary-color);
 	border-radius: 3px;
-	transition: all .3s;
+	transition: all 0.3s;
 	cursor: pointer;
 	&:hover {
-		background: lighten($secondary, 2);
+		background: var(--zb-secondary-hover-color);
 	}
 }
 </style>

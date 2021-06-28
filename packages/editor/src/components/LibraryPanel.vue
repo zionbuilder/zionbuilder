@@ -525,16 +525,17 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px;
+		padding: 20px 20px 0;
 
-		&__right, &__left {
+		&__right,
+		&__left {
 			display: flex;
 			align-items: center;
 		}
 
 		&__left-title {
 			margin-right: 8px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-size: 18px;
 			font-weight: 500;
 			text-transform: capitalize;
@@ -564,10 +565,10 @@ export default {
 		left: 0;
 		overflow-x: hidden;
 		width: 100%;
-		height: calc(100% - 80px);
+		height: calc(100% - 50px);
 		min-height: 300px;
-		padding: 0 20px 80px 20px;
-		transform: translateY(80px);
+		padding: 0 20px 50px 20px;
+		transform: translateY(50px);
 
 		p.znpb-editor-library-modal-no-more {
 			margin-bottom: 40px;
@@ -587,8 +588,9 @@ export default {
 
 	&--favorite {
 		.znpb-editor-icon.zion-heart {
-			path, path:first-child {
-				fill: $secondary;
+			path,
+			path:first-child {
+				fill: var(--zb-secondary-color);
 			}
 		}
 	}
@@ -608,9 +610,9 @@ export default {
 	flex: 1 0 260px;
 	width: 100%;
 	max-width: 260px;
-	border-right: 1px solid $surface-variant;
+	border-right: 1px solid var(--zb-surface-border-color);
 	& > div {
-		border-bottom: 1px solid $surface-variant;
+		border-bottom: 1px solid var(--zb-surface-border-color);
 	}
 	&-search {
 		padding: 20px;
@@ -627,21 +629,22 @@ export default {
 	bottom: 0;
 	left: 0;
 	height: 100%;
-	background: #fff;
+	background: var(--zb-surface-color);
 }
 .slide-preview-enter-from {
-	opacity: .2;
+	opacity: 0.2;
 }
 .slide-preview-enter-to {
 	opacity: 1;
 }
 .slide-preview-leave-from {
-	opacity: .4;
+	opacity: 0.4;
 }
 .slide-preview-leave-to {
 	opacity: 0;
 }
-.slide-preview-enter-to, .slide-preview-leave-to {
-	transition: all .2s;
+.slide-preview-enter-to,
+.slide-preview-leave-to {
+	transition: all 0.2s;
 }
 </style>

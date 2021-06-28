@@ -34,7 +34,6 @@
 					v-if="!showPresetInput"
 					icon="delete"
 					:bg-size="30"
-					bg-color="#fff"
 					@click.stop="deleteGradientValue"
 					class="znpb-gradient-wrapper__delete-gradient"
 				/>
@@ -113,7 +112,7 @@ export default {
 		}
 	},
 
-	setup() {
+	setup () {
 		// This should be provided by Apps that are using this component
 		const useBuilderOptions = inject('builderOptions')
 		const {
@@ -262,7 +261,7 @@ export default {
 
 	.znpb-form__input-title {
 		margin-bottom: 10px;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-weight: 500;
 	}
 
@@ -274,13 +273,13 @@ export default {
 		height: 46px;
 		margin-bottom: 10px;
 		background: none;
-		border: 2px dashed $border-color;
+		border: 2px dashed var(--zb-surface-border-color);
 		border-radius: 3px;
 		cursor: pointer;
 		.zion-icon.zion-svg-inline {
 			width: 14px;
 			margin: 0 auto;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 		}
 	}
 	.znpb-gradient__type {
@@ -289,7 +288,7 @@ export default {
 		.znpb-tabs--minimal .znpb-tabs__header {
 			padding: 3px;
 			margin-bottom: 20px;
-			background: $surface-variant;
+			background: var(--zb-surface-lighter-color);
 			border-radius: 3px;
 
 			& > .znpb-tabs__header-item {
@@ -298,18 +297,18 @@ export default {
 				border-radius: 2px;
 
 				&:hover {
-					color: $font-color;
-					background-color: darken($surface-variant, 5%);
+					color: var(--zb-surface-text-color);
+					background-color: var(--zb-surface-lightest-color);
 				}
 			}
 
 			& > .znpb-tabs__header-item--active {
-				color: $surface;
-				background-color: $secondary;
+				color: var(--zb-secondary-text-color);
+				background-color: var(--zb-secondary-color);
 
 				&:hover {
-					color: $surface;
-					background-color: $secondary;
+					color: var(--zb-secondary-text-color);
+					background-color: var(--zb-secondary-color);
 				}
 			}
 		}
@@ -372,11 +371,12 @@ export default {
 			}
 		}
 
-		.znpb-gradient__show-preset, .znpb-gradient__show-preset-input {
-			transition: color .15s;
+		.znpb-gradient__show-preset,
+		.znpb-gradient__show-preset-input {
+			transition: color 0.15s;
 
 			&:hover {
-				color: $surface-active-color;
+				color: var(--zb-surface-text-active-color);
 			}
 		}
 	}
@@ -386,12 +386,12 @@ export default {
 	flex: 1 0 30%;
 	max-width: 30px;
 	margin-left: auto;
-	border: 2px solid $border-color;
+	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: opacity .15s ease;
+	transition: opacity 0.15s ease;
 
 	&:hover {
-		opacity: .7;
+		opacity: 0.7;
 	}
 }
 

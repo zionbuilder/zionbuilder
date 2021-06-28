@@ -69,7 +69,7 @@ export default {
 		&__font-panel {
 			width: 100%;
 			padding: 8px 0;
-			background: $surface;
+			background: var(--zb-surface-color);
 		}
 
 		&__font-list {
@@ -87,16 +87,17 @@ export default {
 				align-items: center;
 				width: 100%;
 				padding: 8px 16px;
-				color: $font-color;
-				font-family: $font-stack;
+				color: var(--zb-surface-text-color);
+				font-family: var(--zb-font-stack);
 				font-size: 13px;
 				font-weight: 500;
 				text-align: left;
-				transition: all .2s;
+				transition: all 0.2s;
 
-				&:hover, &--active {
-					color: $surface-active-color;
-					background-color: lighten($surface-variant, 2%);
+				&:hover,
+				&--active {
+					color: var(--zb-surface-text-active-color);
+					background-color: var(--zb-surface-lighter-color);
 				}
 			}
 		}

@@ -112,7 +112,7 @@ export default {
 			})
 		})
 
-		function onAddNewTemplate(template) {
+		function onAddNewTemplate (template) {
 			addTemplate(template).finally(() => {
 				showModal.value = false
 			})
@@ -143,8 +143,9 @@ export default {
 		&-item {
 			padding: 15px 20px 30px 0;
 
-			&--active, &:hover {
-				color: $primary-color;
+			&--active,
+			&:hover {
+				color: var(--zb-primary-color);
 			}
 		}
 	}

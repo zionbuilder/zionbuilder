@@ -95,12 +95,12 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: $surface-headings-color;
-	background-color: $surface-variant;
-	transition: all .3s;
+	color: var(--zb-surface-icon-color);
+	background-color: var(--zb-surface-lighter-color);
+	transition: all 0.3s;
 	cursor: pointer;
 
-	fill: $surface-headings-color;
+	fill: var(--zb-surface-icon-color);
 
 	&:first-child {
 		border-bottom-left-radius: 3px;
@@ -112,11 +112,12 @@ export default {
 		border-bottom-right-radius: 3px;
 	}
 
-	&--active, &:hover {
-		background-color: $secondary;
+	&--active,
+	&:hover {
+		background-color: var(--zb-secondary-color);
 
 		.znpb-radio-icon-item__icon {
-			color: $secondary-color--accent;
+			color: var(--zb-secondary-text-color);
 		}
 	}
 

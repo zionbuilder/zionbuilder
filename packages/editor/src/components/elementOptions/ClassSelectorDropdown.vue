@@ -33,7 +33,7 @@
 						></BaseInput>
 						<Button
 							@click="addNewCssClass"
-							type="secondary"
+							type="line"
 							class="znpb-class-selector__add-class-button"
 						>
 							{{$translate('add_class')}}
@@ -342,7 +342,7 @@ export default {
 
 <style lang="scss">
 .znpb-button.znpb-class-selector__add-class-button {
-	padding: 15px;
+	padding: 12px;
 	margin-left: 5px;
 	white-space: nowrap;
 }
@@ -350,7 +350,8 @@ export default {
 .znpb-class-selector {
 	flex: 6;
 	margin-right: 10px;
-	border: 2px solid #e5e5e5;
+	background: var(--zb-input-bg-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	.selected-class {
 		.znpb-item {
@@ -366,7 +367,7 @@ export default {
 		line-height: 20px;
 	}
 	&-validator {
-		color: $red;
+		color: var(--zb-red);
 		line-height: 18px;
 	}
 }

@@ -86,7 +86,8 @@ export default {
 }
 
 .znpb-editor-preview--active {
-	& .zb-element, & .zb-element:hover {
+	& .zb-element,
+	& .zb-element:hover {
 		cursor: initial;
 	}
 }
@@ -114,7 +115,7 @@ export default {
 		display: block !important;
 		width: 100%;
 		height: 100%;
-		border: 3px solid white;
+		border: 3px solid var(--zb-surface-color);
 		animation-duration: 1.5s;
 		animation-iteration-count: infinite;
 		animation-name: scaleInfinit;
@@ -122,29 +123,31 @@ export default {
 	}
 	&.znpb-columns-templates__icons--full {
 		&:after {
-			border-color: $secondary;
+			border-color: var(--zb-secondary-color);
 		}
 	}
 	&.znpb-element__wrapper {
 		&:after {
 			display: block;
-			border-color: $secondary;
+			border-color: var(--zb-secondary-color);
 		}
 	}
 	&.znpb-empty-placeholder__tour-icon {
 		&:after {
-			border-color: $secondary;
+			border-color: var(--zb-secondary-color);
 			border-radius: 50%;
 		}
 	}
 	&.znpb-empty-placeholder {
 		&:after {
-			border-color: $secondary;
+			border-color: var(--zb-secondary-color);
 		}
 	}
-	&.znpb-tabs__header-item--library, &.znpb-tabs__header-item--elements, &.znpb-tabs__header-item--columns {
+	&.znpb-tabs__header-item--library,
+	&.znpb-tabs__header-item--elements,
+	&.znpb-tabs__header-item--columns {
 		&:after {
-			border-color: $secondary;
+			border-color: var(--zb-secondary-color);
 		}
 	}
 }

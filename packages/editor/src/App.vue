@@ -296,8 +296,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./scss/index.scss";
-
 /* style default elements */
 .znpb-editor {
 	&-layout {
@@ -313,10 +311,10 @@ export default {
 			width: 42px;
 			height: 42px;
 			margin-bottom: 3px;
-			color: $font-color;
-			background: $secondary-color--accent;
-			box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .15);
-			border: 1px solid $surface-variant;
+			color: var(--zb-surface-text-color);
+			background: var(--zb-secondary-text-color);
+			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
+			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
 			.znpb-editor-icon-wrapper {
 				font-size: 16px;
@@ -481,7 +479,8 @@ body {
 	position: absolute;
 	width: 5px;
 	height: 100%;
-	background-color: rgba($secondary, .6);
+	background-color: var(--zb-secondary-color);
+	opacity: .6;
 }
 .znpb-panel-placeholder {
 	width: 100%;
