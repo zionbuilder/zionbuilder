@@ -393,14 +393,14 @@ export default {
 						emit("update:modelValue", [optionId, valueToUpdate])
 					}
 				}
-
+				console.log(props.schema.on_change);
 				// Check to see if we need to refresh the iframe
 				if (props.schema.on_change) {
+
 					if (props.schema.on_change === "refresh_iframe") {
 						trigger("refreshIframe");
-					} else if (props.schema.on_change.condition.value[0] !== newValue) {
-						// Check if we need to clear path option
-						deleteTopModelValueByPath(props.schema.on_change.option_path)
+					} else {
+						window[props.schema.on_change].apply(null, [newValue])
 					}
 				}
 			},
@@ -650,8 +650,7 @@ export default {
 		margin-bottom: 0;
 	}
 
-	&:hover,
-	&:active {
+	&:hover, &:active {
 		background-color: var(--zb-surface-lighter-color);
 
 		& > .znpb-editor-icon-wrapper {

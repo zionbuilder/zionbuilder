@@ -69,6 +69,35 @@ class Settings {
 		return self::$saved_values;
 	}
 
+		/**
+	 * Returns a saved value from the model
+	 *
+	 * @param string $path The path to the requested option value
+	 *
+	 * @return mixed|null The saved value. In case the value is not saved, null is returned
+	 */
+	public static function get_value_from_path( $path = '', $default = null ) {
+		$path_locations = explode( '.', $path );
+		$active_model   = self::get_all_values();
+		$paths_count    = count( $path_locations );
+		$i              = 1;
+
+		foreach ( $path_locations as $path_location ) {
+			if ( ! is_array( $active_model ) || ! array_key_exists( $path_location, $active_model ) ) {
+				return $default;
+			}
+
+			if ( $i === $paths_count ) {
+				return $active_model[$path_location];
+			}
+
+			$active_model = $active_model[$path_location];
+			$i++;
+		}
+
+		return $default;
+	}
+
 	/**
 	 * Clear cache
 	 *
