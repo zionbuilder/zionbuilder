@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Gallery;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\WPMedia;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -243,8 +244,13 @@ class Gallery extends Element {
 				$attributes               = $use_modal ? 'data-src="' . esc_attr( $image['image'] ) . '"' : $this->render_attributes->get_attributes_as_string( 'image_wrapper_styles', [] );
 				$image_custom_css_classes = $this->get_style_classes_as_string( 'image_wrapper_styles', [ 'zb-el-gallery-item' ] );
 
+				$image = WPMedia::get_imge(
+					$image['image'],
+					[]
+				);
+
 				// Disabled check as the attributes are already escaped
-				printf( '<div class="%s" %s><img src="%s"/></div>', esc_attr( $image_custom_css_classes ), $attributes, esc_attr( $image['image'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput
+				printf( '<div class="%s" %s>%s</div>', esc_attr( $image_custom_css_classes ), $attributes, $image ); // phpcs:ignore WordPress.Security.EscapeOutput
 			}
 		}
 	}

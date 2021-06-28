@@ -28,7 +28,7 @@ class CustomCSS {
 		'default' => '',
 		'laptop'  => '991.98px',
 		'tablet'  => '767.98px',
-		'mobile'  => '-575.98px',
+		'mobile'  => '575.98px',
 	];
 
 	/**
