@@ -44,7 +44,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, 0.1);
+	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;

@@ -34,8 +34,10 @@
 	--zb-surface-icon-color: #bcbcbc;
 	--zb-surface-icon-active-color: #858585;
 	--zb-surface-border-color: #e5e5e5;
+	--zb-surface-loader-color: #e5e5e5;
 	--zb-surface-shadow: rgba(164, 164, 164, 0.08);
 	--zb-surface-shadow-hover: rgba(164, 164, 164, 0.22);
+	--zb-surface-shadow-stronger: rgba(0, 0, 0, 0.1);
 
 	// Panel vars
 	--zb-panel-header-border: var(--zb-surface-lighter-color);
@@ -87,8 +89,10 @@
 	--zb-surface-icon-color: #727272;
 	--zb-surface-icon-active-color: #858585;
 	--zb-surface-border-color: #353535;
+	--zb-surface-loader-color: #424242;
 	--zb-surface-shadow: rgba(20, 20, 20, 0.1);
 	--zb-surface-shadow-hover: rgba(20, 20, 20, 0.25);
+	--zb-surface-shadow-stronger: rgba(0, 0, 0, 0.2);
 
 	// Panel vars
 	--zb-panel-header-border: var(--zb-surface-lighter-color);

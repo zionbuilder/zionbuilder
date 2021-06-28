@@ -46,6 +46,7 @@ export default {
 	}
 
 	&__item {
+		font-size: 13px !important;
 		flex-basis: 50%;
 		margin-bottom: 0;
 		color: var(--zb-surface-text-color);

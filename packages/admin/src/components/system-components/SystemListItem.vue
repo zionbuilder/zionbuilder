@@ -36,12 +36,14 @@ export default {
 	line-height: 1;
 }
 .znpb-system-list {
+	font-size: 13px;
 	position: relative;
 	display: flex;
 	align-items: center;
 	margin-bottom: 30px;
 
 	&__item {
+		font-size: 13px !important;
 		flex-basis: 50%;
 		margin-bottom: 0;
 		color: var(--zb-surface-text-color);

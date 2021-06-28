@@ -935,7 +935,7 @@ export default {
 		z-index: 1001;
 		width: 34px;
 		height: 34px;
-		color: var(--zb-surface-color);
+		color: #fff;
 		font-size: 14px;
 		line-height: 1 !important;
 		transform: translate(-50%, -50%);

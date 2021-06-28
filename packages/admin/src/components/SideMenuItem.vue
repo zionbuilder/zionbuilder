@@ -73,7 +73,7 @@ export default {
 			width: 10px;
 			height: 2px;
 			margin-right: 5px;
-			background: #ccc;
+			background: var(--zb-surface-border-color);
 		}
 
 		&:last-child {
@@ -151,7 +151,7 @@ export default {
 		width: 5px;
 		height: 5px;
 		margin-left: auto;
-		border: 2px solid var(--zb-surface-border-color);
+		border: 2px solid var(--zb-surface-icon-color);
 		border-top: 0;
 		border-left: 0;
 		transform: rotate(-45deg);
@@ -159,7 +159,7 @@ export default {
 
 	&.znpb-admin__side-menu-item--active::after,
 	&:hover::after {
-		border-color: var(--zb-surface-border-color);
+		border-color: var(--zb-surface-text-color);
 	}
 }
 

@@ -237,6 +237,7 @@ body {
 			&:active,
 			&:visited {
 				color: inherit;
+				background: var(--zb-input-bg-color);
 				box-shadow: none;
 				outline: 0;
 			}

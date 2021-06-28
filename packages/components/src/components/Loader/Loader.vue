@@ -43,8 +43,8 @@ export default {
 	}
 
 	&:after {
-		border-right-color: var(--zb-surface-border-color);
-		border-bottom-color: var(--zb-surface-border-color);
+		border-right-color: var(--zb-surface-loader-color);
+		border-bottom-color: var(--zb-surface-loader-color);
 		animation: Rotate 0.6s linear infinite;
 	}
 }
