@@ -232,6 +232,25 @@ class Admin {
 						'template_types'      => Plugin::$instance->templates->get_template_types(),
 						'template_categories' => Plugin::$instance->templates->get_template_categories(),
 						'plugin_version'      => Plugin::instance()->get_version(),
+						'appearance'          => [
+							'schema' => [
+								'dark_mode' => [
+									'type'        => 'custom_selector',
+									'description' => esc_html__( 'Builder theme.', 'zionbuilder' ),
+									'default'     => 'light',
+									'options'     => [
+										[
+											'name' => __( 'light', 'zionbuilder' ),
+											'id'   => 'light',
+										],
+										[
+											'name' => __( 'dark', 'zionbuilder' ),
+											'id'   => 'dark',
+										],
+									],
+								],
+							],
+						],
 						'urls'                => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),

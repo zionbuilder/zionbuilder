@@ -1,4 +1,3 @@
-import '@zionbuilder/css-variables/_animations.scss'
 import './scss/index.scss'
 
 import './wordpress'

@@ -692,6 +692,7 @@ class Localization {
 
 				// Maintenance mode
 				'maintenance_mode'                       => __( 'Maintenance mode', 'zionbuilder' ),
+				'appearance'                             => __( 'Appearance', 'zionbuilder' ),
 			]
 		);
 	}
