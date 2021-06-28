@@ -124,5 +124,10 @@ export default {
 		opacity: 0.7;
 		pointer-events: none;
 	}
+
+	.znpb-loader::after {
+		border-right-color: currentColor;
+		border-bottom-color: currentColor;
+	}
 }
 </style>

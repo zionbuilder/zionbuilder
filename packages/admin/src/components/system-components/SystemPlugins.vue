@@ -33,7 +33,7 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 20px;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
+	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
 
@@ -60,14 +60,16 @@ export default {
 		line-height: 20px;
 	}
 	h3 {
-		font-size: 15px;
+		font-size: 15px !important;
 		font-weight: 500;
+		margin-bottom: 15px !important;
 	}
 	h4 {
 		align-self: center;
 		margin-left: auto;
 		color: var(--zb-surface-text-color);
 		font-weight: 500;
+		margin-bottom: 15px !important;
 	}
 	h5 {
 		width: 100%;
@@ -75,6 +77,7 @@ export default {
 		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 400;
+		margin-bottom: 0 !important;
 	}
 }
 </style>

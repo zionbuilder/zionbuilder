@@ -258,8 +258,8 @@ export default {
 				cursor: pointer;
 
 				&:hover {
-					color: var(--zb-surface-text-color);
-					background-color: var(--zb-surface-light-color);
+					color: var(--zb-surface-text-active-color);
+					background-color: var(--zb-surface-lightest-color);
 				}
 
 				&--active {
