@@ -11,8 +11,8 @@
 
 		<template #right>
 			<div>
-				<p class="znpb-admin-info-p">{{$translate('system_info')}}</p>
-				<p class="znpb-admin-info-p">{{$translate('system_info_desc')}}</p>
+				<p class="znpb-admin-info-p">{{$translate('builder_theme')}}</p>
+				<p class="znpb-admin-info-p">{{$translate('builder_theme_desc')}}</p>
 			</div>
 		</template>
 	</PageTemplate>
