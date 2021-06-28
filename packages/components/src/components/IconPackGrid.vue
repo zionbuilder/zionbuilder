@@ -95,7 +95,6 @@ export default {
 	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all 0.2s;
 	cursor: pointer;
 
 	span {
@@ -103,7 +102,14 @@ export default {
 		font-size: 28px;
 		transition: all 0.2s;
 	}
-	&:hover,
+	&:hover {
+		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
+
+		span {
+			color: var(--zb-surface-text-hover-color);
+		}
+	}
+
 	&--active {
 		border: 2px solid var(--zb-secondary-color);
 		span {

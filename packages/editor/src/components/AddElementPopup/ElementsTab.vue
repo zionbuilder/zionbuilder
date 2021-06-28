@@ -249,7 +249,8 @@ export default {
 		}
 	}
 
-	.zion-input input, .zion-input input::placeholder {
+	.zion-input input,
+	.zion-input input::placeholder {
 		color: var(--zb-input-placeholder-color);
 	}
 
@@ -263,7 +264,7 @@ export default {
 .znpb-add-elements__filter {
 	display: flex;
 	padding: 0 10px;
-	margin-bottom: 20px;
+	// margin-bottom: 20px;
 
 	&-category {
 		flex-grow: 1;

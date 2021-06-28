@@ -125,6 +125,11 @@ export default {
 	.znpb-dimensions__link {
 		color: var(--zb-surface-icon-color);
 		background-color: var(--zb-surface-lighter-color);
+		transition: color 0.15s;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
 	}
 	.znpb-dimensions__link.znpb-dimensions__link--linked {
 		color: var(--zb-secondary-text-color);
