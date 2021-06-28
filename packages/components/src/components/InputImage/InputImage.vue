@@ -23,7 +23,6 @@
 							:rounded="true"
 							icon="delete"
 							:bg-size="30"
-							bg-color="#fff"
 							@click.stop="deleteImage"
 						/>
 
