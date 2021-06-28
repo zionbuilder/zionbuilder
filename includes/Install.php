@@ -19,6 +19,7 @@ class Install {
 	 * @return void
 	 */
 	public static function activate() {
+		flush_rewrite_rules();
 		// Load default settings
 		self::load_default_options();
 	}

@@ -128,8 +128,9 @@ export default {
 			type: String
 		},
 		server_callback_args: {},
-		server_callback_name_method: {
-			type: String
+		server_callback_per_page: {
+			type: Number,
+			default: 25
 		},
 		placeholder: {
 			type: String
@@ -168,11 +169,6 @@ export default {
 		local_callback_method: {
 			type: String,
 			required: false
-		},
-		useCache: {
-			type: Boolean,
-			required: false,
-			default: true
 		}
 	},
 	setup (props, { emit }) {
@@ -186,9 +182,7 @@ export default {
 		const tooltipWidth = ref(null)
 
 		let page = 1
-		const { fetch, getItems } = useSelectServerData({
-			useCache: props.useCache
-		})
+		const { fetch, getItems } = useSelectServerData({})
 
 		const computedModelValue = computed(() => {
 			if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
@@ -306,6 +300,10 @@ export default {
 				return
 			}
 
+			if (loading.value) {
+				return
+			}
+
 			loading.value = true
 
 			const include = props.modelValue
@@ -318,7 +316,9 @@ export default {
 				include
 			}).then((response) => {
 				// Check to see if all posts were found
-				if (response.length < 25) {
+				if (props.server_callback_per_page === -1) {
+					stopSearch.value = true
+				} else if (response.length < props.server_callback_per_page) {
 					stopSearch.value = true
 				}
 
@@ -329,6 +329,11 @@ export default {
 
 		function onScrollEnd () {
 			if (!props.server_callback_method) {
+				return
+			}
+
+			// Don't search if we need to show all results
+			if (props.server_callback_per_page === -1) {
 				return
 			}
 
@@ -454,12 +459,12 @@ export default {
 .znpb-option-selectOptionListNoMoreText {
 	padding: 10px 6px 5px;
 	text-align: center;
-	opacity: 0.8;
+	opacity: .8;
 }
 
 .znpb-inputDropdownIcon-wrapper {
 	border-left: var(--zb-input-separator-width) solid
-		var(--zb-input-separator-color);
+	var(--zb-input-separator-color);
 }
 
 .znpb-inputDropdownIcon {

@@ -31,7 +31,7 @@ export class ServerRequest {
 
 	request(data, successCallback, failCallback) {
 		const parsedData = applyFilters('zionbuilder/server_request/data', data)
-		const rawData = JSON.parse(JSON.stringify(data))
+		const rawData = JSON.parse(JSON.stringify(parsedData))
 
 		// Check to see if we actually need to look into the cache
 		const cacheKey = this.createCacheKey(rawData)

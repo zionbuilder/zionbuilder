@@ -44,8 +44,7 @@ export default {
 			}
 		},
 		iconUnicode () {
-			const unicode = JSON.parse(`"\\${this.iconConfig.unicode}"`)
-			return unicode.trim()
+			return JSON.parse(`"\\${this.iconConfig.unicode}"`).trim()
 		}
 	}
 }
