@@ -178,7 +178,7 @@ export default {
 	}
 
 	.znpb-checkmark-option {
-		padding: 6px 5px 6px 16px;
+		padding: 6px 5px 6px 10;
 		font-weight: 500;
 		text-align: left;
 	}

@@ -93,7 +93,7 @@ export default {
 	height: 92px;
 	margin-bottom: 5px;
 	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
-	border: 1px solid var(--zb-surface-border-color);
+	border: 1px solid var(--zb-elements-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 
