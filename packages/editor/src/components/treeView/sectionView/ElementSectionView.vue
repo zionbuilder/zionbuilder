@@ -216,7 +216,7 @@ export default {
 		}
 
 		&.znpb-panel-item--active &-title {
-			color: var(--zb-surface-color);
+			color: var(--zb-secondary-text-color);
 		}
 	}
 }

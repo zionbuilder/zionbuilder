@@ -367,10 +367,10 @@ export default {
 			z-index: 20000;
 			width: 100%;
 			padding: 15px;
-			color: var(--zb-surface-icon-color);
-			background-color: #fff;
-			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
-			border: 1px solid var(--zb-surface-lighter-color);
+			color: var(--zb-dropdown-text-color);
+			background-color: var(--zb-dropdown-bg-color);
+			box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
+			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 4px;
 			input::placeholder {
 				color: var(--zb-input-placeholder-color);

@@ -82,17 +82,17 @@ export default {
 	.znpb-editor-icon-wrapper {
 		width: 24px;
 		height: 24px;
-		color: #fff;
+		color: var(--zb-surface-icon-color);
 		font-size: 10px;
 		text-align: center;
-		border: 2px solid var(--zb-surface-color);
+		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 50%;
 		cursor: pointer;
 	}
 
 	&:hover {
 		.znpb-editor-icon-wrapper {
-			color: var(--zb-secondary-text-color);
+			color: var(--zb-secondary-color);
 			border-color: var(--zb-secondary-color);
 		}
 		.znpb-circle-delete {
