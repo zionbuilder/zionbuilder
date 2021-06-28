@@ -494,6 +494,7 @@ export default {
 .znpb-option-selectWrapper {
 	width: 100%;
 	color: var(--zb-surface-text-color);
+	margin-right: 10px;
 }
 
 .znpb-inputAddableIcon {

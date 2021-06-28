@@ -96,25 +96,26 @@ export default {
 
 	> .znpb-input-content {
 		width: auto;
-		margin: 0 -20px;
 	}
 }
 .znpb-radio-image-wrapper {
 	padding: 20px 20px;
 	color: var(--zb-surface-text-color);
-	background: var(--zb-surface-light-color);
+	border: 1px solid var(--zb-surface-border-color);
+	border-radius: 3px;
 }
 .znpb-radio-image-list__item-wrapper {
 	display: flex;
 	flex-direction: column;
-	width: 88px;
+	width: 82px;
+	padding-bottom: 20px;
 }
 .znpb-radio-image-list__preview-element {
 	display: block;
-	width: 20px;
-	height: 20px;
-	background: var(--zb-surface-lightest-color);
-	border-radius: 6px;
+	width: 12px;
+	height: 12px;
+	background: var(--zb-surface-text-color);
+	border-radius: 50%;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
 	animation-fill-mode: both;
@@ -123,7 +124,7 @@ ul.znpb-radio-image-list {
 	display: grid;
 	max-height: 300px;
 
-	grid-gap: 20px;
+	column-gap: 12px;
 }
 .znpb-radio-image-list {
 	&__icon {
@@ -140,7 +141,7 @@ ul.znpb-radio-image-list {
 		align-items: center;
 		overflow: hidden;
 		height: 100px;
-		height: 88px;
+		height: 82px;
 		padding: 15px;
 		margin-bottom: 8px;
 		background-color: var(--zb-surface-color);
@@ -167,6 +168,7 @@ ul.znpb-radio-image-list {
 		font-size: 12px;
 		font-weight: 500;
 		text-transform: capitalize;
+		line-height: 1.3;
 	}
 
 	&--columns-1 {

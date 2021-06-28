@@ -171,6 +171,11 @@ export default {
 			&--active {
 				color: var(--zb-secondary-text-color);
 				background-color: var(--zb-secondary-color);
+
+				.znpb-editor-icon-wrapper {
+					color: var(--zb-secondary-text-color);
+				}
+
 				.zion-icon.zion-svg-inline {
 					color: var(--zb-secondary-text-color);
 				}

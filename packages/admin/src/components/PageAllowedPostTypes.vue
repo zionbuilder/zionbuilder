@@ -69,6 +69,10 @@ export default {
 		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 	}
+
+	.znpb-checkbox-wrapper {
+		margin: 0;
+	}
 }
 
 .znpb-admin-checkbox-wrapper {

@@ -42,6 +42,7 @@
 	// Panel vars
 	--zb-panel-header-border: var(--zb-surface-lighter-color);
 	--zb-panel-sideborder: 2px;
+	--zb-elements-border-color: #f1f1f1;
 
 	// Forms
 	--zb-input-bg-color: transparent;
@@ -97,6 +98,7 @@
 	// Panel vars
 	--zb-panel-header-border: var(--zb-surface-lighter-color);
 	--zb-panel-sideborder: 0;
+	--zb-elements-border-color: var(--zb-surface-border-color);
 
 	// Forms
 	--zb-input-bg-color: var(--zb-surface-darker-color);

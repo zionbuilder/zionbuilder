@@ -198,7 +198,6 @@ export default {
 		}
 	}
 
-	&:hover .znpb-checkmark:after,
 	input:checked ~ .znpb-checkmark:after {
 		display: block;
 	}
@@ -206,6 +205,7 @@ export default {
 
 input:checked ~ .znpb-checkmark {
 	background-color: var(--zb-secondary-color);
+	border-color: var(--zb-secondary-color);
 }
 input:checked ~ .znpb-checkmark:after {
 	display: block;

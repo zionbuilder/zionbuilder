@@ -38,6 +38,7 @@ export default {
 	border-radius: 3px;
 	transition: all 0.3s;
 	cursor: pointer;
+	user-select: none;
 
 	&:hover {
 		background: var(--zb-primary-hover-color);
@@ -77,6 +78,11 @@ export default {
 		&:hover {
 			background: var(--zb-secondary-hover-color);
 		}
+
+		&.znpb-button--disabled:hover {
+			color: var(--zb-secondary-text-color);
+			background: var(--zb-secondary-color);
+		}
 	}
 
 	&--line {
@@ -92,6 +98,10 @@ export default {
 		&:hover {
 			background: none;
 			opacity: 0.6;
+		}
+
+		&.znpb-button--disabled:hover {
+			opacity: 1;
 		}
 	}
 
@@ -112,17 +122,22 @@ export default {
 	}
 
 	&--gray {
-		color: #858585;
-		background: #f1f1f1;
+		color: var(--zb-surface-text-color);
+		background: var(--zb-surface-lighter-color);
 
 		&:hover {
-			background: darken(#f1f1f1, 3);
+			background: var(--zb-surface-lightest-color);
+		}
+
+		&.znpb-button--disabled:hover {
+			background: var(--zb-surface-lightest-color);
 		}
 	}
+
 	&--disabled {
-		background: var(--zb-secondary-color);
-		opacity: 0.7;
+		opacity: 0.5;
 		pointer-events: none;
+		cursor: not-allowed;
 	}
 
 	.znpb-loader::after {

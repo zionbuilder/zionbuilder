@@ -98,6 +98,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		flex: 1 1 auto;
+		color: var(--zb-surface-text-color);
 		padding: 10px 5px;
 		margin: 0;
 		font-size: 13px;

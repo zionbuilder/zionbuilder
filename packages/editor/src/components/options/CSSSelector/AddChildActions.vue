@@ -18,7 +18,7 @@
 				/>
 				<Button
 					@click="add"
-					class="znpb-option-cssSelectorChildActionAddButton"
+					class="znpb-button--line znpb-option-cssSelectorChildActionAddButton"
 					:type="buttonType"
 				>
 					Add child selector
@@ -103,7 +103,7 @@ export default {
 
 		const buttonType = computed(() => {
 			if (!canSave.value) {
-				return 'gray'
+				return 'disabled'
 			}
 
 			return ''

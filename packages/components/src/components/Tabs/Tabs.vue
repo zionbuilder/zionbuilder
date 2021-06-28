@@ -257,6 +257,7 @@ export default {
 			border-radius: 2px;
 
 			&:hover {
+				color: var(--zb-surface-text-hover-color);
 				background-color: var(--zb-surface-lightest-color);
 			}
 

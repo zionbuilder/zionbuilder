@@ -183,7 +183,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		padding: 20px 30px;
+		padding: 20px;
 	}
 	&--inactive {
 		opacity: 0.6;

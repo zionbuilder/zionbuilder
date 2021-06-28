@@ -182,6 +182,10 @@ export default defineComponent({
 		&.znpb-panel-item--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
+
+			.znpb-editor-icon-wrapper {
+				color: var(--zb-secondary-text-color);
+			}
 		}
 
 		.znpb-editor-icon-wrapper {
