@@ -393,7 +393,7 @@ export default {
 						emit("update:modelValue", [optionId, valueToUpdate])
 					}
 				}
-				console.log(props.schema.on_change);
+
 				// Check to see if we need to refresh the iframe
 				if (props.schema.on_change) {
 
