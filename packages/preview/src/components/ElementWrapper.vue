@@ -494,7 +494,7 @@ export default {
 <style lang="scss">
 .znpb-element {
 	&--loading {
-		opacity: 0.2;
+		opacity: .2;
 	}
 
 	&--needs-data {
@@ -507,7 +507,7 @@ export default {
 }
 
 .znpb-element__wrapper--cutted {
-	opacity: 0.2;
+	opacity: .2;
 	pointer-events: none;
 }
 @keyframes znpb-scale-down {
@@ -522,12 +522,12 @@ export default {
 }
 
 .znpb-element__wrapper--panel-hovered {
-	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), 0.3);
+	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), .3);
 }
 
 .znpb-element__wrapper {
 	position: relative;
-	transition: opacity 0.2s;
+	transition: opacity .2s;
 
 	.znpb-hidden-element-container {
 		position: absolute;
@@ -540,11 +540,10 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(255, 255, 255, 0.7);
+		background: rgba(255, 255, 255, .7);
 	}
 
-	&:hover,
-	&--toolbox-dragging {
+	&:hover, &--toolbox-dragging {
 		position: relative;
 	}
 
@@ -576,23 +575,18 @@ export default {
 		}
 	}
 }
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-right-helper,
-.znpb-element-utilities__margin-bottom-helper,
-.znpb-element-utilities__margin-left-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-right-helper, .znpb-element-utilities__margin-bottom-helper, .znpb-element-utilities__margin-left-helper {
 	position: absolute;
 }
 
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-bottom-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-bottom-helper {
 	left: 0;
 	width: 100%;
 	min-height: 2px;
 	cursor: n-resize;
 }
 
-.znpb-element-utilities__margin-left-helper,
-.znpb-element-utilities__margin-right-helper {
+.znpb-element-utilities__margin-left-helper, .znpb-element-utilities__margin-right-helper {
 	top: 0;
 	width: 2px;
 	height: 100%;
