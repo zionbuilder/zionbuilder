@@ -264,7 +264,7 @@ export default {
 .znpb-add-elements__filter {
 	display: flex;
 	padding: 0 10px;
-	// margin-bottom: 20px;
+	margin-bottom: 15px;
 
 	&-category {
 		flex-grow: 1;
@@ -294,7 +294,7 @@ export default {
 	&__search-wrapper.zion-input {
 		// width: calc(100% - 20px);
 		// padding: 0 10px;
-		margin-bottom: 20px;
+		margin-bottom: 5px;
 		// margin-left: 10px;
 		background: var(--zb-input-bg-color);
 	}
