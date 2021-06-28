@@ -93,16 +93,11 @@ export default {
 	},
 	setup () {
 		const masks = inject('masks')
-		const plugin_info = inject('plugin_info')
+		const isPro = window.ZnPbComponentsData.is_pro_active
 
 		return {
 			masks,
-			plugin_info
-		}
-	},
-	computed: {
-		isPro () {
-			return this.plugin_info.is_pro_active
+			isPro
 		}
 	}
 }
@@ -118,13 +113,11 @@ export default {
 }
 
 /* Enter and leave transitions for delete mask */
-.slide-fade-enter-to,
-.slide-fade-leave-from {
-	transition: all 0.1s;
+.slide-fade-enter-to, .slide-fade-leave-from {
+	transition: all .1s;
 }
 
-.slide-fade-enter-to,
-.slide-fade-leave-to {
+.slide-fade-enter-to, .slide-fade-leave-to {
 	opacity: 0;
 }
 </style>

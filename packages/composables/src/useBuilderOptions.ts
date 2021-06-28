@@ -1,5 +1,5 @@
 import { ref, Ref } from 'vue'
-import { saveOptions, getSavedOptions } from '@zionbuilder/rest'
+import { saveOptions, getSavedOptions } from '@zb/rest'
 import { get, update } from 'lodash-es'
 
 const isLoading: Ref<boolean> = ref(false)

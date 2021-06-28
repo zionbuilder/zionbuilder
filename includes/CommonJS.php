@@ -10,6 +10,7 @@ use ZionBuilder\Options\Schemas\Video;
 use ZionBuilder\Options\Schemas\BackgroundImage;
 use ZionBuilder\Options\Schemas\Shadow;
 use ZionBuilder\Localization;
+use ZionBuilder\Utils;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -118,7 +119,7 @@ class CommonJS {
 			'zb-components',
 			'ZnPbComponentsData',
 			[
-				'schemas' => apply_filters(
+				'schemas'       => apply_filters(
 					'zionbuilder/commonjs/schemas',
 					[
 						'styles'           => StyleOptions::get_schema(),
@@ -129,6 +130,7 @@ class CommonJS {
 						'shadow'           => Shadow::get_schema(),
 					]
 				),
+				'is_pro_active' => Utils::is_pro_active(),
 			]
 		);
 
