@@ -86,7 +86,11 @@
 						class="znpb-menuListItem"
 						v-for="option in visibleItems"
 						:key="option.id"
-						:class="{'znpb-menuListItem--selected': option.isSelected}"
+						:class="{
+							'znpb-menuListItem--selected': option.isSelected,
+							'znpb-menuListItem--is-label': option.is_label,
+							'znpb-menuListItem--is-group_item': option.is_group_item
+						}"
 						@click.stop="onOptionSelect(option)"
 						:style="getStyle(option.name)"
 					>
@@ -493,8 +497,8 @@ export default {
 
 .znpb-option-selectWrapper {
 	width: 100%;
-	color: var(--zb-surface-text-color);
 	margin-right: 10px;
+	color: var(--zb-surface-text-color);
 }
 
 .znpb-inputAddableIcon {
@@ -505,5 +509,15 @@ export default {
 .znpb-option-selectOptionListSearchInput {
 	width: auto !important;
 	margin: 15px;
+}
+
+.znpb-menuListItem--is-label {
+	font-style: italic;
+	font-weight: bold;
+	pointer-events: none;
+}
+
+.znpb-menuListItem--is-group_item {
+	padding-left: 30px;
 }
 </style>
