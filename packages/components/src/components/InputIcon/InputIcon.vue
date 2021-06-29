@@ -20,7 +20,6 @@
 					@click.stop="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
-					bg-color="#fff"
 				/>
 			</div>
 			<span
