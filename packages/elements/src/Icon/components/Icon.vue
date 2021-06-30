@@ -31,29 +31,33 @@ import { computed } from 'vue'
 export default {
 	name: 'icon',
 	props: ['options', 'element', 'api'],
-	setup () {
-		const iconUnicode = computed(() => {
-			const json = `"\\${this.iconConfig.unicode}"`
-			return JSON.parse(json).trim()
+	setup (props) {
+		const hasLink = computed(() => {
+			return props.options.link && props.options.link.link && props.options.link.link !== ''
 		})
 
-		return {
-			iconUnicode
-		}
-	},
-	computed: {
-		hasLink () {
-			return this.options.link && this.options.link.link && this.options.link.link !== ''
-		},
-		iconStyle () {
-			return this.options.style && this.options.style !== '' ? this.options.style : 'default'
-		},
-		iconConfig () {
-			return this.options.icon || {
+		const iconStyle = computed(() => {
+			return props.options.style && props.options.style !== '' ? props.options.style : 'default'
+		})
+
+		const iconConfig = computed(() => {
+			return props.options.icon || {
 				'family': 'Font Awesome 5 Free Regular',
 				'name': 'star',
 				'unicode': 'uf005'
 			}
+		})
+
+		const iconUnicode = computed(() => {
+			const json = `"\\${iconConfig.value.unicode}"`
+			return JSON.parse(json).trim()
+		})
+
+		return {
+			iconUnicode,
+			hasLink,
+			iconStyle,
+			iconConfig
 		}
 	}
 }
