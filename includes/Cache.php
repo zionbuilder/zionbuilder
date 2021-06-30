@@ -355,6 +355,7 @@ class Cache {
 			}
 		}
 
+		$css = apply_filters( 'zionbuilder/cache/element_css', $css, $element_instance );
 		do_action( 'zionbuilder/cache/on_after_element_css', $element_instance );
 
 		return $css;

@@ -999,27 +999,22 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
-		$can_generate = apply_filters( 'zionbuilder/element/can_generate_extra_css', true, $this );
-		if ( ! $can_generate ) {
-			return '';
-		}
-
 		$this->options->parse_data();
 
 		$css = '';
 
 		// Compile styling options
-		$styles            = $this->options->get_value( '_styles', [] );
+		$styles            = apply_filters( 'zionbuilder/element/element_styles_config', $this->options->get_value( '_styles', [] ), $this );
 		$registered_styles = $this->get_style_elements_for_editor();
 
 		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
 			foreach ( $registered_styles as $id => $style_config ) {
 				if ( ! empty( $styles[$id] ) ) {
 					$css_selector = '#' . $this->get_element_css_id();
-					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', $css_selector, $this );
+					$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
+					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', [ $css_selector ], $this );
 
-					$selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-					$css     .= Style::get_css_from_selector( [ $selector ], $styles[$id] );
+					$css .= Style::get_css_from_selector( $css_selector, $styles[$id] );
 				}
 			}
 		}

@@ -26,9 +26,21 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+
 export default {
 	name: 'icon',
 	props: ['options', 'element', 'api'],
+	setup () {
+		const iconUnicode = computed(() => {
+			const json = `"\\${this.iconConfig.unicode}"`
+			return JSON.parse(json).trim()
+		})
+
+		return {
+			iconUnicode
+		}
+	},
 	computed: {
 		hasLink () {
 			return this.options.link && this.options.link.link && this.options.link.link !== ''
@@ -42,9 +54,6 @@ export default {
 				'name': 'star',
 				'unicode': 'uf005'
 			}
-		},
-		iconUnicode () {
-			return JSON.parse(`"\\${this.iconConfig.unicode}"`).trim()
 		}
 	}
 }

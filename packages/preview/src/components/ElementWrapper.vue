@@ -32,10 +32,7 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles
-				:styles="customCSS"
-				v-if="!element.isClone"
-			/>
+			<ElementStyles :styles="customCSS" />
 		</template>
 
 		<template #end>
@@ -142,8 +139,9 @@ export default {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
+						const stylesSavedValues = applyFilters('zionbuilder/element/styles_model', options.value._styles[styleId], optionsInstance, props.element)
 
-						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
+						customCSS += getCssFromSelector([formattedSelector], stylesSavedValues)
 					}
 				})
 			}
