@@ -110,8 +110,10 @@
 </template>
 
 <script>
-import { ref, computed, watch, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect, inject, unref } from 'vue'
 import { debounce } from 'lodash-es'
+import { applyFilters } from '@zb/hooks'
+
 
 import { useSelectServerData } from './useSelectServerData.js'
 
@@ -173,6 +175,10 @@ export default {
 		local_callback_method: {
 			type: String,
 			required: false
+		},
+		filter_id: {
+			type: String,
+			required: false
 		}
 	},
 	setup (props, { emit }) {
@@ -184,6 +190,9 @@ export default {
 		const loadingTitle = ref(false)
 		const stopSearch = ref(false)
 		const tooltipWidth = ref(null)
+
+		// Add element info
+		const elementInfo = inject('elementInfo', null)
 
 		let page = 1
 		const { fetch, getItems } = useSelectServerData({})
@@ -216,15 +225,6 @@ export default {
 				}
 			}
 
-			// Check if we need to populate the data
-			if (props.local_callback_method) {
-				const localOptions = window[props.local_callback_method]
-
-				if (typeof localOptions === 'function') {
-					options.push(...localOptions())
-				}
-			}
-
 			// Check if the addable option was set
 			if (props.addable && props.modelValue) {
 				if (props.multiple) {
@@ -242,6 +242,19 @@ export default {
 						id: props.modelValue,
 					})
 				}
+			}
+
+			// Check if we need to populate the data
+			if (props.local_callback_method) {
+				const localOptions = window[props.local_callback_method]
+				if (typeof localOptions === 'function') {
+					// Pass in options so we can modify them
+					options.push(...localOptions(options, elementInfo))
+				}
+			}
+
+			if (props.filter_id) {
+				options = applyFilters(props.filter_id, options, unref(elementInfo))
 			}
 
 			// set active tag
