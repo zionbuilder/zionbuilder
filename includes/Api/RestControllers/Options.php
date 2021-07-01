@@ -97,7 +97,7 @@ class Options extends RestApiController {
 	 * @return mixed|\WP_Error|\WP_REST_Response
 	 */
 	public function get_item( $request ) {
-		return Settings::get_all_values();
+		return rest_ensure_response( Settings::get_all_values() );
 	}
 
 	/**
@@ -108,6 +108,6 @@ class Options extends RestApiController {
 	public function update_item( $request ) {
 		// Update the settings
 		Settings::save_settings( $request->get_params() );
-		return $this->get_item( Settings::get_all_values() );
+		return rest_ensure_response( $this->get_item( Settings::get_all_values() ) );
 	}
 }
