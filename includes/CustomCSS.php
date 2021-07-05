@@ -36,10 +36,20 @@ class CustomCSS {
 	 *
 	 * @param string $css_selector The css selector for which the styles will be applied
 	 */
-	public function __construct( $css_selector ) {
+	public function __construct( $css_selector = '' ) {
 		$this->css_selector = $css_selector;
 	}
 
+
+	/**
+	 * Sets the CSS selector
+	 *
+	 * @param string $selector
+	 * @return void
+	 */
+	public function set_css_selector( $selector ) {
+		$this->css_selector = $selector;
+	}
 
 	/**
 	 * Returns the css selector that will be used for style configurations
@@ -97,7 +107,6 @@ class CustomCSS {
 				}
 			}
 		}
-
 	}
 
 	/**

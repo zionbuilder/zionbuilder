@@ -128,6 +128,13 @@ class Element {
 	protected $element_styles = [];
 
 	/**
+	 * Holds a refference to the Element HTML id
+	 *
+	 * @var string
+	 */
+	protected $element_html_id = '';
+
+	/**
 	 * Holds a refference to all registered hooks
 	 *
 	 * @var array
@@ -175,9 +182,8 @@ class Element {
 			// Setup helpers
 			$model                   = isset( $data['options'] ) ? $data['options'] : [];
 			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+			$this->custom_css        = new CustomCSS();
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
-
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -715,6 +721,19 @@ class Element {
 	final public function render_element( $extra_render_data ) {
 		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 
+		/**
+		 * Allows you to create a different renderer
+		 */
+		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', null, $this );
+		if ( $custom_renderer ) {
+			$custom_renderer->render_element( $extra_render_data, $this );
+		} else {
+			$this->do_element_render( $extra_render_data );
+		}
+	}
+
+	final public function do_element_render( $extra_render_data ) {
+		// We need to parse data only on actual render
 		$this->options->parse_data();
 
 		if ( ! $this->element_is_allowed_render() ) {
@@ -738,6 +757,7 @@ class Element {
 
 		// Add animation attributes
 		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+
 		if ( ! empty( $appear_animation ) ) {
 			$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
 			$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
@@ -745,6 +765,7 @@ class Element {
 
 		// Add video BG
 		$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
+
 		if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
 			wp_enqueue_script( 'zb-video-bg' );
 		}
@@ -773,7 +794,6 @@ class Element {
 		$this->reset_provides();
 		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
-
 
 	/**
 	 * Will render the video wrapper
@@ -999,8 +1019,6 @@ class Element {
 	 * @return string The compiled element styles
 	 */
 	public function get_element_extra_css() {
-		$this->options->parse_data();
-
 		$css = '';
 
 		// Compile styling options

@@ -43,6 +43,7 @@ class Cache {
 	private static $loaded_javascript_assets = [];
 	private static $done_areas_css           = [];
 	private static $done_areas_js            = [];
+	private static $late_scripts             = [];
 
 	/**
 	 * Main class constructor
@@ -61,7 +62,7 @@ class Cache {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'register_default_scripts' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ] );
+			add_action( 'wp_footer', [ $this, 'late_enqueue_scripts' ] );
 
 		} else {
 			// Register default scripts so we can use them in edit mode
@@ -80,6 +81,22 @@ class Cache {
 		$this->enqueue_dynamic_css();
 	}
 
+	/**
+	 * Create the css files after the page is rendered so we have access to all areas
+	 *
+	 * @return void
+	 */
+	public function late_enqueue_scripts() {
+		foreach ( self::$late_scripts as $post_id ) {
+			$this->compile_and_include_css_cache_file_for_post( $post_id );
+		}
+	}
+
+	public function compile_and_include_css_cache_file_for_post( $post_id ) {
+		$this->compile_css_cache_file_for_post( $post_id );
+		$cache_file_config = $this->get_cache_file_config( $post_id );
+		wp_enqueue_style( $cache_file_config['handle'], $cache_file_config['url'], [], $this->get_cache_version( $post_id ) );
+	}
 
 	/**
 	 * Register plugin default scripts
@@ -181,10 +198,10 @@ class Cache {
 
 			// Create the file if it doesn't exists
 			if ( ! is_file( $file_config['path'] ) || Environment::is_debug() ) {
-				$this->compile_css_cache_file_for_post( $post_id );
+				self::$late_scripts[] = $post_id;
+			} else {
+				wp_enqueue_style( $file_config['handle'], $file_config['url'], [], $this->get_cache_version( $post_id ) );
 			}
-
-			wp_enqueue_style( $file_config['handle'], $file_config['url'], [], $this->get_cache_version( $post_id ) );
 		}
 	}
 
