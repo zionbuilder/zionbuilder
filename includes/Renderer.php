@@ -93,6 +93,8 @@ class Renderer {
 		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
 		$this->render_children( $this->get_content_for_area( $area_id ) );
 		echo '</div>';
+
+		Plugin::instance()->cache->reset_active_area();
 	}
 
 	/**
