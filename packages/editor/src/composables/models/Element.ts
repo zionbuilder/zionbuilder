@@ -44,11 +44,11 @@ export class Element {
 	createRequester() {
 		const request = (data, successCallback, failCallback) => {
 			// Pass to filter with all the extra arguments
-			const parsedData = readonly({
+			const parsedData = JSON.parse(JSON.stringify({
 				...applyFilters('zionbuilder/server_request/element_requester_data', {}, this),
 				...data,
 				useCache: true
-			})
+			}))
 
 			return serverRequest.request(parsedData, successCallback, failCallback)
 		}
@@ -143,7 +143,9 @@ export class Element {
 	}
 
 	get elementCssId() {
-		return this.getOptionValue('_advanced_options._element_id', this.uid)
+		let cssID = this.getOptionValue('_advanced_options._element_id', this.uid)
+		cssID = applyFilters('zionbuilder/element/css_id', cssID, this)
+		return cssID
 	}
 
 	updateOptions(newValues) {

@@ -128,6 +128,13 @@ class Element {
 	protected $element_styles = [];
 
 	/**
+	 * Holds a refference to the Element HTML id
+	 *
+	 * @var string
+	 */
+	protected $element_html_id = '';
+
+	/**
 	 * Holds a refference to all registered hooks
 	 *
 	 * @var array
@@ -137,8 +144,7 @@ class Element {
 	public $data = [];
 
 	// repeater
-	public $is_repeater_item = false;
-	public $main_class       = null;
+	public $element_css_selector = null;
 
 	private $current_provides = [];
 
@@ -164,20 +170,11 @@ class Element {
 				$this->content = $data['content'];
 			}
 
-			if ( isset( $data['is_repeater_item'] ) ) {
-				$this->is_repeater_item = $data['is_repeater_item'];
-			}
-
-			if ( isset( $data['main_class'] ) ) {
-				$this->main_class = $data['main_class'];
-			}
-
 			// Setup helpers
 			$model                   = isset( $data['options'] ) ? $data['options'] : [];
 			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
+			$this->custom_css        = new CustomCSS();
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
-
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -285,7 +282,7 @@ class Element {
 	 * @return string
 	 */
 	public function get_css_selector() {
-		return sprintf( '#%s', $this->get_element_css_id() );
+		return ! empty( $this->element_css_selector ) ? $this->element_css_selector : sprintf( '#%s', $this->get_element_css_id() );
 	}
 
 	/**
@@ -715,7 +712,49 @@ class Element {
 	final public function render_element( $extra_render_data ) {
 		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 
+		/**
+		 * Allows you to create a different renderer
+		 */
+		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', $this );
+		if ( $custom_renderer ) {
+			$custom_renderer->render_element( $extra_render_data, $this );
+		} else {
+			$this->do_element_render( $extra_render_data );
+		}
+	}
+
+	final public function do_element_render( $extra_render_data ) {
+		// We need to parse data only on actual render
 		$this->options->parse_data();
+
+		// Check to see if we need to extract CSS
+		if ( Plugin::instance()->cache->should_generate_css() ) {
+			// Add element styles CSS
+			$styles            = $this->options->get_value( '_styles', [] );
+			$registered_styles = $this->get_style_elements_for_editor();
+
+			if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
+				foreach ( $registered_styles as $id => $style_config ) {
+					if ( ! empty( $styles[$id] ) ) {
+						$css_selector = $this->get_css_selector();
+						$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
+						$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', [ $css_selector ], $this );
+
+						Plugin::instance()->cache->add_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
+					}
+				}
+			}
+
+			// Add element method css
+			Plugin::instance()->cache->add_raw_css( $this->css() );
+
+			// Add css from options
+			Plugin::instance()->cache->add_raw_css( $this->custom_css->get_css() );
+
+			// Allow users to add their own css
+			Plugin::instance()->cache->add_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
+			// $this->extract_css();
+		}
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
@@ -738,6 +777,7 @@ class Element {
 
 		// Add animation attributes
 		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
+
 		if ( ! empty( $appear_animation ) ) {
 			$this->render_attributes->add( 'wrapper', 'class', 'ajs__element' );
 			$this->render_attributes->add( 'wrapper', 'data-ajs-animation', $appear_animation );
@@ -745,12 +785,19 @@ class Element {
 
 		// Add video BG
 		$background_video_options = $this->options->get_value( '_styles.wrapper.styles.default.default.background-video' );
+
 		if ( ! empty( self::has_video_background( $background_video_options ) ) ) {
 			wp_enqueue_script( 'zb-video-bg' );
 		}
 
 		$wrapper_tag = $this->get_wrapper_tag( $this->options );
-		$wrapper_id  = $this->get_element_css_id();
+
+		if ( $this->render_attributes->has_attribute( 'wrapper', 'id' ) ) {
+			$html_id    = $this->render_attributes->get_attributes( 'wrapper', 'id' );
+			$wrapper_id = end( $html_id );
+		} else {
+			$wrapper_id = $this->get_element_css_id();
+		}
 
 		// Add wrapper attributes
 		$attributes = $this->render_attributes->get_attributes_as_string( 'wrapper' );
@@ -773,7 +820,6 @@ class Element {
 		$this->reset_provides();
 		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
-
 
 	/**
 	 * Will render the video wrapper
@@ -989,47 +1035,6 @@ class Element {
 		$css_classes = array_merge( $css_classes, $extra_classes );
 
 		return implode( ' ', $css_classes );
-	}
-
-	/**
-	 * Get Element Styles
-	 *
-	 * Compiles all elements css styles
-	 *
-	 * @return string The compiled element styles
-	 */
-	public function get_element_extra_css() {
-		$this->options->parse_data();
-
-		$css = '';
-
-		// Compile styling options
-		$styles            = apply_filters( 'zionbuilder/element/element_styles_config', $this->options->get_value( '_styles', [] ), $this );
-		$registered_styles = $this->get_style_elements_for_editor();
-
-		if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
-			foreach ( $registered_styles as $id => $style_config ) {
-				if ( ! empty( $styles[$id] ) ) {
-					$css_selector = '#' . $this->get_element_css_id();
-					$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-					$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', [ $css_selector ], $this );
-
-					$css .= Style::get_css_from_selector( $css_selector, $styles[$id] );
-				}
-			}
-		}
-
-		// Compile options css
-		$css .= $this->custom_css->get_css();
-
-		// Compile element options
-		$css .= $this->css();
-
-		// Add element custom css
-		$css = apply_filters( 'zionbuilder/element/custom_css', $css, $this->options, $this );
-
-		// Compile custom css
-		return $css;
 	}
 
 	/**

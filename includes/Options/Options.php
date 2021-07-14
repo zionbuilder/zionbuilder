@@ -380,4 +380,25 @@ class Options extends Stack {
 
 		return $default_value;
 	}
+
+	public function set_value( $path, $new_value ) {
+		$path_locations = explode( '.', $path );
+		$active_model   = &$this->model;
+		$paths_count    = count( $path_locations );
+		$i              = 1;
+
+		foreach ( $path_locations as $path_location ) {
+			if ( ! is_array( $active_model ) ) {
+				$active_model = [];
+			}
+
+			if ( $i === $paths_count ) {
+				$active_model[$path_location] = $new_value;
+			} else {
+				$active_model[$path_location] = [];
+			}
+
+			$i++;
+		}
+	}
 }
