@@ -173,7 +173,7 @@ class Element {
 			// Setup helpers
 			$model                   = isset( $data['options'] ) ? $data['options'] : [];
 			$this->render_attributes = new RenderAttributes();
-			$this->custom_css        = new CustomCSS();
+			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
 		}
 
