@@ -17,6 +17,8 @@ class RenderAttributes {
 
 	/**
 	 * These are attributes that will be applied to various dom nodes
+	 *
+	 * @var array
 	 */
 	private $render_attributes = [];
 
@@ -151,6 +153,26 @@ class RenderAttributes {
 		return $this->render_attributes[$tag_id][$type];
 	}
 
+	/**
+	 * Checks if a tag id has a specific attribute
+	 *
+	 * @param string $tag_id
+	 * @param string $type
+	 *
+	 * @return boolean
+	 */
+	public function has_attribute( $tag_id = 'wrapper', $type ) {
+		// bail if we do not have any attributes
+		if ( ! $tag_id || ! isset( $this->render_attributes[$tag_id] ) ) {
+			return false;
+		}
+
+		if ( ! isset( $this->render_attributes[$tag_id][$type] ) ) {
+			return false;
+		}
+
+		return (bool) $this->render_attributes[$tag_id][$type];
+	}
 
 	/**
 	 * Add render attribute

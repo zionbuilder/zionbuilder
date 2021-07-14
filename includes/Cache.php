@@ -45,6 +45,9 @@ class Cache {
 	private static $done_areas_js            = [];
 	private static $late_scripts             = [];
 
+	private static $areas_raw_css = [];
+	private static $active_area   = '';
+
 	/**
 	 * Main class constructor
 	 */
@@ -62,7 +65,7 @@ class Cache {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'register_default_scripts' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-			add_action( 'wp_footer', [ $this, 'late_enqueue_scripts' ] );
+			add_action( 'wp_footer', [ $this, 'late_enqueue_styles' ] );
 
 		} else {
 			// Register default scripts so we can use them in edit mode
@@ -86,10 +89,32 @@ class Cache {
 	 *
 	 * @return void
 	 */
-	public function late_enqueue_scripts() {
+	public function late_enqueue_styles() {
 		foreach ( self::$late_scripts as $post_id ) {
+			self::$active_area = $post_id;
 			$this->compile_and_include_css_cache_file_for_post( $post_id );
 		}
+	}
+
+	/**
+	 * Returns true if we need to generate CSS for elements
+	 *
+	 * @return boolean
+	 */
+	public function should_generate_css() {
+		return in_array( self::$active_area, self::$late_scripts, true );
+	}
+
+	public function set_active_area( $post_id ) {
+		self::$active_area = $post_id;
+	}
+
+	public function add_raw_css( $css ) {
+		if ( ! isset( self::$areas_raw_css[self::$active_area] ) ) {
+			self::$areas_raw_css[self::$active_area] = '';
+		}
+
+		self::$areas_raw_css[self::$active_area] .= $css;
 	}
 
 	public function compile_and_include_css_cache_file_for_post( $post_id ) {
@@ -321,12 +346,15 @@ class Cache {
 		self::$loaded_assets = [];
 		$css                 = '';
 
+		// Add the raw css
+		$css = self::$areas_raw_css[self::$active_area];
+
 		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
 			foreach ( $areas[$post_id] as $element ) {
 				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
 				if ( $element_instance ) {
-					$css .= $this->get_css_for_element( $element_instance );
+					// $this->add_raw_css( $this->get_css_for_element( $element_instance ) );
 				}
 			}
 		}
@@ -358,7 +386,7 @@ class Cache {
 			self::$loaded_assets[$element_type] = true;
 		}
 
-		$css .= $element_instance->get_element_extra_css();
+		$css .= $element_instance->custom_css->get_css();
 
 		// Check for children
 		$childs = $element_instance->get_children();
