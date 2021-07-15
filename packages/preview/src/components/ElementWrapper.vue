@@ -365,20 +365,13 @@ export default {
 		}
 	},
 	watch: {
-		// 'element.options': {
-		// 	handler (newValue, oldValue) {
-		// 		this.debounceUpdate()
-		// 	},
-		// 	deep: true
-		// },
-		// 'element.content' (newValue, oldValue) {
-		// 	this.debounceUpdate()
-		// },
 		'element.scrollTo' (newValue) {
 			if (newValue) {
-				this.$el.scrollIntoView({
-					behavior: 'smooth'
-				})
+				if (typeof this.$el.scrollIntoView === 'function') {
+					this.$el.scrollIntoView({
+						behavior: 'smooth'
+					})
+				}
 
 				setTimeout(() => {
 					this.element.scrollTo = false
