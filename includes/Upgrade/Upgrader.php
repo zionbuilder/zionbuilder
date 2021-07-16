@@ -55,7 +55,6 @@ class Upgrader {
 	public static function requires_db_update() {
 		$old_version = self::get_db_version();
 		$new_version = Plugin::instance()->get_version();
-
 		return version_compare( $new_version, $old_version, '>' );
 	}
 
@@ -115,6 +114,7 @@ class Upgrader {
 	public static function update() {
 		$current_db_version = self::get_db_version();
 		$loop               = 0;
+		$version_upodates   = [];
 
 		// Check to see if an upgrade is already in progress
 		$next_timestamp = \as_next_scheduled_action( 'zionbuilder_run_update_callback', null, 'zionbuilder-db-updates' );
@@ -132,9 +132,14 @@ class Upgrader {
 						$update_callback,
 						'zionbuilder-db-updates'
 					);
+					$version_upodates[] = $update_callback;
 					$loop++;
 				}
 			}
+		}
+
+		if ( empty( $version_upodates ) ) {
+			self::update_db_version();
 		}
 	}
 
