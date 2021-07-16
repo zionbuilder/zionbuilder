@@ -22,7 +22,7 @@ export default {
 	width: 40px;
 	height: 40px;
 	font-size: 14px;
-	background-color: var(--zb-secondary-color);
+	background-color: var(--zb-element-color);
 	border-radius: 50%;
 	cursor: none;
 }
