@@ -1,16 +1,15 @@
 import Route from './Route'
 
 class Routes {
-	routes = {}
-
-	constructor (routes = {}) {
+	constructor(routes = {}) {
+		this.routes = {}
 		Object.keys(routes).forEach(routeId => {
 			const routeConfig = routes[routeId]
 			this.routes[routeId] = new Route(routeId, routeConfig)
 		})
 	}
 
-	getRouteConfig (pathString) {
+	getRouteConfig(pathString) {
 		const paths = pathString.split('.')
 		let searchSchema = this
 		for (let index = 0; index < paths.length; index++) {
@@ -28,25 +27,25 @@ class Routes {
 		}
 	}
 
-	getRoute (path) {
+	getRoute(path) {
 		return this.routes[path]
 	}
 
-	addRoute (routeId, routeConfig) {
+	addRoute(routeId, routeConfig) {
 		this.routes[routeId] = new Route(routeConfig)
 
 		return this.routes[routeId]
 	}
 
-	replaceRoute () {
+	replaceRoute() {
 
 	}
 
-	removeRoute () {
+	removeRoute() {
 
 	}
 
-	getConfigForRouter () {
+	getConfigForRouter() {
 		const routes = []
 
 		Object.keys(this.routes).forEach(routeId => {

@@ -196,7 +196,7 @@ export default {
 .znpb__server-element {
 	&--loading {
 		min-height: 35px;
-		opacity: 0.3;
+		opacity: .3;
 	}
 
 	&--empty {
@@ -218,16 +218,15 @@ export default {
 		transform: translate(-50%, -50%);
 		transition: none;
 
-		&:before,
-		&:after {
+		&:before, &:after {
 			@extend %loading;
 			box-sizing: border-box;
-			border: 2px solid rgba(220, 220, 220, 0.2);
+			border: 2px solid rgba(220, 220, 220, .2);
 		}
 
 		&:after {
 			border-right-color: #dedede;
-			animation: Rotate 0.6s linear infinite;
+			animation: Rotate .6s linear infinite;
 		}
 	}
 }
