@@ -382,9 +382,11 @@ class Cache {
 		$element_type = $element_instance->get_type();
 
 		if ( ! isset( self::$loaded_assets[$element_type] ) ) {
+			$element_instance->do_enqueue_styles();
 			$element_styles = $element_instance->get_element_styles();
 
 			foreach ( $element_styles as $style_url ) {
+
 				$style_path = Utils::get_file_path_from_url( $style_url );
 				$css       .= FileSystem::get_file_system()->get_contents( $style_path );
 			}
@@ -393,10 +395,10 @@ class Cache {
 		}
 
 		// Check for children
-		$childs = $element_instance->get_children();
+		$children = $element_instance->get_children();
 
-		if ( is_array( $childs ) ) {
-			foreach ( $childs as $element ) {
+		if ( is_array( $children ) ) {
+			foreach ( $children as $element ) {
 				$child_element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 				if ( $child_element_instance ) {
 					$css .= $this->get_css_for_element( $child_element_instance );
