@@ -123,20 +123,22 @@ class Admin {
 	public function enqueue_scripts( $hook = '' ) {
 		wp_add_inline_style(
 			'admin-menu',
-			'#adminmenu .toplevel_page_zionbuilder img {
-				max-width: 100%;
-				height: auto;
-				padding: 8px;
-				box-sizing: border-box;
-			}'
+			sprintf(
+				'#adminmenu .toplevel_page_%s img {
+					max-width: 100%%;
+					height: auto;
+					padding: 8px;
+					box-sizing: border-box;
+				}',
+				Whitelabel::get_id()
+			)
 		);
 
 		// Invert the color for admin icon
 		if ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) {
 			wp_add_inline_style(
 				'admin-menu',
-				'#adminmenu .toplevel_page_zionbuilder img {
-				filter: invert(1);}'
+				'#adminmenu .toplevel_page_zionbuilder img { filter: invert(1); }'
 			);
 		}
 
