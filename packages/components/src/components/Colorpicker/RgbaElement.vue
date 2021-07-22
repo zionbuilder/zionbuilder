@@ -77,7 +77,8 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-colorpicker-inner-editor-rgba, .znpb-colorpicker-inner-editor-hsla {
+.znpb-colorpicker-inner-editor-rgba,
+.znpb-colorpicker-inner-editor-hsla {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
@@ -87,7 +88,7 @@ export default {
 		flex: 1;
 		margin-right: 5px;
 		margin-bottom: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 10px;
 		font-weight: 500;
 		line-height: 1;

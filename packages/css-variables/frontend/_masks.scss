@@ -20,13 +20,14 @@
 		&--top {
 			top: -1px;
 			bottom: auto;
+
 			svg {
 				transform: rotate(180deg);
 			}
 
 			&.zb-mask-pos--flip {
 				svg {
-					transform: rotate(180deg) scale(-1,1);
+					transform: rotate(180deg) scale(-1, 1);
 				}
 			}
 		}
@@ -34,11 +35,9 @@
 		&--bottom {
 			&.zb-mask-pos--flip {
 				svg {
-					transform: scale(-1,1);
+					transform: scale(-1, 1);
 				}
 			}
 		}
 	}
 }
-
-

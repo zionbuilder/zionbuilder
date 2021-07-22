@@ -220,20 +220,20 @@ export default {
 .znpb-input-range {
 	&--disabled {
 		& > .zion-input {
-			opacity: .5;
+			opacity: 0.5;
 		}
 	}
 	&__label {
 		.znpb-input-number--has-units
-		.znpb-input-number__units-multiple
-		.znpb-input-number__active-unit {
-			background: $surface;
+			.znpb-input-number__units-multiple
+			.znpb-input-number__active-unit {
+			background: var(--zb-surface-color);
 		}
 	}
 	&.znpb-input-range--has-multiple-units {
 		input[type="number"] {
 			padding: 12px 10px 12px 0;
-			font-family: $font-stack;
+			font-family: var(--zb-font-stack);
 		}
 	}
 }

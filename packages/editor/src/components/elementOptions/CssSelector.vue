@@ -97,13 +97,13 @@ export default {
 			width: 20px;
 			height: 100%;
 			background: linear-gradient(
-			90deg,
-			rgba(255, 255, 255, 0) 0%,
-			rgba(255, 255, 255, 1) 100%
+				90deg,
+				rgba(245, 245, 245, 0) 0%,
+				var(--zb-input-faded-bg-color) 100%
 			);
 		}
 
-		 > span {
+		> span {
 			position: absolute;
 			white-space: pre;
 		}
@@ -116,6 +116,14 @@ export default {
 	&-name {
 		word-break: break-all;
 	}
+
+	&:hover {
+		background-color: var(--zb-surface-lighter-color);
+
+		.znpb-css-class-selector__item-name {
+			color: var(--zb-surface-text-active-color);
+		}
+	}
 }
 
 .znpb-css-class-selector__item {
@@ -126,14 +134,15 @@ export default {
 	cursor: pointer;
 
 	&:hover {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 	}
+
 	&-close {
 		padding-left: 15px;
 
 		.zion-icon {
 			font-size: 10px;
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		&:hover .zion-icon {
@@ -147,25 +156,29 @@ export default {
 	}
 
 	&--selected {
-		color: $surface-active-color;
-		background-color: $surface-variant;
-		transition: all .22s ease-out;
+		color: var(--zb-surface-active-color);
+		background-color: var(--zb-surface-lighter-color);
+		transition: all 0.22s ease-out;
+	}
+
+	&--selected &-name {
+		color: var(--zb-surface-text-active-color);
 	}
 
 	&-type {
 		padding: 5px 10px;
-		color: $surface;
+		color: var(--zb-surface-color);
 		font-size: 8px;
 		font-weight: 700;
-		background-color: $green;
+		background-color: var(--zb-success-color);
 		border-radius: 2px;
 
 		&--id {
-			background-color: $secondary;
+			background-color: var(--zb-secondary-color);
 		}
 
 		&--selector {
-			background-color: $column-color;
+			background-color: var(--zb-column-color);
 		}
 	}
 
@@ -174,7 +187,7 @@ export default {
 		align-items: center;
 		flex-grow: 1;
 		padding-left: 10px;
-		color: darken($font-color, 10%);
+		color: var(--zb-surface-text-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 1.4;

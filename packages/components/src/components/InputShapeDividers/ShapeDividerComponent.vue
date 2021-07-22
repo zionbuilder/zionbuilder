@@ -93,16 +93,11 @@ export default {
 	},
 	setup () {
 		const masks = inject('masks')
-		const plugin_info = inject('plugin_info')
+		const isPro = window.ZnPbComponentsData.is_pro_active
 
 		return {
 			masks,
-			plugin_info
-		}
-	},
-	computed: {
-		isPro () {
-			return this.plugin_info.is_pro_active
+			isPro
 		}
 	}
 }
@@ -114,7 +109,7 @@ export default {
 	max-height: 400px;
 	padding: 20px;
 	margin: 0 -20px;
-	background-color: #f1f1f1;
+	background-color: var(--zb-surface-light-color);
 }
 
 /* Enter and leave transitions for delete mask */

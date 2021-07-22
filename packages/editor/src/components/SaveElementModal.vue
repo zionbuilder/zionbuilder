@@ -256,14 +256,14 @@ export default {
 	padding: 0 30px;
 	margin-top: 20px;
 	margin-bottom: 0;
-	color: $success;
-	font-family: $font-stack;
+	color: var(--zb-success-color);
+	font-family: var(--zb-font-stack);
 	font-size: 12px;
 	font-weight: 500;
 	text-align: center;
 
 	&--error {
-		color: $error;
+		color: var(--zb-error-color);
 	}
 }
 .znpb-modal-save-element {

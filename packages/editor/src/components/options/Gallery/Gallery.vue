@@ -155,7 +155,7 @@ export default {
 	padding: 0 5px;
 
 	.znpb-empty-list__container {
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 	}
 	.znpb-empty-list__content {
 		padding: 50px 0;
@@ -200,9 +200,9 @@ export default {
 			flex: 0 0 calc((100% - 16px) / 3);
 			max-width: calc((100% - 16px) / 3);
 			margin: 0 0 8px;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 20px;
-			border: 2px dashed $border-color;
+			border: 2px dashed var(--zb-surface-border-color);
 			cursor: pointer;
 
 			&::after {

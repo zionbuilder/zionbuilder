@@ -11,23 +11,23 @@ export default {
 <style lang="scss">
 .znpb-sortable__placeholder {
 	position: relative;
-    align-self: center;
-    display: block;
+	z-index: 99998;
+	display: block;
 	align-items: center;
-	transform-origin: center center;
-	animation-fill-mode: forwards;
-	z-index: 99999;
-	height: 0;
+	align-self: center;
+	align-self: auto;
 	width: 100%;
-    align-self: auto;
+	height: 0;
+	transform-origin: center center;
 	animation: placeholder-animation--horizontal .3s ease;
+	animation-fill-mode: forwards;
 
 	&-element {
 		bottom: 0;
 		display: block;
 		width: 100%;
 		height: 3px;
-		background-color: $secondary;
+		background-color: var(--zb-secondary-color);
 		transform: translateY(-50%);
 	}
 }
@@ -36,16 +36,16 @@ export default {
 	// Vertical
 	&.znpb__sortable-container--vertical > .znpb-sortable__placeholder {
 		position: absolute;
-		left: 0;
 		top: 50%;
+		left: 0;
 		width: 100%;
 		animation: placeholder-animation--horizontal .3s ease;
 	}
 	// Horizontal
 	&.znpb__sortable-container--horizontal > .znpb-sortable__placeholder {
 		position: absolute;
-		left: 50%;
 		top: 0;
+		left: 50%;
 		height: 100%;
 		animation: placeholder-animation--vertical .3s ease;
 	}
@@ -57,22 +57,22 @@ export default {
 }
 
 .znpb__sortable-container--horizontal > .znpb-sortable__placeholder {
-	height: auto;
 	width: 0;
+	height: auto;
 	animation: placeholder-animation--vertical .3s ease;
 }
 
 .znpb__sortable-container--horizontal > .znpb-sortable__placeholder > .znpb-sortable__placeholder-element {
-	height: 100%;
 	top: 0;
 	left: 0;
 	width: 3px;
-	transform: translateX(-50%)
+	height: 100%;
+	transform: translateX(-50%);
 }
 
 @keyframes placeholder-animation--horizontal {
 	from {
-		transform: scaleX(0.6);
+		transform: scaleX(.6);
 		opacity: 0;
 	}
 	to {
@@ -82,7 +82,7 @@ export default {
 }
 @keyframes placeholder-animation--vertical {
 	from {
-		transform: scaleY(0.6);
+		transform: scaleY(.6);
 		opacity: 0;
 	}
 	to {
@@ -90,5 +90,4 @@ export default {
 		opacity: 1;
 	}
 }
-
 </style>

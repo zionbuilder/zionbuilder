@@ -109,7 +109,8 @@ export default {
 		align-items: flex-end;
 	}
 
-	.wp-editor-tabs, .wp-media-buttons {
+	.wp-editor-tabs,
+	.wp-media-buttons {
 		float: none;
 	}
 
@@ -120,7 +121,7 @@ export default {
 	button {
 		display: inline-flex;
 		align-items: center;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-family: Roboto, sans-serif;
 		font-size: 13px;
 		font-weight: 500;
@@ -128,16 +129,17 @@ export default {
 	}
 
 	.button {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 1.5;
 		background-color: transparent;
 		border: none;
-		transition: opacity .15s;
+		transition: opacity 0.15s;
 
-		&:hover, &:focus {
-			color: $surface-active-color;
+		&:hover,
+		&:focus {
+			color: var(--zb-surface-text-active-color);
 			background: transparent;
 		}
 
@@ -149,13 +151,13 @@ export default {
 			min-height: 34px;
 			padding: 7.5px 16px;
 			margin-bottom: 10px;
-			color: $surface;
-			background: $secondary;
+			color: var(--zb-secondary-text-color);
+			background: var(--zb-secondary-color);
 			border-radius: 3px;
-			transition: background-color .15s;
+			transition: background-color 0.15s;
 
 			&:hover {
-				background: darken($secondary, 5%);
+				background: var(--zb-secondary-hover-color);
 			}
 
 			&:active {
@@ -181,15 +183,43 @@ export default {
 		height: 30px;
 		padding: 6px 12px;
 		margin: 0;
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		background: transparent;
 		border: none;
 	}
 
-	.tmce-active .switch-tmce, .html-active .switch-html {
-		background: $surface-variant;
+	.switch-tmce,
+	.switch-html {
+		&:focus,
+		&:active {
+			color: var(--zb-surface-text-color);
+			background: var(--zb-surface-color);
+		}
+	}
+
+	.tmce-active .switch-tmce,
+	.html-active .switch-html {
+		color: var(--zb-surface-text-active-color);
+		background: var(--zb-surface-lighter-color);
 		border-top-right-radius: 3px;
 		border-top-left-radius: 3px;
+	}
+
+	.mce-panel.mce-menu {
+		border: 1px solid var(--zb-dropdown-border-color);
+		background: var(--zb-dropdown-bg-color);
+		color: var(--zb-dropdown-text-color);
+		box-shadow: var(--zb-dropdown-shadow);
+		border-radius: 3px;
+	}
+
+	.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal,
+	.mce-menu .mce-menu-item.mce-active.mce-menu-item-preview,
+	.mce-menu .mce-menu-item.mce-selected,
+	.mce-menu .mce-menu-item:focus,
+	.mce-menu .mce-menu-item:hover {
+		background: var(--zb-dropdown-bg-hover-color);
+		color: var(--zb-dropdown-text-active-color);
 	}
 
 	.wp-editor-container {
@@ -197,7 +227,8 @@ export default {
 		border-radius: 3px;
 	}
 
-	div.mce-toolbar-grp > div, .quicktags-toolbar {
+	div.mce-toolbar-grp > div,
+	.quicktags-toolbar {
 		padding: 10px;
 	}
 
@@ -206,13 +237,13 @@ export default {
 	}
 
 	div.mce-toolbar-grp {
-		background: $surface-variant;
-		border-bottom: 2px solid $border-color;
+		background: var(--zb-surface-lighter-color);
+		border-bottom: 2px solid var(--zb-surface-border-color);
 	}
 
 	.quicktags-toolbar {
-		background: $surface-variant;
-		border-bottom: 2px solid $border-color;
+		background: var(--zb-surface-lighter-color);
+		border-bottom: 2px solid var(--zb-surface-border-color);
 	}
 
 	.mce-toolbar .mce-btn-group > div {
@@ -220,24 +251,34 @@ export default {
 		flex-wrap: wrap;
 	}
 
-	.mce-toolbar .mce-btn.mce-active .mce-open, .mce-toolbar .mce-btn:focus .mce-open, .mce-toolbar .mce-btn:hover .mce-open {
-		border-left-color: #d0d0d0;
+	.mce-toolbar .mce-btn.mce-active .mce-open,
+	.mce-toolbar .mce-btn:focus .mce-open,
+	.mce-toolbar .mce-btn:hover .mce-open {
+		border-left-color: var(--zb-surface-border-color);
+	}
+
+	.mce-toolbar .mce-ico {
+		color: var(--zb-surface-text-color);
 	}
 
 	.mce-btn .mce-caret {
 		margin-top: 2px;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn, .qt-dfw {
+	.mce-toolbar .mce-btn-group .mce-btn,
+	.qt-dfw {
 		border: 0;
 	}
 
 	.mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
-		border: 2px solid $border-color;
+		color: var(--zb-input-text-color);
+		background: var(--zb-input-bg-color);
+		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
 
-		&:focus, &:hover {
-			border-color: $border-color;
+		&:focus,
+		&:hover {
+			border-color: var(--zb-surface-border-color);
 		}
 
 		.mce-txt {
@@ -250,7 +291,7 @@ export default {
 			width: 6px;
 			height: 6px;
 			margin-top: -4px;
-			border: 2px solid #bcbcbc;
+			border: 2px solid var(--zb-surface-border-color);
 			border-top: none;
 			border-left: none;
 			transform: rotate(45deg);
@@ -262,31 +303,45 @@ export default {
 		border: 0;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover, .qt-dfw:focus, .qt-dfw:hover, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active, .qt-dfw.active {
-		background: darken($surface-variant, 5%);
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus,
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover,
+	.qt-dfw:focus,
+	.qt-dfw:hover,
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active,
+	.qt-dfw.active {
+		background: var(--zb-surface-lightest-color);
 		box-shadow: none;
 		border: 0;
 	}
 
 	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox).mce-active {
-		color: $surface;
-		background: $secondary;
+		color: var(--zb-surface-color);
+		background: var(--zb-secondary-color);
 		box-shadow: none;
 		border: 0;
 	}
 
-	.mce-toolbar .mce-btn button, .qt-dfw {
+	.mce-btn button {
+		color: var(--zb-surface-text-color);
+	}
+
+	.mce-toolbar .mce-btn button,
+	.qt-dfw {
 		height: 100%;
 	}
 
+	div.mce-panel {
+		background: var(--zb-surface-lighter-color);
+	}
+
 	.mce-edit-area {
-		border-color: $border-color;
-		border-style: solid;
-		border-width: 0 2px 0 !important;
+		color: var(--zb-input-text-color);
+		background: var(--zb-input-bg-color);
+		border: var(--zb-input-border-color);
 	}
 
 	div.mce-statusbar {
-		border-color: $border-color;
+		border-color: var(--zb-surface-border-color);
 		border-style: solid;
 		border-width: 1px 2px 2px !important;
 	}
@@ -296,7 +351,7 @@ export default {
 	}
 
 	textarea.wp-editor-area {
-		border-color: $border-color;
+		border-color: var(--zb-surface-border-color);
 		border-style: solid;
 		border-width: 0 2px 2px;
 	}
@@ -308,7 +363,7 @@ export default {
 		border: none;
 
 		&:hover {
-			background: darken($surface-variant, 5%);
+			background: var(--zb-surface-light-color);
 		}
 	}
 }

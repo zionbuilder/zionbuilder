@@ -119,15 +119,21 @@ export default {
 .znpb-dimensions-wrapper {
 	display: grid;
 
-	grid-template-areas: "a b c"
-	"d b e";
+	grid-template-areas:
+		"a b c"
+		"d b e";
 	.znpb-dimensions__link {
-		color: $font-color;
-		background-color: $surface-variant;
+		color: var(--zb-surface-icon-color);
+		background-color: var(--zb-surface-lighter-color);
+		transition: color 0.15s;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
 	}
 	.znpb-dimensions__link.znpb-dimensions__link--linked {
-		color: $surface;
-		background-color: $secondary;
+		color: var(--zb-secondary-text-color);
+		background-color: var(--zb-secondary-color);
 	}
 }
 .znpb-dimensions__center {

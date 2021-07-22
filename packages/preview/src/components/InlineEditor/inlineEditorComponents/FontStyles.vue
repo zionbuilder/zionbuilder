@@ -101,8 +101,8 @@ export default {
 .zion-inline-editor-group {
 	display: flex;
 	width: 100%;
-	color: $font-color;
-	background: $surface;
+	color: var(--zb-surface-text-color);
+	background: var(--zb-surface-color);
 
 	.znpb-tabs--minimal {
 		display: flex;
@@ -112,7 +112,7 @@ export default {
 		.znpb-tabs__header {
 			justify-content: space-evenly;
 			align-items: center;
-			border-top: 1px solid $surface-variant;
+			border-top: 1px solid var(--zb-surface-border-color);
 
 			& > .znpb-tabs__header-item {
 				padding: 8px;

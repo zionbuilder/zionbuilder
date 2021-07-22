@@ -27,11 +27,10 @@ import {
 import { useOptionsSchemas } from '@zb/components'
 
 // Exports
+export * from './api.js'
 export * from './composables'
 export * from '@zionbuilder/composables'
 export * from '@utils'
-
-import { ServerRequest } from '@zb/utils'
 
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas()
@@ -70,10 +69,8 @@ appInstance.config.globalProperties.$zb = {
 }
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb)
 
-
 // Expose common methods
 const { registerElementComponent } = useElementTypes()
-
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
@@ -83,11 +80,8 @@ window.addEventListener('load', function () {
 	appInstance.mount('#znpb-app')
 })
 
-const serverRequest = new ServerRequest()
-
 // Export so we can access them from window.zb.editor
 export {
 	appInstance,
-	registerElementComponent,
-	serverRequest
+	registerElementComponent
 }

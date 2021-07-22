@@ -42,11 +42,13 @@
 				v-else
 				class="znpb-option-selectOptionPlaceholderText"
 			>{{dropdownPlaceholder}}</span>
-			<Icon
-				icon="select"
-				class="znpb-inputDropdownIcon"
-				:rotate="showDropdown ? '180' : false"
-			/>
+			<span class="znpb-inputDropdownIcon-wrapper">
+				<Icon
+					icon="select"
+					class="znpb-inputDropdownIcon"
+					:rotate="showDropdown ? '180' : false"
+				/>
+			</span>
 		</div>
 
 		<template #content>
@@ -84,7 +86,11 @@
 						class="znpb-menuListItem"
 						v-for="option in visibleItems"
 						:key="option.id"
-						:class="{'znpb-menuListItem--selected': option.isSelected}"
+						:class="{
+							'znpb-menuListItem--selected': option.isSelected,
+							'znpb-menuListItem--is-label': option.is_label,
+							'znpb-menuListItem--is-group_item': option.is_group_item
+						}"
 						@click.stop="onOptionSelect(option)"
 						:style="getStyle(option.name)"
 					>
@@ -104,8 +110,10 @@
 </template>
 
 <script>
-import { ref, computed, watch, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect, inject, unref } from 'vue'
 import { debounce } from 'lodash-es'
+import { applyFilters } from '@zb/hooks'
+
 
 import { useSelectServerData } from './useSelectServerData.js'
 
@@ -126,8 +134,9 @@ export default {
 			type: String
 		},
 		server_callback_args: {},
-		server_callback_name_method: {
-			type: String
+		server_callback_per_page: {
+			type: Number,
+			default: 25
 		},
 		placeholder: {
 			type: String
@@ -163,6 +172,14 @@ export default {
 			required: false,
 			default: false
 		},
+		local_callback_method: {
+			type: String,
+			required: false
+		},
+		filter_id: {
+			type: String,
+			required: false
+		}
 	},
 	setup (props, { emit }) {
 		const optionWrapper = ref(null)
@@ -174,10 +191,11 @@ export default {
 		const stopSearch = ref(false)
 		const tooltipWidth = ref(null)
 
+		// Add element info
+		const elementInfo = inject('elementInfo', null)
+
 		let page = 1
-		const { fetch, getItems } = useSelectServerData({
-			method: props.server_callback_method
-		})
+		const { fetch, getItems } = useSelectServerData({})
 
 		const computedModelValue = computed(() => {
 			if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
@@ -224,6 +242,19 @@ export default {
 						id: props.modelValue,
 					})
 				}
+			}
+
+			// Check if we need to populate the data
+			if (props.local_callback_method) {
+				const localOptions = window[props.local_callback_method]
+				if (typeof localOptions === 'function') {
+					// Pass in options so we can modify them
+					options.push(...localOptions(options, elementInfo))
+				}
+			}
+
+			if (props.filter_id) {
+				options = applyFilters(props.filter_id, options, unref(elementInfo))
 			}
 
 			// set active tag
@@ -286,6 +317,10 @@ export default {
 				return
 			}
 
+			if (loading.value) {
+				return
+			}
+
 			loading.value = true
 
 			const include = props.modelValue
@@ -298,7 +333,9 @@ export default {
 				include
 			}).then((response) => {
 				// Check to see if all posts were found
-				if (response.length < 25) {
+				if (props.server_callback_per_page === -1) {
+					stopSearch.value = true
+				} else if (response.length < props.server_callback_per_page) {
 					stopSearch.value = true
 				}
 
@@ -309,6 +346,11 @@ export default {
 
 		function onScrollEnd () {
 			if (!props.server_callback_method) {
+				return
+			}
+
+			// Don't search if we need to show all results
+			if (props.server_callback_per_page === -1) {
 				return
 			}
 
@@ -377,6 +419,8 @@ export default {
 				tooltipWidth.value = optionWrapper.value.getBoundingClientRect().width
 			}
 
+
+
 			if ((props.filterable || props.addable) && searchInput.value) {
 				searchInput.value.focus()
 			}
@@ -435,6 +479,11 @@ export default {
 	opacity: .8;
 }
 
+.znpb-inputDropdownIcon-wrapper {
+	border-left: var(--zb-input-separator-width) solid
+	var(--zb-input-separator-color);
+}
+
 .znpb-inputDropdownIcon {
 	padding: 11px;
 }
@@ -445,7 +494,8 @@ export default {
 	align-items: center;
 	width: 100%;
 	font-weight: 500;
-	border: 2px solid var(--zion-border-color);
+	background: var(--zb-input-bg-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	cursor: pointer;
 }
@@ -460,7 +510,8 @@ export default {
 
 .znpb-option-selectWrapper {
 	width: 100%;
-	color: $font-color;
+	margin-right: 10px;
+	color: var(--zb-surface-text-color);
 }
 
 .znpb-inputAddableIcon {
@@ -471,5 +522,15 @@ export default {
 .znpb-option-selectOptionListSearchInput {
 	width: auto !important;
 	margin: 15px;
+}
+
+.znpb-menuListItem--is-label {
+	font-style: italic;
+	font-weight: bold;
+	pointer-events: none;
+}
+
+.znpb-menuListItem--is-group_item {
+	padding-left: 30px;
 }
 </style>

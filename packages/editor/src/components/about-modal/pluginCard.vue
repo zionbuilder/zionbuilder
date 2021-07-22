@@ -141,7 +141,7 @@ export default {
 .znpb-about-modal {
 	&__plugin-title {
 		margin-bottom: 16px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 		span {
 			text-transform: uppercase;
@@ -154,25 +154,26 @@ export default {
 		flex-direction: column;
 		align-items: center;
 		flex: 1;
+		background: var(--zb-surface-light-color);
 		margin-bottom: 25px;
-		border: 1px solid rgba($surface-variant, .7);
 		border-radius: 3px;
 
 		span {
 			margin-bottom: 15px;
-			opacity: .7;
+			opacity: 0.7;
 		}
 		.znpb-editor-icon-wrapper {
 			padding: 30px 0 20px 0;
 			margin-bottom: 0;
-			color: $surface-headings-color;
 			font-size: 44px;
-			opacity: .7;
+			opacity: 0.7;
 		}
 
-		&:hover, &--active {
-			border: 1px solid $surface-variant;
-			.znpb-editor-icon-wrapper, span {
+		&:hover,
+		&--active {
+			background: var(--zb-surface-lighter-color);
+			.znpb-editor-icon-wrapper,
+			span {
 				opacity: 1;
 			}
 		}
@@ -193,7 +194,8 @@ export default {
 			margin-bottom: 20px;
 		}
 		& > .znpb-button {
-			&.znpb-about-modal__version-card-button, &.znpb-button--secondary {
+			&.znpb-about-modal__version-card-button,
+			&.znpb-button--secondary {
 				margin-bottom: 13px;
 			}
 		}
@@ -207,12 +209,12 @@ export default {
 	position: absolute;
 	top: 30px;
 	right: 90px;
-	padding: 2px 8px;
+	padding: 4px 8px;
 	color: #fff;
 	font-size: 10px;
 	font-weight: 700;
 	text-transform: uppercase;
-	background-color: $pro-color;
+	background-color: var(--zb-pro-color);
 	border-radius: 2px;
 }
 </style>

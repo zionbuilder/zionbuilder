@@ -154,7 +154,7 @@ export default {
 	position: relative;
 	width: 100%;
 	padding-bottom: 30px;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 }
 .znpb-permissions-wrapper {
 	.znpb-admin-content {
@@ -167,7 +167,7 @@ export default {
 .znpb-admin-user-specific-wrapper {
 	margin-bottom: 30px;
 	.znpb-empty-list__container {
-		color: $surface-headings-color;
+		color: var(--zb-surface-text-color);
 	}
 }
 

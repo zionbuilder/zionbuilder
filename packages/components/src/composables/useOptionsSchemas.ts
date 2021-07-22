@@ -1,6 +1,7 @@
 import { ref, Ref } from 'vue'
+import { cloneDeep } from 'lodash-es'
 
-const schemas: Ref<{[key: string]: object}> = ref({
+const schemas: Ref<{ [key: string]: object }> = ref({
 	element_advanced: window.ZnPbComponentsData.schemas.element_advanced,
 	element_styles: window.ZnPbComponentsData.schemas.styles,
 	typography: window.ZnPbComponentsData.schemas.typography,
@@ -11,7 +12,7 @@ const schemas: Ref<{[key: string]: object}> = ref({
 
 export const useOptionsSchemas = () => {
 	const getSchema = (schemaId: string) => {
-		return schemas.value[schemaId] || {}
+		return cloneDeep(schemas.value[schemaId]) || {}
 	}
 
 	const registerSchema = (schemaId: string, schema) => {

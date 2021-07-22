@@ -83,11 +83,11 @@ export default {
 .znpb-element-options__pseudo-actions {
 	display: flex;
 	align-items: center;
-	color: $surface-headings-color;
+	color: var(--zb-surface-icon-color);
 	font-size: 14px;
 
 	&:hover {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-hover-color);
 	}
 }
 
@@ -100,10 +100,10 @@ export default {
 		cursor: pointer;
 
 		&--active {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 		}
 		&:hover {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 }

@@ -268,23 +268,22 @@ export default {
 	min-width: 200px;
 	padding: 0;
 	margin: 0;
-	color: $font-color;
+	color: var(--zb-dropdown-text-color);
 	font-size: 14px;
 	list-style-type: none;
-	background-color: $surface;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .1);
+	background-color: var(--zb-dropdown-bg-color);
+	box-shadow: 0 5px 10px 0 var(--zb-dropdown-shadow);
 	border-radius: 3px;
-	outline: 1px solid $surface-variant;
 }
 .znpb-right-click__menu-item {
 	display: flex;
 	align-items: center;
 	padding: 8px 16px;
-	font-family: $font-stack;
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 20px;
-	transition: all .1s ease;
+	transition: all 0.1s ease;
 	cursor: pointer;
 
 	&:first-child {
@@ -295,7 +294,8 @@ export default {
 	}
 
 	&:hover {
-		color: $surface-active-color;
+		color: var(--zb-dropdown-text-active-color);
+		background: var(--zb-surface-lighter-color);
 	}
 
 	& > span {
@@ -305,6 +305,6 @@ export default {
 .znpb-right-click__menu-separator {
 	height: 1px;
 	margin: 5px 0;
-	border-top: 1px solid $surface-variant;
+	border-top: 1px solid var(--zb-surface-lighter-color);
 }
 </style>

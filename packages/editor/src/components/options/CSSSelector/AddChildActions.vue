@@ -18,7 +18,7 @@
 				/>
 				<Button
 					@click="add"
-					class="znpb-option-cssSelectorChildActionAddButton"
+					class="znpb-button--line znpb-option-cssSelectorChildActionAddButton"
 					:type="buttonType"
 				>
 					Add child selector
@@ -103,7 +103,7 @@ export default {
 
 		const buttonType = computed(() => {
 			if (!canSave.value) {
-				return 'gray'
+				return 'disabled'
 			}
 
 			return ''
@@ -169,13 +169,9 @@ export default {
 		align-items: center;
 		width: 30px;
 		height: 30px;
-		background: #e5e5e5;
+		background: var(--zb-surface-lightest-color);
 		border-radius: 3px;
-		transition: background .2s;
-
-		&:hover {
-			background: darken(#e5e5e5, 5%);
-		}
+		transition: background 0.2s;
 	}
 }
 

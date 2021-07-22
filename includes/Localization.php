@@ -217,7 +217,6 @@ class Localization {
 				// element options
 				'edit_element'                           => __( 'Edit Element', 'zionbuilder' ),
 				'save_element'                           => __( 'Save Element ', 'zionbuilder' ),
-				'clone_element'                          => __( 'Clone Element ', 'zionbuilder' ),
 				'rename_element'                         => __( 'Rename Element', 'zionbuilder' ),
 				'visible_element'                        => __( 'Hide Element ', 'zionbuilder' ),
 				'show_element'                           => __( 'Show Element ', 'zionbuilder' ),
@@ -692,6 +691,12 @@ class Localization {
 
 				// Maintenance mode
 				'maintenance_mode'                       => __( 'Maintenance mode', 'zionbuilder' ),
+				'appearance'                             => __( 'Appearance', 'zionbuilder' ),
+
+				// Appearance page
+				'builder_theme'                          => __( 'Builder theme', 'zionbuilder' ),
+				'builder_theme_desc'                     => __( 'By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages', 'zionbuilder' ),
+
 			]
 		);
 	}

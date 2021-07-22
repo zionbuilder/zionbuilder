@@ -1,8 +1,6 @@
 class Cache {
-	static CACHE_KEY = 'znpb_page_cache'
-
 	getCacheKey(postId: number) {
-		const cacheKey = Cache.CACHE_KEY
+		const cacheKey = 'znpb_page_cache'
 		return `${cacheKey}-${postId}`
 	}
 

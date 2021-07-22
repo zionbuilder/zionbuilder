@@ -1,33 +1,43 @@
 import {
 	ref,
-	toRaw
+	toRaw,
+	inject
 } from 'vue'
 import hash from 'object-hash'
 import {
-	set,
 	get,
 	unionBy
 } from 'lodash-es'
 
-const items = ref([])
 const cache = ref({})
 
 export function useSelectServerData(config) {
-	let requester
-	if (window.zb.editor) {
-		requester = window.zb.editor.serverRequest
-	} else if (window.zb.admin) {
-		requester = window.zb.admin.serverRequest
+	let requester = inject('serverRequester')
+
+	const items = ref([])
+
+	if (!requester) {
+		if (window.zb.admin) {
+			requester = window.zb.admin.serverRequest
+		}
 	}
 
 	function fetch(config) {
+		if (!requester) {
+			return Promise.reject('Server requester not provided')
+		}
+
 		const cacheKey = generateCacheKey(toRaw(config))
 		const saveItemsCache = generateItemsCacheKey(toRaw(config))
 
 		if (cache[cacheKey]) {
+			saveItems(saveItemsCache, cache[cacheKey])
 			return Promise.resolve(cache[cacheKey])
 		} else {
 			return new Promise((resolve, reject) => {
+				// Allow value caching
+				config.useCache = true
+
 				requester.request({
 					type: 'get_input_select_options',
 					config: config
@@ -36,7 +46,7 @@ export function useSelectServerData(config) {
 					saveItems(saveItemsCache, response.data)
 
 					// add items to cache
-					addToCache(cacheKey, response.data)
+					// addToCache(cacheKey, response.data)
 
 					// Send back the response in case it is needed
 					resolve(response.data)

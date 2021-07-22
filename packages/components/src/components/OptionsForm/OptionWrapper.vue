@@ -396,11 +396,11 @@ export default {
 
 				// Check to see if we need to refresh the iframe
 				if (props.schema.on_change) {
+
 					if (props.schema.on_change === "refresh_iframe") {
 						trigger("refreshIframe");
-					} else if (props.schema.on_change.condition.value[0] !== newValue) {
-						// Check if we need to clear path option
-						deleteTopModelValueByPath(props.schema.on_change.option_path)
+					} else {
+						window[props.schema.on_change].apply(null, [newValue])
 					}
 				}
 			},
@@ -603,8 +603,8 @@ export default {
 		display: flex;
 		align-items: center;
 		margin-bottom: 10px;
-		color: darken($font-color, 15%);
-		font-family: $font-stack;
+		color: var(--zb-surface-text-hover-color);
+		font-family: var(--zb-font-stack);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 14px;
@@ -616,7 +616,7 @@ export default {
 		}
 
 		.znpb-editor-icon-wrapper {
-			color: $surface-headings-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 
@@ -651,10 +651,10 @@ export default {
 	}
 
 	&:hover, &:active {
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 
 		& > .znpb-editor-icon-wrapper {
-			color: $surface-active-color;
+			color: var(--zb-surface-icon-color);
 		}
 	}
 }

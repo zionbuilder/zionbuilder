@@ -160,12 +160,11 @@ export default {
 	},
 	computed: {
 		isPro () {
-			if (window.ZnPbInitalData !== undefined) {
-				return window.ZnPbInitalData.plugin_info.is_pro_active
+			if (window.ZnPbComponentsData !== undefined) {
+				return window.ZnPbComponentsData.is_pro_active
 			}
-			if (window.ZnPbAdminPageData !== undefined) {
-				return window.ZnPbAdminPageData.is_pro_active
-			}
+
+			return false
 		},
 	},
 

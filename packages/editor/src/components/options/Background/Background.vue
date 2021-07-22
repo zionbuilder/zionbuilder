@@ -158,8 +158,8 @@ export default {
 			flex-grow: 1;
 
 			&--active {
-				color: #fff;
-				background: $secondary;
+				color: var(--zb-secondary-text-color);
+				background: var(--zb-secondary-color);
 			}
 		}
 	}

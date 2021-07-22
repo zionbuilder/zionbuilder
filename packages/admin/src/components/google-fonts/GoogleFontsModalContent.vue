@@ -138,12 +138,13 @@ export default {
 			left: 0;
 			width: 20px;
 			height: 20px;
-			background: $surface;
-			&:before, &:after {
-				border: 2px solid $surface-variant;
+			background: var(--zb-surface-color);
+			&:before,
+			&:after {
+				border: 2px solid var(--zb-surface-border-color);
 			}
 			&:after {
-				border-right-color: #fff;
+				border-right-color: var(--zb-surface-color);
 			}
 		}
 	}

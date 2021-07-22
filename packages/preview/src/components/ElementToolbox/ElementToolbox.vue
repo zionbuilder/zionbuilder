@@ -9,7 +9,7 @@
 			'z-index': zIndex
 		}"
 		ref="rectangle"
-		@mouseover.stop="zIndex = 1001"
+		@mouseover.stop="zIndex = 9999"
 		@mouseout.stop="zIndex = null"
 	>
 		<template v-if="computedStyle">
@@ -612,7 +612,7 @@ export default {
 			span {
 				padding: 4px;
 				line-height: 1;
-				background-color: $surface;
+				background-color: var(--zb-surface-color);
 				border-radius: 3px;
 			}
 		}
@@ -624,19 +624,19 @@ export default {
 			.znpb-element__wrapper > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $elements-toolbox-border-color;
+					background-color: var(--zb-element-border-color);
 				}
 			}
 			.zb-column > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $column-border-color;
+					background-color: var(--zb-column-border-color);
 				}
 			}
 			.zb-section > .znpb-element-toolbox & {
 				background-color: transparent;
 				.znpb-element-toolbox__resize-width-bg {
-					background-color: $section-border-color;
+					background-color: var(--zb-section-border-color);
 				}
 			}
 			&-bg {
@@ -926,7 +926,7 @@ export default {
 		z-index: 1001;
 		width: 34px;
 		height: 34px;
-		color: $surface;
+		color: #fff;
 		font-size: 14px;
 		line-height: 1 !important;
 		transform: translate(-50%, -50%);
@@ -943,15 +943,15 @@ export default {
 			@extend %iconbg;
 
 			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: $elements-toolbox-color;
+				background-color: var(--zb-element-color);
 			}
 
 			.zb-column > .znpb-element-toolbox & {
-				background-color: $column-color;
+				background-color: var(--zb-column-color);
 			}
 
 			.zb-section > .znpb-element-toolbox & {
-				background-color: $section-color;
+				background-color: var(--zb-section-color);
 			}
 		}
 		.znpb-editor-icon-wrapper {
@@ -981,7 +981,7 @@ export default {
 
 .znpb-sizing-label {
 	padding: 4px;
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 1;

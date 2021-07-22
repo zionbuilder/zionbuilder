@@ -155,17 +155,18 @@ export default {
 		align-items: center;
 		border: none;
 	}
-	.zion-input, input[type="range"] {
+	.zion-input,
+	input[type="range"] {
 		position: relative;
 		flex: 2;
 		width: 100%;
 		padding: 0;
-		background: transparent;
+		background: var(--zb-input-bg-color);
 	}
 	& > label > .znpb-input-number > .zion-input > input[type="number"] {
 		height: auto;
 		padding: 12px 10px 12px 10px;
-		font-family: $font-stack;
+		font-family: var(--zb-font-stack);
 	}
 
 	input.znpb-input-number__input {
@@ -182,12 +183,12 @@ export default {
 		left: 0;
 		width: 0;
 		height: 2px;
-		background-color: $secondary;
+		background-color: var(--zb-secondary-color);
 	}
 	&__label {
 		flex: 1;
 		margin-left: 7px;
-		color: $surface-headings-color;
+		color: var(--zb-surface-icon-color);
 		border-radius: 3px;
 		.znpb-input-number .zion-input__suffix {
 			font-size: 11px;
@@ -214,7 +215,7 @@ export default {
 		width: 18px;
 		height: 18px;
 		margin: -8px 0 0;
-		background-color: $secondary;
+		background-color: var(--zb-secondary-color);
 		border-radius: 50%;
 		cursor: pointer;
 		&:active {
@@ -226,10 +227,10 @@ export default {
 	input[type="range"]::-moz-range-thumb {
 		width: 18px;
 		height: 18px;
-		background: $secondary;
+		background: var(--zb-secondary-color);
 		border-radius: 50%;
 		transform: translate(0px, 0px);
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 		cursor: pointer;
 	}
 
@@ -237,8 +238,8 @@ export default {
 	input[type="range"]::-ms-thumb {
 		width: 18px;
 		height: 18px;
-		background-color: $surface;
-		border: 2px solid $secondary;
+		background-color: var(--zb-surface-color);
+		border: 2px solid var(--zb-secondary-color);
 		border-radius: 50%;
 		transform: translate(-1px, 0px);
 		cursor: pointer;
@@ -250,20 +251,20 @@ export default {
 		width: 100%;
 		height: 2px;
 		margin: 0;
-		background: $border-color;
+		background: var(--zb-surface-lightest-color);
 		cursor: pointer;
 	}
 
 	input[type="range"]:focus::-webkit-slider-runnable-track {
 		margin: 0;
-		background: $border-color;
+		background: var(--zb-surface-lightest-color);
 	}
 
 	input[type="range"]::-moz-range-track {
 		width: 100%;
 		height: 2px;
 		margin: 0;
-		background: $border-color;
+		background: var(--zb-surface-lightest-color);
 		cursor: pointer;
 	}
 
@@ -271,16 +272,16 @@ export default {
 		width: 100%;
 		height: 2px;
 		margin: 0;
-		color: $surface-active-color;
-		background: $surface-active-color;
-		border-color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
+		background: var(--zb-surface-text-active-color);
+		border-color: var(--zb-surface-text-active-color);
 		cursor: pointer;
 	}
 	input[type="range"]::-ms-fill-lower {
-		border: 2px solid $secondary;
+		border: 2px solid var(--zb-secondary-color);
 	}
 	input[type="range"]::-ms-fill-upper {
-		border: 2px solid $secondary;
+		border: 2px solid var(--zb-secondary-color);
 	}
 }
 

@@ -61,7 +61,7 @@ import { useLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'ToolsPage',
-	setup() {
+	setup () {
 		const loadingSync = ref(false)
 		const loading = ref(false)
 
@@ -112,7 +112,7 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	padding-bottom: 90px;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 
 	@media (max-width: 575px) {
 		flex-direction: column;

@@ -3,22 +3,19 @@ const {
 } = require('@zionbuilder/webpack-config');
 const path = require('path')
 
-module.exports = getConfig(
-	{
+module.exports = getConfig({
 		css: {
 			loaderOptions: {
 				sass: {
-					additionalData: `@import "~@zionbuilder/css-variables/_variables.scss";@import "~@zionbuilder/css-variables/_mixins.scss";`
+					additionalData: `@import "~@zionbuilder/css-variables/_mixins.scss";`
 				}
 			}
 		},
-		features:
-		{
+		features: {
 			vue: true,
 			zionVue: true
 		}
-	},
-	{
+	}, {
 		resolve: {
 			alias: {
 				'@composables': path.resolve(__dirname, './src/composables'),

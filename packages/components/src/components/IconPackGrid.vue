@@ -1,13 +1,12 @@
 <template>
 
-	<div
-		class="znpb-icon-pack-modal__icons"
-	>
+	<div class="znpb-icon-pack-modal__icons">
 		<div
 			class="znpb-icon-pack-modal__grid"
 			v-if="iconList.length > 0"
 		>
-			<div class="znpb-icon-pack-modal-icon"
+			<div
+				class="znpb-icon-pack-modal-icon"
 				v-for="(icon,i) in iconList"
 				:key="i"
 			>
@@ -67,7 +66,6 @@ export default {
 }
 </script>
 <style lang="scss">
-
 .znpb-icon-pack-modal {
 	&__icons {
 		padding: 0 10px 20px;
@@ -94,21 +92,28 @@ export default {
 	align-items: center;
 	height: 92px;
 	margin-bottom: 5px;
-	box-shadow: 0 5px 10px 0 rgba(164, 164, 164, .08);
-	border: 1px solid $surface-variant;
+	box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
+	border: 1px solid var(--zb-elements-border-color);
 	border-radius: 3px;
-	transition: all .2s;
 	cursor: pointer;
 
 	span {
-		color: $font-color;
+		color: var(--zb-surface-text-color);
 		font-size: 28px;
-		transition: all .2s;
+		transition: all 0.2s;
 	}
-	&:hover, &--active {
-		border: 2px solid $secondary;
+	&:hover {
+		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
+
 		span {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-hover-color);
+		}
+	}
+
+	&--active {
+		border: 2px solid var(--zb-secondary-color);
+		span {
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 }

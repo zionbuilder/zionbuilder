@@ -1,5 +1,6 @@
 <template>
-	<div class="znpb-button"
+	<div
+		class="znpb-button"
 		:class="{['znpb-button--' + type]: type}"
 	>
 		<!-- @slot Content that will be added inside button -->
@@ -9,17 +10,17 @@
 
 <script lang="ts">
 export default {
-	name: 'Button',
+	name: "Button",
 	props: {
 		/**
 		 * Button type
 		 */
 		type: {
 			type: String,
-			required: false
-		}
-	}
-}
+			required: false,
+		},
+	},
+};
 </script>
 
 <style lang="scss">
@@ -28,18 +29,19 @@ export default {
 	justify-content: center;
 	align-items: center;
 	padding: 13.5px 20px;
-	color: $primary-color--accent;
-	font-family: $font-stack;
+	color: var(--zb-primary-text-color);
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1;
-	background: $primary-color;
+	background: var(--zb-primary-color);
 	border-radius: 3px;
-	transition: all .3s;
+	transition: all 0.3s;
 	cursor: pointer;
+	user-select: none;
 
 	&:hover {
-		background: darken( $primary-color, 3 );
+		background: var(--zb-primary-hover-color);
 	}
 
 	b {
@@ -52,7 +54,7 @@ export default {
 
 	&--minimal {
 		padding: 0 40px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 14px;
 		font-weight: 400;
 		line-height: 44px;
@@ -64,39 +66,50 @@ export default {
 	}
 
 	&--secondary {
-		color: $secondary-color--accent;
-		background: $secondary;
+		color: var(--zb-secondary-text-color);
+		background: var(--zb-secondary-color);
 
-		&:hover, &:focus, &:active {
-			color: $surface;
+		&:hover,
+		&:focus,
+		&:active {
+			color: var(--zb-secondary-text-color);
 		}
 
 		&:hover {
-			background: lighten( $secondary, 2 );
+			background: var(--zb-secondary-hover-color);
+		}
+
+		&.znpb-button--disabled:hover {
+			color: var(--zb-secondary-text-color);
+			background: var(--zb-secondary-color);
 		}
 	}
 
 	&--line {
 		padding: 11.5px 20px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		background: transparent;
-		border: 2px solid $border-color;
+		border: 2px solid var(--zb-surface-border-color);
 
 		& .znpb-editor-icon {
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 		}
 
 		&:hover {
 			background: none;
-			opacity: .6;
+			opacity: 0.6;
+		}
+
+		&.znpb-button--disabled:hover {
+			opacity: 1;
 		}
 	}
 
 	&--color {
 		padding: 18px 70px;
-		background: $pro-color;
+		background: var(--zb-pro-color);
 		&:hover {
-			background: darken( $pro-color, 3 );
+			background: var(--zb-pro-color);
 		}
 	}
 
@@ -104,21 +117,32 @@ export default {
 		background: #e35364;
 
 		&:hover {
-			background: darken( #e35364, 3 );
+			background: darken(#e35364, 3);
 		}
 	}
 
 	&--gray {
-		color: #858585;
-		background: #f1f1f1;
+		color: var(--zb-surface-text-color);
+		background: var(--zb-surface-lighter-color);
 
 		&:hover {
-			background: darken( #f1f1f1, 3 );
+			background: var(--zb-surface-lightest-color);
+		}
+
+		&.znpb-button--disabled:hover {
+			background: var(--zb-surface-lightest-color);
 		}
 	}
+
 	&--disabled {
-		background: rgba( $secondary, .7);
+		opacity: 0.5;
 		pointer-events: none;
+		cursor: not-allowed;
+	}
+
+	.znpb-loader::after {
+		border-right-color: currentColor;
+		border-bottom-color: currentColor;
 	}
 }
 </style>

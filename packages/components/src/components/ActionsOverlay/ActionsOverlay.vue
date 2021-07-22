@@ -44,7 +44,7 @@ export default {
 	}
 
 	&__actions {
-		background: $surface;
+		background: var(--zb-surface-color);
 		border-radius: 3px;
 
 		.znpb-editor-icon-wrapper {
@@ -60,7 +60,7 @@ export default {
 			align-items: flex-end;
 			width: 100%;
 			padding: 10px;
-			transition: all .3s;
+			transition: all 0.3s;
 			opacity: 0;
 			visibility: hidden;
 			&--mouseover-expander {

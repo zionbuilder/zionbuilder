@@ -116,7 +116,7 @@ export default {
 	flex-direction: column;
 	height: 100%;
 	min-height: 0;
-	color: $font-color;
+	color: var(--zb-surface-text-color);
 }
 
 .znpb-history-wrapper {
@@ -135,14 +135,14 @@ export default {
 		min-height: 48px;
 		padding: 17px 15px;
 		margin: 0 20px 5px;
-		background-color: $surface-variant;
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
 		.znpb-action-name {
 			flex-grow: 1;
 			overflow: hidden;
 			width: 100%;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -153,16 +153,16 @@ export default {
 		}
 
 		&:hover {
-			background-color: darken($surface-variant, 3%);
+			background-color: var(--zb-surface-lightest-color);
 			cursor: pointer;
 		}
 
 		&.znpb-history-action--active {
-			color: $surface;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
 
 			.znpb-action-name {
-				color: $surface;
+				color: var(--zb-secondary-text-color);
 			}
 		}
 	}
@@ -174,31 +174,31 @@ export default {
 	flex-grow: 1;
 	padding: 15px 0;
 	margin-right: 5px;
-	background: $surface-variant;
+	background: var(--zb-surface-lighter-color);
 	border-radius: 3px;
-	transition: color linear .3s;
+	transition: color linear 0.3s;
 	cursor: pointer;
 	&-wrapper {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
-		padding: 20px 30px;
+		padding: 20px;
 	}
 	&--inactive {
-		opacity: .5;
+		opacity: 0.6;
 	}
 	&:last-child {
 		margin-right: 0;
 	}
 
 	&:hover {
-		color: darken($font-color, 15%);
+		color: var(--zb-surface-text-hover-color);
 	}
 
 	// &--inactive, &--inactive:hover {
 	// 	.zion-icon.zion-svg-inline {
-	// 		color: darken($font-color, 15%);
+	// 		color: var(--zb-surface-text-hover-color);
 	// 	}
 	// }
 

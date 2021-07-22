@@ -45,7 +45,7 @@ export default {
 
 <style lang="scss">
 .znpb-admin-system-notice {
-	color: $secondary-color--accent;
+	color: var(--zb-secondary-text-color);
 	font-size: 16px;
 
 	&--no-tooltip {
@@ -62,14 +62,14 @@ export default {
 	}
 
 	&--not_ok {
-		color: $warning;
+		color: var(--zb-warning-color);
 		cursor: pointer;
 	}
 	&--ok {
-		color: $green;
+		color: var(--zb-success-color);
 	}
 	&--warning {
-		color: $error;
+		color: var(--zb-error-color);
 		cursor: pointer;
 	}
 }

@@ -54,26 +54,27 @@ export default {
 
 .znpb-element-category-list {
 	display: grid;
-	padding: 0;
+	padding: 0 0 40px;
 
-// padding: 15px 30px;
+	// padding: 15px 30px;
 
 	grid-gap: 20px 18px;
 	grid-template-columns: 1fr 1fr 1fr;
 
-	&Wrapper {
-		margin-bottom: 20px;
-	}
+	// &Wrapper {
+	// 	margin-bottom: 40px;
+	// }
 
 	&Title {
 		padding: 0;
 		margin-top: 0;
 		margin-bottom: 10px;
-		color: $font-color;
-		font-family: $font-stack;
-		font-size: 13px;
-		font-weight: 500;
-		line-height: 14px;
+		color: var(--zb-surface-text-muted-color);
+		font-family: var(--zb-font-stack);
+		font-size: 11px;
+		font-weight: 700;
+		line-height: 1;
+		text-transform: uppercase;
 	}
 }
 

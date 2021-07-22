@@ -42,6 +42,7 @@ export default {
 			return this.shapes['top']
 		},
 		bottomMask () {
+
 			return this.shapes['bottom']
 		},
 		htmlTag () {

@@ -20,7 +20,6 @@
 					@click.stop="$emit('update:modelValue',null)"
 					icon="delete"
 					:rounded="true"
-					bg-color="#fff"
 				/>
 			</div>
 			<span
@@ -107,13 +106,13 @@ export default {
 	align-items: center;
 	height: 100px;
 	font-weight: 500;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 	border-radius: 3px;
 	cursor: pointer;
 
 	&--no-icon {
 		background: transparent;
-		border: 2px dashed $border-color;
+		border: 2px dashed var(--zb-surface-border-color);
 	}
 
 	.znpb-editor-icon-wrapper {
@@ -121,14 +120,14 @@ export default {
 		right: 15px;
 		bottom: 15px;
 		padding: 7px;
-		transition: all .2s;
+		transition: all 0.2s;
 		&:hover {
-			opacity: .7;
+			opacity: 0.7;
 		}
 	}
 }
 .znpb-icon-preview {
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 28px;
 }
 .znpb-icon-library-modal > .znpb-modal__wrapper {

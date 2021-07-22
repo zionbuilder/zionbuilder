@@ -41,7 +41,6 @@
 			</div>
 		</template>
 		<div class="znpb-element-options-content-wrapper">
-
 			<Tabs
 				:has-scroll="['general','advanced']"
 				v-model:activeTab="activeKeyTab"
@@ -70,7 +69,7 @@
 				</Tab>
 				<Tab name="Advanced">
 					<OptionsForm
-						class="znpb-element-options-content-form  znpb-fancy-scrollbar"
+						class="znpb-element-options-content-form znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
 						v-model="advancedOptionsModel"
 					/>
@@ -138,7 +137,7 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue'
-import { on, off, applyFilters } from '@zb/hooks'
+import { on, off } from '@zb/hooks'
 import { debounce, isEditable } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
@@ -178,6 +177,18 @@ export default {
 				if (!ignoreLocalHistory) {
 					addToLocalHistory()
 					ignoreLocalHistory = false
+				}
+			}
+		})
+
+		const advancedOptionsModel = computed({
+			get () {
+				return elementOptions.value._advanced_options || {}
+			},
+			set (newValues) {
+				elementOptions.value = {
+					...elementOptions.value,
+					_advanced_options: newValues
 				}
 			}
 		})
@@ -244,11 +255,13 @@ export default {
 		provideElement(element)
 		provide('elementInfo', element)
 		provide('OptionsFormTopModelValue', elementOptions)
+		provide('serverRequester', element.value.serverRequester)
 
 		return {
 			element,
 			// Computed
 			elementOptions,
+			advancedOptionsModel,
 			getSchema,
 			editElement,
 			unEditElement,
@@ -287,34 +300,11 @@ export default {
 					name: config.title,
 					icon: 'brush',
 					allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
-					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.uid}`),
+					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
 					allow_delete: false,
 					show_breadcrumbs: true,
 					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
 				}
-
-				// const optionConfig = {
-				// 	type: 'accordion_menu',
-				// 	title: config.title,
-				// 	id: styleId,
-				// 	icon: 'brush',
-				// 	child_options: {
-				// 		styles: {
-				// 			type: 'element_styles',
-				// 			id: 'styles',
-				// 			is_layout: true,
-				// 			selector: config.selector.replace('{{ELEMENT}}', this.element.uid),
-				// 			title: config.title,
-				// 			allow_class_assignments: typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true
-				// 		}
-				// 	}
-				// }
-
-				// if (typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true) {
-				// 	optionConfig.child_options.attributes = this.attributesOptions
-				// }
-
-				// schema[styleId] = optionConfig
 			})
 
 			return {
@@ -352,17 +342,6 @@ export default {
 				}
 			}
 		},
-		advancedOptionsModel: {
-			get () {
-				return this.elementOptions._advanced_options || {}
-			},
-			set (newValues) {
-				this.elementOptions = {
-					...this.elementOptions,
-					_advanced_options: newValues
-				}
-			}
-		},
 		getElementInfo () {
 			return {
 				uid: this.element.uid,
@@ -376,6 +355,7 @@ export default {
 			if (keyword.length > 2) {
 				return this.filterOptions(keyword, this.allOptionsSchema)
 			}
+
 			return {}
 		}
 	},
@@ -426,9 +406,9 @@ export default {
 						syncValue.push(optionId)
 					}
 
-					if (optionConfig.type === 'element_styles') {
+					if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 						syncValue.push('styles')
-						syncValueName.push(this.$translate('styles'))
+						syncValueName.push(this.$translate('styles'), optionConfig.name)
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -478,7 +458,7 @@ export default {
 					return
 				}
 
-				if (optionConfig.type === 'element_styles') {
+				if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 					const childOptions = this.filterOptions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
 
 					foundOptions = {
@@ -630,17 +610,17 @@ export default {
 				width: 22px;
 				height: 22px;
 				margin-right: 10px;
-				color: $icons-color;
+				color: var(--zb-surface-icon-color);
 				font-size: 14px;
-				background-color: $surface-variant;
+				background-color: var(--zb-surface-lighter-color);
 				border-radius: 3px;
 				transition: .15s all;
 				transition: all .3s;
 				cursor: pointer;
 
 				&:hover {
-					color: darken($icons-color, 5%);
-					background-color: darken($surface-variant, 2%);
+					color: var(--zb-surface-text-hover-color);
+					background-color: var(--zb-surface-lightest-color);
 				}
 
 				svg {
@@ -664,9 +644,9 @@ export default {
 			min-width: 200px;
 			max-height: 360px;
 			padding: 16px 16px 4px;
-			background-color: #fff;
-			box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
-			border: 1px solid #f1f1f1;
+			background-color: var(--zb-dropdown-bg-color);
+			box-shadow: var(--zb-dropdown-shadow);
+			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 3px;
 			transform: translate(10px, -10px);
 
@@ -686,7 +666,7 @@ export default {
 		.znpb-element-options__tabs-wrapper {
 			flex-grow: 1;
 			padding-top: 20px;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-darker-color);
 		}
 		.znpb-tabs {
 			display: flex;
@@ -729,7 +709,7 @@ export default {
 			flex: 1;
 			padding: 15px 37px;
 			line-height: 1;
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 			border-radius: 3px;
 			cursor: pointer;
 
@@ -755,7 +735,7 @@ export default {
 		width: calc(100% - 78px);
 		height: 38px;
 		margin-left: 20px;
-		background: $surface-variant;
+		background: var(--zb-surface-lighter-color);
 		border: none;
 		border-radius: 0;
 
@@ -783,7 +763,7 @@ export default {
 	flex: 0 1 auto;
 	padding: 0;
 	margin-left: auto;
-	background: $surface;
+	background: var(--zb-surface-color);
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 

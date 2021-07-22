@@ -87,7 +87,8 @@ export default {
 					type: 'checkbox_switch',
 					id: 'flip',
 					title: this.$translate('flip_mask'),
-					width: '100'
+					width: '100',
+					layout: 'inline'
 				}
 			}
 		},
@@ -123,7 +124,7 @@ export default {
 	max-height: 400px;
 	padding: 20px;
 	margin: 0 -20px;
-	background-color: #f1f1f1;
+	background-color: var(--zb-surface-light-color);
 }
 
 /* Enter and leave transitions for delete mask */

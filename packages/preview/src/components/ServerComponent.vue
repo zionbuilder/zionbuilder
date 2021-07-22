@@ -89,8 +89,6 @@ export default {
 			element_data: props.element
 		})
 
-		const requester = serverRequest.createRequester()
-
 		function loadScripts (scripts) {
 			const { loadScript } = ScriptsLoader()
 
@@ -114,7 +112,7 @@ export default {
 		function getElementFromServer () {
 			loading.value = true
 
-			requester.request({
+			props.element.serverRequester.request({
 				type: 'render_element',
 				config: serverComponentRenderData
 			}, (response) => {
@@ -206,7 +204,7 @@ export default {
 		justify-content: center;
 		height: 70px;
 		padding: 10px;
-		background: $surface-variant;
+		background: var(--zb-surface-lighter-color);
 	}
 
 	&-loader--loading {

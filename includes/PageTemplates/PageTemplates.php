@@ -79,6 +79,12 @@ class PageTemplates {
 			return $template;
 		}
 
+		// If we are on preview mode, check for autosave
+		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
+			// get_post_or_autosave_instance
+			$post_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
+		}
+
 		$post_template = $post_instance->get_post_template();
 		// Check to see if this is one of our templates
 		if ( in_array( $post_template, array_keys( $this->get_custom_templates() ), true ) ) {

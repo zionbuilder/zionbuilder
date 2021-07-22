@@ -12,12 +12,13 @@
 			type="radio"
 			class="znpb-form__input-toggle"
 		>
-		<span
-			class="znpb-radio-item-input"
-		></span>
+		<span class="znpb-radio-item-input"></span>
 		<!-- @slot Content such as Icon -->
 		<slot></slot>
-		<span class="znpb-radio-item-label" v-if="label">{{label}}</span>
+		<span
+			class="znpb-radio-item-label"
+			v-if="label"
+		>{{label}}</span>
 	</label>
 </template>
 
@@ -114,12 +115,13 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: $surface-variant;
+			background: var(--zb-surface-lighter-color);
 			border-radius: 50%;
 		}
 	}
 
-	&--active &-input, &:hover &-input {
+	&--active &-input,
+	&:hover &-input {
 		&:before {
 			content: "";
 			position: absolute;
@@ -127,23 +129,23 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: $secondary;
-			animation-duration: .3s;
+			background: var(--zb-secondary-color);
+			animation-duration: 0.3s;
 			animation-name: colorGrow;
 		}
 	}
 
 	@keyframes colorGrow {
 		0% {
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 			transform: scale(1);
 		}
 		50% {
-			background-color: $surface-variant;
+			background-color: var(--zb-surface-lighter-color);
 			transform: scale(0);
 		}
 		100% {
-			background-color: $secondary;
+			background-color: var(--zb-secondary-color);
 			transform: scale(1);
 		}
 	}

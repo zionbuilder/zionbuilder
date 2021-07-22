@@ -2,14 +2,14 @@
 
 namespace ZionBuilder\Editor;
 
-use ZionBuilder\CommonJS;
 use ZionBuilder\Utils;
-use ZionBuilder\Nonces;
+use ZionBuilder\Settings;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Elements\Masks;
 use ZionBuilder\Whitelabel;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -42,6 +42,16 @@ class Editor {
 		// load preview
 		$this->preview = new Preview();
 		add_action( 'admin_action_zion_builder_active', [ $this, 'init' ] );
+	}
+
+	public function set_builder_theme( $classes ) {
+		$builder_theme = Settings::get_value_from_path( 'appearance.builder_theme', 'light' );
+
+		$classes = explode( ' ', $classes );
+
+		$classes[] = sprintf( 'znpb-theme-%s', $builder_theme );
+
+		return implode( ' ', $classes );
 	}
 
 	/**
@@ -78,6 +88,7 @@ class Editor {
 
 		// Remove admin bar
 		add_filter( 'show_admin_bar', '__return_false' );
+		add_filter( 'zionbulder/editor/body_class', [ $this, 'set_builder_theme' ] );
 
 		// Remove title tag as it is manually added by the template
 		remove_theme_support( 'title-tag' );

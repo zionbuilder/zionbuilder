@@ -23,7 +23,6 @@
 							:rounded="true"
 							icon="delete"
 							:bg-size="30"
-							bg-color="#fff"
 							@click.stop="deleteImage"
 						/>
 
@@ -503,7 +502,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		color: $surface;
+		color: var(--zb-surface-color);
 		transform: translateX(-50%);
 		&-text {
 			font-size: 10px;
@@ -542,9 +541,9 @@ export default {
 	overflow: hidden;
 	padding: 5px;
 	margin-bottom: 20px;
-	box-shadow: 0 0 0 2px var(--zion-border-color);
+	box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .5s ease;
+	transition: all 0.5s ease;
 	cursor: pointer;
 	&__image {
 		display: block;

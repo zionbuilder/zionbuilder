@@ -32,10 +32,7 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles
-				:styles="customCSS"
-				v-if="!element.isClone"
-			/>
+			<ElementStyles :styles="customCSS" />
 		</template>
 
 		<template #end>
@@ -43,7 +40,6 @@
 				class="znpb-hidden-element-container"
 				v-if="!element.isVisible"
 			>
-
 				<div class="znpb-hidden-element-placeholder">
 					<Icon
 						icon="eye"
@@ -52,10 +48,6 @@
 					</Icon>
 				</div>
 			</div>
-
-			<transition name="znpb-fade">
-
-			</transition>
 		</template>
 	</component>
 </template>
@@ -74,7 +66,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement, serverRequest } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas } from '@zb/components'
@@ -89,7 +81,7 @@ export default {
 		ElementLoading,
 		ElementStyles
 	},
-	props: ['element', 'isRepeaterItem'],
+	props: ['element'],
 	setup (props) {
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
@@ -116,7 +108,6 @@ export default {
 		}
 
 		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementTypeModel.options', {}), advancedSchema)
-		const serverRequester = serverRequest.createRequester()
 
 		// computed
 		const parsedData = computed(() => {
@@ -130,7 +121,7 @@ export default {
 					onLoadingStart: () => localLoading.value = true,
 					onLoadingEnd: () => localLoading.value = false,
 				},
-				serverRequester
+				props.element
 			)
 
 			return optionsInstance.parseData()
@@ -148,8 +139,9 @@ export default {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
+						const stylesSavedValues = applyFilters('zionbuilder/element/styles_model', options.value._styles[styleId], optionsInstance, props.element)
 
-						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
+						customCSS += getCssFromSelector([formattedSelector], stylesSavedValues)
 					}
 				})
 			}
@@ -343,8 +335,8 @@ export default {
 			return classes
 		}
 
+		// Mainly used for RenderValue component
 		provide('elementInfo', props.element)
-		provide('renderAttributes', renderAttributes)
 		provide('elementOptions', options)
 
 		return {
@@ -373,20 +365,13 @@ export default {
 		}
 	},
 	watch: {
-		// 'element.options': {
-		// 	handler (newValue, oldValue) {
-		// 		this.debounceUpdate()
-		// 	},
-		// 	deep: true
-		// },
-		// 'element.content' (newValue, oldValue) {
-		// 	this.debounceUpdate()
-		// },
 		'element.scrollTo' (newValue) {
 			if (newValue) {
-				this.$el.scrollIntoView({
-					behavior: 'smooth'
-				})
+				if (typeof this.$el.scrollIntoView === 'function') {
+					this.$el.scrollIntoView({
+						behavior: 'smooth'
+					})
+				}
 
 				setTimeout(() => {
 					this.element.scrollTo = false
@@ -528,7 +513,7 @@ export default {
 }
 
 .znpb-element__wrapper--panel-hovered {
-	box-shadow: 0 0 0 2px rgba($secondary, .3);
+	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), .3);
 }
 
 .znpb-element__wrapper {
@@ -567,11 +552,11 @@ export default {
 		font-size: 18px;
 		&:before {
 			@extend %iconbg;
-			background: $red;
+			background: var(--zb-red);
 		}
 		.znpb-editor-icon-wrapper {
 			position: relative;
-			color: $surface;
+			color: var(--zb-surface-color);
 			cursor: pointer;
 		}
 		&:hover {

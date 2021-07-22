@@ -102,7 +102,7 @@ export default {
 
 	.znpb-forms-form__input-title {
 		padding: 15px 15px 15px 0;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-size: 14px;
 		font-weight: 500;
 		line-height: 1;
@@ -115,7 +115,7 @@ export default {
 	&--full {
 		width: 100%;
 		.znpb-forms-form__input-title {
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 		}
 	}
 	&--full-reverse {

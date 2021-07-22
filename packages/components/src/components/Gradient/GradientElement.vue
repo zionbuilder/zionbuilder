@@ -70,7 +70,7 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			box-shadow: 0 0 0 2px $border-color;
+			box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 			border-radius: 3px;
 		}
 		.znpb-gradient-preview-transparent {
@@ -100,7 +100,7 @@ export default {
 		right: -5px;
 		width: 18px;
 		height: 18px;
-		transition: opacity .15s, visibility .15s;
+		transition: opacity 0.15s, visibility 0.15s;
 		cursor: pointer;
 		opacity: 0;
 		visibility: hidden;
@@ -112,11 +112,11 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background-color: $surface;
-			box-shadow: 0 0 0 1px $border-color;
+			background-color: var(--zb-surface-color);
+			box-shadow: 0 0 0 1px var(--zb-surface-border-color);
 			border-radius: 50%;
-			transform: scale(.8);
-			transition: transform .15s;
+			transform: scale(0.8);
+			transition: transform 0.15s;
 		}
 
 		.zion-icon.zion-svg-inline {

@@ -94,7 +94,7 @@ export default {
 	display: flex;
 	padding: 40px;
 	&__error-message {
-		color: red;
+		color: var(--zb-error-color);
 	}
 	&__loader-wrapper {
 		position: absolute;
@@ -105,14 +105,14 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(0, 0, 0, .1);
+		background: var(--zb-surface-color);
 	}
 	&__loader {
 		position: absolute;
 		display: block;
 		width: 35px;
 		height: 35px;
-		border: .2em solid #fff;
+		border: 0.2em solid var(--zb-surface-border-color);
 		border-bottom-color: transparent;
 		border-radius: 50%;
 		animation: 1s loader-animation linear infinite;
@@ -128,7 +128,7 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		&-text {
-			color: #858585;
+			color: var(--zb-surface-text-color);
 
 			p {
 				margin-bottom: 15px;
@@ -142,13 +142,13 @@ export default {
 				a {
 					display: block;
 					padding: 16px 30px;
-					color: #a8a8a8;
+					color: var(--zb-surface-text-color);
 					text-decoration: none;
 					border-radius: 3px;
-					transition: all .2s ease;
+					transition: all 0.2s ease;
 					&:hover {
-						color: $primary-color--accent;
-						background-color: $secondary !important;
+						color: var(--zb-secondary-text-color);
+						background-color: var(--zb-secondary-color) !important;
 					}
 				}
 			}

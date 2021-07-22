@@ -84,7 +84,7 @@ export default {
 .znpb-custom-selector {
 	overflow: hidden;
 	padding: 3px;
-	background-color: $surface-variant;
+	background-color: var(--zb-surface-lighter-color);
 	border-radius: 3px;
 
 	&__list-wrapper {
@@ -98,6 +98,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 		flex: 1 1 auto;
+		color: var(--zb-surface-text-color);
 		padding: 10px 5px;
 		margin: 0;
 		font-size: 13px;
@@ -106,14 +107,15 @@ export default {
 		cursor: pointer;
 
 		&:hover {
-			background-color: darken($surface-variant, 3%);
+			color: var(--zb-surface-text-active-color);
+			background-color: var(--zb-surface-lightest-color);
 		}
 		&--active {
-			color: $surface;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
 			&:hover {
-				color: $surface;
-				background-color: $secondary;
+				color: var(--zb-secondary-text-color);
+				background-color: var(--zb-secondary-color);
 			}
 		}
 	}

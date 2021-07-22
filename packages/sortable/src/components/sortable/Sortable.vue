@@ -25,18 +25,18 @@ const eventsManager = EventsManager()
 
 const getOffset = (currentDocument) => {
 	// This is not needed anymore
-	// const frameElement = hosts.getIframes().find((iframe) => {
-	// 	return iframe.contentDocument === currentDocument
-	// })
+	const frameElement = hosts.getIframes().find((iframe) => {
+		return iframe.contentDocument === currentDocument
+	})
 
-	// if (undefined !== frameElement) {
-	// 	const { left, top } = frameElement.getBoundingClientRect()
+	if (undefined !== frameElement) {
+		const { left, top } = frameElement.getBoundingClientRect()
 
-	// 	return {
-	// 		left,
-	// 		top
-	// 	}
-	// }
+		return {
+			left,
+			top
+		}
+	}
 
 	return {
 		left: 0,
@@ -315,7 +315,7 @@ export default {
 			}
 		}
 
-		const onMouseDown = (event) => {
+		function onMouseDown (event) {
 			// Don't proceed if the event was already handled
 			if (eventsManager.isHandled()) {
 				return
@@ -374,7 +374,7 @@ export default {
 			initialY = clientY
 
 			// Set current document so we know if we start from iframe or not
-			currentDocument = document
+			currentDocument = event.view.document
 
 			hosts.fetchHosts()
 
@@ -399,7 +399,7 @@ export default {
 			eventsManager.reset()
 		}
 
-		const startDrag = () => {
+		const startDrag = (event) => {
 			// Trigger move event
 			const startEvent = new StartEvent(dragItemInfo)
 
@@ -412,7 +412,7 @@ export default {
 				return
 			}
 
-			document.body.style.userSelect = 'none'
+			currentDocument.body.style.userSelect = 'none'
 
 			// Dimensions
 			const { marginBox, paddingBox } = dimensions
@@ -462,7 +462,7 @@ export default {
 			}
 
 			if (type === 'body') {
-				node = document.body
+				node = currentDocument.body
 			} else if (type === 'helper') {
 				node = helperNode
 			} else if (type === 'placeholder') {
@@ -559,7 +559,7 @@ export default {
 
 			if (dragging.value) {
 				dragging.value = false
-				document.body.style.userSelect = null
+				currentDocument.body.style.userSelect = null
 
 				// Add css class for body
 				removeCssClass('body')
@@ -694,7 +694,7 @@ export default {
 					dragging.value = true
 					// Wait a cycle so the placeholder and helper to render
 					nextTick(() => {
-						startDrag()
+						startDrag(event)
 					})
 				}
 			}
@@ -748,7 +748,7 @@ export default {
 				left: 0,
 				top: 0
 			}
-			const { document: currentDocument } = event.view
+			// const { document: currentDocument } = event.view
 
 			// Check to see if we need to duplicate the elemeent
 			if (props.allowDuplicate && event.ctrlKey) {
@@ -763,7 +763,7 @@ export default {
 
 			// Calculate offset in case of iframes
 			if (document !== currentDocument) {
-				offset = memoizedGetOffset(currentDocument)
+				// offset = memoizedGetOffset(currentDocument, document)
 			}
 
 			// Calculate moves
@@ -999,4 +999,7 @@ export default {
 </script>
 
 <style lang="scss">
+.vuebdnd-draggable--active iframe {
+	pointer-events: none;
+}
 </style>

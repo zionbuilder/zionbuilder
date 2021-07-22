@@ -146,7 +146,7 @@ export default defineComponent({
 		cursor: pointer;
 
 		&:hover {
-			color: darken($font-color, 15%);
+			color: var(--zb-surface-text-hover-color);
 		}
 	}
 
@@ -155,6 +155,7 @@ export default defineComponent({
 	}
 	&Image, &Icon {
 		padding-left: 15px;
+		color: var(--zb-surface-icon-color);
 	}
 
 	&--hidden {
@@ -169,25 +170,35 @@ export default defineComponent({
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 5px;
-		background-color: $surface-variant;
+		color: var(--zb-surface-text-active-color);
+		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
 		&:hover {
-			background-color: darken($surface-variant, 3%);
+			background-color: var(--zb-surface-lightest-color);
 		}
 
 		&.znpb-panel-item--active {
-			color: $surface;
-			background-color: $secondary;
+			color: var(--zb-secondary-text-color);
+			background-color: var(--zb-secondary-color);
+
+			.znpb-editor-icon-wrapper {
+				color: var(--zb-secondary-text-color);
+			}
+		}
+
+		.znpb-editor-icon-wrapper {
+			color: var(--zb-surface-icon-color);
 		}
 
 		&-item {
 			padding-left: 15px;
+			font-weight: 500;
 
 			&:hover {
 				cursor: pointer;
 				.znpb-editor-icon-wrapper {
-					color: darken($primary-color--accent, 10%);
+					color: var(--zb-surface-icon-color);
 				}
 			}
 		}
@@ -225,6 +236,7 @@ export default defineComponent({
 
 		&-options-container {
 			& > span {
+				color: var(--zb-surface-icon-color);
 				transition: all .2s ease;
 				opacity: .7;
 			}

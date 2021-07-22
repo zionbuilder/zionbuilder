@@ -178,7 +178,7 @@ export default {
 	}
 
 	.znpb-checkmark-option {
-		padding: 6px 5px 6px 16px;
+		padding: 6px 5px 6px 10;
 		font-weight: 500;
 		text-align: left;
 	}
@@ -202,7 +202,7 @@ export default {
 
 .znpb-single-role-modal-title {
 	margin: 0;
-	color: $surface-active-color;
+	color: var(--zb-surface-text-active-color);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1;

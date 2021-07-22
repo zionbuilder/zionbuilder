@@ -161,24 +161,12 @@ class ImageBox extends Element {
 		);
 
 		$options->add_option(
-			'description',
-			[
-				'type'    => 'editor',
-				'title'   => esc_html__( 'Description text', 'zionbuilder' ),
-				'default' => sprintf( '<p>%s</p>', __( 'Just a sample text from heading element.', 'zionbuilder' ) ),
-				'dynamic' => [
-					'enabled' => true,
-				],
-			]
-		);
-
-		$options->add_option(
 			'title_tag',
 			[
 				'type'        => 'select',
 				'default'     => 'h3',
-				'title'       => __( 'HTML tag', 'zionbuilder' ),
-				'description' => __( 'Set the desired heading tag.', 'zionbuilder' ),
+				'title'       => __( 'HTML title tag', 'zionbuilder' ),
+				'description' => __( 'Set the desired HTML tag for the title.', 'zionbuilder' ),
 				'options'     => [
 					[
 						'name' => __( 'h1', 'zionbuilder' ),
@@ -216,6 +204,18 @@ class ImageBox extends Element {
 						'name' => __( 'div', 'zionbuilder' ),
 						'id'   => 'div',
 					],
+				],
+			]
+		);
+
+		$options->add_option(
+			'description',
+			[
+				'type'    => 'editor',
+				'title'   => esc_html__( 'Description text', 'zionbuilder' ),
+				'default' => sprintf( '<p>%s</p>', __( 'Just a sample text from heading element.', 'zionbuilder' ) ),
+				'dynamic' => [
+					'enabled' => true,
 				],
 			]
 		);

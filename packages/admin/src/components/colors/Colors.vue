@@ -111,8 +111,9 @@ export default {
 		&-item {
 			padding: 15px 20px 30px 0;
 
-			&--active, &:hover {
-				color: $primary-color;
+			&--active,
+			&:hover {
+				color: var(--zb-primary-color);
 			}
 		}
 	}

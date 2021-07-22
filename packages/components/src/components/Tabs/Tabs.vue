@@ -181,7 +181,7 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 13px;
 			font-weight: 500;
 			cursor: pointer;
@@ -202,7 +202,7 @@ export default {
 	}
 
 	& > &__content {
-		background: $surface;
+		background: var(--zb-surface-color);
 	}
 
 	// Styles
@@ -219,8 +219,9 @@ export default {
 				padding-right: 0;
 			}
 
-			&--active, &:hover {
-				color: $surface-active-color;
+			&--active,
+			&:hover {
+				color: var(--zb-surface-text-active-color);
 			}
 		}
 	}
@@ -229,9 +230,10 @@ export default {
 		& > .znpb-tabs__header-item {
 			padding: 12.5px 20px;
 
-			&--active, &:hover {
-				color: $surface-active-color;
-				background: $surface;
+			&--active,
+			&:hover {
+				color: var(--zb-surface-text-active-color);
+				background: var(--zb-surface-color);
 				border-radius: 3px 3px 0 0;
 			}
 		}
@@ -240,7 +242,7 @@ export default {
 	&--group > &__header {
 		padding: 3px;
 		margin: 0 0 20px 0;
-		background: $surface-variant;
+		background: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
 		& > .znpb-tabs__header-item {
@@ -249,22 +251,23 @@ export default {
 			align-items: center;
 			flex-grow: 1;
 			padding: 10px 15px;
-			color: $font-color;
+			color: var(--zb-surface-text-color);
 			font-size: 14px;
 			line-height: 1;
 			border-radius: 2px;
 
 			&:hover {
-				background-color: darken($surface-variant, 5%);
+				color: var(--zb-surface-text-hover-color);
+				background-color: var(--zb-surface-lightest-color);
 			}
 
 			&--active {
-				color: #fff;
-				background: $secondary;
+				color: var(--zb-secondary-text-color);
+				background: var(--zb-secondary-color);
 
 				&:hover {
-					color: #fff;
-					background: $secondary;
+					color: var(--zb-secondary-text-color);
+					background: var(--zb-secondary-color);
 				}
 			}
 		}

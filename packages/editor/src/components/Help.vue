@@ -130,13 +130,16 @@ export default {
 
 <style lang="scss">
 .znpb-helpmodal-wrapper {
-	.znpb-modal__wrapper, .znpb-modal__content {
+	.znpb-modal__wrapper,
+	.znpb-modal__content {
 		height: 100%;
 		max-height: 560px;
 	}
 
 	.znpb-modal__wrapper--full-size {
-		.znpb-modal__wrapper, .znpb-modal__content, .znpb-help-modal {
+		.znpb-modal__wrapper,
+		.znpb-modal__content,
+		.znpb-help-modal {
 			height: 100%;
 			max-height: none;
 		}
@@ -149,7 +152,7 @@ export default {
 
 	.znpb-help-modal__video-title {
 		margin-bottom: 20px;
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 		font-weight: 500;
 	}
 }
@@ -159,23 +162,23 @@ export default {
 	flex-direction: column;
 	flex: 1 0 40%;
 	max-width: 40%;
-	border-right: 1px solid $surface-variant;
+	border-right: 1px solid var(--zb-surface-lighter-color);
 }
 
 .znpb-help-modal__list-item {
 	display: flex;
 	justify-content: space-between;
 	padding: 20px;
-	border-bottom: 1px solid $surface-variant;
-	transition: all .15s ease;
+	border-bottom: 1px solid var(--zb-surface-lighter-color);
+	transition: all 0.15s ease;
 	cursor: pointer;
 
 	&--active {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 	}
 
 	&:hover {
-		color: $surface-active-color;
+		color: var(--zb-surface-text-active-color);
 	}
 }
 
@@ -201,7 +204,7 @@ export default {
 .znpb-help-modal__list-duration {
 	font-size: 13px;
 	font-weight: 500;
-	opacity: .6;
+	opacity: 0.6;
 }
 
 .znpb-help-modal__list-title {

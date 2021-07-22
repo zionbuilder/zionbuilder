@@ -3,14 +3,21 @@
 		class="znpb-accordion"
 		:class="{'znpb-accordion--collapsed': localCollapsed}"
 	>
-		<div class="znpb-accordion__header"
+		<div
+			class="znpb-accordion__header"
 			@click="localCollapsed = !localCollapsed"
 		>
 			<!-- @slot Content that will be placed inside the accordion header -->
 			<slot name="header">{{header}}</slot>
-			<Icon icon="select" class="znpb-accordion-title-icon" />
+			<Icon
+				icon="select"
+				class="znpb-accordion-title-icon"
+			/>
 		</div>
-		<div class="znpb-accordion__content" v-if="localCollapsed">
+		<div
+			class="znpb-accordion__content"
+			v-if="localCollapsed"
+		>
 			<!-- @slot Content that will be placed inside the accordion content -->
 			<slot></slot>
 		</div>
@@ -53,7 +60,7 @@ export default {
 <style lang="scss">
 .znpb-accordion {
 	width: 100%;
-	border-bottom: 1px solid $surface-variant;
+	border-bottom: 1px solid var(--zb-surface-lighter-color);
 
 	&__header {
 		display: flex;
@@ -72,7 +79,7 @@ export default {
 	&--collapsed {
 		.znpb-accordion__header {
 			h2.znpb-accordion-title {
-				color: $primary-color;
+				color: var(--zb-primary-color);
 			}
 			.znpb-accordion-title-icon {
 				transform: rotate(180deg);

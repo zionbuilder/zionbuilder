@@ -63,14 +63,14 @@ export default {
 
 	&-container {
 		padding: 20px;
-		border: 2px solid lighten($border-color, 5%);
+		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
 	}
 
 	.znpb-option__upgrade-to-pro-container {
 		& > h4 {
 			margin-bottom: 15px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-size: 14px;
 			font-weight: 500;
 			text-transform: capitalize;
@@ -84,13 +84,13 @@ export default {
 			display: inline-block;
 			padding-bottom: 5px;
 			margin-bottom: 20px;
-			color: $surface-active-color;
+			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			border-bottom: 1px solid $border-color;
-			transition: color .15s;
+			border-bottom: 1px solid var(--zb-surface-border-color);
+			transition: color 0.15s;
 
 			&:hover {
-				color: lighten($surface-active-color, 15%);
+				color: var(--zb-surface-text-active-color);
 			}
 
 			&:last-child {
@@ -106,7 +106,7 @@ export default {
 	}
 
 	.zion-quality {
-		transition: all .3s;
+		transition: all 0.3s;
 	}
 
 	&-button:hover .zion-quality {

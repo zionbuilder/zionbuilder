@@ -38,7 +38,6 @@ export default {
 
 
 		function toggleAddElementsPopup () {
-			console.log('click');
 			showAddElementsPopup(props.element, addElementsPopupButton)
 		}
 
@@ -65,7 +64,7 @@ export default {
 		position: relative;
 		width: 34px;
 		height: 34px;
-		color: $surface;
+		color: #fff;
 		font-size: 10px;
 		font-size: 14px;
 		line-height: 1 !important;
@@ -74,20 +73,22 @@ export default {
 
 		&::before {
 			@extend %iconbg;
-			background: $column-color;
-			transition: all .2s;
+			background: var(--zb-column-color);
+			transition: all 0.2s;
 		}
 
 		.znpb-element__wrapper &::before {
-			background-color: $elements-toolbox-color;
+			background-color: var(--zb-element-color);
 		}
 		.zb-column &::before {
-			background-color: $column-color;
+			background-color: var(--zb-column-color);
 		}
 
-		.zb-section > .zb-section__innerWrapper > .znpb-empty-placeholder
-		&::before {
-			background-color: $section-color;
+		.zb-section
+			> .zb-section__innerWrapper
+			> .znpb-empty-placeholder
+			&::before {
+			background-color: var(--zb-section-color);
 		}
 
 		&:hover {

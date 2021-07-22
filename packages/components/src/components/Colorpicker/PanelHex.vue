@@ -136,7 +136,7 @@ export default {
 	flex-direction: column;
 	flex-shrink: 0;
 	padding: 20px 20px 12px;
-	background-color: lighten($surface-variant, 5%);
+	background-color: var(--zb-surface-color);
 
 	&__colors {
 		display: flex;
@@ -159,7 +159,8 @@ export default {
 		margin-left: 10px;
 	}
 
-	&__hue, &__opacity {
+	&__hue,
+	&__opacity {
 		position: relative;
 		width: 100%;
 		height: 8px;
@@ -173,7 +174,7 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .1);
+			box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
 		}
 	}
 
@@ -193,16 +194,17 @@ export default {
 			background: none;
 			box-shadow: none;
 
-			.znpb-arrow-increment, .znpb-arrow-decrement {
+			.znpb-arrow-increment,
+			.znpb-arrow-decrement {
 				width: 12px;
 				margin: 0;
-				color: $surface-headings-color;
+				color: var(--zb-surface-icon-color);
 				background: none;
 				border-radius: 0;
-				transition: color .1s;
+				transition: color 0.1s;
 
 				&:hover {
-					color: darken($surface-headings-color, 15%);
+					color: var(--zb-surface-text-hover-color);
 				}
 			}
 		}

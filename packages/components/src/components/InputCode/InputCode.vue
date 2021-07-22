@@ -139,8 +139,24 @@ export default {
 		width: 100%;
 	}
 
-	& .CodeMirror pre {
-		color: #a9a9a9;
+	.CodeMirror {
+		position: relative;
+		overflow: hidden;
+		color: var(--zb-surface-text-color);
+		background: var(--zb-surface-darker-color);
+
+		pre {
+			color: var(--zb-surface-text-color);
+		}
+
+		&-gutters {
+			background-color: var(--zb-surface-lighter-color);
+			border-right: 1px solid var(--zb-surface-border-color);
+		}
+
+		&-linenumber {
+			color: var(--zb-surface-text-muted-color);
+		}
 	}
 }
 .znpb-custom-code * {

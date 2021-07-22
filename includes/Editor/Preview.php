@@ -5,6 +5,7 @@ namespace ZionBuilder\Editor;
 use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
+use ZionBuilder\Settings;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -85,7 +86,9 @@ class Preview {
 	}
 
 	public function add_body_class( $classes ) {
-		$classes[] = 'znpb-editor-preview';
+		$builder_theme = Settings::get_value_from_path( 'appearance.builder_theme', 'light' );
+		$classes[]     = sprintf( 'znpb-theme-%s', $builder_theme );
+		$classes[]     = 'znpb-editor-preview';
 		return $classes;
 	}
 

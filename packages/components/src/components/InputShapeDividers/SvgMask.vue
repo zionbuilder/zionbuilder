@@ -38,7 +38,7 @@ export default {
 			required: false
 		}
 	},
-	setup () {
+	setup (props) {
 		const masks = inject('masks')
 
 		return {
