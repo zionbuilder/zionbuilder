@@ -355,6 +355,7 @@ export default {
 			if (keyword.length > 2) {
 				return this.filterOptions(keyword, this.allOptionsSchema)
 			}
+
 			return {}
 		}
 	},
@@ -405,9 +406,9 @@ export default {
 						syncValue.push(optionId)
 					}
 
-					if (optionConfig.type === 'element_styles') {
+					if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 						syncValue.push('styles')
-						syncValueName.push(this.$translate('styles'))
+						syncValueName.push(this.$translate('styles'), optionConfig.name)
 					}
 
 					if (optionConfig.type === 'responsive_group') {
@@ -457,7 +458,7 @@ export default {
 					return
 				}
 
-				if (optionConfig.type === 'element_styles') {
+				if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
 					const childOptions = this.filterOptions(keyword, this.getSchema('element_styles'), syncValue, syncValueName)
 
 					foundOptions = {
@@ -613,8 +614,8 @@ export default {
 				font-size: 14px;
 				background-color: var(--zb-surface-lighter-color);
 				border-radius: 3px;
-				transition: 0.15s all;
-				transition: all 0.3s;
+				transition: .15s all;
+				transition: all .3s;
 				cursor: pointer;
 
 				&:hover {
@@ -671,8 +672,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 
-			.znpb-tabs__content,
-			.znpb-tabs__wrapper {
+			.znpb-tabs__content, .znpb-tabs__wrapper {
 				height: calc(100% - 38px);
 			}
 
@@ -703,8 +703,7 @@ export default {
 			margin-right: 10px;
 		}
 
-		&__undo,
-		&__redo {
+		&__undo, &__redo {
 			display: flex;
 			justify-content: center;
 			flex: 1;
@@ -716,11 +715,11 @@ export default {
 
 			&--active {
 				&:hover {
-					opacity: 0.9;
+					opacity: .9;
 				}
 			}
 			&--disabled {
-				opacity: 0.5;
+				opacity: .5;
 				pointer-events: none;
 			}
 		}
@@ -748,8 +747,7 @@ export default {
 	}
 }
 .znpb-element-options__tabs-wrapper {
-	p.znpb-element-options-default-message,
-	p.znpb-element-options-no-option-message {
+	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
 
@@ -761,9 +759,7 @@ export default {
 }
 
 //search tab
-.znpb-tabs--card
-	> .znpb-tabs__header
-	> .znpb-tabs__header-item.znpb-tabs__header-item--search {
+.znpb-tabs--card > .znpb-tabs__header > .znpb-tabs__header-item.znpb-tabs__header-item--search {
 	flex: 0 1 auto;
 	padding: 0;
 	margin-left: auto;

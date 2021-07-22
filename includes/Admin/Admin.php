@@ -123,20 +123,22 @@ class Admin {
 	public function enqueue_scripts( $hook = '' ) {
 		wp_add_inline_style(
 			'admin-menu',
-			'#adminmenu .toplevel_page_zionbuilder img {
-				max-width: 100%;
-				height: auto;
-				padding: 8px;
-				box-sizing: border-box;
-			}'
+			sprintf(
+				'#adminmenu .toplevel_page_%s img {
+					max-width: 100%%;
+					height: auto;
+					padding: 8px;
+					box-sizing: border-box;
+				}',
+				Whitelabel::get_id()
+			)
 		);
 
 		// Invert the color for admin icon
 		if ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) {
 			wp_add_inline_style(
 				'admin-menu',
-				'#adminmenu .toplevel_page_zionbuilder img {
-				filter: invert(1);}'
+				'#adminmenu .toplevel_page_zionbuilder img { filter: invert(1); }'
 			);
 		}
 
@@ -320,7 +322,7 @@ class Admin {
 		$editor_status = $post_instance->is_built_with_zion() ? 'active' : 'inactive';
 
 		?>
-		<div class="znpb-admin-post__edit znpb-admin-post__edit-status--<?php echo esc_attr( $editor_status ); ?>">
+		<div class="znpb-admin-post__edit znpb-admin-post__edit-status--<?php echo esc_attr( $editor_status ); ?>" data-toolbar-item="true">
 
 			<a data-toolbar-item="true" href="#disable_editor" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--deactivate">
 				<span class="znpb-admin-post__edit-button-icon dashicons dashicons-wordpress-alt"></span>
@@ -332,13 +334,13 @@ class Admin {
 			</a>
 
 			<a data-toolbar-item="true" href="<?php echo esc_html( $post_instance->get_edit_url() ); ?>" class="znpb-admin-post__edit-button znpb-admin-post__edit-button--activate">
-					<span class="znpb-admin-post__edit-button-icon znpb-admin-post--builder-mode znpb-editor-icon-wrapper">
-						<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" class="zion-svg-inline zion-icon znpb-editor-icon">
-							<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
-						</svg>
-					</span>
-					<span class=""><?php echo esc_html_e( 'Edit with ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() ); ?></span>
-				</a>
+				<span class="znpb-admin-post__edit-button-icon znpb-admin-post--builder-mode znpb-editor-icon-wrapper">
+					<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" class="zion-svg-inline zion-icon znpb-editor-icon">
+						<path d="M4 4v42h42V4H4zm5 37V24.5h13.5V41H9zm32 0H27.5V24.5H41V41zm0-21.5H9V9h32v10.5z"/>
+					</svg>
+				</span>
+				<span class=""><?php echo esc_html_e( 'Edit with ', 'zionbuilder' ) . esc_html( Whitelabel::get_title() ); ?></span>
+			</a>
 
 		</div>
 		<?php

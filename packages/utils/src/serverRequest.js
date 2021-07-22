@@ -4,16 +4,12 @@ import {
 import {
 	applyFilters
 } from '@zb/hooks'
-import {
-	readonly
-} from 'vue'
 import hash from 'object-hash'
 
 export class ServerRequest {
 	constructor() {
 		this.queue = []
 		this.requestTimeout = 200
-		this.inProgress = []
 		this.cache = {}
 	}
 
@@ -51,6 +47,7 @@ export class ServerRequest {
 	doQueue() {
 		setTimeout(() => {
 			const queueItems = {}
+			const inProgress = []
 
 			if (this.queue.length === 0) {
 				return
@@ -58,7 +55,7 @@ export class ServerRequest {
 
 			this.queue.forEach((queueItem) => {
 				queueItems[queueItem.key] = queueItem.data
-				this.inProgress.push(queueItem)
+				inProgress.push(queueItem)
 			})
 
 			this.queue = []
@@ -66,7 +63,7 @@ export class ServerRequest {
 			bulkActions(queueItems).then(({
 				data
 			}) => {
-				this.inProgress.forEach((queueItem) => {
+				inProgress.forEach((queueItem) => {
 					if (typeof queueItem['successCallback'] === 'function') {
 						// Save to cache
 						const {
@@ -83,14 +80,11 @@ export class ServerRequest {
 				})
 			}).catch(() => {
 				// handle error
-				this.inProgress.forEach((queueItem) => {
+				inProgress.forEach((queueItem) => {
 					if (typeof queueItem['failCallback'] === 'function') {
 						queueItem['failCallback']()
 					}
 				})
-			}).finally(() => {
-				// Reset active queue
-				this.inProgress = []
 			})
 		}, this.requestTimeout)
 	}

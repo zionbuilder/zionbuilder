@@ -153,16 +153,15 @@ export default defineComponent({
 	&Image {
 		height: 24px;
 	}
-	&Image,
-	&Icon {
-		color: var(--zb-surface-icon-color);
+	&Image, &Icon {
 		padding-left: 15px;
+		color: var(--zb-surface-icon-color);
 	}
 
 	&--hidden {
 		.znpb-tree-view__item-header-item {
-			transition: opacity 0.5s ease;
-			opacity: 0.5;
+			transition: opacity .5s ease;
+			opacity: .5;
 		}
 	}
 	&-header {
@@ -193,8 +192,8 @@ export default defineComponent({
 		}
 
 		&-item {
-			font-weight: 500;
 			padding-left: 15px;
+			font-weight: 500;
 
 			&:hover {
 				cursor: pointer;
@@ -215,8 +214,7 @@ export default defineComponent({
 			}
 		}
 
-		&-expand,
-		&-more {
+		&-expand, &-more {
 			padding: 15px;
 		}
 
@@ -239,8 +237,8 @@ export default defineComponent({
 		&-options-container {
 			& > span {
 				color: var(--zb-surface-icon-color);
-				transition: all 0.2s ease;
-				opacity: 0.7;
+				transition: all .2s ease;
+				opacity: .7;
 			}
 			&:hover {
 				& > span {

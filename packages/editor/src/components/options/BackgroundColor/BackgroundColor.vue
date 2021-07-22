@@ -24,7 +24,6 @@
 								:rounded="true"
 								icon="delete"
 								:bg-size="30"
-								bg-color="#fff"
 								@click.stop="deleteColor"
 							/>
 						</div>
@@ -90,7 +89,7 @@ export default {
 		display: block;
 		width: 100%;
 		height: 200px;
-		box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .1);
+		box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
 		border-radius: 3px;
 	}
 	.znpb-empty-list__content {

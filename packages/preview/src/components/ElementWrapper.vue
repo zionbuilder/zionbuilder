@@ -32,10 +32,7 @@
 				:video-config="videoConfig"
 			/>
 
-			<ElementStyles
-				:styles="customCSS"
-				v-if="!element.isClone"
-			/>
+			<ElementStyles :styles="customCSS" />
 		</template>
 
 		<template #end>
@@ -142,8 +139,9 @@ export default {
 						const styleConfig = elementStyleConfig[styleId]
 						const cssSelector = applyFilters('zionbuilder/element/css_selector', `#${props.element.elementCssId}`, optionsInstance, props.element)
 						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector)
+						const stylesSavedValues = applyFilters('zionbuilder/element/styles_model', options.value._styles[styleId], optionsInstance, props.element)
 
-						customCSS += getCssFromSelector([formattedSelector], options.value._styles[styleId])
+						customCSS += getCssFromSelector([formattedSelector], stylesSavedValues)
 					}
 				})
 			}
@@ -367,20 +365,13 @@ export default {
 		}
 	},
 	watch: {
-		// 'element.options': {
-		// 	handler (newValue, oldValue) {
-		// 		this.debounceUpdate()
-		// 	},
-		// 	deep: true
-		// },
-		// 'element.content' (newValue, oldValue) {
-		// 	this.debounceUpdate()
-		// },
 		'element.scrollTo' (newValue) {
 			if (newValue) {
-				this.$el.scrollIntoView({
-					behavior: 'smooth'
-				})
+				if (typeof this.$el.scrollIntoView === 'function') {
+					this.$el.scrollIntoView({
+						behavior: 'smooth'
+					})
+				}
 
 				setTimeout(() => {
 					this.element.scrollTo = false
@@ -494,7 +485,7 @@ export default {
 <style lang="scss">
 .znpb-element {
 	&--loading {
-		opacity: 0.2;
+		opacity: .2;
 	}
 
 	&--needs-data {
@@ -507,7 +498,7 @@ export default {
 }
 
 .znpb-element__wrapper--cutted {
-	opacity: 0.2;
+	opacity: .2;
 	pointer-events: none;
 }
 @keyframes znpb-scale-down {
@@ -522,12 +513,12 @@ export default {
 }
 
 .znpb-element__wrapper--panel-hovered {
-	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), 0.3);
+	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), .3);
 }
 
 .znpb-element__wrapper {
 	position: relative;
-	transition: opacity 0.2s;
+	transition: opacity .2s;
 
 	.znpb-hidden-element-container {
 		position: absolute;
@@ -540,11 +531,10 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(255, 255, 255, 0.7);
+		background: rgba(255, 255, 255, .7);
 	}
 
-	&:hover,
-	&--toolbox-dragging {
+	&:hover, &--toolbox-dragging {
 		position: relative;
 	}
 
@@ -576,23 +566,18 @@ export default {
 		}
 	}
 }
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-right-helper,
-.znpb-element-utilities__margin-bottom-helper,
-.znpb-element-utilities__margin-left-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-right-helper, .znpb-element-utilities__margin-bottom-helper, .znpb-element-utilities__margin-left-helper {
 	position: absolute;
 }
 
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-bottom-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-bottom-helper {
 	left: 0;
 	width: 100%;
 	min-height: 2px;
 	cursor: n-resize;
 }
 
-.znpb-element-utilities__margin-left-helper,
-.znpb-element-utilities__margin-right-helper {
+.znpb-element-utilities__margin-left-helper, .znpb-element-utilities__margin-right-helper {
 	top: 0;
 	width: 2px;
 	height: 100%;

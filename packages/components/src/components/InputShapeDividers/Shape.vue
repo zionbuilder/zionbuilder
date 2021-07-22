@@ -37,6 +37,7 @@ export default {
 .znpb-shape-divider-icon {
 	width: 100%;
 	color: var(--zb-surface-color);
+
 	svg {
 		display: block;
 
@@ -52,7 +53,7 @@ export default {
 	color: var(--zb-surface-color);
 	background-color: var(--zb-secondary-color);
 	border-radius: 3px;
-	transition: box-shadow 0.2s linear;
+	transition: box-shadow .2s linear;
 	cursor: pointer;
 
 	&:last-of-type {
@@ -94,7 +95,7 @@ export default {
 			height: 20px;
 			color: #858585;
 			background-color: #fff;
-			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, 0.2);
+			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
 			border-radius: 50%;
 		}
 	}
