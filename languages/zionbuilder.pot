@@ -2095,27 +2095,27 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:178
+#: ../includes/Admin/Admin.php:180
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:243
+#: ../includes/Admin/Admin.php:245
 msgid "Builder theme."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:248
+#: ../includes/Admin/Admin.php:250
 msgid "light"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:252
+#: ../includes/Admin/Admin.php:254
 msgid "dark"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:329
+#: ../includes/Admin/Admin.php:331
 msgid "Disable "
 msgstr ""
 
-#: ../includes/Admin/Admin.php:340, ../includes/Admin/Admin.php:363
+#: ../includes/Admin/Admin.php:342, ../includes/Admin/Admin.php:365
 msgid "Edit with "
 msgstr ""
 
@@ -2124,7 +2124,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:547
+#: ../includes/Elements/Element.php:548
 msgid "Wrapper"
 msgstr ""
 
