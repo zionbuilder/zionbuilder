@@ -716,7 +716,7 @@ class Element {
 		/**
 		 * Allows you to create a different renderer
 		 */
-		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', $this );
+		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', null, $this );
 		if ( $custom_renderer ) {
 			$custom_renderer->render_element( $extra_render_data, $this );
 		} else {
