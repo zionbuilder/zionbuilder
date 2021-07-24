@@ -45,7 +45,6 @@ class BulkActions extends RestApiController {
 					],
 					'post_id' => [
 						'description' => __( 'The post id for which we need to retrieve data.' ),
-						'type'        => 'integer',
 					],
 				],
 				[

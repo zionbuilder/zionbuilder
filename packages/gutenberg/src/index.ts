@@ -99,10 +99,28 @@ function initGutenberg(args) {
 				zion_builder_status: true
 			})
 
-			savePost(() => {
+			savePost(function () {
 				location.href = $('.znpb-admin-post__edit-button--activate').attr('href')
 			})
 		}
+	}
+
+	function performActionAfterSave(callback) {
+		const saveInterval = setInterval(function () {
+			if (!wp.data.select('core/editor').isSavingPost()) {
+				clearInterval(saveInterval)
+
+				if (callback) {
+					callback.call()
+				}
+
+				setEditorStatus()
+
+				isProcessingAction = false
+				$('.znpb-admin-post__edit-button--activate').removeClass('znpb-admin-post__edit-button--loading')
+				$('.znpb-admin-post__edit-button--deactivate').removeClass('znpb-admin-post__edit-button--loading')
+			}
+		}, 300)
 	}
 
 	function updateUi() {
@@ -125,20 +143,10 @@ function initGutenberg(args) {
 	/**
 	 * Will save the post
 	 *
-	 * @param {function} callback The callback to call when the post is succesfully saved
 	 */
 	function savePost(callback) {
-		wp.data.dispatch('core/editor').savePost().then(() => {
-			setEditorStatus()
-
-			if (callback) {
-				callback.call()
-			}
-		}).finally(() => {
-			isProcessingAction = false
-			$('.znpb-admin-post__edit-button--activate').removeClass('znpb-admin-post__edit-button--loading')
-			$('.znpb-admin-post__edit-button--deactivate').removeClass('znpb-admin-post__edit-button--loading')
-		})
+		wp.data.dispatch('core/editor').savePost()
+		performActionAfterSave(callback)
 	}
 
 	/**

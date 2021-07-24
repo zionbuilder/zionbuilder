@@ -119,4 +119,15 @@ elementsWebpackConfigFile.forEach(singleElementConfig => {
 	}))
 })
 
+// Add integrations
+const integrationsPackage = path.resolve('./packages/integrations')
+const integrationsWebpackConfigPath = getWebpackConfig(integrationsPackage)
+const integrationsWebpackConfigFile = require(integrationsWebpackConfigPath)
+
+integrationsWebpackConfigFile.forEach(singleIntegrationConfig => {
+	configs.push(mergeConfigs(singleIntegrationConfig, {
+		context: integrationsPackage
+	}))
+})
+
 module.exports = configs

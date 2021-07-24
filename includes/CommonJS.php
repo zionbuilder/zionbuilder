@@ -55,9 +55,30 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
+			'zb-hooks',
+			'js/hooks.js',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
+			'zb-rest',
+			'js/rest.js',
+			[
+				'zb-hooks',
+			],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
 			'zb-utils',
 			'js/utils.js',
-			[],
+			[
+				'zb-rest',
+				'zb-hooks',
+			],
 			Plugin::instance()->get_version(),
 			false
 		);
@@ -74,22 +95,6 @@ class CommonJS {
 			'zb-i18n',
 			'ZnI18NStrings',
 			Localization::get_strings()
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-rest',
-			'js/rest.js',
-			[],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-hooks',
-			'js/hooks.js',
-			[],
-			Plugin::instance()->get_version(),
-			false
 		);
 
 		wp_localize_script(

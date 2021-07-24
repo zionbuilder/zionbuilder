@@ -7,7 +7,7 @@ import {
 export const bulkActions = function (payload) {
 	const bulkActionData = applyFilters('zionbuilder/api/bulk_actions/data', {
 		actions: payload,
-		post_id: window.ZnPbInitalData.page_id || null
+		post_id: window.ZnPbInitalData ? window.ZnPbInitalData.page_id : null
 	})
 
 	return ZionService.post('bulk-actions', bulkActionData)
