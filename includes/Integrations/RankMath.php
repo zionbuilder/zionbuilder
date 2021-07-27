@@ -43,20 +43,22 @@ class RankMath implements IBaseIntegration {
 		add_action( 'admin_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
 	}
 
-	public function on_enqueue_scripts() {
-		// Load the scripts
-		CommonJS::register_scripts();
+	public function on_enqueue_scripts( $hook ) {
+		if ( 'post-new.php' === $hook || 'post.php' === $hook ) {
+			// Load the scripts
+			CommonJS::register_scripts();
 
-		Plugin::instance()->scripts->enqueue_script(
-			'zb-rankmath',
-			'js/integrations/rankmath.js',
-			[
-				'zb-utils',
-				'wp-hooks',
-				'rank-math-analyzer',
-			],
-			Plugin::instance()->get_version(),
-			true
-		);
+			Plugin::instance()->scripts->enqueue_script(
+				'zb-rankmath',
+				'js/integrations/rankmath.js',
+				[
+					'zb-utils',
+					'wp-hooks',
+					'rank-math-analyzer',
+				],
+				Plugin::instance()->get_version(),
+				true
+			);
+		}
 	}
 }
