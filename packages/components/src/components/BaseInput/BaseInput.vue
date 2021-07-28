@@ -236,7 +236,7 @@ body {
 			&:focus,
 			&:active,
 			&:visited {
-				color: inherit;
+				color: var(--zb-input-text-color);
 				background: var(--zb-input-bg-color);
 				box-shadow: none;
 				outline: 0;
