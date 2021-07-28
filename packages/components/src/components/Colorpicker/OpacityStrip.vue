@@ -22,6 +22,7 @@
 </template>
 <script>
 import tinycolor from 'tinycolor2'
+import rafSchd from 'raf-schd'
 
 export default {
 	name: 'OpacityStrip',
@@ -56,11 +57,12 @@ export default {
 	},
 	methods: {
 		actCircleDrag () {
-			this.ownerWindow.addEventListener('mousemove', this.dragCircle)
+			this.rafDragCircle = rafSchd(this.dragCircle)
+			this.ownerWindow.addEventListener('mousemove', this.rafDragCircle)
 			this.ownerWindow.addEventListener('mouseup', this.deactivatedragCircle)
 		},
 		deactivatedragCircle () {
-			this.ownerWindow.removeEventListener('mousemove', this.dragCircle)
+			this.ownerWindow.removeEventListener('mousemove', this.rafDragCircle)
 			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragCircle)
 		},
 		dragCircle (event) {
@@ -122,7 +124,11 @@ export default {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));
+		background-image: linear-gradient(
+		to right,
+		rgba(255, 0, 0, 0),
+		rgba(255, 0, 0, 1)
+		);
 	}
 }
 </style>

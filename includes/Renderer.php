@@ -3,6 +3,7 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Plugin;
+use ZionBuilder\Elements\Element;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -85,11 +86,16 @@ class Renderer {
 	}
 
 	public function render_area( $area_id ) {
+		// Set active area for Cache generation
+		Plugin::instance()->cache->set_active_area( $area_id );
+
 		$area_class = sprintf( 'zb-area-%s', $area_id );
 		$classes    = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $area_id );
 		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
 		$this->render_children( $this->get_content_for_area( $area_id ) );
 		echo '</div>';
+
+		Plugin::instance()->cache->reset_active_area();
 	}
 
 	/**
@@ -99,13 +105,14 @@ class Renderer {
 	 *
 	 * @param array $element_data
 	 *
-	 * @return void
+	 * @return Element|boolean Returns the element or false if the element could not be instantiated
 	 */
 	public function register_element_instance( $element_data ) {
 		$element_instance_with_data = Plugin::$instance->elements_manager->get_element_instance_with_data( $element_data );
+
 		// Don't proceed if we do not have an element instance
 		if ( false === $element_instance_with_data || ! isset( $element_data['uid'] ) ) {
-			return;
+			return false;
 		}
 
 		$this->instantiated_elements[$element_data['uid']] = $element_instance_with_data;
@@ -119,6 +126,8 @@ class Renderer {
 				$this->register_element_instance( $child_element_data );
 			}
 		}
+
+		return $element_instance_with_data;
 	}
 
 	/**

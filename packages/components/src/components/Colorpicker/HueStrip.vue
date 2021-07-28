@@ -14,6 +14,7 @@
 	</div>
 </template>
 <script>
+import rafSchd from 'raf-schd'
 
 export default {
 	name: 'HueStrip',
@@ -56,11 +57,12 @@ export default {
 	},
 	methods: {
 		actHueCircleDrag () {
-			this.ownerWindow.addEventListener('mousemove', this.dragHueCircle)
+			this.rafDragCircle = rafSchd(this.dragHueCircle)
+			this.ownerWindow.addEventListener('mousemove', this.rafDragCircle)
 			this.ownerWindow.addEventListener('mouseup', this.deactivatedragHueCircle)
 		},
 		deactivatedragHueCircle (event) {
-			this.ownerWindow.removeEventListener('mousemove', this.dragHueCircle)
+			this.ownerWindow.removeEventListener('mousemove', this.rafDragCircle)
 			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragHueCircle)
 		},
 		isMouseUpOutsideWindow (event) {
@@ -123,7 +125,29 @@ export default {
 </script>
 <style lang="scss">
 .znpb-colorpicker-inner-editor__hue {
-	background-image: linear-gradient(to right, red 0%, #ff4d00 5%, #f90 10%, #ffe600 15%, #cf0 20%, #80ff00 25%, #3f0 30%, #00ff1a 35%, #0f6 40%, #00ffb3 45%, cyan 50%, #06f 60%, #001aff 65%, #30f 70%, #8000ff 75%, #c0f 80%, #ff00e6 85%, #f09 90%, #ff004d 95%, red 100%);
+	background-image: linear-gradient(
+	to right,
+	red 0%,
+	#ff4d00 5%,
+	#f90 10%,
+	#ffe600 15%,
+	#cf0 20%,
+	#80ff00 25%,
+	#3f0 30%,
+	#00ff1a 35%,
+	#0f6 40%,
+	#00ffb3 45%,
+	cyan 50%,
+	#06f 60%,
+	#001aff 65%,
+	#30f 70%,
+	#8000ff 75%,
+	#c0f 80%,
+	#ff00e6 85%,
+	#f09 90%,
+	#ff004d 95%,
+	red 100%
+	);
 
 	&-wrapper {
 		margin-bottom: 14px;

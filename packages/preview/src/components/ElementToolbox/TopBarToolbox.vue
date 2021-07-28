@@ -97,7 +97,7 @@ export default {
 				icon: 'eye'
 			},
 			{
-				title: translate('clone_element'),
+				title: translate('duplicate_element'),
 				action: () => props.element.duplicate(),
 				icon: 'copy'
 			},

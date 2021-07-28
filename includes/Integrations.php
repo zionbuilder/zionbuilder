@@ -63,6 +63,7 @@ class Integrations {
 		$this->register_integration( 'ZionBuilder\Integrations\Gutenberg' );
 		$this->register_integration( 'ZionBuilder\Integrations\Revisions' );
 		$this->register_integration( 'ZionBuilder\Integrations\TwentyNineteen' );
+		$this->register_integration( 'ZionBuilder\Integrations\RankMath' );
 	}
 
 	/**

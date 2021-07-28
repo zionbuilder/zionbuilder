@@ -75,14 +75,14 @@ class PageTemplates {
 	public function template_include( $template ) {
 		$post_instance = Plugin::$instance->post_manager->get_active_post_instance();
 
+		if ( ! $post_instance ) {
+			return $template;
+		}
+
 		// If we are on preview mode, check for autosave
 		if ( Plugin::$instance->editor->preview->is_preview_mode() ) {
 			// get_post_or_autosave_instance
 			$post_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
-		}
-
-		if ( ! $post_instance ) {
-			return $template;
 		}
 
 		$post_template = $post_instance->get_post_template();

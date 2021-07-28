@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.7.2
-Stable tag: 2.6.1
+Stable tag: 2.7.1
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,30 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.7.1 2021-07-23 =
+* Fixed rendered page now working
+
+= 2.7.0 2021-07-22 =
+* Added Dark mode
+* Added image ALT text and sizes to gallery element images
+* Added compatibility with cart flow plugin
+* Added JS filter for input select options
+* Improvement - UX: Set mask options as collapsed when opening the element options panel
+* Improvement: unified clone element texts throughout the builder
+* Improved: Reordered icon box options
+* Improved internal API
+* Improved Blocksy theme integration
+* Fixed: Deleting a parent element while having a child element options panel open, doesn't close the panel
+* Fixed: Element CSS id not visually updating inside styling tab after changing it
+* Fixed changing page template requires a page refresh
+* Fixed icon list links not working properly
+* Fixed image not showing properly in a responsive mode in certain conditions
+* Fixed icon element not printing mobile device styles
+* Fixed some options that cannot be found when using the search from the elements panel
+* Fixed server rendered components doesn't render in certain conditions
+* Various small fixes
+* Internal code cleanup
+
 = 2.6.1 2021-06-24 =
 * Fixed input select can show loading icon in certain conditions
 

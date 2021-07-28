@@ -32,14 +32,31 @@ class CustomCSS {
 	];
 
 	/**
+	 * Holds a refference to the raw CSS
+	 *
+	 * @var string
+	 */
+	private $raw_css = '';
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param string $css_selector The css selector for which the styles will be applied
 	 */
-	public function __construct( $css_selector ) {
+	public function __construct( $css_selector = '' ) {
 		$this->css_selector = $css_selector;
 	}
 
+
+	/**
+	 * Sets the CSS selector
+	 *
+	 * @param string $selector
+	 * @return void
+	 */
+	public function set_css_selector( $selector ) {
+		$this->css_selector = $selector;
+	}
 
 	/**
 	 * Returns the css selector that will be used for style configurations
@@ -97,7 +114,6 @@ class CustomCSS {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -172,6 +188,9 @@ class CustomCSS {
 		$this->custom_css_config[$device][$selector][] = $value;
 	}
 
+	public function add_raw_css( $css ) {
+		$this->raw_css .= $css;
+	}
 
 	/**
 	 * Returns the custom css build from the custom css config
@@ -179,7 +198,7 @@ class CustomCSS {
 	 * @return string
 	 */
 	public function get_css() {
-		$returned_css = '';
+		$returned_css = $this->raw_css;
 
 		foreach ( $this->custom_css_config as $device => $selectors_config ) {
 			$extracted_css = $this->extract_styles( $selectors_config );

@@ -43,6 +43,10 @@ class Cache {
 	private static $loaded_javascript_assets = [];
 	private static $done_areas_css           = [];
 	private static $done_areas_js            = [];
+	private static $late_scripts             = [];
+
+	private $areas_raw_css = [];
+	private $active_areas  = [];
 
 	/**
 	 * Main class constructor
@@ -61,7 +65,7 @@ class Cache {
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'register_default_scripts' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-			add_action( 'wp_footer', [ $this, 'on_enqueue_scripts' ] );
+			add_action( 'wp_footer', [ $this, 'late_enqueue_styles' ] );
 
 		} else {
 			// Register default scripts so we can use them in edit mode
@@ -80,6 +84,52 @@ class Cache {
 		$this->enqueue_dynamic_css();
 	}
 
+	/**
+	 * Create the css files after the page is rendered so we have access to all areas
+	 *
+	 * @return void
+	 */
+	public function late_enqueue_styles() {
+		foreach ( self::$late_scripts as $post_id ) {
+			$this->set_active_area( $post_id );
+			$this->compile_and_include_css_cache_file_for_post( $post_id );
+		}
+	}
+
+	/**
+	 * Returns true if we need to generate CSS for elements
+	 *
+	 * @return boolean
+	 */
+	public function should_generate_css() {
+		return in_array( $this->get_active_area(), self::$late_scripts, true );
+	}
+
+	public function get_active_area() {
+		return end( $this->active_areas );
+	}
+
+	public function set_active_area( $post_id ) {
+		$this->active_areas[] = $post_id;
+	}
+
+	public function reset_active_area() {
+		array_pop( $this->active_areas );
+	}
+
+	public function add_raw_css( $css ) {
+		if ( ! isset( $this->areas_raw_css[$this->get_active_area()] ) ) {
+			$this->areas_raw_css[$this->get_active_area()] = '';
+		}
+
+		$this->areas_raw_css[$this->get_active_area()] .= $css;
+	}
+
+	public function compile_and_include_css_cache_file_for_post( $post_id ) {
+		$this->compile_css_cache_file_for_post( $post_id );
+		$cache_file_config = $this->get_cache_file_config( $post_id );
+		wp_enqueue_style( $cache_file_config['handle'], $cache_file_config['url'], [], $this->get_cache_version( $post_id ) );
+	}
 
 	/**
 	 * Register plugin default scripts
@@ -181,10 +231,10 @@ class Cache {
 
 			// Create the file if it doesn't exists
 			if ( ! is_file( $file_config['path'] ) || Environment::is_debug() ) {
-				$this->compile_css_cache_file_for_post( $post_id );
+				self::$late_scripts[] = $post_id;
+			} else {
+				wp_enqueue_style( $file_config['handle'], $file_config['url'], [], $this->get_cache_version( $post_id ) );
 			}
-
-			wp_enqueue_style( $file_config['handle'], $file_config['url'], [], $this->get_cache_version( $post_id ) );
 		}
 	}
 
@@ -304,6 +354,9 @@ class Cache {
 		self::$loaded_assets = [];
 		$css                 = '';
 
+		// Add the raw css
+		$css = $this->areas_raw_css[$this->get_active_area()];
+
 		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
 			foreach ( $areas[$post_id] as $element ) {
 				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
@@ -326,14 +379,14 @@ class Cache {
 	public function get_css_for_element( $element_instance ) {
 		$css = '';
 
-		do_action( 'zionbuilder/cache/on_before_element_css', $element_instance );
-
 		$element_type = $element_instance->get_type();
 
 		if ( ! isset( self::$loaded_assets[$element_type] ) ) {
+			$element_instance->do_enqueue_styles();
 			$element_styles = $element_instance->get_element_styles();
 
 			foreach ( $element_styles as $style_url ) {
+
 				$style_path = Utils::get_file_path_from_url( $style_url );
 				$css       .= FileSystem::get_file_system()->get_contents( $style_path );
 			}
@@ -341,21 +394,17 @@ class Cache {
 			self::$loaded_assets[$element_type] = true;
 		}
 
-		$css .= $element_instance->get_element_extra_css();
-
 		// Check for children
-		$childs = $element_instance->get_children();
+		$children = $element_instance->get_children();
 
-		if ( is_array( $childs ) ) {
-			foreach ( $childs as $element ) {
+		if ( is_array( $children ) ) {
+			foreach ( $children as $element ) {
 				$child_element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 				if ( $child_element_instance ) {
 					$css .= $this->get_css_for_element( $child_element_instance );
 				}
 			}
 		}
-
-		do_action( 'zionbuilder/cache/on_after_element_css', $element_instance );
 
 		return $css;
 	}

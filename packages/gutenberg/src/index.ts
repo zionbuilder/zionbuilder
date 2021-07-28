@@ -4,103 +4,66 @@ import '@zionbuilder/css-variables/edit-page.scss'
 const $ = window.jQuery
 const wp = window.wp
 
-class Gutenberg {
-	constructor(args) {
-		// Set class args
-		this.isEditorEnabled = args.is_editor_enabled
-		this.postId = args.post_id
-		this.l10n = args.l10n
-		this.guttenbergInitInterval = null
-		this.guttenbergInitErrorCount = 0
+function initGutenberg(args) {
+	const isGuttenbergActive = wp.data !== 'undefined'
 
-		// Button Lock
-		this.isProcessingAction = false
+	// Set class args
+	let isEditorEnabled = args.is_editor_enabled
+	const postId = args.post_id
 
-		if (this.isGuttenbergActive) {
-			this.attachButtons().then(() => {
-				this.cacheDom()
-				this.updateUi()
-				this.attachEvents()
-			}).catch(() => {
-				// If guttenberg wasn't found in 10 seconds, clear interval
-				if (this.guttenbergInitErrorCount > 20) {
-					clearInterval(this.guttenbergInitInterval)
-				}
+	// Button Lock
+	let isProcessingAction = false
 
-				this.guttenbergInitErrorCount += 1
-			})
+	// Dom
+	const $body = $('body')
+	let $buttonsWrapper = null
+	let $editorBlockFrame = null
+	let $editorHeader = null
+	let $editorLayout = null
+
+	function init() {
+		if (isGuttenbergActive) {
+			wp.data.subscribe(() => {
+				setTimeout(() => {
+					attachButtons();
+				}, 1);
+			});
+
+			attachEvents()
 		}
 	}
 
-	get isGuttenbergActive() {
-		return typeof wp.data !== 'undefined'
-	}
+	function attachButtons() {
+		$buttonsWrapper = $($('#zionbuilder-gutenberg-buttons').html())
+		$editorBlockFrame = $($('#zionbuilder-gutenberg-editor-block').html())
+		$editorHeader = $('.edit-post-header-toolbar')
+		$editorLayout = $('.editor-block-list__layout')
 
-	cacheDom() {
-		// DOM CACHE
-		this.$document = $(document)
-		this.$window = $(window)
-		this.$postTitle = $('#title')
-		this.$body = $('body')
-		this.$editorActivateButton = $('.znpb-admin-post__edit-button--activate')
-		this.$editorDeactivateButton = $('.znpb-admin-post__edit-button--deactivate')
-	}
-
-	attachEvents() {
-		// Bind events
-		this.$editorActivateButton.on('click', this.onEditButtonPress.bind(this))
-		this.$editorDeactivateButton.on('click', this.onDisableButtonPress.bind(this))
-	}
-
-	/**
-	 *
-	 * Add Editor buttons to Gutenberg editor
-	 */
-	attachButtons() {
-		let i = 0
-		return new Promise((resolve, reject) => {
-			this.guttenbergInitInterval = setInterval(() => {
-				if (i > 20) {
-					clearInterval(this.guttenbergInitInterval)
-				}
-				i++
-
-				this.$buttonsWrapper = $($('#zionbuilder-gutenberg-buttons').html())
-				this.$editorBlockFrame = $($('#zionbuilder-gutenberg-editor-block').html())
-				this.$editorHeader = $('.edit-post-header-toolbar')
-				this.$editorLayout = $('.editor-block-list__layout')
-
-				// Fix compatibility with WP 5.4
-				if (!this.$editorLayout.length) {
-					this.$editorLayout = $('.block-editor-block-list__layout')
-				}
-
-				if (this.$editorHeader.length > 0 && this.$editorLayout.length > 0) {
-					this.$editorHeader.append(this.$buttonsWrapper)
-					this.$editorLayout.append(this.$editorBlockFrame)
-
-					clearInterval(this.guttenbergInitInterval)
-
-					resolve(true)
-				} else {
-					// eslint-disable-next-line prefer-promise-reject-errors
-					reject('Guttenberg not ready')
-				}
-			}, 500)
-		})
-	}
-
-	/**
-	 *
-	 * @param {string} stringId The string id for which we need to return the translated string
-	 */
-	getTranslatedString(stringId) {
-		if (typeof this.l10n[stringId] !== 'undefined') {
-			return this.l10n[stringId]
+		// Fix compatibility with WP 5.4
+		if (!$editorLayout.length) {
+			$editorLayout = $('.block-editor-block-list__layout')
 		}
 
-		// eslint-disable-next-line
-		console.info(`String with id ${stringId} was not found.`)
+		if (!$editorHeader.length || !$editorLayout.length) {
+			return
+		}
+
+		// Don't proceed if already present
+		if (!$editorHeader.find('.znpb-admin-post__edit').length && $editorHeader.length) {
+			$editorHeader.append($buttonsWrapper)
+		}
+
+		if (!$editorLayout.find('.znpb-admin-post__edit-block').length && $editorLayout.length) {
+			$editorLayout.append($editorBlockFrame)
+		}
+
+		updateUi()
+
+	}
+
+	function attachEvents() {
+		$(document).on('click', '.znpb-admin-post__edit-button--activate', onEditButtonPress)
+		$(document).on('click', '.znpb-admin-post__edit-button--deactivate', onDisableButtonPress)
 	}
 
 	/**
@@ -109,26 +72,26 @@ class Gutenberg {
 	 *
 	 * @param {*} event
 	 */
-	onEditButtonPress(event) {
+	function onEditButtonPress(event) {
 		// If editor is already enabled, just go to edit page
-		if (!this.isEditorEnabled) {
+		if (!isEditorEnabled) {
 			event.preventDefault()
 
 			// Don't proceed if the user clicks on the button multiple times
-			if (this.isProcessingAction) {
+			if (isProcessingAction) {
 				return
 			}
 
-			this.isProcessingAction = true
+			isProcessingAction = true
 
 			// Add loading class
-			this.$editorActivateButton.addClass('znpb-admin-post__edit-button--loading')
+			$('.znpb-admin-post__edit-button--activate').addClass('znpb-admin-post__edit-button--loading')
 
 			// Set WP Title and trigger save detection
 			const pageTitle = wp.data.select('core/editor').getEditedPostAttribute('title')
 			if (!pageTitle) {
 				wp.data.dispatch('core/editor').editPost({
-					title: `ZionBuilder #${this.postId}`
+					title: `ZionBuilder #${postId}`
 				})
 			}
 
@@ -136,46 +99,54 @@ class Gutenberg {
 				zion_builder_status: true
 			})
 
-			this.savePost(() => {
-				location.href = this.$editorActivateButton.attr('href')
+			savePost(function () {
+				location.href = $('.znpb-admin-post__edit-button--activate').attr('href')
 			})
 		}
 	}
 
-	updateUi() {
-		if (this.isEditorEnabled) {
-			this.$body.addClass('znpb-admin-post-editor--active')
+	function performActionAfterSave(callback) {
+		const saveInterval = setInterval(function () {
+			if (!wp.data.select('core/editor').isSavingPost()) {
+				clearInterval(saveInterval)
+
+				if (callback) {
+					callback.call()
+				}
+
+				setEditorStatus()
+
+				isProcessingAction = false
+				$('.znpb-admin-post__edit-button--activate').removeClass('znpb-admin-post__edit-button--loading')
+				$('.znpb-admin-post__edit-button--deactivate').removeClass('znpb-admin-post__edit-button--loading')
+			}
+		}, 300)
+	}
+
+	function updateUi() {
+		if (isEditorEnabled) {
+			$body.addClass('znpb-admin-post-editor--active')
 		} else {
-			this.$body.removeClass('znpb-admin-post-editor--active')
+			$body.removeClass('znpb-admin-post-editor--active')
 		}
 	}
 
 	/**
 	 * Toogle editor status ( active/inactive )
 	 */
-	setEditorStatus() {
-		this.isEditorEnabled = wp.data.select('core/editor').getEditedPostAttribute('zion_builder_status')
+	function setEditorStatus() {
+		isEditorEnabled = wp.data.select('core/editor').getEditedPostAttribute('zion_builder_status')
 
-		this.updateUi()
+		updateUi()
 	}
 
 	/**
 	 * Will save the post
 	 *
-	 * @param {function} callback The callback to call when the post is succesfully saved
 	 */
-	savePost(callback) {
-		wp.data.dispatch('core/editor').savePost().then(() => {
-			this.setEditorStatus()
-
-			if (callback) {
-				callback.call()
-			}
-		}).finally(() => {
-			this.isProcessingAction = false
-			this.$editorActivateButton.removeClass('znpb-admin-post__edit-button--loading')
-			this.$editorDeactivateButton.removeClass('znpb-admin-post__edit-button--loading')
-		})
+	function savePost(callback) {
+		wp.data.dispatch('core/editor').savePost()
+		performActionAfterSave(callback)
 	}
 
 	/**
@@ -183,20 +154,23 @@ class Gutenberg {
 	 *
 	 * @param {MouseEvent} event The mouse event from click
 	 */
-	onDisableButtonPress(event) {
+	function onDisableButtonPress(event) {
 		event.preventDefault()
 
-		if (this.isEditorEnabled) {
-			this.$editorDeactivateButton.addClass('znpb-admin-post__edit-button--loading')
+		if (isEditorEnabled) {
+			$('.znpb-admin-post__edit-button--deactivate').addClass('znpb-admin-post__edit-button--loading')
 
 			wp.data.dispatch('core/editor').editPost({
 				zion_builder_status: false
 			})
 
-			this.savePost()
+			savePost()
 		}
+	}
+
+	return {
+		init
 	}
 }
 
-/* eslint-disable no-new */
-new Gutenberg(window.ZnPbEditPostData.data)
+initGutenberg(window.ZnPbEditPostData.data).init()

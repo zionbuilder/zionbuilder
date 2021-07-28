@@ -87,7 +87,8 @@ export default {
 					type: 'checkbox_switch',
 					id: 'flip',
 					title: this.$translate('flip_mask'),
-					width: '100'
+					width: '100',
+					layout: 'inline'
 				}
 			}
 		},
@@ -127,13 +128,11 @@ export default {
 }
 
 /* Enter and leave transitions for delete mask */
-.slide-fade-enter-to,
-.slide-fade-leave-from {
-	transition: all 0.1s;
+.slide-fade-enter-to, .slide-fade-leave-from {
+	transition: all .1s;
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
+.slide-fade-enter-from, .slide-fade-leave-to {
 	opacity: 0;
 }
 </style>

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class AdminBar
  * Manages admin bar functionality
  * - removes admin bar if it is not needed
- * - adds edit buttons to pages built with zion builder
+ * - adds edit buttons to pages built with the builder
  *
  * @package ZionBuilder
  */

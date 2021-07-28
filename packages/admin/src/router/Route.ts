@@ -1,9 +1,7 @@
 import Routes from './Routes'
 
 class Route {
-	routeConfig: Object;
-
-	constructor (routeConfig = {}) {
+	constructor(routeConfig = {}) {
 		const { children, ...remainingRouteConfig } = routeConfig
 		this.routeConfig = remainingRouteConfig
 
@@ -15,7 +13,7 @@ class Route {
 		}
 	}
 
-	addRoute (routeId, routeConfig) {
+	addRoute(routeId, routeConfig) {
 		if (!(this.routeConfig.children instanceof Routes)) {
 			this.routeConfig.children = new Routes()
 		}
@@ -23,11 +21,11 @@ class Route {
 		return this.routeConfig.children.addRoute(routeId, routeConfig)
 	}
 
-	getRoute (path) {
+	getRoute(path) {
 		return this.routeConfig.children.getRoute(path)
 	}
 
-	getConfigForRouter () {
+	getConfigForRouter() {
 		const routeConfig = { ...this.routeConfig }
 
 		if (routeConfig.children instanceof Routes) {
@@ -37,15 +35,15 @@ class Route {
 		return routeConfig
 	}
 
-	set (key, value) {
+	set(key, value) {
 		this.routeConfig[key] = value
 	}
 
-	remove (key) {
+	remove(key) {
 		delete this.routeConfig[key]
 	}
 
-	get (key) {
+	get(key) {
 		delete this.routeConfig[key]
 	}
 }

@@ -217,7 +217,6 @@ class Localization {
 				// element options
 				'edit_element'                           => __( 'Edit Element', 'zionbuilder' ),
 				'save_element'                           => __( 'Save Element ', 'zionbuilder' ),
-				'clone_element'                          => __( 'Clone Element ', 'zionbuilder' ),
 				'rename_element'                         => __( 'Rename Element', 'zionbuilder' ),
 				'visible_element'                        => __( 'Hide Element ', 'zionbuilder' ),
 				'show_element'                           => __( 'Show Element ', 'zionbuilder' ),
