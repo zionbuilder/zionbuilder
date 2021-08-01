@@ -85,9 +85,10 @@ export default {
 		function callReplaceUrl () {
 			message.value = ''
 			loading.value = true
+
 			replaceUrl({
-				find: oldUrl,
-				replace: newUrl
+				find: oldUrl.value,
+				replace: newUrl.value
 			}).then((response) => {
 				loading.value = false
 				message.value = response.data.message
