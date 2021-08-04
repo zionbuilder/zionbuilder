@@ -43,8 +43,6 @@ class Shortcodes {
 		$post_template_data = $post_instance->get_template_data();
 		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
 
-		Plugin::$instance->cache->register_post_id( $atts['id'] );
-
 		return Plugin::$instance->renderer->get_content( $atts['id'] );
 	}
 }

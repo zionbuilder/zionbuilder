@@ -68,9 +68,6 @@ class Preview {
 		$post_template_data = $post_instance->get_template_data();
 		Plugin::$instance->renderer->register_area( $this->get_current_post_id(), $post_template_data );
 
-		// Register styles cache file for current page
-		Plugin::$instance->cache->register_post_id( $this->get_current_post_id() );
-
 		// We are in preview mode now
 		add_filter( 'the_content', [ $this, 'add_content_filter' ], self::CONTENT_FILTER_PRIORITY );
 

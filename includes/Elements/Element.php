@@ -176,6 +176,9 @@ class Element {
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
+
+			// Enqueue styles
+			$this->do_enqueue_styles();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct

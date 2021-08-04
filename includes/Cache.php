@@ -32,21 +32,18 @@ class Cache {
 	 */
 	private $cache_directory_config = null;
 
-	/**
-	 * Holds a reference to all post ids that we need to enqueue styles
-	 *
-	 * @var array<int>
-	 */
-	private $registered_post_ids = [];
-
 	private static $loaded_assets            = [];
 	private static $loaded_javascript_assets = [];
-	private static $done_areas_css           = [];
 	private static $done_areas_js            = [];
 	private static $late_scripts             = [];
 
 	private $areas_raw_css = [];
 	private $active_areas  = [];
+
+
+	private $active_area = null;
+
+	private $generate_element_css = false;
 
 	/**
 	 * Main class constructor
@@ -63,12 +60,12 @@ class Cache {
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'register_default_scripts' ] );
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
-			add_action( 'wp_footer', [ $this, 'late_enqueue_styles' ] );
+			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
 
 		} else {
 			// Register default scripts so we can use them in edit mode
+			// TODO: Check if this is still needed
 			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ] );
 		}
 	}
@@ -79,10 +76,107 @@ class Cache {
 	 * @return void
 	 */
 	public function on_enqueue_scripts() {
-		$this->enqueue_post_styles();
-		$this->enqueue_post_scripts();
+		$this->register_default_scripts();
+		$this->enqueue_post_assets();
 		$this->enqueue_dynamic_css();
 	}
+
+	public function enqueue_post_assets() {
+		$in_footer        = did_action( 'wp_enqueue_scripts' ) && ! doing_filter( 'wp_enqueue_scripts' );
+		$registered_posts = Plugin::$instance->renderer->get_registered_areas();
+		$is_preview       = Plugin::$instance->editor->preview->is_preview_mode();
+
+		// Load all elements assets
+		foreach ( $registered_posts as $post_id => $post_content ) {
+			$page_assets = PageAssets::get_instance( $post_id );
+			$page_assets->enqueue_element_scripts();
+		}
+
+		// For single pages, generate a single asset file
+		if ( is_singular() ) {
+			$active_post_id    = Plugin::$instance->post_manager->get_active_post_id();
+			$main_page_assets  = PageAssets::get_instance( $active_post_id, false );
+			$this->active_area = $main_page_assets;
+
+			// Check to see if the file was already generated
+			if ( $main_page_assets->is_generated() ) {
+				$main_page_assets->enqueue();
+			} elseif ( $in_footer ) {
+				var_dump( $registered_posts );
+				// Generate and enqueue the files
+				foreach ( $registered_posts as $post_id => $post_content ) {
+					// generate partials
+					$partial_asset = PageAssets::get_instance( $post_id );
+
+					// Generate and save partials
+					$partial_asset->generate_dynamic_assets( true );
+					$main_page_assets->add_raw_css( $partial_asset->get_css() );
+					$main_page_assets->add_raw_js( $partial_asset->get_js() );
+				}
+
+				$main_page_assets->save()->enqueue();
+			} else {
+				// Set a flag so we can collect the css and js from elements
+				$this->generate_element_css = true;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Create the css files after the page is rendered so we have access to all areas
@@ -90,9 +184,81 @@ class Cache {
 	 * @return void
 	 */
 	public function late_enqueue_styles() {
-		foreach ( self::$late_scripts as $post_id ) {
-			$this->set_active_area( $post_id );
-			$this->compile_and_include_css_cache_file_for_post( $post_id );
+		foreach ( self::$late_scripts as $handle => $asset_config ) {
+			$this->set_active_area( $asset_config['post_id'] );
+			$this->compile_assets_for_post( $handle, $asset_config );
+		}
+	}
+
+	public function register_for_late_compile( $handle, $config = [] ) {
+		if ( ! isset( self::$late_scripts[$handle] ) ) {
+			self::$late_scripts[$handle] = $config;
+		}
+	}
+
+
+
+	public function enqueue_current_post_cached_assets() {
+		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
+
+		// Check if scripts and styles files exists
+		$cache_file_config = $this->get_cache_file_config( $active_post_id );
+
+		if ( ! is_file( $cache_file_config['path'] . '.css' ) || Environment::is_debug() ) {
+			$this->register_for_late_compile(
+				$cache_file_config['handle'],
+				[
+					'enqueue'     => true,
+					'is_main'     => true,
+					'file_config' => $cache_file_config,
+					'post_id'     => $active_post_id,
+				]
+			);
+		} else {
+			$this->include_assets_for_post( $active_post_id, $cache_file_config );
+		}
+	}
+
+	/**
+	 * Enqueues the assets for a given post
+	 *
+	 * @param integer $post_id
+	 * @param array $cache_file_config
+	 *
+	 * @return void
+	 */
+	public function include_assets_for_post( $post_id, $cache_file_config ) {
+		// Check to see if the file has content
+		if ( 0 !== FileSystem::get_file_system()->size( $cache_file_config['path'] . '.css' ) ) {
+			wp_enqueue_style( $cache_file_config['handle'], $cache_file_config['url'] . '.css', [], $this->get_cache_version( $post_id ) );
+		}
+
+		if ( 0 !== FileSystem::get_file_system()->size( $cache_file_config['path'] . '.js' ) ) {
+			wp_enqueue_script( $cache_file_config['handle'], $cache_file_config['url'] . '.js', [], $this->get_cache_version( $post_id ), true );
+		}
+	}
+
+
+	/**
+	 * Will enqueue all elements scripts and styles
+	 *
+	 * Will also look for scripts inside child elements
+	 *
+	 * @param Element $element The Zion Builder element for which we need to enqueue scripts
+	 *
+	 * @return void
+	 */
+	public function enqueue_element_scripts( $element ) {
+		$element->do_enqueue_scripts();
+
+		// Check for children
+		$children = $element->get_children();
+
+		if ( is_array( $children ) ) {
+			foreach ( $children as $element ) {
+				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+				$this->enqueue_element_scripts( $child_element );
+			}
 		}
 	}
 
@@ -102,7 +268,7 @@ class Cache {
 	 * @return boolean
 	 */
 	public function should_generate_css() {
-		return in_array( $this->get_active_area(), self::$late_scripts, true );
+		return $this->generate_element_css;
 	}
 
 	public function get_active_area() {
@@ -118,17 +284,56 @@ class Cache {
 	}
 
 	public function add_raw_css( $css ) {
-		if ( ! isset( $this->areas_raw_css[$this->get_active_area()] ) ) {
-			$this->areas_raw_css[$this->get_active_area()] = '';
+		if ( $this->active_area ) {
+			$this->active_area->add_raw_css( $css );
 		}
 
-		$this->areas_raw_css[$this->get_active_area()] .= $css;
+		// if ( ! isset( $this->areas_raw_css[$this->get_active_area()] ) ) {
+		// 	$this->areas_raw_css[$this->get_active_area()] = '';
+		// }
+
+		// $this->areas_raw_css[$this->get_active_area()] .= $css;
 	}
 
-	public function compile_and_include_css_cache_file_for_post( $post_id ) {
-		$this->compile_css_cache_file_for_post( $post_id );
-		$cache_file_config = $this->get_cache_file_config( $post_id );
-		wp_enqueue_style( $cache_file_config['handle'], $cache_file_config['url'], [], $this->get_cache_version( $post_id ) );
+	public function compile_assets_for_post( $handle, $config ) {
+		$post_id           = $config['post_id'];
+		$cache_file_config = $config['file_config'];
+
+		if ( $config['is_main'] ) {
+			$css = '';
+			$js  = '';
+
+			$registered_posts = Plugin::$instance->renderer->get_registered_areas();
+
+			// Enqueue scripts and styles for elements
+			foreach ( $registered_posts as $post_id => $post_content ) {
+				$post_assets = $this->get_css_and_js_for_post( $post_id );
+
+				$css .= $post_assets['css'];
+				$js  .= $post_assets['js'];
+			}
+
+			// Save the CSS
+			FileSystem::get_file_system()->put_contents( $cache_file_config['path'] . '.css', $css, 0644 );
+
+			// Save the JS
+			FileSystem::get_file_system()->put_contents( $cache_file_config['path'] . '.js', $js, 0644 );
+		} else {
+			// TODO: partials
+		}
+		if ( $config['enqueue'] === true ) {
+			$this->include_assets_for_post( $post_id, $config['file_config'] );
+		}
+	}
+
+	public function get_css_and_js_for_post( $post_id ) {
+		$css = 'sdfsdf';
+		$js  = 'wrwerwe';
+
+		return [
+			'css' => $css,
+			'js'  => $js,
+		];
 	}
 
 	/**
@@ -145,6 +350,7 @@ class Cache {
 
 		// Register scripts
 		wp_register_script( 'zb-modal', Utils::get_file_url( 'assets/vendors/js/modal.min.js' ), [], Plugin::instance()->get_version(), true );
+
 		// Video
 		wp_register_script( 'zb-video', Utils::get_file_url( 'assets/vendors/js/ZBVideo.js' ), [], Plugin::instance()->get_version(), true );
 		wp_register_script( 'zb-video-bg', Utils::get_file_url( 'assets/vendors/js/ZBVideoBg.js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );
@@ -155,33 +361,6 @@ class Cache {
 		// Animate JS
 		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJS.js' ), [], Plugin::instance()->get_version(), true );
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
-	}
-
-	/**
-	 * Register Post Id
-	 *
-	 * Will register post ids for which we need to enqueue styles
-	 *
-	 * @param int $post_id
-	 *
-	 * @return void
-	 */
-	public function register_post_id( $post_id ) {
-		$this->registered_post_ids[] = absint( $post_id );
-	}
-
-	/**
-	 * Unregister Post Id
-	 *
-	 * Will remove a post id from the list of post ids for which we need to enqueue styles
-	 *
-	 * @param int $post_id
-	 *
-	 * @return void
-	 */
-	public function unregister_post_id( $post_id ) {
-		$post_id = absint( $post_id );
-		unset( $this->registered_post_ids[$post_id] );
 	}
 
 	/**
@@ -201,96 +380,6 @@ class Cache {
 
 		$version = (string) filemtime( $dynamic_cache_file );
 		wp_enqueue_style( 'znpb-dynamic-css', $dynamic_cache_file_url, [], $version );
-	}
-
-	/**
-	 * Enqueue Post Styles
-	 *
-	 * Will enqueue the cached styles for all registered post ids
-	 *
-	 * @return void
-	 */
-	public function enqueue_post_styles() {
-		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
-
-		// Enqueue element styles
-		$this->enqueue_elements_styles();
-
-		foreach ( $this->registered_post_ids as $post_id ) {
-			$file_config = $this->get_cache_file_config( $post_id );
-
-			// Only load the scripts that are not autogenerated. This is needed so that we can
-			// load theme builder header/footer styles when editing a page
-			if ( Plugin::$instance->editor->preview->is_preview_mode() && $active_post_id === $post_id ) {
-				continue;
-			}
-
-			if ( wp_script_is( $file_config['handle'], 'enqueued' ) ) {
-				continue;
-			}
-
-			// Create the file if it doesn't exists
-			if ( ! is_file( $file_config['path'] ) || Environment::is_debug() ) {
-				self::$late_scripts[] = $post_id;
-			} else {
-				wp_enqueue_style( $file_config['handle'], $file_config['url'], [], $this->get_cache_version( $post_id ) );
-			}
-		}
-	}
-
-
-	/**
-	 * Enqueue post scripts
-	 *
-	 * @return void
-	 */
-	public function enqueue_post_scripts() {
-		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
-
-		// Enqueue element scripts
-		$this->enqueue_elements_scripts();
-
-		foreach ( $this->registered_post_ids as $post_id ) {
-			// Only load the scripts that are not autogenerated. This is needed so that we can
-			// load theme builder header/footer styles when editing a page
-			if ( Plugin::$instance->editor->preview->is_preview_mode() && $active_post_id === $post_id ) {
-				continue;
-			}
-
-			$file_config = $this->get_cache_file_config( $post_id, 'js' );
-
-			// Create the file if it doesn't exists
-			if ( ! is_file( $file_config['path'] ) || Environment::is_debug() ) {
-				$this->compile_js_cache_file_for_post( $post_id );
-			}
-
-			wp_enqueue_script( $file_config['handle'], $file_config['url'], [ 'jquery' ], $this->get_cache_version( $post_id ), true );
-		}
-	}
-
-	/**
-	 * Enqueue element styles
-	 *
-	 * @return void
-	 */
-	public function enqueue_elements_styles() {
-		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
-		foreach ( $elements_instances as $element_instance ) {
-			// Add the style.css file if present
-			$element_instance->do_enqueue_styles();
-		}
-	}
-
-	/**
-	 * Enqueue element scripts
-	 *
-	 * @return void
-	 */
-	public function enqueue_elements_scripts() {
-		$elements_instances = Plugin::$instance->renderer->get_elements_instances();
-		foreach ( $elements_instances as $element_instance ) {
-			$element_instance->do_enqueue_scripts();
-		}
 	}
 
 	/**
@@ -327,14 +416,15 @@ class Cache {
 	 *
 	 * @return array{file_name: string, handle: string, path: string, url: string } The cache file paths
 	 */
-	public function get_cache_file_config( $post_id, $type = 'css' ) {
+	public function get_cache_file_config( $post_id, $filename_append = false ) {
 		$post_id         = absint( $post_id );
-		$file_name       = $post_id . '-layout.' . $type;
+		$append_text     = $filename_append ? '-' . $filename_append : '';
+		$file_name       = sprintf( '%s-layout%s', $post_id, $append_text );
 		$cache_directory = $this->get_cache_directory();
 
 		return [
 			'file_name' => $file_name,
-			'handle'    => $post_id . '-layout-' . $type,
+			'handle'    => $file_name,
 			'path'      => $cache_directory['path'] . $file_name,
 			'url'       => esc_url( $cache_directory['url'] . $file_name ),
 		];
@@ -382,11 +472,10 @@ class Cache {
 		$element_type = $element_instance->get_type();
 
 		if ( ! isset( self::$loaded_assets[$element_type] ) ) {
-			$element_instance->do_enqueue_styles();
+			// $element_instance->do_enqueue_styles();
 			$element_styles = $element_instance->get_element_styles();
 
 			foreach ( $element_styles as $style_url ) {
-
 				$style_path = Utils::get_file_path_from_url( $style_url );
 				$css       .= FileSystem::get_file_system()->get_contents( $style_path );
 			}

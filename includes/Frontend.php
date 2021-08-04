@@ -80,9 +80,6 @@ class Frontend {
 				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
 				add_filter( 'get_the_excerpt', [ $this, 'remove_excerpt_flag' ], 99 );
 				$this->add_content_filter();
-
-				// Register styles cache file for current page
-				Plugin::$instance->cache->register_post_id( $post_instance->get_post_id() );
 			}
 		}
 	}
