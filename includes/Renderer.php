@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\Elements\Element;
+use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,10 +24,6 @@ class Renderer {
 	 */
 	private $registered_areas      = [];
 	private $instantiated_elements = [];
-	private $main_render_area      = null;
-
-	public function __construct() {
-	}
 
 
 	/**
@@ -170,49 +167,38 @@ class Renderer {
 		return false;
 	}
 
-	private function set_render_area( $post_id ) {
-		if ( $this->main_render_area === null ) {
-			$this->main_render_area = $post_id;
-		}
-	}
-
-	private function reset_render_area( $post_id ) {
-		if ( $this->main_render_area === $post_id ) {
-			$this->main_render_area = null;
-		}
-	}
-
 	/**
 	 * Will render a post ID
 	 *
-	 * @param integer $area_id
+	 * @param integer $post_id
 	 *
 	 * @return void
 	 */
-	public function render_area( $area_id ) {
-		$this->set_render_area( $area_id );
+	public function render_area( $post_id, $custom_content = null ) {
+		PageAssets::set_active_post_id( $post_id );
 
-		$area_class = sprintf( 'zb-area-%s', $area_id );
-		$classes    = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $area_id );
+		$area_class   = sprintf( 'zb-area-%s', $post_id );
+		$classes      = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $post_id );
+		$area_content = $custom_content ? $custom_content : $this->get_content_for_area( $post_id );
 
 		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
-			$this->render_children( $this->get_content_for_area( $area_id ) );
+			$this->render_children( $area_content );
 		echo '</div>';
 
-		$this->reset_render_area( $area_id );
+		PageAssets::reset_active_post_id( $post_id );
 	}
 
 
 	/**
 	 * Will return the content of a post
 	 *
-	 * @param integer $area_id
+	 * @param integer $post_id
 	 *
 	 * @return string
 	 */
-	public function get_content( $area_id = 'content' ) {
+	public function get_content( $post_id = 'content', $custom_content = null ) {
 		ob_start();
-		$this->render_area( $area_id );
+		$this->render_area( $post_id, $custom_content );
 		return ob_get_clean();
 	}
 }

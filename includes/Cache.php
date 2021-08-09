@@ -61,6 +61,8 @@ class Cache {
 		// Enqueue styles
 		if ( ! is_admin() ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
+
+			// This is needed so we can load scripts that are not available on WP action ( for example, shortcodes )
 			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
 
 		} else {
@@ -86,136 +88,34 @@ class Cache {
 		$registered_posts = Plugin::$instance->renderer->get_registered_areas();
 		$is_preview       = Plugin::$instance->editor->preview->is_preview_mode();
 
-		// Load all elements assets
-		foreach ( $registered_posts as $post_id => $post_content ) {
-			$page_assets = PageAssets::get_instance( $post_id );
-			$page_assets->enqueue_element_scripts();
-		}
+		$registered_areas_ids = array_keys( $registered_posts );
 
-		// For single pages, generate a single asset file
-		if ( is_singular() ) {
-			$active_post_id    = Plugin::$instance->post_manager->get_active_post_id();
-			$main_page_assets  = PageAssets::get_instance( $active_post_id, false );
-			$this->active_area = $main_page_assets;
+		// If we have registered areas, just generate the assets based on the areas
+		if ( count( $registered_areas_ids ) > 0 ) {
+			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids, false );
+			$page_dynamic_assets->enqueue_element_scripts();
 
 			// Check to see if the file was already generated
-			if ( $main_page_assets->is_generated() ) {
-				$main_page_assets->enqueue();
+			if ( $page_dynamic_assets->is_generated() ) {
+				$page_dynamic_assets->enqueue();
 			} elseif ( $in_footer ) {
-				var_dump( $registered_posts );
-				// Generate and enqueue the files
-				foreach ( $registered_posts as $post_id => $post_content ) {
-					// generate partials
-					$partial_asset = PageAssets::get_instance( $post_id );
-
-					// Generate and save partials
-					$partial_asset->generate_dynamic_assets( true );
-					$main_page_assets->add_raw_css( $partial_asset->get_css() );
-					$main_page_assets->add_raw_js( $partial_asset->get_js() );
-				}
-
-				$main_page_assets->save()->enqueue();
+				$page_dynamic_assets->generate_dynamic_assets()->save()->enqueue();
 			} else {
 				// Set a flag so we can collect the css and js from elements
 				$this->generate_element_css = true;
+			}
+		} else {
+			// Create individual assets for each registered area
+			foreach ( $registered_posts as $post_id => $post_content ) {
+				// Create dynamic files for each area
 			}
 		}
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * Create the css files after the page is rendered so we have access to all areas
-	 *
-	 * @return void
-	 */
-	public function late_enqueue_styles() {
-		foreach ( self::$late_scripts as $handle => $asset_config ) {
-			$this->set_active_area( $asset_config['post_id'] );
-			$this->compile_assets_for_post( $handle, $asset_config );
-		}
-	}
-
 	public function register_for_late_compile( $handle, $config = [] ) {
 		if ( ! isset( self::$late_scripts[$handle] ) ) {
 			self::$late_scripts[$handle] = $config;
-		}
-	}
-
-
-
-	public function enqueue_current_post_cached_assets() {
-		$active_post_id = Plugin::$instance->post_manager->get_active_post_id();
-
-		// Check if scripts and styles files exists
-		$cache_file_config = $this->get_cache_file_config( $active_post_id );
-
-		if ( ! is_file( $cache_file_config['path'] . '.css' ) || Environment::is_debug() ) {
-			$this->register_for_late_compile(
-				$cache_file_config['handle'],
-				[
-					'enqueue'     => true,
-					'is_main'     => true,
-					'file_config' => $cache_file_config,
-					'post_id'     => $active_post_id,
-				]
-			);
-		} else {
-			$this->include_assets_for_post( $active_post_id, $cache_file_config );
 		}
 	}
 
@@ -288,11 +188,11 @@ class Cache {
 			$this->active_area->add_raw_css( $css );
 		}
 
-		// if ( ! isset( $this->areas_raw_css[$this->get_active_area()] ) ) {
-		// 	$this->areas_raw_css[$this->get_active_area()] = '';
-		// }
+		if ( ! isset( $this->areas_raw_css[$this->get_active_area()] ) ) {
+			$this->areas_raw_css[$this->get_active_area()] = '';
+		}
 
-		// $this->areas_raw_css[$this->get_active_area()] .= $css;
+		$this->areas_raw_css[$this->get_active_area()] .= $css;
 	}
 
 	public function compile_assets_for_post( $handle, $config ) {
@@ -430,43 +330,9 @@ class Cache {
 		];
 	}
 
-	/**
-	 * Compile cache file for post
-	 *
-	 * Will create the cached css file containing the css code that is needed for a specific post id
-	 *
-	 * @param int $post_id
-	 *
-	 * @return boolean
-	 */
-	private function compile_css_cache_file_for_post( $post_id ) {
-		$areas               = Plugin::$instance->renderer->get_registered_areas();
-		self::$loaded_assets = [];
-		$css                 = '';
-
-		// Add the raw css
-		$css = $this->areas_raw_css[$this->get_active_area()];
-
-		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
-			foreach ( $areas[$post_id] as $element ) {
-				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-
-				if ( $element_instance ) {
-					$css .= $this->get_css_for_element( $element_instance );
-				}
-			}
-		}
-
-		$css = apply_filters( 'zionbuilder/cache/page_css', $css, $post_id );
-
-		// Minify the css
-		$css               = $this->minify( $css );
-		$cache_file_config = $this->get_cache_file_config( $post_id );
-
-		return FileSystem::get_file_system()->put_contents( $cache_file_config['path'], $css, 0644 );
-	}
 
 	public function get_css_for_element( $element_instance ) {
+		return;
 		$css = '';
 
 		$element_type = $element_instance->get_type();
@@ -496,81 +362,6 @@ class Cache {
 		}
 
 		return $css;
-	}
-
-	/**
-	 * Compile cache file for post
-	 *
-	 * Will create the cached css file containing the css code that is needed for a specific post id
-	 *
-	 * @param int $post_id
-	 *
-	 * @return string
-	 */
-	private function compile_js_cache_file_for_post( $post_id ) {
-		$js = '';
-
-		// Check if we already parsed this area
-		if ( in_array( $post_id, self::$done_areas_js, true ) ) {
-			return '';
-		}
-
-		self::$done_areas_js[] = $post_id;
-
-		// Reset the loaded scripts in case we have multiple scripts on the same page
-		self::$loaded_javascript_assets = [];
-
-		$areas = Plugin::$instance->renderer->get_registered_areas();
-
-		if ( isset( $areas[$post_id] ) && is_array( $areas[$post_id] ) ) {
-			foreach ( $areas[$post_id] as $element ) {
-				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-				$js              .= $this->get_javascript_for_element( $element_instance );
-			}
-		}
-
-		$js                = apply_filters( 'zionbuilder/cache/page_js', $js, $post_id );
-		$cache_file_config = $this->get_cache_file_config( $post_id, 'js' );
-
-		$final_script = '';
-
-		if ( ! empty( $js ) ) {
-			$final_script = sprintf(
-				'
-			(function($) {
-				window.ZionBuilderFrontend = {
-					scripts: {},
-					registerScript: function (scriptId, scriptCallback) {
-						this.scripts[scriptId] = scriptCallback;
-					},
-					getScript(scriptId) {
-						return this.scripts[scriptId]
-					},
-					unregisterScript: function(scriptId) {
-						delete this.scripts[scriptId];
-					},
-					run: function() {
-						var that = this;
-						var $scope = $(document)
-						Object.keys(this.scripts).forEach(function(scriptId) {
-							var scriptObject = that.scripts[scriptId];
-							scriptObject.run( $scope );
-						})
-					}
-				};
-
-				%s
-
-				window.ZionBuilderFrontend.run();
-
-			})(jQuery);
-			',
-				$js
-			);
-		}
-
-		// Minify the js
-		return FileSystem::get_file_system()->put_contents( $cache_file_config['path'], $final_script, 0644 );
 	}
 
 	private function get_javascript_for_element( $element_instance ) {
@@ -652,12 +443,37 @@ class Cache {
 	 * @return void
 	 */
 	public function delete_post_cache( $post_id ) {
-		$post_id               = absint( $post_id );
-		$cache_file_config_css = $this->get_cache_file_config( $post_id );
-		$cache_file_config_js  = $this->get_cache_file_config( $post_id, 'js' );
+		$post_id      = absint( $post_id );
+		$cached_files = $this->get_cache_files_for_post( $post_id );
 
-		FileSystem::get_file_system()->delete( $cache_file_config_css['path'] );
-		FileSystem::get_file_system()->delete( $cache_file_config_js['path'] );
+		foreach ( $cached_files as $file_path ) {
+			FileSystem::get_file_system()->delete( $file_path );
+		}
+	}
+
+
+	/**
+	 * Will return all the cache files that mathches a post id
+	 *
+	 * @param int $post_id
+	 *
+	 * @return array
+	 */
+	public function get_cache_files_for_post( $post_id ) {
+		$cache_files_found = [];
+		$cache_folder      = $this->get_cache_directory();
+		$glob_pattern      = sprintf( '%s*.{css,js}', $cache_folder['path'] );
+		$cached_files      = glob( $glob_pattern, GLOB_BRACE );
+
+		foreach ( $cached_files as $file ) {
+			$name = pathinfo( $file, PATHINFO_FILENAME );
+
+			if ( false !== strpos( $name, (string) $post_id ) ) {
+				$cache_files_found[] = $file;
+			}
+		}
+
+		return $cache_files_found;
 	}
 
 
@@ -684,20 +500,5 @@ class Cache {
 	public function delete_all_cache() {
 		$cache_directory = $this->get_cache_directory();
 		return FileSystem::get_file_system()->delete( $cache_directory['path'], true );
-	}
-
-	/**
-	 * Get Cache Version
-	 *
-	 * Returns a string based on post modified date that will be used as file version
-	 *
-	 * @param integer $post_id
-	 *
-	 * @return string
-	 */
-	private function get_cache_version( $post_id = 0 ) {
-		$post_id = $post_id ? absint( $post_id ) : get_the_ID();
-
-		return md5( get_post_modified_time( 'U', false, $post_id ) );
 	}
 }

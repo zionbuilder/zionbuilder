@@ -134,7 +134,10 @@ class PostManager {
 			return $this->active_post_id;
 		}
 
-		$this->active_post_id = apply_filters( 'zionbuilder/post_manager/post_id', get_the_ID() );
+		// Set the post id for singular pages
+		if ( is_singular() ) {
+			$this->active_post_id = apply_filters( 'zionbuilder/post_manager/post_id', get_the_ID() );
+		}
 
 		return $this->active_post_id;
 	}

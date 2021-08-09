@@ -54,7 +54,9 @@ class Frontend {
 		// Don't run on preview mode
 		if ( ! Plugin::$instance->editor->preview->is_preview_mode() ) {
 			$post_id = Plugin::$instance->post_manager->get_active_post_id();
-			$this->prepare_content_for_post_id( $post_id );
+			if ( $post_id ) {
+				$this->prepare_content_for_post_id( $post_id );
+			}
 		}
 
 		// Allow others to add their own areas
