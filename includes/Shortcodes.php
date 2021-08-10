@@ -3,6 +3,7 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Whitelabel;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,6 +44,12 @@ class Shortcodes {
 		$post_template_data = $post_instance->get_template_data();
 		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
 
+		// Allow css/js collection
+		Plugin::instance()->cache->set_assets_collection( true );
+
 		return Plugin::$instance->renderer->get_content( $atts['id'] );
+
+		// Disable css/js collection
+		Plugin::instance()->cache->set_assets_collection( false );
 	}
 }
