@@ -32,6 +32,11 @@ class Cache {
 	 */
 	private $cache_directory_config = null;
 
+	/**
+	 * Holds the flag that we check in order to collect the element css
+	 *
+	 * @var boolean
+	 */
 	private $generate_element_css = false;
 
 	/**
@@ -54,10 +59,6 @@ class Cache {
 			// This is needed so we can load scripts that are not available on WP action ( for example, shortcodes )
 			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
 
-		} else {
-			// Register default scripts so we can use them in edit mode
-			// TODO: Check if this is still needed
-			add_action( 'zionbuilder/editor/before_scripts', [ $this, 'register_default_scripts' ] );
 		}
 	}
 
@@ -81,6 +82,7 @@ class Cache {
 
 		// If we have registered areas, just generate the assets based on the areas
 		if ( count( $registered_areas_ids ) > 0 ) {
+
 			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids, false );
 			$page_dynamic_assets->enqueue_element_scripts();
 
@@ -92,11 +94,6 @@ class Cache {
 			} else {
 				// Set a flag so we can collect the css and js from elements
 				$this->generate_element_css = true;
-			}
-		} else {
-			// Create individual assets for each registered area
-			foreach ( $registered_posts as $post_id => $post_content ) {
-				// Create dynamic files for each area
 			}
 		}
 	}

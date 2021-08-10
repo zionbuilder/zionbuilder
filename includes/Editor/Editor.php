@@ -187,8 +187,6 @@ class Editor {
 		// This is needed because wp_editor somehow unloads dashicons
 		wp_print_styles( 'media-views' );
 
-		Plugin::instance()->cache->enqueue_dynamic_css();
-
 		// Load roboto font
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 

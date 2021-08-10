@@ -220,6 +220,7 @@ class PageAssets {
 	 */
 	public function enqueue_element_assets( $element ) {
 		if ( $element === false ) {
+
 			return;
 		}
 
@@ -254,7 +255,7 @@ class PageAssets {
 				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
 				if ( $element_instance ) {
-					$this->extract_element_assets( $element_instance, $post_id );
+					$this->extract_element_assets( $element_instance );
 				}
 			}
 
@@ -266,7 +267,7 @@ class PageAssets {
 		return $this;
 	}
 
-	public function extract_element_assets( $element_instance, $post_id ) {
+	public function extract_element_assets( $element_instance ) {
 		$element_type = $element_instance->get_type();
 
 		if ( ! isset( $this->loaded_elements[$element_type] ) ) {
@@ -284,6 +285,15 @@ class PageAssets {
 			}
 
 			$this->loaded_elements[$element_type] = true;
+		}
+
+		// Check for children
+		$children = $element_instance->get_children();
+		if ( is_array( $children ) ) {
+			foreach ( $children as $element ) {
+				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+				$this->extract_element_assets( $child_element );
+			}
 		}
 
 	}

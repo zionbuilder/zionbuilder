@@ -44,12 +44,13 @@ class Shortcodes {
 		$post_template_data = $post_instance->get_template_data();
 		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
 
+		$old_css_collection_flag_value = Plugin::instance()->cache->should_generate_css();
 		// Allow css/js collection
 		Plugin::instance()->cache->set_assets_collection( true );
 
 		return Plugin::$instance->renderer->get_content( $atts['id'] );
 
 		// Disable css/js collection
-		Plugin::instance()->cache->set_assets_collection( false );
+		Plugin::instance()->cache->set_assets_collection( $old_css_collection_flag_value );
 	}
 }
