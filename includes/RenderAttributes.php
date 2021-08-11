@@ -161,7 +161,7 @@ class RenderAttributes {
 	 *
 	 * @return boolean
 	 */
-	public function has_attribute( $tag_id = 'wrapper', $type ) {
+	public function has_attribute( $tag_id, $type ) {
 		// bail if we do not have any attributes
 		if ( ! $tag_id || ! isset( $this->render_attributes[$tag_id] ) ) {
 			return false;
