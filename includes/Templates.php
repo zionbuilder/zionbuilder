@@ -239,6 +239,7 @@ class Templates {
 			'has_archive'         => true,
 			'hierarchical'        => false,
 			'menu_position'       => null,
+			'rewrite'             => false,
 			'supports'            => [ 'title', 'editor', 'author', 'thumbnail' ],
 		];
 
