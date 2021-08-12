@@ -84,7 +84,6 @@ class Cache {
 		if ( count( $registered_areas_ids ) > 0 ) {
 
 			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids, false );
-			$page_dynamic_assets->enqueue_element_scripts();
 
 			// Check to see if the file was already generated
 			if ( $page_dynamic_assets->is_generated() ) {

@@ -200,52 +200,6 @@ class PageAssets {
 	}
 
 	/**
-	 * Will enqueue the element scripts if they are not already enqueued
-	 *
-	 * @return void
-	 */
-	public function enqueue_element_scripts() {
-		if ( ! $this->enqueued_element_scripts ) {
-
-			foreach ( $this->post_ids as $post_id ) {
-				$post_content = Plugin::$instance->renderer->get_content_for_area( $post_id );
-				foreach ( $post_content as $element ) {
-					$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-					$this->enqueue_element_assets( $element_instance );
-				}
-			}
-
-			$this->enqueued_element_scripts = true;
-		}
-	}
-
-	/**
-	 * Will enqueue the elements scripts
-	 *
-	 * @param Element $element
-	 *
-	 * @return void
-	 */
-	public function enqueue_element_assets( $element ) {
-		if ( $element === false ) {
-			return;
-		}
-
-		$element->enqueue_all_extra_scripts();
-
-		// Check for children
-		$children = $element->get_children();
-
-		if ( is_array( $children ) ) {
-			foreach ( $children as $element ) {
-				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-				$this->enqueue_element_assets( $child_element );
-			}
-		}
-	}
-
-
-	/**
 	 * Will generate the needed css and JS for the given post id
 	 *
 	 * @return PageAssets
