@@ -97,6 +97,14 @@ class PageAssets {
 		$this->file_handle = sprintf( '%s-layout', self::generate_key( $post_ids ) );
 	}
 
+	/**
+	 * Returns the list of post ids used to generate the file
+	 *
+	 * @return array
+	 */
+	public function get_post_ids() {
+		return $this->post_ids;
+	}
 
 	/**
 	 * Will add elements css to the active area
@@ -220,7 +228,6 @@ class PageAssets {
 	 */
 	public function enqueue_element_assets( $element ) {
 		if ( $element === false ) {
-
 			return;
 		}
 
@@ -304,7 +311,8 @@ class PageAssets {
 	 * @return PageAssets
 	 */
 	public function save() {
-		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset(), $this->minify( $this->css ), 0644 );
+		$css = apply_filters( 'zionbuilder/page_assets/css', $this->css, $this );
+		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset(), $this->minify( $css ), 0644 );
 
 		$js = $this->js;
 		if ( ! empty( $js ) ) {
