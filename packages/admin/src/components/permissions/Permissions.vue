@@ -25,7 +25,7 @@
 			<PageTemplate>
 				<UpgradeToPro
 					v-if="!isPro"
-					:message_link="proLink"
+					:info_text="proLink"
 					:message_title="$translate('manage_users_permissions_title')"
 					:message_description="$translate('manage_users_permissions_free')"
 				/>

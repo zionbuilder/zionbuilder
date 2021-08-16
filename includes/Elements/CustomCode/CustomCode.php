@@ -114,7 +114,7 @@ class CustomCode extends Element {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Custom PHP', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With custom PHP you can add additional logic to your page', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 	}

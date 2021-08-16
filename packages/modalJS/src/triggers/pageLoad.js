@@ -7,7 +7,6 @@ function applyTrigger(instance, options) {
 	window.addEventListener('load', onPageLoad)
 
 	function onPageLoad() {
-		console.log('on page load');
 		setTimeout(() => {
 			instance.open()
 		}, optionsWithDefaults.delay);

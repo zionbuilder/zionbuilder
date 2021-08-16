@@ -128,7 +128,7 @@ class PageOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Custom CSS', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With custom CSS you can add CSS to your page.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 
@@ -147,7 +147,7 @@ class PageOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Custom JavaScript', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With custom JavaScript you can add JavaScript code to this page.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 
