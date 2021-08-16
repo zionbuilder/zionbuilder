@@ -44,7 +44,7 @@ class PageAssets {
 	/**
 	 * Holds a refference to the cache directory
 	 *
-	 * @var string
+	 * @var array
 	 */
 	private static $cache_directory_config = null;
 
@@ -76,6 +76,13 @@ class PageAssets {
 	 * @var array
 	 */
 	public $post_ids = null;
+
+	/**
+	 * Holds a refference to the post id for which we need to generated the assets
+	 *
+	 * @var string
+	 */
+	public $file_handle = null;
 
 	/**
 	 * Flag to check if the assets were already processed
@@ -160,7 +167,7 @@ class PageAssets {
 	/**
 	 * Returns the extra area css
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public static function get_css_for_area( $post_id ) {
 		if ( isset( self::$areas_extra_css[$post_id] ) ) {
@@ -184,7 +191,7 @@ class PageAssets {
 	/**
 	 * Returns a single instance of the PageAssets class
 	 *
-	 * @param integer $post_id
+	 * @param array|integer $post_ids
 	 *
 	 * @return PageAssets
 	 */
@@ -301,7 +308,7 @@ class PageAssets {
 	/**
 	 * Will enqueue the scripts
 	 *
-	 * @return PageAssets
+	 * @return void
 	 */
 	public function enqueue() {
 		if ( ! $this->enqueued_dynamic_assets ) {
@@ -418,7 +425,7 @@ class PageAssets {
 	/**
 	 * Returns the path and URL to the dynamic assets cache directory
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function get_cache_directory() {
 		if ( null === self::$cache_directory_config ) {
@@ -442,7 +449,7 @@ class PageAssets {
 	 *
 	 * Returns a string based on post modified date that will be used as file version
 	 *
-	 * @param integer $post_id
+	 * @param string $file_path
 	 *
 	 * @return string
 	 */

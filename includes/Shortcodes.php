@@ -48,9 +48,11 @@ class Shortcodes {
 		// Allow css/js collection
 		Plugin::instance()->cache->set_assets_collection( true );
 
-		return Plugin::$instance->renderer->get_content( $atts['id'] );
+		$content = Plugin::$instance->renderer->get_content( $atts['id'] );
 
 		// Disable css/js collection
 		Plugin::instance()->cache->set_assets_collection( $old_css_collection_flag_value );
+
+		return $content;
 	}
 }

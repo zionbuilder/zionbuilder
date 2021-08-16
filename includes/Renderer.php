@@ -42,7 +42,7 @@ class Renderer {
 	 *
 	 * Returns the area content data for the given area id
 	 *
-	 * @param string $area_id
+	 * @param integer $area_id
 	 *
 	 * @return array
 	 */
@@ -157,7 +157,7 @@ class Renderer {
 	 *
 	 * @param string $element_uid
 	 *
-	 * @return void
+	 * @return Element|boolean
 	 */
 	public function get_element_instance( $element_uid ) {
 		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
@@ -196,7 +196,7 @@ class Renderer {
 	 *
 	 * @return string
 	 */
-	public function get_content( $post_id = 'content', $custom_content = null ) {
+	public function get_content( $post_id, $custom_content = null ) {
 		ob_start();
 		$this->render_area( $post_id, $custom_content );
 		return ob_get_clean();

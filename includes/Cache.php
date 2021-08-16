@@ -83,7 +83,7 @@ class Cache {
 		// If we have registered areas, just generate the assets based on the areas
 		if ( count( $registered_areas_ids ) > 0 ) {
 
-			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids, false );
+			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids );
 
 			// Check to see if the file was already generated
 			if ( $page_dynamic_assets->is_generated() ) {
@@ -109,7 +109,7 @@ class Cache {
 	/**
 	 * Sets the flag for css collection
 	 *
-	 * @param booelan $status
+	 * @param boolean $status
 	 *
 	 * @return void
 	 */
@@ -193,7 +193,7 @@ class Cache {
 	 * Returns the cache folder config for a given post id
 	 *
 	 * @param int   $post_id
-	 * @param mixed $type
+	 * @param mixed $filename_append
 	 *
 	 * @return array{file_name: string, handle: string, path: string, url: string } The cache file paths
 	 */
