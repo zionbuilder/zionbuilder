@@ -119,6 +119,7 @@ export default {
 		position: absolute;
 		right: 15px;
 		bottom: 15px;
+		background: var(--zb-surface-color);
 		padding: 7px;
 		transition: all 0.2s;
 		&:hover {

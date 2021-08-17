@@ -115,6 +115,7 @@ export default {
 	}
 
 	.wp-editor-tabs {
+		flex-shrink: 0;
 		margin-left: auto;
 	}
 
@@ -173,6 +174,13 @@ export default {
 	.wp-media-buttons .button:active {
 		top: 0;
 		margin: 0 5px 4px 0;
+	}
+
+	.wp-media-buttons .edd-thickbox {
+		margin: 0;
+		padding: 10px 0 !important;
+		font-size: 10px;
+		color: var(--zb-surface-text-color);
 	}
 
 	.wp-switch-editor {
