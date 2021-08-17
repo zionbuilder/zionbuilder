@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Post\BasePostType;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -36,6 +38,14 @@ class Templates {
 		add_action( 'init', [ $this, 'init' ] );
 	}
 
+	/**
+	 * Will set the template for a post
+	 *
+	 * @param string $template
+	 * @param BasePostType $post_instance
+	 *
+	 * @return string
+	 */
 	public function set_post_template( $template, $post_instance ) {
 		$post_id   = $post_instance->get_post_id();
 		$post_type = get_post_type( $post_id );
@@ -47,6 +57,15 @@ class Templates {
 		return $template;
 	}
 
+
+	/**
+	 * Removes the Zion builder template post type from the list of post types
+	 * used throughout the builder
+	 *
+	 * @param array $post_types
+	 *
+	 * @return array
+	 */
 	public function remove_post_type_from_data_sets( $post_types ) {
 		$post_type_index = null;
 		foreach ( $post_types as $key => $post_type ) {
@@ -79,7 +98,9 @@ class Templates {
 	}
 
 	/**
-	 * @throws \Exception
+	 * Main class init method
+	 *
+	 * @return void
 	 */
 	public function init() {
 		// Register default template types
@@ -93,6 +114,8 @@ class Templates {
 
 	/**
 	 * Registers Plugin default template types
+	 *
+	 * @return void
 	 */
 	private function register_default_template_types() {
 		$template_types = [

@@ -23,6 +23,8 @@ class StyleOptions extends BaseSchema {
 	 * Will attach the background options to the options instance
 	 *
 	 * @param Option $options
+	 *
+	 * @return void
 	 */
 	private static function attach_background_options( $options ) {
 		// Background option
@@ -41,6 +43,13 @@ class StyleOptions extends BaseSchema {
 		);
 	}
 
+	/**
+	 * Adds the typography options to a group of existing options
+	 *
+	 * @param Options $options
+	 *
+	 * @return void
+	 */
 	public static function attach_typography_options( $options ) {
 		$typography_group = $options->add_group(
 			'typography',

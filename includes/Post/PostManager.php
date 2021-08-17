@@ -65,6 +65,8 @@ class PostManager {
 	 * Will register a custom handler of a post type
 	 *
 	 * @param string $type_class_name The PHP class name that will be registered
+	 *
+	 * @return void
 	 */
 	public function register_post_type( $type_class_name ) {
 		$name = $type_class_name::get_name();
@@ -78,6 +80,8 @@ class PostManager {
 	 * Unregister Post Type
 	 *
 	 * @param string $type_class_name The PHP class name that will be unregistered
+	 *
+	 * @return void
 	 */
 	public function unregister_post_type( $type_class_name ) {
 		$name = $type_class_name::get_name();

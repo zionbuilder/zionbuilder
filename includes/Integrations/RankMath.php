@@ -43,6 +43,15 @@ class RankMath implements IBaseIntegration {
 		add_action( 'admin_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
 	}
 
+
+	/**
+	 * This method will fire when the scripts are enqueued in the admin area and
+	 *      will add the Rank Math integration scripts on edit page screen
+	 *
+	 * @param string $hook
+	 *
+	 * @return void
+	 */
 	public function on_enqueue_scripts( $hook ) {
 		if ( 'post-new.php' === $hook || 'post.php' === $hook ) {
 			// Load the scripts

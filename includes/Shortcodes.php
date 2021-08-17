@@ -21,6 +21,15 @@ class Shortcodes {
 		add_shortcode( 'zionbuilder', [ $this, 'print_shortcode' ] );
 	}
 
+
+	/**
+	 * Will print the zion builder template shortcode
+	 *
+	 * @param array $atts
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function print_shortcode( $atts, $content = null ) {
 		if ( ! isset( $atts['id'] ) ) {
 			return __( 'Template id missing', 'zionbuilder' );

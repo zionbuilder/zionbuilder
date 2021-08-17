@@ -73,6 +73,12 @@ class Cache {
 		$this->enqueue_dynamic_css();
 	}
 
+	/**
+	 * Generates and enqueue the post assets
+	 * If the post assets are not available in head, they will be generated and enqueued in footer
+	 *
+	 * @return void
+	 */
 	public function enqueue_post_assets() {
 		$in_footer        = did_action( 'wp_enqueue_scripts' ) && ! doing_filter( 'wp_enqueue_scripts' );
 		$registered_posts = Plugin::$instance->renderer->get_registered_areas();

@@ -2,8 +2,8 @@
 
 namespace ZionBuilder;
 
-use ZionBuilder\Elements\Element;
 use ZionBuilder\Plugin;
+use ZionBuilder\Elements\Element;
 use ZionBuilder\Environment;
 
 // Prevent direct access
@@ -98,7 +98,11 @@ class PageAssets {
 	 */
 	private $enqueued_dynamic_assets = false;
 
-
+	/**
+	 * Main class constructor
+	 *
+	 * @param array $post_ids A list of post ids for which we need to generate the assets
+	 */
 	public function __construct( $post_ids ) {
 		$this->post_ids    = $post_ids;
 		$this->file_handle = sprintf( '%s-layout', self::generate_key( $post_ids ) );
@@ -167,6 +171,8 @@ class PageAssets {
 	/**
 	 * Returns the extra area css
 	 *
+	 * @param integer $post_id The post id for which we need to return the generated CSS
+	 *
 	 * @return string
 	 */
 	public static function get_css_for_area( $post_id ) {
@@ -211,7 +217,7 @@ class PageAssets {
 	 *
 	 * @return PageAssets
 	 */
-	public function generate_dynamic_assets( $use_global_cache = false ) {
+	public function generate_dynamic_assets() {
 		// Check to see if we need to clear the global cache
 		$this->loaded_elements = [];
 
@@ -222,7 +228,7 @@ class PageAssets {
 			foreach ( $post_content as $element ) {
 				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
-				if ( $element_instance ) {
+				if ( $element_instance !== false ) {
 					$this->extract_element_assets( $element_instance );
 				}
 			}
@@ -235,6 +241,13 @@ class PageAssets {
 		return $this;
 	}
 
+	/**
+	 * Extracts the css from an element
+	 *
+	 * @param Element $element_instance
+	 *
+	 * @return void
+	 */
 	public function extract_element_assets( $element_instance ) {
 		$element_type = $element_instance->get_type();
 
@@ -260,7 +273,10 @@ class PageAssets {
 		if ( is_array( $children ) ) {
 			foreach ( $children as $element ) {
 				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
-				$this->extract_element_assets( $child_element );
+
+				if ( $child_element !== false ) {
+					$this->extract_element_assets( $child_element );
+				}
 			}
 		}
 
@@ -367,14 +383,38 @@ class PageAssets {
 		return is_file( $this->get_path_for_asset() );
 	}
 
+
+	/**
+	 * Adds CSS code to the existing page asset
+	 *
+	 * @param string $css The CSS code that will be added
+	 *
+	 * @return string
+	 */
 	public function add_raw_css( $css ) {
 		$this->css .= $css;
+
+		return $this->css;
 	}
 
+
+	/**
+	 * Returns the cached CSS needed for the current cache file
+	 *
+	 * @return string
+	 */
 	public function get_css() {
 		return $this->css;
 	}
 
+
+	/**
+	 * Wraps the JavaScript code with the ZionBuilder JS methods
+	 *
+	 * @param string $js The js code that needs to be wrapped
+	 *
+	 * @return string
+	 */
 	public function wrap_javascript( $js ) {
 		if ( ! empty( $js ) ) {
 			$js = sprintf(
@@ -414,10 +454,24 @@ class PageAssets {
 		return $js;
 	}
 
+	/**
+	 * Adds js code to the existing page asset
+	 *
+	 * @param string $js The JavaScript code that will be added
+	 *
+	 * @return string
+	 */
 	public function add_raw_js( $js ) {
 		$this->js .= $js;
+
+		return $this->js;
 	}
 
+	/**
+	 * Returns the JS code for the current cache file
+	 *
+	 * @return string
+	 */
 	public function get_js() {
 		return $this->js;
 	}

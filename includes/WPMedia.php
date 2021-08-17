@@ -351,6 +351,14 @@ class WPMedia {
 		return $saved_image;
 	}
 
+	/**
+	 * Action that runs when an image is deleted
+	 * It will delete all registered image sizes
+	 *
+	 * @param integer $attachment_id
+	 *
+	 * @return void
+	 */
 	public function on_delete_image( $attachment_id ) {
 		$metadata          = wp_get_attachment_metadata( $attachment_id );
 		$parent_image_file = get_attached_file( $attachment_id );
@@ -373,7 +381,9 @@ class WPMedia {
 	}
 
 	/**
+	 * Will retrieve the image for use in ajax calls
 	 *
+	 * @return void
 	 */
 	public function get_attachment() {
 		if ( isset( $_POST['is_media_image'] ) && $_POST['is_media_image'] ) { // phpcs:ignore WordPress.Security.NonceVerification

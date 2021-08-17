@@ -22,7 +22,13 @@ class Renderer {
 	 *
 	 * @var array
 	 */
-	private $registered_areas      = [];
+	private $registered_areas = [];
+
+	/**
+	 * Holds a list of Zion instantiated elements
+	 *
+	 * @var array
+	 */
 	private $instantiated_elements = [];
 
 
@@ -128,6 +134,14 @@ class Renderer {
 		}
 	}
 
+
+	/**
+	 * Registers all elements required for a given post id/area
+	 *
+	 * @param integer $area_id The post id for which we need to register the element instances
+	 *
+	 * @return void
+	 */
 	public function prepare_area_for_render( $area_id ) {
 		if ( ! empty( $this->registered_areas[$area_id] ) ) {
 			foreach ( $this->registered_areas[$area_id] as $element_data ) {
@@ -141,7 +155,8 @@ class Renderer {
 	 *
 	 * Register a new area of elements
 	 *
-	 * @param string $area_name
+	 * @param integer $area_name
+	 *
 	 * @param array  $area_template_data
 	 *
 	 * @return void
@@ -157,7 +172,7 @@ class Renderer {
 	 *
 	 * @param string $element_uid
 	 *
-	 * @return Element|boolean
+	 * @return Element|false
 	 */
 	public function get_element_instance( $element_uid ) {
 		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
@@ -170,7 +185,8 @@ class Renderer {
 	/**
 	 * Will render a post ID
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The post id for which you want to render the elements
+	 * @param array $custom_content A different content list that needs to be rendered
 	 *
 	 * @return void
 	 */
@@ -192,7 +208,8 @@ class Renderer {
 	/**
 	 * Will return the content of a post
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The post id for which you want to render the elements
+	 * @param array $custom_content A different content list that needs to be rendered
 	 *
 	 * @return string
 	 */

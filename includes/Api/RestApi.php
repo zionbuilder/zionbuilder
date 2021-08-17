@@ -33,6 +33,8 @@ class RestApi {
 	 * Initialize the registered controllers
 	 *
 	 * @hooked zionbuilder/rest_api/register_controllers
+	 *
+	 * @return void
 	 */
 	public function init_controllers() {
 		$this->register_default_controllers();
@@ -68,6 +70,8 @@ class RestApi {
 
 	/**
 	 * Register the plugin's default controllers
+	 *
+	 * @return void
 	 */
 	public function register_default_controllers() {
 		$controllers = [
