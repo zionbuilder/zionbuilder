@@ -231,7 +231,10 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Improved site SSL migration compatibility
 * Improved dark mode appearance
 * Fixed 404 error page appears sometimes when editing a template
+* Fixed replace URL option not working in certain conditions
+* Added WP filter for developers to add additional css to page assets file
 * Improved code documentation
+* Improved compatibility with PHP8
 
 = 2.7.1 2021-07-23 =
 * Fixed rendered page now working
