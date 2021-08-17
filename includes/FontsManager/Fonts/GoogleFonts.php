@@ -44,6 +44,12 @@ class GoogleFonts extends FontProvider {
 		return Settings::get_value( 'google_fonts', [] );
 	}
 
+
+	/**
+	 * Returns the list of Google fonts that can be used in the builder
+	 *
+	 * @return array
+	 */
 	public function get_data_set() {
 		$fonts          = $this->get_fonts();
 		$returned_value = [];

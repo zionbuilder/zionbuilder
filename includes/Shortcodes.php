@@ -3,6 +3,7 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Whitelabel;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,6 +21,15 @@ class Shortcodes {
 		add_shortcode( 'zionbuilder', [ $this, 'print_shortcode' ] );
 	}
 
+
+	/**
+	 * Will print the zion builder template shortcode
+	 *
+	 * @param array $atts
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function print_shortcode( $atts, $content = null ) {
 		if ( ! isset( $atts['id'] ) ) {
 			return __( 'Template id missing', 'zionbuilder' );
@@ -43,8 +53,15 @@ class Shortcodes {
 		$post_template_data = $post_instance->get_template_data();
 		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
 
-		Plugin::$instance->cache->register_post_id( $atts['id'] );
+		$old_css_collection_flag_value = Plugin::instance()->cache->should_generate_css();
+		// Allow css/js collection
+		Plugin::instance()->cache->set_assets_collection( true );
 
-		return Plugin::$instance->renderer->get_content( $atts['id'] );
+		$content = Plugin::$instance->renderer->get_content( $atts['id'] );
+
+		// Disable css/js collection
+		Plugin::instance()->cache->set_assets_collection( $old_css_collection_flag_value );
+
+		return $content;
 	}
 }

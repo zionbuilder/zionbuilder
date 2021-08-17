@@ -9,6 +9,7 @@ use ZionBuilder\Options\Options;
 use ZionBuilder\Icons;
 use ZionBuilder\RenderAttributes;
 use ZionBuilder\CustomCSS;
+use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -176,6 +177,9 @@ class Element {
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
+
+			// Init scripts
+			$this->enqueue_all_extra_scripts();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct
@@ -741,20 +745,19 @@ class Element {
 						$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
 						$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', [ $css_selector ], $this );
 
-						Plugin::instance()->cache->add_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
+						PageAssets::add_active_area_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
 					}
 				}
 			}
 
 			// Add element method css
-			Plugin::instance()->cache->add_raw_css( $this->css() );
+			PageAssets::add_active_area_raw_css( $this->css() );
 
 			// Add css from options
-			Plugin::instance()->cache->add_raw_css( $this->custom_css->get_css() );
+			PageAssets::add_active_area_raw_css( $this->custom_css->get_css() );
 
 			// Allow users to add their own css
-			Plugin::instance()->cache->add_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
-			// $this->extract_css();
+			PageAssets::add_active_area_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
 		}
 
 		if ( ! $this->element_is_allowed_render() ) {
@@ -1057,6 +1060,16 @@ class Element {
 	}
 
 	/**
+	 * Will enqueue all scripts and styles
+	 *
+	 * @return void
+	 */
+	public function enqueue_all_extra_scripts() {
+		$this->do_enqueue_scripts();
+		$this->do_enqueue_styles();
+	}
+
+	/**
 	 * Enqueue Scripts
 	 *
 	 * Loads the scripts necessary for the current element
@@ -1104,7 +1117,9 @@ class Element {
 	 * @return void
 	 */
 	public function enqueue_editor_script( $script_url ) {
-		$this->editor_scripts[] = $script_url;
+		if ( ! in_array( $script_url, $this->editor_scripts, true ) ) {
+			$this->editor_scripts[] = $script_url;
+		}
 	}
 
 
@@ -1119,7 +1134,9 @@ class Element {
 	 * @return void
 	 */
 	public function enqueue_element_script( $script_url ) {
-		$this->element_scripts[] = $script_url;
+		if ( ! in_array( $script_url, $this->element_scripts, true ) ) {
+			$this->element_scripts[] = $script_url;
+		}
 	}
 
 
@@ -1131,7 +1148,9 @@ class Element {
 	 * @return void
 	 */
 	public function enqueue_editor_style( $style_url ) {
-		$this->editor_styles[] = $style_url;
+		if ( ! in_array( $style_url, $this->editor_styles, true ) ) {
+			$this->editor_styles[] = $style_url;
+		}
 	}
 
 
@@ -1146,7 +1165,9 @@ class Element {
 	 * @return void
 	 */
 	public function enqueue_element_style( $style_url ) {
-		$this->element_styles[] = $style_url;
+		if ( ! in_array( $style_url, $this->element_styles, true ) ) {
+			$this->element_styles[] = $style_url;
+		}
 	}
 
 	/**

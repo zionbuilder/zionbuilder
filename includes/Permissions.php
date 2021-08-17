@@ -17,6 +17,12 @@ class Permissions {
 	const USER_EDIT_PERMISSION         = 'zionbuilder';
 	const USER_CONTENT_ONLY_PERMISSION = 'zionbuilder-content';
 
+
+	/**
+	 * Holds a cached value as true/false if the current user can edit the page with Zion builder
+	 *
+	 * @var boolean
+	 */
 	private static $current_user_allowed_edit = null;
 
 	/**
@@ -26,6 +32,12 @@ class Permissions {
 		add_action( 'init', [ $this, 'add_post_type_support' ] );
 	}
 
+
+	/**
+	 * Returns a list of post types for which the current user has permissions to edit
+	 *
+	 * @return array
+	 */
 	public static function get_allowed_post_types() {
 		return apply_filters( 'zionbuilder/permissions/get_allowed_post_types', Settings::get_allowed_post_types() );
 	}
@@ -73,6 +85,12 @@ class Permissions {
 		return apply_filters( 'zionbuilder/permissions/allowed_post_type', $can_edit_post_type, $post_type );
 	}
 
+
+	/**
+	 * Returns true/false if the user can edit the current post
+	 *
+	 * @return boolean
+	 */
 	public static function user_allowed_edit() {
 		$current_user_can_edit = false;
 

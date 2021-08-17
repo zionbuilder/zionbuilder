@@ -161,7 +161,7 @@ class RenderAttributes {
 	 *
 	 * @return boolean
 	 */
-	public function has_attribute( $tag_id = 'wrapper', $type ) {
+	public function has_attribute( $tag_id, $type ) {
 		// bail if we do not have any attributes
 		if ( ! $tag_id || ! isset( $this->render_attributes[$tag_id] ) ) {
 			return false;
@@ -182,7 +182,10 @@ class RenderAttributes {
 	 * @param string     $tag_id  The unique identifier for the render attribute
 	 * @param mixed      $value   The value to add to the attribute list
 	 * @param mixed      $type
+	 *
 	 * @param bool|false $replace
+	 *
+	 * @return void
 	 */
 	public function add( $tag_id, $type, $value, $replace = false ) {
 		if ( ! isset( $this->render_attributes[$tag_id] ) ) {

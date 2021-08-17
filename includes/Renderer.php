@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\Elements\Element;
+use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,11 +22,14 @@ class Renderer {
 	 *
 	 * @var array
 	 */
-	private $registered_areas      = [];
-	private $instantiated_elements = [];
+	private $registered_areas = [];
 
-	public function __construct() {
-	}
+	/**
+	 * Holds a list of Zion instantiated elements
+	 *
+	 * @var array
+	 */
+	private $instantiated_elements = [];
 
 
 	/**
@@ -44,7 +48,7 @@ class Renderer {
 	 *
 	 * Returns the area content data for the given area id
 	 *
-	 * @param string $area_id
+	 * @param integer $area_id
 	 *
 	 * @return array
 	 */
@@ -83,19 +87,6 @@ class Renderer {
 		if ( isset( $element_data['uid'] ) && isset( $this->instantiated_elements[$element_data['uid']] ) ) {
 			$this->instantiated_elements[$element_data['uid']]->render_element( $extra_data );
 		}
-	}
-
-	public function render_area( $area_id ) {
-		// Set active area for Cache generation
-		Plugin::instance()->cache->set_active_area( $area_id );
-
-		$area_class = sprintf( 'zb-area-%s', $area_id );
-		$classes    = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $area_id );
-		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
-		$this->render_children( $this->get_content_for_area( $area_id ) );
-		echo '</div>';
-
-		Plugin::instance()->cache->reset_active_area();
 	}
 
 	/**
@@ -143,6 +134,14 @@ class Renderer {
 		}
 	}
 
+
+	/**
+	 * Registers all elements required for a given post id/area
+	 *
+	 * @param integer $area_id The post id for which we need to register the element instances
+	 *
+	 * @return void
+	 */
 	public function prepare_area_for_render( $area_id ) {
 		if ( ! empty( $this->registered_areas[$area_id] ) ) {
 			foreach ( $this->registered_areas[$area_id] as $element_data ) {
@@ -156,7 +155,8 @@ class Renderer {
 	 *
 	 * Register a new area of elements
 	 *
-	 * @param string $area_name
+	 * @param integer $area_name
+	 *
 	 * @param array  $area_template_data
 	 *
 	 * @return void
@@ -166,17 +166,14 @@ class Renderer {
 		$this->prepare_area_for_render( $area_name );
 	}
 
-	/**
-	 * Get Elements Instances
-	 *
-	 * Returns an arary containing all element instances for the current page
-	 *
-	 * @return array
-	 */
-	public function get_elements_instances() {
-		return $this->instantiated_elements;
-	}
 
+	/**
+	 * Returns an instance of an element
+	 *
+	 * @param string $element_uid
+	 *
+	 * @return Element|false
+	 */
 	public function get_element_instance( $element_uid ) {
 		if ( isset( $this->instantiated_elements[$element_uid] ) ) {
 			return $this->instantiated_elements[$element_uid];
@@ -185,9 +182,40 @@ class Renderer {
 		return false;
 	}
 
-	public function get_content( $area_id = 'content' ) {
+	/**
+	 * Will render a post ID
+	 *
+	 * @param integer $post_id The post id for which you want to render the elements
+	 * @param array $custom_content A different content list that needs to be rendered
+	 *
+	 * @return void
+	 */
+	public function render_area( $post_id, $custom_content = null ) {
+		PageAssets::set_active_post_id( $post_id );
+
+		$area_class   = sprintf( 'zb-area-%s', $post_id );
+		$classes      = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $post_id );
+		$area_content = $custom_content ? $custom_content : $this->get_content_for_area( $post_id );
+
+		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
+			$this->render_children( $area_content );
+		echo '</div>';
+
+		PageAssets::reset_active_post_id( $post_id );
+	}
+
+
+	/**
+	 * Will return the content of a post
+	 *
+	 * @param integer $post_id The post id for which you want to render the elements
+	 * @param array $custom_content A different content list that needs to be rendered
+	 *
+	 * @return string
+	 */
+	public function get_content( $post_id, $custom_content = null ) {
 		ob_start();
-		$this->render_area( $area_id );
+		$this->render_area( $post_id, $custom_content );
 		return ob_get_clean();
 	}
 }

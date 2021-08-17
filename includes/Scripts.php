@@ -41,6 +41,12 @@ class Scripts {
 		add_action( 'admin_print_scripts', [ $this, 'print_public_path' ], -1000 );
 	}
 
+
+	/**
+	 * Sets the root path and url for the assets
+	 *
+	 * @return void
+	 */
 	public function setup_environment() {
 		// Get the project root
 		$output_directory       = Environment::get_value( 'outputDir' );
@@ -48,6 +54,11 @@ class Scripts {
 		$this->assets_root_path = trailingslashit( Utils::get_file_path( $output_directory ) );
 	}
 
+	/**
+	 * Adds several JavaScript variables that will be used by Webpack generated files
+	 *
+	 * @return void
+	 */
 	public function print_public_path() {
 		echo sprintf(
 			'
@@ -79,6 +90,8 @@ class Scripts {
 	 *                                    If set to null, no version is added.
 	 * @param bool             $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
 	 *                                    Default 'false'.
+	 *
+	 * @return void
 	 */
 	public function register_script( $handle, $src = '', $deps = [], $ver = false, $in_footer = false ) {
 		wp_register_script( $handle, $this->get_script_url( $src ), $deps, $ver, $in_footer );
@@ -101,6 +114,8 @@ class Scripts {
 	 *                                    If set to null, no version is added.
 	 * @param bool             $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
 	 *                                    Default 'false'.
+	 *
+	 * @return void
 	 */
 	public function enqueue_script( $handle, $src = '', $deps = [], $ver = false, $in_footer = false ) {
 		wp_enqueue_script( $handle, $this->get_script_url( $src ), $deps, $ver, $in_footer );
@@ -124,6 +139,8 @@ class Scripts {
 	 * @param string           $media  (Optional) The media for which this stylesheet has been defined. Accepts media types like
 	 *                                 'all', 'print' and 'screen', or media queries like '(orientation: portrait)' and
 	 *                                 '(max-width: 640px)'.
+	 *
+	 * @return void
 	 */
 	public function register_style( $handle, $src = '', $deps = [], $ver = false, $media = 'all' ) {
 		wp_register_style( $handle, $this->get_script_url( $src ), $deps, $ver, $media );
@@ -148,6 +165,9 @@ class Scripts {
 	 * @param string           $media  Optional. The media for which this stylesheet has been defined.
 	 *                                 Default 'all'. Accepts media types like 'all', 'print' and 'screen', or media queries like
 	 *                                 '(orientation: portrait)' and '(max-width: 640px)'.
+	 *
+	 *
+	 * @return void
 	 */
 	public function enqueue_style( $handle, $src = '', $deps = [], $ver = false, $media = 'all' ) {
 		wp_enqueue_style( $handle, $this->get_script_url( $src ), $deps, $ver, $media );

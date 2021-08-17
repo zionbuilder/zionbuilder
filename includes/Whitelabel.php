@@ -87,6 +87,11 @@ class Whitelabel {
 		return Plugin::instance()->whitelabel->plugin_title;
 	}
 
+	/**
+	 * Returns the plugin id/slug
+	 *
+	 * @return string
+	 */
 	public static function get_id() {
 		return Plugin::instance()->whitelabel->plugin_slug;
 	}

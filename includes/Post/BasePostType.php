@@ -57,7 +57,7 @@ class BasePostType {
 	/**
 	 * Main class constructor
 	 *
-	 * @param \WP_Post|int $post Post ID or post object
+	 * @param \WP_Post|integer $post Post ID or post object
 	 */
 	public function __construct( $post ) {
 		if ( is_numeric( $post ) ) {
@@ -153,6 +153,14 @@ class BasePostType {
 		return $this->post_id;
 	}
 
+
+	/**
+	 * Returns a value from the cached WP_POST instance
+	 *
+	 * @param string $value_to_retrieve The post value that needs to be returned
+	 *
+	 * @return mixed
+	 */
 	public function get_post_value( $value_to_retrieve ) {
 		if ( property_exists( $this->post, $value_to_retrieve ) ) {
 			return $this->post->$value_to_retrieve;
@@ -313,6 +321,12 @@ class BasePostType {
 		return PageOptions::get_schema( $post_type );
 	}
 
+
+	/**
+	 * Returns the page values to be used in editor mode
+	 *
+	 * @return array
+	 */
 	public function get_page_settings_values() {
 		$page_template = get_post_meta( $this->get_post_id(), '_wp_page_template', true );
 
@@ -504,17 +518,20 @@ class BasePostType {
 	 */
 	protected function save_autosave( $post_data = [] ) {
 		$autosave = $this->get_autosave();
-		if ( $autosave ) {
-			// WP autosaves have the inherit post status
-			// This is mandatory for the autosave system to work
-			$post_data['page_settings']['post_status'] = 'inherit';
-			$autosave->save_current_post( $post_data );
-			return true;
-		}
 
-		return new \WP_Error( 'save', esc_html__( 'Cannot create autosave for post', 'zionbuilder' ), 'zionbuilder' );
+		// WP autosaves have the inherit post status
+		// This is mandatory for the autosave system to work
+		$post_data['page_settings']['post_status'] = 'inherit';
+		$autosave->save_current_post( $post_data );
+		return true;
 	}
 
+
+	/**
+	 * Returns the autosave for the current post
+	 *
+	 * @return BasePostType
+	 */
 	protected function get_autosave() {
 		$current_user_id = get_current_user_id();
 		$post_autosave   = wp_get_post_autosave( $this->get_post_id(), $current_user_id );
@@ -545,6 +562,14 @@ class BasePostType {
 		return Plugin::$instance->post_manager->get_post_instance( $post_autosave_id );
 	}
 
+
+	/**
+	 * Copies the values from the current post id to the given post id
+	 *
+	 * @param integer $to_post_id The post id to which we need to copy the values
+	 *
+	 * @return void
+	 */
 	public function copy_meta_fields( $to_post_id ) {
 		$from_post_id = $this->get_post_id();
 

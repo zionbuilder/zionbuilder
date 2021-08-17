@@ -120,6 +120,13 @@ class Pages extends RestApiController {
 		);
 	}
 
+	/**
+	 * Returns the rendered content for a given post id
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response|void
+	 */
 	public function get_rendered_content( $request ) {
 		$post_id = $request->get_param( 'id' );
 

@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Options\Schemas
  */
 class Video extends BaseSchema {
+	/**
+	 * Returns the schema for the Video option type
+	 *
+	 * @return array
+	 */
 	public static function get_schema() {
 		$options = [
 			'videoSource'      => [
