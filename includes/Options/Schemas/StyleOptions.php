@@ -46,7 +46,7 @@ class StyleOptions extends BaseSchema {
 	/**
 	 * Adds the typography options to a group of existing options
 	 *
-	 * @param Options $options
+	 * @param Option $options
 	 *
 	 * @return void
 	 */

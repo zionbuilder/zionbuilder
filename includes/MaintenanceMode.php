@@ -167,7 +167,7 @@ class MaintenanceMode {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @return arary
+	 * @return array
 	 */
 	public function get_options_schema() {
 		$options_schema = new Options( 'zionbuilder/schema/maintenance_mode' );
