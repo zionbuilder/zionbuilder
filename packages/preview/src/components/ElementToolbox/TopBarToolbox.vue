@@ -124,8 +124,16 @@ export default {
 .znpb-editor-toolbox__element-options-button {
 	border-radius: 16px;
 	&:before {
-		@extend %iconbg;
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
 		z-index: -1;
+		width: 100%;
+		height: 100%;
+		box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
+		border-radius: 50%;
+		transition: all .2s;
 	}
 	&:hover:before {
 		transform: scale(1.1);

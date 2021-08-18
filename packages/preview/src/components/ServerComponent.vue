@@ -219,9 +219,15 @@ export default {
 		transition: none;
 
 		&:before, &:after {
-			@extend %loading;
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
 			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
 			border: 2px solid rgba(220, 220, 220, .2);
+			border-radius: 50%;
 		}
 
 		&:after {

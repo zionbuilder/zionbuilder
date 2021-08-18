@@ -86,8 +86,7 @@ export default {
 }
 
 .znpb-editor-preview--active {
-	& .zb-element,
-	& .zb-element:hover {
+	& .zb-element, & .zb-element:hover {
 		cursor: initial;
 	}
 }
@@ -143,9 +142,7 @@ export default {
 			border-color: var(--zb-secondary-color);
 		}
 	}
-	&.znpb-tabs__header-item--library,
-	&.znpb-tabs__header-item--elements,
-	&.znpb-tabs__header-item--columns {
+	&.znpb-tabs__header-item--library, &.znpb-tabs__header-item--elements, &.znpb-tabs__header-item--columns {
 		&:after {
 			border-color: var(--zb-secondary-color);
 		}
