@@ -257,6 +257,7 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Fixed icon element not printing mobile device styles
 * Fixed some options that cannot be found when using the search from the elements panel
 * Fixed server rendered components doesn't render in certain conditions
+* Removed video controls option from Vimeo sources - Vimeo API doesn't allow controls removal for normal users
 * Various small fixes
 * Internal code cleanup
 
