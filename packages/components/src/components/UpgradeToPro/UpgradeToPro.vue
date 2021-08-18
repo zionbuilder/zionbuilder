@@ -18,8 +18,9 @@
 			<a
 				href="https://zionbuilder.io/documentation/pro-version/"
 				target="_blank"
+				v-if="info_text"
 			>
-				{{message_link}}
+				{{info_text}}
 			</a>
 
 			<a
@@ -35,6 +36,7 @@
 
 <script>
 import Label from '../Label/Label.vue'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'UpgradeToPro',
@@ -47,9 +49,16 @@ export default {
 			type: String,
 			required: false
 		},
-		message_link: {
+		info_text: {
 			type: String,
 			required: false
+		},
+		info_link: {
+			type: String,
+			required: false,
+			default () {
+				return 'https://zionbuilder.io/documentation/pro-version/'
+			}
 		}
 	},
 	components: {
@@ -87,7 +96,7 @@ export default {
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			border-bottom: 1px solid var(--zb-surface-border-color);
-			transition: color 0.15s;
+			transition: color .15s;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);
@@ -106,7 +115,7 @@ export default {
 	}
 
 	.zion-quality {
-		transition: all 0.3s;
+		transition: all .3s;
 	}
 
 	&-button:hover .zion-quality {

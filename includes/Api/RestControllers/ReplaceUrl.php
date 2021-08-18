@@ -93,9 +93,6 @@ class ReplaceUrl extends RestApiController {
 			return new \WP_Error( 'replace_url_failed', esc_html__( 'Cannot replace URL\'s. They are the same.', 'zionbuilder' ) );
 		}
 
-		error_log( $find );
-		error_log( $replace );
-
 		$is_valid_urls = filter_var( $find, FILTER_VALIDATE_URL ) && filter_var( $replace, FILTER_VALIDATE_URL );
 		if ( ! $is_valid_urls ) {
 			return new \WP_Error( 'replace_url_failed', esc_html__( 'Provided URL\'s are not valid.', 'zionbuilder' ) );

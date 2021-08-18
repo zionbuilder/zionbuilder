@@ -85,9 +85,12 @@ export default {
 	overflow-x: hidden;
 }
 
+.znpb-editor-preview:not(.znpb-editor-preview--active) {
+	padding-bottom: 20px;
+}
+
 .znpb-editor-preview--active {
-	& .zb-element,
-	& .zb-element:hover {
+	& .zb-element, & .zb-element:hover {
 		cursor: initial;
 	}
 }
@@ -143,9 +146,7 @@ export default {
 			border-color: var(--zb-secondary-color);
 		}
 	}
-	&.znpb-tabs__header-item--library,
-	&.znpb-tabs__header-item--elements,
-	&.znpb-tabs__header-item--columns {
+	&.znpb-tabs__header-item--library, &.znpb-tabs__header-item--elements, &.znpb-tabs__header-item--columns {
 		&:after {
 			border-color: var(--zb-secondary-color);
 		}
@@ -161,9 +162,5 @@ export default {
 	100% {
 		transform: scale(1);
 	}
-}
-
-.page-template-zion_builder_blank {
-	padding-bottom: 20px;
 }
 </style>

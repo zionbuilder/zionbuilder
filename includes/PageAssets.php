@@ -133,6 +133,36 @@ class PageAssets {
 		self::$areas_extra_css[$active_area] .= $css;
 	}
 
+	public function enqueue_external_files() {
+		foreach ( $this->post_ids as $post_id ) {
+			$post_content = Plugin::$instance->renderer->get_content_for_area( $post_id );
+
+			// Load elements css/js from scripts files
+			foreach ( $post_content as $element ) {
+				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+
+				if ( $element_instance !== false ) {
+					$this->enqueue_external_files_for_element( $element_instance );
+				}
+			}
+		}
+	}
+
+	public function enqueue_external_files_for_element( $element_instance ) {
+		$element_instance->enqueue_all_extra_scripts();
+
+		// Check for children
+		$children = $element_instance->get_children();
+		if ( is_array( $children ) ) {
+			foreach ( $children as $element ) {
+				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+
+				if ( $child_element !== false ) {
+					$this->enqueue_external_files_for_element( $child_element );
+				}
+			}
+		}
+	}
 
 	/**
 	 * Will set the active area during collection and

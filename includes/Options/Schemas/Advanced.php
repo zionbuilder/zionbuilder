@@ -308,7 +308,7 @@ class Advanced extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Custom CSS', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With custom CSS you can fine tune the styling of your elements.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 

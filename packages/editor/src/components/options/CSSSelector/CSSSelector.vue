@@ -218,7 +218,7 @@ export default {
 							type: 'upgrade_to_pro',
 							message_title: translate('meet_custom_attributes'),
 							message_description: translate('meet_custom_attributes_desc'),
-							message_link: translate('meet_custom_attributes_link')
+							info_text: translate('meet_custom_attributes_link')
 						}
 					}
 				})
@@ -299,9 +299,7 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion
-	> .znpb-horizontal-accordion__header
-	> .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
 	position: relative;
 	overflow: hidden;
 	padding-right: 0;
@@ -316,7 +314,7 @@ export default {
 	font-weight: 500;
 	text-transform: none;
 	white-space: nowrap;
-	opacity: 0.6;
+	opacity: .6;
 
 	&::after {
 		content: "";
@@ -327,9 +325,9 @@ export default {
 		width: 20px;
 		height: 100%;
 		background: linear-gradient(
-			90deg,
-			rgba(241, 241, 241, 0) 0%,
-			var(--zb-surface-lighter-color) 100%
+		90deg,
+		rgba(241, 241, 241, 0) 0%,
+		var(--zb-surface-lighter-color) 100%
 		);
 	}
 }
@@ -401,7 +399,7 @@ export default {
 	}
 
 	&.vuebdnd__source--dragging
-		.znpb-option-cssChildSelectorPseudoSelector:before {
+	.znpb-option-cssChildSelectorPseudoSelector:before {
 		display: none;
 	}
 }

@@ -35,17 +35,22 @@ export default {
 	position: relative;
 	left: -2px;
 
-	&:before,
-	&:after {
-		@extend %loading;
+	&:before, &:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
 		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
 		border: 2px solid transparent;
+		border-radius: 50%;
 	}
 
 	&:after {
 		border-right-color: var(--zb-surface-loader-color);
 		border-bottom-color: var(--zb-surface-loader-color);
-		animation: Rotate 0.6s linear infinite;
+		animation: Rotate .6s linear infinite;
 	}
 }
 </style>

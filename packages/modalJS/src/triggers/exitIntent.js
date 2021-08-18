@@ -14,7 +14,6 @@ function applyTrigger(instance, options) {
 	}
 
 	if (isMobile()) {
-		document.body.style.color = 'red'
 		document.addEventListener('scroll', exitIntentMobile)
 	} else {
 		document.addEventListener('mouseout', exitIntentDesktop)
