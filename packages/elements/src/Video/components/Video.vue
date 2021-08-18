@@ -38,24 +38,27 @@ export default {
 		const root = ref(null)
 		const videoOverlay = ref(null)
 		let videoPlayer = null
+
 		onMounted(() => {
 			runScript()
 		})
 
-		watch(
-			() => [
+		const watchedValues = computed(() => {
+			return [
 				props.options.video_config,
 				props.options.use_image_overlay,
-				props.options.show_play_icon,
-				props.options.use_modal
-			].toString()
+				props.options.show_play_icon
+			]
+		})
+
+		watch(
+			watchedValues
 			, (newValue, oldValue) => {
 				if (isEqual(newValue, oldValue)) {
 					return
 				}
 
 				if (videoPlayer) {
-
 					videoPlayer.destroy()
 					if (videoOverlay.value) {
 						window.jQuery(videoOverlay.value).show()
@@ -95,22 +98,6 @@ export default {
 			})
 		},
 
-		hasVideo () {
-			const source = this.videoSourceModel.videoSource || 'local'
-			if (source === 'local' && this.videoSourceModel.mp4) {
-				return true
-			}
-
-			if (source === 'youtube' && this.videoSourceModel.youtubeURL) {
-				return true
-			}
-
-			if (source === 'vimeo' && this.videoSourceModel.vimeoURL) {
-				return true
-			}
-
-			return false
-		},
 		videoSource () {
 			return this.videoSourceModel.videoSource || 'local'
 		},

@@ -14,3 +14,7 @@ export {
 	default as exitIntent
 }
 from './exitIntent'
+export {
+	default as selectorClick
+}
+from './selectorClick'

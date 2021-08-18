@@ -65,7 +65,7 @@ msgstr ""
 msgid "The template configuration file is empty. There are no elements found."
 msgstr ""
 
-#: ../includes/Integrations.php:101
+#: ../includes/Integrations.php:102
 msgid "The integration must implement IBaseIntegration"
 msgstr ""
 
@@ -123,7 +123,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:49, ../includes/Localization.php:459, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:190, ../includes/Options/Schemas/StyleOptions.php:486, ../includes/Options/Schemas/StyleOptions.php:512, ../includes/Options/Schemas/StyleOptions.php:538, ../includes/Options/Schemas/StyleOptions.php:564
+#: ../includes/Localization.php:49, ../includes/Localization.php:459, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:311, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:199, ../includes/Options/Schemas/StyleOptions.php:495, ../includes/Options/Schemas/StyleOptions.php:521, ../includes/Options/Schemas/StyleOptions.php:547, ../includes/Options/Schemas/StyleOptions.php:573
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -159,7 +159,7 @@ msgstr ""
 msgid "Upgrade to PRO"
 msgstr ""
 
-#: ../includes/Localization.php:62, ../includes/Options/Schemas/Video.php:28
+#: ../includes/Localization.php:62, ../includes/Options/Schemas/Video.php:33
 msgid "Local"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: ../includes/Localization.php:66, ../includes/Templates.php:100
+#: ../includes/Localization.php:66, ../includes/Templates.php:123
 msgid "Templates"
 msgstr ""
 
@@ -275,11 +275,11 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:228, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
+#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:239, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
 msgid "Yes"
 msgstr ""
 
-#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:232, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
+#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:243, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
 msgid "No"
 msgstr ""
 
@@ -1413,7 +1413,7 @@ msgstr ""
 msgid "Add your option"
 msgstr ""
 
-#: ../includes/Localization.php:484, ../includes/Templates.php:284
+#: ../includes/Localization.php:484, ../includes/Templates.php:308
 msgid "No items"
 msgstr ""
 
@@ -1739,11 +1739,11 @@ msgstr ""
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:655, ../includes/Elements/Container/Container.php:667, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:344
+#: ../includes/Localization.php:655, ../includes/Elements/Container/Container.php:667, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:353
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:656, ../includes/Elements/Container/Container.php:515, ../includes/Options/Schemas/StyleOptions.php:200
+#: ../includes/Localization.php:656, ../includes/Elements/Container/Container.php:515, ../includes/Options/Schemas/StyleOptions.php:209
 msgid "Spacing"
 msgstr ""
 
@@ -1843,7 +1843,7 @@ msgstr ""
 msgid "Edit link attributes"
 msgstr ""
 
-#: ../includes/Localization.php:693, ../includes/MaintenanceMode.php:181
+#: ../includes/Localization.php:693, ../includes/MaintenanceMode.php:192
 msgid "Maintenance mode"
 msgstr ""
 
@@ -1859,223 +1859,223 @@ msgstr ""
 msgid "By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:168
+#: ../includes/MaintenanceMode.php:179
 msgid "Select mode"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:169
+#: ../includes/MaintenanceMode.php:180
 msgid "Depending on the mode selected, your website will return a HTTP 200 response ( coming soon ) or a HTTP 503 mode ( maintenance mode )"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:173
+#: ../includes/MaintenanceMode.php:184
 msgid "Disabled"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:177
+#: ../includes/MaintenanceMode.php:188
 msgid "Coming Soon"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:207, ../includes/MaintenanceMode.php:209
+#: ../includes/MaintenanceMode.php:218, ../includes/MaintenanceMode.php:220
 msgid "Select template"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:208
+#: ../includes/MaintenanceMode.php:219
 msgid "Choose the template you want to use as your maintenance/coming soon page."
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:224
+#: ../includes/MaintenanceMode.php:235
 msgid "Allow logged in users to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:260
+#: ../includes/MaintenanceMode.php:271
 msgid "Allow specific user roles to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:263
+#: ../includes/MaintenanceMode.php:274
 msgid "Select user roles"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:277
+#: ../includes/MaintenanceMode.php:288
 msgid "Allow specific IP's to access the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:278
+#: ../includes/MaintenanceMode.php:289
 msgid "Enter a list of ip's separated by a comma"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:279
+#: ../includes/MaintenanceMode.php:290
 msgid "192.168.1.1, 127.0.0.1"
 msgstr ""
 
-#: ../includes/Shortcodes.php:25
+#: ../includes/Shortcodes.php:35
 msgid "Template id missing"
 msgstr ""
 
-#: ../includes/Shortcodes.php:31
+#: ../includes/Shortcodes.php:41
 msgid "Template not found"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Shortcodes.php:37
+#: ../includes/Shortcodes.php:47
 msgid "Template was not built with %s"
 msgstr ""
 
-#: ../includes/Templates.php:101
+#: ../includes/Templates.php:124
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:105
+#: ../includes/Templates.php:128
 msgid "Blocks"
 msgstr ""
 
-#: ../includes/Templates.php:106
+#: ../includes/Templates.php:129
 msgid "Block"
 msgstr ""
 
-#: ../includes/Templates.php:169
+#: ../includes/Templates.php:192
 msgid "The template type already exists."
 msgstr ""
 
-#: ../includes/Templates.php:215, ../includes/Templates.php:226
+#: ../includes/Templates.php:238, ../includes/Templates.php:249
 msgctxt "Zion Template Library"
 msgid "Zion Templates"
 msgstr ""
 
-#: ../includes/Templates.php:216
+#: ../includes/Templates.php:239
 msgctxt "Zion Template Library"
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:217
+#: ../includes/Templates.php:240
 msgctxt "Zion Template Library"
 msgid "Add New"
 msgstr ""
 
-#: ../includes/Templates.php:218
+#: ../includes/Templates.php:241
 msgctxt "Zion Template Library"
 msgid "Add New Template"
 msgstr ""
 
-#: ../includes/Templates.php:219
+#: ../includes/Templates.php:242
 msgctxt "Zion Template Library"
 msgid "Edit Template"
 msgstr ""
 
-#: ../includes/Templates.php:220
+#: ../includes/Templates.php:243
 msgctxt "Zion Template Library"
 msgid "New Template"
 msgstr ""
 
-#: ../includes/Templates.php:221
+#: ../includes/Templates.php:244
 msgctxt "Zion Template Library"
 msgid "All Templates"
 msgstr ""
 
-#: ../includes/Templates.php:222
+#: ../includes/Templates.php:245
 msgctxt "Zion Template Library"
 msgid "View Template"
 msgstr ""
 
-#: ../includes/Templates.php:223
+#: ../includes/Templates.php:246
 msgctxt "Zion Template Library"
 msgid "Search Template"
 msgstr ""
 
-#: ../includes/Templates.php:224
+#: ../includes/Templates.php:247
 msgctxt "Zion Template Library"
 msgid "No Templates found"
 msgstr ""
 
-#: ../includes/Templates.php:225
+#: ../includes/Templates.php:248
 msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Templates.php:261
+#: ../includes/Templates.php:285
 msgctxt "Taxonomy General Name"
 msgid "%s Template Category"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Templates.php:266
+#: ../includes/Templates.php:290
 msgctxt "Taxonomy Singular Name"
 msgid "%s Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:269
+#: ../includes/Templates.php:293
 msgid "Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:270
+#: ../includes/Templates.php:294
 msgid "All Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:271
+#: ../includes/Templates.php:295
 msgid "Parent Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:272
+#: ../includes/Templates.php:296
 msgid "Parent Template Category:"
 msgstr ""
 
-#: ../includes/Templates.php:273
+#: ../includes/Templates.php:297
 msgid "New Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:274
+#: ../includes/Templates.php:298
 msgid "Add New Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:275
+#: ../includes/Templates.php:299
 msgid "Edit Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:276
+#: ../includes/Templates.php:300
 msgid "Update Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:277
+#: ../includes/Templates.php:301
 msgid "View Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:278
+#: ../includes/Templates.php:302
 msgid "Separate items with commas"
 msgstr ""
 
-#: ../includes/Templates.php:279
+#: ../includes/Templates.php:303
 msgid "Add or remove Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:280
+#: ../includes/Templates.php:304
 msgid "Choose from the most used"
 msgstr ""
 
-#: ../includes/Templates.php:281
+#: ../includes/Templates.php:305
 msgid "Popular Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:282
+#: ../includes/Templates.php:306
 msgid "Search Template Category"
 msgstr ""
 
-#: ../includes/Templates.php:283
+#: ../includes/Templates.php:307
 msgid "Not Found"
 msgstr ""
 
-#: ../includes/Templates.php:285
+#: ../includes/Templates.php:309
 msgid "Items list"
 msgstr ""
 
-#: ../includes/Templates.php:286
+#: ../includes/Templates.php:310
 msgid "Items list navigation"
 msgstr ""
 
-#: ../includes/Templates.php:335
+#: ../includes/Templates.php:359
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:344
+#: ../includes/Templates.php:368
 msgid "Missing template type"
 msgstr ""
 
@@ -2120,11 +2120,11 @@ msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:273
+#: ../includes/Editor/Editor.php:271
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:548
+#: ../includes/Elements/Element.php:552
 msgid "Wrapper"
 msgstr ""
 
@@ -2156,19 +2156,15 @@ msgstr ""
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
 msgstr ""
 
-#: ../includes/Post/BasePostType.php:515
-msgid "Cannot create autosave for post"
-msgstr ""
-
 #: ../includes/Api/RestControllers/BulkActions.php:43
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:72, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:72, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:228, ../includes/Api/RestControllers/Templates.php:275
+#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:91, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:228, ../includes/Api/RestControllers/Templates.php:275
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/DataSets.php:230
+#: ../includes/Api/RestControllers/DataSets.php:236
 msgid "Combined fonts list"
 msgstr ""
 
@@ -2204,11 +2200,11 @@ msgstr ""
 msgid "Font family"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:92
+#: ../includes/Api/RestControllers/Pages.php:111
 msgid "Could not lock post for current user."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Pages.php:99
+#: ../includes/Api/RestControllers/Pages.php:118
 msgid "Post locked."
 msgstr ""
 
@@ -2220,19 +2216,19 @@ msgstr ""
 msgid "Cannot replace URL's. They are the same."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:98
+#: ../includes/Api/RestControllers/ReplaceUrl.php:101
 msgid "Provided URL's are not valid."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:135
+#: ../includes/Api/RestControllers/ReplaceUrl.php:138
 msgid "URLs successfully replaced!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:161
+#: ../includes/Api/RestControllers/ReplaceUrl.php:164
 msgid "An error has occurred while updating the urls."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:187
+#: ../includes/Api/RestControllers/ReplaceUrl.php:190
 msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
@@ -2844,7 +2840,7 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:158, ../includes/Options/Schemas/StyleOptions.php:455
+#: ../includes/Elements/Container/Container.php:158, ../includes/Options/Schemas/StyleOptions.php:464
 msgid "Display"
 msgstr ""
 
@@ -2972,43 +2968,43 @@ msgstr ""
 msgid "Custom Order"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:525, ../includes/Elements/Separator/Separator.php:200, ../includes/Options/Schemas/StyleOptions.php:208
+#: ../includes/Elements/Container/Container.php:525, ../includes/Elements/Separator/Separator.php:200, ../includes/Options/Schemas/StyleOptions.php:217
 msgid "Padding"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:526, ../includes/Elements/Separator/Separator.php:201, ../includes/Options/Schemas/StyleOptions.php:209
+#: ../includes/Elements/Container/Container.php:526, ../includes/Elements/Separator/Separator.php:201, ../includes/Options/Schemas/StyleOptions.php:218
 msgid "Choose the desired padding for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:558, ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:240
+#: ../includes/Elements/Container/Container.php:558, ../includes/Elements/Separator/Separator.php:235, ../includes/Options/Schemas/StyleOptions.php:249
 msgid "Margin"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:559, ../includes/Elements/Separator/Separator.php:236, ../includes/Options/Schemas/StyleOptions.php:241
+#: ../includes/Elements/Container/Container.php:559, ../includes/Elements/Separator/Separator.php:236, ../includes/Options/Schemas/StyleOptions.php:250
 msgid "Choose the desired margin for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:592, ../includes/Options/Schemas/StyleOptions.php:273
+#: ../includes/Elements/Container/Container.php:592, ../includes/Options/Schemas/StyleOptions.php:282
 msgid "Sizing"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:601, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:281
+#: ../includes/Elements/Container/Container.php:601, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:290
 msgid "Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:623, ../includes/Options/Schemas/StyleOptions.php:302
+#: ../includes/Elements/Container/Container.php:623, ../includes/Options/Schemas/StyleOptions.php:311
 msgid "Min Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:645, ../includes/Options/Schemas/StyleOptions.php:323
+#: ../includes/Elements/Container/Container.php:645, ../includes/Options/Schemas/StyleOptions.php:332
 msgid "Max Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:679, ../includes/Options/Schemas/StyleOptions.php:355
+#: ../includes/Elements/Container/Container.php:679, ../includes/Options/Schemas/StyleOptions.php:364
 msgid "Min Height"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:691, ../includes/Options/Schemas/StyleOptions.php:366
+#: ../includes/Elements/Container/Container.php:691, ../includes/Options/Schemas/StyleOptions.php:375
 msgid "Max Height"
 msgstr ""
 
@@ -4180,131 +4176,131 @@ msgstr ""
 msgid "Inset?"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:49
+#: ../includes/Options/Schemas/StyleOptions.php:58
 msgid "Font"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:58
+#: ../includes/Options/Schemas/StyleOptions.php:67
 msgid "Element font"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:59
+#: ../includes/Options/Schemas/StyleOptions.php:68
 msgid "Select the desired font to use for this element."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:72, ../includes/Options/Schemas/StyleOptions.php:82
+#: ../includes/Options/Schemas/StyleOptions.php:81, ../includes/Options/Schemas/StyleOptions.php:91
 msgid "Text Shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:83
+#: ../includes/Options/Schemas/StyleOptions.php:92
 msgid "Set the desired text shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:94, ../includes/Options/Schemas/StyleOptions.php:101, ../includes/Options/Schemas/StyleOptions.php:141
+#: ../includes/Options/Schemas/StyleOptions.php:103, ../includes/Options/Schemas/StyleOptions.php:110, ../includes/Options/Schemas/StyleOptions.php:150
 msgid "Border"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:102
+#: ../includes/Options/Schemas/StyleOptions.php:111
 msgid "Choose the desired border style."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:133
+#: ../includes/Options/Schemas/StyleOptions.php:142
 msgid "Border radius"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:142
+#: ../includes/Options/Schemas/StyleOptions.php:151
 msgid "Choose the desired border radius style."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:173
+#: ../includes/Options/Schemas/StyleOptions.php:182
 msgid "Box shadow options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:174, ../includes/Options/Schemas/StyleOptions.php:400, ../includes/Options/Schemas/StyleOptions.php:414, ../includes/Options/Schemas/StyleOptions.php:427, ../includes/Options/Schemas/StyleOptions.php:441, ../includes/Options/Schemas/StyleOptions.php:456, ../includes/Options/Schemas/StyleOptions.php:496, ../includes/Options/Schemas/StyleOptions.php:522, ../includes/Options/Schemas/StyleOptions.php:548
+#: ../includes/Options/Schemas/StyleOptions.php:183, ../includes/Options/Schemas/StyleOptions.php:409, ../includes/Options/Schemas/StyleOptions.php:423, ../includes/Options/Schemas/StyleOptions.php:436, ../includes/Options/Schemas/StyleOptions.php:450, ../includes/Options/Schemas/StyleOptions.php:465, ../includes/Options/Schemas/StyleOptions.php:505, ../includes/Options/Schemas/StyleOptions.php:531, ../includes/Options/Schemas/StyleOptions.php:557
 msgid "Styling"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:178, ../includes/Options/Schemas/StyleOptions.php:500, ../includes/Options/Schemas/StyleOptions.php:526, ../includes/Options/Schemas/StyleOptions.php:552
+#: ../includes/Options/Schemas/StyleOptions.php:187, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
 msgid "PRO"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:188
+#: ../includes/Options/Schemas/StyleOptions.php:197
 msgid "Meet Box Shadow"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:189
+#: ../includes/Options/Schemas/StyleOptions.php:198
 msgid "With box shadow, you can create impressive 3d effects and designs"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:399
+#: ../includes/Options/Schemas/StyleOptions.php:408
 msgid "Background"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:413
+#: ../includes/Options/Schemas/StyleOptions.php:422
 msgid "Typography"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:428
+#: ../includes/Options/Schemas/StyleOptions.php:437
 msgid "Borders & Shadows"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:442
+#: ../includes/Options/Schemas/StyleOptions.php:451
 msgid "Size & Spacing"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:466
+#: ../includes/Options/Schemas/StyleOptions.php:475
 msgid "Z-index options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:475
+#: ../includes/Options/Schemas/StyleOptions.php:484
 msgid "Z-index"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:476
+#: ../includes/Options/Schemas/StyleOptions.php:485
 msgid "Choose Z-index for element"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:484
+#: ../includes/Options/Schemas/StyleOptions.php:493
 msgid "Want additional display options?"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:485
+#: ../includes/Options/Schemas/StyleOptions.php:494
 msgid "With ZionBuilder PRO you have access to additional options like display, flex, position, overflow and many more."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:495
+#: ../includes/Options/Schemas/StyleOptions.php:504
 msgid "Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:510
+#: ../includes/Options/Schemas/StyleOptions.php:519
 msgid "Meet Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:511
+#: ../includes/Options/Schemas/StyleOptions.php:520
 msgid "With transitions you can bring your elements to life by animating them to suit your needs."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:521
+#: ../includes/Options/Schemas/StyleOptions.php:530
 msgid "Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:536
+#: ../includes/Options/Schemas/StyleOptions.php:545
 msgid "Meet Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:537
+#: ../includes/Options/Schemas/StyleOptions.php:546
 msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:547
+#: ../includes/Options/Schemas/StyleOptions.php:556
 msgid "Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:562
+#: ../includes/Options/Schemas/StyleOptions.php:571
 msgid "Meet Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:563
+#: ../includes/Options/Schemas/StyleOptions.php:572
 msgid "With filter options you can chang the element hue, saturate, opacity, contrast and box shadow."
 msgstr ""
 
@@ -4380,72 +4376,72 @@ msgstr ""
 msgid "capitalize"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:23
+#: ../includes/Options/Schemas/Video.php:28
 msgid "Video source"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:32
+#: ../includes/Options/Schemas/Video.php:37
 msgid "Vimeo"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:36
+#: ../includes/Options/Schemas/Video.php:41
 msgid "Youtube"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:43
+#: ../includes/Options/Schemas/Video.php:48
 msgid "Local source"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:44
+#: ../includes/Options/Schemas/Video.php:49
 msgid "Select the video to use."
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:55
+#: ../includes/Options/Schemas/Video.php:60
 msgid "Vimeo video url"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:56
+#: ../includes/Options/Schemas/Video.php:61
 msgid "Enter Vimeo url."
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:66
+#: ../includes/Options/Schemas/Video.php:71
 msgid "Youtube video url"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:67
+#: ../includes/Options/Schemas/Video.php:72
 msgid "Enter the Youtube video url."
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:78
+#: ../includes/Options/Schemas/Video.php:83
 msgid "Background type"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:100
+#: ../includes/Options/Schemas/Video.php:105
 msgid "Show controls"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:106
+#: ../includes/Options/Schemas/Video.php:111
 msgid "Controls position"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:132
+#: ../includes/Options/Schemas/Video.php:137
 msgid "Autoplay video?"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:139
+#: ../includes/Options/Schemas/Video.php:144
 msgid "Start muted?"
 msgstr ""
 
 #. translators: %s: Minimum PHP version
-#: ../zionbuilder.php:90
+#: ../zionbuilder.php:93
 msgid "Zion Builder requires at least PHP version %s. Please contact your hosting provider and ask them to update the PHP version used on your server. Zion builder will not be activated until the minimum PHP version is installed."
 msgstr ""
 
-#: ../zionbuilder.php:117
+#: ../zionbuilder.php:120
 msgid "Update WordPress"
 msgstr ""
 
 #. translators: %s: Minimum WordPress version
-#: ../zionbuilder.php:121
+#: ../zionbuilder.php:124
 msgid "Zion Builder requires at least WordPress version %s. Please update WordPress to the latest version. Zion Builder will not be activated until the minimum WordPress version is installed."
 msgstr ""

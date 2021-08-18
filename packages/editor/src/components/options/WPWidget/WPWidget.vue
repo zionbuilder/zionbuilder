@@ -96,14 +96,19 @@ export default {
 	margin: 0 auto;
 	text-align: center;
 	transition: none;
-	&:before,
-	&:after {
-		@extend %loading;
+	&:before, &:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		border: 2px solid var(--zb-surface-lighter-color);
+		border-radius: 50%;
 	}
 	&:after {
 		border-right-color: var(--zb-surface-border-color);
-		animation: Rotate 0.6s linear infinite;
+		animation: Rotate .6s linear infinite;
 	}
 }
 .znpb-element-form__wp_widget {
@@ -118,9 +123,7 @@ export default {
 	}
 }
 .widget-content {
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;
@@ -148,9 +151,7 @@ export default {
 	}
 }
 .text-widget-fields {
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;
@@ -186,7 +187,7 @@ export default {
 		border: none;
 
 		-webkit-appearance: none;
-		-moz-appearance: none;
+		   -moz-appearance: none;
 	}
 }
 .media-widget-control {
@@ -196,9 +197,7 @@ export default {
 		font-family: var(--zb-font-stack);
 	}
 
-	input[type="text"],
-	input[type="number"],
-	select {
+	input[type="text"], input[type="number"], select {
 		width: 100%;
 		height: auto;
 		height: 42px;

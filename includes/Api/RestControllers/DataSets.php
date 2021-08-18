@@ -197,6 +197,12 @@ class DataSets extends RestApiController {
 		return apply_filters( 'zionbuilder/data_sets/post_types', $post_types_list );
 	}
 
+
+	/**
+	 * Converts the list of taxonomies to the structure accepted by the select option
+	 *
+	 * @return array
+	 */
 	public function format_taxonomies() {
 		$taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
 

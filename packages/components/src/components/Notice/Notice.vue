@@ -101,7 +101,7 @@ export default {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		color: var(--zb-surface-color);
+		color: #fff;
 		font-size: 12px;
 		cursor: pointer;
 	}

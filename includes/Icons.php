@@ -63,7 +63,7 @@ class Icons {
 			'FontAwesome5Free-Regular'   => [
 				'name'      => 'Font Awesome 5 Free Regular',
 				'id'        => 'FontAwesome5Free-Regular',
-				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Free-Regular/' ),
+				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Free-Regular/', 'relative' ),
 				'path'      => Utils::get_file_path( 'assets/icons/FontAwesome5Free-Regular/' ),
 				'file_name' => 'fa-regular-400',
 				'built_in'  => true,
@@ -71,7 +71,7 @@ class Icons {
 			'FontAwesome5Free-Solid'     => [
 				'name'      => 'Font Awesome 5 Free Solid',
 				'id'        => 'FontAwesome5Free-Solid',
-				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Free-Solid/' ),
+				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Free-Solid/', 'relative' ),
 				'path'      => Utils::get_file_path( 'assets/icons/FontAwesome5Free-Solid/' ),
 				'file_name' => 'fa-solid-900',
 				'built_in'  => true,
@@ -79,7 +79,7 @@ class Icons {
 			'FontAwesome5Brands-Regular' => [
 				'name'      => 'Font Awesome 5 Brands Regular',
 				'id'        => 'FontAwesome5Brands-Regular',
-				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Brands-Regular/' ),
+				'url'       => Utils::get_file_url( 'assets/icons/FontAwesome5Brands-Regular/', 'relative' ),
 				'path'      => Utils::get_file_path( 'assets/icons/FontAwesome5Brands-Regular/' ),
 				'file_name' => 'fa-brands-400',
 				'built_in'  => true,

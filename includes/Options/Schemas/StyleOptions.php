@@ -23,6 +23,8 @@ class StyleOptions extends BaseSchema {
 	 * Will attach the background options to the options instance
 	 *
 	 * @param Option $options
+	 *
+	 * @return void
 	 */
 	private static function attach_background_options( $options ) {
 		// Background option
@@ -41,6 +43,13 @@ class StyleOptions extends BaseSchema {
 		);
 	}
 
+	/**
+	 * Adds the typography options to a group of existing options
+	 *
+	 * @param Option $options
+	 *
+	 * @return void
+	 */
 	public static function attach_typography_options( $options ) {
 		$typography_group = $options->add_group(
 			'typography',
@@ -187,7 +196,7 @@ class StyleOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Box Shadow', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With box shadow, you can create impressive 3d effects and designs', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 	}
@@ -483,7 +492,7 @@ class StyleOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Want additional display options?', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With ZionBuilder PRO you have access to additional options like display, flex, position, overflow and many more.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 
@@ -509,7 +518,7 @@ class StyleOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Transitions', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With transitions you can bring your elements to life by animating them to suit your needs.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 
@@ -535,7 +544,7 @@ class StyleOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Transform', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 
@@ -561,7 +570,7 @@ class StyleOptions extends BaseSchema {
 				'type'                => 'upgrade_to_pro',
 				'message_title'       => esc_html__( 'Meet Filters', 'zionbuilder' ),
 				'message_description' => esc_html__( 'With filter options you can chang the element hue, saturate, opacity, contrast and box shadow.', 'zionbuilder' ),
-				'message_link'        => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
 

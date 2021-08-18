@@ -56,6 +56,25 @@ class Pages extends RestApiController {
 				'schema' => [ $this, 'get_public_item_schema' ],
 			]
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/(?P<id>[\d]+)/get_rendered_content',
+			[
+				'args'   => [
+					'id' => [
+						'description' => __( 'Unique identifier for the object.' ),
+						'type'        => 'integer',
+					],
+				],
+				[
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_rendered_content' ],
+					'permission_callback' => [ $this, 'lock_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
 	}
 
 	/**
@@ -99,5 +118,29 @@ class Pages extends RestApiController {
 				'message' => __( 'Post locked.', 'zionbuilder' ),
 			]
 		);
+	}
+
+	/**
+	 * Returns the rendered content for a given post id
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response|void
+	 */
+	public function get_rendered_content( $request ) {
+		$post_id = $request->get_param( 'id' );
+
+		$post_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_id );
+		if ( ! $post_instance ) {
+			return;
+		}
+
+		$post_template_data = $post_instance->get_template_data();
+		Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
+		ob_start();
+		Plugin::$instance->renderer->render_area( $post_id );
+		$area_markup = ob_get_clean();
+
+		return rest_ensure_response( $area_markup );
 	}
 }

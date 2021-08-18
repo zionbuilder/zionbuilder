@@ -23,7 +23,6 @@
 		<div
 			class="znpb-fancy-scrollbar znpb-wrapper-category"
 			ref="categoriesWrapper"
-			@wheel.passive="onElementListScroll"
 		>
 			<template v-if="computedRuleCategories.length">
 				<ElementList
@@ -181,14 +180,6 @@ export default {
 			return foundIndex !== -1
 		})
 
-		// Prevent popup close while scrolling
-		function onElementListScroll (event) {
-			if (categoriesWrapper.value.scrollHeight - categoriesWrapper.value.scrollTop === categoriesWrapper.value.clientHeight && event.deltaY > 0) {
-				event.preventDefault()
-			}
-
-		}
-
 		return {
 			// Normal values
 			elementCategories,
@@ -204,7 +195,6 @@ export default {
 			computedRuleCategories,
 			// Methods
 			onAddElement,
-			onElementListScroll,
 			// rtl
 			isRtl: editorData.value.rtl
 		}
@@ -249,8 +239,7 @@ export default {
 		}
 	}
 
-	.zion-input input,
-	.zion-input input::placeholder {
+	.zion-input input, .zion-input input::placeholder {
 		color: var(--zb-input-placeholder-color);
 	}
 

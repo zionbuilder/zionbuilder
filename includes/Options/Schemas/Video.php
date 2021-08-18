@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Options\Schemas
  */
 class Video extends BaseSchema {
+	/**
+	 * Returns the schema for the Video option type
+	 *
+	 * @return array
+	 */
 	public static function get_schema() {
 		$options = [
 			'videoSource'      => [
@@ -95,10 +100,16 @@ class Video extends BaseSchema {
 				],
 			],
 			'controls'         => [
-				'type'    => 'checkbox_switch',
-				'default' => true,
-				'title'   => esc_html__( 'Show controls', 'zionbuilder' ),
-				'layout'  => 'inline',
+				'type'       => 'checkbox_switch',
+				'default'    => true,
+				'title'      => esc_html__( 'Show controls', 'zionbuilder' ),
+				'layout'     => 'inline',
+				'dependency' => [
+					[
+						'option' => 'videoSource',
+						'value'  => [ 'local', 'youtube' ],
+					],
+				],
 			],
 			'controlsPosition' => [
 				'type'       => 'custom_selector',

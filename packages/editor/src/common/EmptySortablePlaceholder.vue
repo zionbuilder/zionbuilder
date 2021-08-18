@@ -72,9 +72,16 @@ export default {
 		// transition: all .2s;
 
 		&::before {
-			@extend %iconbg;
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
 			background: var(--zb-column-color);
-			transition: all 0.2s;
+			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
+			border-radius: 50%;
+			transition: all .2s;
 		}
 
 		.znpb-element__wrapper &::before {
@@ -84,10 +91,8 @@ export default {
 			background-color: var(--zb-column-color);
 		}
 
-		.zb-section
-			> .zb-section__innerWrapper
-			> .znpb-empty-placeholder
-			&::before {
+		.zb-section > .zb-section__innerWrapper > .znpb-empty-placeholder
+		&::before {
 			background-color: var(--zb-section-color);
 		}
 

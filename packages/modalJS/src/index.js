@@ -2,7 +2,8 @@ import {
 	pageLoad,
 	pageScroll,
 	pageClick,
-	exitIntent
+	exitIntent,
+	selectorClick
 } from './triggers/index.js'
 
 const modals = []
@@ -10,7 +11,8 @@ const defaultTriggers = [
 	pageLoad,
 	pageScroll,
 	pageClick,
-	exitIntent
+	exitIntent,
+	selectorClick
 ]
 
 export function createModal(selector, options = {}) {

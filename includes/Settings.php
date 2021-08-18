@@ -15,8 +15,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Settings {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_options';
 
+	/**
+	 * Holds a refference to the cached saved builder options
+	 *
+	 * @var array|null Returns the saved values or null if they are not init
+	 */
 	private static $saved_values = null;
 
+	/**
+	 * Holds a refference to the default option values
+	 *
+	 * @var array
+	 */
 	private static $default_options = [
 		'allowed_post_types' => [ 'post', 'page' ],
 	];
@@ -73,6 +83,7 @@ class Settings {
 	 * Returns a saved value from the model
 	 *
 	 * @param string $path The path to the requested option value
+	 * @param mixed $default The return value in case a saved one is not available
 	 *
 	 * @return mixed|null The saved value. In case the value is not saved, null is returned
 	 */

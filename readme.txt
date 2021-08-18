@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.7.2
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,17 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 2.7.2 2021-08-17 =
+* Added RankMath integration
+* Improved dynamic scripts management
+* Improved site SSL migration compatibility
+* Improved dark mode appearance
+* Fixed 404 error page appears sometimes when editing a template
+* Fixed replace URL option not working in certain conditions
+* Added WP filter for developers to add additional css to page assets file
+* Improved code documentation
+* Improved compatibility with PHP8
+
 = 2.7.1 2021-07-23 =
 * Fixed rendered page now working
 
@@ -246,6 +257,8 @@ The answer is definitely yes. If you run any kind of commercial business based o
 * Fixed icon element not printing mobile device styles
 * Fixed some options that cannot be found when using the search from the elements panel
 * Fixed server rendered components doesn't render in certain conditions
+* Fixed element menu can sometimes go behind editor toolbars
+* Removed video controls option from Vimeo sources - Vimeo API doesn't allow controls removal for normal users
 * Various small fixes
 * Internal code cleanup
 

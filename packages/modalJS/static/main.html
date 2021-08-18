@@ -38,7 +38,7 @@
 </style>
 </head>
 <body>
-	<div class="zb-openModalTrigger" data-modal-id="myModal">
+	<div class="zb-openModalTrigger">
 		Open Modal
 	</div>
 
@@ -60,20 +60,24 @@
 				// 		delay: 500
 				// 	}
 				// },
+				// {
+				// 	type: 'pageScroll',
+				// 	options: {
+				// 		scrollAmmount: 99,
+				// 		direction: 'down'
+				// 	}
+				// },
 				{
-					type: 'pageScroll',
+					type: 'selector_click',
 					options: {
-						scrollAmmount: 99,
-						direction: 'down'
+						selector: '.zb-openModalTrigger'
 					}
-				},
+				}
 				// {
 				// 	type: 'exitIntent'
 				// }
 			],
-			behaviour: {
-				close_on_backdrop: true
-			}
+			closeOnBackdropClick: true
 		})
 
 		// setTimeout(() => {

@@ -72,11 +72,13 @@ class Utils {
 	 * Will return the file url starting with the plugin directory for the given path
 	 *
 	 * @param string $path The path that will be appended to the plugin URL
+	 * @param string|null $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login',
+	 *                      'login_post', 'admin', 'relative', 'rest', 'rpc', or null. Default null.
 	 *
 	 * @return string
 	 */
-	public static function get_file_url( $path = '' ) {
-		return set_url_scheme( Plugin::instance()->get_root_url() . $path );
+	public static function get_file_url( $path = '', $scheme = null ) {
+		return set_url_scheme( Plugin::instance()->get_root_url() . $path, $scheme );
 	}
 
 	/**

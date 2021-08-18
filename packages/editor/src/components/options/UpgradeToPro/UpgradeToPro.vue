@@ -19,7 +19,7 @@
 				href="https://zionbuilder.io/documentation/pro-version/"
 				target="_blank"
 			>
-				{{message_link}}
+				{{info_text}}
 			</a>
 
 			<a
@@ -47,7 +47,7 @@ export default {
 			type: String,
 			required: false
 		},
-		message_link: {
+		info_text: {
 			type: String,
 			required: false
 		}
@@ -87,7 +87,7 @@ export default {
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			border-bottom: 1px solid var(--zb-surface-border-color);
-			transition: color 0.15s;
+			transition: color .15s;
 
 			&:hover {
 				color: var(--zb-surface-text-active-color);
@@ -106,7 +106,7 @@ export default {
 	}
 
 	.zion-quality {
-		transition: all 0.3s;
+		transition: all .3s;
 	}
 
 	&-button:hover .zion-quality {

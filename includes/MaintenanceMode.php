@@ -41,7 +41,12 @@ class MaintenanceMode {
 	/**
 	 * Returns a saved value for the maintenance mode
 	 *
+	 * @param string $setting_key The key for the value to be returned
+	 * @param mixed $default The value that needs to be returned if no existing value is saved
+	 *
 	 * @since 2.6.0
+	 *
+	 * @return mixed
 	 */
 	public function get_value( $setting_key, $default = null ) {
 		$saved_values = Settings::get_value( 'maintenance_mode', [] );
@@ -57,6 +62,8 @@ class MaintenanceMode {
 	 * Hooks into 'template_redirect' in order to replace the current post with the choosen template
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return void
 	 */
 	public function on_template_redirect() {
 		global $post;
@@ -144,6 +151,8 @@ class MaintenanceMode {
 	 * Adds the maintenance mode options schema to the admin data
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return array
 	 */
 	public function add_admin_page_data( $data ) {
 		$data['maintenance_mode'] = [
@@ -157,6 +166,8 @@ class MaintenanceMode {
 	 * Returns the maintenance mode options schema
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return array
 	 */
 	public function get_options_schema() {
 		$options_schema = new Options( 'zionbuilder/schema/maintenance_mode' );

@@ -5,6 +5,7 @@ namespace ZionBuilder\PageTemplates;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\Whitelabel;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -139,6 +140,8 @@ class PageTemplates {
 	 * Render Content
 	 *
 	 * Renders the page content
+	 *
+	 * @return void
 	 */
 	public function render_content() {
 		while ( have_posts() ) :
