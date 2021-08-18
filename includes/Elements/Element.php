@@ -177,9 +177,6 @@ class Element {
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
-
-			// Init scripts
-			$this->enqueue_all_extra_scripts();
 		}
 
 		// Allow elements creators to hook here without rewriting contruct

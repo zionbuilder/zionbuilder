@@ -80,16 +80,16 @@ class Cache {
 	 * @return void
 	 */
 	public function enqueue_post_assets() {
-		$in_footer        = did_action( 'wp_enqueue_scripts' ) && ! doing_filter( 'wp_enqueue_scripts' );
-		$registered_posts = Plugin::$instance->renderer->get_registered_areas();
-		$is_preview       = Plugin::$instance->editor->preview->is_preview_mode();
-
+		$in_footer            = did_action( 'wp_enqueue_scripts' ) && ! doing_filter( 'wp_enqueue_scripts' );
+		$registered_posts     = Plugin::$instance->renderer->get_registered_areas();
 		$registered_areas_ids = array_keys( $registered_posts );
 
 		// If we have registered areas, just generate the assets based on the areas
 		if ( count( $registered_areas_ids ) > 0 ) {
-
 			$page_dynamic_assets = PageAssets::get_instance( $registered_areas_ids );
+
+			// Enqueue element external scripts
+			$page_dynamic_assets->enqueue_external_files();
 
 			// Check to see if the file was already generated
 			if ( $page_dynamic_assets->is_generated() ) {
