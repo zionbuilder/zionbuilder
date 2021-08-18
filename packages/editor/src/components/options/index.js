@@ -23,6 +23,7 @@ import GlobalClasses from './GlobalCssClasses'
 import ChildAdder from './ChildAdder'
 import Dimensions from './Dimensions'
 import ElementEventButton from './ElementEventButton'
+import ElementSelector from './ElementSelector'
 
 import {
 	useOptions
@@ -59,4 +60,5 @@ export const registerEditorOptions = () => {
 	registerOption(GlobalClasses)
 	registerOption(ChildAdder)
 	registerOption(ElementEventButton)
+	registerOption(ElementSelector)
 }
