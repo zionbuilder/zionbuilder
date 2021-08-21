@@ -77,7 +77,7 @@ export default {
 }
 
 .znpb-options-has-changes-wrapper {
-	margin-left: 10px;
+	margin-left: 5px;
 	cursor: pointer;
 	.znpb-options-has-changes-wrapper__delete {
 		stroke: var(--zb-surface-text-active-color);
