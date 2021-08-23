@@ -321,8 +321,8 @@ class Localization {
 				'when_dragging_input_number'             => __( 'On input of type number', 'zionbuilder' ),
 				'on_input_number_link'                   => __( 'On input of type number with link option available', 'zionbuilder' ),
 				'save_changes'                           => __( 'Save changes', 'zionbuilder' ),
-				'cut_element'                            => __( 'Cut Element', 'zionbuilder' ),
-				'discard_element_styles'                 => __( 'Discard element styles', 'zionbuilder' ),
+				'cut_element'                            => __( 'Cut', 'zionbuilder' ),
+				'discard_element_styles'                 => __( 'Discard styles', 'zionbuilder' ),
 
 				//About Modal
 				'need_help'                              => __( 'Do you need help?', 'zionbuilder' ),
@@ -601,8 +601,8 @@ class Localization {
 				'copy_element'                           => __( 'Copy', 'zionbuilder' ),
 				'paste_element'                          => __( 'Paste', 'zionbuilder' ),
 				'duplicate_element'                      => __( 'Duplicate', 'zionbuilder' ),
-				'copy_element_styles'                    => __( 'Copy element styles', 'zionbuilder' ),
-				'paste_element_styles'                   => __( 'Paste element styles', 'zionbuilder' ),
+				'copy_element_styles'                    => __( 'Copy styles', 'zionbuilder' ),
+				'paste_element_styles'                   => __( 'Paste styles', 'zionbuilder' ),
 				'copy_classes'                           => __( 'Copy classes', 'zionbuilder' ),
 				'paste_classes'                          => __( 'Paste classes', 'zionbuilder' ),
 				'undo'                                   => __( 'Undo', 'zionbuilder' ),
