@@ -27,7 +27,7 @@ export default {
 		keyShortcutsItem
 	},
 	data () {
-		const controllKey = Environment.isMac ? '⌘' : 'CTRL'
+		const controllKey = Environment.isMac ? '⌘' : '⌃'
 		return {
 			schemaDescriptionFirst: [
 				{
@@ -51,11 +51,11 @@ export default {
 					'description': this.$translate('duplicate_element')
 				},
 				{
-					'keyshortcut': [controllKey, 'SHIFT', 'C'],
+					'keyshortcut': [controllKey, '⇧', 'C'],
 					'description': this.$translate('copy_element_styles')
 				},
 				{
-					'keyshortcut': [controllKey, 'SHIFT', 'V'],
+					'keyshortcut': [controllKey, '⇧', 'V'],
 					'description': this.$translate('paste_element_styles')
 				},
 				{
@@ -67,7 +67,7 @@ export default {
 					'description': this.$translate('redo')
 				},
 				{
-					'keyshortcut': [controllKey, 'SHIFT', 'Y'],
+					'keyshortcut': [controllKey, '⇧', 'Y'],
 					'description': this.$translate('redo')
 				},
 				{
@@ -79,15 +79,15 @@ export default {
 					'description': this.$translate('toggle_preview')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'T'],
+					'keyshortcut': ['⇧', 'T'],
 					'description': this.$translate('toggle_tree_view_panel')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'L'],
+					'keyshortcut': ['⇧', 'L'],
 					'description': this.$translate('toggle_library')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'O'],
+					'keyshortcut': ['⇧', 'O'],
 					'description': this.$translate('toggle_page_options')
 				},
 				{
@@ -101,20 +101,20 @@ export default {
 					'details': this.$translate('when_dragging_toolbox')
 				},
 				{
-					'keyshortcut': [controllKey, 'SHIFT', 'DRAG'],
+					'keyshortcut': [controllKey, '⇧', 'DRAG'],
 					'description': this.$translate('set_even_incremental_value')
 				},
 				{
-					'keyshortcut': [controllKey, 'SHIFT', 'D'],
+					'keyshortcut': [controllKey, '⇧', 'D'],
 					'description': this.$translate('back_to_wp_dashboard')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'DRAG'],
+					'keyshortcut': ['⇧', 'DRAG'],
 					'description': this.$translate('set_incremental_value'),
 					'details': this.$translate('when_dragging_input_number')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'ARROWS'],
+					'keyshortcut': ['⇧', 'ARROWS'],
 					'description': this.$translate('set_incremental_value')
 				},
 				{
