@@ -627,7 +627,7 @@ msgstr ""
 msgid "Copy element style"
 msgstr ""
 
-#: ../includes/Localization.php:225, ../includes/Localization.php:324
+#: ../includes/Localization.php:225
 msgid "Cut Element"
 msgstr ""
 
@@ -955,8 +955,12 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
+#: ../includes/Localization.php:324
+msgid "Cut"
+msgstr ""
+
 #: ../includes/Localization.php:325
-msgid "Discard element styles"
+msgid "Discard styles"
 msgstr ""
 
 #: ../includes/Localization.php:328
@@ -1608,11 +1612,11 @@ msgid "Duplicate"
 msgstr ""
 
 #: ../includes/Localization.php:604
-msgid "Copy element styles"
+msgid "Copy styles"
 msgstr ""
 
 #: ../includes/Localization.php:605
-msgid "Paste element styles"
+msgid "Paste styles"
 msgstr ""
 
 #: ../includes/Localization.php:606
@@ -2124,7 +2128,7 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:552
+#: ../includes/Elements/Element.php:549
 msgid "Wrapper"
 msgstr ""
 
@@ -2216,19 +2220,19 @@ msgstr ""
 msgid "Cannot replace URL's. They are the same."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:101
+#: ../includes/Api/RestControllers/ReplaceUrl.php:98
 msgid "Provided URL's are not valid."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:138
+#: ../includes/Api/RestControllers/ReplaceUrl.php:135
 msgid "URLs successfully replaced!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:164
+#: ../includes/Api/RestControllers/ReplaceUrl.php:161
 msgid "An error has occurred while updating the urls."
 msgstr ""
 
-#: ../includes/Api/RestControllers/ReplaceUrl.php:190
+#: ../includes/Api/RestControllers/ReplaceUrl.php:187
 msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
@@ -4420,15 +4424,15 @@ msgstr ""
 msgid "Show controls"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:111
+#: ../includes/Options/Schemas/Video.php:117
 msgid "Controls position"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:137
+#: ../includes/Options/Schemas/Video.php:143
 msgid "Autoplay video?"
 msgstr ""
 
-#: ../includes/Options/Schemas/Video.php:144
+#: ../includes/Options/Schemas/Video.php:150
 msgid "Start muted?"
 msgstr ""
 
