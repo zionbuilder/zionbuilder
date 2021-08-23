@@ -82,7 +82,7 @@ export const useKeyBindings = () => {
 			}
 
 			// Delete element
-			if (e.which === 46) {
+			if (e.which === 46 || (Environment.isMac && e.which === 8)) {
 				const nextFocusElement = getNextFocusedElement(activeElementFocus)
 
 				activeElementFocus.delete()
