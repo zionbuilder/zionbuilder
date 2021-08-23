@@ -19,60 +19,63 @@
 
 <script>
 import keyShortcutsItem from './keyShortcutsItem.vue'
+import { Environment } from '@zb/utils'
+
 export default {
 	name: 'keyShortcutsModal',
 	components: {
 		keyShortcutsItem
 	},
 	data () {
+		const controllKey = Environment.isMac ? '⌘' : 'CTRL'
 		return {
 			schemaDescriptionFirst: [
 				{
-					'keyshortcut': ['CTRL', 'S'],
+					'keyshortcut': [controllKey, 'S'],
 					'description': this.$translate('save_changes')
 				},
 				{
-					'keyshortcut': ['CTRL', 'C'],
+					'keyshortcut': [controllKey, 'C'],
 					'description': this.$translate('copy_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'V'],
+					'keyshortcut': [controllKey, 'V'],
 					'description': this.$translate('paste_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'X'],
+					'keyshortcut': [controllKey, 'X'],
 					'description': this.$translate('cut_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'D'],
+					'keyshortcut': [controllKey, 'D'],
 					'description': this.$translate('duplicate_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'C'],
+					'keyshortcut': [controllKey, 'SHIFT', 'C'],
 					'description': this.$translate('copy_element_styles')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'V'],
+					'keyshortcut': [controllKey, 'SHIFT', 'V'],
 					'description': this.$translate('paste_element_styles')
 				},
 				{
-					'keyshortcut': ['CTRL', 'Z'],
+					'keyshortcut': [controllKey, 'Z'],
 					'description': this.$translate('undo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'Y'],
+					'keyshortcut': [controllKey, 'Y'],
 					'description': this.$translate('redo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'Y'],
+					'keyshortcut': [controllKey, 'SHIFT', 'Y'],
 					'description': this.$translate('redo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'H'],
+					'keyshortcut': [controllKey, 'H'],
 					'description': this.$translate('hide_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'P'],
+					'keyshortcut': [controllKey, 'P'],
 					'description': this.$translate('toggle_preview')
 				},
 				{
@@ -88,21 +91,21 @@ export default {
 					'description': this.$translate('toggle_page_options')
 				},
 				{
-					'keyshortcut': ['DRAG', 'CTRL'],
+					'keyshortcut': ['DRAG', controllKey],
 					'description': this.$translate('duplicate_element_in_place'),
 					'details': this.$translate('when_dragging_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'DRAG'],
+					'keyshortcut': [controllKey, 'DRAG'],
 					'description': this.$translate('set_even_values'),
 					'details': this.$translate('when_dragging_toolbox')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'DRAG'],
+					'keyshortcut': [controllKey, 'SHIFT', 'DRAG'],
 					'description': this.$translate('set_even_incremental_value')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'D'],
+					'keyshortcut': [controllKey, 'SHIFT', 'D'],
 					'description': this.$translate('back_to_wp_dashboard')
 				},
 				{

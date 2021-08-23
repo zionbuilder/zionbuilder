@@ -138,7 +138,7 @@
 <script>
 import { ref, watch, provide, computed } from 'vue'
 import { on, off } from '@zb/hooks'
-import { debounce, isEditable } from '@zb/utils'
+import { debounce, isEditable, Environment } from '@zb/utils'
 import { useEditElement, useElementProvide, useEditorData, useWindows, useHistory } from '@composables'
 import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
 
@@ -522,18 +522,20 @@ export default {
 			this.unEditElement()
 		},
 		onKeyPress (e) {
+			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey'
+
 			if (isEditable()) {
 				return
 			}
 
 			// Undo CTRL+Z
-			if (e.which === 90 && e.ctrlKey && !e.shiftKey) {
+			if (e.which === 90 && e[controllKey] && !e.shiftKey) {
 				this.undo()
 				e.preventDefault()
 				e.stopPropagation()
 			}
 			// Redo CTRL+SHIFT+Z CTRL + Y
-			if ((e.which === 90 && e.ctrlKey && e.shiftKey) || (e.ctrlKey && e.which === 89)) {
+			if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
 				this.redo()
 				e.preventDefault()
 				e.stopPropagation()
