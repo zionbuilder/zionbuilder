@@ -133,12 +133,12 @@ class Masks {
 
 		// Old system where the shape was saved with url
 		if ( strrpos( $shape_id, '.svg' ) ) {
-			echo FileSystem::get_file_system()->get_contents( $shape_id );
+			echo wp_kses( FileSystem::get_file_system()->get_contents( $shape_id ), self::get_kses_extended_ruleset() );
 		} else {
 			$shape_config = $all_shapes[$shape_id];
 
 			if ( isset( $shape_config['path'] ) ) {
-				echo FileSystem::get_file_system()->get_contents( $shape_config['path'] );
+				echo wp_kses( FileSystem::get_file_system()->get_contents( $shape_config['path'] ), self::get_kses_extended_ruleset() );
 			}
 		}
 	}

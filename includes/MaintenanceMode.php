@@ -120,7 +120,8 @@ class MaintenanceMode {
 		$post = get_post( $saved_template_id );  // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 
 		// set the proper queried_object
-		query_posts(
+
+		query_posts( // phpcs:ignore WordPress.WP.DiscouragedFunctions
 			[
 				'p'         => $saved_template_id,
 				'post_type' => Templates::TEMPLATE_POST_TYPE,

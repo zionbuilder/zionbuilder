@@ -275,7 +275,8 @@ class BulkActions extends RestApiController {
 			return new \WP_Error( 'callback_method_missing', 'Missing callback_method param', [ 'status' => 400 ] );
 		}
 
-		return rest_ensure_response( apply_filters( sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] ), [], $config, $request ) );
+		$action_name = sprintf( 'zionbuilder/api/bulk_actions/get_input_select_options/%s', $config['server_callback_method'] );
+		return rest_ensure_response( apply_filters( $action_name, [], $config, $request ) );
 	}
 
 	public function search_posts( $config ) {

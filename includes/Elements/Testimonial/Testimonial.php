@@ -331,10 +331,10 @@ class Testimonial extends Element {
 		if ( $image && ( $position === 'top' ) ) : ?>
 			<img
 				src="<?php echo esc_attr( $image ); ?>"
-				   <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_image', [ 'class' => 'zb-el-testimonial__userImage' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					<?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_image', [ 'class' => 'zb-el-testimonial__userImage' ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 
 			/>
-		   <?php endif; ?>
+		<?php endif; ?>
 		<?php if ( ! empty( $content ) ) : ?>
 			<div <?php echo $this->render_attributes->get_attributes_as_string( 'inner_content_styles_misc', [ 'class' => 'zb-el-testimonial-content' ] );// phpcs:ignore WordPress.Security.EscapeOutput ?>>
 				<?php echo wp_kses_post( $content ); ?>
