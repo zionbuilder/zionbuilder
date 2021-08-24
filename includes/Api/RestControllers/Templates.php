@@ -5,7 +5,7 @@ namespace ZionBuilder\Api\RestControllers;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Templates as ZionBuilderTemplates;
-use ZionBuilder\Whitelabel;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -538,7 +538,7 @@ class Templates extends RestApiController {
 			if ( ! is_wp_error( $template_terms ) && ! empty( $template_terms ) ) {
 				$first_term = array_pop( $template_terms );
 
-				if ( $first_term ) {
+				if ( $first_term !== null ) {
 					$category = $first_term->name;
 				}
 			}
