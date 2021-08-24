@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<shape
+		<Shape
 			class="znpb-active-shape-preview"
 			:shapePath="modelValue"
 			:class="[{'mask-active': modelValue}]"
@@ -39,15 +39,15 @@
 					/>
 				</transition>
 			</span>
-		</shape>
+		</Shape>
 		<div class="znpb-shape-list znpb-fancy-scrollbar">
-			<shape
+			<Shape
 				v-for="(shape,shapeID) in masks"
 				:key="shapeID"
-				:shape-path="shape"
+				:shape-path="shapeID"
 				:position="position"
 				@click="$emit('update:modelValue', shapeID)"
-			></shape>
+			></Shape>
 
 			<UpgradeToPro
 				v-if="!isPro"
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { toRefs, onMounted, ref, readonly, inject } from 'vue'
+import { inject } from 'vue'
 import { Icon } from '../Icon'
 import Shape from './Shape.vue'
 import { EmptyList } from '../EmptyList'

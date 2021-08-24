@@ -10,7 +10,6 @@
         }
     ],
     "require": {
-        "enshrined/svg-sanitize": "^0.13.3",
         "woocommerce/action-scheduler": "^3.1"
     },
     "require-dev": {
