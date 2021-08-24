@@ -23,7 +23,7 @@ export default {
 		 * Value for input
 		 */
 		shapePath: {
-			type: String,
+			type: Object,
 			required: false
 		},
 		position: {

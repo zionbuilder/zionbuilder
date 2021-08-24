@@ -3,7 +3,6 @@
 namespace ZionBuilder\Elements;
 
 use ZionBuilder\Utils;
-use enshrined\svgSanitize\Sanitizer;
 use ZionBuilder\FileSystem;
 
 // Prevent direct access
@@ -26,12 +25,30 @@ class Masks {
 	 */
 	public static function getshapes() {
 		$shapes = [
-			'bottom-free-mask_01' => Utils::get_file_url( 'assets/masks/bottom-free-mask_01.svg' ),
-			'bottom-free-mask_02' => Utils::get_file_url( 'assets/masks/bottom-free-mask_02.svg' ),
-			'bottom-free-mask_03' => Utils::get_file_url( 'assets/masks/bottom-free-mask_03.svg' ),
-			'bottom-free-mask_04' => Utils::get_file_url( 'assets/masks/bottom-free-mask_04.svg' ),
-			'bottom-free-mask_05' => Utils::get_file_url( 'assets/masks/bottom-free-mask_05.svg' ),
-			'bottom-free-mask_06' => Utils::get_file_url( 'assets/masks/bottom-free-mask_06.svg' ),
+			'bottom-free-mask_01' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_01.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_01.svg' ),
+			],
+			'bottom-free-mask_02' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_02.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_02.svg' ),
+			],
+			'bottom-free-mask_03' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_03.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_03.svg' ),
+			],
+			'bottom-free-mask_04' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_04.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_04.svg' ),
+			],
+			'bottom-free-mask_05' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_05.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_05.svg' ),
+			],
+			'bottom-free-mask_06' => [
+				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_06.svg' ),
+				'path' => Utils::get_file_path( 'assets/masks/bottom-free-mask_06.svg' ),
+			],
 		];
 		return apply_filters( 'zionbuilder/masks', $shapes );
 	}
@@ -103,18 +120,26 @@ class Masks {
 	/*
 	 * Returns string from shape id
 	 *
-	 * @param string $shape The shape id for which the attributes will be retrieved
-	 * @param mixed  $mask
+	 * @param string $shape_id The shape id for which the attributes will be retrieved
+	 *
+	 * @return void
 	 */
-	public static function get_mask( $shape_path ) {
+	public static function get_mask( $shape_id ) {
 		// bail if we do not have any attributes
-		if ( empty( $shape_path ) ) {
+		if ( empty( $shape_id ) ) {
 			return;
 		}
 		$all_shapes = self::getshapes();
-		$shape_path = strrpos( $shape_path, '.svg' ) ? $shape_path : $all_shapes[$shape_path];
-		$svg_file   = FileSystem::get_file_system()->get_contents( $shape_path );
-		$sanitizer  = new Sanitizer();
-		echo wp_kses( $sanitizer->sanitize( $svg_file ), self::get_kses_extended_ruleset() );
+
+		// Old system where the shape was saved with url
+		if ( strrpos( $shape_id, '.svg' ) ) {
+			echo FileSystem::get_file_system()->get_contents( $shape_id );
+		} else {
+			$shape_config = $all_shapes[$shape_id];
+
+			if ( isset( $shape_config['path'] ) ) {
+				echo FileSystem::get_file_system()->get_contents( $shape_config['path'] );
+			}
+		}
 	}
 }
