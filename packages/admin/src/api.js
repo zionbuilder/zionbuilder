@@ -2,9 +2,6 @@ import routes from './router'
 
 // Utils
 import {
-	errorInterceptor
-} from '@zionbuilder/rest'
-import {
 	addFilter
 } from '@zb/hooks'
 import {
@@ -14,15 +11,32 @@ import {
 	ServerRequest
 } from '@zb/utils'
 
+// Set Service Interceptor
+import {
+	errorInterceptor
+} from '@zionbuilder/rest'
+import {
+	useNotifications
+} from '@zionbuilder/composables'
+
+
 const serverRequest = new ServerRequest()
 
 window.zb = window.zb || {}
+
+const notifications = useNotifications()
+
+// Add error interceptor for API
+errorInterceptor(notifications)
+
+
 
 const api = {
 	routes,
 	interceptors: {
 		errorInterceptor
 	},
+	notifications,
 	addFilter,
 	useInjections,
 	serverRequest
