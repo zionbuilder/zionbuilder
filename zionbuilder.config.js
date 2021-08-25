@@ -8,7 +8,6 @@ module.exports = {
 		'vendor/autoload.php',
 		'vendor/composer',
 		'vendor/woocommerce',
-		'vendor/enshrined',
 		'zionbuilder.php',
 		'manifest.json',
 		'readme.txt'
