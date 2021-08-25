@@ -1,11 +1,13 @@
 <template>
 	<div
 		class="znpb-colorpicker-inner-editor__opacity-wrapper"
-		@click="dragCircle"
 		@mousedown="actCircleDrag"
 		ref="root"
 	>
-		<div class="znpb-colorpicker-inner-editor__opacity">
+		<div
+			class="znpb-colorpicker-inner-editor__opacity"
+			@click="dragCircle"
+		>
 			<div
 				:style="barStyles"
 				ref="opacitystrip"
@@ -14,7 +16,7 @@
 			</div>
 			<span
 				:style="opacityStyles"
-				@mousedown="actCircleDrag()"
+				@mousedown="actCircleDrag"
 				class="znpb-colorpicker-inner-editor__opacity-indicator"
 			></span>
 		</div>
@@ -23,6 +25,7 @@
 <script>
 import tinycolor from 'tinycolor2'
 import rafSchd from 'raf-schd'
+import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
 
 export default {
 	name: 'OpacityStrip',
@@ -32,49 +35,52 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {
-			stripOffset: {},
-			lastA: null,
-			ownerWindow: null
-		}
-	},
-	mounted () {
-		this.ownerWindow = this.$refs.root.ownerDocument.defaultView
-	},
-	computed: {
-		opacityStyles () {
+	setup (props, { emit }) {
+		// Refs
+		const root = ref(null)
+		const opacitystrip = ref(null)
+
+		// Temp values
+		const rafDragCircle = rafSchd(dragCircle)
+		let lastA = null
+		let ownerWindow = null
+
+		// Computed properties
+		const opacityStyles = computed(() => {
 			return {
-				left: (this.modelValue.a * 100) + '%'
+				left: (props.modelValue.a * 100) + '%'
 			}
-		},
-		barStyles () {
-			let color = tinycolor(this.modelValue)
+		})
+
+		const barStyles = computed(() => {
+			let color = tinycolor(props.modelValue)
 			return {
 				'background-image': 'linear-gradient(to right, rgba(255, 0, 0, 0),' + color.toHexString() + ')'
 			}
+		})
+
+		// Methods
+		function actCircleDrag () {
+			ownerWindow.addEventListener('mousemove', rafDragCircle)
+			ownerWindow.addEventListener('mouseup', deactivatedragCircle)
 		}
-	},
-	methods: {
-		actCircleDrag () {
-			this.rafDragCircle = rafSchd(this.dragCircle)
-			this.ownerWindow.addEventListener('mousemove', this.rafDragCircle)
-			this.ownerWindow.addEventListener('mouseup', this.deactivatedragCircle)
-		},
-		deactivatedragCircle () {
-			this.ownerWindow.removeEventListener('mousemove', this.rafDragCircle)
-			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragCircle)
-		},
-		dragCircle (event) {
+
+		function deactivatedragCircle () {
+			ownerWindow.removeEventListener('mousemove', rafDragCircle)
+			ownerWindow.removeEventListener('mouseup', deactivatedragCircle)
+		}
+
+		function dragCircle (event) {
 			// If the mouseup happened outside window
 			if (!event.which) {
-				this.deactivatedragCircle()
+				deactivatedragCircle()
 				return false
 			}
 
 			let a
 			const mouseLeftPosition = event.clientX
-			const stripOffset = this.$refs.opacitystrip.getBoundingClientRect()
+
+			const stripOffset = opacitystrip.value.getBoundingClientRect()
 
 			// Calculate where the coordinate x of the element starts
 			const startx = stripOffset.left
@@ -92,22 +98,36 @@ export default {
 			}
 
 			let newColor = {
-				...this.modelValue,
+				...props.modelValue,
 				a: a
 			}
-			if (this.lastA !== a) {
-				this.$emit('update:modelValue', newColor)
+
+			if (lastA !== a) {
+				emit('update:modelValue', newColor)
 			}
 
-			this.lastA = a
+			lastA = a
 		}
 
-	},
-	beforeUnmount () {
-		this.deactivatedragCircle()
-	},
-	unmounted () {
-		this.ownerWindow.removeEventListener('mousemove', this.dragCircle)
+		// Lifecycle
+		onMounted(() => {
+			ownerWindow = root.value.ownerDocument.defaultView
+		})
+
+		onBeforeUnmount(() => {
+			deactivatedragCircle()
+		})
+
+		return {
+			// Refs
+			root,
+			opacitystrip,
+			// commputed
+			opacityStyles,
+			barStyles,
+			actCircleDrag,
+			dragCircle
+		}
 	}
 }
 </script>
