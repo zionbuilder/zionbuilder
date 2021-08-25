@@ -697,6 +697,9 @@ class Localization {
 				'builder_theme'                          => __( 'Builder theme', 'zionbuilder' ),
 				'builder_theme_desc'                     => __( 'By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages', 'zionbuilder' ),
 
+				// Misc
+				'no_items_found'                         => __( 'No items found', 'zionbuilder' ),
+				'search'                                 => __( 'Search', 'zionbuilder' ),
 			]
 		);
 	}
