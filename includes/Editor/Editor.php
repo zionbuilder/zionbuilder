@@ -191,12 +191,16 @@ class Editor {
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Load Scripts
+		// Load animation css file
+		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-editor-style',
 			'css/editor.css',
 			[
 				'wp-codemirror',
 				'zb-components',
+				'zion-frontend-animations',
 			],
 			Plugin::instance()->get_version()
 		);
