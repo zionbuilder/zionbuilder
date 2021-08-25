@@ -2,16 +2,12 @@ require('./scss/index.scss')
 
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { useNotifications } from '@zionbuilder/composables'
 
 import api from './api'
 import { initRoutes } from './router'
 
 // Main
 import App from './App.vue'
-
-// Set Service Interceptor
-import { errorInterceptor } from '@zionbuilder/rest'
 
 import { install as ComponentsInstall } from '@zb/components'
 import { install as I18nInstall } from '@zb/i18n'
@@ -36,16 +32,11 @@ appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
 appInstance.use(ComponentsInstall)
 appInstance.use(I18nInstall, window.ZnI18NStrings)
 
-const notifications = useNotifications()
-
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
 	const evt = new CustomEvent('zionbuilder/admin/init', {
 		detail: api
 	})
-
-	// Add error interceptor for API
-	errorInterceptor(notifications)
 
 	// Add default routes
 	initRoutes()
