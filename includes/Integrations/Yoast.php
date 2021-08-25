@@ -62,6 +62,7 @@ class Yoast implements IBaseIntegration {
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-yoast',
 				'js/integrations/yoast.js',
+				[],
 				Plugin::instance()->get_version(),
 				true
 			);
