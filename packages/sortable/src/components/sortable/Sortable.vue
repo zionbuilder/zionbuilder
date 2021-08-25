@@ -336,7 +336,7 @@ export default {
 
 
 			// Don't proceed if the dragged item is not part of sortable nodes
-			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
+			const sortableDomElements = getDomeElementsFromSortableItems()
 
 			if (!draggedItem || !sortableDomElements.includes(draggedItem)) {
 				return
@@ -708,7 +708,7 @@ export default {
 		 */
 		const getInfoFromTarget = (target) => {
 			const validItem = closest(target, props.draggable, sortableContainer.value)
-			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
+			const sortableDomElements = getDomeElementsFromSortableItems()
 			const item = sortableDomElements.includes(validItem) ? validItem : false
 			const index = sortableDomElements.indexOf(item)
 
@@ -884,8 +884,19 @@ export default {
 			return targetVm.axis || 'vertical'
 		}
 
+		const getDomeElementsFromSortableItems = () => {
+			return sortableItems.value.filter(el => el).map(el => {
+				// Refs can be Vue components or directly dom nodes
+				if (el instanceof HTMLElement) {
+					return el
+				} else {
+					return el.$el
+				}
+			})
+		}
+
 		const getItemFromList = (index) => {
-			const sortableDomElements = sortableItems.value.filter(el => el).map(el => el.$el)
+			const sortableDomElements = getDomeElementsFromSortableItems()
 			return sortableDomElements[index]
 		}
 
@@ -923,6 +934,7 @@ export default {
 								sortableItems.value[i] = el
 							}
 						})
+
 						children[i] = clone
 					}
 				})
