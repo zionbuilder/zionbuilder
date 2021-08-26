@@ -1,8 +1,8 @@
 import { createPopper } from "@popperjs/core";
 
 export const PopperDirective = {
-	mounted(el, { value }, vnode) {
-		el.__ZnPbTooltip__ = initTooltip(el, value)
+	mounted(el, { value, arg }, vnode) {
+		el.__ZnPbTooltip__ = initTooltip(el, value, arg)
 	},
 	beforeUnmount(el) {
 		if (el.__ZnPbTooltip__) {
@@ -16,7 +16,7 @@ export const PopperDirective = {
 	}
 }
 
-function initTooltip(element, content) {
+function initTooltip(element, content, arg) {
 	const tooltipObject = {}
 
 	const doc = element.ownerDocument
@@ -37,6 +37,7 @@ function initTooltip(element, content) {
 	// Set element and tooltip
 	tooltipObject.element = element
 	tooltipObject.content = popperContent
+	const popperPosition = arg || 'top'
 
 	function showPopper() {
 		doc.body.appendChild(popperContent)
@@ -44,7 +45,7 @@ function initTooltip(element, content) {
 			element,
 			popperContent,
 			{
-				placement: 'top',
+				placement: popperPosition,
 				modifiers: [
 					{
 						name: 'offset',
