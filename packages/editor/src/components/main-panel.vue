@@ -13,6 +13,7 @@
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
 				@mousedown.stop.prevent="togglePanel('panel-tree')"
 				v-bind:class="checkActivePanel('panel-tree')"
+				v-znpb-tooltip:right="$translate('tree_view')"
 			>
 				<Icon icon="layout"></Icon>
 			</div>
@@ -21,6 +22,7 @@
 				@mousedown.stop="openLibraryPanel"
 				v-bind:class="checkActivePanel('PanelLibraryModal')"
 				class="znpb-editor-header__menu_button"
+				v-znpb-tooltip:right="$translate('library')"
 			>
 				<Icon icon="lib"></Icon>
 			</div>
@@ -29,6 +31,7 @@
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
 				@mousedown.stop.prevent="togglePanel('panel-history')"
 				v-bind:class="checkActivePanel('panel-history')"
+				v-znpb-tooltip:right="$translate('history_panel')"
 			>
 				<Icon icon="history"></Icon>
 			</div>
@@ -59,6 +62,7 @@
 				class="znpb-editor-header__menu_button"
 				@mousedown.stop="togglePanel('panel-global-settings')"
 				v-bind:class="checkActivePanel('panel-global-settings')"
+				v-znpb-tooltip:right="$translate('page_options')"
 			>
 				<Icon icon="sliders" />
 			</div>
@@ -464,7 +468,7 @@ export default {
 	width: 60px;
 	color: var(--zb-primary-text-color);
 	background: var(--zb-primary-color);
-	transition: margin 0.3s ease-out;
+	transition: margin .3s ease-out;
 	cursor: move;
 	user-select: none;
 
@@ -505,12 +509,10 @@ export default {
 		height: 60px;
 		color: var(--zb-primary-text-color);
 		font-size: 16px;
-		transition: background-color 0.15s ease;
+		transition: background-color .15s ease;
 		cursor: pointer;
 
-		&:hover,
-		&:focus,
-		&:active {
+		&:hover, &:focus, &:active {
 			background-color: var(--zb-primary-hover-color);
 		}
 
@@ -530,7 +532,7 @@ export default {
 
 			.znpb-editor-icon-wrapper {
 				position: relative;
-				transition: transform 0.2s ease;
+				transition: transform .2s ease;
 			}
 
 			&:before {
@@ -542,7 +544,7 @@ export default {
 				height: 100%;
 				background: var(--zb-primary-hover-color);
 				border-radius: 50%;
-				transition: transform 0.2s ease;
+				transition: transform .2s ease;
 			}
 
 			&:hover:before {
@@ -559,8 +561,7 @@ export default {
 
 		.znpb-loader {
 			top: -3px;
-			&::before,
-			&::after {
+			&::before, &::after {
 				border-color: transparent;
 			}
 			&::after {
@@ -573,7 +574,7 @@ export default {
 		z-index: 1000;
 		width: auto;
 		height: auto;
-		opacity: 0.5;
+		opacity: .5;
 		&.znpb-editor-header--sticked {
 			background: var(--zb-primary-color);
 		}
@@ -591,8 +592,7 @@ export default {
 	opacity: 1;
 }
 
-.znpb-top-area,
-.znpb-bottom-area {
+.znpb-top-area, .znpb-bottom-area {
 	width: 100%;
 
 	.znpb-editor-header {

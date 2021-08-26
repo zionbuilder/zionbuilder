@@ -228,6 +228,7 @@ class Localization {
 				'close'                                  => __( 'Close', 'zionbuilder' ),
 				'toolbox'                                => __( 'Toolbox', 'zionbuilder' ),
 				// library save element
+				'library'                        => __( 'Library', 'zionbuilder' ),
 				'save_to_library'                        => __( 'Save to library', 'zionbuilder' ),
 				'choose_title'                           => __( 'Choose a title', 'zionbuilder' ),
 				'save_title_desc'                        => __( 'Write a suggestive name for your element', 'zionbuilder' ),
@@ -700,6 +701,7 @@ class Localization {
 				// Misc
 				'no_items_found'                         => __( 'No items found', 'zionbuilder' ),
 				'search'                                 => __( 'Search', 'zionbuilder' ),
+				'page_options'                                 => __( 'Page options', 'zionbuilder' ),
 			]
 		);
 	}
