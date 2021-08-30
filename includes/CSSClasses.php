@@ -3,6 +3,7 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Elements\Style;
+use ZionBuilder\Options\Schemas\StyleOptions;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -66,8 +67,11 @@ class CSSClasses {
 		if ( is_array( $css_classes ) ) {
 			foreach ( $css_classes as $class_config ) {
 				if ( isset( $class_config['id'] ) ) {
+					$options_schema = StyleOptions::get_options_instance();
+					$options_schema->set_model( $class_config );
+					$options_schema->parse_data();
 					$class_selector = '.zb .' . $class_config['id'];
-					$css           .= Style::get_css_from_selector( [ $class_selector ], $class_config );
+					$css           .= Style::get_css_from_selector( [ $class_selector ], $options_schema->get_model() );
 				}
 			}
 		}
