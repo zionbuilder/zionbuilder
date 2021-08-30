@@ -367,7 +367,7 @@ class PageAssets {
 			}
 
 			if ( 0 !== FileSystem::get_file_system()->size( $js_path ) ) {
-				wp_enqueue_script( $this->file_handle, $js_url, [], $this->get_cache_version( $js_path ), true );
+				wp_enqueue_script( $this->file_handle, $js_url, [ 'jquery' ], $this->get_cache_version( $js_path ), true );
 			}
 
 			$this->enqueued_dynamic_assets = true;
