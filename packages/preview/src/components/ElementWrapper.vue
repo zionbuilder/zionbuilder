@@ -69,7 +69,7 @@ import VideoBackground from './VideoBackground.vue'
 import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
-import { useOptionsSchemas } from '@zb/components'
+import { useOptionsSchemas, usePseudoSelectors } from '@zb/components'
 
 let handled = false
 
@@ -87,6 +87,8 @@ export default {
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
 		const { focusElement } = useElementActions()
 		const { getSchema } = useOptionsSchemas()
+		const { activePseudoSelector } = usePseudoSelectors()
+		const { element: activeEditedElement } = useEditElement()
 
 		let toolboxWatcher = null
 		let optionsInstance = null
@@ -98,6 +100,10 @@ export default {
 		const canHideToolbox = ref(true)
 		const isToolboxDragging = ref(false)
 		const registeredEvents = ref({})
+
+		// Needed to generate the hover css
+		const isElementEdited = ref(false)
+		const isHoverState = ref(false)
 
 		// Options schema
 		const advancedSchema = {
@@ -129,6 +135,28 @@ export default {
 
 		const options = computed(() => readonly(parsedData.value.options || {}))
 
+		// Check to see if the current element is being edited
+		watch(activeEditedElement, (newValue, oldValue) => {
+			if (newValue === props.element) {
+				isElementEdited.value = true
+			} else if (oldValue === props.element) {
+				isElementEdited.value = false
+			}
+		})
+
+		// check to see if the hover state is selected
+		watch(activePseudoSelector, (newValue) => {
+			if (newValue.id === ':hover') {
+				isHoverState.value = true
+			} else {
+				isHoverState.value = false
+			}
+		})
+
+		const shouldGenerateHoverStyles = computed(() => {
+			return isElementEdited.value && isHoverState.value
+		})
+
 		const customCSS = computed(() => {
 			let customCSS = parsedData.value.customCSS
 			const elementStyleConfig = props.element.elementTypeModel.style_elements
@@ -142,6 +170,13 @@ export default {
 						const stylesSavedValues = applyFilters('zionbuilder/element/styles_model', options.value._styles[styleId], optionsInstance, props.element)
 
 						customCSS += getCssFromSelector([formattedSelector], stylesSavedValues)
+
+						// Generate the styles on hover
+						if (shouldGenerateHoverStyles.value) {
+							customCSS += getCssFromSelector([formattedSelector], stylesSavedValues, {
+								forcehoverState: true
+							})
+						}
 					}
 				})
 			}
