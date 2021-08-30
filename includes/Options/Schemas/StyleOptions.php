@@ -381,9 +381,11 @@ class StyleOptions extends BaseSchema {
 	}
 
 	/**
-	 * @return array
+	 * Returns an instance of the Options
+	 *
+	 * @return Options
 	 */
-	public static function get_schema() {
+	public static function get_options_instance() {
 		$options = new Options( 'zionbuilder/schema/style_options' );
 
 		$responsive_option = $options->add_group(
@@ -573,6 +575,15 @@ class StyleOptions extends BaseSchema {
 				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 			]
 		);
+
+		return $options;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function get_schema() {
+		$options = self::get_options_instance();
 
 		return $options->get_schema();
 	}
