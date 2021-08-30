@@ -256,7 +256,9 @@ export default {
 		},
 
 		onRemoveExtraClasses () {
-			this.computedValue = []
+			this.computedValue.forEach(selector => {
+				this.removeClass(selector)
+			});
 		},
 
 		removeClass (selector) {

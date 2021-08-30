@@ -88,9 +88,8 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
 import { cloneDeep, set, find } from 'lodash-es'
-import { updateOptionValue } from '@zb/utils'
 import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
 import { useEditorData } from '@composables'
 
@@ -199,7 +198,6 @@ export default {
 		}
 
 		function deleteConfigForPseudoSelector (pseudoSelectorId) {
-
 			const newValues = {
 				...props.modelValue,
 				[activeResponsiveDeviceInfo.value.id]: {
@@ -221,6 +219,12 @@ export default {
 			deleteConfigForPseudoSelector(selector.id)
 			deleteCustomSelector(selector)
 		}
+
+		// Lifecycle
+		onBeforeUnmount(() => {
+			// Clear active pseudo selector
+			setActivePseudoSelector(null)
+		})
 
 		return {
 			// Data
@@ -349,7 +353,7 @@ export default {
 		display: flex;
 		color: var(--zb-surface-text-color);
 		border-left: var(--zb-input-separator-width) solid
-			var(--zb-input-separator-color);
+		var(--zb-input-separator-color);
 		cursor: pointer;
 
 		.znpb-editor-icon-wrapper {
