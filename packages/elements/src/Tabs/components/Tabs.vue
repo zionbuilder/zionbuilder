@@ -57,7 +57,6 @@ export default {
 					active: i === 0,
 					uid: tabsElement.uid
 				}
-
 			})
 		})
 

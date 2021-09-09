@@ -21,8 +21,12 @@
 				border-right: 1px solid #e5e5e5;
 			}
 
-			&:focus, &:hover {
+			&:hover {
 				color: #464646;
+			}
+
+			&:focus-visible {
+				outline: 1px dotted #464646;
 			}
 
 			&.zb-el-tabs-nav--active {
