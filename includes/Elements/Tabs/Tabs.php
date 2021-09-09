@@ -210,12 +210,14 @@ class Tabs extends Element {
 		$content_attributes = $this->render_attributes->get_attributes_as_string( 'inner_content_styles_content', [ 'class' => 'zb-el-tabs-content' ] );
 
 		foreach ( $tabs as $key => $tab_data ) {
-			$title  = isset( $tab_data['options']['title'] ) ? $tab_data['options']['title'] : '';
-			$active = $key === 0 ? 'zb-el-tabs-nav--active' : '';
+			$title    = isset( $tab_data['options']['title'] ) ? $tab_data['options']['title'] : '';
+			$active   = $key === 0 ? 'zb-el-tabs-nav--active' : '';
+			$selected = $key === 0 ? 'aria-selected="true"' : '';
+			$tabindex = $key === 0 ? 'tabindex="0"' : 'tabindex="-1"';
 
-			$tab_links[] = sprintf( '<li class="zb-el-tabs-nav-title %s" %s>%s</li>', esc_attr( $active ), $title_attributes, wp_kses_post( $title ) );
+			$tab_links[] = sprintf( '<li role="tab" %s %s class="zb-el-tabs-nav-title %s" %s>%s</li>', $selected, $tabindex, esc_attr( $active ), $title_attributes, wp_kses_post( $title ) );
 		} ?>
-		<ul class="zb-el-tabs-nav">
+		<ul class="zb-el-tabs-nav" role="tablist">
 			<?php
 				// All output is already escaped
 				echo implode( '', $tab_links ); // phpcs:ignore WordPress.Security.EscapeOutput
