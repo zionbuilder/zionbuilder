@@ -117,4 +117,28 @@ export default {
 .znpb-input-wrapper.znpb-border-control-group-item {
 	padding-bottom: 0;
 }
+
+.znpb-input-wrapper.znpb-border-control-group-item.znpb-input-type--colorpicker {
+	margin: 0 0 20px 0;
+}
+
+.znpb-border-control-group-item .znpb-global-color-select-innerWrapper {
+	justify-content: flex-start;
+}
+
+.znpb-border-control-group-item .znpb-global-color-select-tooltip {
+	flex: 1;
+	padding-right: 10px;
+}
+
+.znpb-border-control-group-item
+	.znpb-global-color-select-innerWrapper
+	> span:last-child {
+	margin-left: auto;
+}
+
+.znpb-border-control-group-item .znpb-global-color-select__id {
+	font-weight: 500;
+	width: auto;
+}
 </style>
