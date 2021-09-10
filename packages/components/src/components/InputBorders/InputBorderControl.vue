@@ -70,12 +70,14 @@ export default {
 		schema () {
 			const schema = {
 				color: {
+					id: 'color',
 					type: 'colorpicker',
 					css_class: 'znpb-border-control-group-item',
 					title: 'Color',
-					width: 33.3
+					width: 100
 				},
 				width: {
+					id: 'width',
 					type: 'number_unit',
 					title: 'Width',
 					min: 0,
@@ -83,15 +85,16 @@ export default {
 					units: ['px', 'rem', 'pt', 'vh', '%'],
 					step: 1,
 					css_class: 'znpb-border-control-group-item',
-					width: 33.3
+					width: 50
 				},
 				style: {
+					id: 'style',
 					type: 'select',
 					title: 'Style',
 					default: 'solid',
 					options: this.borderStyle,
 					css_class: 'znpb-border-control-group-item',
-					width: 33.3
+					width: 50
 				}
 			}
 
