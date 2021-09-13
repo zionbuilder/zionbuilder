@@ -42,11 +42,44 @@
 						@remove-styles="resetChanges"
 					/>
 
-					<Icon
-						icon="delete"
-						v-if="allow_delete"
-						@click.stop="deleteItem"
-					/>
+					<Tooltip
+						:content="$translate('delete_selector')"
+						placement="top"
+						append-to="element"
+						strategy="fixed"
+					>
+						<Tooltip
+							placement="top"
+							append-to="element"
+							strategy="fixed"
+							:show="canShow"
+							trigger="click"
+						>
+							<template #content>
+								<div>{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
+								<div>
+									<Button
+										@click.stop="canShow = false"
+										type="secondary"
+									>
+										{{$translate('cancel')}}
+									</Button>
+									<Button
+										@click.stop="deleteItem"
+										type="danger"
+									>
+										{{$translate('delete')}}
+									</Button>
+								</div>
+							</template>
+							<Icon
+								icon="delete"
+								v-if="allow_delete"
+								@click.stop="canShow = true"
+							/>
+						</Tooltip>
+					</Tooltip>
+
 				</template>
 
 				<OptionsForm
@@ -148,6 +181,7 @@ export default {
 	setup (props, { emit }) {
 		const showChilds = ref(false)
 		const uid = generateUID()
+		const canShow = ref(false)
 
 		const title = computed(() => {
 			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
@@ -271,6 +305,7 @@ export default {
 		}
 
 		return {
+			canShow,
 			onChildAdded,
 			showChilds,
 			title,
