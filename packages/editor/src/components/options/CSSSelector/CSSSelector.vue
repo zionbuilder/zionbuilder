@@ -54,19 +54,22 @@
 							strategy="fixed"
 							:show="canShow"
 							trigger="click"
+							class="znpb-cssSelectorDialog"
 						>
 							<template #content>
-								<div>{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
+								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
 								<div>
 									<Button
 										@click.stop="canShow = false"
-										type="secondary"
+										type="gray"
+										class="znpb-button--small"
 									>
 										{{$translate('cancel')}}
 									</Button>
 									<Button
 										@click.stop="deleteItem"
 										type="danger"
+										class="znpb-button--small"
 									>
 										{{$translate('delete')}}
 									</Button>
@@ -334,7 +337,9 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion
+	> .znpb-horizontal-accordion__header
+	> .znpb-horizontal-accordion__title {
 	position: relative;
 	overflow: hidden;
 	padding-right: 0;
@@ -349,7 +354,7 @@ export default {
 	font-weight: 500;
 	text-transform: none;
 	white-space: nowrap;
-	opacity: .6;
+	opacity: 0.6;
 
 	&::after {
 		content: "";
@@ -360,9 +365,9 @@ export default {
 		width: 20px;
 		height: 100%;
 		background: linear-gradient(
-		90deg,
-		rgba(241, 241, 241, 0) 0%,
-		var(--zb-surface-lighter-color) 100%
+			90deg,
+			rgba(241, 241, 241, 0) 0%,
+			var(--zb-surface-lighter-color) 100%
 		);
 	}
 }
@@ -391,14 +396,15 @@ export default {
 	line-height: 1;
 	background: #8bc88a;
 	border-radius: 2px;
-	transition: background .2s;
+	transition: background 0.2s;
 	cursor: pointer;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
 	}
 
-	&::before, &::after {
+	&::before,
+	&::after {
 		content: "";
 		position: absolute;
 		z-index: -1;
@@ -420,7 +426,8 @@ export default {
 	}
 }
 
-.znpb-option-cssSelectoritem--child + .znpb-option-cssSelectoritem--child
+.znpb-option-cssSelectoritem--child
+	+ .znpb-option-cssSelectoritem--child
 	.znpb-option-cssChildSelectorPseudoSelector::before {
 	height: 42px;
 }
@@ -434,12 +441,28 @@ export default {
 	}
 
 	&.vuebdnd__source--dragging
-	.znpb-option-cssChildSelectorPseudoSelector:before {
+		.znpb-option-cssChildSelectorPseudoSelector:before {
 		display: none;
 	}
 }
 
 .znpb-option-cssSelectorAccordion {
 	flex: 1 1 auto;
+}
+
+.znpb-cssSelectorDialog {
+	text-align: center;
+
+	.hg-popper {
+		padding: 15px;
+	}
+
+	&__text {
+		margin-bottom: 10px;
+	}
+
+	.znpb-button {
+		margin: 0 2px;
+	}
 }
 </style>
