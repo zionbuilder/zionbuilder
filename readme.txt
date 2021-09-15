@@ -226,24 +226,24 @@ The answer is definitely yes. If you run any kind of commercial business based o
 
 == Changelog ==
 = 2.7.4 2021-09-15 =
-- Improved shortcut keys for MacOS
-- Added missing animate.css animations
-- Added integration with Yoast
-- Made tabs accessible by keyboard
-- Added proper aria labels to tabs element
-- [UX] Added search input for animations option
-- [UX] Improvement: Keep only one options panel open at the same time
-- [UX] Added tooltips to main panel icons
-- [UX] Added element name to context menu
-- [UX] Added shortcut keys to context menu
-- [UX] Reduce the spacing around "has changes" green dot
-- [UX] Set default selector when deleting all additional selectors from an element
-- [UX] Show hover states visually when editing the options
-- [UX] Added confirmation popup before deleting a css class
-- Fixed compatibility with Blocksy template areas
-- Fixed Section masks not working on certain hosting companies
-- Fixed opacity bullet follows mouse on Firefox browser
-- Fixed dynamic colors not working for border option
+* Improved shortcut keys for MacOS
+* Added missing animate.css animations
+* Added integration with Yoast
+* Made tabs accessible by keyboard
+* Added proper aria labels to tabs element
+* [UX] Added search input for animations option
+* [UX] Improvement: Keep only one options panel open at the same time
+* [UX] Added tooltips to main panel icons
+* [UX] Added element name to context menu
+* [UX] Added shortcut keys to context menu
+* [UX] Reduce the spacing around "has changes" green dot
+* [UX] Set default selector when deleting all additional selectors from an element
+* [UX] Show hover states visually when editing the options
+* [UX] Added confirmation popup before deleting a css class
+* Fixed compatibility with Blocksy template areas
+* Fixed Section masks not working on certain hosting companies
+* Fixed opacity bullet follows mouse on Firefox browser
+* Fixed dynamic colors not working for border option
 
 = 2.7.3 2021-08-19 =
 * Fixed jquery not loading in certain conditions
