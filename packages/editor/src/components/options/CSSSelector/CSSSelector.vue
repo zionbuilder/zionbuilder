@@ -54,6 +54,8 @@
 							strategy="fixed"
 							:show="canShow"
 							trigger="click"
+							:close-on-outside-click="true"
+							@click.stop=""
 						>
 							<template #content>
 								<div>{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
