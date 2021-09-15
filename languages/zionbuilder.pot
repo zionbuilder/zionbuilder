@@ -119,7 +119,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:49, ../includes/Localization.php:460, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:583, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:199, ../includes/Options/Schemas/StyleOptions.php:495, ../includes/Options/Schemas/StyleOptions.php:521, ../includes/Options/Schemas/StyleOptions.php:547, ../includes/Options/Schemas/StyleOptions.php:573
+#: ../includes/Localization.php:49, ../includes/Localization.php:460, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:583, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:199, ../includes/Options/Schemas/StyleOptions.php:497, ../includes/Options/Schemas/StyleOptions.php:523, ../includes/Options/Schemas/StyleOptions.php:549, ../includes/Options/Schemas/StyleOptions.php:575
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -1871,6 +1871,18 @@ msgstr ""
 msgid "Page options"
 msgstr ""
 
+#: ../includes/Localization.php:705
+msgid "Delete selector"
+msgstr ""
+
+#: ../includes/Localization.php:706
+msgid "Are you sure you want to delete the selector?"
+msgstr ""
+
+#: ../includes/Localization.php:707
+msgid "Cancel"
+msgstr ""
+
 #: ../includes/MaintenanceMode.php:180
 msgid "Select mode"
 msgstr ""
@@ -2852,7 +2864,7 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:158, ../includes/Options/Schemas/StyleOptions.php:464
+#: ../includes/Elements/Container/Container.php:158, ../includes/Options/Schemas/StyleOptions.php:466
 msgid "Display"
 msgstr ""
 
@@ -4444,11 +4456,11 @@ msgstr ""
 msgid "Box shadow options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:183, ../includes/Options/Schemas/StyleOptions.php:409, ../includes/Options/Schemas/StyleOptions.php:423, ../includes/Options/Schemas/StyleOptions.php:436, ../includes/Options/Schemas/StyleOptions.php:450, ../includes/Options/Schemas/StyleOptions.php:465, ../includes/Options/Schemas/StyleOptions.php:505, ../includes/Options/Schemas/StyleOptions.php:531, ../includes/Options/Schemas/StyleOptions.php:557
+#: ../includes/Options/Schemas/StyleOptions.php:183, ../includes/Options/Schemas/StyleOptions.php:411, ../includes/Options/Schemas/StyleOptions.php:425, ../includes/Options/Schemas/StyleOptions.php:438, ../includes/Options/Schemas/StyleOptions.php:452, ../includes/Options/Schemas/StyleOptions.php:467, ../includes/Options/Schemas/StyleOptions.php:507, ../includes/Options/Schemas/StyleOptions.php:533, ../includes/Options/Schemas/StyleOptions.php:559
 msgid "Styling"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:187, ../includes/Options/Schemas/StyleOptions.php:509, ../includes/Options/Schemas/StyleOptions.php:535, ../includes/Options/Schemas/StyleOptions.php:561
+#: ../includes/Options/Schemas/StyleOptions.php:187, ../includes/Options/Schemas/StyleOptions.php:511, ../includes/Options/Schemas/StyleOptions.php:537, ../includes/Options/Schemas/StyleOptions.php:563
 msgid "PRO"
 msgstr ""
 
@@ -4460,75 +4472,75 @@ msgstr ""
 msgid "With box shadow, you can create impressive 3d effects and designs"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:408
+#: ../includes/Options/Schemas/StyleOptions.php:410
 msgid "Background"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:422
+#: ../includes/Options/Schemas/StyleOptions.php:424
 msgid "Typography"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:437
+#: ../includes/Options/Schemas/StyleOptions.php:439
 msgid "Borders & Shadows"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:451
+#: ../includes/Options/Schemas/StyleOptions.php:453
 msgid "Size & Spacing"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:475
+#: ../includes/Options/Schemas/StyleOptions.php:477
 msgid "Z-index options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:484
+#: ../includes/Options/Schemas/StyleOptions.php:486
 msgid "Z-index"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:485
+#: ../includes/Options/Schemas/StyleOptions.php:487
 msgid "Choose Z-index for element"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:493
+#: ../includes/Options/Schemas/StyleOptions.php:495
 msgid "Want additional display options?"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:494
+#: ../includes/Options/Schemas/StyleOptions.php:496
 msgid "With ZionBuilder PRO you have access to additional options like display, flex, position, overflow and many more."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:504
+#: ../includes/Options/Schemas/StyleOptions.php:506
 msgid "Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:519
+#: ../includes/Options/Schemas/StyleOptions.php:521
 msgid "Meet Transitions"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:520
+#: ../includes/Options/Schemas/StyleOptions.php:522
 msgid "With transitions you can bring your elements to life by animating them to suit your needs."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:530
+#: ../includes/Options/Schemas/StyleOptions.php:532
 msgid "Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:545
+#: ../includes/Options/Schemas/StyleOptions.php:547
 msgid "Meet Transform"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:546
+#: ../includes/Options/Schemas/StyleOptions.php:548
 msgid "With Zion Builder PRO you have access to transform options such as translate, scale, rotate, skew and perspective."
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:556
+#: ../includes/Options/Schemas/StyleOptions.php:558
 msgid "Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:571
+#: ../includes/Options/Schemas/StyleOptions.php:573
 msgid "Meet Filters"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:572
+#: ../includes/Options/Schemas/StyleOptions.php:574
 msgid "With filter options you can chang the element hue, saturate, opacity, contrast and box shadow."
 msgstr ""
 

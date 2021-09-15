@@ -54,21 +54,24 @@
 							strategy="fixed"
 							:show="canShow"
 							trigger="click"
+							class="znpb-cssSelectorDialog"
 							:close-on-outside-click="true"
 							@click.stop=""
 						>
 							<template #content>
-								<div>{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
+								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
 								<div>
 									<Button
 										@click.stop="canShow = false"
-										type="secondary"
+										type="gray"
+										class="znpb-button--small"
 									>
 										{{$translate('cancel')}}
 									</Button>
 									<Button
 										@click.stop="deleteItem"
 										type="danger"
+										class="znpb-button--small"
 									>
 										{{$translate('delete')}}
 									</Button>
@@ -443,5 +446,21 @@ export default {
 
 .znpb-option-cssSelectorAccordion {
 	flex: 1 1 auto;
+}
+
+.znpb-cssSelectorDialog {
+	text-align: center;
+
+	.hg-popper {
+		padding: 15px;
+	}
+
+	&__text {
+		margin-bottom: 10px;
+	}
+
+	.znpb-button {
+		margin: 0 2px;
+	}
 }
 </style>

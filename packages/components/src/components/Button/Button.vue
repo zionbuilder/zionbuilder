@@ -52,6 +52,22 @@ export default {
 		margin-right: 0;
 	}
 
+	&--small {
+		padding: 8px 14px;
+	}
+
+	&--link {
+		font-weight: 400;
+		color: var(--zb-surface-text-color);
+		background-color: transparent;
+		border: 0;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+			background: transparent;
+		}
+	}
+
 	&--minimal {
 		padding: 0 40px;
 		color: var(--zb-surface-text-active-color);
