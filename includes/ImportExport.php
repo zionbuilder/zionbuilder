@@ -333,10 +333,6 @@ class ImportExport {
 		// Generate the metadata for the attachment, and update the database record.
 		$attach_data = wp_generate_attachment_metadata( $attachment_id, $save_path );
 
-		if ( is_wp_error( $attach_data ) ) {
-			return new \WP_Error( 'Import failed', __( 'Unable to generate attachment metadata', 'zionbuilder' ) );
-		}
-
 		wp_update_attachment_metadata( $attachment_id, $attach_data );
 		$this->uploaded_media[] = $path;
 		return null;

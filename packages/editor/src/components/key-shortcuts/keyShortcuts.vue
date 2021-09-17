@@ -19,99 +19,102 @@
 
 <script>
 import keyShortcutsItem from './keyShortcutsItem.vue'
+import { Environment } from '@zb/utils'
+
 export default {
 	name: 'keyShortcutsModal',
 	components: {
 		keyShortcutsItem
 	},
 	data () {
+		const controllKey = Environment.isMac ? '⌘' : '⌃'
 		return {
 			schemaDescriptionFirst: [
 				{
-					'keyshortcut': ['CTRL', 'S'],
+					'keyshortcut': [controllKey, 'S'],
 					'description': this.$translate('save_changes')
 				},
 				{
-					'keyshortcut': ['CTRL', 'C'],
+					'keyshortcut': [controllKey, 'C'],
 					'description': this.$translate('copy_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'V'],
+					'keyshortcut': [controllKey, 'V'],
 					'description': this.$translate('paste_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'X'],
+					'keyshortcut': [controllKey, 'X'],
 					'description': this.$translate('cut_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'D'],
+					'keyshortcut': [controllKey, 'D'],
 					'description': this.$translate('duplicate_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'C'],
+					'keyshortcut': [controllKey, '⇧', 'C'],
 					'description': this.$translate('copy_element_styles')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'V'],
+					'keyshortcut': [controllKey, '⇧', 'V'],
 					'description': this.$translate('paste_element_styles')
 				},
 				{
-					'keyshortcut': ['CTRL', 'Z'],
+					'keyshortcut': [controllKey, 'Z'],
 					'description': this.$translate('undo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'Y'],
+					'keyshortcut': [controllKey, 'Y'],
 					'description': this.$translate('redo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'Y'],
+					'keyshortcut': [controllKey, '⇧', 'Y'],
 					'description': this.$translate('redo')
 				},
 				{
-					'keyshortcut': ['CTRL', 'H'],
+					'keyshortcut': [controllKey, 'H'],
 					'description': this.$translate('hide_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'P'],
+					'keyshortcut': [controllKey, 'P'],
 					'description': this.$translate('toggle_preview')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'T'],
+					'keyshortcut': ['⇧', 'T'],
 					'description': this.$translate('toggle_tree_view_panel')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'L'],
+					'keyshortcut': ['⇧', 'L'],
 					'description': this.$translate('toggle_library')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'O'],
+					'keyshortcut': ['⇧', 'O'],
 					'description': this.$translate('toggle_page_options')
 				},
 				{
-					'keyshortcut': ['DRAG', 'CTRL'],
+					'keyshortcut': ['DRAG', controllKey],
 					'description': this.$translate('duplicate_element_in_place'),
 					'details': this.$translate('when_dragging_element')
 				},
 				{
-					'keyshortcut': ['CTRL', 'DRAG'],
+					'keyshortcut': [controllKey, 'DRAG'],
 					'description': this.$translate('set_even_values'),
 					'details': this.$translate('when_dragging_toolbox')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'DRAG'],
+					'keyshortcut': [controllKey, '⇧', 'DRAG'],
 					'description': this.$translate('set_even_incremental_value')
 				},
 				{
-					'keyshortcut': ['CTRL', 'SHIFT', 'D'],
+					'keyshortcut': [controllKey, '⇧', 'D'],
 					'description': this.$translate('back_to_wp_dashboard')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'DRAG'],
+					'keyshortcut': ['⇧', 'DRAG'],
 					'description': this.$translate('set_incremental_value'),
 					'details': this.$translate('when_dragging_input_number')
 				},
 				{
-					'keyshortcut': ['SHIFT', 'ARROWS'],
+					'keyshortcut': ['⇧', 'ARROWS'],
 					'description': this.$translate('set_incremental_value')
 				},
 				{

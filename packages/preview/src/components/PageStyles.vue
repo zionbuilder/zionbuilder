@@ -4,6 +4,7 @@ import ElementStyles from './ElementStyles.vue'
 import Options from '../Options'
 import { getCssFromSelector } from '@zb/utils'
 import { h } from 'vue'
+import { usePseudoSelectors } from '@zb/components'
 
 export default {
 	name: 'PageStyles',
@@ -20,12 +21,12 @@ export default {
 	},
 	setup (props) {
 		return () => {
+			const { activePseudoSelector } = usePseudoSelectors()
 			const returnVnodes = []
 
 			const createVnode = function (styles) {
 				return h(ElementStyles, {
 					styles
-
 				})
 			}
 
@@ -39,7 +40,14 @@ export default {
 			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
 				Object.keys(props.cssClasses).forEach(cssClassId => {
 					const styleData = props.cssClasses[cssClassId]
-					const customCSS = getCssFromSelector([`.zb .${styleData.id}`], styleData)
+					let customCSS = getCssFromSelector([`.zb .${styleData.id}`], styleData)
+
+					// Generate the styles on hover
+					if (activePseudoSelector.value && activePseudoSelector.value.id === ':hover') {
+						customCSS += getCssFromSelector([`.zb .${styleData.id}`], styleData, {
+							forcehoverState: true
+						})
+					}
 
 					returnVnodes.push(createVnode(customCSS))
 				})

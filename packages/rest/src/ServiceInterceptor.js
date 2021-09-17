@@ -1,8 +1,8 @@
 import ZionService from './ZionService'
 
-export const errorInterceptor = function (errors) {
+export const errorInterceptor = function (errors, service = ZionService) {
 	// Handle response errors
-	ZionService.interceptors.response.use(function (response) {
+	service.interceptors.response.use(function (response) {
 		// Do something with response data
 		if (typeof response.data !== 'object') {
 			// Do something with response error

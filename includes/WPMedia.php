@@ -298,7 +298,7 @@ class WPMedia {
 				if ( $height && ! $width ) {
 					$width = floor( $orig_width * ( $height / $orig_height ) );
 				} else {
-					if ( ! $width && ! $height ) {
+					if ( $width === 0 && $height === 0 ) {
 						$image_url = wp_get_attachment_url( $attachment_id );
 						if ( false === $image_url ) {
 							return new \WP_Error( 'image_id_not_valid', esc_html__( 'The image could not be retrieved', 'zionbuilder' ) );

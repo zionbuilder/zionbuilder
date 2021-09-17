@@ -124,8 +124,10 @@ export default {
 					loading.value = false
 
 					nextTick(() => {
-						checkForContentHeight()
-						trigger('zionbuilder/server_component/rendered', elementContentRef.value, props.element, props.options)
+						setTimeout(() => {
+							checkForContentHeight()
+							trigger('zionbuilder/server_component/rendered', elementContentRef.value, props.element, props.options)
+						}, 20)
 					})
 				})
 

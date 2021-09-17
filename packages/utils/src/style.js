@@ -5,11 +5,11 @@ const responsiveDevices = {
 }
 
 
-export function getCssFromSelector(selectors, styleConfig) {
+export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = ''
 
 	if (styleConfig.styles) {
-		css += getStyles(selectors.join(','), styleConfig.styles)
+		css += getStyles(selectors.join(','), styleConfig.styles, args)
 	}
 
 	// Check for child classes
@@ -33,7 +33,7 @@ export function getCssFromSelector(selectors, styleConfig) {
 				})
 			})
 
-			css += getCssFromSelector(childSelectors, childConfig)
+			css += getCssFromSelector(childSelectors, childConfig, args)
 
 		});
 	}
@@ -41,9 +41,9 @@ export function getCssFromSelector(selectors, styleConfig) {
 	return css
 }
 
-export function getStyles(cssSelector, styleValues = {}) {
+export function getStyles(cssSelector, styleValues = {}, args) {
 	let compiledStyles = ''
-	const devices = [
+	const devices = args.devices || [
 		'default',
 		'laptop',
 		'tablet',
@@ -53,20 +53,29 @@ export function getStyles(cssSelector, styleValues = {}) {
 	devices.forEach((deviceId) => {
 		const pseudoStyleValue = styleValues[deviceId]
 		if (pseudoStyleValue) {
-			let pseudoStyles = getPseudoStyles(cssSelector, pseudoStyleValue)
+			let pseudoStyles = getPseudoStyles(cssSelector, pseudoStyleValue, args)
 			compiledStyles += getResponsiveDeviceStyles(deviceId, pseudoStyles)
 		}
 	})
 	return compiledStyles
 }
 
-export function getPseudoStyles(cssSelector, pseudoSelectors = {}) {
+export function getPseudoStyles(cssSelector, pseudoSelectors = {}, args) {
 	let combinedStyles = ''
 
-	Object.keys(pseudoSelectors).forEach((pseudoSelectorId) => {
-		const pseudoStyleValues = pseudoSelectors[pseudoSelectorId]
-		combinedStyles += compilePseudoStyle(cssSelector, pseudoSelectorId, pseudoStyleValues)
-	})
+	if (args.forcehoverState) {
+		if (typeof pseudoSelectors[':hover'] !== 'undefined') {
+			const pseudoStyleValues = pseudoSelectors[':hover']
+			combinedStyles += compilePseudoStyle(cssSelector, 'default', pseudoStyleValues)
+		}
+	} else {
+		Object.keys(pseudoSelectors).forEach((pseudoSelectorId) => {
+			const pseudoStyleValues = pseudoSelectors[pseudoSelectorId]
+			combinedStyles += compilePseudoStyle(cssSelector, pseudoSelectorId, pseudoStyleValues)
+		})
+	}
+
+
 
 	return combinedStyles
 }

@@ -68,7 +68,7 @@ export default {
 	height: 100%;
 	background: #31d783;
 	border-radius: 50%;
-	transition: transform 0.15s, background-color 0.1s;
+	transition: transform .15s, background-color .1s;
 }
 
 .znpb-options__has-changes:hover::after {
@@ -77,12 +77,13 @@ export default {
 }
 
 .znpb-options-has-changes-wrapper {
-	margin-left: 10px;
+	margin-left: 5px;
 	cursor: pointer;
 	.znpb-options-has-changes-wrapper__delete {
-		stroke: var(--zb-surface-text-active-color);
 		z-index: 9;
 		justify-content: center;
+
+		stroke: var(--zb-surface-text-active-color);
 		.zion-svg-inline {
 			margin: 0;
 		}

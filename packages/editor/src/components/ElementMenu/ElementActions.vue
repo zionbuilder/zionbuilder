@@ -11,7 +11,9 @@
 				icon="edit"
 				:bgSize="14"
 			></Icon>
-			{{$translate('action_edit')}}
+			<span>
+				{{$translate('action_edit')}} {{element.name}}
+			</span>
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
 		<li
@@ -22,7 +24,13 @@
 				icon="copy"
 				:bgSize="14"
 			></Icon>
-			{{$translate('duplicate_element')}}
+
+			<span>
+				{{$translate('duplicate_element')}}
+			</span>
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+D
+			</span>
 		</li>
 
 		<li
@@ -33,7 +41,12 @@
 				icon="copy"
 				:bgSize="14"
 			></Icon>
-			{{$translate('copy_element')}}
+			<span>
+				{{$translate('copy_element')}}
+			</span>
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+C
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -44,6 +57,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('cut_element')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+X
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -55,6 +71,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('paste_element')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+V
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -76,6 +95,9 @@
 				:bgSize="14"
 			></Icon>
 			{{element.isVisible ? $translate('visible_element') : $translate('show_element')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+H
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -87,6 +109,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('copy_element_styles')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+⇧+C
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -109,6 +134,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('paste_element_styles')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+⇧+V
+			</span>
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
@@ -154,6 +182,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('save_page')}}
+			<span class="znpb-right-click__menu--shortcut">
+				{{controllKey}}+S
+			</span>
 		</li>
 		<li class="znpb-right-click__menu-separator"></li>
 		<li
@@ -165,6 +196,9 @@
 				:bgSize="14"
 			></Icon>
 			{{$translate('delete_element')}}
+			<span class="znpb-right-click__menu--shortcut">
+				⌦
+			</span>
 		</li>
 	</ul>
 </template>
@@ -172,7 +206,8 @@
 <script>
 import { computed } from 'vue'
 import { get } from 'lodash-es'
-import { trigger } from '@zb/hooks'
+import { Environment } from '@zb/utils'
+
 import {
 	useSavePage,
 	usePanels,
@@ -212,6 +247,8 @@ export default {
 			copiedElementClasses
 		} = useElementActions()
 
+		const controllKey = Environment.isMac ? '⌘' : '⌃'
+
 		const actions = {
 			rename: true,
 			...props.actions
@@ -237,7 +274,8 @@ export default {
 			copyElementClasses,
 			computedHasElementClasses,
 			copiedElementClasses,
-			pasteElementClasses
+			pasteElementClasses,
+			controllKey
 		}
 	},
 	methods: {
@@ -278,20 +316,13 @@ export default {
 .znpb-right-click__menu-item {
 	display: flex;
 	align-items: center;
-	padding: 8px 16px;
+	padding: 8px 12px;
 	font-family: var(--zb-font-stack);
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 20px;
-	transition: all 0.1s ease;
+	transition: all .1s ease;
 	cursor: pointer;
-
-	&:first-child {
-		padding-top: 13px;
-	}
-	&:last-child {
-		padding-bottom: 13px;
-	}
 
 	&:hover {
 		color: var(--zb-dropdown-text-active-color);
@@ -299,12 +330,20 @@ export default {
 	}
 
 	& > span {
-		margin-right: 5px;
+		margin-right: 8px;
 	}
 }
 .znpb-right-click__menu-separator {
 	height: 1px;
 	margin: 5px 0;
 	border-top: 1px solid var(--zb-surface-lighter-color);
+}
+
+.znpb-right-click__menu--shortcut {
+	padding-left: 5px;
+	margin-right: 0 !important;
+	margin-left: auto;
+	letter-spacing: 1px;
+	opacity: .5;
 }
 </style>

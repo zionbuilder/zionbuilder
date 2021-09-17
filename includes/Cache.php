@@ -325,4 +325,15 @@ class Cache {
 		$cache_directory = $this->get_cache_directory();
 		return FileSystem::get_file_system()->delete( $cache_directory['path'], true );
 	}
+
+	/**
+	 * @deprecated deprecated since version 2.7.3
+	 *
+	 * @param int $post_id
+	 *
+	 * @return void
+	 */
+	public function register_post_id( $post_id ) {
+		_deprecated_function( __METHOD__, '2.7.2' );
+	}
 }

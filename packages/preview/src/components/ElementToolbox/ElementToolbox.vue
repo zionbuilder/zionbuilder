@@ -105,6 +105,7 @@ import rafSchd from 'raf-schd'
 import { useWindows } from '@zb/editor'
 import { useAddElementsPopup, useElementActions, useIsDragging, useHistory } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
+import { Environment } from '@zb/utils'
 
 // Components
 import TopBarToolbox from './TopBarToolbox.vue'
@@ -272,6 +273,7 @@ export default {
 	methods: {
 		startSpacingDrag ({ event, type, position }) {
 			const { clientX, clientY } = event
+			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey'
 
 			// Prevent user selection
 			document.body.style.userSelect = 'none'
@@ -332,8 +334,8 @@ export default {
 					newValue: `${updatedValue}${initialUnit}`,
 					type,
 					position,
-					even: event.ctrlKey,
-					reversedPosition: event.ctrlKey ? this.getReversedPosition(position) : null
+					even: event[controllKey],
+					reversedPosition: event[controllKey] ? this.getReversedPosition(position) : null
 				})
 
 				// Refresh sizes

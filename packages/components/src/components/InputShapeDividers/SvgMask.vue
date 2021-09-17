@@ -22,7 +22,7 @@ export default {
 		 * Value for input
 		 */
 		shapePath: {
-			type: String,
+			type: [String, Object],
 			required: true
 		},
 		position: {
@@ -68,7 +68,14 @@ export default {
 	},
 	methods: {
 		getFile (shapePath) {
-			const url = shapePath.indexOf('.svg') === -1 ? this.masks[shapePath] : shapePath
+			let url;
+			if (shapePath.indexOf('.svg') !== -1) {
+				url = shapePath
+			} else {
+				const shapeConfig = this.masks[shapePath]
+				url = shapeConfig.url
+			}
+
 			axios({
 				url,
 				method: 'GET'

@@ -1,5 +1,5 @@
 import { ref, Ref, watch } from 'vue'
-import { cloneDeep, merge, get } from 'lodash-es'
+import { cloneDeep, merge, get, set } from 'lodash-es'
 import { Element } from './models/Element'
 import { useElements } from './useElements'
 import { useHistory } from './useHistory'
@@ -9,7 +9,12 @@ const copiedElement: Ref<object> = ref({
 	action: null
 })
 
-const copiedElementStyles: Ref<null | object> = ref(null)
+interface ElementCopiedStyles {
+	styles: string;
+	custom_css: string;
+}
+
+const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null)
 const focusedElement: Ref<null | Element> = ref(null)
 const copiedElementClasses: Ref<null | object> = ref(null)
 
@@ -70,15 +75,33 @@ export function useElementActions() {
 	}
 
 	const copyElementStyles = (element: Element) => {
-		copiedElementStyles.value = cloneDeep(element.options._styles)
+		copiedElementStyles.value = {
+			styles: cloneDeep(element.options._styles),
+			custom_css: get(element, 'options._advanced_options._custom_css', '')
+		}
 	}
 
 	const pasteElementStyles = (element) => {
 		const styles = copiedElementStyles.value
-		if (!element.options._styles) {
-			element.options._styles = styles
-		} else {
-			merge(element.options._styles, styles)
+
+		if (!styles) {
+			return
+		}
+
+		// Element styles
+		if (styles.styles) {
+			if (!element.options._styles) {
+				set(element, 'options._styles', styles.styles)
+			} else {
+				merge(element.options._styles, styles.styles)
+			}
+		}
+
+		// Copy custom css
+		if (styles.custom_css.length) {
+			const existingStyles = get(element, 'options._advanced_options._custom_css', '')
+			const combinedStyles = existingStyles + styles.custom_css
+			set(element, 'options._advanced_options._custom_css', combinedStyles)
 		}
 	}
 

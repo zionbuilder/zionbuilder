@@ -42,11 +42,49 @@
 						@remove-styles="resetChanges"
 					/>
 
-					<Icon
-						icon="delete"
-						v-if="allow_delete"
-						@click.stop="deleteItem"
-					/>
+					<Tooltip
+						:content="$translate('delete_selector')"
+						placement="top"
+						append-to="element"
+						strategy="fixed"
+					>
+						<Tooltip
+							placement="top"
+							append-to="element"
+							strategy="fixed"
+							:show="canShow"
+							trigger="click"
+							class="znpb-cssSelectorDialog"
+							:close-on-outside-click="true"
+							@click.stop=""
+						>
+							<template #content>
+								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
+								<div>
+									<Button
+										@click.stop="canShow = false"
+										type="gray"
+										class="znpb-button--small"
+									>
+										{{$translate('cancel')}}
+									</Button>
+									<Button
+										@click.stop="deleteItem"
+										type="danger"
+										class="znpb-button--small"
+									>
+										{{$translate('delete')}}
+									</Button>
+								</div>
+							</template>
+							<Icon
+								icon="delete"
+								v-if="allow_delete"
+								@click.stop="canShow = true"
+							/>
+						</Tooltip>
+					</Tooltip>
+
 				</template>
 
 				<OptionsForm
@@ -148,6 +186,7 @@ export default {
 	setup (props, { emit }) {
 		const showChilds = ref(false)
 		const uid = generateUID()
+		const canShow = ref(false)
 
 		const title = computed(() => {
 			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
@@ -271,6 +310,7 @@ export default {
 		}
 
 		return {
+			canShow,
 			onChildAdded,
 			showChilds,
 			title,
@@ -406,5 +446,21 @@ export default {
 
 .znpb-option-cssSelectorAccordion {
 	flex: 1 1 auto;
+}
+
+.znpb-cssSelectorDialog {
+	text-align: center;
+
+	.hg-popper {
+		padding: 15px;
+	}
+
+	&__text {
+		margin-bottom: 10px;
+	}
+
+	.znpb-button {
+		margin: 0 2px;
+	}
 }
 </style>
