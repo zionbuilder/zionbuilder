@@ -5,96 +5,12 @@
 			'znpb-element-toolbox--dragging': isAnyDragging,
 			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging
 		}"
-		:style="{
-			'z-index': zIndex
-		}"
 		ref="rectangle"
-		@mouseover.stop="zIndex = 9999"
-		@mouseout.stop="zIndex = null"
 	>
-		<template v-if="computedStyle">
-			<!-- Width/height -->
-			<Tooltip
-				v-for="(position, positionIndex) in positions"
-				:ref="`sizeDrag--${position}`"
-				tooltip-class="hg-popper--big-arrows znpb-sizing-label"
-				:placement='getPopperPlacement'
-				append-to="body"
-				trigger="null"
-				:show-arrows="false"
-				:show="activeDragType === 'size' && activeDragPosition === position && newValues!= undefined"
-				:key="`size-${position}`"
-				:popper-ref="popperRef"
-				@mousedown.left.stop="startSizeDrag($event, position)"
-			>
-				<template #content>
-					<span>
-						{{newValues !== undefined ? newValues + 'px' : ''}}
-					</span>
-				</template>
+		<div class="zbpb-element-toolbox__title">
+			{{element.name}}
+		</div>
 
-				<div
-					class="znpb-element-toolbox__resize-width znpb-element-toolbox__resize-dimensions"
-					:class="{
-						[`znpb-element-toolbox__resize-width--${positionIndex}`]: true,
-						[`znpb-element-toolbox__resize-dimensions--${(positionIndex === 'top' || positionIndex === 'bottom' )? 'height' : 'width'}`]:true
-					}"
-					@mousedown.left.stop="startSizeDrag($event, position)"
-				>
-					<span class="znpb-element-toolbox__resize-width-bg"></span>
-				</div>
-
-			</Tooltip>
-
-			<!-- Paddings -->
-			<template v-for="( positions, type ) in positions2">
-				<div
-					v-for="position in positions"
-					:key="`${type}-${position}`"
-					:class="{
-						[`znpb-element-toolbox__resize`]: true,
-						[`znpb-element-toolbox__resize-${type}`]: true,
-						[`znpb-element-toolbox__resize--${position}`]: true,
-						['znpb-element-toolbox__resize--dragging']: activeDragType === type && (activeDragPosition === position || reversedPosition === position)
-
-					}"
-					@mousedown.left.stop="startSpacingDrag({event: $event, type, position})"
-				>
-					<div
-						class="znpb-element-toolbox__resize-value"
-						:style="computedHelpersStyle[position]"
-					>
-						<span v-if="Math.abs(parseInt(computedStyle[position])) > 20">{{computedSavedValues[position]}}</span>
-					</div>
-				</div>
-			</template>
-
-			<!-- Add new Button -->
-			<transition
-				appear
-				name="bounce-add-icon"
-			>
-				<div
-					v-if="!isAnyDragging"
-					class="znpb-element-toolbox__add-element-button"
-					@click="toggleAddElementsPopup"
-					ref="addElementsPopupButton"
-				>
-					<Icon
-						v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
-						icon="plus"
-						:rounded="true"
-					/>
-				</div>
-
-			</transition>
-
-			<TopBarToolbox
-				v-if="!isAnyDragging"
-				:element="element"
-				@set-top-bar-display="setTopBarDisplay($event)"
-			/>
-		</template>
 	</div>
 </template>
 
@@ -119,12 +35,12 @@ export default {
 		element: Object,
 		canHideToolbox: {
 			type: Boolean,
-			required: true,
+			required: false,
 			default: true
 		},
 		isToolboxDragging: {
 			type: Boolean,
-			required: true,
+			required: false,
 			default: false
 		}
 	},
@@ -581,6 +497,8 @@ export default {
 	width: 100%;
 	height: 100%;
 	font-size: 13px;
+	outline: 2px solid #006dd2;
+	outline-offset: -1px;
 	transition: opacity .3s;
 	pointer-events: none;
 	user-select: none;
@@ -1011,5 +929,18 @@ export default {
 }
 .bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
 	transition: all .2s;
+}
+
+.zbpb-element-toolbox__title {
+	position: absolute;
+	top: -30px;
+	left: -1px;
+	z-index: 999;
+	padding: 5px 8px;
+	color: #fff;
+	font-size: 11px;
+	line-height: 1;
+	background: #006dd2;
+	border-radius: 2px;
 }
 </style>

@@ -19,12 +19,13 @@
 			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
 			<div class="znpb-section-view-item__header-left">
-				<InlineEdit
+				<div
 					class="znpb-section-view-item__header-title"
-					v-model="element.name"
-					v-model:active="element.activeElementRename"
-				/>
-
+					@input="element.name = $event.target.value"
+					:contenteditable="true"
+				>
+					{{element.name}}
+				</div>
 			</div>
 
 			<Tooltip
@@ -62,7 +63,7 @@ import { ref, Ref, PropType } from "vue";
 import domtoimage from "dom-to-image";
 import { onMounted } from "vue";
 import { translate } from "@zb/i18n";
-import { Element, useElementActions } from "@composables";
+import { Element, useElementActions, useEditElement } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {
@@ -122,7 +123,10 @@ export default {
 
 		const onItemClick = () => {
 			const { focusElement } = useElementActions();
+			const { editElement } = useEditElement();
+
 			focusElement(props.element);
+			editElement(props.element);
 			props.element.focus;
 			props.element.scrollTo = true;
 		};
@@ -161,8 +165,8 @@ export default {
 	}
 	&--hidden {
 		.znpb-section-view-item__header-left {
-			transition: opacity 0.5s ease;
-			opacity: 0.5;
+			transition: opacity .5s ease;
+			opacity: .5;
 		}
 	}
 
@@ -212,7 +216,7 @@ export default {
 			padding: 15px;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			cursor: pointer;
+			cursor: text;
 		}
 
 		&.znpb-panel-item--active &-title {

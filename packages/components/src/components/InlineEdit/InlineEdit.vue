@@ -4,6 +4,7 @@
 		:class="{'znpb-utility__text--elipse': !active}"
 		:contenteditable="isActive"
 		@dblclick.stop="activate"
+		@click.prevent.stop=""
 		@blur="deactivate"
 		ref="root"
 		v-html="computedModelValue"
@@ -97,26 +98,26 @@ export default {
 		width: 44px;
 		height: 100%;
 		background: linear-gradient(
-			-90deg,
-			var(--zb-surface-lighter-color) 0%,
-			rgba(var(--zb-surface-lighter-rgb-color), 0.3) 100%
+		-90deg,
+		var(--zb-surface-lighter-color) 0%,
+		rgba(var(--zb-surface-lighter-rgb-color), .3) 100%
 		);
 	}
 }
 
 .znpb-panel-item--hovered .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
-		-90deg,
-		var(--zb-surface-lighter-color) 0%,
-		rgba(var(--zb-surface-lighter-rgb-color), 0.3) 100%
+	-90deg,
+	var(--zb-surface-lighter-color) 0%,
+	rgba(var(--zb-surface-lighter-rgb-color), .3) 100%
 	);
 }
 
 .znpb-panel-item--active .znpb-editor-icon-wrapper--show-element::before {
 	background: linear-gradient(
-		-90deg,
-		var(--zb-secondary-color) 0%,
-		rgba(var(--zb-secondary-rgb-color), 0.3) 100%
+	-90deg,
+	var(--zb-secondary-color) 0%,
+	rgba(var(--zb-secondary-rgb-color), .3) 100%
 	);
 }
 

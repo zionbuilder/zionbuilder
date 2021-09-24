@@ -15,7 +15,7 @@
 		>
 			<Icon
 				icon="select"
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
+				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--move"
 				:class="{
 					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded
 				}"
@@ -36,11 +36,13 @@
 				class="znpb-tree-view__itemIcon"
 			/>
 
-			<InlineEdit
+			<div
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				v-model="element.name"
-				v-model:active="element.activeElementRename"
-			/>
+				@input="element.name = $event.target.value"
+				:contenteditable="true"
+			>
+				{{element.name}}
+			</div>
 
 			<Tooltip
 				:content="$translate('enable_hidden_element')"
@@ -79,7 +81,12 @@
 
 <script lang="ts">
 import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import { Element, useElementTypes, useElementActions } from "@composables";
+import {
+	Element,
+	useElementTypes,
+	useElementActions,
+	useEditElement,
+} from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -98,7 +105,10 @@ export default defineComponent({
 
 		const onItemClick = () => {
 			const { focusElement } = useElementActions();
+			const { editElement } = useEditElement();
+
 			focusElement(props.element);
+			editElement(props.element);
 			props.element.focus;
 			props.element.scrollTo = true;
 		};
@@ -154,7 +164,6 @@ export default defineComponent({
 		height: 24px;
 	}
 	&Image, &Icon {
-		padding-left: 15px;
 		color: var(--zb-surface-icon-color);
 	}
 
@@ -196,7 +205,6 @@ export default defineComponent({
 			font-weight: 500;
 
 			&:hover {
-				cursor: pointer;
 				.znpb-editor-icon-wrapper {
 					color: var(--zb-surface-icon-color);
 				}
@@ -219,8 +227,6 @@ export default defineComponent({
 		}
 
 		&-expand {
-			padding-right: 0;
-
 			& > .zion-icon {
 				transition: none;
 			}
