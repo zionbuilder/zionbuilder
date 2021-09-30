@@ -52,14 +52,13 @@ export default {
 <style lang="scss">
 .zbpb-element-toolbox__titleWrapper {
 	position: absolute;
-	top: -30px;
+	bottom: calc(100% + 5px);
 	left: -1px;
 	z-index: 999;
 	display: flex;
-	padding: 5px 3px;
+	padding: 3px 5px;
 	color: #fff;
 	font-size: 11px;
-	line-height: 1;
 	background: #006dd2;
 	border-radius: 2px;
 	pointer-events: all;
@@ -67,9 +66,26 @@ export default {
 
 .zbpb-element-toolbox__titleContainer {
 	display: flex;
+	font-weight: 400;
 	overflow: hidden;
 	max-width: 0;
-	transition: all .3s;
+	transition: all 0.25s;
+
+	&:last-child {
+		.zbpb-element-toolbox__title {
+			font-weight: 700;
+		}
+
+		.zbpb-element-toolbox__icon {
+			transform: rotate(90deg);
+		}
+	}
+
+	.zbpb-element-toolbox__titleWrapper:hover
+		&:last-child
+		.zbpb-element-toolbox__icon {
+		transform: rotate(-90deg);
+	}
 
 	&:first-child .zbpb-element-toolbox__icon {
 		display: none;
@@ -79,7 +95,8 @@ export default {
 		transform: rotate(-90deg);
 	}
 
-	.zbpb-element-toolbox__titleWrapper:hover &, &:last-child {
+	.zbpb-element-toolbox__titleWrapper:hover &,
+	&:last-child {
 		max-width: 200px;
 	}
 

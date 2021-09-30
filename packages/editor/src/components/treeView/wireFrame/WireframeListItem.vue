@@ -185,7 +185,7 @@ export default {
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 15px 15px 15px;
-	transition: opacity .2s ease;
+	transition: opacity 0.2s ease;
 	cursor: pointer;
 
 	&:hover {
@@ -205,7 +205,8 @@ export default {
 	&Image {
 		height: 24px;
 	}
-	&Image, &Icon {
+	&Image,
+	&Icon {
 		padding-right: 15px;
 	}
 
@@ -235,15 +236,16 @@ export default {
 
 	&__delete-icon {
 		padding: 13px 20px 13px 0;
-		transition: opacity .2s;
+		transition: opacity 0.2s;
 		cursor: pointer;
 
 		span {
 			transition: none;
 		}
 
-		&:hover, &:focus {
-			opacity: .5;
+		&:hover,
+		&:focus {
+			opacity: 0.5;
 		}
 	}
 
@@ -256,8 +258,8 @@ export default {
 		transform: translate(-50%, -50%);
 
 		.znpb-editor-icon-wrapper {
-			width: 34px;
-			height: 34px;
+			width: 28px;
+			height: 28px;
 			color: #fff;
 			background: var(--zb-element-color);
 		}
@@ -268,7 +270,7 @@ export default {
 		width: 100%;
 		color: var(--zb-primary-text-color);
 		text-align: center;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&-area {
 			display: flex;
@@ -307,10 +309,10 @@ export default {
 		&-item {
 			position: relative;
 			padding: 13px 20px;
-			transition: opacity .2s;
+			transition: opacity 0.2s;
 
 			&:hover {
-				opacity: .5;
+				opacity: 0.5;
 			}
 			&:focus {
 				outline: 0;
@@ -375,7 +377,9 @@ export default {
 			width: 100%;
 			border: 2px solid #faeec6;
 		}
-		& > .znpb-wireframe-item__content > .znpb-element-toolbox__add-element-button {
+		&
+			> .znpb-wireframe-item__content
+			> .znpb-element-toolbox__add-element-button {
 			& > .znpb-editor-icon-wrapper {
 				background: var(--zb-column-color);
 			}
@@ -383,7 +387,7 @@ export default {
 	}
 
 	&--item--hidden {
-		opacity: .5;
+		opacity: 0.5;
 	}
 	&__content {
 		position: relative;

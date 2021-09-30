@@ -106,11 +106,16 @@ export default {
 </script>
 
 <style lang="scss">
-.zion-inline-editor-popover-wrapper, .zion-inline-editor-dropdown {
+.zion-inline-editor-popover-wrapper,
+.zion-inline-editor-dropdown {
 	display: flex;
 
 	& > .znpb-editor-icon-wrapper {
 		padding: 10px 11px;
+	}
+
+	.zion-inline-editor-link-wrapper {
+		width: 100%;
 	}
 }
 </style>

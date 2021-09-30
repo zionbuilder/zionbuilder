@@ -505,7 +505,8 @@ export default {
 			height: 6px;
 		}
 	}
-	.znpb-even-dimensions-horizontal, .znpb-even-dimensions-vertical {
+	.znpb-even-dimensions-horizontal,
+	.znpb-even-dimensions-vertical {
 		opacity: 1;
 	}
 }
@@ -519,14 +520,14 @@ export default {
 	font-size: 13px;
 	outline: 2px solid #006dd2;
 	outline-offset: -1px;
-	transition: opacity .3s;
+	transition: opacity 0.3s;
 	pointer-events: none;
 	user-select: none;
 
 	&__resize {
 		position: absolute;
 		z-index: 1000;
-		transition: opacity .3s;
+		transition: opacity 0.3s;
 		opacity: 0;
 		pointer-events: all;
 
@@ -606,7 +607,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--right {
@@ -626,7 +627,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 			&--bottom {
@@ -646,7 +647,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--left {
@@ -666,7 +667,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 		}
@@ -684,8 +685,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -703,8 +704,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -722,8 +723,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -740,8 +741,8 @@ export default {
 				height: 100%;
 			}
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -759,8 +760,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -778,8 +779,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -797,8 +798,8 @@ export default {
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -815,8 +816,8 @@ export default {
 				height: 100%;
 			}
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+				&
+				.znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -830,10 +831,14 @@ export default {
 				text-decoration: none;
 				text-shadow: none;
 				text-transform: none;
-				background-color: rgba(6, 190, 225, .35);
+				background-color: rgba(6, 190, 225, 0.35);
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1000;
 				opacity: 1;
 				visibility: visible;
@@ -846,10 +851,14 @@ export default {
 				justify-content: center;
 				align-items: center;
 				color: #f9952d;
-				background-color: rgba(249, 149, 45, .35);
+				background-color: rgba(249, 149, 45, 0.35);
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1;
 				opacity: 1;
 				visibility: visible;
@@ -864,13 +873,13 @@ export default {
 		bottom: 0;
 		left: 50%;
 		z-index: 1001;
-		width: 34px;
-		height: 34px;
+		width: 28px;
+		height: 28px;
 		color: #fff;
 		font-size: 14px;
 		line-height: 1 !important;
 		transform: translate(-50%, -50%);
-		transition: all .2s;
+		transition: all 0.2s;
 		cursor: pointer;
 		pointer-events: auto;
 
@@ -886,9 +895,9 @@ export default {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
+			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.1);
 			border-radius: 50%;
-			transition: all .2s;
+			transition: all 0.2s;
 
 			.znpb-element__wrapper > .znpb-element-toolbox & {
 				background-color: #006dd2;
@@ -896,8 +905,8 @@ export default {
 		}
 		.znpb-editor-icon-wrapper {
 			position: relative;
-			width: 34px;
-			height: 34px;
+			width: 28px;
+			height: 28px;
 		}
 		&--section {
 			position: absolute;
@@ -905,11 +914,11 @@ export default {
 			right: 0;
 			bottom: 0;
 			left: 50%;
-			width: 34px;
-			height: 34px;
+			width: 28px;
+			height: 28px;
 			transform: translate(-50%, -50%);
-			animation: AddCol ease-in-out .2s;
-			transition: all .2s;
+			animation: AddCol ease-in-out 0.2s;
+			transition: all 0.2s;
 		}
 		&:hover {
 			&:before {
@@ -928,18 +937,19 @@ export default {
 }
 
 .bounce-add-icon-enter-from {
-	transform: translate(-50%, -50%) scale(.9);
+	transform: translate(-50%, -50%) scale(0.9);
 }
 .bounce-add-icon-enter-to {
 	transform: translate(-50%, -50%) scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: translate(-50%, -50%) scale(.5);
+	transform: translate(-50%, -50%) scale(0.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
-	transition: all .2s;
+.bounce-add-icon-enter-to,
+.bounce-add-icon-leave-from {
+	transition: all 0.2s;
 }
 </style>
