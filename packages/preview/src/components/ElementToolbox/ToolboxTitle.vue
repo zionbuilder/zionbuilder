@@ -61,6 +61,7 @@ export default {
 	font-size: 11px;
 	background: #006dd2;
 	border-radius: 2px;
+	box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.35);
 	pointer-events: all;
 }
 
