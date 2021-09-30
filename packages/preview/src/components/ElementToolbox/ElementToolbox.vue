@@ -7,9 +7,27 @@
 		}"
 		ref="rectangle"
 	>
-		<div class="zbpb-element-toolbox__title">
-			{{element.name}}
-		</div>
+		<ToolboxTitle :element="element" />
+
+		<!-- Add new Button -->
+		<transition
+			appear
+			name="bounce-add-icon"
+		>
+			<div
+				v-if="!isAnyDragging"
+				class="znpb-element-toolbox__add-element-button"
+				@click="toggleAddElementsPopup"
+				ref="addElementsPopupButton"
+			>
+				<Icon
+					v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
+					icon="plus"
+					:rounded="true"
+				/>
+			</div>
+
+		</transition>
 
 	</div>
 </template>
@@ -25,11 +43,13 @@ import { Environment } from '@zb/utils'
 
 // Components
 import TopBarToolbox from './TopBarToolbox.vue'
+import ToolboxTitle from './ToolboxTitle.vue'
 
 export default {
 	name: 'ElementToolbox',
 	components: {
-		TopBarToolbox
+		TopBarToolbox,
+		ToolboxTitle
 	},
 	props: {
 		element: Object,
@@ -871,15 +891,7 @@ export default {
 			transition: all .2s;
 
 			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: var(--zb-element-color);
-			}
-
-			.zb-column > .znpb-element-toolbox & {
-				background-color: var(--zb-column-color);
-			}
-
-			.zb-section > .znpb-element-toolbox & {
-				background-color: var(--zb-section-color);
+				background-color: #006dd2;
 			}
 		}
 		.znpb-editor-icon-wrapper {
@@ -929,18 +941,5 @@ export default {
 }
 .bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
 	transition: all .2s;
-}
-
-.zbpb-element-toolbox__title {
-	position: absolute;
-	top: -30px;
-	left: -1px;
-	z-index: 999;
-	padding: 5px 8px;
-	color: #fff;
-	font-size: 11px;
-	line-height: 1;
-	background: #006dd2;
-	border-radius: 2px;
 }
 </style>
