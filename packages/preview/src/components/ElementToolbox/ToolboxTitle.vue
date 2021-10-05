@@ -1,24 +1,28 @@
 <template>
-	<div class="zbpb-element-toolbox__titleWrapper">
-		<span
-			v-for="parent in parents"
-			:key="parent.uid"
-			class="zbpb-element-toolbox__titleContainer"
-		>
-			<Icon
-				icon="select"
-				class="zbpb-element-toolbox__icon"
-				:size="9"
-			/>
+	<div class="zbpb-element-toolbox__titleFakeWrapper">
+		<div class="zbpb-element-toolbox__titleWrapper">
+			<span
+				v-for="parent in parents"
+				:key="parent.uid"
+				class="zbpb-element-toolbox__titleContainer"
+				@click.stop="editElement(parent)"
+			>
+				<Icon
+					icon="select"
+					class="zbpb-element-toolbox__icon"
+					:size="9"
+				/>
 
-			<span class="zbpb-element-toolbox__title">{{parent.name}}</span>
-		</span>
+				<span class="zbpb-element-toolbox__title">{{parent.name}}</span>
+			</span>
+		</div>
 	</div>
 
 </template>
 
 <script>
 import { computed } from 'vue'
+import { useEditElement } from '@zb/editor'
 
 export default {
 	name: 'ToolboxTitle',
@@ -42,35 +46,50 @@ export default {
 			return parents.reverse()
 		})
 
+		function editElement (element) {
+			const { editElement } = useEditElement()
+
+			editElement(element)
+		}
+
 		return {
-			parents
+			parents,
+
+			// Methods
+			editElement
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-.zbpb-element-toolbox__titleWrapper {
+.zbpb-element-toolbox__titleFakeWrapper {
 	position: absolute;
-	bottom: calc(100% + 5px);
+	bottom: 100%;
 	left: -1px;
-	z-index: 999;
+	z-index: 1001;
+	display: flex;
+	padding-bottom: 5px;
+	pointer-events: all;
+}
+
+.zbpb-element-toolbox__titleWrapper {
 	display: flex;
 	padding: 3px 5px;
 	color: #fff;
 	font-size: 11px;
 	background: #006dd2;
+	box-shadow: 0 0 5px -1px rgba(0, 0, 0, .35);
 	border-radius: 2px;
-	box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.35);
-	pointer-events: all;
 }
 
 .zbpb-element-toolbox__titleContainer {
 	display: flex;
-	font-weight: 400;
 	overflow: hidden;
 	max-width: 0;
-	transition: all 0.25s;
+	font-weight: 400;
+	transition: all .25s;
+	cursor: pointer;
 
 	&:last-child {
 		.zbpb-element-toolbox__title {
@@ -79,12 +98,13 @@ export default {
 
 		.zbpb-element-toolbox__icon {
 			transform: rotate(90deg);
+			transition: all .25s;
 		}
 	}
 
 	.zbpb-element-toolbox__titleWrapper:hover
-		&:last-child
-		.zbpb-element-toolbox__icon {
+	&:last-child
+	.zbpb-element-toolbox__icon {
 		transform: rotate(-90deg);
 	}
 
@@ -96,8 +116,7 @@ export default {
 		transform: rotate(-90deg);
 	}
 
-	.zbpb-element-toolbox__titleWrapper:hover &,
-	&:last-child {
+	.zbpb-element-toolbox__titleWrapper:hover &, &:last-child {
 		max-width: 200px;
 	}
 

@@ -3,7 +3,7 @@ import { usePanels } from './usePanels'
 
 const element = ref(null)
 
-export function useEditElement () {
+export function useEditElement() {
 	const editElement = (elementInstance) => {
 		const { openPanel } = usePanels()
 

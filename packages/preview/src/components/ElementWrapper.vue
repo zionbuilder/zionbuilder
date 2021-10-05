@@ -9,8 +9,8 @@
 		:id="`${element.elementCssId}`"
 		:element="element"
 		:options="options"
-		@mouseover.stop="onMouseEnter"
-		@mouseleave.stop="onMouseLeave"
+		@mouseenter="onMouseEnter"
+		@mouseleave="onMouseLeave"
 		@click="onElementClick"
 		@contextmenu="showElementMenu"
 		v-bind="getExtraAttributes"
@@ -182,8 +182,8 @@ export default {
 
 		const stylesConfig = computed(() => options.value._styles || {})
 		const canShowToolbox = computed(() => {
-			const { element } = useEditElement()
-			return (element.value === props.element || props.element.isHighlighted) && (props.element.isVisible && !props.element.elementTypeModel.is_child)
+			const { element: activeEditedElement } = useEditElement()
+			return (activeEditedElement.value === props.element || props.element.isHighlighted) && (props.element.isVisible && !props.element.elementTypeModel.is_child)
 		})
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
@@ -313,7 +313,6 @@ export default {
 					rename: false
 				})
 			}
-
 		}
 
 		// Prevents us using stop propagation that can affect other elements
@@ -349,32 +348,25 @@ export default {
 		provide('elementOptions', options)
 
 		function onMouseEnter (e) {
-			props.element.isHighlighted = true
+			console.log('enter :', props.element.name);
+			props.element.highlight()
+
 			if (props.element.parent) {
 				let parent = props.element.parent
 				while (parent) {
-					parent.isHighlighted = false
+					parent.unHighlight()
 					parent = parent.parent
 				}
 			}
-			console.log('on enter', root.value.$el);
-			// debugger;
 		}
 
 		function onMouseLeave (e) {
-			props.element.isHighlighted = false
+			props.element.unHighlight()
 			if (props.element.parent) {
-				props.element.parent.isHighlighted = true
+				props.element.parent.highlight()
 				parent = parent.parent
 			}
-			console.log('on leave', root.value.$el);
-			// debugger;
-		}
-
-		function onParentHighlight (status) {
-			props.element.isHighlighted = status
-			// emit('parentHighlight', status)
-			console.log({ status });
+			console.log('leave :', props.element.name);
 		}
 
 		return {
@@ -401,8 +393,7 @@ export default {
 			showToolbox,
 			// Methods
 			onMouseEnter,
-			onMouseLeave,
-			onParentHighlight
+			onMouseLeave
 		}
 	},
 	watch: {
@@ -508,7 +499,7 @@ export default {
 <style lang="scss">
 .znpb-element {
 	&--loading {
-		opacity: 0.2;
+		opacity: .2;
 	}
 
 	&--needs-data {
@@ -521,7 +512,7 @@ export default {
 }
 
 .znpb-element__wrapper--cutted {
-	opacity: 0.2;
+	opacity: .2;
 	pointer-events: none;
 }
 @keyframes znpb-scale-down {
@@ -536,12 +527,12 @@ export default {
 }
 
 .znpb-element__wrapper--panel-hovered {
-	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), 0.3);
+	box-shadow: 0 0 0 2px rgba(var(--zb-secondary-rgb-color), .3);
 }
 
 .znpb-element__wrapper {
 	position: relative;
-	transition: opacity 0.2s;
+	transition: opacity .2s;
 
 	.znpb-hidden-element-container {
 		position: absolute;
@@ -554,11 +545,10 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(255, 255, 255, 0.7);
+		background: rgba(255, 255, 255, .7);
 	}
 
-	&:hover,
-	&--toolbox-dragging {
+	&:hover, &--toolbox-dragging {
 		position: relative;
 	}
 
@@ -582,9 +572,9 @@ export default {
 			width: 100%;
 			height: 100%;
 			background: var(--zb-red);
-			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.1);
+			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
 			border-radius: 50%;
-			transition: all 0.2s;
+			transition: all .2s;
 		}
 		.znpb-editor-icon-wrapper {
 			position: relative;
@@ -598,23 +588,18 @@ export default {
 		}
 	}
 }
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-right-helper,
-.znpb-element-utilities__margin-bottom-helper,
-.znpb-element-utilities__margin-left-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-right-helper, .znpb-element-utilities__margin-bottom-helper, .znpb-element-utilities__margin-left-helper {
 	position: absolute;
 }
 
-.znpb-element-utilities__margin-top-helper,
-.znpb-element-utilities__margin-bottom-helper {
+.znpb-element-utilities__margin-top-helper, .znpb-element-utilities__margin-bottom-helper {
 	left: 0;
 	width: 100%;
 	min-height: 2px;
 	cursor: n-resize;
 }
 
-.znpb-element-utilities__margin-left-helper,
-.znpb-element-utilities__margin-right-helper {
+.znpb-element-utilities__margin-left-helper, .znpb-element-utilities__margin-right-helper {
 	top: 0;
 	width: 2px;
 	height: 100%;
