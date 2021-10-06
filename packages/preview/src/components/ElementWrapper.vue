@@ -183,7 +183,7 @@ export default {
 		const stylesConfig = computed(() => options.value._styles || {})
 		const canShowToolbox = computed(() => {
 			const { element: activeEditedElement } = useEditElement()
-			return (activeEditedElement.value === props.element || props.element.isHighlighted) && (props.element.isVisible && !props.element.elementTypeModel.is_child)
+			return (activeEditedElement.value === props.element || props.element.isHighlighted) && (props.element.isVisible && !props.element.elementTypeModel.is_child && !isPreviewMode.value)
 		})
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
@@ -348,7 +348,6 @@ export default {
 		provide('elementOptions', options)
 
 		function onMouseEnter (e) {
-			console.log('enter :', props.element.name);
 			props.element.highlight()
 
 			if (props.element.parent) {
@@ -366,7 +365,6 @@ export default {
 				props.element.parent.highlight()
 				parent = parent.parent
 			}
-			console.log('leave :', props.element.name);
 		}
 
 		return {

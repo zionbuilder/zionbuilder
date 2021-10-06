@@ -1,11 +1,19 @@
 <template>
-	<div class="zbpb-element-toolbox__titleFakeWrapper">
+	<div
+		class="zbpb-element-toolbox__titleFakeWrapper"
+		:class="{
+			'zbpb-element-toolbox__titleFakeWrapper--bottom': exitsTop,
+			'zbpb-element-toolbox__titleFakeWrapper--left': exitsRight,
+		}"
+		ref="root"
+	>
 		<div class="zbpb-element-toolbox__titleWrapper">
 			<span
 				v-for="parent in parents"
 				:key="parent.uid"
 				class="zbpb-element-toolbox__titleContainer"
 				@click.stop="editElement(parent)"
+				@contextmenu="showElementMenu($event, parent)"
 			>
 				<Icon
 					icon="select"
@@ -21,8 +29,8 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useEditElement } from '@zb/editor'
+import { ref, computed, onMounted } from 'vue'
+import { useEditElement, useElementMenu } from '@zb/editor'
 
 export default {
 	name: 'ToolboxTitle',
@@ -33,6 +41,7 @@ export default {
 		}
 	},
 	setup (props) {
+		const root = ref(null)
 		const parents = computed(() => {
 			let parents = []
 			let activeElement = props.element
@@ -52,11 +61,39 @@ export default {
 			editElement(element)
 		}
 
+		// Lifecycle
+		onMounted(checkReposition)
+
+		const exitsTop = ref(false)
+		const exitsRight = ref(false)
+
+		function checkReposition () {
+			const boundingClientRect = root.value.getBoundingClientRect()
+
+			// Check if exits top
+			exitsTop.value = boundingClientRect.top + window.scrollY < 0
+			exitsRight.value = boundingClientRect.right > (window.innerWidth || document.documentElement.clientWidth)
+		}
+
+		function showElementMenu (event, element) {
+			event.preventDefault()
+			event.stopPropagation()
+
+			const { showElementMenuFromEvent } = useElementMenu()
+			showElementMenuFromEvent(element, event, {
+				rename: false
+			})
+		}
+
 		return {
 			parents,
+			root,
+			exitsTop,
+			exitsRight,
 
 			// Methods
-			editElement
+			editElement,
+			showElementMenu
 		}
 	}
 }
@@ -123,5 +160,18 @@ export default {
 	.zbpb-element-toolbox__title {
 		padding: 0 5px;
 	}
+}
+
+// Reposition in case of outside
+.zbpb-element-toolbox__titleFakeWrapper--bottom {
+	top: 100%;
+	bottom: auto;
+	padding-top: 5px;
+	padding-bottom: 0;
+}
+
+.zbpb-element-toolbox__titleFakeWrapper--left {
+	right: 0;
+	left: auto;
 }
 </style>
