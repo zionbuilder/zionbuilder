@@ -104,6 +104,14 @@ class BulkActions extends RestApiController {
 		// Set main post data
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
 
+		// Set the main query
+		query_posts(
+			[
+				'p'         => $post_id,
+				'post_type' => 'any',
+			]
+		);
+
 		if ( is_array( $actions ) ) {
 			foreach ( $actions as $action_key => $action_config ) {
 				if ( array_key_exists( $action_config['type'], $registered_actions ) ) {
