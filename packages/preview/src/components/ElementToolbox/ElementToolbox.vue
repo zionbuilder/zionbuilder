@@ -420,7 +420,9 @@ export default {
 			return parseInt(string.match(/\d+/)[0])
 		},
 		setComputedStyle () {
-			this.computedStyle = window.getComputedStyle(this.$parent.$el)
+			if (this.$parent.$el) {
+				this.computedStyle = window.getComputedStyle(this.$parent.$el)
+			}
 		},
 		removeEvents () {
 			this.removeEventListener('mousemove', this.changeSizeDebounced)
