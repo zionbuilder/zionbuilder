@@ -40,7 +40,8 @@ export default {
 <style lang="scss">
 .znpb-option__elementEvent {
 	padding: 15px 37px;
-	color: var(--zb-surface-color);
+	color: var(--zb-secondary-text-color);
+	font-weight: 500;
 	line-height: 1;
 	text-align: center;
 	background-color: var(--zb-secondary-color);
