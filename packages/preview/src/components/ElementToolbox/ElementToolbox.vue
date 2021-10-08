@@ -94,6 +94,7 @@
 // Utils
 import { ref, computed } from 'vue'
 import rafSchd from 'raf-schd'
+import { get } from 'lodash-es'
 import { useWindows } from '@zb/editor'
 import { useAddElementsPopup, useElementActions, useIsDragging, useHistory, useEditElement } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
@@ -157,13 +158,11 @@ export default {
 		return {
 			// Active element positions
 			computedStyle: null,
-			zIndex: null,
 			// Dragging
 			startClientX: null,
 			startClientY: null,
 			activeDragPosition: null,
 			activeDragType: null,
-			initialDraggValue: null,
 			reversedPosition: null,
 
 			// Size
@@ -219,8 +218,8 @@ export default {
 		 * Returns the saved value for each property defaulting to actual size
 		 */
 		computedSavedValues () {
-			const savedValues = this.element.getOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
-			console.log({ savedValues });
+			const savedValues = get(this.element.options, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
 				paddingRight: savedValues[this.styleMap.paddingRight] || this.computedStyle.paddingRight,
@@ -236,12 +235,12 @@ export default {
 		},
 		computedHelpersStyle () {
 			const { height, width, ...remainingProperties } = this.styleMap
-
 			const styles = {}
+
 			Object.keys(remainingProperties).forEach(propertyId => {
 				const direction = propertyId.indexOf('Top') !== -1 || propertyId.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal'
 				const sizeProperty = direction === 'vertical' ? 'height' : 'width'
-				const sizeValue = Math.abs(parseInt(this.computedStyle[propertyId]))
+				const sizeValue = Math.abs(parseInt(this.computedSavedValues[propertyId]))
 				styles[propertyId] = {
 					[sizeProperty]: `${sizeValue}px`
 				}
