@@ -500,6 +500,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	background: var(--zb-surface-color);
+	z-index: 0;
 	&--attached {
 		height: 100%;
 
@@ -516,19 +517,20 @@ export default {
 	&--left {
 		// box-shadow: 2px 0 0 0 var(--zb-surface-border-color);
 		border-right: var(--zb-panel-sideborder) solid
-		var(--zb-surface-border-color);
+			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
 		}
 	}
 
-	&--left + &--left, &--right + &--right {
+	&--left + &--left,
+	&--right + &--right {
 		border-left: 1px solid var(--zb-surface-border-color);
 	}
 	&--right {
 		// box-shadow: -2px 0 0 0 var(--zb-surface-border-color);
 		border-left: var(--zb-panel-sideborder) solid
-		var(--zb-surface-border-color);
+			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			left: -5px;
 		}
@@ -538,7 +540,7 @@ export default {
 	}
 	&--detached {
 		box-shadow: 0 0 0 var(--zb-panel-sideborder)
-		var(--zb-surface-border-color);
+			var(--zb-surface-border-color);
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
@@ -559,7 +561,7 @@ export default {
 	& > .znpb-editor-icon-wrapper {
 		margin-right: 15px;
 		color: var(--zb-surface-icon-color);
-		transition: color .15s ease-out;
+		transition: color 0.15s ease-out;
 		cursor: pointer;
 
 		.zion-icon.zion-svg-inline {
@@ -606,7 +608,7 @@ h4.znpb-panel__header-name {
 		&:hover {
 			background-color: var(--zb-secondary-color);
 			cursor: ew-resize;
-			opacity: .6;
+			opacity: 0.6;
 		}
 	}
 
@@ -618,7 +620,7 @@ h4.znpb-panel__header-name {
 		&:hover {
 			background-color: var(--zb-secondary-color);
 			cursor: n-resize;
-			opacity: .6;
+			opacity: 0.6;
 		}
 	}
 }
