@@ -39,9 +39,9 @@ export default {
 
 		watch(activePopup, (newValue) => {
 			if (newValue) {
-				addEventListener('scroll', hideAddElementsPopup)
+				window.addEventListener('scroll', hideAddElementsPopup)
 			} else {
-				removeEventListener('scroll', hideAddElementsPopup)
+				window.removeEventListener('scroll', hideAddElementsPopup)
 			}
 		})
 

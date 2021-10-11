@@ -3,26 +3,25 @@
 		<div class="znpb-tree-viewExpandContainer">
 			<a
 				href="#"
-				@click="expandAll(element)"
+				@click="expandOrCollapse(element), showExpand = !showExpand"
 			>
-				{{$translate('expand_all')}}
-
-				<Icon
-					icon="long-arrow-down"
-					:size="10"
-				/>
+				<template v-if="showExpand">
+					{{$translate('expand_all')}}
+					<Icon
+						icon="long-arrow-down"
+						:size="10"
+					/>
+				</template>
+				<template v-else>
+					{{$translate('collapse_all')}}
+					<Icon
+						icon="long-arrow-up"
+						:size="10"
+					/>
+				</template>
 
 			</a>
-			<a
-				href="#"
-				@click="collapseAll(element)"
-			>
-				{{$translate('collapse_all')}}
-				<Icon
-					icon="long-arrow-up"
-					:size="10"
-				/>
-			</a>
+
 		</div>
 
 		<div class="znpb-tree-view znpb-fancy-scrollbar znpb-panel-view-wrapper">
@@ -32,6 +31,8 @@
 
 </template>
 <script lang="ts">
+import { ref } from "vue";
+
 export default {
 	name: "TreeViewPanel",
 	props: {
@@ -41,36 +42,29 @@ export default {
 		},
 	},
 	setup(props) {
-		function expandAll(element) {
-			if (element.content.length > 0) {
-				element.content.forEach((child) => {
-					child.treeViewItemExpanded = true;
-					expandAll(child);
-				});
-			}
-		}
+		const showExpand = ref(true);
 
-		function collapseAll(element) {
+		function expandOrCollapse(element) {
 			if (element.content.length > 0) {
 				element.content.forEach((child) => {
-					child.treeViewItemExpanded = false;
-					collapseAll(child);
+					child.treeViewItemExpanded = showExpand.value;
+					expandOrCollapse(child);
 				});
 			}
 		}
 
 		return {
-			expandAll,
-			collapseAll,
+			showExpand,
+			expandOrCollapse,
 		};
 	},
 };
 </script>
 <style lang="scss">
 .znpb-tree-viewExpandContainer {
-	padding: 0 20px;
 	display: flex;
 	justify-content: flex-end;
+	padding: 0 20px;
 	margin-bottom: 12px;
 
 	a {
@@ -80,7 +74,7 @@ export default {
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 700;
-		transition: color 0.15s;
+		transition: color .15s;
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
