@@ -4,11 +4,25 @@
 			<a
 				href="#"
 				@click="expandAll(element)"
-			>Expand All</a>
+			>
+				{{$translate('expand_all')}}
+
+				<Icon
+					icon="select"
+					:size="14"
+				/>
+
+			</a>
 			<a
 				href="#"
 				@click="collapseAll(element)"
-			>Collapse All</a>
+			>
+				{{$translate('collapse_all')}}
+				<Icon
+					icon="select"
+					:size="14"
+				/>
+			</a>
 		</div>
 
 		<div class="znpb-tree-view znpb-fancy-scrollbar znpb-panel-view-wrapper">

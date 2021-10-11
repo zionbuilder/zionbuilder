@@ -250,6 +250,11 @@ class Localization {
 				'section_view'                             => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                           => __( 'Wireframe', 'zionbuilder' ),
 				'editable_name'                            => __( 'editable name', 'zionbuilder' ),
+				'collapse_all'                            => __( 'Collapse all', 'zionbuilder' ),
+				'expand_all'                            => __( 'Expand all', 'zionbuilder' ),
+
+
+
 				//Save actions
 				'page_saved_publish'                       => __( 'This page was successfully saved and published', 'zionbuilder' ),
 				'page_saved'                               => __( 'This page was successfully saved', 'zionbuilder' ),
