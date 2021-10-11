@@ -116,7 +116,7 @@ export default {
 	color: #fff;
 	font-size: 11px;
 	background: #006dd2;
-	box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 0 5px -1px rgba(0, 0, 0, .35);
 	border-radius: 2px;
 }
 
@@ -126,7 +126,7 @@ export default {
 	max-width: 0;
 	font-weight: 400;
 	white-space: nowrap;
-	transition: all 0.25s;
+	transition: all .25s;
 	cursor: pointer;
 
 	&:last-child {
@@ -136,13 +136,13 @@ export default {
 
 		.zbpb-element-toolbox__icon {
 			transform: rotate(90deg);
-			transition: all 0.25s;
+			transition: all .25s;
 		}
 	}
 
 	.zbpb-element-toolbox__titleWrapper:hover
-		&:last-child
-		.zbpb-element-toolbox__icon {
+	&:last-child
+	.zbpb-element-toolbox__icon {
 		transform: rotate(-90deg);
 	}
 
@@ -154,8 +154,7 @@ export default {
 		transform: rotate(-90deg);
 	}
 
-	.zbpb-element-toolbox__titleWrapper:hover &,
-	&:last-child {
+	.zbpb-element-toolbox__titleWrapper:hover &, &:last-child {
 		max-width: 200px;
 	}
 

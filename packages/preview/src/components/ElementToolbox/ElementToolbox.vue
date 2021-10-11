@@ -580,7 +580,14 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
 	outline: 2px solid #006dd2;
 	outline-offset: -2px;
 	transition: opacity .3s;
