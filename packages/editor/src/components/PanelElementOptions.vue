@@ -46,14 +46,14 @@
 
 		<template #after-header>
 			<div
-				class="znpb-element-options__headerHide"
+				class="znpb-element-options__hide"
 				@click.stop="isPanelHidden = !isPanelHidden"
 			>
 				<Icon
 					icon="select"
-					class="znpb-element-options__headerHideIcon"
+					class="znpb-element-options__hideIcon"
 					:class="{
-						'znpb-element-options__headerHide--hidden': isPanelHidden
+						'znpb-element-options__hide--hidden': isPanelHidden
 					}"
 				/>
 
@@ -638,8 +638,8 @@ export default {
 				font-size: 14px;
 				background-color: var(--zb-surface-lighter-color);
 				border-radius: 3px;
-				transition: .15s all;
-				transition: all .3s;
+				transition: 0.15s all;
+				transition: all 0.3s;
 				cursor: pointer;
 
 				&:hover {
@@ -696,7 +696,8 @@ export default {
 			display: flex;
 			flex-direction: column;
 
-			.znpb-tabs__content, .znpb-tabs__wrapper {
+			.znpb-tabs__content,
+			.znpb-tabs__wrapper {
 				height: calc(100% - 38px);
 			}
 
@@ -727,7 +728,8 @@ export default {
 			margin-right: 10px;
 		}
 
-		&__undo, &__redo {
+		&__undo,
+		&__redo {
 			display: flex;
 			justify-content: center;
 			flex: 1;
@@ -739,11 +741,11 @@ export default {
 
 			&--active {
 				&:hover {
-					opacity: .9;
+					opacity: 0.9;
 				}
 			}
 			&--disabled {
-				opacity: .5;
+				opacity: 0.5;
 				pointer-events: none;
 			}
 		}
@@ -771,7 +773,8 @@ export default {
 	}
 }
 .znpb-element-options__tabs-wrapper {
-	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
+	p.znpb-element-options-default-message,
+	p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
 
@@ -783,7 +786,9 @@ export default {
 }
 
 //search tab
-.znpb-tabs--card > .znpb-tabs__header > .znpb-tabs__header-item.znpb-tabs__header-item--search {
+.znpb-tabs--card
+	> .znpb-tabs__header
+	> .znpb-tabs__header-item.znpb-tabs__header-item--search {
 	flex: 0 1 auto;
 	padding: 0;
 	margin-left: auto;
@@ -808,14 +813,11 @@ export default {
 }
 
 // Hide options panel
-.znpb-element-options__panel-wrapper:hover .znpb-element-options__headerHide, .znpb-element-options__panel-wrapper--hidden .znpb-element-options__headerHide {
-	opacity: 1;
-	visibility: visible;
-}
-.znpb-element-options__headerHide {
+.znpb-element-options__hide {
 	position: absolute;
+	top: 16px;
 	left: 100%;
-	z-index: 1;
+	z-index: -1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -826,15 +828,15 @@ export default {
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 0 50% 50% 0;
 	cursor: pointer;
-	opacity: 0;
-	visibility: hidden;
+	transform: translateX(-100%);
+	transition: transform 0.15s 0s;
 
 	&Icon {
 		position: relative;
 		left: -2px;
 		font-size: 12px;
 		transform: rotate(90deg);
-		transition: color .15s;
+		transition: color 0.15s;
 	}
 
 	&:hover &Icon {
@@ -844,20 +846,53 @@ export default {
 	.znpb-editor-panel--detached & {
 		display: none;
 	}
+
+	.znpb-editor-panel--right & {
+		left: auto;
+		right: 100%;
+		border-radius: 50% 0 0 50%;
+		transform: translateX(100%);
+	}
+
+	.znpb-editor-panel--right &Icon {
+		left: 2px;
+		transform: rotate(-90deg);
+	}
+
+	.znpb-element-options__panel-wrapper:hover &,
+	.znpb-element-options__panel-wrapper--hidden & {
+		transform: translateX(0);
+		z-index: 2;
+		transition: transform 0.15s 0s, z-index 0.15s 0.15s;
+	}
 }
 
 // Hide icon
-.znpb-element-options__panel-wrapper--hidden
-	.znpb-element-options__headerHideIcon {
+.znpb-element-options__panel-wrapper--hidden .znpb-element-options__hideIcon {
 	left: -1px;
 	transform: rotate(270deg);
 }
 
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden
+	.znpb-element-options__hideIcon {
+	left: 1px;
+	transform: rotate(-270deg);
+}
+
 .znpb-element-options__panel-wrapper {
-	transition: margin-left .15s;
+	transition: margin-left 0.15s;
 }
 
 .znpb-element-options__panel-wrapper--hidden {
 	margin-left: -360px;
+}
+
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper {
+	transition: margin-right 0.15s;
+}
+
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
+	margin-left: 0;
+	margin-right: -360px;
 }
 </style>
