@@ -8,8 +8,8 @@
 				{{$translate('expand_all')}}
 
 				<Icon
-					icon="select"
-					:size="14"
+					icon="long-arrow-down"
+					:size="10"
 				/>
 
 			</a>
@@ -19,8 +19,8 @@
 			>
 				{{$translate('collapse_all')}}
 				<Icon
-					icon="select"
-					:size="14"
+					icon="long-arrow-up"
+					:size="10"
 				/>
 			</a>
 		</div>
@@ -67,6 +67,33 @@ export default {
 };
 </script>
 <style lang="scss">
+.znpb-tree-viewExpandContainer {
+	padding: 0 20px;
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 12px;
+
+	a {
+		display: flex;
+		align-items: center;
+		margin-left: 12px;
+		color: var(--zb-surface-text-color);
+		font-size: 11px;
+		font-weight: 700;
+		transition: color 0.15s;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
+	}
+
+	.znpb-editor-icon-wrapper {
+		position: relative;
+		top: -1px;
+		margin-left: 3px;
+	}
+}
+
 .znpb-tree-viewWrapper {
 	display: flex;
 	flex-direction: column;
