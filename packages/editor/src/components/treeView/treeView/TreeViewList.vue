@@ -26,7 +26,7 @@
 		<template #end>
 			<div
 				class="znpb-tree-view__item-add-element-button"
-				@click="toggleAddElementsPopup"
+				@click.stop="toggleAddElementsPopup"
 				ref="addElementsPopupButton"
 			>
 				<Icon
