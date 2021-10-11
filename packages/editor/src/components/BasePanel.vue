@@ -28,6 +28,8 @@
 				class="znpb-panel__header-icon-close"
 				@click.stop="$emit('close-panel')"
 			/>
+
+			<slot name="header--suffix" />
 		</div>
 
 		<!-- end panel header -->
@@ -39,12 +41,12 @@
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--horizontal"
 			@mousedown="activateHorizontalResize"
-			v-if="!isAnyPanelDragging"
+			v-if="!isAnyPanelDragging && allowHorizontalResize"
 		/>
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--vertical"
 			@mousedown="activateVerticalResize"
-			v-if="!isAnyPanelDragging"
+			v-if="!isAnyPanelDragging && allowVerticalResize"
 		/>
 	</div>
 </template>
@@ -514,20 +516,19 @@ export default {
 	&--left {
 		// box-shadow: 2px 0 0 0 var(--zb-surface-border-color);
 		border-right: var(--zb-panel-sideborder) solid
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
 		}
 	}
 
-	&--left + &--left,
-	&--right + &--right {
+	&--left + &--left, &--right + &--right {
 		border-left: 1px solid var(--zb-surface-border-color);
 	}
 	&--right {
 		// box-shadow: -2px 0 0 0 var(--zb-surface-border-color);
 		border-left: var(--zb-panel-sideborder) solid
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			left: -5px;
 		}
@@ -537,7 +538,7 @@ export default {
 	}
 	&--detached {
 		box-shadow: 0 0 0 var(--zb-panel-sideborder)
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
 			right: -5px;
@@ -558,7 +559,7 @@ export default {
 	& > .znpb-editor-icon-wrapper {
 		margin-right: 15px;
 		color: var(--zb-surface-icon-color);
-		transition: color 0.15s ease-out;
+		transition: color .15s ease-out;
 		cursor: pointer;
 
 		.zion-icon.zion-svg-inline {
@@ -604,8 +605,8 @@ h4.znpb-panel__header-name {
 		height: 100%;
 		&:hover {
 			background-color: var(--zb-secondary-color);
-			opacity: 0.6;
 			cursor: ew-resize;
+			opacity: .6;
 		}
 	}
 
@@ -616,8 +617,8 @@ h4.znpb-panel__header-name {
 		height: 5px;
 		&:hover {
 			background-color: var(--zb-secondary-color);
-			opacity: 0.6;
 			cursor: n-resize;
+			opacity: .6;
 		}
 	}
 }

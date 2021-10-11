@@ -1,13 +1,16 @@
 <template>
 	<BasePanel
 		class="znpb-element-options__panel-wrapper"
+		:class="{
+			'znpb-element-options__panel-wrapper--hidden': isPanelHidden
+		}"
 		@close-panel="closeOptionsPanel"
 		:panel-name="`${element.name} ${$translate('options')}`"
 		panel-id="PanelElementOptions"
 		:show-move="true"
 		:show-expand="false"
-		:allow-horizontal-resize="false"
-		:allow-vertical-resize="false"
+		:allow-horizontal-resize="!isPanelHidden"
+		:allow-vertical-resize="!isPanelHidden"
 		:panel="panel"
 	>
 		<template #header>
@@ -40,6 +43,21 @@
 
 			</div>
 		</template>
+
+		<template #header--suffix>
+			<div class="znpb-element-options__headerHide">
+				<Icon
+					icon="select"
+					class="znpb-element-options__headerHideIcon"
+					:class="{
+						'znpb-element-options__headerHide--hidden': isPanelHidden
+					}"
+					@click.stop="isPanelHidden = !isPanelHidden"
+				/>
+
+			</div>
+		</template>
+
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
@@ -155,6 +173,7 @@ export default {
 	},
 	props: ['panel'],
 	setup (props) {
+		const isPanelHidden = ref(false)
 		let ignoreLocalHistory = false
 		const { setActivePseudoSelector } = usePseudoSelectors()
 		const { element, editElement, unEditElement } = useEditElement()
@@ -258,6 +277,7 @@ export default {
 		provide('serverRequester', element.value.serverRequester)
 
 		return {
+			isPanelHidden,
 			element,
 			// Computed
 			elementOptions,
@@ -783,5 +803,46 @@ export default {
 .znpb-input-content .widget-inside {
 	box-shadow: none;
 	border: none;
+}
+
+// Hide options panel
+.znpb-element-options__panel-wrapper:hover .znpb-element-options__headerHide, .znpb-element-options__panel-wrapper--hidden .znpb-element-options__headerHide {
+	opacity: 1;
+	visibility: visible;
+}
+.znpb-element-options__headerHide {
+	position: absolute;
+	left: 100%;
+	z-index: 1;
+	padding: 5px;
+	color: #fff;
+	background: red;
+	border: 1px solid #ccc;
+	border-left: 0;
+	border-radius: 0 50% 50% 0;
+	transition: all .3s;
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+
+	.znpb-editor-icon-wrapper {
+		transform: rotate(90deg);
+		transition: all .3s;
+	}
+}
+
+// Hide icon
+.znpb-element-options__panel-wrapper--hidden
+	.znpb-element-options__headerHide
+	.znpb-editor-icon-wrapper {
+	transform: rotate(270deg);
+}
+
+.znpb-element-options__panel-wrapper {
+	transition: all 1s;
+}
+
+.znpb-element-options__panel-wrapper--hidden {
+	margin-left: -360px;
 }
 </style>
