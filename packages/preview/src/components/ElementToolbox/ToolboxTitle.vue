@@ -12,6 +12,7 @@
 				v-for="parent in parents"
 				:key="parent.uid"
 				class="zbpb-element-toolbox__titleContainer"
+				:class="{'zbpb-element-toolbox__titleContainer--active': parent === editedElement}"
 				@click.stop="editElement(parent)"
 				@contextmenu="showElementMenu($event, parent)"
 			>
@@ -42,6 +43,8 @@ export default {
 	},
 	setup (props) {
 		const root = ref(null)
+		const { element: editedElement } = useEditElement()
+
 		const parents = computed(() => {
 			let parents = []
 			let activeElement = props.element
@@ -90,6 +93,7 @@ export default {
 			root,
 			exitsTop,
 			exitsRight,
+			editedElement,
 
 			// Methods
 			editElement,
@@ -128,12 +132,13 @@ export default {
 	white-space: nowrap;
 	transition: all .25s;
 	cursor: pointer;
+	opacity: .8;
+
+	&.zbpb-element-toolbox__titleContainer--active, &:hover {
+		opacity: 1;
+	}
 
 	&:last-child {
-		.zbpb-element-toolbox__title {
-			font-weight: 700;
-		}
-
 		.zbpb-element-toolbox__icon {
 			transform: rotate(90deg);
 			transition: all .25s;
