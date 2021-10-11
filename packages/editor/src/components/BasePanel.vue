@@ -519,7 +519,7 @@ export default {
 		border-right: var(--zb-panel-sideborder) solid
 			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
-			right: -5px;
+			right: -6px;
 		}
 	}
 
@@ -532,7 +532,11 @@ export default {
 		border-left: var(--zb-panel-sideborder) solid
 			var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
-			left: -5px;
+			left: -6px;
+			&::before {
+				left: auto;
+				right: 0;
+			}
 		}
 	}
 	&--right + &--right {
@@ -543,7 +547,7 @@ export default {
 			var(--zb-surface-border-color);
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
-			right: -5px;
+			right: -6px;
 		}
 	}
 }
@@ -603,12 +607,24 @@ h4.znpb-panel__header-name {
 
 	&--horizontal {
 		top: 0;
-		width: 5px;
+		width: 6px;
 		height: 100%;
-		&:hover {
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 100%;
 			background-color: var(--zb-secondary-color);
-			cursor: ew-resize;
 			opacity: 0.6;
+			transition: width 0.1s;
+		}
+		&:hover {
+			cursor: ew-resize;
+		}
+		&:hover::before {
+			width: 100%;
 		}
 	}
 
