@@ -15,7 +15,7 @@
 		>
 			<Icon
 				icon="select"
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--move"
+				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
 					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded
 				}"
@@ -26,14 +26,14 @@
 			<img
 				v-if="get_element_image"
 				:src="get_element_image"
-				class="znpb-tree-view__itemImage"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
 			/>
 
 			<Icon
 				v-else
 				:icon="get_element_icon"
 				:size="24"
-				class="znpb-tree-view__itemIcon"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
 			/>
 
 			<div
@@ -183,6 +183,14 @@ export default defineComponent({
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
+		& > *:first-child {
+			padding-left: 15px;
+		}
+
+		& > *:last-child {
+			padding-right: 15x;
+		}
+
 		&:hover {
 			background-color: var(--zb-surface-lightest-color);
 		}
@@ -213,20 +221,21 @@ export default defineComponent({
 		&-rename {
 			position: relative;
 			flex-grow: 1;
-			padding-top: 15px;
-			padding-right: 15px;
-			padding-bottom: 15px;
+			padding: 10px 8px;
 			cursor: text;
+
 			&:focus {
 				outline: 0;
 			}
 		}
 
 		&-expand, &-more {
-			padding: 15px;
+			padding: 10px 8px;
 		}
 
 		&-expand {
+			cursor: pointer;
+
 			& > .zion-icon {
 				transition: none;
 			}
@@ -253,5 +262,9 @@ export default defineComponent({
 			}
 		}
 	}
+}
+
+.znpb-tree-view__itemIcon {
+	padding: 10px 8px;
 }
 </style>

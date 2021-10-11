@@ -628,7 +628,7 @@ export default {
 
 .znpb-form__input-description-tooltip {
 	max-width: 200px;
-	padding: 5px 10px;
+	padding: 5px 10px !important;
 	line-height: 1.7;
 	text-align: center;
 }
