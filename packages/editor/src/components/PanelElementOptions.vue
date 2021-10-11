@@ -45,14 +45,16 @@
 		</template>
 
 		<template #header--suffix>
-			<div class="znpb-element-options__headerHide">
+			<div
+				class="znpb-element-options__headerHide"
+				@click.stop="isPanelHidden = !isPanelHidden"
+			>
 				<Icon
 					icon="select"
 					class="znpb-element-options__headerHideIcon"
 					:class="{
 						'znpb-element-options__headerHide--hidden': isPanelHidden
 					}"
-					@click.stop="isPanelHidden = !isPanelHidden"
 				/>
 
 			</div>
