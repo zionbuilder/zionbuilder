@@ -615,6 +615,10 @@ export default {
 		padding-top: 0;
 	}
 
+	&__panel-wrapper--hidden .znpb-panel__content_wrapper {
+		z-index: 0;
+	}
+
 	&__header {
 		position: relative;
 		display: flex;
