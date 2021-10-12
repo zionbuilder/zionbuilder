@@ -23,17 +23,10 @@
 				v-if="element.isWrapper"
 			/>
 
-			<img
-				v-if="get_element_image"
-				:src="get_element_image"
+			<UIElementIcon
+				:element="elementModel"
 				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
-			/>
-
-			<Icon
-				v-else
-				:icon="get_element_icon"
 				:size="24"
-				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
 			/>
 
 			<div
@@ -106,10 +99,9 @@ export default defineComponent({
 		const { showElementMenu, elementOptionsRef, isActiveItem } =
 			useTreeViewItem(props);
 
-		const { getElementIcon, getElementImage } = useElementTypes();
+		const { getElementType } = useElementTypes();
 
-		const get_element_image = getElementImage(props.element.element_type);
-		const get_element_icon = getElementIcon(props.element.element_type);
+		const elementModel = getElementType(props.element.element_type);
 
 		const onItemClick = () => {
 			const { focusElement } = useElementActions();
@@ -151,9 +143,8 @@ export default defineComponent({
 			elementOptionsRef,
 			isActiveItem,
 			onItemClick,
-			get_element_image,
-			get_element_icon,
 			listItem,
+			elementModel,
 		};
 	},
 });
@@ -286,5 +277,10 @@ export default defineComponent({
 .znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
 	opacity: 1;
 	visibility: visible;
+}
+
+// Set the font size for the svg icons
+.znpb-tree-view__itemIcon {
+	font-size: 24px;
 }
 </style>

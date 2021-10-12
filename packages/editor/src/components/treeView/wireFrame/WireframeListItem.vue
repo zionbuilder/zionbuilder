@@ -16,18 +16,13 @@
 				/>
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--center">
-				<img
-					v-if="get_element_image"
-					:src="get_element_image"
-					class="znpb-wireframe-itemImage"
+
+				<UIElementIcon
+					:element="elementModel"
+					class="znpb-tree-view__itemIcon"
+					:size="24"
 				/>
 
-				<Icon
-					v-else
-					:icon="get_element_icon"
-					:size="24"
-					class="znpb-wireframe-itemIcon"
-				/>
 				<div
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
 					@input="element.name = $event.target.value"
@@ -105,18 +100,16 @@ export default {
 		} = useTreeViewItem(props)
 		const columnSize = computed(() => props.element.options.column_size)
 
-		const { getElementIcon, getElementImage } = useElementTypes();
+		const { getElementType } = useElementTypes();
 
-		const get_element_image = getElementImage(props.element.element_type);
-		const get_element_icon = getElementIcon(props.element.element_type);
+		const elementModel = getElementType(props.element.element_type);
 
 		return {
 			showElementMenu,
+			elementModel,
 			elementOptionsRef,
 			isActiveItem,
-			columnSize,
-			get_element_image,
-			get_element_icon
+			columnSize
 		}
 	},
 	data () {
