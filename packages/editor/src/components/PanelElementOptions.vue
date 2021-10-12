@@ -61,22 +61,6 @@
 			</div>
 		</template>
 
-		<template #after-header>
-			<div
-				class="znpb-element-options__hide"
-				@click.stop="isPanelHidden = !isPanelHidden"
-			>
-				<Icon
-					icon="select"
-					class="znpb-element-options__hideIcon"
-					:class="{
-						'znpb-element-options__hide--hidden': isPanelHidden
-					}"
-				/>
-
-			</div>
-		</template>
-
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
@@ -659,8 +643,8 @@ export default {
 				font-size: 14px;
 				background-color: var(--zb-surface-lighter-color);
 				border-radius: 3px;
-				transition: 0.15s all;
-				transition: all 0.3s;
+				transition: .15s all;
+				transition: all .3s;
 				cursor: pointer;
 
 				&:hover {
@@ -717,8 +701,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 
-			.znpb-tabs__content,
-			.znpb-tabs__wrapper {
+			.znpb-tabs__content, .znpb-tabs__wrapper {
 				height: calc(100% - 38px);
 			}
 
@@ -749,8 +732,7 @@ export default {
 			margin-right: 10px;
 		}
 
-		&__undo,
-		&__redo {
+		&__undo, &__redo {
 			display: flex;
 			justify-content: center;
 			flex: 1;
@@ -762,11 +744,11 @@ export default {
 
 			&--active {
 				&:hover {
-					opacity: 0.9;
+					opacity: .9;
 				}
 			}
 			&--disabled {
-				opacity: 0.5;
+				opacity: .5;
 				pointer-events: none;
 			}
 		}
@@ -794,8 +776,7 @@ export default {
 	}
 }
 .znpb-element-options__tabs-wrapper {
-	p.znpb-element-options-default-message,
-	p.znpb-element-options-no-option-message {
+	p.znpb-element-options-default-message, p.znpb-element-options-no-option-message {
 		padding: 20px;
 	}
 
@@ -807,9 +788,7 @@ export default {
 }
 
 //search tab
-.znpb-tabs--card
-	> .znpb-tabs__header
-	> .znpb-tabs__header-item.znpb-tabs__header-item--search {
+.znpb-tabs--card > .znpb-tabs__header > .znpb-tabs__header-item.znpb-tabs__header-item--search {
 	flex: 0 1 auto;
 	padding: 0;
 	margin-left: auto;
@@ -849,7 +828,7 @@ export default {
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 0 50% 50% 0;
 	transform: translateX(-100%);
-	transition: transform 0.15s 0s;
+	transition: transform .15s 0s;
 	cursor: pointer;
 
 	body.znpb-theme-dark & {
@@ -861,7 +840,7 @@ export default {
 		left: -2px;
 		font-size: 12px;
 		transform: rotate(90deg);
-		transition: color 0.15s;
+		transition: color .15s;
 	}
 
 	&:hover &Icon {
@@ -895,19 +874,18 @@ export default {
 	}
 
 	.znpb-element-options__panel-wrapper--hidden & {
-		transition: opacity 0.15s;
-		opacity: 0.6;
+		transition: opacity .15s;
+		opacity: .6;
 
 		&:hover {
 			opacity: 1;
 		}
 	}
 
-	.znpb-element-options__panel-wrapper:hover &,
-	.znpb-element-options__panel-wrapper--hidden & {
+	.znpb-element-options__panel-wrapper:hover &, .znpb-element-options__panel-wrapper--hidden & {
 		z-index: 2;
 		transform: translateX(0);
-		transition: transform 0.15s 0s, z-index 0.15s 0.15s;
+		transition: transform .15s 0s, z-index .15s .15s;
 	}
 }
 
@@ -924,7 +902,7 @@ export default {
 }
 
 .znpb-element-options__panel-wrapper {
-	transition: margin-left 0.15s;
+	transition: margin-left .15s;
 }
 
 .znpb-element-options__panel-wrapper--hidden {
@@ -932,7 +910,7 @@ export default {
 }
 
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper {
-	transition: margin-right 0.15s;
+	transition: margin-right .15s;
 }
 
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
