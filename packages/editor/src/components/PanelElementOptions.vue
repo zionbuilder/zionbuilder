@@ -816,7 +816,7 @@ export default {
 .znpb-element-options__hide {
 	position: absolute;
 	top: 16px;
-	left: calc(100% + 2px);
+	left: 100%;
 	z-index: 0;
 	display: flex;
 	justify-content: center;
@@ -830,10 +830,6 @@ export default {
 	transform: translateX(-100%);
 	transition: transform .15s 0s;
 	cursor: pointer;
-
-	body.znpb-theme-dark & {
-		left: calc(100% + 1px);
-	}
 
 	&Icon {
 		position: relative;
@@ -856,16 +852,11 @@ export default {
 	}
 
 	.znpb-editor-panel--right & {
-		right: calc(100% + 2px);
+		right: 100%;
 		left: auto;
 		border-right: 0;
 		border-radius: 50% 0 0 50%;
 		transform: translateX(100%);
-	}
-
-	body.znpb-theme-dark .znpb-editor-panel--right & {
-		right: calc(100% + 1px);
-		left: auto;
 	}
 
 	.znpb-editor-panel--right &Icon {
@@ -874,12 +865,27 @@ export default {
 	}
 
 	.znpb-element-options__panel-wrapper--hidden & {
+		left: calc(100% + 2px);
 		transition: opacity .15s;
 		opacity: .6;
 
 		&:hover {
 			opacity: 1;
 		}
+	}
+
+	.znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right & {
+		left: auto;
+		right: calc(100% + 2px)
+	}
+
+	body.znpb-theme-dark .znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right & {
+		left: auto;
+		right: calc(100% + 1px)
+	}
+
+	body.znpb-theme-dark .znpb-element-options__panel-wrapper--hidden & {
+		left: calc(100% + 1px);
 	}
 
 	.znpb-element-options__panel-wrapper:hover &, .znpb-element-options__panel-wrapper--hidden & {
