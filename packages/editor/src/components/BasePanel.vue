@@ -6,6 +6,9 @@
 		:id='panelId'
 		class="znpb-editor-panel"
 	>
+
+		<slot name="before-header" />
+
 		<!-- start panel header -->
 		<div
 			class="znpb-panel__header"
@@ -518,20 +521,19 @@ export default {
 	&--left {
 		// box-shadow: 2px 0 0 0 var(--zb-surface-border-color);
 		border-right: var(--zb-panel-sideborder) solid
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			right: -6px;
 		}
 	}
 
-	&--left + &--left,
-	&--right + &--right {
+	&--left + &--left, &--right + &--right {
 		border-left: 1px solid var(--zb-surface-border-color);
 	}
 	&--right {
 		// box-shadow: -2px 0 0 0 var(--zb-surface-border-color);
 		border-left: var(--zb-panel-sideborder) solid
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		.znpb-editor-panel__resize--horizontal {
 			left: -6px;
 			&::before {
@@ -545,7 +547,7 @@ export default {
 	}
 	&--detached {
 		box-shadow: 0 0 0 var(--zb-panel-sideborder)
-			var(--zb-surface-border-color);
+		var(--zb-surface-border-color);
 		border: none;
 		.znpb-editor-panel__resize--horizontal {
 			right: -6px;
@@ -566,7 +568,7 @@ export default {
 	& > .znpb-editor-icon-wrapper {
 		margin-right: 15px;
 		color: var(--zb-surface-icon-color);
-		transition: color 0.15s ease-out;
+		transition: color .15s ease-out;
 		cursor: pointer;
 
 		.zion-icon.zion-svg-inline {
@@ -618,8 +620,8 @@ h4.znpb-panel__header-name {
 			width: 0;
 			height: 100%;
 			background-color: var(--zb-secondary-color);
-			transition: width 0.1s;
-			opacity: 0.6;
+			transition: width .1s;
+			opacity: .6;
 		}
 		&:hover {
 			cursor: ew-resize;
@@ -637,7 +639,7 @@ h4.znpb-panel__header-name {
 		&:hover {
 			background-color: var(--zb-secondary-color);
 			cursor: n-resize;
-			opacity: 0.6;
+			opacity: .6;
 		}
 	}
 }
