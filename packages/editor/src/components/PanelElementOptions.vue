@@ -820,20 +820,24 @@ export default {
 .znpb-element-options__hide {
 	position: absolute;
 	top: 16px;
-	left: 100%;
+	left: calc(100% + 2px);
 	z-index: -1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 20px;
 	height: 24px;
-	color: var(--zb-surface-text-color);
+	color: var(--zb-surface-icon-color);
 	background: var(--zb-surface-color);
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 0 50% 50% 0;
 	cursor: pointer;
 	transform: translateX(-100%);
 	transition: transform 0.15s 0s;
+
+	body.znpb-theme-dark & {
+		left: calc(100% + 1px);
+	}
 
 	&Icon {
 		position: relative;
@@ -851,11 +855,21 @@ export default {
 		display: none;
 	}
 
+	.znpb-editor-panel--left & {
+		border-left: 0;
+	}
+
 	.znpb-editor-panel--right & {
 		left: auto;
-		right: 100%;
+		right: calc(100% + 2px);
+		border-right: 0;
 		border-radius: 50% 0 0 50%;
 		transform: translateX(100%);
+	}
+
+	body.znpb-theme-dark .znpb-editor-panel--right & {
+		left: auto;
+		right: calc(100% + 1px);
 	}
 
 	.znpb-editor-panel--right &Icon {
