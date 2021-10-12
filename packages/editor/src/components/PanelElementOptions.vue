@@ -877,6 +877,15 @@ export default {
 		transform: rotate(-90deg);
 	}
 
+	.znpb-element-options__panel-wrapper--hidden & {
+		opacity: 0.6;
+		transition: opacity 0.15s;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
 	.znpb-element-options__panel-wrapper:hover &,
 	.znpb-element-options__panel-wrapper--hidden & {
 		transform: translateX(0);
