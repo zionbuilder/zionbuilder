@@ -15,29 +15,25 @@
 			@expand-panel="$emit('expand-panel')"
 		/>
 
+		<template #end>
+			<div
+				class="znpb-tree-view__view__ListAddButtonInside"
+				v-if="templateItems.length === 0"
+			>
+				<AddElementIcon
+					:element="element"
+					class="znpb-tree-view__ListAddButton"
+				/>
+			</div>
+
+		</template>
+
 		<template #helper>
 			<SortableHelper />
 		</template>
 
 		<template #placeholder>
 			<SortablePlaceholder />
-		</template>
-
-		<template #end>
-			<div
-				class="znpb-tree-view__item-add-element-button"
-				@click.stop="toggleAddElementsPopup"
-				ref="addElementsPopupButton"
-			>
-				<Icon
-					icon="plus"
-					:bgSize="25"
-					:rounded="true"
-					color="#fff"
-					:bgColor="addButtonBgColor"
-					class="znpb-tree-view__item-add-element-button-icon"
-				></Icon>
-			</div>
 		</template>
 	</Sortable>
 </template>
@@ -60,10 +56,7 @@ export default {
 	},
 	setup (props, context) {
 		const {
-			addElementsPopupButton,
 			templateItems,
-			addButtonBgColor,
-			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd
 		} = useTreeViewList(props)
@@ -73,20 +66,30 @@ export default {
 		}
 
 		return {
-			addElementsPopupButton,
 			templateItems,
-			toggleAddElementsPopup,
 			onChildActive,
 			sortableStart,
-			sortableEnd,
-			addButtonBgColor
+			sortableEnd
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-.znpb-tree-view__item-add-element-button {
+.znpb-tree-view {
+	padding-bottom: 25px;
+
+	& .znpb-tree-view-wrapper {
+		padding: 0 20px;
+
+		& .znpb-tree-view-wrapper {
+			padding-right: 0;
+			padding-left: 10px;
+		}
+	}
+}
+
+.znpb-tree-view__view__ListAddButtonInside {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -97,15 +100,5 @@ export default {
 	border: 1px dashed var(--zb-surface-border-color);
 	border-radius: 3px;
 	cursor: pointer;
-}
-.znpb-tree-view {
-	& .znpb-tree-view-wrapper {
-		padding: 0 20px;
-
-		& .znpb-tree-view-wrapper {
-			padding-right: 0;
-			padding-left: 10px;
-		}
-	}
 }
 </style>

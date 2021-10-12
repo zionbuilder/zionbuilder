@@ -6,8 +6,7 @@
 		:id='panelId'
 		class="znpb-editor-panel"
 	>
-
-		<slot name="before-header" />
+		<slot name="before-header"></slot>
 
 		<!-- start panel header -->
 		<div
@@ -23,7 +22,9 @@
 			>
 				{{ panelName }}
 			</h4>
+
 			<slot name="header" />
+
 			<Icon
 				v-if="showClose"
 				icon="close"
@@ -32,12 +33,12 @@
 				@click.stop="$emit('close-panel')"
 			/>
 
-			<slot name="header--suffix" />
+			<slot name="header-suffix"></slot>
 		</div>
+		<!-- end panel header -->
 
 		<slot name="after-header" />
 
-		<!-- end panel header -->
 		<!-- content -->
 		<div class="znpb-panel__content_wrapper">
 			<slot />

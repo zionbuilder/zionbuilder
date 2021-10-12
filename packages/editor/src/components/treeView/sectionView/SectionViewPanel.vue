@@ -49,21 +49,15 @@ export default {
 	},
 	setup (props) {
 		const {
-			addElementsPopupButton,
 			templateItems,
-			addButtonBgColor,
-			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd
 		} = useTreeViewList(props)
 
 		return {
-			addElementsPopupButton,
 			templateItems,
-			toggleAddElementsPopup,
 			sortableStart,
-			sortableEnd,
-			addButtonBgColor
+			sortableEnd
 		}
 
 	}

@@ -71,7 +71,14 @@
 					icon="more"
 				/>
 			</div>
+
+			<AddElementIcon
+				:element="element"
+				class="znpb-tree-view__itemAddButton"
+				position="centered-bottom"
+			/>
 		</div>
+
 		<TreeViewList
 			v-if="element.treeViewItemExpanded"
 			:element="element"
@@ -95,6 +102,7 @@ export default defineComponent({
 	},
 	setup(props) {
 		const listItem: Ref = ref(null);
+
 		const { showElementMenu, elementOptionsRef, isActiveItem } =
 			useTreeViewItem(props);
 
@@ -188,7 +196,7 @@ export default defineComponent({
 		}
 
 		& > *:last-child {
-			padding-right: 15x;
+			padding-right: 15px;
 		}
 
 		&:hover {
@@ -266,5 +274,17 @@ export default defineComponent({
 
 .znpb-tree-view__itemIcon {
 	padding: 10px 8px;
+}
+
+.znpb-tree-view__itemAddButton {
+	z-index: 1;
+	transition: all .3s;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
+	opacity: 1;
+	visibility: visible;
 }
 </style>

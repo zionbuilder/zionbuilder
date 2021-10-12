@@ -16,6 +16,7 @@ import {
 	TreeViewList,
 	TreeViewListItem
 } from './components/treeView'
+import AddElementIcon from './common/AddElementIcon.vue'
 import EmptySortablePlaceholder from './common/EmptySortablePlaceholder.vue'
 import SortableHelper from './common/SortableHelper.vue'
 import SortablePlaceholder from './common/SortablePlaceholder.vue'
@@ -58,6 +59,7 @@ appInstance.component('TreeViewListItem', TreeViewListItem)
 appInstance.component('WireframeList', WireframeList)
 appInstance.component('WireframeListItem', WireframeListItem)
 appInstance.component('EmptySortablePlaceholder', EmptySortablePlaceholder)
+appInstance.component('AddElementIcon', AddElementIcon)
 appInstance.component('SortableHelper', SortableHelper)
 appInstance.component('SortablePlaceholder', SortablePlaceholder)
 

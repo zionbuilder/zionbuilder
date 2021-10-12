@@ -7,8 +7,6 @@ export function useTreeViewList(props: Object) {
 	const elementOptionsRef = ref(null)
 	const { setDraggingState } = useIsDragging()
 
-	const addButtonBgColor = props.element.element_type === 'zion_column' ? '#eec643' : '#404be3'
-
 	const templateItems = computed({
 		get() {
 			return props.element.content
@@ -40,7 +38,6 @@ export function useTreeViewList(props: Object) {
 	return {
 		addElementsPopupButton,
 		templateItems,
-		addButtonBgColor,
 		elementOptionsRef,
 		toggleAddElementsPopup,
 		sortableStart,
