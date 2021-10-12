@@ -12,7 +12,7 @@
 			ref="addElementsPopupButton"
 		>
 			<Icon
-				v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
+				v-znpb-tooltip="positionString + ' ' + element.name"
 				icon="plus"
 				:rounded="true"
 			/>
@@ -24,6 +24,7 @@
 <script>
 import { ref } from 'vue'
 import { useAddElementsPopup } from '@composables'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: "AddElementIcon",
@@ -36,12 +37,13 @@ export default {
 			default: 'next'
 		},
 		position: {
-			type: String,
-			default: ''
+			type: String
 		}
 	},
 	setup (props) {
 		const addElementsPopupButton = ref(false)
+
+		const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after')
 
 		function toggleAddElementsPopup () {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -53,6 +55,9 @@ export default {
 		return {
 			// Refs
 			addElementsPopupButton,
+
+			// Vars
+			positionString,
 
 			// Methods
 			toggleAddElementsPopup
@@ -95,6 +100,6 @@ export default {
 	transform: scale(0);
 }
 .bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
-	transition: all .2s;
+	transition: scale .2s;
 }
 </style>

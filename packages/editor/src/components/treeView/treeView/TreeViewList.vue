@@ -23,6 +23,7 @@
 				<AddElementIcon
 					:element="element"
 					class="znpb-tree-view__ListAddButton"
+					placement="inside"
 				/>
 			</div>
 

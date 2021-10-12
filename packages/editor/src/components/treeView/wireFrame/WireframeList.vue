@@ -35,17 +35,11 @@
 				:data="element"
 			/>
 
-			<div
-				class="znpb-element-toolbox__add-element-button"
-				@click="toggleAddElementsPopup"
-				ref="addElementsPopupButton"
-				v-if="showAdd"
-			>
-				<Icon
-					icon="plus"
-					:rounded="true"
-				/>
-			</div>
+			<AddElementIcon
+				:element="element"
+				class="znpb-tree-view__ListAddButton"
+				placement="next"
+			/>
 		</template>
 
 	</Sortable>
