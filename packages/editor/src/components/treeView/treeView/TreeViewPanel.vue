@@ -1,6 +1,30 @@
 <template>
 	<div class="znpb-tree-viewWrapper">
 		<div class="znpb-tree-viewExpandContainer">
+
+			<ModalConfirm
+				v-if="showModalConfirm"
+				:width="530"
+				:confirm-text="$translate('yes_delete_elements')"
+				:cancel-text="$translate('cancel')"
+				@confirm="removeAllElements"
+				@cancel="showModalConfirm = false"
+			>
+				{{$translate('are_you_sure_delete_elements')}}
+			</ModalConfirm>
+
+			<a
+				href="#"
+				@click="showModalConfirm = true"
+			>
+
+				{{$translate('remove_all')}}
+				<Icon
+					icon="delete"
+					:size="10"
+				/>
+			</a>
+
 			<a
 				href="#"
 				@click="expandOrCollapse(element), showExpand = !showExpand"
@@ -31,7 +55,9 @@
 
 </template>
 <script lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useElements, useEditorData, useHistory } from "@composables";
+import { translate } from "@zb/i18n";
 
 export default {
 	name: "TreeViewPanel",
@@ -43,6 +69,7 @@ export default {
 	},
 	setup(props) {
 		const showExpand = ref(true);
+		const showModalConfirm = ref(false);
 
 		function expandOrCollapse(element) {
 			if (element.content.length > 0) {
@@ -53,9 +80,30 @@ export default {
 			}
 		}
 
+		function removeAllElements() {
+			const { getElement } = useElements();
+			const { editorData } = useEditorData();
+			const { addToHistory } = useHistory();
+
+			const rootElement = computed(() =>
+				getElement(editorData.value.page_id)
+			);
+
+			// Delete all elements
+			rootElement.value.content = [];
+
+			// Add to history
+			addToHistory(translate("removed_all_elements"));
+
+			// Close modal
+			showModalConfirm.value = false;
+		}
+
 		return {
 			showExpand,
+			showModalConfirm,
 			expandOrCollapse,
+			removeAllElements,
 		};
 	},
 };

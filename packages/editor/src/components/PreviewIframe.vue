@@ -225,7 +225,6 @@ export default {
 		},
 		onBeforeUnloadIframe () {
 			const { setPreviewLoading } = usePreviewLoading()
-			const { unsetPageSettings } = usePageSettings()
 
 			setPreviewLoading(true)
 		},
@@ -278,9 +277,9 @@ export default {
 	max-width: 100%;
 	min-height: 150px;
 	max-height: 100%;
-	box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 	border: 0;
-	transition: all 0.5s;
+	transition: all .5s;
 }
 .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default)
 	#znpb-editor-iframe {
