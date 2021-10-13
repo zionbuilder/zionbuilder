@@ -31,8 +31,6 @@
 			<EmptySortablePlaceholder
 				v-if="!element.content.length && element.isWrapper"
 				:element="element"
-				:parentUid="element.uid"
-				:data="element"
 			/>
 
 			<AddElementIcon

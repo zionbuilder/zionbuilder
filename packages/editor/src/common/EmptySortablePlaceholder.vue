@@ -1,17 +1,10 @@
 <template>
 	<div class="znpb-empty-placeholder">
-		<div
-			class="znpb-empty-placeholder__add-element-button"
-			@click.stop.capture="toggleAddElementsPopup"
-			ref="addElementsPopupButton"
-		>
-			<Icon
-				v-znpb-tooltip="$translate('insert_inside') + ' ' + element.name"
-				icon="plus"
-				:rounded="true"
-				class="znpb-empty-placeholder__tour-icon"
-			/>
-		</div>
+		<AddElementIcon
+			:element="element"
+			placement="inside"
+			position="middle"
+		/>
 	</div>
 </template>
 
@@ -69,7 +62,6 @@ export default {
 		font-size: 14px;
 		line-height: 1 !important;
 		border-radius: 50%;
-		// transition: all .2s;
 
 		&::before {
 			content: "";
@@ -79,9 +71,9 @@ export default {
 			width: 100%;
 			height: 100%;
 			background: var(--zb-column-color);
-			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.1);
+			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
 			border-radius: 50%;
-			transition: all 0.2s;
+			transition: all .2s;
 		}
 
 		.znpb-element__wrapper &::before {
@@ -89,13 +81,6 @@ export default {
 		}
 		.zb-column &::before {
 			background-color: var(--zb-column-color);
-		}
-
-		.zb-section
-			> .zb-section__innerWrapper
-			> .znpb-empty-placeholder
-			&::before {
-			background-color: var(--zb-section-color);
 		}
 
 		&:hover {

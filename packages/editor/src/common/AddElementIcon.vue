@@ -6,7 +6,8 @@
 		<div
 			class="znpb-element-toolbox__add-element-button"
 			:class="{
-				[`znpb-element-toolbox__add-element-button--${position}`]: position
+				[`znpb-element-toolbox__add-element-button--${position}`]: position,
+				[`znpb-element-toolbox__add-element-button--${placement}`]: position,
 			}"
 			@click.stop="toggleAddElementsPopup"
 			ref="addElementsPopupButton"

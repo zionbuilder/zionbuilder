@@ -22,7 +22,6 @@
 			>
 				<AddElementIcon
 					:element="element"
-					class="znpb-tree-view__ListAddButton"
 					placement="inside"
 				/>
 			</div>
@@ -88,18 +87,5 @@ export default {
 			padding-left: 10px;
 		}
 	}
-}
-
-.znpb-tree-view__view__ListAddButtonInside {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	padding: 7.5px 0;
-	margin: 0 auto;
-	margin-bottom: 5px;
-	border: 1px dashed var(--zb-surface-border-color);
-	border-radius: 3px;
-	cursor: pointer;
 }
 </style>

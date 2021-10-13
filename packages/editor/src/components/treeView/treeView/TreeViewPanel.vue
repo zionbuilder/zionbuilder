@@ -16,6 +16,10 @@
 			<a
 				href="#"
 				@click="showModalConfirm = true"
+				class="znpb-tree-viewRemoveButton"
+				:class="{
+					'znpb-tree-viewRemoveButton--disabled': canRemove
+				}"
 			>
 
 				{{$translate('remove_all')}}
@@ -70,6 +74,9 @@ export default {
 	setup(props) {
 		const showExpand = ref(true);
 		const showModalConfirm = ref(false);
+		const canRemove = computed(() => {
+			return props.element.content.length === 0;
+		});
 
 		function expandOrCollapse(element) {
 			if (element.content.length > 0) {
@@ -100,6 +107,7 @@ export default {
 		}
 
 		return {
+			canRemove,
 			showExpand,
 			showModalConfirm,
 			expandOrCollapse,
