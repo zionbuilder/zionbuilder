@@ -44,7 +44,6 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-
 import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData } from '@composables'
 
 // Components
@@ -161,11 +160,9 @@ export default {
 		}
 
 		watch(foundElements, () => {
-			if (categoriesWrapper.value) {
-				nextTick(() => {
-					categoriesWrapper.value.scrollTop = 0
-				})
-			}
+			nextTick(() => {
+				categoriesWrapper.value.scrollTop = 0
+			})
 		})
 
 		// Lifecycle

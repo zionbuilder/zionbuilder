@@ -146,7 +146,7 @@ export default {
 		let dragTimeout = null
 		let eventScheduler = null
 		let hasHelperSlot = false
-		let childItems = ref([])
+		let childItems = []
 		let hasPlaceholderSlot = false
 		let lastEvent = null
 		let offset = null
@@ -159,7 +159,6 @@ export default {
 		const placeholder = ref(null)
 
 		// Computed
-		const canShowEmptyPlaceholder = computed(() => childItems.value.length === 0 || (dragging.value && childItems.value.length === 1))
 		const computedCssClasses = computed(() => {
 			const defaultClasses = {
 				// Body when dragging
@@ -857,7 +856,7 @@ export default {
 		}
 
 		const getDomElementsFromSortableItems = () => {
-			return childItems.value.filter(el => el).map(el => {
+			return childItems.filter(el => el).map(el => {
 				return el.el
 			})
 		}
@@ -884,7 +883,7 @@ export default {
 		})
 
 		function collectChildren () {
-			sortableItems.value = fetchChildren(childItems.value)
+			sortableItems.value = fetchChildren(childItems)
 		}
 
 		function fetchChildren (items) {
@@ -926,7 +925,7 @@ export default {
 
 			// Add sortable items
 			const draggableItems = slots.default()
-			childItems.value = fetchChildren(draggableItems)
+			childItems = fetchChildren(draggableItems)
 			childElements.push(draggableItems)
 
 			// Add the helper node
@@ -975,7 +974,7 @@ export default {
 					onDragstart: onDragStart,
 					ref: sortableContainer,
 					class: {
-						[`vuebdnd__placeholder-empty-container`]: childItems.value.length === 0 || (dragging.value && childItems.value.length === 1)
+						[`vuebdnd__placeholder-empty-container`]: childItems.length === 0 || (dragging.value && childItems.length === 1)
 					}
 				},
 				[childElements]

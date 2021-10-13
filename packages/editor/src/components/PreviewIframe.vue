@@ -49,14 +49,12 @@ import { each } from 'lodash-es'
 import {
 	useTemplateParts,
 	usePreviewLoading,
-	useElementActions,
 	useKeyBindings,
 	useSavePage,
 	useEditorData,
 	useEditorInteractions,
 	useWindows,
 	useHistory,
-	usePageSettings,
 	useElementTypes
 } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
