@@ -89,7 +89,7 @@ export default {
 
 		const imageSrc = ref(null);
 		const error = ref(null);
-		const loading: Ref<boolean> = ref(false);
+		const loading: Ref<boolean> = ref(true);
 
 		onMounted(() => {
 			const domElement = window.frames[
