@@ -7,7 +7,7 @@
 			class="znpb-element-toolbox__add-element-button"
 			:class="{
 				[`znpb-element-toolbox__add-element-button--${position}`]: position,
-				[`znpb-element-toolbox__add-element-button--${placement}`]: position,
+				[`znpb-element-toolbox__add-element-button--${placement}`]: placement,
 			}"
 			@click.stop="toggleAddElementsPopup"
 			ref="addElementsPopupButton"
@@ -68,7 +68,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .znpb-element-toolbox__add-element-button {
 	--button-size: 28px;
 	--font-size: 14px;
@@ -88,7 +87,7 @@ export default {
 	margin-left: calc((var(--button-size) / 2) * -1);
 
 	&::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -123,18 +122,19 @@ export default {
 }
 
 .bounce-add-icon-enter-from {
-	transform: scale(.9);
+	transform: scale(0.9);
 }
 .bounce-add-icon-enter-to {
 	transform: scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: scale(.5);
+	transform: scale(0.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
-	transition: scale .2s;
+.bounce-add-icon-enter-to,
+.bounce-add-icon-leave-from {
+	transition: scale 0.2s;
 }
 </style>

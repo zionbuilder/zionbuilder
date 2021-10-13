@@ -69,7 +69,6 @@
 				:element="element"
 				class="znpb-tree-view__itemAddButton"
 				position="centered-bottom"
-				placement="inside"
 			/>
 		</div>
 
