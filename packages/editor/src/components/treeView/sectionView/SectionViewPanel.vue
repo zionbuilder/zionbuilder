@@ -25,6 +25,18 @@
 				<SortablePlaceholder />
 			</template>
 
+			<template #end>
+				<div
+					class="znpb-tree-view__view__ListAddButtonInside"
+					v-if="templateItems.length === 0"
+				>
+					<AddElementIcon
+						:element="element"
+						placement="inside"
+					/>
+				</div>
+			</template>
+
 		</Sortable>
 	</div>
 </template>

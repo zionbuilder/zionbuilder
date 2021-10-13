@@ -5,7 +5,7 @@
 		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="onItemClick"
+		@click.stop.left="editElement"
 		@contextmenu.stop.prevent="showElementMenu"
 		ref="listItem"
 	>
@@ -81,12 +81,7 @@
 
 <script lang="ts">
 import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import {
-	Element,
-	useElementTypes,
-	useElementActions,
-	useEditElement,
-} from "@composables";
+import { Element, useElementTypes } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -96,22 +91,13 @@ export default defineComponent({
 	setup(props) {
 		const listItem: Ref = ref(null);
 
-		const { showElementMenu, elementOptionsRef, isActiveItem } =
-			useTreeViewItem(props);
-
-		const { getElementType } = useElementTypes();
-
-		const elementModel = getElementType(props.element.element_type);
-
-		const onItemClick = () => {
-			const { focusElement } = useElementActions();
-			const { editElement } = useEditElement();
-
-			focusElement(props.element);
-			editElement(props.element);
-			props.element.focus;
-			props.element.scrollTo = true;
-		};
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem,
+			editElement,
+			elementModel,
+		} = useTreeViewItem(props);
 
 		watch(
 			() => isActiveItem.value,
@@ -142,9 +128,9 @@ export default defineComponent({
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			onItemClick,
 			listItem,
 			elementModel,
+			editElement,
 		};
 	},
 });
@@ -272,6 +258,7 @@ export default defineComponent({
 
 .znpb-tree-view__itemIcon {
 	padding: 10px 8px;
+	font-size: 24px;
 
 	& svg {
 		pointer-events: none;
@@ -294,10 +281,5 @@ export default defineComponent({
 	&:hover::before {
 		transform: scale(1.1);
 	}
-}
-
-// Set the font size for the svg icons
-.znpb-tree-view__itemIcon {
-	font-size: 24px;
 }
 </style>

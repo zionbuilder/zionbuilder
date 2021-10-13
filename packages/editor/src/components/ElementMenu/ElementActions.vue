@@ -234,7 +234,6 @@ export default {
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()
 		const {
-			focusedElement,
 			copyElement,
 			pasteElement,
 			copiedElement,
@@ -265,7 +264,6 @@ export default {
 			savePage,
 			openPanel,
 			editElement,
-			focusedElement,
 			copyElement,
 			pasteElement,
 			copiedElement,

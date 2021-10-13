@@ -8,7 +8,16 @@ export function useEditElement() {
 		const { openPanel } = usePanels()
 
 		element.value = elementInstance
+
 		openPanel('PanelElementOptions')
+
+		if (elementInstance) {
+			let currentElement = elementInstance.parent
+			while (currentElement.parent) {
+				currentElement.treeViewItemExpanded = true
+				currentElement = currentElement.parent
+			}
+		}
 	}
 
 	const unEditElement = () => {

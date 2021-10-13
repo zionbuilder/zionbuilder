@@ -170,7 +170,6 @@ export default {
 		const { openPanels, panelPlaceholder } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
-		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
 		const { getMainbarPosition } = useEditorInteractions()
@@ -196,7 +195,6 @@ export default {
 			setActiveResponsiveDeviceId,
 			isPreviewMode,
 			setPreviewMode,
-			focusedElement,
 			applyShortcuts,
 			isPreviewLoading,
 			getMainbarPosition,
@@ -253,14 +251,6 @@ export default {
 		showDevices () {
 			this.devicesVisible = !this.devicesVisible
 		},
-		deselectActiveElement () {
-			// Don't deselect the element if an element was just activated
-			// TODO: implement this
-			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-			// 	if (this.focusedElement.value) {
-			// 		this.unFocusElement()
-			// 	}
-		},
 		onAfterLeave () {
 			const el = document.querySelector('iframe')
 			el.style.transform = 'translateZ(0)'
@@ -273,13 +263,11 @@ export default {
 
 	beforeUnmount: function () {
 		// remove events
-		document.removeEventListener('click', this.deselectActiveElement)
 		document.removeEventListener('keydown', this.applyShortcuts)
 	},
 	mounted () {
 		const { add } = useNotifications()
 
-		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
 
 		// Check for demo mode
@@ -357,15 +345,11 @@ export default {
 		height: 100%;
 	}
 }
-.znpb-left-area,
-.znpb-top-area,
-.znpb-bottom-area,
-.znpb-right-area {
+.znpb-left-area, .znpb-top-area, .znpb-bottom-area, .znpb-right-area {
 	display: flex;
 }
 
-.znpb-left-area,
-.znpb-right-area {
+.znpb-left-area, .znpb-right-area {
 	position: relative;
 	height: auto;
 	background: transparent;
@@ -379,8 +363,7 @@ export default {
 	overflow: hidden;
 }
 
-#znpb-html-app,
-#znpb-html-app body {
+#znpb-html-app, #znpb-html-app body {
 	width: 100%;
 	height: 100%;
 	margin: 0 !important;
@@ -409,30 +392,28 @@ export default {
 /*  slide from right */
 .slide-from-right-enter-to {
 	transform: translateX(0);
-	transition: all 0.3s ease-out;
-	transition-delay: 0.1s;
+	transition: all .3s ease-out;
+	transition-delay: .1s;
 }
 
 .slide-from-right-leave-from {
-	transition: all 0.3s ease-in;
+	transition: all .3s ease-in;
 }
-.slide-from-right-enter-from,
-.slide-from-right-leave-to {
+.slide-from-right-enter-from, .slide-from-right-leave-to {
 	transform: translateX(60px);
 	opacity: 0;
 }
 /*  slide from left */
 .slide-from-left-enter-to {
 	transform: translateX(0);
-	transition: all 0.3s ease-out;
-	transition-delay: 0.1s;
+	transition: all .3s ease-out;
+	transition-delay: .1s;
 }
 
 .slide-from-left-leave-from {
-	transition: all 0.3s ease-in;
+	transition: all .3s ease-in;
 }
-.slide-from-left-enter-from,
-.slide-from-left-leave-to {
+.slide-from-left-enter-from, .slide-from-left-leave-to {
 	transform: translateX(-60px);
 	opacity: 0;
 }
@@ -440,15 +421,13 @@ export default {
 .znpb-main-panel {
 	&--out {
 		&--position-left {
-			&-enter,
-			&-leave-to {
+			&-enter, &-leave-to {
 				margin-left: -60px;
 			}
 		}
 
 		&--position-right {
-			&-enter,
-			&-leave-to {
+			&-enter, &-leave-to {
 				margin-right: -60px;
 			}
 		}
@@ -478,7 +457,7 @@ body {
 
 	img {
 		margin-bottom: 30px;
-		opacity: 0.6;
+		opacity: .6;
 	}
 
 	&__text {
@@ -492,27 +471,19 @@ body {
 	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);
-	opacity: 0.5;
+	opacity: .5;
 }
 .znpb-panel-placeholder {
 	width: 100%;
 	height: 100%;
 }
 .zbpb-editor-demoMode {
-	.znpb-editor-header__page-save-wrapper--save,
-	.znpb-editor-header__page-save-wrapper--save a,
-	.znpb-editor-header__menu-list li:nth-child(4),
-	.znpb-editor-header__menu-list li:nth-child(5),
-	.znpb-editor-header__menu-list li:nth-child(6) {
+	.znpb-editor-header__page-save-wrapper--save, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4), .znpb-editor-header__menu-list li:nth-child(5), .znpb-editor-header__menu-list li:nth-child(6) {
 		cursor: not-allowed !important;
 	}
 
 	.znpb-editor-header__page-save-wrapper--save
-		.znpb-editor-header__menu_button,
-	.znpb-editor-header__page-save-wrapper--save a,
-	.znpb-editor-header__menu-list li:nth-child(4) a,
-	.znpb-editor-header__menu-list li:nth-child(5) a,
-	.znpb-editor-header__menu-list li:nth-child(6) a {
+	.znpb-editor-header__menu_button, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4) a, .znpb-editor-header__menu-list li:nth-child(5) a, .znpb-editor-header__menu-list li:nth-child(6) a {
 		pointer-events: none !important;
 	}
 

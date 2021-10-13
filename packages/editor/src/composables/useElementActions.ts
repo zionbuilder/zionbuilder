@@ -118,18 +118,9 @@ export function useElementActions() {
 				currentElement.treeViewItemExpanded = true
 				currentElement = currentElement.parent
 			}
-
 		}
 
 		focusedElement.value = element
-	}
-
-	const unFocusElement = () => {
-		focusedElement.value = null
-	}
-
-	const isElementFocused = (element: Element) => {
-		return element === focusedElement.value
 	}
 
 	const copyElementClasses = (element: Element) => {
@@ -156,8 +147,6 @@ export function useElementActions() {
 		pasteElementStyles,
 		copiedElementStyles,
 		focusElement,
-		unFocusElement,
-		isElementFocused,
 		focusedElement,
 		// Copy element classes
 		copiedElementClasses,

@@ -74,7 +74,6 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -83,8 +82,6 @@ export default {
 
 		return {
 			activeResponsiveDeviceInfo,
-			focusedElement,
-			unFocusElement,
 			applyShortcuts,
 			saveAutosave,
 			pageId: editorData.value.page_id,
@@ -207,14 +204,9 @@ export default {
 			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
-			this.getWindows('preview').addEventListener('click', this.deselectActiveElement, true)
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
 			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
 			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe)
-			// this.addEventListener('scroll', this.onScroll)
-		},
-		deselectActiveElement (event) {
-			this.unFocusElement()
 		},
 		preventClicks (event) {
 			const e = window.e || event
@@ -249,7 +241,6 @@ export default {
 	},
 	// end checkMousePosition
 	beforeUnmount () {
-		this.getWindows('preview').removeEventListener('click', this.deselectActiveElement)
 		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)

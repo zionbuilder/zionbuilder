@@ -5,7 +5,7 @@
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="onItemClick"
+		@click.stop.left="editElement"
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
@@ -18,7 +18,14 @@
 			class="znpb-section-view-item__header"
 			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
+			<UIElementIcon
+				:element="elementModel"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
+				:size="24"
+			/>
+
 			<div class="znpb-section-view-item__header-left">
+
 				<div
 					class="znpb-section-view-item__header-title"
 					@input="element.name = $event.target.value"
@@ -63,7 +70,7 @@ import { ref, Ref, PropType } from "vue";
 import domtoimage from "dom-to-image";
 import { onMounted } from "vue";
 import { translate } from "@zb/i18n";
-import { Element, useElementActions, useEditElement } from "@composables";
+import { Element } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {
@@ -72,8 +79,13 @@ export default {
 		element: Object as PropType<Element>,
 	},
 	setup(props) {
-		const { showElementMenu, elementOptionsRef, isActiveItem } =
-			useTreeViewItem(props);
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem,
+			editElement,
+			elementModel,
+		} = useTreeViewItem(props);
 
 		const imageSrc = ref(null);
 		const error = ref(null);
@@ -91,17 +103,21 @@ export default {
 				return;
 			}
 
-			const filter = function (node) {
+			function filter(node) {
 				if (node && node.classList) {
 					if (node.classList.contains("znpb-empty-placeholder")) {
 						return false;
 					}
+
+					if (node.classList.contains("znpb-element-toolbox")) {
+						return false;
+					}
 				}
 				return true;
-			};
+			}
 
 			domtoimage
-				.toSvg(domElement, {
+				.toPng(domElement, {
 					style: {
 						width: "100%",
 						margin: 0,
@@ -121,16 +137,6 @@ export default {
 				});
 		});
 
-		const onItemClick = () => {
-			const { focusElement } = useElementActions();
-			const { editElement } = useEditElement();
-
-			focusElement(props.element);
-			editElement(props.element);
-			props.element.focus;
-			props.element.scrollTo = true;
-		};
-
 		return {
 			imageSrc,
 			error,
@@ -138,7 +144,8 @@ export default {
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			onItemClick,
+			editElement,
+			elementModel,
 		};
 	},
 };
@@ -214,9 +221,14 @@ export default {
 
 		&-title {
 			padding: 15px;
+			padding-left: 8px;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			cursor: text;
+
+			&:focus-visible {
+				outline: none;
+			}
 		}
 
 		&.znpb-panel-item--active &-title {
@@ -232,5 +244,9 @@ export default {
 	z-index: 9;
 	margin: 0;
 	transform: translate(-50%, -50%);
+}
+
+.znpb-section-view-item__header .znpb-tree-view__itemIcon {
+	padding-left: 15px;
 }
 </style>

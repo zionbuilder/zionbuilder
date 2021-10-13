@@ -61,7 +61,7 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas, usePseudoSelectors } from '@zb/components'
@@ -79,7 +79,6 @@ export default {
 		const root = ref(null)
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
-		const { focusElement } = useElementActions()
 		const { getSchema } = useOptionsSchemas()
 		const { activePseudoSelector } = usePseudoSelectors()
 		const { element: activeEditedElement } = useEditElement()
@@ -319,8 +318,6 @@ export default {
 		const onElementClick = (event) => {
 			event.stopPropagation()
 
-			focusElement(props.element)
-
 			const { editElement } = useEditElement()
 
 			if (!isPreviewMode.value) {
@@ -379,7 +376,6 @@ export default {
 			elementComponent,
 			isPreviewMode,
 			showElementMenu,
-			focusElement,
 			onElementClick,
 			options,
 			customCSS,
