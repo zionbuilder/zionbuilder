@@ -287,6 +287,10 @@ export default defineComponent({
 .znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
 	opacity: 1;
 	visibility: visible;
+
+	&:hover::before {
+		transform: scale(1.1);
+	}
 }
 
 // Set the font size for the svg icons
