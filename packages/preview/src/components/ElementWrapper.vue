@@ -538,6 +538,7 @@ export default {
 		right: 0;
 		bottom: 0;
 		left: 0;
+		z-index: 1001;
 		display: flex;
 		justify-content: center;
 		align-items: center;
