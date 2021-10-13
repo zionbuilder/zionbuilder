@@ -127,7 +127,6 @@ export default {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement } = useElementActions()
 		const { addEventListener, removeEventListener } = useWindows()
 
 		const toggleAddElementsPopup = () => {
@@ -147,7 +146,6 @@ export default {
 			addElementsPopupButton,
 			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
-			focusedElement,
 			isDragging,
 			addEventListener,
 			removeEventListener,

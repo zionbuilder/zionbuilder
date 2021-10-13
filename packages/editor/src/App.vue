@@ -139,7 +139,7 @@ import PostLock from './components/PostLock.vue'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useDemoMode } from '@composables'
+import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -164,7 +164,6 @@ export default {
 		ElementMenu
 	},
 	setup (props) {
-		const { isDemoMode } = useDemoMode()
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
 		const { openPanels, panelPlaceholder } = usePanels()
@@ -198,8 +197,7 @@ export default {
 			applyShortcuts,
 			isPreviewLoading,
 			getMainbarPosition,
-			urls: editorData.value.urls,
-			isDemoMode
+			urls: editorData.value.urls
 		}
 	},
 	data: () => {
@@ -269,11 +267,6 @@ export default {
 		const { add } = useNotifications()
 
 		document.addEventListener('keydown', this.applyShortcuts)
-
-		// Check for demo mode
-		if (this.isDemoMode) {
-			document.body.classList.add('zbpb-editor-demoMode')
-		}
 
 		add({
 			message: this.$translate('autosave_notice'),

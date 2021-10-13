@@ -15,18 +15,10 @@ interface ElementCopiedStyles {
 }
 
 const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null)
-const focusedElement: Ref<null | Element> = ref(null)
 const copiedElementClasses: Ref<null | object> = ref(null)
 
 // Preserve focused element on history change
-const { currentHistoryIndex, addToHistory } = useHistory()
-const { getElement } = useElements()
-
-watch(currentHistoryIndex, (newValue) => {
-	if (focusedElement.value !== null) {
-		focusedElement.value = getElement(focusedElement.value.uid)
-	}
-})
+const { addToHistory } = useHistory()
 
 export function useElementActions() {
 	const copyElement = (element: Element, action = 'copy') => {
@@ -105,24 +97,6 @@ export function useElementActions() {
 		}
 	}
 
-	const focusElement = (element: Element) => {
-		if (typeof element === 'string') {
-			const { getElement } = useElements()
-			element = getElement(element)
-		}
-
-		// Expand parents
-		if (element) {
-			let currentElement = element.parent
-			while (currentElement.parent) {
-				currentElement.treeViewItemExpanded = true
-				currentElement = currentElement.parent
-			}
-		}
-
-		focusedElement.value = element
-	}
-
 	const copyElementClasses = (element: Element) => {
 		copiedElementClasses.value = cloneDeep(get(element.options, '_styles.wrapper.classes', null))
 	}
@@ -146,8 +120,6 @@ export function useElementActions() {
 		copyElementStyles,
 		pasteElementStyles,
 		copiedElementStyles,
-		focusElement,
-		focusedElement,
 		// Copy element classes
 		copiedElementClasses,
 		copyElementClasses,

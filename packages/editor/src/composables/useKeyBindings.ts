@@ -1,12 +1,13 @@
-import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory } from '@composables'
+import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory, useEditElement } from '@composables'
 import { isEditable, Environment } from '@zb/utils'
 
 export const useKeyBindings = () => {
 	const { togglePanel } = usePanels()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
-	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
+	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions()
 	const { editorData } = useEditorData()
+	const { editElement, element: focusedElement } = useEditElement()
 
 	const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey'
 
@@ -86,7 +87,10 @@ export const useKeyBindings = () => {
 				const nextFocusElement = getNextFocusedElement(activeElementFocus)
 
 				activeElementFocus.delete()
-				focusElement(nextFocusElement)
+
+				if (nextFocusElement) {
+					editElement(nextFocusElement)
+				}
 			}
 
 			// Copy element styles ctrl+shift+c
@@ -114,6 +118,7 @@ export const useKeyBindings = () => {
 		// Undo CTRL+Z
 		if (e.which === 90 && e[controllKey] && !e.shiftKey) {
 			const { canUndo, undo } = useHistory()
+
 			if (canUndo.value) {
 				undo()
 			}
