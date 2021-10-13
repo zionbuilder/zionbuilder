@@ -272,6 +272,10 @@ export default defineComponent({
 
 .znpb-tree-view__itemIcon {
 	padding: 10px 8px;
+
+	& svg {
+		pointer-events: none;
+	}
 }
 
 .znpb-tree-view__itemAddButton {

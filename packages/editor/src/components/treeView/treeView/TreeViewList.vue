@@ -6,6 +6,7 @@
 		group="pagebuilder-treview-elements"
 		@start="sortableStart"
 		@end="sortableEnd"
+		handle=".znpb-tree-view__itemIcon"
 	>
 
 		<TreeViewListItem
