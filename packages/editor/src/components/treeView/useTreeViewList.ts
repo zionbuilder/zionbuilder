@@ -1,4 +1,4 @@
-import { useAddElementsPopup, useElementMenu, useIsDragging } from '@composables'
+import { useElementMenu, useIsDragging } from '@composables'
 import { ref, computed } from 'vue'
 
 export function useTreeViewList(props: Object) {
@@ -15,12 +15,6 @@ export function useTreeViewList(props: Object) {
 			props.element.content = value
 		}
 	})
-
-	function toggleAddElementsPopup() {
-		const { showAddElementsPopup } = useAddElementsPopup()
-
-		showAddElementsPopup(props.element, addElementsPopupButton)
-	}
 
 	function sortableStart() {
 		setDraggingState(true)
@@ -39,7 +33,6 @@ export function useTreeViewList(props: Object) {
 		addElementsPopupButton,
 		templateItems,
 		elementOptionsRef,
-		toggleAddElementsPopup,
 		sortableStart,
 		sortableEnd,
 		showElementMenu

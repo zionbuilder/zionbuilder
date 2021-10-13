@@ -4,6 +4,7 @@
 			:element="element"
 			placement="inside"
 			position="middle"
+			ref="addElementsPopupButton"
 		/>
 	</div>
 </template>
@@ -24,18 +25,13 @@ export default {
 
 		onMounted(() => {
 			if (shouldOpenPopup.value === true) {
-				showAddElementsPopup(props.element, addElementsPopupButton)
+				console.log(addElementsPopupButton);
+				showAddElementsPopup(props.element, addElementsPopupButton.value.$el)
 				shouldOpenPopup.value = false
 			}
 		})
 
-
-		function toggleAddElementsPopup () {
-			showAddElementsPopup(props.element, addElementsPopupButton)
-		}
-
 		return {
-			toggleAddElementsPopup,
 			addElementsPopupButton,
 			showColumnTemplates
 		}
