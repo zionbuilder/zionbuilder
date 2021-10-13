@@ -25,7 +25,6 @@ export default {
 
 		onMounted(() => {
 			if (shouldOpenPopup.value === true) {
-				console.log(addElementsPopupButton);
 				showAddElementsPopup(props.element, addElementsPopupButton.value.$el)
 				shouldOpenPopup.value = false
 			}
