@@ -69,6 +69,7 @@
 				:element="element"
 				class="znpb-tree-view__itemAddButton"
 				position="centered-bottom"
+				placement="inside"
 			/>
 		</div>
 
@@ -162,14 +163,15 @@ export default defineComponent({
 	&Image {
 		height: 24px;
 	}
-	&Image, &Icon {
+	&Image,
+	&Icon {
 		color: var(--zb-surface-icon-color);
 	}
 
 	&--hidden {
 		.znpb-tree-view__item-header-item {
-			transition: opacity .5s ease;
-			opacity: .5;
+			transition: opacity 0.5s ease;
+			opacity: 0.5;
 		}
 	}
 	&-header {
@@ -225,7 +227,8 @@ export default defineComponent({
 			}
 		}
 
-		&-expand, &-more {
+		&-expand,
+		&-more {
 			padding: 10px 8px;
 		}
 
@@ -248,8 +251,8 @@ export default defineComponent({
 		&-options-container {
 			& > span {
 				color: var(--zb-surface-icon-color);
-				transition: all .2s ease;
-				opacity: .7;
+				transition: all 0.2s ease;
+				opacity: 0.7;
 			}
 			&:hover {
 				& > span {
