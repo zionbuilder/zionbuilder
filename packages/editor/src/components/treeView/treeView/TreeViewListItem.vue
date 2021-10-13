@@ -291,7 +291,6 @@ export default defineComponent({
 	visibility: visible;
 	transform: translateY(0);
 
-	&::before,
 	&:hover::before {
 		transform: scale(1.1);
 	}
