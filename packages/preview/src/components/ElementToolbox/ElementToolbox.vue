@@ -917,67 +917,6 @@ export default {
 			}
 		}
 	}
-
-	&__add-element-button {
-		position: absolute;
-		top: 100%;
-		right: 0;
-		bottom: 0;
-		left: 50%;
-		z-index: 1001;
-		width: 28px;
-		height: 28px;
-		color: #fff;
-		font-size: 14px;
-		line-height: 1 !important;
-		transform: translate(-50%, -50%);
-		transition: all .2s;
-		cursor: pointer;
-		pointer-events: auto;
-
-		& svg {
-			position: relative;
-			pointer-events: none;
-		}
-
-		&:before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
-			border-radius: 50%;
-			transition: all .2s;
-
-			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: #006dd2;
-			}
-		}
-		.znpb-editor-icon-wrapper {
-			position: relative;
-			width: 28px;
-			height: 28px;
-		}
-		&--section {
-			position: absolute;
-			top: 100%;
-			right: 0;
-			bottom: 0;
-			left: 50%;
-			width: 28px;
-			height: 28px;
-			transform: translate(-50%, -50%);
-			animation: AddCol ease-in-out .2s;
-			transition: all .2s;
-		}
-		&:hover {
-			&:before {
-				transform: scale(1.1);
-			}
-		}
-	}
 }
 
 .znpb-sizing-label {
@@ -992,13 +931,13 @@ export default {
 }
 
 .bounce-add-icon-enter-from {
-	transform: translate(-50%, -50%) scale(.9);
+	transform: scale(.9);
 }
 .bounce-add-icon-enter-to {
-	transform: translate(-50%, -50%) scale(1);
+	transform: scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: translate(-50%, -50%) scale(.5);
+	transform: scale(.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);

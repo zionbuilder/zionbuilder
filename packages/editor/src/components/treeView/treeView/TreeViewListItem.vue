@@ -186,10 +186,6 @@ export default defineComponent({
 			padding-left: 15px;
 		}
 
-		& > *:last-child {
-			padding-right: 15px;
-		}
-
 		&:hover {
 			background-color: var(--zb-surface-lightest-color);
 		}
@@ -217,6 +213,7 @@ export default defineComponent({
 				}
 			}
 		}
+
 		&-rename {
 			position: relative;
 			flex-grow: 1;
@@ -260,6 +257,14 @@ export default defineComponent({
 				}
 			}
 		}
+
+		.znpb-element-toolbox__add-element-button {
+			--button-size: 24px;
+			--font-size: 12px;
+			right: 0;
+			left: auto;
+			margin: -16px 30px 0 0;
+		}
 	}
 }
 
@@ -269,7 +274,6 @@ export default defineComponent({
 
 .znpb-tree-view__itemAddButton {
 	z-index: 1;
-	transition: all .3s;
 	opacity: 0;
 	visibility: hidden;
 }

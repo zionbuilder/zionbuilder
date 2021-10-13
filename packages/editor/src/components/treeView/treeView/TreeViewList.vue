@@ -87,5 +87,23 @@ export default {
 			padding-left: 10px;
 		}
 	}
+
+	&__view__ListAddButtonInside {
+		position: relative;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 5px;
+
+		.znpb-element-toolbox__add-element-button {
+			--button-size: 24px;
+			--font-size: 12px;
+			position: relative;
+			top: auto;
+			left: auto;
+			margin: 0;
+		}
+	}
 }
 </style>

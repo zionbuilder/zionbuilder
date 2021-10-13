@@ -159,4 +159,10 @@ export default {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+.znpb-tree-viewRemoveButton {
+	&--disabled {
+		display: none;
+	}
+}
 </style>
