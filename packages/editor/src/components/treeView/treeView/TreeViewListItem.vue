@@ -282,12 +282,16 @@ export default defineComponent({
 	z-index: 1;
 	opacity: 0;
 	visibility: hidden;
+	transform: translateX(10px);
+	transition: all 0.1s;
 }
 
 .znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
 	opacity: 1;
 	visibility: visible;
+	transform: translateY(0);
 
+	&::before,
 	&:hover::before {
 		transform: scale(1.1);
 	}
