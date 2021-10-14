@@ -296,7 +296,7 @@ export default {
 			height: 42px;
 			margin-bottom: 3px;
 			color: var(--zb-surface-text-color);
-			background: var(--zb-secondary-text-color);
+			background: var(--zb-surface-color);
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
