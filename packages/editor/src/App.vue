@@ -343,6 +343,12 @@ export default {
 		height: 100%;
 	}
 }
+
+.znpb-has-responsive-options__icon-button--active {
+	color: var(--zb-dropdown-text-active-color);
+	background-color: var(--zb-dropdown-bg-active-color);
+}
+
 .znpb-left-area, .znpb-top-area, .znpb-bottom-area, .znpb-right-area {
 	display: flex;
 }
