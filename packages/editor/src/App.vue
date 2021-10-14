@@ -37,6 +37,7 @@
 						placement="bottom"
 						:close-on-outside-click="true"
 					>
+
 						<!-- @show="openResponsive"
 						@hide="closeresponsive" -->
 						<template v-slot:content>
@@ -45,6 +46,9 @@
 								:key='index'
 								@click="activateDevice(device)"
 								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+								:class="{
+									'znpb-has-responsive-options__icon-button--active': activeResponsiveDeviceId === device.id
+								}"
 								ref="dropdown"
 							>
 								<Icon :icon="device.icon" />
@@ -167,7 +171,7 @@ export default {
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
 		const { openPanels, panelPlaceholder } = usePanels()
-		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
@@ -186,6 +190,7 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info)
 
 		return {
+			activeResponsiveDeviceId,
 			notifications,
 			panelPlaceholder,
 			openPanels,

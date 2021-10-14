@@ -11,9 +11,9 @@
 			}"
 			@click.stop="toggleAddElementsPopup"
 			ref="addElementsPopupButton"
+			v-znpb-tooltip="positionString + ' ' + element.name"
 		>
 			<Icon
-				v-znpb-tooltip="positionString + ' ' + element.name"
 				icon="plus"
 				:rounded="true"
 			/>
