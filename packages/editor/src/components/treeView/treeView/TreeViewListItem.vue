@@ -165,7 +165,7 @@ export default defineComponent({
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 5px;
-		color: var(--zb-surface-text-active-color);
+		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
@@ -174,6 +174,7 @@ export default defineComponent({
 		}
 
 		&:hover {
+			color: var(--zb-surface-text-hover-color);
 			background-color: var(--zb-surface-lightest-color);
 		}
 
