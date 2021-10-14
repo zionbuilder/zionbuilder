@@ -251,7 +251,7 @@ export default defineComponent({
 			--font-size: 12px;
 			right: 0;
 			left: auto;
-			margin: -16px 30px 0 0;
+			margin: -16px 45px 0 0;
 		}
 	}
 }
