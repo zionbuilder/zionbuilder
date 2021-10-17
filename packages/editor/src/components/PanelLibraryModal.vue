@@ -320,6 +320,12 @@ export default {
 			width: calc(100% - 40px);
 		}
 	}
+
+	& > .znpb-modal__wrapper--full-size {
+		width: 100% !important;
+		max-width: 100% !important;
+		height: 100% !important;
+	}
 }
 
 .znpb-modal__header-button--library-refresh {
@@ -331,7 +337,7 @@ export default {
 		padding: 11px;
 
 		&.loading {
-			animation: rotation 0.55s infinite linear;
+			animation: rotation .55s infinite linear;
 		}
 	}
 }
@@ -381,8 +387,7 @@ export default {
 		align-items: center;
 		align-self: center;
 
-		.znpb-button--secondary,
-		.znpb-button-buy-pro {
+		.znpb-button--secondary, .znpb-button-buy-pro {
 			display: flex;
 			align-items: center;
 			padding: 13px 20px;
@@ -403,7 +408,7 @@ export default {
 			align-self: center;
 			color: var(--zb-surface-text-color);
 			font-weight: 500;
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {

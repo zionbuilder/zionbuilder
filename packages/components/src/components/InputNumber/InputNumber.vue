@@ -149,6 +149,17 @@ export default {
 			window.removeEventListener('mouseup', deactivatedragNumber)
 			window.removeEventListener('keyup', onKeyUp)
 
+
+			function preventClicks (e) {
+				e.stopPropagation()
+			}
+
+			// Prevent closing colorpicker when clicked outside
+			window.addEventListener('click', preventClicks, true)
+			setTimeout(() => {
+				window.removeEventListener('click', preventClicks, true)
+			}, 100);
+
 			reset()
 		}
 
@@ -212,8 +223,7 @@ export default {
 input[type="number"] {
 	-moz-appearance: textfield;
 
-	&::-webkit-inner-spin-button,
-	&::-webkit-outer-spin-button {
+	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 	}
 	&:hover {

@@ -70,7 +70,7 @@ export default {
 			let { clientX, clientY } = event
 			this.rafDragCircle = rafSchd(this.dragCircle)
 			this.$refs.root.ownerDocument.defaultView.addEventListener('mousemove', this.rafDragCircle)
-			this.$refs.root.ownerDocument.defaultView.addEventListener('mouseup', this.deactivatedragCircle)
+			this.$refs.root.ownerDocument.defaultView.addEventListener('mouseup', this.deactivatedragCircle, true)
 
 			// Emit click value
 			let newLeft = clientX - this.boardContent.left
@@ -89,9 +89,23 @@ export default {
 				type: 'hsva'
 			})
 		},
-		deactivatedragCircle () {
+		deactivatedragCircle (e) {
 			this.$refs.root.ownerDocument.defaultView.removeEventListener('mousemove', this.rafDragCircle)
-			this.$refs.root.ownerDocument.defaultView.removeEventListener('mouseup', this.deactivatedragCircle)
+			this.$refs.root.ownerDocument.defaultView.removeEventListener('mouseup', this.deactivatedragCircle, true)
+
+			let $owner = this.$refs.root.ownerDocument.defaultView
+			function preventClicks (e) {
+				e.stopPropagation()
+			}
+
+			// Prevent closing colorpicker when clicked outside
+			$owner.addEventListener('click', preventClicks, true)
+			setTimeout(() => {
+				$owner.removeEventListener('click', preventClicks, true)
+				$owner = null
+			}, 100);
+
+
 		},
 		dragCircle (event) {
 			// If the mouseup happened outside window
