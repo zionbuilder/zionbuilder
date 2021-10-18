@@ -19,7 +19,7 @@
 		<template #end>
 			<div
 				class="znpb-tree-view__view__ListAddButtonInside"
-				v-if="templateItems.length === 0"
+				v-if="templateItems.length === 0 && element.isWrapper"
 			>
 				<AddElementIcon
 					:element="element"
