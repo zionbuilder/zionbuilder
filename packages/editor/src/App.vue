@@ -297,16 +297,23 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			width: 42px;
-			height: 42px;
+			width: 36px;
+			height: 36px;
 			margin-bottom: 3px;
 			color: var(--zb-surface-text-color);
 			background: var(--zb-surface-color);
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
+			transition: all 0.15s;
+
+			&:hover {
+				color: var(--zb-surface-text-hover-color);
+				background-color: var(--zb-surface-lighter-color);
+			}
+
 			.znpb-editor-icon-wrapper {
-				font-size: 16px;
+				font-size: 14px;
 			}
 		}
 
