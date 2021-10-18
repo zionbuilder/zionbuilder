@@ -31,7 +31,7 @@
 
 			<div
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				@input="element.name = $event.target.value"
+				@input="element.name = $event.target.textContent"
 				:contenteditable="true"
 			>
 				{{element.name}}

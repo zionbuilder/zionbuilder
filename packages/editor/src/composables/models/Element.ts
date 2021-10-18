@@ -118,7 +118,6 @@ export class Element {
 	set name(newName) {
 		const oldName = this.name
 		this.updateOptionValue('_advanced_options._element_name', newName)
-		// set(this.options, '_advanced_options._element_name', newName)
 
 		// Add to history
 		const { addToHistory } = useHistory()

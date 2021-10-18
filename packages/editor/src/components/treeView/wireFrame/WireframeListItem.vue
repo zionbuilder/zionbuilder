@@ -24,7 +24,7 @@
 
 				<div
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-					@input="element.name = $event.target.value"
+					@input="element.name = $event.target.textContent"
 					:contenteditable="true"
 				>
 					{{element.name}}
@@ -178,7 +178,7 @@ export default {
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 15px 15px 15px;
-	transition: opacity .2s ease;
+	transition: opacity 0.2s ease;
 	cursor: pointer;
 
 	&:hover {
@@ -198,7 +198,8 @@ export default {
 	&Image {
 		height: 24px;
 	}
-	&Image, &Icon {
+	&Image,
+	&Icon {
 		padding-right: 15px;
 	}
 
@@ -229,15 +230,16 @@ export default {
 
 	&__delete-icon {
 		padding: 13px 20px 13px 0;
-		transition: opacity .2s;
+		transition: opacity 0.2s;
 		cursor: pointer;
 
 		span {
 			transition: none;
 		}
 
-		&:hover, &:focus {
-			opacity: .5;
+		&:hover,
+		&:focus {
+			opacity: 0.5;
 		}
 	}
 
@@ -256,7 +258,7 @@ export default {
 		border-radius: 6px;
 		padding: 0 15px;
 		z-index: 1;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&-area {
 			display: flex;
@@ -294,7 +296,7 @@ export default {
 		&-item {
 			position: relative;
 			padding: 13px 20px;
-			transition: opacity .2s;
+			transition: opacity 0.2s;
 
 			&:focus {
 				outline: 0;
@@ -318,7 +320,7 @@ export default {
 
 		&-more {
 			padding: 14px 15px 14px 8px;
-    		margin-left: -15px;
+			margin-left: -15px;
 
 			&:hover {
 				color: var(--zb-surface-icon-active-color);
@@ -333,7 +335,7 @@ export default {
 		.znpb-element-options__dropdown-icon {
 			color: var(--zb-surface-icon-color);
 			padding: 14px 15px;
-    		margin-right: -15px;
+			margin-right: -15px;
 
 			&:hover {
 				color: var(--zb-surface-icon-active-color);
@@ -379,7 +381,9 @@ export default {
 			border-bottom-left-radius: 6px;
 			border-bottom-right-radius: 6px;
 		}
-		& > .znpb-wireframe-item__content > .znpb-element-toolbox__add-element-button {
+		&
+			> .znpb-wireframe-item__content
+			> .znpb-element-toolbox__add-element-button {
 			& > .znpb-editor-icon-wrapper {
 				background: var(--zb-column-color);
 			}
@@ -387,7 +391,7 @@ export default {
 	}
 
 	&--item--hidden {
-		opacity: .5;
+		opacity: 0.5;
 	}
 	&__content {
 		position: relative;
@@ -422,7 +426,7 @@ export default {
 		background: var(--zb-surface-light-color);
 		cursor: pointer;
 		border-bottom-left-radius: 6px;
-    	border-bottom-right-radius: 6px;
+		border-bottom-right-radius: 6px;
 		margin-top: -5px;
 	}
 }

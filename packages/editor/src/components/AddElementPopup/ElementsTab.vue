@@ -177,7 +177,7 @@ export default {
 						categoriesRefs.value[newValue].$el.scrollIntoView({
 							behavior: "smooth",
 							inline: "start",
-							block: "start",
+							block: "nearest",
 						});
 					}
 				}

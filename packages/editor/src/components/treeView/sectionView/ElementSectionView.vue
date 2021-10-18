@@ -28,7 +28,7 @@
 
 				<div
 					class="znpb-section-view-item__header-title"
-					@input="element.name = $event.target.value"
+					@input="element.name = $event.target.textContent"
 					:contenteditable="true"
 				>
 					{{element.name}}
