@@ -12,6 +12,7 @@
 		:allow-horizontal-resize="!isPanelHidden"
 		:allow-vertical-resize="!isPanelHidden"
 		:panel="panel"
+		:style="panelStyles"
 	>
 
 		<template #before-header>
@@ -189,6 +190,12 @@ export default {
 
 		const optionsFilterKeyword = ref('')
 
+		const panelStyles = computed(() => {
+			return {
+				'--optionsPanelWidth': `-${props.panel.width.value}${props.panel.width.unit}`
+			}
+		})
+
 		const elementOptions = computed({
 			get () {
 				return element.value ? element.value.options : {}
@@ -283,6 +290,7 @@ export default {
 			isPanelHidden,
 			element,
 			// Computed
+			panelStyles,
 			elementOptions,
 			advancedOptionsModel,
 			getSchema,
@@ -875,13 +883,15 @@ export default {
 	}
 
 	.znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right & {
+		right: calc(100% + 2px);
 		left: auto;
-		right: calc(100% + 2px)
 	}
 
-	body.znpb-theme-dark .znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right & {
+	body.znpb-theme-dark
+	.znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right
+	& {
+		right: calc(100% + 1px);
 		left: auto;
-		right: calc(100% + 1px)
 	}
 
 	body.znpb-theme-dark .znpb-element-options__panel-wrapper--hidden & {
@@ -912,7 +922,7 @@ export default {
 }
 
 .znpb-element-options__panel-wrapper--hidden {
-	margin-left: -360px;
+	margin-left: var(--optionsPanelWidth, -360px);
 }
 
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper {
@@ -920,7 +930,7 @@ export default {
 }
 
 .znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
-	margin-right: -360px;
+	margin-right: var(--optionsPanelWidth, -360px);
 	margin-left: 0;
 }
 </style>
