@@ -304,7 +304,7 @@ export default {
 		&-title {
 			overflow: hidden;
 			padding: 0;
-			color: #fff;
+			color: var(--zb-surface-text-hover-color);
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
