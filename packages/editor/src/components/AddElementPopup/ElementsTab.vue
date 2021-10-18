@@ -3,8 +3,8 @@
 		<div class="znpb-add-elements__filter">
 			<InputSelect
 				class="znpb-add-elements__filter-category"
-				:options="elementCategories"
-				:placeholder="elementCategories[0].name"
+				:options="dropdownOptions"
+				:placeholder="dropdownOptions[0].name"
 				v-model="categoryValue"
 				:placement="isRtl ? 'bottom-end' : 'bottom-start'"
 			/>
@@ -24,20 +24,21 @@
 			class="znpb-fancy-scrollbar znpb-wrapper-category"
 			ref="categoriesWrapper"
 		>
-			<template v-if="computedRuleCategories.length">
+			<template v-if="categoriesWithElements.length">
 				<ElementList
-					v-for="(category,i) in computedRuleCategories"
+					v-for="(category,i) in categoriesWithElements"
 					:key="i"
-					:elements="getElements(category.id)"
+					:elements="category.elements"
 					:element="element"
 					:category="category.name"
 					@add-element="onAddElement"
+					:ref="el => {if (el) categoriesRefs[category.id] = el}"
 				/>
 			</template>
 
 			<div
 				style="text-align:center;"
-				v-if="!elementsAreFound"
+				v-if="!activeElements.length"
 			>{{$translate('no_elements_found')}}</div>
 		</div>
 	</div>
@@ -65,8 +66,8 @@ export default {
 		const { categories } = useElementTypeCategories()
 		const { editorData } = useEditorData()
 		// Refs
-		const foundElements = ref([])
 		const categoriesWrapper = ref(false)
+		const categoriesRefs = ref([])
 
 		const localSearchKeyword = ref(null)
 		const computedSearchKeyword = computed(
@@ -76,7 +77,6 @@ export default {
 				},
 				set: (newValue) => {
 					localSearchKeyword.value = newValue
-					foundElements.value = []
 				}
 			}
 		)
@@ -95,21 +95,48 @@ export default {
 			name: 'All'
 		}].concat(sortedCategories.value)
 
-		// Computed
-		const computedRuleCategories = computed(() => {
-			let categoriesArray = []
-			foundElements.value = []
-			let category = categoryValue.value
+		const activeElements = computed(() => {
+			let elements = getVisibleElements.value
+			const keyword = computedSearchKeyword.value
 
-			if (category !== 'all') {
-				categoriesArray = categories.value.filter(cat => cat.id === category)
-
-			} else {
-				categoriesArray = sortedCategories.value
+			if (keyword.length > 0) {
+				elements = elements.filter((element) => {
+					return (
+						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+						element.keywords
+							.join()
+							.toLowerCase()
+							.indexOf(keyword.toLowerCase()) !== -1
+					)
+				})
 			}
 
-			return categoriesArray
+			return elements
+		})
 
+		const dropdownOptions = computed(() => {
+			const keyword = computedSearchKeyword.value
+
+			if (keyword.length === 0) {
+				return elementCategories
+			} else {
+				return elementCategories.filter(category => {
+					return category.id === 'all' || activeElements.value.filter(element => element.category.includes(category.id)).length > 0
+				})
+			}
+		})
+
+		const categoriesWithElements = computed(() => {
+			return sortedCategories.value.map((category) => {
+				// Get elements for current category
+				const elements = activeElements.value.filter((element) => element.category.includes(category.id))
+
+				return {
+					name: category.name,
+					id: category.id,
+					elements
+				}
+			})
 		})
 
 
@@ -132,37 +159,29 @@ export default {
 			hideAddElementsPopup()
 		}
 
-		function getElements (category) {
-			let elements = getVisibleElements.value
-
-			const keyword = computedSearchKeyword.value
-
-			// Check if we have a specific category selected
-			elements = elements.filter((element) => {
-				return element.category.includes(category)
-			})
-
-			// Check if we have a keyword
-			if (keyword.length > 0) {
-				elements = elements.filter((element) => {
-					return (
-						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-						element.keywords
-							.join()
-							.toLowerCase()
-							.indexOf(keyword.toLowerCase()) !== -1
-					)
-				})
-			}
-			foundElements.value.push(elements.length)
-
-			return elements
-		}
-
-		watch(foundElements, () => {
+		watch(activeElements, () => {
 			nextTick(() => {
 				categoriesWrapper.value.scrollTop = 0
+				categoryValue.value = 'all'
 			})
+		})
+
+
+		// Scroll to the proper category on click
+		watch(categoryValue, (newValue) => {
+			if (newValue === 'all') {
+				categoriesWrapper.value.scrollTop = 0
+			} else {
+				if (typeof categoriesRefs.value[newValue] !== 'undefined') {
+					if (categoriesRefs.value[newValue].$el) {
+						categoriesRefs.value[newValue].$el.scrollIntoView({
+							behavior: "smooth",
+							inline: "start",
+							block: "start",
+						});
+					}
+				}
+			}
 		})
 
 		// Lifecycle
@@ -172,28 +191,23 @@ export default {
 			}, 0)
 		})
 
-		const elementsAreFound = computed(() => {
-			let foundIndex = foundElements.value.findIndex(element => element !== 0)
-			return foundIndex !== -1
-		})
-
 		return {
 			// Normal values
 			elementCategories,
-			getElements,
-			foundElements,
-			elementsAreFound,
+			dropdownOptions,
 			// Refs
+			categoriesRefs,
 			computedSearchKeyword,
 			categoryValue,
 			searchInputEl,
 			categoriesWrapper,
 			// Computed
-			computedRuleCategories,
+			categoriesWithElements,
 			// Methods
 			onAddElement,
 			// rtl
-			isRtl: editorData.value.rtl
+			isRtl: editorData.value.rtl,
+			activeElements
 		}
 	}
 }
