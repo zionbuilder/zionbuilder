@@ -94,13 +94,12 @@
 					:is="panel.id"
 					:key="panel.id"
 					:panel="panel"
-					:show-move="false"
-					@show-helper="showPlaceholderHelper=$event"
 				/>
 			</template>
 
 			<!-- iframe wrapper area -->
 			<PreviewIframe />
+
 			<div
 				class="znpb-loading-wrapper-gif"
 				v-if="isPreviewLoading"
@@ -305,7 +304,7 @@ export default {
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
-			transition: all 0.15s;
+			transition: all .15s;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);

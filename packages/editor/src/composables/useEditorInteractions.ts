@@ -13,7 +13,6 @@ const mainBarInstance = new EditorArea(defaultMainBar)
 
 const mainBar = ref(mainBarInstance)
 const iFrameInstance = new EditorArea(defaultiFrame)
-
 const iFrame = ref(iFrameInstance)
 
 export function useEditorInteractions() {

@@ -138,14 +138,14 @@ class AccordionItem extends Element {
 		?>
 
 		<div class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
-			<?php echo wp_kses_post( $title ); ?>
+			<?php echo $title; ?>
 			<span class="zb-el-accordions-accordionIcon"></span>
 		</div>
 		<div class="zb-el-accordions-accordionContent <?php echo esc_attr( $content_classes ); ?>">
 
 			<div
 				class="zb-el-accordions-accordionContent__inner"
-			><?php echo wp_kses_post( $content ); ?></div>
+			><?php echo $content; ?></div>
 
 		</div>
 		<?php

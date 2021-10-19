@@ -14,13 +14,14 @@ const defaultPanels = [
 		panelPos: 3
 	},
 	{
-		id: 'panel-tree',
-		panelPos: 4
+		id: 'panel-history',
+		panelPos: 19
 	},
 	{
-		id: 'panel-history',
-		panelPos: 5
+		id: 'panel-tree',
+		panelPos: 20
 	},
+
 	{
 		id: 'PanelLibraryModal',
 		position: 'fixed',
@@ -38,7 +39,7 @@ const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig))
 const panels = ref(panelInstances)
 const panelPlaceholder = ref({})
 
-export function usePanels () {
+export function usePanels() {
 	const openPanels = computed(() => {
 		return filter(panels.value, {
 			'isActive': true
