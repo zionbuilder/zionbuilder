@@ -142,7 +142,7 @@ import PostLock from './components/PostLock.vue'
 import DeviceElement from './components/DeviceElement.vue'
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData } from '@composables'
+import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useAutosave } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -176,6 +176,9 @@ export default {
 		const { isPreviewLoading } = usePreviewLoading()
 		const { getMainbarPosition } = useEditorInteractions()
 		const { editorData } = useEditorData()
+
+		// General functionality
+		useAutosave()
 
 		// Fetch the builder options
 		fetchOptions()

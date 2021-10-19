@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="znpb-editor-header"
-		@mousedown.stop.prevent="startDrag"
+		@mousedown.stop.prevent="startBarDrag"
 		:class="getCssClasses"
 		:style="panelStyles"
 		ref="editorHeader"
@@ -187,7 +187,7 @@ import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import rafSchd from 'raf-schd'
 import { computed } from 'vue'
-import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useHistory, useSaveTemplate } from '@composables'
+import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useSaveTemplate } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 import { useBuilderOptions } from '@zionbuilder/composables'
@@ -206,11 +206,12 @@ export default {
 	},
 	data: function () {
 		return {
-			showModal: false,
+			// Help menu
 			tourVisibility: true,
 			aboutModalVisibility: false,
 			helpModalVisibility: false,
 			shortcutsModalVisibility: false,
+
 			canAutosave: true,
 			unit: 'px',
 			top: null,
@@ -227,14 +228,16 @@ export default {
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
-		const { currentHistoryIndex } = useHistory()
 		const { showSaveElement } = useSaveTemplate()
 		const { getOptionValue } = useBuilderOptions()
+
+		// Reactive data
 
 		const hasWhiteLabel = computed(() => {
 			let isPro = editorData.value.plugin_info.is_pro_active
 			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false
 		})
+
 		function saveTemplate () {
 			showSaveElement(null)
 		}
@@ -257,6 +260,18 @@ export default {
 			}
 		]
 
+		function startBarDrag () {
+			this.isDragging = true
+			this.iFrame.set('pointerEvents', true)
+			this.rafMovePanel = rafSchd(this.movePanel)
+			this.rafEndDragging = rafSchd(this.disablePanelMove)
+			window.addEventListener('mousemove', this.rafMovePanel)
+			window.addEventListener('mouseup', this.rafEndDragging)
+			// disable pointer events on iframe
+			this.sticked = false
+			this.userSel = 'none'
+		}
+
 		return {
 			saveActions,
 			isSavePageLoading,
@@ -270,19 +285,13 @@ export default {
 			getMainbarPosition,
 			iFrame,
 			mainBar,
-			currentHistoryIndex,
 			savePage,
 			hasWhiteLabel
 		}
 	},
 	computed: {
-
 		helpMenuItems () {
 			let helpArray = [
-				// {
-				// 	title: this.$translate('help'),
-				// 	action: this.showHelpModal
-				// },
 				{
 					title: this.$translate('tour'),
 					action: this.showTour,
@@ -347,15 +356,6 @@ export default {
 				userSelect: this.userSel,
 				pointerEvents: this.isDragging || this.getMainBarPointerEvents() ? 'none' : null
 			}
-		}
-	},
-	created () {
-		const finishedTour = localStorage.getItem('zion_builder_guided_tour_done')
-		if (finishedTour !== null) {
-			this.tourVisibility = false
-		} else {
-			localStorage.setItem('zion_builder_guided_tour_done', false)
-			this.tourVisibility = true
 		}
 	},
 	methods: {
@@ -438,19 +438,6 @@ export default {
 		},
 		helpMenuClick () {
 			// do nothing
-		}
-	},
-	watch: {
-		currentHistoryIndex (newValue) {
-			if (this.canAutosave && newValue > 0) {
-				const { saveAutosave } = useSavePage()
-				saveAutosave()
-				this.canAutosave = false
-
-				setTimeout(() => {
-					this.canAutosave = true
-				}, window.ZnPbInitalData.autosaveInterval * 1000)
-			}
 		}
 	},
 	beforeUnmount () {
@@ -583,6 +570,7 @@ export default {
 }
 .znpb-editor-header__helper {
 	position: absolute;
+	z-index: 11;
 	display: flex;
 	justify-content: center;
 	align-items: center;
