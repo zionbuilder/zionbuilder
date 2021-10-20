@@ -122,6 +122,7 @@
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
 		<ElementMenu />
+		<SaveElementModal />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
@@ -140,6 +141,9 @@ import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
 import DeviceElement from './components/DeviceElement.vue'
+import SaveElementModal from './components/SaveElementModal.vue'
+
+// Composables
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
 import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useAutosave } from '@composables'
@@ -164,7 +168,8 @@ export default {
 		PostLock,
 		DeviceElement,
 		AddElementPopup,
-		ElementMenu
+		ElementMenu,
+		SaveElementModal
 	},
 	setup (props) {
 		const { fetchOptions } = useBuilderOptions()

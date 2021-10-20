@@ -35,7 +35,6 @@ const defaultPanels = [
 
 // Add panel instances
 const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig))
-
 const panels = ref(panelInstances)
 const panelPlaceholder = ref({})
 
@@ -44,6 +43,10 @@ export function usePanels() {
 		return filter(panels.value, {
 			'isActive': true
 		}) || []
+	})
+
+	const openPanelsIDs = computed(() => {
+		return openPanels.value.map(panel => panel.id)
 	})
 
 	const isAnyPanelDragging = computed(() => {
@@ -86,6 +89,7 @@ export function usePanels() {
 
 	return {
 		openPanels,
+		openPanelsIDs,
 		isAnyPanelDragging,
 		getPanel,
 		openPanel,

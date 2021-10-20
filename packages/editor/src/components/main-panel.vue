@@ -4,7 +4,7 @@
 		@mousedown.stop.prevent="startBarDrag"
 		:class="getCssClasses"
 		:style="panelStyles"
-		ref="editorHeader"
+		ref="editorHeaderRef"
 	>
 		<!-- first part -->
 		<div class="znpb-editor-header__first">
@@ -12,15 +12,19 @@
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
 				@mousedown.stop.prevent="togglePanel('panel-tree')"
-				v-bind:class="checkActivePanel('panel-tree')"
+				:class="{
+					'active': openPanelsIDs.includes('panel-tree')
+				}"
 				v-znpb-tooltip:right="$translate('tree_view')"
 			>
 				<Icon icon="layout"></Icon>
 			</div>
 			<!-- libary -->
 			<div
-				@mousedown.stop="openLibraryPanel"
-				v-bind:class="checkActivePanel('PanelLibraryModal')"
+				@mousedown.stop="togglePanel('PanelLibraryModal')"
+				:class="{
+					'active': openPanelsIDs.includes('PanelLibraryModal')
+				}"
 				class="znpb-editor-header__menu_button"
 				v-znpb-tooltip:right="$translate('library')"
 			>
@@ -30,17 +34,15 @@
 			<div
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
 				@mousedown.stop.prevent="togglePanel('panel-history')"
-				v-bind:class="checkActivePanel('panel-history')"
+				:class="{
+					'active': openPanelsIDs.includes('panel-history')
+				}"
 				v-znpb-tooltip:right="$translate('history_panel')"
 			>
 				<Icon icon="history"></Icon>
 			</div>
 		</div>
 		<!-- center part -->
-		<div class="znpb-editor-header__center">
-			<!-- add elements -->
-
-		</div>
 		<!-- last part -->
 		<div class="znpb-editor-header__last">
 			<!-- devices -->
@@ -61,7 +63,9 @@
 			<div
 				class="znpb-editor-header__menu_button"
 				@mousedown.stop="togglePanel('panel-global-settings')"
-				v-bind:class="checkActivePanel('panel-global-settings')"
+				:class="{
+					'active': openPanelsIDs.includes('panel-global-settings')
+				}"
 				v-znpb-tooltip:right="$translate('page_options')"
 			>
 				<Icon icon="sliders" />
@@ -85,9 +89,11 @@
 					</a>
 				</FlyoutMenuItem>
 			</FlyoutWrapper>
+
+			<!-- Getting started video -->
 			<Modal
 				:width="840"
-				v-model:show="tourVisibility"
+				v-model:show="showGettingStartedVideo"
 				:title="$translate('getting_started')"
 				append-to="#znpb-main-wrapper"
 				class="znpb-helpmodal-wrapper"
@@ -101,6 +107,7 @@
 					allowfullscreen
 				></iframe>
 			</Modal>
+			<!-- key shortcuts modal -->
 			<Modal
 				v-model:show="shortcutsModalVisibility"
 				:width="560"
@@ -129,8 +136,6 @@
 			>
 				<Help></Help>
 			</Modal>
-
-			<SaveElementModal />
 
 			<FlyoutWrapper
 				class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save"
@@ -177,8 +182,7 @@
 </template>
 
 <script>
-
-import SaveElementModal from './SaveElementModal.vue'
+import { ref, computed, onBeforeUnmount } from 'vue'
 import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
 import aboutModal from './aboutModal.vue'
@@ -186,7 +190,6 @@ import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import rafSchd from 'raf-schd'
-import { computed } from 'vue'
 import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useSaveTemplate } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
@@ -200,43 +203,112 @@ export default {
 		FlyoutMenuItem,
 		Help,
 		keyShortcuts,
-		SaveElementModal,
 		aboutModal
 		//
 	},
-	data: function () {
-		return {
-			// Help menu
-			tourVisibility: true,
-			aboutModalVisibility: false,
-			helpModalVisibility: false,
-			shortcutsModalVisibility: false,
-
-			canAutosave: true,
-			unit: 'px',
-			top: null,
-			left: null,
-			isDragging: false,
-			userSel: null,
-			height: null,
-			sticked: false
-		}
-	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
-		const { togglePanel, openPanels } = usePanels()
+		const { togglePanel, openPanelsIDs } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
 		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
 		const { showSaveElement } = useSaveTemplate()
 		const { getOptionValue } = useBuilderOptions()
 
-		// Reactive data
+		// Local data
+		const rafMovePanel = rafSchd(movePanel)
+		const rafEndDragging = rafSchd(disablePanelMove)
 
+		// Reactive data
+		const editorHeaderRef = ref(null)
+		const showGettingStartedVideo = ref(false)
+
+		// Help menu
+		const aboutModalVisibility = ref(false)
+		const helpModalVisibility = ref(false)
+		const shortcutsModalVisibility = ref(false)
+		const top = ref(null)
+		const left = ref(null)
+		const isDragging = ref(false)
+		const userSel = ref(null)
+		const sticked = ref(false)
+
+		// Computed
 		const hasWhiteLabel = computed(() => {
 			let isPro = editorData.value.plugin_info.is_pro_active
 			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false
 		})
+
+		const helpMenuItems = computed(() => {
+			let helpArray = [
+				{
+					title: translate('tour'),
+					action: doShowGettingStartedVideo,
+					canShow: !hasWhiteLabel.value
+				},
+				{
+					title: translate('key_shortcuts'),
+					action: () => shortcutsModalVisibility.value = true
+				},
+				{
+					title: translate('about_zion_builder'),
+					action: () => aboutModalVisibility.value = true,
+					canShow: !hasWhiteLabel.value
+				},
+				{
+					title: translate('back_to_wp_dashboard'),
+					url: editorData.value.urls.edit_page,
+					action: () => { }
+				},
+				{
+					title: translate('back_to_zion_dashboard'),
+					url: editorData.value.urls.zion_admin,
+					action: () => { }
+				},
+				{
+					title: translate('view_post'),
+					url: editorData.value.urls.preview_url,
+					action: () => { },
+					target: '_blank'
+				}
+			]
+
+			return helpArray.filter(item => item.canShow !== false)
+		})
+
+		const device = computed(() => {
+			return activeResponsiveDeviceInfo.value.icon
+		})
+
+		const getCssClasses = computed(() => {
+			let classes = isDragging.value ? 'znpb-editor-panel__container--dragging ' : ''
+
+			if (getMainbarPosition() === 'right') {
+				classes = classes + 'znpb-editor-header--right '
+			}
+			if (sticked.value) {
+				classes = classes + 'znpb-editor-header--sticked'
+			}
+
+			return classes
+		})
+
+		const helperStyle = computed(() => {
+			const xTranslate = getMainbarPosition() === 'right' ? `${left.value + 70 - window.innerWidth}px` : `${left.value + 10}px`
+			return {
+				transform: (isDragging.value) ? `translate3d(${xTranslate},${top.value - 22}px,0)` : null
+			}
+		})
+
+		const panelStyles = computed(() => {
+			return {
+				order: getMainBarOrder(),
+				userSelect: userSel.value,
+				pointerEvents: isDragging.value || getMainBarPointerEvents() ? 'none' : null
+			}
+		})
+
+
 
 		function saveTemplate () {
 			showSaveElement(null)
@@ -260,106 +332,63 @@ export default {
 			}
 		]
 
+
+		// Show/Hide getting started video
+		if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
+			showGettingStartedVideo()
+		}
+
+		// Methods
+		function doShowGettingStartedVideo () {
+			showGettingStartedVideo.value = true
+			localStorage.setItem('zion_builder_guided_tour_done', true)
+		}
+
 		function startBarDrag () {
-			this.isDragging = true
-			this.iFrame.set('pointerEvents', true)
-			this.rafMovePanel = rafSchd(this.movePanel)
-			this.rafEndDragging = rafSchd(this.disablePanelMove)
-			window.addEventListener('mousemove', this.rafMovePanel)
-			window.addEventListener('mouseup', this.rafEndDragging)
+			isDragging.value = true
+			iFrame.value.set('pointerEvents', true)
+
+			window.addEventListener('mousemove', rafMovePanel)
+			window.addEventListener('mouseup', rafEndDragging)
+
 			// disable pointer events on iframe
-			this.sticked = false
-			this.userSel = 'none'
+			sticked.value = false
+			userSel.value = 'none'
 		}
 
-		return {
-			saveActions,
-			isSavePageLoading,
-			togglePanel,
-			openPanels,
-			activeResponsiveDeviceInfo,
-			responsiveDevices,
-			urls: editorData.value.urls,
-			getMainBarOrder,
-			getMainBarPointerEvents,
-			getMainbarPosition,
-			iFrame,
-			mainBar,
-			savePage,
-			hasWhiteLabel
-		}
-	},
-	computed: {
-		helpMenuItems () {
-			let helpArray = [
-				{
-					title: this.$translate('tour'),
-					action: this.showTour,
-					canShow: !this.hasWhiteLabel
-				},
-				{
-					title: this.$translate('key_shortcuts'),
-					action: this.showShortcutsModal
-				},
-				{
-					title: this.$translate('about_zion_builder'),
-					action: this.showAbout,
-					canShow: !this.hasWhiteLabel
-				},
-				{
-					title: this.$translate('back_to_wp_dashboard'),
-					url: this.urls.edit_page,
-					action: this.helpMenuClick
-				},
-				{
-					title: this.$translate('back_to_zion_dashboard'),
-					url: this.urls.zion_admin,
-					action: this.helpMenuClick
-				},
-				{
-					title: this.$translate('view_post'),
-					url: this.urls.preview_url,
-					action: this.helpMenuClick,
-					target: '_blank'
-				}
-			]
+		function movePanel (event) {
+			document.body.style.cursor = 'grabbing'
+			editorHeaderRef.value.style.transition = 'none'
+			let newLeft = event.clientX - 30
+			let newTop = event.clientY
 
-			return helpArray.filter(item => item.canShow !== false)
-		},
-		device: function () {
-			return this.activeResponsiveDeviceInfo.icon
-		},
-		orientation: function () {
-			return this.activeResponsiveDeviceInfo.isLandscape && this.activeResponsiveDeviceInfo.allowsLandscape
-		},
-		getCssClasses () {
-			let classes = this.isDragging ? 'znpb-editor-panel__container--dragging ' : ''
+			// Calculate horizontal move
+			const maxLeft = window.innerWidth - 60
+			newLeft = newLeft <= 0 ? 0 : newLeft
+			left.value = (newLeft > maxLeft) ? maxLeft : newLeft
+			top.value = newTop
 
-			if (this.getMainbarPosition() === 'right') {
-				classes = classes + 'znpb-editor-header--right '
-			}
-			if (this.sticked) {
-				classes = classes + 'znpb-editor-header--sticked'
-			}
-
-			return classes
-		},
-		helperStyle () {
-			const xTranslate = this.getMainbarPosition() === 'right' ? `${this.left + 70 - window.innerWidth}${this.unit}` : `${this.left + 10}${this.unit}`
-			return {
-				transform: (this.isDragging) ? `translate3d(${xTranslate},${this.top - 22}${this.unit},0)` : null
-			}
-		},
-		panelStyles () {
-			return {
-				order: this.getMainBarOrder(),
-				userSelect: this.userSel,
-				pointerEvents: this.isDragging || this.getMainBarPointerEvents() ? 'none' : null
+			if (event.clientX > window.innerWidth / 2) {
+				mainBar.value.set('position', 'right')
+				mainBar.value.set('order', 999)
+			} else {
+				mainBar.value.set('position', 'left')
+				mainBar.value.set('order', -999)
 			}
 		}
-	},
-	methods: {
-		onSaving (status) {
+
+		function disablePanelMove (event) {
+			window.removeEventListener('mousemove', rafMovePanel)
+			window.removeEventListener('mouseup', rafEndDragging)
+
+			iFrame.value.set('pointerEvents', false)
+			userSel.value = null
+			document.body.style.cursor = null
+			isDragging.value = false
+			editorHeaderRef.value.style.transition = null
+		}
+
+		function onSaving (status) {
 			const { getActivePostTemplatePart } = useTemplateParts()
 			const contentTemplatePart = getActivePostTemplatePart()
 
@@ -370,78 +399,41 @@ export default {
 
 			const pageContent = contentTemplatePart.toJSON()
 
-			this.savePage(pageContent, status)
-		},
-		showAbout () {
-			this.aboutModalVisibility = true
-		},
-		showTour () {
-			this.tourVisibility = true
-		},
-		showHelpModal () {
-			this.helpModalVisibility = true
-		},
-		checkActivePanel: function (panel) {
-			let panelIsOpen = this.openPanels.find(function (panelIsOpen) {
-				return panelIsOpen.id === panel
-			})
-			return {
-				'active': panelIsOpen
-			}
-		},
-		showShortcutsModal () {
-			this.shortcutsModalVisibility = true
-		},
-
-		startDrag (event) {
-			this.isDragging = true
-			this.iFrame.set('pointerEvents', true)
-			this.rafMovePanel = rafSchd(this.movePanel)
-			this.rafEndDragging = rafSchd(this.disablePanelMove)
-			window.addEventListener('mousemove', this.rafMovePanel)
-			window.addEventListener('mouseup', this.rafEndDragging)
-			// disable pointer events on iframe
-			this.sticked = false
-			this.userSel = 'none'
-		},
-		movePanel (event) {
-			document.body.style.cursor = 'grabbing'
-			this.$refs.editorHeader.style.transition = 'none'
-			let newLeft = event.clientX - 30
-			let newTop = event.clientY
-
-			// Calculate horizontal move
-			const maxLeft = window.innerWidth - 60
-			newLeft = newLeft <= 0 ? 0 : newLeft
-			this.left = (newLeft > maxLeft) ? maxLeft : newLeft
-			this.top = newTop
-
-			if (event.clientX > window.innerWidth / 2) {
-				this.mainBar.set('position', 'right')
-				this.mainBar.set('order', 999)
-			} else {
-				this.mainBar.set('position', 'left')
-				this.mainBar.set('order', -999)
-			}
-		},
-		disablePanelMove (event) {
-			window.removeEventListener('mousemove', this.rafMovePanel)
-			window.removeEventListener('mouseup', this.rafEndDragging)
-			this.iFrame.set('pointerEvents', false)
-			this.userSel = null
-			document.body.style.cursor = null
-			this.isDragging = false
-			this.$refs.editorHeader.style.transition = null
-		},
-		openLibraryPanel () {
-			this.togglePanel('PanelLibraryModal')
-		},
-		helpMenuClick () {
-			// do nothing
+			savePage(pageContent, status)
 		}
-	},
-	beforeUnmount () {
-		this.disablePanelMove()
+
+
+		// Lifecycle
+		onBeforeUnmount(() => {
+			disablePanelMove()
+		})
+
+		return {
+			// Refs
+			showGettingStartedVideo,
+			editorHeaderRef,
+			isDragging,
+			aboutModalVisibility,
+			helpModalVisibility,
+			shortcutsModalVisibility,
+
+			// Computed
+			openPanelsIDs,
+			helpMenuItems,
+			device,
+			panelStyles,
+			getCssClasses,
+			helperStyle,
+
+			// Methods
+			saveActions,
+			isSavePageLoading,
+			togglePanel,
+			responsiveDevices,
+			savePage,
+			onSaving,
+			startBarDrag
+		}
 	}
 }
 
