@@ -4,8 +4,5 @@ export function isEditable() {
 		return !el.readOnly && !el.disabled;
 	}
 
-	el = getSelection().anchorNode; // selected node
-	if (!el) return undefined; // no selected node
-	el = el.parentNode; // selected element
 	return el.isContentEditable;
 }

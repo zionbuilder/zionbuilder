@@ -201,11 +201,15 @@ export default {
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
-				// Add to history
-				if (!ignoreLocalHistory) {
-					addToLocalHistory()
-					ignoreLocalHistory = false
-				}
+
+			}
+		})
+
+		watch(element.value.options, (newValue) => {
+			// Add to history
+			if (!ignoreLocalHistory) {
+				addToLocalHistory()
+				ignoreLocalHistory = false
 			}
 		})
 
