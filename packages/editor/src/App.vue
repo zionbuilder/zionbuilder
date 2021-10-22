@@ -395,7 +395,8 @@ body {
 
 .znpb-center-area {
 	display: flex;
-	height: 100%;
+	flex: 1 1 auto;
+	min-height: 1px;
 }
 
 .znpb-editor-header.main-panel-animation {
