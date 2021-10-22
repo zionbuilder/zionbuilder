@@ -1,32 +1,27 @@
-import { ref, Ref } from 'vue'
+import { ref, Ref, reactive } from 'vue'
 import { EditorArea } from './models'
-const defaultMainBar = {
-	position: 'left',
-	order: -999,
-	pointerEvents: false
-}
+
 const defaultiFrame = {
 	pointerEvents: false,
 	order: 6
 }
-const mainBarInstance = new EditorArea(defaultMainBar)
 
-const mainBar = ref(mainBarInstance)
+const mainBar = reactive({
+	position: 'left',
+	pointerEvents: false,
+	draggingPosition: null,
+
+})
 const iFrameInstance = new EditorArea(defaultiFrame)
 const iFrame = ref(iFrameInstance)
 
 export function useEditorInteractions() {
-
 	const getMainbarPosition = () => {
-		return mainBar.value.position
-	}
-
-	const getMainBarOrder = () => {
-		return mainBar.value.order
+		return mainBar.position
 	}
 
 	const getMainBarPointerEvents = () => {
-		return mainBar.value.pointerEvents
+		return mainBar.pointerEvents
 	}
 
 	const getIframePointerEvents = () => {
@@ -38,7 +33,6 @@ export function useEditorInteractions() {
 
 	return {
 		getMainbarPosition,
-		getMainBarOrder,
 		getMainBarPointerEvents,
 		getIframePointerEvents,
 		getIframeOrder,

@@ -3,6 +3,7 @@
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
 	>
+
 		<transition :name="showEditorTransition">
 			<div
 				:style="showEditorButtonStyle"
@@ -58,16 +59,18 @@
 				</div>
 			</div>
 		</transition>
-		<!-- top area -->
-		<div class="znpb-top-area" />
 
-		<!-- notices -->
-		<Notice
-			v-for="(error) in notifications"
-			:key="error.message"
-			@close-notice="error.remove()"
-			:error="error"
+		<div
+			class="znpb-main-wrapper--mainBarPlaceholder"
+			:class="{
+				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.isDragging && mainBar.draggingPosition
+			}"
 		/>
+
+		<!-- top area -->
+		<div class="znpb-top-area">
+			<mainPanel v-if="mainBar.position === 'top'" />
+		</div>
 
 		<!-- center area -->
 		<div class="znpb-center-area">
@@ -78,16 +81,11 @@
 			>
 				<div class="znpb-panel-placeholder"></div>
 			</div>
-			<transition
-				:name="panelPreviewTransition"
-				@after-leave="onAfterLeave"
-				@after-enter="onAfterEnter"
-			>
-				<!-- start left area -->
-				<mainPanel v-show="!isPreviewMode" />
-			</transition>
-			<!-- Start panels -->
 
+			<!-- start left area -->
+			<mainPanel v-if="['left', 'right'].includes(mainBar.position)" />
+
+			<!-- Start panels -->
 			<template v-if="!isPreviewMode">
 				<component
 					v-for="panel in openPanels"
@@ -108,28 +106,35 @@
 				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
 			</div>
 
-			<PostLock />
-
-			<!-- right area -->
-			<div class="znpb-right-area" />
-
 		</div>
 		<!-- end center area -->
 
 		<!-- bottom area -->
-		<div class="znpb-bottom-area " />
+		<div class="znpb-bottom-area">
+			<mainPanel v-if="mainBar.position === 'bottom'" />
+		</div>
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
 		<ElementMenu />
 		<SaveElementModal />
+		<PostLock />
+
+		<!-- notices -->
+		<Notice
+			v-for="(error) in notifications"
+			:key="error.message"
+			@close-notice="error.remove()"
+			:error="error"
+		/>
+
 	</div>
 	<!-- end znpb-main-wrapper -->
 
 </template>
 
 <script>
-import { provide } from 'vue'
+import { provide, watch } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -179,7 +184,7 @@ export default {
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
-		const { getMainbarPosition } = useEditorInteractions()
+		const { getMainbarPosition, mainBar } = useEditorInteractions()
 		const { editorData } = useEditorData()
 
 		// General functionality
@@ -209,6 +214,7 @@ export default {
 			applyShortcuts,
 			isPreviewLoading,
 			getMainbarPosition,
+			mainBar,
 			urls: editorData.value.urls
 		}
 	},
@@ -227,9 +233,7 @@ export default {
 			}
 			return 'slide-from-right'
 		},
-		panelPreviewTransition: function () {
-			return `znpb-main-panel--out--position-${this.getMainbarPosition()}`
-		},
+
 		showEditorButtonStyle () {
 			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
@@ -261,14 +265,6 @@ export default {
 		showDevices () {
 			this.devicesVisible = !this.devicesVisible
 		},
-		onAfterLeave () {
-			const el = document.querySelector('iframe')
-			el.style.transform = 'translateZ(0)'
-		},
-		onAfterEnter () {
-			const el = document.querySelector('iframe')
-			el.style.transform = null
-		}
 	},
 
 	beforeUnmount: function () {
@@ -293,6 +289,10 @@ export default {
 
 <style lang="scss">
 /* style default elements */
+body {
+	overflow: hidden;
+}
+
 .znpb-editor {
 	&-layout {
 		&__preview-buttons {
@@ -434,22 +434,6 @@ export default {
 .slide-from-left-enter-from, .slide-from-left-leave-to {
 	transform: translateX(-60px);
 	opacity: 0;
-}
-
-.znpb-main-panel {
-	&--out {
-		&--position-left {
-			&-enter, &-leave-to {
-				margin-left: -60px;
-			}
-		}
-
-		&--position-right {
-			&-enter, &-leave-to {
-				margin-right: -60px;
-			}
-		}
-	}
 }
 
 /* General styles */

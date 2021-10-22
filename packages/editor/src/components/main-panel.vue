@@ -2,7 +2,12 @@
 	<div
 		class="znpb-editor-header"
 		@mousedown.stop.prevent="startBarDrag"
-		:class="getCssClasses"
+		:class="{
+			'znpb-editor-panel__container--dragging': mainBar.isDragging,
+			[`znpb-editor-header--${mainBar.position}`]: mainBar.position,
+			[`znpb-editor-header--hide-${mainBar.position}`]: isPreviewMode,
+
+		}"
 		:style="panelStyles"
 		ref="editorHeaderRef"
 	>
@@ -15,7 +20,7 @@
 				:class="{
 					'active': openPanelsIDs.includes('panel-tree')
 				}"
-				v-znpb-tooltip:right="$translate('tree_view')"
+				v-znpb-tooltip:[tooltipsPosition]="$translate('tree_view')"
 			>
 				<Icon icon="layout"></Icon>
 			</div>
@@ -26,7 +31,7 @@
 					'active': openPanelsIDs.includes('PanelLibraryModal')
 				}"
 				class="znpb-editor-header__menu_button"
-				v-znpb-tooltip:right="$translate('library')"
+				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
 			>
 				<Icon icon="lib"></Icon>
 			</div>
@@ -37,7 +42,7 @@
 				:class="{
 					'active': openPanelsIDs.includes('panel-history')
 				}"
-				v-znpb-tooltip:right="$translate('history_panel')"
+				v-znpb-tooltip:[tooltipsPosition]="$translate('history_panel')"
 			>
 				<Icon icon="history"></Icon>
 			</div>
@@ -66,7 +71,7 @@
 				:class="{
 					'active': openPanelsIDs.includes('panel-global-settings')
 				}"
-				v-znpb-tooltip:right="$translate('page_options')"
+				v-znpb-tooltip:[tooltipsPosition]="$translate('page_options')"
 			>
 				<Icon icon="sliders" />
 			</div>
@@ -169,7 +174,7 @@
 		<!-- end last part -->
 		<!-- helper -->
 		<div
-			v-if="isDragging"
+			v-if="mainBar.isDragging"
 			class="znpb-editor-header__helper"
 			:style="helperStyle"
 		>
@@ -190,7 +195,7 @@ import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import rafSchd from 'raf-schd'
-import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useSaveTemplate } from '@composables'
+import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useSaveTemplate, usePreviewMode } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 import { useBuilderOptions } from '@zionbuilder/composables'
@@ -211,13 +216,10 @@ export default {
 		const { togglePanel, openPanelsIDs } = usePanels()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
-		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents, getMainBarOrder } = useEditorInteractions()
+		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents } = useEditorInteractions()
 		const { showSaveElement } = useSaveTemplate()
 		const { getOptionValue } = useBuilderOptions()
-
-		// Local data
-		const rafMovePanel = rafSchd(movePanel)
-		const rafEndDragging = rafSchd(disablePanelMove)
+		const { isPreviewMode } = usePreviewMode()
 
 		// Reactive data
 		const editorHeaderRef = ref(null)
@@ -229,9 +231,19 @@ export default {
 		const shortcutsModalVisibility = ref(false)
 		const top = ref(null)
 		const left = ref(null)
-		const isDragging = ref(false)
+		const draggingPosition = ref(null)
 		const userSel = ref(null)
-		const sticked = ref(false)
+		const tooltipsPosition = computed(() => {
+			if (mainBar.position === 'top') {
+				return 'bottom'
+			} else if (mainBar.position === 'left') {
+				return 'right'
+			} else if (mainBar.position === 'right') {
+				return 'left'
+			} else if (mainBar.position === 'bottom') {
+				return 'top'
+			}
+		})
 
 		// Computed
 		const hasWhiteLabel = computed(() => {
@@ -280,35 +292,19 @@ export default {
 			return activeResponsiveDeviceInfo.value.icon
 		})
 
-		const getCssClasses = computed(() => {
-			let classes = isDragging.value ? 'znpb-editor-panel__container--dragging ' : ''
-
-			if (getMainbarPosition() === 'right') {
-				classes = classes + 'znpb-editor-header--right '
-			}
-			if (sticked.value) {
-				classes = classes + 'znpb-editor-header--sticked'
-			}
-
-			return classes
-		})
-
 		const helperStyle = computed(() => {
 			const xTranslate = getMainbarPosition() === 'right' ? `${left.value + 70 - window.innerWidth}px` : `${left.value + 10}px`
 			return {
-				transform: (isDragging.value) ? `translate3d(${xTranslate},${top.value - 22}px,0)` : null
+				transform: (mainBar.isDragging) ? `translate3d(${xTranslate},${top.value - 22}px,0)` : null
 			}
 		})
 
 		const panelStyles = computed(() => {
 			return {
-				order: getMainBarOrder(),
 				userSelect: userSel.value,
-				pointerEvents: isDragging.value || getMainBarPointerEvents() ? 'none' : null
+				pointerEvents: mainBar.isDragging || getMainBarPointerEvents() ? 'none' : null
 			}
 		})
-
-
 
 		function saveTemplate () {
 			showSaveElement(null)
@@ -345,22 +341,24 @@ export default {
 		}
 
 		function startBarDrag () {
-			isDragging.value = true
-			iFrame.value.set('pointerEvents', true)
-
-			window.addEventListener('mousemove', rafMovePanel)
-			window.addEventListener('mouseup', rafEndDragging)
+			window.addEventListener('mousemove', movePanel)
+			window.addEventListener('mouseup', disablePanelMove)
 
 			// disable pointer events on iframe
-			sticked.value = false
+			iFrame.value.set('pointerEvents', true)
 			userSel.value = 'none'
 		}
 
 		function movePanel (event) {
 			document.body.style.cursor = 'grabbing'
-			editorHeaderRef.value.style.transition = 'none'
+
 			let newLeft = event.clientX - 30
 			let newTop = event.clientY
+
+			// Set a flag so we know that we are dragging
+			if (!mainBar.isDragging) {
+				mainBar.isDragging = true
+			}
 
 			// Calculate horizontal move
 			const maxLeft = window.innerWidth - 60
@@ -368,24 +366,47 @@ export default {
 			left.value = (newLeft > maxLeft) ? maxLeft : newLeft
 			top.value = newTop
 
-			if (event.clientX > window.innerWidth / 2) {
-				mainBar.value.set('position', 'right')
-				mainBar.value.set('order', 999)
-			} else {
-				mainBar.value.set('position', 'left')
-				mainBar.value.set('order', -999)
+			const positions = {
+				top: window.innerHeight * 30 / 100 - event.clientY,
+				right: event.clientX - window.innerWidth * 70 / 100,
+				bottom: event.clientY - window.innerHeight * 70 / 100,
+				left: window.innerWidth * 30 / 100 - event.clientX,
+			}
+
+			// get all positive values
+			const availablePositions = Object.keys(positions).filter(position => {
+				return positions[position] > 0
+			})
+
+			if (availablePositions.length === 0) {
+				return
+			}
+
+			const closestPosition = availablePositions.reduce((highest, current) => {
+				return positions[highest] > positions[current] ? highest : current
+			})
+
+			if (closestPosition) {
+				draggingPosition.value = closestPosition
+				mainBar.draggingPosition = closestPosition
 			}
 		}
 
-		function disablePanelMove (event) {
-			window.removeEventListener('mousemove', rafMovePanel)
-			window.removeEventListener('mouseup', rafEndDragging)
+		function disablePanelMove () {
+			window.removeEventListener('mousemove', movePanel)
+			window.removeEventListener('mouseup', disablePanelMove)
+
+			// Save the position
+			if (draggingPosition.value) {
+				mainBar.position = draggingPosition.value
+				draggingPosition.value = null
+			}
 
 			iFrame.value.set('pointerEvents', false)
 			userSel.value = null
 			document.body.style.cursor = null
-			isDragging.value = false
-			editorHeaderRef.value.style.transition = null
+			mainBar.isDragging = false
+
 		}
 
 		function onSaving (status) {
@@ -403,27 +424,40 @@ export default {
 		}
 
 
+		function onAfterLeave () {
+			const el = document.querySelector('iframe')
+			el.style.transform = 'translateZ(0)'
+		}
+
+		function onAfterEnter () {
+			const el = document.querySelector('iframe')
+			el.style.transform = null
+		}
+
 		// Lifecycle
 		onBeforeUnmount(() => {
-			disablePanelMove()
+			window.removeEventListener('mousemove', movePanel)
+			window.removeEventListener('mouseup', disablePanelMove)
 		})
 
 		return {
 			// Refs
 			showGettingStartedVideo,
 			editorHeaderRef,
-			isDragging,
 			aboutModalVisibility,
 			helpModalVisibility,
 			shortcutsModalVisibility,
+			mainBar,
+			isPreviewMode,
+			draggingPosition,
 
 			// Computed
 			openPanelsIDs,
 			helpMenuItems,
 			device,
 			panelStyles,
-			getCssClasses,
 			helperStyle,
+			tooltipsPosition,
 
 			// Methods
 			saveActions,
@@ -432,7 +466,10 @@ export default {
 			responsiveDevices,
 			savePage,
 			onSaving,
-			startBarDrag
+			startBarDrag,
+			onAfterLeave,
+			onAfterEnter
+
 		}
 	}
 }
@@ -451,6 +488,24 @@ export default {
 	transition: margin .3s ease-out;
 	cursor: move;
 	user-select: none;
+
+	// Bar positions
+	&--right {
+		order: 9999;
+	}
+
+	&--top {
+		top: 0;
+		left: 0;
+		flex-direction: row;
+		order: 0;
+		width: 100%;
+		height: 60px;
+
+		& .znpb-editor-header__first, & .znpb-editor-header__last {
+			flex-direction: row;
+		}
+	}
 
 	&__first {
 		display: flex;
@@ -552,12 +607,7 @@ export default {
 	}
 	&.znpb-editor-panel__container--dragging {
 		z-index: 1000;
-		width: auto;
-		height: auto;
 		opacity: .5;
-		&.znpb-editor-header--sticked {
-			background: var(--zb-primary-color);
-		}
 	}
 }
 .znpb-editor-header__helper {
@@ -591,6 +641,88 @@ export default {
 		&__last {
 			flex-direction: row;
 		}
+	}
+}
+
+// Hide animation
+.znpb-editor-header--hide {
+	&-left {
+		margin-left: -60px;
+	}
+
+	&-right {
+		margin-right: -60px;
+	}
+}
+
+// Dragging helpers
+.znpb-main-wrapper--mainBarPlaceholder {
+	position: absolute;
+	z-index: 999999;
+	background: var(--zb-secondary-color);
+}
+.znpb-main-wrapper--mainBarPlaceholder--top {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 5px;
+	animation: .3s ease-out 0s 1 slideInFromTop;
+}
+
+.znpb-main-wrapper--mainBarPlaceholder--left {
+	top: 0;
+	left: 0;
+	width: 5px;
+	height: 100%;
+	animation: .3s ease-out 0s 1 slideInFromLeft;
+}
+
+.znpb-main-wrapper--mainBarPlaceholder--right {
+	top: 0;
+	right: 0;
+	width: 5px;
+	height: 100%;
+	animation: .3s ease-out 0s 1 slideInFromRight;
+}
+
+.znpb-main-wrapper--mainBarPlaceholder--bottom {
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 5px;
+	animation: .3s ease-out 0s 1 slideInFromBottom;
+}
+
+@keyframes slideInFromLeft {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+@keyframes slideInFromRight {
+	0% {
+		transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+@keyframes slideInFromTop {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+@keyframes slideInFromBottom {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0);
 	}
 }
 </style>

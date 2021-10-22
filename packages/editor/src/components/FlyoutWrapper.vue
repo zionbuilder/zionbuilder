@@ -37,9 +37,9 @@ ul.znpb-editor-header-flyout-hidden-items {
 	@extend %tooltip;
 	padding: 8px 0;
 	font-weight: 500;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
 	box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
 }
 .znpb-editor-header-flyout {
 	position: relative;
@@ -48,7 +48,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 	align-items: center;
 	width: 60px;
 	height: 60px;
-	transition: background-color 0.15s ease;
+	transition: background-color .15s ease;
 	cursor: pointer;
 
 	.znpb-editor-header__menu_button {
@@ -95,9 +95,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 		}
 	}
 
-	&:hover,
-	&:active,
-	&:focus {
+	&:hover, &:active, &:focus {
 		background: var(--zb-primary-hover-color);
 	}
 }
@@ -123,9 +121,9 @@ ul.znpb-editor-header-flyout-hidden-items {
 			.znpb-editor-header-flyout-hidden-items {
 				top: 60px;
 				right: 0;
+				bottom: auto;
 				left: auto;
 				width: auto;
-				min-height: 150px;
 				transform-origin: top right;
 			}
 		}
@@ -141,7 +139,6 @@ ul.znpb-editor-header-flyout-hidden-items {
 				bottom: 60px;
 				left: auto;
 				width: auto;
-				min-height: 150px;
 				transform-origin: bottom right;
 			}
 		}
