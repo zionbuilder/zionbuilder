@@ -652,6 +652,14 @@ export default {
 	&-right {
 		margin-right: -60px;
 	}
+
+	&-top {
+		margin-top: -60px;
+	}
+
+	&-bottom {
+		margin-bottom: -60px;
+	}
 }
 
 // Dragging helpers

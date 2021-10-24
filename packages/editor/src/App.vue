@@ -3,8 +3,7 @@
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
 	>
-
-		<transition :name="showEditorTransition">
+		<transition name="slide-from-left">
 			<div
 				:style="showEditorButtonStyle"
 				class="znpb-editor-layout__preview-buttons"
@@ -224,31 +223,15 @@ export default {
 		}
 	},
 	computed: {
-		showEditorTransition: function () {
-			if (this.getMainbarPosition() === 'left') {
-				return 'slide-from-right'
-			}
-			if (this.getMainbarPosition() === 'right') {
-				return 'slide-from-left'
-			}
-			return 'slide-from-right'
-		},
-
 		showEditorButtonStyle () {
 			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
-			if (mainBarPosition === 'right') {
-				buttonStyle = {
-					right: '30px',
-					top: '30px;'
-				}
+
+			buttonStyle = {
+				left: '30px',
+				top: '30px'
 			}
-			if (mainBarPosition === 'left') {
-				buttonStyle = {
-					left: '30px',
-					top: '30px'
-				}
-			}
+
 			return buttonStyle
 		}
 	},
@@ -289,10 +272,6 @@ export default {
 
 <style lang="scss">
 /* style default elements */
-body {
-	overflow: hidden;
-}
-
 .znpb-editor {
 	&-layout {
 		&__preview-buttons {
