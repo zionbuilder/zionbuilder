@@ -88,7 +88,7 @@
 			<template v-if="!isPreviewMode">
 				<component
 					v-for="panel in openPanels"
-					:is="panel.id"
+					:is="panel.component"
 					:key="panel.id"
 					:panel="panel"
 				/>
@@ -150,7 +150,7 @@ import SaveElementModal from './components/SaveElementModal.vue'
 // Composables
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useAutosave } from '@composables'
+import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -178,12 +178,11 @@ export default {
 	setup (props) {
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
-		const { openPanels, panelPlaceholder } = usePanels()
+		const { openPanels, panelPlaceholder, mainBar } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
-		const { getMainbarPosition, mainBar } = useEditorInteractions()
 		const { editorData } = useEditorData()
 
 		// General functionality
@@ -212,7 +211,6 @@ export default {
 			setPreviewMode,
 			applyShortcuts,
 			isPreviewLoading,
-			getMainbarPosition,
 			mainBar,
 			urls: editorData.value.urls
 		}
@@ -224,7 +222,6 @@ export default {
 	},
 	computed: {
 		showEditorButtonStyle () {
-			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
 
 			buttonStyle = {

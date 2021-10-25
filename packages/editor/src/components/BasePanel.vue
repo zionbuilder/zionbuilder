@@ -59,7 +59,7 @@
 <script>
 
 import rafSchd from 'raf-schd'
-import { usePanels, useEditorInteractions, useWindows, useEditorData } from '@composables'
+import { useUI, useWindows, useEditorData } from '@composables'
 
 export default {
 	name: 'BasePanel',
@@ -110,8 +110,7 @@ export default {
 		panel: {}
 	},
 	setup () {
-		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder } = usePanels()
-		const { getMainbarPosition, getIframeOrder, iFrame } = useEditorInteractions()
+		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder, getMainbarPosition, getIframeOrder, iFrame, setIframePointerEvents, saveUI } = useUI()
 		const { addEventListener, removeEventListener } = useWindows()
 		const { editorData } = useEditorData()
 
@@ -126,7 +125,9 @@ export default {
 			iFrame,
 			addEventListener,
 			removeEventListener,
-			isRtl: editorData.value.rtl
+			isRtl: editorData.value.rtl,
+			setIframePointerEvents,
+			saveUI
 		}
 	},
 	data () {
@@ -261,7 +262,7 @@ export default {
 			this.position.toPanelLeft = event.clientX - this.panelOffset.left
 
 			// Allow dragging over the iframe
-			this.iFrame.set('pointerEvents', true)
+			this.setIframePointerEvents(true)
 
 			this.initialPosition = {
 				posX: event.clientX,
@@ -423,7 +424,7 @@ export default {
 			}
 
 			this.initialPosition = null
-			this.iFrame.set('pointerEvents', false)
+			this.setIframePointerEvents(false)
 			this.userSel = null
 			this.setPanelPlaceholder({
 				...this.panelPlaceholder,
@@ -440,7 +441,7 @@ export default {
 			document.body.style.userSelect = null
 		},
 		activateHorizontalResize () {
-			this.iFrame.set('pointerEvents', true)
+			this.setIframePointerEvents(true)
 			this.deactivateSelection()
 			this.initialHMouseX = event.clientX
 			this.initialWidth = this.panel.width.value
@@ -457,13 +458,14 @@ export default {
 			this.panel.set('width', {
 				value: width < 360 ? 360 : width,
 				unit: 'px'
-			})
+			}, true)
 		},
 		deactivateHorizontal () {
 			window.removeEventListener('mousemove', this.rafResizeHorizontal)
-			this.iFrame.set('pointerEvents', false)
+			this.setIframePointerEvents(false)
 			this.resetSelection()
 			document.body.style.cursor = null
+			this.saveUI()
 		},
 		activateVerticalResize (event) {
 			this.iFrame.set('pointerEvents', true)
@@ -489,13 +491,14 @@ export default {
 		deactivateVertical () {
 			window.removeEventListener('mousemove', this.rafResizeVertical)
 			document.body.style.cursor = null
-			this.iFrame.set('pointerEvents', false)
+			this.setIframePointerEvents(false)
 			this.resetSelection()
+			this.saveUI()
 		}
-
 	},
 	beforeUnmount () {
 		this.removeEventListener('keydown', this.onKeyDown)
+		this.removeEventListener('mousemove', this.rafResizeVertical)
 	}
 }
 </script>

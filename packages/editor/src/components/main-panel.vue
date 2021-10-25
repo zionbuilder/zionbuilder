@@ -26,9 +26,9 @@
 			</div>
 			<!-- libary -->
 			<div
-				@mousedown.stop="togglePanel('PanelLibraryModal')"
+				@mousedown.stop="togglePanel('panel-library')"
 				:class="{
-					'active': openPanelsIDs.includes('PanelLibraryModal')
+					'active': openPanelsIDs.includes('panel-library')
 				}"
 				class="znpb-editor-header__menu_button"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
@@ -194,7 +194,7 @@ import aboutModal from './aboutModal.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
-import { useTemplateParts, useSavePage, usePanels, useEditorData, useEditorInteractions, useSaveTemplate, usePreviewMode } from '@composables'
+import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '@composables'
 import { translate } from '@zb/i18n'
 import { useResponsiveDevices } from '@zb/components'
 import { useBuilderOptions } from '@zionbuilder/composables'
@@ -212,10 +212,9 @@ export default {
 	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
-		const { togglePanel, openPanelsIDs } = usePanels()
+		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
-		const { mainBar, iFrame, getMainbarPosition, getMainBarPointerEvents } = useEditorInteractions()
 		const { showSaveElement } = useSaveTemplate()
 		const { getOptionValue } = useBuilderOptions()
 		const { isPreviewMode } = usePreviewMode()
@@ -232,6 +231,8 @@ export default {
 		const left = ref(null)
 		const draggingPosition = ref(null)
 		const userSel = ref(null)
+
+		// Computed
 		const tooltipsPosition = computed(() => {
 			if (mainBar.position === 'top') {
 				return 'bottom'
@@ -244,7 +245,7 @@ export default {
 			}
 		})
 
-		// Computed
+
 		const hasWhiteLabel = computed(() => {
 			let isPro = editorData.value.plugin_info.is_pro_active
 			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false
@@ -294,7 +295,7 @@ export default {
 		const helperStyle = computed(() => {
 			const xTranslate = getMainbarPosition() === 'right' ? `${left.value + 70 - window.innerWidth}px` : `${left.value + 10}px`
 			return {
-				transform: (mainBar.isDragging) ? `translate3d(${xTranslate},${top.value - 22}px,0)` : null
+				transform: (mainBar.isDragging) ? `translate3d(${xTranslate}, ${top.value - 22}px,0)` : null
 			}
 		})
 
@@ -344,7 +345,7 @@ export default {
 			window.addEventListener('mouseup', disablePanelMove)
 
 			// disable pointer events on iframe
-			iFrame.value.set('pointerEvents', true)
+			setIframePointerEvents(true)
 			userSel.value = 'none'
 		}
 
@@ -397,11 +398,11 @@ export default {
 
 			// Save the position
 			if (draggingPosition.value) {
-				mainBar.position = draggingPosition.value
+				setMainBarPosition(draggingPosition.value)
 				draggingPosition.value = null
 			}
 
-			iFrame.value.set('pointerEvents', false)
+			setIframePointerEvents(false)
 			userSel.value = null
 			document.body.style.cursor = null
 			mainBar.isDragging = false

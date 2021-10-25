@@ -52,7 +52,7 @@ import {
 	useKeyBindings,
 	useSavePage,
 	useEditorData,
-	useEditorInteractions,
+	useUI,
 	useWindows,
 	useHistory,
 	useElementTypes
@@ -75,7 +75,7 @@ export default {
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
-		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
+		const { getIframePointerEvents, getIframeOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
 		return {

@@ -6,7 +6,7 @@
 		class="znpb-library-modal"
 		v-model:fullscreen="fullSize"
 		:close-on-escape="true"
-		@close-modal="closePanel('PanelLibraryModal')"
+		@close-modal="closePanel('panel-library')"
 	>
 		<template v-slot:header>
 			<div class="znpb-library-modal-header">
@@ -129,7 +129,7 @@
 					<Icon
 						icon="close"
 						:size="14"
-						@click="togglePanel('PanelLibraryModal')"
+						@click="togglePanel('panel-library')"
 						class="znpb-modal__header-button"
 					/>
 				</div>
@@ -167,7 +167,7 @@ import { ref, watch } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
-import { usePanels, useElements, useEditorData } from '@composables'
+import { useUI, useElements, useEditorData } from '@composables'
 import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -188,7 +188,7 @@ export default {
 		}
 	},
 	setup (props) {
-		const { togglePanel, closePanel } = usePanels()
+		const { togglePanel, closePanel } = useUI()
 		const { fetchTemplates, loading } = useLocalLibrary()
 		let libLoading = ref(false)
 
@@ -280,7 +280,7 @@ export default {
 					const { template_data: templateData } = response.data
 					const { insertElement, activeElement } = useLibrary()
 
-					const { togglePanel } = usePanels()
+					const { togglePanel } = useUI()
 
 					// Check to see if this is a single element or a group of elements
 					let compiledTemplateData = templateData.element_type ? [templateData] : templateData
@@ -294,7 +294,7 @@ export default {
 						element.addChildren(newElement)
 					}
 
-					togglePanel('PanelLibraryModal')
+					togglePanel('panel-library')
 
 					resolve(true)
 				}).catch((error) => {

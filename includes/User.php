@@ -33,7 +33,9 @@ class User {
 			return new WP_Error( 'user_not_found', \__esc_html( 'no active user found', 'zionbuilder' ) );
 		}
 
-		return update_user_meta( $user_id, self::USER_META_ZION_DATA, $data );
+		update_user_meta( $user_id, self::USER_META_ZION_DATA, wp_json_encode( $data ) );
+
+		return true;
 	}
 
 
@@ -51,6 +53,8 @@ class User {
 			return new WP_Error( 'user_not_found', __esc_html( 'no active user found', 'zionbuilder' ) );
 		}
 
-		return get_user_meta( $user_id, self::USER_META_ZION_DATA, true );
+		$user_data = \get_user_meta( $user_id, self::USER_META_ZION_DATA, true );
+
+		return json_decode( $user_data, true );
 	}
 }

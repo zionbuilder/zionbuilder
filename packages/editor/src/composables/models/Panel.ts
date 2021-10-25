@@ -1,4 +1,4 @@
-import { usePanels } from '../usePanels'
+import { useUI } from '../useUI'
 
 export class Panel {
 	id = ''
@@ -7,7 +7,6 @@ export class Panel {
 	isDragging = false
 	isExpanded = false
 	isActive = false
-	background = '#302c36'
 	width = {
 		value: 360,
 		unit: 'px'
@@ -18,6 +17,7 @@ export class Panel {
 	}
 	panelPos = 1
 	group = null
+	saveOpenState: boolean = true
 
 	constructor(config) {
 		Object.assign(this, config)
@@ -28,12 +28,18 @@ export class Panel {
 	}
 
 	close() {
+		const { saveUI } = useUI()
+
 		this.isActive = false
+
+		if (this.saveOpenState) {
+			saveUI()
+		}
 	}
 
 	open() {
 		this.isActive = true
-		const { openPanels } = usePanels()
+		const { openPanels, saveUI } = useUI()
 
 		// If this panel is part of a group,
 		// close other panels from the same group that are already opened
@@ -44,9 +50,29 @@ export class Panel {
 				}
 			})
 		}
+
+		if (this.saveOpenState) {
+			saveUI()
+		}
 	}
 
 	toggle() {
+		console.log('toggle');
 		this.isActive ? this.close() : this.open()
+	}
+
+	toJSON() {
+		const dataToReturn = {
+			panelPos: this.panelPos,
+			isDetached: this.isDetached,
+			width: this.width,
+			height: this.height
+		}
+
+		if (this.saveOpenState) {
+			dataToReturn.isActive = this.isActive
+		}
+
+		return dataToReturn
 	}
 }

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { usePanels, useEditElement } from '@composables'
+import { useUI, useEditElement } from '@composables'
 
 export default {
 	name: 'SingleChild',
@@ -41,7 +41,7 @@ export default {
 		}
 	},
 	setup (props) {
-		const { openPanel } = usePanels()
+		const { openPanel } = useUI()
 		const { editElement } = useEditElement()
 
 		function onDelete () {
@@ -90,7 +90,7 @@ export default {
 		flex-shrink: 0;
 
 		&DeleteInactive {
-			opacity: 0.4;
+			opacity: .4;
 		}
 	}
 }

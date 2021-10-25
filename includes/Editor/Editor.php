@@ -9,6 +9,7 @@ use ZionBuilder\Permissions;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Elements\Masks;
 use ZionBuilder\Whitelabel;
+use ZionBuilder\User;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -348,6 +349,9 @@ class Editor {
 				'template_types'      => Plugin::$instance->templates->get_template_types(),
 				'template_categories' => Plugin::$instance->templates->get_template_categories(),
 				'rtl'                 => is_rtl(),
+
+				// User data
+				'user_data'           => User::get_user_data(),
 			]
 		);
 	}

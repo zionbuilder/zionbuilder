@@ -3,8 +3,7 @@
 namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
-use ZionBuilder\Post\BasePostType;
-use ZionBuilder\CSSClasses;
+use ZionBuilder\User;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package ZionBuilder\Api\RestControllers
  */
-class User extends RestApiController {
+class UserController extends RestApiController {
 
 	/**
 	 * Api endpoint namespace
@@ -30,7 +29,7 @@ class User extends RestApiController {
 	 *
 	 * @var string
 	 */
-	protected $base = 'save-page';
+	protected $base = 'user-data';
 
 	/**
 	 * Register routes
@@ -77,26 +76,17 @@ class User extends RestApiController {
 	 * @return mixed|\WP_REST_Response|\ZionBuilder\Post\BasePostType
 	 */
 	public function save_item( $request ) {
-		$params = $request->get_json_params();
+		$params = $request->get_params();
 
 		// update the page with the new changes
-		$post_instance  = new BasePostType( $params['page_id'] );
-		$save_post_data = $post_instance->save( $params );
+		$result = User::save_user_data( $params );
 
-		// Save css classes
-		$css_classes = $request->get_param( 'css_classes' );
-		if ( null !== $css_classes ) {
-			// Save the css classes
-			CSSClasses::save_classes( $css_classes );
+		if ( is_wp_error( $result ) ) {
+			return new \WP_Error( 'save_error', $result->get_error_message(), [ 'status' => 500 ] );
+		} elseif ( ! $result ) {
+			return new \WP_Error( 'save_error', esc_html__( 'There was a problem saving the user data.', 'zionbuilder' ), [ 'status' => 500 ] );
 		}
 
-		// check for errors
-		if ( ! $save_post_data ) {
-			return new \WP_Error( 'save_error', esc_html__( 'There was a problem saving the page.', 'zionbuilder' ), [ 'status' => 500 ] );
-		}
-
-		$message = [ 'message' => esc_html__( 'Page successfully saved!', 'zionbuilder' ) ];
-
-		return rest_ensure_response( $message );
+		return rest_ensure_response( User::get_user_data() );
 	}
 }
