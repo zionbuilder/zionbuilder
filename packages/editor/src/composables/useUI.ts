@@ -2,6 +2,7 @@ import { computed, ref, reactive } from 'vue'
 import { filter, get } from 'lodash-es'
 
 import { Panel } from './models/Panel'
+import { EditorArea } from './models/EditorArea'
 
 import { useUserData } from './useUserData'
 const { getUserData, updateUserData } = useUserData()
@@ -61,17 +62,18 @@ const panels = ref(panelInstances)
 const panelPlaceholder = ref({})
 
 // Main Bar
-const mainBar = reactive({
+const mainBar = reactive(new EditorArea({
+	position: 'left',
 	pointerEvents: false,
 	draggingPosition: null,
 	...UIUserData.mainBar
-})
+}))
 
 // Iframe panel
-const iFrame = reactive({
+const iFrame = reactive(new EditorArea({
 	pointerEvents: false,
 	order: 6
-})
+}))
 
 export function useUI() {
 	const openPanels = computed(() => {

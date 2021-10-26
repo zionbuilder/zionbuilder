@@ -498,7 +498,12 @@ export default {
 	},
 	beforeUnmount () {
 		this.removeEventListener('keydown', this.onKeyDown)
-		this.removeEventListener('mousemove', this.rafResizeVertical)
+		window.removeEventListener('mousemove', this.movePanel)
+		window.removeEventListener('mouseup', this.disablePanelMove)
+		window.removeEventListener('mousemove', this.rafResizeHorizontal)
+		window.removeEventListener('mouseup', this.deactivateHorizontal)
+		window.removeEventListener('mousemove', this.rafResizeVertical)
+		window.removeEventListener('mouseup', this.deactivateVertical)
 	}
 }
 </script>
