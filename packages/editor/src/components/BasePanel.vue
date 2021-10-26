@@ -150,14 +150,13 @@ export default {
 				order: props.panel.panelPos,
 
 				// Positions for detached
-				top: props.panel.isDetached && props.panel.offsets.posY !== 0 ? props.panel.offsets.posY + 'px' : null,
-				left: props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
+				top: !props.panel.isDragging && props.panel.isDetached && props.panel.offsets.posY !== 0 ? props.panel.offsets.posY + 'px' : null,
+				left: !props.panel.isDragging && props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
 				position: props.panel.isDetached ? 'fixed' : 'relative',
 
 				// Dragging transform
 				transform: props.panel.isDragging ? `translate3d(${dragginMoved.value.x}px, ${dragginMoved.value.y}px, 0)` : null,
-				zIndex: props.panel.isDragging ? 9999 : null,
-				pointerEvents: props.panel.isDragging ? 'none' : null,
+				zIndex: props.panel.isDragging ? 9 : null
 
 			}
 			return cssStyles
@@ -177,14 +176,20 @@ export default {
 			setIframePointerEvents(true)
 			document.body.style.userSelect = 'none'
 
-			// TODO: Add a treshold
-			props.panel.isDragging = true
-
 			const { clientX, clientY } = event
 
+			const boundingClientRect = root.value.getBoundingClientRect()
 			initialMovePosition = {
 				posX: clientX,
 				posY: clientY,
+				oldTop: boundingClientRect.top,
+				oldLeft: boundingClientRect.left,
+				oldHeight: boundingClientRect.height,
+			}
+
+			dragginMoved.value = {
+				x: boundingClientRect.left,
+				y: boundingClientRect.top
 			}
 
 			window.addEventListener('mousemove', rafMovePanel)
@@ -192,28 +197,38 @@ export default {
 		}
 
 		function movePanel (event) {
-			props.panel.set('isDetached', true)
-
-			const { clientX, clientY } = event
-			const { posX, posY } = initialMovePosition
-
-			//
+			const { posX, posY, oldTop, oldLeft } = initialMovePosition
+			const { pageY, pageX } = event
 			const boundingClientRect = root.value.getBoundingClientRect()
-			const { top, height } = boundingClientRect
-			// Prevent overflow
-			const maxBottom = window.innerHeight - boundingClientRect.height
-			// let newTop = clientY - posY < 0 ? 0 : clientY - posY
-			// const vvv = newTop > maxBottom ? maxBottom : newTop
-			console.log(top);
-			const newTop = top < 0 ? clientY - posY - top : clientY - posY
-			console.log(dragginMoved.value);
 
-			dragginMoved.value = {
-				x: clientX - posX,
-				y: newTop
+			if (!props.panel.isDragging) {
+				const xMoved = Math.abs(posX - pageX)
+				const yMoved = Math.abs(posY - pageY)
+				const dragThreshold = 5
+
+				// Check if we should detach the panel
+				if (xMoved > dragThreshold || yMoved > dragThreshold) {
+					props.panel.set('isDetached', true)
+					props.panel.set('isDragging', true)
+				}
+			} else {
+				const maxBottom = window.innerHeight - boundingClientRect.height
+				const newTop = oldTop + pageY - posY < 0 ? 0 : oldTop + pageY - posY
+				const MinMaxTop = newTop > maxBottom ? maxBottom : newTop
+
+				let MinMaxLeft = oldLeft + pageX - posX
+				const maxLeft = window.innerWidth - boundingClientRect.width
+				if (oldLeft + pageX - posX <= 0) {
+					MinMaxLeft = 0
+				} else if (oldLeft + pageX - posX > maxLeft) {
+					MinMaxLeft = maxLeft
+				}
+
+				dragginMoved.value = {
+					x: MinMaxLeft,
+					y: MinMaxTop
+				}
 			}
-
-
 		}
 
 		function onMouseUp () {

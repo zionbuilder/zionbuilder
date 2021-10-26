@@ -67,9 +67,9 @@
 		/>
 
 		<!-- top area -->
-		<div class="znpb-top-area">
-			<mainPanel v-if="mainBar.position === 'top'" />
-		</div>
+		<!-- <div class="znpb-top-area"> -->
+		<mainPanel />
+		<!-- </div> -->
 
 		<!-- center area -->
 		<div class="znpb-center-area">
@@ -80,9 +80,6 @@
 			>
 				<div class="znpb-panel-placeholder"></div>
 			</div>
-
-			<!-- start left area -->
-			<mainPanel v-if="['left', 'right'].includes(mainBar.position)" />
 
 			<!-- Start panels -->
 			<template v-if="!isPreviewMode">
@@ -107,11 +104,6 @@
 
 		</div>
 		<!-- end center area -->
-
-		<!-- bottom area -->
-		<div class="znpb-bottom-area">
-			<mainPanel v-if="mainBar.position === 'bottom'" />
-		</div>
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
