@@ -8,7 +8,7 @@ export class Panel {
 	isExpanded = false
 	isActive = false
 	width = 360
-	height = 'auto'
+	height = null
 	panelPos = 1
 	group = null
 	saveOpenState: boolean = true

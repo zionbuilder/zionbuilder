@@ -57,7 +57,7 @@
 	</div>
 </template>
 <script>
-import { computed, ref, onBeforeUnmount, onMounted } from 'vue'
+import { computed, ref, onBeforeUnmount, onMounted, watch } from 'vue'
 import rafSchd from 'raf-schd'
 import { useUI, useWindows, useEditorData } from '@composables'
 
@@ -116,11 +116,14 @@ export default {
 
 		// REFS
 		const root = ref(null)
-		const isDragging = ref(false)
 		const panelOffset = ref(null)
 		const initialPosition = ref({
-			top: 0,
-			left: 0
+			posY: 0,
+			posX: 0
+		})
+		const dragginMoved = ref({
+			x: null,
+			y: null
 		})
 
 		// COMPUTED
@@ -133,9 +136,6 @@ export default {
 			classes += props.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
 			classes += props.cssClass ? props.cssClass : ''
 
-			// TODO: check if this is still needed
-			// classes += this.touchesTop ? ' znpb-editor-panel--top' : ''
-
 			if (!props.panel.isDetached) {
 				classes += panelPosition.value === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
 			}
@@ -146,21 +146,19 @@ export default {
 			const cssStyles = {
 				'min-width': props.panel.width + 'px',
 				width: props.panel.width + 'px',
-				// height: props.panel.height === 'auto' ? '100%' : !props.panel.isDetached ? '100%' : panel.height.value,
-				height: props.panel.isDetached ? props.panel.height + 'px' : '100%',
+				height: props.panel.isDetached ? (props.panel.height ? props.panel.height + 'px' : '90%') : '100%',
 				order: props.panel.panelPos,
 
 				// Positions for detached
-				top: props.panel.isDetached ? props.panel.offsets.posY + 'px' : null,
+				top: props.panel.isDetached && props.panel.offsets.posY !== 0 ? props.panel.offsets.posY + 'px' : null,
 				left: props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
 				position: props.panel.isDetached ? 'fixed' : 'relative',
 
-				// TODO: add user select on body
-				// userSelect: this.userSel,
-
 				// Dragging transform
-				// TODO: uncomment this
-				// transform: (isDragging.value) ? `translate3d(${this.position.posX}${'px'},${this.position.posY}${'px'},0)` : null
+				transform: props.panel.isDragging ? `translate3d(${dragginMoved.value.x}px, ${dragginMoved.value.y}px, 0)` : null,
+				zIndex: props.panel.isDragging ? 9999 : null,
+				pointerEvents: props.panel.isDragging ? 'none' : null,
+
 			}
 			return cssStyles
 		})
@@ -170,11 +168,83 @@ export default {
 		})
 
 		// METHODS
+		let initialMovePosition = {
+			posX: null,
+			posY: null,
+		}
+		const rafMovePanel = rafSchd(movePanel)
 		function onMouseDown (event) {
+			setIframePointerEvents(true)
+			document.body.style.userSelect = 'none'
+
+			// TODO: Add a treshold
+			props.panel.isDragging = true
+
+			const { clientX, clientY } = event
+
+			initialMovePosition = {
+				posX: clientX,
+				posY: clientY,
+			}
+
+			window.addEventListener('mousemove', rafMovePanel)
+			window.addEventListener('mouseup', onMouseUp)
+		}
+
+		function movePanel (event) {
+			props.panel.set('isDetached', true)
+
+			const { clientX, clientY } = event
+			const { posX, posY } = initialMovePosition
+
+			//
+			const boundingClientRect = root.value.getBoundingClientRect()
+			const { top, height } = boundingClientRect
+			// Prevent overflow
+			const maxBottom = window.innerHeight - boundingClientRect.height
+			// let newTop = clientY - posY < 0 ? 0 : clientY - posY
+			// const vvv = newTop > maxBottom ? maxBottom : newTop
+			console.log(top);
+			const newTop = top < 0 ? clientY - posY - top : clientY - posY
+			console.log(dragginMoved.value);
+
+			dragginMoved.value = {
+				x: clientX - posX,
+				y: newTop
+			}
+
 
 		}
 
 		function onMouseUp () {
+			document.body.style.userSelect = null
+			setIframePointerEvents(false)
+
+			// Since we have user RafScheduler we need to stop this in an animation frame in order to prevent
+			// the situation were move panel fires after mouseUp
+			window.requestAnimationFrame(() => {
+				props.panel.isDragging = false
+
+				dragginMoved.value = {
+					x: null,
+					y: null
+				}
+			})
+
+			// Save the panel position
+			panelOffset.value = root.value.getBoundingClientRect()
+			props.panel.offsets = {
+				posX: panelOffset.value.left,
+				posY: panelOffset.value.top
+			}
+
+			initialPosition.value = {
+				posX: panelOffset.value.left,
+				posY: panelOffset.value.top
+			}
+
+			window.removeEventListener('mousemove', rafMovePanel)
+			window.removeEventListener('mouseup', onMouseUp)
 
 		}
 
@@ -213,7 +283,6 @@ export default {
 			saveUI()
 		}
 
-
 		const rafResizeVertical = rafSchd(resizeVertical)
 		let initialVMouseY = null
 		let initialHeight = null
@@ -251,6 +320,10 @@ export default {
 			saveUI()
 		}
 
+
+		/**
+		 * Close panel on escape key
+		 */
 		function onKeyDown (event) {
 			if (event.which === 27) {
 				emit('close-panel')
@@ -270,7 +343,6 @@ export default {
 				posY: panelOffset.value.top
 			}
 
-
 			initialPosition.value = {
 				posX: panelOffset.value.left,
 				posY: panelOffset.value.top
@@ -283,6 +355,7 @@ export default {
 			window.removeEventListener('mouseup', deactivateHorizontal)
 			window.removeEventListener('mousemove', rafResizeVertical)
 			window.removeEventListener('mouseup', deactivateVertical)
+			removeEventListener('keydown', onKeyDown)
 
 			// Reset document styles
 			document.body.style.cursor = null

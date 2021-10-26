@@ -54,7 +54,7 @@ class User {
 		}
 
 		// TODO: remove this
-		// delete_user_meta( $user_id, self::USER_META_ZION_DATA );
+		delete_user_meta( $user_id, self::USER_META_ZION_DATA );
 		$user_data = \get_user_meta( $user_id, self::USER_META_ZION_DATA, true );
 
 		return json_decode( $user_data, true );
