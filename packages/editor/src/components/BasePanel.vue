@@ -1,6 +1,6 @@
 <template>
 	<div
-		ref="panelContainer"
+		ref="root"
 		:class="getCssClass"
 		:style="panelStyles"
 		:id='panelId'
@@ -13,7 +13,7 @@
 			class="znpb-panel__header"
 			v-if="showHeader"
 			@mousedown.self="onMouseDown"
-			@mouseup.self="disablePanelMove"
+			@mouseup.self="onMouseUp"
 			ref="panelHeader"
 		>
 			<h4
@@ -52,12 +52,12 @@
 		<div
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--vertical"
 			@mousedown="activateVerticalResize"
-			v-if="!isAnyPanelDragging && allowVerticalResize"
+			v-if="panel.isDetached && !isAnyPanelDragging && allowVerticalResize"
 		/>
 	</div>
 </template>
 <script>
-
+import { computed, ref, onBeforeUnmount, onMounted } from 'vue'
 import rafSchd from 'raf-schd'
 import { useUI, useWindows, useEditorData } from '@composables'
 
@@ -109,401 +109,202 @@ export default {
 		},
 		panel: {}
 	},
-	setup () {
+	setup (props, { slots, emit }) {
 		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder, getMainbarPosition, getIframeOrder, iFrame, setIframePointerEvents, saveUI } = useUI()
 		const { addEventListener, removeEventListener } = useWindows()
 		const { editorData } = useEditorData()
 
-		return {
-			isAnyPanelDragging,
-			openPanels,
-			getPanel,
-			panelPlaceholder,
-			setPanelPlaceholder,
-			getIframeOrder,
-			getMainbarPosition,
-			iFrame,
-			addEventListener,
-			removeEventListener,
-			isRtl: editorData.value.rtl,
-			setIframePointerEvents,
-			saveUI
-		}
-	},
-	data () {
-		return {
-			unit: 'px',
-			userSel: null,
-			isDragging: false,
-			initialPosition: null,
-			lastPositionX: 0,
-			lastPositionY: 0,
-			position: {
-				posX: 0,
-				posY: 0,
-				toPanelRight: null,
-				toPanelLeft: null
-			},
-			panelOffset: null,
-			initialHeight: null,
-			initialWidth: null,
-			initialVMouseY: null,
-			initialHMouseX: null,
-			touchesTop: null,
-			direction: null,
-			placement: null
-		}
-	},
-	mounted () {
-		if (this.closeOnEscape) {
-			this.addEventListener('keydown', this.onKeyDown)
-		}
-		this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
-		this.position = {
-			posX: this.panelOffset.left,
-			posY: this.panelOffset.top
-		}
-		this.lastPositionX = this.panelOffset.left
-		this.lastPositionY = this.panelOffset.top
-	},
-	computed: {
-		selectors () {
-			let selectors = []
-			this.openPanels.forEach(panel => {
-				selectors.push('#' + panel.id)
-			})
-			selectors.push('#znpb-editor-iframe')
-			selectors.push('#znpb-panel-placeholder')
-			return selectors
-		},
-		orders () {
-			const orders = []
-			const panels = this.openPanels.forEach(panel => {
-				orders.push(panel.panelPos)
-			})
+		// REFS
+		const root = ref(null)
+		const isDragging = ref(false)
+		const panelOffset = ref(null)
+		const initialPosition = ref({
+			top: 0,
+			left: 0
+		})
 
-			orders.push(this.getIframeOrder())
-			return orders
-		},
-		panelsAndIframe () {
-			const panels = {}
-			this.openPanels.forEach(panel => {
-				panels[panel.id] = panel.panelPos
-			})
-			panels['znpb-editor-iframe'] = this.getIframeOrder()
-			return panels
-		},
-		filteredOpenedPanels () {
-			const panels = {}
-			this.openPanels.forEach(panel => {
-				if (panel.id !== this.panelId) {
-					panels[panel.id] = panel.panelPos
-				}
-			})
-			panels['znpb-editor-iframe'] = this.getIframeOrder()
-			return panels
-		},
-		panelPosition () {
-			return this.panel.panelPos > this.getIframeOrder() ? 'right' : 'left'
-		},
-		hasHeaderSlot () {
-			return !!this.$slots['header']
-		},
-		/**
-		 * Returns the css styles that will be applied to the main panel
-		 */
-		panelStyles () {
-			const panel = this.panel
-			const cssStyles = {
-				'min-width': panel.width.value + panel.width.unit,
-				width: panel.width.value + panel.width.unit,
-				height: (panel.height.unit === 'auto' && this.isDragging) ? '90%' : !panel.isDetached ? '100%' : panel.height.value + panel.height.unit,
-				top: (!this.isDragging && panel.isDetached) ? this.position.posY + this.unit : null,
-				left: (!this.isDragging && panel.isDetached) ? this.position.posX + this.unit : this.isDragging && this.isRtl ? 0 : null,
-				position: panel.isDetached ? 'fixed' : 'relative',
-				order: panel.panelPos,
-				userSelect: this.userSel,
-				transform: (this.isDragging) ? `translate3d(${this.position.posX}${this.unit},${this.position.posY}${this.unit},0)` : null
-			}
-			return cssStyles
-		},
-		getCssClass () {
+		// COMPUTED
+		const panelPosition = computed(() => {
+			return props.panel.panelPos > getIframeOrder() ? 'right' : 'left'
+		})
+
+		const getCssClass = computed(() => {
 			let classes = ''
-			classes += this.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
-			classes += this.cssClass ? this.cssClass : ''
-			classes += this.touchesTop ? ' znpb-editor-panel--top' : ''
-			if (!this.panel.isDetached) {
-				classes += this.panel.panelPos > this.getIframeOrder() ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
+			classes += props.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
+			classes += props.cssClass ? props.cssClass : ''
+
+			// TODO: check if this is still needed
+			// classes += this.touchesTop ? ' znpb-editor-panel--top' : ''
+
+			if (!props.panel.isDetached) {
+				classes += panelPosition.value === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
 			}
 			return classes
+		})
+
+		const panelStyles = computed(() => {
+			const cssStyles = {
+				'min-width': props.panel.width + 'px',
+				width: props.panel.width + 'px',
+				// height: props.panel.height === 'auto' ? '100%' : !props.panel.isDetached ? '100%' : panel.height.value,
+				height: props.panel.isDetached ? props.panel.height + 'px' : '100%',
+				order: props.panel.panelPos,
+
+				// Positions for detached
+				top: props.panel.isDetached ? props.panel.offsets.posY + 'px' : null,
+				left: props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
+				position: props.panel.isDetached ? 'fixed' : 'relative',
+
+				// TODO: add user select on body
+				// userSelect: this.userSel,
+
+				// Dragging transform
+				// TODO: uncomment this
+				// transform: (isDragging.value) ? `translate3d(${this.position.posX}${'px'},${this.position.posY}${'px'},0)` : null
+			}
+			return cssStyles
+		})
+
+		const hasHeaderSlot = computed(() => {
+			return !!slots.header
+		})
+
+		// METHODS
+		function onMouseDown (event) {
+
 		}
 
-	},
-	methods: {
-		onKeyDown (event) {
+		function onMouseUp () {
+
+		}
+
+		const rafResizeHorizontal = rafSchd(resizeHorizontal)
+		let initialHMouseX = null
+		let initialWidth = null
+		function activateHorizontalResize (event) {
+			setIframePointerEvents(true)
+
+			document.body.style.userSelect = 'none'
+			document.body.style.cursor = 'w-resize'
+
+			initialHMouseX = event.clientX
+			initialWidth = props.panel.width
+
+			// Attach events
+			window.addEventListener('mousemove', rafResizeHorizontal)
+			window.addEventListener('mouseup', deactivateHorizontal)
+		}
+
+		function resizeHorizontal (event) {
+			const draggedHorizontal = event.clientX - initialHMouseX
+			const width = panelPosition.value === 'left' || props.panel.isDetached ? draggedHorizontal + initialWidth : -draggedHorizontal + initialWidth
+
+			props.panel.set('width', width < 360 ? 360 : width, true)
+		}
+
+		function deactivateHorizontal () {
+			setIframePointerEvents(false)
+
+			document.body.style.userSelect = null
+			document.body.style.cursor = null
+
+			window.removeEventListener('mousemove', rafResizeHorizontal)
+			window.removeEventListener('mouseup', deactivateHorizontal)
+			saveUI()
+		}
+
+
+		const rafResizeVertical = rafSchd(resizeVertical)
+		let initialVMouseY = null
+		let initialHeight = null
+		function activateVerticalResize (event) {
+			setIframePointerEvents(true)
+			document.body.style.userSelect = 'none'
+			document.body.style.cursor = 'n-resize'
+
+			initialHeight = root.value.clientHeight
+			initialVMouseY = event.clientY
+
+			window.addEventListener('mousemove', rafResizeVertical)
+			window.addEventListener('mouseup', deactivateVertical)
+		}
+
+		function resizeVertical (event) {
+			props.panel.set('isDetached', true)
+
+			const draggedVertical = event.clientY - initialVMouseY
+			const newHeightValue = initialHeight + draggedVertical
+
+			if (event.clientY < window.innerHeight) {
+				props.panel.set('height', newHeightValue > root.value.parentNode.clientHeight ? root.value.parentNode.clientHeight : newHeightValue)
+			}
+		}
+
+		function deactivateVertical () {
+			setIframePointerEvents(false)
+
+			document.body.style.userSelect = null
+			document.body.style.cursor = null
+
+			window.removeEventListener('mousemove', rafResizeVertical)
+			window.removeEventListener('mouseup', deactivateVertical)
+			saveUI()
+		}
+
+		function onKeyDown (event) {
 			if (event.which === 27) {
-				this.$emit('close-panel')
+				emit('close-panel')
 				event.stopImmediatePropagation()
 			}
-		},
-
-		onMouseDown (event) {
-			this.$refs.panelContainer.style.pointerEvents = 'none'
-
-			window.addEventListener('mousemove', this.movePanel)
-			window.addEventListener('mouseup', this.disablePanelMove)
-
-			this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
-			this.lastPositionX = this.panelOffset.left
-			this.lastPositionY = this.panelOffset.top
-			this.position.posX = this.panelOffset.left
-			this.position.posY = this.panelOffset.top
-			this.position.toPanelRight = this.panelOffset.right - event.clientX
-			this.position.toPanelLeft = event.clientX - this.panelOffset.left
-
-			// Allow dragging over the iframe
-			this.setIframePointerEvents(true)
-
-			this.initialPosition = {
-				posX: event.clientX,
-				posY: event.clientY
-			}
-		},
-
-		allowMoving () {
-			// Start dragging
-			this.panel.set('isDragging', true)
-			this.panel.set('isDetached', true)
-			this.isDragging = true
-			this.userSel = 'none'
-			this.deactivateSelection()
-		},
-
-		movePanel (event) {
-			if (this.isDragging) {
-				let target = null
-				let order = null
-				let left = null
-				let visibility = null
-				let closest = null
-				this.touchesTop = event.clientY < 10
-				this.panelOffset = this.$refs.panelContainer.getBoundingClientRect()
-				this.position.posX = this.lastPositionX + event.pageX - this.initialPosition.posX
-				this.position.posY = this.lastPositionY + event.pageY - this.initialPosition.posY
-				const touchesRight = event.clientX + this.position.toPanelRight > window.innerWidth - 10 - (this.getMainbarPosition() === 'right' ? 60 : 0)
-				const touchesLeft = event.clientX - this.position.toPanelLeft < (this.getMainbarPosition() === 'left' ? 60 : 10)
-
-				if (document.elementFromPoint(event.clientX, event.clientY)) {
-					target = document.elementFromPoint(event.clientX, event.clientY)
-					if (target) {
-						closest = target.closest([...this.selectors])
-					}
-					if (closest) {
-						const overlappedPanelId = closest.id
-						const idProps = this.getPanel(overlappedPanelId)
-						if (idProps && !idProps.isDetached) {
-							const domElement = document.getElementById(overlappedPanelId)
-							if (event.clientX > domElement.offsetLeft + (idProps.width.value / 2) && event.clientX < domElement.offsetLeft + idProps.width.value) {
-								order = idProps.panelPos + 1
-								this.placement = 'after'
-								left = domElement.offsetLeft + idProps.width.value - (Math.max(...this.orders) === idProps.panelPos && this.getMainbarPosition() === 'right' ? 5 : 0)
-							}
-							if (event.clientX > domElement.offsetLeft && event.clientX < domElement.offsetLeft + idProps.width.value / 2) {
-								order = idProps.panelPos
-								this.placement = 'before'
-								left = domElement.offsetLeft
-							}
-							visibility = true
-						}
-					} else {
-						visibility = false
-					}
-
-					if (touchesLeft) {
-						visibility = true
-						order = Math.min(...this.orders) - 1
-						if (this.getMainbarPosition() === 'left') {
-							left = 60
-						}
-					} else if (touchesRight) {
-						left = window.innerWidth - 5
-						if (this.getMainbarPosition() === 'right') {
-							left = window.innerWidth - 65
-						} else {
-							left = window.innerWidth - 5
-						}
-						visibility = true
-						order = Math.max(...this.orders) + 1
-					}
-					if (left >= window.innerWidth) {
-						left -= 5
-					}
-					this.setPanelPlaceholder({
-						visibility,
-						order,
-						left
-					})
-				}
-
-				const maxBottom = window.innerHeight - this.panelOffset.height
-				let newTop = this.position.posY < 0 ? 0 : this.position.posY
-				this.position.posY = newTop > maxBottom ? maxBottom : newTop
-
-				const maxLeft = window.innerWidth - this.panelOffset.width
-				const minLeft = 0
-				if (this.position.posX <= minLeft) {
-					this.position.posX = 0
-				} else if (this.position.posX > maxLeft) {
-					this.position.posX = maxLeft
-				}
-			} else {
-				const xMoved = Math.abs(this.initialPosition.posX - event.pageX)
-				const yMoved = Math.abs(this.initialPosition.posY - event.pageY)
-				const dragThreshold = 5
-
-				// Check if we should detach the panel
-				if (xMoved > dragThreshold || yMoved > dragThreshold) {
-					this.allowMoving()
-				}
-			}
-		},
-		setOrderAndPlaceholder (order, visibility, placement) {
-			// Sets openedPanels and previewIframe positions consecutive
-			for (const id in this.filteredOpenedPanels) {
-				const panelOrder = this.filteredOpenedPanels[id]
-
-				let otherPanelOrder = null
-
-				if (placement === 'before' && panelOrder >= order) {
-					otherPanelOrder = panelOrder + 1
-				} else if (placement === 'after' && panelOrder > order) {
-					otherPanelOrder = panelOrder + 1
-				} else {
-					otherPanelOrder = panelOrder
-				}
-				if (id === 'znpb-editor-iframe') {
-					this.iFrame.set('order', otherPanelOrder)
-				} else {
-					this.panel.set('panelPos', otherPanelOrder)
-				}
-
-				this.panel.set('panelPos', order)
-			}
-			this.mapOrders()
-		},
-		mapOrders () {
-			// maps panels from 1 to openedPanels.length
-			let orders = []
-			for (const id in this.panelsAndIframe) {
-				orders.push([id, this.panelsAndIframe[id]])
-			}
-			orders.sort(function (a, b) {
-				return a[1] - b[1]
-			})
-			orders.forEach((order, index) => {
-				if (order[0] === 'znpb-editor-iframe') {
-					this.iFrame.set('order', index + 1)
-				} else {
-					this.panel.set('panelPos', index + 1)
-				}
-			})
-		},
-		disablePanelMove () {
-			this.$refs.panelContainer.style.pointerEvents = null
-			this.panel.set('isDragging', false)
-			window.removeEventListener('mousemove', this.movePanel)
-			window.removeEventListener('mouseup', this.disablePanelMove)
-			const order = this.panelPlaceholder.order
-
-			this.isDragging = false
-			if (this.panelPlaceholder.visibility) {
-				if (order !== this.panel.panelPos) {
-					this.setOrderAndPlaceholder(order, this.panelPlaceholder.visibility, this.placement)
-				}
-				this.panel.set('isDetached', false)
-			}
-
-			this.initialPosition = null
-			this.setIframePointerEvents(false)
-			this.userSel = null
-			this.setPanelPlaceholder({
-				...this.panelPlaceholder,
-				visibility: false
-			})
-
-			this.resetSelection()
-		},
-
-		deactivateSelection () {
-			document.body.style.userSelect = 'none'
-		},
-		resetSelection () {
-			document.body.style.userSelect = null
-		},
-		activateHorizontalResize () {
-			this.setIframePointerEvents(true)
-			this.deactivateSelection()
-			this.initialHMouseX = event.clientX
-			this.initialWidth = this.panel.width.value
-			this.rafResizeHorizontal = rafSchd(this.resizeHorizontal)
-			window.addEventListener('mousemove', this.rafResizeHorizontal)
-			window.addEventListener('mouseup', this.deactivateHorizontal)
-		},
-		resizeHorizontal (event) {
-			document.body.style.cursor = 'w-resize'
-			const draggedHorizontal = event.clientX - this.initialHMouseX
-
-			const width = this.panelPosition === 'left' || this.panel.isDetached ? draggedHorizontal + this.initialWidth : -draggedHorizontal + this.initialWidth
-
-			this.panel.set('width', {
-				value: width < 360 ? 360 : width,
-				unit: 'px'
-			}, true)
-		},
-		deactivateHorizontal () {
-			window.removeEventListener('mousemove', this.rafResizeHorizontal)
-			this.setIframePointerEvents(false)
-			this.resetSelection()
-			document.body.style.cursor = null
-			this.saveUI()
-		},
-		activateVerticalResize (event) {
-			this.iFrame.set('pointerEvents', true)
-			this.deactivateSelection()
-			this.initialHeight = this.$refs.panelContainer.clientHeight
-			this.initialVMouseY = event.clientY
-			this.rafResizeVertical = rafSchd(this.resizeVertical)
-			window.addEventListener('mousemove', this.rafResizeVertical)
-			window.addEventListener('mouseup', this.deactivateVertical)
-		},
-		resizeVertical (event) {
-			this.panel.set('isDetached', true)
-			document.body.style.cursor = 'n-resize'
-			const draggedVertical = event.clientY - this.initialVMouseY
-			const newHeightValue = this.initialHeight + draggedVertical
-
-			this.panel.set('height', {
-				value: newHeightValue < this.$refs.panelHeader.clientHeight ? this.$refs.panelHeader.clientHeight : newHeightValue,
-				unit: 'px'
-			})
-
-		},
-		deactivateVertical () {
-			window.removeEventListener('mousemove', this.rafResizeVertical)
-			document.body.style.cursor = null
-			this.setIframePointerEvents(false)
-			this.resetSelection()
-			this.saveUI()
 		}
-	},
-	beforeUnmount () {
-		this.removeEventListener('keydown', this.onKeyDown)
-		window.removeEventListener('mousemove', this.movePanel)
-		window.removeEventListener('mouseup', this.disablePanelMove)
-		window.removeEventListener('mousemove', this.rafResizeHorizontal)
-		window.removeEventListener('mouseup', this.deactivateHorizontal)
-		window.removeEventListener('mousemove', this.rafResizeVertical)
-		window.removeEventListener('mouseup', this.deactivateVertical)
+
+		// LIFECYCLE
+		onMounted(() => {
+			if (props.closeOnEscape) {
+				addEventListener('keydown', onKeyDown)
+			}
+
+			panelOffset.value = root.value.getBoundingClientRect()
+			props.panel.offsets = {
+				posX: panelOffset.value.left,
+				posY: panelOffset.value.top
+			}
+
+
+			initialPosition.value = {
+				posX: panelOffset.value.left,
+				posY: panelOffset.value.top
+			}
+		})
+
+
+		onBeforeUnmount(() => {
+			window.removeEventListener('mousemove', rafResizeHorizontal)
+			window.removeEventListener('mouseup', deactivateHorizontal)
+			window.removeEventListener('mousemove', rafResizeVertical)
+			window.removeEventListener('mouseup', deactivateVertical)
+
+			// Reset document styles
+			document.body.style.cursor = null
+			document.body.style.userSelect = null
+		})
+
+		return {
+			// refs
+			root,
+
+			// Computed
+			getCssClass,
+			panelStyles,
+			isAnyPanelDragging,
+			hasHeaderSlot,
+
+			// Methods
+			onMouseDown,
+			onMouseUp,
+			activateHorizontalResize,
+			activateVerticalResize
+		}
 	}
 }
 </script>
@@ -513,7 +314,9 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	min-height: 320px;
 	background: var(--zb-surface-color);
+
 	&--attached {
 		height: 100%;
 

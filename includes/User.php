@@ -53,6 +53,8 @@ class User {
 			return new WP_Error( 'user_not_found', __esc_html( 'no active user found', 'zionbuilder' ) );
 		}
 
+		// TODO: remove this
+		// delete_user_meta( $user_id, self::USER_META_ZION_DATA );
 		$user_data = \get_user_meta( $user_id, self::USER_META_ZION_DATA, true );
 
 		return json_decode( $user_data, true );

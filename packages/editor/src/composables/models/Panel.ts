@@ -7,17 +7,16 @@ export class Panel {
 	isDragging = false
 	isExpanded = false
 	isActive = false
-	width = {
-		value: 360,
-		unit: 'px'
-	}
-	height = {
-		value: null,
-		unit: 'auto'
-	}
+	width = 360
+	height = 'auto'
 	panelPos = 1
 	group = null
 	saveOpenState: boolean = true
+	detachedPosition = {}
+	offsets = {
+		posX: null,
+		posY: null,
+	}
 
 	constructor(config) {
 		Object.assign(this, config)
@@ -65,8 +64,10 @@ export class Panel {
 		const dataToReturn = {
 			panelPos: this.panelPos,
 			isDetached: this.isDetached,
+			offsets: this.offsets,
 			width: this.width,
-			height: this.height
+			height: this.height,
+			detachedPosition: this.detachedPosition
 		}
 
 		if (this.saveOpenState) {

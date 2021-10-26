@@ -72,7 +72,7 @@ const mainBar = reactive(new EditorArea({
 // Iframe panel
 const iFrame = reactive(new EditorArea({
 	pointerEvents: false,
-	order: 6
+	order: 50
 }))
 
 export function useUI() {
@@ -149,7 +149,7 @@ export function useUI() {
 	}
 
 	const getIframeOrder = () => {
-		return iFrame['order']
+		return iFrame.order
 	}
 
 	// Save to DB
