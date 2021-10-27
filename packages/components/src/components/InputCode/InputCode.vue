@@ -142,11 +142,12 @@ export default {
 	.CodeMirror {
 		position: relative;
 		overflow: hidden;
-		color: var(--zb-surface-text-color);
+		color: #768390;
 		background: var(--zb-surface-darker-color);
 
 		pre {
-			color: var(--zb-surface-text-color);
+			color: #768390;
+			line-height: 1.4;
 		}
 
 		&-gutters {
@@ -155,11 +156,47 @@ export default {
 		}
 
 		&-linenumber {
-			color: var(--zb-surface-text-muted-color);
+			color: #768390;
 		}
 	}
 }
 .znpb-custom-code * {
 	box-sizing: content-box !important;
+}
+
+.znpb-theme-dark .znpb-custom-code {
+	.CodeMirror-selected {
+		background: #253549;
+	}
+
+	.CodeMirror-focused .CodeMirror-selected {
+		background: #274467;
+	}
+
+	div.CodeMirror span.CodeMirror-matchingbracket {
+		color: #b9b9b9;
+	}
+
+	.CodeMirror-cursor {
+		border-color: #2c89df;
+	}
+
+	.cm-atom,
+	.cm-keyword,
+	.cm-builtin,
+	.cm-meta,
+	.cm-qualifier,
+	.cm-type,
+	.cm-variable-3 {
+		color: #2c89df;
+	}
+
+	.cm-tag {
+		color: #71DB80;
+	}
+
+	.cm-number {
+		color: #51a980;
+	}
 }
 </style>
