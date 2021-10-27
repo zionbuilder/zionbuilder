@@ -9,9 +9,12 @@ export const PopperDirective = {
 			el.__ZnPbTooltip__.destroy()
 		}
 	},
-	updated(el, { value }) {
+	updated(el, { value, arg }) {
 		if (el.__ZnPbTooltip__) {
 			el.__ZnPbTooltip__.setContent(value)
+
+			const popperPosition = arg || 'top'
+			el.__ZnPbTooltip__.updatePosition(popperPosition)
 		}
 	}
 }
@@ -58,6 +61,16 @@ function initTooltip(element, content, arg) {
 		);
 	}
 
+	function updatePosition(placement) {
+
+		if (tooltipObject.popper) {
+			console.log(placement);
+			tooltipObject.popper.setOptions({ placement: 'bottom' });
+
+			console.log(tooltipObject.popper);
+		}
+	}
+
 	function hidePopper() {
 		// Remove from dom if is inserted
 		if (popperContent.parentNode) {
@@ -91,6 +104,7 @@ function initTooltip(element, content, arg) {
 		showPopper,
 		hidePopper,
 		destroy,
-		setContent
+		setContent,
+		updatePosition
 	}
 }

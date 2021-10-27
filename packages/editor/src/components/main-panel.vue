@@ -10,7 +10,7 @@
 		}"
 		:style="panelStyles"
 		ref="editorHeaderRef"
-	>
+	>{{tooltipsPosition}}
 		<!-- first part -->
 		<div class="znpb-editor-header__first">
 			<!-- treeview -->
@@ -234,6 +234,7 @@ export default {
 
 		// Computed
 		const tooltipsPosition = computed(() => {
+			console.log(mainBar.position);
 			if (mainBar.position === 'top') {
 				return 'bottom'
 			} else if (mainBar.position === 'left') {
@@ -623,9 +624,7 @@ export default {
 	opacity: 1;
 }
 
-.znpb-top-area, .znpb-bottom-area {
-	width: 100%;
-
+.znpb-editorHeaderPosition--bottom, .znpb-editorHeaderPosition--top {
 	.znpb-editor-header {
 		flex-direction: row;
 		align-items: center;
@@ -642,6 +641,10 @@ export default {
 			flex-direction: row;
 		}
 	}
+}
+
+.znpb-editorHeaderPosition--bottom .znpb-editor-header {
+	order: 2;
 }
 
 // Hide animation

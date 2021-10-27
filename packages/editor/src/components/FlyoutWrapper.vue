@@ -115,7 +115,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 
 /* flyout css for different positions of the bar */
 
-.znpb-top-area {
+.znpb-editorHeaderPosition--top {
 	.znpb-editor-header {
 		.znpb-editor-header-flyout {
 			.znpb-editor-header-flyout-hidden-items {
@@ -130,7 +130,7 @@ ul.znpb-editor-header-flyout-hidden-items {
 	}
 }
 
-.znpb-bottom-area {
+.znpb-editorHeaderPosition--bottom {
 	.znpb-editor-header {
 		.znpb-editor-header-flyout {
 			.znpb-editor-header-flyout-hidden-items {

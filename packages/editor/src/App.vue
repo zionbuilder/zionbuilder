@@ -66,44 +66,50 @@
 			}"
 		/>
 
-		<!-- top area -->
-		<!-- <div class="znpb-top-area"> -->
-		<mainPanel />
-		<!-- </div> -->
+		<div
+			class="znpb-panels-wrapper"
+			:class="{
+				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position
+			}"
+		>
+			<mainPanel />
 
-		<!-- center area -->
-		<div class="znpb-center-area">
-			<div
-				id="znpb-panel-placeholder"
-				v-if="panelPlaceholder.visibility"
-				:style="{'left':panelPlaceholder.left + 'px'}"
-			>
-				<div class="znpb-panel-placeholder"></div>
+			<!-- center area -->
+			<div class="znpb-center-area">
+				<!-- <div
+					id="znpb-panel-placeholder"
+					v-if="panelPlaceholder.visibility"
+					:style="{'left':panelPlaceholder.left + 'px'}"
+				>
+					<div class="znpb-panel-placeholder"></div>
+				</div> -->
+
+				<!-- Start panels -->
+				<template v-if="!isPreviewMode">
+					<component
+						v-for="panel in openPanels"
+						:is="panel.component"
+						:key="panel.id"
+						:panel="panel"
+					/>
+				</template>
+
+				<!-- iframe wrapper area -->
+				<PreviewIframe />
+
 			</div>
-
-			<!-- Start panels -->
-			<template v-if="!isPreviewMode">
-				<component
-					v-for="panel in openPanels"
-					:is="panel.component"
-					:key="panel.id"
-					:panel="panel"
-				/>
-			</template>
-
-			<!-- iframe wrapper area -->
-			<PreviewIframe />
-
-			<div
-				class="znpb-loading-wrapper-gif"
-				v-if="isPreviewLoading"
-			>
-				<img :src="urls.loader" />
-				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
-			</div>
+			<!-- end center area -->
 
 		</div>
-		<!-- end center area -->
+		<!-- top area -->
+
+		<div
+			class="znpb-loading-wrapper-gif"
+			v-if="isPreviewLoading"
+		>
+			<img :src="urls.loader" />
+			<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
+		</div>
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
@@ -125,7 +131,7 @@
 </template>
 
 <script>
-import { provide, watch } from 'vue'
+import { provide } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -466,6 +472,16 @@ body {
 				pointer-events: none !important;
 			}
 		}
+	}
+}
+
+.znpb-panels-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 100%;
+
+	&.znpb-editorHeaderPosition--top, &.znpb-editorHeaderPosition--bottom {
+		flex-direction: column;
 	}
 }
 </style>
