@@ -48,6 +48,7 @@ export const useKeyBindings = () => {
 			return
 		}
 
+
 		// Keys bellow don't run in preview mode
 		if (isPreviewMode.value) {
 			return
