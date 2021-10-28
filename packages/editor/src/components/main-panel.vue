@@ -669,14 +669,23 @@ export default {
 .znpb-main-wrapper--mainBarPlaceholder {
 	position: absolute;
 	z-index: 999999;
-	background: var(--zb-secondary-color);
+	overflow: hidden;
+
+	.znpb-main-wrapper--mainBarPlaceholderInner {
+		width: 100%;
+		height: 100%;
+		background: var(--zb-secondary-color);
+	}
 }
 .znpb-main-wrapper--mainBarPlaceholder--top {
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 5px;
-	animation: .3s ease-out 0s 1 slideInFromTop;
+
+	.znpb-main-wrapper--mainBarPlaceholderInner {
+		animation: .3s ease-out 0s 1 slideInFromTop;
+	}
 }
 
 .znpb-main-wrapper--mainBarPlaceholder--left {
@@ -684,7 +693,10 @@ export default {
 	left: 0;
 	width: 5px;
 	height: 100%;
-	animation: .3s ease-out 0s 1 slideInFromLeft;
+
+	.znpb-main-wrapper--mainBarPlaceholderInner {
+		animation: .3s ease-out 0s 1 slideInFromLeft;
+	}
 }
 
 .znpb-main-wrapper--mainBarPlaceholder--right {
@@ -692,7 +704,10 @@ export default {
 	right: 0;
 	width: 5px;
 	height: 100%;
-	animation: .3s ease-out 0s 1 slideInFromRight;
+
+	.znpb-main-wrapper--mainBarPlaceholderInner {
+		animation: .3s ease-out 0s 1 slideInFromRight;
+	}
 }
 
 .znpb-main-wrapper--mainBarPlaceholder--bottom {
@@ -700,7 +715,10 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 5px;
-	animation: .3s ease-out 0s 1 slideInFromBottom;
+
+	.znpb-main-wrapper--mainBarPlaceholderInner {
+		animation: .3s ease-out 0s 1 slideInFromBottom;
+	}
 }
 
 @keyframes slideInFromLeft {

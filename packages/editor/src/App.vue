@@ -60,18 +60,21 @@
 		</transition>
 
 		<div
-			class="znpb-main-wrapper--mainBarPlaceholder"
-			:class="{
-				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.isDragging && mainBar.draggingPosition
-			}"
-		/>
-
-		<div
 			class="znpb-panels-wrapper"
 			:class="{
 				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position
 			}"
 		>
+			<div
+				v-if="mainBar.isDragging"
+				class="znpb-main-wrapper--mainBarPlaceholder"
+				:class="{
+				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition
+			}"
+			>
+				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
+			</div>
+
 			<mainPanel />
 
 			<!-- center area -->
@@ -101,7 +104,6 @@
 			<!-- end center area -->
 
 		</div>
-		<!-- top area -->
 
 		<div
 			class="znpb-loading-wrapper-gif"
