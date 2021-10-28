@@ -481,6 +481,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	flex: 1 1 100%;
+	height: 100vh;
 
 	&.znpb-editorHeaderPosition--top, &.znpb-editorHeaderPosition--bottom {
 		flex-direction: column;

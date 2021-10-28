@@ -191,7 +191,7 @@ export default {
 
 		const panelStyles = computed(() => {
 			return {
-				'--optionsPanelWidth': `-${props.panel.width.value}${props.panel.width.unit}`
+				'--optionsPanelWidth': `-${props.panel.width}px`
 			}
 		})
 
