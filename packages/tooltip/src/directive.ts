@@ -40,7 +40,7 @@ function initTooltip(element, content, arg) {
 	// Set element and tooltip
 	tooltipObject.element = element
 	tooltipObject.content = popperContent
-	const popperPosition = arg || 'top'
+	let popperPosition = arg || 'top'
 
 	function showPopper() {
 		doc.body.appendChild(popperContent)
@@ -62,13 +62,7 @@ function initTooltip(element, content, arg) {
 	}
 
 	function updatePosition(placement) {
-
-		if (tooltipObject.popper) {
-			console.log(placement);
-			tooltipObject.popper.setOptions({ placement: 'bottom' });
-
-			console.log(tooltipObject.popper);
-		}
+		popperPosition = placement
 	}
 
 	function hidePopper() {

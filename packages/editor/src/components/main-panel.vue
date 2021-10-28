@@ -10,7 +10,7 @@
 		}"
 		:style="panelStyles"
 		ref="editorHeaderRef"
-	>{{tooltipsPosition}}
+	>
 		<!-- first part -->
 		<div class="znpb-editor-header__first">
 			<!-- treeview -->
@@ -234,7 +234,6 @@ export default {
 
 		// Computed
 		const tooltipsPosition = computed(() => {
-			console.log(mainBar.position);
 			if (mainBar.position === 'top') {
 				return 'bottom'
 			} else if (mainBar.position === 'left') {
