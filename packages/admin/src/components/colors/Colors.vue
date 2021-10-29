@@ -4,19 +4,27 @@
 
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
-				<div class="znpb-admin-colors__container">
+				<Sortable
+					class="znpb-admin-colors__container"
+					v-model="computedLocalColors"
+					:revert="true"
+					axis="horizontal"
+				>
 					<ColorBox
-						v-for="(color,i) in localColors"
+						v-for="(color,i) in computedLocalColors"
 						:color="color"
 						v-bind:key="color + i"
 						@option-updated="editLocalColor(color, $event)"
 						@delete-color="deleteLocalColor(color)"
 					/>
-					<ColorBox
-						type="addcolor"
-						@option-updated="addLocalColor"
-					/>
-				</div>
+
+					<template v-slot:end>
+						<ColorBox
+							type="addcolor"
+							@option-updated="addLocalColor"
+						/>
+					</template>
+				</Sortable>
 
 			</Tab>
 			<Tab name="Global">
@@ -27,20 +35,27 @@
 				/>
 
 				<template v-else>
-					<div class="znpb-admin-colors__container">
+					<Sortable
+						class="znpb-admin-colors__container"
+						v-model="computedGlobalColors"
+						:revert="true"
+						axis="horizontal"
+					>
 						<ColorBox
-							type="addcolor"
-							@option-updated="addGlobal"
-						/>
-
-						<ColorBox
-							v-for="(color,i) in globalColors"
+							v-for="(color,i) in computedGlobalColors"
 							v-bind:key="color.color + i"
 							:color="color.color"
 							@option-updated="editGlobalColor(i, $event)"
 							@delete-color="deleteGlobalColor(color)"
 						/>
-					</div>
+
+						<template v-slot:end>
+							<ColorBox
+								type="addcolor"
+								@option-updated="addGlobal"
+							/>
+						</template>
+					</Sortable>
 				</template>
 
 			</Tab>
@@ -57,11 +72,13 @@ import { useBuilderOptions } from '@zionbuilder/composables'
 import { generateUID } from '@zb/utils'
 // Components
 import ColorBox from './ColorBox.vue'
+import Sortable from '../../../../sortable/src/components/sortable/Sortable.vue'
 
 export default {
 	name: 'Colors',
 	components: {
-		ColorBox
+		ColorBox,
+		Sortable
 	},
 	setup () {
 		const isPro = window.ZnPbAdminPageData.is_pro_active
@@ -73,9 +90,29 @@ export default {
 			addGlobalColor,
 			deleteGlobalColor,
 			editGlobalColor,
+			updateOptionValue,
 		} = useBuilderOptions()
-		const localColors = getOptionValue('local_colors')
-		const globalColors = getOptionValue('global_colors')
+
+		const computedLocalColors = computed({
+			get () {
+				return getOptionValue('local_colors')
+			},
+			set (newValue) {
+				console.log({ newValue });
+				updateOptionValue('local_colors', newValue)
+
+			}
+		})
+		const computedGlobalColors = computed({
+			get () {
+				return getOptionValue('global_colors')
+			},
+			set (newValue) {
+				console.log({ newValue });
+				updateOptionValue('global_colors', newValue)
+
+			}
+		})
 
 
 		function addGlobal (color) {
@@ -91,12 +128,12 @@ export default {
 
 		return {
 			isPro,
-			localColors,
 			addLocalColor,
 			editLocalColor,
 			deleteLocalColor,
+			computedLocalColors,
+			computedGlobalColors,
 			// Global colors
-			globalColors,
 			addGlobal,
 			deleteGlobalColor,
 			editGlobalColor
@@ -111,8 +148,7 @@ export default {
 		&-item {
 			padding: 15px 20px 30px 0;
 
-			&--active,
-			&:hover {
+			&--active, &:hover {
 				color: var(--zb-primary-color);
 			}
 		}
