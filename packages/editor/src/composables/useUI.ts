@@ -17,44 +17,40 @@ const defaultPanels = [
 	{
 		id: 'panel-element-options',
 		component: 'PanelElementOptions',
-		group: 'only-one',
-		panelPos: 2,
 		saveOpenState: false,
 		...getPanelData('panel-element-options')
 	},
 	{
 		id: 'panel-global-settings',
 		component: 'panel-global-settings',
-		group: 'only-one',
-		panelPos: 3,
 		saveOpenState: false,
 		...getPanelData('panel-global-settings')
 	},
 	{
+		id: 'preview-iframe',
+		component: 'PreviewIframe',
+		isActive: true
+	},
+	{
 		id: 'panel-history',
 		component: 'panel-history',
-		panelPos: 19,
 		...getPanelData('panel-history')
 	},
 	{
 		id: 'panel-tree',
 		component: 'panel-tree',
-		panelPos: 20,
 		...getPanelData('panel-tree')
-	},
-
-	{
-		id: 'panel-library',
-		component: 'PanelLibraryModal',
-		position: 'fixed',
-		width: {
-			value: 1440,
-			unit: 'px'
-		},
-		panelPos: null,
-		...getPanelData('panel-library')
 	}
 ]
+
+
+const panelsOrder = ref(get(UIUserData, 'panelsOrder', [
+	'panel-element-options',
+	'panel-global-settings',
+	'preview-iframe',
+	'panel-history',
+	'panel-tree'
+]))
 
 // Add panel instances
 const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig))
@@ -71,9 +67,10 @@ const mainBar = reactive(new EditorArea({
 
 // Iframe panel
 const iFrame = reactive(new EditorArea({
-	pointerEvents: false,
-	order: 50
+	pointerEvents: false
 }))
+
+const isLibraryOpen = ref(false)
 
 export function useUI() {
 	const openPanels = computed(() => {
@@ -112,6 +109,18 @@ export function useUI() {
 		}
 	}
 
+	function getPanelPlacement(panelID: string) {
+		const iframeIndex = panelsOrder.value.indexOf('preview-iframe')
+		const panelIndex = panelsOrder.value.indexOf(panelID)
+
+		return panelIndex < iframeIndex ? 'left' : 'right'
+	}
+
+	function getPanelOrder(panelID: string) {
+		const panelIndex = panelsOrder.value.indexOf(panelID)
+		return panelIndex ? panelIndex * 10 : 10
+	}
+
 	const togglePanel = (panelId: string) => {
 		const panel = getPanel(panelId)
 
@@ -148,17 +157,16 @@ export function useUI() {
 		iFrame.pointerEvents = status
 	}
 
-	const getIframeOrder = () => {
-		return iFrame.order
-	}
 
 	// Save to DB
 	function saveUI() {
+		// TODO: uncomment thiss
 		let uiData = {
 			mainBar: {
 				position: mainBar.position
 			},
-			panels: {}
+			panels: {},
+			panelsOrder: panelsOrder.value
 		}
 
 		panelInstances.forEach(panel => {
@@ -168,11 +176,32 @@ export function useUI() {
 		updateUserData(uiData)
 	}
 
+	// LIBRARY
+	function openLibrary() {
+		isLibraryOpen.value = true
+	}
+
+	function closeLibrary() {
+		isLibraryOpen.value = true
+	}
+
+	function toggleLibrary() {
+		isLibraryOpen.value = !isLibraryOpen.value
+	}
+
 	return {
+		// Library
+		isLibraryOpen,
+		openLibrary,
+		closeLibrary,
+		toggleLibrary,
 		// Panels
+		panelsOrder,
 		openPanels,
 		openPanelsIDs,
 		isAnyPanelDragging,
+		getPanelPlacement,
+		getPanelOrder,
 		getPanel,
 		openPanel,
 		closePanel,
@@ -191,7 +220,6 @@ export function useUI() {
 		iFrame,
 		setIframePointerEvents,
 		getIframePointerEvents,
-		getIframeOrder,
 
 		// Helpers
 		saveUI

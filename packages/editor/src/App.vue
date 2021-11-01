@@ -79,13 +79,13 @@
 
 			<!-- center area -->
 			<div class="znpb-center-area">
-				<!-- <div
+				<div
 					id="znpb-panel-placeholder"
 					v-if="panelPlaceholder.visibility"
 					:style="{'left':panelPlaceholder.left + 'px'}"
 				>
 					<div class="znpb-panel-placeholder"></div>
-				</div> -->
+				</div>
 
 				<!-- Start panels -->
 				<template v-if="!isPreviewMode">
@@ -96,9 +96,6 @@
 						:panel="panel"
 					/>
 				</template>
-
-				<!-- iframe wrapper area -->
-				<PreviewIframe />
 
 			</div>
 			<!-- end center area -->
@@ -119,6 +116,8 @@
 		<SaveElementModal />
 		<PostLock />
 
+		<PanelLibraryModal />
+
 		<!-- notices -->
 		<Notice
 			v-for="(error) in notifications"
@@ -133,7 +132,7 @@
 </template>
 
 <script>
-import { provide } from 'vue'
+import { provide, computed } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -200,6 +199,7 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info)
 
 		return {
+			// Computed
 			activeResponsiveDeviceId,
 			notifications,
 			panelPlaceholder,
@@ -370,6 +370,7 @@ export default {
 }
 
 .znpb-center-area {
+	position: relative;
 	display: flex;
 	flex: 1 1 auto;
 	min-height: 1px;
@@ -446,7 +447,8 @@ body {
 	}
 }
 #znpb-panel-placeholder {
-	position: absolute;
+	position: fixed;
+	z-index: 9;
 	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);

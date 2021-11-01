@@ -9,7 +9,6 @@ export class Panel {
 	isActive = false
 	width = 360
 	height = null
-	panelPos = 1
 	group = null
 	saveOpenState: boolean = true
 	detachedPosition = {}
@@ -20,6 +19,21 @@ export class Panel {
 
 	constructor(config) {
 		Object.assign(this, config)
+	}
+
+	get placement(): string {
+		const { getPanelPlacement } = useUI()
+		return getPanelPlacement(this.id)
+	}
+
+	get order(): Number {
+		const { getPanelOrder } = useUI()
+		return getPanelOrder(this.id)
+	}
+
+	get index() {
+		const { panelsOrder } = useUI()
+		return panelsOrder.value.indexOf(this.id)
 	}
 
 	set(key, value) {
@@ -56,13 +70,11 @@ export class Panel {
 	}
 
 	toggle() {
-		console.log('toggle');
 		this.isActive ? this.close() : this.open()
 	}
 
 	toJSON() {
 		const dataToReturn = {
-			panelPos: this.panelPos,
 			isDetached: this.isDetached,
 			offsets: this.offsets,
 			width: this.width,

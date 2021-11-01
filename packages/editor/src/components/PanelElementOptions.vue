@@ -6,7 +6,7 @@
 		}"
 		@close-panel="closeOptionsPanel"
 		:panel-name="`${element.name} ${$translate('options')}`"
-		panel-id="PanelElementOptions"
+		:panel-id="panel.id"
 		:show-expand="false"
 		:allow-horizontal-resize="!isPanelHidden"
 		:allow-vertical-resize="!isPanelHidden"

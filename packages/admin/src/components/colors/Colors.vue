@@ -98,7 +98,6 @@ export default {
 				return getOptionValue('local_colors')
 			},
 			set (newValue) {
-				console.log({ newValue });
 				updateOptionValue('local_colors', newValue)
 
 			}
@@ -108,7 +107,6 @@ export default {
 				return getOptionValue('global_colors')
 			},
 			set (newValue) {
-				console.log({ newValue });
 				updateOptionValue('global_colors', newValue)
 
 			}

@@ -12,8 +12,7 @@
 		<div
 			class="znpb-panel__header"
 			v-if="showHeader"
-			@mousedown.self="onMouseDown"
-			@mouseup.self="onMouseUp"
+			@mousedown="onMouseDown"
 			ref="panelHeader"
 		>
 			<h4
@@ -57,7 +56,7 @@
 	</div>
 </template>
 <script>
-import { computed, ref, onBeforeUnmount, onMounted, watch } from 'vue'
+import { computed, ref, onBeforeUnmount, onMounted, nextTick } from 'vue'
 import rafSchd from 'raf-schd'
 import { useUI, useWindows, useEditorData } from '@composables'
 
@@ -110,9 +109,11 @@ export default {
 		panel: {}
 	},
 	setup (props, { slots, emit }) {
-		const { isAnyPanelDragging, openPanels, getPanel, panelPlaceholder, setPanelPlaceholder, getMainbarPosition, getIframeOrder, iFrame, setIframePointerEvents, saveUI } = useUI()
+		const { isAnyPanelDragging, openPanels, panelsOrder, setPanelPlaceholder, setIframePointerEvents, saveUI } = useUI()
 		const { addEventListener, removeEventListener } = useWindows()
-		const { editorData } = useEditorData()
+
+		// Normal data
+		let boundingClientRect = null
 
 		// REFS
 		const root = ref(null)
@@ -127,27 +128,23 @@ export default {
 		})
 
 		// COMPUTED
-		const panelPosition = computed(() => {
-			return props.panel.panelPos > getIframeOrder() ? 'right' : 'left'
-		})
-
 		const getCssClass = computed(() => {
 			let classes = ''
 			classes += props.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached'
 			classes += props.cssClass ? props.cssClass : ''
+			classes += props.panel.isDragging ? ' znpb-editor-panel--dragging' : ''
 
 			if (!props.panel.isDetached) {
-				classes += panelPosition.value === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
+				classes += props.panel.placement === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left'
 			}
 			return classes
 		})
 
 		const panelStyles = computed(() => {
 			const cssStyles = {
-				'min-width': props.panel.width + 'px',
 				width: props.panel.width + 'px',
 				height: props.panel.isDetached ? (props.panel.height ? props.panel.height + 'px' : '90%') : '100%',
-				order: props.panel.panelPos,
+				order: props.panel.order,
 
 				// Positions for detached
 				top: !props.panel.isDragging && props.panel.isDetached && props.panel.offsets.posY !== 0 ? props.panel.offsets.posY + 'px' : null,
@@ -156,8 +153,7 @@ export default {
 
 				// Dragging transform
 				transform: props.panel.isDragging ? `translate3d(${dragginMoved.value.x}px, ${dragginMoved.value.y}px, 0)` : null,
-				zIndex: props.panel.isDragging ? 9 : null
-
+				zIndex: props.panel.isDragging ? 99 : null
 			}
 			return cssStyles
 		})
@@ -171,83 +167,231 @@ export default {
 			posX: null,
 			posY: null,
 		}
-		const rafMovePanel = rafSchd(movePanel)
+
+		let availableStickElements = []
+		let oldIndex = null
+		let newIndex = null
 		function onMouseDown (event) {
 			setIframePointerEvents(true)
 			document.body.style.userSelect = 'none'
 
 			const { clientX, clientY } = event
 
-			const boundingClientRect = root.value.getBoundingClientRect()
+			// Get initial position
+			oldIndex = props.panel.index
+
+			boundingClientRect = root.value.getBoundingClientRect()
+			const parentClientRect = root.value.parentNode.getBoundingClientRect()
 			initialMovePosition = {
 				posX: clientX,
 				posY: clientY,
+				startPanelRect: boundingClientRect,
+				parentClientRect: parentClientRect,
 				oldTop: boundingClientRect.top,
-				oldLeft: boundingClientRect.left,
-				oldHeight: boundingClientRect.height,
+				oldLeft: boundingClientRect.left
 			}
 
 			dragginMoved.value = {
-				x: boundingClientRect.left,
-				y: boundingClientRect.top
+				x: boundingClientRect.left - parentClientRect.left,
+				y: boundingClientRect.top - parentClientRect.top
 			}
 
 			window.addEventListener('mousemove', rafMovePanel)
 			window.addEventListener('mouseup', onMouseUp)
 		}
 
+		let oldX = null
+		let moveDirection = null
 		function movePanel (event) {
-			const { posX, posY, oldTop, oldLeft } = initialMovePosition
-			const { pageY, pageX } = event
-			const boundingClientRect = root.value.getBoundingClientRect()
+			const { posX, posY, oldTop, oldLeft, parentClientRect } = initialMovePosition
+			const { height: parentHeight, width: parentWidth } = parentClientRect
+			const { clientY, clientX } = event
+			moveDirection = clientX <= oldX ? 'left' : 'right'
 
 			if (!props.panel.isDragging) {
-				const xMoved = Math.abs(posX - pageX)
-				const yMoved = Math.abs(posY - pageY)
+				const xMoved = Math.abs(posX - clientX)
+				const yMoved = Math.abs(posY - clientY)
 				const dragThreshold = 5
 
 				// Check if we should detach the panel
 				if (xMoved > dragThreshold || yMoved > dragThreshold) {
 					props.panel.set('isDetached', true)
 					props.panel.set('isDragging', true)
+
+					nextTick(() => {
+						// Recalculate the height of the panel
+						boundingClientRect = root.value.getBoundingClientRect()
+
+						// Set available stick elements
+						openPanels.value.forEach(panel => {
+							// We don't care about detached panels
+							if (panel.isDetached || panel.id === props.panel.id) {
+								return
+							}
+
+							const boundingClient = document.getElementById(panel.id).getBoundingClientRect()
+
+							availableStickElements.push({
+								panel,
+								boundingClient
+							})
+						})
+					})
 				}
 			} else {
-				const maxBottom = window.innerHeight - boundingClientRect.height
-				const newTop = oldTop + pageY - posY < 0 ? 0 : oldTop + pageY - posY
+				if (!boundingClientRect) {
+					return
+				}
+
+				const maxBottom = parentHeight - boundingClientRect.height
+				const newPositionY = oldTop + clientY - posY - parentClientRect.top
+				const newTop = newPositionY < 0 ? 0 : newPositionY
 				const MinMaxTop = newTop > maxBottom ? maxBottom : newTop
 
-				let MinMaxLeft = oldLeft + pageX - posX
-				const maxLeft = window.innerWidth - boundingClientRect.width
-				if (oldLeft + pageX - posX <= 0) {
-					MinMaxLeft = 0
-				} else if (oldLeft + pageX - posX > maxLeft) {
-					MinMaxLeft = maxLeft
-				}
+				const movedAmmount = oldLeft + clientX - posX
+				const MinMaxLeft = movedAmmount - parentClientRect.left
+				// const maxLeft = window.innerWidth - boundingClientRect.width
+				// if (MinMaxLeft <= 0) {
+				// 	MinMaxLeft = 0
+				// } else if (movedAmmount > maxLeft) {
+				// 	MinMaxLeft = maxLeft - parentClientRect.left
+				// }
 
 				dragginMoved.value = {
 					x: MinMaxLeft,
 					y: MinMaxTop
 				}
+
+				// Check left or right
+				availableStickElements.forEach(availableStickLocation => {
+					const { boundingClient, panel: possibleHoverPanel } = availableStickLocation
+					const realLeft = boundingClient.left
+					const realRight = boundingClient.left + boundingClient.width
+
+					// Check to see if we are hovering the panel
+					if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
+						if (MinMaxLeft < realLeft + 50) {
+							setPanelPlaceholder({
+								visibility: true,
+								left: realLeft,
+								placeBefore: true,
+								panel: possibleHoverPanel
+							})
+
+							newIndex = possibleHoverPanel.index
+						} else if (movedAmmount + boundingClientRect.width > boundingClient.left + boundingClient.width - 50) {
+							const left = boundingClient.left + boundingClient.width >= window.innerWidth ? boundingClient.left + boundingClient.width - 5 : realRight
+
+							setPanelPlaceholder({
+								visibility: true,
+								left: left,
+								placeBefore: false,
+								panel: possibleHoverPanel
+							})
+
+							newIndex = possibleHoverPanel.index + 1
+
+						} else {
+							setPanelPlaceholder({
+								visibility: false,
+								left: null,
+								placeBefore: null,
+								panel: null
+							})
+
+							newIndex = null
+						}
+					}
+
+
+
+					// Check for iframe placement
+					// if (possibleHoverPanel.placement === 'left') {
+					// 	if ( MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width ) {
+					// 		if () {
+
+					// 		}
+					// 	}
+					// }
+
+					// // On left panels hover
+					// if (possibleHoverPanel.placement === 'left') {
+					// 	if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
+
+					// 	}
+					// }
+				})
+
+
+				// if (MinMaxLeft === 0) {
+				// 	setPanelPlaceholder({
+				// 		visibility: true,
+				// 		isFirst: true,
+				// 		stick: true
+				// 	})
+				// } else if (oldLeft + clientX - posX > maxLeft) {
+
+				// 	setPanelPlaceholder({
+				// 		visibility: true,
+				// 		isLast: true,
+				// 		stick: true
+				// 	})
+				// 	// Check for panels hover
+				// } else {
+				// 	availableStickElements.forEach(availableStickLocation => {
+				// 		const { boundingClient, panel: possibleHoverPanel } = availableStickLocation
+
+				// 		// On left panels hover
+				// 		if (possibleHoverPanel.placement === 'left') {
+				// 			if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
+
+				// 			}
+				// 		}
+				// 	})
+				// }
+
 			}
+
+			oldX = clientX
+		}
+
+		const rafMovePanel = rafSchd(movePanel)
+
+		function updatePosition (oldIndex, newIndex) {
+			const list = [...panelsOrder.value]
+			if (oldIndex >= newIndex) {
+				list.splice(newIndex, 0, list.splice(oldIndex, 1)[0])
+			} else {
+				list.splice(newIndex - 1, 0, list.splice(oldIndex, 1)[0])
+			}
+
+			panelsOrder.value = list
 		}
 
 		function onMouseUp () {
+			// Cleanup
 			document.body.style.userSelect = null
 			setIframePointerEvents(false)
+			availableStickElements = []
 
+			// Cancel the animation frame
+			rafMovePanel.cancel()
 			// Since we have user RafScheduler we need to stop this in an animation frame in order to prevent
 			// the situation were move panel fires after mouseUp
-			window.requestAnimationFrame(() => {
-				props.panel.isDragging = false
 
-				dragginMoved.value = {
-					x: null,
-					y: null
-				}
-			})
+			props.panel.isDragging = false
+
+			dragginMoved.value = {
+				x: null,
+				y: null
+			}
+
+			window.removeEventListener('mousemove', rafMovePanel)
+			window.removeEventListener('mouseup', onMouseUp)
 
 			// Save the panel position
 			panelOffset.value = root.value.getBoundingClientRect()
+
 			props.panel.offsets = {
 				posX: panelOffset.value.left,
 				posY: panelOffset.value.top
@@ -258,9 +402,24 @@ export default {
 				posY: panelOffset.value.top
 			}
 
-			window.removeEventListener('mousemove', rafMovePanel)
-			window.removeEventListener('mouseup', onMouseUp)
+			if (null !== oldIndex && null !== newIndex) {
+				props.panel.set('isDetached', false)
+				updatePosition(oldIndex, newIndex)
+			}
 
+			// if (panelPlaceholder.value.stick) {
+			// 	if (panelPlaceholder.value.isFirst) {
+			// 		// Attach to panel
+			// 		updatePanelsOrder(panelPlaceholder.value.isFirst, 0, props.panel)
+			// 	}
+			// }
+
+			saveUI()
+
+			setPanelPlaceholder({
+				visibility: false,
+				panel: null
+			})
 		}
 
 		const rafResizeHorizontal = rafSchd(resizeHorizontal)
@@ -282,7 +441,7 @@ export default {
 
 		function resizeHorizontal (event) {
 			const draggedHorizontal = event.clientX - initialHMouseX
-			const width = panelPosition.value === 'left' || props.panel.isDetached ? draggedHorizontal + initialWidth : -draggedHorizontal + initialWidth
+			const width = props.panel.placement === 'left' || props.panel.isDetached ? draggedHorizontal + initialWidth : -draggedHorizontal + initialWidth
 
 			props.panel.set('width', width < 360 ? 360 : width, true)
 		}
@@ -553,5 +712,9 @@ h4.znpb-panel__header-name {
 
 .znpb-color-picker--backdrop .znpb-editor-panel__resize {
 	display: none;
+}
+
+.znpb-editor-panel--dragging {
+	pointer-events: none;
 }
 </style>

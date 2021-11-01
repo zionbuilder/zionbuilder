@@ -26,9 +26,9 @@
 			</div>
 			<!-- libary -->
 			<div
-				@mousedown.stop="togglePanel('panel-library')"
+				@mousedown.stop="toggleLibrary"
 				:class="{
-					'active': openPanelsIDs.includes('panel-library')
+					'active': isLibraryOpen
 				}"
 				class="znpb-editor-header__menu_button"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
@@ -212,7 +212,7 @@ export default {
 	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
-		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents } = useUI()
+		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
 		const { showSaveElement } = useSaveTemplate()
@@ -450,6 +450,7 @@ export default {
 			mainBar,
 			isPreviewMode,
 			draggingPosition,
+			isLibraryOpen,
 
 			// Computed
 			openPanelsIDs,
@@ -468,8 +469,8 @@ export default {
 			onSaving,
 			startBarDrag,
 			onAfterLeave,
-			onAfterEnter
-
+			onAfterEnter,
+			toggleLibrary
 		}
 	}
 }

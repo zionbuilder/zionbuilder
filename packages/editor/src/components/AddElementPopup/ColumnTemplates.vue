@@ -59,7 +59,7 @@ export default {
 		ElementsTab
 	},
 	setup (props, { emit }) {
-		const { closePanel, togglePanel } = useUI()
+		const { toggleLibrary } = useUI()
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts'
 		const active = ref(defaultTab)
 		const { addEventListener, removeEventListener } = useWindows()
@@ -192,7 +192,7 @@ export default {
 				activePopup.value.config
 			)
 
-			togglePanel('panel-library')
+			toggleLibrary()
 			emit('close')
 		}
 
@@ -225,7 +225,6 @@ export default {
 			// methods
 			getSpanNumber,
 			addElements,
-			closePanel,
 			searchKeyword,
 			openLibrary,
 			onTabChange
