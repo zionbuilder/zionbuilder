@@ -123,7 +123,7 @@ export function useUI() {
 
 	function getPanelOrder(panelID: string) {
 		const panelIndex = panelsOrder.value.indexOf(panelID)
-		return panelIndex ? panelIndex * 10 : 10
+		return panelIndex != -1 ? panelIndex * 10 : 10
 	}
 
 	const togglePanel = (panelId: string) => {
@@ -165,7 +165,6 @@ export function useUI() {
 
 	// Save to DB
 	function saveUI() {
-		// TODO: uncomment thiss
 		let uiData = {
 			mainBar: {
 				position: mainBar.position

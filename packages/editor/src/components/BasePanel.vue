@@ -250,12 +250,6 @@ export default {
 
 				const movedAmmount = oldLeft + clientX - posX
 				const MinMaxLeft = movedAmmount - parentClientRect.left
-				// const maxLeft = window.innerWidth - boundingClientRect.width
-				// if (MinMaxLeft <= 0) {
-				// 	MinMaxLeft = 0
-				// } else if (movedAmmount > maxLeft) {
-				// 	MinMaxLeft = maxLeft - parentClientRect.left
-				// }
 
 				dragginMoved.value = {
 					x: MinMaxLeft,
@@ -302,54 +296,7 @@ export default {
 							newIndex = null
 						}
 					}
-
-
-
-					// Check for iframe placement
-					// if (possibleHoverPanel.placement === 'left') {
-					// 	if ( MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width ) {
-					// 		if () {
-
-					// 		}
-					// 	}
-					// }
-
-					// // On left panels hover
-					// if (possibleHoverPanel.placement === 'left') {
-					// 	if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
-
-					// 	}
-					// }
 				})
-
-
-				// if (MinMaxLeft === 0) {
-				// 	setPanelPlaceholder({
-				// 		visibility: true,
-				// 		isFirst: true,
-				// 		stick: true
-				// 	})
-				// } else if (oldLeft + clientX - posX > maxLeft) {
-
-				// 	setPanelPlaceholder({
-				// 		visibility: true,
-				// 		isLast: true,
-				// 		stick: true
-				// 	})
-				// 	// Check for panels hover
-				// } else {
-				// 	availableStickElements.forEach(availableStickLocation => {
-				// 		const { boundingClient, panel: possibleHoverPanel } = availableStickLocation
-
-				// 		// On left panels hover
-				// 		if (possibleHoverPanel.placement === 'left') {
-				// 			if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
-
-				// 			}
-				// 		}
-				// 	})
-				// }
-
 			}
 
 			oldX = clientX
@@ -376,9 +323,6 @@ export default {
 
 			// Cancel the animation frame
 			rafMovePanel.cancel()
-			// Since we have user RafScheduler we need to stop this in an animation frame in order to prevent
-			// the situation were move panel fires after mouseUp
-
 			props.panel.isDragging = false
 
 			dragginMoved.value = {
@@ -406,13 +350,6 @@ export default {
 				props.panel.set('isDetached', false)
 				updatePosition(oldIndex, newIndex)
 			}
-
-			// if (panelPlaceholder.value.stick) {
-			// 	if (panelPlaceholder.value.isFirst) {
-			// 		// Attach to panel
-			// 		updatePanelsOrder(panelPlaceholder.value.isFirst, 0, props.panel)
-			// 	}
-			// }
 
 			saveUI()
 
