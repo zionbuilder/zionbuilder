@@ -291,8 +291,8 @@ export default {
 	display: grid;
 	color: var(--zb-surface-lighter-color);
 
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-column-gap: 15px;
+	grid-row-gap: 15px;
 	grid-template-columns: 1fr 1fr 1fr;
 
 	.znpb-editor-icon-wrapper {
@@ -326,12 +326,12 @@ export default {
 		cursor: pointer;
 
 		grid-auto-flow: dense;
-		grid-gap: 3px;
+		grid-gap: 4px;
 
 		span {
 			display: block;
 			background: var(--zb-surface-lightest-color);
-			border-radius: 1px;
+			border-radius: 3px;
 			transition: box-shadow .15s;
 		}
 
