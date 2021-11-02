@@ -31,8 +31,7 @@
 			>
 				<Icon
 					icon="plus"
-					:size="11"
-					:bgSize="25"
+					:bgSize="24"
 					:rounded="true"
 					color="#fff"
 					:bgColor="addButtonBgColor"

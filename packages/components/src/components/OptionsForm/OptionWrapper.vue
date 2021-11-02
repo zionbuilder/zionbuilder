@@ -650,7 +650,8 @@ export default {
 		margin-bottom: 0;
 	}
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		background-color: var(--zb-surface-lighter-color);
 
 		& > .znpb-editor-icon-wrapper {
@@ -660,7 +661,9 @@ export default {
 }
 
 .znpb-has-responsive-options {
-	padding: 8px 0;
+	&.hg-popper {
+		padding: 8px 0;
+	}
 
 	&__icon-button {
 		padding: 8px 16px;

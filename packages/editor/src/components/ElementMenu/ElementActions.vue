@@ -303,7 +303,7 @@ export default {
 
 <style lang="scss">
 .znpb-right-click__menu {
-	min-width: 200px;
+	min-width: 220px;
 	padding: 0;
 	margin: 0;
 	color: var(--zb-dropdown-text-color);
@@ -321,7 +321,7 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 20px;
-	transition: all .1s ease;
+	transition: all 0.1s ease;
 	cursor: pointer;
 
 	&:hover {
@@ -344,6 +344,6 @@ export default {
 	margin-right: 0 !important;
 	margin-left: auto;
 	letter-spacing: 1px;
-	opacity: .5;
+	opacity: 0.5;
 }
 </style>
