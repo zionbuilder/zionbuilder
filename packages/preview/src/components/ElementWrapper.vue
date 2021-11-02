@@ -151,7 +151,8 @@ export default {
 		})
 
 		const customCSS = computed(() => {
-			let customCSS = parsedData.value.customCSS
+			let customCSS = ''
+
 			const elementStyleConfig = props.element.elementTypeModel.style_elements
 
 			if (elementStyleConfig) {
@@ -174,6 +175,7 @@ export default {
 				})
 			}
 
+			customCSS += parsedData.value.customCSS
 			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element)
 
 			return customCSS

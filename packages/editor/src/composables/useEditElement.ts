@@ -1,15 +1,15 @@
 import { ref } from 'vue'
-import { usePanels } from './usePanels'
+import { useUI } from './useUI'
 
 const element = ref(null)
 
 export function useEditElement() {
 	const editElement = (elementInstance) => {
-		const { openPanel } = usePanels()
+		const { openPanel } = useUI()
 
 		element.value = elementInstance
 
-		openPanel('PanelElementOptions')
+		openPanel('panel-element-options')
 
 		if (elementInstance) {
 			let currentElement = elementInstance.parent
@@ -21,10 +21,10 @@ export function useEditElement() {
 	}
 
 	const unEditElement = () => {
-		const { closePanel } = usePanels()
+		const { closePanel } = useUI()
 
 		element.value = null
-		closePanel('PanelElementOptions')
+		closePanel('panel-element-options')
 	}
 
 	return {

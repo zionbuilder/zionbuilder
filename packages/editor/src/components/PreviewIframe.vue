@@ -3,6 +3,7 @@
 		class="znpb-editor-iframe-wrapper"
 		:style="pointerevents"
 		:class="getWrapperClasses"
+		id="preview-iframe"
 	>
 
 		<iframe
@@ -52,7 +53,7 @@ import {
 	useKeyBindings,
 	useSavePage,
 	useEditorData,
-	useEditorInteractions,
+	useUI,
 	useWindows,
 	useHistory,
 	useElementTypes
@@ -75,7 +76,7 @@ export default {
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
-		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
+		const { getIframePointerEvents, getPanelOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
 		return {
@@ -84,7 +85,7 @@ export default {
 			saveAutosave,
 			pageId: editorData.value.page_id,
 			urls: editorData.value.urls,
-			getIframeOrder,
+			getPanelOrder,
 			getIframePointerEvents,
 			addWindow,
 			getWindows,
@@ -117,7 +118,7 @@ export default {
 			if (this.getIframePointerEvents()) {
 				style.pointerEvents = 'none'
 			}
-			style.order = this.getIframeOrder()
+			style.order = this.getPanelOrder('preview-iframe')
 			return style
 		},
 		getWrapperClasses () {

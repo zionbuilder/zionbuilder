@@ -3,7 +3,7 @@
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
 	>
-		<transition :name="showEditorTransition">
+		<transition name="slide-from-left">
 			<div
 				:style="showEditorButtonStyle"
 				class="znpb-editor-layout__preview-buttons"
@@ -58,8 +58,65 @@
 				</div>
 			</div>
 		</transition>
-		<!-- top area -->
-		<div class="znpb-top-area" />
+
+		<div
+			class="znpb-panels-wrapper"
+			:class="{
+				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position
+			}"
+		>
+			<div
+				v-if="mainBar.isDragging"
+				class="znpb-main-wrapper--mainBarPlaceholder"
+				:class="{
+				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition
+			}"
+			>
+				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
+			</div>
+
+			<mainPanel />
+
+			<!-- center area -->
+			<div class="znpb-center-area">
+				<div
+					id="znpb-panel-placeholder"
+					v-if="panelPlaceholder.visibility"
+					:style="{'left':panelPlaceholder.left + 'px'}"
+				>
+					<div class="znpb-panel-placeholder"></div>
+				</div>
+
+				<!-- Start panels -->
+				<template v-if="!isPreviewMode">
+					<component
+						v-for="panel in openPanels"
+						:is="panel.component"
+						:key="panel.id"
+						:panel="panel"
+					/>
+				</template>
+
+			</div>
+			<!-- end center area -->
+
+		</div>
+
+		<div
+			class="znpb-loading-wrapper-gif"
+			v-if="isPreviewLoading"
+		>
+			<img :src="urls.loader" />
+			<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
+		</div>
+
+		<!-- Add Elements Popup -->
+		<AddElementPopup />
+		<ElementMenu />
+		<SaveElementModal />
+		<PostLock />
+
+		<PanelLibraryModal />
 
 		<!-- notices -->
 		<Notice
@@ -69,66 +126,23 @@
 			:error="error"
 		/>
 
-		<!-- center area -->
-		<div class="znpb-center-area">
-			<div
-				id="znpb-panel-placeholder"
-				v-if="panelPlaceholder.visibility"
-				:style="{'left':panelPlaceholder.left + 'px'}"
-			>
-				<div class="znpb-panel-placeholder"></div>
-			</div>
-			<transition
-				:name="panelPreviewTransition"
-				@after-leave="onAfterLeave"
-				@after-enter="onAfterEnter"
-			>
-				<!-- start left area -->
-				<mainPanel v-show="!isPreviewMode" />
-			</transition>
-			<!-- Start panels -->
-
-			<template v-if="!isPreviewMode">
-				<component
-					v-for="panel in openPanels"
-					:is="panel.id"
-					:key="panel.id"
-					:panel="panel"
-				/>
-			</template>
-
-			<!-- iframe wrapper area -->
-			<PreviewIframe />
-
-			<div
-				class="znpb-loading-wrapper-gif"
-				v-if="isPreviewLoading"
-			>
-				<img :src="urls.loader" />
-				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
-			</div>
-
-			<PostLock />
-
-			<!-- right area -->
-			<div class="znpb-right-area" />
-
+		<div
+			v-if="mainBar.isDragging"
+			class="znpb-editor-header__helper"
+			:style="mainBarDraggingPlaceholderStyles"
+		>
+			<Icon
+				icon="more"
+				rotate="90"
+			/>
 		</div>
-		<!-- end center area -->
-
-		<!-- bottom area -->
-		<div class="znpb-bottom-area " />
-
-		<!-- Add Elements Popup -->
-		<AddElementPopup />
-		<ElementMenu />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
 </template>
 
 <script>
-import { provide } from 'vue'
+import { provide, computed } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -140,9 +154,12 @@ import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
 import DeviceElement from './components/DeviceElement.vue'
+import SaveElementModal from './components/SaveElementModal.vue'
+
+// Composables
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData } from '@composables'
+import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -164,18 +181,27 @@ export default {
 		PostLock,
 		DeviceElement,
 		AddElementPopup,
-		ElementMenu
+		ElementMenu,
+		SaveElementModal
 	},
 	setup (props) {
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
-		const { openPanels, panelPlaceholder } = usePanels()
+		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
-		const { getMainbarPosition } = useEditorInteractions()
 		const { editorData } = useEditorData()
+
+		const mainBarDraggingPlaceholderStyles = computed(() => {
+			return {
+				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`
+			}
+		})
+
+		// General functionality
+		useAutosave()
 
 		// Fetch the builder options
 		fetchOptions()
@@ -189,6 +215,8 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info)
 
 		return {
+			// Computed
+			mainBarDraggingPlaceholderStyles,
 			activeResponsiveDeviceId,
 			notifications,
 			panelPlaceholder,
@@ -200,7 +228,7 @@ export default {
 			setPreviewMode,
 			applyShortcuts,
 			isPreviewLoading,
-			getMainbarPosition,
+			mainBar,
 			urls: editorData.value.urls
 		}
 	},
@@ -210,33 +238,14 @@ export default {
 		}
 	},
 	computed: {
-		showEditorTransition: function () {
-			if (this.getMainbarPosition() === 'left') {
-				return 'slide-from-right'
-			}
-			if (this.getMainbarPosition() === 'right') {
-				return 'slide-from-left'
-			}
-			return 'slide-from-right'
-		},
-		panelPreviewTransition: function () {
-			return `znpb-main-panel--out--position-${this.getMainbarPosition()}`
-		},
 		showEditorButtonStyle () {
-			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
-			if (mainBarPosition === 'right') {
-				buttonStyle = {
-					right: '30px',
-					top: '30px;'
-				}
+
+			buttonStyle = {
+				left: '30px',
+				top: '30px'
 			}
-			if (mainBarPosition === 'left') {
-				buttonStyle = {
-					left: '30px',
-					top: '30px'
-				}
-			}
+
 			return buttonStyle
 		}
 	},
@@ -253,14 +262,6 @@ export default {
 		showDevices () {
 			this.devicesVisible = !this.devicesVisible
 		},
-		onAfterLeave () {
-			const el = document.querySelector('iframe')
-			el.style.transform = 'translateZ(0)'
-		},
-		onAfterEnter () {
-			const el = document.querySelector('iframe')
-			el.style.transform = null
-		}
 	},
 
 	beforeUnmount: function () {
@@ -373,6 +374,10 @@ export default {
 	overflow: hidden;
 }
 
+#znpb-html-app {
+	overflow: hidden;
+}
+
 #znpb-html-app, #znpb-html-app body {
 	width: 100%;
 	height: 100%;
@@ -386,8 +391,10 @@ export default {
 }
 
 .znpb-center-area {
+	position: relative;
 	display: flex;
-	height: 100%;
+	flex: 1 1 auto;
+	min-height: 1px;
 }
 
 .znpb-editor-header.main-panel-animation {
@@ -428,22 +435,6 @@ export default {
 	opacity: 0;
 }
 
-.znpb-main-panel {
-	&--out {
-		&--position-left {
-			&-enter, &-leave-to {
-				margin-left: -60px;
-			}
-		}
-
-		&--position-right {
-			&-enter, &-leave-to {
-				margin-right: -60px;
-			}
-		}
-	}
-}
-
 /* General styles */
 body {
 	padding: 0;
@@ -477,7 +468,8 @@ body {
 	}
 }
 #znpb-panel-placeholder {
-	position: absolute;
+	position: fixed;
+	z-index: 9;
 	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);
@@ -505,6 +497,17 @@ body {
 				pointer-events: none !important;
 			}
 		}
+	}
+}
+
+.znpb-panels-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 100%;
+	height: 100vh;
+
+	&.znpb-editorHeaderPosition--top, &.znpb-editorHeaderPosition--bottom {
+		flex-direction: column;
 	}
 }
 </style>

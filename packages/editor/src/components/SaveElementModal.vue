@@ -4,7 +4,7 @@
 		:title="$translate('save_to_library')"
 		append-to="body"
 		:width="560"
-		:show-maximize="true"
+		:show-maximize="false"
 		class="znpb-modal-save-element"
 		:show="true"
 		@close-modal="hideSaveElement"
