@@ -94,12 +94,13 @@ export default {
 		}
 
 		.znpb-element-box__icon {
+			background-color: var(--zb-surface-lightest-color);
 			box-shadow: 0 4px 20px 0 var(--zb-surface-shadow-hover);
 		}
 	}
 }
 
 .znpb-element-box__icon {
-	font-size: 48px;
+	font-size: 36px;
 }
 </style>

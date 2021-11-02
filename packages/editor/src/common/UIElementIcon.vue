@@ -28,7 +28,7 @@ export default {
 		},
 		size: {
 			type: Number,
-			default: 48
+			default: 36
 		}
 	},
 	components: {
