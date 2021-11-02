@@ -712,6 +712,8 @@ class Localization {
 				'cancel'                                   => __( 'Cancel', 'zionbuilder' ),
 				'yes_delete_elements'                      => __( 'Yes, delete elements', 'zionbuilder' ),
 				'are_you_sure_delete_elements'             => __( 'Are you sure you want to remove all elements from page?', 'zionbuilder' ),
+				'copy'                                     => __( 'Copy', 'zionbuilder' ),
+				'paste'                                    => __( 'Paste', 'zionbuilder' ),
 			]
 		);
 	}

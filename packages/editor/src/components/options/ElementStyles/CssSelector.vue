@@ -20,26 +20,45 @@
 			/>
 		</div>
 
-		<Tooltip
-			v-if="showDelete"
-			:content="$translate('delete_class_tooltip')"
-			placement="top"
-			class="znpb-css-class-selector__item-close"
-		>
-			<Icon
-				icon="close"
-				v-on:click.stop='handleDeleteClass(name)'
-			>
-			</Icon>
-		</Tooltip>
+		<Icon
+			v-if="showActions"
+			v-znpb-tooltip="$translate('copy')"
+			icon="copy"
+			@click.stop="$emit('copy-styles')"
+			class="znpb-css-class-selector__item-copy"
+		/>
 
+		<Icon
+			v-if="showActions"
+			v-znpb-tooltip="$translate('paste')"
+			icon="copy"
+			@click.stop="$emit('paste-styles')"
+			class="znpb-css-class-selector__item-paste"
+			:class="{
+				'znpb-css-class-selector__item-paste--active': copiedStyles
+			}"
+		/>
+
+		<Icon
+			v-if="showDelete"
+			icon="close"
+			v-znpb-tooltip="$translate('delete_class_tooltip')"
+			v-on:click.stop='handleDeleteClass(name)'
+			class="znpb-css-class-selector__item-close"
+		/>
 	</div>
 </template>
 
 <script>
+import { useCSSClasses } from '@composables'
+
 export default {
 	name: 'CssSelector',
 	props: {
+		classConfig: {
+			type: Object,
+			required: false
+		},
 		name: {
 			type: String,
 			required: true
@@ -59,18 +78,27 @@ export default {
 			required: false,
 			default: false
 		},
+		showActions: {
+			type: Boolean,
+			required: false,
+			default: true
+		},
 		showChangesBullet: {
 			type: Boolean,
 			required: false,
 			default: false
 		}
 	},
-	data () {
-		return {}
-	},
-	methods: {
-		handleDeleteClass () {
-			this.$emit('remove-class', this.name)
+	setup (props, { emit }) {
+		const { copiedStyles } = useCSSClasses()
+
+		function handleDeleteClass () {
+			emit('remove-class', this.name)
+		}
+
+		return {
+			handleDeleteClass,
+			copiedStyles
 		}
 	}
 }
@@ -97,13 +125,13 @@ export default {
 			width: 20px;
 			height: 100%;
 			background: linear-gradient(
-				90deg,
-				rgba(245, 245, 245, 0) 0%,
-				var(--zb-input-faded-bg-color) 100%
+			90deg,
+			rgba(245, 245, 245, 0) 0%,
+			var(--zb-input-faded-bg-color) 100%
 			);
 		}
 
-		> span {
+		 > span {
 			position: absolute;
 			white-space: pre;
 		}
@@ -138,11 +166,11 @@ export default {
 	}
 
 	&-close {
-		padding-left: 15px;
+		margin-left: 15px;
 
 		.zion-icon {
 			font-size: 10px;
-			opacity: 0.5;
+			opacity: .5;
 		}
 
 		&:hover .zion-icon {
@@ -158,7 +186,7 @@ export default {
 	&--selected {
 		color: var(--zb-surface-active-color);
 		background-color: var(--zb-surface-lighter-color);
-		transition: all 0.22s ease-out;
+		transition: all .22s ease-out;
 	}
 
 	&--selected &-name {

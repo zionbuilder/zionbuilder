@@ -469,7 +469,7 @@ body {
 }
 #znpb-panel-placeholder {
 	position: fixed;
-	z-index: 9;
+	z-index: 99;
 	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);
