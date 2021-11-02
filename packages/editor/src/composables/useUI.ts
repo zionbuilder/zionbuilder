@@ -65,6 +65,11 @@ const mainBar = reactive(new EditorArea({
 	...UIUserData.mainBar
 }))
 
+const mainBarDraggingPlaceholder = reactive({
+	top: null,
+	left: null
+})
+
 // Iframe panel
 const iFrame = reactive(new EditorArea({
 	pointerEvents: false
@@ -212,6 +217,7 @@ export function useUI() {
 
 		// Main bar
 		mainBar,
+		mainBarDraggingPlaceholder,
 		setMainBarPosition,
 		getMainbarPosition,
 		getMainBarPointerEvents,

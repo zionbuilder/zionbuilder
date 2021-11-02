@@ -126,6 +126,16 @@
 			:error="error"
 		/>
 
+		<div
+			v-if="mainBar.isDragging"
+			class="znpb-editor-header__helper"
+			:style="mainBarDraggingPlaceholderStyles"
+		>
+			<Icon
+				icon="more"
+				rotate="90"
+			/>
+		</div>
 	</div>
 	<!-- end znpb-main-wrapper -->
 
@@ -177,12 +187,18 @@ export default {
 	setup (props) {
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
-		const { openPanels, panelPlaceholder, mainBar } = useUI()
+		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
 		const { editorData } = useEditorData()
+
+		const mainBarDraggingPlaceholderStyles = computed(() => {
+			return {
+				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`
+			}
+		})
 
 		// General functionality
 		useAutosave()
@@ -200,6 +216,7 @@ export default {
 
 		return {
 			// Computed
+			mainBarDraggingPlaceholderStyles,
 			activeResponsiveDeviceId,
 			notifications,
 			panelPlaceholder,
@@ -354,6 +371,10 @@ export default {
 	}
 }
 .znpb-main-wrapper {
+	overflow: hidden;
+}
+
+#znpb-html-app {
 	overflow: hidden;
 }
 

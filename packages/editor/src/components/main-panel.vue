@@ -173,16 +173,7 @@
 		</div>
 		<!-- end last part -->
 		<!-- helper -->
-		<div
-			v-if="mainBar.isDragging"
-			class="znpb-editor-header__helper"
-			:style="helperStyle"
-		>
-			<Icon
-				icon="more"
-				rotate="90"
-			/>
-		</div>
+
 	</div>
 </template>
 
@@ -212,7 +203,7 @@ export default {
 	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
-		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen } = useUI()
+		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen, mainBarDraggingPlaceholder } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
 		const { showSaveElement } = useSaveTemplate()
@@ -244,7 +235,6 @@ export default {
 				return 'top'
 			}
 		})
-
 
 		const hasWhiteLabel = computed(() => {
 			let isPro = editorData.value.plugin_info.is_pro_active
@@ -290,13 +280,6 @@ export default {
 
 		const device = computed(() => {
 			return activeResponsiveDeviceInfo.value.icon
-		})
-
-		const helperStyle = computed(() => {
-			const xTranslate = getMainbarPosition() === 'right' ? `${left.value + 70 - window.innerWidth}px` : `${left.value + 10}px`
-			return {
-				transform: (mainBar.isDragging) ? `translate3d(${xTranslate}, ${top.value - 22}px,0)` : null
-			}
 		})
 
 		const panelStyles = computed(() => {
@@ -354,6 +337,10 @@ export default {
 
 			let newLeft = event.clientX - 30
 			let newTop = event.clientY
+
+			// Set placeholder position
+			mainBarDraggingPlaceholder.top = event.clientY
+			mainBarDraggingPlaceholder.left = event.clientX
 
 			// Set a flag so we know that we are dragging
 			if (!mainBar.isDragging) {
@@ -457,7 +444,6 @@ export default {
 			helpMenuItems,
 			device,
 			panelStyles,
-			helperStyle,
 			tooltipsPosition,
 
 			// Methods
