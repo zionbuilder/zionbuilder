@@ -210,7 +210,7 @@ import { Environment } from '@zb/utils'
 
 import {
 	useSavePage,
-	usePanels,
+	useUI,
 	useEditElement,
 	useElementActions,
 	useSaveTemplate
@@ -229,7 +229,7 @@ export default {
 		}
 	},
 	setup (props) {
-		const { openPanel } = usePanels()
+		const { openPanel } = useUI()
 
 		const { savePage } = useSavePage()
 		const { editElement } = useEditElement()

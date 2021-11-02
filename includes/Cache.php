@@ -139,7 +139,7 @@ class Cache {
 		wp_register_script( 'zb-modal', Utils::get_file_url( 'assets/vendors/js/modal.min.js' ), [], Plugin::instance()->get_version(), true );
 
 		// Video
-		wp_register_script( 'zb-video', Utils::get_file_url( 'assets/vendors/js/ZBVideo.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video', Utils::get_file_url( 'assets/vendors/js/ZBVideo.js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
 		wp_register_script( 'zb-video-bg', Utils::get_file_url( 'assets/vendors/js/ZBVideoBg.js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );
 
 		// Swiper slider

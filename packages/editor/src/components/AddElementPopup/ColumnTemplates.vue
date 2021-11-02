@@ -42,7 +42,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { getOptionValue } from '@zb/utils'
 import { getLayoutConfigs } from './layouts.js'
-import { usePanels, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables'
+import { useUI, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -59,7 +59,7 @@ export default {
 		ElementsTab
 	},
 	setup (props, { emit }) {
-		const { closePanel, togglePanel } = usePanels()
+		const { toggleLibrary } = useUI()
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts'
 		const active = ref(defaultTab)
 		const { addEventListener, removeEventListener } = useWindows()
@@ -192,7 +192,7 @@ export default {
 				activePopup.value.config
 			)
 
-			togglePanel('PanelLibraryModal')
+			toggleLibrary()
 			emit('close')
 		}
 
@@ -225,7 +225,6 @@ export default {
 			// methods
 			getSpanNumber,
 			addElements,
-			closePanel,
 			searchKeyword,
 			openLibrary,
 			onTabChange
@@ -333,7 +332,7 @@ export default {
 			display: block;
 			background: var(--zb-surface-lightest-color);
 			border-radius: 1px;
-			transition: box-shadow 0.15s;
+			transition: box-shadow .15s;
 		}
 
 		&:hover span {

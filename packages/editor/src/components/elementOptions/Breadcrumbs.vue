@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { usePanels, useEditElement } from '@composables'
+import { useUI, useEditElement } from '@composables'
 import BreadcrumbsItem from './BreadcrumbsItem.vue'
 
 export default {
@@ -36,7 +36,7 @@ export default {
 		}
 	},
 	setup (props) {
-		const { openPanel } = usePanels()
+		const { openPanel } = useUI()
 		const { editElement, element: activeElement } = useEditElement()
 
 		return {
@@ -84,7 +84,7 @@ export default {
 			font-size: 13px;
 			font-weight: 500;
 			white-space: nowrap;
-			transition: all 0.15s ease-in;
+			transition: all .15s ease-in;
 
 			&:hover {
 				color: var(--zb-surface-text-active-color);
@@ -137,9 +137,7 @@ export default {
 		display: none;
 	}
 }
-.znpb-element-options__breadcrumbs
-	> .znpb-element-options__vertical-breadcrumbs-wrapper
-	> .znpb-element-options__vertical-breadcrumbs-item--first {
+.znpb-element-options__breadcrumbs > .znpb-element-options__vertical-breadcrumbs-wrapper > .znpb-element-options__vertical-breadcrumbs-item--first {
 	&:before {
 		display: none;
 	}
@@ -147,8 +145,7 @@ export default {
 		margin-left: 0;
 	}
 }
-.znpb-element-options__vertical-breadcrumbs-item--first
-	~ .znpb-element-options__vertical-breadcrumbs-item {
+.znpb-element-options__vertical-breadcrumbs-item--first ~ .znpb-element-options__vertical-breadcrumbs-item {
 	margin-left: 14px;
 }
 .znpb-element-options__vertical-breadcrumbs-wrapper--inner {

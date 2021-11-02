@@ -6,7 +6,7 @@
 		}"
 		@close-panel="closeOptionsPanel"
 		:panel-name="`${element.name} ${$translate('options')}`"
-		panel-id="PanelElementOptions"
+		:panel-id="panel.id"
 		:show-expand="false"
 		:allow-horizontal-resize="!isPanelHidden"
 		:allow-vertical-resize="!isPanelHidden"
@@ -191,7 +191,7 @@ export default {
 
 		const panelStyles = computed(() => {
 			return {
-				'--optionsPanelWidth': `-${props.panel.width.value}${props.panel.width.unit}`
+				'--optionsPanelWidth': `-${props.panel.width}px`
 			}
 		})
 
@@ -201,11 +201,15 @@ export default {
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
-				// Add to history
-				if (!ignoreLocalHistory) {
-					addToLocalHistory()
-					ignoreLocalHistory = false
-				}
+
+			}
+		})
+
+		watch(element.value.options, (newValue) => {
+			// Add to history
+			if (!ignoreLocalHistory) {
+				addToLocalHistory()
+				ignoreLocalHistory = false
 			}
 		})
 
