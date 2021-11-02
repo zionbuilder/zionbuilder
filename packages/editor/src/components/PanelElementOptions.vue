@@ -680,7 +680,9 @@ export default {
 			position: absolute;
 			top: 100%;
 			left: 0;
-			z-index: 20000;
+			font-size: 13px;
+			font-weight: 400;
+			color: var(--zb-surface-text-color);
 			min-width: 200px;
 			max-height: 360px;
 			padding: 16px 16px 4px;
@@ -688,6 +690,7 @@ export default {
 			box-shadow: var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 3px;
+			z-index: 20000;
 			transform: translate(10px, -10px);
 
 			& > span {
