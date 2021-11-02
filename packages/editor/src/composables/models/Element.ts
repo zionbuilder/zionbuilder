@@ -1,11 +1,9 @@
-import { readonly } from 'vue'
 import { generateUID } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { regenerateUIDs } from '@utils'
-import { each, update, get, set, isPlainObject } from 'lodash-es'
+import { each, update, get, isPlainObject } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
-import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
 import { useEditElement } from '../useEditElement'
 import { useHistory } from '../useHistory'
@@ -120,7 +118,6 @@ export class Element {
 	set name(newName) {
 		const oldName = this.name
 		this.updateOptionValue('_advanced_options._element_name', newName)
-		// set(this.options, '_advanced_options._element_name', newName)
 
 		// Add to history
 		const { addToHistory } = useHistory()
@@ -170,11 +167,6 @@ export class Element {
 
 	toggleVisibility() {
 		this.isVisible = !this.isVisible
-	}
-
-	focus() {
-		const { focusElement } = useElementActions()
-		focusElement(this)
 	}
 
 	highlight() {

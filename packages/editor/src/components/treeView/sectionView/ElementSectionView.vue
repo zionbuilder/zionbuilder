@@ -5,7 +5,7 @@
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="onItemClick"
+		@click.stop.left="editElement"
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
@@ -18,13 +18,21 @@
 			class="znpb-section-view-item__header"
 			:class="{'znpb-panel-item--active': isActiveItem}"
 		>
-			<div class="znpb-section-view-item__header-left">
-				<InlineEdit
-					class="znpb-section-view-item__header-title"
-					v-model="element.name"
-					v-model:active="element.activeElementRename"
-				/>
+			<UIElementIcon
+				:element="elementModel"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
+				:size="24"
+			/>
 
+			<div class="znpb-section-view-item__header-left">
+
+				<div
+					class="znpb-section-view-item__header-title"
+					@input="element.name = $event.target.textContent"
+					:contenteditable="true"
+				>
+					{{element.name}}
+				</div>
 			</div>
 
 			<Tooltip
@@ -62,7 +70,7 @@ import { ref, Ref, PropType } from "vue";
 import domtoimage from "dom-to-image";
 import { onMounted } from "vue";
 import { translate } from "@zb/i18n";
-import { Element, useElementActions } from "@composables";
+import { Element } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default {
@@ -71,12 +79,17 @@ export default {
 		element: Object as PropType<Element>,
 	},
 	setup(props) {
-		const { showElementMenu, elementOptionsRef, isActiveItem } =
-			useTreeViewItem(props);
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem,
+			editElement,
+			elementModel,
+		} = useTreeViewItem(props);
 
 		const imageSrc = ref(null);
 		const error = ref(null);
-		const loading: Ref<boolean> = ref(false);
+		const loading: Ref<boolean> = ref(true);
 
 		onMounted(() => {
 			const domElement = window.frames[
@@ -90,17 +103,21 @@ export default {
 				return;
 			}
 
-			const filter = function (node) {
+			function filter(node) {
 				if (node && node.classList) {
 					if (node.classList.contains("znpb-empty-placeholder")) {
 						return false;
 					}
+
+					if (node.classList.contains("znpb-element-toolbox")) {
+						return false;
+					}
 				}
 				return true;
-			};
+			}
 
 			domtoimage
-				.toSvg(domElement, {
+				.toPng(domElement, {
 					style: {
 						width: "100%",
 						margin: 0,
@@ -120,13 +137,6 @@ export default {
 				});
 		});
 
-		const onItemClick = () => {
-			const { focusElement } = useElementActions();
-			focusElement(props.element);
-			props.element.focus;
-			props.element.scrollTo = true;
-		};
-
 		return {
 			imageSrc,
 			error,
@@ -134,7 +144,8 @@ export default {
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			onItemClick,
+			editElement,
+			elementModel,
 		};
 	},
 };
@@ -161,8 +172,8 @@ export default {
 	}
 	&--hidden {
 		.znpb-section-view-item__header-left {
-			transition: opacity 0.5s ease;
-			opacity: 0.5;
+			transition: opacity .5s ease;
+			opacity: .5;
 		}
 	}
 
@@ -202,6 +213,10 @@ export default {
 		&.znpb-panel-item--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
+
+			.znpb-tree-view__itemIcon {
+				color: var(--zb-secondary-text-color);
+			}
 		}
 
 		&-left {
@@ -210,9 +225,14 @@ export default {
 
 		&-title {
 			padding: 15px;
+			padding-left: 8px;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			cursor: pointer;
+			cursor: text;
+
+			&:focus-visible {
+				outline: none;
+			}
 		}
 
 		&.znpb-panel-item--active &-title {
@@ -228,5 +248,9 @@ export default {
 	z-index: 9;
 	margin: 0;
 	transform: translate(-50%, -50%);
+}
+
+.znpb-section-view-item__header .znpb-tree-view__itemIcon {
+	padding-left: 15px;
 }
 </style>

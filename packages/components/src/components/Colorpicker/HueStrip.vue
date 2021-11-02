@@ -64,6 +64,16 @@ export default {
 		deactivatedragHueCircle (event) {
 			this.ownerWindow.removeEventListener('mousemove', this.rafDragCircle)
 			this.ownerWindow.removeEventListener('mouseup', this.deactivatedragHueCircle)
+
+			function preventClicks (e) {
+				e.stopPropagation()
+			}
+
+			// Prevent closing colorpicker when clicked outside
+			this.ownerWindow.addEventListener('click', preventClicks, true)
+			setTimeout(() => {
+				this.ownerWindow.removeEventListener('click', preventClicks, true)
+			}, 100);
 		},
 		isMouseUpOutsideWindow (event) {
 			if (!event.which) {

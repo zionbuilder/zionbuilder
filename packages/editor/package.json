@@ -11,8 +11,7 @@
 		"dom-to-image": "^2.6.0",
 		"file-saver": "^2.0.2",
 		"localstorage-ttl": "1.0.2",
-		"object-hash": "^2.1.1",
-		"vue-router": "^4.0.0-beta.11"
+		"object-hash": "^2.1.1"
 	},
 	"private": false
 }

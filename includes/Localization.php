@@ -250,6 +250,11 @@ class Localization {
 				'section_view'                             => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                           => __( 'Wireframe', 'zionbuilder' ),
 				'editable_name'                            => __( 'editable name', 'zionbuilder' ),
+				'collapse_all'                             => __( 'Collapse all', 'zionbuilder' ),
+				'expand_all'                               => __( 'Expand all', 'zionbuilder' ),
+				'remove_all'                               => __( 'Remove all', 'zionbuilder' ),
+				'removed_all_elements'                     => __( 'Removed all elements', 'zionbuilder' ),
+
 				//Save actions
 				'page_saved_publish'                       => __( 'This page was successfully saved and published', 'zionbuilder' ),
 				'page_saved'                               => __( 'This page was successfully saved', 'zionbuilder' ),
@@ -705,6 +710,8 @@ class Localization {
 				'delete_selector'                          => __( 'Delete selector', 'zionbuilder' ),
 				'are_you_sure_you_want_to_delete_selector' => __( 'Are you sure you want to delete the selector?', 'zionbuilder' ),
 				'cancel'                                   => __( 'Cancel', 'zionbuilder' ),
+				'yes_delete_elements'                      => __( 'Yes, delete elements', 'zionbuilder' ),
+				'are_you_sure_delete_elements'             => __( 'Are you sure you want to remove all elements from page?', 'zionbuilder' ),
 			]
 		);
 	}

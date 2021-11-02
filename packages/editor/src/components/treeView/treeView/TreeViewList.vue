@@ -6,6 +6,7 @@
 		group="pagebuilder-treview-elements"
 		@start="sortableStart"
 		@end="sortableEnd"
+		handle=".znpb-tree-view__itemIcon"
 	>
 
 		<TreeViewListItem
@@ -15,30 +16,24 @@
 			@expand-panel="$emit('expand-panel')"
 		/>
 
+		<template #end>
+			<div
+				class="znpb-tree-view__view__ListAddButtonInside"
+				v-if="templateItems.length === 0 && element.isWrapper"
+			>
+				<AddElementIcon
+					:element="element"
+					placement="inside"
+				/>
+			</div>
+		</template>
+
 		<template #helper>
 			<SortableHelper />
 		</template>
 
 		<template #placeholder>
 			<SortablePlaceholder />
-		</template>
-
-		<template #end>
-			<div
-				class="znpb-tree-view__item-add-element-button"
-				@click="toggleAddElementsPopup"
-				ref="addElementsPopupButton"
-			>
-				<Icon
-					icon="plus"
-					:size="11"
-					:bgSize="25"
-					:rounded="true"
-					color="#fff"
-					:bgColor="addButtonBgColor"
-					class="znpb-tree-view__item-add-element-button-icon"
-				></Icon>
-			</div>
 		</template>
 	</Sortable>
 </template>
@@ -61,10 +56,7 @@ export default {
 	},
 	setup (props, context) {
 		const {
-			addElementsPopupButton,
 			templateItems,
-			addButtonBgColor,
-			toggleAddElementsPopup,
 			sortableStart,
 			sortableEnd
 		} = useTreeViewList(props)
@@ -74,38 +66,43 @@ export default {
 		}
 
 		return {
-			addElementsPopupButton,
 			templateItems,
-			toggleAddElementsPopup,
 			onChildActive,
 			sortableStart,
-			sortableEnd,
-			addButtonBgColor
+			sortableEnd
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-.znpb-tree-view__item-add-element-button {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	padding: 7.5px 0;
-	margin: 0 auto;
-	margin-bottom: 5px;
-	border: 1px dashed var(--zb-surface-border-color);
-	border-radius: 3px;
-	cursor: pointer;
-}
 .znpb-tree-view {
+	padding-bottom: 25px;
+
 	& .znpb-tree-view-wrapper {
 		padding: 0 20px;
 
 		& .znpb-tree-view-wrapper {
 			padding-right: 0;
 			padding-left: 10px;
+		}
+	}
+
+	&__view__ListAddButtonInside {
+		position: relative;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 5px;
+
+		.znpb-element-toolbox__add-element-button {
+			--button-size: 24px;
+			--font-size: 12px;
+			position: relative;
+			top: auto;
+			left: auto;
+			margin: 0;
 		}
 	}
 }

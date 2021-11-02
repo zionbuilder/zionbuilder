@@ -195,14 +195,16 @@ export default {
 		dropdownState: function (newState, oldState) {
 			if (newState) {
 				document.addEventListener('click', this.closePanel)
-				if (this.$refs.input) {
-					this.$nextTick(() => {
+
+				this.$nextTick(() => {
+					if (this.$refs.input) {
 						// Element not focused on nect tick alone
 						setTimeout(() => {
 							this.$refs.input.focus()
-						}, 0)
-					})
-				}
+						}, 50)
+					}
+				})
+
 
 				this.keyword = ''
 			} else {

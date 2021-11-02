@@ -1,17 +1,11 @@
 <template>
 	<div class="znpb-empty-placeholder">
-		<div
-			class="znpb-empty-placeholder__add-element-button"
-			@click.stop.capture="toggleAddElementsPopup"
+		<AddElementIcon
+			:element="element"
+			placement="inside"
+			position="middle"
 			ref="addElementsPopupButton"
-		>
-			<Icon
-				v-znpb-tooltip="$translate('insert_inside') + ' ' + element.name"
-				icon="plus"
-				:rounded="true"
-				class="znpb-empty-placeholder__tour-icon"
-			/>
-		</div>
+		/>
 	</div>
 </template>
 
@@ -31,18 +25,12 @@ export default {
 
 		onMounted(() => {
 			if (shouldOpenPopup.value === true) {
-				showAddElementsPopup(props.element, addElementsPopupButton)
+				showAddElementsPopup(props.element, addElementsPopupButton.value.$el)
 				shouldOpenPopup.value = false
 			}
 		})
 
-
-		function toggleAddElementsPopup () {
-			showAddElementsPopup(props.element, addElementsPopupButton)
-		}
-
 		return {
-			toggleAddElementsPopup,
 			addElementsPopupButton,
 			showColumnTemplates
 		}
@@ -62,14 +50,13 @@ export default {
 
 	&__add-element-button {
 		position: relative;
-		width: 34px;
-		height: 34px;
+		width: 28px;
+		height: 28px;
 		color: #fff;
 		font-size: 10px;
 		font-size: 14px;
 		line-height: 1 !important;
 		border-radius: 50%;
-		// transition: all .2s;
 
 		&::before {
 			content: "";
@@ -91,11 +78,6 @@ export default {
 			background-color: var(--zb-column-color);
 		}
 
-		.zb-section > .zb-section__innerWrapper > .znpb-empty-placeholder
-		&::before {
-			background-color: var(--zb-section-color);
-		}
-
 		&:hover {
 			&::before {
 				transform: scale(1.1);
@@ -103,8 +85,8 @@ export default {
 		}
 		.znpb-editor-icon-wrapper {
 			position: relative;
-			width: 34px;
-			height: 34px;
+			width: 28px;
+			height: 28px;
 			cursor: pointer;
 		}
 	}

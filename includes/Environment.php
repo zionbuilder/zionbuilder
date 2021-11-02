@@ -36,7 +36,15 @@ class Environment {
 				throw new \LogicException( sprintf( 'Manifest %s does not exist.', Utils::get_file_path( self::MANIFEST_FILENAME ) ) );
 			}
 
-			self::$config = \json_decode( FileSystem::get_file_system()->get_contents( Utils::get_file_path( self::MANIFEST_FILENAME ) ), true );
+			$file_data = \json_decode( FileSystem::get_file_system()->get_contents( Utils::get_file_path( self::MANIFEST_FILENAME ) ), true );
+			if ( $file_data ) {
+				self::$config = $file_data;
+			} else {
+				self::$config = [
+					'appName'   => 'zionbuilder',
+					'outputDir' => 'dist',
+				];
+			}
 		}
 
 		return self::$config;

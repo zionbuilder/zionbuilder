@@ -1,6 +1,6 @@
 
 <script>
-import { computed, ref, onMounted, h, Fragment, watch, nextTick, cloneVNode } from 'vue'
+import { computed, ref, onMounted, h, Fragment, onUpdated, nextTick, cloneVNode } from 'vue'
 
 import {
 	HostsManager,
@@ -157,10 +157,8 @@ export default {
 		const sortableItems = ref([])
 		const helper = ref(null)
 		const placeholder = ref(null)
-		const test = ref([])
 
 		// Computed
-		const canShowEmptyPlaceholder = computed(() => sortableItems.value.length === 0 || (dragging.value && sortableItems.value.length === 1))
 		const computedCssClasses = computed(() => {
 			const defaultClasses = {
 				// Body when dragging
@@ -197,22 +195,6 @@ export default {
 		})
 
 		// Methods
-		const extractSortableItems = (slotContent) => {
-			const items = []
-			if (Array.isArray(slotContent)) {
-				slotContent.forEach(element => {
-					if (element.type === Fragment) {
-						const fragmentItems = extractSortableItems(element.children)
-						items.push(...fragmentItems)
-					} else {
-						items.push(element.el)
-					}
-				})
-			}
-
-			return items
-		}
-
 		const getCssClass = (cssClass) => {
 			return computedCssClasses.value[cssClass] || null
 		}
@@ -296,8 +278,6 @@ export default {
 				// Send the event
 				emit('change', changeEvent)
 			}
-
-
 		}
 
 
@@ -336,7 +316,7 @@ export default {
 
 
 			// Don't proceed if the dragged item is not part of sortable nodes
-			const sortableDomElements = getDomeElementsFromSortableItems()
+			const sortableDomElements = getDomElementsFromSortableItems()
 
 			if (!draggedItem || !sortableDomElements.includes(draggedItem)) {
 				return
@@ -354,6 +334,9 @@ export default {
 			if (!canPull()) {
 				return
 			}
+
+			// At this point we have a valid target
+			eventsManager.handle()
 
 			// Flag for drag delay
 			dragDelayCompleted = !props.dragDelay
@@ -383,11 +366,7 @@ export default {
 				host.addEventListener('mouseup', finishDrag)
 			})
 
-			eventsManager.handle()
-		}
 
-		const disableDraggable = () => {
-			draggableHandle.removeEventListener('mousedown', attachEvents)
 		}
 
 		const detachEvents = () => {
@@ -708,7 +687,7 @@ export default {
 		 */
 		const getInfoFromTarget = (target) => {
 			const validItem = closest(target, props.draggable, sortableContainer.value)
-			const sortableDomElements = getDomeElementsFromSortableItems()
+			const sortableDomElements = getDomElementsFromSortableItems()
 			const item = sortableDomElements.includes(validItem) ? validItem : false
 			const index = sortableDomElements.indexOf(item)
 
@@ -732,14 +711,6 @@ export default {
 			}
 
 			return true
-		}
-
-		/**
-		 * Returns true if provided component tag string is of type transition-group
-		 *
-		 */
-		const componentIsTransitionGroup = (componentTag) => {
-			return ['transition-group', 'TransitionGroup'].includes(componentTag)
 		}
 
 		const onMouseMove = (event) => {
@@ -884,19 +855,14 @@ export default {
 			return targetVm.axis || 'vertical'
 		}
 
-		const getDomeElementsFromSortableItems = () => {
-			return sortableItems.value.filter(el => el).map(el => {
-				// Refs can be Vue components or directly dom nodes
-				if (el instanceof HTMLElement) {
-					return el
-				} else {
-					return el.$el
-				}
+		const getDomElementsFromSortableItems = () => {
+			return childItems.filter(el => el).map(el => {
+				return el.el
 			})
 		}
 
 		const getItemFromList = (index) => {
-			const sortableDomElements = getDomeElementsFromSortableItems()
+			const sortableDomElements = getDomElementsFromSortableItems()
 			return sortableDomElements[index]
 		}
 
@@ -908,7 +874,33 @@ export default {
 		onMounted(() => {
 			eventScheduler = EventScheduler(getEvents())
 			sortableContainer.value.__SORTABLE_INFO__ = sortableInfo
+
+			collectChildren()
 		})
+
+		onUpdated(() => {
+			collectChildren()
+		})
+
+		function collectChildren () {
+			sortableItems.value = fetchChildren(childItems)
+		}
+
+		function fetchChildren (items) {
+			let children = []
+
+			if (Array.isArray(items)) {
+				items.forEach((child) => {
+					if (child.type === Fragment) {
+						children = [...children, ...fetchChildren(child.children)]
+					} else {
+						children.push(child)
+					}
+				})
+			}
+
+			return children
+		}
 
 		// Don't make this ref as it isn't necessary
 		const movePlaceholderMemoized = memoizeOne(movePlaceholder)
@@ -923,36 +915,18 @@ export default {
 			emit
 		}
 
-		const attachRef = function (children) {
-			if (Array.isArray(children)) {
-				children.forEach((child, i) => {
-					if (child.type === Fragment) {
-						const fragmentItems = attachRef(child.children)
-					} else {
-						const clone = cloneVNode(child, {
-							ref: (el) => {
-								sortableItems.value[i] = el
-							}
-						})
-
-						children[i] = clone
-					}
-				})
-			}
-
-			return children
-		}
-
 		return () => {
 			const childElements = []
-			let i = 0
-			childItems = attachRef(slots.default())
 
+			// Add start slot
 			if (slots.start) {
 				childElements.push(slots.start())
 			}
 
-			childElements.push(childItems)
+			// Add sortable items
+			const draggableItems = slots.default()
+			childItems = fetchChildren(draggableItems)
+			childElements.push(draggableItems)
 
 			// Add the helper node
 			if (dragging.value) {
@@ -1000,7 +974,7 @@ export default {
 					onDragstart: onDragStart,
 					ref: sortableContainer,
 					class: {
-						[`vuebdnd__placeholder-empty-container`]: canShowEmptyPlaceholder.value
+						[`vuebdnd__placeholder-empty-container`]: childItems.length === 0 || (dragging.value && childItems.length === 1)
 					}
 				},
 				[childElements]

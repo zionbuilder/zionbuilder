@@ -2,19 +2,16 @@
 	<ElementLoading v-if="loading" />
 
 	<component
+		ref='root'
 		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
 		:is="elementComponent"
 		class="znpb-element__wrapper zb-element"
-		:class="{
-			'znpb-element__wrapper--panel-hovered': element.isHighlighted
-		}"
 		:id="`${element.elementCssId}`"
 		:element="element"
 		:options="options"
-		@mouseenter="showToolbox = true"
+		@mouseenter="onMouseEnter"
 		@mouseleave="onMouseLeave"
 		@click="onElementClick"
-		@dblclick="editElement"
 		@contextmenu="showElementMenu"
 		v-bind="getExtraAttributes"
 	>
@@ -23,8 +20,6 @@
 			<ElementToolbox
 				v-if="canShowToolbox"
 				:element="element"
-				v-model:can-hide-toolbox="canHideToolbox"
-				v-model:is-toolbox-dragging="isToolboxDragging"
 			/>
 
 			<VideoBackground
@@ -56,7 +51,7 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue'
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es'
-import { getCssFromSelector, getOptionValue, camelCase, clearTextSelection } from '@zb/utils'
+import { getCssFromSelector, getOptionValue, camelCase } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 
 // Components
@@ -66,12 +61,10 @@ import ElementLoading from './ElementLoading.vue'
 import VideoBackground from './VideoBackground.vue'
 
 // Composables
-import { usePreviewMode, useElementMenu, useElementActions, useEditElement } from '@zb/editor'
+import { usePreviewMode, useElementMenu, useEditElement } from '@zb/editor'
 import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas, usePseudoSelectors } from '@zb/components'
-
-let handled = false
 
 export default {
 	name: 'ElementWrapper',
@@ -82,10 +75,10 @@ export default {
 		ElementStyles
 	},
 	props: ['element'],
-	setup (props) {
+	setup (props, { emit }) {
+		const root = ref(null)
 		const { isPreviewMode } = usePreviewMode()
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element)
-		const { focusElement } = useElementActions()
 		const { getSchema } = useOptionsSchemas()
 		const { activePseudoSelector } = usePseudoSelectors()
 		const { element: activeEditedElement } = useEditElement()
@@ -158,7 +151,8 @@ export default {
 		})
 
 		const customCSS = computed(() => {
-			let customCSS = parsedData.value.customCSS
+			let customCSS = ''
+
 			const elementStyleConfig = props.element.elementTypeModel.style_elements
 
 			if (elementStyleConfig) {
@@ -181,16 +175,19 @@ export default {
 				})
 			}
 
+			customCSS += parsedData.value.customCSS
 			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element)
 
 			return customCSS
 		})
 
 		const stylesConfig = computed(() => options.value._styles || {})
-		const canShowToolbox = computed(() => props.element.isVisible && showToolbox.value && !isPreviewMode.value && !props.element.elementTypeModel.is_child)
+		const canShowToolbox = computed(() => {
+			const { element: activeEditedElement } = useEditElement()
+			return (activeEditedElement.value === props.element || props.element.isHighlighted) && (props.element.isVisible && !props.element.elementTypeModel.is_child && !isPreviewMode.value)
+		})
 		const canShowElement = computed(() => isPreviewMode.value ? !(options.value._isVisible === false) : true)
 		const videoConfig = computed(() => getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}))
-
 
 		const renderAttributes = computed(() => {
 			const optionsAttributes = parsedData.value.renderAttributes
@@ -227,7 +224,6 @@ export default {
 								if (!additionalAttributes[renderTag]) {
 									additionalAttributes[renderTag] = {}
 								}
-
 
 								additionalAttributes[renderTag]['class'] = [
 									...(additionalAttributes[renderTag]['class'] || []),
@@ -318,40 +314,16 @@ export default {
 					rename: false
 				})
 			}
-
 		}
 
 		// Prevents us using stop propagation that can affect other elements
 		const onElementClick = (event) => {
-			if (handled) {
-				return
-			}
+			event.stopPropagation()
 
-			focusElement(props.element)
+			const { editElement } = useEditElement()
 
-			handled = true
-			setTimeout(() => {
-				handled = false
-			}, 10);
-		}
-
-		/**
-		 * On element mouseleave
-		 */
-		const onMouseLeave = () => {
-			if (canHideToolbox.value) {
-				showToolbox.value = false
-			} else {
-				if (!toolboxWatcher) {
-					// Set a watcher so we can hide the toolbox
-					toolboxWatcher = watch(canHideToolbox, (newValue) => {
-						if (newValue) {
-							showToolbox.value = false
-							toolboxWatcher()
-							toolboxWatcher = null
-						}
-					})
-				}
+			if (!isPreviewMode.value) {
+				editElement(props.element)
 			}
 		}
 
@@ -374,7 +346,28 @@ export default {
 		provide('elementInfo', props.element)
 		provide('elementOptions', options)
 
+		function onMouseEnter (e) {
+			props.element.highlight()
+
+			if (props.element.parent) {
+				let parent = props.element.parent
+				while (parent) {
+					parent.unHighlight()
+					parent = parent.parent
+				}
+			}
+		}
+
+		function onMouseLeave (e) {
+			props.element.unHighlight()
+			if (props.element.parent) {
+				props.element.parent.highlight()
+				parent = parent.parent
+			}
+		}
+
 		return {
+			root,
 			// Computed
 			stylesConfig,
 			canShowToolbox,
@@ -385,7 +378,6 @@ export default {
 			elementComponent,
 			isPreviewMode,
 			showElementMenu,
-			focusElement,
 			onElementClick,
 			options,
 			customCSS,
@@ -396,6 +388,7 @@ export default {
 			registeredEvents,
 			showToolbox,
 			// Methods
+			onMouseEnter,
 			onMouseLeave
 		}
 	},
@@ -438,24 +431,6 @@ export default {
 					}
 				}
 			})
-		},
-
-		/**
-		 * Edit element
-		 *
-		 * Triggered when double click on the element
-		 */
-		editElement (event) {
-			const { editElement } = useEditElement()
-			event.stopPropagation()
-
-			if (!this.isPreviewMode.value) {
-				editElement(this.element)
-
-				// Clear text selection that may appear
-				clearTextSelection(window)
-				clearTextSelection(window.parent)
-			}
 		},
 
 		restoreHiddenElement () {
@@ -561,6 +536,7 @@ export default {
 		right: 0;
 		bottom: 0;
 		left: 0;
+		z-index: 1001;
 		display: flex;
 		justify-content: center;
 		align-items: center;

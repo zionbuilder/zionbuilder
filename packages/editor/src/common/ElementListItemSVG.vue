@@ -36,6 +36,5 @@ export default {
 	width: 1em;
 	height: 1em;
 	margin: auto;
-	font-size: 47px;
 }
 </style>

@@ -3,6 +3,7 @@
 		class="znpb-editor-iframe-wrapper"
 		:style="pointerevents"
 		:class="getWrapperClasses"
+		id="preview-iframe"
 	>
 
 		<iframe
@@ -49,14 +50,12 @@ import { each } from 'lodash-es'
 import {
 	useTemplateParts,
 	usePreviewLoading,
-	useElementActions,
 	useKeyBindings,
 	useSavePage,
 	useEditorData,
-	useEditorInteractions,
+	useUI,
 	useWindows,
 	useHistory,
-	usePageSettings,
 	useElementTypes
 } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
@@ -74,22 +73,19 @@ export default {
 	},
 	setup () {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
-		const { getIframePointerEvents, getIframeOrder } = useEditorInteractions()
+		const { getIframePointerEvents, getPanelOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
 		return {
 			activeResponsiveDeviceInfo,
-			focusedElement,
-			unFocusElement,
 			applyShortcuts,
 			saveAutosave,
 			pageId: editorData.value.page_id,
 			urls: editorData.value.urls,
-			getIframeOrder,
+			getPanelOrder,
 			getIframePointerEvents,
 			addWindow,
 			getWindows,
@@ -122,7 +118,7 @@ export default {
 			if (this.getIframePointerEvents()) {
 				style.pointerEvents = 'none'
 			}
-			style.order = this.getIframeOrder()
+			style.order = this.getPanelOrder('preview-iframe')
 			return style
 		},
 		getWrapperClasses () {
@@ -207,14 +203,9 @@ export default {
 			setPreviewLoading(false)
 		},
 		attachIframeEvents () {
-			this.getWindows('preview').addEventListener('click', this.deselectActiveElement, true)
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
 			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
 			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe)
-			// this.addEventListener('scroll', this.onScroll)
-		},
-		deselectActiveElement (event) {
-			this.unFocusElement()
 		},
 		preventClicks (event) {
 			const e = window.e || event
@@ -225,7 +216,6 @@ export default {
 		},
 		onBeforeUnloadIframe () {
 			const { setPreviewLoading } = usePreviewLoading()
-			const { unsetPageSettings } = usePageSettings()
 
 			setPreviewLoading(true)
 		},
@@ -250,7 +240,6 @@ export default {
 	},
 	// end checkMousePosition
 	beforeUnmount () {
-		this.getWindows('preview').removeEventListener('click', this.deselectActiveElement)
 		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
@@ -278,9 +267,9 @@ export default {
 	max-width: 100%;
 	min-height: 150px;
 	max-height: 100%;
-	box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 	border: 0;
-	transition: all 0.5s;
+	transition: all .5s;
 }
 .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default)
 	#znpb-editor-iframe {

@@ -4,28 +4,18 @@
 		ref="elementBox"
 		:class="['znpb-element-box--' + item.element_type]"
 	>
+
 		<span
-			v-if="label"
+			v-if="item.label"
 			class="znpb-element-box__label"
-			:style="{ background: label.color }"
-		>{{label.text}}</span>
+			:style="{ background: item.label.color }"
+		>{{item.label.text}}</span>
 
-		<ElementListItemSVG
-			v-if="isSVG"
-			:svg="get_element_image"
+		<UIElementIcon
+			:element="item"
+			class="znpb-element-box__icon"
 		/>
 
-		<img
-			v-else-if="get_element_image"
-			:src="get_element_image"
-			class="znpb-element-box__image"
-		/>
-
-		<Icon
-			v-else
-			:icon="get_element_icon"
-			:size="48"
-		/>
 		<span class="znpb-element-box__element-name">
 			{{ item.name }}
 		</span>
@@ -33,54 +23,35 @@
 </template>
 
 <script>
-import ElementListItemSVG from './ElementListItemSVG.vue'
-
 export default {
 	name: 'ElementListItem',
-	components: {
-		ElementListItemSVG
-	},
 	props: {
 		item: {
 			type: Object,
 			required: true
-		}
-	},
-	setup (props) {
-		const get_element_image = props.item.thumb ? props.item.thumb : null
-		const isSVG = get_element_image ? get_element_image.indexOf('.svg') !== -1 : false
-		const get_element_icon = props.item.icon ? props.item.icon : 'element-default'
-		const label = props.item.label
-
-		return {
-			isSVG,
-			get_element_image,
-			get_element_icon,
-			label
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-/* vars */
-
 .znpb-element-box {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+	min-width: 0;
 	cursor: pointer;
 	user-select: none;
 
 	&__label {
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		padding: 3px 5px;
-		color: #fff;
-		font-size: 8px;
+		top: 8px;
+		right: 8px;
+		padding: 2px 3px;
+		color: #000;
+		font-size: 7px;
 		font-weight: 700;
 		background: var(--zb-pro-color);
 		border-radius: 2px;
@@ -89,11 +60,9 @@ export default {
 	.znpb-editor-icon-wrapper, .znpb-element-box__image {
 		width: 100%;
 		margin-bottom: 5px;
-		color: var(--zb-surface-icon-color);
-		background-color: var(--zb-surface-color);
-		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
-		border: 1px solid var(--zb-elements-border-color);
-		border-radius: 3px;
+		color: var(--zb-surface-text-color);
+		background-color: var(--zb-surface-lighter-color);
+		border-radius: 4px;
 		transition: all .2s;
 
 		&::after {
@@ -109,19 +78,29 @@ export default {
 
 	&__element-name {
 		color: var(--zb-surface-text-color);
-		font-size: 12px;
+		font-size: 11px;
 		font-weight: 500;
-		line-height: 1.5;
+		line-height: 1.3;
 		text-align: center;
+		max-width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	&:hover {
 		.znpb-editor-icon-wrapper, .znpb-element-box__image {
 			color: var(--zb-surface-text-hover-color);
 		}
-		.znpb-editor-icon-wrapper {
-			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow-hover);
+
+		.znpb-element-box__icon {
+			background-color: var(--zb-surface-lightest-color);
+			box-shadow: 0 4px 20px 0 var(--zb-surface-shadow-hover);
 		}
 	}
+}
+
+.znpb-element-box__icon {
+	font-size: 36px;
 }
 </style>
