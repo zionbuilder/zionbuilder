@@ -2,7 +2,7 @@ import { useUI, usePreviewMode, useSavePage, useEditorData, useElementActions, u
 import { isEditable, Environment } from '@zb/utils'
 
 export const useKeyBindings = () => {
-	const { togglePanel } = useUI()
+	const { togglePanel, toggleLibrary } = useUI()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
 	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions()
@@ -149,7 +149,7 @@ export const useKeyBindings = () => {
 
 		// Opens Library
 		if (e.shiftKey && e.code === 'KeyL') {
-			togglePanel('panel-library')
+			toggleLibrary()
 			e.preventDefault()
 		}
 
