@@ -33,6 +33,7 @@
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
 				@input="element.name = $event.target.textContent"
 				:contenteditable="true"
+				spellcheck="false"
 			>
 				{{element.name}}
 			</div>

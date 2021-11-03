@@ -8,6 +8,7 @@
 		@blur="deactivate"
 		ref="root"
 		v-html="computedModelValue"
+		spellcheck="false"
 	>
 
 	</component>

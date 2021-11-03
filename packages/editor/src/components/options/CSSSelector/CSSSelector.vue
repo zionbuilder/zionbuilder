@@ -20,7 +20,15 @@
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
 					<div>
-						<div class="znpb-option-cssSelectorTitle">{{title}}</div>
+						<div
+							class="znpb-option-cssSelectorTitle"
+							@input="title = $event.target.textContent"
+							:contenteditable="true"
+							@click.stop=""
+							spellcheck="false"
+						>
+							{{title}}
+						</div>
 						<div
 							class="znpb-option-cssSelector"
 							:title="selector"
@@ -57,6 +65,7 @@
 							class="znpb-cssSelectorDialog"
 							:close-on-outside-click="true"
 							@click.stop=""
+							@hide="canShow = false"
 						>
 							<template #content>
 								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
@@ -81,6 +90,7 @@
 								icon="delete"
 								v-if="allow_delete"
 								@click.stop="canShow = true"
+								znpb-tooltip="$translate('delete_selector')"
 							/>
 						</Tooltip>
 					</Tooltip>
@@ -188,8 +198,16 @@ export default {
 		const uid = generateUID()
 		const canShow = ref(false)
 
-		const title = computed(() => {
-			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
+		const title = computed({
+			get () {
+				return props.name || props.modelValue.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
+			},
+			set (newValue) {
+				value.value = {
+					...value.value,
+					name: newValue
+				}
+			}
 		})
 
 		const selector = computed(() => {

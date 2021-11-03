@@ -26,6 +26,7 @@
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
 					@input="element.name = $event.target.textContent"
 					:contenteditable="true"
+					spellcheck="false"
 				>
 					{{element.name}}
 				</div>

@@ -30,6 +30,7 @@
 					class="znpb-section-view-item__header-title"
 					@input="element.name = $event.target.textContent"
 					:contenteditable="true"
+					spellcheck="false"
 				>
 					{{element.name}}
 				</div>
