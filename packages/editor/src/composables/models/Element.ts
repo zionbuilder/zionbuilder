@@ -66,7 +66,10 @@ export class Element {
 			widget_id: widgetID,
 			...remainingProperties
 		} = data
-		this.options = isPlainObject(options) ? options : {}
+		this.options = {
+			...(isPlainObject(options) ? options : {}),
+			_advanced_options: { ...(isPlainObject(options._advanced_options) ? options._advanced_options : {}) }
+		}
 		this.uid = uid
 		this.element_type = element_type
 
