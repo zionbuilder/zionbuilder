@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import ZionLabel from '../../common/Label.vue'
+import ZionLabel from '../../../common/Label.vue'
 
 export default {
 	name: 'PseudoDropdownItem',

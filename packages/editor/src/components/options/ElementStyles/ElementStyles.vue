@@ -25,7 +25,7 @@
 
 <script>
 import { merge, cloneDeep } from 'lodash-es'
-import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
+import PseudoSelectors from './PseudoSelectors.vue'
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue'
 import { useOptionsSchemas } from '@zb/components'
 import { useCSSClasses } from '@composables'

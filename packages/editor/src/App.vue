@@ -88,14 +88,13 @@
 				</div>
 
 				<!-- Start panels -->
-				<template v-if="!isPreviewMode">
-					<component
-						v-for="panel in openPanels"
-						:is="panel.component"
-						:key="panel.id"
-						:panel="panel"
-					/>
-				</template>
+				<component
+					v-for="panel in openPanels"
+					:is="panel.component"
+					:key="panel.id"
+					:panel="panel"
+					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
+				/>
 
 			</div>
 			<!-- end center area -->

@@ -77,17 +77,6 @@
 		</li>
 		<li
 			class="znpb-right-click__menu-item"
-			@click="element.rename()"
-			v-if="actions.rename"
-		>
-			<Icon
-				icon="edit"
-				:bgSize="14"
-			></Icon>
-			{{$translate('rename_element')}}
-		</li>
-		<li
-			class="znpb-right-click__menu-item"
 			@click="element.toggleVisibility"
 		>
 			<Icon
@@ -249,7 +238,6 @@ export default {
 		const controllKey = Environment.isMac ? '⌘' : '⌃'
 
 		const actions = {
-			rename: true,
 			...props.actions
 		}
 
