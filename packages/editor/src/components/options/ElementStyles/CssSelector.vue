@@ -31,7 +31,7 @@
 		<Icon
 			v-if="showActions"
 			v-znpb-tooltip="$translate('paste')"
-			icon="copy"
+			icon="paste"
 			@click.stop="$emit('paste-styles')"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
@@ -194,7 +194,7 @@ export default {
 	}
 
 	&-type {
-		padding: 5px 10px;
+		padding: 3px 6px;
 		color: var(--zb-surface-color);
 		font-size: 8px;
 		font-weight: 700;
@@ -225,6 +225,16 @@ export default {
 		display: flex;
 		font-size: 8px;
 		cursor: pointer;
+	}
+
+	&-copy,
+	&-paste {
+		color: var(--zb-surface-icon-color);
+    	padding: 2px 4px;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
 	}
 }
 </style>

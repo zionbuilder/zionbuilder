@@ -67,7 +67,7 @@
 			v-if="copiedElement"
 		>
 			<Icon
-				icon="copy"
+				icon="paste"
 				:bgSize="14"
 			></Icon>
 			{{$translate('paste_element')}}
