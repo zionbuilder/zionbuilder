@@ -1,7 +1,7 @@
 import { generateUID } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { regenerateUIDs } from '@utils'
-import { each, update, get, isPlainObject } from 'lodash-es'
+import { each, update, get, isPlainObject, debounce } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
 import { RenderAttributes } from './RenderAttributes'
@@ -37,6 +37,7 @@ export class Element {
 		this.renderAttributes = new RenderAttributes()
 		this.parentUid = parentUid
 		this.serverRequester = this.createRequester()
+		this.debouncedSaveRenameToHistory = debounce(this.saveRenameToHistory, 750)
 	}
 
 	createRequester() {
@@ -120,9 +121,12 @@ export class Element {
 		this.updateOptionValue('_advanced_options._element_name', newName)
 
 		// Add to history
+		this.debouncedSaveRenameToHistory(oldName, newName)
+	}
+
+	saveRenameToHistory(oldName, newName) {
 		const { addToHistory } = useHistory()
 		addToHistory(`Renamed ${oldName} to ${newName}`)
-
 	}
 
 	// Element visibility
