@@ -3,6 +3,7 @@ import './scss/index.scss'
 import './wordpress'
 
 import { App } from 'vue'
+
 // General components
 import { Accordion } from './components/Accordion'
 import { ActionsOverlay } from './components/ActionsOverlay'
@@ -16,6 +17,7 @@ import { Icon } from './components/Icon'
 import { Injection } from './components/Injection'
 import { InlineEdit } from './components/InlineEdit'
 import { ListScroll } from './components/ListScroll'
+import { Menu, HiddenMenu } from './components/Menu'
 
 // Inputs
 import { BaseInput } from './components/BaseInput'
@@ -54,6 +56,7 @@ export * as utils from '@utils'
 import { Tooltip, PopperDirective } from '@zionbuilder/tooltip'
 import { Modal, ModalConfirm, ModalTemplateSaveButton } from '@zionbuilder/modal'
 import { getDefaultGradient } from './utils'
+
 export * from '@composables'
 
 const components = [
@@ -62,6 +65,8 @@ const components = [
 	UpgradeToPro,
 	Label,
 	EmptyList,
+	Menu,
+	HiddenMenu,
 
 	// General
 	Modal,
@@ -87,6 +92,7 @@ const components = [
 	GradientLibrary,
 	HorizontalAccordion,
 	IconPackGrid,
+
 	// Forms
 	Sortable,
 	ChangesBullet,
@@ -146,6 +152,8 @@ export {
 	UpgradeToPro,
 	Label,
 	EmptyList,
+	Menu,
+	HiddenMenu,
 
 	// General
 	Modal,

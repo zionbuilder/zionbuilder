@@ -50,7 +50,7 @@
 						@remove-styles="resetChanges"
 					/>
 
-					<Tooltip
+					<!-- <Tooltip
 						:content="$translate('delete_selector')"
 						placement="top"
 						append-to="element"
@@ -86,14 +86,16 @@
 									</Button>
 								</div>
 							</template>
+
 							<Icon
 								icon="delete"
 								v-if="allow_delete"
 								@click.stop="canShow = true"
-								znpb-tooltip="$translate('delete_selector')"
 							/>
 						</Tooltip>
-					</Tooltip>
+					</Tooltip> -->
+
+					<HiddenMenu :actions="classActions" />
 
 				</template>
 
@@ -136,6 +138,7 @@
 
 <script>
 import { computed, defineAsyncComponent, ref } from 'vue'
+import { merge, cloneDeep } from 'lodash-es'
 import { applyFilters } from '@zb/hooks'
 import { translate } from '@zb/i18n'
 import { generateUID } from '@zb/utils'
@@ -143,6 +146,7 @@ import { generateUID } from '@zb/utils'
 // Components
 import AddChildActions from './AddChildActions.vue'
 import PseudoSelector from './PseudoSelector.vue'
+import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'CSSSelector',
@@ -194,9 +198,42 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
+		const { copiedStyles, copyClassStyles } = useCSSClasses()
 		const showChilds = ref(false)
 		const uid = generateUID()
 		const canShow = ref(false)
+		const showClassMenu = ref(false)
+		const classMenuIcon = ref(null)
+
+		// Computed
+		const classActions = computed(() => {
+			return [
+				{
+					title: translate('copy_element_styles'),
+					action: () => {
+						console.log({ props });
+						copyClassStyles(value.value.styles)
+					}
+				},
+				{
+					title: translate('paste_element_styles'),
+					action: () => {
+						const { copiedStyles } = useCSSClasses()
+						const clonedCopiedStyles = cloneDeep(copiedStyles.value)
+						if (!value.value.styles) {
+							value.value.styles = clonedCopiedStyles
+						} else {
+							value.value.styles = merge(value.value.styles, clonedCopiedStyles)
+						}
+					},
+					show: !!copiedStyles.value
+				},
+				{
+					title: translate('delete_selector'),
+					action: deleteItem
+				}
+			]
+		})
 
 		const title = computed({
 			get () {
@@ -328,7 +365,14 @@ export default {
 		}
 
 		return {
+			// Refs
+			showClassMenu,
+			classMenuIcon,
 			canShow,
+
+			// Computed
+			classActions,
+
 			onChildAdded,
 			showChilds,
 			title,

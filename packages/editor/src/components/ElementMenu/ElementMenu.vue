@@ -16,7 +16,6 @@
 			<ElementActions
 				class="znpb-element-options__element-actions"
 				@click.stop="hideElementMenu"
-				@changename="$emit('changename',true), showOptions=false"
 				:element="activeElementMenu.element"
 				:actions="activeElementMenu.actions"
 			/>
@@ -82,9 +81,9 @@ export default {
 		text-align: left;
 		list-style-type: none;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+		box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
 		border-radius: 3px;
-		transition: all 0.5s;
+		transition: all .5s;
 		user-select: none;
 
 		li {
@@ -93,7 +92,7 @@ export default {
 			color: var(--zb-surface-text-color);
 			font-size: 12px;
 			line-height: 14px;
-			transition: color 0.2s ease;
+			transition: color .2s ease;
 			&:hover {
 				color: var(--zb-surface-text-active-color);
 				cursor: pointer;
@@ -102,13 +101,11 @@ export default {
 	}
 }
 
-.list-enter-to,
-.list-leave-from {
-	transition: all 0.2s;
+.list-enter-to, .list-leave-from {
+	transition: all .2s;
 }
 
-.list-enter-from,
-.list-leave-to {
+.list-enter-from, .list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
 }
