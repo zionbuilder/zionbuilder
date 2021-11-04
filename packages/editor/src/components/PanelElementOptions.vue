@@ -345,7 +345,8 @@ export default {
 					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
 					allow_delete: false,
 					show_breadcrumbs: true,
-					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
+					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
+					allowRename: false
 				}
 			})
 

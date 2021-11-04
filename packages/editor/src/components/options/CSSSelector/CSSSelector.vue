@@ -22,9 +22,12 @@
 					<div>
 						<div
 							class="znpb-option-cssSelectorTitle"
+							:class="{
+								'znpb-option-cssSelectorTitle--allowRename': allowRename
+							}"
 							@input="title = $event.target.textContent"
-							:contenteditable="true"
-							@click.stop=""
+							:contenteditable="allowRename"
+							@click="onRenameItemClick"
 							spellcheck="false"
 						>
 							{{title}}
@@ -193,6 +196,10 @@ export default {
 			default: false
 		},
 		show_changes: {
+			type: Boolean,
+			default: true
+		},
+		allowRename: {
 			type: Boolean,
 			default: true
 		}
@@ -367,6 +374,12 @@ export default {
 			delete value.value.styles
 		}
 
+		function onRenameItemClick (event) {
+			if (props.allowRename) {
+				event.stopPropagation()
+			}
+		}
+
 		return {
 			// Refs
 			showClassMenu,
@@ -388,7 +401,10 @@ export default {
 			pseudoState,
 			hasChanges,
 			resetChanges,
-			uid
+			uid,
+
+			// Methods
+			onRenameItemClick
 		}
 	}
 }
@@ -440,7 +456,10 @@ export default {
 .znpb-option-cssSelectorTitle {
 	padding-right: 20px;
 	margin-bottom: 8px;
-	cursor: text;
+
+	&--allowRename {
+		cursor: text;
+	}
 
 	&:focus, &:focus-visible {
 		outline: 0;
