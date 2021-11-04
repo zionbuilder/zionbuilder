@@ -4,6 +4,7 @@
 		:style="pointerevents"
 		:class="getWrapperClasses"
 		id="preview-iframe"
+		ref="root"
 	>
 
 		<iframe
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import Cache from '../Cache.ts'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
@@ -79,6 +81,8 @@ export default {
 		const { getIframePointerEvents, getPanelOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
+		const root = ref(null)
+
 		return {
 			activeResponsiveDeviceInfo,
 			applyShortcuts,
@@ -91,7 +95,8 @@ export default {
 			getWindows,
 			addEventListener,
 			removeEventListener,
-			removeWindow
+			removeWindow,
+			root
 		}
 	},
 	computed: {
@@ -162,6 +167,9 @@ export default {
 				this.showRecoverModal = false
 			}
 		},
+		onIframeClick (event) {
+			this.root.click()
+		},
 		onIframeLoaded () {
 			const { add } = useNotifications()
 			const { addElementTypes } = useElementTypes()
@@ -209,6 +217,7 @@ export default {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
 			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
 			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe)
+			this.getWindows('preview').addEventListener('click', this.onIframeClick, true)
 		},
 		preventClicks (event) {
 			const e = window.e || event
@@ -246,6 +255,7 @@ export default {
 		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts)
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
+		this.getWindows('preview').removeEventListener('click', this.onIframeClick, true)
 
 		off('refreshIframe', this.refreshIframe)
 	},

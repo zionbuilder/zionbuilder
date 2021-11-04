@@ -293,7 +293,8 @@ export default defineComponent({
 	transition: all 0.1s;
 }
 
-.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
+.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton,
+.znpb-element-toolbox__add-element-button--active {
 	opacity: 1;
 	visibility: visible;
 	transform: translateY(0);
