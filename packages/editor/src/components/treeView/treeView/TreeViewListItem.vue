@@ -304,7 +304,7 @@ export default defineComponent({
 }
 
 .znpb-tree-view__item--justAdded .znpb-tree-view__item-header {
-	background: #4ebd4e;
+	background: #719f68;
 	color: var(--zb-secondary-text-color);
 
 	.znpb-editor-icon-wrapper {
