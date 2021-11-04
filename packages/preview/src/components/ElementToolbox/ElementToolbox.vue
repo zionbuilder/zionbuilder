@@ -75,7 +75,7 @@
 			<div
 				v-if="!isAnyDragging"
 				class="znpb-element-toolbox__add-element-button"
-				@click.stop="toggleAddElementsPopup"
+				@click="toggleAddElementsPopup"
 				ref="addElementsPopupButton"
 			>
 				<Icon
