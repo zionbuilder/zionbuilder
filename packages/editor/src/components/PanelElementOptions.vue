@@ -850,7 +850,7 @@ export default {
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 0 50% 50% 0;
 	transform: translateX(-100%);
-	transition: transform .15s 0s;
+	transition: transform .15s 0s, z-index 0s;
 	cursor: pointer;
 
 	&Icon {
@@ -913,9 +913,9 @@ export default {
 	}
 
 	.znpb-element-options__panel-wrapper:hover &, .znpb-element-options__panel-wrapper--hidden & {
-		z-index: 2;
+		z-index: 10;
 		transform: translateX(0);
-		transition: transform .15s 0s, z-index .15s .15s;
+		transition: transform .15s 0s, z-index .15s;
 	}
 }
 
