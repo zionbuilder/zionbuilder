@@ -166,16 +166,18 @@ export default {
 	}
 
 	&-close {
-		margin-left: 15px;
+		margin-left: 8px;
 
 		.zion-icon {
 			font-size: 10px;
-			opacity: .5;
 		}
 
 		&:hover .zion-icon {
 			opacity: 1;
 		}
+	}
+	&:hover &-close {
+		color: var(--zb-surface-text-hover-color);
 	}
 	&-content {
 		display: flex;
