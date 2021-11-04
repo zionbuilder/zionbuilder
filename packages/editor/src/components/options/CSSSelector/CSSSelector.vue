@@ -435,7 +435,14 @@ export default {
 }
 
 .znpb-option-cssSelectorTitle {
+	cursor: text;
+	padding-right: 20px;
 	margin-bottom: 8px;
+
+	&:focus,
+	&:focus-visible {
+		outline: 0;
+	}
 }
 
 .znpb-option-cssSelectoritem--child .znpb-option-cssSelectoritem--child {
