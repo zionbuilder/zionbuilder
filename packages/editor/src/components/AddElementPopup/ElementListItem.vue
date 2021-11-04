@@ -90,7 +90,7 @@ export default {
 
 	&:hover {
 		.znpb-editor-icon-wrapper, .znpb-element-box__image {
-			color: var(--zb-surface-text-hover-color);
+			color: var(--zb-surface-text-active-color);
 		}
 
 		.znpb-element-box__icon {
