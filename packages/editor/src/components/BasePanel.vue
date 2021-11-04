@@ -599,7 +599,7 @@ h4.znpb-panel__header-name {
 }
 .znpb-editor-panel__resize {
 	position: absolute;
-	z-index: 1;
+	z-index: 5;
 
 	&--horizontal {
 		top: 0;
