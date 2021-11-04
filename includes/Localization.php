@@ -52,7 +52,7 @@ class Localization {
 				'ajax_error'                               => esc_html__( 'There was a problem retrieving the templates', 'zionbuilder' ),
 				'templates_not_found'                      => esc_html__( 'No templates found.', 'zionbuilder' ),
 				'preview'                                  => esc_html__( 'preview', 'zionbuilder' ),
-				'view_post'                                => esc_html__( 'View post', 'zionbuilder' ),
+				'view_post'                                => esc_html__( 'Preview post', 'zionbuilder' ),
 				'upgrade_to_pro_now'                       => esc_html__( 'Upgrade to PRO now!', 'zionbuilder' ),
 				'pro'                                      => esc_html__( 'pro', 'zionbuilder' ),
 				'documentation'                            => esc_html__( 'Documentation', 'zionbuilder' ),

@@ -269,7 +269,13 @@ class BasePostType {
 	 * @return string
 	 */
 	public function get_preview_url() {
-		$url = get_preview_post_link( $this->post_id );
+		$url = get_preview_post_link(
+			$this->post_id,
+			[
+				'preview_id'    => $this->post_id,
+				'preview_nonce' => wp_create_nonce( 'post_preview_' . $this->post_id ),
+			]
+		);
 
 		/*
 		 * Page preview URL.
