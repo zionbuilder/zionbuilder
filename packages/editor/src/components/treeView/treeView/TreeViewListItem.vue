@@ -112,9 +112,10 @@ export default defineComponent({
 			}
 		);
 
-		const { loadTimestamp } = usePreviewLoading();
+		const { contentTimestamp } = usePreviewLoading();
+
 		const justAdded = ref(
-			Date.now() > loadTimestamp.value + 1000
+			props.element.addedTime > contentTimestamp.value
 				? Date.now() - props.element.addedTime < 1000
 				: null
 		);

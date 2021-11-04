@@ -133,6 +133,7 @@ export default {
 	methods: {
 		setPageContent (areas) {
 			const { registerTemplatePart } = useTemplateParts()
+			const { setContentTimestamp } = usePreviewLoading()
 
 			// New system
 			each(areas, (value, id) => {
@@ -143,6 +144,9 @@ export default {
 
 				area.element.addChildren(value)
 			})
+
+			// Add timestamp for content
+			setContentTimestamp()
 
 			// Add to history
 			const { addInitialHistory } = useHistory()
