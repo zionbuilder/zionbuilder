@@ -181,9 +181,7 @@ export default {
 			opacity: 1;
 		}
 	}
-	&:hover &-close {
-		color: var(--zb-surface-text-hover-color);
-	}
+
 	&-content {
 		display: flex;
 		align-items: center;
@@ -229,9 +227,19 @@ export default {
 	}
 
 	&-close {
-		display: flex;
+		color: var(--zb-surface-icon-color);
 		font-size: 8px;
+		display: flex;
 		cursor: pointer;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
+
+		&--disabled {
+			pointer-events: none;
+			opacity: 0.35;
+		}
 	}
 
 	&-copy, &-paste {
@@ -240,6 +248,11 @@ export default {
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
+		}
+
+		&--disabled {
+			pointer-events: none;
+			opacity: 0.35;
 		}
 	}
 }
