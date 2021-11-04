@@ -22,7 +22,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('copy')"
+			v-znpb-tooltip="$translate('copy_element_styles')"
 			icon="copy"
 			@click.stop="$emit('copy-styles')"
 			class="znpb-css-class-selector__item-copy"
@@ -30,21 +30,24 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('paste')"
+			v-znpb-tooltip="$translate('paste_element_styles')"
 			icon="paste"
 			@click.stop="$emit('paste-styles')"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
-				'znpb-css-class-selector__item-paste--active': copiedStyles
+				'znpb-css-class-selector__item-paste--disabled': !copiedStyles
 			}"
 		/>
 
 		<Icon
-			v-if="showDelete"
+			v-if="showActions"
 			icon="close"
 			v-znpb-tooltip="$translate('delete_class_tooltip')"
 			v-on:click.stop='handleDeleteClass(name)'
 			class="znpb-css-class-selector__item-close"
+			:class="{
+				'znpb-css-class-selector__item-close--disabled': !showDelete
+			}"
 		/>
 	</div>
 </template>
@@ -93,7 +96,9 @@ export default {
 		const { copiedStyles } = useCSSClasses()
 
 		function handleDeleteClass () {
-			emit('remove-class', this.name)
+			if (props.showDelete) {
+				emit('remove-class', this.name)
+			}
 		}
 
 		return {
@@ -229,10 +234,9 @@ export default {
 		cursor: pointer;
 	}
 
-	&-copy,
-	&-paste {
+	&-copy, &-paste {
+		padding: 2px 4px;
 		color: var(--zb-surface-icon-color);
-    	padding: 2px 4px;
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
