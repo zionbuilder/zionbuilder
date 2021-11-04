@@ -1,7 +1,10 @@
 <template>
 	<li
 		class="znpb-tree-view__item"
-		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
+		:class="{
+			'znpb-tree-view__item--hidden': !element.isVisible,
+			'znpb-tree-view__item--justAdded': justAdded,
+		}"
 		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -82,7 +85,7 @@
 
 <script lang="ts">
 import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import { Element, useElementTypes } from "@composables";
+import { Element, usePreviewLoading } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -109,6 +112,19 @@ export default defineComponent({
 			}
 		);
 
+		const { loadTimestamp } = usePreviewLoading();
+		const justAdded = ref(
+			Date.now() > loadTimestamp.value + 1000
+				? Date.now() - props.element.addedTime < 1000
+				: null
+		);
+
+		if (justAdded) {
+			setTimeout(() => {
+				justAdded.value = false;
+			}, 1000);
+		}
+
 		function scrollToItem() {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
@@ -132,6 +148,7 @@ export default defineComponent({
 			listItem,
 			elementModel,
 			editElement,
+			justAdded,
 		};
 	},
 });
@@ -169,6 +186,7 @@ export default defineComponent({
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
+		transition: background-color 0.2s;
 
 		& > *:first-child {
 			padding-left: 15px;
@@ -282,6 +300,15 @@ export default defineComponent({
 
 	&:hover::before {
 		transform: scale(1.1);
+	}
+}
+
+.znpb-tree-view__item--justAdded .znpb-tree-view__item-header {
+	background: #4ebd4e;
+	color: var(--zb-secondary-text-color);
+
+	.znpb-editor-icon-wrapper {
+		color: var(--zb-secondary-text-color);
 	}
 }
 </style>

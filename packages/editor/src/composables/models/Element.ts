@@ -31,6 +31,7 @@ export class Element {
 	public loading: boolean = false
 	public treeViewItemExpanded: boolean = false
 	public serverRequester = null
+	public addedTime = null
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
@@ -38,6 +39,8 @@ export class Element {
 		this.parentUid = parentUid
 		this.serverRequester = this.createRequester()
 		this.debouncedSaveRenameToHistory = debounce(this.saveRenameToHistory, 750)
+
+		this.addedTime = Date.now()
 	}
 
 	createRequester() {

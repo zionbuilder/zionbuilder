@@ -165,10 +165,13 @@ export default {
 		onIframeLoaded () {
 			const { add } = useNotifications()
 			const { addElementTypes } = useElementTypes()
-			const { setPreviewLoading } = usePreviewLoading()
+			const { setPreviewLoading, setLoadTimestamp } = usePreviewLoading()
 
 			this.iframeLoaded = true
 			const iframeWindow = this.$refs.iframe.contentWindow
+
+			// Save the timestamp so we can use if in various ways. One example is the tree view justAdded element feature
+			setLoadTimestamp()
 
 			// Register the document
 			this.addWindow('preview', iframeWindow)
