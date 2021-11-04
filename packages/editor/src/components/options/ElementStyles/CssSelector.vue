@@ -241,6 +241,11 @@ export default {
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
 		}
+
+		&--disabled {
+			pointer-events: none;
+			opacity: 0.5;
+		}
 	}
 }
 </style>
