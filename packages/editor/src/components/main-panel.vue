@@ -314,7 +314,7 @@ export default {
 
 		// Show/Hide getting started video
 		if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
-			showGettingStartedVideo()
+			doShowGettingStartedVideo()
 		}
 
 		// Methods
