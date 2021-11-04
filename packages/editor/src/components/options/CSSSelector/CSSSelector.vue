@@ -213,7 +213,8 @@ export default {
 					action: () => {
 						console.log({ props });
 						copyClassStyles(value.value.styles)
-					}
+					},
+					icon: 'copy'
 				},
 				{
 					title: translate('paste_element_styles'),
@@ -226,11 +227,13 @@ export default {
 							value.value.styles = merge(value.value.styles, clonedCopiedStyles)
 						}
 					},
-					show: !!copiedStyles.value
+					show: !!copiedStyles.value,
+					icon: 'paste'
 				},
 				{
 					title: translate('delete_selector'),
-					action: deleteItem
+					action: deleteItem,
+					icon: 'delete'
 				}
 			]
 		})
@@ -435,12 +438,11 @@ export default {
 }
 
 .znpb-option-cssSelectorTitle {
-	cursor: text;
 	padding-right: 20px;
 	margin-bottom: 8px;
+	cursor: text;
 
-	&:focus,
-	&:focus-visible {
+	&:focus, &:focus-visible {
 		outline: 0;
 	}
 }

@@ -7,7 +7,20 @@
 			:class="{'znpb-menu-item--disabled' : action.show === false}"
 			@click.stop="performAction(action)"
 		>
-			<span>{{action.title}}</span>
+			<Icon
+				class="znpb-menu-itemIcon"
+				:icon="action.icon"
+				v-if="action.icon"
+			/>
+
+			<span class="znpb-menu-itemTitle">{{action.title}}</span>
+
+			<span
+				class="znpb-menu-itemAppend"
+				v-if="action.append"
+			>
+				{{action.append}}
+			</span>
 		</div>
 	</div>
 </template>
@@ -36,6 +49,9 @@ export default {
 
 <style lang="scss">
 .znpb-menu-item {
+	display: flex;
+	min-width: 200px;
+	padding: 0 12px;
 	cursor: pointer;
 
 	&:first-child {
@@ -49,10 +65,14 @@ export default {
 	}
 
 	span {
-		display: block;
-		padding: 10px 16px 10px 16px;
+		padding: 8px 0;
+		margin-right: 12px;
 		font-weight: 500;
 		transition: background-color .2s;
+
+		&:last-child {
+			margin-right: 0;
+		}
 	}
 
 	&:hover {
@@ -65,5 +85,9 @@ export default {
 		opacity: .3;
 		pointer-events: none;
 	}
+}
+
+.znpb-menu-itemTitle {
+	flex-grow: 1;
 }
 </style>

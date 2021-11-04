@@ -25,6 +25,15 @@
 			class="znpb-class-selector-noclass"
 		>{{$translate('no_global_class_found')}}
 		</div>
+
+		<Button
+			type="line"
+			class="znpb-class-selectorAddButton"
+		>
+			<Icon icon="plus" />
+			{{$translate('add_font')}}
+		</Button>
+
 	</div>
 
 </template>
@@ -167,5 +176,14 @@ export default {
 
 .znpb-input-type--css_selector {
 	padding-bottom: 0;
+}
+
+.znpb-class-selector-noclass {
+	text-align: center;
+}
+
+.znpb-class-selectorAddButton {
+	width: 100%;
+	margin-top: 10px;
 }
 </style>
