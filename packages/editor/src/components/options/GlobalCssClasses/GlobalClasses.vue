@@ -26,13 +26,13 @@
 		>{{$translate('no_global_class_found')}}
 		</div>
 
-		<!-- <Button
+		<Button
 			type="line"
 			class="znpb-class-selectorAddButton"
 		>
 			<Icon icon="plus" />
 			{{$translate('add_font')}}
-		</Button> -->
+		</Button>
 
 	</div>
 
