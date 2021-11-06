@@ -20,18 +20,16 @@
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
 					<div>
-						<div
+						<InlineEdit
+							v-model="title"
 							class="znpb-option-cssSelectorTitle"
 							:class="{
 								'znpb-option-cssSelectorTitle--allowRename': allowRename
 							}"
-							@input="title = $event.target.textContent"
-							:contenteditable="allowRename"
 							@click="onRenameItemClick"
-							spellcheck="false"
-						>
-							{{title}}
-						</div>
+							:enabled="allowRename"
+						/>
+
 						<div
 							class="znpb-option-cssSelector"
 							:title="selector"

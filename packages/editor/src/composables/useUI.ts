@@ -62,7 +62,7 @@ const mainBar = reactive(new EditorArea({
 	position: 'left',
 	pointerEvents: false,
 	draggingPosition: null,
-	...UIUserData.mainBar
+	...UIUserData.mainBar || {}
 }))
 
 const mainBarDraggingPlaceholder = reactive({

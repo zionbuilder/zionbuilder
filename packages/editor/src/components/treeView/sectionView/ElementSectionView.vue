@@ -26,14 +26,11 @@
 
 			<div class="znpb-section-view-item__header-left">
 
-				<div
+				<InlineEdit
+					v-model="elementName"
 					class="znpb-section-view-item__header-title"
-					@input="element.name = $event.target.textContent"
-					:contenteditable="true"
-					spellcheck="false"
-				>
-					{{element.name}}
-				</div>
+				/>
+
 			</div>
 
 			<Tooltip
@@ -67,7 +64,7 @@
 	</li>
 </template>
 <script lang="ts">
-import { ref, Ref, PropType } from "vue";
+import { ref, Ref, PropType, computed } from "vue";
 import domtoimage from "dom-to-image";
 import { onMounted } from "vue";
 import { translate } from "@zb/i18n";
@@ -138,6 +135,15 @@ export default {
 				});
 		});
 
+		const elementName = computed({
+			get() {
+				return props.element.name;
+			},
+			set(newValue) {
+				props.element.name = newValue;
+			},
+		});
+
 		return {
 			imageSrc,
 			error,
@@ -147,6 +153,7 @@ export default {
 			isActiveItem,
 			editElement,
 			elementModel,
+			elementName,
 		};
 	},
 };

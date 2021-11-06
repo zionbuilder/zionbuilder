@@ -32,14 +32,10 @@
 				:size="24"
 			/>
 
-			<div
+			<InlineEdit
+				v-model="elementName"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				@input="element.name = $event.target.textContent"
-				:contenteditable="true"
-				spellcheck="false"
-			>
-				{{element.name}}
-			</div>
+			/>
 
 			<Tooltip
 				:content="$translate('enable_hidden_element')"
@@ -84,7 +80,15 @@
 </template>
 
 <script lang="ts">
-import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
+import {
+	ref,
+	Ref,
+	PropType,
+	defineComponent,
+	watch,
+	onMounted,
+	computed,
+} from "vue";
 import { Element, usePreviewLoading } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
@@ -111,6 +115,15 @@ export default defineComponent({
 				}
 			}
 		);
+
+		const elementName = computed({
+			get() {
+				return props.element.name;
+			},
+			set(newValue) {
+				props.element.name = newValue;
+			},
+		});
 
 		const { contentTimestamp } = usePreviewLoading();
 
@@ -150,6 +163,7 @@ export default defineComponent({
 			elementModel,
 			editElement,
 			justAdded,
+			elementName,
 		};
 	},
 });
