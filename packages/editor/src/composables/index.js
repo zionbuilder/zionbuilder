@@ -23,6 +23,7 @@ export * from './useWindows'
 export * from './useSaveTemplate'
 export * from './useElementActions'
 export * from './useAutosave'
+export * from './useLocalStorage'
 
 // Deprecated
 export * from './deprecated/usePanels'

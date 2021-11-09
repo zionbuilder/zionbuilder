@@ -683,6 +683,7 @@ class Localization {
 				// Pricing Box
 				'featured'                                 => __( 'Featured', 'zionbuilder' ),
 				'moved'                                    => __( 'Moved', 'zionbuilder' ),
+				'copied'                                    => __( 'Copied', 'zionbuilder' ),
 
 				// Element
 				'invalid_element'                          => __( 'Invalid Element', 'zionbuilder' ),
@@ -706,6 +707,7 @@ class Localization {
 				// Misc
 				'no_items_found'                           => __( 'No items found', 'zionbuilder' ),
 				'search'                                   => __( 'Search', 'zionbuilder' ),
+				'search_or_add'                            => __( 'Search or add new', 'zionbuilder' ),
 				'page_options'                             => __( 'Page options', 'zionbuilder' ),
 				'delete_selector'                          => __( 'Delete selector', 'zionbuilder' ),
 				'are_you_sure_you_want_to_delete_selector' => __( 'Are you sure you want to delete the selector?', 'zionbuilder' ),

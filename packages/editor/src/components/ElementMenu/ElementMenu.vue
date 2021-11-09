@@ -13,27 +13,23 @@
 		:key="activeElementMenu.key"
 	>
 		<template #content>
-			<ElementActions
-				class="znpb-element-options__element-actions"
-				@click.stop="hideElementMenu"
-				:element="activeElementMenu.element"
-				:actions="activeElementMenu.actions"
+			<Menu
+				:actions="elementActions"
+				@action="hideElementMenu"
 			/>
 		</template>
 	</Tooltip>
 </template>
 
 <script>
-import { ref, watch } from 'vue'
-import ElementActions from './ElementActions.vue'
+import { ref, watch, computed } from 'vue'
 
-import { useElementMenu, useWindows } from '@composables'
+import { Environment } from '@zb/utils'
+import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage } from '@composables'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'ElementMenu',
-	components: {
-		ElementActions
-	},
 	props: {
 		elementUid: String,
 		parentUid: String,
@@ -46,6 +42,130 @@ export default {
 		const showOptions = ref(false)
 		const { activeElementMenu, hideElementMenu } = useElementMenu()
 		const { addEventListener, removeEventListener } = useWindows()
+		const { getData } = useLocalStorage()
+
+		const controllKey = Environment.isMac ? '⌘' : '⌃'
+
+		// TODO: deprecate useEditElement and move code to useElementActions
+		const { editElement } = useEditElement()
+		const {
+			copyElement,
+			pasteElement,
+			copiedElement,
+			copyElementStyles,
+			pasteElementStyles,
+			copiedElementStyles,
+			copyElementClasses,
+			pasteElementClasses,
+		} = useElementActions()
+
+		// Computed
+		const elementActions = computed(() => {
+			const element = activeElementMenu.value.element
+			return [
+				{
+					title: `${translate('action_edit')} ${element.name}`,
+					icon: 'edit',
+					action: () => {
+						editElement(element)
+					},
+					cssClasses: 'znpb-menu-item--separator-bottom'
+				},
+				{
+					title: `${translate('duplicate_element')}`,
+					icon: 'copy',
+					action: () => {
+						element.duplicate()
+					},
+					append: `${controllKey}+D`
+				},
+				{
+					title: `${translate('copy_element')}`,
+					icon: 'copy',
+					action: () => {
+						copyElement(element)
+					},
+					append: `${controllKey}+C`
+				},
+				{
+					title: `${translate('cut_element')}`,
+					icon: 'close',
+					action: () => {
+						copyElement(element, 'cut')
+					},
+					append: `${controllKey}+X`
+				},
+				// TODO: add disabled for inactive actions
+				{
+					title: `${translate('paste_element')}`,
+					icon: 'paste',
+					action: () => {
+						pasteElement(element)
+					},
+					append: `${controllKey}+V`,
+					show: hasCopiedElement.value
+				},
+				{
+					title: translate('paste_classes'),
+					icon: 'braces',
+					action: () => {
+						pasteElementClasses(element)
+					},
+				},
+				{
+
+					title: translate('paste_element_styles'),
+					icon: 'drop',
+					action: () => {
+						pasteElementStyles(element)
+					},
+					append: `${controllKey}+⇧+V`
+				},
+				{
+					title: translate('discard_element_styles'),
+					icon: 'drop',
+					action: discardElementStyles
+				},
+				// {
+				// 	title: translate('copy_element_styles'),
+				// 	icon: 'drop',
+				// 	action: () => {
+				// 		copyElementStyles(element)
+				// 	},
+				// 	append: `${controllKey}+⇧+C`
+				// },
+
+
+				// {
+				// 	title: translate('copy_classes'),
+				// 	icon: 'braces',
+				// 	action: () => {
+				// 		copyElementClasses(element)
+				// 	}
+				// },
+
+				{
+					title: translate('save_element'),
+					icon: 'check',
+					action: saveElement
+				},
+				{
+					title: element.isVisible ? translate('visible_element') : translate('show_element'),
+					icon: 'eye',
+					action: () => {
+						element.toggleVisibility()
+					},
+					append: `${controllKey}+H`,
+					cssClasses: 'znpb-menu-item--separator-bottom'
+				},
+				{
+					title: translate('delete_element'),
+					icon: 'delete',
+					action: element.delete,
+					append: `⌦`
+				},
+			]
+		})
 
 		watch(activeElementMenu, (newValue) => {
 			if (newValue) {
@@ -55,10 +175,32 @@ export default {
 			}
 		})
 
+		function discardElementStyles () {
+			this.element.options = {
+				...this.element.options,
+				_styles: {}
+			}
+			this.close()
+		}
+
+		function saveElement () {
+			const { showSaveElement } = useSaveTemplate()
+
+			showSaveElement(this.element, 'block')
+
+			this.close()
+		}
+
+		const hasCopiedElement = computed(() => {
+			return !!(copiedElement.value.element || getData('copiedElement'))
+		})
+
 		return {
 			showOptions,
 			activeElementMenu,
-			hideElementMenu
+			hideElementMenu,
+			elementActions,
+			hasCopiedElement
 		}
 	}
 }

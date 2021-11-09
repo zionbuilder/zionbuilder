@@ -216,7 +216,6 @@ export default {
 				{
 					title: translate('copy_element_styles'),
 					action: () => {
-						console.log({ props });
 						copyClassStyles(value.value.styles)
 					},
 					icon: 'copy'

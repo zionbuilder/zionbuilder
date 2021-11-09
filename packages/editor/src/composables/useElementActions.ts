@@ -1,8 +1,9 @@
 import { ref, Ref, watch } from 'vue'
 import { cloneDeep, merge, get, set } from 'lodash-es'
 import { Element } from './models/Element'
-import { useElements } from './useElements'
 import { useHistory } from './useHistory'
+import { useLocalStorage } from './useLocalStorage'
+import { translate } from '@zb/i18n'
 
 const copiedElement: Ref<object> = ref({
 	element: null,
@@ -15,12 +16,13 @@ interface ElementCopiedStyles {
 }
 
 const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null)
-const copiedElementClasses: Ref<null | object> = ref(null)
 
 // Preserve focused element on history change
 const { addToHistory } = useHistory()
 
 export function useElementActions() {
+	const { addData, getData, removeData } = useLocalStorage()
+
 	const copyElement = (element: Element, action = 'copy') => {
 		copiedElement.value = {
 			element,
@@ -29,6 +31,17 @@ export function useElementActions() {
 
 		if (action === 'cut') {
 			element.isCutted = true
+
+			removeData('copiedElement')
+		} else if (action === 'copy') {
+			// Copy styles
+			copyElementStyles(element)
+
+			// Copy css classes
+			copyElementClasses(element)
+
+			// Save to localStorage for cross site
+			addData('copiedElement', element.toJSON())
 		}
 	}
 
@@ -36,26 +49,32 @@ export function useElementActions() {
 		let insertElement = element
 		let index = -1
 
+		const elementForPaste = copiedElement.value.element ? copiedElement.value.element.getClone() : getData('copiedElement')
+
+		if (!elementForPaste) {
+			return
+		}
+
 		// If the element is not a wrapper, add to parent element
-		if (!element.isWrapper || copiedElement.value.element === element) {
+		if (!element.isWrapper || elementForPaste.uid === element.uid) {
 			insertElement = element.parent
 			index = element.getIndexInParent() + 1
 		}
 
-		if (copiedElement.value.action === 'copy') {
-			insertElement.addChild(copiedElement.value.element.getClone(), index)
-			addToHistory(`Copied ${copiedElement.value.element.name}`)
-		} else if (copiedElement.value.action === 'cut') {
+		if (copiedElement.value.action === 'cut' && copiedElement.value.element) {
 			if (copiedElement.value.element === element) {
 				copiedElement.value.element.isCutted = false
 				copiedElement.value = {}
 			} else {
 				copiedElement.value.element.isCutted = false
 				copiedElement.value.element.move(insertElement, index)
-				addToHistory(`Moved ${copiedElement.value.element.name}`)
+				addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`)
 			}
 
 			copiedElement.value = {}
+		} else {
+			insertElement.addChild(elementForPaste, index)
+			addToHistory(`${translate('copied')} ${elementForPaste.name}`)
 		}
 	}
 
@@ -67,15 +86,20 @@ export function useElementActions() {
 	}
 
 	const copyElementStyles = (element: Element) => {
-		copiedElementStyles.value = {
+		const dataForSave = {
 			styles: cloneDeep(element.options._styles),
 			custom_css: get(element, 'options._advanced_options._custom_css', '')
 		}
+
+		copiedElementStyles.value = dataForSave
+
+		// Save to localStorage for cross site
+		addData('copiedElementStyles', dataForSave)
 	}
 
 	const pasteElementStyles = (element) => {
-		const styles = copiedElementStyles.value
-
+		const styles = getData('copiedElementStyles')
+		console.log({ styles });
 		if (!styles) {
 			return
 		}
@@ -98,18 +122,22 @@ export function useElementActions() {
 	}
 
 	const copyElementClasses = (element: Element) => {
-		copiedElementClasses.value = cloneDeep(get(element.options, '_styles.wrapper.classes', null))
+		const dataToSave = cloneDeep(get(element.options, '_styles.wrapper.classes', null))
+
+		// Save to localStorage for cross site
+		addData('copiedElementClasses', dataToSave)
 	}
 
 	const pasteElementClasses = (element) => {
+		const classes = getData('copiedElementClasses')
+
 		merge(element.options, {
 			_styles: {
 				wrapper: {
-					classes: copiedElementClasses.value
+					classes
 				}
 			}
 		})
-
 	}
 
 	return {
@@ -121,7 +149,6 @@ export function useElementActions() {
 		pasteElementStyles,
 		copiedElementStyles,
 		// Copy element classes
-		copiedElementClasses,
 		copyElementClasses,
 		pasteElementClasses
 	}

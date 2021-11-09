@@ -4,7 +4,10 @@
 			v-for="action in actions"
 			:key="action.title"
 			class="znpb-menu-item"
-			:class="{'znpb-menu-item--disabled' : action.show === false}"
+			:class="{
+				'znpb-menu-item--disabled': action.show === false,
+				[action.cssClasses]: action.cssClasses
+			}"
 			@click.stop="performAction(action)"
 		>
 			<Icon
@@ -89,5 +92,13 @@ export default {
 
 .znpb-menu-itemTitle {
 	flex-grow: 1;
+}
+
+.znpb-menu-itemAppend {
+	opacity: .5;
+}
+
+.znpb-menu-item--separator-bottom {
+	border-bottom: 1px solid var(--zb-surface-lighter-color);
 }
 </style>
