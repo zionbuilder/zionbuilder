@@ -23,6 +23,7 @@
 
 <script>
 import { ref, watch, computed } from 'vue'
+import { get } from 'lodash-es'
 
 import { Environment } from '@zb/utils'
 import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage, useSaveTemplate } from '@composables'
@@ -108,7 +109,8 @@ export default {
 					action: () => {
 						pasteElementStyles(element)
 					},
-					append: `${controllKey}+⇧+V`
+					append: `${controllKey}+⇧+V`,
+					show: hasCopiedElementStyles.value
 				},
 				{
 					title: translate('paste_classes'),
@@ -116,11 +118,15 @@ export default {
 					action: () => {
 						pasteElementClasses(element)
 					},
+					show: hasCopiedElementClasses.value
 				},
 				{
 					title: translate('discard_element_styles'),
 					icon: 'drop',
-					action: discardElementStyles
+					action: () => {
+						discardElementStyles(element)
+					},
+					show: element && Object.keys(get(element.options, '_styles', {})).length > 0
 				},
 				{
 					title: translate('save_element'),
@@ -155,7 +161,7 @@ export default {
 			}
 		})
 
-		function discardElementStyles () {
+		function discardElementStyles (element) {
 			element.options = {
 				...element.options,
 				_styles: {}
@@ -172,12 +178,22 @@ export default {
 			return !!(copiedElement.value.element || getData('copiedElement'))
 		})
 
+		const hasCopiedElementClasses = computed(() => {
+			return !!getData('copiedElementClasses')
+		})
+
+		const hasCopiedElementStyles = computed(() => {
+			return !!getData('copiedElementStyles')
+		})
+
 		return {
 			showOptions,
 			activeElementMenu,
 			hideElementMenu,
 			elementActions,
-			hasCopiedElement
+			hasCopiedElement,
+			hasCopiedElementClasses,
+			hasCopiedElementStyles
 		}
 	}
 }
