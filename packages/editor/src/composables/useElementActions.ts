@@ -1,9 +1,10 @@
-import { ref, Ref, watch } from 'vue'
+import { ref, Ref } from 'vue'
 import { cloneDeep, merge, get, set } from 'lodash-es'
 import { Element } from './models/Element'
 import { useHistory } from './useHistory'
 import { useLocalStorage } from './useLocalStorage'
 import { translate } from '@zb/i18n'
+import { regenerateUIDs } from '@utils'
 
 const copiedElement: Ref<object> = ref({
 	element: null,
@@ -73,7 +74,7 @@ export function useElementActions() {
 
 			copiedElement.value = {}
 		} else {
-			insertElement.addChild(elementForPaste, index)
+			insertElement.addChild(regenerateUIDs(elementForPaste), index)
 			addToHistory(`${translate('copied')} ${elementForPaste.name}`)
 		}
 	}

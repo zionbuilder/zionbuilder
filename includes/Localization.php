@@ -642,10 +642,10 @@ class Localization {
 					'%s ',
 					Whitelabel::get_title()
 				),
-				'back_to_wp_dashboard'                     => __( 'Back to WP Dashboard', 'zionbuilder' ),
+				'back_to_wp_dashboard'                     => __( 'Back to WP dashboard', 'zionbuilder' ),
 				'back_to_zion_dashboard'                   => sprintf(
 					/* translators: %s is the whitelabel plugin name */
-					_x( '%s  Dashboard', 'zionbuilder' ),
+					_x( '%s  dashboard', 'zionbuilder' ),
 					Whitelabel::get_title()
 				),
 				'save_template'                            => __( 'Save Template', 'zionbuilder' ),
@@ -683,7 +683,7 @@ class Localization {
 				// Pricing Box
 				'featured'                                 => __( 'Featured', 'zionbuilder' ),
 				'moved'                                    => __( 'Moved', 'zionbuilder' ),
-				'copied'                                    => __( 'Copied', 'zionbuilder' ),
+				'copied'                                   => __( 'Copied', 'zionbuilder' ),
 
 				// Element
 				'invalid_element'                          => __( 'Invalid Element', 'zionbuilder' ),
