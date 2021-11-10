@@ -161,7 +161,7 @@ export default {
 				{
 					title: translate('delete_element'),
 					icon: 'delete',
-					action: element.delete,
+					action: () => element.delete(),
 					append: `⌦`
 				},
 			]
