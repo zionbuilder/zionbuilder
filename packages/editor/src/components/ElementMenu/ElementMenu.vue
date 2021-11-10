@@ -25,7 +25,7 @@
 import { ref, watch, computed } from 'vue'
 
 import { Environment } from '@zb/utils'
-import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage } from '@composables'
+import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage, useSaveTemplate } from '@composables'
 import { translate } from '@zb/i18n'
 
 export default {
@@ -38,7 +38,7 @@ export default {
 			required: false
 		}
 	},
-	setup () {
+	setup (props) {
 		const showOptions = ref(false)
 		const { activeElementMenu, hideElementMenu } = useElementMenu()
 		const { addEventListener, removeEventListener } = useWindows()
@@ -52,10 +52,7 @@ export default {
 			copyElement,
 			pasteElement,
 			copiedElement,
-			copyElementStyles,
 			pasteElementStyles,
-			copiedElementStyles,
-			copyElementClasses,
 			pasteElementClasses,
 		} = useElementActions()
 
@@ -95,7 +92,6 @@ export default {
 					},
 					append: `${controllKey}+X`
 				},
-				// TODO: add disabled for inactive actions
 				{
 					title: `${translate('paste_element')}`,
 					icon: 'paste',
@@ -104,13 +100,6 @@ export default {
 					},
 					append: `${controllKey}+V`,
 					show: hasCopiedElement.value
-				},
-				{
-					title: translate('paste_classes'),
-					icon: 'braces',
-					action: () => {
-						pasteElementClasses(element)
-					},
 				},
 				{
 
@@ -122,32 +111,23 @@ export default {
 					append: `${controllKey}+⇧+V`
 				},
 				{
+					title: translate('paste_classes'),
+					icon: 'braces',
+					action: () => {
+						pasteElementClasses(element)
+					},
+				},
+				{
 					title: translate('discard_element_styles'),
 					icon: 'drop',
 					action: discardElementStyles
 				},
-				// {
-				// 	title: translate('copy_element_styles'),
-				// 	icon: 'drop',
-				// 	action: () => {
-				// 		copyElementStyles(element)
-				// 	},
-				// 	append: `${controllKey}+⇧+C`
-				// },
-
-
-				// {
-				// 	title: translate('copy_classes'),
-				// 	icon: 'braces',
-				// 	action: () => {
-				// 		copyElementClasses(element)
-				// 	}
-				// },
-
 				{
 					title: translate('save_element'),
 					icon: 'check',
-					action: saveElement
+					action: () => {
+						saveElement(element)
+					}
 				},
 				{
 					title: element.isVisible ? translate('visible_element') : translate('show_element'),
@@ -176,19 +156,16 @@ export default {
 		})
 
 		function discardElementStyles () {
-			this.element.options = {
-				...this.element.options,
+			element.options = {
+				...element.options,
 				_styles: {}
 			}
-			this.close()
 		}
 
-		function saveElement () {
+		function saveElement (element) {
 			const { showSaveElement } = useSaveTemplate()
 
-			showSaveElement(this.element, 'block')
-
-			this.close()
+			showSaveElement(element, 'block')
 		}
 
 		const hasCopiedElement = computed(() => {
