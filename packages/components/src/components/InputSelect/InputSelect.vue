@@ -57,7 +57,7 @@
 					v-if="filterable || addable"
 					class="znpb-option-selectOptionListSearchInput"
 					v-model="searchKeyword"
-					:placeholder="$translate('search')"
+					:placeholder="addable ? $translate('search_or_add') : $translate('search')"
 					:clearable="true"
 					icon="search"
 					autocomplete="off"

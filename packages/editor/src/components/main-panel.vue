@@ -202,7 +202,7 @@ export default {
 		//
 	},
 	setup () {
-		const { saveDraft, savePage, isSavePageLoading } = useSavePage()
+		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage()
 		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen, mainBarDraggingPlaceholder } = useUI()
 		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
 		const { editorData } = useEditorData()
@@ -269,9 +269,7 @@ export default {
 				},
 				{
 					title: translate('view_post'),
-					url: editorData.value.urls.preview_url,
-					action: () => { },
-					target: '_blank'
+					action: openPreviewPage,
 				}
 			]
 
@@ -314,7 +312,7 @@ export default {
 
 		// Show/Hide getting started video
 		if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
-			showGettingStartedVideo()
+			doShowGettingStartedVideo()
 		}
 
 		// Methods

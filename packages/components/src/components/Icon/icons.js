@@ -370,6 +370,17 @@ let SvgIcons = [{
 
 {
 	'paths': [
+		'M2 8h18v18H2V8zm20-6H8v4h14v14h4V2h-4z'
+	],
+
+	'tags': [
+		'paste'
+	],
+	'viewBox': ['0 0 28 28']
+},
+
+{
+	'paths': [
 		'M25 6h-8V2h-6v4H3v4h3v16h16V10h3V6zm-7 16h-8V10h8v12z'
 	],
 

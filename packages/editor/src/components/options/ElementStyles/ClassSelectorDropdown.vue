@@ -42,7 +42,8 @@
 
 					<template v-if="filteredClasses.length > 0">
 						<CssSelector
-							v-for="(cssClassItem) in filteredClasses"
+							v-for="cssClassItem in filteredClasses"
+							:class-config="cssClassItem"
 							:key="cssClassItem.selector"
 							:name="cssClassItem.name"
 							:type="cssClassItem.type"
@@ -50,6 +51,8 @@
 							:show-delete="cssClassItem.deletable"
 							@remove-class="removeClass"
 							@click="selectClass(cssClassItem.selector), dropdownState = false"
+							@copy-styles="onCopyStyles(cssClassItem)"
+							@paste-styles="onPasteStyles(cssClassItem)"
 						/>
 					</template>
 					<div
@@ -67,7 +70,9 @@
 
 			<CssSelector
 				v-bind="activeClassConfig"
+				:class-config="activeClassConfig"
 				:show-delete="false"
+				:show-actions="false"
 				@click="dropdownState = !dropdownState"
 				class="znpb-class-selector-trigger"
 				:show-changes-bullet="showRemoveExtraClasses"
@@ -105,19 +110,52 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
+		},
+		activeModelValue: {
+			type: Object,
+			required: false,
+			default: {}
 		}
 	},
-	setup (props) {
-		const { CSSClasses, getClassesByFilter, addCSSClass } = useCSSClasses()
+	setup (props, { emit }) {
+		const { CSSClasses, getClassesByFilter, addCSSClass, copyClassStyles, pasteClassStyles, getStylesConfig } = useCSSClasses()
 		const showRemoveExtraClasses = computed(() => {
 			return props.modelValue && props.modelValue.length > 0
 		})
+
+		function onCopyStyles (selectorConfig) {
+			// If this is a
+			if (selectorConfig.type === 'class') {
+				// Get the class config
+				const stylesConfig = getStylesConfig(selectorConfig.selector)
+				copyClassStyles(stylesConfig)
+			} else {
+				// Get the config from id
+				copyClassStyles(props.activeModelValue)
+			}
+		}
+
+		function onPasteStyles (selectorConfig) {
+			// If this is a
+			if (selectorConfig.type === 'class') {
+				// Get the class config
+				pasteClassStyles(selectorConfig.selector)
+			} else {
+				// Get the config from id
+				emit('paste-style-model')
+			}
+		}
+
 
 		return {
 			showRemoveExtraClasses,
 			CSSClasses,
 			getClassesByFilter,
-			addCSSClass
+			addCSSClass,
+
+			// Methods
+			onCopyStyles,
+			onPasteStyles
 		}
 	},
 	data () {
@@ -166,13 +204,17 @@ export default {
 		},
 		filteredClasses () {
 			if (this.keyword.length === 0) {
-				const extraClasses = this.computedValue.map(selector => {
+				let extraClasses = []
+				this.computedValue.forEach(selector => {
 					let className = this.CSSClasses.find(({ id }) => id === selector)
-					return {
-						type: 'class',
-						selector,
-						name: className ? className.name : selector,
-						deletable: true
+
+					if (className) {
+						extraClasses.push({
+							type: 'class',
+							selector,
+							name: className ? className.name : selector,
+							deletable: true
+						})
 					}
 				})
 
@@ -204,7 +246,6 @@ export default {
 						}, 50)
 					}
 				})
-
 
 				this.keyword = ''
 			} else {
@@ -258,9 +299,8 @@ export default {
 		},
 
 		onRemoveExtraClasses () {
-			this.computedValue.forEach(selector => {
-				this.removeClass(selector)
-			});
+			this.computedValue = []
+			this.selectClass(this.selector)
 		},
 
 		removeClass (selector) {
@@ -315,7 +355,10 @@ export default {
 				})
 
 				if (!existingClass) {
-					this.addCSSClass(this.keyword)
+					this.addCSSClass({
+						id: this.keyword,
+						name: this.keyword
+					})
 				}
 
 				// Add css class to element options

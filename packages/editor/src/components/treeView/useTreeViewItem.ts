@@ -11,8 +11,12 @@ export function useTreeViewItem(props: Object) {
 	const elementModel = getElementType(props.element.element_type);
 
 	const showElementMenu = function () {
-		const { showElementMenu } = useElementMenu()
-		showElementMenu(props.element, elementOptionsRef.value)
+		const { showElementMenu, activeElementMenu, hideElementMenu } = useElementMenu()
+		if (activeElementMenu.value && activeElementMenu.value.element === props.element) {
+			hideElementMenu()
+		} else {
+			showElementMenu(props.element, elementOptionsRef.value)
+		}
 	}
 
 	function editElement() {

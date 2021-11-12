@@ -523,9 +523,6 @@ export default {
 		}
 	}
 
-	&--left + &--left, &--right + &--right {
-		border-left: 1px solid var(--zb-surface-border-color);
-	}
 	&--right {
 		// box-shadow: -2px 0 0 0 var(--zb-surface-border-color);
 		border-left: var(--zb-panel-sideborder) solid
@@ -602,7 +599,7 @@ h4.znpb-panel__header-name {
 }
 .znpb-editor-panel__resize {
 	position: absolute;
-	z-index: 1;
+	z-index: 5;
 
 	&--horizontal {
 		top: 0;

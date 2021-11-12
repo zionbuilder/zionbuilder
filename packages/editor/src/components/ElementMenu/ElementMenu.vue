@@ -13,28 +13,24 @@
 		:key="activeElementMenu.key"
 	>
 		<template #content>
-			<ElementActions
-				class="znpb-element-options__element-actions"
-				@click.stop="hideElementMenu"
-				@changename="$emit('changename',true), showOptions=false"
-				:element="activeElementMenu.element"
-				:actions="activeElementMenu.actions"
+			<Menu
+				:actions="elementActions"
+				@action="hideElementMenu"
 			/>
 		</template>
 	</Tooltip>
 </template>
 
 <script>
-import { ref, watch } from 'vue'
-import ElementActions from './ElementActions.vue'
+import { ref, watch, computed } from 'vue'
+import { get } from 'lodash-es'
 
-import { useElementMenu, useWindows } from '@composables'
+import { Environment } from '@zb/utils'
+import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage, useSaveTemplate } from '@composables'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'ElementMenu',
-	components: {
-		ElementActions
-	},
 	props: {
 		elementUid: String,
 		parentUid: String,
@@ -43,10 +39,119 @@ export default {
 			required: false
 		}
 	},
-	setup () {
+	setup (props) {
 		const showOptions = ref(false)
 		const { activeElementMenu, hideElementMenu } = useElementMenu()
 		const { addEventListener, removeEventListener } = useWindows()
+		const { getData } = useLocalStorage()
+
+		const controllKey = Environment.isMac ? '⌘' : '⌃'
+
+		// TODO: deprecate useEditElement and move code to useElementActions
+		const { editElement } = useEditElement()
+		const {
+			copyElement,
+			pasteElement,
+			copiedElement,
+			pasteElementStyles,
+			pasteElementClasses,
+		} = useElementActions()
+
+		// Computed
+		const elementActions = computed(() => {
+			const element = activeElementMenu.value.element
+			return [
+				{
+					title: `${translate('action_edit')} ${element.name}`,
+					icon: 'edit',
+					action: () => {
+						editElement(element)
+					},
+					cssClasses: 'znpb-menu-item--separator-bottom'
+				},
+				{
+					title: `${translate('duplicate_element')}`,
+					icon: 'copy',
+					action: () => {
+						element.duplicate()
+					},
+					append: `${controllKey}+D`
+				},
+				{
+					title: `${translate('copy_element')}`,
+					icon: 'copy',
+					action: () => {
+						copyElement(element)
+					},
+					append: `${controllKey}+C`
+				},
+				{
+					title: `${translate('cut_element')}`,
+					icon: 'close',
+					action: () => {
+						copyElement(element, 'cut')
+					},
+					append: `${controllKey}+X`
+				},
+				{
+					title: `${translate('paste_element')}`,
+					icon: 'paste',
+					action: () => {
+						pasteElement(element)
+					},
+					append: `${controllKey}+V`,
+					show: hasCopiedElement.value
+				},
+				{
+
+					title: translate('paste_element_styles'),
+					icon: 'drop',
+					action: () => {
+						pasteElementStyles(element)
+					},
+					append: `${controllKey}+⇧+V`,
+					show: hasCopiedElementStyles.value
+				},
+				{
+					title: translate('paste_classes'),
+					icon: 'braces',
+					action: () => {
+						pasteElementClasses(element)
+					},
+					show: hasCopiedElementClasses.value
+				},
+				{
+					title: translate('discard_element_styles'),
+					icon: 'drop',
+					action: () => {
+						discardElementStyles(element)
+					},
+					show: element && Object.keys(get(element.options, '_styles', {})).length > 0
+				},
+				{
+					title: translate('save_element'),
+					icon: 'check',
+					action: () => {
+						saveElement(element)
+					}
+				},
+				{
+					title: element.isVisible ? translate('visible_element') : translate('show_element'),
+					icon: 'eye',
+					action: () => {
+						element.toggleVisibility()
+					},
+					append: `${controllKey}+H`,
+					cssClasses: 'znpb-menu-item--separator-bottom'
+				},
+				{
+					title: translate('delete_element'),
+					icon: 'delete',
+					action: () => element.delete(),
+					append: `⌦`
+				},
+			]
+		})
 
 		watch(activeElementMenu, (newValue) => {
 			if (newValue) {
@@ -56,10 +161,39 @@ export default {
 			}
 		})
 
+		function discardElementStyles (element) {
+			element.options = {
+				...element.options,
+				_styles: {}
+			}
+		}
+
+		function saveElement (element) {
+			const { showSaveElement } = useSaveTemplate()
+
+			showSaveElement(element, 'block')
+		}
+
+		const hasCopiedElement = computed(() => {
+			return !!(copiedElement.value.element || getData('copiedElement'))
+		})
+
+		const hasCopiedElementClasses = computed(() => {
+			return !!getData('copiedElementClasses')
+		})
+
+		const hasCopiedElementStyles = computed(() => {
+			return !!getData('copiedElementStyles')
+		})
+
 		return {
 			showOptions,
 			activeElementMenu,
-			hideElementMenu
+			hideElementMenu,
+			elementActions,
+			hasCopiedElement,
+			hasCopiedElementClasses,
+			hasCopiedElementStyles
 		}
 	}
 }
@@ -82,9 +216,9 @@ export default {
 		text-align: left;
 		list-style-type: none;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
+		box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
 		border-radius: 3px;
-		transition: all 0.5s;
+		transition: all .5s;
 		user-select: none;
 
 		li {
@@ -93,7 +227,7 @@ export default {
 			color: var(--zb-surface-text-color);
 			font-size: 12px;
 			line-height: 14px;
-			transition: color 0.2s ease;
+			transition: color .2s ease;
 			&:hover {
 				color: var(--zb-surface-text-active-color);
 				cursor: pointer;
@@ -102,13 +236,11 @@ export default {
 	}
 }
 
-.list-enter-to,
-.list-leave-from {
-	transition: all 0.2s;
+.list-enter-to, .list-leave-from {
+	transition: all .2s;
 }
 
-.list-enter-from,
-.list-leave-to {
+.list-enter-from, .list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
 }

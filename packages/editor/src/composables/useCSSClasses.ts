@@ -1,6 +1,8 @@
-import { ref, Ref } from 'vue'
+import { ref } from 'vue'
+import { cloneDeep, merge } from 'lodash-es'
 
 const CSSClasses = ref(window.ZnPbInitalData.css_classes || [])
+const copiedStyles = ref(null)
 
 export const useCSSClasses = () => {
 
@@ -15,13 +17,8 @@ export const useCSSClasses = () => {
 		})
 	}
 
-	const addCSSClass = (cssClass) => {
-		const newClass = {
-			name: cssClass,
-			id: cssClass,
-			style: {}
-		}
-		CSSClasses.value.push(newClass)
+	const addCSSClass = (config) => {
+		CSSClasses.value.push(config)
 	}
 
 	const removeCSSClass = (cssClass) => {
@@ -57,7 +54,32 @@ export const useCSSClasses = () => {
 		CSSClasses.value = newValue
 	}
 
+	// copy/paste styles
+	function getStylesConfig(classId) {
+		const config = getClassConfig(classId)
+
+		if (!config) {
+			alert(`class with id ${classId} not found`)
+		}
+
+		return config.styles || {}
+	}
+
+	function copyClassStyles(styles) {
+		copiedStyles.value = cloneDeep(styles)
+	}
+
+	function pasteClassStyles(classId) {
+		const oldStyles = getStylesConfig(classId)
+		const mergedStyles = merge(oldStyles || {}, cloneDeep(copiedStyles.value))
+
+		updateCSSClass(classId, {
+			styles: mergedStyles
+		})
+	}
+
 	return {
+		copiedStyles,
 		CSSClasses,
 		getClassesByFilter,
 		getClassConfig,
@@ -65,6 +87,9 @@ export const useCSSClasses = () => {
 		removeCSSClass,
 		updateCSSClass,
 		removeAllCssClasses,
-		setCSSClasses
+		setCSSClasses,
+		copyClassStyles,
+		getStylesConfig,
+		pasteClassStyles
 	}
 }

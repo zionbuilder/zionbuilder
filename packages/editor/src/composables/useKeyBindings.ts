@@ -2,10 +2,10 @@ import { useUI, usePreviewMode, useSavePage, useEditorData, useElementActions, u
 import { isEditable, Environment } from '@zb/utils'
 
 export const useKeyBindings = () => {
-	const { togglePanel } = useUI()
+	const { togglePanel, toggleLibrary } = useUI()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
-	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions()
+	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions()
 	const { editorData } = useEditorData()
 	const { editElement, element: focusedElement } = useEditElement()
 
@@ -69,7 +69,7 @@ export const useKeyBindings = () => {
 			}
 
 			// Paste
-			if (e.which === 86 && e[controllKey] && !e.shiftKey && copiedElement.value.element) {
+			if (e.which === 86 && e[controllKey] && !e.shiftKey) {
 				pasteElement(activeElementFocus)
 			}
 
@@ -78,7 +78,7 @@ export const useKeyBindings = () => {
 				copyElement(activeElementFocus, 'cut')
 			}
 
-			if (e.code === 'Escape' && copiedElement.value.element) {
+			if (e.code === 'Escape') {
 				resetCopiedElement()
 			}
 
@@ -149,7 +149,7 @@ export const useKeyBindings = () => {
 
 		// Opens Library
 		if (e.shiftKey && e.code === 'KeyL') {
-			togglePanel('panel-library')
+			toggleLibrary()
 			e.preventDefault()
 		}
 

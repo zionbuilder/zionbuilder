@@ -136,7 +136,7 @@ msgid "preview"
 msgstr ""
 
 #: ../includes/Localization.php:55
-msgid "View post"
+msgid "Preview post"
 msgstr ""
 
 #: ../includes/Localization.php:56
@@ -567,7 +567,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../includes/Localization.php:203, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:81, ../includes/Elements/Heading/Heading.php:77, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
+#: ../includes/Localization.php:203, ../includes/Elements/Manager.php:209, ../includes/Elements/Accordions/AccordionItem.php:81, ../includes/Elements/Heading/Heading.php:79, ../includes/Elements/IconList/IconList.php:186, ../includes/Elements/Tabs/TabsItem.php:79, ../includes/Elements/Text/Text.php:76
 msgid "Content"
 msgstr ""
 
@@ -1611,11 +1611,11 @@ msgstr ""
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:607
+#: ../includes/Localization.php:607, ../includes/Localization.php:715
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:608
+#: ../includes/Localization.php:608, ../includes/Localization.php:716
 msgid "Paste"
 msgstr ""
 
@@ -1751,7 +1751,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:660, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:660, ../includes/Elements/Heading/Heading.php:41
 msgid "Heading"
 msgstr ""
 
@@ -2168,11 +2168,11 @@ msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:275
+#: ../includes/Editor/Editor.php:276
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:549
+#: ../includes/Elements/Element.php:581
 msgid "Wrapper"
 msgstr ""
 
@@ -2280,7 +2280,7 @@ msgstr ""
 msgid "An error has occurred while updating the urls from page builder options."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:66
+#: ../includes/Api/RestControllers/SavePage.php:66, ../includes/Api/RestControllers/UserController.php:65
 msgid "You do not have permissions to save this resource."
 msgstr ""
 
@@ -2516,6 +2516,10 @@ msgstr ""
 msgid "copy"
 msgstr ""
 
+#: ../includes/Api/RestControllers/UserController.php:87
+msgid "There was a problem saving the user data."
+msgstr ""
+
 #: ../includes/Elements/Accordions/AccordionItem.php:39, ../includes/Elements/Accordions/Accordions.php:82, ../includes/Elements/Accordions/Accordions.php:89, ../includes/Elements/Accordions/Accordions.php:95, ../includes/Elements/Accordions/Accordions.php:110
 msgid "Accordion"
 msgstr ""
@@ -2640,7 +2644,7 @@ msgstr ""
 msgid "Set the url"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Column/Column.php:180, ../includes/Elements/Container/Container.php:150, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:117
+#: ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Column/Column.php:180, ../includes/Elements/Container/Container.php:150, ../includes/Elements/Heading/Heading.php:92, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:117
 msgid "Link"
 msgstr ""
 
@@ -2764,7 +2768,7 @@ msgstr ""
 msgid "Select the HTML tag to use for this element. If you want to add a custom tag, make sure to only use letters and numbers"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:190, ../includes/Elements/Container/Container.php:109, ../includes/Elements/Heading/Heading.php:99, ../includes/Elements/Section/Section.php:216
+#: ../includes/Elements/Column/Column.php:190, ../includes/Elements/Container/Container.php:109, ../includes/Elements/Heading/Heading.php:101, ../includes/Elements/Section/Section.php:216
 msgid "HTML tag"
 msgstr ""
 
@@ -3088,11 +3092,11 @@ msgstr ""
 msgid "Text after"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:146, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:105, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:30
+#: ../includes/Elements/Counter/Counter.php:142, ../includes/Elements/Heading/Heading.php:148, ../includes/Elements/Icon/Icon.php:100, ../includes/Elements/IconBox/IconBox.php:121, ../includes/Elements/Image/Image.php:105, ../includes/Elements/ImageBox/ImageBox.php:132, ../includes/Options/Schemas/Typography.php:30
 msgid "Align"
 msgstr ""
 
-#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:147, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:106, ../includes/Elements/ImageBox/ImageBox.php:133
+#: ../includes/Elements/Counter/Counter.php:143, ../includes/Elements/Heading/Heading.php:149, ../includes/Elements/Icon/Icon.php:101, ../includes/Elements/IconBox/IconBox.php:122, ../includes/Elements/Image/Image.php:106, ../includes/Elements/ImageBox/ImageBox.php:133
 msgid "Select the desired alignment."
 msgstr ""
 
@@ -3184,47 +3188,47 @@ msgstr ""
 msgid "Terrain"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:78, ../includes/Elements/Heading/Heading.php:188, ../includes/Elements/IconBox/IconBox.php:205, ../includes/Elements/ImageBox/ImageBox.php:216, ../includes/Elements/Text/Text.php:78
+#: ../includes/Elements/Heading/Heading.php:80, ../includes/Elements/Heading/Heading.php:191, ../includes/Elements/IconBox/IconBox.php:205, ../includes/Elements/ImageBox/ImageBox.php:216, ../includes/Elements/Text/Text.php:78
 msgid "Just a sample text from heading element."
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:100
+#: ../includes/Elements/Heading/Heading.php:102
 msgid "Set the desired heading tag."
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:103, ../includes/Elements/IconBox/IconBox.php:161, ../includes/Elements/ImageBox/ImageBox.php:172
+#: ../includes/Elements/Heading/Heading.php:105, ../includes/Elements/IconBox/IconBox.php:161, ../includes/Elements/ImageBox/ImageBox.php:172
 msgid "h1"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:107, ../includes/Elements/IconBox/IconBox.php:165, ../includes/Elements/ImageBox/ImageBox.php:176
+#: ../includes/Elements/Heading/Heading.php:109, ../includes/Elements/IconBox/IconBox.php:165, ../includes/Elements/ImageBox/ImageBox.php:176
 msgid "h2"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:111, ../includes/Elements/IconBox/IconBox.php:169, ../includes/Elements/ImageBox/ImageBox.php:180
+#: ../includes/Elements/Heading/Heading.php:113, ../includes/Elements/IconBox/IconBox.php:169, ../includes/Elements/ImageBox/ImageBox.php:180
 msgid "h3"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:115, ../includes/Elements/IconBox/IconBox.php:173, ../includes/Elements/ImageBox/ImageBox.php:184
+#: ../includes/Elements/Heading/Heading.php:117, ../includes/Elements/IconBox/IconBox.php:173, ../includes/Elements/ImageBox/ImageBox.php:184
 msgid "h4"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:119, ../includes/Elements/IconBox/IconBox.php:177, ../includes/Elements/ImageBox/ImageBox.php:188
+#: ../includes/Elements/Heading/Heading.php:121, ../includes/Elements/IconBox/IconBox.php:177, ../includes/Elements/ImageBox/ImageBox.php:188
 msgid "h5"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:123, ../includes/Elements/IconBox/IconBox.php:181, ../includes/Elements/ImageBox/ImageBox.php:192
+#: ../includes/Elements/Heading/Heading.php:125, ../includes/Elements/IconBox/IconBox.php:181, ../includes/Elements/ImageBox/ImageBox.php:192
 msgid "h6"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:127, ../includes/Elements/IconBox/IconBox.php:185, ../includes/Elements/ImageBox/ImageBox.php:196
+#: ../includes/Elements/Heading/Heading.php:129, ../includes/Elements/IconBox/IconBox.php:185, ../includes/Elements/ImageBox/ImageBox.php:196
 msgid "p"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:131, ../includes/Elements/IconBox/IconBox.php:189, ../includes/Elements/ImageBox/ImageBox.php:200
+#: ../includes/Elements/Heading/Heading.php:133, ../includes/Elements/IconBox/IconBox.php:189, ../includes/Elements/ImageBox/ImageBox.php:200
 msgid "span"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:135, ../includes/Elements/IconBox/IconBox.php:193, ../includes/Elements/ImageBox/ImageBox.php:204
+#: ../includes/Elements/Heading/Heading.php:137, ../includes/Elements/IconBox/IconBox.php:193, ../includes/Elements/ImageBox/ImageBox.php:204
 msgid "div"
 msgstr ""
 

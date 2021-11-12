@@ -146,6 +146,7 @@ export default {
 
 			const config = {
 				element_type: element.element_type,
+				version: element.version,
 				...element.extra_data
 			}
 

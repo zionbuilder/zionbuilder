@@ -25,6 +25,22 @@
 			class="znpb-class-selector-noclass"
 		>{{$translate('no_global_class_found')}}
 		</div>
+
+		<AddSelector
+			@add-selector="onSelectorAdd"
+			type="class"
+		>
+			<template v-slot="{actions}">
+				<Button
+					type="line"
+					class="znpb-class-selectorAddButton"
+					@click="actions.toggleModal()"
+				>
+					{{$translate('add_css_class')}}
+				</Button>
+
+			</template>
+		</AddSelector>
 	</div>
 
 </template>
@@ -32,10 +48,15 @@
 import { ref, computed, inject, onBeforeUnmount } from 'vue'
 import { useCSSClasses } from '@composables'
 
+import AddSelector from '../common/AddSelector.vue'
+
 export default {
 	name: 'GlobalClasses',
+	components: {
+		AddSelector
+	},
 	setup (props) {
-		const { CSSClasses, getClassesByFilter, removeCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
+		const { CSSClasses, addCSSClass, getClassesByFilter, removeCSSClass, setCSSClasses, removeAllCssClasses } = useCSSClasses()
 		const keyword = ref('')
 		const activeClass = ref(null)
 		const breadCrumbConfig = ref({
@@ -123,6 +144,13 @@ export default {
 			}
 		}
 
+		function onSelectorAdd (config) {
+			addCSSClass({
+				id: config.selector,
+				name: config.title
+			})
+		}
+
 		// Lifecycle
 		onBeforeUnmount(() => {
 			if (activeClass.value) {
@@ -145,7 +173,8 @@ export default {
 			onItemCollapsed,
 			deleteClass,
 			schema,
-			value
+			value,
+			onSelectorAdd
 		}
 	}
 }
@@ -167,5 +196,14 @@ export default {
 
 .znpb-input-type--css_selector {
 	padding-bottom: 0;
+}
+
+.znpb-class-selector-noclass {
+	text-align: center;
+}
+
+.znpb-class-selectorAddButton {
+	width: 100%;
+	margin-top: 10px;
 }
 </style>

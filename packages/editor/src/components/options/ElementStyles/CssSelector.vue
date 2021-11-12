@@ -20,26 +20,48 @@
 			/>
 		</div>
 
-		<Tooltip
-			v-if="showDelete"
-			:content="$translate('delete_class_tooltip')"
-			placement="top"
-			class="znpb-css-class-selector__item-close"
-		>
-			<Icon
-				icon="close"
-				v-on:click.stop='handleDeleteClass(name)'
-			>
-			</Icon>
-		</Tooltip>
+		<Icon
+			v-if="showActions"
+			v-znpb-tooltip="$translate('copy_element_styles')"
+			icon="copy"
+			@click.stop="$emit('copy-styles')"
+			class="znpb-css-class-selector__item-copy"
+		/>
 
+		<Icon
+			v-if="showActions"
+			v-znpb-tooltip="$translate('paste_element_styles')"
+			icon="paste"
+			@click.stop="$emit('paste-styles')"
+			class="znpb-css-class-selector__item-paste"
+			:class="{
+				'znpb-css-class-selector__item-paste--disabled': !copiedStyles
+			}"
+		/>
+
+		<Icon
+			v-if="showActions"
+			icon="close"
+			v-znpb-tooltip="$translate('delete_class_tooltip')"
+			v-on:click.stop='handleDeleteClass(name)'
+			class="znpb-css-class-selector__item-close"
+			:class="{
+				'znpb-css-class-selector__item-close--disabled': !showDelete
+			}"
+		/>
 	</div>
 </template>
 
 <script>
+import { useCSSClasses } from '@composables'
+
 export default {
 	name: 'CssSelector',
 	props: {
+		classConfig: {
+			type: Object,
+			required: false
+		},
 		name: {
 			type: String,
 			required: true
@@ -59,18 +81,29 @@ export default {
 			required: false,
 			default: false
 		},
+		showActions: {
+			type: Boolean,
+			required: false,
+			default: true
+		},
 		showChangesBullet: {
 			type: Boolean,
 			required: false,
 			default: false
 		}
 	},
-	data () {
-		return {}
-	},
-	methods: {
-		handleDeleteClass () {
-			this.$emit('remove-class', this.name)
+	setup (props, { emit }) {
+		const { copiedStyles } = useCSSClasses()
+
+		function handleDeleteClass () {
+			if (props.showDelete) {
+				emit('remove-class', this.name)
+			}
+		}
+
+		return {
+			handleDeleteClass,
+			copiedStyles
 		}
 	}
 }
@@ -97,13 +130,13 @@ export default {
 			width: 20px;
 			height: 100%;
 			background: linear-gradient(
-				90deg,
-				rgba(245, 245, 245, 0) 0%,
-				var(--zb-input-faded-bg-color) 100%
+			90deg,
+			rgba(245, 245, 245, 0) 0%,
+			var(--zb-input-faded-bg-color) 100%
 			);
 		}
 
-		> span {
+		 > span {
 			position: absolute;
 			white-space: pre;
 		}
@@ -138,17 +171,17 @@ export default {
 	}
 
 	&-close {
-		padding-left: 15px;
+		margin-left: 8px;
 
 		.zion-icon {
 			font-size: 10px;
-			opacity: 0.5;
 		}
 
 		&:hover .zion-icon {
 			opacity: 1;
 		}
 	}
+
 	&-content {
 		display: flex;
 		align-items: center;
@@ -158,7 +191,7 @@ export default {
 	&--selected {
 		color: var(--zb-surface-active-color);
 		background-color: var(--zb-surface-lighter-color);
-		transition: all 0.22s ease-out;
+		transition: all .22s ease-out;
 	}
 
 	&--selected &-name {
@@ -166,7 +199,7 @@ export default {
 	}
 
 	&-type {
-		padding: 5px 10px;
+		padding: 3px 6px;
 		color: var(--zb-surface-color);
 		font-size: 8px;
 		font-weight: 700;
@@ -194,9 +227,33 @@ export default {
 	}
 
 	&-close {
-		display: flex;
+		color: var(--zb-surface-icon-color);
 		font-size: 8px;
+		display: flex;
 		cursor: pointer;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
+
+		&--disabled {
+			pointer-events: none;
+			opacity: 0.35;
+		}
+	}
+
+	&-copy, &-paste {
+		padding: 2px 4px;
+		color: var(--zb-surface-icon-color);
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
+
+		&--disabled {
+			pointer-events: none;
+			opacity: 0.35;
+		}
 	}
 }
 </style>

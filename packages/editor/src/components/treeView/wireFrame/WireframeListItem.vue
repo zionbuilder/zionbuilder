@@ -22,13 +22,11 @@
 					:size="24"
 				/>
 
-				<div
+				<InlineEdit
+					v-model="elementName"
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-					@input="element.name = $event.target.textContent"
-					:contenteditable="true"
-				>
-					{{element.name}}
-				</div>
+				/>
+
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 
@@ -103,12 +101,22 @@ export default {
 
 		const elementModel = getElementType(props.element.element_type);
 
+		const elementName = computed({
+			get () {
+				return props.element.name;
+			},
+			set (newValue) {
+				props.element.name = newValue;
+			},
+		});
+
 		return {
 			showElementMenu,
 			elementModel,
 			elementOptionsRef,
 			isActiveItem,
-			columnSize
+			columnSize,
+			elementName
 		}
 	},
 	data () {

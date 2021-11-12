@@ -85,7 +85,7 @@ export default {
 
 .znpb-options-form-wrapper.znpb-option__type-option-accordion {
 	padding: 10px 0 0;
-	transition: all 0.3s ease-in-out;
+	transition: all .3s ease-in-out;
 	.znpb-input-type--dimensions {
 		padding-bottom: 10px;
 	}

@@ -9,6 +9,7 @@ import { translate } from '@zb/i18n'
 import { useNotifications } from '@zionbuilder/composables'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
+let previewWindow = null
 
 export function useSavePage() {
 	const save = (status = 'publish') => {
@@ -52,6 +53,7 @@ export function useSavePage() {
 						})
 					}
 					Cache.deleteItem(pageID)
+					refreshPreviewWindow()
 					return Promise.resolve(response)
 				})
 				.catch(error => {
@@ -83,10 +85,33 @@ export function useSavePage() {
 		return save('autosave')
 	}
 
+	async function openPreviewPage(event) {
+		const { editorData } = useEditorData()
+
+		await saveDraft()
+
+		previewWindow = window.open(editorData.value.urls.preview_url, `zion-preview-${editorData.value.page_id}`)
+
+		event.preventDefault()
+	}
+
+	function refreshPreviewWindow() {
+		if (previewWindow) {
+			try {
+				previewWindow.location.reload()
+			} catch (error) {
+				// Will not trigger if the preview windows is not available
+			}
+		}
+	}
+
 	return {
 		savePage,
 		saveDraft,
 		saveAutosave,
-		isSavePageLoading
+		isSavePageLoading,
+		previewWindow,
+		openPreviewPage,
+		refreshPreviewWindow
 	}
 }

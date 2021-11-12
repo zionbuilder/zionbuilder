@@ -397,7 +397,9 @@ export default {
 			if (newValue) {
 				if (typeof this.$el.scrollIntoView === 'function') {
 					this.$el.scrollIntoView({
-						behavior: 'smooth'
+						behavior: 'smooth',
+						inline: "center",
+						block: "center",
 					})
 				}
 

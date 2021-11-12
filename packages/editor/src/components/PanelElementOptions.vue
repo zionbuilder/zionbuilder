@@ -218,10 +218,18 @@ export default {
 				return elementOptions.value._advanced_options || {}
 			},
 			set (newValues) {
-				elementOptions.value = {
-					...elementOptions.value,
-					_advanced_options: newValues
+				if (newValues === null) {
+					const oldValues = { ...elementOptions.value }
+					delete oldValues._advanced_options
+
+					elementOptions.value = oldValues
+				} else {
+					elementOptions.value = {
+						...elementOptions.value,
+						_advanced_options: newValues
+					}
 				}
+
 			}
 		})
 
@@ -337,7 +345,8 @@ export default {
 					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
 					allow_delete: false,
 					show_breadcrumbs: true,
-					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
+					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
+					allowRename: false
 				}
 			})
 
@@ -680,17 +689,17 @@ export default {
 			position: absolute;
 			top: 100%;
 			left: 0;
-			font-size: 13px;
-			font-weight: 400;
-			color: var(--zb-surface-text-color);
+			z-index: 20000;
 			min-width: 200px;
 			max-height: 360px;
 			padding: 16px 16px 4px;
+			color: var(--zb-surface-text-color);
+			font-size: 13px;
+			font-weight: 400;
 			background-color: var(--zb-dropdown-bg-color);
 			box-shadow: var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 3px;
-			z-index: 20000;
 			transform: translate(10px, -10px);
 
 			& > span {
@@ -842,7 +851,7 @@ export default {
 	border: 1px solid var(--zb-surface-border-color);
 	border-radius: 0 50% 50% 0;
 	transform: translateX(-100%);
-	transition: transform .15s 0s;
+	transition: transform .15s 0s, z-index 0s;
 	cursor: pointer;
 
 	&Icon {
@@ -905,9 +914,9 @@ export default {
 	}
 
 	.znpb-element-options__panel-wrapper:hover &, .znpb-element-options__panel-wrapper--hidden & {
-		z-index: 2;
+		z-index: 10;
 		transform: translateX(0);
-		transition: transform .15s 0s, z-index .15s .15s;
+		transition: transform .15s 0s, z-index .15s;
 	}
 }
 

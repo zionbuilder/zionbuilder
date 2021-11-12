@@ -8,8 +8,9 @@
 			:class="{
 				[`znpb-element-toolbox__add-element-button--${position}`]: position,
 				[`znpb-element-toolbox__add-element-button--${placement}`]: placement,
+				['znpb-element-toolbox__add-element-button--active']: isPopupActive,
 			}"
-			@click.stop="toggleAddElementsPopup"
+			@click.stop="onIconClick"
 			ref="addElementsPopupButton"
 			v-znpb-tooltip="positionString + ' ' + element.name"
 		>
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useAddElementsPopup } from '@composables'
 import { translate } from '@zb/i18n'
 
@@ -43,14 +44,32 @@ export default {
 	},
 	setup (props) {
 		const addElementsPopupButton = ref(false)
+		const isIconClicked = ref(false)
+
+		const { activePopup } = useAddElementsPopup()
 
 		const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after')
+
+		const isPopupActive = computed(() => {
+			return isIconClicked.value && activePopup.value && activePopup.value.element === props.element
+		})
+
+		watch(activePopup, (newValue, oldValue) => {
+			if (!newValue || newValue && newValue.element !== props.element) {
+				isIconClicked.value = false
+			}
+		})
 
 		function toggleAddElementsPopup () {
 			const { showAddElementsPopup } = useAddElementsPopup()
 			showAddElementsPopup(props.element, addElementsPopupButton, {
 				placement: props.placement
 			})
+		}
+
+		function onIconClick () {
+			isIconClicked.value = true
+			toggleAddElementsPopup()
 		}
 
 		return {
@@ -60,8 +79,11 @@ export default {
 			// Vars
 			positionString,
 
+			// Computed
+			isPopupActive,
+
 			// Methods
-			toggleAddElementsPopup
+			onIconClick
 		}
 	}
 }

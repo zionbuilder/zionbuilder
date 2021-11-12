@@ -73,7 +73,6 @@ ul.znpb-editor-header-flyout-hidden-items {
 				font-size: 13px;
 				line-height: 1;
 				text-decoration: none;
-				text-transform: capitalize;
 				.znpb-device-active__content {
 					display: flex;
 					align-items: center;

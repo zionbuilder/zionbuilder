@@ -1,7 +1,10 @@
 <template>
 	<li
 		class="znpb-tree-view__item"
-		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
+		:class="{
+			'znpb-tree-view__item--hidden': !element.isVisible,
+			'znpb-tree-view__item--justAdded': justAdded,
+		}"
 		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -29,13 +32,10 @@
 				:size="24"
 			/>
 
-			<div
+			<InlineEdit
+				v-model="elementName"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				@input="element.name = $event.target.textContent"
-				:contenteditable="true"
-			>
-				{{element.name}}
-			</div>
+			/>
 
 			<Tooltip
 				:content="$translate('enable_hidden_element')"
@@ -80,8 +80,16 @@
 </template>
 
 <script lang="ts">
-import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import { Element, useElementTypes } from "@composables";
+import {
+	ref,
+	Ref,
+	PropType,
+	defineComponent,
+	watch,
+	onMounted,
+	computed,
+} from "vue";
+import { Element, usePreviewLoading } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -108,12 +116,35 @@ export default defineComponent({
 			}
 		);
 
+		const elementName = computed({
+			get() {
+				return props.element.name;
+			},
+			set(newValue) {
+				props.element.name = newValue;
+			},
+		});
+
+		const { contentTimestamp } = usePreviewLoading();
+
+		const justAdded = ref(
+			props.element.addedTime > contentTimestamp.value
+				? Date.now() - props.element.addedTime < 1000
+				: null
+		);
+
+		if (justAdded) {
+			setTimeout(() => {
+				justAdded.value = false;
+			}, 1000);
+		}
+
 		function scrollToItem() {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
 					behavior: "smooth",
-					inline: "nearest",
-					block: "nearest",
+					inline: "center",
+					block: "center",
 				});
 			}
 		}
@@ -131,6 +162,8 @@ export default defineComponent({
 			listItem,
 			elementModel,
 			editElement,
+			justAdded,
+			elementName,
 		};
 	},
 });
@@ -168,6 +201,7 @@ export default defineComponent({
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
+		transition: background-color 0.2s;
 
 		& > *:first-child {
 			padding-left: 15px;
@@ -274,13 +308,23 @@ export default defineComponent({
 	transition: all 0.1s;
 }
 
-.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton {
+.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton,
+.znpb-element-toolbox__add-element-button--active {
 	opacity: 1;
 	visibility: visible;
 	transform: translateY(0);
 
 	&:hover::before {
 		transform: scale(1.1);
+	}
+}
+
+.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
+	background: #3a8f6f;
+	color: var(--zb-secondary-text-color);
+
+	.znpb-editor-icon-wrapper {
+		color: var(--zb-secondary-text-color);
 	}
 }
 </style>
