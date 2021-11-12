@@ -17,12 +17,8 @@ export const useCSSClasses = () => {
 		})
 	}
 
-	const addCSSClass = (cssClass) => {
-		const newClass = {
-			name: cssClass,
-			id: cssClass
-		}
-		CSSClasses.value.push(newClass)
+	const addCSSClass = (config) => {
+		CSSClasses.value.push(config)
 	}
 
 	const removeCSSClass = (cssClass) => {

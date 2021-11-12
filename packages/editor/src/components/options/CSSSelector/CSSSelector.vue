@@ -41,7 +41,7 @@
 					<AddChildActions
 						v-if="allow_childs"
 						:child-selectors="childSelectors"
-						@add-child="onChildAdded"
+						@add-selector="onChildAdded"
 						@toggle-view-childs="showChilds = !showChilds"
 					/>
 
@@ -50,51 +50,6 @@
 						v-if="show_changes && hasChanges"
 						@remove-styles="resetChanges"
 					/>
-
-					<!-- <Tooltip
-						:content="$translate('delete_selector')"
-						placement="top"
-						append-to="element"
-						strategy="fixed"
-					>
-						<Tooltip
-							placement="top"
-							append-to="element"
-							strategy="fixed"
-							:show="canShow"
-							trigger="click"
-							class="znpb-cssSelectorDialog"
-							:close-on-outside-click="true"
-							@click.stop=""
-							@hide="canShow = false"
-						>
-							<template #content>
-								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
-								<div>
-									<Button
-										@click.stop="canShow = false"
-										type="gray"
-										class="znpb-button--small"
-									>
-										{{$translate('cancel')}}
-									</Button>
-									<Button
-										@click.stop="deleteItem"
-										type="danger"
-										class="znpb-button--small"
-									>
-										{{$translate('delete')}}
-									</Button>
-								</div>
-							</template>
-
-							<Icon
-								icon="delete"
-								v-if="allow_delete"
-								@click.stop="canShow = true"
-							/>
-						</Tooltip>
-					</Tooltip> -->
 
 					<HiddenMenu :actions="classActions" />
 

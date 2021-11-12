@@ -716,6 +716,21 @@ class Localization {
 				'are_you_sure_delete_elements'             => __( 'Are you sure you want to remove all elements from page?', 'zionbuilder' ),
 				'copy'                                     => __( 'Copy', 'zionbuilder' ),
 				'paste'                                    => __( 'Paste', 'zionbuilder' ),
+
+				// Global classes
+				'add_css_class'                            => __( 'Add CSS class', 'zionbuilder' ),
+				'selector_nice_name'                       => __( 'Selector nice name', 'zionbuilder' ),
+				'enter_a_name_for_this_selector'           => __( 'Enter a name for this selector', 'zionbuilder' ),
+				'add_child_selector'                       => __( 'Add child selector', 'zionbuilder' ),
+				'css_selector'                             => __( 'CSS selector', 'zionbuilder' ),
+				'enter_the_css_selector_you_want_to_style' => __( 'Enter the css selector you want to style', 'zionbuilder' ),
+				'my_selector'                              => __( '.my-selector', 'zionbuilder' ),
+				'class_nice_name'                          => __( 'CSS class nice name', 'zionbuilder' ),
+				'enter_the_class_nice_name'                => __( 'Enter a name that will help you recognize this CSS class', 'zionbuilder' ),
+				'css_class'                                => __( 'CSS class', 'zionbuilder' ),
+				'enter_class_name_without_dot'             => __( 'Enter the CSS class name without the leading dot', 'zionbuilder' ),
+				'css_class_placeholder'                    => __( 'my-class-name', 'zionbuilder' ),
+
 			]
 		);
 	}

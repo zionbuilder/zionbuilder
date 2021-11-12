@@ -200,6 +200,7 @@ body {
 		background: var(--zb-input-bg-color);
 		border: 2px solid var(--zb-input-border-color);
 		border-radius: 3px;
+		transition: border 0.3s;
 
 		.znpb-editor-icon-wrapper {
 			color: var(--zb-input-icon-color);

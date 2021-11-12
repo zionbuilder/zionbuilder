@@ -355,7 +355,10 @@ export default {
 				})
 
 				if (!existingClass) {
-					this.addCSSClass(this.keyword)
+					this.addCSSClass({
+						id: this.keyword,
+						name: this.keyword
+					})
 				}
 
 				// Add css class to element options

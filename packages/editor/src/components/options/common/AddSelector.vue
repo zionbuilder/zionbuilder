@@ -14,14 +14,14 @@
 				<OptionsForm
 					class="znpb-option-cssSelectorChildActionAddForm"
 					:schema="schema"
-					v-model="formModel"
+					v-model="computedFormModel"
 				/>
 				<Button
 					@click="add"
 					class="znpb-button--line znpb-option-cssSelectorChildActionAddButton"
 					:type="buttonType"
 				>
-					Add child selector
+					{{buttonTitle}}
 				</Button>
 			</div>
 		</template>
@@ -37,28 +37,58 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'AddSelector',
+	props: {
+		type: {
+			type: String,
+			required: false,
+			default: 'selector'
+		}
+	},
 	setup (props, { emit }) {
 		const showAddModal = ref(false)
+		const hasError = ref(false)
 
 		// Options form schema
-		const schema = {
-			title: {
-				type: 'text',
-				title: 'Selector nice name',
-				description: 'Enter a name for this selector'
-			},
-			selector: {
-				type: 'text',
-				title: 'CSS selector',
-				description: 'Enter the css selector you want to style'
+		const schema = computed(() => {
+			return {
+				title: {
+					type: 'text',
+					title: props.type === 'selector' ? translate('selector_nice_name') : translate('class_nice_name'),
+					description: props.type === 'selector' ? translate('enter_the_class_nice_name') : translate('enter_the_class_nice_name')
+				},
+				selector: {
+					type: 'text',
+					title: props.type === 'selector' ? translate('css_selector') : translate('css_class'),
+					description: props.type === 'selector' ? translate('enter_the_css_selector_you_want_to_style') : translate('enter_class_name_without_dot'),
+					placeholder: props.type === 'selector' ? translate('my_selector') : translate('css_class_placeholder'),
+					error: props.type === 'class' && hasError.value ? true : false
+				}
 			}
-		}
+		})
+
+		const buttonTitle = computed(() => {
+			return props.type == 'selector' ? translate('add_child_selector') : translate('add_css_class')
+		})
 
 		const formModel = ref({})
+		const computedFormModel = computed({
+			get () {
+				return formModel.value
+			},
+			set (newValue) {
+				if (null === newValue) {
+					formModel.value = {}
+				}
+				else {
+					formModel.value = newValue
+				}
+			}
+		})
 
 		const canSave = computed(() => {
 			return formModel.value.title && formModel.value.title.length > 0 && formModel.value.selector && formModel.value.selector.length > 0
@@ -97,8 +127,20 @@ export default {
 				return
 			}
 
+			// Check if we are in class name mode
+			if (props.type === 'class') {
+				// Check if this is a valid css class
+				if (!/^[a-z_-][a-z\d_-]*$/i.test(formModel.value.selector) || formModel.value.selector.split('')[0] === '-') {
+					hasError.value = true
+					setTimeout(() => {
+						hasError.value = false
+					}, 500);
+					return
+				}
+			}
+
 			// Send data to parent
-			emit('addChild', formModel.value)
+			emit('add-selector', formModel.value)
 
 			// close modal
 			showAddModal.value = false
@@ -108,9 +150,11 @@ export default {
 		}
 
 		return {
-			showAddModal,
+			// computed
+			buttonTitle,
 			schema,
-			formModel,
+			showAddModal,
+			computedFormModel,
 			buttonType,
 
 			// Methods
