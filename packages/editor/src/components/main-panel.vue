@@ -258,13 +258,13 @@ export default {
 					canShow: !hasWhiteLabel.value
 				},
 				{
-					title: translate('back_to_wp_dashboard'),
-					url: editorData.value.urls.edit_page,
+					title: translate('back_to_zion_dashboard'),
+					url: editorData.value.urls.zion_admin,
 					action: () => { }
 				},
 				{
-					title: translate('back_to_zion_dashboard'),
-					url: editorData.value.urls.zion_admin,
+					title: translate('back_to_wp_dashboard'),
+					url: editorData.value.urls.edit_page,
 					action: () => { }
 				},
 				{
