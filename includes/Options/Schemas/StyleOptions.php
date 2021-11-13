@@ -488,6 +488,35 @@ class StyleOptions extends BaseSchema {
 			]
 		);
 
+		$display_group = $display->add_group(
+			'display-group',
+			[
+				'type'  => 'panel_accordion',
+				'title' => __( 'Display options', 'zionbuilder' ),
+			]
+		);
+
+		$display_group->add_option(
+			'direction',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Direction', 'zionbuilder' ),
+				'description' => __( 'Set the text direction', 'zionbuilder' ),
+				'columns'     => 2,
+				'default'     => 'ltr',
+				'options'     => [
+					[
+						'name' => __( 'ltr', 'zionbuilder' ),
+						'id'   => 'ltr',
+					],
+					[
+						'name' => __( 'rtl', 'zionbuilder' ),
+						'id'   => 'rtl',
+					],
+				],
+			]
+		);
+
 		$display->add_option(
 			'upgrade_message',
 			[
