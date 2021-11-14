@@ -733,6 +733,10 @@ class Localization {
 				'enter_class_name_without_dot'             => __( 'Enter the CSS class name without the leading dot', 'zionbuilder' ),
 				'css_class_placeholder'                    => __( 'my-class-name', 'zionbuilder' ),
 
+				// admin custom code
+				'custom_code'                    => __( 'Custom code', 'zionbuilder' ),
+
+
 			]
 		);
 	}

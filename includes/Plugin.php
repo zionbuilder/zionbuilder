@@ -15,6 +15,7 @@ use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
 use ZionBuilder\MaintenanceMode;
+use ZionBuilder\CustomCode;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -239,6 +240,7 @@ class Plugin {
 		new Upgrader();
 		new BulkActionsData();
 		new MaintenanceMode();
+		new CustomCode();
 
 		/*
 		 * ZionBuilder loaded.

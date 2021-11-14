@@ -32,15 +32,19 @@ export default {
 	setup (props, { emit }) {
 		let editor = null
 		const codeMirrorTextarea = ref(null)
-
+		let ignoreChange = false
 		watch(() => props.modelValue, (newValue) => {
 			if (editor && editor.getValue() !== newValue) {
+				ignoreChange = true
 				editor.setValue(newValue)
 			}
 		})
 
-		function onEditorChange (instance, changeObj) {
-			emit('update:modelValue', instance.getValue())
+		function onEditorChange (instance) {
+			if (ignoreChange === false) {
+				emit('update:modelValue', instance.getValue())
+			}
+			ignoreChange = false
 		}
 
 		const lint = [
@@ -181,18 +185,12 @@ export default {
 		border-color: #2c89df;
 	}
 
-	.cm-atom,
-	.cm-keyword,
-	.cm-builtin,
-	.cm-meta,
-	.cm-qualifier,
-	.cm-type,
-	.cm-variable-3 {
+	.cm-atom, .cm-keyword, .cm-builtin, .cm-meta, .cm-qualifier, .cm-type, .cm-variable-3 {
 		color: #2c89df;
 	}
 
 	.cm-tag {
-		color: #71DB80;
+		color: #71db80;
 	}
 
 	.cm-number {
