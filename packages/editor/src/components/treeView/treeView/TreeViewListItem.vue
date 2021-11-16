@@ -197,7 +197,7 @@ export default defineComponent({
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 5px;
+		margin-bottom: 8px;
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
