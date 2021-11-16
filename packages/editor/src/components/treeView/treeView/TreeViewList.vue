@@ -106,4 +106,53 @@ export default {
 		}
 	}
 }
+
+.znpb-tree-view .znpb-tree-view-wrapper .znpb-tree-view-wrapper {
+	padding: 0;
+	overflow: hidden;
+	margin: 0;
+}
+
+.znpb-tree-view .znpb-tree-view-wrapper .znpb-tree-view-wrapper .znpb-tree-view__item {
+	position: relative;
+	padding-left: 20px;
+	width: 100%;
+	margin: 0;
+}
+
+.znpb-tree-view .znpb-tree-view-wrapper .znpb-tree-view-wrapper .znpb-tree-view__item::before {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 100%;
+	height: 8px;
+	border: 2px solid #353535;
+	border-top: 0;
+	border-right: 0;
+	border-radius: 8px;
+	border-top-left-radius: 0;
+	border-bottom-right-radius: 0;
+	margin-top: 11px;
+}
+
+.znpb-tree-view .znpb-tree-view-wrapper .znpb-tree-view-wrapper .znpb-tree-view__item::after {
+	content: '';
+	position: absolute;
+	background: #353535;
+	width: 2px;
+	height: 5000px;
+	bottom: calc(100% + -14px);
+	left: 3px;
+}
+
+
+.znpb-tree-view__item-header {
+    box-shadow: -3px 0 0 0 #28282c;
+    margin-bottom: 10px;
+}
+
+.znpb-tree-view__item {
+    width: 100%;
+}
 </style>
