@@ -197,10 +197,11 @@ export default defineComponent({
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 8px;
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
+		box-shadow: -3px 0 0 0 var(--zb-surface-color);
+		margin-bottom: 8px;
 		transition: background-color 0.2s;
 
 		& > *:first-child {
