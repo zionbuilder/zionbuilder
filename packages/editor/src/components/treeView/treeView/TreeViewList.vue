@@ -102,7 +102,7 @@ export default {
 					left: 0;
 					width: 100%;
 					height: 5000px;
-					// border: 2px solid var(--zb-surface-border-color);
+					/* border: 2px solid var(--zb-surface-border-color); */
 					box-shadow: inset 2px -2px 0 0 var(--zb-surface-border-color);
 					border-top: 0;
 					border-right: 0;
