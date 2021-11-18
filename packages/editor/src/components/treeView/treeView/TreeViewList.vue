@@ -83,8 +83,36 @@ export default {
 		padding: 0 20px;
 
 		& .znpb-tree-view-wrapper {
-			padding-right: 0;
-			padding-left: 10px;
+			position: relative;
+			overflow: hidden;
+			z-index: 1;
+			padding: 0;
+			margin: 0;
+
+			& .znpb-tree-view__item {
+				position: relative;
+				padding-left: 20px;
+				width: 100%;
+				margin: 0;
+
+				&::before {
+					content: "";
+					position: absolute;
+					bottom: calc(100% + -24px);
+					left: 0;
+					width: 100%;
+					height: 5000px;
+					/* border: 2px solid var(--zb-surface-border-color); */
+					box-shadow: inset 2px -2px 0 0 var(--zb-surface-border-color);
+					border-top: 0;
+					border-right: 0;
+					border-radius: 8px;
+					border-top-left-radius: 0;
+					border-bottom-right-radius: 0;
+					margin-top: 11px;
+					z-index: -1;
+				}
+			}
 		}
 	}
 
