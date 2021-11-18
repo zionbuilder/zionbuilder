@@ -41,8 +41,8 @@
 				tooltip-class="znpb-form__input-description-tooltip"
 			>
 				<template #content>
-					<div>
-						{{schema.description}}
+					<div v-html="schema.description">
+
 					</div>
 				</template>
 

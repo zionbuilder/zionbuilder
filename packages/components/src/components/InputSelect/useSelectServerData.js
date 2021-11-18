@@ -12,7 +12,7 @@ import {
 const cache = ref({})
 
 export function useSelectServerData(config) {
-	let requester = inject('serverRequester')
+	let requester = inject('serverRequester', null)
 
 	const items = ref([])
 

@@ -154,6 +154,7 @@ class Localization {
 				'save'                                     => esc_html__( 'Save', 'zionbuilder' ),
 				'font_weight'                              => esc_html__( 'Font Weight', 'zionbuilder' ),
 				'woff_file'                                => esc_html__( '.woff file', 'zionbuilder' ),
+				'woff2_file'                               => esc_html__( '.woff2 file', 'zionbuilder' ),
 				'ttf_file'                                 => esc_html__( '.ttf file', 'zionbuilder' ),
 				'svg_file'                                 => esc_html__( '.svg file', 'zionbuilder' ),
 				'eot_file'                                 => esc_html__( '.eot file', 'zionbuilder' ),
@@ -666,6 +667,7 @@ class Localization {
 				'custom_font_name'                         => __( 'Choose custom font name', 'zionbuilder' ),
 				'custom_font_weight'                       => __( 'Set custom font weight', 'zionbuilder' ),
 				'custom_font_woff'                         => __( 'Select custom font woff file', 'zionbuilder' ),
+				'custom_font_woff2'                        => __( 'Select custom font woff2 file', 'zionbuilder' ),
 				'custom_font_ttf'                          => __( 'Select custom font ttf file', 'zionbuilder' ),
 				'custom_font_svg'                          => __( 'Select custom font svg file', 'zionbuilder' ),
 				'custom_font_eot'                          => __( 'Select custom font eot file', 'zionbuilder' ),
@@ -730,6 +732,10 @@ class Localization {
 				'css_class'                                => __( 'CSS class', 'zionbuilder' ),
 				'enter_class_name_without_dot'             => __( 'Enter the CSS class name without the leading dot', 'zionbuilder' ),
 				'css_class_placeholder'                    => __( 'my-class-name', 'zionbuilder' ),
+
+				// admin custom code
+				'custom_code'                    => __( 'Custom code', 'zionbuilder' ),
+
 
 			]
 		);

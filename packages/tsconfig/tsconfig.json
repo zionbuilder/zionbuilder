@@ -7,7 +7,7 @@
 		"emitDeclarationOnly": true,
 
 		// Target latest version of ECMAScript.
-		"target": "esnext",
+		"target": "es2015",
 		"module": "ES2015",
 		// Search under node_modules for non-relative imports.
 		"moduleResolution": "node",

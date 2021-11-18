@@ -1,5 +1,4 @@
 <template>
-
 	<PageTemplate>
 		<h3>{{$translate('appearance')}}</h3>
 
@@ -24,7 +23,7 @@ import { useBuilderOptions } from '@zionbuilder/composables'
 
 export default {
 	name: 'Appearance',
-	setup (props, { emit }) {
+	setup () {
 		const { getOptionValue, updateOptionValue } = useBuilderOptions()
 
 		const computedModel = computed({

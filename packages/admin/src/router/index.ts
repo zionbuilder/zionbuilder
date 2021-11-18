@@ -15,6 +15,7 @@ import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
+import CustomCode from '../components/CustomCode.vue'
 
 import { translate } from '@zb/i18n'
 
@@ -188,6 +189,12 @@ export const initRoutes = function () {
 			name: 'template'
 		},
 		children: getTemplateChildrens()
+	})
+
+	routes.addRoute('custom-code', {
+		path: '/custom-code',
+		component: CustomCode,
+		title: translate('custom_code')
 	})
 
 	const ToolsRoute = routes.addRoute('tools-page', {
