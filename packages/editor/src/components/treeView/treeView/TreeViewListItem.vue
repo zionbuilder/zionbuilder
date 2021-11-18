@@ -197,10 +197,11 @@ export default defineComponent({
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 5px;
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
+		box-shadow: -3px 0 0 0 var(--zb-surface-color);
+		margin-bottom: 5px;
 		transition: background-color 0.2s;
 
 		& > *:first-child {
@@ -286,7 +287,7 @@ export default defineComponent({
 			--font-size: 12px;
 			right: 0;
 			left: auto;
-			margin: -16px 45px 0 0;
+			margin: -19px 45px 0 0;
 		}
 	}
 }
