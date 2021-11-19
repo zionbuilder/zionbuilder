@@ -66,6 +66,8 @@ import { useElementComponent } from '@composables'
 import Options from '../Options'
 import { useOptionsSchemas, usePseudoSelectors } from '@zb/components'
 
+let clickHandled = false
+
 export default {
 	name: 'ElementWrapper',
 	components: {
@@ -318,13 +320,20 @@ export default {
 
 		// Prevents us using stop propagation that can affect other elements
 		const onElementClick = (event) => {
-			event.stopPropagation()
+			if (clickHandled) {
+				return
+			}
 
 			const { editElement } = useEditElement()
 
 			if (!isPreviewMode.value) {
 				editElement(props.element)
 			}
+
+			clickHandled = true
+			setTimeout(() => {
+				clickHandled = false
+			}, 50);
 		}
 
 		const getStyleClasses = (styleId, extraClasses = {}) => {

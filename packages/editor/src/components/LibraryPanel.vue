@@ -63,11 +63,10 @@
 				</div>
 			</div>
 			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
-				<Loader v-if="itemsLoading" />
+
 				<ul
 					ref="gridlist"
 					class="znpb-editor-library-modal-item-list"
-					v-else
 				>
 					<li class="znpb-editor-library-modal__item--grid-sizer"></li>
 					<li class="znpb-editor-library-modal__item--gutter-sizer"></li>
@@ -84,7 +83,7 @@
 				</ul>
 
 				<p
-					v-if="!itemsLoading && (filteredItems.length < 4)"
+					v-if="filteredItems.length < 4"
 					class="znpb-editor-library-modal-no-more"
 				>
 					{{$translate('no_more_to_show')}}
@@ -111,6 +110,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 import { getLibraryItems } from '@zb/rest'
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/LibraryItem.vue'
@@ -130,6 +131,13 @@ export default {
 		multiple: {
 			type: Boolean,
 			required: false
+		}
+	},
+	setup () {
+		const loadingLibrary = ref(true)
+
+		return {
+			loadingLibrary
 		}
 	},
 	watch: {
@@ -163,14 +171,6 @@ export default {
 				})
 			}
 		},
-		filteredItems (newVal) {
-			if (newVal) {
-				this.itemsLoading = true
-				this.$nextTick(() => {
-					this.onLayout()
-				})
-			}
-		},
 		multiple (newVal) {
 			if (newVal === true) {
 				this.enteredValue = ''
@@ -178,10 +178,6 @@ export default {
 		},
 		loadingLibrary (newVal) {
 			if (!newVal) {
-				// start masonry
-				this.itemsLoading = true
-				this.initMasonry()
-
 				// focus input
 				this.$nextTick(() => this.$refs.searchInput.focus())
 			}
@@ -189,8 +185,6 @@ export default {
 	},
 	data: function () {
 		return {
-			loadingLibrary: true,
-			itemsLoading: true,
 			iframeLoaded: false,
 			enteredValue: '',
 			searchCategories: [],
@@ -211,6 +205,7 @@ export default {
 	},
 	mounted () {
 		const cachedData = localSt.get('znpbLibraryCache')
+
 		// check if get items from server or from local storage
 		if (cachedData === null) {
 			this.getDataFromServer()
@@ -356,18 +351,6 @@ export default {
 	},
 
 	methods: {
-		initMasonry () {
-			this.itemsLoading = false
-			this.$nextTick(() => {
-				window.jQuery(this.$refs.gridlist).imagesLoaded(() => {
-					this.msnry = new window.Masonry(this.$refs.gridlist, {
-						columnWidth: '.znpb-editor-library-modal__item--grid-sizer',
-						itemSelector: '.znpb-editor-library-modal__item',
-						transitionDuration: 0
-					})
-				})
-			})
-		},
 		getDataFromServer (useCache = true) {
 			this.loadingLibrary = true
 			this.$emit('loading-start', true)
@@ -385,15 +368,6 @@ export default {
 				this.loadingLibrary = false
 				this.$emit('loading-end', true)
 			})
-		},
-		onLayout () {
-			// destroy old masonry
-			if (this.msnry) {
-				this.msnry.destroy()
-			}
-
-			// create new masonry
-			this.initMasonry()
 		},
 
 		searchResult (keyword) {
@@ -503,12 +477,6 @@ export default {
 			return catObejct.title
 		}
 
-	},
-
-	beforeUnmount () {
-		if (this.msnry) {
-			this.msnry.destroy()
-		}
 	}
 }
 </script>
@@ -527,8 +495,7 @@ export default {
 		align-items: center;
 		padding: 20px 20px 0;
 
-		&__right,
-		&__left {
+		&__right, &__left {
 			display: flex;
 			align-items: center;
 		}
@@ -588,8 +555,7 @@ export default {
 
 	&--favorite {
 		.znpb-editor-icon.zion-heart {
-			path,
-			path:first-child {
+			path, path:first-child {
 				fill: var(--zb-secondary-color);
 			}
 		}
@@ -632,19 +598,18 @@ export default {
 	background: var(--zb-surface-color);
 }
 .slide-preview-enter-from {
-	opacity: 0.2;
+	opacity: .2;
 }
 .slide-preview-enter-to {
 	opacity: 1;
 }
 .slide-preview-leave-from {
-	opacity: 0.4;
+	opacity: .4;
 }
 .slide-preview-leave-to {
 	opacity: 0;
 }
-.slide-preview-enter-to,
-.slide-preview-leave-to {
-	transition: all 0.2s;
+.slide-preview-enter-to, .slide-preview-leave-to {
+	transition: all .2s;
 }
 </style>

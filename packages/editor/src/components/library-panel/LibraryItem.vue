@@ -3,19 +3,16 @@
 	<li
 		class="znpb-editor-library-modal__item"
 		:class="{ 'znpb-editor-library-modal__item--favorite' : favorite }"
+		ref="root"
 	>
 		<div class="znpb-editor-library-modal__itemInner">
 			<div
 				class="znpb-editor-library-modal__item-image"
 				:class="{['--no-image']: !item.thumbnail}"
-			>
-				<img
-					:src="item.thumbnail"
-					v-cloak
-					@click="$emit('activate-item',item)"
-					v-if="item.thumbnail"
-				/>
-			</div>
+				@click="$emit('activate-item',item)"
+				:data-zbg="item.thumbnail"
+				ref="imageHolder"
+			/>
 
 			<div
 				v-if="item.pro"
@@ -42,7 +39,8 @@
 						class="znpb-button znpb-button--line"
 						target="_blank"
 						:href="dashboardURL"
-					>{{$translate('activate_pro')}}
+					>
+						{{$translate('activate_pro')}}
 					</a>
 
 					<Tooltip
@@ -107,7 +105,7 @@
 
 </template>
 <script>
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
 import { useEditorData } from '@composables'
 
 export default {
@@ -120,6 +118,11 @@ export default {
 		favorite: {
 			type: Boolean,
 			required: false
+		},
+		inView: {
+			type: Boolean,
+			required: false,
+			default: false
 		}
 	},
 	data () {
@@ -134,11 +137,37 @@ export default {
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const dashboardURL = ref('')
 		const purchaseURL = ref('')
+		const imageHolder = ref(null)
+		const root = ref(null)
 
 		dashboardURL.value = `${editorData.value.urls.zion_admin}#/pro-license`
 		purchaseURL.value = editorData.value.urls.purchase_url
 
+		const iObserver = new IntersectionObserver(onItemInView)
+
+		function onItemInView (entries) {
+			entries.forEach(({ isIntersecting }) => {
+				if (!isIntersecting) {
+					return;
+				}
+
+				imageHolder.value.style.backgroundImage = `url(${imageHolder.value.getAttribute('data-zbg')}`
+				iObserver.unobserve(root.value);
+			})
+		}
+
+		onMounted(() => {
+			iObserver.observe(root.value)
+		})
+
+		onBeforeUnmount(() => {
+			iObserver.unobserve(root.value)
+		})
+
 		return {
+			// Refs
+			imageHolder,
+			root,
 			purchaseURL,
 			dashboardURL,
 			isProConnected,
@@ -161,14 +190,12 @@ export default {
 }
 </script>
 <style lang="scss">
-.znpb-editor-library-modal__item--grid-sizer,
-.znpb-editor-library-modal__item {
+.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
 	width: 100%;
 }
 
 @media (min-width: 992px) {
-	.znpb-editor-library-modal__item--grid-sizer,
-	.znpb-editor-library-modal__item {
+	.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
 		width: 50%;
 	}
 
@@ -178,8 +205,7 @@ export default {
 }
 
 @media (min-width: 1200px) {
-	.znpb-editor-library-modal__item--grid-sizer,
-	.znpb-editor-library-modal__item {
+	.znpb-editor-library-modal__item--grid-sizer, .znpb-editor-library-modal__item {
 		width: calc(100% / 3);
 	}
 }
@@ -190,7 +216,7 @@ export default {
 	padding: 10px;
 	margin-bottom: 20px;
 	border-radius: 3px;
-	transition: box-shadow 0.2s;
+	transition: box-shadow .2s;
 	cursor: pointer;
 
 	&Inner:hover {
@@ -202,15 +228,19 @@ export default {
 	}
 
 	&-image {
+		height: 200px;
+		background-position: top;
+		background-size: cover;
 		border-bottom: 1px solid var(--zb-surface-lighter-color);
+		transition: background-position 5s;
+
+		&:hover {
+			background-position: bottom;
+		}
 
 		&.--no-image {
 			min-height: 180px;
 			background-color: var(--zb-surface-lighter-color);
-		}
-
-		img {
-			display: block;
 		}
 	}
 
@@ -232,10 +262,10 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		padding: 10px 20px;
 		background: var(--zb-surface-lighter-color);
 		border-bottom-right-radius: 3px;
 		border-bottom-left-radius: 3px;
-		padding: 10px 20px;
 
 		.znpb-loader-wrapper {
 			max-width: 40px;
@@ -251,8 +281,7 @@ export default {
 	&-actions {
 		display: flex;
 		align-items: center;
-		& > span,
-		& > a {
+		& > span, & > a {
 			margin-right: 8px;
 		}
 
@@ -277,8 +306,8 @@ export default {
 		background-color: rgb(255, 255, 255);
 		border: 1px solid var(--zb-surface-border-color);
 		border-radius: 3px;
-		transform: scale(0.9) translateY(15px);
-		transition: box-shadow 0.2s;
+		transform: scale(.9) translateY(15px);
+		transition: box-shadow .2s;
 
 		break-inside: avoid;
 
@@ -290,7 +319,7 @@ export default {
 			width: 100%;
 			height: 30px;
 			background-color: rgb(255, 255, 255);
-			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, 0.08);
+			box-shadow: 0 4px 10px 0 rgba(164, 164, 164, .08);
 			border: 1px solid var(--zb-surface-border-color);
 			border-radius: 3px;
 			transform: scale(1.07) translateY(-6px);
@@ -310,8 +339,7 @@ export default {
 	}
 	&--favorite {
 		.znpb-editor-icon.zion-heart {
-			path,
-			path:first-child {
+			path, path:first-child {
 				fill: var(--zb-secondary-color);
 			}
 		}
