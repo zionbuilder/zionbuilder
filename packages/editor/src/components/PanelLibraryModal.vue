@@ -36,15 +36,15 @@
 				<template v-else>
 					<h2
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': localActive}"
-						@click="localActive=true, zionActive=false"
+						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === 'local'}"
+						@click="setActiveSource('local')"
 					>
 						{{$translate('local_library')}}
 					</h2>
 					<h2
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': zionActive}"
-						@click="localActive=false, zionActive=true"
+						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === 'zion-library'}"
+						@click="setActiveSource('zion-library')"
 					>
 						{{$translate('zion_library')}}
 					</h2>
@@ -94,7 +94,7 @@
 
 					<template v-else>
 						<Button
-							v-if="localActive"
+							v-if="activeLibraryTab === 'local'"
 							type="secondary"
 							@click="importActive = !importActive , templateUploaded=!templateUploaded "
 						>
@@ -141,8 +141,15 @@
 			@file-uploaded="onTemplateUpload"
 		/>
 
+		<localLibrary
+			ref="localLibraryContent"
+			v-else-if="activeLibraryTab === 'local'"
+			:preview-open="previewOpen"
+			@activate-preview="activatePreview"
+		/>
+
 		<LibraryPanel
-			v-if="!localActive && !importActive"
+			v-else-if="activeLibraryTab === 'zion-library'"
 			@activate-preview="previewOpen=true, activeItem=$event"
 			@activate-multiple="multiple=$event"
 			@loading-start="libLoading = true"
@@ -153,12 +160,6 @@
 			ref="libraryContent"
 		/>
 
-		<localLibrary
-			ref="localLibraryContent"
-			v-if="localActive && !importActive"
-			:preview-open="previewOpen"
-			@activate-preview="activatePreview"
-		/>
 	</Modal>
 
 </template>
@@ -168,7 +169,7 @@ import { ref, watch } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
-import { useUI, useElements, useEditorData } from '@composables'
+import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
 import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
 
 // Components
@@ -189,21 +190,33 @@ export default {
 		}
 	},
 	setup (props) {
+		const { addData, getData } = useLocalStorage()
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
 		const { fetchTemplates, loading } = useLocalLibrary()
-		let libLoading = ref(false)
+		const libLoading = ref(false)
+		const activeLibraryTab = ref(getData('libraryActiveSource', 'local'))
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
+
 		watch(loading, (newVal) => {
 			libLoading.value = newVal
 		})
 
+		function setActiveSource (source, save = true) {
+			activeLibraryTab.value = source
+
+			if (save) {
+				addData('libraryActiveSource', source)
+			}
+		}
+
 		return {
 			// refs
 			isLibraryOpen,
+			activeLibraryTab,
 
 			// methods
 			closeLibrary,
@@ -213,7 +226,8 @@ export default {
 			editorData,
 			isProActive,
 			isProConnected,
-			purchaseURL
+			purchaseURL,
+			setActiveSource
 		}
 	},
 	data () {
@@ -221,8 +235,6 @@ export default {
 			importActive: false,
 			multiple: false,
 			fullSize: false,
-			localActive: false,
-			zionActive: true,
 			previewOpen: false,
 			activeItem: null,
 			insertItemLoading: false,
@@ -242,7 +254,7 @@ export default {
 	methods: {
 		onTemplateUpload () {
 			this.importActive = false
-			this.localActive = true
+			this.setActiveSource('local')
 			this.templateUploaded = true
 		},
 		insertLibraryItem () {
@@ -255,7 +267,7 @@ export default {
 		onRefresh () {
 			this.templateUploaded = false
 
-			this.localActive ? this.fetchTemplates(true) : this.$refs.libraryContent.getDataFromServer(false)
+			this.activeLibraryTab === 'local' ? this.fetchTemplates(true) : this.$refs.libraryContent.getDataFromServer(false)
 		},
 		closeBody () {
 			if (this.multiple && this.previewOpen) {
