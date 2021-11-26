@@ -712,14 +712,13 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
-		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
-
 		/**
 		 * Allows you to create a different renderer
 		 */
 		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', null, $this );
 		if ( $custom_renderer ) {
 			$custom_renderer->render_element( $extra_render_data, $this );
+
 		} else {
 			$this->do_element_render( $extra_render_data );
 		}
@@ -770,6 +769,7 @@ class Element {
 		$this->extra_render_data = $extra_render_data;
 
 		$this->before_render( $this->options );
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
 
