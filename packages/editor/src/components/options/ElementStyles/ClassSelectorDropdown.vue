@@ -304,6 +304,7 @@ export default {
 		},
 
 		removeClass (selector) {
+
 			const classIndex = this.computedValue.indexOf(selector)
 			const clonedValue = [...this.computedValue]
 			const previousClassIndex = classIndex - 1

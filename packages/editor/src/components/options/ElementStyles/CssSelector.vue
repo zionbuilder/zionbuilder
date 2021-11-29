@@ -43,7 +43,7 @@
 			v-if="showActions"
 			icon="close"
 			v-znpb-tooltip="$translate('delete_class_tooltip')"
-			v-on:click.stop='handleDeleteClass(name)'
+			@click.stop="handleDeleteClass"
 			class="znpb-css-class-selector__item-close"
 			:class="{
 				'znpb-css-class-selector__item-close--disabled': !showDelete
@@ -97,7 +97,7 @@ export default {
 
 		function handleDeleteClass () {
 			if (props.showDelete) {
-				emit('remove-class', this.name)
+				emit('remove-class', props.classConfig.selector)
 			}
 		}
 
@@ -227,9 +227,9 @@ export default {
 	}
 
 	&-close {
+		display: flex;
 		color: var(--zb-surface-icon-color);
 		font-size: 8px;
-		display: flex;
 		cursor: pointer;
 
 		&:hover {
@@ -237,8 +237,8 @@ export default {
 		}
 
 		&--disabled {
+			opacity: .35;
 			pointer-events: none;
-			opacity: 0.35;
 		}
 	}
 
@@ -251,8 +251,8 @@ export default {
 		}
 
 		&--disabled {
+			opacity: .35;
 			pointer-events: none;
-			opacity: 0.35;
 		}
 	}
 }
