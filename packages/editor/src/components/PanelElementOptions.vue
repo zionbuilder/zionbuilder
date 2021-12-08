@@ -205,13 +205,13 @@ export default {
 			}
 		})
 
-		watch(element.value.options, (newValue) => {
+		watch(elementOptions, (newValue) => {
 			// Add to history
 			if (!ignoreLocalHistory) {
 				addToLocalHistory()
 				ignoreLocalHistory = false
 			}
-		})
+		}, { deep: true })
 
 		const advancedOptionsModel = computed({
 			get () {
@@ -233,16 +233,8 @@ export default {
 			}
 		})
 
-		const canUndo = computed(() => {
-			return historyIndex.value > 0
-		})
-
 		const searchIcon = computed(() => {
 			return searchActive.value ? 'close' : 'search'
-		})
-
-		const canRedo = computed(() => {
-			return historyIndex.value + 1 < history.value.length
 		})
 
 		const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0)
@@ -258,6 +250,14 @@ export default {
 			history.value.push(clonedValues)
 			historyIndex.value++
 		}, 500)
+
+		const canUndo = computed(() => {
+			return history.value[historyIndex.value - 1]
+		})
+
+		const canRedo = computed(() => {
+			return history.value[historyIndex.value + 1]
+		})
 
 		function undo () {
 			const prevState = history.value[historyIndex.value - 1]
@@ -572,16 +572,18 @@ export default {
 			}
 
 			// Undo CTRL+Z
-			if (e.which === 90 && e[controllKey] && !e.shiftKey) {
+			if (e.which === 90 && e[controllKey] && !e.shiftKey && this.canUndo) {
 				this.undo()
 				e.preventDefault()
 				e.stopPropagation()
 			}
 			// Redo CTRL+SHIFT+Z CTRL + Y
 			if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
-				this.redo()
-				e.preventDefault()
-				e.stopPropagation()
+				if (this.canRedo) {
+					this.redo()
+					e.preventDefault()
+					e.stopPropagation()
+				}
 			}
 		}
 	},
