@@ -124,7 +124,12 @@ export default {
 	flex-shrink: 0;
 	max-height: 100%;
 	padding: 0;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 	transition: all .2s;
+
+	&:last-child {
+		border-bottom: none;
+	}
 
 	&__header {
 		display: flex;
