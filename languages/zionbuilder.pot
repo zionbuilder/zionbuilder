@@ -3685,7 +3685,7 @@ msgid "Buton styles"
 msgstr ""
 
 #: ../includes/Elements/ProgressBars/ProgressBars.php:38
-msgid "Progress bars"
+msgid "Progress Bars"
 msgstr ""
 
 #: ../includes/Elements/ProgressBars/ProgressBars.php:75

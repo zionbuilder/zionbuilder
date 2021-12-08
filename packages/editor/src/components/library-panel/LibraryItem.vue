@@ -9,7 +9,7 @@
 			<div
 				class="znpb-editor-library-modal__item-image"
 				:class="{['--no-image']: !item.thumbnail}"
-				@click="$emit('activate-item',item)"
+				@click="$emit('activate-item', item)"
 				:data-zbg="item.thumbnail"
 				ref="imageHolder"
 			/>

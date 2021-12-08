@@ -2,7 +2,7 @@
 	<BasePanel
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
-		v-on:close-panel="closePanel('panel-global-settings')"
+		@close-panel="closePanel('panel-global-settings')"
 		class="znpb-general-options-panel-wrapper"
 	>
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">

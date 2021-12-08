@@ -1,7 +1,7 @@
 <template>
 	<div
-		:class="{'znpb-active': isExpanded}"
-		class="znpb-editor-library-modal-category znpb-fancy-scrollbar"
+		:class="{'znpb-active': isActive}"
+		class="znpb-editor-library-modal-category"
 		v-if="hasParent"
 	>
 		<div
@@ -11,10 +11,10 @@
 			<h6
 				class="znpb-editor-library-modal-category__title"
 				v-html="category.name || ''"
-			>
+			/>
 
-			</h6>
 			<Icon
+				v-if="hasSubcategories"
 				icon="select"
 				:rotate="getRotate"
 				class="znpb-editor-library-modal-category__header-icon"
@@ -22,8 +22,8 @@
 		</div>
 
 		<ul
-			v-if="expanded"
-			class="znpb-editor-library-modal-category__list"
+			v-if="hasSubcategories && expanded"
+			class="znpb-editor-library-modal-category__list znpb-fancy-scrollbar"
 		>
 
 			<CategoriesLibraryItem
@@ -50,7 +50,7 @@ export default {
 			type: Object,
 			required: false
 		},
-		isExpanded: {
+		isActive: {
 			type: Boolean,
 			default: false
 		},
@@ -72,15 +72,20 @@ export default {
 	},
 	data () {
 		return {
-			expanded: this.isExpanded
+			expanded: false
 		}
 	},
 	watch: {
-		isExpanded (newVal, oldVal) {
-			this.expanded = newVal
+		isActive (newVal) {
+			if (this.hasSubcategories) {
+				this.expanded = newVal
+			}
 		}
 	},
 	computed: {
+		hasSubcategories () {
+			return this.subcategory && this.subcategory.length > 0
+		},
 		getRotate () {
 			return this.expanded ? '180' : '0'
 		},
@@ -93,14 +98,15 @@ export default {
 	},
 	methods: {
 		selectCategory () {
-			if (this.isExpanded) {
-				if (this.expanded === false) {
-					this.expanded = true
-				} else this.expanded = false
-			} else {
+			if (!this.isExpanded) {
 				this.$emit('activate-category', this.parent)
-				this.expanded = true
 			}
+
+			// Only expand if we have subcategories
+			if (this.hasSubcategories) {
+				this.expanded = !this.expanded
+			}
+
 		},
 
 		onSubCategoryActive (subcategory) {
@@ -118,7 +124,7 @@ export default {
 	flex-shrink: 0;
 	max-height: 100%;
 	padding: 0;
-	transition: all 0.2s;
+	transition: all .2s;
 
 	&__header {
 		display: flex;
