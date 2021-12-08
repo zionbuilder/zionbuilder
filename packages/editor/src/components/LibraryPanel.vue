@@ -87,7 +87,7 @@
 			</div>
 
 		</div>
-		{{previewOpen}}
+
 		<transition name="slide-preview">
 			<div
 				v-if="previewOpen && activeItem"
