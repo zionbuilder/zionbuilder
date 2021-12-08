@@ -91,7 +91,8 @@ export default {
 
 			if (this.linked) {
 				// Check to see if we already have a saved value
-				const savedPositionValue = Object.keys(this.valueModel).find(position => typeof this.valueModel[position] !== 'undefined')
+				const dimensionsIDs = this.dimensions.map(dimension => dimension.id)
+				const savedPositionValue = Object.keys(this.valueModel).find(position => dimensionsIDs.includes(position) && typeof this.valueModel[position] !== 'undefined')
 
 				if (savedPositionValue) {
 					this.onValueUpdated('', this.valueModel[savedPositionValue])
