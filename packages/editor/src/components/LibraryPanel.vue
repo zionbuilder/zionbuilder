@@ -87,9 +87,10 @@
 			</div>
 
 		</div>
+		{{previewOpen}}
 		<transition name="slide-preview">
 			<div
-				v-if="previewOpen"
+				v-if="previewOpen && activeItem"
 				class="znpb-editor-library-modal-preview znpb-fancy-scrollbar"
 			>
 				<iframe
