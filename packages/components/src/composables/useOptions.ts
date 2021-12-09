@@ -27,7 +27,8 @@ import {
 	InputCheckboxSwitch,
 	InputTextAlign,
 	InputBorderTabs,
-	InputBackgroundVideo
+	InputBackgroundVideo,
+	InputMarginPadding
 } from '../components'
 
 const options = {
@@ -151,6 +152,10 @@ const options = {
 	shape_component: {
 		id: 'shape_component',
 		component: ShapeDividerComponent
+	},
+	margin_padding: {
+		id: 'margin_padding',
+		component: InputMarginPadding
 	}
 
 }

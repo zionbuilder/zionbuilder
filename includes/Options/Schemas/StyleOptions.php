@@ -203,77 +203,108 @@ class StyleOptions extends BaseSchema {
 
 	public static function attach_size_and_spacings_options( $options ) {
 		$spacing_group = $options->add_group(
-			'padding',
+			'margin_padding',
 			[
 				'type'  => 'panel_accordion',
 				'title' => esc_html__( 'Spacing', 'zionbuilder' ),
 			]
 		);
-
 		$spacing_group->add_group(
-			'padding',
+			'margin-padding',
 			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				'min'         => 0,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'padding-top',
-						'id'   => 'padding-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'padding-right',
-						'id'   => 'padding-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'padding-bottom',
-						'id'   => 'padding-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'padding-left',
-						'id'   => 'padding-left',
-					],
-				],
+				'type' => 'margin_padding',
+				// 'title'       => esc_html__( 'Padding', 'zionbuilder' ),
+				// 'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
+				// 'min'        => 0,
+				// 'max'        => 99999,
+				// 'dimensions' => [
+				// 	[
+				// 		'name' => 'top',
+				// 		'icon' => 'padding-top',
+				// 		'id'   => 'padding-top',
+				// 	],
+				// 	[
+				// 		'name' => 'right',
+				// 		'icon' => 'padding-right',
+				// 		'id'   => 'padding-right',
+				// 	],
+				// 	[
+				// 		'name' => 'bottom',
+				// 		'icon' => 'padding-bottom',
+				// 		'id'   => 'padding-bottom',
+				// 	],
+				// 	[
+				// 		'name' => 'left',
+				// 		'icon' => 'padding-left',
+				// 		'id'   => 'padding-left',
+				// 	],
+				// ],
 			]
 		);
-		$spacing_group->add_group(
-			'margin',
-			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Margin', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
-				'min'         => -99999,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'margin-top',
-						'id'   => 'margin-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'margin-right',
-						'id'   => 'margin-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'margin-bottom',
-						'id'   => 'margin-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'margin-left',
-						'id'   => 'margin-left',
-					],
-				],
-			]
-		);
+		// $spacing_group->add_group(
+		// 	'padding',
+		// 	[
+		// 		'type'        => 'dimensions',
+		// 		'title'       => esc_html__( 'Padding', 'zionbuilder' ),
+		// 		'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
+		// 		'min'         => 0,
+		// 		'max'         => 99999,
+		// 		'dimensions'  => [
+		// 			[
+		// 				'name' => 'top',
+		// 				'icon' => 'padding-top',
+		// 				'id'   => 'padding-top',
+		// 			],
+		// 			[
+		// 				'name' => 'right',
+		// 				'icon' => 'padding-right',
+		// 				'id'   => 'padding-right',
+		// 			],
+		// 			[
+		// 				'name' => 'bottom',
+		// 				'icon' => 'padding-bottom',
+		// 				'id'   => 'padding-bottom',
+		// 			],
+		// 			[
+		// 				'name' => 'left',
+		// 				'icon' => 'padding-left',
+		// 				'id'   => 'padding-left',
+		// 			],
+		// 		],
+		// 	]
+		// );
+		// $spacing_group->add_group(
+		// 	'margin',
+		// 	[
+		// 		'type'        => 'dimensions',
+		// 		'title'       => esc_html__( 'Margin', 'zionbuilder' ),
+		// 		'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
+		// 		'min'         => -99999,
+		// 		'max'         => 99999,
+		// 		'dimensions'  => [
+		// 			[
+		// 				'name' => 'top',
+		// 				'icon' => 'margin-top',
+		// 				'id'   => 'margin-top',
+		// 			],
+		// 			[
+		// 				'name' => 'right',
+		// 				'icon' => 'margin-right',
+		// 				'id'   => 'margin-right',
+		// 			],
+		// 			[
+		// 				'name' => 'bottom',
+		// 				'icon' => 'margin-bottom',
+		// 				'id'   => 'margin-bottom',
+		// 			],
+		// 			[
+		// 				'name' => 'left',
+		// 				'icon' => 'margin-left',
+		// 				'id'   => 'margin-left',
+		// 			],
+		// 		],
+		// 	]
+		// );
 
 		$sizings_group = $options->add_group(
 			'sizing',

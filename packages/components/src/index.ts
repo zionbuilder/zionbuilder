@@ -44,6 +44,7 @@ import { InputTextShadow } from './components/InputTextShadow'
 import { InputNumber, InputNumberUnit } from './components/InputNumber'
 import { InputTextAlign } from './components/InputTextAlign'
 import { OptionsForm, OptionWrapper } from './components/OptionsForm'
+import { InputMarginPadding } from './components/InputMarginPadding'
 
 import { Loader } from './components/Loader'
 import { Label } from './components/Label'
@@ -133,6 +134,7 @@ const components = [
 	InputTextAlign,
 	OptionsForm,
 	OptionWrapper,
+	InputMarginPadding,
 	getDefaultGradient
 ]
 
@@ -218,5 +220,6 @@ export {
 	InputTextAlign,
 	OptionsForm,
 	OptionWrapper,
+	InputMarginPadding,
 	getDefaultGradient
 }
