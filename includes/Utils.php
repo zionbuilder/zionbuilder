@@ -36,6 +36,18 @@ class Utils {
 	}
 
 	/**
+	 * Will generate an unique id
+	 *
+	 * @param string $prepend
+	 * @param integer $length
+	 *
+	 * @return string
+	 */
+	public static function generate_uid( $prepend = 'uid', $length = 12 ) {
+		return $prepend . substr( str_shuffle( MD5( microtime() ) ), 0, $length );
+	}
+
+	/**
 	 * Returns the zion builder PRO logo URL
 	 *
 	 * @return string

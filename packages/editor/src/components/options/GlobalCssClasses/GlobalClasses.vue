@@ -47,6 +47,7 @@
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue'
 import { useCSSClasses } from '@composables'
+import { generateUID } from '@zb/utils'
 
 import AddSelector from '../common/AddSelector.vue'
 
@@ -71,7 +72,6 @@ export default {
 			if (keyword.value.length === 0) {
 				return CSSClasses.value
 			} else {
-
 				return getClassesByFilter(keyword.value)
 			}
 		})
@@ -81,8 +81,8 @@ export default {
 			const selectors = filteredClasses.value || []
 
 			selectors.forEach(cssClassConfig => {
-				const { id, title } = cssClassConfig
-				schema[id] = {
+				const { uid, title } = cssClassConfig
+				schema[uid] = {
 					type: 'css_selector',
 					title: title,
 					allow_class_assignments: false,
@@ -97,9 +97,10 @@ export default {
 			get () {
 				const modelValue = {}
 				const existingCSSClasses = CSSClasses.value
+
 				existingCSSClasses.forEach(cssClassConfig => {
-					const { id } = cssClassConfig
-					modelValue[id] = cssClassConfig
+					const { uid } = cssClassConfig
+					modelValue[uid] = cssClassConfig
 				})
 
 				return modelValue

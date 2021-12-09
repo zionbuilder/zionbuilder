@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { cloneDeep, merge } from 'lodash-es'
+import { generateUID } from '@zb/utils'
 
 const CSSClasses = ref(window.ZnPbInitalData.css_classes || [])
 const copiedStyles = ref(null)
@@ -18,7 +19,9 @@ export const useCSSClasses = () => {
 	}
 
 	const addCSSClass = (config) => {
-		CSSClasses.value.push(config)
+		const classToAdd = { ...config }
+		classToAdd.uid = config.uid || generateUID()
+		CSSClasses.value.push(classToAdd)
 	}
 
 	const removeCSSClass = (cssClass) => {

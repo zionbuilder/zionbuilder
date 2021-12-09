@@ -70,6 +70,7 @@
 import { computed } from 'vue'
 import { useBuilderOptions } from '@zionbuilder/composables'
 import { generateUID } from '@zb/utils'
+
 // Components
 import ColorBox from './ColorBox.vue'
 import Sortable from '../../../../sortable/src/components/sortable/Sortable.vue'
