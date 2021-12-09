@@ -1,36 +1,25 @@
 <template>
-	<div class="option">
-		<div class="option__margin">
-			<div class="option__value option__valueMargin option__valueMargin--top">
+	<div class="znpb-option__marginPadding">
+		<div class="znpb-option__marginPadding-marginWrapper">
+			<div
+				v-for="position in marginPositions"
+				:key="position.position"
+				:class="{
+					[`znpb-option__marginPadding-${position.position}`]: true
+				}"
+				class="option__value option__valueMargin"
+				@mouseenter="activeHover = position.title"
+				@mouseleave="activeHover = null"
+			>
 				<input
 					type="text"
 					placeholder="-"
-					readonly
-				>
-			</div>
-			<div class="option__value option__valueMargin option__valueMargin--right">
-				<input
-					type="text"
-					placeholder="-"
-					readonly
-				>
-			</div>
-			<div class="option__value option__valueMargin option__valueMargin--bottom">
-				<input
-					type="text"
-					placeholder="-"
-					readonly
-				>
-			</div>
-			<div class="option__value option__valueMargin option__valueMargin--left">
-				<input
-					type="text"
-					placeholder="-"
+					:value="computedValues[position.position]"
 					readonly
 				>
 			</div>
 			<div class="option__label">
-				<span class="option__labelTitle">Margin</span>
+				<span class="option__labelTitle">{{$translate('margin')}}</span>
 				<span class="option__link">
 					<svg
 						class="zion-svg-inline znpb-editor-icon zion-unlink zion-icon"
@@ -53,59 +42,38 @@
 					viewBox="0 0 320 186"
 				>
 					<path
-						cursor="s-resize"
-						fill="#2F2F34"
-						d="M0 0h320l-50 36H50L0 0Z"
-					/>
-					<path
-						cursor="s-resize"
-						fill="#2F2F34"
-						d="M50 150h220l50 36H0l50-36Z"
-					/>
-					<path
-						cursor="w-resize"
-						fill="#35353A"
-						d="m0 3 50 36v108L0 183V3Z"
-					/>
-					<path
-						cursor="w-resize"
-						fill="#35353A"
-						d="m320 183-50-36V39l50-36v180Z"
+						v-for="position in marginPositions"
+						:key="position.position"
+						:cursor="position.svg.cursor"
+						:fill="position.svg.fill"
+						:d="position.svg.d"
+						@mouseenter="activeHover = position.title"
+						@mouseleave="activeHover = null"
 					/>
 				</svg>
 			</div>
 		</div>
 		<div class="option__padding">
-			<div class="option__value option__valuePadding option__valuePadding--top">
+			<div
+				v-for="position in paddingPositions"
+				:key="position.position"
+				:class="{
+					[`znpb-option__marginPadding-${position.position}`]: true
+				}"
+				class="option__value option__valuePadding"
+				@mouseenter="activeHover = position.title"
+				@mouseleave="activeHover = null"
+			>
 				<input
 					type="text"
 					placeholder="-"
+					:value="computedValues[position.position]"
 					readonly
 				>
 			</div>
-			<div class="option__value option__valuePadding option__valuePadding--right">
-				<input
-					type="text"
-					placeholder="-"
-					readonly
-				>
-			</div>
-			<div class="option__value option__valuePadding option__valuePadding--bottom">
-				<input
-					type="text"
-					placeholder="-"
-					readonly
-				>
-			</div>
-			<div class="option__value option__valuePadding option__valuePadding--left">
-				<input
-					type="text"
-					placeholder="-"
-					readonly
-				>
-			</div>
+
 			<div class="option__label">
-				<span class="option__labelTitle">Padding</span>
+				<span class="option__labelTitle">{{$translate('padding')}}</span>
 				<span class="option__link">
 					<svg
 						class="zion-svg-inline znpb-editor-icon zion-unlink zion-icon"
@@ -128,43 +96,164 @@
 					viewBox="0 0 214 108"
 				>
 					<path
-						cursor="s-resize"
-						fill="#2F2F34"
-						d="M0 0h214l-50 36H50L0 0Z"
-					/>
-					<path
-						cursor="s-resize"
-						fill="#2F2F34"
-						d="M214 108H0l50-36h114l50 36Z"
-					/>
-					<path
-						cursor="w-resize"
-						fill="#35353A"
-						d="m0 3 50 36v30L0 105V3Z"
-					/>
-					<path
-						cursor="w-resize"
-						fill="#35353A"
-						d="m214 105-50-36V39l50-36v102Z"
+						v-for="position in paddingPositions"
+						:key="position.position"
+						:cursor="position.svg.cursor"
+						:fill="position.svg.fill"
+						:d="position.svg.d"
+						@mouseenter="activeHover = position.title"
+						@mouseleave="activeHover = null"
 					/>
 				</svg>
 			</div>
 		</div>
-		<span class="option__info">Margin right</span>
+		<span class="option__info">{{activeHover}}</span>
 	</div>
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+import { translate } from '@zb/i18n'
+
 export default {
 	name: 'InputMarginPadding',
+	props: {
+		modelValue: {
+			type: Object,
+			default: {}
+		}
+	},
 	setup (props, { emit }) {
-		return {}
+		const marginPositions = [
+			{
+				position: 'margin-top',
+				title: translate('margin-top'),
+				svg: {
+					cursor: 's-resize',
+					fill: '#2F2F34',
+					d: 'M0 0h320l-50 36H50L0 0Z'
+				}
+			},
+			{
+				position: 'margin-right',
+				title: translate('margin-right'),
+				svg: {
+					cursor: 'w-resize',
+					fill: '#35353A',
+					d: 'm320 183-50-36V39l50-36v180Z'
+				}
+			},
+			{
+				position: 'margin-bottom',
+				title: translate('margin-bottom'),
+				svg: {
+					cursor: 's-resize',
+					fill: '#2F2F34',
+					d: 'M50 150h220l50 36H0l50-36Z'
+				}
+			},
+			{
+				position: 'margin-left',
+				title: translate('margin-left'),
+				svg: {
+					cursor: 'w-resize',
+					fill: '#35353A',
+					d: 'm0 3 50 36v108L0 183V3Z'
+				}
+			},
+		]
+
+		const paddingPositions = [
+			{
+				position: 'padding-top',
+				title: translate('padding-top'),
+				svg: {
+					cursor: 's-resize',
+					fill: '#2F2F34',
+					d: 'M0 0h214l-50 36H50L0 0Z'
+				}
+			},
+			{
+				position: 'padding-right',
+				title: translate('padding-right'),
+				svg: {
+					cursor: 'w-resize',
+					fill: '#35353A',
+					d: 'm214 105-50-36V39l50-36v102Z'
+				}
+			},
+			{
+				position: 'padding-bottom',
+				title: translate('padding-bottom'),
+				svg: {
+					cursor: 's-resize',
+					fill: '#2F2F34',
+					d: 'M214 108H0l50-36h114l50 36Z'
+				}
+			},
+			{
+				position: 'padding-left',
+				title: translate('padding-left'),
+				svg: {
+					cursor: 'w-resize',
+					fill: '#35353A',
+					d: 'm0 3 50 36v30L0 105V3Z'
+				}
+			}
+		]
+		const allowedValues = [
+			...marginPositions,
+			...paddingPositions
+		].map(position => position.position)
+
+		/**
+		 * Refs
+		 */
+		const activeHover = ref(null)
+
+		const computedValues = computed({
+			get () {
+				const values = {}
+
+				Object.keys(props.modelValue).forEach(optionId => {
+					if (allowedValues.includes(optionId)) {
+						values[optionId] = props.modelValue[optionId]
+					}
+				})
+
+				return values
+			}, set (newValues) {
+				console.log('New values', newValues);
+			}
+		})
+
+		function onValueUpdated (sizePosition, newValue) {
+			computedValues.value = {
+				...this.modelValue,
+				[sizePosition]: newValue
+			}
+		}
+
+		return {
+			// Normal vars
+			marginPositions,
+			paddingPositions,
+
+			// Refs
+			activeHover,
+
+			// Computed
+			computedValues,
+
+			// methods
+			onValueUpdated
+		}
 	}
 }
 </script>
 
 <style lang="scss">
-.option {
+.znpb-option__marginPadding {
 	display: grid;
 	width: 320px;
 	height: 186px;
@@ -175,7 +264,7 @@ export default {
 	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
 }
 
-.option__margin {
+.znpb-option__marginPadding-marginWrapper {
 	position: relative;
 	display: grid;
 	width: 320px;
@@ -268,6 +357,7 @@ export default {
 .option__value input {
 	max-width: 40px;
 	color: #858585;
+	font-size: 11px;
 	font-weight: bold;
 	text-align: center;
 	background: transparent;
@@ -279,35 +369,35 @@ export default {
 	outline: none;
 }
 
-.option__valueMargin--top {
+.znpb-option__marginPadding-margin-top {
 	grid-area: 1 / 2 / 2 / 3;
 }
 
-.option__valueMargin--right {
+.znpb-option__marginPadding-margin-right {
 	grid-area: 2 / 3 / 3 / 4;
 }
 
-.option__valueMargin--bottom {
+.znpb-option__marginPadding-margin-bottom {
 	grid-area: 3 / 2 / 4 / 3;
 }
 
-.option__valueMargin--left {
+.znpb-option__marginPadding-margin-left {
 	grid-area: 2 / 1 / 3 / 2;
 }
 
-.option__valuePadding--top {
+.znpb-option__marginPadding-padding-top {
 	grid-area: 1 / 2 / 2 / 3;
 }
 
-.option__valuePadding--right {
+.znpb-option__marginPadding-padding-right {
 	grid-area: 2 / 3 / 3 / 4;
 }
 
-.option__valuePadding--bottom {
+.znpb-option__marginPadding-padding-bottom {
 	grid-area: 3 / 2 / 4 / 3;
 }
 
-.option__valuePadding--left {
+.znpb-option__marginPadding-padding-left {
 	grid-area: 2 / 1 / 3 / 2;
 }
 

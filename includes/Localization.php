@@ -734,9 +734,19 @@ class Localization {
 				'css_class_placeholder'                    => __( 'my-class-name', 'zionbuilder' ),
 
 				// admin custom code
-				'custom_code'                    => __( 'Custom code', 'zionbuilder' ),
+				'custom_code'                              => __( 'Custom code', 'zionbuilder' ),
 
-
+				// Option margin-padding
+				'margin'                                   => __( 'Margin', 'zionbuilder' ),
+				'margin-top'                               => __( 'Margin top', 'zionbuilder' ),
+				'margin-right'                             => __( 'Margin right', 'zionbuilder' ),
+				'margin-bottom'                            => __( 'Margin bottom', 'zionbuilder' ),
+				'margin-left'                              => __( 'Margin left', 'zionbuilder' ),
+				'padding'                                  => __( 'Padding', 'zionbuilder' ),
+				'padding-top'                              => __( 'Padding top', 'zionbuilder' ),
+				'padding-right'                            => __( 'Padding right', 'zionbuilder' ),
+				'padding-bottom'                           => __( 'Padding bottom', 'zionbuilder' ),
+				'padding-left'                             => __( 'Padding left', 'zionbuilder' ),
 			]
 		);
 	}
