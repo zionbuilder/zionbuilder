@@ -1,13 +1,13 @@
 <template>
-	<div class="znpb-option__marginPadding">
-		<div class="znpb-option__marginPadding-marginWrapper">
+	<div class="znpb-optSpacing">
+		<div class="znpb-optSpacing-margin">
 			<div
 				v-for="position in marginPositions"
 				:key="position.position"
 				:class="{
-					[`znpb-option__marginPadding-${position.position}`]: true
+					[`znpb-optSpacing-${position.position}`]: true
 				}"
-				class="option__value option__valueMargin"
+				class="znpb-optSpacing-value znpb-optSpacing-value--margin"
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@click="activePopup = position"
@@ -19,40 +19,20 @@
 					readonly
 				>
 			</div>
-			<div class="option__label">
-				<span class="option__labelTitle">{{$translate('margin')}}</span>
+			<div class="znpb-optSpacing-labelWrapper">
+				<span class="znpb-optSpacing-label">{{$translate('margin')}}</span>
 				<Icon
-					:icon="linkedMargin ? 'link' : 'unlink'"
-					:title="linkedMargin ? 'Unlink' : 'Link'"
-					class="option__link"
-					:class="{
-						'option__link--linked': linkedMargin
-					}"
-					@click="linkValues('margin')"
-				></Icon>
-
-				<span
-					class="option__link"
-					@click="linkValues('margin')"
-					:class="{
-						'option__link--linked': linkedMargin
-					}"
-				>
-					<svg
-						class="zion-svg-inline znpb-editor-icon zion-unlink zion-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-						viewBox="0 0 28 28"
-						preserveAspectRatio=""
-					>
-						<path
-							fill="currentColor"
-							d="M4 14c0-2.2 1.8-4 4-4h2.2l4-4H8c-4.4 0-8 3.6-8 8 0 1.7.6 3.3 1.5 4.7l2.9-2.9c-.2-.6-.4-1.2-.4-1.8zM23.8 7l1.5-1.5-2.8-2.8L2.7 22.5l2.8 2.8L8.8 22H20c4.4 0 8-3.6 8-8 0-3-1.7-5.6-4.2-7zM20 18h-7.2l7.9-7.9c1.8.4 3.2 2 3.2 3.9.1 2.2-1.7 4-3.9 4z"
-						></path>
-					</svg>
-				</span>
+                    :icon="linkedMargin ? 'link' : 'unlink'"
+                    :title="linkedMargin ? 'Unlink' : 'Link'"
+					:size="12"
+                    class="znpb-optSpacing-link"
+                    :class="{
+                        'znpb-optSpacing-link--linked': linkedMargin
+                    }"
+                    @click="linkValues('margin')"
+                ></Icon>
 			</div>
-			<div class="option__svg">
+			<div class="znpb-optSpacing-svg">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -70,14 +50,14 @@
 				</svg>
 			</div>
 		</div>
-		<div class="option__padding">
+		<div class="znpb-optSpacing-padding">
 			<div
 				v-for="position in paddingPositions"
 				:key="position.position"
 				:class="{
-					[`znpb-option__marginPadding-${position.position}`]: true
+					[`znpb-optSpacing-${position.position}`]: true
 				}"
-				class="option__value option__valuePadding"
+				class="znpb-optSpacing-value znpb-optSpacing-value--padding"
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 			>
@@ -90,30 +70,20 @@
 				>
 			</div>
 
-			<div class="option__label">
-				<span class="option__labelTitle">{{$translate('padding')}}</span>
-				<span
-					class="option__link"
-					:class="{
-						'option__link--linked': linkedPadding
-					}"
-					@click="linkValues('padding')"
-				>
-					<svg
-						class="zion-svg-inline znpb-editor-icon zion-unlink zion-icon"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden="true"
-						viewBox="0 0 28 28"
-						preserveAspectRatio=""
-					>
-						<path
-							fill="currentColor"
-							d="M4 14c0-2.2 1.8-4 4-4h2.2l4-4H8c-4.4 0-8 3.6-8 8 0 1.7.6 3.3 1.5 4.7l2.9-2.9c-.2-.6-.4-1.2-.4-1.8zM23.8 7l1.5-1.5-2.8-2.8L2.7 22.5l2.8 2.8L8.8 22H20c4.4 0 8-3.6 8-8 0-3-1.7-5.6-4.2-7zM20 18h-7.2l7.9-7.9c1.8.4 3.2 2 3.2 3.9.1 2.2-1.7 4-3.9 4z"
-						></path>
-					</svg>
-				</span>
+			<div class="znpb-optSpacing-labelWrapper">
+				<span class="znpb-optSpacing-label">{{$translate('padding')}}</span>
+				<Icon
+                    :icon="linkedPadding ? 'link' : 'unlink'"
+                    :title="linkedPadding ? 'Unlink' : 'Link'"
+					:size="12"
+                    class="znpb-optSpacing-link"
+                    :class="{
+                        'znpb-optSpacing-link--linked': linkedPadding
+                    }"
+                    @click="linkValues('padding')"
+                ></Icon>
 			</div>
-			<div class="option__svg">
+			<div class="znpb-optSpacing-svg">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -132,28 +102,31 @@
 			</div>
 		</div>
 		<span
-			class="option__info"
+			class="znpb-optSpacing-info"
 			v-if="activeHover"
 		>{{activeHover.title}}</span>
 
 		<div
-			class="znpb-option__marginPadding-popupWrapper"
+			class="znpb-optSpacing-popup"
 			v-if="activePopup"
 		>
-			<div>{{activePopup.title}}</div>
-			<Icon
-				icon="close"
-				@click.stop="activePopup = null"
-			/>
+			<div class="znpb-optSpacing-popupInner">
+				<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
+				<Icon
+					icon="close"
+					class="znpb-optSpacing-popupClose"
+					@click.stop="activePopup = null"
+				/>
 
-			<InputNumberUnit
-				v-model="inputValue"
-				:min="0"
-				:max="999"
-				:units="['px', 'rem', 'pt', 'vh', '%']"
-				:step="1"
-				default-unit="px"
-			/>
+				<InputNumberUnit
+					v-model="inputValue"
+					:min="0"
+					:max="999"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -178,7 +151,6 @@ export default {
 				title: translate('margin-top'),
 				svg: {
 					cursor: 's-resize',
-					fill: '#2F2F34',
 					d: 'M0 0h320l-50 36H50L0 0Z'
 				}
 			},
@@ -188,7 +160,6 @@ export default {
 				title: translate('margin-right'),
 				svg: {
 					cursor: 'w-resize',
-					fill: '#35353A',
 					d: 'm320 183-50-36V39l50-36v180Z'
 				}
 			},
@@ -198,7 +169,6 @@ export default {
 				title: translate('margin-bottom'),
 				svg: {
 					cursor: 's-resize',
-					fill: '#2F2F34',
 					d: 'M50 150h220l50 36H0l50-36Z'
 				}
 			},
@@ -208,7 +178,6 @@ export default {
 				title: translate('margin-left'),
 				svg: {
 					cursor: 'w-resize',
-					fill: '#35353A',
 					d: 'm0 3 50 36v108L0 183V3Z'
 				}
 			},
@@ -220,7 +189,6 @@ export default {
 				title: translate('padding-top'),
 				svg: {
 					cursor: 's-resize',
-					fill: '#2F2F34',
 					d: 'M0 0h214l-50 36H50L0 0Z'
 				}
 			},
@@ -230,7 +198,6 @@ export default {
 				title: translate('padding-right'),
 				svg: {
 					cursor: 'w-resize',
-					fill: '#35353A',
 					d: 'm214 105-50-36V39l50-36v102Z'
 				}
 			},
@@ -240,7 +207,6 @@ export default {
 				title: translate('padding-bottom'),
 				svg: {
 					cursor: 's-resize',
-					fill: '#2F2F34',
 					d: 'M214 108H0l50-36h114l50 36Z'
 				}
 			},
@@ -250,7 +216,6 @@ export default {
 				title: translate('padding-left'),
 				svg: {
 					cursor: 'w-resize',
-					fill: '#35353A',
 					d: 'm0 3 50 36v30L0 105V3Z'
 				}
 			}
@@ -378,186 +343,246 @@ export default {
 </script>
 
 <style lang="scss">
-.znpb-option__marginPadding {
+.znpb-optSpacing {
 	display: grid;
 	width: 320px;
 	height: 186px;
 	outline-style: none;
 	user-select: none;
+	margin: 0 auto;
 
 	grid-template-columns: 50px 3px 50px 1fr 50px 3px 50px;
 	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
-}
 
-.znpb-option__marginPadding-marginWrapper {
-	position: relative;
-	display: grid;
-	width: 320px;
-	height: 186px;
+	&-margin {
+		position: relative;
+		display: grid;
+		width: 320px;
+		height: 186px;
 
-	grid-area: 1 / 1 / -1 / -1;
-	grid-template-columns: 50px 1fr 50px;
-	grid-template-rows: 36px minmax(36px, 1fr) 36px;
-	justify-items: center;
-}
+		grid-area: 1 / 1 / -1 / -1;
+		grid-template-columns: 50px 1fr 50px;
+		grid-template-rows: 36px minmax(36px, 1fr) 36px;
+		justify-items: center;
+	}
 
-.option__padding {
-	position: relative;
-	display: grid;
-	width: 214px;
-	height: 108px;
+	&-padding {
+		position: relative;
+		display: grid;
+		width: 214px;
+		height: 108px;
 
-	grid-area: 3 / 3 / span 3 / span 3;
-	grid-template-columns: 50px 1fr 50px;
-	grid-template-rows: 36px minmax(36px, 1fr) 36px;
-	justify-items: center;
-}
+		grid-area: 3 / 3 / span 3 / span 3;
+		grid-template-columns: 50px 1fr 50px;
+		grid-template-rows: 36px minmax(36px, 1fr) 36px;
+		justify-items: center;
+	}
 
-.znpb-option__marginPadding-popupWrapper {
-	position: relative;
-	display: grid;
-	width: 214px;
-	height: 108px;
-	padding: 10px;
-	background: var(--zb-surface-color);
+	&-value {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 2px;
+		color: #858585;
+		font-size: 11px;
+		font-weight: 500;
+		line-height: 1;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+		user-select: none;
 
-	grid-area: 3 / 3 / span 3 / span 3;
-}
+		place-self: center;
 
-.option__info {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 108px;
-	height: 30px;
-	margin: 3px 0 0 3px;
-	color: #858585;
-	font-size: 10px;
-	font-weight: bold;
-	line-height: 1;
-	text-transform: uppercase;
+		& input {
+			max-width: 40px;
+			color: #858585;
+			font-size: 11px;
+			font-weight: bold;
+			text-align: center;
+			background: transparent;
+			border: 0;
+			cursor: pointer;
 
-	grid-area: 4 / 4 / span 4 / span 4;
-}
+			&:focus {
+				outline: none;
+			}
+		}
+	}
 
-.option__label {
-	position: absolute;
-	top: 4px;
-	left: 24px;
-	display: flex;
-	align-items: center;
-	pointer-events: none;
-}
+	&-margin-top,
+	&-padding-top {
+		grid-area: 1 / 2 / 2 / 3;
+	}
 
-.option__labelTitle {
-	color: #606060;
-	font-size: 9px;
-	font-weight: bold;
-	line-height: 1;
-	text-transform: uppercase;
-	pointer-events: none;
-}
+	&-margin-right,
+	&-padding-right {
+		grid-area: 2 / 3 / 3 / 4;
+	}
 
-.option__link {
-	margin-left: 4px;
-	color: #858585;
-	font-size: 12px;
-	cursor: pointer;
-	pointer-events: all;
-}
+	&-margin-bottom,
+	&-padding-bottom {
+		grid-area: 3 / 2 / 4 / 3;
+	}
 
-.option__link--linked {
-	color: red;
-}
+	&-margin-left,
+	&-padding-left {
+		grid-area: 2 / 1 / 3 / 2;
+	}
 
-.option__link svg {
-	display: block;
-	width: 1em;
-	height: 1em;
+	&-popup {
+		position: relative;
+		z-index: 1;
 
-	fill: currentColor;
-}
+		grid-area: 3 / 3 / span 3 / span 3;
 
-.option__value {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2px;
-	color: #858585;
-	font-size: 11px;
-	font-weight: 500;
-	line-height: 1;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	cursor: pointer;
-	user-select: none;
+		&::before {
+			content: '';
+			position: absolute;
+			top: -40px;
+			left: -54px;
+			right: -54px;
+			bottom: -40px;
+			background: var(--zb-surface-color);
+			opacity: 0.5;
+			z-index: -1;
+		}
 
-	place-self: center;
-}
+		&Inner {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 214px;
+			height: 108px;
+			padding: 16px;
+			background: var(--zb-surface-color);
+			box-shadow: var(--zb-dropdown-shadow);
+			border: 1px solid var(--zb-dropdown-border-color);
+			border-radius: 4px;
+		}
 
-.option__value input {
-	max-width: 40px;
-	color: #858585;
-	font-size: 11px;
-	font-weight: bold;
-	text-align: center;
-	background: transparent;
-	border: 0;
-	cursor: pointer;
-}
+		&Close {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			color: var(--zb-surface-icon-color);
+			cursor: pointer;
+			transition: color 0.1s;
 
-.option__value input:focus {
-	outline: none;
-}
+			&:hover {
+				color: var(--zb-surface-icon-active-color);
+			}
 
-.znpb-option__marginPadding-margin-top {
-	grid-area: 1 / 2 / 2 / 3;
-}
+			& svg {
+				font-size: 10px;
+			}
+		}
 
-.znpb-option__marginPadding-margin-right {
-	grid-area: 2 / 3 / 3 / 4;
-}
+		&__input-title {
+			color: var(--zb-surface-text-hover-color);
+			font-family: var(--zb-font-stack);
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 14px;
+			margin-bottom: 10px;
+		}
+	}
 
-.znpb-option__marginPadding-margin-bottom {
-	grid-area: 3 / 2 / 4 / 3;
-}
+	&-info {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 108px;
+		height: 30px;
+		margin: 3px 0 0 3px;
+		color: var(--zb-surface-text-muted-color);
+		font-size: 10px;
+		font-weight: bold;
+		line-height: 1;
+		text-transform: uppercase;
 
-.znpb-option__marginPadding-margin-left {
-	grid-area: 2 / 1 / 3 / 2;
-}
+		grid-area: 4 / 4 / span 4 / span 4;
+	}
 
-.znpb-option__marginPadding-padding-top {
-	grid-area: 1 / 2 / 2 / 3;
-}
+	&-labelWrapper {
+		position: absolute;
+		top: 4px;
+		left: 24px;
+		display: flex;
+		align-items: center;
+		pointer-events: none;
+	}
 
-.znpb-option__marginPadding-padding-right {
-	grid-area: 2 / 3 / 3 / 4;
-}
+	&-label {
+		color: var(--zb-surface-text-muted-color);
+		font-size: 9px;
+		font-weight: bold;
+		line-height: 1;
+		text-transform: uppercase;
+		pointer-events: none;
+	}
 
-.znpb-option__marginPadding-padding-bottom {
-	grid-area: 3 / 2 / 4 / 3;
-}
+	&-link {
+		margin-left: 4px;
+		color: #858585;
+		font-size: 12px;
+		cursor: pointer;
+		pointer-events: all;
 
-.znpb-option__marginPadding-padding-left {
-	grid-area: 2 / 1 / 3 / 2;
-}
+		&--linked {
+			color: var(--zb-secondary-color);
+		}
 
-.option__svg {
-	grid-area: 1 / 1 / -1 / -1;
-}
+		& svg {
+			display: block;
+			width: 1em;
+			height: 1em;
 
-.option__svg svg {
-	display: block;
-	width: 100%;
-	height: 100%;
-}
+			fill: currentColor;
+		}
+	}
 
-.option__svg path {
-	transition: fill .1s;
-}
+	&-svg {
+		grid-area: 1 / 1 / -1 / -1;
 
-.option__svg path:hover {
-	fill: #3e3e43;
+		& svg {
+			display: block;
+			width: 100%;
+			height: 100%;
+
+			& path {
+				transition: fill .1s;
+
+				&:nth-child(odd) {
+					fill: #ebebeb;
+				}
+
+				&:nth-child(even) {
+					fill: #f1f1f1;
+				}
+
+				&:hover {
+					fill: #e6e6e6;
+				}
+			}
+		}
+
+		@at-root .znpb-theme-dark .znpb-optSpacing-svg svg {
+			& path {
+				&:nth-child(odd) {
+					fill: #2F2F34;
+				}
+
+				&:nth-child(even) {
+					fill: #35353A;
+				}
+
+				&:hover {
+					fill: #3a3a3e;
+				}
+			}
+		}
+	}
 }
 </style>
