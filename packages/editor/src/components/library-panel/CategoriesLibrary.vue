@@ -1,116 +1,46 @@
 <template>
-	<div
-		:class="{'znpb-active': isActive}"
-		class="znpb-editor-library-modal-category"
-		v-if="hasParent"
-	>
-		<div
-			class="znpb-editor-library-modal-category__header"
-			@click="selectCategory"
-		>
-			<h6
-				class="znpb-editor-library-modal-category__title"
-				v-html="category.name || ''"
-			/>
-
-			<Icon
-				v-if="hasSubcategories"
-				icon="select"
-				:rotate="getRotate"
-				class="znpb-editor-library-modal-category__header-icon"
-			/>
-		</div>
-
-		<ul
-			v-if="hasSubcategories && expanded"
-			class="znpb-editor-library-modal-category__list znpb-fancy-scrollbar"
-		>
-
-			<CategoriesLibraryItem
-				v-for="(subcat,i) in subcategory"
-				:key="i"
-				:is-active="subcat.term_id===getActiveSubcategory.term_id"
-				:show-count="showCount"
-				@activate-subcategory="onSubCategoryActive"
-				:subcategory="subcat"
-			/>
-		</ul>
-
-	</div>
+	<ul class="znpb-editor-library-modal-category-list znpb-fancy-scrollbar">
+		<CategoriesLibraryItem
+			v-for="category in categories"
+			:key="category.term_id"
+			:category="category"
+			@activate-subcategory="onActivateSubcategory"
+			:is-active="activeCategory === category"
+			:on-category-activate="onCategoryActivate"
+		/>
+	</ul>
 </template>
 <script>
-import CategoriesLibraryItem from './CategoriesLibraryItem.vue'
+import { ref, defineAsyncComponent } from 'vue'
+
 export default {
 	name: 'CategoriesLibrary',
 	components: {
-		CategoriesLibraryItem
+		CategoriesLibraryItem: defineAsyncComponent(() => import('./CategoriesLibraryItem.vue'))
 	},
 	props: {
-		category: {
-			type: Object,
-			required: false
-		},
-		isActive: {
-			type: Boolean,
-			default: false
-		},
-		parent: {
-			required: false
-		},
-		subcategory: {
+		categories: {
 			type: Array,
 			required: false
 		},
-		showCount: {
-			type: Boolean,
-			required: false
-		},
-		activeSubcategory: {
-			type: Object,
-			required: false
+		onCategoryActivate: {
+			type: Function,
+			required: true
 		}
 	},
-	data () {
+	setup (props, { emit }) {
+		const activeCategory = ref(null)
+		onActivateSubcategory(props.categories[0])
+
+		function onActivateSubcategory (category) {
+			activeCategory.value = category
+			props.onCategoryActivate(category)
+		}
+
 		return {
-			expanded: false
-		}
-	},
-	watch: {
-		isActive (newVal) {
-			if (this.hasSubcategories) {
-				this.expanded = newVal
-			}
-		}
-	},
-	computed: {
-		hasSubcategories () {
-			return this.subcategory && this.subcategory.length > 0
-		},
-		getRotate () {
-			return this.expanded ? '180' : '0'
-		},
-		getActiveSubcategory () {
-			return this.activeSubcategory ? this.activeSubcategory : this.subcategory[0]
-		},
-		hasParent () {
-			return this.category !== undefined ? !this.category.parent : false
-		}
-	},
-	methods: {
-		selectCategory () {
-			if (!this.isExpanded) {
-				this.$emit('activate-category', this.parent)
-			}
+			activeCategory,
 
-			// Only expand if we have subcategories
-			if (this.hasSubcategories) {
-				this.expanded = !this.expanded
-			}
-
-		},
-
-		onSubCategoryActive (subcategory) {
-			this.$emit('activate-subcategory', subcategory)
+			onActivateSubcategory
 		}
 	}
 }
@@ -159,21 +89,13 @@ export default {
 			font-size: 14px;
 			font-weight: 400;
 			cursor: pointer;
+
 			h5 {
 				font-family: var(--zb-font-stack);
 				font-size: 13px;
 				font-weight: 500;
 				text-transform: capitalize;
 			}
-		}
-	}
-
-	&.znpb-active {
-		flex-shrink: 1;
-		.znpb-editor-library-modal-category__title {
-			position: relative;
-			width: 100%;
-			color: var(--zb-surface-text-active-color);
 		}
 	}
 

@@ -17,20 +17,11 @@
 					ref="searchInput"
 				/>
 			</div>
-			<div class="znpb-fancy-scrollbar">
-				<CategoriesLibrary
-					v-for="(category, index) in computedLibraryCategories"
-					:key="index"
-					class="znpb-editor-library-modal-sidebar-category"
-					:category="category"
-					:is-active="category.term_id === activeCategory.term_id"
-					:parent="category"
-					:subcategory="category.subcategories"
-					:active-subcategory="activeSubcategory"
-					@activate-category="activeCategory=category, activeSubcategory=null"
-					@activate-subcategory="activeCategory=category, activeSubcategory=$event"
-				/>
-			</div>
+
+			<CategoriesLibrary
+				:categories="computedLibraryCategories"
+				:on-category-activate="onCategoryActivate"
+			/>
 
 		</div>
 		<div class="znpb-editor-library-modal-body">
@@ -168,44 +159,51 @@ export default {
 
 			// Add real categories
 			filteredCategories.forEach((category) => {
-				const subcategories = []
-				const categoryConfig = category
-
-				filteredCategories.forEach((subcategory) => {
-					if (subcategory.parent && subcategory.parent === category.term_id) {
-						subcategories.push(subcategory)
-					}
-				})
-
-				if (subcategories.length > 0) {
-					subcategories.unshift({
-						term_id: 'all',
-						name: translate('all'),
-					})
-					categoryConfig.subcategories = subcategories
+				if (!category.parent) {
+					categories.push(createNestedCategories(category, filteredCategories))
 				}
-
-				categories.push(categoryConfig)
 			})
 
 			return categories
 		})
+
+		const activeCategories = computed(() => {
+			return libraryCategories.value.filter(category => category.isActive)
+		})
+
+		function createNestedCategories (categoryConfig, allCategories) {
+			const subcategories = []
+
+			allCategories.forEach((subcategory) => {
+				if (subcategory.parent && subcategory.parent === categoryConfig.term_id) {
+					subcategories.push(createNestedCategories(subcategory, allCategories))
+				}
+			})
+
+			if (subcategories.length > 0) {
+				categoryConfig.subcategories = subcategories
+			}
+
+			return categoryConfig
+		}
 
 		const numberOfElements = computed(() => {
 			return `(${filteredItems.value.length})`
 		})
 
 		const libraryTitle = computed(() => {
-			const breadcrumbs = []
+			// const breadcrumbs = []
 
-			if (activeCategory.value) {
-				breadcrumbs.push(activeCategory.value.name)
-			}
+			return activeCategories.value.filter(category => category.isActive).map(category => category.name).join(' / ')
 
-			if (activeSubcategory.value) {
-				breadcrumbs.push(activeSubcategory.value.name)
-			}
-			return breadcrumbs.join(' / ')
+			// if (activeCategory.value) {
+			// 	breadcrumbs.push(activeCategory.value.name)
+			// }
+
+			// if (activeSubcategory.value) {
+			// 	breadcrumbs.push(activeSubcategory.value.name)
+			// }
+			// return breadcrumbs.join(' / ')
 		})
 
 		const filteredItemsBySearchKeyword = computed(() => {
@@ -236,7 +234,7 @@ export default {
 
 		const filteredItems = computed(() => {
 			let items = []
-
+			console.log(activeCategory.value);
 			if (activeCategory.value.term_id === allCategoyConfig.term_id) {
 				items = libraryItems.value
 			} else {
@@ -338,6 +336,10 @@ export default {
 
 		}
 
+		function onCategoryActivate (category) {
+			activeCategory.value = category
+		}
+
 		return {
 			// Normal Values
 
@@ -358,7 +360,8 @@ export default {
 			libraryTitle,
 
 			// Methods
-			getDataFromServer
+			getDataFromServer,
+			onCategoryActivate
 		}
 	}
 }

@@ -21,6 +21,16 @@
 			</div>
 			<div class="option__label">
 				<span class="option__labelTitle">{{$translate('margin')}}</span>
+				<Icon
+					:icon="linkedMargin ? 'link' : 'unlink'"
+					:title="linkedMargin ? 'Unlink' : 'Link'"
+					class="option__link"
+					:class="{
+						'option__link--linked': linkedMargin
+					}"
+					@click="linkValues('margin')"
+				></Icon>
+
 				<span
 					class="option__link"
 					@click="linkValues('margin')"
