@@ -110,21 +110,23 @@
 			class="znpb-optSpacing-popup"
 			v-if="activePopup"
 		>
-			<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
-			<Icon
-				icon="close"
-				class="znpb-optSpacing-popupClose"
-				@click.stop="activePopup = null"
-			/>
+			<div class="znpb-optSpacing-popupInner">
+				<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
+				<Icon
+					icon="close"
+					class="znpb-optSpacing-popupClose"
+					@click.stop="activePopup = null"
+				/>
 
-			<InputNumberUnit
-				v-model="inputValue"
-				:min="0"
-				:max="999"
-				:units="['px', 'rem', 'pt', 'vh', '%']"
-				:step="1"
-				default-unit="px"
-			/>
+				<InputNumberUnit
+					v-model="inputValue"
+					:min="0"
+					:max="999"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -347,6 +349,7 @@ export default {
 	height: 186px;
 	outline-style: none;
 	user-select: none;
+	margin: 0 auto;
 
 	grid-template-columns: 50px 3px 50px 1fr 50px 3px 50px;
 	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
@@ -430,18 +433,34 @@ export default {
 
 	&-popup {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		width: 214px;
-		height: 108px;
-		padding: 16px;
-		background: var(--zb-surface-color);
-		box-shadow: var(--zb-dropdown-shadow);
-		border: 1px solid var(--zb-dropdown-border-color);
-		border-radius: 4px;
+		z-index: 1;
 
 		grid-area: 3 / 3 / span 3 / span 3;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: -40px;
+			left: -54px;
+			right: -54px;
+			bottom: -40px;
+			background: var(--zb-surface-color);
+			opacity: 0.5;
+			z-index: -1;
+		}
+
+		&Inner {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width: 214px;
+			height: 108px;
+			padding: 16px;
+			background: var(--zb-surface-color);
+			box-shadow: var(--zb-dropdown-shadow);
+			border: 1px solid var(--zb-dropdown-border-color);
+			border-radius: 4px;
+		}
 
 		&Close {
 			position: absolute;
@@ -496,7 +515,7 @@ export default {
 	}
 
 	&-label {
-		color: #606060;
+		color: var(--zb-surface-text-muted-color);
 		font-size: 9px;
 		font-weight: bold;
 		line-height: 1;
@@ -560,7 +579,7 @@ export default {
 				}
 
 				&:hover {
-					fill: #3e3e43;
+					fill: #3a3a3e;
 				}
 			}
 		}
