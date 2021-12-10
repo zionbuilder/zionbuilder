@@ -437,6 +437,9 @@ export default {
 		height: 108px;
 		padding: 16px;
 		background: var(--zb-surface-color);
+		box-shadow: var(--zb-dropdown-shadow);
+		border: 1px solid var(--zb-dropdown-border-color);
+		border-radius: 4px;
 
 		grid-area: 3 / 3 / span 3 / span 3;
 
