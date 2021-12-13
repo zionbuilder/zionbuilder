@@ -1,6 +1,15 @@
 <template>
 	<div class="znpb-optSpacing">
-		<div class="znpb-optSpacing-margin">
+		<div
+			class="znpb-optSpacing-margin"
+			:class="
+				{
+					'znpb-optSpacing--linked': linkedMargin,
+					'znpb-optSpacing--hover': activeHover && activeHover.position.indexOf('margin') !== -1,
+					[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
+				}
+			"
+		>
 			<div
 				v-for="position in marginPositions"
 				:key="position.position"
@@ -22,15 +31,15 @@
 			<div class="znpb-optSpacing-labelWrapper">
 				<span class="znpb-optSpacing-label">{{$translate('margin')}}</span>
 				<Icon
-                    :icon="linkedMargin ? 'link' : 'unlink'"
-                    :title="linkedMargin ? 'Unlink' : 'Link'"
+					:icon="linkedMargin ? 'link' : 'unlink'"
+					:title="linkedMargin ? $translate('unlink') : $translate('link')"
 					:size="12"
-                    class="znpb-optSpacing-link"
-                    :class="{
-                        'znpb-optSpacing-link--linked': linkedMargin
-                    }"
-                    @click="linkValues('margin')"
-                ></Icon>
+					class="znpb-optSpacing-link"
+					:class="{
+						'znpb-optSpacing-link--linked': linkedMargin
+					}"
+					@click="linkValues('margin')"
+				></Icon>
 			</div>
 			<div class="znpb-optSpacing-svg">
 				<svg
@@ -46,11 +55,23 @@
 						:d="position.svg.d"
 						@mouseenter="activeHover = position"
 						@mouseleave="activeHover = null"
+						:class="{
+							[`znpb-optSpacing--path-${position.position}`]: true
+						}"
 					/>
 				</svg>
 			</div>
 		</div>
-		<div class="znpb-optSpacing-padding">
+		<div
+			class="znpb-optSpacing-padding"
+			:class="
+				{
+					'znpb-optSpacing--linked': linkedPadding,
+					'znpb-optSpacing--hover': activeHover && activeHover.position.indexOf('padding') !== -1,
+					[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
+				}
+			"
+		>
 			<div
 				v-for="position in paddingPositions"
 				:key="position.position"
@@ -73,15 +94,15 @@
 			<div class="znpb-optSpacing-labelWrapper">
 				<span class="znpb-optSpacing-label">{{$translate('padding')}}</span>
 				<Icon
-                    :icon="linkedPadding ? 'link' : 'unlink'"
-                    :title="linkedPadding ? 'Unlink' : 'Link'"
+					:icon="linkedPadding ? 'link' : 'unlink'"
+					:title="linkedPadding ? $translate('unlink') : $translate('link')"
 					:size="12"
-                    class="znpb-optSpacing-link"
-                    :class="{
-                        'znpb-optSpacing-link--linked': linkedPadding
-                    }"
-                    @click="linkValues('padding')"
-                ></Icon>
+					class="znpb-optSpacing-link"
+					:class="{
+						'znpb-optSpacing-link--linked': linkedPadding
+					}"
+					@click="linkValues('padding')"
+				></Icon>
 			</div>
 			<div class="znpb-optSpacing-svg">
 				<svg
@@ -97,6 +118,9 @@
 						:d="position.svg.d"
 						@mouseenter="activeHover = position"
 						@mouseleave="activeHover = null"
+						:class="{
+							[`znpb-optSpacing--path-${position.position}`]: true
+						}"
 					/>
 				</svg>
 			</div>
@@ -347,9 +371,9 @@ export default {
 	display: grid;
 	width: 320px;
 	height: 186px;
+	margin: 0 auto;
 	outline-style: none;
 	user-select: none;
-	margin: 0 auto;
 
 	grid-template-columns: 50px 3px 50px 1fr 50px 3px 50px;
 	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
@@ -411,23 +435,19 @@ export default {
 		}
 	}
 
-	&-margin-top,
-	&-padding-top {
+	&-margin-top, &-padding-top {
 		grid-area: 1 / 2 / 2 / 3;
 	}
 
-	&-margin-right,
-	&-padding-right {
+	&-margin-right, &-padding-right {
 		grid-area: 2 / 3 / 3 / 4;
 	}
 
-	&-margin-bottom,
-	&-padding-bottom {
+	&-margin-bottom, &-padding-bottom {
 		grid-area: 3 / 2 / 4 / 3;
 	}
 
-	&-margin-left,
-	&-padding-left {
+	&-margin-left, &-padding-left {
 		grid-area: 2 / 1 / 3 / 2;
 	}
 
@@ -438,15 +458,15 @@ export default {
 		grid-area: 3 / 3 / span 3 / span 3;
 
 		&::before {
-			content: '';
+			content: "";
 			position: absolute;
 			top: -40px;
-			left: -54px;
 			right: -54px;
 			bottom: -40px;
-			background: var(--zb-surface-color);
-			opacity: 0.5;
+			left: -54px;
 			z-index: -1;
+			background: var(--zb-surface-color);
+			opacity: .5;
 		}
 
 		&Inner {
@@ -464,11 +484,11 @@ export default {
 
 		&Close {
 			position: absolute;
-			right: 10px;
 			top: 10px;
+			right: 10px;
 			color: var(--zb-surface-icon-color);
+			transition: color .1s;
 			cursor: pointer;
-			transition: color 0.1s;
 
 			&:hover {
 				color: var(--zb-surface-icon-active-color);
@@ -480,12 +500,12 @@ export default {
 		}
 
 		&__input-title {
+			margin-bottom: 10px;
 			color: var(--zb-surface-text-hover-color);
 			font-family: var(--zb-font-stack);
 			font-size: 13px;
 			font-weight: 500;
 			line-height: 14px;
-			margin-bottom: 10px;
 		}
 	}
 
@@ -571,16 +591,48 @@ export default {
 		@at-root .znpb-theme-dark .znpb-optSpacing-svg svg {
 			& path {
 				&:nth-child(odd) {
-					fill: #2F2F34;
+					fill: #2f2f34;
 				}
 
 				&:nth-child(even) {
-					fill: #35353A;
+					fill: #35353a;
 				}
+			}
+		}
 
-				&:hover {
-					fill: #3a3a3e;
-				}
+		@at-root .znpb-theme-dark {
+			// Margin
+			.znpb-optSpacing--hover-margin-top
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-margin-top, .znpb-optSpacing--hover-margin-left
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-margin-left, .znpb-optSpacing--hover-margin-bottom
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-margin-bottom, .znpb-optSpacing--hover-margin-right
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-margin-right, // Paddings
+			.znpb-optSpacing--hover-padding-top
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-padding-top, .znpb-optSpacing--hover-padding-left
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-padding-left, .znpb-optSpacing--hover-padding-bottom
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-padding-bottom, .znpb-optSpacing--hover-padding-right
+			.znpb-optSpacing-svg
+			svg
+			.znpb-optSpacing--path-padding-right, // Hovered states
+			.znpb-optSpacing--linked.znpb-optSpacing--hover
+			.znpb-optSpacing-svg
+			svg
+			path {
+				fill: #3a3a3e;
 			}
 		}
 	}

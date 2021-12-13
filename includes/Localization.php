@@ -747,6 +747,8 @@ class Localization {
 				'padding-right'                            => __( 'Padding right', 'zionbuilder' ),
 				'padding-bottom'                           => __( 'Padding bottom', 'zionbuilder' ),
 				'padding-left'                             => __( 'Padding left', 'zionbuilder' ),
+				'link'                                     => __( 'Link', 'zionbuilder' ),
+				'unlink'                                   => __( 'Unlink', 'zionbuilder' ),
 			]
 		);
 	}
