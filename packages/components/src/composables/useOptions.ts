@@ -28,7 +28,7 @@ import {
 	InputTextAlign,
 	InputBorderTabs,
 	InputBackgroundVideo,
-	InputMarginPadding
+	InputSpacing
 } from '../components'
 
 const options = {
@@ -153,9 +153,9 @@ const options = {
 		id: 'shape_component',
 		component: ShapeDividerComponent
 	},
-	margin_padding: {
-		id: 'margin_padding',
-		component: InputMarginPadding
+	spacing: {
+		id: 'spacing',
+		component: InputSpacing
 	}
 
 }

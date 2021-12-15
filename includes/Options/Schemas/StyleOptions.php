@@ -212,7 +212,7 @@ class StyleOptions extends BaseSchema {
 		$spacing_group->add_group(
 			'margin-padding',
 			[
-				'type' => 'margin_padding',
+				'type' => 'spacing',
 				// 'title'       => esc_html__( 'Padding', 'zionbuilder' ),
 				// 'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
 				// 'min'        => 0,

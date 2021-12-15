@@ -19,6 +19,7 @@
 				class="znpb-optSpacing-value znpb-optSpacing-value--margin"
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
+				@mousedown="startDragging($event, position)"
 				@click="activePopup = position"
 			>
 				<input
@@ -58,6 +59,8 @@
 						:class="{
 							[`znpb-optSpacing--path-${position.position}`]: true
 						}"
+						@mousedown="startDragging($event, position)"
+						@mouseup="deactivateDragging"
 					/>
 				</svg>
 			</div>
@@ -81,6 +84,7 @@
 				class="znpb-optSpacing-value znpb-optSpacing-value--padding"
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
+				@mousedown="startDragging($event, position)"
 			>
 				<input
 					type="text"
@@ -118,6 +122,7 @@
 						:d="position.svg.d"
 						@mouseenter="activeHover = position"
 						@mouseleave="activeHover = null"
+						@mousedown="startDragging($event, position)"
 						:class="{
 							[`znpb-optSpacing--path-${position.position}`]: true
 						}"
@@ -158,9 +163,11 @@
 <script>
 import { computed, ref } from 'vue'
 import { translate } from '@zb/i18n'
+import rafSchd from 'raf-schd'
+import EventBus from '../../../../editor/src/EventBus'
 
 export default {
-	name: 'InputMarginPadding',
+	name: 'InputSpacing',
 	props: {
 		modelValue: {
 			type: Object,
@@ -343,6 +350,163 @@ export default {
 			})
 		}
 
+		/**
+		 * Dragging
+		 */
+		let startMousePositionY = null
+		let currentMousePosition = null
+		let lastPositionY = 0
+		let isDirectionTop = true
+		let draggingConfig = null
+		let initialValue = null
+		const dragTreshold = 3
+
+		const validUnits = [
+			{
+				type: 'px',
+				isModifiable: true
+			},
+			{
+				type: '%',
+				isModifiable: true
+			},
+			{
+				type: 'vw',
+				isModifiable: true
+			},
+			{
+				type: 'vh',
+				isModifiable: true
+			},
+			{
+				type: 'rem',
+				isModifiable: true
+			},
+			{
+				type: 'em',
+				isModifiable: true
+			},
+			{
+				type: 'pt',
+				isModifiable: true
+			},
+			{
+				type: 'auto',
+				isModifiable: false
+			},
+			{
+				type: 'initial',
+				isModifiable: false
+			},
+			{
+				type: 'unset',
+				isModifiable: false
+			},
+		]
+
+		// refs
+		const isDragging = ref(false)
+		const draggingType = ref(null)
+
+		function startDragging (event, positionConfig) {
+			startMousePositionY = event.clientY
+			const { position, type } = positionConfig
+
+			document.body.style.userSelect = 'none'
+			document.body.style.pointerEvents = 'none'
+
+			initialValue = getSplitValue(position)
+			const { unit = null } = initialValue
+			const validUnit = validUnits.find(singleUnit => singleUnit.type === unit)
+
+			if (validUnit && validUnit.isModifiable) {
+				const linkType = type === 'margin' ? linkedMargin : linkedPadding
+
+				// Set initial value
+				draggingConfig = {
+					positionConfig,
+					position,
+					type,
+					initialClientY: event.clientY,
+					initialValue,
+					activeLinkStatus: linkType.value,
+					activeLinkComputedValue: linkType
+				}
+
+				window.addEventListener('mousemove', rafDragValue)
+				window.addEventListener('mouseup', deactivateDragging)
+			}
+		}
+
+		function getSplitValue (position) {
+			const savedValue = computedValues.value[position] ? computedValues.value[position] : '0px'
+			const splitValue = savedValue.match(/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/)
+
+			if (!splitValue) {
+				return false
+			}
+
+			return {
+				value: parseInt(splitValue[1]),
+				unit: splitValue[2],
+			}
+		}
+
+		function deactivateDragging () {
+			isDragging.value = false
+			startMousePositionY = null
+			initialValue = null
+			draggingConfig = false
+
+			document.body.style.userSelect = null
+			document.body.style.pointerEvents = null
+
+			// Remove events
+			window.removeEventListener('mousemove', rafDragValue)
+			window.removeEventListener('mouseup', deactivateDragging)
+		}
+
+		function dragValue (event) {
+			if (!isDragging.value) {
+				return
+			}
+
+			const { pageY } = event
+
+			currentMousePosition = event.clientY
+
+			if (Math.abs(startMousePositionY - currentMousePosition) > dragTreshold) {
+				const { activeLinkStatus, activeLinkComputedValue, positionConfig } = draggingConfig
+				isDragging.value = true
+				activeHover.value = positionConfig
+
+				if (!activeLinkStatus && event.ctrlKey) {
+					activeLinkComputedValue.value = true
+				} else {
+					activeLinkComputedValue.value = activeLinkStatus
+				}
+
+				if (pageY !== lastPositionY) {
+					setDraggingValue(startMousePositionY - currentMousePosition - dragTreshold)
+				}
+			}
+
+			lastPositionY = event.pageY
+		}
+
+		function setDraggingValue (newValue) {
+			const { position, type, initialValue = {} } = draggingConfig
+			const { value, unit } = initialValue
+
+			const updatedValue = newValue + value
+			const valueToUpdate = `${updatedValue}${unit}`
+
+			// Update the value
+			onValueUpdated(position, type, valueToUpdate)
+		}
+
+		const rafDragValue = rafSchd(dragValue)
+
 		return {
 			// Normal vars
 			marginPositions,
@@ -357,10 +521,14 @@ export default {
 			// Computed
 			computedValues,
 			inputValue,
+			isDragging,
+			draggingType,
 
 			// methods
 			onValueUpdated,
-			linkValues
+			linkValues,
+			startDragging,
+			deactivateDragging
 		}
 	}
 }

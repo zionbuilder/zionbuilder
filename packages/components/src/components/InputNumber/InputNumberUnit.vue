@@ -380,6 +380,7 @@ export default {
 					}
 				}
 			}
+
 			// Check that value is in between min and max
 			const value = newValue <= this.min ? this.min : newValue >= this.max ? this.max : newValue
 			this.stringValueModel = `${value}${this.valueUnit.unit || this.unit}`
