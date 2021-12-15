@@ -146,11 +146,11 @@ export default {
 	.CodeMirror {
 		position: relative;
 		overflow: hidden;
-		color: #768390;
+		color: #98a1ab;
 		background: var(--zb-surface-darker-color);
 
 		pre {
-			color: #768390;
+			color: #98a1ab;
 			line-height: 1.4;
 		}
 
@@ -160,7 +160,7 @@ export default {
 		}
 
 		&-linenumber {
-			color: #768390;
+			color: #98a1ab;
 		}
 	}
 }
@@ -185,8 +185,21 @@ export default {
 		border-color: #2c89df;
 	}
 
-	.cm-atom, .cm-keyword, .cm-builtin, .cm-meta, .cm-qualifier, .cm-type, .cm-variable-3 {
+	.cm-atom, .cm-keyword, .cm-builtin, .cm-meta, .cm-qualifier, .cm-type, .cm-variable-3, .cm-s-default .cm-string {
 		color: #2c89df;
+	}
+
+	.cm-s-default .cm-def,
+	.cm-s-default .cm-attribute {
+		color: #98a1ab;
+	}
+
+	.cm-s-default .cm-comment {
+		color: #525252;
+	}
+
+	.cm-invalidchar, .cm-s-default .cm-error {
+		color: #c15050;
 	}
 
 	.cm-tag {
