@@ -60,7 +60,6 @@
 							[`znpb-optSpacing--path-${position.position}`]: true
 						}"
 						@mousedown="startDragging($event, position)"
-						@mouseup="deactivateDragging"
 					/>
 				</svg>
 			</div>
@@ -413,7 +412,6 @@ export default {
 			const { position, type } = positionConfig
 
 			document.body.style.userSelect = 'none'
-			document.body.style.pointerEvents = 'none'
 
 			initialValue = getSplitValue(position)
 			const { unit = null } = initialValue
@@ -434,7 +432,9 @@ export default {
 				}
 
 				window.addEventListener('mousemove', rafDragValue)
-				window.addEventListener('mouseup', deactivateDragging)
+				window.addEventListener('mouseup', rafDeactivateDragging)
+				window.addEventListener('keydown', onKeyDown)
+				window.addEventListener('keyup', onKeyUp)
 			}
 		}
 
@@ -452,6 +452,30 @@ export default {
 			}
 		}
 
+		function onKeyDown (event) {
+			if (isDragging.value) {
+				const { activeLinkStatus, activeLinkComputedValue } = draggingConfig
+
+				if (!activeLinkStatus && event.which === 17) {
+					activeLinkComputedValue.value = true
+				} else {
+					activeLinkComputedValue.value = activeLinkStatus
+				}
+
+			}
+		}
+
+		function onKeyUp (event) {
+			if (isDragging.value) {
+				const { activeLinkStatus, activeLinkComputedValue } = draggingConfig
+				console.log({ event });
+
+				if (event.which === 17) {
+					activeLinkComputedValue.value = false
+				}
+			}
+		}
+
 		function deactivateDragging () {
 			isDragging.value = false
 			startMousePositionY = null
@@ -463,28 +487,24 @@ export default {
 
 			// Remove events
 			window.removeEventListener('mousemove', rafDragValue)
-			window.removeEventListener('mouseup', deactivateDragging)
+			window.removeEventListener('mouseup', rafDeactivateDragging)
 		}
 
 		function dragValue (event) {
-			if (!isDragging.value) {
-				return
-			}
-
 			const { pageY } = event
 
 			currentMousePosition = event.clientY
 
 			if (Math.abs(startMousePositionY - currentMousePosition) > dragTreshold) {
+				if (!draggingConfig) {
+					return
+				}
+
 				const { activeLinkStatus, activeLinkComputedValue, positionConfig } = draggingConfig
 				isDragging.value = true
 				activeHover.value = positionConfig
 
-				if (!activeLinkStatus && event.ctrlKey) {
-					activeLinkComputedValue.value = true
-				} else {
-					activeLinkComputedValue.value = activeLinkStatus
-				}
+				document.body.style.pointerEvents = 'none'
 
 				if (pageY !== lastPositionY) {
 					setDraggingValue(startMousePositionY - currentMousePosition - dragTreshold)
@@ -506,6 +526,7 @@ export default {
 		}
 
 		const rafDragValue = rafSchd(dragValue)
+		const rafDeactivateDragging = rafSchd(deactivateDragging)
 
 		return {
 			// Normal vars
@@ -527,8 +548,7 @@ export default {
 			// methods
 			onValueUpdated,
 			linkValues,
-			startDragging,
-			deactivateDragging
+			startDragging
 		}
 	}
 }
