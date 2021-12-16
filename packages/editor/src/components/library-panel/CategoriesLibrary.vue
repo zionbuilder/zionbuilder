@@ -65,7 +65,7 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 16px 20px;
+		padding: 12px 20px;
 		cursor: pointer;
 		.znpb-editor-icon-wrapper {
 			color: var(--zb-surface-icon-color);
@@ -75,6 +75,11 @@ export default {
 	&__title {
 		font-size: 13px;
 		font-weight: 500;
+		transition: color 0.15s;
+	}
+
+	&__header:hover &__title {
+		color: var(--zb-surface-text-hover-color);
 	}
 
 	&__list {
@@ -96,6 +101,26 @@ export default {
 				font-weight: 500;
 				text-transform: capitalize;
 			}
+		}
+	}
+
+	&-list {
+		ul {
+			padding-left: 20px;
+		}
+	}
+
+	&-list ul &__header {
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 18px;
+			left: 5px;
+			width: 8px;
+			height: 2px;
+			background: var(--zb-surface-border-color);
 		}
 	}
 

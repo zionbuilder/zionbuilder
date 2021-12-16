@@ -469,6 +469,10 @@ export default {
 	&-search {
 		padding: 20px;
 	}
+
+	> .znpb-editor-library-modal-category-list {
+		padding-top: 8px;
+	}
 }
 #znpb-editor-library-modal-preview-iframe {
 	width: 100%;
