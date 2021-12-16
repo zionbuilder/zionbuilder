@@ -182,7 +182,8 @@ export default {
 				svg: {
 					cursor: 's-resize',
 					d: 'M0 0h320l-50 36H50L0 0Z'
-				}
+				},
+				dragDirection: 'vertical'
 			},
 			{
 				position: 'margin-right',
@@ -191,7 +192,8 @@ export default {
 				svg: {
 					cursor: 'w-resize',
 					d: 'm320 183-50-36V39l50-36v180Z'
-				}
+				},
+				dragDirection: 'horizontal'
 			},
 			{
 				position: 'margin-bottom',
@@ -200,7 +202,8 @@ export default {
 				svg: {
 					cursor: 's-resize',
 					d: 'M50 150h220l50 36H0l50-36Z'
-				}
+				},
+				dragDirection: 'vertical'
 			},
 			{
 				position: 'margin-left',
@@ -209,7 +212,8 @@ export default {
 				svg: {
 					cursor: 'w-resize',
 					d: 'm0 3 50 36v108L0 183V3Z'
-				}
+				},
+				dragDirection: 'horizontal'
 			},
 		]
 		const paddingPositions = [
@@ -220,7 +224,8 @@ export default {
 				svg: {
 					cursor: 's-resize',
 					d: 'M0 0h214l-50 36H50L0 0Z'
-				}
+				},
+				dragDirection: 'vertical'
 			},
 			{
 				position: 'padding-right',
@@ -229,7 +234,8 @@ export default {
 				svg: {
 					cursor: 'w-resize',
 					d: 'm214 105-50-36V39l50-36v102Z'
-				}
+				},
+				dragDirection: 'horizontal'
 			},
 			{
 				position: 'padding-bottom',
@@ -238,7 +244,8 @@ export default {
 				svg: {
 					cursor: 's-resize',
 					d: 'M214 108H0l50-36h114l50 36Z'
-				}
+				},
+				dragDirection: 'vertical'
 			},
 			{
 				position: 'padding-left',
@@ -247,7 +254,8 @@ export default {
 				svg: {
 					cursor: 'w-resize',
 					d: 'm0 3 50 36v30L0 105V3Z'
-				}
+				},
+				dragDirection: 'horizontal'
 			}
 		]
 		const allowedValues = [
@@ -352,10 +360,8 @@ export default {
 		/**
 		 * Dragging
 		 */
-		let startMousePositionY = null
-		let currentMousePosition = null
-		let lastPositionY = 0
-		let isDirectionTop = true
+		let startMousePosition = null
+		let dragDirection = null
 		let draggingConfig = null
 		let initialValue = null
 		const dragTreshold = 3
@@ -408,9 +414,20 @@ export default {
 		const draggingType = ref(null)
 
 		function startDragging (event, positionConfig) {
-			startMousePositionY = event.clientY
+			const { clientY, clientX } = event
+
+			// Save the initial values
+			startMousePosition = {
+				clientY,
+				clientX
+			}
+
+			// Set the drag direction
+			dragDirection = positionConfig.dragDirection
+
 			const { position, type } = positionConfig
 
+			// prevent selection
 			document.body.style.userSelect = 'none'
 
 			initialValue = getSplitValue(position)
@@ -425,8 +442,9 @@ export default {
 					positionConfig,
 					position,
 					type,
-					initialClientY: event.clientY,
 					initialValue,
+
+					// Link status
 					activeLinkStatus: linkType.value,
 					activeLinkComputedValue: linkType
 				}
@@ -478,7 +496,7 @@ export default {
 
 		function deactivateDragging () {
 			isDragging.value = false
-			startMousePositionY = null
+			startMousePosition = null
 			initialValue = null
 			draggingConfig = false
 
@@ -491,27 +509,22 @@ export default {
 		}
 
 		function dragValue (event) {
-			const { pageY } = event
+			const { clientX, clientY } = event
 
-			currentMousePosition = event.clientY
+			const movedAmmount = dragDirection === 'vertical' ? Math.abs(startMousePosition.clientY - clientY) : Math.abs(startMousePosition.clientX - clientX)
 
-			if (Math.abs(startMousePositionY - currentMousePosition) > dragTreshold) {
+			if (movedAmmount > dragTreshold) {
 				if (!draggingConfig) {
 					return
 				}
 
-				const { activeLinkStatus, activeLinkComputedValue, positionConfig } = draggingConfig
+				const { positionConfig } = draggingConfig
 				isDragging.value = true
 				activeHover.value = positionConfig
 
 				document.body.style.pointerEvents = 'none'
-
-				if (pageY !== lastPositionY) {
-					setDraggingValue(startMousePositionY - currentMousePosition - dragTreshold)
-				}
+				setDraggingValue(movedAmmount - dragTreshold)
 			}
-
-			lastPositionY = event.pageY
 		}
 
 		function setDraggingValue (newValue) {
