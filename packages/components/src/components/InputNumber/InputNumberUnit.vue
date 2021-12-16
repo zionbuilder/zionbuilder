@@ -331,6 +331,7 @@ export default {
 			}
 		},
 		deactivatedragNumber (event) {
+			this.dragNumberThrottle.cancel()
 			this.dragging = false
 			document.body.style.userSelect = null
 			document.body.style.pointerEvents = null

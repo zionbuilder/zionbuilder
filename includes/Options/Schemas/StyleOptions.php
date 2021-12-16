@@ -209,6 +209,7 @@ class StyleOptions extends BaseSchema {
 				'title' => esc_html__( 'Spacing', 'zionbuilder' ),
 			]
 		);
+
 		$spacing_group->add_group(
 			'margin-padding',
 			[
@@ -217,70 +218,6 @@ class StyleOptions extends BaseSchema {
 				'description' => esc_html__( 'Choose the desired margin and padding for this element.', 'zionbuilder' ),
 			]
 		);
-		// $spacing_group->add_group(
-		// 	'padding',
-		// 	[
-		// 		'type'        => 'dimensions',
-		// 		'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-		// 		'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-		// 		'min'         => 0,
-		// 		'max'         => 99999,
-		// 		'dimensions'  => [
-		// 			[
-		// 				'name' => 'top',
-		// 				'icon' => 'padding-top',
-		// 				'id'   => 'padding-top',
-		// 			],
-		// 			[
-		// 				'name' => 'right',
-		// 				'icon' => 'padding-right',
-		// 				'id'   => 'padding-right',
-		// 			],
-		// 			[
-		// 				'name' => 'bottom',
-		// 				'icon' => 'padding-bottom',
-		// 				'id'   => 'padding-bottom',
-		// 			],
-		// 			[
-		// 				'name' => 'left',
-		// 				'icon' => 'padding-left',
-		// 				'id'   => 'padding-left',
-		// 			],
-		// 		],
-		// 	]
-		// );
-		// $spacing_group->add_group(
-		// 	'margin',
-		// 	[
-		// 		'type'        => 'dimensions',
-		// 		'title'       => esc_html__( 'Margin', 'zionbuilder' ),
-		// 		'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
-		// 		'min'         => -99999,
-		// 		'max'         => 99999,
-		// 		'dimensions'  => [
-		// 			[
-		// 				'name' => 'top',
-		// 				'icon' => 'margin-top',
-		// 				'id'   => 'margin-top',
-		// 			],
-		// 			[
-		// 				'name' => 'right',
-		// 				'icon' => 'margin-right',
-		// 				'id'   => 'margin-right',
-		// 			],
-		// 			[
-		// 				'name' => 'bottom',
-		// 				'icon' => 'margin-bottom',
-		// 				'id'   => 'margin-bottom',
-		// 			],
-		// 			[
-		// 				'name' => 'left',
-		// 				'icon' => 'margin-left',
-		// 				'id'   => 'margin-left',
-		// 			],
-		// 		],
-		// 	]
-		// );
 
 		$sizings_group = $options->add_group(
 			'sizing',

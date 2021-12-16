@@ -148,11 +148,10 @@
 
 				<InputNumberUnit
 					v-model="inputValue"
-					:min="0"
-					:max="999"
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
+					ref="popupInput"
 				/>
 			</div>
 		</div>
@@ -160,10 +159,9 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import { translate } from '@zb/i18n'
 import rafSchd from 'raf-schd'
-import EventBus from '../../../../editor/src/EventBus'
 
 export default {
 	name: 'InputSpacing',
@@ -269,6 +267,7 @@ export default {
 		const activeHover = ref(null)
 		const activePopup = ref(null)
 		const lastChanged = ref(null)
+		const popupInput = ref(null)
 
 		const computedValues = computed({
 			get () {
@@ -364,7 +363,7 @@ export default {
 		let dragDirection = null
 		let draggingConfig = null
 		let initialValue = null
-		const dragTreshold = 3
+		const dragTreshold = 0
 
 		const validUnits = [
 			{
@@ -485,8 +484,7 @@ export default {
 
 		function onKeyUp (event) {
 			if (isDragging.value) {
-				const { activeLinkStatus, activeLinkComputedValue } = draggingConfig
-				console.log({ event });
+				const { activeLinkComputedValue } = draggingConfig
 
 				if (event.which === 17) {
 					activeLinkComputedValue.value = false
@@ -495,43 +493,57 @@ export default {
 		}
 
 		function deactivateDragging () {
-			isDragging.value = false
-			startMousePosition = null
-			initialValue = null
-			draggingConfig = false
+			// Save the link status
+			const { type, activeLinkComputedValue } = draggingConfig
+
+			activeLinkComputedValue.value = isLinked(type)
 
 			document.body.style.userSelect = null
 			document.body.style.pointerEvents = null
 
+			// cancel dragging raf
+			rafDragValue.cancel()
+
 			// Remove events
 			window.removeEventListener('mousemove', rafDragValue)
 			window.removeEventListener('mouseup', rafDeactivateDragging)
+
+
+			isDragging.value = false
+			startMousePosition = null
+			initialValue = null
+			draggingConfig = false
 		}
 
 		function dragValue (event) {
 			const { clientX, clientY } = event
+			document.body.style.pointerEvents = 'none'
 
-			const movedAmmount = dragDirection === 'vertical' ? Math.abs(startMousePosition.clientY - clientY) : Math.abs(startMousePosition.clientX - clientX)
+			const movedAmmount = dragDirection === 'vertical' ? Math.ceil(startMousePosition.clientY - clientY) : Math.ceil(startMousePosition.clientX - clientX) * -1
 
-			if (movedAmmount > dragTreshold) {
-				if (!draggingConfig) {
-					return
-				}
-
+			if (Math.abs(movedAmmount) > dragTreshold) {
 				const { positionConfig } = draggingConfig
 				isDragging.value = true
 				activeHover.value = positionConfig
 
-				document.body.style.pointerEvents = 'none'
-				setDraggingValue(movedAmmount - dragTreshold)
+
+				setDraggingValue(movedAmmount - dragTreshold, event)
 			}
 		}
 
-		function setDraggingValue (newValue) {
+		function setDraggingValue (newValue, event) {
 			const { position, type, initialValue = {} } = draggingConfig
 			const { value, unit } = initialValue
 
-			const updatedValue = newValue + value
+			// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
+			let updatedValue = newValue + value
+
+			// Check if the
+			if (event.shiftKey) {
+				updatedValue = Math.round(updatedValue / 5) * 5
+			}
+
+
 			const valueToUpdate = `${updatedValue}${unit}`
 
 			// Update the value
@@ -540,6 +552,15 @@ export default {
 
 		const rafDragValue = rafSchd(dragValue)
 		const rafDeactivateDragging = rafSchd(deactivateDragging)
+
+		// highlight input when opening
+		watch(activePopup, (newValue) => {
+			if (newValue) {
+				nextTick(() => {
+					popupInput.value.$refs.numberUnitInput.$refs.input.focus()
+				})
+			}
+		})
 
 		return {
 			// Normal vars
@@ -551,6 +572,7 @@ export default {
 			activePopup,
 			linkedMargin,
 			linkedPadding,
+			popupInput,
 
 			// Computed
 			computedValues,
