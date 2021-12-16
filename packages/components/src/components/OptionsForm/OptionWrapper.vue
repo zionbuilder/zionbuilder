@@ -516,6 +516,21 @@ export default {
 				schema.dimensions.forEach((item) => {
 					ids.push(item.id);
 				});
+			} else if (
+				schema.type === "spacing"
+			) {
+				const spacingPositions = [
+					'margin-top',
+					'margin-right',
+					'margin-bottom',
+					'margin-left',
+					'padding-top',
+					'padding-right',
+					'padding-bottom',
+					'padding-left',
+				]
+
+				ids.push(...spacingPositions)
 			} else if (schema.type === "typography") {
 				const typographySchema = getSchema("typography")
 				Object.keys(typographySchema).forEach((optionId) => {

@@ -212,33 +212,9 @@ class StyleOptions extends BaseSchema {
 		$spacing_group->add_group(
 			'margin-padding',
 			[
-				'type' => 'spacing',
-				// 'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-				// 'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				// 'min'        => 0,
-				// 'max'        => 99999,
-				// 'dimensions' => [
-				// 	[
-				// 		'name' => 'top',
-				// 		'icon' => 'padding-top',
-				// 		'id'   => 'padding-top',
-				// 	],
-				// 	[
-				// 		'name' => 'right',
-				// 		'icon' => 'padding-right',
-				// 		'id'   => 'padding-right',
-				// 	],
-				// 	[
-				// 		'name' => 'bottom',
-				// 		'icon' => 'padding-bottom',
-				// 		'id'   => 'padding-bottom',
-				// 	],
-				// 	[
-				// 		'name' => 'left',
-				// 		'icon' => 'padding-left',
-				// 		'id'   => 'padding-left',
-				// 	],
-				// ],
+				'type'        => 'spacing',
+				'title'       => esc_html__( 'Margin & padding', 'zionbuilder' ),
+				'description' => esc_html__( 'Choose the desired margin and padding for this element.', 'zionbuilder' ),
 			]
 		);
 		// $spacing_group->add_group(
