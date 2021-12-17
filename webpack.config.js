@@ -18,18 +18,18 @@ const getWebpackConfig = (folder) => {
 }
 
 const packages = [
-	'admin',
+	// 'admin',
 	'components',
 	'editor',
-	'hooks',
-	'i18n',
-	'rest',
-	'utils',
-	'vue',
-	'edit-page',
-	'gutenberg',
-	'preview',
-	'rtl'
+	// 'hooks',
+	// 'i18n',
+	// 'rest',
+	// 'utils',
+	// 'vue',
+	// 'edit-page',
+	// 'gutenberg',
+	// 'preview',
+	// 'rtl'
 ]
 
 packages.forEach(directory => {

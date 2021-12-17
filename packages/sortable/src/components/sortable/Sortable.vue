@@ -18,7 +18,6 @@ import {
 	DropEvent
 } from '../../events'
 import memoizeOne from 'memoize-one'
-import { getBox } from 'css-box-model'
 
 const hosts = HostsManager()
 const eventsManager = EventsManager()
@@ -138,6 +137,7 @@ export default {
 		let dragItemInfo = null
 		let dragDelayCompleted = null
 		let dimensions = null
+		let dimensions2 = null
 		let initialX = null
 		let initialY = null
 		let currentDocument = null
@@ -349,7 +349,7 @@ export default {
 			}
 
 			// Set dimensions
-			dimensions = getBox(draggedItem)
+			dimensions = draggedItem.getBoundingClientRect()
 
 			// Set initial position
 			const { clientX, clientY } = event
@@ -393,9 +393,6 @@ export default {
 
 			currentDocument.body.style.userSelect = 'none'
 
-			// Dimensions
-			const { marginBox, paddingBox } = dimensions
-
 			// Attach placeholder if we are not cloning it
 			attachPlaceholder()
 
@@ -421,13 +418,14 @@ export default {
 				helperNode.style.left = `${initialX - width / 2}px`
 				helperNode.style.top = `${initialY - height / 2}px`
 			} else {
+				const { width, height, top, left } = dimensions
 				if (groupInfo.value.pull !== 'clone') {
-					helperNode.style.left = `${marginBox.left}px`
+					helperNode.style.left = `${left}px`
 				}
 
-				helperNode.style.top = `${marginBox.top}px`
-				helperNode.style.width = `${paddingBox.width}px`
-				helperNode.style.height = `${paddingBox.height}px`
+				helperNode.style.top = `${top}px`
+				helperNode.style.width = `${width}px`
+				helperNode.style.height = `${height}px`
 			}
 		}
 
