@@ -1,10 +1,10 @@
 import { ref } from 'vue'
-import { getUsersById } from '@zionbuilder/rest'
+import { getUsersById } from '@zb/rest'
 
 const loadedUsers = ref([])
 
 export const useUsers = () => {
-	function fetchUsersData (userIDs) {
+	function fetchUsersData(userIDs) {
 		return getUsersById(userIDs).then((response) => {
 			if (Array.isArray(response.data)) {
 				response.data.forEach(user => loadedUsers.value.push(user))
@@ -16,7 +16,7 @@ export const useUsers = () => {
 		return loadedUsers.value.find(user => user.id === userID)
 	}
 
-	function addUser (user) {
+	function addUser(user) {
 		loadedUsers.value.push(user)
 	}
 

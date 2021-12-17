@@ -4,7 +4,9 @@ import {
 import {
 	applyFilters
 } from '@zb/hooks'
-import hash from 'object-hash'
+import {
+	hash
+} from '@zb/utils'
 
 export class ServerRequest {
 	constructor() {

@@ -1,6 +1,6 @@
 
 <script>
-import { computed, ref, onMounted, h, Fragment, onUpdated, nextTick, cloneVNode } from 'vue'
+import { computed, ref, onMounted, h, Fragment, onUpdated, nextTick } from 'vue'
 
 import {
 	HostsManager,

@@ -36,7 +36,7 @@
 
 <script>
 import { nextTick, watch, ref } from 'vue'
-import { searchUser } from '@zionbuilder/rest'
+import { searchUser } from '@zb/rest'
 
 // Components
 import ModalListItem from './ModalListItem.vue'

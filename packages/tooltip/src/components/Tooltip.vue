@@ -37,9 +37,8 @@
 <script lang="ts">
 import { ref } from "vue";
 import { getDefaultOptions } from "../options";
-import { merge } from "lodash-es";
+import { merge, debounce } from "lodash-es";
 import { createPopper } from "@popperjs/core";
-import { debounce } from "@zionbuilder/utils";
 import { getZindex, removeZindex } from "@zionbuilder/z-index-manager";
 
 let preventOutsideClickPropagation = false;
