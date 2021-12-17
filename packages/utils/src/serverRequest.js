@@ -6,7 +6,7 @@ import {
 } from '@zb/hooks'
 import {
 	hash
-} from '@zb/utils'
+} from './objectHash'
 
 export class ServerRequest {
 	constructor() {

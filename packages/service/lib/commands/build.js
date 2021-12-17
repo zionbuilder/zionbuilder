@@ -8,7 +8,7 @@ const {
 	done
 } = require('../util')
 
-const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
+// const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
 module.exports = (options, args) => {
 	const service = process.ZIONBUILDER_SERVICE
@@ -41,27 +41,27 @@ module.exports = (options, args) => {
 						appName: appConfig.name
 					})
 				}),
-				new StatoscopeWebpackPlugin({
-					reports: [{
-						id: 'top-20-biggest-modules',
-						name: 'Top 20 biggest modules',
-						view: [
-							'struct',
-							{
-								data: `#.stats.compilations.(
-								$compilation: $;
-								modules.({
-								  module: $,
-								  hash: $compilation.hash,
-								  size: getModuleSize($compilation.hash)
-								})
-							  ).sort(size.size desc)`,
-								view: 'list',
-								item: 'module-item',
-							},
-						],
-					}, ],
-				})
+				// new StatoscopeWebpackPlugin({
+				// 	reports: [{
+				// 		id: 'top-20-biggest-modules',
+				// 		name: 'Top 20 biggest modules',
+				// 		view: [
+				// 			'struct',
+				// 			{
+				// 				data: `#.stats.compilations.(
+				// 				$compilation: $;
+				// 				modules.({
+				// 				  module: $,
+				// 				  hash: $compilation.hash,
+				// 				  size: getModuleSize($compilation.hash)
+				// 				})
+				// 			  ).sort(size.size desc)`,
+				// 				view: 'list',
+				// 				item: 'module-item',
+				// 			},
+				// 		],
+				// 	}, ],
+				// })
 			]
 
 			config.optimization = {

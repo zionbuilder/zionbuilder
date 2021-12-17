@@ -12,6 +12,7 @@ export * from './style'
 export * from './overflow'
 export * from './isEditable'
 export * from './serverRequest'
-export * from './OptionsCallbacks.js'
 export * from './objectHash.js'
 export { default as Environment } from './Environment'
+
+require('./OptionsCallbacks.js')
