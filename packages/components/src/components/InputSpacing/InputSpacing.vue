@@ -138,7 +138,10 @@
 			class="znpb-optSpacing-popup"
 			v-if="activePopup"
 		>
-			<div class="znpb-optSpacing-popupInner">
+			<div
+				class="znpb-optSpacing-popupInner"
+				v-click-outside="() => activePopup = false"
+			>
 				<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
 				<Icon
 					icon="close"
@@ -162,6 +165,8 @@
 import { computed, ref, watch, nextTick } from 'vue'
 import { translate } from '@zb/i18n'
 import rafSchd from 'raf-schd'
+import clickOutside from '@zionbuilder/click-outside-directive'
+
 
 export default {
 	name: 'InputSpacing',
@@ -170,6 +175,9 @@ export default {
 			type: Object,
 			default: {}
 		}
+	},
+	directives: {
+		clickOutside
 	},
 	setup (props, { emit }) {
 		const marginPositions = [
@@ -604,6 +612,7 @@ export default {
 		left: 0;
 		width: 100%;
 		height: 100%;
+
 		justify-items: center;
 	}
 
@@ -613,11 +622,13 @@ export default {
 		left: 53px;
 		width: 214px;
 		height: 108px;
+
 		justify-items: center;
 	}
 
 	&-value {
 		position: absolute;
+		z-index: 1;
 		padding: 2px;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
@@ -627,7 +638,6 @@ export default {
 		white-space: nowrap;
 		cursor: pointer;
 		user-select: none;
-		z-index: 1;
 
 		& input {
 			max-width: 40px;
@@ -645,8 +655,7 @@ export default {
 		}
 	}
 
-	&-margin-top, &-padding-top,
-	&-margin-bottom, &-padding-bottom {
+	&-margin-top, &-padding-top, &-margin-bottom, &-padding-bottom {
 		left: 50%;
 		transform: translateX(-50%);
 	}
@@ -659,8 +668,7 @@ export default {
 		bottom: 8px;
 	}
 
-	&-margin-left, &-padding-left,
-	&-margin-right, &-padding-right {
+	&-margin-left, &-padding-left, &-margin-right, &-padding-right {
 		top: 50%;
 		transform: translateY(-50%);
 	}
@@ -674,15 +682,15 @@ export default {
 	}
 
 	&-popup {
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		position: absolute;
 		top: 0;
 		left: 0;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
 		height: 100%;
-		z-index: 1;
 
 		&::before {
 			content: "";
@@ -693,21 +701,16 @@ export default {
 			left: -54px;
 			z-index: -1;
 			background: var(--zb-surface-color);
-			opacity: 0.5;
+			opacity: .5;
 		}
 
 		&Inner {
+			position: relative;
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
-			-webkit-box-orient: vertical;
-			-webkit-box-direction: normal;
-			-ms-flex-direction: column;
-			flex-direction: column;
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
+			    flex-direction: column;
 			justify-content: center;
-			position: relative;
 			width: 214px;
 			height: 108px;
 			padding: 16px;
@@ -715,6 +718,12 @@ export default {
 			box-shadow: var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 4px;
+
+			-webkit-box-direction: normal;
+			-webkit-box-orient: vertical;
+			-webkit-box-pack: center;
+			-ms-flex-direction: column;
+			-ms-flex-pack: center;
 		}
 
 		&Close {
@@ -722,7 +731,7 @@ export default {
 			top: 10px;
 			right: 10px;
 			color: var(--zb-surface-icon-color);
-			transition: color 0.1s;
+			transition: color .1s;
 			cursor: pointer;
 
 			&:hover {
@@ -745,44 +754,45 @@ export default {
 	}
 
 	&-info {
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		position: absolute;
 		top: 50%;
 		left: 50%;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 108px;
 		height: 30px;
+		margin: -15px 0 0 -54px;
 		color: #858585;
 		font-size: 10px;
 		font-weight: bold;
 		line-height: 1;
 		text-transform: uppercase;
-		margin: -15px 0 0 -54px;
-		z-index: 1;
 	}
 
 	&-labelWrapper {
 		position: absolute;
 		top: 4px;
 		left: 24px;
+		z-index: 1;
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
-		-webkit-box-align: center;
-		-ms-flex-align: center;
 		align-items: center;
 		pointer-events: none;
-		z-index: 1;
+
+		-webkit-box-align: center;
+		-ms-flex-align: center;
 	}
 
 	&-label {
 		color: #686868;
-	font-size: 9px;
-	font-weight: bold;
-	line-height: 1;
-	text-transform: uppercase;
-	pointer-events: none;
+		font-size: 9px;
+		font-weight: bold;
+		line-height: 1;
+		text-transform: uppercase;
+		pointer-events: none;
 	}
 
 	&-link {
@@ -816,7 +826,6 @@ export default {
 			display: block;
 			width: 100%;
 			height: 100%;
-			
 
 			& path {
 				transition: fill .1s;
