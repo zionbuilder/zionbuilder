@@ -13,7 +13,6 @@
 </template>
 <script>
 import { inject } from 'vue'
-import axios from 'axios'
 
 export default {
 	name: 'SvgMask',
@@ -76,14 +75,14 @@ export default {
 				url = shapeConfig.url
 			}
 
-			axios({
-				url,
-				method: 'GET'
-			}).then((response) => {
-				this.svgData = response.data
-			}).catch(error => {
-				console.error(error)
-			})
+			fetch(url)
+				.then(response => response.text())
+				.then(svgFile => {
+					this.svgData = svgFile
+				})
+				.catch(error => {
+					console.error(error)
+				})
 		}
 	}
 }

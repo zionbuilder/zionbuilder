@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { addOverflow, removeOverflow } from '@zionbuilder/utils'
+import { addOverflow, removeOverflow } from '@zb/utils'
 import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
 import { Icon } from '../../../components'
 

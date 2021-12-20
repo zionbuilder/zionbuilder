@@ -33,7 +33,6 @@ import { ref, computed } from 'vue'
 
 import BaseInput from '../BaseInput/BaseInput.vue'
 import { uploadFile } from '@zb/rest'
-import { useNotifications } from '@zionbuilder/composables'
 
 export default {
 	name: 'InputFile',

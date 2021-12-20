@@ -56,7 +56,7 @@
 
 <script>
 import { ref } from 'vue'
-import { regenerateCache } from '@zionbuilder/rest'
+import { regenerateCache } from '@zb/rest'
 import { useLibrary } from '@zionbuilder/composables'
 
 export default {

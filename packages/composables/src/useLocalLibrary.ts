@@ -4,7 +4,7 @@ import {
 	addTemplate as addTemplateToDB,
 	deleteTemplate as deleteTemplateToDB,
 	importTemplateLibrary
-} from '@zionbuilder/rest'
+} from '@zb/rest'
 import { remove } from 'lodash-es'
 
 const libaryItems = ref([])

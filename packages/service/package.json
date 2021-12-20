@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@babel/core": "^7.10.2",
 		"@soda/friendly-errors-webpack-plugin": "^1.7.1",
+		"@statoscope/webpack-plugin": "^5.19.2",
 		"@zionbuilder/babel-preset-zionbuilder": "^1.0.2",
 		"autoprefixer": "^10.2.1",
 		"bestzip": "^2.1.5",
@@ -26,9 +27,8 @@
 		"webpack-plugin-serve": "^1.4.1",
 		"wp-pot": "^1.9.3"
 	},
-	"devDependencies": {
-		"webpack-bundle-analyzer": "^4.3.0"
-	},
+
+
 	"publishConfig": {
 		"access": "public"
 	},

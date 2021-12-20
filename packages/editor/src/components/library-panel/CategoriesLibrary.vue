@@ -4,8 +4,8 @@
 			v-for="category in categories"
 			:key="category.term_id"
 			:category="category"
-			@activate-subcategory="onActivateSubcategory"
-			:is-active="activeCategory === category"
+			@activate-subcategory="activateCategory"
+			:is-active="category.isActive"
 			:on-category-activate="onCategoryActivate"
 		/>
 	</ul>
@@ -30,17 +30,21 @@ export default {
 	},
 	setup (props, { emit }) {
 		const activeCategory = ref(null)
-		onActivateSubcategory(props.categories[0])
 
 		function onActivateSubcategory (category) {
-			activeCategory.value = category
+			// activeCategory.value = category
+			props.onCategoryActivate(category)
+		}
+
+		function activateCategory (category) {
 			props.onCategoryActivate(category)
 		}
 
 		return {
 			activeCategory,
 
-			onActivateSubcategory
+			onActivateSubcategory,
+			activateCategory
 		}
 	}
 }
@@ -75,7 +79,7 @@ export default {
 	&__title {
 		font-size: 13px;
 		font-weight: 500;
-		transition: color 0.15s;
+		transition: color .15s;
 	}
 
 	&__header:hover &__title {
@@ -114,7 +118,7 @@ export default {
 		position: relative;
 
 		&::before {
-			content: '';
+			content: "";
 			position: absolute;
 			top: 18px;
 			left: 5px;

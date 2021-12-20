@@ -66,7 +66,7 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { replaceUrl } from '@zionbuilder/rest'
+import { replaceUrl } from '@zb/rest'
 
 export default {
 	name: 'ToolsPage',

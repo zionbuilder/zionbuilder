@@ -1,12 +1,12 @@
 <template>
 	<li
 		class="znpb-editor-library-modal-category__item"
-		:class="{'znpb-editor-library-modal-category__item--active': isActive}"
+		:class="{'znpb-editor-library-modal-category__item--active': category.isActive}"
 	>
 
 		<div
 			class="znpb-editor-library-modal-category__header"
-			@click="selectCategory"
+			@click="onCategoryActivate(category)"
 		>
 			<h6
 				class="znpb-editor-library-modal-category__title"
@@ -23,13 +23,14 @@
 			<Icon
 				v-if="hasSubcategories"
 				icon="select"
-				:rotate="isActive ? '180' : '0'"
+				:rotate="activeDropdown ? '180' : '0'"
 				class="znpb-editor-library-modal-category__header-icon"
+				@click.stop="activeDropdown = !activeDropdown"
 			/>
 		</div>
 
 		<CategoriesLibrary
-			v-if="hasSubcategories && isActive"
+			v-if="hasSubcategories && activeDropdown"
 			:categories="category.subcategories"
 			:on-category-activate="onCategoryActivate"
 		/>
@@ -38,8 +39,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { defineAsyncComponent } from 'vue'
+import { computed, ref, watch, defineAsyncComponent } from 'vue'
 
 export default {
 	name: 'CategoriesLibraryItem',
@@ -69,20 +69,18 @@ export default {
 			return props.category.subcategories && props.category.subcategories.length > 0
 		})
 
-		function selectCategory () {
-			if (props.isActive) {
-				// props.isActive = false
-			} else {
-				emit('activate-subcategory', props.category)
-			}
-		}
+		const activeDropdown = ref(props.isActive)
+
+		watch(() => props.isActive, (newValue) => {
+			activeDropdown.value = newValue
+		})
 
 		return {
 			// Computed
 			hasSubcategories,
 
-			// Methods
-			selectCategory
+			// Refs
+			activeDropdown
 		}
 	}
 }
