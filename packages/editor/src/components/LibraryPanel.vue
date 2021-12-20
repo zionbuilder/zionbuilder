@@ -56,16 +56,12 @@
 			</div>
 			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
 				<ul class="znpb-editor-library-modal-item-list">
-					<li class="znpb-editor-library-modal__item--grid-sizer"></li>
-					<li class="znpb-editor-library-modal__item--gutter-sizer"></li>
-
 					<LibraryItem
 						v-for="item in filteredItems"
 						:key="item.id"
 						:item="item"
 						@activate-item="$emit('activate-preview', item), activeItem = item"
 					/>
-
 				</ul>
 
 				<p
@@ -126,7 +122,8 @@ export default {
 		const allCategoyConfig = {
 			name: translate('all'),
 			slug: 'zion-category-all',
-			term_id: '3211329987745'
+			term_id: '3211329987745',
+			isActive: true
 		}
 
 		// Refs
@@ -135,7 +132,6 @@ export default {
 		const libraryItems = ref([])
 		const libraryCategories = ref([])
 		const activeCategory = ref(allCategoyConfig)
-		const activeSubcategory = ref(null)
 		const sortAscending = ref(false)
 		const searchKeyword = ref('')
 		const activeItem = ref(null)
@@ -144,16 +140,28 @@ export default {
 		getLibraryData()
 
 		// Computed values
-		const computedLibraryCategories = computed(() => {
+		/**
+		 * Returns a computed list of all categories, including the 'all' category
+		 */
+		const computedAllCategories = computed(() => {
 			const categories = []
-			let filteredCategories = libraryCategories.value
 
 			// Add the all category
 			categories.push(allCategoyConfig)
 
+			categories.push(...libraryCategories.value)
+
+			return categories
+		})
+
+
+		const computedLibraryCategories = computed(() => {
+			const categories = []
+			let filteredCategories = computedAllCategories.value
+
 			if (searchKeyword.value.length > 0) {
-				filteredCategories = libraryCategories.value.filter(category => {
-					return filteredItemsCategories.value.includes(category.term_id)
+				filteredCategories = computedAllCategories.value.filter(category => {
+					return category.term_id === allCategoyConfig.term_id || filteredItemsCategories.value.includes(category.term_id)
 				})
 			}
 
@@ -165,10 +173,6 @@ export default {
 			})
 
 			return categories
-		})
-
-		const activeCategories = computed(() => {
-			return libraryCategories.value.filter(category => category.isActive)
 		})
 
 		function createNestedCategories (categoryConfig, allCategories) {
@@ -192,18 +196,7 @@ export default {
 		})
 
 		const libraryTitle = computed(() => {
-			// const breadcrumbs = []
-
-			return activeCategories.value.filter(category => category.isActive).map(category => category.name).join(' / ')
-
-			// if (activeCategory.value) {
-			// 	breadcrumbs.push(activeCategory.value.name)
-			// }
-
-			// if (activeSubcategory.value) {
-			// 	breadcrumbs.push(activeSubcategory.value.name)
-			// }
-			// return breadcrumbs.join(' / ')
+			return activeCategory.value.name
 		})
 
 		const filteredItemsBySearchKeyword = computed(() => {
@@ -234,24 +227,13 @@ export default {
 
 		const filteredItems = computed(() => {
 			let items = []
-			console.log(activeCategory.value);
+
 			if (activeCategory.value.term_id === allCategoyConfig.term_id) {
 				items = libraryItems.value
 			} else {
 				// Get active items by category / subcategory
 				items = filteredItemsBySearchKeyword.value.filter(item => {
-					// check if a subcategory is active
-					if (activeSubcategory.value && activeSubcategory.value.term_id !== 'all') {
-						if (item.category.includes(activeCategory.value.term_id) && item.category.includes(activeSubcategory.value.term_id)) {
-							return true
-						}
-					} else {
-						if (item.category.includes(activeCategory.value.term_id)) {
-							return true
-						}
-					}
-
-					return false
+					return item.category.includes(activeCategory.value.term_id)
 				})
 			}
 
@@ -288,8 +270,7 @@ export default {
 				const activeCategoryValid = computedLibraryCategories.value.find(category => category.term_id === activeCategory.value.term_id)
 
 				if (!activeCategoryValid) {
-					activeCategory.value = allCategoyConfig
-					activeSubcategory.value = null
+					onCategoryActivate(allCategoyConfig)
 				}
 			}
 		})
@@ -333,10 +314,24 @@ export default {
 				loadingLibrary.value = false
 				emit('loading-end', true)
 			})
-
 		}
 
 		function onCategoryActivate (category) {
+			// Deselect active categories
+			computedAllCategories.value.forEach(item => item.isActive = false)
+
+			category.isActive = true
+
+			// Activate category parents
+			let currentCategory = category
+			while (currentCategory && currentCategory.parent) {
+				const parentCategory = computedAllCategories.value.find(category => category.term_id === currentCategory.parent)
+				if (parentCategory) {
+					parentCategory.isActive = true
+					currentCategory = parentCategory
+				}
+			}
+
 			activeCategory.value = category
 		}
 
@@ -348,7 +343,6 @@ export default {
 			loadingLibrary,
 			libraryItems,
 			activeCategory,
-			activeSubcategory,
 			sortAscending,
 			searchKeyword,
 			activeItem,
@@ -470,7 +464,7 @@ export default {
 		padding: 20px;
 	}
 
-	> .znpb-editor-library-modal-category-list {
+	 > .znpb-editor-library-modal-category-list {
 		padding-top: 8px;
 	}
 }
