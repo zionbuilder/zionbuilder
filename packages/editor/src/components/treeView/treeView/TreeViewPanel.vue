@@ -60,7 +60,12 @@
 </template>
 <script lang="ts">
 import { ref, computed } from "vue";
-import { useElements, useEditorData, useHistory } from "@composables";
+import {
+	useElements,
+	useEditorData,
+	useHistory,
+	useEditElement,
+} from "@composables";
 import { translate } from "@zb/i18n";
 
 export default {
@@ -88,6 +93,7 @@ export default {
 		}
 
 		function removeAllElements() {
+			const { unEditElement } = useEditElement();
 			const { getElement } = useElements();
 			const { editorData } = useEditorData();
 			const { addToHistory } = useHistory();
@@ -98,6 +104,9 @@ export default {
 
 			// Delete all elements
 			rootElement.value.content = [];
+
+			// Close edit element panel
+			unEditElement();
 
 			// Add to history
 			addToHistory(translate("removed_all_elements"));
