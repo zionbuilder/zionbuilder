@@ -591,47 +591,35 @@ export default {
 
 <style lang="scss">
 .znpb-optSpacing {
-	display: grid;
+	position: relative;
 	width: 320px;
 	height: 186px;
 	margin: 0 auto;
 	outline-style: none;
 	user-select: none;
 
-	grid-template-columns: 50px 3px 50px 1fr 50px 3px 50px;
-	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
-
 	&-margin {
-		position: relative;
-		display: grid;
-		width: 320px;
-		height: 186px;
-
-		grid-area: 1 / 1 / -1 / -1;
-		grid-template-columns: 50px 1fr 50px;
-		grid-template-rows: 36px minmax(36px, 1fr) 36px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		justify-items: center;
 	}
 
 	&-padding {
-		position: relative;
-		display: grid;
+		position: absolute;
+		top: 39px;
+		left: 53px;
 		width: 214px;
 		height: 108px;
-
-		grid-area: 3 / 3 / span 3 / span 3;
-		grid-template-columns: 50px 1fr 50px;
-		grid-template-rows: 36px minmax(36px, 1fr) 36px;
 		justify-items: center;
 	}
 
 	&-value {
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		position: absolute;
 		padding: 2px;
-		color: #858585;
+		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 1;
@@ -639,12 +627,11 @@ export default {
 		white-space: nowrap;
 		cursor: pointer;
 		user-select: none;
-
-		place-self: center;
+		z-index: 1;
 
 		& input {
 			max-width: 40px;
-			color: #858585;
+			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: bold;
 			text-align: center;
@@ -658,27 +645,44 @@ export default {
 		}
 	}
 
-	&-margin-top, &-padding-top {
-		grid-area: 1 / 2 / 2 / 3;
+	&-margin-top, &-padding-top,
+	&-margin-bottom, &-padding-bottom {
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
-	&-margin-right, &-padding-right {
-		grid-area: 2 / 3 / 3 / 4;
+	&-margin-top, &-padding-top {
+		top: 8px;
 	}
 
 	&-margin-bottom, &-padding-bottom {
-		grid-area: 3 / 2 / 4 / 3;
+		bottom: 8px;
+	}
+
+	&-margin-left, &-padding-left,
+	&-margin-right, &-padding-right {
+		top: 50%;
+		transform: translateY(-50%);
 	}
 
 	&-margin-left, &-padding-left {
-		grid-area: 2 / 1 / 3 / 2;
+		left: 5px;
+	}
+
+	&-margin-right, &-padding-right {
+		right: 5px;
 	}
 
 	&-popup {
-		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		z-index: 1;
-
-		grid-area: 3 / 3 / span 3 / span 3;
 
 		&::before {
 			content: "";
@@ -689,13 +693,21 @@ export default {
 			left: -54px;
 			z-index: -1;
 			background: var(--zb-surface-color);
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		&Inner {
+			display: -webkit-box;
+			display: -ms-flexbox;
 			display: flex;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-ms-flex-direction: column;
 			flex-direction: column;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
 			justify-content: center;
+			position: relative;
 			width: 214px;
 			height: 108px;
 			padding: 16px;
@@ -710,7 +722,7 @@ export default {
 			top: 10px;
 			right: 10px;
 			color: var(--zb-surface-icon-color);
-			transition: color .1s;
+			transition: color 0.1s;
 			cursor: pointer;
 
 			&:hover {
@@ -734,36 +746,43 @@ export default {
 
 	&-info {
 		display: flex;
-		justify-content: center;
 		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
 		width: 108px;
 		height: 30px;
-		margin: 3px 0 0 3px;
-		color: var(--zb-surface-text-muted-color);
+		color: #858585;
 		font-size: 10px;
 		font-weight: bold;
 		line-height: 1;
 		text-transform: uppercase;
-
-		grid-area: 4 / 4 / span 4 / span 4;
+		margin: -15px 0 0 -54px;
+		z-index: 1;
 	}
 
 	&-labelWrapper {
 		position: absolute;
 		top: 4px;
 		left: 24px;
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
 		align-items: center;
 		pointer-events: none;
+		z-index: 1;
 	}
 
 	&-label {
-		color: var(--zb-surface-text-muted-color);
-		font-size: 9px;
-		font-weight: bold;
-		line-height: 1;
-		text-transform: uppercase;
-		pointer-events: none;
+		color: #686868;
+	font-size: 9px;
+	font-weight: bold;
+	line-height: 1;
+	text-transform: uppercase;
+	pointer-events: none;
 	}
 
 	&-link {
@@ -787,12 +806,17 @@ export default {
 	}
 
 	&-svg {
-		grid-area: 1 / 1 / -1 / -1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 
 		& svg {
 			display: block;
 			width: 100%;
 			height: 100%;
+			
 
 			& path {
 				transition: fill .1s;
