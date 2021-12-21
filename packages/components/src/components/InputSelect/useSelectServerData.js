@@ -3,7 +3,10 @@ import {
 	toRaw,
 	inject
 } from 'vue'
-import hash from 'object-hash'
+
+import {
+	hash
+} from '@zb/utils'
 import {
 	get,
 	unionBy

@@ -1,5 +1,4 @@
 import { createActionInstance } from '@zionbuilder/hooks'
-import { youtubeUrlParser } from '@zionbuilder/utils'
 import fitVids from 'fitvids'
 
 declare global {
@@ -86,13 +85,19 @@ export default class Video {
 				this.setupLocal()
 			} else if (this.options.videoSource === 'youtube' && this.options.youtubeURL) {
 				this.videoSource = 'youtube'
-				this.YoutubeId = youtubeUrlParser(this.options.youtubeURL)
+				this.YoutubeId = this.youtubeUrlParser(this.options.youtubeURL)
 				this.setupYoutube()
 			} else if (this.options.videoSource === 'vimeo' && this.options.vimeoURL) {
 				this.videoSource = 'vimeo'
 				this.setupVimeo()
 			}
 		})
+	}
+
+	youtubeUrlParser(url) {
+		let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+		let match = url.match(regExp)
+		return (match && match[7].length === 11) ? match[7] : false
 	}
 
 	// Wait a cycle

@@ -100,7 +100,7 @@ export function useElementActions() {
 
 	const pasteElementStyles = (element) => {
 		const styles = getData('copiedElementStyles')
-		console.log({ styles });
+
 		if (!styles) {
 			return
 		}

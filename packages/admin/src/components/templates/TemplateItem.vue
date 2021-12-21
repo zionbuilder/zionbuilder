@@ -163,7 +163,7 @@
 
 <script>
 import { ref } from 'vue'
-import { exportTemplateById } from '@zionbuilder/rest'
+import { exportTemplateById } from '@zb/rest'
 import { saveAs } from 'file-saver'
 
 export default {
@@ -283,10 +283,7 @@ export default {
 		background: var(--zb-input-bg-color);
 	}
 
-	&__actions,
-	&__shortcode,
-	&__author,
-	&__title {
+	&__actions, &__shortcode, &__author, &__title {
 		flex: 1;
 		padding: 0 14px;
 	}
@@ -349,10 +346,7 @@ export default {
 	}
 
 	&__action {
-		&.znpb-insert-icon-pop,
-		&.znpb-edit-icon-pop,
-		&.znpb-delete-icon-pop,
-		&.znpb-export-icon-pop {
+		&.znpb-insert-icon-pop, &.znpb-edit-icon-pop, &.znpb-delete-icon-pop, &.znpb-export-icon-pop {
 			margin-right: 10px;
 		}
 
@@ -366,10 +360,9 @@ export default {
 			display: block;
 		}
 
-		.znpb-editor-icon-wrapper,
-		a {
+		.znpb-editor-icon-wrapper, a {
 			color: var(--zb-surface-text-color);
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {
@@ -379,9 +372,7 @@ export default {
 	}
 
 	@media (max-width: 767px) {
-		&__title,
-		&__author,
-		&__shortcode {
+		&__title, &__author, &__shortcode {
 			margin-bottom: 10px;
 		}
 

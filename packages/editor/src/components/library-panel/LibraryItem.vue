@@ -161,7 +161,9 @@ export default {
 		})
 
 		onBeforeUnmount(() => {
-			iObserver.unobserve(root.value)
+			if (root.value) {
+				iObserver.unobserve(root.value)
+			}
 		})
 
 		return {
