@@ -84,13 +84,13 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
+				@click="activePopup = position"
 			>
 				<input
 					type="text"
 					placeholder="-"
 					:value="computedValues[position.position]"
 					readonly
-					@click="activePopup = position"
 				>
 			</div>
 
@@ -138,8 +138,19 @@
 			class="znpb-optSpacing-popup"
 			v-if="activePopup"
 		>
-			<div class="znpb-optSpacing-popupInner">
-				<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
+			<div
+				class="znpb-optSpacing-popupInner"
+				v-click-outside="() => activePopup = false"
+			>
+				<div class="znpb-optSpacing-popup__input-title">
+					{{activePopup.title}}
+
+					<ChangesBullet
+						v-if="hasChanges"
+						:content="$translate('discard_changes')"
+						@remove-styles="onDiscardChanges"
+					/>
+				</div>
 				<Icon
 					icon="close"
 					class="znpb-optSpacing-popupClose"
@@ -162,6 +173,8 @@
 import { computed, ref, watch, nextTick } from 'vue'
 import { translate } from '@zb/i18n'
 import rafSchd from 'raf-schd'
+import clickOutside from '@zionbuilder/click-outside-directive'
+
 
 export default {
 	name: 'InputSpacing',
@@ -170,6 +183,9 @@ export default {
 			type: Object,
 			default: {}
 		}
+	},
+	directives: {
+		clickOutside
 	},
 	setup (props, { emit }) {
 		const marginPositions = [
@@ -268,6 +284,26 @@ export default {
 		const activePopup = ref(null)
 		const lastChanged = ref(null)
 		const popupInput = ref(null)
+
+		const hasChanges = computed(() => {
+			if (activePopup.value) {
+				const { position } = activePopup.value
+
+				return typeof props.modelValue[position] !== 'undefined'
+			}
+
+			return false
+		})
+
+		function onDiscardChanges () {
+			if (activePopup.value) {
+				const { position } = activePopup.value
+				const clonedModelValue = { ...props.modelValue }
+				delete clonedModelValue[position]
+
+				emit('update:modelValue', clonedModelValue)
+			}
+		}
 
 		const computedValues = computed({
 			get () {
@@ -579,11 +615,13 @@ export default {
 			inputValue,
 			isDragging,
 			draggingType,
+			hasChanges,
 
 			// methods
 			onValueUpdated,
 			linkValues,
-			startDragging
+			startDragging,
+			onDiscardChanges
 		}
 	}
 }
@@ -591,47 +629,38 @@ export default {
 
 <style lang="scss">
 .znpb-optSpacing {
-	display: grid;
+	position: relative;
 	width: 320px;
 	height: 186px;
 	margin: 0 auto;
 	outline-style: none;
 	user-select: none;
 
-	grid-template-columns: 50px 3px 50px 1fr 50px 3px 50px;
-	grid-template-rows: 36px 3px 36px 1fr 36px 3px 36px;
-
 	&-margin {
-		position: relative;
-		display: grid;
-		width: 320px;
-		height: 186px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 
-		grid-area: 1 / 1 / -1 / -1;
-		grid-template-columns: 50px 1fr 50px;
-		grid-template-rows: 36px minmax(36px, 1fr) 36px;
 		justify-items: center;
 	}
 
 	&-padding {
-		position: relative;
-		display: grid;
+		position: absolute;
+		top: 39px;
+		left: 53px;
 		width: 214px;
 		height: 108px;
 
-		grid-area: 3 / 3 / span 3 / span 3;
-		grid-template-columns: 50px 1fr 50px;
-		grid-template-rows: 36px minmax(36px, 1fr) 36px;
 		justify-items: center;
 	}
 
 	&-value {
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		position: absolute;
+		z-index: 1;
 		padding: 2px;
-		color: #858585;
+		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 1;
@@ -640,11 +669,9 @@ export default {
 		cursor: pointer;
 		user-select: none;
 
-		place-self: center;
-
 		& input {
 			max-width: 40px;
-			color: #858585;
+			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: bold;
 			text-align: center;
@@ -658,27 +685,42 @@ export default {
 		}
 	}
 
-	&-margin-top, &-padding-top {
-		grid-area: 1 / 2 / 2 / 3;
+	&-margin-top, &-padding-top, &-margin-bottom, &-padding-bottom {
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
-	&-margin-right, &-padding-right {
-		grid-area: 2 / 3 / 3 / 4;
+	&-margin-top, &-padding-top {
+		top: 8px;
 	}
 
 	&-margin-bottom, &-padding-bottom {
-		grid-area: 3 / 2 / 4 / 3;
+		bottom: 8px;
+	}
+
+	&-margin-left, &-padding-left, &-margin-right, &-padding-right {
+		top: 50%;
+		transform: translateY(-50%);
 	}
 
 	&-margin-left, &-padding-left {
-		grid-area: 2 / 1 / 3 / 2;
+		left: 5px;
+	}
+
+	&-margin-right, &-padding-right {
+		right: 5px;
 	}
 
 	&-popup {
-		position: relative;
+		position: absolute;
+		top: 0;
+		left: 0;
 		z-index: 1;
-
-		grid-area: 3 / 3 / span 3 / span 3;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
 
 		&::before {
 			content: "";
@@ -693,8 +735,11 @@ export default {
 		}
 
 		&Inner {
+			position: relative;
+			display: -webkit-box;
+			display: -ms-flexbox;
 			display: flex;
-			flex-direction: column;
+			    flex-direction: column;
 			justify-content: center;
 			width: 214px;
 			height: 108px;
@@ -703,6 +748,12 @@ export default {
 			box-shadow: var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
 			border-radius: 4px;
+
+			-webkit-box-direction: normal;
+			-webkit-box-orient: vertical;
+			-webkit-box-pack: center;
+			-ms-flex-direction: column;
+			-ms-flex-pack: center;
 		}
 
 		&Close {
@@ -723,6 +774,8 @@ export default {
 		}
 
 		&__input-title {
+			display: flex;
+			align-items: center;
 			margin-bottom: 10px;
 			color: var(--zb-surface-text-hover-color);
 			font-family: var(--zb-font-stack);
@@ -733,32 +786,40 @@ export default {
 	}
 
 	&-info {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 108px;
 		height: 30px;
-		margin: 3px 0 0 3px;
-		color: var(--zb-surface-text-muted-color);
+		margin: -15px 0 0 -54px;
+		color: #858585;
 		font-size: 10px;
 		font-weight: bold;
 		line-height: 1;
 		text-transform: uppercase;
-
-		grid-area: 4 / 4 / span 4 / span 4;
 	}
 
 	&-labelWrapper {
 		position: absolute;
 		top: 4px;
 		left: 24px;
+		z-index: 1;
+		display: -webkit-box;
+		display: -ms-flexbox;
 		display: flex;
 		align-items: center;
 		pointer-events: none;
+
+		-webkit-box-align: center;
+		-ms-flex-align: center;
 	}
 
 	&-label {
-		color: var(--zb-surface-text-muted-color);
+		color: #686868;
 		font-size: 9px;
 		font-weight: bold;
 		line-height: 1;
@@ -787,7 +848,11 @@ export default {
 	}
 
 	&-svg {
-		grid-area: 1 / 1 / -1 / -1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 
 		& svg {
 			display: block;
