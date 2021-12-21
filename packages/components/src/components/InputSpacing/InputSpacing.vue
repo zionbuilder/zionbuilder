@@ -84,13 +84,13 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
+				@click="activePopup = position"
 			>
 				<input
 					type="text"
 					placeholder="-"
 					:value="computedValues[position.position]"
 					readonly
-					@click="activePopup = position"
 				>
 			</div>
 
@@ -142,7 +142,15 @@
 				class="znpb-optSpacing-popupInner"
 				v-click-outside="() => activePopup = false"
 			>
-				<div class="znpb-optSpacing-popup__input-title">{{activePopup.title}}</div>
+				<div class="znpb-optSpacing-popup__input-title">
+					{{activePopup.title}}
+
+					<ChangesBullet
+						v-if="hasChanges"
+						:content="$translate('discard_changes')"
+						@remove-styles="onDiscardChanges"
+					/>
+				</div>
 				<Icon
 					icon="close"
 					class="znpb-optSpacing-popupClose"
@@ -276,6 +284,26 @@ export default {
 		const activePopup = ref(null)
 		const lastChanged = ref(null)
 		const popupInput = ref(null)
+
+		const hasChanges = computed(() => {
+			if (activePopup.value) {
+				const { position } = activePopup.value
+
+				return typeof props.modelValue[position] !== 'undefined'
+			}
+
+			return false
+		})
+
+		function onDiscardChanges () {
+			if (activePopup.value) {
+				const { position } = activePopup.value
+				const clonedModelValue = { ...props.modelValue }
+				delete clonedModelValue[position]
+
+				emit('update:modelValue', clonedModelValue)
+			}
+		}
 
 		const computedValues = computed({
 			get () {
@@ -587,11 +615,13 @@ export default {
 			inputValue,
 			isDragging,
 			draggingType,
+			hasChanges,
 
 			// methods
 			onValueUpdated,
 			linkValues,
-			startDragging
+			startDragging,
+			onDiscardChanges
 		}
 	}
 }
@@ -744,6 +774,8 @@ export default {
 		}
 
 		&__input-title {
+			display: flex;
+			align-items: center;
 			margin-bottom: 10px;
 			color: var(--zb-surface-text-hover-color);
 			font-family: var(--zb-font-stack);

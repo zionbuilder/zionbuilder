@@ -1,13 +1,14 @@
-
 export default {
-	install (app) {
+	install(app) {
 		app.directive('click-outside', this)
 	},
 	beforeMount: function (el, binding, vNode) {
 		if (process.env.NODE_ENV !== 'production' && typeof binding.value !== 'function') {
 			const compName = vNode.context.name
 			let warn = `[Vue Outside Click:] provided expression '${binding.expression}' is not a function!`
-			if (compName) { warn += `Found in component '${compName}'` }
+			if (compName) {
+				warn += `Found in component '${compName}'`
+			}
 
 			// eslint-disable-next-line
 			console.warn(warn)
