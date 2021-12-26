@@ -1,5 +1,4 @@
 import { savePage as savePageREST } from '@zb/rest'
-import Cache from '../Cache'
 import { ref, Ref } from 'vue'
 import { useTemplateParts } from './useTemplateParts'
 import { usePageSettings } from './usePageSettings'
@@ -7,6 +6,7 @@ import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import { useNotifications } from '@zionbuilder/composables'
+import { useHistory } from './useHistory'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 let previewWindow = null
@@ -19,6 +19,7 @@ export function useSavePage() {
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
 		const { editorData } = useEditorData()
+		const { setDirtyStatus } = useHistory()
 		const pageID = editorData.value.page_id
 
 		if (!contentTemplatePart) {
@@ -52,13 +53,14 @@ export function useSavePage() {
 							type: 'success'
 						})
 					}
-					Cache.deleteItem(pageID)
+
 					refreshPreviewWindow()
+
+					setDirtyStatus(false)
+
 					return Promise.resolve(response)
 				})
 				.catch(error => {
-					Cache.saveItem(pageID, pageData)
-
 					add({
 						message: error.message,
 						type: 'error',

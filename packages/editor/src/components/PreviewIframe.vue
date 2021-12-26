@@ -16,37 +16,11 @@
 			:style="deviceStyle"
 		/>
 
-		<Modal
-			:show-close="false"
-			:show-maximize="false"
-			:show="storageRecover"
-			append-to="body"
-			:width="520"
-		>
-			<div class="znpb-modal__confirm">
-				<!-- @slot Content that will be placed inside the modal body -->
-				<p> {{$translate('storage_data_available')}} </p>
-			</div>
-
-			<div class="znpb-modal__confirm-buttons-wrapper znpb-storage-recover-modal">
-				<Button
-					type="secondary"
-					v-if="true"
-					@click="useLocalVersion"
-				> {{$translate('use_local_version')}} </Button>
-				<Button
-					type="line"
-					v-if="true"
-					@click="useServerVersion"
-				> {{$translate('use_server_version')}} </Button>
-			</div>
-		</Modal>
 	</div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import Cache from '../Cache.ts'
+import { ref, render } from 'vue'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import {
@@ -78,6 +52,7 @@ export default {
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
+		const { isDirty } = useHistory()
 		const { getIframePointerEvents, getPanelOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
@@ -96,13 +71,11 @@ export default {
 			addEventListener,
 			removeEventListener,
 			removeWindow,
-			root
+			root,
+			isDirty
 		}
 	},
 	computed: {
-		storageRecover () {
-			return this.localStoragePageData && this.showRecoverModal
-		},
 		deviceStyle: function () {
 			let style = {}
 			if (this.activeResponsiveDeviceInfo) {
@@ -152,15 +125,7 @@ export default {
 			const { addInitialHistory } = useHistory()
 			addInitialHistory()
 		},
-		useLocalVersion () {
-			const { editorData } = useEditorData()
-			const content = {
-				[editorData.value.page_id]: this.localStoragePageData.template_data || []
-			}
-			this.setPageContent(content)
 
-			this.showRecoverModal = false
-		},
 		useServerVersion () {
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe
@@ -189,8 +154,6 @@ export default {
 			this.addWindow('preview', iframeWindow)
 			this.attachIframeEvents()
 
-			const cachedData = Cache.getItem(this.pageId)
-
 			if (!iframeWindow.ZnPbPreviewData) {
 				add({
 					message: this.$translate('page_content_error'),
@@ -206,13 +169,8 @@ export default {
 				addElementTypes(iframeWindow.ZnPbPreviewData.elements_data)
 			}
 
-			if (cachedData && Object.keys(cachedData).length > 0) {
-				this.localStoragePageData = cachedData
-				this.showRecoverModal = true
-			} else {
-				this.useServerVersion()
-			}
 
+			this.useServerVersion()
 			this.ignoreNextReload = false
 
 			setPreviewLoading(false)
@@ -220,7 +178,7 @@ export default {
 		attachIframeEvents () {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
 			this.getWindows('preview').addEventListener('keydown', this.applyShortcuts)
-			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe)
+			this.getWindows('preview').addEventListener('beforeunload', this.onBeforeUnloadIframe, { capture: true })
 			this.getWindows('preview').addEventListener('click', this.onIframeClick, true)
 		},
 		preventClicks (event) {
@@ -230,10 +188,15 @@ export default {
 				e.preventDefault()
 			}
 		},
-		onBeforeUnloadIframe () {
-			const { setPreviewLoading } = usePreviewLoading()
+		onBeforeUnloadIframe (event) {
+			if (this.isDirty) {
+				event.preventDefault()
+				event.returnValue = 'Do you want to leave this site? Changes you made may not be saved.'
+			} else {
+				const { setPreviewLoading } = usePreviewLoading()
 
-			setPreviewLoading(true)
+				setPreviewLoading(true)
+			}
 		},
 		refreshIframe () {
 			this.saveAutosave().then(() => {

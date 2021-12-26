@@ -5,10 +5,8 @@
 			v-if="elements.length"
 		>{{this.category}}</h3>
 
-		<TransitionGroup
+		<ul
 			v-if="elements.length"
-			name="pb_element"
-			tag="ul"
 			class="znpb-element-category-list"
 		>
 			<!-- list of elements -->
@@ -18,7 +16,7 @@
 				:key="element.element_type"
 				@click="$emit('add-element', element)"
 			/>
-		</TransitionGroup>
+		</ul>
 
 	</div>
 </template>
@@ -55,7 +53,6 @@ export default {
 .znpb-element-category-list {
 	display: grid;
 	padding: 0 0 30px;
-
 	// padding: 15px 30px;
 
 	grid-gap: 15px;

@@ -16,6 +16,11 @@ export const PopperDirective = {
 			const popperPosition = arg || 'top'
 			el.__ZnPbTooltip__.updatePosition(popperPosition)
 		}
+	},
+	unmounted(el) {
+		if (el.__ZnPbTooltip__ && el.__ZnPbTooltip__.popper) {
+			el.__ZnPbTooltip__.popper.destroy()
+		}
 	}
 }
 
