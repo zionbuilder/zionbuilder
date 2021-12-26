@@ -461,6 +461,165 @@ class StyleOptions extends BaseSchema {
 			]
 		);
 
+		$display_group->add_option(
+			'cursor',
+			[
+				'type'        => 'select',
+				'title'       => __( 'Direction', 'zionbuilder' ),
+				'description' => __( 'Set the text direction', 'zionbuilder' ),
+				'columns'     => 2,
+				'default'     => 'auto',
+				'filterable'  => true,
+				'options'     => [
+					[
+						'name' => 'auto',
+						'id'   => 'auto',
+					],
+					[
+						'name' => 'default',
+						'id'   => 'default',
+					],
+					[
+						'name' => 'none',
+						'id'   => 'none',
+					],
+					[
+						'name' => 'context-menu',
+						'id'   => 'context-menu',
+					],
+					[
+						'name' => 'help',
+						'id'   => 'help',
+					],
+					[
+						'name' => 'pointer',
+						'id'   => 'pointer',
+					],
+					[
+						'name' => 'progress',
+						'id'   => 'progress',
+					],
+					[
+						'name' => 'wait',
+						'id'   => 'wait',
+					],
+					[
+						'name' => 'cell',
+						'id'   => 'cell',
+					],
+					[
+						'name' => 'crosshair',
+						'id'   => 'crosshair',
+					],
+
+					[
+						'name' => 'text',
+						'id'   => 'text',
+					],
+					[
+						'name' => 'vertical-text',
+						'id'   => 'vertical-text',
+					],
+					[
+						'name' => 'alias',
+						'id'   => 'alias',
+					],
+					[
+						'name' => 'copy',
+						'id'   => 'copy',
+					],
+					[
+						'name' => 'move',
+						'id'   => 'move',
+					],
+					[
+						'name' => 'no-drop',
+						'id'   => 'no-drop',
+					],
+					[
+						'name' => 'not-allowed',
+						'id'   => 'not-allowed',
+					],
+					[
+						'name' => 'grab',
+						'id'   => 'grab',
+					],
+					[
+						'name' => 'grabbing',
+						'id'   => 'grabbing',
+					],
+					[
+						'name' => 'all-scroll',
+						'id'   => 'all-scroll',
+					],
+					[
+						'name' => 'col-resize',
+						'id'   => 'col-resize',
+					],
+					[
+						'name' => 'row-resize',
+						'id'   => 'row-resize',
+					],
+					[
+						'name' => 'n-resize',
+						'id'   => 'n-resize',
+					],
+					[
+						'name' => 'e-resize',
+						'id'   => 'e-resize',
+					],
+					[
+						'name' => 's-resize',
+						'id'   => 's-resize',
+					],
+					[
+						'name' => 'w-resize',
+						'id'   => 'w-resize',
+					],
+					[
+						'name' => 'ne-resize',
+						'id'   => 'ne-resize',
+					],
+					[
+						'name' => 'nw-resize',
+						'id'   => 'nw-resize',
+					],
+					[
+						'name' => 'se-resize',
+						'id'   => 'se-resize',
+					],
+					[
+						'name' => 'sw-resize',
+						'id'   => 'sw-resize',
+					],
+					[
+						'name' => 'ew-resize',
+						'id'   => 'ew-resize',
+					],
+					[
+						'name' => 'ns-resize',
+						'id'   => 'ns-resize',
+					],
+					[
+						'name' => 'nesw-resize',
+						'id'   => 'nesw-resize',
+					],
+					[
+						'name' => 'nwse-resize',
+						'id'   => 'nwse-resize',
+					],
+					[
+						'name' => 'zoom-in',
+						'id'   => 'zoom-in',
+					],
+					[
+						'name' => 'zoom-out',
+						'id'   => 'zoom-out',
+					],
+				],
+			]
+		);
+
 		$display->add_option(
 			'upgrade_message',
 			[
