@@ -61,7 +61,7 @@
 						class="znpb-element-toolbox__resize-value"
 						:style="computedHelpersStyle[position]"
 					>
-						<span v-if="Math.abs(parseInt(computedStyle[position])) > 20">{{computedSavedValues[position]}}</span>
+						<span>{{computedSavedValues[position]}}</span>
 					</div>
 				</div>
 			</template>
@@ -116,11 +116,6 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
-		},
-		isToolboxDragging: {
-			type: Boolean,
-			required: false,
-			default: false
 		}
 	},
 	setup (props) {
@@ -128,6 +123,7 @@ export default {
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
 		const { addEventListener, removeEventListener } = useWindows()
+		const isToolboxDragging = ref(false)
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -149,7 +145,8 @@ export default {
 			isDragging,
 			addEventListener,
 			removeEventListener,
-			isActiveElementEdit
+			isActiveElementEdit,
+			isToolboxDragging
 		}
 	},
 	data () {
@@ -283,6 +280,7 @@ export default {
 			const startClientY = clientY
 			this.activeDragType = type
 			this.activeDragPosition = position
+			this.isToolboxDragging = true
 
 			const activeDragValue = this.computedSavedValues[position]
 			const match = typeof activeDragValue === 'string' && activeDragValue ? activeDragValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
@@ -324,7 +322,6 @@ export default {
 				if (initialValue === updatedValue) {
 					return
 				}
-
 
 				this.updateElementStyle({
 					newValue: `${updatedValue}${initialUnit}`,
@@ -405,6 +402,7 @@ export default {
 			this.activeDragType = null
 			this.activeDragPosition = null
 			this.addToHistory = false
+			this.isToolboxDragging = false
 
 			document.body.style.userSelect = null
 
