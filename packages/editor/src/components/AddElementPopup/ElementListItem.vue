@@ -12,7 +12,7 @@
 		>{{item.label.text}}</span>
 
 		<Icon
-			icon="quality"
+			icon="heart"
 			@click.stop="addToFavorites"
 			class="znpb-element-box__favoriteIcon"
 			:class="{
@@ -84,6 +84,46 @@ export default {
 	cursor: pointer;
 	user-select: none;
 
+	&__favoriteIcon {
+		position: absolute;
+		top: 6px;
+		right: 6px;
+		transition: all .2s;
+		opacity: 0;
+		visibility: hidden;
+
+		.zion-icon {
+			transition: color 0.2s;
+
+			path {
+				fill: var(--zb-surface-icon-color);
+			}
+		}
+
+		&:hover .zion-icon {
+			path:first-child {
+				fill: transparent
+			}
+
+			path {
+				fill: var(--zb-surface-icon-active-color);
+			}
+		}
+
+		&--active,
+		&--active:hover {
+			.zion-icon path,
+			.zion-icon path:first-child {
+				fill: var(--zb-secondary-color);
+			}
+		}
+	}
+
+	&:hover &__favoriteIcon {
+		opacity: 1;
+		visibility: visible;
+	}
+
 	&__label {
 		position: absolute;
 		top: 8px;
@@ -96,7 +136,7 @@ export default {
 		border-radius: 2px;
 	}
 
-	.znpb-element-box__icon, .znpb-element-box__image {
+	&__icon, &__image {
 		width: 100%;
 		margin-bottom: 5px;
 		color: var(--zb-surface-text-color);
@@ -111,8 +151,12 @@ export default {
 		}
 	}
 
-	.znpb-element-box__image {
+	&__image {
 		padding: 27px;
+	}
+
+	&__icon {
+		font-size: 36px;
 	}
 
 	&__element-name {
@@ -137,27 +181,5 @@ export default {
 			box-shadow: 0 4px 20px 0 var(--zb-surface-shadow-hover);
 		}
 	}
-}
-
-.znpb-element-box__icon {
-	font-size: 36px;
-}
-
-.znpb-element-box__favoriteIcon {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	transition: all .3s;
-	opacity: 0;
-	visibility: hidden;
-}
-
-.znpb-element-box:hover .znpb-element-box__favoriteIcon {
-	opacity: 1;
-	visibility: visible;
-}
-
-.znpb-element-box__favoriteIcon--active {
-	color: red;
 }
 </style>
