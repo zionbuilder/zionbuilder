@@ -11,6 +11,15 @@
 			:style="{ background: item.label.color }"
 		>{{item.label.text}}</span>
 
+		<Icon
+			icon="heart"
+			@click.stop="addToFavorites"
+			class="znpb-element-box__favoriteIcon"
+			:class="{
+				'znpb-element-box__favoriteIcon--active': isActiveFavorite
+			}"
+		/>
+
 		<UIElementIcon
 			:element="item"
 			class="znpb-element-box__icon"
@@ -23,12 +32,42 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useUserData } from '@composables'
+
 export default {
 	name: 'ElementListItem',
 	props: {
 		item: {
 			type: Object,
 			required: true
+		}
+	},
+	setup (props) {
+		const isActiveFavorite = computed(() => {
+			const { getUserData } = useUserData()
+			return getUserData('favorite_elements', []).includes(props.item.element_type)
+		})
+
+		function addToFavorites () {
+			const { getUserData, updateUserData } = useUserData()
+			const activeFavoritesClone = [...getUserData('favorite_elements', [])]
+
+			if (activeFavoritesClone.includes(props.item.element_type)) {
+				const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type)
+				activeFavoritesClone.splice(favoriteIndex, 1)
+			} else {
+				activeFavoritesClone.push(props.item.element_type)
+			}
+
+			updateUserData({
+				'favorite_elements': activeFavoritesClone
+			})
+		}
+
+		return {
+			isActiveFavorite,
+			addToFavorites
 		}
 	}
 }
@@ -45,6 +84,46 @@ export default {
 	cursor: pointer;
 	user-select: none;
 
+	&__favoriteIcon {
+		position: absolute;
+		top: 6px;
+		right: 6px;
+		transition: all .2s;
+		opacity: 0;
+		visibility: hidden;
+
+		.zion-icon {
+			transition: color 0.2s;
+
+			path {
+				fill: var(--zb-surface-icon-color);
+			}
+		}
+
+		&:hover .zion-icon {
+			path:first-child {
+				fill: transparent
+			}
+
+			path {
+				fill: var(--zb-surface-icon-active-color);
+			}
+		}
+
+		&--active,
+		&--active:hover {
+			.zion-icon path,
+			.zion-icon path:first-child {
+				fill: var(--zb-secondary-color);
+			}
+		}
+	}
+
+	&:hover &__favoriteIcon {
+		opacity: 1;
+		visibility: visible;
+	}
+
 	&__label {
 		position: absolute;
 		top: 8px;
@@ -57,7 +136,7 @@ export default {
 		border-radius: 2px;
 	}
 
-	.znpb-editor-icon-wrapper, .znpb-element-box__image {
+	&__icon, &__image {
 		width: 100%;
 		margin-bottom: 5px;
 		color: var(--zb-surface-text-color);
@@ -72,18 +151,22 @@ export default {
 		}
 	}
 
-	.znpb-element-box__image {
+	&__image {
 		padding: 27px;
 	}
 
+	&__icon {
+		font-size: 36px;
+	}
+
 	&__element-name {
+		overflow: hidden;
+		max-width: 100%;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 1.3;
 		text-align: center;
-		max-width: 100%;
-		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
@@ -98,9 +181,5 @@ export default {
 			box-shadow: 0 4px 20px 0 var(--zb-surface-shadow-hover);
 		}
 	}
-}
-
-.znpb-element-box__icon {
-	font-size: 36px;
 }
 </style>
