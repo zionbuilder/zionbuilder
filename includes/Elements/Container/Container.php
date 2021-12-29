@@ -70,7 +70,7 @@ class Container extends Element {
 	 * @return string The element icon
 	 */
 	public function get_element_icon() {
-		return 'element-section';
+		return 'element-container';
 	}
 
 	/**
