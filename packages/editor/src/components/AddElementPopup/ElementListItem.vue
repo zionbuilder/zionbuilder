@@ -11,6 +11,15 @@
 			:style="{ background: item.label.color }"
 		>{{item.label.text}}</span>
 
+		<Icon
+			icon="quality"
+			@click.stop="addToFavorites"
+			class="znpb-element-box__favoriteIcon"
+			:class="{
+				'znpb-element-box__favoriteIcon--active': isActiveFavorite
+			}"
+		/>
+
 		<UIElementIcon
 			:element="item"
 			class="znpb-element-box__icon"
@@ -23,12 +32,42 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useUserData } from '@composables'
+
 export default {
 	name: 'ElementListItem',
 	props: {
 		item: {
 			type: Object,
 			required: true
+		}
+	},
+	setup (props) {
+		const isActiveFavorite = computed(() => {
+			const { getUserData } = useUserData()
+			return getUserData('favorite_elements', []).includes(props.item.element_type)
+		})
+
+		function addToFavorites () {
+			const { getUserData, updateUserData } = useUserData()
+			const activeFavoritesClone = [...getUserData('favorite_elements', [])]
+
+			if (activeFavoritesClone.includes(props.item.element_type)) {
+				const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type)
+				activeFavoritesClone.splice(favoriteIndex, 1)
+			} else {
+				activeFavoritesClone.push(props.item.element_type)
+			}
+
+			updateUserData({
+				'favorite_elements': activeFavoritesClone
+			})
+		}
+
+		return {
+			isActiveFavorite,
+			addToFavorites
 		}
 	}
 }
@@ -57,7 +96,7 @@ export default {
 		border-radius: 2px;
 	}
 
-	.znpb-editor-icon-wrapper, .znpb-element-box__image {
+	.znpb-element-box__icon, .znpb-element-box__image {
 		width: 100%;
 		margin-bottom: 5px;
 		color: var(--zb-surface-text-color);
@@ -77,13 +116,13 @@ export default {
 	}
 
 	&__element-name {
+		overflow: hidden;
+		max-width: 100%;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 500;
 		line-height: 1.3;
 		text-align: center;
-		max-width: 100%;
-		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
@@ -102,5 +141,23 @@ export default {
 
 .znpb-element-box__icon {
 	font-size: 36px;
+}
+
+.znpb-element-box__favoriteIcon {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	transition: all .3s;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.znpb-element-box:hover .znpb-element-box__favoriteIcon {
+	opacity: 1;
+	visibility: visible;
+}
+
+.znpb-element-box__favoriteIcon--active {
+	color: red;
 }
 </style>

@@ -45,7 +45,8 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData } from '@composables'
+import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData, useUserData } from '@composables'
+import { translate } from '@zb/i18n'
 
 // Components
 import ElementList from './ElementList.vue'
@@ -65,6 +66,8 @@ export default {
 		const { getVisibleElements } = useElementTypes()
 		const { categories } = useElementTypeCategories()
 		const { editorData } = useEditorData()
+		const { getUserData } = useUserData()
+
 		// Refs
 		const categoriesWrapper = ref(false)
 		const categoriesRefs = ref([])
@@ -83,17 +86,30 @@ export default {
 		const categoryValue = ref('all')
 		const searchInputEl = ref(null)
 
-		const sortedCategories = computed(() => {
-			return categories.value.sort((a, b) => {
+		// Normal data
+		const elementCategories = computed(() => {
+			const categoriesToReturn = [
+				{
+					id: 'all',
+					name: translate('all')
+				}
+			]
+
+			if (getUserData('favorite_elements', []).length > 0) {
+				categoriesToReturn.push({
+					id: 'favorites',
+					name: translate('favorites'),
+					priority: 1
+				})
+			}
+
+			// Add the categories from server and sort them
+			const sortedCategories = categories.value.sort((a, b) => {
 				return a.priority < b.priority ? -1 : 1
 			})
-		})
 
-		// Normal data
-		const elementCategories = [{
-			id: 'all',
-			name: 'All'
-		}].concat(sortedCategories.value)
+			return categoriesToReturn.concat(sortedCategories)
+		})
 
 		const activeElements = computed(() => {
 			let elements = getVisibleElements.value
@@ -118,18 +134,30 @@ export default {
 			const keyword = computedSearchKeyword.value
 
 			if (keyword.length === 0) {
-				return elementCategories
+				return elementCategories.value
 			} else {
-				return elementCategories.filter(category => {
+				return elementCategories.value.filter(category => {
 					return category.id === 'all' || activeElements.value.filter(element => element.category.includes(category.id)).length > 0
 				})
 			}
 		})
 
 		const categoriesWithElements = computed(() => {
-			return sortedCategories.value.map((category) => {
+			const clonedCategories = [...elementCategories.value]
+
+			// remove the all category
+			clonedCategories.shift()
+
+			return clonedCategories.map((category) => {
 				// Get elements for current category
-				const elements = activeElements.value.filter((element) => element.category.includes(category.id))
+				const elements = activeElements.value.filter((element) => {
+					const elementCategories = Array.isArray(element.category) ? element.category : [element.category]
+					if (category.id === 'favorites') {
+						return getUserData('favorite_elements', []).indexOf(element.element_type) >= 0
+					} else {
+						return elementCategories.includes(category.id)
+					}
+				})
 
 				return {
 					name: category.name,
