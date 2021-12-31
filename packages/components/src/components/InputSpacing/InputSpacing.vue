@@ -592,11 +592,24 @@ export default {
 		// highlight input when opening
 		watch(activePopup, (newValue) => {
 			if (newValue) {
+				// Allow closing the popup by pressing esc key
+				document.addEventListener('keydown', closeOnEscape)
+
 				nextTick(() => {
 					popupInput.value.$refs.numberUnitInput.$refs.input.focus()
 				})
+			} else {
+				document.removeEventListener('keydown', closeOnEscape)
 			}
 		})
+
+		function closeOnEscape (event) {
+			if (event.which === 27) {
+				activePopup.value = false
+
+				event.stopPropagation()
+			}
+		}
 
 		return {
 			// Normal vars
