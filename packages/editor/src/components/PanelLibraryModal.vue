@@ -12,7 +12,7 @@
 		<template v-slot:header>
 			<div class="znpb-library-modal-header">
 				<span
-					v-if="previewOpen || multiple || importActive"
+					v-if="previewOpen || importActive"
 					@click.stop="closeBody"
 					class="znpb-library-modal-header-preview__back"
 				>
@@ -34,19 +34,15 @@
 					</h2>
 				</div>
 				<template v-else>
+
 					<h2
+						v-for="librarySource in librarySources"
+						:key="librarySource.id"
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === 'local'}"
-						@click="setActiveSource('local')"
+						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === librarySource.id}"
+						@click="setActiveSource(librarySource.id)"
 					>
-						{{$translate('local_library')}}
-					</h2>
-					<h2
-						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === 'zion-library'}"
-						@click="setActiveSource('zion-library')"
-					>
-						{{$translate('zion_library')}}
+						{{librarySource.name}}
 					</h2>
 				</template>
 				<div class="znpb-library-modal-header__actions">
@@ -114,7 +110,7 @@
 								icon="refresh"
 								@click="onRefresh"
 								:size="14"
-								:class="{['loading']: libLoading}"
+								:class="{['loading']: activeLibraryConfig && activeLibraryConfig.loading}"
 							/>
 						</Tooltip>
 
@@ -141,23 +137,12 @@
 			@file-uploaded="onTemplateUpload"
 		/>
 
-		<localLibrary
-			ref="localLibraryContent"
-			v-else-if="activeLibraryTab === 'local'"
-			:preview-open="previewOpen"
-			@activate-preview="activatePreview"
-		/>
-
 		<LibraryPanel
-			v-else-if="activeLibraryTab === 'zion-library'"
-			@activate-preview="previewOpen=true, activeItem=$event"
-			@activate-multiple="multiple=$event"
-			@loading-start="libLoading = true"
-			@loading-end="libLoading = false"
-			:preview-open="previewOpen"
-			:multiple="multiple"
-			:import-active="importActive"
 			ref="libraryContent"
+			@activate-preview="activatePreview"
+			:preview-open="previewOpen"
+			:library-config="activeLibraryConfig"
+			:key="activeLibraryConfig.id"
 		/>
 
 	</Modal>
@@ -165,12 +150,12 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, computed, watchEffect } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
-import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
+import { useLibrary, useLocalLibrary, useLibrarySources } from '@zionbuilder/composables'
 
 // Components
 import LibraryPanel from './LibraryPanel.vue'
@@ -193,17 +178,14 @@ export default {
 		const { addData, getData } = useLocalStorage()
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
 		const { fetchTemplates, loading } = useLocalLibrary()
-		const libLoading = ref(false)
+		const { librarySources } = useLibrarySources()
+
 		const activeLibraryTab = ref(getData('libraryActiveSource', 'local'))
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
-
-		watch(loading, (newVal) => {
-			libLoading.value = newVal
-		})
 
 		function setActiveSource (source, save = true) {
 			activeLibraryTab.value = source
@@ -213,27 +195,45 @@ export default {
 			}
 		}
 
+		const activeLibraryConfig = computed(() => {
+			const activeLibrary = librarySources.value.find(librarySource => librarySource.id === activeLibraryTab.value)
+
+			return activeLibrary
+		})
+
+		watchEffect(() => {
+			activeLibraryConfig.value.getData()
+		})
+
+
+		function onRefresh () {
+			activeLibraryConfig.value.getData(false)
+		}
+
 		return {
 			// refs
 			isLibraryOpen,
 			activeLibraryTab,
 
+			// computed
+			librarySources,
+			activeLibraryConfig,
+
 			// methods
 			closeLibrary,
 			toggleLibrary,
 			fetchTemplates,
-			libLoading,
 			editorData,
 			isProActive,
 			isProConnected,
 			purchaseURL,
-			setActiveSource
+			setActiveSource,
+			onRefresh
 		}
 	},
 	data () {
 		return {
 			importActive: false,
-			multiple: false,
 			fullSize: false,
 			previewOpen: false,
 			activeItem: null,
@@ -246,7 +246,6 @@ export default {
 		computedTitle () {
 			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
 		}
-
 	},
 	mounted () {
 		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -263,20 +262,9 @@ export default {
 				this.insertItemLoading = false
 			})
 		},
-
-		onRefresh () {
-			this.templateUploaded = false
-
-			this.activeLibraryTab === 'local' ? this.fetchTemplates(true) : this.$refs.libraryContent.getDataFromServer(false)
-		},
 		closeBody () {
-			if (this.multiple && this.previewOpen) {
-				this.previewOpen = false
-			} else {
-				this.previewOpen = false
-				this.multiple = false
-				this.importActive = false
-			}
+			this.previewOpen = false
+			this.importActive = false
 		},
 		activatePreview (item) {
 			this.activeItem = item

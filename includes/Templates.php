@@ -123,11 +123,13 @@ class Templates {
 				'name'          => __( 'Templates', 'zionbuilder' ),
 				'singular_name' => __( 'Template', 'zionbuilder' ),
 				'id'            => 'template',
+				'slug'          => 'template',
 			],
 			[
 				'name'          => __( 'Blocks', 'zionbuilder' ),
 				'singular_name' => __( 'Block', 'zionbuilder' ),
 				'id'            => 'block',
+				'slug'          => 'block',
 			],
 		];
 

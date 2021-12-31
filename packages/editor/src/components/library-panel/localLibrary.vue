@@ -3,17 +3,8 @@
 	<div class="znpb-editor-library-modal">
 		<div class="znpb-editor-library-modal-sidebar">
 			<CategoriesLibrary
-				v-for="(category, index) in allTemplateTypes"
-				:key="index"
-				class="znpb-editor-library-modal-sidebar-category"
-				:category="category"
-				:is-expanded="category.id === getActiveCategory.id"
-				:show-count="false"
-				:parent="category"
-				:subcategory="getSubCategories"
-				:activeSubcategory="activeSubcategory"
-				@activate-category="activeCategory=$event, activeSubcategory=null"
-				@activate-subcategory="activeSubcategory=$event"
+				:categories="allCategories"
+				:on-category-activate="onCategoryActivate"
 			/>
 		</div>
 
@@ -58,7 +49,7 @@
 <script>
 import { ref, computed, inject, watch } from 'vue'
 import { useLocalLibrary } from '@zionbuilder/composables'
-import { get } from 'lodash-es'
+import { get, find } from 'lodash-es'
 
 // Components
 import CategoriesLibrary from './CategoriesLibrary.vue'
@@ -89,7 +80,9 @@ export default {
 		fetchTemplates()
 
 		// Standard vars
-		const allTemplateTypes = window.ZnPbInitalData.template_types
+		const allTemplateTypes = ref(window.ZnPbInitalData.template_types || [])
+		console.log({ allTemplateTypes });
+		console.log(libaryItems);
 
 		// Inject the library
 		const Library = inject('Library')
@@ -103,14 +96,30 @@ export default {
 		const errorMessage = ref('')
 
 		// Computed
+		const allCategories = computed(() => {
+			const categories = allTemplateTypes.value
+
+			allTemplateTypes.value.forEach(templateTypeConfig => {
+				const templateTypeItems = libaryItems.value.filter(item => item.template_type === templateTypeConfig.id)
+
+				templateTypeItems.forEach(templateItem => {
+					if (Array.isArray(templateItem.template_category)) {
+						templateItem.template_category.forEach(category => {
+							if (!find(categories, { slug: category.slug })) {
+								templateTypeConfig.subcategories = templateTypeConfig.subcategories || []
+								templateTypeConfig.subcategories.push(category)
+							}
+						})
+					}
+				})
+			})
+
+			return categories
+		})
+
 		const filteredTemplates = computed(() => {
 			return libaryItems.value.filter(template => {
-				const templateCategories = template.template_category
-				if (activeSubcategory.value && activeSubcategory.value.slug !== 'all') {
-					return templateCategories.find(category => category.slug === activeSubcategory.value.slug)
-				}
-
-				return template.post_status === 'publish' && template.template_type === getActiveCategory.value.id
+				return template.post_status === 'publish' && template.template_type === activeCategory.value.id
 			})
 		})
 
@@ -148,8 +157,13 @@ export default {
 			})
 		}
 
+		function onCategoryActivate (category) {
+			console.log(category);
+		}
+
 		return {
 			// Computed
+			allCategories,
 			activeItem,
 			getActiveCategory,
 			ItemLoading,
@@ -157,52 +171,14 @@ export default {
 			errorMessage,
 			loading,
 			libaryItems,
-			allTemplateTypes,
 			fetchTemplates,
 			filteredTemplates,
 			Library,
 			activeCategory,
 			activeSubcategory,
 			// Methods
-			onTemplateInsert
-		}
-	},
-
-	computed: {
-		getSubCategories () {
-			// get subcategories from the active category
-			let categoryId = this.getActiveCategory.id
-			let allCount = 0
-
-			const subcategories = []
-
-			const templateByActiveType = this.libaryItems.filter(template => {
-				return template.template_type === categoryId
-			})
-
-			const addedCategories = []
-
-			if (templateByActiveType && templateByActiveType.length > 0) {
-				templateByActiveType.forEach(template => {
-					if (template.template_category) {
-						template.template_category.forEach(category => {
-							if (!addedCategories.includes(category.slug)) {
-								subcategories.push(category)
-								addedCategories.push(category.slug)
-							}
-						})
-					}
-				})
-			}
-
-			subcategories.unshift({
-				id: 'all',
-				slug: 'all',
-				name: this.$translate('all'),
-				count: allCount
-			})
-
-			return subcategories
+			onTemplateInsert,
+			onCategoryActivate
 		}
 	}
 }
