@@ -122,6 +122,11 @@ export default {
 			return props.item.thumbnail
 		})
 
+		// Check to see if we need to generate image
+		if (!props.item.thumbnail && !props.item.thumbnail_generation_failed) {
+			// Register the thumbnail for generation
+		}
+
 		function onItemInView (entries) {
 			entries.forEach(({ isIntersecting }) => {
 				if (!isIntersecting) {

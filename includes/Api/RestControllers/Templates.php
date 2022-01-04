@@ -363,30 +363,8 @@ class Templates extends RestApiController {
 		$items = get_posts( $args );
 
 		foreach ( $items as $item ) {
-			$item_categories   = [ get_post_meta( $item->ID, ZionBuilderTemplates::TEMPLATE_TYPE_META, true ) ];
-			$item_tags         = [];
-			$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $item->ID );
-
-			$url = '';
-			//
-			$items_to_return[] = apply_filters(
-				'zionbuilder/templates/single_template_category',
-				[
-					'id'          => $item->ID,
-					'name'        => $item->post_title,
-					'category'    => $item_categories,
-					'thumbnail'   => get_the_post_thumbnail_url( $item ),
-					'date'        => $item->post_date,
-					'tags'        => $item_tags,
-					'edit_url'    => $template_instance->get_edit_url(),
-					'preview_url' => $template_instance->get_preview_url_barebone(),
-					'type'        => get_post_meta( $item->ID, ZionBuilderTemplates::TEMPLATE_TYPE_META, true ),
-					'source'      => 'local',
-					'url'         => $url,
-					'pro'         => false,
-				],
-				$item
-			);
+			$template_instance = Plugin::$instance->post_manager->get_post_instance( $item->ID );
+			$items_to_return[] = $template_instance->get_data_for_api();
 		}
 
 		$library_categories = Plugin::$instance->templates->get_template_types();
@@ -433,7 +411,7 @@ class Templates extends RestApiController {
 		$prefix_shortcode = 'zionbuilder';
 
 		$shortcode         = '[' . $prefix_shortcode . ' id="' . $template['ID'] . '"]';
-		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $template['ID'] );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $template['ID'] );
 
 		$template['edit_url']    = $template_instance->get_edit_url();
 		$template['preview_url'] = $template_instance->get_preview_url_barebone();

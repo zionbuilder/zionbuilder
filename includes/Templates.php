@@ -396,7 +396,7 @@ class Templates {
 		}
 
 		// Get an instance of the template
-		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $post_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
 
 		// Set template data
 		if ( ! empty( $template_config['template_data'] ) ) {
