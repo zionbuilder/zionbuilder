@@ -114,11 +114,11 @@ export default {
 			term_id: '3211329987745',
 			isActive: true
 		}
-		console.log(props.libraryConfig);
+
 		// Refs
 		const searchInput = ref(null)
-		const libraryItems = props.libraryConfig.items
-		const libraryCategories = props.libraryConfig.categories
+		const libraryItems = computed(() => props.libraryConfig.items)
+		const libraryCategories = computed(() => props.libraryConfig.categories)
 		const activeCategory = ref(allCategoyConfig)
 		const sortAscending = ref(false)
 		const searchKeyword = ref('')
@@ -134,7 +134,7 @@ export default {
 			// Add the all category
 			categories.push(allCategoyConfig)
 
-			categories.push(...libraryCategories)
+			categories.push(...libraryCategories.value)
 
 			return categories
 		})
@@ -185,10 +185,10 @@ export default {
 		})
 
 		const filteredItemsBySearchKeyword = computed(() => {
-			let items = libraryItems
+			let items = libraryItems.value
 			// Check for keyword
 			if (searchKeyword.value.length > 0) {
-				items = libraryItems.filter(item => {
+				items = libraryItems.value.filter(item => {
 					// check if name includes keyword
 					let name = item.name.toLowerCase()
 
@@ -211,16 +211,10 @@ export default {
 		})
 
 		const filteredItems = computed(() => {
-			let items = []
-
-			if (activeCategory.value.term_id === allCategoyConfig.term_id) {
-				items = libraryItems
-			} else {
-				// Get active items by category / subcategory
-				items = filteredItemsBySearchKeyword.value.filter(item => {
-					return item.category.includes(activeCategory.value.term_id)
-				})
-			}
+			// Get active items by category / subcategory
+			let items = filteredItemsBySearchKeyword.value.filter(item => {
+				return activeCategory.value.term_id === allCategoyConfig.term_id || item.category.includes(activeCategory.value.term_id)
+			})
 
 			// Create a clone for reverse since the reverse is in place
 			if (sortAscending.value) {
@@ -252,7 +246,7 @@ export default {
 		// Check to see if the current active category is still valid
 		watch(searchKeyword, (newValue) => {
 			if (newValue.length > 0) {
-				const activeCategoryValid = computedlibraryCategories.find(category => category.term_id === activeCategory.value.term_id)
+				const activeCategoryValid = computedLibraryCategories.value.find(category => category.term_id === activeCategory.value.term_id)
 
 				if (!activeCategoryValid) {
 					onCategoryActivate(allCategoyConfig)

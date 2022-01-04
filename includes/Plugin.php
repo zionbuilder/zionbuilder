@@ -16,6 +16,7 @@ use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
 use ZionBuilder\MaintenanceMode;
 use ZionBuilder\CustomCode;
+use ZionBuilder\Screenshot;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -241,6 +242,7 @@ class Plugin {
 		new BulkActionsData();
 		new MaintenanceMode();
 		new CustomCode();
+		new Screenshot();
 
 		/*
 		 * ZionBuilder loaded.

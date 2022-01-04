@@ -1,14 +1,16 @@
 import localSt from 'localstorage-ttl'
+import { LibraryItem } from './LibraryItem'
 
 export class LibrarySource {
 	public name?: string = ''
 	public id: string = ''
 	public url: string = ''
 	public useCache: boolean = true
-	public items = []
+	public items: Array<LibraryItem> = []
 	public categories = []
 	public loading: boolean = false
 	public loaded: boolean = false
+	public type: string = 'remote'
 
 	constructor(librarySource: LibrarySource) {
 		Object.assign(this, librarySource)
@@ -26,25 +28,45 @@ export class LibrarySource {
 	}
 
 	getData(useCache = true) {
-		if (useCache && this.useCache && localSt.get(`znpbLibraryCache_${this.id}`)) {
+		if (this.loaded && useCache) {
+			return
+		} else if (useCache && this.useCache && localSt.get(`znpbLibraryCache_${this.id}`)) {
 			const savedData = localSt.get(`znpbLibraryCache_${this.id}`)
-
 			if (savedData) {
 				const { items, categories } = savedData
 				this.categories = categories
-				this.items = items
+				this.items = this.createItemInstances(items)
+				this.loaded = true
 			}
 		} else {
 			this.loading = true
-			fetch(this.url)
+			let headers = {}
+
+			// Add proper headers based on source
+			if (this.type === 'local') {
+				headers = {
+					'X-WP-Nonce': window.ZnRestConfig.nonce,
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			}
+
+			fetch(this.url, {
+				headers
+			})
 				.then(response => response.json())
 				.then((response) => {
 					const { categories = {}, items = [] } = response
 					this.categories = Object.values(categories)
-					this.items = items
+
+					// Add library source type so we can use it on import
+					this.items = this.createItemInstances(items)
+					this.loaded = true
 
 					// Save library data to cache
-					this.saveToCache(Object.values(categories), items)
+					if (this.useCache) {
+						this.saveToCache(Object.values(categories), items)
+					}
 				}).finally(() => {
 					// End loading
 					this.loading = false
@@ -52,12 +74,24 @@ export class LibrarySource {
 		}
 	}
 
-	saveToCache(categories: Array, items: Array) {
-		if (this.useCache) {
-			localSt.set(`znpbLibraryCache_${this.id}`, {
-				categories,
-				items
-			}, 604800000)
-		}
+	createItemInstances(items) {
+		return items.map(item => {
+			item.library_type = this.type
+
+			return new LibraryItem(item, this)
+		})
+	}
+
+	removeItem(item: LibraryItem) {
+		const index = this.items.indexOf(item)
+
+		this.items.splice(index, 1)
+	}
+
+	saveToCache(categories: Array, items: Array<LibraryItem>) {
+		localSt.set(`znpbLibraryCache_${this.id}`, {
+			categories,
+			items
+		}, 604800000)
 	}
 }

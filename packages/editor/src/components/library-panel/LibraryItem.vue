@@ -10,7 +10,7 @@
 				class="znpb-editor-library-modal__item-image"
 				:class="{['--no-image']: !item.thumbnail}"
 				@click="$emit('activate-item', item)"
-				:data-zbg="item.thumbnail"
+				:data-zbg="image"
 				ref="imageHolder"
 			/>
 
@@ -24,7 +24,7 @@
 				<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
 				<div
 					class="znpb-editor-library-modal__item-actions"
-					v-if="!insertItemLoading"
+					v-if="!insertItemLoading && !item.loading"
 				>
 					<a
 						v-if="!isProActive && item.pro"
@@ -43,50 +43,25 @@
 						{{$translate('activate_pro')}}
 					</a>
 
-					<Tooltip
-						v-else
-						tag="span"
-						:content="$translate('library_insert_tooltip')"
-						append-to="element"
-						class="znpb-editor-library-modal__item-action"
-						placement="top"
-						:modifiers="[
-						{
-						name: 'offset',
-						options: {
-							offset: [0, 3],
-						},
-						},
-					]"
-						strategy="fixed"
-					>
-						<span
-							@click.stop="insertLibraryItem"
-							class="znpb-button znpb-button--line"
-						>{{$translate('library_insert')}}</span>
-					</Tooltip>
+					<span
+						@click.stop="insertLibraryItem"
+						class="znpb-button znpb-button--line znpb-editor-library-modal__item-action"
+						v-znpb-tooltip="$translate('library_insert_tooltip')"
+					>{{$translate('library_insert')}}</span>
 
-					<Tooltip
-						tag="span"
-						:content="$translate('library_click_preview_tooltip')"
-						append-to="element"
+					<Icon
+						icon="eye"
 						class="znpb-editor-library-modal__item-action"
-						placement="top"
-						:modifiers="[
-						{
-						name: 'offset',
-						options: {
-							offset: [0, 3],
-						},
-						},
-					]"
-						strategy="fixed"
-					>
-						<Icon
-							icon="eye"
-							@click="$emit('activate-item', item)"
-						/>
-					</Tooltip>
+						@click="$emit('activate-item', item)"
+						v-znpb-tooltip="$translate('library_click_preview_tooltip')"
+					/>
+
+					<HiddenMenu
+						class="znpb-editor-library-modal__item-action"
+						:actions="itemMenuActions"
+						v-if="item.library_type === 'local'"
+					/>
+
 				</div>
 				<Loader
 					v-else
@@ -97,16 +72,15 @@
 			<div
 				v-if="item.type === 'multiple'"
 				class="znpb-editor-library-modal__item-bottom-multiple"
-			>
-
-			</div>
+			/>
 		</div>
 	</li>
 
 </template>
 <script>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useEditorData } from '@composables'
+import { translate } from '@zb/i18n'
 
 export default {
 	name: 'LibraryItem',
@@ -144,6 +118,9 @@ export default {
 		purchaseURL.value = editorData.value.urls.purchase_url
 
 		const iObserver = new IntersectionObserver(onItemInView)
+		const image = computed(() => {
+			return props.item.thumbnail
+		})
 
 		function onItemInView (entries) {
 			entries.forEach(({ isIntersecting }) => {
@@ -151,7 +128,10 @@ export default {
 					return;
 				}
 
-				imageHolder.value.style.backgroundImage = `url(${imageHolder.value.getAttribute('data-zbg')}`
+				if (props.item.thumbnail) {
+					imageHolder.value.style.backgroundImage = `url(${imageHolder.value.getAttribute('data-zbg')}`
+				}
+
 				iObserver.unobserve(root.value);
 			})
 		}
@@ -166,6 +146,36 @@ export default {
 			}
 		})
 
+		const itemMenuActions = computed(() => {
+			if (!props.item.libray_type === 'local') {
+				return []
+			}
+
+			return [
+				{
+					title: translate('edit_template'),
+					action: () => {
+						return window.open(props.item.edit_url, '_blank').focus();
+					},
+					icon: 'edit'
+				},
+				{
+					title: translate('export_template'),
+					action: () => {
+						props.item.export()
+					},
+					icon: 'export'
+				},
+				{
+					title: translate('delete_template'),
+					action: () => {
+						props.item.delete()
+					},
+					icon: 'delete'
+				},
+			]
+		})
+
 		return {
 			// Refs
 			imageHolder,
@@ -174,14 +184,17 @@ export default {
 			dashboardURL,
 			isProConnected,
 			isProActive,
-			Library
+			Library,
+			image,
+
+			// Computed
+			itemMenuActions
 		}
 	},
 	methods: {
 		insertLibraryItem () {
 			this.insertItemLoading = true
 			// If it's pro, get the download URL
-
 			this.Library.insertItem(this.item).then(() => {
 
 			}).finally(() => {
@@ -219,7 +232,9 @@ export default {
 	margin-bottom: 20px;
 	border-radius: 3px;
 	transition: box-shadow .2s;
-	cursor: pointer;
+	&Inner {
+		cursor: pointer;
+	}
 
 	&Inner:hover {
 		box-shadow: 0 12px 30px 0 var(--zb-surface-shadow-hover);
@@ -243,6 +258,7 @@ export default {
 		&.--no-image {
 			min-height: 180px;
 			background-color: var(--zb-surface-lighter-color);
+			background-image: url("./no_preview_available.svg");
 		}
 	}
 
@@ -287,7 +303,7 @@ export default {
 			margin-right: 8px;
 		}
 
-		& > span:last-of-type {
+		& > span:last-child {
 			margin-right: 0;
 		}
 	}

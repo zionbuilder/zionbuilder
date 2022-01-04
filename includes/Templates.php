@@ -107,7 +107,7 @@ class Templates {
 		$this->register_default_template_types();
 
 		// Allow others to register their own template types
-		do_action( 'zionbuilder/templates/before_init' );
+		do_action( 'zionbuilder/templates/before_init', $this );
 
 		$this->register_templates_post_types_and_taxonomy();
 	}
@@ -123,13 +123,11 @@ class Templates {
 				'name'          => __( 'Templates', 'zionbuilder' ),
 				'singular_name' => __( 'Template', 'zionbuilder' ),
 				'id'            => 'template',
-				'slug'          => 'template',
 			],
 			[
 				'name'          => __( 'Blocks', 'zionbuilder' ),
 				'singular_name' => __( 'Block', 'zionbuilder' ),
 				'id'            => 'block',
-				'slug'          => 'block',
 			],
 		];
 
@@ -193,6 +191,10 @@ class Templates {
 		if ( $this->is_template_type_registered( $template_type_config['id'] ) ) {
 			return new \WP_Error( 'template_type_exists', esc_html__( 'The template type already exists.', 'zionbuilder' ) );
 		}
+
+		// Add additional data
+		$template_type_config['slug']    = $template_type_config['id'];
+		$template_type_config['term_id'] = $template_type_config['id'];
 
 		array_push( $this->template_types, $template_type_config );
 

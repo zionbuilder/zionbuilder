@@ -90,7 +90,6 @@
 
 					<template v-else>
 						<Button
-							v-if="activeLibraryTab === 'local'"
 							type="secondary"
 							@click="importActive = !importActive , templateUploaded=!templateUploaded "
 						>
@@ -132,42 +131,43 @@
 				</div>
 			</div>
 		</template>
+
 		<LibraryUploader
 			v-if="importActive"
 			@file-uploaded="onTemplateUpload"
 		/>
 
-		<LibraryPanel
-			ref="libraryContent"
-			@activate-preview="activatePreview"
-			:preview-open="previewOpen"
-			:library-config="activeLibraryConfig"
-			:key="activeLibraryConfig.id"
-		/>
+		<template v-else>
+			<LibraryPanel
+				ref="libraryContent"
+				@activate-preview="activatePreview"
+				:preview-open="previewOpen"
+				:library-config="activeLibraryConfig"
+				:key="activeLibraryConfig.id"
+			/>
+		</template>
 
 	</Modal>
 
 </template>
 
 <script>
-import { ref, watch, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
-import { useLibrary, useLocalLibrary, useLibrarySources } from '@zionbuilder/composables'
+import { useLibrary, useLibrarySources } from '@zionbuilder/composables'
 
 // Components
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
-import localLibrary from './library-panel/localLibrary.vue'
 
 export default {
 	name: 'LibraryModal',
 	components: {
 		LibraryPanel,
-		LibraryUploader,
-		localLibrary,
+		LibraryUploader
 	},
 	provide () {
 		return {
@@ -177,7 +177,6 @@ export default {
 	setup (props) {
 		const { addData, getData } = useLocalStorage()
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
-		const { fetchTemplates, loading } = useLocalLibrary()
 		const { librarySources } = useLibrarySources()
 
 		const activeLibraryTab = ref(getData('libraryActiveSource', 'local'))
@@ -186,6 +185,8 @@ export default {
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
 		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
+		const previewOpen = ref(false)
+		const activeItem = ref(null)
 
 		function setActiveSource (source, save = true) {
 			activeLibraryTab.value = source
@@ -202,7 +203,9 @@ export default {
 		})
 
 		watchEffect(() => {
-			activeLibraryConfig.value.getData()
+			if (isLibraryOpen.value) {
+				activeLibraryConfig.value.getData()
+			}
 		})
 
 
@@ -210,10 +213,17 @@ export default {
 			activeLibraryConfig.value.getData(false)
 		}
 
+		function activatePreview (item) {
+			activeItem.value = item
+			previewOpen.value = true
+		}
+
 		return {
 			// refs
 			isLibraryOpen,
 			activeLibraryTab,
+			previewOpen,
+			activeItem,
 
 			// computed
 			librarySources,
@@ -222,21 +232,19 @@ export default {
 			// methods
 			closeLibrary,
 			toggleLibrary,
-			fetchTemplates,
 			editorData,
 			isProActive,
 			isProConnected,
 			purchaseURL,
 			setActiveSource,
-			onRefresh
+			onRefresh,
+			activatePreview
 		}
 	},
 	data () {
 		return {
 			importActive: false,
 			fullSize: false,
-			previewOpen: false,
-			activeItem: null,
 			insertItemLoading: false,
 			templateUploaded: false
 		}
@@ -256,7 +264,7 @@ export default {
 			this.setActiveSource('local')
 			this.templateUploaded = true
 		},
-		insertLibraryItem () {
+		insertLibraryItem (item) {
 			this.insertItemLoading = true
 			this.insertItem(this.activeItem).then(() => {
 				this.insertItemLoading = false
@@ -266,10 +274,7 @@ export default {
 			this.previewOpen = false
 			this.importActive = false
 		},
-		activatePreview (item) {
-			this.activeItem = item
-			this.previewOpen = true
-		},
+
 
 		/**
 		 * Insert item

@@ -580,10 +580,11 @@ class Localization {
 				'delete_permissions_for_user'              => __( 'Delete permissions for this user', 'zionbuilder' ),
 
 				// single-template
-				'edit_template'                            => __( 'Click to edit this template', 'zionbuilder' ),
-				'delete_template'                          => __( 'Click to delete this template', 'zionbuilder' ),
-				'export_template'                          => __( 'Click to export this template', 'zionbuilder' ),
-				'preview_template'                         => __( 'Click to preview this template', 'zionbuilder' ),
+				'edit_template'                            => __( 'Edit template', 'zionbuilder' ),
+				'delete_template'                          => __( 'Delete template', 'zionbuilder' ),
+				'export_template'                          => __( 'Export template', 'zionbuilder' ),
+				'preview_template'                         => __( 'Preview template', 'zionbuilder' ),
+				'copy_shortcode'                           => __( 'Copy shortcode', 'zionbuilder' ),
 
 				// device-element
 				'discard_changes_for'                      => __( 'Discard changes for', 'zionbuilder' ),
