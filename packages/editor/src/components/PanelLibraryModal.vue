@@ -197,7 +197,7 @@ export default {
 		}
 
 		const activeLibraryConfig = computed(() => {
-			const activeLibrary = librarySources.value.find(librarySource => librarySource.id === activeLibraryTab.value)
+			const activeLibrary = librarySources.value.find(librarySource => librarySource.id === activeLibraryTab.value) || librarySources.value[0]
 
 			return activeLibrary
 		})

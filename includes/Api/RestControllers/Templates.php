@@ -224,6 +224,25 @@ class Templates extends RestApiController {
 				'schema' => [ $this, 'get_public_item_schema' ],
 			]
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/(?P<id>[\d]+)/save-thumbnail',
+			[
+				'args'   => [
+					'id' => [
+						'description' => __( 'Unique identifier for the object.', 'zionbuilder' ),
+						'type'        => 'integer',
+					],
+				],
+				[
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'save_thumbnail' ],
+					'permission_callback' => [ $this, 'export_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
 	}
 
 
@@ -559,6 +578,28 @@ class Templates extends RestApiController {
 		}
 
 		return rest_ensure_response( $this->attach_post_data( $template ) );
+	}
+
+
+	/**
+	 * This function will update the thumbnail data for a template
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return int|\WP_Error|\WP_REST_Response
+	 */
+	public function save_thumbnail( $request ) {
+		$template_id    = $request->get_param( 'id' ) ? $request->get_param( 'id' ) : false;
+		$thumbnail_data = $request->get_param( 'thumbnail_data' );
+
+		if ( $template_id && $thumbnail_data ) {
+			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+			$image_saved       = $template_instance->save_base64Image();
+
+			if ( is_wp_error( $image_saved ) ) {
+				return $image_saved->add_data( [ 'status' => 500 ] );
+			}
+		}
 	}
 
 	/**

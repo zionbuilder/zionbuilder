@@ -8,11 +8,13 @@
 		<div class="znpb-editor-library-modal__itemInner">
 			<div
 				class="znpb-editor-library-modal__item-image"
-				:class="{['--no-image']: !item.thumbnail}"
+				:class="{['--no-image']: !item.thumbnail && !item.loadingThumbnail}"
 				@click="$emit('activate-item', item)"
 				:data-zbg="image"
 				ref="imageHolder"
-			/>
+			>
+				<Loader v-if="item.loadingThumbnail" />
+			</div>
 
 			<div
 				v-if="item.pro"
@@ -78,9 +80,10 @@
 
 </template>
 <script>
-import { ref, inject, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 import { useEditorData } from '@composables'
 import { translate } from '@zb/i18n'
+import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js'
 
 export default {
 	name: 'LibraryItem',
@@ -125,6 +128,12 @@ export default {
 		// Check to see if we need to generate image
 		if (!props.item.thumbnail && !props.item.thumbnail_generation_failed) {
 			// Register the thumbnail for generation
+			const { generateScreenshot, removeFromQueue } = useThumbnailGeneration()
+			generateScreenshot(props.item)
+
+			onBeforeUnmount(() => {
+				removeFromQueue(props.item)
+			})
 		}
 
 		function onItemInView (entries) {
@@ -140,6 +149,10 @@ export default {
 				iObserver.unobserve(root.value);
 			})
 		}
+
+		watch(() => props.item.thumbnail, (newValue) => {
+			iObserver.observe(root.value)
+		})
 
 		onMounted(() => {
 			iObserver.observe(root.value)
@@ -250,6 +263,8 @@ export default {
 	}
 
 	&-image {
+		display: flex;
+		align-content: center;
 		height: 200px;
 		background-position: top;
 		background-size: cover;

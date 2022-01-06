@@ -4,7 +4,6 @@ import {
 } from '@zb/rest'
 import { LibrarySource } from './LibrarySource'
 import { saveAs } from 'file-saver'
-import { useNotifications } from '../useNotifications'
 
 export class LibraryItem {
 	public id: string = ''
@@ -19,6 +18,7 @@ export class LibraryItem {
 	public source: string = ''
 	public url: string = ''
 	public pro: boolean = false
+	public loadingThumbnail = false
 
 	public loading: boolean = false
 	public librarySource: LibrarySource
@@ -30,7 +30,6 @@ export class LibraryItem {
 	}
 
 	delete() {
-		console.log('delete');
 		this.loading = true
 
 		return deleteTemplate(this.id).then((response) => {
@@ -44,7 +43,6 @@ export class LibraryItem {
 	}
 
 	export() {
-		console.log('export');
 		this.loading = true
 
 		exportTemplateById(this.id).then((response) => {
@@ -55,4 +53,8 @@ export class LibraryItem {
 				this.loading = false
 			})
 	}
+
+	// 	function saveThumbnailData() {
+
+	// }
 }
