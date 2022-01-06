@@ -132,6 +132,9 @@ class FileSystem {
 		$baseurl            = trailingslashit( $wp_uploads_dir['baseurl'] );
 		$zionbuilder_folder = trailingslashit( 'zionbuilder' );
 
+		// Create the folder if it doesn't exists
+		self::create_folder( $basedir . $zionbuilder_folder . $path );
+
 		return [
 			'basedir' => $basedir . $zionbuilder_folder . $path,
 			'baseurl' => esc_url( $baseurl . $zionbuilder_folder . $path ),
@@ -143,8 +146,6 @@ class FileSystem {
 		$temp_folder        = trailingslashit( 'temp' );
 		$full_path          = $zionbuilder_folder['basedir'] . $temp_folder . $path;
 		$full_url           = esc_url( $zionbuilder_folder['baseurl'] . $temp_folder . $path );
-
-		self::create_folder( $full_path );
 
 		return [
 			'basedir' => $full_path,

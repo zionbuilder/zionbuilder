@@ -230,13 +230,17 @@ class Templates extends RestApiController {
 			'/' . $this->base . '/(?P<id>[\d]+)/save-thumbnail',
 			[
 				'args'   => [
-					'id' => [
+					'id'             => [
 						'description' => __( 'Unique identifier for the object.', 'zionbuilder' ),
 						'type'        => 'integer',
 					],
+					'thumbnail_data' => [
+						'description' => __( 'Unique identifier for the object.', 'zionbuilder' ),
+						'type'        => 'array',
+					],
 				],
 				[
-					'methods'             => \WP_REST_Server::READABLE,
+					'methods'             => \WP_REST_Server::EDITABLE,
 					'callback'            => [ $this, 'save_thumbnail' ],
 					'permission_callback' => [ $this, 'export_item_permissions_check' ],
 				],
@@ -589,17 +593,24 @@ class Templates extends RestApiController {
 	 * @return int|\WP_Error|\WP_REST_Response
 	 */
 	public function save_thumbnail( $request ) {
-		$template_id    = $request->get_param( 'id' ) ? $request->get_param( 'id' ) : false;
-		$thumbnail_data = $request->get_param( 'thumbnail_data' );
+		$template_id = $request->get_param( 'id' ) ? $request->get_param( 'id' ) : false;
+		$success     = $request->get_param( 'success' );
+		$image_data  = $request->get_param( 'thumbnail' );
 
-		if ( $template_id && $thumbnail_data ) {
+		if ( $template_id ) {
 			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
-			$image_saved       = $template_instance->save_base64Image();
 
-			if ( is_wp_error( $image_saved ) ) {
-				return $image_saved->add_data( [ 'status' => 500 ] );
+			if ( $success ) {
+				$template_instance->save_base64Image( $image_data );
+			} else {
+				$template_instance->set_failed_thumbnail_generation_status( true );
 			}
+
+			// TODO: show error message in case it failed
+			return rest_ensure_response( $template_instance->get_data_for_api() );
 		}
+
+		return rest_ensure_response( [] );
 	}
 
 	/**

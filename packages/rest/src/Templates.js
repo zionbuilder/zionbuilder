@@ -39,6 +39,10 @@ export const exportTemplateById = function (id) {
 	})
 }
 
+export function saveThumbnailData(id, data) {
+	return ZionService.post(`templates/${id}/save-thumbnail`, data)
+}
+
 export const importTemplateLibrary = function (templateFile) {
 	return ZionService.post(
 		'templates/import',

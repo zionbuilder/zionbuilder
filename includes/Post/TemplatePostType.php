@@ -83,13 +83,18 @@ class TemplatePostType extends BasePostType {
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD );
 	}
 
-	public function set_failed_thumbnail_generation() {
-		update_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD, true );
+	public function set_failed_thumbnail_generation_status( $status ) {
+		update_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD, $status );
 	}
 
 	public function clear_thumbnail_data() {
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD );
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD );
+
+		$screenshoot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
+		$file_path          = sprintf( '%s/template-%s.png', $screenshoot_folder['basedir'], $this->get_post_id() );
+
+		FileSystem::get_file_system()->delete( $file_path );
 	}
 
 	public function save_base64Image( $base_64_data ) {
@@ -104,5 +109,12 @@ class TemplatePostType extends BasePostType {
 
 		// TODO: check for fail
 		$this->set_thumbnail( $file_url );
+	}
+
+	public function save( $post_data ) {
+		// Clear the thumbanil data so we can regenerate it
+		$this->clear_thumbnail_data();
+
+		return parent::save( $post_data );
 	}
 }

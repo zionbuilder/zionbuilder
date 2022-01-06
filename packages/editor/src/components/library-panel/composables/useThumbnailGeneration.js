@@ -26,11 +26,11 @@ export function useThumbnailGeneration() {
 			if (event.data && event.data.type === 'zionbuilder-screenshot') {
 				const {
 					success,
-					data
+					thumbnail
 				} = event.data
 
 				if (success) {
-					item.thumbnail = data.thumbnail
+					item.thumbnail = thumbnail
 				} else {
 					// Save fail to DB
 					item.thumbnail_load_failed = true

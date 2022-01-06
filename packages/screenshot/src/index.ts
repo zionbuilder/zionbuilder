@@ -24,9 +24,7 @@ export default function screenshot() {
 			.then((dataUrl) => {
 				sendMessage({
 					success: true,
-					data: {
-						thumbnail: dataUrl
-					}
+					thumbnail: dataUrl
 				})
 			})
 			.catch((error) => {

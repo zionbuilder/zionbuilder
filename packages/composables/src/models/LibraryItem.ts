@@ -1,6 +1,7 @@
 import {
 	deleteTemplate,
-	exportTemplateById
+	exportTemplateById,
+	saveThumbnailData as saveThumbnailDataRest
 } from '@zb/rest'
 import { LibrarySource } from './LibrarySource'
 import { saveAs } from 'file-saver'
@@ -54,7 +55,7 @@ export class LibraryItem {
 			})
 	}
 
-	// 	function saveThumbnailData() {
-
-	// }
+	saveThumbnailData(data) {
+		saveThumbnailDataRest(this.id, data)
+	}
 }
