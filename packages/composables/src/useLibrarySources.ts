@@ -21,6 +21,12 @@ const sources: Array<Source> = [
 		url: 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
 		id: 'zion_builder',
 		type: 'zion_library'
+	},
+	{
+		name: 'My custom library',
+		url: 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
+		id: 'zion_builder_2',
+		type: 'external'
 	}
 ].map(source => new LibrarySource(source))
 

@@ -16,6 +16,7 @@ import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
 import CustomCode from '../components/CustomCode.vue'
+import LibraryPage from '../components/LibraryPage.vue'
 
 import { translate } from '@zb/i18n'
 
@@ -172,6 +173,13 @@ export const initRoutes = function () {
 		name: 'gradients_presets',
 		title: translate('gradients'),
 		component: Gradients
+	})
+
+	const LibraryRoute = SettingsRoute.addRoute('library', {
+		path: 'library',
+		component: LibraryPage,
+		title: translate('library'),
+		name: 'library'
 	})
 
 	routes.addRoute('permissions', {

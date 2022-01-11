@@ -1,5 +1,5 @@
 require('./scss/index.scss')
-import domToImage from "dom-to-image";
+import { toPng } from "html-to-image";
 
 export default function screenshot() {
 	const options = ZnPbScreenshootData
@@ -20,12 +20,14 @@ export default function screenshot() {
 
 	function createImage() {
 		// Take screenshoot
-		domToImage.toPng(document.body)
+		toPng(document.body)
 			.then((dataUrl) => {
 				sendMessage({
 					success: true,
 					thumbnail: dataUrl
 				})
+
+				// download(dataUrl)
 			})
 			.catch((error) => {
 				sendMessage({

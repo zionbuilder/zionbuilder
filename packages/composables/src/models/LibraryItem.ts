@@ -20,6 +20,7 @@ export class LibraryItem {
 	public url: string = ''
 	public pro: boolean = false
 	public loadingThumbnail = false
+	public library_type: string = ''
 
 	public loading: boolean = false
 	public librarySource: LibrarySource
@@ -57,5 +58,23 @@ export class LibraryItem {
 
 	saveThumbnailData(data) {
 		saveThumbnailDataRest(this.id, data)
+	}
+
+	toJSON() {
+		return {
+			id: this.id,
+			name: this.name,
+			category: this.category,
+			thumbnail: this.thumbnail,
+			data: this.data,
+			tags: this.tags,
+			edit_url: this.edit_url,
+			preview_url: this.preview_url,
+			type: this.type,
+			source: this.source,
+			pro: this.pro,
+			url: this.url,
+			library_type: this.library_type
+		}
 	}
 }

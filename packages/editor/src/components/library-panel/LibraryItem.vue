@@ -314,6 +314,7 @@ export default {
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
+		line-height: 40px !important;
 	}
 
 	&-actions {

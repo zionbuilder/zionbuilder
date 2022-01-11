@@ -99,7 +99,8 @@ class TemplatePostType extends BasePostType {
 
 	public function save_base64Image( $base_64_data ) {
 		// Get the base64 string
-		$image_data = str_replace( 'data:image/png;base64', '', $base_64_data );
+		$image_data = str_replace( 'data:image/png;base64,', '', $base_64_data );
+		$image_data = base64_decode( $image_data );
 
 		$screenshoot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
 		$file_path          = sprintf( '%s/template-%s.png', $screenshoot_folder['basedir'], $this->get_post_id() );

@@ -286,7 +286,7 @@ export default {
 		 */
 		insertItem (item) {
 			return new Promise((resolve, reject) => {
-				insertTemplate(item).then((response) => {
+				insertTemplate(item.toJSON()).then((response) => {
 					const { template_data: templateData } = response.data
 					const { insertElement, activeElement } = useLibrary()
 

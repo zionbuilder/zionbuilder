@@ -233,8 +233,6 @@ class Localization {
 				'save_to_library'                          => __( 'Save to library', 'zionbuilder' ),
 				'choose_title'                             => __( 'Choose a title', 'zionbuilder' ),
 				'save_title_desc'                          => __( 'Write a suggestive name for your element', 'zionbuilder' ),
-				'add_to_categ'                             => __( 'Add it to a category', 'zionbuilder' ),
-				'add_to_categ_desc'                        => __( 'Select a category from the library, or simply create a new category', 'zionbuilder' ),
 				'create'                                   => __( 'Create', 'zionbuilder' ),
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name

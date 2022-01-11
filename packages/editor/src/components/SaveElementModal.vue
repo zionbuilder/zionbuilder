@@ -73,7 +73,6 @@ export default {
 		return {
 			getElement,
 			getActivePostTemplatePart,
-			templateCategories: editorData.value.template_categories,
 			activeSaveElement,
 			hideSaveElement,
 			formModel,
@@ -90,32 +89,12 @@ export default {
 	},
 
 	computed: {
-		templateCategoriesOption () {
-			let options = []
-
-			this.templateCategories.forEach((category) => {
-				options.push({
-					id: category.slug,
-					name: category.name
-				})
-			})
-
-			return options
-		},
 		optionsSchema () {
 			return {
 				title: {
 					type: 'text',
 					title: this.$translate('choose_title'),
 					description: this.$translate('save_title_desc')
-				},
-				category: {
-					type: 'select',
-					title: this.$translate('add_to_categ'),
-					description: this.$translate('add_to_categ_desc'),
-					options: this.templateCategoriesOption,
-					addable: true,
-					filterable: true
 				}
 			}
 		}
@@ -138,20 +117,10 @@ export default {
 
 			addTemplate({
 				title: this.formModel.title,
-				template_category: this.formModel.category,
 				template_type: templateType,
 				template_data: compiledElementData
 			}).then((response) => {
 				this.loadingMessage = this.$translate('template_was_added')
-
-				if (response.data.template_category.length > 0) {
-					let addedCat = response.data.template_category[0]
-					const found = this.templateCategoriesOption.findIndex(cat => cat.id === addedCat.slug)
-
-					if (found === -1) {
-						this.templateCategories.push(addedCat)
-					}
-				}
 			})
 				.catch((error) => {
 					if (error.response !== undefined) {
@@ -159,8 +128,6 @@ export default {
 							this.errorMessage = error.response.data
 						} else this.errorMessage = this.arrayBufferToString(error.response.data)
 					} else {
-						// add console warn if template was saved without a category
-						// in this case there is also success and error
 						// eslint-disable-next-line
 						console.error(error)
 						this.errorMessage = error
@@ -189,7 +156,6 @@ export default {
 
 			exportTemplate({
 				title: this.formModel.title,
-				template_category: this.formModel.category,
 				template_type: templateType,
 				template_data: compiledElementData
 			})
