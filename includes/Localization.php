@@ -748,6 +748,9 @@ class Localization {
 				'padding-left'                             => __( 'Padding left', 'zionbuilder' ),
 				'link'                                     => __( 'Link', 'zionbuilder' ),
 				'unlink'                                   => __( 'Unlink', 'zionbuilder' ),
+
+				// Library share
+				'library_share'                            => __( 'Library share', 'zionbuilder' ),
 			]
 		);
 	}

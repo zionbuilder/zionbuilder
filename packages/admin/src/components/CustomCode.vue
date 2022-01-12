@@ -18,15 +18,13 @@ import { debounce } from 'lodash-es'
 export default {
 	name: 'CustomCode',
 	setup () {
-		const { getOptionValue, updateOptionValue, saveOptionsToDB, deleteOptionValue } = useBuilderOptions()
-		const debouncedSaveOptions = debounce(saveOptionsToDB, 700)
+		const { getOptionValue, updateOptionValue, saveOptionsToDB, deleteOptionValue, debouncedSaveOptions } = useBuilderOptions()
 
 		const computedModel = computed({
 			get () {
 				return getOptionValue('custom_code', {})
 			},
 			set (newValue) {
-				console.log({ newValue });
 				if (newValue === null) {
 					deleteOptionValue('custom_code', false)
 				} else {

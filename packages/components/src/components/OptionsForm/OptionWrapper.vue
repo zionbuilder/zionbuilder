@@ -287,7 +287,10 @@ export default {
 				...schema
 			} = props.schema
 
-			return schema
+			return {
+				...(optionTypeConfig.value.componentProps || {}),
+				...schema
+			}
 		})
 
 		const savedOptionValue = computed(() => {

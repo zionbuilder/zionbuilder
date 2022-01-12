@@ -8,13 +8,6 @@
 			v-model="computedModel"
 			class="znpb-maintenanceModeForm"
 		/>
-
-		<template #right>
-			<div>
-				<p class="znpb-admin-info-p">{{$translate('system_info')}}</p>
-				<p class="znpb-admin-info-p">{{$translate('system_info_desc')}}</p>
-			</div>
-		</template>
 	</PageTemplate>
 </template>
 

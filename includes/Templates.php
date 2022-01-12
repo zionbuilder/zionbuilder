@@ -15,9 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder
  */
 class Templates {
-	const TEMPLATE_POST_TYPE         = 'zion_template';
-	const TEMPLATE_CATEGORY_TAXONOMY = 'zion_template_category';
-	const TEMPLATE_TYPE_META         = 'zionbuilder_template_type';
+	const TEMPLATE_POST_TYPE = 'zion_template';
+	const TEMPLATE_TYPE_META = 'zionbuilder_template_type';
 
 	/**
 	 * @var array
@@ -109,7 +108,7 @@ class Templates {
 		// Allow others to register their own template types
 		do_action( 'zionbuilder/templates/before_init', $this );
 
-		$this->register_templates_post_types_and_taxonomy();
+		$this->register_post_type();
 	}
 
 	/**
@@ -148,20 +147,6 @@ class Templates {
 		return $this->template_types;
 	}
 
-
-	/**
-	 * Returns the template categories as list
-	 *
-	 * @return int|\WP_Error|\WP_Term[]
-	 */
-	public function get_template_categories() {
-		return get_terms(
-			[
-				'taxonomy'   => self::TEMPLATE_CATEGORY_TAXONOMY,
-				'hide_empty' => true,
-			]
-		);
-	}
 
 	/**
 	 * Register template type
@@ -223,16 +208,6 @@ class Templates {
 	}
 
 	/**
-	 * Registers the plugin post type and taxonomies used for templates
-	 *
-	 * @return void
-	 */
-	public function register_templates_post_types_and_taxonomy() {
-		$this->register_post_type();
-		$this->register_template_category_taxonomy();
-	}
-
-	/**
 	 * Registers the plugin post type used for templates
 	 *
 	 * @return void
@@ -273,58 +248,6 @@ class Templates {
 		register_post_type( self::TEMPLATE_POST_TYPE, $args );
 	}
 
-
-
-	/**
-	 * Register template category taxonomy
-	 *
-	 * Will register the templates category taxonomy used for organizing the templates
-	 *
-	 * @return void
-	 */
-	private function register_template_category_taxonomy() {
-		$labels = [
-			'name'                       => sprintf(
-				/* translators: %s is the whitelabel plugin name */
-				_x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ),
-				Whitelabel::get_title()
-			),
-			'singular_name'              => sprintf(
-				/* translators: %s is the whitelabel plugin name */
-				_x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
-				Whitelabel::get_title()
-			),
-			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
-			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),
-			'parent_item'                => __( 'Parent Template Category', 'zionbuilder' ),
-			'parent_item_colon'          => __( 'Parent Template Category:', 'zionbuilder' ),
-			'new_item_name'              => __( 'New Template Category', 'zionbuilder' ),
-			'add_new_item'               => __( 'Add New Template Category', 'zionbuilder' ),
-			'edit_item'                  => __( 'Edit Template Category', 'zionbuilder' ),
-			'update_item'                => __( 'Update Template Category', 'zionbuilder' ),
-			'view_item'                  => __( 'View Template Category', 'zionbuilder' ),
-			'separate_items_with_commas' => __( 'Separate items with commas', 'zionbuilder' ),
-			'add_or_remove_items'        => __( 'Add or remove Template Category', 'zionbuilder' ),
-			'choose_from_most_used'      => __( 'Choose from the most used', 'zionbuilder' ),
-			'popular_items'              => __( 'Popular Template Category', 'zionbuilder' ),
-			'search_items'               => __( 'Search Template Category', 'zionbuilder' ),
-			'not_found'                  => __( 'Not Found', 'zionbuilder' ),
-			'no_terms'                   => __( 'No items', 'zionbuilder' ),
-			'items_list'                 => __( 'Items list', 'zionbuilder' ),
-			'items_list_navigation'      => __( 'Items list navigation', 'zionbuilder' ),
-		];
-		$args   = [
-			'labels'            => $labels,
-			'hierarchical'      => false,
-			'public'            => false,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => false,
-			'show_tagcloud'     => false,
-		];
-
-		register_taxonomy( self::TEMPLATE_CATEGORY_TAXONOMY, [ self::TEMPLATE_POST_TYPE ], $args );
-	}
 
 	/**
 	 * This function will return the templates based on post type
@@ -385,16 +308,6 @@ class Templates {
 		// set template type
 		update_post_meta( $post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ) );
 
-		// Set element category
-		if ( ! empty( $template_config['category'] ) ) {
-			$element_category = sanitize_text_field( $template_config['category'] );
-
-			if ( ! term_exists( $element_category, self::TEMPLATE_CATEGORY_TAXONOMY ) ) {
-				wp_insert_term( $element_category, self::TEMPLATE_CATEGORY_TAXONOMY );
-			}
-			wp_set_object_terms( $post_id, $element_category, self::TEMPLATE_CATEGORY_TAXONOMY, false );
-		}
-
 		// Get an instance of the template
 		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
 
@@ -406,5 +319,82 @@ class Templates {
 		$template_instance->set_builder_status( true );
 
 		return $post_id;
+	}
+
+	/**
+	 * Returns the available library sources
+	 *
+	 * @return array The library sources as array
+	 */
+	public static function get_library_sources() {
+		$sources = [
+			[
+				'name'     => esc_html__( 'Local library', 'zionbuilder' ),
+				'url'      => self::get_local_library_url(),
+				'id'       => 'local_library',
+				'useCache' => false,
+				'type'     => 'local',
+			],
+			[
+				'name' => esc_html__( 'Zion Builder library', 'zionbuilder' ),
+				'url'  => 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
+				'id'   => 'zion_builder',
+				'type' => 'zion_library',
+			],
+		];
+
+		if ( Utils::has_valid_license() ) {
+			// Add remote library sources
+			$remote_sources = Settings::get_value( 'library_share.library_sources', [] );
+
+			foreach ( $remote_sources as $remote_source ) {
+				$sources[] = [
+					'name' => $remote_source['name'],
+					'url'  => self::get_remote_source_url( $remote_source['url'] ),
+					'id'   => self::generate_source_id( $source ), //TODO: generate id by name or by url,
+					'type' => 'external',
+				];
+			}
+		}
+
+		$sources = apply_filters( 'zionbuilder/templates/library_sources', $sources );
+	}
+
+
+	/**
+	 * Returns the API url for the local library
+	 *
+	 * @return string
+	 */
+	public static function get_local_library_url() {
+		return \get_rest_url( null, 'zionbuilder/v1/templates/items-and-categories' );
+	}
+
+
+	/**
+	 * Returns the remote api endpoint URL
+	 *
+	 * @param string $domain
+	 *
+	 * @return string
+	 */
+	public static function get_remote_source_url( $domain ) {
+		$prefix = \rest_get_url_prefix();
+		$path   = 'zionbuilder/v1/templates/items-and-categories';
+		return trailingslashit( $domain ) . trailingslashit( $prefix ) . $path;
+	}
+
+	/**
+	 * Returns an unique id for a source. If an id cannot be created, will fallback to a unique id
+	 *
+	 * @param array $source
+	 *
+	 * @return string
+	 */
+	public static function generate_source_id( $source ) {
+		$name = isset( $source['name'] ) ? $source['name'] : '';
+		$url  = isset( $source['url'] ) ? $source['url'] : '';
+
+		return sanitize_title( $name . $url, wp_unique_id() );
 	}
 }

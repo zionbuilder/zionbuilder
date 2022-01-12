@@ -449,10 +449,6 @@ class Templates extends RestApiController {
 		// Template type
 		$template['template_type'] = get_post_meta( $template['ID'], ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
 
-		// Attach category
-		$template_categories           = get_the_terms( $template['ID'], ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
-		$template['template_category'] = ! empty( $template_categories ) ? $template_categories : [];
-
 		$template = apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
 
 		return $template;
@@ -624,16 +620,6 @@ class Templates extends RestApiController {
 		$template_id = $request->get_param( 'id' ) ? $request->get_param( 'id' ) : false;
 
 		if ( $template_id ) {
-			$category       = '';
-			$template_terms = get_the_terms( $template_id, ZionBuilderTemplates::TEMPLATE_CATEGORY_TAXONOMY );
-			if ( ! is_wp_error( $template_terms ) && ! empty( $template_terms ) ) {
-				$first_term = array_pop( $template_terms );
-
-				if ( $first_term !== null ) {
-					$category = $first_term->name;
-				}
-			}
-
 			// retrieves the template data
 			$post_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
 
@@ -641,16 +627,14 @@ class Templates extends RestApiController {
 				return new \WP_Error( 'export_item', __( 'Could not return the post instance', 'zionbuilder' ) );
 			}
 
-			$template_name     = get_the_title( $template_id );
-			$template_data     = $post_instance->get_template_data();
-			$template_category = $category;
-			$template_type     = get_post_meta( $template_id, ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
+			$template_name = get_the_title( $template_id );
+			$template_data = $post_instance->get_template_data();
+			$template_type = get_post_meta( $template_id, ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
 		} else {
 			// retrieves the template data
-			$template_name     = sanitize_text_field( $request->get_param( 'title' ) );
-			$template_data     = $request->get_param( 'template_data' );
-			$template_category = $request->get_param( 'template_category' );
-			$template_type     = $request->get_param( 'template_type' );
+			$template_name = sanitize_text_field( $request->get_param( 'title' ) );
+			$template_data = $request->get_param( 'template_data' );
+			$template_type = $request->get_param( 'template_type' );
 		}
 
 		// Allow empty template name
@@ -668,7 +652,6 @@ class Templates extends RestApiController {
 				[
 					'template_name' => $template_name,
 					'template_type' => $template_type,
-					'category'      => $template_category,
 					'template_data' => $template_data,
 				],
 				$request

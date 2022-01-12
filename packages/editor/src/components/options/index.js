@@ -11,7 +11,6 @@ import ResponsiveGroup from './ResponsiveGroup'
 import Link from './Link'
 import ColumnSize from './ColumnSize'
 import WPWidget from './WPWidget'
-import Repeater from './Repeater'
 import TabGroup from './TabGroup'
 import ElementStyles from './ElementStyles'
 import CSSSelector from './CSSSelector'
@@ -47,7 +46,6 @@ export const registerEditorOptions = () => {
 	registerOption(Link)
 	registerOption(ColumnSize)
 	registerOption(WPWidget)
-	registerOption(Repeater)
 	registerOption(TabGroup)
 	registerOption(ElementStyles)
 	registerOption(CSSSelector)

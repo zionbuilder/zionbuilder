@@ -45,6 +45,7 @@ import { InputNumber, InputNumberUnit } from './components/InputNumber'
 import { InputTextAlign } from './components/InputTextAlign'
 import { OptionsForm, OptionWrapper } from './components/OptionsForm'
 import { InputSpacing } from './components/InputSpacing'
+import { InputRepeater } from './components/InputRepeater'
 
 import { Loader } from './components/Loader'
 import { Label } from './components/Label'
@@ -135,6 +136,7 @@ const components = [
 	OptionsForm,
 	OptionWrapper,
 	InputSpacing,
+	InputRepeater,
 	getDefaultGradient
 ]
 
@@ -221,5 +223,6 @@ export {
 	OptionsForm,
 	OptionWrapper,
 	InputSpacing,
+	InputRepeater,
 	getDefaultGradient
 }
