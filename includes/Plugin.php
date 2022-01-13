@@ -15,6 +15,8 @@ use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
 use ZionBuilder\MaintenanceMode;
+use ZionBuilder\CustomCode;
+use ZionBuilder\Screenshot;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -216,6 +218,7 @@ class Plugin {
 
 		// initiate permissions
 		$this->whitelabel       = new Whitelabel();
+		$this->cache            = new Cache();
 		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
 		$this->permissions      = new Permissions();
@@ -239,6 +242,8 @@ class Plugin {
 		new Upgrader();
 		new BulkActionsData();
 		new MaintenanceMode();
+		new CustomCode();
+		new Screenshot();
 
 		/*
 		 * ZionBuilder loaded.
