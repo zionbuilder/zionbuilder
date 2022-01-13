@@ -751,6 +751,8 @@ class Localization {
 
 				// Library share
 				'library_share'                            => __( 'Library share', 'zionbuilder' ),
+				'share_library_upgrade_message'            => __( 'Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder' ),
+
 			]
 		);
 	}

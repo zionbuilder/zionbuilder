@@ -54,7 +54,7 @@ appInstance.use(ComponentsInstall)
 // Init library sources
 const { addSources } = useLibrarySources()
 addSources(window.ZnPbInitalData.template_sources)
-console.log('start', window.ZnPbInitalData.template_sources);
+
 // Add error interceptor for API
 errorInterceptor(useNotifications())
 

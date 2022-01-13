@@ -16,7 +16,7 @@ import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
 import CustomCode from '../components/CustomCode.vue'
-import LibraryPage from '../components/LibraryPage.vue'
+
 
 import { translate } from '@zb/i18n'
 
@@ -143,7 +143,7 @@ export const initRoutes = function () {
 		path: 'custom-icons',
 		title: translate('custom_icons'),
 		name: 'icons',
-		props: { message: translate('custom_icons_upgrade_message') },
+		props: { message: translate('share_library_upgrade_message') },
 		component: GetPro,
 		label: {
 			type: 'warning',
@@ -175,11 +175,16 @@ export const initRoutes = function () {
 		component: Gradients
 	})
 
-	const LibraryRoute = SettingsRoute.addRoute('library', {
+	SettingsRoute.addRoute('library', {
 		path: 'library',
-		component: LibraryPage,
 		title: translate('library'),
-		name: 'library'
+		name: 'library',
+		label: {
+			type: 'warning',
+			text: translate('pro')
+		},
+		props: { message: translate('custom_icons_upgrade_message') },
+		component: GetPro,
 	})
 
 	routes.addRoute('permissions', {

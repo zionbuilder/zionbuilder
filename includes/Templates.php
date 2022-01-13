@@ -348,10 +348,14 @@ class Templates {
 			$remote_sources = Settings::get_value( 'library_share.library_sources', [] );
 
 			foreach ( $remote_sources as $remote_source ) {
+				if ( ! isset( $remote_source['name'] ) || ! isset( $remote_source['url'] ) ) {
+					continue;
+				}
+
 				$sources[] = [
 					'name' => $remote_source['name'],
 					'url'  => self::get_remote_source_url( $remote_source['url'] ),
-					'id'   => self::generate_source_id( $remote_source ), //TODO: generate id by name or by url,
+					'id'   => self::generate_source_id( $remote_source ),
 					'type' => 'external',
 				];
 			}
