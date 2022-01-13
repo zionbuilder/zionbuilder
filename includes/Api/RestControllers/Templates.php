@@ -87,6 +87,20 @@ class Templates extends RestApiController {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->base . '/external-items-and-categories',
+			[
+				[
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get_items_and_categories_from_external' ],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
+
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->base . '/export',
 			[
 				'args'   => [
@@ -396,6 +410,15 @@ class Templates extends RestApiController {
 			[
 				'items'      => $items_to_return,
 				'categories' => (object) $library_categories,
+			]
+		);
+	}
+
+	public function get_items_and_categories_from_external( $request ) {
+		return rest_ensure_response(
+			[
+				'items'      => [],
+				'categories' => (object) [],
 			]
 		);
 	}

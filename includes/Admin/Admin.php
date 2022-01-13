@@ -9,9 +9,6 @@ use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 
-// Schemas
-use ZionBuilder\Options\Schemas\AdminLibrary;
-
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -240,9 +237,7 @@ class Admin {
 						'is_pro_active'  => Utils::is_pro_active(),
 						'template_types' => Plugin::$instance->templates->get_template_types(),
 						'plugin_version' => Plugin::instance()->get_version(),
-						'schemas'        => [
-							'library_share' => AdminLibrary::get_schema(),
-						],
+						'schemas'        => [],
 						'appearance'     => [
 							'schema' => [
 								'builder_theme' => [

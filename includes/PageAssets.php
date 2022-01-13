@@ -321,7 +321,7 @@ class PageAssets {
 		$css = apply_filters( 'zionbuilder/page_assets/css', $this->css, $this );
 		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset(), $this->minify( $css ), 0644 );
 
-		$js = $this->js;
+		$js = apply_filters( 'zionbuilder/page_assets/js', $this->js, $this );
 		if ( ! empty( $js ) ) {
 			$js = $this->wrap_javascript( $js );
 		}

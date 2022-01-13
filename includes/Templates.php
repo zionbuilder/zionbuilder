@@ -344,21 +344,7 @@ class Templates {
 		];
 
 		if ( Utils::has_valid_license() ) {
-			// Add remote library sources
-			$remote_sources = Settings::get_value( 'library_share.library_sources', [] );
 
-			foreach ( $remote_sources as $remote_source ) {
-				if ( ! isset( $remote_source['name'] ) || ! isset( $remote_source['url'] ) ) {
-					continue;
-				}
-
-				$sources[] = [
-					'name' => $remote_source['name'],
-					'url'  => self::get_remote_source_url( $remote_source['url'] ),
-					'id'   => self::generate_source_id( $remote_source ),
-					'type' => 'external',
-				];
-			}
 		}
 
 		// Allow devs to add their own sources without interfering with the official sources
@@ -367,7 +353,6 @@ class Templates {
 		return array_merge( $sources, $filter_sources );
 	}
 
-
 	/**
 	 * Returns the API url for the local library
 	 *
@@ -375,33 +360,5 @@ class Templates {
 	 */
 	public static function get_local_library_url() {
 		return \get_rest_url( null, 'zionbuilder/v1/templates/items-and-categories' );
-	}
-
-
-	/**
-	 * Returns the remote api endpoint URL
-	 *
-	 * @param string $domain
-	 *
-	 * @return string
-	 */
-	public static function get_remote_source_url( $domain ) {
-		$prefix = \rest_get_url_prefix();
-		$path   = 'zionbuilder/v1/templates/items-and-categories';
-		return trailingslashit( $domain ) . trailingslashit( $prefix ) . $path;
-	}
-
-	/**
-	 * Returns an unique id for a source. If an id cannot be created, will fallback to a unique id
-	 *
-	 * @param array $source
-	 *
-	 * @return string
-	 */
-	public static function generate_source_id( $source ) {
-		$name = isset( $source['name'] ) ? $source['name'] : '';
-		$url  = isset( $source['url'] ) ? $source['url'] : '';
-
-		return sanitize_title( $name . $url, wp_unique_id() );
 	}
 }
