@@ -1,6 +1,14 @@
 import localSt from 'localstorage-ttl'
 import { LibraryItem } from './LibraryItem'
 
+export interface Source {
+	name: string;
+	url: string;
+	id: string;
+	last_changed: string;
+}
+
+
 export class LibrarySource {
 	public name?: string = ''
 	public id: string = ''
@@ -12,7 +20,7 @@ export class LibrarySource {
 	public loaded: boolean = false
 	public type: string = 'remote'
 
-	constructor(librarySource: LibrarySource) {
+	constructor(librarySource: Source) {
 		Object.assign(this, librarySource)
 
 		// Check if we have cached data for this source

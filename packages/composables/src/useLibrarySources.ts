@@ -1,39 +1,26 @@
 import { ref, Ref } from 'vue'
-import { LibrarySource } from './models/LibrarySource'
+import { LibrarySource, Source } from './models/LibrarySource'
 
-interface Source {
-	name: string;
-	url: string;
-	id: string;
-	last_changed: string;
-}
 
-const sources: Array<Source> = [
-	{
-		name: 'Local library',
-		url: 'https://zionbuilder.local/wp-json/zionbuilder/v1/templates/items-and-categories',
-		id: 'local_library',
-		useCache: false,
-		type: 'local'
-	},
-	{
-		name: 'Zion Builder library',
-		url: 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
-		id: 'zion_builder',
-		type: 'zion_library'
-	},
-	{
-		name: 'My custom library',
-		url: 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
-		id: 'zion_builder_2',
-		type: 'external'
-	}
-].map(source => new LibrarySource(source))
-
-const librarySources = ref(sources)
+const librarySources: Ref<Array<LibrarySource>> = ref([])
 
 export const useLibrarySources = () => {
+	function addSources(sources: Array<Source>) {
+		sources.forEach(source => {
+			addSource(source)
+		});
+	}
+
+	function addSource(source: Source) {
+		librarySources.value.push(new LibrarySource(source))
+	}
+
 	return {
+		// Methods
+		addSources,
+		addSource,
+
+		// Refs
 		librarySources
 	}
 }
