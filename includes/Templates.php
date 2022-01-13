@@ -351,13 +351,16 @@ class Templates {
 				$sources[] = [
 					'name' => $remote_source['name'],
 					'url'  => self::get_remote_source_url( $remote_source['url'] ),
-					'id'   => self::generate_source_id( $source ), //TODO: generate id by name or by url,
+					'id'   => self::generate_source_id( $remote_source ), //TODO: generate id by name or by url,
 					'type' => 'external',
 				];
 			}
 		}
 
-		$sources = apply_filters( 'zionbuilder/templates/library_sources', $sources );
+		// Allow devs to add their own sources without interfering with the official sources
+		$filter_sources = apply_filters( 'zionbuilder/templates/library_sources', [] );
+
+		return array_merge( $sources, $filter_sources );
 	}
 
 

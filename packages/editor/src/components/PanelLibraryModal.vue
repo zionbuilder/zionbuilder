@@ -179,7 +179,7 @@ export default {
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
 		const { librarySources } = useLibrarySources()
 
-		const activeLibraryTab = ref(getData('libraryActiveSource', 'local'))
+		const activeLibraryTab = ref(getData('libraryActiveSource', librarySources.value[0].id))
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)

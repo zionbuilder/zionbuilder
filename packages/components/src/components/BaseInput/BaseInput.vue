@@ -146,7 +146,6 @@ export default {
 
 	computed: {
 		cssClass () {
-			console.log(this.type);
 			return this.class
 		},
 		showClear () {
