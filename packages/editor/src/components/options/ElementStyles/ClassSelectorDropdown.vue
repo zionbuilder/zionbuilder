@@ -415,8 +415,11 @@ export default {
 		line-height: 20px;
 	}
 	&-validator {
-		color: var(--zb-red);
-		line-height: 18px;
+		color: #fff;
+		text-align: center;
+		background-color: var(--zb-error-color);
+		border-radius: 3px;
+		padding: 8px 12px;
 	}
 }
 
