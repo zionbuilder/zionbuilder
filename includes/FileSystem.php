@@ -142,14 +142,9 @@ class FileSystem {
 	}
 
 	public static function get_temp_upload_dir( $path = '' ) {
-		$zionbuilder_folder = self::get_zionbuilder_upload_dir();
 		$temp_folder        = trailingslashit( 'temp' );
-		$full_path          = $zionbuilder_folder['basedir'] . $temp_folder . $path;
-		$full_url           = esc_url( $zionbuilder_folder['baseurl'] . $temp_folder . $path );
+		$zionbuilder_folder = self::get_zionbuilder_upload_dir( $temp_folder . $path );
 
-		return [
-			'basedir' => $full_path,
-			'baseurl' => $full_url,
-		];
+		return $zionbuilder_folder;
 	}
 }
