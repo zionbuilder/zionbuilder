@@ -43,7 +43,7 @@ export class LibrarySource {
 			if (savedData) {
 				const { items, categories } = savedData
 				this.categories = categories
-				this.items = this.createItemInstances(items)
+				this.addItems(items)
 				this.loaded = true
 			}
 		} else {
@@ -68,7 +68,7 @@ export class LibrarySource {
 					this.categories = Object.values(categories)
 
 					// Add library source type so we can use it on import
-					this.items = this.createItemInstances(items)
+					this.addItems(items)
 					this.loaded = true
 
 					// Save library data to cache
@@ -82,18 +82,28 @@ export class LibrarySource {
 		}
 	}
 
-	createItemInstances(items) {
+	addItems(items) {
 		return items.map(item => {
-			item.library_type = this.type
-
-			return new LibraryItem(item, this)
+			this.addItem(item)
 		})
 	}
 
 	removeItem(item: LibraryItem) {
 		const index = this.items.indexOf(item)
-
+		console.log({ index });
 		this.items.splice(index, 1)
+	}
+
+	/**
+	 * Adds a new item to this source
+	 *
+	 * @param item The Object containing item data
+	 * @returns {LibraryItem} The library item instance
+	 */
+	addItem(item: LibraryItem) {
+		item.library_type = this.type
+
+		this.items.push(new LibraryItem(item, this))
 	}
 
 	saveToCache(categories: Array, items: Array<LibraryItem>) {

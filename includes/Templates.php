@@ -343,10 +343,6 @@ class Templates {
 			],
 		];
 
-		if ( Utils::has_valid_license() ) {
-
-		}
-
 		// Allow devs to add their own sources without interfering with the official sources
 		$filter_sources = apply_filters( 'zionbuilder/templates/library_sources', [] );
 

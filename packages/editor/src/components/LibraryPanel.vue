@@ -117,7 +117,7 @@ export default {
 
 		// Refs
 		const searchInput = ref(null)
-		const libraryItems = computed(() => props.libraryConfig.items)
+		const libraryItems = computed(() => props.libraryConfig.items.sort((a, b) => new Date(b.date) - new Date(a.date)))
 		const libraryCategories = computed(() => props.libraryConfig.categories)
 		const activeCategory = ref(allCategoyConfig)
 		const sortAscending = ref(false)

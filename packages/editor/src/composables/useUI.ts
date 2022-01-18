@@ -186,7 +186,7 @@ export function useUI() {
 	}
 
 	function closeLibrary() {
-		isLibraryOpen.value = true
+		isLibraryOpen.value = false
 	}
 
 	function toggleLibrary() {

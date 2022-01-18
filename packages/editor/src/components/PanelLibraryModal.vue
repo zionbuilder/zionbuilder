@@ -98,20 +98,14 @@
 							{{$translate('import')}}
 						</Button>
 
-						<Tooltip
-							v-if="!importActive"
-							:content="$translate('refresh_tooltip')"
-							tag="span"
-							placement="top"
+						<Icon
+							icon="refresh"
+							@click="onRefresh"
+							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
-						>
-							<Icon
-								icon="refresh"
-								@click="onRefresh"
-								:size="14"
-								:class="{['loading']: activeLibraryConfig && activeLibraryConfig.loading}"
-							/>
-						</Tooltip>
+							:class="{['loading']: activeLibraryConfig && activeLibraryConfig.loading}"
+							v-znpb-tooltip="$translate('refresh_tooltip')"
+						/>
 
 					</template>
 
@@ -152,12 +146,12 @@
 </template>
 
 <script>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
 import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
-import { useLibrary, useLibrarySources } from '@zionbuilder/composables'
+import { useLibrary } from '@zionbuilder/composables'
 
 // Components
 import LibraryPanel from './LibraryPanel.vue'
@@ -177,7 +171,7 @@ export default {
 	setup (props) {
 		const { addData, getData } = useLocalStorage()
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
-		const { librarySources } = useLibrarySources()
+		const { librarySources } = useLibrary()
 
 		const activeLibraryTab = ref(getData('libraryActiveSource', librarySources.value[0].id))
 
@@ -216,6 +210,25 @@ export default {
 		function activatePreview (item) {
 			activeItem.value = item
 			previewOpen.value = true
+		}
+
+		/**
+		 * Close panel on escape
+		 */
+		onMounted(() => {
+			document.addEventListener('keydown', onKeyDown)
+		})
+
+		onBeforeUnmount(() => {
+			document.removeEventListener('keydown', onkeyDown)
+		})
+
+		function onKeyDown (e) {
+			if (e.which === 27) {
+				closeLibrary()
+				e.preventDefault()
+				e.stopPropagation()
+			}
 		}
 
 		return {
@@ -341,14 +354,10 @@ export default {
 .znpb-modal__header-button--library-refresh {
 	display: flex;
 	justify-content: center;
-	padding: 0;
+	padding: 11px;
 
-	.znpb-editor-icon-wrapper {
-		padding: 11px;
-
-		&.loading {
-			animation: rotation .55s infinite linear;
-		}
+	&.loading svg {
+		animation: rotation .55s infinite linear;
 	}
 }
 

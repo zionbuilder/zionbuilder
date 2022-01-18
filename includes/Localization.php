@@ -583,6 +583,8 @@ class Localization {
 				'export_template'                          => __( 'Export template', 'zionbuilder' ),
 				'preview_template'                         => __( 'Preview template', 'zionbuilder' ),
 				'copy_shortcode'                           => __( 'Copy shortcode', 'zionbuilder' ),
+				'regenerate_screenshot'                           => __( 'Regenerate screenshot', 'zionbuilder' ),
+
 
 				// device-element
 				'discard_changes_for'                      => __( 'Discard changes for', 'zionbuilder' ),

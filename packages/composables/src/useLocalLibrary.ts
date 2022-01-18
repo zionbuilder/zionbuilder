@@ -9,7 +9,6 @@ import { remove } from 'lodash-es'
 
 const libaryItems = ref([])
 const loading = ref(false)
-const importedItem = ref(null)
 let fetched = false
 
 export const useLocalLibrary = () => {
@@ -43,19 +42,12 @@ export const useLocalLibrary = () => {
 		})
 	}
 
-	function resetImportedItem() {
-		importedItem.value = null
-	}
-
 	function importTemplate(formData) {
 		loading.value = true
 
 		return importTemplateLibrary(formData)
 			.then((response) => {
 				libaryItems.value.push(response.data)
-				importedItem.value = response.data
-
-				setTimeout(resetImportedItem, 300)
 
 				return Promise.resolve(response)
 			})
@@ -80,9 +72,7 @@ export const useLocalLibrary = () => {
 	return {
 		libaryItems,
 		loading,
-		importedItem,
 		fetchTemplates,
-		resetImportedItem,
 		addTemplate,
 		deleteTemplate,
 		importTemplate

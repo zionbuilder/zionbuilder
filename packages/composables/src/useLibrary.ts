@@ -1,32 +1,19 @@
+import { applyFilters } from '@zionbuilder/hooks'
 import { ref, Ref } from 'vue'
-import localSt from 'localstorage-ttl'
-import { getLibraryItems } from '@zb/rest'
+import { LibrarySource, Source, LocalLibrary } from './models/Library'
 
-const cachedData = localSt.get('znpbLibraryCache')
-const libraryItems = ref(cachedData ? cachedData.items : [])
-const libraryCategories = ref(cachedData ? cachedData.categories : [])
-
+// TODO: move this in editor
 const activeElement: Ref<null | object> = ref(null)
 
+const librarySources: Ref<Array<LibrarySource>> = ref([])
+
 export const useLibrary = () => {
-	function fetchLibraryItems() {
-		return getLibraryItems().then((response) => {
-			const { categories = {}, items = [] } = response.data
-			libraryItems.value = items
-			libraryCategories.value = categories
-
-			localSt.set('znpbLibraryCache', {
-				categories,
-				items
-			}, 604800000)
-		})
-	}
-
+	// TODO: move this in editor
 	function unsetActiveElementForLibrary() {
 		activeElement.value = null
 	}
 
-
+	// TODO: move this in editor
 	function setActiveElementForLibrary(element, config = {}) {
 		if (activeElement.value && activeElement.value.element === element) {
 			return
@@ -38,6 +25,7 @@ export const useLibrary = () => {
 		}
 	}
 
+	// TODO: move this in editor
 	function getElementForInsert() {
 		const { element, config } = activeElement.value
 		const { placement = 'inside' } = config
@@ -56,19 +44,68 @@ export const useLibrary = () => {
 		}
 	}
 
+	// TODO: move this in editor
 	function insertElement(newElement) {
 		const { element, index = -1 } = getElementForInsert()
 		newElement = Array.isArray(newElement) ? newElement : [newElement]
 		element.addChildren(newElement, index)
 	}
 
+
+
+	/**
+	 *	Will register multiple sources
+	 *
+	 * @param sources The list of sources that needs to be registered
+	 */
+	function addSources(sources: Array<Source>) {
+		sources.forEach(source => {
+			addSource(source)
+		});
+	}
+
+	function getSourceType(sourceType: string) {
+		const sourceTypes = applyFilters('zionbuilder/library/sourceTypes', {
+			local: LocalLibrary
+		})
+
+		return typeof sourceTypes[sourceType] !== 'undefined' ? sourceTypes[sourceType] : LibrarySource
+	}
+
+	/**
+	 * Adds a new library source
+	 *
+	 * @param source The source object that needs to be added
+	 */
+	function addSource(source: Source) {
+		const sourceType = getSourceType(source.type)
+		librarySources.value.push(new sourceType(source))
+	}
+
+
+	/**
+	 * Returns a specific library source based on id
+	 *
+	 * @param sourceID The source id for the library to be retrieved
+	 * @returns
+	 */
+	function getSource(sourceID: string) {
+		return librarySources.value.find(source => source.id === sourceID)
+	}
+
+
 	return {
-		libraryItems,
-		libraryCategories,
 		activeElement,
 		setActiveElementForLibrary,
 		unsetActiveElementForLibrary,
-		fetchLibraryItems,
-		insertElement
+		insertElement,
+
+		// Methods
+		addSources,
+		addSource,
+		getSource,
+
+		// Refs
+		librarySources
 	}
 }

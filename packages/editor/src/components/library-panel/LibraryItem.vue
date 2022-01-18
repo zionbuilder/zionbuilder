@@ -185,6 +185,15 @@ export default {
 					icon: 'export'
 				},
 				{
+					title: translate('regenerate_screenshot'),
+					action: () => {
+						const { generateScreenshot } = useThumbnailGeneration()
+
+						generateScreenshot(props.item)
+					},
+					icon: 'export'
+				},
+				{
 					title: translate('delete_template'),
 					action: () => {
 						props.item.delete()

@@ -98,22 +98,18 @@ class Templates extends RestApiController {
 			]
 		);
 
-
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->base . '/export',
 			[
 				'args'   => [
-					'title'             => [
+					'title'         => [
 						'required' => false,
 					],
-					'template_type'     => [
+					'template_type' => [
 						'required' => true,
 					],
-					'template_category' => [
-						'required' => false,
-					],
-					'template_data'     => [
+					'template_data' => [
 						'required' => true,
 					],
 				],
@@ -489,7 +485,6 @@ class Templates extends RestApiController {
 			'zionbuilder/rest/templates/add',
 			[
 				'template_type' => $request->get_param( 'template_type' ),
-				'category'      => $request->get_param( 'template_category' ),
 				'template_data' => $request->get_param( 'template_data' ),
 			],
 			$request
@@ -512,17 +507,17 @@ class Templates extends RestApiController {
 		}
 
 		//return the post based on id
-		$template = get_post( $post_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
 
 		// check if the id is valid
-		if ( ! $template ) {
+		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
 
 		// Fire an action so others can add extra data to templates
-		do_action( 'zionbuilder/rest/templates/added', $template, $request );
+		do_action( 'zionbuilder/rest/templates/added', $template_instance, $request );
 
-		return rest_ensure_response( $this->attach_post_data( $template ) );
+		return rest_ensure_response( $template_instance->get_data_for_api() );
 	}
 
 	/**

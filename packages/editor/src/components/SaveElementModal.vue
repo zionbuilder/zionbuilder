@@ -49,8 +49,8 @@
 import { ref, computed } from 'vue'
 import { saveAs } from 'file-saver'
 
-import { useElements, useTemplateParts, useEditorData, useSaveTemplate } from '@composables'
-import { useLocalLibrary } from '@zionbuilder/composables'
+import { useElements, useTemplateParts, useSaveTemplate } from '@composables'
+import { useLibrary } from '@zionbuilder/composables'
 import { exportTemplate } from '@zb/rest'
 
 export default {
@@ -59,7 +59,7 @@ export default {
 		const { activeSaveElement, hideSaveElement } = useSaveTemplate()
 		const { getElement } = useElements()
 		const { getActivePostTemplatePart } = useTemplateParts()
-		const { editorData } = useEditorData()
+
 		const formModel = ref({})
 		const computedFormModel = computed({
 			get () {
@@ -105,17 +105,24 @@ export default {
 	},
 	methods: {
 		saveElement () {
-			const { addTemplate } = useLocalLibrary()
+			const { getSource } = useLibrary()
 			const { element, type } = this.activeSaveElement
 			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : [element.toJSON()]
 			const templateType = type === 'template' ? 'template' : 'block'
+
+			const localLibrary = getSource('local_library')
+
+			if (!localLibrary) {
+				console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.')
+				return
+			}
 
 			// save template
 			this.loading = true
 			this.loadingMessage = ''
 			this.errorMessage = ''
 
-			addTemplate({
+			localLibrary.addTemplate({
 				title: this.formModel.title,
 				template_type: templateType,
 				template_data: compiledElementData
@@ -140,7 +147,9 @@ export default {
 					setTimeout(() => {
 						this.loadingMessage = false
 						this.errorMessage = false
+
 					}, 3500)
+
 
 				})
 		},

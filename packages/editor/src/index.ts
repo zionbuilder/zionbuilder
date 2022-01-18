@@ -9,7 +9,7 @@ import { registerEditorOptions } from './components/options'
 import { install as ComponentsInstall } from '@zb/components'
 import { install as L18NInstall } from '@zb/i18n'
 import { errorInterceptor } from '@zb/rest'
-import { useNotifications, useLibrarySources } from '@zionbuilder/composables'
+import { useNotifications, useLibrary } from '@zionbuilder/composables'
 
 // Global components
 import {
@@ -52,7 +52,7 @@ appInstance.use(L18NInstall, window.ZnI18NStrings)
 appInstance.use(ComponentsInstall)
 
 // Init library sources
-const { addSources } = useLibrarySources()
+const { addSources } = useLibrary()
 addSources(window.ZnPbInitalData.template_sources)
 
 // Add error interceptor for API

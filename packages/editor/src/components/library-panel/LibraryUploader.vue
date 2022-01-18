@@ -57,8 +57,6 @@
 </template>
 
 <script>
-import { importTemplateLibrary, addTemplate } from '@zb/rest'
-import { inject } from 'vue'
 import { useLocalLibrary } from '@zionbuilder/composables'
 
 export default {
@@ -202,27 +200,25 @@ input.znpb-library-input-file {
 	width: 100%;
 	max-height: 100%;
 	margin: 30px;
-	transition: all 0.2s;
+	transition: all .2s;
 
 	&--dragging {
 		.znpb-empty-list__border-top-bottom {
-			&:after,
-			&:before {
+			&:after, &:before {
 				background-image: linear-gradient(
-					to right,
-					var(--zb-secondary-color) 77%,
-					rgba(255, 255, 255, 0) 0%
+				to right,
+				var(--zb-secondary-color) 77%,
+				rgba(255, 255, 255, 0) 0%
 				);
 			}
 		}
 
 		.znpb-empty-list__border-left-right {
-			&:after,
-			&:before {
+			&:after, &:before {
 				background-image: linear-gradient(
-					to top,
-					var(--zb-secondary-color) 77%,
-					rgba(255, 255, 255, 0) 0%
+				to top,
+				var(--zb-secondary-color) 77%,
+				rgba(255, 255, 255, 0) 0%
 				);
 			}
 		}
