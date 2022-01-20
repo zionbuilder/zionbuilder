@@ -48,11 +48,25 @@ class TemplatePostType extends BasePostType {
 		$filter_hook     = sprintf( 'zionbuilder/post/%s/data_for_api', Templates::TEMPLATE_POST_TYPE );
 		$item_categories = [ get_post_meta( $this->get_post_id(), Templates::TEMPLATE_TYPE_META, true ) ];
 
+		// Template author
+		$author    = '';
+		$user_data = get_user_by( 'id', $this->get_post_value( 'post_author' ) );
+		if ( $user_data ) {
+			$author = $user_data->display_name;
+		}
+
+		// Shortcode
+		$prefix_shortcode = 'zionbuilder';
+		$shortcode        = '[' . $prefix_shortcode . ' id="' . $this->get_post_id() . '"]';
+
 		return apply_filters(
 			$filter_hook,
 			[
 				'id'                        => $this->get_post_id(),
 				'name'                      => $this->get_post_value( 'post_title' ),
+				'status'                    => $this->get_post_value( 'post_status' ),
+				'author'                    => $author,
+				'shortcode'                 => $shortcode,
 				'category'                  => $item_categories,
 				'thumbnail'                 => $this->get_thumbnail(),
 				'thumbnail_failed'          => $this->has_thumbnail_generation_failed(),
@@ -65,6 +79,7 @@ class TemplatePostType extends BasePostType {
 				'source'                    => 'local',
 				'url'                       => '',
 				'pro'                       => false,
+
 			],
 			$this->get_post()
 		);

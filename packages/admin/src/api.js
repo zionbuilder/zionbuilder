@@ -29,8 +29,6 @@ const notifications = useNotifications()
 // Add error interceptor for API
 errorInterceptor(notifications)
 
-
-
 const api = {
 	routes,
 	interceptors: {

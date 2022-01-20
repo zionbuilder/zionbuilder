@@ -11,7 +11,7 @@
 				:id="tab.id"
 				:name="tab.title"
 			>
-				<Loader v-if="loading" />
+				<Loader v-if="localLibrary.loading" />
 				<TemplateList
 					v-else
 					:templates="getFilteredTemplates"
@@ -50,8 +50,8 @@
 	</PageTemplate>
 </template>
 <script>
-import { computed, inject, ref, reactive, watchEffect } from 'vue'
-import { useLocalLibrary } from '@zionbuilder/composables'
+import { computed, ref } from 'vue'
+import { useLocalLibrary, useLibrary } from '@zionbuilder/composables'
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'
@@ -77,9 +77,6 @@ export default {
 	},
 	setup (props) {
 		const {
-			fetchTemplates,
-			libaryItems,
-			loading,
 			addTemplate
 		} = useLocalLibrary()
 
@@ -87,6 +84,15 @@ export default {
 		const showModal = ref(false)
 		const activeTemplate = ref(null)
 		const activeFilter = ref('publish')
+
+		const { getSource } = useLibrary()
+
+		const localLibrary = getSource('local_library')
+		localLibrary.getData()
+
+		if (!localLibrary) {
+			console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.')
+		}
 
 		const tabs = ref([
 			{
@@ -103,19 +109,17 @@ export default {
 			}
 		])
 
-		// Load all templates
-		fetchTemplates()
-
 		const getFilteredTemplates = computed(() => {
-			return libaryItems.value.filter((template) => {
-				return template.post_status === activeFilter.value && template.template_type && template.template_type === props.templateType
+			return localLibrary.items.filter((template) => {
+				return template.status === activeFilter.value && template.type && template.type === props.templateType
 			})
 		})
 
 		function onAddNewTemplate (template) {
-			addTemplate(template).finally(() => {
+			localLibrary.addTemplate(template).finally(() => {
 				showModal.value = false
 			})
+
 		}
 
 		function onTabChange (tabId) {
@@ -128,7 +132,7 @@ export default {
 			activeTemplate,
 			activeFilter,
 			tabs,
-			loading,
+			localLibrary,
 			getFilteredTemplates,
 			onAddNewTemplate,
 			onTabChange
@@ -143,8 +147,7 @@ export default {
 		&-item {
 			padding: 15px 20px 30px 0;
 
-			&--active,
-			&:hover {
+			&--active, &:hover {
 				color: var(--zb-primary-color);
 			}
 		}

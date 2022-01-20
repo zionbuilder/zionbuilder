@@ -5,150 +5,58 @@
 			:class="{'znpb-admin-single-template--active': isActive}"
 		>
 
-			<span class="znpb-admin-single-template__title">{{template.post_title}}</span>
-			<span class="znpb-admin-single-template__author">{{template.author_name}}</span>
+			<span class="znpb-admin-single-template__title">{{template.name}}</span>
+			<span class="znpb-admin-single-template__author">{{template.author}}</span>
 			<div class="znpb-admin-single-template__shortcode">
 
-				<Tooltip
-					:hide-after="isCopied ? 500 : null"
-					@hide="isCopied = false"
+				<BaseInput
+					v-znpb-tooltip="isCopied ? copiedText : copyText"
+					ref="templateInput"
+					:modelValue="template.shortcode"
+					readonly
+					spellcheck="false"
+					autocomplete="false"
+					class="znpb-admin-single-template__input"
+					@click="copyTextInput(template.shortcode)"
 				>
-					<template v-slot:content>
-						<div>
-							<span>{{ isCopied ? copiedText : copyText }}</span>
-						</div>
+					<template v-slot:suffix>
+						<Icon
+							icon="copy"
+							@click="copyTextInput(template.shortcode)"
+						/>
 					</template>
-
-					<BaseInput
-						ref="templateInput"
-						:modelValue="template.shortcode"
-						readonly
-						spellcheck="false"
-						autocomplete="false"
-						class="znpb-admin-single-template__input"
-						@click="copyTextInput(template.shortcode)"
-					>
-						<template v-slot:suffix>
-							<Icon
-								icon="copy"
-								@click="copyTextInput(template.shortcode)"
-							/>
-						</template>
-					</BaseInput>
-				</Tooltip>
+				</BaseInput>
 			</div>
 			<div class="znpb-admin-single-template__actions">
-				<template v-if="!localLoading">
-					<Tooltip
-						:content="$translate('library_insert_tooltip')"
-						append-to="element"
-						class="znpb-admin-single-template__action znpb-insert-icon-pop"
-						tag="div"
-						:modifiers="[
-							{
-								name: 'offset',
-								options: {
-									offset: [0, 15],
-								},
-							},
-						]"
-						placement="top"
-						strategy="fixed"
-						v-if="showInsert"
-					>
-						<span
-							class="znpb-button znpb-button--secondary"
-							@click="$emit('insert', template)"
-						>
-							{{$translate('library_insert')}}
-						</span>
-					</Tooltip>
-
-					<Tooltip
-						:content="$translate('edit_template')"
-						append-to="element"
-						:modifiers="[
-							{
-								name: 'offset',
-								options: {
-									offset: [0, 15],
-								},
-							},
-						]"
-						placement="top"
-						strategy="fixed"
-						class="znpb-admin-single-template__action znpb-edit-icon-pop"
-					>
-
-						<Icon
-							icon="edit"
-							@click="editUrl"
-						/>
-
-					</Tooltip>
-
-					<Tooltip
-						:content="$translate('delete_template')"
-						append-to="element"
+				<template v-if="!template.loading">
+					<Icon
+						icon="edit"
+						@click="editUrl"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
-						:modifiers="[
-							{
-							name: 'offset',
-							options: {
-								offset: [0, 15],
-							},
-							},
-						]"
-						placement="top"
-						strategy="fixed"
-					>
-						<Icon
-							icon="delete"
-							@click="$emit('delete-template', template)"
-						/>
-					</Tooltip>
+						v-znpb-tooltip="$translate('edit_template')"
+					/>
 
-					<Tooltip
-						:content="$translate('export_template')"
-						append-to="element"
+					<Icon
+						icon="delete"
+						@click="() => template.delete()"
+						class="znpb-admin-single-template__action znpb-delete-icon-pop"
+						v-znpb-tooltip="$translate('delete_template')"
+					/>
+
+					<Icon
+						icon="export"
+						@click="() => template.export()"
+						v-znpb-tooltip="$translate('export_template')"
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
-						placement="top"
-						:modifiers="[
-								{
-								name: 'offset',
-								options: {
-									offset: [0, 15],
-								},
-								},
-							]"
-						strategy="fixed"
-					>
-						<Icon
-							icon="export"
-							@click="exportLocalTemplate"
-						/>
-					</Tooltip>
+					/>
 
-					<Tooltip
-						:content="$translate('preview_template')"
+					<Icon
+						icon="eye"
+						@click="$emit('show-modal-preview', true)"
+						v-znpb-tooltip="$translate('preview_template')"
 						class="znpb-admin-single-template__action znpb-preview-icon-pop"
-						append-to="element"
-						placement="top"
-						:modifiers="[
-							{
-							name: 'offset',
-							options: {
-								offset: [0, 15],
-							},
-							},
-						]"
-						strategy="fixed"
-					>
-						<Icon
-							icon="eye"
-							@click="$emit('show-modal-preview', true)"
-						/>
-					</Tooltip>
+					/>
+
 				</template>
 				<Loader v-else />
 			</div>
@@ -171,10 +79,6 @@ export default {
 	props: {
 		template: {
 			type: Object,
-			required: false
-		},
-		showInsert: {
-			type: Boolean,
 			required: false
 		},
 		loading: {
@@ -346,12 +250,13 @@ export default {
 	}
 
 	&__action {
+		cursor: pointer;
 		&.znpb-insert-icon-pop, &.znpb-edit-icon-pop, &.znpb-delete-icon-pop, &.znpb-export-icon-pop {
 			margin-right: 10px;
 		}
 
 		&.znpb-delete-icon-pop {
-			&:last-of-type {
+			&:last-child {
 				margin-right: 0;
 			}
 		}

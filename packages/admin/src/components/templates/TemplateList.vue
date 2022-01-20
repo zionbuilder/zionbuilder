@@ -17,7 +17,6 @@
 			@insert="$emit('insert', $event)"
 			:show-insert="showInsert"
 			:active="activeItem === template.ID"
-			:loading="getLoadingItem === template"
 		/>
 
 		<EmptyList v-if="templates.length === 0">{{$translate('no_template')}}</EmptyList>
@@ -71,7 +70,7 @@ export default {
 
 		// Computed
 		const getLoadingItem = computed(() => props.loadingItem ? props.loadingItem : localLoadingItem.value ? localLoadingItem.value : {})
-		const sortedTemplates = computed(() => [...props.templates].sort((a, b) => (a.post_modified < b.post_modified) ? 1 : -1))
+		const sortedTemplates = computed(() => [...props.templates].sort((a, b) => (a.date < b.date) ? 1 : -1))
 
 		// Methods
 		function showConfirmDelete (template) {
@@ -141,7 +140,7 @@ export default {
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
 		font-weight: 700;
-		letter-spacing: 0.5px;
+		letter-spacing: .5px;
 		text-transform: uppercase;
 
 		&--title {

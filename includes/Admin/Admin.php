@@ -8,6 +8,7 @@ use ZionBuilder\Permissions;
 use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
+use ZionBuilder\Templates;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -234,11 +235,12 @@ class Admin {
 				apply_filters(
 					'zionbuilder/admin/initial_data',
 					[
-						'is_pro_active'  => Utils::is_pro_active(),
-						'template_types' => Plugin::$instance->templates->get_template_types(),
-						'plugin_version' => Plugin::instance()->get_version(),
-						'schemas'        => [],
-						'appearance'     => [
+						'is_pro_active'    => Utils::is_pro_active(),
+						'template_types'   => Plugin::$instance->templates->get_template_types(),
+						'template_sources' => Templates::get_library_sources(),
+						'plugin_version'   => Plugin::instance()->get_version(),
+						'schemas'          => [],
+						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [
 									'type'      => 'custom_selector',
@@ -258,7 +260,7 @@ class Admin {
 								],
 							],
 						],
-						'custom_code'    => [
+						'custom_code'      => [
 							'schema' => [
 								'custom_css'     => [
 									'type'        => 'code',
@@ -286,7 +288,7 @@ class Admin {
 								],
 							],
 						],
-						'urls'           => [
+						'urls'             => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),
 						],
