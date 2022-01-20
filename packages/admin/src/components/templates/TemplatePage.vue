@@ -51,7 +51,7 @@
 </template>
 <script>
 import { computed, ref } from 'vue'
-import { useLocalLibrary, useLibrary } from '@zionbuilder/composables'
+import { useLibrary } from '@zionbuilder/composables'
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue'

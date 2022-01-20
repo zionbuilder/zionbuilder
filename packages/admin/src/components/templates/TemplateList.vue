@@ -48,7 +48,6 @@ import { ref, computed } from 'vue'
 // Components
 import TemplateItem from './TemplateItem.vue'
 import ModalTemplatePreview from './ModalTemplatePreview.vue'
-import { useLocalLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'TemplateList',
