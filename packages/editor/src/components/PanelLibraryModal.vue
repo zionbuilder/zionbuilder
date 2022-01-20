@@ -315,6 +315,7 @@ export default {
 </script>
 <style lang="scss">
 .znpb-library-modal {
+	z-index: 999;
 	& > .znpb-modal__wrapper {
 		width: 100%;
 		height: 860px;

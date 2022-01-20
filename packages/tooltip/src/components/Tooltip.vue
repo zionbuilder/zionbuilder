@@ -508,7 +508,6 @@ export default {
 			}
 		},
 		removePopperEvents() {
-			console.log("remove events");
 			if (this.ownerDocument) {
 				this.ownerDocument.removeEventListener(
 					"click",
