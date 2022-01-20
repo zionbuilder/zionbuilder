@@ -107,7 +107,7 @@ export default {
 
 		const getFilteredTemplates = computed(() => {
 			return localLibrary.items.filter((template) => {
-				return template.status === activeFilter.value && template.type && template.type === props.templateType
+				return template.status === activeFilter.value && template.type && template.category.includes(props.templateType)
 			})
 		})
 
