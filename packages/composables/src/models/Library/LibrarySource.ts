@@ -90,7 +90,6 @@ export class LibrarySource {
 
 	removeItem(item: LibraryItem) {
 		const index = this.items.indexOf(item)
-		console.log({ index });
 		this.items.splice(index, 1)
 	}
 

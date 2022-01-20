@@ -5,7 +5,6 @@
 		:width="1440"
 		class="znpb-library-modal"
 		v-model:fullscreen="fullSize"
-		:close-on-escape="true"
 		@close-modal="closeLibrary"
 		v-if="isLibraryOpen"
 	>
@@ -146,7 +145,7 @@
 </template>
 
 <script>
-import { ref, computed, watchEffect, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
 import { insertTemplate } from '@zb/rest'
@@ -210,25 +209,6 @@ export default {
 		function activatePreview (item) {
 			activeItem.value = item
 			previewOpen.value = true
-		}
-
-		/**
-		 * Close panel on escape
-		 */
-		onMounted(() => {
-			document.addEventListener('keydown', onKeyDown)
-		})
-
-		onBeforeUnmount(() => {
-			document.removeEventListener('keydown', onkeyDown)
-		})
-
-		function onKeyDown (e) {
-			if (e.which === 27) {
-				closeLibrary()
-				e.preventDefault()
-				e.stopPropagation()
-			}
 		}
 
 		return {
