@@ -58,18 +58,13 @@ export default {
 	},
 	props: ['templates', 'showInsert', 'activeItem', 'loadingItem'],
 	setup (props) {
-		const { deleteTemplate } = useLocalLibrary()
-
-
 		const showModalConfirm = ref(false)
 		const activeTemplate = ref(null)
 		const showModalPreview = ref(false)
 		const templateTitle = ref(null)
 		const templatePreview = ref(null)
-		const localLoadingItem = ref(null)
 
 		// Computed
-		const getLoadingItem = computed(() => props.loadingItem ? props.loadingItem : localLoadingItem.value ? localLoadingItem.value : {})
 		const sortedTemplates = computed(() => [...props.templates].sort((a, b) => (a.date < b.date) ? 1 : -1))
 
 		// Methods
@@ -85,24 +80,18 @@ export default {
 		}
 
 		function onTemplateDelete () {
-			localLoadingItem.value = activeTemplate.value
-
-			deleteTemplate(activeTemplate.value.ID).then(() => {
-				localLoadingItem.value = false
-				showModalConfirm.value = false
-			})
+			showModalConfirm.value = false
+			activeTemplate.value.delete()
 		}
 
 		return {
 			// Data
-			localLoadingItem,
 			showModalPreview,
 			templateTitle,
 			templatePreview,
 			showModalConfirm,
 
 			// Computed
-			getLoadingItem,
 			sortedTemplates,
 
 			// methods

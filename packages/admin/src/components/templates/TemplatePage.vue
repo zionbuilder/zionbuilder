@@ -76,10 +76,6 @@ export default {
 		}
 	},
 	setup (props) {
-		const {
-			addTemplate
-		} = useLocalLibrary()
-
 		const showModalConfirm = ref(false)
 		const showModal = ref(false)
 		const activeTemplate = ref(null)

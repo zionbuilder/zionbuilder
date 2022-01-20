@@ -38,7 +38,7 @@
 
 					<Icon
 						icon="delete"
-						@click="() => template.delete()"
+						@click="$emit('delete-template', template)"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						v-znpb-tooltip="$translate('delete_template')"
 					/>
