@@ -377,7 +377,8 @@ class Templates extends RestApiController {
 		$templates = get_posts( $args );
 
 		foreach ( $templates as $template ) {
-			$templates_list[] = $this->attach_post_data( $template );
+			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template->ID );
+			$templates_list[]  = $template_instance->get_data_for_api();
 		}
 
 		return rest_ensure_response( $templates_list );
@@ -430,14 +431,14 @@ class Templates extends RestApiController {
 		$template_id = $request['id'];
 
 		//return the post based on id
-		$template = get_post( $template_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
 
 		// check if the id is valid
-		if ( ! $template ) {
+		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
 
-		return rest_ensure_response( $this->attach_post_data( $template ) );
+		return rest_ensure_response( $template_instance->get_data_for_api() );
 	}
 
 	/**
@@ -448,28 +449,7 @@ class Templates extends RestApiController {
 	 * @return array
 	 */
 	public function attach_post_data( $template ) {
-		// Convert to array
-		$template         = $template->to_array();
-		$prefix_shortcode = 'zionbuilder';
-
-		$shortcode         = '[' . $prefix_shortcode . ' id="' . $template['ID'] . '"]';
-		$template_instance = Plugin::$instance->post_manager->get_post_instance( $template['ID'] );
-
-		$template['edit_url']    = $template_instance->get_edit_url();
-		$template['preview_url'] = $template_instance->get_preview_url_barebone();
-		$template['shortcode']   = $shortcode;
-
-		// Get author name
-		$user_data = get_user_by( 'id', $template['post_author'] );
-		if ( $user_data ) {
-			$template['author_name'] = $user_data->display_name;
-		}
-
-		// Template type
-		$template['template_type'] = get_post_meta( $template['ID'], ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
-
-		$template = apply_filters( 'zionbuilder/rest/templates/attach_data', $template );
-
+		_deprecated_function( __METHOD__, '3.0.0', 'template_instance::get_data_for_api()' );
 		return $template;
 	}
 
@@ -588,14 +568,14 @@ class Templates extends RestApiController {
 			return $post_id;
 		}
 
-		$template = get_post( $post_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
 
 		// check if the id is valid
-		if ( ! $template ) {
+		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
 
-		return rest_ensure_response( $this->attach_post_data( $template ) );
+		return rest_ensure_response( $template_instance->get_data_for_api() );
 	}
 
 
@@ -859,14 +839,13 @@ class Templates extends RestApiController {
 			}
 		}
 
-		$template = get_post( $duplicate_post_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $duplicate_post_id );
 
 		// check if the id is valid
-		if ( ! $template ) {
+		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Post could not be cloned!', 'zionbuilder' ) );
 		}
 
-		return rest_ensure_response( $this->attach_post_data( $template ) );
-
+		return rest_ensure_response( $template_instance->get_data_for_api() );
 	}
 }

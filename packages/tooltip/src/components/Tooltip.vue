@@ -467,7 +467,6 @@ export default {
 			preventOutsideClickPropagation = false;
 		},
 		onKeyUp(event) {
-			console.log({ event });
 			if (event.which === 27) {
 				this.hidePopper();
 				event.stopPropagation();
