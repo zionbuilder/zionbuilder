@@ -340,25 +340,31 @@ class Options extends Stack {
 	 * @return mixed|null The saved value. In case the value is not saved, null is returned
 	 */
 	public function get_value_from_path( $path = '' ) {
-		$path_locations = explode( '.', $path );
-		$active_model   = $this->get_model();
-		$paths_count    = count( $path_locations );
-		$i              = 1;
-
-		foreach ( $path_locations as $path_location ) {
-			if ( ! is_array( $active_model ) || ! array_key_exists( $path_location, $active_model ) ) {
-				return null;
-			}
-
-			if ( $i === $paths_count ) {
-				return $active_model[$path_location];
-			}
-
-			$active_model = $active_model[$path_location];
-			$i++;
+		$path = explode( '.', $path );
+		$temp = &$this->get_model();
+		foreach ( $path as $key ) {
+			$temp =& $temp[$key];
 		}
+		return $temp;
+		// $path_locations = explode( '.', $path );
+		// $active_model   = $this->get_model();
+		// $paths_count    = count( $path_locations );
+		// $i              = 1;
 
-		return null;
+		// foreach ( $path_locations as $path_location ) {
+		// 	if ( ! is_array( $active_model ) || ! array_key_exists( $path_location, $active_model ) ) {
+		// 		return null;
+		// 	}
+
+		// 	if ( $i === $paths_count ) {
+		// 		return $active_model[$path_location];
+		// 	}
+
+		// 	$active_model = $active_model[$path_location];
+		// 	$i++;
+		// }
+
+		// return null;
 	}
 
 	/**
