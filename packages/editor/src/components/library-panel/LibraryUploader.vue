@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { useLocalLibrary } from '@zionbuilder/composables'
+import { useLibrary } from '@zionbuilder/composables'
 
 export default {
 	name: 'LibraryUploader',
@@ -110,12 +110,19 @@ export default {
 			this.saveFile(formData)
 		},
 		saveFile (formData) {
-			const { importTemplate } = useLocalLibrary()
+			const { getSource } = useLibrary()
+
+			const localLibrary = getSource('local_library')
+
+			if (!localLibrary) {
+				console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.')
+				return
+			}
 
 			this.isSaving = true
 			this.errorMessage = ''
 
-			importTemplate(formData).catch(error => {
+			localLibrary.importTemplate(formData).catch(error => {
 				console.error(error)
 
 				if (typeof error.response.data === 'string') {

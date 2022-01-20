@@ -710,14 +710,14 @@ class Templates extends RestApiController {
 		}
 
 		//return the post based on id
-		$template = get_post( $template_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
 
-		// check if the id is valid
-		if ( ! $template ) {
+				// check if the id is valid
+		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
 
-		return rest_ensure_response( $this->attach_post_data( $template ) );
+		return rest_ensure_response( $template_instance->get_data_for_api() );
 	}
 
 	/**
