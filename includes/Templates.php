@@ -257,11 +257,9 @@ class Templates {
 	 * @return array with the templates
 	 */
 	public function get_templates_by_type( $template_type ) {
-		$the_posts = get_posts(
+		return $this->get_templates(
 			[
-				'post_type'      => self::TEMPLATE_POST_TYPE,
-				'posts_per_page' => -1,
-				'meta_query'     => [
+				'meta_query' => [
 					[
 						'key'     => self::TEMPLATE_TYPE_META,
 						'value'   => $template_type,
@@ -270,7 +268,25 @@ class Templates {
 				],
 			]
 		);
-		return $the_posts;
+	}
+
+	/**
+	 * Returns a list of templates
+	 *
+	 * @since 3.0.0
+	 * @return array The template list as WP_Post
+	 */
+	public function get_templates( $args = [] ) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'post_status'    => 'any',
+				'post_type'      => self::TEMPLATE_POST_TYPE,
+				'posts_per_page' => -1,
+			]
+		);
+
+		return get_posts( $args );
 	}
 
 	/**
@@ -319,42 +335,5 @@ class Templates {
 		$template_instance->set_builder_status( true );
 
 		return $post_id;
-	}
-
-	/**
-	 * Returns the available library sources
-	 *
-	 * @return array The library sources as array
-	 */
-	public static function get_library_sources() {
-		$sources = [
-			[
-				'name'     => esc_html__( 'Local library', 'zionbuilder' ),
-				'url'      => self::get_local_library_url(),
-				'id'       => 'local_library',
-				'useCache' => false,
-				'type'     => 'local',
-			],
-			[
-				'name' => esc_html__( 'Zion Builder library', 'zionbuilder' ),
-				'url'  => 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories',
-				'id'   => 'zion_builder',
-				'type' => 'zion_library',
-			],
-		];
-
-		// Allow devs to add their own sources without interfering with the official sources
-		$filter_sources = apply_filters( 'zionbuilder/templates/library_sources', [] );
-
-		return array_merge( $sources, $filter_sources );
-	}
-
-	/**
-	 * Returns the API url for the local library
-	 *
-	 * @return string
-	 */
-	public static function get_local_library_url() {
-		return \get_rest_url( null, 'zionbuilder/v1/templates/items-and-categories' );
 	}
 }

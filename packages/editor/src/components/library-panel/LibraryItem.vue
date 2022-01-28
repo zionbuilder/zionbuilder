@@ -23,7 +23,10 @@
 			</div>
 
 			<div class="znpb-editor-library-modal__item-bottom">
-				<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
+				<h4
+					class="znpb-editor-library-modal__item-title"
+					:title="item.name"
+				>{{item.name}}</h4>
 				<div
 					class="znpb-editor-library-modal__item-actions"
 					v-if="!insertItemLoading && !item.loading"
@@ -61,7 +64,7 @@
 					<HiddenMenu
 						class="znpb-editor-library-modal__item-action"
 						:actions="itemMenuActions"
-						v-if="item.library_type === 'local'"
+						v-if="item.librarySource.id === 'local_library'"
 					/>
 
 				</div>
@@ -165,7 +168,7 @@ export default {
 		})
 
 		const itemMenuActions = computed(() => {
-			if (!props.item.libray_type === 'local') {
+			if (!props.item.librarySource.id === 'local_library') {
 				return []
 			}
 
@@ -320,15 +323,20 @@ export default {
 	}
 
 	&-title {
+		overflow: hidden;
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
 		line-height: 40px !important;
+		text-overflow: clip;
+		white-space: nowrap;
 	}
 
 	&-actions {
 		display: flex;
 		align-items: center;
+		margin-left: 8px;
+
 		& > span, & > a {
 			margin-right: 8px;
 		}

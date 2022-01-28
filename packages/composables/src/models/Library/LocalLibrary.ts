@@ -1,35 +1,18 @@
 import { LibrarySource } from "./LibrarySource"
 import {
-	getTemplates,
-	addTemplate as addTemplateToDB,
-	deleteTemplate as deleteTemplateToDB,
-	importTemplateLibrary
+	deleteLibraryItem,
+	addLibraryItem,
+	importLibraryItem,
 } from '@zb/rest'
-
-import { remove } from 'lodash-es'
+import { LibraryItem } from "./LibraryItem"
 
 export class LocalLibrary extends LibrarySource {
-	addTemplate(templateConfig) {
+	importItem(templateData) {
 		this.loading = true
 
-		return addTemplateToDB(templateConfig).then((response) => {
-			if (response.data) {
-				this.addItem(response.data)
-			}
-
-			// Allow chaining
-			return Promise.resolve(response)
-		}).finally(() => {
-			this.loading = false
-		})
-	}
-
-	importTemplate(templateData) {
-		this.loading = true
-
-		return importTemplateLibrary(templateData)
+		return importLibraryItem(this.id, templateData)
 			.then((response) => {
-				this.items.push(response.data)
+				this.addItem(response.data)
 
 				return Promise.resolve(response)
 			})
@@ -38,11 +21,22 @@ export class LocalLibrary extends LibrarySource {
 			})
 	}
 
-	deleteTemplate(templateID) {
+	removeItem(item: LibraryItem) {
+		return deleteLibraryItem(this.id, item.id).then((response) => {
+			super.removeItem(item)
+
+			// Allow chaining
+			return Promise.resolve(response)
+		})
+	}
+
+	createItem(item) {
 		this.loading = true
 
-		return deleteTemplateToDB(templateID).then((response) => {
-			remove(this.items, (template) => template.id === templateID)
+		return addLibraryItem(this.id, item).then((response) => {
+			if (response.data) {
+				this.addItem(response.data)
+			}
 
 			// Allow chaining
 			return Promise.resolve(response)

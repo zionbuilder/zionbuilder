@@ -71,8 +71,6 @@
 
 <script>
 import { ref } from 'vue'
-import { exportTemplateById } from '@zb/rest'
-import { saveAs } from 'file-saver'
 
 export default {
 	name: 'TemplateItem',
@@ -152,19 +150,6 @@ export default {
 			document.execCommand('copy')
 			// Remove temporary element
 			document.body.removeChild(el)
-		},
-		exportLocalTemplate () {
-			this.localLoading = true
-			this.errorMessage = ''
-			exportTemplateById(this.template.ID).then((response) => {
-				var blob = new Blob([response.data], { type: 'application/zip' })
-				saveAs(blob, `${this.template.post_title}.zip`)
-			}).catch((error) => {
-				this.errorMessage = error.response.data.message
-			})
-				.finally(() => {
-					this.localLoading = false
-				})
 		}
 	}
 }

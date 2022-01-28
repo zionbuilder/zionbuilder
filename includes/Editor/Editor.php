@@ -348,7 +348,7 @@ class Editor {
 
 				// Templates
 				'template_types'      => Plugin::$instance->templates->get_template_types(),
-				'template_sources'    => Templates::get_library_sources(),
+				'template_sources'    => Plugin::$instance->library->get_sources(),
 
 				// Misc
 				'rtl'                 => is_rtl(),

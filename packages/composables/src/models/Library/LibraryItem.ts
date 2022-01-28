@@ -1,6 +1,8 @@
 import {
-	deleteTemplate,
-	exportTemplateById,
+	exportLibraryItem,
+	getLibraryItemBuilderConfig,
+
+	// Old
 	saveThumbnailData as saveThumbnailDataRest
 } from '@zb/rest'
 import { LibrarySource } from './LibrarySource'
@@ -13,6 +15,7 @@ export class LibraryItem {
 	public thumbnail: string = ''
 	public data: string = ''
 	public tags: Array = []
+	public urls: Object = {}
 	public edit_url: string = ''
 	public preview_url: string = ''
 	public type: string = ''
@@ -20,9 +23,10 @@ export class LibraryItem {
 	public url: string = ''
 	public pro: boolean = false
 	public loadingThumbnail = false
-	public library_type: string = ''
 
 	public loading: boolean = false
+
+	// Source related
 	public librarySource: LibrarySource
 
 	constructor(item: LibraryItem, librarySource: LibrarySource) {
@@ -34,12 +38,7 @@ export class LibraryItem {
 	delete() {
 		this.loading = true
 
-		return deleteTemplate(this.id).then((response) => {
-			this.librarySource.removeItem(this)
-
-			// Allow chaining
-			return Promise.resolve(response)
-		}).finally(() => {
+		return this.librarySource.removeItem(this).finally(() => {
 			this.loading = false
 		})
 	}
@@ -47,7 +46,7 @@ export class LibraryItem {
 	export() {
 		this.loading = true
 
-		exportTemplateById(this.id).then((response) => {
+		return exportLibraryItem(this.librarySource.id, this.id).then((response) => {
 			var blob = new Blob([response.data], { type: 'application/zip' })
 			saveAs(blob, `${this.name}.zip`)
 		})
@@ -58,6 +57,10 @@ export class LibraryItem {
 
 	saveThumbnailData(data) {
 		saveThumbnailDataRest(this.id, data)
+	}
+
+	getBuilderData() {
+		return getLibraryItemBuilderConfig(this.librarySource.id, this.id)
 	}
 
 	toJSON() {
@@ -73,8 +76,7 @@ export class LibraryItem {
 			type: this.type,
 			source: this.source,
 			pro: this.pro,
-			url: this.url,
-			library_type: this.library_type
+			url: this.url
 		}
 	}
 }

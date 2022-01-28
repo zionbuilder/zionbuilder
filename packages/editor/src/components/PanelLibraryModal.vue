@@ -33,13 +33,12 @@
 					</h2>
 				</div>
 				<template v-else>
-
 					<h2
-						v-for="librarySource in librarySources"
-						:key="librarySource.id"
+						v-for="(librarySource, sourceID) in librarySources"
+						:key="sourceID"
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === librarySource.id}"
-						@click="setActiveSource(librarySource.id)"
+						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === sourceID}"
+						@click="setActiveSource(sourceID)"
 					>
 						{{librarySource.name}}
 					</h2>
@@ -148,7 +147,6 @@
 import { ref, computed, watchEffect } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
-import { insertTemplate } from '@zb/rest'
 import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
 import { useLibrary } from '@zionbuilder/composables'
 
@@ -170,9 +168,9 @@ export default {
 	setup (props) {
 		const { addData, getData } = useLocalStorage()
 		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
-		const { librarySources } = useLibrary()
+		const { librarySources, getSource } = useLibrary()
 
-		const activeLibraryTab = ref(getData('libraryActiveSource', librarySources.value[0].id))
+		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'))
 
 		const { editorData } = useEditorData()
 		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
@@ -190,9 +188,7 @@ export default {
 		}
 
 		const activeLibraryConfig = computed(() => {
-			const activeLibrary = librarySources.value.find(librarySource => librarySource.id === activeLibraryTab.value) || librarySources.value[0]
-
-			return activeLibrary
+			return getSource(activeLibraryTab.value) || getSource('local_library')
 		})
 
 		watchEffect(() => {
@@ -279,7 +275,7 @@ export default {
 		 */
 		insertItem (item) {
 			return new Promise((resolve, reject) => {
-				insertTemplate(item.toJSON()).then((response) => {
+				item.getBuilderData().then((response) => {
 					const { template_data: templateData } = response.data
 					const { insertElement, activeElement } = useLibrary()
 

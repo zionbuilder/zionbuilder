@@ -122,7 +122,7 @@ export default {
 			this.loadingMessage = ''
 			this.errorMessage = ''
 
-			localLibrary.addTemplate({
+			localLibrary.createItem({
 				title: this.formModel.title,
 				template_type: templateType,
 				template_data: compiledElementData

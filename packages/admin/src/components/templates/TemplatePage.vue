@@ -112,7 +112,7 @@ export default {
 		})
 
 		function onAddNewTemplate (template) {
-			localLibrary.addTemplate(template).finally(() => {
+			localLibrary.createItem(template).finally(() => {
 				showModal.value = false
 			})
 

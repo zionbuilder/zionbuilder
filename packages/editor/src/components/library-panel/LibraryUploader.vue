@@ -122,7 +122,7 @@ export default {
 			this.isSaving = true
 			this.errorMessage = ''
 
-			localLibrary.importTemplate(formData).catch(error => {
+			localLibrary.importItem(formData).catch(error => {
 				console.error(error)
 
 				if (typeof error.response.data === 'string') {

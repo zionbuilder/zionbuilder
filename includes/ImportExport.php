@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Templates;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -92,7 +94,7 @@ class ImportExport {
 		$this->upload_dir                 = wp_upload_dir();
 		$this->upload_dir_url             = $this->upload_dir['baseurl'];
 		$this->upload_dir_path            = $this->upload_dir['basedir'];
-		$this->upload_dir_url_without_www = str_replace( 'www.', '', $this->upload_dir_url );
+		$this->upload_dir_url_without_www = str_replace( 'www . ', '', $this->upload_dir_url );
 	}
 
 	/**
@@ -367,6 +369,10 @@ class ImportExport {
 		}
 
 		$content_data = $this->insert_template_package( $file['file']['tmp_name'] );
+
+		if ( is_wp_error( $content_data ) ) {
+			return $content_data;
+		}
 
 		// create a new template and update post meta
 		$template_name = ! empty( $content_data['template_name'] ) ? $content_data['template_name'] : esc_html__( 'My Template', 'zionbuilder' );

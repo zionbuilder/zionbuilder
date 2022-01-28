@@ -5,7 +5,7 @@ import { LibrarySource, Source, LocalLibrary } from './models/Library'
 // TODO: move this in editor
 const activeElement: Ref<null | object> = ref(null)
 
-const librarySources: Ref<Array<LibrarySource>> = ref([])
+const librarySources: Ref<Object> = ref({})
 
 export const useLibrary = () => {
 	// TODO: move this in editor
@@ -58,10 +58,11 @@ export const useLibrary = () => {
 	 *
 	 * @param sources The list of sources that needs to be registered
 	 */
-	function addSources(sources: Array<Source>) {
-		sources.forEach(source => {
-			addSource(source)
-		});
+	function addSources(sources: Object) {
+		Object.keys(sources).forEach(sourceID => {
+			const sourceConfig = sources[sourceID]
+			addSource(sources[sourceID])
+		})
 	}
 
 	function getSourceType(sourceType: string) {
@@ -79,7 +80,7 @@ export const useLibrary = () => {
 	 */
 	function addSource(source: Source) {
 		const sourceType = getSourceType(source.type)
-		librarySources.value.push(new sourceType(source))
+		librarySources.value[source.id] = new sourceType(source)
 	}
 
 
@@ -90,7 +91,7 @@ export const useLibrary = () => {
 	 * @returns
 	 */
 	function getSource(sourceID: string) {
-		return librarySources.value.find(source => source.id === sourceID)
+		return librarySources.value[sourceID]
 	}
 
 

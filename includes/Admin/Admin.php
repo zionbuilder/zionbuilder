@@ -220,7 +220,7 @@ class Admin {
 				[
 					'zb-components',
 				],
-				Plugin::instance()->get_version(),
+				Plugin::$instance->get_version(),
 				true
 			);
 
@@ -237,8 +237,8 @@ class Admin {
 					[
 						'is_pro_active'    => Utils::is_pro_active(),
 						'template_types'   => Plugin::$instance->templates->get_template_types(),
-						'template_sources' => Templates::get_library_sources(),
-						'plugin_version'   => Plugin::instance()->get_version(),
+						'template_sources' => Plugin::$instance->library->get_sources(),
+						'plugin_version'   => Plugin::$instance->get_version(),
 						'schemas'          => [],
 						'appearance'       => [
 							'schema' => [

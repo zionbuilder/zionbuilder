@@ -1,1 +1,1 @@
-{"appName":"zionbuilder","outputDir":"dist","debug":false,"mode":"development","devServer":"http://localhost:64928/"}
+{"appName":"zionbuilder","outputDir":"dist","debug":true,"mode":"development","devServer":"http://localhost:62969/"}
