@@ -9,11 +9,11 @@ class ZionSource extends BaseSource {
 		return self::TYPE_ZION;
 	}
 
-	public function on_init() {
+	public function on_init( $source_config ) {
 		$this->url = self::SOURCE_URL;
 	}
 
-	public function get_item_builder_data() {
+	public function get_item_builder_data( $item_id ) {
 
 	}
 }

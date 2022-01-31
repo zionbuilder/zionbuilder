@@ -6,8 +6,8 @@ use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
 use ZionBuilder\Templates;
 
-class LocalSource extends BaseSource {
-	public function on_init( $source_config ) {
+class ExternalSource extends BaseSource {
+	public function on_init( $args ) {
 		// Set headers
 		$this->request_headers = [
 			'X-WP-Nonce'   => Nonces::generate_nonce( Nonces::REST_API ),
@@ -17,8 +17,26 @@ class LocalSource extends BaseSource {
 	}
 
 	public function get_type() {
-		return self::TYPE_LOCAL;
+		return self::TYPE_EXTERNAL;
 	}
+
+	/**
+	 * Returns a list of template items and their categories
+	 *
+	 * @return array
+	 */
+	public function get_items_and_categories() {
+		return wp_remote_get( $this->url . '/connect/items-and-categories' );
+	}
+
+
+
+
+
+
+
+
+
 
 	public function get_items( $args = [] ) {
 		$defaults = [
@@ -49,60 +67,6 @@ class LocalSource extends BaseSource {
 	public function get_item( $item_id ) {
 		//return the post based on id
 		$template_instance = Plugin::$instance->post_manager->get_post_instance( $item_id );
-
-		// check if the id is valid
-		if ( ! $template_instance ) {
-			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
-		}
-
-		return $template_instance->get_data_for_api();
-	}
-
-	public function export_item( $item_id ) {
-		// retrieves the template data
-		$post_instance = Plugin::$instance->post_manager->get_post_instance( $item_id );
-
-		if ( ! $post_instance ) {
-			return new \WP_Error( 'export_item', __( 'Could not return the post instance', 'zionbuilder' ) );
-		}
-
-		$template_name = get_the_title( $item_id );
-		$template_data = $post_instance->get_template_data();
-		$template_type = get_post_meta( $item_id, LocalSource::TEMPLATE_TYPE_META, true );
-
-		if ( empty( $template_name ) ) {
-			$template_name = 'export';
-		}
-
-		return [
-			'name'          => sanitize_file_name( $template_name ),
-			'template_type' => $template_type,
-			'template_data' => $template_data,
-		];
-	}
-
-	public function create_item( $item_data ) {
-		$item_data = wp_parse_args(
-			$item_data,
-			[
-				'title'         => __( 'Template', 'zionbuilder' ),
-				'template_type' => 'template',
-				'template_data' => [],
-			]
-		);
-
-		$post_id = Templates::create_template(
-			$item_data['title'],
-			$item_data
-		);
-
-		// Check to see if the post was succesfully created
-		if ( is_wp_error( $post_id ) ) {
-			return $post_id;
-		}
-
-		//return the post based on id
-		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
 
 		// check if the id is valid
 		if ( ! $template_instance ) {

@@ -25,7 +25,7 @@ class BaseSource {
 		$this->type = $this->get_type();
 		$this->url  = \get_rest_url( null, sprintf( 'zionbuilder/v1/library/%s/items-and-categories', $this->get_id() ) );
 
-		$this->on_init();
+		$this->on_init( $source_config );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class BaseSource {
 	 *
 	 * @return void
 	 */
-	protected function on_init() {
+	protected function on_init( $source_config ) {
 	}
 
 
