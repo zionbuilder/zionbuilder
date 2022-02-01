@@ -86,10 +86,6 @@ export default {
 		const localLibrary = getSource('local_library')
 		localLibrary.getData()
 
-		if (!localLibrary) {
-			console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.')
-		}
-
 		const tabs = ref([
 			{
 				title: 'Published',
