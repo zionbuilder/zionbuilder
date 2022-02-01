@@ -31,3 +31,7 @@ export function exportTemplate(data) {
 		responseType: 'arraybuffer'
 	})
 }
+
+export function saveLibraryItemThumbnail(librartID, itemID, data) {
+	return ZionService.post(`library/${librartID}/${itemID}/save-thumbnail`, data)
+}

@@ -78,7 +78,7 @@ export function useThumbnailGeneration() {
 
 	function generateIframe(item) {
 		const iframeElement = document.createElement('iframe')
-		iframeElement.src = item.screenshot_generation_url
+		iframeElement.src = item.urls.screenshot_generation_url
 		iframeElement.width = 1920
 		iframeElement.height = 1080
 		iframeElement.style = 'visibility: hidden;';

@@ -1,9 +1,7 @@
 import {
 	exportLibraryItem,
 	getLibraryItemBuilderConfig,
-
-	// Old
-	saveThumbnailData as saveThumbnailDataRest
+	saveLibraryItemThumbnail
 } from '@zb/rest'
 import { LibrarySource } from './LibrarySource'
 import { saveAs } from 'file-saver'
@@ -16,8 +14,6 @@ export class LibraryItem {
 	public data: string = ''
 	public tags: Array = []
 	public urls: Object = {}
-	public edit_url: string = ''
-	public preview_url: string = ''
 	public type: string = ''
 	public source: string = ''
 	public url: string = ''
@@ -31,7 +27,7 @@ export class LibraryItem {
 
 	constructor(item: LibraryItem, librarySource: LibrarySource) {
 		Object.assign(this, item)
-
+		console.log(item);
 		this.librarySource = librarySource
 	}
 
@@ -56,7 +52,9 @@ export class LibraryItem {
 	}
 
 	saveThumbnailData(data) {
-		saveThumbnailDataRest(this.id, data)
+		saveLibraryItemThumbnail(this.librarySource.id, this.id, data).finally(() => {
+			this.librarySource.deleteCache()
+		})
 	}
 
 	getBuilderData() {
@@ -71,10 +69,8 @@ export class LibraryItem {
 			thumbnail: this.thumbnail,
 			data: this.data,
 			tags: this.tags,
-			edit_url: this.edit_url,
-			preview_url: this.preview_url,
+			urls: this.urls,
 			type: this.type,
-			source: this.source,
 			pro: this.pro,
 			url: this.url
 		}

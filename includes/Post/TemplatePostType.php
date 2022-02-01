@@ -78,7 +78,6 @@ class TemplatePostType extends BasePostType {
 					'screenshot_generation_url' => $this->get_screenshot_generation_url(),
 				],
 				'type'             => get_post_meta( $this->get_post_id(), Templates::TEMPLATE_TYPE_META, true ),
-				'source'           => 'local',
 				'url'              => '',
 				'pro'              => false,
 
@@ -92,6 +91,8 @@ class TemplatePostType extends BasePostType {
 	}
 
 	public function get_thumbnail() {
+		error_log( $this->get_post_id() );
+		error_log( get_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD, true ) );
 		return get_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD, true );
 	}
 

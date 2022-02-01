@@ -74,7 +74,7 @@
 				<iframe
 					id="znpb-editor-library-modal-preview-iframe"
 					frameborder="0"
-					:src="activeItem.preview_url"
+					:src="activeItem.urls.preview_url"
 				>
 				</iframe>
 			</div>

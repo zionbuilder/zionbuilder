@@ -75,7 +75,7 @@ export default {
 		function activateModalPreview (template) {
 			showModalPreview.value = true
 			templateTitle.value = template.post_title
-			templatePreview.value = template.preview_url
+			templatePreview.value = template.urls.preview_url
 		}
 
 		function onTemplateDelete () {

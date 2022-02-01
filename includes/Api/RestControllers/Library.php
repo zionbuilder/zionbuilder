@@ -218,6 +218,21 @@ class Library extends RestApiController {
 				'schema' => [ $this, 'get_public_item_schema' ],
 			]
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/(?P<library_id>[\w-]+)/(?P<template_id>[\d]+)/save-thumbnail',
+			[
+				[
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => [ $this, 'save_item_thumbnail' ],
+					'args'                => [],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
+
 	}
 
 
@@ -430,6 +445,27 @@ class Library extends RestApiController {
 				'template_data' => $item_builder_data,
 			]
 		);
+	}
+
+	public function save_item_thumbnail( $request ) {
+		$template_id = $request->get_param( 'template_id' );
+		$success     = $request->get_param( 'success' );
+		$image_data  = $request->get_param( 'thumbnail' );
+
+		if ( $template_id ) {
+			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+
+			if ( $success ) {
+				$template_instance->save_base64Image( $image_data );
+			} else {
+				$template_instance->set_failed_thumbnail_generation_status( true );
+			}
+
+			// TODO: show error message in case it failed
+			return rest_ensure_response( $template_instance->get_data_for_api() );
+		}
+
+		return rest_ensure_response( [] );
 	}
 
 	public function import_item( $request ) {

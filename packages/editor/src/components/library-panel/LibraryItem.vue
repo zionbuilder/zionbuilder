@@ -127,9 +127,9 @@ export default {
 		const image = computed(() => {
 			return props.item.thumbnail
 		})
-
+		console.log(props.item);
 		// Check to see if we need to generate image
-		if (!props.item.thumbnail && !props.item.thumbnail_generation_failed) {
+		if (props.item.librarySource.type === 'local' && props.item.thumbnail.length === 0 && !props.item.thumbnail_failed) {
 			// Register the thumbnail for generation
 			const { generateScreenshot, removeFromQueue } = useThumbnailGeneration()
 			generateScreenshot(props.item)
@@ -176,7 +176,7 @@ export default {
 				{
 					title: translate('edit_template'),
 					action: () => {
-						return window.open(props.item.edit_url, '_blank').focus();
+						return window.open(props.item.urls.edit_url, '_blank').focus();
 					},
 					icon: 'edit'
 				},

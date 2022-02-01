@@ -128,7 +128,7 @@ export default {
 	methods: {
 
 		editUrl () {
-			window.open(this.template.edit_url)
+			window.open(this.template.urls.edit_url)
 		},
 
 		copyTextInput (text) {
