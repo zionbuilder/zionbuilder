@@ -17,11 +17,10 @@ class BaseSource {
 	public $type            = '';
 
 	public function __construct( $source_config = [] ) {
-		foreach ( $source_config as $key => $value ) {
-			$this->$key = $value;
-		}
-
 		// Set defaults
+		$this->id   = $source_config['id'];
+		$this->name = $source_config['name'];
+
 		$this->type = $this->get_type();
 		$this->url  = \get_rest_url( null, sprintf( 'zionbuilder/v1/library/%s/items-and-categories', $this->get_id() ) );
 
@@ -151,6 +150,16 @@ class BaseSource {
 	 */
 	public function delete_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot delete template' );
+	}
+
+
+	/**
+	 * Will return the JSON structure of a template
+	 *
+	 * @return WP_Error/boolean true in case the template was deleted or WP_Error in case of failure
+	 */
+	public function get_item_builder_data( $item_id ) {
+		return new \WP_Error( 'invalid_action', 'Cannot insert the template' );
 	}
 
 	public function get_item_data() {

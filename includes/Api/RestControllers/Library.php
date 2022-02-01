@@ -238,6 +238,15 @@ class Library extends RestApiController {
 		return true;
 	}
 
+	public function validate_and_send_response( $response ) {
+		if ( is_wp_error( $response ) ) {
+			$response->add_data( [ 'status' => 400 ] );
+			return $response;
+		}
+
+		return rest_ensure_response( $response );
+	}
+
 	public function get_sources() {
 		return rest_ensure_response( Plugin::instance()->library->get_sources() );
 	}
@@ -259,7 +268,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
-		return rest_ensure_response( $library->get_items() );
+		return $this->validate_and_send_response( $library->get_items() );
 	}
 
 	public function get_categories( $request ) {
@@ -269,7 +278,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
-		return rest_ensure_response( $library->get_categories() );
+		return $this->validate_and_send_response( $library->get_categories() );
 	}
 
 
@@ -280,7 +289,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
-		return rest_ensure_response( $library->get_items_and_categories() );
+		return $this->validate_and_send_response( $library->get_items_and_categories() );
 	}
 
 	public function create_item( $request ) {
@@ -309,7 +318,7 @@ class Library extends RestApiController {
 		// Fire an action so others can add extra data to templates
 		do_action( 'zionbuilder/rest/templates/added', $template_data, $request );
 
-		return rest_ensure_response( $template_data );
+		return $this->validate_and_send_response( $template_data );
 	}
 
 	/**
@@ -328,7 +337,7 @@ class Library extends RestApiController {
 
 		$template_id = $request->get_param( 'template_id' );
 
-		return rest_ensure_response( $library->get_item( $template_id ) );
+		return $this->validate_and_send_response( $library->get_item( $template_id ) );
 	}
 
 
@@ -399,7 +408,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_cannot_delete', __( 'The template cannot be deleted.', 'zionbuilder' ), [ 'status' => 500 ] );
 		}
 
-		return rest_ensure_response( $result );
+		return $this->validate_and_send_response( $result );
 	}
 
 
@@ -410,9 +419,15 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
+		$item_builder_data = $library->get_item_builder_data( $request->get_param( 'template_id' ) );
+		if ( is_wp_error( $item_builder_data ) ) {
+			$item_builder_data->add_data( [ 'status' => 400 ] );
+			return $item_builder_data;
+		}
+
 		return rest_ensure_response(
 			[
-				'template_data' => $library->get_item_builder_data( $request->get_param( 'template_id' ) ),
+				'template_data' => $item_builder_data,
 			]
 		);
 	}
@@ -445,7 +460,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
 
-		return rest_ensure_response( $template_instance->get_data_for_api() );
+		return $this->validate_and_send_response( $template_instance->get_data_for_api() );
 	}
 
 	public function export_template( $request ) {
