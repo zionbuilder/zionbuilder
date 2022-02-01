@@ -10,7 +10,7 @@ class BaseSource {
 	const TYPE_ZION     = 'zion_library';
 
 	public $id              = '';
-	public $use_cache       = true;
+	public $use_cache       = false;
 	public $name            = true;
 	public $url             = null;
 	public $request_headers = [];

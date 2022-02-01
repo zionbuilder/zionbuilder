@@ -14,7 +14,7 @@ export class LibrarySource {
 	public id: string = ''
 	public url: string = ''
 	public request_headers: Array<any> = []
-	public use_cache: boolean = true
+	public use_cache: boolean = false
 	public items: Array<LibraryItem> = []
 	public categories = []
 	public loading: boolean = false

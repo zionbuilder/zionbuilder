@@ -27,7 +27,7 @@ export class LibraryItem {
 
 	constructor(item: LibraryItem, librarySource: LibrarySource) {
 		Object.assign(this, item)
-		console.log(item);
+
 		this.librarySource = librarySource
 	}
 

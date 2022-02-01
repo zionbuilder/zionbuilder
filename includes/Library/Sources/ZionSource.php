@@ -5,6 +5,13 @@ namespace ZionBuilder\Library\Sources;
 class ZionSource extends BaseSource {
 	const SOURCE_URL = 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/items-and-categories';
 
+	/**
+	 * True if you want to use the browser cache to cache the template lis
+	 *
+	 * @var boolean
+	 */
+	public $use_cache = true;
+
 	public function get_type() {
 		return self::TYPE_ZION;
 	}

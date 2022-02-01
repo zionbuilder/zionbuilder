@@ -127,7 +127,7 @@ export default {
 		const image = computed(() => {
 			return props.item.thumbnail
 		})
-		console.log(props.item);
+
 		// Check to see if we need to generate image
 		if (props.item.librarySource.type === 'local' && props.item.thumbnail.length === 0 && !props.item.thumbnail_failed) {
 			// Register the thumbnail for generation
