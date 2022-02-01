@@ -43,7 +43,7 @@ class LocalSource extends BaseSource {
 	}
 
 	public function get_categories() {
-		return [];
+		return Plugin::$instance->templates->get_template_types();
 	}
 
 	public function get_item( $item_id ) {
