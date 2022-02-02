@@ -92,8 +92,8 @@ class BaseSource {
 	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
-	public function add_item() {
-		return new \WP_Error( 'invalid_action', 'Cannot import template' );
+	public function create_item( $item_data ) {
+		return new \WP_Error( 'invalid_action', 'Cannot create template' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class BaseSource {
 	 * @return WP_Error/array The new template data
 	 */
 	public function duplicate_item() {
-		return new \WP_Error( 'invalid_action', 'Cannot import template' );
+		return new \WP_Error( 'invalid_action', 'Cannot duplicate template' );
 	}
 
 	/**
@@ -110,8 +110,8 @@ class BaseSource {
 	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
-	public function insert_template() {
-		return new \WP_Error( 'invalid_action', 'Cannot import template' );
+	public function insert_item( $item_id ) {
+		return new \WP_Error( 'invalid_action', 'Cannot insert template' );
 	}
 
 	/**
@@ -119,8 +119,8 @@ class BaseSource {
 	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
-	public function update_template() {
-		return new \WP_Error( 'invalid_action', 'Cannot import template' );
+	public function udate_item() {
+		return new \WP_Error( 'invalid_action', 'Cannot update template' );
 	}
 
 	/**
@@ -150,19 +150,5 @@ class BaseSource {
 	 */
 	public function delete_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot delete template' );
-	}
-
-
-	/**
-	 * Will return the JSON structure of a template
-	 *
-	 * @return WP_Error/boolean true in case the template was deleted or WP_Error in case of failure
-	 */
-	public function get_item_builder_data( $item_id ) {
-		return new \WP_Error( 'invalid_action', 'Cannot insert the template' );
-	}
-
-	public function get_item_data() {
-		return [];
 	}
 }

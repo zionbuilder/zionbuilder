@@ -357,14 +357,14 @@ class Templates extends RestApiController {
 
 		$args = [
 			'post_status'    => $template_status,
-			'post_type'      => LocalSource::TEMPLATE_POST_TYPE,
+			'post_type'      => ZionBuilderTemplates::TEMPLATE_POST_TYPE,
 			'posts_per_page' => -1,
 		];
 
 		if ( $template_type ) {
 			$args['meta_query'] = [
 				[
-					'key'     => LocalSource::TEMPLATE_TYPE_META,
+					'key'     => ZionBuilderTemplates::TEMPLATE_TYPE_META,
 					'value'   => $template_type,
 					'compare' => '=',
 				],
@@ -389,7 +389,7 @@ class Templates extends RestApiController {
 		$items_to_return = [];
 
 		$args = [
-			'post_type'      => LocalSource::TEMPLATE_POST_TYPE,
+			'post_type'      => ZionBuilderTemplates::TEMPLATE_POST_TYPE,
 			'posts_per_page' => -1,
 		];
 
@@ -470,7 +470,7 @@ class Templates extends RestApiController {
 			$request
 		);
 
-		$post_id = LocalSource::create_template(
+		$post_id = ZionBuilderTemplates::create_template(
 			$request->get_param( 'title' ),
 			$template_config
 		);
@@ -627,7 +627,7 @@ class Templates extends RestApiController {
 
 			$template_name = get_the_title( $template_id );
 			$template_data = $post_instance->get_template_data();
-			$template_type = get_post_meta( $template_id, LocalSource::TEMPLATE_TYPE_META, true );
+			$template_type = get_post_meta( $template_id, ZionBuilderTemplates::TEMPLATE_TYPE_META, true );
 		} else {
 			// retrieves the template data
 			$template_name = sanitize_text_field( $request->get_param( 'title' ) );

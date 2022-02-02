@@ -434,7 +434,7 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
-		$item_builder_data = $library->get_item_builder_data( $request->get_param( 'template_id' ) );
+		$item_builder_data = $library->insert_item( $request->get_param( 'template_id' ) );
 		if ( is_wp_error( $item_builder_data ) ) {
 			$item_builder_data->add_data( [ 'status' => 400 ] );
 			return $item_builder_data;

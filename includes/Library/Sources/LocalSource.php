@@ -112,7 +112,7 @@ class LocalSource extends BaseSource {
 		return $template_instance->get_data_for_api();
 	}
 
-	public function get_item_builder_data( $item_id ) {
+	public function insert_item( $item_id ) {
 		// Insert using id
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $item_id );
 
