@@ -10,10 +10,17 @@
 				class="znpb-editor-library-modal__item-image"
 				:class="{['--no-image']: !item.thumbnail && !item.loadingThumbnail}"
 				@click="$emit('activate-item', item)"
-				:data-zbg="image"
-				ref="imageHolder"
 			>
 				<Loader v-if="item.loadingThumbnail" />
+				<img
+					class="znpb-editor-library-modal__item-imageTag"
+					v-else
+					src=""
+					:data-zbg="image"
+					ref="imageHolder"
+					@mouseover="onMouseOver"
+					@mouseout="onMouseOut"
+				/>
 			</div>
 
 			<div
@@ -147,7 +154,7 @@ export default {
 				}
 
 				if (props.item.thumbnail) {
-					imageHolder.value.style.backgroundImage = `url(${imageHolder.value.getAttribute('data-zbg')}`
+					imageHolder.value.src = imageHolder.value.getAttribute('data-zbg')
 				}
 
 				iObserver.unobserve(root.value);
@@ -207,6 +214,20 @@ export default {
 			]
 		})
 
+		// Image scroll on hover
+		function onMouseOver (event) {
+			const { height } = event.target.getBoundingClientRect()
+
+			if (height > 200) {
+				const newTop = height - 200
+				event.target.style.top = `-${newTop}px`
+			}
+		}
+
+		function onMouseOut (event) {
+			event.target.style.top = null
+		}
+
 		return {
 			// Refs
 			imageHolder,
@@ -219,7 +240,11 @@ export default {
 			image,
 
 			// Computed
-			itemMenuActions
+			itemMenuActions,
+
+			// methods
+			onMouseOver,
+			onMouseOut
 		}
 	},
 	methods: {
@@ -276,16 +301,19 @@ export default {
 	}
 
 	&-image {
+		position: relative;
 		display: flex;
 		align-content: center;
+		overflow: hidden;
 		height: 200px;
-		background-position: top;
-		background-size: cover;
 		border-bottom: 1px solid var(--zb-surface-lighter-color);
-		transition: background-position 5s;
 
-		&:hover {
-			background-position: bottom;
+		&Tag {
+			position: absolute;
+			top: 0;
+			left: 0;
+			align-self: center;
+			transition: top 5s;
 		}
 
 		&.--no-image {
