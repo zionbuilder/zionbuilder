@@ -14,7 +14,7 @@
 				<Loader v-if="item.loadingThumbnail" />
 				<img
 					class="znpb-editor-library-modal__item-imageTag"
-					v-else
+					v-else-if="item.thumbnail"
 					src=""
 					:data-zbg="image"
 					ref="imageHolder"
@@ -306,6 +306,7 @@ export default {
 		align-content: center;
 		overflow: hidden;
 		height: 200px;
+		background-position: center;
 		border-bottom: 1px solid var(--zb-surface-lighter-color);
 
 		&Tag {
