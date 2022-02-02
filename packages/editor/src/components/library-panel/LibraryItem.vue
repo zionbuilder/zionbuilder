@@ -8,11 +8,20 @@
 		<div class="znpb-editor-library-modal__itemInner">
 			<div
 				class="znpb-editor-library-modal__item-image"
-				:class="{['--no-image']: !item.thumbnail}"
+				:class="{['--no-image']: !item.thumbnail && !item.loadingThumbnail}"
 				@click="$emit('activate-item', item)"
-				:data-zbg="item.thumbnail"
-				ref="imageHolder"
-			/>
+			>
+				<Loader v-if="item.loadingThumbnail" />
+				<img
+					class="znpb-editor-library-modal__item-imageTag"
+					v-else
+					src=""
+					:data-zbg="image"
+					ref="imageHolder"
+					@mouseover="onMouseOver"
+					@mouseout="onMouseOut"
+				/>
+			</div>
 
 			<div
 				v-if="item.pro"
@@ -21,21 +30,16 @@
 			</div>
 
 			<div class="znpb-editor-library-modal__item-bottom">
-				<h4 class="znpb-editor-library-modal__item-title">{{item.name}}</h4>
+				<h4
+					class="znpb-editor-library-modal__item-title"
+					:title="item.name"
+				>{{item.name}}</h4>
 				<div
 					class="znpb-editor-library-modal__item-actions"
-					v-if="!insertItemLoading"
+					v-if="!insertItemLoading && !item.loading"
 				>
 					<a
-						v-if="!isProActive && item.pro"
-						class="znpb-button znpb-button--line"
-						:href="purchaseURL"
-						target="_blank"
-					>{{$translate('buy_pro')}}
-					</a>
-
-					<a
-						v-else-if="isProActive && !isProConnected && item.pro"
+						v-if="isProInstalled && !isProActive && item.pro"
 						class="znpb-button znpb-button--line"
 						target="_blank"
 						:href="dashboardURL"
@@ -43,50 +47,34 @@
 						{{$translate('activate_pro')}}
 					</a>
 
-					<Tooltip
-						v-else
-						tag="span"
-						:content="$translate('library_insert_tooltip')"
-						append-to="element"
-						class="znpb-editor-library-modal__item-action"
-						placement="top"
-						:modifiers="[
-						{
-						name: 'offset',
-						options: {
-							offset: [0, 3],
-						},
-						},
-					]"
-						strategy="fixed"
-					>
-						<span
-							@click.stop="insertLibraryItem"
-							class="znpb-button znpb-button--line"
-						>{{$translate('library_insert')}}</span>
-					</Tooltip>
+					<a
+						v-else-if="!isProInstalled && item.pro"
+						class="znpb-button znpb-button--line"
+						:href="purchaseURL"
+						target="_blank"
+					>{{$translate('buy_pro')}}
+					</a>
 
-					<Tooltip
-						tag="span"
-						:content="$translate('library_click_preview_tooltip')"
-						append-to="element"
+					<span
+						v-else
+						@click.stop="insertLibraryItem"
+						class="znpb-button znpb-button--line znpb-editor-library-modal__item-action"
+						v-znpb-tooltip="$translate('library_insert_tooltip')"
+					>{{$translate('library_insert')}}</span>
+
+					<Icon
+						icon="eye"
 						class="znpb-editor-library-modal__item-action"
-						placement="top"
-						:modifiers="[
-						{
-						name: 'offset',
-						options: {
-							offset: [0, 3],
-						},
-						},
-					]"
-						strategy="fixed"
-					>
-						<Icon
-							icon="eye"
-							@click="$emit('activate-item', item)"
-						/>
-					</Tooltip>
+						@click="$emit('activate-item', item)"
+						v-znpb-tooltip="$translate('library_click_preview_tooltip')"
+					/>
+
+					<HiddenMenu
+						class="znpb-editor-library-modal__item-action"
+						:actions="itemMenuActions"
+						v-if="item.librarySource.id === 'local_library'"
+					/>
+
 				</div>
 				<Loader
 					v-else
@@ -97,16 +85,16 @@
 			<div
 				v-if="item.type === 'multiple'"
 				class="znpb-editor-library-modal__item-bottom-multiple"
-			>
-
-			</div>
+			/>
 		</div>
 	</li>
 
 </template>
 <script>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue'
 import { useEditorData } from '@composables'
+import { translate } from '@zb/i18n'
+import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js'
 
 export default {
 	name: 'LibraryItem',
@@ -133,8 +121,8 @@ export default {
 	setup (props, { emit }) {
 		const Library = inject('Library')
 		const { editorData } = useEditorData()
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
-		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
+		const isProActive = editorData.value.plugin_info.is_pro_active
+		const isProInstalled = editorData.value.plugin_info.is_pro_installed
 		const dashboardURL = ref('')
 		const purchaseURL = ref('')
 		const imageHolder = ref(null)
@@ -144,6 +132,20 @@ export default {
 		purchaseURL.value = editorData.value.urls.purchase_url
 
 		const iObserver = new IntersectionObserver(onItemInView)
+		const image = computed(() => {
+			return props.item.thumbnail
+		})
+
+		// Check to see if we need to generate image
+		if (props.item.librarySource.type === 'local' && props.item.thumbnail.length === 0 && !props.item.thumbnail_failed) {
+			// Register the thumbnail for generation
+			const { generateScreenshot, removeFromQueue } = useThumbnailGeneration()
+			generateScreenshot(props.item)
+
+			onBeforeUnmount(() => {
+				removeFromQueue(props.item)
+			})
+		}
 
 		function onItemInView (entries) {
 			entries.forEach(({ isIntersecting }) => {
@@ -151,10 +153,17 @@ export default {
 					return;
 				}
 
-				imageHolder.value.style.backgroundImage = `url(${imageHolder.value.getAttribute('data-zbg')}`
+				if (props.item.thumbnail) {
+					imageHolder.value.src = imageHolder.value.getAttribute('data-zbg')
+				}
+
 				iObserver.unobserve(root.value);
 			})
 		}
+
+		watch(() => props.item.thumbnail, (newValue) => {
+			iObserver.observe(root.value)
+		})
 
 		onMounted(() => {
 			iObserver.observe(root.value)
@@ -166,22 +175,82 @@ export default {
 			}
 		})
 
+		const itemMenuActions = computed(() => {
+			if (!props.item.librarySource.id === 'local_library') {
+				return []
+			}
+
+			return [
+				{
+					title: translate('edit_template'),
+					action: () => {
+						return window.open(props.item.urls.edit_url, '_blank').focus();
+					},
+					icon: 'edit'
+				},
+				{
+					title: translate('export_template'),
+					action: () => {
+						props.item.export()
+					},
+					icon: 'export'
+				},
+				{
+					title: translate('regenerate_screenshot'),
+					action: () => {
+						const { generateScreenshot } = useThumbnailGeneration()
+
+						generateScreenshot(props.item)
+					},
+					icon: 'export'
+				},
+				{
+					title: translate('delete_template'),
+					action: () => {
+						props.item.delete()
+					},
+					icon: 'delete'
+				},
+			]
+		})
+
+		// Image scroll on hover
+		function onMouseOver (event) {
+			const { height } = event.target.getBoundingClientRect()
+
+			if (height > 200) {
+				const newTop = height - 200
+				event.target.style.top = `-${newTop}px`
+			}
+		}
+
+		function onMouseOut (event) {
+			event.target.style.top = null
+		}
+
 		return {
 			// Refs
 			imageHolder,
 			root,
 			purchaseURL,
 			dashboardURL,
-			isProConnected,
+			isProInstalled,
 			isProActive,
-			Library
+			Library,
+			image,
+
+			// Computed
+			itemMenuActions,
+
+			// methods
+			onMouseOver,
+			onMouseOut
 		}
 	},
 	methods: {
 		insertLibraryItem () {
 			this.insertItemLoading = true
 			// If it's pro, get the download URL
-
 			this.Library.insertItem(this.item).then(() => {
 
 			}).finally(() => {
@@ -219,7 +288,9 @@ export default {
 	margin-bottom: 20px;
 	border-radius: 3px;
 	transition: box-shadow .2s;
-	cursor: pointer;
+	&Inner {
+		cursor: pointer;
+	}
 
 	&Inner:hover {
 		box-shadow: 0 12px 30px 0 var(--zb-surface-shadow-hover);
@@ -230,19 +301,25 @@ export default {
 	}
 
 	&-image {
+		position: relative;
+		display: flex;
+		align-content: center;
+		overflow: hidden;
 		height: 200px;
-		background-position: top;
-		background-size: cover;
 		border-bottom: 1px solid var(--zb-surface-lighter-color);
-		transition: background-position 5s;
 
-		&:hover {
-			background-position: bottom;
+		&Tag {
+			position: absolute;
+			top: 0;
+			left: 0;
+			align-self: center;
+			transition: top 5s;
 		}
 
 		&.--no-image {
 			min-height: 180px;
 			background-color: var(--zb-surface-lighter-color);
+			background-image: url("./no_preview_available.svg");
 		}
 	}
 
@@ -275,19 +352,26 @@ export default {
 	}
 
 	&-title {
+		overflow: hidden;
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
+		line-height: 40px !important;
+		text-overflow: clip;
+		white-space: nowrap;
 	}
 
 	&-actions {
 		display: flex;
 		align-items: center;
+		margin-left: 8px;
+
 		& > span, & > a {
 			margin-right: 8px;
+			white-space: pre;
 		}
 
-		& > span:last-of-type {
+		& > span:last-child {
 			margin-right: 0;
 		}
 	}

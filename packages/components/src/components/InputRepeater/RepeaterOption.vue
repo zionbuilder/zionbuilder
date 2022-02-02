@@ -86,7 +86,7 @@ export default {
 				return this.selectedOptionModel[this.item_title]
 			}
 
-			return this.default_item_title.replace('%s', this.propertyIndex)
+			return this.default_item_title.replace('%s', this.propertyIndex + 1)
 		}
 	},
 	methods: {

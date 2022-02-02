@@ -56,7 +56,7 @@ const panelsOrder = ref(get(UIUserData, 'panelsOrder', [
 const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig))
 const panels = ref(panelInstances)
 const panelPlaceholder = ref({})
-console.log({ UIUserData });
+
 // Main Bar
 const mainBar = reactive(new EditorArea({
 	position: 'left',
@@ -186,7 +186,7 @@ export function useUI() {
 	}
 
 	function closeLibrary() {
-		isLibraryOpen.value = true
+		isLibraryOpen.value = false
 	}
 
 	function toggleLibrary() {

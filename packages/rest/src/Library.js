@@ -1,18 +1,37 @@
-import axios from 'axios'
+import ZionService from './ZionService'
 
-const ZionService = axios.create({
-	baseURL: `https://library.zionbuilder.io/wp-json/zionbuilder-library/v1/`,
-	headers: {
-		'Accept': 'application/json',
-		'Content-Type': 'application/json'
-	}
-})
+export function addLibraryItem(librartID, data) {
+	return ZionService.post(`library/${librartID}`, data)
+}
 
-export const getLibraryItems = function (useCache = true) {
-	const url = 'items-and-categories'
-	if (useCache) {
-		return ZionService.get(url)
-	} else {
-		return ZionService.get(`${url}?timestamp=${new Date().getTime()}`)
-	}
+export function exportLibraryItem(librartID, itemID) {
+	return ZionService.get(`library/${librartID}/${itemID}/export`, {
+		responseType: 'arraybuffer'
+	})
+}
+
+export function deleteLibraryItem(librartID, itemID) {
+	return ZionService.delete(`library/${librartID}/${itemID}`)
+}
+
+export function getLibraryItemBuilderConfig(librartID, itemID) {
+	return ZionService.get(`library/${librartID}/${itemID}/get-builder-config`)
+}
+
+export function importLibraryItem(librartID, file) {
+	return ZionService.post(`library/${librartID}/import`, file, {
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		}
+	})
+}
+
+export function exportTemplate(data) {
+	return ZionService.post(`library/export`, data, {
+		responseType: 'arraybuffer'
+	})
+}
+
+export function saveLibraryItemThumbnail(librartID, itemID, data) {
+	return ZionService.post(`library/${librartID}/${itemID}/save-thumbnail`, data)
 }

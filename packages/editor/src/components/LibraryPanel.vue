@@ -1,7 +1,7 @@
 <template>
 	<Loader
 		class="znpb-editor-library-modal-loader"
-		v-if="loadingLibrary"
+		v-if="libraryConfig.loading"
 	/>
 	<div
 		v-else
@@ -36,15 +36,6 @@
 
 				</div>
 				<div class="znpb-editor-library-modal-subheader__right">
-
-					<!-- <div
-						@click="favActive=!favActive, enteredValue='', $emit('activate-multiple', false)"
-						class="znpb-editor-library-modal-subheader__action-title"
-						:class="{ 'znpb-editor-library-modal-subheader__action-title--favorite' : favActive }"
-					>
-						<Icon icon="heart"/>
-						{{$translate('favorites')}}
-					</div> -->
 					<div
 						@click="sortAscending=!sortAscending"
 						class="znpb-editor-library-modal-subheader__action-title"
@@ -83,7 +74,7 @@
 				<iframe
 					id="znpb-editor-library-modal-preview-iframe"
 					frameborder="0"
-					:src="activeItem.preview_url"
+					:src="activeItem.urls.preview_url"
 				>
 				</iframe>
 			</div>
@@ -93,13 +84,11 @@
 
 <script>
 import { ref, computed, watchEffect, watch, nextTick } from 'vue'
-import { getLibraryItems } from '@zb/rest'
 import { translate } from '@zb/i18n'
 import { uniq } from 'lodash-es'
 
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
 import LibraryItem from './library-panel/LibraryItem.vue'
-import localSt from 'localstorage-ttl'
 
 export default {
 	name: 'LibraryPanel',
@@ -112,9 +101,9 @@ export default {
 			type: Boolean,
 			required: false
 		},
-		multiple: {
-			type: Boolean,
-			required: false
+		libraryConfig: {
+			type: Object,
+			required: true
 		}
 	},
 	setup (props, { emit }) {
@@ -128,16 +117,12 @@ export default {
 
 		// Refs
 		const searchInput = ref(null)
-		const loadingLibrary = ref(true)
-		const libraryItems = ref([])
-		const libraryCategories = ref([])
+		const libraryItems = computed(() => props.libraryConfig.items.sort((a, b) => new Date(b.date) - new Date(a.date)))
+		const libraryCategories = computed(() => props.libraryConfig.categories)
 		const activeCategory = ref(allCategoyConfig)
 		const sortAscending = ref(false)
 		const searchKeyword = ref('')
 		const activeItem = ref(null)
-
-		// check if get items from server or from local storage
-		getLibraryData()
 
 		// Computed values
 		/**
@@ -226,16 +211,10 @@ export default {
 		})
 
 		const filteredItems = computed(() => {
-			let items = []
-
-			if (activeCategory.value.term_id === allCategoyConfig.term_id) {
-				items = libraryItems.value
-			} else {
-				// Get active items by category / subcategory
-				items = filteredItemsBySearchKeyword.value.filter(item => {
-					return item.category.includes(activeCategory.value.term_id)
-				})
-			}
+			// Get active items by category / subcategory
+			let items = filteredItemsBySearchKeyword.value.filter(item => {
+				return activeCategory.value.term_id === allCategoyConfig.term_id || item.category.includes(activeCategory.value.term_id)
+			})
 
 			// Create a clone for reverse since the reverse is in place
 			if (sortAscending.value) {
@@ -256,7 +235,7 @@ export default {
 
 		// Watchers
 		watchEffect(() => {
-			if (loadingLibrary.value === false) {
+			if (props.libraryConfig.loading === false) {
 				// focus input
 				nextTick(() => {
 					searchInput.value.focus()
@@ -276,46 +255,6 @@ export default {
 		})
 
 		// Methods
-		function getLibraryData () {
-			const cachedData = localSt.get('znpbLibraryCache')
-			if (cachedData !== null) {
-				// Start loading
-				loadingLibrary.value = true
-				emit('loading-start', true)
-
-				libraryCategories.value = Object.values(cachedData.categories || {})
-				libraryItems.value = cachedData.items
-
-				// End loading
-				loadingLibrary.value = false
-				emit('loading-end', true)
-			} else {
-				getDataFromServer()
-			}
-		}
-
-		function getDataFromServer (useCache = true) {
-			// Start loading
-			loadingLibrary.value = true
-			emit('loading-start', true)
-
-			getLibraryItems(useCache).then((response) => {
-				const { data = {} } = response
-				const { categories = {}, items = [] } = data
-
-				libraryCategories.value = Object.values(categories)
-				libraryItems.value = items
-				localSt.set('znpbLibraryCache', {
-					categories,
-					items
-				}, 604800000)
-			}).finally(() => {
-				// End loading
-				loadingLibrary.value = false
-				emit('loading-end', true)
-			})
-		}
-
 		function onCategoryActivate (category) {
 			// Deselect active categories
 			computedAllCategories.value.forEach(item => item.isActive = false)
@@ -336,11 +275,8 @@ export default {
 		}
 
 		return {
-			// Normal Values
-
 			// Refs
 			searchInput,
-			loadingLibrary,
 			libraryItems,
 			activeCategory,
 			sortAscending,
@@ -354,7 +290,6 @@ export default {
 			libraryTitle,
 
 			// Methods
-			getDataFromServer,
 			onCategoryActivate
 		}
 	}

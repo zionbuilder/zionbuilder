@@ -16,6 +16,9 @@ use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
 use ZionBuilder\MaintenanceMode;
 use ZionBuilder\CustomCode;
+use ZionBuilder\Screenshot;
+use ZionBuilder\Library\Library;
+use ZionBuilder\Templates;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -149,14 +152,7 @@ class Plugin {
 	 * @see Plugin::init()
 	 */
 	public $page_templates = null;
-	/**
-	 * Holds the reference to the instance of the \ZionBuilder\Templates class
-	 *
-	 * @var Templates
-	 *
-	 * @see Plugin::init()
-	 */
-	public $templates = null;
+
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\Api\RestApi class
 	 *
@@ -202,6 +198,7 @@ class Plugin {
 	 */
 	public $scripts = null;
 
+	public $library = null;
 
 	/**
 	 * Main class init
@@ -228,10 +225,11 @@ class Plugin {
 		$this->editor           = new Editor();
 		$this->frontend         = new Frontend();
 		$this->page_templates   = new PageTemplates();
-		$this->templates        = new Templates();
 		$this->api              = new RestApi();
 		$this->import_export    = new ImportExport();
 		$this->icons            = new Icons();
+		$this->templates        = new Templates();
+		$this->library          = new Library();
 
 		new Shortcodes();
 		new CommonJS();
@@ -241,6 +239,7 @@ class Plugin {
 		new BulkActionsData();
 		new MaintenanceMode();
 		new CustomCode();
+		new Screenshot();
 
 		/*
 		 * ZionBuilder loaded.

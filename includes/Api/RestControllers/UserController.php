@@ -73,7 +73,7 @@ class UserController extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request
 	 *
-	 * @return mixed|\WP_REST_Response|\ZionBuilder\Post\BasePostType
+	 * @return mixed|\WP_REST_Response
 	 */
 	public function save_item( $request ) {
 		$params = $request->get_params();

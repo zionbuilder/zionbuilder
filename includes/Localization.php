@@ -233,8 +233,6 @@ class Localization {
 				'save_to_library'                          => __( 'Save to library', 'zionbuilder' ),
 				'choose_title'                             => __( 'Choose a title', 'zionbuilder' ),
 				'save_title_desc'                          => __( 'Write a suggestive name for your element', 'zionbuilder' ),
-				'add_to_categ'                             => __( 'Add it to a category', 'zionbuilder' ),
-				'add_to_categ_desc'                        => __( 'Select a category from the library, or simply create a new category', 'zionbuilder' ),
 				'create'                                   => __( 'Create', 'zionbuilder' ),
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name
@@ -580,10 +578,13 @@ class Localization {
 				'delete_permissions_for_user'              => __( 'Delete permissions for this user', 'zionbuilder' ),
 
 				// single-template
-				'edit_template'                            => __( 'Click to edit this template', 'zionbuilder' ),
-				'delete_template'                          => __( 'Click to delete this template', 'zionbuilder' ),
-				'export_template'                          => __( 'Click to export this template', 'zionbuilder' ),
-				'preview_template'                         => __( 'Click to preview this template', 'zionbuilder' ),
+				'edit_template'                            => __( 'Edit template', 'zionbuilder' ),
+				'delete_template'                          => __( 'Delete template', 'zionbuilder' ),
+				'export_template'                          => __( 'Export template', 'zionbuilder' ),
+				'preview_template'                         => __( 'Preview template', 'zionbuilder' ),
+				'copy_shortcode'                           => __( 'Copy shortcode', 'zionbuilder' ),
+				'regenerate_screenshot'                           => __( 'Regenerate screenshot', 'zionbuilder' ),
+
 
 				// device-element
 				'discard_changes_for'                      => __( 'Discard changes for', 'zionbuilder' ),
@@ -749,6 +750,11 @@ class Localization {
 				'padding-left'                             => __( 'Padding left', 'zionbuilder' ),
 				'link'                                     => __( 'Link', 'zionbuilder' ),
 				'unlink'                                   => __( 'Unlink', 'zionbuilder' ),
+
+				// Library share
+				'library_share'                            => __( 'Library share', 'zionbuilder' ),
+				'share_library_upgrade_message'            => __( 'Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder' ),
+
 			]
 		);
 	}

@@ -17,6 +17,7 @@ import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
 import CustomCode from '../components/CustomCode.vue'
 
+
 import { translate } from '@zb/i18n'
 
 const getTemplateChildrens = () => {
@@ -142,7 +143,7 @@ export const initRoutes = function () {
 		path: 'custom-icons',
 		title: translate('custom_icons'),
 		name: 'icons',
-		props: { message: translate('custom_icons_upgrade_message') },
+		props: { message: translate('share_library_upgrade_message') },
 		component: GetPro,
 		label: {
 			type: 'warning',
@@ -172,6 +173,18 @@ export const initRoutes = function () {
 		name: 'gradients_presets',
 		title: translate('gradients'),
 		component: Gradients
+	})
+
+	SettingsRoute.addRoute('library', {
+		path: 'library',
+		title: translate('library'),
+		name: 'library',
+		label: {
+			type: 'warning',
+			text: translate('pro')
+		},
+		props: { message: translate('custom_icons_upgrade_message') },
+		component: GetPro,
 	})
 
 	routes.addRoute('permissions', {

@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Post
  */
 class BasePostType {
-
 	/**
 	 * Holds a reference to the meta key where we store the page template data
 	 */
@@ -184,8 +183,11 @@ class BasePostType {
 			return $this->post_elements_data[$post_id];
 		}
 
-		$template_data                      = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
-		$this->post_elements_data[$post_id] = json_decode( $template_data, true );
+		$template_data = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
+		$template_data = json_decode( $template_data, true );
+		$template_data = ! empty( $template_data ) ? $template_data : [];
+
+		$this->post_elements_data[$post_id] = $template_data;
 
 		return apply_filters( 'zionbuilder/post/get_template_data', $this->post_elements_data[$post_id], $post_id );
 	}

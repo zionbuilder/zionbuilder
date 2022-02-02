@@ -216,6 +216,8 @@ export default class Video {
 		videoElement.muted = muted
 		videoElement.autoplay = autoplay
 		videoElement.loop = loop
+		videoElement.playsInline = autoplay
+
 
 		if (this.options.controls) {
 			videoElement.controls = true

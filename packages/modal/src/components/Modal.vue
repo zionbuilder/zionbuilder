@@ -143,7 +143,10 @@ export default {
 
 			} else {
 				this.$nextTick(() => {
-					removeZindex()
+					if (this.zIndex) {
+						removeZindex()
+						this.zIndex = null
+					}
 					// remove overflow from body
 					if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
 						removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -170,7 +173,7 @@ export default {
 			fullSize: this.fullscreen,
 			bg: this.showBackdrop,
 			hasHeader: false,
-			zIndex: 9999,
+			zIndex: null,
 			initialPosition: {}
 		}
 	},
@@ -274,8 +277,9 @@ export default {
 			this.appendToElement.appendChild(this.$el)
 		},
 		onEscapeKeyPress (event) {
-			if (event.key === 'Escape') {
+			if (event.which === 27) {
 				this.closeModal()
+				event.stopPropagation()
 			}
 		}
 	},
@@ -287,19 +291,22 @@ export default {
 
 		// Check if we need to close modal on esc key
 		if (this.closeOnEscape) {
-			document.addEventListener('keydown', this.onEscapeKeyPress)
+			document.addEventListener('keyup', this.onEscapeKeyPress)
 		}
 	},
 
 	beforeUnmount () {
 		window.removeEventListener('mousemove', this.drag)
 		window.removeEventListener('mouseup', this.unDrag)
-		window.removeEventListener('keydown', this.onEscapeKeyPress)
+		document.removeEventListener('keyup', this.onEscapeKeyPress)
 		if (this.$el.parentNode === this.appendToElement) {
 			this.appendToElement.removeChild(this.$el)
 		}
 
-		removeZindex()
+		if (this.zIndex) {
+			removeZindex()
+			this.zIndex = null
+		}
 	}
 }
 </script>

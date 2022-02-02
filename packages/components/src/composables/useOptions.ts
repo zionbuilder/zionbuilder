@@ -28,7 +28,8 @@ import {
 	InputTextAlign,
 	InputBorderTabs,
 	InputBackgroundVideo,
-	InputSpacing
+	InputSpacing,
+	InputRepeater
 } from '../components'
 
 const options = {
@@ -50,9 +51,19 @@ const options = {
 	textarea: {
 		id: 'textarea',
 		component: BaseInput,
+		componentProps: {
+			type: 'textarea'
+		},
 		dynamic: {
 			type: 'TEXT'
 		}
+	},
+	password: {
+		id: 'password',
+		componentProps: {
+			type: 'password'
+		},
+		component: BaseInput
 	},
 	select: {
 		id: 'select',
@@ -156,6 +167,10 @@ const options = {
 	spacing: {
 		id: 'spacing',
 		component: InputSpacing
+	},
+	repeater: {
+		id: 'repeater',
+		component: InputRepeater
 	}
 
 }

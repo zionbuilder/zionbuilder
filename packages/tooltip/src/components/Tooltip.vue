@@ -245,8 +245,9 @@ export default {
 			if (!!newValue !== !!oldvalue) {
 				if (newValue) {
 					this.zIndex = getZindex();
-				} else {
+				} else if (this.zIndex) {
 					removeZindex();
+					this.zIndex = null;
 				}
 			}
 		},
@@ -465,7 +466,7 @@ export default {
 			this.$emit("update:show", false);
 			preventOutsideClickPropagation = false;
 		},
-		onKeyDown(event) {
+		onKeyUp(event) {
 			if (event.which === 27) {
 				this.hidePopper();
 				event.stopPropagation();
@@ -502,7 +503,7 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.ownerDocument.addEventListener("keydown", this.onKeyDown);
+				this.ownerDocument.addEventListener("keyup", this.onKeyUp);
 			}
 		},
 		removePopperEvents() {
@@ -531,10 +532,7 @@ export default {
 
 			// Attache close on escape
 			if (this.closeOnEscape && this.ownerDocument) {
-				this.ownerDocument.removeEventListener(
-					"keydown",
-					this.onKeyDown
-				);
+				this.ownerDocument.removeEventListener("keyup", this.onKeyUp);
 			}
 		},
 	},
@@ -550,13 +548,15 @@ export default {
 				this.onOutsideClick,
 				true
 			);
-			this.ownerDocument.removeEventListener("keydown", this.onKeyDown);
+			this.ownerDocument.removeEventListener("keyup", this.onKeyUp);
 		}
 
 		// Destroy popper instance
 		this.destroyPopper(true);
-		if (this.show) {
+
+		if (this.zIndex) {
 			removeZindex();
+			this.zIndex = null;
 		}
 	},
 	mounted() {

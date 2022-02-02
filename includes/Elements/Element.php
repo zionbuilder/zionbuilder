@@ -1044,7 +1044,8 @@ class Element {
 	 * @return string
 	 */
 	public function get_element_css_id() {
-		return $this->options->get_value( '_advanced_options._element_id', $this->get_uid() );
+		$options = $this->options->get_model();
+		return isset( $options['._advanced_options']['_element_id'] ) ? $options['._advanced_options']['_element_id'] : $this->get_uid();
 	}
 
 	/**
@@ -1078,8 +1079,8 @@ class Element {
 
 	public function do_enqueue_scripts() {
 		// Check for animation
-		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
-		if ( ! empty( $appear_animation ) ) {
+		$options = $this->options->get_model();
+		if ( isset( $options['._advanced_options']['_appear_animation'] ) && ! empty( $options['._advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_script( 'zionbuilder-animatejs' );
 		}
 
@@ -1098,8 +1099,8 @@ class Element {
 
 	public function do_enqueue_styles() {
 		// Check for animation
-		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
-		if ( ! empty( $appear_animation ) ) {
+		$options = $this->options->get_model();
+		if ( isset( $options['._advanced_options']['_appear_animation'] ) && ! empty( $options['._advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_style( 'zion-frontend-animations' );
 		}
 

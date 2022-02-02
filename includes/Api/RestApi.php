@@ -90,6 +90,7 @@ class RestApi {
 			'ZionBuilder\Api\RestControllers\Media',
 			'ZionBuilder\Api\RestControllers\FileUpload',
 			'ZionBuilder\Api\RestControllers\UserController',
+			'ZionBuilder\Api\RestControllers\Library',
 		];
 
 		foreach ( $controllers as $controller ) {

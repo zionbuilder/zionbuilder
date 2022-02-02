@@ -29,7 +29,8 @@ const packages = [
 	'edit-page',
 	'gutenberg',
 	'preview',
-	'rtl'
+	'rtl',
+	'screenshot'
 ]
 
 packages.forEach(directory => {

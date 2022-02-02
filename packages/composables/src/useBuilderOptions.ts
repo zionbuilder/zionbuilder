@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue'
 import { saveOptions, getSavedOptions } from '@zb/rest'
-import { get, update, unset, cloneDeep } from 'lodash-es'
+import { get, update, unset, cloneDeep, debounce } from 'lodash-es'
 
 const isLoading: Ref<boolean> = ref(false)
 const fetchedOptions = ref(false)
@@ -307,6 +307,7 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
+	const debouncedSaveOptions = debounce(saveOptionsToDB, 700)
 
 	return {
 		fetchOptions,
@@ -356,6 +357,7 @@ export const useBuilderOptions = () => {
 
 		// General
 		options,
-		isLoading
+		isLoading,
+		debouncedSaveOptions
 	}
 }

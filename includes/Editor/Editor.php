@@ -10,6 +10,7 @@ use ZionBuilder\CSSClasses;
 use ZionBuilder\Elements\Masks;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
+use ZionBuilder\Templates;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -338,7 +339,7 @@ class Editor {
 				// Plugin info
 				'plugin_info'         => [
 					'is_pro_active'      => Utils::is_pro_active(),
-					'is_pro_connected'   => apply_filters( 'zionbuilder/pro/is_conected', false ),
+					'is_pro_installed'   => Utils::is_pro_installed(),
 					'free_version'       => Plugin::instance()->get_version(),
 					'pro_version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
 					'free_plugin_update' => $free_plugin_update,
@@ -347,7 +348,9 @@ class Editor {
 
 				// Templates
 				'template_types'      => Plugin::$instance->templates->get_template_types(),
-				'template_categories' => Plugin::$instance->templates->get_template_categories(),
+				'template_sources'    => Plugin::$instance->library->get_sources(),
+
+				// Misc
 				'rtl'                 => is_rtl(),
 
 				// User data
