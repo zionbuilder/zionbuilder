@@ -331,6 +331,7 @@ class ImportExport {
 
 		// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
 		require_once ABSPATH . 'wp-admin/includes/image.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
 
 		// Generate the metadata for the attachment, and update the database record.
 		$attach_data = wp_generate_attachment_metadata( $attachment_id, $save_path );

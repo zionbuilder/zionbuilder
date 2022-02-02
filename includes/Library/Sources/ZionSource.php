@@ -39,6 +39,16 @@ class ZionSource extends BaseSource {
 		}
 
 		$respone_body = wp_remote_retrieve_body( $response );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			} else {
+				$response_data = json_decode( wp_remote_retrieve_body( $response ), true );
+				return new \WP_Error( 'invalid_license', $response_data['message'] );
+			}
+		}
+
 		$respone_body = json_decode( $respone_body, true );
 
 		if ( empty( $respone_body['download_url'] ) ) {
