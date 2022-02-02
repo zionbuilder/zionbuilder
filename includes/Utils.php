@@ -24,6 +24,14 @@ class Utils {
 		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ) );
 	}
 
+		/**
+	 * Check if pro version is active
+	 *
+	 * @return boolean if zion builder pro path is defined
+	 */
+	public static function is_pro_installed() {
+		return class_exists( 'ZionBuilderPro\Plugin' );
+	}
 
 	/**
 	 * Returns true if the license is valid

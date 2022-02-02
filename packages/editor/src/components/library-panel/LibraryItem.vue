@@ -32,15 +32,7 @@
 					v-if="!insertItemLoading && !item.loading"
 				>
 					<a
-						v-if="!isProActive && item.pro"
-						class="znpb-button znpb-button--line"
-						:href="purchaseURL"
-						target="_blank"
-					>{{$translate('buy_pro')}}
-					</a>
-
-					<a
-						v-else-if="isProActive && !isProConnected && item.pro"
+						v-if="isProInstalled && !isProActive && item.pro"
 						class="znpb-button znpb-button--line"
 						target="_blank"
 						:href="dashboardURL"
@@ -48,7 +40,16 @@
 						{{$translate('activate_pro')}}
 					</a>
 
+					<a
+						v-else-if="!isProInstalled && item.pro"
+						class="znpb-button znpb-button--line"
+						:href="purchaseURL"
+						target="_blank"
+					>{{$translate('buy_pro')}}
+					</a>
+
 					<span
+						v-else
 						@click.stop="insertLibraryItem"
 						class="znpb-button znpb-button--line znpb-editor-library-modal__item-action"
 						v-znpb-tooltip="$translate('library_insert_tooltip')"
@@ -113,8 +114,8 @@ export default {
 	setup (props, { emit }) {
 		const Library = inject('Library')
 		const { editorData } = useEditorData()
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
-		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
+		const isProActive = editorData.value.plugin_info.is_pro_active
+		const isProInstalled = editorData.value.plugin_info.is_pro_installed
 		const dashboardURL = ref('')
 		const purchaseURL = ref('')
 		const imageHolder = ref(null)
@@ -212,7 +213,7 @@ export default {
 			root,
 			purchaseURL,
 			dashboardURL,
-			isProConnected,
+			isProInstalled,
 			isProActive,
 			Library,
 			image,
@@ -339,6 +340,7 @@ export default {
 
 		& > span, & > a {
 			margin-right: 8px;
+			white-space: pre;
 		}
 
 		& > span:last-child {

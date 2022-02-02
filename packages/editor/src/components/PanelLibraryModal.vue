@@ -44,30 +44,21 @@
 					</h2>
 				</template>
 				<div class="znpb-library-modal-header__actions">
-					<Tooltip
-						v-if="previewOpen"
-						append-to="element"
-						tag="span"
-						:content="$translate('library_insert_tooltip')"
-						:modifiers="[{name: 'offset',options: {	offset: [0, 10]}}]"
-						placement="top"
-						strategy="fixed"
-					>
+					<template v-if="previewOpen">
 
 						<a
-							v-if="!isProActive && activeItem.pro"
-							class="znpb-button znpb-button--line znpb-button-buy-pro"
-							:href="purchaseURL"
-							target="_blank"
-						>{{$translate('buy_pro')}}
-						</a>
-
-						<a
-							v-else-if="isProActive && !isProConnected && activeItem.pro"
+							v-if="isProInstalled && !isProActive && activeItem.pro"
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
 						>{{$translate('activate_pro')}}
+						</a>
+						<a
+							v-else-if="!isProInstalled && activeItem.pro"
+							class="znpb-button znpb-button--line znpb-button-buy-pro"
+							:href="purchaseURL"
+							target="_blank"
+						>{{$translate('buy_pro')}}
 						</a>
 
 						<Button
@@ -75,6 +66,7 @@
 							type="secondary"
 							@click.stop="insertLibraryItem"
 							class="znpb-library-modal-header__insert-button"
+							v-znpb-tooltip="$translate('library_insert_tooltip')"
 						>
 							<span v-if="!insertItemLoading">
 								{{$translate('library_insert')}}
@@ -84,7 +76,7 @@
 								:size="13"
 							/>
 						</Button>
-					</Tooltip>
+					</template>
 
 					<template v-else>
 						<Button
@@ -173,11 +165,12 @@ export default {
 		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'))
 
 		const { editorData } = useEditorData()
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
-		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
+		const isProActive = editorData.value.plugin_info.is_pro_active
+		const isProInstalled = editorData.value.plugin_info.is_pro_installed
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
 		const previewOpen = ref(false)
 		const activeItem = ref(null)
+		const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`
 
 		function setActiveSource (source, save = true) {
 			activeLibraryTab.value = source
@@ -213,6 +206,7 @@ export default {
 			activeLibraryTab,
 			previewOpen,
 			activeItem,
+			dashboardURL,
 
 			// computed
 			librarySources,
@@ -223,7 +217,7 @@ export default {
 			toggleLibrary,
 			editorData,
 			isProActive,
-			isProConnected,
+			isProInstalled,
 			purchaseURL,
 			setActiveSource,
 			onRefresh,
@@ -383,7 +377,7 @@ export default {
 		align-items: center;
 		align-self: center;
 
-		.znpb-button--secondary, .znpb-button-buy-pro {
+		.znpb-button {
 			display: flex;
 			align-items: center;
 			padding: 13px 20px;
