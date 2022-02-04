@@ -16,6 +16,7 @@ import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
 import CustomCode from '../components/CustomCode.vue'
+import Performance from '../components/Performance.vue'
 
 
 import { translate } from '@zb/i18n'
@@ -173,6 +174,13 @@ export const initRoutes = function () {
 		name: 'gradients_presets',
 		title: translate('gradients'),
 		component: Gradients
+	})
+
+	SettingsRoute.addRoute('performance', {
+		path: 'performance',
+		title: translate('performance'),
+		name: 'performance',
+		component: Performance,
 	})
 
 	SettingsRoute.addRoute('library', {

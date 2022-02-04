@@ -583,8 +583,7 @@ class Localization {
 				'export_template'                          => __( 'Export template', 'zionbuilder' ),
 				'preview_template'                         => __( 'Preview template', 'zionbuilder' ),
 				'copy_shortcode'                           => __( 'Copy shortcode', 'zionbuilder' ),
-				'regenerate_screenshot'                           => __( 'Regenerate screenshot', 'zionbuilder' ),
-
+				'regenerate_screenshot'                    => __( 'Regenerate screenshot', 'zionbuilder' ),
 
 				// device-element
 				'discard_changes_for'                      => __( 'Discard changes for', 'zionbuilder' ),
@@ -754,6 +753,9 @@ class Localization {
 				// Library share
 				'library_share'                            => __( 'Library share', 'zionbuilder' ),
 				'share_library_upgrade_message'            => __( 'Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder' ),
+
+				// Performance admin page
+				'performance'                              => __( 'Performance', 'zionbuilder' ),
 
 			]
 		);

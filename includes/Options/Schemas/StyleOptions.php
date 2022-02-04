@@ -465,8 +465,8 @@ class StyleOptions extends BaseSchema {
 			'cursor',
 			[
 				'type'        => 'select',
-				'title'       => __( 'Direction', 'zionbuilder' ),
-				'description' => __( 'Set the text direction', 'zionbuilder' ),
+				'title'       => __( 'Cursor', 'zionbuilder' ),
+				'description' => __( 'Set the cursor style', 'zionbuilder' ),
 				'columns'     => 2,
 				'default'     => 'auto',
 				'filterable'  => true,

@@ -19,6 +19,7 @@ use ZionBuilder\CustomCode;
 use ZionBuilder\Screenshot;
 use ZionBuilder\Library\Library;
 use ZionBuilder\Templates;
+use ZionBuilder\Performance;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -240,6 +241,7 @@ class Plugin {
 		new MaintenanceMode();
 		new CustomCode();
 		new Screenshot();
+		new Performance();
 
 		/*
 		 * ZionBuilder loaded.

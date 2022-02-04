@@ -78,14 +78,24 @@ class GoogleFonts extends FontProvider {
 			return false;
 		}
 
-		$fonts_url_base = '//fonts.googleapis.com/css?family=';
-		$font_subsets   = [];
-		$font_links     = [];
+		// Check if we need to load the fonts locally
+		if ( Settings::get_value( 'performance.local_google_fonts', true ) === true ) {
+			$local_fonts_instance = new LocalGoogleFonts( $fonts );
+
+			if ( ! $local_fonts_instance->stylesheet_exists() ) {
+				$local_fonts_instance->process_fonts();
+			}
+
+			return $local_fonts_instance->get_stylesheet_url();
+		}
+
+		// Don't place this in 'else' so e can use it as a fallback
+		$font_subsets = [];
+		$font_links   = [];
 
 		foreach ( $fonts as $font ) {
 			// get font subsets
 			foreach ( $font['font_subset'] as $subset ) {
-				$font_variants = [];
 				if ( ! in_array( $subset, $font_subsets, true ) ) {
 					$font_subsets[] = $subset;
 				}
@@ -94,7 +104,11 @@ class GoogleFonts extends FontProvider {
 			$font_links[] = str_replace( ' ', '+', $font['font_family'] ) . ':' . implode( ',', $font['font_variants'] );
 		}
 
-		return $fonts_url_base . implode( '|', $font_links ) . '&subset=' . implode( ',', $font_subsets );
+		//This will be used for both local fonts and Google fonts
+		$combined_fonts_string = implode( '|', $font_links ) . '&subset=' . implode( ',', $font_subsets ) . '&display=' . Settings::get_value( 'performance.font_display', 'swap' );
+
+		$fonts_url_base = '//fonts.googleapis.com/css?family=';
+		return $fonts_url_base . $combined_fonts_string;
 	}
 
 	/**

@@ -9,6 +9,7 @@ use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 use ZionBuilder\Templates;
+use ZionBuilder\Options\Schemas\Performance;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -239,7 +240,9 @@ class Admin {
 						'template_types'   => Plugin::$instance->templates->get_template_types(),
 						'template_sources' => Plugin::$instance->library->get_sources(),
 						'plugin_version'   => Plugin::$instance->get_version(),
-						'schemas'          => [],
+						'schemas'          => [
+							'performance' => Performance::get_schema(),
+						],
 						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [
