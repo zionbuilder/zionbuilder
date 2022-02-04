@@ -221,7 +221,7 @@ class LocalGoogleFonts {
 
 			// EOT doesn't need the format
 			if ( isset( $files['eot'] ) ) {
-				$stylesheet .= "	src: url( '{$files['eot']}' ),\n";
+				$stylesheet .= "	src: url( '{$files['eot']}' );\n";
 				unset( $files['eot'] );
 			}
 
