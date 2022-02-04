@@ -12,7 +12,7 @@
 		>{{item.label.text}}</span>
 
 		<Icon
-			icon="heart"
+			icon="pin"
 			@click.stop="addToFavorites"
 			class="znpb-element-box__favoriteIcon"
 			:class="{
@@ -88,33 +88,40 @@ export default {
 		position: absolute;
 		top: 6px;
 		right: 6px;
-		transition: all .2s;
+		transition: all .1s;
 		opacity: 0;
 		visibility: hidden;
 
 		.zion-icon {
-			transition: color 0.2s;
+			transition: color 0.1s;
 
-			path {
-				fill: var(--zb-surface-icon-color);
+			path:first-child {
+				fill: transparent;
+			}
+
+			path:last-child {
+				fill: var(--zb-surface-icon-active-color);
 			}
 		}
 
 		&:hover .zion-icon {
 			path:first-child {
-				fill: transparent
+				fill: var(--zb-surface-icon-active-color);
 			}
 
-			path {
-				fill: var(--zb-surface-icon-active-color);
+			path:last-child {
+				fill: transparent;
 			}
 		}
 
 		&--active,
 		&--active:hover {
-			.zion-icon path,
 			.zion-icon path:first-child {
 				fill: var(--zb-secondary-color);
+			}
+
+			.zion-icon path:last-child {
+				fill: transparent;
 			}
 		}
 	}
