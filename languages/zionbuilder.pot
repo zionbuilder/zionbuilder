@@ -16,48 +16,48 @@ msgstr ""
 msgid "The zip file could not be extracted!"
 msgstr ""
 
-#: ../includes/ImportExport.php:111
+#: ../includes/ImportExport.php:113
 msgid "The template data is empty or invalid. Export aborted."
 msgstr ""
 
-#: ../includes/ImportExport.php:144
+#: ../includes/ImportExport.php:146
 msgid "ZipArchive class is not installed on your server."
 msgstr ""
 
 #. translators: %s: The export path for templates
-#: ../includes/ImportExport.php:161
+#: ../includes/ImportExport.php:163
 msgid "Could not create the export file in %s"
 msgstr ""
 
-#: ../includes/ImportExport.php:175
+#: ../includes/ImportExport.php:177
 msgid "Archive created successfully."
 msgstr ""
 
-#: ../includes/ImportExport.php:353
+#: ../includes/ImportExport.php:356
 msgid "Empty import resource"
 msgstr ""
 
-#: ../includes/ImportExport.php:361, ../includes/Api/RestControllers/FileUpload.php:93
+#: ../includes/ImportExport.php:364, ../includes/Api/RestControllers/FileUpload.php:93
 msgid "No file was uploaded"
 msgstr ""
 
-#: ../includes/ImportExport.php:364, ../includes/Api/RestControllers/FileUpload.php:96
+#: ../includes/ImportExport.php:367, ../includes/Api/RestControllers/FileUpload.php:96
 msgid "The uploaded file exceeds the MAX_FILE_SIZE"
 msgstr ""
 
-#: ../includes/ImportExport.php:372
+#: ../includes/ImportExport.php:379
 msgid "My Template"
 msgstr ""
 
-#: ../includes/ImportExport.php:377
+#: ../includes/ImportExport.php:384
 msgid "The newly template was not created."
 msgstr ""
 
-#: ../includes/ImportExport.php:416
+#: ../includes/ImportExport.php:423
 msgid "No configuration file found inside uploaded zip."
 msgstr ""
 
-#: ../includes/ImportExport.php:426
+#: ../includes/ImportExport.php:433
 msgid "The template configuration file is empty. There are no elements found."
 msgstr ""
 
@@ -271,11 +271,11 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:240, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
+#: ../includes/Localization.php:108, ../includes/MaintenanceMode.php:239, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:221, ../includes/Api/RestControllers/SystemInfo.php:245, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:123, ../includes/Elements/Soundcloud/Soundcloud.php:145, ../includes/Elements/Soundcloud/Soundcloud.php:174, ../includes/Elements/Soundcloud/Soundcloud.php:203, ../includes/Elements/Soundcloud/Soundcloud.php:225, ../includes/Elements/Soundcloud/Soundcloud.php:247, ../includes/Elements/Soundcloud/Soundcloud.php:269, ../includes/Elements/Soundcloud/Soundcloud.php:291, ../includes/Elements/Soundcloud/Soundcloud.php:313
 msgid "Yes"
 msgstr ""
 
-#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:244, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
+#: ../includes/Localization.php:109, ../includes/MaintenanceMode.php:243, ../includes/Api/RestControllers/SystemInfo.php:117, ../includes/Api/RestControllers/SystemInfo.php:224, ../includes/Api/RestControllers/SystemInfo.php:248, ../includes/Api/RestControllers/SystemInfo.php:427, ../includes/Elements/Soundcloud/Soundcloud.php:127, ../includes/Elements/Soundcloud/Soundcloud.php:149, ../includes/Elements/Soundcloud/Soundcloud.php:178, ../includes/Elements/Soundcloud/Soundcloud.php:207, ../includes/Elements/Soundcloud/Soundcloud.php:229, ../includes/Elements/Soundcloud/Soundcloud.php:251, ../includes/Elements/Soundcloud/Soundcloud.php:273, ../includes/Elements/Soundcloud/Soundcloud.php:295, ../includes/Elements/Soundcloud/Soundcloud.php:317
 msgid "No"
 msgstr ""
 
@@ -731,7 +731,7 @@ msgstr ""
 msgid "This page was successfully saved and published"
 msgstr ""
 
-#: ../includes/Localization.php:259, ../includes/Localization.php:654
+#: ../includes/Localization.php:259, ../includes/Localization.php:655
 msgid "This page was successfully saved"
 msgstr ""
 
@@ -1579,499 +1579,507 @@ msgstr ""
 msgid "Copy shortcode"
 msgstr ""
 
-#: ../includes/Localization.php:588
+#: ../includes/Localization.php:586
+msgid "Regenerate screenshot"
+msgstr ""
+
+#: ../includes/Localization.php:589
 msgid "Discard changes for"
 msgstr ""
 
-#: ../includes/Localization.php:591
+#: ../includes/Localization.php:592
 msgid "Icon Library"
 msgstr ""
 
-#: ../includes/Localization.php:594
+#: ../includes/Localization.php:595
 msgid "Discard changes"
 msgstr ""
 
-#: ../includes/Localization.php:597
+#: ../includes/Localization.php:598
 msgid "Click to add content for pseudo selector."
 msgstr ""
 
-#: ../includes/Localization.php:600
+#: ../includes/Localization.php:601
 msgid "Click to edit this class"
 msgstr ""
 
-#: ../includes/Localization.php:601
+#: ../includes/Localization.php:602
 msgid "Click to globally delete this class"
 msgstr ""
 
-#: ../includes/Localization.php:604
+#: ../includes/Localization.php:605
 msgid "The element is hidden. Click to enable it."
 msgstr ""
 
-#: ../includes/Localization.php:605
+#: ../includes/Localization.php:606
 msgid "Preview not available"
 msgstr ""
 
-#: ../includes/Localization.php:607, ../includes/Localization.php:718
+#: ../includes/Localization.php:608, ../includes/Localization.php:719
 msgid "Copy"
 msgstr ""
 
-#: ../includes/Localization.php:608, ../includes/Localization.php:719
+#: ../includes/Localization.php:609, ../includes/Localization.php:720
 msgid "Paste"
 msgstr ""
 
-#: ../includes/Localization.php:609
+#: ../includes/Localization.php:610
 msgid "Duplicate"
 msgstr ""
 
-#: ../includes/Localization.php:610
+#: ../includes/Localization.php:611
 msgid "Copy styles"
 msgstr ""
 
-#: ../includes/Localization.php:611
+#: ../includes/Localization.php:612
 msgid "Paste styles"
 msgstr ""
 
-#: ../includes/Localization.php:612
+#: ../includes/Localization.php:613
 msgid "Copy classes"
 msgstr ""
 
-#: ../includes/Localization.php:613
+#: ../includes/Localization.php:614
 msgid "Paste classes"
 msgstr ""
 
-#: ../includes/Localization.php:614
+#: ../includes/Localization.php:615
 msgid "Undo"
 msgstr ""
 
-#: ../includes/Localization.php:615
+#: ../includes/Localization.php:616
 msgid "Redo"
 msgstr ""
 
-#: ../includes/Localization.php:616
+#: ../includes/Localization.php:617
 msgid "Hide element"
 msgstr ""
 
-#: ../includes/Localization.php:617
+#: ../includes/Localization.php:618
 msgid "Toggle preview mode"
 msgstr ""
 
-#: ../includes/Localization.php:618
+#: ../includes/Localization.php:619
 msgid "Toggle Library Panel"
 msgstr ""
 
-#: ../includes/Localization.php:619
+#: ../includes/Localization.php:620
 msgid "Toggle Tree View Panel"
 msgstr ""
 
-#: ../includes/Localization.php:620
+#: ../includes/Localization.php:621
 msgid "Toggle page options"
 msgstr ""
 
-#: ../includes/Localization.php:621
+#: ../includes/Localization.php:622
 msgid "When dragging element"
 msgstr ""
 
-#: ../includes/Localization.php:622
+#: ../includes/Localization.php:623
 msgid "When dragging toolbox"
 msgstr ""
 
-#: ../includes/Localization.php:623
+#: ../includes/Localization.php:624
 msgid "Set incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:624
+#: ../includes/Localization.php:625
 msgid "Set even incremental value"
 msgstr ""
 
-#: ../includes/Localization.php:625
+#: ../includes/Localization.php:626
 msgid "Set even values"
 msgstr ""
 
-#: ../includes/Localization.php:626
+#: ../includes/Localization.php:627
 msgid "Duplicate element in place"
 msgstr ""
 
-#: ../includes/Localization.php:629
+#: ../includes/Localization.php:630
 msgid "Help"
 msgstr ""
 
-#: ../includes/Localization.php:630
+#: ../includes/Localization.php:631
 msgid "Help Center"
 msgstr ""
 
-#: ../includes/Localization.php:631
+#: ../includes/Localization.php:632
 msgid "Start tour"
 msgstr ""
 
-#: ../includes/Localization.php:632
+#: ../includes/Localization.php:633
 msgid "Key shortcuts"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Localization.php:636
+#: ../includes/Localization.php:637
 msgctxt "zionbuilder"
 msgid "About %s"
 msgstr ""
 
-#: ../includes/Localization.php:645
+#: ../includes/Localization.php:646
 msgid "Back to WP dashboard"
 msgstr ""
 
 #. translators: %s is the whitelabel plugin name
-#: ../includes/Localization.php:648
+#: ../includes/Localization.php:649
 msgctxt "zionbuilder"
 msgid "%s  dashboard"
 msgstr ""
 
-#: ../includes/Localization.php:651
+#: ../includes/Localization.php:652
 msgid "Save Template"
 msgstr ""
 
-#: ../includes/Localization.php:652
+#: ../includes/Localization.php:653
 msgid "Save Page"
 msgstr ""
 
-#: ../includes/Localization.php:653
+#: ../includes/Localization.php:654
 msgid "Save & Publish Page"
 msgstr ""
 
-#: ../includes/Localization.php:655
+#: ../includes/Localization.php:656
 msgid "Getting started"
 msgstr ""
 
-#: ../includes/Localization.php:657
+#: ../includes/Localization.php:658
 msgid "Target"
 msgstr ""
 
-#: ../includes/Localization.php:658
+#: ../includes/Localization.php:659
 msgid "family"
 msgstr ""
 
-#: ../includes/Localization.php:659
+#: ../includes/Localization.php:660
 msgid "Size"
 msgstr ""
 
-#: ../includes/Localization.php:660, ../includes/Elements/Heading/Heading.php:39
+#: ../includes/Localization.php:661, ../includes/Elements/Heading/Heading.php:39
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:661, ../includes/Elements/Container/Container.php:667, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:297
+#: ../includes/Localization.php:662, ../includes/Elements/Container/Container.php:667, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:297
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:662, ../includes/Elements/Container/Container.php:515, ../includes/Options/Schemas/StyleOptions.php:209
+#: ../includes/Localization.php:663, ../includes/Elements/Container/Container.php:515, ../includes/Options/Schemas/StyleOptions.php:209
 msgid "Spacing"
 msgstr ""
 
-#: ../includes/Localization.php:663
+#: ../includes/Localization.php:664
 msgid "Add a link"
 msgstr ""
 
-#: ../includes/Localization.php:666
+#: ../includes/Localization.php:667
 msgid "Choose custom font name"
 msgstr ""
 
-#: ../includes/Localization.php:667
+#: ../includes/Localization.php:668
 msgid "Set custom font weight"
 msgstr ""
 
-#: ../includes/Localization.php:668
+#: ../includes/Localization.php:669
 msgid "Select custom font woff file"
 msgstr ""
 
-#: ../includes/Localization.php:669
+#: ../includes/Localization.php:670
 msgid "Select custom font woff2 file"
 msgstr ""
 
-#: ../includes/Localization.php:670
+#: ../includes/Localization.php:671
 msgid "Select custom font ttf file"
 msgstr ""
 
-#: ../includes/Localization.php:671
+#: ../includes/Localization.php:672
 msgid "Select custom font svg file"
 msgstr ""
 
-#: ../includes/Localization.php:672
+#: ../includes/Localization.php:673
 msgid "Select custom font eot file"
 msgstr ""
 
-#: ../includes/Localization.php:675
+#: ../includes/Localization.php:676
 msgid "Newer data is available in local storage. Choose what data to use"
 msgstr ""
 
-#: ../includes/Localization.php:676
+#: ../includes/Localization.php:677
 msgid "Use local version"
 msgstr ""
 
-#: ../includes/Localization.php:677
+#: ../includes/Localization.php:678
 msgid "Use server version"
 msgstr ""
 
-#: ../includes/Localization.php:678
+#: ../includes/Localization.php:679
 msgid "Please edit the element options"
 msgstr ""
 
-#: ../includes/Localization.php:681
+#: ../includes/Localization.php:682
 msgid "This is an autosave. Edit your page and when you're ready press the \"Save and Publish Page\" button."
 msgstr ""
 
-#: ../includes/Localization.php:682
+#: ../includes/Localization.php:683
 msgid "There was an error loading the content. Please refresh and try again"
 msgstr ""
 
-#: ../includes/Localization.php:685
+#: ../includes/Localization.php:686
 msgid "Featured"
 msgstr ""
 
-#: ../includes/Localization.php:686
+#: ../includes/Localization.php:687
 msgid "Moved"
 msgstr ""
 
-#: ../includes/Localization.php:687
+#: ../includes/Localization.php:688
 msgid "Copied"
 msgstr ""
 
-#: ../includes/Localization.php:690
+#: ../includes/Localization.php:691
 msgid "Invalid Element"
 msgstr ""
 
-#: ../includes/Localization.php:691
+#: ../includes/Localization.php:692
 msgid "Remove additional classes"
 msgstr ""
 
-#: ../includes/Localization.php:692
+#: ../includes/Localization.php:693
 msgid "Link attributes"
 msgstr ""
 
-#: ../includes/Localization.php:693
+#: ../includes/Localization.php:694
 msgid "Add custom link attribute"
 msgstr ""
 
-#: ../includes/Localization.php:694
+#: ../includes/Localization.php:695
 msgid "Attribute key"
 msgstr ""
 
-#: ../includes/Localization.php:695
+#: ../includes/Localization.php:696
 msgid "Attribute value"
 msgstr ""
 
-#: ../includes/Localization.php:696
+#: ../includes/Localization.php:697
 msgid "Insert after"
 msgstr ""
 
-#: ../includes/Localization.php:697
+#: ../includes/Localization.php:698
 msgid "Insert inside"
 msgstr ""
 
-#: ../includes/Localization.php:698
+#: ../includes/Localization.php:699
 msgid "Edit link attributes"
 msgstr ""
 
-#: ../includes/Localization.php:701, ../includes/MaintenanceMode.php:193
+#: ../includes/Localization.php:702, ../includes/MaintenanceMode.php:192
 msgid "Maintenance mode"
 msgstr ""
 
-#: ../includes/Localization.php:702
+#: ../includes/Localization.php:703
 msgid "Appearance"
 msgstr ""
 
-#: ../includes/Localization.php:705
+#: ../includes/Localization.php:706
 msgid "Builder theme"
 msgstr ""
 
-#: ../includes/Localization.php:706
+#: ../includes/Localization.php:707
 msgid "By changing the builder theme, it will be applied on all pages where the builder is active, as well as all the builder admin pages"
 msgstr ""
 
-#: ../includes/Localization.php:709
+#: ../includes/Localization.php:710
 msgid "No items found"
 msgstr ""
 
-#: ../includes/Localization.php:710
+#: ../includes/Localization.php:711
 msgid "Search"
 msgstr ""
 
-#: ../includes/Localization.php:711
+#: ../includes/Localization.php:712
 msgid "Search or add new"
 msgstr ""
 
-#: ../includes/Localization.php:712, ../includes/Options/Schemas/PageOptions.php:47
+#: ../includes/Localization.php:713, ../includes/Options/Schemas/PageOptions.php:47
 msgid "Page options"
 msgstr ""
 
-#: ../includes/Localization.php:713
+#: ../includes/Localization.php:714
 msgid "Delete selector"
 msgstr ""
 
-#: ../includes/Localization.php:714
+#: ../includes/Localization.php:715
 msgid "Are you sure you want to delete the selector?"
 msgstr ""
 
-#: ../includes/Localization.php:715
+#: ../includes/Localization.php:716
 msgid "Cancel"
 msgstr ""
 
-#: ../includes/Localization.php:716
+#: ../includes/Localization.php:717
 msgid "Yes, delete elements"
 msgstr ""
 
-#: ../includes/Localization.php:717
+#: ../includes/Localization.php:718
 msgid "Are you sure you want to remove all elements from page?"
 msgstr ""
 
-#: ../includes/Localization.php:722
+#: ../includes/Localization.php:723
 msgid "Add CSS class"
 msgstr ""
 
-#: ../includes/Localization.php:723
+#: ../includes/Localization.php:724
 msgid "Selector nice name"
 msgstr ""
 
-#: ../includes/Localization.php:724
+#: ../includes/Localization.php:725
 msgid "Enter a name for this selector"
 msgstr ""
 
-#: ../includes/Localization.php:725
+#: ../includes/Localization.php:726
 msgid "Add child selector"
 msgstr ""
 
-#: ../includes/Localization.php:726
+#: ../includes/Localization.php:727
 msgid "CSS selector"
 msgstr ""
 
-#: ../includes/Localization.php:727
+#: ../includes/Localization.php:728
 msgid "Enter the css selector you want to style"
 msgstr ""
 
-#: ../includes/Localization.php:728
+#: ../includes/Localization.php:729
 msgid ".my-selector"
 msgstr ""
 
-#: ../includes/Localization.php:729
+#: ../includes/Localization.php:730
 msgid "CSS class nice name"
 msgstr ""
 
-#: ../includes/Localization.php:730
+#: ../includes/Localization.php:731
 msgid "Enter a name that will help you recognize this CSS class"
 msgstr ""
 
-#: ../includes/Localization.php:731
+#: ../includes/Localization.php:732
 msgid "CSS class"
 msgstr ""
 
-#: ../includes/Localization.php:732
+#: ../includes/Localization.php:733
 msgid "Enter the CSS class name without the leading dot"
 msgstr ""
 
-#: ../includes/Localization.php:733
+#: ../includes/Localization.php:734
 msgid "my-class-name"
 msgstr ""
 
-#: ../includes/Localization.php:736
+#: ../includes/Localization.php:737
 msgid "Custom code"
 msgstr ""
 
-#: ../includes/Localization.php:739, ../includes/Elements/Container/Container.php:558, ../includes/Elements/Separator/Separator.php:235
+#: ../includes/Localization.php:740, ../includes/Elements/Container/Container.php:558, ../includes/Elements/Separator/Separator.php:235
 msgid "Margin"
 msgstr ""
 
-#: ../includes/Localization.php:740
+#: ../includes/Localization.php:741
 msgid "Margin top"
 msgstr ""
 
-#: ../includes/Localization.php:741
+#: ../includes/Localization.php:742
 msgid "Margin right"
 msgstr ""
 
-#: ../includes/Localization.php:742
+#: ../includes/Localization.php:743
 msgid "Margin bottom"
 msgstr ""
 
-#: ../includes/Localization.php:743
+#: ../includes/Localization.php:744
 msgid "Margin left"
 msgstr ""
 
-#: ../includes/Localization.php:744, ../includes/Elements/Container/Container.php:525, ../includes/Elements/Separator/Separator.php:200
+#: ../includes/Localization.php:745, ../includes/Elements/Container/Container.php:525, ../includes/Elements/Separator/Separator.php:200
 msgid "Padding"
 msgstr ""
 
-#: ../includes/Localization.php:745
+#: ../includes/Localization.php:746
 msgid "Padding top"
 msgstr ""
 
-#: ../includes/Localization.php:746
+#: ../includes/Localization.php:747
 msgid "Padding right"
 msgstr ""
 
-#: ../includes/Localization.php:747
+#: ../includes/Localization.php:748
 msgid "Padding bottom"
 msgstr ""
 
-#: ../includes/Localization.php:748
+#: ../includes/Localization.php:749
 msgid "Padding left"
 msgstr ""
 
-#: ../includes/Localization.php:749, ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Column/Column.php:180, ../includes/Elements/Container/Container.php:150, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:117
+#: ../includes/Localization.php:750, ../includes/Elements/Button/Button.php:100, ../includes/Elements/Button/Button.php:148, ../includes/Elements/Column/Column.php:180, ../includes/Elements/Container/Container.php:150, ../includes/Elements/Heading/Heading.php:90, ../includes/Elements/Icon/Icon.php:92, ../includes/Elements/IconList/IconList.php:199, ../includes/Elements/Image/Image.php:117
 msgid "Link"
 msgstr ""
 
-#: ../includes/Localization.php:750
+#: ../includes/Localization.php:751
 msgid "Unlink"
 msgstr ""
 
-#: ../includes/Localization.php:753
+#: ../includes/Localization.php:754
 msgid "Library share"
 msgstr ""
 
-#: ../includes/Localization.php:754
+#: ../includes/Localization.php:755
 msgid "Zion Builder PRO lets you share you templates library with multiple websites."
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:180
+#: ../includes/Localization.php:758
+msgid "Performance"
+msgstr ""
+
+#: ../includes/MaintenanceMode.php:179
 msgid "Select mode"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:181
+#: ../includes/MaintenanceMode.php:180
 msgid "Depending on the mode selected, your website will return a HTTP 200 response ( coming soon ) or a HTTP 503 mode ( maintenance mode )"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:185
+#: ../includes/MaintenanceMode.php:184
 msgid "Disabled"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:189
+#: ../includes/MaintenanceMode.php:188
 msgid "Coming Soon"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:219, ../includes/MaintenanceMode.php:221
+#: ../includes/MaintenanceMode.php:218, ../includes/MaintenanceMode.php:220
 msgid "Select template"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:220
+#: ../includes/MaintenanceMode.php:219
 msgid "Choose the template you want to use as your maintenance/coming soon page."
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:236
+#: ../includes/MaintenanceMode.php:235
 msgid "Allow logged in users to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:272
+#: ../includes/MaintenanceMode.php:271
 msgid "Allow specific user roles to view the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:275
+#: ../includes/MaintenanceMode.php:274
 msgid "Select user roles"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:289
+#: ../includes/MaintenanceMode.php:288
 msgid "Allow specific IP's to access the website"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:290
+#: ../includes/MaintenanceMode.php:289
 msgid "Enter a list of ip's separated by a comma"
 msgstr ""
 
-#: ../includes/MaintenanceMode.php:291
+#: ../includes/MaintenanceMode.php:290
 msgid "192.168.1.1, 127.0.0.1"
 msgstr ""
 
@@ -2088,7 +2096,7 @@ msgstr ""
 msgid "Template was not built with %s"
 msgstr ""
 
-#: ../includes/Templates.php:123
+#: ../includes/Templates.php:123, ../includes/Library/Sources/LocalSource.php:88
 msgid "Template"
 msgstr ""
 
@@ -2159,20 +2167,12 @@ msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
-#: ../includes/Templates.php:286
+#: ../includes/Templates.php:302
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:295
+#: ../includes/Templates.php:311
 msgid "Missing template type"
-msgstr ""
-
-#: ../includes/Templates.php:332
-msgid "Local library"
-msgstr ""
-
-#: ../includes/Templates.php:339
-msgid "Zion Builder library"
 msgstr ""
 
 #: ../includes/WPMedia.php:38
@@ -2191,7 +2191,7 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:183
+#: ../includes/Admin/Admin.php:182
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
@@ -2276,6 +2276,14 @@ msgstr ""
 msgid "get_id must be implemented by the font provider"
 msgstr ""
 
+#: ../includes/Library/Library.php:47
+msgid "Local library"
+msgstr ""
+
+#: ../includes/Library/Library.php:56
+msgid "Zion Builder library"
+msgstr ""
+
 #: ../includes/Options/Stack.php:30
 msgid "The child class must implement the get_stack() method returning a refference to an array"
 msgstr ""
@@ -2288,7 +2296,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:264, ../includes/Api/RestControllers/Templates.php:311
+#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:250, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:274, ../includes/Api/RestControllers/Templates.php:321
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2300,11 +2308,11 @@ msgstr ""
 msgid "Invalid nonce or filename"
 msgstr ""
 
-#: ../includes/Api/RestControllers/FileUpload.php:65, ../includes/Api/RestControllers/Options.php:88, ../includes/Api/RestControllers/Templates.php:281
+#: ../includes/Api/RestControllers/FileUpload.php:65, ../includes/Api/RestControllers/Options.php:88, ../includes/Api/RestControllers/Templates.php:291
 msgid "You do not have permissions to edit this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/FileUpload.php:85, ../includes/Api/RestControllers/Templates.php:684
+#: ../includes/Api/RestControllers/FileUpload.php:85, ../includes/Api/RestControllers/Library.php:481, ../includes/Api/RestControllers/Templates.php:684
 msgid "Your file is empty or invalid"
 msgstr ""
 
@@ -2326,6 +2334,22 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/GoogleFonts.php:118
 msgid "Font family"
+msgstr ""
+
+#: ../includes/Api/RestControllers/Library.php:273, ../includes/Api/RestControllers/Library.php:283, ../includes/Api/RestControllers/Library.php:293, ../includes/Api/RestControllers/Library.php:304, ../includes/Api/RestControllers/Library.php:314, ../includes/Api/RestControllers/Library.php:350, ../includes/Api/RestControllers/Library.php:363, ../includes/Api/RestControllers/Library.php:416, ../includes/Api/RestControllers/Library.php:434, ../includes/Api/RestControllers/Library.php:475
+msgid "No library found that mathces your request."
+msgstr ""
+
+#: ../includes/Api/RestControllers/Library.php:372, ../includes/Api/RestControllers/Templates.php:625, ../includes/Api/RestControllers/Templates.php:723, ../includes/Library/Sources/LocalSource.php:66, ../includes/Library/Sources/LocalSource.php:120
+msgid "Could not return the post instance"
+msgstr ""
+
+#: ../includes/Api/RestControllers/Library.php:423, ../includes/Api/RestControllers/Templates.php:530
+msgid "The template cannot be deleted."
+msgstr ""
+
+#: ../includes/Api/RestControllers/Library.php:496, ../includes/Api/RestControllers/Templates.php:438, ../includes/Api/RestControllers/Templates.php:494, ../includes/Api/RestControllers/Templates.php:517, ../includes/Api/RestControllers/Templates.php:575, ../includes/Api/RestControllers/Templates.php:699, ../includes/Library/Sources/LocalSource.php:55, ../includes/Library/Sources/LocalSource.php:109
+msgid "Your post id could not be found!"
 msgstr ""
 
 #: ../includes/Api/RestControllers/Pages.php:110
@@ -2548,39 +2572,27 @@ msgctxt "System Info"
 msgid "If you want to modify the source code of your theme, we recommend using a <a target=\"_blank\" href=\"%s\">child theme</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:173, ../includes/Api/RestControllers/Templates.php:215, ../includes/Api/RestControllers/Templates.php:234, ../includes/Api/RestControllers/Templates.php:238
+#: ../includes/Api/RestControllers/Templates.php:183, ../includes/Api/RestControllers/Templates.php:225, ../includes/Api/RestControllers/Templates.php:244, ../includes/Api/RestControllers/Templates.php:248
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:201
+#: ../includes/Api/RestControllers/Templates.php:211
 msgid "Whether to bypass trash and force deletion."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:296
+#: ../includes/Api/RestControllers/Templates.php:306
 msgid "You do not have permissions to delete this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:328
+#: ../includes/Api/RestControllers/Templates.php:338
 msgid "You do not have permissions to export this template."
-msgstr ""
-
-#: ../includes/Api/RestControllers/Templates.php:418, ../includes/Api/RestControllers/Templates.php:496, ../includes/Api/RestControllers/Templates.php:519, ../includes/Api/RestControllers/Templates.php:577, ../includes/Api/RestControllers/Templates.php:699
-msgid "Your post id could not be found!"
-msgstr ""
-
-#: ../includes/Api/RestControllers/Templates.php:532
-msgid "The template cannot be deleted."
-msgstr ""
-
-#: ../includes/Api/RestControllers/Templates.php:627, ../includes/Api/RestControllers/Templates.php:723
-msgid "Could not return the post instance"
 msgstr ""
 
 #: ../includes/Api/RestControllers/Templates.php:743
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:762
+#: ../includes/Api/RestControllers/Templates.php:762, ../includes/Library/Sources/ZionSource.php:76
 msgid "The uploaded template is not valid!"
 msgstr ""
 
@@ -4028,44 +4040,12 @@ msgstr ""
 msgid "Show play icon"
 msgstr ""
 
-#: ../includes/Options/Schemas/AdminLibrary.php:29
-msgid "Library sources"
+#: ../includes/Library/Sources/LocalSource.php:126
+msgid "The builder data for this item could not be retrieved!"
 msgstr ""
 
-#: ../includes/Options/Schemas/AdminLibrary.php:30
-msgid "Add external libraries."
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:40
-msgid "Remote library name"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:41
-msgid "Set a name that will appear in the templates library for this remote source."
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:49
-msgid "Remote library url"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:57
-msgid "Remote library password"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:71
-msgid "Enable template library sharing"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:75
-msgid "Disable template library sharing"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:86
-msgid "Library access password"
-msgstr ""
-
-#: ../includes/Options/Schemas/AdminLibrary.php:87
-msgid "Set a password in order to access the template library"
+#: ../includes/Library/Sources/ZionSource.php:55
+msgid "The template archive could not be found!"
 msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:29
@@ -4528,6 +4508,26 @@ msgstr ""
 msgid "With custom JavaScript you can add JavaScript code to this page."
 msgstr ""
 
+#: ../includes/Options/Schemas/Performance.php:35
+msgid "Load Google fonts locally"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:39
+msgid "Load Google fonts from Google servers"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:86
+msgid "Disable jQuery migrate"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:90, ../includes/Options/Schemas/Performance.php:110
+msgid "no"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:106
+msgid "Disable WordPress emojis"
+msgstr ""
+
 #: ../includes/Options/Schemas/Shadow.php:33
 msgid "Horizontal distance"
 msgstr ""
@@ -4648,11 +4648,11 @@ msgstr ""
 msgid "Display options"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:447, ../includes/Options/Schemas/StyleOptions.php:468
+#: ../includes/Options/Schemas/StyleOptions.php:447
 msgid "Direction"
 msgstr ""
 
-#: ../includes/Options/Schemas/StyleOptions.php:448, ../includes/Options/Schemas/StyleOptions.php:469
+#: ../includes/Options/Schemas/StyleOptions.php:448
 msgid "Set the text direction"
 msgstr ""
 
@@ -4662,6 +4662,14 @@ msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:457
 msgid "rtl"
+msgstr ""
+
+#: ../includes/Options/Schemas/StyleOptions.php:468
+msgid "Cursor"
+msgstr ""
+
+#: ../includes/Options/Schemas/StyleOptions.php:469
+msgid "Set the cursor style"
 msgstr ""
 
 #: ../includes/Options/Schemas/StyleOptions.php:627

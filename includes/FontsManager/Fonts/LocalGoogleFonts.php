@@ -240,7 +240,8 @@ class LocalGoogleFonts {
 
 		foreach ( $files as $extension => $url ) {
 			$delimiter = $i === $count ? ';' : ',';
-			$return   .= "	url( '{$url}' ) format( '{$extension}' ){$delimiter}\n";
+			$type      = $extension === 'ttf' ? 'truetype' : $extension;
+			$return   .= "	url( '{$url}' ) format( '{$type}' ){$delimiter}\n";
 
 			$i++;
 		}
