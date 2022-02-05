@@ -213,9 +213,9 @@ class LocalGoogleFonts {
 		foreach ( $fonts as $font_config ) {
 			$stylesheet .= "@font-face {\n";
 			$stylesheet .= "	font-family: {$font_config['font_family']};\n";
-			$stylesheet .= "	font-style: '{$font_config['font_style']}';\n";
+			$stylesheet .= "	font-style: {$font_config['font_style']};\n";
 			$stylesheet .= "	font-weight: {$font_config['font_weight']};\n";
-			$stylesheet .= "	font-display: '{$this->font_display}';"; //swap
+			$stylesheet .= "	font-display: {$this->font_display};\n"; //swap
 
 			$files = $font_config['files'];
 
