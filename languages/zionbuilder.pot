@@ -2296,7 +2296,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:250, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:66, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:274, ../includes/Api/RestControllers/Templates.php:321
+#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:250, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:68, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:274, ../includes/Api/RestControllers/Templates.php:321
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2360,7 +2360,7 @@ msgstr ""
 msgid "Post locked."
 msgstr ""
 
-#: ../includes/Api/RestControllers/RegenerateCache.php:82
+#: ../includes/Api/RestControllers/RegenerateCache.php:88
 msgid "Regenerate cache failed!"
 msgstr ""
 
