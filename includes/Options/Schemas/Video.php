@@ -107,7 +107,7 @@ class Video extends BaseSchema {
 				'dependency' => [
 					[
 						'option' => 'videoSource',
-						'value'  => [ 'local', 'youtube' ],
+						'value'  => [ 'local', 'youtube', 'vimeo' ],
 					],
 				],
 			],
