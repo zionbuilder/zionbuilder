@@ -1080,7 +1080,7 @@ class Element {
 	public function do_enqueue_scripts() {
 		// Check for animation
 		$options = $this->options->get_model();
-		if ( isset( $options['._advanced_options']['_appear_animation'] ) && ! empty( $options['._advanced_options']['_appear_animation'] ) ) {
+		if ( isset( $options['_advanced_options']['_appear_animation'] ) && ! empty( $options['_advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_script( 'zionbuilder-animatejs' );
 		}
 
@@ -1100,7 +1100,7 @@ class Element {
 	public function do_enqueue_styles() {
 		// Check for animation
 		$options = $this->options->get_model();
-		if ( isset( $options['._advanced_options']['_appear_animation'] ) && ! empty( $options['._advanced_options']['_appear_animation'] ) ) {
+		if ( isset( $options['_advanced_options']['_appear_animation'] ) && ! empty( $options['_advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_style( 'zion-frontend-animations' );
 		}
 
