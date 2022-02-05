@@ -21,7 +21,7 @@ class LocalGoogleFonts {
 	 *
 	 * @var array
 	 */
-	private $cache_directory_config = null;
+	private static $cache_directory_config = null;
 
 
 	/**
@@ -85,30 +85,30 @@ class LocalGoogleFonts {
 	 *
 	 * @return array{path: string, url: string} An array containing cache directory path and url
 	 */
-	private function get_cache_directory() {
-		if ( null === $this->cache_directory_config ) {
+	private static function get_cache_directory() {
+		if ( null === self::$cache_directory_config ) {
 			$relative_cache_path       = trailingslashit( self::CACHE_FOLDER_NAME );
 			$zionbuilder_upload_folder = FileSystem::get_zionbuilder_upload_dir();
 
 			wp_mkdir_p( $zionbuilder_upload_folder['basedir'] . $relative_cache_path );
 
-			$this->cache_directory_config = [
+			self::$cache_directory_config = [
 				'path' => $zionbuilder_upload_folder['basedir'] . $relative_cache_path,
 				'url'  => esc_url( set_url_scheme( $zionbuilder_upload_folder['baseurl'] . $relative_cache_path ) ),
 			];
 
 		}
 
-		return $this->cache_directory_config;
+		return self::$cache_directory_config;
 	}
 
 	public function get_file_path( $filename ) {
-		$cache_directory = $this->get_cache_directory();
+		$cache_directory = self::get_cache_directory();
 		return trailingslashit( $cache_directory['path'] ) . $filename;
 	}
 
 	public function get_file_url( $filename ) {
-		$cache_directory = $this->get_cache_directory();
+		$cache_directory = self::get_cache_directory();
 		return trailingslashit( $cache_directory['url'] ) . $filename;
 	}
 
@@ -247,6 +247,11 @@ class LocalGoogleFonts {
 		}
 
 		return $return;
+	}
+
+	public static function delete_cache() {
+		$cache_directory = self::get_cache_directory();
+		return FileSystem::get_file_system()->delete( $cache_directory['path'], true );
 	}
 
 }
