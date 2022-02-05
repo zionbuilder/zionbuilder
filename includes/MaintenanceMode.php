@@ -5,7 +5,7 @@ namespace ZionBuilder;
 use ZionBuilder\Plugin;
 use ZionBuilder\Options\Options;
 use ZionBuilder\Settings;
-use ZionBuilder\Library\Sources\LocalSource;
+use ZionBuilder\Templates;
 
 
 // Prevent direct access
@@ -123,7 +123,7 @@ class MaintenanceMode {
 		query_posts( // phpcs:ignore WordPress.WP.DiscouragedFunctions
 			[
 				'p'         => $saved_template_id,
-				'post_type' => LocalSource::TEMPLATE_POST_TYPE,
+				'post_type' => Templates::TEMPLATE_POST_TYPE,
 			]
 		);
 	}
