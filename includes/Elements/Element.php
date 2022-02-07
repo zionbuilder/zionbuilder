@@ -1019,7 +1019,7 @@ class Element {
 			return false;
 		}
 
-		return true;
+		return apply_filters( 'zionbuilder/element/can_render', true, $this );
 	}
 
 	/**
