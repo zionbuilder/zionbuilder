@@ -1045,7 +1045,7 @@ class Element {
 	 */
 	public function get_element_css_id() {
 		$options = $this->options->get_model();
-		return isset( $options['._advanced_options']['_element_id'] ) ? $options['._advanced_options']['_element_id'] : $this->get_uid();
+		return isset( $options['_advanced_options']['_element_id'] ) ? $options['_advanced_options']['_element_id'] : $this->get_uid();
 	}
 
 	/**
