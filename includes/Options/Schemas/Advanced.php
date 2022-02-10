@@ -57,7 +57,7 @@ class Advanced extends BaseSchema {
 			[
 				'type'        => 'custom_selector',
 				'description' => __( 'Set the visibility for this element.' ),
-				'title'       => __( 'Element Visibility', 'zionbuilder' ),
+				'title'       => __( 'Element visibility', 'zionbuilder' ),
 				'default'     => 'all',
 				'options'     => [
 					[

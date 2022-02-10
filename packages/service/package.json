@@ -27,8 +27,6 @@
 		"webpack-plugin-serve": "^1.4.1",
 		"wp-pot": "^1.9.3"
 	},
-
-
 	"publishConfig": {
 		"access": "public"
 	},
