@@ -51,7 +51,7 @@ class Editor {
 
 		$classes = explode( ' ', $classes );
 
-		$classes[] = sprintf( 'znpb-theme-%s', $builder_theme );
+		$classes[] = sprintf( 'znpb znpb-theme-%s', $builder_theme );
 
 		return implode( ' ', $classes );
 	}

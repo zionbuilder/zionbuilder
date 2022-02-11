@@ -87,7 +87,7 @@
 						v-for="option in visibleItems"
 						:key="option.id"
 						:class="{
-							'znpb-menuListItem--selected': option.isSelected,
+							'znpb-menuListItem--selected': !option.is_label && option.isSelected,
 							'znpb-menuListItem--is-label': option.is_label,
 							'znpb-menuListItem--is-group_item': option.is_group_item
 						}"
@@ -525,9 +525,13 @@ export default {
 }
 
 .znpb-menuListItem--is-label {
-	font-style: italic;
 	font-weight: bold;
 	pointer-events: none;
+	color: var(--zb-surface-text-active-color);
+}
+
+.znpb-menuListItem--is-label ~ .znpb-menuListItem:not(.znpb-menuListItem--is-label) {
+	padding-left:25px;
 }
 
 .znpb-menuListItem--is-group_item {
