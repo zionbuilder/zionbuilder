@@ -246,11 +246,11 @@ class Style {
 					break;
 
 				case 'order':
-					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					$compiled_css .= sprintf( '-webkit-order: %s; -ms-flex-order: %s; order: %s;', $value, $value, $value );
 					break;
 
 				case 'custom-order':
-					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					$compiled_css .= sprintf( '-webkit-order: %s; -ms-flex-order: %s; order: %s;', $value, $value, $value );
 					break;
 
 				case 'align-items':

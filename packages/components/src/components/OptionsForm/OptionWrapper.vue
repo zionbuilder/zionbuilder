@@ -5,6 +5,7 @@
 		v-model="optionValue"
 		v-bind="compiledSchema"
 		:title="schema.title"
+		@discard-changes="onDeleteOption"
 	>
 		<template v-if="schema.content">
 			{{schema.content}}
@@ -289,7 +290,8 @@ export default {
 
 			return {
 				...(optionTypeConfig.value.componentProps || {}),
-				...schema
+				...schema,
+				hasChanges: hasChanges.value
 			}
 		})
 
