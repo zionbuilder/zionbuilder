@@ -291,7 +291,7 @@ export default {
 			return {
 				...(optionTypeConfig.value.componentProps || {}),
 				...schema,
-				hasChanges: hasChanges.value
+				hasChanges: !!hasChanges.value
 			}
 		})
 
