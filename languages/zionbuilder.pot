@@ -4061,7 +4061,7 @@ msgid "Element unique id"
 msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:60
-msgid "Element Visibility"
+msgid "Element visibility"
 msgstr ""
 
 #: ../includes/Options/Schemas/Advanced.php:68

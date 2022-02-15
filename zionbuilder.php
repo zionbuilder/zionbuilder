@@ -55,7 +55,7 @@ function zionbuilder_load_textdomain() {
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\zionbuilder_load_textdomain' );
 
 // Set the minimum PRO compatible version
-define( 'MINIMUM_ZION_PRO_VERSION', '3.0.0-beta5' );
+define( 'MINIMUM_ZION_PRO_VERSION', '3.0.0-beta6' );
 
 /*
  * Check to see if the minimum requirements are meet
