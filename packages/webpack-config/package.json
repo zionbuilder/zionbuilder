@@ -1,6 +1,6 @@
 {
   "name": "@zionbuilder/webpack-config",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "license": "MIT",
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.0",
@@ -18,5 +18,5 @@
     "webpack-merge": "^5.1.4"
   },
   "main": "src/index.js",
-  "gitHead": "bf0b9f54e954465cd9f07aedf7bbba006d03ff4a"
+  "gitHead": "b08f435967f500b952d3af480cc3522d238c00f1"
 }
