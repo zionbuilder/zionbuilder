@@ -6,23 +6,29 @@
 		id="preview-iframe"
 		ref="root"
 	>
+		<div class="znpb-editor-iframe-wrapperContainer"
+				:style="deviceStyle">
+			<iframe
+				v-if="urls.preview_frame_url"
+				ref="iframe"
+				@load="checkIframeLoading"
+				id="znpb-editor-iframe"
+				:src="urls.preview_frame_url"
+			/>
+		</div>
 
-		<iframe
-			v-if="urls.preview_frame_url"
-			ref="iframe"
-			@load="checkIframeLoading"
-			id="znpb-editor-iframe"
-			:src="urls.preview_frame_url"
-			:style="deviceStyle"
-		/>
+		<div class="znpb-editor-iframeWidthTooltip" v-if="showWidthTooltip">
+			{{iframeWidth}}px
+		</div>
 
 	</div>
 </template>
 
 <script>
-import { ref, render } from 'vue'
+import { ref } from 'vue'
 import { on, off } from '@zb/hooks'
-import { each } from 'lodash-es'
+import { each, debounce } from 'lodash-es'
+import rafSchd from 'raf-schd'
 import {
 	useTemplateParts,
 	usePreviewLoading,
@@ -58,6 +64,24 @@ export default {
 
 		const root = ref(null)
 
+
+		// Iframe size tooltip
+		const iframeWidth = ref(null)
+		const showWidthTooltip = ref(false)
+		let tooltipTimeout = null
+
+		function onIframeResize( event ) {
+			showWidthTooltip.value = true
+			iframeWidth.value = event.target.document.body.clientWidth
+
+			clearTimeout(tooltipTimeout)
+			tooltipTimeout = setTimeout(() => {
+				showWidthTooltip.value = false
+			}, 500);
+		}
+
+		const onIframeResizeRaf = rafSchd(onIframeResize, 50)
+
 		return {
 			activeResponsiveDeviceInfo,
 			applyShortcuts,
@@ -72,7 +96,12 @@ export default {
 			removeEventListener,
 			removeWindow,
 			root,
-			isDirty
+			isDirty,
+
+			// Iframe size tooltip
+			onIframeResizeRaf,
+			showWidthTooltip,
+			iframeWidth
 		}
 	},
 	computed: {
@@ -174,6 +203,9 @@ export default {
 			this.ignoreNextReload = false
 
 			setPreviewLoading(false)
+
+			// Show width tooltip
+			iframeWindow.addEventListener('resize', this.onIframeResizeRaf)
 		},
 		attachIframeEvents () {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
@@ -236,23 +268,52 @@ export default {
 .znpb-editor-iframe-wrapper {
 	display: flex;
 	justify-content: center;
-	align-items: center;
 	order: 3;
 	flex: 1 1 0;
 	background-color: var(--zb-surface-darker-color);
+	position: relative;
+	overflow-y: hidden;
+	overflow-x: auto;
+	flex-direction: column;
+}
+
+.znpb-editor-iframe-wrapperContainer {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	margin: 0 auto;
+	transition: all .5s;
+}
+
+// Device specific
+.znpb-responsiveDevice--default {
+	.znpb-editor-iframe-wrapperContainer {
+		min-width: 1024px;
+	}
 }
 
 // Iframe
 #znpb-editor-iframe {
-	max-width: 100%;
-	min-height: 150px;
-	max-height: 100%;
-	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
+	width: 100%;
+	height: 100%;
 	border: 0;
-	transition: all .5s;
+	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 }
-.znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default)
-	#znpb-editor-iframe {
+
+.znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
 	max-height: calc(100vh - 60px);
 }
+
+// Size tooltip
+.znpb-editor-iframeWidthTooltip {
+	position: absolute;
+	bottom: 20px;
+	right: 30px;
+	background: #fff;
+	padding: 8px 4px;
+	border-radius: 3px;
+}
+
+
+
 </style>

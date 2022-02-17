@@ -2,6 +2,9 @@
 	<div
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
+		:class="{
+			[`znpb-responsiveDevice--${activeResponsiveDeviceId}`]: activeResponsiveDeviceId
+		}"
 	>
 		<transition name="slide-from-left">
 			<div
@@ -394,6 +397,7 @@ export default {
 	display: flex;
 	flex: 1 1 auto;
 	min-height: 1px;
+	min-width: 0;
 }
 
 .znpb-editor-header.main-panel-animation {
