@@ -35,6 +35,10 @@ class Templates {
 		add_filter( 'zionbuilder/post/post_template', [ $this, 'set_post_template' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'init' ] );
+
+		// Prevent search engines from indexing templates and prevent unauthorized users from seing the templates
+		add_action( 'template_redirect', [ $this, 'on_template_redirect' ] );
+		add_action( 'wp_head', [ $this, 'on_wp_head' ] );
 	}
 
 	/**
@@ -229,19 +233,14 @@ class Templates {
 		];
 
 		$args = [
-			'label'               => 'Zion Templates',
 			'labels'              => $labels,
 			'public'              => true,
-			'exclude_from_search' => true,
-			'show_in_nav_menus'   => false,
+			'rewrite'             => false,
 			'show_ui'             => true,
 			'show_in_menu'        => false,
-			'query_var'           => true,
+			'show_in_nav_menus'   => false,
+			'exclude_from_search' => true,
 			'capability_type'     => 'post',
-			'has_archive'         => true,
-			'hierarchical'        => false,
-			'menu_position'       => null,
-			'rewrite'             => false,
 			'supports'            => [ 'title', 'editor', 'author', 'thumbnail' ],
 		];
 
@@ -335,5 +334,29 @@ class Templates {
 		$template_instance->set_builder_status( true );
 
 		return $post_id;
+	}
+
+	/**
+	 * Prevent unauthorized users from seing the templates
+	 *
+	 * @return void
+	 */
+	public function on_template_redirect() {
+		if ( is_singular( self::TEMPLATE_POST_TYPE ) && ! Permissions::current_user_can( 'view_templates' ) ) {
+			wp_safe_redirect( site_url(), 301 );
+			die;
+		}
+	}
+
+
+	/**
+	 * Prevent search engines from indexing the templates page
+	 *
+	 * @return void
+	 */
+	public function on_wp_head() {
+		if ( is_singular( self::TEMPLATE_POST_TYPE ) ) {
+			echo '<meta name="robots" content="noindex" />';
+		}
 	}
 }

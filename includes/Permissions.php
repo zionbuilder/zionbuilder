@@ -146,4 +146,25 @@ class Permissions {
 
 		return apply_filters( 'zionbuilder/permissions/allow_edit', $can_edit, $post_id, $post_type );
 	}
+
+
+	/**
+	 * Checks if the current user can perform an action
+	 *
+	 * @param string $permission
+	 *
+	 * @return void
+	 */
+	public static function current_user_can( $permission ) {
+		$user_can = false;
+
+		switch ( $permission ) {
+			default:
+				$user_can = self::user_allowed_edit();
+				break;
+		}
+
+		$hook = sprintf( 'zionbuilder/permissions/user_allowed/%s', $permission );
+		return apply_filters( $hook, $user_can );
+	}
 }
