@@ -17,6 +17,10 @@
 			/>
 		</div>
 
+		<div class="znpb-editor-iframeWidthTooltip" >
+			{{iframeWidth}}px
+		</div>
+
 		<div class="znpb-editor-iframeWidthTooltip" v-if="showWidthTooltip">
 			{{iframeWidth}}px
 		</div>
@@ -27,7 +31,7 @@
 <script>
 import { ref } from 'vue'
 import { on, off } from '@zb/hooks'
-import { each, debounce } from 'lodash-es'
+import { each } from 'lodash-es'
 import rafSchd from 'raf-schd'
 import {
 	useTemplateParts,
@@ -54,7 +58,7 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, iframeWidth, setIframeWidth } = useResponsiveDevices()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -64,9 +68,7 @@ export default {
 
 		const root = ref(null)
 
-
 		// Iframe size tooltip
-		const iframeWidth = ref(null)
 		const showWidthTooltip = ref(false)
 		let tooltipTimeout = null
 
@@ -101,20 +103,18 @@ export default {
 			// Iframe size tooltip
 			onIframeResizeRaf,
 			showWidthTooltip,
-			iframeWidth
+			iframeWidth,
+			setIframeWidth
 		}
 	},
 	computed: {
 		deviceStyle: function () {
 			let style = {}
-			if (this.activeResponsiveDeviceInfo) {
-				if (this.activeResponsiveDeviceInfo.isLandscape) {
-					style.width = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
-					style.height = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
-				} else {
-					style.width = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
-					style.height = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
-				}
+			if (this.activeResponsiveDeviceInfo && this.activeResponsiveDeviceInfo.height) {
+				style.height = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
+			}
+			if (this.iframeWidth) {
+				style.width = `${this.iframeWidth}px`
 			}
 
 			return style
@@ -205,7 +205,10 @@ export default {
 			setPreviewLoading(false)
 
 			// Show width tooltip
-			iframeWindow.addEventListener('resize', this.onIframeResizeRaf)
+
+
+			// Set iframe width
+			this.setIframeWidth(iframeWindow.document.body.clientWidth)
 		},
 		attachIframeEvents () {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
@@ -255,6 +258,7 @@ export default {
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
 		this.getWindows('preview').removeEventListener('click', this.onIframeClick, true)
+		this.getWindows('preview').removeEventListener('resize', this.onIframeResizeRaf)
 
 		off('refreshIframe', this.refreshIframe)
 	},

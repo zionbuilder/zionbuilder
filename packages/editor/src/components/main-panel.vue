@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="znpb-editor-header"
-		@mousedown.stop.prevent="startBarDrag"
+		@mousedown.stop="startBarDrag"
 		:class="{
 			'znpb-editor-panel__container--dragging': mainBar.isDragging,
 			[`znpb-editor-header--${mainBar.position}`]: mainBar.position,
@@ -51,18 +51,7 @@
 		<!-- last part -->
 		<div class="znpb-editor-header__last">
 			<!-- devices -->
-			<FlyoutWrapper>
-				<template v-slot:panel-icon>
-					<Icon :icon="device" />
-				</template>
-				<FlyoutMenuItem
-					v-for="(deviceConfig, i) in responsiveDevices"
-					v-bind:key="i"
-				>
-					<DeviceElement :device-config="deviceConfig" />
-
-				</FlyoutMenuItem>
-			</FlyoutWrapper>
+			<ResponsiveDevices />
 
 			<!-- options -->
 			<div
@@ -183,32 +172,29 @@
 
 <script>
 import { ref, computed, onBeforeUnmount } from 'vue'
-import DeviceElement from './DeviceElement.vue'
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
 import aboutModal from './aboutModal.vue'
-import FlyoutWrapper from './FlyoutWrapper.vue'
-import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import Help from './Help.vue'
 import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '@composables'
 import { translate } from '@zb/i18n'
-import { useResponsiveDevices } from '@zb/components'
 import { useBuilderOptions } from '@zionbuilder/composables'
+import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel'
+
 
 export default {
 	name: 'ZnpbPanelMain',
 	components: {
-		DeviceElement,
 		FlyoutWrapper,
 		FlyoutMenuItem,
 		Help,
 		keyShortcuts,
-		aboutModal
+		aboutModal,
+		ResponsiveDevices
 		//
 	},
 	setup () {
 		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage()
-		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainbarPosition, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen, mainBarDraggingPlaceholder } = useUI()
-		const { activeResponsiveDeviceInfo, responsiveDevices } = useResponsiveDevices()
+		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen, mainBarDraggingPlaceholder } = useUI()
 		const { editorData } = useEditorData()
 		const { showSaveElement } = useSaveTemplate()
 		const { getOptionValue } = useBuilderOptions()
@@ -280,10 +266,6 @@ export default {
 			return helpArray.filter(item => item.canShow !== false)
 		})
 
-		const device = computed(() => {
-			return activeResponsiveDeviceInfo.value.icon
-		})
-
 		const panelStyles = computed(() => {
 			return {
 				userSelect: userSel.value,
@@ -328,10 +310,6 @@ export default {
 		function startBarDrag () {
 			window.addEventListener('mousemove', movePanel)
 			window.addEventListener('mouseup', disablePanelMove)
-
-			// disable pointer events on iframe
-			setIframePointerEvents(true)
-			userSel.value = 'none'
 		}
 
 		function movePanel (event) {
@@ -348,6 +326,10 @@ export default {
 			if (!mainBar.isDragging) {
 				mainBar.isDragging = true
 			}
+
+			// disable pointer events on iframe
+			setIframePointerEvents(true)
+			userSel.value = 'none'
 
 			// Calculate horizontal move
 			const maxLeft = window.innerWidth - 60
@@ -444,7 +426,6 @@ export default {
 			// Computed
 			openPanelsIDs,
 			helpMenuItems,
-			device,
 			panelStyles,
 			tooltipsPosition,
 
@@ -452,7 +433,6 @@ export default {
 			saveActions,
 			isSavePageLoading,
 			togglePanel,
-			responsiveDevices,
 			savePage,
 			onSaving,
 			startBarDrag,
@@ -476,7 +456,6 @@ export default {
 	background: var(--zb-primary-color);
 	transition: margin .3s ease-out;
 	cursor: move;
-	user-select: none;
 
 	// Bar positions
 	&--right {

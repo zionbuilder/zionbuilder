@@ -155,7 +155,6 @@ import MainPanel from './components/main-panel.vue'
 import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
-import DeviceElement from './components/DeviceElement.vue'
 import SaveElementModal from './components/SaveElementModal.vue'
 
 // Composables
@@ -181,7 +180,6 @@ export default {
 		PanelGlobalSettings,
 		PanelElementOptions,
 		PostLock,
-		DeviceElement,
 		AddElementPopup,
 		ElementMenu,
 		SaveElementModal
