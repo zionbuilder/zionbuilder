@@ -49,7 +49,7 @@ class LocalGoogleFonts {
 	public function __construct( $fonts = [] ) {
 		$this->fonts             = $fonts;
 		$this->stylesheet_handle = $this->get_handle( $this->fonts );
-		$this->font_display      = Settings::get_value( 'performance.font_display', 'auto' );
+		$this->font_display      = Settings::get_value( 'performance.fonts_display', 'auto' );
 	}
 
 	/**

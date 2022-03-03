@@ -105,7 +105,7 @@ class GoogleFonts extends FontProvider {
 		}
 
 		//This will be used for both local fonts and Google fonts
-		$combined_fonts_string = implode( '|', $font_links ) . '&subset=' . implode( ',', $font_subsets ) . '&display=' . Settings::get_value( 'performance.font_display', 'swap' );
+		$combined_fonts_string = implode( '|', $font_links ) . '&subset=' . implode( ',', $font_subsets ) . '&display=' . Settings::get_value( 'performance.fonts_display', 'swap' );
 
 		$fonts_url_base = '//fonts.googleapis.com/css?family=';
 		return $fonts_url_base . $combined_fonts_string;
