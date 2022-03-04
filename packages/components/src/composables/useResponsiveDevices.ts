@@ -1,4 +1,4 @@
-import { ref, Ref, computed } from 'vue'
+import { ref, Ref, computed, readonly } from 'vue'
 
 interface ResponsiveDevice {
 	name: string;
@@ -24,84 +24,81 @@ const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref([
 	{
 		name: 'Laptop',
 		id: 'laptop',
-		width: {
-			value: 991,
-			unit: 'px'
-		},
-		height: {
-			value: 768,
-			unit: 'px'
-		},
+		width: 991,
+		height: 768,
 		units: 'px',
 		icon: 'laptop'
 	},
 	{
 		name: 'Tablet',
 		id: 'tablet',
-		width: {
-			value: 767,
-			unit: 'px'
-		},
-		height: {
-			value: 1024,
-			unit: 'px'
-		},
+		width: 767,
+		height: 1024,
 		icon: 'tablet'
 	},
 	{
 		name: 'Mobile',
 		id: 'mobile',
-		width: {
-			value: 575,
-			unit: 'px'
-		},
-		height: {
-			value: 667,
-			unit: 'px'
-		},
+		width: 575,
+		height: 667,
 		icon: 'mobile'
 	}
 ])
 
 const activeResponsiveOptions: Ref<{} | null> = ref(null)
 const iframeWidth: Ref<number> = ref(0)
+const autoscaleActive = ref(false)
+const scaleValue = ref(100)
 
 export const useResponsiveDevices = () => {
 	const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
-	const setActiveResponsiveDeviceId = (device: string) => {
+
+
+	function setActiveResponsiveDeviceId(device: string) {
 		activeResponsiveDeviceId.value = device
 
-		if (activeResponsiveDeviceInfo.value.width.value) {
-			setIframeWidth(activeResponsiveDeviceInfo.value.width.value)
+		if (activeResponsiveDeviceInfo.value.width) {
+			setCustomIframeWidth(activeResponsiveDeviceInfo.value.width)
 		}
 	}
 
-	const setActiveResponsiveOptions = (instanceConfig: {}) => {
+	function setCustomScale(newValue) {
+		scaleValue.value = newValue
+	}
+
+	function setActiveResponsiveOptions(instanceConfig: {}) {
 		activeResponsiveOptions.value = instanceConfig
 	}
 
-	const getActiveResponsiveOptions = () => {
+	function getActiveResponsiveOptions() {
 		return activeResponsiveOptions.value
 	}
 
-	const removeActiveResponsiveOptions = () => {
+	function removeActiveResponsiveOptions() {
 		activeResponsiveOptions.value = null
 	}
 
-	function setIframeWidth(newWidth: number) {
+	function setCustomIframeWidth(newWidth: number) {
 		iframeWidth.value = newWidth
 	}
 
+	function setAutoScale(scaleEnabled) {
+		autoscaleActive.value = scaleEnabled
+	}
 
 	return {
 		activeResponsiveDeviceId,
 		activeResponsiveDeviceInfo,
 		responsiveDevices,
 		iframeWidth,
+		autoscaleActive,
+		scaleValue: readonly(scaleValue),
 		setActiveResponsiveDeviceId,
 		removeActiveResponsiveOptions,
 		getActiveResponsiveOptions,
 		setActiveResponsiveOptions,
-		setIframeWidth
+		setCustomIframeWidth,
+		setCustomScale,
+		setAutoScale
 	}
 }

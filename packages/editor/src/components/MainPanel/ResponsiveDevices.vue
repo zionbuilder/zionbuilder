@@ -6,15 +6,15 @@
 		<div class="znpb-responsiveDeviceHeader">
 			<div>
 				<Icon icon="delete" />
-				<input type="text" @keydown="onWidthKeyDown" :value="computedIframeWidth" />
+				<input type="number" @keydown="onWidthKeyDown" :value="computedIframeWidth" />
 
 
 			</div>
 
 			<div>
 				<Icon icon="delete" />
-				<BaseInput v-model="computedIframeScale"/>
-
+				<input type="number" @keydown="onScaleKeyDown" :value="computedIframeScale" />
+				<Icon icon="plus" @click="setAutoScale(!autoscaleActive)" />
 			</div>
 
 		</div>
@@ -37,7 +37,7 @@ import FlyoutMenuItem from './FlyoutMenuItem.vue'
 import { computed } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
 
-const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth } = useResponsiveDevices()
+const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale } = useResponsiveDevices()
 
 const deviceIcon = computed(() => {
 	return activeResponsiveDeviceInfo.value.icon
@@ -52,9 +52,24 @@ const computedIframeWidth = computed({
 	}
 })
 
+const computedIframeScale = computed({
+	get() {
+		return `${scaleValue.value}`
+	},
+	set(newValue) {
+		scaleValue.value = newValue
+	}
+})
+
 function onWidthKeyDown(event) {
 	if (event.key==='Enter') {
-		computedIframeWidth.value = event.target.value
+		setCustomWidth(event.target.value)
+	}
+}
+
+function onScaleKeyDown(event) {
+	if (event.key==='Enter') {
+		setCustomScale(event.target.value)
 	}
 }
 </script>
