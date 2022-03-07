@@ -76,7 +76,6 @@
 			</FlyoutMenuItem>
 		</div>
 
-
 		<li
 			class="menu-items znpb-device__addBreakpointForm"
 			v-if="enabledAddBreakpoint"
@@ -194,7 +193,7 @@ const addBreakpointDeviceIcon = computed(() => {
 	return deviceIcon
 })
 
-function enableAddNewDevice() {
+function enableAddNewDevice () {
 	enabledAddBreakpoint.value = true
 
 	// Highlight the input field
@@ -221,7 +220,7 @@ function addNewBreakpoint () {
 		const addedDevice = document.querySelector(`.znpb-deviceItem--${id}`)
 
 		if (addedDevice) {
-			addedDevice.scrollIntoView({block: "nearest", inline: "nearest"})
+			addedDevice.scrollIntoView({ block: "nearest", inline: "nearest" })
 
 			// Highlight the device
 			addedDevice.classList.add('znpb-deviceItem--new')
@@ -272,7 +271,8 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -320,7 +320,7 @@ function onScaleKeyDown (event) {
 			}
 
 			&[disabled] {
-				opacity: .6;
+				opacity: 0.6;
 				pointer-events: none;
 			}
 		}
@@ -340,13 +340,13 @@ function onScaleKeyDown (event) {
 	background: transparent;
 	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .3s;
+	transition: all 0.3s;
 	cursor: pointer;
 	user-select: none;
 
 	&:hover {
 		background: none;
-		opacity: .6;
+		opacity: 0.6;
 	}
 
 	& .znpb-editor-icon {
@@ -368,7 +368,7 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color .2s;
+	transition: color 0.2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);
@@ -384,7 +384,13 @@ function onScaleKeyDown (event) {
 	max-height: 260px;
 }
 
-.znpb-deviceItem--new {
-	color: red !important;
+.znpb-deviceItem--new .znpb-device__item {
+	color: #fff !important;
+	background-color: var(--zb-secondary-color) !important;
+
+	&:hover {
+		color: #fff !important;
+		background-color: var(--zb-secondary-color) !important;
+	}
 }
 </style>

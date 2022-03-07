@@ -199,7 +199,6 @@ export default {
 	}
 	&Value {
 		position: relative;
-		transition: all 0.3s;
 
 		&-inner {
 			position: absolute;
@@ -235,6 +234,7 @@ export default {
 		display: flex;
 		align-items: center;
 		min-height: 20px;
+		transition: all 0.3s;
 	}
 	&-icon {
 		margin-right: 5px;
