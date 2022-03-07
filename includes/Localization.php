@@ -764,6 +764,9 @@ class Localization {
 				'disable_edit_breakpoints'                 => __( 'Disable edit breakpoints', 'zionbuilder' ),
 				'edit_breakpoint'                          => __( 'Edit breakpoint', 'zionbuilder' ),
 				'delete_breakpoint'                        => __( 'Delete breakpoint', 'zionbuilder' ),
+				'disable_autoscale'                        => __( 'Disable autoscale', 'zionbuilder' ),
+				'enable_autoscale'                        => __( 'Enable autoscale', 'zionbuilder' ),
+
 			]
 		);
 	}

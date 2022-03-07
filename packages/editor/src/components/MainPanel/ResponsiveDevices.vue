@@ -8,11 +8,17 @@
 		</template>
 		<div class="znpb-responsiveDeviceHeader">
 			<div class="znpb-responsiveDeviceHeader__item">
-				<Icon
-					icon="width"
+				<label
+					for="znpb-responsive__iframeWidth"
 					class="znpb-responsiveDeviceHeader__iconIndicator"
-				/>
+				>
+					<Icon
+						icon="width"
+					/>
+				</label>
+
 				<input
+					id="znpb-responsive__iframeWidth"
 					type="number"
 					@keydown.enter="onWidthKeyDown"
 					@blur="onWidthKeyDown"
@@ -23,11 +29,17 @@
 			</div>
 
 			<div class="znpb-responsiveDeviceHeader__item">
-				<Icon
-					icon="zoom"
+				<label
+					for="znpb-responsive__iframeScale"
 					class="znpb-responsiveDeviceHeader__iconIndicator"
-				/>
+				>
+					<Icon
+						icon="zoom"
+					/>
+				</label>
+
 				<input
+					id="znpb-responsive__iframeScale"
 					type="number"
 					@keydown.enter="onScaleKeyDown"
 					@blur="onScaleKeyDown"
@@ -42,6 +54,7 @@
 					:class="{
 						'znpb-responsiveDeviceHeader__iconLock--locked': autoscaleActive
 					}"
+					v-znpb-tooltip="autoscaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
 				/>
 			</div>
 
@@ -121,8 +134,7 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button,
-		&::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -139,6 +151,7 @@ function onScaleKeyDown (event) {
 		.znpb-responsiveDeviceHeader__iconIndicator {
 			margin-right: 5px;
 			font-size: 12px;
+			cursor: pointer;
 		}
 
 		.znpb-responsiveDeviceHeader__iconLock {
@@ -169,7 +182,7 @@ function onScaleKeyDown (event) {
 			}
 
 			&[disabled] {
-				opacity: 0.6;
+				opacity: .6;
 				pointer-events: none;
 			}
 		}
@@ -186,7 +199,7 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color 0.2s;
+	transition: color .2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);
