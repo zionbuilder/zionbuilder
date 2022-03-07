@@ -385,7 +385,12 @@ function onScaleKeyDown (event) {
 }
 
 .znpb-deviceItem--new .znpb-device__item {
-	color: var(--zb-surface-text-active-color);
-	background-color: var(--zb-surface-lighter-color);
+	color: #fff !important;
+	background-color: var(--zb-secondary-color) !important;
+
+	&:hover {
+		color: #fff !important;
+		background-color: var(--zb-secondary-color) !important;
+	}
 }
 </style>
