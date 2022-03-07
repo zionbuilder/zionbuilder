@@ -41,8 +41,10 @@
 							>
 						</template>
 						<template v-else>
-							{{deviceConfig.width}}px)
+							{{deviceConfig.width}}
 						</template>
+
+						px)
 					</span>
 
 				</template>
@@ -223,7 +225,7 @@ export default {
 	}
 
 	&-action {
-		opacity: 0.5;
+		opacity: .5;
 
 		&:hover {
 			opacity: 1;
@@ -236,7 +238,7 @@ export default {
 }
 
 .znpb-device__itemValue {
-	transition: all 0.3s;
+	transition: all .3s;
 }
 
 .znpb-device__itemValueInput {
@@ -253,8 +255,7 @@ export default {
 
 	-moz-appearance: textfield;
 
-	&::-webkit-inner-spin-button,
-	&::-webkit-outer-spin-button {
+	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 		-webkit-appearance: none;
 	}
 
