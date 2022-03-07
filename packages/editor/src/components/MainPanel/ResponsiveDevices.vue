@@ -227,7 +227,7 @@ function addNewBreakpoint () {
 			addedDevice.classList.add('znpb-deviceItem--new')
 
 			setTimeout(() => {
-				// addedDevice.classList.remove('znpb-deviceItem--new')
+				addedDevice.classList.remove('znpb-deviceItem--new')
 			}, 300);
 
 		}

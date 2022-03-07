@@ -11,6 +11,8 @@
 		<ul
 			class="znpb-editor-header-flyout-hidden-items znpb-editor-header__menu-list"
 			v-if="showflyout"
+			:style="computedStyles"
+			ref="listContainer"
 		>
 			<slot></slot>
 		</ul>
@@ -18,7 +20,7 @@
 	</div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 
 const props = defineProps({
 	items: {
@@ -36,6 +38,18 @@ const props = defineProps({
 })
 
 const showflyout = ref(false)
+const listContainer = ref(null)
+const negativeMargin = ref(0)
+
+const computedStyles = computed(() => {
+	let styles = {}
+
+	if (negativeMargin.value !== 0) {
+		styles.transform = `translateY(${negativeMargin.value}px)`
+	}
+
+	return styles
+})
 
 function onMouseOver() {
 	showflyout.value = true
@@ -46,6 +60,35 @@ function onMouseOut () {
 		showflyout.value = false
 	}
 }
+
+
+watch(showflyout, (newValue) => {
+	if (newValue) {
+		nextTick(() => {
+			positionDropdown()
+			resizeObserver.observe(listContainer.value)
+		})
+	} else {
+		negativeMargin.value = 0
+		resizeObserver.unobserve(listContainer.value)
+	}
+})
+
+function positionDropdown() {
+	const { bottom } = listContainer.value.getBoundingClientRect()
+
+	if (bottom > window.innerHeight) {
+		negativeMargin.value = (bottom - window.innerHeight) * -1 + negativeMargin.value
+	}
+}
+
+const resizeObserver = new ResizeObserver(entries => {
+	for (let entry of entries) {
+		nextTick(() => {
+			positionDropdown()
+		})
+	}
+})
 </script>
 
 <style lang="scss">
