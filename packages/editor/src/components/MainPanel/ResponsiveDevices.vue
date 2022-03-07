@@ -167,12 +167,11 @@ function onScaleKeyDown (event) {
 			&:focus {
 				outline: 0;
 			}
-		}
 
-		&--locked input {
-			cursor: not-allowed;
-			opacity: 0.6;
-			pointer-events: none;
+			&[disabled] {
+				opacity: 0.6;
+				pointer-events: none;
+			}
 		}
 	}
 }

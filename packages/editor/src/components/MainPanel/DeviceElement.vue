@@ -270,6 +270,10 @@ export default {
 		}
 	}
 
+	&-actions {
+		display: flex;
+	}
+
 	&-action {
 		font-size: 12px;
 		opacity: 0.5;
