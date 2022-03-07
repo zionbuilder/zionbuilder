@@ -1,8 +1,8 @@
 <template>
 	<div
 		class="znpb-editor-header-flyout"
-		@mouseover.stop="showflyout=true"
-		@mouseleave.stop="showflyout=false"
+		@mouseover.stop="onMouseOver"
+		@mouseleave.stop="onMouseOut"
 	>
 		<div class="znpb-editor-header__menu_button">
 			<slot name="panel-icon"></slot>
@@ -17,21 +17,37 @@
 
 	</div>
 </template>
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-	name: 'FlyoutWrapper',
-	setup (props) {
-		const showflyout = ref(false)
-
-		return {
-			showflyout,
-			items: props.items
+const props = defineProps({
+	items: {
+		type: Array,
+		required: false,
+		default() {
+			return []
 		}
+	},
+	preventClose: {
+		type: Boolean,
+		required: false,
+		default: false
+	}
+})
+
+const showflyout = ref(false)
+
+function onMouseOver() {
+	showflyout.value = true
+}
+
+function onMouseOut () {
+	if (!props.preventClose) {
+		showflyout.value = false
 	}
 }
 </script>
+
 <style lang="scss">
 ul.znpb-editor-header-flyout-hidden-items {
 	@extend %tooltip;

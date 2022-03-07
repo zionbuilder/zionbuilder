@@ -6,8 +6,8 @@
 		id="preview-iframe"
 		ref="root"
 	>
-		<div class="znpb-editor-iframe-wrapperContainer"
-				:style="deviceStyle">
+		<!-- <div class="znpb-editor-iframe-wrapperContainer"
+				:style="deviceStyle"> -->
 			<iframe
 				v-if="urls.preview_frame_url"
 				ref="iframe"
@@ -16,21 +16,12 @@
 				:src="urls.preview_frame_url"
 				:style="iframeStyles"
 			/>
-		</div>
-
-		<div class="znpb-editor-iframeWidthTooltip" >
-			{{iframeWidth}}px
-		</div>
-
-		<div class="znpb-editor-iframeWidthTooltip" v-if="showWidthTooltip">
-			{{iframeWidth}}px
-		</div>
-
+		<!-- </div> -->
 	</div>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
 import rafSchd from 'raf-schd'
@@ -59,7 +50,7 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag } = useResponsiveDevices()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -70,25 +61,23 @@ export default {
 		// Dom refs
 		const root = ref(null)
 		const iframe = ref(null)
+		const containerSize = ref({
+			width: 0,
+			height: 0
+		})
 
 		const getWrapperClasses = computed(() => {
+			const { width: containerWidth } = containerSize.value
+
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
+				'znpb-editor-iframe--alignStart': iframeWidth.value > containerWidth
 			}
 		})
 
 		const deviceStyle = computed(() => {
 			let styles = {}
-			if (activeResponsiveDeviceInfo.value && activeResponsiveDeviceInfo.value.height) {
-				styles.height = activeResponsiveDeviceInfo.value.height.value + this.activeResponsiveDeviceInfo.value.height.unit
-			}
-
-			if (!autoscaleActive.value) {
-				if (iframeWidth.value) {
-					styles.width = `${iframeWidth.value}px`
-				}
-			}
 
 			return styles
 		})
@@ -97,38 +86,119 @@ export default {
 			const styles = {}
 
 			if (root.value) {
+				if (activeResponsiveDeviceInfo.value && activeResponsiveDeviceInfo.value.height) {
+					styles.height = `${activeResponsiveDeviceInfo.value.height}px`
+				}
+
+				if (iframeWidth.value && activeResponsiveDeviceId.value !== 'default') {
+					styles.width = `${iframeWidth.value}px`
+				}
+
+				const { width: containerWidth, height: containerHeight } = containerSize.value
+
 				// CHeck if scale is auto
 				if (autoscaleActive.value === true) {
-					const { width: containerWidth, height: containerHeight } = root.value.getBoundingClientRect()
-					const { width: iframeWidth, height: iframeHeight } = iframe.value.getBoundingClientRect()
+					// Don't scale if the iframe is smaller than container
+					if (containerWidth <= iframeWidth.value) {
+						const scale = containerWidth / iframeWidth.value
 
-					const scale = iframeWidth / containerWidth
+						styles.transform = `scale(${scale})`
 
-					styles.transform = `scale(${scale})`
+						const height = 1 / scale * containerHeight
 
-				} else if (scaleValue.value !== 100) {
+						// Set the proper height
+						styles.height = `${height}px`
+					}
+				}
+				else if (scaleValue.value !== 100) {
 					styles.transform = `scale(${scaleValue.value/100})`
+
+					const height = 100 / scaleValue.value * containerHeight
+
+					// Set the proper height
+					styles.height = `${height}px`
 				}
 			}
 
 			return styles
 		})
 
-		// Iframe size tooltip
-		const showWidthTooltip = ref(false)
-		let tooltipTimeout = null
 
-		function onIframeResize( event ) {
-			showWidthTooltip.value = true
-			iframeWidth.value = event.target.document.body.clientWidth
+		// Watch for container width change and set the new width
+		const resizeObserver = new ResizeObserver(entries => {
+			for (let entry of entries) {
+				if(entry.contentBoxSize) {
+					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
 
-			clearTimeout(tooltipTimeout)
-			tooltipTimeout = setTimeout(() => {
-				showWidthTooltip.value = false
-			}, 500);
-		}
+					containerSize.value = {
+						width: contentBoxSize.inlineSize,
+						height: contentBoxSize.blockSize
+					}
+				} else {
+					containerSize.value = {
+						width: entry.contentRect.width,
+						height: entry.contentRect.width
+					}
 
-		const onIframeResizeRaf = rafSchd(onIframeResize, 50)
+					const iframeBCR = iframe.value.getBoundingClientRect()
+
+					setCustomIframeWidth(iframeBCR.width)
+				}
+			}
+		})
+
+		/**
+		 * Change the device width
+		 */
+		watch(activeResponsiveDeviceId, () => {
+			// Don't change the width if we receive an ignore
+			if (ignoreWidthChangeFlag.value) {
+				ignoreWidthChangeFlag.value = false
+				return
+			}
+
+			if (activeResponsiveDeviceInfo.value.width) {
+				setCustomIframeWidth(activeResponsiveDeviceInfo.value.width)
+			} else if (activeResponsiveDeviceInfo.value.minWidth) {
+				setCustomIframeWidth(activeResponsiveDeviceInfo.value.minWidth)
+			}
+			else {
+				nextTick(() => {
+					const iframeBCR = iframe.value.getBoundingClientRect()
+
+					setCustomIframeWidth(iframeBCR.width)
+				})
+			}
+		})
+
+		// Prevent bug when scroll is moved and enable autoscale
+		watch(autoscaleActive, (newValue) => {
+			if (newValue) {
+				root.value.scrollLeft = 0
+			}
+		})
+
+
+		// Lifecycle
+		onMounted(() => {
+			const { width, height } = root.value.getBoundingClientRect()
+			containerSize.value = {
+				width,
+				height
+			}
+
+			const { width: iframeWidth } = iframe.value.getBoundingClientRect()
+			// Set the desktop width
+			setCustomIframeWidth(iframeWidth)
+
+			// Attach observer
+			resizeObserver.observe(root.value);
+		})
+
+		onBeforeUnmount(() => {
+			resizeObserver.unobserve(root.value);
+		})
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -155,10 +225,7 @@ export default {
 			iframeStyles,
 
 			// Iframe size tooltip
-			onIframeResizeRaf,
-			showWidthTooltip,
-			iframeWidth,
-			setCustomIframeWidth
+			iframeWidth
 		}
 	},
 	computed: {
@@ -243,12 +310,6 @@ export default {
 			this.ignoreNextReload = false
 
 			setPreviewLoading(false)
-
-			// Show width tooltip
-
-
-			// Set iframe width
-			this.setCustomIframeWidth(iframeWindow.document.body.clientWidth)
 		},
 		attachIframeEvents () {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true)
@@ -298,7 +359,6 @@ export default {
 		this.getWindows('preview').removeEventListener('click', this.preventClicks, true)
 		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe)
 		this.getWindows('preview').removeEventListener('click', this.onIframeClick, true)
-		this.getWindows('preview').removeEventListener('resize', this.onIframeResizeRaf)
 
 		off('refreshIframe', this.refreshIframe)
 	},
@@ -314,19 +374,23 @@ export default {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	order: 3;
 	flex: 1 1 0;
 	overflow-x: auto;
 	overflow-y: hidden;
+	min-width: 240px;
 	background-color: var(--zb-surface-darker-color);
 }
 
 .znpb-editor-iframe-wrapperContainer {
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 100%;
 	height: 100%;
 	margin: 0 auto;
-	transition: all .5s;
 }
 
 // Device specific
@@ -341,7 +405,15 @@ export default {
 }
 
 .znpb-editor-iframe--isAutoscale #znpb-editor-iframe {
-	transform-origin: 0 0 0;
+	transform-origin: center;
+}
+
+.znpb-editor-iframe--alignStart {
+	display: block;
+
+	& #znpb-editor-iframe {
+		transform-origin: 0 0 0;
+	}
 }
 
 // Iframe
@@ -352,9 +424,9 @@ export default {
 	border: 0;
 }
 
-.znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
-	max-height: calc(100vh - 60px);
-}
+// .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
+// 	max-height: calc(100vh - 60px);
+// }
 
 // Size tooltip
 .znpb-editor-iframeWidthTooltip {

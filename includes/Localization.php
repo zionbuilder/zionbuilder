@@ -757,6 +757,11 @@ class Localization {
 				// Performance admin page
 				'performance'                              => __( 'Performance', 'zionbuilder' ),
 
+				// Responsice devices
+				'all_devices'                              => __( 'all devices', 'zionbuilder' ),
+				'max'                                      => __( 'max', 'zionbuilder' ),
+				'edit_breakpoints'                         => __( 'Edit breakpoints', 'zionbuilder' ),
+				'disable_edit_breakpoints'                 => __( 'Disable edit breakpoints', 'zionbuilder' ),
 			]
 		);
 	}

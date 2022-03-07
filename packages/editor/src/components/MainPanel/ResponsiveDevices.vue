@@ -1,5 +1,8 @@
 <template>
-	<FlyoutWrapper @mousedown.stop="">
+	<FlyoutWrapper
+		@mousedown.stop=""
+		:prevent-close="preventClose"
+	>
 		<template v-slot:panel-icon>
 			<Icon :icon="deviceIcon" />
 		</template>
@@ -11,8 +14,10 @@
 				/>
 				<input
 					type="number"
-					@keydown="onWidthKeyDown"
-					:value="computedIframeWidth"
+					@keydown.enter="onWidthKeyDown"
+					@blur="onWidthKeyDown"
+					@focus="preventClose = true"
+					:value="iframeWidth"
 				/>
 
 			</div>
@@ -24,13 +29,19 @@
 				/>
 				<input
 					type="number"
-					@keydown="onScaleKeyDown"
-					:value="computedIframeScale"
+					@keydown.enter="onScaleKeyDown"
+					@blur="onScaleKeyDown"
+					@focus="preventClose = true"
+					:value="scaleValue"
+					:disabled="autoscaleActive"
 				/>
 				<Icon
 					icon="lock"
 					@click="setAutoScale(!autoscaleActive)"
 					class="znpb-responsiveDeviceHeader__iconLock"
+					:class="{
+						'znpb-responsiveDeviceHeader__iconLock--locked': autoscaleActive
+					}"
 				/>
 			</div>
 
@@ -40,9 +51,30 @@
 			v-for="(deviceConfig, i) in responsiveDevices"
 			v-bind:key="i"
 		>
-			<DeviceElement :device-config="deviceConfig" />
-
+			<DeviceElement
+				:device-config="deviceConfig"
+				:allow-edit="editBreakpoints"
+				:edited-breakpoint="editedBreakpoint"
+				@edit-breakpoint="(breakpoint) => editedBreakpoint = breakpoint"
+			/>
 		</FlyoutMenuItem>
+
+		<div class="znpb-responsiveDeviceFooter">
+			<div
+				@click="editBreakpoints = !editBreakpoints"
+				class="znpb-responsiveDeviceEditButton"
+			>
+				<template v-if="!editBreakpoints">
+					<Icon icon="edit" />
+					{{$translate('edit_breakpoints')}}
+				</template>
+				<template v-else>
+					<Icon icon="close" />
+					{{$translate('disable_edit_breakpoints')}}
+				</template>
+			</div>
+
+		</div>
 	</FlyoutWrapper>
 </template>
 
@@ -51,88 +83,86 @@ import DeviceElement from './DeviceElement.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
 
-const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale } = useResponsiveDevices()
+const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale } = useResponsiveDevices()
+
+const preventClose = ref(false)
 
 const deviceIcon = computed(() => {
 	return activeResponsiveDeviceInfo.value.icon
 })
 
-const computedIframeWidth = computed({
-	get () {
-		return `${iframeWidth.value}`
-	},
-	set (newValue) {
-		iframeWidth.value = newValue
-	}
-})
-
-const computedIframeScale = computed({
-	get () {
-		return `${scaleValue.value}`
-	},
-	set (newValue) {
-		scaleValue.value = newValue
-	}
-})
+const editBreakpoints = ref(false)
+const editedBreakpoint = ref(null)
 
 function onWidthKeyDown (event) {
-	if (event.key === 'Enter') {
-		setCustomWidth(event.target.value)
-	}
+	setCustomIframeWidth(event.target.value, true)
+	preventClose.value = false
 }
 
 function onScaleKeyDown (event) {
-	if (event.key === 'Enter') {
-		setCustomScale(event.target.value)
-	}
+	setCustomScale(event.target.value)
+	preventClose.value = false
 }
 </script>
 
 <style lang="scss">
 .znpb-responsiveDeviceHeader {
 	display: flex;
-	gap: 15px;
-	border-bottom: 1px solid var(--zb-surface-border-color);
 	padding: 0 16px 8px;
+	border-bottom: 1px solid var(--zb-surface-border-color);
+
+	gap: 15px;
+
+	// Hide the number input arrows
+	input[type="number"] {
+		-moz-appearance: textfield;
+
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+		}
+	}
 
 	&__item {
+		position: relative;
 		display: flex;
 		align-items: center;
-		position: relative;
 
 		.znpb-editor-icon-wrapper {
 			color: var(--zb-surface-icon-color);
 		}
 
 		.znpb-responsiveDeviceHeader__iconIndicator {
-			font-size: 12px;
 			margin-right: 5px;
+			font-size: 12px;
 		}
 
 		.znpb-responsiveDeviceHeader__iconLock {
 			position: absolute;
 			right: 8px;
+
+			&--locked {
+				color: var(--zb-secondary-color);
+			}
 		}
 
-		&--locked .znpb-responsiveDeviceHeader__iconLock {
-			color: var(--zb-secondary-color);
-		}
+
 
 		input {
+			max-width: 80px;
+			padding: 6.5px 25px 6.5px 8px;
 			color: var(--zb-input-text-color);
 			font-family: var(--zb-font-stack);
 			font-size: 13px;
 			font-weight: 500;
 			line-height: 1;
-			max-width: 80px;
 			background-color: var(--zb-input-bg-color);
 			border: 2px solid var(--zb-input-border-color);
 			border-radius: 3px;
+
 			-webkit-appearance: none;
-			padding: 6.5px 25px 6.5px 8px;
 
 			&:focus {
 				outline: 0;
@@ -141,9 +171,16 @@ function onScaleKeyDown (event) {
 
 		&--locked input {
 			cursor: not-allowed;
-			opacity: 0.6;
+			opacity: .6;
 			pointer-events: none;
 		}
 	}
+}
+
+.znpb-responsiveDeviceEditButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 20px;
 }
 </style>

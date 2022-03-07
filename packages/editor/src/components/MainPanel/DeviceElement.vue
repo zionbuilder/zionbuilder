@@ -23,17 +23,55 @@
 				class="znpb-device__item-name"
 			>
 				{{deviceConfig.name}}
+				<template v-if="deviceConfig.id === 'default'">
+					({{$translate('all_devices')}})
+				</template>
+
+				<template v-else>
+					({{$translate('max')}}
+					<span class="znpb-device__itemValue">
+					<template v-if="isEdited">
+						<input
+							ref="widthInput"
+							type="number"
+							class="znpb-device__itemValueInput"
+							:value="deviceConfig.width"
+							@blur="updateWidth"
+							@keydown.enter="updateWidth"
+						>
+					</template>
+					<template v-else>
+						{{deviceConfig.width}}px)
+					</template>
+					</span>
+
+				</template>
+
 			</span>
 			<ChangesBullet
-				v-if="hasChanges"
+				v-if="hasChanges && !allowEdit"
 				:discard-changes-title="discardChangesTitle"
 				@remove-styles="removeStylesGroup"
 			/>
+
+			<div v-if="allowEdit">
+				<Icon
+					icon="edit"
+					@click.stop="$emit('edit-breakpoint', deviceConfig)"
+					v-if="!deviceConfig.isDefault"
+				/>
+				<Icon
+					icon="close"
+					v-if="!deviceConfig.builtIn"
+				/>
+			</div>
+
 		</div>
 	</a>
 </template>
 
 <script>
+import { computed, ref, nextTick, watch } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
 
 export default {
@@ -44,15 +82,66 @@ export default {
 			type: Boolean,
 			default: true,
 			required: false
+		},
+		allowEdit: {
+			type: Boolean,
+			required: true,
+			default: false
+		},
+		editedBreakpoint: {
+			type: Object,
+			required: false,
+			default () {
+				return {}
+			}
 		}
 	},
-	setup () {
+	setup (props, { emit }) {
 		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions } = useResponsiveDevices()
+		const isEdited = computed(() => {
+			console.log(props.editedBreakpoint);
+			console.log(props.deviceConfig);
+			return props.editedBreakpoint === props.deviceConfig
+		})
+
+		const widthInput = ref(null)
+
+		watch(isEdited, (newValue) => {
+			if (newValue) {
+				nextTick(() => {
+					widthInput.value.focus()
+					widthInput.value.select()
+				})
+
+			}
+		})
+
+		function updateWidth(event) {
+			const newValue = event.target.value
+			// Don't allow values lower than 240px
+			props.deviceConfig.width = newValue < 240 ? 240 : newValue
+
+			// Close edit mode
+			emit('edit-breakpoint', null)
+		}
+
+		const deviceWidth = computed({
+			get() {
+				return props.deviceConfig.width
+			},
+			set(newValue) {
+
+			}
+		})
 
 		return {
+			widthInput,
+			deviceWidth,
+			isEdited,
 			activeResponsiveDeviceInfo,
 			setActiveResponsiveDeviceId,
-			getActiveResponsiveOptions
+			getActiveResponsiveOptions,
+			updateWidth
 		}
 	},
 	computed: {
@@ -76,6 +165,11 @@ export default {
 	},
 	methods: {
 		changeDevice () {
+			// Don't change the device if the edit is active
+			if (this.allowEdit) {
+				return
+			}
+
 			if (this.activeResponsiveDeviceInfo.id !== this.deviceConfig.id) {
 				// Set a new active device
 				this.setActiveResponsiveDeviceId(this.deviceConfig.id)
@@ -93,7 +187,6 @@ export default {
 
 <style lang="scss">
 .znpb-device__item {
-	display: flex;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -124,5 +217,17 @@ export default {
 			color: var(--zb-surface-text-active-color);
 		}
 	}
+}
+
+.znpb-device__itemValue {
+	transition: all .3s;
+}
+
+.znpb-device__itemValueInput {
+	width: 50px;
+	padding: 3px;
+	margin: 3px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
 }
 </style>

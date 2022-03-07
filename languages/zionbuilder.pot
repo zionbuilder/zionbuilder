@@ -163,7 +163,7 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: ../includes/Localization.php:66, ../includes/Templates.php:122
+#: ../includes/Localization.php:66, ../includes/Templates.php:126
 msgid "Templates"
 msgstr ""
 
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Align right"
 msgstr ""
 
-#: ../includes/Localization.php:441, ../includes/Elements/Container/Container.php:289
+#: ../includes/Localization.php:441, ../includes/Elements/Container/Container.php:308
 msgid "Justify"
 msgstr ""
 
@@ -1759,11 +1759,11 @@ msgstr ""
 msgid "Heading"
 msgstr ""
 
-#: ../includes/Localization.php:662, ../includes/Elements/Container/Container.php:667, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:297
+#: ../includes/Localization.php:662, ../includes/Elements/Container/Container.php:686, ../includes/Options/Schemas/BackgroundImage.php:191, ../includes/Options/Schemas/StyleOptions.php:297
 msgid "Height"
 msgstr ""
 
-#: ../includes/Localization.php:663, ../includes/Elements/Container/Container.php:515, ../includes/Options/Schemas/StyleOptions.php:209
+#: ../includes/Localization.php:663, ../includes/Elements/Container/Container.php:534, ../includes/Options/Schemas/StyleOptions.php:209
 msgid "Spacing"
 msgstr ""
 
@@ -1975,7 +1975,7 @@ msgstr ""
 msgid "Custom code"
 msgstr ""
 
-#: ../includes/Localization.php:740, ../includes/Elements/Container/Container.php:558, ../includes/Elements/Separator/Separator.php:235
+#: ../includes/Localization.php:740, ../includes/Elements/Container/Container.php:577, ../includes/Elements/Separator/Separator.php:235
 msgid "Margin"
 msgstr ""
 
@@ -1995,7 +1995,7 @@ msgstr ""
 msgid "Margin left"
 msgstr ""
 
-#: ../includes/Localization.php:745, ../includes/Elements/Container/Container.php:525, ../includes/Elements/Separator/Separator.php:200
+#: ../includes/Localization.php:745, ../includes/Elements/Container/Container.php:544, ../includes/Elements/Separator/Separator.php:200
 msgid "Padding"
 msgstr ""
 
@@ -2033,6 +2033,14 @@ msgstr ""
 
 #: ../includes/Localization.php:758
 msgid "Performance"
+msgstr ""
+
+#: ../includes/Localization.php:761
+msgid "all devices"
+msgstr ""
+
+#: ../includes/Localization.php:762
+msgid "max"
 msgstr ""
 
 #: ../includes/MaintenanceMode.php:179
@@ -2096,82 +2104,82 @@ msgstr ""
 msgid "Template was not built with %s"
 msgstr ""
 
-#: ../includes/Templates.php:123, ../includes/Library/Sources/LocalSource.php:88
+#: ../includes/Templates.php:127, ../includes/Library/Sources/LocalSource.php:88
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:127
+#: ../includes/Templates.php:131
 msgid "Blocks"
 msgstr ""
 
-#: ../includes/Templates.php:128
+#: ../includes/Templates.php:132
 msgid "Block"
 msgstr ""
 
-#: ../includes/Templates.php:177
+#: ../includes/Templates.php:181
 msgid "The template type already exists."
 msgstr ""
 
-#: ../includes/Templates.php:217, ../includes/Templates.php:228
+#: ../includes/Templates.php:221, ../includes/Templates.php:232
 msgctxt "Zion Template Library"
 msgid "Zion Templates"
 msgstr ""
 
-#: ../includes/Templates.php:218
+#: ../includes/Templates.php:222
 msgctxt "Zion Template Library"
 msgid "Template"
 msgstr ""
 
-#: ../includes/Templates.php:219
+#: ../includes/Templates.php:223
 msgctxt "Zion Template Library"
 msgid "Add New"
 msgstr ""
 
-#: ../includes/Templates.php:220
+#: ../includes/Templates.php:224
 msgctxt "Zion Template Library"
 msgid "Add New Template"
 msgstr ""
 
-#: ../includes/Templates.php:221
+#: ../includes/Templates.php:225
 msgctxt "Zion Template Library"
 msgid "Edit Template"
 msgstr ""
 
-#: ../includes/Templates.php:222
+#: ../includes/Templates.php:226
 msgctxt "Zion Template Library"
 msgid "New Template"
 msgstr ""
 
-#: ../includes/Templates.php:223
+#: ../includes/Templates.php:227
 msgctxt "Zion Template Library"
 msgid "All Templates"
 msgstr ""
 
-#: ../includes/Templates.php:224
+#: ../includes/Templates.php:228
 msgctxt "Zion Template Library"
 msgid "View Template"
 msgstr ""
 
-#: ../includes/Templates.php:225
+#: ../includes/Templates.php:229
 msgctxt "Zion Template Library"
 msgid "Search Template"
 msgstr ""
 
-#: ../includes/Templates.php:226
+#: ../includes/Templates.php:230
 msgctxt "Zion Template Library"
 msgid "No Templates found"
 msgstr ""
 
-#: ../includes/Templates.php:227
+#: ../includes/Templates.php:231
 msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
-#: ../includes/Templates.php:302
+#: ../includes/Templates.php:301
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:311
+#: ../includes/Templates.php:310
 msgid "Missing template type"
 msgstr ""
 
@@ -2868,11 +2876,11 @@ msgstr ""
 msgid "Content orientation"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:237, ../includes/Elements/Container/Container.php:218, ../includes/Elements/Section/Section.php:263
+#: ../includes/Elements/Column/Column.php:237, ../includes/Elements/Container/Container.php:237, ../includes/Elements/Section/Section.php:263
 msgid "vertical"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:241, ../includes/Elements/Container/Container.php:222, ../includes/Elements/Section/Section.php:267
+#: ../includes/Elements/Column/Column.php:241, ../includes/Elements/Container/Container.php:241, ../includes/Elements/Section/Section.php:267
 msgid "horizontal"
 msgstr ""
 
@@ -2928,23 +2936,23 @@ msgstr ""
 msgid "Space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:351, ../includes/Elements/Column/Column.php:396, ../includes/Elements/Container/Container.php:261, ../includes/Elements/Container/Container.php:299, ../includes/Elements/Container/Container.php:363, ../includes/Elements/Container/Container.php:458, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:289, ../includes/Elements/Section/Section.php:334, ../includes/Elements/Section/Section.php:377, ../includes/Elements/Section/Section.php:422, ../includes/Elements/Separator/Separator.php:119
+#: ../includes/Elements/Column/Column.php:351, ../includes/Elements/Column/Column.php:396, ../includes/Elements/Container/Container.php:280, ../includes/Elements/Container/Container.php:318, ../includes/Elements/Container/Container.php:382, ../includes/Elements/Container/Container.php:477, ../includes/Elements/Counter/Counter.php:151, ../includes/Elements/Section/Section.php:289, ../includes/Elements/Section/Section.php:334, ../includes/Elements/Section/Section.php:377, ../includes/Elements/Section/Section.php:422, ../includes/Elements/Separator/Separator.php:119
 msgid "center"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:361, ../includes/Elements/Container/Container.php:309, ../includes/Elements/Container/Container.php:373, ../includes/Elements/Section/Section.php:344, ../includes/Elements/Section/Section.php:387
+#: ../includes/Elements/Column/Column.php:361, ../includes/Elements/Container/Container.php:328, ../includes/Elements/Container/Container.php:392, ../includes/Elements/Section/Section.php:344, ../includes/Elements/Section/Section.php:387
 msgid "space-between"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:366, ../includes/Elements/Container/Container.php:314, ../includes/Elements/Container/Container.php:378, ../includes/Elements/Section/Section.php:349, ../includes/Elements/Section/Section.php:392
+#: ../includes/Elements/Column/Column.php:366, ../includes/Elements/Container/Container.php:333, ../includes/Elements/Container/Container.php:397, ../includes/Elements/Section/Section.php:349, ../includes/Elements/Section/Section.php:392
 msgid "space-around"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:406, ../includes/Elements/Container/Container.php:271, ../includes/Elements/Container/Container.php:468, ../includes/Elements/Section/Section.php:299, ../includes/Elements/Section/Section.php:432
+#: ../includes/Elements/Column/Column.php:406, ../includes/Elements/Container/Container.php:290, ../includes/Elements/Container/Container.php:487, ../includes/Elements/Section/Section.php:299, ../includes/Elements/Section/Section.php:432
 msgid "stretch"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:411, ../includes/Elements/Container/Container.php:276, ../includes/Elements/Container/Container.php:473, ../includes/Elements/Section/Section.php:304, ../includes/Elements/Section/Section.php:437
+#: ../includes/Elements/Column/Column.php:411, ../includes/Elements/Container/Container.php:295, ../includes/Elements/Container/Container.php:492, ../includes/Elements/Section/Section.php:304, ../includes/Elements/Section/Section.php:437
 msgid "baseline"
 msgstr ""
 
@@ -2956,15 +2964,15 @@ msgstr ""
 msgid "If you choose to wrap the content, all inner elements will be placed on a new line if there is no space for them on the same line."
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:434, ../includes/Elements/Container/Container.php:332
+#: ../includes/Elements/Column/Column.php:434, ../includes/Elements/Container/Container.php:351
 msgid "wrap"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:438, ../includes/Elements/Container/Container.php:336
+#: ../includes/Elements/Column/Column.php:438, ../includes/Elements/Container/Container.php:355
 msgid "nowrap"
 msgstr ""
 
-#: ../includes/Elements/Column/Column.php:442, ../includes/Elements/Container/Container.php:340
+#: ../includes/Elements/Column/Column.php:442, ../includes/Elements/Container/Container.php:359
 msgid "wrap-reverse"
 msgstr ""
 
@@ -3016,127 +3024,135 @@ msgstr ""
 msgid "Flexbox container options"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:226
+#: ../includes/Elements/Container/Container.php:215
+msgid "Gap"
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:216
+msgid "The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins."
+msgstr ""
+
+#: ../includes/Elements/Container/Container.php:245
 msgid "Flex direction"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:238
+#: ../includes/Elements/Container/Container.php:257
 msgid "flex-reverse"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:243
+#: ../includes/Elements/Container/Container.php:262
 msgid "Flex reverse"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:252
+#: ../includes/Elements/Container/Container.php:271
 msgid "Align items"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:253
+#: ../includes/Elements/Container/Container.php:272
 msgid "Set align items"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:256, ../includes/Elements/Container/Container.php:294, ../includes/Elements/Container/Container.php:358, ../includes/Elements/Container/Container.php:453, ../includes/Elements/Separator/Separator.php:114
+#: ../includes/Elements/Container/Container.php:275, ../includes/Elements/Container/Container.php:313, ../includes/Elements/Container/Container.php:377, ../includes/Elements/Container/Container.php:472, ../includes/Elements/Separator/Separator.php:114
 msgid "flex-start"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:266, ../includes/Elements/Container/Container.php:304, ../includes/Elements/Container/Container.php:368, ../includes/Elements/Container/Container.php:463, ../includes/Elements/Separator/Separator.php:124
+#: ../includes/Elements/Container/Container.php:285, ../includes/Elements/Container/Container.php:323, ../includes/Elements/Container/Container.php:387, ../includes/Elements/Container/Container.php:482, ../includes/Elements/Separator/Separator.php:124
 msgid "flex-end"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:290
+#: ../includes/Elements/Container/Container.php:309
 msgid "Set float option for element"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:328
+#: ../includes/Elements/Container/Container.php:347
 msgid "Wrap"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:329
+#: ../includes/Elements/Container/Container.php:348
 msgid "Set wrap for element"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:353
+#: ../includes/Elements/Container/Container.php:372
 msgid "Align content"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:354
+#: ../includes/Elements/Container/Container.php:373
 msgid "Set align content"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:383
+#: ../includes/Elements/Container/Container.php:402
 msgid "strech"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:396
+#: ../includes/Elements/Container/Container.php:415
 msgid "Flexbox child options"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:412
+#: ../includes/Elements/Container/Container.php:431
 msgid "Flex Grow"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:422
+#: ../includes/Elements/Container/Container.php:441
 msgid "Flex Shrink"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:432
+#: ../includes/Elements/Container/Container.php:451
 msgid "Flex Basis"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:448
+#: ../includes/Elements/Container/Container.php:467
 msgid "Align self"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:449
+#: ../includes/Elements/Container/Container.php:468
 msgid "Set align self"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:485
+#: ../includes/Elements/Container/Container.php:504
 msgid "Order"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:490
+#: ../includes/Elements/Container/Container.php:509
 msgid "first"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:494
+#: ../includes/Elements/Container/Container.php:513
 msgid "last"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:505
+#: ../includes/Elements/Container/Container.php:524
 msgid "Custom Order"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:526, ../includes/Elements/Separator/Separator.php:201
+#: ../includes/Elements/Container/Container.php:545, ../includes/Elements/Separator/Separator.php:201
 msgid "Choose the desired padding for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:559, ../includes/Elements/Separator/Separator.php:236
+#: ../includes/Elements/Container/Container.php:578, ../includes/Elements/Separator/Separator.php:236
 msgid "Choose the desired margin for this element."
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:592, ../includes/Options/Schemas/StyleOptions.php:226
+#: ../includes/Elements/Container/Container.php:611, ../includes/Options/Schemas/StyleOptions.php:226
 msgid "Sizing"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:601, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:234
+#: ../includes/Elements/Container/Container.php:620, ../includes/Elements/Separator/Separator.php:153, ../includes/Options/Schemas/BackgroundImage.php:174, ../includes/Options/Schemas/StyleOptions.php:234
 msgid "Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:623, ../includes/Options/Schemas/StyleOptions.php:255
+#: ../includes/Elements/Container/Container.php:642, ../includes/Options/Schemas/StyleOptions.php:255
 msgid "Min Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:645, ../includes/Options/Schemas/StyleOptions.php:276
+#: ../includes/Elements/Container/Container.php:664, ../includes/Options/Schemas/StyleOptions.php:276
 msgid "Max Width"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:679, ../includes/Options/Schemas/StyleOptions.php:308
+#: ../includes/Elements/Container/Container.php:698, ../includes/Options/Schemas/StyleOptions.php:308
 msgid "Min Height"
 msgstr ""
 
-#: ../includes/Elements/Container/Container.php:691, ../includes/Options/Schemas/StyleOptions.php:319
+#: ../includes/Elements/Container/Container.php:710, ../includes/Options/Schemas/StyleOptions.php:319
 msgid "Max Height"
 msgstr ""
 
