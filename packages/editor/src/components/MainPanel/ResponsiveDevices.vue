@@ -36,7 +36,7 @@
 					:disabled="autoscaleActive"
 				/>
 				<Icon
-					icon="lock"
+					:icon="autoscaleActive ? 'lock' : 'unlock'"
 					@click="setAutoScale(!autoscaleActive)"
 					class="znpb-responsiveDeviceHeader__iconLock"
 					:class="{
@@ -111,9 +111,9 @@ function onScaleKeyDown (event) {
 <style lang="scss">
 .znpb-responsiveDeviceHeader {
 	display: flex;
-	border-bottom: 1px solid var(--zb-surface-border-color);
 	padding: 0 16px 8px;
 	margin-bottom: 8px;
+	border-bottom: 1px solid var(--zb-surface-border-color);
 
 	gap: 15px;
 
@@ -121,8 +121,7 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button,
-		&::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -171,16 +170,16 @@ function onScaleKeyDown (event) {
 
 		&--locked input {
 			cursor: not-allowed;
-			opacity: 0.6;
+			opacity: .6;
 			pointer-events: none;
 		}
 	}
 }
 
 .znpb-responsiveDeviceFooter {
-	border-top: 1px solid var(--zb-surface-border-color);
 	padding: 8px 16px 0;
 	margin-top: 8px;
+	border-top: 1px solid var(--zb-surface-border-color);
 }
 
 .znpb-responsiveDeviceEditButton {
@@ -190,8 +189,8 @@ function onScaleKeyDown (event) {
 	padding: 5px 20px;
 
 	.znpb-editor-icon-wrapper {
-		font-size: 12px;
 		margin-right: 5px;
+		font-size: 12px;
 	}
 }
 </style>
