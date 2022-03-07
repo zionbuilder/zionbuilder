@@ -31,19 +31,22 @@
 					({{$translate('max')}}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
-							<input
-								ref="widthInput"
-								type="number"
-								class="znpb-device__itemValueInput"
-								:value="deviceConfig.width"
-								@keydown.enter="updateWidth"
-							>
+							<span class="znpb-device__itemValue-inner">
+								<input
+									ref="widthInput"
+									type="number"
+									class="znpb-device__itemValueInput"
+									:value="deviceConfig.width"
+									@keydown.enter="updateWidth"
+								>
+								px)
+							</span>
 						</template>
 						<template v-else>
 							{{deviceConfig.width}}
+							px)
 						</template>
 
-						px)
 					</span>
 
 				</template>
@@ -57,33 +60,37 @@
 
 			<div
 				v-if="allowEdit"
-				class="znpb-device__item-action znpb-device__item-action--edit"
+				class="znpb-device__item-actions"
 			>
-			<template v-if="isEdited">
-				<Icon
-					icon="check"
-					@click.stop="updateWidth"
-					v-znpb-tooltip="$translate('save')"
-				/>
-				<Icon
-					icon="close"
-					@click="$emit('edit-breakpoint', null)"
-					v-znpb-tooltip="$translate('cancel')"
-				/>
-			</template>
-			<template v-else>
-				<Icon
-					icon="edit"
-					@click.stop="$emit('edit-breakpoint', deviceConfig)"
-					v-if="!deviceConfig.isDefault"
-					v-znpb-tooltip="$translate('edit_breakpoint')"
-				/>
-				<Icon
-					icon="close"
-					v-if="!deviceConfig.builtIn"
-					v-znpb-tooltip="$translate('delete_breakpoint')"
-				/>
-			</template>
+				<template v-if="isEdited">
+					<Icon
+						icon="check"
+						class="znpb-device__item-action"
+						@click.stop="updateWidth"
+						v-znpb-tooltip="$translate('save')"
+					/>
+					<Icon
+						icon="close"
+						class="znpb-device__item-action"
+						@click="$emit('edit-breakpoint', null)"
+						v-znpb-tooltip="$translate('cancel')"
+					/>
+				</template>
+				<template v-else>
+					<Icon
+						icon="edit"
+						class="znpb-device__item-action"
+						@click.stop="$emit('edit-breakpoint', deviceConfig)"
+						v-if="!deviceConfig.isDefault"
+						v-znpb-tooltip="$translate('edit_breakpoint')"
+					/>
+					<Icon
+						icon="close"
+						class="znpb-device__item-action"
+						v-if="!deviceConfig.builtIn"
+						v-znpb-tooltip="$translate('delete_breakpoint')"
+					/>
+				</template>
 
 			</div>
 		</div>
@@ -204,6 +211,40 @@ export default {
 		margin-top: -1px;
 		margin-right: auto;
 	}
+	&Value {
+		position: relative;
+		transition: all 0.3s;
+
+		&-inner {
+			position: absolute;
+			margin-top: -7px;
+			margin-left: 4px;
+		}
+
+		&Input {
+			max-width: 55px;
+			padding: 4.5px 8px;
+			color: var(--zb-input-text-color);
+			font-family: var(--zb-font-stack);
+			font-size: 13px;
+			font-weight: 500;
+			line-height: 1;
+			background-color: var(--zb-input-bg-color);
+			border: 2px solid var(--zb-input-border-color);
+			border-radius: 3px;
+
+			-moz-appearance: textfield;
+
+			&::-webkit-inner-spin-button,
+			&::-webkit-outer-spin-button {
+				-webkit-appearance: none;
+			}
+
+			&:focus {
+				outline: 0;
+			}
+		}
+	}
 	&-content {
 		display: flex;
 		align-items: center;
@@ -230,42 +271,13 @@ export default {
 	}
 
 	&-action {
-		opacity: .5;
+		font-size: 12px;
+		opacity: 0.5;
+		margin-left: 5px;
 
 		&:hover {
 			opacity: 1;
 		}
-
-		.znpb-editor-icon-wrapper {
-			font-size: 12px;
-		}
-	}
-}
-
-.znpb-device__itemValue {
-	transition: all .3s;
-}
-
-.znpb-device__itemValueInput {
-	max-width: 55px;
-	padding: 6px 8px;
-	color: var(--zb-input-text-color);
-	font-family: var(--zb-font-stack);
-	font-size: 13px;
-	font-weight: 500;
-	line-height: 1;
-	background-color: var(--zb-input-bg-color);
-	border: 2px solid var(--zb-input-border-color);
-	border-radius: 3px;
-
-	-moz-appearance: textfield;
-
-	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
-		-webkit-appearance: none;
-	}
-
-	&:focus {
-		outline: 0;
 	}
 }
 </style>

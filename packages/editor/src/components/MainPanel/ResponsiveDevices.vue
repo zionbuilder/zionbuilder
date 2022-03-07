@@ -121,7 +121,8 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -150,7 +151,7 @@ function onScaleKeyDown (event) {
 		}
 
 		input {
-			max-width: 80px;
+			max-width: 85px;
 			padding: 6.5px 25px 6.5px 8px;
 			color: var(--zb-input-text-color);
 			font-family: var(--zb-font-stack);
@@ -170,14 +171,13 @@ function onScaleKeyDown (event) {
 
 		&--locked input {
 			cursor: not-allowed;
-			opacity: .6;
+			opacity: 0.6;
 			pointer-events: none;
 		}
 	}
 }
 
 .znpb-responsiveDeviceFooter {
-	padding: 8px 16px 0;
 	margin-top: 8px;
 	border-top: 1px solid var(--zb-surface-border-color);
 }
@@ -186,7 +186,12 @@ function onScaleKeyDown (event) {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 5px 20px;
+	padding: 12px 16px 4px;
+	transition: color 0.2s;
+
+	&:hover {
+		color: var(--zb-surface-text-hover-color);
+	}
 
 	.znpb-editor-icon-wrapper {
 		margin-right: 5px;
