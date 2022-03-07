@@ -56,17 +56,26 @@
 
 		</div>
 
-		<FlyoutMenuItem
-			v-for="(deviceConfig, i) in orderedResponsiveDevices"
-			v-bind:key="i"
+		<div
+			class="znpb-fancy-scrollbar znpb-responsiveDevicesWrapper"
+			ref="devicesList"
 		>
-			<DeviceElement
-				:device-config="deviceConfig"
-				:allow-edit="editBreakpoints"
-				:edited-breakpoint="editedBreakpoint"
-				@edit-breakpoint="(breakpoint) => editedBreakpoint = breakpoint"
-			/>
-		</FlyoutMenuItem>
+			<FlyoutMenuItem
+				v-for="(deviceConfig, i) in orderedResponsiveDevices"
+				v-bind:key="i"
+				:class="{
+					[`znpb-deviceItem--${deviceConfig.id}`]: deviceConfig.id
+				}"
+			>
+				<DeviceElement
+					:device-config="deviceConfig"
+					:allow-edit="editBreakpoints"
+					:edited-breakpoint="editedBreakpoint"
+					@edit-breakpoint="(breakpoint) => editedBreakpoint = breakpoint"
+				/>
+			</FlyoutMenuItem>
+		</div>
+
 
 		<li
 			class="menu-items znpb-device__addBreakpointForm"
@@ -122,7 +131,7 @@
 		>
 			<div
 				class="znpb-device__addBreakpoint"
-				@click="enabledAddBreakpoint = true"
+				@click="enableAddNewDevice"
 			>
 				<Icon icon="plus" />
 				{{$translate('add_breakpoint')}}
@@ -149,20 +158,20 @@
 </template>
 
 <script setup>
-import DeviceElement from './DeviceElement.vue'
-import FlyoutWrapper from './FlyoutWrapper.vue'
-import FlyoutMenuItem from './FlyoutMenuItem.vue'
-
-import { computed, ref } from 'vue'
+import { computed, ref, nextTick } from 'vue'
 import { orderBy } from 'lodash-es'
 import { useResponsiveDevices } from '@zb/components'
 
+import DeviceElement from './DeviceElement.vue'
+import FlyoutWrapper from './FlyoutWrapper.vue'
+import FlyoutMenuItem from './FlyoutMenuItem.vue'
 
 const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
 
 const preventClose = ref(false)
 const enabledAddBreakpoint = ref(false)
 const newBreakpointValue = ref(500)
+const devicesList = ref(null)
 
 const orderedResponsiveDevices = computed(() => {
 	return orderBy(responsiveDevices.value, ['width'], ['desc'])
@@ -185,16 +194,44 @@ const addBreakpointDeviceIcon = computed(() => {
 	return deviceIcon
 })
 
+function enableAddNewDevice() {
+	enabledAddBreakpoint.value = true
+
+	// Highlight the input field
+	nextTick(() => {
+		widthInput.value.focus()
+		widthInput.value.select()
+	})
+}
+
 function addNewBreakpoint () {
 	const newValue = newBreakpointValue.value < 240 ? 240 : newBreakpointValue.value
 
-	addCustomBreakpoint({
+	const addedDevice = addCustomBreakpoint({
 		width: newValue,
 		icon: addBreakpointDeviceIcon.value
 	})
 
 	// Cleanup add form
 	cancelNewBreakpointAdd()
+
+	const { id } = addedDevice
+	// Scroll to bottom of the list
+	nextTick(() => {
+		const addedDevice = document.querySelector(`.znpb-deviceItem--${id}`)
+
+		if (addedDevice) {
+			addedDevice.scrollIntoView({block: "nearest", inline: "nearest"})
+
+			// Highlight the device
+			addedDevice.classList.add('znpb-deviceItem--new')
+
+			setTimeout(() => {
+				// addedDevice.classList.remove('znpb-deviceItem--new')
+			}, 300);
+
+		}
+	})
 }
 
 function cancelNewBreakpointAdd () {
@@ -235,8 +272,7 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button,
-		&::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -284,7 +320,7 @@ function onScaleKeyDown (event) {
 			}
 
 			&[disabled] {
-				opacity: 0.6;
+				opacity: .6;
 				pointer-events: none;
 			}
 		}
@@ -293,8 +329,9 @@ function onScaleKeyDown (event) {
 
 .znpb-device__addBreakpoint {
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	padding: 7.5px 16px;
 	color: var(--zb-surface-text-active-color);
 	font-size: 13px;
 	font-weight: 500;
@@ -303,14 +340,13 @@ function onScaleKeyDown (event) {
 	background: transparent;
 	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
+	transition: all .3s;
 	cursor: pointer;
 	user-select: none;
-	padding: 7.5px 16px;
-	transition: all 0.3s;
 
 	&:hover {
 		background: none;
-		opacity: 0.6;
+		opacity: .6;
 	}
 
 	& .znpb-editor-icon {
@@ -332,7 +368,7 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color 0.2s;
+	transition: color .2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);
@@ -342,5 +378,13 @@ function onScaleKeyDown (event) {
 		margin-right: 5px;
 		font-size: 12px;
 	}
+}
+
+.znpb-responsiveDevicesWrapper {
+	max-height: 260px;
+}
+
+.znpb-deviceItem--new {
+	color: red !important;
 }
 </style>

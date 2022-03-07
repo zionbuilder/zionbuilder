@@ -143,12 +143,17 @@ export const useResponsiveDevices = () => {
 
 	function addCustomBreakpoint(breakPoint: ResponsiveDevice) {
 		const { width, icon = 'desktop' } = breakPoint
-		responsiveDevices.value.push({
+
+		const newDeviceData = {
 			width,
 			icon,
 			isCustom: true,
 			id: generateUID()
-		})
+		}
+
+		responsiveDevices.value.push(newDeviceData)
+
+		return newDeviceData
 	}
 
 	function deleteBreakpoint(breakpointID) {
