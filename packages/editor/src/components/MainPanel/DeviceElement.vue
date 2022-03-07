@@ -43,8 +43,7 @@
 							</span>
 						</template>
 						<template v-else>
-							{{deviceConfig.width}}
-							px)
+							{{deviceConfig.width}}px)
 						</template>
 
 					</span>
@@ -213,7 +212,7 @@ export default {
 	}
 	&Value {
 		position: relative;
-		transition: all 0.3s;
+		transition: all .3s;
 
 		&-inner {
 			position: absolute;
@@ -235,8 +234,7 @@ export default {
 
 			-moz-appearance: textfield;
 
-			&::-webkit-inner-spin-button,
-			&::-webkit-outer-spin-button {
+			&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 				-webkit-appearance: none;
 			}
 
@@ -275,9 +273,9 @@ export default {
 	}
 
 	&-action {
-		font-size: 12px;
-		opacity: 0.5;
 		margin-left: 5px;
+		font-size: 12px;
+		opacity: .5;
 
 		&:hover {
 			opacity: 1;
