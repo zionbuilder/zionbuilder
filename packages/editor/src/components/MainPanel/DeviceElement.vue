@@ -12,7 +12,7 @@
 				:icon="deviceConfig.icon"
 				class="znpb-device__item-icon"
 			></Icon>
-			<span class="znpb-device__item-name" >
+			<span class="znpb-device__item-name">
 				<template v-if="deviceConfig.name">
 					{{deviceConfig.name}} -
 				</template>
@@ -33,7 +33,7 @@
 									:value="deviceConfig.width"
 									@keydown.enter="updateWidth"
 								>
-								px)
+								px
 							</span>
 						</template>
 						<template v-else>
@@ -76,7 +76,7 @@
 						v-znpb-tooltip="$translate('edit_breakpoint')"
 					/>
 					<Icon
-						icon="close"
+						icon="delete"
 						class="znpb-device__item-action"
 						v-if="!deviceConfig.builtIn"
 						v-znpb-tooltip="$translate('delete_breakpoint')"
@@ -199,7 +199,7 @@ export default {
 	}
 	&Value {
 		position: relative;
-		transition: all .3s;
+		transition: all 0.3s;
 
 		&-inner {
 			position: absolute;
@@ -221,7 +221,8 @@ export default {
 
 			-moz-appearance: textfield;
 
-			&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+			&::-webkit-inner-spin-button,
+			&::-webkit-outer-spin-button {
 				-webkit-appearance: none;
 			}
 
@@ -260,9 +261,9 @@ export default {
 	}
 
 	&-action {
-		margin-left: 5px;
 		font-size: 12px;
-		opacity: .5;
+		opacity: 0.5;
+		margin-left: 8px;
 
 		&:hover {
 			opacity: 1;

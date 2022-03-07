@@ -12,9 +12,7 @@
 					for="znpb-responsive__iframeWidth"
 					class="znpb-responsiveDeviceHeader__iconIndicator"
 				>
-					<Icon
-						icon="width"
-					/>
+					<Icon icon="width" />
 				</label>
 
 				<input
@@ -33,9 +31,7 @@
 					for="znpb-responsive__iframeScale"
 					class="znpb-responsiveDeviceHeader__iconIndicator"
 				>
-					<Icon
-						icon="zoom"
-					/>
+					<Icon icon="zoom" />
 				</label>
 
 				<input
@@ -76,31 +72,32 @@
 			class="menu-items znpb-device__addBreakpointForm"
 			v-if="enabledAddBreakpoint"
 		>
-			<a class="znpb-device__item-content">
-				<Icon
-					:icon="addBreakpointDeviceIcon"
-					class="znpb-device__item-icon"
-				/>
+			<a class="znpb-device__item">
+				<div class="znpb-device__item-content">
+					<Icon
+						:icon="addBreakpointDeviceIcon"
+						class="znpb-device__item-icon"
+					/>
 
-				<span class="znpb-device__item-name" >
-					{{$translate('max')}}
+					<span class="znpb-device__item-name">
+						{{$translate('max')}}
 
-					<span class="znpb-device__itemValue">
-						<span class="znpb-device__itemValue-inner">
-							<input
-								ref="widthInput"
-								type="number"
-								class="znpb-device__itemValueInput"
-								v-model="newBreakpointValue"
-								@keydown.enter="addNewBreakpoint"
-								min="240"
-							>
-							px
+						<span class="znpb-device__itemValue">
+							<span class="znpb-device__itemValue-inner">
+								<input
+									ref="widthInput"
+									type="number"
+									class="znpb-device__itemValueInput"
+									v-model="newBreakpointValue"
+									@keydown.enter="addNewBreakpoint"
+									min="240"
+								>
+								px
+							</span>
 						</span>
 					</span>
-					<div
-						class="znpb-device__item-actions"
-					>
+
+					<div class="znpb-device__item-actions">
 						<Icon
 							icon="check"
 							class="znpb-device__item-action"
@@ -115,16 +112,21 @@
 						/>
 
 					</div>
-				</span>
+				</div>
 			</a>
 		</li>
 
 		<div
-			class="znpb-device__addBreakpoint"
+			class="znpb-device__addBreakpointWrapper"
 			v-if="editBreakpoints"
-			@click="enabledAddBreakpoint = true"
 		>
-			{{$translate('add_breakpoint')}}
+			<div
+				class="znpb-device__addBreakpoint"
+				@click="enabledAddBreakpoint = true"
+			>
+				<Icon icon="plus" />
+				{{$translate('add_breakpoint')}}
+			</div>
 		</div>
 
 		<div class="znpb-responsiveDeviceFooter">
@@ -183,7 +185,7 @@ const addBreakpointDeviceIcon = computed(() => {
 	return deviceIcon
 })
 
-function addNewBreakpoint() {
+function addNewBreakpoint () {
 	const newValue = newBreakpointValue.value < 240 ? 240 : newBreakpointValue.value
 
 	addCustomBreakpoint({
@@ -195,7 +197,7 @@ function addNewBreakpoint() {
 	cancelNewBreakpointAdd()
 }
 
-function cancelNewBreakpointAdd() {
+function cancelNewBreakpointAdd () {
 	enabledAddBreakpoint.value = false
 	newBreakpointValue.value = 500
 }
@@ -233,7 +235,8 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -281,10 +284,41 @@ function onScaleKeyDown (event) {
 			}
 
 			&[disabled] {
-				opacity: .6;
+				opacity: 0.6;
 				pointer-events: none;
 			}
 		}
+	}
+}
+
+.znpb-device__addBreakpoint {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--zb-surface-text-active-color);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1;
+	text-align: center;
+	background: transparent;
+	border: 2px solid var(--zb-surface-border-color);
+	border-radius: 3px;
+	cursor: pointer;
+	user-select: none;
+	padding: 7.5px 16px;
+	transition: all 0.3s;
+
+	&:hover {
+		background: none;
+		opacity: 0.6;
+	}
+
+	& .znpb-editor-icon {
+		margin-right: 5px;
+	}
+
+	&Wrapper {
+		padding: 8px 16px;
 	}
 }
 
@@ -298,7 +332,7 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color .2s;
+	transition: color 0.2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);
