@@ -36,7 +36,6 @@
 								type="number"
 								class="znpb-device__itemValueInput"
 								:value="deviceConfig.width"
-								@blur="updateWidth"
 								@keydown.enter="updateWidth"
 							>
 						</template>
@@ -60,17 +59,33 @@
 				v-if="allowEdit"
 				class="znpb-device__item-action znpb-device__item-action--edit"
 			>
+			<template v-if="isEdited">
+				<Icon
+					icon="check"
+					@click.stop="updateWidth"
+					v-znpb-tooltip="$translate('save')"
+				/>
+				<Icon
+					icon="close"
+					@click="$emit('edit-breakpoint', null)"
+					v-znpb-tooltip="$translate('cancel')"
+				/>
+			</template>
+			<template v-else>
 				<Icon
 					icon="edit"
 					@click.stop="$emit('edit-breakpoint', deviceConfig)"
 					v-if="!deviceConfig.isDefault"
+					v-znpb-tooltip="$translate('edit_breakpoint')"
 				/>
 				<Icon
 					icon="close"
 					v-if="!deviceConfig.builtIn"
+					v-znpb-tooltip="$translate('delete_breakpoint')"
 				/>
-			</div>
+			</template>
 
+			</div>
 		</div>
 	</a>
 </template>
@@ -121,8 +136,8 @@ export default {
 			}
 		})
 
-		function updateWidth (event) {
-			const newValue = event.target.value
+		function updateWidth () {
+			const newValue = widthInput.value.value
 			// Don't allow values lower than 240px
 			props.deviceConfig.width = newValue < 240 ? 240 : newValue
 
@@ -130,18 +145,8 @@ export default {
 			emit('edit-breakpoint', null)
 		}
 
-		const deviceWidth = computed({
-			get () {
-				return props.deviceConfig.width
-			},
-			set (newValue) {
-
-			}
-		})
-
 		return {
 			widthInput,
-			deviceWidth,
 			isEdited,
 			activeResponsiveDeviceInfo,
 			setActiveResponsiveDeviceId,
