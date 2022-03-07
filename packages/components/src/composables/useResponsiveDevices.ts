@@ -1,12 +1,31 @@
-import { ref, Ref, computed, readonly, watch, nextTick } from 'vue'
+import { ref, Ref, computed, readonly } from 'vue'
+import { generateUID } from '@zb/utils'
 
 interface ResponsiveDevice {
-	name: string;
+	name?: string;
 	id: string;
 	width?: number,
 	height?: number,
-	icon: string
+	icon: string,
+	isCustom?: boolean,
+	isDefault?: boolean,
+	builtIn?: boolean
 }
+
+const deviceSizesConfig = [
+	{
+		width: 992,
+		icon: 'laptop'
+	},
+	{
+		width: 768,
+		icon: 'tablet'
+	},
+	{
+		width: 575,
+		icon: 'mobile'
+	}
+]
 
 const activeResponsiveDeviceId = ref('default')
 const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref([
@@ -122,6 +141,25 @@ export const useResponsiveDevices = () => {
 		iframeWidth.value = actualWidth
 	}
 
+	function addCustomBreakpoint(breakPoint: ResponsiveDevice) {
+		const { width, icon = 'desktop' } = breakPoint
+		responsiveDevices.value.push({
+			width,
+			icon,
+			isCustom: true,
+			id: generateUID()
+		})
+	}
+
+	function deleteBreakpoint(breakpointID) {
+		const deviceConfig = responsiveDevices.value.find(deviceConfig => deviceConfig.id === breakpointID)
+
+		if (deviceConfig) {
+			const index = responsiveDevices.value.indexOf(deviceConfig)
+			responsiveDevices.value.splice(index, 1)
+		}
+	}
+
 	return {
 		ignoreWidthChangeFlag,
 		activeResponsiveDeviceId,
@@ -136,6 +174,9 @@ export const useResponsiveDevices = () => {
 		setActiveResponsiveOptions,
 		setCustomIframeWidth,
 		setCustomScale,
-		setAutoScale
+		setAutoScale,
+		addCustomBreakpoint,
+		deleteBreakpoint,
+		deviceSizesConfig
 	}
 }

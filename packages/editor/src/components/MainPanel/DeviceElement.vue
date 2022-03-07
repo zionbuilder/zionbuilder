@@ -6,29 +6,23 @@
 		@mousedown.stop=""
 		class="znpb-device__item"
 		:class="{'znpb-device__item--active': isActiveDevice}"
-		:style="{
-			'justify-content': showDeviceTitles ? 'flex-start' : 'center'
-		}"
 	>
 		<div class="znpb-device__item-content">
 			<Icon
 				:icon="deviceConfig.icon"
 				class="znpb-device__item-icon"
-				:style="{
-					'margin-right': showDeviceTitles ? '5px' : 0
-				}"
 			></Icon>
-			<span
-				v-if="showDeviceTitles"
-				class="znpb-device__item-name"
-			>
-				{{deviceConfig.name}}
+			<span class="znpb-device__item-name" >
+				<template v-if="deviceConfig.name">
+					{{deviceConfig.name}} -
+				</template>
+
 				<template v-if="deviceConfig.id === 'default'">
 					({{$translate('all_devices')}})
 				</template>
 
 				<template v-else>
-					({{$translate('max')}}
+					{{$translate('max')}}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
 							<span class="znpb-device__itemValue-inner">
@@ -43,11 +37,9 @@
 							</span>
 						</template>
 						<template v-else>
-							{{deviceConfig.width}}px)
+							{{deviceConfig.width}}px
 						</template>
-
 					</span>
-
 				</template>
 
 			</span>
@@ -88,6 +80,7 @@
 						class="znpb-device__item-action"
 						v-if="!deviceConfig.builtIn"
 						v-znpb-tooltip="$translate('delete_breakpoint')"
+						@click="deleteBreakpoint(deviceConfig.id)"
 					/>
 				</template>
 
@@ -104,11 +97,6 @@ export default {
 	name: 'device-element',
 	props: {
 		deviceConfig: Object,
-		showDeviceTitles: {
-			type: Boolean,
-			default: true,
-			required: false
-		},
 		allowEdit: {
 			type: Boolean,
 			required: true,
@@ -123,10 +111,8 @@ export default {
 		}
 	},
 	setup (props, { emit }) {
-		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions, deleteBreakpoint } = useResponsiveDevices()
 		const isEdited = computed(() => {
-			console.log(props.editedBreakpoint);
-			console.log(props.deviceConfig);
 			return props.editedBreakpoint === props.deviceConfig
 		})
 
@@ -157,7 +143,8 @@ export default {
 			activeResponsiveDeviceInfo,
 			setActiveResponsiveDeviceId,
 			getActiveResponsiveOptions,
-			updateWidth
+			updateWidth,
+			deleteBreakpoint
 		}
 	},
 	computed: {

@@ -61,7 +61,7 @@
 		</div>
 
 		<FlyoutMenuItem
-			v-for="(deviceConfig, i) in responsiveDevices"
+			v-for="(deviceConfig, i) in orderedResponsiveDevices"
 			v-bind:key="i"
 		>
 			<DeviceElement
@@ -71,6 +71,61 @@
 				@edit-breakpoint="(breakpoint) => editedBreakpoint = breakpoint"
 			/>
 		</FlyoutMenuItem>
+
+		<li
+			class="menu-items znpb-device__addBreakpointForm"
+			v-if="enabledAddBreakpoint"
+		>
+			<a class="znpb-device__item-content">
+				<Icon
+					:icon="addBreakpointDeviceIcon"
+					class="znpb-device__item-icon"
+				/>
+
+				<span class="znpb-device__item-name" >
+					{{$translate('max')}}
+
+					<span class="znpb-device__itemValue">
+						<span class="znpb-device__itemValue-inner">
+							<input
+								ref="widthInput"
+								type="number"
+								class="znpb-device__itemValueInput"
+								v-model="newBreakpointValue"
+								@keydown.enter="addNewBreakpoint"
+								min="240"
+							>
+							px
+						</span>
+					</span>
+					<div
+						class="znpb-device__item-actions"
+					>
+						<Icon
+							icon="check"
+							class="znpb-device__item-action"
+							@click.stop="addNewBreakpoint"
+							v-znpb-tooltip="$translate('save')"
+						/>
+						<Icon
+							icon="close"
+							class="znpb-device__item-action"
+							@click="cancelNewBreakpointAdd"
+							v-znpb-tooltip="$translate('cancel')"
+						/>
+
+					</div>
+				</span>
+			</a>
+		</li>
+
+		<div
+			class="znpb-device__addBreakpoint"
+			v-if="editBreakpoints"
+			@click="enabledAddBreakpoint = true"
+		>
+			{{$translate('add_breakpoint')}}
+		</div>
 
 		<div class="znpb-responsiveDeviceFooter">
 			<div
@@ -97,11 +152,54 @@ import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 
 import { computed, ref } from 'vue'
+import { orderBy } from 'lodash-es'
 import { useResponsiveDevices } from '@zb/components'
 
-const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale } = useResponsiveDevices()
+
+const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
 
 const preventClose = ref(false)
+const enabledAddBreakpoint = ref(false)
+const newBreakpointValue = ref(500)
+
+const orderedResponsiveDevices = computed(() => {
+	return orderBy(responsiveDevices.value, ['width'], ['desc'])
+})
+
+/**
+ * This will be used to set the proper device icon when adding new breakpoint
+ */
+const widthInput = ref(null)
+const addBreakpointDeviceIcon = computed(() => {
+	let deviceIcon = 'desktop'
+	const currentValue = newBreakpointValue.value
+
+	deviceSizesConfig.forEach(device => {
+		if (currentValue < device.width) {
+			deviceIcon = device.icon
+		}
+	})
+
+	return deviceIcon
+})
+
+function addNewBreakpoint() {
+	const newValue = newBreakpointValue.value < 240 ? 240 : newBreakpointValue.value
+
+	addCustomBreakpoint({
+		width: newValue,
+		icon: addBreakpointDeviceIcon.value
+	})
+
+	// Cleanup add form
+	cancelNewBreakpointAdd()
+}
+
+function cancelNewBreakpointAdd() {
+	enabledAddBreakpoint.value = false
+	newBreakpointValue.value = 500
+}
+
 
 const deviceIcon = computed(() => {
 	return activeResponsiveDeviceInfo.value.icon
@@ -119,6 +217,7 @@ function onScaleKeyDown (event) {
 	setCustomScale(event.target.value)
 	preventClose.value = false
 }
+
 </script>
 
 <style lang="scss">
