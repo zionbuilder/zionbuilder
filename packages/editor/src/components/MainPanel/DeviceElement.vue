@@ -30,19 +30,19 @@
 				<template v-else>
 					({{$translate('max')}}
 					<span class="znpb-device__itemValue">
-					<template v-if="isEdited">
-						<input
-							ref="widthInput"
-							type="number"
-							class="znpb-device__itemValueInput"
-							:value="deviceConfig.width"
-							@blur="updateWidth"
-							@keydown.enter="updateWidth"
-						>
-					</template>
-					<template v-else>
-						{{deviceConfig.width}}px)
-					</template>
+						<template v-if="isEdited">
+							<input
+								ref="widthInput"
+								type="number"
+								class="znpb-device__itemValueInput"
+								:value="deviceConfig.width"
+								@blur="updateWidth"
+								@keydown.enter="updateWidth"
+							>
+						</template>
+						<template v-else>
+							{{deviceConfig.width}}px)
+						</template>
 					</span>
 
 				</template>
@@ -54,7 +54,10 @@
 				@remove-styles="removeStylesGroup"
 			/>
 
-			<div v-if="allowEdit">
+			<div
+				v-if="allowEdit"
+				class="znpb-device__item-action znpb-device__item-action--edit"
+			>
 				<Icon
 					icon="edit"
 					@click.stop="$emit('edit-breakpoint', deviceConfig)"
@@ -116,7 +119,7 @@ export default {
 			}
 		})
 
-		function updateWidth(event) {
+		function updateWidth (event) {
 			const newValue = event.target.value
 			// Don't allow values lower than 240px
 			props.deviceConfig.width = newValue < 240 ? 240 : newValue
@@ -126,10 +129,10 @@ export default {
 		}
 
 		const deviceWidth = computed({
-			get() {
+			get () {
 				return props.deviceConfig.width
 			},
-			set(newValue) {
+			set (newValue) {
 
 			}
 		})
@@ -192,6 +195,7 @@ export default {
 	align-items: center;
 	&-name {
 		margin-top: -1px;
+		margin-right: auto;
 	}
 	&-content {
 		display: flex;
@@ -217,17 +221,45 @@ export default {
 			color: var(--zb-surface-text-active-color);
 		}
 	}
+
+	&-action {
+		opacity: 0.5;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		.znpb-editor-icon-wrapper {
+			font-size: 12px;
+		}
+	}
 }
 
 .znpb-device__itemValue {
-	transition: all .3s;
+	transition: all 0.3s;
 }
 
 .znpb-device__itemValueInput {
-	width: 50px;
-	padding: 3px;
-	margin: 3px;
-	border: 1px solid #ccc;
+	max-width: 55px;
+	padding: 6px 8px;
+	color: var(--zb-input-text-color);
+	font-family: var(--zb-font-stack);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1;
+	background-color: var(--zb-input-bg-color);
+	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
+
+	-moz-appearance: textfield;
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+	}
+
+	&:focus {
+		outline: 0;
+	}
 }
 </style>

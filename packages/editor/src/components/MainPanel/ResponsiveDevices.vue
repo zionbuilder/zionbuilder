@@ -111,8 +111,9 @@ function onScaleKeyDown (event) {
 <style lang="scss">
 .znpb-responsiveDeviceHeader {
 	display: flex;
-	padding: 0 16px 8px;
 	border-bottom: 1px solid var(--zb-surface-border-color);
+	padding: 0 16px 8px;
+	margin-bottom: 8px;
 
 	gap: 15px;
 
@@ -120,7 +121,8 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -148,8 +150,6 @@ function onScaleKeyDown (event) {
 			}
 		}
 
-
-
 		input {
 			max-width: 80px;
 			padding: 6.5px 25px 6.5px 8px;
@@ -171,10 +171,16 @@ function onScaleKeyDown (event) {
 
 		&--locked input {
 			cursor: not-allowed;
-			opacity: .6;
+			opacity: 0.6;
 			pointer-events: none;
 		}
 	}
+}
+
+.znpb-responsiveDeviceFooter {
+	border-top: 1px solid var(--zb-surface-border-color);
+	padding: 8px 16px 0;
+	margin-top: 8px;
 }
 
 .znpb-responsiveDeviceEditButton {
@@ -182,5 +188,10 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 5px 20px;
+
+	.znpb-editor-icon-wrapper {
+		font-size: 12px;
+		margin-right: 5px;
+	}
 }
 </style>
