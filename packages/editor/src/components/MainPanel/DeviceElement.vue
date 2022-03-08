@@ -31,6 +31,7 @@
 									class="znpb-device__itemValueInput"
 									:value="deviceConfig.width"
 									@keydown.enter="updateWidth"
+									@blur="updateWidth"
 								>
 								px
 							</span>
@@ -170,11 +171,6 @@ export default {
 	},
 	methods: {
 		changeDevice () {
-			// Don't change the device if the edit is active
-			if (this.allowEdit) {
-				return
-			}
-
 			if (this.activeResponsiveDeviceInfo.id !== this.deviceConfig.id) {
 				// Set a new active device
 				this.setActiveResponsiveDeviceId(this.deviceConfig.id)
