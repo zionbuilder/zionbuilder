@@ -90,7 +90,7 @@ export default {
 					styles.height = `${activeResponsiveDeviceInfo.value.height}px`
 				}
 
-				if (iframeWidth.value && activeResponsiveDeviceId.value !== 'default') {
+				if (iframeWidth.value) {
 					styles.width = `${iframeWidth.value}px`
 				}
 
