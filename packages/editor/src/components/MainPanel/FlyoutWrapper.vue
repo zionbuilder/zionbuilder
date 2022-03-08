@@ -3,6 +3,7 @@
 		class="znpb-editor-header-flyout"
 		@mouseover.stop="onMouseOver"
 		@mouseleave.stop="onMouseOut"
+		ref="root"
 	>
 		<div class="znpb-editor-header__menu_button">
 			<slot name="panel-icon"></slot>
@@ -20,7 +21,7 @@
 	</div>
 </template>
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
 
 const props = defineProps({
 	items: {
@@ -40,6 +41,7 @@ const props = defineProps({
 const showflyout = ref(false)
 const listContainer = ref(null)
 const negativeMargin = ref(0)
+const root = ref(null)
 
 const computedStyles = computed(() => {
 	let styles = {}
@@ -55,6 +57,8 @@ function onMouseOver() {
 	showflyout.value = true
 }
 
+const emit = defineEmits(['show', 'hide'])
+
 function onMouseOut () {
 	if (!props.preventClose) {
 		showflyout.value = false
@@ -68,11 +72,35 @@ watch(showflyout, (newValue) => {
 			positionDropdown()
 			resizeObserver.observe(listContainer.value)
 		})
+
+		emit('show')
 	} else {
 		negativeMargin.value = 0
 		resizeObserver.unobserve(listContainer.value)
+		emit('hide')
 	}
 })
+
+watch(() => props.preventClose, (newValue) => {
+	if (newValue) {
+		window.addEventListener('click', onOutsideClick)
+	} else {
+		window.removeEventListener('click', onOutsideClick)
+	}
+})
+
+onBeforeUnmount(() => {
+	window.removeEventListener('click', onOutsideClick)
+})
+
+/**
+ * Closes the flyout if clicked outside of it
+ */
+function onOutsideClick(event) {
+	if (!root.value.contains(event.target)) {
+		showflyout.value = false
+	}
+}
 
 function positionDropdown() {
 	const { bottom } = listContainer.value.getBoundingClientRect()

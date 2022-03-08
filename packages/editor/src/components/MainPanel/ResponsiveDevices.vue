@@ -2,6 +2,7 @@
 	<FlyoutWrapper
 		@mousedown.stop=""
 		:prevent-close="preventClose"
+		@hide="onFlyoutHide"
 	>
 		<template v-slot:panel-icon>
 			<Icon :icon="deviceIcon" />
@@ -22,6 +23,7 @@
 					@blur="onWidthKeyDown"
 					@focus="preventClose = true"
 					:value="iframeWidth"
+					v-znpb-tooltip="$translate('preview_width')"
 				/>
 
 			</div>
@@ -42,6 +44,7 @@
 					@focus="preventClose = true"
 					:value="scaleValue"
 					:disabled="autoscaleActive"
+					v-znpb-tooltip="$translate('preview_scale')"
 				/>
 				<Icon
 					:icon="autoscaleActive ? 'lock' : 'unlock'"
@@ -139,7 +142,7 @@
 
 		<div class="znpb-responsiveDeviceFooter">
 			<div
-				@click="editBreakpoints = !editBreakpoints"
+				@click="disableEditBreakpoints"
 				class="znpb-responsiveDeviceEditButton"
 			>
 				<template v-if="!editBreakpoints">
@@ -157,24 +160,19 @@
 </template>
 
 <script setup>
-import { computed, ref, nextTick } from 'vue'
-import { orderBy } from 'lodash-es'
+import { computed, ref, nextTick, watch } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
 
 import DeviceElement from './DeviceElement.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 
-const { activeResponsiveDeviceInfo, responsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
+const { activeResponsiveDeviceInfo, orderedResponsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
 
 const preventClose = ref(false)
 const enabledAddBreakpoint = ref(false)
 const newBreakpointValue = ref(500)
 const devicesList = ref(null)
-
-const orderedResponsiveDevices = computed(() => {
-	return orderBy(responsiveDevices.value, ['width'], ['desc'])
-})
 
 /**
  * This will be used to set the proper device icon when adding new breakpoint
@@ -192,6 +190,16 @@ const addBreakpointDeviceIcon = computed(() => {
 
 	return deviceIcon
 })
+
+function disableEditBreakpoints() {
+	preventClose.value = true
+
+	setTimeout(() => {
+		preventClose.value = false
+	}, 30);
+
+	editBreakpoints.value = !editBreakpoints.value
+}
 
 function enableAddNewDevice () {
 	enabledAddBreakpoint.value = true
@@ -238,7 +246,6 @@ function cancelNewBreakpointAdd () {
 	newBreakpointValue.value = 500
 }
 
-
 const deviceIcon = computed(() => {
 	return activeResponsiveDeviceInfo.value.icon
 })
@@ -256,6 +263,25 @@ function onScaleKeyDown (event) {
 	preventClose.value = false
 }
 
+// Prevent flyout wrapper from closing when we have an active action
+watch( [editedBreakpoint, enabledAddBreakpoint], ([newValue, newValue2]) => {
+	if (newValue || newValue2) {
+		preventClose.value = true
+	} else if (!newValue && !newValue2) {
+		preventClose.value = false
+	}
+})
+
+// Cleanup when hiding menu
+function onFlyoutHide() {
+	// Cancel add new breakpoint
+	cancelNewBreakpointAdd()
+
+	// Cancel edit breakpoint
+	editBreakpoints.value = false
+	editedBreakpoint.value = null
+}
+
 </script>
 
 <style lang="scss">
@@ -271,8 +297,7 @@ function onScaleKeyDown (event) {
 	input[type="number"] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button,
-		&::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -320,7 +345,7 @@ function onScaleKeyDown (event) {
 			}
 
 			&[disabled] {
-				opacity: 0.6;
+				opacity: .6;
 				pointer-events: none;
 			}
 		}
@@ -340,13 +365,13 @@ function onScaleKeyDown (event) {
 	background: transparent;
 	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all 0.3s;
+	transition: all .3s;
 	cursor: pointer;
 	user-select: none;
 
 	&:hover {
 		background: none;
-		opacity: 0.6;
+		opacity: .6;
 	}
 
 	& .znpb-editor-icon {
@@ -368,7 +393,7 @@ function onScaleKeyDown (event) {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color 0.2s;
+	transition: color .2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);

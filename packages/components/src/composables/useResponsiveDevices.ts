@@ -1,5 +1,6 @@
 import { ref, Ref, computed, readonly } from 'vue'
 import { generateUID } from '@zb/utils'
+import { orderBy } from 'lodash-es'
 
 interface ResponsiveDevice {
 	name?: string;
@@ -69,6 +70,19 @@ const iframeWidth: Ref<number | null> = ref(0)
 const autoscaleActive = ref(false)
 const scaleValue = ref(100)
 const ignoreWidthChangeFlag = ref(false)
+
+const orderedResponsiveDevices = computed(() => {
+	return orderBy(responsiveDevices.value, ['width'], ['desc'])
+})
+
+const responsiveDevicesAsIdWidth = computed(() => {
+	let devices = {}
+	orderedResponsiveDevices.value.forEach(deviceConfig => {
+		devices[deviceConfig.id] = deviceConfig.width
+	})
+
+	return devices
+})
 
 export const useResponsiveDevices = () => {
 	const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
@@ -156,7 +170,7 @@ export const useResponsiveDevices = () => {
 		return newDeviceData
 	}
 
-	function deleteBreakpoint(breakpointID) {
+	function deleteBreakpoint(breakpointID: string) {
 		const deviceConfig = responsiveDevices.value.find(deviceConfig => deviceConfig.id === breakpointID)
 
 		if (deviceConfig) {
@@ -182,6 +196,10 @@ export const useResponsiveDevices = () => {
 		setAutoScale,
 		addCustomBreakpoint,
 		deleteBreakpoint,
-		deviceSizesConfig
+		deviceSizesConfig,
+
+		// Computed
+		responsiveDevicesAsIdWidth,
+		orderedResponsiveDevices
 	}
 }

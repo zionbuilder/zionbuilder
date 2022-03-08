@@ -1,6 +1,5 @@
-/**
- * !! Deprecated in favor of zb.editor.getCssFromSelector
- */
+import { useResponsiveDevices } from '@zb/components'
+
 const responsiveDevices = {
 	laptop: '991.98px',
 	tablet: '767.98px',
@@ -9,8 +8,6 @@ const responsiveDevices = {
 
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = ''
-
-	console.warn('This was deprecated in favor of zb.editor.utill.getCssFromSelector')
 
 	if (styleConfig.styles) {
 		css += getStyles(selectors.join(','), styleConfig.styles, args)
@@ -47,14 +44,10 @@ export function getCssFromSelector(selectors, styleConfig, args = {}) {
 
 export function getStyles(cssSelector, styleValues = {}, args) {
 	let compiledStyles = ''
-	const devices = args.devices || [
-		'default',
-		'laptop',
-		'tablet',
-		'mobile'
-	]
 
-	devices.forEach((deviceId) => {
+	const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
+
+	Object.keys(responsiveDevicesAsIdWidth.value).forEach((deviceId) => {
 		const pseudoStyleValue = styleValues[deviceId]
 		if (pseudoStyleValue) {
 			let pseudoStyles = getPseudoStyles(cssSelector, pseudoStyleValue, args)
@@ -103,8 +96,11 @@ export function getResponsiveDeviceStyles(deviceId, styles) {
 		return ''
 	}
 
-	const responsiveWidthValue = responsiveDevices[deviceId]
-	const start = deviceId !== 'default' ? `@media (max-width: ${responsiveWidthValue} ) {` : ''
+	const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
+
+	const responsiveWidthValue = responsiveDevicesAsIdWidth.value[deviceId]
+
+	const start = deviceId !== 'default' ? `@media (max-width: ${responsiveWidthValue}px ) {` : ''
 	const end = deviceId !== 'default' ? `}` : ''
 
 	return `${start}${styles}${end}`

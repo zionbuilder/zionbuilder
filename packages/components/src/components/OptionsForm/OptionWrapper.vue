@@ -34,22 +34,12 @@
 				@remove-styles="onDeleteOption"
 			/>
 
-			<Tooltip
+			<Icon
+				icon="question-mark"
 				v-if="schema.description"
-				placement="top"
-				:enterable="false"
+				v-znpb-tooltip="schema.description"
 				class="znpb-popper-trigger znpb-popper-trigger--circle"
-				tooltip-class="znpb-form__input-description-tooltip"
-			>
-				<template #content>
-					<div v-html="schema.description">
-
-					</div>
-				</template>
-
-				<Icon icon="question-mark" />
-
-			</Tooltip>
+			/>
 
 			<Tooltip
 				v-if="schema.pseudo_options"
@@ -644,13 +634,6 @@ export default {
 		display: flex;
 		align-items: flex-end;
 	}
-}
-
-.znpb-form__input-description-tooltip {
-	max-width: 200px;
-	padding: 5px 10px !important;
-	line-height: 1.7;
-	text-align: center;
 }
 
 .znpb-has-pseudo-options {

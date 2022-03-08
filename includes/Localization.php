@@ -767,6 +767,8 @@ class Localization {
 				'disable_autoscale'                        => __( 'Disable autoscale', 'zionbuilder' ),
 				'enable_autoscale'                         => __( 'Enable autoscale', 'zionbuilder' ),
 				'add_breakpoint'                           => __( 'Add breakpoint', 'zionbuilder' ),
+				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
+				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 			]
 		);
 	}
