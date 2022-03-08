@@ -84,9 +84,9 @@ const responsiveDevicesAsIdWidth = computed(() => {
 	return devices
 })
 
-export const useResponsiveDevices = () => {
-	const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
+const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
 
+export const useResponsiveDevices = () => {
 	/**
 	 * Sets a current device as active
 	 * Sets the current device width

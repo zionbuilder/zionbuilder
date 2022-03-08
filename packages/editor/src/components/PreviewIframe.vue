@@ -68,11 +68,12 @@ export default {
 
 		const getWrapperClasses = computed(() => {
 			const { width: containerWidth } = containerSize.value
+			const actualIframeWidth = activeResponsiveDeviceId.value === 'default' && iframeWidth.value < 1200 ? 1200 : iframeWidth.value
 
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
-				'znpb-editor-iframe--alignStart': iframeWidth.value >= containerWidth
+				'znpb-editor-iframe--alignStart': actualIframeWidth >= containerWidth
 			}
 		})
 
@@ -80,6 +81,13 @@ export default {
 			let styles = {}
 
 			return styles
+		})
+
+		// Change the device width if it is the currently selected device
+		on('zionbuilder/responsive/change_device_width', (device, newValue, oldValue) => {
+			if (device.id === activeResponsiveDeviceId.value && newValue !== oldValue) {
+				setCustomIframeWidth(newValue)
+			}
 		})
 
 		const iframeStyles = computed(() => {

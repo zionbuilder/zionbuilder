@@ -62,7 +62,7 @@
 					<Icon
 						icon="close"
 						class="znpb-device__item-action"
-						@click="$emit('edit-breakpoint', null)"
+						@click.stop="$emit('edit-breakpoint', null)"
 						v-znpb-tooltip="$translate('cancel')"
 					/>
 				</template>
@@ -79,7 +79,7 @@
 						class="znpb-device__item-action"
 						v-if="!deviceConfig.builtIn"
 						v-znpb-tooltip="$translate('delete_breakpoint')"
-						@click="deleteBreakpoint(deviceConfig.id)"
+						@click.stop="deleteBreakpoint(deviceConfig.id)"
 					/>
 				</template>
 
@@ -91,6 +91,7 @@
 <script>
 import { computed, ref, nextTick, watch } from 'vue'
 import { useResponsiveDevices } from '@zb/components'
+import { trigger } from '@zb/hooks'
 
 export default {
 	name: 'device-element',
@@ -128,12 +129,14 @@ export default {
 		})
 
 		function updateWidth () {
-			const newValue = widthInput.value.value
+			const oldValue = props.deviceConfig.width
+			const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value)
 			// Don't allow values lower than 240px
-			props.deviceConfig.width = newValue < 240 ? 240 : newValue
+			props.deviceConfig.width = newValue
 
 			// Close edit mode
 			emit('edit-breakpoint', null)
+			trigger('zionbuilder/responsive/change_device_width', props.deviceConfig, newValue, oldValue)
 		}
 
 		return {
