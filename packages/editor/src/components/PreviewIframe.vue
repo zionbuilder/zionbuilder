@@ -74,7 +74,8 @@ export default {
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
-				'znpb-editor-iframe--alignStart': Math.round(scaleValue.value / 100 * iframeWidth ) >= containerWidth
+				'znpb-editor-iframe--alignStart': Math.round(scaleValue.value / 100 * iframeWidth ) > containerWidth,
+				'znpb-editor-iframe--hideOverflow': Math.round(scaleValue.value / 100 * iframeWidth ) <= containerWidth
 			}
 		})
 
@@ -453,5 +454,13 @@ export default {
 	padding: 8px 4px;
 	background: #fff;
 	border-radius: 3px;
+}
+
+.znpb-editor-iframe--hideOverflow {
+	overflow: hidden;
+
+	#znpb-editor-iframe {
+		margin: initial;
+	}
 }
 </style>
