@@ -48,7 +48,7 @@
 				/>
 				<Icon
 					:icon="autoscaleActive ? 'lock' : 'unlock'"
-					@click="setAutoScale(!autoscaleActive)"
+					@click.stop="setAutoScale(!autoscaleActive)"
 					class="znpb-responsiveDeviceHeader__iconLock"
 					:class="{
 						'znpb-responsiveDeviceHeader__iconLock--locked': autoscaleActive
