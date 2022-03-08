@@ -160,8 +160,8 @@ export default {
 
 			if (activeResponsiveDeviceInfo.value.width) {
 				setCustomIframeWidth(activeResponsiveDeviceInfo.value.width)
-			} else if (activeResponsiveDeviceInfo.value.minWidth) {
-				setCustomIframeWidth(activeResponsiveDeviceInfo.value.minWidth)
+			} else if (activeResponsiveDeviceInfo.value.id === 'default') {
+				setCustomIframeWidth(containerSize.value.width)
 			}
 			else {
 				nextTick(() => {
