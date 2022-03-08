@@ -15,6 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Responsive {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_breakpoints';
 
+	public static $caches_deviecs = null;
+
+	public static $responsive_devices_as_device_width = null;
+
 	public function __construct() {
 		add_action( 'zionbuilder/page/save', [ $this, 'on_page_save' ] );
 	}
@@ -73,8 +77,41 @@ class Responsive {
 	 * @return array
 	 */
 	public static function get_breakpoints() {
-		$breakpoints = get_option( self::SETTINGS_OPTION_KEY, json_encode( self::get_default_breakpoints() ) );
+		if ( null === self::$caches_deviecs ) {
+			$saved_breakpoints = get_option( self::SETTINGS_OPTION_KEY );
 
-		return json_decode( $breakpoints, true );
+			if ( false === $saved_breakpoints ) {
+				self::$caches_deviecs = self::get_default_breakpoints();
+			} else {
+				self::$caches_deviecs = json_decode( $saved_breakpoints, true );
+			}
+		}
+
+		return self::$caches_deviecs;
+	}
+
+	public static function get_breakpoints_as_device_width() {
+		if ( null === self::$caches_deviecs ) {
+			$saved_breakpoints = self::get_breakpoints();
+			$breakpoints       = [];
+
+			foreach ( $saved_breakpoints as $device_config ) {
+				// Use 9999 as value for the default so we can order the values properly
+				$breakpoints[$device_config['id']] = $device_config['id'] === 'default' ? 9999999 : $device_config['width'];
+			}
+
+			// Sort by width
+			uasort(
+				$breakpoints,
+				function( $a, $b ) {
+					return ( $a > $b ) ? -1 : 1;
+				}
+			);
+
+			self::$responsive_devices_as_device_width = $breakpoints;
+
+		}
+
+		return self::$responsive_devices_as_device_width;
 	}
 }
