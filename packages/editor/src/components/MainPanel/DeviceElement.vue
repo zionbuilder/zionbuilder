@@ -1,7 +1,6 @@
 
 <template>
 	<a
-		href="#"
 		@click.stop="changeDevice"
 		@mousedown.stop=""
 		class="znpb-device__item"
@@ -220,8 +219,7 @@ export default {
 
 			-moz-appearance: textfield;
 
-			&::-webkit-inner-spin-button,
-			&::-webkit-outer-spin-button {
+			&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
 				-webkit-appearance: none;
 			}
 
@@ -234,7 +232,7 @@ export default {
 		display: flex;
 		align-items: center;
 		min-height: 20px;
-		transition: all 0.3s;
+		transition: all .3s;
 	}
 	&-icon {
 		margin-right: 5px;
@@ -261,9 +259,9 @@ export default {
 	}
 
 	&-action {
-		font-size: 12px;
-		opacity: 0.5;
 		margin-left: 8px;
+		font-size: 12px;
+		opacity: .5;
 
 		&:hover {
 			opacity: 1;
