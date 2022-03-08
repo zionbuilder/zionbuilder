@@ -138,7 +138,7 @@ export const useResponsiveDevices = () => {
 		// Set the active device base on width
 		if (newWidth && changeDevice) {
 			// Set the active device
-			let activeDevice = null
+			let activeDevice = 'default'
 			responsiveDevices.value.forEach(device => {
 				if (device.width && device.width >= actualWidth) {
 					activeDevice = device.id
