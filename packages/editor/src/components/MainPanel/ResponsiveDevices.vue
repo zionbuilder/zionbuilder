@@ -22,7 +22,7 @@
 					@keydown.enter="onWidthKeyDown"
 					@blur="onWidthKeyDown"
 					@focus="preventClose = true"
-					:value="iframeWidth"
+					:value="Math.round(iframeWidth)"
 					v-znpb-tooltip="$translate('preview_width')"
 				/>
 

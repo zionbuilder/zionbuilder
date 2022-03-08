@@ -50,7 +50,7 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag, setCustomScale } = useResponsiveDevices()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -65,15 +65,20 @@ export default {
 			width: 0,
 			height: 0
 		})
+		const iframeSize = ref({
+			width: 0,
+			height: 0
+		})
 
 		const getWrapperClasses = computed(() => {
 			const { width: containerWidth } = containerSize.value
+			const { width: iframeWidth } = iframeSize.value
 			const actualIframeWidth = activeResponsiveDeviceId.value === 'default' && iframeWidth.value < 1200 ? 1200 : iframeWidth.value
 
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
-				'znpb-editor-iframe--alignStart': actualIframeWidth >= containerWidth
+				'znpb-editor-iframe--alignStart': 100 / scaleValue.value * iframeWidth >= containerWidth
 			}
 		})
 
@@ -94,47 +99,48 @@ export default {
 			const styles = {}
 
 			if (root.value) {
+				const { width: containerWidth, height: containerHeight } = containerSize.value
+
+				let height = 0
 				if (activeResponsiveDeviceInfo.value && activeResponsiveDeviceInfo.value.height) {
-					styles.height = `${activeResponsiveDeviceInfo.value.height}px`
+					height = activeResponsiveDeviceInfo.value.height
+				} else {
+					height = containerHeight
 				}
 
 				if (iframeWidth.value) {
 					styles.width = `${iframeWidth.value}px`
 				}
 
-				const { width: containerWidth, height: containerHeight } = containerSize.value
+				const scale = scaleValue.value / 100
+				styles.transform = `scale(${scale})`
 
-				// CHeck if scale is auto
-				if (autoscaleActive.value === true) {
-					// Don't scale if the iframe is smaller than container
-					if (containerWidth <= iframeWidth.value) {
-						const iframeActualWidth = activeResponsiveDeviceId.value === 'default' && iframeWidth.value < 1200 ? 1200 : iframeWidth.value
-						const scale = containerWidth / iframeActualWidth
+				// Apply scale to height
+				// activeHeight = activeHeight * scale
+				// activeHeight = activeHeight > containerHeight ? containerHeight : activeHeight
 
-						styles.transform = `scale(${scale})`
+				// if (activeHeight >= containerHeight) {
+				// 	activeHeight = 100 / scaleValue.value * containerHeight
+				// }
 
-						const height = 1 / scale * containerHeight
-
-						// Set the proper height
-						styles.height = `${height}px`
-					}
-				}
-				else if (scaleValue.value !== 100) {
-					styles.transform = `scale(${scaleValue.value/100})`
-
-					const height = 100 / scaleValue.value * containerHeight
-
-					// Set the proper height
-					styles.height = `${height}px`
-				}
+				// Set the proper height
+				styles.height = `${100 / scaleValue.value * height}px`
 			}
 
 			return styles
 		})
 
+		// Watch if the scale is manually changed
+		watch([containerSize, iframeSize], ([containerNewSize, iframeNewSize]) => {
+			if (autoscaleActive.value) {
+				let scale = containerNewSize.width / iframeNewSize.width * 100
+				scale = scale > 100 ? 100 : scale
+				setCustomScale( scale )
+			}
+		})
 
 		// Watch for container width change and set the new width
-		const resizeObserver = new ResizeObserver(entries => {
+		const containerResizeObserver = new ResizeObserver(entries => {
 			for (let entry of entries) {
 				if(entry.contentBoxSize) {
 					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
@@ -149,10 +155,25 @@ export default {
 						width: entry.contentRect.width,
 						height: entry.contentRect.width
 					}
+				}
+			}
+		})
 
-					const iframeBCR = iframe.value.getBoundingClientRect()
+		const iframeResizeObserver = new ResizeObserver(entries => {
+			for (let entry of entries) {
+				if(entry.contentBoxSize) {
+					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
 
-					setCustomIframeWidth(iframeBCR.width)
+					iframeSize.value = {
+						width: contentBoxSize.inlineSize,
+						height: contentBoxSize.blockSize
+					}
+				} else {
+					iframeSize.value = {
+						width: entry.contentRect.width,
+						height: entry.contentRect.width
+					}
 				}
 			}
 		})
@@ -172,22 +193,16 @@ export default {
 			} else if (activeResponsiveDeviceInfo.value.id === 'default') {
 				setCustomIframeWidth(containerSize.value.width < 1200 ? 1200 : containerSize.value.width)
 			}
-			else {
-				nextTick(() => {
-					const iframeBCR = iframe.value.getBoundingClientRect()
-
-					setCustomIframeWidth(iframeBCR.width)
-				})
-			}
 		})
 
 		// Prevent bug when scroll is moved and enable autoscale
 		watch(autoscaleActive, (newValue) => {
 			if (newValue) {
 				root.value.scrollLeft = 0
+			} else {
+				setCustomScale(100)
 			}
 		})
-
 
 		// Lifecycle
 		onMounted(() => {
@@ -199,14 +214,21 @@ export default {
 
 			const { width: iframeWidth } = iframe.value.getBoundingClientRect()
 			// Set the desktop width
-			setCustomIframeWidth(iframeWidth)
+			iframeSize.value = {
+				width,
+				height
+			}
+
+			setCustomIframeWidth(iframeWidth < 1200 ? 1200 : iframeWidth)
 
 			// Attach observer
-			resizeObserver.observe(root.value);
+			containerResizeObserver.observe(root.value)
+			iframeResizeObserver.observe(iframe.value)
 		})
 
 		onBeforeUnmount(() => {
-			resizeObserver.unobserve(root.value);
+			containerResizeObserver.unobserve(root.value)
+			containerResizeObserver.observe(iframe.value)
 		})
 
 		return {
@@ -415,6 +437,10 @@ export default {
 
 .znpb-editor-iframe--isAutoscale #znpb-editor-iframe {
 	transform-origin: center;
+
+	#znpb-editor-iframe {
+		margin: initial;
+	}
 }
 
 .znpb-editor-iframe--alignStart {
@@ -427,8 +453,11 @@ export default {
 
 // Iframe
 #znpb-editor-iframe {
+	flex-grow: 0;
+	flex-shrink: 0;
 	width: 100%;
 	height: 100%;
+	margin: auto;
 	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 	border: 0;
 }
