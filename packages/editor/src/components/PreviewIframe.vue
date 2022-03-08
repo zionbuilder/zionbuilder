@@ -6,17 +6,14 @@
 		id="preview-iframe"
 		ref="root"
 	>
-		<!-- <div class="znpb-editor-iframe-wrapperContainer"
-				:style="deviceStyle"> -->
-			<iframe
-				v-if="urls.preview_frame_url"
-				ref="iframe"
-				@load="checkIframeLoading"
-				id="znpb-editor-iframe"
-				:src="urls.preview_frame_url"
-				:style="iframeStyles"
-			/>
-		<!-- </div> -->
+		<iframe
+			v-if="urls.preview_frame_url"
+			ref="iframe"
+			@load="checkIframeLoading"
+			id="znpb-editor-iframe"
+			:src="urls.preview_frame_url"
+			:style="iframeStyles"
+		/>
 	</div>
 </template>
 
@@ -73,12 +70,11 @@ export default {
 		const getWrapperClasses = computed(() => {
 			const { width: containerWidth } = containerSize.value
 			const { width: iframeWidth } = iframeSize.value
-			const actualIframeWidth = activeResponsiveDeviceId.value === 'default' && iframeWidth.value < 1200 ? 1200 : iframeWidth.value
 
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
-				'znpb-editor-iframe--alignStart': 100 / scaleValue.value * iframeWidth >= containerWidth
+				'znpb-editor-iframe--alignStart': Math.round(scaleValue.value / 100 * iframeWidth ) >= containerWidth
 			}
 		})
 
@@ -114,14 +110,6 @@ export default {
 
 				const scale = scaleValue.value / 100
 				styles.transform = `scale(${scale})`
-
-				// Apply scale to height
-				// activeHeight = activeHeight * scale
-				// activeHeight = activeHeight > containerHeight ? containerHeight : activeHeight
-
-				// if (activeHeight >= containerHeight) {
-				// 	activeHeight = 100 / scaleValue.value * containerHeight
-				// }
 
 				// Set the proper height
 				styles.height = `${100 / scaleValue.value * height}px`
@@ -424,13 +412,6 @@ export default {
 	margin: 0 auto;
 }
 
-// Device specific
-// .znpb-editor-iframe-wrapper--default {
-// 	#znpb-editor-iframe {
-// 		min-width: 1200px;
-// 	}
-// }
-
 .znpb-editor-iframe--isAutoscale {
 	overflow: hidden;
 }
@@ -444,10 +425,8 @@ export default {
 }
 
 .znpb-editor-iframe--alignStart {
-	display: block;
-
 	& #znpb-editor-iframe {
-		transform-origin: 0 0 0;
+		transform-origin: center left;
 	}
 }
 
