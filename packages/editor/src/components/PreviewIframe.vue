@@ -24,7 +24,7 @@
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
-import rafSchd from 'raf-schd'
+
 import {
 	useTemplateParts,
 	usePreviewLoading,
@@ -396,7 +396,7 @@ export default {
 // Device specific
 .znpb-editor-iframe-wrapper--default {
 	#znpb-editor-iframe {
-		min-width: 1024px;
+		min-width: 1200px;
 	}
 }
 

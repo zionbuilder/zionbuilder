@@ -34,7 +34,7 @@ const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref([
 		name: 'Desktop',
 		id: 'default',
 		icon: 'desktop',
-		minWidth: 1024,
+		minWidth: 1200,
 		builtIn: true,
 		isDefault: true
 	},
