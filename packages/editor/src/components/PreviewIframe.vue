@@ -403,11 +403,11 @@ export default {
 }
 
 // Device specific
-.znpb-editor-iframe-wrapper--default {
-	#znpb-editor-iframe {
-		min-width: 1200px;
-	}
-}
+// .znpb-editor-iframe-wrapper--default {
+// 	#znpb-editor-iframe {
+// 		min-width: 1200px;
+// 	}
+// }
 
 .znpb-editor-iframe--isAutoscale {
 	overflow: hidden;
