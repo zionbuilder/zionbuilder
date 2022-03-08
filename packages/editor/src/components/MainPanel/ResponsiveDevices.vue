@@ -81,7 +81,7 @@
 
 		<li
 			class="menu-items znpb-device__addBreakpointForm"
-			v-if="enabledAddBreakpoint"
+			v-if="enabledAddBreakpoint && editBreakpoints"
 		>
 			<a class="znpb-device__item">
 				<div class="znpb-device__item-content">
