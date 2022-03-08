@@ -103,11 +103,16 @@ function onOutsideClick(event) {
 }
 
 function positionDropdown() {
-	const { bottom } = listContainer.value.getBoundingClientRect()
+	negativeMargin.value = 0
 
-	if (bottom > window.innerHeight) {
-		negativeMargin.value = (bottom - window.innerHeight) * -1 + negativeMargin.value
-	}
+	nextTick(() => {
+		const { bottom } = listContainer.value.getBoundingClientRect()
+
+
+		if (bottom > window.innerHeight) {
+			negativeMargin.value = (bottom - window.innerHeight) * -1
+		}
+	})
 }
 
 const resizeObserver = new ResizeObserver(entries => {
