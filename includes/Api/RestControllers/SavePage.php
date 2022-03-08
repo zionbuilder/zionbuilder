@@ -90,6 +90,8 @@ class SavePage extends RestApiController {
 			CSSClasses::save_classes( $css_classes );
 		}
 
+		do_action( 'zionbuilder/page/save', $params );
+
 		// check for errors
 		if ( ! $save_post_data ) {
 			return new \WP_Error( 'save_error', esc_html__( 'There was a problem saving the page.', 'zionbuilder' ), [ 'status' => 500 ] );

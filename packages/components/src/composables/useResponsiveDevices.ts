@@ -29,41 +29,7 @@ const deviceSizesConfig = [
 ]
 
 const activeResponsiveDeviceId = ref('default')
-const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref([
-	{
-		name: 'Desktop',
-		id: 'default',
-		icon: 'desktop',
-		minWidth: 1200,
-		builtIn: true,
-		isDefault: true
-	},
-	{
-		name: 'Laptop',
-		id: 'laptop',
-		width: 991,
-		height: 768,
-		units: 'px',
-		icon: 'laptop',
-		builtIn: true
-	},
-	{
-		name: 'Tablet',
-		id: 'tablet',
-		width: 767,
-		height: 1024,
-		icon: 'tablet',
-		builtIn: true
-	},
-	{
-		name: 'Mobile',
-		id: 'mobile',
-		width: 575,
-		height: 667,
-		icon: 'mobile',
-		builtIn: true
-	}
-])
+const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref(window.ZnPbComponentsData.breakpoints)
 
 const activeResponsiveOptions: Ref<{} | null> = ref(null)
 const iframeWidth: Ref<number | null> = ref(0)

@@ -20,6 +20,7 @@ use ZionBuilder\Screenshot;
 use ZionBuilder\Library\Library;
 use ZionBuilder\Templates;
 use ZionBuilder\Performance;
+use ZionBuilder\Responsive;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -242,6 +243,7 @@ class Plugin {
 		new CustomCode();
 		new Screenshot();
 		new Performance();
+		new Responsive();
 
 		/*
 		 * ZionBuilder loaded.
