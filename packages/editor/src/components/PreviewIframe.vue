@@ -72,7 +72,7 @@ export default {
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
 				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
-				'znpb-editor-iframe--alignStart': iframeWidth.value > containerWidth
+				'znpb-editor-iframe--alignStart': iframeWidth.value >= containerWidth
 			}
 		})
 
@@ -100,7 +100,8 @@ export default {
 				if (autoscaleActive.value === true) {
 					// Don't scale if the iframe is smaller than container
 					if (containerWidth <= iframeWidth.value) {
-						const scale = containerWidth / iframeWidth.value
+						const iframeActualWidth = activeResponsiveDeviceId.value === 'default' && iframeWidth.value < 1200 ? 1200 : iframeWidth.value
+						const scale = containerWidth / iframeActualWidth
 
 						styles.transform = `scale(${scale})`
 
@@ -161,7 +162,7 @@ export default {
 			if (activeResponsiveDeviceInfo.value.width) {
 				setCustomIframeWidth(activeResponsiveDeviceInfo.value.width)
 			} else if (activeResponsiveDeviceInfo.value.id === 'default') {
-				setCustomIframeWidth(containerSize.value.width)
+				setCustomIframeWidth(containerSize.value.width < 1200 ? 1200 : containerSize.value.width)
 			}
 			else {
 				nextTick(() => {
