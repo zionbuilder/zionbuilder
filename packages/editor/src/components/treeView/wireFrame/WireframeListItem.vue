@@ -30,21 +30,13 @@
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 
-				<Tooltip
+				<Icon
+					icon="visibility-hidden"
+					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
+					@click.stop="element.toggleVisibility()"
 					v-if="!element.isVisible"
-					:content="$translate('enable_hidden_element')"
-					class="znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
-				>
-					<transition name="fade">
-						<Icon
-							icon="visibility-hidden"
-							@click="element.toggleVisibility()"
-							class="znpb-editor-icon-wrapper--show-element"
-						>
-						</Icon>
-					</transition>
-
-				</Tooltip>
+					v-znpb-tooltip="$translate('enable_hidden_element')"
+				/>
 
 				<div
 					class="znpb-element-options__container"
