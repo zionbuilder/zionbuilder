@@ -84,8 +84,6 @@ watch(showflyout, (newValue) => {
 watch(() => props.preventClose, (newValue) => {
 	if (newValue) {
 		window.addEventListener('click', onOutsideClick)
-	} else {
-		window.removeEventListener('click', onOutsideClick)
 	}
 })
 
