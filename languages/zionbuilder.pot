@@ -2043,6 +2043,42 @@ msgstr ""
 msgid "max"
 msgstr ""
 
+#: ../includes/Localization.php:763
+msgid "Edit breakpoints"
+msgstr ""
+
+#: ../includes/Localization.php:764
+msgid "Disable edit breakpoints"
+msgstr ""
+
+#: ../includes/Localization.php:765
+msgid "Edit breakpoint"
+msgstr ""
+
+#: ../includes/Localization.php:766
+msgid "Delete breakpoint"
+msgstr ""
+
+#: ../includes/Localization.php:767
+msgid "Disable autoscale"
+msgstr ""
+
+#: ../includes/Localization.php:768
+msgid "Enable autoscale"
+msgstr ""
+
+#: ../includes/Localization.php:769
+msgid "Add breakpoint"
+msgstr ""
+
+#: ../includes/Localization.php:770
+msgid "Preview width"
+msgstr ""
+
+#: ../includes/Localization.php:771
+msgid "Preview scale"
+msgstr ""
+
 #: ../includes/MaintenanceMode.php:179
 msgid "Select mode"
 msgstr ""
@@ -2089,6 +2125,22 @@ msgstr ""
 
 #: ../includes/MaintenanceMode.php:290
 msgid "192.168.1.1, 127.0.0.1"
+msgstr ""
+
+#: ../includes/Responsive.php:44
+msgid "Desktop"
+msgstr ""
+
+#: ../includes/Responsive.php:52
+msgid "Laptop"
+msgstr ""
+
+#: ../includes/Responsive.php:60
+msgid "Tablet"
+msgstr ""
+
+#: ../includes/Responsive.php:68
+msgid "Mobile"
 msgstr ""
 
 #: ../includes/Shortcodes.php:35
@@ -2396,11 +2448,11 @@ msgstr ""
 msgid "You do not have permissions to save this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:95
+#: ../includes/Api/RestControllers/SavePage.php:97
 msgid "There was a problem saving the page."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:98
+#: ../includes/Api/RestControllers/SavePage.php:100
 msgid "Page successfully saved!"
 msgstr ""
 
@@ -4524,23 +4576,39 @@ msgstr ""
 msgid "With custom JavaScript you can add JavaScript code to this page."
 msgstr ""
 
-#: ../includes/Options/Schemas/Performance.php:35
+#: ../includes/Options/Schemas/Performance.php:31, ../includes/Options/Schemas/Performance.php:35
 msgid "Load Google fonts locally"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:32
+msgid "If enabled, Google fonts used by the builder will be downloaded and served from your server."
 msgstr ""
 
 #: ../includes/Options/Schemas/Performance.php:39
 msgid "Load Google fonts from Google servers"
 msgstr ""
 
-#: ../includes/Options/Schemas/Performance.php:86
-msgid "Disable jQuery migrate"
+#: ../includes/Options/Schemas/Performance.php:51
+msgid "Font display"
 msgstr ""
 
-#: ../includes/Options/Schemas/Performance.php:90, ../includes/Options/Schemas/Performance.php:110
+#: ../includes/Options/Schemas/Performance.php:83, ../includes/Options/Schemas/Performance.php:87
+msgid "Disable Normalize.css"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:84
+msgid "This option allows you do unload normalize.css script that is loaded by the builder. If your theme already loads this script, it is recommended to disable it from here."
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:91, ../includes/Options/Schemas/Performance.php:111, ../includes/Options/Schemas/Performance.php:131
 msgid "no"
 msgstr ""
 
-#: ../includes/Options/Schemas/Performance.php:106
+#: ../includes/Options/Schemas/Performance.php:104, ../includes/Options/Schemas/Performance.php:107
+msgid "Disable jQuery migrate"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:124, ../includes/Options/Schemas/Performance.php:127
 msgid "Disable WordPress emojis"
 msgstr ""
 

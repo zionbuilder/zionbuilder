@@ -51,6 +51,7 @@ const responsiveDevicesAsIdWidth = computed(() => {
 })
 
 const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
+const builtInResponsiveDevices = computed(() => responsiveDevices.value.filter(deviceConfig => deviceConfig.builtIn === true))
 
 export const useResponsiveDevices = () => {
 	/**
@@ -166,6 +167,7 @@ export const useResponsiveDevices = () => {
 
 		// Computed
 		responsiveDevicesAsIdWidth,
-		orderedResponsiveDevices
+		orderedResponsiveDevices,
+		builtInResponsiveDevices
 	}
 }

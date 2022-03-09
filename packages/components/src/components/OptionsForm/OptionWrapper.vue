@@ -85,7 +85,7 @@
 			>
 				<template #content>
 					<div
-						v-for="(device, index) in responsiveDevices"
+						v-for="(device, index) in builtInResponsiveDevices"
 						:key='index'
 						@click="activateDevice(device)"
 						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
@@ -222,7 +222,7 @@ export default {
 		const { getSchema } = useOptionsSchemas()
 		const {
 			activeResponsiveDeviceInfo,
-			responsiveDevices,
+			builtInResponsiveDevices,
 			setActiveResponsiveDeviceId,
 		} = useResponsiveDevices();
 		const activePseudo = ref(null)
@@ -594,7 +594,7 @@ export default {
 			deleteTopModelValueByPath,
 			getSchema,
 			activeResponsiveDeviceInfo,
-			responsiveDevices,
+			builtInResponsiveDevices,
 			setActiveResponsiveDeviceId
 		}
 	}

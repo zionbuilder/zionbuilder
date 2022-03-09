@@ -174,7 +174,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "~@zionbuilder/css-variables/frontend/_grid.scss";
+@import "grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 15px 15px 15px;

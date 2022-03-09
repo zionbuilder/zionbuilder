@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Plugin;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -15,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Responsive {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_breakpoints';
 
-	public static $caches_deviecs = null;
+	public static $cached_deviecs = null;
 
 	public static $responsive_devices_as_device_width = null;
 
@@ -23,14 +25,17 @@ class Responsive {
 		add_action( 'zionbuilder/page/save', [ $this, 'on_page_save' ] );
 	}
 
-	public static function save_breakpoints( $breakpoints = [] ) {
-		return update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $breakpoints ) );
-	}
-
 	public function on_page_save( $params ) {
 		if ( isset( $params['breakpoints'] ) ) {
-			self::save_breakpoints( $params['breakpoints'] );
+			if ( $params['breakpoints'] !== self::$cached_deviecs ) {
+				self::save_breakpoints( $params['breakpoints'] );
+				Plugin::instance()->cache->delete_dynamic_css_cache();
+			}
 		}
+	}
+
+	public static function save_breakpoints( $breakpoints = [] ) {
+		return update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $breakpoints ) );
 	}
 
 	public static function get_default_breakpoints() {
@@ -77,21 +82,21 @@ class Responsive {
 	 * @return array
 	 */
 	public static function get_breakpoints() {
-		if ( null === self::$caches_deviecs ) {
+		if ( null === self::$cached_deviecs ) {
 			$saved_breakpoints = get_option( self::SETTINGS_OPTION_KEY );
 
 			if ( false === $saved_breakpoints ) {
-				self::$caches_deviecs = self::get_default_breakpoints();
+				self::$cached_deviecs = self::get_default_breakpoints();
 			} else {
-				self::$caches_deviecs = json_decode( $saved_breakpoints, true );
+				self::$cached_deviecs = json_decode( $saved_breakpoints, true );
 			}
 		}
 
-		return self::$caches_deviecs;
+		return self::$cached_deviecs;
 	}
 
 	public static function get_breakpoints_as_device_width() {
-		if ( null === self::$caches_deviecs ) {
+		if ( null === self::$responsive_devices_as_device_width ) {
 			$saved_breakpoints = self::get_breakpoints();
 			$breakpoints       = [];
 
@@ -113,5 +118,12 @@ class Responsive {
 		}
 
 		return self::$responsive_devices_as_device_width;
+	}
+
+	public static function replace_devices_in_css( $css ) {
+		$devices_map = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
+		$width_map   = [ sprintf( '%spx', self::$responsive_devices_as_device_width['laptop'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['tablet'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['mobile'] ) ];
+
+		return str_replace( $devices_map, $width_map, $css );
 	}
 }

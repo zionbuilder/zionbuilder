@@ -32,6 +32,7 @@ class Settings {
 		'performance'        => [
 			'disable_jquery_migrate' => true,
 			'disable_emojis'         => true,
+			'disable_normalize_css'  => true,
 		],
 	];
 

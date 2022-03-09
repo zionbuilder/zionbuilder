@@ -229,6 +229,21 @@ class Cache {
 
 		$dynamic_css = '';
 
+		// Add normalize if necessary
+		if ( Settings::get_value( 'performance.disable_normalize_css', false ) === false ) {
+			$normalize_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'assets/vendors/css/normalize.css' ) );
+			if ( $normalize_css ) {
+				$dynamic_css .= $normalize_css;
+			}
+		}
+
+		// Add frontent.css
+		$frontend_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'dist/css/frontend.css' ) );
+
+		if ( $frontend_css ) {
+			$dynamic_css .= Responsive::replace_devices_in_css( $frontend_css );
+		}
+
 		// Add css classes css
 		$dynamic_css .= CSSClasses::get_css();
 

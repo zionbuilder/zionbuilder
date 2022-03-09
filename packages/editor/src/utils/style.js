@@ -1,11 +1,5 @@
 import { useResponsiveDevices } from '@zb/components'
 
-const responsiveDevices = {
-	laptop: '991.98px',
-	tablet: '767.98px',
-	mobile: '575.98px'
-}
-
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = ''
 
