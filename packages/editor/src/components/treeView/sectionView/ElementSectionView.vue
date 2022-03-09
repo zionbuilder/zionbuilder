@@ -33,22 +33,13 @@
 
 			</div>
 
-			<Tooltip
+			<Icon
+				icon="visibility-hidden"
+				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
+				@click.stop="element.toggleVisibility()"
 				v-if="!element.isVisible"
-				:content="$translate('enable_hidden_element')"
-				class="znpb-tree-view__item-enable-visible"
-			>
-
-				<transition name="fade">
-					<Icon
-						icon="visibility-hidden"
-						@click="element.toggleVisibility()"
-						class="znpb-editor-icon-wrapper--show-element"
-					>
-					</Icon>
-				</transition>
-
-			</Tooltip>
+				v-znpb-tooltip="$translate('enable_hidden_element')"
+			/>
 
 			<div
 				class="znpb-element-options__container"

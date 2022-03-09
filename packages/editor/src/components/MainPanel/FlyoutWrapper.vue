@@ -1,8 +1,9 @@
 <template>
 	<div
 		class="znpb-editor-header-flyout"
-		@mouseover.stop="showflyout=true"
-		@mouseleave.stop="showflyout=false"
+		@mouseover.stop="onMouseOver"
+		@mouseleave.stop="onMouseOut"
+		ref="root"
 	>
 		<div class="znpb-editor-header__menu_button">
 			<slot name="panel-icon"></slot>
@@ -11,27 +12,116 @@
 		<ul
 			class="znpb-editor-header-flyout-hidden-items znpb-editor-header__menu-list"
 			v-if="showflyout"
+			:style="computedStyles"
+			ref="listContainer"
 		>
 			<slot></slot>
 		</ul>
 
 	</div>
 </template>
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
 
-export default {
-	name: 'FlyoutWrapper',
-	setup (props) {
-		const showflyout = ref(false)
-
-		return {
-			showflyout,
-			items: props.items
+const props = defineProps({
+	items: {
+		type: Array,
+		required: false,
+		default() {
+			return []
 		}
+	},
+	preventClose: {
+		type: Boolean,
+		required: false,
+		default: false
+	}
+})
+
+const showflyout = ref(false)
+const listContainer = ref(null)
+const negativeMargin = ref(0)
+const root = ref(null)
+
+const computedStyles = computed(() => {
+	let styles = {}
+
+	if (negativeMargin.value !== 0) {
+		styles.transform = `translateY(${negativeMargin.value}px)`
+	}
+
+	return styles
+})
+
+function onMouseOver() {
+	showflyout.value = true
+}
+
+const emit = defineEmits(['show', 'hide'])
+
+function onMouseOut () {
+	if (!props.preventClose) {
+		showflyout.value = false
 	}
 }
+
+
+watch(showflyout, (newValue) => {
+	if (newValue) {
+		nextTick(() => {
+			positionDropdown()
+			resizeObserver.observe(listContainer.value)
+		})
+
+		emit('show')
+	} else {
+		negativeMargin.value = 0
+		resizeObserver.unobserve(listContainer.value)
+		emit('hide')
+	}
+})
+
+watch(() => props.preventClose, (newValue) => {
+	if (newValue) {
+		window.addEventListener('click', onOutsideClick)
+	}
+})
+
+onBeforeUnmount(() => {
+	window.removeEventListener('click', onOutsideClick)
+})
+
+/**
+ * Closes the flyout if clicked outside of it
+ */
+function onOutsideClick(event) {
+	if (!root.value.contains(event.target)) {
+		showflyout.value = false
+	}
+}
+
+function positionDropdown() {
+	negativeMargin.value = 0
+
+	nextTick(() => {
+		const { bottom } = listContainer.value.getBoundingClientRect()
+
+
+		if (bottom > window.innerHeight) {
+			negativeMargin.value = (bottom - window.innerHeight) * -1
+		}
+	})
+}
+
+const resizeObserver = new ResizeObserver(entries => {
+	for (let entry of entries) {
+		nextTick(() => {
+			positionDropdown()
+		})
+	}
+})
 </script>
+
 <style lang="scss">
 ul.znpb-editor-header-flyout-hidden-items {
 	@extend %tooltip;

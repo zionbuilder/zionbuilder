@@ -2,6 +2,9 @@
 	<div
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
+		:class="{
+			[`znpb-responsiveDevice--${activeResponsiveDeviceId}`]: activeResponsiveDeviceId
+		}"
 	>
 		<transition name="slide-from-left">
 			<div
@@ -152,7 +155,6 @@ import MainPanel from './components/main-panel.vue'
 import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
-import DeviceElement from './components/DeviceElement.vue'
 import SaveElementModal from './components/SaveElementModal.vue'
 
 // Composables
@@ -178,7 +180,6 @@ export default {
 		PanelGlobalSettings,
 		PanelElementOptions,
 		PostLock,
-		DeviceElement,
 		AddElementPopup,
 		ElementMenu,
 		SaveElementModal
@@ -394,6 +395,7 @@ export default {
 	display: flex;
 	flex: 1 1 auto;
 	min-height: 1px;
+	min-width: 0;
 }
 
 .znpb-editor-header.main-panel-animation {

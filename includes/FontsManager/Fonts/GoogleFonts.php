@@ -79,7 +79,7 @@ class GoogleFonts extends FontProvider {
 		}
 
 		// Check if we need to load the fonts locally
-		if ( Settings::get_value( 'performance.local_google_fonts', true ) === true ) {
+		if ( Settings::get_value( 'performance.local_google_fonts', false ) === true ) {
 			$local_fonts_instance = new LocalGoogleFonts( $fonts );
 
 			if ( ! $local_fonts_instance->stylesheet_exists() ) {

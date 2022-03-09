@@ -1,4 +1,4 @@
-import { getOptionValue, getCssFromSelector, getImage } from '@zb/utils'
+import { getOptionValue, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { cloneDeep, forEach } from 'lodash-es'
 
@@ -264,6 +264,7 @@ export default class Options {
 
 		if (optionType === 'element_styles') {
 			const mediaStyles = optionValue.styles || {}
+			// TODO: check if this is actually used. getStyles is not loaded
 			const styles = getStyles(formattedSelector, mediaStyles)
 
 			if (styles) {

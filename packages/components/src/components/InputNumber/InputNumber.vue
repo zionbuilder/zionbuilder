@@ -220,16 +220,20 @@ export default {
 }
 </script>
 <style lang="scss" >
-input[type="number"] {
-	-moz-appearance: textfield;
 
-	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
-		-webkit-appearance: none;
-	}
-	&:hover {
-		cursor: ns-resize;
+.znpb-input-number__input {
+	input[type="number"] {
+		-moz-appearance: textfield;
+
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+		}
+		&:hover {
+			cursor: ns-resize;
+		}
 	}
 }
+
 .znpb-input-number {
 	.zion-input__suffix {
 		margin-right: 7px;

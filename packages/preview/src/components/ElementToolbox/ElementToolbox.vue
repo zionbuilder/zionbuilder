@@ -101,13 +101,11 @@ import { useResponsiveDevices } from '@zb/components'
 import { Environment } from '@zb/utils'
 
 // Components
-import TopBarToolbox from './TopBarToolbox.vue'
 import ToolboxTitle from './ToolboxTitle.vue'
 
 export default {
 	name: 'ElementToolbox',
 	components: {
-		TopBarToolbox,
 		ToolboxTitle
 	},
 	props: {

@@ -137,6 +137,7 @@ class CommonJS {
 						'shadow'           => Shadow::get_schema(),
 					]
 				),
+				'breakpoints'   => Responsive::get_breakpoints(),
 				'is_pro_active' => Utils::is_pro_active(),
 			]
 		);

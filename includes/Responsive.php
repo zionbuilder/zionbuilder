@@ -1,0 +1,129 @@
+<?php
+
+namespace ZionBuilder;
+
+use ZionBuilder\Plugin;
+
+// Prevent direct access
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
+
+/**
+ * Class Install
+ *
+ * @package ZionBuilder
+ */
+class Responsive {
+	const SETTINGS_OPTION_KEY = '_zionbuilder_breakpoints';
+
+	public static $cached_deviecs = null;
+
+	public static $responsive_devices_as_device_width = null;
+
+	public function __construct() {
+		add_action( 'zionbuilder/page/save', [ $this, 'on_page_save' ] );
+	}
+
+	public function on_page_save( $params ) {
+		if ( isset( $params['breakpoints'] ) ) {
+			if ( $params['breakpoints'] !== self::$cached_deviecs ) {
+				self::save_breakpoints( $params['breakpoints'] );
+				Plugin::instance()->cache->delete_dynamic_css_cache();
+			}
+		}
+	}
+
+	public static function save_breakpoints( $breakpoints = [] ) {
+		return update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $breakpoints ) );
+	}
+
+	public static function get_default_breakpoints() {
+		return [
+			[
+				'name'      => __( 'Desktop', 'zionbuilder' ),
+				'id'        => 'default',
+				'icon'      => 'desktop',
+				'icon'      => 'desktop',
+				'builtIn'   => true,
+				'isDefault' => true,
+			],
+			[
+				'name'    => __( 'Laptop', 'zionbuilder' ),
+				'id'      => 'laptop',
+				'width'   => 991,
+				'height'  => 768,
+				'icon'    => 'laptop',
+				'builtIn' => true,
+			],
+			[
+				'name'    => __( 'Tablet', 'zionbuilder' ),
+				'id'      => 'tablet',
+				'width'   => 767,
+				'height'  => 1024,
+				'icon'    => 'tablet',
+				'builtIn' => true,
+			],
+			[
+				'name'    => __( 'Mobile', 'zionbuilder' ),
+				'id'      => 'mobile',
+				'width'   => 575,
+				'height'  => 667,
+				'icon'    => 'mobile',
+				'builtIn' => true,
+			],
+		];
+	}
+
+
+	/**
+	 * Returns the list of saved breakpoints
+	 *
+	 * @return array
+	 */
+	public static function get_breakpoints() {
+		if ( null === self::$cached_deviecs ) {
+			$saved_breakpoints = get_option( self::SETTINGS_OPTION_KEY );
+
+			if ( false === $saved_breakpoints ) {
+				self::$cached_deviecs = self::get_default_breakpoints();
+			} else {
+				self::$cached_deviecs = json_decode( $saved_breakpoints, true );
+			}
+		}
+
+		return self::$cached_deviecs;
+	}
+
+	public static function get_breakpoints_as_device_width() {
+		if ( null === self::$responsive_devices_as_device_width ) {
+			$saved_breakpoints = self::get_breakpoints();
+			$breakpoints       = [];
+
+			foreach ( $saved_breakpoints as $device_config ) {
+				// Use 9999 as value for the default so we can order the values properly
+				$breakpoints[$device_config['id']] = $device_config['id'] === 'default' ? 9999999 : $device_config['width'];
+			}
+
+			// Sort by width
+			uasort(
+				$breakpoints,
+				function( $a, $b ) {
+					return ( $a > $b ) ? -1 : 1;
+				}
+			);
+
+			self::$responsive_devices_as_device_width = $breakpoints;
+
+		}
+
+		return self::$responsive_devices_as_device_width;
+	}
+
+	public static function replace_devices_in_css( $css ) {
+		$devices_map = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
+		$width_map   = [ sprintf( '%spx', self::$responsive_devices_as_device_width['laptop'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['tablet'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['mobile'] ) ];
+
+		return str_replace( $devices_map, $width_map, $css );
+	}
+}

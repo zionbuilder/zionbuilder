@@ -757,6 +757,18 @@ class Localization {
 				// Performance admin page
 				'performance'                              => __( 'Performance', 'zionbuilder' ),
 
+				// Responsice devices
+				'all_devices'                              => __( 'all devices', 'zionbuilder' ),
+				'max'                                      => __( 'max', 'zionbuilder' ),
+				'edit_breakpoints'                         => __( 'Edit breakpoints', 'zionbuilder' ),
+				'disable_edit_breakpoints'                 => __( 'Disable edit breakpoints', 'zionbuilder' ),
+				'edit_breakpoint'                          => __( 'Edit breakpoint', 'zionbuilder' ),
+				'delete_breakpoint'                        => __( 'Delete breakpoint', 'zionbuilder' ),
+				'disable_autoscale'                        => __( 'Disable autoscale', 'zionbuilder' ),
+				'enable_autoscale'                         => __( 'Enable autoscale', 'zionbuilder' ),
+				'add_breakpoint'                           => __( 'Add breakpoint', 'zionbuilder' ),
+				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
+				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 			]
 		);
 	}

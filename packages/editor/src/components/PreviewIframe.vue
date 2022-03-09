@@ -6,23 +6,22 @@
 		id="preview-iframe"
 		ref="root"
 	>
-
 		<iframe
 			v-if="urls.preview_frame_url"
 			ref="iframe"
 			@load="checkIframeLoading"
 			id="znpb-editor-iframe"
 			:src="urls.preview_frame_url"
-			:style="deviceStyle"
+			:style="iframeStyles"
 		/>
-
 	</div>
 </template>
 
 <script>
-import { ref, render } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { on, off } from '@zb/hooks'
 import { each } from 'lodash-es'
+
 import {
 	useTemplateParts,
 	usePreviewLoading,
@@ -48,7 +47,7 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag, setCustomScale } = useResponsiveDevices()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -56,7 +55,170 @@ export default {
 		const { getIframePointerEvents, getPanelOrder } = useUI()
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows()
 
+		// Dom refs
 		const root = ref(null)
+		const iframe = ref(null)
+		const containerSize = ref({
+			width: 0,
+			height: 0
+		})
+		const iframeSize = ref({
+			width: 0,
+			height: 0
+		})
+
+		const getWrapperClasses = computed(() => {
+			const { width: containerWidth } = containerSize.value
+			const { width: iframeWidth } = iframeSize.value
+
+			return {
+				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
+				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
+				'znpb-editor-iframe--alignStart': Math.round(scaleValue.value / 100 * iframeWidth ) > containerWidth,
+				'znpb-editor-iframe--hideOverflow': Math.round(scaleValue.value / 100 * iframeWidth ) <= containerWidth
+			}
+		})
+
+		const deviceStyle = computed(() => {
+			let styles = {}
+
+			return styles
+		})
+
+		// Change the device width if it is the currently selected device
+		on('zionbuilder/responsive/change_device_width', (device, newValue, oldValue) => {
+			if (device.id === activeResponsiveDeviceId.value && newValue !== oldValue) {
+				setCustomIframeWidth(newValue)
+			}
+		})
+
+		const iframeStyles = computed(() => {
+			const styles = {}
+
+			if (root.value) {
+				const { width: containerWidth, height: containerHeight } = containerSize.value
+
+				let height = 0
+				if (activeResponsiveDeviceInfo.value && activeResponsiveDeviceInfo.value.height) {
+					height = activeResponsiveDeviceInfo.value.height
+				} else {
+					height = containerHeight
+				}
+
+				if (iframeWidth.value) {
+					styles.width = `${iframeWidth.value}px`
+				}
+
+				const scale = scaleValue.value / 100
+				styles.transform = `scale(${scale})`
+
+				// Set the proper height
+				styles.height = `${100 / scaleValue.value * height}px`
+			}
+
+			return styles
+		})
+
+		// Watch if the scale is manually changed
+		watch([containerSize, iframeSize], ([containerNewSize, iframeNewSize]) => {
+			if (autoscaleActive.value) {
+				let scale = containerNewSize.width / iframeNewSize.width * 100
+				scale = scale > 100 ? 100 : scale
+				setCustomScale( scale )
+			}
+		})
+
+		// Watch for container width change and set the new width
+		const containerResizeObserver = new ResizeObserver(entries => {
+			for (let entry of entries) {
+				if(entry.contentBoxSize) {
+					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
+
+					containerSize.value = {
+						width: contentBoxSize.inlineSize,
+						height: contentBoxSize.blockSize
+					}
+				} else {
+					containerSize.value = {
+						width: entry.contentRect.width,
+						height: entry.contentRect.width
+					}
+				}
+			}
+		})
+
+		const iframeResizeObserver = new ResizeObserver(entries => {
+			for (let entry of entries) {
+				if(entry.contentBoxSize) {
+					// Firefox implements `contentBoxSize` as a single content rect, rather than an array
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
+
+					iframeSize.value = {
+						width: contentBoxSize.inlineSize,
+						height: contentBoxSize.blockSize
+					}
+				} else {
+					iframeSize.value = {
+						width: entry.contentRect.width,
+						height: entry.contentRect.width
+					}
+				}
+			}
+		})
+
+		/**
+		 * Change the device width
+		 */
+		watch(activeResponsiveDeviceId, () => {
+			// Don't change the width if we receive an ignore
+			if (ignoreWidthChangeFlag.value) {
+				ignoreWidthChangeFlag.value = false
+				return
+			}
+
+			if (activeResponsiveDeviceInfo.value.width) {
+				setCustomIframeWidth(activeResponsiveDeviceInfo.value.width)
+			} else if (activeResponsiveDeviceInfo.value.id === 'default') {
+				setCustomIframeWidth(containerSize.value.width < 1200 ? 1200 : containerSize.value.width)
+			}
+		})
+
+		// Prevent bug when scroll is moved and enable autoscale
+		watch(autoscaleActive, (newValue) => {
+			if (newValue) {
+				root.value.scrollLeft = 0
+			} else {
+				setCustomScale(100)
+			}
+		})
+
+		// Lifecycle
+		onMounted(() => {
+			const { width, height } = root.value.getBoundingClientRect()
+			containerSize.value = {
+				width,
+				height
+			}
+
+			const { width: iframeWidth } = iframe.value.getBoundingClientRect()
+			// Set the desktop width
+			iframeSize.value = {
+				width,
+				height
+			}
+
+			setCustomIframeWidth(iframeWidth < 1200 ? 1200 : iframeWidth)
+
+			// Attach observer
+			containerResizeObserver.observe(root.value)
+			iframeResizeObserver.observe(iframe.value)
+		})
+
+		onBeforeUnmount(() => {
+			containerResizeObserver.unobserve(root.value)
+			containerResizeObserver.observe(iframe.value)
+		})
 
 		return {
 			activeResponsiveDeviceInfo,
@@ -71,25 +233,22 @@ export default {
 			addEventListener,
 			removeEventListener,
 			removeWindow,
+
+			// Dom refs
 			root,
-			isDirty
+			iframe,
+			isDirty,
+
+			// computed
+			deviceStyle,
+			getWrapperClasses,
+			iframeStyles,
+
+			// Iframe size tooltip
+			iframeWidth
 		}
 	},
 	computed: {
-		deviceStyle: function () {
-			let style = {}
-			if (this.activeResponsiveDeviceInfo) {
-				if (this.activeResponsiveDeviceInfo.isLandscape) {
-					style.width = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
-					style.height = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
-				} else {
-					style.width = this.activeResponsiveDeviceInfo.width.value + this.activeResponsiveDeviceInfo.width.unit
-					style.height = this.activeResponsiveDeviceInfo.height.value + this.activeResponsiveDeviceInfo.height.unit
-				}
-			}
-
-			return style
-		},
 		pointerevents: function () {
 			let style = {}
 
@@ -98,9 +257,6 @@ export default {
 			}
 			style.order = this.getPanelOrder('preview-iframe')
 			return style
-		},
-		getWrapperClasses () {
-			return `znpb-editor-iframe-wrapper--${this.activeResponsiveDeviceInfo.id}`
 		}
 	},
 	methods: {
@@ -234,25 +390,77 @@ export default {
 
 <style lang="scss">
 .znpb-editor-iframe-wrapper {
+	position: relative;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	order: 3;
 	flex: 1 1 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	min-width: 240px;
 	background-color: var(--zb-surface-darker-color);
+}
+
+.znpb-editor-iframe-wrapperContainer {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.znpb-editor-iframe--isAutoscale {
+	overflow: hidden;
+}
+
+.znpb-editor-iframe--isAutoscale #znpb-editor-iframe {
+	transform-origin: center;
+
+	#znpb-editor-iframe {
+		margin: initial;
+	}
+}
+
+.znpb-editor-iframe--alignStart {
+	& #znpb-editor-iframe {
+		transform-origin: center left;
+	}
 }
 
 // Iframe
 #znpb-editor-iframe {
-	max-width: 100%;
-	min-height: 150px;
-	max-height: 100%;
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: 100%;
+	height: 100%;
+	margin: auto;
 	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 	border: 0;
-	transition: all .5s;
 }
-.znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default)
+
+// .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
+// 	max-height: calc(100vh - 60px);
+// }
+
+// Size tooltip
+.znpb-editor-iframeWidthTooltip {
+	position: absolute;
+	right: 30px;
+	bottom: 20px;
+	padding: 8px 4px;
+	background: #fff;
+	border-radius: 3px;
+}
+
+.znpb-editor-iframe--hideOverflow {
+	overflow: hidden;
+
 	#znpb-editor-iframe {
-	max-height: calc(100vh - 60px);
+		margin: initial;
+	}
 }
 </style>

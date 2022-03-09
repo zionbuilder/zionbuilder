@@ -28,8 +28,8 @@ class Performance extends BaseSchema {
 				'type'        => 'custom_selector',
 				'columns'     => 2,
 				'default'     => false,
-				'title'       => __( 'Load Google fonts locally' ),
-				'description' => __( 'If enabled, Google fonts used by the builder will be downloaded and served from your server.' ),
+				'title'       => __( 'Load Google fonts locally', 'zionbuilder' ),
+				'description' => __( 'If enabled, Google fonts used by the builder will be downloaded and served from your server.', 'zionbuilder' ),
 				'options'     => [
 					[
 						'name' => __( 'Load Google fonts locally', 'zionbuilder' ),
@@ -48,7 +48,7 @@ class Performance extends BaseSchema {
 			[
 				'type'    => 'select',
 				'default' => 'auto',
-				'title'   => __( 'Font display' ),
+				'title'   => __( 'Font display', 'zionbuilder' ),
 				'options' => [
 					[
 						'name' => 'auto',
@@ -75,19 +75,40 @@ class Performance extends BaseSchema {
 		);
 
 		$options->add_option(
+			'disable_normalize_css',
+			[
+				'type'        => 'custom_selector',
+				'columns'     => 2,
+				'default'     => false,
+				'title'       => esc_html__( 'Disable Normalize.css', 'zionbuilder' ),
+				'description' => esc_html__( 'This option allows you do unload normalize.css script that is loaded by the builder. If your theme already loads this script, it is recommended to disable it from here.', 'zionbuilder' ),
+				'options'     => [
+					[
+						'name' => esc_html__( 'Disable Normalize.css', 'zionbuilder' ),
+						'id'   => true,
+					],
+					[
+						'name' => esc_html__( 'no', 'zionbuilder' ),
+						'id'   => false,
+					],
+				],
+			]
+		);
+
+		$options->add_option(
 			'disable_jquery_migrate',
 			[
 				'type'    => 'custom_selector',
 				'columns' => 2,
 				'default' => false,
-				'title'   => __( 'Disable jQuery migrate' ),
+				'title'   => esc_html__( 'Disable jQuery migrate', 'zionbuilder' ),
 				'options' => [
 					[
-						'name' => __( 'Disable jQuery migrate', 'zionbuilder' ),
+						'name' => esc_html__( 'Disable jQuery migrate', 'zionbuilder' ),
 						'id'   => true,
 					],
 					[
-						'name' => __( 'no', 'zionbuilder' ),
+						'name' => esc_html__( 'no', 'zionbuilder' ),
 						'id'   => false,
 					],
 				],
@@ -100,7 +121,7 @@ class Performance extends BaseSchema {
 				'type'    => 'custom_selector',
 				'columns' => 2,
 				'default' => false,
-				'title'   => __( 'Disable WordPress emojis' ),
+				'title'   => esc_html__( 'Disable WordPress emojis', 'zionbuilder' ),
 				'options' => [
 					[
 						'name' => __( 'Disable WordPress emojis', 'zionbuilder' ),

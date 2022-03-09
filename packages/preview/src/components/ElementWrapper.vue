@@ -51,8 +51,9 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue'
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es'
-import { getCssFromSelector, getOptionValue, camelCase } from '@zb/utils'
+import { getOptionValue, camelCase } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
+import { getCssFromSelector } from '@zb/editor'
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue'

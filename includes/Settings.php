@@ -29,6 +29,11 @@ class Settings {
 	 */
 	private static $default_options = [
 		'allowed_post_types' => [ 'post', 'page' ],
+		'performance'        => [
+			'disable_jquery_migrate' => true,
+			'disable_emojis'         => true,
+			'disable_normalize_css'  => true,
+		],
 	];
 
 	/**

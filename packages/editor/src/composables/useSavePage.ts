@@ -7,6 +7,7 @@ import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import { useNotifications } from '@zionbuilder/composables'
 import { useHistory } from './useHistory'
+import { useResponsiveDevices } from '@zb/components'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
 let previewWindow = null
@@ -27,11 +28,14 @@ export function useSavePage() {
 			return
 		}
 
+		const { responsiveDevices } = useResponsiveDevices()
+
 		const pageData = {
 			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
-			css_classes: CSSClasses.value
+			css_classes: CSSClasses.value,
+			breakpoints: responsiveDevices.value
 		}
 
 		// Check if this is a draft

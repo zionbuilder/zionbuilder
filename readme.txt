@@ -225,6 +225,9 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.0.0 2022-03-14 =
+* A very long list of changes that will be added :)
+
 = 2.7.4 2021-09-15 =
 * Improved shortcut keys for MacOS
 * Added missing animate.css animations

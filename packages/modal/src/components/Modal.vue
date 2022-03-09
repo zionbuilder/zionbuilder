@@ -293,6 +293,10 @@ export default {
 		if (this.closeOnEscape) {
 			document.addEventListener('keyup', this.onEscapeKeyPress)
 		}
+
+		if (this.show) {
+			this.zIndex = getZindex()
+		}
 	},
 
 	beforeUnmount () {
