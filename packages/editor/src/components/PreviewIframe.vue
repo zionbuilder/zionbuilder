@@ -114,6 +114,7 @@ export default {
 
 				// Set the proper height
 				styles.height = `${100 / scaleValue.value * height}px`
+				styles.maxHeight = `${100 / scaleValue.value * containerHeight}px`
 			}
 
 			return styles

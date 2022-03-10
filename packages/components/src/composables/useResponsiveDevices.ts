@@ -33,7 +33,7 @@ const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref(window.ZnPbComponent
 
 const activeResponsiveOptions: Ref<{} | null> = ref(null)
 const iframeWidth: Ref<number | null> = ref(0)
-const autoscaleActive = ref(false)
+const autoscaleActive = ref(true)
 const scaleValue = ref(100)
 const ignoreWidthChangeFlag = ref(false)
 
