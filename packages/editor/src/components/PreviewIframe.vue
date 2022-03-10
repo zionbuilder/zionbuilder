@@ -443,10 +443,6 @@ export default {
 	border: 0;
 }
 
-// .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
-// 	max-height: calc(100vh - 60px);
-// }
-
 // Size tooltip
 .znpb-editor-iframeWidthTooltip {
 	position: absolute;
