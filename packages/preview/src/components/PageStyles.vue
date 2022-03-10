@@ -2,7 +2,7 @@
 <script>
 import ElementStyles from './ElementStyles.vue'
 import Options from '../Options'
-import { getCssFromSelector } from '@zb/utils'
+import { getCssFromSelector } from '@zb/editor'
 import { h } from 'vue'
 import { usePseudoSelectors } from '@zb/components'
 

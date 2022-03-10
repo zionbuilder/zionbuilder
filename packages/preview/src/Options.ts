@@ -1,6 +1,7 @@
 import { getOptionValue, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { cloneDeep, forEach } from 'lodash-es'
+import { useResponsiveDevices } from '@zb/components'
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -15,12 +16,14 @@ export default class Options {
 		this.element = element
 		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest
 
-		this.customCSS = {
-			default: {},
-			laptop: {},
-			tablet: {},
-			mobile: {}
-		}
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
+		const devices = {}
+
+		Object.keys(responsiveDevicesAsIdWidth.value).forEach((device) => {
+			devices[device] = {}
+		})
+
+		this.customCSS = devices
 
 		this.renderAttributes = {}
 	}
@@ -277,6 +280,7 @@ export default class Options {
 
 	addCustomCSS(device, selector, css) {
 		if (typeof this.customCSS[device] === 'undefined') {
+			console.log('doesn');
 			return
 		}
 
@@ -285,12 +289,7 @@ export default class Options {
 	}
 
 	getCustomCSS() {
-		const CSSDeviceMap = {
-			laptop: '991.98px',
-			tablet: '767.98px',
-			mobile: '575.98px'
-		}
-
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
 		let returnedCSS = ''
 
 		Object.keys(this.customCSS).forEach(device => {
@@ -304,11 +303,11 @@ export default class Options {
 			if (device === 'default') {
 				returnedCSS += extractedCSS
 			} else {
-				if (!CSSDeviceMap[device]) {
+				if (!responsiveDevicesAsIdWidth[device]) {
 					return
 				}
 
-				const deviceWidth = CSSDeviceMap[device]
+				const deviceWidth = responsiveDevicesAsIdWidth[device]
 				returnedCSS += `@media(max-width: ${deviceWidth}) { ${extractedCSS} } `
 			}
 		})
