@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Responsive {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_breakpoints';
 
-	public static $cached_deviecs = null;
+	public static $cached_devices = null;
 
 	public static $responsive_devices_as_device_width = null;
 
@@ -27,7 +27,7 @@ class Responsive {
 
 	public function on_page_save( $params ) {
 		if ( isset( $params['breakpoints'] ) ) {
-			if ( $params['breakpoints'] !== self::$cached_deviecs ) {
+			if ( $params['breakpoints'] !== self::$cached_devices ) {
 				self::save_breakpoints( $params['breakpoints'] );
 				Plugin::instance()->cache->delete_dynamic_css_cache();
 			}
@@ -82,17 +82,17 @@ class Responsive {
 	 * @return array
 	 */
 	public static function get_breakpoints() {
-		if ( null === self::$cached_deviecs ) {
+		if ( null === self::$cached_devices ) {
 			$saved_breakpoints = get_option( self::SETTINGS_OPTION_KEY );
 
 			if ( false === $saved_breakpoints ) {
-				self::$cached_deviecs = self::get_default_breakpoints();
+				self::$cached_devices = self::get_default_breakpoints();
 			} else {
-				self::$cached_deviecs = json_decode( $saved_breakpoints, true );
+				self::$cached_devices = json_decode( $saved_breakpoints, true );
 			}
 		}
 
-		return self::$cached_deviecs;
+		return self::$cached_devices;
 	}
 
 	public static function get_breakpoints_as_device_width() {
@@ -121,8 +121,9 @@ class Responsive {
 	}
 
 	public static function replace_devices_in_css( $css ) {
-		$devices_map = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
-		$width_map   = [ sprintf( '%spx', self::$responsive_devices_as_device_width['laptop'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['tablet'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['mobile'] ) ];
+		$devices_config = self::get_breakpoints_as_device_width();
+		$devices_map    = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
+		$width_map      = [ sprintf( '%spx', $devices_config['laptop'] ), sprintf( '%spx', $devices_config['tablet'] ), sprintf( '%spx', $devices_config['mobile'] ) ];
 
 		return str_replace( $devices_map, $width_map, $css );
 	}

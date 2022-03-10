@@ -61,7 +61,8 @@ packages.forEach(directory => {
 
 // Normal packages
 const normalPackages = [
-	'animateJS'
+	'animateJS',
+	'video'
 ]
 normalPackages.forEach(directory => {
 	const folder = path.resolve('./packages', directory)
@@ -71,14 +72,14 @@ normalPackages.forEach(directory => {
 		const packageWebpackConfig = require(webpackConfig)
 		const config = mergeConfigs(
 			packageWebpackConfig, {
-				entry: {
+				entry: packageWebpackConfig.entry || {
 					[directory]: packageWebpackConfig.entry
 				},
 				// Change context to package folder so that webpack knows where to look for files
 				context: folder,
 				// Export all packages to window.zb
 				output: {
-					filename: `js/${directory}.js`
+					filename: `js/[name].js`
 				}
 			}
 		)

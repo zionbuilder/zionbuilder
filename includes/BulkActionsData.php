@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class BulkActionsData {
 	public function __construct() {
 		add_filter( 'zionbuilder/api/bulk_actions/get_input_select_options/get_all_posts', [ __CLASS__, 'get_all_posts' ], 10, 2 );
+		add_filter( 'zionbuilder/api/bulk_actions/get_input_select_options/get_post_taxonomies', [ __CLASS__, 'get_post_taxonomies' ], 10, 2 );
 	}
 
 	public static function get_all_posts( $items, $config ) {
@@ -48,5 +49,25 @@ class BulkActionsData {
 			},
 			$posts_query->posts
 		);
+	}
+
+	public function get_post_taxonomies( $items, $config ) {
+		global $post;
+		$options    = [];
+		$taxonomies = get_post_taxonomies( $post->ID );
+
+		error_log( var_export( $post->ID, 1 ) );
+
+		if ( empty( $taxonomies ) ) {
+			return $options;
+		}
+		foreach ( $taxonomies as $k ) {
+			$options[] = [
+				// Nicely format the name
+				'name' => ucwords( str_replace( [ '_', '-' ], ' ', $k ) ),
+				'id'   => $k,
+			];
+		}
+		return $options;
 	}
 }

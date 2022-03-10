@@ -114,6 +114,7 @@ export default {
 
 				// Set the proper height
 				styles.height = `${100 / scaleValue.value * height}px`
+				styles.maxHeight = `${100 / scaleValue.value * containerHeight}px`
 			}
 
 			return styles
@@ -441,10 +442,6 @@ export default {
 	box-shadow: 0 0 60px 0 rgba(0, 0, 0, .1);
 	border: 0;
 }
-
-// .znpb-editor-iframe-wrapper:not(.znpb-editor-iframe-wrapper--default) #znpb-editor-iframe {
-// 	max-height: calc(100vh - 60px);
-// }
 
 // Size tooltip
 .znpb-editor-iframeWidthTooltip {
