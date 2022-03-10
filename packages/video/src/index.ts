@@ -1,5 +1,5 @@
 import { createActionInstance } from '@zionbuilder/hooks'
-import fitVids from 'fitvids'
+import reframe from 'reframe.js'
 
 declare global {
 	interface Window {
@@ -68,10 +68,11 @@ export default class Video {
 
 		this.domNode = domNode
 		this.videoIndex = videoIndex++
+		this.videoContainer = null
 
 		if (this.options.responsive) {
 			this.on('video_ready', () => {
-				fitVids()
+				reframe(this.videoContainer)
 			})
 		}
 
@@ -128,8 +129,8 @@ export default class Video {
 		youtubeIframe.src = `https://www.youtube-nocookie.com/embed/${this.YoutubeId}?enablejsapi=1${YtParamsString}`
 		youtubeIframe.id = `znpb-video-bg-youtube-${this.videoIndex}`
 		youtubeIframe.allow = 'autoplay; fullscreen'
-		youtubeIframe.width = '425'
-		youtubeIframe.height = '239'
+		youtubeIframe.width = 425
+		youtubeIframe.height = 239
 
 		// Append the iframe
 		this.domNode.appendChild(youtubeIframe)
@@ -138,8 +139,8 @@ export default class Video {
 			// 2. This code loads the IFrame Player API code asynchronously.
 			var youtubeTag = document.createElement('script')
 			youtubeTag.src = 'https://www.youtube.com/iframe_api'
-			var firstScriptTag = document.getElementsByTagName('head')[0]
-			firstScriptTag.appendChild(youtubeTag)
+			var firstScriptTag = document.getElementsByTagName('script')[0]
+			firstScriptTag.parentNode.insertBefore(youtubeTag, firstScriptTag)
 
 			const self = this
 			window.onYouTubeIframeAPIReady = function () {
@@ -155,6 +156,7 @@ export default class Video {
 			this.enableYoutube()
 		}
 	}
+
 	enableYoutube() {
 		this.player = new window.YT.Player(
 			`znpb-video-bg-youtube-${this.videoIndex}`, {
@@ -176,9 +178,9 @@ export default class Video {
 		if (vimeoApiLoadedState === 0) {
 			const vimeoTag = document.createElement('script')
 			vimeoTag.src = 'https://player.vimeo.com/api/player.js'
-			let secondScriptTag = document.getElementsByTagName('head')[0]
+			let secondScriptTag = document.getElementsByTagName('script')[1]
 			const self = this
-			secondScriptTag.appendChild(vimeoTag)
+			secondScriptTag.parentNode.insertBefore(vimeoTag, secondScriptTag)
 
 			vimeoTag.onload = function () {
 				self.enableVimeo()
@@ -192,23 +194,28 @@ export default class Video {
 			this.enableVimeo()
 		}
 	}
+
 	enableVimeo() {
 		this.player = new window.Vimeo.Player(`znpb-video-bg-vimeo-${this.videoIndex}`, {
 			id: this.options.vimeoURL,
-			background: true,
+			background: this.options.autoplay,
 			muted: this.options.muted,
 			transparent: true,
-			autoplay: this.options.autoplay
+			autoplay: this.options.autoplay,
+			controls: this.options.controls
 		})
 
-		this.videoContainer = this.player.element
+		this.player.ready().then(() => {
+			this.videoContainer = this.player.element
+			this.trigger('video_ready')
+		});
 
-		this.trigger('video_ready')
 	}
+
 	setupLocal() {
-		let autoplay = this.options.autoplay ? true : false
-		let muted = this.options.muted ? true : false
-		let loop = this.options.loop ? true : false
+		let autoplay = this.options.autoplay ? 'autoplay' : ''
+		let muted = this.options.muted ? 'muted' : ''
+		let loop = this.options.loop ? 'loop' : ''
 
 		let videoElement = document.createElement('video')
 
@@ -216,8 +223,6 @@ export default class Video {
 		videoElement.muted = muted
 		videoElement.autoplay = autoplay
 		videoElement.loop = loop
-		videoElement.playsInline = autoplay
-
 
 		if (this.options.controls) {
 			videoElement.controls = true
@@ -253,6 +258,7 @@ export default class Video {
 		}
 		this.playing = true
 	}
+
 	pause() {
 		if (this.videoSource === 'youtube') {
 			this.player.pauseVideo()
@@ -290,6 +296,7 @@ export default class Video {
 
 		this.muted = true
 	}
+
 	unMute() {
 		if (this.videoSource === 'youtube') {
 			this.player.unMute()
@@ -313,6 +320,7 @@ export default class Video {
 	}
 
 	destroy() {
+		this.trigger('beforeDestroy')
 		this.player = null
 		while (this.domNode.firstChild) {
 			this.domNode.removeChild(this.domNode.firstChild)
