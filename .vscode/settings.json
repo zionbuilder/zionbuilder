@@ -4,8 +4,6 @@
 	"editor.snippetSuggestions": "top",
 	"editor.detectIndentation": false,
 	"editor.renderWhitespace": "all",
-	"vetur.format.defaultFormatter.js": "vscode-typescript",
-	"vetur.format.defaultFormatter.html": "js-beautify-html",
 	"javascript.format.insertSpaceBeforeFunctionParenthesis": true,
 	"eslint.validate": [
 		"javascript",
@@ -21,9 +19,7 @@
 	},
 	"search.useIgnoreFiles": false,
 	"scss.lint.duplicateProperties": "error",
-	"workbench.editor.highlightModifiedTabs": true,
 	"files.trimTrailingWhitespace": true,
-	"trailing-spaces.trimOnSave": true,
 	"vueStyle.formatOnSave": true,
 	"vueStyle.preset": {
 		"remove-empty-rulesets": true,
@@ -55,5 +51,8 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
 	},
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"cSpell.words": [
+		"opentype"
+	]
 }

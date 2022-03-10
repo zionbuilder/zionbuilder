@@ -21,7 +21,7 @@
 			<span
 				v-if="options.show_play_icon"
 				class="zb-el-zionVideo-play-button zion-play-filled"
-			></span>
+			><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M55.3 32 8.7 5.1v53.8L55.3 32z"/></svg></span>
 		</component>
 
 		<slot name="end" />

@@ -3,25 +3,31 @@
 		&[data-position="center"] {
 			text-align: center;
 		}
+
 		&[data-position="right"] {
 			text-align: right;
 		}
+
 		&[data-position="left"] {
 			text-align: left;
 		}
 	}
 
 	&__controls-button {
-		&--play, &--mute {
+
+		&--play,
+		&--mute {
 			&:before {
 				@include zion-font;
 			}
 		}
+
 		&--play {
 			&:before {
 				content: "\e801";
 			}
 		}
+
 		&--mute {
 			&:before {
 				content: "\e803";
@@ -44,8 +50,11 @@
 			}
 		}
 	}
+
 	&--contain {
-		iframe, video {
+
+		iframe,
+		video {
 			object-fit: contain;
 		}
 	}
