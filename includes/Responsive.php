@@ -121,8 +121,9 @@ class Responsive {
 	}
 
 	public static function replace_devices_in_css( $css ) {
-		$devices_map = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
-		$width_map   = [ sprintf( '%spx', self::$responsive_devices_as_device_width['laptop'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['tablet'] ), sprintf( '%spx', self::$responsive_devices_as_device_width['mobile'] ) ];
+		$devices_config = self::get_breakpoints_as_device_width();
+		$devices_map    = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
+		$width_map      = [ sprintf( '%spx', $devices_config['laptop'] ), sprintf( '%spx', $devices_config['tablet'] ), sprintf( '%spx', $devices_config['mobile'] ) ];
 
 		return str_replace( $devices_map, $width_map, $css );
 	}
