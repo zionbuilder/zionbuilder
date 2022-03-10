@@ -17,37 +17,37 @@
 
 		&--play,
 		&--mute {
-			&:before {
-				@include zion-font;
-			}
+			// &:before {
+			// 	@include zion-font;
+			// }
 		}
 
 		&--play {
-			&:before {
-				content: "\e801";
-			}
+			// &:before {
+			// 	content: "\e801";
+			// }
 		}
 
 		&--mute {
-			&:before {
-				content: "\e803";
-			}
+			// &:before {
+			// 	content: "\e803";
+			// }
 		}
 	}
 
 	&--muted {
 		.hg-video-bg__controls-button--mute {
-			&:before {
-				content: "\e802";
-			}
+			// &:before {
+			// 	content: "\e802";
+			// }
 		}
 	}
 
 	&--playing {
 		.hg-video-bg__controls-button--play {
-			&:before {
-				content: "\e800";
-			}
+			// &:before {
+			// 	content: "\e800";
+			// }
 		}
 	}
 
