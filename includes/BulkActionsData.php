@@ -51,12 +51,10 @@ class BulkActionsData {
 		);
 	}
 
-	public function get_post_taxonomies( $items, $config ) {
+	public static function get_post_taxonomies( $items, $config ) {
 		global $post;
 		$options    = [];
 		$taxonomies = get_post_taxonomies( $post->ID );
-
-		error_log( var_export( $post->ID, 1 ) );
 
 		if ( empty( $taxonomies ) ) {
 			return $options;
