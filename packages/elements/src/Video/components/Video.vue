@@ -3,7 +3,7 @@
 		<slot name="start" />
 
 		<div class="zb-el-zionVideo-wrapper" ref="videoPlayer" />
-
+		<div class="znpb-el-zionVideo--bgOverlay"></div>
 		<component
 			:is="imageOverlayTag"
 			v-if="options.use_image_overlay"
@@ -160,3 +160,14 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+	.znpb-el-zionVideo--bgOverlay {
+		display: block;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+	}
+</style>

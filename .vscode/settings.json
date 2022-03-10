@@ -53,6 +53,7 @@
 	},
 	"editor.formatOnSave": true,
 	"cSpell.words": [
-		"opentype"
+		"opentype",
+		"znpb"
 	]
 }
