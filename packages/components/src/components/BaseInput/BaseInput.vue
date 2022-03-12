@@ -29,7 +29,6 @@
 			:type="type"
 			v-model="inputValue"
 			ref="input"
-			v-bind="$attrs"
 			:style="getStyle"
 		>
 		<textarea
@@ -136,6 +135,10 @@ export default {
 		},
 		class: {
 
+		},
+		placeholder: {
+			type: String,
+			required: false
 		}
 	},
 	data () {
