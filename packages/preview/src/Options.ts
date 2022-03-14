@@ -8,7 +8,7 @@ import { useResponsiveDevices } from '@zb/components'
  * and custom css
  */
 export default class Options {
-	constructor(schema, model, selector, options, element = null) {
+	constructor(schema, model, selector: string, options, element = null) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
@@ -278,9 +278,8 @@ export default class Options {
 		}
 	}
 
-	addCustomCSS(device, selector, css) {
+	addCustomCSS(device: string, selector: string, css: string) {
 		if (typeof this.customCSS[device] === 'undefined') {
-			console.log('doesn');
 			return
 		}
 
@@ -293,8 +292,8 @@ export default class Options {
 		let returnedCSS = ''
 
 		Object.keys(this.customCSS).forEach(device => {
-			const deviceSlectors = this.customCSS[device]
-			const extractedCSS = this.extractStyles(deviceSlectors)
+			const deviceSelectors = this.customCSS[device]
+			const extractedCSS = this.extractStyles(deviceSelectors)
 
 			if (extractedCSS.length === 0) {
 				return
@@ -303,12 +302,12 @@ export default class Options {
 			if (device === 'default') {
 				returnedCSS += extractedCSS
 			} else {
-				if (!responsiveDevicesAsIdWidth[device]) {
+				if (!responsiveDevicesAsIdWidth.value[device]) {
 					return
 				}
 
-				const deviceWidth = responsiveDevicesAsIdWidth[device]
-				returnedCSS += `@media(max-width: ${deviceWidth}) { ${extractedCSS} } `
+				const deviceWidth = responsiveDevicesAsIdWidth.value[device]
+				returnedCSS += `@media(max-width: ${deviceWidth}px) { ${extractedCSS} } `
 			}
 		})
 

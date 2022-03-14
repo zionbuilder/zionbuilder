@@ -131,6 +131,9 @@ export default {
 
 		function updateWidth () {
 			const oldValue = props.deviceConfig.width
+			if (!widthInput.value) {
+				return
+			}
 			const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value)
 			// Don't allow values lower than 240px
 			props.deviceConfig.width = newValue

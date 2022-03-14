@@ -27,15 +27,17 @@
 		<input
 			v-if="type !== 'textarea'"
 			:type="type"
-			v-model="inputValue"
+			:value="inputValue"
+			@input="inputValue = $event.target.value"
 			ref="input"
-			v-bind="$attrs"
 			:style="getStyle"
+			v-bind="$attrs"
 		>
 		<textarea
 			class="znpb-fancy-scrollbar"
 			v-else
-			v-model="inputValue"
+			:value="inputValue"
+			@input="inputValue = $event.target.value"
 			ref="input"
 			v-bind="$attrs"
 		>
@@ -90,7 +92,7 @@ export default {
 		 */
 		modelValue: {
 			required: false,
-			type: null
+			type: [String, Number]
 		},
 		/**
 		 * If true, will mark the field as red

@@ -13,9 +13,10 @@
 	"search.exclude": {
 		"**/node_modules": true,
 		"**/bower_components": true,
+		"**/vendor": true,
 		"**/dist": true,
 		"**/.cache": true,
-		"**/*.map": true
+		"**/*.map": true,
 	},
 	"search.useIgnoreFiles": false,
 	"scss.lint.duplicateProperties": "error",
@@ -46,14 +47,16 @@
 		"unitless-zero": true,
 		"vendor-prefix-align": true
 	},
-	"vetur.format.options.tabSize": 4,
-	"vetur.format.options.useTabs": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
 	},
 	"editor.formatOnSave": true,
 	"cSpell.words": [
+		"composables",
+		"Iframe",
 		"opentype",
+		"Schd",
+		"tmce",
 		"znpb"
 	]
 }
