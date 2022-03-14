@@ -91,10 +91,6 @@ export default {
 			type: String,
 			required: true
 		},
-		reset_repeater: {
-			type: Object,
-			required: false
-		},
 		add_template: {
 			type: Object,
 			required: false
@@ -132,30 +128,13 @@ export default {
 		onItemChange (payload) {
 			const { index, newValues } = payload
 			let copiedValues = [...this.valueModel]
-
+			let clonedNewValue = newValues
 
 			// Check to see if we need to delete the data
 			if (newValues === null) {
-				copiedValues.splice(index, 1)
-
-				if (copiedValues.length === 0) {
-					copiedValues = null
-				}
-			} else {
-				copiedValues[index] = newValues
+				clonedNewValue = []
 			}
-
-			if (this.reset_repeater && this.reset_repeater.option) {
-				const resetOption = this.reset_repeater.option
-				const oldValue = this.valueModel[index][resetOption]
-				const newValue = newValues[resetOption]
-
-				if (newValue && oldValue !== newValue) {
-					const newValues = {}
-					newValues[resetOption] = newValue
-					copiedValues[index] = newValues
-				}
-			}
+			copiedValues[index] = clonedNewValue
 
 			this.$emit('update:modelValue', copiedValues)
 		},
