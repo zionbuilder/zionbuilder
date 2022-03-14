@@ -53,6 +53,7 @@
 	"editor.formatOnSave": true,
 	"cSpell.words": [
 		"composables",
+		"Iframe",
 		"opentype",
 		"Schd",
 		"tmce",
