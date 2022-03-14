@@ -76,6 +76,7 @@ export default {
 				const value = newValue || ''
 				editor.setContent(value)
 				debouncedAddToHistory()
+				editorTextarea.value = newValue
 			}
 		})
 
