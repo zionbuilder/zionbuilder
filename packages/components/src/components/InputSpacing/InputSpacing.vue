@@ -532,7 +532,7 @@ export default {
 			// Save the link status
 			const { type, activeLinkComputedValue } = draggingConfig
 
-			activeLinkComputedValue.value = isLinked(type)
+			// activeLinkComputedValue.value = isLinked(type)
 
 			document.body.style.userSelect = null
 			document.body.style.pointerEvents = null
