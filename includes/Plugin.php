@@ -200,12 +200,29 @@ class Plugin {
 	 */
 	public $scripts = null;
 
+
+	/**
+	 * Holds the reference to the instance of the \ZionBuilder\Icons class
+	 *
+	 * @var Library
+	 *
+	 * @see Plugin::init()
+	 */
 	public $library = null;
+
+	/**
+	 * Holds the reference to the instance of the \ZionBuilder\Icons class
+	 *
+	 * @var Templates
+	 *
+	 * @see Plugin::init()
+	 */
+	public $templates = null;
 
 	/**
 	 * Main class init
 	 *
-	 * Will hook into WP actions to add the plugin functioanlity
+	 * Will hook into WP actions to add the plugin functionality
 	 *
 	 * @return void
 	 */

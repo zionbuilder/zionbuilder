@@ -102,7 +102,7 @@ class Library {
 	 *
 	 * @param string $source_id
 	 *
-	 * @return BaseSource|boolean
+	 * @return BaseSource|false
 	 */
 	public function get_source( $source_id ) {
 		$this->register_sources();

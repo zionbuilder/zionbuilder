@@ -2,6 +2,7 @@
 
 namespace ZionBuilder\Api\RestControllers;
 
+use WP_REST_Request;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Templates;
@@ -253,6 +254,14 @@ class Library extends RestApiController {
 		return true;
 	}
 
+
+	/**
+	 * Checks to see if the response is not a \WP_Error
+	 *
+	 * @param array|\WP_Error $response
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function validate_and_send_response( $response ) {
 		if ( is_wp_error( $response ) ) {
 			$response->add_data( [ 'status' => 400 ] );
@@ -262,46 +271,81 @@ class Library extends RestApiController {
 		return rest_ensure_response( $response );
 	}
 
+
+	/**
+	 * Returns the list of Library sources
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_sources() {
 		return rest_ensure_response( Plugin::instance()->library->get_sources() );
 	}
 
+
+	/**
+	 * Returns a single source
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_source( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		return rest_ensure_response( $library );
 	}
 
+
+	/**
+	 * Returns the source items
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_items( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		return $this->validate_and_send_response( $library->get_items() );
 	}
 
+	/**
+	 * Returns the source categories
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_categories( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		return $this->validate_and_send_response( $library->get_categories() );
 	}
 
-
+	/**
+	 * Returns the source items and categories
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_items_and_categories( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		return $this->validate_and_send_response( $library->get_items_and_categories() );
@@ -311,7 +355,7 @@ class Library extends RestApiController {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$template_config = apply_filters(
@@ -347,7 +391,7 @@ class Library extends RestApiController {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$template_id = $request->get_param( 'template_id' );
@@ -356,11 +400,18 @@ class Library extends RestApiController {
 	}
 
 
+	/**
+	 * Returns a single template configuration
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function export_single_item( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$template_id = $request->get_param( 'template_id' );
@@ -396,7 +447,7 @@ class Library extends RestApiController {
 			)
 		);
 
-		// throw error if there are problomes during the export
+		// throw error if there are problems during the export
 		if ( is_wp_error( $export ) ) {
 			$export->add_data( [ 'status' => 500 ] );
 			return $export;
@@ -409,11 +460,19 @@ class Library extends RestApiController {
 		return $download;
 	}
 
+
+	/**
+	 * Deletes a template from source
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function delete_single_item( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$template_id = $request->get_param( 'template_id' );
@@ -423,15 +482,21 @@ class Library extends RestApiController {
 			return new \WP_Error( 'rest_cannot_delete', __( 'The template cannot be deleted.', 'zionbuilder' ), [ 'status' => 500 ] );
 		}
 
-		return $this->validate_and_send_response( $result );
+		return rest_ensure_response( $result );
 	}
 
-
+	/**
+	 * Returns the template builder data
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function get_single_item_builder_config( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$item_builder_data = $library->insert_item( $request->get_param( 'template_id' ) );
@@ -447,6 +512,13 @@ class Library extends RestApiController {
 		);
 	}
 
+	/**
+	 * Saves the template thumbnail
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function save_item_thumbnail( $request ) {
 		$template_id = $request->get_param( 'template_id' );
 		$success     = $request->get_param( 'success' );
@@ -454,6 +526,11 @@ class Library extends RestApiController {
 
 		if ( $template_id ) {
 			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+
+			// check if the id is valid
+			if ( ! $template_instance ) {
+				return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
+			}
 
 			if ( $success ) {
 				$template_instance->save_base64Image( $image_data );
@@ -468,11 +545,18 @@ class Library extends RestApiController {
 		return rest_ensure_response( [] );
 	}
 
+	/**
+	 * Imports a template
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function import_item( $request ) {
 		$library = Plugin::instance()->library->get_source( $request->get_param( 'library_id' ) );
 
 		if ( ! $library ) {
-			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that mathces your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
+			return new \WP_Error( 'rest_forbidden', esc_html__( 'No library found that matches your request.', 'zionbuilder' ), [ 'status' => $this->authorization_status_code() ] );
 		}
 
 		$files = $request->get_file_params();
@@ -491,7 +575,7 @@ class Library extends RestApiController {
 		//return the post based on id
 		$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
 
-				// check if the id is valid
+		// check if the id is valid
 		if ( ! $template_instance ) {
 			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 		}
@@ -499,6 +583,13 @@ class Library extends RestApiController {
 		return $this->validate_and_send_response( $template_instance->get_data_for_api() );
 	}
 
+	/**
+	 * Exports a template as zip file
+	 *
+	 * @param WP_REST_Request $request
+	 *
+	 * @return \WP_Error|\WP_REST_Response
+	 */
 	public function export_template( $request ) {
 		// retrieves the template data
 		$template_name = sanitize_text_field( $request->get_param( 'title' ) );
@@ -526,7 +617,7 @@ class Library extends RestApiController {
 			)
 		);
 
-		// throw error if there are problomes during the export
+		// throw error if there are problems during the export
 		if ( is_wp_error( $export ) ) {
 			$export->add_data( [ 'status' => 500 ] );
 			return $export;

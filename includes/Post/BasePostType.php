@@ -570,6 +570,14 @@ class BasePostType {
 		return Plugin::$instance->post_manager->get_post_instance( $post_autosave_id );
 	}
 
+	/**
+	 * Returns data that will be used from REST API
+	 *
+	 * @return array
+	 */
+	public function get_data_for_api() {
+		return [];
+	}
 
 	/**
 	 * Copies the values from the current post id to the given post id

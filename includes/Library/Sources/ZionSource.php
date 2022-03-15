@@ -6,7 +6,6 @@ use ZionBuilder\Plugin;
 
 class ZionSource extends BaseSource {
 	const SOURCE_URL = 'https://library.zionbuilder.io/wp-json/zionbuilder-library/v2/library';
-	// const SOURCE_URL = 'http://zionbuilder.local/wp-json/zionbuilder-library/v2/library';
 
 	/**
 	 * True if you want to use the browser cache to cache the template lis
@@ -19,10 +18,25 @@ class ZionSource extends BaseSource {
 		return self::TYPE_ZION;
 	}
 
+	/**
+	 * Runs code after the source is constructed
+	 *
+	 * @param array $source_config
+	 *
+	 * @return void
+	 */
 	public function on_init( $source_config ) {
 		$this->url = self::SOURCE_URL . '/items-and-categories';
 	}
 
+
+	/**
+	 * Inserts a template into the DB
+	 *
+	 * @param integer $item_id
+	 *
+	 * @return \WP_Error
+	 */
 	public function insert_item( $item_id ) {
 		$url      = self::SOURCE_URL . '/get-template-archive';
 		$args     = apply_filters(
@@ -38,24 +52,21 @@ class ZionSource extends BaseSource {
 			return $response;
 		}
 
-		$respone_body = wp_remote_retrieve_body( $response );
-
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			if ( is_wp_error( $response ) ) {
-				return $response;
-			} else {
-				$response_data = json_decode( wp_remote_retrieve_body( $response ), true );
-				return new \WP_Error( 'invalid_license', $response_data['message'] );
-			}
+		$response_body = wp_remote_retrieve_body( $response );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		} elseif ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			$response_data = json_decode( wp_remote_retrieve_body( $response ), true );
+			return new \WP_Error( 'invalid_license', $response_data['message'] );
 		}
 
-		$respone_body = json_decode( $respone_body, true );
+		$response_body = json_decode( $response_body, true );
 
-		if ( empty( $respone_body['download_url'] ) ) {
+		if ( empty( $response_body['download_url'] ) ) {
 			return new \WP_Error( 'template_data_not_valid', __( 'The template archive could not be found!', 'zionbuilder' ) );
 		}
 
-		$archive_url = $respone_body['download_url'];
+		$archive_url = $response_body['download_url'];
 
 		$template_file_download = download_url( $archive_url );
 

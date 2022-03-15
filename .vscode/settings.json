@@ -52,13 +52,16 @@
 	},
 	"editor.formatOnSave": true,
 	"cSpell.words": [
+		"ABSPATH",
 		"composables",
+		"DELETABLE",
 		"Iframe",
 		"opentype",
 		"phpcs",
 		"Schd",
 		"tmce",
 		"trailingslashit",
+		"zionbuilder",
 		"znpb"
 	]
 }

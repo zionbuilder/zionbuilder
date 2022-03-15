@@ -9,13 +9,53 @@ class BaseSource {
 	const TYPE_EXTERNAL = 'external';
 	const TYPE_ZION     = 'zion_library';
 
-	public $id              = '';
-	public $use_cache       = false;
-	public $name            = true;
-	public $url             = null;
-	public $request_headers = [];
-	public $type            = '';
+	/**
+	 * Holds the library source unique id
+	 *
+	 * @var string
+	 */
+	public $id = '';
 
+	/**
+	 * Flag if the source used browser cache or not
+	 *
+	 * @var boolean
+	 */
+	public $use_cache = false;
+
+	/**
+	 * Local source name
+	 *
+	 * @var string
+	 */
+	public $name = '';
+
+	/**
+	 * Source URL
+	 *
+	 * @var string
+	 */
+	public $url = null;
+
+	/**
+	 * Additional request headers used when making a request
+	 *
+	 * @var array
+	 */
+	public $request_headers = [];
+
+	/**
+	 * Source type
+	 *
+	 * @var string
+	 */
+	public $type = '';
+
+	/**
+	 * Source main constructor
+	 *
+	 * @param array $source_config
+	 */
 	public function __construct( $source_config = [] ) {
 		// Set defaults
 		$this->id   = $source_config['id'];
@@ -30,6 +70,8 @@ class BaseSource {
 	/**
 	 * Actions that will fire at the class __construct
 	 *
+	 * @param array $source_config
+	 *
 	 * @return void
 	 */
 	protected function on_init( $source_config ) {
@@ -39,7 +81,7 @@ class BaseSource {
 	/**
 	 * Returns the source unique id
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_id() {
 		return $this->id;
@@ -52,7 +94,7 @@ class BaseSource {
 	 * @return string
 	 */
 	public function get_type() {
-		return new WP_Error( 'invalid_type', 'get_type() must be implemented in the child class' );
+		return '';
 	}
 
 
@@ -90,6 +132,8 @@ class BaseSource {
 	/**
 	 * Adds a new template to DB
 	 *
+	 * @param array $item_data
+	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
 	public function create_item( $item_data ) {
@@ -108,6 +152,8 @@ class BaseSource {
 	/**
 	 * Imports a template into DB
 	 *
+	 * @param integer $item_id
+	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
 	public function insert_item( $item_id ) {
@@ -119,7 +165,7 @@ class BaseSource {
 	 *
 	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
 	 */
-	public function udate_item() {
+	public function update_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot update template' );
 	}
 
@@ -135,6 +181,8 @@ class BaseSource {
 
 	/**
 	 * Exports an item as zip file
+	 *
+	 * @param integer $item_id
 	 *
 	 * @return WP_Error
 	 */

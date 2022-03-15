@@ -44,6 +44,11 @@ class TemplatePostType extends BasePostType {
 		);
 	}
 
+	/**
+	 * Returns data that will be used from REST API
+	 *
+	 * @return array
+	 */
 	public function get_data_for_api() {
 		$filter_hook     = sprintf( 'zionbuilder/post/%s/data_for_api', Templates::TEMPLATE_POST_TYPE );
 		$item_categories = [ get_post_meta( $this->get_post_id(), Templates::TEMPLATE_TYPE_META, true ) ];
