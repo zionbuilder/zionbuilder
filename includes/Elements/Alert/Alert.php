@@ -218,11 +218,11 @@ class Alert extends Element {
 		}
 
 		if ( ! empty( $title ) ) {
-			printf( '<span class="zb-el-alert__title">%s</span>', $title );
+			printf( '<span class="zb-el-alert__title">%s</span>', $title ); // phpcs:ignore WordPress.Security.EscapeOutput
 		}
 
 		if ( ! empty( $description ) ) {
-			printf( '<div class="zb-el-alert__description">%s</div>', $description );
+			printf( '<div class="zb-el-alert__description">%s</div>', $description ); // phpcs:ignore WordPress.Security.EscapeOutput
 		}
 	}
 }

@@ -55,8 +55,10 @@
 		"composables",
 		"Iframe",
 		"opentype",
+		"phpcs",
 		"Schd",
 		"tmce",
+		"trailingslashit",
 		"znpb"
 	]
 }

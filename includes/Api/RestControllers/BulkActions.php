@@ -105,7 +105,7 @@ class BulkActions extends RestApiController {
 		Plugin::$instance->post_manager->switch_to_post( $post_id );
 
 		// Set the main query
-		query_posts(
+		query_posts( // phpcs:ignore WordPress.WP.DiscouragedFunctions
 			[
 				'p'         => $post_id,
 				'post_type' => 'any',

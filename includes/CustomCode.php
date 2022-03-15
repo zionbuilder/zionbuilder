@@ -65,14 +65,17 @@ class CustomCode {
 	}
 
 	public function add_head_scripts() {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->get_value( 'header_scripts', '' );
 	}
 
 	public function add_body_scripts() {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->get_value( 'body_scripts', '' );
 	}
 
 	public function add_footer_scripts() {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->get_value( 'footer_scripts', '' );
 	}
 }

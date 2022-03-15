@@ -104,6 +104,6 @@ class Text extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		echo $options->get_value( 'content' );
+		echo $options->get_value( 'content' ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 }

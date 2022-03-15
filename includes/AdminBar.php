@@ -64,6 +64,7 @@ class AdminBar {
 			$admin_bar->add_menu(
 				[
 					'id'    => 'edit-with-zion',
+					/* translators: %s: ZionBuilder white label name */
 					'title' => sprintf( __( 'Edit with %s', 'zionbuilder' ), Whitelabel::get_title() ),
 					'href'  => $post_instance->get_edit_url(),
 

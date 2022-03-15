@@ -39,7 +39,7 @@ class Performance {
 		add_filter( 'tiny_mce_plugins', [ $this, 'disable_emojis_tinymce' ] );
 	}
 
-	function disable_emojis_tinymce( $plugins ) {
+	public function disable_emojis_tinymce( $plugins ) {
 		if ( is_array( $plugins ) ) {
 			return array_diff( $plugins, array( 'wpemoji' ) );
 		} else {
