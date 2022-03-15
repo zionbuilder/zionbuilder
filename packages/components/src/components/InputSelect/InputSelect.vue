@@ -121,7 +121,7 @@ export default {
 	name: 'InputSelect',
 	props: {
 		modelValue: {
-			type: [String, Number, Array],
+			type: [String, Number, Array, Boolean],
 		},
 		options: {
 			type: Array,
