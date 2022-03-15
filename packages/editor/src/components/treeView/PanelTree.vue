@@ -166,6 +166,14 @@ export default {
 
 			&:hover {
 				background-color: var(--zb-surface-lightest-color);
+
+				.znpb-editor-icon-wrapper {
+					color: var(--zb-surface-text-hover-color);
+				}
+
+				.zion-icon.zion-svg-inline {
+					color: var(--zb-surface-text-hover-color);
+				}
 			}
 
 			&--active {

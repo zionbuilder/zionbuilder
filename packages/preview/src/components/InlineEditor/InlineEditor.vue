@@ -425,6 +425,7 @@ export default {
 
 .znpb-inline-editor__wrapper {
 	top: -75px;
+	border: 0;
 
 	button {
 		padding: 0;
@@ -442,6 +443,10 @@ export default {
 		margin: 0 1px;
 		border-radius: 2px;
 		transition: color .15s ease;
+
+		&:hover {
+			color: var(--zb-surface-text-hover-color);
+		}
 
 		.zion-icon {
 			width: auto;

@@ -360,7 +360,8 @@ export default {
 	display: flex;
 }
 
-.znpb-left-area, .znpb-right-area {
+.znpb-left-area,
+.znpb-right-area {
 	position: relative;
 	height: auto;
 	background: transparent;
@@ -410,28 +411,30 @@ export default {
 /*  slide from right */
 .slide-from-right-enter-to {
 	transform: translateX(0);
-	transition: all .3s ease-out;
-	transition-delay: .1s;
+	transition: all 0.3s ease-out;
+	transition-delay: 0.1s;
 }
 
 .slide-from-right-leave-from {
-	transition: all .3s ease-in;
+	transition: all 0.3s ease-in;
 }
-.slide-from-right-enter-from, .slide-from-right-leave-to {
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
 	transform: translateX(60px);
 	opacity: 0;
 }
 /*  slide from left */
 .slide-from-left-enter-to {
 	transform: translateX(0);
-	transition: all .3s ease-out;
-	transition-delay: .1s;
+	transition: all 0.3s ease-out;
+	transition-delay: 0.1s;
 }
 
 .slide-from-left-leave-from {
-	transition: all .3s ease-in;
+	transition: all 0.3s ease-in;
 }
-.slide-from-left-enter-from, .slide-from-left-leave-to {
+.slide-from-left-enter-from,
+.slide-from-left-leave-to {
 	transform: translateX(-60px);
 	opacity: 0;
 }
@@ -453,13 +456,12 @@ body {
 	align-items: center;
 	order: 2;
 	width: 100%;
-	width: 100%;
 	height: 100%;
 	background: #fff;
 
 	img {
 		margin-bottom: 30px;
-		opacity: .6;
+		opacity: 0.6;
 	}
 
 	&__text {
@@ -481,12 +483,20 @@ body {
 	height: 100%;
 }
 .zbpb-editor-demoMode {
-	.znpb-editor-header__page-save-wrapper--save, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4), .znpb-editor-header__menu-list li:nth-child(5), .znpb-editor-header__menu-list li:nth-child(6) {
+	.znpb-editor-header__page-save-wrapper--save,
+	.znpb-editor-header__page-save-wrapper--save a,
+	.znpb-editor-header__menu-list li:nth-child(4),
+	.znpb-editor-header__menu-list li:nth-child(5),
+	.znpb-editor-header__menu-list li:nth-child(6) {
 		cursor: not-allowed !important;
 	}
 
 	.znpb-editor-header__page-save-wrapper--save
-	.znpb-editor-header__menu_button, .znpb-editor-header__page-save-wrapper--save a, .znpb-editor-header__menu-list li:nth-child(4) a, .znpb-editor-header__menu-list li:nth-child(5) a, .znpb-editor-header__menu-list li:nth-child(6) a {
+		.znpb-editor-header__menu_button,
+	.znpb-editor-header__page-save-wrapper--save a,
+	.znpb-editor-header__menu-list li:nth-child(4) a,
+	.znpb-editor-header__menu-list li:nth-child(5) a,
+	.znpb-editor-header__menu-list li:nth-child(6) a {
 		pointer-events: none !important;
 	}
 
