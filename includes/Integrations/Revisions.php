@@ -90,6 +90,7 @@ class Revisions implements IBaseIntegration {
 		if ( post_type_supports( $post['post_type'], Permissions::POST_TYPE_EDIT_PERMISSION ) ) {
 			$fields[BasePostType::PAGE_TEMPLATE_META_KEY] = sprintf( '%s Data', Whitelabel::get_title() );
 		}
+
 		return $fields;
 	}
 }

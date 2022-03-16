@@ -20,7 +20,16 @@
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
 					<div>
-						<div class="znpb-option-cssSelectorTitle">{{title}}</div>
+						<InlineEdit
+							v-model="title"
+							class="znpb-option-cssSelectorTitle"
+							:class="{
+								'znpb-option-cssSelectorTitle--allowRename': allowRename
+							}"
+							@click="onRenameItemClick"
+							:enabled="allowRename"
+						/>
+
 						<div
 							class="znpb-option-cssSelector"
 							:title="selector"
@@ -32,7 +41,7 @@
 					<AddChildActions
 						v-if="allow_childs"
 						:child-selectors="childSelectors"
-						@add-child="onChildAdded"
+						@add-selector="onChildAdded"
 						@toggle-view-childs="showChilds = !showChilds"
 					/>
 
@@ -42,48 +51,7 @@
 						@remove-styles="resetChanges"
 					/>
 
-					<Tooltip
-						:content="$translate('delete_selector')"
-						placement="top"
-						append-to="element"
-						strategy="fixed"
-					>
-						<Tooltip
-							placement="top"
-							append-to="element"
-							strategy="fixed"
-							:show="canShow"
-							trigger="click"
-							class="znpb-cssSelectorDialog"
-							:close-on-outside-click="true"
-							@click.stop=""
-						>
-							<template #content>
-								<div class="znpb-cssSelectorDialog__text">{{$translate('are_you_sure_you_want_to_delete_selector')}}</div>
-								<div>
-									<Button
-										@click.stop="canShow = false"
-										type="gray"
-										class="znpb-button--small"
-									>
-										{{$translate('cancel')}}
-									</Button>
-									<Button
-										@click.stop="deleteItem"
-										type="danger"
-										class="znpb-button--small"
-									>
-										{{$translate('delete')}}
-									</Button>
-								</div>
-							</template>
-							<Icon
-								icon="delete"
-								v-if="allow_delete"
-								@click.stop="canShow = true"
-							/>
-						</Tooltip>
-					</Tooltip>
+					<HiddenMenu :actions="classActions" />
 
 				</template>
 
@@ -126,6 +94,7 @@
 
 <script>
 import { computed, defineAsyncComponent, ref } from 'vue'
+import { merge, cloneDeep } from 'lodash-es'
 import { applyFilters } from '@zb/hooks'
 import { translate } from '@zb/i18n'
 import { generateUID } from '@zb/utils'
@@ -133,6 +102,7 @@ import { generateUID } from '@zb/utils'
 // Components
 import AddChildActions from './AddChildActions.vue'
 import PseudoSelector from './PseudoSelector.vue'
+import { useCSSClasses } from '@composables'
 
 export default {
 	name: 'CSSSelector',
@@ -181,15 +151,62 @@ export default {
 		show_changes: {
 			type: Boolean,
 			default: true
+		},
+		allowRename: {
+			type: Boolean,
+			default: true
 		}
 	},
 	setup (props, { emit }) {
+		const { copiedStyles, copyClassStyles } = useCSSClasses()
 		const showChilds = ref(false)
 		const uid = generateUID()
 		const canShow = ref(false)
+		const showClassMenu = ref(false)
+		const classMenuIcon = ref(null)
 
-		const title = computed(() => {
-			return props.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
+		// Computed
+		const classActions = computed(() => {
+			return [
+				{
+					title: translate('copy_element_styles'),
+					action: () => {
+						copyClassStyles(value.value.styles)
+					},
+					icon: 'copy'
+				},
+				{
+					title: translate('paste_element_styles'),
+					action: () => {
+						const { copiedStyles } = useCSSClasses()
+						const clonedCopiedStyles = cloneDeep(copiedStyles.value)
+						if (!value.value.styles) {
+							value.value.styles = clonedCopiedStyles
+						} else {
+							value.value.styles = merge(value.value.styles, clonedCopiedStyles)
+						}
+					},
+					show: !!copiedStyles.value,
+					icon: 'paste'
+				},
+				{
+					title: translate('delete_selector'),
+					action: deleteItem,
+					icon: 'delete'
+				}
+			]
+		})
+
+		const title = computed({
+			get () {
+				return props.name || props.modelValue.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
+			},
+			set (newValue) {
+				value.value = {
+					...value.value,
+					name: newValue
+				}
+			}
 		})
 
 		const selector = computed(() => {
@@ -309,8 +326,21 @@ export default {
 			delete value.value.styles
 		}
 
+		function onRenameItemClick (event) {
+			if (props.allowRename) {
+				event.stopPropagation()
+			}
+		}
+
 		return {
+			// Refs
+			showClassMenu,
+			classMenuIcon,
 			canShow,
+
+			// Computed
+			classActions,
+
 			onChildAdded,
 			showChilds,
 			title,
@@ -323,7 +353,10 @@ export default {
 			pseudoState,
 			hasChanges,
 			resetChanges,
-			uid
+			uid,
+
+			// Methods
+			onRenameItemClick
 		}
 	}
 }
@@ -339,9 +372,11 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion
+	> .znpb-horizontal-accordion__header
+	> .znpb-horizontal-accordion__title {
 	position: relative;
-	overflow: hidden;
+	// overflow: hidden;
 	padding-right: 0;
 	padding-bottom: 12px;
 	margin-right: 15px;
@@ -349,12 +384,13 @@ export default {
 
 .znpb-option-cssSelector {
 	position: absolute;
+	bottom: 1px;
 	width: 100%;
 	font-size: 13px;
 	font-weight: 500;
 	text-transform: none;
 	white-space: nowrap;
-	opacity: .6;
+	opacity: 0.6;
 
 	&::after {
 		content: "";
@@ -365,15 +401,32 @@ export default {
 		width: 20px;
 		height: 100%;
 		background: linear-gradient(
-		90deg,
-		rgba(241, 241, 241, 0) 0%,
-		var(--zb-surface-lighter-color) 100%
+			90deg,
+			rgba(241, 241, 241, 0) 0%,
+			var(--zb-surface-lighter-color) 100%
 		);
 	}
 }
 
+.znpb-horizontal-accordion__header:hover .znpb-option-cssSelector::after {
+	background: linear-gradient(
+		90deg,
+		rgba(241, 241, 241, 0) 0%,
+		var(--zb-surface-lightest-color) 100%
+	);
+}
+
 .znpb-option-cssSelectorTitle {
+	padding-right: 20px;
 	margin-bottom: 8px;
+
+	&--allowRename {
+		cursor: text;
+	}
+
+	&:focus, &:focus-visible {
+		outline: 0;
+	}
 }
 
 .znpb-option-cssSelectoritem--child .znpb-option-cssSelectoritem--child {
@@ -382,7 +435,6 @@ export default {
 
 .znpb-option-cssChildSelectorPseudoSelector {
 	position: relative;
-	z-index: 1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -396,14 +448,15 @@ export default {
 	line-height: 1;
 	background: #8bc88a;
 	border-radius: 2px;
-	transition: background .2s;
+	transition: background 0.2s;
 	cursor: pointer;
 
 	&:hover {
 		background: darken(#8bc88a, 5%);
 	}
 
-	&::before, &::after {
+	&::before,
+	&::after {
 		content: "";
 		position: absolute;
 		z-index: -1;
@@ -425,7 +478,8 @@ export default {
 	}
 }
 
-.znpb-option-cssSelectoritem--child + .znpb-option-cssSelectoritem--child
+.znpb-option-cssSelectoritem--child
+	+ .znpb-option-cssSelectoritem--child
 	.znpb-option-cssChildSelectorPseudoSelector::before {
 	height: 42px;
 }
@@ -439,7 +493,7 @@ export default {
 	}
 
 	&.vuebdnd__source--dragging
-	.znpb-option-cssChildSelectorPseudoSelector:before {
+		.znpb-option-cssChildSelectorPseudoSelector:before {
 		display: none;
 	}
 }

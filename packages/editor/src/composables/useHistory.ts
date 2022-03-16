@@ -10,6 +10,7 @@ import { useEditElement } from './useEditElement'
 
 const historyItems: Ref = ref([])
 const currentHistoryIndex: Ref = ref(-1)
+const isDirty: Ref<boolean> = ref(false)
 
 export function useHistory() {
 	const canUndo = computed(() => {
@@ -23,6 +24,7 @@ export function useHistory() {
 		if (currentHistoryIndex.value - 1 >= 0) {
 			currentHistoryIndex.value = currentHistoryIndex.value - 1
 			restoreHistoryState(currentHistoryIndex.value)
+			setDirtyStatus(true)
 		}
 	}
 
@@ -30,10 +32,12 @@ export function useHistory() {
 		if (currentHistoryIndex.value + 1 <= historyItems.value.length - 1) {
 			currentHistoryIndex.value = currentHistoryIndex.value + 1
 			restoreHistoryState(currentHistoryIndex.value)
+
+			setDirtyStatus(true)
 		}
 	}
 
-	function addToHistory(name: string, useCache = true) {
+	function addToHistory(name: string, ignoreDirty = false) {
 		// Get the state
 		const state = getDataForSave()
 		const currentTime = new Date()
@@ -56,12 +60,16 @@ export function useHistory() {
 			historyItems.value.splice(currentHistoryIndex.value, itemsToRemove, historyData)
 		} else {
 			historyItems.value.push(historyData)
-
 		}
 
-		if (useCache) {
-			Cache.saveItem(state.page_id, state)
+		// Set the page as dirty so we know that we have changes
+		if (!ignoreDirty) {
+			setDirtyStatus(true)
 		}
+	}
+
+	function setDirtyStatus(status) {
+		isDirty.value = status
 	}
 
 	function restoreHistoryState(index: number) {
@@ -94,10 +102,12 @@ export function useHistory() {
 		// Close element options panel
 		const { unEditElement } = useEditElement()
 		unEditElement()
+
+		setDirtyStatus(true)
 	}
 
 	function addInitialHistory() {
-		addToHistory(translate('initial_state'), false)
+		addToHistory(translate('initial_state'), true)
 	}
 
 	function getDataForSave() {
@@ -130,7 +140,9 @@ export function useHistory() {
 		addToHistory,
 		restoreHistoryState,
 		undo,
-		redo
+		redo,
+		setDirtyStatus,
+		isDirty
 	}
 
 }

@@ -34,7 +34,7 @@ if (renderElement) {
 }
 
 // Cleanup after itself
-window.addEventListener('beforeunload', () => {
+window.addEventListener('unload', (event) => {
 	if (renderElement) {
 		render(null, renderElement)
 	}

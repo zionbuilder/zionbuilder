@@ -15,9 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder
  */
 class Templates {
-	const TEMPLATE_POST_TYPE         = 'zion_template';
-	const TEMPLATE_CATEGORY_TAXONOMY = 'zion_template_category';
-	const TEMPLATE_TYPE_META         = 'zionbuilder_template_type';
+	const TEMPLATE_POST_TYPE = 'zion_template';
+	const TEMPLATE_TYPE_META = 'zionbuilder_template_type';
 
 	/**
 	 * @var array
@@ -36,6 +35,10 @@ class Templates {
 		add_filter( 'zionbuilder/post/post_template', [ $this, 'set_post_template' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'init' ] );
+
+		// Prevent search engines from indexing templates and prevent unauthorized users from seeing the templates
+		add_action( 'template_redirect', [ $this, 'on_template_redirect' ] );
+		add_action( 'wp_head', [ $this, 'on_wp_head' ] );
 	}
 
 	/**
@@ -68,9 +71,9 @@ class Templates {
 	 */
 	public function remove_post_type_from_data_sets( $post_types ) {
 		$post_type_index = null;
-		foreach ( $post_types as $key => $post_type ) {
+		foreach ( $post_types as  $key => $post_type ) {
 			if ( $post_type['id'] === self::TEMPLATE_POST_TYPE ) {
-				$post_type_index = $key;
+				$post_type_index = (int) $key;
 				break;
 			}
 		}
@@ -85,7 +88,7 @@ class Templates {
 	/**
 	 * Add post type for builder
 	 *
-	 * Enables the templates to use the pagebuilder
+	 * Enables the templates to use the page builder
 	 *
 	 * @param array $post_types The post types that are already registered
 	 *
@@ -107,9 +110,9 @@ class Templates {
 		$this->register_default_template_types();
 
 		// Allow others to register their own template types
-		do_action( 'zionbuilder/templates/before_init' );
+		do_action( 'zionbuilder/templates/before_init', $this );
 
-		$this->register_templates_post_types_and_taxonomy();
+		$this->register_post_type();
 	}
 
 	/**
@@ -150,20 +153,6 @@ class Templates {
 
 
 	/**
-	 * Returns the template categories as list
-	 *
-	 * @return int|\WP_Error|\WP_Term[]
-	 */
-	public function get_template_categories() {
-		return get_terms(
-			[
-				'taxonomy'   => self::TEMPLATE_CATEGORY_TAXONOMY,
-				'hide_empty' => true,
-			]
-		);
-	}
-
-	/**
 	 * Register template type
 	 *
 	 * Will register the template type
@@ -192,6 +181,10 @@ class Templates {
 			return new \WP_Error( 'template_type_exists', esc_html__( 'The template type already exists.', 'zionbuilder' ) );
 		}
 
+		// Add additional data
+		$template_type_config['slug']    = $template_type_config['id'];
+		$template_type_config['term_id'] = $template_type_config['id'];
+
 		array_push( $this->template_types, $template_type_config );
 
 		return $template_type_config;
@@ -219,16 +212,6 @@ class Templates {
 	}
 
 	/**
-	 * Registers the plugin post type and taxonomies used for templates
-	 *
-	 * @return void
-	 */
-	public function register_templates_post_types_and_taxonomy() {
-		$this->register_post_type();
-		$this->register_template_category_taxonomy();
-	}
-
-	/**
 	 * Registers the plugin post type used for templates
 	 *
 	 * @return void
@@ -250,77 +233,20 @@ class Templates {
 		];
 
 		$args = [
-			'label'               => 'Zion Templates',
 			'labels'              => $labels,
 			'public'              => true,
-			'exclude_from_search' => true,
-			'show_in_nav_menus'   => false,
+			'rewrite'             => false,
 			'show_ui'             => true,
 			'show_in_menu'        => false,
-			'query_var'           => true,
+			'show_in_nav_menus'   => false,
+			'exclude_from_search' => true,
 			'capability_type'     => 'post',
-			'has_archive'         => true,
-			'hierarchical'        => false,
-			'menu_position'       => null,
-			'rewrite'             => false,
 			'supports'            => [ 'title', 'editor', 'author', 'thumbnail' ],
 		];
 
 		register_post_type( self::TEMPLATE_POST_TYPE, $args );
 	}
 
-
-
-	/**
-	 * Register template category taxonomy
-	 *
-	 * Will register the templates category taxonomy used for organizing the templates
-	 *
-	 * @return void
-	 */
-	private function register_template_category_taxonomy() {
-		$labels = [
-			'name'                       => sprintf(
-				/* translators: %s is the whitelabel plugin name */
-				_x( '%s Template Category', 'Taxonomy General Name', 'zionbuilder' ),
-				Whitelabel::get_title()
-			),
-			'singular_name'              => sprintf(
-				/* translators: %s is the whitelabel plugin name */
-				_x( '%s Template Category', 'Taxonomy Singular Name', 'zionbuilder' ),
-				Whitelabel::get_title()
-			),
-			'menu_name'                  => __( 'Template Category', 'zionbuilder' ),
-			'all_items'                  => __( 'All Template Category', 'zionbuilder' ),
-			'parent_item'                => __( 'Parent Template Category', 'zionbuilder' ),
-			'parent_item_colon'          => __( 'Parent Template Category:', 'zionbuilder' ),
-			'new_item_name'              => __( 'New Template Category', 'zionbuilder' ),
-			'add_new_item'               => __( 'Add New Template Category', 'zionbuilder' ),
-			'edit_item'                  => __( 'Edit Template Category', 'zionbuilder' ),
-			'update_item'                => __( 'Update Template Category', 'zionbuilder' ),
-			'view_item'                  => __( 'View Template Category', 'zionbuilder' ),
-			'separate_items_with_commas' => __( 'Separate items with commas', 'zionbuilder' ),
-			'add_or_remove_items'        => __( 'Add or remove Template Category', 'zionbuilder' ),
-			'choose_from_most_used'      => __( 'Choose from the most used', 'zionbuilder' ),
-			'popular_items'              => __( 'Popular Template Category', 'zionbuilder' ),
-			'search_items'               => __( 'Search Template Category', 'zionbuilder' ),
-			'not_found'                  => __( 'Not Found', 'zionbuilder' ),
-			'no_terms'                   => __( 'No items', 'zionbuilder' ),
-			'items_list'                 => __( 'Items list', 'zionbuilder' ),
-			'items_list_navigation'      => __( 'Items list navigation', 'zionbuilder' ),
-		];
-		$args   = [
-			'labels'            => $labels,
-			'hierarchical'      => false,
-			'public'            => false,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_nav_menus' => false,
-			'show_tagcloud'     => false,
-		];
-
-		register_taxonomy( self::TEMPLATE_CATEGORY_TAXONOMY, [ self::TEMPLATE_POST_TYPE ], $args );
-	}
 
 	/**
 	 * This function will return the templates based on post type
@@ -330,11 +256,9 @@ class Templates {
 	 * @return array with the templates
 	 */
 	public function get_templates_by_type( $template_type ) {
-		$the_posts = get_posts(
+		return $this->get_templates(
 			[
-				'post_type'      => self::TEMPLATE_POST_TYPE,
-				'posts_per_page' => -1,
-				'meta_query'     => [
+				'meta_query' => [
 					[
 						'key'     => self::TEMPLATE_TYPE_META,
 						'value'   => $template_type,
@@ -343,7 +267,28 @@ class Templates {
 				],
 			]
 		);
-		return $the_posts;
+	}
+
+	/**
+	 * Returns a list of templates
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $args
+	 *
+	 * @return array The template list as WP_Post
+	 */
+	public function get_templates( $args = [] ) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'post_status'    => 'any',
+				'post_type'      => self::TEMPLATE_POST_TYPE,
+				'posts_per_page' => -1,
+			]
+		);
+
+		return get_posts( $args );
 	}
 
 	/**
@@ -373,7 +318,7 @@ class Templates {
 
 		$post_id = wp_insert_post( $template_args, true );
 
-		// Check to see if the post was succesfully created
+		// Check to see if the post was successfully created
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
@@ -381,18 +326,12 @@ class Templates {
 		// set template type
 		update_post_meta( $post_id, self::TEMPLATE_TYPE_META, sanitize_text_field( $template_config['template_type'] ) );
 
-		// Set element category
-		if ( ! empty( $template_config['category'] ) ) {
-			$element_category = sanitize_text_field( $template_config['category'] );
-
-			if ( ! term_exists( $element_category, self::TEMPLATE_CATEGORY_TAXONOMY ) ) {
-				wp_insert_term( $element_category, self::TEMPLATE_CATEGORY_TAXONOMY );
-			}
-			wp_set_object_terms( $post_id, $element_category, self::TEMPLATE_CATEGORY_TAXONOMY, false );
-		}
-
 		// Get an instance of the template
-		$template_instance = Plugin::$instance->post_manager->get_post_type_instance( $post_id );
+		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
+
+		if ( ! $template_instance ) {
+			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
+		}
 
 		// Set template data
 		if ( ! empty( $template_config['template_data'] ) ) {
@@ -402,5 +341,29 @@ class Templates {
 		$template_instance->set_builder_status( true );
 
 		return $post_id;
+	}
+
+	/**
+	 * Prevent unauthorized users from seeing the templates
+	 *
+	 * @return void
+	 */
+	public function on_template_redirect() {
+		if ( is_singular( self::TEMPLATE_POST_TYPE ) && ! Permissions::current_user_can( 'view_templates' ) ) {
+			wp_safe_redirect( site_url(), 301 );
+			die;
+		}
+	}
+
+
+	/**
+	 * Prevent search engines from indexing the templates page
+	 *
+	 * @return void
+	 */
+	public function on_wp_head() {
+		if ( is_singular( self::TEMPLATE_POST_TYPE ) ) {
+			echo '<meta name="robots" content="noindex" />';
+		}
 	}
 }

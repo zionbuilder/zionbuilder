@@ -65,7 +65,7 @@
 <script>
 import { ref, computed, provide } from 'vue'
 import { useRouter } from 'vue-router'
-import { useBuilderOptions, useGoogleFonts, useNotifications, useAdminData } from '@zionbuilder/composables'
+import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables'
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
 
 export default {
@@ -81,10 +81,9 @@ export default {
 
 		const loaded = ref(false)
 		const hasError = ref(false)
-		const { adminData } = useAdminData()
-		const logoUrl = adminData.value.urls.logo
-		const version = adminData.value.plugin_version
-		const isPro = adminData.value.is_pro_active
+		const logoUrl = window.ZnPbAdminPageData.urls.logo
+		const version = window.ZnPbAdminPageData.plugin_version
+		const isPro = window.ZnPbAdminPageData.is_pro_active
 
 		// Provide globalColors
 		provide('builderOptions', useBuilderOptions)
@@ -142,10 +141,7 @@ export default {
 	font-size: 13px;
 	line-height: 1;
 
-	a,
-	a:hover,
-	a:focus,
-	a:visited {
+	a, a:hover, a:focus, a:visited {
 		text-decoration: none;
 		box-shadow: none;
 	}
@@ -161,12 +157,10 @@ export default {
 		border: none;
 
 		-webkit-appearance: none;
-		-moz-appearance: none;
+		   -moz-appearance: none;
 	}
 
-	input,
-	select,
-	textarea {
+	input, select, textarea {
 		background-color: var(--zb-surface-color);
 		border-radius: 3px;
 	}
@@ -178,15 +172,10 @@ export default {
 
 		-moz-appearance: textfield;
 	}
-	b,
-	strong {
+	b, strong {
 		font-weight: 700;
 	}
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	h2, h3, h4, h5, h6 {
 		margin-top: 0;
 		margin-bottom: 25px;
 		color: var(--zb-surface-text-active-color);
@@ -205,8 +194,7 @@ export default {
 	& * {
 		box-sizing: border-box;
 	}
-	input[type="checkbox"]:checked:before,
-	input[type="radio"]:checked:before {
+	input[type="checkbox"]:checked:before, input[type="radio"]:checked:before {
 		display: none;
 	}
 }
@@ -239,8 +227,7 @@ export default {
 				color: var(--zb-surface-text-color);
 			}
 
-			.router-link-active,
-			.znpb-admin__header-menu-item:hover {
+			.router-link-active, .znpb-admin__header-menu-item:hover {
 				color: var(--zb-surface-text-active-color);
 			}
 		}
@@ -251,7 +238,7 @@ export default {
 		z-index: 1;
 		padding: 0 30px;
 		background: var(--zb-surface-color);
-		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
 
 		&-logo {
 			display: flex;
@@ -361,7 +348,8 @@ export default {
 }
 
 .znpb-theme-dark .znpb-admin__header-logo img {
+	        filter: invert(1);
+
 	-webkit-filter: invert(1);
-	filter: invert(1);
 }
 </style>

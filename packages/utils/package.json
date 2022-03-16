@@ -4,5 +4,8 @@
   "description": "Utils functions for Zion Builder",
   "main": "src/index",
   "author": "zionbuilder.io",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  }
 }

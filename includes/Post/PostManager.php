@@ -3,6 +3,7 @@
 namespace ZionBuilder\Post;
 
 use ZionBuilder\Post\BasePostType;
+use ZionBuilder\Post\TemplatePostType;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -53,6 +54,8 @@ class PostManager {
 	 * @return void
 	 */
 	public function register_post_types() {
+		$this->register_post_type( 'ZionBuilder\Post\TemplatePostType' );
+
 		/*
 		 * Allow others to register their own post types configs
 		 */
@@ -69,7 +72,7 @@ class PostManager {
 	 * @return void
 	 */
 	public function register_post_type( $type_class_name ) {
-		$name = $type_class_name::get_name();
+		$name = $type_class_name::get_type();
 		if ( empty( $name ) ) {
 			return;
 		}
@@ -84,7 +87,7 @@ class PostManager {
 	 * @return void
 	 */
 	public function unregister_post_type( $type_class_name ) {
-		$name = $type_class_name::get_name();
+		$name = $type_class_name::get_type();
 		if ( empty( $name ) ) {
 			return;
 		}
@@ -193,7 +196,7 @@ class PostManager {
 	 *
 	 * @param integer $post_id Post id for which the BasePostType instance should be returned
 	 *
-	 * @return BasePostType|false
+	 * @return BasePostType|false|TemplatePostType
 	 */
 	public function get_post_instance( $post_id ) {
 		// Only register post types if not already registered
@@ -227,7 +230,7 @@ class PostManager {
 	 *
 	 * @param mixed $post_id
 	 *
-	 * @return bool|BasePostType
+	 * @return bool|BasePostType|TemplatePostType
 	 */
 	public function get_post_or_autosave_instance( $post_id ) {
 		$user_id               = get_current_user_id();
@@ -255,7 +258,7 @@ class PostManager {
 	 *
 	 * @param \WP_Post|int $post
 	 *
-	 * @return BasePostType
+	 * @return BasePostType|TemplatePostType
 	 */
 	public function get_post_type_instance( $post ) {
 		if ( is_numeric( $post ) ) {
@@ -270,7 +273,7 @@ class PostManager {
 
 		if ( isset( $this->registered_post_types[$post_type] ) ) {
 			$post_type_class_name = $this->registered_post_types[$post_type];
-			return call_user_func( $post_type_class_name, $post );
+			return new $post_type_class_name( $post );
 		}
 
 		return new BasePostType( $post );

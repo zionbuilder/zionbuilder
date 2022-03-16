@@ -1,12 +1,16 @@
+/**
+ * !! Deprecated in favor of zb.editor.getCssFromSelector
+ */
 const responsiveDevices = {
 	laptop: '991.98px',
 	tablet: '767.98px',
 	mobile: '575.98px'
 }
 
-
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = ''
+
+	console.warn('This was deprecated in favor of zb.editor.utill.getCssFromSelector')
 
 	if (styleConfig.styles) {
 		css += getStyles(selectors.join(','), styleConfig.styles, args)

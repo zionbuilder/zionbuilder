@@ -50,7 +50,7 @@ export default {
 		animation: placeholder-animation--vertical .3s ease;
 	}
 
-	& > .znpb-empty-placeholder > .znpb-empty-placeholder__add-element-button {
+	& > .znpb-empty-placeholder > .znpb-element-toolbox__add-element-button {
 		opacity: 0;
 		visibility: hidden;
 	}

@@ -32,7 +32,7 @@ export default {
 		const listScrollRef = ref(null)
 
 		function onScroll (event, delta) {
-			if (listScrollRef.value.scrollHeight - listScrollRef.value.scrollTop === listScrollRef.value.clientHeight) {
+			if (listScrollRef.value.scrollHeight - Math.round(listScrollRef.value.scrollTop) === listScrollRef.value.clientHeight) {
 				emit('scroll-end')
 			}
 		}

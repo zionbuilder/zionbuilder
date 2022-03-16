@@ -28,19 +28,6 @@
 				class="znpb-admin-add-template-input"
 			/>
 		</ModalTwoColTemplate>
-
-		<ModalTwoColTemplate
-			:title="$translate('add_to_categ')"
-			:desc="$translate('add_to_categ_desc')"
-		>
-			<InputSelect
-				v-model="localTemplate.category"
-				:options="categories"
-				:addable="true"
-				:filterable="true"
-			/>
-		</ModalTwoColTemplate>
-
 	</ModalTemplateSaveButton>
 </template>
 
@@ -58,8 +45,7 @@ export default {
 		return {
 			localTemplate: {
 				title: '',
-				template_type: this.templateType,
-				category: null
+				template_type: this.templateType
 			}
 		}
 	},
@@ -74,18 +60,6 @@ export default {
 			})
 
 			return templateTypes
-		},
-		categories () {
-			const categories = []
-
-			window.ZnPbAdminPageData.template_categories.forEach(element => {
-				categories.push({
-					id: element.term_id,
-					name: element.name
-				})
-			})
-
-			return categories
 		},
 		canAdd () {
 			const { template_type: templateType, title } = this.localTemplate

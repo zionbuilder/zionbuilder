@@ -1,11 +1,9 @@
-import { readonly } from 'vue'
 import { generateUID } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { regenerateUIDs } from '@utils'
-import { each, update, get, set, isPlainObject } from 'lodash-es'
+import { each, update, get, isPlainObject, debounce } from 'lodash-es'
 import { useElements } from '../useElements'
 import { useElementTypes } from '../useElementTypes'
-import { useElementActions } from '../useElementActions'
 import { RenderAttributes } from './RenderAttributes'
 import { useEditElement } from '../useEditElement'
 import { useHistory } from '../useHistory'
@@ -33,12 +31,16 @@ export class Element {
 	public loading: boolean = false
 	public treeViewItemExpanded: boolean = false
 	public serverRequester = null
+	public addedTime = null
 
 	constructor(data, parentUid = '') {
 		this.setElementData(data)
 		this.renderAttributes = new RenderAttributes()
 		this.parentUid = parentUid
 		this.serverRequester = this.createRequester()
+		this.debouncedSaveRenameToHistory = debounce(this.saveRenameToHistory, 750)
+
+		this.addedTime = Date.now()
 	}
 
 	createRequester() {
@@ -67,7 +69,10 @@ export class Element {
 			widget_id: widgetID,
 			...remainingProperties
 		} = data
-		this.options = isPlainObject(options) ? options : {}
+		this.options = {
+			...(isPlainObject(options) ? options : {}),
+			_advanced_options: { ...(isPlainObject(options._advanced_options) ? options._advanced_options : {}) }
+		}
 		this.uid = uid
 		this.element_type = element_type
 
@@ -120,12 +125,14 @@ export class Element {
 	set name(newName) {
 		const oldName = this.name
 		this.updateOptionValue('_advanced_options._element_name', newName)
-		// set(this.options, '_advanced_options._element_name', newName)
 
 		// Add to history
+		this.debouncedSaveRenameToHistory(oldName, newName)
+	}
+
+	saveRenameToHistory(oldName, newName) {
 		const { addToHistory } = useHistory()
 		addToHistory(`Renamed ${oldName} to ${newName}`)
-
 	}
 
 	// Element visibility
@@ -170,11 +177,6 @@ export class Element {
 
 	toggleVisibility() {
 		this.isVisible = !this.isVisible
-	}
-
-	focus() {
-		const { focusElement } = useElementActions()
-		focusElement(this)
 	}
 
 	highlight() {

@@ -5,14 +5,11 @@
 			'znpb-element-toolbox--dragging': isAnyDragging,
 			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging
 		}"
-		:style="{
-			'z-index': zIndex
-		}"
 		ref="rectangle"
-		@mouseover.stop="zIndex = 9999"
-		@mouseout.stop="zIndex = null"
 	>
-		<template v-if="computedStyle">
+		<ToolboxTitle :element="element" />
+
+		<template v-if="computedStyle && isActiveElementEdit">
 			<!-- Width/height -->
 			<Tooltip
 				v-for="(position, positionIndex) in positions"
@@ -64,76 +61,67 @@
 						class="znpb-element-toolbox__resize-value"
 						:style="computedHelpersStyle[position]"
 					>
-						<span v-if="Math.abs(parseInt(computedStyle[position])) > 20">{{computedSavedValues[position]}}</span>
+						<span>{{computedSavedValues[position]}}</span>
 					</div>
 				</div>
 			</template>
-
-			<!-- Add new Button -->
-			<transition
-				appear
-				name="bounce-add-icon"
-			>
-				<div
-					v-if="!isAnyDragging"
-					class="znpb-element-toolbox__add-element-button"
-					@click="toggleAddElementsPopup"
-					ref="addElementsPopupButton"
-				>
-					<Icon
-						v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
-						icon="plus"
-						:rounded="true"
-					/>
-				</div>
-
-			</transition>
-
-			<TopBarToolbox
-				v-if="!isAnyDragging"
-				:element="element"
-				@set-top-bar-display="setTopBarDisplay($event)"
-			/>
 		</template>
+
+		<!-- Add new Button -->
+		<transition
+			appear
+			name="bounce-add-icon"
+		>
+			<div
+				v-if="!isAnyDragging"
+				class="znpb-element-toolbox__add-element-button"
+				@click="toggleAddElementsPopup"
+				ref="addElementsPopupButton"
+			>
+				<Icon
+					v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
+					icon="plus"
+					:rounded="true"
+				/>
+			</div>
+
+		</transition>
+
 	</div>
 </template>
 
 <script>
 // Utils
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import rafSchd from 'raf-schd'
+import { get } from 'lodash-es'
 import { useWindows } from '@zb/editor'
-import { useAddElementsPopup, useElementActions, useIsDragging, useHistory } from '@zb/editor'
+import { useAddElementsPopup, useElementActions, useIsDragging, useHistory, useEditElement } from '@zb/editor'
 import { useResponsiveDevices } from '@zb/components'
 import { Environment } from '@zb/utils'
 
 // Components
-import TopBarToolbox from './TopBarToolbox.vue'
+import ToolboxTitle from './ToolboxTitle.vue'
 
 export default {
 	name: 'ElementToolbox',
 	components: {
-		TopBarToolbox
+		ToolboxTitle
 	},
 	props: {
 		element: Object,
 		canHideToolbox: {
 			type: Boolean,
-			required: true,
+			required: false,
 			default: true
-		},
-		isToolboxDragging: {
-			type: Boolean,
-			required: true,
-			default: false
 		}
 	},
 	setup (props) {
 		const showColumnTemplates = ref(false)
 		const addElementsPopupButton = ref(null)
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { focusedElement } = useElementActions()
 		const { addEventListener, removeEventListener } = useWindows()
+		const isToolboxDragging = ref(false)
 
 		const toggleAddElementsPopup = () => {
 			const { showAddElementsPopup } = useAddElementsPopup()
@@ -142,29 +130,32 @@ export default {
 			})
 		}
 		const { isDragging } = useIsDragging()
+		const { element: activeElementEdit } = useEditElement()
+		const isActiveElementEdit = computed(() => {
+			return props.element === activeElementEdit.value
+		})
 
 		return {
 			showColumnTemplates,
 			addElementsPopupButton,
 			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
-			focusedElement,
 			isDragging,
 			addEventListener,
-			removeEventListener
+			removeEventListener,
+			isActiveElementEdit,
+			isToolboxDragging
 		}
 	},
 	data () {
 		return {
 			// Active element positions
 			computedStyle: null,
-			zIndex: null,
 			// Dragging
 			startClientX: null,
 			startClientY: null,
 			activeDragPosition: null,
 			activeDragType: null,
-			initialDraggValue: null,
 			reversedPosition: null,
 
 			// Size
@@ -220,7 +211,8 @@ export default {
 		 * Returns the saved value for each property defaulting to actual size
 		 */
 		computedSavedValues () {
-			const savedValues = this.element.getOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+			const savedValues = get(this.element.options, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
 				paddingRight: savedValues[this.styleMap.paddingRight] || this.computedStyle.paddingRight,
@@ -236,13 +228,12 @@ export default {
 		},
 		computedHelpersStyle () {
 			const { height, width, ...remainingProperties } = this.styleMap
-
 			const styles = {}
+
 			Object.keys(remainingProperties).forEach(propertyId => {
-				const property = remainingProperties[propertyId]
 				const direction = propertyId.indexOf('Top') !== -1 || propertyId.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal'
 				const sizeProperty = direction === 'vertical' ? 'height' : 'width'
-				const sizeValue = Math.abs(parseInt(this.computedStyle[propertyId]))
+				const sizeValue = Math.abs(parseInt(this.computedSavedValues[propertyId]))
 				styles[propertyId] = {
 					[sizeProperty]: `${sizeValue}px`
 				}
@@ -287,6 +278,7 @@ export default {
 			const startClientY = clientY
 			this.activeDragType = type
 			this.activeDragPosition = position
+			this.isToolboxDragging = true
 
 			const activeDragValue = this.computedSavedValues[position]
 			const match = typeof activeDragValue === 'string' && activeDragValue ? activeDragValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
@@ -328,7 +320,6 @@ export default {
 				if (initialValue === updatedValue) {
 					return
 				}
-
 
 				this.updateElementStyle({
 					newValue: `${updatedValue}${initialUnit}`,
@@ -409,6 +400,7 @@ export default {
 			this.activeDragType = null
 			this.activeDragPosition = null
 			this.addToHistory = false
+			this.isToolboxDragging = false
 
 			document.body.style.userSelect = null
 
@@ -422,7 +414,9 @@ export default {
 			return parseInt(string.match(/\d+/)[0])
 		},
 		setComputedStyle () {
-			this.computedStyle = window.getComputedStyle(this.$parent.$el)
+			if (this.$parent.$el) {
+				this.computedStyle = window.getComputedStyle(this.$parent.$el)
+			}
 		},
 		removeEvents () {
 			this.removeEventListener('mousemove', this.changeSizeDebounced)
@@ -578,9 +572,19 @@ export default {
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 1;
 	width: 100%;
 	height: 100%;
+	font-family: var(--zb-font-stack);
 	font-size: 13px;
+	font-style: normal;
+	line-height: 18px;
+	letter-spacing: normal;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
+	outline: 2px solid #006dd2;
+	outline-offset: -2px;
 	transition: opacity .3s;
 	pointer-events: none;
 	user-select: none;
@@ -623,24 +627,6 @@ export default {
 			z-index: 1000;
 			pointer-events: all;
 
-			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: transparent;
-				.znpb-element-toolbox__resize-width-bg {
-					background-color: var(--zb-element-border-color);
-				}
-			}
-			.zb-column > .znpb-element-toolbox & {
-				background-color: transparent;
-				.znpb-element-toolbox__resize-width-bg {
-					background-color: var(--zb-column-border-color);
-				}
-			}
-			.zb-section > .znpb-element-toolbox & {
-				background-color: transparent;
-				.znpb-element-toolbox__resize-width-bg {
-					background-color: var(--zb-section-border-color);
-				}
-			}
 			&-bg {
 				position: absolute;
 				top: 0;
@@ -888,11 +874,15 @@ export default {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				color: #06bee1;
+				color: #fff;
 				text-decoration: none;
 				text-shadow: none;
 				text-transform: none;
-				background-color: rgba(6, 190, 225, .35);
+				background-color: rgba(6, 190, 225, .2);
+
+				span {
+					background-color: #06bee1;
+				}
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
@@ -907,8 +897,12 @@ export default {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				color: #f9952d;
-				background-color: rgba(249, 149, 45, .35);
+				color: #fff;
+				background-color: rgba(249, 149, 45, .2);
+
+				span {
+					background-color: #f9952d;
+				}
 			}
 
 			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
@@ -918,93 +912,27 @@ export default {
 			}
 		}
 	}
-
-	&__add-element-button {
-		position: absolute;
-		top: 100%;
-		right: 0;
-		bottom: 0;
-		left: 50%;
-		z-index: 1001;
-		width: 34px;
-		height: 34px;
-		color: #fff;
-		font-size: 14px;
-		line-height: 1 !important;
-		transform: translate(-50%, -50%);
-		transition: all .2s;
-		cursor: pointer;
-		pointer-events: auto;
-
-		& svg {
-			position: relative;
-			pointer-events: none;
-		}
-
-		&:before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .1);
-			border-radius: 50%;
-			transition: all .2s;
-
-			.znpb-element__wrapper > .znpb-element-toolbox & {
-				background-color: var(--zb-element-color);
-			}
-
-			.zb-column > .znpb-element-toolbox & {
-				background-color: var(--zb-column-color);
-			}
-
-			.zb-section > .znpb-element-toolbox & {
-				background-color: var(--zb-section-color);
-			}
-		}
-		.znpb-editor-icon-wrapper {
-			position: relative;
-			width: 34px;
-			height: 34px;
-		}
-		&--section {
-			position: absolute;
-			top: 100%;
-			right: 0;
-			bottom: 0;
-			left: 50%;
-			width: 34px;
-			height: 34px;
-			transform: translate(-50%, -50%);
-			animation: AddCol ease-in-out .2s;
-			transition: all .2s;
-		}
-		&:hover {
-			&:before {
-				transform: scale(1.1);
-			}
-		}
-	}
 }
 
 .znpb-sizing-label {
 	padding: 4px;
-	color: var(--zb-surface-text-active-color);
+	color: #464646;
 	font-size: 11px;
 	font-weight: 700;
 	line-height: 1;
+	background-color: #fff;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
+	border-color: #f1f1f1;
 }
 
 .bounce-add-icon-enter-from {
-	transform: translate(-50%, -50%) scale(.9);
+	transform: scale(.9);
 }
 .bounce-add-icon-enter-to {
-	transform: translate(-50%, -50%) scale(1);
+	transform: scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: translate(-50%, -50%) scale(.5);
+	transform: scale(.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);

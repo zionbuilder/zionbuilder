@@ -1,11 +1,12 @@
-export function isEditable() {
-	let el = document.activeElement; // focused element
+export function isEditable(el = document.activeElement) {
 	if (el && ~['input', 'textarea'].indexOf(el.tagName.toLowerCase())) {
 		return !el.readOnly && !el.disabled;
 	}
 
-	el = getSelection().anchorNode; // selected node
-	if (!el) return undefined; // no selected node
-	el = el.parentNode; // selected element
+	// Check if current element is an iframe
+	if (el && el.contentDocument) {
+		return isEditable(el.contentDocument.activeElement)
+	}
+
 	return el.isContentEditable;
 }

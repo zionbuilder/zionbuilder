@@ -237,6 +237,7 @@ class Video extends Element {
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Video/frontend.css' ) );
+		$this->enqueue_editor_style( Utils::get_file_url( 'dist/css/elements/Video/editor.css' ) );
 	}
 
 	/**
@@ -265,7 +266,7 @@ class Video extends Element {
 
 			// Add play icon
 			if ( $show_play_icon ) {
-				$play_button = '<span class="zb-el-zionVideo-play-button zion-play-filled"></span>';
+				$play_button = '<span class="zb-el-zionVideo-play-button zion-play-filled"><svg class="zb-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M55.3 32 8.7 5.1v53.8L55.3 32z"/></svg></span>';
 			}
 
 			// Add background image

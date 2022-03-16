@@ -68,6 +68,16 @@ export default {
 		function deactivatedragCircle () {
 			ownerWindow.removeEventListener('mousemove', rafDragCircle)
 			ownerWindow.removeEventListener('mouseup', deactivatedragCircle)
+
+			function preventClicks (e) {
+				e.stopPropagation()
+			}
+
+			// Prevent closing colorpicker when clicked outside
+			ownerWindow.addEventListener('click', preventClicks, true)
+			setTimeout(() => {
+				ownerWindow.removeEventListener('click', preventClicks, true)
+			}, 100);
 		}
 
 		function dragCircle (event) {

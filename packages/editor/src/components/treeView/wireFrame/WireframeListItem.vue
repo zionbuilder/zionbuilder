@@ -7,6 +7,7 @@
 	>
 		<div class="znpb-wireframe-item__header">
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--left">
+
 				<Icon
 					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					v-if="element.isWrapper"
@@ -14,43 +15,28 @@
 					:rotate="expanded ? '180' : false"
 					@click="expanded = !expanded"
 				/>
-			</div>
-			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--center">
-				<img
-					v-if="get_element_image"
-					:src="get_element_image"
-					class="znpb-wireframe-itemImage"
+
+				<UIElementIcon
+					:element="elementModel"
+					class="znpb-tree-view__itemIcon"
+					:size="24"
 				/>
 
-				<Icon
-					v-else
-					:icon="get_element_icon"
-					:size="24"
-					class="znpb-wireframe-itemIcon"
-				/>
 				<InlineEdit
+					v-model="elementName"
 					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-					v-model="element.name"
-					v-model:active="element.activeElementRename"
 				/>
+
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 
-				<Tooltip
+				<Icon
+					icon="visibility-hidden"
+					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
+					@click.stop="element.toggleVisibility()"
 					v-if="!element.isVisible"
-					:content="$translate('enable_hidden_element')"
-					class="znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
-				>
-					<transition name="fade">
-						<Icon
-							icon="visibility-hidden"
-							@click="element.toggleVisibility()"
-							class="znpb-editor-icon-wrapper--show-element"
-						>
-						</Icon>
-					</transition>
-
-				</Tooltip>
+					v-znpb-tooltip="$translate('enable_hidden_element')"
+				/>
 
 				<div
 					class="znpb-element-options__container"
@@ -62,12 +48,6 @@
 						icon="more"
 					/>
 				</div>
-				<Icon
-					icon="delete"
-					@click.stop="element.delete()"
-					class="znpb-wireframe-item__delete-icon"
-				/>
-
 			</div>
 		</div>
 
@@ -85,9 +65,10 @@ import { computed } from 'vue'
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
 import SortableHelper from '../../../common/SortableHelper.vue'
 import { getOptionValue } from '@zb/utils'
-import { on } from '@zb/hooks'
 import { useTreeViewItem } from '../useTreeViewItem'
 import { useElementTypes } from "@composables";
+
+
 export default {
 	name: 'element-wireframe-view',
 	components: {
@@ -108,18 +89,26 @@ export default {
 		} = useTreeViewItem(props)
 		const columnSize = computed(() => props.element.options.column_size)
 
-		const { getElementIcon, getElementImage } = useElementTypes();
+		const { getElementType } = useElementTypes();
 
-		const get_element_image = getElementImage(props.element.element_type);
-		const get_element_icon = getElementIcon(props.element.element_type);
+		const elementModel = getElementType(props.element.element_type);
+
+		const elementName = computed({
+			get () {
+				return props.element.name;
+			},
+			set (newValue) {
+				props.element.name = newValue;
+			},
+		});
 
 		return {
 			showElementMenu,
+			elementModel,
 			elementOptionsRef,
 			isActiveItem,
 			columnSize,
-			get_element_image,
-			get_element_icon
+			elementName
 		}
 	},
 	data () {
@@ -185,7 +174,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "~@zionbuilder/css-variables/frontend/_grid.scss";
+@import "grid.scss";
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 15px 15px 15px;
@@ -204,7 +193,7 @@ export default {
 .znpb-wireframe-item {
 	flex-grow: 1;
 	flex-shrink: 1;
-	padding: 0 15px 30px 15px;
+	padding: 0 8px 16px 8px;
 
 	&Image {
 		height: 24px;
@@ -221,9 +210,14 @@ export default {
 
 	.znpb-empty-placeholder {
 		height: auto;
-		min-height: auto;
-		padding-top: 15px;
+		min-height: 24px;
 	}
+
+	.znpb-element-toolbox__add-element-button {
+		--button-size: 24px;
+		--font-size: 12px;
+	}
+
 	&__empty {
 		display: block;
 		.znpb-wireframe-item__content {
@@ -232,10 +226,6 @@ export default {
 	}
 	&__sortable {
 		cursor: pointer;
-	}
-
-	& > .znpb-wireframe-item__header {
-		background: var(--zb-element-color);
 	}
 
 	&__delete-icon {
@@ -254,19 +244,9 @@ export default {
 	}
 
 	.znpb-element-toolbox__add-element-button {
-		position: absolute;
-		top: 100%;
-		left: 50%;
 		margin: 0 auto;
 		text-align: center;
 		transform: translate(-50%, -50%);
-
-		.znpb-editor-icon-wrapper {
-			width: 34px;
-			height: 34px;
-			color: #fff;
-			background: var(--zb-element-color);
-		}
 	}
 
 	&__header {
@@ -274,6 +254,10 @@ export default {
 		width: 100%;
 		color: var(--zb-primary-text-color);
 		text-align: center;
+		background-color: var(--zb-surface-lightest-color);
+		border-radius: 6px;
+		padding: 0 15px;
+		z-index: 1;
 		transition: all 0.2s;
 
 		&-area {
@@ -289,8 +273,7 @@ export default {
 					padding-right: 0;
 				}
 			}
-			&--center {
-				justify-content: center;
+			&--left {
 				align-items: center;
 				overflow: hidden;
 
@@ -300,13 +283,13 @@ export default {
 					}
 				}
 				& > span {
-					color: #fff;
+					color: var(--zb-surface-icon-color);
 				}
 			}
 			&--right {
 				position: relative;
 				justify-content: flex-end;
-				min-width: 110px;
+				flex-grow: 0;
 			}
 		}
 
@@ -315,9 +298,6 @@ export default {
 			padding: 13px 20px;
 			transition: opacity 0.2s;
 
-			&:hover {
-				opacity: 0.5;
-			}
 			&:focus {
 				outline: 0;
 			}
@@ -326,7 +306,7 @@ export default {
 		&-title {
 			overflow: hidden;
 			padding: 0;
-			color: #fff;
+			color: var(--zb-surface-text-hover-color);
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -335,6 +315,30 @@ export default {
 			.znpb-utility__text--elipse {
 				width: 100%;
 				max-width: 170px;
+			}
+		}
+
+		&-more {
+			padding: 14px 15px 14px 8px;
+			margin-left: -15px;
+
+			&:hover {
+				color: var(--zb-surface-icon-active-color);
+			}
+		}
+
+		.znpb-tree-view__itemIcon {
+			padding: 0;
+			margin-right: 8px;
+		}
+
+		.znpb-element-options__dropdown-icon {
+			color: var(--zb-surface-icon-color);
+			padding: 14px 15px;
+			margin-right: -15px;
+
+			&:hover {
+				color: var(--zb-surface-icon-active-color);
 			}
 		}
 	}
@@ -348,14 +352,11 @@ export default {
 		flex: 1 1 auto;
 		width: auto;
 
-		& > .znpb-wireframe-item__header {
-			background: var(--zb-section-color);
-		}
-
 		& > .znpb-wireframe-item__content {
 			position: relative;
 			display: flex;
 			flex-wrap: wrap;
+			align-items: flex-start;
 			flex: 1 1 auto;
 			width: 100%;
 		}
@@ -369,9 +370,6 @@ export default {
 		flex-grow: 1;
 		min-height: 1px;
 
-		& > .znpb-wireframe-item__header {
-			background: var(--zb-column-color);
-		}
 		& > .znpb-wireframe-item__content {
 			position: relative;
 			display: flex;
@@ -379,7 +377,9 @@ export default {
 			flex-wrap: wrap;
 			flex: 1 1 auto;
 			width: 100%;
-			border: 2px solid #faeec6;
+			border: 1px solid var(--zb-surface-lightest-color);
+			border-bottom-left-radius: 6px;
+			border-bottom-right-radius: 6px;
 		}
 		&
 			> .znpb-wireframe-item__content
@@ -422,9 +422,12 @@ export default {
 
 	//nested children
 	ul.znpb-wireframe-item__content {
-		padding: 30px 15px;
+		padding: 21px 8px 16px 8px;
 		background: var(--zb-surface-light-color);
 		cursor: pointer;
+		border-bottom-left-radius: 6px;
+		border-bottom-right-radius: 6px;
+		margin-top: -5px;
 	}
 }
 </style>

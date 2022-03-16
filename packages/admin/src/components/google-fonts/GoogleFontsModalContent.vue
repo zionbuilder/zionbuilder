@@ -98,6 +98,7 @@ export default {
 		})
 
 		function onScrollEnd (event) {
+			console.log('scroll end');
 			if (currentPage.value !== maxPages.value) {
 				currentPage.value++
 				loading.value = true
@@ -139,8 +140,7 @@ export default {
 			width: 20px;
 			height: 20px;
 			background: var(--zb-surface-color);
-			&:before,
-			&:after {
+			&:before, &:after {
 				border: 2px solid var(--zb-surface-border-color);
 			}
 			&:after {

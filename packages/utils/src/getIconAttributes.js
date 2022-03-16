@@ -1,4 +1,4 @@
-export const getIconUnicode = function (unicodeValue) {
+export function getIconUnicode(unicodeValue) {
 	return JSON.parse(('"\\' + unicodeValue + '"'))
 }
 

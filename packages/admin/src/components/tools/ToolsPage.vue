@@ -27,45 +27,18 @@
 				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
 			</template>
 		</PageTemplate>
-		<PageTemplate>
-			<div class="znpb-admin-regenerate">
-				<h4>{{$translate('sync_library')}}</h4>
-				<Button
-					type="line"
-					@click="onSyncClick"
-				>
-					<transition
-						name="fade"
-						mode="out-in"
-					>
-						<Loader
-							v-if="loadingSync"
-							:size="13"
-						/>
-						<span v-else>{{$translate('sync_library')}}</span>
-					</transition>
-				</Button>
-			</div>
-			<template v-slot:right>
-				<p class="znpb-admin-info-p">{{$translate('regenrate_info')}}</p>
-			</template>
-		</PageTemplate>
-
 	</div>
 </template>
 
 <script>
 import { ref } from 'vue'
-import { regenerateCache } from '@zionbuilder/rest'
-import { useLibrary } from '@zionbuilder/composables'
+import { regenerateCache } from '@zb/rest'
 
 export default {
 	name: 'ToolsPage',
 	setup () {
 		const loadingSync = ref(false)
 		const loading = ref(false)
-
-		const { fetchLibraryItems } = useLibrary()
 
 		function onRegenerateFilesClick () {
 			loading.value = true
@@ -74,20 +47,10 @@ export default {
 			})
 		}
 
-		function onSyncClick () {
-			loadingSync.value = true
-			fetchLibraryItems().finally(() => {
-				loadingSync.value = false
-			})
-
-		}
-
-
 		return {
 			loadingSync,
 			loading,
-			onRegenerateFilesClick,
-			onSyncClick
+			onRegenerateFilesClick
 		}
 	}
 }

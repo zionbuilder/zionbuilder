@@ -2,6 +2,8 @@
 
 namespace ZionBuilder\Elements;
 
+use ZionBuilder\Responsive;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -55,12 +57,7 @@ class Style {
 	 */
 	public static function get_styles( $css_selector, $style_options = [] ) {
 		$compiled_styles = '';
-		$devices_order   = [
-			'default',
-			'laptop',
-			'tablet',
-			'mobile',
-		];
+		$devices_order   = array_keys( Responsive::get_breakpoints_as_device_width() );
 
 		foreach ( $devices_order as $responsive_device_id ) {
 			if ( isset( $style_options[$responsive_device_id] ) ) {
@@ -85,13 +82,9 @@ class Style {
 			return false;
 		}
 
-		$media_queries = [
-			'laptop' => '991.98px',
-			'tablet' => '767.98px',
-			'mobile' => '575.98px',
-		];
+		$media_queries = Responsive::get_breakpoints_as_device_width();
 
-		$start = 'default' !== $responsive_device_id ? '@media (max-width: ' . $media_queries[$responsive_device_id] . ') {' : '';
+		$start = 'default' !== $responsive_device_id ? '@media (max-width: ' . $media_queries[$responsive_device_id] . 'px) {' : '';
 		$end   = 'default' !== $responsive_device_id ? '}' : '';
 
 		return sprintf( '%s%s%s', $start, $styles, $end );
@@ -246,11 +239,11 @@ class Style {
 					break;
 
 				case 'order':
-					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					$compiled_css .= sprintf( '-webkit-order: %s; -ms-flex-order: %s; order: %s;', $value, $value, $value );
 					break;
 
 				case 'custom-order':
-					$compiled_css .= sprintf( '-webkit-box-ordinal-group: %s; -ms-flex-order: %s; order: %s;', $value + 1, $value, $value );
+					$compiled_css .= sprintf( '-webkit-order: %s; -ms-flex-order: %s; order: %s;', $value, $value, $value );
 					break;
 
 				case 'align-items':

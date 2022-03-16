@@ -3,7 +3,7 @@
 namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
-use ZionBuilder\Post\BasePostType;
+use ZionBuilder\Plugin;
 use ZionBuilder\CSSClasses;
 
 // Prevent direct access
@@ -74,13 +74,13 @@ class SavePage extends RestApiController {
 	 *
 	 * @param \WP_REST_Request $request
 	 *
-	 * @return mixed|\WP_REST_Response|\ZionBuilder\Post\BasePostType
+	 * @return mixed|\WP_REST_Response
 	 */
 	public function save_item( $request ) {
 		$params = $request->get_json_params();
 
 		// update the page with the new changes
-		$post_instance  = new BasePostType( $params['page_id'] );
+		$post_instance  = Plugin::$instance->post_manager->get_post_instance( $params['page_id'] );
 		$save_post_data = $post_instance->save( $params );
 
 		// Save css classes
@@ -89,6 +89,8 @@ class SavePage extends RestApiController {
 			// Save the css classes
 			CSSClasses::save_classes( $css_classes );
 		}
+
+		do_action( 'zionbuilder/page/save', $params );
 
 		// check for errors
 		if ( ! $save_post_data ) {

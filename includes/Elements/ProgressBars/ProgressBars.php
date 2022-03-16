@@ -35,7 +35,7 @@ class ProgressBars extends Element {
 	 * @return string The element name
 	 */
 	public function get_name() {
-		return __( 'Progress bars', 'zionbuilder' );
+		return __( 'Progress Bars', 'zionbuilder' );
 	}
 
 	/**

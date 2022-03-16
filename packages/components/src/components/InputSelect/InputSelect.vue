@@ -57,7 +57,7 @@
 					v-if="filterable || addable"
 					class="znpb-option-selectOptionListSearchInput"
 					v-model="searchKeyword"
-					:placeholder="$translate('search')"
+					:placeholder="addable ? $translate('search_or_add') : $translate('search')"
 					:clearable="true"
 					icon="search"
 					autocomplete="off"
@@ -87,7 +87,7 @@
 						v-for="option in visibleItems"
 						:key="option.id"
 						:class="{
-							'znpb-menuListItem--selected': option.isSelected,
+							'znpb-menuListItem--selected': !option.is_label && option.isSelected,
 							'znpb-menuListItem--is-label': option.is_label,
 							'znpb-menuListItem--is-group_item': option.is_group_item
 						}"
@@ -121,7 +121,7 @@ export default {
 	name: 'InputSelect',
 	props: {
 		modelValue: {
-			type: [String, Number, Array],
+			type: [String, Number, Array, Boolean],
 		},
 		options: {
 			type: Array,
@@ -525,9 +525,13 @@ export default {
 }
 
 .znpb-menuListItem--is-label {
-	font-style: italic;
 	font-weight: bold;
 	pointer-events: none;
+	color: var(--zb-surface-text-active-color);
+}
+
+.znpb-menuListItem--is-label ~ .znpb-menuListItem:not(.znpb-menuListItem--is-label) {
+	padding-left:25px;
 }
 
 .znpb-menuListItem--is-group_item {

@@ -1,8 +1,6 @@
 export class EditorArea {
 	position = 'left'
-	order: -999
 	pointerEvents: false
-
 
 	constructor(config) {
 		Object.assign(this, config)

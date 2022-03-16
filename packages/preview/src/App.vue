@@ -85,10 +85,6 @@ export default {
 	overflow-x: hidden;
 }
 
-.znpb-editor-preview:not(.znpb-editor-preview--active) {
-	padding-bottom: 20px;
-}
-
 .znpb-editor-preview--active {
 	& .zb-element, & .zb-element:hover {
 		cursor: initial;

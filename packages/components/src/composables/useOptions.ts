@@ -27,7 +27,9 @@ import {
 	InputCheckboxSwitch,
 	InputTextAlign,
 	InputBorderTabs,
-	InputBackgroundVideo
+	InputBackgroundVideo,
+	InputSpacing,
+	InputRepeater
 } from '../components'
 
 const options = {
@@ -49,9 +51,19 @@ const options = {
 	textarea: {
 		id: 'textarea',
 		component: BaseInput,
+		componentProps: {
+			type: 'textarea'
+		},
 		dynamic: {
 			type: 'TEXT'
 		}
+	},
+	password: {
+		id: 'password',
+		componentProps: {
+			type: 'password'
+		},
+		component: BaseInput
 	},
 	select: {
 		id: 'select',
@@ -151,6 +163,14 @@ const options = {
 	shape_component: {
 		id: 'shape_component',
 		component: ShapeDividerComponent
+	},
+	spacing: {
+		id: 'spacing',
+		component: InputSpacing
+	},
+	repeater: {
+		id: 'repeater',
+		component: InputRepeater
 	}
 
 }

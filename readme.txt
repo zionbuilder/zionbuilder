@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.7.2
-Stable tag: 2.7.4
+Tested up to: 5.9.2
+Stable tag: 3.0.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,124 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.0.0 2022-03-14 =
+Added: New UI and UX for the editor
+Added: Ability to edit breakpoint device values
+Added: Ability to add new breakpoint devices
+Added: Ability to add general custom CSS to admin panel
+Added: Ability to add custom header scripts from admin panel
+Added: Ability to add custom body open scripts from admin panel
+Added: Ability to add custom footer scripts from admin panel
+Added: Ability to copy/paste element styles
+Added: Allow copy/paste elements, styles, and classes between different browser tabs
+Added: [tree View] Added expand/collapse buttons
+Added: [tree View] Added button to remove all elements from the page
+Added: [options panel] Added button to hide the panel
+Added: Allow global classes to be renamed
+Added: Ability to add global classes from the options panel
+Added: CSS direction to display options
+Added: Custom option for margin and padding
+Added: Cursor display options to Style > Display > Display options
+Added: Ability to add elements to favorites
+Added: Thumbnail generation for local templates
+Added: Ability to share the local library with different websites
+Added: Ability to load Google fonts from local
+Added: Ability to disable jQuery migrate
+Added: Ability to disable WordPress emojis
+Added: changes bullets to styling options accordions
+Added: Additional options to style the search form element
+Added: Ability to change responsive devices width
+Added: Ability to add custom responsive devices
+Added: Ability to disable normalize.css loaded by the builder
+Added: Ability to change editor preview width
+Added: Ability to set the custom scale for editor preview
+Added: Ability to set editor preview to auto-scale based on available width
+Added: Ability to create templates for all author archives
+Added: Ability to create templates for specific author archives
+Added: Theme builder link to the admin bar. This will appear as a submenu for pages edited with Zion Builder
+Improvement: Updated tree view panels design and UX
+Improvement: Color-picker won't close itself if you click outside it while changing the color
+Improvement: Elements are now editable with one click
+Improvement: New element toolbox inside editor
+Improvement: [tree View] Edit elements with one click
+Improvement: [tree View] Edit element name with a single click
+Improvement: Improved design for preview mode
+Improvement: Preview mode responsive buttons shows the active responsive device now
+Improvement: Changed UX for add elements popup category dropdown
+Improvement: Allow the user to move the main bar in the top and bottom position
+Improvement: Show tree view and history on the right side by default
+Improvement: Added a delay before saving to history the element rename action
+Improvement: The element menu will toggle if pressing the options icons twice
+Improvement: Highlight newly added elements in the tree view
+Improvement: When selecting an element from the tree view, the page will scroll until the element is centered on the page
+Improvement: You can now close panels by clicking on the preview Iframe
+Improvement: keep the add element icon visible in tree view when pressing it
+Improvement: Renamed "View page" to "Preview page"
+Improvement: The previewed page will auto-refresh when saving new changes
+Improvement: Re-ordered main panel menu items
+Improvement: Show menu items without capitalization
+Improvement: Automatically fill padding/margins values when clicking on the link icon
+Improvement: Zion Library UI
+Improvement: The active library source is preserved after refresh
+Improvement: Show only Library categories that have items in them when searching for an element
+Improvement: Sort library items by date
+Improvement: Keep cursor position when entering values in fields that also accept a unit
+Improvement: Zion Library UI and UX
+Improvement: The edit element panel will close automatically when deleting all the elements on the page
+Improvement: Close number input popup for Spacing option type when clicking outside of it
+Improvement: Replaced popup for choosing what changes to show with a confirmation message when you try to close the page while still having unsaved changes
+Improvement: updated UI/UX for displaying the margin and padding inside the element toolbox
+Improvement: You can now close the margin/padding popup by pressing the escape key
+Improvement: Close library modal on escape key press
+Improvement: Overall plugin performance in both editor and rendered page
+Improvement: Delete local google fonts cache when regenerating builder files from admin panel
+Improvement: Prevent Google from indexing template pages
+Improvement: Add width tooltip when resizing the editor preview window
+Improvement: Added scrollbar to preview window if it doesn't fit the available space
+Improvement: Use Google fonts as default instead of local fonts
+Improvement: Disable WP emojis and jQuery migrate by default for new installations
+Improvement: Disable normalize.css will be disabled for new installations
+Improvement: Combined fronted.css with dynamic CSS file added by the builder. The builder only loads two CSS files now, one general and one specific to the rendered page
+Improvement: The editor preview will display a horizontal scrollbar if there is no space
+Improvement: Improved builder speed in both frontend and backend
+Improvement: Reduced number of HTTP requests
+Improvement: Added an overlay over the video element video in edit mode. This allows you to drag the video element and have access to right-click
+Improvement: Set preview auto-scale on by default
+Fixed: Tree view items cannot be dragged properly in certain conditions
+Fixed: Editor compatibility with older versions of Safari
+Fixed: Password-protected posts not showing password field if using dynamic data - post content
+Fixed: Pasting text inside tree view element rename fields creates additional elements
+Fixed: Code editor CTRL+Z adds different text instead of the previously used text
+Fixed: Icon color shows different color inside editor and preview
+Fixed: Not all CSS classes are deleted if pressing the "Remove additional classes"
+Fixed:  Cannot delete a CSS class after closing the confirmation tooltip
+Fixed: Background color picker not visible in certain conditions
+Fixed: element cannot be renamed in certain conditions
+Fixed: caret jumps to the start of the line when renaming an element in firefox
+Fixed: Console notice in admin panel
+Fixed: Editor buttons in edit page not always appearing
+Fixed: Accordion element not opening on click in edit mode
+Fixed: Not all global CSS classes are showing in certain conditions
+Fixed: Margin and Padding option display on Safari
+Fixed: Video does not auto-play on iPhone in certain conditions
+Fixed: Vimeo video background controls not working
+Fixed: Element animations not working
+Fixed: Local Google font not displaying correctly
+Fixed: Editor modals appear below other elements in certain conditions
+Fixed: post taxonomies not loading options in the dynamic field
+Fixed: Content is not available in editor mode if the preview height is larger than the container height
+Fixed: Play icon not showing properly in the video element and video background actions
+Fixed: Element display conditions still apply after you set the visibility to all
+Fixed: Transform option removes itself in certain conditions
+Fixed: Margin and paddings are re-linking their values in certain conditions
+Fixed: Element conditions clones values between conditions fields
+Fixed: Custom fonts not working in certain conditions
+Fixed: Preview scaling blurs text
+Fixed: Visual editor option not updating its value in certain conditions
+Fixed: Custom breakpoints not generating proper CSS in certain conditions
+Misc: Updated builder external dependencies to latest version
+Misc: Updated many components to Vue 3
+
 = 2.7.4 2021-09-15 =
 * Improved shortcut keys for MacOS
 * Added missing animate.css animations

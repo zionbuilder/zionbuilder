@@ -1,6 +1,6 @@
 {
 	"name": "@zionbuilder/service",
-	"version": "2.2.3",
+	"version": "2.2.1",
 	"description": "Helper utility for developing for zion builder",
 	"homepage": "",
 	"main": "index.js",
@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@babel/core": "^7.10.2",
 		"@soda/friendly-errors-webpack-plugin": "^1.7.1",
+		"@statoscope/webpack-plugin": "^5.19.2",
 		"@zionbuilder/babel-preset-zionbuilder": "^1.0.2",
 		"autoprefixer": "^10.2.1",
 		"bestzip": "^2.1.5",
@@ -26,9 +27,6 @@
 		"webpack-plugin-serve": "^1.4.1",
 		"wp-pot": "^1.9.3"
 	},
-	"devDependencies": {
-		"webpack-bundle-analyzer": "^4.3.0"
-	},
 	"publishConfig": {
 		"access": "public"
 	},
@@ -37,5 +35,5 @@
 	"bugs": {
 		"url": "https://github.com/zionbuilder/zionbuilder-cli/issues"
 	},
-	"gitHead": "f5f4b2374a53666b7ee721e523c27de90766f268"
+	"gitHead": "b08f435967f500b952d3af480cc3522d238c00f1"
 }

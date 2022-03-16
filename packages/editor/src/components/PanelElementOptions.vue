@@ -1,15 +1,35 @@
 <template>
 	<BasePanel
 		class="znpb-element-options__panel-wrapper"
+		:class="{
+			'znpb-element-options__panel-wrapper--hidden': isPanelHidden
+		}"
 		@close-panel="closeOptionsPanel"
 		:panel-name="`${element.name} ${$translate('options')}`"
-		panel-id="PanelElementOptions"
-		:show-move="true"
+		:panel-id="panel.id"
 		:show-expand="false"
-		:allow-horizontal-resize="false"
-		:allow-vertical-resize="false"
+		:allow-horizontal-resize="!isPanelHidden"
+		:allow-vertical-resize="!isPanelHidden"
 		:panel="panel"
+		:style="panelStyles"
 	>
+
+		<template #before-header>
+			<div
+				class="znpb-element-options__hide"
+				@click.stop="isPanelHidden = !isPanelHidden"
+			>
+				<Icon
+					icon="select"
+					class="znpb-element-options__hideIcon"
+					:class="{
+						'znpb-element-options__hide--hidden': isPanelHidden
+					}"
+				/>
+
+			</div>
+		</template>
+
 		<template #header>
 			<div class="znpb-element-options__header">
 				<!-- Show back button for child elements -->
@@ -40,6 +60,7 @@
 
 			</div>
 		</template>
+
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				:has-scroll="['general','advanced']"
@@ -155,6 +176,7 @@ export default {
 	},
 	props: ['panel'],
 	setup (props) {
+		const isPanelHidden = ref(false)
 		let ignoreLocalHistory = false
 		const { setActivePseudoSelector } = usePseudoSelectors()
 		const { element, editElement, unEditElement } = useEditElement()
@@ -167,42 +189,52 @@ export default {
 
 		const optionsFilterKeyword = ref('')
 
+		const panelStyles = computed(() => {
+			return {
+				'--optionsPanelWidth': `-${props.panel.width}px`
+			}
+		})
+
 		const elementOptions = computed({
 			get () {
 				return element.value ? element.value.options : {}
 			},
 			set (newValues) {
 				element.value.updateOptions(newValues)
-				// Add to history
-				if (!ignoreLocalHistory) {
-					addToLocalHistory()
-					ignoreLocalHistory = false
-				}
+
 			}
 		})
+
+		watch(elementOptions, (newValue) => {
+			// Add to history
+			if (!ignoreLocalHistory) {
+				addToLocalHistory()
+				ignoreLocalHistory = false
+			}
+		}, { deep: true })
 
 		const advancedOptionsModel = computed({
 			get () {
 				return elementOptions.value._advanced_options || {}
 			},
 			set (newValues) {
-				elementOptions.value = {
-					...elementOptions.value,
-					_advanced_options: newValues
-				}
-			}
-		})
+				if (newValues === null) {
+					const oldValues = { ...elementOptions.value }
+					delete oldValues._advanced_options
 
-		const canUndo = computed(() => {
-			return historyIndex.value > 0
+					elementOptions.value = oldValues
+				} else {
+					elementOptions.value = {
+						...elementOptions.value,
+						_advanced_options: newValues
+					}
+				}
+
+			}
 		})
 
 		const searchIcon = computed(() => {
 			return searchActive.value ? 'close' : 'search'
-		})
-
-		const canRedo = computed(() => {
-			return historyIndex.value + 1 < history.value.length
 		})
 
 		const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0)
@@ -218,6 +250,14 @@ export default {
 			history.value.push(clonedValues)
 			historyIndex.value++
 		}, 500)
+
+		const canUndo = computed(() => {
+			return history.value[historyIndex.value - 1]
+		})
+
+		const canRedo = computed(() => {
+			return history.value[historyIndex.value + 1]
+		})
 
 		function undo () {
 			const prevState = history.value[historyIndex.value - 1]
@@ -258,8 +298,10 @@ export default {
 		provide('serverRequester', element.value.serverRequester)
 
 		return {
+			isPanelHidden,
 			element,
 			// Computed
+			panelStyles,
 			elementOptions,
 			advancedOptionsModel,
 			getSchema,
@@ -303,7 +345,8 @@ export default {
 					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
 					allow_delete: false,
 					show_breadcrumbs: true,
-					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true
+					allow_custom_attributes: typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
+					allowRename: false
 				}
 			})
 
@@ -529,16 +572,18 @@ export default {
 			}
 
 			// Undo CTRL+Z
-			if (e.which === 90 && e[controllKey] && !e.shiftKey) {
+			if (e.which === 90 && e[controllKey] && !e.shiftKey && this.canUndo) {
 				this.undo()
 				e.preventDefault()
 				e.stopPropagation()
 			}
 			// Redo CTRL+SHIFT+Z CTRL + Y
 			if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
-				this.redo()
-				e.preventDefault()
-				e.stopPropagation()
+				if (this.canRedo) {
+					this.redo()
+					e.preventDefault()
+					e.stopPropagation()
+				}
 			}
 		}
 	},
@@ -591,6 +636,10 @@ export default {
 .znpb-element-options {
 	&__panel-wrapper .znpb-panel__content_wrapper {
 		padding-top: 0;
+	}
+
+	&__panel-wrapper--hidden .znpb-panel__content_wrapper {
+		z-index: 0;
 	}
 
 	&__header {
@@ -646,6 +695,9 @@ export default {
 			min-width: 200px;
 			max-height: 360px;
 			padding: 16px 16px 4px;
+			color: var(--zb-surface-text-color);
+			font-size: 13px;
+			font-weight: 400;
 			background-color: var(--zb-dropdown-bg-color);
 			box-shadow: var(--zb-dropdown-shadow);
 			border: 1px solid var(--zb-dropdown-border-color);
@@ -783,5 +835,119 @@ export default {
 .znpb-input-content .widget-inside {
 	box-shadow: none;
 	border: none;
+}
+
+// Hide options panel
+.znpb-element-options__hide {
+	position: absolute;
+	top: 16px;
+	left: 100%;
+	z-index: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20px;
+	height: 24px;
+	color: var(--zb-surface-icon-color);
+	background: var(--zb-surface-color);
+	border: 1px solid var(--zb-surface-border-color);
+	border-radius: 0 50% 50% 0;
+	transform: translateX(-100%);
+	transition: transform .15s 0s, z-index 0s;
+	cursor: pointer;
+
+	&Icon {
+		position: relative;
+		left: -2px;
+		font-size: 12px;
+		transform: rotate(90deg);
+		transition: color .15s;
+	}
+
+	&:hover &Icon {
+		color: var(--zb-surface-text-hover-color);
+	}
+
+	.znpb-editor-panel--detached & {
+		display: none;
+	}
+
+	.znpb-editor-panel--left & {
+		border-left: 0;
+	}
+
+	.znpb-editor-panel--right & {
+		right: 100%;
+		left: auto;
+		border-right: 0;
+		border-radius: 50% 0 0 50%;
+		transform: translateX(100%);
+	}
+
+	.znpb-editor-panel--right &Icon {
+		left: 2px;
+		transform: rotate(-90deg);
+	}
+
+	.znpb-element-options__panel-wrapper--hidden & {
+		left: calc(100% + 2px);
+		transition: opacity .15s;
+		opacity: .6;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right & {
+		right: calc(100% + 2px);
+		left: auto;
+	}
+
+	body.znpb-theme-dark
+	.znpb-element-options__panel-wrapper--hidden.znpb-editor-panel--right
+	& {
+		right: calc(100% + 1px);
+		left: auto;
+	}
+
+	body.znpb-theme-dark .znpb-element-options__panel-wrapper--hidden & {
+		left: calc(100% + 1px);
+	}
+
+	.znpb-element-options__panel-wrapper:hover &, .znpb-element-options__panel-wrapper--hidden & {
+		z-index: 10;
+		transform: translateX(0);
+		transition: transform .15s 0s, z-index .15s;
+	}
+}
+
+// Hide icon
+.znpb-element-options__panel-wrapper--hidden .znpb-element-options__hideIcon {
+	left: -1px;
+	transform: rotate(270deg);
+}
+
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden
+	.znpb-element-options__hideIcon {
+	left: 1px;
+	transform: rotate(-270deg);
+}
+
+.znpb-element-options__panel-wrapper {
+	transition: margin-left .15s;
+}
+
+.znpb-element-options__panel-wrapper--hidden {
+	margin-left: var(--optionsPanelWidth, -360px);
+}
+
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper {
+	transition: margin-right .15s;
+}
+
+.znpb-editor-panel--right.znpb-element-options__panel-wrapper--hidden {
+	margin-right: var(--optionsPanelWidth, -360px);
+	margin-left: 0;
 }
 </style>

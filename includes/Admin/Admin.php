@@ -8,6 +8,8 @@ use ZionBuilder\Permissions;
 use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
+use ZionBuilder\Templates;
+use ZionBuilder\Options\Schemas\Performance;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -219,7 +221,7 @@ class Admin {
 				[
 					'zb-components',
 				],
-				Plugin::instance()->get_version(),
+				Plugin::$instance->get_version(),
 				true
 			);
 
@@ -234,11 +236,14 @@ class Admin {
 				apply_filters(
 					'zionbuilder/admin/initial_data',
 					[
-						'is_pro_active'       => Utils::is_pro_active(),
-						'template_types'      => Plugin::$instance->templates->get_template_types(),
-						'template_categories' => Plugin::$instance->templates->get_template_categories(),
-						'plugin_version'      => Plugin::instance()->get_version(),
-						'appearance'          => [
+						'is_pro_active'    => Utils::is_pro_active(),
+						'template_types'   => Plugin::$instance->templates->get_template_types(),
+						'template_sources' => Plugin::$instance->library->get_sources(),
+						'plugin_version'   => Plugin::$instance->get_version(),
+						'schemas'          => [
+							'performance' => Performance::get_schema(),
+						],
+						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [
 									'type'      => 'custom_selector',
@@ -258,8 +263,35 @@ class Admin {
 								],
 							],
 						],
-
-						'urls'                => [
+						'custom_code'      => [
+							'schema' => [
+								'custom_css'     => [
+									'type'        => 'code',
+									'description' => esc_html__( 'Add css that will be applied to all pages.', 'zionbuilder' ),
+									'title'       => esc_html__( 'Custom css', 'zionbuilder' ),
+									'mode'        => 'css',
+								],
+								'header_scripts' => [
+									'type'        => 'code',
+									'description' => esc_html__( 'Add scripts that will be placed just before the closing </head> tag.', 'zionbuilder' ),
+									'title'       => esc_html__( 'Header scripts', 'zionbuilder' ),
+									'mode'        => 'html',
+								],
+								'body_scripts'   => [
+									'type'        => 'code',
+									'description' => esc_html__( 'Add scripts that will be placed just after the <body> opening tag.', 'zionbuilder' ),
+									'title'       => esc_html__( 'Body scripts', 'zionbuilder' ),
+									'mode'        => 'html',
+								],
+								'footer_scripts' => [
+									'type'        => 'code',
+									'description' => esc_html__( 'Add scripts that will be placed just before the closing </body> tag.', 'zionbuilder' ),
+									'title'       => esc_html__( 'Footer scripts', 'zionbuilder' ),
+									'mode'        => 'html',
+								],
+							],
+						],
+						'urls'             => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),
 						],

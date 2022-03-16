@@ -3,7 +3,10 @@ import {
 	toRaw,
 	inject
 } from 'vue'
-import hash from 'object-hash'
+
+import {
+	hash
+} from '@zb/utils'
 import {
 	get,
 	unionBy
@@ -12,7 +15,7 @@ import {
 const cache = ref({})
 
 export function useSelectServerData(config) {
-	let requester = inject('serverRequester')
+	let requester = inject('serverRequester', null)
 
 	const items = ref([])
 

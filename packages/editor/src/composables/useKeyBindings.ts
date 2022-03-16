@@ -1,12 +1,13 @@
-import { usePanels, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory } from '@composables'
+import { useUI, usePreviewMode, useSavePage, useEditorData, useElementActions, useHistory, useEditElement } from '@composables'
 import { isEditable, Environment } from '@zb/utils'
 
 export const useKeyBindings = () => {
-	const { togglePanel } = usePanels()
+	const { togglePanel, toggleLibrary } = useUI()
 	const { isPreviewMode, setPreviewMode } = usePreviewMode()
 	const { savePage, isSavePageLoading } = useSavePage()
-	const { copyElement, pasteElement, copiedElement, resetCopiedElement, copyElementStyles, pasteElementStyles, focusedElement, focusElement } = useElementActions()
+	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions()
 	const { editorData } = useEditorData()
+	const { editElement, element: focusedElement } = useEditElement()
 
 	const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey'
 
@@ -68,7 +69,7 @@ export const useKeyBindings = () => {
 			}
 
 			// Paste
-			if (e.which === 86 && e[controllKey] && !e.shiftKey && copiedElement.value.element) {
+			if (e.which === 86 && e[controllKey] && !e.shiftKey) {
 				pasteElement(activeElementFocus)
 			}
 
@@ -77,7 +78,7 @@ export const useKeyBindings = () => {
 				copyElement(activeElementFocus, 'cut')
 			}
 
-			if (e.code === 'Escape' && copiedElement.value.element) {
+			if (e.code === 'Escape') {
 				resetCopiedElement()
 			}
 
@@ -86,7 +87,10 @@ export const useKeyBindings = () => {
 				const nextFocusElement = getNextFocusedElement(activeElementFocus)
 
 				activeElementFocus.delete()
-				focusElement(nextFocusElement)
+
+				if (nextFocusElement) {
+					editElement(nextFocusElement)
+				}
 			}
 
 			// Copy element styles ctrl+shift+c
@@ -114,6 +118,7 @@ export const useKeyBindings = () => {
 		// Undo CTRL+Z
 		if (e.which === 90 && e[controllKey] && !e.shiftKey) {
 			const { canUndo, undo } = useHistory()
+
 			if (canUndo.value) {
 				undo()
 			}
@@ -144,7 +149,7 @@ export const useKeyBindings = () => {
 
 		// Opens Library
 		if (e.shiftKey && e.code === 'KeyL') {
-			togglePanel('PanelLibraryModal')
+			toggleLibrary()
 			e.preventDefault()
 		}
 

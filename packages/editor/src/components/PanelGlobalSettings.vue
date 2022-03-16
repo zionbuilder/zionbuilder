@@ -2,7 +2,7 @@
 	<BasePanel
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
-		v-on:close-panel="closePanel('panel-global-settings')"
+		@close-panel="closePanel('panel-global-settings')"
 		class="znpb-general-options-panel-wrapper"
 	>
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">
@@ -19,7 +19,7 @@
 <script>
 import { computed } from 'vue'
 import BasePanel from './BasePanel.vue'
-import { usePanels, useCSSClasses, usePageSettings } from '@composables'
+import { useUI, usePageSettings } from '@composables'
 import { useOptionsSchemas } from '@zb/components'
 import { translate } from '@zb/i18n'
 
@@ -29,7 +29,7 @@ export default {
 		BasePanel
 	},
 	setup () {
-		const { closePanel } = usePanels()
+		const { closePanel } = useUI()
 		const { getSchema } = useOptionsSchemas()
 		const { pageSettings, updatePageSettings } = usePageSettings()
 

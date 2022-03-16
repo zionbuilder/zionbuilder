@@ -1,5 +1,4 @@
 import { savePage as savePageREST } from '@zb/rest'
-import Cache from '../Cache'
 import { ref, Ref } from 'vue'
 import { useTemplateParts } from './useTemplateParts'
 import { usePageSettings } from './usePageSettings'
@@ -7,24 +6,21 @@ import { useCSSClasses } from './useCSSClasses'
 import { useEditorData } from './useEditorData'
 import { translate } from '@zb/i18n'
 import { useNotifications } from '@zionbuilder/composables'
-import { useDemoMode } from './useDemoMode'
+import { useHistory } from './useHistory'
+import { useResponsiveDevices } from '@zb/components'
 
 const isSavePageLoading: Ref<boolean> = ref(false)
+let previewWindow = null
 
 export function useSavePage() {
 	const save = (status = 'publish') => {
-		const { isDemoMode } = useDemoMode()
-
-		if (isDemoMode.value) {
-			return Promise.resolve()
-		}
-
 		const { add } = useNotifications()
 		const { getActivePostTemplatePart } = useTemplateParts()
 		const contentTemplatePart = getActivePostTemplatePart()
 		const { pageSettings } = usePageSettings()
 		const { CSSClasses } = useCSSClasses()
 		const { editorData } = useEditorData()
+		const { setDirtyStatus } = useHistory()
 		const pageID = editorData.value.page_id
 
 		if (!contentTemplatePart) {
@@ -32,11 +28,14 @@ export function useSavePage() {
 			return
 		}
 
+		const { responsiveDevices } = useResponsiveDevices()
+
 		const pageData = {
 			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
-			css_classes: CSSClasses.value
+			css_classes: CSSClasses.value,
+			breakpoints: responsiveDevices.value
 		}
 
 		// Check if this is a draft
@@ -58,12 +57,14 @@ export function useSavePage() {
 							type: 'success'
 						})
 					}
-					Cache.deleteItem(pageID)
+
+					refreshPreviewWindow()
+
+					setDirtyStatus(false)
+
 					return Promise.resolve(response)
 				})
 				.catch(error => {
-					Cache.saveItem(pageID, pageData)
-
 					add({
 						message: error.message,
 						type: 'error',
@@ -90,10 +91,33 @@ export function useSavePage() {
 		return save('autosave')
 	}
 
+	async function openPreviewPage(event) {
+		const { editorData } = useEditorData()
+
+		await saveDraft()
+
+		previewWindow = window.open(editorData.value.urls.preview_url, `zion-preview-${editorData.value.page_id}`)
+
+		event.preventDefault()
+	}
+
+	function refreshPreviewWindow() {
+		if (previewWindow) {
+			try {
+				previewWindow.location.reload()
+			} catch (error) {
+				// Will not trigger if the preview windows is not available
+			}
+		}
+	}
+
 	return {
 		savePage,
 		saveDraft,
 		saveAutosave,
-		isSavePageLoading
+		isSavePageLoading,
+		previewWindow,
+		openPreviewPage,
+		refreshPreviewWindow
 	}
 }

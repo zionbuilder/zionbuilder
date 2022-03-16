@@ -101,6 +101,12 @@ class Stack {
 			'is_layout' => true,
 		];
 
+		$stack = &$this->get_stack();
+
+		if ( isset( $stack[$id] ) ) {
+			return $stack[$id];
+		}
+
 		return $this->add_option( $id, wp_parse_args( $config, $defaults ) );
 	}
 

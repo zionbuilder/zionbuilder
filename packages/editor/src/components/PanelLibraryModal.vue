@@ -5,13 +5,13 @@
 		:width="1440"
 		class="znpb-library-modal"
 		v-model:fullscreen="fullSize"
-		:close-on-escape="true"
-		@close-modal="closePanel('PanelLibraryModal')"
+		@close-modal="closeLibrary"
+		v-if="isLibraryOpen"
 	>
 		<template v-slot:header>
 			<div class="znpb-library-modal-header">
 				<span
-					v-if="previewOpen || multiple || importActive"
+					v-if="previewOpen || importActive"
 					@click.stop="closeBody"
 					class="znpb-library-modal-header-preview__back"
 				>
@@ -34,45 +34,31 @@
 				</div>
 				<template v-else>
 					<h2
+						v-for="(librarySource, sourceID) in librarySources"
+						:key="sourceID"
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': localActive}"
-						@click="localActive=true, zionActive=false"
+						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === sourceID}"
+						@click="setActiveSource(sourceID)"
 					>
-						{{$translate('local_library')}}
-					</h2>
-					<h2
-						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': zionActive}"
-						@click="localActive=false, zionActive=true"
-					>
-						{{$translate('zion_library')}}
+						{{librarySource.name}}
 					</h2>
 				</template>
 				<div class="znpb-library-modal-header__actions">
-					<Tooltip
-						v-if="previewOpen"
-						append-to="element"
-						tag="span"
-						:content="$translate('library_insert_tooltip')"
-						:modifiers="[{name: 'offset',options: {	offset: [0, 10]}}]"
-						placement="top"
-						strategy="fixed"
-					>
+					<template v-if="previewOpen">
 
 						<a
-							v-if="!isProActive && activeItem.pro"
-							class="znpb-button znpb-button--line znpb-button-buy-pro"
-							:href="purchaseURL"
-							target="_blank"
-						>{{$translate('buy_pro')}}
-						</a>
-
-						<a
-							v-else-if="isProActive && !isProConnected && activeItem.pro"
+							v-if="isProInstalled && !isProActive && activeItem.pro"
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
 						>{{$translate('activate_pro')}}
+						</a>
+						<a
+							v-else-if="!isProInstalled && activeItem.pro"
+							class="znpb-button znpb-button--line znpb-button-buy-pro"
+							:href="purchaseURL"
+							target="_blank"
+						>{{$translate('buy_pro')}}
 						</a>
 
 						<Button
@@ -80,6 +66,7 @@
 							type="secondary"
 							@click.stop="insertLibraryItem"
 							class="znpb-library-modal-header__insert-button"
+							v-znpb-tooltip="$translate('library_insert_tooltip')"
 						>
 							<span v-if="!insertItemLoading">
 								{{$translate('library_insert')}}
@@ -89,11 +76,10 @@
 								:size="13"
 							/>
 						</Button>
-					</Tooltip>
+					</template>
 
 					<template v-else>
 						<Button
-							v-if="localActive"
 							type="secondary"
 							@click="importActive = !importActive , templateUploaded=!templateUploaded "
 						>
@@ -102,20 +88,14 @@
 							{{$translate('import')}}
 						</Button>
 
-						<Tooltip
-							v-if="!importActive"
-							:content="$translate('refresh_tooltip')"
-							tag="span"
-							placement="top"
+						<Icon
+							icon="refresh"
+							@click="onRefresh"
+							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
-						>
-							<Icon
-								icon="refresh"
-								@click="onRefresh"
-								:size="14"
-								:class="{['loading']: libLoading}"
-							/>
-						</Tooltip>
+							:class="{['loading']: activeLibraryConfig && activeLibraryConfig.loading}"
+							v-znpb-tooltip="$translate('refresh_tooltip')"
+						/>
 
 					</template>
 
@@ -129,58 +109,48 @@
 					<Icon
 						icon="close"
 						:size="14"
-						@click="togglePanel('PanelLibraryModal')"
+						@click="toggleLibrary"
 						class="znpb-modal__header-button"
 					/>
 				</div>
 			</div>
 		</template>
+
 		<LibraryUploader
 			v-if="importActive"
 			@file-uploaded="onTemplateUpload"
 		/>
 
-		<LibraryPanel
-			v-if="!localActive && !importActive"
-			@activate-preview="previewOpen=true, activeItem=$event"
-			@activate-multiple="multiple=$event"
-			@loading-start="libLoading = true"
-			@loading-end="libLoading = false"
-			:preview-open="previewOpen"
-			:multiple="multiple"
-			:import-active="importActive"
-			ref="libraryContent"
-		/>
+		<template v-else>
+			<LibraryPanel
+				ref="libraryContent"
+				@activate-preview="activatePreview"
+				:preview-open="previewOpen"
+				:library-config="activeLibraryConfig"
+				:key="activeLibraryConfig.id"
+			/>
+		</template>
 
-		<localLibrary
-			ref="localLibraryContent"
-			v-if="localActive && !importActive"
-			:preview-open="previewOpen"
-			@activate-preview="activatePreview"
-		/>
 	</Modal>
 
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { addOverflow, removeOverflow } from '../utils/overflow'
 import { regenerateUIDsForContent } from '@utils'
-import { insertTemplate } from '@zb/rest'
-import { usePanels, useElements, useEditorData } from '@composables'
-import { useLibrary, useLocalLibrary } from '@zionbuilder/composables'
+import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
+import { useLibrary } from '@zionbuilder/composables'
 
 // Components
 import LibraryPanel from './LibraryPanel.vue'
 import LibraryUploader from './library-panel/LibraryUploader.vue'
-import localLibrary from './library-panel/localLibrary.vue'
 
 export default {
 	name: 'LibraryModal',
 	components: {
 		LibraryPanel,
-		LibraryUploader,
-		localLibrary,
+		LibraryUploader
 	},
 	provide () {
 		return {
@@ -188,38 +158,76 @@ export default {
 		}
 	},
 	setup (props) {
-		const { togglePanel, closePanel } = usePanels()
-		const { fetchTemplates, loading } = useLocalLibrary()
-		let libLoading = ref(false)
+		const { addData, getData } = useLocalStorage()
+		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
+		const { librarySources, getSource } = useLibrary()
+
+		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'))
 
 		const { editorData } = useEditorData()
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
-		const isProConnected = ref(editorData.value.plugin_info.is_pro_connected)
+		const isProActive = editorData.value.plugin_info.is_pro_active
+		const isProInstalled = editorData.value.plugin_info.is_pro_installed
 		const purchaseURL = ref(editorData.value.urls.purchase_url)
-		watch(loading, (newVal) => {
-			libLoading.value = newVal
+		const previewOpen = ref(false)
+		const activeItem = ref(null)
+		const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`
+
+		function setActiveSource (source, save = true) {
+			activeLibraryTab.value = source
+
+			if (save) {
+				addData('libraryActiveSource', source)
+			}
+		}
+
+		const activeLibraryConfig = computed(() => {
+			return getSource(activeLibraryTab.value) || getSource('local_library')
 		})
 
+		watchEffect(() => {
+			if (isLibraryOpen.value) {
+				activeLibraryConfig.value.getData()
+			}
+		})
+
+
+		function onRefresh () {
+			activeLibraryConfig.value.getData(false)
+		}
+
+		function activatePreview (item) {
+			activeItem.value = item
+			previewOpen.value = true
+		}
+
 		return {
-			closePanel,
-			togglePanel,
-			fetchTemplates,
-			libLoading,
+			// refs
+			isLibraryOpen,
+			activeLibraryTab,
+			previewOpen,
+			activeItem,
+			dashboardURL,
+
+			// computed
+			librarySources,
+			activeLibraryConfig,
+
+			// methods
+			closeLibrary,
+			toggleLibrary,
 			editorData,
 			isProActive,
-			isProConnected,
-			purchaseURL
+			isProInstalled,
+			purchaseURL,
+			setActiveSource,
+			onRefresh,
+			activatePreview
 		}
 	},
 	data () {
 		return {
 			importActive: false,
-			multiple: false,
 			fullSize: false,
-			localActive: false,
-			zionActive: true,
-			previewOpen: false,
-			activeItem: null,
 			insertItemLoading: false,
 			templateUploaded: false
 		}
@@ -229,7 +237,6 @@ export default {
 		computedTitle () {
 			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
 		}
-
 	},
 	mounted () {
 		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -237,34 +244,20 @@ export default {
 	methods: {
 		onTemplateUpload () {
 			this.importActive = false
-			this.localActive = true
+			this.setActiveSource('local')
 			this.templateUploaded = true
 		},
-		insertLibraryItem () {
+		insertLibraryItem (item) {
 			this.insertItemLoading = true
 			this.insertItem(this.activeItem).then(() => {
 				this.insertItemLoading = false
 			})
 		},
-
-		onRefresh () {
-			this.templateUploaded = false
-
-			this.localActive ? this.fetchTemplates(true) : this.$refs.libraryContent.getDataFromServer(false)
-		},
 		closeBody () {
-			if (this.multiple && this.previewOpen) {
-				this.previewOpen = false
-			} else {
-				this.previewOpen = false
-				this.multiple = false
-				this.importActive = false
-			}
+			this.previewOpen = false
+			this.importActive = false
 		},
-		activatePreview (item) {
-			this.activeItem = item
-			this.previewOpen = true
-		},
+
 
 		/**
 		 * Insert item
@@ -276,11 +269,11 @@ export default {
 		 */
 		insertItem (item) {
 			return new Promise((resolve, reject) => {
-				insertTemplate(item).then((response) => {
+				item.getBuilderData().then((response) => {
 					const { template_data: templateData } = response.data
 					const { insertElement, activeElement } = useLibrary()
 
-					const { togglePanel } = usePanels()
+					const { toggleLibrary } = useUI()
 
 					// Check to see if this is a single element or a group of elements
 					let compiledTemplateData = templateData.element_type ? [templateData] : templateData
@@ -294,7 +287,7 @@ export default {
 						element.addChildren(newElement)
 					}
 
-					togglePanel('PanelLibraryModal')
+					toggleLibrary()
 
 					resolve(true)
 				}).catch((error) => {
@@ -312,6 +305,7 @@ export default {
 </script>
 <style lang="scss">
 .znpb-library-modal {
+	z-index: 999;
 	& > .znpb-modal__wrapper {
 		width: 100%;
 		height: 860px;
@@ -320,19 +314,21 @@ export default {
 			width: calc(100% - 40px);
 		}
 	}
+
+	& > .znpb-modal__wrapper--full-size {
+		width: 100% !important;
+		max-width: 100% !important;
+		height: 100% !important;
+	}
 }
 
 .znpb-modal__header-button--library-refresh {
 	display: flex;
 	justify-content: center;
-	padding: 0;
+	padding: 11px;
 
-	.znpb-editor-icon-wrapper {
-		padding: 11px;
-
-		&.loading {
-			animation: rotation 0.55s infinite linear;
-		}
+	&.loading svg {
+		animation: rotation .55s infinite linear;
 	}
 }
 
@@ -381,8 +377,7 @@ export default {
 		align-items: center;
 		align-self: center;
 
-		.znpb-button--secondary,
-		.znpb-button-buy-pro {
+		.znpb-button {
 			display: flex;
 			align-items: center;
 			padding: 13px 20px;
@@ -403,7 +398,7 @@ export default {
 			align-self: center;
 			color: var(--zb-surface-text-color);
 			font-weight: 500;
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {
