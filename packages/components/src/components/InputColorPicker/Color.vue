@@ -4,6 +4,7 @@
 		trigger="click"
 		ref="popper"
 		:close-on-outside-click="true"
+		:use-backdrop="true"
 		:modifiers="[
 			{
 				name: 'preventOverflow',
