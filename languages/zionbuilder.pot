@@ -2136,15 +2136,15 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-#: ../includes/Responsive.php:52
+#: ../includes/Responsive.php:51
 msgid "Laptop"
 msgstr ""
 
-#: ../includes/Responsive.php:60
+#: ../includes/Responsive.php:59
 msgid "Tablet"
 msgstr ""
 
-#: ../includes/Responsive.php:68
+#: ../includes/Responsive.php:67
 msgid "Mobile"
 msgstr ""
 
@@ -2232,12 +2232,16 @@ msgctxt "Zion Template Library"
 msgid "No Templates found in Trash"
 msgstr ""
 
-#: ../includes/Templates.php:301
+#: ../includes/Templates.php:304
 msgid "template"
 msgstr ""
 
-#: ../includes/Templates.php:310
+#: ../includes/Templates.php:313
 msgid "Missing template type"
+msgstr ""
+
+#: ../includes/Templates.php:333, ../includes/Api/RestControllers/Library.php:533, ../includes/Api/RestControllers/Library.php:581, ../includes/Api/RestControllers/Templates.php:439, ../includes/Api/RestControllers/Templates.php:495, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:576, ../includes/Api/RestControllers/Templates.php:599, ../includes/Api/RestControllers/Templates.php:704, ../includes/Library/Sources/LocalSource.php:69, ../includes/Library/Sources/LocalSource.php:137
+msgid "Your post id could not be found!"
 msgstr ""
 
 #: ../includes/User.php:33, ../includes/User.php:53
@@ -2415,10 +2419,6 @@ msgstr ""
 
 #: ../includes/Api/RestControllers/Library.php:483, ../includes/Api/RestControllers/Templates.php:531
 msgid "The template cannot be deleted."
-msgstr ""
-
-#: ../includes/Api/RestControllers/Library.php:533, ../includes/Api/RestControllers/Library.php:581, ../includes/Api/RestControllers/Templates.php:439, ../includes/Api/RestControllers/Templates.php:495, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:576, ../includes/Api/RestControllers/Templates.php:599, ../includes/Api/RestControllers/Templates.php:704, ../includes/Library/Sources/LocalSource.php:69, ../includes/Library/Sources/LocalSource.php:137
-msgid "Your post id could not be found!"
 msgstr ""
 
 #: ../includes/Api/RestControllers/Pages.php:110
