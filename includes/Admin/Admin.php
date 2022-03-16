@@ -174,10 +174,10 @@ class Admin {
 				'znpb-admin-post-script',
 				'ZnPbEditPostData',
 				[
-					// Set multidimension to prevent WP casting to strings
+					// Set multi dimension to prevent WP casting to strings
 					'data' => [
 						'post_id'           => $post->ID,
-						'is_editor_enabled' => $post_instance->is_built_with_zion(),
+						'is_editor_enabled' => $post_instance && $post_instance->is_built_with_zion(),
 						'l10n'              => [
 							'wp_heartbeat_disabled' => esc_html__( 'WordPress Heartbeat is disabled. Zion builder requires it in order to function properly', 'zionbuilder' ),
 						],
@@ -305,7 +305,7 @@ class Admin {
 
 
 	/**
-	 * Adds the render with pagebuilder action to the inline actions
+	 * Adds the render with page builder action to the inline actions
 	 *
 	 * @access public
 	 *
@@ -349,7 +349,7 @@ class Admin {
 			return;
 		}
 
-		// Get the post or autosave status for editor
+		// Get the post or auto-save status for editor
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 		$editor_status = $post_instance->is_built_with_zion() ? 'active' : 'inactive';
 
@@ -384,7 +384,7 @@ class Admin {
 			return;
 		}
 
-		// Get the post or autosave status for editor
+		// Get the post or auto-save status for editor
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 		?>
 			<div class="znpb-admin-post__edit-block">

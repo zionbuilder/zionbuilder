@@ -56,15 +56,18 @@
 		"ABSPATH",
 		"barebone",
 		"composables",
+		"dashicons",
 		"DELETABLE",
 		"Iframe",
 		"noindex",
 		"opentype",
+		"pagenow",
 		"phpcs",
 		"Schd",
 		"Shortcode",
 		"tmce",
 		"trailingslashit",
+		"Whitelabel",
 		"zionbuilder",
 		"znpb"
 	]
