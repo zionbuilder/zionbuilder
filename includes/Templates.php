@@ -36,7 +36,7 @@ class Templates {
 
 		add_action( 'init', [ $this, 'init' ] );
 
-		// Prevent search engines from indexing templates and prevent unauthorized users from seing the templates
+		// Prevent search engines from indexing templates and prevent unauthorized users from seeing the templates
 		add_action( 'template_redirect', [ $this, 'on_template_redirect' ] );
 		add_action( 'wp_head', [ $this, 'on_wp_head' ] );
 	}
@@ -71,9 +71,9 @@ class Templates {
 	 */
 	public function remove_post_type_from_data_sets( $post_types ) {
 		$post_type_index = null;
-		foreach ( $post_types as $key => $post_type ) {
+		foreach ( $post_types as  $key => $post_type ) {
 			if ( $post_type['id'] === self::TEMPLATE_POST_TYPE ) {
-				$post_type_index = $key;
+				$post_type_index = (int) $key;
 				break;
 			}
 		}
@@ -88,7 +88,7 @@ class Templates {
 	/**
 	 * Add post type for builder
 	 *
-	 * Enables the templates to use the pagebuilder
+	 * Enables the templates to use the page builder
 	 *
 	 * @param array $post_types The post types that are already registered
 	 *
@@ -273,6 +273,9 @@ class Templates {
 	 * Returns a list of templates
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param array $args
+	 *
 	 * @return array The template list as WP_Post
 	 */
 	public function get_templates( $args = [] ) {
@@ -315,7 +318,7 @@ class Templates {
 
 		$post_id = wp_insert_post( $template_args, true );
 
-		// Check to see if the post was succesfully created
+		// Check to see if the post was successfully created
 		if ( is_wp_error( $post_id ) ) {
 			return $post_id;
 		}
@@ -325,6 +328,10 @@ class Templates {
 
 		// Get an instance of the template
 		$template_instance = Plugin::$instance->post_manager->get_post_instance( $post_id );
+
+		if ( ! $template_instance ) {
+			return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
+		}
 
 		// Set template data
 		if ( ! empty( $template_config['template_data'] ) ) {
@@ -337,7 +344,7 @@ class Templates {
 	}
 
 	/**
-	 * Prevent unauthorized users from seing the templates
+	 * Prevent unauthorized users from seeing the templates
 	 *
 	 * @return void
 	 */

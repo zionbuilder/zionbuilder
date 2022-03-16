@@ -44,7 +44,6 @@ class Responsive {
 				'name'      => __( 'Desktop', 'zionbuilder' ),
 				'id'        => 'default',
 				'icon'      => 'desktop',
-				'icon'      => 'desktop',
 				'builtIn'   => true,
 				'isDefault' => true,
 			],

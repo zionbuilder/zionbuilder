@@ -52,11 +52,13 @@
 	},
 	"editor.formatOnSave": true,
 	"cSpell.words": [
+		"absint",
 		"ABSPATH",
 		"barebone",
 		"composables",
 		"DELETABLE",
 		"Iframe",
+		"noindex",
 		"opentype",
 		"phpcs",
 		"Schd",

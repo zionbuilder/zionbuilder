@@ -68,7 +68,7 @@ class Permissions {
 	/**
 	 * Allowed Post Type
 	 *
-	 * Check if the current post type should have the pagebuilder activated or not
+	 * Check if the current post type should have the page builder activated or not
 	 *
 	 * @since 1.0.0
 	 *
@@ -108,7 +108,7 @@ class Permissions {
 		$current_user = wp_get_current_user();
 		$user_roles   = (array) $current_user->roles;
 
-		// Check if the user has access to the pagebuilder
+		// Check if the user has access to the page builder
 		foreach ( $user_roles as $role_id ) {
 			if ( isset( $permissions[$role_id]['allowed_access'] ) && $permissions[$role_id]['allowed_access'] ) {
 				$current_user_can_edit = true;
@@ -138,6 +138,10 @@ class Permissions {
 		$post_id   = absint( $post_id );
 		$post_type = get_post_type( $post_id );
 
+		if ( false === $post_type ) {
+			return false;
+		}
+
 		// Check permissions
 		$can_edit_post_type = self::allowed_post_type( $post_type );
 		$user_can_edit      = self::user_allowed_edit();
@@ -153,7 +157,7 @@ class Permissions {
 	 *
 	 * @param string $permission
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public static function current_user_can( $permission ) {
 		$user_can = false;
