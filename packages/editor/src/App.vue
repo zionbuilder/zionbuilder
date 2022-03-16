@@ -2,8 +2,11 @@
 	<div
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
+		:class="{
+			[`znpb-responsiveDevice--${activeResponsiveDeviceId}`]: activeResponsiveDeviceId
+		}"
 	>
-		<transition :name="showEditorTransition">
+		<transition name="slide-from-left">
 			<div
 				:style="showEditorButtonStyle"
 				class="znpb-editor-layout__preview-buttons"
@@ -37,6 +40,7 @@
 						placement="bottom"
 						:close-on-outside-click="true"
 					>
+
 						<!-- @show="openResponsive"
 						@hide="closeresponsive" -->
 						<template v-slot:content>
@@ -45,6 +49,9 @@
 								:key='index'
 								@click="activateDevice(device)"
 								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+								:class="{
+									'znpb-has-responsive-options__icon-button--active': activeResponsiveDeviceId === device.id
+								}"
 								ref="dropdown"
 							>
 								<Icon :icon="device.icon" />
@@ -54,8 +61,64 @@
 				</div>
 			</div>
 		</transition>
-		<!-- top area -->
-		<div class="znpb-top-area" />
+
+		<div
+			class="znpb-panels-wrapper"
+			:class="{
+				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position
+			}"
+		>
+			<div
+				v-if="mainBar.isDragging"
+				class="znpb-main-wrapper--mainBarPlaceholder"
+				:class="{
+				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition
+			}"
+			>
+				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
+			</div>
+
+			<mainPanel />
+
+			<!-- center area -->
+			<div class="znpb-center-area">
+				<div
+					id="znpb-panel-placeholder"
+					v-if="panelPlaceholder.visibility"
+					:style="{'left':panelPlaceholder.left + 'px'}"
+				>
+					<div class="znpb-panel-placeholder"></div>
+				</div>
+
+				<!-- Start panels -->
+				<component
+					v-for="panel in openPanels"
+					:is="panel.component"
+					:key="panel.id"
+					:panel="panel"
+					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
+				/>
+
+			</div>
+			<!-- end center area -->
+
+		</div>
+
+		<div
+			class="znpb-loading-wrapper-gif"
+			v-if="isPreviewLoading"
+		>
+			<img :src="urls.loader" />
+			<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
+		</div>
+
+		<!-- Add Elements Popup -->
+		<AddElementPopup />
+		<ElementMenu />
+		<SaveElementModal />
+		<PostLock />
+
+		<PanelLibraryModal />
 
 		<!-- notices -->
 		<Notice
@@ -65,67 +128,23 @@
 			:error="error"
 		/>
 
-		<!-- center area -->
-		<div class="znpb-center-area">
-			<div
-				id="znpb-panel-placeholder"
-				v-if="panelPlaceholder.visibility"
-				:style="{'left':panelPlaceholder.left + 'px'}"
-			>
-				<div class="znpb-panel-placeholder"></div>
-			</div>
-			<transition
-				:name="panelPreviewTransition"
-				@after-leave="onAfterLeave"
-				@after-enter="onAfterEnter"
-			>
-				<!-- start left area -->
-				<mainPanel v-show="!isPreviewMode" />
-			</transition>
-			<!-- Start panels -->
-
-			<template v-if="!isPreviewMode">
-				<component
-					v-for="panel in openPanels"
-					:is="panel.id"
-					:key="panel.id"
-					:panel="panel"
-					:show-move="false"
-					@show-helper="showPlaceholderHelper=$event"
-				/>
-			</template>
-
-			<!-- iframe wrapper area -->
-			<PreviewIframe />
-			<div
-				class="znpb-loading-wrapper-gif"
-				v-if="isPreviewLoading"
-			>
-				<img :src="urls.loader" />
-				<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
-			</div>
-
-			<PostLock />
-
-			<!-- right area -->
-			<div class="znpb-right-area" />
-
+		<div
+			v-if="mainBar.isDragging"
+			class="znpb-editor-header__helper"
+			:style="mainBarDraggingPlaceholderStyles"
+		>
+			<Icon
+				icon="more"
+				rotate="90"
+			/>
 		</div>
-		<!-- end center area -->
-
-		<!-- bottom area -->
-		<div class="znpb-bottom-area " />
-
-		<!-- Add Elements Popup -->
-		<AddElementPopup />
-		<ElementMenu />
 	</div>
 	<!-- end znpb-main-wrapper -->
 
 </template>
 
 <script>
-import { provide } from 'vue'
+import { provide, computed } from 'vue'
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue'
@@ -136,10 +155,12 @@ import MainPanel from './components/main-panel.vue'
 import PreviewIframe from './components/PreviewIframe.vue'
 import PanelElementOptions from './components/PanelElementOptions.vue'
 import PostLock from './components/PostLock.vue'
-import DeviceElement from './components/DeviceElement.vue'
+import SaveElementModal from './components/SaveElementModal.vue'
+
+// Composables
 import { AddElementPopup } from './components/AddElementPopup'
 import { ElementMenu } from './components/ElementMenu'
-import { usePanels, usePreviewMode, useElementActions, useKeyBindings, usePreviewLoading, useEditorInteractions, useEditorData, useDemoMode } from '@composables'
+import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from '@composables'
 import { useResponsiveDevices } from '@zb/components'
 import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
 
@@ -159,22 +180,28 @@ export default {
 		PanelGlobalSettings,
 		PanelElementOptions,
 		PostLock,
-		DeviceElement,
 		AddElementPopup,
-		ElementMenu
+		ElementMenu,
+		SaveElementModal
 	},
 	setup (props) {
-		const { isDemoMode } = useDemoMode()
 		const { fetchOptions } = useBuilderOptions()
 		const { notifications } = useNotifications()
-		const { openPanels, panelPlaceholder } = usePanels()
-		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices()
+		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI()
+		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
 		const { isPreviewMode, setPreviewMode } = usePreviewMode()
-		const { focusedElement, unFocusElement } = useElementActions()
 		const { applyShortcuts } = useKeyBindings()
 		const { isPreviewLoading } = usePreviewLoading()
-		const { getMainbarPosition } = useEditorInteractions()
 		const { editorData } = useEditorData()
+
+		const mainBarDraggingPlaceholderStyles = computed(() => {
+			return {
+				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`
+			}
+		})
+
+		// General functionality
+		useAutosave()
 
 		// Fetch the builder options
 		fetchOptions()
@@ -188,6 +215,9 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info)
 
 		return {
+			// Computed
+			mainBarDraggingPlaceholderStyles,
+			activeResponsiveDeviceId,
 			notifications,
 			panelPlaceholder,
 			openPanels,
@@ -196,12 +226,10 @@ export default {
 			setActiveResponsiveDeviceId,
 			isPreviewMode,
 			setPreviewMode,
-			focusedElement,
 			applyShortcuts,
 			isPreviewLoading,
-			getMainbarPosition,
-			urls: editorData.value.urls,
-			isDemoMode
+			mainBar,
+			urls: editorData.value.urls
 		}
 	},
 	data: () => {
@@ -210,33 +238,14 @@ export default {
 		}
 	},
 	computed: {
-		showEditorTransition: function () {
-			if (this.getMainbarPosition() === 'left') {
-				return 'slide-from-right'
-			}
-			if (this.getMainbarPosition() === 'right') {
-				return 'slide-from-left'
-			}
-			return 'slide-from-right'
-		},
-		panelPreviewTransition: function () {
-			return `znpb-main-panel--out--position-${this.getMainbarPosition()}`
-		},
 		showEditorButtonStyle () {
-			const mainBarPosition = this.getMainbarPosition()
 			let buttonStyle
-			if (mainBarPosition === 'right') {
-				buttonStyle = {
-					right: '30px',
-					top: '30px;'
-				}
+
+			buttonStyle = {
+				left: '30px',
+				top: '30px'
 			}
-			if (mainBarPosition === 'left') {
-				buttonStyle = {
-					left: '30px',
-					top: '30px'
-				}
-			}
+
 			return buttonStyle
 		}
 	},
@@ -253,39 +262,16 @@ export default {
 		showDevices () {
 			this.devicesVisible = !this.devicesVisible
 		},
-		deselectActiveElement () {
-			// Don't deselect the element if an element was just activated
-			// TODO: implement this
-			// if (!window.ZionBuilderApi.editor.ElementFocusMarshall.isHandled) {
-			// 	if (this.focusedElement.value) {
-			// 		this.unFocusElement()
-			// 	}
-		},
-		onAfterLeave () {
-			const el = document.querySelector('iframe')
-			el.style.transform = 'translateZ(0)'
-		},
-		onAfterEnter () {
-			const el = document.querySelector('iframe')
-			el.style.transform = null
-		}
 	},
 
 	beforeUnmount: function () {
 		// remove events
-		document.removeEventListener('click', this.deselectActiveElement)
 		document.removeEventListener('keydown', this.applyShortcuts)
 	},
 	mounted () {
 		const { add } = useNotifications()
 
-		document.addEventListener('click', this.deselectActiveElement)
 		document.addEventListener('keydown', this.applyShortcuts)
-
-		// Check for demo mode
-		if (this.isDemoMode) {
-			document.body.classList.add('zbpb-editor-demoMode')
-		}
 
 		add({
 			message: this.$translate('autosave_notice'),
@@ -311,16 +297,23 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			width: 42px;
-			height: 42px;
+			width: 36px;
+			height: 36px;
 			margin-bottom: 3px;
 			color: var(--zb-surface-text-color);
 			background: var(--zb-surface-color);
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
+			transition: all .15s;
+
+			&:hover {
+				color: var(--zb-surface-text-hover-color);
+				background-color: var(--zb-surface-lighter-color);
+			}
+
 			.znpb-editor-icon-wrapper {
-				font-size: 16px;
+				font-size: 14px;
 			}
 		}
 
@@ -357,10 +350,13 @@ export default {
 		height: 100%;
 	}
 }
-.znpb-left-area,
-.znpb-top-area,
-.znpb-bottom-area,
-.znpb-right-area {
+
+.znpb-has-responsive-options__icon-button--active {
+	color: var(--zb-dropdown-text-active-color);
+	background-color: var(--zb-dropdown-bg-active-color);
+}
+
+.znpb-left-area, .znpb-top-area, .znpb-bottom-area, .znpb-right-area {
 	display: flex;
 }
 
@@ -379,8 +375,11 @@ export default {
 	overflow: hidden;
 }
 
-#znpb-html-app,
-#znpb-html-app body {
+#znpb-html-app {
+	overflow: hidden;
+}
+
+#znpb-html-app, #znpb-html-app body {
 	width: 100%;
 	height: 100%;
 	margin: 0 !important;
@@ -393,8 +392,11 @@ export default {
 }
 
 .znpb-center-area {
+	position: relative;
 	display: flex;
-	height: 100%;
+	flex: 1 1 auto;
+	min-height: 1px;
+	min-width: 0;
 }
 
 .znpb-editor-header.main-panel-animation {
@@ -437,24 +439,6 @@ export default {
 	opacity: 0;
 }
 
-.znpb-main-panel {
-	&--out {
-		&--position-left {
-			&-enter,
-			&-leave-to {
-				margin-left: -60px;
-			}
-		}
-
-		&--position-right {
-			&-enter,
-			&-leave-to {
-				margin-right: -60px;
-			}
-		}
-	}
-}
-
 /* General styles */
 body {
 	padding: 0;
@@ -472,7 +456,6 @@ body {
 	align-items: center;
 	order: 2;
 	width: 100%;
-	width: 100%;
 	height: 100%;
 	background: #fff;
 
@@ -488,11 +471,12 @@ body {
 	}
 }
 #znpb-panel-placeholder {
-	position: absolute;
-	width: 5px;
+	position: fixed;
+	z-index: 99;
+	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);
-	opacity: 0.6;
+	opacity: .5;
 }
 .znpb-panel-placeholder {
 	width: 100%;
@@ -524,6 +508,17 @@ body {
 				pointer-events: none !important;
 			}
 		}
+	}
+}
+
+.znpb-panels-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex: 1 1 100%;
+	height: 100vh;
+
+	&.znpb-editorHeaderPosition--top, &.znpb-editorHeaderPosition--bottom {
+		flex-direction: column;
 	}
 }
 </style>

@@ -15,6 +15,12 @@ use ZionBuilder\FontsManager\FontsManager;
 use ZionBuilder\Api\RestApi;
 use ZionBuilder\Upgrade\Upgrader;
 use ZionBuilder\MaintenanceMode;
+use ZionBuilder\CustomCode;
+use ZionBuilder\Screenshot;
+use ZionBuilder\Library\Library;
+use ZionBuilder\Templates;
+use ZionBuilder\Performance;
+use ZionBuilder\Responsive;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -148,14 +154,7 @@ class Plugin {
 	 * @see Plugin::init()
 	 */
 	public $page_templates = null;
-	/**
-	 * Holds the reference to the instance of the \ZionBuilder\Templates class
-	 *
-	 * @var Templates
-	 *
-	 * @see Plugin::init()
-	 */
-	public $templates = null;
+
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\Api\RestApi class
 	 *
@@ -203,9 +202,27 @@ class Plugin {
 
 
 	/**
+	 * Holds the reference to the instance of the \ZionBuilder\Icons class
+	 *
+	 * @var Library
+	 *
+	 * @see Plugin::init()
+	 */
+	public $library = null;
+
+	/**
+	 * Holds the reference to the instance of the \ZionBuilder\Icons class
+	 *
+	 * @var Templates
+	 *
+	 * @see Plugin::init()
+	 */
+	public $templates = null;
+
+	/**
 	 * Main class init
 	 *
-	 * Will hook into WP actions to add the plugin functioanlity
+	 * Will hook into WP actions to add the plugin functionality
 	 *
 	 * @return void
 	 */
@@ -216,6 +233,7 @@ class Plugin {
 
 		// initiate permissions
 		$this->whitelabel       = new Whitelabel();
+		$this->cache            = new Cache();
 		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
 		$this->permissions      = new Permissions();
@@ -225,12 +243,12 @@ class Plugin {
 		$this->admin            = new Admin();
 		$this->editor           = new Editor();
 		$this->frontend         = new Frontend();
-		$this->cache            = new Cache();
 		$this->page_templates   = new PageTemplates();
-		$this->templates        = new Templates();
 		$this->api              = new RestApi();
 		$this->import_export    = new ImportExport();
 		$this->icons            = new Icons();
+		$this->templates        = new Templates();
+		$this->library          = new Library();
 
 		new Shortcodes();
 		new CommonJS();
@@ -239,6 +257,10 @@ class Plugin {
 		new Upgrader();
 		new BulkActionsData();
 		new MaintenanceMode();
+		new CustomCode();
+		new Screenshot();
+		new Performance();
+		new Responsive();
 
 		/*
 		 * ZionBuilder loaded.

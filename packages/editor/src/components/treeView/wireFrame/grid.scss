@@ -1,0 +1,88 @@
+@use "sass:math";
+$columns: 12;
+
+/**
+	COLUMNS
+*/
+@mixin generate-column($size, $columns: 12) {
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: 100%;
+	max-width: percentage(math.div($size, $columns));
+}
+
+@mixin generate-offset($size, $columns: 12) {
+	@if $size==0 {
+		margin-left: 0;
+	}
+
+	@else {
+		margin-left: percentage(math.div($size, $columns));
+	}
+}
+
+@mixin generate-offsets($offset: "") {
+	@for $size from 0 through ($columns - 1) {
+		// $suffix: md;
+		.zb-column-offset#{$offset}--#{$size} {
+			@include generate-offset($size);
+		}
+	}
+}
+
+@mixin generate-columns() {
+	@include generate-offsets();
+
+	// generate-column
+	@for $size from 1 through $columns {
+		.zb-column--#{$size} {
+			@include generate-column($size);
+		}
+	}
+
+	.zb-column--1of5 {
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: 20%;
+	}
+}
+
+.zb {
+	// Sections
+	&-section {
+		position: relative;
+		display: flex;
+		justify-content: center;
+
+		&__innerWrapper {
+			position: relative;
+			display: flex;
+			flex-wrap: wrap;
+			flex: var(--zb-section-flex, 1 1 auto);
+			width: var(--zb-section-width, 100%);
+			max-width: var(--zb-section-max-width, 1120px);
+		}
+	}
+
+	/**
+	 * Columns
+	 */
+	&-column {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		max-width: 100%;
+		min-height: 1px;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+}
+
+@include generate-columns();
+
+.zb-el-container {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+}

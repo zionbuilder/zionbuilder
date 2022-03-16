@@ -104,6 +104,6 @@ class Text extends Element {
 	 * @return void
 	 */
 	public function render( $options ) {
-		echo wp_kses_post( $options->get_value( 'content' ) );
+		echo $options->get_value( 'content' ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
 }

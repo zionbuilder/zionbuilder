@@ -712,14 +712,13 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
-		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
-
 		/**
 		 * Allows you to create a different renderer
 		 */
 		$custom_renderer = apply_filters( 'zionbuilder/renderer/custom_renderer', null, $this );
 		if ( $custom_renderer ) {
 			$custom_renderer->render_element( $extra_render_data, $this );
+
 		} else {
 			$this->do_element_render( $extra_render_data );
 		}
@@ -770,6 +769,7 @@ class Element {
 		$this->extra_render_data = $extra_render_data;
 
 		$this->before_render( $this->options );
+		do_action( 'zionbuilder/element/before_render', $this, $extra_render_data );
 
 		$element_type_css_class = Utils::camel_case( $this->get_type() );
 
@@ -1019,7 +1019,7 @@ class Element {
 			return false;
 		}
 
-		return true;
+		return apply_filters( 'zionbuilder/element/can_render', true, $this );
 	}
 
 	/**
@@ -1044,7 +1044,8 @@ class Element {
 	 * @return string
 	 */
 	public function get_element_css_id() {
-		return $this->options->get_value( '_advanced_options._element_id', $this->get_uid() );
+		$options = $this->options->get_model();
+		return isset( $options['_advanced_options']['_element_id'] ) ? $options['_advanced_options']['_element_id'] : $this->get_uid();
 	}
 
 	/**
@@ -1078,8 +1079,8 @@ class Element {
 
 	public function do_enqueue_scripts() {
 		// Check for animation
-		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
-		if ( ! empty( $appear_animation ) ) {
+		$options = $this->options->get_model();
+		if ( isset( $options['_advanced_options']['_appear_animation'] ) && ! empty( $options['_advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_script( 'zionbuilder-animatejs' );
 		}
 
@@ -1098,8 +1099,8 @@ class Element {
 
 	public function do_enqueue_styles() {
 		// Check for animation
-		$appear_animation = $this->options->get_value( '_advanced_options._appear_animation', false );
-		if ( ! empty( $appear_animation ) ) {
+		$options = $this->options->get_model();
+		if ( isset( $options['_advanced_options']['_appear_animation'] ) && ! empty( $options['_advanced_options']['_appear_animation'] ) ) {
 			wp_enqueue_style( 'zion-frontend-animations' );
 		}
 

@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue'
 import { saveOptions, getSavedOptions } from '@zb/rest'
-import { get, update } from 'lodash-es'
+import { get, update, unset, cloneDeep, debounce } from 'lodash-es'
 
 const isLoading: Ref<boolean> = ref(false)
 const fetchedOptions = ref(false)
@@ -53,6 +53,16 @@ export const useBuilderOptions = () => {
 
 	const updateOptionValue = (path: string, newValue: any, saveOptions = true) => {
 		update(options.value, path, () => newValue)
+
+		if (saveOptions) {
+			saveOptionsToDB()
+		}
+	}
+
+	const deleteOptionValue = (path: string, saveOptions = true) => {
+		const clonedValues = cloneDeep(options.value)
+		unset(clonedValues, path)
+		options.value = clonedValues
 
 		if (saveOptions) {
 			saveOptionsToDB()
@@ -297,12 +307,14 @@ export const useBuilderOptions = () => {
 		saveOptionsToDB()
 	}
 
+	const debouncedSaveOptions = debounce(saveOptionsToDB, 700)
 
 	return {
 		fetchOptions,
 		getOptionValue,
 		updateOptionValue,
 		saveOptionsToDB,
+		deleteOptionValue,
 
 		// Google fonts
 		addGoogleFont,
@@ -345,6 +357,7 @@ export const useBuilderOptions = () => {
 
 		// General
 		options,
-		isLoading
+		isLoading,
+		debouncedSaveOptions
 	}
 }

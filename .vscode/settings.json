@@ -4,8 +4,6 @@
 	"editor.snippetSuggestions": "top",
 	"editor.detectIndentation": false,
 	"editor.renderWhitespace": "all",
-	"vetur.format.defaultFormatter.js": "vscode-typescript",
-	"vetur.format.defaultFormatter.html": "js-beautify-html",
 	"javascript.format.insertSpaceBeforeFunctionParenthesis": true,
 	"eslint.validate": [
 		"javascript",
@@ -15,15 +13,14 @@
 	"search.exclude": {
 		"**/node_modules": true,
 		"**/bower_components": true,
+		"**/vendor": true,
 		"**/dist": true,
 		"**/.cache": true,
-		"**/*.map": true
+		"**/*.map": true,
 	},
 	"search.useIgnoreFiles": false,
 	"scss.lint.duplicateProperties": "error",
-	"workbench.editor.highlightModifiedTabs": true,
 	"files.trimTrailingWhitespace": true,
-	"trailing-spaces.trimOnSave": true,
 	"vueStyle.formatOnSave": true,
 	"vueStyle.preset": {
 		"remove-empty-rulesets": true,
@@ -50,10 +47,25 @@
 		"unitless-zero": true,
 		"vendor-prefix-align": true
 	},
-	"vetur.format.options.tabSize": 4,
-	"vetur.format.options.useTabs": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": true
 	},
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"cSpell.words": [
+		"absint",
+		"ABSPATH",
+		"barebone",
+		"composables",
+		"DELETABLE",
+		"Iframe",
+		"noindex",
+		"opentype",
+		"phpcs",
+		"Schd",
+		"Shortcode",
+		"tmce",
+		"trailingslashit",
+		"zionbuilder",
+		"znpb"
+	]
 }

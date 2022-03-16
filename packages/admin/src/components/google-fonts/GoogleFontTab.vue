@@ -199,6 +199,10 @@ export default {
 		}
 	}
 
+	&-variants {
+		max-width: 0;
+	}
+
 	&-title, &-variants, &-subset {
 		@media (max-width: 767px) {
 			margin-bottom: 10px;

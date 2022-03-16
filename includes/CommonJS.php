@@ -39,6 +39,7 @@ class CommonJS {
 			'zb-components',
 			'css/components.css',
 			[
+				'wp-codemirror',
 				'media-views',
 			],
 			Plugin::instance()->get_version()
@@ -110,6 +111,7 @@ class CommonJS {
 			'zb-components',
 			'js/components.js',
 			[
+				'wp-codemirror',
 				'zb-vue',
 				'zb-i18n',
 				'zb-hooks',
@@ -135,6 +137,7 @@ class CommonJS {
 						'shadow'           => Shadow::get_schema(),
 					]
 				),
+				'breakpoints'   => Responsive::get_breakpoints(),
 				'is_pro_active' => Utils::is_pro_active(),
 			]
 		);

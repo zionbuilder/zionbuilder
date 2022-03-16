@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder\Post
  */
 class BasePostType {
-
 	/**
 	 * Holds a reference to the meta key where we store the page template data
 	 */
@@ -184,8 +183,11 @@ class BasePostType {
 			return $this->post_elements_data[$post_id];
 		}
 
-		$template_data                      = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
-		$this->post_elements_data[$post_id] = json_decode( $template_data, true );
+		$template_data = get_post_meta( $post_id, self::PAGE_TEMPLATE_META_KEY, true );
+		$template_data = json_decode( $template_data, true );
+		$template_data = ! empty( $template_data ) ? $template_data : [];
+
+		$this->post_elements_data[$post_id] = $template_data;
 
 		return apply_filters( 'zionbuilder/post/get_template_data', $this->post_elements_data[$post_id], $post_id );
 	}
@@ -269,7 +271,13 @@ class BasePostType {
 	 * @return string
 	 */
 	public function get_preview_url() {
-		$url = get_preview_post_link( $this->post_id );
+		$url = get_preview_post_link(
+			$this->post_id,
+			[
+				'preview_id'    => $this->post_id,
+				'preview_nonce' => wp_create_nonce( 'post_preview_' . $this->post_id ),
+			]
+		);
 
 		/*
 		 * Page preview URL.
@@ -562,6 +570,14 @@ class BasePostType {
 		return Plugin::$instance->post_manager->get_post_instance( $post_autosave_id );
 	}
 
+	/**
+	 * Returns data that will be used from REST API
+	 *
+	 * @return array
+	 */
+	public function get_data_for_api() {
+		return [];
+	}
 
 	/**
 	 * Copies the values from the current post id to the given post id

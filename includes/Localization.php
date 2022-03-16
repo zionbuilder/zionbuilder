@@ -52,7 +52,7 @@ class Localization {
 				'ajax_error'                               => esc_html__( 'There was a problem retrieving the templates', 'zionbuilder' ),
 				'templates_not_found'                      => esc_html__( 'No templates found.', 'zionbuilder' ),
 				'preview'                                  => esc_html__( 'preview', 'zionbuilder' ),
-				'view_post'                                => esc_html__( 'View post', 'zionbuilder' ),
+				'view_post'                                => esc_html__( 'Preview post', 'zionbuilder' ),
 				'upgrade_to_pro_now'                       => esc_html__( 'Upgrade to PRO now!', 'zionbuilder' ),
 				'pro'                                      => esc_html__( 'pro', 'zionbuilder' ),
 				'documentation'                            => esc_html__( 'Documentation', 'zionbuilder' ),
@@ -154,6 +154,7 @@ class Localization {
 				'save'                                     => esc_html__( 'Save', 'zionbuilder' ),
 				'font_weight'                              => esc_html__( 'Font Weight', 'zionbuilder' ),
 				'woff_file'                                => esc_html__( '.woff file', 'zionbuilder' ),
+				'woff2_file'                               => esc_html__( '.woff2 file', 'zionbuilder' ),
 				'ttf_file'                                 => esc_html__( '.ttf file', 'zionbuilder' ),
 				'svg_file'                                 => esc_html__( '.svg file', 'zionbuilder' ),
 				'eot_file'                                 => esc_html__( '.eot file', 'zionbuilder' ),
@@ -232,8 +233,6 @@ class Localization {
 				'save_to_library'                          => __( 'Save to library', 'zionbuilder' ),
 				'choose_title'                             => __( 'Choose a title', 'zionbuilder' ),
 				'save_title_desc'                          => __( 'Write a suggestive name for your element', 'zionbuilder' ),
-				'add_to_categ'                             => __( 'Add it to a category', 'zionbuilder' ),
-				'add_to_categ_desc'                        => __( 'Select a category from the library, or simply create a new category', 'zionbuilder' ),
 				'create'                                   => __( 'Create', 'zionbuilder' ),
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name
@@ -250,6 +249,11 @@ class Localization {
 				'section_view'                             => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                           => __( 'Wireframe', 'zionbuilder' ),
 				'editable_name'                            => __( 'editable name', 'zionbuilder' ),
+				'collapse_all'                             => __( 'Collapse all', 'zionbuilder' ),
+				'expand_all'                               => __( 'Expand all', 'zionbuilder' ),
+				'remove_all'                               => __( 'Remove all', 'zionbuilder' ),
+				'removed_all_elements'                     => __( 'Removed all elements', 'zionbuilder' ),
+
 				//Save actions
 				'page_saved_publish'                       => __( 'This page was successfully saved and published', 'zionbuilder' ),
 				'page_saved'                               => __( 'This page was successfully saved', 'zionbuilder' ),
@@ -574,10 +578,12 @@ class Localization {
 				'delete_permissions_for_user'              => __( 'Delete permissions for this user', 'zionbuilder' ),
 
 				// single-template
-				'edit_template'                            => __( 'Click to edit this template', 'zionbuilder' ),
-				'delete_template'                          => __( 'Click to delete this template', 'zionbuilder' ),
-				'export_template'                          => __( 'Click to export this template', 'zionbuilder' ),
-				'preview_template'                         => __( 'Click to preview this template', 'zionbuilder' ),
+				'edit_template'                            => __( 'Edit template', 'zionbuilder' ),
+				'delete_template'                          => __( 'Delete template', 'zionbuilder' ),
+				'export_template'                          => __( 'Export template', 'zionbuilder' ),
+				'preview_template'                         => __( 'Preview template', 'zionbuilder' ),
+				'copy_shortcode'                           => __( 'Copy shortcode', 'zionbuilder' ),
+				'regenerate_screenshot'                    => __( 'Regenerate screenshot', 'zionbuilder' ),
 
 				// device-element
 				'discard_changes_for'                      => __( 'Discard changes for', 'zionbuilder' ),
@@ -637,10 +643,10 @@ class Localization {
 					'%s ',
 					Whitelabel::get_title()
 				),
-				'back_to_wp_dashboard'                     => __( 'Back to WP Dashboard', 'zionbuilder' ),
+				'back_to_wp_dashboard'                     => __( 'Back to WP dashboard', 'zionbuilder' ),
 				'back_to_zion_dashboard'                   => sprintf(
 					/* translators: %s is the whitelabel plugin name */
-					_x( '%s  Dashboard', 'zionbuilder' ),
+					_x( '%s  dashboard', 'zionbuilder' ),
 					Whitelabel::get_title()
 				),
 				'save_template'                            => __( 'Save Template', 'zionbuilder' ),
@@ -661,6 +667,7 @@ class Localization {
 				'custom_font_name'                         => __( 'Choose custom font name', 'zionbuilder' ),
 				'custom_font_weight'                       => __( 'Set custom font weight', 'zionbuilder' ),
 				'custom_font_woff'                         => __( 'Select custom font woff file', 'zionbuilder' ),
+				'custom_font_woff2'                        => __( 'Select custom font woff2 file', 'zionbuilder' ),
 				'custom_font_ttf'                          => __( 'Select custom font ttf file', 'zionbuilder' ),
 				'custom_font_svg'                          => __( 'Select custom font svg file', 'zionbuilder' ),
 				'custom_font_eot'                          => __( 'Select custom font eot file', 'zionbuilder' ),
@@ -678,6 +685,7 @@ class Localization {
 				// Pricing Box
 				'featured'                                 => __( 'Featured', 'zionbuilder' ),
 				'moved'                                    => __( 'Moved', 'zionbuilder' ),
+				'copied'                                   => __( 'Copied', 'zionbuilder' ),
 
 				// Element
 				'invalid_element'                          => __( 'Invalid Element', 'zionbuilder' ),
@@ -701,10 +709,66 @@ class Localization {
 				// Misc
 				'no_items_found'                           => __( 'No items found', 'zionbuilder' ),
 				'search'                                   => __( 'Search', 'zionbuilder' ),
+				'search_or_add'                            => __( 'Search or add new', 'zionbuilder' ),
 				'page_options'                             => __( 'Page options', 'zionbuilder' ),
 				'delete_selector'                          => __( 'Delete selector', 'zionbuilder' ),
 				'are_you_sure_you_want_to_delete_selector' => __( 'Are you sure you want to delete the selector?', 'zionbuilder' ),
 				'cancel'                                   => __( 'Cancel', 'zionbuilder' ),
+				'yes_delete_elements'                      => __( 'Yes, delete elements', 'zionbuilder' ),
+				'are_you_sure_delete_elements'             => __( 'Are you sure you want to remove all elements from page?', 'zionbuilder' ),
+				'copy'                                     => __( 'Copy', 'zionbuilder' ),
+				'paste'                                    => __( 'Paste', 'zionbuilder' ),
+
+				// Global classes
+				'add_css_class'                            => __( 'Add CSS class', 'zionbuilder' ),
+				'selector_nice_name'                       => __( 'Selector nice name', 'zionbuilder' ),
+				'enter_a_name_for_this_selector'           => __( 'Enter a name for this selector', 'zionbuilder' ),
+				'add_child_selector'                       => __( 'Add child selector', 'zionbuilder' ),
+				'css_selector'                             => __( 'CSS selector', 'zionbuilder' ),
+				'enter_the_css_selector_you_want_to_style' => __( 'Enter the css selector you want to style', 'zionbuilder' ),
+				'my_selector'                              => __( '.my-selector', 'zionbuilder' ),
+				'class_nice_name'                          => __( 'CSS class nice name', 'zionbuilder' ),
+				'enter_the_class_nice_name'                => __( 'Enter a name that will help you recognize this CSS class', 'zionbuilder' ),
+				'css_class'                                => __( 'CSS class', 'zionbuilder' ),
+				'enter_class_name_without_dot'             => __( 'Enter the CSS class name without the leading dot', 'zionbuilder' ),
+				'css_class_placeholder'                    => __( 'my-class-name', 'zionbuilder' ),
+
+				// admin custom code
+				'custom_code'                              => __( 'Custom code', 'zionbuilder' ),
+
+				// Option margin-padding
+				'margin'                                   => __( 'Margin', 'zionbuilder' ),
+				'margin-top'                               => __( 'Margin top', 'zionbuilder' ),
+				'margin-right'                             => __( 'Margin right', 'zionbuilder' ),
+				'margin-bottom'                            => __( 'Margin bottom', 'zionbuilder' ),
+				'margin-left'                              => __( 'Margin left', 'zionbuilder' ),
+				'padding'                                  => __( 'Padding', 'zionbuilder' ),
+				'padding-top'                              => __( 'Padding top', 'zionbuilder' ),
+				'padding-right'                            => __( 'Padding right', 'zionbuilder' ),
+				'padding-bottom'                           => __( 'Padding bottom', 'zionbuilder' ),
+				'padding-left'                             => __( 'Padding left', 'zionbuilder' ),
+				'link'                                     => __( 'Link', 'zionbuilder' ),
+				'unlink'                                   => __( 'Unlink', 'zionbuilder' ),
+
+				// Library share
+				'library_share'                            => __( 'Library share', 'zionbuilder' ),
+				'share_library_upgrade_message'            => __( 'Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder' ),
+
+				// Performance admin page
+				'performance'                              => __( 'Performance', 'zionbuilder' ),
+
+				// Responsice devices
+				'all_devices'                              => __( 'all devices', 'zionbuilder' ),
+				'max'                                      => __( 'max', 'zionbuilder' ),
+				'edit_breakpoints'                         => __( 'Edit breakpoints', 'zionbuilder' ),
+				'disable_edit_breakpoints'                 => __( 'Disable edit breakpoints', 'zionbuilder' ),
+				'edit_breakpoint'                          => __( 'Edit breakpoint', 'zionbuilder' ),
+				'delete_breakpoint'                        => __( 'Delete breakpoint', 'zionbuilder' ),
+				'disable_autoscale'                        => __( 'Disable autoscale', 'zionbuilder' ),
+				'enable_autoscale'                         => __( 'Enable autoscale', 'zionbuilder' ),
+				'add_breakpoint'                           => __( 'Add breakpoint', 'zionbuilder' ),
+				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
+				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 			]
 		);
 	}

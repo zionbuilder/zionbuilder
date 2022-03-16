@@ -169,7 +169,12 @@ export default {
 					return acc[key]
 				}, newValues)
 			})
-			emit('update:modelValue', newValues)
+
+			if (Object.keys(newValues).length > 0) {
+				emit('update:modelValue', newValues)
+			} else {
+				emit('update:modelValue', null)
+			}
 		}
 
 		// Provide methods for child inputs

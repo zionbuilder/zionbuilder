@@ -58,7 +58,7 @@ class Heading extends Element {
 	 * @return string The element icon
 	 */
 	public function get_element_icon() {
-		return 'element-text';
+		return 'element-heading';
 	}
 
 	/**

@@ -4,7 +4,15 @@
 			class="znpb-pannel-accordion__header"
 			@click="toggle"
 		>
-			<p class="znpb-pannel-accordion__header-title">{{title}}</p>
+			<div class="znpb-pannel-accordion__header-title">
+				{{title}}
+				<ChangesBullet
+					v-if="hasChanges"
+					:content="$translate('discard_changes')"
+					@remove-styles="$emit('discard-changes')"
+				/>
+			</div>
+
 			<Icon
 				class="znpb-option-group-selector__clone-icon"
 				:icon=" this.expanded ? 'minus' : 'plus'"
@@ -35,6 +43,11 @@ export default {
 		collapsed: {
 			type: Boolean,
 			default: false
+		},
+		hasChanges: {
+			type: Boolean,
+			default: false,
+			required: false
 		}
 	},
 	data () {
@@ -80,12 +93,14 @@ export default {
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;
+		display: flex;
+		align-items: center;
 	}
 }
 
 .znpb-options-form-wrapper.znpb-option__type-option-accordion {
 	padding: 10px 0 0;
-	transition: all 0.3s ease-in-out;
+	transition: all .3s ease-in-out;
 	.znpb-input-type--dimensions {
 		padding-bottom: 10px;
 	}

@@ -8,6 +8,8 @@ const {
 	done
 } = require('../util')
 
+// const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
+
 module.exports = (options, args) => {
 	const service = process.ZIONBUILDER_SERVICE
 
@@ -19,7 +21,9 @@ module.exports = (options, args) => {
 
 		// Webpack
 		const configPath = service.resolve('webpack.config.js')
+		const appConfigPath = service.resolve('package.json')
 		const webpackConfig = require(configPath)
+		const appConfig = require(appConfigPath)
 
 		const applyDynamicPublicPathToEntries = function (entries) {
 			Object.keys(entries).forEach(entry => {
@@ -34,9 +38,30 @@ module.exports = (options, args) => {
 				...(config.plugins || []),
 				new DefinePlugin({
 					__ZIONBUILDER__: JSON.stringify({
-						appName: webpackConfig.name
+						appName: appConfig.name
 					})
-				})
+				}),
+				// new StatoscopeWebpackPlugin({
+				// 	reports: [{
+				// 		id: 'top-20-biggest-modules',
+				// 		name: 'Top 20 biggest modules',
+				// 		view: [
+				// 			'struct',
+				// 			{
+				// 				data: `#.stats.compilations.(
+				// 				$compilation: $;
+				// 				modules.({
+				// 				  module: $,
+				// 				  hash: $compilation.hash,
+				// 				  size: getModuleSize($compilation.hash)
+				// 				})
+				// 			  ).sort(size.size desc)`,
+				// 				view: 'list',
+				// 				item: 'module-item',
+				// 			},
+				// 		],
+				// 	}, ],
+				// })
 			]
 
 			config.optimization = {

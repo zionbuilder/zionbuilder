@@ -42,6 +42,7 @@ export default {
 	padding: 15px 37px;
 	color: var(--zb-secondary-text-color);
 	font-weight: 500;
+	font-size: 13px;
 	line-height: 1;
 	text-align: center;
 	background-color: var(--zb-secondary-color);

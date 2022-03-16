@@ -4,7 +4,6 @@ namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
-use ZionBuilder\Post\BasePostType;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {

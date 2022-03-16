@@ -5,6 +5,7 @@
 		v-model="optionValue"
 		v-bind="compiledSchema"
 		:title="schema.title"
+		@discard-changes="onDeleteOption"
 	>
 		<template v-if="schema.content">
 			{{schema.content}}
@@ -33,22 +34,12 @@
 				@remove-styles="onDeleteOption"
 			/>
 
-			<Tooltip
+			<Icon
+				icon="question-mark"
 				v-if="schema.description"
-				placement="top"
-				:enterable="false"
+				v-znpb-tooltip="schema.description"
 				class="znpb-popper-trigger znpb-popper-trigger--circle"
-				tooltip-class="znpb-form__input-description-tooltip"
-			>
-				<template #content>
-					<div>
-						{{schema.description}}
-					</div>
-				</template>
-
-				<Icon icon="question-mark" />
-
-			</Tooltip>
+			/>
 
 			<Tooltip
 				v-if="schema.pseudo_options"
@@ -94,7 +85,7 @@
 			>
 				<template #content>
 					<div
-						v-for="(device, index) in responsiveDevices"
+						v-for="(device, index) in builtInResponsiveDevices"
 						:key='index'
 						@click="activateDevice(device)"
 						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
@@ -231,7 +222,7 @@ export default {
 		const { getSchema } = useOptionsSchemas()
 		const {
 			activeResponsiveDeviceInfo,
-			responsiveDevices,
+			builtInResponsiveDevices,
 			setActiveResponsiveDeviceId,
 		} = useResponsiveDevices();
 		const activePseudo = ref(null)
@@ -287,7 +278,11 @@ export default {
 				...schema
 			} = props.schema
 
-			return schema
+			return {
+				...(optionTypeConfig.value.componentProps || {}),
+				...schema,
+				hasChanges: !!hasChanges.value
+			}
 		})
 
 		const savedOptionValue = computed(() => {
@@ -516,6 +511,21 @@ export default {
 				schema.dimensions.forEach((item) => {
 					ids.push(item.id);
 				});
+			} else if (
+				schema.type === "spacing"
+			) {
+				const spacingPositions = [
+					'margin-top',
+					'margin-right',
+					'margin-bottom',
+					'margin-left',
+					'padding-top',
+					'padding-right',
+					'padding-bottom',
+					'padding-left',
+				]
+
+				ids.push(...spacingPositions)
 			} else if (schema.type === "typography") {
 				const typographySchema = getSchema("typography")
 				Object.keys(typographySchema).forEach((optionId) => {
@@ -584,7 +594,7 @@ export default {
 			deleteTopModelValueByPath,
 			getSchema,
 			activeResponsiveDeviceInfo,
-			responsiveDevices,
+			builtInResponsiveDevices,
 			setActiveResponsiveDeviceId
 		}
 	}
@@ -624,13 +634,6 @@ export default {
 		display: flex;
 		align-items: flex-end;
 	}
-}
-
-.znpb-form__input-description-tooltip {
-	max-width: 200px;
-	padding: 5px 10px;
-	line-height: 1.7;
-	text-align: center;
 }
 
 .znpb-has-pseudo-options {

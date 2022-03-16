@@ -1,0 +1,12 @@
+.znpb-iframePlaceholderBG {
+	background-color: #c1c1c1;
+	background-image: url("./frame.svg");
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+body {
+	// Fix for collapsing margin
+	padding-top: 1px;
+	margin-top: -1px;
+}

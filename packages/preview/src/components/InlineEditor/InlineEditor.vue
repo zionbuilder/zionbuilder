@@ -415,8 +415,7 @@ export default {
 		display: flex;
 		align-items: center;
 	}
-	& > .znpb-editor-icon-wrapper,
-	& .zion-inline-editor-dragbutton .znpb-editor-icon-wrapper {
+	& > .znpb-editor-icon-wrapper, & .zion-inline-editor-dragbutton .znpb-editor-icon-wrapper {
 		padding: 10px 11px;
 	}
 	.zion-inline-editor-dragbutton {
@@ -443,7 +442,7 @@ export default {
 		display: flex;
 		margin: 0 1px;
 		border-radius: 2px;
-		transition: color 0.15s ease;
+		transition: color .15s ease;
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
@@ -494,7 +493,7 @@ export default {
 	cursor: text !important;
 
 	& *::selection {
-		background: rgba(133, 178, 232, 0.75);
+		background: rgba(133, 178, 232, .75);
 	}
 }
 

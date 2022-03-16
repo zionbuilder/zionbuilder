@@ -19,17 +19,14 @@ export default {
 
 <style lang="scss">
 .zion-editor__sortable-helper {
-	width: 40px;
-	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
 	font-size: 14px;
-	background-color: var(--zb-element-color);
+	background-color: var(--zb-secondary-color);
 	border-radius: 50%;
 	cursor: none;
-}
-.zb-column + .zion-editor__sortable-helper {
-	background-color: var(--zb-column-color);
-}
-.zb-section + .zion-editor__sortable-helper {
-	background-color: var(--zb-section-color);
 }
 </style>

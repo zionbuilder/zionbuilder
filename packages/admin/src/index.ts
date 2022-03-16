@@ -5,6 +5,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import api from './api'
 import { initRoutes } from './router'
+import { useLibrary } from '@zionbuilder/composables'
 
 // Main
 import App from './App.vue'
@@ -20,6 +21,10 @@ import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
 
 // Exports
 export * from '@zionbuilder/composables'
+
+const { addSources } = useLibrary()
+addSources(window.ZnPbAdminPageData.template_sources)
+
 
 const appInstance = createApp(App)
 

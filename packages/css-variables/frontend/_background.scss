@@ -3,49 +3,57 @@
 		&[data-position="center"] {
 			text-align: center;
 		}
+
 		&[data-position="right"] {
 			text-align: right;
 		}
+
 		&[data-position="left"] {
 			text-align: left;
 		}
 	}
 
 	&__controls-button {
-		&--play, &--mute {
-			&:before {
-				@include zion-font;
-			}
+
+		& svg {
+			margin-right: .2em;
+			margin-left: .2em;
+			display: inline-block;
 		}
-		&--play {
-			&:before {
-				content: "\e801";
-			}
+
+		.hg-video-bg__controls-button--svg-pause {
+			display: none;
 		}
-		&--mute {
-			&:before {
-				content: "\e803";
-			}
+
+		.hg-video-bg__controls-button--svg-mute {
+			display: none;
 		}
 	}
 
 	&--muted {
-		.hg-video-bg__controls-button--mute {
-			&:before {
-				content: "\e802";
-			}
+		.hg-video-bg__controls-button--svg-unmute {
+			display: none;
+		}
+
+		.hg-video-bg__controls-button--svg-mute {
+			display: inline-block;
 		}
 	}
 
 	&--playing {
-		.hg-video-bg__controls-button--play {
-			&:before {
-				content: "\e800";
-			}
+		.hg-video-bg__controls-button--svg-play {
+			display: none;
+		}
+
+		.hg-video-bg__controls-button--svg-pause {
+			display: inline-block;
 		}
 	}
+
 	&--contain {
-		iframe, video {
+
+		iframe,
+		video {
 			object-fit: contain;
 		}
 	}

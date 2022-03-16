@@ -29,6 +29,11 @@ class Settings {
 	 */
 	private static $default_options = [
 		'allowed_post_types' => [ 'post', 'page' ],
+		'performance'        => [
+			'disable_jquery_migrate' => true,
+			'disable_emojis'         => true,
+			'disable_normalize_css'  => true,
+		],
 	];
 
 	/**
@@ -53,13 +58,7 @@ class Settings {
 	 * @return null|mixed
 	 */
 	public static function get_value( $setting_key, $default = null ) {
-		$all_settings = self::get_all_values();
-
-		if ( isset( $all_settings[$setting_key] ) ) {
-			return $all_settings[$setting_key];
-		}
-
-		return $default;
+		return self::get_value_from_path( $setting_key, $default );
 	}
 
 

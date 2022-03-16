@@ -249,6 +249,11 @@ svg:not(:root).icon {
 			opacity: 0.5;
 		}
 	}
+	&.zion-element-comments {
+		path:last-child {
+			opacity: 0.5;
+		}
+	}
 	&.zion-element-archive {
 		path:nth-child(5),
 		path:nth-child(6) {
@@ -353,6 +358,11 @@ svg:not(:root).icon {
 		}
 	}
 	&.zion-element-section {
+		path:last-child {
+			opacity: 0.5;
+		}
+	}
+	&.zion-element-container {
 		path:last-child {
 			opacity: 0.5;
 		}

@@ -32,15 +32,19 @@ export default {
 	setup (props, { emit }) {
 		let editor = null
 		const codeMirrorTextarea = ref(null)
-
+		let ignoreChange = false
 		watch(() => props.modelValue, (newValue) => {
 			if (editor && editor.getValue() !== newValue) {
+				ignoreChange = true
 				editor.setValue(newValue)
 			}
 		})
 
-		function onEditorChange (instance, changeObj) {
-			emit('update:modelValue', instance.getValue())
+		function onEditorChange (instance) {
+			if (ignoreChange === false) {
+				emit('update:modelValue', instance.getValue())
+			}
+			ignoreChange = false
 		}
 
 		const lint = [
@@ -142,11 +146,12 @@ export default {
 	.CodeMirror {
 		position: relative;
 		overflow: hidden;
-		color: var(--zb-surface-text-color);
+		color: #98a1ab;
 		background: var(--zb-surface-darker-color);
 
 		pre {
-			color: var(--zb-surface-text-color);
+			color: #98a1ab;
+			line-height: 1.4;
 		}
 
 		&-gutters {
@@ -155,11 +160,54 @@ export default {
 		}
 
 		&-linenumber {
-			color: var(--zb-surface-text-muted-color);
+			color: #98a1ab;
 		}
 	}
 }
 .znpb-custom-code * {
 	box-sizing: content-box !important;
+}
+
+.znpb-theme-dark .znpb-custom-code {
+	.CodeMirror-selected {
+		background: #253549;
+	}
+
+	.CodeMirror-focused .CodeMirror-selected {
+		background: #274467;
+	}
+
+	div.CodeMirror span.CodeMirror-matchingbracket {
+		color: #b9b9b9;
+	}
+
+	.CodeMirror-cursor {
+		border-color: #2c89df;
+	}
+
+	.cm-atom, .cm-keyword, .cm-builtin, .cm-meta, .cm-qualifier, .cm-type, .cm-variable-3, .cm-s-default .cm-string {
+		color: #2c89df;
+	}
+
+	.cm-s-default .cm-def,
+	.cm-s-default .cm-attribute {
+		color: #98a1ab;
+	}
+
+	.cm-s-default .cm-comment {
+		color: #525252;
+	}
+
+	.cm-invalidchar, .cm-s-default .cm-error {
+		color: #c15050;
+	}
+
+	.cm-tag {
+		color: #71db80;
+	}
+
+	.cm-number {
+		color: #51a980;
+	}
 }
 </style>

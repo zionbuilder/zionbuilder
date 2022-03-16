@@ -15,6 +15,9 @@ import ToolsPage from '../components/tools/ToolsPage.vue'
 import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
 import MaintenanceMode from '../components/MaintenanceMode.vue'
 import Appearance from '../components/Appearance.vue'
+import CustomCode from '../components/CustomCode.vue'
+import Performance from '../components/Performance.vue'
+
 
 import { translate } from '@zb/i18n'
 
@@ -141,7 +144,7 @@ export const initRoutes = function () {
 		path: 'custom-icons',
 		title: translate('custom_icons'),
 		name: 'icons',
-		props: { message: translate('custom_icons_upgrade_message') },
+		props: { message: translate('share_library_upgrade_message') },
 		component: GetPro,
 		label: {
 			type: 'warning',
@@ -173,6 +176,25 @@ export const initRoutes = function () {
 		component: Gradients
 	})
 
+	SettingsRoute.addRoute('performance', {
+		path: 'performance',
+		title: translate('performance'),
+		name: 'performance',
+		component: Performance,
+	})
+
+	SettingsRoute.addRoute('library', {
+		path: 'library',
+		title: translate('library'),
+		name: 'library',
+		label: {
+			type: 'warning',
+			text: translate('pro')
+		},
+		props: { message: translate('custom_icons_upgrade_message') },
+		component: GetPro,
+	})
+
 	routes.addRoute('permissions', {
 		path: '/permissions',
 		component: Permissions,
@@ -188,6 +210,12 @@ export const initRoutes = function () {
 			name: 'template'
 		},
 		children: getTemplateChildrens()
+	})
+
+	routes.addRoute('custom-code', {
+		path: '/custom-code',
+		component: CustomCode,
+		title: translate('custom_code')
 	})
 
 	const ToolsRoute = routes.addRoute('tools-page', {

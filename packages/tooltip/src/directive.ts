@@ -9,9 +9,17 @@ export const PopperDirective = {
 			el.__ZnPbTooltip__.destroy()
 		}
 	},
-	updated(el, { value }) {
+	updated(el, { value, arg }) {
 		if (el.__ZnPbTooltip__) {
 			el.__ZnPbTooltip__.setContent(value)
+
+			const popperPosition = arg || 'top'
+			el.__ZnPbTooltip__.updatePosition(popperPosition)
+		}
+	},
+	unmounted(el) {
+		if (el.__ZnPbTooltip__ && el.__ZnPbTooltip__.popper) {
+			el.__ZnPbTooltip__.popper.destroy()
 		}
 	}
 }
@@ -37,7 +45,7 @@ function initTooltip(element, content, arg) {
 	// Set element and tooltip
 	tooltipObject.element = element
 	tooltipObject.content = popperContent
-	const popperPosition = arg || 'top'
+	let popperPosition = arg || 'top'
 
 	function showPopper() {
 		doc.body.appendChild(popperContent)
@@ -56,6 +64,10 @@ function initTooltip(element, content, arg) {
 				],
 			}
 		);
+	}
+
+	function updatePosition(placement) {
+		popperPosition = placement
 	}
 
 	function hidePopper() {
@@ -91,6 +103,7 @@ function initTooltip(element, content, arg) {
 		showPopper,
 		hidePopper,
 		destroy,
-		setContent
+		setContent,
+		updatePosition
 	}
 }

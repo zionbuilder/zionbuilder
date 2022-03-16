@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { addOverflow, removeOverflow } from '@zionbuilder/utils'
+import { addOverflow, removeOverflow } from '@zb/utils'
 import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
 import { Icon } from '../../../components'
 
@@ -143,7 +143,10 @@ export default {
 
 			} else {
 				this.$nextTick(() => {
-					removeZindex()
+					if (this.zIndex) {
+						removeZindex()
+						this.zIndex = null
+					}
 					// remove overflow from body
 					if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
 						removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
@@ -170,7 +173,7 @@ export default {
 			fullSize: this.fullscreen,
 			bg: this.showBackdrop,
 			hasHeader: false,
-			zIndex: 9999,
+			zIndex: null,
 			initialPosition: {}
 		}
 	},
@@ -274,8 +277,9 @@ export default {
 			this.appendToElement.appendChild(this.$el)
 		},
 		onEscapeKeyPress (event) {
-			if (event.key === 'Escape') {
+			if (event.which === 27) {
 				this.closeModal()
+				event.stopPropagation()
 			}
 		}
 	},
@@ -287,19 +291,26 @@ export default {
 
 		// Check if we need to close modal on esc key
 		if (this.closeOnEscape) {
-			document.addEventListener('keydown', this.onEscapeKeyPress)
+			document.addEventListener('keyup', this.onEscapeKeyPress)
+		}
+
+		if (this.show) {
+			this.zIndex = getZindex()
 		}
 	},
 
 	beforeUnmount () {
 		window.removeEventListener('mousemove', this.drag)
 		window.removeEventListener('mouseup', this.unDrag)
-		window.removeEventListener('keydown', this.onEscapeKeyPress)
+		document.removeEventListener('keyup', this.onEscapeKeyPress)
 		if (this.$el.parentNode === this.appendToElement) {
 			this.appendToElement.removeChild(this.$el)
 		}
 
-		removeZindex()
+		if (this.zIndex) {
+			removeZindex()
+			this.zIndex = null
+		}
 	}
 }
 </script>
@@ -317,7 +328,8 @@ export default {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		background: rgba(172, 172, 172, 0.2);
+		font-family: var(--zb-font-stack);
+		background: rgba(172, 172, 172, .2);
 		* {
 			box-sizing: border-box;
 		}
@@ -330,9 +342,9 @@ export default {
 		max-width: 100%;
 		max-height: 80%;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 25px -10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
 		border-radius: 3px;
-		transition: all 0.2s;
+		transition: all .2s;
 
 		&--full-size {
 			width: 100%;
@@ -361,7 +373,7 @@ export default {
 			margin-right: 15px;
 			color: var(--zb-surface-icon-color);
 			font-size: 14px;
-			transition: color 0.15s;
+			transition: color .15s;
 			cursor: pointer;
 
 			&:hover {
@@ -382,13 +394,11 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-from,
-.modal-fade-enter-to {
-	transition: all 0.2s;
+.modal-fade-leave-from, .modal-fade-enter-to {
+	transition: all .2s;
 }
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-	transform: scale(0.99);
+.modal-fade-enter-from, .modal-fade-leave-to {
+	transform: scale(.99);
 	opacity: 0;
 }
 </style>

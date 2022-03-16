@@ -5,6 +5,8 @@ namespace ZionBuilder\Api\RestControllers;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Whitelabel;
+use ZionBuilder\FontsManager\Fonts\LocalGoogleFonts;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -77,8 +79,12 @@ class RegenerateCache extends RestApiController {
 	 * @return array|\WP_Error
 	 */
 	public function get_item( $request ) {
-		$delete_cache = Plugin::instance()->cache->delete_all_cache();
-		if ( ! $delete_cache ) {
+		// Delete css/js cache
+		$delete_css_cache = Plugin::instance()->cache->delete_all_cache();
+		// Delete local fonts css
+		$delete_local_fonts_cache = LocalGoogleFonts::delete_cache();
+
+		if ( ! $delete_css_cache || ! $delete_local_fonts_cache ) {
 			return new \WP_Error( 'regenerate_cache_failed', esc_html__( 'Regenerate cache failed!', 'zionbuilder' ), [ 'status' => '500' ] );
 		}
 

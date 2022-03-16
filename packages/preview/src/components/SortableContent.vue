@@ -122,11 +122,6 @@ export default {
 			return orientation
 		})
 
-		const toggleAddElementsPopup = () => {
-			const { showAddElementsPopup } = useAddElementsPopup()
-			showAddElementsPopup(props.element, addElementsPopupButton)
-		}
-
 		const { isPreviewMode } = usePreviewMode()
 		const { isDragging, setDraggingState } = useIsDragging()
 		const { copyElement } = useElementActions()
@@ -157,7 +152,6 @@ export default {
 			groupInfo,
 			getSortableAxis,
 			showAddElementsPopup,
-			toggleAddElementsPopup,
 			addElementsPopupButton,
 			showColumnTemplates,
 			isDragging,

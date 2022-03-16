@@ -4,6 +4,8 @@ namespace ZionBuilder;
 
 use ZionBuilder\Elements\Style;
 
+use ZionBuilder\Responsive;
+
 class CustomCSS {
 	private $css_selector = null;
 
@@ -24,12 +26,7 @@ class CustomCSS {
 	 *
 	 * @var array{default: string, laptop: string, tablet: string, mobile: string}
 	 */
-	private static $responsive_devices_map = [
-		'default' => '',
-		'laptop'  => '991.98px',
-		'tablet'  => '767.98px',
-		'mobile'  => '575.98px',
-	];
+	private static $responsive_devices_map = null;
 
 	/**
 	 * Holds a refference to the raw CSS
@@ -45,6 +42,10 @@ class CustomCSS {
 	 */
 	public function __construct( $css_selector = '' ) {
 		$this->css_selector = $css_selector;
+
+		if ( null === self::$responsive_devices_map ) {
+			self::$responsive_devices_map = Responsive::get_breakpoints_as_device_width();
+		}
 	}
 
 
@@ -214,7 +215,7 @@ class CustomCSS {
 					continue;
 				}
 
-				$returned_css .= sprintf( '@media (max-width: %s) { %s }', self::$responsive_devices_map[$device], $extracted_css );
+				$returned_css .= sprintf( '@media (max-width: %spx) { %s }', self::$responsive_devices_map[$device], $extracted_css );
 			}
 		}
 

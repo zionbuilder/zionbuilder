@@ -237,5 +237,9 @@ export default {
 	flex-direction: column;
 	flex-grow: 1;
 	min-height: 1px;
+
+	.znpb-editor-icon path {
+		opacity: 1 !important;
+	}
 }
 </style>

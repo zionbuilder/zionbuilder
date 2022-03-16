@@ -7,6 +7,8 @@
 				:title="title"
 				v-model:activeClass="activeClass"
 				:allow_class_assignments="allow_class_assignments"
+				:active-model-value="modelValue.styles"
+				@paste-style-model="onPasteToSelector"
 			/>
 
 			<PseudoSelectors v-model="computedStyles" />
@@ -22,8 +24,9 @@
 </template>
 
 <script>
-import PseudoSelectors from '../../../components/elementOptions/PseudoSelectors.vue'
-import ClassSelectorDropdown from '../../../components/elementOptions/ClassSelectorDropdown.vue'
+import { merge, cloneDeep } from 'lodash-es'
+import PseudoSelectors from './PseudoSelectors.vue'
+import ClassSelectorDropdown from './ClassSelectorDropdown.vue'
 import { useOptionsSchemas } from '@zb/components'
 import { useCSSClasses } from '@composables'
 
@@ -46,14 +49,38 @@ export default {
 			default: true
 		}
 	},
-	setup () {
+	setup (props, { emit }) {
 		const { getSchema } = useOptionsSchemas()
 		const { getClassConfig, updateCSSClass } = useCSSClasses()
+
+		function onPasteToSelector () {
+			const { copiedStyles } = useCSSClasses()
+			const clonedCopiedStyles = cloneDeep(copiedStyles.value)
+			if (!props.modelValue.styles) {
+				updateValues('styles', clonedCopiedStyles)
+			} else {
+				updateValues('styles', merge(props.modelValue.styles, clonedCopiedStyles))
+			}
+		}
+
+		function updateValues (type, newValue) {
+			const clonedValue = { ...props.modelValue }
+			if (newValue === null && typeof clonedValue[type]) {
+				// If this is used as layout, we need to delete the active pseudo selector
+				delete clonedValue[type]
+			} else {
+				clonedValue[type] = newValue
+			}
+
+			emit('update:modelValue', clonedValue)
+		}
 
 		return {
 			getSchema,
 			getClassConfig,
-			updateCSSClass
+			updateCSSClass,
+			onPasteToSelector,
+			updateValues
 		}
 	},
 	data () {
@@ -96,25 +123,11 @@ export default {
 				if (this.activeClass !== this.selector) {
 					this.updateCSSClass(this.activeClass, {
 						styles: newValues
-					}
-					)
+					})
 				} else {
 					this.updateValues('styles', newValues)
 				}
 			}
-		}
-	},
-	methods: {
-		updateValues (type, newValue) {
-			const clonedValue = { ...this.modelValue }
-			if (newValue === null && typeof clonedValue[type]) {
-				// If this is used as layout, we need to delete the active pseudo selector
-				delete clonedValue[type]
-			} else {
-				clonedValue[type] = newValue
-			}
-
-			this.$emit('update:modelValue', clonedValue)
 		}
 	},
 	created () {

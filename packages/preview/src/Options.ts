@@ -1,13 +1,14 @@
-import { getOptionValue, getCssFromSelector, getImage } from '@zb/utils'
+import { getOptionValue, getImage } from '@zb/utils'
 import { applyFilters } from '@zb/hooks'
 import { cloneDeep, forEach } from 'lodash-es'
+import { useResponsiveDevices } from '@zb/components'
 
 /**
  * Will parse the option schema in order to get the render attributes
  * and custom css
  */
 export default class Options {
-	constructor(schema, model, selector, options, element = null) {
+	constructor(schema, model, selector: string, options, element = null) {
 		this.model = JSON.parse(JSON.stringify(model))
 		this.schema = schema
 		this.selector = selector
@@ -15,12 +16,14 @@ export default class Options {
 		this.element = element
 		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest
 
-		this.customCSS = {
-			default: {},
-			laptop: {},
-			tablet: {},
-			mobile: {}
-		}
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
+		const devices = {}
+
+		Object.keys(responsiveDevicesAsIdWidth.value).forEach((device) => {
+			devices[device] = {}
+		})
+
+		this.customCSS = devices
 
 		this.renderAttributes = {}
 	}
@@ -264,6 +267,7 @@ export default class Options {
 
 		if (optionType === 'element_styles') {
 			const mediaStyles = optionValue.styles || {}
+			// TODO: check if this is actually used. getStyles is not loaded
 			const styles = getStyles(formattedSelector, mediaStyles)
 
 			if (styles) {
@@ -274,7 +278,7 @@ export default class Options {
 		}
 	}
 
-	addCustomCSS(device, selector, css) {
+	addCustomCSS(device: string, selector: string, css: string) {
 		if (typeof this.customCSS[device] === 'undefined') {
 			return
 		}
@@ -284,17 +288,12 @@ export default class Options {
 	}
 
 	getCustomCSS() {
-		const CSSDeviceMap = {
-			laptop: '991.98px',
-			tablet: '767.98px',
-			mobile: '575.98px'
-		}
-
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
 		let returnedCSS = ''
 
 		Object.keys(this.customCSS).forEach(device => {
-			const deviceSlectors = this.customCSS[device]
-			const extractedCSS = this.extractStyles(deviceSlectors)
+			const deviceSelectors = this.customCSS[device]
+			const extractedCSS = this.extractStyles(deviceSelectors)
 
 			if (extractedCSS.length === 0) {
 				return
@@ -303,12 +302,12 @@ export default class Options {
 			if (device === 'default') {
 				returnedCSS += extractedCSS
 			} else {
-				if (!CSSDeviceMap[device]) {
+				if (!responsiveDevicesAsIdWidth.value[device]) {
 					return
 				}
 
-				const deviceWidth = CSSDeviceMap[device]
-				returnedCSS += `@media(max-width: ${deviceWidth}) { ${extractedCSS} } `
+				const deviceWidth = responsiveDevicesAsIdWidth.value[device]
+				returnedCSS += `@media(max-width: ${deviceWidth}px) { ${extractedCSS} } `
 			}
 		})
 

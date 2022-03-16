@@ -10,7 +10,7 @@ Built and designed by [Hogash team](https://hogash.com/?utm_source=wp-plugins&ut
 
 **Tags:** page builder, WordPress module, editor, visual editor, design, website builder, front-end builder
 
-Zion Builder in action - [TRY IT NOW](https://demo.zionbuilder.io/?enable-zion-builder&utm_source=wp-plugins&utm_medium=link&utm_campaign=description)
+Zion Builder in action - [TRY IT NOW](https://try.zionbuilder.io&utm_source=wp-plugins&utm_medium=link&utm_campaign=description)
 
 ## Description
 Below are listed the core competencies

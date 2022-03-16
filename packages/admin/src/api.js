@@ -14,7 +14,7 @@ import {
 // Set Service Interceptor
 import {
 	errorInterceptor
-} from '@zionbuilder/rest'
+} from '@zb/rest'
 import {
 	useNotifications
 } from '@zionbuilder/composables'
@@ -28,8 +28,6 @@ const notifications = useNotifications()
 
 // Add error interceptor for API
 errorInterceptor(notifications)
-
-
 
 const api = {
 	routes,

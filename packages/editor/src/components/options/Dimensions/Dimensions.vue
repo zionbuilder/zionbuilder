@@ -88,6 +88,16 @@ export default {
 	methods: {
 		handleLinkValues () {
 			this.linked = !this.linked
+
+			if (this.linked) {
+				// Check to see if we already have a saved value
+				const dimensionsIDs = this.dimensions.map(dimension => dimension.id)
+				const savedPositionValue = Object.keys(this.valueModel).find(position => dimensionsIDs.includes(position) && typeof this.valueModel[position] !== 'undefined')
+
+				if (savedPositionValue) {
+					this.onValueUpdated('', this.valueModel[savedPositionValue])
+				}
+			}
 		},
 		onValueUpdated (position, newValue) {
 			/**
@@ -119,13 +129,12 @@ export default {
 .znpb-dimensions-wrapper {
 	display: grid;
 
-	grid-template-areas:
-		"a b c"
-		"d b e";
+	grid-template-areas: "a b c"
+	"d b e";
 	.znpb-dimensions__link {
 		color: var(--zb-surface-icon-color);
 		background-color: var(--zb-surface-lighter-color);
-		transition: color 0.15s;
+		transition: color .15s;
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);

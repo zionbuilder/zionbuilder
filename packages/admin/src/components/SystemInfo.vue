@@ -34,7 +34,7 @@
 import SystemList from './system-components/SystemList.vue'
 import SystemPlugins from './system-components/SystemPlugins.vue'
 import CopyPasteServer from './system-components/CopyPasteServer.vue'
-import { getSystemInfo } from '@zionbuilder/rest'
+import { getSystemInfo } from '@zb/rest'
 
 export default {
 	name: 'SystemInfo',

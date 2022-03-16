@@ -1,11 +1,14 @@
 <template>
 	<li
 		class="znpb-tree-view__item"
-		:class="{'znpb-tree-view__item--hidden': !element.isVisible}"
+		:class="{
+			'znpb-tree-view__item--hidden': !element.isVisible,
+			'znpb-tree-view__item--justAdded': justAdded,
+		}"
 		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
-		@click.stop.left="onItemClick"
+		@click.stop.left="editElement"
 		@contextmenu.stop.prevent="showElementMenu"
 		ref="listItem"
 	>
@@ -15,7 +18,7 @@
 		>
 			<Icon
 				icon="select"
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand znpb-utility__cursor--pointer"
+				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
 					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded
 				}"
@@ -23,41 +26,24 @@
 				v-if="element.isWrapper"
 			/>
 
-			<img
-				v-if="get_element_image"
-				:src="get_element_image"
-				class="znpb-tree-view__itemImage"
-			/>
-
-			<Icon
-				v-else
-				:icon="get_element_icon"
+			<UIElementIcon
+				:element="elementModel"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
 				:size="24"
-				class="znpb-tree-view__itemIcon"
 			/>
 
 			<InlineEdit
+				v-model="elementName"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-				v-model="element.name"
-				v-model:active="element.activeElementRename"
 			/>
 
-			<Tooltip
-				:content="$translate('enable_hidden_element')"
-				placement="top"
+			<Icon
+				icon="visibility-hidden"
+				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
+				@click.stop="element.toggleVisibility()"
 				v-if="!element.isVisible"
-				class="znpb-tree-view__item-enable-visible"
-			>
-
-				<transition name="fade">
-					<Icon
-						icon="visibility-hidden"
-						class="znpb-editor-icon-wrapper--show-element"
-						@click="element.toggleVisibility()"
-					/>
-				</transition>
-
-			</Tooltip>
+				v-znpb-tooltip="$translate('enable_hidden_element')"
+			/>
 
 			<div
 				class="znpb-element-options__container"
@@ -69,7 +55,14 @@
 					icon="more"
 				/>
 			</div>
+
+			<AddElementIcon
+				:element="element"
+				class="znpb-tree-view__itemAddButton"
+				position="centered-bottom"
+			/>
 		</div>
+
 		<TreeViewList
 			v-if="element.treeViewItemExpanded"
 			:element="element"
@@ -78,8 +71,16 @@
 </template>
 
 <script lang="ts">
-import { ref, Ref, PropType, defineComponent, watch, onMounted } from "vue";
-import { Element, useElementTypes, useElementActions } from "@composables";
+import {
+	ref,
+	Ref,
+	PropType,
+	defineComponent,
+	watch,
+	onMounted,
+	computed,
+} from "vue";
+import { Element, usePreviewLoading } from "@composables";
 import { useTreeViewItem } from "../useTreeViewItem";
 
 export default defineComponent({
@@ -88,20 +89,14 @@ export default defineComponent({
 	},
 	setup(props) {
 		const listItem: Ref = ref(null);
-		const { showElementMenu, elementOptionsRef, isActiveItem } =
-			useTreeViewItem(props);
 
-		const { getElementIcon, getElementImage } = useElementTypes();
-
-		const get_element_image = getElementImage(props.element.element_type);
-		const get_element_icon = getElementIcon(props.element.element_type);
-
-		const onItemClick = () => {
-			const { focusElement } = useElementActions();
-			focusElement(props.element);
-			props.element.focus;
-			props.element.scrollTo = true;
-		};
+		const {
+			showElementMenu,
+			elementOptionsRef,
+			isActiveItem,
+			editElement,
+			elementModel,
+		} = useTreeViewItem(props);
 
 		watch(
 			() => isActiveItem.value,
@@ -112,12 +107,35 @@ export default defineComponent({
 			}
 		);
 
+		const elementName = computed({
+			get() {
+				return props.element.name;
+			},
+			set(newValue) {
+				props.element.name = newValue;
+			},
+		});
+
+		const { contentTimestamp } = usePreviewLoading();
+
+		const justAdded = ref(
+			props.element.addedTime > contentTimestamp.value
+				? Date.now() - props.element.addedTime < 1000
+				: null
+		);
+
+		if (justAdded) {
+			setTimeout(() => {
+				justAdded.value = false;
+			}, 1000);
+		}
+
 		function scrollToItem() {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
 					behavior: "smooth",
-					inline: "nearest",
-					block: "nearest",
+					inline: "center",
+					block: "center",
 				});
 			}
 		}
@@ -132,10 +150,11 @@ export default defineComponent({
 			showElementMenu,
 			elementOptionsRef,
 			isActiveItem,
-			onItemClick,
-			get_element_image,
-			get_element_icon,
 			listItem,
+			elementModel,
+			editElement,
+			justAdded,
+			elementName,
 		};
 	},
 });
@@ -155,7 +174,6 @@ export default defineComponent({
 	}
 	&Image,
 	&Icon {
-		padding-left: 15px;
 		color: var(--zb-surface-icon-color);
 	}
 
@@ -170,12 +188,19 @@ export default defineComponent({
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 5px;
-		color: var(--zb-surface-text-active-color);
+		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
+		box-shadow: -3px 0 0 0 var(--zb-surface-color);
+		margin-bottom: 5px;
+		transition: background-color 0.2s;
+
+		& > *:first-child {
+			padding-left: 15px;
+		}
 
 		&:hover {
+			color: var(--zb-surface-text-hover-color);
 			background-color: var(--zb-surface-lightest-color);
 		}
 
@@ -197,19 +222,18 @@ export default defineComponent({
 			font-weight: 500;
 
 			&:hover {
-				cursor: pointer;
 				.znpb-editor-icon-wrapper {
 					color: var(--zb-surface-icon-color);
 				}
 			}
 		}
+
 		&-rename {
 			position: relative;
 			flex-grow: 1;
-			padding-top: 15px;
-			padding-right: 15px;
-			padding-bottom: 15px;
+			padding: 10px 8px;
 			cursor: text;
+
 			&:focus {
 				outline: 0;
 			}
@@ -217,11 +241,11 @@ export default defineComponent({
 
 		&-expand,
 		&-more {
-			padding: 15px;
+			padding: 10px 8px;
 		}
 
 		&-expand {
-			padding-right: 0;
+			cursor: pointer;
 
 			& > .zion-icon {
 				transition: none;
@@ -248,6 +272,51 @@ export default defineComponent({
 				}
 			}
 		}
+
+		.znpb-element-toolbox__add-element-button {
+			--button-size: 24px;
+			--font-size: 12px;
+			right: 0;
+			left: auto;
+			margin: -19px 45px 0 0;
+		}
+	}
+}
+
+.znpb-tree-view__itemIcon {
+	padding: 10px 8px;
+	font-size: 24px;
+
+	& svg {
+		pointer-events: none;
+	}
+}
+
+.znpb-tree-view__itemAddButton {
+	z-index: 1;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateX(10px);
+	transition: all 0.1s;
+}
+
+.znpb-tree-view__item-header:hover > .znpb-tree-view__itemAddButton,
+.znpb-element-toolbox__add-element-button--active {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+
+	&:hover::before {
+		transform: scale(1.1);
+	}
+}
+
+.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
+	background: #3a8f6f;
+	color: var(--zb-secondary-text-color);
+
+	.znpb-editor-icon-wrapper {
+		color: var(--zb-secondary-text-color);
 	}
 }
 </style>

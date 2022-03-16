@@ -203,7 +203,7 @@ class StyleOptions extends BaseSchema {
 
 	public static function attach_size_and_spacings_options( $options ) {
 		$spacing_group = $options->add_group(
-			'padding',
+			'margin_padding',
 			[
 				'type'  => 'panel_accordion',
 				'title' => esc_html__( 'Spacing', 'zionbuilder' ),
@@ -211,67 +211,11 @@ class StyleOptions extends BaseSchema {
 		);
 
 		$spacing_group->add_group(
-			'padding',
+			'margin-padding',
 			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Padding', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired padding for this element.', 'zionbuilder' ),
-				'min'         => 0,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'padding-top',
-						'id'   => 'padding-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'padding-right',
-						'id'   => 'padding-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'padding-bottom',
-						'id'   => 'padding-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'padding-left',
-						'id'   => 'padding-left',
-					],
-				],
-			]
-		);
-		$spacing_group->add_group(
-			'margin',
-			[
-				'type'        => 'dimensions',
-				'title'       => esc_html__( 'Margin', 'zionbuilder' ),
-				'description' => esc_html__( 'Choose the desired margin for this element.', 'zionbuilder' ),
-				'min'         => -99999,
-				'max'         => 99999,
-				'dimensions'  => [
-					[
-						'name' => 'top',
-						'icon' => 'margin-top',
-						'id'   => 'margin-top',
-					],
-					[
-						'name' => 'right',
-						'icon' => 'margin-right',
-						'id'   => 'margin-right',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'margin-bottom',
-						'id'   => 'margin-bottom',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'margin-left',
-						'id'   => 'margin-left',
-					],
-				],
+				'type'        => 'spacing',
+				'title'       => esc_html__( 'Margin & padding', 'zionbuilder' ),
+				'description' => esc_html__( 'Choose the desired margin and padding for this element.', 'zionbuilder' ),
 			]
 		);
 
@@ -485,6 +429,194 @@ class StyleOptions extends BaseSchema {
 				'options-layout' => 'inline',
 				'title'          => esc_html__( 'Z-index', 'zionbuilder' ),
 				'description'    => esc_html__( 'Choose Z-index for element', 'zionbuilder' ),
+			]
+		);
+
+		$display_group = $display->add_group(
+			'display-group',
+			[
+				'type'  => 'panel_accordion',
+				'title' => __( 'Display options', 'zionbuilder' ),
+			]
+		);
+
+		$display_group->add_option(
+			'direction',
+			[
+				'type'        => 'custom_selector',
+				'title'       => __( 'Direction', 'zionbuilder' ),
+				'description' => __( 'Set the text direction', 'zionbuilder' ),
+				'columns'     => 2,
+				'default'     => 'ltr',
+				'options'     => [
+					[
+						'name' => __( 'ltr', 'zionbuilder' ),
+						'id'   => 'ltr',
+					],
+					[
+						'name' => __( 'rtl', 'zionbuilder' ),
+						'id'   => 'rtl',
+					],
+				],
+			]
+		);
+
+		$display_group->add_option(
+			'cursor',
+			[
+				'type'        => 'select',
+				'title'       => __( 'Cursor', 'zionbuilder' ),
+				'description' => __( 'Set the cursor style', 'zionbuilder' ),
+				'columns'     => 2,
+				'default'     => 'auto',
+				'filterable'  => true,
+				'options'     => [
+					[
+						'name' => 'auto',
+						'id'   => 'auto',
+					],
+					[
+						'name' => 'default',
+						'id'   => 'default',
+					],
+					[
+						'name' => 'none',
+						'id'   => 'none',
+					],
+					[
+						'name' => 'context-menu',
+						'id'   => 'context-menu',
+					],
+					[
+						'name' => 'help',
+						'id'   => 'help',
+					],
+					[
+						'name' => 'pointer',
+						'id'   => 'pointer',
+					],
+					[
+						'name' => 'progress',
+						'id'   => 'progress',
+					],
+					[
+						'name' => 'wait',
+						'id'   => 'wait',
+					],
+					[
+						'name' => 'cell',
+						'id'   => 'cell',
+					],
+					[
+						'name' => 'crosshair',
+						'id'   => 'crosshair',
+					],
+
+					[
+						'name' => 'text',
+						'id'   => 'text',
+					],
+					[
+						'name' => 'vertical-text',
+						'id'   => 'vertical-text',
+					],
+					[
+						'name' => 'alias',
+						'id'   => 'alias',
+					],
+					[
+						'name' => 'copy',
+						'id'   => 'copy',
+					],
+					[
+						'name' => 'move',
+						'id'   => 'move',
+					],
+					[
+						'name' => 'no-drop',
+						'id'   => 'no-drop',
+					],
+					[
+						'name' => 'not-allowed',
+						'id'   => 'not-allowed',
+					],
+					[
+						'name' => 'grab',
+						'id'   => 'grab',
+					],
+					[
+						'name' => 'grabbing',
+						'id'   => 'grabbing',
+					],
+					[
+						'name' => 'all-scroll',
+						'id'   => 'all-scroll',
+					],
+					[
+						'name' => 'col-resize',
+						'id'   => 'col-resize',
+					],
+					[
+						'name' => 'row-resize',
+						'id'   => 'row-resize',
+					],
+					[
+						'name' => 'n-resize',
+						'id'   => 'n-resize',
+					],
+					[
+						'name' => 'e-resize',
+						'id'   => 'e-resize',
+					],
+					[
+						'name' => 's-resize',
+						'id'   => 's-resize',
+					],
+					[
+						'name' => 'w-resize',
+						'id'   => 'w-resize',
+					],
+					[
+						'name' => 'ne-resize',
+						'id'   => 'ne-resize',
+					],
+					[
+						'name' => 'nw-resize',
+						'id'   => 'nw-resize',
+					],
+					[
+						'name' => 'se-resize',
+						'id'   => 'se-resize',
+					],
+					[
+						'name' => 'sw-resize',
+						'id'   => 'sw-resize',
+					],
+					[
+						'name' => 'ew-resize',
+						'id'   => 'ew-resize',
+					],
+					[
+						'name' => 'ns-resize',
+						'id'   => 'ns-resize',
+					],
+					[
+						'name' => 'nesw-resize',
+						'id'   => 'nesw-resize',
+					],
+					[
+						'name' => 'nwse-resize',
+						'id'   => 'nwse-resize',
+					],
+					[
+						'name' => 'zoom-in',
+						'id'   => 'zoom-in',
+					],
+					[
+						'name' => 'zoom-out',
+						'id'   => 'zoom-out',
+					],
+				],
 			]
 		);
 

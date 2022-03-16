@@ -24,6 +24,24 @@ class Utils {
 		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ) );
 	}
 
+		/**
+	 * Check if pro version is active
+	 *
+	 * @return boolean if zion builder pro path is defined
+	 */
+	public static function is_pro_installed() {
+		return class_exists( 'ZionBuilderPro\Plugin' );
+	}
+
+	/**
+	 * Returns true if the license is valid
+	 *
+	 * @return boolean
+	 */
+	public static function has_valid_license() {
+		return self::is_pro_active() && class_exists( '\ZionBuilderPro\License' ) && \ZionBuilderPro\License::has_valid_license();
+	}
+
 	/**
 	 * Get Logo URL
 	 *
@@ -33,6 +51,19 @@ class Utils {
 	 */
 	public static function get_logo_url() {
 		return apply_filters( 'zionbuilder/utils/logo_url', self::get_file_url( 'assets/img/zion-icon-dark.svg' ) );
+	}
+
+
+	/**
+	 * Will generate an unique id
+	 *
+	 * @param string $prepend
+	 * @param integer $length
+	 *
+	 * @return string
+	 */
+	public static function generate_uid( $prepend = 'uid', $length = 12 ) {
+		return $prepend . substr( str_shuffle( MD5( microtime() ) ), 0, $length );
 	}
 
 	/**

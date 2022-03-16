@@ -149,7 +149,7 @@ export default {
 			expanded: false,
 			mouseDownPositionTop: 0,
 			draggingPositionTop: 0,
-			dragTreshold: 0,
+			dragTreshold: 3,
 			direction: null,
 			shiftDrag: false,
 			toTop: false,
@@ -186,6 +186,8 @@ export default {
 			}
 		},
 		cursorPosition () {
+			console.log(this.modelValue);
+			console.log(this.unit);
 			return this.modelValue && this.unit ? this.modelValue.length - this.unit.length : null
 		},
 		stringValueModel: {
@@ -196,11 +198,17 @@ export default {
 				if (this.units.includes(newValue) || stringUnits.includes(newValue)) {
 					this.unit = newValue
 				}
+
 				if (!this.modelValue && this.unit && this.unit !== 'custom' && this.units.includes(this.unit) && newValue && newValue.match(/^[0-9]*$/) !== null && !stringUnits.includes(this.unit)) {
-					this.$emit('update:modelValue', `${newValue}${this.unit}`)
-					this.$nextTick(() => {
-						this.$refs.numberUnitInput.$refs.input.setSelectionRange(this.cursorPosition, this.cursorPosition)
-					})
+					const newValueInLimits = Math.max(0, Math.min(100, newValue))
+					const valueToUpdate = `${newValueInLimits}${this.unit}`
+					this.$emit('update:modelValue', valueToUpdate)
+
+					const cursorPosition = valueToUpdate && this.unit ? valueToUpdate.length - this.unit.length : null
+					setTimeout(() => {
+						this.$refs.numberUnitInput.$refs.input.setSelectionRange(cursorPosition, cursorPosition)
+					}, 10);
+
 				} else {
 					this.$emit('update:modelValue', newValue)
 				}
@@ -323,6 +331,7 @@ export default {
 			}
 		},
 		deactivatedragNumber (event) {
+			this.dragNumberThrottle.cancel()
 			this.dragging = false
 			document.body.style.userSelect = null
 			document.body.style.pointerEvents = null
@@ -372,6 +381,7 @@ export default {
 					}
 				}
 			}
+
 			// Check that value is in between min and max
 			const value = newValue <= this.min ? this.min : newValue >= this.max ? this.max : newValue
 			this.stringValueModel = `${value}${this.valueUnit.unit || this.unit}`
@@ -440,8 +450,7 @@ export default {
 		&:last-child {
 			border-bottom: 0;
 		}
-		&:hover,
-		&--selected {
+		&:hover, &--selected {
 			color: var(--zb-surface-text-active-color);
 		}
 	}

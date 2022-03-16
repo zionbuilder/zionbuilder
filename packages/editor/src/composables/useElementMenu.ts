@@ -4,7 +4,7 @@ import { usePreviewMode } from './usePreviewMode'
 
 const activeElementMenu: Ref<null | object> = ref(null)
 
-export function useElementMenu () {
+export function useElementMenu() {
 	const showElementMenu = (element: Element, selector, actions = {}) => {
 		// Don't show on preview mode
 		const { isPreviewMode } = usePreviewMode()
@@ -26,7 +26,7 @@ export function useElementMenu () {
 			element,
 			{
 				ownerDocument: event.view.document,
-				getBoundingClientRect () {
+				getBoundingClientRect() {
 					return {
 						width: 0,
 						height: 0,

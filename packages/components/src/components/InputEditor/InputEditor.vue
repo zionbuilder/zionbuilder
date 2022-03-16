@@ -1,9 +1,13 @@
 <template>
-	<div class="znpb-wp-editor__wrapper znpb-wp-editor-custom"></div>
+	<div
+		class="znpb-wp-editor__wrapper znpb-wp-editor-custom"
+		ref="root"
+	></div>
 </template>
 
 <script>
-import { onBeforeUnmount } from 'vue'
+import { ref, onBeforeUnmount, onMounted, computed, watch } from 'vue'
+import { debounce } from '@zb/utils'
 
 export default {
 	name: 'InputEditor',
@@ -13,86 +17,106 @@ export default {
 			required: false
 		}
 	},
-	data () {
-		return {
-			editorTextarea: null
-		}
-	},
-	setup () {
-		const editor = null
+	setup (props, { emit }) {
+		let editorTextarea = null
+		const root = ref(null)
+		let editor = null
 		const randomNumber = Math.floor((Math.random() * 100) + 1);
 		const editorID = `znpbwpeditor${randomNumber}`;
 
+		// computed
+		const content = computed({
+			get () {
+				return props.modelValue || ''
+			},
+			set (newValue) {
+				emit('update:modelValue', newValue)
+			}
+		})
+
+		// Lifecycle
 		onBeforeUnmount(() => {
+			editorTextarea.removeEventListener('keyup', onTextChanged)
+
 			// Destroy tinyMce
 			if (typeof window.tinyMCE !== 'undefined' && editor) {
 				window.tinyMCE.remove(editor)
 			}
+
+			editor = null
 		})
 
-		return {
-			editor,
-			editorID
-		}
-	},
-	computed: {
-		content: {
-			get () {
-				return this.modelValue || ''
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
+		onMounted(() => {
+			root.value.innerHTML = window.ZnPbInitalData.wp_editor.replace(/znpbwpeditorid/g, editorID).replace('%%ZNPB_EDITOR_CONTENT%%', content.value)
+
+			editorTextarea = document.querySelectorAll('.wp-editor-area')[0]
+			editorTextarea.addEventListener('keyup', onTextChanged)
+
+			window.quicktags({
+				buttons: 'strong,em,del,link,img,close',
+				id: editorID
+			})
+
+			const config = {
+				id: editorID,
+				selector: `#${editorID}`,
+				setup: onEditorSetup,
+				content_style: "body { background-color: #fff; }"
 			}
+			window.tinyMCEPreInit.mceInit[editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config)
+
+			// Set the edit mode to tmce
+			window.switchEditors.go(editorID, 'tmce')
+		})
+
+		// Watchers
+		watch(() => props.modelValue, (newValue, oldValue) => {
+			const currentValue = editor.getContent()
+			if (editor && currentValue !== newValue) {
+				const value = newValue || ''
+				editor.setContent(value)
+				debouncedAddToHistory()
+				editorTextarea.value = newValue
+			}
+		})
+
+		const debouncedAddToHistory = debounce(() => {
+			if (editor) {
+				editor.undoManager.add()
+			}
+		}, 500)
+
+		function onEditorSetup (editorInstance) {
+			editor = editorInstance
+			editor.on('change KeyUp Undo Redo', onEditorContentChange)
+		}
+
+		function onEditorContentChange (event) {
+			const currentValue = props.modelValue
+
+			const newValue = editor.getContent()
+
+			if (currentValue !== newValue) {
+				emit('update:modelValue', newValue)
+			}
+		}
+
+		function onTextChanged (event) {
+			emit('update:modelValue', editorTextarea.value)
+		}
+
+		return {
+			root,
+			editor,
+			editorID,
+			debouncedAddToHistory
 		}
 	},
 	mounted () {
-		this.$el.innerHTML = window.ZnPbInitalData.wp_editor.replace(/znpbwpeditorid/g, this.editorID).replace('%%ZNPB_EDITOR_CONTENT%%', this.content)
 
-		this.editorTextarea = document.querySelectorAll('.wp-editor-area')[0]
-		this.editorTextarea.addEventListener('keyup', this.onTextChanged)
-
-		window.quicktags({
-			buttons: 'strong,em,del,link,img,close',
-			id: this.editorID
-		})
-
-		const config = {
-			id: this.editorID,
-			selector: `#${this.editorID}`,
-			setup: this.onEditorSetup,
-			content_style: "body { background-color: #fff; }"
-		}
-		window.tinyMCEPreInit.mceInit[this.editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config)
-
-		// Set the edit mode to tmce
-		window.switchEditors.go(this.editorID, 'tmce')
-	},
-	methods: {
-		onEditorSetup (editor) {
-			this.editor = editor
-			editor.on('change KeyUp Undo Redo', this.onEditorContentChange)
-		},
-		onEditorContentChange (event) {
-			const currentValue = this.modelValue
-
-			const newValue = this.editor.getContent()
-
-			if (currentValue !== newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		onTextChanged (event) {
-			this.$emit('update:modelValue', this.editorTextarea.value)
-		}
 	},
 	watch: {
-		modelValue (newValue, oldValue) {
-			const currentValue = this.editor.getContent()
-			if (this.editor && currentValue !== newValue) {
-				const value = newValue || ''
-				this.editor.setContent(value)
-			}
-		}
+
 	}
 }
 </script>
@@ -109,8 +133,7 @@ export default {
 		align-items: flex-end;
 	}
 
-	.wp-editor-tabs,
-	.wp-media-buttons {
+	.wp-editor-tabs, .wp-media-buttons {
 		float: none;
 	}
 
@@ -136,10 +159,9 @@ export default {
 		line-height: 1.5;
 		background-color: transparent;
 		border: none;
-		transition: opacity 0.15s;
+		transition: opacity .15s;
 
-		&:hover,
-		&:focus {
+		&:hover, &:focus {
 			color: var(--zb-surface-text-active-color);
 			background: transparent;
 		}
@@ -155,7 +177,7 @@ export default {
 			color: var(--zb-secondary-text-color);
 			background: var(--zb-secondary-color);
 			border-radius: 3px;
-			transition: background-color 0.15s;
+			transition: background-color .15s;
 
 			&:hover {
 				background: var(--zb-secondary-hover-color);
@@ -177,10 +199,10 @@ export default {
 	}
 
 	.wp-media-buttons .edd-thickbox {
-		margin: 0;
 		padding: 10px 0 !important;
-		font-size: 10px;
+		margin: 0;
 		color: var(--zb-surface-text-color);
+		font-size: 10px;
 	}
 
 	.wp-switch-editor {
@@ -196,17 +218,14 @@ export default {
 		border: none;
 	}
 
-	.switch-tmce,
-	.switch-html {
-		&:focus,
-		&:active {
+	.switch-tmce, .switch-html {
+		&:focus, &:active {
 			color: var(--zb-surface-text-color);
 			background: var(--zb-surface-color);
 		}
 	}
 
-	.tmce-active .switch-tmce,
-	.html-active .switch-html {
+	.tmce-active .switch-tmce, .html-active .switch-html {
 		color: var(--zb-surface-text-active-color);
 		background: var(--zb-surface-lighter-color);
 		border-top-right-radius: 3px;
@@ -214,20 +233,16 @@ export default {
 	}
 
 	.mce-panel.mce-menu {
-		border: 1px solid var(--zb-dropdown-border-color);
-		background: var(--zb-dropdown-bg-color);
 		color: var(--zb-dropdown-text-color);
+		background: var(--zb-dropdown-bg-color);
 		box-shadow: var(--zb-dropdown-shadow);
+		border: 1px solid var(--zb-dropdown-border-color);
 		border-radius: 3px;
 	}
 
-	.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal,
-	.mce-menu .mce-menu-item.mce-active.mce-menu-item-preview,
-	.mce-menu .mce-menu-item.mce-selected,
-	.mce-menu .mce-menu-item:focus,
-	.mce-menu .mce-menu-item:hover {
-		background: var(--zb-dropdown-bg-hover-color);
+	.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal, .mce-menu .mce-menu-item.mce-active.mce-menu-item-preview, .mce-menu .mce-menu-item.mce-selected, .mce-menu .mce-menu-item:focus, .mce-menu .mce-menu-item:hover {
 		color: var(--zb-dropdown-text-active-color);
+		background: var(--zb-dropdown-bg-hover-color);
 	}
 
 	.wp-editor-container {
@@ -235,8 +250,7 @@ export default {
 		border-radius: 3px;
 	}
 
-	div.mce-toolbar-grp > div,
-	.quicktags-toolbar {
+	div.mce-toolbar-grp > div, .quicktags-toolbar {
 		padding: 10px;
 	}
 
@@ -259,9 +273,7 @@ export default {
 		flex-wrap: wrap;
 	}
 
-	.mce-toolbar .mce-btn.mce-active .mce-open,
-	.mce-toolbar .mce-btn:focus .mce-open,
-	.mce-toolbar .mce-btn:hover .mce-open {
+	.mce-toolbar .mce-btn.mce-active .mce-open, .mce-toolbar .mce-btn:focus .mce-open, .mce-toolbar .mce-btn:hover .mce-open {
 		border-left-color: var(--zb-surface-border-color);
 	}
 
@@ -273,8 +285,7 @@ export default {
 		margin-top: 2px;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn,
-	.qt-dfw {
+	.mce-toolbar .mce-btn-group .mce-btn, .qt-dfw {
 		border: 0;
 	}
 
@@ -284,8 +295,7 @@ export default {
 		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
 
-		&:focus,
-		&:hover {
+		&:focus, &:hover {
 			border-color: var(--zb-surface-border-color);
 		}
 
@@ -311,12 +321,7 @@ export default {
 		border: 0;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus,
-	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover,
-	.qt-dfw:focus,
-	.qt-dfw:hover,
-	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active,
-	.qt-dfw.active {
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover, .qt-dfw:focus, .qt-dfw:hover, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active, .qt-dfw.active {
 		background: var(--zb-surface-lightest-color);
 		box-shadow: none;
 		border: 0;
@@ -333,8 +338,7 @@ export default {
 		color: var(--zb-surface-text-color);
 	}
 
-	.mce-toolbar .mce-btn button,
-	.qt-dfw {
+	.mce-toolbar .mce-btn button, .qt-dfw {
 		height: 100%;
 	}
 
