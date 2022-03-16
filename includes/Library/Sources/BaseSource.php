@@ -121,6 +121,17 @@ class BaseSource {
 	}
 
 	/**
+	 * Returns a single template item data for REST API
+	 *
+	 * @param integer $item_id The template id we want to return
+	 *
+	 * @return array
+	 */
+	public function get_item( $item_id ) {
+		return [];
+	}
+
+	/**
 	 * Returns a list of template categories
 	 *
 	 * @return array

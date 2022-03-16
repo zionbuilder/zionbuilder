@@ -39,7 +39,7 @@ class Utils {
 	 * @return boolean
 	 */
 	public static function has_valid_license() {
-		return self::is_pro_active() && \ZionBuilderPro\License::has_valid_license();
+		return self::is_pro_active() && class_exists( '\ZionBuilderPro\License' ) && \ZionBuilderPro\License::has_valid_license();
 	}
 
 	/**

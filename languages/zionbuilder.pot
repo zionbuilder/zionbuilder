@@ -12,7 +12,8 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../includes/AdminBar.php:67
+#. translators: %s: ZionBuilder white label name
+#: ../includes/AdminBar.php:68
 msgid "Edit with %s"
 msgstr ""
 
@@ -2160,7 +2161,7 @@ msgstr ""
 msgid "Template was not built with %s"
 msgstr ""
 
-#: ../includes/Templates.php:127, ../includes/Library/Sources/LocalSource.php:88
+#: ../includes/Templates.php:127, ../includes/Library/Sources/LocalSource.php:116
 msgid "Template"
 msgstr ""
 
@@ -2237,6 +2238,10 @@ msgstr ""
 
 #: ../includes/Templates.php:310
 msgid "Missing template type"
+msgstr ""
+
+#: ../includes/User.php:33, ../includes/User.php:53
+msgid "no active user found"
 msgstr ""
 
 #: ../includes/WPMedia.php:38
@@ -2360,7 +2365,7 @@ msgstr ""
 msgid "The list of actions we need to perform."
 msgstr ""
 
-#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:250, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:68, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:274, ../includes/Api/RestControllers/Templates.php:321
+#: ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:252, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/RegenerateCache.php:68, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:275, ../includes/Api/RestControllers/Templates.php:322
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2372,11 +2377,11 @@ msgstr ""
 msgid "Invalid nonce or filename"
 msgstr ""
 
-#: ../includes/Api/RestControllers/FileUpload.php:65, ../includes/Api/RestControllers/Options.php:88, ../includes/Api/RestControllers/Templates.php:291
+#: ../includes/Api/RestControllers/FileUpload.php:65, ../includes/Api/RestControllers/Options.php:88, ../includes/Api/RestControllers/Templates.php:292
 msgid "You do not have permissions to edit this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/FileUpload.php:85, ../includes/Api/RestControllers/Library.php:481, ../includes/Api/RestControllers/Templates.php:684
+#: ../includes/Api/RestControllers/FileUpload.php:85, ../includes/Api/RestControllers/Library.php:566, ../includes/Api/RestControllers/Templates.php:689
 msgid "Your file is empty or invalid"
 msgstr ""
 
@@ -2400,19 +2405,19 @@ msgstr ""
 msgid "Font family"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Library.php:273, ../includes/Api/RestControllers/Library.php:283, ../includes/Api/RestControllers/Library.php:293, ../includes/Api/RestControllers/Library.php:304, ../includes/Api/RestControllers/Library.php:314, ../includes/Api/RestControllers/Library.php:350, ../includes/Api/RestControllers/Library.php:363, ../includes/Api/RestControllers/Library.php:416, ../includes/Api/RestControllers/Library.php:434, ../includes/Api/RestControllers/Library.php:475
-msgid "No library found that mathces your request."
+#: ../includes/Api/RestControllers/Library.php:297, ../includes/Api/RestControllers/Library.php:315, ../includes/Api/RestControllers/Library.php:332, ../includes/Api/RestControllers/Library.php:349, ../includes/Api/RestControllers/Library.php:359, ../includes/Api/RestControllers/Library.php:395, ../includes/Api/RestControllers/Library.php:415, ../includes/Api/RestControllers/Library.php:476, ../includes/Api/RestControllers/Library.php:500, ../includes/Api/RestControllers/Library.php:560
+msgid "No library found that matches your request."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Library.php:372, ../includes/Api/RestControllers/Templates.php:625, ../includes/Api/RestControllers/Templates.php:723, ../includes/Library/Sources/LocalSource.php:66, ../includes/Library/Sources/LocalSource.php:120
+#: ../includes/Api/RestControllers/Library.php:424, ../includes/Api/RestControllers/Templates.php:630, ../includes/Api/RestControllers/Templates.php:728, ../includes/Library/Sources/LocalSource.php:87, ../includes/Library/Sources/LocalSource.php:155
 msgid "Could not return the post instance"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Library.php:423, ../includes/Api/RestControllers/Templates.php:530
+#: ../includes/Api/RestControllers/Library.php:483, ../includes/Api/RestControllers/Templates.php:531
 msgid "The template cannot be deleted."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Library.php:496, ../includes/Api/RestControllers/Templates.php:438, ../includes/Api/RestControllers/Templates.php:494, ../includes/Api/RestControllers/Templates.php:517, ../includes/Api/RestControllers/Templates.php:575, ../includes/Api/RestControllers/Templates.php:699, ../includes/Library/Sources/LocalSource.php:55, ../includes/Library/Sources/LocalSource.php:109
+#: ../includes/Api/RestControllers/Library.php:533, ../includes/Api/RestControllers/Library.php:581, ../includes/Api/RestControllers/Templates.php:439, ../includes/Api/RestControllers/Templates.php:495, ../includes/Api/RestControllers/Templates.php:518, ../includes/Api/RestControllers/Templates.php:576, ../includes/Api/RestControllers/Templates.php:599, ../includes/Api/RestControllers/Templates.php:704, ../includes/Library/Sources/LocalSource.php:69, ../includes/Library/Sources/LocalSource.php:137
 msgid "Your post id could not be found!"
 msgstr ""
 
@@ -2636,39 +2641,39 @@ msgctxt "System Info"
 msgid "If you want to modify the source code of your theme, we recommend using a <a target=\"_blank\" href=\"%s\">child theme</a>."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:183, ../includes/Api/RestControllers/Templates.php:225, ../includes/Api/RestControllers/Templates.php:244, ../includes/Api/RestControllers/Templates.php:248
+#: ../includes/Api/RestControllers/Templates.php:184, ../includes/Api/RestControllers/Templates.php:226, ../includes/Api/RestControllers/Templates.php:245, ../includes/Api/RestControllers/Templates.php:249
 msgid "Unique identifier for the object."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:211
+#: ../includes/Api/RestControllers/Templates.php:212
 msgid "Whether to bypass trash and force deletion."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:306
+#: ../includes/Api/RestControllers/Templates.php:307
 msgid "You do not have permissions to delete this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:338
+#: ../includes/Api/RestControllers/Templates.php:339
 msgid "You do not have permissions to export this template."
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:743
+#: ../includes/Api/RestControllers/Templates.php:748
 msgid "Could not get the template zip file!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:762, ../includes/Library/Sources/ZionSource.php:76
+#: ../includes/Api/RestControllers/Templates.php:767, ../includes/Library/Sources/ZionSource.php:86
 msgid "The uploaded template is not valid!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:729
+#: ../includes/Api/RestControllers/Templates.php:734
 msgid "The template could not be inserted!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:791, ../includes/Api/RestControllers/Templates.php:848
+#: ../includes/Api/RestControllers/Templates.php:796, ../includes/Api/RestControllers/Templates.php:853
 msgid "Post could not be cloned!"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Templates.php:794, ../includes/Api/RestControllers/Templates.php:795
+#: ../includes/Api/RestControllers/Templates.php:799, ../includes/Api/RestControllers/Templates.php:800
 msgid "copy"
 msgstr ""
 
@@ -4112,11 +4117,11 @@ msgstr ""
 msgid "Show play icon"
 msgstr ""
 
-#: ../includes/Library/Sources/LocalSource.php:126
+#: ../includes/Library/Sources/LocalSource.php:161
 msgid "The builder data for this item could not be retrieved!"
 msgstr ""
 
-#: ../includes/Library/Sources/ZionSource.php:55
+#: ../includes/Library/Sources/ZionSource.php:65
 msgid "The template archive could not be found!"
 msgstr ""
 

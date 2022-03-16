@@ -11,7 +11,7 @@ use WP_Error;
 
 class Library {
 	/**
-	 * Holds a refference to all template library sources
+	 * Holds a reference to all template library sources
 	 *
 	 * @var array
 	 */
@@ -29,7 +29,7 @@ class Library {
 	public function register_sources() {
 		if ( null === $this->sources ) {
 			$this->register_default_sources();
-			do_action( 'zionbulder/library/register_sources', $this );
+			do_action( 'zionbuilder/library/register_sources', $this );
 		}
 	}
 
@@ -79,7 +79,7 @@ class Library {
 
 
 	/**
-	 * Unregisters a template source
+	 * Unregister a template source
 	 *
 	 * @param string $source_id
 	 *
@@ -90,7 +90,11 @@ class Library {
 		unset( $this->sources[$source_id] );
 	}
 
-
+	/**
+	 * Returns the registered library sources
+	 *
+	 * @return array
+	 */
 	public function get_sources() {
 		$this->register_sources();
 
@@ -108,15 +112,4 @@ class Library {
 		$this->register_sources();
 		return $this->sources[$source_id] ? $this->sources[$source_id] : false;
 	}
-
-
-	/**
-	 * Returns the list of sources as array so it can be used in javascript
-	 *
-	 * @return array
-	 */
-	public function get_sources_for_api() {
-		$this->register_sources();
-	}
-
 }

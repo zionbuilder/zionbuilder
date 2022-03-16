@@ -34,6 +34,11 @@ class TemplatePostType extends BasePostType {
 	}
 
 
+	/**
+	 * Returns the screenshot generation URL string
+	 *
+	 * @return string|null
+	 */
 	public function get_screenshot_generation_url() {
 		return get_preview_post_link(
 			$this->get_post_id(),
@@ -88,41 +93,78 @@ class TemplatePostType extends BasePostType {
 		);
 	}
 
+	/**
+	 * Returns the current status of screenshot generation process
+	 *
+	 * @return boolean
+	 */
 	public function has_thumbnail_generation_failed() {
 		return get_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD, true ) === true;
 	}
 
+	/**
+	 * Returns the template screenshot
+	 *
+	 * @return string
+	 */
 	public function get_thumbnail() {
 		return get_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD, true );
 	}
 
+	/**
+	 * Saves the thumbnail image to DB
+	 *
+	 * @param string $thumbnail_url
+	 *
+	 * @return void
+	 */
 	public function set_thumbnail( $thumbnail_url ) {
 		update_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD, $thumbnail_url );
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD );
 	}
 
+	/**
+	 * Saves the screenshot generation status to DB
+	 *
+	 * @param boolean $status
+	 *
+	 * @return void
+	 */
 	public function set_failed_thumbnail_generation_status( $status ) {
 		update_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD, $status );
 	}
 
+	/**
+	 * Deletes the thumbnail data from DB and file system
+	 *
+	 * @return void
+	 */
 	public function clear_thumbnail_data() {
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_META_FIELD );
 		delete_post_meta( $this->get_post_id(), self::THUMBNAIL_FAILED_META_FIELD );
 
-		$screenshoot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
-		$file_path          = sprintf( '%s/template-%s.png', $screenshoot_folder['basedir'], $this->get_post_id() );
+		$screenshot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
+		$file_path         = sprintf( '%s/template-%s.png', $screenshot_folder['basedir'], $this->get_post_id() );
 
 		FileSystem::get_file_system()->delete( $file_path );
 	}
 
+	/**
+	 * Saves a base64 image data as template thumbnail
+	 *
+	 * @param string $base_64_data
+	 *
+	 * @return void
+	 */
 	public function save_base64Image( $base_64_data ) {
 		// Get the base64 string
 		$image_data = str_replace( 'data:image/png;base64,', '', $base_64_data );
+		// phpcs:ignore
 		$image_data = base64_decode( $image_data );
 
-		$screenshoot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
-		$file_path          = sprintf( '%s/template-%s.png', $screenshoot_folder['basedir'], $this->get_post_id() );
-		$file_url           = sprintf( '%s/template-%s.png', $screenshoot_folder['baseurl'], $this->get_post_id() );
+		$screenshot_folder = FileSystem::get_zionbuilder_upload_dir( self::CACHE_DIRECTORY_NAME );
+		$file_path         = sprintf( '%s/template-%s.png', $screenshot_folder['basedir'], $this->get_post_id() );
+		$file_url          = sprintf( '%s/template-%s.png', $screenshot_folder['baseurl'], $this->get_post_id() );
 
 		FileSystem::get_file_system()->put_contents( $file_path, $image_data, 0644 );
 
@@ -130,8 +172,15 @@ class TemplatePostType extends BasePostType {
 		$this->set_thumbnail( $file_url );
 	}
 
+	/**
+	 * Saves the template data to DB
+	 *
+	 * @param array $post_data
+	 *
+	 * @return boolean
+	 */
 	public function save( $post_data ) {
-		// Clear the thumbanil data so we can regenerate it
+		// Clear the thumbnail data so we can regenerate it
 		$this->clear_thumbnail_data();
 
 		return parent::save( $post_data );

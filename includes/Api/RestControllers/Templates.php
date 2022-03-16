@@ -5,6 +5,7 @@ namespace ZionBuilder\Api\RestControllers;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Templates as ZionBuilderTemplates;
+use ZionBuilder\Post\TemplatePostType;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -393,7 +394,7 @@ class Templates extends RestApiController {
 			'posts_per_page' => -1,
 		];
 
-		/** @var \WP_Post[] $templates */
+		/** @var \WP_Post[] $items */
 		$items = get_posts( $args );
 
 		foreach ( $items as $item ) {
@@ -446,7 +447,7 @@ class Templates extends RestApiController {
 	 *
 	 * @param \WP_Post $template
 	 *
-	 * @return array
+	 * @return \WP_Post
 	 */
 	public function attach_post_data( $template ) {
 		_deprecated_function( __METHOD__, '3.0.0', 'template_instance::get_data_for_api()' );
@@ -593,6 +594,10 @@ class Templates extends RestApiController {
 
 		if ( $template_id ) {
 			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
+
+			if ( ! $template_instance || ! $template_instance instanceof TemplatePostType ) {
+				return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
+			}
 
 			if ( $success ) {
 				$template_instance->save_base64Image( $image_data );

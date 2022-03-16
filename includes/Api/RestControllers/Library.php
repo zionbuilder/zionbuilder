@@ -6,6 +6,7 @@ use WP_REST_Request;
 use ZionBuilder\Api\RestApiController;
 use ZionBuilder\Plugin;
 use ZionBuilder\Templates;
+use ZionBuilder\Post\TemplatePostType;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -528,7 +529,7 @@ class Library extends RestApiController {
 			$template_instance = Plugin::$instance->post_manager->get_post_instance( $template_id );
 
 			// check if the id is valid
-			if ( ! $template_instance ) {
+			if ( ! $template_instance || ! $template_instance instanceof TemplatePostType ) {
 				return new \WP_Error( 'post_not_found', __( 'Your post id could not be found!', 'zionbuilder' ) );
 			}
 
