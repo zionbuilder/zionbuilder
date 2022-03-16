@@ -4,7 +4,7 @@
 		trigger="click"
 		ref="popper"
 		:close-on-outside-click="true"
-		:use-backdrop="true"
+		append-to="body"
 		:modifiers="[
 			{
 				name: 'preventOverflow',
@@ -117,10 +117,24 @@ export default {
 		openColorPicker () {
 			this.$emit('open')
 			document.addEventListener('click', this.closePanelOnOutsideClick, true)
+
+			if (this.$refs.popper.$el) {
+				this.backdrop = document.createElement('div')
+				this.backdrop.classList.add('znpb-tooltip-backdrop')
+				const popper = this.$refs.popper.$el
+				const parent = popper.parentNode
+				parent.insertBefore(this.backdrop, popper)
+			}
 		},
 		closeColorPicker () {
 			this.$emit('close')
 			document.removeEventListener('click', this.closePanelOnOutsideClick)
+
+			if (this.backdrop) {
+				document.body.appendChild(this.backdrop)
+				this.backdrop.parentNode.removeChild(this.backdrop);
+			}
+
 		},
 		closePanelOnOutsideClick (event) {
 			if (this.$el.contains(event.target) || (this.$refs.colorpickerHolder && this.$refs.colorpickerHolder.$el.contains(event.target))) {
@@ -138,3 +152,13 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.znpb-tooltip-backdrop {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+</style>

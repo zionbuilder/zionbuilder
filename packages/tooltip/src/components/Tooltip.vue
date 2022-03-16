@@ -195,11 +195,6 @@ export default {
 			type: [Object, String],
 			required: false,
 			default: {},
-		},
-		useBackdrop: {
-			type: Boolean,
-			required: false,
-			default: false
 		}
 	},
 	setup(props) {
@@ -348,13 +343,6 @@ export default {
 					return;
 				}
 
-				// Check to see if we need to add a backdrop
-				if (this.useBackdrop) {
-					this.backdrop = document.createElement('div')
-					this.backdrop.classList.add('znpb-tooltip-backdrop')
-					document.body.appendChild(this.backdrop)
-				}
-
 				appendElement.appendChild(this.popperElement);
 
 			}
@@ -379,11 +367,6 @@ export default {
 			) {
 				// Append to
 				this.popperElement.parentNode.removeChild(this.popperElement);
-			}
-
-			if (this.useBackdrop && this.backdrop) {
-				document.body.appendChild(this.backdrop)
-				this.backdrop.parentNode.removeChild(this.backdrop);
 			}
 
 			this.popperElement = null;
@@ -702,13 +685,4 @@ export default {
 		list-style-type: none;
 	}
 }
-
-.znpb-tooltip-backdrop {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-
 </style>

@@ -79,7 +79,7 @@
 				<CSSSelector
 					class="znpb-option-cssChildSelectorStyles"
 					v-for="(childSelector, index) in childSelectors"
-					:key="index"
+					:key="childSelector.title + childSelector.selector + index"
 					:modelValue="childSelector"
 					@update:modelValue="onChildUpdate(childSelector, $event)"
 					:is-child="true"
