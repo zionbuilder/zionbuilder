@@ -7,7 +7,8 @@ const schemas: Ref<{ [key: string]: object }> = ref({
 	typography: window.ZnPbComponentsData.schemas.typography,
 	videoOptionSchema: window.ZnPbComponentsData.schemas.video,
 	backgroundImageSchema: window.ZnPbComponentsData.schemas.background_image,
-	shadowSchema: window.ZnPbComponentsData.schemas.shadow
+	shadowSchema: window.ZnPbComponentsData.schemas.shadow,
+	styles: window.ZnPbComponentsData.schemas.styles
 })
 
 export const useOptionsSchemas = () => {
