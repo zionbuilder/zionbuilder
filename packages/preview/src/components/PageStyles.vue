@@ -1,10 +1,9 @@
-
 <script>
 import ElementStyles from './ElementStyles.vue'
 import Options from '../Options'
 import { getCssFromSelector } from '@zb/editor'
 import { h } from 'vue'
-import { usePseudoSelectors } from '@zb/components'
+import { usePseudoSelectors, useOptionsSchemas } from '@zb/components'
 
 export default {
 	name: 'PageStyles',
@@ -20,6 +19,9 @@ export default {
 		}
 	},
 	setup (props) {
+		const { getSchema } = useOptionsSchemas()
+		const optionsSchema = getSchema('styles')
+
 		return () => {
 			const { activePseudoSelector } = usePseudoSelectors()
 			const returnVnodes = []
@@ -40,11 +42,27 @@ export default {
 			if (typeof props.cssClasses === 'object' && props.cssClasses !== null) {
 				Object.keys(props.cssClasses).forEach(cssClassId => {
 					const styleData = props.cssClasses[cssClassId]
-					let customCSS = getCssFromSelector([`.zb .${styleData.id}`], styleData)
+					const optionsInstance = new Options(
+						optionsSchema,
+						styleData,
+						[`.zb .${styleData.id}`]
+					)
+
+					const parsedOptions = optionsInstance.parseData()
+
+					let customCSS = getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options)
 
 					// Generate the styles on hover
 					if (activePseudoSelector.value && activePseudoSelector.value.id === ':hover') {
-						customCSS += getCssFromSelector([`.zb .${styleData.id}`], styleData, {
+						const optionsInstance = new Options(
+							optionsSchema,
+							styleData,
+							[`.zb .${styleData.id}`]
+						)
+
+						const parsedOptions = optionsInstance.parseData()
+
+						customCSS += getCssFromSelector([`.zb .${styleData.id}`], parsedOptions.options, {
 							forcehoverState: true
 						})
 					}

@@ -24,7 +24,7 @@ import { computed, ref, watch, provide } from 'vue'
 import PageStyles from './components/PageStyles.vue'
 import ElementStyles from './components/ElementStyles.vue'
 import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses, usePreviewMode, usePreviewLoading, usePageSettings, useWindows, useEditorData } from '@zb/editor'
+import { useElements, useCSSClasses, usePreviewMode, usePageSettings, useEditorData } from '@zb/editor'
 import { useOptionsSchemas } from '@zb/components'
 import { trigger, applyFilters } from '@zb/hooks'
 

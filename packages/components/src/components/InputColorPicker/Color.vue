@@ -53,6 +53,7 @@
 
 	</Tooltip>
 </template>
+
 <script>
 import PatternContainer from './PatternContainer.vue'
 import { Tooltip } from '@zionbuilder/tooltip'
@@ -149,6 +150,11 @@ export default {
 	},
 	beforeUnmount () {
 		document.removeEventListener('click', this.closePanelOnOutsideClick)
+
+		if (this.backdrop) {
+			document.body.appendChild(this.backdrop)
+			this.backdrop.parentNode.removeChild(this.backdrop);
+		}
 	}
 }
 </script>
