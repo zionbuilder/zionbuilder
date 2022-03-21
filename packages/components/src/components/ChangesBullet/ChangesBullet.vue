@@ -1,50 +1,39 @@
 <template>
-	<span
-		class="znpb-options-has-changes-wrapper"
-		v-znpb-tooltip="discardChangesTitle"
-	>
+	<span v-znpb-tooltip="discardChangesTitle" class="znpb-options-has-changes-wrapper">
 		<span
-			@click.stop="$emit('remove-styles')"
-			@mouseover="showIcon=true"
-			@mouseleave="showIcon=false"
 			class="znpb-options__has-changes"
+			@click.stop="$emit('remove-styles')"
+			@mouseover="showIcon = true"
+			@mouseleave="showIcon = false"
 		>
 			<span v-if="!showIcon"></span>
-			<Icon
-				v-else
-				class="znpb-options-has-changes-wrapper__delete"
-				icon="close"
-				:size="6"
-			/>
+			<Icon v-else class="znpb-options-has-changes-wrapper__delete" icon="close" :size="6" />
 		</span>
-
 	</span>
 </template>
 
 <script>
-import { Tooltip } from '@zionbuilder/tooltip'
-import { translate } from '@zb/i18n'
-
 export default {
 	name: 'ChangesBullet',
-	components: {
-		Tooltip
-	},
-	data () {
-		return {
-			showIcon: false
-		}
-	},
-	props: {
-		discardChangesTitle: {
-			type: String,
-			required: false,
-			default () {
-				return translate('discard_changes')
-			}
-		}
-	}
+};
+</script>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+// @ TS can't resolve this path
+import { translate } from '@zb/i18n';
+
+interface IProps {
+	discardChangesTitle?: string;
 }
+
+withDefaults(defineProps<IProps>(), {
+	discardChangesTitle: translate('discard_changes'),
+});
+
+defineEmits(['remove-styles']);
+
+const showIcon = ref(false);
 </script>
 
 <style lang="scss">
@@ -60,7 +49,7 @@ export default {
 }
 
 .znpb-options__has-changes::after {
-	content: "";
+	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -68,7 +57,7 @@ export default {
 	height: 100%;
 	background: #31d783;
 	border-radius: 50%;
-	transition: transform .15s, background-color .1s;
+	transition: transform 0.15s, background-color 0.1s;
 }
 
 .znpb-options__has-changes:hover::after {

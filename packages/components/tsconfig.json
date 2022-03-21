@@ -6,6 +6,9 @@
 	},
 	"references": [
 	],
+	"paths": {
+		"@zb/*": ["../*"]
+	},
 	"include": [
 		"src/**/*",
 		"../shims-vue.d.ts",
