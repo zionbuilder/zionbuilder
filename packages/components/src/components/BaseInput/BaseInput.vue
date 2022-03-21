@@ -1,4 +1,5 @@
 <template>
+
 	<div
 		class="zion-input"
 		:class="{
@@ -7,50 +8,68 @@
 			'zion-input--has-suffix': hasSuffixContent,
 			'zion-input--error': error,
 			[`zion-input--size-${size}`]: size,
+			[cssClass]: cssClass
 		}"
 		@keydown="onKeyDown"
 	>
-		<div v-if="$slots.prepend" class="zion-input__prefix">
-			<div v-if="$slots.prepend" class="zion-input__prepend">
+		<div
+			class="zion-input__prefix"
+			v-if="$slots.prepend"
+		>
+			<div
+				class="zion-input__prepend"
+				v-if="$slots.prepend"
+			>
 				<!-- @slot Content that will be placed before input -->
 				<slot name="prepend"></slot>
 			</div>
 		</div>
 		<input
 			v-if="type !== 'textarea'"
-			ref="input"
 			:type="type"
 			:value="inputValue"
+			@input="inputValue = $event.target.value"
+			ref="input"
 			:style="getStyle"
 			v-bind="$attrs"
-			@input="inputValue = ($event.target as HTMLInputElement).value"
-		/>
+		>
 		<textarea
-			v-else
-			ref="input"
 			class="znpb-fancy-scrollbar"
+			v-else
 			:value="inputValue"
+			@input="inputValue = $event.target.value"
+			ref="input"
 			v-bind="$attrs"
-			@input="inputValue = ($event.target as HTMLTextAreaElement).value"
 		>
 		</textarea>
 
 		<slot name="after-input"></slot>
 
 		<Icon
-			v-if="showClear"
 			class="zion-input__suffix-icon zion-input__clear-text"
 			icon="close"
+			v-if="showClear"
 			@mousedown.stop.prevent="inputValue = ''"
 		/>
 
-		<div v-if="$slots.suffix || icon || $slots.append" class="zion-input__suffix">
+		<div
+			class="zion-input__suffix"
+			v-if="$slots.suffix || icon || $slots.append"
+		>
 			<!-- @slot Content that will be placed after input -->
 			<slot name="suffix"></slot>
 
-			<Icon v-if="icon" class="zion-input__suffix-icon" :icon="icon" @click.stop.prevent="inputValue = ''" />
+			<Icon
+				class="zion-input__suffix-icon"
+				:icon="icon"
+				v-if="icon"
+				@click.stop.prevent="inputValue = ''"
+			/>
 
-			<div v-if="$slots.append" class="zion-input__append">
+			<div
+				class="zion-input__append"
+				v-if="$slots.append"
+			>
 				<!-- @slot Content that will be appended to input -->
 				<slot name="append"></slot>
 			</div>
@@ -58,99 +77,119 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script>
+import Icon from '../Icon/Icon.vue'
+
 export default {
 	name: 'BaseInput',
+	components: {
+		Icon
+	},
 	inheritAttrs: false,
-};
-</script>
+	props: {
+		/**
+		 * v-model/modelValue for the input
+		 */
+		modelValue: {
+			required: false,
+			type: [String, Number]
+		},
+		/**
+		 * If true, will mark the field as red
+		 */
+		error: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		/**
+		 * HTML input type (email, password, etc)
+		 */
+		type: {
+			type: String,
+			required: false,
+			default: 'text'
+		},
+		/**
+		 * Icon that appears at the end of the input
+		 */
+		icon: {
+			type: String,
+			required: false
+		},
+		/**
+		 * whether to show clear button
+		 */
+		clearable: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		/**
+		 * Input size. Can be one of "narrow", "big"
+		 */
+		size: {
+			type: String,
+			required: false
+		},
+		fontFamily: {
+			type: String,
+			required: false
+		},
+		class: {
 
-<script lang="ts" setup>
-import { ref, computed } from 'vue';
-interface IProps {
-	/**
-	 * v-model/modelValue for the input
-	 */
-	modelValue?: string | number;
-
-	/**
-	 * If true, will mark the field as red
-	 */
-	error?: boolean;
-	/**
-	 * HTML input type (email, password, etc)
-	 */
-	type?: string;
-	/**
-	 * Icon that appears at the end of the input
-	 */
-	icon?: string;
-	/**
-	 * whether to show clear button
-	 */
-	clearable?: boolean;
-	/**
-	 * Input size. Can be one of "narrow", "big"
-	 */
-	size?: string;
-
-	fontFamily?: string;
-}
-const props = withDefaults(defineProps<IProps>(), {
-	modelValue: '',
-	error: false,
-	name: 'BaseInput',
-	type: 'text',
-	clearable: false,
-});
-
-const emit = defineEmits<{
-	(e: 'update:modelValue', value: string | number): void;
-}>();
-
-// Template Ref
-const input = ref<HTMLInputElement | null>(null);
-
-const showClear = computed(() => {
-	return props.clearable && props.modelValue ? true : false;
-});
-
-const hasSuffixContent = computed(() => {
-	return props.icon || showClear.value;
-});
-
-const inputValue = computed({
-	get() {
-		return props.modelValue;
+		}
 	},
-	set(newValue: string | number) {
-		/** Updates the input value for the v-model **/
-		emit('update:modelValue', newValue);
+	data () {
+		return {
+			localValue: this.modelValue || ''
+		}
 	},
-});
 
-const getStyle = computed(() => {
-	return {
-		fontFamily: props.fontFamily,
-	};
-});
+	computed: {
+		cssClass () {
+			return this.class
+		},
+		showClear () {
+			return this.clearable && this.localValue && this.localValue.length > 0
+		},
+		hasSuffixContent () {
+			return this.icon || this.showClear
+		},
+		inputValue: {
+			get () {
+				return this.modelValue !== 'undefined' ? this.modelValue : ''
+			},
+			set (newValue) {
+				/** Updates the input value for the v-model **/
+				this.$emit('update:modelValue', newValue)
+				this.localValue = newValue
+			}
+		},
+		getStyle () {
+			let style = {
+				fontFamily: this.fontFamily ? this.fontFamily : null
+			}
+			return style
+		}
+	},
+	methods: {
+		onKeyDown (e) {
+			if (e.shiftKey) {
+				e.stopPropagation()
+			}
+		},
+		focus () {
+			this.$refs.input.focus()
+		},
+		blur () {
+			this.$refs.input.blur()
+		}
 
-function onKeyDown(e: KeyboardEvent) {
-	if (e.shiftKey) {
-		e.stopPropagation();
 	}
-}
 
-// @TODO Remove unused functions
-function focus() {
-	input.value?.focus();
-}
-
-function blur() {
-	input.value?.blur();
 }
 </script>
-
 <style lang="scss">
 body {
 	.zion-input {
