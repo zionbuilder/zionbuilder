@@ -87,72 +87,67 @@ const elementTransform = computed(() => {
 	let cssStyles = '';
 	if (props.rotate) {
 		if (typeof props.rotate === 'string' || typeof props.rotate === 'number') {
-			cssStyles = 'rotate' + '(' + props.rotate + 'deg)';
+			cssStyles = `rotate(${props.rotate}deg)`;
 		} else cssStyles = 'rotate(90deg)';
 	}
 	return cssStyles;
 });
 
-const hasPreserveAspect = computed(() => {
-	return props.preserveAspectRatio ? props.preserveAspectRatio : '';
-});
-
 const getSvgIcon = computed(() => {
-	const svg = `<svg
+	return `<svg
 				class="zion-svg-inline znpb-editor-icon zion-${props.icon} zion-icon"
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
 				viewBox="${iconViewbox.value}"
-				preserveAspectRatio="${hasPreserveAspect.value}"
+				preserveAspectRatio="${props.preserveAspectRatio || ''}"
 			>
 				${getIcon.value}
 			</svg>`;
-	return svg;
 });
 
 const getIcon = computed(() => {
-	let iconOption = getSearchIcon(props.icon);
-	if (iconOption) {
-		let iconPath = iconOption.paths;
-		let pathString = '';
-		// if the icon has circles
-		if (iconOption.circle) {
-			let iconCircle = iconOption.circle;
-			for (let i = 0; i < iconCircle.length; i++) {
-				pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`;
-			}
-		}
-		// if the icon has rect
-		if (iconOption.rect) {
-			let iconRect = iconOption.rect;
-			for (let i = 0; i < iconRect.length; i++) {
-				pathString += `<rect ${iconRect[i]}></rect>`;
-			}
-		}
-		// if the icon has polygon
-		if (iconOption.polygon) {
-			let iconPolygon = iconOption.polygon;
-			for (let i = 0; i < iconPolygon.length; i++) {
-				pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`;
-			}
-		}
-		for (let i = 0; i < iconPath.length; i++) {
-			pathString += `<path fill="currentColor" d="${iconPath[i]}"></path>`;
-		}
+	const iconOption = getSearchIcon(props.icon);
 
-		return pathString;
+	if (!iconOption) {
+		return null;
 	}
 
-	return null;
+	let pathString = '';
+	// if the icon has circles
+	if (iconOption.circle) {
+		let iconCircle = iconOption.circle;
+		for (let i = 0; i < iconCircle.length; i++) {
+			pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`;
+		}
+	}
+	// if the icon has rect
+	if (iconOption.rect) {
+		let iconRect = iconOption.rect;
+		for (let i = 0; i < iconRect.length; i++) {
+			pathString += `<rect ${iconRect[i]}></rect>`;
+		}
+	}
+	// if the icon has polygon
+	if (iconOption.polygon) {
+		let iconPolygon = iconOption.polygon;
+		for (let i = 0; i < iconPolygon.length; i++) {
+			pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`;
+		}
+	}
+
+	for (let i = 0; i < iconOption.paths.length; i++) {
+		pathString += `<path fill="currentColor" d="${iconOption.paths[i]}"></path>`;
+	}
+
+	return pathString;
 });
 
 const iconViewbox = computed(() => {
-	let iconOption = getSearchIcon(props.icon);
-	if (iconOption) {
-		if (iconOption.viewBox) {
-			return iconOption.viewBox;
-		} else return '0 0 50 50 ';
-	} else return '0 0 50 50 ';
+	const iconOption = getSearchIcon(props.icon);
+	if (!iconOption || !iconOption.viewBox) {
+		return '0 0 50 50 ';
+	}
+	return iconOption.viewBox;
 });
 </script>
 
