@@ -1,15 +1,10 @@
 {
-	"extends": "../../tsconfig.base.json",
-	"compilerOptions": {
-		"rootDir": "./src",
-		"declarationDir": "./build-types"
-	},
-	"references": [
-		{ "path": "../z-index-manager" },
-		{ "path": "../utils" },
-	],
-	"include": [
-		"src/**/*",
-		"../shims-vue.d.ts"
-	]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "declarationDir": "./build-types",
+    "types": ["../components/global", "../shims-vue"]
+  },
+  "references": [{ "path": "../z-index-manager" }, { "path": "../utils" }],
+  "include": ["src/**/*"]
 }
