@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="znpb-button"
-		:class="{['znpb-button--' + type]: type}"
-	>
+	<div class="znpb-button" :class="{ ['znpb-button--' + type]: type }">
 		<!-- @slot Content that will be added inside button -->
 		<slot></slot>
 	</div>
@@ -10,17 +7,16 @@
 
 <script lang="ts">
 export default {
-	name: "Button",
-	props: {
-		/**
-		 * Button type
-		 */
-		type: {
-			type: String,
-			required: false,
-		},
-	},
+	name: 'Button',
 };
+</script>
+
+<script lang="ts" setup>
+interface IProps {
+	type?: string;
+}
+
+defineProps<IProps>();
 </script>
 
 <style lang="scss">
