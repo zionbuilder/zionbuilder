@@ -1,172 +1,159 @@
 <template>
-	<span
-		class="znpb-editor-icon-wrapper"
-		:style="iconStyles"
-		:class="iconClass"
-		v-html="getSvgIcon"
-	>
-	</span>
-
+	<span class="znpb-editor-icon-wrapper" :style="iconStyles" :class="iconClass" v-html="getSvgIcon"> </span>
 </template>
 
-<script>
-import { getSearchIcon } from './icons.js'
+<script lang="ts">
 export default {
 	name: 'Icon',
-	props: {
-		/**
-		 * The Name of the icon - String
-		 */
-		icon: String,
-		/**
-		 * If the icon should be computed rotated
-		 * exmaple of props: true, 45,'45'
-		 */
-		rotate: {
-			type: [Boolean, String, Number],
-			required: false,
-			default: false
-		},
-		/**
-		 * The size of the icon - number
-		 */
-		bgSize: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * The color of the icon
-		 */
-		color: {
-			type: String,
-			required: false
-		},
-		/**
-		 * The icon size
-		 */
-		size: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * The background-color of the icon
-		 */
-		bgColor: {
-			type: String,
-			required: false
-		},
-		/**
-		 * The stroke-color of the icon
-		 */
-		stroke: {
-			type: String,
-			required: false
-		},
-		/**
-		 * If set to true, the icon wrapper will be rounded
-		 */
-		rounded: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		 * preserv aspect ratio
-		 */
-		preserveAspectRatio: {
-			type: String,
-			required: false
-		}
-	},
-	data: () => {
-		return {}
-	},
-	computed: {
-		iconStyles () {
-			return {
-				width: this.bgSize + 'px',
-				height: this.bgSize + 'px',
-				color: this.color,
-				fontSize: this.size + 'px',
-				background: this.bgColor,
-				stroke: this.stroke,
-				transform: this.elementTransform
-			}
-		},
-		iconClass () {
-			return {
-				'znpb-editor-icon--rounded': this.rounded
-			}
-		},
-		elementTransform () {
-			let cssStyles = ''
-			if (this.rotate) {
-				if ((typeof (this.rotate) === 'string') || (typeof (this.rotate) === 'number')) {
-					cssStyles = 'rotate' + '(' + this.rotate + 'deg)'
-				} else cssStyles = 'rotate(90deg)'
-			}
-			return cssStyles
-		},
-		hasPreserveAspect () {
-			return this.preserveAspectRatio ? this.preserveAspectRatio : ''
-		},
-		getSvgIcon () {
-			const svg = `<svg
-				class="zion-svg-inline znpb-editor-icon zion-${this.icon} zion-icon"
+};
+</script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { getSearchIcon } from './icons';
+
+interface IProps {
+	/**
+	 * The Name of the icon - String
+	 */
+	icon: string;
+
+	/**
+	 * If the icon should be computed rotated
+	 * exmaple of props: true, 45,'45'
+	 */
+	rotate?: boolean | string | number;
+
+	/**
+	 * The size of the icon - number
+	 */
+	bgSize?: number;
+
+	/**
+	 * The color of the icon
+	 */
+	color?: string;
+
+	// 		/**
+	// 		 * The icon size
+	// 		 */
+	size?: number;
+
+	// 		/**
+	// 		 * The background-color of the icon
+	// 		 */
+	bgColor?: string;
+
+	// 		/**
+	// 		 * The stroke-color of the icon
+	// 		 */
+	stroke?: string;
+
+	// 		/**
+	// 		 * If set to true, the icon wrapper will be rounded
+	// 		 */
+	rounded?: boolean;
+
+	// 		/**
+	// 		 * preserve aspect ratio
+	// 		 */
+	preserveAspectRatio?: string;
+}
+
+const props = withDefaults(defineProps<IProps>(), {
+	rotate: false,
+	rounded: false,
+});
+
+const iconStyles = computed(() => {
+	return {
+		width: props.bgSize + 'px',
+		height: props.bgSize + 'px',
+		color: props.color,
+		fontSize: props.size + 'px',
+		background: props.bgColor,
+		stroke: props.stroke,
+		transform: elementTransform.value,
+	};
+});
+
+const iconClass = computed(() => {
+	return {
+		'znpb-editor-icon--rounded': props.rounded,
+	};
+});
+
+const elementTransform = computed(() => {
+	let cssStyles = '';
+	if (props.rotate) {
+		if (typeof props.rotate === 'string' || typeof props.rotate === 'number') {
+			cssStyles = 'rotate' + '(' + props.rotate + 'deg)';
+		} else cssStyles = 'rotate(90deg)';
+	}
+	return cssStyles;
+});
+
+const hasPreserveAspect = computed(() => {
+	return props.preserveAspectRatio ? props.preserveAspectRatio : '';
+});
+
+const getSvgIcon = computed(() => {
+	const svg = `<svg
+				class="zion-svg-inline znpb-editor-icon zion-${props.icon} zion-icon"
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
-				viewBox="${this.iconViewbox}"
-				preserveAspectRatio="${this.hasPreserveAspect}"
+				viewBox="${iconViewbox.value}"
+				preserveAspectRatio="${hasPreserveAspect.value}"
 			>
-				${this.getIcon}
-			</svg>`
-			return svg
-		},
-		getIcon () {
-			let iconOption = getSearchIcon(this.icon)
-			if (iconOption) {
-				let iconPath = iconOption.paths
-				let pathString = ''
-				// if the icon has circles
-				if (iconOption.circle) {
-					let iconCircle = iconOption.circle
-					for (let i = 0; i < iconCircle.length; i++) {
-						pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`
-					}
-				}
-				// if the icon has rect
-				if (iconOption.rect) {
-					let iconRect = iconOption.rect
-					for (let i = 0; i < iconRect.length; i++) {
-						pathString += `<rect ${iconRect[i]}></rect>`
-					}
-				}
-				// if the icon has polygon
-				if (iconOption.polygon) {
-					let iconPolygon = iconOption.polygon
-					for (let i = 0; i < iconPolygon.length; i++) {
-						pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`
-					}
-				}
-				for (let i = 0; i < iconPath.length; i++) {
-					pathString += `<path fill="currentColor" d="${iconPath[i]}"></path>`
-				}
+				${getIcon.value}
+			</svg>`;
+	return svg;
+});
 
-				return pathString
+const getIcon = computed(() => {
+	let iconOption = getSearchIcon(props.icon);
+	if (iconOption) {
+		let iconPath = iconOption.paths;
+		let pathString = '';
+		// if the icon has circles
+		if (iconOption.circle) {
+			let iconCircle = iconOption.circle;
+			for (let i = 0; i < iconCircle.length; i++) {
+				pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`;
 			}
-
-			return null
-		},
-		iconViewbox () {
-			let iconOption = getSearchIcon(this.icon)
-			if (iconOption) {
-				if (iconOption.viewBox) {
-					return iconOption.viewBox
-				} else return '0 0 50 50 '
-			} else return '0 0 50 50 '
 		}
+		// if the icon has rect
+		if (iconOption.rect) {
+			let iconRect = iconOption.rect;
+			for (let i = 0; i < iconRect.length; i++) {
+				pathString += `<rect ${iconRect[i]}></rect>`;
+			}
+		}
+		// if the icon has polygon
+		if (iconOption.polygon) {
+			let iconPolygon = iconOption.polygon;
+			for (let i = 0; i < iconPolygon.length; i++) {
+				pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`;
+			}
+		}
+		for (let i = 0; i < iconPath.length; i++) {
+			pathString += `<path fill="currentColor" d="${iconPath[i]}"></path>`;
+		}
+
+		return pathString;
 	}
-}
+
+	return null;
+});
+
+const iconViewbox = computed(() => {
+	let iconOption = getSearchIcon(props.icon);
+	if (iconOption) {
+		if (iconOption.viewBox) {
+			return iconOption.viewBox;
+		} else return '0 0 50 50 ';
+	} else return '0 0 50 50 ';
+});
 </script>
 
 <style lang="scss">
