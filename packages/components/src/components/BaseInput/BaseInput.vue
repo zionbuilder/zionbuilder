@@ -65,13 +65,13 @@
 
 <script lang="ts">
 export default {
-	name: 'BaseInput',
+	name: "BaseInput",
 	inheritAttrs: false,
 };
 </script>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 interface IProps {
 	/**
 	 * v-model/modelValue for the input
@@ -102,15 +102,15 @@ interface IProps {
 	fontFamily?: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
-	modelValue: '',
+	modelValue: "",
 	error: false,
-	name: 'BaseInput',
-	type: 'text',
+	name: "BaseInput",
+	type: "text",
 	clearable: false,
 });
 
 defineEmits<{
-	(e: 'update:modelValue', value: string | number): void;
+	(e: "update:modelValue", value: string | number): void;
 }>();
 
 const showClear = computed(() => {
