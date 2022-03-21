@@ -1,1 +1,1 @@
-export { default as ChangesBullet } from './ChangesBullet.vue'
+export { default as ChangesBullet } from './ChangesBullet.vue';
