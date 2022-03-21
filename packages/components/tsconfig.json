@@ -2,13 +2,14 @@
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"rootDir": "./src",
-		"declarationDir": "./build-types"
+		"declarationDir": "./build-types",
+		"paths": {
+			"@zb/*": ["../*"]
+		},
 	},
 	"references": [
 	],
-	"paths": {
-		"@zb/*": ["../*"]
-	},
+
 	"include": [
 		"src/**/*",
 		"../shims-vue.d.ts",
