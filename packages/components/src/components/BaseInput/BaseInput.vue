@@ -23,7 +23,11 @@
 			:value="inputValue"
 			:style="getStyle"
 			v-bind="$attrs"
+<<<<<<< develop
 			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
+=======
+			@input="inputValue = ($event.target as HTMLInputElement).value"
+>>>>>>> Refactored Base Input component
 		/>
 		<textarea
 			v-else
@@ -31,7 +35,11 @@
 			class="znpb-fancy-scrollbar"
 			:value="inputValue"
 			v-bind="$attrs"
+<<<<<<< develop
 			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
+=======
+			@input="inputValue = ($event.target as HTMLTextAreaElement).value"
+>>>>>>> Refactored Base Input component
 		>
 		</textarea>
 
@@ -72,6 +80,7 @@ interface IProps {
 	 * v-model/modelValue for the input
 	 */
 	modelValue?: string | number;
+<<<<<<< develop
 
 	/**
 	 * If true, will mark the field as red
@@ -122,11 +131,77 @@ const getStyle = computed(() => {
 	};
 });
 
+=======
+
+	/**
+	 * If true, will mark the field as red
+	 */
+	error?: boolean;
+	/**
+	 * HTML input type (email, password, etc)
+	 */
+	type?: string;
+	/**
+	 * Icon that appears at the end of the input
+	 */
+	icon?: string;
+	/**
+	 * whether to show clear button
+	 */
+	clearable?: boolean;
+	/**
+	 * Input size. Can be one of "narrow", "big"
+	 */
+	size?: string;
+
+	fontFamily?: string;
+}
+const props = withDefaults(defineProps<IProps>(), {
+	modelValue: '',
+	error: false,
+	name: 'BaseInput',
+	type: 'text',
+	clearable: false,
+});
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string | number): void;
+}>();
+
+// Template Ref
+const input = ref<HTMLInputElement | null>(null);
+
+const showClear = computed(() => {
+	return props.clearable && props.modelValue ? true : false;
+});
+
+const hasSuffixContent = computed(() => {
+	return props.icon || showClear.value;
+});
+
+const inputValue = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue: string | number) {
+		/** Updates the input value for the v-model **/
+		emit('update:modelValue', newValue);
+	},
+});
+
+const getStyle = computed(() => {
+	return {
+		fontFamily: props.fontFamily,
+	};
+});
+
+>>>>>>> Refactored Base Input component
 function onKeyDown(e: KeyboardEvent) {
 	if (e.shiftKey) {
 		e.stopPropagation();
 	}
 }
+<<<<<<< develop
 
 // Template Ref
 const input = ref<HTMLInputElement | null>(null);
@@ -136,6 +211,14 @@ function focus() {
 	input.value?.focus();
 }
 
+=======
+
+// @TODO Remove unused functions
+function focus() {
+	input.value?.focus();
+}
+
+>>>>>>> Refactored Base Input component
 function blur() {
 	input.value?.blur();
 }
