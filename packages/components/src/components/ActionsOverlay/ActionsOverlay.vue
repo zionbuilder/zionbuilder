@@ -2,32 +2,27 @@
 	<div class="znpb-actions-overlay__wrapper">
 		<slot></slot>
 
-		<div
-			class="znpb-actions-overlay__actions-wrapper"
-			v-if="showOverlay"
-		>
+		<div v-if="showOverlay" class="znpb-actions-overlay__actions-wrapper">
 			<div class="znpb-actions-overlay__actions">
 				<slot name="actions"></slot>
 			</div>
 		</div>
-
 	</div>
 </template>
-<script>
+
+<script lang="ts">
 export default {
 	name: 'ActionsOverlay',
-	props: {
-		showOverlay: {
-			type: Boolean,
-			required: false,
-			default: true
-		}
-	},
-	data () {
-		return {
-		}
-	}
+};
+</script>
+
+<script lang="ts" setup>
+interface IProps {
+	showOverlay?: boolean;
 }
+withDefaults(defineProps<IProps>(), {
+	showOverlay: true,
+});
 </script>
 
 <style lang="scss">
