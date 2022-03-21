@@ -1,5 +1,4 @@
 <template>
-
 	<div
 		class="zion-input"
 		:class="{
@@ -8,30 +7,23 @@
 			'zion-input--has-suffix': hasSuffixContent,
 			'zion-input--error': error,
 			[`zion-input--size-${size}`]: size,
-			[cssClass]: cssClass
 		}"
 		@keydown="onKeyDown"
 	>
-		<div
-			class="zion-input__prefix"
-			v-if="$slots.prepend"
-		>
-			<div
-				class="zion-input__prepend"
-				v-if="$slots.prepend"
-			>
+		<div v-if="$slots.prepend" class="zion-input__prefix">
+			<div v-if="$slots.prepend" class="zion-input__prepend">
 				<!-- @slot Content that will be placed before input -->
 				<slot name="prepend"></slot>
 			</div>
 		</div>
 		<input
 			v-if="type !== 'textarea'"
-			:type="type"
-			:value="inputValue"
-			@input="inputValue = $event.target.value"
 			ref="input"
+			:type="type"
+			:value="modelValue"
 			:style="getStyle"
 			v-bind="$attrs"
+<<<<<<< develop
 <<<<<<< develop
 <<<<<<< develop
 			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
@@ -42,13 +34,17 @@
 =======
 		>
 >>>>>>> Revert "Refactored Base Input component"
+=======
+			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
+		/>
+>>>>>>> Fixed modelValue error on BaseInput component
 		<textarea
-			class="znpb-fancy-scrollbar"
 			v-else
-			:value="inputValue"
-			@input="inputValue = $event.target.value"
 			ref="input"
+			class="znpb-fancy-scrollbar"
+			:value="modelValue"
 			v-bind="$attrs"
+<<<<<<< develop
 <<<<<<< develop
 <<<<<<< develop
 			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
@@ -57,36 +53,33 @@
 >>>>>>> Refactored Base Input component
 =======
 >>>>>>> Revert "Refactored Base Input component"
+=======
+			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
+>>>>>>> Fixed modelValue error on BaseInput component
 		>
 		</textarea>
 
 		<slot name="after-input"></slot>
 
 		<Icon
+			v-if="showClear"
 			class="zion-input__suffix-icon zion-input__clear-text"
 			icon="close"
-			v-if="showClear"
-			@mousedown.stop.prevent="inputValue = ''"
+			@mousedown.stop.prevent="$emit('update:modelValue', '')"
 		/>
 
-		<div
-			class="zion-input__suffix"
-			v-if="$slots.suffix || icon || $slots.append"
-		>
+		<div v-if="$slots.suffix || icon || $slots.append" class="zion-input__suffix">
 			<!-- @slot Content that will be placed after input -->
 			<slot name="suffix"></slot>
 
 			<Icon
+				v-if="icon"
 				class="zion-input__suffix-icon"
 				:icon="icon"
-				v-if="icon"
-				@click.stop.prevent="inputValue = ''"
+				@click.stop.prevent="$emit('update:modelValue', '')"
 			/>
 
-			<div
-				class="zion-input__append"
-				v-if="$slots.append"
-			>
+			<div v-if="$slots.append" class="zion-input__append">
 				<!-- @slot Content that will be appended to input -->
 				<slot name="append"></slot>
 			</div>
@@ -94,15 +87,11 @@
 	</div>
 </template>
 
-<script>
-import Icon from '../Icon/Icon.vue'
-
+<script lang="ts">
 export default {
 	name: 'BaseInput',
-	components: {
-		Icon
-	},
 	inheritAttrs: false,
+<<<<<<< develop
 <<<<<<< develop
 };
 </script>
@@ -219,55 +208,55 @@ const getStyle = computed(() => {
 		},
 		class: {
 >>>>>>> Revert "Refactored Base Input component"
+=======
+};
+</script>
+>>>>>>> Fixed modelValue error on BaseInput component
 
-		}
-	},
-	data () {
-		return {
-			localValue: this.modelValue || ''
-		}
-	},
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+interface IProps {
+	/**
+	 * v-model/modelValue for the input
+	 */
+	modelValue?: string | number;
 
-	computed: {
-		cssClass () {
-			return this.class
-		},
-		showClear () {
-			return this.clearable && this.localValue && this.localValue.length > 0
-		},
-		hasSuffixContent () {
-			return this.icon || this.showClear
-		},
-		inputValue: {
-			get () {
-				return this.modelValue !== 'undefined' ? this.modelValue : ''
-			},
-			set (newValue) {
-				/** Updates the input value for the v-model **/
-				this.$emit('update:modelValue', newValue)
-				this.localValue = newValue
-			}
-		},
-		getStyle () {
-			let style = {
-				fontFamily: this.fontFamily ? this.fontFamily : null
-			}
-			return style
-		}
-	},
-	methods: {
-		onKeyDown (e) {
-			if (e.shiftKey) {
-				e.stopPropagation()
-			}
-		},
-		focus () {
-			this.$refs.input.focus()
-		},
-		blur () {
-			this.$refs.input.blur()
-		}
+	/**
+	 * If true, will mark the field as red
+	 */
+	error?: boolean;
+	/**
+	 * HTML input type (email, password, etc)
+	 */
+	type?: string;
+	/**
+	 * Icon that appears at the end of the input
+	 */
+	icon?: string;
+	/**
+	 * whether to show clear button
+	 */
+	clearable?: boolean;
+	/**
+	 * Input size. Can be one of "narrow", "big"
+	 */
+	size?: string;
 
+	fontFamily?: string;
+}
+const props = withDefaults(defineProps<IProps>(), {
+	modelValue: '',
+	error: false,
+	name: 'BaseInput',
+	type: 'text',
+	clearable: false,
+});
+
+defineEmits<{
+	(e: 'update:modelValue', value: string | number): void;
+}>();
+
+<<<<<<< develop
 <<<<<<< develop
 >>>>>>> Refactored Base Input component
 function onKeyDown(e: KeyboardEvent) {
@@ -296,11 +285,45 @@ function focus() {
 function blur() {
 	input.value?.blur();
 =======
-	}
+=======
+const showClear = computed(() => {
+	return props.clearable && props.modelValue ? true : false;
+});
 
+const hasSuffixContent = computed(() => {
+	return props.icon || showClear.value;
+});
+
+const getStyle = computed(() => {
+	return {
+		fontFamily: props.fontFamily,
+	};
+});
+
+function onKeyDown(e: KeyboardEvent) {
+	if (e.shiftKey) {
+		e.stopPropagation();
+>>>>>>> Fixed modelValue error on BaseInput component
+	}
+}
+
+<<<<<<< develop
 >>>>>>> Revert "Refactored Base Input component"
+=======
+// Template Ref
+const input = ref<HTMLInputElement | null>(null);
+
+// @TODO Remove unused functions
+function focus() {
+	input.value?.focus();
+}
+
+function blur() {
+	input.value?.blur();
+>>>>>>> Fixed modelValue error on BaseInput component
 }
 </script>
+
 <style lang="scss">
 body {
 	.zion-input {
