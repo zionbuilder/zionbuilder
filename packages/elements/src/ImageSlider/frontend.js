@@ -1,81 +1,85 @@
-(function ($) {
-	window.ZionBuilderFrontend.registerScript('imageSlider', {
-		initSlider(el, config) {
-			return new window.Swiper(el, config)
-		},
+window.zbFrontend = window.zbFrontend || []
+window.zbFrontend.scripts = window.zbFrontend.scripts || {}
 
-		getConfig(element, extraData = {}) {
-			const $slider = $(element)
-			const configAttr = $slider.attr('data-zion-slider-config')
-			const elementConfig = configAttr ? JSON.parse(configAttr) : {}
-			const sliderConfig = {
-				autoplay: true,
-				autoHeight: true
+function useSwiper () {
+	function getConfig(sliderEl) {
+		const configAttr = sliderEl.dataset.zionSliderConfig
+		const elementConfig = configAttr ? JSON.parse(configAttr) : {}
+		const sliderConfig = {
+			autoplay: true,
+			autoHeight: true
+		}
+
+		// Pagination
+		if (elementConfig.pagination) {
+			sliderConfig.pagination = {
+				el: '.swiper-pagination'
 			}
+		}
 
-			// Pagination
-			if (elementConfig.pagination) {
-				sliderConfig.pagination = {
-					el: '.swiper-pagination'
-				}
+		// Navigation
+		if (elementConfig.arrows) {
+			sliderConfig.navigation = {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev'
 			}
+		}
 
-			// Navigation
-			if (elementConfig.arrows) {
-				sliderConfig.navigation = {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev'
-				}
-			}
+		// Slides to show and breakpoints
+		let slidesPerView = 1
+		let slidesToShow = elementConfig.slides_to_show || 1
+		const breakpoints = {}
 
-			// Slides to show and breakpoints
-			let slidesPerView = 1
-			let slidesToShow = elementConfig.slides_to_show || 1
-			const breakpoints = {}
+		if (typeof slidesToShow === 'number') {
+			slidesPerView = slidesToShow
+		} else if (typeof slidesToShow === 'object') {
+			slidesPerView = typeof slidesToShow.default !== 'undefined' ? slidesToShow.default : 1
 
-			if (typeof slidesToShow === 'number') {
-				slidesPerView = slidesToShow
-			} else if (typeof slidesToShow === 'object') {
-				slidesPerView = typeof slidesToShow.default !== 'undefined' ? slidesToShow.default : 1
-				const mediaQueries = {
-					default: 992,
-					laptop: 768,
-					tablet: 576,
-					mobile: 0,
-				}
-
-				let lastValue = false
-				Object.keys(mediaQueries).forEach(key => {
-					const value = mediaQueries[key]
-					if (typeof slidesToShow[key] !== 'undefined') {
-						breakpoints[value] = {
-							slidesPerView: slidesToShow[key]
-						}
-						lastValue = slidesToShow[key]
-					} else if (lastValue !== false) {
-						breakpoints[value] = {
-							slidesPerView: lastValue
-						}
+			let lastValue = false
+			Object.keys(window.zbFrontendResponsiveDevicesMobileFirst).forEach(key => {
+				const value = window.zbFrontendResponsiveDevicesMobileFirst[key]
+				if (typeof slidesToShow[key] !== 'undefined') {
+					breakpoints[value] = {
+						slidesPerView: slidesToShow[key]
 					}
-				})
-			}
-
-			sliderConfig.slidesPerView = slidesPerView
-			sliderConfig.breakpoints = breakpoints
-
-
-			return {
-				...sliderConfig,
-				...elementConfig.rawConfig
-			}
-		},
-
-		run(scope) {
-			const $sliders = $(scope).find('.zb-el-imageSlider').addBack('.zb-el-imageSlider')
-			const script = this
-			$.each($sliders, function (i, slider) {
-				script.initSlider(slider, script.getConfig(slider))
+					lastValue = slidesToShow[key]
+				} else if (lastValue !== false) {
+					breakpoints[value] = {
+						slidesPerView: lastValue
+					}
+				}
 			})
 		}
-	})
-})(window.jQuery)
+
+		sliderConfig.slidesPerView = slidesPerView
+		sliderConfig.breakpoints = breakpoints
+
+		return {
+			...sliderConfig,
+			...elementConfig.rawConfig
+		}
+	}
+
+	function initSlider(sliderEl, config) {
+		return new window.Swiper(sliderEl, config)
+	}
+
+	function runAll(scope = document) {
+		const sliders = scope.querySelectorAll('.zb-el-imageSlider')
+		sliders.forEach(sliderEl => {
+			const config = getConfig(sliderEl)
+			sliderEl.zbSwiper = initSlider(sliderEl, config)
+		})
+	}
+
+	return {
+		getConfig,
+		initSlider,
+		runAll
+	}
+}
+
+// Register script
+window.zbFrontend.scripts.swiper = useSwiper()
+// Run on current page
+window.zbFrontend.scripts.swiper.runAll()

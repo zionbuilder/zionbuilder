@@ -1296,7 +1296,6 @@ class Element {
 		$wp_scripts->to_do  = [];
 		$wp_scripts->done   = [];
 		$wp_scripts->groups = [];
-
 		$this->enqueue_scripts();
 		$scripts = $this->get_dependency_config( $wp_scripts );
 
