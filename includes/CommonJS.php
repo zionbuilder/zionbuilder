@@ -152,5 +152,7 @@ class CommonJS {
 		}
 
 		wp_localize_script( $handle, 'zbFrontendResponsiveDevicesMobileFirst', Responsive::get_breakpoints_mobile_first() );
+
+		self::$enqueued_responsive_devices = true;
 	}
 }
