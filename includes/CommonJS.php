@@ -23,6 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package ZionBuilder
  */
 class CommonJS {
+	public static $enqueued_responsive_devices = false;
+
 	public function __construct() {
 		// Actions
 		add_action( 'zionbuilder/editor/before_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
@@ -142,5 +144,13 @@ class CommonJS {
 			]
 		);
 
+	}
+
+	public static function enqueue_responsive_devices( $handle ) {
+		if ( self::$enqueued_responsive_devices ) {
+			return;
+		}
+
+		wp_localize_script( $handle, 'zbFrontendResponsiveDevicesMobileFirst', Responsive::get_breakpoints_mobile_first() );
 	}
 }

@@ -1,6 +1,11 @@
-import { ref, Ref, computed, readonly } from 'vue'
+import { ref, Ref, computed, readonly, watch } from 'vue'
 import { generateUID } from '@zb/utils'
 import { orderBy } from 'lodash-es'
+
+
+interface DeviceMap {
+	[key: string]: number | null;
+}
 
 interface ResponsiveDevice {
 	name?: string;
@@ -33,7 +38,7 @@ const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref(window.ZnPbComponent
 
 const activeResponsiveOptions: Ref<{} | null> = ref(null)
 const iframeWidth: Ref<number | null> = ref(0)
-const autoscaleActive = ref(true)
+const autoScaleActive = ref(true)
 const scaleValue = ref(100)
 const ignoreWidthChangeFlag = ref(false)
 
@@ -42,7 +47,7 @@ const orderedResponsiveDevices = computed(() => {
 })
 
 const responsiveDevicesAsIdWidth = computed(() => {
-	let devices = {}
+	let devices: DeviceMap = {}
 	orderedResponsiveDevices.value.forEach(deviceConfig => {
 		devices[deviceConfig.id] = deviceConfig.width
 	})
@@ -52,6 +57,33 @@ const responsiveDevicesAsIdWidth = computed(() => {
 
 const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
 const builtInResponsiveDevices = computed(() => responsiveDevices.value.filter(deviceConfig => deviceConfig.builtIn === true))
+
+const mobileFirstResponsiveDevices = computed(() => {
+	let newDevices: DeviceMap = {}
+	let lastDeviceWidth: number = 0;
+
+	// Sort the devices from lower to higher
+	const sortedDevices = Object.entries(responsiveDevicesAsIdWidth.value)
+		.sort((a, b) => a[1] > b[1] ? 1 : -1)
+		.reduce((acc, pair) => {
+			acc[pair[0]] = pair[1]
+			return acc
+		}, {})
+
+	for (const [deviceId, deviceWidth] of Object.entries(sortedDevices)) {
+		if (deviceId === 'mobile') {
+			newDevices[deviceId] = 0
+		} else {
+			newDevices[deviceId] = lastDeviceWidth + 1
+		}
+
+		if (deviceWidth) {
+			lastDeviceWidth = deviceWidth
+		}
+	}
+
+	return newDevices
+})
 
 export const useResponsiveDevices = () => {
 	/**
@@ -70,7 +102,7 @@ export const useResponsiveDevices = () => {
 	 * @param {boolean} scaleEnabled  If the scaling is enabled or not
 	 */
 	function setAutoScale(scaleEnabled: boolean) {
-		autoscaleActive.value = scaleEnabled
+		autoScaleActive.value = scaleEnabled
 
 		if (scaleEnabled) {
 			scaleValue.value = 100
@@ -152,7 +184,7 @@ export const useResponsiveDevices = () => {
 		activeResponsiveDeviceInfo,
 		responsiveDevices,
 		iframeWidth,
-		autoscaleActive,
+		autoScaleActive,
 		scaleValue: readonly(scaleValue),
 		setActiveResponsiveDeviceId,
 		removeActiveResponsiveOptions,
@@ -163,6 +195,7 @@ export const useResponsiveDevices = () => {
 		setAutoScale,
 		addCustomBreakpoint,
 		deleteBreakpoint,
+		mobileFirstResponsiveDevices,
 		deviceSizesConfig,
 
 		// Computed
