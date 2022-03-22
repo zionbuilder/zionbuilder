@@ -12,7 +12,7 @@
 	</span>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'ChangesBullet',
 };
@@ -20,7 +20,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-// @ TS can't resolve this path
+
 import { translate } from '@zb/i18n';
 
 interface IProps {
@@ -28,7 +28,7 @@ interface IProps {
 }
 
 withDefaults(defineProps<IProps>(), {
-	discardChangesTitle: translate('discard_changes'),
+	discardChangesTitle: (() => translate('discard_changes')) as unknown as string,
 });
 
 defineEmits(['remove-styles']);
