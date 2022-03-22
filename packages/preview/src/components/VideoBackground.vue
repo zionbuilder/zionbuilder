@@ -1,64 +1,63 @@
 <template>
-	<div
-		v-if="hasVideoSource"
-		class="zb__videoBackground-wrapper"
-		:data-zion-video-background="getVideoSettings"
-	/>
+	<div v-if="hasVideoSource" class="zb__videoBackground-wrapper" :data-zion-video-background="getVideoSettings" />
 </template>
 
 <script>
-import { isEqual } from 'lodash-es'
+import { isEqual } from 'lodash-es';
 
 export default {
 	name: 'VideoBackground',
 	props: {
 		videoConfig: {
 			type: Object,
-			required: false
-		}
+			required: false,
+			default: () => {
+				return {};
+			},
+		},
 	},
 	computed: {
-		getVideoSettings () {
-			return JSON.stringify(this.videoConfig)
+		getVideoSettings() {
+			return JSON.stringify(this.videoConfig);
 		},
-		hasVideoSource () {
-			const videoSource = this.videoConfig && this.videoConfig.videoSource ? this.videoConfig.videoSource : 'local'
+		hasVideoSource() {
+			const videoSource = this.videoConfig && this.videoConfig.videoSource ? this.videoConfig.videoSource : 'local';
 			if (videoSource === 'youtube' && this.videoConfig.youtubeURL) {
-				return true
+				return true;
 			} else if (videoSource === 'vimeo' && this.videoConfig.vimeoURL) {
-				return true
+				return true;
 			} else if (videoSource === 'local' && this.videoConfig.mp4) {
-				return true
+				return true;
 			}
 
-			return false
-		}
+			return false;
+		},
 	},
 	watch: {
-		videoConfig (newValue, oldValue) {
+		videoConfig(newValue, oldValue) {
 			if (!this.hasVideoSource) {
-				return
+				return;
 			}
 
 			if (!isEqual(newValue, oldValue)) {
 				if (this.videoInstance) {
-					this.videoInstance.destroy()
+					this.videoInstance.destroy();
 				}
 
 				this.$nextTick(() => {
-					this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
-				})
+					this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig);
+				});
 			}
-		}
+		},
 	},
-	mounted () {
+	mounted() {
 		if (!this.hasVideoSource) {
-			return
+			return;
 		}
 
 		if (Object.keys(this.videoConfig).length > 0) {
-			this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig)
+			this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig);
 		}
-	}
-}
+	},
+};
 </script>
