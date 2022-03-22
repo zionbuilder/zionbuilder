@@ -43,17 +43,17 @@
 					@blur="onScaleKeyDown"
 					@focus="preventClose = true"
 					:value="Math.round(scaleValue)"
-					:disabled="autoscaleActive"
+					:disabled="autoScaleActive"
 					v-znpb-tooltip="$translate('preview_scale')"
 				/>
 				<Icon
-					:icon="autoscaleActive ? 'lock' : 'unlock'"
-					@click.stop="setAutoScale(!autoscaleActive)"
+					:icon="autoScaleActive ? 'lock' : 'unlock'"
+					@click.stop="setAutoScale(!autoScaleActive)"
 					class="znpb-responsiveDeviceHeader__iconLock"
 					:class="{
-						'znpb-responsiveDeviceHeader__iconLock--locked': autoscaleActive
+						'znpb-responsiveDeviceHeader__iconLock--locked': autoScaleActive
 					}"
-					v-znpb-tooltip="autoscaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
+					v-znpb-tooltip="autoScaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
 				/>
 			</div>
 
@@ -167,7 +167,7 @@ import DeviceElement from './DeviceElement.vue'
 import FlyoutWrapper from './FlyoutWrapper.vue'
 import FlyoutMenuItem from './FlyoutMenuItem.vue'
 
-const { activeResponsiveDeviceInfo, orderedResponsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoscaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
+const { activeResponsiveDeviceInfo, orderedResponsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoScaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
 
 const preventClose = ref(false)
 const enabledAddBreakpoint = ref(false)

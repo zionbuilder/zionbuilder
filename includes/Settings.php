@@ -16,14 +16,14 @@ class Settings {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_options';
 
 	/**
-	 * Holds a refference to the cached saved builder options
+	 * Holds a reference to the cached saved builder options
 	 *
 	 * @var array|null Returns the saved values or null if they are not init
 	 */
 	private static $saved_values = null;
 
 	/**
-	 * Holds a refference to the default option values
+	 * Holds a reference to the default option values
 	 *
 	 * @var array
 	 */

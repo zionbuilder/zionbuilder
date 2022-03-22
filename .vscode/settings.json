@@ -70,5 +70,6 @@
 		"Whitelabel",
 		"zionbuilder",
 		"znpb"
-	]
+	],
+	"phpcs.enable": true,
 }

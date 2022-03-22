@@ -47,7 +47,7 @@ export default {
 		}
 	},
 	setup () {
-		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoscaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag, setCustomScale } = useResponsiveDevices()
+		const { activeResponsiveDeviceInfo, iframeWidth, setCustomIframeWidth, scaleValue, autoScaleActive, activeResponsiveDeviceId, ignoreWidthChangeFlag, setCustomScale } = useResponsiveDevices()
 		const { applyShortcuts } = useKeyBindings()
 		const { saveAutosave } = useSavePage()
 		const { editorData } = useEditorData()
@@ -73,7 +73,7 @@ export default {
 
 			return {
 				[`znpb-editor-iframe-wrapper--${activeResponsiveDeviceInfo.value.id}`]: true,
-				'znpb-editor-iframe--isAutoscale': autoscaleActive.value,
+				'znpb-editor-iframe--isAutoscale': autoScaleActive.value,
 				'znpb-editor-iframe--alignStart': Math.round(scaleValue.value / 100 * iframeWidth ) > containerWidth,
 				'znpb-editor-iframe--hideOverflow': Math.round(scaleValue.value / 100 * iframeWidth ) <= containerWidth
 			}
@@ -122,7 +122,7 @@ export default {
 
 		// Watch if the scale is manually changed
 		watch([containerSize, iframeSize], ([containerNewSize, iframeNewSize]) => {
-			if (autoscaleActive.value) {
+			if (autoScaleActive.value) {
 				let scale = containerNewSize.width / iframeNewSize.width * 100
 				scale = scale > 100 ? 100 : scale
 				setCustomScale( scale )
@@ -186,7 +186,7 @@ export default {
 		})
 
 		// Prevent bug when scroll is moved and enable autoscale
-		watch(autoscaleActive, (newValue) => {
+		watch(autoScaleActive, (newValue) => {
 			if (newValue) {
 				root.value.scrollLeft = 0
 			} else {

@@ -4,6 +4,8 @@ namespace ZionBuilder\Elements\ImageSlider;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
+use ZionBuilder\CommonJS;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -181,17 +183,18 @@ class ImageSlider extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'swiper' );
 
+		wp_enqueue_script( 'zion-builder-slider', Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
+
+		// Enqueue resposnive devices
+		CommonJS::enqueue_responsive_devices( 'zion-builder-slider' );
+
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/ImageSlider/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ) );
 	}
 
 	/**

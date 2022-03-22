@@ -119,6 +119,39 @@ class Responsive {
 		return self::$responsive_devices_as_device_width;
 	}
 
+	public static function get_breakpoints_mobile_first() {
+		$breakpoints              = self::get_breakpoints_as_device_width();
+		$mobile_first_breakpoints = [];
+
+		// Reverse sort breakpoints
+		uasort(
+			$breakpoints,
+			function( $a, $b ) {
+				return ( $a > $b ) ? 1 : -1;
+			}
+		);
+
+		$last_device_width = 0;
+		foreach ( $breakpoints as $device => $device_width ) {
+			if ( $device === 'mobile' ) {
+				$mobile_first_breakpoints[$device] = 0;
+			} else {
+				$mobile_first_breakpoints[$device] = $last_device_width + 1;
+			}
+
+			$last_device_width = $device_width;
+		}
+
+		// Sort again in normal order
+		uasort(
+			$mobile_first_breakpoints,
+			function( $a, $b ) {
+				return ( $a > $b ) ? -1 : 1;
+			}
+		);
+
+		return $mobile_first_breakpoints;
+	}
 	public static function replace_devices_in_css( $css ) {
 		$devices_config = self::get_breakpoints_as_device_width();
 		$devices_map    = [ '__ZIONBUILDER_LAPTOP__', '__ZIONBUILDER_TABLET__', '__ZIONBUILDER_MOBILE_' ];
