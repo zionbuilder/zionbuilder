@@ -23,39 +23,15 @@
 			:value="modelValue"
 			:style="getStyle"
 			v-bind="$attrs"
-<<<<<<< develop
-<<<<<<< develop
-<<<<<<< develop
-			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
-=======
-			@input="inputValue = ($event.target as HTMLInputElement).value"
->>>>>>> Refactored Base Input component
-		/>
-=======
-		>
->>>>>>> Revert "Refactored Base Input component"
-=======
 			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
 		/>
->>>>>>> Fixed modelValue error on BaseInput component
 		<textarea
 			v-else
 			ref="input"
 			class="znpb-fancy-scrollbar"
 			:value="modelValue"
 			v-bind="$attrs"
-<<<<<<< develop
-<<<<<<< develop
-<<<<<<< develop
 			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
-=======
-			@input="inputValue = ($event.target as HTMLTextAreaElement).value"
->>>>>>> Refactored Base Input component
-=======
->>>>>>> Revert "Refactored Base Input component"
-=======
-			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
->>>>>>> Fixed modelValue error on BaseInput component
 		>
 		</textarea>
 
@@ -91,8 +67,6 @@
 export default {
 	name: 'BaseInput',
 	inheritAttrs: false,
-<<<<<<< develop
-<<<<<<< develop
 };
 </script>
 
@@ -103,7 +77,6 @@ interface IProps {
 	 * v-model/modelValue for the input
 	 */
 	modelValue?: string | number;
-<<<<<<< develop
 
 	/**
 	 * If true, will mark the field as red
@@ -154,162 +127,12 @@ const getStyle = computed(() => {
 	};
 });
 
-=======
-=======
-	props: {
-		/**
-		 * v-model/modelValue for the input
-		 */
-		modelValue: {
-			required: false,
-			type: [String, Number]
-		},
-		/**
-		 * If true, will mark the field as red
-		 */
-		error: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		 * HTML input type (email, password, etc)
-		 */
-		type: {
-			type: String,
-			required: false,
-			default: 'text'
-		},
-		/**
-		 * Icon that appears at the end of the input
-		 */
-		icon: {
-			type: String,
-			required: false
-		},
-		/**
-		 * whether to show clear button
-		 */
-		clearable: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		 * Input size. Can be one of "narrow", "big"
-		 */
-		size: {
-			type: String,
-			required: false
-		},
-		fontFamily: {
-			type: String,
-			required: false
-		},
-		class: {
->>>>>>> Revert "Refactored Base Input component"
-=======
-};
-</script>
->>>>>>> Fixed modelValue error on BaseInput component
-
-<script lang="ts" setup>
-import { ref, computed } from 'vue';
-interface IProps {
-	/**
-	 * v-model/modelValue for the input
-	 */
-	modelValue?: string | number;
-
-	/**
-	 * If true, will mark the field as red
-	 */
-	error?: boolean;
-	/**
-	 * HTML input type (email, password, etc)
-	 */
-	type?: string;
-	/**
-	 * Icon that appears at the end of the input
-	 */
-	icon?: string;
-	/**
-	 * whether to show clear button
-	 */
-	clearable?: boolean;
-	/**
-	 * Input size. Can be one of "narrow", "big"
-	 */
-	size?: string;
-
-	fontFamily?: string;
-}
-const props = withDefaults(defineProps<IProps>(), {
-	modelValue: '',
-	error: false,
-	name: 'BaseInput',
-	type: 'text',
-	clearable: false,
-});
-
-defineEmits<{
-	(e: 'update:modelValue', value: string | number): void;
-}>();
-
-<<<<<<< develop
-<<<<<<< develop
->>>>>>> Refactored Base Input component
 function onKeyDown(e: KeyboardEvent) {
 	if (e.shiftKey) {
 		e.stopPropagation();
 	}
 }
-<<<<<<< develop
 
-// Template Ref
-const input = ref<HTMLInputElement | null>(null);
-
-// @TODO Remove unused functions
-function focus() {
-	input.value?.focus();
-}
-
-=======
-
-// @TODO Remove unused functions
-function focus() {
-	input.value?.focus();
-}
-
->>>>>>> Refactored Base Input component
-function blur() {
-	input.value?.blur();
-=======
-=======
-const showClear = computed(() => {
-	return props.clearable && props.modelValue ? true : false;
-});
-
-const hasSuffixContent = computed(() => {
-	return props.icon || showClear.value;
-});
-
-const getStyle = computed(() => {
-	return {
-		fontFamily: props.fontFamily,
-	};
-});
-
-function onKeyDown(e: KeyboardEvent) {
-	if (e.shiftKey) {
-		e.stopPropagation();
->>>>>>> Fixed modelValue error on BaseInput component
-	}
-}
-
-<<<<<<< develop
->>>>>>> Revert "Refactored Base Input component"
-=======
 // Template Ref
 const input = ref<HTMLInputElement | null>(null);
 
@@ -320,7 +143,6 @@ function focus() {
 
 function blur() {
 	input.value?.blur();
->>>>>>> Fixed modelValue error on BaseInput component
 }
 </script>
 
