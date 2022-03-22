@@ -12,11 +12,7 @@
 	</span>
 </template>
 
-<<<<<<< HEAD
 <script lang="ts">
-=======
-<script>
->>>>>>> script-setup-refactoring
 export default {
 	name: 'ChangesBullet',
 };
@@ -24,11 +20,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-<<<<<<< HEAD
 
-=======
-// @ TS can't resolve this path
->>>>>>> script-setup-refactoring
 import { translate } from '@zb/i18n';
 
 interface IProps {
@@ -36,11 +28,7 @@ interface IProps {
 }
 
 withDefaults(defineProps<IProps>(), {
-<<<<<<< HEAD
 	discardChangesTitle: (() => translate('discard_changes')) as unknown as string,
-=======
-	discardChangesTitle: translate('discard_changes'),
->>>>>>> script-setup-refactoring
 });
 
 defineEmits(['remove-styles']);

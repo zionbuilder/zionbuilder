@@ -25,12 +25,6 @@ export const createI18n = (initialStrings = {}) => {
 
 	return {
 		addStrings,
-<<<<<<< HEAD
 		translate
 	}
 }
-=======
-		translate,
-	};
-};
->>>>>>> script-setup-refactoring
