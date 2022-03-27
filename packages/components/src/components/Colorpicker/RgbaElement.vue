@@ -2,7 +2,7 @@
 	<div class="znpb-colorpicker-inner-editor-rgba">
 		<InputLabel>
 			<InputNumber
-				:modelValue="modelValue.r"
+				:modelValue="modelValue?.r"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -12,7 +12,7 @@
 		</InputLabel>
 		<InputLabel>
 			<InputNumber
-				:modelValue="modelValue.g"
+				:modelValue="modelValue?.g"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -22,7 +22,7 @@
 		</InputLabel>
 		<InputLabel>
 			<InputNumber
-				:modelValue="modelValue.b"
+				:modelValue="modelValue?.b"
 				:min="0"
 				:max="255"
 				:step="1"
@@ -32,7 +32,7 @@
 		</InputLabel>
 		<InputLabel>
 			<InputNumber
-				:modelValue="modelValue.a"
+				:modelValue="modelValue?.a"
 				:min="0"
 				:max="1"
 				:step="0.01"
@@ -42,38 +42,25 @@
 		</InputLabel>
 	</div>
 </template>
-<script>
-import { InputNumber } from '../InputNumber'
-import { InputLabel } from '../InputLabel'
 
-export default {
-	name: 'RgbaElement',
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		}
-	},
-	components: {
-		InputLabel,
-		InputNumber
-	},
-	data () {
-		return {
-			localrgba: this.rgba
-		}
-	},
-	computed: {
+<script lang="ts" setup>
+import { InputNumber } from '../InputNumber';
+import { InputLabel } from '../InputLabel';
+import type { ColorFormats } from 'tinycolor2';
 
-	},
-	methods: {
-		updateValue (property, newValue) {
-			this.$emit('update:modelValue', {
-				...this.modelValue,
-				[property]: newValue
-			})
-		}
-	}
+const props = defineProps<{
+	modelValue: ColorFormats.RGBA;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: ColorFormats.RGBA): void;
+}>();
+
+function updateValue(property: keyof ColorFormats.RGBA, newValue: number) {
+	emit('update:modelValue', {
+		...props.modelValue,
+		[property]: newValue,
+	});
 }
 </script>
 <style lang="scss">

@@ -2,24 +2,20 @@
 	<div class="znpb-form-library-grid__panel-content znpb-fancy-scrollbar">
 		<Icon
 			icon="plus"
+			class="znpb-colorpicker-circle znpb-colorpicker-add-color"
 			@mousedown.stop="$emit('add-new-color')"
-			class="znpb-colorpicker-circle znpb-colorpicker-add-color "
 		/>
 		<slot></slot>
 	</div>
 </template>
-<script>
-import Icon from '../Icon/Icon.vue'
 
-export default {
-	name: 'GridColor',
-	components: {
-		Icon
-	}
-}
+<script lang="ts" setup>
+import { Icon } from '../Icon';
+
+defineEmits(['add-new-color']);
 </script>
-<style lang="scss">
 
+<style lang="scss">
 .znpb-form-library-grid__panel-content {
 	display: grid;
 	padding: 0 8px 0 20px;
@@ -46,7 +42,7 @@ export default {
 	.znpb-colorpicker-circle-color {
 		width: 30px;
 		height: 30px;
-		box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .1);
+		box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
 	}
 }
 </style>

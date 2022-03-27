@@ -1,97 +1,62 @@
 <template>
 	<div class="znpb-colorpicker-inner-editor-hsla">
-		<InputLabel >
-			<InputNumber
-				:modelValue="hsla.h"
-				:min="0"
-				:max="360"
-				:step="1"
-				@update:modelValue="updateHex('h', $event)"
-			/>
+		<InputLabel>
+			<InputNumber :modelValue="hsla.h" :min="0" :max="360" :step="1" @update:modelValue="updateHex('h', $event)" />
 			H
 		</InputLabel>
 		<InputLabel class="znpb-colorpicker-inner-editor__number--has-percentage">
-			<InputNumber
-				v-model="hsla.s"
-				:min="0"
-				:max="100"
-				:step="1"
-				@update:modelValue="updateHex('s', $event)"
-			>
+			<InputNumber v-model="hsla.s" :min="0" :max="100" :step="1" @update:modelValue="updateHex('s', $event)">
 				<span class="znpb-colorpicker-inner-editor__number-unit">%</span>
 			</InputNumber>
 			S
 		</InputLabel>
 		<InputLabel class="znpb-colorpicker-inner-editor__number--has-percentage">
-			<InputNumber
-				v-model="hsla.l"
-				:min="0"
-				:max="100"
-				:step="1"
-				@update:modelValue="updateHex('l', $event)"
-			>
+			<InputNumber v-model="hsla.l" :min="0" :max="100" :step="1" @update:modelValue="updateHex('l', $event)">
 				<span class="znpb-colorpicker-inner-editor__number-unit">%</span>
 			</InputNumber>
 			L
 		</InputLabel>
-		<InputLabel >
-			<InputNumber
-				v-model="hsla.a"
-				:min="0"
-				:max="1"
-				:step="0.01"
-				@update:modelValue="updateHex('a', $event)"
-			/>
+		<InputLabel>
+			<InputNumber v-model="hsla.a" :min="0" :max="1" :step="0.01" @update:modelValue="updateHex('a', $event)" />
 			A
 		</InputLabel>
 	</div>
 </template>
-<script>
-/**
- * this type of element supports
 
- */
-import { InputNumber } from '../InputNumber'
-import { InputLabel } from '../InputLabel'
+<script lang="ts" setup>
+import { InputNumber } from '../InputNumber';
+import { InputLabel } from '../InputLabel';
+import { computed } from 'vue';
+import type { ColorFormats } from 'tinycolor2';
 
-export default {
-	name: 'HslaElement',
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		}
-	},
-	components: {
-		InputNumber,
-		InputLabel
-	},
-	computed: {
-		hsla () {
-			const { h, s, l, a } = this.modelValue
-			return {
-				h: Number(h.toFixed()),
-				s: Number((s * 100).toFixed()),
-				l: Number((l * 100).toFixed()),
-				a
-			}
-		}
-	},
-	data () {
-		return {}
-	},
-	methods: {
-		updateHex (property, newValue) {
-			const value = (property === 's' || property === 'l') ? newValue / 100 : newValue
+const props = defineProps<{
+	modelValue: ColorFormats.HSLA;
+}>();
 
-			this.$emit('update:modelValue', {
-				...this.modelValue,
-				[property]: value
-			})
-		}
-	}
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: ColorFormats.HSLA): void;
+}>();
+
+const hsla = computed(() => {
+	const { h, s, l, a } = props.modelValue;
+	return {
+		h: Number(h.toFixed()),
+		s: Number((s * 100).toFixed()),
+		l: Number((l * 100).toFixed()),
+		a,
+	};
+});
+
+function updateHex(property: keyof ColorFormats.HSLA, newValue: number) {
+	const value = property === 's' || property === 'l' ? newValue / 100 : newValue;
+
+	emit('update:modelValue', {
+		...props.modelValue,
+		[property]: value,
+	});
 }
 </script>
+
 <style lang="scss">
 .znpb-colorpicker-inner-editor-hsla {
 	.znpb-form-element {

@@ -72,6 +72,8 @@ export default {
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { Icon } from '../Icon';
+
 interface IProps {
 	/**
 	 * v-model/modelValue for the input
