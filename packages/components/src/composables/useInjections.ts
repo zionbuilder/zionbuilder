@@ -1,7 +1,6 @@
-const registeredLocations: {[key:string]: []} = {}
+const registeredLocations: { [key: string]: [] } = {};
 
 export const useInjections = () => {
-
 	/**
 	 * Register a component for a location
 	 */
@@ -10,18 +9,18 @@ export const useInjections = () => {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to register an injection component.', {
 				location,
-				component
-			})
+				component,
+			});
 
-			return false
+			return false;
 		}
 
 		if (!Array.isArray(registeredLocations[location])) {
-			registeredLocations[location] = []
+			registeredLocations[location] = [];
 		}
 
-		registeredLocations[location].push(component)
-	}
+		registeredLocations[location].push(component);
+	};
 
 	/**
 	 *
@@ -31,23 +30,22 @@ export const useInjections = () => {
 		if (!location) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to get injection components.', {
-				location
-			})
+				location,
+			});
 
-			return false
+			return false;
 		}
 
 		if (!Array.isArray(registeredLocations[location])) {
-			return []
+			return [];
 		}
 
-		return registeredLocations[location]
-	}
-
+		return registeredLocations[location];
+	};
 
 	return {
 		registerComponent,
 		getComponentsForLocation,
-		registeredLocations
-	}
-}
+		registeredLocations,
+	};
+};
