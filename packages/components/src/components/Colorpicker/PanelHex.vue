@@ -54,7 +54,6 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	(e: 'update:modelValue', value: string | ColorFormats.RGBA | ColorFormats.HSLA): void;
-
 	(e: 'update:format', format: Format): void;
 }>();
 

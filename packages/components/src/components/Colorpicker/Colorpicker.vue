@@ -1,19 +1,19 @@
 <template>
-	<Teleport :disabled="!appendTo" :to="appendTo">
-		<div
-			class="znpb-form-colorpicker__color-picker-holder"
-			:class="{ ['color-picker-holder--has-library']: showLibrary }"
-			:style="pickerStyle"
-		>
-			<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
+	<!-- <Teleport :disabled="!appendTo" :to="appendTo"> -->
+	<div
+		class="znpb-form-colorpicker__color-picker-holder"
+		:class="{ ['color-picker-holder--has-library']: showLibrary }"
+		:style="pickerStyle"
+	>
+		<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
 
-			<div class="znpb-form-colorpicker-inner__panel">
-				<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
+		<div class="znpb-form-colorpicker-inner__panel">
+			<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
 
-				<slot name="end" />
-			</div>
+			<slot name="end" />
 		</div>
-	</Teleport>
+	</div>
+	<!-- </Teleport> -->
 </template>
 
 <script lang="ts">

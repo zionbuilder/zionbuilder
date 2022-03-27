@@ -20,7 +20,9 @@ const props = defineProps<{
 	modelValue: ColorFormats.HSLA;
 }>();
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: ColorFormats.HSLA): void;
+}>();
 
 // Refs
 const root: Ref<HTMLDivElement | null> = ref(null);
