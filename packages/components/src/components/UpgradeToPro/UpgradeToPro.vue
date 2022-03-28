@@ -1,26 +1,18 @@
 <template>
 	<div class="znpb-option__upgrade-to-pro">
 		<div class="znpb-option__upgrade-to-pro-container">
-			<Label
-				:text="$translate('pro')"
-				type="warning"
-				class="znpb-option__upgrade-to-pro-label"
-			/>
+			<Label :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
 
 			<h4>
-				{{message_title}}
+				{{ message_title }}
 			</h4>
 
 			<p>
-				{{message_description}}
+				{{ message_description }}
 			</p>
 
-			<a
-				href="https://zionbuilder.io/documentation/pro-version/"
-				target="_blank"
-				v-if="info_text"
-			>
-				{{info_text}}
+			<a href="https://zionbuilder.io/documentation/pro-version/" target="_blank" v-if="info_text">
+				{{ info_text }}
 			</a>
 
 			<a
@@ -28,43 +20,32 @@
 				target="_blank"
 				class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
 			>
-				{{$translate('upgrade_to_pro')}}
+				{{ $translate('upgrade_to_pro') }}
 			</a>
 		</div>
 	</div>
 </template>
 
 <script>
-import Label from '../Label/Label.vue'
-import { translate } from '@zb/i18n'
-
 export default {
 	name: 'UpgradeToPro',
-	props: {
-		message_title: {
-			type: String,
-			required: false
-		},
-		message_description: {
-			type: String,
-			required: false
-		},
-		info_text: {
-			type: String,
-			required: false
-		},
-		info_link: {
-			type: String,
-			required: false,
-			default () {
-				return 'https://zionbuilder.io/documentation/pro-version/'
-			}
-		}
+};
+</script>
+<script lang="ts" setup>
+import Label from '../Label/Label.vue';
+withDefaults(
+	defineProps<{
+		message_title?: string;
+		message_description?: string;
+		info_text?: string;
+		info_link?: string;
+		message_description?: string;
+		message_description?: string;
+	}>(),
+	{
+		info_link: 'https://zionbuilder.io/documentation/pro-version/',
 	},
-	components: {
-		Label
-	}
-}
+);
 </script>
 <style lang="scss">
 .znpb-option__upgrade-to-pro {
@@ -96,7 +77,7 @@ export default {
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			border-bottom: 1px solid var(--zb-surface-border-color);
-			transition: color .15s;
+			transition: color 0.15s;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);
@@ -115,7 +96,7 @@ export default {
 	}
 
 	.zion-quality {
-		transition: all .3s;
+		transition: all 0.3s;
 	}
 
 	&-button:hover .zion-quality {
