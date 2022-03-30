@@ -1,52 +1,34 @@
 <template>
 	<Tooltip
-		tooltipClass="hg-popper--no-padding"
+		v-model:show="expanded"
+		tooltip-class="hg-popper--no-padding"
 		trigger="null"
 		placement="right"
-		v-model:show="expanded"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
 		class="znpb-hiddenMenuWrapper"
 	>
-
-		<template v-slot:content>
-			<Menu
-				:actions="actions"
-				@action="expanded =! expanded"
-			/>
+		<template #content>
+			<Menu :actions="actions" @action="expanded = !expanded" />
 		</template>
 
-		<Icon
-			icon="more"
-			:bgSize="14"
-			@click.stop="expanded =! expanded"
-		/>
+		<Icon icon="more" :bg-size="14" @click.stop="expanded = !expanded" />
 	</Tooltip>
 </template>
 
-<script>
-import { ref } from 'vue'
-
-// Components
-import Menu from './Menu.vue'
-
+<script lang="ts">
 export default {
-	name: "HiddenMenu",
-	components: {
-		Menu
-	},
-	props: {
-		actions: {
-			type: Array,
-			required: true
-		}
-	},
-	setup (props, { emit }) {
-		const expanded = ref(false)
+	name: 'HiddenMenu',
+};
+</script>
 
-		return {
-			expanded
-		}
-	}
-}
+<script lang="ts" setup>
+import { ref } from 'vue';
+import Menu, { Action } from './Menu.vue';
+
+defineProps<{
+	actions: Action[];
+}>();
+
+const expanded = ref(false);
 </script>
