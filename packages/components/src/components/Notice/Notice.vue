@@ -50,6 +50,7 @@ onMounted(() => {
 
 	document.addEventListener('keydown', hideOnEscape);
 });
+
 onBeforeUnmount(() => {
 	document.removeEventListener('keydown', hideOnEscape);
 });

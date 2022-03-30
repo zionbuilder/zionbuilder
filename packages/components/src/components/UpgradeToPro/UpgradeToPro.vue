@@ -4,15 +4,15 @@
 			<Label :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
 
 			<h4>
-				{{ message_title }}
+				{{ messageTitle }}
 			</h4>
 
 			<p>
-				{{ message_description }}
+				{{ messageDescription }}
 			</p>
 
-			<a href="https://zionbuilder.io/documentation/pro-version/" target="_blank" v-if="info_text">
-				{{ info_text }}
+			<a v-if="infoText" href="https://zionbuilder.io/documentation/pro-version/" target="_blank">
+				{{ infoText }}
 			</a>
 
 			<a
@@ -26,7 +26,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'UpgradeToPro',
 };
@@ -35,15 +35,13 @@ export default {
 import Label from '../Label/Label.vue';
 withDefaults(
 	defineProps<{
-		message_title?: string;
-		message_description?: string;
-		info_text?: string;
-		info_link?: string;
-		message_description?: string;
-		message_description?: string;
+		messageTitle?: string;
+		messageDescription?: string;
+		infoText?: string;
+		infoLink?: string;
 	}>(),
 	{
-		info_link: 'https://zionbuilder.io/documentation/pro-version/',
+		infoLink: 'https://zionbuilder.io/documentation/pro-version/',
 	},
 );
 </script>
