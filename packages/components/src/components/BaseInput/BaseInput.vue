@@ -104,7 +104,7 @@ interface IProps {
 
 	fontFamily?: string;
 
-	class: string;
+	class?: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	modelValue: '',
