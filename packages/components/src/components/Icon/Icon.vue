@@ -9,7 +9,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, CSSProperties } from 'vue';
 import { getSearchIcon } from './icons';
 
 interface IProps {
@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<IProps>(), {
 	rounded: false,
 });
 
-const iconStyles = computed(() => {
+const iconStyles = computed<CSSProperties>(() => {
 	return {
 		width: props.bgSize + 'px',
 		height: props.bgSize + 'px',
@@ -115,28 +115,25 @@ const getIcon = computed(() => {
 	let pathString = '';
 	// if the icon has circles
 	if (iconOption.circle) {
-		let iconCircle = iconOption.circle;
-		for (let i = 0; i < iconCircle.length; i++) {
-			pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`;
+		for (const circle of iconOption.circle) {
+			pathString += `<circle  ${circle} fill="currentColor"></circle>`;
 		}
 	}
 	// if the icon has rect
 	if (iconOption.rect) {
-		let iconRect = iconOption.rect;
-		for (let i = 0; i < iconRect.length; i++) {
-			pathString += `<rect ${iconRect[i]}></rect>`;
+		for (const rect of iconOption.rect) {
+			pathString += `<rect ${rect}></rect>`;
 		}
 	}
 	// if the icon has polygon
 	if (iconOption.polygon) {
-		let iconPolygon = iconOption.polygon;
-		for (let i = 0; i < iconPolygon.length; i++) {
-			pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`;
+		for (const polygon of iconOption.polygon) {
+			pathString += `<polygon points='${polygon}' fill="currentColor"></polygon>`;
 		}
 	}
 
-	for (let i = 0; i < iconOption.paths.length; i++) {
-		pathString += `<path fill="currentColor" d="${iconOption.paths[i]}"></path>`;
+	for (const path of iconOption.paths) {
+		pathString += `<path fill="currentColor" d="${path}"></path>`;
 	}
 
 	return pathString;
