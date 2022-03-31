@@ -1,17 +1,20 @@
 <template>
-	<span
-		class="znpb-label"
-		:class="{ [`znpb-label--${type}`]: type }"
-	>
-		{{text}}
+	<span class="znpb-label" :class="{ [`znpb-label--${type}`]: type }">
+		{{ text }}
 	</span>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'Label',
-	props: ['text', 'type']
-}
+};
+</script>
+
+<script lang="ts" setup>
+defineProps<{
+	text: string;
+	type?: 'error' | 'warning' | 'pro';
+}>();
 </script>
 
 <style lang="scss">
