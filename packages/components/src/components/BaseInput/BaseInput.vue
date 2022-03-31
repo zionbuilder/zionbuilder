@@ -7,6 +7,7 @@
 			'zion-input--has-suffix': hasSuffixContent,
 			'zion-input--error': error,
 			[`zion-input--size-${size}`]: size,
+			[cssClass]: cssClass,
 		}"
 		@keydown="onKeyDown"
 	>
@@ -102,6 +103,8 @@ interface IProps {
 	size?: string;
 
 	fontFamily?: string;
+
+	class: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	modelValue: '',
@@ -109,6 +112,7 @@ const props = withDefaults(defineProps<IProps>(), {
 	name: 'BaseInput',
 	type: 'text',
 	clearable: false,
+
 });
 
 defineEmits<{
@@ -125,8 +129,12 @@ const hasSuffixContent = computed(() => {
 
 const getStyle = computed(() => {
 	return {
-		fontFamily: props.fontFamily,
+		fontFamily: props.fontFamily || '',
 	};
+});
+
+const cssClass = computed(() => {
+	return props.class;
 });
 
 function onKeyDown(e: KeyboardEvent) {
