@@ -1,71 +1,57 @@
 <template>
 	<div>
-		<InputCustomSelector
-			v-model="textAlignModel"
-			:options="textAlignOptions"
-			:columns="4"
-		>
-		</InputCustomSelector>
+		<InputCustomSelector v-model="textAlignModel" :options="textAlignOptions" :columns="4"> </InputCustomSelector>
 	</div>
 </template>
-<script>
-import { InputCustomSelector  } from '../InputCustomSelector'
 
+<script lang="ts">
 export default {
 	name: 'InputTextAlign',
-	props: {
-		/**
-		* Value of text align
-		*/
-		modelValue: {
-			type: String,
-			required: false
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { InputCustomSelector } from '../InputCustomSelector';
+import { translate } from '@zb/i18n';
+
+const props = defineProps<{
+	modelValue?: string;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
+
+const textAlignOptions = [
+	{
+		icon: 'align--left',
+		id: 'left',
+		name: translate('align_left'),
 	},
-	components: {
-		InputCustomSelector
+	{
+		icon: 'align--center',
+		id: 'center',
+		name: translate('align_center'),
 	},
-	data () {
-		return {
-			textAlignOptions: [
-				{
-					icon: 'align--left',
-					id: 'left',
-					name: this.$translate('align_left')
-				},
-				{
-					icon: 'align--center',
-					id: 'center',
-					name: this.$translate('align_center')
-				},
-				{
-					icon: 'align--right',
-					id: 'right',
-					name: this.$translate('align_right')
-				},
-				{
-					icon: 'align--justify',
-					id: 'justify',
-					name: this.$translate('justify')
-				}
-			],
-			localModel: []
-		}
+	{
+		icon: 'align--right',
+		id: 'right',
+		name: translate('align_right'),
 	},
-	computed: {
-		textAlignModel: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+	{
+		icon: 'align--justify',
+		id: 'justify',
+		name: translate('justify'),
 	},
-	methods: {
-		changeValue: function (newValue) {
-			this.radioSavedValue = newValue
-		}
-	}
-}
+];
+
+const textAlignModel = computed({
+	get() {
+		return props.modelValue || '';
+	},
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
+	},
+});
 </script>
