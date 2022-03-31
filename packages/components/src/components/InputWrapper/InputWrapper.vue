@@ -2,23 +2,16 @@
 	<div
 		class="znpb-input-wrapper"
 		:class="{
-			[`znpb-input-wrapper--${layout}`]: true
+			[`znpb-input-wrapper--${layout}`]: true,
 		}"
 		:style="computedWrapperStyle"
 	>
-		<div
-			class="znpb-form__input-title"
-			:class="{'znpb-form__input-title--fake-label': fakeLabel}"
-			v-if="title"
-		>
-			<span v-html="title"></span>
+		<div v-if="title" class="znpb-form__input-title" :class="{ 'znpb-form__input-title--fake-label': fakeLabel }">
+			<span>{{ title }}</span>
 
-			<Tooltip
-				v-if="description"
-				:enterable="false"
-			>
-				<template v-slot:content>
-					<div> {{description}}</div>
+			<Tooltip v-if="description" :enterable="false">
+				<template #content>
+					<div>{{ description }}</div>
 				</template>
 
 				<Icon icon="question-mark" />
@@ -31,69 +24,50 @@
 	</div>
 </template>
 
-<script>
-import { Tooltip } from '@zionbuilder/tooltip'
-import { Icon } from '../Icon'
+<script lang="ts">
 export default {
 	name: 'InputWrapper',
-	components: {
-		Tooltip,
-		Icon
+};
+</script>
+
+<script lang="ts" setup>
+import { computed, CSSProperties } from 'vue';
+import { Tooltip } from '@zionbuilder/tooltip';
+import { Icon } from '../Icon';
+
+const props = withDefaults(
+	defineProps<{
+		title?: string;
+		description?: string;
+		layout?: 'full' | 'full-reverse' | 'inline';
+		fakeLabel?: boolean;
+		schema?: {
+			grow?: number;
+			width?: number;
+		};
+	}>(),
+	{
+		title: '',
+		description: '',
+		layout: 'full',
 	},
-	props: {
-		/**
-		 * Title
-		 */
-		title: {
-			type: String,
-			required: false
-		},
-		/**
-		 * Description added to tooltip
-		 */
-		description: {
-			type: String,
-			required: false
-		},
-		/**
-		 * layout
-		 */
-		layout: {
-			type: String,
-			required: false,
-			default: 'full'
-		},
-		/**
-		 * If fake label
-		 */
-		fakeLabel: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		schema: {
-			type: Object,
-			required: false
+);
+
+const computedWrapperStyle = computed(() => {
+	const styles: CSSProperties = {};
+
+	if (props.schema !== undefined) {
+		if (props.schema.grow) {
+			styles.flex = props.schema.grow;
 		}
-	},
-	computed: {
-		computedWrapperStyle () {
-			const styles = {}
 
-			if (this.schema !== undefined) {
-				if (this.schema.grow) {
-					styles.flex = this.schema.grow
-				}
-
-				if (this.schema.width) {
-					styles.width = `${this.schema.width}%`
-				}
-			}
-
-			return styles
+		if (props.schema.width) {
+			styles.width = `${props.schema.width}%`;
 		}
 	}
-}
+
+	return styles;
+});
 </script>
 <style lang="scss">
 .znpb-input-wrapper.znpb-forms-input-wrapper {
