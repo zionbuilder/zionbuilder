@@ -34,7 +34,7 @@ import BaseInput from '../BaseInput/BaseInput.vue';
 
 const props = withDefaults(
 	defineProps<{
-		modelValue: number;
+		modelValue: number | null;
 		min?: number;
 		max?: number;
 		step?: number;
@@ -60,7 +60,7 @@ let canChangeValue = false;
 
 const model = computed({
 	get() {
-		return props.modelValue;
+		return props.modelValue as number;
 	},
 	set(newValue: number) {
 		// Check if minimum value is meet
@@ -76,7 +76,7 @@ const model = computed({
 			/**
 			 * Emits new value number
 			 */
-			emit('update:modelValue', Number(newValue));
+			emit('update:modelValue', +newValue);
 		}
 	},
 });
@@ -135,7 +135,7 @@ function deactivatedragNumber() {
 function dragNumber(event: MouseEvent) {
 	const distance = initialPosition - event.clientY;
 	const directionUp = event.pageY < lastPosition;
-	const initialValue = model.value ?? props.min;
+	const initialValue = model.value ?? props.min ?? 0;
 
 	if (Math.abs(distance) > dragTreshold) {
 		canChangeValue = true;
