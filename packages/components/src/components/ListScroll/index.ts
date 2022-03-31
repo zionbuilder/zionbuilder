@@ -1,1 +1,1 @@
-export { default as ListScroll } from './ListScroll.vue'
+export { default as ListScroll } from './ListScroll.vue';
