@@ -1,172 +1,154 @@
 <template>
-	<div
-		class="znpb-icon-pack-modal"
-		:class="{['znpb-icon-pack-modal--has-special-filter'] : specialFilterPack}"
-	>
+	<div class="znpb-icon-pack-modal" :class="{ ['znpb-icon-pack-modal--has-special-filter']: specialFilterPack }">
 		<div class="znpb-icon-pack-modal__search">
 			<InputSelect
 				:modelValue="activeCategory"
-				@update:modelValue="activeCategory = $event"
 				:options="packsOptions"
 				class="znpb-icons-category-select"
 				placement="bottom-start"
+				@update:modelValue="activeCategory = $event"
 			/>
-			<BaseInput
-				v-model="searchModel"
-				:placeholder="getPlaceholder"
-				:clearable="true"
-				icon="search"
-			/>
-
+			<BaseInput v-model="searchModel" :placeholder="getPlaceholder" :clearable="true" icon="search" />
 		</div>
 		<div class="znpb-icon-pack-modal-scroll znpb-fancy-scrollbar">
 			<IconPackGrid
-				v-for="(pack,i) in filteredList"
-				:key=i
+				v-for="(pack, i) in filteredList"
+				:key="i"
 				:icon-list="pack.icons"
 				:family="pack.name"
-				@icon-selected="selectIcon($event,pack.name)"
-				@update:modelValue="insertIcon($event,pack.name)"
-				:active-icon="iconValue.name"
-				:active-family="iconValue.family"
+				:active-icon="modelValue?.name"
+				:active-family="modelValue?.family"
+				@icon-selected="selectIcon($event, pack.name)"
+				@update:modelValue="insertIcon($event, pack.name)"
 			/>
 		</div>
 	</div>
-
 </template>
 
-<script>
-import { useDataSets } from '@composables'
-import IconPackGrid from '../IconPackGrid.vue'
-
+<script lang="ts">
 export default {
 	name: 'IconsLibraryModalContent',
-	components: {
-		IconPackGrid
-	},
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		},
-		specialFilterPack: {
-			type: Array,
-			required: false
-		}
-	},
-	setup () {
-		const { dataSets } = useDataSets()
+};
+</script>
 
-		return {
-			dataSets
-		}
-	},
-	data () {
-		return {
-			keyword: '',
-			activeIcon: null,
-			activeCategory: 'all'
-		}
-	},
-	methods: {
-		selectIcon (event, name) {
-			this.activeIcon = event
-			let icon = {
-				family: name,
-				name: this.activeIcon.name,
-				unicode: this.activeIcon.unicode
-			}
-			this.$emit('update:modelValue', icon)
-		},
-		insertIcon (event, name) {
-			this.activeIcon = event
-			let icon = {
-				family: name,
-				name: this.activeIcon.name,
-				unicode: this.activeIcon.unicode
-			}
-			this.$emit('selected', icon)
-		}
-	},
-	computed: {
-		iconValue () {
-			return this.modelValue || {}
-		},
-		getPacks () {
-			return this.dataSets.icons !== undefined ? this.dataSets.icons : []
-		},
-		searchModel: {
-			get () {
-				return this.keyword
-			},
-			set (newVal) {
-				this.keyword = newVal
-			}
-		},
-		filteredList () {
-			let self = this
-			if (this.keyword.length > 0) {
-				let filtered = []
-				for (const pack of this.packList) {
-					let copyPack = { ...pack }
-					const b = copyPack.icons.filter(icon =>
-						icon.name.includes(self.keyword.toLowerCase())
-					)
-					copyPack.icons = [...b]
-					filtered.push(copyPack)
-				}
-				return filtered
-			} else return this.packList
-		},
-		getPlaceholder () {
-			let a = `${this.$translate('search_for_icons')} ${this.getIconNumber} ${this.$translate('icons')}`
-			return a
-		},
-		getIconNumber () {
-			let iconNumber = 0
-			for (const pack of this.packList) {
-				let packNumber = pack.icons.length
-				iconNumber = iconNumber + packNumber
-			}
-			return iconNumber
-		},
-		packList () {
-			if (this.specialFilterPack !== undefined && this.specialFilterPack.length) {
-				return this.specialFilterPack
-			}
-			if (this.activeCategory === 'all') {
-				return this.getPacks
-			} else {
-				let newArray = []
-				for (const pack of this.getPacks) {
-					if (pack.id === this.activeCategory) {
-						newArray.push(pack)
-					}
-				}
-				return newArray
-			}
-		},
-		packsOptions () {
-			let options = [
-				{
-					name: 'All',
-					id: 'all'
-				}
-			]
-			if (this.specialFilterPack === undefined || !this.specialFilterPack.length) {
-				this.getPacks.forEach((pack) => {
-					let a = {
-						name: pack.name,
-						id: pack.id
-					}
-					options.push(a)
-				})
-			}
+<script lang="ts" setup>
+import { ref, computed, Ref } from 'vue';
+import { useDataSets, DataSets, Icons } from '@composables';
+import IconPackGrid from '../IconPackGrid.vue';
+import { translate } from '@zb/i18n';
 
-			return options
-		}
+type Icon = { family?: string; name: string; unicode: string };
 
+const props = defineProps<{
+	modelValue?: Icon | null;
+	specialFilterPack?: Icons[];
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Icon | null | undefined): void;
+	(e: 'selected', value: Icon): void;
+}>();
+
+const { dataSets }: { dataSets: Ref<DataSets> } = useDataSets();
+
+const keyword = ref('');
+const activeIcon: Ref<Icon | null> = ref(null);
+const activeCategory = ref('all');
+
+const getPacks = computed(() => {
+	return dataSets.value.icons ?? [];
+});
+
+const searchModel = computed({
+	get() {
+		return keyword.value;
+	},
+	set(newVal: string) {
+		keyword.value = newVal;
+	},
+});
+
+const filteredList = computed(() => {
+	if (keyword.value.length > 0) {
+		const filtered = [];
+		for (const pack of packList.value) {
+			const copyPack = { ...pack };
+			const b = copyPack.icons.filter(icon => icon.name.includes(keyword.value.toLowerCase()));
+			copyPack.icons = [...b];
+			filtered.push(copyPack);
+		}
+		return filtered;
+	} else return packList.value;
+});
+
+const getPlaceholder = computed(() => {
+	return `${translate('search_for_icons')} ${getIconNumber.value} ${translate('icons')}`;
+});
+
+const getIconNumber = computed(() => {
+	let iconNumber = 0;
+	for (const pack of packList.value) {
+		let packNumber = pack.icons.length;
+		iconNumber = iconNumber + packNumber;
 	}
+	return iconNumber;
+});
+
+const packList = computed(() => {
+	if (props.specialFilterPack !== undefined && props.specialFilterPack.length) {
+		return props.specialFilterPack;
+	}
+	if (activeCategory.value === 'all') {
+		return getPacks.value;
+	} else {
+		let newArray = [];
+		for (const pack of getPacks.value) {
+			if (pack.id === activeCategory.value) {
+				newArray.push(pack);
+			}
+		}
+		return newArray;
+	}
+});
+
+const packsOptions = computed(() => {
+	const options = [
+		{
+			name: 'All',
+			id: 'all',
+		},
+	];
+	if (props.specialFilterPack === undefined || !props.specialFilterPack.length) {
+		getPacks.value.forEach(pack => {
+			let a = {
+				name: pack.name,
+				id: pack.id,
+			};
+			options.push(a);
+		});
+	}
+
+	return options;
+});
+
+function selectIcon(event: Icon, name: string) {
+	activeIcon.value = event;
+	const icon = {
+		family: name,
+		name: activeIcon.value.name,
+		unicode: activeIcon.value.unicode,
+	};
+	emit('update:modelValue', icon);
+}
+
+function insertIcon(event: Icon, name: string) {
+	activeIcon.value = event;
+	const icon = {
+		family: name,
+		name: activeIcon.value.name,
+		unicode: activeIcon.value.unicode,
+	};
+	emit('selected', icon);
 }
 </script>
 <style lang="scss">
