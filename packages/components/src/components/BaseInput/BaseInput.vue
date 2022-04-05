@@ -72,7 +72,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Icon } from '../Icon';
 
 interface IProps {
@@ -112,12 +112,18 @@ const props = withDefaults(defineProps<IProps>(), {
 	name: 'BaseInput',
 	type: 'text',
 	clearable: false,
-
 });
 
 defineEmits<{
 	(e: 'update:modelValue', value: string | number): void;
 }>();
+
+// Template Ref
+const input = ref<HTMLInputElement | null>(null);
+
+defineExpose({
+	input,
+});
 
 const showClear = computed(() => {
 	return props.clearable && props.modelValue ? true : false;
@@ -143,17 +149,14 @@ function onKeyDown(e: KeyboardEvent) {
 	}
 }
 
-// Template Ref
-const input = ref<HTMLInputElement | null>(null);
-
 // @TODO Remove unused functions
-function focus() {
-	input.value?.focus();
-}
+// function focus() {
+// 	input.value?.focus();
+// }
 
-function blur() {
-	input.value?.blur();
-}
+// function blur() {
+// 	input.value?.blur();
+// }
 </script>
 
 <style lang="scss">
