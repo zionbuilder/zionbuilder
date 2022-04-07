@@ -135,6 +135,25 @@ class Performance extends BaseSchema {
 			]
 		);
 
+		$options->add_option(
+			'disable_area_wrappers',
+			[
+				'type'    => 'custom_selector',
+				'default' => false,
+				'title'   => __( 'Disable area wrappers', 'zionbuilder' ),
+				'options' => [
+					[
+						'name' => __( 'Disable builder areas wrapper div', 'zionbuilder' ),
+						'id'   => true,
+					],
+					[
+						'name' => __( 'no', 'zionbuilder' ),
+						'id'   => false,
+					],
+				],
+			]
+		);
+
 		return $options->get_schema();
 	}
 }
