@@ -4609,7 +4609,7 @@ msgstr ""
 msgid "This option allows you do unload normalize.css script that is loaded by the builder. If your theme already loads this script, it is recommended to disable it from here."
 msgstr ""
 
-#: ../includes/Options/Schemas/Performance.php:91, ../includes/Options/Schemas/Performance.php:111, ../includes/Options/Schemas/Performance.php:131
+#: ../includes/Options/Schemas/Performance.php:91, ../includes/Options/Schemas/Performance.php:111, ../includes/Options/Schemas/Performance.php:131, ../includes/Options/Schemas/Performance.php:150
 msgid "no"
 msgstr ""
 
@@ -4619,6 +4619,14 @@ msgstr ""
 
 #: ../includes/Options/Schemas/Performance.php:124, ../includes/Options/Schemas/Performance.php:127
 msgid "Disable WordPress emojis"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:143
+msgid "Disable area wrappers"
+msgstr ""
+
+#: ../includes/Options/Schemas/Performance.php:146
+msgid "Disable builder areas wrapper div"
 msgstr ""
 
 #: ../includes/Options/Schemas/Shadow.php:33
