@@ -124,7 +124,7 @@ msgstr ""
 msgid "With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features."
 msgstr ""
 
-#: ../includes/Localization.php:49, ../includes/Localization.php:464, ../includes/Elements/CustomCode/CustomCode.php:117, ../includes/Options/Schemas/Advanced.php:583, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:199, ../includes/Options/Schemas/StyleOptions.php:629, ../includes/Options/Schemas/StyleOptions.php:655, ../includes/Options/Schemas/StyleOptions.php:681, ../includes/Options/Schemas/StyleOptions.php:707
+#: ../includes/Localization.php:49, ../includes/Localization.php:464, ../includes/Elements/CustomCode/CustomCode.php:114, ../includes/Options/Schemas/Advanced.php:583, ../includes/Options/Schemas/PageOptions.php:131, ../includes/Options/Schemas/PageOptions.php:150, ../includes/Options/Schemas/StyleOptions.php:199, ../includes/Options/Schemas/StyleOptions.php:629, ../includes/Options/Schemas/StyleOptions.php:655, ../includes/Options/Schemas/StyleOptions.php:681, ../includes/Options/Schemas/StyleOptions.php:707
 msgid "Click here to learn more about PRO."
 msgstr ""
 
@@ -2893,7 +2893,7 @@ msgstr ""
 msgid "Button styles"
 msgstr ""
 
-#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/Icon/Icon.php:419, ../includes/Elements/IconBox/IconBox.php:223, ../includes/Elements/IconList/IconList.php:266, ../includes/Elements/Separator/Separator.php:405
+#: ../includes/Elements/Button/Button.php:342, ../includes/Elements/Icon/Icon.php:416, ../includes/Elements/IconBox/IconBox.php:223, ../includes/Elements/IconList/IconList.php:266, ../includes/Elements/Separator/Separator.php:402
 msgid "Icon styles"
 msgstr ""
 
@@ -3273,31 +3273,31 @@ msgstr ""
 msgid "Custom Code"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:88
+#: ../includes/Elements/CustomCode/CustomCode.php:85
 msgid "Custom HTML/CSS/JavaScript"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:96
+#: ../includes/Elements/CustomCode/CustomCode.php:93
 msgid "Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type=\"text/css\">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:97
+#: ../includes/Elements/CustomCode/CustomCode.php:94
 msgid "Custom html"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:99
+#: ../includes/Elements/CustomCode/CustomCode.php:96
 msgid "// Your custom HTML here"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:107
+#: ../includes/Elements/CustomCode/CustomCode.php:104
 msgid "Custom PHP"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:115
+#: ../includes/Elements/CustomCode/CustomCode.php:112
 msgid "Meet Custom PHP"
 msgstr ""
 
-#: ../includes/Elements/CustomCode/CustomCode.php:116
+#: ../includes/Elements/CustomCode/CustomCode.php:113
 msgid "With custom PHP you can add additional logic to your page"
 msgstr ""
 
@@ -3313,7 +3313,7 @@ msgstr ""
 msgid "Gallery item styles"
 msgstr ""
 
-#: ../includes/Elements/Gallery/Gallery.php:238
+#: ../includes/Elements/Gallery/Gallery.php:235
 msgid "No images selected."
 msgstr ""
 
@@ -3345,7 +3345,7 @@ msgstr ""
 msgid "Terrain"
 msgstr ""
 
-#: ../includes/Elements/Heading/Heading.php:78, ../includes/Elements/Heading/Heading.php:188, ../includes/Elements/IconBox/IconBox.php:205, ../includes/Elements/ImageBox/ImageBox.php:216, ../includes/Elements/Text/Text.php:78
+#: ../includes/Elements/Heading/Heading.php:78, ../includes/Elements/Heading/Heading.php:185, ../includes/Elements/IconBox/IconBox.php:205, ../includes/Elements/ImageBox/ImageBox.php:216, ../includes/Elements/Text/Text.php:78
 msgid "Just a sample text from heading element."
 msgstr ""
 
@@ -3597,43 +3597,43 @@ msgstr ""
 msgid "Image box title"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:39
+#: ../includes/Elements/ImageSlider/ImageSlider.php:41
 msgid "Image Slider"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:87, ../includes/Elements/ImageSlider/ImageSlider.php:88
+#: ../includes/Elements/ImageSlider/ImageSlider.php:89, ../includes/Elements/ImageSlider/ImageSlider.php:90
 msgid "Select images."
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:89
+#: ../includes/Elements/ImageSlider/ImageSlider.php:91
 msgid "Gallery images."
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:109
+#: ../includes/Elements/ImageSlider/ImageSlider.php:111
 msgid "Show arrows"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:119
+#: ../includes/Elements/ImageSlider/ImageSlider.php:121
 msgid "Show dots"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:129
+#: ../includes/Elements/ImageSlider/ImageSlider.php:131
 msgid "Infinite"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:139
+#: ../includes/Elements/ImageSlider/ImageSlider.php:141
 msgid "Autoplay"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:148
+#: ../includes/Elements/ImageSlider/ImageSlider.php:150
 msgid "Slides to show"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:160
+#: ../includes/Elements/ImageSlider/ImageSlider.php:162
 msgid "Slides to scroll"
 msgstr ""
 
-#: ../includes/Elements/ImageSlider/ImageSlider.php:172
+#: ../includes/Elements/ImageSlider/ImageSlider.php:174
 msgid "Autoplay speed"
 msgstr ""
 
