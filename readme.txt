@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 5.9.2
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,16 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.1.0 2022-04-07 =
+Added: User login status as the element display condition
+Improvement: Allow custom breakpoints to work for sliders
+Improvement: Updated slider component to Vue 3 setup
+Improvement: Removed jQuery dependency for image slider
+Fixed: Global colors not applying for custom classes in editor
+Fixed: Child selector doesn't preserve name after re-ordering the selectors
+Fixed: Color picker behavior in Firefox browser
+Fixed: Child selector name exits panel in certain conditions
+
 = 3.0.0 2022-03-14 =
 Added: New UI and UX for the editor
 Added: Ability to edit breakpoint device values
