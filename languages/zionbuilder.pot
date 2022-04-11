@@ -2084,6 +2084,10 @@ msgstr ""
 msgid "Preview scale"
 msgstr ""
 
+#: ../includes/Localization.php:772
+msgid "Wrap with container"
+msgstr ""
+
 #: ../includes/MaintenanceMode.php:179
 msgid "Select mode"
 msgstr ""
