@@ -1,25 +1,25 @@
-import { ref, Ref } from 'vue'
-import { Element } from './models'
-import { usePreviewMode } from './usePreviewMode'
+import { ref, Ref } from 'vue';
+import { Element } from './models';
+import { usePreviewMode } from './usePreviewMode';
 
-const activeElementMenu: Ref<null | object> = ref(null)
+const activeElementMenu: Ref<null | object> = ref(null);
 
 export function useElementMenu() {
 	const showElementMenu = (element: Element, selector, actions = {}) => {
 		// Don't show on preview mode
-		const { isPreviewMode } = usePreviewMode()
+		const { isPreviewMode } = usePreviewMode();
 
 		if (isPreviewMode.value) {
-			return
+			return;
 		}
 
 		activeElementMenu.value = {
 			element,
 			selector,
 			key: Math.random(),
-			actions
-		}
-	}
+			actions,
+		};
+	};
 
 	const showElementMenuFromEvent = (element, event, actions = {}) => {
 		showElementMenu(
@@ -31,23 +31,22 @@ export function useElementMenu() {
 						width: 0,
 						height: 0,
 						top: event.clientY,
-						left: event.clientX
-					}
-
-				}
+						left: event.clientX,
+					};
+				},
 			},
-			actions
-		)
-	}
+			actions,
+		);
+	};
 
 	const hideElementMenu = () => {
-		activeElementMenu.value = null
-	}
+		activeElementMenu.value = null;
+	};
 
 	return {
 		showElementMenu,
 		showElementMenuFromEvent,
 		hideElementMenu,
-		activeElementMenu
-	}
+		activeElementMenu,
+	};
 }
