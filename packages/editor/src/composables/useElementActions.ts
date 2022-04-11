@@ -144,7 +144,7 @@ export function useElementActions() {
 		});
 	};
 
-	function wrapWithContainer(element) {
+	function wrapInContainer(element) {
 		const { registerElement } = useElements();
 		const parent = element.parent;
 		const newElement = registerElement(
@@ -171,6 +171,6 @@ export function useElementActions() {
 		// Copy element classes
 		copyElementClasses,
 		pasteElementClasses,
-		wrapWithContainer,
+		wrapInContainer,
 	};
 }

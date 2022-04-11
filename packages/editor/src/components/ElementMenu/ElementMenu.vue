@@ -53,7 +53,7 @@ export default {
 
 		// TODO: deprecate useEditElement and move code to useElementActions
 		const { editElement } = useEditElement();
-		const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapWithContainer } =
+		const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapInContainer } =
 			useElementActions();
 
 		// Computed
@@ -135,10 +135,10 @@ export default {
 					cssClasses: 'znpb-menu-item--separator-bottom',
 				},
 				{
-					title: translate('wrap_with_container'),
+					title: translate('wrap_in_container'),
 					icon: 'eye',
 					action: () => {
-						wrapWithContainer(element);
+						wrapInContainer(element);
 					},
 					append: `${controllKey}+H`,
 					cssClasses: 'znpb-menu-item--separator-bottom',
