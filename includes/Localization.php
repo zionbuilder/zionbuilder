@@ -769,6 +769,7 @@ class Localization {
 				'add_breakpoint'                           => __( 'Add breakpoint', 'zionbuilder' ),
 				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
 				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
+				'wrap_with_container'                      => __( 'Wrap with container', 'zionbuilder' ),
 			]
 		);
 	}

@@ -1,11 +1,11 @@
 <template>
 	<div
+		ref="rectangle"
 		class="znpb-element-toolbox"
 		:class="{
 			'znpb-element-toolbox--dragging': isAnyDragging,
-			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging
+			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging,
 		}"
-		ref="rectangle"
 	>
 		<ToolboxTitle :element="element" />
 
@@ -14,19 +14,19 @@
 			<Tooltip
 				v-for="(position, positionIndex) in positions"
 				:ref="`sizeDrag--${position}`"
+				:key="`size-${position}`"
 				tooltip-class="hg-popper--big-arrows znpb-sizing-label"
-				:placement='getPopperPlacement'
+				:placement="getPopperPlacement"
 				append-to="body"
 				trigger="null"
 				:show-arrows="false"
-				:show="activeDragType === 'size' && activeDragPosition === position && newValues!= undefined"
-				:key="`size-${position}`"
+				:show="activeDragType === 'size' && activeDragPosition === position && newValues != undefined"
 				:popper-ref="popperRef"
 				@mousedown.left.stop="startSizeDrag($event, position)"
 			>
 				<template #content>
 					<span>
-						{{newValues !== undefined ? newValues + 'px' : ''}}
+						{{ newValues !== undefined ? newValues + 'px' : '' }}
 					</span>
 				</template>
 
@@ -34,17 +34,18 @@
 					class="znpb-element-toolbox__resize-width znpb-element-toolbox__resize-dimensions"
 					:class="{
 						[`znpb-element-toolbox__resize-width--${positionIndex}`]: true,
-						[`znpb-element-toolbox__resize-dimensions--${(positionIndex === 'top' || positionIndex === 'bottom' )? 'height' : 'width'}`]:true
+						[`znpb-element-toolbox__resize-dimensions--${
+							positionIndex === 'top' || positionIndex === 'bottom' ? 'height' : 'width'
+						}`]: true,
 					}"
 					@mousedown.left.stop="startSizeDrag($event, position)"
 				>
 					<span class="znpb-element-toolbox__resize-width-bg"></span>
 				</div>
-
 			</Tooltip>
 
 			<!-- Paddings -->
-			<template v-for="( positions, type ) in positions2">
+			<template v-for="(positions, type) in positions2">
 				<div
 					v-for="position in positions"
 					:key="`${type}-${position}`"
@@ -52,88 +53,76 @@
 						[`znpb-element-toolbox__resize`]: true,
 						[`znpb-element-toolbox__resize-${type}`]: true,
 						[`znpb-element-toolbox__resize--${position}`]: true,
-						['znpb-element-toolbox__resize--dragging']: activeDragType === type && (activeDragPosition === position || reversedPosition === position)
-
+						['znpb-element-toolbox__resize--dragging']:
+							activeDragType === type && (activeDragPosition === position || reversedPosition === position),
 					}"
-					@mousedown.left.stop="startSpacingDrag({event: $event, type, position})"
+					@mousedown.left.stop="startSpacingDrag({ event: $event, type, position })"
 				>
-					<div
-						class="znpb-element-toolbox__resize-value"
-						:style="computedHelpersStyle[position]"
-					>
-						<span>{{computedSavedValues[position]}}</span>
+					<div class="znpb-element-toolbox__resize-value" :style="computedHelpersStyle[position]">
+						<span>{{ computedSavedValues[position] }}</span>
 					</div>
 				</div>
 			</template>
 		</template>
 
 		<!-- Add new Button -->
-		<transition
-			appear
-			name="bounce-add-icon"
-		>
+		<transition appear name="bounce-add-icon">
 			<div
 				v-if="!isAnyDragging"
+				ref="addElementsPopupButton"
 				class="znpb-element-toolbox__add-element-button"
 				@click="toggleAddElementsPopup"
-				ref="addElementsPopupButton"
 			>
-				<Icon
-					v-znpb-tooltip="$translate('insert_after') + ' ' + element.name"
-					icon="plus"
-					:rounded="true"
-				/>
+				<Icon v-znpb-tooltip="$translate('insert_after') + ' ' + element.name" icon="plus" :rounded="true" />
 			</div>
-
 		</transition>
-
 	</div>
 </template>
 
 <script>
 // Utils
-import { ref, computed } from 'vue'
-import rafSchd from 'raf-schd'
-import { get } from 'lodash-es'
-import { useWindows } from '@zb/editor'
-import { useAddElementsPopup, useElementActions, useIsDragging, useHistory, useEditElement } from '@zb/editor'
-import { useResponsiveDevices } from '@zb/components'
-import { Environment } from '@zb/utils'
+import { ref, computed } from 'vue';
+import rafSchd from 'raf-schd';
+import { get } from 'lodash-es';
+import { useWindows } from '@zb/editor';
+import { useAddElementsPopup, useIsDragging, useHistory, useEditElement } from '@zb/editor';
+import { useResponsiveDevices } from '@zb/components';
+import { Environment } from '@zb/utils';
 
 // Components
-import ToolboxTitle from './ToolboxTitle.vue'
+import ToolboxTitle from './ToolboxTitle.vue';
 
 export default {
 	name: 'ElementToolbox',
 	components: {
-		ToolboxTitle
+		ToolboxTitle,
 	},
 	props: {
 		element: Object,
 		canHideToolbox: {
 			type: Boolean,
 			required: false,
-			default: true
-		}
+			default: true,
+		},
 	},
-	setup (props) {
-		const showColumnTemplates = ref(false)
-		const addElementsPopupButton = ref(null)
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { addEventListener, removeEventListener } = useWindows()
-		const isToolboxDragging = ref(false)
+	setup(props) {
+		const showColumnTemplates = ref(false);
+		const addElementsPopupButton = ref(null);
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
+		const { addEventListener, removeEventListener } = useWindows();
+		const isToolboxDragging = ref(false);
 
 		const toggleAddElementsPopup = () => {
-			const { showAddElementsPopup } = useAddElementsPopup()
+			const { showAddElementsPopup } = useAddElementsPopup();
 			showAddElementsPopup(props.element, addElementsPopupButton, {
-				placement: 'next'
-			})
-		}
-		const { isDragging } = useIsDragging()
-		const { element: activeElementEdit } = useEditElement()
+				placement: 'next',
+			});
+		};
+		const { isDragging } = useIsDragging();
+		const { element: activeElementEdit } = useEditElement();
 		const isActiveElementEdit = computed(() => {
-			return props.element === activeElementEdit.value
-		})
+			return props.element === activeElementEdit.value;
+		});
 
 		return {
 			showColumnTemplates,
@@ -144,10 +133,10 @@ export default {
 			addEventListener,
 			removeEventListener,
 			isActiveElementEdit,
-			isToolboxDragging
-		}
+			isToolboxDragging,
+		};
 	},
-	data () {
+	data() {
 		return {
 			// Active element positions
 			computedStyle: null,
@@ -162,7 +151,7 @@ export default {
 			initialSizeValue: null,
 			positions2: {
 				padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
-				margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight']
+				margin: ['marginTop', 'marginBottom', 'marginLeft', 'marginRight'],
 			},
 			styleMap: {
 				paddingTop: 'padding-top',
@@ -174,17 +163,17 @@ export default {
 				marginBottom: 'margin-bottom',
 				marginLeft: 'margin-left',
 				width: 'width',
-				height: 'height'
+				height: 'height',
 			},
 			positions: {
 				top: 'Top',
 				bottom: 'Bottom',
 				right: 'Right',
-				left: 'Left'
+				left: 'Left',
 			},
 			popperRefValues: {
 				clientX: 0,
-				clientY: 0
+				clientY: 0,
 			},
 			popperRef: {
 				getBoundingClientRect: () => ({
@@ -193,8 +182,8 @@ export default {
 					bottom: this.popperRefValues.clientY,
 					left: this.popperRefValues.clientX,
 					width: 0,
-					height: 0
-				})
+					height: 0,
+				}),
 			},
 
 			// Columns add
@@ -203,15 +192,19 @@ export default {
 			settingEvenPaddingDimensions: null,
 			settingEvenMarginsDimensions: null,
 			addToHistory: false,
-			isTopBarOpen: null
-		}
+			isTopBarOpen: null,
+		};
 	},
 	computed: {
 		/**
 		 * Returns the saved value for each property defaulting to actual size
 		 */
-		computedSavedValues () {
-			const savedValues = get(this.element.options, `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`, {})
+		computedSavedValues() {
+			const savedValues = get(
+				this.element.options,
+				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default`,
+				{},
+			);
 
 			return {
 				paddingTop: savedValues[this.styleMap.paddingTop] || this.computedStyle.paddingTop,
@@ -223,102 +216,112 @@ export default {
 				marginBottom: savedValues[this.styleMap.marginBottom] || this.computedStyle.marginBottom,
 				marginLeft: savedValues[this.styleMap.marginLeft] || this.computedStyle.marginLeft,
 				height: savedValues[this.styleMap.height] || this.computedStyle.height,
-				width: savedValues[this.styleMap.width] || this.computedStyle.width
-			}
+				width: savedValues[this.styleMap.width] || this.computedStyle.width,
+			};
 		},
-		computedHelpersStyle () {
-			const { height, width, ...remainingProperties } = this.styleMap
-			const styles = {}
+		computedHelpersStyle() {
+			const { height, width, ...remainingProperties } = this.styleMap;
+			const styles = {};
 
 			Object.keys(remainingProperties).forEach(propertyId => {
-				const direction = propertyId.indexOf('Top') !== -1 || propertyId.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal'
-				const sizeProperty = direction === 'vertical' ? 'height' : 'width'
-				const sizeValue = Math.abs(parseInt(this.computedSavedValues[propertyId]))
+				const direction =
+					propertyId.indexOf('Top') !== -1 || propertyId.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal';
+				const sizeProperty = direction === 'vertical' ? 'height' : 'width';
+				const sizeValue = Math.abs(parseInt(this.computedSavedValues[propertyId]));
 				styles[propertyId] = {
-					[sizeProperty]: `${sizeValue}px`
-				}
-			})
+					[sizeProperty]: `${sizeValue}px`,
+				};
+			});
 
-			return styles
+			return styles;
 		},
-		getPopperPlacement () {
+		getPopperPlacement() {
 			if (this.activeDragPosition === 'Right') {
-				return 'left'
+				return 'left';
 			} else if (this.activeDragPosition === 'Top') {
-				return 'bottom'
+				return 'bottom';
 			} else if (this.activeDragPosition === 'Bottom') {
-				return 'top'
-			} else return 'right'
+				return 'top';
+			} else return 'right';
 		},
-		isAnyDragging () {
-			return this.isDragging || this.isToolboxDragging
+		isAnyDragging() {
+			return this.isDragging || this.isToolboxDragging;
 		},
-		dragDimension () {
+		dragDimension() {
 			if (this.activeDragPosition === 'Top' || this.activeDragPosition === 'Bottom') {
-				return 'vertical'
+				return 'vertical';
 			}
 
-			return 'horizontal'
-		}
+			return 'horizontal';
+		},
+	},
+	beforeUnmount() {
+		this.removeEvents();
+	},
+	created() {
+		this.setComputedStyle();
 	},
 	methods: {
-		startSpacingDrag ({ event, type, position }) {
-			const { clientX, clientY } = event
-			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey'
+		startSpacingDrag({ event, type, position }) {
+			const { clientX, clientY } = event;
+			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
 			// Prevent user selection
-			document.body.style.userSelect = 'none'
+			document.body.style.userSelect = 'none';
 
 			// Prevent tooltip from closing
-			this.$emit('update:canHideToolbox', false)
-			this.$emit('update:isToolboxDragging', true)
+			this.$emit('update:canHideToolbox', false);
+			this.$emit('update:isToolboxDragging', true);
 
 			// Set info for dragging
-			const startClientX = clientX
-			const startClientY = clientY
-			this.activeDragType = type
-			this.activeDragPosition = position
-			this.isToolboxDragging = true
+			const startClientX = clientX;
+			const startClientY = clientY;
+			this.activeDragType = type;
+			this.activeDragPosition = position;
+			this.isToolboxDragging = true;
 
-			const activeDragValue = this.computedSavedValues[position]
-			const match = typeof activeDragValue === 'string' && activeDragValue ? activeDragValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
-			const initialValue = match && match[1] ? parseInt(match[1]) : 0
-			const initialUnit = match ? match[3] : ''
+			const activeDragValue = this.computedSavedValues[position];
+			const match =
+				typeof activeDragValue === 'string' && activeDragValue
+					? activeDragValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/)
+					: null;
+			const initialValue = match && match[1] ? parseInt(match[1]) : 0;
+			const initialUnit = match ? match[3] : '';
 
-			this.onMouseMoveDebounced = rafSchd((event) => {
+			this.onMouseMoveDebounced = rafSchd(event => {
 				let { direction, distance } = this.getDragInfo({
 					event,
 					type,
 					position,
 					startClientX,
-					startClientY
-				})
-				let even = false
+					startClientY,
+				});
+				let even = false;
 
 				// Invert the distance
 				if (['padding', 'margin'].includes(type) && position.indexOf('Right') !== -1) {
-					distance = distance * -1
+					distance = distance * -1;
 				}
 
 				// For percentage values, increment by 0.1
-				let updatedValue = initialUnit === '%' ? initialValue + (distance * 0.1) : initialValue + distance
+				let updatedValue = initialUnit === '%' ? initialValue + distance * 0.1 : initialValue + distance;
 
 				// Check if the
 				if (event.shiftKey) {
-					updatedValue = Math.round(updatedValue / 5) * 5
+					updatedValue = Math.round(updatedValue / 5) * 5;
 				}
 
 				// Prevent negative size for paddings
 				if (type === 'padding') {
-					updatedValue = Math.max(updatedValue, 0)
+					updatedValue = Math.max(updatedValue, 0);
 				}
 
 				// Finally, round the value
-				updatedValue = Math.round(updatedValue * 10) / 10
+				updatedValue = Math.round(updatedValue * 10) / 10;
 
 				// Don't proceed if the values are the same
 				if (initialValue === updatedValue) {
-					return
+					return;
 				}
 
 				this.updateElementStyle({
@@ -326,228 +329,233 @@ export default {
 					type,
 					position,
 					even: event[controllKey],
-					reversedPosition: event[controllKey] ? this.getReversedPosition(position) : null
-				})
+					reversedPosition: event[controllKey] ? this.getReversedPosition(position) : null,
+				});
 
 				// Refresh sizes
-				this.setComputedStyle()
-			})
+				this.setComputedStyle();
+			});
 
-			this.addEventListener('mousemove', this.onMouseMoveDebounced)
-			this.addEventListener('mouseup', this.onMouseUp)
+			this.addEventListener('mousemove', this.onMouseMoveDebounced);
+			this.addEventListener('mouseup', this.onMouseUp);
 		},
-		getReversedPosition (position) {
-			const typeAndPosition = position.split(/(?=[A-Z])/)
-			const positionLocation = typeAndPosition[1]
-			let reversePositionLocation
-
+		getReversedPosition(position) {
+			const typeAndPosition = position.split(/(?=[A-Z])/);
+			const positionLocation = typeAndPosition[1];
+			let reversePositionLocation;
 
 			switch (positionLocation) {
 				case 'Top':
-					reversePositionLocation = 'Bottom'
-					break
+					reversePositionLocation = 'Bottom';
+					break;
 				case 'Bottom':
-					reversePositionLocation = 'Top'
-					break
+					reversePositionLocation = 'Top';
+					break;
 				case 'Left':
-					reversePositionLocation = 'Right'
-					break
+					reversePositionLocation = 'Right';
+					break;
 				case 'Right':
-					reversePositionLocation = 'Left'
-					break
+					reversePositionLocation = 'Left';
+					break;
 			}
 
-			return `${typeAndPosition[0]}${reversePositionLocation}`
+			return `${typeAndPosition[0]}${reversePositionLocation}`;
 		},
-		updateElementStyle ({ newValue, type, position, even, reversedPosition }) {
-			const activeDragCssProperty = this.styleMap[position]
+		updateElementStyle({ newValue, type, position, even, reversedPosition }) {
+			const activeDragCssProperty = this.styleMap[position];
 
 			// Save to history
-			this.addToHistory = true
+			this.addToHistory = true;
 
-			this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`, newValue)
+			this.element.updateOptionValue(
+				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
+				newValue,
+			);
 
 			// If we need to update the opposite position
 			if (even) {
-				const activeDragReversedCssProperty = this.styleMap[reversedPosition]
-				this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`, newValue)
+				const activeDragReversedCssProperty = this.styleMap[reversedPosition];
+				this.element.updateOptionValue(
+					`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
+					newValue,
+				);
 			}
 		},
-		getDragInfo ({ event, type, position, startClientX, startClientY }) {
-			const direction = position.indexOf('Top') !== -1 || position.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal'
-			let distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX
+		getDragInfo({ event, type, position, startClientX, startClientY }) {
+			const direction = position.indexOf('Top') !== -1 || position.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal';
+			let distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX;
 
 			return {
 				direction,
-				distance
-			}
+				distance,
+			};
 		},
-		onMouseUp () {
+		onMouseUp() {
 			// We just need to add to history
 			if (this.addToHistory) {
-				const { addToHistory } = useHistory()
-				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`)
+				const { addToHistory } = useHistory();
+				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`);
 			}
 
 			// Cancel the scheduler
-			this.onMouseMoveDebounced.cancel()
+			this.onMouseMoveDebounced.cancel();
 
-			this.removeEventListener('mousemove', this.onMouseMoveDebounced)
-			this.removeEventListener('mouseup', this.onMouseUp)
+			this.removeEventListener('mousemove', this.onMouseMoveDebounced);
+			this.removeEventListener('mouseup', this.onMouseUp);
 
 			// Reset properties
-			this.onMouseMoveDebounced = null
-			this.activeDragType = null
-			this.activeDragPosition = null
-			this.addToHistory = false
-			this.isToolboxDragging = false
+			this.onMouseMoveDebounced = null;
+			this.activeDragType = null;
+			this.activeDragPosition = null;
+			this.addToHistory = false;
+			this.isToolboxDragging = false;
 
-			document.body.style.userSelect = null
+			document.body.style.userSelect = null;
 
-			this.$emit('update:canHideToolbox', true)
-			this.$emit('update:isToolboxDragging', false)
+			this.$emit('update:canHideToolbox', true);
+			this.$emit('update:isToolboxDragging', false);
 		},
-		setTopBarDisplay (event) {
-			this.isTopBarOpen = event
+		setTopBarDisplay(event) {
+			this.isTopBarOpen = event;
 		},
-		getNumberFromString (string) {
-			return parseInt(string.match(/\d+/)[0])
+		getNumberFromString(string) {
+			return parseInt(string.match(/\d+/)[0]);
 		},
-		setComputedStyle () {
+		setComputedStyle() {
 			if (this.$parent.$el) {
-				this.computedStyle = window.getComputedStyle(this.$parent.$el)
+				this.computedStyle = window.getComputedStyle(this.$parent.$el);
 			}
 		},
-		removeEvents () {
-			this.removeEventListener('mousemove', this.changeSizeDebounced)
-			this.removeEventListener('mousemove', this.changePaddingWidth)
-			this.removeEventListener('mousemove', this.changeMarginWidth)
-			this.removeEventListener('mouseup', this.endDragging)
+		removeEvents() {
+			this.removeEventListener('mousemove', this.changeSizeDebounced);
+			this.removeEventListener('mousemove', this.changePaddingWidth);
+			this.removeEventListener('mousemove', this.changeMarginWidth);
+			this.removeEventListener('mouseup', this.endDragging);
 		},
-		getSizeChangePropertyFromPosition (position) {
-			let propertyToChange = null
+		getSizeChangePropertyFromPosition(position) {
+			let propertyToChange = null;
 
 			if (position === 'Top' || position === 'Bottom') {
-				propertyToChange = 'min-height'
+				propertyToChange = 'min-height';
 			} else {
-				propertyToChange = 'width'
+				propertyToChange = 'width';
 			}
 
-			return propertyToChange
+			return propertyToChange;
 		},
-		startSizeDrag (event, position, positionIndex) {
-			const { clientX, clientY } = event
+		startSizeDrag(event, position, positionIndex) {
+			const { clientX, clientY } = event;
 
 			// Prevent toolbox from closing
-			this.$emit('update:canHideToolbox', false)
-			this.$emit('update:isToolboxDragging', true)
+			this.$emit('update:canHideToolbox', false);
+			this.$emit('update:isToolboxDragging', true);
 
-			this.startClientX = clientX
-			this.startClientY = clientY
-			this.popperRefValues = { clientX, clientY }
+			this.startClientX = clientX;
+			this.startClientY = clientY;
+			this.popperRefValues = { clientX, clientY };
 
-			this.activeDragPosition = position
-			this.activeDragType = 'size'
-			const property = this.getSizeChangePropertyFromPosition(position)
-			document.body.style.userSelect = 'none'
-			this.initialSizeValue = parseInt(this.getSizeValue(property))
+			this.activeDragPosition = position;
+			this.activeDragType = 'size';
+			const property = this.getSizeChangePropertyFromPosition(position);
+			document.body.style.userSelect = 'none';
+			this.initialSizeValue = parseInt(this.getSizeValue(property));
 
-			this.changeSizeDebounced = rafSchd(this.changeSize)
+			this.changeSizeDebounced = rafSchd(this.changeSize);
 
-			this.addEventListener('mousemove', this.changeSizeDebounced)
-			this.addEventListener('mouseup', this.endDragging)
+			this.addEventListener('mousemove', this.changeSizeDebounced);
+			this.addEventListener('mouseup', this.endDragging);
 		},
-		getSizeValue (type) {
+		getSizeValue(type) {
 			// Return min-height
-			let value = this.element.getOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`)
+			let value = this.element.getOptionValue(
+				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`,
+			);
 			if (value !== null) {
-				return value
+				return value;
 			}
 
-			const alternativeType = type === 'min-height' ? 'height' : 'width'
+			const alternativeType = type === 'min-height' ? 'height' : 'width';
 
-			const sizeValue = this.computedStyle.getPropertyValue(alternativeType)
+			const sizeValue = this.computedStyle.getPropertyValue(alternativeType);
 
-			return this.getNumberFromString(sizeValue) || 0
+			return this.getNumberFromString(sizeValue) || 0;
 		},
-		changeSize (event) {
-			const { clientX, clientY } = event
+		changeSize(event) {
+			const { clientX, clientY } = event;
 
 			// Don't proceed if the mouse is already up
 			if (!this.activeDragPosition) {
-				return
+				return;
 			}
 
-			let newValue = null
-			const property = this.getSizeChangePropertyFromPosition(this.activeDragPosition)
-			const direction = this.dragDimension === 'vertical' ? 'vertical' : 'horizontal'
-			this.addToHistory = true
+			let newValue = null;
+			const property = this.getSizeChangePropertyFromPosition(this.activeDragPosition);
+			const direction = this.dragDimension === 'vertical' ? 'vertical' : 'horizontal';
+			this.addToHistory = true;
 
 			if (direction === 'vertical') {
-				const distance = clientY - this.startClientY
-				newValue = this.activeDragPosition === 'Top' ? this.initialSizeValue - distance : this.initialSizeValue + distance
+				const distance = clientY - this.startClientY;
+				newValue =
+					this.activeDragPosition === 'Top' ? this.initialSizeValue - distance : this.initialSizeValue + distance;
 			} else {
 				if (this.activeDragPosition === 'Right') {
-					const distance = clientX - this.startClientX
-					newValue = distance + this.initialSizeValue
+					const distance = clientX - this.startClientX;
+					newValue = distance + this.initialSizeValue;
 				} else {
-					const distance = this.startClientX - clientX
-					newValue = distance + this.initialSizeValue
+					const distance = this.startClientX - clientX;
+					newValue = distance + this.initialSizeValue;
 				}
 			}
 
 			// Prevent negative values
 			if (newValue < 0) {
-				newValue = 0
+				newValue = 0;
 			}
 
-			this.newValues = newValue
-			this.element.updateOptionValue(`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`, `${newValue}px`)
+			this.newValues = newValue;
+			this.element.updateOptionValue(
+				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
+				`${newValue}px`,
+			);
 
 			// reposition tooltip
 			if (this.$refs[`sizeDrag--${this.activeDragPosition}`]) {
-				const { bottom, left, top, right } = this.$refs.rectangle.getBoundingClientRect()
+				const { bottom, left, top, right } = this.$refs.rectangle.getBoundingClientRect();
 
 				if (this.activeDragPosition === 'Top') {
-					this.popperRefValues.clientY = top
+					this.popperRefValues.clientY = top;
 				} else if (this.activeDragPosition === 'Right') {
-					this.popperRefValues.clientX = right
+					this.popperRefValues.clientX = right;
 				} else if (this.activeDragPosition === 'Bottom') {
-					this.popperRefValues.clientY = bottom
-				} else this.popperRefValues.clientX = left
+					this.popperRefValues.clientY = bottom;
+				} else this.popperRefValues.clientX = left;
 
-				this.$refs[`sizeDrag--${this.activeDragPosition}`].scheduleUpdate()
+				this.$refs[`sizeDrag--${this.activeDragPosition}`].scheduleUpdate();
 			}
 		},
-		endDragging () {
-			document.body.style.userSelect = null
-			this.startClientX = null
-			this.startClientY = null
-			this.activeDragPosition = null
-			this.popperRef = null
+		endDragging() {
+			document.body.style.userSelect = null;
+			this.startClientX = null;
+			this.startClientY = null;
+			this.activeDragPosition = null;
+			this.popperRef = null;
 
 			// Prevent tooltip from closing
-			this.$emit('update:canHideToolbox', true)
-			this.$emit('update:isToolboxDragging', false)
+			this.$emit('update:canHideToolbox', true);
+			this.$emit('update:isToolboxDragging', false);
 
 			// We just need to add to history
 			if (this.addToHistory) {
-				const { addToHistory } = useHistory()
-				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`)
+				const { addToHistory } = useHistory();
+				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`);
 			}
 
-			this.addToHistory = false
-			this.settingEvenPaddingDimensions = false
-			this.removeEvents()
-		}
+			this.addToHistory = false;
+			this.settingEvenPaddingDimensions = false;
+			this.removeEvents();
+		},
 	},
-	beforeUnmount () {
-		this.removeEvents()
-	},
-	created () {
-		this.setComputedStyle()
-	}
-}
+};
 </script>
 
 <style lang="scss">
@@ -563,7 +571,8 @@ export default {
 			height: 6px;
 		}
 	}
-	.znpb-even-dimensions-horizontal, .znpb-even-dimensions-vertical {
+	.znpb-even-dimensions-horizontal,
+	.znpb-even-dimensions-vertical {
 		opacity: 1;
 	}
 }
@@ -585,14 +594,14 @@ export default {
 	text-transform: none;
 	outline: 2px solid #006dd2;
 	outline-offset: -2px;
-	transition: opacity .3s;
+	transition: opacity 0.3s;
 	pointer-events: none;
 	user-select: none;
 
 	&__resize {
 		position: absolute;
 		z-index: 1000;
-		transition: opacity .3s;
+		transition: opacity 0.3s;
 		opacity: 0;
 		pointer-events: all;
 
@@ -654,7 +663,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--right {
@@ -674,7 +683,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 			&--bottom {
@@ -694,7 +703,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 100%;
 					height: 2px;
-					transition: height .3s;
+					transition: height 0.3s;
 				}
 			}
 			&--left {
@@ -714,7 +723,7 @@ export default {
 				.znpb-element-toolbox__resize-width-bg {
 					width: 2px;
 					height: 100%;
-					transition: width .3s;
+					transition: width 0.3s;
 				}
 			}
 		}
@@ -731,9 +740,7 @@ export default {
 				width: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -750,9 +757,7 @@ export default {
 				width: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -769,9 +774,7 @@ export default {
 				height: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -787,9 +790,7 @@ export default {
 				left: 0;
 				height: 100%;
 			}
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -806,9 +807,7 @@ export default {
 				width: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -825,9 +824,7 @@ export default {
 				width: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-height: 10px;
 			}
 		}
@@ -844,9 +841,7 @@ export default {
 				height: 100%;
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -862,9 +857,7 @@ export default {
 				left: 0;
 				height: 100%;
 			}
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging)
-			&
-			.znpb-element-toolbox__resize-value {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) & .znpb-element-toolbox__resize-value {
 				min-width: 10px;
 			}
 		}
@@ -878,14 +871,18 @@ export default {
 				text-decoration: none;
 				text-shadow: none;
 				text-transform: none;
-				background-color: rgba(6, 190, 225, .2);
+				background-color: rgba(6, 190, 225, 0.2);
 
 				span {
 					background-color: #06bee1;
 				}
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1000;
 				opacity: 1;
 				visibility: visible;
@@ -898,14 +895,18 @@ export default {
 				justify-content: center;
 				align-items: center;
 				color: #fff;
-				background-color: rgba(249, 149, 45, .2);
+				background-color: rgba(249, 149, 45, 0.2);
 
 				span {
 					background-color: #f9952d;
 				}
 			}
 
-			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover, &-Top--dragging &--top, &-Bottom--dragging &--bottom, &-Right--dragging &--right, &-Left--dragging &--left {
+			.znpb-element-toolbox:not(.znpb-element-toolbox--dragging) &:hover,
+			&-Top--dragging &--top,
+			&-Bottom--dragging &--bottom,
+			&-Right--dragging &--right,
+			&-Left--dragging &--left {
 				z-index: 1;
 				opacity: 1;
 				visibility: visible;
@@ -921,23 +922,24 @@ export default {
 	font-weight: 700;
 	line-height: 1;
 	background-color: #fff;
-	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
 	border-color: #f1f1f1;
 }
 
 .bounce-add-icon-enter-from {
-	transform: scale(.9);
+	transform: scale(0.9);
 }
 .bounce-add-icon-enter-to {
 	transform: scale(1);
 }
 .bounce-add-icon-leave-from {
-	transform: scale(.5);
+	transform: scale(0.5);
 }
 .bounce-add-icon-leave-to {
 	transform: scale(0);
 }
-.bounce-add-icon-enter-to, .bounce-add-icon-leave-from {
-	transition: all .2s;
+.bounce-add-icon-enter-to,
+.bounce-add-icon-leave-from {
+	transition: all 0.2s;
 }
 </style>

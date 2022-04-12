@@ -1,57 +1,55 @@
-import { applyFilters } from '@zionbuilder/hooks'
-import { ref, Ref } from 'vue'
-import { LibrarySource, Source, LocalLibrary } from './models/Library'
+import { applyFilters } from '@zionbuilder/hooks';
+import { ref, Ref } from 'vue';
+import { LibrarySource, Source, LocalLibrary } from './models/Library';
 
 // TODO: move this in editor
-const activeElement: Ref<null | object> = ref(null)
+const activeElement: Ref<null | object> = ref(null);
 
-const librarySources: Ref<Object> = ref({})
+const librarySources: Ref<Object> = ref({});
 
 export const useLibrary = () => {
 	// TODO: move this in editor
 	function unsetActiveElementForLibrary() {
-		activeElement.value = null
+		activeElement.value = null;
 	}
 
 	// TODO: move this in editor
 	function setActiveElementForLibrary(element, config = {}) {
 		if (activeElement.value && activeElement.value.element === element) {
-			return
+			return;
 		}
 
 		activeElement.value = {
 			element,
-			config
-		}
+			config,
+		};
 	}
 
 	// TODO: move this in editor
 	function getElementForInsert() {
-		const { element, config } = activeElement.value
-		const { placement = 'inside' } = config
+		const { element, config } = activeElement.value;
+		const { placement = 'inside' } = config;
 
 		if (placement === 'inside' && (element.isWrapper || element.element_type === 'contentRoot')) {
 			return {
-				element
-			}
+				element,
+			};
 		} else {
-			const index = element.getIndexInParent() + 1
+			const index = element.getIndexInParent() + 1;
 
 			return {
 				element: element.parent,
-				index
-			}
+				index,
+			};
 		}
 	}
 
 	// TODO: move this in editor
 	function insertElement(newElement) {
-		const { element, index = -1 } = getElementForInsert()
-		newElement = Array.isArray(newElement) ? newElement : [newElement]
-		element.addChildren(newElement, index)
+		const { element, index = -1 } = getElementForInsert();
+		newElement = Array.isArray(newElement) ? newElement : [newElement];
+		element.addChildren(newElement, index);
 	}
-
-
 
 	/**
 	 *	Will register multiple sources
@@ -60,17 +58,16 @@ export const useLibrary = () => {
 	 */
 	function addSources(sources: Object) {
 		Object.keys(sources).forEach(sourceID => {
-			const sourceConfig = sources[sourceID]
-			addSource(sources[sourceID])
-		})
+			addSource(sources[sourceID]);
+		});
 	}
 
 	function getSourceType(sourceType: string) {
 		const sourceTypes = applyFilters('zionbuilder/library/sourceTypes', {
-			local: LocalLibrary
-		})
+			local: LocalLibrary,
+		});
 
-		return typeof sourceTypes[sourceType] !== 'undefined' ? sourceTypes[sourceType] : LibrarySource
+		return typeof sourceTypes[sourceType] !== 'undefined' ? sourceTypes[sourceType] : LibrarySource;
 	}
 
 	/**
@@ -79,10 +76,9 @@ export const useLibrary = () => {
 	 * @param source The source object that needs to be added
 	 */
 	function addSource(source: Source) {
-		const sourceType = getSourceType(source.type)
-		librarySources.value[source.id] = new sourceType(source)
+		const sourceType = getSourceType(source.type);
+		librarySources.value[source.id] = new sourceType(source);
 	}
-
 
 	/**
 	 * Returns a specific library source based on id
@@ -91,9 +87,8 @@ export const useLibrary = () => {
 	 * @returns
 	 */
 	function getSource(sourceID: string) {
-		return librarySources.value[sourceID]
+		return librarySources.value[sourceID];
 	}
-
 
 	return {
 		activeElement,
@@ -107,6 +102,6 @@ export const useLibrary = () => {
 		getSource,
 
 		// Refs
-		librarySources
-	}
-}
+		librarySources,
+	};
+};
