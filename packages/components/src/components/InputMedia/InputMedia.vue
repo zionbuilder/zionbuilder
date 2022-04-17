@@ -2,142 +2,115 @@
 	<div class="znpb-input-media-wrapper">
 		<BaseInput
 			v-model="inputValue"
-			@click="openMediaModal"
 			class="znpb-form__input-text"
 			placeholder="Type your text here"
+			@click="openMediaModal"
 		/>
 
-		<Button
-			@click="openMediaModal"
-			type="line"
-		>{{selectButtonText}}
-		</Button>
+		<Button type="line" @click="openMediaModal">{{ selectButtonText }} </Button>
 	</div>
 </template>
-<script>
-/**
-* required properties received:
- *   model - string
- * other properties received:
- */
-import BaseInput from '../BaseInput/BaseInput.vue'
+
+<script lang="ts">
 export default {
 	name: 'InputMedia',
-	props: {
-		/**
-		 * Value for input
-		 */
-		modelValue: {
-			type: String,
-			required: false
+};
+</script>
+
+<script lang="ts" setup>
+import { computed, ref, Ref } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+		media_type?: string;
+		selectButtonText?: string;
+		mediaConfig?: { inserTitle: string; multiple: boolean };
+	}>(),
+	{
+		media_type: 'image',
+		selectButtonText: 'select',
+		mediaConfig: () => {
+			return {
+				inserTitle: 'Add File',
+				multiple: false,
+			};
 		},
-		/**
-		 * Type of media
-		 */
-		media_type: {
-			required: false,
-			type: String,
-			default: 'image'
-		},
-		/**
-		 * Text on button
-		 */
-		selectButtonText: {
-			required: false,
-			type: String,
-			default: 'Select'
-		},
-		/**
-		 * Configuration
-		 */
-		mediaConfig: {
-			type: Object,
-			required: false,
-			default () {
-				return {
-					inserTitle: 'Add File',
-					multiple: false
-				}
-			}
-		}
 	},
-	components: {
-		BaseInput
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const mediaModal: Ref<any> = ref(null);
+
+const inputValue = computed({
+	get() {
+		return props.modelValue || '';
 	},
-	data () {
-		return {
-			mediaModal: null
-		}
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
 	},
-	computed: {
-		inputValue: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				/**
-				* Emits new string
-				*/
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	},
-	methods: {
-		openMediaModal () {
-			if (this.mediaModal === null) {
-				let selection = this.get_selection()
+});
 
-				const args = {
-					frame: 'select',
-					state: 'library',
-					library: { type: this.media_type },
-					button: { text: this.mediaConfig.inserTitle },
-					selection
-				}
+function openMediaModal() {
+	if (mediaModal.value === null) {
+		let selection = getSelection();
 
-				// Create the frame
-				this.mediaModal = window.wp.media(args)
+		const args = {
+			frame: 'select',
+			state: 'library',
+			library: { type: props.media_type },
+			button: { text: props.mediaConfig.inserTitle },
+			selection,
+		};
 
-				this.mediaModal.on('select update insert', this.selectFont)
-			}
+		// Create the frame
+		mediaModal.value = window.wp.media(args);
 
-			// Open the media modal
-			this.mediaModal.open()
-		},
-		selectFont (e) {
-			let selection = this.mediaModal.state().get('selection').toJSON()
+		mediaModal.value.on('select update insert', selectFont);
+	}
 
-			// In case we have multiple items
-			if (typeof e !== 'undefined') { selection = e }
+	console.log(mediaModal.value);
 
-			if (this.mediaConfig.multiple) {
-				this.inputValue = selection.map((selectedItem) => {
-					return selectedItem.url
-				}).join(',')
-			} else {
-				this.inputValue = selection[0].url
-			}
-		},
-		get_selection () {
-			if (typeof this.modelValue === 'undefined') return
+	// Open the media modal
+	mediaModal.value.open();
+}
 
-			let idArray = this.modelValue.split(',')
-			let args = { orderby: 'post__in', order: 'ASC', type: 'image', perPage: -1, post__in: idArray }
-			let attachments = window.wp.media.query(args)
-			let selection = new window.wp.media.model.Selection(attachments.models, {
-				props: attachments.props.toJSON(),
-				multiple: true
-			})
+function selectFont(e) {
+	console.log("e", e);
 
-			// Change the state to the edit gallery if we have images
-			// if( idArray.length && !isNaN( parseInt( idArray[0],10 ) ) ){
-			// 	this.media_data.state = 'gallery-edit';
-			// }
-			return selection
-		}
+	let selection = mediaModal.value.state().get('selection').toJSON();
+
+	// In case we have multiple items
+	if (e !== undefined) {
+		selection = e;
+	}
+
+	if (props.mediaConfig.multiple) {
+		inputValue.value = selection.map((selectedItem: { url: string }) => selectedItem.url).join(',');
+	} else {
+		inputValue.value = selection[0].url;
 	}
 }
 
+function getSelection() {
+	if (typeof props.modelValue === 'undefined') return;
+
+	let idArray = props.modelValue.split(',');
+	let args = { orderby: 'post__in', order: 'ASC', type: 'image', perPage: -1, post__in: idArray };
+	let attachments = window.wp.media.query(args);
+	let selection = new window.wp.media.model.Selection(attachments.models, {
+		props: attachments.props.toJSON(),
+		multiple: true,
+	});
+
+	// Change the state to the edit gallery if we have images
+	// if( idArray.length && !isNaN( parseInt( idArray[0],10 ) ) ){
+	// 	this.media_data.state = 'gallery-edit';
+	// }
+	return selection;
+}
 </script>
 <style lang="scss">
 .znpb-input-media-wrapper {
@@ -147,5 +120,4 @@ export default {
 		margin-right: 7px;
 	}
 }
-
 </style>
