@@ -1,122 +1,96 @@
+<!-- Unused Component -->
 <template>
 	<div class="znpb-input-media-wrapper">
 		<BaseInput
 			v-model="inputValue"
-			@click="onButtonClick"
 			class="znpb-form__input-text"
 			placeholder="Type your text here"
+			@click="onButtonClick"
 		/>
 
 		<input
-			type="file"
 			ref="fileInput"
-			style="display:none"
+			type="file"
+			style="display: none"
 			:accept="type"
 			name="file"
-			@change="uploadFiles($event.target.name, $event.target.files)"
-		>
+			@change="uploadFiles(($event.target as HTMLInputElement).name, ($event.target as HTMLInputElement).files)"
+		/>
 
-		<Button
-			@click="onButtonClick"
-			type="line"
-		>
-			<Loader
-				v-if="loading"
-				:size="14"
-			/>
-			<span v-else>{{selectButtonText}}</span>
+		<Button type="line" @click="onButtonClick">
+			<Loader v-if="loading" :size="14" />
+			<span v-else>{{ selectButtonText }}</span>
 		</Button>
 	</div>
 </template>
-<script>
-import { ref, computed } from 'vue'
-
-import BaseInput from '../BaseInput/BaseInput.vue'
-import { uploadFile } from '@zb/rest'
-
+<script lang="ts">
 export default {
 	name: 'InputFile',
-	props: {
-		/**
-		 * Value for input
-		 */
-		modelValue: {
-			type: String,
-			required: false
-		},
-		/**
-		 * Type of media
-		 */
-		type: {
-			required: false,
-			type: String,
-			default: 'image'
-		},
-		/**
-		 * Text on button
-		 */
-		selectButtonText: {
-			required: false,
-			type: String,
-			default: 'Select'
-		},
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, Ref, computed } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+import { uploadFile } from '@zb/rest';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+		type?: string;
+		selectButtonText?: string;
+	}>(),
+	{
+		type: 'image',
+		selectButtonText: 'select',
 	},
-	components: {
-		BaseInput
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
+
+const fileInput: Ref<HTMLInputElement | null> = ref(null);
+const loading = ref(false);
+
+const inputValue = computed({
+	get() {
+		return props.modelValue || '';
 	},
-	setup (props, { emit }) {
-		const fileInput = ref(null)
-		const loading = ref(false)
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
+	},
+});
 
-		const inputValue = computed({
-			get () {
-				return props.modelValue
-			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
-
-		function onButtonClick () {
-			if (fileInput.value) {
-				fileInput.value.click()
-			}
-		}
-
-		async function uploadFiles (fieldName, fileList) {
-			const formData = new FormData()
-
-			if (!fileList.length) return
-
-			// append the files to FormData
-			Array.from(fileList).forEach(file => {
-				formData.append(fieldName, file, file.name)
-			})
-
-			loading.value = true
-
-			try {
-				// send it to axios
-				const response = await uploadFile(formData)
-				const responseData = response.data
-				inputValue.value = responseData.file_url
-			} catch (err) {
-				console.error(err)
-			}
-
-			loading.value = false
-		}
-
-		return {
-			onButtonClick,
-			fileInput,
-			uploadFiles,
-			inputValue,
-			loading
-		}
+function onButtonClick() {
+	if (fileInput.value) {
+		fileInput.value.click();
 	}
 }
 
+async function uploadFiles(fieldName: string, fileList: FileList | null) {
+	const formData = new FormData();
+
+	if (!fileList || !fileList.length) return;
+
+	// append the files to FormData
+	Array.from(fileList).forEach(file => {
+		formData.append(fieldName, file, file.name);
+	});
+
+	loading.value = true;
+
+	try {
+		// send it to axios
+		const response = await uploadFile(formData);
+		const responseData = response.data;
+		inputValue.value = responseData.file_url;
+	} catch (err) {
+		console.error(err);
+	}
+
+	loading.value = false;
+}
 </script>
 <style lang="scss">
 .znpb-input-media-wrapper {
