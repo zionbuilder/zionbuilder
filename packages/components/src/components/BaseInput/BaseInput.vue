@@ -121,10 +121,6 @@ defineEmits<{
 // Template Ref
 const input = ref<HTMLInputElement | null>(null);
 
-defineExpose({
-	input,
-});
-
 const showClear = computed(() => {
 	return props.clearable && props.modelValue ? true : false;
 });
@@ -149,14 +145,18 @@ function onKeyDown(e: KeyboardEvent) {
 	}
 }
 
-// @TODO Remove unused functions
-// function focus() {
-// 	input.value?.focus();
-// }
+function focus() {
+	input.value?.focus();
+}
 
-// function blur() {
-// 	input.value?.blur();
-// }
+function blur() {
+	input.value?.blur();
+}
+defineExpose({
+	input,
+	focus,
+	blur,
+});
 </script>
 
 <style lang="scss">
