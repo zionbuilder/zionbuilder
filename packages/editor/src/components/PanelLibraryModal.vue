@@ -1,203 +1,171 @@
 <template>
 	<Modal
+		v-if="isLibraryOpen"
+		v-model:fullscreen="fullSize"
 		:show="true"
 		append-to=".znpb-center-area"
 		:width="1440"
 		class="znpb-library-modal"
-		v-model:fullscreen="fullSize"
 		@close-modal="closeLibrary"
-		v-if="isLibraryOpen"
 	>
-		<template v-slot:header>
+		<template #header>
 			<div class="znpb-library-modal-header">
 				<span
 					v-if="previewOpen || importActive"
-					@click.stop="closeBody"
 					class="znpb-library-modal-header-preview__back"
+					@click.stop="closeBody"
 				>
-					<Icon
-						icon="long-arrow-right"
-						rotate="180"
-					/>
-					{{$translate('go_back')}}
+					<Icon icon="long-arrow-right" rotate="180" />
+					{{ $translate('go_back') }}
 				</span>
-				<div
-					v-if="previewOpen || importActive"
-					class="znpb-library-modal-header-preview"
-				>
-
-					<h2
-						class="znpb-library-modal-header-preview__title"
-						v-html="computedTitle"
-					>
-					</h2>
+				<div v-if="previewOpen || importActive" class="znpb-library-modal-header-preview">
+					<h2 class="znpb-library-modal-header-preview__title" v-html="computedTitle"></h2>
 				</div>
 				<template v-else>
 					<h2
 						v-for="(librarySource, sourceID) in librarySources"
 						:key="sourceID"
 						class="znpb-library-modal-header__title"
-						:class="{'znpb-library-modal-header__title--active': activeLibraryTab === sourceID}"
+						:class="{ 'znpb-library-modal-header__title--active': activeLibraryTab === sourceID }"
 						@click="setActiveSource(sourceID)"
 					>
-						{{librarySource.name}}
+						{{ librarySource.name }}
 					</h2>
 				</template>
 				<div class="znpb-library-modal-header__actions">
 					<template v-if="previewOpen">
-
 						<a
 							v-if="isProInstalled && !isProActive && activeItem.pro"
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
-						>{{$translate('activate_pro')}}
+							>{{ $translate('activate_pro') }}
 						</a>
 						<a
 							v-else-if="!isProInstalled && activeItem.pro"
 							class="znpb-button znpb-button--line znpb-button-buy-pro"
 							:href="purchaseURL"
 							target="_blank"
-						>{{$translate('buy_pro')}}
+							>{{ $translate('buy_pro') }}
 						</a>
 
 						<Button
 							v-else
-							type="secondary"
-							@click.stop="insertLibraryItem"
-							class="znpb-library-modal-header__insert-button"
 							v-znpb-tooltip="$translate('library_insert_tooltip')"
+							type="secondary"
+							class="znpb-library-modal-header__insert-button"
+							@click.stop="insertLibraryItem"
 						>
 							<span v-if="!insertItemLoading">
-								{{$translate('library_insert')}}
+								{{ $translate('library_insert') }}
 							</span>
-							<Loader
-								v-else
-								:size="13"
-							/>
+							<Loader v-else :size="13" />
 						</Button>
 					</template>
 
 					<template v-else>
-						<Button
-							type="secondary"
-							@click="importActive = !importActive , templateUploaded=!templateUploaded "
-						>
-
+						<Button type="secondary" @click="(importActive = !importActive), (templateUploaded = !templateUploaded)">
 							<Icon icon="import" />
-							{{$translate('import')}}
+							{{ $translate('import') }}
 						</Button>
 
 						<Icon
+							v-znpb-tooltip="$translate('refresh_tooltip')"
 							icon="refresh"
-							@click="onRefresh"
 							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
-							:class="{['loading']: activeLibraryConfig && activeLibraryConfig.loading}"
-							v-znpb-tooltip="$translate('refresh_tooltip')"
+							:class="{ ['loading']: activeLibraryConfig && activeLibraryConfig.loading }"
+							@click="onRefresh"
 						/>
-
 					</template>
 
 					<Icon
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
 						:size="14"
-						@click.stop="fullSize=!fullSize"
+						@click.stop="fullSize = !fullSize"
 					/>
 
-					<Icon
-						icon="close"
-						:size="14"
-						@click="toggleLibrary"
-						class="znpb-modal__header-button"
-					/>
+					<Icon icon="close" :size="14" class="znpb-modal__header-button" @click="toggleLibrary" />
 				</div>
 			</div>
 		</template>
 
-		<LibraryUploader
-			v-if="importActive"
-			@file-uploaded="onTemplateUpload"
-		/>
+		<LibraryUploader v-if="importActive" @file-uploaded="onTemplateUpload" />
 
 		<template v-else>
 			<LibraryPanel
 				ref="libraryContent"
-				@activate-preview="activatePreview"
+				:key="activeLibraryConfig.id"
 				:preview-open="previewOpen"
 				:library-config="activeLibraryConfig"
-				:key="activeLibraryConfig.id"
+				@activate-preview="activatePreview"
 			/>
 		</template>
-
 	</Modal>
-
 </template>
 
 <script>
-import { ref, computed, watchEffect } from 'vue'
-import { addOverflow, removeOverflow } from '../utils/overflow'
-import { regenerateUIDsForContent } from '@utils'
-import { useUI, useElements, useEditorData, useLocalStorage } from '@composables'
-import { useLibrary } from '@zionbuilder/composables'
+import { ref, computed, watchEffect } from 'vue';
+import { regenerateUIDsForContent } from '@utils';
+import { useUI, useElements, useEditorData, useLocalStorage } from '@composables';
+import { useLibrary } from '@zionbuilder/composables';
 
 // Components
-import LibraryPanel from './LibraryPanel.vue'
-import LibraryUploader from './library-panel/LibraryUploader.vue'
+import LibraryPanel from './LibraryPanel.vue';
+import LibraryUploader from './library-panel/LibraryUploader.vue';
 
 export default {
 	name: 'LibraryModal',
 	components: {
 		LibraryPanel,
-		LibraryUploader
+		LibraryUploader,
 	},
-	provide () {
+	provide() {
 		return {
-			Library: this
-		}
+			Library: this,
+		};
 	},
-	setup (props) {
-		const { addData, getData } = useLocalStorage()
-		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI()
-		const { librarySources, getSource } = useLibrary()
+	setup(props) {
+		const { addData, getData } = useLocalStorage();
+		const { toggleLibrary, closeLibrary, isLibraryOpen } = useUI();
+		const { librarySources, getSource } = useLibrary();
 
-		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'))
+		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'));
 
-		const { editorData } = useEditorData()
-		const isProActive = editorData.value.plugin_info.is_pro_active
-		const isProInstalled = editorData.value.plugin_info.is_pro_installed
-		const purchaseURL = ref(editorData.value.urls.purchase_url)
-		const previewOpen = ref(false)
-		const activeItem = ref(null)
-		const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`
+		const { editorData } = useEditorData();
+		const isProActive = editorData.value.plugin_info.is_pro_active;
+		const isProInstalled = editorData.value.plugin_info.is_pro_installed;
+		const purchaseURL = ref(editorData.value.urls.purchase_url);
+		const previewOpen = ref(false);
+		const activeItem = ref(null);
+		const dashboardURL = `${editorData.value.urls.zion_admin}#/pro-license`;
 
-		function setActiveSource (source, save = true) {
-			activeLibraryTab.value = source
+		function setActiveSource(source, save = true) {
+			activeLibraryTab.value = source;
 
 			if (save) {
-				addData('libraryActiveSource', source)
+				addData('libraryActiveSource', source);
 			}
 		}
 
 		const activeLibraryConfig = computed(() => {
-			return getSource(activeLibraryTab.value) || getSource('local_library')
-		})
+			return getSource(activeLibraryTab.value) || getSource('local_library');
+		});
 
 		watchEffect(() => {
 			if (isLibraryOpen.value) {
-				activeLibraryConfig.value.getData()
+				activeLibraryConfig.value.getData();
 			}
-		})
+		});
 
-
-		function onRefresh () {
-			activeLibraryConfig.value.getData(false)
+		function onRefresh() {
+			activeLibraryConfig.value.getData(false);
 		}
 
-		function activatePreview (item) {
-			activeItem.value = item
-			previewOpen.value = true
+		function activatePreview(item) {
+			activeItem.value = item;
+			previewOpen.value = true;
 		}
 
 		return {
@@ -221,43 +189,47 @@ export default {
 			purchaseURL,
 			setActiveSource,
 			onRefresh,
-			activatePreview
-		}
+			activatePreview,
+		};
 	},
-	data () {
+	data() {
 		return {
 			importActive: false,
 			fullSize: false,
 			insertItemLoading: false,
-			templateUploaded: false
-		}
+			templateUploaded: false,
+		};
 	},
 
 	computed: {
-		computedTitle () {
-			return this.previewOpen ? this.activeItem.post_title : this.$translate('import')
-		}
+		computedTitle() {
+			return this.previewOpen ? this.activeItem.post_title : this.$translate('import');
+		},
 	},
-	mounted () {
-		addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
+	mounted() {
+		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = 'hidden';
+	},
+	beforeUnmount() {
+		const { unsetActiveElementForLibrary } = useLibrary();
+		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = null;
+		unsetActiveElementForLibrary();
 	},
 	methods: {
-		onTemplateUpload () {
-			this.importActive = false
-			this.setActiveSource('local')
-			this.templateUploaded = true
+		onTemplateUpload() {
+			this.importActive = false;
+			this.setActiveSource('local');
+			this.templateUploaded = true;
 		},
-		insertLibraryItem (item) {
-			this.insertItemLoading = true
+		insertLibraryItem(item) {
+			this.insertItemLoading = true;
 			this.insertItem(this.activeItem).then(() => {
-				this.insertItemLoading = false
-			})
+				this.insertItemLoading = false;
+			});
 		},
-		closeBody () {
-			this.previewOpen = false
-			this.importActive = false
+		closeBody() {
+			this.previewOpen = false;
+			this.importActive = false;
 		},
-
 
 		/**
 		 * Insert item
@@ -267,41 +239,39 @@ export default {
 		 * Will add the page custom css and js
 		 * Will add the custom css classes used for element
 		 */
-		insertItem (item) {
+		insertItem(item) {
 			return new Promise((resolve, reject) => {
-				item.getBuilderData().then((response) => {
-					const { template_data: templateData } = response.data
-					const { insertElement, activeElement } = useLibrary()
+				item
+					.getBuilderData()
+					.then(response => {
+						const { template_data: templateData } = response.data;
+						const { insertElement, activeElement } = useLibrary();
 
-					const { toggleLibrary } = useUI()
+						const { toggleLibrary } = useUI();
 
-					// Check to see if this is a single element or a group of elements
-					let compiledTemplateData = templateData.element_type ? [templateData] : templateData
-					const newElement = regenerateUIDsForContent(compiledTemplateData)
+						// Check to see if this is a single element or a group of elements
+						let compiledTemplateData = templateData.element_type ? [templateData] : templateData;
+						const newElement = regenerateUIDsForContent(compiledTemplateData);
 
-					if (activeElement.value) {
-						insertElement(newElement)
-					} else {
-						const { getElement } = useElements()
-						const element = getElement(this.editorData.page_id)
-						element.addChildren(newElement)
-					}
+						if (activeElement.value) {
+							insertElement(newElement);
+						} else {
+							const { getElement } = useElements();
+							const element = getElement(this.editorData.page_id);
+							element.addChildren(newElement);
+						}
 
-					toggleLibrary()
+						toggleLibrary();
 
-					resolve(true)
-				}).catch((error) => {
-					reject(error)
-				})
-			})
-		}
+						resolve(true);
+					})
+					.catch(error => {
+						reject(error);
+					});
+			});
+		},
 	},
-	beforeUnmount () {
-		const { unsetActiveElementForLibrary } = useLibrary()
-		removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-		unsetActiveElementForLibrary()
-	}
-}
+};
 </script>
 <style lang="scss">
 .znpb-library-modal {
@@ -328,7 +298,7 @@ export default {
 	padding: 11px;
 
 	&.loading svg {
-		animation: rotation .55s infinite linear;
+		animation: rotation 0.55s infinite linear;
 	}
 }
 
@@ -398,7 +368,7 @@ export default {
 			align-self: center;
 			color: var(--zb-surface-text-color);
 			font-weight: 500;
-			transition: color .15s;
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
