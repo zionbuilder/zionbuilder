@@ -1,7 +1,7 @@
-import { getOptionValue, getImage } from '@zb/utils'
-import { applyFilters } from '@zb/hooks'
-import { cloneDeep, forEach } from 'lodash-es'
-import { useResponsiveDevices } from '@zb/components'
+import { getImage } from '@zb/utils';
+import { applyFilters } from '@zb/hooks';
+import { cloneDeep, forEach, get } from 'lodash-es';
+import { useResponsiveDevices } from '@zb/components';
 
 /**
  * Will parse the option schema in order to get the render attributes
@@ -9,149 +9,151 @@ import { useResponsiveDevices } from '@zb/components'
  */
 export default class Options {
 	constructor(schema, model, selector: string, options, element = null) {
-		this.model = JSON.parse(JSON.stringify(model))
-		this.schema = schema
-		this.selector = selector
-		this.options = options
-		this.element = element
-		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest
+		this.model = JSON.parse(JSON.stringify(model));
+		this.schema = schema;
+		this.selector = selector;
+		this.options = options;
+		this.element = element;
+		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest;
 
-		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
-		const devices = {}
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices();
+		const devices = {};
 
-		Object.keys(responsiveDevicesAsIdWidth.value).forEach((device) => {
-			devices[device] = {}
-		})
+		Object.keys(responsiveDevicesAsIdWidth.value).forEach(device => {
+			devices[device] = {};
+		});
 
-		this.customCSS = devices
+		this.customCSS = devices;
 
-		this.renderAttributes = {}
+		this.renderAttributes = {};
 	}
 
 	startLoading() {
 		if (typeof this.options.onLoadingStart === 'function') {
-			this.options.onLoadingStart()
+			this.options.onLoadingStart();
 		}
 	}
 
 	endLoading() {
 		if (typeof this.options.onLoadingEnd === 'function') {
-			this.options.onLoadingEnd()
+			this.options.onLoadingEnd();
 		}
 	}
 
 	parseData() {
 		// Allow external data modification
-		const options = this.model
+		const options = this.model;
 
 		// Set defaults and extract render attributes and custom css
-		this.parseOptions(this.schema, options)
+		this.parseOptions(this.schema, options);
 
 		return {
 			options: applyFilters('zionbuilder/options/model', options, this),
 			renderAttributes: this.renderAttributes,
-			customCSS: this.getCustomCSS()
-		}
+			customCSS: this.getCustomCSS(),
+		};
 	}
 
 	parseOptions(schema, model, index = null) {
-		model = null === model ? {} : model
-		Object.keys(schema).forEach((optionId) => {
-			const singleOptionSchema = schema[optionId]
-			let dependencyPassed = this.checkDependency(singleOptionSchema, model)
+		model = null === model ? {} : model;
+		Object.keys(schema).forEach(optionId => {
+			const singleOptionSchema = schema[optionId];
+			const dependencyPassed = this.checkDependency(singleOptionSchema, model);
 
 			if (!dependencyPassed) {
-				return false
+				return false;
 			}
 
 			if (typeof singleOptionSchema.is_layout !== 'undefined' && singleOptionSchema.is_layout) {
 				if (typeof singleOptionSchema.child_options !== 'undefined') {
-					this.parseOptions(singleOptionSchema.child_options, model)
+					this.parseOptions(singleOptionSchema.child_options, model);
 				}
 			} else {
 				if (typeof model[optionId] !== 'undefined') {
 					// Check for images
-					this.setPropperImage(optionId, singleOptionSchema, model)
+					this.setPropperImage(optionId, singleOptionSchema, model);
 
 					// Get render attributes
-					this.setRenderAttributes(singleOptionSchema, model[optionId], index)
+					this.setRenderAttributes(singleOptionSchema, model[optionId], index);
 
 					// Get custom css
-					this.setCustomCSS(singleOptionSchema, model[optionId], index)
+					this.setCustomCSS(singleOptionSchema, model[optionId], index);
 				} else if (typeof singleOptionSchema.default !== 'undefined') {
-					model[optionId] = cloneDeep(singleOptionSchema.default)
+					model[optionId] = cloneDeep(singleOptionSchema.default);
 				}
 
 				if (typeof singleOptionSchema.child_options !== 'undefined') {
 					if (singleOptionSchema.type === 'repeater') {
 						if (typeof model[optionId] !== 'undefined' && Array.isArray(model[optionId])) {
 							model[optionId].forEach((optionValue, index) => {
-								this.parseOptions(singleOptionSchema.child_options, optionValue, index)
-							})
+								this.parseOptions(singleOptionSchema.child_options, optionValue, index);
+							});
 						}
 					} else {
-						const savedValue = typeof model[optionId] !== 'undefined' && model[optionId] !== null ? model[optionId] : {}
-						this.parseOptions(singleOptionSchema.child_options, savedValue)
+						const savedValue =
+							typeof model[optionId] !== 'undefined' && model[optionId] !== null ? model[optionId] : {};
+						this.parseOptions(singleOptionSchema.child_options, savedValue);
 
 						if (Object.keys(savedValue).length > 0) {
-							model[optionId] = savedValue
+							model[optionId] = savedValue;
 						}
 					}
 				}
 			}
-		})
+		});
 
-		return model
+		return model;
 	}
 
 	setPropperImage(optionId, schema, model) {
 		if (schema.type === 'image' && schema.show_size === true && model[optionId]) {
-			const imageConfig = model[optionId]
+			const imageConfig = model[optionId];
 
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
-				this.startLoading()
-				getImage(model[optionId], this.serverRequester).then((image) => {
-					if (image) {
-						this.setImage(model, optionId, image)
-					}
-				})
-					.finally(() => {
-						this.endLoading()
+				this.startLoading();
+				getImage(model[optionId], this.serverRequester)
+					.then(image => {
+						if (image) {
+							this.setImage(model, optionId, image);
+						}
 					})
+					.finally(() => {
+						this.endLoading();
+					});
 			}
 		}
 	}
 
 	setImage(optionsModel, optionId, newValue) {
-		const oldImage = (optionsModel[optionId] || {}).image
+		const oldImage = (optionsModel[optionId] || {}).image;
 		if (oldImage === newValue) {
-			return
+			return;
 		}
 
 		const newValues = {
 			...optionsModel[optionId],
-			image: newValue
-		}
+			image: newValue,
+		};
 
-		optionsModel[optionId] = newValues
+		optionsModel[optionId] = newValues;
 	}
 
 	addRenderAttribute(tagId, attribute, value, replace = false) {
 		if (!this.renderAttributes[tagId]) {
-			this.renderAttributes[tagId] = {}
+			this.renderAttributes[tagId] = {};
 		}
 
-		const currentAttributes = this.renderAttributes[tagId]
+		const currentAttributes = this.renderAttributes[tagId];
 
 		if (!currentAttributes[attribute]) {
-			currentAttributes[attribute] = []
+			currentAttributes[attribute] = [];
 		}
 
 		if (replace) {
-			currentAttributes[attribute] = [value]
+			currentAttributes[attribute] = [value];
 		} else {
-			currentAttributes[attribute].push(value)
+			currentAttributes[attribute].push(value);
 		}
 	}
 
@@ -160,49 +162,48 @@ export default class Options {
 			default: '',
 			laptop: '--lg',
 			tablet: '--md',
-			mobile: '--sm'
-		}
+			mobile: '--sm',
+		};
 
 		if (schema.render_attribute) {
 			schema.render_attribute.forEach(config => {
-
 				// create render attribute for tag id if doesn't exists
-				let tagId = config.tag_id || 'wrapper'
-				tagId = index === null ? tagId : `${tagId}${index}`
-				const attribute = config.attribute || 'class'
-				let attributeValue = config.value || ''
+				let tagId = config.tag_id || 'wrapper';
+				tagId = index === null ? tagId : `${tagId}${index}`;
+				const attribute = config.attribute || 'class';
+				let attributeValue = config.value || '';
 
 				if (schema.responsive_options && model !== null) {
 					// Check to see if the option is saved as string
 					if (model && typeof model !== 'object') {
 						model = {
-							default: model
-						}
+							default: model,
+						};
 					}
 
 					Object.keys(model).forEach(deviceId => {
 						// Don't proceed if we do not have a value
 						if (!model[deviceId] || typeof CSSDeviceMap[deviceId] === 'undefined') {
-							return
+							return;
 						}
 
-						const deviceSavedValue = model[deviceId]
-						attributeValue = config.value || ''
-						attributeValue = attributeValue.replace('{{RESPONSIVE_DEVICE_CSS}}', CSSDeviceMap[deviceId])
-						attributeValue = attributeValue.replace('{{VALUE}}', deviceSavedValue) || deviceSavedValue
+						const deviceSavedValue = model[deviceId];
+						attributeValue = config.value || '';
+						attributeValue = attributeValue.replace('{{RESPONSIVE_DEVICE_CSS}}', CSSDeviceMap[deviceId]);
+						attributeValue = attributeValue.replace('{{VALUE}}', deviceSavedValue) || deviceSavedValue;
 
-						this.addRenderAttribute(tagId, attribute, attributeValue)
-					})
+						this.addRenderAttribute(tagId, attribute, attributeValue);
+					});
 				} else {
 					// Don't proceed if we do not have a value
 					if (!model) {
-						return
+						return;
 					}
 
-					attributeValue = attributeValue.replace('{{VALUE}}', model) || model
-					this.addRenderAttribute(tagId, attribute, attributeValue)
+					attributeValue = attributeValue.replace('{{VALUE}}', model) || model;
+					this.addRenderAttribute(tagId, attribute, attributeValue);
 				}
-			})
+			});
 		}
 	}
 
@@ -210,31 +211,36 @@ export default class Options {
 		if (schema.css_style && Array.isArray(schema.css_style)) {
 			schema.css_style.forEach(cssStyleConfig => {
 				if (schema.responsive_options && typeof model === 'object' && model !== null) {
-					this.extractResponsiveCSSRules(schema.type, cssStyleConfig, model, index)
+					this.extractResponsiveCSSRules(schema.type, cssStyleConfig, model, index);
 				} else {
-					this.extractCSSRule('default', schema.type, cssStyleConfig, model, index)
+					this.extractCSSRule('default', schema.type, cssStyleConfig, model, index);
 				}
-			})
+			});
 		} else {
 			if (schema.type === 'shape_dividers') {
 				if (typeof model === 'object') {
 					forEach(model, (maskConfig, position) => {
-						let { shape, height } = maskConfig
+						let { shape, height } = maskConfig;
 						if (shape && height) {
-							const selector = `zb-mask-pos--${position}`
+							const selector = `zb-mask-pos--${position}`;
 
 							// Normalize height
 							if (typeof height === 'string') {
 								height = {
-									default: height
-								}
+									default: height,
+								};
 							}
-							this.extractResponsiveCSSRules(schema.type, {
-								selector: `${this.selector} .${selector}`,
-								value: 'height: {{VALUE}}'
-							}, height, index)
+							this.extractResponsiveCSSRules(
+								schema.type,
+								{
+									selector: `${this.selector} .${selector}`,
+									value: 'height: {{VALUE}}',
+								},
+								height,
+								index,
+							);
 						}
-					})
+					});
 				}
 			}
 		}
@@ -242,126 +248,126 @@ export default class Options {
 
 	extractResponsiveCSSRules(optionType, cssStyleConfig, model, index) {
 		if (typeof model !== 'object' || model === null) {
-			return ''
+			return '';
 		}
 
 		Object.keys(model).forEach(device => {
-			const deviceValue = model[device]
-			this.extractCSSRule(device, optionType, cssStyleConfig, deviceValue, index)
-		})
+			const deviceValue = model[device];
+			this.extractCSSRule(device, optionType, cssStyleConfig, deviceValue, index);
+		});
 	}
 
 	extractCSSRule(device, optionType, cssStyleConfig, model, index) {
-		let { selector, value } = cssStyleConfig
+		let { selector, value } = cssStyleConfig;
 
 		if (!selector || !value) {
-			return
+			return;
 		}
 
-		selector = selector.replace('{{ELEMENT}}', this.selector)
-		value = value.replace('{{VALUE}}', model)
+		selector = selector.replace('{{ELEMENT}}', this.selector);
+		value = value.replace('{{VALUE}}', model);
 
 		if (index !== null) {
-			selector = selector.replace('{{INDEX}}', index)
+			selector = selector.replace('{{INDEX}}', index);
 		}
 
 		if (optionType === 'element_styles') {
-			const mediaStyles = optionValue.styles || {}
+			const mediaStyles = optionValue.styles || {};
 			// TODO: check if this is actually used. getStyles is not loaded
-			const styles = getStyles(formattedSelector, mediaStyles)
+			const styles = getStyles(formattedSelector, mediaStyles);
 
 			if (styles) {
-				this.addCustomCSS(device, selector, styles)
+				this.addCustomCSS(device, selector, styles);
 			}
 		} else {
-			this.addCustomCSS(device, selector, value)
+			this.addCustomCSS(device, selector, value);
 		}
 	}
 
 	addCustomCSS(device: string, selector: string, css: string) {
 		if (typeof this.customCSS[device] === 'undefined') {
-			return
+			return;
 		}
 
-		this.customCSS[device][selector] = this.customCSS[device][selector] || []
-		this.customCSS[device][selector].push(css)
+		this.customCSS[device][selector] = this.customCSS[device][selector] || [];
+		this.customCSS[device][selector].push(css);
 	}
 
 	getCustomCSS() {
-		const { responsiveDevicesAsIdWidth } = useResponsiveDevices()
-		let returnedCSS = ''
+		const { responsiveDevicesAsIdWidth } = useResponsiveDevices();
+		let returnedCSS = '';
 
 		Object.keys(this.customCSS).forEach(device => {
-			const deviceSelectors = this.customCSS[device]
-			const extractedCSS = this.extractStyles(deviceSelectors)
+			const deviceSelectors = this.customCSS[device];
+			const extractedCSS = this.extractStyles(deviceSelectors);
 
 			if (extractedCSS.length === 0) {
-				return
+				return;
 			}
 
 			if (device === 'default') {
-				returnedCSS += extractedCSS
+				returnedCSS += extractedCSS;
 			} else {
 				if (!responsiveDevicesAsIdWidth.value[device]) {
-					return
+					return;
 				}
 
-				const deviceWidth = responsiveDevicesAsIdWidth.value[device]
-				returnedCSS += `@media(max-width: ${deviceWidth}px) { ${extractedCSS} } `
+				const deviceWidth = responsiveDevicesAsIdWidth.value[device];
+				returnedCSS += `@media(max-width: ${deviceWidth}px) { ${extractedCSS} } `;
 			}
-		})
+		});
 
-		return returnedCSS
+		return returnedCSS;
 	}
 
 	extractStyles(stylesData) {
-		let returnedStyles = ''
+		let returnedStyles = '';
 		if (typeof stylesData === 'object' && stylesData !== null) {
 			Object.keys(stylesData).forEach(selector => {
-				const styleCSSArray = stylesData[selector]
-				returnedStyles += `${selector} { ${styleCSSArray.join(';')} } `
-			})
+				const styleCSSArray = stylesData[selector];
+				returnedStyles += `${selector} { ${styleCSSArray.join(';')} } `;
+			});
 		}
 
-		return returnedStyles
+		return returnedStyles;
 	}
 
 	checkDependency(optionSchema, model) {
-		let passedDependency = true
+		let passedDependency = true;
 
 		if (optionSchema.dependency) {
-			optionSchema.dependency.forEach((dependencyConfig) => {
+			optionSchema.dependency.forEach(dependencyConfig => {
 				if (!passedDependency) {
-					return
+					return;
 				}
 
-				passedDependency = this.checkSingleDependency(dependencyConfig, model)
-			})
+				passedDependency = this.checkSingleDependency(dependencyConfig, model);
+			});
 		}
 
-		return passedDependency
+		return passedDependency;
 	}
 
 	checkSingleDependency(dependencyConfig, model) {
-		const { type = 'includes', option, option_path: optionPath, value: searchValue } = dependencyConfig
-		let optionValue = null
+		const { type = 'includes', option, option_path: optionPath, value: searchValue } = dependencyConfig;
+		let optionValue = null;
 
 		if (option) {
-			optionValue = typeof model[option] !== 'undefined' ? model[option] : null
+			optionValue = typeof model[option] !== 'undefined' ? model[option] : null;
 		} else if (optionPath) {
-			optionValue = getOptionValue(this.model, optionPath)
+			optionValue = get(this.model, optionPath);
 		}
 
 		if (type === 'includes' && searchValue.includes(optionValue)) {
-			return true
+			return true;
 		} else if (type === 'not_in' && !searchValue.includes(optionValue)) {
-			return true
+			return true;
 		}
 
-		return false
+		return false;
 	}
 
 	getValue(optionPath, defaultValue) {
-		return getOptionValue(this.model, optionPath, defaultValue)
+		return get(this.model, optionPath, defaultValue);
 	}
 }

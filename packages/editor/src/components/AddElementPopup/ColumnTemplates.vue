@@ -25,7 +25,7 @@
 </template>
 <script>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { getOptionValue } from '@zb/utils';
+import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
 import { useUI, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables';
 import { useLibrary } from '@zionbuilder/composables';
@@ -120,7 +120,7 @@ export default {
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(element.options, '_styles.wrapper.styles.default.default.flex-direction');
+			const mediaOrientation = get(element.options, '_styles.wrapper.styles.default.default.flex-direction');
 
 			if (mediaOrientation) {
 				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
