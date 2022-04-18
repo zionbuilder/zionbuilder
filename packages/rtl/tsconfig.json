@@ -6,7 +6,6 @@
 	},
 	"include": [
 		"src/**/*",
-		"../shims-vue.d.ts",
 		"../global.d.ts"
 	]
 }

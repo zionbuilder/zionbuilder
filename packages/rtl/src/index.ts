@@ -1,2 +1,2 @@
 // import scss file for rtl
-import '../index.scss'
+import '../index.scss';

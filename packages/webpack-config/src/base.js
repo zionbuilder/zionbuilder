@@ -1,35 +1,27 @@
-const context = process.cwd()
-const path = require('path')
+const context = process.cwd();
+const path = require('path');
 
 module.exports = () => {
 	return {
-		mode: "production",
+		mode: 'production',
 		context: context,
 		entry: './src/index.ts',
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js', 'vue'],
 			alias: {
-				'@': './packages'
-			}
+				'@': './packages',
+			},
 		},
 		module: {
-			rules: [{
+			rules: [
+				{
 					test: /\.tsx?$/,
 					exclude: /node_modules/,
 					loader: require.resolve('ts-loader'),
 					options: {
 						appendTsSuffixTo: [/\.vue$/],
 						transpileOnly: true,
-					}
-				},
-				// Fix browser errors for packaged source maps
-				{
-					test: /\.js$/,
-					use: [{
-						loader: require.resolve('source-map-loader')
-					}]
-
-
+					},
 				},
 			],
 		},
@@ -38,17 +30,14 @@ module.exports = () => {
 			path: path.resolve(context, 'dist'),
 		},
 		externals: [
-			function ({
-				context,
-				request
-			}, callback) {
+			function ({ context, request }, callback) {
 				if (/^@zb\/.*$/.test(request)) {
-					const modules = request.replace('@', '').split('/')
+					const modules = request.replace('@', '').split('/');
 					// Externalize to a commonjs module using the request path
 					return callback(null, modules, 'root');
 				}
-				callback()
-			}
-		]
-	}
-}
+				callback();
+			},
+		],
+	};
+};

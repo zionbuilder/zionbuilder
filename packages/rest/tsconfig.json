@@ -9,7 +9,6 @@
 		{ "path": "../utils" },
 	],
 	"include": [
-		"src/**/*",
-		"../shims-vue.d.ts"
+		"src/**/*"
 	]
 }

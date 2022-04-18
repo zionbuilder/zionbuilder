@@ -8,7 +8,7 @@ export const createI18n = (initialStrings = {}) => {
 		};
 	};
 
-	const translate = (stringId: string) : string | undefined => {
+	const translate = (stringId: string): string | undefined => {
 		if (typeof strings[stringId] !== 'undefined') {
 			return strings[stringId];
 		}
@@ -25,6 +25,6 @@ export const createI18n = (initialStrings = {}) => {
 
 	return {
 		addStrings,
-		translate
-	}
-}
+		translate,
+	};
+};

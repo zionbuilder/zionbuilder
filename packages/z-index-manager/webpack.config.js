@@ -1,10 +1,3 @@
-const {
-	getConfig
-} = require('@zionbuilder/webpack-config');
+const { getConfig } = require('@zionbuilder/webpack-config');
 
-module.exports = getConfig({
-	features: {
-		vue: true,
-		zionVue: true
-	}
-})
+module.exports = getConfig();
