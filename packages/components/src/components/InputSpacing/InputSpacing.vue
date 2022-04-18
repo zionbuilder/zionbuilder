@@ -2,19 +2,17 @@
 	<div class="znpb-optSpacing">
 		<div
 			class="znpb-optSpacing-margin"
-			:class="
-				{
-					'znpb-optSpacing--linked': linkedMargin,
-					'znpb-optSpacing--hover': activeHover && activeHover.position.indexOf('margin') !== -1,
-					[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
-				}
-			"
+			:class="{
+				'znpb-optSpacing--linked': linkedMargin,
+				'znpb-optSpacing--hover': activeHover && activeHover.position.includes('margin'),
+				[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
+			}"
 		>
 			<div
 				v-for="position in marginPositions"
 				:key="position.position"
 				:class="{
-					[`znpb-optSpacing-${position.position}`]: true
+					[`znpb-optSpacing-${position.position}`]: true,
 				}"
 				class="znpb-optSpacing-value znpb-optSpacing-value--margin"
 				@mouseenter="activeHover = position"
@@ -22,43 +20,33 @@
 				@mousedown="startDragging($event, position)"
 				@click="activePopup = position"
 			>
-				<input
-					type="text"
-					placeholder="-"
-					:value="computedValues[position.position]"
-					readonly
-				>
+				<input type="text" placeholder="-" :value="computedValues[position.position]" readonly />
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{$translate('margin')}}</span>
+				<span class="znpb-optSpacing-label">{{ $translate('margin') }}</span>
 				<Icon
 					:icon="linkedMargin ? 'link' : 'unlink'"
 					:title="linkedMargin ? $translate('unlink') : $translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
-						'znpb-optSpacing-link--linked': linkedMargin
+						'znpb-optSpacing-link--linked': linkedMargin,
 					}"
 					@click="linkValues('margin')"
 				></Icon>
 			</div>
 			<div class="znpb-optSpacing-svg">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 320 186"
-				>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 320 186">
 					<path
 						v-for="position in marginPositions"
 						:key="position.position"
 						:cursor="position.svg.cursor"
-						:fill="position.svg.fill"
 						:d="position.svg.d"
+						:class="{
+							[`znpb-optSpacing--path-${position.position}`]: true,
+						}"
 						@mouseenter="activeHover = position"
 						@mouseleave="activeHover = null"
-						:class="{
-							[`znpb-optSpacing--path-${position.position}`]: true
-						}"
 						@mousedown="startDragging($event, position)"
 					/>
 				</svg>
@@ -66,19 +54,17 @@
 		</div>
 		<div
 			class="znpb-optSpacing-padding"
-			:class="
-				{
-					'znpb-optSpacing--linked': linkedPadding,
-					'znpb-optSpacing--hover': activeHover && activeHover.position.indexOf('padding') !== -1,
-					[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
-				}
-			"
+			:class="{
+				'znpb-optSpacing--linked': linkedPadding,
+				'znpb-optSpacing--hover': activeHover && activeHover.position.includes('padding'),
+				[`znpb-optSpacing--hover-${activeHover ? activeHover.position : ''}`]: activeHover,
+			}"
 		>
 			<div
 				v-for="position in paddingPositions"
 				:key="position.position"
 				:class="{
-					[`znpb-optSpacing-${position.position}`]: true
+					[`znpb-optSpacing-${position.position}`]: true,
 				}"
 				class="znpb-optSpacing-value znpb-optSpacing-value--padding"
 				@mouseenter="activeHover = position"
@@ -86,556 +72,548 @@
 				@mousedown="startDragging($event, position)"
 				@click="activePopup = position"
 			>
-				<input
-					type="text"
-					placeholder="-"
-					:value="computedValues[position.position]"
-					readonly
-				>
+				<input type="text" placeholder="-" :value="computedValues[position.position]" readonly />
 			</div>
 
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{$translate('padding')}}</span>
+				<span class="znpb-optSpacing-label">{{ $translate('padding') }}</span>
 				<Icon
 					:icon="linkedPadding ? 'link' : 'unlink'"
 					:title="linkedPadding ? $translate('unlink') : $translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
-						'znpb-optSpacing-link--linked': linkedPadding
+						'znpb-optSpacing-link--linked': linkedPadding,
 					}"
 					@click="linkValues('padding')"
 				></Icon>
 			</div>
 			<div class="znpb-optSpacing-svg">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 214 108"
-				>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 214 108">
 					<path
 						v-for="position in paddingPositions"
 						:key="position.position"
 						:cursor="position.svg.cursor"
-						:fill="position.svg.fill"
 						:d="position.svg.d"
+						:class="{
+							[`znpb-optSpacing--path-${position.position}`]: true,
+						}"
 						@mouseenter="activeHover = position"
 						@mouseleave="activeHover = null"
 						@mousedown="startDragging($event, position)"
-						:class="{
-							[`znpb-optSpacing--path-${position.position}`]: true
-						}"
 					/>
 				</svg>
 			</div>
 		</div>
-		<span
-			class="znpb-optSpacing-info"
-			v-if="activeHover"
-		>{{activeHover.title}}</span>
+		<span v-if="activeHover" class="znpb-optSpacing-info">{{ activeHover.title }}</span>
 
-		<div
-			class="znpb-optSpacing-popup"
-			v-if="activePopup"
-		>
-			<div
-				class="znpb-optSpacing-popupInner"
-				v-click-outside="() => activePopup = false"
-			>
+		<div v-if="activePopup" class="znpb-optSpacing-popup">
+			<div v-click-outside="() => (activePopup = false)" class="znpb-optSpacing-popupInner">
 				<div class="znpb-optSpacing-popup__input-title">
-					{{activePopup.title}}
+					{{ activePopup.title }}
 
-					<ChangesBullet
-						v-if="hasChanges"
-						:content="$translate('discard_changes')"
-						@remove-styles="onDiscardChanges"
-					/>
+					<ChangesBullet v-if="hasChanges" :content="$translate('discard_changes')" @remove-styles="onDiscardChanges" />
 				</div>
-				<Icon
-					icon="close"
-					class="znpb-optSpacing-popupClose"
-					@click.stop="activePopup = null"
-				/>
+				<Icon icon="close" class="znpb-optSpacing-popupClose" @click.stop="activePopup = null" />
 
 				<InputNumberUnit
+					ref="popupInput"
 					v-model="inputValue"
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
-					ref="popupInput"
 				/>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-import { computed, ref, watch, nextTick } from 'vue'
-import { translate } from '@zb/i18n'
-import rafSchd from 'raf-schd'
-import clickOutside from '@zionbuilder/click-outside-directive'
-
-
+<script lang="ts">
 export default {
 	name: 'InputSpacing',
-	props: {
-		modelValue: {
-			type: Object,
-			default: {}
-		}
-	},
 	directives: {
-		clickOutside
+		clickOutside,
 	},
-	setup (props, { emit }) {
-		const marginPositions = [
-			{
-				position: 'margin-top',
-				type: 'margin',
-				title: translate('margin-top'),
-				svg: {
-					cursor: 's-resize',
-					d: 'M0 0h320l-50 36H50L0 0Z'
-				},
-				dragDirection: 'vertical'
-			},
-			{
-				position: 'margin-right',
-				type: 'margin',
-				title: translate('margin-right'),
-				svg: {
-					cursor: 'w-resize',
-					d: 'm320 183-50-36V39l50-36v180Z'
-				},
-				dragDirection: 'horizontal'
-			},
-			{
-				position: 'margin-bottom',
-				type: 'margin',
-				title: translate('margin-bottom'),
-				svg: {
-					cursor: 's-resize',
-					d: 'M50 150h220l50 36H0l50-36Z'
-				},
-				dragDirection: 'vertical'
-			},
-			{
-				position: 'margin-left',
-				type: 'margin',
-				title: translate('margin-left'),
-				svg: {
-					cursor: 'w-resize',
-					d: 'm0 3 50 36v108L0 183V3Z'
-				},
-				dragDirection: 'horizontal'
-			},
-		]
-		const paddingPositions = [
-			{
-				position: 'padding-top',
-				type: 'padding',
-				title: translate('padding-top'),
-				svg: {
-					cursor: 's-resize',
-					d: 'M0 0h214l-50 36H50L0 0Z'
-				},
-				dragDirection: 'vertical'
-			},
-			{
-				position: 'padding-right',
-				type: 'padding',
-				title: translate('padding-right'),
-				svg: {
-					cursor: 'w-resize',
-					d: 'm214 105-50-36V39l50-36v102Z'
-				},
-				dragDirection: 'horizontal'
-			},
-			{
-				position: 'padding-bottom',
-				type: 'padding',
-				title: translate('padding-bottom'),
-				svg: {
-					cursor: 's-resize',
-					d: 'M214 108H0l50-36h114l50 36Z'
-				},
-				dragDirection: 'vertical'
-			},
-			{
-				position: 'padding-left',
-				type: 'padding',
-				title: translate('padding-left'),
-				svg: {
-					cursor: 'w-resize',
-					d: 'm0 3 50 36v30L0 105V3Z'
-				},
-				dragDirection: 'horizontal'
+};
+</script>
+
+<script lang="ts" setup>
+import { computed, ref, Ref, watch, nextTick } from 'vue';
+import { InputNumberUnit } from '../InputNumber';
+import { translate } from '@zb/i18n';
+import rafSchd from 'raf-schd';
+import clickOutside from '@zionbuilder/click-outside-directive';
+
+type Positions =
+	| 'margin-top'
+	| 'margin-right'
+	| 'margin-bottom'
+	| 'margin-left'
+	| 'padding-top'
+	| 'padding-right'
+	| 'padding-bottom'
+	| 'padding-left';
+
+type Type = 'margin' | 'padding';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Record<string, string>;
+	}>(),
+	{
+		modelValue: () => {
+			return {};
+		},
+	},
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: any): void;
+}>();
+
+interface Position {
+	position: Positions;
+	type: Type;
+	title: string | undefined;
+	svg: {
+		cursor: string;
+		d: string;
+	};
+	dragDirection: 'vertical' | 'horizontal';
+}
+
+const marginPositions: Position[] = [
+	{
+		position: 'margin-top',
+		type: 'margin',
+		title: translate('margin-top'),
+		svg: {
+			cursor: 's-resize',
+			d: 'M0 0h320l-50 36H50L0 0Z',
+		},
+		dragDirection: 'vertical',
+	},
+	{
+		position: 'margin-right',
+		type: 'margin',
+		title: translate('margin-right'),
+		svg: {
+			cursor: 'w-resize',
+			d: 'm320 183-50-36V39l50-36v180Z',
+		},
+		dragDirection: 'horizontal',
+	},
+	{
+		position: 'margin-bottom',
+		type: 'margin',
+		title: translate('margin-bottom'),
+		svg: {
+			cursor: 's-resize',
+			d: 'M50 150h220l50 36H0l50-36Z',
+		},
+		dragDirection: 'vertical',
+	},
+	{
+		position: 'margin-left',
+		type: 'margin',
+		title: translate('margin-left'),
+		svg: {
+			cursor: 'w-resize',
+			d: 'm0 3 50 36v108L0 183V3Z',
+		},
+		dragDirection: 'horizontal',
+	},
+];
+const paddingPositions: Position[] = [
+	{
+		position: 'padding-top',
+		type: 'padding',
+		title: translate('padding-top'),
+		svg: {
+			cursor: 's-resize',
+			d: 'M0 0h214l-50 36H50L0 0Z',
+		},
+		dragDirection: 'vertical',
+	},
+	{
+		position: 'padding-right',
+		type: 'padding',
+		title: translate('padding-right'),
+		svg: {
+			cursor: 'w-resize',
+			d: 'm214 105-50-36V39l50-36v102Z',
+		},
+		dragDirection: 'horizontal',
+	},
+	{
+		position: 'padding-bottom',
+		type: 'padding',
+		title: translate('padding-bottom'),
+		svg: {
+			cursor: 's-resize',
+			d: 'M214 108H0l50-36h114l50 36Z',
+		},
+		dragDirection: 'vertical',
+	},
+	{
+		position: 'padding-left',
+		type: 'padding',
+		title: translate('padding-left'),
+		svg: {
+			cursor: 'w-resize',
+			d: 'm0 3 50 36v30L0 105V3Z',
+		},
+		dragDirection: 'horizontal',
+	},
+];
+const allowedValues = [...marginPositions, ...paddingPositions].map(position => position.position);
+
+/**
+ * Refs
+ */
+const activeHover: Ref<Position | null> = ref(null);
+const activePopup: Ref<Position | null> = ref(null);
+const lastChanged: Ref<{ position: Positions; type: Type } | null> = ref(null);
+const popupInput = ref<InstanceType<typeof InputNumberUnit> | null>(null);
+
+const hasChanges = computed(() => {
+	if (activePopup.value) {
+		const { position } = activePopup.value;
+
+		return typeof props.modelValue[position] !== 'undefined';
+	}
+
+	return false;
+});
+
+function onDiscardChanges() {
+	if (activePopup.value) {
+		const { position } = activePopup.value;
+		const clonedModelValue: Record<string, string> = { ...props.modelValue };
+		delete clonedModelValue[position];
+
+		emit('update:modelValue', clonedModelValue);
+	}
+}
+
+const computedValues = computed({
+	get() {
+		const values: Record<string, string> = {};
+
+		Object.keys(props.modelValue).forEach(optionId => {
+			if (allowedValues.includes(optionId as Positions)) {
+				values[optionId] = props.modelValue[optionId];
 			}
-		]
-		const allowedValues = [
-			...marginPositions,
-			...paddingPositions
-		].map(position => position.position)
+		});
 
-		/**
-		 * Refs
-		 */
-		const activeHover = ref(null)
-		const activePopup = ref(null)
-		const lastChanged = ref(null)
-		const popupInput = ref(null)
+		return values;
+	},
+	set(newValues: Record<Positions, string>) {
+		emit('update:modelValue', newValues);
+	},
+});
 
-		const hasChanges = computed(() => {
-			if (activePopup.value) {
-				const { position } = activePopup.value
+const inputValue = computed({
+	get() {
+		return activePopup.value?.position ? computedValues.value[activePopup.value.position] : '';
+	},
+	set(newValue: string) {
+		activePopup.value &&
+			onValueUpdated(activePopup.value.position as Positions, activePopup.value.type as Type, newValue);
+	},
+});
 
-				return typeof props.modelValue[position] !== 'undefined'
-			}
+function onValueUpdated(sizePosition: Positions, type: Type, newValue: string) {
+	console.log('sizePosition', sizePosition);
 
-			return false
-		})
+	const isLinked = type === 'margin' ? linkedMargin : linkedPadding;
 
-		function onDiscardChanges () {
-			if (activePopup.value) {
-				const { position } = activePopup.value
-				const clonedModelValue = { ...props.modelValue }
-				delete clonedModelValue[position]
+	// Keep a track of the last changed position so we can use it for linking values
+	lastChanged.value = {
+		position: sizePosition,
+		type: type,
+	};
 
-				emit('update:modelValue', clonedModelValue)
-			}
-		}
+	if (isLinked.value) {
+		const valuesToUpdate = type === 'margin' ? marginPositions : paddingPositions;
+		const updatedValues: Record<string, string> = {};
 
-		const computedValues = computed({
-			get () {
-				const values = {}
+		valuesToUpdate.forEach(position => (updatedValues[position.position] = newValue));
 
-				Object.keys(props.modelValue).forEach(optionId => {
-					if (allowedValues.includes(optionId)) {
-						values[optionId] = props.modelValue[optionId]
-					}
-				})
+		computedValues.value = {
+			...props.modelValue,
+			...updatedValues,
+		};
+	} else {
+		computedValues.value = {
+			...props.modelValue,
+			[sizePosition]: newValue,
+		};
+	}
+}
 
-				return values
-			}, set (newValues) {
-				emit('update:modelValue', newValues)
-			}
-		})
+/**
+ * Values linking
+ * - If a value was manually changed, change all the values to this value
+ * - If no value was changed, try to find a modified value and apply it to all
+ */
+const linkedMargin = ref(isLinked('margin'));
+const linkedPadding = ref(isLinked('padding'));
 
-		const inputValue = computed({
-			get () {
-				return computedValues.value[activePopup.value.position]
-			},
-			set (newValue) {
-				onValueUpdated(activePopup.value.position, activePopup.value.type, newValue)
-			}
-		})
+function linkValues(type: Type) {
+	const valueToChange = type === 'margin' ? linkedMargin : linkedPadding;
+	valueToChange.value = !valueToChange.value;
 
-		function onValueUpdated (sizePosition, type, newValue) {
-			const isLinked = type === 'margin' ? linkedMargin : linkedPadding
+	// Set the same value for all
+	if (valueToChange.value) {
+		if (lastChanged.value && lastChanged.value.type === type) {
+			onValueUpdated(valueToChange.value, type, computedValues.value[lastChanged.value.position]);
+		} else {
+			// Find a position that has a saved value
+			const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions;
+			const savedValueConfig = valuesToCheck.find(
+				positionConfig => computedValues.value[positionConfig.position] !== 'undefined',
+			);
 
-			// Keep a track of the last changed position so we can use it for linking values
-			lastChanged.value = {
-				position: sizePosition,
-				type: type,
-			}
-
-			if (isLinked.value) {
-				const valuesToUpdate = type === 'margin' ? marginPositions : paddingPositions
-				const updatedValues = {}
-
-				valuesToUpdate.forEach(position => updatedValues[position.position] = newValue)
-
-				computedValues.value = {
-					...props.modelValue,
-					...updatedValues
-				}
-			} else {
-				computedValues.value = {
-					...props.modelValue,
-					[sizePosition]: newValue
-				}
-			}
-		}
-
-		/**
-		 * Values linking
-		 * - If a value was manually changed, change all the values to this value
-		 * - If no value was changed, try to find a modified value and apply it to all
-		 */
-		const linkedMargin = ref(isLinked('margin'))
-		const linkedPadding = ref(isLinked('padding'))
-		function linkValues (type) {
-			const valueToChange = type === 'margin' ? linkedMargin : linkedPadding
-			valueToChange.value = !valueToChange.value
-
-			// Set the same value for all
-			if (valueToChange.value) {
-				if (lastChanged.value && lastChanged.value.type === type) {
-					onValueUpdated(valueToChange.value, type, computedValues.value[lastChanged.value.position])
-				} else {
-					// Find a position that has a saved value
-					const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions
-					const savedValueConfig = valuesToCheck.find(positionConfig => computedValues.value[positionConfig.position] !== 'undefined')
-
-					if (savedValueConfig) {
-						onValueUpdated(savedValueConfig.position, type, computedValues.value[savedValueConfig.position])
-					}
-				}
-			}
-		}
-
-		function isLinked (type) {
-			const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions
-
-			return valuesToCheck.every(position => {
-				return computedValues.value[position.position] && computedValues.value[position.position] === computedValues.value[`${type}-top`]
-			})
-		}
-
-		/**
-		 * Dragging
-		 */
-		let startMousePosition = null
-		let dragDirection = null
-		let draggingConfig = null
-		let initialValue = null
-		const dragTreshold = 0
-
-		const validUnits = [
-			{
-				type: 'px',
-				isModifiable: true
-			},
-			{
-				type: '%',
-				isModifiable: true
-			},
-			{
-				type: 'vw',
-				isModifiable: true
-			},
-			{
-				type: 'vh',
-				isModifiable: true
-			},
-			{
-				type: 'rem',
-				isModifiable: true
-			},
-			{
-				type: 'em',
-				isModifiable: true
-			},
-			{
-				type: 'pt',
-				isModifiable: true
-			},
-			{
-				type: 'auto',
-				isModifiable: false
-			},
-			{
-				type: 'initial',
-				isModifiable: false
-			},
-			{
-				type: 'unset',
-				isModifiable: false
-			},
-		]
-
-		// refs
-		const isDragging = ref(false)
-		const draggingType = ref(null)
-
-		function startDragging (event, positionConfig) {
-			const { clientY, clientX } = event
-
-			// Save the initial values
-			startMousePosition = {
-				clientY,
-				clientX
-			}
-
-			// Set the drag direction
-			dragDirection = positionConfig.dragDirection
-
-			const { position, type } = positionConfig
-
-			// prevent selection
-			document.body.style.userSelect = 'none'
-
-			initialValue = getSplitValue(position)
-			const { unit = null } = initialValue
-			const validUnit = validUnits.find(singleUnit => singleUnit.type === unit)
-
-			if (validUnit && validUnit.isModifiable) {
-				const linkType = type === 'margin' ? linkedMargin : linkedPadding
-
-				// Set initial value
-				draggingConfig = {
-					positionConfig,
-					position,
-					type,
-					initialValue,
-
-					// Link status
-					activeLinkStatus: linkType.value,
-					activeLinkComputedValue: linkType
-				}
-
-				window.addEventListener('mousemove', rafDragValue)
-				window.addEventListener('mouseup', rafDeactivateDragging)
-				window.addEventListener('keydown', onKeyDown)
-				window.addEventListener('keyup', onKeyUp)
+			if (savedValueConfig) {
+				onValueUpdated(savedValueConfig.position, type, computedValues.value[savedValueConfig.position]);
 			}
 		}
+	}
+}
 
-		function getSplitValue (position) {
-			const savedValue = computedValues.value[position] ? computedValues.value[position] : '0px'
-			const splitValue = savedValue.match(/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/)
+function isLinked(type: Type) {
+	const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions;
 
-			if (!splitValue) {
-				return false
-			}
+	return valuesToCheck.every(position => {
+		return (
+			computedValues.value[position.position] &&
+			computedValues.value[position.position] === computedValues.value[`${type}-top`]
+		);
+	});
+}
 
-			return {
-				value: parseInt(splitValue[1]),
-				unit: splitValue[2],
-			}
+/**
+ * Dragging
+ */
+let startMousePosition: { clientY: number; clientX: number } | null;
+
+let dragDirection: 'vertical' | 'horizontal';
+
+let initialValue: { value: number; unit: string } | null;
+
+let draggingConfig: {
+	positionConfig: Position;
+	position: Positions;
+	type: Type;
+	initialValue: typeof initialValue;
+	activeLinkStatus: boolean;
+	activeLinkComputedValue: Ref<boolean>;
+} | null;
+
+const dragTreshold = 0;
+
+const validUnits = [
+	{
+		type: 'px',
+		isModifiable: true,
+	},
+	{
+		type: '%',
+		isModifiable: true,
+	},
+	{
+		type: 'vw',
+		isModifiable: true,
+	},
+	{
+		type: 'vh',
+		isModifiable: true,
+	},
+	{
+		type: 'rem',
+		isModifiable: true,
+	},
+	{
+		type: 'em',
+		isModifiable: true,
+	},
+	{
+		type: 'pt',
+		isModifiable: true,
+	},
+	{
+		type: 'auto',
+		isModifiable: false,
+	},
+	{
+		type: 'initial',
+		isModifiable: false,
+	},
+	{
+		type: 'unset',
+		isModifiable: false,
+	},
+];
+
+// refs
+const isDragging = ref(false);
+
+function startDragging(event: MouseEvent, positionConfig: Position) {
+	const { clientY, clientX } = event;
+
+	// Save the initial values
+	startMousePosition = {
+		clientY,
+		clientX,
+	};
+
+	// Set the drag direction
+	dragDirection = positionConfig.dragDirection;
+
+	const { position, type } = positionConfig;
+
+	// prevent selection
+	document.body.style.userSelect = 'none';
+
+	initialValue = getSplitValue(position);
+	const unit = initialValue && initialValue.unit;
+	const validUnit = validUnits.find(singleUnit => singleUnit.type === unit);
+
+	if (validUnit && validUnit.isModifiable) {
+		const linkType = type === 'margin' ? linkedMargin : linkedPadding;
+
+		// Set initial value
+		draggingConfig = {
+			positionConfig,
+			position,
+			type,
+			initialValue,
+
+			// Link status
+			activeLinkStatus: linkType.value,
+			activeLinkComputedValue: linkType,
+		};
+
+		window.addEventListener('mousemove', rafDragValue);
+		window.addEventListener('mouseup', rafDeactivateDragging);
+		window.addEventListener('keydown', onKeyDown);
+		window.addEventListener('keyup', onKeyUp);
+	}
+}
+
+function getSplitValue(position: Positions) {
+	const savedValue = computedValues.value[position] ? computedValues.value[position] : '0px';
+	const splitValue = savedValue.match(/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/);
+
+	if (!splitValue) {
+		return null;
+	}
+
+	return {
+		value: parseInt(splitValue[1]),
+		unit: splitValue[2],
+	};
+}
+
+function onKeyDown(event: KeyboardEvent) {
+	if (isDragging.value) {
+		const { activeLinkStatus, activeLinkComputedValue } = draggingConfig as Exclude<typeof draggingConfig, null>;
+
+		if (!activeLinkStatus && event.ctrlKey) {
+			activeLinkComputedValue.value = true;
+		} else {
+			activeLinkComputedValue.value = activeLinkStatus;
 		}
+	}
+}
 
-		function onKeyDown (event) {
-			if (isDragging.value) {
-				const { activeLinkStatus, activeLinkComputedValue } = draggingConfig
+function onKeyUp(event: KeyboardEvent) {
+	if (isDragging.value) {
+		const { activeLinkComputedValue } = draggingConfig as Exclude<typeof draggingConfig, null>;
 
-				if (!activeLinkStatus && event.which === 17) {
-					activeLinkComputedValue.value = true
-				} else {
-					activeLinkComputedValue.value = activeLinkStatus
-				}
-
-			}
+		if (event.ctrlKey) {
+			activeLinkComputedValue.value = false;
 		}
+	}
+}
 
-		function onKeyUp (event) {
-			if (isDragging.value) {
-				const { activeLinkComputedValue } = draggingConfig
+function deactivateDragging() {
+	document.body.style.userSelect = '';
+	document.body.style.pointerEvents = '';
 
-				if (event.which === 17) {
-					activeLinkComputedValue.value = false
-				}
-			}
-		}
+	// cancel dragging raf
+	rafDragValue.cancel();
 
-		function deactivateDragging () {
-			// Save the link status
-			const { type, activeLinkComputedValue } = draggingConfig
+	// Remove events
+	window.removeEventListener('mousemove', rafDragValue);
+	window.removeEventListener('mouseup', rafDeactivateDragging);
 
-			// activeLinkComputedValue.value = isLinked(type)
+	isDragging.value = false;
+	startMousePosition = null;
+	initialValue = null;
+	draggingConfig = null;
+}
 
-			document.body.style.userSelect = null
-			document.body.style.pointerEvents = null
+function dragValue(event: MouseEvent) {
+	const { clientX, clientY } = event;
+	document.body.style.pointerEvents = 'none';
 
-			// cancel dragging raf
-			rafDragValue.cancel()
+	const movedAmmount =
+		dragDirection === 'vertical'
+			? Math.ceil(startMousePosition!.clientY - clientY)
+			: Math.ceil(startMousePosition!.clientX - clientX) * -1;
 
-			// Remove events
-			window.removeEventListener('mousemove', rafDragValue)
-			window.removeEventListener('mouseup', rafDeactivateDragging)
+	if (Math.abs(movedAmmount) > dragTreshold) {
+		const positionConfig = draggingConfig ? draggingConfig.positionConfig : null;
+		isDragging.value = true;
+		activeHover.value = positionConfig;
 
+		setDraggingValue(movedAmmount - dragTreshold, event);
+	}
+}
 
-			isDragging.value = false
-			startMousePosition = null
-			initialValue = null
-			draggingConfig = false
-		}
+function setDraggingValue(newValue: number, event: MouseEvent) {
+	const { position, type, initialValue = {} } = draggingConfig as Exclude<typeof draggingConfig, null>;
+	const { value, unit } = initialValue;
+	console.log('initialValue', initialValue);
 
-		function dragValue (event) {
-			const { clientX, clientY } = event
-			document.body.style.pointerEvents = 'none'
+	// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
+	let updatedValue = newValue + value;
 
-			const movedAmmount = dragDirection === 'vertical' ? Math.ceil(startMousePosition.clientY - clientY) : Math.ceil(startMousePosition.clientX - clientX) * -1
+	// Check if the
+	if (event.shiftKey) {
+		updatedValue = Math.round(updatedValue / 5) * 5;
+	}
 
-			if (Math.abs(movedAmmount) > dragTreshold) {
-				const { positionConfig } = draggingConfig
-				isDragging.value = true
-				activeHover.value = positionConfig
+	const valueToUpdate = `${updatedValue}${unit}`;
 
+	// Update the value
+	onValueUpdated(position, type, valueToUpdate);
+}
 
-				setDraggingValue(movedAmmount - dragTreshold, event)
-			}
-		}
+const rafDragValue = rafSchd(dragValue);
+const rafDeactivateDragging = rafSchd(deactivateDragging);
 
-		function setDraggingValue (newValue, event) {
-			const { position, type, initialValue = {} } = draggingConfig
-			const { value, unit } = initialValue
+// highlight input when opening
+watch(activePopup, newValue => {
+	if (newValue) {
+		// Allow closing the popup by pressing esc key
+		document.addEventListener('keydown', closeOnEscape);
 
-			// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
-			let updatedValue = newValue + value
+		nextTick(() => {
+			popupInput.value.$refs.numberUnitInput.$refs.input.focus();
+		});
+	} else {
+		document.removeEventListener('keydown', closeOnEscape);
+	}
+});
 
-			// Check if the
-			if (event.shiftKey) {
-				updatedValue = Math.round(updatedValue / 5) * 5
-			}
+function closeOnEscape(event: KeyboardEvent) {
+	if (event.key === 'Escape') {
+		activePopup.value = null;
 
-
-			const valueToUpdate = `${updatedValue}${unit}`
-
-			// Update the value
-			onValueUpdated(position, type, valueToUpdate)
-		}
-
-		const rafDragValue = rafSchd(dragValue)
-		const rafDeactivateDragging = rafSchd(deactivateDragging)
-
-		// highlight input when opening
-		watch(activePopup, (newValue) => {
-			if (newValue) {
-				// Allow closing the popup by pressing esc key
-				document.addEventListener('keydown', closeOnEscape)
-
-				nextTick(() => {
-					popupInput.value.$refs.numberUnitInput.$refs.input.focus()
-				})
-			} else {
-				document.removeEventListener('keydown', closeOnEscape)
-			}
-		})
-
-		function closeOnEscape (event) {
-			if (event.which === 27) {
-				activePopup.value = false
-
-				event.stopPropagation()
-			}
-		}
-
-		return {
-			// Normal vars
-			marginPositions,
-			paddingPositions,
-
-			// Refs
-			activeHover,
-			activePopup,
-			linkedMargin,
-			linkedPadding,
-			popupInput,
-
-			// Computed
-			computedValues,
-			inputValue,
-			isDragging,
-			draggingType,
-			hasChanges,
-
-			// methods
-			onValueUpdated,
-			linkValues,
-			startDragging,
-			onDiscardChanges
-		}
+		event.stopPropagation();
 	}
 }
 </script>
@@ -698,29 +676,39 @@ export default {
 		}
 	}
 
-	&-margin-top, &-padding-top, &-margin-bottom, &-padding-bottom {
+	&-margin-top,
+	&-padding-top,
+	&-margin-bottom,
+	&-padding-bottom {
 		left: 50%;
 		transform: translateX(-50%);
 	}
 
-	&-margin-top, &-padding-top {
+	&-margin-top,
+	&-padding-top {
 		top: 8px;
 	}
 
-	&-margin-bottom, &-padding-bottom {
+	&-margin-bottom,
+	&-padding-bottom {
 		bottom: 8px;
 	}
 
-	&-margin-left, &-padding-left, &-margin-right, &-padding-right {
+	&-margin-left,
+	&-padding-left,
+	&-margin-right,
+	&-padding-right {
 		top: 50%;
 		transform: translateY(-50%);
 	}
 
-	&-margin-left, &-padding-left {
+	&-margin-left,
+	&-padding-left {
 		left: 5px;
 	}
 
-	&-margin-right, &-padding-right {
+	&-margin-right,
+	&-padding-right {
 		right: 5px;
 	}
 
@@ -736,7 +724,7 @@ export default {
 		height: 100%;
 
 		&::before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: -40px;
 			right: -54px;
@@ -744,7 +732,7 @@ export default {
 			left: -54px;
 			z-index: -1;
 			background: var(--zb-surface-color);
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		&Inner {
@@ -752,7 +740,7 @@ export default {
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: flex;
-			    flex-direction: column;
+			flex-direction: column;
 			justify-content: center;
 			width: 214px;
 			height: 108px;
@@ -774,7 +762,7 @@ export default {
 			top: 10px;
 			right: 10px;
 			color: var(--zb-surface-icon-color);
-			transition: color .1s;
+			transition: color 0.1s;
 			cursor: pointer;
 
 			&:hover {
@@ -873,7 +861,7 @@ export default {
 			height: 100%;
 
 			& path {
-				transition: fill .1s;
+				transition: fill 0.1s;
 
 				&:nth-child(odd) {
 					fill: #ebebeb;
