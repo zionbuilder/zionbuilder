@@ -1,12 +1,7 @@
 <template>
 	<div class="znpb-input-background-video">
-
 		<div class="znpb-input-background-video__holder">
-			<div
-				v-if="hasVideo"
-				ref="videoPreview"
-				class="znpb-input-background-video__source"
-			/>
+			<div v-if="hasVideo" ref="videoPreview" class="znpb-input-background-video__source" />
 
 			<EmptyList
 				v-else
@@ -14,7 +9,7 @@
 				:no-margin="true"
 				@click="openMediaModal"
 			>
-				{{$translate('no_video_selected')}}
+				{{ $translate('no_video_selected') }}
 			</EmptyList>
 
 			<Icon
@@ -25,179 +20,199 @@
 				bg-color="#fff"
 				@click.stop="deleteVideo"
 			/>
-
 		</div>
-		<OptionsForm
-			:schema="schema"
-			v-model="computedValue"
-			class="znpb-input-background-video__holder"
-		/>
+		<OptionsForm v-model="computedValue" :schema="schema" class="znpb-input-background-video__holder" />
 	</div>
 </template>
-<script>
-import { Icon } from '../Icon'
-import { EmptyList } from '../EmptyList'
-import Video from '@zionbuilder/video'
-import { useOptionsSchemas } from '../../composables/useOptionsSchemas'
 
+<script lang="ts">
 export default {
 	name: 'InputBackgroundVideo',
-	components: {
-		EmptyList,
-		Icon
-	},
-	setup () {
-		const { getSchema } = useOptionsSchemas()
+};
+</script>
 
-		return {
-			getSchema
-		}
-	},
-	props: ['modelValue', 'options', 'exclude_options'],
-	data () {
-		return {
-			videoInstance: null,
-			mediaModal: null
-		}
-	},
-	watch: {
-		computedValue (newValue, oldValue) {
-			if (this.videoInstance) {
-				this.videoInstance.destroy()
-			}
-			if (this.hasVideo) {
-				this.initVideo()
-			}
-		}
-	},
-	mounted () {
-		if (this.hasVideo) {
-			this.initVideo()
-		}
-	},
-	computed: {
-		schema () {
-			let schema = { ...this.getSchema('videoOptionSchema') }
+<script lang="ts" setup>
+import { computed, onMounted, ref, Ref, watch, nextTick } from 'vue';
+import { Icon } from '../Icon';
+import { EmptyList } from '../EmptyList';
+import Video from '@zionbuilder/video';
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
 
-			if (this.exclude_options) {
-				this.exclude_options.forEach(optionToRemove => {
-					if (schema[optionToRemove]) {
-						delete schema[optionToRemove]
-					}
-				})
-			}
-			return schema
-		},
-		computedValue: {
-			get () {
-				return this.modelValue || {}
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		hasVideo () {
-			if (this.videoSourceModel === 'local' && this.computedValue.mp4) {
-				return true
-			}
-
-			if (this.videoSourceModel === 'youtube' && this.computedValue.youtubeURL) {
-				return true
-			}
-
-			if (this.videoSourceModel === 'vimeo' && this.computedValue.vimeoURL) {
-				return true
-			}
-
-			return false
-		},
-		controlsModel: {
-			get () {
-				return !!this.computedValue.controls
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', {
-					...this.computedValue,
-					'controls': newValue
-				})
-			}
-		},
-		autoplayModel: {
-			get () {
-				return typeof this.computedValue['autoplay'] === 'undefined' ? true : this.computedValue['autoplay']
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', {
-					...this.computedValue,
-					'autoplay': newValue
-				})
-			}
-		},
-		mutedModel: {
-			get () {
-				return typeof this.computedValue['muted'] === 'undefined' ? true : this.computedValue['muted']
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', {
-					...this.computedValue,
-					'muted': newValue
-				})
-			}
-		},
-		videoSourceModel: {
-			get () {
-				return this.computedValue['videoSource'] || 'local'
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', {
-					...this.modelValue,
-					'videoSource': newValue
-				})
-			}
-		}
-	},
-	methods: {
-		initVideo () {
-			this.$nextTick(() => {
-				this.videoInstance = new Video(this.$refs.videoPreview, this.computedValue)
-			})
-		},
-		openMediaModal () {
-			if (this.mediaModal === null) {
-				const args = {
-					frame: 'select',
-					state: 'library',
-					library: { type: 'video' },
-					button: { text: 'Add video' },
-					selection: this.computedValue
-				}
-
-				// Create the frame
-				this.mediaModal = window.wp.media(args)
-
-				this.mediaModal.on('select update insert', this.selectMedia)
-			}
-
-			// Open the media modal
-			this.mediaModal.open()
-		},
-		selectMedia (e) {
-			let selection = this.mediaModal.state().get('selection').toJSON()
-			// In case we have multiple items
-			if (typeof e !== 'undefined') { selection = e }
-			this.$emit('update:modelValue', {
-				...this.computedValue,
-				mp4: selection[0].url
-			})
-		},
-		deleteVideo () {
-			const { mp4, ...rest } = this.computedValue
-			this.$emit('update:modelValue', {
-				...rest
-			})
-		}
-	}
+interface VideoValue {
+	mp4?: string;
+	bgType?: string;
+	autoplay?: boolean;
+	muted?: boolean;
+	controlsPosition?: string;
+	controls?: boolean;
+	videoSource?: string;
+	vimeoURL?: string;
+	youtubeURL?: string;
 }
+
+const props = defineProps<{
+	modelValue?: VideoValue;
+	options?: any;
+	exclude_options?: string[];
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: VideoValue): void;
+}>();
+const videoInstance: Ref<Video | null> = ref(null);
+const mediaModal: Ref<Record<string, any> | null> = ref(null);
+const videoPreview: Ref<HTMLDivElement | null> = ref(null);
+
+const { getSchema } = useOptionsSchemas();
+
+const schema = computed(() => {
+	let schema: Record<string, any> = { ...getSchema('videoOptionSchema') };
+
+	if (props.exclude_options) {
+		props.exclude_options.forEach(optionToRemove => {
+			if (schema[optionToRemove]) {
+				delete schema[optionToRemove];
+			}
+		});
+	}
+	return schema;
+});
+
+const computedValue = computed({
+	get() {
+		return props.modelValue || {};
+	},
+	set(newValue: VideoValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const hasVideo = computed(() => {
+	if (videoSourceModel.value === 'local' && computedValue.value.mp4) {
+		return true;
+	}
+
+	if (videoSourceModel.value === 'youtube' && computedValue.value.youtubeURL) {
+		return true;
+	}
+
+	if (videoSourceModel.value === 'vimeo' && computedValue.value.vimeoURL) {
+		return true;
+	}
+
+	return false;
+});
+
+//TODO Remove possibly Unused functions
+const controlsModel = computed({
+	get() {
+		return !!computedValue.value.controls;
+	},
+	set(newValue: boolean) {
+		emit('update:modelValue', {
+			...computedValue.value,
+			controls: newValue,
+		});
+	},
+});
+
+//TODO Remove possibly Unused functions
+const autoplayModel = computed({
+	get() {
+		return typeof computedValue.value['autoplay'] === 'undefined' ? true : computedValue.value['autoplay'];
+	},
+	set(newValue: boolean) {
+		emit('update:modelValue', {
+			...computedValue.value,
+			autoplay: newValue,
+		});
+	},
+});
+
+//TODO Remove possibly Unused functions
+const mutedModel = computed({
+	get() {
+		return typeof computedValue.value['muted'] === 'undefined' ? true : computedValue.value['muted'];
+	},
+	set(newValue: boolean) {
+		emit('update:modelValue', {
+			...computedValue.value,
+			muted: newValue,
+		});
+	},
+});
+
+const videoSourceModel = computed({
+	get() {
+		return computedValue.value['videoSource'] || 'local';
+	},
+	set(newValue: string) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			videoSource: newValue,
+		});
+	},
+});
+
+watch(computedValue, () => {
+	if (videoInstance.value) {
+		videoInstance.value.destroy();
+	}
+	if (hasVideo.value) {
+		initVideo();
+	}
+});
+
+function initVideo() {
+	nextTick(() => {
+		videoInstance.value = new Video(videoPreview.value as HTMLDivElement, computedValue.value);
+	});
+}
+
+function openMediaModal() {
+	if (mediaModal.value === null) {
+		const args = {
+			frame: 'select',
+			state: 'library',
+			library: { type: 'video' },
+			button: { text: 'Add video' },
+			selection: computedValue.value,
+		};
+
+		// Create the frame
+		mediaModal.value = window.wp.media(args) as Record<string, any>;
+
+		mediaModal.value.on('select update insert', selectMedia);
+	}
+
+	// Open the media modal
+	mediaModal.value.open();
+}
+
+function selectMedia(e) {
+	// TODO add e type and remove selection = e since model can allow only one selection
+	let selection = (mediaModal.value as Record<string, any>).state().get('selection').toJSON();
+	// In case we have multiple items
+	if (e !== undefined) {
+		selection = e;
+	}
+	emit('update:modelValue', {
+		...computedValue.value,
+		mp4: selection[0].url,
+	});
+}
+function deleteVideo() {
+	const { mp4, ...rest } = computedValue.value;
+	emit('update:modelValue', {
+		...rest,
+	});
+}
+
+onMounted(() => {
+	if (hasVideo.value) {
+		initVideo();
+	}
+});
 </script>
 
 <style lang="scss">
@@ -216,7 +231,7 @@ export default {
 		display: flex;
 		justify-content: flex-end;
 		border-radius: 3px;
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 		cursor: pointer;
 		opacity: 0;
 	}
@@ -257,7 +272,8 @@ export default {
 		}
 	}
 
-	&__source iframe, &__source video {
+	&__source iframe,
+	&__source video {
 		max-width: 100%;
 		height: auto;
 		border: none;
