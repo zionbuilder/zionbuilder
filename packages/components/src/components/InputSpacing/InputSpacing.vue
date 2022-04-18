@@ -324,8 +324,6 @@ const inputValue = computed({
 });
 
 function onValueUpdated(sizePosition: Positions, type: Type, newValue: string) {
-	console.log('sizePosition', sizePosition);
-
 	const isLinked = type === 'margin' ? linkedMargin : linkedPadding;
 
 	// Keep a track of the last changed position so we can use it for linking values
@@ -367,7 +365,7 @@ function linkValues(type: Type) {
 	// Set the same value for all
 	if (valueToChange.value) {
 		if (lastChanged.value && lastChanged.value.type === type) {
-			onValueUpdated(valueToChange.value, type, computedValues.value[lastChanged.value.position]);
+			onValueUpdated(lastChanged.value.position, type, computedValues.value[lastChanged.value.position]);
 		} else {
 			// Find a position that has a saved value
 			const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions;
@@ -411,7 +409,7 @@ let draggingConfig: {
 	activeLinkComputedValue: Ref<boolean>;
 } | null;
 
-const dragTreshold = 0;
+const dragThreshold = 0;
 
 const validUnits = [
 	{
@@ -559,24 +557,23 @@ function dragValue(event: MouseEvent) {
 	const { clientX, clientY } = event;
 	document.body.style.pointerEvents = 'none';
 
-	const movedAmmount =
+	const movedAmount =
 		dragDirection === 'vertical'
 			? Math.ceil(startMousePosition!.clientY - clientY)
 			: Math.ceil(startMousePosition!.clientX - clientX) * -1;
 
-	if (Math.abs(movedAmmount) > dragTreshold) {
+	if (Math.abs(movedAmount) > dragThreshold) {
 		const positionConfig = draggingConfig ? draggingConfig.positionConfig : null;
 		isDragging.value = true;
 		activeHover.value = positionConfig;
 
-		setDraggingValue(movedAmmount - dragTreshold, event);
+		setDraggingValue(movedAmount - dragThreshold, event);
 	}
 }
 
 function setDraggingValue(newValue: number, event: MouseEvent) {
 	const { position, type, initialValue = {} } = draggingConfig as Exclude<typeof draggingConfig, null>;
 	const { value, unit } = initialValue;
-	console.log('initialValue', initialValue);
 
 	// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
 	let updatedValue = newValue + value;
