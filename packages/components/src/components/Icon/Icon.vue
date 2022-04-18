@@ -12,58 +12,23 @@ export default {
 import { computed, CSSProperties } from 'vue';
 import { getSearchIcon } from './icons';
 
-interface IProps {
-	/**
-	 * The Name of the icon - String
-	 */
-	icon: string;
-
-	/**
-	 * If the icon should be computed rotated
-	 * exmaple of props: true, 45,'45'
-	 */
-	rotate?: boolean | string | number;
-
-	/**
-	 * The size of the icon - number
-	 */
-	bgSize?: number;
-
-	/**
-	 * The color of the icon
-	 */
-	color?: string;
-
-	// 		/**
-	// 		 * The icon size
-	// 		 */
-	size?: number;
-
-	// 		/**
-	// 		 * The background-color of the icon
-	// 		 */
-	bgColor?: string;
-
-	// 		/**
-	// 		 * The stroke-color of the icon
-	// 		 */
-	stroke?: string;
-
-	// 		/**
-	// 		 * If set to true, the icon wrapper will be rounded
-	// 		 */
-	rounded?: boolean;
-
-	// 		/**
-	// 		 * preserve aspect ratio
-	// 		 */
-	preserveAspectRatio?: string;
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-	rotate: false,
-	rounded: false,
-});
+const props = withDefaults(
+	defineProps<{
+		icon: string;
+		rotate?: boolean | string | number;
+		bgSize?: number;
+		color?: string;
+		size?: number;
+		bgColor?: string;
+		stroke?: string;
+		rounded?: boolean;
+		preserveAspectRatio?: string;
+	}>(),
+	{
+		rotate: false,
+		rounded: false,
+	},
+);
 
 const iconStyles = computed<CSSProperties>(() => {
 	return {
