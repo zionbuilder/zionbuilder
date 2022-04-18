@@ -324,8 +324,6 @@ const inputValue = computed({
 });
 
 function onValueUpdated(sizePosition: Positions, type: Type, newValue: string) {
-	console.log('sizePosition', sizePosition);
-
 	const isLinked = type === 'margin' ? linkedMargin : linkedPadding;
 
 	// Keep a track of the last changed position so we can use it for linking values
@@ -576,7 +574,6 @@ function dragValue(event: MouseEvent) {
 function setDraggingValue(newValue: number, event: MouseEvent) {
 	const { position, type, initialValue = {} } = draggingConfig as Exclude<typeof draggingConfig, null>;
 	const { value, unit } = initialValue;
-	console.log('initialValue', initialValue);
 
 	// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
 	let updatedValue = newValue + value;
