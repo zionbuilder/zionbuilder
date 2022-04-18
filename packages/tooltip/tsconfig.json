@@ -5,8 +5,7 @@
 		"declarationDir": "./build-types"
 	},
 	"references": [
-		{ "path": "../z-index-manager" },
-		{ "path": "../utils" },
+		{ "path": "../z-index-manager" }
 	],
 	"include": [
 		"src/**/*",

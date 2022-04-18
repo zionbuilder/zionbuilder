@@ -1,24 +1,18 @@
 <template>
-	<SortableContent
-		class="zb-column"
-		:element="element"
-		:tag="htmlTag"
-		v-bind="extraAttributes"
-	>
-
+	<SortableContent class="zb-column" :element="element" :tag="htmlTag" v-bind="extraAttributes">
 		<template #start>
 			<slot name="start" />
 			<SvgMask
-				v-if="topMask!==undefined && topMask.shape"
-				:shapePath="topMask['shape']"
+				v-if="topMask !== undefined && topMask.shape"
+				:shape-path="topMask['shape']"
 				:color="topMask['color']"
 				:flip="topMask['flip']"
 				position="top"
 			/>
 
 			<SvgMask
-				v-if="bottomMask!==undefined && bottomMask.shape"
-				:shapePath="bottomMask['shape']"
+				v-if="bottomMask !== undefined && bottomMask.shape"
+				:shape-path="bottomMask['shape']"
 				:color="bottomMask['color']"
 				:flip="bottomMask['flip']"
 				position="bottom"
@@ -32,31 +26,31 @@
 </template>
 
 <script>
-import { getLinkAttributes } from '@zb/utils'
+import { getLinkAttributes } from '@zb/utils';
 
 export default {
-	name: 'zion_column',
+	name: 'ZionColumn',
 	props: ['options', 'api', 'element'],
 	computed: {
-		htmlTag () {
+		htmlTag() {
 			if (this.options.link && this.options.link.link) {
-				return 'a'
+				return 'a';
 			}
 
-			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'div'
+			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'div';
 		},
-		extraAttributes () {
-			return getLinkAttributes(this.options.link)
+		extraAttributes() {
+			return getLinkAttributes(this.options.link);
 		},
-		topMask () {
-			return this.shapes['top']
+		topMask() {
+			return this.shapes['top'];
 		},
-		bottomMask () {
-			return this.shapes['bottom']
+		bottomMask() {
+			return this.shapes['bottom'];
 		},
-		shapes () {
-			return this.options.shapes || {}
-		}
-	}
-}
+		shapes() {
+			return this.options.shapes || {};
+		},
+	},
+};
 </script>

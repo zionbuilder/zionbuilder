@@ -1,61 +1,72 @@
-require('./scss/index.scss')
+require('./scss/index.scss');
 
-import { createApp } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createApp } from 'vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-import api from './api'
-import { initRoutes } from './router'
-import { useLibrary } from '@zionbuilder/composables'
+import api from './api';
+import { initRoutes } from './router';
+import { useLibrary } from '@zionbuilder/composables';
 
 // Main
-import App from './App.vue'
+import App from './App.vue';
 
-import { install as ComponentsInstall } from '@zb/components'
-import { install as I18nInstall } from '@zb/i18n'
-import { applyFilters } from '@zb/hooks'
+import { install as ComponentsInstall } from '@zb/components';
+import { install as I18nInstall } from '@zb/i18n';
+import { applyFilters } from '@zb/hooks';
 // Components
-import SideMenu from './components/SideMenu.vue'
-import PageTemplate from './components/PageTemplate.vue'
-import ListAnimate from './components/ListAnimate.vue'
-import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue'
+import SideMenu from './components/SideMenu.vue';
+import PageTemplate from './components/PageTemplate.vue';
+import ListAnimate from './components/ListAnimate.vue';
+import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue';
 
 // Exports
-export * from '@zionbuilder/composables'
+export * from '@zionbuilder/composables';
 
-const { addSources } = useLibrary()
-addSources(window.ZnPbAdminPageData.template_sources)
+const { addSources } = useLibrary();
+addSources(window.ZnPbAdminPageData.template_sources);
 
+const appInstance = createApp(App);
 
-const appInstance = createApp(App)
-
-appInstance.component('SideMenu', SideMenu)
-appInstance.component('PageTemplate', PageTemplate)
-appInstance.component('ListAnimation', ListAnimate)
-appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate)
+appInstance.component('SideMenu', SideMenu);
+appInstance.component('PageTemplate', PageTemplate);
+appInstance.component('ListAnimation', ListAnimate);
+appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate);
 
 // Plugins
-appInstance.use(ComponentsInstall)
-appInstance.use(I18nInstall, window.ZnI18NStrings)
+appInstance.use(ComponentsInstall);
+appInstance.use(I18nInstall, window.ZnI18NStrings);
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
 	const evt = new CustomEvent('zionbuilder/admin/init', {
-		detail: api
-	})
+		detail: api,
+	});
 
 	// Add default routes
-	initRoutes()
+	initRoutes();
 
-	window.dispatchEvent(evt)
+	window.dispatchEvent(evt);
 
-	const router = applyFilters('zionbuilder/router', createRouter({
-		// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-		history: createWebHashHistory(),
-		routes: api.routes.getConfigForRouter(), // short for `routes: routes`
-	}))
+	const router = applyFilters(
+		'zionbuilder/router',
+		createRouter({
+			// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+			history: createWebHashHistory(),
+			routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+		}),
+	);
 
+	appInstance.use(router);
+	appInstance.mount('#znpb-admin');
+});
 
-
-	appInstance.use(router)
-	appInstance.mount('#znpb-admin')
-})
+// TODO: move this to a callbacks.js file
+window.znpb_set_editor_theme = function (newValue) {
+	if (document.body.classList.contains('toplevel_page_zionbuilder')) {
+		if (newValue === 'dark') {
+			document.body.classList.add('znpb-theme-dark');
+		} else {
+			document.body.classList.remove('znpb-theme-dark');
+		}
+	}
+};

@@ -1,10 +1,10 @@
 export default function (callback, time = 1000) {
-	let timeout
+	let timeout;
 	return function (...args) {
-		const context = this
-		clearTimeout(timeout)
+		const context = this;
+		clearTimeout(timeout);
 		timeout = setTimeout(() => {
-			callback.apply(context, args)
-		}, time)
-	}
+			callback.apply(context, args);
+		}, time);
+	};
 }

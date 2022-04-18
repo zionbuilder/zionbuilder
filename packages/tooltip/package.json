@@ -12,7 +12,6 @@
 	"types": "./build-types",
 	"dependencies": {
 		"@popperjs/core": "^2.5.3",
-		"@zionbuilder/utils": "^1.0.0",
 		"@zionbuilder/z-index-manager": "^1.0.0"
 	}
 }
