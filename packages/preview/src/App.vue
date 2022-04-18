@@ -1,13 +1,6 @@
 <template>
-	<div
-		class="zb"
-		:class="previewAppClasses"
-	>
-		<SortableContent
-			v-if="element"
-			class="znpb-preview-page-wrapper"
-			:element="element"
-		/>
+	<div class="zb" :class="previewAppClasses">
+		<SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" />
 
 		<PageStyles
 			:css-classes="CSSClasses"
@@ -17,54 +10,53 @@
 
 		<ElementStyles :styles="pageSettings._custom_css" />
 	</div>
-
 </template>
 <script>
-import { computed, ref, watch, provide } from 'vue'
-import PageStyles from './components/PageStyles.vue'
-import ElementStyles from './components/ElementStyles.vue'
-import SortableContent from './components/SortableContent.vue'
-import { useElements, useCSSClasses, usePreviewMode, usePageSettings, useEditorData } from '@zb/editor'
-import { useOptionsSchemas } from '@zb/components'
-import { trigger, applyFilters } from '@zb/hooks'
+import { computed, ref, watch, provide } from 'vue';
+import PageStyles from './components/PageStyles.vue';
+import ElementStyles from './components/ElementStyles.vue';
+import SortableContent from './components/SortableContent.vue';
+import { useElements, useCSSClasses, usePreviewMode, usePageSettings, useEditorData } from '@zb/editor';
+import { useOptionsSchemas } from '@zb/components';
+import { trigger, applyFilters } from '@zb/hooks';
 
 export default {
 	name: 'PreviewApp',
 	components: {
 		SortableContent,
 		PageStyles,
-		ElementStyles
+		ElementStyles,
 	},
-	setup () {
-		const { editorData } = useEditorData()
-		const { getElement } = useElements()
-		const { getSchema } = useOptionsSchemas()
-		const { CSSClasses } = useCSSClasses()
-		const { isPreviewMode } = usePreviewMode()
-		const { pageSettings } = usePageSettings()
+	setup() {
+		const { editorData } = useEditorData();
+		const { getElement } = useElements();
+		const { getSchema } = useOptionsSchemas();
+		const { CSSClasses } = useCSSClasses();
+		const { isPreviewMode } = usePreviewMode();
+		const { pageSettings } = usePageSettings();
 
-		const element = computed(() => getElement(editorData.value.page_id))
-		const showExportModal = ref(false)
+		const element = computed(() => getElement(editorData.value.page_id));
+		const showExportModal = ref(false);
 
 		// provide masks for ShapeDividerComponent option
-		provide('masks', editorData.value.masks)
-		provide('plugin_info', editorData.value.plugin_info)
-		provide('editor_urls', editorData.value.urls)
+		provide('masks', editorData.value.masks);
+		provide('plugin_info', editorData.value.plugin_info);
+		provide('editor_urls', editorData.value.urls);
 
-		watch(isPreviewMode, (newValue) => {
+		watch(isPreviewMode, newValue => {
 			if (newValue) {
-				window.document.body.classList.add('znpb-editor-preview--active')
+				window.document.body.classList.add('znpb-editor-preview--active');
 			} else {
-				window.document.body.classList.remove('znpb-editor-preview--active')
+				window.document.body.classList.remove('znpb-editor-preview--active');
 			}
-		})
+		});
 
 		// Allow other to hook into setup
-		trigger('zionbuilder/preview/app/setup')
+		trigger('zionbuilder/preview/app/setup');
 
 		const previewAppClasses = computed(() => {
-			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes)
-		})
+			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes);
+		});
 
 		return {
 			element,
@@ -73,10 +65,10 @@ export default {
 			CSSClasses,
 			isPreviewMode,
 			pageSettings,
-			previewAppClasses
-		}
-	}
-}
+			previewAppClasses,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -86,7 +78,8 @@ export default {
 }
 
 .znpb-editor-preview--active {
-	& .zb-element, & .zb-element:hover {
+	& .zb-element,
+	& .zb-element:hover {
 		cursor: initial;
 	}
 }
@@ -106,7 +99,7 @@ export default {
 .zion-tour {
 	position: relative;
 	&:after {
-		content: "" !important;
+		content: '' !important;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -142,7 +135,9 @@ export default {
 			border-color: var(--zb-secondary-color);
 		}
 	}
-	&.znpb-tabs__header-item--library, &.znpb-tabs__header-item--elements, &.znpb-tabs__header-item--columns {
+	&.znpb-tabs__header-item--library,
+	&.znpb-tabs__header-item--elements,
+	&.znpb-tabs__header-item--columns {
 		&:after {
 			border-color: var(--zb-secondary-color);
 		}

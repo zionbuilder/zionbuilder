@@ -1,20 +1,14 @@
 <template>
-	<div
-		class="znpb-option-cssSelectoritem"
-		:class="{'znpb-option-cssSelectoritem--child': isChild}"
-	>
+	<div class="znpb-option-cssSelectoritem" :class="{ 'znpb-option-cssSelectoritem--child': isChild }">
 		<div class="znpb-option-cssSelectorWrapper">
-			<PseudoSelector
-				v-if="isChild"
-				v-model:states="pseudoState"
-			/>
+			<PseudoSelector v-if="isChild" v-model:states="pseudoState" />
 
 			<AccordionMenu
+				v-model="value"
 				:show-trigger-arrow="true"
 				:has-breadcrumbs="show_breadcrumbs"
 				:title="title"
 				:child_options="schema"
-				v-model="value"
 				class="znpb-option-cssSelectorAccordion"
 			>
 				<template #title>
@@ -24,16 +18,13 @@
 							v-model="title"
 							class="znpb-option-cssSelectorTitle"
 							:class="{
-								'znpb-option-cssSelectorTitle--allowRename': allowRename
+								'znpb-option-cssSelectorTitle--allowRename': allowRename,
 							}"
-							@click="onRenameItemClick"
 							:enabled="allowRename"
+							@click="onRenameItemClick"
 						/>
 
-						<div
-							class="znpb-option-cssSelector"
-							:title="selector"
-						>{{selector}}</div>
+						<div class="znpb-option-cssSelector" :title="selector">{{ selector }}</div>
 					</div>
 				</template>
 
@@ -46,28 +37,21 @@
 					/>
 
 					<ChangesBullet
-						:content="$translate('discard_changes')"
 						v-if="show_changes && hasChanges"
+						:content="$translate('discard_changes')"
 						@remove-styles="resetChanges"
 					/>
 
 					<HiddenMenu :actions="classActions" />
-
 				</template>
 
-				<OptionsForm
-					:schema="schema"
-					v-model="value"
-					class="znpb-option-cssSelectorForm"
-				/>
-
+				<OptionsForm v-model="value" :schema="schema" class="znpb-option-cssSelectorForm" />
 			</AccordionMenu>
-
 		</div>
 		<div v-if="showChilds && childSelectors.length > 0">
 			<Sortable
-				class="znpb-admin-colors__container"
 				v-model="childSelectors"
+				class="znpb-admin-colors__container"
 				handle=".znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header"
 				:drag-delay="0"
 				:drag-treshold="10"
@@ -77,15 +61,15 @@
 				:group="uid"
 			>
 				<CSSSelector
-					class="znpb-option-cssChildSelectorStyles"
 					v-for="(childSelector, index) in childSelectors"
 					:key="childSelector.title + childSelector.selector + index"
-					:modelValue="childSelector"
-					@update:modelValue="onChildUpdate(childSelector, $event)"
+					class="znpb-option-cssChildSelectorStyles"
+					:model-value="childSelector"
 					:is-child="true"
 					:allow_class_assignments="false"
 					:allow_custom_attributes="false"
 					:show_breadcrumbs="show_breadcrumbs"
+					@update:modelValue="onChildUpdate(childSelector, $event)"
 				/>
 			</Sortable>
 		</div>
@@ -93,77 +77,77 @@
 </template>
 
 <script>
-import { computed, defineAsyncComponent, ref } from 'vue'
-import { merge, cloneDeep } from 'lodash-es'
-import { applyFilters } from '@zb/hooks'
-import { translate } from '@zb/i18n'
-import { generateUID } from '@zb/utils'
+import { computed, defineAsyncComponent, ref } from 'vue';
+import { merge, cloneDeep } from 'lodash-es';
+import { applyFilters } from '@zb/hooks';
+import { translate } from '@zb/i18n';
+import { generateUID } from '@zb/utils';
 
 // Components
-import AddChildActions from './AddChildActions.vue'
-import PseudoSelector from './PseudoSelector.vue'
-import { useCSSClasses } from '@composables'
+import AddChildActions from './AddChildActions.vue';
+import PseudoSelector from './PseudoSelector.vue';
+import { useCSSClasses } from '@composables';
 
 export default {
 	name: 'CSSSelector',
 	components: {
 		AccordionMenu: defineAsyncComponent(() => import('../AccordionMenu/AccordionMenu.vue')),
 		AddChildActions,
-		PseudoSelector
+		PseudoSelector,
 	},
 	props: {
 		modelValue: {
 			type: Object,
-			default: {}
+			default: {},
 		},
 		allow_delete: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		allow_childs: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		isChild: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		allow_class_assignments: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		allow_custom_attributes: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		selector: {
 			type: String,
-			required: false
+			required: false,
 		},
 		name: {
 			type: String,
-			required: false
+			required: false,
 		},
 		show_breadcrumbs: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		show_changes: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		allowRename: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
-	setup (props, { emit }) {
-		const { copiedStyles, copyClassStyles } = useCSSClasses()
-		const showChilds = ref(false)
-		const uid = generateUID()
-		const canShow = ref(false)
-		const showClassMenu = ref(false)
-		const classMenuIcon = ref(null)
+	setup(props, { emit }) {
+		const { copiedStyles, copyClassStyles } = useCSSClasses();
+		const showChilds = ref(false);
+		const uid = generateUID();
+		const canShow = ref(false);
+		const showClassMenu = ref(false);
+		const classMenuIcon = ref(null);
 
 		// Computed
 		const classActions = computed(() => {
@@ -171,79 +155,85 @@ export default {
 				{
 					title: translate('copy_element_styles'),
 					action: () => {
-						copyClassStyles(value.value.styles)
+						copyClassStyles(value.value.styles);
 					},
-					icon: 'copy'
+					icon: 'copy',
 				},
 				{
 					title: translate('paste_element_styles'),
 					action: () => {
-						const { copiedStyles } = useCSSClasses()
-						const clonedCopiedStyles = cloneDeep(copiedStyles.value)
+						const { copiedStyles } = useCSSClasses();
+						const clonedCopiedStyles = cloneDeep(copiedStyles.value);
 						if (!value.value.styles) {
-							value.value.styles = clonedCopiedStyles
+							value.value.styles = clonedCopiedStyles;
 						} else {
-							value.value.styles = merge(value.value.styles, clonedCopiedStyles)
+							value.value.styles = merge(value.value.styles, clonedCopiedStyles);
 						}
 					},
 					show: !!copiedStyles.value,
-					icon: 'paste'
+					icon: 'paste',
 				},
 				{
 					title: translate('delete_selector'),
 					action: deleteItem,
-					icon: 'delete'
-				}
-			]
-		})
+					icon: 'delete',
+				},
+			];
+		});
 
 		const title = computed({
-			get () {
-				return props.name || props.modelValue.name || props.modelValue.title || props.modelValue.id || props.selector || 'New item'
+			get() {
+				return (
+					props.name ||
+					props.modelValue.name ||
+					props.modelValue.title ||
+					props.modelValue.id ||
+					props.selector ||
+					'New item'
+				);
 			},
-			set (newValue) {
+			set(newValue) {
 				value.value = {
 					...value.value,
-					name: newValue
-				}
-			}
-		})
+					name: newValue,
+				};
+			},
+		});
 
 		const selector = computed(() => {
 			if (props.selector) {
-				return props.selector
+				return props.selector;
 			} else if (props.modelValue.id) {
-				return `.${props.modelValue.id}`
+				return `.${props.modelValue.id}`;
 			} else if (props.modelValue.selector) {
-				return props.modelValue.selector
+				return props.modelValue.selector;
 			}
-		})
+		});
 
 		const childSelectors = computed({
-			get () {
-				return props.modelValue.child_styles || []
+			get() {
+				return props.modelValue.child_styles || [];
 			},
-			set (newValue) {
+			set(newValue) {
 				if (null === newValue || newValue.length === 0) {
-					delete value.value.child_styles
+					delete value.value.child_styles;
 				} else {
 					value.value = {
 						...value.value,
-						child_styles: newValue
-					}
+						child_styles: newValue,
+					};
 				}
-
-			}
-		})
+			},
+		});
 
 		const pseudoState = computed({
-			get () {
-				return value.value.states || ['default']
+			get() {
+				return value.value.states || ['default'];
 			},
-			set (newStateValue) {
-				value.value.states = newStateValue
-			}
-		})
+			set(newStateValue) {
+				value.value.states = newStateValue;
+			},
+		});
 
 		const schema = computed(() => {
 			const schema = {
@@ -253,9 +243,9 @@ export default {
 					is_layout: true,
 					selector: selector.value,
 					title: title.value,
-					allow_class_assignments: props.allow_class_assignments
-				}
-			}
+					allow_class_assignments: props.allow_class_assignments,
+				},
+			};
 
 			// attach the attribute options
 			if (props.allow_custom_attributes) {
@@ -266,7 +256,7 @@ export default {
 					is_layout: true,
 					label: {
 						type: translate('pro'),
-						text: translate('pro')
+						text: translate('pro'),
 					},
 					show_title: false,
 					child_options: {
@@ -274,61 +264,56 @@ export default {
 							type: 'upgrade_to_pro',
 							message_title: translate('meet_custom_attributes'),
 							message_description: translate('meet_custom_attributes_desc'),
-							info_text: translate('meet_custom_attributes_link')
-						}
-					}
-				})
+							info_text: translate('meet_custom_attributes_link'),
+						},
+					},
+				});
 			}
 
+			return schema;
+		});
 
-
-			return schema
-		})
-
-		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0)
+		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0);
 
 		const value = computed({
-			get () {
-				return props.modelValue
+			get() {
+				return props.modelValue;
 			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
+			set(newValue) {
+				emit('update:modelValue', newValue);
+			},
+		});
 
-		function onChildAdded (childData) {
-			childSelectors.value = [
-				...childSelectors.value,
-				childData
-			]
+		function onChildAdded(childData) {
+			childSelectors.value = [...childSelectors.value, childData];
 
-			showChilds.value = true
+			showChilds.value = true;
 		}
 
-		function onChildUpdate (child, newValue) {
-			const value = childSelectors.value.slice()
-			const childIndex = childSelectors.value.indexOf(child)
+		function onChildUpdate(child, newValue) {
+			const value = childSelectors.value.slice();
+			const childIndex = childSelectors.value.indexOf(child);
 
 			if (newValue === null) {
-				value.splice(childIndex, 1)
+				value.splice(childIndex, 1);
 			} else {
-				value.splice(childIndex, 1, newValue)
+				value.splice(childIndex, 1, newValue);
 			}
 
-			childSelectors.value = value
+			childSelectors.value = value;
 		}
 
-		function deleteItem () {
-			emit('update:modelValue', null)
+		function deleteItem() {
+			emit('update:modelValue', null);
 		}
 
-		function resetChanges () {
-			delete value.value.styles
+		function resetChanges() {
+			delete value.value.styles;
 		}
 
-		function onRenameItemClick (event) {
+		function onRenameItemClick(event) {
 			if (props.allowRename) {
-				event.stopPropagation()
+				event.stopPropagation();
 			}
 		}
 
@@ -356,10 +341,10 @@ export default {
 			uid,
 
 			// Methods
-			onRenameItemClick
-		}
-	}
-}
+			onRenameItemClick,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -372,9 +357,7 @@ export default {
 	padding: 0;
 }
 
-.znpb-option-cssSelectorAccordion
-	> .znpb-horizontal-accordion__header
-	> .znpb-horizontal-accordion__title {
+.znpb-option-cssSelectorAccordion > .znpb-horizontal-accordion__header > .znpb-horizontal-accordion__title {
 	position: relative;
 	// overflow: hidden;
 	padding-right: 0;
@@ -391,29 +374,22 @@ export default {
 	text-transform: none;
 	white-space: nowrap;
 	opacity: 0.6;
+	overflow: hidden;
 
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		top: 0;
 		right: 0;
 		z-index: 1;
 		width: 20px;
 		height: 100%;
-		background: linear-gradient(
-			90deg,
-			rgba(241, 241, 241, 0) 0%,
-			var(--zb-surface-lighter-color) 100%
-		);
+		background: linear-gradient(90deg, rgba(241, 241, 241, 0) 0%, var(--zb-surface-lighter-color) 100%);
 	}
 }
 
 .znpb-horizontal-accordion__header:hover .znpb-option-cssSelector::after {
-	background: linear-gradient(
-		90deg,
-		rgba(241, 241, 241, 0) 0%,
-		var(--zb-surface-lightest-color) 100%
-	);
+	background: linear-gradient(90deg, rgba(241, 241, 241, 0) 0%, var(--zb-surface-lightest-color) 100%);
 }
 
 .znpb-option-cssSelectorTitle {
@@ -424,7 +400,8 @@ export default {
 		cursor: text;
 	}
 
-	&:focus, &:focus-visible {
+	&:focus,
+	&:focus-visible {
 		outline: 0;
 	}
 }
@@ -457,7 +434,7 @@ export default {
 
 	&::before,
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		z-index: -1;
 		background: var(--zb-surface-border-color);
@@ -492,8 +469,7 @@ export default {
 		padding: 12px;
 	}
 
-	&.vuebdnd__source--dragging
-		.znpb-option-cssChildSelectorPseudoSelector:before {
+	&.vuebdnd__source--dragging .znpb-option-cssChildSelectorPseudoSelector:before {
 		display: none;
 	}
 }

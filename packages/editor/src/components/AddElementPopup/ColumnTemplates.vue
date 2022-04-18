@@ -1,74 +1,59 @@
 <template>
 	<div class="znpb-columns-templates-wrapper">
-		<Tabs
-			title-position="center"
-			v-model:activeTab="active"
-			@changed-tab="onTabChange"
-		>
-			<Tab
-				name="Layouts"
-				class="znpb-tab__wrapper--columns-template"
-			>
+		<Tabs v-model:activeTab="active" title-position="center" @changed-tab="onTabChange">
+			<Tab name="Layouts" class="znpb-tab__wrapper--columns-template">
 				<div class="znpb-columns-templates">
-
 					<div
 						v-for="(columnConfig, columnId) in layouts"
 						:key="columnId"
 						:icon="columnId"
-						@click.stop="addElements(columnConfig)"
 						:class="['znpb-columns-templates__icon znpb-columns-templates__icons--' + columnId]"
+						@click.stop="addElements(columnConfig)"
 					>
-						<span
-							v-for="(span,i) in getSpanNumber(columnId)"
-							:key="i"
-						></span>
+						<span v-for="(span, i) in getSpanNumber(columnId)" :key="i"></span>
 					</div>
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsTab
-					:element="element"
-					:search-keyword="searchKeyword"
-				/>
+				<ElementsTab :element="element" :search-keyword="searchKeyword" />
 			</Tab>
 			<Tab name="Library">
 				<span />
 			</Tab>
-
 		</Tabs>
 	</div>
 </template>
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { getOptionValue } from '@zb/utils'
-import { getLayoutConfigs } from './layouts.js'
-import { useUI, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables'
-import { useLibrary } from '@zionbuilder/composables'
+import { ref, onMounted, onUnmounted } from 'vue';
+import { getOptionValue } from '@zb/utils';
+import { getLayoutConfigs } from './layouts.js';
+import { useUI, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables';
+import { useLibrary } from '@zionbuilder/composables';
 
 // Components
-import ElementsTab from './ElementsTab.vue'
+import ElementsTab from './ElementsTab.vue';
 
 export default {
 	name: 'ColumnTemplates',
+	components: {
+		ElementsTab,
+	},
 	props: {
 		element: {
-			required: true
-		}
+			required: true,
+		},
 	},
-	components: {
-		ElementsTab
-	},
-	setup (props, { emit }) {
-		const { toggleLibrary } = useUI()
-		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts'
-		const active = ref(defaultTab)
-		const { addEventListener, removeEventListener } = useWindows()
-		const searchKeyword = ref('')
-		const { editorData } = useEditorData()
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active)
+	setup(props, { emit }) {
+		const { toggleLibrary } = useUI();
+		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
+		const active = ref(defaultTab);
+		const { addEventListener, removeEventListener } = useWindows();
+		const searchKeyword = ref('');
+		const { editorData } = useEditorData();
+		const isProActive = ref(editorData.value.plugin_info.is_pro_active);
 
 		const spanElements = {
-			'full': 1,
+			full: 1,
 			'one-of-two': 2,
 			'one-of-three': 3,
 			'one-of-four': 4,
@@ -83,16 +68,16 @@ export default {
 			'6-3-3': 3,
 			'6-3-3-3-3': 5,
 			'3-3-3-3-6': 5,
-			'3-3-6-3-3': 5
-		}
+			'3-3-6-3-3': 5,
+		};
 
-		const layouts = getLayoutConfigs()
+		const layouts = getLayoutConfigs();
 
-		const getSpanNumber = (id) => {
-			return spanElements[id]
-		}
+		const getSpanNumber = id => {
+			return spanElements[id];
+		};
 
-		const wrapColumn = (config) => {
+		const wrapColumn = config => {
 			return [
 				{
 					element_type: 'zion_column',
@@ -103,120 +88,109 @@ export default {
 								styles: {
 									default: {
 										default: {
-											'flex-direction': 'row'
-										}
-									}
-								}
-							}
-						}
-					}
+											'flex-direction': 'row',
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			];
+		};
 
-				}
-			]
-		}
+		function getOrientation(element) {
+			const { getElementType } = useElementTypes();
 
-		function getOrientation (element) {
-
-
-			const { getElementType } = useElementTypes()
-
-			let orientation = 'horizontal'
+			let orientation = 'horizontal';
 
 			if (element.element_type === 'contentRoot') {
-				return 'vertical'
+				return 'vertical';
 			}
 
-			const elementType = getElementType(element.element_type)
+			const elementType = getElementType(element.element_type);
 
 			if (elementType) {
-				orientation = elementType.content_orientation
+				orientation = elementType.content_orientation;
 			}
 
 			// Check columns and section direction
 			if (element.options.inner_content_layout) {
-				orientation = element.options.inner_content_layout
+				orientation = element.options.inner_content_layout;
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(element.options, '_styles.wrapper.styles.default.default.flex-direction')
+			const mediaOrientation = getOptionValue(element.options, '_styles.wrapper.styles.default.default.flex-direction');
 
 			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
 			}
 
-			return orientation
-
+			return orientation;
 		}
 
-		const addElements = (config) => {
-			const { insertElement, getElementForInsert, shouldOpenPopup } = useAddElementsPopup()
-			const activeElementForInsert = getElementForInsert()
-			const elementType = activeElementForInsert.element.element_type
-			const parentOrientation = getOrientation(activeElementForInsert.element)
+		const addElements = config => {
+			const { insertElement, getElementForInsert, shouldOpenPopup } = useAddElementsPopup();
+			const activeElementForInsert = getElementForInsert();
+			const elementType = activeElementForInsert.element.element_type;
+			const parentOrientation = getOrientation(activeElementForInsert.element);
 
 			// Add a section if this will be inserted on root
 			if (elementType === 'contentRoot') {
 				config = [
 					{
 						element_type: 'zion_section',
-						content: config
-					}
-				]
+						content: config,
+					},
+				];
 			} else {
 				if (parentOrientation === 'vertical') {
-					config = wrapColumn(config)
+					config = wrapColumn(config);
 				}
 			}
 
 			// Open the first sortable content popup
-			shouldOpenPopup.value = true
+			shouldOpenPopup.value = true;
 
 			// If it's a wrapper, it means that it can have childs
-			insertElement(config)
+			insertElement(config);
 
-			const { addToHistory } = useHistory()
-			addToHistory(`Added Columns Layout`)
+			const { addToHistory } = useHistory();
+			addToHistory(`Added Columns Layout`);
 
 			// Send close event
-			emit('close')
-		}
-
-
+			emit('close');
+		};
 
 		const openLibrary = () => {
-			const { activePopup } = useAddElementsPopup()
-			const { setActiveElementForLibrary } = useLibrary()
+			const { activePopup } = useAddElementsPopup();
+			const { setActiveElementForLibrary } = useLibrary();
 
-			setActiveElementForLibrary(
-				activePopup.value.element,
-				activePopup.value.config
-			)
+			setActiveElementForLibrary(activePopup.value.element, activePopup.value.config);
 
-			toggleLibrary()
-			emit('close')
-		}
+			toggleLibrary();
+			emit('close');
+		};
 
-
-		function onKeyDown (event) {
-			const currentTab = active.value
-			active.value = 'elements'
+		function onKeyDown(event) {
+			const currentTab = active.value;
+			active.value = 'elements';
 
 			if (currentTab !== 'elements') {
-				searchKeyword.value += event.key
+				searchKeyword.value += event.key;
 			}
-
 		}
 
-		function onTabChange (tab) {
-			searchKeyword.value = ''
+		function onTabChange(tab) {
+			searchKeyword.value = '';
 
 			if (tab === 'library') {
-				openLibrary()
+				openLibrary();
 			}
 		}
 
-		onMounted(() => addEventListener('keypress', onKeyDown))
-		onUnmounted(() => removeEventListener('keypress', onKeyDown))
+		onMounted(() => addEventListener('keypress', onKeyDown));
+		onUnmounted(() => removeEventListener('keypress', onKeyDown));
 
 		return {
 			layouts,
@@ -227,10 +201,10 @@ export default {
 			addElements,
 			searchKeyword,
 			openLibrary,
-			onTabChange
-		}
-	}
-}
+			onTabChange,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -332,7 +306,7 @@ export default {
 			display: block;
 			background: var(--zb-surface-lightest-color);
 			border-radius: 3px;
-			transition: box-shadow .15s;
+			transition: box-shadow 0.15s;
 		}
 
 		&:hover span {

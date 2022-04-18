@@ -33,6 +33,7 @@ class Settings {
 			'disable_jquery_migrate' => true,
 			'disable_emojis'         => true,
 			'disable_normalize_css'  => true,
+			'disable_area_wrappers'  => true,
 		],
 	];
 

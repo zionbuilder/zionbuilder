@@ -1,144 +1,163 @@
-import { ref, Ref } from 'vue'
-import { cloneDeep, merge, get, set } from 'lodash-es'
-import { Element } from './models/Element'
-import { useHistory } from './useHistory'
-import { useLocalStorage } from './useLocalStorage'
-import { translate } from '@zb/i18n'
-import { regenerateUIDs } from '@utils'
+import { ref, Ref } from 'vue';
+import { cloneDeep, merge, get, set } from 'lodash-es';
+import { Element } from './models/Element';
+import { useHistory } from './useHistory';
+import { useElements } from './useElements';
+import { useLocalStorage } from './useLocalStorage';
+import { translate } from '@zb/i18n';
+import { regenerateUIDs } from '@utils';
 
 const copiedElement: Ref<object> = ref({
 	element: null,
-	action: null
-})
+	action: null,
+});
 
 interface ElementCopiedStyles {
 	styles: string;
 	custom_css: string;
 }
 
-const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null)
+const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null);
 
 // Preserve focused element on history change
-const { addToHistory } = useHistory()
+const { addToHistory } = useHistory();
 
 export function useElementActions() {
-	const { addData, getData, removeData } = useLocalStorage()
+	const { addData, getData, removeData } = useLocalStorage();
 
 	const copyElement = (element: Element, action = 'copy') => {
 		copiedElement.value = {
 			element,
-			action
-		}
+			action,
+		};
 
 		if (action === 'cut') {
-			element.isCutted = true
+			element.isCutted = true;
 
-			removeData('copiedElement')
+			removeData('copiedElement');
 		} else if (action === 'copy') {
 			// Copy styles
-			copyElementStyles(element)
+			copyElementStyles(element);
 
 			// Copy css classes
-			copyElementClasses(element)
+			copyElementClasses(element);
 
 			// Save to localStorage for cross site
-			addData('copiedElement', element.toJSON())
+			addData('copiedElement', element.toJSON());
 		}
-	}
+	};
 
-	const pasteElement = (element) => {
-		let insertElement = element
-		let index = -1
+	const pasteElement = element => {
+		let insertElement = element;
+		let index = -1;
 
-		const elementForPaste = copiedElement.value.element ? copiedElement.value.element.getClone() : getData('copiedElement')
+		const elementForPaste = copiedElement.value.element
+			? copiedElement.value.element.getClone()
+			: getData('copiedElement');
 
 		if (!elementForPaste) {
-			return
+			return;
 		}
 
 		// If the element is not a wrapper, add to parent element
 		if (!element.isWrapper || elementForPaste.uid === element.uid) {
-			insertElement = element.parent
-			index = element.getIndexInParent() + 1
+			insertElement = element.parent;
+			index = element.getIndexInParent() + 1;
 		}
 
 		if (copiedElement.value.action === 'cut' && copiedElement.value.element) {
 			if (copiedElement.value.element === element) {
-				copiedElement.value.element.isCutted = false
-				copiedElement.value = {}
+				copiedElement.value.element.isCutted = false;
+				copiedElement.value = {};
 			} else {
-				copiedElement.value.element.isCutted = false
-				copiedElement.value.element.move(insertElement, index)
-				addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`)
+				copiedElement.value.element.isCutted = false;
+				copiedElement.value.element.move(insertElement, index);
+				addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`);
 			}
 
-			copiedElement.value = {}
+			copiedElement.value = {};
 		} else {
-			insertElement.addChild(regenerateUIDs(elementForPaste), index)
-			addToHistory(`${translate('copied')} ${elementForPaste.name}`)
+			insertElement.addChild(regenerateUIDs(elementForPaste), index);
+			addToHistory(`${translate('copied')} ${elementForPaste.name}`);
 		}
-	}
+	};
 
 	const resetCopiedElement = () => {
 		if (copiedElement.value && copiedElement.value.action === 'cut') {
-			copiedElement.value.element.isCutted = false
+			copiedElement.value.element.isCutted = false;
 		}
-		copiedElement.value = {}
-	}
+		copiedElement.value = {};
+	};
 
 	const copyElementStyles = (element: Element) => {
 		const dataForSave = {
 			styles: cloneDeep(element.options._styles),
-			custom_css: get(element, 'options._advanced_options._custom_css', '')
-		}
+			custom_css: get(element, 'options._advanced_options._custom_css', ''),
+		};
 
-		copiedElementStyles.value = dataForSave
+		copiedElementStyles.value = dataForSave;
 
 		// Save to localStorage for cross site
-		addData('copiedElementStyles', dataForSave)
-	}
+		addData('copiedElementStyles', dataForSave);
+	};
 
-	const pasteElementStyles = (element) => {
-		const styles = getData('copiedElementStyles')
+	const pasteElementStyles = element => {
+		const styles = getData('copiedElementStyles');
 
 		if (!styles) {
-			return
+			return;
 		}
 
 		// Element styles
 		if (styles.styles) {
 			if (!element.options._styles) {
-				set(element, 'options._styles', styles.styles)
+				set(element, 'options._styles', styles.styles);
 			} else {
-				merge(element.options._styles, styles.styles)
+				merge(element.options._styles, styles.styles);
 			}
 		}
 
 		// Copy custom css
 		if (styles.custom_css.length) {
-			const existingStyles = get(element, 'options._advanced_options._custom_css', '')
-			const combinedStyles = existingStyles + styles.custom_css
-			set(element, 'options._advanced_options._custom_css', combinedStyles)
+			const existingStyles = get(element, 'options._advanced_options._custom_css', '');
+			const combinedStyles = existingStyles + styles.custom_css;
+			set(element, 'options._advanced_options._custom_css', combinedStyles);
 		}
-	}
+	};
 
 	const copyElementClasses = (element: Element) => {
-		const dataToSave = cloneDeep(get(element.options, '_styles.wrapper.classes', null))
+		const dataToSave = cloneDeep(get(element.options, '_styles.wrapper.classes', null));
 
 		// Save to localStorage for cross site
-		addData('copiedElementClasses', dataToSave)
-	}
+		addData('copiedElementClasses', dataToSave);
+	};
 
-	const pasteElementClasses = (element) => {
-		const classes = getData('copiedElementClasses')
+	const pasteElementClasses = element => {
+		const classes = getData('copiedElementClasses');
 
 		merge(element.options, {
 			_styles: {
 				wrapper: {
-					classes
-				}
-			}
-		})
+					classes,
+				},
+			},
+		});
+	};
+
+	function wrapInContainer(element) {
+		const { registerElement } = useElements();
+		const parent = element.parent;
+		const newElement = registerElement(
+			{
+				element_type: 'container',
+			},
+			parent,
+		);
+
+		newElement.addChild(element);
+		parent.replaceChild(element, newElement);
+
+		console.log(element.parent);
 	}
 
 	return {
@@ -151,6 +170,7 @@ export function useElementActions() {
 		copiedElementStyles,
 		// Copy element classes
 		copyElementClasses,
-		pasteElementClasses
-	}
+		pasteElementClasses,
+		wrapInContainer,
+	};
 }
