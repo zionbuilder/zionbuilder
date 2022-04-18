@@ -77,3 +77,9 @@ declare module 'vue' {
 		InputRepeater: typeof components.InputRepeater;
 	}
 }
+
+declare module '@vue/runtime-core' {
+	interface ComponentCustomProperties {
+		$translate: typeof import('../i18n/')['translate'];
+	}
+}
