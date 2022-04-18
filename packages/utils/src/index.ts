@@ -1,4 +1,3 @@
-export { default as camelCase } from './camelCase';
 export { default as getOptionValue } from './getOptionValue';
 export { compileElement } from './compileElement';
 export { getIconUnicode, default as getIconAttributes } from './getIconAttributes';

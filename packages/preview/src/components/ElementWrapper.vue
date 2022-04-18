@@ -36,8 +36,8 @@
 <script>
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
-import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es';
-import { getOptionValue, camelCase } from '@zb/utils';
+import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
+import { getOptionValue } from '@zb/utils';
 import { applyFilters } from '@zb/hooks';
 import { getCssFromSelector } from '@zb/editor';
 
