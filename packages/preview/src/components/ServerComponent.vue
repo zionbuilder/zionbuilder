@@ -22,8 +22,8 @@ import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import { applyFilters, on, off, trigger } from '@zb/hooks';
 
 // Utils
-import { debounce } from '@zb/utils';
-import { useEditorData, serverRequest } from '@zb/editor';
+import { debounce } from 'lodash-es';
+import { useEditorData } from '@zb/editor';
 import { ScriptsLoader } from '../ScriptsLoader';
 
 export default {

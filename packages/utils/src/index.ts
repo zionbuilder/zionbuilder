@@ -1,4 +1,3 @@
-export { default as debounce } from './debounce';
 export { default as camelCase } from './camelCase';
 export { default as getOptionValue } from './getOptionValue';
 export { compileElement } from './compileElement';
