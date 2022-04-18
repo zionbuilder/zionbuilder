@@ -1,152 +1,117 @@
 <template>
 	<div class="znpb-input-range">
-
 		<BaseInput
 			ref="rangebase"
+			v-model="optionValue"
 			type="range"
 			:min="min"
 			:max="max"
-			v-model="optionValue"
+			:step="localStep"
 			@keydown="onKeydown"
 			@keyup="onKeyUp"
-			:step="localStep"
 		>
-			<template v-slot:suffix>
-				<div
-					class="znpb-input-range__trackwidth"
-					:style="trackWidth"
-				></div>
+			<template #suffix>
+				<div class="znpb-input-range__trackwidth" :style="trackWidth"></div>
 			</template>
 		</BaseInput>
 		<label class="znpb-input-range__label">
 			<InputNumber
-				class="znpb-input-range-number"
 				v-model="optionValue"
-				@keydown="onKeydown"
-				@keyup="onKeyUp"
+				class="znpb-input-range-number"
 				:min="min"
 				:max="max"
 				:step="step"
 				:shift_step="shift_step"
+				@keydown="onKeydown"
+				@keyup="onKeyUp"
 			>
 				<!-- @slot Content for units -->
 				<slot />
 			</InputNumber>
-
 		</label>
 	</div>
 </template>
 
-<script>
-import BaseInput from '../BaseInput/BaseInput.vue'
-import { InputNumber } from '../InputNumber'
-/**
- * this type of element supports
- *   model - Number
- */
+<script lang="ts">
 export default {
 	name: 'InputRange',
 	inheritAttrs: false,
-	components: {
-		BaseInput,
-		InputNumber
-	},
-	props: {
-		/**
-		 * Value/v-bind model
-		 */
-		modelValue: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * Step when pressing shift key
-		 */
-		shift_step: {
-			type: Number,
-			required: false,
-			default: 10
-		},
-		/**
-		 * Min value
-		 */
-		min: {
-			type: Number,
-			required: false,
-			default: 0
-		},
-		/**
-		 * Max value
-		 */
-		max: {
-			type: Number,
-			required: false,
-			default: 100
-		},
-		/**
-		 * Step
-		 */
-		step: {
-			type: Number,
-			required: false,
-			default: 1
-		}
-	},
-	data () {
-		return {
-			localStep: this.step
-		}
-	},
-	computed: {
+};
+</script>
 
-		baseStep () {
-			return this.step
-		},
-		optionValue: {
-			get () {
-				return typeof this.modelValue !== 'undefined' ? this.modelValue : this.min || 0
-			},
-			set (newValue) {
-				/**
-				 * Emit input value when v-model
-				 */
-				this.$emit('update:modelValue', parseFloat(newValue))
-			}
-		},
-		trackWidth () {
-			// 14 is the thumb size
-			let thumbSize = 14 * this.width / 100
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+import { InputNumber } from '../InputNumber';
 
-			return {
-				width: `calc(${this.width}% - ${thumbSize}px)`
-			}
-		},
-		width () {
-			let minmax = this.max - this.min
-			return Math.round(((this.modelValue - this.min) * 100) / minmax)
-		}
+const props = withDefaults(
+	defineProps<{
+		modelValue?: number;
+		shift_step?: number;
+		min?: number;
+		max?: number;
+		step?: number;
+	}>(),
+	{
+		modelValue: 0,
+		shift_step: 10,
+		min: 0,
+		max: 100,
+		step: 1,
 	},
-	methods: {
-		onKeydown (event) {
-			if (event.shiftKey) {
-				this.localStep = this.shift_step
-			}
-		},
-		onKeyUp (event) {
-			if (event.key === 'Shift') {
-				this.localStep = this.baseStep
-			}
-		}
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: number): void;
+}>();
+
+const localStep = ref(props.step);
+
+const optionValue = computed({
+	get() {
+		return props.modelValue ?? props.min;
+	},
+	set(newValue: number) {
+		/**
+		 * Emit input value when v-model
+		 */
+		emit('update:modelValue', +newValue);
+	},
+});
+
+const trackWidth = computed(() => {
+	// 14 is the thumb size
+	const thumbSize = (14 * width.value) / 100;
+
+	return {
+		width: `calc(${width.value}% - ${thumbSize}px)`,
+	};
+});
+
+const width = computed(() => {
+	const minmax = props.max - props.min;
+	return Math.round(((props.modelValue - props.min) * 100) / minmax);
+});
+
+function onKeydown(event: KeyboardEvent) {
+	if (event.shiftKey) {
+		localStep.value = props.shift_step;
+	}
+}
+
+function onKeyUp(event: KeyboardEvent) {
+	if (event.key === 'Shift') {
+		localStep.value = props.step;
 	}
 }
 </script>
-<style lang="scss" >
+<style lang="scss">
 .znpb-input-range {
 	display: flex;
 	align-items: center;
 	width: 100%;
 
-	input[type="range"]:focus {
+	input[type='range']:focus {
 		padding: 0;
 		background: transparent;
 	}
@@ -156,14 +121,14 @@ export default {
 		border: none;
 	}
 	.zion-input,
-	input[type="range"] {
+	input[type='range'] {
 		position: relative;
 		flex: 2;
 		width: 100%;
 		padding: 0;
 		background: var(--zb-input-bg-color);
 	}
-	& > label > .znpb-input-number > .zion-input > input[type="number"] {
+	& > label > .znpb-input-number > .zion-input > input[type='number'] {
 		height: auto;
 		padding: 12px 10px 12px 10px;
 		font-family: var(--zb-font-stack);
@@ -196,21 +161,21 @@ export default {
 	}
 
 	// hide the initial slider
-	input[type="range"] {
+	input[type='range'] {
 		border: none;
 
 		-webkit-appearance: none;
 	}
-	input[type="range"]::-webkit-slider-thumb {
+	input[type='range']::-webkit-slider-thumb {
 		-webkit-appearance: none;
 	}
-	input[type="range"]:focus {
+	input[type='range']:focus {
 		outline: none;
 	}
 
 	// style the slider
 	/* Special styling for WebKit/Blink */
-	input[type="range"]::-webkit-slider-thumb {
+	input[type='range']::-webkit-slider-thumb {
 		z-index: 1;
 		width: 18px;
 		height: 18px;
@@ -224,7 +189,7 @@ export default {
 	}
 
 	/* for Firefox */
-	input[type="range"]::-moz-range-thumb {
+	input[type='range']::-moz-range-thumb {
 		width: 18px;
 		height: 18px;
 		background: var(--zb-secondary-color);
@@ -235,7 +200,7 @@ export default {
 	}
 
 	/* All for IE */
-	input[type="range"]::-ms-thumb {
+	input[type='range']::-ms-thumb {
 		width: 18px;
 		height: 18px;
 		background-color: var(--zb-surface-color);
@@ -244,10 +209,10 @@ export default {
 		transform: translate(-1px, 0px);
 		cursor: pointer;
 	}
-	input[type="range"]:visited:-ms-thumb {
+	input[type='range']:visited:-ms-thumb {
 		transform: translate(0px, 0px);
 	}
-	input[type="range"]::-webkit-slider-runnable-track {
+	input[type='range']::-webkit-slider-runnable-track {
 		width: 100%;
 		height: 2px;
 		margin: 0;
@@ -255,12 +220,12 @@ export default {
 		cursor: pointer;
 	}
 
-	input[type="range"]:focus::-webkit-slider-runnable-track {
+	input[type='range']:focus::-webkit-slider-runnable-track {
 		margin: 0;
 		background: var(--zb-surface-lightest-color);
 	}
 
-	input[type="range"]::-moz-range-track {
+	input[type='range']::-moz-range-track {
 		width: 100%;
 		height: 2px;
 		margin: 0;
@@ -268,7 +233,7 @@ export default {
 		cursor: pointer;
 	}
 
-	input[type="range"]::-ms-track {
+	input[type='range']::-ms-track {
 		width: 100%;
 		height: 2px;
 		margin: 0;
@@ -277,10 +242,10 @@ export default {
 		border-color: var(--zb-surface-text-active-color);
 		cursor: pointer;
 	}
-	input[type="range"]::-ms-fill-lower {
+	input[type='range']::-ms-fill-lower {
 		border: 2px solid var(--zb-secondary-color);
 	}
-	input[type="range"]::-ms-fill-upper {
+	input[type='range']::-ms-fill-upper {
 		border: 2px solid var(--zb-secondary-color);
 	}
 }
@@ -288,7 +253,6 @@ export default {
 // style for wordpress backend
 .znpb-input-range-number {
 	input.znpb-input-number__input {
-		padding: 0;
 		padding: 0;
 		background-color: transparent;
 	}
