@@ -9,7 +9,7 @@
 			}"
 		>
 			<div
-				v-for="position in marginPositions"
+				v-for="position in marginPositionId"
 				:key="position.position"
 				:class="{
 					[`znpb-optSpacing-${position.position}`]: true,
@@ -38,7 +38,7 @@
 			<div class="znpb-optSpacing-svg">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 320 186">
 					<path
-						v-for="position in marginPositions"
+						v-for="position in marginPositionId"
 						:key="position.position"
 						:cursor="position.svg.cursor"
 						:d="position.svg.d"
@@ -61,7 +61,7 @@
 			}"
 		>
 			<div
-				v-for="position in paddingPositions"
+				v-for="position in paddingPositionId"
 				:key="position.position"
 				:class="{
 					[`znpb-optSpacing-${position.position}`]: true,
@@ -91,7 +91,7 @@
 			<div class="znpb-optSpacing-svg">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 214 108">
 					<path
-						v-for="position in paddingPositions"
+						v-for="position in paddingPositionId"
 						:key="position.position"
 						:cursor="position.svg.cursor"
 						:d="position.svg.d"
@@ -144,7 +144,7 @@ import { translate } from '@zb/i18n';
 import rafSchd from 'raf-schd';
 import clickOutside from '@zionbuilder/click-outside-directive';
 
-type Positions =
+type PositionId =
 	| 'margin-top'
 	| 'margin-right'
 	| 'margin-bottom'
@@ -158,7 +158,7 @@ type Type = 'margin' | 'padding';
 
 const props = withDefaults(
 	defineProps<{
-		modelValue?: Record<string, string>;
+		modelValue?: Partial<Record<PositionId, string>>;
 	}>(),
 	{
 		modelValue: () => {
@@ -168,11 +168,11 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-	(e: 'update:modelValue', value: any): void;
+	(e: 'update:modelValue', value: Partial<Record<PositionId, string>>): void;
 }>();
 
 interface Position {
-	position: Positions;
+	position: PositionId;
 	type: Type;
 	title: string | undefined;
 	svg: {
@@ -182,7 +182,7 @@ interface Position {
 	dragDirection: 'vertical' | 'horizontal';
 }
 
-const marginPositions: Position[] = [
+const marginPositionId: Position[] = [
 	{
 		position: 'margin-top',
 		type: 'margin',
@@ -224,7 +224,7 @@ const marginPositions: Position[] = [
 		dragDirection: 'horizontal',
 	},
 ];
-const paddingPositions: Position[] = [
+const paddingPositionId: Position[] = [
 	{
 		position: 'padding-top',
 		type: 'padding',
@@ -266,14 +266,14 @@ const paddingPositions: Position[] = [
 		dragDirection: 'horizontal',
 	},
 ];
-const allowedValues = [...marginPositions, ...paddingPositions].map(position => position.position);
+const allowedValues = [...marginPositionId, ...paddingPositionId].map(position => position.position);
 
 /**
  * Refs
  */
 const activeHover: Ref<Position | null> = ref(null);
 const activePopup: Ref<Position | null> = ref(null);
-const lastChanged: Ref<{ position: Positions; type: Type } | null> = ref(null);
+const lastChanged: Ref<{ position: PositionId; type: Type } | null> = ref(null);
 const popupInput = ref<InstanceType<typeof InputNumberUnit> | null>(null);
 
 const hasChanges = computed(() => {
@@ -289,7 +289,7 @@ const hasChanges = computed(() => {
 function onDiscardChanges() {
 	if (activePopup.value) {
 		const { position } = activePopup.value;
-		const clonedModelValue: Record<string, string> = { ...props.modelValue };
+		const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
 		delete clonedModelValue[position];
 
 		emit('update:modelValue', clonedModelValue);
@@ -298,17 +298,17 @@ function onDiscardChanges() {
 
 const computedValues = computed({
 	get() {
-		const values: Record<string, string> = {};
+		const values: Record<PositionId, string> = {};
 
 		Object.keys(props.modelValue).forEach(optionId => {
-			if (allowedValues.includes(optionId as Positions)) {
+			if (allowedValues.includes(optionId as PositionId)) {
 				values[optionId] = props.modelValue[optionId];
 			}
 		});
 
 		return values;
 	},
-	set(newValues: Record<Positions, string>) {
+	set(newValues: Record<PositionId, string>) {
 		emit('update:modelValue', newValues);
 	},
 });
@@ -319,11 +319,11 @@ const inputValue = computed({
 	},
 	set(newValue: string) {
 		activePopup.value &&
-			onValueUpdated(activePopup.value.position as Positions, activePopup.value.type as Type, newValue);
+			onValueUpdated(activePopup.value.position as PositionId, activePopup.value.type as Type, newValue);
 	},
 });
 
-function onValueUpdated(sizePosition: Positions, type: Type, newValue: string) {
+function onValueUpdated(sizePosition: PositionId, type: Type, newValue: string) {
 	const isLinked = type === 'margin' ? linkedMargin : linkedPadding;
 
 	// Keep a track of the last changed position so we can use it for linking values
@@ -333,8 +333,8 @@ function onValueUpdated(sizePosition: Positions, type: Type, newValue: string) {
 	};
 
 	if (isLinked.value) {
-		const valuesToUpdate = type === 'margin' ? marginPositions : paddingPositions;
-		const updatedValues: Record<string, string> = {};
+		const valuesToUpdate = type === 'margin' ? marginPositionId : paddingPositionId;
+		const updatedValues: Partial<Record<PositionId, string>> = {};
 
 		valuesToUpdate.forEach(position => (updatedValues[position.position] = newValue));
 
@@ -368,7 +368,7 @@ function linkValues(type: Type) {
 			onValueUpdated(lastChanged.value.position, type, computedValues.value[lastChanged.value.position]);
 		} else {
 			// Find a position that has a saved value
-			const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions;
+			const valuesToCheck = type === 'margin' ? marginPositionId : paddingPositionId;
 			const savedValueConfig = valuesToCheck.find(
 				positionConfig => computedValues.value[positionConfig.position] !== 'undefined',
 			);
@@ -381,7 +381,7 @@ function linkValues(type: Type) {
 }
 
 function isLinked(type: Type) {
-	const valuesToCheck = type === 'margin' ? marginPositions : paddingPositions;
+	const valuesToCheck = type === 'margin' ? marginPositionId : paddingPositionId;
 
 	return valuesToCheck.every(position => {
 		return (
@@ -402,7 +402,7 @@ let initialValue: { value: number; unit: string } | null;
 
 let draggingConfig: {
 	positionConfig: Position;
-	position: Positions;
+	position: PositionId;
 	type: Type;
 	initialValue: typeof initialValue;
 	activeLinkStatus: boolean;
@@ -500,7 +500,7 @@ function startDragging(event: MouseEvent, positionConfig: Position) {
 	}
 }
 
-function getSplitValue(position: Positions) {
+function getSplitValue(position: PositionId) {
 	const savedValue = computedValues.value[position] ? computedValues.value[position] : '0px';
 	const splitValue = savedValue.match(/^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/);
 
@@ -572,7 +572,9 @@ function dragValue(event: MouseEvent) {
 }
 
 function setDraggingValue(newValue: number, event: MouseEvent) {
-	const { position, type, initialValue = {} } = draggingConfig as Exclude<typeof draggingConfig, null>;
+	const { position, type, initialValue } = draggingConfig as Exclude<typeof draggingConfig, null>;
+
+	if (!initialValue) return;
 	const { value, unit } = initialValue;
 
 	// const updatedValue = event.shiftKey ? initialValue + increment).toFixed(12) : newValue + value
