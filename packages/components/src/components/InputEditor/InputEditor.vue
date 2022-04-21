@@ -2,121 +2,120 @@
 	<div ref="root" class="znpb-wp-editor__wrapper znpb-wp-editor-custom"></div>
 </template>
 
-<script>
+<script lang="ts">
+export default {
+	name: 'InputEditor',
+};
+</script>
+
+<script lang="ts" setup>
 import { ref, onBeforeUnmount, onMounted, computed, watch } from 'vue';
 import { debounce } from 'lodash-es';
 
-export default {
-	name: 'InputEditor',
-	props: {
-		modelValue: {
-			type: String,
-			required: false,
-		},
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+	}>(),
+	{
+		modelValue: '',
 	},
-	setup(props, { emit }) {
-		let editorTextarea = null;
-		const root = ref(null);
-		let editor = null;
-		const randomNumber = Math.floor(Math.random() * 100 + 1);
-		const editorID = `znpbwpeditor${randomNumber}`;
+);
 
-		// computed
-		const content = computed({
-			get() {
-				return props.modelValue || '';
-			},
-			set(newValue) {
-				emit('update:modelValue', newValue);
-			},
-		});
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
 
-		// Lifecycle
-		onBeforeUnmount(() => {
-			editorTextarea.removeEventListener('keyup', onTextChanged);
+let editorTextarea: HTMLTextAreaElement;
+const root = ref<HTMLDivElement | null>(null);
+let editor: Record<string, any> | null;
+const randomNumber = Math.floor(Math.random() * 100 + 1);
+const editorID = `znpbwpeditor${randomNumber}`;
 
-			// Destroy tinyMce
-			if (typeof window.tinyMCE !== 'undefined' && editor) {
-				window.tinyMCE.remove(editor);
-			}
-
-			editor = null;
-		});
-
-		onMounted(() => {
-			root.value.innerHTML = window.ZnPbInitalData.wp_editor
-				.replace(/znpbwpeditorid/g, editorID)
-				.replace('%%ZNPB_EDITOR_CONTENT%%', content.value);
-
-			editorTextarea = document.querySelectorAll('.wp-editor-area')[0];
-			editorTextarea.addEventListener('keyup', onTextChanged);
-
-			window.quicktags({
-				buttons: 'strong,em,del,link,img,close',
-				id: editorID,
-			});
-
-			const config = {
-				id: editorID,
-				selector: `#${editorID}`,
-				setup: onEditorSetup,
-				content_style: 'body { background-color: #fff; }',
-			};
-			window.tinyMCEPreInit.mceInit[editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config);
-
-			// Set the edit mode to tmce
-			window.switchEditors.go(editorID, 'tmce');
-		});
-
-		// Watchers
-		watch(
-			() => props.modelValue,
-			(newValue, oldValue) => {
-				const currentValue = editor.getContent();
-				if (editor && currentValue !== newValue) {
-					const value = newValue || '';
-					editor.setContent(value);
-					debouncedAddToHistory();
-					editorTextarea.value = newValue;
-				}
-			},
-		);
-
-		const debouncedAddToHistory = debounce(() => {
-			if (editor) {
-				editor.undoManager.add();
-			}
-		}, 500);
-
-		function onEditorSetup(editorInstance) {
-			editor = editorInstance;
-			editor.on('change KeyUp Undo Redo', onEditorContentChange);
-		}
-
-		function onEditorContentChange(event) {
-			const currentValue = props.modelValue;
-
-			const newValue = editor.getContent();
-
-			if (currentValue !== newValue) {
-				emit('update:modelValue', newValue);
-			}
-		}
-
-		function onTextChanged(event) {
-			emit('update:modelValue', editorTextarea.value);
-		}
-
-		return {
-			root,
-			editor,
-			editorID,
-			debouncedAddToHistory,
-		};
+// computed
+const content = computed({
+	get() {
+		return props.modelValue || '';
 	},
-	watch: {},
-	mounted() {},
-};
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+// Lifecycle
+onBeforeUnmount(() => {
+	editorTextarea.removeEventListener('keyup', onTextChanged);
+
+	// Destroy tinyMce
+	if (window.tinyMCE !== undefined && editor) {
+		window.tinyMCE.remove(editor);
+	}
+
+	editor = null;
+});
+
+onMounted(() => {
+	(root.value as HTMLDivElement).innerHTML = window.ZnPbInitalData.wp_editor
+		.replace(/znpbwpeditorid/g, editorID)
+		.replace('%%ZNPB_EDITOR_CONTENT%%', content.value);
+
+	editorTextarea = document.querySelectorAll('.wp-editor-area')[0] as HTMLTextAreaElement;
+	editorTextarea.addEventListener('keyup', onTextChanged);
+
+	window.quicktags({
+		buttons: 'strong,em,del,link,img,close',
+		id: editorID,
+	});
+
+	const config = {
+		id: editorID,
+		selector: `#${editorID}`,
+		setup: onEditorSetup,
+		content_style: 'body { background-color: #fff; }',
+	};
+	window.tinyMCEPreInit.mceInit[editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config);
+
+	// Set the edit mode to tmce
+	window.switchEditors.go(editorID, 'tmce');
+});
+
+// Watchers
+watch(
+	() => props.modelValue,
+	newValue => {
+		const currentValue = editor?.getContent();
+		if (editor && currentValue !== newValue) {
+			const value = newValue || '';
+			editor.setContent(value);
+			debouncedAddToHistory();
+			editorTextarea.value = newValue;
+		}
+	},
+);
+
+const debouncedAddToHistory = debounce(() => {
+	if (editor) {
+		editor.undoManager.add();
+	}
+}, 500);
+
+function onEditorSetup(editorInstance: Record<string, string>) {
+	editor = editorInstance;
+	editor.on('change KeyUp Undo Redo', onEditorContentChange);
+}
+
+function onEditorContentChange() {
+	const currentValue = props.modelValue;
+
+	const newValue = editor?.getContent();
+
+	if (currentValue !== newValue) {
+		emit('update:modelValue', newValue);
+	}
+}
+
+function onTextChanged() {
+	emit('update:modelValue', editorTextarea.value);
+}
 </script>
 
 <style lang="scss">
