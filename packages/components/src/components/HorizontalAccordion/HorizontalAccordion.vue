@@ -1,24 +1,20 @@
 <template>
-	<div class="znpb-horizontal-accordion">
+	<div ref="root" class="znpb-horizontal-accordion">
 		<transition name="slide-title">
 			<div
 				v-show="!localCollapsed"
-				@click="openAccordion"
 				class="znpb-horizontal-accordion__header"
-				:class="{'znpb-horizontal-accordion__header--has-slots': hasHeaderSlot}"
+				:class="{ 'znpb-horizontal-accordion__header--has-slots': hasHeaderSlot }"
+				@click="openAccordion"
 			>
 				<template v-if="!hasHeaderSlot">
 					<span class="znpb-horizontal-accordion__title">
 						<template v-if="!hasTitleSlot">
-							<Icon
-								v-if="icon"
-								:icon="icon"
-							/>
-							<span v-html="title"></span>
+							<Icon v-if="icon" :icon="icon" />
+							<span> {{ title }}</span>
 						</template>
 						<slot name="title"></slot>
 					</span>
-
 				</template>
 				<!-- @slot Content that will be placed inside the header -->
 				<slot name="header"></slot>
@@ -26,18 +22,12 @@
 				<!-- @slot Actions that will be placed inside the header -->
 				<div class="znpb-horizontal-accordion__header-actions">
 					<slot name="actions"></slot>
-					<Icon
-						v-if="showTriggerArrow"
-						icon="right-arrow"
-					/>
+					<Icon v-if="showTriggerArrow" icon="right-arrow" />
 				</div>
 			</div>
 		</transition>
 		<transition name="slide-body">
-			<div
-				v-if="localCollapsed"
-				class="znpb-horizontal-accordion__content"
-			>
+			<div v-if="localCollapsed" class="znpb-horizontal-accordion__content">
 				<OptionBreadcrumbs
 					v-if="hasBreadcrumbs && !(combineBreadcrumbs && parentAccordion)"
 					:show-back-button="showBackButton"
@@ -45,10 +35,7 @@
 				/>
 
 				<!-- end bred -->
-				<div
-					class="znpb-horizontal-accordion-wrapper znpb-fancy-scrollbar"
-					:style="wrapperStyles"
-				>
+				<div class="znpb-horizontal-accordion-wrapper znpb-fancy-scrollbar" :style="wrapperStyles">
 					<!-- @slot Content that will be placed inside the content -->
 					<slot></slot>
 				</div>
@@ -57,194 +44,148 @@
 	</div>
 </template>
 
-<script>
-import { computed } from 'vue'
-import { Icon } from '../Icon'
-import OptionBreadcrumbs from './OptionBreadcrumbs.vue'
-
+<script lang="ts">
 export default {
 	name: 'HorizontalAccordion',
-	provide () {
-		return {
-			parentAccordion: this.parentAccordion ? this.parentAccordion : this
-		}
-	},
-	inject: {
-		'parentAccordion': {
-			from: 'parentAccordion',
-			default: null
-		}
-	},
-	components: {
-		OptionBreadcrumbs,
-		Icon
-	},
-	props: {
-		/**
-		 * If the accordion content has breadcrumbs
-		**/
-		hasBreadcrumbs: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
+};
+</script>
 
-		/**
-		 * Collapsed state
-		 */
-		collapsed: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		 * Title of the accordion
-		 */
-		title: {
-			type: String,
-			required: false
-		},
-		/**
-		 * If Title has icon behind
-		 */
-		icon: {
-			type: String,
-			required: false
-		},
+<script lang="ts" setup>
+import { ref, computed, useSlots, watch, provide, inject, CSSProperties } from 'vue';
+import { Icon } from '../Icon';
+import OptionBreadcrumbs from './OptionBreadcrumbs.vue';
+
+type Breadcrumb = { title: string; previousCallback: () => void };
+
+const props = withDefaults(
+	defineProps<{
+		hasBreadcrumbs?: boolean;
+		collapsed?: boolean;
+		title?: string;
+		icon?: string;
 		/**
 		 * Level Name for breadcrumbs only if no title
 		 */
-		level: {
-			type: String,
-			required: false
-		},
-		/**
-		 * If the accordion header should show the trigger icon
-		 */
-		showTriggerArrow: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		/**
-		 * If the breadcrumbs should show the back button
-		 */
-		showBackButton: {
-			type: Boolean,
-			required: false
-		},
-		/**
-		 * If the breadcrumbs should show the home button
-		 */
-		showHomeButton: {
-			type: Boolean,
-			required: false
-		},
+		level?: string;
+		showTriggerArrow?: boolean;
+		showBackButton?: boolean;
+		showHomeButton?: boolean;
 		/**
 		 * Breadcrumbs home text
 		 */
-		homeButtonText: {
-			type: String,
-			required: false
-		},
-		combineBreadcrumbs: {
-			type: Boolean,
-			required: false
-		}
+		homeButtonText?: string;
+		combineBreadcrumbs?: boolean;
+	}>(),
+	{
+		collapsed: false,
+		hasBreadcrumbs: true,
+		showTriggerArrow: true,
 	},
-	setup (props, { slots }) {
-		const hasHeaderSlot = computed(() => !!slots.header)
-		const hasTitleSlot = computed(() => !!slots.title)
+);
 
-		return {
-			hasHeaderSlot,
-			hasTitleSlot
-		}
+const emit = defineEmits(['collapse', 'expand']);
+
+const parentAccordion = inject('parentAccordion', null);
+
+provide(
+	'parentAccordion',
+	parentAccordion || {
+		addBreadcrumb,
+		removeBreadcrumb,
 	},
-	data () {
-		return {
-			localCollapsed: this.collapsed,
-			breadcrumbs: [
-				{
-					title: this.homeButtonText,
-					callback: this.closeAccordion
-				},
-				{
-					title: this.title
-				}
-			],
-			breadCrumbConfig: null,
-			firstChildOpen: false
-		}
+);
+
+defineExpose({
+	closeAccordion,
+});
+
+const root = ref<HTMLDivElement | null>(null);
+
+const localCollapsed = ref(props.collapsed);
+const breadcrumbs = ref<{ title?: string; callback?: () => void }[]>([
+	{
+		title: props.homeButtonText,
+		callback: closeAccordion,
 	},
-	watch: {
-		collapsed (newValue) {
-			this.localCollapsed = newValue
-		}
+	{
+		title: props.title,
 	},
-	computed: {
-		/**
-		 * Returns the position of the pointer
-		 */
-		wrapperStyles () {
-			const cssStyles = {}
-			if (!this.combineBreadcrumbs && (this.parentAccordion === null) && this.localCollapsed && this.firstChildOpen) {
-				cssStyles['overflow'] = 'hidden'
-			}
-			return cssStyles
-		}
+]);
+const breadCrumbConfig = ref<Breadcrumb | null>(null);
+const firstChildOpen = ref(false);
+
+const slots = useSlots();
+
+const hasHeaderSlot = computed(() => !!slots.header);
+const hasTitleSlot = computed(() => !!slots.title);
+
+watch(
+	() => props.collapsed,
+	(newValue: boolean) => {
+		localCollapsed.value = newValue;
 	},
-	methods: {
-		addBreadcrumb (breadcrumb) {
-			// Check to see if we need to add a callback to previous item
-			if (typeof breadcrumb.previousCallback === 'function') {
-				const lastItem = this.breadcrumbs[this.breadcrumbs.length - 1]
+);
 
-				lastItem.callback = breadcrumb.previousCallback
-			}
-			this.breadcrumbs.push(breadcrumb)
-			this.firstChildOpen = true
-		},
-		removeBreadcrumb (breadcrumb) {
-			const breadCrumbIndex = this.breadcrumbs.indexOf(breadcrumb)
-			if (breadCrumbIndex !== -1) {
-				this.breadcrumbs.splice(breadCrumbIndex, 1)
-				this.firstChildOpen = false
-			}
-		},
-		closeAccordion () {
-			this.localCollapsed = false
-
-			if (this.parentAccordion !== null && this.parentAccordion) {
-				this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig)
-			}
-
-			this.$emit('collapse', true)
-		},
-		openAccordion () {
-			this.localCollapsed = true
-
-			let firstParent = this.$el.parentNode
-			let higherParent = window.jQuery(firstParent).parents('.znpb-horizontal-accordion-wrapper')
-
-			window.jQuery(higherParent).scrollTop(0)
-
-			// Inject to existing breadcrumbs
-			if (this.combineBreadcrumbs && this.parentAccordion) {
-				this.injectBreadcrumbs()
-			}
-
-			this.$emit('expand', false)
-		},
-		injectBreadcrumbs () {
-			this.breadCrumbConfig = {
-				title: this.title,
-				previousCallback: this.closeAccordion
-			}
-
-			this.parentAccordion.addBreadcrumb(this.breadCrumbConfig)
-		}
+/**
+ * Returns the position of the pointer
+ */
+const wrapperStyles = computed(() => {
+	const cssStyles: CSSProperties = {};
+	if (!props.combineBreadcrumbs && parentAccordion === null && localCollapsed.value && firstChildOpen.value) {
+		cssStyles['overflow'] = 'hidden';
 	}
+	return cssStyles;
+});
+
+function addBreadcrumb(breadcrumb: { title: string; previousCallback: () => void }) {
+	// Check to see if we need to add a callback to previous item
+	if (typeof breadcrumb.previousCallback === 'function') {
+		const lastItem = breadcrumbs.value[breadcrumbs.value.length - 1];
+
+		lastItem.callback = breadcrumb.previousCallback;
+	}
+	breadcrumbs.value.push(breadcrumb);
+	firstChildOpen.value = true;
+}
+
+function removeBreadcrumb(breadcrumb: Breadcrumb) {
+	const breadCrumbIndex = breadcrumbs.value.indexOf(breadcrumb);
+	if (breadCrumbIndex !== -1) {
+		breadcrumbs.value.splice(breadCrumbIndex, 1);
+		firstChildOpen.value = false;
+	}
+}
+
+function closeAccordion() {
+	localCollapsed.value = false;
+
+	if (parentAccordion && breadCrumbConfig.value) {
+		removeBreadcrumb(breadCrumbConfig.value);
+	}
+
+	emit('collapse', true);
+}
+
+function openAccordion() {
+	localCollapsed.value = true;
+
+	root.value?.closest('.znpb-horizontal-accordion-wrapper')?.scrollTo(0, 0);
+
+	// Inject to existing breadcrumbs
+	if (props.combineBreadcrumbs && parentAccordion) {
+		injectBreadcrumbs();
+	}
+
+	emit('expand', false);
+}
+
+function injectBreadcrumbs() {
+	breadCrumbConfig.value = {
+		title: props.title || '',
+		previousCallback: closeAccordion,
+	};
+
+	addBreadcrumb(breadCrumbConfig.value);
 }
 </script>
 
