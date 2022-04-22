@@ -2,47 +2,35 @@
 	<div>
 		<Shape
 			class="znpb-active-shape-preview"
-			:shapePath="modelValue"
-			:class="[{'mask-active': modelValue}]"
+			:shape-path="modelValue"
+			:class="[{ 'mask-active': modelValue }]"
 			:position="position"
 		>
-			<EmptyList
-				class="znpb-style-shape__empty"
-				v-if="!modelValue"
-				:no-margin="true"
-			>
-				{{$translate('select_shape')}}
+			<EmptyList v-if="!modelValue" class="znpb-style-shape__empty" :no-margin="true">
+				{{ $translate('select_shape') }}
 			</EmptyList>
 			<span
 				v-else
 				class="znpb-active-shape-preview__action"
-				@mouseover="showDelete=true"
-				@mouseleave="showDelete=false"
+				@mouseover="showDelete = true"
+				@mouseleave="showDelete = false"
 			>
-				<transition
-					name="slide-fade"
-					mode="out-in"
-				>
-					<Icon
-						v-if="!showDelete"
-						icon="check"
-						:size="10"
-						key=1
-					/>
+				<transition name="slide-fade" mode="out-in">
+					<Icon v-if="!showDelete" key="1" icon="check" :size="10" />
 
 					<Icon
-						key=2
 						v-else
+						key="2"
 						icon="close"
 						:size="10"
-						@click.stop="$emit('update:modelValue', null),showDelete=false"
+						@click.stop="$emit('update:modelValue', null), (showDelete = false)"
 					/>
 				</transition>
 			</span>
 		</Shape>
 		<div class="znpb-shape-list znpb-fancy-scrollbar">
 			<Shape
-				v-for="(shape,shapeID) in masks"
+				v-for="(shape, shapeID) in masks"
 				:key="shapeID"
 				:shape-path="shapeID"
 				:position="position"
@@ -57,51 +45,37 @@
 			/>
 		</div>
 	</div>
-
 </template>
 
-<script>
-import { inject } from 'vue'
-import { Icon } from '../Icon'
-import Shape from './Shape.vue'
-import { EmptyList } from '../EmptyList'
-import { UpgradeToPro } from '../UpgradeToPro'
-
+<script lang="ts">
 export default {
 	name: 'ShapeDividerComponent',
-	components: {
-		EmptyList,
-		Shape,
-		UpgradeToPro,
-		Icon
-	},
-	props: {
-		/**
-		 * Position
-		 */
-		position: {
-			type: String
-		},
-		modelValue: {
-			type: String
-		}
-	},
-	data () {
-		return {
-			showDelete: false
-		}
-	},
-	setup () {
-		const masks = inject('masks')
-		const isPro = window.ZnPbComponentsData.is_pro_active
-
-		return {
-			masks,
-			isPro
-		}
-	}
-}
+};
 </script>
+
+<script lang="ts" setup>
+import { ref, inject } from 'vue';
+import { Icon } from '../Icon';
+import Shape from './Shape.vue';
+import { EmptyList } from '../EmptyList';
+import { UpgradeToPro } from '../UpgradeToPro';
+
+defineProps<{
+	position?: 'top' | 'bottom';
+	modelValue?: string;
+}>();
+
+defineEmits<{
+	(e: 'update:modelValue', value: string | null): void;
+}>();
+
+const showDelete = ref(false);
+
+const masks = inject('masks') as Record<string, { path: string; url: string }>;
+
+const isPro = window.ZnPbComponentsData.is_pro_active;
+</script>
+
 <style lang="scss">
 .znpb-shape-list {
 	display: flex;
@@ -113,11 +87,13 @@ export default {
 }
 
 /* Enter and leave transitions for delete mask */
-.slide-fade-enter-to, .slide-fade-leave-from {
-	transition: all .1s;
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+	transition: all 0.1s;
 }
 
-.slide-fade-enter-to, .slide-fade-leave-to {
+.slide-fade-enter-to,
+.slide-fade-leave-to {
 	opacity: 0;
 }
 </style>

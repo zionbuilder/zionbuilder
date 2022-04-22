@@ -1,37 +1,25 @@
 <template>
 	<div class="znpb-editor-shapeWrapper">
 		<slot></slot>
-		<SvgMask
-			v-if="shapePath"
-			:shapePath="shapePath"
-			:position="position"
-		>
-		</SvgMask>
+		<SvgMask v-if="shapePath" :shape-path="shapePath" :position="position" />
 	</div>
 </template>
 
-<script>
-import SvgMask from './SvgMask.vue'
-
+<script lang="ts">
 export default {
 	name: 'Shape',
-	components: {
-		SvgMask
-	},
-	props: {
-		/**
-		 * Value for input
-		 */
-		shapePath: {
-			required: false
-		},
-		position: {
-			type: String,
-			required: false
-		}
-	}
-}
+};
 </script>
+
+<script lang="ts" setup>
+import SvgMask from './SvgMask.vue';
+
+defineProps<{
+	shapePath?: string;
+	position?: 'top' | 'bottom';
+}>();
+</script>
+
 <style lang="scss">
 .znpb-shape-divider-icon {
 	width: 100%;
@@ -52,7 +40,7 @@ export default {
 	color: var(--zb-surface-color);
 	background-color: var(--zb-secondary-color);
 	border-radius: 3px;
-	transition: box-shadow .2s linear;
+	transition: box-shadow 0.2s linear;
 	cursor: pointer;
 
 	&:last-of-type {
@@ -94,7 +82,7 @@ export default {
 			height: 20px;
 			color: #858585;
 			background-color: #fff;
-			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, .2);
+			box-shadow: 0 5px 10px 0 rgba(86, 86, 86, 0.2);
 			border-radius: 50%;
 		}
 	}
