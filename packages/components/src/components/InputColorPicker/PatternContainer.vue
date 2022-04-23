@@ -1,16 +1,12 @@
 <template>
 	<LibraryElement :has-input="showPresetInput">
 		<div v-if="!showPresetInput">
-
-			<Tabs
-				tab-style="minimal"
-				:activeTab="activeTab"
-			>
+			<Tabs tab-style="minimal" :active-tab="activeTab">
 				<Tab name="Local">
 					<GridColor @add-new-color="addLocalColor(model)">
 						<span
-							v-for="(color,i) in localColorPatterns"
-							v-bind:key="i"
+							v-for="(color, i) in localColorPatterns"
+							:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 							:style="{ 'background-color': color }"
 							@click="$emit('color-updated', color)"
@@ -20,36 +16,22 @@
 				</Tab>
 
 				<Tab name="Global">
-					<div
-						class="znpb-colorpicker-global-wrapper--pro"
-						v-if="!isPro"
-					>
+					<div v-if="!isPro" class="znpb-colorpicker-global-wrapper--pro">
 						Global colors are available in
-						<Label
-							text="PRO"
-							type="pro"
-						/>
+						<Label text="PRO" type="pro" />
 					</div>
-					<GridColor
-						@add-new-color="showPresetInput=!showPresetInput"
-						v-else
-					>
+					<GridColor v-else @add-new-color="showPresetInput = !showPresetInput">
 						<span
-							v-for="(colorConfig,i) in globalColorPatterns"
-							v-bind:key="i"
+							v-for="(colorConfig, i) in globalColorPatterns"
+							:key="i"
 							class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
-							:style="{backgroundColor: colorConfig.id===selectedGlobalColor ? null : colorConfig.color}"
+							:style="{ backgroundColor: colorConfig.id === selectedGlobalColor ? '' : colorConfig.color }"
+							:class="{ 'znpb-colorpicker-circle--active': colorConfig.id === selectedGlobalColor }"
 							@click.stop="onGlobalColorSelected(colorConfig)"
-							:class="{'znpb-colorpicker-circle--active': colorConfig.id===selectedGlobalColor}"
 						>
-							<span
-								v-if="colorConfig.id===selectedGlobalColor"
-								class="znpb-colorpicker-circle__active-bg"
-							>
-								<span :style="{ 'background-color': colorConfig.color }">
-								</span>
+							<span v-if="colorConfig.id === selectedGlobalColor" class="znpb-colorpicker-circle__active-bg">
+								<span :style="{ 'background-color': colorConfig.color }"> </span>
 							</span>
-
 						</span>
 					</GridColor>
 				</Tab>
@@ -57,120 +39,102 @@
 		</div>
 		<PresetInput
 			v-if="showPresetInput"
+			:is-gradient="false"
 			@save-preset="addGlobal($event)"
-			@cancel="showPresetInput=false"
-			:isGradient="false"
+			@cancel="showPresetInput = false"
 		/>
 	</LibraryElement>
 </template>
-<script>
 
-/**
- * it emits:
- *  - the new color chosen
- */
-import { computed, inject, ref } from 'vue'
-import GridColor from '../Colorpicker/GridColor.vue'
-import LibraryElement from '../Gradient/LibraryElement.vue'
-import PresetInput from '../Gradient/PresetInput.vue'
-import { Label } from '../Label'
-
+<script lang="ts">
 export default {
 	name: 'PatternContainer',
-	components: {
-		GridColor,
-		LibraryElement,
-		PresetInput,
-		Label
+};
+</script>
+
+<script lang="ts" setup>
+import { computed, inject, ref } from 'vue';
+import GridColor from '../Colorpicker/GridColor.vue';
+import LibraryElement from '../Gradient/LibraryElement.vue';
+import PresetInput from '../Gradient/PresetInput.vue';
+import { Label } from '../Label';
+
+type GlobalColor = { color: string; id: string; name: string };
+
+const props = withDefaults(
+	defineProps<{
+		model?: string;
+	}>(),
+	{
+		model: '#000',
 	},
-	props: {
-		model: {
-			type: [String, Object],
-			required: false,
-			default () {
-				return '#000'
-			}
-		}
-	},
-	setup (props) {
-		const formApi = inject('OptionsForm')
-		const getValueByPath = inject('getValueByPath')
-		const schema = inject('schema')
-		const showPresetInput = ref(false)
+);
 
-		const useBuilderOptions = inject('builderOptions')
-		const {
-			addLocalColor,
-			getOptionValue,
-			addGlobalColor,
-		} = useBuilderOptions()
+defineEmits<{
+	(e: 'color-updated', value: string): void;
+}>();
 
-		const localColors = getOptionValue('local_colors', [])
-		const globalColors = getOptionValue('global_colors', [])
+// @Todo add proper TS type to injections
+const formApi = inject('OptionsForm');
+const getValueByPath = inject('getValueByPath');
+const schema: Record<string, any> = inject('schema', {});
 
-		let localColorPatterns = computed(() => {
-			return [...localColors].reverse()
-		})
+const useBuilderOptions = inject('builderOptions');
+const { addLocalColor, getOptionValue, addGlobalColor } = useBuilderOptions();
 
-		let globalColorPatterns = computed(() => {
-			return [...globalColors].reverse()
-		})
+const localColors: string[] = getOptionValue('local_colors', []);
+const globalColors: GlobalColor[] = getOptionValue('global_colors', []);
 
-		let selectedGlobalColor = computed(() => {
-			const { id } = schema
-			const { options = {} } = getValueByPath(`__dynamic_content__.${id}`, {})
-			return options.color_id
-		})
+const showPresetInput = ref(false);
 
-		let activeTab = computed(() => {
-			return selectedGlobalColor.value ? 'global' : 'local'
-		})
+const isPro = computed(() => {
+	if (window.ZnPbComponentsData !== undefined) {
+		return window.ZnPbComponentsData.is_pro_active;
+	}
 
-		function addGlobal (name) {
-			let globalColor = {
-				id: name.split(' ').join('_'),
-				color: props.model,
-				name: name
-			}
-			showPresetInput.value = false
-			addGlobalColor(globalColor)
-		}
+	return false;
+});
 
-		function onGlobalColorSelected (colorConfig) {
-			const { id } = schema
+const localColorPatterns = computed(() => {
+	return [...localColors].reverse();
+});
 
-			formApi.updateValueByPath(`__dynamic_content__.${id}`, {
-				type: 'global-color',
-				options: {
-					color_id: colorConfig.id
-				}
-			})
-		}
+const globalColorPatterns = computed(() => {
+	return [...globalColors].reverse();
+});
 
-		return {
-			localColorPatterns,
-			globalColorPatterns,
-			onGlobalColorSelected,
-			addGlobal,
-			showPresetInput,
-			selectedGlobalColor,
-			activeTab,
-			addLocalColor
-		}
-	},
-	computed: {
-		isPro () {
-			if (window.ZnPbComponentsData !== undefined) {
-				return window.ZnPbComponentsData.is_pro_active
-			}
+const selectedGlobalColor = computed(() => {
+	const { id = '' }: { id?: string } = schema;
+	const { options = {} } = getValueByPath(`__dynamic_content__.${id}`, {});
+	return options.color_id;
+});
 
-			return false
+const activeTab = computed(() => {
+	return selectedGlobalColor.value ? 'global' : 'local';
+});
+
+function addGlobal(name: string) {
+	let globalColor = {
+		id: name.split(' ').join('_'),
+		color: props.model,
+		name: name,
+	};
+	showPresetInput.value = false;
+	addGlobalColor(globalColor);
+}
+
+function onGlobalColorSelected(colorConfig: GlobalColor) {
+	const { id } = schema;
+
+	formApi.updateValueByPath(`__dynamic_content__.${id}`, {
+		type: 'global-color',
+		options: {
+			color_id: colorConfig.id,
 		},
-	},
-
-
+	});
 }
 </script>
+
 <style lang="scss">
 .znpb-colorpicker-circle {
 	&__active-bg {
@@ -180,7 +144,7 @@ export default {
 		width: 18px;
 		height: 18px;
 		background-color: rgba(50, 193, 121, 0);
-		border-color: rgb(0, 0, 0, .1);
+		border-color: rgb(0, 0, 0, 0.1);
 		border-style: solid;
 		border-width: 1px;
 		border-radius: 2px;
