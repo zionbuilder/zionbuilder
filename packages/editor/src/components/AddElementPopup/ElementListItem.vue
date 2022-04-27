@@ -1,29 +1,19 @@
 <template>
-	<li
-		class="znpb-element-box"
-		ref="elementBox"
-		:class="['znpb-element-box--' + item.element_type]"
-	>
-
-		<span
-			v-if="item.label"
-			class="znpb-element-box__label"
-			:style="{ background: item.label.color }"
-		>{{item.label.text}}</span>
+	<li ref="elementBox" class="znpb-element-box" :class="['znpb-element-box--' + item.element_type]" :title="item.name">
+		<span v-if="item.label" class="znpb-element-box__label" :style="{ background: item.label.color }">{{
+			item.label.text
+		}}</span>
 
 		<Icon
 			icon="pin"
-			@click.stop="addToFavorites"
 			class="znpb-element-box__favoriteIcon"
 			:class="{
-				'znpb-element-box__favoriteIcon--active': isActiveFavorite
+				'znpb-element-box__favoriteIcon--active': isActiveFavorite,
 			}"
+			@click.stop="addToFavorites"
 		/>
 
-		<UIElementIcon
-			:element="item"
-			class="znpb-element-box__icon"
-		/>
+		<UIElementIcon :element="item" class="znpb-element-box__icon" />
 
 		<span class="znpb-element-box__element-name">
 			{{ item.name }}
@@ -32,45 +22,45 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useUserData } from '@composables'
+import { computed } from 'vue';
+import { useUserData } from '@composables';
 
 export default {
 	name: 'ElementListItem',
 	props: {
 		item: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props) {
+	setup(props) {
 		const isActiveFavorite = computed(() => {
-			const { getUserData } = useUserData()
-			return getUserData('favorite_elements', []).includes(props.item.element_type)
-		})
+			const { getUserData } = useUserData();
+			return getUserData('favorite_elements', []).includes(props.item.element_type);
+		});
 
-		function addToFavorites () {
-			const { getUserData, updateUserData } = useUserData()
-			const activeFavoritesClone = [...getUserData('favorite_elements', [])]
+		function addToFavorites() {
+			const { getUserData, updateUserData } = useUserData();
+			const activeFavoritesClone = [...getUserData('favorite_elements', [])];
 
 			if (activeFavoritesClone.includes(props.item.element_type)) {
-				const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type)
-				activeFavoritesClone.splice(favoriteIndex, 1)
+				const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type);
+				activeFavoritesClone.splice(favoriteIndex, 1);
 			} else {
-				activeFavoritesClone.push(props.item.element_type)
+				activeFavoritesClone.push(props.item.element_type);
 			}
 
 			updateUserData({
-				'favorite_elements': activeFavoritesClone
-			})
+				favorite_elements: activeFavoritesClone,
+			});
 		}
 
 		return {
 			isActiveFavorite,
-			addToFavorites
-		}
-	}
-}
+			addToFavorites,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -88,7 +78,7 @@ export default {
 		position: absolute;
 		top: 6px;
 		right: 6px;
-		transition: all .1s;
+		transition: all 0.1s;
 		opacity: 0;
 		visibility: hidden;
 
@@ -143,16 +133,17 @@ export default {
 		border-radius: 2px;
 	}
 
-	&__icon, &__image {
+	&__icon,
+	&__image {
 		width: 100%;
 		margin-bottom: 5px;
 		color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 4px;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&::after {
-			content: "";
+			content: '';
 			display: block;
 			padding-top: 100%;
 		}
@@ -179,7 +170,8 @@ export default {
 	}
 
 	&:hover {
-		.znpb-editor-icon-wrapper, .znpb-element-box__image {
+		.znpb-editor-icon-wrapper,
+		.znpb-element-box__image {
 			color: var(--zb-surface-text-active-color);
 		}
 

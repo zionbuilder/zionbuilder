@@ -1,54 +1,42 @@
 <template>
-	<ElementListItemSVG
-		v-if="isSVG"
-		:svg="get_element_image"
-	/>
+	<ElementListItemSVG v-if="isSVG" :svg="get_element_image" />
 
-	<img
-		v-else-if="get_element_image"
-		:src="get_element_image"
-		class="znpb-element-box__image"
-	/>
+	<img v-else-if="get_element_image" :src="get_element_image" class="znpb-element-box__image" />
 
-	<Icon
-		v-else
-		:icon="get_element_icon"
-		:size="size"
-	/>
+	<Icon v-else :icon="get_element_icon" :size="size" />
 </template>
 
 <script>
-import ElementListItemSVG from './ElementListItemSVG.vue'
+import ElementListItemSVG from './ElementListItemSVG.vue';
 
 export default {
 	name: 'UIElementIcon',
+	components: {
+		ElementListItemSVG,
+	},
 	props: {
 		element: {
-			type: Object
+			type: Object,
 		},
 		size: {
 			type: Number,
-			default: 36
-		}
+			default: 36,
+		},
 	},
-	components: {
-		ElementListItemSVG
-	},
-	setup (props) {
-		const get_element_image = props.element.thumb ? props.element.thumb : null
-		const isSVG = get_element_image ? get_element_image.indexOf('.svg') !== -1 : false
-		const get_element_icon = props.element.icon ? props.element.icon : 'element-default'
-		const label = props.element.label
+	setup(props) {
+		const get_element_image = props.element.thumb ? props.element.thumb : null;
+		const isSVG = get_element_image ? get_element_image.indexOf('.svg') !== -1 : false;
+		const get_element_icon = props.element.icon ? props.element.icon : 'element-default';
+		const label = props.element.label;
 
 		return {
 			isSVG,
 			get_element_image,
 			get_element_icon,
-			label
-		}
-	}
-}
+			label,
+		};
+	},
+};
 </script>
 
-<style>
-</style>
+<style></style>
