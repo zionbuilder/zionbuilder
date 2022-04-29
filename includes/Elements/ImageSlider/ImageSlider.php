@@ -4,7 +4,6 @@ namespace ZionBuilder\Elements\ImageSlider;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
-use ZionBuilder\Plugin;
 use ZionBuilder\CommonJS;
 
 // Prevent direct access
@@ -129,6 +128,8 @@ class ImageSlider extends Element {
 				'type'    => 'checkbox_switch',
 				'default' => true,
 				'title'   => esc_html__( 'Infinite', 'zionbuilder' ),
+				'description'   => esc_html__( 'Set to yes to enable continuous loop mode. Please note that this is disabled in editor mode.', 'zionbuilder' ),
+
 				'layout'  => 'inline',
 			]
 		);
@@ -164,6 +165,7 @@ class ImageSlider extends Element {
 				'max'     => 5,
 				'default' => 1,
 				'layout'  => 'inline',
+				'responsive_options' => true
 			]
 		);
 
@@ -186,11 +188,9 @@ class ImageSlider extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'swiper' );
+		wp_enqueue_script( 'zion-builder-slider' );
 
-		wp_enqueue_script( 'zion-builder-slider', Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
-
-		// Enqueue resposnive devices
+		// Enqueue responsive devices
 		CommonJS::enqueue_responsive_devices( 'zion-builder-slider' );
 
 		// Using helper methods will go through caching policy
@@ -223,9 +223,9 @@ class ImageSlider extends Element {
 			'arrows'         => $options->get_value( 'arrows' ),
 			'pagination'     => $options->get_value( 'dots' ),
 			'slides_to_show' => $options->get_value( 'slides_to_show' ),
+			'slides_to_scroll' => $options->get_value( 'slides_to_scroll' ),
 			'rawConfig'      => [
 				'loop'           => $options->get_value( 'infinite' ),
-				'slidesPerGroup' => $options->get_value( 'slides_to_scroll' ),
 				'autoplay'       => $autoplay,
 			],
 		];

@@ -50,8 +50,36 @@ function useSwiper() {
 				}
 			});
 		}
-
 		sliderConfig.slidesPerView = slidesPerView;
+
+		// Slides per group and breakpoints
+		let slidesPerGroup = 1;
+		let slidesToScroll = elementConfig.slides_to_scroll || 1;
+
+		if (typeof slidesToScroll === 'number') {
+			slidesPerGroup = slidesToScroll;
+		} else if (typeof slidesToScroll === 'object') {
+			slidesPerGroup = typeof slidesToScroll.default !== 'undefined' ? slidesToScroll.default : 1;
+
+			let lastValue = false;
+			Object.keys(window.zbFrontendResponsiveDevicesMobileFirst).forEach(key => {
+				const value = window.zbFrontendResponsiveDevicesMobileFirst[key];
+				if (typeof slidesToScroll[key] !== 'undefined') {
+					breakpoints[value] = {
+						...(breakpoints[value] || {}),
+						slidesPerGroup: slidesToScroll[key],
+					};
+					lastValue = slidesToScroll[key];
+				} else if (lastValue !== false) {
+					breakpoints[value] = {
+						...(breakpoints[value] || {}),
+						slidesPerGroup: lastValue,
+					};
+				}
+			});
+		}
+
+		sliderConfig.slidesPerGroup = slidesPerGroup;
 		sliderConfig.breakpoints = breakpoints;
 
 		return {
@@ -67,7 +95,7 @@ function useSwiper() {
 	}
 
 	function runAll(scope = document) {
-		const sliders = scope.querySelectorAll('.zb-el-imageSlider');
+		const sliders = scope.querySelectorAll('.swiper-container');
 		sliders.forEach(sliderEl => {
 			const config = getConfig(sliderEl);
 			sliderEl.zbSwiper = initSlider(sliderEl, config);
