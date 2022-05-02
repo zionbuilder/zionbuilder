@@ -27,7 +27,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { getOptionValue } from '@zb/utils';
 import { getLayoutConfigs } from './layouts.js';
-import { useUI, useAddElementsPopup, useWindows, useHistory, useEditorData, useElementTypes } from '@composables';
+import { useUI, useAddElementsPopup, useWindows, useHistory, useElementTypes } from '@composables';
 import { useLibrary } from '@zionbuilder/composables';
 
 // Components
@@ -40,6 +40,7 @@ export default {
 	},
 	props: {
 		element: {
+			type: Object,
 			required: true,
 		},
 	},
@@ -49,8 +50,6 @@ export default {
 		const active = ref(defaultTab);
 		const { addEventListener, removeEventListener } = useWindows();
 		const searchKeyword = ref('');
-		const { editorData } = useEditorData();
-		const isProActive = ref(editorData.value.plugin_info.is_pro_active);
 
 		const spanElements = {
 			full: 1,

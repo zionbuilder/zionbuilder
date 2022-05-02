@@ -1,5 +1,5 @@
 <template>
-	<li ref="elementBox" class="znpb-element-box" :class="['znpb-element-box--' + item.element_type]" :title="item.name">
+	<li class="znpb-element-box" :class="['znpb-element-box--' + item.element_type]" :title="item.name">
 		<span v-if="item.label" class="znpb-element-box__label" :style="{ background: item.label.color }">{{
 			item.label.text
 		}}</span>

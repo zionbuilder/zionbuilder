@@ -17,6 +17,7 @@ export default {
 	props: {
 		element: {
 			type: Object,
+			required: true,
 		},
 		size: {
 			type: Number,
@@ -27,13 +28,11 @@ export default {
 		const get_element_image = props.element.thumb ? props.element.thumb : null;
 		const isSVG = get_element_image ? get_element_image.indexOf('.svg') !== -1 : false;
 		const get_element_icon = props.element.icon ? props.element.icon : 'element-default';
-		const label = props.element.label;
 
 		return {
 			isSVG,
 			get_element_image,
 			get_element_icon,
-			label,
 		};
 	},
 };

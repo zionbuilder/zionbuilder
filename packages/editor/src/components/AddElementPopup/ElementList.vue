@@ -1,50 +1,46 @@
 <template>
 	<div class="znpb-element-category-listWrapper">
-		<h3
-			class="znpb-element-category-listTitle"
-			v-if="elements.length"
-		>{{this.category}}</h3>
+		<h3 v-if="elements.length" class="znpb-element-category-listTitle">{{ category }}</h3>
 
-		<ul
-			v-if="elements.length"
-			class="znpb-element-category-list"
-		>
+		<ul v-if="elements.length" class="znpb-element-category-list">
 			<!-- list of elements -->
 			<ElementListItem
-				v-for="element in elements"
-				:item="element"
-				:key="element.element_type"
-				@click="$emit('add-element', element)"
+				v-for="childElement in elements"
+				:key="childElement.element_type"
+				:item="childElement"
+				@click="$emit('add-element', childElement)"
 			/>
 		</ul>
-
 	</div>
 </template>
 
 <script>
-import ElementListItem from './ElementListItem.vue'
+import ElementListItem from './ElementListItem.vue';
 
 export default {
 	name: 'ElementList',
 	components: {
-		ElementListItem
+		ElementListItem,
 	},
 	props: {
 		elements: {
 			type: Array,
-			required: true
+			required: true,
 		},
-		element: Object,
+		element: {
+			type: Object,
+			required: true,
+		},
 		category: {
-			type: String
-		}
+			type: String,
+			required: true,
+		},
 	},
-	setup () {
-		return {
-
-		}
-	}
-}
+	emits: ['add-element'],
+	setup() {
+		return {};
+	},
+};
 </script>
 
 <style lang="scss">
