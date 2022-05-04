@@ -9,6 +9,8 @@ export interface VideoOptions {
 	videoSource?: string;
 	responsive?: boolean;
 	use_image_overlay: boolean;
+	// HTML5 related
+	mp4: string;
 	video_config?: {
 		youtubeURL?: string;
 		vimeoURL?: string;
@@ -21,6 +23,8 @@ class Video {
 	options: VideoOptions;
 	domNode?: HTMLElement;
 	youtubePlayer?: YT.Player;
+	vimeoPlayer?;
+	html5Player?: HTMLVideoElement;
 	isInit = false;
 
 	constructor(domNode: HTMLElement) {
@@ -73,7 +77,7 @@ class Video {
 		const backdrop = this.domNode?.querySelector('.zb-el-zionVideo-overlay');
 		backdrop?.addEventListener('click', () => {
 			this.initVideo();
-			// backdrop.parentElement?.removeChild(backdrop);
+			backdrop.parentElement?.removeChild(backdrop);
 		});
 	}
 
@@ -85,6 +89,10 @@ class Video {
 
 		if (this.options?.video_config?.videoSource === 'youtube') {
 			this.initYoutube();
+		} else if (this.options?.video_config?.videoSource === 'local') {
+			this.initHTML5();
+		} else if (this.options?.video_config?.videoSource === 'vimeo') {
+			this.initVimeo();
 		}
 
 		this.isInit = true;
@@ -153,6 +161,82 @@ class Video {
 				host: 'https://www.youtube-nocookie.com',
 			});
 		});
+	}
+
+	onVimeoApiReady(callback) {
+		if (window.Vimeo && window.Vimeo.Player) {
+			callback();
+			return;
+		} else if (!window.ZbAttachedVimeoScript) {
+			this.attachVimeoScript();
+		}
+
+		setTimeout(() => {
+			this.onVimeoApiReady(callback);
+		}, 200);
+	}
+
+	attachVimeoScript() {
+		if (window.ZbAttachedVimeoScript) {
+			return;
+		}
+
+		const tag = document.createElement('script');
+
+		tag.src = 'https://player.vimeo.com/api/player.js';
+		const firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
+
+		window.ZbAttachedVimeoScript = true;
+	}
+
+	initVimeo() {
+		if (!this.options.video_config?.vimeoURL) {
+			return;
+		}
+
+		// Create video container
+		const videoContainer = document.createElement('div');
+		this.domNode?.appendChild(videoContainer);
+
+		this.onVimeoApiReady(() => {
+			this.vimeoPlayer = new window.Vimeo.Player(videoContainer, {
+				id: this.options.video_config?.vimeoURL,
+				background: this.options.autoplay,
+				muted: this.options.muted,
+				transparent: true,
+				autoplay: this.options.autoplay,
+				controls: this.options.controls,
+			});
+		});
+	}
+
+	// Init HTML5 Video
+	initHTML5() {
+		const autoplay = this.options.autoplay ? true : false;
+		const muted = this.options.muted ? true : false;
+		const loop = this.options.loop ? true : false;
+
+		const videoElement = document.createElement('video');
+
+		// Set video arguments
+		videoElement.muted = muted;
+		videoElement.autoplay = autoplay;
+		videoElement.loop = loop;
+
+		if (this.options.controls) {
+			videoElement.controls = true;
+		}
+
+		if (this.options.mp4) {
+			const sourceMP4 = document.createElement('source');
+			sourceMP4.src = this.options.mp4;
+			videoElement.appendChild(sourceMP4);
+		}
+
+		this.domNode?.appendChild(videoElement);
+
+		this.html5Player = videoElement;
 	}
 
 	getConfig() {
