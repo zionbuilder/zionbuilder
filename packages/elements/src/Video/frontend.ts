@@ -11,6 +11,8 @@ export interface VideoOptions {
 	use_image_overlay: boolean;
 	// HTML5 related
 	mp4: string;
+	// Vimeo related
+	vimeoURL: string;
 	video_config?: {
 		youtubeURL?: string;
 		vimeoURL?: string;
@@ -55,6 +57,10 @@ class Video {
 	play() {
 		if (this.youtubePlayer) {
 			this.youtubePlayer.playVideo();
+		} else if (this.html5Player) {
+			this.html5Player.play();
+		} else if (this.vimeoPlayer) {
+			this.vimeoPlayer.play();
 		}
 	}
 
@@ -62,6 +68,10 @@ class Video {
 	pause() {
 		if (this.youtubePlayer) {
 			this.youtubePlayer.pauseVideo();
+		} else if (this.html5Player) {
+			this.html5Player.pause();
+		} else if (this.vimeoPlayer) {
+			this.vimeoPlayer.pause();
 		}
 	}
 
@@ -201,8 +211,8 @@ class Video {
 
 		this.onVimeoApiReady(() => {
 			this.vimeoPlayer = new window.Vimeo.Player(videoContainer, {
-				id: this.options.video_config?.vimeoURL,
-				background: this.options.autoplay,
+				id: this.options?.vimeoURL,
+				background: false,
 				muted: this.options.muted,
 				transparent: true,
 				autoplay: this.options.autoplay,
