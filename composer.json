@@ -24,5 +24,11 @@
         "psr-4": {
             "ZionBuilder\\": "includes/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
