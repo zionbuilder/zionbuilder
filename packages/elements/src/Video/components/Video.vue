@@ -60,6 +60,7 @@ export default {
 		function runScript() {
 			if (window.zbScripts?.video) {
 				videoPlayer = new window.zbScripts.video(root.value);
+				videoPlayer.init();
 			}
 		}
 
@@ -79,7 +80,6 @@ export default {
 			return JSON.stringify({
 				video_config: this.videoSourceModel,
 				use_image_overlay: this.options.use_image_overlay,
-				use_modal: this.options.use_modal,
 			});
 		},
 
