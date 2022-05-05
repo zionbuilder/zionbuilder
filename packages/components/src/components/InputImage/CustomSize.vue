@@ -1,15 +1,11 @@
 <template>
-	<div
-		class="znpb-forms-image-custom-size__wrapper"
-	>
+	<div class="znpb-forms-image-custom-size__wrapper">
 		<InputWrapper
 			:title="$translate('custom_width')"
 			align="center"
 			class="znpb-forms-image-custom-size__option-wrapper"
 		>
-			<BaseInput
-				v-model="width"
-			/>
+			<BaseInput v-model="width" />
 		</InputWrapper>
 		<div class="znpb-forms-image-custom-size__option-separator">
 			<Icon icon="close" :size="10" />
@@ -19,53 +15,55 @@
 			align="center"
 			class="znpb-forms-image-custom-size__option-wrapper"
 		>
-			<BaseInput
-				v-model="height"
-			/>
+			<BaseInput v-model="height" />
 		</InputWrapper>
-		<div
-			class="znpb-forms-image-custom-size__option-wrapper"
-		>
+		<div class="znpb-forms-image-custom-size__option-wrapper">
 			<button
 				class="znpb-button znpb-button--line znpb-forms-image-custom-size__apply-button"
 				@click="onCustomSizeClick"
-			>Apply</button>
+			>
+				Apply
+			</button>
 		</div>
 	</div>
 </template>
 
-<script>
-import { Icon } from '../Icon'
-import BaseInput from '../BaseInput/BaseInput.vue'
-import InputWrapper from '../InputWrapper/InputWrapper.vue'
-
+<script lang="ts">
 export default {
 	name: 'CustomSize',
-	props: {
-		modelValue: {
-			type: Object
-		}
+	data() {
+		return {};
 	},
-	data () {
-		return {
-			width: (this.modelValue || {}).width,
-			height: (this.modelValue || {}).height
-		}
-	},
-	components: {
-		BaseInput,
-		InputWrapper,
-		Icon
-	},
-	methods: {
-		onCustomSizeClick () {
-			if (this.width || this.height) {
-				this.$emit('update:modelValue', {
-					width: this.width,
-					height: this.height
-				})
-			}
-		}
+	methods: {},
+};
+</script>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { Icon } from '../Icon';
+import BaseInput from '../BaseInput/BaseInput.vue';
+import InputWrapper from '../InputWrapper/InputWrapper.vue';
+
+const props = defineProps<{
+	modelValue?: {
+		width?: string;
+		height?: string;
+	};
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: { width: string; height: string }): void;
+}>();
+
+const width = ref(props.modelValue?.width);
+const height = ref(props.modelValue?.height);
+
+function onCustomSizeClick() {
+	if (width.value || height.value) {
+		emit('update:modelValue', {
+			width: width.value || '',
+			height: height.value || '',
+		});
 	}
 }
 </script>
