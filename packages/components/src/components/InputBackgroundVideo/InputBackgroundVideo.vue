@@ -66,7 +66,7 @@ const videoPreview: Ref<HTMLDivElement | null> = ref(null);
 const { getSchema } = useOptionsSchemas();
 
 const schema = computed(() => {
-	let schema: Record<string, any> = { ...getSchema('videoOptionSchema') };
+	const schema: Record<string, any> = { ...getSchema('videoOptionSchema') };
 
 	if (props.exclude_options) {
 		props.exclude_options.forEach(optionToRemove => {
@@ -101,45 +101,6 @@ const hasVideo = computed(() => {
 	}
 
 	return false;
-});
-
-//TODO Remove possibly Unused functions
-const controlsModel = computed({
-	get() {
-		return !!computedValue.value.controls;
-	},
-	set(newValue: boolean) {
-		emit('update:modelValue', {
-			...computedValue.value,
-			controls: newValue,
-		});
-	},
-});
-
-//TODO Remove possibly Unused functions
-const autoplayModel = computed({
-	get() {
-		return typeof computedValue.value['autoplay'] === 'undefined' ? true : computedValue.value['autoplay'];
-	},
-	set(newValue: boolean) {
-		emit('update:modelValue', {
-			...computedValue.value,
-			autoplay: newValue,
-		});
-	},
-});
-
-//TODO Remove possibly Unused functions
-const mutedModel = computed({
-	get() {
-		return typeof computedValue.value['muted'] === 'undefined' ? true : computedValue.value['muted'];
-	},
-	set(newValue: boolean) {
-		emit('update:modelValue', {
-			...computedValue.value,
-			muted: newValue,
-		});
-	},
 });
 
 const videoSourceModel = computed({
@@ -189,18 +150,15 @@ function openMediaModal() {
 	mediaModal.value.open();
 }
 
-function selectMedia(e) {
-	// TODO add e type and remove selection = e since model can allow only one selection
-	let selection = (mediaModal.value as Record<string, any>).state().get('selection').toJSON();
-	// In case we have multiple items
-	if (e !== undefined) {
-		selection = e;
-	}
+function selectMedia() {
+	const selection = (mediaModal.value as Record<string, any>).state().get('selection').toJSON();
+
 	emit('update:modelValue', {
 		...computedValue.value,
 		mp4: selection[0].url,
 	});
 }
+
 function deleteVideo() {
 	const { mp4, ...rest } = computedValue.value;
 	emit('update:modelValue', {
