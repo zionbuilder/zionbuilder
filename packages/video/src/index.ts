@@ -1,13 +1,11 @@
-import type { Player as VimeoPlayer } from '@vimeo/player';
-
-interface Vimeo {
-	Player: VimeoPlayer;
-}
+import { createActionInstance } from '@zionbuilder/hooks';
+import reframe from 'reframe.js';
 
 declare global {
 	interface Window {
-		onYouTubeIframeAPIReady: () => void;
-		Vimeo: Vimeo;
+		onYouTubeIframeAPIReady: any;
+		YT: any;
+		Vimeo: any;
 	}
 }
 
@@ -33,14 +31,20 @@ let vimeoApiLoadedState = 0;
 let videoIndex = 0;
 let vimeoVolume = 1;
 
+const globalEventBus = createActionInstance();
+
 export default class Video {
 	options: VideoOptions = {};
+	eventBus;
+	on;
+	off;
+	trigger;
 	domNode: VideoHTMLElement;
 	videoIndex: number;
 	videoContainer: HTMLElement | null = null;
 	videoSource = 'local';
 	YoutubeId?: string;
-	player: YT.Player | HTMLVideoElement | VimeoPlayer | null;
+	player: any;
 	muted = true;
 	playing = true;
 
@@ -57,32 +61,44 @@ export default class Video {
 		};
 
 		// Add event bus for this instance
-		this.player = null;
+		this.eventBus = createActionInstance();
+		this.on = this.eventBus.on;
+		this.off = this.eventBus.off;
+		this.trigger = this.eventBus.trigger;
+
 		this.domNode = domNode;
 		this.videoIndex = videoIndex++;
 		this.videoContainer = null;
 
+		if (this.options.responsive) {
+			this.on('video_ready', () => {
+				reframe(this.videoContainer);
+			});
+		}
+
 		// Allow access to this instance
 		this.domNode.zionVideo = this;
 
-		// Check sources
-		if (this.options.videoSource === 'local' && this.options.mp4) {
-			this.videoSource = 'local';
-			this.setupLocal();
-		} else if (this.options.videoSource === 'youtube' && this.options.youtubeURL) {
-			this.videoSource = 'youtube';
-			this.YoutubeId = this.youtubeUrlParser(this.options.youtubeURL);
-			this.setupYoutube();
-		} else if (this.options.videoSource === 'vimeo' && this.options.vimeoURL) {
-			this.videoSource = 'vimeo';
-			this.setupVimeo();
-		}
+		this.nextTick(() => {
+			// Check sources
+			if (this.options.videoSource === 'local' && this.options.mp4) {
+				this.videoSource = 'local';
+				this.setupLocal();
+			} else if (this.options.videoSource === 'youtube' && this.options.youtubeURL) {
+				this.videoSource = 'youtube';
+				this.YoutubeId = this.youtubeUrlParser(this.options.youtubeURL);
+				this.setupYoutube();
+			} else if (this.options.videoSource === 'vimeo' && this.options.vimeoURL) {
+				this.videoSource = 'vimeo';
+				this.setupVimeo();
+			}
+		});
 	}
 
-	youtubeUrlParser(url: string) {
+	youtubeUrlParser(url) {
 		const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
 		const match = url.match(regExp);
-		return match && match[7].length === 11 ? match[7] : undefined;
+		return match && match[7].length === 11 ? match[7] : false;
 	}
 
 	// Wait a cycle
@@ -93,21 +109,42 @@ export default class Video {
 	}
 
 	setupYoutube() {
-		const youtubeIframe = document.createElement('div');
+		const YtParams = {
+			mute: this.options.muted ? 1 : 0,
+			autoplay: this.options.autoplay ? 1 : 0,
+			iv_load_policy: 3,
+			showinfo: 0,
+			controls: this.options.controls ? 1 : 0,
+			modestbranding: 1,
+			rel: 0,
+			wmode: 'transparent',
+		};
+
+		let YtParamsString = '';
+		for (const [key, value] of Object.entries(YtParams)) {
+			YtParamsString += `&${key}=${value}`;
+		}
+
+		const youtubeIframe = document.createElement('iframe');
+		youtubeIframe.src = `https://www.youtube-nocookie.com/embed/${this.YoutubeId}?enablejsapi=1${YtParamsString}`;
 		youtubeIframe.id = `znpb-video-bg-youtube-${this.videoIndex}`;
+		youtubeIframe.allow = 'autoplay; fullscreen';
+		youtubeIframe.width = 425;
+		youtubeIframe.height = 239;
 
 		// Append the iframe
 		this.domNode.appendChild(youtubeIframe);
 
-		if (YoutubeApiLoadedtSate === 0) {
+		if (YoutubeApiLoadedState === 0) {
 			// 2. This code loads the IFrame Player API code asynchronously.
 			const youtubeTag = document.createElement('script');
 			youtubeTag.src = 'https://www.youtube.com/iframe_api';
 			const firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode?.insertBefore(youtubeTag, firstScriptTag);
+			firstScriptTag.parentNode.insertBefore(youtubeTag, firstScriptTag);
 
-			window.onYouTubeIframeAPIReady = () => {
-				this.enableYoutube();
+			const self = this;
+			window.onYouTubeIframeAPIReady = function () {
+				self.enableYoutube();
 				// trigger event
 				globalEventBus.trigger('youtube_api_ready');
 				YoutubeApiLoadedState = 2;
@@ -125,19 +162,11 @@ export default class Video {
 			height: '100%',
 			width: '100%',
 			videoId: this.YoutubeId,
-			playerVars: {
-				mute: this.options.muted ? 1 : 0,
-				autoplay: this.options.autoplay ? 1 : 0,
-				iv_load_policy: 3,
-				showinfo: 0,
-				controls: this.options.controls ? 1 : 0,
-				modestbranding: 1,
-				rel: 0,
-				origin: window.location.hostname,
-			},
 		});
 
 		this.videoContainer = this.player.getIframe();
+
+		this.trigger('video_ready');
 	}
 
 	setupVimeo() {
@@ -149,10 +178,11 @@ export default class Video {
 			const vimeoTag = document.createElement('script');
 			vimeoTag.src = 'https://player.vimeo.com/api/player.js';
 			const secondScriptTag = document.getElementsByTagName('script')[1];
-			secondScriptTag.parentNode?.insertBefore(vimeoTag, secondScriptTag);
+			const self = this;
+			secondScriptTag.parentNode.insertBefore(vimeoTag, secondScriptTag);
 
-			vimeoTag.onload = () => {
-				this.enableVimeo();
+			vimeoTag.onload = function () {
+				self.enableVimeo();
 				globalEventBus.trigger('vimeo_api_ready');
 				vimeoApiLoadedState = 2;
 			};
@@ -174,15 +204,16 @@ export default class Video {
 			controls: this.options.controls,
 		});
 
-		(this.player as VimeoPlayer).ready().then(() => {
-			this.videoContainer = (this.player as VimeoPlayer).element;
+		this.player.ready().then(() => {
+			this.videoContainer = this.player.element;
+			this.trigger('video_ready');
 		});
 	}
 
 	setupLocal() {
-		const autoplay = this.options.autoplay ? true : false;
-		const muted = this.options.muted ? true : false;
-		const loop = this.options.loop ? true : false;
+		const autoplay = this.options.autoplay ? 'autoplay' : '';
+		const muted = this.options.muted ? 'muted' : '';
+		const loop = this.options.loop ? 'loop' : '';
 
 		const videoElement = document.createElement('video');
 
@@ -205,6 +236,8 @@ export default class Video {
 
 		this.player = videoElement;
 		this.videoContainer = videoElement;
+
+		this.trigger('video_ready');
 	}
 
 	getVideoContainer() {
@@ -213,26 +246,26 @@ export default class Video {
 
 	play() {
 		if (this.videoSource === 'youtube') {
-			(this.player as YT.Player).playVideo();
+			this.player.playVideo();
 		}
 		if (this.videoSource === 'vimeo') {
-			(this.player as VimeoPlayer).play();
+			this.player.play();
 		}
 		if (this.videoSource === 'local') {
-			(this.player as HTMLVideoElement).play();
+			this.player.play();
 		}
 		this.playing = true;
 	}
 
 	pause() {
 		if (this.videoSource === 'youtube') {
-			(this.player as YT.Player).pauseVideo();
+			this.player.pauseVideo();
 		}
 		if (this.videoSource === 'vimeo') {
-			(this.player as VimeoPlayer).pause();
+			this.player.pause();
 		}
 		if (this.videoSource === 'local') {
-			(this.player as HTMLVideoElement).pause();
+			this.player.pause();
 		}
 		this.playing = false;
 	}
@@ -247,16 +280,16 @@ export default class Video {
 
 	mute() {
 		if (this.videoSource === 'youtube') {
-			(this.player as YT.Player).mute();
+			this.player.mute();
 		}
 		if (this.videoSource === 'vimeo') {
-			(this.player as VimeoPlayer).getVolume().then((volume: number) => {
+			this.player.getVolume().then((volume: number) => {
 				vimeoVolume = volume;
 			});
-			(this.player as VimeoPlayer).setVolume(0);
+			this.player.setVolume(0);
 		}
 		if (this.videoSource === 'local') {
-			(this.player as HTMLVideoElement).muted = true;
+			this.player.muted = true;
 		}
 
 		this.muted = true;
@@ -264,13 +297,13 @@ export default class Video {
 
 	unMute() {
 		if (this.videoSource === 'youtube') {
-			(this.player as YT.Player).unMute();
+			this.player.unMute();
 		}
 		if (this.videoSource === 'vimeo') {
-			(this.player as VimeoPlayer).setVolume(vimeoVolume);
+			this.player.setVolume(vimeoVolume);
 		}
 		if (this.videoSource === 'local') {
-			(this.player as HTMLVideoElement).muted = false;
+			this.player.muted = false;
 		}
 
 		this.muted = false;
@@ -285,6 +318,7 @@ export default class Video {
 	}
 
 	destroy() {
+		this.trigger('beforeDestroy');
 		this.player = null;
 		while (this.domNode.firstChild) {
 			this.domNode.removeChild(this.domNode.firstChild);

@@ -47,7 +47,6 @@ export default {
 			}
 
 			if (videoPlayer) {
-				videoPlayer.destroy();
 				if (videoOverlay.value) {
 					window.jQuery(videoOverlay.value).show();
 				}
@@ -59,10 +58,8 @@ export default {
 		});
 
 		function runScript() {
-			const script = window.ZionBuilderFrontend.getScript('video');
-
-			if (script) {
-				videoPlayer = script.initVideo(root.value);
+			if (window.zbScripts?.video) {
+				videoPlayer = new window.zbScripts.video(root.value);
 			}
 		}
 

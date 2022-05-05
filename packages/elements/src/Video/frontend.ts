@@ -1,5 +1,8 @@
 import './scss/main.scss';
 
+// TODO: add extra options for specific video sources
+// TODO: add lazy loading
+
 export interface VideoOptions {
 	autoplay?: boolean;
 	muted?: boolean;
@@ -271,3 +274,6 @@ class Video {
 document.querySelectorAll('.zb-el-zionVideo').forEach(domNode => {
 	new Video(<HTMLElement>domNode);
 });
+
+window.zbScripts = window.zbScripts || {};
+window.zbScripts.video = Video;
