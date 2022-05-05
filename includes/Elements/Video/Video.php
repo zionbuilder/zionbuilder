@@ -220,16 +220,8 @@ class Video extends Element {
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Video/editor.js' ) );
-		// $this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Video/frontend.js' ) );
-
 		wp_enqueue_script( 'zb-element-video', Utils::get_file_url( 'dist/js/elements/Video/frontend.js' ), [], Plugin::instance()->get_version(), true );
-		// wp_enqueue_script( 'zb-video' );
 	}
-
-	// public function enqueue() {
-	// 	wp_enqueue_script( 'zb-element-video', Utils::get_file_url( 'dist/js/elements/video/frontend.js' ), ['zionbuilder-script-initializer'], Plugin::instance()->get_version(), true );
-	// }
-
 
 	/**
 	 * Enqueue element styles for both frontend and editor

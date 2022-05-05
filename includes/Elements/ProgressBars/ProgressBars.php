@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\ProgressBars;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -274,7 +275,7 @@ class ProgressBars extends Element {
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/ProgressBars/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/ProgressBars/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-progress-bars', Utils::get_file_url( 'dist/js/elements/ProgressBars/frontend.js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**
