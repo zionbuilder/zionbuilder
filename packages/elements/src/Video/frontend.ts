@@ -96,7 +96,7 @@ class Video {
 
 	initBackdrop() {
 		const backdrop = this.domNode?.querySelector('.zb-el-zionVideo-overlay');
-		console.log(backdrop);
+
 		backdrop?.addEventListener('click', () => {
 			this.initVideo();
 			backdrop.parentElement?.removeChild(backdrop);
@@ -289,3 +289,4 @@ document.querySelectorAll('.zb-el-zionVideo').forEach(domNode => {
 
 window.zbScripts = window.zbScripts || {};
 window.zbScripts.video = Video;
+zb - el - alert__closeIcon;
