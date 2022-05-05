@@ -59,6 +59,10 @@ export default {
 
 		function runScript() {
 			if (window.zbScripts?.video) {
+				if (videoPlayer) {
+					videoPlayer.destroy();
+				}
+
 				videoPlayer = new window.zbScripts.video(root.value);
 				videoPlayer.init();
 			}

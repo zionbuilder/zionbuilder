@@ -31,6 +31,7 @@ class Video {
 	vimeoPlayer?;
 	html5Player?: HTMLVideoElement;
 	isInit = false;
+	videoElement?: HTMLElement;
 
 	constructor(domNode: HTMLElement) {
 		this.domNode = domNode;
@@ -53,6 +54,13 @@ class Video {
 			});
 		} else {
 			this.init();
+		}
+	}
+
+	destroy() {
+		const element = this.domNode?.querySelector('.zb-el-video-element');
+		if (element && element.parentElement) {
+			element.parentElement.removeChild(element);
 		}
 	}
 
@@ -158,11 +166,12 @@ class Video {
 		}
 
 		// Create iframe
-		const iframe = document.createElement('div');
-		this.domNode?.appendChild(iframe);
+		const videoElement = document.createElement('div');
+		videoElement.classList.add('zb-el-video-element');
+		this.domNode?.appendChild(videoElement);
 
 		this.onYoutubeAPIReady(() => {
-			this.youtubePlayer = new window.YT.Player(iframe, {
+			this.youtubePlayer = new window.YT.Player(videoElement, {
 				videoId: videoID,
 				playerVars: {
 					autoplay: this.options.autoplay ? 1 : 0,
@@ -210,11 +219,12 @@ class Video {
 		}
 
 		// Create video container
-		const videoContainer = document.createElement('div');
-		this.domNode?.appendChild(videoContainer);
+		const videoElement = document.createElement('div');
+		videoElement.classList.add('zb-el-video-element');
+		this.domNode?.appendChild(videoElement);
 
 		this.onVimeoApiReady(() => {
-			this.vimeoPlayer = new window.Vimeo.Player(videoContainer, {
+			this.vimeoPlayer = new window.Vimeo.Player(videoElement, {
 				id: this.options?.vimeoURL,
 				background: false,
 				muted: this.options.muted,
@@ -232,6 +242,7 @@ class Video {
 		const loop = this.options.loop ? true : false;
 
 		const videoElement = document.createElement('video');
+		videoElement.classList.add('zb-el-video-element');
 
 		// Set video arguments
 		videoElement.muted = muted;
