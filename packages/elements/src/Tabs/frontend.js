@@ -1,23 +1,23 @@
-import './scss/main.scss'
+import './scss/main.scss';
 
 (function ($) {
 	window.ZionBuilderFrontend.registerScript('counter', {
 		run(scope) {
-			const $tabs = $(scope).find('.zb-el-tabs').addBack('.zb-el-tabs')
+			const $tabs = $(scope).find('.zb-el-tabs').addBack('.zb-el-tabs');
 
 			if ($tabs.length > 0) {
 				$tabs.each((i, el) => {
-					const $el = $(el)
-					const $tabsWrapper = $el.closest('.zb-el-tabs')
-					const $tabLinksContainer = $tabsWrapper.find('.zb-el-tabs-nav')
-					const $tabLinks = $tabsWrapper.find('.zb-el-tabs-nav-title')
-					const $tabsContent = $tabsWrapper.find('.zb-el-tabsItem')
+					const $el = $(el);
+					const $tabsWrapper = $el.closest('.zb-el-tabs');
+					const $tabLinksContainer = $tabsWrapper.find('.zb-el-tabs-nav');
+					const $tabLinks = $tabsWrapper.find('.zb-el-tabs-nav-title');
+					const $tabsContent = $tabsWrapper.find('.zb-el-tabsItem');
 
-					let tabFocus = 0
+					let tabFocus = 0;
 					$tabLinksContainer.on('keydown', function (e) {
 						// Move right
 						if (e.keyCode === 39 || e.keyCode === 37) {
-							$tabLinks[tabFocus].setAttribute("tabindex", -1);
+							$tabLinks[tabFocus].setAttribute('tabindex', -1);
 							if (e.keyCode === 39) {
 								tabFocus++;
 
@@ -36,34 +36,33 @@ import './scss/main.scss'
 								// Activate tab on space and enter
 							}
 
-							$tabLinks[tabFocus].setAttribute("tabindex", 0);
+							$tabLinks[tabFocus].setAttribute('tabindex', 0);
 							$tabLinks[tabFocus].focus();
 						}
 
 						if (e.keyCode === 32 || e.keyCode === 13) {
-							activateTab(tabFocus)
+							activateTab(tabFocus);
 						}
-
-					})
+					});
 
 					function activateTab(index) {
 						// Remove active class from existing items
-						$tabLinks.removeClass('zb-el-tabs-nav--active')
-						$tabsContent.removeClass('zb-el-tabs-nav--active')
+						$tabLinks.removeClass('zb-el-tabs-nav--active');
+						$tabsContent.removeClass('zb-el-tabs-nav--active');
 
-						const $clickedItem = $($tabLinks[index])
+						const $clickedItem = $($tabLinks[index]);
 						// Add active class to clicked item
-						$clickedItem.addClass('zb-el-tabs-nav--active')
-						$tabsContent.eq(index).addClass('zb-el-tabs-nav--active')
+						$clickedItem.addClass('zb-el-tabs-nav--active');
+						$tabsContent.eq(index).addClass('zb-el-tabs-nav--active');
 					}
 
 					$tabLinks.on('click', function (event) {
-						const clickedItemIndex = Array.from($tabLinks).indexOf(this)
+						const clickedItemIndex = Array.from($tabLinks).indexOf(this);
 
-						activateTab(clickedItemIndex)
-					})
-				})
+						activateTab(clickedItemIndex);
+					});
+				});
 			}
-		}
-	})
-})(window.jQuery)
+		},
+	});
+})(window.jQuery);

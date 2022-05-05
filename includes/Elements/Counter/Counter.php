@@ -199,8 +199,6 @@ class Counter extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'zionbuilder-animatejs' );
-
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Counter/editor.js' ) );
 		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Counter/frontend.js' ) );

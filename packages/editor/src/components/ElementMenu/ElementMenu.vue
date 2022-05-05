@@ -135,7 +135,7 @@ export default {
 					cssClasses: 'znpb-menu-item--separator-bottom',
 				},
 				{
-					title: translate('wrap_in_container'),
+					title: translate('wrap_with_container'),
 					icon: 'eye',
 					action: () => {
 						wrapInContainer(element);
