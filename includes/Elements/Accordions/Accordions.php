@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Accordions;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -162,7 +163,7 @@ class Accordions extends Element {
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Accordions/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Accordions/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-accordions', Utils::get_file_url( 'dist/js/elements/Accordions/frontend.js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**

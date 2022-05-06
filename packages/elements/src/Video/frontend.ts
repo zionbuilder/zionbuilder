@@ -289,4 +289,3 @@ document.querySelectorAll('.zb-el-zionVideo').forEach(domNode => {
 
 window.zbScripts = window.zbScripts || {};
 window.zbScripts.video = Video;
-zb - el - alert__closeIcon;
