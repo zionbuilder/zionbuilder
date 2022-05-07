@@ -72,7 +72,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, CSSProperties } from 'vue';
 import { Icon } from '../Icon';
 
 interface IProps {
@@ -104,7 +104,7 @@ interface IProps {
 
 	fontFamily?: string;
 
-	class?: string;
+	class?: CSSProperties;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	modelValue: '',
@@ -152,6 +152,7 @@ function focus() {
 function blur() {
 	input.value?.blur();
 }
+
 defineExpose({
 	input,
 	focus,
