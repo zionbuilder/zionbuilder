@@ -1,59 +1,48 @@
 <template>
-	<div
-		class="znpb-gradient-element"
-		:class="{'znpb-gradient-element--active': isActive}"
-	>
-		<OneGradient
-			:round="true"
-			:config="localConfig"
-			@click="$emit('change-active-gradient', config)"
-		/>
-		<Icon
-			icon="close"
-			v-if="showRemove"
-			@click.stop="$emit('delete-gradient')"
-		/>
+	<div class="znpb-gradient-element" :class="{ 'znpb-gradient-element--active': isActive }">
+		<OneGradient :round="true" :config="localConfig" @click="$emit('change-active-gradient', config)" />
+		<Icon v-if="showRemove" icon="close" @click.stop="$emit('delete-gradient')" />
 	</div>
-
 </template>
-<script>
-import Icon from '../Icon/Icon.vue'
-import OneGradient from './OneGradient.vue'
 
+<script lang="ts">
 export default {
 	name: 'GradientElement',
-	components: {
-		OneGradient,
-		Icon
-	},
-	props: {
-		config: {
-			type: Object,
-			required: false
-		},
-		showRemove: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		isActive: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
-	},
-	computed: {
-		localConfig: {
-			get () {
-				return this.config
-			},
-			set (newConfig) {
-				this.localConfig = newConfig
-			}
-		}
-	}
-}
+};
 </script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+import Icon from '../Icon/Icon.vue';
+import OneGradient from './OneGradient.vue';
+import type { Gradient } from './GradientBar.vue';
+
+const props = withDefaults(
+	defineProps<{
+		config: Gradient;
+		showRemove?: boolean;
+		isActive?: boolean;
+	}>(),
+	{
+		showRemove: true,
+	},
+);
+
+defineEmits<{
+	(e: 'change-active-gradient', value: Gradient): void;
+	(e: 'delete-gradient'): void;
+}>();
+
+const localConfig = computed({
+	get() {
+		return props.config;
+	},
+	set(newConfig: Gradient) {
+		localConfig.value = newConfig;
+	},
+});
+</script>
+
 <style lang="scss">
 .znpb-gradient-element {
 	position: relative;
@@ -64,7 +53,7 @@ export default {
 
 	&--active {
 		&:before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -106,7 +95,7 @@ export default {
 		visibility: hidden;
 
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			left: 0;

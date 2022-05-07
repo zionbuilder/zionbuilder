@@ -2,122 +2,96 @@
 	<div class="znpb-preset-input-wrapper">
 		<BaseInput
 			v-model="presetName"
-			:placeholder="isGradient? $translate('save_gradient_title'):$translate('add_preset_title')"
-			:class="{'znpb-backgroundGradient__nameInput':isGradient}"
+			:placeholder="isGradient ? $translate('save_gradient_title') : $translate('add_preset_title')"
+			:class="{ 'znpb-backgroundGradient__nameInput': isGradient }"
 			:error="hasError"
 		>
-
-			<template
-				v-slot:prepend
-				v-if="isGradient"
-			>
+			<template v-if="isGradient" #prepend>
 				<InputSelect
+					v-model="gradientType"
 					class="znpb-backgroundGradient__typeDropdown"
 					:options="gradientTypes"
 					placeholder="Type"
-					v-model="gradientType"
 				/>
-
 			</template>
-			<template
-				v-slot:append
-				v-else
-			>
-				<Icon
-					icon="check"
-					@mousedown.stop="savePreset"
-				/>
-				<Icon
-					icon="close"
-					@mousedown.prevent="$emit('cancel',true)"
-				/>
+			<template v-else #append>
+				<Icon icon="check" @mousedown.stop="savePreset" />
+				<Icon icon="close" @mousedown.prevent="$emit('cancel', true)" />
 			</template>
 		</BaseInput>
 
 		<!-- Actions -->
 		<template v-if="isGradient">
-			<Icon
-				icon="check"
-				class="znpb-backgroundGradient__action"
-				@click.stop="savePreset"
-			/>
+			<Icon icon="check" class="znpb-backgroundGradient__action" @click.stop="savePreset" />
 
-			<Icon
-				icon="close"
-				class="znpb-backgroundGradient__action"
-				@click.stop="$emit('cancel',true)"
-			/>
+			<Icon icon="close" class="znpb-backgroundGradient__action" @click.stop="$emit('cancel', true)" />
 		</template>
 	</div>
 </template>
-<script>
-import { Icon } from '../Icon'
-import { BaseInput } from '../BaseInput'
-import { InputSelect } from '../InputSelect'
 
-/**
- * it emits:
- *  - the new color chosen
- */
+<script lang="ts">
 export default {
 	name: 'PresetInput',
-	components: {
-		BaseInput,
-		InputSelect,
-		Icon
-	},
-	props: {
-		isGradient: {
-			type: Boolean,
-			default: true
-		}
-	},
-	data () {
-		return {
-			presetName: '',
-			gradientType: 'local',
-			hasError: false,
-			gradientTypes: [
-				{
-					id: 'local',
-					name: this.$translate('local')
-				},
-				{
-					id: 'global',
-					name: this.$translate('global')
-				}
-			]
-		}
-	},
-	methods: {
-		savePreset () {
+};
+</script>
 
-			if (this.presetName.length === 0) {
-				this.hasError = true
-				return
-			}
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+import { Icon } from '../Icon';
+import { BaseInput } from '../BaseInput';
+import { InputSelect } from '../InputSelect';
+import { translate } from '@zb/i18n';
 
-			if (this.isGradient) {
-				this.$emit('save-preset', this.presetName, this.gradientType)
-			} else this.$emit('save-preset', this.presetName)
-
-		}
+const props = withDefaults(
+	defineProps<{
+		isGradient?: boolean;
+	}>(),
+	{
+		isGradient: true,
 	},
-	watch: {
-		hasError (newValue) {
-			let timeOut = null
-			if (newValue) {
-				timeOut = setTimeout(() => {
-					this.hasError = false
-				}, 500)
-			} else {
-				clearTimeout(timeOut)
-				this.hasError = false
-			}
-		}
+);
+
+const emit = defineEmits<{
+	(e: 'save-preset', name: string, type?: string): void;
+	(e: 'cancel', value: boolean): void;
+}>();
+const presetName = ref('');
+const gradientType = ref('local');
+const hasError = ref(false);
+const gradientTypes = ref([
+	{
+		id: 'local',
+		name: translate('local'),
+	},
+	{
+		id: 'global',
+		name: translate('global'),
+	},
+]);
+
+function savePreset() {
+	if (presetName.value.length === 0) {
+		hasError.value = true;
+		return;
+	}
+
+	if (props.isGradient) {
+		emit('save-preset', presetName.value, gradientType.value);
+	} else {
+		emit('save-preset', presetName.value);
 	}
 }
+
+watch(hasError, newValue => {
+	let timeOut = null;
+	if (newValue) {
+		timeOut = setTimeout(() => {
+			hasError.value = false;
+		}, 500);
+	}
+});
 </script>
+
 <style lang="scss">
 .znpb-preset-input-wrapper {
 	display: flex;
