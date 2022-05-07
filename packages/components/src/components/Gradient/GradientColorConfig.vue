@@ -1,77 +1,69 @@
 <template>
-
 	<div class="znpb-gradient-actions">
-		<OptionsForm
-			:schema="schema"
-			v-model="valueModel"
-			class="znpb-gradient-color-form"
-		/>
-		<div
-			class="znpb-gradient-actions__delete"
-			v-if="showDelete"
-		>
-			<Icon
-				icon="close"
-				@click.stop="$emit('delete-color', config)"
-				class="znpb-gradient-actions-delete"
-			/>
+		<OptionsForm v-model="valueModel" :schema="schema" class="znpb-gradient-color-form" />
+		<div v-if="showDelete" class="znpb-gradient-actions__delete">
+			<Icon icon="close" class="znpb-gradient-actions-delete" @click.stop="$emit('delete-color', config)" />
 		</div>
 	</div>
-
 </template>
-<script>
-import { cloneDeep } from 'lodash-es'
-import Icon from '../Icon/Icon.vue'
 
+<script lang="ts">
 export default {
 	name: 'GradientColorConfig',
-	components: {
-		Icon
-	},
-	props: {
-		config: {
-			type: Object,
-			required: true
-		},
-		showDelete: {
-			type: Boolean,
-			required: false,
-			default: true
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				const value = cloneDeep(this.config)
-				if (Array.isArray(value.__dynamic_content__)) {
-					value.__dynamic_content__ = {}
-				}
-				return value
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		schema () {
-			return {
-				color: {
-					type: 'colorpicker',
-					id: 'color',
-					width: '50'
-				},
-				position: {
-					type: 'number',
-					id: 'position',
-					content: '%',
-					width: '50',
-					min: 0,
-					max: 100
-				}
-			}
-		}
-	}
-}
+};
 </script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { cloneDeep } from 'lodash-es';
+import Icon from '../Icon/Icon.vue';
+import type { Color } from './GradientBar.vue';
+
+const props = withDefaults(
+	defineProps<{
+		config: Color;
+		showDelete?: boolean;
+	}>(),
+	{
+		showDelete: true,
+	},
+);
+
+const emit = defineEmits<{
+	(e: 'delete-color', value: Color): void;
+	(e: 'update:modelValue', value: Color): void;
+}>();
+
+const schema = {
+	color: {
+		type: 'colorpicker',
+		id: 'color',
+		width: '50',
+	},
+	position: {
+		type: 'number',
+		id: 'position',
+		content: '%',
+		width: '50',
+		min: 0,
+		max: 100,
+	},
+};
+
+const valueModel = computed({
+	get() {
+		const value = cloneDeep(props.config);
+		if (Array.isArray(value.__dynamic_content__)) {
+			value.__dynamic_content__ = {};
+		}
+		return value;
+	},
+	set(newValue: Color) {
+		emit('update:modelValue', newValue);
+	},
+});
+</script>
+
 <style lang="scss">
 .znpb-gradient-actions {
 	position: relative;

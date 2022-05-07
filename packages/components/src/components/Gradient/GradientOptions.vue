@@ -1,55 +1,19 @@
 <template>
 	<div class="znpb-gradient-options-wrapper">
-		<InputWrapper
-			:title="$translate('gradient_type')"
-			class="znpb-gradient__type"
-		>
-
-			<Tabs
-				tab-style="minimal"
-				@changed-tab="onTabChange"
-				:activeTab="computedValue.type"
-			>
+		<InputWrapper :title="$translate('gradient_type')" class="znpb-gradient__type">
+			<Tabs tab-style="minimal" :active-tab="computedValue.type" @changed-tab="onTabChange">
 				<Tab name="Linear">
-					<InputWrapper
-						:title="$translate('gradient_angle')"
-						class="znpb-gradient__angle"
-					>
-						<InputRange
-							v-model="computedAngle"
-							:min="0"
-							:max="360"
-							:step="1"
-						>deg</InputRange>
+					<InputWrapper :title="$translate('gradient_angle')" class="znpb-gradient__angle">
+						<InputRange v-model="computedAngle" :min="0" :max="360" :step="1">deg</InputRange>
 					</InputWrapper>
 				</Tab>
 				<Tab name="Radial">
 					<div class="znpb-radial-postion-wrapper">
-						<InputWrapper
-							title="Position X"
-							layout="inline"
-						>
-							<InputNumber
-								v-model="computedPositionX"
-								:min="0"
-								:max="100"
-								:step="1"
-							>
-								%
-							</InputNumber>
+						<InputWrapper title="Position X" layout="inline">
+							<InputNumber v-model="computedPositionX" :min="0" :max="100" :step="1"> % </InputNumber>
 						</InputWrapper>
-						<InputWrapper
-							title="Position Y"
-							layout="inline"
-						>
-							<InputNumber
-								v-model="computedPositionY"
-								:min="0"
-								:max="100"
-								:step="1"
-							>
-								%
-							</InputNumber>
+						<InputWrapper title="Position Y" layout="inline">
+							<InputNumber v-model="computedPositionY" :min="0" :max="100" :step="1"> % </InputNumber>
 						</InputWrapper>
 					</div>
 				</Tab>
@@ -57,114 +21,96 @@
 		</InputWrapper>
 
 		<InputWrapper :title="$translate('gradient_bar')">
-			<GradientBar
-				v-model="computedValue"
-				class="znpb-gradient__bar"
-			/>
+			<GradientBar v-model="computedValue" class="znpb-gradient__bar" />
 		</InputWrapper>
 	</div>
 </template>
-<script>
-import GradientBar from './GradientBar.vue'
-import { InputWrapper } from '../InputWrapper'
-import { InputNumber } from '../InputNumber'
-import { InputRange } from '../InputRange'
-import { Tabs, Tab } from "../Tabs"
 
+<script lang="ts">
 export default {
 	name: 'GradientOptions',
-	components: {
-		GradientBar,
-		InputWrapper,
-		InputNumber,
-		InputRange,
-		Tabs,
-		Tab
-	},
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		}
-	},
-	data () {
-		return {
-			typeSwitch: [
-				{
-					name: 'linear',
-					id: 'linear'
-				},
-				{
-					name: 'radial',
-					id: 'radial'
-				}
+};
+</script>
 
-			]
-		}
-	},
-	computed: {
-		computedValue: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
+<script lang="ts" setup>
+import { computed } from 'vue';
+import GradientBar from './GradientBar.vue';
+import { InputWrapper } from '../InputWrapper';
+import { InputNumber } from '../InputNumber';
+import { InputRange } from '../InputRange';
+import { Tabs, Tab } from '../Tabs';
+import type { Gradient, Position } from './GradientBar.vue';
 
-		computedAngle: {
-			get () {
-				return this.computedValue.angle
-			},
-			set (newValue) {
-				this.computedValue = {
-					...this.computedValue,
-					angle: newValue
-				}
-			}
-		},
-		computedPosition: {
-			get () {
-				return this.computedValue.position || {}
-			},
-			set (newValue) {
-				this.computedValue = {
-					...this.computedValue,
-					position: newValue
-				}
-			}
-		},
-		computedPositionX: {
-			get () {
-				return (this.computedValue.position || {}).x || 50
-			},
-			set (newValue) {
-				this.computedPosition = {
-					...this.computedPosition,
-					x: newValue
-				}
-			}
-		},
-		computedPositionY: {
-			get () {
-				return (this.computedValue.position || {}).y || 50
-			},
-			set (newValue) {
-				this.computedPosition = {
-					...this.computedPosition,
-					y: newValue
-				}
-			}
-		}
+const props = defineProps<{
+	modelValue: Gradient;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Gradient): void;
+}>();
+
+const computedValue = computed({
+	get() {
+		return props.modelValue;
 	},
-	methods: {
-		onTabChange (tabId) {
-			this.computedValue = {
-				...this.computedValue,
-				type: tabId
-			}
-		}
-	}
+	set(newValue: Gradient) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const computedAngle = computed({
+	get() {
+		return computedValue.value.angle;
+	},
+	set(newValue: number) {
+		computedValue.value = {
+			...computedValue.value,
+			angle: newValue,
+		};
+	},
+});
+
+const computedPosition = computed({
+	get() {
+		return computedValue.value.position || {};
+	},
+	set(newValue: Position) {
+		computedValue.value = {
+			...computedValue.value,
+			position: newValue,
+		};
+	},
+});
+
+const computedPositionX = computed({
+	get() {
+		return computedValue.value.position?.x || 50;
+	},
+	set(newValue: number) {
+		computedPosition.value = {
+			...computedPosition.value,
+			x: newValue,
+		};
+	},
+});
+
+const computedPositionY = computed({
+	get() {
+		return computedValue.value.position?.y || 50;
+	},
+	set(newValue: number) {
+		computedPosition.value = {
+			...computedPosition.value,
+			y: newValue,
+		};
+	},
+});
+
+function onTabChange(tabId: string) {
+	computedValue.value = {
+		...computedValue.value,
+		type: tabId,
+	};
 }
 </script>
 <style lang="scss">
