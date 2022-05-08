@@ -1,24 +1,27 @@
 <template>
-	<!-- <Teleport :disabled="!appendTo" :to="appendTo"> -->
-	<div
-		class="znpb-form-colorpicker__color-picker-holder"
-		:class="{ ['color-picker-holder--has-library']: showLibrary }"
-		:style="pickerStyle"
-	>
-		<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
+	<Teleport :disabled="!appendTo" :to="appendTo">
+		<div
+			ref="colorPicker"
+			class="znpb-form-colorpicker__color-picker-holder"
+			:class="{ ['color-picker-holder--has-library']: showLibrary }"
+			:style="pickerStyle"
+			v-bind="$attrs"
+		>
+			<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
 
-		<div class="znpb-form-colorpicker-inner__panel">
-			<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
+			<div class="znpb-form-colorpicker-inner__panel">
+				<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
 
-			<slot name="end" />
+				<slot name="end" />
+			</div>
 		</div>
-	</div>
-	<!-- </Teleport> -->
+	</Teleport>
 </template>
 
 <script lang="ts">
 export default {
 	name: 'ColorPicker',
+	inheritAttrs: false,
 };
 </script>
 
@@ -26,7 +29,7 @@ export default {
 import tinycolor from 'tinycolor2';
 import PanelHex from './PanelHex.vue';
 import ColorBoard from './ColorBoard.vue';
-import { ref, computed, Ref, watch } from 'vue';
+import { ref, computed, Ref, watch, CSSProperties } from 'vue';
 import type { ColorFormats } from 'tinycolor2';
 
 type Format = 'hex' | 'hsv' | 'hsl' | 'rgb' | 'hex8' | 'name' | false;
@@ -37,13 +40,12 @@ type ColorObject = ReturnType<typeof getColorObject>;
 
 const props = withDefaults(
 	defineProps<{
-		model: string;
+		model?: Colors;
 		showLibrary?: boolean;
 		appendTo?: string;
 		zIndex?: number;
 	}>(),
 	{
-		//@TODO color picker closes after changing the color format due to a Teleport issue
 		appendTo: undefined,
 		showLibrary: true,
 	},
@@ -59,21 +61,21 @@ const localLibrary = ref(props.showLibrary);
 color.value = getColorObject(props.model);
 format.value = color.value.format;
 
-const pickerStyle = computed(() => {
+watch(
+	() => props.model,
+	(newVal?: Colors) => {
+		color.value = getColorObject(newVal);
+	},
+);
+
+const pickerStyle = computed<CSSProperties>(() => {
 	if (props.appendTo) {
 		return {
 			zIndex: props.zIndex,
 		};
 	}
-	return undefined;
+	return {};
 });
-
-watch(
-	() => props.model,
-	(newVal: Colors) => {
-		color.value = getColorObject(newVal);
-	},
-);
 
 function updateFormat(currentFormat: Format) {
 	format.value = currentFormat;
@@ -88,7 +90,7 @@ function updateColor(newValue: Colors) {
 		emittedColor = colorObject.toHslString();
 	} else if (format.value === 'rgb' || format.value === 'name' || format.value === 'hsv') {
 		emittedColor = colorObject.toRgbString();
-	} else if (format.value === 'hex') {
+	} else if (format.value === 'hex' || format.value === 'hex8') {
 		emittedColor = colorObject.getAlpha() < 1 ? colorObject.toHex8String() : colorObject.toHexString();
 	}
 
@@ -101,7 +103,7 @@ function updateColor(newValue: Colors) {
 	}
 }
 
-function getColorObject(model: Colors) {
+function getColorObject(model?: Colors) {
 	const colorObject = tinycolor(model);
 
 	let hsva = colorObject.toHsv();

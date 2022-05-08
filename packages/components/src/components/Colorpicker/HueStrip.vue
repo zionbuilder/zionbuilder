@@ -38,17 +38,20 @@ const hueStyles = computed(() => {
 	};
 });
 
-watch(props.modelValue, () => {
-	const { h } = props.modelValue;
-	if (h !== 0 && h > oldHue.value) {
-		direction.value = 'right';
-	}
-	if (h !== 0 && h < oldHue.value) {
-		direction.value = 'left';
-	}
+watch(
+	() => props.modelValue,
+	() => {
+		const { h } = props.modelValue;
+		if (h !== 0 && h > oldHue.value) {
+			direction.value = 'right';
+		}
+		if (h !== 0 && h < oldHue.value) {
+			direction.value = 'left';
+		}
 
-	oldHue.value = h;
-});
+		oldHue.value = h;
+	},
+);
 
 const rafDragCircle = rafSchd(dragHueCircle);
 
