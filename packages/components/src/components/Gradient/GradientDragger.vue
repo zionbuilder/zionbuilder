@@ -87,7 +87,8 @@ function openColorPicker() {
 }
 
 function closePanelOnOutsideClick(event: MouseEvent) {
-	if (!(colorpickerHolder.value as InstanceType<typeof ColorPicker>).$el.contains(event.target)) {
+	const colorPicker = (colorpickerHolder.value as InstanceType<typeof ColorPicker>).$refs.colorPicker as HTMLDivElement;
+	if (!colorPicker.contains(event.target as HTMLElement)) {
 		showPicker.value = false;
 
 		document.removeEventListener('mousedown', closePanelOnOutsideClick);
