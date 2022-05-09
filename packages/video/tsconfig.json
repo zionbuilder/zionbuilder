@@ -4,10 +4,6 @@
 		"rootDir": "./src",
 		"declarationDir": "./build-types"
 	},
-	"references": [
-		{ "path": "../z-index-manager" },
-		{ "path": "../utils" },
-	],
 	"include": [
 		"src/**/*",
 		"../shims-vue.d.ts"

@@ -1,7 +1,7 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{'znpb-section-view-item--hidden': !element.isVisible}"
+		:class="{ 'znpb-section-view-item--hidden': !element.isVisible }"
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -9,96 +9,67 @@
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
-			<span v-if="error">{{ $translate('preview_not_available')}}</span>
+			<span v-if="error">{{ $translate('preview_not_available') }}</span>
 		</div>
 
-		<img :src="imageSrc">
+		<img :src="imageSrc" />
 
-		<div
-			class="znpb-section-view-item__header"
-			:class="{'znpb-panel-item--active': isActiveItem}"
-		>
-			<UIElementIcon
-				:element="elementModel"
-				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
-				:size="24"
-			/>
+		<div class="znpb-section-view-item__header" :class="{ 'znpb-panel-item--active': isActiveItem }">
+			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
 
 			<div class="znpb-section-view-item__header-left">
-
-				<InlineEdit
-					v-model="elementName"
-					class="znpb-section-view-item__header-title"
-				/>
-
+				<InlineEdit v-model="elementName" class="znpb-section-view-item__header-title" />
 			</div>
 
 			<Icon
+				v-if="!element.isVisible"
+				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.toggleVisibility()"
-				v-if="!element.isVisible"
-				v-znpb-tooltip="$translate('enable_hidden_element')"
 			/>
 
-			<div
-				class="znpb-element-options__container"
-				@click.stop="showElementMenu"
-				ref="elementOptionsRef"
-			>
-				<Icon
-					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
-					icon="more"
-				/>
+			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
+				<Icon class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer" icon="more" />
 			</div>
 		</div>
 	</li>
 </template>
 <script lang="ts">
-import { ref, Ref, PropType, computed } from "vue";
-import domtoimage from "dom-to-image";
-import { onMounted } from "vue";
-import { translate } from "@zb/i18n";
-import { Element } from "@composables";
-import { useTreeViewItem } from "../useTreeViewItem";
+import { ref, Ref, PropType, computed } from 'vue';
+import domtoimage from 'dom-to-image';
+import { onMounted } from 'vue';
+import { translate } from '@zb/i18n';
+import { Element } from '@composables';
+import { useTreeViewItem } from '../useTreeViewItem';
 
 export default {
-	name: "element-section-view",
+	name: 'ElementSectionView',
 	props: {
 		element: Object as PropType<Element>,
 	},
 	setup(props) {
-		const {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-			editElement,
-			elementModel,
-		} = useTreeViewItem(props);
+		const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
 
 		const imageSrc = ref(null);
 		const error = ref(null);
 		const loading: Ref<boolean> = ref(true);
 
 		onMounted(() => {
-			const domElement = window.frames[
-				"znpb-editor-iframe"
-			].contentDocument.getElementById(props.element.elementCssId);
+			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
 
 			if (!domElement) {
-				console.warn(
-					`Element with id "${props.element.elementCssId}" could not be found in page`
-				);
+				console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
 				return;
 			}
 
 			function filter(node) {
 				if (node && node.classList) {
-					if (node.classList.contains("znpb-empty-placeholder")) {
+					if (node.classList.contains('znpb-empty-placeholder')) {
 						return false;
 					}
 
-					if (node.classList.contains("znpb-element-toolbox")) {
+					if (node.classList.contains('znpb-element-toolbox')) {
 						return false;
 					}
 				}
@@ -108,15 +79,15 @@ export default {
 			domtoimage
 				.toPng(domElement, {
 					style: {
-						width: "100%",
+						width: '100%',
 						margin: 0,
 					},
 					filter: filter,
 				})
-				.then((dataUrl) => {
+				.then(dataUrl => {
 					imageSrc.value = dataUrl;
 				})
-				.catch((error) => {
+				.catch(error => {
 					error = true;
 					// eslint-disable-next-line
 					console.error(translate("oops_something_wrong"), error);
@@ -150,7 +121,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .znpb-section-view-item {
 	position: relative;
 	display: flex;
@@ -171,8 +142,8 @@ export default {
 	}
 	&--hidden {
 		.znpb-section-view-item__header-left {
-			transition: opacity .5s ease;
-			opacity: .5;
+			transition: opacity 0.5s ease;
+			opacity: 0.5;
 		}
 	}
 

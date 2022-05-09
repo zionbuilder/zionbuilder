@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="zb-el-counter"
-		ref="root"
-	>
+	<div ref="root" class="zb-el-counter">
 		<slot name="start" />
 
 		<div
@@ -11,10 +8,10 @@
 			v-bind="api.getAttributesForTag('before_text_styles')"
 			:class="api.getStyleClasses('before_text_styles')"
 		>
-			{{options.before}}
+			{{ options.before }}
 		</div>
 
-		<div class="zb-el-counter__number">{{options.start}}</div>
+		<div class="zb-el-counter__number">{{ options.start }}</div>
 
 		<div
 			v-if="options.after"
@@ -22,7 +19,7 @@
 			v-bind="api.getAttributesForTag('after_text_styles')"
 			:class="api.getStyleClasses('after_text_styles')"
 		>
-			{{options.after}}
+			{{ options.after }}
 		</div>
 
 		<slot name="end" />
@@ -30,39 +27,32 @@
 </template>
 
 <script>
-import { ref, watch, nextTick, onMounted, computed } from 'vue'
+import { ref, watch, onMounted } from 'vue';
 
 export default {
-	name: 'counter',
+	name: 'Counter',
 	props: ['options', 'element', 'api'],
-	setup (props) {
-		const root = ref(null)
+	setup(props) {
+		const root = ref(null);
 
 		onMounted(() => {
-			runScript()
-		})
+			runScript();
+		});
 
 		watch(
-			() => [
-				props.options.start,
-				props.options.end,
-				props.options.duration
-			].toString()
-			, (newValue, oldValue) => {
-				runScript()
-			})
+			() => [props.options.start, props.options.end, props.options.duration].toString(),
+			(newValue, oldValue) => {
+				runScript();
+			},
+		);
 
-		function runScript () {
-			const script = window.ZionBuilderFrontend.getScript('counter')
-
-			if (script) {
-				script.run(root.value)
-			}
+		function runScript() {
+			new window.zbScripts.counter(root.value);
 		}
 
 		return {
-			root
-		}
-	}
-}
+			root,
+		};
+	},
+};
 </script>

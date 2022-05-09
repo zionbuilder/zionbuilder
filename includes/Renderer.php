@@ -193,14 +193,19 @@ class Renderer {
 	public function render_area( $post_id, $custom_content = null ) {
 		PageAssets::set_active_post_id( $post_id );
 
-		$area_class   = sprintf( 'zb-area-%s', $post_id );
-		$classes      = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $post_id );
-		$area_content = $custom_content ? $custom_content : $this->get_content_for_area( $post_id );
+		$area_class       = sprintf( 'zb-area-%s', $post_id );
+		$classes          = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $post_id );
+		$area_content     = $custom_content ? $custom_content : $this->get_content_for_area( $post_id );
+		$disable_wrappers = Settings::get_value( 'performance.disable_area_wrappers', false ) === true;
 
-		echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
+		if ( ! $disable_wrappers ) {
+			echo '<div class="' . implode( ' ', array_map( 'esc_attr', $classes ) ) . '">';
+		}
 			$this->render_children( $area_content );
-		echo '</div>';
 
+		if ( ! $disable_wrappers ) {
+			echo '</div>';
+		}
 		PageAssets::reset_active_post_id( $post_id );
 	}
 

@@ -45,6 +45,9 @@ class Frontend {
 		// Load elements scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+
+		// Add body classes
+		add_filter( 'body_class', [ $this, 'add_body_classes' ] );
 	}
 
 	public function init() {
@@ -84,6 +87,19 @@ class Frontend {
 				$this->add_content_filter();
 			}
 		}
+	}
+
+	/**
+	 * Adds the zion builder css class used for different styling
+	 *
+	 * @param array $classes The existing css classes
+	 *
+	 * @return array The combined css classes
+	 */
+	public function add_body_classes( $classes ) {
+		$classes[] = 'zb';
+
+		return $classes;
 	}
 
 	/**

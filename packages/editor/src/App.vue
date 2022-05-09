@@ -3,34 +3,19 @@
 		id="znpb-main-wrapper"
 		class="znpb-main-wrapper"
 		:class="{
-			[`znpb-responsiveDevice--${activeResponsiveDeviceId}`]: activeResponsiveDeviceId
+			[`znpb-responsiveDevice--${activeResponsiveDeviceId}`]: activeResponsiveDeviceId,
 		}"
 	>
 		<transition name="slide-from-left">
-			<div
-				:style="showEditorButtonStyle"
-				class="znpb-editor-layout__preview-buttons"
-				v-show="isPreviewMode"
-			>
-				<div
-					class="znpb-editor-layout__preview-button"
-					@click="showPanels"
-				>
+			<div v-show="isPreviewMode" :style="showEditorButtonStyle" class="znpb-editor-layout__preview-buttons">
+				<div class="znpb-editor-layout__preview-button" @click="showPanels">
 					<Icon icon="layout" />
 				</div>
 				<!-- devices -->
-				<div
-					@click="devicesVisible = !devicesVisible"
-					class="znpb-editor-layout__preview-button"
-				>
-
+				<div class="znpb-editor-layout__preview-button" @click="devicesVisible = !devicesVisible">
 					<Icon :icon="activeResponsiveDeviceInfo.icon" />
-
 				</div>
-				<div
-					class="znpb-editor-layout__preview-breakpoints"
-					v-if="devicesVisible"
-				>
+				<div v-if="devicesVisible" class="znpb-editor-layout__preview-breakpoints">
 					<!-- responsive option -->
 					<Tooltip
 						:show="devicesVisible"
@@ -40,19 +25,18 @@
 						placement="bottom"
 						:close-on-outside-click="true"
 					>
-
 						<!-- @show="openResponsive"
 						@hide="closeresponsive" -->
-						<template v-slot:content>
+						<template #content>
 							<div
 								v-for="(device, index) in responsiveDevices"
-								:key='index'
-								@click="activateDevice(device)"
+								:key="index"
+								ref="dropdown"
 								class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
 								:class="{
-									'znpb-has-responsive-options__icon-button--active': activeResponsiveDeviceId === device.id
+									'znpb-has-responsive-options__icon-button--active': activeResponsiveDeviceId === device.id,
 								}"
-								ref="dropdown"
+								@click="activateDevice(device)"
 							>
 								<Icon :icon="device.icon" />
 							</div>
@@ -65,15 +49,15 @@
 		<div
 			class="znpb-panels-wrapper"
 			:class="{
-				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position
+				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position,
 			}"
 		>
 			<div
 				v-if="mainBar.isDragging"
 				class="znpb-main-wrapper--mainBarPlaceholder"
 				:class="{
-				[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition
-			}"
+					[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition,
+				}"
 			>
 				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
 			</div>
@@ -83,33 +67,28 @@
 			<!-- center area -->
 			<div class="znpb-center-area">
 				<div
-					id="znpb-panel-placeholder"
 					v-if="panelPlaceholder.visibility"
-					:style="{'left':panelPlaceholder.left + 'px'}"
+					id="znpb-panel-placeholder"
+					:style="{ left: panelPlaceholder.left + 'px' }"
 				>
 					<div class="znpb-panel-placeholder"></div>
 				</div>
 
 				<!-- Start panels -->
 				<component
-					v-for="panel in openPanels"
 					:is="panel.component"
+					v-for="panel in openPanels"
+					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
 					:key="panel.id"
 					:panel="panel"
-					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
 				/>
-
 			</div>
 			<!-- end center area -->
-
 		</div>
 
-		<div
-			class="znpb-loading-wrapper-gif"
-			v-if="isPreviewLoading"
-		>
+		<div v-if="isPreviewLoading" class="znpb-loading-wrapper-gif">
 			<img :src="urls.loader" />
-			<div class="znpb-loading-wrapper-gif__text">{{$translate('generating_preview')}}</div>
+			<div class="znpb-loading-wrapper-gif__text">{{ $translate('generating_preview') }}</div>
 		</div>
 
 		<!-- Add Elements Popup -->
@@ -121,56 +100,45 @@
 		<PanelLibraryModal />
 
 		<!-- notices -->
-		<Notice
-			v-for="(error) in notifications"
-			:key="error.message"
-			@close-notice="error.remove()"
-			:error="error"
-		/>
+		<Notice v-for="error in notifications" :key="error.message" :error="error" @close-notice="error.remove()" />
 
-		<div
-			v-if="mainBar.isDragging"
-			class="znpb-editor-header__helper"
-			:style="mainBarDraggingPlaceholderStyles"
-		>
-			<Icon
-				icon="more"
-				rotate="90"
-			/>
+		<div v-if="mainBar.isDragging" class="znpb-editor-header__helper" :style="mainBarDraggingPlaceholderStyles">
+			<Icon icon="more" rotate="90" />
 		</div>
 	</div>
 	<!-- end znpb-main-wrapper -->
-
 </template>
 
 <script>
-import { provide, computed } from 'vue'
+import { provide, computed } from 'vue';
+
+import { translate } from '@zb/i18n';
 
 // import components
-import PanelLibraryModal from './components/PanelLibraryModal.vue'
-import PanelTree from './components/treeView/PanelTree.vue'
-import PanelGlobalSettings from './components/PanelGlobalSettings.vue'
-import PanelHistory from './components/PanelHistory.vue'
-import MainPanel from './components/main-panel.vue'
-import PreviewIframe from './components/PreviewIframe.vue'
-import PanelElementOptions from './components/PanelElementOptions.vue'
-import PostLock from './components/PostLock.vue'
-import SaveElementModal from './components/SaveElementModal.vue'
+import PanelLibraryModal from './components/PanelLibraryModal.vue';
+import PanelTree from './components/treeView/PanelTree.vue';
+import PanelGlobalSettings from './components/PanelGlobalSettings.vue';
+import PanelHistory from './components/PanelHistory.vue';
+import MainPanel from './components/main-panel.vue';
+import PreviewIframe from './components/PreviewIframe.vue';
+import PanelElementOptions from './components/PanelElementOptions.vue';
+import PostLock from './components/PostLock.vue';
+import SaveElementModal from './components/SaveElementModal.vue';
 
 // Composables
-import { AddElementPopup } from './components/AddElementPopup'
-import { ElementMenu } from './components/ElementMenu'
-import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from '@composables'
-import { useResponsiveDevices } from '@zb/components'
-import { useNotifications, useBuilderOptions } from '@zionbuilder/composables'
+import { AddElementPopup } from './components/AddElementPopup';
+import { ElementMenu } from './components/ElementMenu';
+import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from '@composables';
+import { useResponsiveDevices } from '@zb/components';
+import { useNotifications, useBuilderOptions } from '@zionbuilder/composables';
 
-import { serverRequest } from './api'
+import { serverRequest } from './api';
 
 // WordPress hearbeat
-require('./HeartBeat.js')
+require('./HeartBeat.js');
 
 export default {
-	name: 'znpb-editor-app',
+	name: 'ZnpbEditorApp',
 	components: {
 		PanelLibraryModal,
 		PanelTree,
@@ -182,37 +150,46 @@ export default {
 		PostLock,
 		AddElementPopup,
 		ElementMenu,
-		SaveElementModal
+		SaveElementModal,
 	},
-	setup (props) {
-		const { fetchOptions } = useBuilderOptions()
-		const { notifications } = useNotifications()
-		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI()
-		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } = useResponsiveDevices()
-		const { isPreviewMode, setPreviewMode } = usePreviewMode()
-		const { applyShortcuts } = useKeyBindings()
-		const { isPreviewLoading } = usePreviewLoading()
-		const { editorData } = useEditorData()
+	setup(props) {
+		const { fetchOptions } = useBuilderOptions();
+		const { notifications } = useNotifications();
+		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI();
+		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
+			useResponsiveDevices();
+		const { isPreviewMode, setPreviewMode } = usePreviewMode();
+		const { applyShortcuts } = useKeyBindings();
+		const { isPreviewLoading } = usePreviewLoading();
+		const { editorData } = useEditorData();
 
 		const mainBarDraggingPlaceholderStyles = computed(() => {
 			return {
-				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`
-			}
-		})
+				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`,
+			};
+		});
 
 		// General functionality
-		useAutosave()
+		useAutosave();
 
 		// Fetch the builder options
-		fetchOptions()
+		fetchOptions();
 
 		// Provide globalColors
-		provide('builderOptions', useBuilderOptions)
+		provide('builderOptions', useBuilderOptions);
 
 		// provide masks for ShapeDividerComponent option
-		provide('serverRequester', serverRequest)
-		provide('masks', editorData.value.masks)
-		provide('plugin_info', editorData.value.plugin_info)
+		provide('serverRequester', serverRequest);
+		provide('masks', editorData.value.masks);
+		provide('plugin_info', editorData.value.plugin_info);
+
+		// Add notices
+		const { add } = useNotifications();
+		add({
+			message: translate('autosave_notice'),
+			type: 'info',
+			delayClose: 5000,
+		});
 
 		return {
 			// Computed
@@ -229,58 +206,50 @@ export default {
 			applyShortcuts,
 			isPreviewLoading,
 			mainBar,
-			urls: editorData.value.urls
-		}
+			urls: editorData.value.urls,
+		};
 	},
 	data: () => {
 		return {
-			devicesVisible: false
-		}
+			devicesVisible: false,
+		};
 	},
 	computed: {
-		showEditorButtonStyle () {
-			let buttonStyle
+		showEditorButtonStyle() {
+			let buttonStyle;
 
 			buttonStyle = {
 				left: '30px',
-				top: '30px'
-			}
+				top: '30px',
+			};
 
-			return buttonStyle
-		}
-	},
-	methods: {
-		activateDevice (device) {
-			this.setActiveResponsiveDeviceId(device.id)
-			setTimeout(() => {
-				this.showDevices = false
-			}, 50)
-		},
-		showPanels () {
-			this.setPreviewMode(false)
-		},
-		showDevices () {
-			this.devicesVisible = !this.devicesVisible
+			return buttonStyle;
 		},
 	},
 
 	beforeUnmount: function () {
 		// remove events
-		document.removeEventListener('keydown', this.applyShortcuts)
+		document.removeEventListener('keydown', this.applyShortcuts);
 	},
-	mounted () {
-		const { add } = useNotifications()
-
-		document.addEventListener('keydown', this.applyShortcuts)
-
-		add({
-			message: this.$translate('autosave_notice'),
-			type: 'info',
-			delayClose: 5000
-		})
-	}
+	mounted() {
+		document.addEventListener('keydown', this.applyShortcuts);
+	},
+	methods: {
+		activateDevice(device) {
+			this.setActiveResponsiveDeviceId(device.id);
+			setTimeout(() => {
+				this.showDevices = false;
+			}, 50);
+		},
+		showPanels() {
+			this.setPreviewMode(false);
+		},
+		showDevices() {
+			this.devicesVisible = !this.devicesVisible;
+		},
+	},
 	// end mounted
-}
+};
 // end export default
 </script>
 
@@ -305,7 +274,7 @@ export default {
 			box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 			border: 1px solid var(--zb-surface-lighter-color);
 			border-radius: 50%;
-			transition: all .15s;
+			transition: all 0.15s;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);
@@ -356,7 +325,10 @@ export default {
 	background-color: var(--zb-dropdown-bg-active-color);
 }
 
-.znpb-left-area, .znpb-top-area, .znpb-bottom-area, .znpb-right-area {
+.znpb-left-area,
+.znpb-top-area,
+.znpb-bottom-area,
+.znpb-right-area {
 	display: flex;
 }
 
@@ -379,7 +351,8 @@ export default {
 	overflow: hidden;
 }
 
-#znpb-html-app, #znpb-html-app body {
+#znpb-html-app,
+#znpb-html-app body {
 	width: 100%;
 	height: 100%;
 	margin: 0 !important;
@@ -476,7 +449,7 @@ body {
 	width: 6px;
 	height: 100%;
 	background-color: var(--zb-secondary-color);
-	opacity: .5;
+	opacity: 0.5;
 }
 .znpb-panel-placeholder {
 	width: 100%;
@@ -491,8 +464,7 @@ body {
 		cursor: not-allowed !important;
 	}
 
-	.znpb-editor-header__page-save-wrapper--save
-		.znpb-editor-header__menu_button,
+	.znpb-editor-header__page-save-wrapper--save .znpb-editor-header__menu_button,
 	.znpb-editor-header__page-save-wrapper--save a,
 	.znpb-editor-header__menu-list li:nth-child(4) a,
 	.znpb-editor-header__menu-list li:nth-child(5) a,
@@ -517,7 +489,8 @@ body {
 	flex: 1 1 100%;
 	height: 100vh;
 
-	&.znpb-editorHeaderPosition--top, &.znpb-editorHeaderPosition--bottom {
+	&.znpb-editorHeaderPosition--top,
+	&.znpb-editorHeaderPosition--bottom {
 		flex-direction: column;
 	}
 }

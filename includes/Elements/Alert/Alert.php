@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Alert;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -181,7 +182,8 @@ class Alert extends Element {
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Alert/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Alert/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-alert', Utils::get_file_url( 'dist/js/elements/Alert/frontend.js' ), [], Plugin::instance()->get_version(), true );
+
 	}
 
 	/**

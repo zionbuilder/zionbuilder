@@ -1,33 +1,37 @@
 <template>
 	<Tooltip
 		v-if="activeElementMenu"
+		:key="activeElementMenu.key"
 		tooltip-class="hg-popper--big-arrows znpb-rightClickMenu__Tooltip"
-		placement='auto'
+		placement="auto"
 		:show="true"
 		append-to="body"
 		trigger="click"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
-		:popperRef="activeElementMenu.selector"
+		:popper-ref="activeElementMenu.selector"
 		@hide="hideElementMenu"
-		:key="activeElementMenu.key"
 	>
 		<template #content>
-			<Menu
-				:actions="elementActions"
-				@action="hideElementMenu"
-			/>
+			<Menu :actions="elementActions" @action="hideElementMenu" />
 		</template>
 	</Tooltip>
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue'
-import { get } from 'lodash-es'
+import { ref, watch, computed } from 'vue';
+import { get } from 'lodash-es';
 
-import { Environment } from '@zb/utils'
-import { useElementMenu, useWindows, useEditElement, useElementActions, useLocalStorage, useSaveTemplate } from '@composables'
-import { translate } from '@zb/i18n'
+import { Environment } from '@zb/utils';
+import {
+	useElementMenu,
+	useWindows,
+	useEditElement,
+	useElementActions,
+	useLocalStorage,
+	useSaveTemplate,
+} from '@composables';
+import { translate } from '@zb/i18n';
 
 export default {
 	name: 'ElementMenu',
@@ -36,155 +40,158 @@ export default {
 		parentUid: String,
 		isActive: {
 			type: Boolean,
-			required: false
-		}
+			required: false,
+		},
 	},
-	setup (props) {
-		const showOptions = ref(false)
-		const { activeElementMenu, hideElementMenu } = useElementMenu()
-		const { addEventListener, removeEventListener } = useWindows()
-		const { getData } = useLocalStorage()
+	setup(props) {
+		const showOptions = ref(false);
+		const { activeElementMenu, hideElementMenu } = useElementMenu();
+		const { addEventListener, removeEventListener } = useWindows();
+		const { getData } = useLocalStorage();
 
-		const controllKey = Environment.isMac ? '⌘' : '⌃'
+		const controllKey = Environment.isMac ? '⌘' : '⌃';
 
 		// TODO: deprecate useEditElement and move code to useElementActions
-		const { editElement } = useEditElement()
-		const {
-			copyElement,
-			pasteElement,
-			copiedElement,
-			pasteElementStyles,
-			pasteElementClasses,
-		} = useElementActions()
+		const { editElement } = useEditElement();
+		const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapInContainer } =
+			useElementActions();
 
 		// Computed
 		const elementActions = computed(() => {
-			const element = activeElementMenu.value.element
+			const element = activeElementMenu.value.element;
 			return [
 				{
 					title: `${translate('action_edit')} ${element.name}`,
 					icon: 'edit',
 					action: () => {
-						editElement(element)
+						editElement(element);
 					},
-					cssClasses: 'znpb-menu-item--separator-bottom'
+					cssClasses: 'znpb-menu-item--separator-bottom',
 				},
 				{
 					title: `${translate('duplicate_element')}`,
 					icon: 'copy',
 					action: () => {
-						element.duplicate()
+						element.duplicate();
 					},
-					append: `${controllKey}+D`
+					append: `${controllKey}+D`,
 				},
 				{
 					title: `${translate('copy_element')}`,
 					icon: 'copy',
 					action: () => {
-						copyElement(element)
+						copyElement(element);
 					},
-					append: `${controllKey}+C`
+					append: `${controllKey}+C`,
 				},
 				{
 					title: `${translate('cut_element')}`,
 					icon: 'close',
 					action: () => {
-						copyElement(element, 'cut')
+						copyElement(element, 'cut');
 					},
-					append: `${controllKey}+X`
+					append: `${controllKey}+X`,
 				},
 				{
 					title: `${translate('paste_element')}`,
 					icon: 'paste',
 					action: () => {
-						pasteElement(element)
+						pasteElement(element);
 					},
 					append: `${controllKey}+V`,
-					show: hasCopiedElement.value
+					show: hasCopiedElement.value,
 				},
 				{
-
 					title: translate('paste_element_styles'),
 					icon: 'drop',
 					action: () => {
-						pasteElementStyles(element)
+						pasteElementStyles(element);
 					},
 					append: `${controllKey}+⇧+V`,
-					show: hasCopiedElementStyles.value
+					show: hasCopiedElementStyles.value,
 				},
 				{
 					title: translate('paste_classes'),
 					icon: 'braces',
 					action: () => {
-						pasteElementClasses(element)
+						pasteElementClasses(element);
 					},
-					show: hasCopiedElementClasses.value
-				},
-				{
-					title: translate('discard_element_styles'),
-					icon: 'drop',
-					action: () => {
-						discardElementStyles(element)
-					},
-					show: element && Object.keys(get(element.options, '_styles', {})).length > 0
+					show: hasCopiedElementClasses.value,
 				},
 				{
 					title: translate('save_element'),
 					icon: 'check',
 					action: () => {
-						saveElement(element)
-					}
+						saveElement(element);
+					},
 				},
 				{
 					title: element.isVisible ? translate('visible_element') : translate('show_element'),
 					icon: 'eye',
 					action: () => {
-						element.toggleVisibility()
+						element.toggleVisibility();
 					},
 					append: `${controllKey}+H`,
-					cssClasses: 'znpb-menu-item--separator-bottom'
+					cssClasses: 'znpb-menu-item--separator-bottom',
+				},
+				{
+					title: translate('wrap_with_container'),
+					icon: 'eye',
+					action: () => {
+						wrapInContainer(element);
+					},
+					append: `${controllKey}+H`,
+					cssClasses: 'znpb-menu-item--separator-bottom',
+				},
+				{
+					title: translate('discard_element_styles'),
+					icon: 'drop',
+					action: () => {
+						discardElementStyles(element);
+					},
+					show: element && Object.keys(get(element.options, '_styles', {})).length > 0,
 				},
 				{
 					title: translate('delete_element'),
 					icon: 'delete',
 					action: () => element.delete(),
-					append: `⌦`
+					append: `⌦`,
 				},
-			]
-		})
+			];
+		});
 
-		watch(activeElementMenu, (newValue) => {
+		watch(activeElementMenu, newValue => {
 			if (newValue) {
-				addEventListener('scroll', hideElementMenu)
+				addEventListener('scroll', hideElementMenu);
 			} else {
-				removeEventListener('scroll', hideElementMenu)
+				removeEventListener('scroll', hideElementMenu);
 			}
-		})
+		});
 
-		function discardElementStyles (element) {
+		function discardElementStyles(element) {
 			element.options = {
 				...element.options,
-				_styles: {}
-			}
+				_styles: {},
+			};
 		}
 
-		function saveElement (element) {
-			const { showSaveElement } = useSaveTemplate()
+		function saveElement(element) {
+			const { showSaveElement } = useSaveTemplate();
 
-			showSaveElement(element, 'block')
+			showSaveElement(element, 'block');
 		}
 
 		const hasCopiedElement = computed(() => {
-			return !!(copiedElement.value.element || getData('copiedElement'))
-		})
+			return !!(copiedElement.value.element || getData('copiedElement'));
+		});
 
 		const hasCopiedElementClasses = computed(() => {
-			return !!getData('copiedElementClasses')
-		})
+			return !!getData('copiedElementClasses');
+		});
 
 		const hasCopiedElementStyles = computed(() => {
-			return !!getData('copiedElementStyles')
-		})
+			return !!getData('copiedElementStyles');
+		});
 
 		return {
 			showOptions,
@@ -193,10 +200,10 @@ export default {
 			elementActions,
 			hasCopiedElement,
 			hasCopiedElementClasses,
-			hasCopiedElementStyles
-		}
-	}
-}
+			hasCopiedElementStyles,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-element-options {
@@ -216,9 +223,9 @@ export default {
 		text-align: left;
 		list-style-type: none;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
+		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
 		border-radius: 3px;
-		transition: all .5s;
+		transition: all 0.5s;
 		user-select: none;
 
 		li {
@@ -227,7 +234,7 @@ export default {
 			color: var(--zb-surface-text-color);
 			font-size: 12px;
 			line-height: 14px;
-			transition: color .2s ease;
+			transition: color 0.2s ease;
 			&:hover {
 				color: var(--zb-surface-text-active-color);
 				cursor: pointer;
@@ -236,11 +243,13 @@ export default {
 	}
 }
 
-.list-enter-to, .list-leave-from {
-	transition: all .2s;
+.list-enter-to,
+.list-leave-from {
+	transition: all 0.2s;
 }
 
-.list-enter-from, .list-leave-to {
+.list-enter-from,
+.list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
 }

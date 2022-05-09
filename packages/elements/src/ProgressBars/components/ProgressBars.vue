@@ -1,5 +1,5 @@
 <template>
-	<ul :class="{ 'znpb-progressBars--resetAnimation': resetAnimation}">
+	<ul :class="{ 'znpb-progressBars--resetAnimation': resetAnimation }">
 		<slot name="start" />
 
 		<li
@@ -15,7 +15,7 @@
 				:class="api.getStyleClasses('title_styles')"
 				v-bind="api.getAttributesForTag('title_styles')"
 			>
-				{{item.title}}
+				{{ item.title }}
 			</h5>
 
 			<span class="zb-el-progressBars__barTrack">
@@ -24,71 +24,64 @@
 					:data-width="item.fill_percentage !== undefined ? item.fill_percentage : 50"
 				>
 				</span>
-
 			</span>
-
 		</li>
 
 		<slot name="end" />
-
 	</ul>
 </template>
 
 <script>
 export default {
-	name: 'progress_bars',
+	name: 'ProgressBars',
 	props: ['options', 'element', 'api'],
-	watch: {
-		barsWidth () {
-			this.doResetAnimation()
-		},
-		'options.transition_delay' () {
-			this.doResetAnimation()
-		}
-	},
-	data () {
+	data() {
 		return {
-			resetAnimation: false
-		}
+			resetAnimation: false,
+		};
 	},
 	computed: {
-		bars () {
-			return this.options.bars || []
+		bars() {
+			return this.options.bars || [];
 		},
-		barsWidth () {
+		barsWidth() {
 			const barsWidth = (this.options.bars || []).map(item => {
-				return item.fill_percentage
-			})
+				return item.fill_percentage;
+			});
 
-			return barsWidth.join('')
-		}
+			return barsWidth.join('');
+		},
 	},
-	mounted () {
+	watch: {
+		barsWidth() {
+			this.doResetAnimation();
+		},
+		'options.transition_delay'() {
+			this.doResetAnimation();
+		},
+	},
+	mounted() {
 		window.requestAnimationFrame(() => {
-			this.runScript()
-		})
+			this.runScript();
+		});
 	},
 	methods: {
-		doResetAnimation () {
-			this.resetAnimation = true
+		doResetAnimation() {
+			this.resetAnimation = true;
 			this.runScript().then(() => {
-				this.resetAnimation = false
-			})
+				this.resetAnimation = false;
+			});
 		},
-		runScript () {
+		runScript() {
 			return new Promise((resolve, reject) => {
-				const script = window.ZionBuilderFrontend.getScript('progressBars')
-
-				if (script) {
-					window.requestAnimationFrame(() => {
-						script.run(this.$el)
-						resolve()
-					})
-				}
-			})
-		}
-	}
-}
+				window.requestAnimationFrame(() => {
+					new window.zbScripts.progressBars(this.$el);
+					resolve();
+				});
+			});
+		},
+	},
+};
 </script>
 
 <style lang="scss">

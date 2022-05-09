@@ -2,223 +2,230 @@
 	<div class="znpb-tab__wrapper--columns-template-elements">
 		<div class="znpb-add-elements__filter">
 			<InputSelect
+				v-model="categoryValue"
 				class="znpb-add-elements__filter-category"
 				:options="dropdownOptions"
 				:placeholder="dropdownOptions[0].name"
-				v-model="categoryValue"
 				:placement="isRtl ? 'bottom-end' : 'bottom-start'"
 			/>
 
 			<BaseInput
-				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
+				ref="searchInputEl"
 				v-model="computedSearchKeyword"
+				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
 				:placeholder="$translate('search_elements')"
 				:clearable="true"
 				icon="search"
 				autocomplete="off"
-				ref="searchInputEl"
 			/>
 		</div>
 
-		<div
-			class="znpb-fancy-scrollbar znpb-wrapper-category"
-			ref="categoriesWrapper"
-		>
+		<div ref="categoriesWrapper" class="znpb-fancy-scrollbar znpb-wrapper-category">
 			<template v-if="categoriesWithElements.length">
 				<ElementList
-					v-for="(category,i) in categoriesWithElements"
+					v-for="(category, i) in categoriesWithElements"
 					:key="i"
+					:ref="
+						el => {
+							if (el) categoriesRefs[category.id] = el;
+						}
+					"
 					:elements="category.elements"
 					:element="element"
 					:category="category.name"
 					@add-element="onAddElement"
-					:ref="el => {if (el) categoriesRefs[category.id] = el}"
 				/>
 			</template>
 
-			<div
-				style="text-align:center;"
-				v-if="!activeElements.length"
-			>{{$translate('no_elements_found')}}</div>
+			<div v-if="!activeElements.length" style="text-align: center">{{ $translate('no_elements_found') }}</div>
 		</div>
 	</div>
 </template>
 <script>
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
-import { useElementTypes, useElementTypeCategories, useAddElementsPopup, useHistory, useEditorData, useUserData } from '@composables'
-import { translate } from '@zb/i18n'
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
+import {
+	useElementTypes,
+	useElementTypeCategories,
+	useAddElementsPopup,
+	useHistory,
+	useEditorData,
+	useUserData,
+} from '@composables';
+import { translate } from '@zb/i18n';
 
 // Components
-import ElementList from './ElementList.vue'
+import ElementList from './ElementList.vue';
 
 export default {
 	name: 'ElementsTab',
 	components: {
-		ElementList
+		ElementList,
 	},
 	props: {
 		element: {
-			type: Object
+			type: Object,
+			required: true,
 		},
-		searchKeyword: String
+		searchKeyword: {
+			required: false,
+			type: String,
+			default: '',
+		},
 	},
-	setup (props) {
-		const { getVisibleElements } = useElementTypes()
-		const { categories } = useElementTypeCategories()
-		const { editorData } = useEditorData()
-		const { getUserData } = useUserData()
+	setup(props) {
+		const { getVisibleElements } = useElementTypes();
+		const { categories } = useElementTypeCategories();
+		const { editorData } = useEditorData();
+		const { getUserData } = useUserData();
 
 		// Refs
-		const categoriesWrapper = ref(false)
-		const categoriesRefs = ref([])
+		const categoriesWrapper = ref(false);
+		const categoriesRefs = ref([]);
 
-		const localSearchKeyword = ref(null)
-		const computedSearchKeyword = computed(
-			{
-				get: () => {
-					return localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword
-				},
-				set: (newValue) => {
-					localSearchKeyword.value = newValue
-				}
-			}
-		)
-		const categoryValue = ref('all')
-		const searchInputEl = ref(null)
+		const localSearchKeyword = ref(null);
+		const computedSearchKeyword = computed({
+			get: () => {
+				return localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword;
+			},
+			set: newValue => {
+				localSearchKeyword.value = newValue;
+			},
+		});
+		const categoryValue = ref('all');
+		const searchInputEl = ref(null);
 
 		// Normal data
 		const elementCategories = computed(() => {
 			const categoriesToReturn = [
 				{
 					id: 'all',
-					name: translate('all')
-				}
-			]
+					name: translate('all'),
+				},
+			];
 
 			if (getUserData('favorite_elements', []).length > 0) {
 				categoriesToReturn.push({
 					id: 'favorites',
 					name: translate('favorites'),
-					priority: 1
-				})
+					priority: 1,
+				});
 			}
 
 			// Add the categories from server and sort them
-			const sortedCategories = categories.value.sort((a, b) => {
-				return a.priority < b.priority ? -1 : 1
-			})
+			const clonedCategories = [...categories.value];
+			const sortedCategories = clonedCategories.sort((a, b) => {
+				return a.priority < b.priority ? -1 : 1;
+			});
 
-			return categoriesToReturn.concat(sortedCategories)
-		})
+			return categoriesToReturn.concat(sortedCategories);
+		});
 
 		const activeElements = computed(() => {
-			let elements = getVisibleElements.value
-			const keyword = computedSearchKeyword.value
+			let elements = getVisibleElements.value;
+			const keyword = computedSearchKeyword.value;
 
 			if (keyword.length > 0) {
-				elements = elements.filter((element) => {
+				elements = elements.filter(element => {
 					return (
 						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-						element.keywords
-							.join()
-							.toLowerCase()
-							.indexOf(keyword.toLowerCase()) !== -1
-					)
-				})
+						element.keywords.join().toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+					);
+				});
 			}
 
-			return elements
-		})
+			return elements;
+		});
 
 		const dropdownOptions = computed(() => {
-			const keyword = computedSearchKeyword.value
+			const keyword = computedSearchKeyword.value;
 
 			if (keyword.length === 0) {
-				return elementCategories.value
+				return elementCategories.value;
 			} else {
 				return elementCategories.value.filter(category => {
-					return category.id === 'all' || activeElements.value.filter(element => element.category.includes(category.id)).length > 0
-				})
+					return (
+						category.id === 'all' ||
+						activeElements.value.filter(element => element.category.includes(category.id)).length > 0
+					);
+				});
 			}
-		})
+		});
 
 		const categoriesWithElements = computed(() => {
-			const clonedCategories = [...elementCategories.value]
+			const clonedCategories = [...elementCategories.value];
 
 			// remove the all category
-			clonedCategories.shift()
+			clonedCategories.shift();
 
-			return clonedCategories.map((category) => {
+			return clonedCategories.map(category => {
 				// Get elements for current category
-				const elements = activeElements.value.filter((element) => {
-					const elementCategories = Array.isArray(element.category) ? element.category : [element.category]
+				const elements = activeElements.value.filter(element => {
+					const elementCategories = Array.isArray(element.category) ? element.category : [element.category];
 					if (category.id === 'favorites') {
-						return getUserData('favorite_elements', []).indexOf(element.element_type) >= 0
+						return getUserData('favorite_elements', []).indexOf(element.element_type) >= 0;
 					} else {
-						return elementCategories.includes(category.id)
+						return elementCategories.includes(category.id);
 					}
-				})
+				});
 
 				return {
 					name: category.name,
 					id: category.id,
-					elements
-				}
-			})
-		})
-
+					elements,
+				};
+			});
+		});
 
 		// Methods
-		const onAddElement = (element) => {
-			const { hideAddElementsPopup, insertElement } = useAddElementsPopup()
+		const onAddElement = element => {
+			const { hideAddElementsPopup, insertElement } = useAddElementsPopup();
 
 			const config = {
 				element_type: element.element_type,
 				version: element.version,
-				...element.extra_data
-			}
+				...element.extra_data,
+			};
 
-			insertElement(config)
+			insertElement(config);
 
-			const { getElementType } = useElementTypes()
-			const { addToHistory } = useHistory()
-			const elementType = getElementType(config.element_type)
-			addToHistory(`Added ${elementType.name}`)
+			const { getElementType } = useElementTypes();
+			const { addToHistory } = useHistory();
+			const elementType = getElementType(config.element_type);
+			addToHistory(`Added ${elementType.name}`);
 
-			hideAddElementsPopup()
-		}
+			hideAddElementsPopup();
+		};
 
 		watch(activeElements, () => {
 			nextTick(() => {
-				categoriesWrapper.value.scrollTop = 0
-				categoryValue.value = 'all'
-			})
-		})
-
+				categoriesWrapper.value.scrollTop = 0;
+				categoryValue.value = 'all';
+			});
+		});
 
 		// Scroll to the proper category on click
-		watch(categoryValue, (newValue) => {
+		watch(categoryValue, newValue => {
 			if (newValue === 'all') {
-				categoriesWrapper.value.scrollTop = 0
+				categoriesWrapper.value.scrollTop = 0;
 			} else {
 				if (typeof categoriesRefs.value[newValue] !== 'undefined') {
 					if (categoriesRefs.value[newValue].$el) {
 						categoriesRefs.value[newValue].$el.scrollIntoView({
-							behavior: "smooth",
-							inline: "start",
-							block: "nearest",
+							behavior: 'smooth',
+							inline: 'start',
+							block: 'nearest',
 						});
 					}
 				}
 			}
-		})
+		});
 
 		// Lifecycle
 		onMounted(() => {
 			setTimeout(() => {
-				searchInputEl.value.focus()
-			}, 0)
-		})
+				searchInputEl.value.focus();
+			}, 0);
+		});
 
 		return {
 			// Normal values
@@ -236,10 +243,10 @@ export default {
 			onAddElement,
 			// rtl
 			isRtl: editorData.value.rtl,
-			activeElements
-		}
-	}
-}
+			activeElements,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -279,7 +286,8 @@ export default {
 		}
 	}
 
-	.zion-input input, .zion-input input::placeholder {
+	.zion-input input,
+	.zion-input input::placeholder {
 		color: var(--zb-input-placeholder-color);
 	}
 
@@ -301,7 +309,7 @@ export default {
 		width: 130px;
 		margin-right: 10px;
 
-		input[type="text"][readonly] {
+		input[type='text'][readonly] {
 			background: var(--zb-input-bg-color);
 		}
 	}
