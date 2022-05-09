@@ -125,12 +125,12 @@ class ImageSlider extends Element {
 		$options->add_option(
 			'infinite',
 			[
-				'type'    => 'checkbox_switch',
-				'default' => true,
-				'title'   => esc_html__( 'Infinite', 'zionbuilder' ),
-				'description'   => esc_html__( 'Set to yes to enable continuous loop mode. Please note that this is disabled in editor mode.', 'zionbuilder' ),
+				'type'        => 'checkbox_switch',
+				'default'     => true,
+				'title'       => esc_html__( 'Infinite', 'zionbuilder' ),
+				'description' => esc_html__( 'Set to yes to enable continuous loop mode. Please note that this is disabled in editor mode.', 'zionbuilder' ),
 
-				'layout'  => 'inline',
+				'layout'      => 'inline',
 			]
 		);
 
@@ -159,13 +159,13 @@ class ImageSlider extends Element {
 		$options->add_option(
 			'slides_to_scroll',
 			[
-				'type'    => 'number',
-				'title'   => __( 'Slides to scroll', 'zionbuilder' ),
-				'min'     => 1,
-				'max'     => 5,
-				'default' => 1,
-				'layout'  => 'inline',
-				'responsive_options' => true
+				'type'               => 'number',
+				'title'              => __( 'Slides to scroll', 'zionbuilder' ),
+				'min'                => 1,
+				'max'                => 5,
+				'default'            => 1,
+				'layout'             => 'inline',
+				'responsive_options' => true,
 			]
 		);
 
@@ -220,13 +220,13 @@ class ImageSlider extends Element {
 		$autoplay = $options->get_value( 'autoplay' );
 
 		$config = [
-			'arrows'         => $options->get_value( 'arrows' ),
-			'pagination'     => $options->get_value( 'dots' ),
-			'slides_to_show' => $options->get_value( 'slides_to_show' ),
+			'arrows'           => $options->get_value( 'arrows' ),
+			'pagination'       => $options->get_value( 'dots' ),
+			'slides_to_show'   => $options->get_value( 'slides_to_show' ),
 			'slides_to_scroll' => $options->get_value( 'slides_to_scroll' ),
-			'rawConfig'      => [
-				'loop'           => $options->get_value( 'infinite' ),
-				'autoplay'       => $autoplay,
+			'rawConfig'        => [
+				'loop'     => $options->get_value( 'infinite' ),
+				'autoplay' => $autoplay,
 			],
 		];
 
