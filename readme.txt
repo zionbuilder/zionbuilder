@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.9.2
-Stable tag: 3.1.1
+Tested up to: 5.9.3
+Stable tag: 3.2.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,28 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.1.1 2022-05-09 =
+Added: Responsive options for "slides to show" and "slides to scroll" options for slider builder element
+Added: option to disable page builder area wrappers. It will be disabled for new installations
+Added: "Wrap with container" element menu action
+Added: Titles to elements inside add elements popup
+Improvement: [Video element] Removed extra div elements
+Improvement: [Video element] Video element inside a modal will not automatically play only when the modal is open
+Improvement: [Video element] Video element inside a modal will stop playing when closing the modal
+Improvement: [Video element] Removed jQuery dependency
+Improvement: [Counter element] Removed jQuery dependency
+Improvement: [Counter element] Removed animateJS dependency
+Improvement: [Progress bars element] Removed jQuery dependency
+Improvement: [Alert element] Removed jQuery dependency
+Improvement: [Accordions element] Removed jQuery dependency
+Fixed: The image slider doesn't properly work inside tabs
+Fixed: The image slider doesn't auto-update its width inside the editor after changing the parent width
+Fixed: Image slider infinite loop causes visual problems in certain conditions
+Improvement: Disabled infinite scroll for slider builder element in edit mode. It was causing several problems
+Fixed: Active tab not highlighted in editor mode
+Fixed: Page shows vertical scrollbar if one of the tabs has a larger height
+Fixed: Drag+CTRL doesn't duplicate the element in certain conditions
+
 = 3.1.1 2022-04-07 =
 Fixed: Editor panels opens with a delay in certain conditions
 
