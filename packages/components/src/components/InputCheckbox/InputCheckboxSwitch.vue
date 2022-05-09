@@ -20,6 +20,9 @@
 </template>
 
 <script>
+/**
+ * @deprecated This component no longer in use
+ */
 export default {
 	name: 'InputCheckboxSwitch',
 	props: {

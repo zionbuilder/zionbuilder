@@ -1,13 +1,10 @@
 <template>
-	<div
-		class="znpb-checkbox-list"
-		:class="wrapperClasses"
-	>
+	<div class="znpb-checkbox-list" :class="wrapperClasses">
 		<!-- @slot content for checkbox if no checkbox -->
 		<slot></slot>
 		<template v-if="!hasSlots">
 			<InputCheckbox
-				v-for="(option,i) in options"
+				v-for="(option, i) in options"
 				:key="i"
 				v-model="model"
 				:option-value="option.id"
@@ -15,125 +12,84 @@
 				:disabled="disabled"
 				:title="option.icon ? option.name : false"
 			>
-				<Icon
-					v-if="option.icon"
-					:icon="option.icon"
-				></Icon>
+				<Icon v-if="option.icon" :icon="option.icon"></Icon>
 			</InputCheckbox>
 		</template>
 	</div>
 </template>
-<script>
-import { Comment, computed } from 'vue'
-import { Icon } from '../Icon'
-import InputCheckbox from './InputCheckbox.vue'
-
+<script lang="ts">
 export default {
 	name: 'InputCheckboxGroup',
-	props: {
-		/**
-		 * v-model/modelValue for checkbox
-		 */
-		modelValue: {
-			type: Array,
-			required: false,
-			default () {
-				return []
-			}
-		},
-		/**
-		 * minimum checked values
-		 */
-		min: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * maximum checked values
-		 */
-		max: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * Allows to unselect the last value in case the limit is exceeded
-		 */
-		allowUnselect: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		/**
-		 * values direction
-		 */
-		direction: {
-			type: String,
-			required: false,
-			default: 'vertical'
-		},
-		/**
-		 * option values
-		 */
-		options: {
-			type: Array,
-			required: false
-		},
-		/**
-		 * cheked disabled
-		 */
-		disabled: {
-			type: Boolean,
-			required: false
-		},
-		displayStyle: {
-			type: String,
-			required: false
-		}
-	},
-	setup (props, { slots }) {
-		const hasSlots = computed(() => {
-			if (!slots.default) {
-				return false
-			}
+};
+</script>
 
-			const defaultSlot = slots.default()
-			const normalNodes = []
-			if (Array.isArray(defaultSlot)) {
-				defaultSlot.forEach(vNode => {
-					if (vNode.type !== Comment) {
-						normalNodes.push(vNode)
-					}
-				})
-			}
+<script lang="ts" setup>
+import { Comment, computed, useSlots } from 'vue';
+import { Icon } from '../Icon';
+import InputCheckbox from './InputCheckbox.vue';
 
-			return normalNodes.length > 0
-		})
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string[];
 
-		return {
-			hasSlots
-		}
-	},
-	computed: {
-		model: {
-			get () {
-				return this.modelValue ? this.modelValue : []
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
+		/** min & max checked values **/
+		min?: number;
+		max?: number;
+
+		/** Allows to unselect the last value in case the limit is exceeded */
+		allowUnselect?: boolean;
+		direction?: 'vertical' | 'horizontal';
+		options?: { id: string; name: string; icon: string }[];
+		disabled?: boolean;
+		displayStyle?: string;
+	}>(),
+	{
+		modelValue: () => {
+			return [];
 		},
-		wrapperClasses () {
-			return {
-				[`znpb-checkbox-list--${this.direction}`]: this.direction,
-				[`znpb-checkbox-list-style--${this.displayStyle}`]: this.displayStyle
-			}
-		}
+		direction: 'vertical',
 	},
-	components: {
-		InputCheckbox,
-		Icon
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string[]): void;
+}>();
+
+const slots = useSlots();
+
+const model = computed({
+	get() {
+		return props.modelValue ? props.modelValue : [];
+	},
+	set(newValue: string[]) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const wrapperClasses = computed(() => {
+	return {
+		[`znpb-checkbox-list--${props.direction}`]: props.direction,
+		[`znpb-checkbox-list-style--${props.displayStyle}`]: props.displayStyle,
+	};
+});
+
+const hasSlots = computed(() => {
+	if (!slots.default) {
+		return false;
 	}
-}
+
+	const defaultSlot = slots.default();
+	const normalNodes = [];
+	if (Array.isArray(defaultSlot)) {
+		defaultSlot.forEach(vNode => {
+			if (vNode.type !== Comment) {
+				normalNodes.push(vNode);
+			}
+		});
+	}
+
+	return normalNodes.length > 0;
+});
 </script>
 
 <style lang="scss">

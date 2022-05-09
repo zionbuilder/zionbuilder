@@ -1,179 +1,132 @@
 <template>
-	<label
-		class="znpb-checkbox-wrapper"
-		:aria-disabled="disabled"
-	>
+	<label class="znpb-checkbox-wrapper" :aria-disabled="disabled">
 		<input
+			v-model="model"
 			type="checkbox"
 			aria-hidden="true"
 			:disabled="disabled"
 			:value="optionValue"
-			v-model="model"
 			class="znpb-form__input-checkbox"
 			@change="onChange"
 		/>
-		<span
-			class="znpb-checkmark"
-			:class="{ 'znpb-checkmark--rounded' : rounded }"
-		></span>
-		<span
-			v-if="hasSlots || label"
-			class="znpb-checkmark-option"
-		>
+		<span class="znpb-checkmark" :class="{ 'znpb-checkmark--rounded': rounded }"></span>
+		<span v-if="hasSlots || label" class="znpb-checkmark-option">
 			<!-- @slot content for checkbox or label -->
 			<slot></slot>
 			<template v-if="showLabel && label">
-				{{label}}
+				{{ label }}
 			</template>
 		</span>
 	</label>
 </template>
 
-<script>
-import { Comment, computed } from 'vue'
-
+<script lang="ts">
 export default {
 	name: 'InputCheckbox',
-	props: {
-		/**
-		 * label for checkbox
-		 */
-		label: {
-			type: String,
-			required: false
-		},
-		showLabel: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		/**
-		 * v-model/modelValue for checkbox
-		 */
-		modelValue: {
-			required: false
-		},
-		/**
-		 * value for checkbox
-		 */
-		optionValue: {
-			required: false
-		},
-		/**
-		 * if disabled
-		 */
-		disabled: {
-			type: Boolean,
-			required: false
-		},
-		/**
-		 * if checkbox checked
-		 */
-		checked: {
-			type: Boolean,
-			required: false
-		},
-		rounded: {
-			type: Boolean,
-			required: false
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, Comment, computed, nextTick, useSlots, getCurrentInstance } from 'vue';
+import InputCheckboxGroup from './InputCheckboxGroup.vue';
+
+const props = withDefaults(
+	defineProps<{
+		label?: string;
+		showLabel?: boolean;
+		modelValue?: boolean | string[];
+		optionValue?: string | boolean;
+		disabled?: boolean;
+		checked?: boolean;
+		rounded?: boolean;
+	}>(),
+	{
+		modelValue: true,
+		showLabel: true,
 	},
-	setup (props, { slots }) {
-		const hasSlots = computed(() => {
-			if (!slots.default) {
-				return false
+);
+
+const isLimitExceeded = ref(false);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: boolean | string[]): void;
+	(e: 'change', value: boolean): void;
+}>();
+
+const slots = useSlots();
+
+// @Todo Move this logic to CheckboxGroup
+const model = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue: boolean | string[]) {
+		isLimitExceeded.value = false;
+		const allowUnselect = parentGroup.value?.allowUnselect;
+
+		if (Array.isArray(newValue)) {
+			isLimitExceeded.value = false;
+			// Check if minimum limit is meet
+			if (parentGroup.value?.min !== undefined && newValue.length < parentGroup.value?.min) {
+				isLimitExceeded.value = true;
 			}
 
-			const defaultSlot = slots.default()
-			const normalNodes = []
-			if (Array.isArray(defaultSlot)) {
-				defaultSlot.forEach(vNode => {
-					if (vNode.type !== Comment) {
-						normalNodes.push(vNode)
-					}
-				})
+			// Check if maximum limit is meet
+			if (parentGroup.value?.max && newValue.length > parentGroup.value?.max) {
+				isLimitExceeded.value = true;
 			}
 
-			return normalNodes.length > 0
-		})
-
-		return {
-			hasSlots
-		}
-	},
-	data () {
-		return {
-			isLimitExceeded: false
-		}
-	},
-	computed: {
-		model: {
-			get () {
-				return this.modelValue !== undefined ? this.modelValue : false
-			},
-			set (newValue) {
-				this.isLimitExceeded = false
-				const allowUnselect = this.parentGroup.allowUnselect
-
-				if (Array.isArray(newValue)) {
-					this.isLimitExceeded = false
-					// Check if minimum limit is meet
-					if (this.parentGroup.min !== undefined && newValue.length < this.parentGroup.min) {
-						this.isLimitExceeded = true
-					}
-
-					// Check if maximum limit is meet
-					if (this.parentGroup.max !== undefined && newValue.length > this.parentGroup.max) {
-						this.isLimitExceeded = true
-					}
-
-					if (this.isLimitExceeded === false) {
-						this.$emit('update:modelValue', newValue)
-					} else if (allowUnselect && this.isLimitExceeded === true) {
-						const clonedValues = [...newValue]
-						clonedValues.shift()
-						// Allows to change the option check state on nextThick
-						this.isLimitExceeded = false
-						this.$emit('update:modelValue', clonedValues)
-					}
-				} else {
-					/**
-					 * when input model changed, it emits new value
-					 */
-					this.$emit('update:modelValue', newValue)
-				}
+			if (isLimitExceeded.value === false) {
+				emit('update:modelValue', newValue);
+			} else if (allowUnselect && isLimitExceeded.value === true) {
+				const clonedValues = [...newValue];
+				clonedValues.shift();
+				// Allows to change the option check state on nextThick
+				isLimitExceeded.value = false;
+				emit('update:modelValue', clonedValues);
 			}
-		},
-		isInGroup () {
-			return this.$parent.$options.name === 'InputCheckboxGroup'
-		},
-		parentGroup () {
-			return this.isInGroup ? this.$parent : false
+		} else {
+			emit('update:modelValue', newValue);
 		}
 	},
-	created () {
-		this.checked && this.setInitialValue()
-	},
-	methods: {
-		setInitialValue () {
-			this.model = this.modelValue || true
-		},
-		onChange (event) {
-			let checked = event.target.checked
-			if (this.isLimitExceeded) {
-				this.$nextTick(() => {
-					event.target.checked = !checked
-				})
+});
 
-				return
-			}
+const instance = getCurrentInstance();
 
-			/**
-			 * when input changed, it emits new value
-			 */
-			this.$emit('change', !!event.target.checked)
-		}
+const parentGroup = computed<InstanceType<typeof InputCheckboxGroup> | null>(() => {
+	const isInGroup = instance?.parent?.type.name === 'InputCheckboxGroup';
+	return isInGroup ? instance?.parent?.ctx : null;
+});
+
+const hasSlots = computed(() => {
+	if (!slots.default) {
+		return false;
 	}
+
+	const defaultSlot = slots.default();
+	const normalNodes = [];
+	if (Array.isArray(defaultSlot)) {
+		defaultSlot.forEach(vNode => {
+			if (vNode.type !== Comment) {
+				normalNodes.push(vNode);
+			}
+		});
+	}
+
+	return normalNodes.length > 0;
+});
+
+function onChange(event: Event) {
+	const checkbox = event.target as HTMLInputElement;
+	if (isLimitExceeded.value) {
+		nextTick(() => {
+			checkbox.checked = !checkbox.checked;
+		});
+
+		return;
+	}
+
+	emit('change', !!checkbox.checked);
 }
 </script>
 <style lang="scss">
@@ -182,7 +135,7 @@ export default {
 	display: flex;
 	cursor: pointer;
 
-	input[type="checkbox"].znpb-form__input-checkbox {
+	input[type='checkbox'].znpb-form__input-checkbox {
 		position: absolute;
 		width: 0;
 		height: 0;
@@ -194,7 +147,7 @@ export default {
 		}
 
 		&:before {
-			content: "";
+			content: '';
 		}
 	}
 
@@ -210,7 +163,7 @@ input:checked ~ .znpb-checkmark {
 input:checked ~ .znpb-checkmark:after {
 	display: block;
 }
-input[type="checkbox"]:disabled ~ .znpb-checkmark {
+input[type='checkbox']:disabled ~ .znpb-checkmark {
 	background-color: var(--zb-surface-lighter-color);
 }
 .znpb-checkmark:after {
@@ -244,7 +197,7 @@ input[type="checkbox"]:disabled ~ .znpb-checkmark {
 	}
 
 	&:after {
-		content: "";
+		content: '';
 		position: absolute;
 		display: none;
 	}
