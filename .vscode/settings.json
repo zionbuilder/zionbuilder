@@ -59,6 +59,7 @@
 		"dashicons",
 		"DELETABLE",
 		"Iframe",
+		"modestbranding",
 		"noindex",
 		"opentype",
 		"pagebuilder",
@@ -66,11 +67,17 @@
 		"phpcs",
 		"Schd",
 		"Shortcode",
+		"showinfo",
 		"tmce",
 		"trailingslashit",
 		"Whitelabel",
+		"wmode",
+		"youtu",
 		"zionbuilder",
 		"znpb"
 	],
 	"phpcs.enable": true,
+	"cSpell.ignoreWords": [
+		"playsinline"
+	],
 }

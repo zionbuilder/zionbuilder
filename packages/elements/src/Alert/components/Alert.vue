@@ -2,25 +2,11 @@
 	<div>
 		<slot name="start" />
 
-		<span
-			v-if="options.show_dismiss"
-			class="zb-el-alert__closeIcon"
-		>
-		</span>
+		<span v-if="options.show_dismiss" class="zb-el-alert__closeIcon"> </span>
 
-		<span
-			class="zb-el-alert__title"
-			v-if="options.title"
-			v-html="options.title"
-		>
-		</span>
+		<span v-if="options.title" class="zb-el-alert__title" v-html="options.title"> </span>
 
-		<RenderValue
-			v-if="options.description"
-			htmlTag="div"
-			option="description"
-			class="zb-el-alert__description"
-		/>
+		<RenderValue v-if="options.description" html-tag="div" option="description" class="zb-el-alert__description" />
 
 		<slot name="end" />
 	</div>
@@ -28,9 +14,9 @@
 
 <script>
 export default {
-	name: 'alert',
-	props: ['options', 'element', 'api']
-}
+	name: 'Alert',
+	props: ['options', 'element', 'api'],
+};
 </script>
 
 <style lang="scss">

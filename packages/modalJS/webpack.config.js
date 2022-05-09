@@ -1,20 +1,10 @@
-const {
-	getConfig
-} = require('@zionbuilder/webpack-config');
-const path = require('path')
+const { getConfig } = require('@zionbuilder/webpack-config');
 
-module.exports = getConfig({
-		features: {
-			vue: true,
-			zionVue: true
-		}
-	}, {
-		resolve: {
-			alias: {
-				'@composables': path.resolve(__dirname, './src/composables'),
-				'@components': path.resolve(__dirname, './src/components')
-			}
-		}
-	}
-
-)
+module.exports = getConfig(
+	{},
+	{
+		entry: {
+			modalJS: './src/index.ts',
+		},
+	},
+);

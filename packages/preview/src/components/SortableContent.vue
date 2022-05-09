@@ -1,18 +1,18 @@
 <template>
 	<Sortable
 		v-model="element.content"
-		@start="onSortableStart"
-		@end="onSortableEnd"
-		@drop="onSortableDrop"
 		:group="groupInfo"
 		:disabled="isPreviewMode"
 		:allow-duplicate="true"
 		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
 		:class="{
-			[`znpb__sortable-container--${getSortableAxis}`]: isDragging
+			[`znpb__sortable-container--${getSortableAxis}`]: isDragging,
 		}"
 		:axis="getSortableAxis"
+		@start="onSortableStart"
+		@end="onSortableEnd"
+		@drop="onSortableDrop"
 	>
 		<Element
 			v-for="childElement in element.content"
@@ -36,8 +36,8 @@
 
 		<template #end>
 			<EmptySortablePlaceholder
-				:element="element"
 				v-if="element.content.length === 0 && allowElementsAdd && !isPreviewMode"
+				:element="element"
 			/>
 
 			<slot name="end" />
@@ -46,105 +46,116 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
-import { useElements, useAddElementsPopup, usePreviewMode, useIsDragging, useElementActions, useHistory, useElementTypes } from '@zb/editor'
-import { translate } from '@zb/i18n'
+import { computed, ref } from 'vue';
+import {
+	useElements,
+	useAddElementsPopup,
+	usePreviewMode,
+	useIsDragging,
+	useElementActions,
+	useHistory,
+	useElementTypes,
+} from '@zb/editor';
+import { translate } from '@zb/i18n';
 
 // Utils
-import { getOptionValue } from '@zb/utils'
+import { getOptionValue } from '@zb/utils';
 
 // Components
-import Element from './Element.vue'
+import Element from './Element.vue';
 
 export default {
 	name: 'SortableContent',
-	inheritAttrs: false,
 	components: {
-		Element
+		Element,
 	},
+	inheritAttrs: false,
 	props: {
 		element: Object,
 
 		group: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		allowElementsAdd: {
 			type: Boolean,
-			default: true
+			default: true,
 		},
 		emptyPlaceholderText: {
-			type: String
+			type: String,
 		},
 		onElementSetup: {
-			type: Function
-		}
+			type: Function,
+		},
 	},
-	setup (props) {
-		const { addToHistory } = useHistory()
-		const { getElementType } = useElementTypes()
+	setup(props) {
+		const { addToHistory } = useHistory();
+		const { getElementType } = useElementTypes();
 
 		const defaultSortableGroup = {
-			name: 'elements'
-		}
+			name: 'elements',
+		};
 
-		const showColumnTemplates = ref(false)
-		const addElementsPopupButton = ref(null)
-		const { getElement } = useElements()
+		const showColumnTemplates = ref(false);
+		const addElementsPopupButton = ref(null);
+		const { getElement } = useElements();
 
-		const showAddElementsPopup = computed(() => props.element.content.length > 0 && showColumnTemplates.value)
-		const groupInfo = computed(() => props.group || defaultSortableGroup)
+		const showAddElementsPopup = computed(() => props.element.content.length > 0 && showColumnTemplates.value);
+		const groupInfo = computed(() => props.group || defaultSortableGroup);
 		const getSortableAxis = computed(() => {
-			let orientation = 'horizontal'
+			let orientation = 'horizontal';
 
 			if (props.element.element_type === 'contentRoot') {
-				return 'vertical'
+				return 'vertical';
 			}
 
-			const elementType = getElementType(props.element.element_type)
+			const elementType = getElementType(props.element.element_type);
 
 			if (elementType) {
-				orientation = elementType.content_orientation
+				orientation = elementType.content_orientation;
 			}
 
 			// Check columns and section direction
 			if (props.element.options.inner_content_layout) {
-				orientation = props.element.options.inner_content_layout
+				orientation = props.element.options.inner_content_layout;
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction')
+			const mediaOrientation = getOptionValue(
+				props.element.options,
+				'_styles.wrapper.styles.default.default.flex-direction',
+			);
 
 			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
 			}
 
-			return orientation
-		})
+			return orientation;
+		});
 
-		const { isPreviewMode } = usePreviewMode()
-		const { isDragging, setDraggingState } = useIsDragging()
-		const { copyElement } = useElementActions()
+		const { isPreviewMode } = usePreviewMode();
+		const { isDragging, setDraggingState } = useIsDragging();
+		const { copyElement } = useElementActions();
 
-		function onSortableDrop (event) {
-			const droppedElementUid = event.data.item.getAttribute('zion-element-uid')
-			const element = getElement(droppedElementUid)
-			const translateText = translate('moved')
-			addToHistory(`${translateText} ${element.name}`)
+		function onSortableDrop(event) {
+			const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
+			const element = getElement(droppedElementUid);
+			const translateText = translate('moved');
+			addToHistory(`${translateText} ${element.name}`);
 		}
 
-		function onSortableDuplicate (item) {
-			return item.getClone()
+		function onSortableDuplicate(item) {
+			return item.getClone();
 		}
 
-		function onSortableStart () {
-			const { hideAddElementsPopup } = useAddElementsPopup()
-			hideAddElementsPopup()
-			setDraggingState(true)
+		function onSortableStart() {
+			const { hideAddElementsPopup } = useAddElementsPopup();
+			hideAddElementsPopup();
+			setDraggingState(true);
 		}
 
-		function onSortableEnd () {
-			setDraggingState(false)
+		function onSortableEnd() {
+			setDraggingState(false);
 		}
 
 		return {
@@ -160,10 +171,10 @@ export default {
 			onSortableDrop,
 			onSortableDuplicate,
 			onSortableStart,
-			onSortableEnd
-		}
-	}
-}
+			onSortableEnd,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

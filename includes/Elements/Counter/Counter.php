@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Counter;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -199,11 +200,10 @@ class Counter extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'zionbuilder-animatejs' );
-
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Counter/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Counter/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-counter', Utils::get_file_url( 'dist/js/elements/Counter/frontend.js' ), [], Plugin::instance()->get_version(), true );
+
 	}
 
 	/**
