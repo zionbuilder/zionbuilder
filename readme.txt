@@ -242,6 +242,10 @@ Improvement: [Accordions element] Removed jQuery dependency
 Fixed: The image slider doesn't properly work inside tabs
 Fixed: The image slider doesn't auto-update its width inside the editor after changing the parent width
 Fixed: Image slider infinite loop causes visual problems in certain conditions
+Improvement: Disabled infinite scroll for slider builder element in edit mode. It was causing several problems
+Fixed: Active tab not highlighted in editor mode
+Fixed: Page shows vertical scrollbar if one of the tabs has a larger height
+Fixed: Drag+CTRL doesn't duplicate the element in certain conditions
 
 = 3.1.1 2022-04-07 =
 Fixed: Editor panels opens with a delay in certain conditions
