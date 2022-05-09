@@ -1,145 +1,121 @@
 <template>
-	<div
-		class="znpb-colorpicker-inner-editor__opacity-wrapper"
-		@mousedown="actCircleDrag"
-		ref="root"
-	>
-		<div
-			class="znpb-colorpicker-inner-editor__opacity"
-			@click="dragCircle"
-		>
-			<div
-				:style="barStyles"
-				ref="opacitystrip"
-				class="znpb-colorpicker-inner-editor__opacity-strip"
-			>
-			</div>
+	<div ref="root" class="znpb-colorpicker-inner-editor__opacity-wrapper" @mousedown="actCircleDrag">
+		<div class="znpb-colorpicker-inner-editor__opacity" @click="dragCircle">
+			<div ref="opacityStrip" :style="barStyles" class="znpb-colorpicker-inner-editor__opacity-strip"></div>
 			<span
 				:style="opacityStyles"
-				@mousedown="actCircleDrag"
 				class="znpb-colorpicker-inner-editor__opacity-indicator"
+				@mousedown="actCircleDrag"
 			></span>
 		</div>
 	</div>
 </template>
-<script>
-import tinycolor from 'tinycolor2'
-import rafSchd from 'raf-schd'
-import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
 
-export default {
-	name: 'OpacityStrip',
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		}
-	},
-	setup (props, { emit }) {
-		// Refs
-		const root = ref(null)
-		const opacitystrip = ref(null)
+<script lang="ts" setup>
+import tinycolor, { ColorFormats } from 'tinycolor2';
+import rafSchd from 'raf-schd';
+import { onMounted, onBeforeUnmount, ref, computed, Ref } from 'vue';
 
-		// Temp values
-		const rafDragCircle = rafSchd(dragCircle)
-		let lastA = null
-		let ownerWindow = null
+const props = defineProps<{
+	modelValue: ColorFormats.HSLA;
+}>();
 
-		// Computed properties
-		const opacityStyles = computed(() => {
-			return {
-				left: (props.modelValue.a * 100) + '%'
-			}
-		})
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: ColorFormats.HSLA): void;
+}>();
 
-		const barStyles = computed(() => {
-			let color = tinycolor(props.modelValue)
-			return {
-				'background-image': 'linear-gradient(to right, rgba(255, 0, 0, 0),' + color.toHexString() + ')'
-			}
-		})
+// Refs
+const root: Ref<HTMLDivElement | null> = ref(null);
+const opacityStrip: Ref<HTMLDivElement | null> = ref(null);
 
-		// Methods
-		function actCircleDrag () {
-			ownerWindow.addEventListener('mousemove', rafDragCircle)
-			ownerWindow.addEventListener('mouseup', deactivatedragCircle)
-		}
+// Temp values
+const rafDragCircle = rafSchd(dragCircle);
+let lastA: number;
+let ownerWindow: Window;
 
-		function deactivatedragCircle () {
-			ownerWindow.removeEventListener('mousemove', rafDragCircle)
-			ownerWindow.removeEventListener('mouseup', deactivatedragCircle)
+// Computed properties
+const opacityStyles = computed(() => {
+	return {
+		left: props.modelValue.a * 100 + '%',
+	};
+});
 
-			function preventClicks (e) {
-				e.stopPropagation()
-			}
+const barStyles = computed(() => {
+	const color = tinycolor(props.modelValue);
+	return {
+		'background-image': 'linear-gradient(to right, rgba(255, 0, 0, 0),' + color.toHexString() + ')',
+	};
+});
 
-			// Prevent closing colorpicker when clicked outside
-			ownerWindow.addEventListener('click', preventClicks, true)
-			setTimeout(() => {
-				ownerWindow.removeEventListener('click', preventClicks, true)
-			}, 100);
-		}
-
-		function dragCircle (event) {
-			// If the mouseup happened outside window
-			if (!event.which) {
-				deactivatedragCircle()
-				return false
-			}
-
-			let a
-			const mouseLeftPosition = event.clientX
-
-			const stripOffset = opacitystrip.value.getBoundingClientRect()
-
-			// Calculate where the coordinate x of the element starts
-			const startx = stripOffset.left
-			// from total width reduce the coordinate x value
-			const newLeft = mouseLeftPosition - startx
-
-			// don't let the circle outside opacity strip
-			if (newLeft > (stripOffset.width)) {
-				a = 1
-			} else if (newLeft < 0) {
-				a = 0
-			} else {
-				a = (newLeft / (stripOffset.width))
-				a = a.toFixed(2)
-			}
-
-			let newColor = {
-				...props.modelValue,
-				a: a
-			}
-
-			if (lastA !== a) {
-				emit('update:modelValue', newColor)
-			}
-
-			lastA = a
-		}
-
-		// Lifecycle
-		onMounted(() => {
-			ownerWindow = root.value.ownerDocument.defaultView
-		})
-
-		onBeforeUnmount(() => {
-			deactivatedragCircle()
-		})
-
-		return {
-			// Refs
-			root,
-			opacitystrip,
-			// commputed
-			opacityStyles,
-			barStyles,
-			actCircleDrag,
-			dragCircle
-		}
-	}
+// Methods
+function actCircleDrag() {
+	ownerWindow.addEventListener('mousemove', rafDragCircle);
+	ownerWindow.addEventListener('mouseup', deactivateDragCircle);
 }
+
+function deactivateDragCircle() {
+	ownerWindow.removeEventListener('mousemove', rafDragCircle);
+	ownerWindow.removeEventListener('mouseup', deactivateDragCircle);
+
+	function preventClicks(e: MouseEvent) {
+		e.stopPropagation();
+	}
+
+	// Prevent closing colorpicker when clicked outside
+	ownerWindow.addEventListener('click', preventClicks, true);
+	setTimeout(() => {
+		ownerWindow.removeEventListener('click', preventClicks, true);
+	}, 100);
+}
+
+function dragCircle(event: MouseEvent) {
+	// @TODO Remove following unused code
+	// If the mouseup happened outside window
+	if (!event.which) {
+		deactivateDragCircle();
+		return false;
+	}
+
+	let a;
+	const mouseLeftPosition = event.clientX;
+
+	const stripOffset = (opacityStrip.value as HTMLDivElement).getBoundingClientRect();
+
+	// Calculate where the coordinate x of the element starts
+	const startX = stripOffset.left;
+	// from total width reduce the coordinate x value
+	const newLeft = mouseLeftPosition - startX;
+
+	// don't let the circle outside opacity strip
+	if (newLeft > stripOffset.width) {
+		a = 1;
+	} else if (newLeft < 0) {
+		a = 0;
+	} else {
+		a = newLeft / stripOffset.width;
+		a = Number(a.toFixed(2));
+	}
+
+	const newColor = {
+		...props.modelValue,
+		a: a,
+	};
+
+	if (lastA !== a) {
+		emit('update:modelValue', newColor);
+	}
+
+	lastA = a;
+}
+
+// Lifecycle
+onMounted(() => {
+	ownerWindow = root.value?.ownerDocument.defaultView as Window;
+});
+
+onBeforeUnmount(() => {
+	deactivateDragCircle();
+});
 </script>
 <style lang="scss">
 .znpb-colorpicker-inner-editor__opacity {
@@ -154,11 +130,7 @@ export default {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-image: linear-gradient(
-		to right,
-		rgba(255, 0, 0, 0),
-		rgba(255, 0, 0, 1)
-		);
+		background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1));
 	}
 }
 </style>

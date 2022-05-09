@@ -1,9 +1,5 @@
-import {
-	ServerRequest
-} from '@zb/utils'
+import { ServerRequest } from '@zb/utils';
 
-const serverRequest = new ServerRequest()
+const serverRequest = new ServerRequest();
 
-export {
-	serverRequest
-}
+export { serverRequest };

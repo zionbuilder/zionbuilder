@@ -1,67 +1,53 @@
 <template>
-
 	<div
 		class="znpb-form-library-inner-pattern-wrapper"
 		:class="{
-			'znpb-form-library-inner-pattern-wrapper--start' : onstart,
-			'znpb-form-library-inner-pattern-wrapper--stretch' : !expand ,
-			'znpb-form-library-inner-pattern-wrapper--expand' : expand,
-			'znpb-form-library-inner-pattern-wrapper--hasInput' : hasInput
+			'znpb-form-library-inner-pattern-wrapper--start': onstart,
+			'znpb-form-library-inner-pattern-wrapper--stretch': !expand,
+			'znpb-form-library-inner-pattern-wrapper--expand': expand,
+			'znpb-form-library-inner-pattern-wrapper--hasInput': hasInput,
 		}"
 	>
 		<template v-if="!hasInput">
 			<Icon
 				v-if="animation"
 				icon="more"
-				@click.stop="expand =! expand, onstart = false"
 				class="znpb-form-library-inner-action-icon"
+				@click.stop="(expand = !expand), (onstart = false)"
 			/>
-			<Icon
-				v-if="icon"
-				:icon="icon"
-				@click.stop="$emit('close-library')"
-				class="znpb-form-library-inner-action-icon"
-			/>
+			<Icon v-if="icon" :icon="icon" class="znpb-form-library-inner-action-icon" @click.stop="$emit('close-library')" />
 		</template>
 		<slot></slot>
 	</div>
 </template>
-<script>
-import { Icon } from '../Icon'
-/**
- * it receives no aimation on beggining
- */
 
+<script lang="ts">
 export default {
 	name: 'LibraryElement',
-	components: {
-		Icon
-	},
-	props: {
-		animation: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		icon: {
-			type: String,
-			required: false
-		},
-		hasInput: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
-	},
-
-	data () {
-		return {
-			onstart: true,
-			expand: false
-		}
-	}
-}
+};
 </script>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { Icon } from '../Icon';
+
+withDefaults(
+	defineProps<{
+		animation?: boolean;
+		icon?: string;
+		hasInput?: boolean;
+	}>(),
+	{
+		animation: true,
+	},
+);
+
+defineEmits(['close-library']);
+
+const onstart = ref(true);
+const expand = ref(false);
+</script>
+
 <style lang="scss">
 .znpb-form-library-inner {
 	&-pattern-wrapper {

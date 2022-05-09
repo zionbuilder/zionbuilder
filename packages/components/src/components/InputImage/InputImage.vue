@@ -1,482 +1,434 @@
 <template>
 	<div class="znpb-input-image__wrapper">
-		<component
-			v-if="customComponent"
-			:is="customComponent"
-		/>
-		<div
-			v-else
-			class="znpb-input-image-holder"
-			:style="wrapperStyles"
-			ref="imageHolder"
-			@click="openMediaModal"
-		>
+		<component :is="customComponent" v-if="customComponent" />
+		<div v-else ref="imageHolder" class="znpb-input-image-holder" :style="wrapperStyles" @click="openMediaModal">
 			<ActionsOverlay :show-overlay="!isDragging">
-				<img
-					:src="imageSrc"
-					class="znpb-input-image-holder__image"
-					ref="image"
-				/>
-				<template v-slot:actions>
+				<img ref="image" :src="imageSrc" class="znpb-input-image-holder__image" />
+				<template #actions>
 					<div class="znpb-input-image-holder__image-actions">
-						<Icon
-							:rounded="true"
-							icon="delete"
-							:bg-size="30"
-							@click.stop="deleteImage"
-						/>
+						<Icon :rounded="true" icon="delete" :bg-size="30" @click.stop="deleteImage" />
 
 						<!-- Injection point -->
 						<Injection location="options/image/actions" />
 					</div>
 				</template>
-
 			</ActionsOverlay>
 			<div
-				class="znpb-drag-icon-wrapper"
-				v-if="imageSrc && shouldDragImage && ( previewExpanded || !shouldDisplayExpander )"
-				@mousedown.stop="startDrag"
+				v-if="imageSrc && shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
 				ref="dragButton"
+				class="znpb-drag-icon-wrapper"
 				:style="positionCircleStyle"
+				@mousedown.stop="startDrag"
 			>
 				<span class="znpb-input-image-holder__drag-button"></span>
 			</div>
 			<div
 				v-if="!isDragging && shouldDragImage && shouldDisplayExpander && imageSrc"
 				class="znpb-actions-overlay__expander"
-				:class="{'znpb-actions-overlay__expander--icon-rotated': previewExpanded}"
+				:class="{ 'znpb-actions-overlay__expander--icon-rotated': previewExpanded }"
 				@click.stop="toggleExpand"
 			>
 				<strong class="znpb-actions-overlay__expander-text">
 					{{ previewExpanded ? 'CONTRACT' : 'EXPAND' }}
 				</strong>
-				<!-- <span>{{mouseOverExpander}}</span> -->
-				<Icon
-					icon="select"
-					:bg-size="12"
-				/>
+				<Icon icon="select" :bg-size="12" />
 			</div>
-			<EmptyList
-				class="znpb-input-image-holder__empty"
-				v-if="!imageSrc && !customComponent"
-				:no-margin="true"
-			>
-				{{emptyText}}
+			<EmptyList v-if="!imageSrc && !customComponent" class="znpb-input-image-holder__empty" :no-margin="true">
+				{{ emptyText }}
 				<Injection location="options/image/actions" />
 			</EmptyList>
 		</div>
 
 		<!-- Image size -->
-		<div
-			v-if="show_size && imageSrc && !loading"
-			class="znpb-input-image__custom-size-wrapper"
-		>
-
+		<div v-if="show_size && imageSrc && !loading" class="znpb-input-image__custom-size-wrapper">
 			<InputWrapper title="Image size">
-				<InputSelect
-					:options="imageSizes"
-					v-model="sizeValue"
-				/>
+				<InputSelect v-model="sizeValue" :options="imageSizes" />
 			</InputWrapper>
 
 			<InputWrapper v-if="sizeValue === 'custom'">
 				<CustomSize v-model="customSizeValue" />
 			</InputWrapper>
-
 		</div>
 	</div>
 </template>
 
-<script>
-import Icon from '../Icon/Icon.vue'
-import { ActionsOverlay } from '../ActionsOverlay'
-import { EmptyList } from '../EmptyList'
-import { InputWrapper } from '../InputWrapper'
-import { InputSelect } from '../InputSelect'
-import CustomSize from './CustomSize.vue'
-import { Injection } from "../Injection"
-import { applyFilters } from '@zb/hooks'
+<script lang="ts">
+const wp = window.wp;
 
-const wp = window.wp
 export default {
 	name: 'InputImage',
-	inject: ['inputWrapper', 'optionsForm'],
-	components: {
-		ActionsOverlay,
-		EmptyList,
-		InputSelect,
-		InputWrapper,
-		CustomSize,
-		Icon,
-		Injection
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, Ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, CSSProperties } from 'vue';
+import Icon from '../Icon/Icon.vue';
+import { ActionsOverlay } from '../ActionsOverlay';
+import { EmptyList } from '../EmptyList';
+import { InputWrapper } from '../InputWrapper';
+import { InputSelect } from '../InputSelect';
+import CustomSize from './CustomSize.vue';
+import { Injection } from '../Injection';
+import { applyFilters } from '@zb/hooks';
+import { clamp, startCase } from 'lodash-es';
+
+type ImageSize = { width?: string; height?: string };
+interface ImageValue {
+	image?: string;
+	image_size?: string;
+	custom_size?: ImageSize;
+}
+
+const props = withDefaults(
+	defineProps<{
+		// @Todo Refactor modelValue to only accept object as prop
+		modelValue?: ImageValue | string;
+		emptyText?: string;
+		shouldDragImage?: boolean;
+		positionLeft?: string;
+		positionTop?: string;
+		show_size?: boolean;
+	}>(),
+	{
+		emptyText: 'No Image Selected',
+		positionLeft: '50%',
+		positionTop: '50%',
 	},
-	props: {
-		/**
-		 * the string value: location of the image
-		 */
-		modelValue: {
-			type: [String, Number, Boolean, Object],
-			required: false
-		},
-		/**
-		 * the text that will appear if no image is set
-		 */
-		emptyText: {
-			type: String,
-			required: false,
-			default: 'No Image Selected'
-		},
-		shouldDragImage: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		positionLeft: {
-			type: [Number, String],
-			required: false,
-			default: '50%'
-		},
-		positionTop: {
-			type: [Number, String],
-			required: false,
-			default: '50%'
-		},
-		show_size: {
-			type: Boolean,
-			required: false,
-			default: false
+);
+
+const inputWrapper = inject('inputWrapper');
+const optionsForm = inject('optionsForm');
+const emit = defineEmits<{
+	(e: 'background-position-change', value: { x: number; y: number }): void;
+	(e: 'update:modelValue', value: ImageValue | string): void;
+}>();
+
+const imageHolder: Ref<HTMLDivElement | null> = ref(null);
+const image: Ref<HTMLImageElement | null> = ref(null);
+const dragButton: Ref<HTMLDivElement | null> = ref(null);
+
+const attachmentId = ref<number | null>(null);
+const isDragging = ref(false);
+const imageContainerPosition = ref<{ left: number | null; top: number | null }>({
+	left: null,
+	top: null,
+});
+const imageHolderWidth = ref<number | null>(null);
+const imageHolderHeight = ref<number | null>(null);
+const previewExpanded = ref(false);
+const minHeight = ref(200);
+const imageHeight = ref<number | null>(null);
+const initialX = ref<number | null>(null);
+const initialY = ref<number | null>(null);
+const attachmentModel = ref<Record<string, any> | null>(null);
+const loading = ref(true);
+
+let mediaModal: Record<string, any>;
+
+watch(
+	() => props.modelValue,
+	(newValue, oldValue) => {
+		if (newValue !== oldValue) {
+			nextTick(() => {
+				getImageHeight();
+				if (previewExpanded.value) {
+					toggleExpand();
+				}
+			});
 		}
 	},
-	data () {
+);
+
+const customComponent = computed(() => {
+	return applyFilters('zionbuilder/options/image/display_component', null, props.modelValue, inputWrapper, optionsForm);
+});
+
+const imageSizes = computed(() => {
+	const options = [];
+
+	const imageSizes = attachmentModel.value?.attributes?.sizes;
+	const customSizes = attachmentModel.value?.attributes?.zion_custom_sizes;
+	const allSizes = {
+		...imageSizes,
+		...customSizes,
+	};
+
+	// Loop through all sizes and create the option
+	Object.keys(allSizes).forEach(sizeKey => {
+		const name = startCase(sizeKey);
+		const width = allSizes[sizeKey].width;
+		const height = allSizes[sizeKey].height;
+		const optionName = `${name} ( ${width} x ${height} )`;
+		options.push({
+			name: optionName,
+			id: sizeKey,
+		});
+	});
+
+	// Add default values
+	options.push({
+		name: 'Custom',
+		id: 'custom',
+	});
+
+	return options;
+});
+
+const sizeValue = computed({
+	get() {
+		return (typeof props.modelValue === 'object' && props.modelValue?.image_size) || 'full';
+	},
+	set(newValue: string) {
+		const value = typeof props.modelValue === 'object' ? props.modelValue : {};
+		emit('update:modelValue', {
+			...value,
+			image_size: newValue,
+		});
+	},
+});
+
+const customSizeValue = computed({
+	get() {
+		return (typeof props.modelValue === 'object' && props.modelValue?.custom_size) || {};
+	},
+	set(newValue: ImageSize) {
+		emit('update:modelValue', {
+			...((typeof props.modelValue === 'object' && props.modelValue?.custom_size) || {}),
+			custom_size: newValue,
+		});
+	},
+});
+
+const positionCircleStyle = computed<CSSProperties>(() => {
+	return {
+		left: props.positionLeft.includes('%') ? props.positionLeft : '',
+		top: props.positionTop.includes('%') ? props.positionTop : '',
+	};
+});
+
+const wrapperStyles = computed<CSSProperties>(() => {
+	if (imageSrc.value && imageHolderHeight.value) {
 		return {
-			attachmentId: null,
-			isDragging: false,
-			imageContainerPosition: {
-				left: null,
-				top: null
-			},
-			imageHolderWidth: null,
-			imageHolderHeight: null,
-			previewExpanded: false,
-			minHeight: 200,
-			imageHeight: null,
-			initialX: null,
-			initialY: null,
-			attachmentModel: null,
-			loading: true
-		}
-	},
-	computed: {
-		customComponent () {
-			return applyFilters('zionbuilder/options/image/display_component', null, this.modelValue, this.inputWrapper, this.optionsForm)
-		},
-		imageSizes () {
-			const options = []
-			const imageSizes = ((this.attachmentModel || {}).attributes || {}).sizes
-			const customSizes = ((this.attachmentModel || {}).attributes || {}).zion_custom_sizes
-			const allSizes = {
-				...imageSizes,
-				...customSizes
-			}
+			height: imageHolderHeight.value + 'px',
+		};
+	}
 
-			// Loop through all sizes and create the option
-			Object.keys(allSizes).forEach((sizeKey) => {
-				const name = this.capitalize(sizeKey.replace('_', ''))
-				const width = allSizes[sizeKey].width
-				const height = allSizes[sizeKey].height
-				const optionName = `${name} ( ${width} x ${height} )`
-				options.push({
-					name: optionName,
-					id: sizeKey
-				})
-			})
+	return {};
+});
 
-			// Add default values
-			options.push({
-				name: 'Custom',
-				id: 'custom'
-			})
-
-			return options
-		},
-		sizeValue: {
-			get () {
-				return (this.modelValue || {}).image_size || 'full'
-			},
-			set (newValue) {
-				const valueToSend = {
-					image_size: newValue
-				}
-
-				this.$emit('update:modelValue', {
-					...this.modelValue,
-					...valueToSend
-				})
-			}
-		},
-		customSizeValue: {
-			get () {
-				return (this.modelValue || {}).custom_size || {}
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', {
-					...this.modelValue,
-					custom_size: newValue
-				})
-			}
-		},
-		positionCircleStyle () {
-			return {
-				left: this.positionLeft && this.positionLeft.indexOf('%') !== -1 ? this.positionLeft : null,
-				top: this.positionTop && this.positionTop.indexOf('%') !== -1 ? this.positionTop : null
-			}
-		},
-		wrapperStyles () {
-			if (this.imageSrc && this.imageHolderHeight) {
-				return {
-					height: this.imageHolderHeight + 'px'
-				}
-			}
-
-			return {}
-		},
-		imageValue: {
-			get () {
-				if (this.show_size) {
-					return this.modelValue || {}
-				} else {
-					return this.modelValue || null
-				}
-			},
-
-			set (newValue) {
-				if (this.show_size) {
-					this.$emit('update:modelValue', {
-						...this.modelValue,
-						...newValue
-					})
-				} else {
-					this.$emit('update:modelValue', newValue)
-				}
-			}
-		},
-		imageSrc () {
-			if (this.show_size) {
-				return (this.modelValue || {}).image || null
-			} else {
-				return this.modelValue || null
-			}
-		},
-		shouldDisplayExpander () {
-			return this.imageHolderHeight >= this.minHeight
-		}
-	},
-	watch: {
-		modelValue (newValue, oldValue) {
-			if (newValue !== oldValue) {
-				this.$nextTick(() => {
-					this.getImageHeight()
-					if (this.previewExpanded) {
-						this.toggleExpand()
-					}
-				})
-			}
-		}
-	},
-	mounted () {
-		this.getImageHeight()
-	},
-	created () {
-		if (this.show_size) {
-			this.getAttachmentModel()
+const imageValue = computed({
+	get() {
+		if (props.show_size) {
+			return props.modelValue || {};
 		} else {
-			this.loading = false
+			return props.modelValue || null;
 		}
 	},
-	methods: {
-		capitalize (string) {
-			return string.charAt(0).toUpperCase() + string.slice(1)
-		},
-		getImageHeight () {
-			if (!this.$refs.image) {
-				return
-			}
-			// Wait for the image to load before getting it's dimensions
-			this.$refs.image.addEventListener('load', () => {
-				let imageHeight = this.$refs.image.getBoundingClientRect().height
-				this.imageHeight = imageHeight
-				if (imageHeight < this.minHeight) {
-					this.imageHolderHeight = imageHeight
-				} else {
-					this.imageHolderHeight = this.minHeight
-				}
-			})
-		},
-		toggleExpand () {
-			this.previewExpanded = !this.previewExpanded
-			if (this.previewExpanded) {
-				this.imageHolderHeight = this.imageHeight
-			} else {
-				this.imageHolderHeight = this.minHeight
-			}
-		},
-		startDrag (event) {
-			if (this.shouldDragImage) {
-				window.addEventListener('mousemove', this.doDrag)
-				window.addEventListener('mouseup', this.stopDrag)
-				this.isDragging = true
-				const { height, width, left, top } = this.$refs.imageHolder.getBoundingClientRect()
-				this.imageHolderWidth = width
-				this.imageHolderHeight = height
-				this.imageContainerPosition.left = left
-				this.imageContainerPosition.top = top
-				this.initialX = event.pageX
-				this.initialY = event.pageY
-			}
-		},
-		doDrag (event) {
-			window.document.body.style.userSelect = 'none'
 
-			const movedX = event.clientX - this.imageContainerPosition.left
-			const movedY = event.clientY - this.imageContainerPosition.top
-
-			let xToSend = parseInt((movedX / this.imageHolderWidth) * 100)
-			let yToSend = parseInt((movedY / this.imageHolderHeight) * 100)
-
-			if (xToSend < 1) {
-				xToSend = 0
-			}
-			if (yToSend < 1) {
-				yToSend = 0
-			}
-			if (xToSend >= 100) {
-				xToSend = 100
-			}
-			if (yToSend >= 100) {
-				yToSend = 100
-			}
-			if (event.shiftKey) {
-				xToSend = Math.round(xToSend / 5) * 5
-				yToSend = Math.round(yToSend / 5) * 5
-			}
-			this.$emit('background-position-change', { x: xToSend, y: yToSend })
-		},
-		stopDrag (event) {
-			this.initialX = event.pageX
-			this.initialY = event.pageY
-			window.removeEventListener('mousemove', this.doDrag)
-			window.removeEventListener('mouseup', this.stopDrag)
-			window.document.body.style.userSelect = null
-			setTimeout(() => {
-				this.isDragging = false
-			}, 100)
-		},
-		openMediaModal () {
-			if (this.isDragging) {
-				return
-			}
-			if (!this.mediaModal) {
-				const args = {
-					frame: 'select',
-					state: 'zion-media',
-					library: {
-						type: 'image'
-					},
-					button: {
-						text: 'Add Image'
-					}
-				}
-
-				// Create the frame
-				this.mediaModal = new window.wp.media.view.MediaFrame.ZionBuilderFrame(args)
-				this.mediaModal.on('select update insert', this.selectMedia)
-				this.mediaModal.on('open', this.setMediaModalSelection)
-			}
-
-			// Open the media modal
-			this.mediaModal.open()
-		},
-		selectMedia (e) {
-			let selection = this.mediaModal.state().get('selection').first()
-			// In case we have multiple items
-			if (typeof e !== 'undefined') { selection = e }
-
-			if (this.show_size) {
-				// Reset all other values when selecting a new image
-				this.$emit('update:modelValue', {
-					image: selection.get('url')
-				})
-			} else {
-				this.imageValue = selection.get('url')
-			}
-
-			this.attachmentId = selection.get('id')
-			// Save the selection so we can use the sizes
-			this.attachmentModel = selection
-
-			// Show the custom size selector again if needed
-			this.loading = false
-		},
-		setMediaModalSelection (e) {
-			const selection = this.mediaModal.state().get('selection')
-			if (this.imageSrc && !this.attachmentId) {
-				const attachment = wp.media.model.Attachment.get(this.imageSrc)
-				attachment.fetch({
-					data: {
-						is_media_image: true,
-						image_url: this.imageSrc
-					}
-				}).done((event) => {
-					if (event && event.id) {
-						this.attachmentId = event.id
-						const attachment = wp.media.model.Attachment.get(this.attachmentId)
-						selection.reset(attachment ? [attachment] : [])
-					}
-				})
-			} else if (this.imageSrc && this.attachmentId) {
-				const attachment = wp.media.model.Attachment.get(this.attachmentId)
-				selection.reset(attachment ? [attachment] : [])
-			}
-		},
-		deleteImage () {
-			this.$emit('update:modelValue', null)
-			this.attachmentId = null
-
-			// Reset the selection
-			if (this.mediaModal) {
-				let selection = this.mediaModal.state().get('selection')
-				selection.reset([])
-			}
-		},
-		getAttachmentModel () {
-			if (this.imageSrc && !this.attachmentModel) {
-				const attachment = wp.media.model.Attachment.get(this.imageSrc)
-
-				attachment.fetch({
-					data: {
-						is_media_image: true,
-						image_url: this.imageSrc
-					}
-				}).done((event) => {
-					if (event && event.id) {
-						this.attachmentId = event.id
-						this.attachmentModel = wp.media.model.Attachment.get(this.attachmentId)
-					}
-					this.loading = false
-				})
-			}
+	set(newValue) {
+		if (props.show_size) {
+			emit('update:modelValue', {
+				...((typeof props.modelValue === 'object' && props.modelValue) || {}),
+				...newValue,
+			});
+		} else {
+			emit('update:modelValue', newValue);
 		}
 	},
-	beforeUnmount () {
-		window.removeEventListener('mousemove', this.doDrag)
-		window.removeEventListener('mouseup', this.stopDrag)
-		window.document.body.style.userSelect = null
+});
 
-		if (this.mediaModal) {
-			this.mediaModal.detach()
-		}
+const imageSrc = computed(() => {
+	return typeof props.modelValue === 'object' ? props.modelValue?.image || null : props.modelValue || null;
+});
+
+const shouldDisplayExpander = computed(() => {
+	return (imageHolderHeight.value as number) >= minHeight.value;
+});
+
+function getImageHeight() {
+	if (!image.value) {
+		return;
+	}
+	// Wait for the image to load before getting it's dimensions
+	image.value.addEventListener('load', () => {
+		const localImageHeight = (image.value as HTMLImageElement).getBoundingClientRect().height;
+		imageHeight.value = localImageHeight;
+		imageHolderHeight.value = localImageHeight < minHeight.value ? localImageHeight : minHeight.value;
+	});
+}
+
+function toggleExpand() {
+	previewExpanded.value = !previewExpanded.value;
+	if (previewExpanded.value) {
+		imageHolderHeight.value = imageHeight.value;
+	} else {
+		imageHolderHeight.value = minHeight.value;
 	}
 }
+
+function startDrag(event: MouseEvent) {
+	if (props.shouldDragImage) {
+		window.addEventListener('mousemove', doDrag);
+		window.addEventListener('mouseup', stopDrag);
+		isDragging.value = true;
+		const { height, width, left, top } = (imageHolder.value as HTMLDivElement).getBoundingClientRect();
+		imageHolderWidth.value = width;
+		imageHolderHeight.value = height;
+		imageContainerPosition.value.left = left;
+		imageContainerPosition.value.top = top;
+		initialX.value = event.pageX;
+		initialY.value = event.pageY;
+	}
+}
+
+function doDrag(event: MouseEvent) {
+	window.document.body.style.userSelect = 'none';
+
+	const movedX = event.clientX - (imageContainerPosition.value.left as number);
+	const movedY = event.clientY - (imageContainerPosition.value.top as number);
+
+	let xToSend = clamp(Math.round((movedX / (imageHolderWidth.value as number)) * 100), 0, 100);
+	let yToSend = clamp(Math.round((movedY / (imageHolderHeight.value as number)) * 100), 0, 100);
+
+	if (event.shiftKey) {
+		xToSend = Math.round(xToSend / 5) * 5;
+		yToSend = Math.round(yToSend / 5) * 5;
+	}
+	emit('background-position-change', { x: xToSend, y: yToSend });
+}
+
+function stopDrag(event: MouseEvent) {
+	initialX.value = event.pageX;
+	initialY.value = event.pageY;
+	window.removeEventListener('mousemove', doDrag);
+	window.removeEventListener('mouseup', stopDrag);
+	window.document.body.style.userSelect = '';
+	setTimeout(() => {
+		isDragging.value = false;
+	}, 100);
+}
+
+function openMediaModal() {
+	if (isDragging.value) {
+		return;
+	}
+	if (!mediaModal) {
+		const args = {
+			frame: 'select',
+			state: 'zion-media',
+			library: {
+				type: 'image',
+			},
+			button: {
+				text: 'Add Image',
+			},
+		};
+
+		// Create the frame
+		mediaModal = new window.wp.media.view.MediaFrame.ZionBuilderFrame(args);
+		mediaModal.on('select update insert', selectMedia);
+		mediaModal.on('open', setMediaModalSelection);
+	}
+
+	// Open the media modal
+	mediaModal.open();
+}
+function selectMedia() {
+	const selection = mediaModal.state().get('selection').first();
+	if (props.show_size) {
+		// Reset all other values when selecting a new image
+		emit('update:modelValue', {
+			image: selection.get('url'),
+		});
+	} else {
+		imageValue.value = selection.get('url');
+	}
+
+	attachmentId.value = selection.get('id');
+	// Save the selection so we can use the sizes
+	attachmentModel.value = selection;
+
+	// Show the custom size selector again if needed
+	loading.value = false;
+}
+
+function setMediaModalSelection() {
+	const selection = mediaModal.state().get('selection');
+	if (imageSrc.value && !attachmentId.value) {
+		const attachment = wp.media.model.Attachment.get(imageSrc.value);
+		attachment
+			.fetch({
+				data: {
+					is_media_image: true,
+					image_url: imageSrc.value,
+				},
+			})
+			.done(event => {
+				console.log('event', event);
+
+				if (event && event.id) {
+					attachmentId.value = event.id;
+					const attachment = wp.media.model.Attachment.get(attachmentId.value);
+					selection.reset(attachment ? [attachment] : []);
+				}
+			});
+	} else if (imageSrc.value && attachmentId.value) {
+		const attachment = wp.media.model.Attachment.get(attachmentId.value);
+		selection.reset(attachment ? [attachment] : []);
+	}
+}
+
+function deleteImage() {
+	emit('update:modelValue', null);
+	attachmentId.value = null;
+
+	// Reset the selection
+	if (mediaModal) {
+		let selection = mediaModal.state().get('selection');
+		selection.reset([]);
+	}
+}
+
+function getAttachmentModel() {
+	if (imageSrc.value && !attachmentModel.value) {
+		const attachment = wp.media.model.Attachment.get(imageSrc.value);
+
+		attachment
+			.fetch({
+				data: {
+					is_media_image: true,
+					image_url: imageSrc.value,
+				},
+			})
+			.done((event: Record<string, any>) => {
+				console.log('event1', event);
+				if (event?.id) {
+					attachmentId.value = event.id;
+					attachmentModel.value = wp.media.model.Attachment.get(attachmentId.value);
+				}
+				loading.value = false;
+			});
+	}
+}
+
+onMounted(() => {
+	if (props.show_size) {
+		getAttachmentModel();
+	} else {
+		loading.value = false;
+	}
+	getImageHeight();
+});
+
+onBeforeUnmount(() => {
+	window.removeEventListener('mousemove', doDrag);
+	window.removeEventListener('mouseup', stopDrag);
+	window.document.body.style.userSelect = '';
+
+	if (mediaModal) {
+		mediaModal.detach();
+	}
+});
 </script>
 
 <style lang="scss">
@@ -543,7 +495,7 @@ export default {
 	margin-bottom: 20px;
 	box-shadow: 0 0 0 2px var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .5s ease;
+	transition: all 0.5s ease;
 	cursor: pointer;
 	&__image {
 		display: block;

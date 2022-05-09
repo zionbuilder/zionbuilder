@@ -23,15 +23,6 @@ module.exports = () => {
 						transpileOnly: true,
 					},
 				},
-				// Fix browser errors for packaged source maps
-				// {
-				// 	test: /\.js$/,
-				// 	use: [
-				// 		{
-				// 			loader: require.resolve('source-map-loader'),
-				// 		},
-				// 	],
-				// },
 			],
 		},
 		output: {

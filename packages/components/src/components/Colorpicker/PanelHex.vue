@@ -4,7 +4,7 @@
 			<div class="znpb-colorpicker-inner-editor__current-color">
 				<span class="znpb-colorpicker-circle znpb-colorpicker-circle--opacity">
 					<span
-						:style="{backgroundColor: modelValue.hex8}"
+						:style="{ backgroundColor: modelValue.hex8 }"
 						class="znpb-colorpicker-circle znpb-colorpicker-circle-color"
 					/>
 				</span>
@@ -15,121 +15,108 @@
 			</div>
 		</div>
 		<div class="znpb-colorpicker-inner-editor__rgba">
-			<RgbaElement
-				v-if="modelValue.format === 'rgb'"
-				v-model="rgbaValue"
-			/>
+			<RgbaElement v-if="modelValue.format === 'rgb'" v-model="rgbaValue" />
 
-			<HslaElement
-				v-if="modelValue.format === 'hsl'"
-				v-model="hslaValue"
-			/>
+			<HslaElement v-if="modelValue.format === 'hsl'" v-model="hslaValue" />
 			<HexElement
 				v-if="modelValue.format === 'hex' || modelValue.format === 'hex8' || modelValue.format === 'name'"
 				v-model="hexValue"
 			/>
 			<div class="znpb-color-picker-change-color znpb-input-number-arrow-wrapper">
-				<Icon
-					icon="select"
-					:rotate="180"
-					class="znpb-arrow-increment"
-					@click="changeHex"
-				></Icon>
-				<Icon
-					icon="select"
-					class="znpb-arrow-decrement"
-					@click="changeHexback"
-				></Icon>
+				<Icon icon="select" :rotate="180" class="znpb-arrow-increment" @click="changeHex"></Icon>
+				<Icon icon="select" class="znpb-arrow-decrement" @click="changeHexback"></Icon>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-import { Icon } from '../Icon'
-/*
-* this element emits change-opacity, change of hue, change of rgba, change, of hex, change of hsla and change of format
-*/
-import HueStrip from './HueStrip.vue'
-import OpacityStrip from './OpacityStrip.vue'
-import RgbaElement from './RgbaElement.vue'
-import HslaElement from './HslaElement.vue'
-import HexElement from './HexElement.vue'
+<script lang="ts" setup>
+import { Icon } from '../Icon';
+import HueStrip from './HueStrip.vue';
+import OpacityStrip from './OpacityStrip.vue';
+import RgbaElement from './RgbaElement.vue';
+import HslaElement from './HslaElement.vue';
+import HexElement from './HexElement.vue';
+import { computed } from 'vue';
+import type { ColorFormats } from 'tinycolor2';
 
-export default {
-	name: 'PanelHex',
-	components: {
-		RgbaElement,
-		HslaElement,
-		HexElement,
-		HueStrip,
-		OpacityStrip,
-		Icon
+type Format = 'hex' | 'hsl' | 'rgb' | 'hex8' | 'name';
+const props = defineProps<{
+	modelValue: {
+		format: Format;
+		hex: string;
+		hex8: string;
+		hsla: ColorFormats.HSLA;
+		hsva: ColorFormats.HSVA;
+		rgba: ColorFormats.RGBA;
+	};
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string | ColorFormats.RGBA | ColorFormats.HSLA): void;
+	(e: 'update:format', format: Format): void;
+}>();
+
+const hexValue = computed({
+	get() {
+		return props.modelValue.format === 'hex8' ? props.modelValue.hex8 : props.modelValue.hex;
 	},
-	props: {
-		modelValue: {}
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
 	},
-	data () {
-		return {}
+});
+
+const hslaValue = computed({
+	get() {
+		return props.modelValue.hsla;
 	},
-	computed: {
-		hexValue: {
-			get () {
-				return this.modelValue.format === 'hex8' ? this.modelValue.hex8 : this.modelValue.hex
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		hslaValue: {
-			get () {
-				return this.modelValue.hsla
-			},
-			set (hsla) {
-				this.$emit('update:modelValue', hsla)
-			}
-		},
-		rgbaValue: {
-			get () {
-				return this.modelValue.rgba
-			},
-			set (rgba) {
-				this.$emit('update:modelValue', rgba)
-			}
-		}
+	set(hsla: ColorFormats.HSLA) {
+		emit('update:modelValue', hsla);
 	},
-	methods: {
-		changeHex () {
-			let format
-			if (this.modelValue.format === 'hex' || this.modelValue.format === 'hex8' || this.modelValue.format === 'name') {
-				format = 'hsl'
-			} else if (this.modelValue.format === 'hsl') {
-				format = 'rgb'
-			} else if (this.modelValue.format === 'rgb') {
-				format = 'hex'
-			}
-			this.$emit('update:modelValue', {
-				...this.modelValue.hsla,
-				format
-			})
-		},
-		changeHexback () {
-			let format
-			if (this.modelValue.format === 'hsl') {
-				format = 'hex'
-			} else if (this.modelValue.format === 'rgb') {
-				format = 'hsl'
-			} else if (this.modelValue.format === 'hex' || this.modelValue.format === 'hex8' || this.modelValue.format === 'name') {
-				format = 'rgb'
-			}
-			this.$emit('update:modelValue', {
-				...this.modelValue.hsla,
-				format
-			})
-		}
+});
+
+const rgbaValue = computed({
+	get() {
+		return props.modelValue.rgba;
+	},
+	set(rgba: ColorFormats.RGBA) {
+		emit('update:modelValue', rgba);
+	},
+});
+
+function changeHex() {
+	let format: Format = 'hex';
+	if (props.modelValue.format === 'hex' || props.modelValue.format === 'hex8' || props.modelValue.format === 'name') {
+		format = 'hsl';
+	} else if (props.modelValue.format === 'hsl') {
+		format = 'rgb';
+	} else if (props.modelValue.format === 'rgb') {
+		format = 'hex';
 	}
+
+	emit('update:format', format);
+	emit('update:modelValue', props.modelValue.hsla);
+}
+
+function changeHexback() {
+	let format: Format = 'hex';
+	if (props.modelValue.format === 'hsl') {
+		format = 'hex';
+	} else if (props.modelValue.format === 'rgb') {
+		format = 'hsl';
+	} else if (
+		props.modelValue.format === 'hex' ||
+		props.modelValue.format === 'hex8' ||
+		props.modelValue.format === 'name'
+	) {
+		format = 'rgb';
+	}
+
+	emit('update:format', format);
+	emit('update:modelValue', props.modelValue.hsla);
 }
 </script>
+
 <style lang="scss">
 .znpb-colorpicker-inner-editor {
 	display: flex;

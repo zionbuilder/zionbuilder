@@ -1,36 +1,28 @@
 <template>
-	<component
-		v-for="(customComponent, i) in computedComponents"
-		:key="i"
-		:is="customComponent"
-	/>
+	<component :is="customComponent" v-for="(customComponent, i) in computedComponents" :key="i" />
 </template>
 
-<script>
-import { computed } from 'vue'
-import { useInjections } from '@composables/useInjections'
-
+<script lang="ts">
 export default {
-	inheritAttrs: false,
 	name: 'Injection',
-	props: {
-		location: {
-			type: String,
-			required: true
-		},
-		htmlTag: {
-			type: String,
-			required: false,
-			default: 'div'
-		}
-	},
-	setup (props) {
-		const { getComponentsForLocation } = useInjections()
-		const computedComponents = computed(() => getComponentsForLocation(props.location))
+	inheritAttrs: false,
+};
+</script>
 
-		return {
-			computedComponents
-		}
-	}
-}
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { useInjections } from '@composables/useInjections';
+
+const props = withDefaults(
+	defineProps<{
+		location: string;
+		htmlTag?: string;
+	}>(),
+	{
+		htmlTag: 'div',
+	},
+);
+
+const { getComponentsForLocation } = useInjections();
+const computedComponents = computed(() => getComponentsForLocation(props.location));
 </script>

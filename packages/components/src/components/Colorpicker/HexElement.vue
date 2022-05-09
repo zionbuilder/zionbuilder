@@ -1,48 +1,35 @@
 <template>
 	<div class="znpb-colorpicker-inner-editor-hex">
 		<InputLabel>
-			<BaseInput
-				v-model="hexValue"
-				class="znpb-form-colorpicker__input-text"
-			/>
+			<BaseInput v-model="hexValue" class="znpb-form-colorpicker__input-text" />
 			HEX
 		</InputLabel>
 	</div>
 </template>
-<script>
-import BaseInput from '../BaseInput/BaseInput.vue'
-import { InputLabel } from '../InputLabel'
 
-/**
- * this type of element supports
- */
-export default {
-	name: 'HexElement',
-	components: {
-		BaseInput,
-		InputLabel
+<script lang="ts" setup>
+import BaseInput from '../BaseInput/BaseInput.vue';
+import { InputLabel } from '../InputLabel';
+import { computed } from 'vue';
+
+const props = defineProps<{
+	modelValue: string;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
+
+const hexValue = computed({
+	get() {
+		return props.modelValue;
 	},
-	props: {
-		modelValue: {
-			type: String,
-			required: false
-		}
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
 	},
-	data () {
-		return {}
-	},
-	computed: {
-		hexValue: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	}
-}
+});
 </script>
+
 <style lang="scss">
 .znpb-colorpicker-inner-editor-hex {
 	flex-grow: 1;

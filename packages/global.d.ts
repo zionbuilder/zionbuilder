@@ -1,9 +1,13 @@
-type CallbackFunction = (...args: any[]) => void
+type CallbackFunction = (...args: any[]) => void;
 interface Hook {
-	[key: string]: CallbackFunction[]
+	[key: string]: CallbackFunction[];
 }
 
 // l10n
 interface translateString {
-	[key: string]: string
+	[key: string]: string;
+}
+
+interface Window {
+	wp: any;
 }

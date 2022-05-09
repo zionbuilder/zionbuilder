@@ -1,32 +1,18 @@
 <template>
 	<div class="znpb-icon-options">
-		<div
-			class="znpb-icon-trigger"
-			@click.self="open"
-			:class="{['znpb-icon-trigger--no-icon']: !modelValue}"
-		>
-			<div
-				v-if="modelValue"
-				class="znpb-icon-options__delete"
-			>
+		<div class="znpb-icon-trigger" :class="{ ['znpb-icon-trigger--no-icon']: !modelValue }" @click.self="open">
+			<div v-if="modelValue" class="znpb-icon-options__delete">
 				<span
-					@click.passive.stop="showModal=true"
 					class="znpb-icon-preview"
 					:data-znpbiconfam="modelValue.family"
 					:data-znpbicon="unicode(modelValue.unicode)"
+					@click.passive.stop="showModal = true"
 				>
 				</span>
-				<Icon
-					@click.stop="$emit('update:modelValue',null)"
-					icon="delete"
-					:rounded="true"
-				/>
+				<Icon icon="delete" :rounded="true" @click.stop="$emit('update:modelValue', null)" />
 			</div>
-			<span
-				v-else
-				@click="showModal=true"
-			>
-				{{$translate('select_icon')}}
+			<span v-else @click="showModal = true">
+				{{ $translate('select_icon') }}
 			</span>
 		</div>
 		<Modal
@@ -40,58 +26,52 @@
 		>
 			<IconsLibraryModalContent
 				v-model="valueModel"
-				@selected="$emit('update:modelValue',valueModel)"
 				:special-filter-pack="specialFilterPack"
+				@selected="$emit('update:modelValue', valueModel)"
 			/>
 		</Modal>
 	</div>
-
 </template>
 
-<script>
-import IconsLibraryModalContent from './IconsLibraryModalContent.vue'
-
+<script lang="ts">
 export default {
 	name: 'IconLibrary',
-	components: {
-		IconsLibraryModalContent
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import type { Icons } from '@composables';
+import IconsLibraryModalContent from './IconsLibraryModalContent.vue';
+
+type Icon = { family: string; name: string; unicode: string };
+
+const props = defineProps<{
+	specialFilterPack?: Icons[];
+	title: string;
+	modelValue?: Icon | null;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Icon | null | undefined): void;
+}>();
+const showModal = ref(false);
+
+const valueModel = computed({
+	get() {
+		return props.modelValue;
 	},
-	props: {
-		specialFilterPack: {
-			type: Array,
-			required: false
-		},
-		title: {
-			type: String,
-			required: true
-		},
-		modelValue: {
-			required: false
-		}
+	set(newValue: Icon | null | undefined) {
+		emit('update:modelValue', newValue);
 	},
-	data () {
-		return {
-			showModal: false,
-		}
-	},
-	computed: {
-		valueModel: {
-			get () {
-				return this.modelValue || {}
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	},
-	methods: {
-		unicode (unicode) {
-			return JSON.parse(('"\\' + unicode + '"'))
-		},
-		open () {
-			this.showModal = true
-		}
-	}
+});
+
+function unicode(unicode: string) {
+	return JSON.parse('"\\' + unicode + '"');
+}
+
+function open() {
+	showModal.value = true;
 }
 </script>
 <style lang="scss">

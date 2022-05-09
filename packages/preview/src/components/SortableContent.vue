@@ -59,7 +59,7 @@ import {
 import { translate } from '@zb/i18n';
 
 // Utils
-import { getOptionValue } from '@zb/utils';
+import { get } from 'lodash-es';
 
 // Components
 import Element from './Element.vue';
@@ -121,10 +121,7 @@ export default {
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(
-				props.element.options,
-				'_styles.wrapper.styles.default.default.flex-direction',
-			);
+			const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
 
 			if (mediaOrientation) {
 				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';

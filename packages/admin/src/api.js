@@ -1,47 +1,36 @@
-import routes from './router'
+import routes from './router';
 
 // Utils
-import {
-	addFilter
-} from '@zb/hooks'
-import {
-	useInjections
-} from '@zb/components'
-import {
-	ServerRequest
-} from '@zb/utils'
+import { addFilter } from '@zb/hooks';
+import { useInjections } from '@zb/components';
+import { ServerRequest } from '@zb/utils';
 
 // Set Service Interceptor
-import {
-	errorInterceptor
-} from '@zb/rest'
-import {
-	useNotifications
-} from '@zionbuilder/composables'
+import { errorInterceptor } from '@zb/rest';
+import { useNotifications } from '@zionbuilder/composables';
 
+const serverRequest = new ServerRequest();
 
-const serverRequest = new ServerRequest()
+window.zb = window.zb || {};
 
-window.zb = window.zb || {}
-
-const notifications = useNotifications()
+const notifications = useNotifications();
 
 // Add error interceptor for API
-errorInterceptor(notifications)
+errorInterceptor(notifications);
 
 const api = {
 	routes,
 	interceptors: {
-		errorInterceptor
+		errorInterceptor,
 	},
 	notifications,
 	addFilter,
 	useInjections,
-	serverRequest
-}
+	serverRequest,
+};
 
 // Add to global object
-window.zb.admin = api
+window.zb.admin = api;
 
 // Export as module
-export default api
+export default api;

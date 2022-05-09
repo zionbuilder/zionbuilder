@@ -9,63 +9,28 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, CSSProperties } from 'vue';
 import { getSearchIcon } from './icons';
 
-interface IProps {
-	/**
-	 * The Name of the icon - String
-	 */
-	icon: string;
+const props = withDefaults(
+	defineProps<{
+		icon: string;
+		rotate?: boolean | string | number;
+		bgSize?: number;
+		color?: string;
+		size?: number;
+		bgColor?: string;
+		stroke?: string;
+		rounded?: boolean;
+		preserveAspectRatio?: string;
+	}>(),
+	{
+		rotate: false,
+		rounded: false,
+	},
+);
 
-	/**
-	 * If the icon should be computed rotated
-	 * exmaple of props: true, 45,'45'
-	 */
-	rotate?: boolean | string | number;
-
-	/**
-	 * The size of the icon - number
-	 */
-	bgSize?: number;
-
-	/**
-	 * The color of the icon
-	 */
-	color?: string;
-
-	// 		/**
-	// 		 * The icon size
-	// 		 */
-	size?: number;
-
-	// 		/**
-	// 		 * The background-color of the icon
-	// 		 */
-	bgColor?: string;
-
-	// 		/**
-	// 		 * The stroke-color of the icon
-	// 		 */
-	stroke?: string;
-
-	// 		/**
-	// 		 * If set to true, the icon wrapper will be rounded
-	// 		 */
-	rounded?: boolean;
-
-	// 		/**
-	// 		 * preserve aspect ratio
-	// 		 */
-	preserveAspectRatio?: string;
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-	rotate: false,
-	rounded: false,
-});
-
-const iconStyles = computed(() => {
+const iconStyles = computed<CSSProperties>(() => {
 	return {
 		width: props.bgSize + 'px',
 		height: props.bgSize + 'px',
@@ -115,28 +80,25 @@ const getIcon = computed(() => {
 	let pathString = '';
 	// if the icon has circles
 	if (iconOption.circle) {
-		let iconCircle = iconOption.circle;
-		for (let i = 0; i < iconCircle.length; i++) {
-			pathString += `<circle  ${iconCircle[i]} fill="currentColor"></circle>`;
+		for (const circle of iconOption.circle) {
+			pathString += `<circle  ${circle} fill="currentColor"></circle>`;
 		}
 	}
 	// if the icon has rect
 	if (iconOption.rect) {
-		let iconRect = iconOption.rect;
-		for (let i = 0; i < iconRect.length; i++) {
-			pathString += `<rect ${iconRect[i]}></rect>`;
+		for (const rect of iconOption.rect) {
+			pathString += `<rect ${rect}></rect>`;
 		}
 	}
 	// if the icon has polygon
 	if (iconOption.polygon) {
-		let iconPolygon = iconOption.polygon;
-		for (let i = 0; i < iconPolygon.length; i++) {
-			pathString += `<polygon points='${iconPolygon[i]}' fill="currentColor"></polygon>`;
+		for (const polygon of iconOption.polygon) {
+			pathString += `<polygon points='${polygon}' fill="currentColor"></polygon>`;
 		}
 	}
 
-	for (let i = 0; i < iconOption.paths.length; i++) {
-		pathString += `<path fill="currentColor" d="${iconOption.paths[i]}"></path>`;
+	for (const path of iconOption.paths) {
+		pathString += `<path fill="currentColor" d="${path}"></path>`;
 	}
 
 	return pathString;

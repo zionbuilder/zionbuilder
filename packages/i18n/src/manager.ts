@@ -8,13 +8,13 @@ export const createI18n = (initialStrings = {}) => {
 		};
 	};
 
-	const translate = (stringId: string) : string | undefined => {
-		if (typeof strings[stringId] !== 'undefined') {
+	const translate = (stringId: string): string => {
+		if (strings[stringId] !== undefined) {
 			return strings[stringId];
 		}
 
 		// eslint-disable-next-line
-		console.error(`String with id ${stringId} was not found.`)
+		console.error(`String with id ${stringId} was not found.`);
 
 		return '';
 	};
@@ -25,6 +25,6 @@ export const createI18n = (initialStrings = {}) => {
 
 	return {
 		addStrings,
-		translate
-	}
-}
+		translate,
+	};
+};

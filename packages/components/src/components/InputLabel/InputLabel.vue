@@ -8,17 +8,11 @@
 	>
 		<!-- @slot text -->
 		<slot />
-		<div
-			class="znpb-form-label-content"
-			v-if="$slots.label || label || icon"
-		>
-			<Icon
-				v-if="icon"
-				:icon="icon"
-			/>
+		<div v-if="$slots.label || label || icon" class="znpb-form-label-content">
+			<Icon v-if="icon" :icon="icon" />
 
 			<h4 v-if="!$slots.label">
-				{{label}}
+				{{ label }}
 			</h4>
 			<!-- @slot Label text -->
 			<slot name="label"></slot>
@@ -26,47 +20,27 @@
 	</label>
 </template>
 
-<script>
-import { Icon } from '../Icon'
-
+<script lang="ts">
 export default {
 	name: 'InputLabel',
-	components: {
-		Icon
+};
+</script>
+
+<script lang="ts" setup>
+import { Icon } from '../Icon';
+
+withDefaults(
+	defineProps<{
+		label?: string;
+		align?: 'right' | 'left' | 'center';
+		position?: 'right' | 'left' | 'bottom';
+		icon?: string;
+	}>(),
+	{
+		align: 'center',
+		position: 'bottom',
 	},
-	props: {
-		/**
-		 * Label string
-		 */
-		label: {
-			type: String,
-			required: false
-		},
-		/**
-		 * Alignment
-		 */
-		align: {
-			type: String,
-			required: false,
-			default: 'center'
-		},
-		/**
-		 * Position
-		 */
-		position: {
-			type: String,
-			required: false,
-			default: 'bottom'
-		},
-		/**
-		 * Position
-		 */
-		icon: {
-			type: String,
-			required: false
-		}
-	}
-}
+);
 </script>
 
 <style lang="scss">

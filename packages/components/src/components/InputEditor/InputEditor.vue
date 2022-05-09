@@ -1,123 +1,120 @@
 <template>
-	<div
-		class="znpb-wp-editor__wrapper znpb-wp-editor-custom"
-		ref="root"
-	></div>
+	<div ref="root" class="znpb-wp-editor__wrapper znpb-wp-editor-custom"></div>
 </template>
 
-<script>
-import { ref, onBeforeUnmount, onMounted, computed, watch } from 'vue'
-import { debounce } from '@zb/utils'
-
+<script lang="ts">
 export default {
 	name: 'InputEditor',
-	props: {
-		modelValue: {
-			type: String,
-			required: false
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, onBeforeUnmount, onMounted, computed, watch } from 'vue';
+import { debounce } from 'lodash-es';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+	}>(),
+	{
+		modelValue: '',
 	},
-	setup (props, { emit }) {
-		let editorTextarea = null
-		const root = ref(null)
-		let editor = null
-		const randomNumber = Math.floor((Math.random() * 100) + 1);
-		const editorID = `znpbwpeditor${randomNumber}`;
+);
 
-		// computed
-		const content = computed({
-			get () {
-				return props.modelValue || ''
-			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
 
-		// Lifecycle
-		onBeforeUnmount(() => {
-			editorTextarea.removeEventListener('keyup', onTextChanged)
+let editorTextarea: HTMLTextAreaElement;
+const root = ref<HTMLDivElement | null>(null);
+let editor: Record<string, any> | null;
+const randomNumber = Math.floor(Math.random() * 100 + 1);
+const editorID = `znpbwpeditor${randomNumber}`;
 
-			// Destroy tinyMce
-			if (typeof window.tinyMCE !== 'undefined' && editor) {
-				window.tinyMCE.remove(editor)
-			}
-
-			editor = null
-		})
-
-		onMounted(() => {
-			root.value.innerHTML = window.ZnPbInitalData.wp_editor.replace(/znpbwpeditorid/g, editorID).replace('%%ZNPB_EDITOR_CONTENT%%', content.value)
-
-			editorTextarea = document.querySelectorAll('.wp-editor-area')[0]
-			editorTextarea.addEventListener('keyup', onTextChanged)
-
-			window.quicktags({
-				buttons: 'strong,em,del,link,img,close',
-				id: editorID
-			})
-
-			const config = {
-				id: editorID,
-				selector: `#${editorID}`,
-				setup: onEditorSetup,
-				content_style: "body { background-color: #fff; }"
-			}
-			window.tinyMCEPreInit.mceInit[editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config)
-
-			// Set the edit mode to tmce
-			window.switchEditors.go(editorID, 'tmce')
-		})
-
-		// Watchers
-		watch(() => props.modelValue, (newValue, oldValue) => {
-			const currentValue = editor.getContent()
-			if (editor && currentValue !== newValue) {
-				const value = newValue || ''
-				editor.setContent(value)
-				debouncedAddToHistory()
-				editorTextarea.value = newValue
-			}
-		})
-
-		const debouncedAddToHistory = debounce(() => {
-			if (editor) {
-				editor.undoManager.add()
-			}
-		}, 500)
-
-		function onEditorSetup (editorInstance) {
-			editor = editorInstance
-			editor.on('change KeyUp Undo Redo', onEditorContentChange)
-		}
-
-		function onEditorContentChange (event) {
-			const currentValue = props.modelValue
-
-			const newValue = editor.getContent()
-
-			if (currentValue !== newValue) {
-				emit('update:modelValue', newValue)
-			}
-		}
-
-		function onTextChanged (event) {
-			emit('update:modelValue', editorTextarea.value)
-		}
-
-		return {
-			root,
-			editor,
-			editorID,
-			debouncedAddToHistory
-		}
+// computed
+const content = computed({
+	get() {
+		return props.modelValue || '';
 	},
-	mounted () {
-
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
 	},
-	watch: {
+});
 
+// Lifecycle
+onBeforeUnmount(() => {
+	editorTextarea.removeEventListener('keyup', onTextChanged);
+
+	// Destroy tinyMce
+	if (window.tinyMCE !== undefined && editor) {
+		window.tinyMCE.remove(editor);
 	}
+
+	editor = null;
+});
+
+onMounted(() => {
+	(root.value as HTMLDivElement).innerHTML = window.ZnPbInitalData.wp_editor
+		.replace(/znpbwpeditorid/g, editorID)
+		.replace('%%ZNPB_EDITOR_CONTENT%%', content.value);
+
+	editorTextarea = document.querySelectorAll('.wp-editor-area')[0] as HTMLTextAreaElement;
+	editorTextarea.addEventListener('keyup', onTextChanged);
+
+	window.quicktags({
+		buttons: 'strong,em,del,link,img,close',
+		id: editorID,
+	});
+
+	const config = {
+		id: editorID,
+		selector: `#${editorID}`,
+		setup: onEditorSetup,
+		content_style: 'body { background-color: #fff; }',
+	};
+	window.tinyMCEPreInit.mceInit[editorID] = Object.assign({}, window.tinyMCEPreInit.mceInit.znpbwpeditorid, config);
+
+	// Set the edit mode to tmce
+	window.switchEditors.go(editorID, 'tmce');
+});
+
+// Watchers
+watch(
+	() => props.modelValue,
+	newValue => {
+		const currentValue = editor?.getContent();
+		if (editor && currentValue !== newValue) {
+			const value = newValue || '';
+			editor.setContent(value);
+			debouncedAddToHistory();
+			editorTextarea.value = newValue;
+		}
+	},
+);
+
+const debouncedAddToHistory = debounce(() => {
+	if (editor) {
+		editor.undoManager.add();
+	}
+}, 500);
+
+function onEditorSetup(editorInstance: Record<string, string>) {
+	editor = editorInstance;
+	editor.on('change KeyUp Undo Redo', onEditorContentChange);
+}
+
+function onEditorContentChange() {
+	const currentValue = props.modelValue;
+
+	const newValue = editor?.getContent();
+
+	if (currentValue !== newValue) {
+		emit('update:modelValue', newValue);
+	}
+}
+
+function onTextChanged() {
+	emit('update:modelValue', editorTextarea.value);
 }
 </script>
 
@@ -133,7 +130,8 @@ export default {
 		align-items: flex-end;
 	}
 
-	.wp-editor-tabs, .wp-media-buttons {
+	.wp-editor-tabs,
+	.wp-media-buttons {
 		float: none;
 	}
 
@@ -159,9 +157,10 @@ export default {
 		line-height: 1.5;
 		background-color: transparent;
 		border: none;
-		transition: opacity .15s;
+		transition: opacity 0.15s;
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			color: var(--zb-surface-text-active-color);
 			background: transparent;
 		}
@@ -177,7 +176,7 @@ export default {
 			color: var(--zb-secondary-text-color);
 			background: var(--zb-secondary-color);
 			border-radius: 3px;
-			transition: background-color .15s;
+			transition: background-color 0.15s;
 
 			&:hover {
 				background: var(--zb-secondary-hover-color);
@@ -218,14 +217,17 @@ export default {
 		border: none;
 	}
 
-	.switch-tmce, .switch-html {
-		&:focus, &:active {
+	.switch-tmce,
+	.switch-html {
+		&:focus,
+		&:active {
 			color: var(--zb-surface-text-color);
 			background: var(--zb-surface-color);
 		}
 	}
 
-	.tmce-active .switch-tmce, .html-active .switch-html {
+	.tmce-active .switch-tmce,
+	.html-active .switch-html {
 		color: var(--zb-surface-text-active-color);
 		background: var(--zb-surface-lighter-color);
 		border-top-right-radius: 3px;
@@ -240,7 +242,11 @@ export default {
 		border-radius: 3px;
 	}
 
-	.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal, .mce-menu .mce-menu-item.mce-active.mce-menu-item-preview, .mce-menu .mce-menu-item.mce-selected, .mce-menu .mce-menu-item:focus, .mce-menu .mce-menu-item:hover {
+	.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal,
+	.mce-menu .mce-menu-item.mce-active.mce-menu-item-preview,
+	.mce-menu .mce-menu-item.mce-selected,
+	.mce-menu .mce-menu-item:focus,
+	.mce-menu .mce-menu-item:hover {
 		color: var(--zb-dropdown-text-active-color);
 		background: var(--zb-dropdown-bg-hover-color);
 	}
@@ -250,7 +256,8 @@ export default {
 		border-radius: 3px;
 	}
 
-	div.mce-toolbar-grp > div, .quicktags-toolbar {
+	div.mce-toolbar-grp > div,
+	.quicktags-toolbar {
 		padding: 10px;
 	}
 
@@ -273,7 +280,9 @@ export default {
 		flex-wrap: wrap;
 	}
 
-	.mce-toolbar .mce-btn.mce-active .mce-open, .mce-toolbar .mce-btn:focus .mce-open, .mce-toolbar .mce-btn:hover .mce-open {
+	.mce-toolbar .mce-btn.mce-active .mce-open,
+	.mce-toolbar .mce-btn:focus .mce-open,
+	.mce-toolbar .mce-btn:hover .mce-open {
 		border-left-color: var(--zb-surface-border-color);
 	}
 
@@ -285,7 +294,8 @@ export default {
 		margin-top: 2px;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn, .qt-dfw {
+	.mce-toolbar .mce-btn-group .mce-btn,
+	.qt-dfw {
 		border: 0;
 	}
 
@@ -295,7 +305,8 @@ export default {
 		border: 2px solid var(--zb-surface-border-color);
 		border-radius: 3px;
 
-		&:focus, &:hover {
+		&:focus,
+		&:hover {
 			border-color: var(--zb-surface-border-color);
 		}
 
@@ -321,7 +332,12 @@ export default {
 		border: 0;
 	}
 
-	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover, .qt-dfw:focus, .qt-dfw:hover, .mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active, .qt-dfw.active {
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):focus,
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):hover,
+	.qt-dfw:focus,
+	.qt-dfw:hover,
+	.mce-toolbar .mce-btn-group .mce-btn:not(.mce-listbox):active,
+	.qt-dfw.active {
 		background: var(--zb-surface-lightest-color);
 		box-shadow: none;
 		border: 0;
@@ -338,7 +354,8 @@ export default {
 		color: var(--zb-surface-text-color);
 	}
 
-	.mce-toolbar .mce-btn button, .qt-dfw {
+	.mce-toolbar .mce-btn button,
+	.qt-dfw {
 		height: 100%;
 	}
 

@@ -1,8 +1,8 @@
 <template>
 	<Tooltip
+		ref="popper"
 		tooltip-class="hg-popper--no-padding"
 		trigger="click"
-		ref="popper"
 		:close-on-outside-click="true"
 		append-to="body"
 		:modifiers="[
@@ -21,16 +21,15 @@
 			{
 				name: 'flip',
 				options: {
-					fallbackPlacements: ['left', 'right','bottom', 'top'],
+					fallbackPlacements: ['left', 'right', 'bottom', 'top'],
 				},
 			},
-
 		]"
+		strategy="fixed"
 		@show="openColorPicker"
 		@hide="closeColorPicker"
-		strategy="fixed"
 	>
-		<template v-slot:content>
+		<template #content>
 			<ColorPicker
 				ref="colorpickerHolder"
 				:model="modelValue"
@@ -38,125 +37,123 @@
 				@click.stop="onColorPickerClick"
 				@mousedown.stop="onColorPickerMousedown"
 			>
-				<template v-slot:end>
+				<template #end>
 					<PatternContainer
 						v-if="showLibrary"
-						@color-updated="onLibraryUpdate"
 						:model="modelValue"
 						:active-tab="dynamicContentConfig ? 'global' : 'local'"
+						@color-updated="onLibraryUpdate"
 					/>
 				</template>
 			</ColorPicker>
 		</template>
 
 		<slot name="trigger" />
-
 	</Tooltip>
 </template>
 
-<script>
-import PatternContainer from './PatternContainer.vue'
-import { Tooltip } from '@zionbuilder/tooltip'
-import { ColorPicker } from '../Colorpicker'
-
+<script lang="ts">
 export default {
 	name: 'Color',
+};
+</script>
 
-	components: {
-		ColorPicker,
-		Tooltip,
-		PatternContainer
+<script lang="ts" setup>
+import { ref, onBeforeUnmount } from 'vue';
+import PatternContainer from './PatternContainer.vue';
+import { Tooltip } from '@zionbuilder/tooltip';
+import { ColorPicker } from '../Colorpicker';
+
+withDefaults(
+	defineProps<{
+		modelValue?: string;
+		appendTo?: string;
+		showLibrary?: boolean;
+		dynamicContentConfig?: any;
+	}>(),
+	{
+		modelValue: '',
+		showLibrary: true,
 	},
-	props: {
-		/**
-		* color picker modelValue
-		*/
-		modelValue: {
-			type: String,
-			required: false
-		},
-		/**
-		* If the color picker should be appended
-		*/
-		appendTo: {
-			type: String,
-			required: false
-		},
-		/**
-		* If the color picker should show library with global and local values
-		*/
-		showLibrary: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		dynamicContentConfig: {
-			type: Object,
-			required: false
-		}
-	},
-	methods: {
-		onLibraryUpdate (newValue) {
-			this.$emit('update:modelValue', newValue)
-		},
-		onColorPickerClick () {
-			this.isDragging = false
-		},
-		onColorPickerMousedown () {
-			this.isDragging = true
-		},
-		updateColor (color) {
-			/**
-			* emits new color when color changed
-			*/
-			this.$emit('option-updated', color)
-			/**
-			* emits new color when inputcolor changed
-			*/
-			this.$emit('update:modelValue', color)
-		},
-		openColorPicker () {
-			this.$emit('open')
-			document.addEventListener('click', this.closePanelOnOutsideClick, true)
+);
 
-			if (this.$refs.popper.$el) {
-				this.backdrop = document.createElement('div')
-				this.backdrop.classList.add('znpb-tooltip-backdrop')
-				const popper = this.$refs.popper.$el
-				const parent = popper.parentNode
-				parent.insertBefore(this.backdrop, popper)
-			}
-		},
-		closeColorPicker () {
-			this.$emit('close')
-			document.removeEventListener('click', this.closePanelOnOutsideClick)
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+	(e: 'option-updated', value: string): void;
+	(e: 'open'): void;
+	(e: 'close'): void;
+}>();
 
-			if (this.backdrop) {
-				document.body.appendChild(this.backdrop)
-				this.backdrop.parentNode.removeChild(this.backdrop);
-			}
+const popper = ref<InstanceType<typeof Tooltip> | null>(null);
+const colorpickerHolder = ref<InstanceType<typeof ColorPicker> | null>(null);
+const isDragging = ref(false);
 
-		},
-		closePanelOnOutsideClick (event) {
-			if (this.$el.contains(event.target) || (this.$refs.colorpickerHolder && this.$refs.colorpickerHolder.$el.contains(event.target))) {
-			} else {
-				if (!this.isDragging && this.$refs.popper) {
-					this.$refs.popper.hidePopper()
-				}
-				this.isDragging = false
-			}
-		}
+let backdrop: HTMLDivElement;
 
-	},
-	beforeUnmount () {
-		document.removeEventListener('click', this.closePanelOnOutsideClick)
+function onLibraryUpdate(newValue: string) {
+	emit('update:modelValue', newValue);
+}
 
-		if (this.backdrop) {
-			document.body.appendChild(this.backdrop)
-			this.backdrop.parentNode.removeChild(this.backdrop);
-		}
+function onColorPickerClick() {
+	isDragging.value = false;
+}
+
+function onColorPickerMousedown() {
+	isDragging.value = true;
+}
+
+function updateColor(color: string) {
+	/**
+	 * emits new color when color changed
+	 */
+	emit('option-updated', color);
+	/**
+	 * emits new color when inputcolor changed
+	 */
+	emit('update:modelValue', color);
+}
+
+function openColorPicker() {
+	emit('open');
+	document.addEventListener('click', closePanelOnOutsideClick, true);
+
+	if (popper.value) {
+		backdrop = document.createElement('div');
+		backdrop.classList.add('znpb-tooltip-backdrop');
+		const parent = popper.value.$el.parentNode;
+		parent.insertBefore(backdrop, popper.value.$el);
 	}
 }
+
+function closeColorPicker() {
+	emit('close');
+	document.removeEventListener('click', closePanelOnOutsideClick);
+
+	if (backdrop) {
+		document.body.appendChild(backdrop);
+		backdrop.parentNode?.removeChild(backdrop);
+	}
+}
+
+function closePanelOnOutsideClick(event: MouseEvent) {
+	if (popper.value?.$el.contains(event.target) || colorpickerHolder.value?.$el.contains(event.target)) {
+		return;
+	}
+
+	if (!isDragging.value && popper.value) {
+		popper.value.hidePopper();
+	}
+	isDragging.value = false;
+}
+
+onBeforeUnmount(() => {
+	document.removeEventListener('click', closePanelOnOutsideClick);
+
+	if (backdrop) {
+		document.body.appendChild(backdrop);
+		backdrop.parentNode?.removeChild(backdrop);
+	}
+});
 </script>
 
 <style lang="scss">

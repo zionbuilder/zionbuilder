@@ -1,1 +1,1 @@
-export { default as InputBackgroundVideo } from './InputBackgroundVideo.vue'
+export { default as InputBackgroundVideo } from './InputBackgroundVideo.vue';

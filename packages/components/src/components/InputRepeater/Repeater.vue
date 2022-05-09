@@ -1,15 +1,16 @@
 <template>
 	<Sortable
-		class="znpb-option-repeater"
 		v-model="sortableItems"
+		class="znpb-option-repeater"
 		handle=".znpb-horizontal-accordion > .znpb-horizontal-accordion__header"
 	>
 		<RepeaterOption
 			v-for="(item, index) in sortableItems"
 			:key="index"
+			ref="repeaterItem"
 			:schema="child_options"
 			:modelValue="item"
-			:propertyIndex="index"
+			:property-index="index"
 			:item_title="item_title"
 			:default_item_title="default_item_title"
 			:deletable="!addable ? false : deletable"
@@ -17,153 +18,111 @@
 			@clone-option="cloneOption($event, index)"
 			@delete-option="deleteOption"
 			@update:modelValue="onItemChange($event)"
-			ref="repeaterItem"
 		>
 		</RepeaterOption>
 
 		<template #end>
-			<Button
-				v-if="showButton"
-				class="znpb-option-repeater__add-button"
-				type="line"
-				@click="addProperty"
-			>
-				{{add_button_text}}
+			<Button v-if="showButton" class="znpb-option-repeater__add-button" type="line" @click="addProperty">
+				{{ add_button_text }}
 			</Button>
 		</template>
 	</Sortable>
 </template>
 
-<script>
-import { computed } from 'vue'
-import RepeaterOption from './RepeaterOption.vue'
-import { translate } from '@zb/i18n'
-
+<script lang="ts">
 export default {
 	name: 'Repeater',
-	data () {
-		return {
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+import RepeaterOption from './RepeaterOption.vue';
+import { translate } from '@zb/i18n';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Record<string, any>[];
+		addable?: boolean;
+		deletable?: boolean;
+		clonable?: boolean;
+		maxItems?: number;
+		add_button_text?: string;
+		child_options: Record<string, any>;
+		item_title?: string;
+		default_item_title: string;
+		add_template?: Record<string, any>;
+	}>(),
+	{
+		addable: true,
+		deletable: true,
+		clonable: true,
+		add_button_text: (() => translate('generic_add_new')) as unknown as string,
 	},
-	props: {
-		modelValue: {
-			type: Array,
-			required: false,
-			default () {
-				return []
-			}
-		},
-		addable: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		deletable: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		clonable: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		maxItems: {
-			type: Number,
-			required: false
-		},
-		add_button_text: {
-			type: String,
-			required: false,
-			default () {
-				return translate('generic_add_new')
-			}
-		},
-		child_options: {
-			type: Object,
-			required: true
-		},
-		item_title: {
-			type: String,
-			required: false
-		},
-		default_item_title: {
-			type: String,
-			required: true
-		},
-		add_template: {
-			type: Object,
-			required: false
-		}
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Record<string, any>[]): void;
+}>();
+
+const sortableItems = computed({
+	get() {
+		return props.modelValue || [];
 	},
-	setup (props, { emit }) {
-		const sortableItems = computed({
-			get () {
-				return props.modelValue
-			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
-
-		return {
-			sortableItems
-		}
+	set(newValue: Record<string, any>[]) {
+		emit('update:modelValue', newValue);
 	},
-	components: {
-		RepeaterOption
-	},
-	computed: {
-		valueModel () {
-			return this.modelValue || []
-		},
-		showButton () {
-			return this.maxItems ? this.addable && (this.valueModel.length < this.maxItems) : this.addable
-		},
-		checkClonable () {
-			return !this.addable ? false : !this.maxItems ? this.clonable : this.valueModel.length < this.maxItems
-		}
-	},
-	methods: {
-		onItemChange (payload) {
-			const { index, newValues } = payload
-			let copiedValues = [...this.valueModel]
-			let clonedNewValue = newValues
+});
 
-			// Check to see if we need to delete the data
-			if (newValues === null) {
-				clonedNewValue = []
-			}
-			copiedValues[index] = clonedNewValue
+const showButton = computed(() => {
+	return props.maxItems ? props.addable && sortableItems.value.length < props.maxItems : props.addable;
+});
 
-			this.$emit('update:modelValue', copiedValues)
-		},
-		addProperty () {
-			const clone = [...this.valueModel]
-			const newItem = this.add_template ? this.add_template : {}
-			clone.push(newItem)
+const checkClonable = computed(() => {
+	return !props.addable ? false : !props.maxItems ? props.clonable : sortableItems.value.length < props.maxItems;
+});
 
-			this.$emit('update:modelValue', clone)
+function onItemChange(payload: { index: number; newValues: Record<string, any> }) {
+	const { index, newValues } = payload;
+	let copiedValues = [...sortableItems.value];
+	let clonedNewValue = newValues;
 
-			// this.$nextTick(() => {
-			// 	console.log(this.$refs.repeaterItem);
-			// 	this.$refs.repeaterItem.expand()
-			// })
-		},
-		cloneOption (event, index) {
-			if ((this.maxItems && this.addable && (this.valueModel.length < this.maxItems)) || (this.maxItems === undefined)) {
-				const repeaterClone = [...this.modelValue]
-				repeaterClone.splice(index, 0, event)
-
-				this.$emit('update:modelValue', repeaterClone)
-			}
-		},
-		deleteOption (optionIndex) {
-			let copiedValues = [...this.valueModel]
-			copiedValues.splice(optionIndex, 1)
-			this.$emit('update:modelValue', copiedValues)
-		}
+	// Check to see if we need to delete the data
+	if (newValues === null) {
+		clonedNewValue = [];
 	}
+	copiedValues[index] = clonedNewValue;
+
+	emit('update:modelValue', copiedValues);
+}
+function addProperty() {
+	const clone = [...sortableItems.value];
+	const newItem = props.add_template ?? {};
+	clone.push(newItem);
+
+	emit('update:modelValue', clone);
+
+	// this.$nextTick(() => {
+	// 	console.log(this.$refs.repeaterItem);
+	// 	this.$refs.repeaterItem.expand()
+	// })
+}
+function cloneOption(event: Record<string, any>, index: number) {
+	if (
+		(props.maxItems && props.addable && sortableItems.value.length < props.maxItems) ||
+		props.maxItems === undefined
+	) {
+		const repeaterClone = [...sortableItems.value];
+		repeaterClone.splice(index, 0, event);
+
+		emit('update:modelValue', repeaterClone);
+	}
+}
+
+function deleteOption(optionIndex: number) {
+	let copiedValues = [...sortableItems.value];
+	copiedValues.splice(optionIndex, 1);
+	emit('update:modelValue', copiedValues);
 }
 </script>
 

@@ -1,6 +1,5 @@
 <template>
 	<div class="znpb-gradient-wrapper">
-
 		<GradientBoard
 			v-if="!saveToLibrary"
 			:config="computedValue"
@@ -17,33 +16,27 @@
 				@position-changed="changePosition($event)"
 			/>
 
-			<template v-slot:actions>
-				<span
-					v-if="!showPresetInput"
-					class="znpb-gradient__show-preset"
-					@click="showPresetInput=true"
-				>{{$translate('save_to_library')}}</span>
+			<template #actions>
+				<span v-if="!showPresetInput" class="znpb-gradient__show-preset" @click="showPresetInput = true">{{
+					$translate('save_to_library')
+				}}</span>
 
-				<PresetInput
-					v-else
-					@save-preset="addGlobalPattern"
-					@cancel="showPresetInput=false"
-				/>
+				<PresetInput v-else @save-preset="addGlobalPattern" @cancel="showPresetInput = false" />
 
 				<Icon
 					v-if="!showPresetInput"
 					icon="delete"
 					:bg-size="30"
-					@click.stop="deleteGradientValue"
 					class="znpb-gradient-wrapper__delete-gradient"
+					@click.stop="deleteGradientValue"
 				/>
 			</template>
 		</ActionsOverlay>
 
 		<div class="znpb-gradient-elements-wrapper">
 			<Sortable
-				class="znpb-admin-colors__container"
 				v-model="computedValue"
+				class="znpb-admin-colors__container"
 				:handle="null"
 				:drag-delay="0"
 				:drag-treshold="10"
@@ -52,9 +45,9 @@
 				axis="horizontal"
 			>
 				<GradientElement
-					class="znpb-gradient-elements__delete-button"
 					v-for="(gradient, i) in computedValue"
 					:key="i"
+					class="znpb-gradient-elements__delete-button"
 					:config="gradient"
 					:show-remove="computedValue.length > 1"
 					:is-active="activeGradientIndex === i"
@@ -62,173 +55,141 @@
 					@delete-gradient="deleteGradient(gradient)"
 				/>
 			</Sortable>
-			<Icon
-				icon="plus"
-				class="znpb-colorpicker-add-grad"
-				@click="addGradientConfig"
-			/>
+			<Icon icon="plus" class="znpb-colorpicker-add-grad" @click="addGradientConfig" />
 		</div>
 
 		<GradientOptions v-model="activeGradient" />
-
 	</div>
 </template>
-<script>
-import { inject } from 'vue'
-import { applyFilters } from '@zb/hooks'
-import { getDefaultGradient } from '../../utils/'
 
-// Components
-import Icon from '../Icon/Icon.vue'
-import GradientBoard from './GradientBoard.vue'
-import GradientOptions from './GradientOptions.vue'
-import GradientElement from './GradientElement.vue'
-import PresetInput from './PresetInput.vue'
-import { Sortable } from '@zionbuilder/sortable'
-import { ActionsOverlay } from '../ActionsOverlay'
-import { generateUID } from '@zb/utils'
-
+<script lang="ts">
 export default {
 	name: 'GradientGenerator',
-	components: {
-		GradientOptions,
-		GradientBoard,
-		GradientElement,
-		PresetInput,
-		ActionsOverlay,
-		Sortable,
-		Icon
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, computed, inject, nextTick } from 'vue';
+import { applyFilters } from '@zb/hooks';
+import { getDefaultGradient } from '../../utils/';
+import Icon from '../Icon/Icon.vue';
+import GradientBoard from './GradientBoard.vue';
+import GradientOptions from './GradientOptions.vue';
+import GradientElement from './GradientElement.vue';
+import PresetInput from './PresetInput.vue';
+import { Sortable } from '@zionbuilder/sortable';
+import { ActionsOverlay } from '../ActionsOverlay';
+import { generateUID } from '@zb/utils';
+
+import type { Gradient, Position } from './GradientBar.vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Gradient[];
+		saveToLibrary?: boolean;
+	}>(),
+	{
+		saveToLibrary: true,
 	},
-	props: {
-		modelValue: {
-			type: Array,
-			required: false,
-			default () { }
-		},
-		saveToLibrary: {
-			type: Boolean,
-			required: false,
-			default: true
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Gradient[] | null): void;
+}>();
+
+const showPresetInput = ref(false);
+const activeGradientIndex = ref(0);
+
+// This should be provided by Apps that are using this component
+const useBuilderOptions = inject('builderOptions');
+const { addLocalGradient, addGlobalGradient } = useBuilderOptions();
+
+const computedValue = computed({
+	get() {
+		const clonedValue = JSON.parse(JSON.stringify(props.modelValue ?? getDefaultGradient()));
+		return applyFilters('zionbuilder/options/model', clonedValue);
+	},
+	set(newValue: Gradient[]) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const activeGradient = computed({
+	get() {
+		return computedValue.value[activeGradientIndex.value];
+	},
+	set(newValue: Gradient) {
+		const valueToSend = [...computedValue.value];
+		valueToSend[activeGradientIndex.value] = newValue;
+
+		computedValue.value = valueToSend;
+	},
+});
+
+function addGlobalPattern(name: string, type?: string) {
+	showPresetInput.value = false;
+
+	const defaultGradient = {
+		id: generateUID(),
+		name: name,
+		config: computedValue.value,
+	};
+
+	type === 'local' ? addLocalGradient(defaultGradient) : addGlobalGradient(defaultGradient);
+}
+
+function deleteGradient(gradientConfig: Gradient) {
+	const deletedGradientIndex = computedValue.value.indexOf(gradientConfig);
+
+	// Set the previous color as active
+	if (activeGradient.value === gradientConfig) {
+		if (deletedGradientIndex > 0) {
+			activeGradientIndex.value = deletedGradientIndex - 1;
+		} else {
+			activeGradientIndex.value = deletedGradientIndex + 1;
 		}
-	},
-
-	setup () {
-		// This should be provided by Apps that are using this component
-		const useBuilderOptions = inject('builderOptions')
-		const {
-			addLocalGradient,
-			addGlobalGradient,
-			getOptionValue
-		} = useBuilderOptions()
-
-		return {
-			addLocalGradient,
-			addGlobalGradient,
-			getOptionValue
-		}
-	},
-
-	data () {
-		return {
-			showPresetInput: false,
-			activeGradientIndex: 0
-		}
-	},
-
-	computed: {
-		computedValue: {
-			get () {
-				const clonedValue = this.modelValue === undefined || this.modelValue === null ? getDefaultGradient() : this.modelValue
-				return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(clonedValue)))
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		activeGradient: {
-			get () {
-				return this.computedValue[this.activeGradientIndex]
-			},
-			set (newValue) {
-				const valueToSend = [...this.computedValue]
-				valueToSend[this.activeGradientIndex] = newValue
-
-				this.computedValue = valueToSend
-			}
-		}
-	},
-	methods: {
-		getValue () {
-			return this.computedValue
-		},
-		addGlobalPattern (name, type) {
-			this.showPresetInput = false
-
-			const defaultGradient = {
-				id: generateUID(),
-				name: name,
-				config: this.computedValue
-			}
-
-			if (type === 'local') {
-				this.addLocalGradient(defaultGradient)
-			} else {
-				this.addGlobalGradient(defaultGradient)
-			}
-		},
-		deleteGradient (gradientConfig) {
-			const deletedGradientIndex = this.computedValue.indexOf(gradientConfig)
-
-			// Set the previous color as active
-			if (this.activeGradient === gradientConfig) {
-				if (deletedGradientIndex > 0) {
-					this.activeGradientIndex = deletedGradientIndex - 1
-				} else {
-					this.activeGradientIndex = deletedGradientIndex + 1
-				}
-			} else {
-				// check if the deleted gradient had an index lower than the active gradient
-				if (deletedGradientIndex < this.activeGradientIndex) {
-					this.activeGradientIndex = this.activeGradientIndex - 1
-				}
-			}
-
-			const updatedValues = this.computedValue.slice(0)
-			updatedValues.splice(deletedGradientIndex, 1)
-
-			// Send the new value to parent
-			this.computedValue = updatedValues
-		},
-		addGradientConfig () {
-			const defaultConfig = getDefaultGradient()
-
-			this.computedValue = [
-				...this.computedValue,
-				defaultConfig[0]
-			]
-
-			// Change the active gradient
-			this.$nextTick(() => {
-				const newGradientIndex = this.computedValue.length - 1
-				this.changeActive(newGradientIndex)
-			})
-		},
-		changeActive (index) {
-			this.activeGradientIndex = index
-			this.showOptions = true
-		},
-		changePosition (position) {
-			this.activeGradient = {
-				...this.activeGradient,
-				position: position
-			}
-		},
-		deleteGradientValue () {
-			this.$emit('update:modelValue', null)
+	} else {
+		// check if the deleted gradient had an index lower than the active gradient
+		if (deletedGradientIndex < activeGradientIndex.value) {
+			activeGradientIndex.value = activeGradientIndex.value - 1;
 		}
 	}
+
+	const updatedValues = computedValue.value.slice(0);
+	updatedValues.splice(deletedGradientIndex, 1);
+
+	// Send the new value to parent
+	computedValue.value = updatedValues;
+}
+
+function addGradientConfig() {
+	const defaultConfig = getDefaultGradient();
+
+	computedValue.value = [...computedValue.value, defaultConfig[0]];
+
+	// Change the active gradient
+	nextTick(() => {
+		const newGradientIndex = computedValue.value.length - 1;
+		changeActive(newGradientIndex);
+	});
+}
+
+function changeActive(index: number) {
+	activeGradientIndex.value = index;
+}
+
+function changePosition(position: Position) {
+	activeGradient.value = {
+		...activeGradient.value,
+		position: position,
+	};
+}
+
+function deleteGradientValue() {
+	emit('update:modelValue', null);
 }
 </script>
+
 <style lang="scss">
 .znpb-admin__wrapper {
 	.znpb-admin__gradient-modal-wrapper {

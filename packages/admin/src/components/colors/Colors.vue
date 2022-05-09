@@ -1,31 +1,22 @@
 <template>
 	<PageTemplate class="znpb-admin-colors__wrapper">
-		<h3>{{$translate('color_presets')}}</h3>
+		<h3>{{ $translate('color_presets') }}</h3>
 
 		<Tabs tab-style="minimal">
 			<Tab name="Local">
-				<Sortable
-					class="znpb-admin-colors__container"
-					v-model="computedLocalColors"
-					:revert="true"
-					axis="horizontal"
-				>
+				<Sortable v-model="computedLocalColors" class="znpb-admin-colors__container" :revert="true" axis="horizontal">
 					<ColorBox
-						v-for="(color,i) in computedLocalColors"
+						v-for="(color, i) in computedLocalColors"
+						:key="color + i"
 						:color="color"
-						v-bind:key="color + i"
 						@option-updated="editLocalColor(color, $event)"
 						@delete-color="deleteLocalColor(color)"
 					/>
 
-					<template v-slot:end>
-						<ColorBox
-							type="addcolor"
-							@option-updated="addLocalColor"
-						/>
+					<template #end>
+						<ColorBox type="addcolor" @option-updated="addLocalColor" />
 					</template>
 				</Sortable>
-
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
@@ -36,53 +27,49 @@
 
 				<template v-else>
 					<Sortable
-						class="znpb-admin-colors__container"
 						v-model="computedGlobalColors"
+						class="znpb-admin-colors__container"
 						:revert="true"
 						axis="horizontal"
 					>
 						<ColorBox
-							v-for="(color,i) in computedGlobalColors"
-							v-bind:key="color.color + i"
+							v-for="(color, i) in computedGlobalColors"
+							:key="color.color + i"
 							:color="color.color"
 							@option-updated="editGlobalColor(i, $event)"
 							@delete-color="deleteGlobalColor(color)"
 						/>
 
-						<template v-slot:end>
-							<ColorBox
-								type="addcolor"
-								@option-updated="addGlobal"
-							/>
+						<template #end>
+							<ColorBox type="addcolor" @option-updated="addGlobal" />
 						</template>
 					</Sortable>
 				</template>
-
 			</Tab>
 		</Tabs>
-		<template v-slot:right>
-			<p class="znpb-admin-info-p">{{$translate('create_color_palette')}} </p>
+		<template #right>
+			<p class="znpb-admin-info-p">{{ $translate('create_color_palette') }}</p>
 		</template>
 	</PageTemplate>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions } from '@zionbuilder/composables'
-import { generateUID } from '@zb/utils'
+import { computed } from 'vue';
+import { useBuilderOptions } from '@zionbuilder/composables';
+import { generateUID } from '@zb/utils';
 
 // Components
-import ColorBox from './ColorBox.vue'
-import Sortable from '../../../../sortable/src/components/sortable/Sortable.vue'
+import ColorBox from './ColorBox.vue';
+import Sortable from '../../../../sortable/src/components/sortable/Sortable.vue';
 
 export default {
 	name: 'Colors',
 	components: {
 		ColorBox,
-		Sortable
+		Sortable,
 	},
-	setup () {
-		const isPro = window.ZnPbAdminPageData.is_pro_active
+	setup() {
+		const isPro = window.ZnPbAdminPageData.is_pro_active;
 		const {
 			addLocalColor,
 			getOptionValue,
@@ -92,37 +79,34 @@ export default {
 			deleteGlobalColor,
 			editGlobalColor,
 			updateOptionValue,
-		} = useBuilderOptions()
+		} = useBuilderOptions();
 
 		const computedLocalColors = computed({
-			get () {
-				return getOptionValue('local_colors')
+			get() {
+				return getOptionValue('local_colors');
 			},
-			set (newValue) {
-				updateOptionValue('local_colors', newValue)
-
-			}
-		})
+			set(newValue) {
+				updateOptionValue('local_colors', newValue);
+			},
+		});
 		const computedGlobalColors = computed({
-			get () {
-				return getOptionValue('global_colors')
+			get() {
+				return getOptionValue('global_colors');
 			},
-			set (newValue) {
-				updateOptionValue('global_colors', newValue)
+			set(newValue) {
+				updateOptionValue('global_colors', newValue);
+			},
+		});
 
-			}
-		})
-
-
-		function addGlobal (color) {
-			const colorId = generateUID()
+		function addGlobal(color) {
+			const colorId = generateUID();
 			let globalColor = {
 				id: colorId,
 				color: color,
-				name: colorId
-			}
+				name: colorId,
+			};
 
-			addGlobalColor(globalColor)
+			addGlobalColor(globalColor);
 		}
 
 		return {
@@ -135,19 +119,20 @@ export default {
 			// Global colors
 			addGlobal,
 			deleteGlobalColor,
-			editGlobalColor
-		}
-	}
-}
+			editGlobalColor,
+		};
+	},
+};
 </script>
-<style lang="scss" >
+<style lang="scss">
 .znpb-admin-colors__wrapper {
 	.znpb-tabs__header {
 		margin: 0 auto;
 		&-item {
 			padding: 15px 20px 30px 0;
 
-			&--active, &:hover {
+			&--active,
+			&:hover {
 				color: var(--zb-primary-color);
 			}
 		}

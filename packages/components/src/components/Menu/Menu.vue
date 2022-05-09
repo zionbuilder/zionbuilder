@@ -4,49 +4,46 @@
 			v-for="action in actions"
 			:key="action.title"
 			class="znpb-menu-item"
-			:class="{
-				'znpb-menu-item--disabled': action.show === false,
-				[action.cssClasses]: action.cssClasses
-			}"
+			:class="[{ 'znpb-menu-item--disabled': action.show === false }, action.cssClasses]"
 			@click.stop="performAction(action)"
 		>
-			<Icon
-				class="znpb-menu-itemIcon"
-				:icon="action.icon"
-				v-if="action.icon"
-			/>
+			<Icon v-if="action.icon" class="znpb-menu-itemIcon" :icon="action.icon" />
 
-			<span class="znpb-menu-itemTitle">{{action.title}}</span>
+			<span class="znpb-menu-itemTitle">{{ action.title }}</span>
 
-			<span
-				class="znpb-menu-itemAppend"
-				v-if="action.append"
-			>
-				{{action.append}}
+			<span v-if="action.append" class="znpb-menu-itemAppend">
+				{{ action.append }}
 			</span>
 		</div>
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-	name: "Menu",
-	props: {
-		actions: {
-			type: Array,
-			required: true
-		}
-	},
-	setup (props, { emit }) {
-		function performAction (action) {
-			action.action()
-			emit('action', true)
-		}
+	name: 'Menu',
+};
+</script>
 
-		return {
-			performAction
-		}
-	}
+<script lang="ts" setup>
+export interface Action {
+	title: string;
+	icon?: string;
+	cssClasses?: string;
+	append?: string;
+	show?: boolean;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	action: Function;
+}
+
+defineProps<{
+	actions: Action[];
+}>();
+
+const emit = defineEmits(['action']);
+
+function performAction(action: Action) {
+	action.action();
+	emit('action');
 }
 </script>
 
@@ -71,7 +68,7 @@ export default {
 		padding: 8px 0;
 		margin-right: 12px;
 		font-weight: 500;
-		transition: background-color .2s;
+		transition: background-color 0.2s;
 
 		&:last-child {
 			margin-right: 0;
@@ -85,7 +82,7 @@ export default {
 
 	&--disabled {
 		cursor: not-allowed;
-		opacity: .3;
+		opacity: 0.3;
 		pointer-events: none;
 	}
 }
@@ -95,7 +92,7 @@ export default {
 }
 
 .znpb-menu-itemAppend {
-	opacity: .5;
+	opacity: 0.5;
 }
 
 .znpb-menu-item--separator-bottom {

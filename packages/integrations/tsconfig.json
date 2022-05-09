@@ -7,7 +7,6 @@
 	"references": [
 	],
 	"include": [
-		"src/**/*",
-		"../shims-vue.d.ts"
+		"src/**/*"
 	]
 }

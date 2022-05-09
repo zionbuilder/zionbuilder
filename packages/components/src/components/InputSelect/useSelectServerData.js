@@ -1,117 +1,103 @@
-import {
-	ref,
-	toRaw,
-	inject
-} from 'vue'
+import { ref, toRaw, inject } from 'vue';
 
-import {
-	hash
-} from '@zb/utils'
-import {
-	get,
-	unionBy
-} from 'lodash-es'
+import { hash } from '@zb/utils';
+import { get, unionBy } from 'lodash-es';
 
-const cache = ref({})
+const cache = ref({});
 
 export function useSelectServerData(config) {
-	let requester = inject('serverRequester', null)
+	let requester = inject('serverRequester', null);
 
-	const items = ref([])
+	const items = ref([]);
 
 	if (!requester) {
 		if (window.zb.admin) {
-			requester = window.zb.admin.serverRequest
+			requester = window.zb.admin.serverRequest;
 		}
 	}
 
 	function fetch(config) {
 		if (!requester) {
-			return Promise.reject('Server requester not provided')
+			return Promise.reject('Server requester not provided');
 		}
 
-		const cacheKey = generateCacheKey(toRaw(config))
-		const saveItemsCache = generateItemsCacheKey(toRaw(config))
+		const cacheKey = generateCacheKey(toRaw(config));
+		const saveItemsCache = generateItemsCacheKey(toRaw(config));
 
 		if (cache[cacheKey]) {
-			saveItems(saveItemsCache, cache[cacheKey])
-			return Promise.resolve(cache[cacheKey])
+			saveItems(saveItemsCache, cache[cacheKey]);
+			return Promise.resolve(cache[cacheKey]);
 		} else {
 			return new Promise((resolve, reject) => {
 				// Allow value caching
-				config.useCache = true
+				config.useCache = true;
 
-				requester.request({
-					type: 'get_input_select_options',
-					config: config
-				}, (response) => {
-					// Save the new items
-					saveItems(saveItemsCache, response.data)
+				requester.request(
+					{
+						type: 'get_input_select_options',
+						config: config,
+					},
+					response => {
+						// Save the new items
+						saveItems(saveItemsCache, response.data);
 
-					// add items to cache
-					// addToCache(cacheKey, response.data)
+						// add items to cache
+						// addToCache(cacheKey, response.data)
 
-					// Send back the response in case it is needed
-					resolve(response.data)
-				}, function (message) {
-					reject(message)
-				})
-			})
+						// Send back the response in case it is needed
+						resolve(response.data);
+					},
+					function (message) {
+						reject(message);
+					},
+				);
+			});
 		}
 	}
 
 	function getItems(config) {
-		const saveItemsCache = generateItemsCacheKey(toRaw(config))
-		return get(items.value, saveItemsCache, [])
+		const saveItemsCache = generateItemsCacheKey(toRaw(config));
+		return get(items.value, saveItemsCache, []);
 	}
 
 	function getItem(config, id) {
-		const saveItemsCache = generateItemsCacheKey(toRaw(config))
-		const cachedItems = get(items.value, saveItemsCache, [])
-		return cachedItems.find(item => item.id === id)
+		const saveItemsCache = generateItemsCacheKey(toRaw(config));
+		const cachedItems = get(items.value, saveItemsCache, []);
+		return cachedItems.find(item => item.id === id);
 	}
 
 	function generateItemsCacheKey(config) {
-		const {
-			server_callback_method,
-			server_callback_args
-		} = config
+		const { server_callback_method, server_callback_args } = config;
 
 		return hash({
 			server_callback_method,
-			server_callback_args
-		})
+			server_callback_args,
+		});
 	}
 
 	function generateCacheKey(data) {
-		const {
-			server_callback_method,
-			server_callback_args,
-			page,
-			searchKeyword,
-			...remainingProperties
-		} = data
+		const { server_callback_method, server_callback_args, page, searchKeyword, ...remainingProperties } = data;
 
 		return hash({
 			server_callback_method,
 			server_callback_args,
 			page,
 			searchKeyword,
-		})
+		});
 	}
 
 	function saveItems(key, newItems) {
-		const existingItems = get(items.value, key, [])
-		items.value[key] = unionBy(existingItems, newItems, 'id')
+		const existingItems = get(items.value, key, []);
+		items.value[key] = unionBy(existingItems, newItems, 'id');
 	}
 
 	function addToCache(cacheKey, cacheData) {
-		cache[cacheKey] = cacheData
+		cache[cacheKey] = cacheData;
 	}
 
 	return {
 		fetch,
 		getItem,
-		getItems
-	}
+		getItems,
+	};
 }

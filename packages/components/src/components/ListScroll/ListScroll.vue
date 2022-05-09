@@ -1,13 +1,6 @@
 <template>
-	<div
-		class="znpb-scroll-list-wrapper"
-		:class="{'znpb-scroll-list-wrapper--loading': loading}"
-	>
-		<div
-			@wheel.passive="onScroll"
-			class="znpb-fancy-scrollbar znpb-scroll-list-container"
-			ref="listScrollRef"
-		>
+	<div class="znpb-scroll-list-wrapper" :class="{ 'znpb-scroll-list-wrapper--loading': loading }">
+		<div ref="listScrollRef" class="znpb-fancy-scrollbar znpb-scroll-list-container" @wheel.passive="onScroll">
 			<slot></slot>
 		</div>
 		<transition name="fadeFromBottom">
@@ -16,31 +9,33 @@
 	</div>
 </template>
 
-<script>
-import { ref } from 'vue'
-
+<script lang="ts">
 export default {
 	name: 'ListScroll',
-	props: {
-		loading: {
-			type: Boolean,
-			required: false,
-			default: true
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, Ref } from 'vue';
+withDefaults(
+	defineProps<{
+		loading?: boolean;
+	}>(),
+	{
+		loading: true,
 	},
-	setup (props, { emit }) {
-		const listScrollRef = ref(null)
+);
 
-		function onScroll (event, delta) {
-			if (listScrollRef.value.scrollHeight - Math.round(listScrollRef.value.scrollTop) === listScrollRef.value.clientHeight) {
-				emit('scroll-end')
-			}
-		}
+const emit = defineEmits(['scroll-end']);
 
-		return {
-			listScrollRef,
-			onScroll
-		}
+const listScrollRef: Ref<HTMLDivElement | null> = ref(null);
+
+function onScroll(event: MouseEvent) {
+	if (
+		listScrollRef.value!.scrollHeight - Math.round(listScrollRef.value!.scrollTop) ===
+		listScrollRef.value!.clientHeight
+	) {
+		emit('scroll-end');
 	}
 }
 </script>

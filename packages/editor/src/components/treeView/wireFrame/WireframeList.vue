@@ -1,23 +1,19 @@
 <template>
 	<Sortable
+		v-model="templateItems"
 		tag="ul"
 		class="znpb-wireframe-view-wrapper"
-		v-model="templateItems"
 		group="pagebuilder-wireframe-elements"
 		:class="{
-			[`znpb__sortable-container--${getSortableAxis}`]: isDragging
+			[`znpb__sortable-container--${getSortableAxis}`]: isDragging,
 		}"
 		:axis="getSortableAxis"
-		@start="onSortableStart"
-		@end="onSortableEnd"
 		:allow-duplicate="true"
 		:duplicate-callback="onSortableDuplicate"
+		@start="onSortableStart"
+		@end="onSortableEnd"
 	>
-		<WireframeListItem
-			v-for="element in templateItems"
-			:element="element"
-			:key="element.uid"
-		/>
+		<WireframeListItem v-for="element in templateItems" :key="element.uid" :element="element" />
 
 		<template #helper>
 			<SortableHelper />
@@ -28,84 +24,71 @@
 		</template>
 
 		<template #end>
-			<EmptySortablePlaceholder
-				v-if="!element.content.length && element.isWrapper"
-				:element="element"
-			/>
+			<EmptySortablePlaceholder v-if="!element.content.length && element.isWrapper" :element="element" />
 
-			<AddElementIcon
-				:element="element"
-				class="znpb-tree-view__ListAddButton"
-				placement="next"
-			/>
+			<AddElementIcon :element="element" class="znpb-tree-view__ListAddButton" placement="next" />
 		</template>
-
 	</Sortable>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
-import { useTreeViewList } from '../useTreeViewList'
-import { useIsDragging } from '@composables'
+import { useTreeViewList } from '../useTreeViewList';
+import { useIsDragging } from '@composables';
 
 // Utils
-import { getOptionValue } from '@zb/utils'
+import { get } from 'lodash-es';
 
 export default {
 	name: 'WireframeList',
 	props: {
 		element: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		showAdd: {
 			type: Boolean,
-			default: true
-		}
+			default: true,
+		},
 	},
-	setup (props) {
-		const {
-			addElementsPopupButton,
-			templateItems,
-			addButtonBgColor,
-			sortableStart,
-			sortableEnd
-		} = useTreeViewList(props)
-		const { isDragging, setDraggingState } = useIsDragging()
+	setup(props) {
+		const { addElementsPopupButton, templateItems, addButtonBgColor, sortableStart, sortableEnd } =
+			useTreeViewList(props);
+		const { isDragging, setDraggingState } = useIsDragging();
 
 		const getSortableAxis = computed(() => {
 			if (props.element.element_type === 'contentRoot') {
-				return 'vertical'
+				return 'vertical';
 			}
 
-			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal'
+			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal';
 
 			// Check columns and section direction
 			if (props.element.options.inner_content_layout) {
-				orientation = props.element.options.inner_content_layout
+				orientation = props.element.options.inner_content_layout;
 			}
 
 			// Check media settings
-			const mediaOrientation = getOptionValue(props.element.options, '_styles.wrapper.styles.default.default.flex-direction')
-
+			const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
+			console.log({ mediaOrientation });
 			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical'
+				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
 			}
 
-			return orientation
-		})
+			return orientation;
+		});
 
-		function onSortableDuplicate (item) {
-			return item.getClone()
+		function onSortableDuplicate(item) {
+			return item.getClone();
 		}
 
-		function onSortableStart (event) {
-			setDraggingState(true)
+		function onSortableStart(event) {
+			setDraggingState(true);
 		}
 
-		function onSortableEnd (event) {
-			setDraggingState(false)
+		function onSortableEnd(event) {
+			setDraggingState(false);
 		}
 
 		return {
@@ -120,8 +103,8 @@ export default {
 			// Methods
 			onSortableDuplicate,
 			onSortableStart,
-			onSortableEnd
-		}
-	}
-}
+			onSortableEnd,
+		};
+	},
+};
 </script>

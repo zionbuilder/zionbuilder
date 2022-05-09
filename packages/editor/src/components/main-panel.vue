@@ -1,48 +1,47 @@
 <template>
 	<div
+		ref="editorHeaderRef"
 		class="znpb-editor-header"
-		@mousedown.stop="startBarDrag"
 		:class="{
 			'znpb-editor-panel__container--dragging': mainBar.isDragging,
 			[`znpb-editor-header--${mainBar.position}`]: mainBar.position,
 			[`znpb-editor-header--hide-${mainBar.position}`]: isPreviewMode,
-
 		}"
 		:style="panelStyles"
-		ref="editorHeaderRef"
+		@mousedown.stop="startBarDrag"
 	>
 		<!-- first part -->
 		<div class="znpb-editor-header__first">
 			<!-- treeview -->
 			<div
-				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
-				@mousedown.stop.prevent="togglePanel('panel-tree')"
-				:class="{
-					'active': openPanelsIDs.includes('panel-tree')
-				}"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('tree_view')"
+				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
+				:class="{
+					active: openPanelsIDs.includes('panel-tree'),
+				}"
+				@mousedown.stop.prevent="togglePanel('panel-tree')"
 			>
 				<Icon icon="layout"></Icon>
 			</div>
 			<!-- libary -->
 			<div
-				@mousedown.stop="toggleLibrary"
+				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
 				:class="{
-					'active': isLibraryOpen
+					active: isLibraryOpen,
 				}"
 				class="znpb-editor-header__menu_button"
-				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
+				@mousedown.stop="toggleLibrary"
 			>
 				<Icon icon="lib"></Icon>
 			</div>
 			<!-- history -->
 			<div
-				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
-				@mousedown.stop.prevent="togglePanel('panel-history')"
-				:class="{
-					'active': openPanelsIDs.includes('panel-history')
-				}"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('history_panel')"
+				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
+				:class="{
+					active: openPanelsIDs.includes('panel-history'),
+				}"
+				@mousedown.stop.prevent="togglePanel('panel-history')"
 			>
 				<Icon icon="history"></Icon>
 			</div>
@@ -55,40 +54,33 @@
 
 			<!-- options -->
 			<div
-				class="znpb-editor-header__menu_button"
-				@mousedown.stop="togglePanel('panel-global-settings')"
-				:class="{
-					'active': openPanelsIDs.includes('panel-global-settings')
-				}"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('page_options')"
+				class="znpb-editor-header__menu_button"
+				:class="{
+					active: openPanelsIDs.includes('panel-global-settings'),
+				}"
+				@mousedown.stop="togglePanel('panel-global-settings')"
 			>
 				<Icon icon="sliders" />
 			</div>
 
 			<!-- help section -->
 			<FlyoutWrapper class="znpb-editor-header__page-save-wrapper">
-				<template v-slot:panel-icon>
+				<template #panel-icon>
 					<Icon icon="info" />
 				</template>
-				<FlyoutMenuItem
-					v-for="(menuItem, i) in helpMenuItems"
-					:key="i"
-				>
-					<a
-						@mousedown.prevent.stop="menuItem.action"
-						:href="menuItem.url"
-						:target="menuItem.target"
-					>
-						<span>{{menuItem.title}}</span>
+				<FlyoutMenuItem v-for="(menuItem, i) in helpMenuItems" :key="i">
+					<a :href="menuItem.url" :target="menuItem.target" @mousedown.prevent.stop="menuItem.action">
+						<span>{{ menuItem.title }}</span>
 					</a>
 				</FlyoutMenuItem>
 			</FlyoutWrapper>
 
 			<!-- Getting started video -->
 			<Modal
-				:width="840"
 				v-if="showGettingStartedVideo"
 				v-model:show="showGettingStartedVideo"
+				:width="840"
 				:title="$translate('getting_started')"
 				append-to="#znpb-main-wrapper"
 				class="znpb-helpmodal-wrapper"
@@ -124,299 +116,279 @@
 				<aboutModal />
 			</Modal>
 			<!-- save -->
-			<Modal
-				v-if="helpModalVisibility"
-				v-model:show="helpModalVisibility"
-				:width="840"
-				:title="$translate('help_modal_title')"
-				append-to="#znpb-main-wrapper"
-				class="znpb-helpmodal-wrapper"
-			>
-				<Help></Help>
-			</Modal>
 
 			<FlyoutWrapper
 				class="znpb-editor-header__page-save-wrapper znpb-editor-header__page-save-wrapper--save"
 				@mousedown="savePage"
 			>
-				<template v-slot:panel-icon>
-					<Icon
-						v-if="!isSavePageLoading"
-						icon="check"
-						@mousedown.stop="onSaving"
-					/>
+				<template #panel-icon>
+					<Icon v-if="!isSavePageLoading" icon="check" @mousedown.stop="onSaving" />
 
-					<Loader
-						v-else
-						:size="12"
-					/>
+					<Loader v-else :size="12" />
 				</template>
-				<FlyoutMenuItem
-					v-for="(menuItem, i) in saveActions"
-					v-bind:key="i"
-				>
-					<a
-						@mousedown.stop="menuItem.action"
-						href="#"
-					>
-						<span>{{menuItem.title}}</span>
+				<FlyoutMenuItem v-for="(menuItem, i) in saveActions" :key="i">
+					<a href="#" @mousedown.stop="menuItem.action">
+						<span>{{ menuItem.title }}</span>
 					</a>
 				</FlyoutMenuItem>
 			</FlyoutWrapper>
 		</div>
 		<!-- end last part -->
 		<!-- helper -->
-
 	</div>
 </template>
 
 <script>
-import { ref, computed, onBeforeUnmount } from 'vue'
-import keyShortcuts from './key-shortcuts/keyShortcuts.vue'
-import aboutModal from './aboutModal.vue'
-import Help from './Help.vue'
-import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '@composables'
-import { translate } from '@zb/i18n'
-import { useBuilderOptions } from '@zionbuilder/composables'
-import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel'
-
+import { ref, computed, onBeforeUnmount } from 'vue';
+import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
+import aboutModal from './aboutModal.vue';
+import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '@composables';
+import { translate } from '@zb/i18n';
+import { useBuilderOptions } from '@zionbuilder/composables';
+import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
 
 export default {
 	name: 'ZnpbPanelMain',
 	components: {
 		FlyoutWrapper,
 		FlyoutMenuItem,
-		Help,
 		keyShortcuts,
 		aboutModal,
-		ResponsiveDevices
+		ResponsiveDevices,
 		//
 	},
-	setup () {
-		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage()
-		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, getMainBarPointerEvents, setIframePointerEvents, toggleLibrary, isLibraryOpen, mainBarDraggingPlaceholder } = useUI()
-		const { editorData } = useEditorData()
-		const { showSaveElement } = useSaveTemplate()
-		const { getOptionValue } = useBuilderOptions()
-		const { isPreviewMode } = usePreviewMode()
+	setup() {
+		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
+		const {
+			togglePanel,
+			openPanelsIDs,
+			setMainBarPosition,
+			mainBar,
+			getMainBarPointerEvents,
+			setIframePointerEvents,
+			toggleLibrary,
+			isLibraryOpen,
+			mainBarDraggingPlaceholder,
+		} = useUI();
+		const { editorData } = useEditorData();
+		const { showSaveElement } = useSaveTemplate();
+		const { getOptionValue } = useBuilderOptions();
+		const { isPreviewMode } = usePreviewMode();
 
 		// Reactive data
-		const editorHeaderRef = ref(null)
-		const showGettingStartedVideo = ref(false)
+		const editorHeaderRef = ref(null);
+		const showGettingStartedVideo = ref(false);
 
 		// Help menu
-		const aboutModalVisibility = ref(false)
-		const helpModalVisibility = ref(false)
-		const shortcutsModalVisibility = ref(false)
-		const top = ref(null)
-		const left = ref(null)
-		const draggingPosition = ref(null)
-		const userSel = ref(null)
+		const aboutModalVisibility = ref(false);
+		const shortcutsModalVisibility = ref(false);
+		const top = ref(null);
+		const left = ref(null);
+		const draggingPosition = ref(null);
+		const userSel = ref(null);
 
 		// Computed
 		const tooltipsPosition = computed(() => {
 			if (mainBar.position === 'top') {
-				return 'bottom'
+				return 'bottom';
 			} else if (mainBar.position === 'left') {
-				return 'right'
+				return 'right';
 			} else if (mainBar.position === 'right') {
-				return 'left'
+				return 'left';
 			} else if (mainBar.position === 'bottom') {
-				return 'top'
+				return 'top';
 			}
-		})
+		});
 
 		const hasWhiteLabel = computed(() => {
-			let isPro = editorData.value.plugin_info.is_pro_active
-			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false
-		})
+			let isPro = editorData.value.plugin_info.is_pro_active;
+			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title
+				? true
+				: false;
+		});
 
 		const helpMenuItems = computed(() => {
 			let helpArray = [
 				{
 					title: translate('tour'),
 					action: doShowGettingStartedVideo,
-					canShow: !hasWhiteLabel.value
+					canShow: !hasWhiteLabel.value,
 				},
 				{
 					title: translate('key_shortcuts'),
-					action: () => shortcutsModalVisibility.value = true
+					action: () => (shortcutsModalVisibility.value = true),
 				},
 				{
 					title: translate('about_zion_builder'),
-					action: () => aboutModalVisibility.value = true,
-					canShow: !hasWhiteLabel.value
+					action: () => (aboutModalVisibility.value = true),
+					canShow: !hasWhiteLabel.value,
 				},
 				{
 					title: translate('back_to_zion_dashboard'),
 					url: editorData.value.urls.zion_admin,
-					action: () => { }
+					action: () => {},
 				},
 				{
 					title: translate('back_to_wp_dashboard'),
 					url: editorData.value.urls.edit_page,
-					action: () => { }
+					action: () => {},
 				},
 				{
 					title: translate('view_post'),
 					action: openPreviewPage,
-				}
-			]
+				},
+			];
 
-			return helpArray.filter(item => item.canShow !== false)
-		})
+			return helpArray.filter(item => item.canShow !== false);
+		});
 
 		const panelStyles = computed(() => {
 			return {
 				userSelect: userSel.value,
-				pointerEvents: mainBar.isDragging || getMainBarPointerEvents() ? 'none' : null
-			}
-		})
+				pointerEvents: mainBar.isDragging || getMainBarPointerEvents() ? 'none' : null,
+			};
+		});
 
-		function saveTemplate () {
-			showSaveElement(null)
+		function saveTemplate() {
+			showSaveElement(null);
 		}
 
 		const saveActions = [
 			{
 				icon: 'save-template',
 				title: translate('save_template'),
-				action: saveTemplate
+				action: saveTemplate,
 			},
 			{
 				icon: 'save-draft',
 				title: translate('save_draft'),
-				action: saveDraft
+				action: saveDraft,
 			},
 			{
 				icon: 'save-page',
 				title: translate('save_page'),
-				action: savePage
-			}
-		]
-
+				action: savePage,
+			},
+		];
 
 		// Show/Hide getting started video
 		if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
-			doShowGettingStartedVideo()
+			doShowGettingStartedVideo();
 		}
 
 		// Methods
-		function doShowGettingStartedVideo () {
-			showGettingStartedVideo.value = true
-			localStorage.setItem('zion_builder_guided_tour_done', true)
+		function doShowGettingStartedVideo() {
+			showGettingStartedVideo.value = true;
+			localStorage.setItem('zion_builder_guided_tour_done', true);
 		}
 
-		function startBarDrag () {
-			window.addEventListener('mousemove', movePanel)
-			window.addEventListener('mouseup', disablePanelMove)
+		function startBarDrag() {
+			window.addEventListener('mousemove', movePanel);
+			window.addEventListener('mouseup', disablePanelMove);
 		}
 
-		function movePanel (event) {
-			document.body.style.cursor = 'grabbing'
+		function movePanel(event) {
+			document.body.style.cursor = 'grabbing';
 
-			let newLeft = event.clientX - 30
-			let newTop = event.clientY
+			let newLeft = event.clientX - 30;
+			let newTop = event.clientY;
 
 			// Set placeholder position
-			mainBarDraggingPlaceholder.top = event.clientY
-			mainBarDraggingPlaceholder.left = event.clientX
+			mainBarDraggingPlaceholder.top = event.clientY;
+			mainBarDraggingPlaceholder.left = event.clientX;
 
 			// Set a flag so we know that we are dragging
 			if (!mainBar.isDragging) {
-				mainBar.isDragging = true
+				mainBar.isDragging = true;
 			}
 
 			// disable pointer events on iframe
-			setIframePointerEvents(true)
-			userSel.value = 'none'
+			setIframePointerEvents(true);
+			userSel.value = 'none';
 
 			// Calculate horizontal move
-			const maxLeft = window.innerWidth - 60
-			newLeft = newLeft <= 0 ? 0 : newLeft
-			left.value = (newLeft > maxLeft) ? maxLeft : newLeft
-			top.value = newTop
+			const maxLeft = window.innerWidth - 60;
+			newLeft = newLeft <= 0 ? 0 : newLeft;
+			left.value = newLeft > maxLeft ? maxLeft : newLeft;
+			top.value = newTop;
 
 			const positions = {
-				top: window.innerHeight * 30 / 100 - event.clientY,
-				right: event.clientX - window.innerWidth * 70 / 100,
-				bottom: event.clientY - window.innerHeight * 70 / 100,
-				left: window.innerWidth * 30 / 100 - event.clientX,
-			}
+				top: (window.innerHeight * 30) / 100 - event.clientY,
+				right: event.clientX - (window.innerWidth * 70) / 100,
+				bottom: event.clientY - (window.innerHeight * 70) / 100,
+				left: (window.innerWidth * 30) / 100 - event.clientX,
+			};
 
 			// get all positive values
 			const availablePositions = Object.keys(positions).filter(position => {
-				return positions[position] > 0
-			})
+				return positions[position] > 0;
+			});
 
 			if (availablePositions.length === 0) {
-				return
+				return;
 			}
 
 			const closestPosition = availablePositions.reduce((highest, current) => {
-				return positions[highest] > positions[current] ? highest : current
-			})
+				return positions[highest] > positions[current] ? highest : current;
+			});
 
 			if (closestPosition) {
-				draggingPosition.value = closestPosition
-				mainBar.draggingPosition = closestPosition
+				draggingPosition.value = closestPosition;
+				mainBar.draggingPosition = closestPosition;
 			}
 		}
 
-		function disablePanelMove () {
-			window.removeEventListener('mousemove', movePanel)
-			window.removeEventListener('mouseup', disablePanelMove)
+		function disablePanelMove() {
+			window.removeEventListener('mousemove', movePanel);
+			window.removeEventListener('mouseup', disablePanelMove);
 
 			// Save the position
 			if (draggingPosition.value) {
-				setMainBarPosition(draggingPosition.value)
-				draggingPosition.value = null
+				setMainBarPosition(draggingPosition.value);
+				draggingPosition.value = null;
 			}
 
-			setIframePointerEvents(false)
-			userSel.value = null
-			document.body.style.cursor = null
-			mainBar.isDragging = false
-
+			setIframePointerEvents(false);
+			userSel.value = null;
+			document.body.style.cursor = null;
+			mainBar.isDragging = false;
 		}
 
-		function onSaving (status) {
-			const { getActivePostTemplatePart } = useTemplateParts()
-			const contentTemplatePart = getActivePostTemplatePart()
+		function onSaving(status) {
+			const { getActivePostTemplatePart } = useTemplateParts();
+			const contentTemplatePart = getActivePostTemplatePart();
 
 			if (!contentTemplatePart) {
-				console.error('Content template data not found.')
-				return
+				console.error('Content template data not found.');
+				return;
 			}
 
-			const pageContent = contentTemplatePart.toJSON()
+			const pageContent = contentTemplatePart.toJSON();
 
-			savePage(pageContent, status)
+			savePage(pageContent, status);
 		}
 
-
-		function onAfterLeave () {
-			const el = document.querySelector('iframe')
-			el.style.transform = 'translateZ(0)'
+		function onAfterLeave() {
+			const el = document.querySelector('iframe');
+			el.style.transform = 'translateZ(0)';
 		}
 
-		function onAfterEnter () {
-			const el = document.querySelector('iframe')
-			el.style.transform = null
+		function onAfterEnter() {
+			const el = document.querySelector('iframe');
+			el.style.transform = null;
 		}
 
 		// Lifecycle
 		onBeforeUnmount(() => {
-			window.removeEventListener('mousemove', movePanel)
-			window.removeEventListener('mouseup', disablePanelMove)
-		})
+			window.removeEventListener('mousemove', movePanel);
+			window.removeEventListener('mouseup', disablePanelMove);
+		});
 
 		return {
 			// Refs
 			showGettingStartedVideo,
 			editorHeaderRef,
 			aboutModalVisibility,
-			helpModalVisibility,
 			shortcutsModalVisibility,
 			mainBar,
 			isPreviewMode,
@@ -438,11 +410,10 @@ export default {
 			startBarDrag,
 			onAfterLeave,
 			onAfterEnter,
-			toggleLibrary
-		}
-	}
-}
-
+			toggleLibrary,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-editor-header {
@@ -454,7 +425,7 @@ export default {
 	width: 60px;
 	color: var(--zb-primary-text-color);
 	background: var(--zb-primary-color);
-	transition: margin .3s ease-out;
+	transition: margin 0.3s ease-out;
 	cursor: move;
 
 	// Bar positions
@@ -470,7 +441,8 @@ export default {
 		width: 100%;
 		height: 60px;
 
-		& .znpb-editor-header__first, & .znpb-editor-header__last {
+		& .znpb-editor-header__first,
+		& .znpb-editor-header__last {
 			flex-direction: row;
 		}
 	}
@@ -512,10 +484,12 @@ export default {
 		height: 60px;
 		color: var(--zb-primary-text-color);
 		font-size: 16px;
-		transition: background-color .15s ease;
+		transition: background-color 0.15s ease;
 		cursor: pointer;
 
-		&:hover, &:focus, &:active {
+		&:hover,
+		&:focus,
+		&:active {
 			background-color: var(--zb-primary-hover-color);
 		}
 
@@ -535,11 +509,11 @@ export default {
 
 			.znpb-editor-icon-wrapper {
 				position: relative;
-				transition: transform .2s ease;
+				transition: transform 0.2s ease;
 			}
 
 			&:before {
-				content: "";
+				content: '';
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -547,7 +521,7 @@ export default {
 				height: 100%;
 				background: var(--zb-primary-hover-color);
 				border-radius: 50%;
-				transition: transform .2s ease;
+				transition: transform 0.2s ease;
 			}
 
 			&:hover:before {
@@ -564,7 +538,8 @@ export default {
 
 		.znpb-loader {
 			top: -3px;
-			&::before, &::after {
+			&::before,
+			&::after {
 				border-color: transparent;
 			}
 			&::after {
@@ -575,7 +550,7 @@ export default {
 	}
 	&.znpb-editor-panel__container--dragging {
 		z-index: 1000;
-		opacity: .5;
+		opacity: 0.5;
 	}
 }
 .znpb-editor-header__helper {
@@ -591,7 +566,8 @@ export default {
 	opacity: 1;
 }
 
-.znpb-editorHeaderPosition--bottom, .znpb-editorHeaderPosition--top {
+.znpb-editorHeaderPosition--bottom,
+.znpb-editorHeaderPosition--top {
 	.znpb-editor-header {
 		flex-direction: row;
 		align-items: center;
@@ -652,7 +628,7 @@ export default {
 	height: 5px;
 
 	.znpb-main-wrapper--mainBarPlaceholderInner {
-		animation: .3s ease-out 0s 1 slideInFromTop;
+		animation: 0.3s ease-out 0s 1 slideInFromTop;
 	}
 }
 
@@ -663,7 +639,7 @@ export default {
 	height: 100%;
 
 	.znpb-main-wrapper--mainBarPlaceholderInner {
-		animation: .3s ease-out 0s 1 slideInFromLeft;
+		animation: 0.3s ease-out 0s 1 slideInFromLeft;
 	}
 }
 
@@ -674,7 +650,7 @@ export default {
 	height: 100%;
 
 	.znpb-main-wrapper--mainBarPlaceholderInner {
-		animation: .3s ease-out 0s 1 slideInFromRight;
+		animation: 0.3s ease-out 0s 1 slideInFromRight;
 	}
 }
 
@@ -685,7 +661,7 @@ export default {
 	height: 5px;
 
 	.znpb-main-wrapper--mainBarPlaceholderInner {
-		animation: .3s ease-out 0s 1 slideInFromBottom;
+		animation: 0.3s ease-out 0s 1 slideInFromBottom;
 	}
 }
 

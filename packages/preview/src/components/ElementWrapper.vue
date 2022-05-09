@@ -36,8 +36,7 @@
 <script>
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
-import { get, debounce, each, kebabCase, escape, mergeWith, isArray } from 'lodash-es';
-import { getOptionValue, camelCase } from '@zb/utils';
+import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
 import { applyFilters } from '@zb/hooks';
 import { getCssFromSelector } from '@zb/editor';
 
@@ -192,7 +191,7 @@ export default {
 		});
 		const canShowElement = computed(() => (isPreviewMode.value ? !(options.value._isVisible === false) : true));
 		const videoConfig = computed(() =>
-			getOptionValue(options.value, '_styles.wrapper.styles.default.default.background-video', {}),
+			get(options.value, '_styles.wrapper.styles.default.default.background-video', {}),
 		);
 
 		const renderAttributes = computed(() => {
@@ -420,9 +419,9 @@ export default {
 		}),
 
 		applyCustomClassesToRenderTags() {
-			const elementSavedStyles = getOptionValue(this.options, '_styles', {});
+			const elementSavedStyles = get(this.options, '_styles', {});
 			const stylesConfig = this.element.elementTypeModel.style_elements;
-			const attrConfig = getOptionValue(this.options, 'attributes', {});
+			const attrConfig = get(this.options, 'attributes', {});
 
 			Object.keys(elementSavedStyles).forEach(styleConfigId => {
 				const { classes } = elementSavedStyles[styleConfigId];

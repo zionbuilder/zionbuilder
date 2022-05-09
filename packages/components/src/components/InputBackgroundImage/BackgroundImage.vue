@@ -2,74 +2,76 @@
 	<div class="znpb-input-background-image">
 		<InputImage
 			:modelValue="computedValue['background-image']"
-			:shouldDragImage="true"
+			:should-drag-image="true"
 			:position-top="backgroundPositionYModel"
 			:position-left="backgroundPositionXModel"
 			@update:modelValue="onOptionUpdated('background-image', $event)"
 			@background-position-change="changeBackgroundPosition"
 		/>
 
-		<OptionsForm
-			:schema="backgroundImageSchema"
-			v-model="computedValue"
-		/>
+		<OptionsForm v-model="computedValue" :schema="backgroundImageSchema" />
 	</div>
 </template>
 
-<script>
-import InputImage from '../InputImage/InputImage.vue'
-import { useOptionsSchemas } from '../../composables/useOptionsSchemas'
-
+<script lang="ts">
 export default {
 	name: 'InputBackgroundImage',
-	props: {
-		modelValue: {}
-	},
-	components: {
-		InputImage
-	},
-	setup () {
-		const { getSchema } = useOptionsSchemas()
-		const backgroundImageSchema = getSchema('backgroundImageSchema')
+};
+</script>
 
-		return {
-			getSchema,
-			backgroundImageSchema
-		}
-	},
-	computed: {
-		computedValue: {
-			get () {
-				return this.modelValue || {}
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		backgroundPositionXModel () {
-			return this.computedValue['background-position-x']
-		},
-		backgroundPositionYModel () {
-			return this.computedValue['background-position-y']
-		}
-	},
-	methods: {
-		changeBackgroundPosition (event) {
-			this.$emit('update:modelValue', {
-				...this.computedValue,
-				'background-position-x': `${event.x}%`,
-				'background-position-y': `${event.y}%`
-			})
-		},
-		onOptionUpdated (optionId, newValue) {
-			const newValues = {
-				...this.modelValue
-			}
+<script lang="ts" setup>
+import { computed } from 'vue';
+import InputImage from '../InputImage/InputImage.vue';
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
 
-			newValues[optionId] = newValue
-			this.computedValue = newValues
-		}
-	}
+interface BackgroundImage {
+	'background-image'?: string;
+	'background-position-x'?: string;
+	'background-position-y'?: string;
+	'background-repeat'?: string;
+	'background-attachment'?: string;
+	'background-size'?: string;
+	'background-clip'?: string;
+	'background-blend-mode'?: string;
+}
+
+const props = defineProps<{
+	modelValue: BackgroundImage;
+}>();
+
+const emit = defineEmits(['update:modelValue']);
+const { getSchema } = useOptionsSchemas();
+const backgroundImageSchema = getSchema('backgroundImageSchema');
+console.log('backgroundImageSchema', backgroundImageSchema);
+
+const computedValue = computed({
+	get() {
+		return props.modelValue || {};
+	},
+	set(newValue: BackgroundImage) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const backgroundPositionXModel = computed(() => computedValue.value['background-position-x']);
+
+const backgroundPositionYModel = computed(() => computedValue.value['background-position-y']);
+
+function changeBackgroundPosition(position: { x: number; y: number }) {
+	emit('update:modelValue', {
+		...computedValue.value,
+		'background-position-x': `${position.x}%`,
+		'background-position-y': `${position.y}%`,
+	});
+}
+
+function onOptionUpdated(optionId: keyof BackgroundImage, newValue: string) {
+	const newValues = {
+		...props.modelValue,
+	};
+
+	newValues[optionId] = newValue;
+	computedValue.value = newValues;
 }
 </script>
 

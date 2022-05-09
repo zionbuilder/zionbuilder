@@ -6,226 +6,164 @@
 			class="znpb-input-number__input"
 			:min="min"
 			:max="max"
-			:step="shiftKey ? shift_step : step"
+			:step="shiftKey ? shiftStep : step"
 			@keydown="onKeyDown"
 			@mousedown="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivatedragNumber"
 		>
 			<!-- @slot Content that represents units -->
-			<template v-slot:suffix>
+			<template #suffix>
 				<slot></slot>
-				{{suffix}}
+				{{ suffix }}
 			</template>
-
 		</BaseInput>
 	</div>
 </template>
 
-<script>
-import { computed, ref, onBeforeUnmount } from 'vue'
-import BaseInput from '../BaseInput/BaseInput.vue'
-
+<script lang="ts">
 export default {
 	name: 'InputNumber',
 	inheritAttrs: false,
-	components: {
-		BaseInput
-	},
-	props: {
-		/**
-		 * Min value allowed
-		 */
-		min: {
-			type: Number,
-			required: false,
-			default: null
-		},
-		/**
-		 * Max value allowed
-		 */
-		max: {
-			type: Number,
-			required: false,
-			default: null
-		},
-		/**
-		 * Step
-		 */
-		step: {
-			type: Number,
-			required: false,
-			default: 1
-		},
-		/**
-		 * Step
-		 */
-		shift_step: {
-			type: Number,
-			required: false,
-			default: 5
-		},
-		/**
-		 * Input value
-		 */
-		modelValue: {
-			type: Number,
-			required: false
-		},
-		/**
-		 * If arrows
-		 */
-		optionConfig: {
-			type: Object,
-			required: false
-		},
-		suffix: {
-			required: false
-		},
-	},
-	setup (props, { emit }) {
-		let shiftKey = ref(false)
-		let initialPosition = 0
-		let lastPosition = 0
-		let dragTreshold = 3
-		let canChangeValue = false
-
-		const model = computed({
-			get () {
-				return props.modelValue
-			},
-			set (newValue) {
-				// Check if minimum value is meet
-				if (props.min !== null && newValue < props.min) {
-					newValue = props.min
-				}
-
-				if (props.max !== null && (newValue > props.max)) {
-					newValue = props.max
-				}
-
-				if (newValue !== props.model) {
-					/**
-					 * Emits new value number
-					 */
-					emit('update:modelValue', parseFloat(newValue))
-				}
-			}
-		})
-
-		function reset () {
-			initialPosition = 0
-			lastPosition = 0
-			canChangeValue = false
-		}
-
-		function actNumberDrag (event) {
-			initialPosition = event.clientY
-
-			document.body.style.userSelect = 'none'
-
-			window.addEventListener('mousemove', dragNumber)
-			window.addEventListener('mouseup', deactivatedragNumber)
-			window.addEventListener('keyup', onKeyUp)
-		}
-
-		function onKeyDown (event) {
-			if (event.altKey) {
-				emit('linked-value')
-			}
-
-			shiftKey.value = event.shiftKey
-		}
-
-		function onKeyUp (event) {
-			emit('linked-value', false)
-		}
-
-		function deactivatedragNumber (event) {
-			document.body.style.userSelect = null
-			document.body.style.pointerEvents = null
-
-			window.removeEventListener('mousemove', dragNumber)
-			window.removeEventListener('mouseup', deactivatedragNumber)
-			window.removeEventListener('keyup', onKeyUp)
-
-
-			function preventClicks (e) {
-				e.stopPropagation()
-			}
-
-			// Prevent closing colorpicker when clicked outside
-			window.addEventListener('click', preventClicks, true)
-			setTimeout(() => {
-				window.removeEventListener('click', preventClicks, true)
-			}, 100);
-
-			reset()
-		}
-
-		function dragNumber (event) {
-			const distance = initialPosition - event.clientY
-			const directionUp = event.pageY < lastPosition
-			const initialValue = typeof model.value !== 'undefined' ? model.value : props.min
-
-			if (Math.abs(distance) > dragTreshold) {
-				canChangeValue = true
-			}
-
-			if (canChangeValue && distance % 2 === 0) {
-				document.body.style.pointerEvents = 'none'
-
-				let increment = event.shiftKey ? props.shift_step : props.step
-				model.value = directionUp ? +(initialValue + increment).toFixed(12) : +(initialValue - increment).toFixed(12)
-
-				event.preventDefault()
-			}
-
-			lastPosition = event.clientY
-		}
-
-		onBeforeUnmount(() => {
-			deactivatedragNumber()
-		})
-
-		return {
-			shiftKey,
-			model,
-			actNumberDrag,
-			onKeyDown,
-			actNumberDrag,
-			deactivatedragNumber
-		}
-	},
-
-	data () {
-		return {
-			mouseDownPosition: {
-				left: 0,
-				top: 0
-			},
-			draggingPosition: {
-				left: 0,
-				top: 0
-			},
-			dragTreshold: 3,
-			directionSet: false,
-			direction: null,
-			shiftDrag: false,
-			toTop: false,
-			directionReset: 0,
-			shiftKey: false
-		}
-	}
-}
+};
 </script>
-<style lang="scss" >
 
+<script lang="ts" setup>
+import { computed, ref, onBeforeUnmount } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: number | null;
+		min?: number;
+		max?: number;
+		step?: number;
+		shiftStep?: number;
+		suffix?: string;
+	}>(),
+	{
+		step: 1,
+		shiftStep: 5,
+	},
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: number): void;
+	(e: 'linked-value'): void;
+}>();
+
+let shiftKey = ref(false);
+let initialPosition = 0;
+let lastPosition = 0;
+let dragTreshold = 3;
+let canChangeValue = false;
+
+const model = computed({
+	get() {
+		return props.modelValue as number;
+	},
+	set(newValue: number) {
+		// Check if minimum value is meet
+		if (props.min !== undefined && newValue < props.min) {
+			newValue = props.min;
+		}
+
+		if (props.max !== undefined && newValue > props.max) {
+			newValue = props.max;
+		}
+
+		if (newValue !== props.modelValue) {
+			/**
+			 * Emits new value number
+			 */
+			emit('update:modelValue', +newValue);
+		}
+	},
+});
+
+function reset() {
+	initialPosition = 0;
+	lastPosition = 0;
+	canChangeValue = false;
+}
+
+function actNumberDrag(event: MouseEvent | TouchEvent) {
+	if (event instanceof MouseEvent) {
+		initialPosition = event.clientY;
+	}
+
+	document.body.style.userSelect = 'none';
+
+	window.addEventListener('mousemove', dragNumber);
+	window.addEventListener('mouseup', deactivatedragNumber);
+	window.addEventListener('keyup', onKeyUp);
+}
+
+function onKeyDown(event: KeyboardEvent) {
+	if (event.altKey) {
+		emit('linked-value');
+	}
+
+	shiftKey.value = event.shiftKey;
+}
+
+function onKeyUp(event: KeyboardEvent) {
+	emit('linked-value');
+}
+
+function deactivatedragNumber() {
+	document.body.style.userSelect = '';
+	document.body.style.pointerEvents = '';
+
+	window.removeEventListener('mousemove', dragNumber);
+	window.removeEventListener('mouseup', deactivatedragNumber);
+	window.removeEventListener('keyup', onKeyUp);
+
+	function preventClicks(e: Event) {
+		e.stopPropagation();
+	}
+
+	// Prevent closing colorpicker when clicked outside
+	window.addEventListener('click', preventClicks, true);
+	setTimeout(() => {
+		window.removeEventListener('click', preventClicks, true);
+	}, 100);
+
+	reset();
+}
+
+function dragNumber(event: MouseEvent) {
+	const distance = initialPosition - event.clientY;
+	const directionUp = event.pageY < lastPosition;
+	const initialValue = model.value ?? props.min ?? 0;
+
+	if (Math.abs(distance) > dragTreshold) {
+		canChangeValue = true;
+	}
+
+	if (canChangeValue && distance % 2 === 0) {
+		document.body.style.pointerEvents = 'none';
+
+		const increment = event.shiftKey ? props.shiftStep : props.step;
+		model.value = directionUp ? +(initialValue + increment).toFixed(12) : +(initialValue - increment).toFixed(12);
+
+		event.preventDefault();
+	}
+
+	lastPosition = event.clientY;
+}
+
+onBeforeUnmount(() => {
+	deactivatedragNumber();
+});
+</script>
+<style lang="scss">
 .znpb-input-number__input {
-	input[type="number"] {
+	input[type='number'] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 		&:hover {

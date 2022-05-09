@@ -1,48 +1,46 @@
 <template>
-	<div
-		@input="onInput"
-		:contenteditable="enabled"
-		spellcheck="false"
-	>
-		{{editedText}}
+	<div :contenteditable="enabled" spellcheck="false" @input="onInput">
+		{{ editedText }}
 	</div>
 </template>
 
-<script>
-import { ref, watch } from 'vue'
-
+<script lang="ts">
 export default {
-	name: "InlineEdit",
-	props: {
-		modelValue: {
-			type: String,
-			required: false
-		},
-		enabled: {
-			type: Boolean,
-			required: false,
-			default: true
+	name: 'InlineEdit',
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+		enabled?: boolean;
+	}>(),
+	{
+		modelValue: '',
+		enabled: true,
+	},
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
+const editedText = ref(props.modelValue);
+const newText = ref(props.modelValue);
+
+watch(
+	() => props.modelValue,
+	newValue => {
+		if (newValue !== newText.value) {
+			editedText.value = newValue;
 		}
 	},
-	setup (props, { emit }) {
-		const editedText = ref(props.modelValue)
-		const newText = ref(props.modelValue)
+);
 
-		watch(() => props.modelValue, (newValue) => {
-			if (newValue !== newText.value) {
-				editedText.value = newValue
-			}
-		})
-
-		function onInput (event) {
-			newText.value = event.target.innerText
-			emit('update:modelValue', event.target.innerText)
-		}
-
-		return {
-			editedText,
-			onInput
-		}
-	}
+function onInput(event: Event) {
+	newText.value = (event.target as HTMLDivElement).innerText;
+	emit('update:modelValue', (event.target as HTMLDivElement).innerText);
 }
 </script>

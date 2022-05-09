@@ -2,7 +2,7 @@
   "name": "@zionbuilder/utils",
   "version": "1.0.0",
   "description": "Utils functions for Zion Builder",
-  "main": "src/index",
+  "main": "src/index.ts",
   "author": "zionbuilder.io",
   "license": "MIT",
   "dependencies": {

@@ -3,48 +3,44 @@
 		<div
 			v-if="show"
 			class="znpb-modal__backdrop"
-			:class="{'znpb-modal__backdrop--nobg' : !bg }"
-			@click="closeOnBackdropClick"
+			:class="{ 'znpb-modal__backdrop--nobg': !bg }"
 			:style="modalStyle"
+			@click="closeOnBackdropClick"
 		>
 			<div
-				:style="modalContentStyle"
-				class="znpb-modal__wrapper "
-				:class="{'znpb-modal__wrapper--full-size': fullSize}"
 				ref="modalContent"
+				:style="modalContentStyle"
+				class="znpb-modal__wrapper"
+				:class="{ 'znpb-modal__wrapper--full-size': fullSize }"
 			>
-				<header
-					class="znpb-modal__header"
-					v-if="( title || showClose || showMaximize ) && ! hasHeaderSlot"
-				>
+				<header v-if="(title || showClose || showMaximize) && !hasHeaderSlot" class="znpb-modal__header">
 					<div
 						class="znpb-modal__header-title"
+						:style="
+							enableDrag
+								? {
+										cursor: 'pointer',
+										'user-select': 'none',
+								  }
+								: null
+						"
 						@mousedown="activateDrag"
-						:style="enableDrag ? {
-							'cursor': 'pointer',
-							'user-select': 'none'
-						} : null"
 					>
-						{{title}}
+						{{ title }}
 						<slot name="title"></slot>
 					</div>
 
 					<Icon
+						v-if="showMaximize"
 						:icon="fullSize ? 'shrink' : 'maximize'"
 						class="znpb-modal__header-button"
-						v-if="showMaximize"
-						@click.stop="fullSize = ! fullSize, $emit('update:fullscreen', fullSize)"
+						@click.stop="(fullSize = !fullSize), $emit('update:fullscreen', fullSize)"
 					/>
 
-					<span
-						v-if="showClose"
-						@click.stop="closeModal"
-						class="znpb-modal__header-button"
-					>
+					<span v-if="showClose" class="znpb-modal__header-button" @click.stop="closeModal">
 						<slot name="close"></slot>
 						<Icon icon="close" />
 					</span>
-
 				</header>
 				<slot name="header" />
 				<div class="znpb-modal__content">
@@ -57,116 +53,73 @@
 </template>
 
 <script>
-import { addOverflow, removeOverflow } from '@zb/utils'
-import { getZindex, removeZindex } from '@zionbuilder/z-index-manager'
-import { Icon } from '../../../components'
+import { getZindex, removeZindex } from '@zionbuilder/z-index-manager';
+import { Icon } from '../../../components';
 
 export default {
 	name: 'Modal',
 	components: {
-		Icon
+		Icon,
 	},
 	props: {
 		show: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		title: {
 			type: String,
 			required: false,
-			default: ''
+			default: '',
 		},
 		width: {
 			type: Number,
-			required: false
+			required: false,
 		},
 		fullscreen: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		appendTo: {
 			type: String,
-			required: false
+			required: false,
 		},
 		closeOnClick: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		closeOnEscape: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		showClose: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		showMaximize: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		showBackdrop: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		position: {
 			type: Object,
 			required: false,
-			default: null
+			default: null,
 		},
 		enableDrag: {
 			type: Boolean,
 			required: false,
-			default: true
-		}
-	},
-	watch: {
-		show (newValue) {
-			if (newValue) {
-				this.zIndex = getZindex()
-
-				// Wait for the HTML to be added
-				this.$nextTick(() => {
-					// add overflow to body
-					if (this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== undefined && this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== null) {
-						addOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-					} else {
-						addOverflow(this.$el.ownerDocument.body)
-					}
-				})
-
-			} else {
-				this.$nextTick(() => {
-					if (this.zIndex) {
-						removeZindex()
-						this.zIndex = null
-					}
-					// remove overflow from body
-					if (document.getElementById('znpb-editor-iframe') !== undefined && document.getElementById('znpb-editor-iframe') !== null) {
-						removeOverflow(document.getElementById('znpb-editor-iframe').contentWindow.document.body)
-					} else {
-						removeOverflow(this.$el.ownerDocument.body)
-					}
-				})
-
-
-			}
+			default: true,
 		},
-		fullscreen (newValue) {
-			if (newValue) {
-				this.fullSize = newValue
-			} else this.fullSize = this.fullscreen
-		},
-		showBackdrop (newValue) {
-			this.bg = newValue
-		}
-
 	},
 	data: function () {
 		return {
@@ -174,145 +127,192 @@ export default {
 			bg: this.showBackdrop,
 			hasHeader: false,
 			zIndex: null,
-			initialPosition: {}
-		}
+			initialPosition: {},
+		};
 	},
 	computed: {
-		modalStyle () {
+		modalStyle() {
 			return {
 				zIndex: this.zIndex,
-				left: (this.position === null) || (this.position.left + 60 > window.innerWidth) || (this.topPos === null) ? null : '30px',
-				top: (this.position === null) || (this.leftPos === null) || (this.topPos === null) ? null : '0',
-				transform: (this.position === null) || (this.leftPos === null) || (this.topPos === null) ? null : `translate(${Math.round(this.leftPos)}px,${Math.round(this.topPos)}px)`
-			}
+				left:
+					this.position === null || this.position.left + 60 > window.innerWidth || this.topPos === null ? null : '30px',
+				top: this.position === null || this.leftPos === null || this.topPos === null ? null : '0',
+				transform:
+					this.position === null || this.leftPos === null || this.topPos === null
+						? null
+						: `translate(${Math.round(this.leftPos)}px,${Math.round(this.topPos)}px)`,
+			};
 		},
-		leftPos () {
-			return (this.position === null) || (this.position.left + 60 > window.innerWidth) ? null : this.position.left
+		leftPos() {
+			return this.position === null || this.position.left + 60 > window.innerWidth ? null : this.position.left;
 		},
-		topPos () {
-			let top = 0
+		topPos() {
+			let top = 0;
 
 			if (this.position === null) {
-				top = null
+				top = null;
 			} else if (this.position.top - 30 < 0) {
-				top = 0
+				top = 0;
 			} else if (this.position.top > window.innerHeight / 2) {
-				top = this.position.top - 90
-			} else top = this.position.top
+				top = this.position.top - 90;
+			} else top = this.position.top;
 
-			return top
+			return top;
 		},
-		hasHeaderSlot () {
-			return !!this.$slots['header']
+		hasHeaderSlot() {
+			return !!this.$slots['header'];
 		},
-		maximizeIcon () {
-			return this.fullSize ? 'minimize' : 'maximize'
+		maximizeIcon() {
+			return this.fullSize ? 'minimize' : 'maximize';
 		},
-		modalContentStyle () {
-			let modalStyle = {}
+		modalContentStyle() {
+			let modalStyle = {};
 
 			if (this.width) {
-				modalStyle['max-width'] = this.width + 'px'
+				modalStyle['max-width'] = this.width + 'px';
 			}
 			if (this.enableDrag) {
-				modalStyle['position'] = 'absolute'
+				modalStyle['position'] = 'absolute';
 			}
 			if (this.fullSize) {
-				modalStyle['max-height'] = '100%'
+				modalStyle['max-height'] = '100%';
 			}
 
-			return modalStyle
+			return modalStyle;
 		},
-		appendToElement () {
-			return document.querySelector(this.appendTo)
-		}
+		appendToElement() {
+			return document.querySelector(this.appendTo);
+		},
 	},
-	methods: {
-		activateDrag () {
-			if (this.enableDrag) {
-				this.$refs.modalContent.style.transition = 'none'
-				const { left, top } = this.$refs.modalContent.getBoundingClientRect()
-				this.initialPosition = {
-					clientX: event.clientX,
-					clientY: event.clientY,
-					left,
-					top
-				}
-				window.addEventListener('mousemove', this.drag)
-				window.addEventListener('mouseup', this.unDrag)
-			}
-		},
-		drag (event) {
-			const left = event.clientX - this.initialPosition.clientX + this.initialPosition.left
-			const top = event.clientY - this.initialPosition.clientY + this.initialPosition.top
-			const procentualLeft = left * 100 / window.innerWidth + '%'
-			const procentualTop = top * 100 / window.innerHeight + '%'
-			this.$refs.modalContent.style.left = procentualLeft
-			this.$refs.modalContent.style.top = procentualTop
-		},
-		unDrag () {
-			if (this.$refs.modalContent) {
-				this.$refs.modalContent.style.transition = 'all .2s'
-			}
-			window.removeEventListener('mousemove', this.drag)
-		},
-		closeOnBackdropClick (event) {
-			if (this.closeOnClick) {
-				if (this.$refs.modalContent && !this.$refs.modalContent.contains(event.target)) {
+	watch: {
+		show(newValue) {
+			if (newValue) {
+				this.zIndex = getZindex();
 
-					this.closeModal()
-				}
+				// Wait for the HTML to be added
+				this.$nextTick(() => {
+					// add overflow to body
+					if (
+						this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== undefined &&
+						this.$el.ownerDocument.getElementById('znpb-editor-iframe') !== null
+					) {
+						document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = 'hidden';
+					} else {
+						this.$el.ownerDocument.body.style.overflow = 'hidden';
+					}
+				});
+			} else {
+				this.$nextTick(() => {
+					if (this.zIndex) {
+						removeZindex();
+						this.zIndex = null;
+					}
+					// remove overflow from body
+					if (
+						document.getElementById('znpb-editor-iframe') !== undefined &&
+						document.getElementById('znpb-editor-iframe') !== null
+					) {
+						document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = null;
+					} else {
+						this.$el.ownerDocument.body.style.overflow = null;
+					}
+				});
 			}
 		},
-		closeModal () {
-			this.$emit('update:show', false)
-			this.$emit('close-modal', true)
+		fullscreen(newValue) {
+			if (newValue) {
+				this.fullSize = newValue;
+			} else this.fullSize = this.fullscreen;
 		},
-		appendModal () {
-			if (!this.appendToElement) {
-				// eslint-disable-next-line
-				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
-				return
-			}
-			this.appendToElement.appendChild(this.$el)
+		showBackdrop(newValue) {
+			this.bg = newValue;
 		},
-		onEscapeKeyPress (event) {
-			if (event.which === 27) {
-				this.closeModal()
-				event.stopPropagation()
-			}
-		}
 	},
-	mounted () {
+	mounted() {
 		// Check if we need to move modal to body
 		if (this.appendTo) {
-			this.appendModal()
+			this.appendModal();
 		}
 
 		// Check if we need to close modal on esc key
 		if (this.closeOnEscape) {
-			document.addEventListener('keyup', this.onEscapeKeyPress)
+			document.addEventListener('keyup', this.onEscapeKeyPress);
 		}
 
 		if (this.show) {
-			this.zIndex = getZindex()
+			this.zIndex = getZindex();
 		}
 	},
 
-	beforeUnmount () {
-		window.removeEventListener('mousemove', this.drag)
-		window.removeEventListener('mouseup', this.unDrag)
-		document.removeEventListener('keyup', this.onEscapeKeyPress)
+	beforeUnmount() {
+		window.removeEventListener('mousemove', this.drag);
+		window.removeEventListener('mouseup', this.unDrag);
+		document.removeEventListener('keyup', this.onEscapeKeyPress);
 		if (this.$el.parentNode === this.appendToElement) {
-			this.appendToElement.removeChild(this.$el)
+			this.appendToElement.removeChild(this.$el);
 		}
 
 		if (this.zIndex) {
-			removeZindex()
-			this.zIndex = null
+			removeZindex();
+			this.zIndex = null;
 		}
-	}
-}
+	},
+	methods: {
+		activateDrag() {
+			if (this.enableDrag) {
+				this.$refs.modalContent.style.transition = 'none';
+				const { left, top } = this.$refs.modalContent.getBoundingClientRect();
+				this.initialPosition = {
+					clientX: event.clientX,
+					clientY: event.clientY,
+					left,
+					top,
+				};
+				window.addEventListener('mousemove', this.drag);
+				window.addEventListener('mouseup', this.unDrag);
+			}
+		},
+		drag(event) {
+			const left = event.clientX - this.initialPosition.clientX + this.initialPosition.left;
+			const top = event.clientY - this.initialPosition.clientY + this.initialPosition.top;
+			const procentualLeft = (left * 100) / window.innerWidth + '%';
+			const procentualTop = (top * 100) / window.innerHeight + '%';
+			this.$refs.modalContent.style.left = procentualLeft;
+			this.$refs.modalContent.style.top = procentualTop;
+		},
+		unDrag() {
+			if (this.$refs.modalContent) {
+				this.$refs.modalContent.style.transition = 'all .2s';
+			}
+			window.removeEventListener('mousemove', this.drag);
+		},
+		closeOnBackdropClick(event) {
+			if (this.closeOnClick) {
+				if (this.$refs.modalContent && !this.$refs.modalContent.contains(event.target)) {
+					this.closeModal();
+				}
+			}
+		},
+		closeModal() {
+			this.$emit('update:show', false);
+			this.$emit('close-modal', true);
+		},
+		appendModal() {
+			if (!this.appendToElement) {
+				// eslint-disable-next-line
+				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
+				return;
+			}
+			this.appendToElement.appendChild(this.$el);
+		},
+		onEscapeKeyPress(event) {
+			if (event.which === 27) {
+				this.closeModal();
+				event.stopPropagation();
+			}
+		},
+	},
+};
 </script>
 
 <style lang="scss">
@@ -329,7 +329,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		font-family: var(--zb-font-stack);
-		background: rgba(172, 172, 172, .2);
+		background: rgba(172, 172, 172, 0.2);
 		* {
 			box-sizing: border-box;
 		}
@@ -342,9 +342,9 @@ export default {
 		max-width: 100%;
 		max-height: 80%;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 25px -10px rgba(0, 0, 0, .1);
+		box-shadow: 0 0 25px -10px rgba(0, 0, 0, 0.1);
 		border-radius: 3px;
-		transition: all .2s;
+		transition: all 0.2s;
 
 		&--full-size {
 			width: 100%;
@@ -373,7 +373,7 @@ export default {
 			margin-right: 15px;
 			color: var(--zb-surface-icon-color);
 			font-size: 14px;
-			transition: color .15s;
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
@@ -394,11 +394,13 @@ export default {
 		overflow: hidden;
 	}
 }
-.modal-fade-leave-from, .modal-fade-enter-to {
-	transition: all .2s;
+.modal-fade-leave-from,
+.modal-fade-enter-to {
+	transition: all 0.2s;
 }
-.modal-fade-enter-from, .modal-fade-leave-to {
-	transform: scale(.99);
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+	transform: scale(0.99);
 	opacity: 0;
 }
 </style>

@@ -14,5 +14,10 @@
 		"@zionbuilder/video": "^1.0.0",
 		"raf-schd": "^4.0.2",
 		"tinycolor2": "^1.4.1"
+	},
+	"devDependencies": {
+		"@types/codemirror": "^5.60.5",
+		"@types/raf-schd": "^4.0.1",
+		"@types/tinycolor2": "^1.4.3"
 	}
 }

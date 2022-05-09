@@ -1,74 +1,59 @@
 <template>
-	<transition
-		appear
-		name="move"
-	>
+	<transition appear name="move">
 		<div class="znpb-notices-wrapper">
-			<div
-				class="znpb-notice"
-				:class="`znpb-notice--${type}`"
-			>
-				<Icon
-					class="znpb-notice__close"
-					icon="close"
-					@click="$emit('close-notice')"
-					:size="12"
-				/>
-				<div
-					v-if="error.title"
-					class="znpb-notice__title"
-				>{{error.title}}</div>
-				<div
-					class="znpb-notice__message"
-					v-html="error.message"
-				></div>
+			<div class="znpb-notice" :class="`znpb-notice--${error.type || 'success'}`">
+				<Icon class="znpb-notice__close" icon="close" :size="12" @click="$emit('close-notice')" />
+				<div v-if="error.title" class="znpb-notice__title">{{ error.title }}</div>
+				<div class="znpb-notice__message">{{ error.message }}</div>
 			</div>
 		</div>
 	</transition>
 </template>
 
-<script>
-import { Icon } from '../Icon'
-
+<script lang="ts">
 export default {
 	name: 'Notice',
-	components: {
-		Icon
-	},
-	props: {
-		error: {
-			type: Object,
-			required: true
-		}
-	},
-	data () {
-		return {
-			type: this.error.type ? this.error.type : 'success',
-			delayClose: typeof this.error.delayClose !== 'undefined' ? this.error.delayClose : 5000
-		}
-	},
-	mounted () {
-		if (this.delayClose !== 0) {
-			setTimeout(() => {
-				this.$emit('close-notice')
-			}, this.delayClose)
-		}
+};
+</script>
 
-		document.addEventListener('keydown', this.hideOnEscape)
-	},
-	methods: {
-		hideOnEscape (event) {
-			if (event.which === 27) {
-				this.$emit('close-notice')
-				event.preventDefault()
-				document.removeEventListener('keydown', this.hideOnEscape)
-			}
-		}
-	},
-	beforeUnmount () {
-		document.removeEventListener('keydown', this.hideOnEscape)
+<script lang="ts" setup>
+import { Icon } from '../Icon';
+import { onMounted, onBeforeUnmount } from 'vue';
+
+const props = defineProps<{
+	error: {
+		title: string;
+		message: string;
+		type?: 'success' | 'error' | 'warning' | 'info';
+		delayClose?: number;
+	};
+}>();
+
+const emit = defineEmits(['close-notice']);
+
+function hideOnEscape(event: KeyboardEvent) {
+	if (event.key === 'Escape') {
+		emit('close-notice');
+		event.preventDefault();
+		document.removeEventListener('keydown', hideOnEscape);
 	}
 }
+
+onMounted(() => {
+	const delay = props.error.delayClose ?? 5000;
+
+	if (delay !== 0) {
+		setTimeout(() => {
+			emit('close-notice');
+		}, delay);
+	}
+
+	document.addEventListener('keydown', hideOnEscape);
+});
+
+onBeforeUnmount(() => {
+	document.removeEventListener('keydown', hideOnEscape);
+});
 </script>
 
 <style lang="scss">
@@ -104,11 +89,6 @@ export default {
 		color: #fff;
 		font-size: 12px;
 		cursor: pointer;
-	}
-
-	&--info-blue {
-		color: #fff;
-		background: #18208d;
 	}
 
 	&--warning {

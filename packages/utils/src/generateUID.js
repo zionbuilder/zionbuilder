@@ -3,34 +3,23 @@
  */
 export const generateUID = (function (index, lastDateInSeconds) {
 	// Get shorter indexes by setting the start date to 2018 year
-	const startDate = new Date('2019')
+	const startDate = new Date('2019');
 	return function () {
-		const d = new Date()
-		const n = d - startDate
-
+		const d = new Date();
+		const n = d - startDate;
 		// Set initial date number
 		if (lastDateInSeconds === false) {
-			lastDateInSeconds = n
+			lastDateInSeconds = n;
 		}
-
 		// Reset the index if the date has changed
 		if (lastDateInSeconds !== n) {
-			index = 0
+			index = 0;
 		}
-
 		// Set the last date so we can compare it on multiple iterations
-		lastDateInSeconds = n
-
+		lastDateInSeconds = n;
 		// Increase the unique index
-		index += 1
-
+		index += 1;
 		// Return the unique index
-		return 'uid' + n + index
-	}
-}(0, false))
-
-export function youtubeUrlParser(url) {
-	let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
-	let match = url.match(regExp)
-	return (match && match[7].length === 11) ? match[7] : false
-}
+		return 'uid' + n + index;
+	};
+})(0, false);

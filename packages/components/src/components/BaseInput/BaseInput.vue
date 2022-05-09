@@ -7,6 +7,7 @@
 			'zion-input--has-suffix': hasSuffixContent,
 			'zion-input--error': error,
 			[`zion-input--size-${size}`]: size,
+			[cssClass]: cssClass,
 		}"
 		@keydown="onKeyDown"
 	>
@@ -71,7 +72,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, CSSProperties } from 'vue';
+import { Icon } from '../Icon';
+
 interface IProps {
 	/**
 	 * v-model/modelValue for the input
@@ -100,6 +103,8 @@ interface IProps {
 	size?: string;
 
 	fontFamily?: string;
+
+	class?: CSSProperties;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	modelValue: '',
@@ -113,6 +118,9 @@ defineEmits<{
 	(e: 'update:modelValue', value: string | number): void;
 }>();
 
+// Template Ref
+const input = ref<HTMLInputElement | null>(null);
+
 const showClear = computed(() => {
 	return props.clearable && props.modelValue ? true : false;
 });
@@ -123,8 +131,12 @@ const hasSuffixContent = computed(() => {
 
 const getStyle = computed(() => {
 	return {
-		fontFamily: props.fontFamily,
+		fontFamily: props.fontFamily || '',
 	};
+});
+
+const cssClass = computed(() => {
+	return props.class;
 });
 
 function onKeyDown(e: KeyboardEvent) {
@@ -133,10 +145,6 @@ function onKeyDown(e: KeyboardEvent) {
 	}
 }
 
-// Template Ref
-const input = ref<HTMLInputElement | null>(null);
-
-// @TODO Remove unused functions
 function focus() {
 	input.value?.focus();
 }
@@ -144,6 +152,12 @@ function focus() {
 function blur() {
 	input.value?.blur();
 }
+
+defineExpose({
+	input,
+	focus,
+	blur,
+});
 </script>
 
 <style lang="scss">

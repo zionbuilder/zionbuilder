@@ -1,51 +1,46 @@
 <template>
-	<div
-		class="znpb-gradient-preview-transparent-container"
-		:title="$translate('click_to_add_gradient_point')"
-	>
+	<div class="znpb-gradient-preview-transparent-container" :title="$translate('click_to_add_gradient_point')">
 		<div class="znpb-gradient-preview-transparent">
-			<div
-				class="znpb-gradient-preview"
-				:style="getGradientPreviewStyle"
-			>
-			</div>
+			<div class="znpb-gradient-preview" :style="getGradientPreviewStyle"></div>
 		</div>
 	</div>
 </template>
-<script>
 
+<script lang="ts">
 export default {
 	name: 'GradientBarPreview',
-	props: {
-		config: {
-			type: Object,
-			required: false
-		}
-	},
-	computed: {
-		getGradientPreviewStyle () {
-			let style = {}
-			let gradient = []
-			let colors = []
+};
+</script>
 
-			const colorsCopy = [...this.config.colors]
+<script lang="ts" setup>
+import { computed, CSSProperties } from 'vue';
+import type { Gradient } from './GradientBar.vue';
 
-			colorsCopy.sort((a, b) => {
-				return a.position > b.position ? 1 : -1
-			})
+const props = defineProps<{
+	config: Gradient;
+}>();
 
-			colorsCopy.forEach((color) => {
-				colors.push(`${color.color} ${color.position}%`)
-			})
+const getGradientPreviewStyle = computed(() => {
+	const style: CSSProperties = {};
+	const gradient = [];
+	const colors: string[] = [];
 
-			gradient.push(`linear-gradient(90deg, ${colors.join(', ')})`)
+	const colorsCopy = [...props.config.colors];
 
-			style['background'] = gradient.join(', ')
+	colorsCopy.sort((a, b) => {
+		return a.position > b.position ? 1 : -1;
+	});
 
-			return style
-		}
-	}
-}
+	colorsCopy.forEach(color => {
+		colors.push(`${color.color} ${color.position}%`);
+	});
+
+	gradient.push(`linear-gradient(90deg, ${colors.join(', ')})`);
+
+	style['background'] = gradient.join(', ');
+
+	return style;
+});
 </script>
 <style lang="scss">
 .znpb-gradient-preview-transparent-container {

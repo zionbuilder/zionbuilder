@@ -8,33 +8,18 @@
 				:title="option.icon ? option.name : ''"
 				:class="{
 					['znpb-custom-selector__item--active']: modelValue === option.id,
-					[`znpb-custom-selector__columns-${columns}`]: columns
+					[`znpb-custom-selector__columns-${columns}`]: columns,
 				}"
 				@click="changeValue(option.id)"
 			>
-				<span
-					class="znpb-custom-selector__item-name"
-					v-if="!option.icon"
-				>
-					{{option.name}}
+				<span v-if="!option.icon" class="znpb-custom-selector__item-name">
+					{{ option.name }}
 				</span>
-				<Icon
-					v-if="!textIcon && option.icon"
-					:icon="option.icon"
-				/>
-				<div
-					class="znpb-custom-selector__icon-text-content"
-					v-if="textIcon"
-				>
-					<Icon
-						v-if="option.icon"
-						:icon="option.icon"
-					/>
-					<span
-						class="znpb-custom-selector__item-name"
-						v-if="option.name"
-					>
-						{{option.name}}
+				<Icon v-if="!textIcon && option.icon" :icon="option.icon" />
+				<div v-if="textIcon" class="znpb-custom-selector__icon-text-content">
+					<Icon v-if="option.icon" :icon="option.icon" />
+					<span v-if="option.name" class="znpb-custom-selector__item-name">
+						{{ option.name }}
 					</span>
 				</div>
 			</li>
@@ -42,41 +27,36 @@
 	</div>
 </template>
 
-<script>
-import { Icon } from '../Icon'
-
+<script lang="ts">
 export default {
 	name: 'InputCustomSelector',
-	components: {
-		Icon
-	},
-	props: {
-		options: {
-			type: Array,
-			required: true
-		},
-		columns: {
-			type: Number,
-			required: false
-		},
-		modelValue: {
-			type: [String, Number, Boolean]
-		},
-		textIcon: {
-			type: Boolean
-		}
-	},
-	methods: {
-		changeValue (newValue) {
-			let valueToSend = newValue
-			// If the same value was selected, we need to delete it
-			if (this.modelValue === newValue) {
-				valueToSend = null
-			}
+};
+</script>
 
-			this.$emit('update:modelValue', valueToSend)
-		}
+<script lang="ts" setup>
+import { Icon } from '../Icon';
+
+type SelectValue = string | number | boolean | null;
+
+const props = defineProps<{
+	options: { id: string; name: string; icon?: string }[];
+	columns?: 1 | 2 | 3 | 4;
+	modelValue?: SelectValue;
+	textIcon?: boolean;
+}>();
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: SelectValue): void;
+}>();
+
+function changeValue(newValue: SelectValue) {
+	let valueToSend = newValue;
+	// If the same value was selected, we need to delete it
+	if (props.modelValue === newValue) {
+		valueToSend = null;
 	}
+
+	emit('update:modelValue', valueToSend);
 }
 </script>
 

@@ -1,216 +1,155 @@
 <template>
+	<!-- <Teleport :disabled="!appendTo" :to="appendTo"> -->
 	<div
 		class="znpb-form-colorpicker__color-picker-holder"
-		:class="{['color-picker-holder--has-library']: showLibrary}"
+		:class="{ ['color-picker-holder--has-library']: showLibrary }"
 		:style="pickerStyle"
 	>
-		<ColorBoard
-			:modelValue="color"
-			@update:modelValue="updateColor"
-		/>
+		<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
 
 		<div class="znpb-form-colorpicker-inner__panel">
-			<PanelHex
-				:modelValue="color"
-				@update:modelValue="updateColor"
-			/>
+			<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
 
 			<slot name="end" />
 		</div>
 	</div>
+	<!-- </Teleport> -->
 </template>
 
-<script>
-
-/**
-* properties received:
-	model
-	showLibrary
- *  might be appended to body
- */
-
-import tinycolor from 'tinycolor2'
-import PanelHex from './PanelHex.vue'
-import ColorBoard from './ColorBoard.vue'
-
+<script lang="ts">
 export default {
 	name: 'ColorPicker',
-	props: {
-		model: {
-			type: [String, Object],
-			required: false
-		},
-		showLibrary: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		appendTo: {
-			type: String,
-			required: false
-		},
-		zIndex: {
-			type: Number,
-			required: false
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import tinycolor from 'tinycolor2';
+import PanelHex from './PanelHex.vue';
+import ColorBoard from './ColorBoard.vue';
+import { ref, computed, Ref, watch } from 'vue';
+import type { ColorFormats } from 'tinycolor2';
+
+type Format = 'hex' | 'hsv' | 'hsl' | 'rgb' | 'hex8' | 'name' | false;
+
+type Colors = string | ColorFormats.RGBA | ColorFormats.HSLA | ColorFormats.HSVA | ColorFormats.HSLA;
+
+type ColorObject = ReturnType<typeof getColorObject>;
+
+const props = withDefaults(
+	defineProps<{
+		model: string;
+		showLibrary?: boolean;
+		appendTo?: string;
+		zIndex?: number;
+	}>(),
+	{
+		//@TODO color picker closes after changing the color format due to a Teleport issue
+		appendTo: undefined,
+		showLibrary: true,
 	},
-	components: {
-		ColorBoard,
-		PanelHex
-	},
-	data () {
+);
+
+const emit = defineEmits(['color-changed']);
+
+const oldHue = ref(0);
+const color: Ref<ColorObject | undefined> = ref();
+const format: Ref<Format | undefined> = ref();
+const localLibrary = ref(props.showLibrary);
+
+color.value = getColorObject(props.model);
+format.value = color.value.format;
+
+const pickerStyle = computed(() => {
+	if (props.appendTo) {
 		return {
-			oldHue: 0,
-			color: null,
-			format: null,
-			localLibrary: this.showLibrary
-		}
-	},
-	watch: {
-		model (newVal) {
-			this.color = this.getColorObject(newVal)
-		}
-	},
-	computed: {
-		pickerStyle () {
-			if (this.appendTo) {
-				return {
-					zIndex: this.zIndex
-				}
-			}
-
-			return null
-		},
-		appendToElement () {
-			return document.querySelector(this.appendTo)
-		}
-	},
-	mounted () {
-		// Check if we need to move picker to body
-		if (this.appendTo) {
-			this.appendPicker()
-		}
-	},
-	methods: {
-
-		updateColor (newValue) {
-			let colorObject
-			this.oldHue = newValue.h || this.oldHue
-
-			colorObject = tinycolor(newValue)
-			const alpha = colorObject.getAlpha()
-
-			let format = newValue.format || this.format
-
-			if (alpha === 1 && format === 'hex8') {
-				format = 'hex'
-			} else if (alpha < 1 && format === 'hex') {
-				format = 'hex8'
-			}
-
-			let newColor
-			if (format === 'hsl') {
-				newColor = colorObject.toHslString()
-			} else if (format === 'rgb' || format === 'name' || format === 'hsv') {
-				newColor = colorObject.toRgbString()
-			} else if (format === 'hex') {
-				// if already string send the received value
-				newColor = typeof (newValue) === 'string' ? newValue : colorObject.toHexString()
-			} else if (format === 'hex8') {
-				// if already string send the string
-				newColor = typeof (newValue) === 'string' ? newValue : colorObject.toHex8String()
-			}
-
-			this.format = format
-			this.color = this.getColorObject(newValue)
-
-			if (newValue) {
-				this.$emit('color-changed', newColor)
-			} else {
-				this.$emit('color-changed', '')
-			}
-		},
-		getColorObject (model) {
-			const colorObject = tinycolor(model)
-
-			let hsva = colorObject.toHsv()
-			let hsla = colorObject.toHsl()
-			// if already string send the model
-			let hex = typeof (model) === 'string' ? model : colorObject.toHexString()
-			let hex8 = typeof (model) === 'string' ? model : colorObject.toHex8String()
-			let rgba = colorObject.toRgb()
-
-			// If we do not have a model, set empty values
-			if (!model) {
-				hex = ''
-				hex8 = ''
-			}
-
-			if (hsla.s === 0) {
-				hsva.h = hsla.h = this.oldHue
-			}
-
-			let format = colorObject.format || colorObject.getFormat()
-
-			if ((format === false) || (format === 'name') || (format === 'hsv')) {
-				if (colorObject.getAlpha() < 1) {
-					format = 'hex8'
-				} else {
-					format = 'hex'
-				}
-			}
-
-			if (!this.format) {
-				this.format = format
-			} else {
-				format = this.format
-			}
-
-			if (colorObject.type === 'hsva') {
-				hsva = model
-			}
-
-			return {
-				source: model,
-				hex,
-				hex8,
-				rgba,
-				hsla,
-				hsva,
-				format,
-				colorObject
-			}
-		},
-		appendPicker () {
-			if (!this.appendToElement) {
-				// eslint-disable-next-line
-				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
-				return
-			}
-			// append the color Picker to node
-			this.appendToElement.appendChild(this.$el)
-		},
-		getColorFormat (color) {
-			let modelnew = tinycolor(color)
-			let format = modelnew.getFormat()
-			if ((format === false) || (format === 'name') || (format === 'hsv')) {
-				return 'hex'
-			} else return format
-		},
-		addGlobal (name) {
-			let globalColor = {
-				id: name.split(' ').join('_'),
-				color: this.model,
-				name: name
-			}
-			this.localLibrary = true
-			this.addGlobalColor(globalColor)
-		}
-	},
-	created () {
-		this.color = this.getColorObject(this.model)
-		this.format = this.color.format
+			zIndex: props.zIndex,
+		};
 	}
+	return undefined;
+});
+
+watch(
+	() => props.model,
+	(newVal: Colors) => {
+		color.value = getColorObject(newVal);
+	},
+);
+
+function updateFormat(currentFormat: Format) {
+	format.value = currentFormat;
+}
+
+function updateColor(newValue: Colors) {
+	oldHue.value = typeof newValue !== 'string' && 'h' in newValue ? newValue.h : oldHue.value;
+	const colorObject = tinycolor(newValue);
+
+	let emittedColor;
+	if (format.value === 'hsl') {
+		emittedColor = colorObject.toHslString();
+	} else if (format.value === 'rgb' || format.value === 'name' || format.value === 'hsv') {
+		emittedColor = colorObject.toRgbString();
+	} else if (format.value === 'hex') {
+		emittedColor = colorObject.getAlpha() < 1 ? colorObject.toHex8String() : colorObject.toHexString();
+	}
+
+	color.value = getColorObject(newValue);
+
+	if (newValue) {
+		emit('color-changed', emittedColor);
+	} else {
+		emit('color-changed', '');
+	}
+}
+
+function getColorObject(model: Colors) {
+	const colorObject = tinycolor(model);
+
+	let hsva = colorObject.toHsv();
+	let hsla = colorObject.toHsl();
+	let hex = colorObject.toHexString();
+	let hex8 = colorObject.toHex8String();
+	let rgba = colorObject.toRgb();
+
+	// If we do not have a model, set empty values
+	if (!model) {
+		hex = '';
+		hex8 = '';
+	}
+
+	if (hsla.s === 0) {
+		hsva.h = hsla.h = oldHue.value;
+	}
+
+	if (!format.value) {
+		format.value = colorObject.getFormat() as Format;
+	}
+
+	if (format.value === 'hex' || format.value === 'hex8') {
+		format.value = colorObject.getAlpha() < 1 ? 'hex8' : 'hex';
+	}
+
+	if (format.value === 'name' || format.value === 'hsv' || format.value === false) {
+		format.value = 'hex';
+	}
+
+	return {
+		hex,
+		hex8,
+		rgba,
+		hsla,
+		hsva,
+		format: format.value,
+	};
+}
+
+function addGlobal(name: string) {
+	let globalColor = {
+		id: name.split(' ').join('_'),
+		color: props.model,
+		name: name,
+	};
+	localLibrary.value = true;
+	addGlobalColor(globalColor);
 }
 </script>
 

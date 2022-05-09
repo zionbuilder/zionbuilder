@@ -4,24 +4,27 @@
 			class="znpb-loader"
 			:style="{
 				height: `${size}px`,
-				width: `${size}px`
+				width: `${size}px`,
 			}"
-		>
-		</div>
+		></div>
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'Loader',
-	props: {
-		size: {
-			type: Number,
-			default: 24,
-			required: false
-		}
-	}
-}
+};
+</script>
+
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		size?: number;
+	}>(),
+	{
+		size: 24,
+	},
+);
 </script>
 
 <style lang="scss">
@@ -35,8 +38,9 @@ export default {
 	position: relative;
 	left: -2px;
 
-	&:before, &:after {
-		content: "";
+	&:before,
+	&:after {
+		content: '';
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -50,7 +54,7 @@ export default {
 	&:after {
 		border-right-color: var(--zb-surface-loader-color);
 		border-bottom-color: var(--zb-surface-loader-color);
-		animation: Rotate .6s linear infinite;
+		animation: Rotate 0.6s linear infinite;
 	}
 }
 </style>

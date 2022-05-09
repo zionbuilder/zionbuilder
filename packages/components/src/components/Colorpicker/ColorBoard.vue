@@ -1,180 +1,160 @@
 <template>
-	<div
-		class="znpb-form-colorpicker-saturation"
-		ref="root"
-	>
+	<div ref="root" class="znpb-form-colorpicker-saturation">
 		<div
 			ref="boardContent"
-			:style="{background: bgColor}"
+			:style="{ background: bgColor }"
+			class="znpb-form-colorpicker-saturation__color"
 			@mousedown="initiateDrag"
 			@mouseup="deactivatedragCircle"
-			class="znpb-form-colorpicker-saturation__color"
 		>
 			<div class="znpb-form-colorpicker-saturation__white">
 				<div class="znpb-form-colorpicker-saturation__black">
-					<div
-						:style="pointStyles"
-						ref="boardPointer"
-						class="znpb-color-picker-pointer"
-					></div>
+					<div :style="pointStyles" class="znpb-color-picker-pointer"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
-<script>
-import rafSchd from 'raf-schd'
 
-export default {
-	name: 'ColorBoard',
-	props: {
-		modelValue: {
-			type: Object,
-			required: false
-		}
-	},
-	data () {
-		return {
-			initialX: null,
-			initialY: null,
-			isDragging: false
-		}
-	},
-	computed: {
-		/**
-		 * Returns the position of the pointer
-		 */
-		pointStyles () {
-			const { v, s } = this.modelValue.hsva
-			const cssStyles = {
-				top: 100 - (v * 100) + '%',
-				left: s * 100 + '%'
-			}
-			return cssStyles
-		},
-		/**
-		 * Returns the background of the colorBoard
-		 */
-		bgColor () {
-			const { h } = this.modelValue.hsva
-			return `hsl(${h}, 100%, 50%)`
-		},
-		boardContent () {
-			return this.$refs.boardContent.getBoundingClientRect()
-		}
-	},
+<script lang="ts" setup>
+import rafSchd from 'raf-schd';
+import { ref, computed, Ref, onMounted, onBeforeUnmount } from 'vue';
+import type { ColorFormats } from 'tinycolor2';
 
-	methods: {
-		initiateDrag (event) {
-			this.isDragging = true
-			let { clientX, clientY } = event
-			this.rafDragCircle = rafSchd(this.dragCircle)
-			this.$refs.root.ownerDocument.defaultView.addEventListener('mousemove', this.rafDragCircle)
-			this.$refs.root.ownerDocument.defaultView.addEventListener('mouseup', this.deactivatedragCircle, true)
+const props = defineProps<{
+	modelValue: {
+		hsva: ColorFormats.HSVA;
+	};
+}>();
 
-			// Emit click value
-			let newLeft = clientX - this.boardContent.left
-			let newTop = clientY - this.boardContent.top
-			let bright = 100 - ((newTop / this.boardContent.height) * 100)
-			let saturation = (newLeft * 100) / this.boardContent.width
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: ColorFormats.HSVA): void;
+}>();
 
-			let newColor = {
-				...this.modelValue.hsva,
-				v: bright / 100,
-				s: saturation / 100
-			}
+const isDragging = ref(false);
 
-			this.$emit('update:modelValue', {
-				...newColor,
-				type: 'hsva'
-			})
-		},
-		deactivatedragCircle (e) {
-			this.$refs.root.ownerDocument.defaultView.removeEventListener('mousemove', this.rafDragCircle)
-			this.$refs.root.ownerDocument.defaultView.removeEventListener('mouseup', this.deactivatedragCircle, true)
+const root: Ref<HTMLDivElement | null> = ref(null);
+const boardContent: Ref<HTMLDivElement | null> = ref(null);
 
-			let $owner = this.$refs.root.ownerDocument.defaultView
-			function preventClicks (e) {
-				e.stopPropagation()
-			}
+let ownerWindow: Window;
 
-			// Prevent closing colorpicker when clicked outside
-			$owner.addEventListener('click', preventClicks, true)
-			setTimeout(() => {
-				$owner.removeEventListener('click', preventClicks, true)
-				$owner = null
-			}, 100);
+/**
+ * Returns the position of the pointer
+ */
+const pointStyles = computed(() => {
+	const { v, s } = props.modelValue.hsva;
+	const cssStyles = {
+		top: 100 - v * 100 + '%',
+		left: s * 100 + '%',
+	};
+	return cssStyles;
+});
 
+/**
+ * Returns the background of the colorBoard
+ */
+const bgColor = computed(() => {
+	const { h } = props.modelValue.hsva;
+	return `hsl(${h}, 100%, 50%)`;
+});
 
-		},
-		dragCircle (event) {
-			// If the mouseup happened outside window
-			if (!event.which) {
-				this.deactivatedragCircle()
-				return false
-			}
-			let { clientX, clientY } = event
+const boardRect = computed(() => {
+	return (boardContent.value as HTMLDivElement).getBoundingClientRect();
+});
 
-			let movedX = clientX - this.boardContent.left
-			let movedY = clientY - this.boardContent.top - (this.boardContent.height / 2)
-			if (clientX < this.boardContent.left) {
-				movedX = 0
-			}
-			if (clientX > this.boardContent.left + this.boardContent.width) {
-				movedX = this.boardContent.width
-			}
-			if (clientY < this.boardContent.top) {
-				movedY = -this.boardContent.height / 2
-			}
-			if (clientY > this.boardContent.top + this.boardContent.height) {
-				movedY = this.boardContent.height / 2
-			}
+const rafDragCircle = rafSchd(dragCircle);
 
-			// don't let the circle outside hue area
-			let newLeft = clientX - this.boardContent.left
-			if (newLeft > this.boardContent.width) {
-				newLeft = this.boardContent.width
-			} else if (newLeft < 0) {
-				newLeft = 0
-			}
+function initiateDrag(event: MouseEvent) {
+	isDragging.value = true;
+	let { clientX, clientY } = event;
 
-			let newTop = clientY - this.boardContent.top
+	ownerWindow.addEventListener('mousemove', rafDragCircle);
+	ownerWindow.addEventListener('mouseup', deactivatedragCircle, true);
 
-			// don't let the circle outside hue area
-			if (newTop >= this.boardContent.height) {
-				newTop = this.boardContent.height
-			} else if (newTop < 0) {
-				newTop = 0
-			}
+	// Emit click value
+	const newTop = clientY - boardRect.value.top;
+	const newLeft = clientX - boardRect.value.left;
+	let bright = 100 - (newTop / boardRect.value.height) * 100;
+	let saturation = (newLeft * 100) / boardRect.value.width;
 
-			let bright = 100 - ((newTop / this.boardContent.height) * 100)
-			let saturation = (newLeft * 100) / this.boardContent.width
+	let newColor = {
+		...props.modelValue.hsva,
+		v: bright / 100,
+		s: saturation / 100,
+	};
 
-			let newColor = {
-				...this.modelValue.hsva,
-				v: bright / 100,
-				s: saturation / 100
-			}
-
-			this.$emit('update:modelValue', {
-				...newColor,
-				type: 'hsva'
-			})
-		}
-	},
-	mounted () {
-		this.$refs.root.ownerDocument.body.classList.add('znpb-color-picker--backdrop')
-	},
-	beforeUnmount () {
-		this.$refs.root.ownerDocument.body.classList.remove('znpb-color-picker--backdrop')
-		this.deactivatedragCircle()
-	}
+	emit('update:modelValue', newColor);
 }
+
+function deactivatedragCircle() {
+	ownerWindow.removeEventListener('mousemove', rafDragCircle);
+	ownerWindow.removeEventListener('mouseup', deactivatedragCircle, true);
+
+	function preventClicks(e: MouseEvent) {
+		e.stopPropagation();
+	}
+
+	// Prevent closing colorpicker when clicked outside
+	ownerWindow.addEventListener('click', preventClicks, true);
+	setTimeout(() => {
+		ownerWindow.removeEventListener('click', preventClicks, true);
+	}, 100);
+}
+
+function dragCircle(event: MouseEvent) {
+	// If the mouseup happened outside window
+	if (!event.which) {
+		deactivatedragCircle();
+		return false;
+	}
+	let { clientX, clientY } = event;
+
+	// don't let the circle outside hue area
+	let newLeft = clientX - boardRect.value.left;
+	if (newLeft > boardRect.value.width) {
+		newLeft = boardRect.value.width;
+	} else if (newLeft < 0) {
+		newLeft = 0;
+	}
+
+	let newTop = clientY - boardRect.value.top;
+
+	// don't let the circle outside hue area
+	if (newTop >= boardRect.value.height) {
+		newTop = boardRect.value.height;
+	} else if (newTop < 0) {
+		newTop = 0;
+	}
+
+	const bright = 100 - (newTop / boardRect.value.height) * 100;
+	const saturation = (newLeft * 100) / boardRect.value.width;
+
+	let newColor = {
+		...props.modelValue.hsva,
+		v: bright / 100,
+		s: saturation / 100,
+	};
+
+	emit('update:modelValue', newColor);
+}
+
+onMounted(() => {
+	ownerWindow = (root.value as HTMLDivElement).ownerDocument.defaultView as Window;
+
+	(root.value as HTMLDivElement).ownerDocument.body.classList.add('znpb-color-picker--backdrop');
+});
+
+onBeforeUnmount(() => {
+	(root.value as HTMLDivElement).ownerDocument.body.classList.remove('znpb-color-picker--backdrop');
+	deactivatedragCircle();
+});
 </script>
+
 <style lang="scss">
-.znpb-color-picker--backdrop, .znpb-color-gradient--backdrop {
+.znpb-color-picker--backdrop,
+.znpb-color-gradient--backdrop {
 	&:before {
-		content: "";
+		content: '';
 		position: absolute;
 		width: 100%;
 		height: 100%;
@@ -188,7 +168,9 @@ export default {
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 
-	&__color, &__white, &__black {
+	&__color,
+	&__white,
+	&__black {
 		position: absolute;
 		top: 0;
 		right: 0;

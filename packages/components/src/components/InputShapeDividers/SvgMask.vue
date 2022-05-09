@@ -1,89 +1,64 @@
 <template>
 	<div
 		class="znpb-shape-divider-icon zb-mask"
+		:class="[position === 'top' ? 'zb-mask-pos--top' : 'zb-mask-pos--bottom', flip ? 'zb-mask-pos--flip' : '']"
+		:style="{ color: color }"
 		v-html="getSvgIcon"
-		:class="[
-			position==='top' ?'zb-mask-pos--top': 'zb-mask-pos--bottom',
-			flip ? 'zb-mask-pos--flip': ''
-		]"
-		:style="{'color':color}"
-	>
-
-	</div>
+	></div>
 </template>
-<script>
-import { inject } from 'vue'
 
+<script lang="ts">
 export default {
 	name: 'SvgMask',
-	props: {
-		/**
-		 * Value for input
-		 */
-		shapePath: {
-			type: [String, Object],
-			required: true
-		},
-		position: {
-			type: String,
-			required: false
-		},
-		color: {
-			type: String,
-			required: false
-		},
-		flip: {
-			type: Boolean,
-			required: false
-		}
-	},
-	setup (props) {
-		const masks = inject('masks')
+};
+</script>
 
-		return {
-			masks
-		}
-	},
-	data () {
-		return {
-			svgData: ''
-		}
-	},
-	computed: {
-		getSvgIcon () {
-			return this.svgData
-		}
-	},
-	watch: {
-		shapePath (newvalue) {
-			this.getFile(newvalue)
-		}
+<script lang="ts" setup>
+import { computed, ref, watch, inject, onMounted } from 'vue';
 
-	},
-	mounted () {
-		if (this.shapePath !== undefined && this.shapePath.length) {
-			this.getFile(this.shapePath)
-		}
-	},
-	methods: {
-		getFile (shapePath) {
-			let url;
-			if (shapePath.indexOf('.svg') !== -1) {
-				url = shapePath
-			} else {
-				const shapeConfig = this.masks[shapePath]
-				url = shapeConfig.url
-			}
+const props = defineProps<{
+	shapePath: string;
+	position?: string;
+	color?: string;
+	flip?: boolean;
+}>();
 
-			fetch(url)
-				.then(response => response.text())
-				.then(svgFile => {
-					this.svgData = svgFile
-				})
-				.catch(error => {
-					console.error(error)
-				})
-		}
+const masks = inject('masks') as Record<string, { path: string; url: string }>;
+console.log(masks);
+
+const svgData = ref('');
+
+const getSvgIcon = computed(() => svgData.value);
+
+watch(
+	() => props.shapePath,
+	newValue => {
+		getFile(newValue);
+	},
+);
+
+function getFile(shapePath: string) {
+	let url;
+	if (shapePath.includes('.svg')) {
+		url = shapePath;
+	} else {
+		const shapeConfig = masks[shapePath];
+		url = shapeConfig.url;
 	}
+
+	fetch(url)
+		.then(response => response.text())
+		.then(svgFile => {
+			svgData.value = svgFile;
+		})
+		.catch(error => {
+			console.error(error);
+		});
 }
+
+onMounted(() => {
+	if (props.shapePath !== undefined && props.shapePath.length) {
+		getFile(props.shapePath);
+	}
+});
 </script>

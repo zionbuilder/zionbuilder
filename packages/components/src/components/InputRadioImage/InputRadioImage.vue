@@ -1,141 +1,97 @@
 <template>
 	<div class="znpb-radio-image-container">
 		<BaseInput
-			:placeholder="search_text"
-			v-if="use_search"
+			v-if="useSearch"
+			v-model="searchKeyword"
+			:placeholder="searchText"
 			:clearable="true"
 			class="znpb-radio-image-search"
-			v-model="searchKeyword"
 		/>
 
 		<div class="znpb-radio-image-wrapper znpb-fancy-scrollbar">
-
-			<ul
-				class="znpb-radio-image-list "
-				:class="[`znpb-radio-image-list--columns-${columns}`]"
-			>
+			<ul class="znpb-radio-image-list" :class="[`znpb-radio-image-list--columns-${columns}`]">
 				<li
 					v-for="(option, index) in visibleItems"
 					:key="index"
 					class="znpb-radio-image-list__item-wrapper"
 					@click="changeValue(option.value)"
 				>
-
 					<div
 						class="znpb-radio-image-list__item"
-						:class="{['znpb-radio-image-list__item--active']: modelValue === option.value}"
+						:class="{ ['znpb-radio-image-list__item--active']: modelValue === option.value }"
 					>
-						<img
-							v-if="option.image"
-							:src="option.image"
-							class="znpb-image-wrapper"
-						/>
-						<span
-							v-if="option.class"
-							class="znpb-radio-image-list__preview-element animated"
-							:class="option.value"
-						>
+						<img v-if="option.image" :src="option.image" class="znpb-image-wrapper" />
+						<span v-if="option.class" class="znpb-radio-image-list__preview-element animated" :class="option.value">
 						</span>
-						<Icon
-							class="znpb-radio-image-list__icon"
-							v-if="option.icon"
-							:icon="option.icon"
-						/>
+						<Icon v-if="option.icon" class="znpb-radio-image-list__icon" :icon="option.icon" />
 					</div>
-					<span
-						class="znpb-radio-image-list__item-name"
-						v-if="option.name"
-					>
-						{{option.name}}
+					<span v-if="option.name" class="znpb-radio-image-list__item-name">
+						{{ option.name }}
 					</span>
 				</li>
 
-				<li
-					class="znpb-radio-image-search--noItems"
-					v-if="use_search && visibleItems.length === 0"
-				>{{$translate('no_items_found')}}</li>
+				<li v-if="useSearch && visibleItems.length === 0" class="znpb-radio-image-search--noItems">
+					{{ $translate('no_items_found') }}
+				</li>
 			</ul>
 		</div>
 	</div>
 </template>
 
-<script>
-import { ref, computed } from 'vue'
-import Icon from '../Icon/Icon.vue'
-import { translate } from '@zb/i18n'
-
+<script lang="ts">
 export default {
 	name: 'InputRadioImage',
-	components: {
-		Icon
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import Icon from '../Icon/Icon.vue';
+import { translate } from '@zb/i18n';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: string;
+		options: { name?: string; value: string; class?: string; image?: string; icon?: string }[];
+		columns?: 1 | 2 | 3 | 4;
+		useSearch?: boolean;
+		searchText?: string;
+	}>(),
+	{
+		useSearch: true,
+		columns: 3,
+		searchText: (() => translate('search')) as unknown as string,
 	},
-	props: {
-		/**
-		 * Value or v-model
-		 */
-		modelValue: {
-			type: String
-		},
-		/**
-		 * Options
-		 */
-		options: {
-			type: Array,
-			required: false
-		},
-		/**
-		 * Number of columns
-		 */
-		columns: {
-			type: Number,
-			required: false
-		},
-		use_search: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
-		search_text: {
-			type: String,
-			default () {
-				return translate('search')
-			}
-		}
-	},
-	setup (props, { emit }) {
-		const searchKeyword = ref('')
-		const visibleItems = computed(() => {
-			if (searchKeyword.value.length > 0) {
-				return props.options.filter(option => option.name && option.name.toLowerCase().indexOf(searchKeyword.value.toLowerCase()) !== -1)
-			}
+);
 
-			return props.options
-		})
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
 
-		function changeValue (newValue) {
-			emit('update:modelValue', newValue)
-		}
+const searchKeyword = ref('');
 
-		return {
-			// Refs
-			searchKeyword,
-
-			// Computed
-			visibleItems,
-
-			// Methods
-			changeValue,
-		}
+const visibleItems = computed(() => {
+	if (searchKeyword.value.length > 0) {
+		return props.options.filter(
+			option => option.name && option.name.toLowerCase().includes(searchKeyword.value.toLowerCase()),
+		);
 	}
+
+	return props.options;
+});
+
+function changeValue(newValue: string) {
+	emit('update:modelValue', newValue);
 }
 </script>
+
 <style lang="scss">
 @function list-grid($col) {
-	$fr: "1fr ";
-	$grid: "";
+	$fr: '1fr ';
+	$grid: '';
 
 	@for $i from 1 through $col {
-		$grid: str-insert($grid, "#{$fr}", (str-length($grid) + 1));
+		$grid: str-insert($grid, '#{$fr}', (str-length($grid) + 1));
 	}
 
 	@return (unquote($grid));
@@ -143,7 +99,7 @@ export default {
 .znpb-input-wrapper.znpb-input-type--radio_image {
 	margin-bottom: 20px;
 
-	 > .znpb-input-content {
+	> .znpb-input-content {
 		width: auto;
 	}
 }
@@ -189,7 +145,6 @@ ul.znpb-radio-image-list {
 		justify-content: space-around;
 		align-items: center;
 		overflow: hidden;
-		height: 100px;
 		height: 82px;
 		padding: 15px;
 		margin-bottom: 8px;
@@ -197,7 +152,7 @@ ul.znpb-radio-image-list {
 		box-shadow: 0 5px 10px 0 var(--zb-surface-shadow);
 		border: 1px solid var(--zb-surface-lighter-color);
 		border-radius: 3px;
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 		cursor: pointer;
 
 		&:hover {
@@ -207,7 +162,8 @@ ul.znpb-radio-image-list {
 			border: 2px solid var(--zb-secondary-color);
 		}
 
-		&:hover &__item-name, &--active &__item-name {
+		&:hover &__item-name,
+		&--active &__item-name {
 			color: var(--zb-secondary-text-color);
 		}
 	}
@@ -243,7 +199,8 @@ ul.znpb-radio-image-list {
 			background-position: center center;
 			background-size: cover;
 		}
-		&:hover, &.znpb-radio-image-list__item--active {
+		&:hover,
+		&.znpb-radio-image-list__item--active {
 			.znpb-image-wrapper {
 				background-color: var(--zb-secondary-color);
 
@@ -255,21 +212,24 @@ ul.znpb-radio-image-list {
 		display: flex;
 		flex-direction: column;
 	}
-	.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+	.znpb-radio-image-list__item-name,
+	.znpb-editor-icon-wrapper {
 		text-align: center;
-		transition: all .2s ease;
+		transition: all 0.2s ease;
 	}
 }
 
 .znpb-radio-image-list__item {
 	&:hover {
-		.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+		.znpb-radio-image-list__item-name,
+		.znpb-editor-icon-wrapper {
 			color: var(--zb-surface-color);
 		}
 	}
 }
 .znpb-radio-image-list__item--active {
-	.znpb-radio-image-list__item-name, .znpb-editor-icon-wrapper {
+	.znpb-radio-image-list__item-name,
+	.znpb-editor-icon-wrapper {
 		color: var(--zb-surface-color);
 	}
 }

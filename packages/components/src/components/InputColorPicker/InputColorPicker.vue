@@ -1,16 +1,17 @@
 <template>
 	<div class="znpb-form-colorpicker">
 		<Color
-			v-model="colorModel"
 			v-if="type === 'simple'"
-			@open="$emit('open')"
-			@close="$emit('close')"
+			ref="color"
+			v-model="colorModel"
 			:show-library="showLibrary"
 			class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
+			@open="$emit('open')"
+			@close="$emit('close')"
 		>
-			<template v-slot:trigger>
+			<template #trigger>
 				<span
-					:style="{backgroundColor: modelValue}"
+					:style="{ backgroundColor: modelValue }"
 					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 				></span>
 
@@ -26,41 +27,36 @@
 
 				<span
 					v-if="!modelValue"
-					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
 					v-znpb-tooltip="$translate('no_color_chosen')"
+					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
 				></span>
-
 			</template>
 		</Color>
 
-		<BaseInput
-			v-model="colorModel"
-			:placeholder="$translate('color')"
-			v-else
-		>
-			<template v-slot:prepend>
+		<BaseInput v-else v-model="colorModel" :placeholder="$translate('color')">
+			<template #prepend>
 				<Color
 					v-model="colorModel"
+					:show-library="showLibrary"
+					class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 					@open="$emit('open')"
 					@close="$emit('close')"
-					:show-library="showLibrary"
-					class="znpb-colorpicker-circle  znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 				>
-					<template v-slot:trigger>
+					<template #trigger>
 						<span>
 							<Tooltip
-								v-if="!modelValue || modelValue===undefined"
+								v-if="!modelValue || modelValue === undefined"
 								:content="$translate('no_color_chosen')"
 								tag="span"
 							>
 								<span
-									:style="{backgroundColor: modelValue}"
+									:style="{ backgroundColor: modelValue }"
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
 							</Tooltip>
 							<span
 								v-else
-								:style="{backgroundColor: modelValue}"
+								:style="{ backgroundColor: modelValue }"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
 
@@ -77,72 +73,52 @@
 					</template>
 				</Color>
 			</template>
-
 		</BaseInput>
 	</div>
 </template>
-<script>
 
-/**
-* required properties received:
- *   model - string / rgb color / hsla color hsv color hex color
- * other properties received:
- * 	colorscheme - String
- * On change it emits this.$emit('colorpicker-updated', this.localModel)
- */
-import tinycolor from 'tinycolor2'
-import BaseInput from '../BaseInput/BaseInput.vue'
-import Color from './Color.vue'
-import { Tooltip } from '@zionbuilder/tooltip'
-import { Icon } from '../Icon'
-
+<script lang="ts">
 export default {
 	name: 'InputColorPicker',
 	inheritAttrs: true,
-	props: {
-		/**
-		* color picker modelValue
-		*/
-		modelValue: {
-			type: String,
-			required: false
-		},
-		type: null,
-		dynamicContentConfig: {
-			type: Object,
-			required: false
-		},
-		showLibrary: {
-			type: Boolean,
-			default: true
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+import Color from './Color.vue';
+import { Tooltip } from '@zionbuilder/tooltip';
+import { Icon } from '../Icon';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+		type?: null;
+		dynamicContentConfig?: object;
+		showLibrary?: boolean;
+	}>(),
+	{
+		showLibrary: true,
 	},
-	data () {
-		return {
-			isDragging: false
-		}
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+	(e: 'open'): void;
+	(e: 'close'): void;
+}>();
+
+const color = ref<InstanceType<typeof Color> | null>(null);
+
+const colorModel = computed({
+	get() {
+		return props.modelValue || '';
 	},
-	computed: {
-		colorModel: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+	set(newValue: string) {
+		emit('update:modelValue', newValue);
 	},
-	components: {
-		BaseInput,
-		Color,
-		Tooltip,
-		Icon
-	},
-	methods: {},
-	beforeUnmount () {
-		document.removeEventListener('click', this.closePanelOnOutsideClick)
-	}
-}
+});
 
 </script>
 <style lang="scss">

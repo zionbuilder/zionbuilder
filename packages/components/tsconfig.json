@@ -4,6 +4,7 @@
 		"rootDir": "./src",
 		"declarationDir": "./build-types",
 		"paths": {
+			"@composables": ["./src/composables"],
 			"@zb/*": ["../*"]
 		},
 	},
@@ -13,6 +14,7 @@
 	"include": [
 		"src/**/*",
 		"../shims-vue.d.ts",
+		"../global.d.ts",
 		"./global.d.ts"
 	]
 }

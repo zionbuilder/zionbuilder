@@ -1,5 +1,5 @@
-import MD5 from "crypto-js/md5";
+import MD5 from 'crypto-js/md5';
 
 export function hash(object) {
-	return MD5(JSON.stringify(object))
+	return MD5(JSON.stringify(object));
 }

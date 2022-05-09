@@ -1,70 +1,47 @@
 <template>
-
 	<div class="znpb-icon-pack-modal__icons">
-		<div
-			class="znpb-icon-pack-modal__grid"
-			v-if="iconList.length > 0"
-		>
-			<div
-				class="znpb-icon-pack-modal-icon"
-				v-for="(icon,i) in iconList"
-				:key="i"
-			>
+		<div v-if="iconList.length > 0" class="znpb-icon-pack-modal__grid">
+			<div v-for="(icon, i) in iconList" :key="i" class="znpb-icon-pack-modal-icon">
 				<div
 					class="znpb-modal-icon-wrapper"
-					:class="{'znpb-modal-icon-wrapper--active' : activeIcon===icon.name && activeFamily===family}"
+					:class="{ 'znpb-modal-icon-wrapper--active': activeIcon === icon.name && activeFamily === family }"
 					@click="$emit('icon-selected', icon)"
 					@dblclick="$emit('update:modelValue', icon)"
 				>
-					<span
-						:data-znpbiconfam="family"
-						:data-znpbicon="unicode(icon.unicode)"
-					></span>
-
+					<span :data-znpbiconfam="family" :data-znpbicon="unicode(icon.unicode)"></span>
 				</div>
-				<h4 class="znpb-modal-icon-wrapper__title">{{icon.name}}</h4>
+				<h4 class="znpb-modal-icon-wrapper__title">{{ icon.name }}</h4>
 			</div>
 		</div>
-		<span v-else>{{$translate('no_icons_in_package')}} {{family}}</span>
+		<span v-else>{{ $translate('no_icons_in_package') }} {{ family }}</span>
 	</div>
-
 </template>
 
-<script>
-
+<script lang="ts">
 export default {
 	name: 'IconsPackGrid',
-	props: {
-		iconList: {
-			type: Array,
-			required: false
-		},
-		family: {
-			type: String,
-			required: false
-		},
-		activeIcon: {
-			type: String,
-			required: false
-		},
-		activeFamily: {
-			type: String,
-			required: false
-		}
-	},
-	data () {
-		return {
-		}
-	},
-	methods: {
-		unicode (unicode) {
-			return JSON.parse(('"\\' + unicode + '"'))
-		}
-	},
-	computed: {
-	}
+};
+</script>
+
+<script lang="ts" setup>
+type Icon = { name: string; unicode: string };
+defineProps<{
+	iconList: Icon[];
+	family?: string;
+	activeIcon?: string;
+	activeFamily?: string;
+}>();
+
+defineEmits<{
+	(e: 'icon-selected', value: Icon): void;
+	(e: 'update:modelValue', value: Icon): void;
+}>();
+
+function unicode(unicode: string) {
+	return JSON.parse('"\\' + unicode + '"');
 }
 </script>
+
 <style lang="scss">
 .znpb-icon-pack-modal {
 	&__icons {

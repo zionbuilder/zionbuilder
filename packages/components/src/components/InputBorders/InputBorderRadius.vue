@@ -1,12 +1,9 @@
+<!-- Not used component -->
 <template>
 	<div class="znpb-input-border-radius-wrapper">
-		<InputLabel
-			v-if="title"
-			:label="title"
-			class="znpb-typography-group-item znpb-typography-group-item-font-weight"
-		>
+		<InputLabel v-if="title" :label="title" class="znpb-typography-group-item znpb-typography-group-item-font-weight">
 			<InputNumberUnit
-				v-model="widthValue"
+				v-model="computedValue"
 				:min="0"
 				:max="999"
 				:units="['px', 'rem', 'pt', 'vh', '%']"
@@ -16,46 +13,37 @@
 		</InputLabel>
 	</div>
 </template>
-<script>
-import { InputNumberUnit } from '../InputNumber'
-
+<script lang="ts">
 export default {
 	name: 'InputBorderRadius',
-	props: {
-		/**
-		 * v-model/modelValue for border radius
-		 */
-		modelValue: {
-			default () {
-				return null
-			},
-			type: String,
-			required: false
-		}
+};
+</script>
 
-	},
-	components: {
-		InputNumberUnit
-	},
-	data () {
-		return {
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { InputNumberUnit } from '../InputNumber';
 
-		}
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string | null;
+	}>(),
+	{
+		modelValue: null,
 	},
-	computed: {
-		widthValue: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				/**
-				 * emits new value for border radius input
-				 */
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	}
-}
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string): void;
+}>();
+
+const computedValue = computed({
+	get() {
+		return props.modelValue || null;
+	},
+	set(newValue: string | null) {
+		emit('update:modelValue', newValue);
+	},
+});
 </script>
 <style lang="scss">
 .znpb-input-border-radius-wrapper {

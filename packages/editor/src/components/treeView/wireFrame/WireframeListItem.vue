@@ -7,46 +7,29 @@
 	>
 		<div class="znpb-wireframe-item__header">
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--left">
-
 				<Icon
-					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					v-if="element.isWrapper"
+					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					icon="select"
 					:rotate="expanded ? '180' : false"
 					@click="expanded = !expanded"
 				/>
 
-				<UIElementIcon
-					:element="elementModel"
-					class="znpb-tree-view__itemIcon"
-					:size="24"
-				/>
+				<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon" :size="24" />
 
-				<InlineEdit
-					v-model="elementName"
-					class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item"
-				/>
-
+				<InlineEdit v-model="elementName" class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item" />
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
-
 				<Icon
+					v-if="!element.isVisible"
+					v-znpb-tooltip="$translate('enable_hidden_element')"
 					icon="visibility-hidden"
 					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 					@click.stop="element.toggleVisibility()"
-					v-if="!element.isVisible"
-					v-znpb-tooltip="$translate('enable_hidden_element')"
 				/>
 
-				<div
-					class="znpb-element-options__container"
-					@click.stop="showElementMenu"
-					ref="elementOptionsRef"
-				>
-					<Icon
-						class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
-						icon="more"
-					/>
+				<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
+					<Icon class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer" icon="more" />
 				</div>
 			</div>
 		</div>
@@ -55,49 +38,43 @@
 			v-if="expanded && element.isWrapper"
 			:element="element"
 			class="znpb-wireframe-item__content"
-			:class="{[`znpb-flex--${hasFlexDirection}`]: hasFlexDirection}"
+			:class="{ [`znpb-flex--${hasFlexDirection}`]: hasFlexDirection }"
 		/>
-
 	</li>
 </template>
 <script>
-import { computed } from 'vue'
-import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import SortableHelper from '../../../common/SortableHelper.vue'
-import { getOptionValue } from '@zb/utils'
-import { useTreeViewItem } from '../useTreeViewItem'
-import { useElementTypes } from "@composables";
-
+import { computed } from 'vue';
+import SortablePlaceholder from '../../../common/SortablePlaceholder.vue';
+import SortableHelper from '../../../common/SortableHelper.vue';
+import { get } from 'lodash-es';
+import { useTreeViewItem } from '../useTreeViewItem';
+import { useElementTypes } from '@composables';
 
 export default {
-	name: 'element-wireframe-view',
+	name: 'ElementWireframeView',
 	components: {
 		SortablePlaceholder,
-		SortableHelper
+		SortableHelper,
 	},
 	props: {
 		element: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props) {
-		const {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem
-		} = useTreeViewItem(props)
-		const columnSize = computed(() => props.element.options.column_size)
+	setup(props) {
+		const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props);
+		const columnSize = computed(() => props.element.options.column_size);
 
 		const { getElementType } = useElementTypes();
 
 		const elementModel = getElementType(props.element.element_type);
 
 		const elementName = computed({
-			get () {
+			get() {
 				return props.element.name;
 			},
-			set (newValue) {
+			set(newValue) {
 				props.element.name = newValue;
 			},
 		});
@@ -108,73 +85,76 @@ export default {
 			elementOptionsRef,
 			isActiveItem,
 			columnSize,
-			elementName
-		}
+			elementName,
+		};
 	},
-	data () {
+	data() {
 		return {
 			expanded: true,
 			isNameChangeActive: false,
 			hovered: false,
-			showColumnTemplates: false
-		}
+			showColumnTemplates: false,
+		};
 	},
 	computed: {
-		hasFlexDirection () {
-			let orientation = 'column'
-			let mediaOrientation = getOptionValue(this.element.options, '_styles.wrapper.styles.default.default.flex-direction')
+		hasFlexDirection() {
+			let orientation = 'column';
+			let mediaOrientation = get(this.element.options, '_styles.wrapper.styles.default.default.flex-direction');
 
 			if (this.element.element_type === 'zion_section') {
-				mediaOrientation = getOptionValue(this.element.options, '_styles.inner_content_styles.styles.default.default.flex-direction', 'row')
+				mediaOrientation = get(
+					this.element.options,
+					'_styles.inner_content_styles.styles.default.default.flex-direction',
+					'row',
+				);
 			}
 
 			if (mediaOrientation) {
-				orientation = mediaOrientation
+				orientation = mediaOrientation;
 			}
 
-			return orientation
+			return orientation;
 		},
-		getClasses () {
+		getClasses() {
 			let cssClass = {
 				[`znpb-wireframe-item--item--hidden`]: !this.element.isVisible,
 				[`znpb-wireframe-item--${this.element.element_type}`]: this.element.element_type,
-				[`znpb-wireframe-item__empty`]: !this.element.content.length
-			}
+				[`znpb-wireframe-item__empty`]: !this.element.content.length,
+			};
 
 			if (this.columnSize) {
-				Object.keys(this.columnSize).forEach((key) => {
-					let responsivePrefix = this.getColumnResponsivePrefix(key)
-					cssClass[`zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key]
-				})
+				Object.keys(this.columnSize).forEach(key => {
+					let responsivePrefix = this.getColumnResponsivePrefix(key);
+					cssClass[`zb-column--${responsivePrefix}${this.columnSize[key]}`] = !!this.columnSize[key];
+				});
 			}
-			return cssClass
-		}
-
+			return cssClass;
+		},
 	},
 	methods: {
-		activateRenameElement () {
+		activateRenameElement() {
 			if (this.isActiveItem) {
-				this.isNameChangeActive = true
+				this.isNameChangeActive = true;
 			}
 		},
-		getColumnResponsivePrefix (responsiveMediaId) {
+		getColumnResponsivePrefix(responsiveMediaId) {
 			const devices = {
 				default: '',
 				laptop: 'lg--',
 				tablet: 'md--',
-				mobile: 'sm--'
-			}
+				mobile: 'sm--',
+			};
 
-			return devices[responsiveMediaId]
+			return devices[responsiveMediaId];
 		},
-		shrinkPanel () {
-			this.expanded = false
-		}
-	}
-}
+		shrinkPanel() {
+			this.expanded = false;
+		},
+	},
+};
 </script>
 <style lang="scss">
-@import "grid.scss";
+@import 'grid.scss';
 
 .znpb-editor-icon-wrapper--show-element {
 	padding: 15px 15px 15px;
@@ -381,9 +361,7 @@ export default {
 			border-bottom-left-radius: 6px;
 			border-bottom-right-radius: 6px;
 		}
-		&
-			> .znpb-wireframe-item__content
-			> .znpb-element-toolbox__add-element-button {
+		& > .znpb-wireframe-item__content > .znpb-element-toolbox__add-element-button {
 			& > .znpb-editor-icon-wrapper {
 				background: var(--zb-column-color);
 			}

@@ -1,116 +1,107 @@
 <template>
-	<HorizontalAccordion
-		:title="title"
-		:combine-breadcrumbs="true"
-		:show-back-button="true"
-	>
-		<template v-slot:actions>
+	<HorizontalAccordion :title="title" :combine-breadcrumbs="true" :show-back-button="true">
+		<template #actions>
 			<Icon
 				v-if="clonable"
 				class="znpb-option-repeater-selector__clone-icon"
-				@click.stop="cloneOption"
 				icon="copy"
+				@click.stop="cloneOption"
 			></Icon>
 			<Icon
 				v-if="deletable"
 				class="znpb-option-repeater-selector__delete-icon"
-				@click.stop="deleteOption(propertyIndex)"
 				icon="delete"
+				@click.stop="deleteOption(propertyIndex)"
 			></Icon>
 		</template>
 
 		<OptionsForm
 			:schema="schema"
 			:modelValue="selectedOptionModel"
-			@update:modelValue="onItemChange($event, propertyIndex)"
 			class="znpb-option-repeater-form"
+			@update:modelValue="onItemChange($event, propertyIndex)"
 		/>
 	</HorizontalAccordion>
-
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'RepeaterOption',
-	data () {
-		return {
-			folded: true
-		}
-	},
-	props: {
-		modelValue: {
-			default () {
-				return {}
-			}
-		},
-		schema: {
-			type: Object,
-			required: true,
-			default () {
-				return []
-			}
-		},
-		propertyIndex: {
-			type: Number
-		},
-		item_title: {
-			type: String,
-			required: false
-		},
-		default_item_title: {
-			type: String,
-			required: true
-		},
-		deletable: {
-			type: Boolean,
-			required: false,
-			default: true
-		},
-		clonable: {
-			type: Boolean,
-			required: false,
-			default: true
-		}
-	},
-	computed: {
-		selectedOptionModel: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		},
-		title () {
-			if (this.item_title && this.selectedOptionModel && this.selectedOptionModel[this.item_title]) {
-				return this.selectedOptionModel[this.item_title]
-			}
+};
+</script>
 
-			return this.default_item_title.replace('%s', this.propertyIndex + 1)
-		}
+<script lang="ts" setup>
+import { computed, ref } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Record<string, any>;
+		schema: Record<string, any>;
+		propertyIndex?: number;
+		item_title?: string;
+		default_item_title: string;
+		deletable?: boolean;
+		clonable?: boolean;
+	}>(),
+	{
+		modelValue: () => {
+			return {};
+		},
+		propertyIndex: 0,
+		deletable: true,
+		clonable: true,
 	},
-	methods: {
-		cloneOption () {
-			const clone = JSON.parse(JSON.stringify(this.modelValue))
-			this.$emit('clone-option', clone)
-		},
-		deleteOption (propertyIndex) {
-			this.$emit('delete-option', propertyIndex)
-		},
-		toggleOptions () {
-			this.folded = !this.folded
-		},
-		onItemChange (newValues, index) {
-			this.$emit('update:modelValue', { newValues, index })
-		},
-		expand () {
-			this.folded = false
-		},
-		collapse () {
-			this.folded = true
-		}
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: Record<string, any>): void;
+	(e: 'clone-option', value: Record<string, any>): void;
+	(e: 'delete-option', value: number): void;
+}>();
+
+const selectedOptionModel = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue: Record<string, any>) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+const title = computed(() => {
+	if (props.item_title && selectedOptionModel.value && selectedOptionModel.value[props.item_title]) {
+		return selectedOptionModel.value[props.item_title];
 	}
+
+	return props.default_item_title.replace('%s', props.propertyIndex + 1);
+});
+
+function cloneOption() {
+	const clone = JSON.parse(JSON.stringify(props.modelValue));
+	emit('clone-option', clone);
 }
+
+function deleteOption(propertyIndex: number) {
+	emit('delete-option', propertyIndex);
+}
+
+function onItemChange(newValues: Record<string, any>, index: number) {
+	emit('update:modelValue', { newValues, index });
+}
+
+// const folded = ref(true);
+
+// function toggleOptions() {
+// 	folded.value = !folded.value;
+// }
+
+// function expand() {
+// 	folded.value = false;
+// }
+
+// function collapse() {
+// 	folded.value = true;
+// }
 </script>
 
 <style lang="scss">

@@ -1,62 +1,49 @@
 <template>
 	<div class="znpb-options-breadcrumbs">
-		<Icon
-			v-if="showBackButton"
-			class="znpb-back-icon-breadcrumbs"
-			icon="select"
-			@click="onItemClicked(previousItem)"
-		/>
+		<Icon v-if="showBackButton" class="znpb-back-icon-breadcrumbs" icon="select" @click="onItemClicked(previousItem)" />
 
 		<div
 			v-for="(breadcrumb, i) in computedBreadcrumbs"
 			:key="i"
 			class="znpb-options-breadcrumbs-path"
-			:class="{['znpb-options-breadcrumbs-path--current']: i === computedBreadcrumbs.length-1}"
+			:class="{ ['znpb-options-breadcrumbs-path--current']: i === computedBreadcrumbs.length - 1 }"
 			@click="onItemClicked(previousItem)"
 		>
 			<span v-html="breadcrumb.title"></span>
-			<Icon
-				v-if="i +1 < computedBreadcrumbs.length"
-				icon="select"
-				class="znpb-options-breadcrumbs-path-icon"
-			/>
+			<Icon v-if="i + 1 < computedBreadcrumbs.length" icon="select" class="znpb-options-breadcrumbs-path-icon" />
 		</div>
 	</div>
 </template>
 
-<script>
-import { Icon } from '../Icon'
+<script lang="ts">
 export default {
 	name: 'OptionBreadcrumbs',
-	components: {
-		Icon
-	},
-	props: {
-		breadcrumbs: {
-			type: Array
-		},
-		/**
-		 * If the breadcrumbs should show the back button
-		 */
-		showBackButton: {
-			type: Boolean,
-			required: false
-		}
-	},
-	computed: {
-		previousItem () {
-			return this.breadcrumbs[this.breadcrumbs.length - 2]
-		},
-		computedBreadcrumbs () {
-			return this.breadcrumbs.slice(Math.max(this.breadcrumbs.length - 2, 1))
-		}
-	},
-	methods: {
-		onItemClicked (breadcrumbItem) {
-			if (typeof breadcrumbItem.callback !== 'undefined') {
-				breadcrumbItem.callback()
-			}
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+import { Icon } from '../Icon';
+
+type BreadcrumbItem = { title?: string; callback?: () => void };
+
+const props = defineProps<{
+	breadcrumbs?: BreadcrumbItem[];
+	showBackButton?: boolean;
+}>();
+
+const previousItem = computed(() => {
+	return props.breadcrumbs?.[props.breadcrumbs.length - 2];
+});
+
+const computedBreadcrumbs = computed(() => {
+	return props.breadcrumbs?.slice(Math.max(props.breadcrumbs.length - 2, 1));
+});
+
+function onItemClicked(breadcrumbItem: BreadcrumbItem) {
+	if (breadcrumbItem.callback !== undefined) {
+		breadcrumbItem.callback();
 	}
 }
 </script>

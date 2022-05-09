@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="znpb-empty-list__container"
-		:class="{'znpb-empty-list__container--no-margin' : noMargin }"
-	>
+	<div class="znpb-empty-list__container" :class="{ 'znpb-empty-list__container--no-margin': noMargin }">
 		<div class="znpb-empty-list__border-top-bottom"></div>
 		<div class="znpb-empty-list__border-left-right"></div>
 		<div class="znpb-empty-list__content">
@@ -11,20 +8,21 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
 	name: 'EmptyList',
-	props: {
-		noMargin: {
-			type: Boolean,
-			required: false,
-			default: false
-		}
+};
+</script>
+
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		noMargin?: boolean;
+	}>(),
+	{
+		noMargin: false,
 	},
-	data () {
-		return {}
-	}
-}
+);
 </script>
 
 <style lang="scss">
@@ -59,36 +57,28 @@ export default {
 
 	&__border-top-bottom {
 		&:after {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			right: 0;
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-image: linear-gradient(
-				to right,
-				var(--zb-surface-border-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-			);
+			background-image: linear-gradient(to right, var(--zb-surface-border-color) 77%, rgba(255, 255, 255, 0) 0%);
 			background-repeat: repeat-x;
 			background-position: top;
 			background-size: 12px 2px;
 		}
 
 		&:before {
-			content: "";
+			content: '';
 			position: absolute;
 			right: 0;
 			bottom: 0;
 			left: 0;
 			width: 100%;
 			height: 2px;
-			background-image: linear-gradient(
-				to right,
-				var(--zb-surface-border-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-			);
+			background-image: linear-gradient(to right, var(--zb-surface-border-color) 77%, rgba(255, 255, 255, 0) 0%);
 			background-repeat: repeat-x;
 			background-position: bottom;
 			background-size: 12px 2px;
@@ -97,7 +87,7 @@ export default {
 
 	&__border-left-right {
 		&:after {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			right: 2px;
@@ -105,29 +95,21 @@ export default {
 			left: 0;
 			width: 2px;
 			height: 100%;
-			background-image: linear-gradient(
-				to top,
-				var(--zb-surface-border-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-			);
+			background-image: linear-gradient(to top, var(--zb-surface-border-color) 77%, rgba(255, 255, 255, 0) 0%);
 			background-repeat: repeat-y;
 			background-position: bottom;
 			background-size: 2px 12px;
 		}
 
 		&:before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 0;
 			right: 0;
 			bottom: 0;
 			width: 2px;
 			height: 100%;
-			background-image: linear-gradient(
-				to top,
-				var(--zb-surface-border-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-			);
+			background-image: linear-gradient(to top, var(--zb-surface-border-color) 77%, rgba(255, 255, 255, 0) 0%);
 			background-repeat: repeat-y;
 			background-position: bottom;
 			background-size: 2px 12px;

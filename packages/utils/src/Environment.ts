@@ -1,3 +1,3 @@
 export default {
-	isMac: window.navigator.userAgent.indexOf('Macintosh') >= 0
-}
+	isMac: window.navigator.userAgent.indexOf('Macintosh') >= 0,
+};
