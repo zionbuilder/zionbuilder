@@ -156,7 +156,7 @@ export default {
 
 		downloadElement () {
 			const { element, type } = this.activeSaveElement
-			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : element.toJSON()
+			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : [element.toJSON()]
 			const templateType = type === 'template' ? 'template' : 'block'
 
 			this.loading = true
