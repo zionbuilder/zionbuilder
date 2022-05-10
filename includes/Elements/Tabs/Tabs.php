@@ -173,11 +173,10 @@ class Tabs extends Element {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery' );
-
 		// Using helper methods will go through caching policy
 		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Tabs/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Tabs/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-tabs', Utils::get_file_url( 'dist/js/elements/Tabs/frontend.js' ), [], Plugin::instance()->get_version(), true );
+
 	}
 
 	/**

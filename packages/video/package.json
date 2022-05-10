@@ -6,6 +6,11 @@
   "license": "MIT",
   "dependencies": {
     "@zionbuilder/hooks": "^1.0.0",
-    "reframe.js": "^2.2.8"
+    "reframe.js": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/vimeo__player": "^2.16.3",
+    "@types/youtube": "^0.0.46",
+    "@vimeo/player": "^2.16.4"
   }
 }

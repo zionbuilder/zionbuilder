@@ -1,7 +1,7 @@
 const path = require('path');
 const { mergeConfigs, getConfig } = require('@zionbuilder/webpack-config');
 
-const { readdirSync, existsSync } = require('fs');
+const { existsSync } = require('fs');
 
 const configs = [];
 
@@ -51,7 +51,7 @@ packages.forEach(directory => {
 });
 
 // Normal packages
-const normalPackages = ['animateJS', 'video'];
+const normalPackages = ['animateJS', 'video', 'modalJS'];
 normalPackages.forEach(directory => {
 	const folder = path.resolve('./packages', directory);
 	const webpackConfig = getWebpackConfig(folder);
