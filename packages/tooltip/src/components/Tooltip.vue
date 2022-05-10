@@ -1,32 +1,19 @@
 <template>
-	<component
-		:is="tag"
-		v-bind="$attrs"
-		ref="root"
-	>
+	<component :is="tag" v-bind="$attrs" ref="root">
 		<transition
+			v-if="visible"
 			appear
 			:name="transition"
+			v-bind="popperProps"
 			@enter="onTransitionEnter"
 			@after-leave="onTransitionLeave"
-			v-bind="popperProps"
-			v-if="visible"
 		>
-			<div
-				class="hg-popper"
-				:class="tooltipClass"
-				:style="getStyle"
-				ref="popper"
-			>
+			<div ref="popper" class="hg-popper" :class="tooltipClass" :style="getStyle">
 				{{ content }}
 
 				<slot name="content" />
 
-				<span
-					data-popper-arrow="true"
-					v-if="showArrows"
-					class="hg-popper--with-arrows"
-				/>
+				<span v-if="showArrows" data-popper-arrow="true" class="hg-popper--with-arrows" />
 			</div>
 		</transition>
 
@@ -35,24 +22,24 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-import { getDefaultOptions } from "../options";
-import { merge, debounce } from "lodash-es";
-import { createPopper } from "@popperjs/core";
-import { getZindex, removeZindex } from "@zionbuilder/z-index-manager";
+import { ref } from 'vue';
+import { getDefaultOptions } from '../options';
+import { merge, debounce } from 'lodash-es';
+import { createPopper } from '@popperjs/core';
+import { getZindex, removeZindex } from '@zionbuilder/z-index-manager';
 
 let preventOutsideClickPropagation = false;
 
 export default {
+	name: 'Tooltip',
 	inheritAttrs: false,
-	name: "Tooltip",
 	props: {
 		modifiers: {
 			type: Array,
 			required: false,
 		},
 		tag: {
-			default: "div",
+			default: 'div',
 		},
 		/**
 		 * The content that will be placed inside tooltip
@@ -130,7 +117,7 @@ export default {
 		trigger: {
 			type: String,
 			required: false,
-			default: "hover",
+			default: 'hover',
 		},
 		/**
 		 * When clicked outside tooltip, it closes
@@ -149,7 +136,7 @@ export default {
 			default: false,
 		},
 		/**
-		 * Popper refference
+		 * Popper reference
 		 */
 		popperRef: {
 			type: Object,
@@ -171,7 +158,7 @@ export default {
 		enterActiveClass: {
 			type: String,
 			required: false,
-			default: "",
+			default: '',
 		},
 		/**
 		 * Class for animation on leave
@@ -179,7 +166,7 @@ export default {
 		leaveActiveClass: {
 			type: String,
 			required: false,
-			default: "",
+			default: '',
 		},
 		/**
 		 * Custom Class
@@ -195,7 +182,7 @@ export default {
 			type: [Object, String],
 			required: false,
 			default: {},
-		}
+		},
 	},
 	setup(props) {
 		const root = ref(null);
@@ -217,46 +204,11 @@ export default {
 			zIndex: null,
 		};
 	},
-	watch: {
-		closeOnOutsideClick(newValue) {
-			if (newValue) {
-				this.ownerDocument.addEventListener(
-					"click",
-					this.onOutsideClick,
-					true
-				);
-			} else {
-				this.ownerDocument.removeEventListener(
-					"click",
-					this.onOutsideClick,
-					true
-				);
-			}
-		},
-		hideAfter(newValue) {
-			if (newValue) {
-				this.onHideAfter();
-			}
-		},
-		show(newValue, oldValue) {
-			this.visible = !!newValue;
-		},
-		visible(newValue, oldvalue) {
-			if (!!newValue !== !!oldvalue) {
-				if (newValue) {
-					this.zIndex = getZindex();
-				} else if (this.zIndex) {
-					removeZindex();
-					this.zIndex = null;
-				}
-			}
-		},
-	},
 	computed: {
 		getStyle() {
 			return {
 				...this.tooltipStyle,
-				"z-index": this.zIndex,
+				'z-index': this.zIndex,
 			};
 		},
 		popperProps() {
@@ -281,13 +233,11 @@ export default {
 			instanceOptions.modifiers = this.modifiers || [];
 			// Apply offset for arrow
 			if (this.showArrows) {
-				const hasOffsetModifier = instanceOptions.modifiers.find(
-					(modifier) => modifier.name === "offset"
-				);
+				const hasOffsetModifier = instanceOptions.modifiers.find(modifier => modifier.name === 'offset');
 
 				if (!hasOffsetModifier) {
 					instanceOptions.modifiers.push({
-						name: "offset",
+						name: 'offset',
 						options: {
 							offset: [0, 10],
 						},
@@ -302,22 +252,49 @@ export default {
 			return this.appendTo || options.appendTo;
 		},
 	},
+	watch: {
+		closeOnOutsideClick(newValue) {
+			if (newValue) {
+				this.ownerDocument.addEventListener('click', this.onOutsideClick, true);
+			} else {
+				this.ownerDocument.removeEventListener('click', this.onOutsideClick, true);
+			}
+		},
+		hideAfter(newValue) {
+			if (newValue) {
+				this.onHideAfter();
+			}
+		},
+		show(newValue, oldValue) {
+			this.visible = !!newValue;
+		},
+		visible(newValue, oldvalue) {
+			if (!!newValue !== !!oldvalue) {
+				if (newValue) {
+					this.zIndex = getZindex();
+				} else if (this.zIndex) {
+					removeZindex();
+					this.zIndex = null;
+				}
+			}
+		},
+	},
 	methods: {
 		preventOutsideClickPropagation() {
 			preventOutsideClickPropagation = true;
 		},
 		onTransitionEnter() {
 			this.instantiatePopper();
-			this.$emit("show");
-			this.$emit("update:show", true);
+			this.$emit('show');
+			this.$emit('update:show', true);
 		},
 		onTransitionLeave() {
 			this.destroyPopper();
-			this.$emit("hide");
-			this.$emit("update:show", false);
+			this.$emit('hide');
+			this.$emit('update:show', false);
 		},
 		getAppendToElement() {
-			if (this.appendToOption === "element") {
+			if (this.appendToOption === 'element') {
 				return this.$el;
 			} else {
 				// Get content document
@@ -331,7 +308,7 @@ export default {
 			this.visible = false;
 		},
 		addPopperToDom() {
-			if (this.popperElement && this.appendToOption !== "element") {
+			if (this.popperElement && this.appendToOption !== 'element') {
 				// Append to
 				const appendElement = this.getAppendToElement();
 
@@ -344,7 +321,6 @@ export default {
 				}
 
 				appendElement.appendChild(this.popperElement);
-
 			}
 		},
 		destroyPopper(completeRemove) {
@@ -360,11 +336,7 @@ export default {
 
 			this.removePopperEvents();
 
-			if (
-				this.popperElement &&
-				this.popperElement.parentNode &&
-				this.appendToOption !== "element"
-			) {
+			if (this.popperElement && this.popperElement.parentNode && this.appendToOption !== 'element') {
 				// Append to
 				this.popperElement.parentNode.removeChild(this.popperElement);
 			}
@@ -376,8 +348,7 @@ export default {
 			this.popperElement = this.$refs.popper;
 			this.popperSelector = this.popperRef || this.root;
 
-			this.ownerDocument =
-				this.popperSelector.ownerDocument || this.root.ownerDocument;
+			this.ownerDocument = this.popperSelector.ownerDocument || this.root.ownerDocument;
 
 			// We cannot use teleport as we need to get the document from ref
 			this.addPopperToDom();
@@ -388,11 +359,7 @@ export default {
 			}
 
 			if (this.popperSelector) {
-				this.popperInstance = createPopper(
-					this.popperSelector,
-					this.popperElement,
-					this.popperOptions
-				);
+				this.popperInstance = createPopper(this.popperSelector, this.popperElement, this.popperOptions);
 			}
 
 			this.onHideAfter();
@@ -430,10 +397,7 @@ export default {
 		 * inside a label
 		 */
 		onClick: debounce(function (event) {
-			if (
-				this.popperElement &&
-				this.popperElement.contains(event.target)
-			) {
+			if (this.popperElement && this.popperElement.contains(event.target)) {
 				return;
 			}
 
@@ -448,23 +412,20 @@ export default {
 			// Prevent clicks on popper selector
 			if (
 				this.popperSelector &&
-				typeof this.popperSelector.contains === "function" &&
+				typeof this.popperSelector.contains === 'function' &&
 				this.popperSelector.contains(event.target)
 			) {
 				return;
 			}
 
-			if (
-				this.popperElement &&
-				this.popperElement.contains(event.target)
-			) {
+			if (this.popperElement && this.popperElement.contains(event.target)) {
 				return;
 			}
 
 			// Hide popper if clicked outside
 			this.hidePopper();
-			this.$emit("hide");
-			this.$emit("update:show", false);
+			this.$emit('hide');
+			this.$emit('update:show', false);
 			preventOutsideClickPropagation = false;
 		},
 		onKeyUp(event) {
@@ -480,76 +441,44 @@ export default {
 		},
 		addPopperEvents() {
 			if (this.closeOnOutsideClick) {
-				this.ownerDocument.addEventListener(
-					"click",
-					this.onOutsideClick,
-					true
-				);
+				this.ownerDocument.addEventListener('click', this.onOutsideClick, true);
 			}
 
-			if (
-				this.trigger === "hover" &&
-				this.enterable &&
-				this.popperElement
-			) {
-				this.popperElement.addEventListener(
-					"mouseenter",
-					this.onMouseEnter
-				);
-				this.popperElement.addEventListener(
-					"mouseleave",
-					this.onMouseLeave
-				);
+			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
+				this.popperElement.addEventListener('mouseenter', this.onMouseEnter);
+				this.popperElement.addEventListener('mouseleave', this.onMouseLeave);
 			}
 
 			// Attache close on escape
 			if (this.closeOnEscape) {
-				this.ownerDocument.addEventListener("keyup", this.onKeyUp);
+				this.ownerDocument.addEventListener('keyup', this.onKeyUp);
 			}
 		},
 		removePopperEvents() {
 			if (this.ownerDocument) {
-				this.ownerDocument.removeEventListener(
-					"click",
-					this.onOutsideClick,
-					true
-				);
+				this.ownerDocument.removeEventListener('click', this.onOutsideClick, true);
 			}
 
-			if (
-				this.trigger === "hover" &&
-				this.enterable &&
-				this.popperElement
-			) {
-				this.popperElement.removeEventListener(
-					"mouseenter",
-					this.onMouseEnter
-				);
-				this.popperElement.removeEventListener(
-					"mouseleave",
-					this.onMouseLeave
-				);
+			if (this.trigger === 'hover' && this.enterable && this.popperElement) {
+				this.popperElement.removeEventListener('mouseenter', this.onMouseEnter);
+				this.popperElement.removeEventListener('mouseleave', this.onMouseLeave);
 			}
 
 			// Attache close on escape
 			if (this.closeOnEscape && this.ownerDocument) {
-				this.ownerDocument.removeEventListener("keyup", this.onKeyUp);
+				this.ownerDocument.removeEventListener('keyup', this.onKeyUp);
 			}
 		},
 	},
 	unmounted() {
 		// Remove event listeners
-		this.$el.removeEventListener("mouseenter", this.onMouseEnter);
-		this.$el.removeEventListener("mouseleave", this.onMouseLeave);
-		this.$el.removeEventListener("click", this.onClick);
+		this.$el.removeEventListener('mouseenter', this.onMouseEnter);
+		this.$el.removeEventListener('mouseleave', this.onMouseLeave);
+		this.$el.removeEventListener('click', this.onClick);
 
 		if (this.ownerDocument) {
-			this.ownerDocument.removeEventListener(
-				"click",
-				this.onOutsideClick,
-				true
-			);
-			this.ownerDocument.removeEventListener("keyup", this.onKeyUp);
+			this.ownerDocument.removeEventListener('click', this.onOutsideClick, true);
+			this.ownerDocument.removeEventListener('keyup', this.onKeyUp);
 		}
 
 		// Destroy popper instance
@@ -561,11 +490,11 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.trigger === "hover") {
-			this.$el.addEventListener("mouseenter", this.onMouseEnter);
-			this.$el.addEventListener("mouseleave", this.onMouseLeave);
-		} else if (this.trigger === "click") {
-			this.$el.addEventListener("click", this.onClick);
+		if (this.trigger === 'hover') {
+			this.$el.addEventListener('mouseenter', this.onMouseEnter);
+			this.$el.addEventListener('mouseleave', this.onMouseLeave);
+		} else if (this.trigger === 'click') {
+			this.$el.addEventListener('click', this.onClick);
 		}
 
 		if (this.show) {
@@ -617,7 +546,7 @@ export default {
 		z-index: -1;
 
 		&:before {
-			content: "";
+			content: '';
 			top: 0;
 			left: 0;
 			z-index: -1;
@@ -629,37 +558,37 @@ export default {
 		}
 	}
 
-	&[data-popper-placement^="top"] {
+	&[data-popper-placement^='top'] {
 		margin-bottom: 5px;
 	}
 
-	&[data-popper-placement^="top"] &--with-arrows {
+	&[data-popper-placement^='top'] &--with-arrows {
 		bottom: -4px;
 	}
 
-	&[data-popper-placement^="bottom"] {
+	&[data-popper-placement^='bottom'] {
 		margin-top: 5px;
 	}
 
-	&[data-popper-placement^="bottom"] &--with-arrows {
+	&[data-popper-placement^='bottom'] &--with-arrows {
 		top: -4px;
 		left: 50%;
 	}
 
-	&[data-popper-placement^="left"] {
+	&[data-popper-placement^='left'] {
 		margin-right: 5px;
 	}
 
-	&[data-popper-placement^="left"] &--with-arrows {
+	&[data-popper-placement^='left'] &--with-arrows {
 		top: 50%;
 		right: -4px;
 		margin-top: -5px;
 	}
 
-	&[data-popper-placement^="right"] {
+	&[data-popper-placement^='right'] {
 		margin-left: 5px;
 	}
-	&[data-popper-placement^="right"] &--with-arrows {
+	&[data-popper-placement^='right'] &--with-arrows {
 		top: 50%;
 		left: -4px;
 		margin-top: -5px;

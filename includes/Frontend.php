@@ -22,7 +22,7 @@ class Frontend {
 	const CONTENT_FILTER_PRIORITY = 9;
 
 	/**
-	 * Holds a refference if this is excerpt or not
+	 * Holds a reference if this is excerpt or not
 	 *
 	 * @var boolean
 	 */

@@ -10,7 +10,7 @@ class CustomCSS {
 	private $css_selector = null;
 
 	/**
-	 * Holds a refference to the css styles for responsive devices
+	 * Holds a reference to the css styles for responsive devices
 	 *
 	 * @var array{default: array<mixed>, laptop: array<mixed>, tablet: array<mixed>, mobile: array<mixed>}
 	 */
@@ -29,7 +29,7 @@ class CustomCSS {
 	private static $responsive_devices_map = null;
 
 	/**
-	 * Holds a refference to the raw CSS
+	 * Holds a reference to the raw CSS
 	 *
 	 * @var string
 	 */

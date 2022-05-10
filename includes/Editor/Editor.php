@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Editor {
 	/**
-	 * Holds a refference to the current post id
+	 * Holds a reference to the current post id
 	 *
 	 * @var integer
 	 */
