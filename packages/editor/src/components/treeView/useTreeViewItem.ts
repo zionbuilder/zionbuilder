@@ -1,23 +1,23 @@
-import { useElementMenu, useEditElement, useElementTypes } from '@composables'
-import { ref, computed } from 'vue'
+import { useElementMenu, useEditElement, useElementTypes } from '@composables';
+import { ref, computed } from 'vue';
 
 export function useTreeViewItem(props: Object) {
 	const { element: activeEditElement } = useEditElement();
-	const elementOptionsRef = ref(null)
-	const isActiveItem = computed(() => activeEditElement.value === props.element)
+	const elementOptionsRef = ref(null);
+	const isActiveItem = computed(() => activeEditElement.value === props.element);
 
 	const { getElementType } = useElementTypes();
 
 	const elementModel = getElementType(props.element.element_type);
 
 	const showElementMenu = function () {
-		const { showElementMenu, activeElementMenu, hideElementMenu } = useElementMenu()
+		const { showElementMenu, activeElementMenu, hideElementMenu } = useElementMenu();
 		if (activeElementMenu.value && activeElementMenu.value.element === props.element) {
-			hideElementMenu()
+			hideElementMenu();
 		} else {
-			showElementMenu(props.element, elementOptionsRef.value)
+			showElementMenu(props.element, elementOptionsRef.value);
 		}
-	}
+	};
 
 	function editElement() {
 		const { editElement } = useEditElement();
@@ -31,6 +31,6 @@ export function useTreeViewItem(props: Object) {
 		isActiveItem,
 		elementModel,
 		showElementMenu,
-		editElement
-	}
+		editElement,
+	};
 }

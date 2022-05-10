@@ -1,87 +1,55 @@
 <template>
 	<li
+		:id="element.uid"
+		ref="listItem"
 		class="znpb-tree-view__item"
 		:class="{
 			'znpb-tree-view__item--hidden': !element.isVisible,
 			'znpb-tree-view__item--justAdded': justAdded,
 		}"
-		:id="element.uid"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
 		@click.stop.left="editElement"
 		@contextmenu.stop.prevent="showElementMenu"
-		ref="listItem"
 	>
-		<div
-			class="znpb-tree-view__item-header"
-			:class="{'znpb-panel-item--active': isActiveItem}"
-		>
+		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
 			<Icon
+				v-if="element.isWrapper"
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
-					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded
+					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded,
 				}"
 				@click.stop="element.treeViewItemExpanded = !element.treeViewItemExpanded"
-				v-if="element.isWrapper"
 			/>
 
-			<UIElementIcon
-				:element="elementModel"
-				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
-				:size="24"
-			/>
+			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
 
-			<InlineEdit
-				v-model="elementName"
-				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename"
-			/>
+			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
 			<Icon
+				v-if="!element.isVisible"
+				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.toggleVisibility()"
-				v-if="!element.isVisible"
-				v-znpb-tooltip="$translate('enable_hidden_element')"
 			/>
 
-			<div
-				class="znpb-element-options__container"
-				@click.stop="showElementMenu"
-				ref="elementOptionsRef"
-			>
-				<Icon
-					class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer"
-					icon="more"
-				/>
+			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
+				<Icon class="znpb-element-options__dropdown-icon znpb-utility__cursor--pointer" icon="more" />
 			</div>
 
-			<AddElementIcon
-				:element="element"
-				class="znpb-tree-view__itemAddButton"
-				position="centered-bottom"
-			/>
+			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList
-			v-if="element.treeViewItemExpanded"
-			:element="element"
-		/>
+		<TreeViewList v-if="element.treeViewItemExpanded" :element="element" />
 	</li>
 </template>
 
 <script lang="ts">
-import {
-	ref,
-	Ref,
-	PropType,
-	defineComponent,
-	watch,
-	onMounted,
-	computed,
-} from "vue";
-import { Element, usePreviewLoading } from "@composables";
-import { useTreeViewItem } from "../useTreeViewItem";
+import { ref, Ref, PropType, defineComponent, watch, onMounted, computed } from 'vue';
+import { Element, usePreviewLoading } from '@composables';
+import { useTreeViewItem } from '../useTreeViewItem';
 
 export default defineComponent({
 	props: {
@@ -90,21 +58,15 @@ export default defineComponent({
 	setup(props) {
 		const listItem: Ref = ref(null);
 
-		const {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-			editElement,
-			elementModel,
-		} = useTreeViewItem(props);
+		const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
 
 		watch(
 			() => isActiveItem.value,
-			(newValue) => {
+			newValue => {
 				if (newValue) {
 					scrollToItem();
 				}
-			}
+			},
 		);
 
 		const elementName = computed({
@@ -119,12 +81,10 @@ export default defineComponent({
 		const { contentTimestamp } = usePreviewLoading();
 
 		const justAdded = ref(
-			props.element.addedTime > contentTimestamp.value
-				? Date.now() - props.element.addedTime < 1000
-				: null
+			props.element.addedTime > contentTimestamp.value ? Date.now() - props.element.addedTime < 1000 : null,
 		);
 
-		if (justAdded) {
+		if (justAdded.value) {
 			setTimeout(() => {
 				justAdded.value = false;
 			}, 1000);
@@ -133,9 +93,9 @@ export default defineComponent({
 		function scrollToItem() {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
-					behavior: "smooth",
-					inline: "center",
-					block: "center",
+					behavior: 'smooth',
+					inline: 'center',
+					block: 'center',
 				});
 			}
 		}
