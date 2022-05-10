@@ -136,7 +136,7 @@ function closeColorPicker() {
 }
 
 function closePanelOnOutsideClick(event: MouseEvent) {
-	if (popper.value?.$el.contains(event.target) || colorpickerHolder.value?.$el.contains(event.target)) {
+	if (popper.value?.$el.contains(event.target) || colorpickerHolder.value?.$refs.colorPicker.contains(event.target)) {
 		return;
 	}
 
