@@ -151,13 +151,11 @@ export function useElementActions() {
 			{
 				element_type: 'container',
 			},
-			parent,
+			parent.uid,
 		);
 
 		newElement.addChild(element);
 		parent.replaceChild(element, newElement);
-
-		console.log(element.parent);
 	}
 
 	return {
