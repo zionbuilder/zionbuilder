@@ -1,36 +1,32 @@
 <template>
-	<div
-		v-if="active"
-		class="znpb-tab__wrapper"
-	>
-		<!-- @slot Content that will be added inside button -->
-		<slot></slot>
+	<div v-show="isActive" class="znpb-tab__wrapper">
+		<slot name="title" />
+
+		<slot />
 	</div>
 </template>
 
-<script>
-import { inject, computed } from 'vue'
-
+<script lang="ts">
 export default {
 	name: 'Tab',
-	props: {
-		/**
-		 * Tab Name
-		 */
-		name: {
-			required: true,
-			type: String
-		},
-		/**
-		 * Tab id
-		 */
-		id: {
-			required: false,
-			default: null
-		},
-		active: {
-			type: Boolean
-		}
-	}
-}
+};
+</script>
+
+<script lang="ts" setup>
+import { inject, ref, watchEffect } from 'vue';
+
+const props = defineProps<{
+	name: string;
+	icon?: string;
+	id?: string;
+	active?: boolean;
+}>();
+
+const isActive = ref(false);
+
+const activeTab: any = inject('TabsProvider');
+
+watchEffect(() => {
+	isActive.value = activeTab.value === (props.id ?? props.name.toLowerCase().replace(/ /g, '-'));
+});
 </script>

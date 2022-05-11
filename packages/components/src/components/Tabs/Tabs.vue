@@ -1,171 +1,68 @@
-<script>
-import { computed, h, ref, watch, cloneVNode, Fragment, Comment } from 'vue'
+<template>
+	<div class="znpb-tabs" :class="{ [`znpb-tabs--${tabStyle}`]: tabStyle }">
+		<div class="znpb-tabs__header" :class="{ [`znpb-tabs__header--${titlePosition}`]: titlePosition }">
+			<div
+				v-for="(tab, index) in tabs"
+				:key="index"
+				class="znpb-tabs__header-item"
+				:class="{ 'znpb-tabs__header-item--active': getIdForTab(tab) === activeTab }"
+				@click="selectTab(tab)"
+			>
+				{{ tab.props!.name }}
+			</div>
+		</div>
+		<div class="znpb-tabs__content" :class="{ 'znpb-fancy-scrollbar': hasScroll }">
+			<slot />
+		</div>
+	</div>
+</template>
 
+<script lang="ts">
 export default {
 	name: 'Tabs',
-	provide () {
-		return {
-			Tabs: this
-		}
+};
+</script>
+
+<script lang="ts" setup>
+import { provide, useSlots, ref, type VNode } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		tabStyle?: 'minimal' | 'card' | 'group';
+		titlePosition?: 'start' | 'center' | 'end';
+		activeTab?: string;
+		hasScroll?: any[];
+	}>(),
+	{
+		tabStyle: 'card',
+		titlePosition: 'start',
 	},
-	props: {
-		/**
-		 * Card style. Can be one of minimal, card, group
-		 */
-		tabStyle: {
-			type: String,
-			required: false,
-			default: 'card'
-		},
-		/**
-		 * Title Position. Can be one of start, center, end
-		 */
-		titlePosition: {
-			type: String,
-			required: false,
-			default: 'left'
-		},
-		activeTab: {
-			type: String
-		},
-		hasScroll: {
-			type: Array,
-			default () { return [] }
-		}
-	},
-	setup (props, { emit, slots }) {
-		const localActiveTab = ref(props.activeTab)
-		const computedActiveTab = computed({
-			get: () => {
-				return localActiveTab.value
-			},
-			set: (newValue) => {
-				emit('update:activeTab', newValue)
+);
 
-			}
-		})
+function getIdForTab(tab: VNode) {
+	const props = tab.props;
+	return props?.id ?? props!.name.toLowerCase().replace(/ /g, '-');
+}
 
-		watch(() => props.activeTab, (newValue) => {
-			localActiveTab.value = newValue
-		})
+const tabs = ref();
+const activeTab = ref(props.activeTab);
 
-		// Computed
-		const cssClasses = computed(() => {
-			return {
-				'znpb-tabs': true,
-				[`znpb-tabs--${props.tabStyle}`]: props.tabStyle
-			}
-		})
-		const navigationClasses = computed(() => {
-			return {
-				'znpb-tabs__header': true,
-				[`znpb-tabs__header--${props.titlePosition}`]: true
-			}
-		})
+const emit = defineEmits(['update:activeTab', 'changed-tab']);
 
-		/**
-		 * Activates a tab based on tabId
-		 */
-		function selectTab (tabId) {
-			if (tabId === computedActiveTab.value) {
-				return
-			}
+provide('TabsProvider', activeTab);
 
-			computedActiveTab.value = tabId
-			emit('changed-tab', tabId)
-			localActiveTab.value = tabId
-		}
+const slots = useSlots();
 
-		function getIdForTab (vnode) {
-			const props = vnode.props
-			return props && props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-')
-		}
+if (slots.default) {
+	tabs.value = slots.default().filter(child => child.type.name === 'Tab');
+	activeTab.value = activeTab.value ?? getIdForTab(tabs.value[0]);
+}
 
-		function generateTitleVNode ({ props, children }) {
-			const title = children.title ? children.title() : props.name
-
-			return h(
-				'div',
-				{
-					title: props['tooltip-title'],
-					class: {
-						'znpb-tabs__header-item--active': props.active,
-						[`znpb-tabs__header-item--${props.name.toLowerCase()}`]: props.name,
-						'znpb-tabs__header-item': true
-					},
-					onClick: function () {
-						selectTab(props.id)
-					}
-				},
-				[title]
-			)
-		}
-
-		function extractChilds (slotContent) {
-			const items = []
-			if (Array.isArray(slotContent)) {
-				slotContent.forEach(vNode => {
-					if (vNode.type === Fragment) {
-						const fragmentItems = extractChilds(vNode.children)
-						items.push(...fragmentItems)
-					} else {
-						if (vNode.type !== Comment) {
-							items.push(vNode)
-						}
-					}
-				})
-			}
-
-			return items
-		}
-
-		return () => {
-			const childContent = slots.default()
-
-			const childItems = extractChilds(childContent).map((vNode, i) => {
-				const tabId = getIdForTab(vNode)
-
-				if (!computedActiveTab.value && i === 0) {
-					localActiveTab.value = tabId
-				}
-
-				return cloneVNode(vNode, {
-					id: tabId,
-					active: computedActiveTab.value === tabId
-				})
-			})
-
-			const headerItems = childItems.map(vNode => {
-				return generateTitleVNode(vNode)
-			})
-
-			const header = h(
-				'div',
-				{
-					class: navigationClasses.value
-				},
-				headerItems
-			)
-
-			const content = h(
-				'div', {
-				class: {
-					'znpb-tabs__content': true,
-					['znpb-fancy-scrollbar']: props.hasScroll.includes(computedActiveTab.value)
-				}
-			},
-				[childItems]
-			)
-
-			return h(
-				'div',
-				{
-					class: cssClasses.value
-				},
-				[header, content]
-			)
-		}
-	}
+function selectTab(tab: VNode) {
+	const tabId = getIdForTab(tab);
+	activeTab.value = tabId;
+	emit('changed-tab', tabId);
+	emit('update:activeTab', tabId);
 }
 </script>
 

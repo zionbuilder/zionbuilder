@@ -10,4 +10,10 @@ interface translateString {
 
 interface Window {
 	wp: any;
+	tinyMCEPreInit: any;
+	tinyMCE: any;
+	quicktags: any;
+	switchEditors: any;
+	ZnPbInitalData: any;
+	ZnPbComponentsData: Record<string, any>;
 }
