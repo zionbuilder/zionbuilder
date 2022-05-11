@@ -23,13 +23,14 @@ import { ref } from 'vue';
 
 import { translate } from '@zb/i18n';
 
-interface IProps {
-	discardChangesTitle?: string;
-}
-
-withDefaults(defineProps<IProps>(), {
-	discardChangesTitle: (() => translate('discard_changes')) as unknown as string,
-});
+withDefaults(
+	defineProps<{
+		discardChangesTitle?: string;
+	}>(),
+	{
+		discardChangesTitle: (() => translate('discard_changes')) as unknown as string,
+	},
+);
 
 defineEmits(['remove-styles']);
 

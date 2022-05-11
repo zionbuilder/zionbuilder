@@ -75,44 +75,46 @@ export default {
 import { ref, computed, CSSProperties } from 'vue';
 import { Icon } from '../Icon';
 
-interface IProps {
-	/**
-	 * v-model/modelValue for the input
-	 */
-	modelValue?: string | number;
+const props = withDefaults(
+	defineProps<{
+		/**
+		 * v-model/modelValue for the input
+		 */
+		modelValue?: string | number;
 
-	/**
-	 * If true, will mark the field as red
-	 */
-	error?: boolean;
-	/**
-	 * HTML input type (email, password, etc)
-	 */
-	type?: string;
-	/**
-	 * Icon that appears at the end of the input
-	 */
-	icon?: string;
-	/**
-	 * whether to show clear button
-	 */
-	clearable?: boolean;
-	/**
-	 * Input size. Can be one of "narrow", "big"
-	 */
-	size?: string;
+		/**
+		 * If true, will mark the field as red
+		 */
+		error?: boolean;
+		/**
+		 * HTML input type (email, password, etc)
+		 */
+		type?: string;
+		/**
+		 * Icon that appears at the end of the input
+		 */
+		icon?: string;
+		/**
+		 * whether to show clear button
+		 */
+		clearable?: boolean;
+		/**
+		 * Input size. Can be one of "narrow", "big"
+		 */
+		size?: string;
 
-	fontFamily?: string;
+		fontFamily?: string;
 
-	class?: CSSProperties;
-}
-const props = withDefaults(defineProps<IProps>(), {
-	modelValue: '',
-	error: false,
-	name: 'BaseInput',
-	type: 'text',
-	clearable: false,
-});
+		class?: CSSProperties;
+	}>(),
+	{
+		modelValue: '',
+		error: false,
+		name: 'BaseInput',
+		type: 'text',
+		clearable: false,
+	},
+);
 
 defineEmits<{
 	(e: 'update:modelValue', value: string | number): void;

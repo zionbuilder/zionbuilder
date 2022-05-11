@@ -12,11 +12,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-interface IProps {
+defineProps<{
 	type?: string;
-}
-
-defineProps<IProps>();
+}>();
 </script>
 
 <style lang="scss">

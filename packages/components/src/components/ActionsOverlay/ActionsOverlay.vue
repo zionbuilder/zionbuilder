@@ -17,12 +17,14 @@ export default {
 </script>
 
 <script lang="ts" setup>
-interface IProps {
-	showOverlay?: boolean;
-}
-withDefaults(defineProps<IProps>(), {
-	showOverlay: true,
-});
+withDefaults(
+	defineProps<{
+		showOverlay?: boolean;
+	}>(),
+	{
+		showOverlay: true,
+	},
+);
 </script>
 
 <style lang="scss">

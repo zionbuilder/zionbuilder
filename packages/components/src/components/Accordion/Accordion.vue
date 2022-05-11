@@ -22,21 +22,22 @@ export default {
 import { ref } from 'vue';
 import Icon from '../Icon/Icon.vue';
 
-interface IProps {
-	/**
-	 * If the accordion should be open or closed by default
-	 */
-	collapsed?: boolean;
+const props = withDefaults(
+	defineProps<{
+		/**
+		 * If the accordion should be open or closed by default
+		 */
+		collapsed?: boolean;
 
-	/**
-	 * Text that will be displayed inside the accordion header
-	 */
-	header?: string;
-}
-
-const props = withDefaults(defineProps<IProps>(), {
-	collapsed: false,
-});
+		/**
+		 * Text that will be displayed inside the accordion header
+		 */
+		header?: string;
+	}>(),
+	{
+		collapsed: false,
+	},
+);
 
 const localCollapsed = ref(props.collapsed);
 </script>
