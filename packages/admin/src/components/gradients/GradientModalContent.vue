@@ -9,11 +9,10 @@
 		<div class="znpb-admin__gradient-modal-wrapper znpb-fancy-scrollbar">
 			<GradientGenerator
 				v-model="gradientValue"
-				@updated-gradient="$emit('updated-gradient', $event)"
 				:save-to-library="false"
+				@updated-gradient="$emit('updated-gradient', $event)"
 			/>
 		</div>
-
 	</Modal>
 </template>
 
@@ -23,49 +22,51 @@ export default {
 	props: {
 		show: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		gradient: {
 			type: Array,
-			required: false
-		}
+			required: false,
+		},
 	},
-	data () {
+	data() {
 		return {
-			gradientConfig: this.config
-		}
+			gradientConfig: this.config,
+		};
 	},
 	computed: {
 		showModal: {
-			get () {
-				return this.show
+			get() {
+				return this.show;
 			},
-			set (newValue) {
-				this.$emit('update:show', newValue)
-			}
+			set(newValue) {
+				this.$emit('update:show', newValue);
+			},
 		},
 		gradientValue: {
-			get () {
-				return this.gradient
+			get() {
+				return this.gradient;
 			},
-			set (newValue) {
-				this.$emit('update-gradient', newValue)
-			}
-		}
+			set(newValue) {
+				this.$emit('update-gradient', newValue);
+			},
+		},
 	},
 	methods: {
-		onModalClose () {
-			this.$emit('save-gradient', this.gradientConfig)
-		}
-	}
-}
+		onModalClose() {
+			this.$emit('save-gradient', this.gradientConfig);
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-admin__gradient-modal-wrapper {
 	overflow: auto;
 	min-width: 360px;
+	padding: 20px;
+
 	.znpb-toggle-switch {
-		input[type="radio"]:checked:before {
+		input[type='radio']:checked:before {
 			display: none;
 		}
 	}
