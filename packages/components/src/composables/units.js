@@ -11,5 +11,5 @@ export const units = [
 	'right',
 	'top',
 	'bottom',
-	'center'
-]
+	'center',
+];

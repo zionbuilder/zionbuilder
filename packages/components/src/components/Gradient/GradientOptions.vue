@@ -120,8 +120,6 @@ function onTabChange(tabId: string) {
 	}
 }
 .znpb-gradient-options-wrapper {
-	padding: 20px 20px 0 20px;
-
 	.znpb-forms-input-wrapper {
 		padding-right: 0;
 		padding-left: 0;

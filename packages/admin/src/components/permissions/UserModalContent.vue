@@ -1,24 +1,14 @@
 <template>
-
 	<div class="znpb-single-role-modal-wrapper znpb-fancy-scrollbar">
 		<div class="znpb-permission-wrapper">
-
-			<Tooltip
-				:content="$translate('check_access_to_editor')"
-				class="znpb-single-role-modal-title-wrapper"
-			>
+			<Tooltip :content="$translate('check_access_to_editor')" class="znpb-single-role-modal-title-wrapper">
 				<h4 class="znpb-single-role-modal-title">
-					{{$translate('access_to_editor')}}
+					{{ $translate('access_to_editor') }}
 				</h4>
 			</Tooltip>
 			<div class="znpb-checkbox-list znpb-checkbox-list--vertical">
-				<InputCheckbox
-					:option-value="allowConfig"
-					v-model="allowConfig"
-					:label="$translate('access_to_all_editor')"
-				/>
+				<InputCheckbox v-model="allowConfig" :option-value="allowConfig" :label="$translate('access_to_all_editor')" />
 			</div>
-
 		</div>
 
 		<UpgradeToPro
@@ -28,132 +18,130 @@
 		/>
 		<template v-else>
 			<div class="znpb-content-permission-wrapper">
-				<h4 class="znpb-single-role-modal-title">{{$translate('content')}}</h4>
+				<h4 class="znpb-single-role-modal-title">{{ $translate('content') }}</h4>
 				<InputCheckbox
 					v-model="contentConfig"
 					:option-value="contentConfig"
 					:label="$translate('edit_only_content')"
-					:disabled="allowConfig===false"
+					:disabled="allowConfig === false"
 				/>
 			</div>
 			<div class="znpb-content-permission-wrapper">
-				<h4 class="znpb-single-role-modal-title">{{$translate('post_types')}}</h4>
+				<h4 class="znpb-single-role-modal-title">{{ $translate('post_types') }}</h4>
 				<InputCheckboxGroup
-					:options="dataSets.post_types"
 					v-model="postModel"
+					:options="dataSets.post_types"
 					:min="0"
-					:disabled="allowConfig===false"
+					:disabled="allowConfig === false"
 				/>
 			</div>
 			<div class="znpb-content-permission-wrapper">
-				<h4 class="znpb-single-role-modal-title">{{$translate('features')}}</h4>
+				<h4 class="znpb-single-role-modal-title">{{ $translate('features') }}</h4>
 				<InputCheckboxGroup
-					:options="featuresConfig"
 					v-model="featureModel"
+					:options="featuresConfig"
 					:min="0"
-					:disabled="allowConfig===false"
+					:disabled="allowConfig === false"
 				/>
 			</div>
 		</template>
-
 	</div>
 </template>
 
 <script>
-import { useDataSets } from '@zb/components'
+import { useDataSets } from '@zb/components';
 
 export default {
 	name: 'UserModalContent',
-	setup () {
-		const { dataSets } = useDataSets()
-
-		return {
-			dataSets
-		}
-	},
 	props: {
-
 		permissions: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
+	},
+	setup() {
+		const { dataSets } = useDataSets();
+
+		return {
+			dataSets,
+		};
 	},
 	computed: {
-		isPro () {
-			return window.ZnPbAdminPageData.is_pro_active
+		isPro() {
+			return window.ZnPbAdminPageData.is_pro_active;
 		},
 		allowConfig: {
-			get () {
-				return this.permissions.allowed_access
+			get() {
+				return this.permissions.allowed_access;
 			},
-			set (newValue) {
+			set(newValue) {
 				const updatedValue = {
 					...this.permissions,
-					allowed_access: newValue
-				}
-				this.$emit('edit-role', updatedValue)
-			}
+					allowed_access: newValue,
+				};
+				this.$emit('edit-role', updatedValue);
+			},
 		},
-		featuresConfig () {
+		featuresConfig() {
 			let result = [
 				{
 					id: 'header_builder',
-					name: 'Header builder'
+					name: 'Header builder',
 				},
 				{
 					id: 'footer_builder',
-					name: 'Footer builder'
-				}
-			]
-			return result
+					name: 'Footer builder',
+				},
+			];
+			return result;
 		},
 		contentConfig: {
-			get () {
-				return this.permissions.permissions.only_content
+			get() {
+				return this.permissions.permissions.only_content;
 			},
-			set (newValue) {
+			set(newValue) {
 				const updatedValue = {
 					...this.permissions,
 					permissions: {
 						...this.permissions.permissions,
-						only_content: newValue
-					}
-				}
-				this.$emit('edit-role', updatedValue)
-			}
+						only_content: newValue,
+					},
+				};
+				this.$emit('edit-role', updatedValue);
+			},
 		},
 		featureModel: {
-			get () {
-				return this.permissions.permissions.features
+			get() {
+				return this.permissions.permissions.features;
 			},
-			set (newValue) {
+			set(newValue) {
 				const updatedValue = {
 					...this.permissions,
 					permissions: {
 						...this.permissions.permissions,
-						features: newValue
-					}
-				}
-				this.$emit('edit-role', updatedValue)
-			}
+						features: newValue,
+					},
+				};
+				this.$emit('edit-role', updatedValue);
+			},
 		},
 		postModel: {
-			get () {
-				return this.permissions.permissions.post_types
+			get() {
+				return this.permissions.permissions.post_types;
 			},
-			set (newValue) {
+			set(newValue) {
 				const updatedValue = {
 					...this.permissions,
 					permissions: {
 						...this.permissions.permissions,
-						post_types: newValue
-					}
-				}
-				this.$emit('edit-role', updatedValue)
-			}
-		}
-	}
-}
+						post_types: newValue,
+					},
+				};
+				this.$emit('edit-role', updatedValue);
+			},
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-single-role-modal-wrapper {

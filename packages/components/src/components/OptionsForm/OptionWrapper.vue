@@ -1,31 +1,27 @@
 <template>
 	<component
-		v-if="isValidInput && ( schema.barebone || optionTypeConfig.config && optionTypeConfig.config.barebone )"
 		:is="optionTypeConfig.component"
+		v-if="isValidInput && (schema.barebone || (optionTypeConfig.config && optionTypeConfig.config.barebone))"
 		v-model="optionValue"
 		v-bind="compiledSchema"
 		:title="schema.title"
 		@discard-changes="onDeleteOption"
 	>
 		<template v-if="schema.content">
-			{{schema.content}}
+			{{ schema.content }}
 		</template>
 	</component>
 	<div
+		v-else-if="isValidInput"
 		class="znpb-input-wrapper"
 		:class="{
 			[`znpb-input-type--${schema.type}`]: true,
 			[`${schema.css_class}`]: schema.css_class,
-			[`znpb-forms-input-wrapper--${schema.layout}`]: schema.layout
+			[`znpb-forms-input-wrapper--${schema.layout}`]: schema.layout,
 		}"
 		:style="computedWrapperStyle"
-		v-else-if="isValidInput"
 	>
-
-		<div
-			class="znpb-form__input-title"
-			v-if="schema.title && computedShowTitle"
-		>
+		<div v-if="schema.title && computedShowTitle" class="znpb-form__input-title">
 			<span v-html="schema.title"></span>
 
 			<ChangesBullet
@@ -35,9 +31,9 @@
 			/>
 
 			<Icon
-				icon="question-mark"
 				v-if="schema.description"
 				v-znpb-tooltip="schema.description"
+				icon="question-mark"
 				class="znpb-popper-trigger znpb-popper-trigger--circle"
 			/>
 
@@ -51,13 +47,12 @@
 				@show="openPseudo"
 				@hide="closePseudo"
 			>
-
 				<template #content>
 					<div
 						v-for="(pseudo_selector, index) in schema.pseudo_options"
-						:key='index'
-						@click="activatePseudo(pseudo_selector)"
+						:key="index"
 						class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons"
+						@click="activatePseudo(pseudo_selector)"
 					>
 						<Icon :icon="getPseudoIcon(pseudo_selector)" />
 					</div>
@@ -65,7 +60,7 @@
 
 				<div
 					class="znpb-has-pseudo-options__icon-button znpb-options-devices-buttons znpb-has-responsive-options__icon-button--trigger"
-					@click="showPseudo=!showPseudo"
+					@click="showPseudo = !showPseudo"
 				>
 					<Icon :icon="getPseudoIcon(activePseudo)" />
 				</div>
@@ -81,39 +76,28 @@
 				tooltip-class="znpb-has-responsive-options"
 				:close-on-outside-click="true"
 				@show="openResponsive"
-				@hide="closeresponsive"
+				@hide="closeResponsive"
 			>
 				<template #content>
 					<div
 						v-for="(device, index) in builtInResponsiveDevices"
-						:key='index'
-						@click="activateDevice(device)"
-						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+						:key="index"
 						ref="dropdown"
+						class="znpb-options-devices-buttons znpb-has-responsive-options__icon-button"
+						@click="activateDevice(device)"
 					>
 						<Icon :icon="device.icon" />
 					</div>
 				</template>
-				<div
-					class="znpb-has-responsive-options__icon-button--trigger"
-					@click="showDevices=!showDevices"
-				>
+				<div class="znpb-has-responsive-options__icon-button--trigger" @click="showDevices = !showDevices">
 					<Icon :icon="activeResponsiveDeviceInfo.icon" />
 				</div>
-
 			</Tooltip>
 
-			<Injection
-				location="input_wrapper/end"
-				class="znpb-options-injection--after-title"
-			/>
-
+			<Injection location="input_wrapper/end" class="znpb-options-injection--after-title" />
 		</div>
 		<div class="znpb-input-content">
-			<Icon
-				v-if="schema.itemIcon"
-				:icon="schema.itemIcon"
-			/>
+			<Icon v-if="schema.itemIcon" :icon="schema.itemIcon" />
 			<InputLabel
 				v-if="schema.label || schema['label-icon']"
 				:label="schema.label"
@@ -122,482 +106,393 @@
 				:title="schema['label-title']"
 				:icon="schema['label-icon']"
 			>
-				<component
-					:is="optionTypeConfig.component"
-					v-model="optionValue"
-					v-bind="compiledSchema"
-				>
+				<component :is="optionTypeConfig.component" v-model="optionValue" v-bind="compiledSchema">
 					<template v-if="schema.content">
-						{{schema.content}}
+						{{ schema.content }}
 					</template>
 				</component>
 			</InputLabel>
-			<component
-				v-else
-				:is="optionTypeConfig.component"
-				v-model="optionValue"
-				v-bind="compiledSchema"
-			>
+			<component :is="optionTypeConfig.component" v-else v-model="optionValue" v-bind="compiledSchema">
 				<template v-if="schema.content">
-					{{schema.content}}
+					{{ schema.content }}
 				</template>
 			</component>
 		</div>
 	</div>
 </template>
-<script>
-import { provide, inject, readonly, toRef, watch, watchEffect, ref, computed, markRaw } from "vue"
-import { trigger } from "@zb/hooks"
-import {
-	useOptions,
-	useOptionsSchemas,
-	useResponsiveDevices,
-} from "@composables"
+<script lang="ts" setup>
+import { provide, inject, readonly, toRef, watchEffect, ref, computed, markRaw } from 'vue';
+import { trigger } from '@zb/hooks';
+import { useOptions, useOptionsSchemas, useResponsiveDevices } from '@composables';
 
 // Components
-import { Tooltip } from "@zionbuilder/tooltip"
-import { ChangesBullet } from "../ChangesBullet"
-import { InputLabel } from "../InputLabel"
-import { Injection } from "../Injection"
-import { get } from 'lodash-es'
-export default {
-	name: "OptionWrapper",
-	provide () {
-		return {
-			inputWrapper: this,
+import { Tooltip } from '@zionbuilder/tooltip';
+import { ChangesBullet } from '../ChangesBullet';
+import { InputLabel } from '../InputLabel';
+import { Injection } from '../Injection';
+import { get } from 'lodash-es';
+
+interface Props {
+	modelValue: unknown;
+	schema: Record<string, unknown>;
+	optionId: string;
+	// eslint-disable-next-line vue/prop-name-casing
+	search_tags?: string[];
+	label?: string;
+	getSchemaFromPath: Function;
+	compilePlaceholder: Function;
+	width?: string;
+	allModelValue?: Record<string, unknown>;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	search_tags: () => [],
+	label: undefined,
+	width: undefined,
+	allModelValue: () => {
+		return {};
+	},
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const { getOption } = useOptions();
+
+// Injections
+const {
+	deleteValueByPath,
+	getTopModelValueByPath,
+	updateTopModelValueByPath,
+	deleteTopModelValueByPath,
+	deleteValues,
+	modelValue,
+} = inject('OptionsForm');
+const showChanges = inject('showChanges');
+
+const { getSchema } = useOptionsSchemas();
+const { activeResponsiveDeviceInfo, builtInResponsiveDevices, setActiveResponsiveDeviceId } = useResponsiveDevices();
+const activePseudo = ref(null);
+const showDevices = ref(false);
+const showPseudo = ref(false);
+const panel = inject('panel', null);
+const optionTypeConfig = ref(null);
+
+const localSchema = toRef(props, 'schema');
+provide('schema', readonly(localSchema.value));
+
+// Computed
+const computedWrapperStyle = computed(() => {
+	const styles = {};
+
+	if (props.schema.grow) {
+		styles.flex = props.schema.grow;
+	}
+
+	if (props.schema.width) {
+		styles.width = `${props.schema.width}%`;
+	}
+
+	return styles;
+});
+
+const computedShowTitle = computed(() => {
+	if (typeof props.schema.show_title !== 'undefined') {
+		return props.schema.show_title;
+	}
+
+	return true;
+});
+
+const activeResponsiveMedia = computed(() => {
+	return activeResponsiveDeviceInfo.value.id;
+});
+
+const compiledSchema = computed(() => {
+	// Remove unnecessary data from schema so we don't overpopulate DOM with unnecessary attributes
+	const {
+		description,
+		type,
+		is_layout: isLayout,
+		title,
+		search_tags: searchTags,
+		id,
+		css_class: cssClass,
+		...schema
+	} = props.schema;
+
+	return {
+		...(optionTypeConfig.value.componentProps || {}),
+		...schema,
+		hasChanges: !!hasChanges.value,
+	};
+});
+
+const savedOptionValue = computed(() => {
+	return props.schema.sync ? getTopModelValueByPath(props.compilePlaceholder(props.schema.sync)) : props.modelValue;
+});
+
+const hasChanges = computed(() => {
+	if (props.schema.is_layout) {
+		const childOptionsIds = getChildOptionsIds(props.schema);
+
+		return childOptionsIds.find(optionId => {
+			let hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`);
+			return (savedOptionValue.value && savedOptionValue.value[optionId]) || hasDynamicValue !== undefined;
+		});
+	} else {
+		return typeof savedOptionValue.value !== 'undefined' && savedOptionValue.value !== null;
+	}
+});
+
+const optionValue = computed({
+	get() {
+		let value = typeof savedOptionValue.value !== 'undefined' ? savedOptionValue.value : props.schema.default;
+
+		// Check to see if we need to save for responsive
+		if (props.schema.responsive_options === true) {
+			let schemaDefault = props.schema.default;
+			if (typeof props.schema.default === 'object') {
+				schemaDefault = (props.schema.default || {})[activeResponsiveMedia.value];
+			}
+
+			// Check to see if the option is saved as string
+			if (value && typeof value !== 'object') {
+				value = {
+					default: value,
+				};
+			}
+
+			value =
+				typeof (value || {})[activeResponsiveMedia.value] !== 'undefined'
+					? (value || {})[activeResponsiveMedia.value]
+					: schemaDefault;
 		}
+
+		// check to see if this has pseudo selectors
+		if (Array.isArray(props.schema.pseudo_options)) {
+			const activePseudoValue = activePseudo.value || props.schema.pseudo_options[0];
+			value = typeof (value || {})[activePseudoValue] !== 'undefined' ? (value || {})[activePseudoValue] : undefined;
+		}
+
+		return value;
 	},
-	inject: {
-		showChanges: {
-			default: true,
-		},
-		optionsForm: {
-			default: null,
-		},
-	},
-	components: {
-		ChangesBullet,
-		InputLabel,
-		Injection,
-		Tooltip
-	},
-	props: {
-		modelValue: {},
-		schema: {
-			type: Object,
-			required: true,
-		},
-		optionId: {
-			type: String,
-			required: true,
-		},
-		search_tags: {
-			type: Array,
-		},
-		label: {},
-		getSchemaFromPath: {
-			type: Function,
-		},
-		compilePlaceholder: {
-			type: Function,
-		},
-		width: {
-			type: Number,
-			required: false,
-		},
-		allModelValue: {},
-	},
-	setup (props, { emit }) {
-		const { getOption } = useOptions();
-		const {
-			getValueByPath,
-			updateValueByPath,
-			deleteValueByPath,
-			getTopModelValueByPath,
-			updateTopModelValueByPath,
-			deleteTopModelValueByPath,
-			deleteValues,
-			modelValue
-		} = inject('OptionsForm')
-		const { getSchema } = useOptionsSchemas()
-		const {
-			activeResponsiveDeviceInfo,
-			builtInResponsiveDevices,
-			setActiveResponsiveDeviceId,
-		} = useResponsiveDevices();
-		const activePseudo = ref(null)
-		const showDevices = ref(false)
-		const showPseudo = ref(false)
-		const panel = inject('panel', null)
-		const optionTypeConfig = ref(null)
+	set(newValue) {
+		let valueToUpdate = newValue;
+		let newValues = newValue;
 
-		const localSchema = toRef(props, "schema")
-		provide("schema", readonly(localSchema.value))
+		// check to see if this has pseudo selectors
+		if (Array.isArray(props.schema.pseudo_options)) {
+			const activePseudo = activePseudo.value || props.schema.pseudo_options[0];
+			let oldValues = props.modelValue;
 
-		// Computed
-		const computedWrapperStyle = computed(() => {
-			const styles = {}
-
-			if (props.schema.grow) {
-				styles.flex = props.schema.grow
-			}
-
-			if (props.schema.width) {
-				styles.width = `${props.schema.width}%`
-			}
-
-			return styles
-		})
-
-		const computedShowTitle = computed(() => {
-			if (typeof props.schema.show_title !== "undefined") {
-				return props.schema.show_title;
-			}
-
-			return true;
-		})
-
-		const labelAlignment = computed(() => {
-			return props.schema["label-align"] || null
-		})
-
-		const activeResponsiveMedia = computed(() => {
-			return activeResponsiveDeviceInfo.value.id
-		})
-
-		const compiledSchema = computed(() => {
-			// Remove unnecesarry data from schema so we don't overpopulate DOM with unnecessary attributes
-			const {
-				description,
-				type,
-				is_layout: isLayout,
-				title,
-				search_tags: searchTags,
-				id,
-				css_class: cssClass,
-				...schema
-			} = props.schema
-
-			return {
-				...(optionTypeConfig.value.componentProps || {}),
-				...schema,
-				hasChanges: !!hasChanges.value
-			}
-		})
-
-		const savedOptionValue = computed(() => {
-			return props.schema.sync ? getTopModelValueByPath(props.compilePlaceholder(props.schema.sync)) : props.modelValue;
-		})
-
-		const hasChanges = computed(() => {
-			if (props.schema.is_layout) {
-				const childOptionsIds = getChildOptionsIds(props.schema);
-
-				return childOptionsIds.find((optionId) => {
-					let hasDynamicValue = get(props.modelValue, `__dynamic_content__[${optionId}]`)
-					return savedOptionValue.value && savedOptionValue.value[optionId] || hasDynamicValue !== undefined
-				})
+			// Check to see if this also a responsive option
+			if (props.schema.responsive_options === true) {
+				oldValues =
+					typeof (props.modelValue || {})[activeResponsiveMedia.value] !== 'undefined'
+						? (props.modelValue || {})[activeResponsiveMedia.value]
+						: undefined;
+				newValues = {
+					...oldValues,
+					[activePseudo]: newValue,
+				};
 			} else {
-				return typeof savedOptionValue.value !== 'undefined' && savedOptionValue.value !== null
+				valueToUpdate = {
+					...props.modelValue,
+					[activePseudo]: newValues,
+				};
 			}
-		})
-
-		const optionValue = computed({
-			get () {
-				let value = typeof savedOptionValue.value !== "undefined" ? savedOptionValue.value : props.schema.default
-
-				// Check to see if we need to save for responsive
-				if (props.schema.responsive_options === true) {
-					let schemaDefault = props.schema.default
-					if (typeof props.schema.default === "object") {
-						schemaDefault = (props.schema.default || {})[activeResponsiveMedia.value]
-					}
-
-					// Check to see if the option is saved as string
-					if (value && typeof value !== 'object') {
-						value = {
-							default: value
-						}
-					}
-
-					value = typeof (value || {})[activeResponsiveMedia.value] !== "undefined" ? (value || {})[activeResponsiveMedia.value] : schemaDefault;
-				}
-
-				// check to see if this has pseudo selectors
-				if (Array.isArray(props.schema.pseudo_options)) {
-					const activePseudoValue = activePseudo.value || props.schema.pseudo_options[0]
-					value = typeof (value || {})[activePseudoValue] !== "undefined" ? (value || {})[activePseudoValue] : undefined;
-				}
-
-				return value;
-			},
-			set (newValue) {
-				let valueToUpdate = newValue
-				let newValues = newValue
-
-
-				// check to see if this has pseudo selectors
-				if (Array.isArray(props.schema.pseudo_options)) {
-					const activePseudo = activePseudo.value || props.schema.pseudo_options[0]
-					let oldValues = props.modelValue
-
-					// Check to see if this also a responsive option
-					if (props.schema.responsive_options === true) {
-						oldValues = typeof (props.modelValue || {})[activeResponsiveMedia.value] !== "undefined" ? (props.modelValue || {})[activeResponsiveMedia.value] : undefined;
-						newValues = {
-							...oldValues,
-							[activePseudo]: newValue,
-						}
-					} else {
-						valueToUpdate = {
-							...props.modelValue,
-							[activePseudo]: newValues,
-						}
-					}
-
-				}
-
-				// Check to see if we need to save for responsive
-				if (props.schema.responsive_options === true) {
-					valueToUpdate = {
-						...props.modelValue,
-						[activeResponsiveMedia.value]: newValues,
-					}
-				}
-
-				// Check if the option is synced
-				if (props.schema.sync) {
-					// Compile sync value as it may contain placeholders
-					const syncValuePath = props.compilePlaceholder(props.schema.sync)
-
-					// Check to see if we need to delete the option
-					if (valueToUpdate === null) {
-						deleteTopModelValueByPath(syncValuePath)
-					} else {
-						updateTopModelValueByPath(syncValuePath, valueToUpdate)
-					}
-
-					if (panel) {
-						panel.addToLocalHistory()
-					}
-				} else {
-					if (valueToUpdate === null) {
-						onDeleteOption()
-					} else {
-						const optionId = props.schema.is_layout ? false : props.optionId
-						emit("update:modelValue", [optionId, valueToUpdate])
-					}
-				}
-
-				// Check to see if we need to refresh the iframe
-				if (props.schema.on_change) {
-
-					if (props.schema.on_change === "refresh_iframe") {
-						trigger("refreshIframe");
-					} else {
-						window[props.schema.on_change].apply(null, [newValue])
-					}
-				}
-			},
-		})
-
-		const isValidInput = computed(() => {
-			return optionTypeConfig.value;
-		})
-
-		watchEffect(() => {
-			optionTypeConfig.value = markRaw(getOption(
-				props.schema,
-				optionValue.value,
-				modelValue.value
-			))
-		})
-
-
-		// Methods
-		function openResponsive () {
-			showDevices.value = true
 		}
 
-		function closeresponsive () {
-			showDevices.value = false
+		// Check to see if we need to save for responsive
+		if (props.schema.responsive_options === true) {
+			valueToUpdate = {
+				...props.modelValue,
+				[activeResponsiveMedia.value]: newValues,
+			};
 		}
 
-		function closePseudo () {
-			showPseudo.value = false
-		}
+		// Check if the option is synced
+		if (props.schema.sync) {
+			// Compile sync value as it may contain placeholders
+			const syncValuePath = props.compilePlaceholder(props.schema.sync);
 
-		function openPseudo () {
-			showPseudo.value = true
-		}
-
-		function activateDevice (device) {
-			setActiveResponsiveDeviceId(device.id);
-			setTimeout(() => {
-				showDevices.value = false
-			}, 50);
-		}
-
-		function activatePseudo (selector) {
-			activePseudo.value = selector
-
-			setTimeout(() => {
-				showPseudo.value = false
-			}, 50)
-		}
-
-		function getPseudoIcon (pseudo) {
-			return pseudo === "hover" ? "hover-state" : "default-state"
-		}
-
-		/**
-		 * On delete option
-		 *
-		 * Delete the value
-		 */
-		function onDeleteOption (optionId) {
-			if (props.schema.sync) {
-				let fullOptionIds = [];
-				const childOptionsIds = getChildOptionsIds(props.schema, false);
-				const compiledSync = props.compilePlaceholder(props.schema.sync);
-
-				// Check if this has child options that needs to be deleted
-				if (childOptionsIds.length > 0) {
-					childOptionsIds.forEach((id) => {
-						fullOptionIds.push(`${compiledSync}.${id}`);
-					});
-				} else {
-					fullOptionIds.push(compiledSync);
-				}
-
-				deleteValues(fullOptionIds);
-				deleteTopModelValueByPath(compiledSync);
+			// Check to see if we need to delete the option
+			if (valueToUpdate === null) {
+				deleteTopModelValueByPath(syncValuePath);
 			} else {
-				if (props.schema.is_layout) {
-					const childOptionsIds = getChildOptionsIds(props.schema)
-					deleteValues(childOptionsIds)
-				} else {
-					optionId = optionId || props.optionId
+				updateTopModelValueByPath(syncValuePath, valueToUpdate);
+			}
 
-					deleteValueByPath(optionId)
-				}
+			if (panel) {
+				panel.addToLocalHistory();
+			}
+		} else {
+			if (valueToUpdate === null) {
+				onDeleteOption();
+			} else {
+				const optionId = props.schema.is_layout ? false : props.optionId;
+				emit('update:modelValue', [optionId, valueToUpdate]);
 			}
 		}
 
-		function getChildOptionsIds (schema, includeSchemaId = true) {
-			let ids = []
-
-			// Special options
-			if (schema.type === "background") {
-				const backgroundSchema = getSchema("backgroundImageSchema");
-				Object.keys(backgroundSchema).forEach((optionId) => {
-					const childIds = getChildOptionsIds(backgroundSchema[optionId])
-
-					if (childIds) {
-						ids = [
-							...ids,
-							...childIds,
-							"background-color",
-							"background-gradient",
-							"background-video",
-							"background-image",
-						]
-					}
-				})
-			} else if (
-				schema.type === "dimensions" &&
-				typeof schema.dimensions === "object"
-			) {
-				schema.dimensions.forEach((item) => {
-					ids.push(item.id);
-				});
-			} else if (
-				schema.type === "spacing"
-			) {
-				const spacingPositions = [
-					'margin-top',
-					'margin-right',
-					'margin-bottom',
-					'margin-left',
-					'padding-top',
-					'padding-right',
-					'padding-bottom',
-					'padding-left',
-				]
-
-				ids.push(...spacingPositions)
-			} else if (schema.type === "typography") {
-				const typographySchema = getSchema("typography")
-				Object.keys(typographySchema).forEach((optionId) => {
-					const childIds = getChildOptionsIds(
-						typographySchema[optionId]
-					);
-
-					if (childIds) {
-						ids = [...ids, ...childIds];
-					}
-				})
-			} else if (schema.type === "responsive_group") {
-				ids.push(activeResponsiveMedia.value)
-			} else if (schema.type === "pseudo_group") {
-				ids.push(activePseudo.value)
+		// Check to see if we need to refresh the iframe
+		if (props.schema.on_change) {
+			if (props.schema.on_change === 'refresh_iframe') {
+				trigger('refreshIframe');
+			} else {
+				window[props.schema.on_change].apply(null, [newValue]);
 			}
+		}
+	},
+});
 
-			if (schema.is_layout && schema.child_options) {
-				Object.keys(schema.child_options).forEach((optionId) => {
-					const childIds = getChildOptionsIds(schema.child_options[optionId])
+const isValidInput = computed(() => {
+	return optionTypeConfig.value;
+});
 
-					if (childIds) {
-						ids = [...ids, ...childIds]
-					}
-				})
-			} else if (includeSchemaId) {
-				ids.push(schema.id)
-			}
+watchEffect(() => {
+	optionTypeConfig.value = markRaw(getOption(props.schema, optionValue.value, modelValue.value));
+});
 
-			return ids;
+// Methods
+function openResponsive() {
+	showDevices.value = true;
+}
+
+function closeResponsive() {
+	showDevices.value = false;
+}
+
+function closePseudo() {
+	showPseudo.value = false;
+}
+
+function openPseudo() {
+	showPseudo.value = true;
+}
+
+function activateDevice(device) {
+	setActiveResponsiveDeviceId(device.id);
+	setTimeout(() => {
+		showDevices.value = false;
+	}, 50);
+}
+
+function activatePseudo(selector) {
+	activePseudo.value = selector;
+
+	setTimeout(() => {
+		showPseudo.value = false;
+	}, 50);
+}
+
+function getPseudoIcon(pseudo) {
+	return pseudo === 'hover' ? 'hover-state' : 'default-state';
+}
+
+/**
+ * On delete option
+ *
+ * Delete the value
+ */
+function onDeleteOption(optionId) {
+	if (props.schema.sync) {
+		let fullOptionIds = [];
+		const childOptionsIds = getChildOptionsIds(props.schema, false);
+		const compiledSync = props.compilePlaceholder(props.schema.sync);
+
+		// Check if this has child options that needs to be deleted
+		if (childOptionsIds.length > 0) {
+			childOptionsIds.forEach(id => {
+				fullOptionIds.push(`${compiledSync}.${id}`);
+			});
+		} else {
+			fullOptionIds.push(compiledSync);
 		}
 
-		return {
-			// Refs
-			activePseudo,
-			showDevices,
-			showPseudo,
-			// Computed
-			computedWrapperStyle,
-			computedShowTitle,
-			labelAlignment,
-			activeResponsiveMedia,
-			compiledSchema,
-			savedOptionValue,
-			hasChanges,
-			isValidInput,
-			optionTypeConfig,
-			optionValue,
-			// Methods
-			openResponsive,
-			closeresponsive,
-			closePseudo,
-			openPseudo,
-			activateDevice,
-			activatePseudo,
-			getPseudoIcon,
-			getChildOptionsIds,
-			onDeleteOption,
+		deleteValues(fullOptionIds);
+		deleteTopModelValueByPath(compiledSync);
+	} else {
+		if (props.schema.is_layout) {
+			const childOptionsIds = getChildOptionsIds(props.schema);
+			deleteValues(childOptionsIds);
+		} else {
+			optionId = optionId || props.optionId;
 
-			// old
-			getValueByPath,
-			updateValueByPath,
-			deleteValueByPath,
-			getTopModelValueByPath,
-			updateTopModelValueByPath,
-			deleteTopModelValueByPath,
-			getSchema,
-			activeResponsiveDeviceInfo,
-			builtInResponsiveDevices,
-			setActiveResponsiveDeviceId
+			deleteValueByPath(optionId);
 		}
 	}
+}
+
+function getChildOptionsIds(schema, includeSchemaId = true) {
+	let ids = [];
+
+	// Special options
+	if (schema.type === 'background') {
+		const backgroundSchema = getSchema('backgroundImageSchema');
+		Object.keys(backgroundSchema).forEach(optionId => {
+			const childIds = getChildOptionsIds(backgroundSchema[optionId]);
+
+			if (childIds) {
+				ids = [...ids, ...childIds, 'background-color', 'background-gradient', 'background-video', 'background-image'];
+			}
+		});
+	} else if (schema.type === 'dimensions' && typeof schema.dimensions === 'object') {
+		schema.dimensions.forEach(item => {
+			ids.push(item.id);
+		});
+	} else if (schema.type === 'spacing') {
+		const spacingPositions = [
+			'margin-top',
+			'margin-right',
+			'margin-bottom',
+			'margin-left',
+			'padding-top',
+			'padding-right',
+			'padding-bottom',
+			'padding-left',
+		];
+
+		ids.push(...spacingPositions);
+	} else if (schema.type === 'typography') {
+		const typographySchema = getSchema('typography');
+		Object.keys(typographySchema).forEach(optionId => {
+			const childIds = getChildOptionsIds(typographySchema[optionId]);
+
+			if (childIds) {
+				ids = [...ids, ...childIds];
+			}
+		});
+	} else if (schema.type === 'responsive_group') {
+		ids.push(activeResponsiveMedia.value);
+	} else if (schema.type === 'pseudo_group') {
+		ids.push(activePseudo.value);
+	}
+
+	if (schema.is_layout && schema.child_options) {
+		Object.keys(schema.child_options).forEach(optionId => {
+			const childIds = getChildOptionsIds(schema.child_options[optionId]);
+
+			if (childIds) {
+				ids = [...ids, ...childIds];
+			}
+		});
+	} else if (includeSchemaId) {
+		ids.push(schema.id);
+	}
+
+	return ids;
+}
+</script>
+
+<script lang="ts">
+export default {
+	name: 'OptionWrapper',
+	provide() {
+		return {
+			inputWrapper: this,
+		};
+	},
 };
 </script>
 <style lang="scss">

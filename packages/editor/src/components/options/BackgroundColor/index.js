@@ -1,10 +1,8 @@
-import BackgroundColor from './BackgroundColor.vue'
+import BackgroundColor from './BackgroundColor.vue';
 
 export default {
 	id: 'background_color',
-	component: BackgroundColor
-}
+	component: BackgroundColor,
+};
 
-export {
-	BackgroundColor
-}
+export { BackgroundColor };

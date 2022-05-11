@@ -1,5 +1,5 @@
 // Utils
-import { applyFilters } from '@zb/hooks'
+import { applyFilters } from '@zb/hooks';
 
 // Forms component
 import {
@@ -29,154 +29,152 @@ import {
 	InputBorderTabs,
 	InputBackgroundVideo,
 	InputSpacing,
-	InputRepeater
-} from '../components'
+	InputRepeater,
+} from '../components';
 
 const options = {
 	text: {
 		id: '',
 		component: BaseInput,
 		dynamic: {
-			type: 'TEXT'
-		}
+			type: 'TEXT',
+		},
 	},
 	icon_library: {
 		id: 'icon_library',
 		component: InputIcon,
 		config: {
 			// Can be one of the following
-			barebone: true
-		}
+			barebone: true,
+		},
 	},
 	textarea: {
 		id: 'textarea',
 		component: BaseInput,
 		componentProps: {
-			type: 'textarea'
+			type: 'textarea',
 		},
 		dynamic: {
-			type: 'TEXT'
-		}
+			type: 'TEXT',
+		},
 	},
 	password: {
 		id: 'password',
 		componentProps: {
-			type: 'password'
+			type: 'password',
 		},
-		component: BaseInput
+		component: BaseInput,
 	},
 	select: {
 		id: 'select',
-		component: InputSelect
+		component: InputSelect,
 	},
 	slider: {
 		id: 'slider',
-		component: InputRange
+		component: InputRange,
 	},
 	dynamic_slider: {
 		id: 'dynamic_slider',
-		component: InputRangeDynamic
+		component: InputRangeDynamic,
 	},
 	editor: {
 		id: 'editor',
 		component: InputEditor,
 		dynamic: {
-			type: 'TEXT'
-		}
+			type: 'TEXT',
+		},
 	},
 	media: {
 		id: 'media',
-		component: InputMedia
+		component: InputMedia,
 	},
 	file: {
 		id: 'file',
-		component: InputFile
+		component: InputFile,
 	},
 	image: {
 		id: 'image',
-		component: InputImage
+		component: InputImage,
 	},
 	number: {
 		id: 'number',
-		component: InputNumber
+		component: InputNumber,
 	},
 	number_unit: {
 		id: 'number_unit',
-		component: InputNumberUnit
+		component: InputNumberUnit,
 	},
 	code: {
 		id: 'code',
-		component: InputCode
+		component: InputCode,
 	},
 	custom_selector: {
 		id: 'custom_selector',
-		component: InputCustomSelector
+		component: InputCustomSelector,
 	},
 	colorpicker: {
 		id: 'colorpicker',
 		component: InputColorPicker,
 		dynamic: {
 			type: 'TYPE_HIDDEN',
-			custom_dynamic: true
-		}
+			custom_dynamic: true,
+		},
 	},
 	checkbox: {
 		id: 'checkbox',
-		component: InputCheckbox
+		component: InputCheckbox,
 	},
 	radio_image: {
 		id: 'radio_image',
-		component: InputRadioImage
+		component: InputRadioImage,
 	},
 	checkbox_group: {
 		id: 'checkbox_group',
-		component: InputCheckboxGroup
+		component: InputCheckboxGroup,
 	},
 	checkbox_switch: {
 		id: 'checkbox_switch',
-		component: InputCheckboxSwitch
+		component: InputCheckboxSwitch,
 	},
 	text_align: {
 		id: 'text_align',
-		component: InputTextAlign
+		component: InputTextAlign,
 	},
 	borders: {
 		id: 'borders',
-		component: InputBorderTabs
+		component: InputBorderTabs,
 	},
 	shadow: {
 		id: 'shadow',
-		component: InputTextShadow
+		component: InputTextShadow,
 	},
 	video: {
 		id: 'video',
-		component: InputBackgroundVideo
+		component: InputBackgroundVideo,
 	},
 	date_input: {
 		id: 'date_input',
-		component: InputDatePicker
+		component: InputDatePicker,
 	},
 	shape_dividers: {
 		id: 'shape_dividers',
-		component: InputShapeDividers
+		component: InputShapeDividers,
 	},
 	shape_component: {
 		id: 'shape_component',
-		component: ShapeDividerComponent
+		component: ShapeDividerComponent,
 	},
 	spacing: {
 		id: 'spacing',
-		component: InputSpacing
+		component: InputSpacing,
 	},
 	repeater: {
 		id: 'repeater',
-		component: InputRepeater
-	}
-
-}
+		component: InputRepeater,
+	},
+};
 
 export const useOptions = () => {
-
 	/**
 	 * Get Option Component
 	 *
@@ -185,17 +183,17 @@ export const useOptions = () => {
 	 * @param {Object} schema The option schema
 	 */
 	const getOption = (schema, model = null, formModel = {}) => {
-		let optionConfig = options[schema.type]
-		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel)
+		let optionConfig = options[schema.type];
+		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel);
 
 		if (!optionConfig) {
 			// eslint-disable-next-line
 			console.warn(`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`)
-			return {}
+			return {};
 		}
 
-		return optionConfig
-	}
+		return optionConfig;
+	};
 
 	/**
 	 * Get Option Component
@@ -205,9 +203,9 @@ export const useOptions = () => {
 	 * @param {String} optionId The option type id for which we need to return the component
 	 */
 	const getOptionComponent = (schema, model = null, formModel = {}) => {
-		const optionConfig = getOption(schema.type)
-		return applyFilters('zionbuilder/getOption', optionConfig.component, schema, model, formModel)
-	}
+		const optionConfig = getOption(schema.type);
+		return applyFilters('zionbuilder/getOption', optionConfig.component, schema, model, formModel);
+	};
 
 	/**
 	 * Register Option
@@ -216,7 +214,7 @@ export const useOptions = () => {
 	 *
 	 * @param {Object} optionConfig Object config
 	 */
-	const registerOption = (optionConfig) => {
+	const registerOption = optionConfig => {
 		// Check if the config contains the option type id
 		if (!optionConfig.hasOwnProperty('id')) {
 			// eslint-disable-next-line
@@ -229,12 +227,12 @@ export const useOptions = () => {
 			console.warn('You need to specify the option type id.', optionConfig)
 		}
 
-		options[optionConfig.id] = optionConfig
-	}
+		options[optionConfig.id] = optionConfig;
+	};
 
 	return {
 		registerOption,
 		getOptionComponent,
-		getOption
-	}
-}
+		getOption,
+	};
+};

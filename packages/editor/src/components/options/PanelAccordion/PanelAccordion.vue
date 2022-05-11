@@ -1,11 +1,8 @@
 <template>
 	<div class="znpb-pannel-accordion">
-		<div
-			class="znpb-pannel-accordion__header"
-			@click="toggle"
-		>
+		<div class="znpb-pannel-accordion__header" @click="toggle">
 			<div class="znpb-pannel-accordion__header-title">
-				{{title}}
+				{{ title }}
 				<ChangesBullet
 					v-if="hasChanges"
 					:content="$translate('discard_changes')"
@@ -13,17 +10,14 @@
 				/>
 			</div>
 
-			<Icon
-				class="znpb-option-group-selector__clone-icon"
-				:icon=" this.expanded ? 'minus' : 'plus'"
-			></Icon>
+			<Icon class="znpb-option-group-selector__clone-icon" :icon="expanded ? 'minus' : 'plus'"></Icon>
 		</div>
 		<OptionsForm
 			v-if="child_options && expanded"
-			class="znpb-option__type-option-accordion"
 			ref="accordionOption"
-			:schema="child_options"
 			v-model="valueModel"
+			class="znpb-option__type-option-accordion"
+			:schema="child_options"
 		/>
 	</div>
 </template>
@@ -35,43 +29,43 @@ export default {
 		modelValue: {},
 		child_options: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		title: {
-			type: String
+			type: String,
 		},
 		collapsed: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		hasChanges: {
 			type: Boolean,
 			default: false,
-			required: false
-		}
+			required: false,
+		},
 	},
-	data () {
+	data() {
 		return {
 			expanded: !this.collapsed,
-			height: null
-		}
+			height: null,
+		};
 	},
 	computed: {
 		valueModel: {
-			get () {
-				return this.modelValue || {}
+			get() {
+				return this.modelValue || {};
 			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+			set(newValue) {
+				this.$emit('update:modelValue', newValue);
+			},
+		},
 	},
 	methods: {
-		toggle () {
-			this.expanded = !this.expanded
-		}
-	}
-}
+		toggle() {
+			this.expanded = !this.expanded;
+		},
+	},
+};
 </script>
 
 <style lang="scss">
@@ -100,7 +94,7 @@ export default {
 
 .znpb-options-form-wrapper.znpb-option__type-option-accordion {
 	padding: 10px 0 0;
-	transition: all .3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 	.znpb-input-type--dimensions {
 		padding-bottom: 10px;
 	}

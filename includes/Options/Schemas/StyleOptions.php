@@ -64,8 +64,6 @@ class StyleOptions extends BaseSchema {
 			'typography',
 			[
 				'type'        => 'typography',
-				'title'       => esc_html__( 'Element font', 'zionbuilder' ),
-				'description' => esc_html__( 'Select the desired font to use for this element.', 'zionbuilder' ),
 				'search_tags' => [
 					'typography',
 					'text',

@@ -1,16 +1,15 @@
 <template>
-	<Tabs
-		tab-style="group"
-		class="znpb-background-option-tabs"
-		title-position="center"
-	>
-		<Tab
-			name="background-color"
-			tooltip-title="Background color"
-		>
-			<template v-slot:title>
+	<Tabs tab-style="group" class="znpb-background-option-tabs" title-position="center">
+		<Tab name="background-color" tooltip-title="Background color">
+			<template #title>
 				<Icon icon="drop" />
 			</template>
+			<!-- <InputBackgroundColor
+				:modelValue="valueModel['background-color']"
+				:delete-value="onDeleteOption"
+				@update:modelValue="onOptionUpdate('background-color', $event)"
+			/> -->
+
 			<OptionWrapper
 				:schema="bgColorSchema"
 				:option-id="bgColorSchema.id"
@@ -18,13 +17,9 @@
 				:delete-value="onDeleteOption"
 				@update:modelValue="onOptionUpdate(...$event)"
 			/>
-
 		</Tab>
-		<Tab
-			name="background-gradient"
-			tooltip-title="Background gradient"
-		>
-			<template v-slot:title>
+		<Tab name="background-gradient" tooltip-title="Background gradient">
+			<template #title>
 				<Icon icon="gradient" />
 			</template>
 			<OptionWrapper
@@ -35,11 +30,8 @@
 				@update:modelValue="onOptionUpdate(...$event)"
 			/>
 		</Tab>
-		<Tab
-			name="background-image"
-			tooltip-title="Background image"
-		>
-			<template v-slot:title>
+		<Tab name="background-image" tooltip-title="Background image">
+			<template #title>
 				<Icon icon="picture" />
 			</template>
 			<InputBackgroundImage
@@ -48,12 +40,8 @@
 				@update:modelValue="onOptionUpdate(false, $event)"
 			/>
 		</Tab>
-		<Tab
-			name="background-video"
-			v-if="canShowBackground"
-			tooltip-title="Background video"
-		>
-			<template v-slot:title>
+		<Tab v-if="canShowBackground" name="background-video" tooltip-title="Background video">
+			<template #title>
 				<Icon icon="video" />
 			</template>
 			<InputBackgroundVideo
@@ -66,89 +54,98 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useResponsiveDevices, usePseudoSelectors } from '@zb/components'
+import { computed } from 'vue';
+import { useResponsiveDevices, usePseudoSelectors } from '@zb/components';
+
+// Components
+import { BackgroundColor as InputBackgroundColor } from '../BackgroundColor';
 
 export default {
 	name: 'Background',
+	components: {
+		InputBackgroundColor,
+	},
 	inject: {
 		panel: {
-			default: null
-		}
+			default: null,
+		},
 	},
 	props: {
-		modelValue: {}
+		modelValue: {},
 	},
-	setup (props, { emit }) {
-		const { activeResponsiveDeviceInfo } = useResponsiveDevices()
-		const { activePseudoSelector } = usePseudoSelectors()
+	setup(props, { emit }) {
+		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
+		const { activePseudoSelector } = usePseudoSelectors();
 
 		const valueModel = computed({
-			get () {
-				return props.modelValue || {}
+			get() {
+				return props.modelValue || {};
 			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
+			set(newValue) {
+				emit('update:modelValue', newValue);
+			},
+		});
 
-		const canShowBackground = computed(() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default')
+		const canShowBackground = computed(
+			() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default',
+		);
 
 		return {
 			activeResponsiveDeviceInfo,
 			activePseudoSelector,
 			valueModel,
-			canShowBackground
-		}
+			canShowBackground,
+		};
 	},
 
-	data () {
+	data() {
 		return {
 			bgColorSchema: {
 				id: 'background-color',
-				type: 'background_color'
+				type: 'background_color',
 			},
 			bgGradientSchema: {
 				id: 'background-gradient',
-				type: 'background_gradient'
-			}
-		}
+				type: 'background_gradient',
+			},
+		};
 	},
 	methods: {
-		onDeleteOption (optionId) {
+		onDeleteOption(optionId) {
 			const newValues = {
-				...this.modelValue
-			}
+				...this.modelValue,
+			};
 
-			delete newValues[optionId]
-			this.valueModel = newValues
+			delete newValues[optionId];
+			this.valueModel = newValues;
 		},
-		onOptionUpdate (optionId, newValue) {
-			const clonedValue = { ...this.modelValue }
+		onOptionUpdate(optionId, newValue) {
+			const clonedValue = { ...this.modelValue };
 			if (optionId) {
 				if (newValue === null) {
 					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[optionId]
+					delete clonedValue[optionId];
 				} else {
-					clonedValue[optionId] = newValue
+					clonedValue[optionId] = newValue;
 				}
 
-				this.valueModel = clonedValue
+				this.valueModel = clonedValue;
 			} else {
 				if (newValue === null) {
-					this.$emit('update:modelValue', null)
+					this.$emit('update:modelValue', null);
 				} else {
-					this.valueModel = newValue
+					this.valueModel = newValue;
 				}
 			}
-		}
-	}
-}
+		},
+	},
+};
 </script>
 
 <style lang="scss">
 .znpb-background-option-tabs {
-	width: 100%;
+	margin-left: 5px;
+	margin-right: 5px;
 
 	.znpb-tabs__header {
 		&-item {
@@ -173,5 +170,15 @@ export default {
 			padding: 0;
 		}
 	}
+
+	.znpb-input-type--background_gradient,
+	.znpb-input-type--background_color {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.znpb-input-type--background {
+	padding: 0;
 }
 </style>

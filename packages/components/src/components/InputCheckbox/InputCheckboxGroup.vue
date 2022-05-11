@@ -96,6 +96,7 @@ const hasSlots = computed(() => {
 .znpb-checkbox-list {
 	overflow: hidden;
 	border-radius: 3px;
+
 	&--vertical .znpb-checkbox-wrapper {
 		margin-bottom: 16px;
 
@@ -105,6 +106,7 @@ const hasSlots = computed(() => {
 	}
 	&--horizontal {
 		display: flex;
+		justify-content: space-between;
 	}
 
 	// Styles
