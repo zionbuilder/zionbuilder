@@ -1,10 +1,12 @@
-const registeredLocations: { [key: string]: [] } = {};
+import { Component } from 'vue';
+
+const registeredLocations: { [key: string]: Component[] } = {};
 
 export const useInjections = () => {
 	/**
 	 * Register a component for a location
 	 */
-	const registerComponent = (location: string, component: any, priority = 10) => {
+	const registerComponent = (location: string, component: Component) => {
 		if (!location && !component) {
 			// eslint-disable-next-line
 			console.warn('You need to specify a location and a component in order to register an injection component.', {

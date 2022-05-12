@@ -1,89 +1,94 @@
-import { ref, Ref, computed, readonly, watch } from 'vue'
-import { generateUID } from '@zb/utils'
-import { orderBy } from 'lodash-es'
-
+import { ref, computed, readonly } from 'vue';
+import { generateUID } from '@zb/utils';
+import { orderBy } from 'lodash-es';
 
 interface DeviceMap {
-	[key: string]: number | null;
+	[key: string]: number | undefined;
 }
 
 interface ResponsiveDevice {
 	name?: string;
 	id: string;
-	width?: number,
-	height?: number,
-	icon: string,
-	isCustom?: boolean,
-	isDefault?: boolean,
-	builtIn?: boolean
+	width?: number;
+	height?: number;
+	icon: string;
+	isCustom?: boolean;
+	isDefault?: boolean;
+	builtIn?: boolean;
 }
 
 const deviceSizesConfig = [
 	{
 		width: 992,
-		icon: 'laptop'
+		icon: 'laptop',
 	},
 	{
 		width: 768,
-		icon: 'tablet'
+		icon: 'tablet',
 	},
 	{
 		width: 575,
-		icon: 'mobile'
-	}
-]
+		icon: 'mobile',
+	},
+];
 
-const activeResponsiveDeviceId = ref('default')
-const responsiveDevices: Ref<Array<ResponsiveDevice>> = ref(window.ZnPbComponentsData.breakpoints)
+const activeResponsiveDeviceId = ref('default');
+const responsiveDevices = ref<ResponsiveDevice[]>(window.ZnPbComponentsData.breakpoints);
 
-const activeResponsiveOptions: Ref<{} | null> = ref(null)
-const iframeWidth: Ref<number | null> = ref(0)
-const autoScaleActive = ref(true)
-const scaleValue = ref(100)
-const ignoreWidthChangeFlag = ref(false)
+const activeResponsiveOptions = ref<Record<string, unknown> | null>(null);
+const iframeWidth = ref<number | null>(0);
+const autoScaleActive = ref(true);
+const scaleValue = ref(100);
+const ignoreWidthChangeFlag = ref(false);
 
 const orderedResponsiveDevices = computed(() => {
-	return orderBy(responsiveDevices.value, ['width'], ['desc'])
-})
+	return orderBy(responsiveDevices.value, ['width'], ['desc']);
+});
 
 const responsiveDevicesAsIdWidth = computed(() => {
-	let devices: DeviceMap = {}
+	const devices: DeviceMap = {};
 	orderedResponsiveDevices.value.forEach(deviceConfig => {
-		devices[deviceConfig.id] = deviceConfig.width
-	})
+		devices[deviceConfig.id] = deviceConfig.width;
+	});
 
-	return devices
-})
+	return devices;
+});
 
-const activeResponsiveDeviceInfo = computed(() => responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0])
-const builtInResponsiveDevices = computed(() => responsiveDevices.value.filter(deviceConfig => deviceConfig.builtIn === true))
+const activeResponsiveDeviceInfo = computed(
+	() =>
+		responsiveDevices.value.find(device => device.id === activeResponsiveDeviceId.value) || responsiveDevices.value[0],
+);
+
+const builtInResponsiveDevices = computed(() =>
+	responsiveDevices.value.filter(deviceConfig => deviceConfig.builtIn === true),
+);
 
 const mobileFirstResponsiveDevices = computed(() => {
-	let newDevices: DeviceMap = {}
-	let lastDeviceWidth: number = 0;
+	const newDevices: DeviceMap = {};
+	let lastDeviceWidth = 0;
 
 	// Sort the devices from lower to higher
 	const sortedDevices = Object.entries(responsiveDevicesAsIdWidth.value)
-		.sort((a, b) => a[1] > b[1] ? 1 : -1)
+		.sort((a, b) => (a[1] > b[1] ? 1 : -1))
 		.reduce((acc, pair) => {
-			acc[pair[0]] = pair[1]
-			return acc
-		}, {})
+			acc[pair[0]] = pair[1];
+			return acc;
+		}, {});
 
 	for (const [deviceId, deviceWidth] of Object.entries(sortedDevices)) {
 		if (deviceId === 'mobile') {
-			newDevices[deviceId] = 0
+			newDevices[deviceId] = 0;
 		} else {
-			newDevices[deviceId] = lastDeviceWidth + 1
+			newDevices[deviceId] = lastDeviceWidth + 1;
 		}
 
 		if (deviceWidth) {
-			lastDeviceWidth = deviceWidth
+			lastDeviceWidth = deviceWidth;
 		}
 	}
 
-	return newDevices
-})
+	return newDevices;
+});
 
 export const useResponsiveDevices = () => {
 	/**
@@ -93,7 +98,7 @@ export const useResponsiveDevices = () => {
 	 * @param device string The device id to set as default
 	 */
 	function setActiveResponsiveDeviceId(device: string) {
-		activeResponsiveDeviceId.value = device
+		activeResponsiveDeviceId.value = device;
 	}
 
 	/**
@@ -102,79 +107,81 @@ export const useResponsiveDevices = () => {
 	 * @param {boolean} scaleEnabled  If the scaling is enabled or not
 	 */
 	function setAutoScale(scaleEnabled: boolean) {
-		autoScaleActive.value = scaleEnabled
+		autoScaleActive.value = scaleEnabled;
 
 		if (scaleEnabled) {
-			scaleValue.value = 100
+			scaleValue.value = 100;
 		}
 	}
 
 	/**
 	 * Set a custom scaling value
 	 *
-	 * @param {number} newValue The custom scaling factor
+	 * @param newValue The custom scaling factor
 	 */
 	function setCustomScale(newValue: number) {
-		scaleValue.value = newValue
+		scaleValue.value = newValue;
 	}
 
-	function setActiveResponsiveOptions(instanceConfig: {}) {
-		activeResponsiveOptions.value = instanceConfig
+	function setActiveResponsiveOptions(instanceConfig: Record<string, unknown>) {
+		console.log('instanceConfig', instanceConfig);
+
+		activeResponsiveOptions.value = instanceConfig;
 	}
 
 	function getActiveResponsiveOptions() {
-		return activeResponsiveOptions.value
+		return activeResponsiveOptions.value;
 	}
 
 	function removeActiveResponsiveOptions() {
-		activeResponsiveOptions.value = null
+		activeResponsiveOptions.value = null;
 	}
 
 	function setCustomIframeWidth(newWidth: number, changeDevice = false) {
 		// Set the minimum width to 240 as there shouldn't be any devices with lower screen size
-		const actualWidth = newWidth < 240 ? 240 : newWidth
+		const actualWidth = newWidth < 240 ? 240 : newWidth;
 
 		// Set the active device base on width
 		if (newWidth && changeDevice) {
 			// Set the active device
-			let activeDevice = 'default'
+			let activeDevice = 'default';
 			responsiveDevices.value.forEach(device => {
 				if (device.width && device.width >= actualWidth) {
-					activeDevice = device.id
+					activeDevice = device.id;
 				}
-			})
+			});
 
 			if (activeDevice && activeDevice !== activeResponsiveDeviceId.value) {
 				// This is needed for the watch inside PreviewIframe that changes the width when the device changes
-				ignoreWidthChangeFlag.value = true
-				setActiveResponsiveDeviceId(activeDevice)
+				ignoreWidthChangeFlag.value = true;
+				setActiveResponsiveDeviceId(activeDevice);
 			}
 		}
 
-		iframeWidth.value = actualWidth
+		iframeWidth.value = actualWidth;
 	}
 
 	function addCustomBreakpoint(breakPoint: ResponsiveDevice) {
-		const { width, icon = 'desktop' } = breakPoint
+		const { width, icon = 'desktop' } = breakPoint;
 
 		const newDeviceData = {
 			width,
 			icon,
 			isCustom: true,
-			id: generateUID()
-		}
+			id: generateUID(),
+		};
 
-		responsiveDevices.value.push(newDeviceData)
+		responsiveDevices.value.push(newDeviceData);
 
-		return newDeviceData
+		return newDeviceData;
 	}
 
 	function deleteBreakpoint(breakpointID: string) {
-		const deviceConfig = responsiveDevices.value.find(deviceConfig => deviceConfig.id === breakpointID)
+		const deviceConfig = responsiveDevices.value.find(deviceConfig => deviceConfig.id === breakpointID);
 
 		if (deviceConfig) {
-			const index = responsiveDevices.value.indexOf(deviceConfig)
-			responsiveDevices.value.splice(index, 1)
+			const index = responsiveDevices.value.indexOf(deviceConfig);
+			responsiveDevices.value.splice(index, 1);
 		}
 	}
 
@@ -201,6 +208,6 @@ export const useResponsiveDevices = () => {
 		// Computed
 		responsiveDevicesAsIdWidth,
 		orderedResponsiveDevices,
-		builtInResponsiveDevices
-	}
-}
+		builtInResponsiveDevices,
+	};
+};

@@ -1,4 +1,4 @@
-import { ref, Ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { getFontsDataSet } from '@zb/rest';
 
 interface DataSet {
@@ -11,7 +11,7 @@ interface FontsList {
 	typekit_fonts: DataSet[];
 }
 
-export interface Icons {
+export interface IconSet {
 	id: string;
 	name: string;
 	built_in: boolean;
@@ -22,15 +22,15 @@ export interface Icons {
 }
 
 export interface DataSets {
-	fonts_list?: FontsList;
-	user_roles?: DataSet[];
-	post_types?: DataSet[];
+	fonts_list: FontsList;
+	user_roles: DataSet[];
+	post_types: DataSet[];
 	taxonomies?: DataSet[];
-	icons?: Icons[];
+	icons: IconSet[];
 	image_sizes?: string[];
 }
 
-const dataSets: Ref<DataSets> = ref({
+const dataSets = ref<DataSets>({
 	fonts_list: {
 		google_fonts: [],
 		custom_fonts: [],
@@ -48,7 +48,7 @@ getFontsDataSet().then(response => {
 
 export const useDataSets = () => {
 	const fontsListForOption = computed(() => {
-		let option = [
+		const option = [
 			{
 				id: 'Arial',
 				name: 'Arial',
@@ -76,20 +76,18 @@ export const useDataSets = () => {
 		];
 
 		// Add fonts
-		Object.keys(dataSets.value.fonts_list).forEach(fontProviderId => {
-			const fontsList = dataSets.value.fonts_list[fontProviderId];
-
-			option = [...fontsList, ...option];
+		Object.values(dataSets.value.fonts_list).forEach(option => {
+			option.push(...option);
 		});
 
 		return option;
 	});
 
-	const addIconsSet = iconSet => {
+	const addIconsSet = (iconSet: IconSet) => {
 		dataSets.value.icons.push(iconSet);
 	};
 
-	const deleteIconSet = icons => {
+	const deleteIconSet = (icons: string) => {
 		const iconsPackage = dataSets.value.icons.find(iconSet => {
 			return iconSet.id === icons;
 		});

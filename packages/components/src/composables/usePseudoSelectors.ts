@@ -1,54 +1,59 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const pseudoSelectors = ref([
+interface PseudoSelector {
+	name: string;
+	id: string;
+}
+
+const pseudoSelectors = ref<PseudoSelector[]>([
 	{
 		name: 'default',
-		id: 'default'
+		id: 'default',
 	},
 	{
 		name: ':hover',
-		id: ':hover'
+		id: ':hover',
 	},
 	{
 		name: ':before',
-		id: ':before'
+		id: ':before',
 	},
 	{
 		name: ':after',
-		id: ':after'
+		id: ':after',
 	},
 	{
 		name: ':active',
-		id: ':active'
+		id: ':active',
 	},
 	{
 		name: ':focus',
-		id: ':focus'
+		id: ':focus',
 	},
 	{
 		name: ':custom',
-		id: 'custom'
-	}
-])
-const activePseudoSelector = ref(pseudoSelectors.value[0])
+		id: 'custom',
+	},
+]);
+
+const activePseudoSelector = ref(pseudoSelectors.value[0]);
 
 export const usePseudoSelectors = () => {
-	function setActivePseudoSelector(value) {
-		activePseudoSelector.value = value || pseudoSelectors.value[0]
+	function setActivePseudoSelector(value: PseudoSelector) {
+		activePseudoSelector.value = value || pseudoSelectors.value[0];
 	}
 
-	function deleteCustomSelector(selector) {
-		const selectorIndex = pseudoSelectors.value.indexOf(selector)
+	function deleteCustomSelector(selector: PseudoSelector) {
+		const selectorIndex = pseudoSelectors.value.indexOf(selector);
 		if (selectorIndex !== -1) {
-			pseudoSelectors.value.splice(selectorIndex, 1)
+			pseudoSelectors.value.splice(selectorIndex, 1);
 
-			activePseudoSelector.value = pseudoSelectors.value[0]
+			activePseudoSelector.value = pseudoSelectors.value[0];
 		}
-
 	}
 
-	function addCustomSelector(selector) {
-		pseudoSelectors.value.push(selector)
+	function addCustomSelector(selector: PseudoSelector) {
+		pseudoSelectors.value.push(selector);
 	}
 
 	return {
@@ -57,6 +62,6 @@ export const usePseudoSelectors = () => {
 		// Methods
 		addCustomSelector,
 		setActivePseudoSelector,
-		deleteCustomSelector
-	}
-}
+		deleteCustomSelector,
+	};
+};

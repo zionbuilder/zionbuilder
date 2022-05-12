@@ -1,6 +1,6 @@
 // Utils
 import { applyFilters } from '@zb/hooks';
-
+import { Component } from 'vue';
 // Forms component
 import {
 	BaseInput,
@@ -32,15 +32,23 @@ import {
 	InputRepeater,
 } from '../components';
 
-const options = {
-	text: {
-		id: '',
+interface Option {
+	id: string;
+	component: Component;
+	dynamic?: Record<string, unknown>;
+	config?: Record<string, unknown>;
+	componentProps?: Record<string, unknown>;
+}
+
+const options: Option[] = [
+	{
+		id: 'text',
 		component: BaseInput,
 		dynamic: {
 			type: 'TEXT',
 		},
 	},
-	icon_library: {
+	{
 		id: 'icon_library',
 		component: InputIcon,
 		config: {
@@ -48,7 +56,7 @@ const options = {
 			barebone: true,
 		},
 	},
-	textarea: {
+	{
 		id: 'textarea',
 		component: BaseInput,
 		componentProps: {
@@ -58,61 +66,61 @@ const options = {
 			type: 'TEXT',
 		},
 	},
-	password: {
+	{
 		id: 'password',
 		componentProps: {
 			type: 'password',
 		},
 		component: BaseInput,
 	},
-	select: {
+	{
 		id: 'select',
 		component: InputSelect,
 	},
-	slider: {
+	{
 		id: 'slider',
 		component: InputRange,
 	},
-	dynamic_slider: {
+	{
 		id: 'dynamic_slider',
 		component: InputRangeDynamic,
 	},
-	editor: {
+	{
 		id: 'editor',
 		component: InputEditor,
 		dynamic: {
 			type: 'TEXT',
 		},
 	},
-	media: {
+	{
 		id: 'media',
 		component: InputMedia,
 	},
-	file: {
+	{
 		id: 'file',
 		component: InputFile,
 	},
-	image: {
+	{
 		id: 'image',
 		component: InputImage,
 	},
-	number: {
+	{
 		id: 'number',
 		component: InputNumber,
 	},
-	number_unit: {
+	{
 		id: 'number_unit',
 		component: InputNumberUnit,
 	},
-	code: {
+	{
 		id: 'code',
 		component: InputCode,
 	},
-	custom_selector: {
+	{
 		id: 'custom_selector',
 		component: InputCustomSelector,
 	},
-	colorpicker: {
+	{
 		id: 'colorpicker',
 		component: InputColorPicker,
 		dynamic: {
@@ -120,59 +128,59 @@ const options = {
 			custom_dynamic: true,
 		},
 	},
-	checkbox: {
+	{
 		id: 'checkbox',
 		component: InputCheckbox,
 	},
-	radio_image: {
+	{
 		id: 'radio_image',
 		component: InputRadioImage,
 	},
-	checkbox_group: {
+	{
 		id: 'checkbox_group',
 		component: InputCheckboxGroup,
 	},
-	checkbox_switch: {
+	{
 		id: 'checkbox_switch',
 		component: InputCheckboxSwitch,
 	},
-	text_align: {
+	{
 		id: 'text_align',
 		component: InputTextAlign,
 	},
-	borders: {
+	{
 		id: 'borders',
 		component: InputBorderTabs,
 	},
-	shadow: {
+	{
 		id: 'shadow',
 		component: InputTextShadow,
 	},
-	video: {
+	{
 		id: 'video',
 		component: InputBackgroundVideo,
 	},
-	date_input: {
+	{
 		id: 'date_input',
 		component: InputDatePicker,
 	},
-	shape_dividers: {
+	{
 		id: 'shape_dividers',
 		component: InputShapeDividers,
 	},
-	shape_component: {
+	{
 		id: 'shape_component',
 		component: ShapeDividerComponent,
 	},
-	spacing: {
+	{
 		id: 'spacing',
 		component: InputSpacing,
 	},
-	repeater: {
+	{
 		id: 'repeater',
 		component: InputRepeater,
 	},
-};
+];
 
 export const useOptions = () => {
 	/**
@@ -180,16 +188,18 @@ export const useOptions = () => {
 	 *
 	 * Will return the requested option component tag
 	 *
-	 * @param {Object} schema The option schema
+	 * @param schema The option schema
 	 */
-	const getOption = (schema, model = null, formModel = {}) => {
-		let optionConfig = options[schema.type];
+	const getOption = (schema: Record<string, any>, model = null, formModel = {}) => {
+		let optionConfig = options.find(option => option.id === schema.type);
 		optionConfig = applyFilters('zionbuilder/getOptionConfig', optionConfig, schema, model, formModel);
 
 		if (!optionConfig) {
 			// eslint-disable-next-line
-			console.warn(`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`)
-			return {};
+			console.warn(
+				`Option type ${schema.type} not found. Please register the option type using ZionBuilderApi.options.registerOption!`,
+			);
+			return null;
 		}
 
 		return optionConfig;
@@ -200,11 +210,11 @@ export const useOptions = () => {
 	 *
 	 * Will return the requested option component tag
 	 *
-	 * @param {String} optionId The option type id for which we need to return the component
+	 * @param  optionId The option type id for which we need to return the component
 	 */
-	const getOptionComponent = (schema, model = null, formModel = {}) => {
+	const getOptionComponent = (schema: Record<string, any>, model = null, formModel = {}) => {
 		const optionConfig = getOption(schema.type);
-		return applyFilters('zionbuilder/getOption', optionConfig.component, schema, model, formModel);
+		return applyFilters('zionbuilder/getOption', optionConfig?.component, schema, model, formModel);
 	};
 
 	/**
@@ -214,20 +224,20 @@ export const useOptions = () => {
 	 *
 	 * @param {Object} optionConfig Object config
 	 */
-	const registerOption = optionConfig => {
+	const registerOption = (optionConfig: Option) => {
 		// Check if the config contains the option type id
-		if (!optionConfig.hasOwnProperty('id')) {
+		if (!Object.prototype.hasOwnProperty.call(optionConfig, 'id')) {
 			// eslint-disable-next-line
-			console.warn('You need to specify the option type id.', optionConfig)
+			console.warn('You need to specify the option type id.', optionConfig);
 		}
 
 		// Check if the option contains the component needed to render the option type
-		if (!optionConfig.hasOwnProperty('component')) {
+		if (!Object.prototype.hasOwnProperty.call(optionConfig, 'component')) {
 			// eslint-disable-next-line
-			console.warn('You need to specify the option type id.', optionConfig)
+			console.warn('You need to specify the option type id.', optionConfig);
 		}
 
-		options[optionConfig.id] = optionConfig;
+		options.push(optionConfig);
 	};
 
 	return {
