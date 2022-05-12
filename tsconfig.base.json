@@ -2,7 +2,8 @@
 	"extends": "@zionbuilder/tsconfig/tsconfig.json",
 	"compilerOptions": {
 		"paths": {
-			"@zionbuilder/*": ["./packages/*"]
+			"@zionbuilder/*": ["./packages/*"],
+			"@zb/*": ["./packages/*"]
 		},
 	},
 	"exclude": [
