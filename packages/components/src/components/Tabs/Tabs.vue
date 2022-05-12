@@ -5,10 +5,13 @@
 				v-for="(tab, index) in tabs"
 				:key="index"
 				class="znpb-tabs__header-item"
-				:class="{ 'znpb-tabs__header-item--active': getIdForTab(tab) === activeTab }"
+				:class="{
+					'znpb-tabs__header-item--active': tab.id === activeTab,
+					[`znpb-tabs__header-item--${tab.title.toLowerCase()}`]: tab.title,
+				}"
 				@click="selectTab(tab)"
 			>
-				{{ tab.props!.name }}
+				<RenderComponent :render-slot="tab.slots.title ? tab.slots.title : tab.title" />
 			</div>
 		</div>
 		<div class="znpb-tabs__content" :class="{ 'znpb-fancy-scrollbar': hasScroll }">
@@ -24,46 +27,72 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { provide, useSlots, ref, type VNode } from 'vue';
+import { onMounted, provide, ref, watch } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
 		tabStyle?: 'minimal' | 'card' | 'group';
 		titlePosition?: 'start' | 'center' | 'end';
 		activeTab?: string;
-		hasScroll?: any[];
+		hasScroll?: string[];
 	}>(),
 	{
 		tabStyle: 'card',
 		titlePosition: 'start',
+		activeTab: '',
+		hasScroll: () => [],
 	},
 );
 
-function getIdForTab(tab: VNode) {
-	const props = tab.props;
-	return props?.id ?? props!.name.toLowerCase().replace(/ /g, '-');
-}
-
-const tabs = ref();
+const tabs = ref([]);
 const activeTab = ref(props.activeTab);
 
 const emit = defineEmits(['update:activeTab', 'changed-tab']);
 
-provide('TabsProvider', activeTab);
-
-const slots = useSlots();
-
-if (slots.default) {
-	tabs.value = slots.default().filter(child => child.type.name === 'Tab');
-	activeTab.value = activeTab.value ?? getIdForTab(tabs.value[0]);
+function addTab(tab) {
+	tabs.value.push(tab);
 }
 
-function selectTab(tab: VNode) {
-	const tabId = getIdForTab(tab);
-	activeTab.value = tabId;
-	emit('changed-tab', tabId);
-	emit('update:activeTab', tabId);
+function removeTab(tabId: string) {
+	const index = tabs.value.find(tab => tab.id === tabId);
+	if (index !== undefined) {
+		tabs.value.splice(index, 1);
+	}
 }
+
+watch(
+	() => props.activeTab,
+	newValue => {
+		activeTab.value = newValue;
+	},
+);
+
+provide('TabsManager', {
+	addTab,
+	removeTab,
+	activeTab,
+	tabs,
+});
+
+function RenderComponent(props: any) {
+	if (typeof props['render-slot'] === 'function') {
+		return props['render-slot']();
+	} else {
+		return props['render-slot'];
+	}
+}
+
+function selectTab(tab) {
+	activeTab.value = tab.id;
+	emit('changed-tab', tab.id);
+	emit('update:activeTab', tab.id);
+}
+
+onMounted(() => {
+	if (!props.activeTab && tabs.value[0]) {
+		selectTab(tabs.value[0]);
+	}
+});
 </script>
 
 <style lang="scss">

@@ -1,7 +1,5 @@
 <template>
-	<div v-show="isActive" class="znpb-tab__wrapper">
-		<slot name="title" />
-
+	<div v-if="TabsManager.activeTab.value === tabId" class="znpb-tab__wrapper">
 		<slot />
 	</div>
 </template>
@@ -13,20 +11,23 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { inject, ref, watchEffect } from 'vue';
+import { inject, useSlots, onBeforeMount } from 'vue';
 
 const props = defineProps<{
 	name: string;
-	icon?: string;
 	id?: string;
 	active?: boolean;
 }>();
 
-const isActive = ref(false);
+const TabsManager = inject('TabsManager');
+const slots = useSlots();
+const tabId = props.id ? props.id : props.name.toLowerCase().replace(/ /g, '-');
 
-const activeTab: any = inject('TabsProvider');
-
-watchEffect(() => {
-	isActive.value = activeTab.value === (props.id ?? props.name.toLowerCase().replace(/ /g, '-'));
+onBeforeMount(() => {
+	TabsManager.addTab({
+		id: tabId,
+		slots: slots,
+		title: props.name,
+	});
 });
 </script>

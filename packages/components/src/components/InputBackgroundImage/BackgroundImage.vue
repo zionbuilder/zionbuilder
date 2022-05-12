@@ -42,7 +42,6 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue']);
 const { getSchema } = useOptionsSchemas();
 const backgroundImageSchema = getSchema('backgroundImageSchema');
-console.log('backgroundImageSchema', backgroundImageSchema);
 
 const computedValue = computed({
 	get() {
