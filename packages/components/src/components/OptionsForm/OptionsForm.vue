@@ -176,24 +176,6 @@ export default {
 			deleteValues,
 		});
 
-		// OLD
-		const deleteValue = path => {
-			const paths = path.split('.');
-			let newValues = { ...props.modelValue };
-
-			paths.reduce((acc, key, index) => {
-				if (index === paths.length - 1) {
-					delete acc[key];
-					return true;
-				}
-
-				acc[key] = acc[key] ? { ...acc[key] } : {};
-				return acc[key];
-			}, newValues);
-
-			emit('update:modelValue', newValues);
-		};
-
 		const topOptionsForm = inject('topOptionsForm', null);
 		if (!topOptionsForm) {
 			provide(topOptionsForm, props.modelValue);
@@ -202,14 +184,12 @@ export default {
 		provide('updateValueByPath', updateValueByPath);
 		provide('getValueByPath', getValueByPath);
 		provide('deleteValueByPath', deleteValueByPath);
-		provide('deleteValue', deleteValue);
 
 		return {
 			activeResponsiveDeviceInfo,
 			fontsListForOption,
 			updateValueByPath,
 			getValueByPath,
-			deleteValue,
 			activePseudoSelector,
 			elementInfo,
 			deleteValues,
