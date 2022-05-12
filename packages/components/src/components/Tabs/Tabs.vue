@@ -5,7 +5,10 @@
 				v-for="(tab, index) in tabs"
 				:key="index"
 				class="znpb-tabs__header-item"
-				:class="{ 'znpb-tabs__header-item--active': getIdForTab(tab) === activeTab }"
+				:class="{
+					'znpb-tabs__header-item--active': getIdForTab(tab) === activeTab,
+					[`znpb-tabs__header-item--${getIdForTab(tab)}`]: true,
+				}"
 				@click="selectTab(tab)"
 			>
 				<RenderComponent :render-slot="tab?.children?.title ?? tab.props.name" />
@@ -33,12 +36,14 @@ const props = withDefaults(
 	defineProps<{
 		tabStyle?: 'minimal' | 'card' | 'group';
 		titlePosition?: 'start' | 'center' | 'end';
-		activeTab?: string;
-		hasScroll?: any[];
+		activeTab?: string | null;
+		hasScroll?: string[];
 	}>(),
 	{
 		tabStyle: 'card',
 		titlePosition: 'start',
+		activeTab: null,
+		hasScroll: () => [],
 	},
 );
 
