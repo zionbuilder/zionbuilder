@@ -1,37 +1,33 @@
 <template>
 	<div
 		class="znpb-input-range znpb-input-range--has-multiple-units"
-		:class="{['znpb-input-range--disabled']: disabled}"
+		:class="{ ['znpb-input-range--disabled']: disabled }"
 	>
-
 		<BaseInput
 			ref="rangebase"
+			v-model="rangeModel"
 			type="range"
 			:min="activeOption.min"
 			:max="activeOption.max"
-			v-model="rangeModel"
-			@keydown="onRangeKeydown"
-			@keyup="onRangeKeyUp"
 			:step="step"
 			:disabled="disabled"
+			@keydown="onRangeKeydown"
+			@keyup="onRangeKeyUp"
 		>
-			<template v-slot:suffix>
-				<div
-					class="znpb-input-range__trackwidth"
-					:style="trackWidth"
-				></div>
+			<template #suffix>
+				<div class="znpb-input-range__trackwidth" :style="trackWidth"></div>
 			</template>
 		</BaseInput>
 		<label class="znpb-input-range__label">
 			<InputNumberUnit
-				class="znpb-input-range-number"
+				ref="inputNumberUnit"
 				v-model="computedValue"
+				class="znpb-input-range-number"
 				:min="activeOption.min"
 				:max="activeOption.max"
 				:units="getUnits"
 				:step="step"
 				:shift_step="shiftStep"
-				ref="InputNumberUnit"
 				@is-custom-unit="onCustomUnit"
 				@unit-update="onUnitUpdate"
 			>
@@ -40,179 +36,163 @@
 	</div>
 </template>
 
-<script>
-/**
- * this type of element supports
- *   model - Number
- */
-import BaseInput from '../BaseInput/BaseInput.vue'
-import { InputNumberUnit } from '../InputNumber'
-import { units as stringUnits } from '../../composables/units'
-import rafSchd from 'raf-schd'
-
+<script lang="ts">
 export default {
 	name: 'InputRangeDynamic',
 	inheritAttrs: false,
-	components: {
-		BaseInput,
-		InputNumberUnit
-	},
-	props: {
-		/**
-		 * Value/v-bind model
-		 */
-		modelValue: {
-			type: String,
-			required: false,
-			default () {
-				return null
-			}
-		},
-		/**
-		 * Array of Objects, each object containt unit, min, max, step, shiftstep
-		 */
+};
+</script>
+
+<script lang="ts" setup>
+/**
+ * @todo Merge with InputRange
+ */
+import { ref, computed, CSSProperties } from 'vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
+import { InputNumberUnit } from '../InputNumber';
+import rafSchd from 'raf-schd';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string | null;
 		options: {
-			type: Array,
-			required: true
-		},
-		default_step: {
-			type: Number,
-			default: 1,
-			required: false
-		},
-		default_shift_step: {
-			type: Number,
-			default: 1,
-			required: false
-		},
-		min: Number,
-		max: Number
+			unit: string;
+			value: number;
+			min: number;
+			max: number;
+			step: number;
+			shiftStep: number;
+		}[];
+		default_step?: number;
+		default_shift_step?: number;
+		min?: number;
+		max?: number;
+	}>(),
+	{
+		modelValue: null,
+		default_step: 1,
+		default_shift_step: 1,
 	},
-	data () {
+);
+
+const emit = defineEmits<{
+	(e: 'update:modelValue', value: string | null): void;
+}>();
+
+const rangebase = ref<InstanceType<typeof BaseInput> | null>(null);
+const inputNumberUnit = ref<InstanceType<typeof InputNumberUnit> | null>(null);
+
+const step = ref(1);
+const unit = ref('');
+const customUnit = ref(false);
+
+const rafUpdateValue = rafSchd(updateValue);
+
+const activeOption = computed(() => {
+	let activeOption = null;
+	props.options.forEach(option => {
+		if (valueUnit.value && option.unit === valueUnit.value.unit) {
+			activeOption = option;
+		}
+	});
+	return activeOption || props.options[0];
+});
+
+const valueUnit = computed({
+	get() {
+		const match =
+			typeof props.modelValue === 'string'
+				? props.modelValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/)
+				: null;
+		const value = match && match[1] ? +match[1] : null;
+		const unit = match ? match[3] : null;
+
 		return {
-			step: 1,
-			unit: '',
-			customUnit: false
+			value,
+			unit,
+		};
+	},
+	set(newValue: { value: number | null; unit: string | null }) {
+		if (newValue.value && newValue.unit) {
+			if (Number(newValue.value) > activeOption.value.max) {
+				computedValue.value = `${activeOption.value.max}${newValue.unit}`;
+			} else if (Number(newValue.value) < activeOption.value.min) {
+				computedValue.value = `${activeOption.value.min}${newValue.unit}`;
+			}
 		}
 	},
-	created () {
-		this.rafUpdateValue = rafSchd(this.updateValue)
-	},
-	computed: {
-		activeOption () {
-			return this.getActiveOption(this.valueUnit)
-		},
-		valueUnit: {
-			get () {
-				const match = typeof this.modelValue === 'string' ? this.modelValue.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)$/) : null
-				const value = match && match[1] ? match[1] : null
-				const unit = match ? match[3] : null
+});
 
-				return {
-					value,
-					unit
-				}
-			},
-			set (newValue) {
-				if (newValue.value && newValue.unit) {
-					if (parseInt(newValue.value) > this.activeOption.max) {
-						this.computedValue = `${this.activeOption.max}${newValue.unit}`
-					} else if (parseInt(newValue.value) < this.activeOption.min) {
-						this.computedValue = `${this.activeOption.min}${newValue.unit}`
-					}
-				}
-			}
-		},
-		computedValue: {
-			get () {
-				return this.modelValue
-			},
-			set (newValue) {
-				this.rafUpdateValue(newValue)
-			}
-		},
-		rangeModel: {
-			get () {
-				if (this.disabled) {
-					return 0
-				} else {
-					return this.valueUnit.value || this.min || 0
-				}
-			},
-			set (newValue) {
-				/**
-				* Emit input value when range updates
-				*/
-				if (this.getUnit) {
-					this.computedValue = `${newValue}${this.getUnit}`
-				}
-			}
-		},
-		getUnit () {
-			return this.activeOption.unit ? this.activeOption.unit : this.valueUnit.unit ? this.valueUnit.unit : this.unit ? this.unit : null
-		},
-		getUnits () {
-			/**
-			* Array of units to send to InputNumberUnits
-			*/
-			let units = []
-			this.options.forEach(function (option, index) {
-				units.push(option.unit)
-			})
-			return units
-		},
-		baseStep () {
-			return this.activeOption.step || this.default_step
-		},
-		shiftStep () {
-			return this.activeOption.shift_step || this.default_shift_step
-		},
-		trackWidth () {
-			// 14 is the thumb size
-			let thumbSize = 14 * this.width / 100
-			return {
-				width: `calc(${this.width}% - ${thumbSize}px)`
-			}
-		},
-		width () {
-			let minmax = this.activeOption.max - this.activeOption.min
-			return Math.round(((this.activeOption.value - this.activeOption.min) * 100) / minmax)
-		},
-		disabled () {
-			const transformOriginUnits = ['left', 'right', 'top', 'bottom', 'center']
-			return transformOriginUnits.includes(this.unit) || this.customUnit
+const computedValue = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue: string | null) {
+		rafUpdateValue(newValue);
+	},
+});
+
+const rangeModel = computed({
+	get() {
+		return disabled.value ? 0 : valueUnit.value.value || props.min || 0;
+	},
+	set(newValue: number) {
+		/**
+		 * Emit input value when range updates
+		 */
+		if (getUnit.value) {
+			computedValue.value = `${newValue}${getUnit.value}`;
 		}
 	},
-	methods: {
-		updateValue (newValue) {
-			this.$emit('update:modelValue', newValue)
+});
 
-		},
-		onUnitUpdate (event) {
-			this.unit = event
-		},
-		onCustomUnit (event) {
-			this.customUnit = event
-		},
-		getActiveOption (valueUnit) {
-			let activeOption = null
-			this.options.forEach((option, index) => {
-				if (this.valueUnit && option.unit === this.valueUnit.unit) {
-					activeOption = option
-				}
-			})
-			return activeOption || this.options[0]
-		},
-		onRangeKeydown (event) {
-			if (event.shiftKey) {
-				this.step = this.shiftStep
-			}
-		},
-		onRangeKeyUp (event) {
-			if (event.key === 'Shift') {
-				this.step = this.baseStep
-			}
-		}
+const getUnit = computed(() => activeOption.value.unit ?? valueUnit.value.unit ?? unit.value ?? null);
+
+const getUnits = computed(() => props.options.map(option => option.unit));
+
+const baseStep = computed(() => activeOption.value.step || props.default_step);
+
+const shiftStep = computed(() => activeOption.value.shiftStep || props.default_shift_step);
+
+const trackWidth = computed<CSSProperties>(() => {
+	// 14 is the thumb size
+	const thumbSize = (14 * width.value) / 100;
+	return {
+		width: `calc(${width.value}% - ${thumbSize}px)`,
+	};
+});
+
+const width = computed(() => {
+	const minmax = activeOption.value.max - activeOption.value.min;
+	return Math.round(((activeOption.value.value - activeOption.value.min) * 100) / minmax);
+});
+
+const disabled = computed(() => {
+	const transformOriginUnits = ['left', 'right', 'top', 'bottom', 'center'];
+	return transformOriginUnits.includes(unit.value) || customUnit.value;
+});
+
+function updateValue(newValue: string | null) {
+	emit('update:modelValue', newValue);
+}
+
+function onUnitUpdate(event: string) {
+	unit.value = event;
+}
+
+function onCustomUnit(event: boolean) {
+	customUnit.value = event;
+}
+
+function onRangeKeydown(event: KeyboardEvent) {
+	if (event.shiftKey) {
+		step.value = shiftStep.value;
+	}
+}
+
+function onRangeKeyUp(event: KeyboardEvent) {
+	if (event.key === 'Shift') {
+		step.value = baseStep.value;
 	}
 }
 </script>
@@ -224,14 +204,12 @@ export default {
 		}
 	}
 	&__label {
-		.znpb-input-number--has-units
-			.znpb-input-number__units-multiple
-			.znpb-input-number__active-unit {
+		.znpb-input-number--has-units .znpb-input-number__units-multiple .znpb-input-number__active-unit {
 			background: var(--zb-surface-color);
 		}
 	}
 	&.znpb-input-range--has-multiple-units {
-		input[type="number"] {
+		input[type='number'] {
 			padding: 12px 10px 12px 0;
 			font-family: var(--zb-font-stack);
 		}
