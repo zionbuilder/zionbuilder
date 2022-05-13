@@ -1,0 +1,142 @@
+#editor, #poststuff {
+	&-status--inactive .znpb-admin-post__edit-button--deactivate, &-status--active .znpb-admin-post__edit-button--activate {
+		display: none;
+	}
+}
+
+// fixes for guttenberg
+#editor.block-editor__container {
+	.znpb-admin-post__edit-button {
+		padding: 8px 14px;
+	}
+
+	.znpb-admin-post__edit {
+		margin: 0 15px;
+	}
+
+	.editor-styles-wrapper .znpb-admin-post__edit-button {
+		color: #fff;
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	}
+}
+
+.znpb-admin-post__edit {
+	display: flex;
+	flex-shrink: 0;
+	padding: 0;
+
+
+	&-button {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		flex-shrink: 0;
+		padding: 14px 32px;
+		margin-right: 10px;
+		color: #fff;
+		font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		font-size: 13px;
+		text-decoration: none;
+		background: #006dd2;
+		cursor: pointer;
+
+		&:hover {
+			background: #0065c3;
+		}
+
+		.znpb-editor-icon-wrapper {
+			display: inline-flex;
+			align-items: center;
+			color: #fff;
+			font-size: 14px;
+		}
+
+		svg:not(:root) {
+			overflow: visible;
+		}
+
+		.zion-icon.zion-svg-inline {
+			display: block;
+			width: 1em;
+			height: 1em;
+			margin: auto;
+			color: #fff;
+
+			fill: #fff;
+			stroke: #fff;
+			stroke-width: 1px;
+		}
+
+
+		&:hover, &:focus {
+			color: #fff;
+			box-shadow: none;
+			opacity: .8;
+		}
+
+		 > span {
+			margin-right: 7px;
+		}
+
+		&--deactivate {
+			display: none;
+			color: #767676;
+			background: #fff;
+
+			&:hover, &:focus {
+				color: #767676;
+				background: #fafafa;
+				box-shadow: none;
+			}
+		}
+
+		&.znpb-admin-post__edit-button--loading {
+			&:before {
+				@extend %loading;
+				position: relative;
+				width: 14px;
+				height: 14px;
+				margin-right: 7px;
+				border: 2px solid rgba(241, 241, 241, .2);
+				border-right-color: #d6d6d6;
+				        animation: Rotate .6s linear infinite;
+
+				-webkit-animation: Rotate .6s linear infinite;
+			}
+
+			.znpb-admin-post__edit-button-icon {
+				display: none;
+			}
+		}
+	}
+}
+
+.znpb-admin-post-editor--active {
+	.znpb-admin-post__edit .znpb-admin-post__edit-button--activate, #postdivrich, .editor-block-list__layout > * {
+		display: none;
+	}
+
+	.znpb-admin-post__edit .znpb-admin-post__edit-button--deactivate, .znpb-admin-post__edit-block {
+		display: flex;
+	}
+}
+
+.znpb-admin-post__edit-block {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	min-height: 300px;
+	margin-top: 20px;
+	background: #f3f3f3;
+	border: 1px solid #ccc;
+}
+
+@keyframes Rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

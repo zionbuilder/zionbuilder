@@ -157,14 +157,14 @@ class Admin {
 
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-post-styles',
-				'css/edit-page.css',
+				'edit-page.css',
 				[],
 				Plugin::instance()->get_version()
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-post-script',
-				'js/edit-page.js',
+				'edit-page.js',
 				[ 'heartbeat' ],
 				Plugin::instance()->get_version(),
 				true

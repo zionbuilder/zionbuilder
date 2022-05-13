@@ -77,7 +77,7 @@ class Gutenberg implements IBaseIntegration {
 
 		Plugin::instance()->scripts->enqueue_script(
 			'znpb-admin-gutenberg-integration',
-			'js/gutenberg.js',
+			'gutenberg.js',
 			[
 				'wp-plugins',
 				'wp-edit-post',

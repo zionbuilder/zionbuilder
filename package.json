@@ -10,7 +10,8 @@
 	"scripts": {
 		"translate": "zionbuilder-service translate",
 		"dev": "vite",
-		"build": "vue-tsc --noEmit && vite build",
+		"build": "vite build",
+		"build:old": "zionbuilder-service build",
 		"zip": "zionbuilder-service zip",
 		"publish:packages": "lerna publish",
 		"publish": "yarn run publish:packages",

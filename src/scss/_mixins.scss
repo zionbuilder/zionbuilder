@@ -1,0 +1,93 @@
+
+%list-item-helper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 5px;
+	background-color: var(--zb-surface-light-color);
+	border-radius: 3px;
+	transition: all .3s;
+}
+
+%hue-indicator-style {
+	position: absolute;
+	top: 50%;
+	display: block;
+	width: 16px;
+	height: 16px;
+	background-color: var(--zb-surface-lighter-color);
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, .4);
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+%opacitybg {
+	background: linear-gradient(45deg, var(--zb-surface-lightest-color) 25%, transparent 25%, transparent 75%, var(--zb-surface-lightest-color) 75%, var(--zb-surface-lightest-color)), linear-gradient(45deg, var(--zb-surface-lightest-color) 25%, transparent 25%, transparent 75%, var(--zb-surface-lightest-color) 75%, var(--zb-surface-lightest-color));
+	background-position: 0 0, 4px 4px;
+	background-size: 8px 8px;
+}
+
+@mixin circlesimple($width) {
+	width: $width;
+	height: $width;
+	border-radius: 50%;
+}
+@mixin background-icon($width) {
+	width: $width;
+	height: $width;
+	color: var(--zb-surface-icon-color);
+	line-height: $width;
+	text-align: center;
+	background: var(--zb-surface-lighter-color);
+	border-radius: 50%;
+	cursor: pointer;
+}
+%loading {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+%boxshadow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 15px;
+	line-height: 1;
+	background-color: var(--zb-surface-color);
+	box-shadow: 0 5px 10px 0 rgba(164, 186, 164, .08);
+	border: 1px solid var(--zb-surface-border-color);
+	border-radius: 3px;
+	transition: all .3s ease;
+}
+%iconbg {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	box-shadow: 0 11px 20px 0 rgba(0,0,0,.1);
+	border-radius: 50%;
+	transition: all .2s;
+}
+@mixin border($topleft, $topright, $bottomright, $bottomleft) {
+	border-top-right-radius: $topright;
+	border-bottom-right-radius: $bottomright;
+	border-bottom-left-radius: $bottomleft;
+	border-top-left-radius: $topleft;
+}
+%tooltip {
+	padding: 10px;
+	color: var(--zb-dropdown-text-color);
+	font-family: var(--zb-font-stack);
+	font-size: 13px;
+	background-color: var(--zb-dropdown-bg-color);
+	box-shadow: 0 2px 15px 0 var(--zb-dropdown-shadow);
+	border: 1px solid var(--zb-dropdown-border-color);
+	border-radius: 3px;
+}
