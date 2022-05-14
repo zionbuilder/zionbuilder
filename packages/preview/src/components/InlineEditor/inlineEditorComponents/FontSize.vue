@@ -63,7 +63,7 @@ export default {
 
 
 		function onClick (e) {
-			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.inputNumberUnit.expanded : null)
 		}
 
 		function onFontChange (newValue) {
@@ -71,9 +71,9 @@ export default {
 			sliderValue.value = newValue
 
 			emit('started-dragging')
-			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null)
+			emit('units-expanded', inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.inputNumberUnit.expanded : null)
 
-			inputRangeDynamicRef.value.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
+			inputRangeDynamicRef.value.$refs.inputNumberUnit.$refs.numberUnitInput.$refs.input.focus()
 
 			clearTimeout(changeTimeout)
 			changeTimeout = setTimeout(() => {
