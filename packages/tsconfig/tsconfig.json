@@ -8,7 +8,7 @@
 
     // Target latest version of ECMAScript.
     "target": "es2015",
-    "module": "esnext",
+    "module": "ESNext",
     // Search under node_modules for non-relative imports.
     "moduleResolution": "node",
     // Process & infer types from .js files.
@@ -23,7 +23,7 @@
     "jsx": "preserve",
     // "baseUrl": ".",
     "outDir": "dist",
-    "lib": ["es2018", "dom", "es2020"]
+    "lib": ["dom", "ESNext"]
   },
   "exclude": ["./node_modules", "./vendor", "./includes"]
 }
