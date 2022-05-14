@@ -1,1 +1,1 @@
-export * from './defaultGradient'
+export * from './defaultGradient';
