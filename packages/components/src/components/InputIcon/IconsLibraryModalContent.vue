@@ -34,7 +34,7 @@ export default {
 <script lang="ts" setup>
 import { ref, computed, Ref } from 'vue';
 import { useDataSets, DataSets, Icons } from '@composables';
-import IconPackGrid from '../IconPackGrid.vue';
+import IconPackGrid from './IconPackGrid.vue';
 import { translate } from '@zb/i18n';
 
 type Icon = { family?: string; name: string; unicode: string };
