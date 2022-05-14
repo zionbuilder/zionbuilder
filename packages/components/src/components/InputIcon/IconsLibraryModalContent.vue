@@ -33,7 +33,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref, computed, Ref } from 'vue';
-import { useDataSets, DataSets, Icons } from '@composables';
+import { useDataSets, DataSets, IconSet } from '@composables';
 import IconPackGrid from './IconPackGrid.vue';
 import { translate } from '@zb/i18n';
 
@@ -41,7 +41,7 @@ type Icon = { family?: string; name: string; unicode: string };
 
 const props = defineProps<{
 	modelValue?: Icon | null;
-	specialFilterPack?: Icons[];
+	specialFilterPack?: IconSet[];
 }>();
 
 const emit = defineEmits<{
