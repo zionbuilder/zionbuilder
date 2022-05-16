@@ -942,7 +942,12 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@rollup/pluginutils@^4.0.0":
+"@popperjs/core@^2.11.5":
+  version "2.11.5"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
+  integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
+
+"@rollup/pluginutils@^4.0.0", "@rollup/pluginutils@^4.1.0":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.2.1.tgz#e6c6c3aba0744edce3fb2074922d3776c0af2a6d"
   integrity sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==
@@ -1727,6 +1732,11 @@ camelcase@^5.3.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
+camelcase@^6.2.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
+  integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
+
 caniuse-lite@^1.0.30001317:
   version "1.0.30001332"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001332.tgz#39476d3aa8d83ea76359c70302eafdd4a1d727dd"
@@ -2266,6 +2276,17 @@ es-abstract@^1.18.0-next.2:
     string.prototype.trimend "^1.0.4"
     string.prototype.trimstart "^1.0.4"
     unbox-primitive "^1.0.1"
+
+es-iife@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/es-iife/-/es-iife-0.2.2.tgz#8582f81ba7edfd3353393de4c0b89a24ca52a70a"
+  integrity sha512-4TwowD4ZJKlwL/Ix3BClKBaWRyH28spveFP0hDfPya1cLFDXuqUKR23guHsEUYrmf/nOLaRaXckIWYc5Zdpaxw==
+  dependencies:
+    "@rollup/pluginutils" "^4.1.0"
+    camelcase "^6.2.0"
+    estree-walker "^2.0.1"
+    is-reference "^1.2.1"
+    magic-string "^0.25.7"
 
 es-module-lexer@^0.9.0:
   version "0.9.3"
@@ -3715,6 +3736,11 @@ map-obj@^4.0.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.2.1.tgz#e4ea399dbc979ae735c83c863dd31bdf364277b7"
   integrity sha512-+WA2/1sPmDj1dlvvJmB5G6JKfY9dpn7EVBUL06+y6PoljPkh+6V1QihwxNkbcGxCRjt2b0F9K0taiCuo7MbdFQ==
 
+memoize-one@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-6.0.0.tgz#b2591b871ed82948aee4727dc6abceeeac8c1045"
+  integrity sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==
+
 meow@^8.0.0:
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/meow/-/meow-8.1.2.tgz#bcbe45bda0ee1729d350c03cffc8395a36c4e897"
@@ -4610,6 +4636,11 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
+raf-schd@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-4.0.3.tgz#5d6c34ef46f8b2a0e880a8fcdb743efc5bfdbc1a"
+  integrity sha512-tQkJl2GRWh83ui2DiPTJz9wEiMN20syf+5oKfB03yYP7ioZcJwsIK8FjrtLwH1m7C7e+Tt2yYBlrOpdT+dyeIQ==
+
 randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -4759,6 +4790,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+reframe.js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/reframe.js/-/reframe.js-4.0.0.tgz#ae6f46a64ad5ba1139188f6822791d02a912353d"
+  integrity sha512-J/9jsVPRFOVJ1rV+9ApxoK4YyDUEwQ4pGuD5hgGsrFCTdtMz+tf5l5yEt+Fj1F9K2v8Viw34+E9WIjTg3XZffQ==
+
 regexpp@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.2.0.tgz#0425a2768d8f23bad70ca4b90461fa2f1213e1b2"
@@ -4870,6 +4906,14 @@ rollup-plugin-external-globals@^0.6.1:
     estree-walker "^2.0.1"
     is-reference "^1.2.1"
     magic-string "^0.25.7"
+
+rollup-plugin-iife@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-iife/-/rollup-plugin-iife-0.6.0.tgz#2829173c063f52882ae9df10dfc70da4633e5509"
+  integrity sha512-mxdahv2RnatoYcOQ6FU42tWfWpJgURwHNsmMQoI0r44THmX6ETy1tlbnobxgPnFspoxMBZS8g5gzTJqs43WQxw==
+  dependencies:
+    es-iife "^0.2.2"
+    lodash "^4.17.21"
 
 rollup@^2.59.0:
   version "2.72.1"
@@ -5394,6 +5438,11 @@ through@2, "through@>=2.2.7 <3", through@^2.3.4, through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
+
+tinycolor2@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
+  integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
 
 tmp@^0.0.33:
   version "0.0.33"
