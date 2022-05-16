@@ -1,29 +1,16 @@
 <template>
-	<div
-		v-if="loaded"
-		class="znpb-admin__wrapper"
-		id="znpb-admin"
-	>
+	<div v-if="loaded" id="znpb-admin" class="znpb-admin__wrapper">
 		<div class="znpb-admin__header">
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
 					<img :src="logoUrl" />
-					<Label
-						v-if="isPro"
-						:text="$translate('pro')"
-						type="warning"
-						class="znpb-option__upgrade-to-pro-label"
-					/>
-					<span class="znpb-admin__header-logo-version">v{{version}}</span>
+					<Label v-if="isPro" :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
+					<span class="znpb-admin__header-logo-version">v{{ version }}</span>
 				</div>
 				<div class="znpb-admin__header-actions">
-					<router-link
-						to="/get-pro"
-						class="znpb-button znpb-button--secondary"
-						v-if="!isPro"
-					>
+					<router-link v-if="!isPro" to="/get-pro" class="znpb-button znpb-button--secondary">
 						<Icon icon="quality"></Icon>
-						{{$translate('upgrade_to_pro')}}
+						{{ $translate('upgrade_to_pro') }}
 					</router-link>
 
 					<a
@@ -31,8 +18,8 @@
 						:title="$translate('documentation')"
 						target="_blank"
 						class="znpb-button znpb-button--line"
-					>{{$translate('documentation')}}</a>
-
+						>{{ $translate('documentation') }}</a
+					>
 				</div>
 			</div>
 			<div class="znpb-admin__header-menu-wrapper">
@@ -42,7 +29,8 @@
 						:key="key"
 						:to="`${menuItem.path}`"
 						class="znpb-admin__header-menu-item"
-					>{{menuItem.title}}</router-link>
+						>{{ menuItem.title }}</router-link
+					>
 				</div>
 			</div>
 		</div>
@@ -50,12 +38,7 @@
 
 		<!-- notices -->
 		<div class="znpb-admin-notices-wrapper">
-			<Notice
-				@close-notice="error.remove()"
-				v-for="(error, index) in notifications"
-				:error="error"
-				:key="index"
-			/>
+			<Notice v-for="(error, index) in notifications" :key="index" :error="error" @close-notice="error.remove()" />
 
 			<OptionsSaveLoader />
 		</div>
@@ -63,60 +46,61 @@
 </template>
 
 <script>
-import { ref, computed, provide } from 'vue'
-import { useRouter } from 'vue-router'
-import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables'
-import OptionsSaveLoader from './components/OptionsSaveLoader.vue'
+import { ref, computed, provide } from 'vue';
+import { useRouter } from 'vue-router';
+import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables';
+import OptionsSaveLoader from './components/OptionsSaveLoader.vue';
 
 export default {
 	name: 'App',
 	components: {
-		OptionsSaveLoader
+		OptionsSaveLoader,
 	},
-	setup (props) {
-		const router = useRouter()
-		const { fetchOptions, getOptionValue } = useBuilderOptions()
-		const { fetchGoogleFonts } = useGoogleFonts()
-		const { notifications } = useNotifications()
+	setup(props) {
+		const router = useRouter();
+		const { fetchOptions, getOptionValue } = useBuilderOptions();
+		const { fetchGoogleFonts } = useGoogleFonts();
+		const { notifications } = useNotifications();
 
-		const loaded = ref(false)
-		const hasError = ref(false)
-		const logoUrl = window.ZnPbAdminPageData.urls.logo
-		const version = window.ZnPbAdminPageData.plugin_version
-		const isPro = window.ZnPbAdminPageData.is_pro_active
+		const loaded = ref(false);
+		const hasError = ref(false);
+		const logoUrl = window.ZnPbAdminPageData.urls.logo;
+		const version = window.ZnPbAdminPageData.plugin_version;
+		const isPro = window.ZnPbAdminPageData.is_pro_active;
 
 		// Provide globalColors
-		provide('builderOptions', useBuilderOptions)
+		provide('builderOptions', useBuilderOptions);
 
 		const menuItems = computed(() => {
-			var routes = []
+			var routes = [];
 			for (var i in router.options.routes) {
 				if (!router.options.routes.hasOwnProperty(i)) {
-					continue
+					continue;
 				}
-				var route = router.options.routes[i]
+				var route = router.options.routes[i];
 				if (route.hasOwnProperty('title')) {
-					routes.push(route)
+					routes.push(route);
 				}
 			}
 
-			return routes
-		})
+			return routes;
+		});
 
 		const documentationLink = computed(() => {
-			return getOptionValue('white_label') !== null ? getOptionValue('white_label').plugin_help_url : 'https://zionbuilder.io/help-center/'
-		})
+			return getOptionValue('white_label') !== null
+				? getOptionValue('white_label').plugin_help_url
+				: 'https://zionbuilder.io/help-center/';
+		});
 
-		Promise.all([
-			fetchGoogleFonts(),
-			fetchOptions(),
-		]).catch(error => {
-			hasError.value = true
-			// eslint-disable-next-line
+		Promise.all([fetchGoogleFonts(), fetchOptions()])
+			.catch(error => {
+				hasError.value = true;
+				// eslint-disable-next-line
 			console.error(error)
-		}).finally(() => {
-			loaded.value = true
-		})
+			})
+			.finally(() => {
+				loaded.value = true;
+			});
 
 		return {
 			// Data
@@ -128,10 +112,10 @@ export default {
 			isPro,
 			// Computed
 			menuItems,
-			documentationLink
-		}
-	}
-}
+			documentationLink,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -141,7 +125,10 @@ export default {
 	font-size: 13px;
 	line-height: 1;
 
-	a, a:hover, a:focus, a:visited {
+	a,
+	a:hover,
+	a:focus,
+	a:visited {
 		text-decoration: none;
 		box-shadow: none;
 	}
@@ -157,25 +144,32 @@ export default {
 		border: none;
 
 		-webkit-appearance: none;
-		   -moz-appearance: none;
+		-moz-appearance: none;
 	}
 
-	input, select, textarea {
+	input,
+	select,
+	textarea {
 		background-color: var(--zb-surface-color);
 		border-radius: 3px;
 	}
 
-	input[type="number"] {
+	input[type='number'] {
 		padding: 10.5px 12px;
 		background: var(--zb-input-bg-color);
 		// added to fix the arrows for mozilla firefox
 
 		-moz-appearance: textfield;
 	}
-	b, strong {
+	b,
+	strong {
 		font-weight: 700;
 	}
-	h2, h3, h4, h5, h6 {
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		margin-top: 0;
 		margin-bottom: 25px;
 		color: var(--zb-surface-text-active-color);
@@ -194,7 +188,8 @@ export default {
 	& * {
 		box-sizing: border-box;
 	}
-	input[type="checkbox"]:checked:before, input[type="radio"]:checked:before {
+	input[type='checkbox']:checked:before,
+	input[type='radio']:checked:before {
 		display: none;
 	}
 }
@@ -227,7 +222,8 @@ export default {
 				color: var(--zb-surface-text-color);
 			}
 
-			.router-link-active, .znpb-admin__header-menu-item:hover {
+			.router-link-active,
+			.znpb-admin__header-menu-item:hover {
 				color: var(--zb-surface-text-active-color);
 			}
 		}
@@ -238,7 +234,7 @@ export default {
 		z-index: 1;
 		padding: 0 30px;
 		background: var(--zb-surface-color);
-		box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
+		box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 
 		&-logo {
 			display: flex;
@@ -348,7 +344,7 @@ export default {
 }
 
 .znpb-theme-dark .znpb-admin__header-logo img {
-	        filter: invert(1);
+	filter: invert(1);
 
 	-webkit-filter: invert(1);
 }

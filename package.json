@@ -20,7 +20,14 @@
 		"build:types": "tsc --build"
 	},
 	"dependencies": {
-		"lodash-es": "^4.17.21"
+		"axios": "^0.27.2",
+		"crypto-js": "^4.1.1",
+		"file-saver": "^2.0.5",
+		"localstorage-ttl": "^1.0.2",
+		"lodash-es": "^4.17.21",
+		"rollup-plugin-external-globals": "^0.6.1",
+		"vue": "^3.2.33",
+		"vue-router": "^4.0.15"
 	},
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.6",
@@ -39,8 +46,5 @@
 		"typescript": "^4.6.4",
 		"vite": "^2.9.9",
 		"vue-tsc": "^0.34.13"
-	},
-	"workspaces": [
-		"packages/*"
-	]
+	}
 }

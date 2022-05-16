@@ -201,23 +201,14 @@ class Admin {
 			// Load styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
-				'css/admin.css',
+				'admin.css',
 				[ 'zb-components' ],
 				Plugin::instance()->get_version()
 			);
 
-			if ( is_rtl() ) {
-				Plugin::instance()->scripts->enqueue_style(
-					'znpb-admin-rtl-styles',
-					'css/rtl.css',
-					[],
-					Plugin::instance()->get_version()
-				);
-			};
-
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
-				'js/admin.js',
+				'admin.js',
 				[
 					'zb-components',
 				],

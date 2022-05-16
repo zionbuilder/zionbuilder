@@ -51,7 +51,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-vue',
-			'js/vue.js',
+			'vue.js',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -59,7 +59,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-hooks',
-			'js/hooks.js',
+			'hooks.js',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -67,7 +67,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-rest',
-			'js/rest.js',
+			'rest.js',
 			[
 				'zb-hooks',
 			],
@@ -77,7 +77,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-utils',
-			'js/utils.js',
+			'utils.js',
 			[
 				'zb-rest',
 				'zb-hooks',
@@ -88,7 +88,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-i18n',
-			'js/i18n.js',
+			'i18n.js',
 			[],
 			Plugin::instance()->get_version(),
 			false
