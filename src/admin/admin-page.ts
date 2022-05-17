@@ -1,3 +1,7 @@
+import './scss/index.scss';
+
+import BaseAdmin from './components/BaseAdmin.vue';
+
 import routes from './router';
 
 // Utils
@@ -10,9 +14,6 @@ import { errorInterceptor } from '@zb/rest';
 import { useNotifications } from '@zionbuilder/composables';
 
 const serverRequest = new ServerRequest();
-
-window.zb = window.zb || {};
-
 const notifications = useNotifications();
 
 // Add error interceptor for API
@@ -30,7 +31,5 @@ const api = {
 };
 
 // Add to global object
+window.zb = window.zb || {};
 window.zb.admin = api;
-
-// Export as module
-export default api;
