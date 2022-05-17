@@ -17,6 +17,14 @@ interface ResponsiveDevice {
 	builtIn?: boolean;
 }
 
+const zb = window.zb || {};
+Object.assign(zb, {
+	get components() {
+		console.warn('zb.components was depreated in favour of zb.common.js');
+		return window.zb.common;
+	},
+});
+
 const deviceSizesConfig = [
 	{
 		width: 992,

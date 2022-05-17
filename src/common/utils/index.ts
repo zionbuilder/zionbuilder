@@ -9,3 +9,4 @@ export * from './isEditable.ts';
 export * from './serverRequest';
 export * from './objectHash.js';
 export { default as Environment } from './Environment.ts';
+export * from './defaultGradient';
