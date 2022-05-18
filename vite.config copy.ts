@@ -2,14 +2,13 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import externalGlobals from 'rollup-plugin-external-globals';
 const path = require('path');
-import iife from 'rollup-plugin-iife';
+// import iife from 'rollup-plugin-iife';
 import { terser } from 'rollup-plugin-terser';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	resolve: {
 		alias: {
-			'@zionbuilder/composables': './src/modules/composables/main.ts',
 			'vue-base': path.resolve(__dirname, './node_modules/vue/index.mjs'),
 		},
 	},
@@ -19,6 +18,7 @@ export default defineConfig({
 		manifest: true,
 		minify: false,
 		rollupOptions: {
+			// overwrite default .html entry
 			input: {
 				// Admin
 				// admin: './src/admin/admin-page.ts',
@@ -29,13 +29,10 @@ export default defineConfig({
 				// editor: './src/editor/editor.ts',
 
 				// Modules
-				// i18n: './src/modules/i18n/index.ts',
-				// vue: './src/modules/vue/index.ts',
-				// hooks: './src/modules/hooks/index.ts',
-				// rest: './src/modules/rest/index.ts',
-
-				// Common
-				// utils: './src/common/utils/index.ts',
+				i18n: './src/modules/i18n/index.ts',
+				vue: './src/modules/vue/index.ts',
+				hooks: './src/modules/hooks/index.ts',
+				rest: './src/modules/rest/index.ts',
 				// rest: './src/modules/rest/main.ts',
 				// composables: './src/modules/composables/main.ts',
 				// components: './src/modules/components/main.ts',
@@ -48,7 +45,6 @@ export default defineConfig({
 				{
 					assetFileNames: `[name].[ext]`,
 					entryFileNames: `[name].js`,
-					format: 'iife',
 					globals: {
 						'@zb/i18n': 'zb.l18n',
 						'@zb/rest': 'zb.rest',
@@ -56,15 +52,12 @@ export default defineConfig({
 						'@zb/utils': 'zb.utils',
 						vue: 'zb.vue',
 					},
-					// inlineDynamicImports: true,
-					// preserveModules: true,
-					// manualChunks: () => 'test.js'
 				},
-				// {
-				// 	assetFileNames: `[name].min.[ext]`,
-				// 	entryFileNames: `[name].min.js`,
-				// 	plugins: [terser()],
-				// },
+				{
+					assetFileNames: `[name].min.[ext]`,
+					entryFileNames: `[name].min.js`,
+					plugins: [terser()],
+				},
 			],
 			external: ['@zb/rest', '@zb/i18n', '@zb/hooks', '@zb/utils', 'vue'],
 		},
@@ -78,7 +71,6 @@ export default defineConfig({
 	},
 	plugins: [
 		vue(),
-		iife(),
 		// externalGlobals({
 		// 	'@zb/i18n': 'zb.l18n',
 		// 	'@zb/rest': 'zb.rest',

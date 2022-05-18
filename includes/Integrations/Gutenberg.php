@@ -76,7 +76,7 @@ class Gutenberg implements IBaseIntegration {
 		$this->is_gutenberg_active = true;
 
 		Plugin::instance()->scripts->enqueue_script(
-			'znpb-admin-gutenberg-integration',
+			'zb-admin-gutenberg-integration',
 			'gutenberg.js',
 			[
 				'wp-plugins',

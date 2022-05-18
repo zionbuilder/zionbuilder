@@ -1,5 +1,5 @@
 // import scss file for edit with zion builder button
-import '../edit-page/scss/main.scss';
+import './scss/edit-page.scss';
 
 const $ = window.jQuery;
 const wp = window.wp;

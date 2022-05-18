@@ -31,7 +31,7 @@ class CommonJS {
 		add_action( 'zionbuilder/preview/before_load_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
 		add_action( 'zionbuilder/admin/before_admin_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
 
-		add_filter( 'script_loader_tag', [ $this, 'add_module_attribute' ], 10, 3 );
+		// add_filter( 'script_loader_tag', [ $this, 'add_module_attribute' ], 10, 3 );
 	}
 
 	public function on_enqueue_scripts() {
