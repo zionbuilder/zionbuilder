@@ -126,7 +126,7 @@ import { trigger } from '@zb/hooks';
 import { useOptions, useOptionsSchemas, useResponsiveDevices } from '../../composables';
 
 // Components
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import { ChangesBullet } from '../ChangesBullet';
 import { InputLabel } from '../InputLabel';
 import { Injection } from '../Injection';

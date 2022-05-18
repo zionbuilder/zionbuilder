@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="znpb-admin-color-preset-box"
-		:class="{['znpb-admin-color-preset-box--' + type]: type}"
-	>
+	<div class="znpb-admin-color-preset-box" :class="{ ['znpb-admin-color-preset-box--' + type]: type }">
 		<Tooltip
 			tooltip-class="hg-popper--no-padding"
 			:trigger="null"
@@ -11,29 +8,20 @@
 			:modifiers="[]"
 			:show-arrows="false"
 		>
-			<template v-slot:content>
+			<template #content>
 				<ColorPicker
 					ref="colorpickerHolder"
-					:model="color || ''"
-					@color-changed="updateColor"
-					:show-library="false"
 					v-click-outside="closeColorpicker"
+					:model="color || ''"
+					:show-library="false"
+					@color-changed="updateColor"
 				/>
 			</template>
-			<div
-				v-if="type=='addcolor'"
-				class="znpb-admin-color-preset-box__empty"
-				@click.stop="showColorPicker = true"
-			>
+			<div v-if="type == 'addcolor'" class="znpb-admin-color-preset-box__empty" @click.stop="showColorPicker = true">
 				<Icon icon="plus" />
-				<div>{{$translate('add_color')}}</div>
+				<div>{{ $translate('add_color') }}</div>
 			</div>
-			<div
-				v-else
-				class="znpb-admin-color-preset-box__color"
-				@click.stop="showColorPicker = true"
-			>
-
+			<div v-else class="znpb-admin-color-preset-box__color" @click.stop="showColorPicker = true">
 				<Icon
 					v-znpb-tooltip="$translate('delete_color_from_preset')"
 					icon="close"
@@ -44,50 +32,52 @@
 					<div
 						ref="circleTrigger"
 						class="znpb-admin-color-preset-box__circle"
-						:style="{background: localColor}"
+						:style="{ background: localColor }"
 					></div>
 				</div>
-				<div class="znpb-admin-color-preset-box__color-name"><span>{{localColor}}</span></div>
+				<div class="znpb-admin-color-preset-box__color-name">
+					<span>{{ localColor }}</span>
+				</div>
 			</div>
 		</Tooltip>
 	</div>
 </template>
 <script>
-import { ref, watchEffect } from 'vue'
-import clickOutside from '@zionbuilder/click-outside-directive'
+import { ref, watchEffect } from 'vue';
+import clickOutside from '../../../common/directives/click-outside.ts';
 
 export default {
 	name: 'ColorBox',
 	directives: {
-		clickOutside
+		clickOutside,
 	},
 	props: {
 		color: {
 			type: String,
-			required: false
+			required: false,
 		},
 		type: {
 			type: String,
-			required: false
-		}
+			required: false,
+		},
 	},
-	setup (props, { emit }) {
-		const localColor = ref('')
-		const showColorPicker = ref(false)
+	setup(props, { emit }) {
+		const localColor = ref('');
+		const showColorPicker = ref(false);
 
 		watchEffect(() => {
-			localColor.value = props.color
-		})
+			localColor.value = props.color;
+		});
 
-		function updateColor (color) {
-			localColor.value = color
+		function updateColor(color) {
+			localColor.value = color;
 		}
 
-		function closeColorpicker () {
-			showColorPicker.value = false
+		function closeColorpicker() {
+			showColorPicker.value = false;
 			// Check if color has changed
 			if (props.color !== localColor.value) {
-				emit('option-updated', localColor.value)
+				emit('option-updated', localColor.value);
 			}
 		}
 
@@ -96,10 +86,9 @@ export default {
 			showColorPicker,
 			updateColor,
 			closeColorpicker,
-		}
-	}
-
-}
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -150,7 +139,8 @@ export default {
 			align-self: flex-end;
 		}
 	}
-	&__color, &__empty {
+	&__color,
+	&__empty {
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -167,7 +157,7 @@ export default {
 		align-self: flex-end;
 		margin-top: 7px;
 		border: 1px solid var(--zb-surface-border-color);
-		transition: all .15s;
+		transition: all 0.15s;
 		cursor: pointer;
 		.zion-icon.zion-svg-inline {
 			width: 8px;

@@ -1,4 +1,3 @@
-src / modules / click - outside - directive / index.js;
 export default {
 	install(app) {
 		app.directive('click-outside', this);

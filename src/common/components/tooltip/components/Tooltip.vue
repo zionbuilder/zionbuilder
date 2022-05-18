@@ -26,7 +26,7 @@ import { ref } from 'vue';
 import { getDefaultOptions } from '../options';
 import { merge, debounce } from 'lodash-es';
 import { createPopper } from '@popperjs/core';
-import { getZindex, removeZindex } from '../../z-index-manager';
+import { getZindex, removeZindex } from '../../../modules/z-index-manager';
 
 let preventOutsideClickPropagation = false;
 

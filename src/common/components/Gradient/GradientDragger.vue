@@ -26,7 +26,7 @@ export default {
 <script lang="ts" setup>
 import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
 import { ColorPicker } from '../Colorpicker';
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import type { Color } from './GradientBar.vue';
 
 const props = defineProps<{

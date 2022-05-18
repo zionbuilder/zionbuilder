@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script>
-import { Button } from '../../components/main.ts';
+import { Button } from '../../Button';
 import { computed } from 'vue';
 
 export default {

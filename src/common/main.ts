@@ -1,6 +1,6 @@
 import './scss/index.scss';
 
-import './wordpress';
+import './modules/wordpress';
 
 import { App } from 'vue';
 
@@ -58,10 +58,10 @@ import { Tab, Tabs } from './components/Tabs';
 import { Notice } from './components/Notice';
 import { UpgradeToPro } from './components/UpgradeToPro';
 import IconPackGrid from './components/IconPackGrid.vue';
-import { Sortable } from '../sortable/index';
+import { Sortable } from './components/sortable';
 export * as utils from './utils';
-import { Tooltip, PopperDirective } from '../tooltip';
-import { Modal, ModalConfirm, ModalTemplateSaveButton } from '../modal';
+import { Tooltip, PopperDirective } from './components/tooltip';
+import { Modal, ModalConfirm, ModalTemplateSaveButton } from './components/modal';
 import { getDefaultGradient } from './utils';
 
 export * from './composables';

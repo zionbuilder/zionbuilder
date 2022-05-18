@@ -61,7 +61,7 @@ export default {
 <script lang="ts" setup>
 import { ref, onBeforeUnmount } from 'vue';
 import PatternContainer from './PatternContainer.vue';
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import { ColorPicker } from '../Colorpicker';
 
 withDefaults(

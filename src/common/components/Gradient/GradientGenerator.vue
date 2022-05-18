@@ -77,7 +77,7 @@ import GradientBoard from './GradientBoard.vue';
 import GradientOptions from './GradientOptions.vue';
 import GradientElement from './GradientElement.vue';
 import PresetInput from './PresetInput.vue';
-import { Sortable } from '../../../sortable';
+import { Sortable } from '../sortable';
 import { ActionsOverlay } from '../ActionsOverlay';
 import { generateUID } from '@zb/utils';
 

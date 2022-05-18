@@ -210,7 +210,7 @@ class Admin {
 				'zb-admin',
 				'admin-page',
 				[
-					// 'zb-components',
+					'zb-components',
 				],
 				Plugin::$instance->get_version(),
 				true

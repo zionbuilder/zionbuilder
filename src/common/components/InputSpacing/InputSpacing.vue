@@ -142,7 +142,7 @@ import { computed, ref, Ref, watch, nextTick } from 'vue';
 import { InputNumberUnit } from '../InputNumber';
 import { translate } from '@zb/i18n';
 import rafSchd from 'raf-schd';
-import clickOutside from '../../../click-outside-directive';
+import clickOutside from '../../directives/click-outside.ts';
 
 type PositionId =
 	| 'margin-top'

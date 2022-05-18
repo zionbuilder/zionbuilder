@@ -35,7 +35,7 @@ export default {
 import { computed, onMounted, ref, Ref, watch, nextTick } from 'vue';
 import { Icon } from '../Icon';
 import { EmptyList } from '../EmptyList';
-import Video from '../../../video';
+import Video from '../../../modules/video';
 import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
 
 interface VideoValue {

@@ -60,7 +60,7 @@ import { generateUID } from '@zb/utils';
 
 // Components
 import ColorBox from './ColorBox.vue';
-import Sortable from '@common/components/sortable/Sortable.vue';
+import { Sortable } from '../../../common/components/sortable';
 
 export default {
 	name: 'Colors',

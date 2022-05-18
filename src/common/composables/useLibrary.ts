@@ -1,6 +1,6 @@
 import { applyFilters } from '@zb/hooks';
 import { ref, Ref } from 'vue';
-import { LibrarySource, Source, LocalLibrary } from './models/Library';
+import { LibrarySource, Source, LocalLibrary } from '../models/Library';
 
 // TODO: move this in editor
 const activeElement: Ref<null | object> = ref(null);

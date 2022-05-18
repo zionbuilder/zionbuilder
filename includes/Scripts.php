@@ -34,7 +34,7 @@ class Scripts {
 	 */
 	private $assets_root_path = null;
 
-	private $dev_asset_handles = [];
+	private $dev_asset_src = [];
 
 	public function __construct() {
 		$this->setup_environment();
@@ -58,7 +58,7 @@ class Scripts {
 
 	public function add_module_attribute( $tag, $handle, $src ) {
 		// if not your script, do nothing and return original $tag
-		if ( in_array( $handle, $this->dev_asset_handles, true ) ) {
+		if ( strpos( $src, 'http://127.0.0.1' ) === 0 ) {
 			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
 		}
 		// change the script tag by adding type="module" and return it.
@@ -141,7 +141,6 @@ class Scripts {
 	 * @return void
 	 */
 	public function enqueue_script( $handle, $src = '', $deps = [], $ver = false, $in_footer = false ) {
-		$this->dev_asset_handles[] = $handle;
 		wp_enqueue_script( $handle, $this->get_script_url( $src, 'js' ), $deps, $ver, $in_footer );
 	}
 

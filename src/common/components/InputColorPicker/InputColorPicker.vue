@@ -88,7 +88,7 @@ export default {
 import { ref, computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';
 
 const props = withDefaults(

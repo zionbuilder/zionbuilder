@@ -1,18 +1,18 @@
-import { useNotifications } from '../useNotifications'
+import { useNotifications } from '../composables/useNotifications';
 
 export class Notification {
-	public title?: string = ''
-	public message: string = ''
-	public type: string = 'info'
-	public delayClose: number = 5000
+	public title?: string = '';
+	public message = '';
+	public type = 'info';
+	public delayClose = 5000;
 
 	constructor(data: Notification) {
-		Object.assign(this, data)
+		Object.assign(this, data);
 	}
 
 	remove() {
-		const { remove } = useNotifications()
+		const { remove } = useNotifications();
 
-		return remove(this)
+		return remove(this);
 	}
 }

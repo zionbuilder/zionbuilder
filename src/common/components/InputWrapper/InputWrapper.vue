@@ -32,7 +32,7 @@ export default {
 
 <script lang="ts" setup>
 import { computed, CSSProperties } from 'vue';
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';
 
 const props = withDefaults(

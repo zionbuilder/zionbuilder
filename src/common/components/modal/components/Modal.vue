@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import { getZindex, removeZindex } from '../../z-index-manager';
-import { Icon } from '../../components/components/Icon';
+import { getZindex, removeZindex } from '../../../modules/z-index-manager';
+import { Icon } from '../../Icon';
 
 export default {
 	name: 'Modal',

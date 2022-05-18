@@ -75,7 +75,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-vue',
-			'vue.js',
+			'vue',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -83,7 +83,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-hooks',
-			'hooks.js',
+			'hooks',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -91,37 +91,12 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-rest',
-			'rest.js',
+			'rest',
 			[
 				'zb-hooks',
 			],
 			Plugin::instance()->get_version(),
 			false
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-utils',
-			'utils.js',
-			[
-				'zb-rest',
-				'zb-hooks',
-			],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-i18n',
-			'i18n.js',
-			[],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		wp_localize_script(
-			'zb-i18n',
-			'ZnI18NStrings',
-			Localization::get_strings()
 		);
 
 		wp_localize_script(
@@ -134,8 +109,33 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
+			'zb-utils',
+			'utils',
+			[
+				'zb-rest',
+				'zb-hooks',
+			],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
+			'zb-i18n',
+			'i18n',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		wp_localize_script(
+			'zb-i18n',
+			'ZnI18NStrings',
+			Localization::get_strings()
+		);
+
+		Plugin::instance()->scripts->register_script(
 			'zb-components',
-			'components.js',
+			'components',
 			[
 				'wp-codemirror',
 				'zb-vue',

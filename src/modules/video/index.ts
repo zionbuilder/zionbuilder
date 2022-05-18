@@ -1,4 +1,4 @@
-import { createActionInstance } from '../hooks/main';
+import { createActionInstance } from '../hooks/index.es';
 import reframe from 'reframe.js';
 
 declare global {

@@ -71,7 +71,7 @@
 		units: ['px','%','rem']
 	}
  */
-import { Tooltip } from '../../../tooltip';
+import { Tooltip } from '../tooltip';
 import { units as stringUnits } from '../../composables/units';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import rafSchd from 'raf-schd';

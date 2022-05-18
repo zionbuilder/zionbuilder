@@ -9,7 +9,7 @@ filesMap.forEach(async script => {
   await build({
     resolve: {
       alias: {
-        'vue-base': '../node_modules/vue/index.mjs',
+        'vue-base': '../node_modules/vue/dist/vue.runtime.esm-bundler.js',
       },
     },
     // mode: 'production',
