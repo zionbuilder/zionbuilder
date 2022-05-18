@@ -55,12 +55,12 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions } from '@zionbuilder/composables';
+import { useBuilderOptions } from '@common/composables';
 import { generateUID } from '@zb/utils';
 
 // Components
 import ColorBox from './ColorBox.vue';
-import Sortable from '../../../../sortable/src/components/sortable/Sortable.vue';
+import Sortable from '@common/components/sortable/Sortable.vue';
 
 export default {
 	name: 'Colors',

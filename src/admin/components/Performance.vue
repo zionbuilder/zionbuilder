@@ -1,48 +1,43 @@
 <template>
 	<PageTemplate class="znpb-performancePage">
-		<h3>{{$translate('performance')}}</h3>
+		<h3>{{ $translate('performance') }}</h3>
 
-		<OptionsForm
-			:schema="schema"
-			v-model="computedModel"
-			class="znpb-performanceForm"
-		/>
-
+		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-performanceForm" />
 	</PageTemplate>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { computed } from 'vue';
+import { useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'Performance',
-	setup (props) {
-		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptions()
+	setup(props) {
+		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptions();
 
 		const computedModel = computed({
-			get () {
-				return getOptionValue('performance', {})
+			get() {
+				return getOptionValue('performance', {});
 			},
-			set (newValue) {
+			set(newValue) {
 				if (newValue === null) {
-					updateOptionValue('performance', {}, false)
+					updateOptionValue('performance', {}, false);
 				} else {
-					updateOptionValue('performance', newValue, false)
+					updateOptionValue('performance', newValue, false);
 				}
 
-				debouncedSaveOptions()
-			}
-		})
+				debouncedSaveOptions();
+			},
+		});
 
-		const schema = window.ZnPbAdminPageData.schemas.performance
+		const schema = window.ZnPbAdminPageData.schemas.performance;
 
 		return {
 			computedModel,
-			schema
-		}
-	}
-}
+			schema,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

@@ -11,7 +11,7 @@ import { ServerRequest } from '@zb/utils';
 
 // Set Service Interceptor
 import { errorInterceptor } from '@zb/rest';
-import { useNotifications } from '@zionbuilder/composables';
+import { useNotifications } from '../common/composables/index';
 
 const serverRequest = new ServerRequest();
 const notifications = useNotifications();

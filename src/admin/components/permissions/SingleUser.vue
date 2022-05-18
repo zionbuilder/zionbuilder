@@ -1,93 +1,86 @@
 <template>
-	<div
-		class="znpb-admin-user-template"
-		v-if="userData"
-	>
+	<div v-if="userData" class="znpb-admin-user-template">
 		<UserTemplate
 			:permission="permissionsNumber"
 			:has-delete="true"
-			@edit-permission="showModal=true"
+			@edit-permission="showModal = true"
 			@delete-permission="deleteUserPermission(userId)"
 		>
-			{{userData.name}}
+			{{ userData.name }}
 		</UserTemplate>
 
 		<Modal
-			class="znpb-admin-permissions-modal"
 			v-model:show="showModal"
+			class="znpb-admin-permissions-modal"
 			:width="560"
 			:title="userData.name + ' ' + $translate('permissions')"
 			:show-backdrop="false"
 		>
-			<UserModalContent
-				:permissions="permissions"
-				@edit-role="editUserPermission(userId, $event)"
-			/>
+			<UserModalContent :permissions="permissions" @edit-role="editUserPermission(userId, $event)" />
 		</Modal>
 	</div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions, useUsers } from '@zionbuilder/composables'
+import { computed } from 'vue';
+import { useBuilderOptions, useUsers } from '@common/composables';
 
 // Components
-import UserModalContent from './UserModalContent.vue'
-import UserTemplate from './UserTemplate.vue'
+import UserModalContent from './UserModalContent.vue';
+import UserTemplate from './UserTemplate.vue';
 
 export default {
 	name: 'SingleUser',
 	components: {
 		UserModalContent,
-		UserTemplate
+		UserTemplate,
 	},
 	props: {
 		permissions: {
 			type: Object,
-			required: true
+			required: true,
 		},
 		userId: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
-	data () {
-		return {
-			showModal: false,
-			userData: {}
-		}
-	},
-	setup (props, { emit }) {
-		const { getUserInfo } = useUsers()
-		const { editUserPermission, deleteUserPermission } = useBuilderOptions()
-		const userData = getUserInfo(props.userId)
+	setup(props, { emit }) {
+		const { getUserInfo } = useUsers();
+		const { editUserPermission, deleteUserPermission } = useBuilderOptions();
+		const userData = getUserInfo(props.userId);
 
 		const permissionsNumber = computed(() => {
-			let permNumber = 1
+			let permNumber = 1;
 			if (props.permissions.allowed_access === false) {
-				return 0
+				return 0;
 			} else {
 				if (props.permissions.permissions.only_content === true) {
-					permNumber++
+					permNumber++;
 				}
 				for (let i in props.permissions.permissions.features) {
-					permNumber++
+					permNumber++;
 				}
 				for (let i in props.permissions.permissions.post_types) {
-					permNumber++
+					permNumber++;
 				}
 
-				return permNumber
+				return permNumber;
 			}
-		})
+		});
 
 		return {
 			permissionsNumber,
 			userData,
 			editUserPermission,
-			deleteUserPermission
-		}
-
-	}
-}
+			deleteUserPermission,
+		};
+	},
+	data() {
+		return {
+			showModal: false,
+			userData: {},
+		};
+	},
+};
 </script>

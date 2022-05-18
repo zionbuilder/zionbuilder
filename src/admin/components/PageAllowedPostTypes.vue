@@ -1,53 +1,46 @@
 <template>
 	<PageTemplate>
-		<h3>{{$translate('allowed_post_types')}}</h3>
+		<h3>{{ $translate('allowed_post_types') }}</h3>
 		<div class="znpb-admin-posts-wrapper">
-			<div
-				v-for="post in dataSets.post_types"
-				:key="post.id"
-				class="znpb-admin-post-types-tab"
-			>
-
-				<span class="znpb-admin-post-types-tab__title">{{post.name}}</span>
+			<div v-for="post in dataSets.post_types" :key="post.id" class="znpb-admin-post-types-tab">
+				<span class="znpb-admin-post-types-tab__title">{{ post.name }}</span>
 				<InputCheckbox
+					v-model="allowedPostTypes"
 					class="znpb-admin-checkbox-wrapper"
 					:rounded="true"
-					:optionValue="post.id"
-					v-model="allowedPostTypes"
+					:option-value="post.id"
 				/>
-
 			</div>
 		</div>
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{$translate('set_allowed_types')}}
+				{{ $translate('set_allowed_types') }}
 			</p>
 		</template>
 	</PageTemplate>
-
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useDataSets } from '@zb/components'
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { computed } from 'vue';
+import { useDataSets } from '@zb/components';
+import { useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'AllowedPostTypes',
-	setup () {
-		const { dataSets } = useDataSets()
-		const { getOptionValue, updateOptionValue, deleteOptionValue } = useBuilderOptions()
+	setup() {
+		const { dataSets } = useDataSets();
+		const { getOptionValue, updateOptionValue, deleteOptionValue } = useBuilderOptions();
 
 		const allowedPostTypes = computed({
 			get: () => getOptionValue('allowed_post_types'),
-			set: (newValue) => updateOptionValue('allowed_post_types', newValue)
-		})
+			set: newValue => updateOptionValue('allowed_post_types', newValue),
+		});
 		return {
 			dataSets,
-			allowedPostTypes
-		}
-	}
-}
+			allowedPostTypes,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-admin-posts-wrapper {

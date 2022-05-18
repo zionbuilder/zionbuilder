@@ -1,50 +1,45 @@
 <template>
 	<PageTemplate class="znpb-admin-content-wrapper">
-		<h3>{{$translate('custom_code')}}</h3>
+		<h3>{{ $translate('custom_code') }}</h3>
 
-		<OptionsForm
-			:schema="schema"
-			v-model="computedModel"
-			class="znpb-appearancePageForm"
-		/>
+		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-appearancePageForm" />
 	</PageTemplate>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions } from '@zionbuilder/composables'
-import { debounce } from 'lodash-es'
+import { computed } from 'vue';
+import { useBuilderOptions } from '@common/composables';
+import { debounce } from 'lodash-es';
 
 export default {
 	name: 'CustomCode',
-	setup () {
-		const { getOptionValue, updateOptionValue, saveOptionsToDB, deleteOptionValue, debouncedSaveOptions } = useBuilderOptions()
+	setup() {
+		const { getOptionValue, updateOptionValue, saveOptionsToDB, deleteOptionValue, debouncedSaveOptions } =
+			useBuilderOptions();
 
 		const computedModel = computed({
-			get () {
-				return getOptionValue('custom_code', {})
+			get() {
+				return getOptionValue('custom_code', {});
 			},
-			set (newValue) {
+			set(newValue) {
 				if (newValue === null) {
-					deleteOptionValue('custom_code', false)
+					deleteOptionValue('custom_code', false);
 				} else {
-					updateOptionValue('custom_code', newValue, false)
+					updateOptionValue('custom_code', newValue, false);
 				}
 
-				debouncedSaveOptions()
-			}
-		})
+				debouncedSaveOptions();
+			},
+		});
 
-
-		const schema = window.ZnPbAdminPageData.custom_code.schema
+		const schema = window.ZnPbAdminPageData.custom_code.schema;
 
 		return {
 			computedModel,
-			schema
-		}
-	}
-}
+			schema,
+		};
+	},
+};
 </script>
 
-<style>
-</style>
+<style></style>

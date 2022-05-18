@@ -73,21 +73,35 @@ class Gutenberg implements IBaseIntegration {
 	 * @return void
 	 */
 	public function load_scripts() {
+		global $post;
 		$this->is_gutenberg_active = true;
+		$post_instance             = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-admin-gutenberg-integration',
-			'gutenberg.js',
+			'gutenberg',
 			[
 				'wp-plugins',
 				'wp-edit-post',
 				'wp-i18n',
-				'znpb-admin-post-script',
 			],
 			Plugin::instance()->get_version(),
 			true
 		);
-
+		wp_localize_script(
+			'zb-admin-gutenberg-integration',
+			'ZnPbEditPostData',
+			[
+				// Set multi dimension to prevent WP casting to strings
+				'data' => [
+					'post_id'           => $post->ID,
+					'is_editor_enabled' => $post_instance && $post_instance->is_built_with_zion(),
+					'l10n'              => [
+						'wp_heartbeat_disabled' => esc_html__( 'WordPress Heartbeat is disabled. Zion builder requires it in order to function properly', 'zionbuilder' ),
+					],
+				],
+			]
+		);
 	}
 
 

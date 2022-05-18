@@ -208,9 +208,9 @@ class Admin {
 
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
-				'admin.js',
+				'admin-page',
 				[
-					'zb-components',
+					// 'zb-components',
 				],
 				Plugin::$instance->get_version(),
 				true

@@ -38,7 +38,7 @@ function initGutenberg(args) {
 		$editorBlockFrame = $($('#zionbuilder-gutenberg-editor-block').html());
 		$editorHeader = $('.edit-post-header-toolbar');
 		$editorLayout = $('.editor-block-list__layout');
-		console.log('attach buttons');
+
 		// Fix compatibility with WP 5.4
 		if (!$editorLayout.length) {
 			$editorLayout = $('.block-editor-block-list__layout');

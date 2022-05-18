@@ -48,7 +48,7 @@
 <script>
 import { ref, computed, provide } from 'vue';
 import { useRouter } from 'vue-router';
-import { useBuilderOptions, useGoogleFonts, useNotifications } from '@zionbuilder/composables';
+import { useBuilderOptions, useGoogleFonts, useNotifications } from '@common/composables';
 import OptionsSaveLoader from './components/OptionsSaveLoader.vue';
 
 export default {

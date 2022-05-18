@@ -1,65 +1,55 @@
 <template>
-	<li
-		@click.self="addNewUser"
-		class="znpb-baseselect-list__option znpb-add-specific-permissions__list-item"
-	>
-		{{user.name}}
+	<li class="znpb-baseselect-list__option znpb-add-specific-permissions__list-item" @click.self="addNewUser">
+		{{ user.name }}
 
-		<Tooltip
-			v-if="userPermissionsExists"
-			:content="$translate('user_has_permissions_remove')"
-		>
-			<Icon
-				icon="delete"
-				@click.stop="deletePermission"
-			/>
+		<Tooltip v-if="userPermissionsExists" :content="$translate('user_has_permissions_remove')">
+			<Icon icon="delete" @click.stop="deletePermission" />
 		</Tooltip>
 
 		<Loader v-if="loadingDelete" />
-
 	</li>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { useUsers, useBuilderOptions } from '@zionbuilder/composables'
+import { ref, computed } from 'vue';
+import { useUsers, useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'ModalListItem',
 	props: {
 		user: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props, { emit }) {
-		const { addUser } = useUsers()
-		const { getUserPermissions, addUserPermissions, deleteUserPermission } = useBuilderOptions()
-		const loadingDelete = ref(false)
-		const userPermissionsExists = computed(() => getUserPermissions(props.user.id))
+	setup(props, { emit }) {
+		const { addUser } = useUsers();
+		const { getUserPermissions, addUserPermissions, deleteUserPermission } = useBuilderOptions();
+		const loadingDelete = ref(false);
+		const userPermissionsExists = computed(() => getUserPermissions(props.user.id));
 
-		function addNewUser () {
+		function addNewUser() {
 			// Add user data to users object
-			addUser(props.user)
+			addUser(props.user);
 
 			// Add default User permissions to user permissions object
-			addUserPermissions(props.user)
+			addUserPermissions(props.user);
 
-			emit('close-modal', true)
+			emit('close-modal', true);
 		}
 
-		function deletePermission () {
-			deleteUserPermission(props.user.id)
+		function deletePermission() {
+			deleteUserPermission(props.user.id);
 		}
 
 		return {
 			loadingDelete,
 			addNewUser,
 			deletePermission,
-			userPermissionsExists
-		}
-	}
-}
+			userPermissionsExists,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

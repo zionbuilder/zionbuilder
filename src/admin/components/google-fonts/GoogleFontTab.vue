@@ -1,37 +1,26 @@
 <template>
-	<div
-		v-if="fontData"
-		class="znpb-admin__google-font-tab"
-	>
-		<div class="znpb-admin__google-font-tab-title">{{font.font_family}}</div>
+	<div v-if="fontData" class="znpb-admin__google-font-tab">
+		<div class="znpb-admin__google-font-tab-title">{{ font.font_family }}</div>
 		<div class="znpb-admin__google-font-tab-variants">
 			<HiddenContainer>
-				{{niceFontVariants}}
+				{{ niceFontVariants }}
 				<template #content>
-					<InputCheckboxGroup
-						:options="fontVariantsOption"
-						v-model="variantModel"
-						:min="1"
-					/>
+					<InputCheckboxGroup v-model="variantModel" :options="fontVariantsOption" :min="1" />
 				</template>
 			</HiddenContainer>
 		</div>
 		<div class="znpb-admin__google-font-tab-subset">
 			<HiddenContainer>
-				{{niceFontSubsets}}
+				{{ niceFontSubsets }}
 				<template #content>
-					<InputCheckboxGroup
-						:options="fontSubsetOption"
-						v-model="subsetModel"
-						:min="1"
-					/>
+					<InputCheckboxGroup v-model="subsetModel" :options="fontSubsetOption" :min="1" />
 				</template>
 			</HiddenContainer>
 		</div>
 		<div class="znpb-admin__google-font-tab-actions">
 			<Icon
-				class="znpb-edit-icon-pop"
 				v-znpb-tooltip="$translate('click_to_delete_font')"
+				class="znpb-edit-icon-pop"
 				icon="delete"
 				@click="showModalConfirm = true"
 			/>
@@ -41,137 +30,137 @@
 			:width="530"
 			:confirm-text="$translate('font_delete_confirm')"
 			:cancel-text="$translate('font_delete_cancel')"
-			@confirm="$emit('delete', font), showModalConfirm = false"
+			@confirm="$emit('delete', font), (showModalConfirm = false)"
 			@cancel="showModalConfirm = false"
 		>
-			{{$translate('are_you_sure_google_font_delete')}}
+			{{ $translate('are_you_sure_google_font_delete') }}
 		</ModalConfirm>
 	</div>
 </template>
 
 <script>
-import HiddenContainer from '../HiddenContainer.vue'
-import { useGoogleFonts } from '@zionbuilder/composables'
+import HiddenContainer from '../HiddenContainer.vue';
+import { useGoogleFonts } from '@common/composables';
 
 export default {
 	name: 'GoogleFontTab',
+	components: {
+		HiddenContainer,
+	},
 	props: {
 		font: {
 			type: Object,
-		}
+		},
 	},
-	setup (props) {
-		const { getFontData } = useGoogleFonts()
-		const fontData = getFontData(props.font['font_family'])
+	setup(props) {
+		const { getFontData } = useGoogleFonts();
+		const fontData = getFontData(props.font['font_family']);
 
 		return {
-			fontData
-		}
+			fontData,
+		};
 	},
-	data () {
+	data() {
 		return {
-			showModalConfirm: false
-		}
-	},
-	components: {
-		HiddenContainer
+			showModalConfirm: false,
+		};
 	},
 
 	computed: {
 		variantModel: {
-			get () {
-				return this.font.font_variants
+			get() {
+				return this.font.font_variants;
 			},
-			set (newValue) {
+			set(newValue) {
 				this.$emit('font-updated', {
 					...this.font,
-					font_variants: newValue
-				})
-			}
+					font_variants: newValue,
+				});
+			},
 		},
 		subsetModel: {
-			get () {
-				return this.font.font_subset
+			get() {
+				return this.font.font_subset;
 			},
-			set (newValue) {
+			set(newValue) {
 				this.$emit('font-updated', {
 					...this.font,
-					font_subset: newValue
-				})
-			}
+					font_subset: newValue,
+				});
+			},
 		},
-		niceFontVariants () {
-			let variants = []
-			this.font.font_variants.forEach((variant) => {
-				variants.push(this.getVarianNameFromId(variant))
-			})
+		niceFontVariants() {
+			let variants = [];
+			this.font.font_variants.forEach(variant => {
+				variants.push(this.getVarianNameFromId(variant));
+			});
 
-			return variants.join(', ')
+			return variants.join(', ');
 		},
-		niceFontSubsets () {
-			let subsets = []
-			this.font.font_subset.forEach((subset) => {
-				subsets.push(this.capitalizeWords(subset.split('-').join(' ')))
-			})
+		niceFontSubsets() {
+			let subsets = [];
+			this.font.font_subset.forEach(subset => {
+				subsets.push(this.capitalizeWords(subset.split('-').join(' ')));
+			});
 
-			return subsets.join(', ')
+			return subsets.join(', ');
 		},
-		fontVariantsOption () {
-			let options = []
+		fontVariantsOption() {
+			let options = [];
 
-			this.fontData.variants.forEach((variant) => {
+			this.fontData.variants.forEach(variant => {
 				options.push({
 					id: variant,
-					name: this.getVarianNameFromId(variant)
-				})
-			})
-			return options
+					name: this.getVarianNameFromId(variant),
+				});
+			});
+			return options;
 		},
-		fontSubsetOption () {
-			let options = []
+		fontSubsetOption() {
+			let options = [];
 
-			this.fontData.subsets.forEach((subset) => {
+			this.fontData.subsets.forEach(subset => {
 				options.push({
 					id: subset,
-					name: this.capitalizeWords(subset.split('-').join(' '))
-				})
-			})
-			return options
-		}
+					name: this.capitalizeWords(subset.split('-').join(' ')),
+				});
+			});
+			return options;
+		},
 	},
 	methods: {
-		getVarianNameFromId (variant) {
+		getVarianNameFromId(variant) {
 			const names = {
-				'100': '100',
+				100: '100',
 				'100italic': '100 Italic',
-				'300': '300',
+				300: '300',
 				'300italic': '300 Italic',
-				'regular': 'Regular',
-				'italic': 'Italic',
-				'500': '500',
+				regular: 'Regular',
+				italic: 'Italic',
+				500: '500',
 				'500italic': '500 Italic',
-				'700': '700',
+				700: '700',
 				'700italic': '700 Italic',
-				'900': '900',
-				'900italic': '900 Italic'
-			}
+				900: '900',
+				'900italic': '900 Italic',
+			};
 
 			if (typeof names[variant] !== 'undefined') {
-				return names[variant]
+				return names[variant];
 			}
 
-			return variant
+			return variant;
 		},
-		capitalizeWords (words) {
-			let wordsArray = words.split(' ')
+		capitalizeWords(words) {
+			let wordsArray = words.split(' ');
 			wordsArray.forEach((word, i) => {
-				wordsArray[i] = wordsArray[i].charAt(0).toUpperCase() + wordsArray[i].substring(1)
-			})
+				wordsArray[i] = wordsArray[i].charAt(0).toUpperCase() + wordsArray[i].substring(1);
+			});
 
-			return wordsArray.join(' ')
-		}
-	}
-}
+			return wordsArray.join(' ');
+		},
+	},
+};
 </script>
 
 <style lang="scss">
@@ -191,7 +180,8 @@ export default {
 		padding: 0 10px;
 	}
 
-	& > &-title, & > &-variants {
+	& > &-title,
+	& > &-variants {
 		min-width: 32%;
 
 		@media (max-width: 991px) {
@@ -203,7 +193,9 @@ export default {
 		max-width: 0;
 	}
 
-	&-title, &-variants, &-subset {
+	&-title,
+	&-variants,
+	&-subset {
 		@media (max-width: 767px) {
 			margin-bottom: 10px;
 		}
@@ -230,14 +222,18 @@ export default {
 			display: none;
 		}
 
-		.znpb-admin__google-font-tab-title, .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset, .znpb-admin__google-font-tab-actions {
+		.znpb-admin__google-font-tab-title,
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset,
+		.znpb-admin__google-font-tab-actions {
 			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: 700;
-			letter-spacing: .5px;
+			letter-spacing: 0.5px;
 			text-transform: uppercase;
 		}
-		.znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset {
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset {
 			text-align: left;
 		}
 		&:hover {
@@ -262,7 +258,7 @@ export default {
 			box-sizing: content-box;
 			padding: 5px;
 			font-size: 14px;
-			transition: color .15s ease;
+			transition: color 0.15s ease;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);

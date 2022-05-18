@@ -1,27 +1,24 @@
 <template>
 	<transition name="save">
-		<div
-			v-if="isLoading"
-			class="znpb-admin__options-save-loader"
-		>
+		<div v-if="isLoading" class="znpb-admin__options-save-loader">
 			<Icon icon="check" />
 		</div>
 	</transition>
 </template>
 
 <script>
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'OptionsSaveLoader',
-	setup () {
-		const { isLoading } = useBuilderOptions()
+	setup() {
+		const { isLoading } = useBuilderOptions();
 
 		return {
-			isLoading
-		}
-	}
-}
+			isLoading,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -38,8 +35,9 @@ export default {
 		font-size: 18px;
 		opacity: 0;
 	}
-	&:before, &:after {
-		content: "";
+	&:before,
+	&:after {
+		content: '';
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -54,7 +52,7 @@ export default {
 		border-right-color: var(--zb-success-color);
 		transform: translateZ(0);
 		transform: scale(1);
-		animation: Rotate .6s infinite;
+		animation: Rotate 0.6s infinite;
 	}
 	&.save-leave-to {
 		width: 45px;
@@ -62,14 +60,16 @@ export default {
 		text-align: center;
 		background-color: var(--zb-success-color);
 		transform: scale();
-		animation: Bounce .6s;
+		animation: Bounce 0.6s;
 	}
 
 	&.save-leave-to:before {
 		border: none;
 	}
 
-	&.save-enter-from, &.save-enter-to, &.save-leave {
+	&.save-enter-from,
+	&.save-enter-to,
+	&.save-leave {
 		.znpb-editor-icon-wrapper {
 			opacity: 0;
 		}
@@ -80,12 +80,15 @@ export default {
 			opacity: 1;
 		}
 	}
-	.save-leave-to, .save-leave-from {
+	.save-leave-to,
+	.save-leave-from {
 		opacity: 0;
 	}
 
-	.save-enter-to, .save-leave-to, .save-leave-from {
-		transition: all .8s;
+	.save-enter-to,
+	.save-leave-to,
+	.save-leave-from {
+		transition: all 0.8s;
 	}
 }
 

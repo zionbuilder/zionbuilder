@@ -1,48 +1,43 @@
 <template>
 	<PageTemplate class="znpb-librarySourcesPage">
-		<h3>{{$translate('library_share')}}</h3>
+		<h3>{{ $translate('library_share') }}</h3>
 
-		<OptionsForm
-			:schema="schema"
-			v-model="computedModel"
-			class="znpb-libraryShareForm"
-		/>
-
+		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-libraryShareForm" />
 	</PageTemplate>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { computed } from 'vue';
+import { useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'LibraryPage',
-	setup (props) {
-		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptions()
+	setup(props) {
+		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptions();
 
 		const computedModel = computed({
-			get () {
-				return getOptionValue('library_share', {})
+			get() {
+				return getOptionValue('library_share', {});
 			},
-			set (newValue) {
+			set(newValue) {
 				if (newValue === null) {
-					updateOptionValue('library_share', {}, false)
+					updateOptionValue('library_share', {}, false);
 				} else {
-					updateOptionValue('library_share', newValue, false)
+					updateOptionValue('library_share', newValue, false);
 				}
 
-				debouncedSaveOptions()
-			}
-		})
+				debouncedSaveOptions();
+			},
+		});
 
-		const schema = window.ZnPbAdminPageData.schemas.library_share
+		const schema = window.ZnPbAdminPageData.schemas.library_share;
 
 		return {
 			computedModel,
-			schema
-		}
-	}
-}
+			schema,
+		};
+	},
+};
 </script>
 
 <style>

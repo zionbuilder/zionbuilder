@@ -1,4 +1,4 @@
-import { applyFilters } from '../modules/hooks/main';
+import { applyFilters } from '@zb/hooks';
 import { ref, Ref } from 'vue';
 import { LibrarySource, Source, LocalLibrary } from './models/Library';
 

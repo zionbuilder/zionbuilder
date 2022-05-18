@@ -1,6 +1,6 @@
-import localSt from 'localstorage-ttl'
-import { LibraryItem } from './LibraryItem'
-import { useNotifications } from '@zionbuilder/composables'
+import localSt from 'localstorage-ttl';
+import { LibraryItem } from './LibraryItem';
+import { useNotifications } from '@common/composables';
 
 export interface Source {
 	name: string;
@@ -10,21 +10,20 @@ export interface Source {
 }
 
 export class LibrarySource {
-	public name?: string = ''
-	public id: string = ''
-	public url: string = ''
-	public request_headers: Array<any> = []
-	public use_cache: boolean = false
-	public items: Array<LibraryItem> = []
-	public categories = []
-	public loading: boolean = false
-	public loaded: boolean = false
-	public type: string = 'remote'
+	public name?: string = '';
+	public id = '';
+	public url = '';
+	public request_headers: Array<any> = [];
+	public use_cache = false;
+	public items: Array<LibraryItem> = [];
+	public categories = [];
+	public loading = false;
+	public loaded = false;
+	public type = 'remote';
 
 	constructor(librarySource: Source) {
-		Object.assign(this, librarySource)
+		Object.assign(this, librarySource);
 	}
-
 
 	/**
 	 * Fetches the data from the server or from local cache
@@ -34,68 +33,67 @@ export class LibrarySource {
 	 */
 	getData(useCache = true) {
 		if (this.loaded && useCache) {
-			return
+			return;
 		} else if (useCache && this.use_cache && localSt.get(`znpbLibraryCache_${this.id}`)) {
-			const savedData = localSt.get(`znpbLibraryCache_${this.id}`)
+			const savedData = localSt.get(`znpbLibraryCache_${this.id}`);
 			if (savedData) {
-				const { items, categories } = savedData
-				this.categories = categories
-				this.setItems(items)
-				this.loaded = true
+				const { items, categories } = savedData;
+				this.categories = categories;
+				this.setItems(items);
+				this.loaded = true;
 			}
 		} else {
-			this.loading = true
+			this.loading = true;
 
 			fetch(this.url, {
-				headers: this.request_headers
+				headers: this.request_headers,
 			})
 				.then(response => {
 					return response.json().then(data => {
 						// Check if permission is ok
 						if (!response.ok) {
 							// Show error notification
-							const { add } = useNotifications()
+							const { add } = useNotifications();
 							if (data?.message) {
 								add({
 									message: data.message,
 									type: 'error',
-									delayClose: 5000
-								})
+									delayClose: 5000,
+								});
 							}
 
-							return
+							return;
 						}
 
-						const { categories = {}, items = [] } = data
-						this.categories = Object.values(categories)
+						const { categories = {}, items = [] } = data;
+						this.categories = Object.values(categories);
 
 						// Add library source type so we can use it on import
-						this.setItems(items)
-						this.loaded = true
+						this.setItems(items);
+						this.loaded = true;
 
 						// Save library data to cache
 						if (this.use_cache) {
-							this.saveToCache(Object.values(categories), items)
+							this.saveToCache(Object.values(categories), items);
 						}
-
-					})
+					});
 				})
 				.finally(() => {
 					// End loading
-					this.loading = false
-				})
+					this.loading = false;
+				});
 		}
 	}
 
 	setItems(items: Array<LibraryItem>) {
-		this.items = items.map(item => new LibraryItem(item, this))
+		this.items = items.map(item => new LibraryItem(item, this));
 	}
 
 	removeItem(item: LibraryItem) {
-		const index = this.items.indexOf(item)
-		this.items.splice(index, 1)
+		const index = this.items.indexOf(item);
+		this.items.splice(index, 1);
 
-		this.deleteCache()
+		this.deleteCache();
 	}
 
 	/**
@@ -105,20 +103,23 @@ export class LibrarySource {
 	 * @returns {LibraryItem} The library item instance
 	 */
 	addItem(item: LibraryItem) {
-		this.items.push(new LibraryItem(item, this))
+		this.items.push(new LibraryItem(item, this));
 
-		this.deleteCache()
+		this.deleteCache();
 	}
 
 	saveToCache(categories: Array<any>, items: Array<LibraryItem>) {
-		localSt.set(`znpbLibraryCache_${this.id}`, {
-			categories,
-			items
-		}, 604800000)
+		localSt.set(
+			`znpbLibraryCache_${this.id}`,
+			{
+				categories,
+				items,
+			},
+			604800000,
+		);
 	}
 
 	deleteCache() {
 		localStorage.removeItem(`znpbLibraryCache_${this.id}`.toString());
 	}
-
 }

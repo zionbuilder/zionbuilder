@@ -1,23 +1,18 @@
 <template>
 	<div class="znpb-admin-content-wrapper znpb-permissions-wrapper">
-		<div class="znpb-admin-content znpb-admin-content--left znpb-admin-content--hiddenXs">
-		</div>
+		<div class="znpb-admin-content znpb-admin-content--left znpb-admin-content--hiddenXs"></div>
 		<div class="znpb-admin-content__permission-container">
 			<PageTemplate>
 				<Loader v-if="loading" />
 				<template v-else>
 					<div class="znpb-admin-role-manager-wrapper">
-						<h3>{{$translate('role_manager')}}</h3>
-						<SingleRole
-							v-for="(role,i) in dataSets.user_roles"
-							:key=i
-							:role="role"
-						/>
+						<h3>{{ $translate('role_manager') }}</h3>
+						<SingleRole v-for="(role, i) in dataSets.user_roles" :key="i" :role="role" />
 					</div>
 				</template>
-				<template v-slot:right>
+				<template #right>
 					<p class="znpb-admin-info-p">
-						{{$translate('manage_users_permissions')}}
+						{{ $translate('manage_users_permissions') }}
 					</p>
 				</template>
 			</PageTemplate>
@@ -31,12 +26,11 @@
 				/>
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
-						<h3>{{$translate('user_specific')}}</h3>
+						<h3>{{ $translate('user_specific') }}</h3>
 
-						<EmptyList
-							v-if="Object.entries(userPermissions).length === 0"
-							@click="showModal=true"
-						>{{$translate('no_user_added')}}</EmptyList>
+						<EmptyList v-if="Object.entries(userPermissions).length === 0" @click="showModal = true">{{
+							$translate('no_user_added')
+						}}</EmptyList>
 
 						<SingleUser
 							v-for="(permissions, userId) in userPermissions"
@@ -46,27 +40,24 @@
 						/>
 					</div>
 					<div class="znpb-admin-user-specific-actions">
-						<Button
-							@click="showModal=true"
-							type="secondary"
-						>
+						<Button type="secondary" @click="showModal = true">
 							<span class="znpb-add-element-icon"></span>
-							{{$translate('add_user')}}
+							{{ $translate('add_user') }}
 						</Button>
 						<Modal
-							class="znpb-admin-permissions-modal"
 							v-model:show="showModal"
+							class="znpb-admin-permissions-modal"
 							:width="560"
 							:title="$translate('add_user')"
 							:show-backdrop="false"
 						>
-							<AddUserModalContent @close-modal="showModal=false" />
+							<AddUserModalContent @close-modal="showModal = false" />
 						</Modal>
 					</div>
 				</template>
-				<template v-slot:right>
+				<template #right>
 					<p class="znpb-admin-info-p">
-						{{$translate('manage_wordpress_users_permisions')}}
+						{{ $translate('manage_wordpress_users_permisions') }}
 					</p>
 				</template>
 			</PageTemplate>
@@ -75,42 +66,42 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useDataSets } from '@zb/components'
-import { useBuilderOptions, useUsers } from '@zionbuilder/composables'
+import { ref } from 'vue';
+import { useDataSets } from '@zb/components';
+import { useBuilderOptions, useUsers } from '@common/composables';
 
 // Components
-import SingleRole from './SingleRole.vue'
-import SingleUser from './SingleUser.vue'
-import AddUserModalContent from './AddUserModalContent.vue'
+import SingleRole from './SingleRole.vue';
+import SingleUser from './SingleUser.vue';
+import AddUserModalContent from './AddUserModalContent.vue';
 
 export default {
-	name: 'permissions',
+	name: 'Permissions',
 	components: {
 		SingleRole,
 		SingleUser,
-		AddUserModalContent
+		AddUserModalContent,
 	},
-	setup () {
-		const isPro = window.ZnPbAdminPageData.is_pro_active
-		const { fetchUsersData } = useUsers()
-		const { getOptionValue } = useBuilderOptions()
+	setup() {
+		const isPro = window.ZnPbAdminPageData.is_pro_active;
+		const { fetchUsersData } = useUsers();
+		const { getOptionValue } = useBuilderOptions();
 
-		const { dataSets } = useDataSets()
-		const userPermissions = getOptionValue('users_permissions')
-		const loading = ref(true)
-		const showModal = ref(false)
-		const proLink = ref(null)
+		const { dataSets } = useDataSets();
+		const userPermissions = getOptionValue('users_permissions');
+		const loading = ref(true);
+		const showModal = ref(false);
+		const proLink = ref(null);
 
 		// Fetch system information from rest api
-		const userIds = Object.keys(userPermissions)
+		const userIds = Object.keys(userPermissions);
 
 		if (userIds.length > 0) {
-			fetchUsersData(userIds).finally((result) => {
-				loading.value = false
-			})
+			fetchUsersData(userIds).finally(result => {
+				loading.value = false;
+			});
 		} else {
-			loading.value = false
+			loading.value = false;
 		}
 
 		return {
@@ -119,13 +110,13 @@ export default {
 			userPermissions,
 			loading,
 			showModal,
-			proLink
-		}
-	}
-}
+			proLink,
+		};
+	},
+};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .znpb-admin-permissions-modal {
 	& > .znpb-modal__wrapper--full-size {
 		width: 100%;

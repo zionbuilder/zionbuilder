@@ -12,8 +12,8 @@
 		<ListScroll
 			class="znpb-admin__google-fonts-modal-font-list-wrapper"
 			list-class="znpb-admin__google-fonts-modal-font-list-container"
-			@scroll-end="onScrollEnd"
 			:loading="loading"
+			@scroll-end="onScrollEnd"
 		>
 			<GoogleFontModalElement
 				v-for="font in visibleFonts"
@@ -28,85 +28,85 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue'
-import { useGoogleFonts } from '@zionbuilder/composables'
+import { ref, computed, watch } from 'vue';
+import { useGoogleFonts } from '@common/composables';
 
 // Components
-import GoogleFontModalElement from './GoogleFontModalElement.vue'
+import GoogleFontModalElement from './GoogleFontModalElement.vue';
 
 export default {
 	name: 'GoogleFontsModalContent',
 	components: {
-		GoogleFontModalElement
+		GoogleFontModalElement,
 	},
 	props: {
 		activeFonts: {
 			type: Array,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props) {
-		const { googleFonts } = useGoogleFonts()
-		const fontsPerPage = 20
+	setup(props) {
+		const { googleFonts } = useGoogleFonts();
+		const fontsPerPage = 20;
 
-		const currentPage = ref(1)
-		const keyword = ref('')
-		const loading = ref(false)
+		const currentPage = ref(1);
+		const keyword = ref('');
+		const loading = ref(false);
 		const allFonts = computed(() => {
-			let fonts = googleFonts.value
+			let fonts = googleFonts.value;
 
 			if (keyword.value.length > 0) {
-				fonts = googleFonts.value.filter((font) => {
-					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1
-				})
+				fonts = googleFonts.value.filter(font => {
+					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1;
+				});
 			}
 
-			return fonts
-		})
+			return fonts;
+		});
 
 		const visibleFonts = computed(() => {
-			const end = fontsPerPage * currentPage.value
+			const end = fontsPerPage * currentPage.value;
 
-			return allFonts.value.slice(0, end)
-		})
+			return allFonts.value.slice(0, end);
+		});
 
-		const maxPages = computed(() => Math.ceil(allFonts.value.length / fontsPerPage))
+		const maxPages = computed(() => Math.ceil(allFonts.value.length / fontsPerPage));
 
-		watch(visibleFonts, (newValue) => {
-			let fontLink = document.getElementById('znpb-google-fonts-script')
+		watch(visibleFonts, newValue => {
+			let fontLink = document.getElementById('znpb-google-fonts-script');
 
-			let fontsSource = newValue.map((font) => {
-				let variant = ''
+			let fontsSource = newValue.map(font => {
+				let variant = '';
 				if (!font.variants.includes(400)) {
-					variant = `:${font.variants[0]}`
+					variant = `:${font.variants[0]}`;
 				}
 
-				return font.family.replace(' ', '+') + variant
-			})
+				return font.family.replace(' ', '+') + variant;
+			});
 
 			if (!fontLink) {
-				const head = document.head
-				fontLink = document.createElement('link')
-				fontLink.rel = 'stylesheet'
-				fontLink.id = `znpb-google-fonts-script`
-				fontLink.type = 'text/css'
-				fontLink.media = 'all'
-				head.appendChild(fontLink)
+				const head = document.head;
+				fontLink = document.createElement('link');
+				fontLink.rel = 'stylesheet';
+				fontLink.id = `znpb-google-fonts-script`;
+				fontLink.type = 'text/css';
+				fontLink.media = 'all';
+				head.appendChild(fontLink);
 			}
 
-			fontLink.href = `https://fonts.googleapis.com/css?family=${fontsSource.join('|')}`
-		})
+			fontLink.href = `https://fonts.googleapis.com/css?family=${fontsSource.join('|')}`;
+		});
 
-		function onScrollEnd (event) {
+		function onScrollEnd(event) {
 			console.log('scroll end');
 			if (currentPage.value !== maxPages.value) {
-				currentPage.value++
-				loading.value = true
+				currentPage.value++;
+				loading.value = true;
 
 				// Fake loading
 				setTimeout(() => {
-					loading.value = false
-				}, 300)
+					loading.value = false;
+				}, 300);
 			}
 		}
 
@@ -114,10 +114,10 @@ export default {
 			visibleFonts,
 			keyword,
 			loading,
-			onScrollEnd
-		}
-	}
-}
+			onScrollEnd,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-modal-google-fonts {
@@ -140,7 +140,8 @@ export default {
 			width: 20px;
 			height: 20px;
 			background: var(--zb-surface-color);
-			&:before, &:after {
+			&:before,
+			&:after {
 				border: 2px solid var(--zb-surface-border-color);
 			}
 			&:after {

@@ -1,47 +1,41 @@
 <template>
-
 	<PageTemplate>
-		<h3>{{$translate('maintenance_mode')}}</h3>
+		<h3>{{ $translate('maintenance_mode') }}</h3>
 
-		<OptionsForm
-			:schema="schema"
-			v-model="computedModel"
-			class="znpb-maintenanceModeForm"
-		/>
+		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-maintenanceModeForm" />
 	</PageTemplate>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useBuilderOptions } from '@zionbuilder/composables'
+import { computed } from 'vue';
+import { useBuilderOptions } from '@common/composables';
 
 export default {
 	name: 'MaintenanceMode',
-	setup (props, { emit }) {
-		const { getOptionValue, updateOptionValue } = useBuilderOptions()
+	setup(props, { emit }) {
+		const { getOptionValue, updateOptionValue } = useBuilderOptions();
 
 		const computedModel = computed({
-			get () {
-				return getOptionValue('maintenance_mode', {})
+			get() {
+				return getOptionValue('maintenance_mode', {});
 			},
-			set (newValue) {
+			set(newValue) {
 				if (newValue === null) {
-					updateOptionValue('maintenance_mode', {})
+					updateOptionValue('maintenance_mode', {});
 				} else {
-					updateOptionValue('maintenance_mode', newValue)
+					updateOptionValue('maintenance_mode', newValue);
 				}
+			},
+		});
 
-			}
-		})
-
-		const schema = window.ZnPbAdminPageData.maintenance_mode.schema
+		const schema = window.ZnPbAdminPageData.maintenance_mode.schema;
 
 		return {
 			computedModel,
-			schema
-		}
-	}
-}
+			schema,
+		};
+	},
+};
 </script>
 
 <style>
