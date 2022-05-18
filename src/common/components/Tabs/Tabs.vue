@@ -30,7 +30,7 @@ export default {
 
 <script lang="ts" setup>
 import { kebabCase } from 'lodash-es';
-import { useSlots, ref, type VNode } from 'vue';
+import { useSlots, ref, Fragment, type VNode } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -57,6 +57,9 @@ function RenderComponent(props: any) {
 }
 
 function getIdForTab(tab: VNode) {
+	if (!tab) {
+		return;
+	}
 	const props = tab.props;
 	return props?.id ?? kebabCase(props!.name);
 }
@@ -64,8 +67,22 @@ function getIdForTab(tab: VNode) {
 const slots = useSlots();
 
 if (slots.default) {
-	tabs.value = slots.default().filter(child => child.type.name === 'Tab');
+	const childs = slots.default();
+	tabs.value = getTabs(slots.default()).filter(child => child.type.name === 'Tab');
 	activeTab.value = activeTab.value ?? getIdForTab(tabs.value[0]);
+}
+
+function getTabs(vNodes: VNode[]) {
+	let tabs = [];
+	vNodes.forEach(tab => {
+		if (tab.type === Fragment) {
+			tabs = [...tabs, ...getTabs(tab.children)];
+		} else {
+			tabs.push(tab);
+		}
+	});
+
+	return tabs;
 }
 
 function selectTab(tab: VNode) {

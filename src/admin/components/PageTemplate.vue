@@ -1,16 +1,10 @@
 <template>
-	<div
-		class="znpb-admin-content znpb-admin-content--center"
-		functional
-	>
+	<div class="znpb-admin-content znpb-admin-content--center" functional>
 		<div class="znpb-admin-content__center">
 			<slot></slot>
 		</div>
 		<div class="znpb-admin-content__right">
-			<Icon
-				icon="infobig"
-				class="znpb-admin-right-info"
-			/>
+			<Icon icon="infobig" class="znpb-admin-right-info" />
 			<slot name="right"></slot>
 		</div>
 	</div>
@@ -18,7 +12,7 @@
 
 <script>
 export default {
-	name: "PageTemplate"
+	name: 'PageTemplate',
 };
 </script>
 
