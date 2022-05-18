@@ -63,7 +63,7 @@ class CommonJS {
 	public static function register_scripts() {
 		Plugin::instance()->scripts->register_style(
 			'zb-components',
-			'components.css',
+			'components',
 			[
 				'wp-codemirror',
 				'media-views',

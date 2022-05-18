@@ -201,7 +201,7 @@ class Admin {
 			// Load styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
-				'admin.css',
+				'admin',
 				[ 'zb-components' ],
 				Plugin::instance()->get_version()
 			);
@@ -237,11 +237,10 @@ class Admin {
 						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [
-									'type'      => 'custom_selector',
-									'title'     => esc_html__( 'Builder theme.', 'zionbuilder' ),
-									'default'   => 'light',
-									'on_change' => 'znpb_set_editor_theme',
-									'options'   => [
+									'type'    => 'custom_selector',
+									'title'   => esc_html__( 'Builder theme.', 'zionbuilder' ),
+									'default' => 'light',
+									'options' => [
 										[
 											'name' => __( 'light', 'zionbuilder' ),
 											'id'   => 'light',

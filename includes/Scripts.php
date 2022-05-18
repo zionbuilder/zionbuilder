@@ -209,7 +209,7 @@ class Scripts {
 	 */
 	public function get_script_url( $path, $extension ) {
 		$is_debug = Environment::is_debug();
-		if ( $is_debug ) {
+		if ( $is_debug && $extension === 'js' ) {
 			$scripts_map = Environment::get_value( 'devScripts', [] );
 
 			if ( isset( $scripts_map[$path] ) ) {
