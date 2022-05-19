@@ -15,6 +15,7 @@ const server = await createServer({
   root: path.resolve('../'),
   resolve: {
     alias: {
+      '@zionbuilder/composables': path.resolve('../src/common/composables'),
       '@common': '../src/common',
       '@modules': '../src/modules',
       // This aliases are needed for dev server

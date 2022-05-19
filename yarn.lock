@@ -2272,6 +2272,16 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dom-form-serializer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dom-form-serializer/-/dom-form-serializer-2.0.0.tgz#b1550efefa08ebca15547ee1b4c791bf7b45c748"
+  integrity sha512-HMrrc7gJIBj6sWmnJcO9DLZj8AsdFP60+pZSu0vMJxZhEP3GPfsNE9X1GC95nXZ0SZbS8FYDb/NHW/NArSmu0Q==
+
+dom-to-image@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/dom-to-image/-/dom-to-image-2.6.0.tgz#8a503608088c87b1c22f9034ae032e1898955867"
+  integrity sha1-ilA2CAiMh7HCL5A0rgMuGJiVWGc=
+
 dot-prop@^5.1.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-5.3.0.tgz#90ccce708cd9cd82cc4dc8c3ddd9abdd55b20e88"

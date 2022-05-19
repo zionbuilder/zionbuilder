@@ -198,7 +198,7 @@ class Editor {
 
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-editor-style',
-			'css/editor.css',
+			'editor',
 			[
 				'wp-codemirror',
 				'zb-components',
@@ -233,7 +233,7 @@ class Editor {
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',
-			'js/editor.js',
+			'editor',
 			[
 				'wp-auth-check',
 				'heartbeat',
