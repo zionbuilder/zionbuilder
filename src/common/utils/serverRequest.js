@@ -1,5 +1,4 @@
-import { bulkActions } from '@zb/rest';
-import { applyFilters } from '@zb/hooks';
+import { bulkActions } from '@common/api';
 import { hash } from './objectHash';
 
 export class ServerRequest {
@@ -22,6 +21,7 @@ export class ServerRequest {
 	}
 
 	request(data, successCallback, failCallback) {
+		const { applyFilters } = window.zb.hooks;
 		const parsedData = applyFilters('zionbuilder/server_request/data', data);
 		const rawData = JSON.parse(JSON.stringify(parsedData));
 

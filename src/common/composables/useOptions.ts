@@ -1,5 +1,4 @@
 // Utils
-import { applyFilters } from '@zb/hooks';
 import { Component } from 'vue';
 // Forms component
 import {
@@ -183,6 +182,8 @@ const options: Option[] = [
 ];
 
 export const useOptions = () => {
+	const { applyFilters } = window.zb.hooks;
+
 	/**
 	 * Get Option Component
 	 *

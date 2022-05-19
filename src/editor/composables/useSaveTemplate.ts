@@ -1,22 +1,22 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const activeSaveElement = ref({})
+const activeSaveElement = ref({});
 
 export const useSaveTemplate = () => {
 	const showSaveElement = (element, type = 'template') => {
 		activeSaveElement.value = {
 			element,
-			type
-		}
-	}
+			type,
+		};
+	};
 
 	const hideSaveElement = () => {
-		activeSaveElement.value = {}
-	}
+		activeSaveElement.value = {};
+	};
 
 	return {
 		activeSaveElement,
 		showSaveElement,
-		hideSaveElement
-	}
-}
+		hideSaveElement,
+	};
+};

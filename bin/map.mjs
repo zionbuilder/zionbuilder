@@ -1,5 +1,3 @@
-import path from 'path';
-
 export const filesMap = [
   // admin
   {
@@ -17,41 +15,35 @@ export const filesMap = [
     format: 'iife',
     output: 'admin-page',
   },
-  // Common
-  {
-    input: './src/common/main.ts',
-    format: 'iife',
-    output: 'components',
-  },
-  // Modules
-  {
-    input: 'src/modules/hooks/index.ts',
-    format: 'iife',
-    output: 'hooks',
-  },
-  {
-    input: './src/modules/i18n/index.ts',
-    format: 'iife',
-    output: 'i18n',
-  },
-  {
-    input: './src/modules/rest/index.ts',
-    format: 'iife',
-    output: 'rest',
-  },
   {
     input: './src/modules/vue/index.ts',
     format: 'iife',
     output: 'vue',
   },
   {
-    input: './src/common/utils/index.ts',
+    input: './src/modules/screenshot/index.ts',
     format: 'iife',
-    output: 'utils',
+    output: 'screenshot',
   },
   {
-    input: './src/editor/editor.ts',
+    input: './src/modules/integrations/rankmath.ts',
     format: 'iife',
-    output: 'editor',
+    output: 'integrations/rankmath',
   },
+  {
+    input: './src/modules/integrations/yoast.ts',
+    format: 'iife',
+    output: 'integrations/yoast',
+  },
+  // Editor
+  //   {
+  //     input: './src/editor/editor.ts',
+  //     format: 'iife',
+  //     output: 'editor',
+  //   },
+  //   {
+  //     input: './src/editor/preview.ts',
+  //     format: 'iife',
+  //     output: 'preview',
+  //   },
 ];

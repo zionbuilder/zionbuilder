@@ -48,8 +48,8 @@
 <script>
 import { ref, computed, provide } from 'vue';
 import { useRouter } from 'vue-router';
-import { useBuilderOptions, useGoogleFonts, useNotifications } from '../../common/composables';
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
+import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '@common/store';
 
 export default {
 	name: 'App',
@@ -58,9 +58,9 @@ export default {
 	},
 	setup(props) {
 		const router = useRouter();
-		const { fetchOptions, getOptionValue } = useBuilderOptions();
-		const { fetchGoogleFonts } = useGoogleFonts();
-		const { notifications } = useNotifications();
+		const builderOptionsStore = useBuilderOptionsStore();
+		const googleFontsStore = useGoogleFontsStore();
+		const notificationsStore = useNotificationsStore();
 
 		const loaded = ref(false);
 		const hasError = ref(false);
@@ -69,7 +69,7 @@ export default {
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
 
 		// Provide globalColors
-		provide('builderOptions', useBuilderOptions);
+		provide('builderOptions', builderOptionsStore);
 
 		const menuItems = computed(() => {
 			var routes = [];
@@ -87,12 +87,12 @@ export default {
 		});
 
 		const documentationLink = computed(() => {
-			return getOptionValue('white_label') !== null
-				? getOptionValue('white_label').plugin_help_url
+			return builderOptionsStore.getOptionValue('white_label') !== null
+				? builderOptionsStore.getOptionValue('white_label').plugin_help_url
 				: 'https://zionbuilder.io/help-center/';
 		});
 
-		Promise.all([fetchGoogleFonts(), fetchOptions()])
+		Promise.all([googleFontsStore.fetchGoogleFonts(), builderOptionsStore.fetchOptions()])
 			.catch(error => {
 				hasError.value = true;
 				// eslint-disable-next-line
@@ -104,7 +104,7 @@ export default {
 
 		return {
 			// Data
-			notifications,
+			notifications: notificationsStore.notifications,
 			loaded,
 			hasError,
 			logoUrl,

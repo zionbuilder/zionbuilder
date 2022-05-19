@@ -67,8 +67,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useDataSets } from '@zb/components';
-import { useBuilderOptions, useUsers } from '@common/composables';
+import { useBuilderOptions, useUsers, useDataSets } from '@common/composables';
 
 // Components
 import SingleRole from './SingleRole.vue';

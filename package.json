@@ -21,6 +21,7 @@
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.5",
+		"@wordpress/hooks": "^3.9.0",
 		"axios": "^0.27.2",
 		"crypto-js": "^4.1.1",
 		"dom-form-serializer": "^2.0.0",
@@ -30,6 +31,7 @@
 		"localstorage-ttl": "^1.0.2",
 		"lodash-es": "^4.17.21",
 		"memoize-one": "^6.0.0",
+		"pinia": "^2.0.14",
 		"raf-schd": "^4.0.3",
 		"reframe.js": "^4.0.0",
 		"rollup-plugin-external-globals": "^0.6.1",

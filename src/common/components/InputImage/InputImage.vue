@@ -69,7 +69,6 @@ import { InputWrapper } from '../InputWrapper';
 import { InputSelect } from '../InputSelect';
 import CustomSize from './CustomSize.vue';
 import { Injection } from '../Injection';
-import { applyFilters } from '@zb/hooks';
 import { clamp, startCase } from 'lodash-es';
 
 type ImageSize = { width?: string; height?: string };
@@ -140,6 +139,7 @@ watch(
 );
 
 const customComponent = computed(() => {
+	const { applyFilters } = window.zb.hooks;
 	return applyFilters('zionbuilder/options/image/display_component', null, props.modelValue, inputWrapper, optionsForm);
 });
 

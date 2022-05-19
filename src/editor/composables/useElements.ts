@@ -6,10 +6,7 @@ const elements: Ref<{ [key: string]: Element }> = ref({});
 
 export function useElements() {
 	const registerElement = (config, parent: string): Element => {
-		let element;
-
-		// check to see if the element exists
-		element = new Element(config, parent);
+		const element = new Element(config, parent);
 		elements.value[element.uid] = element;
 
 		return element;

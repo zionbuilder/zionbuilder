@@ -65,6 +65,7 @@
 		"pagebuilder",
 		"pagenow",
 		"phpcs",
+		"Pinia",
 		"Schd",
 		"Shortcode",
 		"showinfo",

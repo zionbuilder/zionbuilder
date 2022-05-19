@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { useDataSets } from '@zb/components';
+import { useDataSets } from '@common/composables';
 
 export default {
 	name: 'UserModalContent',

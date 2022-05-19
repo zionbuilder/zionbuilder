@@ -1,14 +1,14 @@
-import { ref, Ref } from 'vue'
+import { ref, Ref } from 'vue';
 
-const isPreviewMode: Ref<boolean> = ref(false)
+const isPreviewMode: Ref<boolean> = ref(false);
 
-export function usePreviewMode () {
-	const setPreviewMode = (state) => {
-		isPreviewMode.value = state
-	}
+export function usePreviewMode() {
+	const setPreviewMode = state => {
+		isPreviewMode.value = state;
+	};
 
 	return {
 		isPreviewMode,
-		setPreviewMode
-	}
+		setPreviewMode,
+	};
 }

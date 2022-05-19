@@ -271,10 +271,12 @@ export default {
 	},
 	// end checkMousePosition
 	beforeUnmount() {
-		this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts);
-		this.getWindows('preview').removeEventListener('click', this.preventClicks, true);
-		this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe);
-		this.getWindows('preview').removeEventListener('click', this.onIframeClick, true);
+		if (this.getWindows('preview')) {
+			this.getWindows('preview').removeEventListener('keydown', this.applyShortcuts);
+			this.getWindows('preview').removeEventListener('click', this.preventClicks, true);
+			this.getWindows('preview').removeEventListener('beforeunload', this.onBeforeUnloadIframe);
+			this.getWindows('preview').removeEventListener('click', this.onIframeClick, true);
+		}
 
 		off('refreshIframe', this.refreshIframe);
 	},

@@ -13,8 +13,8 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { InputCustomSelector } from '../InputCustomSelector';
-import { translate } from '@zb/i18n';
 
+const { translate } = window.zb.l18n;
 const props = defineProps<{
 	modelValue?: string;
 }>();

@@ -1,135 +1,136 @@
-import { ref, Ref, computed } from 'vue'
-import { each } from 'lodash-es'
-import { useTemplateParts } from './useTemplateParts'
-import { usePageSettings } from './usePageSettings'
-import { useCSSClasses } from './useCSSClasses'
-import { useEditorData } from './useEditorData'
-import { translate } from '@zb/i18n'
-import Cache from '../Cache'
-import { useEditElement } from './useEditElement'
+import { ref, Ref, computed } from 'vue';
+import { each } from 'lodash-es';
+import { useTemplateParts } from './useTemplateParts';
+import { usePageSettings } from './usePageSettings';
+import { useCSSClasses } from './useCSSClasses';
+import { useEditorData } from './useEditorData';
+import { translate } from '@zb/i18n';
+import Cache from '../Cache';
+import { useEditElement } from './useEditElement';
 
-const historyItems: Ref = ref([])
-const currentHistoryIndex: Ref = ref(-1)
-const isDirty: Ref<boolean> = ref(false)
+const historyItems: Ref = ref([]);
+const currentHistoryIndex: Ref = ref(-1);
+const isDirty: Ref<boolean> = ref(false);
 
 export function useHistory() {
 	const canUndo = computed(() => {
-		return currentHistoryIndex.value > 0
-	})
+		return currentHistoryIndex.value > 0;
+	});
 	const canRedo = computed(() => {
-		return currentHistoryIndex.value < historyItems.value.length - 1
-	})
+		return currentHistoryIndex.value < historyItems.value.length - 1;
+	});
 
 	function undo() {
 		if (currentHistoryIndex.value - 1 >= 0) {
-			currentHistoryIndex.value = currentHistoryIndex.value - 1
-			restoreHistoryState(currentHistoryIndex.value)
-			setDirtyStatus(true)
+			currentHistoryIndex.value = currentHistoryIndex.value - 1;
+			restoreHistoryState(currentHistoryIndex.value);
+			setDirtyStatus(true);
 		}
 	}
 
 	function redo() {
 		if (currentHistoryIndex.value + 1 <= historyItems.value.length - 1) {
-			currentHistoryIndex.value = currentHistoryIndex.value + 1
-			restoreHistoryState(currentHistoryIndex.value)
+			currentHistoryIndex.value = currentHistoryIndex.value + 1;
+			restoreHistoryState(currentHistoryIndex.value);
 
-			setDirtyStatus(true)
+			setDirtyStatus(true);
 		}
 	}
 
 	function addToHistory(name: string, ignoreDirty = false) {
 		// Get the state
-		const state = getDataForSave()
-		const currentTime = new Date()
+		const state = getDataForSave();
+		const currentTime = new Date();
 
 		if (!state) {
-			return
+			return;
 		}
 
 		const historyData = {
 			state,
 			name,
-			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`
-		}
+			time: `${currentTime.getHours()}:${currentTime.getMinutes()}`,
+		};
 
-		currentHistoryIndex.value += 1
+		currentHistoryIndex.value += 1;
 
 		// If this is a new change tree, remove the old one
 		if (currentHistoryIndex.value !== historyItems.value.length) {
-			const itemsToRemove = historyItems.value.length - currentHistoryIndex.value
-			historyItems.value.splice(currentHistoryIndex.value, itemsToRemove, historyData)
+			const itemsToRemove = historyItems.value.length - currentHistoryIndex.value;
+			historyItems.value.splice(currentHistoryIndex.value, itemsToRemove, historyData);
 		} else {
-			historyItems.value.push(historyData)
+			historyItems.value.push(historyData);
 		}
 
 		// Set the page as dirty so we know that we have changes
 		if (!ignoreDirty) {
-			setDirtyStatus(true)
+			setDirtyStatus(true);
 		}
 	}
 
 	function setDirtyStatus(status) {
-		isDirty.value = status
+		isDirty.value = status;
 	}
 
 	function restoreHistoryState(index: number) {
-		const data = historyItems.value[index]
+		const data = historyItems.value[index];
 
 		if (!data) {
-			console.warn('No data found for the selected history item.')
-			return
+			console.warn('No data found for the selected history item.');
+			return;
 		}
 
-		const { editorData } = useEditorData()
-		const { registerTemplatePart } = useTemplateParts()
+		const { editorData } = useEditorData();
+		const { registerTemplatePart } = useTemplateParts();
 
 		const content = {
-			[editorData.value.page_id]: data.state.template_data
-		}
+			[editorData.value.page_id]: data.state.template_data,
+		};
 
 		// New system
 		each(content, (value, id) => {
 			const area = registerTemplatePart({
 				name: id,
-				id: id
-			})
+				id: id,
+			});
 
-			area.element.addChildren(value)
-		})
+			area.element.addChildren(value);
+		});
 
-		currentHistoryIndex.value = index
+		currentHistoryIndex.value = index;
 
 		// Close element options panel
-		const { unEditElement } = useEditElement()
-		unEditElement()
+		const { unEditElement } = useEditElement();
+		unEditElement();
 
-		setDirtyStatus(true)
+		setDirtyStatus(true);
 	}
 
 	function addInitialHistory() {
-		addToHistory(translate('initial_state'), true)
+		addToHistory(translate('initial_state'), true);
 	}
 
 	function getDataForSave() {
-		const { getActivePostTemplatePart } = useTemplateParts()
-		const contentTemplatePart = getActivePostTemplatePart()
-		const { pageSettings } = usePageSettings()
-		const { CSSClasses } = useCSSClasses()
-		const { editorData } = useEditorData()
+		const { getActivePostTemplatePart } = useTemplateParts();
+		const contentTemplatePart = getActivePostTemplatePart();
+		const { pageSettings } = usePageSettings();
+		const { CSSClasses } = useCSSClasses();
+		const { editorData } = useEditorData();
 
 		if (!contentTemplatePart) {
-			console.error('Content template data not found.')
-			return
+			console.error('Content template data not found.');
+			return;
 		}
 
-		return JSON.parse(JSON.stringify({
-			page_id: editorData.value.page_id,
-			template_data: contentTemplatePart.toJSON(),
-			page_settings: pageSettings.value,
-			css_classes: CSSClasses.value
-		}))
+		return JSON.parse(
+			JSON.stringify({
+				page_id: editorData.value.page_id,
+				template_data: contentTemplatePart.toJSON(),
+				page_settings: pageSettings.value,
+				css_classes: CSSClasses.value,
+			}),
+		);
 	}
-
 
 	return {
 		historyItems,
@@ -142,7 +143,6 @@ export function useHistory() {
 		undo,
 		redo,
 		setDirtyStatus,
-		isDirty
-	}
-
+		isDirty,
+	};
 }

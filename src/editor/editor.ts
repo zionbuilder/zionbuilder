@@ -23,10 +23,10 @@ import { WireframeList, WireframeListItem } from './components/treeView';
 import { useOptionsSchemas } from '@zb/components';
 
 // Exports
-export * from './api.js';
-export * from './composables';
-export * from '../common/composables';
-export * from './utils';
+import * as API from './api.js';
+import * as COMPOSABLES from './composables';
+import * as COMMON_COMPOSABLES from '../common/composables';
+import * as UTILS from './utils';
 
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas();
@@ -83,4 +83,12 @@ window.addEventListener('load', function () {
 });
 
 // Export so we can access them from window.zb.editor
-export { appInstance, registerElementComponent };
+window.zb = window.zb || {};
+window.zb.editor = Object.assign(
+	{},
+	{ appInstance, registerElementComponent },
+	API,
+	COMPOSABLES,
+	COMMON_COMPOSABLES.units,
+	UTILS,
+);

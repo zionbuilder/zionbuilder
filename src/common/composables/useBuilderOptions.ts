@@ -1,5 +1,5 @@
 import { ref, Ref } from 'vue';
-import { saveOptions, getSavedOptions } from '@zb/rest';
+import { saveOptions, getSavedOptions } from '@common/api';
 import { get, update, unset, cloneDeep, debounce } from 'lodash-es';
 
 const isLoading: Ref<boolean> = ref(false);

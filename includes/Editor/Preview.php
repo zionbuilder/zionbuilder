@@ -119,7 +119,7 @@ class Preview {
 
 		Plugin::instance()->scripts->enqueue_script(
 			'znpb-preview-frame-scripts',
-			'js/preview.js',
+			'preview',
 			[
 				'zb-components',
 				'wp-tinymce',
@@ -171,14 +171,14 @@ class Preview {
 
 		Plugin::instance()->scripts->register_style(
 			'znpb-editor-styles',
-			'css/editor.css',
+			'editor',
 			[],
 			Plugin::instance()->get_version()
 		);
 
 		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',
-			'css/preview.css',
+			'preview',
 			[
 				'zb-components',
 				'znpb-editor-styles',
@@ -190,7 +190,7 @@ class Preview {
 		if ( is_rtl() ) {
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-preview-rtl-styles',
-				'css/rtl.css',
+				'rtl',
 				[],
 				Plugin::instance()->get_version()
 			);

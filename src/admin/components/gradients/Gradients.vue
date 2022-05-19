@@ -1,10 +1,7 @@
 <template>
 	<PageTemplate class="znpb-admin-gradients__wrapper">
-		<h3>{{$translate('gradients')}}</h3>
-		<Tabs
-			tab-style="minimal"
-			@changed-tab="activeLibrary=$event,activeGradient.value={}"
-		>
+		<h3>{{ $translate('gradients') }}</h3>
+		<Tabs tab-style="minimal" @changed-tab="(activeLibrary = $event), (activeGradient.value = {})">
 			<Tab name="Local">
 				<div class="znpb-admin-gradient__container">
 					<GradientBox
@@ -17,7 +14,6 @@
 
 					<AddGradient @click="onAddNewGradient" />
 				</div>
-
 			</Tab>
 			<Tab name="Global">
 				<UpgradeToPro
@@ -37,7 +33,6 @@
 						<AddGradient @click="onAddNewGradient" />
 					</div>
 				</template>
-
 			</Tab>
 		</Tabs>
 
@@ -48,44 +43,41 @@
 			@save-gradient="saveOptionsToDB"
 		/>
 
-		<template v-slot:right>
-			<p class="znpb-admin-info-p">{{$translate('create_gradient_info')}} </p>
+		<template #right>
+			<p class="znpb-admin-info-p">{{ $translate('create_gradient_info') }}</p>
 		</template>
 	</PageTemplate>
 </template>
 
 <script>
-import { ref, inject } from 'vue'
-import { getDefaultGradient } from '@zb/components'
-import { generateUID } from '@zb/utils'
+import { ref, inject } from 'vue';
+import { generateUID, getDefaultGradient } from '@common/utils';
 
 // Components
-import GradientBox from './GradientBox.vue'
-import GradientModalContent from './GradientModalContent.vue'
-import AddGradient from './AddGradient.vue'
+import GradientBox from './GradientBox.vue';
+import GradientModalContent from './GradientModalContent.vue';
+import AddGradient from './AddGradient.vue';
 
 export default {
 	name: 'Gradients',
 	components: {
 		GradientBox,
 		AddGradient,
-		GradientModalContent
+		GradientModalContent,
 	},
-	setup (props, context) {
-		function getPro () {
+	setup(props, context) {
+		function getPro() {
 			if (window.ZnPbComponentsData !== undefined) {
-				return window.ZnPbComponentsData.is_pro_active
+				return window.ZnPbComponentsData.is_pro_active;
 			}
 
-			return false
+			return false;
 		}
 
-
-
-		const isPro = getPro()
+		const isPro = getPro();
 
 		// This should be provided by Apps that are using this component
-		const useBuilderOptions = inject('builderOptions')
+		const useBuilderOptions = inject('builderOptions');
 
 		const {
 			getOptionValue,
@@ -96,45 +88,45 @@ export default {
 			addGlobalGradient,
 			deleteGlobalGradient,
 			editGlobalGradient,
-		} = useBuilderOptions()
+		} = useBuilderOptions();
 
-		const activeLibrary = ref('local')
-		const showModal = ref(false)
+		const activeLibrary = ref('local');
+		const showModal = ref(false);
 
-		const localGradients = getOptionValue('local_gradients')
-		const globalGradients = getOptionValue('global_gradients')
-		const activeGradient = ref({})
+		const localGradients = getOptionValue('local_gradients');
+		const globalGradients = getOptionValue('global_gradients');
+		const activeGradient = ref({});
 
-		function onGradientSelect (gradient) {
-			activeGradient.value = gradient
-			showModal.value = true
+		function onGradientSelect(gradient) {
+			activeGradient.value = gradient;
+			showModal.value = true;
 		}
 
-		function onGradientUpdate (newValue) {
+		function onGradientUpdate(newValue) {
 			if (activeLibrary.value === 'local') {
-				editLocalGradient(activeGradient.value.id, newValue)
+				editLocalGradient(activeGradient.value.id, newValue);
 			} else {
-				editGlobalGradient(activeGradient.value.id, newValue)
+				editGlobalGradient(activeGradient.value.id, newValue);
 			}
 		}
 
-		function onAddNewGradient () {
-			let dynamicName = generateUID()
+		function onAddNewGradient() {
+			let dynamicName = generateUID();
 
 			const defaultGradient = {
 				id: dynamicName,
 				name: dynamicName,
-				config: getDefaultGradient()
-			}
+				config: getDefaultGradient(),
+			};
 
 			if (activeLibrary.value === 'local') {
-				addLocalGradient(defaultGradient)
+				addLocalGradient(defaultGradient);
 			} else {
-				addGlobalGradient(defaultGradient)
+				addGlobalGradient(defaultGradient);
 			}
 
 			// Add the gradient to store
-			onGradientSelect(defaultGradient)
+			onGradientSelect(defaultGradient);
 		}
 
 		return {
@@ -151,11 +143,10 @@ export default {
 			onGradientUpdate,
 			deleteGlobalGradient,
 			activeGradient,
-			isPro
-		}
+			isPro,
+		};
 	},
-
-}
+};
 </script>
 
 <style lang="scss">

@@ -15,16 +15,16 @@ const server = await createServer({
   root: path.resolve('../'),
   resolve: {
     alias: {
-      '@zionbuilder/composables': path.resolve('../src/common/composables'),
+      //   '@zionbuilder/composables': path.resolve('../src/common/composables'),
       '@common': '../src/common',
-      '@modules': '../src/modules',
+      //   '@modules': '../src/modules',
       // This aliases are needed for dev server
       'vue-base': '../node_modules/vue/index.mjs',
-      '@zb/hooks': '../src/modules/hooks/index.es.ts',
-      '@zb/rest': '../src/modules/rest/index.es.ts',
-      '@zb/i18n': '../src/modules/i18n/index.ts',
-      '@zb/utils': '../src/common/utils/index.ts',
-      '@zb/components': '../src/common/main.ts',
+      //   '@zb/hooks': '../src/modules/hooks/index.es.ts',
+      //   '@zb/i18n': '../src/modules/i18n/index.ts',
+      //   '@zb/utils': '../src/common/utils/index.ts',
+      //   '@zb/components': '../src/common/main.ts',
+      //   '@zb/editor': '../src/editor/editor.ts',
     },
   },
   mode: 'development',

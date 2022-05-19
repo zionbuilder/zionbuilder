@@ -3,14 +3,11 @@
 		<div class="znpb-get-pro__image">
 			<img :src="proUrl" />
 		</div>
-		<h1 class="znpb-get-pro__title">{{$translate('upgrade_to_pro_now')}}</h1>
-		<p class="znpb-get-pro__description">{{message}}</p>
+		<h1 class="znpb-get-pro__title">{{ $translate('upgrade_to_pro_now') }}</h1>
+		<p class="znpb-get-pro__description">{{ message }}</p>
 		<div class="znpb-get-pro__more">
-			<a
-				href="https://zionbuilder.io/documentation/pro-version/"
-				target="_blank"
-			>
-				{{$translate('learn_more_about_pro')}}
+			<a href="https://zionbuilder.io/documentation/pro-version/" target="_blank">
+				{{ $translate('learn_more_about_pro') }}
 			</a>
 		</div>
 		<a
@@ -18,31 +15,30 @@
 			target="_blank"
 			class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
 		>
-			{{$translate('upgrade_to_pro')}}
+			{{ $translate('upgrade_to_pro') }}
 		</a>
 	</div>
 </template>
 
 <script>
-import { translate } from '@zb/i18n'
-
 export default {
 	name: 'GetPro',
 	props: {
 		message: {
 			type: String,
 			required: false,
-			default () {
-				return translate('pro_features')
-			}
-		}
+			default() {
+				const { translate } = window.zb.i18n;
+				return translate('pro_features');
+			},
+		},
 	},
 	computed: {
-		proUrl () {
-			return window.ZnPbAdminPageData.urls.pro_logo
-		}
-	}
-}
+		proUrl() {
+			return window.ZnPbAdminPageData.urls.pro_logo;
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-get-pro {

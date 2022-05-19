@@ -70,7 +70,6 @@ export default {
 
 <script lang="ts" setup>
 import { ref, computed, inject, nextTick } from 'vue';
-import { applyFilters } from '@zb/hooks';
 import { getDefaultGradient } from '../../utils/';
 import Icon from '../Icon/Icon.vue';
 import GradientBoard from './GradientBoard.vue';
@@ -79,7 +78,7 @@ import GradientElement from './GradientElement.vue';
 import PresetInput from './PresetInput.vue';
 import { Sortable } from '../sortable';
 import { ActionsOverlay } from '../ActionsOverlay';
-import { generateUID } from '@zb/utils';
+import { generateUID } from '../../utils';
 
 import type { Gradient, Position } from './GradientBar.vue';
 
@@ -107,6 +106,7 @@ const { addLocalGradient, addGlobalGradient } = useBuilderOptions();
 const computedValue = computed({
 	get() {
 		const clonedValue = JSON.parse(JSON.stringify(props.modelValue ?? getDefaultGradient()));
+		const { applyFilters } = window.zb.hooks;
 		return applyFilters('zionbuilder/options/model', clonedValue);
 	},
 	set(newValue: Gradient[]) {

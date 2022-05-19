@@ -47,7 +47,6 @@ export default {
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import Icon from '../Icon/Icon.vue';
-import { translate } from '@zb/i18n';
 
 const props = withDefaults(
 	defineProps<{
@@ -60,7 +59,10 @@ const props = withDefaults(
 	{
 		useSearch: true,
 		columns: 3,
-		searchText: (() => translate('search')) as unknown as string,
+		searchText: () => {
+			const { translate } = window.zb.l18n;
+			return translate('search') as unknown as string;
+		},
 	},
 );
 

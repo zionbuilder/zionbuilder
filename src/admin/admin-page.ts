@@ -1,32 +1,34 @@
 import './scss/index.scss';
 
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import api from './adminApi';
-import { initRoutes } from './router';
-import { useLibrary } from '../common/composables';
+import { hooks } from '../common/modules/hooks';
+import { install as I18nInstall } from '../common/modules/i18n';
+import { errorInterceptor } from '../common/api';
+import { useNotificationsStore } from '../common/store';
+import { install as ComponentsInstall } from '../common';
+
+import { initRoutes, routes } from './router';
+import { useLibrary } from '../common/composables/useLibrary';
 
 // Main
 import App from './components/BaseAdmin.vue';
 
-import { install as ComponentsInstall } from '@zb/components';
-import { install as I18nInstall } from '@zb/i18n';
-import { applyFilters } from '@zb/hooks';
+// import { useInjections } from '@zb/components';
+// import { ServerRequest } from '@zb/utils';
+
 // Components
 import SideMenu from './components/SideMenu.vue';
 import PageTemplate from './components/PageTemplate.vue';
 import ListAnimate from './components/ListAnimate.vue';
 import ModalTwoColTemplate from './components/ModalTwoColTemplate.vue';
 
-// Exports
-export * from '../common/composables';
-
 const { addSources } = useLibrary();
 addSources(window.ZnPbAdminPageData.template_sources);
 
 const appInstance = createApp(App);
-
 appInstance.component('SideMenu', SideMenu);
 appInstance.component('PageTemplate', PageTemplate);
 appInstance.component('ListAnimation', ListAnimate);
@@ -35,11 +37,16 @@ appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate);
 // Plugins
 appInstance.use(ComponentsInstall);
 appInstance.use(I18nInstall, window.ZnI18NStrings);
+appInstance.use(createPinia());
+
+const notificationsStore = useNotificationsStore();
+
+errorInterceptor(notificationsStore);
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
 	const evt = new CustomEvent('zionbuilder/admin/init', {
-		detail: api,
+		detail: window.zb.admin,
 	});
 
 	// Add default routes
@@ -47,15 +54,33 @@ window.addEventListener('load', function () {
 
 	window.dispatchEvent(evt);
 
-	const router = applyFilters(
+	const router = hooks.applyFilters(
 		'zionbuilder/router',
 		createRouter({
 			// 4. Provide the history implementation to use. We are using the hash history for simplicity here.
 			history: createWebHashHistory(),
-			routes: api.routes.getConfigForRouter(), // short for `routes: routes`
+			routes: routes.getConfigForRouter(), // short for `routes: routes`
 		}),
 	);
 
 	appInstance.use(router);
 	appInstance.mount('#znpb-admin');
 });
+
+// Provide API to 3rd party developers
+window.zb = window.zb || {};
+window.zb.admin = {
+	hooks,
+	// Old API
+	routes,
+	interceptors: {
+		errorInterceptor,
+	},
+	notifications: notificationsStore,
+	// TODO: deprecate this
+	addFilter: hooks.addFilter,
+	// useInjections,
+	// serverRequest,
+};
+
+window.zb.hooks = hooks;

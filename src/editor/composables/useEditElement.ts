@@ -1,37 +1,35 @@
-import { ref } from 'vue'
-import { useUI } from './useUI'
+import { ref } from 'vue';
+import { useUI } from './useUI';
 
-const element = ref(null)
+const element = ref(null);
 
 export function useEditElement() {
-	const editElement = (elementInstance) => {
-		const { openPanel } = useUI()
+	const editElement = elementInstance => {
+		const { openPanel } = useUI();
 
-		element.value = elementInstance
+		element.value = elementInstance;
 
-		openPanel('panel-element-options')
+		openPanel('panel-element-options');
 
 		if (elementInstance) {
-			let currentElement = elementInstance.parent
+			let currentElement = elementInstance.parent;
 			while (currentElement.parent) {
-				currentElement.treeViewItemExpanded = true
-				currentElement = currentElement.parent
+				currentElement.treeViewItemExpanded = true;
+				currentElement = currentElement.parent;
 			}
 		}
-	}
+	};
 
 	const unEditElement = () => {
-		const { closePanel } = useUI()
+		const { closePanel } = useUI();
 
-		element.value = null
-		closePanel('panel-element-options')
-	}
+		element.value = null;
+		closePanel('panel-element-options');
+	};
 
 	return {
 		element,
 		editElement,
-		unEditElement
-	}
+		unEditElement,
+	};
 }
-
-

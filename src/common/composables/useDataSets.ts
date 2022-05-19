@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { getFontsDataSet } from '@zb/rest';
+import { getFontsDataSet } from '@common/api';
 
 interface DataSet {
 	id: string;

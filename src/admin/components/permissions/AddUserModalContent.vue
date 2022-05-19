@@ -1,82 +1,75 @@
 <template>
 	<div class="znpb-add-specific-permissions-wrapper znpb-fancy-scrollbar">
-		<p class="znpb-add-specific-description">{{$translate('search_description')}}</p>
+		<p class="znpb-add-specific-description">{{ $translate('search_description') }}</p>
 		<div class="znpb-admin__google-fonts-modal-search">
 			<BaseInput
+				ref="searchInput"
 				v-model="keyword"
 				:placeholder="$translate('search_for_users')"
 				:icon="!loading ? 'search' : null"
 				size="big"
-				ref="searchInput"
 			>
-				<template v-slot:suffix>
+				<template #suffix>
 					<Loader v-if="loading" />
 				</template>
 			</BaseInput>
 
-			<ul
-				v-if="keyword.length > 2"
-				class="znpb-baseselect-list znpb-fancy-scrollbar"
-			>
-				<ModalListItem
-					v-for="(user, i) in users"
-					v-bind:key="i"
-					:user="user"
-					@close-modal="$emit('close-modal', true)"
-				/>
+			<ul v-if="keyword.length > 2" class="znpb-baseselect-list znpb-fancy-scrollbar">
+				<ModalListItem v-for="(user, i) in users" :key="i" :user="user" @close-modal="$emit('close-modal', true)" />
 			</ul>
 
-			<span
-				v-if="!loading && (users.length === 0) && (keyword.length > 2)"
-				class="znpb-not-found-message"
-			>{{$translate('no_result')}}</span>
+			<span v-if="!loading && users.length === 0 && keyword.length > 2" class="znpb-not-found-message">{{
+				$translate('no_result')
+			}}</span>
 		</div>
 	</div>
 </template>
 
 <script>
-import { nextTick, watch, ref } from 'vue'
-import { searchUser } from '@zb/rest'
+import { nextTick, watch, ref } from 'vue';
+import { searchUser } from '@common/api';
 
 // Components
-import ModalListItem from './ModalListItem.vue'
+import ModalListItem from './ModalListItem.vue';
 
 export default {
 	name: 'AddUserModalContent',
 	components: {
-		ModalListItem
+		ModalListItem,
 	},
-	setup () {
-		const searchInput = ref(null)
-		const keyword = ref('')
-		const loading = ref(false)
-		const users = ref([])
+	setup() {
+		const searchInput = ref(null);
+		const keyword = ref('');
+		const loading = ref(false);
+		const users = ref([]);
 
-		nextTick(() => searchInput.value.focus())
+		nextTick(() => searchInput.value.focus());
 
 		watch(keyword, (newValue, oldValue) => {
 			if (newValue.length > 2) {
-				loading.value = true
+				loading.value = true;
 
-				searchUser(newValue).then((result) => {
-					users.value = result.data
-				}).finally(() => {
-					loading.value = false
-				})
+				searchUser(newValue)
+					.then(result => {
+						users.value = result.data;
+					})
+					.finally(() => {
+						loading.value = false;
+					});
 			} else if (newValue.length === 0) {
-				users.value = []
-				loading.value = false
+				users.value = [];
+				loading.value = false;
 			}
-		})
+		});
 
 		return {
 			searchInput,
 			keyword,
 			loading,
-			users
-		}
-	}
-}
+			users,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -107,7 +100,7 @@ export default {
 }
 .znpb-baseselect-list {
 	background: var(--zb-dropdown-bg-color);
-	box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
+	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 	transform: translateY(5px);
@@ -132,7 +125,8 @@ export default {
 	left: auto;
 	width: 14px;
 	height: 14px;
-	&:before, &:after {
+	&:before,
+	&:after {
 		border: 2px solid var(--zb-surface-border-color);
 	}
 	&:after {

@@ -122,7 +122,6 @@
 </template>
 <script lang="ts" setup>
 import { provide, inject, readonly, toRef, watchEffect, ref, computed, markRaw } from 'vue';
-import { trigger } from '@zb/hooks';
 import { useOptions, useOptionsSchemas, useResponsiveDevices } from '../../composables';
 
 // Components
@@ -338,7 +337,8 @@ const optionValue = computed({
 		// Check to see if we need to refresh the iframe
 		if (props.schema.on_change) {
 			if (props.schema.on_change === 'refresh_iframe') {
-				trigger('refreshIframe');
+				const { doAction } = window.zb.hooks;
+				doAction('refreshIframe');
 			} else {
 				window[props.schema.on_change].apply(null, [newValue]);
 			}

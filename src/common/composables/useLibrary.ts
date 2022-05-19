@@ -1,4 +1,3 @@
-import { applyFilters } from '@zb/hooks';
 import { ref, Ref } from 'vue';
 import { LibrarySource, Source, LocalLibrary } from '../models/Library';
 
@@ -63,6 +62,7 @@ export const useLibrary = () => {
 	}
 
 	function getSourceType(sourceType: string) {
+		const { applyFilters } = window.zb.hooks;
 		const sourceTypes = applyFilters('zionbuilder/library/sourceTypes', {
 			local: LocalLibrary,
 		});

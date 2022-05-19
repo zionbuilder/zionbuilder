@@ -1,19 +1,19 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const pageSettings = ref(window.ZnPbInitalData.page_settings.values)
+const pageSettings = ref(window.ZnPbInitalData.page_settings.values);
 
 export const usePageSettings = () => {
-	const updatePageSettings = (newValues) => {
-		pageSettings.value = newValues
-	}
+	const updatePageSettings = newValues => {
+		pageSettings.value = newValues;
+	};
 
-	function unsetPageSettings () {
-		pageSettings.value = {}
+	function unsetPageSettings() {
+		pageSettings.value = {};
 	}
 
 	return {
 		pageSettings,
 		updatePageSettings,
-		unsetPageSettings
-	}
-}
+		unsetPageSettings,
+	};
+};

@@ -140,7 +140,6 @@ export default {
 <script lang="ts" setup>
 import { computed, ref, Ref, watch, nextTick } from 'vue';
 import { InputNumberUnit } from '../InputNumber';
-import { translate } from '@zb/i18n';
 import rafSchd from 'raf-schd';
 import clickOutside from '../../directives/click-outside.ts';
 
@@ -156,6 +155,7 @@ type PositionId =
 
 type Type = 'margin' | 'padding';
 
+const { translate } = window.zb.l18n;
 const props = withDefaults(
 	defineProps<{
 		modelValue?: Partial<Record<PositionId, string>>;

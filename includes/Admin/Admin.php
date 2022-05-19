@@ -8,8 +8,16 @@ use ZionBuilder\Permissions;
 use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
-use ZionBuilder\Templates;
+use ZionBuilder\Responsive;
+use ZionBuilder\Nonces;
 use ZionBuilder\Options\Schemas\Performance;
+use ZionBuilder\Options\Schemas\StyleOptions;
+use ZionBuilder\Options\Schemas\Typography;
+use ZionBuilder\Options\Schemas\Advanced;
+use ZionBuilder\Options\Schemas\Video;
+use ZionBuilder\Options\Schemas\BackgroundImage;
+use ZionBuilder\Options\Schemas\Shadow;
+use ZionBuilder\Localization;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -202,24 +210,21 @@ class Admin {
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
 				'admin',
-				[ 'zb-components' ],
+				[ 'wp-codemirror', 'media-views' ],
 				Plugin::instance()->get_version()
 			);
+
+			wp_enqueue_media();
+			// This is needed because wp_editor somehow unloads dashicons
+			wp_print_styles( 'media-views' );
 
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'admin-page',
-				[
-					'zb-components',
-				],
+				[ 'wp-codemirror' ],
 				Plugin::$instance->get_version(),
 				true
 			);
-
-			wp_enqueue_media();
-
-			// This is needed because wp_editor somehow unloads dashicons
-			wp_print_styles( 'media-views' );
 
 			wp_localize_script(
 				'zb-admin',
@@ -287,6 +292,41 @@ class Admin {
 						],
 					]
 				)
+			);
+
+			wp_localize_script(
+				'zb-admin',
+				'ZnRestConfig',
+				[
+					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+					'rest_root' => esc_url_raw( rest_url() ),
+				]
+			);
+
+			wp_localize_script(
+				'zb-admin',
+				'ZnPbComponentsData',
+				[
+					'schemas'       => apply_filters(
+						'zionbuilder/commonjs/schemas',
+						[
+							'styles'           => StyleOptions::get_schema(),
+							'element_advanced' => Advanced::get_schema(),
+							'typography'       => Typography::get_schema(),
+							'video'            => Video::get_schema(),
+							'background_image' => BackgroundImage::get_schema(),
+							'shadow'           => Shadow::get_schema(),
+						]
+					),
+					'breakpoints'   => Responsive::get_breakpoints(),
+					'is_pro_active' => Utils::is_pro_active(),
+				]
+			);
+
+			wp_localize_script(
+				'zb-admin',
+				'ZnI18NStrings',
+				Localization::get_strings()
 			);
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );

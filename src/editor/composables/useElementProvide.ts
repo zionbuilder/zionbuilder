@@ -1,23 +1,23 @@
-import { provide, inject } from 'vue'
+import { provide, inject } from 'vue';
 
-const ElementSymbol = Symbol()
+const ElementSymbol = Symbol();
 
 export const useElementProvide = () => {
-	const provideElement = (element) => {
-		provide(ElementSymbol, element)
-	}
+	const provideElement = element => {
+		provide(ElementSymbol, element);
+	};
 
 	const injectElement = () => {
-		const element = inject(ElementSymbol)
+		const element = inject(ElementSymbol);
 		if (!element) {
-		  // throw error, no store provided
-		  console.error('No element was provided')
+			// throw error, no store provided
+			console.error('No element was provided');
 		}
-		return element
-	}
+		return element;
+	};
 
 	return {
 		provideElement,
-		injectElement
-	}
-}
+		injectElement,
+	};
+};

@@ -1,46 +1,44 @@
-import Routes from './Routes'
+import Routes from './Routes';
 
 // Components
-import SettingsPage from '../components/SettingsPage.vue'
-import SystemInfo from '../components/SystemInfo.vue'
-import Colors from '../components/colors/Colors.vue'
-import Permissions from '../components/permissions/Permissions.vue'
-import TemplatePage from '../components/templates/TemplatePage.vue'
-import GoogleFonts from '../components/google-fonts/GoogleFonts.vue'
-import PageAllowedPostTypes from '../components/PageAllowedPostTypes.vue'
-import PageContent from '../components/PageContent.vue'
-import Gradients from '../components/gradients/Gradients.vue'
-import GetPro from '../components/GetPro.vue'
-import ToolsPage from '../components/tools/ToolsPage.vue'
-import ReplaceUrl from '../components/tools/ReplaceUrl.vue'
-import MaintenanceMode from '../components/MaintenanceMode.vue'
-import Appearance from '../components/Appearance.vue'
-import CustomCode from '../components/CustomCode.vue'
-import Performance from '../components/Performance.vue'
-
-
-import { translate } from '@zb/i18n'
+import SettingsPage from '../components/SettingsPage.vue';
+import SystemInfo from '../components/SystemInfo.vue';
+import Colors from '../components/colors/Colors.vue';
+import Permissions from '../components/permissions/Permissions.vue';
+import TemplatePage from '../components/templates/TemplatePage.vue';
+import GoogleFonts from '../components/google-fonts/GoogleFonts.vue';
+import PageAllowedPostTypes from '../components/PageAllowedPostTypes.vue';
+import PageContent from '../components/PageContent.vue';
+import Gradients from '../components/gradients/Gradients.vue';
+import GetPro from '../components/GetPro.vue';
+import ToolsPage from '../components/tools/ToolsPage.vue';
+import ReplaceUrl from '../components/tools/ReplaceUrl.vue';
+import MaintenanceMode from '../components/MaintenanceMode.vue';
+import Appearance from '../components/Appearance.vue';
+import CustomCode from '../components/CustomCode.vue';
+import Performance from '../components/Performance.vue';
 
 const getTemplateChildrens = () => {
-	const templateChilds = {}
+	const templateChilds = {};
 	window.ZnPbAdminPageData.template_types.forEach(templateType => {
 		templateChilds[templateType.id] = {
 			path: templateType.id,
 			name: templateType.id,
 			props: {
 				templateType: templateType.id,
-				templateName: templateType.name
+				templateName: templateType.name,
 			},
 			title: templateType.name,
-			component: TemplatePage
-		}
-	})
+			component: TemplatePage,
+		};
+	});
 
 	// Add template routes
-	return templateChilds
-}
+	return templateChilds;
+};
 
-const routes = new Routes()
+export const routes = new Routes();
+const { translate } = window.zb.i18n;
 
 export const initRoutes = function () {
 	routes.addRoute('home', {
@@ -48,73 +46,73 @@ export const initRoutes = function () {
 		component: PageContent,
 		name: 'home',
 		redirect: {
-			name: 'settings'
-		}
-	})
+			name: 'settings',
+		},
+	});
 
 	routes.addRoute('get-pro', {
 		path: '/get-pro',
 		name: 'get-pro',
-		component: GetPro
-	})
+		component: GetPro,
+	});
 
 	const SettingsRoute = routes.addRoute('settings', {
 		path: '/settings',
 		name: 'settings',
 		redirect: {
-			name: 'general-settings'
+			name: 'general-settings',
 		},
 		component: PageContent,
-		title: translate('settings')
-	})
+		title: translate('settings'),
+	});
 
 	const GeneralSettingsRoute = SettingsRoute.addRoute('general-settings', {
 		path: 'general-settings',
 		redirect: {
-			name: 'allowed-post-types'
+			name: 'allowed-post-types',
 		},
 		component: SettingsPage,
 		title: translate('general_settings'),
-		name: 'general-settings'
-	})
+		name: 'general-settings',
+	});
 
 	GeneralSettingsRoute.addRoute('allowed-post-types', {
 		path: 'allowed-post-types',
 		name: 'allowed-post-types',
 		title: translate('allowed_post_types'),
-		component: PageAllowedPostTypes
-	})
+		component: PageAllowedPostTypes,
+	});
 
 	GeneralSettingsRoute.addRoute('maintenance-mode', {
 		path: 'maintenance-mode',
 		name: 'maintenance-mode',
 		title: translate('maintenance_mode'),
-		component: MaintenanceMode
-	})
+		component: MaintenanceMode,
+	});
 
 	GeneralSettingsRoute.addRoute('appearance', {
 		path: 'appearance',
 		name: 'appearance',
 		title: translate('appearance'),
-		component: Appearance
-	})
+		component: Appearance,
+	});
 
 	const FontOptionsRoute = SettingsRoute.addRoute('font-options', {
 		path: 'font-options',
 		name: 'font_options',
 		redirect: {
-			name: 'google_fonts'
+			name: 'google_fonts',
 		},
 		title: translate('font_options'),
-		component: SettingsPage
-	})
+		component: SettingsPage,
+	});
 
 	FontOptionsRoute.addRoute('google-fonts', {
 		path: 'google-fonts',
 		name: 'google_fonts',
 		title: translate('google_fonts'),
-		component: GoogleFonts
-	})
+		component: GoogleFonts,
+	});
 
 	FontOptionsRoute.addRoute('custom-fonts', {
 		path: 'custom-fonts',
@@ -124,9 +122,9 @@ export const initRoutes = function () {
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro')
-		}
-	})
+			text: translate('pro'),
+		},
+	});
 
 	FontOptionsRoute.addRoute('adobe-fonts', {
 		path: 'adobe-fonts',
@@ -136,9 +134,9 @@ export const initRoutes = function () {
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro')
-		}
-	})
+			text: translate('pro'),
+		},
+	});
 
 	SettingsRoute.addRoute('custom-icons', {
 		path: 'custom-icons',
@@ -148,40 +146,40 @@ export const initRoutes = function () {
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro')
-		}
-	})
+			text: translate('pro'),
+		},
+	});
 
 	const PresetsRoute = SettingsRoute.addRoute('presets', {
 		path: 'presets',
 		component: SettingsPage,
 		redirect: {
-			name: 'color_presets'
+			name: 'color_presets',
 		},
 		title: translate('presets'),
-		name: 'presets'
-	})
+		name: 'presets',
+	});
 
 	PresetsRoute.addRoute('color-presets', {
 		path: 'color-presets',
 		name: 'color_presets',
 		title: translate('color_presets'),
-		component: Colors
-	})
+		component: Colors,
+	});
 
 	PresetsRoute.addRoute('gradients-presets', {
 		path: 'gradients-presets',
 		name: 'gradients_presets',
 		title: translate('gradients'),
-		component: Gradients
-	})
+		component: Gradients,
+	});
 
 	SettingsRoute.addRoute('performance', {
 		path: 'performance',
 		title: translate('performance'),
 		name: 'performance',
 		component: Performance,
-	})
+	});
 
 	SettingsRoute.addRoute('library', {
 		path: 'library',
@@ -189,17 +187,17 @@ export const initRoutes = function () {
 		name: 'library',
 		label: {
 			type: 'warning',
-			text: translate('pro')
+			text: translate('pro'),
 		},
 		props: { message: translate('custom_icons_upgrade_message') },
 		component: GetPro,
-	})
+	});
 
 	routes.addRoute('permissions', {
 		path: '/permissions',
 		component: Permissions,
-		title: translate('permissions')
-	})
+		title: translate('permissions'),
+	});
 
 	routes.addRoute('templates', {
 		path: '/templates',
@@ -207,47 +205,45 @@ export const initRoutes = function () {
 		title: translate('templates'),
 		name: 'all_templates',
 		redirect: {
-			name: 'template'
+			name: 'template',
 		},
-		children: getTemplateChildrens()
-	})
+		children: getTemplateChildrens(),
+	});
 
 	routes.addRoute('custom-code', {
 		path: '/custom-code',
 		component: CustomCode,
-		title: translate('custom_code')
-	})
+		title: translate('custom_code'),
+	});
 
 	const ToolsRoute = routes.addRoute('tools-page', {
 		path: '/tools-page',
 		component: PageContent,
 		title: translate('tools'),
 		redirect: {
-			name: 'tools-page'
-		}
-	})
+			name: 'tools-page',
+		},
+	});
 
 	ToolsRoute.addRoute('tools-page', {
 		path: 'tools-page',
 		name: 'tools-page',
 		props: { templateType: 'tools' },
 		title: translate('general'),
-		component: ToolsPage
-	})
+		component: ToolsPage,
+	});
 
 	ToolsRoute.addRoute('replace-url', {
 		path: 'replace-url',
 		name: 'replace-url',
 		props: { templateType: 'replace-url' },
 		title: translate('replace_url'),
-		component: ReplaceUrl
-	})
+		component: ReplaceUrl,
+	});
 
 	routes.addRoute('system-info', {
 		path: '/system-info',
 		component: SystemInfo,
-		title: translate('system_info')
-	})
-}
-
-export default routes
+		title: translate('system_info'),
+	});
+};

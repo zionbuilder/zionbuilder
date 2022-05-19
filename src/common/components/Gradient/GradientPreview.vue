@@ -16,7 +16,6 @@ export default {
 
 <script lang="ts" setup>
 import { computed, CSSProperties } from 'vue';
-import { applyFilters } from '@zb/hooks';
 import type { Gradient } from './GradientBar.vue';
 
 const props = defineProps<{
@@ -25,6 +24,7 @@ const props = defineProps<{
 }>();
 
 const filteredConfig = computed<Gradient[]>(() => {
+	const { applyFilters } = window.zb.hooks;
 	return applyFilters('zionbuilder/options/model', JSON.parse(JSON.stringify(props.config)));
 });
 

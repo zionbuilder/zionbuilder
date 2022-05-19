@@ -40,7 +40,6 @@ import { ref, watch } from 'vue';
 import { Icon } from '../Icon';
 import { BaseInput } from '../BaseInput';
 import { InputSelect } from '../InputSelect';
-import { translate } from '@zb/i18n';
 
 const props = withDefaults(
 	defineProps<{
@@ -58,6 +57,7 @@ const emit = defineEmits<{
 const presetName = ref('');
 const gradientType = ref('local');
 const hasError = ref(false);
+const { translate } = window.zb.l18n;
 const gradientTypes = ref([
 	{
 		id: 'local',

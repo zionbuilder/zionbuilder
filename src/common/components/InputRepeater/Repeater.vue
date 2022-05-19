@@ -38,7 +38,6 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue';
 import RepeaterOption from './RepeaterOption.vue';
-import { translate } from '@zb/i18n';
 
 const props = withDefaults(
 	defineProps<{
@@ -57,7 +56,10 @@ const props = withDefaults(
 		addable: true,
 		deletable: true,
 		clonable: true,
-		add_button_text: (() => translate('generic_add_new')) as unknown as string,
+		add_button_text: () => {
+			const { translate } = window.zb.l18n;
+			return translate('generic_add_new') as unknown as string;
+		},
 	},
 );
 

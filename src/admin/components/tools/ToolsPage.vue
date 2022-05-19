@@ -1,59 +1,48 @@
 <template>
 	<div class="znpb-admin-tools-wrapper">
 		<PageTemplate>
-
-			<h3>{{$translate('general')}}</h3>
+			<h3>{{ $translate('general') }}</h3>
 
 			<div class="znpb-admin-regenerate">
-				<h4>{{$translate('regenerate_css')}}</h4>
-				<Button
-					type="line"
-					@click="onRegenerateFilesClick"
-					:class="{['-hasLoading'] : loading}"
-				>
-					<transition
-						name="fade"
-						mode="out-in"
-					>
-						<Loader
-							v-if="loading"
-							:size="13"
-						/>
-						<span v-else>{{$translate('regenerate_files')}}</span>
+				<h4>{{ $translate('regenerate_css') }}</h4>
+				<Button type="line" :class="{ ['-hasLoading']: loading }" @click="onRegenerateFilesClick">
+					<transition name="fade" mode="out-in">
+						<Loader v-if="loading" :size="13" />
+						<span v-else>{{ $translate('regenerate_files') }}</span>
 					</transition>
 				</Button>
 			</div>
-			<template v-slot:right>
-				<p class="znpb-admin-info-p">{{$translate('tools_info')}}</p>
+			<template #right>
+				<p class="znpb-admin-info-p">{{ $translate('tools_info') }}</p>
 			</template>
 		</PageTemplate>
 	</div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { regenerateCache } from '@zb/rest'
+import { ref } from 'vue';
+import { regenerateCache } from '@common/api';
 
 export default {
 	name: 'ToolsPage',
-	setup () {
-		const loadingSync = ref(false)
-		const loading = ref(false)
+	setup() {
+		const loadingSync = ref(false);
+		const loading = ref(false);
 
-		function onRegenerateFilesClick () {
-			loading.value = true
+		function onRegenerateFilesClick() {
+			loading.value = true;
 			regenerateCache().then(() => {
-				loading.value = false
-			})
+				loading.value = false;
+			});
 		}
 
 		return {
 			loadingSync,
 			loading,
-			onRegenerateFilesClick
-		}
-	}
-}
+			onRegenerateFilesClick,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-admin-tools-wrapper {

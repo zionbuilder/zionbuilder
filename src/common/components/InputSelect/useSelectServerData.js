@@ -1,6 +1,6 @@
 import { ref, toRaw, inject } from 'vue';
 
-import { hash } from '@zb/utils';
+import { hash } from '../../utils';
 import { get, unionBy } from 'lodash-es';
 
 const cache = ref({});

@@ -35,7 +35,6 @@ export default {
 import { ref, computed, Ref } from 'vue';
 import { useDataSets, DataSets, Icons } from '../../composables';
 import IconPackGrid from '../IconPackGrid.vue';
-import { translate } from '@zb/i18n';
 
 type Icon = { family?: string; name: string; unicode: string };
 
@@ -82,6 +81,7 @@ const filteredList = computed(() => {
 });
 
 const getPlaceholder = computed(() => {
+	const { translate } = window.zb.l18n;
 	return `${translate('search_for_icons')} ${getIconNumber.value} ${translate('icons')}`;
 });
 

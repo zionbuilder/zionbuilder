@@ -21,14 +21,12 @@ export default {
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { translate } from '@zb/i18n';
-
 withDefaults(
 	defineProps<{
 		discardChangesTitle?: string;
 	}>(),
 	{
-		discardChangesTitle: (() => translate('discard_changes')) as unknown as string,
+		discardChangesTitle: (() => window.zb.i18n.translate('discard_changes')) as unknown as string,
 	},
 );
 

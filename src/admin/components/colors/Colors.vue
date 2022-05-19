@@ -56,7 +56,7 @@
 <script>
 import { computed } from 'vue';
 import { useBuilderOptions } from '@common/composables';
-import { generateUID } from '@zb/utils';
+import { generateUID } from '@common/utils/generateUID';
 
 // Components
 import ColorBox from './ColorBox.vue';

@@ -1,110 +1,111 @@
-import { savePage as savePageREST } from '@zb/rest'
-import { ref, Ref } from 'vue'
-import { useTemplateParts } from './useTemplateParts'
-import { usePageSettings } from './usePageSettings'
-import { useCSSClasses } from './useCSSClasses'
-import { useEditorData } from './useEditorData'
-import { translate } from '@zb/i18n'
-import { useNotifications } from '@zionbuilder/composables'
-import { useHistory } from './useHistory'
-import { useResponsiveDevices } from '@zb/components'
+import { savePage as savePageREST } from '@zb/rest';
+import { ref, Ref } from 'vue';
+import { useTemplateParts } from './useTemplateParts';
+import { usePageSettings } from './usePageSettings';
+import { useCSSClasses } from './useCSSClasses';
+import { useEditorData } from './useEditorData';
+import { translate } from '@zb/i18n';
+import { useNotifications } from '@zionbuilder/composables';
+import { useHistory } from './useHistory';
+import { useResponsiveDevices } from '@zb/components';
 
-const isSavePageLoading: Ref<boolean> = ref(false)
-let previewWindow = null
+const isSavePageLoading: Ref<boolean> = ref(false);
+let previewWindow = null;
 
 export function useSavePage() {
 	const save = (status = 'publish') => {
-		const { add } = useNotifications()
-		const { getActivePostTemplatePart } = useTemplateParts()
-		const contentTemplatePart = getActivePostTemplatePart()
-		const { pageSettings } = usePageSettings()
-		const { CSSClasses } = useCSSClasses()
-		const { editorData } = useEditorData()
-		const { setDirtyStatus } = useHistory()
-		const pageID = editorData.value.page_id
+		const { add } = useNotifications();
+		const { getActivePostTemplatePart } = useTemplateParts();
+		const contentTemplatePart = getActivePostTemplatePart();
+		const { pageSettings } = usePageSettings();
+		const { CSSClasses } = useCSSClasses();
+		const { editorData } = useEditorData();
+		const { setDirtyStatus } = useHistory();
+		const pageID = editorData.value.page_id;
 
 		if (!contentTemplatePart) {
-			console.error('Content template data not found.')
-			return
+			console.error('Content template data not found.');
+			return;
 		}
 
-		const { responsiveDevices } = useResponsiveDevices()
+		const { responsiveDevices } = useResponsiveDevices();
 
 		const pageData = {
 			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.value,
 			css_classes: CSSClasses.value,
-			breakpoints: responsiveDevices.value
-		}
+			breakpoints: responsiveDevices.value,
+		};
 
 		// Check if this is a draft
 		if (status) {
-			pageData.status = status
+			pageData.status = status;
 		}
 
 		if (status !== 'autosave') {
-			isSavePageLoading.value = true
+			isSavePageLoading.value = true;
 		}
 
 		return new Promise((resolve, reject) => {
 			savePageREST(pageData)
-				.then((response) => {
+				.then(response => {
 					if (status !== 'autosave') {
 						add({
 							message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
 							delayClose: 5000,
-							type: 'success'
-						})
+							type: 'success',
+						});
 					}
 
-					refreshPreviewWindow()
+					refreshPreviewWindow();
 
-					setDirtyStatus(false)
+					setDirtyStatus(false);
 
-					return Promise.resolve(response)
+					return Promise.resolve(response);
 				})
 				.catch(error => {
 					add({
 						message: error.message,
 						type: 'error',
-						delayClose: 5000
-					})
+						delayClose: 5000,
+					});
 
-					reject(error)
-				}).finally(() => {
-					isSavePageLoading.value = false
-					resolve()
+					reject(error);
 				})
-		})
-	}
+				.finally(() => {
+					isSavePageLoading.value = false;
+					resolve();
+				});
+		});
+	};
 
 	const savePage = () => {
-		return save()
-	}
+		return save();
+	};
 
 	const saveDraft = () => {
-		return save('draft')
-	}
+		return save('draft');
+	};
 
 	const saveAutosave = () => {
-		return save('autosave')
-	}
+		return save('autosave');
+	};
 
 	async function openPreviewPage(event) {
-		const { editorData } = useEditorData()
+		const { editorData } = useEditorData();
 
-		await saveDraft()
+		await saveDraft();
 
-		previewWindow = window.open(editorData.value.urls.preview_url, `zion-preview-${editorData.value.page_id}`)
+		previewWindow = window.open(editorData.value.urls.preview_url, `zion-preview-${editorData.value.page_id}`);
 
-		event.preventDefault()
+		event.preventDefault();
 	}
 
 	function refreshPreviewWindow() {
 		if (previewWindow) {
 			try {
-				previewWindow.location.reload()
+				previewWindow.location.reload();
 			} catch (error) {
 				// Will not trigger if the preview windows is not available
 			}
@@ -118,6 +119,6 @@ export function useSavePage() {
 		isSavePageLoading,
 		previewWindow,
 		openPreviewPage,
-		refreshPreviewWindow
-	}
+		refreshPreviewWindow,
+	};
 }
