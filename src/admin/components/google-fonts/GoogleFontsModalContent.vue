@@ -29,7 +29,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import { useGoogleFonts } from '@common/composables';
+import { useGoogleFontsStore } from '@common/store';
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue';
@@ -46,17 +46,17 @@ export default {
 		},
 	},
 	setup(props) {
-		const { googleFonts } = useGoogleFonts();
+		const googleFontsStore = useGoogleFontsStore();
 		const fontsPerPage = 20;
 
 		const currentPage = ref(1);
 		const keyword = ref('');
 		const loading = ref(false);
 		const allFonts = computed(() => {
-			let fonts = googleFonts.value;
+			let fonts = googleFontsStore.fonts;
 
 			if (keyword.value.length > 0) {
-				fonts = googleFonts.value.filter(font => {
+				fonts = googleFontsStore.fonts.value.filter(font => {
 					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1;
 				});
 			}

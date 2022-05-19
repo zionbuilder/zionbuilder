@@ -40,7 +40,7 @@
 
 <script>
 import HiddenContainer from '../HiddenContainer.vue';
-import { useGoogleFonts } from '@common/composables';
+import { useGoogleFontsStore } from '@common/store';
 
 export default {
 	name: 'GoogleFontTab',
@@ -53,8 +53,8 @@ export default {
 		},
 	},
 	setup(props) {
-		const { getFontData } = useGoogleFonts();
-		const fontData = getFontData(props.font['font_family']);
+		const googleFontsStore = useGoogleFontsStore();
+		const fontData = googleFontsStore.getFontData(props.font['font_family']);
 
 		return {
 			fontData,

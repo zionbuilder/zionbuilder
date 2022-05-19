@@ -21,5 +21,10 @@ export const useGoogleFontsStore = defineStore('googleFonts', {
 				this.fonts = response.data;
 			});
 		},
+		getFontData(family: string) {
+			return this.fonts.find(font => {
+				return font['family'] == family;
+			});
+		},
 	},
 });
