@@ -1,4 +1,4 @@
-export * from './useUsers';
+export * from '../store/useUsersStore';
 export * from './useLibrary';
 export * from './units';
 export * from './useInjections';

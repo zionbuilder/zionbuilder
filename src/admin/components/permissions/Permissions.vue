@@ -67,8 +67,8 @@
 
 <script>
 import { ref } from 'vue';
-import { useUsers, useDataSets } from '@common/composables';
-import { useBuilderOptionsStore } from '@common/store';
+import { useDataSets } from '@common/composables';
+import { useBuilderOptionsStore, useUsersStore } from '@common/store';
 
 // Components
 import SingleRole from './SingleRole.vue';
@@ -84,7 +84,7 @@ export default {
 	},
 	setup() {
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const { fetchUsersData } = useUsers();
+		const { fetchUsersData } = useUsersStore();
 		const { getOptionValue } = useBuilderOptionsStore();
 
 		const { dataSets } = useDataSets();

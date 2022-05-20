@@ -1,9 +1,10 @@
 import { ref } from 'vue';
-import { getUsersById } from '@common/api';
+import { defineStore } from 'pinia';
+import { getUsersById } from '../api';
 
-const loadedUsers = ref([]);
+export const useUsersStore = defineStore('usersStore', () => {
+	const loadedUsers = ref([]);
 
-export const useUsers = () => {
 	function fetchUsersData(userIDs) {
 		return getUsersById(userIDs).then(response => {
 			if (Array.isArray(response.data)) {
@@ -26,4 +27,4 @@ export const useUsers = () => {
 		addUser,
 		getUserInfo,
 	};
-};
+});

@@ -23,8 +23,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useUsers } from '@common/composables';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore, useUsersStore } from '@common/store';
 
 // Components
 import UserModalContent from './UserModalContent.vue';
@@ -47,7 +46,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { getUserInfo } = useUsers();
+		const { getUserInfo } = useUsersStore();
 		const { editUserPermission, deleteUserPermission } = useBuilderOptionsStore();
 		const userData = getUserInfo(props.userId);
 
