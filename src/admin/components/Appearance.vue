@@ -15,12 +15,12 @@
 
 <script>
 import { computed, watch } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 
 export default {
 	name: 'Appearance',
 	setup() {
-		const { getOptionValue, updateOptionValue } = useBuilderOptions();
+		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
 		const computedModel = computed({
 			get() {

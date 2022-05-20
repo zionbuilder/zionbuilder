@@ -7,11 +7,6 @@ import { filesMap } from './map.mjs';
 // TODO: clean dist folder before start
 filesMap.forEach(async script => {
   await build({
-    resolve: {
-      alias: {
-        'vue-base': '../node_modules/vue/dist/vue.runtime.esm-bundler.js',
-      },
-    },
     // mode: 'production',
     build: {
       cssCodeSplit: false,

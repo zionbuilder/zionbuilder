@@ -15,11 +15,11 @@ export const filesMap = [
     format: 'iife',
     output: 'admin-page',
   },
-  {
-    input: './src/modules/vue/index.ts',
-    format: 'iife',
-    output: 'vue',
-  },
+  //   {
+  //     input: './src/modules/vue/index.ts',
+  //     format: 'iife',
+  //     output: 'vue',
+  //   },
   {
     input: './src/modules/screenshot/index.ts',
     format: 'iife',

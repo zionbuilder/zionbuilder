@@ -8,14 +8,13 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 import { debounce } from 'lodash-es';
 
 export default {
 	name: 'CustomCode',
 	setup() {
-		const { getOptionValue, updateOptionValue, saveOptionsToDB, deleteOptionValue, debouncedSaveOptions } =
-			useBuilderOptions();
+		const { getOptionValue, updateOptionValue, deleteOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
 		const computedModel = computed({
 			get() {

@@ -42,11 +42,13 @@ export const useBuilderOptionsStore = defineStore('builderOptions', {
 				if (Array.isArray(data.users_permissions)) {
 					data.users_permissions = {};
 				}
+				console.log({ data });
 
 				this.options = {
 					...this.options,
 					...data,
 				};
+				console.log({ options: this.options });
 			});
 		},
 		getOptionValue(optionId: string, defaultValue = null) {

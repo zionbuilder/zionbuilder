@@ -1,4 +1,4 @@
-import { useNotifications } from '../composables/useNotifications';
+import { useNotificationsStore } from '../store';
 
 export class Notification {
 	public title?: string = '';
@@ -10,9 +10,8 @@ export class Notification {
 		Object.assign(this, data);
 	}
 
-	remove() {
-		const { remove } = useNotifications();
-
-		return remove(this);
+	remove(): void {
+		const notificationsStore = useNotificationsStore();
+		notificationsStore.remove(this);
 	}
 }

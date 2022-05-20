@@ -19,7 +19,7 @@ const server = await createServer({
       '@common': '../src/common',
       //   '@modules': '../src/modules',
       // This aliases are needed for dev server
-      'vue-base': '../node_modules/vue/index.mjs',
+      //   'vue-base': '../node_modules/vue/index.mjs',
       //   '@zb/hooks': '../src/modules/hooks/index.es.ts',
       //   '@zb/i18n': '../src/modules/i18n/index.ts',
       //   '@zb/utils': '../src/common/utils/index.ts',
@@ -37,7 +37,6 @@ const server = await createServer({
         '@zb/rest': 'zb.rest',
         '@zb/hooks': 'zb.hooks',
         '@zb/utils': 'zb.utils',
-        vue: 'zb.vue',
       },
     },
   },

@@ -1,24 +1,14 @@
 <template>
 	<transition name="save">
-		<div v-if="isLoading" class="znpb-admin__options-save-loader">
+		<div v-if="builderOptionsStore.isLoading" class="znpb-admin__options-save-loader">
 			<Icon icon="check" />
 		</div>
 	</transition>
 </template>
 
-<script>
-import { useBuilderOptions } from '@common/composables';
-
-export default {
-	name: 'OptionsSaveLoader',
-	setup() {
-		const { isLoading } = useBuilderOptions();
-
-		return {
-			isLoading,
-		};
-	},
-};
+<script setup>
+import { useBuilderOptionsStore } from '@common/store';
+const builderOptionsStore = useBuilderOptionsStore();
 </script>
 
 <style lang="scss">

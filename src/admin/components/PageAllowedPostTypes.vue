@@ -22,13 +22,14 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions, useDataSets } from '@common/composables';
+import { useDataSets } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 
 export default {
 	name: 'AllowedPostTypes',
 	setup() {
 		const { dataSets } = useDataSets();
-		const { getOptionValue, updateOptionValue } = useBuilderOptions();
+		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
 		const allowedPostTypes = computed({
 			get: () => getOptionValue('allowed_post_types'),

@@ -55,12 +55,12 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 import { generateUID } from '@common/utils/generateUID';
 
 // Components
 import ColorBox from './ColorBox.vue';
-import { Sortable } from '../../../common/components/sortable';
+import { Sortable } from '@common/components/sortable';
 
 export default {
 	name: 'Colors',
@@ -79,7 +79,7 @@ export default {
 			deleteGlobalColor,
 			editGlobalColor,
 			updateOptionValue,
-		} = useBuilderOptions();
+		} = useBuilderOptionsStore();
 
 		const computedLocalColors = computed({
 			get() {

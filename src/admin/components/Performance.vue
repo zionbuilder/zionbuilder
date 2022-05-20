@@ -8,12 +8,12 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 
 export default {
 	name: 'Performance',
 	setup(props) {
-		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptions();
+		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
 		const computedModel = computed({
 			get() {

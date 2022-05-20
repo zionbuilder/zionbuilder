@@ -65,7 +65,7 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 
 // Components
 import GoogleFontTab from './GoogleFontTab.vue';
@@ -78,7 +78,7 @@ export default {
 		GoogleFontsModalContent,
 	},
 	setup(props) {
-		const { getOptionValue, addGoogleFont, removeGoogleFont, updateGoogleFont } = useBuilderOptions();
+		const { getOptionValue, addGoogleFont, removeGoogleFont, updateGoogleFont } = useBuilderOptionsStore();
 		const showModal = ref(false);
 
 		let googleFonts = computed(() => {

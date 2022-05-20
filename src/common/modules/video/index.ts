@@ -1,6 +1,3 @@
-import { createActionInstance } from '../hooks/index.es';
-import reframe from 'reframe.js';
-
 declare global {
 	interface Window {
 		onYouTubeIframeAPIReady: any;
@@ -31,14 +28,8 @@ let vimeoApiLoadedState = 0;
 let videoIndex = 0;
 let vimeoVolume = 1;
 
-const globalEventBus = createActionInstance();
-
 export default class Video {
 	options: VideoOptions = {};
-	eventBus;
-	on;
-	off;
-	trigger;
 	domNode: VideoHTMLElement;
 	videoIndex: number;
 	videoContainer: HTMLElement | null = null;
@@ -61,20 +52,9 @@ export default class Video {
 		};
 
 		// Add event bus for this instance
-		this.eventBus = createActionInstance();
-		this.on = this.eventBus.on;
-		this.off = this.eventBus.off;
-		this.trigger = this.eventBus.trigger;
-
 		this.domNode = domNode;
 		this.videoIndex = videoIndex++;
 		this.videoContainer = null;
-
-		if (this.options.responsive) {
-			this.on('video_ready', () => {
-				reframe(this.videoContainer);
-			});
-		}
 
 		// Allow access to this instance
 		this.domNode.zionVideo = this;
@@ -146,15 +126,26 @@ export default class Video {
 			window.onYouTubeIframeAPIReady = function () {
 				self.enableYoutube();
 				// trigger event
-				globalEventBus.trigger('youtube_api_ready');
 				YoutubeApiLoadedState = 2;
 			};
 			YoutubeApiLoadedState = 1;
 		} else if (YoutubeApiLoadedState === 1) {
-			globalEventBus.on('youtube_api_ready', this.enableYoutube.bind(this));
 		} else if (YoutubeApiLoadedState === 2) {
 			this.enableYoutube();
 		}
+	}
+
+	onYoutubeAPIReady(callback) {
+		if (window.YT && window.YT.Player) {
+			callback(window.YT.Player);
+			return;
+		} else if (!window.ZbAttachedYoutubeScript) {
+			this.attachYoutubeScript();
+		}
+
+		setTimeout(() => {
+			this.onYoutubeAPIReady(callback);
+		}, 200);
 	}
 
 	enableYoutube() {
@@ -165,8 +156,6 @@ export default class Video {
 		});
 
 		this.videoContainer = this.player.getIframe();
-
-		this.trigger('video_ready');
 	}
 
 	setupVimeo() {
@@ -183,12 +172,10 @@ export default class Video {
 
 			vimeoTag.onload = function () {
 				self.enableVimeo();
-				globalEventBus.trigger('vimeo_api_ready');
 				vimeoApiLoadedState = 2;
 			};
 			vimeoApiLoadedState = 1;
 		} else if (vimeoApiLoadedState === 1) {
-			globalEventBus.on('vimeo_api_ready', this.enableVimeo.bind(this));
 		} else if (vimeoApiLoadedState === 2) {
 			this.enableVimeo();
 		}
@@ -206,7 +193,6 @@ export default class Video {
 
 		this.player.ready().then(() => {
 			this.videoContainer = this.player.element;
-			this.trigger('video_ready');
 		});
 	}
 
@@ -236,8 +222,6 @@ export default class Video {
 
 		this.player = videoElement;
 		this.videoContainer = videoElement;
-
-		this.trigger('video_ready');
 	}
 
 	getVideoContainer() {
@@ -318,7 +302,6 @@ export default class Video {
 	}
 
 	destroy() {
-		this.trigger('beforeDestroy');
 		this.player = null;
 		while (this.domNode.firstChild) {
 			this.domNode.removeChild(this.domNode.firstChild);

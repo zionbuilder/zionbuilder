@@ -8,12 +8,12 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptions } from '@common/composables';
+import { useBuilderOptionsStore } from '@common/store';
 
 export default {
 	name: 'MaintenanceMode',
 	setup(props, { emit }) {
-		const { getOptionValue, updateOptionValue } = useBuilderOptions();
+		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
 		const computedModel = computed({
 			get() {

@@ -52,6 +52,7 @@
 <script>
 import { ref, inject } from 'vue';
 import { generateUID, getDefaultGradient } from '@common/utils';
+import { useBuilderOptionsStore } from '@common/store';
 
 // Components
 import GradientBox from './GradientBox.vue';
@@ -76,9 +77,6 @@ export default {
 
 		const isPro = getPro();
 
-		// This should be provided by Apps that are using this component
-		const useBuilderOptions = inject('builderOptions');
-
 		const {
 			getOptionValue,
 			saveOptionsToDB,
@@ -88,7 +86,7 @@ export default {
 			addGlobalGradient,
 			deleteGlobalGradient,
 			editGlobalGradient,
-		} = useBuilderOptions();
+		} = useBuilderOptionsStore();
 
 		const activeLibrary = ref('local');
 		const showModal = ref(false);

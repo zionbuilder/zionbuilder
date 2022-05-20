@@ -1,6 +1,6 @@
 import localSt from 'localstorage-ttl';
 import { LibraryItem } from './LibraryItem';
-import { useNotifications } from '@common/composables';
+import { useNotificationsStore } from '../../store';
 
 export interface Source {
 	name: string;
@@ -53,7 +53,7 @@ export class LibrarySource {
 						// Check if permission is ok
 						if (!response.ok) {
 							// Show error notification
-							const { add } = useNotifications();
+							const { add } = useNotificationsStore();
 							if (data?.message) {
 								add({
 									message: data.message,
