@@ -58,6 +58,7 @@ import GridColor from '../Colorpicker/GridColor.vue';
 import LibraryElement from '../Gradient/LibraryElement.vue';
 import PresetInput from '../Gradient/PresetInput.vue';
 import { Label } from '../Label';
+import { useBuilderOptionsStore } from '@common/store';
 
 type GlobalColor = { color: string; id: string; name: string };
 
@@ -79,8 +80,7 @@ const formApi = inject('OptionsForm');
 const getValueByPath = inject('getValueByPath');
 const schema: Record<string, any> = inject('schema', {});
 
-const useBuilderOptions = inject('builderOptions');
-const { addLocalColor, getOptionValue, addGlobalColor } = useBuilderOptions();
+const { addLocalColor, getOptionValue, addGlobalColor } = useBuilderOptionsStore();
 
 const localColors: string[] = getOptionValue('local_colors', []);
 const globalColors: GlobalColor[] = getOptionValue('global_colors', []);

@@ -79,6 +79,7 @@ import PresetInput from './PresetInput.vue';
 import { Sortable } from '../sortable';
 import { ActionsOverlay } from '../ActionsOverlay';
 import { generateUID } from '../../utils';
+import { useBuilderOptionsStore } from '@common/store';
 
 import type { Gradient, Position } from './GradientBar.vue';
 
@@ -100,8 +101,7 @@ const showPresetInput = ref(false);
 const activeGradientIndex = ref(0);
 
 // This should be provided by Apps that are using this component
-const useBuilderOptions = inject('builderOptions');
-const { addLocalGradient, addGlobalGradient } = useBuilderOptions();
+const { addLocalGradient, addGlobalGradient } = useBuilderOptionsStore();
 
 const computedValue = computed({
 	get() {

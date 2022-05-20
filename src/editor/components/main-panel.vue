@@ -144,7 +144,7 @@ import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
 import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '../composables';
 import { translate } from '@zb/i18n';
-import { useBuilderOptions } from '@zionbuilder/composables';
+import { useBuilderOptionsStore } from '@common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
 
 export default {
@@ -172,7 +172,7 @@ export default {
 		} = useUI();
 		const { editorData } = useEditorData();
 		const { showSaveElement } = useSaveTemplate();
-		const { getOptionValue } = useBuilderOptions();
+		const { getOptionValue } = useBuilderOptionsStore();
 		const { isPreviewMode } = usePreviewMode();
 
 		// Reactive data

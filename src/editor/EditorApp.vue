@@ -111,6 +111,7 @@
 
 <script>
 import { provide, computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import { translate } from '@zb/i18n';
 
@@ -130,7 +131,7 @@ import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from './composables';
 import { useResponsiveDevices } from '@zb/components';
-import { useNotifications, useBuilderOptions } from '@zionbuilder/composables';
+import { useNotificationsStore, useBuilderOptionsStore } from '@common/store';
 
 import { serverRequest } from './api';
 
@@ -153,8 +154,8 @@ export default {
 		SaveElementModal,
 	},
 	setup(props) {
-		const { fetchOptions } = useBuilderOptions();
-		const { notifications } = useNotifications();
+		const { fetchOptions } = useBuilderOptionsStore();
+		const { notifications } = storeToRefs(useNotificationsStore());
 		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI();
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
 			useResponsiveDevices();
@@ -174,9 +175,6 @@ export default {
 
 		// Fetch the builder options
 		fetchOptions();
-
-		// Provide globalColors
-		provide('builderOptions', useBuilderOptions);
 
 		// provide masks for ShapeDividerComponent option
 		provide('serverRequester', serverRequest);

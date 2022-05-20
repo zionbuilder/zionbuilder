@@ -67,9 +67,6 @@ const logoUrl = window.ZnPbAdminPageData.urls.logo;
 const version = window.ZnPbAdminPageData.plugin_version;
 const isPro = window.ZnPbAdminPageData.is_pro_active;
 
-// Provide globalColors
-provide('builderOptions', builderOptionsStore);
-
 const menuItems = computed(() => {
 	var routes = [];
 	for (var i in router.options.routes) {

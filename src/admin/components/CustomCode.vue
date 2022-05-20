@@ -6,39 +6,27 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue';
 import { useBuilderOptionsStore } from '@common/store';
-import { debounce } from 'lodash-es';
 
-export default {
-	name: 'CustomCode',
-	setup() {
-		const { getOptionValue, updateOptionValue, deleteOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
+const { getOptionValue, updateOptionValue, deleteOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
+const schema = window.ZnPbAdminPageData.custom_code.schema;
 
-		const computedModel = computed({
-			get() {
-				return getOptionValue('custom_code', {});
-			},
-			set(newValue) {
-				if (newValue === null) {
-					deleteOptionValue('custom_code', false);
-				} else {
-					updateOptionValue('custom_code', newValue, false);
-				}
-
-				debouncedSaveOptions();
-			},
-		});
-
-		const schema = window.ZnPbAdminPageData.custom_code.schema;
-
-		return {
-			computedModel,
-			schema,
-		};
+const computedModel = computed({
+	get() {
+		return getOptionValue('custom_code', {});
 	},
-};
+	set(newValue) {
+		if (newValue === null) {
+			deleteOptionValue('custom_code', false);
+		} else {
+			updateOptionValue('custom_code', newValue, false);
+		}
+
+		debouncedSaveOptions();
+	},
+});
 </script>
 
 <style></style>

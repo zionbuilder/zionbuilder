@@ -58,6 +58,7 @@ import GradientPreview from './GradientPreview.vue';
 import LibraryElement from './LibraryElement.vue';
 import { Label } from '../Label';
 import type { Gradient } from './GradientBar.vue';
+import { useBuilderOptionsStore } from '@common/store';
 
 interface GradientModel {
 	id: string;
@@ -89,8 +90,7 @@ const isPro = getPro();
 const schema = inject('schema');
 
 // This should be provided by Apps that are using this component
-const useBuilderOptions = inject('builderOptions');
-const { getOptionValue } = useBuilderOptions();
+const { getOptionValue } = useBuilderOptionsStore();
 
 const getGlobalGradients = computed<GradientModel[]>(() => {
 	return getOptionValue('global_gradients');
