@@ -6,38 +6,28 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue';
 import { useBuilderOptionsStore } from '@common/store';
 
-export default {
-	name: 'Performance',
-	setup(props) {
-		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
+const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
-		const computedModel = computed({
-			get() {
-				return getOptionValue('performance', {});
-			},
-			set(newValue) {
-				if (newValue === null) {
-					updateOptionValue('performance', {}, false);
-				} else {
-					updateOptionValue('performance', newValue, false);
-				}
-
-				debouncedSaveOptions();
-			},
-		});
-
-		const schema = window.ZnPbAdminPageData.schemas.performance;
-
-		return {
-			computedModel,
-			schema,
-		};
+const computedModel = computed({
+	get() {
+		return getOptionValue('performance', {});
 	},
-};
+	set(newValue) {
+		if (newValue === null) {
+			updateOptionValue('performance', {}, false);
+		} else {
+			updateOptionValue('performance', newValue, false);
+		}
+
+		debouncedSaveOptions();
+	},
+});
+
+const schema = window.ZnPbAdminPageData.schemas.performance;
 </script>
 
 <style lang="scss">

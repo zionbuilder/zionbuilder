@@ -5,7 +5,7 @@ import { get, update, unset, cloneDeep, debounce } from 'lodash-es';
 
 export const useBuilderOptionsStore = defineStore('builderOptions', () => {
 	const isLoading = ref(false);
-	const fetched = ref(false);
+	let fetched = false;
 	const options = ref({
 		allowed_post_types: ['post', 'page'],
 		google_fonts: [],
@@ -21,9 +21,13 @@ export const useBuilderOptionsStore = defineStore('builderOptions', () => {
 		custom_code: '',
 	});
 
+	if (!fetched) {
+		fetchOptions();
+	}
+
 	function fetchOptions(force = false) {
 		// Don't refetch the options if  they were already fetched
-		if (fetched.value && !force) {
+		if (fetched && !force) {
 			return Promise.resolve(options.value);
 		}
 
@@ -47,7 +51,7 @@ export const useBuilderOptionsStore = defineStore('builderOptions', () => {
 				};
 			})
 			.finally(() => {
-				fetched.value = true;
+				fetched = true;
 			});
 	}
 

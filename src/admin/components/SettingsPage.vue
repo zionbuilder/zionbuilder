@@ -3,14 +3,7 @@
 </template>
 
 <script>
-
 export default {
 	name: 'SettingsPage',
-	data () {
-		return {}
-	},
-	created () {
-
-	}
-}
+};
 </script>

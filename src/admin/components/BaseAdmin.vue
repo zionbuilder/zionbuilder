@@ -88,7 +88,7 @@ const documentationLink = computed(() => {
 		: 'https://zionbuilder.io/help-center/';
 });
 
-Promise.all([googleFontsStore.fetchGoogleFonts(), builderOptionsStore.fetchOptions()])
+Promise.all([googleFontsStore.fetchGoogleFonts()])
 	.catch(error => {
 		hasError.value = true;
 		// eslint-disable-next-line

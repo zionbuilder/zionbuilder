@@ -154,7 +154,6 @@ export default {
 		SaveElementModal,
 	},
 	setup(props) {
-		const { fetchOptions } = useBuilderOptionsStore();
 		const { notifications } = storeToRefs(useNotificationsStore());
 		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI();
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
@@ -172,9 +171,6 @@ export default {
 
 		// General functionality
 		useAutosave();
-
-		// Fetch the builder options
-		fetchOptions();
 
 		// provide masks for ShapeDividerComponent option
 		provide('serverRequester', serverRequest);
