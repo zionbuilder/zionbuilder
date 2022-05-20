@@ -4,8 +4,7 @@ import { useTemplateParts } from './useTemplateParts';
 import { usePageSettings } from './usePageSettings';
 import { useCSSClasses } from './useCSSClasses';
 import { useEditorData } from './useEditorData';
-import { translate } from '@zb/i18n';
-import Cache from '../Cache';
+import { translate } from '@common/modules/i18n';
 import { useEditElement } from './useEditElement';
 
 const historyItems: Ref = ref([]);

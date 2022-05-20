@@ -36,11 +36,11 @@ export const filesMap = [
     output: 'integrations/yoast',
   },
   // Editor
-  //   {
-  //     input: './src/editor/editor.ts',
-  //     format: 'iife',
-  //     output: 'editor',
-  //   },
+  {
+    input: './src/editor/editor.ts',
+    format: 'iife',
+    output: 'editor',
+  },
   //   {
   //     input: './src/editor/preview.ts',
   //     format: 'iife',

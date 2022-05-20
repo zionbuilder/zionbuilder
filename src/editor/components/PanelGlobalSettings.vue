@@ -14,8 +14,8 @@
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
 import { useUI, usePageSettings } from '../composables';
-import { useOptionsSchemas } from '@zb/components';
-import { translate } from '@zb/i18n';
+import { useOptionsSchemas } from '@common/composables';
+import { translate } from '@common/modules/i18n';
 
 export default {
 	name: 'PanelGlobalSettings',

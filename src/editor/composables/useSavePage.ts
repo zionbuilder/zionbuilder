@@ -1,27 +1,26 @@
-import { savePage as savePageREST } from '@zb/rest';
+import { savePage as savePageREST } from '@common/api';
 import { ref, Ref } from 'vue';
 import { useTemplateParts } from './useTemplateParts';
 import { usePageSettings } from './usePageSettings';
 import { useCSSClasses } from './useCSSClasses';
 import { useEditorData } from './useEditorData';
-import { translate } from '@zb/i18n';
-import { useNotifications } from '@zionbuilder/composables';
+import { translate } from '@common/modules/i18n';
+import { useNotificationsStore } from '@common/store';
 import { useHistory } from './useHistory';
-import { useResponsiveDevices } from '@zb/components';
+import { useResponsiveDevices } from '@common/composables';
 
 const isSavePageLoading: Ref<boolean> = ref(false);
 let previewWindow = null;
 
 export function useSavePage() {
 	const save = (status = 'publish') => {
-		const { add } = useNotifications();
+		const { add } = useNotificationsStore();
 		const { getActivePostTemplatePart } = useTemplateParts();
 		const contentTemplatePart = getActivePostTemplatePart();
 		const { pageSettings } = usePageSettings();
 		const { CSSClasses } = useCSSClasses();
 		const { editorData } = useEditorData();
 		const { setDirtyStatus } = useHistory();
-		const pageID = editorData.value.page_id;
 
 		if (!contentTemplatePart) {
 			console.error('Content template data not found.');

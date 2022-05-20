@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { saveUserData } from '@zb/rest';
+import { saveUserData } from '@common/api';
 import { useEditorData } from './useEditorData';
 
 const { editorData } = useEditorData();

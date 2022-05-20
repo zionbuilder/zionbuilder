@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { cloneDeep, merge } from 'lodash-es';
-import { generateUID } from '@zb/utils';
+import { generateUID } from '@common/utils';
 
 const CSSClasses = ref(window.ZnPbInitalData.css_classes || []);
 const copiedStyles = ref(null);

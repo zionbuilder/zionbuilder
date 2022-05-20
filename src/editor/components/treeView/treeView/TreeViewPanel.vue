@@ -44,7 +44,7 @@
 <script lang="ts">
 import { ref, computed } from 'vue';
 import { useElements, useEditorData, useHistory, useEditElement } from '../../../composables';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 export default {
 	name: 'TreeViewPanel',

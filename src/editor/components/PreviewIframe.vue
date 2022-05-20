@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-import { on, off } from '@zb/hooks';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { addAction, removeAction } from '@common/modules/hooks';
 import { each } from 'lodash-es';
 
 import {
@@ -33,8 +33,8 @@ import {
 	useHistory,
 	useElementTypes,
 } from '../composables';
-import { useResponsiveDevices } from '@zb/components';
-import { useNotifications } from '@zionbuilder/composables';
+import { useResponsiveDevices } from '@common/composables';
+import { useNotificationsStore } from '@common/store';
 
 export default {
 	name: 'PreviewIframe',
@@ -87,7 +87,7 @@ export default {
 		});
 
 		// Change the device width if it is the currently selected device
-		on('zionbuilder/responsive/change_device_width', (device, newValue, oldValue) => {
+		addAction('zionbuilder/responsive/change_device_width', (device, newValue, oldValue) => {
 			if (device.id === activeResponsiveDeviceId.value && newValue !== oldValue) {
 				setCustomIframeWidth(newValue);
 			}
@@ -278,10 +278,10 @@ export default {
 			this.getWindows('preview').removeEventListener('click', this.onIframeClick, true);
 		}
 
-		off('refreshIframe', this.refreshIframe);
+		removeAction('refreshIframe', this.refreshIframe);
 	},
 	mounted() {
-		on('refreshIframe', this.refreshIframe);
+		addAction('refreshIframe', this.refreshIframe);
 	},
 	methods: {
 		setPageContent(areas) {
@@ -320,7 +320,7 @@ export default {
 			this.root.click();
 		},
 		onIframeLoaded() {
-			const { add } = useNotifications();
+			const { add } = useNotificationsStore();
 			const { addElementTypes } = useElementTypes();
 			const { setPreviewLoading, setLoadTimestamp } = usePreviewLoading();
 

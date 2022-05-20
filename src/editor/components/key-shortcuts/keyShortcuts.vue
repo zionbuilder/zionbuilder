@@ -2,130 +2,126 @@
 	<div class="znpb-key-shortcuts-modal znpb-fancy-scrollbar">
 		<div class="znpb-key-shortcuts-modal__content">
 			<keyShortcutsItem
-				v-for="(schema,i) in schemaDescriptionFirst"
-				:key="i+schema.description"
+				v-for="(schema, i) in schemaDescriptionFirst"
+				:key="i + schema.description"
 				:keyshortcut="schema.keyshortcut"
 				:description="schema.description"
 			>
-
-				<pre
-					v-if="schema.details"
-					class="znpb-key-shortcuts-modal__item-details"
-				>{{schema.details}}</pre>
+				<pre v-if="schema.details" class="znpb-key-shortcuts-modal__item-details">{{ schema.details }}</pre>
 			</keyShortcutsItem>
 		</div>
 	</div>
 </template>
 
 <script>
-import keyShortcutsItem from './keyShortcutsItem.vue'
-import { Environment } from '@zb/utils'
+import keyShortcutsItem from './keyShortcutsItem.vue';
+import { Environment } from '@common/utils';
 
 export default {
-	name: 'keyShortcutsModal',
+	name: 'KeyShortcutsModal',
 	components: {
-		keyShortcutsItem
+		keyShortcutsItem,
 	},
-	data () {
-		const controllKey = Environment.isMac ? '⌘' : '⌃'
+	data() {
+		const controllKey = Environment.isMac ? '⌘' : '⌃';
 		return {
 			schemaDescriptionFirst: [
 				{
-					'keyshortcut': [controllKey, 'S'],
-					'description': this.$translate('save_changes')
+					keyshortcut: [controllKey, 'S'],
+					description: this.$translate('save_changes'),
 				},
 				{
-					'keyshortcut': [controllKey, 'C'],
-					'description': this.$translate('copy_element')
+					keyshortcut: [controllKey, 'C'],
+					description: this.$translate('copy_element'),
 				},
 				{
-					'keyshortcut': [controllKey, 'V'],
-					'description': this.$translate('paste_element')
+					keyshortcut: [controllKey, 'V'],
+					description: this.$translate('paste_element'),
 				},
 				{
-					'keyshortcut': [controllKey, 'X'],
-					'description': this.$translate('cut_element')
+					keyshortcut: [controllKey, 'X'],
+					description: this.$translate('cut_element'),
 				},
 				{
-					'keyshortcut': [controllKey, 'D'],
-					'description': this.$translate('duplicate_element')
+					keyshortcut: [controllKey, 'D'],
+					description: this.$translate('duplicate_element'),
 				},
 				{
-					'keyshortcut': [controllKey, '⇧', 'C'],
-					'description': this.$translate('copy_element_styles')
+					keyshortcut: [controllKey, '⇧', 'C'],
+					description: this.$translate('copy_element_styles'),
 				},
 				{
-					'keyshortcut': [controllKey, '⇧', 'V'],
-					'description': this.$translate('paste_element_styles')
+					keyshortcut: [controllKey, '⇧', 'V'],
+					description: this.$translate('paste_element_styles'),
 				},
 				{
-					'keyshortcut': [controllKey, 'Z'],
-					'description': this.$translate('undo')
+					keyshortcut: [controllKey, 'Z'],
+					description: this.$translate('undo'),
 				},
 				{
-					'keyshortcut': [controllKey, 'Y'],
-					'description': this.$translate('redo')
+					keyshortcut: [controllKey, 'Y'],
+					description: this.$translate('redo'),
 				},
 				{
-					'keyshortcut': [controllKey, '⇧', 'Y'],
-					'description': this.$translate('redo')
+					keyshortcut: [controllKey, '⇧', 'Y'],
+					description: this.$translate('redo'),
 				},
 				{
-					'keyshortcut': [controllKey, 'H'],
-					'description': this.$translate('hide_element')
+					keyshortcut: [controllKey, 'H'],
+					description: this.$translate('hide_element'),
 				},
 				{
-					'keyshortcut': [controllKey, 'P'],
-					'description': this.$translate('toggle_preview')
+					keyshortcut: [controllKey, 'P'],
+					description: this.$translate('toggle_preview'),
 				},
 				{
-					'keyshortcut': ['⇧', 'T'],
-					'description': this.$translate('toggle_tree_view_panel')
+					keyshortcut: ['⇧', 'T'],
+					description: this.$translate('toggle_tree_view_panel'),
 				},
 				{
-					'keyshortcut': ['⇧', 'L'],
-					'description': this.$translate('toggle_library')
+					keyshortcut: ['⇧', 'L'],
+					description: this.$translate('toggle_library'),
 				},
 				{
-					'keyshortcut': ['⇧', 'O'],
-					'description': this.$translate('toggle_page_options')
+					keyshortcut: ['⇧', 'O'],
+					description: this.$translate('toggle_page_options'),
 				},
 				{
-					'keyshortcut': ['DRAG', controllKey],
-					'description': this.$translate('duplicate_element_in_place'),
-					'details': this.$translate('when_dragging_element')
+					keyshortcut: ['DRAG', controllKey],
+					description: this.$translate('duplicate_element_in_place'),
+					details: this.$translate('when_dragging_element'),
 				},
 				{
-					'keyshortcut': [controllKey, 'DRAG'],
-					'description': this.$translate('set_even_values'),
-					'details': this.$translate('when_dragging_toolbox')
+					keyshortcut: [controllKey, 'DRAG'],
+					description: this.$translate('set_even_values'),
+					details: this.$translate('when_dragging_toolbox'),
 				},
 				{
-					'keyshortcut': [controllKey, '⇧', 'DRAG'],
-					'description': this.$translate('set_even_incremental_value')
+					keyshortcut: [controllKey, '⇧', 'DRAG'],
+					description: this.$translate('set_even_incremental_value'),
 				},
 				{
-					'keyshortcut': [controllKey, '⇧', 'D'],
-					'description': this.$translate('back_to_wp_dashboard')
+					keyshortcut: [controllKey, '⇧', 'D'],
+					description: this.$translate('back_to_wp_dashboard'),
 				},
 				{
-					'keyshortcut': ['⇧', 'DRAG'],
-					'description': this.$translate('set_incremental_value'),
-					'details': this.$translate('when_dragging_input_number')
+					keyshortcut: ['⇧', 'DRAG'],
+					description: this.$translate('set_incremental_value'),
+					details: this.$translate('when_dragging_input_number'),
 				},
 				{
-					'keyshortcut': ['⇧', 'ARROWS'],
-					'description': this.$translate('set_incremental_value')
+					keyshortcut: ['⇧', 'ARROWS'],
+					description: this.$translate('set_incremental_value'),
 				},
 				{
-					'keyshortcut': ['ALT'],
-					'description': 'Toggle Link',
-					'details': this.$translate('on_input_number_link')
-				}
-			]
-		}
-	}
-}
+					keyshortcut: ['ALT'],
+					description: 'Toggle Link',
+					details: this.$translate('on_input_number_link'),
+				},
+			],
+		};
+	},
+};
 </script>
 
 <style lang="scss">

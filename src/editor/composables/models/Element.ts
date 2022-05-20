@@ -1,5 +1,5 @@
-import { generateUID } from '@zb/utils';
-import { applyFilters } from '@zb/hooks';
+import { generateUID } from '@common/utils';
+import { applyFilters } from '@common/modules/hooks';
 import { regenerateUIDs } from '../../utils';
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
 import { useElements } from '../useElements';

@@ -1,48 +1,33 @@
 <template>
-	<Loader
-		class="znpb-editor-library-modal-loader"
-		v-if="libraryConfig.loading"
-	/>
-	<div
-		v-else
-		class="znpb-editor-library-modal"
-	>
+	<Loader v-if="libraryConfig.loading" class="znpb-editor-library-modal-loader" />
+	<div v-else class="znpb-editor-library-modal">
 		<div class="znpb-editor-library-modal-sidebar">
 			<div class="znpb-editor-library-modal-sidebar-search">
 				<BaseInput
-					icon="search"
+					ref="searchInput"
 					v-model="searchKeyword"
+					icon="search"
 					:clearable="true"
 					:placeholder="$translate('search_library')"
-					ref="searchInput"
 				/>
 			</div>
 
-			<CategoriesLibrary
-				:categories="computedLibraryCategories"
-				:on-category-activate="onCategoryActivate"
-			/>
-
+			<CategoriesLibrary :categories="computedLibraryCategories" :on-category-activate="onCategoryActivate" />
 		</div>
 		<div class="znpb-editor-library-modal-body">
 			<div class="znpb-editor-library-modal-subheader">
 				<div class="znpb-editor-library-modal-subheader__left">
 					<h3 class="znpb-editor-library-modal-subheader__left-title">
-						{{libraryTitle}}
+						{{ libraryTitle }}
 					</h3>
 					<span class="znpb-editor-library-modal-subheader__left-number">
-						{{numberOfElements}}
+						{{ numberOfElements }}
 					</span>
-
 				</div>
 				<div class="znpb-editor-library-modal-subheader__right">
-					<div
-						@click="sortAscending=!sortAscending"
-						class="znpb-editor-library-modal-subheader__action-title"
-					>
-						<Icon icon="reverse-y" />{{$translate('sort')}}
+					<div class="znpb-editor-library-modal-subheader__action-title" @click="sortAscending = !sortAscending">
+						<Icon icon="reverse-y" />{{ $translate('sort') }}
 					</div>
-
 				</div>
 			</div>
 			<div class="znpb-editor-library-modal-column-wrapper znpb-fancy-scrollbar">
@@ -51,31 +36,19 @@
 						v-for="item in filteredItems"
 						:key="item.id"
 						:item="item"
-						@activate-item="$emit('activate-preview', item), activeItem = item"
+						@activate-item="$emit('activate-preview', item), (activeItem = item)"
 					/>
 				</ul>
 
-				<p
-					v-if="searchKeyword.length > 0 && filteredItems.length === 0"
-					class="znpb-editor-library-modal-no-more"
-				>
-					{{$translate('no_more_to_show')}}
+				<p v-if="searchKeyword.length > 0 && filteredItems.length === 0" class="znpb-editor-library-modal-no-more">
+					{{ $translate('no_more_to_show') }}
 				</p>
-
 			</div>
-
 		</div>
 
 		<transition name="slide-preview">
-			<div
-				v-if="previewOpen && activeItem"
-				class="znpb-editor-library-modal-preview znpb-fancy-scrollbar"
-			>
-				<iframe
-					id="znpb-editor-library-modal-preview-iframe"
-					frameborder="0"
-					:src="activeItem.urls.preview_url"
-				>
+			<div v-if="previewOpen && activeItem" class="znpb-editor-library-modal-preview znpb-fancy-scrollbar">
+				<iframe id="znpb-editor-library-modal-preview-iframe" frameborder="0" :src="activeItem.urls.preview_url">
 				</iframe>
 			</div>
 		</transition>
@@ -83,195 +56,203 @@
 </template>
 
 <script>
-import { ref, computed, watchEffect, watch, nextTick } from 'vue'
-import { translate } from '@zb/i18n'
-import { uniq } from 'lodash-es'
+import { ref, computed, watchEffect, watch, nextTick } from 'vue';
+import { translate } from '@common/modules/i18n';
+import { uniq } from 'lodash-es';
 
-import CategoriesLibrary from './library-panel/CategoriesLibrary.vue'
-import LibraryItem from './library-panel/LibraryItem.vue'
+import CategoriesLibrary from './library-panel/CategoriesLibrary.vue';
+import LibraryItem from './library-panel/LibraryItem.vue';
 
 export default {
 	name: 'LibraryPanel',
 	components: {
 		CategoriesLibrary,
-		LibraryItem
+		LibraryItem,
 	},
 	props: {
 		previewOpen: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		libraryConfig: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props, { emit }) {
+	setup(props, { emit }) {
 		// NormalVars
 		const allCategoyConfig = {
 			name: translate('all'),
 			slug: 'zion-category-all',
 			term_id: '3211329987745',
-			isActive: true
-		}
+			isActive: true,
+		};
 
 		// Refs
-		const searchInput = ref(null)
-		const libraryItems = computed(() => props.libraryConfig.items.sort((a, b) => new Date(b.date) - new Date(a.date)))
-		const libraryCategories = computed(() => props.libraryConfig.categories)
-		const activeCategory = ref(allCategoyConfig)
-		const sortAscending = ref(false)
-		const searchKeyword = ref('')
-		const activeItem = ref(null)
+		const searchInput = ref(null);
+		const libraryItems = computed(() => props.libraryConfig.items.sort((a, b) => new Date(b.date) - new Date(a.date)));
+		const libraryCategories = computed(() => props.libraryConfig.categories);
+		const activeCategory = ref(allCategoyConfig);
+		const sortAscending = ref(false);
+		const searchKeyword = ref('');
+		const activeItem = ref(null);
 
 		// Computed values
 		/**
 		 * Returns a computed list of all categories, including the 'all' category
 		 */
 		const computedAllCategories = computed(() => {
-			const categories = []
+			const categories = [];
 
 			// Add the all category
-			categories.push(allCategoyConfig)
+			categories.push(allCategoyConfig);
 
-			categories.push(...libraryCategories.value)
+			categories.push(...libraryCategories.value);
 
-			return categories
-		})
-
+			return categories;
+		});
 
 		const computedLibraryCategories = computed(() => {
-			const categories = []
-			let filteredCategories = computedAllCategories.value
+			const categories = [];
+			let filteredCategories = computedAllCategories.value;
 
 			if (searchKeyword.value.length > 0) {
 				filteredCategories = computedAllCategories.value.filter(category => {
-					return category.term_id === allCategoyConfig.term_id || filteredItemsCategories.value.includes(category.term_id)
-				})
+					return (
+						category.term_id === allCategoyConfig.term_id || filteredItemsCategories.value.includes(category.term_id)
+					);
+				});
 			}
 
 			// Add real categories
-			filteredCategories.forEach((category) => {
+			filteredCategories.forEach(category => {
 				if (!category.parent) {
-					categories.push(createNestedCategories(category, filteredCategories))
+					categories.push(createNestedCategories(category, filteredCategories));
 				}
-			})
+			});
 
-			return categories
-		})
+			return categories;
+		});
 
-		function createNestedCategories (categoryConfig, allCategories) {
-			const subcategories = []
+		function createNestedCategories(categoryConfig, allCategories) {
+			const subcategories = [];
 
-			allCategories.forEach((subcategory) => {
+			allCategories.forEach(subcategory => {
 				if (subcategory.parent && subcategory.parent === categoryConfig.term_id) {
-					subcategories.push(createNestedCategories(subcategory, allCategories))
+					subcategories.push(createNestedCategories(subcategory, allCategories));
 				}
-			})
+			});
 
 			if (subcategories.length > 0) {
-				categoryConfig.subcategories = subcategories
+				categoryConfig.subcategories = subcategories;
 			}
 
-			return categoryConfig
+			return categoryConfig;
 		}
 
 		const numberOfElements = computed(() => {
-			return `(${filteredItems.value.length})`
-		})
+			return `(${filteredItems.value.length})`;
+		});
 
 		const libraryTitle = computed(() => {
-			return activeCategory.value.name
-		})
+			return activeCategory.value.name;
+		});
 
 		const filteredItemsBySearchKeyword = computed(() => {
-			let items = libraryItems.value
+			let items = libraryItems.value;
 			// Check for keyword
 			if (searchKeyword.value.length > 0) {
 				items = libraryItems.value.filter(item => {
 					// check if name includes keyword
-					let name = item.name.toLowerCase()
+					let name = item.name.toLowerCase();
 
 					if (name.includes(searchKeyword.value.toLowerCase())) {
-						return true
+						return true;
 					} else {
 						// check if tags include keywords
 						item.tags.forEach(function (tag, index) {
 							if (tag.includes(searchKeyword.value.toLowerCase())) {
-								return true
+								return true;
 							}
-						})
+						});
 					}
 
-					return false
-				})
+					return false;
+				});
 			}
 
-			return items
-		})
+			return items;
+		});
 
 		const filteredItems = computed(() => {
 			// Get active items by category / subcategory
 			let items = filteredItemsBySearchKeyword.value.filter(item => {
-				return activeCategory.value.term_id === allCategoyConfig.term_id || item.category.includes(activeCategory.value.term_id)
-			})
+				return (
+					activeCategory.value.term_id === allCategoyConfig.term_id ||
+					item.category.includes(activeCategory.value.term_id)
+				);
+			});
 
 			// Create a clone for reverse since the reverse is in place
 			if (sortAscending.value) {
-				items = [...items].reverse()
+				items = [...items].reverse();
 			}
 
-			return items
-		})
+			return items;
+		});
 
 		const filteredItemsCategories = computed(() => {
-			const activeCategories = []
+			const activeCategories = [];
 			filteredItemsBySearchKeyword.value.forEach(item => {
-				activeCategories.push(...item.category)
-			})
+				activeCategories.push(...item.category);
+			});
 
-			return uniq(activeCategories)
-		})
+			return uniq(activeCategories);
+		});
 
 		// Watchers
 		watchEffect(() => {
 			if (props.libraryConfig.loading === false) {
 				// focus input
 				nextTick(() => {
-					searchInput.value.focus()
-				})
+					searchInput.value.focus();
+				});
 			}
-		})
+		});
 
 		// Check to see if the current active category is still valid
-		watch(searchKeyword, (newValue) => {
+		watch(searchKeyword, newValue => {
 			if (newValue.length > 0) {
-				const activeCategoryValid = computedLibraryCategories.value.find(category => category.term_id === activeCategory.value.term_id)
+				const activeCategoryValid = computedLibraryCategories.value.find(
+					category => category.term_id === activeCategory.value.term_id,
+				);
 
 				if (!activeCategoryValid) {
-					onCategoryActivate(allCategoyConfig)
+					onCategoryActivate(allCategoyConfig);
 				}
 			}
-		})
+		});
 
 		// Methods
-		function onCategoryActivate (category) {
+		function onCategoryActivate(category) {
 			// Deselect active categories
-			computedAllCategories.value.forEach(item => item.isActive = false)
+			computedAllCategories.value.forEach(item => (item.isActive = false));
 
-			category.isActive = true
+			category.isActive = true;
 
 			// Activate category parents
-			let currentCategory = category
+			let currentCategory = category;
 			while (currentCategory && currentCategory.parent) {
-				const parentCategory = computedAllCategories.value.find(category => category.term_id === currentCategory.parent)
+				const parentCategory = computedAllCategories.value.find(
+					category => category.term_id === currentCategory.parent,
+				);
 				if (parentCategory) {
-					parentCategory.isActive = true
-					currentCategory = parentCategory
+					parentCategory.isActive = true;
+					currentCategory = parentCategory;
 				}
 			}
 
-			activeCategory.value = category
+			activeCategory.value = category;
 		}
 
 		return {
@@ -290,10 +271,10 @@ export default {
 			libraryTitle,
 
 			// Methods
-			onCategoryActivate
-		}
-	}
-}
+			onCategoryActivate,
+		};
+	},
+};
 </script>
 <style lang="scss">
 .znpb-column-wrapper {
@@ -310,7 +291,8 @@ export default {
 		align-items: center;
 		padding: 20px 20px 0;
 
-		&__right, &__left {
+		&__right,
+		&__left {
 			display: flex;
 			align-items: center;
 		}
@@ -370,7 +352,8 @@ export default {
 
 	&--favorite {
 		.znpb-editor-icon.zion-heart {
-			path, path:first-child {
+			path,
+			path:first-child {
 				fill: var(--zb-secondary-color);
 			}
 		}
@@ -399,7 +382,7 @@ export default {
 		padding: 20px;
 	}
 
-	 > .znpb-editor-library-modal-category-list {
+	> .znpb-editor-library-modal-category-list {
 		padding-top: 8px;
 	}
 }
@@ -417,18 +400,19 @@ export default {
 	background: var(--zb-surface-color);
 }
 .slide-preview-enter-from {
-	opacity: .2;
+	opacity: 0.2;
 }
 .slide-preview-enter-to {
 	opacity: 1;
 }
 .slide-preview-leave-from {
-	opacity: .4;
+	opacity: 0.4;
 }
 .slide-preview-leave-to {
 	opacity: 0;
 }
-.slide-preview-enter-to, .slide-preview-leave-to {
-	transition: all .2s;
+.slide-preview-enter-to,
+.slide-preview-leave-to {
+	transition: all 0.2s;
 }
 </style>

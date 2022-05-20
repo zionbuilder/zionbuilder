@@ -4,50 +4,51 @@
 			v-for="category in categories"
 			:key="category.term_id"
 			:category="category"
-			@activate-subcategory="activateCategory"
 			:is-active="category.isActive"
 			:on-category-activate="onCategoryActivate"
+			@activate-subcategory="activateCategory"
 		/>
 	</ul>
 </template>
 <script>
-import { ref, defineAsyncComponent } from 'vue'
+import { ref } from 'vue';
+import CategoriesLibraryItem from './CategoriesLibraryItem.vue';
 
 export default {
 	name: 'CategoriesLibrary',
 	components: {
-		CategoriesLibraryItem: defineAsyncComponent(() => import('./CategoriesLibraryItem.vue'))
+		CategoriesLibraryItem,
 	},
 	props: {
 		categories: {
 			type: Array,
-			required: false
+			required: false,
 		},
 		onCategoryActivate: {
 			type: Function,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props, { emit }) {
-		const activeCategory = ref(null)
+	setup(props, { emit }) {
+		const activeCategory = ref(null);
 
-		function onActivateSubcategory (category) {
+		function onActivateSubcategory(category) {
 			// activeCategory.value = category
-			props.onCategoryActivate(category)
+			props.onCategoryActivate(category);
 		}
 
-		function activateCategory (category) {
-			props.onCategoryActivate(category)
+		function activateCategory(category) {
+			props.onCategoryActivate(category);
 		}
 
 		return {
 			activeCategory,
 
 			onActivateSubcategory,
-			activateCategory
-		}
-	}
-}
+			activateCategory,
+		};
+	},
+};
 </script>
 <style lang="scss">
 /* vars */
@@ -59,7 +60,7 @@ export default {
 	max-height: 100%;
 	padding: 0;
 	border-bottom: 1px solid var(--zb-surface-border-color);
-	transition: all .2s;
+	transition: all 0.2s;
 
 	&:last-child {
 		border-bottom: none;
@@ -79,7 +80,7 @@ export default {
 	&__title {
 		font-size: 13px;
 		font-weight: 500;
-		transition: color .15s;
+		transition: color 0.15s;
 	}
 
 	&__header:hover &__title {
@@ -118,7 +119,7 @@ export default {
 		position: relative;
 
 		&::before {
-			content: "";
+			content: '';
 			position: absolute;
 			top: 18px;
 			left: 5px;

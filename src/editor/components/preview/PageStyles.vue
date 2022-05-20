@@ -2,7 +2,7 @@
 import ElementStyles from './ElementStyles.vue';
 import Options from '../../modules/Options';
 import { h } from 'vue';
-import { usePseudoSelectors, useOptionsSchemas } from '@zb/components';
+import { usePseudoSelectors, useOptionsSchemas } from '@common/composables';
 
 export default {
 	name: 'PageStyles',

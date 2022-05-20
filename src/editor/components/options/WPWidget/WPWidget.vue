@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getOptionsForm } from '@zb/rest';
+import { getOptionsForm } from '@common/api';
 import { serialize } from 'dom-form-serializer';
 import { useEditElement } from '../../../composables';
 

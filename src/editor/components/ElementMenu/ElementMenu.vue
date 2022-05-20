@@ -22,7 +22,7 @@
 import { ref, watch, computed } from 'vue';
 import { get } from 'lodash-es';
 
-import { Environment } from '@zb/utils';
+import { Environment } from '@common/utils';
 import {
 	useElementMenu,
 	useWindows,
@@ -31,7 +31,7 @@ import {
 	useLocalStorage,
 	useSaveTemplate,
 } from '../../composables';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 export default {
 	name: 'ElementMenu',

@@ -19,7 +19,7 @@
 <script>
 import { ref, computed, watch } from 'vue';
 import { useAddElementsPopup } from '../composables';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 export default {
 	name: 'AddElementIcon',

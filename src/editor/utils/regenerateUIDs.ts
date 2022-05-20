@@ -1,19 +1,19 @@
-import { generateUID } from '@zb/utils'
+import { generateUID } from '@common/utils';
 
-export const regenerateUIDs = (element) => {
-	const uid = generateUID()
+export const regenerateUIDs = element => {
+	const uid = generateUID();
 
-	element.uid = uid
+	element.uid = uid;
 
 	if (Array.isArray(element.content)) {
 		element.content = element.content.map(element => {
-			return regenerateUIDs(element)
+			return regenerateUIDs(element);
 		});
 	}
 
-	return element
-}
+	return element;
+};
 
 export const regenerateUIDsForContent = (elements: []) => {
-	return elements.map(element => regenerateUIDs(element))
-}
+	return elements.map(element => regenerateUIDs(element));
+};

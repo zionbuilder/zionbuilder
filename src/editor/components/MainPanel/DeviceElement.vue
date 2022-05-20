@@ -1,27 +1,19 @@
-
 <template>
 	<a
+		class="znpb-device__item"
+		:class="{ 'znpb-device__item--active': isActiveDevice }"
 		@click.stop="changeDevice"
 		@mousedown.stop=""
-		class="znpb-device__item"
-		:class="{'znpb-device__item--active': isActiveDevice}"
 	>
 		<div class="znpb-device__item-content">
-			<Icon
-				:icon="deviceConfig.icon"
-				class="znpb-device__item-icon"
-			></Icon>
+			<Icon :icon="deviceConfig.icon" class="znpb-device__item-icon"></Icon>
 			<span class="znpb-device__item-name">
-				<template v-if="deviceConfig.name">
-					{{deviceConfig.name}} -
-				</template>
+				<template v-if="deviceConfig.name"> {{ deviceConfig.name }} - </template>
 
-				<template v-if="deviceConfig.id === 'default'">
-					({{$translate('all_devices')}})
-				</template>
+				<template v-if="deviceConfig.id === 'default'"> ({{ $translate('all_devices') }}) </template>
 
 				<template v-else>
-					{{$translate('max')}}
+					{{ $translate('max') }}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
 							<span class="znpb-device__itemValue-inner">
@@ -32,16 +24,13 @@
 									:value="deviceConfig.width"
 									@keydown.enter="updateWidth"
 									@blur="updateWidth"
-								>
+								/>
 								px
 							</span>
 						</template>
-						<template v-else>
-							{{deviceConfig.width}}px
-						</template>
+						<template v-else> {{ deviceConfig.width }}px </template>
 					</span>
 				</template>
-
 			</span>
 			<ChangesBullet
 				v-if="hasChanges && !allowEdit"
@@ -49,98 +38,94 @@
 				@remove-styles="removeStylesGroup"
 			/>
 
-			<div
-				v-if="allowEdit"
-				class="znpb-device__item-actions"
-			>
+			<div v-if="allowEdit" class="znpb-device__item-actions">
 				<template v-if="isEdited">
 					<Icon
+						v-znpb-tooltip="$translate('save')"
 						icon="check"
 						class="znpb-device__item-action"
 						@click.stop="updateWidth"
-						v-znpb-tooltip="$translate('save')"
 					/>
 					<Icon
+						v-znpb-tooltip="$translate('cancel')"
 						icon="close"
 						class="znpb-device__item-action"
 						@click.stop="$emit('edit-breakpoint', null)"
-						v-znpb-tooltip="$translate('cancel')"
 					/>
 				</template>
 				<template v-else>
 					<Icon
+						v-if="!deviceConfig.isDefault"
+						v-znpb-tooltip="$translate('edit_breakpoint')"
 						icon="edit"
 						class="znpb-device__item-action"
 						@click.stop="$emit('edit-breakpoint', deviceConfig)"
-						v-if="!deviceConfig.isDefault"
-						v-znpb-tooltip="$translate('edit_breakpoint')"
 					/>
 					<Icon
-						icon="delete"
-						class="znpb-device__item-action"
 						v-if="!deviceConfig.builtIn"
 						v-znpb-tooltip="$translate('delete_breakpoint')"
+						icon="delete"
+						class="znpb-device__item-action"
 						@click.stop="deleteBreakpoint(deviceConfig.id)"
 					/>
 				</template>
-
 			</div>
 		</div>
 	</a>
 </template>
 
 <script>
-import { computed, ref, nextTick, watch } from 'vue'
-import { useResponsiveDevices } from '@zb/components'
-import { trigger } from '@zb/hooks'
+import { computed, ref, nextTick, watch } from 'vue';
+import { useResponsiveDevices } from '@common/composables';
+import { doAction } from '@common/modules/hooks';
 
 export default {
-	name: 'device-element',
+	name: 'DeviceElement',
 	props: {
 		deviceConfig: Object,
 		allowEdit: {
 			type: Boolean,
 			required: true,
-			default: false
+			default: false,
 		},
 		editedBreakpoint: {
 			type: Object,
 			required: false,
-			default () {
-				return {}
-			}
-		}
+			default() {
+				return {};
+			},
+		},
 	},
-	setup (props, { emit }) {
-		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions, deleteBreakpoint } = useResponsiveDevices()
+	setup(props, { emit }) {
+		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions, deleteBreakpoint } =
+			useResponsiveDevices();
 		const isEdited = computed(() => {
-			return props.editedBreakpoint === props.deviceConfig
-		})
+			return props.editedBreakpoint === props.deviceConfig;
+		});
 
-		const widthInput = ref(null)
+		const widthInput = ref(null);
 
-		watch(isEdited, (newValue) => {
+		watch(isEdited, newValue => {
 			if (newValue) {
 				nextTick(() => {
-					widthInput.value.focus()
-					widthInput.value.select()
-				})
-
+					widthInput.value.focus();
+					widthInput.value.select();
+				});
 			}
-		})
+		});
 
-		function updateWidth () {
-			const oldValue = props.deviceConfig.width
+		function updateWidth() {
+			const oldValue = props.deviceConfig.width;
 			if (!widthInput.value) {
-				return
+				return;
 			}
-			const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value)
+			const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value);
 			// Don't allow values lower than 240px
-			props.deviceConfig.width = newValue
+			props.deviceConfig.width = newValue;
 
 			// Close edit mode
-			emit('edit-breakpoint', null)
-			trigger('zionbuilder/responsive/change_device_width', props.deviceConfig, newValue, oldValue)
+			emit('edit-breakpoint', null);
+			doAction('zionbuilder/responsive/change_device_width', props.deviceConfig, newValue, oldValue);
 		}
 
 		return {
@@ -150,43 +135,43 @@ export default {
 			setActiveResponsiveDeviceId,
 			getActiveResponsiveOptions,
 			updateWidth,
-			deleteBreakpoint
-		}
+			deleteBreakpoint,
+		};
 	},
 	computed: {
-		discardChangesTitle () {
-			return this.$translate('discard_changes_for') + ' ' + this.deviceConfig.name
+		discardChangesTitle() {
+			return this.$translate('discard_changes_for') + ' ' + this.deviceConfig.name;
 		},
 		isActiveDevice: function () {
-			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id
+			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id;
 		},
-		hasChanges () {
-			const activeDeviceConfig = this.getActiveResponsiveOptions()
+		hasChanges() {
+			const activeDeviceConfig = this.getActiveResponsiveOptions();
 
 			if (!activeDeviceConfig) {
-				return false
+				return false;
 			}
 
-			const modelValue = activeDeviceConfig.modelValue
+			const modelValue = activeDeviceConfig.modelValue;
 
-			return (modelValue && modelValue && modelValue[this.deviceConfig.id]) || false
-		}
+			return (modelValue && modelValue && modelValue[this.deviceConfig.id]) || false;
+		},
 	},
 	methods: {
-		changeDevice () {
+		changeDevice() {
 			if (this.activeResponsiveDeviceInfo.id !== this.deviceConfig.id) {
 				// Set a new active device
-				this.setActiveResponsiveDeviceId(this.deviceConfig.id)
+				this.setActiveResponsiveDeviceId(this.deviceConfig.id);
 			}
 		},
-		removeStylesGroup () {
-			const activeDeviceConfig = this.getActiveResponsiveOptions()
+		removeStylesGroup() {
+			const activeDeviceConfig = this.getActiveResponsiveOptions();
 			if (activeDeviceConfig) {
-				activeDeviceConfig.removeDeviceStyles(this.deviceConfig.id)
+				activeDeviceConfig.removeDeviceStyles(this.deviceConfig.id);
 			}
-		}
-	}
-}
+		},
+	},
+};
 </script>
 
 <style lang="scss">
@@ -221,7 +206,8 @@ export default {
 
 			-moz-appearance: textfield;
 
-			&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+			&::-webkit-inner-spin-button,
+			&::-webkit-outer-spin-button {
 				-webkit-appearance: none;
 			}
 
@@ -234,7 +220,7 @@ export default {
 		display: flex;
 		align-items: center;
 		min-height: 20px;
-		transition: all .3s;
+		transition: all 0.3s;
 	}
 	&-icon {
 		margin-right: 5px;
@@ -263,7 +249,7 @@ export default {
 	&-action {
 		margin-left: 8px;
 		font-size: 12px;
-		opacity: .5;
+		opacity: 0.5;
 
 		&:hover {
 			opacity: 1;

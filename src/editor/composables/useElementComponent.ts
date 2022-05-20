@@ -1,7 +1,7 @@
 import { ref, markRaw, Ref } from 'vue';
 import ServerComponent from '../components/preview/ServerComponent.vue';
 import InvalidElement from '../components/preview/InvalidElement.vue';
-import { applyFilters } from '@zb/hooks';
+import { applyFilters } from '@common/modules/hooks';
 
 import { ScriptsLoader } from '../modules/ScriptsLoader';
 

@@ -1,105 +1,91 @@
 <template>
-
 	<Tooltip
 		tooltip-class="hg-popper--no-padding"
 		trigger="click"
 		placement="bottom"
 		append-to="body"
 		strategy="fixed"
-		@hide="showAddModal = false"
 		:close-on-outside-click="true"
 		class="znpb-option-cssChildSelectorPseudoSelector"
+		@hide="showAddModal = false"
 	>
 		<template #content>
 			<div class="znpb-option-cssChildSelectorPseudoSelectorListWrapper">
 				<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
 					<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Active states:</li>
-					<li
-						v-for="state in activePseudo"
-						:key="state.id"
-						@click="removeState(state)"
-					>{{state.name}}</li>
+					<li v-for="state in activePseudo" :key="state.id" @click="removeState(state)">{{ state.name }}</li>
 				</ul>
 
 				<ul class="znpb-option-cssChildSelectorPseudoSelectorList">
 					<li class="znpb-option-cssChildSelectorPseudoSelectorListTitle">Available states:</li>
-					<li
-						v-for="state in remainingPseudo"
-						:key="state.id"
-						@click="addState(state)"
-					>{{state.name}}</li>
+					<li v-for="state in remainingPseudo" :key="state.id" @click="addState(state)">{{ state.name }}</li>
 				</ul>
 			</div>
 		</template>
 
 		<template v-if="states.length === 1">
-			{{states[0]}}
+			{{ states[0] }}
 		</template>
-		<template v-if="states.length > 1">
-			{{states.length}} states
-		</template>
-
+		<template v-if="states.length > 1"> {{ states.length }} states </template>
 	</Tooltip>
-
 </template>
 
 <script>
-import { computed } from 'vue'
-import { usePseudoSelectors } from '@zb/components'
+import { computed } from 'vue';
+import { usePseudoSelectors } from '@common/composables';
 
 export default {
 	name: 'PseudoSelector',
 	props: {
 		states: {
 			type: Array,
-			default: []
-		}
+			default: [],
+		},
 	},
-	setup (props, { emit }) {
-		const { pseudoSelectors } = usePseudoSelectors()
+	setup(props, { emit }) {
+		const { pseudoSelectors } = usePseudoSelectors();
 		const allPseudoSelectors = computed(() => {
-			const disabledStates = ['custom', ':before', ':after']
-			return pseudoSelectors.value.filter(state => !disabledStates.includes(state.id))
-		})
+			const disabledStates = ['custom', ':before', ':after'];
+			return pseudoSelectors.value.filter(state => !disabledStates.includes(state.id));
+		});
 
 		const computedStates = computed({
-			get () {
-				return props.states || []
+			get() {
+				return props.states || [];
 			},
-			set (newStates) {
-				emit('update:states', newStates)
-			}
-		})
+			set(newStates) {
+				emit('update:states', newStates);
+			},
+		});
 
 		const activePseudo = computed(() => {
-			return computedStates.value.map(state => allPseudoSelectors.value.find(stateConfig => stateConfig.id === state))
-		})
+			return computedStates.value.map(state => allPseudoSelectors.value.find(stateConfig => stateConfig.id === state));
+		});
 
 		const remainingPseudo = computed(() => {
-			return allPseudoSelectors.value.filter(state => !computedStates.value.includes(state.id))
-		})
+			return allPseudoSelectors.value.filter(state => !computedStates.value.includes(state.id));
+		});
 
-		function removeState (state) {
-			const value = computedStates.value.slice()
+		function removeState(state) {
+			const value = computedStates.value.slice();
 			// Don't allow removing all states
 			if (value.length === 1) {
-				return
+				return;
 			}
 
 			if (value.includes(state.id)) {
-				const index = value.indexOf(state.id)
-				value.splice(index, 1)
+				const index = value.indexOf(state.id);
+				value.splice(index, 1);
 
-				computedStates.value = value
+				computedStates.value = value;
 			}
 		}
 
+		function addState(state) {
+			const value = computedStates.value.slice();
+			value.push(state.id);
 
-		function addState (state) {
-			const value = computedStates.value.slice()
-			value.push(state.id)
-
-			computedStates.value = value
+			computedStates.value = value;
 		}
 
 		return {
@@ -107,10 +93,10 @@ export default {
 			activePseudo,
 			remainingPseudo,
 			addState,
-			removeState
-		}
-	}
-}
+			removeState,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

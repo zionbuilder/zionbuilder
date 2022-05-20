@@ -1,42 +1,26 @@
 <template>
-	<form
-		enctype="multipart/form-data"
-		novalidate
-		id="znpb-upload-form-library"
-	>
+	<form id="znpb-upload-form-library" enctype="multipart/form-data" novalidate>
 		<div
 			class="znpb-empty-list__container znpb-editor-library-upload"
-			:class="{'znpb-editor-library-upload--dragging': !isInitial}"
+			:class="{ 'znpb-editor-library-upload--dragging': !isInitial }"
 		>
 			<div class="znpb-empty-list__border-top-bottom"></div>
 			<div class="znpb-empty-list__border-left-right"></div>
 			<div class="znpb-empty-list__content">
-
 				<template v-if="isInitial && !isSaving">
 					<Icon icon="import-big-icon" />
 					<p class="znpb-editor-library-upload__text">
-						{{$translate('drag_drop')}}
-						<span class="">{{$translate('browse')}}</span>
-						{{$translate('for_files')}}
+						{{ $translate('drag_drop') }}
+						<span class="">{{ $translate('browse') }}</span>
+						{{ $translate('for_files') }}
 					</p>
 				</template>
-				<div
-					v-if="!isInitial && !isSaving"
-					class="znpb-library-uploading-wrapper"
-				>
-
-					<Icon
-						icon="long-arrow-right"
-						:bg-size="68"
-						bg-color="#06bee1"
-						:rounded="true"
-						color="#fff"
-						:size="21"
-					/>
+				<div v-if="!isInitial && !isSaving" class="znpb-library-uploading-wrapper">
+					<Icon icon="long-arrow-right" :bg-size="68" bg-color="#06bee1" :rounded="true" color="#fff" :size="21" />
 					<p class="znpb-library-uploading-wrapper__text">
-						<b>{{$translate('drop_files')}}</b><br />
-						{{$translate('to_upload')}}
-
+						<b>{{ $translate('drop_files') }}</b
+						><br />
+						{{ $translate('to_upload') }}
 					</p>
 				</div>
 				<input
@@ -46,18 +30,18 @@
 					multiple
 					name="file"
 					:disabled="isSaving"
-					@change="uploadFiles($event.target.name, $event.target.files)"
 					class="znpb-library-input-file"
+					@change="uploadFiles($event.target.name, $event.target.files)"
 				/>
 				<Loader v-if="isSaving" />
-				<span v-if="errorMessage.length > 0">{{errorMessage}}</span>
+				<span v-if="errorMessage.length > 0">{{ errorMessage }}</span>
 			</div>
 		</div>
 	</form>
 </template>
 
 <script>
-import { useLibrary } from '@zionbuilder/composables'
+import { useLibrary } from '@common/composables';
 
 export default {
 	name: 'LibraryUploader',
@@ -65,94 +49,98 @@ export default {
 		noMargin: {
 			type: Boolean,
 			required: false,
-			default: false
-		}
+			default: false,
+		},
 	},
-	data () {
+	setup() {
+		return {};
+	},
+	data() {
 		return {
 			isInitial: true,
 			isSaving: false,
-			errorMessage: ''
-		}
+			errorMessage: '',
+		};
 	},
-	mounted () {
-		let dropArea = this.$refs.formupload
-		dropArea.addEventListener('dragenter', this.highlightForm)
-		dropArea.addEventListener('dragleave', this.dragOut)
-		dropArea.addEventListener('dragover', this.highlightForm)
-		dropArea.addEventListener('drop', this.dragDropped)
+	mounted() {
+		let dropArea = this.$refs.formupload;
+		dropArea.addEventListener('dragenter', this.highlightForm);
+		dropArea.addEventListener('dragleave', this.dragOut);
+		dropArea.addEventListener('dragover', this.highlightForm);
+		dropArea.addEventListener('drop', this.dragDropped);
 	},
-	setup () {
-		return {}
+	beforeUnmount() {
+		let dropArea = this.$refs.formupload;
+		dropArea.removeEventListener('dragenter', this.highlightForm);
+		dropArea.removeEventListener('dragleave', this.dragOut);
+		dropArea.removeEventListener('dragover', this.highlightForm);
+		dropArea.removeEventListener('drop', this.dragDropped);
 	},
 	methods: {
-		highlightForm () {
-			this.isInitial = false
+		highlightForm() {
+			this.isInitial = false;
 		},
-		dragOut () {
-			this.isInitial = true
+		dragOut() {
+			this.isInitial = true;
 		},
-		dragDropped () {
-			this.isInitial = true
+		dragDropped() {
+			this.isInitial = true;
 		},
 
-		uploadFiles (fieldName, fileList) {
-			const formData = new FormData()
+		uploadFiles(fieldName, fileList) {
+			const formData = new FormData();
 
-			if (!fileList.length) return
+			if (!fileList.length) return;
 
 			// append the files to FormData
 			Array.from(fileList).forEach(file => {
-				formData.append(fieldName, file, file.name)
-			})
+				formData.append(fieldName, file, file.name);
+			});
 
 			// send it to axios
-			this.saveFile(formData)
+			this.saveFile(formData);
 		},
-		saveFile (formData) {
-			const { getSource } = useLibrary()
+		saveFile(formData) {
+			const { getSource } = useLibrary();
 
-			const localLibrary = getSource('local_library')
+			const localLibrary = getSource('local_library');
 
 			if (!localLibrary) {
-				console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.')
-				return
+				console.warn(
+					'Local library was not registered. It may be possible that a plugin is removing the default library.',
+				);
+				return;
 			}
 
-			this.isSaving = true
-			this.errorMessage = ''
+			this.isSaving = true;
+			this.errorMessage = '';
 
-			localLibrary.importItem(formData).catch(error => {
-				console.error(error)
+			localLibrary
+				.importItem(formData)
+				.catch(error => {
+					console.error(error);
 
-				if (typeof error.response.data === 'string') {
-					this.errorMessage = error.response.data
-				} else this.errorMessage = this.arrayBufferToString(error.response.data)
-			})
-				.finally(() => {
-					this.isSaving = false
-					this.isInitial = true
-					this.$emit('file-uploaded', true)
+					if (typeof error.response.data === 'string') {
+						this.errorMessage = error.response.data;
+					} else this.errorMessage = this.arrayBufferToString(error.response.data);
 				})
+				.finally(() => {
+					this.isSaving = false;
+					this.isInitial = true;
+					this.$emit('file-uploaded', true);
+				});
 		},
-		decode_utf8 (s) {
-			let obj = JSON.parse(s)
-			return decodeURIComponent(escape(obj.message))
+		decode_utf8(s) {
+			let obj = JSON.parse(s);
+			return decodeURIComponent(escape(obj.message));
 		},
-		arrayBufferToString (buffer) {
-			var s = String.fromCharCode.apply(null, new Uint8Array(buffer))
+		arrayBufferToString(buffer) {
+			var s = String.fromCharCode.apply(null, new Uint8Array(buffer));
 
-			return this.decode_utf8(s)
-		}
+			return this.decode_utf8(s);
+		},
 	},
-	beforeUnmount () {
-		let dropArea = this.$refs.formupload
-		dropArea.removeEventListener('dragenter', this.highlightForm)
-		dropArea.removeEventListener('dragleave', this.dragOut)
-		dropArea.removeEventListener('dragover', this.highlightForm)
-		dropArea.removeEventListener('drop', this.dragDropped)
-	}
-}
+};
 </script>
 
 <style lang="scss">
@@ -207,26 +195,20 @@ input.znpb-library-input-file {
 	width: 100%;
 	max-height: 100%;
 	margin: 30px;
-	transition: all .2s;
+	transition: all 0.2s;
 
 	&--dragging {
 		.znpb-empty-list__border-top-bottom {
-			&:after, &:before {
-				background-image: linear-gradient(
-				to right,
-				var(--zb-secondary-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-				);
+			&:after,
+			&:before {
+				background-image: linear-gradient(to right, var(--zb-secondary-color) 77%, rgba(255, 255, 255, 0) 0%);
 			}
 		}
 
 		.znpb-empty-list__border-left-right {
-			&:after, &:before {
-				background-image: linear-gradient(
-				to top,
-				var(--zb-secondary-color) 77%,
-				rgba(255, 255, 255, 0) 0%
-				);
+			&:after,
+			&:before {
+				background-image: linear-gradient(to top, var(--zb-secondary-color) 77%, rgba(255, 255, 255, 0) 0%);
 			}
 		}
 	}

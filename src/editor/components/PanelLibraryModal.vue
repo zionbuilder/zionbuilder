@@ -109,7 +109,7 @@
 import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useUI, useElements, useEditorData, useLocalStorage } from '../composables';
-import { useLibrary } from '@zionbuilder/composables';
+import { useLibrary } from '@common/composables';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';

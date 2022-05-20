@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
 	position: absolute;
 	right: 30px;
 	bottom: 20px;
-	z-index: 1000;
+	z-index: 999999;
 	width: 100%;
 	max-width: 320px;
 	transform: translateX(0);

@@ -2,14 +2,15 @@ import './scss/index.scss';
 import { createApp } from 'vue';
 
 // Main
-import * as hooks from '@zb/hooks';
+import { createPinia } from 'pinia';
 import { useElementTypes } from './composables';
 import { registerEditorOptions } from './components/options';
 // Plugins
-import { install as ComponentsInstall } from '@zb/components';
-import { install as L18NInstall } from '@zb/i18n';
-import { errorInterceptor } from '@zb/rest';
-import { useNotifications, useLibrary } from '../common/composables';
+import { install as ComponentsInstall } from '../common';
+import { install as I18nInstall } from '../common/modules/i18n';
+import { errorInterceptor } from '../common/api';
+import { useLibrary } from '../common/composables';
+import { useNotificationsStore } from '@common/store';
 
 // Global components
 import { TreeViewList, TreeViewListItem } from './components/treeView';
@@ -20,7 +21,7 @@ import SortableHelper from './common/SortableHelper.vue';
 import SortablePlaceholder from './common/SortablePlaceholder.vue';
 
 import { WireframeList, WireframeListItem } from './components/treeView';
-import { useOptionsSchemas } from '@zb/components';
+import { useOptionsSchemas } from '../common';
 
 // Exports
 import * as API from './api.js';
@@ -42,15 +43,16 @@ import App from './EditorApp.vue';
 const appInstance = createApp(App);
 
 // Init global components
-appInstance.use(L18NInstall, window.ZnI18NStrings);
+appInstance.use(I18nInstall, window.ZnI18NStrings);
 appInstance.use(ComponentsInstall);
+appInstance.use(createPinia());
 
 // Init library sources
 const { addSources } = useLibrary();
 addSources(window.ZnPbInitalData.template_sources);
 
 // Add error interceptor for API
-errorInterceptor(useNotifications());
+errorInterceptor(useNotificationsStore());
 
 // Register nested components
 appInstance.component('TreeViewList', TreeViewList);
@@ -65,7 +67,6 @@ appInstance.component('SortablePlaceholder', SortablePlaceholder);
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
-	hooks,
 	appInstance,
 	urls: window.ZnPbInitalData.urls,
 };

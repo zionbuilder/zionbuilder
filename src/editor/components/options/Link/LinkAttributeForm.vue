@@ -5,8 +5,8 @@
 				type="text"
 				:placeholder="$translate('attribute_key')"
 				:modelValue="attributeConfig.key"
-				@update:modelValue="updateValue('key', $event)"
 				:spellcheck="false"
+				@update:modelValue="updateValue('key', $event)"
 			/>
 		</div>
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
@@ -14,51 +14,51 @@
 				type="text"
 				:placeholder="$translate('attribute_value')"
 				:modelValue="attributeConfig.value"
-				@update:modelValue="updateValue('value', $event)"
 				:spellcheck="false"
+				@update:modelValue="updateValue('value', $event)"
 			/>
 		</div>
 		<div class="znpb-link-optionsAttributeDelete znpb-link-optionsAttributeField">
 			<Icon
 				icon="delete"
+				:class="{ 'znpb-link-optionsAttributeDelete--disabled': !canDelete }"
 				@click="$emit('delete', attributeConfig)"
-				:class="{'znpb-link-optionsAttributeDelete--disabled': !canDelete}"
 			/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { BaseInput } from '@zb/components'
+import { BaseInput } from '@common';
 
 export default {
 	name: 'LinkAttributeForm',
 	components: {
-		BaseInput
+		BaseInput,
 	},
 	props: {
 		attributeConfig: {
-			type: Object
+			type: Object,
 		},
 		canDelete: {
 			type: Boolean,
 			required: false,
-			default: true
-		}
+			default: true,
+		},
 	},
-	setup (props, { emit }) {
-		function updateValue (key, value) {
+	setup(props, { emit }) {
+		function updateValue(key, value) {
 			emit('update-attribute', {
 				...props.attributeConfig,
-				[key]: value
-			})
+				[key]: value,
+			});
 		}
 
 		return {
-			updateValue
-		}
-	}
-}
+			updateValue,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

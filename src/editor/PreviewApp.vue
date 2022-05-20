@@ -16,8 +16,8 @@ import { computed, ref, watch, provide } from 'vue';
 import PageStyles from './components/preview/PageStyles.vue';
 import ElementStyles from './components/preview/ElementStyles.vue';
 import SortableContent from './components/preview/SortableContent.vue';
-import { useOptionsSchemas } from '@zb/components';
-import { trigger, applyFilters } from '@zb/hooks';
+import { useOptionsSchemas } from '@common/composables';
+import { doAction, applyFilters } from '@common/modules/hooks';
 
 export default {
 	name: 'PreviewApp',
@@ -51,7 +51,7 @@ export default {
 		});
 
 		// Allow other to hook into setup
-		trigger('zionbuilder/preview/app/setup');
+		doAction('zionbuilder/preview/app/setup');
 
 		const previewAppClasses = computed(() => {
 			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes);

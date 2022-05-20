@@ -36,8 +36,8 @@ import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
 import { useElements, useTemplateParts, useSaveTemplate } from '../composables';
-import { useLibrary } from '@zionbuilder/composables';
-import { exportTemplate } from '@zb/rest';
+import { useLibrary } from '@common/composables';
+import { exportTemplate } from '@common/api';
 
 export default {
 	name: 'SaveElementModal',

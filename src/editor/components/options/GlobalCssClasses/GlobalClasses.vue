@@ -28,8 +28,6 @@
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue';
 import { useCSSClasses } from '../../../composables';
-import { generateUID } from '@zb/utils';
-
 import AddSelector from '../common/AddSelector.vue';
 
 export default {

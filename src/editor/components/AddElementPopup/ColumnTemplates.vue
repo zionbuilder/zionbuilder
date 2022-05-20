@@ -28,7 +28,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
 import { useUI, useAddElementsPopup, useWindows, useHistory, useElementTypes } from '../../composables';
-import { useLibrary } from '@zionbuilder/composables';
+import { useLibrary } from '@common/composables';
 
 // Components
 import ElementsTab from './ElementsTab.vue';

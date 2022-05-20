@@ -180,7 +180,6 @@ class Preview {
 			'znpb-preview-frame-styles',
 			'preview',
 			[
-				'zb-components',
 				'znpb-editor-styles',
 			],
 			Plugin::instance()->get_version()

@@ -1,23 +1,13 @@
 <template>
 	<li
 		class="znpb-editor-library-modal-category__item"
-		:class="{'znpb-editor-library-modal-category__item--active': category.isActive}"
+		:class="{ 'znpb-editor-library-modal-category__item--active': category.isActive }"
 	>
+		<div class="znpb-editor-library-modal-category__header" @click="onCategoryActivate(category)">
+			<h6 class="znpb-editor-library-modal-category__title" v-html="category.name" />
 
-		<div
-			class="znpb-editor-library-modal-category__header"
-			@click="onCategoryActivate(category)"
-		>
-			<h6
-				class="znpb-editor-library-modal-category__title"
-				v-html="category.name"
-			/>
-
-			<span
-				v-if="showCount"
-				class="znpb-editor-library-modal-category__number"
-			>
-				{{category.count}}
+			<span v-if="showCount" class="znpb-editor-library-modal-category__number">
+				{{ category.count }}
 			</span>
 
 			<Icon
@@ -35,58 +25,63 @@
 			:on-category-activate="onCategoryActivate"
 		/>
 	</li>
-
 </template>
 
 <script>
-import { computed, ref, watch, defineAsyncComponent } from 'vue'
+import { computed, ref, watch } from 'vue';
+import CategoriesLibrary from './CategoriesLibrary.vue';
 
 export default {
 	name: 'CategoriesLibraryItem',
 	components: {
-		CategoriesLibrary: defineAsyncComponent(() => import('./CategoriesLibrary.vue'))
+		CategoriesLibrary,
 	},
 	props: {
 		category: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		isActive: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		showCount: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		onCategoryActivate: {
 			type: Function,
-			required: true
-		}
+			required: true,
+		},
 	},
-	setup (props, { emit }) {
+	setup(props, { emit }) {
 		const hasSubcategories = computed(() => {
-			return props.category.subcategories && props.category.subcategories.length > 0
-		})
+			return props.category.subcategories && props.category.subcategories.length > 0;
+		});
 
-		const activeDropdown = ref(props.isActive)
+		const activeDropdown = ref(props.isActive);
 
-		watch(() => props.isActive, (newValue) => {
-			activeDropdown.value = newValue
-		})
+		watch(
+			() => props.isActive,
+			newValue => {
+				activeDropdown.value = newValue;
+			},
+		);
 
 		return {
 			// Computed
 			hasSubcategories,
 
 			// Refs
-			activeDropdown
-		}
-	}
-}
+			activeDropdown,
+		};
+	},
+};
 </script>
 <style lang="scss">
-.znpb-editor-library-modal-category__item--active > .znpb-editor-library-modal-category__header > .znpb-editor-library-modal-category__title {
+.znpb-editor-library-modal-category__item--active
+	> .znpb-editor-library-modal-category__header
+	> .znpb-editor-library-modal-category__title {
 	position: relative;
 	width: 100%;
 	color: var(--zb-surface-text-active-color);

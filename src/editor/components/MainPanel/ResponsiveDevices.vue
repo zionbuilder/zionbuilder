@@ -1,108 +1,87 @@
 <template>
-	<FlyoutWrapper
-		@mousedown.stop=""
-		:prevent-close="preventClose"
-		@hide="onFlyoutHide"
-	>
-		<template v-slot:panel-icon>
+	<FlyoutWrapper :prevent-close="preventClose" @mousedown.stop="" @hide="onFlyoutHide">
+		<template #panel-icon>
 			<Icon :icon="deviceIcon" />
 		</template>
 		<div class="znpb-responsiveDeviceHeader">
 			<div class="znpb-responsiveDeviceHeader__item">
-				<label
-					for="znpb-responsive__iframeWidth"
-					class="znpb-responsiveDeviceHeader__iconIndicator"
-				>
+				<label for="znpb-responsive__iframeWidth" class="znpb-responsiveDeviceHeader__iconIndicator">
 					<Icon icon="width" />
 				</label>
 
 				<input
 					id="znpb-responsive__iframeWidth"
+					v-znpb-tooltip="$translate('preview_width')"
 					type="number"
+					:value="iframeWidth"
 					@keydown.enter="onWidthKeyDown"
 					@blur="onWidthKeyDown"
 					@focus="preventClose = true"
-					:value="iframeWidth"
-					v-znpb-tooltip="$translate('preview_width')"
 				/>
-
 			</div>
 
 			<div class="znpb-responsiveDeviceHeader__item">
-				<label
-					for="znpb-responsive__iframeScale"
-					class="znpb-responsiveDeviceHeader__iconIndicator"
-				>
+				<label for="znpb-responsive__iframeScale" class="znpb-responsiveDeviceHeader__iconIndicator">
 					<Icon icon="zoom" />
 				</label>
 
 				<input
 					id="znpb-responsive__iframeScale"
+					v-znpb-tooltip="$translate('preview_scale')"
 					type="number"
+					:value="Math.round(scaleValue)"
+					:disabled="autoScaleActive"
 					@keydown.enter="onScaleKeyDown"
 					@blur="onScaleKeyDown"
 					@focus="preventClose = true"
-					:value="Math.round(scaleValue)"
-					:disabled="autoScaleActive"
-					v-znpb-tooltip="$translate('preview_scale')"
 				/>
 				<Icon
+					v-znpb-tooltip="autoScaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
 					:icon="autoScaleActive ? 'lock' : 'unlock'"
-					@click.stop="setAutoScale(!autoScaleActive)"
 					class="znpb-responsiveDeviceHeader__iconLock"
 					:class="{
-						'znpb-responsiveDeviceHeader__iconLock--locked': autoScaleActive
+						'znpb-responsiveDeviceHeader__iconLock--locked': autoScaleActive,
 					}"
-					v-znpb-tooltip="autoScaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
+					@click.stop="setAutoScale(!autoScaleActive)"
 				/>
 			</div>
-
 		</div>
 
-		<div
-			class="znpb-fancy-scrollbar znpb-responsiveDevicesWrapper"
-			ref="devicesList"
-		>
+		<div ref="devicesList" class="znpb-fancy-scrollbar znpb-responsiveDevicesWrapper">
 			<FlyoutMenuItem
 				v-for="(deviceConfig, i) in orderedResponsiveDevices"
-				v-bind:key="i"
+				:key="i"
 				:class="{
-					[`znpb-deviceItem--${deviceConfig.id}`]: deviceConfig.id
+					[`znpb-deviceItem--${deviceConfig.id}`]: deviceConfig.id,
 				}"
 			>
 				<DeviceElement
 					:device-config="deviceConfig"
 					:allow-edit="editBreakpoints"
 					:edited-breakpoint="editedBreakpoint"
-					@edit-breakpoint="(breakpoint) => editedBreakpoint = breakpoint"
+					@edit-breakpoint="breakpoint => (editedBreakpoint = breakpoint)"
 				/>
 			</FlyoutMenuItem>
 		</div>
 
-		<li
-			class="menu-items znpb-device__addBreakpointForm"
-			v-if="enabledAddBreakpoint && editBreakpoints"
-		>
+		<li v-if="enabledAddBreakpoint && editBreakpoints" class="menu-items znpb-device__addBreakpointForm">
 			<a class="znpb-device__item">
 				<div class="znpb-device__item-content">
-					<Icon
-						:icon="addBreakpointDeviceIcon"
-						class="znpb-device__item-icon"
-					/>
+					<Icon :icon="addBreakpointDeviceIcon" class="znpb-device__item-icon" />
 
 					<span class="znpb-device__item-name">
-						{{$translate('max')}}
+						{{ $translate('max') }}
 
 						<span class="znpb-device__itemValue">
 							<span class="znpb-device__itemValue-inner">
 								<input
 									ref="widthInput"
+									v-model="newBreakpointValue"
 									type="number"
 									class="znpb-device__itemValueInput"
-									v-model="newBreakpointValue"
-									@keydown.enter="addNewBreakpoint"
 									min="240"
-								>
+									@keydown.enter="addNewBreakpoint"
+								/>
 								px
 							</span>
 						</span>
@@ -110,178 +89,176 @@
 
 					<div class="znpb-device__item-actions">
 						<Icon
+							v-znpb-tooltip="$translate('save')"
 							icon="check"
 							class="znpb-device__item-action"
 							@click.stop="addNewBreakpoint"
-							v-znpb-tooltip="$translate('save')"
 						/>
 						<Icon
+							v-znpb-tooltip="$translate('cancel')"
 							icon="close"
 							class="znpb-device__item-action"
 							@click="cancelNewBreakpointAdd"
-							v-znpb-tooltip="$translate('cancel')"
 						/>
-
 					</div>
 				</div>
 			</a>
 		</li>
 
-		<div
-			class="znpb-device__addBreakpointWrapper"
-			v-if="editBreakpoints"
-		>
-			<div
-				class="znpb-device__addBreakpoint"
-				@click="enableAddNewDevice"
-			>
+		<div v-if="editBreakpoints" class="znpb-device__addBreakpointWrapper">
+			<div class="znpb-device__addBreakpoint" @click="enableAddNewDevice">
 				<Icon icon="plus" />
-				{{$translate('add_breakpoint')}}
+				{{ $translate('add_breakpoint') }}
 			</div>
 		</div>
 
 		<div class="znpb-responsiveDeviceFooter">
-			<div
-				@click="disableEditBreakpoints"
-				class="znpb-responsiveDeviceEditButton"
-			>
+			<div class="znpb-responsiveDeviceEditButton" @click="disableEditBreakpoints">
 				<template v-if="!editBreakpoints">
 					<Icon icon="edit" />
-					{{$translate('edit_breakpoints')}}
+					{{ $translate('edit_breakpoints') }}
 				</template>
 				<template v-else>
 					<Icon icon="close" />
-					{{$translate('disable_edit_breakpoints')}}
+					{{ $translate('disable_edit_breakpoints') }}
 				</template>
 			</div>
-
 		</div>
 	</FlyoutWrapper>
 </template>
 
 <script setup>
-import { computed, ref, nextTick, watch } from 'vue'
-import { useResponsiveDevices } from '@zb/components'
+import { computed, ref, nextTick, watch } from 'vue';
+import { useResponsiveDevices } from '@common/composables';
 
-import DeviceElement from './DeviceElement.vue'
-import FlyoutWrapper from './FlyoutWrapper.vue'
-import FlyoutMenuItem from './FlyoutMenuItem.vue'
+import DeviceElement from './DeviceElement.vue';
+import FlyoutWrapper from './FlyoutWrapper.vue';
+import FlyoutMenuItem from './FlyoutMenuItem.vue';
 
-const { activeResponsiveDeviceInfo, orderedResponsiveDevices, iframeWidth, setCustomIframeWidth, scaleValue, setCustomScale, autoScaleActive, setAutoScale, deviceSizesConfig, addCustomBreakpoint } = useResponsiveDevices()
+const {
+	activeResponsiveDeviceInfo,
+	orderedResponsiveDevices,
+	iframeWidth,
+	setCustomIframeWidth,
+	scaleValue,
+	setCustomScale,
+	autoScaleActive,
+	setAutoScale,
+	deviceSizesConfig,
+	addCustomBreakpoint,
+} = useResponsiveDevices();
 
-const preventClose = ref(false)
-const enabledAddBreakpoint = ref(false)
-const newBreakpointValue = ref(500)
-const devicesList = ref(null)
+const preventClose = ref(false);
+const enabledAddBreakpoint = ref(false);
+const newBreakpointValue = ref(500);
+const devicesList = ref(null);
 
 /**
  * This will be used to set the proper device icon when adding new breakpoint
  */
-const widthInput = ref(null)
+const widthInput = ref(null);
 const addBreakpointDeviceIcon = computed(() => {
-	let deviceIcon = 'desktop'
-	const currentValue = newBreakpointValue.value
+	let deviceIcon = 'desktop';
+	const currentValue = newBreakpointValue.value;
 
 	deviceSizesConfig.forEach(device => {
 		if (currentValue < device.width) {
-			deviceIcon = device.icon
+			deviceIcon = device.icon;
 		}
-	})
+	});
 
-	return deviceIcon
-})
+	return deviceIcon;
+});
 
 function disableEditBreakpoints() {
-	preventClose.value = true
+	preventClose.value = true;
 
 	setTimeout(() => {
-		preventClose.value = false
+		preventClose.value = false;
 	}, 30);
 
-	editBreakpoints.value = !editBreakpoints.value
+	editBreakpoints.value = !editBreakpoints.value;
 }
 
-function enableAddNewDevice () {
-	enabledAddBreakpoint.value = true
+function enableAddNewDevice() {
+	enabledAddBreakpoint.value = true;
 
 	// Highlight the input field
 	nextTick(() => {
-		widthInput.value.focus()
-		widthInput.value.select()
-	})
+		widthInput.value.focus();
+		widthInput.value.select();
+	});
 }
 
-function addNewBreakpoint () {
-	const newValue = newBreakpointValue.value < 240 ? 240 : newBreakpointValue.value
+function addNewBreakpoint() {
+	const newValue = newBreakpointValue.value < 240 ? 240 : newBreakpointValue.value;
 
 	const addedDevice = addCustomBreakpoint({
 		width: newValue,
-		icon: addBreakpointDeviceIcon.value
-	})
+		icon: addBreakpointDeviceIcon.value,
+	});
 
 	// Cleanup add form
-	cancelNewBreakpointAdd()
+	cancelNewBreakpointAdd();
 
-	const { id } = addedDevice
+	const { id } = addedDevice;
 	// Scroll to bottom of the list
 	nextTick(() => {
-		const addedDevice = document.querySelector(`.znpb-deviceItem--${id}`)
+		const addedDevice = document.querySelector(`.znpb-deviceItem--${id}`);
 
 		if (addedDevice) {
-			addedDevice.scrollIntoView({ block: "nearest", inline: "nearest" })
+			addedDevice.scrollIntoView({ block: 'nearest', inline: 'nearest' });
 
 			// Highlight the device
-			addedDevice.classList.add('znpb-deviceItem--new')
+			addedDevice.classList.add('znpb-deviceItem--new');
 
 			setTimeout(() => {
-				addedDevice.classList.remove('znpb-deviceItem--new')
+				addedDevice.classList.remove('znpb-deviceItem--new');
 			}, 300);
-
 		}
-	})
+	});
 }
 
-function cancelNewBreakpointAdd () {
-	enabledAddBreakpoint.value = false
-	newBreakpointValue.value = 500
+function cancelNewBreakpointAdd() {
+	enabledAddBreakpoint.value = false;
+	newBreakpointValue.value = 500;
 }
 
 const deviceIcon = computed(() => {
-	return activeResponsiveDeviceInfo.value.icon
-})
+	return activeResponsiveDeviceInfo.value.icon;
+});
 
-const editBreakpoints = ref(false)
-const editedBreakpoint = ref(null)
+const editBreakpoints = ref(false);
+const editedBreakpoint = ref(null);
 
-function onWidthKeyDown (event) {
-	setCustomIframeWidth(event.target.value, true)
-	preventClose.value = false
+function onWidthKeyDown(event) {
+	setCustomIframeWidth(event.target.value, true);
+	preventClose.value = false;
 }
 
-function onScaleKeyDown (event) {
-	setCustomScale(event.target.value)
-	preventClose.value = false
+function onScaleKeyDown(event) {
+	setCustomScale(event.target.value);
+	preventClose.value = false;
 }
 
 // Prevent flyout wrapper from closing when we have an active action
-watch( [editedBreakpoint, enabledAddBreakpoint], ([newValue, newValue2]) => {
+watch([editedBreakpoint, enabledAddBreakpoint], ([newValue, newValue2]) => {
 	if (newValue || newValue2) {
-		preventClose.value = true
+		preventClose.value = true;
 	} else if (!newValue && !newValue2) {
-		preventClose.value = false
+		preventClose.value = false;
 	}
-})
+});
 
 // Cleanup when hiding menu
 function onFlyoutHide() {
 	// Cancel add new breakpoint
-	cancelNewBreakpointAdd()
+	cancelNewBreakpointAdd();
 
 	// Cancel edit breakpoint
-	editBreakpoints.value = false
-	editedBreakpoint.value = null
+	editBreakpoints.value = false;
+	editedBreakpoint.value = null;
 }
-
 </script>
 
 <style lang="scss">
@@ -294,10 +271,11 @@ function onFlyoutHide() {
 	gap: 15px;
 
 	// Hide the number input arrows
-	input[type="number"] {
+	input[type='number'] {
 		-moz-appearance: textfield;
 
-		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
 			-webkit-appearance: none;
 		}
 	}
@@ -345,7 +323,7 @@ function onFlyoutHide() {
 			}
 
 			&[disabled] {
-				opacity: .6;
+				opacity: 0.6;
 				pointer-events: none;
 			}
 		}
@@ -365,13 +343,13 @@ function onFlyoutHide() {
 	background: transparent;
 	border: 2px solid var(--zb-surface-border-color);
 	border-radius: 3px;
-	transition: all .3s;
+	transition: all 0.3s;
 	cursor: pointer;
 	user-select: none;
 
 	&:hover {
 		background: none;
-		opacity: .6;
+		opacity: 0.6;
 	}
 
 	& .znpb-editor-icon {
@@ -393,7 +371,7 @@ function onFlyoutHide() {
 	justify-content: center;
 	align-items: center;
 	padding: 12px 16px 4px;
-	transition: color .2s;
+	transition: color 0.2s;
 
 	&:hover {
 		color: var(--zb-surface-text-hover-color);

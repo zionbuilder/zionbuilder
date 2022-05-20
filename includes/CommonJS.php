@@ -30,34 +30,10 @@ class CommonJS {
 		add_action( 'zionbuilder/editor/before_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
 		add_action( 'zionbuilder/preview/before_load_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
 		add_action( 'zionbuilder/admin/before_admin_scripts', [ $this, 'on_enqueue_scripts' ], 9 );
-
-		add_filter( 'script_loader_tag', [ $this, 'add_module_attribute' ], 10, 3 );
 	}
 
 	public function on_enqueue_scripts() {
 		self::register_scripts();
-	}
-
-	public function add_module_attribute( $tag, $handle, $src ) {
-		// if not your script, do nothing and return original $tag
-		if ( in_array(
-			$handle,
-			[
-				'zb-vue',
-				'zb-utils',
-				'zb-admin',
-				'zb-rest',
-				'zb-components',
-				'zb-test',
-				'zb-test2',
-			],
-			true
-		) ) {
-			// change the script tag by adding type="module" and return it.
-			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
-		}
-
-		return $tag;
 	}
 
 	public static function register_scripts() {

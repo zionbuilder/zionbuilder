@@ -24,7 +24,7 @@ import Dimensions from './Dimensions';
 import ElementEventButton from './ElementEventButton';
 import ElementSelector from './ElementSelector';
 
-import { useOptions } from '@zb/components';
+import { useOptions } from '@common/composables';
 
 export const registerEditorOptions = () => {
 	const { registerOption } = useOptions();

@@ -26,7 +26,7 @@
 import { merge, cloneDeep } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
-import { useOptionsSchemas } from '@zb/components';
+import { useOptionsSchemas } from '@common/composables';
 import { useCSSClasses } from '../../../composables';
 
 export default {

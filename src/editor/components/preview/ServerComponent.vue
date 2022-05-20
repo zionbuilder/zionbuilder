@@ -19,7 +19,7 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
-import { applyFilters, on, off, trigger } from '@zb/hooks';
+import { applyFilters, addAction, removeAction, doAction } from '@common/modules/hooks';
 
 // Utils
 import { debounce } from 'lodash-es';
@@ -119,7 +119,12 @@ export default {
 						nextTick(() => {
 							setTimeout(() => {
 								checkForContentHeight();
-								trigger('zionbuilder/server_component/rendered', elementContentRef.value, props.element, props.options);
+								doAction(
+									'zionbuilder/server_component/rendered',
+									elementContentRef.value,
+									props.element,
+									props.options,
+								);
 							}, 20);
 						});
 					});
@@ -170,9 +175,9 @@ export default {
 			getElementFromServer();
 		});
 
-		on('zionbuilder/server_component/refresh', debouncedGetElementFromServer);
+		addAction('zionbuilder/server_component/refresh', debouncedGetElementFromServer);
 		onBeforeUnmount(() => {
-			off('zionbuilder/server_component/refresh', debouncedGetElementFromServer);
+			removeAction('zionbuilder/server_component/refresh', debouncedGetElementFromServer);
 		});
 
 		return {

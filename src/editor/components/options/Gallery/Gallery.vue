@@ -1,17 +1,10 @@
 <template>
 	<div class="znpb-option__image-gallery">
-		<EmptyList
-			v-if="!sortableModel.length"
-			@click="openMediaModal"
-		>
-			{{$translate('no_images_selected')}}
+		<EmptyList v-if="!sortableModel.length" @click="openMediaModal">
+			{{ $translate('no_images_selected') }}
 		</EmptyList>
 
-		<Sortable
-			v-else
-			v-model="sortableModel"
-			class="znpb-option__image-gallery__images-wrapper"
-		>
+		<Sortable v-else v-model="sortableModel" class="znpb-option__image-gallery__images-wrapper">
 			<div
 				v-for="(image, index) in modelValue"
 				:key="index"
@@ -19,44 +12,33 @@
 				:style="{
 					'background-image': `url(${image.image})`,
 					'background-size': 'cover',
-					'border-radius': '3px'
+					'border-radius': '3px',
 				}"
 			>
 				<!-- <img :src="image.image"/> -->
 
-				<span
-					class="znpb-option__image-gallery__images-item--delete"
-					@click="deleteImage(index)"
-				>
-					<Icon
-						:rounded="true"
-						icon="delete"
-						:bg-size="30"
-						bg-color="#fff"
-					/>
+				<span class="znpb-option__image-gallery__images-item--delete" @click="deleteImage(index)">
+					<Icon :rounded="true" icon="delete" :bg-size="30" bg-color="#fff" />
 				</span>
 			</div>
-			<template v-slot:end>
-				<div
-					@click="openMediaModal"
-					class="znpb-option__image-gallery__images-item--add"
-				>+</div>
+			<template #end>
+				<div class="znpb-option__image-gallery__images-item--add" @click="openMediaModal">+</div>
 			</template>
 		</Sortable>
 	</div>
 </template>
 
 <script>
-import { getImageIds } from '@zb/rest'
+import { getImageIds } from '@common/api';
 
-const wp = window.wp
+const wp = window.wp;
 
 export default {
 	name: 'Gallery',
 	props: {
 		modelValue: {
 			type: Array,
-			required: false
+			required: false,
 		},
 		title: {},
 		/**
@@ -65,90 +47,92 @@ export default {
 		type: {
 			required: false,
 			type: String,
-			default: 'image'
-		}
+			default: 'image',
+		},
 	},
-	data () {
+	data() {
 		return {
-			mediaModal: null
-		}
+			mediaModal: null,
+		};
 	},
 	computed: {
 		sortableModel: {
-			get () {
-				return this.modelValue || []
+			get() {
+				return this.modelValue || [];
 			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+			set(newValue) {
+				this.$emit('update:modelValue', newValue);
+			},
+		},
 	},
 
 	methods: {
-		openMediaModal () {
+		openMediaModal() {
 			if (this.mediaModal === null) {
 				const args = {
 					frame: 'select',
 					state: 'zion-media',
 					library: {
-						type: 'image'
+						type: 'image',
 					},
 					button: {
-						text: 'Add Image'
+						text: 'Add Image',
 					},
 					multiple: 'add',
-					selection: [518]
-				}
+					selection: [518],
+				};
 
 				// Create the frame
-				this.mediaModal = new window.wp.media.view.MediaFrame.ZionBuilderFrame(args)
-				this.mediaModal.on('select update insert', this.selectMedia)
+				this.mediaModal = new window.wp.media.view.MediaFrame.ZionBuilderFrame(args);
+				this.mediaModal.on('select update insert', this.selectMedia);
 
 				// Select the images
-				this.mediaModal.on('open', this.setMediaModalSelection)
+				this.mediaModal.on('open', this.setMediaModalSelection);
 			}
 
 			// Open the media modal
-			this.mediaModal.open()
+			this.mediaModal.open();
 		},
-		setMediaModalSelection (e) {
-			if (typeof this.modelValue === 'undefined') return
+		setMediaModalSelection(e) {
+			if (typeof this.modelValue === 'undefined') return;
 
 			// Get image ids from DB
-			let imagesUrls = this.modelValue.map(image => image.image)
+			let imagesUrls = this.modelValue.map(image => image.image);
 			getImageIds({
-				images: imagesUrls
-			}).then((response) => {
+				images: imagesUrls,
+			}).then(response => {
 				const imageIds = Object.keys(response.data).map(image => {
-					return response.data[image]
-				})
+					return response.data[image];
+				});
 
-				const selection = this.mediaModal.state().get('selection')
-				imageIds.forEach((imageId) => {
-					var attachment = wp.media.attachment(imageId)
-					selection.add(attachment ? [attachment] : [])
-				})
-			})
+				const selection = this.mediaModal.state().get('selection');
+				imageIds.forEach(imageId => {
+					var attachment = wp.media.attachment(imageId);
+					selection.add(attachment ? [attachment] : []);
+				});
+			});
 		},
-		selectMedia (e) {
-			let selection = this.mediaModal.state().get('selection').toJSON()
+		selectMedia(e) {
+			let selection = this.mediaModal.state().get('selection').toJSON();
 			// In case we have multiple items
-			if (typeof e !== 'undefined') { selection = e }
+			if (typeof e !== 'undefined') {
+				selection = e;
+			}
 
-			const values = selection.map((selectedItem) => {
-				return { image: selectedItem.url }
-			})
+			const values = selection.map(selectedItem => {
+				return { image: selectedItem.url };
+			});
 
-			this.$emit('update:modelValue', values)
+			this.$emit('update:modelValue', values);
 		},
-		deleteImage (index) {
-			const values = [...this.modelValue]
-			values.splice(index, 1)
+		deleteImage(index) {
+			const values = [...this.modelValue];
+			values.splice(index, 1);
 
-			this.$emit('update:modelValue', values)
-		}
-	}
-}
+			this.$emit('update:modelValue', values);
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-option__image-gallery {
@@ -177,7 +161,7 @@ export default {
 		box-shadow: 0 0 0 0 #f1f1f1;
 
 		&::after {
-			content: "";
+			content: '';
 			display: block;
 			padding-top: 100%;
 		}
@@ -206,7 +190,7 @@ export default {
 			cursor: pointer;
 
 			&::after {
-				content: "";
+				content: '';
 				display: block;
 				padding-top: 100%;
 			}

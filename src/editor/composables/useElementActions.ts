@@ -4,7 +4,7 @@ import { Element } from './models/Element';
 import { useHistory } from './useHistory';
 import { useElements } from './useElements';
 import { useLocalStorage } from './useLocalStorage';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 import { regenerateUIDs } from '../utils';
 
 const copiedElement: Ref<object> = ref({

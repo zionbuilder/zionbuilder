@@ -46,7 +46,7 @@ import TreeView from './treeView/TreeViewPanel.vue';
 import WireframeView from './wireFrame/WireframePanel.vue';
 import BasePanel from '../BasePanel.vue';
 import { useElements, usePreviewLoading, useEditorData } from '../../composables';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 export default {
 	name: 'PanelTree',

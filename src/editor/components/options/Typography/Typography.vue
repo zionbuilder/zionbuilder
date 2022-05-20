@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { useOptionsSchemas } from '@zb/components';
+import { useOptionsSchemas } from '@common/composables';
 
 export default {
 	name: 'Typography',

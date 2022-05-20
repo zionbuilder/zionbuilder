@@ -7,7 +7,7 @@ import {
 	useHistory,
 	useEditElement,
 } from '../composables';
-import { isEditable, Environment } from '@zb/utils';
+import { isEditable, Environment } from '@common/utils';
 
 export const useKeyBindings = () => {
 	const { togglePanel, toggleLibrary } = useUI();

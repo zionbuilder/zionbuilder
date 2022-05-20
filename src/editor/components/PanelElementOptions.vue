@@ -140,10 +140,10 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue';
-import { on, off } from '@zb/hooks';
-import { isEditable, Environment } from '@zb/utils';
+import { addAction, removeAction } from '@common/modules/hooks';
+import { isEditable, Environment } from '@common/utils';
 import { useEditElement, useElementProvide, useWindows, useHistory } from '../composables';
-import { usePseudoSelectors, useOptionsSchemas } from '@zb/components';
+import { usePseudoSelectors, useOptionsSchemas } from '@common/composables';
 import { debounce } from 'lodash-es';
 
 // Components
@@ -404,7 +404,7 @@ export default {
 		},
 	},
 	created() {
-		on('change-tab-styling', this.changeTabByEvent());
+		addAction('change-tab-styling', this.changeTabByEvent());
 	},
 	mounted() {
 		const { addEventListener } = useWindows();
@@ -415,7 +415,7 @@ export default {
 		removeEventListener('keydown', this.onKeyPress, true);
 
 		// remove events
-		off('change-tab-styling', this.changeTab());
+		removeAction('change-tab-styling', this.changeTab());
 	},
 	methods: {
 		onBackButtonClick() {

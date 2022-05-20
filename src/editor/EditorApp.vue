@@ -113,7 +113,7 @@
 import { provide, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 // import components
 import PanelLibraryModal from './components/PanelLibraryModal.vue';
@@ -130,8 +130,8 @@ import SaveElementModal from './components/SaveElementModal.vue';
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from './composables';
-import { useResponsiveDevices } from '@zb/components';
-import { useNotificationsStore, useBuilderOptionsStore } from '@common/store';
+import { useResponsiveDevices } from '@common/composables';
+import { useNotificationsStore } from '@common/store';
 
 import { serverRequest } from './api';
 
@@ -178,7 +178,7 @@ export default {
 		provide('plugin_info', editorData.value.plugin_info);
 
 		// Add notices
-		const { add } = useNotifications();
+		const { add } = useNotificationsStore();
 		add({
 			message: translate('autosave_notice'),
 			type: 'info',

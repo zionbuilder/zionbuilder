@@ -1,7 +1,7 @@
 import { find } from 'lodash-es';
 import { computed } from 'vue';
 import { ElementType } from './models';
-import { translate } from '@zb/i18n';
+import { translate } from '@common/modules/i18n';
 
 const elementTypes: [] = [];
 
