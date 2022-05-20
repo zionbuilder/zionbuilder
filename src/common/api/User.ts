@@ -1,5 +1,5 @@
 import ZionService from './ZionService';
 
-export const saveUserData = function (userData) {
+export function saveUserData(userData) {
 	return ZionService.post(`user-data`, userData);
-};
+}

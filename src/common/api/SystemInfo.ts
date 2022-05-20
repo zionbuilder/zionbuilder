@@ -1,5 +1,5 @@
 import ZionService from './ZionService';
 
-export const getSystemInfo = function (options) {
+export function getSystemInfo() {
 	return ZionService.get('system-info');
-};
+}

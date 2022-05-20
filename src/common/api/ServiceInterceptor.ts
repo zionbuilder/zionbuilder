@@ -1,6 +1,6 @@
 import ZionService from './ZionService';
 
-export const errorInterceptor = function (errors, service = ZionService) {
+export function errorInterceptor(errors, service = ZionService) {
 	// Handle response errors
 	service.interceptors.response.use(
 		function (response) {
@@ -14,7 +14,7 @@ export const errorInterceptor = function (errors, service = ZionService) {
 				});
 
 				// eslint-disable-next-line
-			console.warn(response)
+				console.warn(response)
 			}
 
 			return response;
@@ -36,4 +36,4 @@ export const errorInterceptor = function (errors, service = ZionService) {
 			return Promise.reject(error);
 		},
 	);
-};
+}

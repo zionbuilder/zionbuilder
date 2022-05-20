@@ -16,9 +16,6 @@ import { useLibrary } from '../common/composables/useLibrary';
 // Main
 import App from './components/BaseAdmin.vue';
 
-// import { useInjections } from '@zb/components';
-// import { ServerRequest } from '@zb/utils';
-
 // Components
 import SideMenu from './components/SideMenu.vue';
 import PageTemplate from './components/PageTemplate.vue';
@@ -29,6 +26,8 @@ const { addSources } = useLibrary();
 addSources(window.ZnPbAdminPageData.template_sources);
 
 const appInstance = createApp(App);
+
+// Global components
 appInstance.component('SideMenu', SideMenu);
 appInstance.component('PageTemplate', PageTemplate);
 appInstance.component('ListAnimation', ListAnimate);
@@ -79,8 +78,6 @@ window.zb.admin = {
 	notifications: notificationsStore,
 	// TODO: deprecate this
 	addFilter: hooks.addFilter,
-	// useInjections,
-	// serverRequest,
 };
 
 window.zb.hooks = hooks;

@@ -1,5 +1,5 @@
 import ZionService from './ZionService';
 
-export const getGoogleFonts = function () {
+export function getGoogleFonts() {
 	return ZionService.get('google-fonts');
-};
+}

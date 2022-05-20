@@ -1,5 +1,5 @@
 import ZionService from './ZionService';
 
-export const regenerateCache = function () {
+export function regenerateCache() {
 	return ZionService.get('regenerate-cache');
-};
+}

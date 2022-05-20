@@ -1,23 +1,23 @@
 import { WPService } from './WPService';
 
-export const getUsers = function (options) {
+export function getUsers() {
 	return WPService.get('users');
-};
+}
 
-export const searchUser = function (options) {
+export function searchUser(options) {
 	return WPService.get(`users`, {
 		params: {
 			search: options,
 		},
 	});
-};
+}
 
-export const getUsersById = function (ids) {
+export function getUsersById(ids: number[]) {
 	return WPService.get(`users`, {
 		params: {
 			include: ids,
 		},
 	});
-};
+}
 
 export default WPService;

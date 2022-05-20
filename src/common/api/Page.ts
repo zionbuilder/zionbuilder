@@ -1,13 +1,13 @@
 import ZionService from './ZionService';
 
-export const lockPage = function (id) {
+export function lockPage(id: number) {
 	return ZionService.get(`pages/${id}/lock`);
-};
+}
 
-export const savePage = function (pageData) {
+export function savePage(pageData) {
 	return ZionService.post('save-page', pageData);
-};
+}
 
-export const getRenderedContent = function (id) {
+export function getRenderedContent(id: number) {
 	return ZionService.get(`pages/${id}/get_rendered_content`);
-};
+}

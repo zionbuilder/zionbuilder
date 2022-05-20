@@ -1,9 +1,9 @@
 import ZionService from './ZionService';
 
-export const saveOptions = function (options) {
+export function saveOptions(options) {
 	return ZionService.post('options', options);
-};
+}
 
-export const getSavedOptions = function (options) {
+export function getSavedOptions() {
 	return ZionService.get('options');
-};
+}

@@ -1,5 +1,5 @@
 import ZionService from './ZionService';
 
-export const replaceUrl = function (url) {
+export function replaceUrl(url: string) {
 	return ZionService.post('replace-url', url);
-};
+}

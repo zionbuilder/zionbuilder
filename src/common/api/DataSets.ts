@@ -1,16 +1,16 @@
 import ZionService from './ZionService';
 
-export const getFontsDataSet = function () {
+export function getFontsDataSet() {
 	return ZionService.get('data-sets');
-};
+}
 
-export const getUserRoles = function () {
+export function getUserRoles() {
 	return ZionService.get('data-sets/user_roles');
-};
+}
 
-export const getIconsList = function () {
+export function getIconsList() {
 	return ZionService.get('data-sets/icons');
-};
-export const deleteIconsPackage = function () {
+}
+export function deleteIconsPackage() {
 	return ZionService.delete('data-sets/icons');
-};
+}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let restConfig = window.ZnRestConfig;
+const restConfig = window.ZnRestConfig;
 
 export const WPService = axios.create({
 	baseURL: `${restConfig.rest_root}wp/v2`,
