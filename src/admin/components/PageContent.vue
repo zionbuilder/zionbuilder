@@ -1,16 +1,13 @@
 <template>
 	<div class="znpb-admin-content-wrapper">
 		<div class="znpb-admin-content znpb-admin-content--left">
-			<span
-				class="znpb-admin-side-menu-trigger js-side-menu-trigger"
-				@click="responsiveOpen=!responsiveOpen"
-			>
+			<span class="znpb-admin-side-menu-trigger js-side-menu-trigger" @click="responsiveOpen = !responsiveOpen">
 				<span>
 					<span></span>
 				</span>
 			</span>
 			<SideMenu
-				:class="{'znpb-admin-side-menu--open': responsiveOpen}"
+				:class="{ 'znpb-admin-side-menu--open': responsiveOpen }"
 				:menu-items="childMenus"
 				:base-path="basePath"
 			></SideMenu>
@@ -22,33 +19,32 @@
 <script>
 export default {
 	name: 'PageContent',
-	data () {
+	data() {
 		return {
-			responsiveOpen: false
-		}
+			responsiveOpen: false,
+		};
 	},
 	computed: {
-		basePathConfig () {
+		basePathConfig() {
 			if (this.$route.matched.length > 0) {
-				const path = this.$route.matched[0].path
-				return this.$router.options.routes.find((route) => route.path === path)
+				const path = this.$route.matched[0].path;
+				return this.$router.options.routes.find(route => route.path === path);
 			}
 
-			return false
+			return false;
 		},
-		basePath () {
-			return (this.basePathConfig) ? this.basePathConfig.path : false
+		basePath() {
+			return this.basePathConfig ? this.basePathConfig.path : false;
 		},
-		childMenus () {
+		childMenus() {
 			if (this.basePathConfig) {
 				if (this.basePathConfig.children.length > 0) {
-					return this.basePathConfig.children
+					return this.basePathConfig.children;
 				}
 			}
 
-			return []
-		}
-	}
-
-}
+			return [];
+		},
+	},
+};
 </script>

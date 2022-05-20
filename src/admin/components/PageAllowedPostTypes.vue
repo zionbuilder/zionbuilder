@@ -20,27 +20,18 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useBuilderOptionsStore, useDataSetsStore } from '@common/store';
 
-export default {
-	name: 'AllowedPostTypes',
-	setup() {
-		const { dataSets } = storeToRefs(useDataSetsStore());
-		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
+const { dataSets } = storeToRefs(useDataSetsStore());
+const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
-		const allowedPostTypes = computed({
-			get: () => getOptionValue('allowed_post_types'),
-			set: newValue => updateOptionValue('allowed_post_types', newValue),
-		});
-		return {
-			dataSets,
-			allowedPostTypes,
-		};
-	},
-};
+const allowedPostTypes = computed({
+	get: () => getOptionValue('allowed_post_types'),
+	set: newValue => updateOptionValue('allowed_post_types', newValue),
+});
 </script>
 <style lang="scss">
 .znpb-admin-posts-wrapper {

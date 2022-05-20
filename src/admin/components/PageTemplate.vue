@@ -10,12 +10,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'PageTemplate',
-};
-</script>
-
 <style lang="scss">
 .znpb-admin-content-wrapper {
 	display: flex;
