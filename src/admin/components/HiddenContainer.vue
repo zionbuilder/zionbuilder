@@ -1,51 +1,42 @@
 <template>
-	<div
-		class="znpb-admin-hidden-select__wrapper"
-		@click="showContent = true, addEventListeners()"
-	>
+	<div class="znpb-admin-hidden-select__wrapper" @click="(showContent = true), addEventListeners()">
 		<span class="znpb-admin-hidden-select__title">
 			<slot></slot>
 		</span>
-		<div
-			v-show="showContent"
-			class="znpb-admin-hidden-select__content"
-		>
+		<div v-show="showContent" class="znpb-admin-hidden-select__content">
 			<transition name="fadeGrow">
 				<div class="znpb-admin-hidden-select__content-slot znpb-fancy-scrollbar">
 					<slot name="content"></slot>
 				</div>
 			</transition>
 		</div>
-
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'HiddenContainer',
-	data () {
-		return {
-			showContent: false
-		}
-	},
-	methods: {
-		addEventListeners () {
-			document.addEventListener('click', this.closeOnOutsideClick)
-		},
-		removeEventListeners () {
-			document.removeEventListener('click', this.closeOnOutsideClick)
-		},
-		closeOnOutsideClick (event) {
-			if (!this.$el.contains(event.target)) {
-				this.showContent = false
-				this.removeEventListeners()
-			}
-		}
-	},
-	distroyed () {
-		this.removeEventListeners()
+<script lang="ts" setup>
+import { ref, onUnmount } from 'vue';
+
+const showContent = ref(false);
+const root = ref(null);
+
+function addEventListeners() {
+	document.addEventListener('click', closeOnOutsideClick);
+}
+
+function removeEventListeners() {
+	document.removeEventListener('click', closeOnOutsideClick);
+}
+
+function closeOnOutsideClick(event) {
+	if (!root.value.contains(event.target)) {
+		showContent.value = false;
+		removeEventListeners();
 	}
 }
+
+onUnmount(() => {
+	removeEventListeners();
+});
 </script>
 
 <style lang="scss">

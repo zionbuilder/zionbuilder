@@ -1,31 +1,20 @@
 <template>
 	<div class="znpb-admin-modal-two-cols">
 		<div class="znpb-admin-modal-two-cols__title-block">
-			<h4 class="znpb-admin-modal-title-block__title">{{title}}</h4>
-			<p class="znpb-admin-modal-title-block__desc">{{desc}}</p>
+			<h4 class="znpb-admin-modal-title-block__title">{{ title }}</h4>
+			<p class="znpb-admin-modal-title-block__desc">{{ desc }}</p>
 		</div>
 		<div class="znpb-admin-modal-two-cols__option-block">
 			<slot></slot>
 		</div>
 	</div>
 </template>
-<script>
-export default {
-	name: 'ModalTwoColTemplate',
-	props: {
-		title: {
-			type: String,
-			required: false
-		},
-		desc: {
-			type: String,
-			required: false
-		}
-	},
-	data () {
-		return {}
-	}
-}
+<script lang="ts" setup>
+import { defineProps } from 'vue';
+defineProps<{
+	title?: string;
+	desc?: string;
+}>();
 </script>
 <style lang="scss">
 .znpb-admin-modal-two-cols {

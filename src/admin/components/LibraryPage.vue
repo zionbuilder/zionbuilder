@@ -6,38 +6,28 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useBuilderOptionsStore } from '@common/store';
 
-export default {
-	name: 'LibraryPage',
-	setup(props) {
-		const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
+const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
-		const computedModel = computed({
-			get() {
-				return getOptionValue('library_share', {});
-			},
-			set(newValue) {
-				if (newValue === null) {
-					updateOptionValue('library_share', {}, false);
-				} else {
-					updateOptionValue('library_share', newValue, false);
-				}
-
-				debouncedSaveOptions();
-			},
-		});
-
-		const schema = window.ZnPbAdminPageData.schemas.library_share;
-
-		return {
-			computedModel,
-			schema,
-		};
+const computedModel = computed({
+	get() {
+		return getOptionValue('library_share', {});
 	},
-};
+	set(newValue) {
+		if (newValue === null) {
+			updateOptionValue('library_share', {}, false);
+		} else {
+			updateOptionValue('library_share', newValue, false);
+		}
+
+		debouncedSaveOptions();
+	},
+});
+
+const schema = window.ZnPbAdminPageData.schemas.library_share;
 </script>
 
 <style>

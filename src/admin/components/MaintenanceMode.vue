@@ -6,36 +6,26 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useBuilderOptionsStore } from '@common/store';
 
-export default {
-	name: 'MaintenanceMode',
-	setup(props, { emit }) {
-		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
+const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
-		const computedModel = computed({
-			get() {
-				return getOptionValue('maintenance_mode', {});
-			},
-			set(newValue) {
-				if (newValue === null) {
-					updateOptionValue('maintenance_mode', {});
-				} else {
-					updateOptionValue('maintenance_mode', newValue);
-				}
-			},
-		});
-
-		const schema = window.ZnPbAdminPageData.maintenance_mode.schema;
-
-		return {
-			computedModel,
-			schema,
-		};
+const computedModel = computed({
+	get() {
+		return getOptionValue('maintenance_mode', {});
 	},
-};
+	set(newValue) {
+		if (newValue === null) {
+			updateOptionValue('maintenance_mode', {});
+		} else {
+			updateOptionValue('maintenance_mode', newValue);
+		}
+	},
+});
+
+const schema = window.ZnPbAdminPageData.maintenance_mode.schema;
 </script>
 
 <style>
