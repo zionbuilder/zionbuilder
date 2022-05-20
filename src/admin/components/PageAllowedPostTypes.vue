@@ -21,14 +21,14 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useDataSets } from '@common/composables';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore, useDataSetsStore } from '@common/store';
 
 export default {
 	name: 'AllowedPostTypes',
 	setup() {
-		const { dataSets } = useDataSets();
+		const { dataSets } = storeToRefs(useDataSetsStore());
 		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 
 		const allowedPostTypes = computed({

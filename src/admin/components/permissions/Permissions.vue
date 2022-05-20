@@ -66,9 +66,9 @@
 </template>
 
 <script>
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useDataSets } from '@common/composables';
-import { useBuilderOptionsStore, useUsersStore } from '@common/store';
+import { useBuilderOptionsStore, useUsersStore, useDataSetsStore } from '@common/store';
 
 // Components
 import SingleRole from './SingleRole.vue';
@@ -87,7 +87,7 @@ export default {
 		const { fetchUsersData } = useUsersStore();
 		const { getOptionValue } = useBuilderOptionsStore();
 
-		const { dataSets } = useDataSets();
+		const { dataSets } = storeToRefs(useDataSetsStore());
 		const userPermissions = getOptionValue('users_permissions');
 		const loading = ref(true);
 		const showModal = ref(false);
@@ -97,7 +97,7 @@ export default {
 		const userIds = Object.keys(userPermissions);
 
 		if (userIds.length > 0) {
-			fetchUsersData(userIds).finally(result => {
+			fetchUsersData(userIds).finally(() => {
 				loading.value = false;
 			});
 		} else {

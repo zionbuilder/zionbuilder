@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue';
-import { getFontsDataSet } from '@common/api';
+import { getFontsDataSet } from '../api';
+import { defineStore } from 'pinia';
 
 interface DataSet {
 	id: string;
@@ -30,23 +31,27 @@ export interface DataSets {
 	image_sizes?: string[];
 }
 
-const dataSets = ref<DataSets>({
-	fonts_list: {
-		google_fonts: [],
-		custom_fonts: [],
-		typekit_fonts: [],
-	},
-	user_roles: [],
-	post_types: [],
-	icons: [],
-	image_sizes: [],
-});
+export const useDataSetsStore = defineStore('dataSets', () => {
+	let loaded = false;
+	const dataSets = ref<DataSets>({
+		fonts_list: {
+			google_fonts: [],
+			custom_fonts: [],
+			typekit_fonts: [],
+		},
+		user_roles: [],
+		post_types: [],
+		icons: [],
+		image_sizes: [],
+	});
 
-getFontsDataSet().then(response => {
-	dataSets.value = response.data;
-});
+	if (!loaded) {
+		getFontsDataSet().then(response => {
+			dataSets.value = response.data;
+			loaded = true;
+		});
+	}
 
-export const useDataSets = () => {
 	const fontsListForOption = computed(() => {
 		const option = [
 			{
@@ -104,4 +109,4 @@ export const useDataSets = () => {
 		addIconsSet,
 		deleteIconSet,
 	};
-};
+});

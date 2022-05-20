@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import { useDataSets } from '@common/composables';
+import { storeToRefs } from 'pinia';
+import { useDataSetsStore } from '@common/store';
 
 export default {
 	name: 'UserModalContent',
@@ -60,7 +61,7 @@ export default {
 		},
 	},
 	setup() {
-		const { dataSets } = useDataSets();
+		const { dataSets } = storeToRefs(useDataSetsStore());
 
 		return {
 			dataSets,

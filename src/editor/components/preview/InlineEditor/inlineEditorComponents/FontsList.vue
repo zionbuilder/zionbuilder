@@ -4,63 +4,62 @@
 			<li
 				v-for="(font, i) in fontsListForOption"
 				:key="i"
-				@click="changeFont(font.id, $event)"
 				class="zion-inline-editor__font-list-item"
-				:class="{'zion-inline-editor__font-list-item--active': isActive(font.id)}"
+				:class="{ 'zion-inline-editor__font-list-item--active': isActive(font.id) }"
+				@click="changeFont(font.id, $event)"
 			>
-				{{font.name}}
-
+				{{ font.name }}
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
-import { useDataSets } from '@zb/components'
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
+import { useDataSetsStore } from '@common/store';
 
 export default {
-	setup (props, { emit }) {
-		const editor = inject('ZionInlineEditor')
-		const { fontsListForOption } = useDataSets()
-		const activeFont = ref(null)
+	setup(props, { emit }) {
+		const editor = inject('ZionInlineEditor');
+		const { fontsListForOption } = useDataSetsStore();
+		const activeFont = ref(null);
 
-		function isActive (fontName) {
-			return activeFont.value === fontName ? 'zion-inline-editor__font-list-item--active' : ''
+		function isActive(fontName) {
+			return activeFont.value === fontName ? 'zion-inline-editor__font-list-item--active' : '';
 		}
 
-		function onNodeChange (node) {
-			getFontName()
+		function onNodeChange(node) {
+			getFontName();
 		}
 
-		function changeFont (font, event) {
-			activeFont.value = font
+		function changeFont(font, event) {
+			activeFont.value = font;
 
 			editor.editor.formatter.toggle('fontname', {
-				value: font
-			})
+				value: font,
+			});
 		}
 
-		function getFontName () {
-			activeFont.value = editor.editor.queryCommandValue('fontname')
+		function getFontName() {
+			activeFont.value = editor.editor.queryCommandValue('fontname');
 		}
 
 		onMounted(() => {
-			getFontName()
-			editor.editor.on('SelectionChange', onNodeChange)
-		})
+			getFontName();
+			editor.editor.on('SelectionChange', onNodeChange);
+		});
 
 		onBeforeUnmount(() => {
-			editor.editor.off('SelectionChange', onNodeChange)
-		})
+			editor.editor.off('SelectionChange', onNodeChange);
+		});
 
 		return {
 			fontsListForOption,
 			isActive,
-			changeFont
-		}
-	}
-}
+			changeFont,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

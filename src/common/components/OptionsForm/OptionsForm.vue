@@ -24,8 +24,9 @@
 
 <script>
 import { provide, inject, computed } from 'vue';
-import { useResponsiveDevices, useDataSets, usePseudoSelectors } from '../../composables';
+import { useResponsiveDevices, usePseudoSelectors } from '../../composables';
 import { unset, set, get, cloneDeep } from 'lodash-es';
+import { useDataSetsStore } from '@common/store';
 
 // Components
 import OptionWrapper from './OptionWrapper.vue';
@@ -62,7 +63,7 @@ export default {
 		}
 
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
-		const { fontsListForOption } = useDataSets();
+		const { fontsListForOption } = useDataSetsStore();
 		const { activePseudoSelector } = usePseudoSelectors();
 		const elementInfo = inject('elementInfo', null);
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getGoogleFonts } from '@common/api';
+import { getGoogleFonts } from '../api';
 
 export const useGoogleFontsStore = defineStore('googleFonts', {
 	state: () => {

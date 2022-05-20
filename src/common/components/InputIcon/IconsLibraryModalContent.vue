@@ -32,8 +32,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
 import { ref, computed, Ref } from 'vue';
-import { useDataSets, DataSets, Icons } from '../../composables';
+import { useDataSetsStore, type DataSets, type Icons } from '../../store';
 import IconPackGrid from '../IconPackGrid.vue';
 
 type Icon = { family?: string; name: string; unicode: string };
@@ -48,7 +49,7 @@ const emit = defineEmits<{
 	(e: 'selected', value: Icon): void;
 }>();
 
-const { dataSets }: { dataSets: Ref<DataSets> } = useDataSets();
+const { dataSets }: { dataSets: Ref<DataSets> } = storeToRefs(useDataSetsStore());
 
 const keyword = ref('');
 const activeIcon: Ref<Icon | null> = ref(null);
