@@ -165,14 +165,14 @@ class Admin {
 
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-post-styles',
-				'edit-page.css',
+				'edit-page',
 				[],
 				Plugin::instance()->get_version()
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-post-script',
-				'edit-page.js',
+				'edit-page',
 				[ 'heartbeat' ],
 				Plugin::instance()->get_version(),
 				true
@@ -209,7 +209,7 @@ class Admin {
 			// Load styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
-				'admin',
+				'admin-page',
 				[ 'wp-codemirror', 'media-views' ],
 				Plugin::instance()->get_version()
 			);

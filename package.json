@@ -9,8 +9,8 @@
 	"private": true,
 	"scripts": {
 		"translate": "zionbuilder-service translate",
-		"dev": "vite",
-		"build": "vite build",
+		"dev": "node ./bin/dev.mjs",
+		"build": "node ./bin/build.mjs",
 		"build:old": "zionbuilder-service build",
 		"zip": "zionbuilder-service zip",
 		"publish:packages": "lerna publish",
@@ -28,6 +28,7 @@
 		"dom-to-image": "^2.6.0",
 		"express": "^4.18.1",
 		"file-saver": "^2.0.5",
+		"html-to-image": "^1.9.0",
 		"localstorage-ttl": "^1.0.2",
 		"lodash-es": "^4.17.21",
 		"memoize-one": "^6.0.0",

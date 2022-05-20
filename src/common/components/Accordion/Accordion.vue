@@ -1,12 +1,10 @@
 <template>
 	<div class="znpb-accordion" :class="{ 'znpb-accordion--collapsed': localCollapsed }">
 		<div class="znpb-accordion__header" @click="localCollapsed = !localCollapsed">
-			<!-- @slot Content that will be placed inside the accordion header -->
 			<slot name="header">{{ header }}</slot>
 			<Icon icon="select" class="znpb-accordion-title-icon" />
 		</div>
 		<div v-if="localCollapsed" class="znpb-accordion__content">
-			<!-- @slot Content that will be placed inside the accordion content -->
 			<slot></slot>
 		</div>
 	</div>

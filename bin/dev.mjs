@@ -1,4 +1,4 @@
-import { createServer, build } from 'vite';
+import { createServer } from 'vite';
 import vue from '@vitejs/plugin-vue';
 // import { resolve, dirname } from 'path';
 import { filesMap } from './map.mjs';
@@ -12,19 +12,9 @@ filesMap.forEach(file => {
 
 const server = await createServer({
   configFile: false,
-  root: path.resolve('../'),
   resolve: {
     alias: {
-      //   '@zionbuilder/composables': path.resolve('../src/common/composables'),
-      '@common': '../src/common',
-      //   '@modules': '../src/modules',
-      // This aliases are needed for dev server
-      //   'vue-base': '../node_modules/vue/index.mjs',
-      //   '@zb/hooks': '../src/modules/hooks/index.es.ts',
-      //   '@zb/i18n': '../src/modules/i18n/index.ts',
-      //   '@zb/utils': '../src/common/utils/index.ts',
-      //   '@zb/components': '../src/common/main.ts',
-      //   '@zb/editor': '../src/editor/editor.ts',
+      '@common': '/../src/common',
     },
   },
   mode: 'development',
@@ -67,5 +57,5 @@ generateManifest({
   debug: true,
   devScripts,
 });
-console.log(server.httpServer.address());
+
 server.printUrls();

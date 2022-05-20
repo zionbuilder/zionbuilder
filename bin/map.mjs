@@ -11,7 +11,7 @@ export const filesMap = [
     output: 'gutenberg',
   },
   {
-    input: './src/admin/admin-page.ts',
+    input: 'src/admin/admin-page.ts',
     format: 'iife',
     output: 'admin-page',
   },
@@ -21,17 +21,17 @@ export const filesMap = [
   //     output: 'vue',
   //   },
   {
-    input: './src/modules/screenshot/index.ts',
+    input: 'src/modules/screenshot/index.ts',
     format: 'iife',
     output: 'screenshot',
   },
   {
-    input: './src/modules/integrations/rankmath.ts',
+    input: 'src/modules/integrations/rankmath.ts',
     format: 'iife',
     output: 'integrations/rankmath',
   },
   {
-    input: './src/modules/integrations/yoast.ts',
+    input: 'src/modules/integrations/yoast.ts',
     format: 'iife',
     output: 'integrations/yoast',
   },

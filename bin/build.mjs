@@ -1,37 +1,31 @@
 import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { minify } from 'rollup-plugin-esbuild';
-// import { resolve, dirname } from 'path';
 import { filesMap } from './map.mjs';
+import path from 'path';
+import { generateManifest } from './manifest.mjs';
 
 // TODO: clean dist folder before start
 filesMap.forEach(async script => {
   await build({
-    // mode: 'production',
+    mode: 'production',
+    resolve: {
+      alias: {
+        '@common': path.resolve('./src/common'),
+      },
+    },
     build: {
-      cssCodeSplit: false,
+      //   cssCodeSplit: false,
       emptyOutDir: false,
-      outDir: '../dist',
       target: 'es2015',
-      // generate manifest.json in outDir
-      //   manifest: true,
-      //   minify: false,
       rollupOptions: {
         input: {
           [script.output]: script.input,
-          gutenberg: '../src/admin/gutenberg.ts',
         },
         output: {
           assetFileNames: `[name].[ext]`,
           entryFileNames: `[name].js`,
           //   format: script.format,
-          globals: {
-            '@zb/i18n': 'zb.l18n',
-            '@zb/rest': 'zb.rest',
-            '@zb/hooks': 'zb.hooks',
-            '@zb/utils': 'zb.utils',
-            vue: 'zb.vue',
-          },
         },
 
         // output: [
@@ -63,7 +57,6 @@ filesMap.forEach(async script => {
         //   //     ],
         //   //   },
         // ],
-        external: ['@zb/rest', '@zb/i18n', '@zb/hooks', '@zb/utils', 'vue'],
       },
     },
     css: {
@@ -73,15 +66,10 @@ filesMap.forEach(async script => {
         },
       },
     },
-    plugins: [
-      //   vue(),
-      // externalGlobals({
-      // 	'@zb/i18n': 'zb.l18n',
-      // 	'@zb/rest': 'zb.rest',
-      // 	'@zb/hooks': 'zb.hooks',
-      // 	'@zb/utils': 'zb.utils',
-      // 	vue: 'zb.vue',
-      // }),
-    ],
+    plugins: [vue()],
   });
+});
+
+generateManifest({
+  debug: false,
 });

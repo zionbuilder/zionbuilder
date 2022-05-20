@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onUnmount } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 
 const showContent = ref(false);
 const root = ref(null);
@@ -34,7 +34,7 @@ function closeOnOutsideClick(event) {
 	}
 }
 
-onUnmount(() => {
+onBeforeUnmount(() => {
 	removeEventListeners();
 });
 </script>
