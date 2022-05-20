@@ -13,49 +13,37 @@
 	</PageTemplate>
 </template>
 
-<script>
+<script setup>
 import { computed, watch } from 'vue';
 import { useBuilderOptionsStore } from '@common/store';
 
-export default {
-	name: 'Appearance',
-	setup() {
-		const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
+const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
+const schema = window.ZnPbAdminPageData.appearance.schema;
 
-		const computedModel = computed({
-			get() {
-				return getOptionValue('appearance', {});
-			},
-			set(newValue) {
-				if (newValue === null) {
-					updateOptionValue('appearance', {});
-				} else {
-					updateOptionValue('appearance', newValue);
-				}
-			},
-		});
-
-		const schema = window.ZnPbAdminPageData.appearance.schema;
-
-		watch(
-			() => computedModel.value.builder_theme,
-			newValue => {
-				if (document.body.classList.contains('toplevel_page_zionbuilder')) {
-					if (newValue === 'dark') {
-						document.body.classList.add('znpb-theme-dark');
-					} else {
-						document.body.classList.remove('znpb-theme-dark');
-					}
-				}
-			},
-		);
-
-		return {
-			computedModel,
-			schema,
-		};
+const computedModel = computed({
+	get() {
+		return getOptionValue('appearance', {});
 	},
-};
+	set(newValue) {
+		if (newValue === null) {
+			updateOptionValue('appearance', {});
+		} else {
+			updateOptionValue('appearance', newValue);
+		}
+	},
+});
+watch(
+	() => computedModel.value.builder_theme,
+	newValue => {
+		if (document.body.classList.contains('toplevel_page_zionbuilder')) {
+			if (newValue === 'dark') {
+				document.body.classList.add('znpb-theme-dark');
+			} else {
+				document.body.classList.remove('znpb-theme-dark');
+			}
+		}
+	},
+);
 </script>
 
 <style>

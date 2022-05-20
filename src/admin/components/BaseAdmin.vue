@@ -38,84 +38,68 @@
 
 		<!-- notices -->
 		<div class="znpb-admin-notices-wrapper">
-			<Notice v-for="(error, index) in notifications" :key="index" :error="error" @close-notice="error.remove()" />
+			<Notice
+				v-for="(error, index) in notificationsStore.notifications"
+				:key="index"
+				:error="error"
+				@close-notice="error.remove()"
+			/>
 
 			<OptionsSaveLoader />
 		</div>
 	</div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed, provide } from 'vue';
 import { useRouter } from 'vue-router';
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
 import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '@common/store';
 
-export default {
-	name: 'App',
-	components: {
-		OptionsSaveLoader,
-	},
-	setup(props) {
-		const router = useRouter();
-		const builderOptionsStore = useBuilderOptionsStore();
-		const googleFontsStore = useGoogleFontsStore();
-		const notificationsStore = useNotificationsStore();
+const router = useRouter();
+const builderOptionsStore = useBuilderOptionsStore();
+const googleFontsStore = useGoogleFontsStore();
+const notificationsStore = useNotificationsStore();
 
-		const loaded = ref(false);
-		const hasError = ref(false);
-		const logoUrl = window.ZnPbAdminPageData.urls.logo;
-		const version = window.ZnPbAdminPageData.plugin_version;
-		const isPro = window.ZnPbAdminPageData.is_pro_active;
+const loaded = ref(false);
+const hasError = ref(false);
+const logoUrl = window.ZnPbAdminPageData.urls.logo;
+const version = window.ZnPbAdminPageData.plugin_version;
+const isPro = window.ZnPbAdminPageData.is_pro_active;
 
-		// Provide globalColors
-		provide('builderOptions', builderOptionsStore);
+// Provide globalColors
+provide('builderOptions', builderOptionsStore);
 
-		const menuItems = computed(() => {
-			var routes = [];
-			for (var i in router.options.routes) {
-				if (!router.options.routes.hasOwnProperty(i)) {
-					continue;
-				}
-				var route = router.options.routes[i];
-				if (route.hasOwnProperty('title')) {
-					routes.push(route);
-				}
-			}
+const menuItems = computed(() => {
+	var routes = [];
+	for (var i in router.options.routes) {
+		if (!router.options.routes.hasOwnProperty(i)) {
+			continue;
+		}
+		var route = router.options.routes[i];
+		if (route.hasOwnProperty('title')) {
+			routes.push(route);
+		}
+	}
 
-			return routes;
-		});
+	return routes;
+});
 
-		const documentationLink = computed(() => {
-			return builderOptionsStore.getOptionValue('white_label') !== null
-				? builderOptionsStore.getOptionValue('white_label').plugin_help_url
-				: 'https://zionbuilder.io/help-center/';
-		});
+const documentationLink = computed(() => {
+	return builderOptionsStore.getOptionValue('white_label') !== null
+		? builderOptionsStore.getOptionValue('white_label').plugin_help_url
+		: 'https://zionbuilder.io/help-center/';
+});
 
-		Promise.all([googleFontsStore.fetchGoogleFonts(), builderOptionsStore.fetchOptions()])
-			.catch(error => {
-				hasError.value = true;
-				// eslint-disable-next-line
+Promise.all([googleFontsStore.fetchGoogleFonts(), builderOptionsStore.fetchOptions()])
+	.catch(error => {
+		hasError.value = true;
+		// eslint-disable-next-line
 			console.error(error)
-			})
-			.finally(() => {
-				loaded.value = true;
-			});
-
-		return {
-			// Data
-			notifications: notificationsStore.notifications,
-			loaded,
-			hasError,
-			logoUrl,
-			version,
-			isPro,
-			// Computed
-			menuItems,
-			documentationLink,
-		};
-	},
-};
+	})
+	.finally(() => {
+		loaded.value = true;
+	});
 </script>
 
 <style lang="scss">
