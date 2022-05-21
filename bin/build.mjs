@@ -1,11 +1,15 @@
 import { build } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { minify } from 'rollup-plugin-esbuild';
 import { filesMap } from './map.mjs';
 import path from 'path';
 import { generateManifest } from './manifest.mjs';
+import fs from 'fs';
 
 // TODO: clean dist folder before start
+// Clear the dist folder
+const dist = path.resolve('./dist');
+fs.rmSync(dist, { recursive: true, force: true });
+
 filesMap.forEach(async script => {
   await build({
     mode: 'production',
@@ -15,7 +19,7 @@ filesMap.forEach(async script => {
       },
     },
     build: {
-      //   cssCodeSplit: false,
+      cssCodeSplit: false,
       emptyOutDir: false,
       target: 'es2015',
       rollupOptions: {
@@ -23,9 +27,14 @@ filesMap.forEach(async script => {
           [script.output]: script.input,
         },
         output: {
-          assetFileNames: `[name].[ext]`,
+          //   assetFileNames: `[name].[ext]`,
           entryFileNames: `[name].js`,
-          //   format: script.format,
+          assetFileNames: assetInfo => {
+            if (assetInfo.name == 'style.css') return `${script.output}.css`;
+            console.log(assetInfo.name);
+            return assetInfo.name;
+          },
+          format: 'iife',
         },
 
         // output: [

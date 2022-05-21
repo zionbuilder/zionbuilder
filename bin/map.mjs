@@ -41,9 +41,9 @@ export const filesMap = [
     format: 'iife',
     output: 'editor',
   },
-  //   {
-  //     input: './src/editor/preview.ts',
-  //     format: 'iife',
-  //     output: 'preview',
-  //   },
+  {
+    input: './src/editor/preview.ts',
+    format: 'iife',
+    output: 'preview',
+  },
 ];
