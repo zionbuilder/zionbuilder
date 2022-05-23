@@ -10,45 +10,17 @@
 		/>
 	</ul>
 </template>
-<script>
-import { ref } from 'vue';
+<script lang="ts" setup>
 import CategoriesLibraryItem from './CategoriesLibraryItem.vue';
 
-export default {
-	name: 'CategoriesLibrary',
-	components: {
-		CategoriesLibraryItem,
-	},
-	props: {
-		categories: {
-			type: Array,
-			required: false,
-		},
-		onCategoryActivate: {
-			type: Function,
-			required: true,
-		},
-	},
-	setup(props, { emit }) {
-		const activeCategory = ref(null);
+const props = defineProps<{
+	categories?: Array;
+	onCategoryActivate: Function;
+}>();
 
-		function onActivateSubcategory(category) {
-			// activeCategory.value = category
-			props.onCategoryActivate(category);
-		}
-
-		function activateCategory(category) {
-			props.onCategoryActivate(category);
-		}
-
-		return {
-			activeCategory,
-
-			onActivateSubcategory,
-			activateCategory,
-		};
-	},
-};
+function activateCategory(category) {
+	props.onCategoryActivate(category);
+}
 </script>
 <style lang="scss">
 /* vars */

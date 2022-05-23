@@ -8,7 +8,7 @@
 <script>
 import { computed } from 'vue';
 import Breadcrumbs from './Breadcrumbs.vue';
-import { useEditElement, useElements } from '../../composables';
+import { useEditElement } from '../../composables';
 
 export default {
 	name: 'BreadcrumbsWrapper',

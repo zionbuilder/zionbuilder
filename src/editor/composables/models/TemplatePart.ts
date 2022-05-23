@@ -1,5 +1,5 @@
 import { Element } from './Element';
-import { useElements } from '../../composables';
+import { useElementsStore } from '../../store';
 
 export interface TemplatePartConfig {
 	id: string;
@@ -16,7 +16,7 @@ export class TemplatePart {
 		this.name = name;
 		this.id = id;
 
-		const { registerElement } = useElements();
+		const { registerElement } = useElementsStore();
 
 		this.element = registerElement(
 			{

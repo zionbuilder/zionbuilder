@@ -6,6 +6,9 @@ use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
 use ZionBuilder\Settings;
+use ZionBuilder\Elements\Masks;
+use ZionBuilder\Utils;
+use ZionBuilder\Whitelabel;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -202,12 +205,56 @@ class Preview {
 	}
 
 	public function get_preview_initial_data() {
+		$post_instance = Plugin::$instance->post_manager->get_active_post_instance();
+
+		$plugin_updates = get_site_transient( 'update_plugins' );
+
+		$free_plugin_update = null;
+		$pro_plugin_update  = null;
+		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
+			if ( isset( $plugin_updates->response['zionbuilder/zionbuilder.php'] ) ) {
+				$free_plugin_update = $plugin_updates->response['zionbuilder/zionbuilder.php'];
+			}
+		}
+
+		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
+			if ( isset( $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'] ) ) {
+				$pro_plugin_update = $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'];
+			}
+		}
+
 		return [
 			'nonce'                   => Nonces::generate_nonce( 'preview-frame' ),
 			'page_content'            => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'          => Plugin::$instance->templates->get_template_types(),
 			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
+			'post'                    => get_post(),
+			'masks'                   => Masks::getshapes(),
+			'plugin_info'             => [
+				'is_pro_active'      => Utils::is_pro_active(),
+				'is_pro_installed'   => Utils::is_pro_installed(),
+				'free_version'       => Plugin::instance()->get_version(),
+				'pro_version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
+				'free_plugin_update' => $free_plugin_update,
+				'pro_plugin_update'  => $pro_plugin_update,
+			],
+			'urls'                    => [
+				'assets_url'        => Utils::get_file_url( 'assets' ),
+				'logo'              => Whitelabel::get_logo_url(),
+				'loader'            => Whitelabel::get_loader_url(),
+				'edit_page'         => get_edit_post_link( $this->post_id, '' ),
+				'zion_admin'        => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
+				'updates_page'      => admin_url( 'update-core.php' ),
+				'preview_frame_url' => $post_instance->get_preview_frame_url(),
+				'preview_url'       => $post_instance->get_preview_url(),
+				'all_pages_url'     => $post_instance->get_all_pages_url(),
+				'purchase_url'      => 'https://zionbuilder.io/pricing/',
+				'documentation_url' => 'https://zionbuilder.io/help-center/',
+				'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
+				'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
+				'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
+			],
 		];
 	}
 

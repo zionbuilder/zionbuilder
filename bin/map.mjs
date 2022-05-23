@@ -40,8 +40,15 @@ export const filesMap = [
     output: 'editor',
   },
   {
-    input: 'src/editor/preview.ts',
+    input: 'src/preview/index.ts',
     format: 'iife',
     output: 'preview',
+  },
+
+  // packages
+  {
+    input: 'src/modules/animateJS/index.ts',
+    format: 'iife',
+    output: 'animateJS',
   },
 ];

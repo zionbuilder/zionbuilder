@@ -5,12 +5,13 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { useElementTypes } from './composables';
 import { registerEditorOptions } from './components/options';
+
 // Plugins
 import { install as ComponentsInstall } from '../common';
 import { install as I18nInstall } from '../common/modules/i18n';
 import { errorInterceptor } from '../common/api';
 import { useLibrary } from '../common/composables';
-import { useNotificationsStore } from '@common/store';
+import { useNotificationsStore } from '../common/store';
 
 // Global components
 import { TreeViewList, TreeViewListItem } from './components/treeView';

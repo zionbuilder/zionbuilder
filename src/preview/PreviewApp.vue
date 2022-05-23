@@ -27,20 +27,19 @@ export default {
 		ElementStyles,
 	},
 	setup() {
-		const { editorData } = window.zb.editor.useEditorData();
 		const { getElement } = window.zb.editor.useElements();
 		const { getSchema } = useOptionsSchemas();
 		const { CSSClasses } = window.zb.editor.useCSSClasses();
 		const { isPreviewMode } = window.zb.editor.usePreviewMode();
 		const { pageSettings } = window.zb.editor.usePageSettings();
 
-		const element = computed(() => getElement(editorData.value.page_id));
+		const element = computed(() => getElement(window.ZnPbPreviewData.post.ID));
 		const showExportModal = ref(false);
-		console.log(editorData.value.page_id);
+
 		// provide masks for ShapeDividerComponent option
-		provide('masks', editorData.value.masks);
-		provide('plugin_info', editorData.value.plugin_info);
-		provide('editor_urls', editorData.value.urls);
+		provide('masks', window.ZnPbPreviewData.masks);
+		provide('plugin_info', window.ZnPbPreviewData.plugin_info);
+		provide('editor_urls', window.ZnPbPreviewData.urls);
 
 		watch(isPreviewMode, newValue => {
 			if (newValue) {

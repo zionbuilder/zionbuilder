@@ -2,7 +2,7 @@ import { ref, Ref } from 'vue';
 import { cloneDeep, merge, get, set } from 'lodash-es';
 import { Element } from './models/Element';
 import { useHistory } from './useHistory';
-import { useElements } from './useElements';
+import { useElementsStore } from '../store/useElementsStore';
 import { useLocalStorage } from './useLocalStorage';
 import { translate } from '@common/modules/i18n';
 import { regenerateUIDs } from '../utils';
@@ -145,7 +145,7 @@ export function useElementActions() {
 	};
 
 	function wrapInContainer(element) {
-		const { registerElement } = useElements();
+		const { registerElement } = useElementsStore();
 		const parent = element.parent;
 		const newElement = registerElement(
 			{

@@ -18,7 +18,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useElementProvide, useElements } from '../../../composables';
+import { useElementProvide } from '../../../composables';
 import SingleChild from './SingleChild.vue';
 
 export default {

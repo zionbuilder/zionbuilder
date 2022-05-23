@@ -45,8 +45,9 @@ import SectionView from './sectionView/SectionViewPanel.vue';
 import TreeView from './treeView/TreeViewPanel.vue';
 import WireframeView from './wireFrame/WireframePanel.vue';
 import BasePanel from '../BasePanel.vue';
-import { useElements, usePreviewLoading, useEditorData } from '../../composables';
+import { usePreviewLoading, useEditorData } from '../../composables';
 import { translate } from '@common/modules/i18n';
+import { useElementsStore } from '../../store';
 
 export default {
 	name: 'PanelTree',
@@ -60,7 +61,7 @@ export default {
 		panel: {},
 	},
 	setup(props) {
-		const { getElement } = useElements();
+		const { getElement } = useElementsStore();
 		const { editorData } = useEditorData();
 		const element = computed(() => getElement(editorData.value.page_id));
 		const { isPreviewLoading } = usePreviewLoading();

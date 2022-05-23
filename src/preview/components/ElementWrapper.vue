@@ -46,8 +46,8 @@ import ElementLoading from './ElementLoading.vue';
 import VideoBackground from './VideoBackground.vue';
 
 // Composables
-import { useElementComponent } from '../../composables/useElementComponent';
-import Options from '../../modules/Options';
+import { useElementComponent } from '../composables/useElementComponent';
+import Options from '../modules/Options';
 import { useOptionsSchemas, usePseudoSelectors } from '@common/composables';
 
 let clickHandled = false;

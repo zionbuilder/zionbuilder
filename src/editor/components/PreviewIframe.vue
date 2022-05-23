@@ -326,6 +326,7 @@ export default {
 
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
+			setPreviewLoading(false);
 
 			// Save the timestamp so we can use if in various ways. One example is the tree view justAdded element feature
 			setLoadTimestamp();
@@ -351,8 +352,6 @@ export default {
 
 			this.useServerVersion();
 			this.ignoreNextReload = false;
-
-			setPreviewLoading(false);
 		},
 		attachIframeEvents() {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true);

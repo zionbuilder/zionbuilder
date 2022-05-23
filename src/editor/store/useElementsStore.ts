@@ -1,10 +1,11 @@
 import { Ref, ref } from 'vue';
-import { Element } from './models';
+import { defineStore } from 'pinia';
+import { Element } from '../composables/models';
 
-// Global template parts store
-const elements: Ref<{ [key: string]: Element }> = ref({});
+export const useElementsStore = defineStore('elements', () => {
+	// Global template parts store
+	const elements: Ref<{ [key: string]: Element }> = ref({});
 
-export function useElements() {
 	const registerElement = (config, parent: string): Element => {
 		const element = new Element(config, parent);
 		elements.value[element.uid] = element;
@@ -26,4 +27,4 @@ export function useElements() {
 		unregisterElement,
 		getElement,
 	};
-}
+});

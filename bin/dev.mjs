@@ -21,12 +21,9 @@ const server = await createServer({
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['@zb/rest', '@zb/i18n', '@zb/hooks', '@zb/utils', 'vue'],
+      external: ['@zb/editor'],
       globals: {
-        '@zb/i18n': 'zb.l18n',
-        '@zb/rest': 'zb.rest',
-        '@zb/hooks': 'zb.hooks',
-        '@zb/utils': 'zb.utils',
+        '@zb/editor': 'zb.editor',
       },
     },
   },

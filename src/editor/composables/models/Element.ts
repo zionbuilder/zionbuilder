@@ -2,14 +2,13 @@ import { generateUID } from '@common/utils';
 import { applyFilters } from '@common/modules/hooks';
 import { regenerateUIDs } from '../../utils';
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
-import { useElements } from '../useElements';
+import { useElementsStore } from '../../store/useElementsStore';
 import { useElementTypes } from '../useElementTypes';
 import { RenderAttributes } from './RenderAttributes';
 import { useEditElement } from '../useEditElement';
 import { useHistory } from '../useHistory';
 import { serverRequest } from '../../api';
 
-const { registerElement, unregisterElement, getElement } = useElements();
 const { getElementType } = useElementTypes();
 
 export class Element {
@@ -117,6 +116,7 @@ export class Element {
 	}
 
 	get parent() {
+		const { getElement } = useElementsStore();
 		return getElement(this.parentUid);
 	}
 
@@ -197,6 +197,7 @@ export class Element {
 			elementInstance = element;
 			uid = element.uid;
 		} else {
+			const { registerElement } = useElementsStore();
 			elementInstance = registerElement(element, this.uid);
 			uid = elementInstance.uid;
 		}
@@ -232,6 +233,7 @@ export class Element {
 
 	move(newParent: Element, index = -1) {
 		this.parent.removeChild(this);
+		const { getElement } = useElementsStore();
 		const element = getElement(this.uid);
 		newParent.addChild(element, index);
 	}
@@ -271,6 +273,7 @@ export class Element {
 			});
 		}
 
+		const { unregisterElement } = useElementsStore();
 		unregisterElement(this.uid);
 
 		// Add to history
@@ -281,6 +284,7 @@ export class Element {
 	deleteChild(child: string | Element) {
 		let element = null;
 		if (typeof child === 'string') {
+			const { getElement } = useElementsStore();
 			element = getElement(child);
 		} else if (typeof child === Element) {
 			element = child;
@@ -320,6 +324,7 @@ export class Element {
 		regenerateUIDs(configAsJSON);
 
 		// Add the instance to all elements
+		const { registerElement } = useElementsStore();
 		return registerElement(configAsJSON, this.parent.uid);
 	}
 

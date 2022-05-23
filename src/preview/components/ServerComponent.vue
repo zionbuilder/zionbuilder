@@ -23,7 +23,7 @@ import { applyFilters, addAction, removeAction, doAction } from '@common/modules
 
 // Utils
 import { debounce } from 'lodash-es';
-import { ScriptsLoader } from '../../modules/ScriptsLoader';
+import { ScriptsLoader } from '../modules/ScriptsLoader';
 
 export default {
 	name: 'ServerComponent',

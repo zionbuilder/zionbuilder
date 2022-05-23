@@ -27,56 +27,29 @@
 	</li>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import CategoriesLibrary from './CategoriesLibrary.vue';
 
-export default {
-	name: 'CategoriesLibraryItem',
-	components: {
-		CategoriesLibrary,
+const props = defineProps<{
+	category: Record<string, unknown>;
+	isActive?: boolean;
+	showCount?: boolean;
+	onCategoryActivate: Function;
+}>();
+
+const hasSubcategories = computed(() => {
+	return props.category.subcategories && props.category.subcategories.length > 0;
+});
+
+const activeDropdown = ref(props.isActive);
+
+watch(
+	() => props.isActive,
+	newValue => {
+		activeDropdown.value = newValue;
 	},
-	props: {
-		category: {
-			type: Object,
-			required: false,
-		},
-		isActive: {
-			type: Boolean,
-			required: false,
-		},
-		showCount: {
-			type: Boolean,
-			required: false,
-		},
-		onCategoryActivate: {
-			type: Function,
-			required: true,
-		},
-	},
-	setup(props, { emit }) {
-		const hasSubcategories = computed(() => {
-			return props.category.subcategories && props.category.subcategories.length > 0;
-		});
-
-		const activeDropdown = ref(props.isActive);
-
-		watch(
-			() => props.isActive,
-			newValue => {
-				activeDropdown.value = newValue;
-			},
-		);
-
-		return {
-			// Computed
-			hasSubcategories,
-
-			// Refs
-			activeDropdown,
-		};
-	},
-};
+);
 </script>
 <style lang="scss">
 .znpb-editor-library-modal-category__item--active

@@ -43,8 +43,9 @@
 </template>
 <script lang="ts">
 import { ref, computed } from 'vue';
-import { useElements, useEditorData, useHistory, useEditElement } from '../../../composables';
+import { useEditorData, useHistory, useEditElement } from '../../../composables';
 import { translate } from '@common/modules/i18n';
+import { useElementsStore } from '../../../store';
 
 export default {
 	name: 'TreeViewPanel',
@@ -72,7 +73,7 @@ export default {
 
 		function removeAllElements() {
 			const { unEditElement } = useEditElement();
-			const { getElement } = useElements();
+			const { getElement } = useElementsStore();
 			const { editorData } = useEditorData();
 			const { addToHistory } = useHistory();
 

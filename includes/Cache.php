@@ -147,7 +147,14 @@ class Cache {
 		wp_register_script( 'zion-builder-slider', Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
 
 		// Animate JS
-		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJS.js' ), [], Plugin::instance()->get_version(), true );
+		Plugin::instance()->scripts->register_script(
+			'zionbuilder-animatejs',
+			'animateJS',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
 	}
 

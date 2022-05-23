@@ -108,8 +108,9 @@
 <script>
 import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
-import { useUI, useElements, useEditorData, useLocalStorage } from '../composables';
+import { useUI, useEditorData, useLocalStorage } from '../composables';
 import { useLibrary } from '@common/composables';
+import { useElementsStore } from '../store';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';
@@ -256,7 +257,7 @@ export default {
 						if (activeElement.value) {
 							insertElement(newElement);
 						} else {
-							const { getElement } = useElements();
+							const { getElement } = useElementsStore();
 							const element = getElement(this.editorData.page_id);
 							element.addChildren(newElement);
 						}
