@@ -9,6 +9,7 @@ use ZionBuilder\Settings;
 use ZionBuilder\Elements\Masks;
 use ZionBuilder\Utils;
 use ZionBuilder\Whitelabel;
+use ZionBuilder\User;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -255,6 +256,8 @@ class Preview {
 				'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 				'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
 			],
+
+			'user_data'               => User::get_user_data(),
 		];
 	}
 

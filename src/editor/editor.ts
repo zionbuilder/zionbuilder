@@ -5,6 +5,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { useElementTypes } from './composables';
 import { registerEditorOptions } from './components/options';
+import * as STORE from './store';
 
 // Plugins
 import { install as ComponentsInstall } from '../common';
@@ -93,4 +94,5 @@ window.zb.editor = Object.assign(
 	COMPOSABLES,
 	COMMON_COMPOSABLES.units,
 	UTILS,
+	STORE,
 );

@@ -129,10 +129,18 @@ import SaveElementModal from './components/SaveElementModal.vue';
 // Composables
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
-import { useUI, usePreviewMode, useKeyBindings, usePreviewLoading, useEditorData, useAutosave } from './composables';
+import {
+	useUI,
+	usePreviewMode,
+	useKeyBindings,
+	usePreviewLoading,
+	useEditorData,
+	useAutosave,
+	useWindows,
+} from './composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
-
+import { useElementsStore } from './store';
 import { serverRequest } from './api';
 
 // WordPress hearbeat
@@ -183,6 +191,23 @@ export default {
 			message: translate('autosave_notice'),
 			type: 'info',
 			delayClose: 5000,
+		});
+
+		// Stores subscribe
+		const elementsStore = useElementsStore();
+
+		elementsStore.$subscribe((mutation, state) => {
+			const { getWindows } = useWindows();
+			const iframeWindow = getWindows('preview');
+			if (iframeWindow) {
+				iframeWindow.postMessage(
+					{
+						action: 'zbMessage',
+						state: JSON.parse(JSON.stringify(state)),
+					},
+					'*',
+				);
+			}
 		});
 
 		return {

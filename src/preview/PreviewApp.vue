@@ -2,13 +2,13 @@
 	<div class="zb" :class="previewAppClasses">
 		<SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" />
 
-		<PageStyles
+		<!-- <PageStyles
 			:css-classes="CSSClasses"
 			:page-settings-model="pageSettings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
-		/>
+		/> -->
 
-		<ElementStyles :styles="pageSettings._custom_css" />
+		<!-- <ElementStyles :styles="pageSettings._custom_css" /> -->
 	</div>
 </template>
 <script>
@@ -19,6 +19,8 @@ import SortableContent from './components/SortableContent.vue';
 import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
+// import { useElementsStore } from '../editor/store';
+
 export default {
 	name: 'PreviewApp',
 	components: {
@@ -27,13 +29,15 @@ export default {
 		ElementStyles,
 	},
 	setup() {
-		const { getElement } = window.zb.editor.useElements();
 		const { getSchema } = useOptionsSchemas();
-		const { CSSClasses } = window.zb.editor.useCSSClasses();
-		const { isPreviewMode } = window.zb.editor.usePreviewMode();
-		const { pageSettings } = window.zb.editor.usePageSettings();
+		// const { CSSClasses } = window.zb.editor.useCSSClasses();
+		// const { isPreviewMode } = window.zb.editor.usePreviewMode();
+		// const { pageSettings } = window.zb.editor.usePageSettings();
 
-		const element = computed(() => getElement(window.ZnPbPreviewData.post.ID));
+		const element = computed(() => {
+			// const elementsStore = useElementsStore();
+			// return elementsStore.getElement(window.ZnPbPreviewData.post.ID);
+		});
 		const showExportModal = ref(false);
 
 		// provide masks for ShapeDividerComponent option
@@ -41,13 +45,13 @@ export default {
 		provide('plugin_info', window.ZnPbPreviewData.plugin_info);
 		provide('editor_urls', window.ZnPbPreviewData.urls);
 
-		watch(isPreviewMode, newValue => {
-			if (newValue) {
-				window.document.body.classList.add('znpb-editor-preview--active');
-			} else {
-				window.document.body.classList.remove('znpb-editor-preview--active');
-			}
-		});
+		// watch(isPreviewMode, newValue => {
+		// 	if (newValue) {
+		// 		window.document.body.classList.add('znpb-editor-preview--active');
+		// 	} else {
+		// 		window.document.body.classList.remove('znpb-editor-preview--active');
+		// 	}
+		// });
 
 		// Allow other to hook into setup
 		doAction('zionbuilder/preview/app/setup');
@@ -56,13 +60,22 @@ export default {
 			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes);
 		});
 
+		// Stores communication
+		window.onmessage = function (e) {
+			if (e.data.action === 'zbMessage') {
+				// const elementsStore = useElementsStore();
+				// elementsStore.$store = data;
+				console.log({ a: e.data });
+			}
+		};
+
 		return {
 			element,
 			showExportModal,
 			getSchema,
-			CSSClasses,
-			isPreviewMode,
-			pageSettings,
+			// CSSClasses,
+			// isPreviewMode,
+			// pageSettings,
 			previewAppClasses,
 		};
 	},

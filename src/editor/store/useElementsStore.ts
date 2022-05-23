@@ -1,6 +1,6 @@
 import { Ref, ref } from 'vue';
 import { defineStore } from 'pinia';
-import { Element } from '../composables/models';
+import { Element } from '../composables/models/Element';
 
 export const useElementsStore = defineStore('elements', () => {
 	// Global template parts store
