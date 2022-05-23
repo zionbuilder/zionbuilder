@@ -4,6 +4,7 @@ export const filesMap = [
     input: 'src/admin/edit-page.ts',
     format: 'iife',
     output: 'edit-page',
+    name: 'editPage',
   },
   {
     input: 'src/admin/gutenberg.ts',
@@ -14,12 +15,9 @@ export const filesMap = [
     input: 'src/admin/admin-page.ts',
     format: 'iife',
     output: 'admin-page',
+    name: 'adminPage',
   },
-  //   {
-  //     input: './src/modules/vue/index.ts',
-  //     format: 'iife',
-  //     output: 'vue',
-  //   },
+
   {
     input: 'src/modules/screenshot/index.ts',
     format: 'iife',
@@ -37,12 +35,12 @@ export const filesMap = [
   },
   // Editor
   {
-    input: './src/editor/editor.ts',
+    input: 'src/editor/editor.ts',
     format: 'iife',
     output: 'editor',
   },
   {
-    input: './src/editor/preview.ts',
+    input: 'src/editor/preview.ts',
     format: 'iife',
     output: 'preview',
   },

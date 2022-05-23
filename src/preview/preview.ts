@@ -10,7 +10,7 @@ const editorApp = window.zb.editor.appInstance;
 const appContext = editorApp._context;
 
 // Components
-import { InlineEditor } from './components/preview/InlineEditor';
+import { InlineEditor } from './components/InlineEditor';
 import Element from './components/preview/Element.vue';
 import ElementWrapper from './components/preview/ElementWrapper.vue';
 import SortableContent from './components/preview/SortableContent.vue';

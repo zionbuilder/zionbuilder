@@ -13,9 +13,9 @@
 </template>
 <script>
 import { computed, ref, watch, provide } from 'vue';
-import PageStyles from './components/preview/PageStyles.vue';
-import ElementStyles from './components/preview/ElementStyles.vue';
-import SortableContent from './components/preview/SortableContent.vue';
+import PageStyles from './components/PageStyles.vue';
+import ElementStyles from './components/ElementStyles.vue';
+import SortableContent from './components/SortableContent.vue';
 import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
