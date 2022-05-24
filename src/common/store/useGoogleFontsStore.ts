@@ -10,6 +10,11 @@ export const useGoogleFontsStore = defineStore('googleFonts', {
 			fonts: [],
 		};
 	},
+	getters: {
+		getFontData: state => {
+			return (family: string) => state.fonts.find(font => font['family'] == family);
+		},
+	},
 	actions: {
 		fetchGoogleFonts(force = false) {
 			// Don't refetch the options if  they were already fetched
@@ -19,11 +24,6 @@ export const useGoogleFontsStore = defineStore('googleFonts', {
 
 			return getGoogleFonts().then(response => {
 				this.fonts = response.data;
-			});
-		},
-		getFontData(family: string) {
-			return this.fonts.find(font => {
-				return font['family'] == family;
 			});
 		},
 	},

@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-admin-hidden-select__wrapper" @click="(showContent = true), addEventListeners()">
+	<div ref="root" class="znpb-admin-hidden-select__wrapper" @click="(showContent = true), addEventListeners()">
 		<span class="znpb-admin-hidden-select__title">
 			<slot></slot>
 		</span>
@@ -28,7 +28,7 @@ function removeEventListeners() {
 }
 
 function closeOnOutsideClick(event) {
-	if (!root.value.contains(event.target)) {
+	if (!root.value?.contains(event.target)) {
 		showContent.value = false;
 		removeEventListeners();
 	}
