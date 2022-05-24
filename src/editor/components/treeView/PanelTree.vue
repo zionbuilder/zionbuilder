@@ -61,11 +61,10 @@ export default {
 		panel: {},
 	},
 	setup(props) {
-		const { getElement } = useElementsStore();
+		const elementsStore = useElementsStore();
 		const { editorData } = useEditorData();
-		const element = computed(() => getElement(editorData.value.page_id));
+		const element = computed(() => elementsStore.getElement(editorData.value.page_id));
 		const { isPreviewLoading } = usePreviewLoading();
-		const myReactiveValue = ref(true);
 
 		// Tree view types
 		const treeViewTypes = [

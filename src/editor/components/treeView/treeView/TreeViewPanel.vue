@@ -73,11 +73,11 @@ export default {
 
 		function removeAllElements() {
 			const { unEditElement } = useEditElement();
-			const { getElement } = useElementsStore();
+			const elementsStore = useElementsStore();
 			const { editorData } = useEditorData();
 			const { addToHistory } = useHistory();
 
-			const rootElement = computed(() => getElement(editorData.value.page_id));
+			const rootElement = computed(() => elementsStore.getElement(editorData.value.page_id));
 
 			// Delete all elements
 			rootElement.value.content = [];

@@ -253,8 +253,8 @@ export default {
 						if (activeElement.value) {
 							insertElement(newElement);
 						} else {
-							const { getElement } = useElementsStore();
-							const element = getElement(this.editorData.page_id);
+							const elementsStore = useElementsStore();
+							const element = elementsStore.getElement(this.editorData.page_id);
 							element.addChildren(newElement);
 						}
 

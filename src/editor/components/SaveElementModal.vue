@@ -36,7 +36,6 @@ import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
 import { useTemplateParts, useSaveTemplate } from '../composables';
-import { useElementsStore } from '../store';
 import { useLibrary } from '@common/composables';
 import { exportTemplate } from '@common/api';
 
@@ -44,7 +43,6 @@ export default {
 	name: 'SaveElementModal',
 	setup() {
 		const { activeSaveElement, hideSaveElement } = useSaveTemplate();
-		const { getElement } = useElementsStore();
 		const { getActivePostTemplatePart } = useTemplateParts();
 
 		const formModel = ref({});
@@ -58,7 +56,6 @@ export default {
 		});
 
 		return {
-			getElement,
 			getActivePostTemplatePart,
 			activeSaveElement,
 			hideSaveElement,

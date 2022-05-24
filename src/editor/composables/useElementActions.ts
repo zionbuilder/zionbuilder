@@ -145,9 +145,9 @@ export function useElementActions() {
 	};
 
 	function wrapInContainer(element) {
-		const { registerElement } = useElementsStore();
+		const elementsStore = useElementsStore();
 		const parent = element.parent;
-		const newElement = registerElement(
+		const newElement = elementsStore.registerElement(
 			{
 				element_type: 'container',
 			},
@@ -156,8 +156,6 @@ export function useElementActions() {
 
 		newElement.addChild(element);
 		parent.replaceChild(element, newElement);
-
-		console.log(element.parent);
 	}
 
 	return {

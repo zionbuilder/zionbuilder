@@ -1,30 +1,26 @@
-import { Ref, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { Element } from '../models/Element';
 
-export const useElementsStore = defineStore('elements', () => {
-	// Global template parts store
-	const elements: Ref<{ [key: string]: Element }> = ref({});
+export const useElementsStore = defineStore('elements', {
+	state(): {
+		elements: Record<string, Element>;
+	} {
+		return {
+			elements: {},
+		};
+	},
+	actions: {
+		registerElement(config, parent: string) {
+			const element = new Element(config, parent);
+			this.elements[element.uid] = element;
 
-	const registerElement = (config, parent: string): Element => {
-		const element = new Element(config, parent);
-		elements.value[element.uid] = element;
-
-		return element;
-	};
-
-	const unregisterElement = (uid: string) => {
-		delete elements.value[uid];
-	};
-
-	const getElement = (elementUID: string) => {
-		return elements.value[elementUID];
-	};
-
-	return {
-		elements,
-		registerElement,
-		unregisterElement,
-		getElement,
-	};
+			return element;
+		},
+		unregisterElement(uid: string) {
+			delete this.elements[uid];
+		},
+		getElement(elementUID: string) {
+			return this.elements[elementUID];
+		},
+	},
 });
