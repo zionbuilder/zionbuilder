@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import { useUI, useEditElement } from '../../composables';
+import { useEditElement } from '../../composables';
+import { useUIStore } from '../../store';
 
 export default {
 	name: 'BreadcrumbsItem',
@@ -32,7 +33,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { openPanel } = useUI();
+		const { openPanel } = useUIStore();
 		const { editElement, element: activeElement } = useEditElement();
 		const breadcrumbsComponent = require('./Breadcrumbs.vue').default;
 

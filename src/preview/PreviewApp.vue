@@ -65,7 +65,6 @@ export default {
 			if (e.data.action === 'zbMessage') {
 				// const elementsStore = useElementsStore();
 				// elementsStore.$store = data;
-				console.log({ a: e.data });
 			}
 		};
 

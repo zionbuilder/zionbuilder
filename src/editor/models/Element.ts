@@ -1,13 +1,13 @@
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
 import { generateUID } from '@common/utils';
 import { applyFilters } from '@common/modules/hooks';
-import { regenerateUIDs } from '../../utils';
-import { useElementsStore } from '../../store/useElementsStore';
-import { useElementTypes } from '../useElementTypes';
+import { regenerateUIDs } from '../utils';
+import { useElementsStore } from '../store/useElementsStore';
+import { useElementTypes } from '../composables/useElementTypes';
 import { RenderAttributes } from './RenderAttributes';
-import { useEditElement } from '../useEditElement';
-import { useHistory } from '../useHistory';
-import { serverRequest } from '../../api';
+import { useEditElement } from '../composables/useEditElement';
+import { useHistory } from '../composables/useHistory';
+import { serverRequest } from '../api';
 
 const { getElementType } = useElementTypes();
 

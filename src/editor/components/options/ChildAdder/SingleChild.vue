@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import { useUI, useEditElement } from '../../../composables';
+import { useEditElement } from '../../../composables';
+import { useUIStore } from '../../../store';
 
 export default {
 	name: 'SingleChild',
@@ -35,7 +36,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { openPanel } = useUI();
+		const { openPanel } = useUIStore();
 		const { editElement } = useEditElement();
 
 		function onDelete() {

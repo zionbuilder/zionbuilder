@@ -3,7 +3,7 @@
 		id="preview-iframe"
 		ref="root"
 		class="znpb-editor-iframe-wrapper"
-		:style="pointerevents"
+		:style="pointerEvents"
 		:class="getWrapperClasses"
 	>
 		<iframe
@@ -28,13 +28,13 @@ import {
 	useKeyBindings,
 	useSavePage,
 	useEditorData,
-	useUI,
 	useWindows,
 	useHistory,
 	useElementTypes,
 } from '../composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
+import { useUIStore } from '../store';
 
 export default {
 	name: 'PreviewIframe',
@@ -53,7 +53,7 @@ export default {
 		const { saveAutosave } = useSavePage();
 		const { editorData } = useEditorData();
 		const { isDirty } = useHistory();
-		const { getIframePointerEvents, getPanelOrder } = useUI();
+		const uiStore = useUIStore();
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows();
 
 		// Dom refs
@@ -222,14 +222,22 @@ export default {
 			containerResizeObserver.observe(iframe.value);
 		});
 
+		const pointerEvents = computed(() => {
+			let style = {};
+
+			if (uiStore.iFrame.pointerEvents) {
+				style.pointerEvents = 'none';
+			}
+			style.order = uiStore.getPanelOrder('preview-iframe');
+			return style;
+		});
+
 		return {
 			activeResponsiveDeviceInfo,
 			applyShortcuts,
 			saveAutosave,
 			pageId: editorData.value.page_id,
 			urls: editorData.value.urls,
-			getPanelOrder,
-			getIframePointerEvents,
 			addWindow,
 			getWindows,
 			addEventListener,
@@ -245,6 +253,7 @@ export default {
 			deviceStyle,
 			getWrapperClasses,
 			iframeStyles,
+			pointerEvents,
 
 			// Iframe size tooltip
 			iframeWidth,
@@ -257,17 +266,6 @@ export default {
 			localStoragePageData: {},
 			iframeLoaded: false,
 		};
-	},
-	computed: {
-		pointerevents: function () {
-			let style = {};
-
-			if (this.getIframePointerEvents()) {
-				style.pointerEvents = 'none';
-			}
-			style.order = this.getPanelOrder('preview-iframe');
-			return style;
-		},
 	},
 	// end checkMousePosition
 	beforeUnmount() {

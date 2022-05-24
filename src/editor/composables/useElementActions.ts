@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import { cloneDeep, merge, get, set } from 'lodash-es';
-import { Element } from './models/Element';
+import { Element } from '../models/Element';
 import { useHistory } from './useHistory';
 import { useElementsStore } from '../store/useElementsStore';
 import { useLocalStorage } from './useLocalStorage';

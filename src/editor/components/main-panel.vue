@@ -140,12 +140,14 @@
 
 <script>
 import { ref, computed, onBeforeUnmount } from 'vue';
+import { storeToRefs } from 'pinia';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
-import { useTemplateParts, useSavePage, useUI, useEditorData, useSaveTemplate, usePreviewMode } from '../composables';
+import { useTemplateParts, useSavePage, useEditorData, useSaveTemplate, usePreviewMode } from '../composables';
 import { translate } from '@common/modules/i18n';
 import { useBuilderOptionsStore } from '@common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
+import { useUIStore } from '../store';
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -159,17 +161,9 @@ export default {
 	},
 	setup() {
 		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
-		const {
-			togglePanel,
-			openPanelsIDs,
-			setMainBarPosition,
-			mainBar,
-			getMainBarPointerEvents,
-			setIframePointerEvents,
-			toggleLibrary,
-			isLibraryOpen,
-			mainBarDraggingPlaceholder,
-		} = useUI();
+		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, isLibraryOpen, mainBarDraggingPlaceholder } =
+			storeToRefs(useUIStore());
+		const { getMainBarPointerEvents, setIframePointerEvents, toggleLibrary } = useUIStore();
 		const { editorData } = useEditorData();
 		const { showSaveElement } = useSaveTemplate();
 		const { getOptionValue } = useBuilderOptionsStore();

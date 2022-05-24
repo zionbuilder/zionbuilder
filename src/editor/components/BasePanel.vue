@@ -43,8 +43,10 @@
 </template>
 <script>
 import { computed, ref, onBeforeUnmount, onMounted, nextTick } from 'vue';
+import { storeToRefs } from 'pinia';
 import rafSchd from 'raf-schd';
-import { useUI, useWindows, useEditorData } from '../composables';
+import { useWindows } from '../composables';
+import { useUIStore } from '../store';
 
 export default {
 	name: 'BasePanel',
@@ -96,7 +98,7 @@ export default {
 	},
 	setup(props, { slots, emit }) {
 		const { isAnyPanelDragging, openPanels, panelsOrder, setPanelPlaceholder, setIframePointerEvents, saveUI } =
-			useUI();
+			storeToRefs(useUIStore());
 		const { addEventListener, removeEventListener } = useWindows();
 
 		// Normal data

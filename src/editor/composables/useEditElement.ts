@@ -1,11 +1,11 @@
 import { ref } from 'vue';
-import { useUI } from './useUI';
+import { useUIStore } from '../store';
 
 const element = ref(null);
 
 export function useEditElement() {
 	const editElement = elementInstance => {
-		const { openPanel } = useUI();
+		const { openPanel } = useUIStore();
 
 		element.value = elementInstance;
 
@@ -21,7 +21,7 @@ export function useEditElement() {
 	};
 
 	const unEditElement = () => {
-		const { closePanel } = useUI();
+		const { closePanel } = useUIStore();
 
 		element.value = null;
 		closePanel('panel-element-options');

@@ -1,5 +1,5 @@
 import { Element } from './Element';
-import { useElementsStore } from '../../store';
+import { useElementsStore } from '../store';
 
 export interface TemplatePartConfig {
 	id: string;

@@ -1,4 +1,4 @@
-import { useUI } from '../useUI';
+import { useUIStore } from '../store';
 
 export class Panel {
 	id = '';
@@ -22,17 +22,17 @@ export class Panel {
 	}
 
 	get placement(): string {
-		const { getPanelPlacement } = useUI();
+		const { getPanelPlacement } = useUIStore();
 		return getPanelPlacement(this.id);
 	}
 
 	get order(): number {
-		const { getPanelOrder } = useUI();
+		const { getPanelOrder } = useUIStore();
 		return getPanelOrder(this.id);
 	}
 
 	get index() {
-		const { panelsOrder } = useUI();
+		const { panelsOrder } = useUIStore();
 		return panelsOrder.value.indexOf(this.id);
 	}
 
@@ -41,7 +41,7 @@ export class Panel {
 	}
 
 	close() {
-		const { saveUI } = useUI();
+		const { saveUI } = useUIStore();
 
 		this.isActive = false;
 
@@ -52,7 +52,7 @@ export class Panel {
 
 	open() {
 		this.isActive = true;
-		const { openPanels, saveUI } = useUI();
+		const { openPanels, saveUI } = useUIStore();
 
 		// If this panel is part of a group,
 		// close other panels from the same group that are already opened

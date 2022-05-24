@@ -1,88 +1,90 @@
-import { computed, ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
+import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 
-import { Panel } from './models/Panel';
-import { EditorArea } from './models/EditorArea';
+import { Panel } from '../models/Panel';
+import { EditorArea } from '../models/EditorArea';
 
-import { useUserData } from './useUserData';
-const { getUserData, updateUserData } = useUserData();
-const UIUserData = getUserData();
+import { useUserData } from '../composables/useUserData';
 
-// UTILS
-function getPanelData(panelID: string) {
-	return get(UIUserData, `panels.${panelID}`, {});
-}
+export const useUIStore = defineStore('ui', () => {
+	const { getUserData, updateUserData } = useUserData();
+	const UIUserData = getUserData();
 
-const defaultPanels = [
-	{
-		id: 'panel-element-options',
-		component: 'PanelElementOptions',
-		saveOpenState: false,
-		...getPanelData('panel-element-options'),
-	},
-	{
-		id: 'panel-global-settings',
-		component: 'panel-global-settings',
-		saveOpenState: false,
-		...getPanelData('panel-global-settings'),
-	},
-	{
-		id: 'preview-iframe',
-		component: 'PreviewIframe',
-		isActive: true,
-	},
-	{
-		id: 'panel-history',
-		component: 'panel-history',
-		...getPanelData('panel-history'),
-	},
-	{
-		id: 'panel-tree',
-		component: 'panel-tree',
-		...getPanelData('panel-tree'),
-	},
-];
+	// UTILS
+	function getPanelData(panelID: string) {
+		return get(UIUserData, `panels.${panelID}`, {});
+	}
 
-const panelsOrder = ref(
-	get(UIUserData, 'panelsOrder', [
-		'panel-element-options',
-		'panel-global-settings',
-		'preview-iframe',
-		'panel-history',
-		'panel-tree',
-	]),
-);
+	const defaultPanels = [
+		{
+			id: 'panel-element-options',
+			component: 'PanelElementOptions',
+			saveOpenState: false,
+			...getPanelData('panel-element-options'),
+		},
+		{
+			id: 'panel-global-settings',
+			component: 'panel-global-settings',
+			saveOpenState: false,
+			...getPanelData('panel-global-settings'),
+		},
+		{
+			id: 'preview-iframe',
+			component: 'PreviewIframe',
+			isActive: true,
+		},
+		{
+			id: 'panel-history',
+			component: 'panel-history',
+			...getPanelData('panel-history'),
+		},
+		{
+			id: 'panel-tree',
+			component: 'panel-tree',
+			...getPanelData('panel-tree'),
+		},
+	];
 
-// Add panel instances
-const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig));
-const panels = ref(panelInstances);
-const panelPlaceholder = ref({});
+	const panelsOrder = ref(
+		get(UIUserData, 'panelsOrder', [
+			'panel-element-options',
+			'panel-global-settings',
+			'preview-iframe',
+			'panel-history',
+			'panel-tree',
+		]),
+	);
 
-// Main Bar
-const mainBar = reactive(
-	new EditorArea({
-		position: 'left',
-		pointerEvents: false,
-		draggingPosition: null,
-		...(UIUserData.mainBar || {}),
-	}),
-);
+	// Add panel instances
+	const panelInstances = defaultPanels.map(panelConfig => new Panel(panelConfig));
+	const panels = ref(panelInstances);
+	const panelPlaceholder = ref({});
 
-const mainBarDraggingPlaceholder = reactive({
-	top: null,
-	left: null,
-});
+	// Main Bar
+	const mainBar = reactive(
+		new EditorArea({
+			position: 'left',
+			pointerEvents: false,
+			draggingPosition: null,
+			...(UIUserData.mainBar || {}),
+		}),
+	);
 
-// Iframe panel
-const iFrame = reactive(
-	new EditorArea({
-		pointerEvents: false,
-	}),
-);
+	const mainBarDraggingPlaceholder = reactive({
+		top: null,
+		left: null,
+	});
 
-const isLibraryOpen = ref(false);
+	// Iframe panel
+	const iFrame = reactive(
+		new EditorArea({
+			pointerEvents: false,
+		}),
+	);
 
-export function useUI() {
+	const isLibraryOpen = ref(false);
+
 	const openPanels = computed(() => {
 		return (
 			filter(panels.value, {
@@ -237,4 +239,4 @@ export function useUI() {
 		// Helpers
 		saveUI,
 	};
-}
+});

@@ -130,7 +130,6 @@ import SaveElementModal from './components/SaveElementModal.vue';
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import {
-	useUI,
 	usePreviewMode,
 	useKeyBindings,
 	usePreviewLoading,
@@ -140,7 +139,7 @@ import {
 } from './composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
-import { useElementsStore } from './store';
+import { useElementsStore, useUIStore } from './store';
 import { serverRequest } from './api';
 
 // WordPress hearbeat
@@ -161,9 +160,9 @@ export default {
 		ElementMenu,
 		SaveElementModal,
 	},
-	setup(props) {
+	setup() {
 		const { notifications } = storeToRefs(useNotificationsStore());
-		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = useUI();
+		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = storeToRefs(useUIStore());
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
 			useResponsiveDevices();
 		const { isPreviewMode, setPreviewMode } = usePreviewMode();

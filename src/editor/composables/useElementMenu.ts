@@ -1,5 +1,5 @@
 import { ref, Ref } from 'vue';
-import { Element } from './models';
+import { Element } from '../models';
 import { usePreviewMode } from './usePreviewMode';
 
 const activeElementMenu: Ref<null | object> = ref(null);

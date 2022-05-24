@@ -27,8 +27,9 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useUI, useAddElementsPopup, useWindows, useHistory, useElementTypes } from '../../composables';
+import { useAddElementsPopup, useWindows, useHistory, useElementTypes } from '../../composables';
 import { useLibrary } from '@common/composables';
+import { useUIStore } from '../../store';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
@@ -45,7 +46,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { toggleLibrary } = useUI();
+		const { toggleLibrary } = useUIStore();
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
 		const active = ref(defaultTab);
 		const { addEventListener, removeEventListener } = useWindows();

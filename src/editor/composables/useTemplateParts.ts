@@ -1,5 +1,5 @@
 import { ref, Ref } from 'vue';
-import { TemplatePartConfig, TemplatePart } from './models';
+import { TemplatePartConfig, TemplatePart } from '../models';
 import { useEditorData } from './useEditorData';
 
 // Global template parts store

@@ -1,5 +1,4 @@
 import {
-	useUI,
 	usePreviewMode,
 	useSavePage,
 	useEditorData,
@@ -8,9 +7,10 @@ import {
 	useEditElement,
 } from '../composables';
 import { isEditable, Environment } from '@common/utils';
+import { useUIStore } from '../store';
 
 export const useKeyBindings = () => {
-	const { togglePanel, toggleLibrary } = useUI();
+	const { togglePanel, toggleLibrary } = useUIStore();
 	const { isPreviewMode, setPreviewMode } = usePreviewMode();
 	const { savePage, isSavePageLoading } = useSavePage();
 	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions();

@@ -13,9 +13,10 @@
 <script>
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
-import { useUI, usePageSettings } from '../composables';
+import { usePageSettings } from '../composables';
 import { useOptionsSchemas } from '@common/composables';
 import { translate } from '@common/modules/i18n';
+import { useUIStore } from '../store';
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -23,7 +24,7 @@ export default {
 		BasePanel,
 	},
 	setup() {
-		const { closePanel } = useUI();
+		const { closePanel } = useUIStore();
 		const { getSchema } = useOptionsSchemas();
 		const { pageSettings, updatePageSettings } = usePageSettings();
 
