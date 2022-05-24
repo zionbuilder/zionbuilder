@@ -18,7 +18,6 @@
 <script>
 import { useEditElement } from '../../composables';
 import BreadcrumbsItem from './BreadcrumbsItem.vue';
-import { useUIStore } from '../../store';
 
 export default {
 	name: 'Breadcrumbs',
@@ -30,12 +29,10 @@ export default {
 			type: Object,
 		},
 	},
-	setup(props) {
-		const { openPanel } = useUIStore();
+	setup() {
 		const { editElement, element: activeElement } = useEditElement();
 
 		return {
-			openPanel,
 			editElement,
 			activeElement,
 		};

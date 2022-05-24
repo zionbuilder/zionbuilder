@@ -46,7 +46,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { toggleLibrary } = useUIStore();
+		const UIStore = useUIStore();
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
 		const active = ref(defaultTab);
 		const { addEventListener, removeEventListener } = useWindows();
@@ -168,7 +168,7 @@ export default {
 
 			setActiveElementForLibrary(activePopup.value.element, activePopup.value.config);
 
-			toggleLibrary();
+			UIStore.toggleLibrary();
 			emit('close');
 		};
 

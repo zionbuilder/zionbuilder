@@ -49,14 +49,15 @@
 		<div
 			class="znpb-panels-wrapper"
 			:class="{
-				[`znpb-editorHeaderPosition--${mainBar.position}`]: mainBar.position,
+				[`znpb-editorHeaderPosition--${UIStore.mainBar.position}`]: UIStore.mainBar.position,
 			}"
 		>
 			<div
-				v-if="mainBar.isDragging"
+				v-if="UIStore.mainBar.isDragging"
 				class="znpb-main-wrapper--mainBarPlaceholder"
 				:class="{
-					[`znpb-main-wrapper--mainBarPlaceholder--${mainBar.draggingPosition}`]: mainBar.draggingPosition,
+					[`znpb-main-wrapper--mainBarPlaceholder--${UIStore.mainBar.draggingPosition}`]:
+						UIStore.mainBar.draggingPosition,
 				}"
 			>
 				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
@@ -67,9 +68,9 @@
 			<!-- center area -->
 			<div class="znpb-center-area">
 				<div
-					v-if="panelPlaceholder.visibility"
+					v-if="UIStore.panelPlaceholder.visibility"
 					id="znpb-panel-placeholder"
-					:style="{ left: panelPlaceholder.left + 'px' }"
+					:style="{ left: UIStore.panelPlaceholder.left + 'px' }"
 				>
 					<div class="znpb-panel-placeholder"></div>
 				</div>
@@ -77,7 +78,7 @@
 				<!-- Start panels -->
 				<component
 					:is="panel.component"
-					v-for="panel in openPanels"
+					v-for="panel in UIStore.openPanels"
 					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
 					:key="panel.id"
 					:panel="panel"
@@ -102,7 +103,7 @@
 		<!-- notices -->
 		<Notice v-for="error in notifications" :key="error.message" :error="error" @close-notice="error.remove()" />
 
-		<div v-if="mainBar.isDragging" class="znpb-editor-header__helper" :style="mainBarDraggingPlaceholderStyles">
+		<div v-if="UIStore.mainBar.isDragging" class="znpb-editor-header__helper" :style="mainBarDraggingPlaceholderStyles">
 			<Icon icon="more" rotate="90" />
 		</div>
 	</div>
@@ -161,8 +162,8 @@ export default {
 		SaveElementModal,
 	},
 	setup() {
+		const UIStore = useUIStore();
 		const { notifications } = storeToRefs(useNotificationsStore());
-		const { openPanels, panelPlaceholder, mainBar, mainBarDraggingPlaceholder } = storeToRefs(useUIStore());
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
 			useResponsiveDevices();
 		const { isPreviewMode, setPreviewMode } = usePreviewMode();
@@ -172,7 +173,9 @@ export default {
 
 		const mainBarDraggingPlaceholderStyles = computed(() => {
 			return {
-				transform: `translate3d(${mainBarDraggingPlaceholder.left - 22}px, ${mainBarDraggingPlaceholder.top - 22}px,0)`,
+				transform: `translate3d(${UIStore.mainBarDraggingPlaceholder.left - 22}px, ${
+					UIStore.mainBarDraggingPlaceholder.top - 22
+				}px,0)`,
 			};
 		});
 
@@ -210,12 +213,12 @@ export default {
 		});
 
 		return {
+			// Stores
+			UIStore,
 			// Computed
 			mainBarDraggingPlaceholderStyles,
 			activeResponsiveDeviceId,
 			notifications,
-			panelPlaceholder,
-			openPanels,
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
@@ -223,7 +226,6 @@ export default {
 			setPreviewMode,
 			applyShortcuts,
 			isPreviewLoading,
-			mainBar,
 			urls: editorData.value.urls,
 		};
 	},

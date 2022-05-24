@@ -3,9 +3,9 @@
 		ref="editorHeaderRef"
 		class="znpb-editor-header"
 		:class="{
-			'znpb-editor-panel__container--dragging': mainBar.isDragging,
-			[`znpb-editor-header--${mainBar.position}`]: mainBar.position,
-			[`znpb-editor-header--hide-${mainBar.position}`]: isPreviewMode,
+			'znpb-editor-panel__container--dragging': UIStore.mainBar.isDragging,
+			[`znpb-editor-header--${UIStore.mainBar.position}`]: UIStore.mainBar.position,
+			[`znpb-editor-header--hide-${UIStore.mainBar.position}`]: isPreviewMode,
 		}"
 		:style="panelStyles"
 		@mousedown.stop="startBarDrag"
@@ -17,9 +17,9 @@
 				v-znpb-tooltip:[tooltipsPosition]="$translate('tree_view')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
 				:class="{
-					active: openPanelsIDs.includes('panel-tree'),
+					active: UIStore.openPanelsIDs.includes('panel-tree'),
 				}"
-				@mousedown.stop.prevent="togglePanel('panel-tree')"
+				@mousedown.stop.prevent="UIStore.togglePanel('panel-tree')"
 			>
 				<Icon icon="layout"></Icon>
 			</div>
@@ -27,10 +27,10 @@
 			<div
 				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
 				:class="{
-					active: isLibraryOpen,
+					active: UIStore.isLibraryOpen,
 				}"
 				class="znpb-editor-header__menu_button"
-				@mousedown.stop="toggleLibrary"
+				@mousedown.stop="UIStore.toggleLibrary"
 			>
 				<Icon icon="lib"></Icon>
 			</div>
@@ -39,9 +39,9 @@
 				v-znpb-tooltip:[tooltipsPosition]="$translate('history_panel')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
 				:class="{
-					active: openPanelsIDs.includes('panel-history'),
+					active: UIStore.openPanelsIDs.includes('panel-history'),
 				}"
-				@mousedown.stop.prevent="togglePanel('panel-history')"
+				@mousedown.stop.prevent="UIStore.togglePanel('panel-history')"
 			>
 				<Icon icon="history"></Icon>
 			</div>
@@ -57,9 +57,9 @@
 				v-znpb-tooltip:[tooltipsPosition]="$translate('page_options')"
 				class="znpb-editor-header__menu_button"
 				:class="{
-					active: openPanelsIDs.includes('panel-global-settings'),
+					active: UIStore.openPanelsIDs.includes('panel-global-settings'),
 				}"
-				@mousedown.stop="togglePanel('panel-global-settings')"
+				@mousedown.stop="UIStore.togglePanel('panel-global-settings')"
 			>
 				<Icon icon="sliders" />
 			</div>
@@ -160,10 +160,11 @@ export default {
 		//
 	},
 	setup() {
+		// Stores
+		const UIStore = useUIStore();
 		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
-		const { openPanelsIDs, mainBar, isLibraryOpen, mainBarDraggingPlaceholder } = storeToRefs(useUIStore());
-		const { togglePanel, setMainBarPosition } = useUIStore();
-		const { getMainBarPointerEvents, setIframePointerEvents, toggleLibrary } = useUIStore();
+
+		// Composables
 		const { editorData } = useEditorData();
 		const { showSaveElement } = useSaveTemplate();
 		const { getOptionValue } = useBuilderOptionsStore();
@@ -183,15 +184,17 @@ export default {
 
 		// Computed
 		const tooltipsPosition = computed(() => {
-			if (mainBar.position === 'top') {
+			if (UIStore.mainBar.position === 'top') {
 				return 'bottom';
-			} else if (mainBar.position === 'left') {
+			} else if (UIStore.mainBar.position === 'left') {
 				return 'right';
-			} else if (mainBar.position === 'right') {
+			} else if (UIStore.mainBar.position === 'right') {
 				return 'left';
-			} else if (mainBar.position === 'bottom') {
+			} else if (UIStore.mainBar.position === 'bottom') {
 				return 'top';
 			}
+
+			return 'top';
 		});
 
 		const hasWhiteLabel = computed(() => {
@@ -239,7 +242,7 @@ export default {
 		const panelStyles = computed(() => {
 			return {
 				userSelect: userSel.value,
-				pointerEvents: mainBar.isDragging || getMainBarPointerEvents() ? 'none' : null,
+				pointerEvents: UIStore.mainBar.isDragging || UIStore.mainBar.pointerEvents ? 'none' : null,
 			};
 		});
 
@@ -288,16 +291,16 @@ export default {
 			let newTop = event.clientY;
 
 			// Set placeholder position
-			mainBarDraggingPlaceholder.top = event.clientY;
-			mainBarDraggingPlaceholder.left = event.clientX;
+			UIStore.mainBarDraggingPlaceholder.top = event.clientY;
+			UIStore.mainBarDraggingPlaceholder.left = event.clientX;
 
 			// Set a flag so we know that we are dragging
-			if (!mainBar.isDragging) {
-				mainBar.isDragging = true;
+			if (!UIStore.mainBar.isDragging) {
+				UIStore.mainBar.isDragging = true;
 			}
 
 			// disable pointer events on iframe
-			setIframePointerEvents(true);
+			UIStore.setIframePointerEvents(true);
 			userSel.value = 'none';
 
 			// Calculate horizontal move
@@ -328,7 +331,7 @@ export default {
 
 			if (closestPosition) {
 				draggingPosition.value = closestPosition;
-				mainBar.draggingPosition = closestPosition;
+				UIStore.mainBar.draggingPosition = closestPosition;
 			}
 		}
 
@@ -338,14 +341,14 @@ export default {
 
 			// Save the position
 			if (draggingPosition.value) {
-				setMainBarPosition(draggingPosition.value);
+				UIStore.setMainBarPosition(draggingPosition.value);
 				draggingPosition.value = null;
 			}
 
-			setIframePointerEvents(false);
+			UIStore.setIframePointerEvents(false);
 			userSel.value = null;
 			document.body.style.cursor = null;
-			mainBar.isDragging = false;
+			UIStore.mainBar.isDragging = false;
 		}
 
 		function onSaving(status) {
@@ -384,13 +387,11 @@ export default {
 			editorHeaderRef,
 			aboutModalVisibility,
 			shortcutsModalVisibility,
-			mainBar,
 			isPreviewMode,
 			draggingPosition,
-			isLibraryOpen,
+			UIStore,
 
 			// Computed
-			openPanelsIDs,
 			helpMenuItems,
 			panelStyles,
 			tooltipsPosition,
@@ -398,13 +399,11 @@ export default {
 			// Methods
 			saveActions,
 			isSavePageLoading,
-			togglePanel,
 			savePage,
 			onSaving,
 			startBarDrag,
 			onAfterLeave,
 			onAfterEnter,
-			toggleLibrary,
 		};
 	},
 };

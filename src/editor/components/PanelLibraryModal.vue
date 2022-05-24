@@ -1,12 +1,12 @@
 <template>
 	<Modal
-		v-if="isLibraryOpen"
+		v-if="UIStore.isLibraryOpen"
 		v-model:fullscreen="fullSize"
 		:show="true"
 		append-to=".znpb-center-area"
 		:width="1440"
 		class="znpb-library-modal"
-		@close-modal="closeLibrary"
+		@close-modal="UIStore.closeLibrary"
 	>
 		<template #header>
 			<div class="znpb-library-modal-header">
@@ -86,7 +86,7 @@
 						@click.stop="fullSize = !fullSize"
 					/>
 
-					<Icon icon="close" :size="14" class="znpb-modal__header-button" @click="toggleLibrary" />
+					<Icon icon="close" :size="14" class="znpb-modal__header-button" @click="UIStore.toggleLibrary" />
 				</div>
 			</div>
 		</template>
@@ -107,7 +107,6 @@
 
 <script>
 import { ref, computed, watchEffect } from 'vue';
-import { storeToRefs } from 'pinia';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
 import { useLibrary } from '@common/composables';
@@ -128,9 +127,9 @@ export default {
 			Library: this,
 		};
 	},
-	setup(props) {
+	setup() {
 		const { addData, getData } = useLocalStorage();
-		const { toggleLibrary, closeLibrary, isLibraryOpen } = storeToRefs(useUIStore());
+		const UIStore = useUIStore();
 		const { librarySources, getSource } = useLibrary();
 
 		const activeLibraryTab = ref(getData('libraryActiveSource', 'local_library'));
@@ -156,7 +155,7 @@ export default {
 		});
 
 		watchEffect(() => {
-			if (isLibraryOpen.value) {
+			if (UIStore.isLibraryOpen) {
 				activeLibraryConfig.value.getData();
 			}
 		});
@@ -172,7 +171,6 @@ export default {
 
 		return {
 			// refs
-			isLibraryOpen,
 			activeLibraryTab,
 			previewOpen,
 			activeItem,
@@ -183,8 +181,7 @@ export default {
 			activeLibraryConfig,
 
 			// methods
-			closeLibrary,
-			toggleLibrary,
+			UIStore,
 			editorData,
 			isProActive,
 			isProInstalled,
@@ -249,8 +246,6 @@ export default {
 						const { template_data: templateData } = response.data;
 						const { insertElement, activeElement } = useLibrary();
 
-						const { toggleLibrary } = useUIStore();
-
 						// Check to see if this is a single element or a group of elements
 						let compiledTemplateData = templateData.element_type ? [templateData] : templateData;
 						const newElement = regenerateUIDsForContent(compiledTemplateData);
@@ -263,7 +258,7 @@ export default {
 							element.addChildren(newElement);
 						}
 
-						toggleLibrary();
+						this.UIStore.toggleLibrary();
 
 						resolve(true);
 					})

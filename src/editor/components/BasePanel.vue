@@ -30,12 +30,12 @@
 		</div>
 		<!-- resize divs -->
 		<div
-			v-if="!isAnyPanelDragging && allowHorizontalResize"
+			v-if="!UIStore.isAnyPanelDragging && allowHorizontalResize"
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--horizontal"
 			@mousedown="activateHorizontalResize"
 		/>
 		<div
-			v-if="panel.isDetached && !isAnyPanelDragging && allowVerticalResize"
+			v-if="panel.isDetached && !UIStore.isAnyPanelDragging && allowVerticalResize"
 			class="znpb-editor-panel__resize znpb-editor-panel__resize--vertical"
 			@mousedown="activateVerticalResize"
 		/>
@@ -97,8 +97,7 @@ export default {
 		panel: {},
 	},
 	setup(props, { slots, emit }) {
-		const { isAnyPanelDragging, openPanels, panelsOrder } = storeToRefs(useUIStore());
-		const { setIframePointerEvents, saveUI, setPanelPlaceholder } = useUIStore();
+		const UIStore = useUIStore();
 		const { addEventListener, removeEventListener } = useWindows();
 
 		// Normal data
@@ -166,7 +165,7 @@ export default {
 		let oldIndex = null;
 		let newIndex = null;
 		function onMouseDown(event) {
-			setIframePointerEvents(true);
+			UIStore.setIframePointerEvents(true);
 			document.body.style.userSelect = 'none';
 
 			const { clientX, clientY } = event;
@@ -217,7 +216,7 @@ export default {
 						boundingClientRect = root.value.getBoundingClientRect();
 
 						// Set available stick elements
-						openPanels.value.forEach(panel => {
+						UIStore.openPanels.forEach(panel => {
 							// We don't care about detached panels
 							if (panel.isDetached || panel.id === props.panel.id) {
 								return;
@@ -259,7 +258,7 @@ export default {
 					// Check to see if we are hovering the panel
 					if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
 						if (MinMaxLeft < realLeft + 50) {
-							setPanelPlaceholder({
+							UIStore.setPanelPlaceholder({
 								visibility: true,
 								left: realLeft,
 								placeBefore: true,
@@ -273,7 +272,7 @@ export default {
 									? boundingClient.left + boundingClient.width - 5
 									: realRight;
 
-							setPanelPlaceholder({
+							UIStore.setPanelPlaceholder({
 								visibility: true,
 								left: left,
 								placeBefore: false,
@@ -282,7 +281,7 @@ export default {
 
 							newIndex = possibleHoverPanel.index + 1;
 						} else {
-							setPanelPlaceholder({
+							UIStore.setPanelPlaceholder({
 								visibility: false,
 								left: null,
 								placeBefore: null,
@@ -301,20 +300,20 @@ export default {
 		const rafMovePanel = rafSchd(movePanel);
 
 		function updatePosition(oldIndex, newIndex) {
-			const list = [...panelsOrder.value];
+			const list = [...UIStore.panelsOrder];
 			if (oldIndex >= newIndex) {
 				list.splice(newIndex, 0, list.splice(oldIndex, 1)[0]);
 			} else {
 				list.splice(newIndex - 1, 0, list.splice(oldIndex, 1)[0]);
 			}
 
-			panelsOrder.value = list;
+			UIStore.panelsOrder = list;
 		}
 
 		function onMouseUp() {
 			// Cleanup
 			document.body.style.userSelect = null;
-			setIframePointerEvents(false);
+			UIStore.setIframePointerEvents(false);
 			availableStickElements = [];
 
 			// Cancel the animation frame
@@ -347,9 +346,9 @@ export default {
 				updatePosition(oldIndex, newIndex);
 			}
 
-			saveUI();
+			UIStore.saveUI();
 
-			setPanelPlaceholder({
+			UIStore.setPanelPlaceholder({
 				visibility: false,
 				panel: null,
 			});
@@ -359,7 +358,7 @@ export default {
 		let initialHMouseX = null;
 		let initialWidth = null;
 		function activateHorizontalResize(event) {
-			setIframePointerEvents(true);
+			UIStore.setIframePointerEvents(true);
 
 			document.body.style.userSelect = 'none';
 			document.body.style.cursor = 'w-resize';
@@ -383,21 +382,21 @@ export default {
 		}
 
 		function deactivateHorizontal() {
-			setIframePointerEvents(false);
+			UIStore.setIframePointerEvents(false);
 
 			document.body.style.userSelect = null;
 			document.body.style.cursor = null;
 
 			window.removeEventListener('mousemove', rafResizeHorizontal);
 			window.removeEventListener('mouseup', deactivateHorizontal);
-			saveUI();
+			UIStore.saveUI();
 		}
 
 		const rafResizeVertical = rafSchd(resizeVertical);
 		let initialVMouseY = null;
 		let initialHeight = null;
 		function activateVerticalResize(event) {
-			setIframePointerEvents(true);
+			UIStore.setIframePointerEvents(true);
 			document.body.style.userSelect = 'none';
 			document.body.style.cursor = 'n-resize';
 
@@ -423,14 +422,14 @@ export default {
 		}
 
 		function deactivateVertical() {
-			setIframePointerEvents(false);
+			UIStore.setIframePointerEvents(false);
 
 			document.body.style.userSelect = null;
 			document.body.style.cursor = null;
 
 			window.removeEventListener('mousemove', rafResizeVertical);
 			window.removeEventListener('mouseup', deactivateVertical);
-			saveUI();
+			UIStore.saveUI();
 		}
 
 		/**
@@ -476,11 +475,11 @@ export default {
 		return {
 			// refs
 			root,
+			UIStore,
 
 			// Computed
 			getCssClass,
 			panelStyles,
-			isAnyPanelDragging,
 			hasHeaderSlot,
 
 			// Methods

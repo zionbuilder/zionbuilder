@@ -20,6 +20,7 @@ import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
 // import { useElementsStore } from '../editor/store';
+import { usePreviewMode } from '../editor/store';
 
 export default {
 	name: 'PreviewApp',

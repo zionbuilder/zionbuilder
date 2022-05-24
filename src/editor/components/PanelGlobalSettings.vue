@@ -3,7 +3,7 @@
 		:panel-name="$translate('global_settings_panel')"
 		panel-id="panel-global-settings"
 		class="znpb-general-options-panel-wrapper"
-		@close-panel="closePanel('panel-global-settings')"
+		@close-panel="UIStore.closePanel('panel-global-settings')"
 	>
 		<div class="znpb-accordions-wrapper znpb-fancy-scrollbar">
 			<OptionsForm v-model="savedValues" :schema="optionsSchema" :show-changes="false" />
@@ -24,7 +24,7 @@ export default {
 		BasePanel,
 	},
 	setup() {
-		const { closePanel } = useUIStore();
+		const UIStore = useUIStore();
 		const { getSchema } = useOptionsSchemas();
 		const { pageSettings, updatePageSettings } = usePageSettings();
 
@@ -52,8 +52,8 @@ export default {
 		const optionsSchema = Object.assign({}, getSchema('pageSettingsSchema'), cssClassesSchema);
 
 		return {
-			closePanel,
 			savedValues,
+			UIStore,
 			optionsSchema,
 		};
 	},

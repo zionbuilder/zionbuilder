@@ -53,7 +53,7 @@ export default {
 		const { saveAutosave } = useSavePage();
 		const { editorData } = useEditorData();
 		const { isDirty } = useHistory();
-		const uiStore = useUIStore();
+		const UIStore = useUIStore();
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows();
 
 		// Dom refs
@@ -225,10 +225,10 @@ export default {
 		const pointerEvents = computed(() => {
 			let style = {};
 
-			if (uiStore.iFrame.pointerEvents) {
+			if (UIStore.iFrame.pointerEvents) {
 				style.pointerEvents = 'none';
 			}
-			style.order = uiStore.getPanelOrder('preview-iframe');
+			style.order = UIStore.getPanelOrder('preview-iframe');
 			return style;
 		});
 
