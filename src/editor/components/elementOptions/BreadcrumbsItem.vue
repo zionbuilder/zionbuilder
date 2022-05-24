@@ -10,7 +10,7 @@
 
 		<template v-if="parents.children.length > 0">
 			<component
-				:is="breadcrumbsComponent"
+				:is="Breadcrumbs"
 				v-for="child in parents.children"
 				:key="child.element.uid"
 				class="znpb-element-options__vertical-breadcrumbs-wrapper--inner"
@@ -20,29 +20,13 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { useEditElement } from '../../composables';
-import { useUIStore } from '../../store';
+import Breadcrumbs from './Breadcrumbs.vue';
 
-export default {
-	name: 'BreadcrumbsItem',
-	props: {
-		parents: {
-			type: Object,
-			required: false,
-		},
-	},
-	setup(props) {
-		const { openPanel } = useUIStore();
-		const { editElement, element: activeElement } = useEditElement();
-		const breadcrumbsComponent = require('./Breadcrumbs.vue').default;
+defineProps<{
+	parents?: Record<string, unknown>;
+}>();
 
-		return {
-			openPanel,
-			editElement,
-			activeElement,
-			breadcrumbsComponent,
-		};
-	},
-};
+const { editElement, element: activeElement } = useEditElement();
 </script>

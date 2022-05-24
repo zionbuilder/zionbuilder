@@ -18,7 +18,7 @@ class PageAssets {
 	const CACHE_FOLDER_NAME = 'cache';
 
 	/**
-	 * Holds a refference to all the instances of PageAssets
+	 * Holds a reference to all the instances of PageAssets
 	 *
 	 * @var array
 	 */
@@ -26,7 +26,7 @@ class PageAssets {
 
 
 	/**
-	 * Holds a refference to the active post ids
+	 * Holds a reference to the active post ids
 	 * During collection phase, this is used to add the extra element css to the right post id
 	 * During generation phase, this is used to put the proper css into the generated page asset
 	 *
@@ -42,14 +42,14 @@ class PageAssets {
 	private static $areas_extra_css = [];
 
 	/**
-	 * Holds a refference to the cache directory
+	 * Holds a reference to the cache directory
 	 *
 	 * @var array
 	 */
 	private static $cache_directory_config = null;
 
 	/**
-	 * Holds a refference to the scripts loaded by elements
+	 * Holds a reference to the scripts loaded by elements
 	 *
 	 * @var array
 	 */
@@ -71,14 +71,14 @@ class PageAssets {
 
 
 	/**
-	 * Holds a refference to the post id for which we need to generated the assets
+	 * Holds a reference to the post id for which we need to generated the assets
 	 *
 	 * @var array
 	 */
 	public $post_ids = null;
 
 	/**
-	 * Holds a refference to the post id for which we need to generated the assets
+	 * Holds a reference to the post id for which we need to generated the assets
 	 *
 	 * @var string
 	 */

@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Element {
 
 	/**
-	 * Holds a refference to all provided properties
+	 * Holds a reference to all provided properties
 	 *
 	 * @var array
 	 */
@@ -66,14 +66,14 @@ class Element {
 	protected $element_base_path = null;
 
 	/**
-	 * Holds a refference to the element wrapper tag
+	 * Holds a reference to the element wrapper tag
 	 *
 	 * @var string The element wrapper tag
 	 */
 	protected $wrapper_tag = 'div';
 
 	/**
-	 * Holds a refference to the element style options tags
+	 * Holds a reference to the element style options tags
 	 *
 	 * @var array<string, array<string, mixed>> The element custom style options
 	 */
@@ -129,14 +129,14 @@ class Element {
 	protected $element_styles = [];
 
 	/**
-	 * Holds a refference to the Element HTML id
+	 * Holds a reference to the Element HTML id
 	 *
 	 * @var string
 	 */
 	protected $element_html_id = '';
 
 	/**
-	 * Holds a refference to all registered hooks
+	 * Holds a reference to all registered hooks
 	 *
 	 * @var array
 	 */

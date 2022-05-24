@@ -97,8 +97,8 @@ export default {
 		panel: {},
 	},
 	setup(props, { slots, emit }) {
-		const { isAnyPanelDragging, openPanels, panelsOrder, setPanelPlaceholder, setIframePointerEvents, saveUI } =
-			storeToRefs(useUIStore());
+		const { isAnyPanelDragging, openPanels, panelsOrder } = storeToRefs(useUIStore());
+		const { setIframePointerEvents, saveUI, setPanelPlaceholder } = useUIStore();
 		const { addEventListener, removeEventListener } = useWindows();
 
 		// Normal data

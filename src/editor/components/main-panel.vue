@@ -161,8 +161,8 @@ export default {
 	},
 	setup() {
 		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
-		const { togglePanel, openPanelsIDs, setMainBarPosition, mainBar, isLibraryOpen, mainBarDraggingPlaceholder } =
-			storeToRefs(useUIStore());
+		const { openPanelsIDs, mainBar, isLibraryOpen, mainBarDraggingPlaceholder } = storeToRefs(useUIStore());
+		const { togglePanel, setMainBarPosition } = useUIStore();
 		const { getMainBarPointerEvents, setIframePointerEvents, toggleLibrary } = useUIStore();
 		const { editorData } = useEditorData();
 		const { showSaveElement } = useSaveTemplate();

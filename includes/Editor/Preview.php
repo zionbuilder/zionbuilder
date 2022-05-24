@@ -25,7 +25,7 @@ class Preview {
 	const CONTENT_FILTER_PRIORITY = 999999;
 
 	/**
-	 * Holds a refference to all enqueued scripts
+	 * Holds a reference to all enqueued scripts
 	 */
 	private static $enqueued_scripts = [];
 

@@ -27,7 +27,7 @@ class Stack {
 	 * @return array The list of options
 	 */
 	public function &get_stack() {
-		_doing_it_wrong( 'Stack', esc_html__( 'The child class must implement the get_stack() method returning a refference to an array', 'zionbuilder' ), '1.0.0' );
+		_doing_it_wrong( 'Stack', esc_html__( 'The child class must implement the get_stack() method returning a reference to an array', 'zionbuilder' ), '1.0.0' );
 		return [];
 	}
 

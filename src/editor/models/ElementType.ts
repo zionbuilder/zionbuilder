@@ -1,37 +1,37 @@
-import { markRaw } from 'vue'
+import { markRaw } from 'vue';
 
 export class ElementType {
-	element_type: string = ''
-	name: string = ''
-	component = null
-	category: string = ''
-	deprecated: boolean = false
-	icon: string = ''
-	thumb: string = ''
-	is_child: boolean = false
-	keywords: string[] = []
-	label: string = ''
-	options: object = {}
-	scripts: object = {}
-	styles: object = {}
-	show_in_ui: boolean = true
-	style_elements: object = {}
-	wrapper: boolean = false
-	content_orientation: string = 'horizontal'
+	element_type = '';
+	name = '';
+	component = null;
+	category = '';
+	deprecated = false;
+	icon = '';
+	thumb = '';
+	is_child = false;
+	keywords: string[] = [];
+	label = '';
+	options: object = {};
+	scripts: object = {};
+	styles: object = {};
+	show_in_ui = true;
+	style_elements: object = {};
+	wrapper = false;
+	content_orientation = 'horizontal';
 
 	constructor(config) {
-		Object.assign(this, config)
+		Object.assign(this, config);
 	}
 
 	getComponent() {
-		return this.component
+		return this.component;
 	}
 
 	registerComponent(component) {
-		this.component = markRaw(component)
+		this.component = markRaw(component);
 	}
 
 	resetComponent() {
-		this.component = null
+		this.component = null;
 	}
 }

@@ -24,7 +24,7 @@ export function useUserData() {
 			...newData,
 		};
 
-		// Imediately save the new data so we can update the UI
+		// Immediately save the new data so we can update the UI
 		Object.assign(userDataValues, dataToSave);
 
 		saveUserData(dataToSave).then(response => {

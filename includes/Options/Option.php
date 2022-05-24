@@ -20,14 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Option extends Stack {
 	/**
-	 * Holds a refference to the option config
+	 * Holds a reference to the option config
 	 *
 	 * @var string The option id
 	 */
 	public $id = null;
 
 	/**
-	 * Holds a refference to the option type
+	 * Holds a reference to the option type
 	 *
 	 * @var string The option type
 	 */

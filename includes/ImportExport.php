@@ -53,35 +53,35 @@ class ImportExport {
 
 
 	/**
-	 * Holds a refference to WP uploads directory
+	 * Holds a reference to WP uploads directory
 	 *
 	 * @var array
 	 */
 	public $upload_dir = null;
 
 	/**
-	 * Holds a refference to WP uploads directory url
+	 * Holds a reference to WP uploads directory url
 	 *
 	 * @var string
 	 */
 	public $upload_dir_url = null;
 
 	/**
-	 * Holds a refference to WP uploads directory basedir
+	 * Holds a reference to WP uploads directory basedir
 	 *
 	 * @var string
 	 */
 	public $upload_dir_path = null;
 
 	/**
-	 * Holds a refference to WP uploads directory url without www subdomain
+	 * Holds a reference to WP uploads directory url without www subdomain
 	 *
 	 * @var string
 	 */
 	public $upload_dir_url_without_www = null;
 
 	/**
-	 * Holds a refference to the temporary file location for the extracted archive
+	 * Holds a reference to the temporary file location for the extracted archive
 	 *
 	 * @var string
 	 */

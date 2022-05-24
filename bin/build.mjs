@@ -20,33 +20,31 @@ filesMap.forEach(async script => {
       },
     },
     build: {
-    //   minify: true,
-    //   cssCodeSplit: false,
+      //   minify: true,
+      cssCodeSplit: false,
       emptyOutDir: false,
       target: 'es2015',
-	  lib: {
-		entry: script.input,
-		name: script.name,
-		fileName: (format) => `${script.output}.js`,
-		formats: ['iife']
-	  },
-
-
+      //   lib: {
+      // 	entry: script.input,
+      // 	name: script.name,
+      // 	fileName: (format) => `${script.output}.js`,
+      // 	formats: ['iife']
+      //   },
 
       rollupOptions: {
-        // input: {
-        //   [script.output]: script.input,
-        // },
+        input: {
+          [script.output]: script.input,
+        },
         output: {
-            name: script.name,
-            entryFileNames: `[name].js`,
-            assetFileNames: assetInfo => {
-              // This is required because vite forces the name style.css if we disable code splitting
-              if (assetInfo.name == 'style.css') return `${script.output}.css`;
-              return `[name].[ext]`;
-            },
-            format: 'iife',
-          }
+          name: script.name,
+          entryFileNames: `[name].js`,
+          assetFileNames: assetInfo => {
+            // This is required because vite forces the name style.css if we disable code splitting
+            if (assetInfo.name == 'style.css') return `${script.output}.css`;
+            return `[name].[ext]`;
+          },
+          format: 'iife',
+        },
       },
     },
     css: {

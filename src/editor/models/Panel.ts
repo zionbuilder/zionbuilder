@@ -1,5 +1,5 @@
 import { useUIStore } from '../store';
-
+import { storeToRefs } from 'pinia';
 export class Panel {
 	id = '';
 	position = 'relative';
@@ -32,7 +32,7 @@ export class Panel {
 	}
 
 	get index() {
-		const { panelsOrder } = useUIStore();
+		const { panelsOrder } = storeToRefs(useUIStore());
 		return panelsOrder.value.indexOf(this.id);
 	}
 

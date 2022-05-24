@@ -37,9 +37,8 @@ export default {
 		},
 	},
 	setup(props) {
-		const { editorData } = window.zb.editor.useEditorData();
 		const contentModel = props.element.elementTypeModel;
-		const logoUrl = editorData.value.urls.logo;
+		const logoUrl = window.ZnPbPreviewData.urls.logo;
 		const elementContentRef = ref(null);
 		const elementContent = ref('');
 		const loading = ref(true);

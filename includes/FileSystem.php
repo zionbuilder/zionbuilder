@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class FileSystem {
 	/**
-	 * Holds a refference to the WP upload dir config
+	 * Holds a reference to the WP upload dir config
 	 *
 	 * @var array{
 	 *             path: string,

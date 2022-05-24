@@ -2362,7 +2362,7 @@ msgid "Zion Builder library"
 msgstr ""
 
 #: ../includes/Options/Stack.php:30
-msgid "The child class must implement the get_stack() method returning a refference to an array"
+msgid "The child class must implement the get_stack() method returning a reference to an array"
 msgstr ""
 
 #: ../includes/Options/Stack.php:53

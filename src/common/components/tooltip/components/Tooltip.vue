@@ -136,7 +136,7 @@ export default {
 			default: false,
 		},
 		/**
-		 * Popper refference
+		 * Popper reference
 		 */
 		popperRef: {
 			type: Object,

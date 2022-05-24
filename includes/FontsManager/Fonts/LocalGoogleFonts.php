@@ -17,7 +17,7 @@ class LocalGoogleFonts {
 	const GOOGLE_DOWNLOAD_API_URL = 'https://google-webfonts-helper.herokuapp.com/api/fonts/';
 
 	/**
-	 * Holds a refference to the folder where we keep the fonts and stylesheets
+	 * Holds a reference to the folder where we keep the fonts and stylesheets
 	 *
 	 * @var array
 	 */
@@ -25,14 +25,14 @@ class LocalGoogleFonts {
 
 
 	/**
-	 * Holds a refference to the provided fonts config
+	 * Holds a reference to the provided fonts config
 	 *
 	 * @var array
 	 */
 	private $fonts = [];
 
 	/**
-	 * Holds a refference to the font display
+	 * Holds a reference to the font display
 	 *
 	 * @var string
 	 */
@@ -40,7 +40,7 @@ class LocalGoogleFonts {
 
 
 	/**
-	 * Holds a refference to the stylesheet handle
+	 * Holds a reference to the stylesheet handle
 	 *
 	 * @var string
 	 */
