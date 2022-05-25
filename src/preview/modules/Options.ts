@@ -14,7 +14,6 @@ export default class Options {
 		this.selector = selector;
 		this.options = options;
 		this.element = element;
-		this.serverRequester = element ? element.serverRequester : window.zb.editor.serverRequest;
 
 		const { responsiveDevicesAsIdWidth } = useResponsiveDevices();
 		const devices = {};
@@ -112,7 +111,7 @@ export default class Options {
 			// Only start loading if we need to fetch the image from server
 			if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
 				this.startLoading();
-				getImage(model[optionId], this.serverRequester)
+				getImage(model[optionId])
 					.then(image => {
 						if (image) {
 							this.setImage(model, optionId, image);

@@ -2,21 +2,21 @@
 	<div class="zb" :class="previewAppClasses">
 		<!-- <SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" /> -->
 
-		<!-- <PageStyles
+		<PageStyles
 			:css-classes="cssClasses.CSSClasses"
 			:page-settings-model="pageSettings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
-		/> -->
+		/>
 
 		<ElementStyles :styles="pageSettings.settings._custom_css" />
 	</div>
 </template>
 <script>
 import { computed, ref, watch, provide } from 'vue';
-// import PageStyles from './components/PageStyles.vue';
-// import ElementStyles from './components/ElementStyles.vue';
+import PageStyles from './components/PageStyles.vue';
+import ElementStyles from './components/ElementStyles.vue';
 // import SortableContent from './components/SortableContent.vue';
-// import { useOptionsSchemas } from '@common/composables';
+import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
 // import { useElementsStore } from '../editor/store';
@@ -26,11 +26,11 @@ export default {
 	name: 'PreviewApp',
 	components: {
 		// SortableContent,
-		// PageStyles,
-		// ElementStyles,
+		PageStyles,
+		ElementStyles,
 	},
 	setup() {
-		// const { getSchema } = useOptionsSchemas();
+		const { getSchema } = useOptionsSchemas();
 		const cssClasses = useCSSClassesStore();
 		const UIStore = useUIStore();
 		const pageSettings = usePageSettingsStore();
@@ -63,8 +63,18 @@ export default {
 		});
 
 		// Stores communication
+		const storesToSubscribe = [useUIStore()];
 		window.onmessage = function (e) {
 			if (e.data.action === 'zbMessage') {
+				const { state, store } = e.data;
+				console.log({ state, store });
+				const storeForUpdate = storesToSubscribe.find(storeInstance => storeInstance.$id === store);
+				console.log(storesToSubscribe);
+				console.log(storeForUpdate);
+				console.log(store);
+				if (storeForUpdate) {
+					storeForUpdate.$state = JSON.parse(state);
+				}
 				// const elementsStore = useElementsStore();
 				// elementsStore.$store = data;
 			}
@@ -73,7 +83,7 @@ export default {
 		return {
 			element,
 			showExportModal,
-			// getSchema,
+			getSchema,
 			cssClasses,
 			pageSettings,
 			previewAppClasses,

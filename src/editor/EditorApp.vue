@@ -111,8 +111,9 @@
 </template>
 
 <script>
-import { provide, computed } from 'vue';
+import { provide, computed, inject } from 'vue';
 import { storeToRefs } from 'pinia';
+import * as STORES from './store';
 
 import { translate } from '@common/modules/i18n';
 
@@ -133,7 +134,7 @@ import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, usePreviewLoading, useEditorData, useAutosave, useWindows } from './composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
-import { useElementsStore, useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
+import { useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
 import { serverRequest } from './api';
 
 // WordPress hearbeat
@@ -165,11 +166,11 @@ export default {
 
 		// Setup initial data for stores
 		const cssClasses = useCSSClassesStore();
-		cssClasses.setCSSClasses(window.ZnPbInitalData.css_classes);
+		cssClasses.setCSSClasses(window.ZnPbInitialData.css_classes);
 
 		// Setup initial data for page settings
 		const pageSettings = usePageSettingsStore();
-		pageSettings.settings = window.ZnPbInitalData.page_settings.values;
+		pageSettings.settings = window.ZnPbInitialData.page_settings.values;
 
 		const mainBarDraggingPlaceholderStyles = computed(() => {
 			return {
@@ -181,7 +182,7 @@ export default {
 
 		// General functionality
 		useAutosave();
-
+		console.log(STORES);
 		// provide masks for ShapeDividerComponent option
 		provide('serverRequester', serverRequest);
 		provide('masks', editorData.value.masks);
@@ -196,20 +197,23 @@ export default {
 		});
 
 		// Stores subscribe
-		const elementsStore = useElementsStore();
-
-		elementsStore.$subscribe((mutation, state) => {
-			const { getWindows } = useWindows();
-			const iframeWindow = getWindows('preview');
-			if (iframeWindow) {
-				iframeWindow.postMessage(
-					{
-						action: 'zbMessage',
-						state: JSON.parse(JSON.stringify(state)),
-					},
-					'*',
-				);
-			}
+		const storesToSubscribe = [useUIStore()];
+		storesToSubscribe.forEach(store => {
+			store.$subscribe((mutation, state) => {
+				const { getWindows } = useWindows();
+				const iframeWindow = getWindows('preview');
+				if (iframeWindow) {
+					console.log(JSON.stringify(state));
+					iframeWindow.postMessage(
+						{
+							action: 'zbMessage',
+							store: store.$id,
+							state: JSON.stringify(state),
+						},
+						'*',
+					);
+				}
+			});
 		});
 
 		return {

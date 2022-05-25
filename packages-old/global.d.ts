@@ -14,6 +14,6 @@ interface Window {
 	tinyMCE: any;
 	quicktags: any;
 	switchEditors: any;
-	ZnPbInitalData: any;
+	ZnPbInitialData: any;
 	ZnPbComponentsData: Record<string, any>;
 }

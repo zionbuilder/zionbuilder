@@ -1,7 +1,7 @@
 import { find } from 'lodash-es';
 import { ref, Ref } from 'vue';
 
-const categories: Ref = ref(window.ZnPbInitalData.elements_categories);
+const categories: Ref = ref(window.ZnPbInitialData.elements_categories);
 
 export function useElementTypeCategories() {
 	const addElementTypeCategory = config => {

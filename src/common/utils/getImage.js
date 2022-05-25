@@ -1,5 +1,7 @@
-export default function (imageConfig, requester = null) {
-	const serverRequester = requester || window.zb.editor.serverRequest;
+import { ServerRequest } from '@common/utils';
+
+export default function (imageConfig) {
+	const serverRequester = new ServerRequest();
 
 	return new Promise((resolve, reject) => {
 		// Check to see if we actually need to retrieve the image

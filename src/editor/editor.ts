@@ -33,7 +33,7 @@ import * as UTILS from './utils';
 
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas();
-registerSchema('pageSettingsSchema', window.ZnPbInitalData.page_settings.schema);
+registerSchema('pageSettingsSchema', window.ZnPbInitialData.page_settings.schema);
 
 // Register options
 registerEditorOptions();
@@ -43,6 +43,7 @@ import App from './EditorApp.vue';
 
 // init data
 const appInstance = createApp(App);
+const piniaInstance = createPinia();
 
 // Init global components
 appInstance.use(I18nInstall, window.ZnI18NStrings);
@@ -51,7 +52,7 @@ appInstance.use(createPinia());
 
 // Init library sources
 const { addSources } = useLibrary();
-addSources(window.ZnPbInitalData.template_sources);
+addSources(window.ZnPbInitialData.template_sources);
 
 // Add error interceptor for API
 errorInterceptor(useNotificationsStore());
@@ -70,7 +71,7 @@ appInstance.component('SortablePlaceholder', SortablePlaceholder);
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
 	appInstance,
-	urls: window.ZnPbInitalData.urls,
+	urls: window.ZnPbInitialData.urls,
 };
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb);
 

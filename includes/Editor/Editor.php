@@ -277,7 +277,7 @@ class Editor {
 			Localization::get_strings()
 		);
 
-		wp_localize_script( 'zb-editor', 'ZnPbInitalData', $this->get_editor_initial_data() );
+		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 
 		do_action( 'zionbuilder/editor/after_scripts' );
 	}

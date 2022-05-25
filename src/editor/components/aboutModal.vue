@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		pluginInfo() {
-			return window.ZnPbInitalData.plugin_info;
+			return window.ZnPbInitialData.plugin_info;
 		},
 		pluginProUpdate() {
 			return this.pluginInfo.pro_plugin_update || {};

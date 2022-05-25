@@ -14,7 +14,7 @@ export function useAutosave() {
 
 			setTimeout(() => {
 				canAutosave = true;
-			}, window.ZnPbInitalData.autosaveInterval * 1000);
+			}, window.ZnPbInitialData.autosaveInterval * 1000);
 		}
 	});
 }
