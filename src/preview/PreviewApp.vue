@@ -3,7 +3,7 @@
 		<!-- <SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" /> -->
 
 		<!-- <PageStyles
-			:css-classes="CSSClasses"
+			:css-classes="cssClasses.CSSClasses"
 			:page-settings-model="pageSettings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/> -->
@@ -20,7 +20,7 @@ import { computed, ref, watch, provide } from 'vue';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
 // import { useElementsStore } from '../editor/store';
-import { useUIStore, usePageSettingsStore } from '../editor/store';
+import { useUIStore, usePageSettingsStore, useCSSClassesStore } from '../editor/store';
 
 export default {
 	name: 'PreviewApp',
@@ -31,7 +31,7 @@ export default {
 	},
 	setup() {
 		// const { getSchema } = useOptionsSchemas();
-		// const { CSSClasses } = useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 		const UIStore = useUIStore();
 		const pageSettings = usePageSettingsStore();
 
@@ -74,7 +74,7 @@ export default {
 			element,
 			showExportModal,
 			// getSchema,
-			// CSSClasses,
+			cssClasses,
 			pageSettings,
 			previewAppClasses,
 		};

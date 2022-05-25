@@ -75,7 +75,7 @@
 <script>
 import { computed } from 'vue';
 import CssSelector from './CssSelector.vue';
-import { useCSSClasses } from '../../../composables';
+import { useCSSClassesStore } from '../../../store';
 
 export default {
 	name: 'ClassSelectorDropdown',
@@ -109,8 +109,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { CSSClasses, getClassesByFilter, addCSSClass, copyClassStyles, pasteClassStyles, getStylesConfig } =
-			useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 		const showRemoveExtraClasses = computed(() => {
 			return props.modelValue && props.modelValue.length > 0;
 		});
@@ -119,11 +118,11 @@ export default {
 			// If this is a
 			if (selectorConfig.type === 'class') {
 				// Get the class config
-				const stylesConfig = getStylesConfig(selectorConfig.selector);
-				copyClassStyles(stylesConfig);
+				const stylesConfig = cssClasses.getStylesConfig(selectorConfig.selector);
+				cssClasses.copyClassStyles(stylesConfig);
 			} else {
 				// Get the config from id
-				copyClassStyles(props.activeModelValue);
+				cssClasses.copyClassStyles(props.activeModelValue);
 			}
 		}
 
@@ -131,7 +130,7 @@ export default {
 			// If this is a
 			if (selectorConfig.type === 'class') {
 				// Get the class config
-				pasteClassStyles(selectorConfig.selector);
+				cssClasses.pasteClassStyles(selectorConfig.selector);
 			} else {
 				// Get the config from id
 				emit('paste-style-model');
@@ -140,9 +139,7 @@ export default {
 
 		return {
 			showRemoveExtraClasses,
-			CSSClasses,
-			getClassesByFilter,
-			addCSSClass,
+			cssClasses,
 
 			// Methods
 			onCopyStyles,
@@ -181,7 +178,7 @@ export default {
 		activeClassConfig() {
 			if (this.activeClass !== this.selector) {
 				let that = this;
-				let className = this.CSSClasses.find(({ id }) => id === that.activeClass);
+				let className = this.cssClasses.CSSClasses.find(({ id }) => id === that.activeClass);
 				return {
 					type: 'class',
 					name: className ? className.name : that.activeClass,
@@ -194,7 +191,7 @@ export default {
 			if (this.keyword.length === 0) {
 				let extraClasses = [];
 				this.computedValue.forEach(selector => {
-					let className = this.CSSClasses.find(({ id }) => id === selector);
+					let className = this.cssClasses.CSSClasses.find(({ id }) => id === selector);
 
 					if (className) {
 						extraClasses.push({
@@ -208,7 +205,7 @@ export default {
 
 				return [this.computedSelectorConfig, ...extraClasses];
 			} else {
-				return this.getClassesByFilter(this.keyword).map(selectorConfig => {
+				return this.cssClasses.getClassesByFilter(this.keyword).map(selectorConfig => {
 					return {
 						type: 'class',
 						selector: selectorConfig.id,
@@ -343,12 +340,12 @@ export default {
 				this.dropdownState = false;
 
 				// check if the class already exists
-				const existingClass = this.CSSClasses.find(classItem => {
+				const existingClass = this.cssClasses.CSSClasses.find(classItem => {
 					return classItem.name.toLowerCase() === this.keyword;
 				});
 
 				if (!existingClass) {
-					this.addCSSClass({
+					this.cssClasses.addCSSClass({
 						id: this.keyword,
 						name: this.keyword,
 					});

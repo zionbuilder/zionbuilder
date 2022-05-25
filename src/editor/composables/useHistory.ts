@@ -1,8 +1,7 @@
 import { ref, Ref, computed } from 'vue';
 import { each } from 'lodash-es';
 import { useTemplateParts } from './useTemplateParts';
-import { usePageSettingsStore } from '../store';
-import { useCSSClasses } from './useCSSClasses';
+import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '@common/modules/i18n';
 import { useEditElement } from './useEditElement';
@@ -113,7 +112,7 @@ export function useHistory() {
 		const { getActivePostTemplatePart } = useTemplateParts();
 		const contentTemplatePart = getActivePostTemplatePart();
 		const pageSettings = usePageSettingsStore();
-		const { CSSClasses } = useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 		const { editorData } = useEditorData();
 
 		if (!contentTemplatePart) {
@@ -126,7 +125,7 @@ export function useHistory() {
 				page_id: editorData.value.page_id,
 				template_data: contentTemplatePart.toJSON(),
 				page_settings: pageSettings.settings,
-				css_classes: CSSClasses.value,
+				css_classes: cssClasses.CSSClasses,
 			}),
 		);
 	}

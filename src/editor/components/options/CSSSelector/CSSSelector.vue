@@ -86,7 +86,7 @@ import { generateUID } from '@common/utils';
 // Components
 import AddChildActions from './AddChildActions.vue';
 import PseudoSelector from './PseudoSelector.vue';
-import { useCSSClasses } from '../../../composables';
+import { useCSSClassesStore } from '../../../store';
 
 export default {
 	name: 'CSSSelector',
@@ -142,7 +142,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { copiedStyles, copyClassStyles } = useCSSClasses();
+		const cssClassesStore = useCSSClassesStore();
 		const showChilds = ref(false);
 		const uid = generateUID();
 		const canShow = ref(false);
@@ -155,22 +155,21 @@ export default {
 				{
 					title: translate('copy_element_styles'),
 					action: () => {
-						copyClassStyles(value.value.styles);
+						cssClassesStore.copyClassStyles(value.value.styles);
 					},
 					icon: 'copy',
 				},
 				{
 					title: translate('paste_element_styles'),
 					action: () => {
-						const { copiedStyles } = useCSSClasses();
-						const clonedCopiedStyles = cloneDeep(copiedStyles.value);
+						const clonedCopiedStyles = cloneDeep(cssClassesStore.copiedStyles);
 						if (!value.value.styles) {
 							value.value.styles = clonedCopiedStyles;
 						} else {
 							value.value.styles = merge(value.value.styles, clonedCopiedStyles);
 						}
 					},
-					show: !!copiedStyles.value,
+					show: !!cssClassesStore.copiedStyles,
 					icon: 'paste',
 				},
 				{

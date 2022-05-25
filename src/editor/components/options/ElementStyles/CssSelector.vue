@@ -31,7 +31,7 @@
 			icon="paste"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
-				'znpb-css-class-selector__item-paste--disabled': !copiedStyles,
+				'znpb-css-class-selector__item-paste--disabled': !cssClasses.copiedStyles,
 			}"
 			@click.stop="$emit('paste-styles')"
 		/>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { useCSSClasses } from '../../../composables';
+import { useCSSClassesStore } from '../../../store';
 
 export default {
 	name: 'CssSelector',
@@ -90,7 +90,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { copiedStyles } = useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 
 		function handleDeleteClass() {
 			if (props.showDelete) {
@@ -100,7 +100,7 @@ export default {
 
 		return {
 			handleDeleteClass,
-			copiedStyles,
+			cssClasses,
 		};
 	},
 };

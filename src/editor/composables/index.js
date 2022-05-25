@@ -7,7 +7,6 @@ export * from './useElementMenu';
 export * from './useSavePage';
 export * from './usePreviewLoading';
 export * from './useEditElement';
-export * from './useCSSClasses';
 export * from './useKeyBindings';
 export * from './useEditorData';
 export * from './usePostLock';

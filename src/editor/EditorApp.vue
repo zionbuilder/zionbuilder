@@ -133,7 +133,7 @@ import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, usePreviewLoading, useEditorData, useAutosave, useWindows } from './composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
-import { useElementsStore, useUIStore } from './store';
+import { useElementsStore, useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
 import { serverRequest } from './api';
 
 // WordPress hearbeat
@@ -162,6 +162,14 @@ export default {
 		const { applyShortcuts } = useKeyBindings();
 		const { isPreviewLoading } = usePreviewLoading();
 		const { editorData } = useEditorData();
+
+		// Setup initial data for stores
+		const cssClasses = useCSSClassesStore();
+		cssClasses.setCSSClasses(window.ZnPbInitalData.css_classes);
+
+		// Setup initial data for page settings
+		const pageSettings = usePageSettingsStore();
+		pageSettings.settings = window.ZnPbInitalData.page_settings.values;
 
 		const mainBarDraggingPlaceholderStyles = computed(() => {
 			return {

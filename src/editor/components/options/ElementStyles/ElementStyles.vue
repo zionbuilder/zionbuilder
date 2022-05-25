@@ -27,7 +27,7 @@ import { merge, cloneDeep } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
 import { useOptionsSchemas } from '@common/composables';
-import { useCSSClasses } from '../../../composables';
+import { useCSSClassesStore } from '../../../store';
 
 export default {
 	name: 'ElementStyles',
@@ -54,11 +54,10 @@ export default {
 	},
 	setup(props, { emit }) {
 		const { getSchema } = useOptionsSchemas();
-		const { getClassConfig, updateCSSClass } = useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 
 		function onPasteToSelector() {
-			const { copiedStyles } = useCSSClasses();
-			const clonedCopiedStyles = cloneDeep(copiedStyles.value);
+			const clonedCopiedStyles = cloneDeep(cssClasses.copiedStyles);
 			if (!props.modelValue.styles) {
 				updateValues('styles', clonedCopiedStyles);
 			} else {
@@ -80,8 +79,7 @@ export default {
 
 		return {
 			getSchema,
-			getClassConfig,
-			updateCSSClass,
+			cssClasses,
 			onPasteToSelector,
 			updateValues,
 		};
@@ -106,7 +104,7 @@ export default {
 		computedStyles: {
 			get() {
 				if (this.activeClass !== this.selector) {
-					const activeClassConfig = this.getClassConfig(this.activeClass);
+					const activeClassConfig = this.cssClasses.getClassConfig(this.activeClass);
 					if (activeClassConfig) {
 						return activeClassConfig.styles;
 					}
@@ -120,7 +118,7 @@ export default {
 			},
 			set(newValues) {
 				if (this.activeClass !== this.selector) {
-					this.updateCSSClass(this.activeClass, {
+					this.cssClasses.updateCSSClass(this.activeClass, {
 						styles: newValues,
 					});
 				} else {

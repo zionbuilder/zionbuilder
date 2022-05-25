@@ -27,7 +27,7 @@
 </template>
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue';
-import { useCSSClasses } from '../../../composables';
+import { useCSSClassesStore } from '../../../store';
 import AddSelector from '../common/AddSelector.vue';
 
 export default {
@@ -36,8 +36,7 @@ export default {
 		AddSelector,
 	},
 	setup(props) {
-		const { CSSClasses, addCSSClass, getClassesByFilter, removeCSSClass, setCSSClasses, removeAllCssClasses } =
-			useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 		const keyword = ref('');
 		const activeClass = ref(null);
 		const breadCrumbConfig = ref({
@@ -50,9 +49,9 @@ export default {
 
 		const filteredClasses = computed(() => {
 			if (keyword.value.length === 0) {
-				return CSSClasses.value;
+				return cssClasses.CSSClasses;
 			} else {
-				return getClassesByFilter(keyword.value);
+				return cssClasses.getClassesByFilter(keyword.value);
 			}
 		});
 
@@ -76,7 +75,7 @@ export default {
 		const value = computed({
 			get() {
 				const modelValue = {};
-				const existingCSSClasses = CSSClasses.value;
+				const existingCSSClasses = cssClasses.CSSClasses;
 
 				existingCSSClasses.forEach(cssClassConfig => {
 					const { uid } = cssClassConfig;
@@ -87,7 +86,7 @@ export default {
 			},
 			set(newValue) {
 				if (null === newValue) {
-					removeAllCssClasses();
+					cssClasses.removeAllCssClasses();
 				} else {
 					const classes = [];
 
@@ -95,7 +94,7 @@ export default {
 						const selectorValue = newValue[selectorId];
 						classes.push(selectorValue);
 					});
-					setCSSClasses(classes);
+					cssClasses.setCSSClasses(classes);
 				}
 			},
 		});
@@ -111,7 +110,7 @@ export default {
 		}
 
 		function deleteClass(classItem) {
-			removeCSSClass(classItem);
+			cssClasses.removeCSSClass(classItem);
 		}
 
 		function closeAccordion() {
@@ -126,7 +125,7 @@ export default {
 		}
 
 		function onSelectorAdd(config) {
-			addCSSClass({
+			cssClasses.addCSSClass({
 				id: config.selector,
 				name: config.title,
 			});
@@ -144,10 +143,6 @@ export default {
 			filteredClasses,
 			keyword,
 			activeClass,
-			breadCrumbConfig,
-			CSSClasses,
-			removeCSSClass,
-			getClassesByFilter,
 			horizontalAccordion,
 			// Methods
 			onItemSelected,

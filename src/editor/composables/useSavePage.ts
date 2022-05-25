@@ -1,8 +1,7 @@
 import { savePage as savePageREST } from '@common/api';
 import { ref, Ref } from 'vue';
 import { useTemplateParts } from './useTemplateParts';
-import { usePageSettingsStore } from '../store';
-import { useCSSClasses } from './useCSSClasses';
+import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '@common/modules/i18n';
 import { useNotificationsStore } from '@common/store';
@@ -18,7 +17,7 @@ export function useSavePage() {
 		const { getActivePostTemplatePart } = useTemplateParts();
 		const contentTemplatePart = getActivePostTemplatePart();
 		const pageSettings = usePageSettingsStore();
-		const { CSSClasses } = useCSSClasses();
+		const cssClasses = useCSSClassesStore();
 		const { editorData } = useEditorData();
 		const { setDirtyStatus } = useHistory();
 
@@ -33,7 +32,7 @@ export function useSavePage() {
 			page_id: editorData.value.page_id,
 			template_data: contentTemplatePart.toJSON(),
 			page_settings: pageSettings.settings,
-			css_classes: CSSClasses.value,
+			css_classes: cssClasses.CSSClasses,
 			breakpoints: responsiveDevices.value,
 		};
 
