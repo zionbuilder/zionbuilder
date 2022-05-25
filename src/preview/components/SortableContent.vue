@@ -2,7 +2,7 @@
 	<Sortable
 		v-model="element.content"
 		:group="groupInfo"
-		:disabled="isPreviewMode"
+		:disabled="UIStore.isPreviewMode"
 		:allow-duplicate="true"
 		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
@@ -54,6 +54,9 @@ import { get } from 'lodash-es';
 
 // Components
 import Element from './Element.vue';
+
+// Stores
+import { useUIStore } from '../../editor/store';
 
 export default {
 	name: 'SortableContent',
@@ -121,7 +124,7 @@ export default {
 			return orientation;
 		});
 
-		const { isPreviewMode } = window.zb.editor.usePreviewMode();
+		const UIStore = useUIStore();
 		const { isDragging, setDraggingState } = window.zb.editor.useIsDragging();
 		const { copyElement } = window.zb.editor.useElementActions();
 
@@ -147,7 +150,7 @@ export default {
 		}
 
 		return {
-			isPreviewMode,
+			UIStore,
 			groupInfo,
 			getSortableAxis,
 			showAddElementsPopup,

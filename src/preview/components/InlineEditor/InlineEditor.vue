@@ -15,7 +15,7 @@
 	>
 		<template #content>
 			<div
-				v-if="!isPreviewMode && tinyMceReady"
+				v-if="!UIStore.isPreviewMode && tinyMceReady"
 				ref="tooltipContentRef"
 				class="zion-inline-editor zion-inline-editor-container"
 				:class="{ 'zion-inline-editor--dragging': isDragging }"
@@ -89,6 +89,9 @@ import PanelLink from './inlineEditorComponents/PanelLink.vue';
 import TextAlign from './inlineEditorComponents/TextAlign.vue';
 import FontStyle from './inlineEditorComponents/FontStyles.vue';
 
+// Stores
+import { useUIStore } from '../../../editor/store';
+
 export default {
 	name: 'InlineEditor',
 	components: {
@@ -114,7 +117,7 @@ export default {
 		let TinyMCEEditor = {
 			editor: null,
 		};
-		const { isPreviewMode } = window.zb.editor.usePreviewMode();
+		const UIStore = useUIStore();
 		const { modelValue } = toRefs(props);
 		const inlineEditorRef = ref(null);
 		const tooltipContentRef = ref(null);
@@ -339,7 +342,7 @@ export default {
 		});
 
 		return {
-			isPreviewMode,
+			UIStore,
 			inlineEditorRef,
 			tooltipContentRef,
 			showEditor,

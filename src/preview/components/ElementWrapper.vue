@@ -38,6 +38,7 @@
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
 import { applyFilters } from '@common/modules/hooks';
+import { useOptionsSchemas, usePseudoSelectors } from '@common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';
@@ -48,7 +49,7 @@ import VideoBackground from './VideoBackground.vue';
 // Composables
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
-import { useOptionsSchemas, usePseudoSelectors } from '@common/composables';
+import { useUIStore } from '../../editor/store';
 
 let clickHandled = false;
 
@@ -63,7 +64,7 @@ export default {
 	props: ['element'],
 	setup(props) {
 		const root = ref(null);
-		const { isPreviewMode } = window.zb.editor.usePreviewMode();
+		const UIStore = useUIStore();
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
 		const { getSchema } = useOptionsSchemas();
 		const { activePseudoSelector } = usePseudoSelectors();
@@ -184,10 +185,10 @@ export default {
 				(activeEditedElement.value === props.element || props.element.isHighlighted) &&
 				props.element.isVisible &&
 				!props.element.elementTypeModel.is_child &&
-				!isPreviewMode.value
+				!UIStore.isPreviewMode
 			);
 		});
-		const canShowElement = computed(() => (isPreviewMode.value ? !(options.value._isVisible === false) : true));
+		const canShowElement = computed(() => (UIStore.isPreviewMode ? !(options.value._isVisible === false) : true));
 		const videoConfig = computed(() =>
 			get(options.value, '_styles.wrapper.styles.default.default.background-video', {}),
 		);
@@ -298,7 +299,7 @@ export default {
 		 * On context menu open
 		 */
 		const showElementMenu = function (event) {
-			if (!isPreviewMode.value) {
+			if (!UIStore.isPreviewMode) {
 				event.preventDefault();
 				event.stopPropagation();
 
@@ -317,7 +318,7 @@ export default {
 
 			const { editElement } = window.zb.editor.useEditElement();
 
-			if (!isPreviewMode.value) {
+			if (!UIStore.isPreviewMode) {
 				editElement(props.element);
 			}
 
