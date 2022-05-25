@@ -7,7 +7,7 @@
 		}"
 	>
 		<transition name="slide-from-left">
-			<div v-show="isPreviewMode" :style="showEditorButtonStyle" class="znpb-editor-layout__preview-buttons">
+			<div v-show="UIStore.isPreviewMode" :style="showEditorButtonStyle" class="znpb-editor-layout__preview-buttons">
 				<div class="znpb-editor-layout__preview-button" @click="showPanels">
 					<Icon icon="layout" />
 				</div>
@@ -79,7 +79,7 @@
 				<component
 					:is="panel.component"
 					v-for="panel in UIStore.openPanels"
-					v-show="!isPreviewMode || panel.id === 'preview-iframe'"
+					v-show="!UIStore.isPreviewMode || panel.id === 'preview-iframe'"
 					:key="panel.id"
 					:panel="panel"
 				/>
@@ -130,14 +130,7 @@ import SaveElementModal from './components/SaveElementModal.vue';
 // Composables
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
-import {
-	usePreviewMode,
-	useKeyBindings,
-	usePreviewLoading,
-	useEditorData,
-	useAutosave,
-	useWindows,
-} from './composables';
+import { useKeyBindings, usePreviewLoading, useEditorData, useAutosave, useWindows } from './composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
 import { useElementsStore, useUIStore } from './store';
@@ -166,7 +159,6 @@ export default {
 		const { notifications } = storeToRefs(useNotificationsStore());
 		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
 			useResponsiveDevices();
-		const { isPreviewMode, setPreviewMode } = usePreviewMode();
 		const { applyShortcuts } = useKeyBindings();
 		const { isPreviewLoading } = usePreviewLoading();
 		const { editorData } = useEditorData();
@@ -222,8 +214,6 @@ export default {
 			activeResponsiveDeviceInfo,
 			responsiveDevices,
 			setActiveResponsiveDeviceId,
-			isPreviewMode,
-			setPreviewMode,
 			applyShortcuts,
 			isPreviewLoading,
 			urls: editorData.value.urls,
@@ -262,7 +252,7 @@ export default {
 			}, 50);
 		},
 		showPanels() {
-			this.setPreviewMode(false);
+			this.UIStore.setPreviewMode(false);
 		},
 		showDevices() {
 			this.devicesVisible = !this.devicesVisible;

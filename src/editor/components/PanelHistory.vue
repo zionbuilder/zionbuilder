@@ -1,11 +1,5 @@
 <template>
-	<BasePanel
-		:panel-name="$translate('history_panel')"
-		panel-id="panel-history"
-		:show-expand="false"
-		:panel="panel"
-		@close-panel="panel.close()"
-	>
+	<BasePanel :panel-name="$translate('history_panel')" panel-id="panel-history" :show-expand="false" :panel="panel">
 		<div class="znpb-panel__history_panel_wrapper">
 			<div ref="historyPanelWrapper" class="znpb-history-wrapper znpb-fancy-scrollbar">
 				<ul class="znpb-history-actions">
@@ -38,6 +32,7 @@
 
 <script>
 import { useHistory } from '../composables';
+import { useUIStore } from '../store';
 
 // Components
 import BasePanel from './BasePanel.vue';
@@ -52,8 +47,10 @@ export default {
 	},
 	setup(props) {
 		const { canUndo, canRedo, currentHistoryIndex, historyItems, restoreHistoryState, undo, redo } = useHistory();
+		const UIStore = useUIStore();
 
 		return {
+			UIStore,
 			canUndo,
 			canRedo,
 			currentHistoryIndex,

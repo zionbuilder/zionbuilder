@@ -1,6 +1,6 @@
 <template>
 	<BasePanel
-		ref="basepanel"
+		ref="basePanel"
 		:panel-name="$translate('tree_view_panel')"
 		panel-id="panel-tree"
 		:css-class="activeTreeView.basePanelCssClass"
@@ -8,7 +8,6 @@
 		:show-header="activeTreeView.showBasePanelHeader"
 		:show-expand="false"
 		:panel="panel"
-		@close-panel="panel.close()"
 	>
 		<div class="znpb-tree-view__header">
 			<div class="znpb-tree-view__header-menu">
@@ -47,7 +46,7 @@ import WireframeView from './wireFrame/WireframePanel.vue';
 import BasePanel from '../BasePanel.vue';
 import { usePreviewLoading, useEditorData } from '../../composables';
 import { translate } from '@common/modules/i18n';
-import { useElementsStore } from '../../store';
+import { useElementsStore, useUIStore } from '../../store';
 
 export default {
 	name: 'PanelTree',
@@ -65,6 +64,7 @@ export default {
 		const { editorData } = useEditorData();
 		const element = computed(() => elementsStore.getElement(editorData.value.page_id));
 		const { isPreviewLoading } = usePreviewLoading();
+		const UIStore = useUIStore();
 
 		// Tree view types
 		const treeViewTypes = [
@@ -89,24 +89,24 @@ export default {
 		];
 
 		const activeTreeView = ref(treeViewTypes[0]);
-		const basepanel = ref(null);
+		const basePanel = ref(null);
 		const panelDetachedState = ref(null);
 
 		const activateTree = treeType => {
 			activeTreeView.value = treeType;
 			if (treeType.id === 'WireframeView') {
-				panelDetachedState.value = basepanel.value.panel.isDetached;
-				props.panel.set('isDetached', false);
+				panelDetachedState.value = basePanel.value.panel.isDetached;
+				UIStore.updatePanel(props.panel.id, 'isDetached', false);
 			} else {
 				if (panelDetachedState.value) {
-					props.panel.set('isDetached', panelDetachedState.value);
+					UIStore.updatePanel(props.panel.id, 'isDetached', panelDetachedState.value);
 					panelDetachedState.value = null;
 				}
 			}
 		};
 
 		const closeWireframe = () => {
-			props.panel.close();
+			UIStore.closePanel(props.panel.id);
 		};
 
 		return {
@@ -115,7 +115,7 @@ export default {
 			treeViewTypes,
 			activateTree,
 			closeWireframe,
-			basepanel,
+			basePanel,
 			isPreviewLoading,
 		};
 	},

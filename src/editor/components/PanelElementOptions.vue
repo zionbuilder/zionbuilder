@@ -145,6 +145,7 @@ import { isEditable, Environment } from '@common/utils';
 import { useEditElement, useElementProvide, useWindows, useHistory } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '@common/composables';
 import { debounce } from 'lodash-es';
+import { useUIStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
@@ -168,6 +169,7 @@ export default {
 		const searchActive = ref(false);
 		const history = ref([]);
 		const historyIndex = ref(0);
+		const UIStore = useUIStore();
 
 		const optionsFilterKeyword = ref('');
 
@@ -301,6 +303,7 @@ export default {
 			undo,
 			redo,
 			optionsFilterKeyword,
+			UIStore,
 		};
 	},
 	data() {
@@ -574,7 +577,7 @@ export default {
 		},
 		closeOptionsPanel() {
 			this.addToGlobalHistory();
-			this.panel.close();
+			this.UIStore.closePanel(this.panel.id);
 			this.unEditElement();
 		},
 		onKeyPress(e) {

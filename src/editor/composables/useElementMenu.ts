@@ -1,15 +1,15 @@
 import { ref, Ref } from 'vue';
 import { Element } from '../models';
-import { usePreviewMode } from './usePreviewMode';
+import { useUIStore } from '../store';
 
 const activeElementMenu: Ref<null | object> = ref(null);
 
 export function useElementMenu() {
 	const showElementMenu = (element: Element, selector, actions = {}) => {
 		// Don't show on preview mode
-		const { isPreviewMode } = usePreviewMode();
+		const UIStore = useUIStore();
 
-		if (isPreviewMode.value) {
+		if (UIStore.isPreviewMode.value) {
 			return;
 		}
 

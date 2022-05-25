@@ -10,13 +10,7 @@
 
 			<slot name="header" />
 
-			<Icon
-				v-if="showClose"
-				icon="close"
-				:size="14"
-				class="znpb-panel__header-icon-close"
-				@click.stop="$emit('close-panel')"
-			/>
+			<Icon v-if="showClose" icon="close" :size="14" class="znpb-panel__header-icon-close" @click.stop="closePanel" />
 
 			<slot name="header-suffix"></slot>
 		</div>
@@ -43,7 +37,6 @@
 </template>
 <script>
 import { computed, ref, onBeforeUnmount, onMounted, nextTick } from 'vue';
-import { storeToRefs } from 'pinia';
 import rafSchd from 'raf-schd';
 import { useWindows } from '../composables';
 import { useUIStore } from '../store';
@@ -123,7 +116,10 @@ export default {
 			classes += props.panel.isDragging ? ' znpb-editor-panel--dragging' : '';
 
 			if (!props.panel.isDetached) {
-				classes += props.panel.placement === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left';
+				classes +=
+					UIStore.getPanelPlacement(props.panel.id) === 'right'
+						? ' znpb-editor-panel--right'
+						: ' znpb-editor-panel--left';
 			}
 			return classes;
 		});
@@ -132,7 +128,7 @@ export default {
 			const cssStyles = {
 				width: props.panel.width + 'px',
 				height: props.panel.isDetached ? (props.panel.height ? props.panel.height + 'px' : '90%') : '100%',
-				order: props.panel.order,
+				order: UIStore.getPanelOrder(props.panel.id),
 
 				// Positions for detached
 				top:
@@ -171,7 +167,7 @@ export default {
 			const { clientX, clientY } = event;
 
 			// Get initial position
-			oldIndex = props.panel.index;
+			oldIndex = UIStore.getPanelIndex(props.panel.id);
 
 			boundingClientRect = root.value.getBoundingClientRect();
 			const parentClientRect = root.value.parentNode.getBoundingClientRect();
@@ -193,13 +189,10 @@ export default {
 			window.addEventListener('mouseup', onMouseUp);
 		}
 
-		let oldX = null;
-		let moveDirection = null;
 		function movePanel(event) {
 			const { posX, posY, oldTop, oldLeft, parentClientRect } = initialMovePosition;
 			const { height: parentHeight, width: parentWidth } = parentClientRect;
 			const { clientY, clientX } = event;
-			moveDirection = clientX <= oldX ? 'left' : 'right';
 
 			if (!props.panel.isDragging) {
 				const xMoved = Math.abs(posX - clientX);
@@ -208,8 +201,8 @@ export default {
 
 				// Check if we should detach the panel
 				if (xMoved > dragThreshold || yMoved > dragThreshold) {
-					props.panel.set('isDetached', true);
-					props.panel.set('isDragging', true);
+					UIStore.updatePanel(props.panel.id, 'isDetached', true);
+					UIStore.updatePanel(props.panel.id, 'isDragging', true);
 
 					nextTick(() => {
 						// Recalculate the height of the panel
@@ -265,7 +258,7 @@ export default {
 								panel: possibleHoverPanel,
 							});
 
-							newIndex = possibleHoverPanel.index;
+							newIndex = UIStore.getPanelIndex(possibleHoverPanel.id);
 						} else if (movedAmmount + boundingClientRect.width > boundingClient.left + boundingClient.width - 50) {
 							const left =
 								boundingClient.left + boundingClient.width >= window.innerWidth
@@ -279,7 +272,7 @@ export default {
 								panel: possibleHoverPanel,
 							});
 
-							newIndex = possibleHoverPanel.index + 1;
+							newIndex = UIStore.getPanelIndex(possibleHoverPanel.id) + 1;
 						} else {
 							UIStore.setPanelPlaceholder({
 								visibility: false,
@@ -293,8 +286,6 @@ export default {
 					}
 				});
 			}
-
-			oldX = clientX;
 		}
 
 		const rafMovePanel = rafSchd(movePanel);
@@ -342,7 +333,7 @@ export default {
 			};
 
 			if (null !== oldIndex && null !== newIndex) {
-				props.panel.set('isDetached', false);
+				UIStore.updatePanel(props.panel.id, 'isDetached', false);
 				updatePosition(oldIndex, newIndex);
 			}
 
@@ -374,11 +365,11 @@ export default {
 		function resizeHorizontal(event) {
 			const draggedHorizontal = event.clientX - initialHMouseX;
 			const width =
-				props.panel.placement === 'left' || props.panel.isDetached
+				UIStore.getPanelPlacement(props.panel.id) === 'left' || props.panel.isDetached
 					? draggedHorizontal + initialWidth
 					: -draggedHorizontal + initialWidth;
 
-			props.panel.set('width', width < 360 ? 360 : width, true);
+			UIStore.updatePanel(props.panel.id, 'width', width < 360 ? 360 : width);
 		}
 
 		function deactivateHorizontal() {
@@ -408,13 +399,14 @@ export default {
 		}
 
 		function resizeVertical(event) {
-			props.panel.set('isDetached', true);
+			UIStore.updatePanel(props.panel.id, 'isDetached', true);
 
 			const draggedVertical = event.clientY - initialVMouseY;
 			const newHeightValue = initialHeight + draggedVertical;
 
 			if (event.clientY < window.innerHeight) {
-				props.panel.set(
+				UIStore.updatePanel(
+					props.panel.id,
 					'height',
 					newHeightValue > root.value.parentNode.clientHeight ? root.value.parentNode.clientHeight : newHeightValue,
 				);
@@ -437,7 +429,7 @@ export default {
 		 */
 		function onKeyDown(event) {
 			if (event.which === 27) {
-				emit('close-panel');
+				closePanel();
 				event.stopImmediatePropagation();
 			}
 		}
@@ -459,6 +451,11 @@ export default {
 				posY: panelOffset.value.top,
 			};
 		});
+
+		function closePanel() {
+			UIStore.closePanel(props.panel.id);
+			emit('close-panel');
+		}
 
 		onBeforeUnmount(() => {
 			window.removeEventListener('mousemove', rafResizeHorizontal);
@@ -487,6 +484,7 @@ export default {
 			onMouseUp,
 			activateHorizontalResize,
 			activateVerticalResize,
+			closePanel,
 		};
 	},
 };

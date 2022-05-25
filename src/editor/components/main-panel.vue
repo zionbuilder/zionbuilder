@@ -5,7 +5,7 @@
 		:class="{
 			'znpb-editor-panel__container--dragging': UIStore.mainBar.isDragging,
 			[`znpb-editor-header--${UIStore.mainBar.position}`]: UIStore.mainBar.position,
-			[`znpb-editor-header--hide-${UIStore.mainBar.position}`]: isPreviewMode,
+			[`znpb-editor-header--hide-${UIStore.mainBar.position}`]: UIStore.isPreviewMode,
 		}"
 		:style="panelStyles"
 		@mousedown.stop="startBarDrag"
@@ -140,10 +140,9 @@
 
 <script>
 import { ref, computed, onBeforeUnmount } from 'vue';
-import { storeToRefs } from 'pinia';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
-import { useTemplateParts, useSavePage, useEditorData, useSaveTemplate, usePreviewMode } from '../composables';
+import { useTemplateParts, useSavePage, useEditorData, useSaveTemplate } from '../composables';
 import { translate } from '@common/modules/i18n';
 import { useBuilderOptionsStore } from '@common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
@@ -168,7 +167,6 @@ export default {
 		const { editorData } = useEditorData();
 		const { showSaveElement } = useSaveTemplate();
 		const { getOptionValue } = useBuilderOptionsStore();
-		const { isPreviewMode } = usePreviewMode();
 
 		// Reactive data
 		const editorHeaderRef = ref(null);
@@ -387,7 +385,6 @@ export default {
 			editorHeaderRef,
 			aboutModalVisibility,
 			shortcutsModalVisibility,
-			isPreviewMode,
 			draggingPosition,
 			UIStore,
 

@@ -1,17 +1,9 @@
-import {
-	usePreviewMode,
-	useSavePage,
-	useEditorData,
-	useElementActions,
-	useHistory,
-	useEditElement,
-} from '../composables';
+import { useSavePage, useEditorData, useElementActions, useHistory, useEditElement } from '../composables';
 import { isEditable, Environment } from '@common/utils';
 import { useUIStore } from '../store';
 
 export const useKeyBindings = () => {
-	const { togglePanel, toggleLibrary } = useUIStore();
-	const { isPreviewMode, setPreviewMode } = usePreviewMode();
+	const UIStore = useUIStore();
 	const { savePage, isSavePageLoading } = useSavePage();
 	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions();
 	const { editorData } = useEditorData();
@@ -48,7 +40,7 @@ export const useKeyBindings = () => {
 
 		// Set preview mode
 		if (e.which === 80 && e[controllKey]) {
-			setPreviewMode(!isPreviewMode.value);
+			UIStore.setPreviewMode(!UIStore.isPreviewMode);
 			e.preventDefault();
 		}
 
@@ -57,7 +49,7 @@ export const useKeyBindings = () => {
 		}
 
 		// Keys bellow don't run in preview mode
-		if (isPreviewMode.value) {
+		if (UIStore.isPreviewMode) {
 			return;
 		}
 
@@ -146,19 +138,19 @@ export const useKeyBindings = () => {
 
 		// Toggle treeView panel
 		if (e.shiftKey && e.code === 'KeyT') {
-			togglePanel('panel-tree');
+			UIStore.togglePanel('panel-tree');
 			e.preventDefault();
 		}
 
 		// Opens Library
 		if (e.shiftKey && e.code === 'KeyL') {
-			toggleLibrary();
+			UIStore.toggleLibrary();
 			e.preventDefault();
 		}
 
 		// Opens Page options
 		if (e.shiftKey && e.code === 'KeyO') {
-			togglePanel('panel-global-settings');
+			UIStore.togglePanel('panel-global-settings');
 			e.preventDefault();
 		}
 	};

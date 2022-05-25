@@ -6,7 +6,6 @@ export * from './useAddElementsPopup';
 export * from './useElementMenu';
 export * from './useSavePage';
 export * from './usePreviewLoading';
-export * from './usePreviewMode';
 export * from './useEditElement';
 export * from './useCSSClasses';
 export * from './useKeyBindings';

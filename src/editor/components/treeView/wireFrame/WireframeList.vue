@@ -71,7 +71,7 @@ export default {
 
 			// Check media settings
 			const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
-			console.log({ mediaOrientation });
+
 			if (mediaOrientation) {
 				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
 			}

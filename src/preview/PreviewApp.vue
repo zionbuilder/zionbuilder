@@ -20,7 +20,7 @@ import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
 // import { useElementsStore } from '../editor/store';
-import { usePreviewMode } from '../editor/store';
+import { useUIStore } from '../editor/store';
 
 export default {
 	name: 'PreviewApp',
@@ -32,7 +32,7 @@ export default {
 	setup() {
 		const { getSchema } = useOptionsSchemas();
 		// const { CSSClasses } = window.zb.editor.useCSSClasses();
-		// const { isPreviewMode } = window.zb.editor.usePreviewMode();
+		const UIStore = useUIStore();
 		// const { pageSettings } = window.zb.editor.usePageSettings();
 
 		const element = computed(() => {
@@ -46,13 +46,13 @@ export default {
 		provide('plugin_info', window.ZnPbPreviewData.plugin_info);
 		provide('editor_urls', window.ZnPbPreviewData.urls);
 
-		// watch(isPreviewMode, newValue => {
-		// 	if (newValue) {
-		// 		window.document.body.classList.add('znpb-editor-preview--active');
-		// 	} else {
-		// 		window.document.body.classList.remove('znpb-editor-preview--active');
-		// 	}
-		// });
+		watch(UIStore.isPreviewMode, newValue => {
+			if (newValue) {
+				window.document.body.classList.add('znpb-editor-preview--active');
+			} else {
+				window.document.body.classList.remove('znpb-editor-preview--active');
+			}
+		});
 
 		// Allow other to hook into setup
 		doAction('zionbuilder/preview/app/setup');
@@ -74,7 +74,6 @@ export default {
 			showExportModal,
 			getSchema,
 			// CSSClasses,
-			// isPreviewMode,
 			// pageSettings,
 			previewAppClasses,
 		};

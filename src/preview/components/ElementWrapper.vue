@@ -61,7 +61,7 @@ export default {
 		ElementStyles,
 	},
 	props: ['element'],
-	setup(props, { emit }) {
+	setup(props) {
 		const root = ref(null);
 		const { isPreviewMode } = window.zb.editor.usePreviewMode();
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
