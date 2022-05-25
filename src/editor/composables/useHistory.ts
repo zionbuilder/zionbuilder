@@ -1,7 +1,7 @@
 import { ref, Ref, computed } from 'vue';
 import { each } from 'lodash-es';
 import { useTemplateParts } from './useTemplateParts';
-import { usePageSettings } from './usePageSettings';
+import { usePageSettingsStore } from '../store';
 import { useCSSClasses } from './useCSSClasses';
 import { useEditorData } from './useEditorData';
 import { translate } from '@common/modules/i18n';
@@ -112,7 +112,7 @@ export function useHistory() {
 	function getDataForSave() {
 		const { getActivePostTemplatePart } = useTemplateParts();
 		const contentTemplatePart = getActivePostTemplatePart();
-		const { pageSettings } = usePageSettings();
+		const pageSettings = usePageSettingsStore();
 		const { CSSClasses } = useCSSClasses();
 		const { editorData } = useEditorData();
 
@@ -125,7 +125,7 @@ export function useHistory() {
 			JSON.stringify({
 				page_id: editorData.value.page_id,
 				template_data: contentTemplatePart.toJSON(),
-				page_settings: pageSettings.value,
+				page_settings: pageSettings.settings,
 				css_classes: CSSClasses.value,
 			}),
 		);

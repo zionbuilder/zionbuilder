@@ -200,7 +200,7 @@ export const useUIStore = defineStore('ui', {
 		},
 		saveUI() {
 			const { updateUserData } = useUserData();
-			const uiData: Record<string, unknown> = {
+			const uiData = {
 				mainBar: {
 					position: this.mainBar.position,
 				},

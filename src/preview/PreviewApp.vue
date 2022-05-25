@@ -1,6 +1,6 @@
 <template>
 	<div class="zb" :class="previewAppClasses">
-		<SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" />
+		<!-- <SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" /> -->
 
 		<!-- <PageStyles
 			:css-classes="CSSClasses"
@@ -8,36 +8,37 @@
 			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/> -->
 
-		<!-- <ElementStyles :styles="pageSettings._custom_css" /> -->
+		<ElementStyles :styles="pageSettings.settings._custom_css" />
 	</div>
 </template>
 <script>
 import { computed, ref, watch, provide } from 'vue';
-import PageStyles from './components/PageStyles.vue';
-import ElementStyles from './components/ElementStyles.vue';
-import SortableContent from './components/SortableContent.vue';
-import { useOptionsSchemas } from '@common/composables';
+// import PageStyles from './components/PageStyles.vue';
+// import ElementStyles from './components/ElementStyles.vue';
+// import SortableContent from './components/SortableContent.vue';
+// import { useOptionsSchemas } from '@common/composables';
 import { doAction, applyFilters } from '@common/modules/hooks';
 
 // import { useElementsStore } from '../editor/store';
-import { useUIStore } from '../editor/store';
+import { useUIStore, usePageSettingsStore } from '../editor/store';
 
 export default {
 	name: 'PreviewApp',
 	components: {
-		SortableContent,
-		PageStyles,
-		ElementStyles,
+		// SortableContent,
+		// PageStyles,
+		// ElementStyles,
 	},
 	setup() {
-		const { getSchema } = useOptionsSchemas();
-		// const { CSSClasses } = window.zb.editor.useCSSClasses();
+		// const { getSchema } = useOptionsSchemas();
+		// const { CSSClasses } = useCSSClasses();
 		const UIStore = useUIStore();
-		// const { pageSettings } = window.zb.editor.usePageSettings();
+		const pageSettings = usePageSettingsStore();
 
 		const element = computed(() => {
 			// const elementsStore = useElementsStore();
 			// return elementsStore.getElement(window.ZnPbPreviewData.post.ID);
+			return null;
 		});
 		const showExportModal = ref(false);
 
@@ -72,9 +73,9 @@ export default {
 		return {
 			element,
 			showExportModal,
-			getSchema,
+			// getSchema,
 			// CSSClasses,
-			// pageSettings,
+			pageSettings,
 			previewAppClasses,
 		};
 	},

@@ -12,10 +12,9 @@
 <script>
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
-import { usePageSettings } from '../composables';
 import { useOptionsSchemas } from '@common/composables';
 import { translate } from '@common/modules/i18n';
-import { useUIStore } from '../store';
+import { useUIStore, usePageSettingsStore } from '../store';
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -24,15 +23,15 @@ export default {
 	},
 	setup() {
 		const UIStore = useUIStore();
+		const pageSettings = usePageSettingsStore();
 		const { getSchema } = useOptionsSchemas();
-		const { pageSettings, updatePageSettings } = usePageSettings();
 
 		const savedValues = computed({
 			get() {
-				return pageSettings.value;
+				return pageSettings.settings;
 			},
 			set(newValues) {
-				updatePageSettings(newValues);
+				pageSettings.updatePageSettings(newValues);
 			},
 		});
 

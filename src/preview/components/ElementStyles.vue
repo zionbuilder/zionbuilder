@@ -1,20 +1,20 @@
 <script>
-import { h } from 'vue'
+import { h } from 'vue';
 
 export default {
 	name: 'ElementStyles',
 	props: {
 		styles: {
-			type: String
-		}
+			type: String,
+		},
 	},
-	setup (props) {
+	setup(props) {
 		return () => {
 			if (props.styles) {
-				return h('style', props.styles)
+				return h('style', props.styles);
 			}
-			return null
-		}
-	}
-}
+			return null;
+		};
+	},
+};
 </script>

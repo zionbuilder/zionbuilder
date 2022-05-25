@@ -10,7 +10,6 @@ export * from './useEditElement';
 export * from './useCSSClasses';
 export * from './useKeyBindings';
 export * from './useEditorData';
-export * from './usePageSettings';
 export * from './usePostLock';
 export * from './useElementProvide';
 export * from './useIsDragging';
