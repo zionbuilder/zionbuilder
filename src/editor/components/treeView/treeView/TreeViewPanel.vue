@@ -45,7 +45,7 @@
 import { ref, computed } from 'vue';
 import { useEditorData, useHistory, useEditElement } from '../../../composables';
 import { translate } from '@common/modules/i18n';
-import { useElementsStore } from '../../../store';
+import { useContentStore } from '../../../store';
 
 export default {
 	name: 'TreeViewPanel',
@@ -72,15 +72,13 @@ export default {
 		}
 
 		function removeAllElements() {
+			const contentStore = useContentStore();
 			const { unEditElement } = useEditElement();
-			const elementsStore = useElementsStore();
 			const { editorData } = useEditorData();
 			const { addToHistory } = useHistory();
 
-			const rootElement = computed(() => elementsStore.getElement(editorData.value.page_id));
-
-			// Delete all elements
-			rootElement.value.content = [];
+			// clear area content
+			contentStore.clearAreaContent(editorData.value.page_id);
 
 			// Close edit element panel
 			unEditElement();

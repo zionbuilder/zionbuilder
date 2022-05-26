@@ -23,7 +23,6 @@ import { addAction, removeAction } from '@common/modules/hooks';
 import { each } from 'lodash-es';
 
 import {
-	useTemplateParts,
 	usePreviewLoading,
 	useKeyBindings,
 	useSavePage,
@@ -34,7 +33,7 @@ import {
 } from '../composables';
 import { useResponsiveDevices } from '@common/composables';
 import { useNotificationsStore } from '@common/store';
-import { useUIStore } from '../store';
+import { useUIStore, useContentStore } from '../store';
 
 export default {
 	name: 'PreviewIframe',
@@ -54,6 +53,7 @@ export default {
 		const { editorData } = useEditorData();
 		const { isDirty } = useHistory();
 		const UIStore = useUIStore();
+		const contentStore = useContentStore();
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows();
 
 		// Dom refs
@@ -257,6 +257,9 @@ export default {
 
 			// Iframe size tooltip
 			iframeWidth,
+
+			// Stores
+			contentStore,
 		};
 	},
 	data() {
@@ -283,17 +286,17 @@ export default {
 	},
 	methods: {
 		setPageContent(areas) {
-			const { registerTemplatePart } = useTemplateParts();
 			const { setContentTimestamp } = usePreviewLoading();
 
 			// New system
-			each(areas, (value, id) => {
-				const area = registerTemplatePart({
-					name: id,
-					id: id,
-				});
-
-				area.element.addChildren(value);
+			each(areas, (areaContent, id) => {
+				this.contentStore.registerArea(
+					{
+						name: id,
+						id: id,
+					},
+					areaContent,
+				);
 			});
 
 			// Add timestamp for content

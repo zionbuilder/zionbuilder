@@ -46,7 +46,7 @@ import WireframeView from './wireFrame/WireframePanel.vue';
 import BasePanel from '../BasePanel.vue';
 import { usePreviewLoading, useEditorData } from '../../composables';
 import { translate } from '@common/modules/i18n';
-import { useElementsStore, useUIStore } from '../../store';
+import { useContentStore, useUIStore } from '../../store';
 
 export default {
 	name: 'PanelTree',
@@ -60,9 +60,9 @@ export default {
 		panel: {},
 	},
 	setup(props) {
-		const elementsStore = useElementsStore();
+		const contentStore = useContentStore();
 		const { editorData } = useEditorData();
-		const element = computed(() => elementsStore.getElement(editorData.value.page_id));
+		const element = computed(() => contentStore.getElement(editorData.value.page_id));
 		const { isPreviewLoading } = usePreviewLoading();
 		const UIStore = useUIStore();
 

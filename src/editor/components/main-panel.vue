@@ -122,7 +122,7 @@
 				@mousedown="savePage"
 			>
 				<template #panel-icon>
-					<Icon v-if="!isSavePageLoading" icon="check" @mousedown.stop="onSaving" />
+					<Icon v-if="!isSavePageLoading" icon="check" @mousedown.stop="savePage" />
 
 					<Loader v-else :size="12" />
 				</template>
@@ -142,7 +142,7 @@
 import { ref, computed, onBeforeUnmount } from 'vue';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
-import { useTemplateParts, useSavePage, useEditorData, useSaveTemplate } from '../composables';
+import { useSavePage, useEditorData, useSaveTemplate } from '../composables';
 import { translate } from '@common/modules/i18n';
 import { useBuilderOptionsStore } from '@common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
@@ -349,20 +349,6 @@ export default {
 			UIStore.mainBar.isDragging = false;
 		}
 
-		function onSaving(status) {
-			const { getActivePostTemplatePart } = useTemplateParts();
-			const contentTemplatePart = getActivePostTemplatePart();
-
-			if (!contentTemplatePart) {
-				console.error('Content template data not found.');
-				return;
-			}
-
-			const pageContent = contentTemplatePart.toJSON();
-
-			savePage(pageContent, status);
-		}
-
 		function onAfterLeave() {
 			const el = document.querySelector('iframe');
 			el.style.transform = 'translateZ(0)';
@@ -397,7 +383,6 @@ export default {
 			saveActions,
 			isSavePageLoading,
 			savePage,
-			onSaving,
 			startBarDrag,
 			onAfterLeave,
 			onAfterEnter,

@@ -1,30 +1,23 @@
 <template>
 	<Sortable
+		v-model="templateItems"
 		tag="ul"
 		class="znpb-tree-view-wrapper"
-		v-model="templateItems"
 		group="pagebuilder-treview-elements"
+		handle=".znpb-tree-view__itemIcon"
 		@start="sortableStart"
 		@end="sortableEnd"
-		handle=".znpb-tree-view__itemIcon"
 	>
-
 		<TreeViewListItem
-			v-for="element in templateItems"
-			:key="element.uid"
-			:element="element"
+			v-for="elementUid in templateItems"
+			:key="elementUid"
+			:element-uid="elementUid"
 			@expand-panel="$emit('expand-panel')"
 		/>
 
 		<template #end>
-			<div
-				class="znpb-tree-view__view__ListAddButtonInside"
-				v-if="templateItems.length === 0 && element.isWrapper"
-			>
-				<AddElementIcon
-					:element="element"
-					placement="inside"
-				/>
+			<div v-if="templateItems.length === 0 && element.isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
+				<AddElementIcon :element="element" placement="inside" />
 			</div>
 		</template>
 
@@ -38,30 +31,26 @@
 	</Sortable>
 </template>
 <script>
-import SortableHelper from '../../../common/SortableHelper.vue'
-import SortablePlaceholder from '../../../common/SortablePlaceholder.vue'
-import { useTreeViewList } from '../useTreeViewList'
+import SortableHelper from '../../../common/SortableHelper.vue';
+import SortablePlaceholder from '../../../common/SortablePlaceholder.vue';
+import { useTreeViewList } from '../useTreeViewList';
 
 export default {
 	name: 'TreeViewList',
 	components: {
 		SortableHelper,
-		SortablePlaceholder
+		SortablePlaceholder,
 	},
 	props: {
 		element: {
 			type: Object,
-			required: false
-		}
+			required: false,
+		},
 	},
-	setup (props, context) {
-		const {
-			templateItems,
-			sortableStart,
-			sortableEnd
-		} = useTreeViewList(props)
+	setup(props, context) {
+		const { templateItems, sortableStart, sortableEnd } = useTreeViewList(props);
 
-		function onChildActive () {
+		function onChildActive() {
 			expanded.value = true;
 		}
 
@@ -69,10 +58,10 @@ export default {
 			templateItems,
 			onChildActive,
 			sortableStart,
-			sortableEnd
-		}
-	}
-}
+			sortableEnd,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -96,7 +85,7 @@ export default {
 				margin: 0;
 
 				&::before {
-					content: "";
+					content: '';
 					position: absolute;
 					bottom: calc(100% + -24px);
 					left: 0;

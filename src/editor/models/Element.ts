@@ -328,10 +328,6 @@ export class Element {
 		return registerElement(configAsJSON, this.parent.uid);
 	}
 
-	setUid(uid) {
-		this.uid = uid;
-	}
-
 	on(type, callback) {
 		this.callbacks[type] = this.callbacks[type] || [];
 		this.callbacks[type].push(callback);

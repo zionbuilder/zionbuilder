@@ -203,7 +203,6 @@ export default {
 				const { getWindows } = useWindows();
 				const iframeWindow = getWindows('preview');
 				if (iframeWindow) {
-					console.log(JSON.stringify(state));
 					iframeWindow.postMessage(
 						{
 							action: 'zbMessage',

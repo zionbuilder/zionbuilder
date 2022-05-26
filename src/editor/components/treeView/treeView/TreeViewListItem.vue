@@ -1,26 +1,26 @@
 <template>
 	<li
-		:id="element.uid"
+		:id="elementUid"
 		ref="listItem"
 		class="znpb-tree-view__item"
 		:class="{
-			'znpb-tree-view__item--hidden': !element.isVisible,
+			'znpb-tree-view__item--hidden': !isVisible,
 			'znpb-tree-view__item--justAdded': justAdded,
 		}"
-		@mouseover.stop="element.highlight"
-		@mouseout.stop="element.unHighlight"
+		@mouseover.stop="highlight"
+		@mouseout.stop="unHighlight"
 		@click.stop.left="editElement"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
 			<Icon
-				v-if="element.isWrapper"
+				v-if="isWrapper"
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
-					'znpb-tree-view__item-header-expand--expanded': element.treeViewItemExpanded,
+					'znpb-tree-view__item-header-expand--expanded': element?.treeViewItemExpanded,
 				}"
-				@click.stop="element.treeViewItemExpanded = !element.treeViewItemExpanded"
+				@click.stop="element.treeViewItemExpanded = !element?.treeViewItemExpanded"
 			/>
 
 			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
@@ -28,11 +28,11 @@
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
 			<Icon
-				v-if="!element.isVisible"
+				v-if="!isVisible"
 				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
-				@click.stop="element.toggleVisibility()"
+				@click.stop="toggleVisibility"
 			/>
 
 			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
@@ -42,81 +42,61 @@
 			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList v-if="element.treeViewItemExpanded" :element="element" />
+		<TreeViewList v-if="element?.treeViewItemExpanded" :element="element" />
 	</li>
 </template>
 
-<script lang="ts">
-import { ref, Ref, PropType, defineComponent, watch, onMounted, computed } from 'vue';
-import { Element, usePreviewLoading } from '../../../composables';
+<script lang="ts" setup>
+import { ref, Ref, watch, onMounted } from 'vue';
+import { usePreviewLoading, useElementUtils } from '../../../composables';
 import { useTreeViewItem } from '../useTreeViewItem';
 
-export default defineComponent({
-	props: {
-		element: Object as PropType<Element>,
-	},
-	setup(props) {
-		const listItem: Ref = ref(null);
+const props = defineProps<{
+	elementUid: string;
+}>();
 
-		const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
+const listItem: Ref = ref(null);
+const { element, elementName, isVisible, highlight, unHighlight, toggleVisibility, isWrapper } = useElementUtils(
+	props.elementUid,
+);
+const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem({
+	element,
+});
 
-		watch(
-			() => isActiveItem.value,
-			newValue => {
-				if (newValue) {
-					scrollToItem();
-				}
-			},
-		);
+const { contentTimestamp } = usePreviewLoading();
+let justAdded = false;
+if (contentTimestamp.value) {
+	const justAdded = ref(element.addedTime > contentTimestamp.value ? Date.now() - element.addedTime < 1000 : null);
+	if (justAdded.value) {
+		setTimeout(() => {
+			justAdded.value = false;
+		}, 1000);
+	}
+}
 
-		const elementName = computed({
-			get() {
-				return props.element.name;
-			},
-			set(newValue) {
-				props.element.name = newValue;
-			},
-		});
-
-		const { contentTimestamp } = usePreviewLoading();
-
-		const justAdded = ref(
-			props.element.addedTime > contentTimestamp.value ? Date.now() - props.element.addedTime < 1000 : null,
-		);
-
-		if (justAdded.value) {
-			setTimeout(() => {
-				justAdded.value = false;
-			}, 1000);
+watch(
+	() => isActiveItem.value,
+	newValue => {
+		if (newValue) {
+			scrollToItem();
 		}
-
-		function scrollToItem() {
-			if (listItem.value) {
-				listItem.value.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'center',
-					block: 'center',
-				});
-			}
-		}
-
-		onMounted(() => {
-			if (isActiveItem.value) {
-				scrollToItem();
-			}
-		});
-
-		return {
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-			listItem,
-			elementModel,
-			editElement,
-			justAdded,
-			elementName,
-		};
 	},
+);
+
+function scrollToItem() {
+	if (listItem.value) {
+		listItem.value.scrollIntoView({
+			behavior: 'smooth',
+			inline: 'center',
+			block: 'center',
+		});
+	}
+}
+
+onMounted(() => {
+	if (isActiveItem.value) {
+		scrollToItem();
+	}
 });
 </script>
 <style lang="scss">

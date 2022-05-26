@@ -47,13 +47,16 @@ export default {
 		provide('plugin_info', window.ZnPbPreviewData.plugin_info);
 		provide('editor_urls', window.ZnPbPreviewData.urls);
 
-		watch(UIStore.isPreviewMode, newValue => {
-			if (newValue) {
-				window.document.body.classList.add('znpb-editor-preview--active');
-			} else {
-				window.document.body.classList.remove('znpb-editor-preview--active');
-			}
-		});
+		watch(
+			() => UIStore.isPreviewMode,
+			newValue => {
+				if (newValue) {
+					window.document.body.classList.add('znpb-editor-preview--active');
+				} else {
+					window.document.body.classList.remove('znpb-editor-preview--active');
+				}
+			},
+		);
 
 		// Allow other to hook into setup
 		doAction('zionbuilder/preview/app/setup');
