@@ -70,11 +70,8 @@ export default {
 		window.onmessage = function (e) {
 			if (e.data.action === 'zbMessage') {
 				const { state, store } = e.data;
-				console.log({ state, store });
 				const storeForUpdate = storesToSubscribe.find(storeInstance => storeInstance.$id === store);
-				console.log(storesToSubscribe);
-				console.log(storeForUpdate);
-				console.log(store);
+
 				if (storeForUpdate) {
 					storeForUpdate.$state = JSON.parse(state);
 				}

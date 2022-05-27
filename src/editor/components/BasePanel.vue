@@ -35,459 +35,414 @@
 		/>
 	</div>
 </template>
-<script>
-import { computed, ref, onBeforeUnmount, onMounted, nextTick } from 'vue';
+<script lang="ts" setup>
+import { computed, ref, onBeforeUnmount, onMounted, nextTick, useSlots } from 'vue';
 import rafSchd from 'raf-schd';
 import { useWindows } from '../composables';
 import { useUIStore } from '../store';
 
-export default {
-	name: 'BasePanel',
-	props: {
-		cssClass: {
-			type: [String, Object],
-			required: false,
-			default: '',
-		},
-		panelName: {
-			type: String,
-			required: true,
-		},
-		panelId: {
-			type: String,
-			required: false,
-		},
-		expanded: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		showHeader: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		showClose: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		allowHorizontalResize: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		allowVerticalResize: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		closeOnEscape: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		panel: {},
+const props = withDefaults(
+	defineProps<{
+		cssClass?: string | Record<string, string>;
+		panelName?: string;
+		panelId: string;
+		expanded?: boolean;
+		showHeader?: boolean;
+		showClose?: boolean;
+		allowHorizontalResize?: boolean;
+		allowVerticalResize?: boolean;
+		closeOnEscape?: boolean;
+		panel: ZionPanel;
+	}>(),
+	{
+		cssClass: '',
+		panelName: '',
+		expanded: false,
+		showHeader: true,
+		showClose: true,
+		allowHorizontalResize: true,
+		allowVerticalResize: true,
+		closeOnEscape: true,
 	},
-	setup(props, { slots, emit }) {
-		const UIStore = useUIStore();
-		const { addEventListener, removeEventListener } = useWindows();
+);
 
-		// Normal data
-		let boundingClientRect = null;
+const slots = useSlots();
+const emit = defineEmits(['close-panel']);
 
-		// REFS
-		const root = ref(null);
-		const panelOffset = ref(null);
-		const initialPosition = ref({
-			posY: 0,
-			posX: 0,
-		});
-		const dragginMoved = ref({
-			x: null,
-			y: null,
-		});
+const UIStore = useUIStore();
+const { addEventListener, removeEventListener } = useWindows();
 
-		// COMPUTED
-		const getCssClass = computed(() => {
-			let classes = '';
-			classes += props.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached';
-			classes += props.cssClass ? props.cssClass : '';
-			classes += props.panel.isDragging ? ' znpb-editor-panel--dragging' : '';
+// Normal data
+let boundingClientRect = null;
 
-			if (!props.panel.isDetached) {
-				classes +=
-					UIStore.getPanelPlacement(props.panel.id) === 'right'
-						? ' znpb-editor-panel--right'
-						: ' znpb-editor-panel--left';
-			}
-			return classes;
-		});
+// REFS
+const root = ref(null);
+const panelOffset = ref(null);
+const initialPosition = ref({
+	posY: 0,
+	posX: 0,
+});
+const dragginMoved = ref({
+	x: null,
+	y: null,
+});
 
-		const panelStyles = computed(() => {
-			const cssStyles = {
-				width: props.panel.width + 'px',
-				height: props.panel.isDetached ? (props.panel.height ? props.panel.height + 'px' : '90%') : '100%',
-				order: UIStore.getPanelOrder(props.panel.id),
+// COMPUTED
+const getCssClass = computed(() => {
+	let classes = '';
+	classes += props.panel.isDetached ? ' znpb-editor-panel--detached' : ' znpb-editor-panel--attached';
+	classes += props.cssClass ? props.cssClass : '';
+	classes += props.panel.isDragging ? ' znpb-editor-panel--dragging' : '';
 
-				// Positions for detached
-				top:
-					!props.panel.isDragging && props.panel.isDetached && props.panel.offsets.posY !== 0
-						? props.panel.offsets.posY + 'px'
-						: null,
-				left: !props.panel.isDragging && props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
-				position: props.panel.isDetached ? 'fixed' : 'relative',
+	if (!props.panel.isDetached) {
+		classes +=
+			UIStore.getPanelPlacement(props.panel.id) === 'right' ? ' znpb-editor-panel--right' : ' znpb-editor-panel--left';
+	}
+	return classes;
+});
 
-				// Dragging transform
-				transform: props.panel.isDragging
-					? `translate3d(${dragginMoved.value.x}px, ${dragginMoved.value.y}px, 0)`
-					: null,
-				zIndex: props.panel.isDragging ? 99 : null,
-			};
-			return cssStyles;
-		});
+const panelStyles = computed(() => {
+	const cssStyles = {
+		width: props.panel.width + 'px',
+		height: props.panel.isDetached ? (props.panel.height ? props.panel.height + 'px' : '90%') : '100%',
+		order: UIStore.getPanelOrder(props.panel.id),
 
-		const hasHeaderSlot = computed(() => {
-			return !!slots.header;
-		});
+		// Positions for detached
+		top:
+			!props.panel.isDragging && props.panel.isDetached && props.panel.offsets.posY !== 0
+				? props.panel.offsets.posY + 'px'
+				: null,
+		left: !props.panel.isDragging && props.panel.isDetached ? props.panel.offsets.posX + 'px' : null,
+		position: props.panel.isDetached ? 'fixed' : 'relative',
 
-		// METHODS
-		let initialMovePosition = {
-			posX: null,
-			posY: null,
-		};
+		// Dragging transform
+		transform: props.panel.isDragging ? `translate3d(${dragginMoved.value.x}px, ${dragginMoved.value.y}px, 0)` : null,
+		zIndex: props.panel.isDragging ? 99 : null,
+	};
+	return cssStyles;
+});
 
-		let availableStickElements = [];
-		let oldIndex = null;
-		let newIndex = null;
-		function onMouseDown(event) {
-			UIStore.setIframePointerEvents(true);
-			document.body.style.userSelect = 'none';
+const hasHeaderSlot = computed(() => {
+	return !!slots.header;
+});
 
-			const { clientX, clientY } = event;
+// METHODS
+let initialMovePosition = {
+	posX: null,
+	posY: null,
+};
 
-			// Get initial position
-			oldIndex = UIStore.getPanelIndex(props.panel.id);
+let availableStickElements = [];
+let oldIndex = null;
+let newIndex = null;
+function onMouseDown(event) {
+	UIStore.setIframePointerEvents(true);
+	document.body.style.userSelect = 'none';
 
-			boundingClientRect = root.value.getBoundingClientRect();
-			const parentClientRect = root.value.parentNode.getBoundingClientRect();
-			initialMovePosition = {
-				posX: clientX,
-				posY: clientY,
-				startPanelRect: boundingClientRect,
-				parentClientRect: parentClientRect,
-				oldTop: boundingClientRect.top,
-				oldLeft: boundingClientRect.left,
-			};
+	const { clientX, clientY } = event;
 
-			dragginMoved.value = {
-				x: boundingClientRect.left - parentClientRect.left,
-				y: boundingClientRect.top - parentClientRect.top,
-			};
+	// Get initial position
+	oldIndex = UIStore.getPanelIndex(props.panel.id);
 
-			window.addEventListener('mousemove', rafMovePanel);
-			window.addEventListener('mouseup', onMouseUp);
-		}
+	boundingClientRect = root.value.getBoundingClientRect();
+	const parentClientRect = root.value.parentNode.getBoundingClientRect();
+	initialMovePosition = {
+		posX: clientX,
+		posY: clientY,
+		startPanelRect: boundingClientRect,
+		parentClientRect: parentClientRect,
+		oldTop: boundingClientRect.top,
+		oldLeft: boundingClientRect.left,
+	};
 
-		function movePanel(event) {
-			const { posX, posY, oldTop, oldLeft, parentClientRect } = initialMovePosition;
-			const { height: parentHeight, width: parentWidth } = parentClientRect;
-			const { clientY, clientX } = event;
+	dragginMoved.value = {
+		x: boundingClientRect.left - parentClientRect.left,
+		y: boundingClientRect.top - parentClientRect.top,
+	};
 
-			if (!props.panel.isDragging) {
-				const xMoved = Math.abs(posX - clientX);
-				const yMoved = Math.abs(posY - clientY);
-				const dragThreshold = 5;
+	window.addEventListener('mousemove', rafMovePanel);
+	window.addEventListener('mouseup', onMouseUp);
+}
 
-				// Check if we should detach the panel
-				if (xMoved > dragThreshold || yMoved > dragThreshold) {
-					UIStore.updatePanel(props.panel.id, 'isDetached', true);
-					UIStore.updatePanel(props.panel.id, 'isDragging', true);
+function movePanel(event) {
+	const { posX, posY, oldTop, oldLeft, parentClientRect } = initialMovePosition;
+	const { height: parentHeight, width: parentWidth } = parentClientRect;
+	const { clientY, clientX } = event;
 
-					nextTick(() => {
-						// Recalculate the height of the panel
-						boundingClientRect = root.value.getBoundingClientRect();
+	if (!props.panel.isDragging) {
+		const xMoved = Math.abs(posX - clientX);
+		const yMoved = Math.abs(posY - clientY);
+		const dragThreshold = 5;
 
-						// Set available stick elements
-						UIStore.openPanels.forEach(panel => {
-							// We don't care about detached panels
-							if (panel.isDetached || panel.id === props.panel.id) {
-								return;
-							}
+		// Check if we should detach the panel
+		if (xMoved > dragThreshold || yMoved > dragThreshold) {
+			UIStore.updatePanel(props.panel.id, 'isDetached', true);
+			UIStore.updatePanel(props.panel.id, 'isDragging', true);
 
-							const boundingClient = document.getElementById(panel.id).getBoundingClientRect();
+			nextTick(() => {
+				// Recalculate the height of the panel
+				boundingClientRect = root.value.getBoundingClientRect();
 
-							availableStickElements.push({
-								panel,
-								boundingClient,
-							});
-						});
-					});
-				}
-			} else {
-				if (!boundingClientRect) {
-					return;
-				}
-
-				const maxBottom = parentHeight - boundingClientRect.height;
-				const newPositionY = oldTop + clientY - posY - parentClientRect.top;
-				const newTop = newPositionY < 0 ? 0 : newPositionY;
-				const MinMaxTop = newTop > maxBottom ? maxBottom : newTop;
-
-				const movedAmmount = oldLeft + clientX - posX;
-				const MinMaxLeft = movedAmmount - parentClientRect.left;
-
-				dragginMoved.value = {
-					x: MinMaxLeft,
-					y: MinMaxTop,
-				};
-
-				// Check left or right
-				availableStickElements.forEach(availableStickLocation => {
-					const { boundingClient, panel: possibleHoverPanel } = availableStickLocation;
-					const realLeft = boundingClient.left;
-					const realRight = boundingClient.left + boundingClient.width;
-
-					// Check to see if we are hovering the panel
-					if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
-						if (MinMaxLeft < realLeft + 50) {
-							UIStore.setPanelPlaceholder({
-								visibility: true,
-								left: realLeft,
-								placeBefore: true,
-								panel: possibleHoverPanel,
-							});
-
-							newIndex = UIStore.getPanelIndex(possibleHoverPanel.id);
-						} else if (movedAmmount + boundingClientRect.width > boundingClient.left + boundingClient.width - 50) {
-							const left =
-								boundingClient.left + boundingClient.width >= window.innerWidth
-									? boundingClient.left + boundingClient.width - 5
-									: realRight;
-
-							UIStore.setPanelPlaceholder({
-								visibility: true,
-								left: left,
-								placeBefore: false,
-								panel: possibleHoverPanel,
-							});
-
-							newIndex = UIStore.getPanelIndex(possibleHoverPanel.id) + 1;
-						} else {
-							UIStore.setPanelPlaceholder({
-								visibility: false,
-								left: null,
-								placeBefore: null,
-								panel: null,
-							});
-
-							newIndex = null;
-						}
+				// Set available stick elements
+				UIStore.openPanels.forEach(panel => {
+					// We don't care about detached panels
+					if (panel.isDetached || panel.id === props.panel.id) {
+						return;
 					}
+
+					const boundingClient = document.getElementById(panel.id).getBoundingClientRect();
+
+					availableStickElements.push({
+						panel,
+						boundingClient,
+					});
 				});
-			}
-		}
-
-		const rafMovePanel = rafSchd(movePanel);
-
-		function updatePosition(oldIndex, newIndex) {
-			const list = [...UIStore.panelsOrder];
-			if (oldIndex >= newIndex) {
-				list.splice(newIndex, 0, list.splice(oldIndex, 1)[0]);
-			} else {
-				list.splice(newIndex - 1, 0, list.splice(oldIndex, 1)[0]);
-			}
-
-			UIStore.panelsOrder = list;
-		}
-
-		function onMouseUp() {
-			// Cleanup
-			document.body.style.userSelect = null;
-			UIStore.setIframePointerEvents(false);
-			availableStickElements = [];
-
-			// Cancel the animation frame
-			rafMovePanel.cancel();
-			props.panel.isDragging = false;
-
-			dragginMoved.value = {
-				x: null,
-				y: null,
-			};
-
-			window.removeEventListener('mousemove', rafMovePanel);
-			window.removeEventListener('mouseup', onMouseUp);
-
-			// Save the panel position
-			panelOffset.value = root.value.getBoundingClientRect();
-
-			props.panel.offsets = {
-				posX: panelOffset.value.left,
-				posY: panelOffset.value.top,
-			};
-
-			initialPosition.value = {
-				posX: panelOffset.value.left,
-				posY: panelOffset.value.top,
-			};
-
-			if (null !== oldIndex && null !== newIndex) {
-				UIStore.updatePanel(props.panel.id, 'isDetached', false);
-				updatePosition(oldIndex, newIndex);
-			}
-
-			UIStore.saveUI();
-
-			UIStore.setPanelPlaceholder({
-				visibility: false,
-				panel: null,
 			});
 		}
-
-		const rafResizeHorizontal = rafSchd(resizeHorizontal);
-		let initialHMouseX = null;
-		let initialWidth = null;
-		function activateHorizontalResize(event) {
-			UIStore.setIframePointerEvents(true);
-
-			document.body.style.userSelect = 'none';
-			document.body.style.cursor = 'w-resize';
-
-			initialHMouseX = event.clientX;
-			initialWidth = props.panel.width;
-
-			// Attach events
-			window.addEventListener('mousemove', rafResizeHorizontal);
-			window.addEventListener('mouseup', deactivateHorizontal);
+	} else {
+		if (!boundingClientRect) {
+			return;
 		}
 
-		function resizeHorizontal(event) {
-			const draggedHorizontal = event.clientX - initialHMouseX;
-			const width =
-				UIStore.getPanelPlacement(props.panel.id) === 'left' || props.panel.isDetached
-					? draggedHorizontal + initialWidth
-					: -draggedHorizontal + initialWidth;
+		const maxBottom = parentHeight - boundingClientRect.height;
+		const newPositionY = oldTop + clientY - posY - parentClientRect.top;
+		const newTop = newPositionY < 0 ? 0 : newPositionY;
+		const MinMaxTop = newTop > maxBottom ? maxBottom : newTop;
 
-			UIStore.updatePanel(props.panel.id, 'width', width < 360 ? 360 : width);
-		}
+		const movedAmmount = oldLeft + clientX - posX;
+		const MinMaxLeft = movedAmmount - parentClientRect.left;
 
-		function deactivateHorizontal() {
-			UIStore.setIframePointerEvents(false);
-
-			document.body.style.userSelect = null;
-			document.body.style.cursor = null;
-
-			window.removeEventListener('mousemove', rafResizeHorizontal);
-			window.removeEventListener('mouseup', deactivateHorizontal);
-			UIStore.saveUI();
-		}
-
-		const rafResizeVertical = rafSchd(resizeVertical);
-		let initialVMouseY = null;
-		let initialHeight = null;
-		function activateVerticalResize(event) {
-			UIStore.setIframePointerEvents(true);
-			document.body.style.userSelect = 'none';
-			document.body.style.cursor = 'n-resize';
-
-			initialHeight = root.value.clientHeight;
-			initialVMouseY = event.clientY;
-
-			window.addEventListener('mousemove', rafResizeVertical);
-			window.addEventListener('mouseup', deactivateVertical);
-		}
-
-		function resizeVertical(event) {
-			UIStore.updatePanel(props.panel.id, 'isDetached', true);
-
-			const draggedVertical = event.clientY - initialVMouseY;
-			const newHeightValue = initialHeight + draggedVertical;
-
-			if (event.clientY < window.innerHeight) {
-				UIStore.updatePanel(
-					props.panel.id,
-					'height',
-					newHeightValue > root.value.parentNode.clientHeight ? root.value.parentNode.clientHeight : newHeightValue,
-				);
-			}
-		}
-
-		function deactivateVertical() {
-			UIStore.setIframePointerEvents(false);
-
-			document.body.style.userSelect = null;
-			document.body.style.cursor = null;
-
-			window.removeEventListener('mousemove', rafResizeVertical);
-			window.removeEventListener('mouseup', deactivateVertical);
-			UIStore.saveUI();
-		}
-
-		/**
-		 * Close panel on escape key
-		 */
-		function onKeyDown(event) {
-			if (event.which === 27) {
-				closePanel();
-				event.stopImmediatePropagation();
-			}
-		}
-
-		// LIFECYCLE
-		onMounted(() => {
-			if (props.closeOnEscape) {
-				addEventListener('keydown', onKeyDown);
-			}
-
-			panelOffset.value = root.value.getBoundingClientRect();
-			props.panel.offsets = {
-				posX: panelOffset.value.left,
-				posY: panelOffset.value.top,
-			};
-
-			initialPosition.value = {
-				posX: panelOffset.value.left,
-				posY: panelOffset.value.top,
-			};
-		});
-
-		function closePanel() {
-			UIStore.closePanel(props.panel.id);
-			emit('close-panel');
-		}
-
-		onBeforeUnmount(() => {
-			window.removeEventListener('mousemove', rafResizeHorizontal);
-			window.removeEventListener('mouseup', deactivateHorizontal);
-			window.removeEventListener('mousemove', rafResizeVertical);
-			window.removeEventListener('mouseup', deactivateVertical);
-			removeEventListener('keydown', onKeyDown);
-
-			// Reset document styles
-			document.body.style.cursor = null;
-			document.body.style.userSelect = null;
-		});
-
-		return {
-			// refs
-			root,
-			UIStore,
-
-			// Computed
-			getCssClass,
-			panelStyles,
-			hasHeaderSlot,
-
-			// Methods
-			onMouseDown,
-			onMouseUp,
-			activateHorizontalResize,
-			activateVerticalResize,
-			closePanel,
+		dragginMoved.value = {
+			x: MinMaxLeft,
+			y: MinMaxTop,
 		};
-	},
-};
+
+		// Check left or right
+		availableStickElements.forEach(availableStickLocation => {
+			const { boundingClient, panel: possibleHoverPanel } = availableStickLocation;
+			const realLeft = boundingClient.left;
+			const realRight = boundingClient.left + boundingClient.width;
+
+			// Check to see if we are hovering the panel
+			if (MinMaxLeft >= boundingClient.left && MinMaxLeft <= boundingClient.left + boundingClient.width) {
+				if (MinMaxLeft < realLeft + 50) {
+					UIStore.setPanelPlaceholder({
+						visibility: true,
+						left: realLeft,
+						placeBefore: true,
+						panel: possibleHoverPanel,
+					});
+
+					newIndex = UIStore.getPanelIndex(possibleHoverPanel.id);
+				} else if (movedAmmount + boundingClientRect.width > boundingClient.left + boundingClient.width - 50) {
+					const left =
+						boundingClient.left + boundingClient.width >= window.innerWidth
+							? boundingClient.left + boundingClient.width - 5
+							: realRight;
+
+					UIStore.setPanelPlaceholder({
+						visibility: true,
+						left: left,
+						placeBefore: false,
+						panel: possibleHoverPanel,
+					});
+
+					newIndex = UIStore.getPanelIndex(possibleHoverPanel.id) + 1;
+				} else {
+					UIStore.setPanelPlaceholder({
+						visibility: false,
+						left: null,
+						placeBefore: null,
+						panel: null,
+					});
+
+					newIndex = null;
+				}
+			}
+		});
+	}
+}
+
+const rafMovePanel = rafSchd(movePanel);
+
+function updatePosition(oldIndex, newIndex) {
+	const list = [...UIStore.panelsOrder];
+	if (oldIndex >= newIndex) {
+		list.splice(newIndex, 0, list.splice(oldIndex, 1)[0]);
+	} else {
+		list.splice(newIndex - 1, 0, list.splice(oldIndex, 1)[0]);
+	}
+
+	UIStore.panelsOrder = list;
+}
+
+function onMouseUp() {
+	// Cleanup
+	document.body.style.userSelect = null;
+	UIStore.setIframePointerEvents(false);
+	availableStickElements = [];
+
+	// Cancel the animation frame
+	rafMovePanel.cancel();
+	props.panel.isDragging = false;
+
+	dragginMoved.value = {
+		x: null,
+		y: null,
+	};
+
+	window.removeEventListener('mousemove', rafMovePanel);
+	window.removeEventListener('mouseup', onMouseUp);
+
+	// Save the panel position
+	panelOffset.value = root.value.getBoundingClientRect();
+
+	props.panel.offsets = {
+		posX: panelOffset.value.left,
+		posY: panelOffset.value.top,
+	};
+
+	initialPosition.value = {
+		posX: panelOffset.value.left,
+		posY: panelOffset.value.top,
+	};
+
+	if (null !== oldIndex && null !== newIndex) {
+		UIStore.updatePanel(props.panel.id, 'isDetached', false);
+		updatePosition(oldIndex, newIndex);
+	}
+
+	UIStore.saveUI();
+
+	UIStore.setPanelPlaceholder({
+		visibility: false,
+		panel: null,
+	});
+}
+
+const rafResizeHorizontal = rafSchd(resizeHorizontal);
+let initialHMouseX = null;
+let initialWidth = null;
+function activateHorizontalResize(event) {
+	UIStore.setIframePointerEvents(true);
+
+	document.body.style.userSelect = 'none';
+	document.body.style.cursor = 'w-resize';
+
+	initialHMouseX = event.clientX;
+	initialWidth = props.panel.width;
+
+	// Attach events
+	window.addEventListener('mousemove', rafResizeHorizontal);
+	window.addEventListener('mouseup', deactivateHorizontal);
+}
+
+function resizeHorizontal(event) {
+	const draggedHorizontal = event.clientX - initialHMouseX;
+	const width =
+		UIStore.getPanelPlacement(props.panel.id) === 'left' || props.panel.isDetached
+			? draggedHorizontal + initialWidth
+			: -draggedHorizontal + initialWidth;
+
+	UIStore.updatePanel(props.panel.id, 'width', width < 360 ? 360 : width);
+}
+
+function deactivateHorizontal() {
+	UIStore.setIframePointerEvents(false);
+
+	document.body.style.userSelect = null;
+	document.body.style.cursor = null;
+
+	window.removeEventListener('mousemove', rafResizeHorizontal);
+	window.removeEventListener('mouseup', deactivateHorizontal);
+	UIStore.saveUI();
+}
+
+const rafResizeVertical = rafSchd(resizeVertical);
+let initialVMouseY = null;
+let initialHeight = null;
+function activateVerticalResize(event) {
+	UIStore.setIframePointerEvents(true);
+	document.body.style.userSelect = 'none';
+	document.body.style.cursor = 'n-resize';
+
+	initialHeight = root.value.clientHeight;
+	initialVMouseY = event.clientY;
+
+	window.addEventListener('mousemove', rafResizeVertical);
+	window.addEventListener('mouseup', deactivateVertical);
+}
+
+function resizeVertical(event) {
+	UIStore.updatePanel(props.panel.id, 'isDetached', true);
+
+	const draggedVertical = event.clientY - initialVMouseY;
+	const newHeightValue = initialHeight + draggedVertical;
+
+	if (event.clientY < window.innerHeight) {
+		UIStore.updatePanel(
+			props.panel.id,
+			'height',
+			newHeightValue > root.value.parentNode.clientHeight ? root.value.parentNode.clientHeight : newHeightValue,
+		);
+	}
+}
+
+function deactivateVertical() {
+	UIStore.setIframePointerEvents(false);
+
+	document.body.style.userSelect = null;
+	document.body.style.cursor = null;
+
+	window.removeEventListener('mousemove', rafResizeVertical);
+	window.removeEventListener('mouseup', deactivateVertical);
+	UIStore.saveUI();
+}
+
+/**
+ * Close panel on escape key
+ */
+function onKeyDown(event) {
+	if (event.which === 27) {
+		closePanel();
+		event.stopImmediatePropagation();
+	}
+}
+
+// LIFECYCLE
+onMounted(() => {
+	if (props.closeOnEscape) {
+		addEventListener('keydown', onKeyDown);
+	}
+
+	panelOffset.value = root.value.getBoundingClientRect();
+	props.panel.offsets = {
+		posX: panelOffset.value.left,
+		posY: panelOffset.value.top,
+	};
+
+	initialPosition.value = {
+		posX: panelOffset.value.left,
+		posY: panelOffset.value.top,
+	};
+});
+
+function closePanel() {
+	UIStore.closePanel(props.panel.id);
+	emit('close-panel');
+}
+
+onBeforeUnmount(() => {
+	window.removeEventListener('mousemove', rafResizeHorizontal);
+	window.removeEventListener('mouseup', deactivateHorizontal);
+	window.removeEventListener('mousemove', rafResizeVertical);
+	window.removeEventListener('mouseup', deactivateVertical);
+	removeEventListener('keydown', onKeyDown);
+
+	// Reset document styles
+	document.body.style.cursor = null;
+	document.body.style.userSelect = null;
+});
 </script>
 <style lang="scss">
 /* style panel */

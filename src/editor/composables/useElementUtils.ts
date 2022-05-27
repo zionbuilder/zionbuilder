@@ -2,6 +2,7 @@ import { computed } from 'vue';
 import { get } from 'lodash-es';
 import { useContentStore } from '../store';
 import { useElementTypes } from './useElementTypes';
+import { applyFilters } from '@/common/modules/hooks';
 
 export function useElementUtils(elementUID: string) {
 	const contentStore = useContentStore();
@@ -22,6 +23,12 @@ export function useElementUtils(elementUID: string) {
 	const isWrapper = elementDefinition.value.wrapper;
 
 	// Actions
+	function getElementCssId() {
+		const cssID = getOption('_advanced_options._element_id', elementUID);
+		// TODO: this filter has changed removing 'this' and replacing it with elementUID
+		return applyFilters('zionbuilder/element/css_id', cssID, elementUID);
+	}
+
 	function highlight() {
 		contentStore.updateElement(elementUID, 'isVisible', true);
 	}
@@ -56,5 +63,6 @@ export function useElementUtils(elementUID: string) {
 		highlight,
 		unHighlight,
 		toggleVisibility,
+		getElementCssId,
 	};
 }

@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, watch, onMounted, inject } from 'vue';
+import { ref, Ref, watch, inject } from 'vue';
 import { usePreviewLoading, useElementUtils } from '@/editor/composables';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useUIStore } from '@/editor/store';
@@ -79,19 +79,11 @@ if (contentTimestamp.value) {
 }
 
 watch(
-	() => isActiveItem.value,
-	newValue => {
-		if (newValue) {
-			scrollToItem();
-		}
-	},
-);
-
-watch(
 	() => UIStore.editedElementID,
 	newValue => {
 		if (newValue === props.elementUid) {
 			emit('expand-panel');
+			scrollToItem();
 		}
 	},
 );
@@ -108,12 +100,6 @@ function scrollToItem() {
 		});
 	}
 }
-
-onMounted(() => {
-	if (isActiveItem.value) {
-		scrollToItem();
-	}
-});
 </script>
 <style lang="scss">
 .znpb-tree-view__item {

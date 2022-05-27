@@ -4,7 +4,6 @@
 		:class="{
 			'znpb-element-options__panel-wrapper--hidden': isPanelHidden,
 		}"
-		:panel-name="`${element.name} ${$translate('options')}`"
 		:panel-id="panel.id"
 		:show-expand="false"
 		:allow-horizontal-resize="!isPanelHidden"
@@ -29,7 +28,7 @@
 			<div class="znpb-element-options__header">
 				<!-- Show back button for child elements -->
 				<div
-					v-if="element.elementTypeModel.is_child"
+					v-if="elementUtils.elementDefinition.value.is_child"
 					class="znpb-element-options__header-back"
 					@click="onBackButtonClick"
 				>
@@ -42,9 +41,9 @@
 					@mouseenter="showBreadcrumbs = true"
 					@mouseleave="showBreadcrumbs = false"
 				>
-					{{ `${element.name} ${$translate('options')}` }}
+					{{ `${elementUtils.elementName.value} ${$translate('options')}` }}
 					<Icon icon="select" />
-					<BreadcrumbsWrapper v-show="showBreadcrumbs" :element="element" />
+					<BreadcrumbsWrapper v-show="showBreadcrumbs" :element="elementUtils.element" />
 				</h4>
 			</div>
 		</template>
@@ -58,12 +57,12 @@
 				<Tab name="General">
 					<OptionsForm
 						v-if="
-							element.elementTypeModel.hasOwnProperty('options') &&
-							Object.keys(element.elementTypeModel.options).length > 0
+							elementUtils.elementDefinition.value.hasOwnProperty('options') &&
+							Object.keys(elementUtils.elementDefinition.value.options).length > 0
 						"
 						v-model="elementOptions"
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
-						:schema="element.elementTypeModel.options"
+						:schema="elementUtils.elementDefinition.value.options"
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">
@@ -138,472 +137,454 @@
 	</BasePanel>
 </template>
 
-<script>
-import { ref, watch, provide, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, watch, provide, computed, onMounted, onBeforeUnmount } from 'vue';
 import { addAction, removeAction } from '@/common/modules/hooks';
+import { translate } from '@/common/modules/i18n';
 import { isEditable, Environment } from '@/common/utils';
-import { useEditElement, useElementProvide, useWindows, useHistory } from '../composables';
+import { useEditElement, useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '@/common/composables';
 import { debounce } from 'lodash-es';
-import { useUIStore } from '../store';
+import { useUIStore, useContentStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
 import BasePanel from './BasePanel.vue';
 
-export default {
-	name: 'PanelElementOptions',
-	components: {
-		BreadcrumbsWrapper,
-		BasePanel,
+const props = defineProps<{
+	panel: ZionPanel;
+}>();
+
+const UIStore = useUIStore();
+const isPanelHidden = ref(false);
+const searchInput = ref(null);
+const showBreadcrumbs = ref(false);
+const lastTab = ref(null);
+const defaultMessage = ref(translate('element_options_default_message'));
+let ignoreLocalHistory = false;
+const { setActivePseudoSelector } = usePseudoSelectors();
+
+const elementUtils = useElementUtils(UIStore.editedElementID);
+
+const { element, editElement, unEditElement } = useEditElement();
+const { provideElement } = useElementProvide();
+const { getSchema } = useOptionsSchemas();
+const activeKeyTab = ref(null);
+const searchActive = ref(false);
+const history = ref([]);
+const historyIndex = ref(0);
+
+const optionsFilterKeyword = ref('');
+
+const panelStyles = computed(() => {
+	return {
+		'--optionsPanelWidth': `-${props.panel.width}px`,
+	};
+});
+
+const elementOptions = computed({
+	get() {
+		return element.value ? element.value.options : {};
 	},
-	props: ['panel'],
-	setup(props) {
-		const isPanelHidden = ref(false);
-		let ignoreLocalHistory = false;
-		const { setActivePseudoSelector } = usePseudoSelectors();
-		const { element, editElement, unEditElement } = useEditElement();
-		const { provideElement } = useElementProvide();
-		const { getSchema } = useOptionsSchemas();
-		const activeKeyTab = ref(null);
-		const searchActive = ref(false);
-		const history = ref([]);
-		const historyIndex = ref(0);
-		const UIStore = useUIStore();
+	set(newValues) {
+		element.value.updateOptions(newValues);
+	},
+});
 
-		const optionsFilterKeyword = ref('');
+watch(
+	elementOptions,
+	newValue => {
+		// Add to history
+		if (!ignoreLocalHistory) {
+			addToLocalHistory();
+			ignoreLocalHistory = false;
+		}
+	},
+	{ deep: true },
+);
 
-		const panelStyles = computed(() => {
-			return {
-				'--optionsPanelWidth': `-${props.panel.width}px`,
+const advancedOptionsModel = computed({
+	get() {
+		return elementOptions.value._advanced_options || {};
+	},
+	set(newValues) {
+		if (newValues === null) {
+			const oldValues = { ...elementOptions.value };
+			delete oldValues._advanced_options;
+
+			elementOptions.value = oldValues;
+		} else {
+			elementOptions.value = {
+				...elementOptions.value,
+				_advanced_options: newValues,
 			};
-		});
-
-		const elementOptions = computed({
-			get() {
-				return element.value ? element.value.options : {};
-			},
-			set(newValues) {
-				element.value.updateOptions(newValues);
-			},
-		});
-
-		watch(
-			elementOptions,
-			newValue => {
-				// Add to history
-				if (!ignoreLocalHistory) {
-					addToLocalHistory();
-					ignoreLocalHistory = false;
-				}
-			},
-			{ deep: true },
-		);
-
-		const advancedOptionsModel = computed({
-			get() {
-				return elementOptions.value._advanced_options || {};
-			},
-			set(newValues) {
-				if (newValues === null) {
-					const oldValues = { ...elementOptions.value };
-					delete oldValues._advanced_options;
-
-					elementOptions.value = oldValues;
-				} else {
-					elementOptions.value = {
-						...elementOptions.value,
-						_advanced_options: newValues,
-					};
-				}
-			},
-		});
-
-		const searchIcon = computed(() => {
-			return searchActive.value ? 'close' : 'search';
-		});
-
-		const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0);
-
-		const addToLocalHistory = debounce(function () {
-			// Clone store
-			const clonedValues = JSON.parse(JSON.stringify(elementOptions.value));
-
-			if (historyIndex.value + 1 < history.value.length) {
-				history.value.splice(historyIndex.value + 1);
-			}
-
-			history.value.push(clonedValues);
-			historyIndex.value++;
-		}, 500);
-
-		const canUndo = computed(() => {
-			return history.value[historyIndex.value - 1];
-		});
-
-		const canRedo = computed(() => {
-			return history.value[historyIndex.value + 1];
-		});
-
-		function undo() {
-			const prevState = history.value[historyIndex.value - 1];
-
-			if (prevState) {
-				ignoreLocalHistory = true;
-				elementOptions.value = prevState;
-				historyIndex.value--;
-			}
 		}
+	},
+});
 
-		function redo() {
-			const nextState = history.value[historyIndex.value + 1];
+const searchIcon = computed(() => {
+	return searchActive.value ? 'close' : 'search';
+});
 
-			if (nextState) {
-				ignoreLocalHistory = true;
-				elementOptions.value = nextState;
-				historyIndex.value++;
-			}
+const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0);
+
+const addToLocalHistory = debounce(function () {
+	// Clone store
+	const clonedValues = JSON.parse(JSON.stringify(elementOptions.value));
+
+	if (historyIndex.value + 1 < history.value.length) {
+		history.value.splice(historyIndex.value + 1);
+	}
+
+	history.value.push(clonedValues);
+	historyIndex.value++;
+}, 500);
+
+const canUndo = computed(() => {
+	return history.value[historyIndex.value - 1];
+});
+
+const canRedo = computed(() => {
+	return history.value[historyIndex.value + 1];
+});
+
+function undo() {
+	const prevState = history.value[historyIndex.value - 1];
+
+	if (prevState) {
+		ignoreLocalHistory = true;
+		elementOptions.value = prevState;
+		historyIndex.value--;
+	}
+}
+
+function redo() {
+	const nextState = history.value[historyIndex.value + 1];
+
+	if (nextState) {
+		ignoreLocalHistory = true;
+		elementOptions.value = nextState;
+		historyIndex.value++;
+	}
+}
+
+// Set initial history
+history.value.push(JSON.parse(JSON.stringify(elementOptions.value)));
+
+// Change the tab when a new element is selected
+watch(element, newValue => {
+	activeKeyTab.value = 'general';
+	searchActive.value = false;
+	optionsFilterKeyword.value = '';
+
+	// Clear selected pseudo selector
+	setActivePseudoSelector(null);
+});
+
+provideElement(element);
+provide('elementInfo', element);
+provide('OptionsFormTopModelValue', elementOptions);
+
+const computedStyleOptionsSchema = computed(() => {
+	const schema = {};
+	let styledElements = elementUtils.elementDefinition.value.style_elements;
+
+	Object.keys(styledElements).forEach(styleId => {
+		const config = styledElements[styleId];
+
+		schema[styleId] = {
+			type: 'css_selector',
+			name: config.title,
+			icon: 'brush',
+			allow_class_assignments:
+				typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
+			selector: config.selector.replace('{{ELEMENT}}', `#${elementUtils.getElementCssId()}`),
+			allow_delete: false,
+			show_breadcrumbs: true,
+			allow_custom_attributes:
+				typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
+			allowRename: false,
+		};
+	});
+
+	return {
+		_styles: {
+			id: 'styles',
+			child_options: schema,
+			optionsLayout: 'full',
+			type: 'group',
+		},
+	};
+});
+
+const allOptionsSchema = computed(() => {
+	const elementOptionsSchema = elementUtils.elementDefinition.value.options
+		? elementUtils.elementDefinition.value.options
+		: {};
+	const optionsSchema = {
+		...elementOptionsSchema,
+		...computedStyleOptionsSchema.value,
+		...getSchema('element_advanced'),
+	};
+
+	return optionsSchema;
+});
+
+const computedStyleOptions = computed({
+	get() {
+		return elementOptions.value || {};
+	},
+	set(newValue) {
+		if (newValue === null) {
+			const oldValues = { ...elementOptions.value };
+			delete oldValues._styles;
+
+			elementOptions.value = oldValues;
+		} else {
+			elementOptions.value = newValue;
 		}
+	},
+});
 
-		// Set initial history
-		history.value.push(JSON.parse(JSON.stringify(elementOptions.value)));
+const getElementInfo = computed(() => {
+	return {
+		uid: elementUtils.element.uid,
+		elementTypeConfig: elementUtils.elementDefinition,
+		data: elementUtils.element,
+	};
+});
 
-		// Change the tab when a new element is selected
-		watch(element, newValue => {
-			activeKeyTab.value = 'general';
-			searchActive.value = false;
+const filteredOptions = computed(() => {
+	const keyword = optionsFilterKeyword.value;
+	if (keyword.length > 2) {
+		return filterOptions(keyword, allOptionsSchema.value);
+	}
+
+	return {};
+});
+
+// Watchers
+watch(
+	() => UIStore.editedElementID,
+	(newValue, oldValue) => {
+		if (newValue && newValue !== oldValue) {
+			addToGlobalHistory(oldValue);
+		}
+	},
+);
+
+watch(searchActive, newValue => {
+	if (newValue) {
+		nextTick(() => {
+			if (searchInput.value) {
+				searchInput.value.focus();
+			}
+		});
+	}
+});
+
+addAction('change-tab-styling', changeTabByEvent());
+
+// Lifecycle
+onMounted(() => {
+	const { addEventListener } = useWindows();
+	addEventListener('keydown', onKeyPress, true);
+});
+
+onBeforeUnmount(() => {
+	const { removeEventListener } = useWindows();
+	removeEventListener('keydown', onKeyPress, true);
+
+	// remove events
+	removeAction('change-tab-styling', changeTab());
+});
+
+// Methods
+function onBackButtonClick() {
+	if (
+		elementUtils.element.value.parent &&
+		elementUtils.element.value.parent.elementTypeModel.element_type !== 'contentRoot'
+	) {
+		editElement(elementUtils.element.value.parent);
+	}
+}
+function changeTabByEvent(event) {
+	if (event !== undefined) {
+		if (tabId !== 'search') {
+			lastTab.value = activeKeyTab.value;
 			optionsFilterKeyword.value = '';
+		}
+		activeKeyTab.value.value = event.detail;
+	}
+}
+function filterOptions(keyword, optionsSchema, currentId, currentName) {
+	let lowercaseKeyword = keyword.toLowerCase();
+	let foundOptions = {};
 
-			// Clear selected pseudo selector
-			setActivePseudoSelector(null);
-		});
+	Object.keys(optionsSchema).forEach(optionId => {
+		const optionConfig = optionsSchema[optionId];
 
-		provideElement(element);
-		provide('elementInfo', element);
-		provide('OptionsFormTopModelValue', elementOptions);
-		provide('serverRequester', element.value.serverRequester);
+		let syncValue = [];
+		let syncValueName = [];
 
-		return {
-			isPanelHidden,
-			element,
-			// Computed
-			panelStyles,
-			elementOptions,
-			advancedOptionsModel,
-			getSchema,
-			editElement,
-			unEditElement,
-			activeKeyTab,
-			searchActive,
-			searchIcon,
-			canUndo,
-			canRedo,
-			hasChanges,
-			// Methods
-			undo,
-			redo,
-			optionsFilterKeyword,
-			UIStore,
-		};
-	},
-	data() {
-		return {
-			showBreadcrumbs: false,
-			elementClasses: [],
-			lastTab: null,
-			noOptionMessage: '',
-			defaultMessage: this.$translate('element_options_default_message'),
-		};
-	},
-	computed: {
-		computedStyleOptionsSchema() {
-			const schema = {};
-			let styledElements = this.element.elementTypeModel.style_elements;
+		if (!optionConfig.sync) {
+			if (currentId) {
+				syncValue.push(...currentId);
+			}
 
-			Object.keys(styledElements).forEach(styleId => {
-				const config = styledElements[styleId];
+			if (currentName) {
+				let name = getInnerStyleName(currentName[currentName.length - 1]);
+				currentName[currentName.length - 1] = name;
+				syncValueName.push(...currentName);
+			}
 
-				schema[styleId] = {
-					type: 'css_selector',
-					name: config.title,
-					icon: 'brush',
-					allow_class_assignments:
-						typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
-					selector: config.selector.replace('{{ELEMENT}}', `#${this.element.elementCssId}`),
-					allow_delete: false,
-					show_breadcrumbs: true,
-					allow_custom_attributes:
-						typeof config.allow_custom_attributes === 'undefined' || config.allow_custom_attributes === true,
-					allowRename: false,
+			if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
+				syncValueName.push(translate('advanced'));
+			}
+
+			if (!optionConfig.is_layout) {
+				syncValue.push(optionId);
+			}
+
+			if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
+				syncValue.push('styles');
+				syncValueName.push(translate('styles'), optionConfig.name);
+			}
+
+			if (optionConfig.type === 'responsive_group') {
+				syncValue.push('%%RESPONSIVE_DEVICE%%');
+			}
+
+			if (optionConfig.type === 'pseudo_group') {
+				syncValue.push('%%PSEUDO_SELECTOR%%');
+			}
+
+			syncValueName.push(optionId);
+		}
+
+		// Search in areas
+		let searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
+		if (optionConfig.title) {
+			searchOptions.push(optionConfig.title);
+		}
+		if (optionConfig.id) {
+			searchOptions.push(optionConfig.id);
+		}
+		if (optionConfig.description) {
+			searchOptions.push(optionConfig.description);
+		}
+		if (optionConfig.label) {
+			searchOptions.push(optionConfig.label);
+		}
+
+		if (optionConfig.type !== 'accordion_menu' && optionConfig.type !== 'element_styles') {
+			if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
+				let filteredBreadcrumbs = [];
+				if (currentName) {
+					filteredBreadcrumbs = currentName.filter(function (value) {
+						return value !== undefined;
+					});
+				}
+				foundOptions[syncValue.join('.')] = {
+					...optionConfig,
+					id: syncValue.join('.'),
+					sync: optionConfig.sync || syncValue.join('.'),
+					breadcrumbs: filteredBreadcrumbs,
 				};
-			});
+			}
+		}
 
-			return {
-				_styles: {
-					id: 'styles',
-					child_options: schema,
-					optionsLayout: 'full',
-					type: 'group',
-				},
+		if (optionConfig.type === 'repeater') {
+			return;
+		}
+
+		if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
+			const childOptions = filterOptions(keyword, getSchema('element_styles'), syncValue, syncValueName);
+
+			foundOptions = {
+				...foundOptions,
+				...childOptions,
 			};
-		},
+		}
 
-		allOptionsSchema() {
-			const elementOptionsSchema = this.element.elementTypeModel.options ? this.element.elementTypeModel.options : {};
-			const optionsSchema = {
-				...elementOptionsSchema,
-				...this.computedStyleOptionsSchema,
-				...this.getSchema('element_advanced'),
+		if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
+			const childOptions = filterOptions(keyword, optionConfig.child_options, syncValue, syncValueName);
+
+			foundOptions = {
+				...foundOptions,
+				...childOptions,
 			};
+		}
+	});
 
-			return optionsSchema;
-		},
-		computedStyleOptions: {
-			get() {
-				return this.elementOptions || {};
-			},
-			set(newValue) {
-				if (newValue === null) {
-					const oldValues = { ...this.elementOptions };
-					delete oldValues._styles;
+	return foundOptions;
+}
+function getInnerStyleName(id) {
+	if (id === 'pseudo_selectors') {
+		return undefined;
+	}
 
-					this.elementOptions = oldValues;
-				} else {
-					this.elementOptions = newValue;
-				}
-			},
-		},
-		getElementInfo() {
-			return {
-				uid: this.element.uid,
-				elementTypeConfig: this.element.elementTypeModel,
-				data: this.element,
-			};
-		},
+	return computedStyleOptionsSchema.value._styles.child_options[id] !== undefined
+		? computedStyleOptionsSchema.value._styles.child_options[id].title
+		: allOptionsSchema.value[id] !== undefined
+		? allOptionsSchema.value[id].title
+		: undefined;
+}
+function toggleSearchIcon() {
+	searchActive.value = !searchActive.value;
+	if (!searchActive.value) {
+		changeTab('general');
+	} else {
+		changeTab('search');
+	}
+	optionsFilterKeyword.value = '';
+}
 
-		filteredOptions() {
-			const keyword = this.optionsFilterKeyword;
-			if (keyword.length > 2) {
-				return this.filterOptions(keyword, this.allOptionsSchema);
-			}
+function changeTab(tabId) {
+	activeKeyTab.value = tabId;
 
-			return {};
-		},
-	},
-	watch: {
-		element(newValue, oldValue) {
-			if (newValue && newValue !== oldValue) {
-				this.addToGlobalHistory(oldValue);
-			}
-		},
-		searchActive(newValue) {
-			if (newValue) {
-				this.$nextTick(() => {
-					if (this.$refs.searchInput) {
-						this.$refs.searchInput.focus();
-					}
-				});
-			}
-		},
-	},
-	created() {
-		addAction('change-tab-styling', this.changeTabByEvent());
-	},
-	mounted() {
-		const { addEventListener } = useWindows();
-		addEventListener('keydown', this.onKeyPress, true);
-	},
-	unmounted() {
-		const { removeEventListener } = useWindows();
-		removeEventListener('keydown', this.onKeyPress, true);
+	if (tabId !== 'search') {
+		lastTab.value = activeKeyTab.value;
+		optionsFilterKeyword.value = '';
+	}
+}
 
-		// remove events
-		removeAction('change-tab-styling', this.changeTab());
-	},
-	methods: {
-		onBackButtonClick() {
-			if (this.element.parent && this.element.parent.elementTypeModel.element_type !== 'contentRoot') {
-				this.editElement(this.element.parent);
-			}
-		},
-		changeTabByEvent(event) {
-			if (event !== undefined) {
-				if (tabId !== 'search') {
-					this.lastTab = this.activeKeyTab;
-					this.optionsFilterKeyword = '';
-				}
-				this.activeKeyTab.value = event.detail;
-			}
-		},
-		filterOptions(keyword, optionsSchema, currentId, currentName) {
-			let lowercaseKeyword = keyword.toLowerCase();
-			let foundOptions = {};
+function addToGlobalHistory(element) {
+	if (hasChanges.value) {
+		const activeEl = element ? element : elementUtils.element.value;
+		const { addToHistory } = useHistory();
+		const elementSavedName = activeEl.name;
+		addToHistory(`Edited ${elementSavedName}`);
+	}
+}
+function closeOptionsPanel() {
+	addToGlobalHistory();
+	UIStore.closePanel(props.panel.id);
+	unEditElement();
+}
 
-			Object.keys(optionsSchema).forEach(optionId => {
-				const optionConfig = optionsSchema[optionId];
+function onKeyPress(e) {
+	const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
-				let syncValue = [];
-				let syncValueName = [];
+	if (isEditable()) {
+		return;
+	}
 
-				if (!optionConfig.sync) {
-					if (currentId) {
-						syncValue.push(...currentId);
-					}
-
-					if (currentName) {
-						let name = this.getInnerStyleName(currentName[currentName.length - 1]);
-						currentName[currentName.length - 1] = name;
-						syncValueName.push(...currentName);
-					}
-
-					if (optionId === 'animation-group' || optionId === 'custom-css-group' || optionId === 'general-group') {
-						syncValueName.push(this.$translate('advanced'));
-					}
-
-					if (!optionConfig.is_layout) {
-						syncValue.push(optionId);
-					}
-
-					if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
-						syncValue.push('styles');
-						syncValueName.push(this.$translate('styles'), optionConfig.name);
-					}
-
-					if (optionConfig.type === 'responsive_group') {
-						syncValue.push('%%RESPONSIVE_DEVICE%%');
-					}
-
-					if (optionConfig.type === 'pseudo_group') {
-						syncValue.push('%%PSEUDO_SELECTOR%%');
-					}
-
-					syncValueName.push(optionId);
-				}
-
-				// Search in areas
-				let searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
-				if (optionConfig.title) {
-					searchOptions.push(optionConfig.title);
-				}
-				if (optionConfig.id) {
-					searchOptions.push(optionConfig.id);
-				}
-				if (optionConfig.description) {
-					searchOptions.push(optionConfig.description);
-				}
-				if (optionConfig.label) {
-					searchOptions.push(optionConfig.label);
-				}
-
-				if (optionConfig.type !== 'accordion_menu' && optionConfig.type !== 'element_styles') {
-					if (searchOptions.join(' ').toLowerCase().indexOf(lowercaseKeyword) !== -1) {
-						let filteredBreadcrumbs = [];
-						if (currentName) {
-							filteredBreadcrumbs = currentName.filter(function (value) {
-								return value !== undefined;
-							});
-						}
-						foundOptions[syncValue.join('.')] = {
-							...optionConfig,
-							id: syncValue.join('.'),
-							sync: optionConfig.sync || syncValue.join('.'),
-							breadcrumbs: filteredBreadcrumbs,
-						};
-					}
-				}
-
-				if (optionConfig.type === 'repeater') {
-					return;
-				}
-
-				if (optionConfig.type === 'element_styles' || optionConfig.type === 'css_selector') {
-					const childOptions = this.filterOptions(keyword, this.getSchema('element_styles'), syncValue, syncValueName);
-
-					foundOptions = {
-						...foundOptions,
-						...childOptions,
-					};
-				}
-
-				if (optionConfig.child_options && Object.keys(optionConfig.child_options).length > 0) {
-					const childOptions = this.filterOptions(keyword, optionConfig.child_options, syncValue, syncValueName);
-
-					foundOptions = {
-						...foundOptions,
-						...childOptions,
-					};
-				}
-			});
-
-			return foundOptions;
-		},
-		getInnerStyleName(id) {
-			if (id === 'pseudo_selectors') {
-				return undefined;
-			}
-
-			return this.computedStyleOptionsSchema._styles.child_options[id] !== undefined
-				? this.computedStyleOptionsSchema._styles.child_options[id].title
-				: this.allOptionsSchema[id] !== undefined
-				? this.allOptionsSchema[id].title
-				: undefined;
-		},
-		toggleSearchIcon() {
-			this.searchActive = !this.searchActive;
-			if (!this.searchActive) {
-				this.changeTab('general');
-			} else {
-				this.changeTab('search');
-			}
-			this.optionsFilterKeyword = '';
-		},
-
-		changeTab(tabId) {
-			this.activeKeyTab = tabId;
-
-			if (tabId !== 'search') {
-				this.lastTab = this.activeKeyTab;
-				this.optionsFilterKeyword = '';
-			}
-		},
-
-		addToGlobalHistory(element) {
-			if (this.hasChanges) {
-				const activeEl = element ? element : this.element;
-				const { addToHistory } = useHistory();
-				const elementSavedName = activeEl.name;
-				addToHistory(`Edited ${elementSavedName}`);
-			}
-		},
-		closeOptionsPanel() {
-			this.addToGlobalHistory();
-			this.UIStore.closePanel(this.panel.id);
-			this.unEditElement();
-		},
-		onKeyPress(e) {
-			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
-
-			if (isEditable()) {
-				return;
-			}
-
-			// Undo CTRL+Z
-			if (e.which === 90 && e[controllKey] && !e.shiftKey && this.canUndo) {
-				this.undo();
-				e.preventDefault();
-				e.stopPropagation();
-			}
-			// Redo CTRL+SHIFT+Z CTRL + Y
-			if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
-				if (this.canRedo) {
-					this.redo();
-					e.preventDefault();
-					e.stopPropagation();
-				}
-			}
-		},
-	},
-};
+	// Undo CTRL+Z
+	if (e.which === 90 && e[controllKey] && !e.shiftKey && canUndo.value) {
+		undo();
+		e.preventDefault();
+		e.stopPropagation();
+	}
+	// Redo CTRL+SHIFT+Z CTRL + Y
+	if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
+		if (canRedo.value) {
+			redo();
+			e.preventDefault();
+			e.stopPropagation();
+		}
+	}
+}
 </script>
 
 <style lang="scss">

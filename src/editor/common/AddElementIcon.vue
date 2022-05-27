@@ -25,10 +25,11 @@ const props = withDefaults(
 	defineProps<{
 		element: ZionElement;
 		placement?: string;
-		position: string;
+		position?: string | null;
 	}>(),
 	{
 		placement: 'next',
+		position: null,
 	},
 );
 

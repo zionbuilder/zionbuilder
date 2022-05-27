@@ -1,36 +1,29 @@
-import { useElementMenu, useEditElement, useElementTypes } from '../../composables';
+import { useElementMenu, useElementTypes } from '../../composables';
 import { ref, computed } from 'vue';
+import { useUIStore } from '@/editor/store';
 
-export function useTreeViewItem(props: Object) {
-	const { element: activeEditElement } = useEditElement();
+export function useTreeViewItem(element) {
+	const UIStore = useUIStore();
 	const elementOptionsRef = ref(null);
-	const isActiveItem = computed(() => activeEditElement.value === props.element);
+	const isActiveItem = computed(() => UIStore.editedElementID === element.uid);
 
 	const { getElementType } = useElementTypes();
 
-	const elementModel = getElementType(props.element.element_type);
+	const elementModel = getElementType(element.element_type);
 
 	const showElementMenu = function () {
 		const { showElementMenu, activeElementMenu, hideElementMenu } = useElementMenu();
 		if (activeElementMenu.value && activeElementMenu.value.element === props.element) {
 			hideElementMenu();
 		} else {
-			showElementMenu(props.element, elementOptionsRef.value);
+			showElementMenu(element, elementOptionsRef.value);
 		}
 	};
-
-	function editElement() {
-		const { editElement } = useEditElement();
-
-		editElement(props.element);
-		props.element.scrollTo = true;
-	}
 
 	return {
 		elementOptionsRef,
 		isActiveItem,
 		elementModel,
 		showElementMenu,
-		editElement,
 	};
 }
