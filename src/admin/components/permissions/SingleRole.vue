@@ -18,7 +18,7 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore } from '@/common/store';
 
 // Components
 import UserModalContent from './UserModalContent.vue';

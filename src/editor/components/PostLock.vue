@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { lockPage } from '@common/api';
+import { lockPage } from '@/common/api';
 import { useEditorData, usePostLock } from '../composables';
 
 export default {

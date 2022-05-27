@@ -1,4 +1,4 @@
-import { getRenderedContent } from '@common/api';
+import { getRenderedContent } from '@/common/api';
 
 function RankMath() {
 	const { post_id = 0, is_editor_enabled = false } = window.ZnPbEditPostData ? window.ZnPbEditPostData.data : {};

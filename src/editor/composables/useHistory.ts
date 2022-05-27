@@ -3,7 +3,7 @@ import { each } from 'lodash-es';
 import { useTemplateParts } from './useTemplateParts';
 import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
-import { translate } from '@common/modules/i18n';
+import { translate } from '@/common/modules/i18n';
 import { useEditElement } from './useEditElement';
 
 const historyItems: Ref = ref([]);

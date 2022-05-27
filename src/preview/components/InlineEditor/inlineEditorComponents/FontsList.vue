@@ -16,7 +16,7 @@
 
 <script>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
-import { useDataSetsStore } from '@common/store';
+import { useDataSetsStore } from '@/common/store';
 
 export default {
 	setup(props, { emit }) {

@@ -1,6 +1,6 @@
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
-import { generateUID } from '@common/utils';
-import { applyFilters } from '@common/modules/hooks';
+import { generateUID } from '@/common/utils';
+import { applyFilters } from '@/common/modules/hooks';
 import { regenerateUIDs } from '../utils';
 import { useElementsStore } from '../store/useElementsStore';
 import { useElementTypes } from '../composables/useElementTypes';
@@ -28,7 +28,6 @@ export class Element {
 	public widgetID = '';
 	public callbacks: {} = {};
 	public loading = false;
-	public treeViewItemExpanded = false;
 	public serverRequester = null;
 	public addedTime = null;
 

@@ -36,8 +36,8 @@ import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
 import { useTemplateParts, useSaveTemplate } from '../composables';
-import { useLibrary } from '@common/composables';
-import { exportTemplate } from '@common/api';
+import { useLibrary } from '@/common/composables';
+import { exportTemplate } from '@/common/api';
 
 export default {
 	name: 'SaveElementModal',

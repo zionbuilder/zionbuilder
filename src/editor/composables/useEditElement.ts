@@ -10,14 +10,6 @@ export function useEditElement() {
 		element.value = elementInstance;
 
 		openPanel('panel-element-options');
-
-		if (elementInstance) {
-			let currentElement = elementInstance.parent;
-			while (currentElement.parent) {
-				currentElement.treeViewItemExpanded = true;
-				currentElement = currentElement.parent;
-			}
-		}
 	};
 
 	const unEditElement = () => {

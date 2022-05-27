@@ -32,7 +32,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import { translate } from '@common/modules/i18n';
+import { translate } from '@/common/modules/i18n';
 
 export default {
 	name: 'AddSelector',

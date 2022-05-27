@@ -37,8 +37,8 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
-import { applyFilters } from '@common/modules/hooks';
-import { useOptionsSchemas, usePseudoSelectors } from '@common/composables';
+import { applyFilters } from '@/common/modules/hooks';
+import { useOptionsSchemas, usePseudoSelectors } from '@/common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';

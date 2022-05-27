@@ -28,7 +28,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
 import { useAddElementsPopup, useWindows, useHistory, useElementTypes } from '../../composables';
-import { useLibrary } from '@common/composables';
+import { useLibrary } from '@/common/composables';
 import { useUIStore } from '../../store';
 
 // Components

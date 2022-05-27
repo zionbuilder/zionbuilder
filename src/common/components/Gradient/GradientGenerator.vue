@@ -79,7 +79,7 @@ import PresetInput from './PresetInput.vue';
 import { Sortable } from '../sortable';
 import { ActionsOverlay } from '../ActionsOverlay';
 import { generateUID } from '../../utils';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore } from '@/common/store';
 
 import type { Gradient, Position } from './GradientBar.vue';
 

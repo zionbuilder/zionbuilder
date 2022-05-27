@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getDefaultGradient } from '@common/utils';
+import { getDefaultGradient } from '@/common/utils';
 export default {
 	name: 'BackgroundGradient',
 	props: {

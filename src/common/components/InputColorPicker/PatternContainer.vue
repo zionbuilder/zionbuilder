@@ -58,7 +58,7 @@ import GridColor from '../Colorpicker/GridColor.vue';
 import LibraryElement from '../Gradient/LibraryElement.vue';
 import PresetInput from '../Gradient/PresetInput.vue';
 import { Label } from '../Label';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore } from '@/common/store';
 
 type GlobalColor = { color: string; id: string; name: string };
 

@@ -11,7 +11,9 @@ export function useElementUtils(elementUID: string) {
 
 	// Computed
 	const element = computed(() => contentStore.getElement(elementUID));
-	const elementDefinition = computed(() => elementTypes.getElementType(element.value.element_type));
+	const elementDefinition = computed(() =>
+		elementTypes.getElementType(element.value ? element.value.element_type : ''),
+	);
 	const elementName = computed({
 		get: () => get(element, '_advanced_options._element_name', elementDefinition.value.name),
 		set: newValue => contentStore.updateElement(elementUID, '_advanced_options._element_name', newValue),

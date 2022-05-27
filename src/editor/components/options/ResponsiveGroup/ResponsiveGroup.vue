@@ -4,7 +4,7 @@
 
 <script>
 import { onMounted, onBeforeUnmount, computed } from 'vue';
-import { useResponsiveDevices } from '@common/composables';
+import { useResponsiveDevices } from '@/common/composables';
 
 export default {
 	name: 'ResponsiveGroup',

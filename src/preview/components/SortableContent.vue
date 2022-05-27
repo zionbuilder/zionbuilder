@@ -47,7 +47,7 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { translate } from '@common/modules/i18n';
+import { translate } from '@/common/modules/i18n';
 
 // Utils
 import { get } from 'lodash-es';

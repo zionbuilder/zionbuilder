@@ -16,70 +16,50 @@
 	</transition>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
 import { useAddElementsPopup } from '../composables';
-import { translate } from '@common/modules/i18n';
+import { translate } from '@/common/modules/i18n';
 
-export default {
-	name: 'AddElementIcon',
-	props: {
-		element: {
-			type: Object,
-		},
-		placement: {
-			type: String,
-			default: 'next',
-		},
-		position: {
-			type: String,
-		},
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		placement?: string;
+		position: string;
+	}>(),
+	{
+		placement: 'next',
 	},
-	setup(props) {
-		const addElementsPopupButton = ref(false);
-		const isIconClicked = ref(false);
+);
 
-		const { activePopup } = useAddElementsPopup();
+const addElementsPopupButton = ref(false);
+const isIconClicked = ref(false);
 
-		const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
+const { activePopup } = useAddElementsPopup();
 
-		const isPopupActive = computed(() => {
-			return isIconClicked.value && activePopup.value && activePopup.value.element === props.element;
-		});
+const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
 
-		watch(activePopup, (newValue, oldValue) => {
-			if (!newValue || (newValue && newValue.element !== props.element)) {
-				isIconClicked.value = false;
-			}
-		});
+const isPopupActive = computed(() => {
+	return isIconClicked.value && activePopup.value && activePopup.value.element === props.element;
+});
 
-		function toggleAddElementsPopup() {
-			const { showAddElementsPopup } = useAddElementsPopup();
-			showAddElementsPopup(props.element, addElementsPopupButton, {
-				placement: props.placement,
-			});
-		}
+watch(activePopup, newValue => {
+	if (!newValue || (newValue && newValue.element !== props.element)) {
+		isIconClicked.value = false;
+	}
+});
 
-		function onIconClick() {
-			isIconClicked.value = true;
-			toggleAddElementsPopup();
-		}
+function toggleAddElementsPopup() {
+	const { showAddElementsPopup } = useAddElementsPopup();
+	showAddElementsPopup(props.element, addElementsPopupButton, {
+		placement: props.placement,
+	});
+}
 
-		return {
-			// Refs
-			addElementsPopupButton,
-
-			// Vars
-			positionString,
-
-			// Computed
-			isPopupActive,
-
-			// Methods
-			onIconClick,
-		};
-	},
-};
+function onIconClick() {
+	isIconClicked.value = true;
+	toggleAddElementsPopup();
+}
 </script>
 
 <style lang="scss">

@@ -1,11 +1,10 @@
 import { ref, Ref } from 'vue';
-import { Element } from '../models';
 import { useUIStore } from '../store';
 
 const activeElementMenu: Ref<null | object> = ref(null);
 
 export function useElementMenu() {
-	const showElementMenu = (element: Element, selector, actions = {}) => {
+	const showElementMenu = (element: ZionElement, selector, actions = {}) => {
 		// Don't show on preview mode
 		const UIStore = useUIStore();
 

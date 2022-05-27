@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getImageIds } from '@common/api';
+import { getImageIds } from '@/common/api';
 
 const wp = window.wp;
 

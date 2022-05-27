@@ -12,7 +12,7 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { useBuilderOptionsStore, useUsersStore } from '@common/store';
+import { useBuilderOptionsStore, useUsersStore } from '@/common/store';
 
 export default {
 	name: 'ModalListItem',

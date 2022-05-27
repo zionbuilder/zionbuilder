@@ -21,7 +21,7 @@
 
 <script>
 import { ref } from 'vue';
-import { regenerateCache } from '@common/api';
+import { regenerateCache } from '@/common/api';
 
 export default {
 	name: 'ToolsPage',

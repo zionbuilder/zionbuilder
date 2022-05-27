@@ -77,7 +77,7 @@
 
 				<!-- Start panels -->
 				<component
-					:is="panel.component"
+					:is="panelComponentsMap[panel.id]"
 					v-for="panel in UIStore.openPanels"
 					v-show="!UIStore.isPreviewMode || panel.id === 'preview-iframe'"
 					:key="panel.id"
@@ -88,8 +88,8 @@
 		</div>
 
 		<div v-if="isPreviewLoading" class="znpb-loading-wrapper-gif">
-			<img :src="urls.loader" />
-			<div class="znpb-loading-wrapper-gif__text">{{ $translate('generating_preview') }}</div>
+			<img :src="editorData.urls.loader" />
+			<div class="znpb-loading-wrapper-gif__text">{{ translate('generating_preview') }}</div>
 		</div>
 
 		<!-- Add Elements Popup -->
@@ -97,7 +97,6 @@
 		<ElementMenu />
 		<SaveElementModal />
 		<PostLock />
-
 		<PanelLibraryModal />
 
 		<!-- notices -->
@@ -110,21 +109,20 @@
 	<!-- end znpb-main-wrapper -->
 </template>
 
-<script>
-import { provide, computed, inject } from 'vue';
+<script lang="ts" setup>
+import { ref, provide, computed, onBeforeUnmount, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import * as STORES from './store';
+import { translate } from '@/common/modules/i18n';
 
-import { translate } from '@common/modules/i18n';
-
-// import components
-import PanelLibraryModal from './components/PanelLibraryModal.vue';
 import PanelTree from './components/treeView/PanelTree.vue';
 import PanelGlobalSettings from './components/PanelGlobalSettings.vue';
 import PanelHistory from './components/PanelHistory.vue';
 import MainPanel from './components/main-panel.vue';
 import PreviewIframe from './components/PreviewIframe.vue';
 import PanelElementOptions from './components/PanelElementOptions.vue';
+
+// import components
+import PanelLibraryModal from './components/PanelLibraryModal.vue';
 import PostLock from './components/PostLock.vue';
 import SaveElementModal from './components/SaveElementModal.vue';
 
@@ -132,145 +130,117 @@ import SaveElementModal from './components/SaveElementModal.vue';
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, usePreviewLoading, useEditorData, useAutosave, useWindows } from './composables';
-import { useResponsiveDevices } from '@common/composables';
-import { useNotificationsStore } from '@common/store';
+import { useResponsiveDevices } from '@/common/composables';
+import { useNotificationsStore } from '@/common/store';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
 import { serverRequest } from './api';
 
-// WordPress hearbeat
+// WordPress HeartBeat
 import './modules/HeartBeat.js';
 
-export default {
-	name: 'ZnpbEditorApp',
-	components: {
-		PanelLibraryModal,
-		PanelTree,
-		PanelHistory,
-		MainPanel,
-		PreviewIframe,
-		PanelGlobalSettings,
-		PanelElementOptions,
-		PostLock,
-		AddElementPopup,
-		ElementMenu,
-		SaveElementModal,
-	},
-	setup() {
-		const UIStore = useUIStore();
-		const { notifications } = storeToRefs(useNotificationsStore());
-		const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
-			useResponsiveDevices();
-		const { applyShortcuts } = useKeyBindings();
-		const { isPreviewLoading } = usePreviewLoading();
-		const { editorData } = useEditorData();
+const devicesVisible = ref(false);
+const UIStore = useUIStore();
+const { notifications } = storeToRefs(useNotificationsStore());
+const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
+	useResponsiveDevices();
+const { applyShortcuts } = useKeyBindings();
+const { isPreviewLoading } = usePreviewLoading();
+const { editorData } = useEditorData();
 
-		// Setup initial data for stores
-		const cssClasses = useCSSClassesStore();
-		cssClasses.setCSSClasses(window.ZnPbInitialData.css_classes);
-
-		// Setup initial data for page settings
-		const pageSettings = usePageSettingsStore();
-		pageSettings.settings = window.ZnPbInitialData.page_settings.values;
-
-		const mainBarDraggingPlaceholderStyles = computed(() => {
-			return {
-				transform: `translate3d(${UIStore.mainBarDraggingPlaceholder.left - 22}px, ${
-					UIStore.mainBarDraggingPlaceholder.top - 22
-				}px,0)`,
-			};
-		});
-
-		// General functionality
-		useAutosave();
-		console.log(STORES);
-		// provide masks for ShapeDividerComponent option
-		provide('serverRequester', serverRequest);
-		provide('masks', editorData.value.masks);
-		provide('plugin_info', editorData.value.plugin_info);
-
-		// Add notices
-		const { add } = useNotificationsStore();
-		add({
-			message: translate('autosave_notice'),
-			type: 'info',
-			delayClose: 5000,
-		});
-
-		// Stores subscribe
-		const storesToSubscribe = [useUIStore()];
-		storesToSubscribe.forEach(store => {
-			store.$subscribe((mutation, state) => {
-				const { getWindows } = useWindows();
-				const iframeWindow = getWindows('preview');
-				if (iframeWindow) {
-					iframeWindow.postMessage(
-						{
-							action: 'zbMessage',
-							store: store.$id,
-							state: JSON.stringify(state),
-						},
-						'*',
-					);
-				}
-			});
-		});
-
-		return {
-			// Stores
-			UIStore,
-			// Computed
-			mainBarDraggingPlaceholderStyles,
-			activeResponsiveDeviceId,
-			notifications,
-			activeResponsiveDeviceInfo,
-			responsiveDevices,
-			setActiveResponsiveDeviceId,
-			applyShortcuts,
-			isPreviewLoading,
-			urls: editorData.value.urls,
-		};
-	},
-	data: () => {
-		return {
-			devicesVisible: false,
-		};
-	},
-	computed: {
-		showEditorButtonStyle() {
-			let buttonStyle;
-
-			buttonStyle = {
-				left: '30px',
-				top: '30px',
-			};
-
-			return buttonStyle;
-		},
-	},
-
-	beforeUnmount: function () {
-		// remove events
-		document.removeEventListener('keydown', this.applyShortcuts);
-	},
-	mounted() {
-		document.addEventListener('keydown', this.applyShortcuts);
-	},
-	methods: {
-		activateDevice(device) {
-			this.setActiveResponsiveDeviceId(device.id);
-			setTimeout(() => {
-				this.showDevices = false;
-			}, 50);
-		},
-		showPanels() {
-			this.UIStore.setPreviewMode(false);
-		},
-		showDevices() {
-			this.devicesVisible = !this.devicesVisible;
-		},
-	},
-	// end mounted
+// Components Map
+const panelComponentsMap = {
+	'panel-element-options': PanelElementOptions,
+	'panel-global-settings': PanelGlobalSettings,
+	'preview-iframe': PreviewIframe,
+	'panel-history': PanelHistory,
+	'panel-tree': PanelTree,
 };
+
+// Setup initial data for stores
+const cssClasses = useCSSClassesStore();
+cssClasses.setCSSClasses(window.ZnPbInitialData.css_classes);
+
+// Setup initial data for page settings
+const pageSettings = usePageSettingsStore();
+pageSettings.settings = window.ZnPbInitialData.page_settings.values;
+
+const mainBarDraggingPlaceholderStyles = computed(() => {
+	return {
+		transform: `translate3d(${UIStore.mainBarDraggingPlaceholder.left - 22}px, ${
+			UIStore.mainBarDraggingPlaceholder.top - 22
+		}px,0)`,
+	};
+});
+
+// General functionality
+useAutosave();
+
+// provide masks for ShapeDividerComponent option
+provide('serverRequester', serverRequest);
+provide('masks', editorData.value.masks);
+provide('plugin_info', editorData.value.plugin_info);
+
+// Add notices
+const { add } = useNotificationsStore();
+add({
+	message: translate('autosave_notice'),
+	type: 'info',
+	delayClose: 5000,
+});
+
+// Stores subscribe
+const storesToSubscribe = [useUIStore()];
+storesToSubscribe.forEach(store => {
+	store.$subscribe((mutation, state) => {
+		const { getWindows } = useWindows();
+		const iframeWindow = getWindows('preview');
+		if (iframeWindow) {
+			iframeWindow.postMessage(
+				{
+					action: 'zbMessage',
+					store: store.$id,
+					state: JSON.stringify(state),
+				},
+				'*',
+			);
+		}
+	});
+});
+
+const showEditorButtonStyle = computed(() => {
+	let buttonStyle;
+
+	buttonStyle = {
+		left: '30px',
+		top: '30px',
+	};
+
+	return buttonStyle;
+});
+
+onMounted(() => {
+	document.addEventListener('keydown', applyShortcuts);
+});
+
+onBeforeUnmount(() => {
+	document.removeEventListener('keydown', applyShortcuts);
+});
+
+function activateDevice(device) {
+	setActiveResponsiveDeviceId(device.id);
+	setTimeout(() => {
+		showDevices.value = false;
+	}, 50);
+}
+
+function showPanels() {
+	UIStore.setPreviewMode(false);
+}
+
+function showDevices() {
+	devicesVisible.value = !devicesVisible.value;
+}
+
 // end export default
 </script>
 

@@ -4,12 +4,12 @@
 			<ModalConfirm
 				v-if="showModalConfirm"
 				:width="530"
-				:confirm-text="$translate('yes_delete_elements')"
-				:cancel-text="$translate('cancel')"
+				:confirm-text="translate('yes_delete_elements')"
+				:cancel-text="translate('cancel')"
 				@confirm="removeAllElements"
 				@cancel="showModalConfirm = false"
 			>
-				{{ $translate('are_you_sure_delete_elements') }}
+				{{ translate('are_you_sure_delete_elements') }}
 			</ModalConfirm>
 
 			<a
@@ -20,17 +20,17 @@
 				}"
 				@click="showModalConfirm = true"
 			>
-				{{ $translate('remove_all') }}
+				{{ translate('remove_all') }}
 				<Icon icon="delete" :size="10" />
 			</a>
 
-			<a href="#" @click="expandOrCollapse(element), (showExpand = !showExpand)">
-				<template v-if="showExpand">
-					{{ $translate('expand_all') }}
+			<a href="#" @click="treeViewExpanded = !treeViewExpanded">
+				<template v-if="!treeViewExpanded">
+					{{ translate('expand_all') }}
 					<Icon icon="long-arrow-down" :size="10" />
 				</template>
 				<template v-else>
-					{{ $translate('collapse_all') }}
+					{{ translate('collapse_all') }}
 					<Icon icon="long-arrow-up" :size="10" />
 				</template>
 			</a>
@@ -41,64 +41,43 @@
 		</div>
 	</div>
 </template>
-<script lang="ts">
-import { ref, computed } from 'vue';
-import { useEditorData, useHistory, useEditElement } from '../../../composables';
-import { translate } from '@common/modules/i18n';
-import { useContentStore } from '../../../store';
+<script lang="ts" setup>
+import { ref, computed, provide } from 'vue';
+import { useEditorData, useHistory, useEditElement, useElementUtils } from '@/editor/composables';
+import { translate } from '@/common/modules/i18n';
+import { useContentStore } from '@/editor/store';
 
-export default {
-	name: 'TreeViewPanel',
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props) {
-		const showExpand = ref(true);
-		const showModalConfirm = ref(false);
-		const canRemove = computed(() => {
-			return props.element.content.length === 0;
-		});
+const props = defineProps<{
+	elementUid: string;
+}>();
 
-		function expandOrCollapse(element) {
-			if (element.content.length > 0) {
-				element.content.forEach(child => {
-					child.treeViewItemExpanded = showExpand.value;
-					expandOrCollapse(child);
-				});
-			}
-		}
+const contentStore = useContentStore();
+const treeViewExpanded = ref(false);
+const showModalConfirm = ref(false);
+const { element } = useElementUtils(props.elementUid);
+const { unEditElement } = useEditElement();
+const { editorData } = useEditorData();
+const { addToHistory } = useHistory();
 
-		function removeAllElements() {
-			const contentStore = useContentStore();
-			const { unEditElement } = useEditElement();
-			const { editorData } = useEditorData();
-			const { addToHistory } = useHistory();
+const canRemove = computed(() => {
+	return element.value && element.value.content.length === 0;
+});
 
-			// clear area content
-			contentStore.clearAreaContent(editorData.value.page_id);
+provide('treeViewExpandStatus', treeViewExpanded);
 
-			// Close edit element panel
-			unEditElement();
+function removeAllElements() {
+	// clear area content
+	contentStore.clearAreaContent(editorData.value.page_id);
 
-			// Add to history
-			addToHistory(translate('removed_all_elements'));
+	// Close edit element panel
+	unEditElement();
 
-			// Close modal
-			showModalConfirm.value = false;
-		}
+	// Add to history
+	addToHistory(translate('removed_all_elements'));
 
-		return {
-			canRemove,
-			showExpand,
-			showModalConfirm,
-			expandOrCollapse,
-			removeAllElements,
-		};
-	},
-};
+	// Close modal
+	showModalConfirm.value = false;
+}
 </script>
 <style lang="scss">
 .znpb-tree-viewExpandContainer {

@@ -140,10 +140,10 @@
 
 <script>
 import { ref, watch, provide, computed } from 'vue';
-import { addAction, removeAction } from '@common/modules/hooks';
-import { isEditable, Environment } from '@common/utils';
+import { addAction, removeAction } from '@/common/modules/hooks';
+import { isEditable, Environment } from '@/common/utils';
 import { useEditElement, useElementProvide, useWindows, useHistory } from '../composables';
-import { usePseudoSelectors, useOptionsSchemas } from '@common/composables';
+import { usePseudoSelectors, useOptionsSchemas } from '@/common/composables';
 import { debounce } from 'lodash-es';
 import { useUIStore } from '../store';
 

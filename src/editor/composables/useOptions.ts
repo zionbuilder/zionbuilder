@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es';
-import { applyFilters } from '@common/modules/hooks';
+import { applyFilters } from '@/common/modules/hooks';
 
 export const parseOptions = (options, schema, config) => {
 	// Create a clone

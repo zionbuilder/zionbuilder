@@ -19,7 +19,7 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
-import { applyFilters, addAction, removeAction, doAction } from '@common/modules/hooks';
+import { applyFilters, addAction, removeAction, doAction } from '@/common/modules/hooks';
 
 // Utils
 import { debounce } from 'lodash-es';

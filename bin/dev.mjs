@@ -14,7 +14,7 @@ const server = await createServer({
   configFile: false,
   resolve: {
     alias: {
-      '@common': '/../src/common',
+      '@/': '/../src/',
     },
   },
   mode: 'development',

@@ -4,7 +4,7 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { applyFilters, doAction } from '@common/modules/hooks';
+import { applyFilters, doAction } from '@/common/modules/hooks';
 
 // Components
 import ElementWrapper from './ElementWrapper.vue';

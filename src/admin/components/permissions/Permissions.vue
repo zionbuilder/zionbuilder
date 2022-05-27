@@ -68,7 +68,7 @@
 <script>
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useBuilderOptionsStore, useUsersStore, useDataSetsStore } from '@common/store';
+import { useBuilderOptionsStore, useUsersStore, useDataSetsStore } from '@/common/store';
 
 // Components
 import SingleRole from './SingleRole.vue';

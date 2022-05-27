@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
+import { useContentStore } from './useContentStore';
 
 interface Panel {
 	id: string;
@@ -52,23 +53,16 @@ export const useUIStore = defineStore('ui', {
 
 		const panels: Panel[] = [
 			getPanelData('panel-element-options', {
-				component: 'PanelElementOptions',
 				saveOpenState: false,
 			}),
 			getPanelData('panel-global-settings', {
-				component: 'panel-global-settings',
 				saveOpenState: false,
 			}),
 			getPanelData('preview-iframe', {
-				component: 'PreviewIframe',
 				isActive: true,
 			}),
-			getPanelData('panel-history', {
-				component: 'panel-history',
-			}),
-			getPanelData('panel-tree', {
-				component: 'panel-tree',
-			}),
+			getPanelData('panel-history', {}),
+			getPanelData('panel-tree', {}),
 		];
 
 		return {
@@ -96,6 +90,7 @@ export const useUIStore = defineStore('ui', {
 			},
 			isLibraryOpen: false,
 			isPreviewMode: false,
+			editedElementID: null,
 		};
 	},
 	getters: {
@@ -127,6 +122,11 @@ export const useUIStore = defineStore('ui', {
 		},
 	},
 	actions: {
+		// Element
+		editElement(elementID: string) {
+			this.editedElementID = elementID;
+			this.openPanel('panel-element-options');
+		},
 		// Panels
 		openPanel(panelId: string) {
 			const panelToOpen = this.getPanel(panelId);

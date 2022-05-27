@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { useOptionsSchemas } from '@common/composables';
+import { useOptionsSchemas } from '@/common/composables';
 
 export default {
 	name: 'Typography',

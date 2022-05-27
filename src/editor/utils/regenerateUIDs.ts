@@ -1,4 +1,4 @@
-import { generateUID } from '@common/utils';
+import { generateUID } from '@/common/utils';
 
 export const regenerateUIDs = element => {
 	const uid = generateUID();

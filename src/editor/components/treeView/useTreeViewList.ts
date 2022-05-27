@@ -1,7 +1,7 @@
 import { useElementMenu, useIsDragging } from '../../composables';
 import { ref, computed } from 'vue';
 
-export function useTreeViewList(props: Object) {
+export function useTreeViewList(element: ZionElement) {
 	// Add elements button DOM element will be populated after mount
 	const addElementsPopupButton = ref(null);
 	const elementOptionsRef = ref(null);
@@ -9,10 +9,10 @@ export function useTreeViewList(props: Object) {
 
 	const templateItems = computed({
 		get() {
-			return props.element.content;
+			return element.content;
 		},
-		set(value) {
-			props.element.content = value;
+		set(value: string[]) {
+			element.content = value;
 		},
 	});
 
@@ -26,7 +26,7 @@ export function useTreeViewList(props: Object) {
 
 	const showElementMenu = function () {
 		const { showElementMenu } = useElementMenu();
-		showElementMenu(props.element, elementOptionsRef.value);
+		showElementMenu(element, elementOptionsRef.value);
 	};
 
 	return {

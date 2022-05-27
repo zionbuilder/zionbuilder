@@ -76,8 +76,8 @@
 
 <script>
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices } from '@common/composables';
-import { doAction } from '@common/modules/hooks';
+import { useResponsiveDevices } from '@/common/composables';
+import { doAction } from '@/common/modules/hooks';
 
 export default {
 	name: 'DeviceElement',

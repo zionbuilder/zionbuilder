@@ -1,12 +1,12 @@
-import { savePage as savePageREST } from '@common/api';
+import { savePage as savePageREST } from '@/common/api';
 import { ref, Ref } from 'vue';
 import { useTemplateParts } from './useTemplateParts';
 import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
-import { translate } from '@common/modules/i18n';
-import { useNotificationsStore } from '@common/store';
+import { translate } from '@/common/modules/i18n';
+import { useNotificationsStore } from '@/common/store';
 import { useHistory } from './useHistory';
-import { useResponsiveDevices } from '@common/composables';
+import { useResponsiveDevices } from '@/common/composables';
 
 const isSavePageLoading: Ref<boolean> = ref(false);
 let previewWindow = null;

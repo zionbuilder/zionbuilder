@@ -33,7 +33,7 @@
 </template>
 <script>
 import { computed, ref } from 'vue';
-import { useLibrary } from '@common/composables';
+import { useLibrary } from '@/common/composables';
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue';

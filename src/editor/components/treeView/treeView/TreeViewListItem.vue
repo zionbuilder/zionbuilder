@@ -9,7 +9,7 @@
 		}"
 		@mouseover.stop="highlight"
 		@mouseout.stop="unHighlight"
-		@click.stop.left="editElement"
+		@click.stop.left="UIStore.editElement(elementUid)"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
@@ -18,9 +18,9 @@
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
-					'znpb-tree-view__item-header-expand--expanded': element?.treeViewItemExpanded,
+					'znpb-tree-view__item-header-expand--expanded': expanded,
 				}"
-				@click.stop="element.treeViewItemExpanded = !element?.treeViewItemExpanded"
+				@click.stop="expanded = !expanded"
 			/>
 
 			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
@@ -42,24 +42,28 @@
 			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList v-if="element?.treeViewItemExpanded" :element="element" />
+		<TreeViewList v-show="expanded" :element="element" @expand-panel="expanded = true" />
 	</li>
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, watch, onMounted } from 'vue';
-import { usePreviewLoading, useElementUtils } from '../../../composables';
+import { ref, Ref, watch, onMounted, inject } from 'vue';
+import { usePreviewLoading, useElementUtils } from '@/editor/composables';
 import { useTreeViewItem } from '../useTreeViewItem';
+import { useUIStore } from '@/editor/store';
 
 const props = defineProps<{
 	elementUid: string;
 }>();
+const emit = defineEmits(['expand-panel']);
 
+const UIStore = useUIStore();
 const listItem: Ref = ref(null);
+const expanded = ref(false);
 const { element, elementName, isVisible, highlight, unHighlight, toggleVisibility, isWrapper } = useElementUtils(
 	props.elementUid,
 );
-const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem({
+const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem({
 	element,
 });
 
@@ -82,6 +86,18 @@ watch(
 		}
 	},
 );
+
+watch(
+	() => UIStore.editedElementID,
+	newValue => {
+		if (newValue === props.elementUid) {
+			emit('expand-panel');
+		}
+	},
+);
+
+const treeViewExpandStatus = inject('treeViewExpandStatus');
+watch(treeViewExpandStatus, newValue => (expanded.value = newValue));
 
 function scrollToItem() {
 	if (listItem.value) {

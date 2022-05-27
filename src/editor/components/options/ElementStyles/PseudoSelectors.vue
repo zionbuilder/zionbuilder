@@ -85,7 +85,7 @@
 <script>
 import { computed, ref, onBeforeUnmount } from 'vue';
 import { cloneDeep, set, find } from 'lodash-es';
-import { useResponsiveDevices, usePseudoSelectors } from '@common/composables';
+import { useResponsiveDevices, usePseudoSelectors } from '@/common/composables';
 import { useEditorData } from '../../../composables';
 
 // Components

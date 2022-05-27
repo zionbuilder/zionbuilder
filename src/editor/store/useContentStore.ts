@@ -1,28 +1,9 @@
 import { defineStore } from 'pinia';
 import { pull, set } from 'lodash-es';
 
-interface BuilderArea {
-	id: string;
-	name: string;
-}
-
 interface State {
 	areas: BuilderArea[];
-	elements: Element[];
-}
-
-type ElementConfig = {
-	uid: string;
-	content: ElementConfig[];
-	options: Record<string, unknown>;
-	element_type: string;
-};
-
-interface Element extends Omit<ElementConfig, 'content'> {
-	content: string[];
-	parent: string | null;
-	addedTime: number;
-	treeViewItemExpanded: boolean;
+	elements: ZionElement[];
 }
 
 export const useContentStore = defineStore('content', {
@@ -37,7 +18,7 @@ export const useContentStore = defineStore('content', {
 		getElement: state => (elementUID: string) => state.elements.find(element => element.uid === elementUID),
 	},
 	actions: {
-		registerArea(areaConfig: BuilderArea, areaContent: ElementConfig[]) {
+		registerArea(areaConfig: BuilderArea, areaContent: ZionElementConfig[]) {
 			const rootElement = {
 				uid: areaConfig.id,
 				element_type: 'contentRoot',
@@ -51,8 +32,8 @@ export const useContentStore = defineStore('content', {
 			// Register the area
 			this.areas.push(areaConfig);
 		},
-		registerElement(elementConfig: ElementConfig, parent: Element['parent'] = null) {
-			const newElement: Element = {
+		registerElement(elementConfig: ZionElementConfig, parent: ZionElement['parent'] = null) {
+			const newElement: ZionElement = {
 				...elementConfig,
 				content: elementConfig.content.map(el => el.uid),
 				parent: parent,
@@ -85,7 +66,6 @@ export const useContentStore = defineStore('content', {
 		updateElement(elementUID: string, path: string, newValue: unknown) {
 			const element = this.getElement(elementUID);
 			if (element) {
-				console.log({ path, newValue });
 				set(element, path, newValue);
 			}
 		},

@@ -19,7 +19,7 @@
 
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
-import { addAction, removeAction } from '@common/modules/hooks';
+import { addAction, removeAction } from '@/common/modules/hooks';
 import { each } from 'lodash-es';
 
 import {
@@ -31,8 +31,8 @@ import {
 	useHistory,
 	useElementTypes,
 } from '../composables';
-import { useResponsiveDevices } from '@common/composables';
-import { useNotificationsStore } from '@common/store';
+import { useResponsiveDevices } from '@/common/composables';
+import { useNotificationsStore } from '@/common/store';
 import { useUIStore, useContentStore } from '../store';
 
 export default {

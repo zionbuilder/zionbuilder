@@ -109,7 +109,7 @@
 import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
-import { useLibrary } from '@common/composables';
+import { useLibrary } from '@/common/composables';
 import { useElementsStore, useUIStore } from '../store';
 
 // Components

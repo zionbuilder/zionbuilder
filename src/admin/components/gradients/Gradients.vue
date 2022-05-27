@@ -51,8 +51,8 @@
 
 <script>
 import { ref, inject } from 'vue';
-import { generateUID, getDefaultGradient } from '@common/utils';
-import { useBuilderOptionsStore } from '@common/store';
+import { generateUID, getDefaultGradient } from '@/common/utils';
+import { useBuilderOptionsStore } from '@/common/store';
 
 // Components
 import GradientBox from './GradientBox.vue';

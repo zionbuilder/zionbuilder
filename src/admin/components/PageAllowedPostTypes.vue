@@ -23,7 +23,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useBuilderOptionsStore, useDataSetsStore } from '@common/store';
+import { useBuilderOptionsStore, useDataSetsStore } from '@/common/store';
 
 const { dataSets } = storeToRefs(useDataSetsStore());
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();

@@ -50,7 +50,7 @@
 
 <script>
 import { storeToRefs } from 'pinia';
-import { useDataSetsStore } from '@common/store';
+import { useDataSetsStore } from '@/common/store';
 
 export default {
 	name: 'UserModalContent',

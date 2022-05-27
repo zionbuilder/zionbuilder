@@ -51,7 +51,7 @@ import {
 	useEditorData,
 	useUserData,
 } from '../../composables';
-import { translate } from '@common/modules/i18n';
+import { translate } from '@/common/modules/i18n';
 
 // Components
 import ElementList from './ElementList.vue';

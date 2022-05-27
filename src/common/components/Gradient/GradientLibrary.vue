@@ -58,7 +58,7 @@ import GradientPreview from './GradientPreview.vue';
 import LibraryElement from './LibraryElement.vue';
 import { Label } from '../Label';
 import type { Gradient } from './GradientBar.vue';
-import { useBuilderOptionsStore } from '@common/store';
+import { useBuilderOptionsStore } from '@/common/store';
 
 interface GradientModel {
 	id: string;

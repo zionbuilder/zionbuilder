@@ -16,7 +16,7 @@
 		/>
 
 		<template #end>
-			<div v-if="templateItems.length === 0 && element.isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
+			<div v-if="templateItems.length === 0 && isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
 				<AddElementIcon :element="element" placement="inside" />
 			</div>
 		</template>
@@ -30,38 +30,20 @@
 		</template>
 	</Sortable>
 </template>
-<script>
-import SortableHelper from '../../../common/SortableHelper.vue';
-import SortablePlaceholder from '../../../common/SortablePlaceholder.vue';
+<script lang="ts" setup>
+import SortableHelper from '@/editor/common/SortableHelper.vue';
+import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue';
 import { useTreeViewList } from '../useTreeViewList';
+import { useElementUtils } from '@/editor/composables';
 
-export default {
-	name: 'TreeViewList',
-	components: {
-		SortableHelper,
-		SortablePlaceholder,
-	},
-	props: {
-		element: {
-			type: Object,
-			required: false,
-		},
-	},
-	setup(props, context) {
-		const { templateItems, sortableStart, sortableEnd } = useTreeViewList(props);
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-		function onChildActive() {
-			expanded.value = true;
-		}
+defineEmits(['expand-panel']);
 
-		return {
-			templateItems,
-			onChildActive,
-			sortableStart,
-			sortableEnd,
-		};
-	},
-};
+const { element, isWrapper } = useElementUtils(props.element.uid);
+const { templateItems, sortableStart, sortableEnd } = useTreeViewList(element.value);
 </script>
 
 <style lang="scss">
