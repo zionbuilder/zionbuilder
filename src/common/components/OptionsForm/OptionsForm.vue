@@ -13,7 +13,6 @@
 				:schema="optionConfig"
 				:option-id="optionId"
 				:modelValue="optionConfig.is_layout ? modelValue : modelValue[optionId]"
-				:get-schema-from-path="getOptionSchemaFromPath"
 				:compile-placeholder="compilePlaceholder"
 				@update:modelValue="setValue(...$event)"
 				@change="onOptionChange"
@@ -52,6 +51,11 @@ export default {
 			required: false,
 			default: true,
 		},
+		replacements: {
+			type: Array,
+			required: false,
+			default: () => [],
+		},
 	},
 	setup(props, { emit }) {
 		// Provide the top model value so we can check for sync options values
@@ -65,7 +69,6 @@ export default {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
 		const { fontsListForOption } = useDataSetsStore();
 		const { activePseudoSelector } = usePseudoSelectors();
-		const elementInfo = inject('elementInfo', null);
 
 		/**
 		 * Will update the top model
@@ -192,7 +195,6 @@ export default {
 			updateValueByPath,
 			getValueByPath,
 			activePseudoSelector,
-			elementInfo,
 			deleteValues,
 			getTopModelValueByPath,
 		};
@@ -342,10 +344,6 @@ export default {
 			return optionConfig;
 		},
 		getOptionSchemaFromPath(optionPath) {
-			if (!this.elementInfo.elementTypeModel.options) {
-				return false;
-			}
-
 			const pathArray = optionPath.split('.');
 			return pathArray.reduce((acc, path, index) => {
 				if (acc[path]) {
@@ -353,7 +351,7 @@ export default {
 				} else {
 					return false;
 				}
-			}, this.elementInfo.elementTypeModel.options);
+			}, this.schema);
 		},
 		onOptionChange(changed) {
 			this.$emit('change', changed);
@@ -371,11 +369,6 @@ export default {
 			// Special cases for inputs
 			if (schema.type === 'textarea') {
 				schema.type = 'textarea';
-			}
-
-			// Don't proceed if we have no information about the current edited element
-			if (!this.elementInfo) {
-				return schema;
 			}
 
 			schema = this.compilePlaceholders(schema);
@@ -412,14 +405,6 @@ export default {
 
 			const replacements = [
 				{
-					search: /%%ELEMENT_TYPE%%/g,
-					replacement: this.replaceElementType,
-				},
-				{
-					search: /%%ELEMENT_UID%%/g,
-					replacement: this.replaceElementUid,
-				},
-				{
 					search: /%%RESPONSIVE_DEVICE%%/g,
 					replacement: this.replaceResponsiveDevice,
 				},
@@ -427,6 +412,7 @@ export default {
 					search: /%%PSEUDO_SELECTOR%%/g,
 					replacement: this.replacePseudoSelector,
 				},
+				...this.replacements,
 			];
 
 			replacements.forEach(replacementConfig => {
@@ -434,18 +420,6 @@ export default {
 			});
 
 			return value;
-		},
-		/**
-		 * Replace %%ELEMENT_TYPE%% with the element name
-		 */
-		replaceElementType(match) {
-			return this.elementInfo.elementTypeModel.name;
-		},
-		/**
-		 * Replace %%ELEMENT_UID%% constant with the element UID
-		 */
-		replaceElementUid(match) {
-			return this.elementInfo.uid;
 		},
 		/**
 		 * Replace %%RESPONSIVE_DEVICE%% constant with the element UID

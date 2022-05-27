@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-import { useContentStore } from './useContentStore';
 
 interface Panel {
 	id: string;
@@ -23,7 +22,26 @@ interface Panel {
 }
 
 export const useUIStore = defineStore('ui', {
-	state: () => {
+	state: (): {
+		panelsOrder: string[];
+		panelPlaceholder: Record<string, number>;
+		panels: Panel[];
+		mainBar: {
+			position: string;
+			pointerEvents: boolean;
+			draggingPosition: string | null;
+		};
+		mainBarDraggingPlaceholder: {
+			top: number | null;
+			left: number | null;
+		};
+		iFrame: {
+			pointerEvents: null | boolean;
+		};
+		isLibraryOpen: boolean;
+		isPreviewMode: boolean;
+		editedElementID: string | null;
+	} => {
 		const { getUserData } = useUserData();
 		const UIUserData = getUserData();
 
@@ -126,6 +144,10 @@ export const useUIStore = defineStore('ui', {
 		editElement(elementID: string) {
 			this.editedElementID = elementID;
 			this.openPanel('panel-element-options');
+		},
+		unEditElement() {
+			this.closePanel('panel-element-options');
+			this.editedElementID = null;
 		},
 		// Panels
 		openPanel(panelId: string) {

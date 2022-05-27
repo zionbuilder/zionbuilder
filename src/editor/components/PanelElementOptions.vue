@@ -1,5 +1,6 @@
 <template>
 	<BasePanel
+		v-if="UIStore.editedElementID"
 		class="znpb-element-options__panel-wrapper"
 		:class="{
 			'znpb-element-options__panel-wrapper--hidden': isPanelHidden,
@@ -41,7 +42,7 @@
 					@mouseenter="showBreadcrumbs = true"
 					@mouseleave="showBreadcrumbs = false"
 				>
-					{{ `${elementUtils.elementName.value} ${$translate('options')}` }}
+					{{ `${contentStore.getElementName(UIStore.editedElementID)} ${translate('options')}` }}
 					<Icon icon="select" />
 					<BreadcrumbsWrapper v-show="showBreadcrumbs" :element="elementUtils.element" />
 				</h4>
@@ -63,6 +64,7 @@
 						v-model="elementOptions"
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
 						:schema="elementUtils.elementDefinition.value.options"
+						:replacements="optionsReplacements"
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">
@@ -74,6 +76,7 @@
 						v-model="computedStyleOptions"
 						class="znpb-fancy-scrollbar"
 						:schema="computedStyleOptionsSchema"
+						:replacements="optionsReplacements"
 					/>
 				</Tab>
 				<Tab name="Advanced">
@@ -81,6 +84,7 @@
 						v-model="advancedOptionsModel"
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
 						:schema="getSchema('element_advanced')"
+						:replacements="optionsReplacements"
 					/>
 				</Tab>
 				<Tab name="Search">
@@ -142,7 +146,7 @@ import { ref, watch, provide, computed, onMounted, onBeforeUnmount } from 'vue';
 import { addAction, removeAction } from '@/common/modules/hooks';
 import { translate } from '@/common/modules/i18n';
 import { isEditable, Environment } from '@/common/utils';
-import { useEditElement, useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
+import { useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '@/common/composables';
 import { debounce } from 'lodash-es';
 import { useUIStore, useContentStore } from '../store';
@@ -156,6 +160,7 @@ const props = defineProps<{
 }>();
 
 const UIStore = useUIStore();
+const contentStore = useContentStore();
 const isPanelHidden = ref(false);
 const searchInput = ref(null);
 const showBreadcrumbs = ref(false);
@@ -165,8 +170,8 @@ let ignoreLocalHistory = false;
 const { setActivePseudoSelector } = usePseudoSelectors();
 
 const elementUtils = useElementUtils(UIStore.editedElementID);
+const element = computed(() => contentStore.getElement(UIStore.editedElementID));
 
-const { element, editElement, unEditElement } = useEditElement();
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
 const activeKeyTab = ref(null);
@@ -399,13 +404,28 @@ onBeforeUnmount(() => {
 	removeAction('change-tab-styling', changeTab());
 });
 
+const optionsReplacements = [
+	{
+		search: /%%ELEMENT_TYPE%%/g,
+		replacement: () => {
+			return contentStore.getElementDefinition(UIStore.editedElementID).name;
+		},
+	},
+	{
+		search: /%%ELEMENT_UID%%/g,
+		replacement: () => {
+			return UIStore.editedElementID;
+		},
+	},
+];
+
 // Methods
 function onBackButtonClick() {
 	if (
 		elementUtils.element.value.parent &&
 		elementUtils.element.value.parent.elementTypeModel.element_type !== 'contentRoot'
 	) {
-		editElement(elementUtils.element.value.parent);
+		UIStore.editElement(elementUtils.element.value.parent);
 	}
 }
 function changeTabByEvent(event) {
@@ -560,7 +580,7 @@ function addToGlobalHistory(element) {
 function closeOptionsPanel() {
 	addToGlobalHistory();
 	UIStore.closePanel(props.panel.id);
-	unEditElement();
+	UIStore.unEditElement();
 }
 
 function onKeyPress(e) {

@@ -138,7 +138,6 @@ interface Props {
 	// eslint-disable-next-line vue/prop-name-casing
 	search_tags?: string[];
 	label?: string;
-	getSchemaFromPath?: Function;
 	compilePlaceholder?: Function;
 	width?: string;
 	allModelValue?: Record<string, unknown>;

@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia';
 import { pull, set } from 'lodash-es';
+import { translate } from '@/common/modules/i18n';
+import { get } from 'lodash-es';
+import { useElementTypes } from '@/editor/composables';
+import { type ElementType } from '../models';
 
 interface State {
 	areas: BuilderArea[];
@@ -15,7 +19,38 @@ export const useContentStore = defineStore('content', {
 	},
 	getters: {
 		getArea: state => (areaID: string) => state.areas.find(area => area.id === areaID),
-		getElement: state => (elementUID: string) => state.elements.find(element => element.uid === elementUID),
+		getElement: state => (elementUID: string) =>
+			state.elements.find(element => element.uid === elementUID) || {
+				uid: elementUID,
+				element_type: 'invalid',
+				options: {},
+				content: [],
+			},
+		getElementName() {
+			return (elementUID: string): string => {
+				const element = this.getElement(elementUID);
+				if (!element) {
+					return translate('invalid_element');
+				}
+
+				const elementName = <string>get(element.options, '_advanced_options._element_name');
+
+				if (elementName) {
+					return elementName;
+				} else {
+					const { getElementType } = useElementTypes();
+					const elementDefinition = getElementType(element.element_type);
+					return elementDefinition.name;
+				}
+			};
+		},
+		getElementDefinition() {
+			return (elementUID: string) => {
+				const element = this.getElement(elementUID);
+				const { getElementType } = useElementTypes();
+				return getElementType(element.element_type);
+			};
+		},
 	},
 	actions: {
 		registerArea(areaConfig: BuilderArea, areaContent: ZionElementConfig[]) {
