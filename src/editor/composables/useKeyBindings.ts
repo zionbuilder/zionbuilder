@@ -9,7 +9,7 @@ export const useKeyBindings = () => {
 	const { editorData } = useEditorData();
 	const { editElement, element: focusedElement } = useEditElement();
 
-	const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
+	const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
 	const getNextFocusedElement = element => {
 		const parentContent = element.parent.content;
@@ -31,7 +31,7 @@ export const useKeyBindings = () => {
 	// end checkMousePosition
 	const applyShortcuts = e => {
 		// Save CTRL+S
-		if (e.which === 83 && e[controllKey] && !e.shiftKey) {
+		if (e.which === 83 && e[controlKey] && !e.shiftKey) {
 			e.preventDefault();
 			if (!isSavePageLoading.value) {
 				savePage();
@@ -39,7 +39,7 @@ export const useKeyBindings = () => {
 		}
 
 		// Set preview mode
-		if (e.which === 80 && e[controllKey]) {
+		if (e.which === 80 && e[controlKey]) {
 			UIStore.setPreviewMode(!UIStore.isPreviewMode);
 			e.preventDefault();
 		}
@@ -58,23 +58,23 @@ export const useKeyBindings = () => {
 			const activeElementFocus = focusedElement.value;
 
 			// Duplicate - CTRL+D
-			if (e.which === 68 && e[controllKey] && !e.shiftKey) {
+			if (e.which === 68 && e[controlKey] && !e.shiftKey) {
 				activeElementFocus.duplicate();
 				e.preventDefault();
 			}
 
 			// copy
-			if (e.which === 67 && e[controllKey] && !e.shiftKey) {
+			if (e.which === 67 && e[controlKey] && !e.shiftKey) {
 				copyElement(activeElementFocus);
 			}
 
 			// Paste
-			if (e.which === 86 && e[controllKey] && !e.shiftKey) {
+			if (e.which === 86 && e[controlKey] && !e.shiftKey) {
 				pasteElement(activeElementFocus);
 			}
 
 			// Cut - CTRL + X
-			if (e.which === 88 && e[controllKey]) {
+			if (e.which === 88 && e[controlKey]) {
 				copyElement(activeElementFocus, 'cut');
 			}
 
@@ -94,19 +94,19 @@ export const useKeyBindings = () => {
 			}
 
 			// Copy element styles ctrl+shift+c
-			if (e[controllKey] && e.shiftKey && e.which === 67) {
+			if (e[controlKey] && e.shiftKey && e.which === 67) {
 				copyElementStyles(activeElementFocus);
 				e.preventDefault();
 			}
 
 			// Paste element styles ctrl + shift + v
-			if (e[controllKey] && e.shiftKey && e.which === 86) {
+			if (e[controlKey] && e.shiftKey && e.which === 86) {
 				pasteElementStyles(activeElementFocus);
 				e.preventDefault();
 			}
 
 			// Hide element/panel
-			if (e.which === 72 && e[controllKey]) {
+			if (e.which === 72 && e[controlKey]) {
 				if (activeElementFocus) {
 					activeElementFocus.toggleVisibility();
 					e.preventDefault();
@@ -115,7 +115,7 @@ export const useKeyBindings = () => {
 		}
 
 		// Undo CTRL+Z
-		if (e.which === 90 && e[controllKey] && !e.shiftKey) {
+		if (e.which === 90 && e[controlKey] && !e.shiftKey) {
 			const { canUndo, undo } = useHistory();
 
 			if (canUndo.value) {
@@ -124,12 +124,12 @@ export const useKeyBindings = () => {
 		}
 
 		// Redo CTRL+SHIFT+D -- Back to WP Dashboard
-		if (e.code === 'KeyD' && e[controllKey] && e.shiftKey) {
+		if (e.code === 'KeyD' && e[controlKey] && e.shiftKey) {
 			window.open(editorData.value.urls.edit_page, '_blank');
 		}
 
 		// Redo CTRL+SHIFT+Z CTRL + Y
-		if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
+		if ((e.which === 90 && e[controlKey] && e.shiftKey) || (e[controlKey] && e.which === 89)) {
 			const { canRedo, redo } = useHistory();
 			if (canRedo.value) {
 				redo();

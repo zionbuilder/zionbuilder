@@ -18,8 +18,8 @@
 	</Tooltip>
 </template>
 
-<script>
-import { ref, watch, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, watch, computed, withDirectives } from 'vue';
 import { get } from 'lodash-es';
 
 import { Environment } from '@/common/utils';
@@ -33,177 +33,165 @@ import {
 } from '../../composables';
 import { translate } from '@/common/modules/i18n';
 
-export default {
-	name: 'ElementMenu',
-	props: {
-		elementUid: String,
-		parentUid: String,
-		isActive: {
-			type: Boolean,
-			required: false,
+const props = withDirectives(
+	defineProps<{
+		elementUid: string;
+		parentUid: string;
+		isActive?: boolean;
+	}>(),
+	{
+		isActive: false,
+	},
+);
+
+const showOptions = ref(false);
+const { activeElementMenu, hideElementMenu } = useElementMenu();
+const { addEventListener, removeEventListener } = useWindows();
+const { getData } = useLocalStorage();
+
+const controlKey = Environment.isMac ? '⌘' : '⌃';
+
+// TODO: deprecate useEditElement and move code to useElementActions
+const { editElement } = useEditElement();
+const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapInContainer } =
+	useElementActions();
+
+// Computed
+const elementActions = computed(() => {
+	const element = activeElementMenu.value.element;
+	return [
+		{
+			title: `${translate('action_edit')} ${element.name}`,
+			icon: 'edit',
+			action: () => {
+				editElement(element);
+			},
+			cssClasses: 'znpb-menu-item--separator-bottom',
 		},
-	},
-	setup(props) {
-		const showOptions = ref(false);
-		const { activeElementMenu, hideElementMenu } = useElementMenu();
-		const { addEventListener, removeEventListener } = useWindows();
-		const { getData } = useLocalStorage();
+		{
+			title: `${translate('duplicate_element')}`,
+			icon: 'copy',
+			action: () => {
+				element.duplicate();
+			},
+			append: `${controlKey}+D`,
+		},
+		{
+			title: `${translate('copy_element')}`,
+			icon: 'copy',
+			action: () => {
+				copyElement(element);
+			},
+			append: `${controlKey}+C`,
+		},
+		{
+			title: `${translate('cut_element')}`,
+			icon: 'close',
+			action: () => {
+				copyElement(element, 'cut');
+			},
+			append: `${controlKey}+X`,
+		},
+		{
+			title: `${translate('paste_element')}`,
+			icon: 'paste',
+			action: () => {
+				pasteElement(element);
+			},
+			append: `${controlKey}+V`,
+			show: hasCopiedElement.value,
+		},
+		{
+			title: translate('paste_element_styles'),
+			icon: 'drop',
+			action: () => {
+				pasteElementStyles(element);
+			},
+			append: `${controlKey}+⇧+V`,
+			show: hasCopiedElementStyles.value,
+		},
+		{
+			title: translate('paste_classes'),
+			icon: 'braces',
+			action: () => {
+				pasteElementClasses(element);
+			},
+			show: hasCopiedElementClasses.value,
+		},
+		{
+			title: translate('save_element'),
+			icon: 'check',
+			action: () => {
+				saveElement(element);
+			},
+		},
+		{
+			title: element.isVisible ? translate('visible_element') : translate('show_element'),
+			icon: 'eye',
+			action: () => {
+				element.toggleVisibility();
+			},
+			append: `${controlKey}+H`,
+			cssClasses: 'znpb-menu-item--separator-bottom',
+		},
+		{
+			title: translate('wrap_with_container'),
+			icon: 'eye',
+			action: () => {
+				wrapInContainer(element);
+			},
+			append: `${controlKey}+H`,
+			cssClasses: 'znpb-menu-item--separator-bottom',
+		},
+		{
+			title: translate('discard_element_styles'),
+			icon: 'drop',
+			action: () => {
+				discardElementStyles(element);
+			},
+			show: element && Object.keys(get(element.options, '_styles', {})).length > 0,
+		},
+		{
+			title: translate('delete_element'),
+			icon: 'delete',
+			action: () => element.delete(),
+			append: `⌦`,
+		},
+	];
+});
 
-		const controllKey = Environment.isMac ? '⌘' : '⌃';
+watch(activeElementMenu, newValue => {
+	if (newValue) {
+		addEventListener('scroll', hideElementMenu);
+	} else {
+		removeEventListener('scroll', hideElementMenu);
+	}
+});
 
-		// TODO: deprecate useEditElement and move code to useElementActions
-		const { editElement } = useEditElement();
-		const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapInContainer } =
-			useElementActions();
+function discardElementStyles(element) {
+	element.options = {
+		...element.options,
+		_styles: {},
+	};
+}
 
-		// Computed
-		const elementActions = computed(() => {
-			const element = activeElementMenu.value.element;
-			return [
-				{
-					title: `${translate('action_edit')} ${element.name}`,
-					icon: 'edit',
-					action: () => {
-						editElement(element);
-					},
-					cssClasses: 'znpb-menu-item--separator-bottom',
-				},
-				{
-					title: `${translate('duplicate_element')}`,
-					icon: 'copy',
-					action: () => {
-						element.duplicate();
-					},
-					append: `${controllKey}+D`,
-				},
-				{
-					title: `${translate('copy_element')}`,
-					icon: 'copy',
-					action: () => {
-						copyElement(element);
-					},
-					append: `${controllKey}+C`,
-				},
-				{
-					title: `${translate('cut_element')}`,
-					icon: 'close',
-					action: () => {
-						copyElement(element, 'cut');
-					},
-					append: `${controllKey}+X`,
-				},
-				{
-					title: `${translate('paste_element')}`,
-					icon: 'paste',
-					action: () => {
-						pasteElement(element);
-					},
-					append: `${controllKey}+V`,
-					show: hasCopiedElement.value,
-				},
-				{
-					title: translate('paste_element_styles'),
-					icon: 'drop',
-					action: () => {
-						pasteElementStyles(element);
-					},
-					append: `${controllKey}+⇧+V`,
-					show: hasCopiedElementStyles.value,
-				},
-				{
-					title: translate('paste_classes'),
-					icon: 'braces',
-					action: () => {
-						pasteElementClasses(element);
-					},
-					show: hasCopiedElementClasses.value,
-				},
-				{
-					title: translate('save_element'),
-					icon: 'check',
-					action: () => {
-						saveElement(element);
-					},
-				},
-				{
-					title: element.isVisible ? translate('visible_element') : translate('show_element'),
-					icon: 'eye',
-					action: () => {
-						element.toggleVisibility();
-					},
-					append: `${controllKey}+H`,
-					cssClasses: 'znpb-menu-item--separator-bottom',
-				},
-				{
-					title: translate('wrap_with_container'),
-					icon: 'eye',
-					action: () => {
-						wrapInContainer(element);
-					},
-					append: `${controllKey}+H`,
-					cssClasses: 'znpb-menu-item--separator-bottom',
-				},
-				{
-					title: translate('discard_element_styles'),
-					icon: 'drop',
-					action: () => {
-						discardElementStyles(element);
-					},
-					show: element && Object.keys(get(element.options, '_styles', {})).length > 0,
-				},
-				{
-					title: translate('delete_element'),
-					icon: 'delete',
-					action: () => element.delete(),
-					append: `⌦`,
-				},
-			];
-		});
+function saveElement(element) {
+	const { showSaveElement } = useSaveTemplate();
 
-		watch(activeElementMenu, newValue => {
-			if (newValue) {
-				addEventListener('scroll', hideElementMenu);
-			} else {
-				removeEventListener('scroll', hideElementMenu);
-			}
-		});
+	showSaveElement(element, 'block');
+}
 
-		function discardElementStyles(element) {
-			element.options = {
-				...element.options,
-				_styles: {},
-			};
-		}
+const hasCopiedElement = computed(() => {
+	return !!(copiedElement.value.element || getData('copiedElement'));
+});
 
-		function saveElement(element) {
-			const { showSaveElement } = useSaveTemplate();
+const hasCopiedElementClasses = computed(() => {
+	return !!getData('copiedElementClasses');
+});
 
-			showSaveElement(element, 'block');
-		}
-
-		const hasCopiedElement = computed(() => {
-			return !!(copiedElement.value.element || getData('copiedElement'));
-		});
-
-		const hasCopiedElementClasses = computed(() => {
-			return !!getData('copiedElementClasses');
-		});
-
-		const hasCopiedElementStyles = computed(() => {
-			return !!getData('copiedElementStyles');
-		});
-
-		return {
-			showOptions,
-			activeElementMenu,
-			hideElementMenu,
-			elementActions,
-			hasCopiedElement,
-			hasCopiedElementClasses,
-			hasCopiedElementStyles,
-		};
-	},
-};
+const hasCopiedElementStyles = computed(() => {
+	return !!getData('copiedElementStyles');
+});
 </script>
 <style lang="scss">
 .znpb-element-options {

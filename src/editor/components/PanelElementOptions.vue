@@ -108,7 +108,7 @@
 						v-if="optionsFilterKeyword.length > 2 && Object.keys(filteredOptions).length === 0"
 						class="znpb-element-options-default-message"
 					>
-						{{ $translate('no_options_found') }}
+						{{ translate('no_options_found') }}
 					</p>
 					<p v-if="optionsFilterKeyword.length < 3" class="znpb-element-options-no-option-message">
 						{{ defaultMessage }}
@@ -584,20 +584,20 @@ function closeOptionsPanel() {
 }
 
 function onKeyPress(e) {
-	const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
+	const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
 	if (isEditable()) {
 		return;
 	}
 
 	// Undo CTRL+Z
-	if (e.which === 90 && e[controllKey] && !e.shiftKey && canUndo.value) {
+	if (e.which === 90 && e[controlKey] && !e.shiftKey && canUndo.value) {
 		undo();
 		e.preventDefault();
 		e.stopPropagation();
 	}
 	// Redo CTRL+SHIFT+Z CTRL + Y
-	if ((e.which === 90 && e[controllKey] && e.shiftKey) || (e[controllKey] && e.which === 89)) {
+	if ((e.which === 90 && e[controlKey] && e.shiftKey) || (e[controlKey] && e.which === 89)) {
 		if (canRedo.value) {
 			redo();
 			e.preventDefault();

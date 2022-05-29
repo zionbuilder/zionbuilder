@@ -23,55 +23,55 @@ export default {
 		keyShortcutsItem,
 	},
 	data() {
-		const controllKey = Environment.isMac ? '⌘' : '⌃';
+		const controlKey = Environment.isMac ? '⌘' : '⌃';
 		return {
 			schemaDescriptionFirst: [
 				{
-					keyshortcut: [controllKey, 'S'],
+					keyshortcut: [controlKey, 'S'],
 					description: this.$translate('save_changes'),
 				},
 				{
-					keyshortcut: [controllKey, 'C'],
+					keyshortcut: [controlKey, 'C'],
 					description: this.$translate('copy_element'),
 				},
 				{
-					keyshortcut: [controllKey, 'V'],
+					keyshortcut: [controlKey, 'V'],
 					description: this.$translate('paste_element'),
 				},
 				{
-					keyshortcut: [controllKey, 'X'],
+					keyshortcut: [controlKey, 'X'],
 					description: this.$translate('cut_element'),
 				},
 				{
-					keyshortcut: [controllKey, 'D'],
+					keyshortcut: [controlKey, 'D'],
 					description: this.$translate('duplicate_element'),
 				},
 				{
-					keyshortcut: [controllKey, '⇧', 'C'],
+					keyshortcut: [controlKey, '⇧', 'C'],
 					description: this.$translate('copy_element_styles'),
 				},
 				{
-					keyshortcut: [controllKey, '⇧', 'V'],
+					keyshortcut: [controlKey, '⇧', 'V'],
 					description: this.$translate('paste_element_styles'),
 				},
 				{
-					keyshortcut: [controllKey, 'Z'],
+					keyshortcut: [controlKey, 'Z'],
 					description: this.$translate('undo'),
 				},
 				{
-					keyshortcut: [controllKey, 'Y'],
+					keyshortcut: [controlKey, 'Y'],
 					description: this.$translate('redo'),
 				},
 				{
-					keyshortcut: [controllKey, '⇧', 'Y'],
+					keyshortcut: [controlKey, '⇧', 'Y'],
 					description: this.$translate('redo'),
 				},
 				{
-					keyshortcut: [controllKey, 'H'],
+					keyshortcut: [controlKey, 'H'],
 					description: this.$translate('hide_element'),
 				},
 				{
-					keyshortcut: [controllKey, 'P'],
+					keyshortcut: [controlKey, 'P'],
 					description: this.$translate('toggle_preview'),
 				},
 				{
@@ -87,21 +87,21 @@ export default {
 					description: this.$translate('toggle_page_options'),
 				},
 				{
-					keyshortcut: ['DRAG', controllKey],
+					keyshortcut: ['DRAG', controlKey],
 					description: this.$translate('duplicate_element_in_place'),
 					details: this.$translate('when_dragging_element'),
 				},
 				{
-					keyshortcut: [controllKey, 'DRAG'],
+					keyshortcut: [controlKey, 'DRAG'],
 					description: this.$translate('set_even_values'),
 					details: this.$translate('when_dragging_toolbox'),
 				},
 				{
-					keyshortcut: [controllKey, '⇧', 'DRAG'],
+					keyshortcut: [controlKey, '⇧', 'DRAG'],
 					description: this.$translate('set_even_incremental_value'),
 				},
 				{
-					keyshortcut: [controllKey, '⇧', 'D'],
+					keyshortcut: [controlKey, '⇧', 'D'],
 					description: this.$translate('back_to_wp_dashboard'),
 				},
 				{

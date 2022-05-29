@@ -262,7 +262,7 @@ export default {
 	methods: {
 		startSpacingDrag({ event, type, position }) {
 			const { clientX, clientY } = event;
-			const controllKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
+			const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
 			// Prevent user selection
 			document.body.style.userSelect = 'none';
@@ -326,8 +326,8 @@ export default {
 					newValue: `${updatedValue}${initialUnit}`,
 					type,
 					position,
-					even: event[controllKey],
-					reversedPosition: event[controllKey] ? this.getReversedPosition(position) : null,
+					even: event[controlKey],
+					reversedPosition: event[controlKey] ? this.getReversedPosition(position) : null,
 				});
 
 				// Refresh sizes
