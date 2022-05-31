@@ -44,7 +44,6 @@
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import {
-	useElementTypes,
 	useElementTypeCategories,
 	useAddElementsPopup,
 	useHistory,
@@ -52,6 +51,7 @@ import {
 	useUserData,
 } from '../../composables';
 import { translate } from '@/common/modules/i18n';
+import { useElementDefinitionsStore } from '@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';
@@ -73,7 +73,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { getVisibleElements } = useElementTypes();
+		const elementsDefinitionsStore = useElementDefinitionsStore();
 		const { categories } = useElementTypeCategories();
 		const { editorData } = useEditorData();
 		const { getUserData } = useUserData();
@@ -121,7 +121,7 @@ export default {
 		});
 
 		const activeElements = computed(() => {
-			let elements = getVisibleElements.value;
+			let elements = elementsDefinitionsStore.getVisibleElements;
 			const keyword = computedSearchKeyword.value;
 
 			if (keyword.length > 0) {
@@ -188,9 +188,8 @@ export default {
 
 			insertElement(config);
 
-			const { getElementType } = useElementTypes();
 			const { addToHistory } = useHistory();
-			const elementType = getElementType(config.element_type);
+			const elementType = elementsDefinitionsStore.getElementDefinition(config);
 			addToHistory(`Added ${elementType.name}`);
 
 			hideAddElementsPopup();

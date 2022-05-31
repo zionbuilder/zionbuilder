@@ -3,3 +3,4 @@ export * from './useUIStore';
 export * from './usePageSettingsStore';
 export * from './useCSSClassesStore';
 export * from './useContentStore';
+export * from './useElementDefinitionsStore';

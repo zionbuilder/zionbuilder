@@ -44,11 +44,11 @@
 </template>
 <script>
 import { computed } from 'vue';
+import { useElementDefinitionsStore } from '@/editor/store';
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue';
 import SortableHelper from '../../../common/SortableHelper.vue';
 import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useElementTypes } from '../../../composables';
 
 export default {
 	name: 'ElementWireframeView',
@@ -66,9 +66,9 @@ export default {
 		const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props);
 		const columnSize = computed(() => props.element.options.column_size);
 
-		const { getElementType } = useElementTypes();
+		const elementsDefinitionsStore = useElementDefinitionsStore();
 
-		const elementModel = getElementType(props.element.element_type);
+		const elementModel = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
 
 		const elementName = computed({
 			get() {

@@ -2,42 +2,29 @@
 	<div class="znpb-element-options__vertical-breadcrumbs-wrapper">
 		<div
 			class="znpb-element-options__vertical-breadcrumbs-item znpb-element-options__vertical-breadcrumbs-item--first"
-			:class="{ 'znpb-element-options__vertical-breadcrumbs-item--active': activeElement === parents.element }"
-			@mouseenter.capture="parents.element.highlight"
-			@mouseleave="parents.element.unHighlight"
-			@click.stop="editElement(parents.element)"
+			:class="{ 'znpb-element-options__vertical-breadcrumbs-item--active': item.active }"
+			@mouseenter.capture="item.element.highlight"
+			@mouseleave="item.element.unHighlight"
+			@click.stop="UIStore.editElement(item.element)"
 		>
-			<span>{{ parents.element.name }}</span>
+			<span>{{ contentStore.getElementName(item.element) }}</span>
 		</div>
-		<template v-if="parents.children.length > 0">
-			<BreadcrumbsItem v-for="child in parents.children" :key="child.element.uid" :parents="child" />
+		<template v-if="item.children.length > 0">
+			<BreadcrumbsItem v-for="child in item.children" :key="child.element.uid" :item="child" />
 		</template>
 	</div>
 </template>
 
-<script>
-import { useEditElement } from '../../composables';
+<script lang="ts" setup>
 import BreadcrumbsItem from './BreadcrumbsItem.vue';
+import { useContentStore, useUIStore } from '@/editor/store';
 
-export default {
-	name: 'Breadcrumbs',
-	components: {
-		BreadcrumbsItem,
-	},
-	props: {
-		parents: {
-			type: Object,
-		},
-	},
-	setup() {
-		const { editElement, element: activeElement } = useEditElement();
+const UIStore = useUIStore();
+defineProps<{
+	item: Record<string, unknown>;
+}>();
 
-		return {
-			editElement,
-			activeElement,
-		};
-	},
-};
+const contentStore = useContentStore();
 </script>
 
 <style lang="scss">

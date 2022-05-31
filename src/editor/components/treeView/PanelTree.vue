@@ -30,19 +30,18 @@
 			/>
 		</div>
 
-		<Loader v-if="isPreviewLoading" />
+		<Loader v-if="UIStore.isPreviewLoading" />
 
 		<div v-else class="znpb-tree-view__type_wrapper">
-			<component :is="activeTreeViewPanel.component" :element-uid="editorData.page_id" />
+			<component :is="activeTreeViewPanel.component" :element="element" />
 		</div>
 	</BasePanel>
 </template>
 
 <script lang="ts" setup>
 import { type Component, ref, computed } from 'vue';
-import { usePreviewLoading, useEditorData } from '@/editor/composables';
 import { translate } from '@/common/modules/i18n';
-import { useUIStore } from '@/editor/store';
+import { useUIStore, useContentStore } from '@/editor/store';
 import SectionView from './sectionView/SectionViewPanel.vue';
 import TreeView from './treeView/TreeViewPanel.vue';
 import WireframeView from './wireFrame/WireframePanel.vue';
@@ -52,9 +51,10 @@ const props = defineProps<{
 	panel: ZionPanel;
 }>();
 
-const { editorData } = useEditorData();
-const { isPreviewLoading } = usePreviewLoading();
 const UIStore = useUIStore();
+
+const contentStore = useContentStore();
+const element = computed(() => contentStore.getElement(window.ZnPbInitialData.page_id));
 
 type TreeViewPanel = {
 	name: string;

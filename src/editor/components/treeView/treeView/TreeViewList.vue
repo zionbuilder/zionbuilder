@@ -1,6 +1,6 @@
 <template>
 	<Sortable
-		v-model="templateItems"
+		v-model="children"
 		tag="ul"
 		class="znpb-tree-view-wrapper"
 		group="pagebuilder-treview-elements"
@@ -9,14 +9,14 @@
 		@end="sortableEnd"
 	>
 		<TreeViewListItem
-			v-for="elementUid in templateItems"
-			:key="elementUid"
-			:element-uid="elementUid"
+			v-for="childElement in children"
+			:key="childElement.uid"
+			:element="childElement"
 			@expand-panel="$emit('expand-panel')"
 		/>
 
 		<template #end>
-			<div v-if="templateItems.length === 0 && isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
+			<div v-if="children.length === 0 && isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
 				<AddElementIcon :element="element" placement="inside" />
 			</div>
 		</template>
@@ -31,10 +31,11 @@
 	</Sortable>
 </template>
 <script lang="ts" setup>
+import { computed } from 'vue';
 import SortableHelper from '@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue';
 import { useTreeViewList } from '../useTreeViewList';
-import { useElementUtils } from '@/editor/composables';
+import { useElementDefinitionsStore, useContentStore } from '@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;
@@ -42,8 +43,24 @@ const props = defineProps<{
 
 defineEmits(['expand-panel']);
 
-const { element, isWrapper } = useElementUtils(props.element.uid);
-const { templateItems, sortableStart, sortableEnd } = useTreeViewList(element.value);
+// Stores
+const elementsDefinitionsStore = useElementDefinitionsStore();
+const contentStore = useContentStore();
+
+// Computed
+const isWrapper = computed(() => elementsDefinitionsStore.getElementDefinition(props.element.element_type));
+const children = computed({
+	get: () => props.element.content.map(child => contentStore.getElement(child)),
+	set: newValue =>
+		contentStore.updateElement(
+			props.element.uid,
+			'content',
+			newValue.map(element => element.uid),
+		),
+});
+
+// Helpers
+const { sortableStart, sortableEnd } = useTreeViewList(props.element);
 </script>
 
 <style lang="scss">

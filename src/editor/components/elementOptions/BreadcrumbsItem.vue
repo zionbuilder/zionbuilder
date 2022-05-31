@@ -1,32 +1,31 @@
 <template>
 	<div
 		class="znpb-element-options__vertical-breadcrumbs-item"
-		:class="{ 'znpb-element-options__vertical-breadcrumbs-item--active': activeElement === parents.element }"
-		@mouseenter.capture="parents.element.highlight"
-		@mouseleave="parents.element.unHighlight"
-		@click.stop="editElement(parents.element)"
+		:class="{ 'znpb-element-options__vertical-breadcrumbs-item--active': item.active }"
+		@mouseenter.capture="item.element.highlight"
+		@mouseleave="item.element.unHighlight"
+		@click.stop="UIStore.editElement(item.element)"
 	>
-		<span>{{ parents.element.name }}</span>
+		<span>{{ contentStore.getElementName(item.element) }}</span>
 
-		<template v-if="parents.children.length > 0">
-			<component
-				:is="Breadcrumbs"
-				v-for="child in parents.children"
+		<template v-if="item.children.length > 0">
+			<Breadcrumbs
+				v-for="child in item.children"
 				:key="child.element.uid"
 				class="znpb-element-options__vertical-breadcrumbs-wrapper--inner"
-				:parents="child"
+				:item="child"
 			/>
 		</template>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { useEditElement } from '../../composables';
 import Breadcrumbs from './Breadcrumbs.vue';
+import { useUIStore, useContentStore } from '@/editor/store';
 
+const UIStore = useUIStore();
+const contentStore = useContentStore();
 defineProps<{
-	parents?: Record<string, unknown>;
+	item: Record<string, unknown>;
 }>();
-
-const { editElement, element: activeElement } = useEditElement();
 </script>

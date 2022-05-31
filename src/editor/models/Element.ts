@@ -2,14 +2,11 @@ import { each, update, get, isPlainObject, debounce } from 'lodash-es';
 import { generateUID } from '@/common/utils';
 import { applyFilters } from '@/common/modules/hooks';
 import { regenerateUIDs } from '../utils';
-import { useElementsStore } from '../store/useElementsStore';
-import { useElementTypes } from '../composables/useElementTypes';
+import { useElementDefinitionsStore, useElementsStore } from '../store';
 import { RenderAttributes } from './RenderAttributes';
 import { useEditElement } from '../composables/useEditElement';
 import { useHistory } from '../composables/useHistory';
 import { serverRequest } from '../api';
-
-const { getElementType } = useElementTypes();
 
 export class Element {
 	// Element data for DB
@@ -111,7 +108,8 @@ export class Element {
 	}
 
 	get elementTypeModel() {
-		return getElementType(this.element_type);
+		const elementsDefinitionStore = useElementDefinitionsStore();
+		return elementsDefinitionStore.getElementDefinition(this.element_type);
 	}
 
 	get parent() {

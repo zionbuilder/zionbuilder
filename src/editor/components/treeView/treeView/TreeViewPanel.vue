@@ -43,34 +43,32 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, provide } from 'vue';
-import { useEditorData, useHistory, useEditElement, useElementUtils } from '@/editor/composables';
+import { useHistory } from '@/editor/composables';
 import { translate } from '@/common/modules/i18n';
-import { useContentStore } from '@/editor/store';
+import { useContentStore, useUIStore } from '@/editor/store';
 
 const props = defineProps<{
-	elementUid: string;
+	element: ZionElement;
 }>();
 
+const UIStore = useUIStore();
 const contentStore = useContentStore();
 const treeViewExpanded = ref(false);
 const showModalConfirm = ref(false);
-const { element } = useElementUtils(props.elementUid);
-const { unEditElement } = useEditElement();
-const { editorData } = useEditorData();
 const { addToHistory } = useHistory();
 
 const canRemove = computed(() => {
-	return element.value && element.value.content.length === 0;
+	return props.element.content.length === 0;
 });
 
 provide('treeViewExpandStatus', treeViewExpanded);
 
 function removeAllElements() {
 	// clear area content
-	contentStore.clearAreaContent(editorData.value.page_id);
+	contentStore.clearAreaContent(props.element.uid);
 
 	// Close edit element panel
-	unEditElement();
+	UIStore.unEditElement();
 
 	// Add to history
 	addToHistory(translate('removed_all_elements'));

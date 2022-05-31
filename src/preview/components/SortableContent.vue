@@ -56,7 +56,7 @@ import { get } from 'lodash-es';
 import Element from './Element.vue';
 
 // Stores
-import { useUIStore } from '../../editor/store';
+import { useUIStore, useElementDefinitionsStore } from '../../editor/store';
 
 export default {
 	name: 'SortableContent',
@@ -84,7 +84,7 @@ export default {
 	},
 	setup(props) {
 		const { addToHistory } = window.zb.editor.useHistory();
-		const { getElementType } = window.zb.editor.useElementTypes();
+		const elementsDefinitionsStore = useElementDefinitionsStore();
 
 		const defaultSortableGroup = {
 			name: 'elements',
@@ -103,7 +103,7 @@ export default {
 				return 'vertical';
 			}
 
-			const elementType = getElementType(props.element.element_type);
+			const elementType = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
 
 			if (elementType) {
 				orientation = elementType.content_orientation;

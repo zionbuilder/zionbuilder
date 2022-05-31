@@ -1,15 +1,15 @@
 <template>
 	<li
-		:id="elementUid"
+		:id="element.uid"
 		ref="listItem"
 		class="znpb-tree-view__item"
 		:class="{
 			'znpb-tree-view__item--hidden': !isVisible,
 			'znpb-tree-view__item--justAdded': justAdded,
 		}"
-		@mouseover.stop="highlight"
-		@mouseout.stop="unHighlight"
-		@click.stop.left="UIStore.editElement(elementUid)"
+		@mouseenter="highlight"
+		@mouseleave="unHighlight"
+		@click.stop.left="UIStore.editElement(element)"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
@@ -29,7 +29,7 @@
 
 			<Icon
 				v-if="!isVisible"
-				v-znpb-tooltip="$translate('enable_hidden_element')"
+				v-znpb-tooltip="translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="toggleVisibility"
@@ -47,30 +47,37 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, watch, inject } from 'vue';
-import { usePreviewLoading, useElementUtils } from '@/editor/composables';
+import { ref, Ref, computed, watch, inject } from 'vue';
+import { useElementUtils } from '@/editor/composables';
+import { translate } from '@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useUIStore } from '@/editor/store';
+import { useContentStore, useUIStore } from '@/editor/store';
 
 const props = defineProps<{
-	elementUid: string;
+	element: ZionElement;
 }>();
 const emit = defineEmits(['expand-panel']);
 
 const UIStore = useUIStore();
-const listItem: Ref = ref(null);
+const contentStore = useContentStore();
+
+const listItem: Ref<HTMLElement | null> = ref(null);
 const expanded = ref(false);
-const { element, elementName, isVisible, highlight, unHighlight, toggleVisibility, isWrapper } = useElementUtils(
-	props.elementUid,
-);
-const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem({
-	element,
+const elementName = computed({
+	get: () => contentStore.getElementName(props.element),
+	set(newValue: string) {
+		contentStore.updateElement(props.element.uid, 'options._advanced_options._element_name', newValue);
+	},
 });
 
-const { contentTimestamp } = usePreviewLoading();
+const { isVisible, highlight, unHighlight, toggleVisibility, isWrapper } = useElementUtils(props.element);
+const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
+
 let justAdded = false;
-if (contentTimestamp.value) {
-	const justAdded = ref(element.addedTime > contentTimestamp.value ? Date.now() - element.addedTime < 1000 : null);
+if (UIStore.contentTimestamp) {
+	const justAdded = ref(
+		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : null,
+	);
 	if (justAdded.value) {
 		setTimeout(() => {
 			justAdded.value = false;
@@ -79,9 +86,9 @@ if (contentTimestamp.value) {
 }
 
 watch(
-	() => UIStore.editedElementID,
+	() => UIStore.editedElement,
 	newValue => {
-		if (newValue === props.elementUid) {
+		if (newValue === props.element) {
 			emit('expand-panel');
 			scrollToItem();
 		}

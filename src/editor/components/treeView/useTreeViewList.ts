@@ -1,4 +1,4 @@
-import { useElementMenu, useIsDragging } from '../../composables';
+import { useIsDragging } from '../../composables';
 import { ref, computed } from 'vue';
 
 export function useTreeViewList(element: ZionElement) {
@@ -24,17 +24,11 @@ export function useTreeViewList(element: ZionElement) {
 		setDraggingState(false);
 	}
 
-	const showElementMenu = function () {
-		const { showElementMenu } = useElementMenu();
-		showElementMenu(element, elementOptionsRef.value);
-	};
-
 	return {
 		addElementsPopupButton,
 		templateItems,
 		elementOptionsRef,
 		sortableStart,
 		sortableEnd,
-		showElementMenu,
 	};
 }

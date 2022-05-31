@@ -1,22 +1,19 @@
-import { useElementMenu, useElementTypes } from '../../composables';
 import { ref, computed } from 'vue';
-import { useUIStore } from '@/editor/store';
+import { useUIStore, useElementDefinitionsStore } from '@/editor/store';
 
-export function useTreeViewItem(element) {
+export function useTreeViewItem(element: ZionElement) {
 	const UIStore = useUIStore();
 	const elementOptionsRef = ref(null);
-	const isActiveItem = computed(() => UIStore.editedElementID === element.uid);
+	const isActiveItem = computed(() => UIStore.editedElement === element);
 
-	const { getElementType } = useElementTypes();
-
-	const elementModel = getElementType(element.element_type);
+	const elementsDefinitionStore = useElementDefinitionsStore();
+	const elementModel = elementsDefinitionStore.getElementDefinition(element);
 
 	const showElementMenu = function () {
-		const { showElementMenu, activeElementMenu, hideElementMenu } = useElementMenu();
-		if (activeElementMenu.value && activeElementMenu.value.element === props.element) {
-			hideElementMenu();
+		if (UIStore.activeElementMenu && UIStore.activeElementMenu.elementUID === element.uid) {
+			UIStore.hideElementMenu();
 		} else {
-			showElementMenu(element, elementOptionsRef.value);
+			UIStore.showElementMenu(element.uid, elementOptionsRef.value);
 		}
 	};
 

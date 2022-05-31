@@ -40,7 +40,15 @@ export const useUIStore = defineStore('ui', {
 		};
 		isLibraryOpen: boolean;
 		isPreviewMode: boolean;
-		editedElementID: string | null;
+		isPreviewLoading: boolean;
+		loadTimestamp: number;
+		contentTimestamp: number;
+		editedElement: ZionElement | null;
+		activeElementMenu: {
+			elementUID: string;
+			selector: HTMLElement;
+			actions: Record<string, unknown>;
+		} | null;
 	} => {
 		const { getUserData } = useUserData();
 		const UIUserData = getUserData();
@@ -108,7 +116,11 @@ export const useUIStore = defineStore('ui', {
 			},
 			isLibraryOpen: false,
 			isPreviewMode: false,
-			editedElementID: null,
+			loadTimestamp: 0,
+			contentTimestamp: 0,
+			isPreviewLoading: true,
+			editedElement: null,
+			activeElementMenu: null,
 		};
 	},
 	getters: {
@@ -140,14 +152,57 @@ export const useUIStore = defineStore('ui', {
 		},
 	},
 	actions: {
+		// Preview loading
+		setPreviewLoading(state: boolean) {
+			this.isPreviewLoading = state;
+		},
+		setLoadTimestamp() {
+			this.loadTimestamp = Date.now();
+		},
+		setContentTimestamp() {
+			this.contentTimestamp = Date.now();
+		},
+		// Element menu
+		showElementMenu(elementUID: string, selector, actions = {}) {
+			if (this.isPreviewMode) {
+				return;
+			}
+
+			this.activeElementMenu = {
+				elementUID,
+				selector,
+				actions,
+			};
+		},
+		showElementMenuFromEvent(elementUID: string, event: MouseEvent, actions = {}) {
+			this.showElementMenu(
+				elementUID,
+				{
+					ownerDocument: event.view?.document,
+					getBoundingClientRect() {
+						return {
+							width: 0,
+							height: 0,
+							top: event.clientY,
+							left: event.clientX,
+						};
+					},
+				},
+				actions,
+			);
+		},
+		hideElementMenu() {
+			this.activeElementMenu = null;
+		},
+
 		// Element
-		editElement(elementID: string) {
-			this.editedElementID = elementID;
+		editElement(element: ZionElement) {
+			this.editedElement = element;
 			this.openPanel('panel-element-options');
 		},
 		unEditElement() {
 			this.closePanel('panel-element-options');
-			this.editedElementID = null;
+			this.editedElement = null;
 		},
 		// Panels
 		openPanel(panelId: string) {

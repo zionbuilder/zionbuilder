@@ -1,48 +1,44 @@
 import { computed } from 'vue';
 import { get } from 'lodash-es';
-import { useContentStore } from '../store';
-import { useElementTypes } from './useElementTypes';
+import { useContentStore, useElementDefinitionsStore } from '../store';
 import { applyFilters } from '@/common/modules/hooks';
 
-export function useElementUtils(elementUID: string) {
+export function useElementUtils(element: ZionElement) {
 	const contentStore = useContentStore();
-
-	// TODO: make this a store
-	const elementTypes = useElementTypes();
+	const elementsDefinitionStore = useElementDefinitionsStore();
 
 	// Computed
-	const element = computed(() => contentStore.getElement(elementUID));
 	const elementDefinition = computed(() =>
-		elementTypes.getElementType(element.value ? element.value.element_type : ''),
+		elementsDefinitionStore.getElementDefinition(element ? element.element_type : ''),
 	);
 	const elementName = computed({
 		get: () => get(element, '_advanced_options._element_name', elementDefinition.value.name),
-		set: newValue => contentStore.updateElement(elementUID, '_advanced_options._element_name', newValue),
+		set: newValue => contentStore.updateElement(element.uid, '_advanced_options._element_name', newValue),
 	});
 	const isVisible = computed(() => getOption('_isVisible', true));
 	const isWrapper = elementDefinition.value.wrapper;
 
 	// Actions
 	function getElementCssId() {
-		const cssID = getOption('_advanced_options._element_id', elementUID);
+		const cssID = getOption('_advanced_options._element_id', element.uid);
 		// TODO: this filter has changed removing 'this' and replacing it with elementUID
-		return applyFilters('zionbuilder/element/css_id', cssID, elementUID);
+		return applyFilters('zionbuilder/element/css_id', cssID, element.uid);
 	}
 
 	function highlight() {
-		contentStore.updateElement(elementUID, 'isVisible', true);
+		contentStore.updateElement(element.uid, 'isVisible', true);
 	}
 
 	function unHighlight() {
-		contentStore.updateElement(elementUID, 'isVisible', false);
+		contentStore.updateElement(element.uid, 'isVisible', false);
 	}
 
 	function getOption(path: string, defaultValue: unknown = null) {
-		return get(element.value?.options, path, defaultValue);
+		return get(element.options, path, defaultValue);
 	}
 
 	function updateOption(path: string, newValue: unknown) {
-		contentStore.updateElement(elementUID, `options.${path}`, newValue);
+		contentStore.updateElement(element.uid, `options.${path}`, newValue);
 	}
 
 	function toggleVisibility() {
@@ -51,7 +47,6 @@ export function useElementUtils(elementUID: string) {
 
 	return {
 		// computed
-		element,
 		elementDefinition,
 		elementName,
 		isVisible,

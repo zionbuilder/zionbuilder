@@ -22,18 +22,10 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { addAction, removeAction } from '@/common/modules/hooks';
 import { each } from 'lodash-es';
 
-import {
-	usePreviewLoading,
-	useKeyBindings,
-	useSavePage,
-	useEditorData,
-	useWindows,
-	useHistory,
-	useElementTypes,
-} from '../composables';
+import { useKeyBindings, useSavePage, useEditorData, useWindows, useHistory } from '../composables';
 import { useResponsiveDevices } from '@/common/composables';
 import { useNotificationsStore } from '@/common/store';
-import { useUIStore, useContentStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
 
 export default {
 	name: 'PreviewIframe',
@@ -54,6 +46,7 @@ export default {
 		const { isDirty } = useHistory();
 		const UIStore = useUIStore();
 		const contentStore = useContentStore();
+		const elementsDefinitionsStore = useElementDefinitionsStore();
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows();
 
 		// Dom refs
@@ -260,6 +253,8 @@ export default {
 
 			// Stores
 			contentStore,
+			UIStore,
+			elementsDefinitionsStore,
 		};
 	},
 	data() {
@@ -286,8 +281,6 @@ export default {
 	},
 	methods: {
 		setPageContent(areas) {
-			const { setContentTimestamp } = usePreviewLoading();
-
 			// New system
 			each(areas, (areaContent, id) => {
 				this.contentStore.registerArea(
@@ -300,7 +293,7 @@ export default {
 			});
 
 			// Add timestamp for content
-			setContentTimestamp();
+			this.UIStore.setContentTimestamp();
 
 			// Add to history
 			const { addInitialHistory } = useHistory();
@@ -322,15 +315,13 @@ export default {
 		},
 		onIframeLoaded() {
 			const { add } = useNotificationsStore();
-			const { addElementTypes } = useElementTypes();
-			const { setPreviewLoading, setLoadTimestamp } = usePreviewLoading();
 
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
-			setPreviewLoading(false);
+			this.UIStore.setPreviewLoading(false);
 
 			// Save the timestamp so we can use if in various ways. One example is the tree view justAdded element feature
-			setLoadTimestamp();
+			this.UIStore.setLoadTimestamp();
 
 			// Register the document
 			this.addWindow('preview', iframeWindow);
@@ -348,7 +339,7 @@ export default {
 
 			// Set preview data
 			if (!this.ignoreNextReload) {
-				addElementTypes(iframeWindow.ZnPbPreviewData.elements_data);
+				this.elementsDefinitionsStore.addElements(iframeWindow.ZnPbPreviewData.elements_data);
 			}
 
 			this.useServerVersion();
@@ -372,9 +363,7 @@ export default {
 				event.preventDefault();
 				event.returnValue = 'Do you want to leave this site? Changes you made may not be saved.';
 			} else {
-				const { setPreviewLoading } = usePreviewLoading();
-
-				setPreviewLoading(true);
+				this.UIStore.setPreviewLoading(true);
 			}
 		},
 		refreshIframe() {

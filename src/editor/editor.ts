@@ -3,7 +3,6 @@ import { createApp } from 'vue';
 
 // Main
 import { createPinia } from 'pinia';
-import { useElementTypes } from './composables';
 import { registerEditorOptions } from './components/options';
 import * as STORE from './store';
 
@@ -13,6 +12,7 @@ import { install as I18nInstall } from '../common/modules/i18n';
 import { errorInterceptor } from '../common/api';
 import { useLibrary } from '../common/composables';
 import { useNotificationsStore } from '../common/store';
+import { useElementDefinitionsStore } from './store';
 
 // Global components
 import { TreeViewList, TreeViewListItem } from './components/treeView';
@@ -43,7 +43,6 @@ import App from './EditorApp.vue';
 
 // init data
 const appInstance = createApp(App);
-const piniaInstance = createPinia();
 
 // Init global components
 appInstance.use(I18nInstall, window.ZnI18NStrings);
@@ -76,7 +75,7 @@ appInstance.config.globalProperties.$zb = {
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb);
 
 // Expose common methods
-const { registerElementComponent } = useElementTypes();
+const elementDefinitionsStore = useElementDefinitionsStore();
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
@@ -90,7 +89,7 @@ window.addEventListener('load', function () {
 window.zb = window.zb || {};
 window.zb.editor = Object.assign(
 	{},
-	{ appInstance, registerElementComponent },
+	{ appInstance, registerElementComponent: elementDefinitionsStore.registerElementComponent },
 	API,
 	COMPOSABLES,
 	COMMON_COMPOSABLES.units,

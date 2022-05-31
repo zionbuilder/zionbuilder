@@ -19,10 +19,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, withDirectives } from 'vue';
+import { watch, computed } from 'vue';
 import { get } from 'lodash-es';
 
 import { Environment } from '@/common/utils';
+import { useContentStore } from '@/editor/store';
 import {
 	useElementMenu,
 	useWindows,
@@ -33,18 +34,7 @@ import {
 } from '../../composables';
 import { translate } from '@/common/modules/i18n';
 
-const props = withDirectives(
-	defineProps<{
-		elementUid: string;
-		parentUid: string;
-		isActive?: boolean;
-	}>(),
-	{
-		isActive: false,
-	},
-);
-
-const showOptions = ref(false);
+const contentStore = useContentStore();
 const { activeElementMenu, hideElementMenu } = useElementMenu();
 const { addEventListener, removeEventListener } = useWindows();
 const { getData } = useLocalStorage();
@@ -61,7 +51,7 @@ const elementActions = computed(() => {
 	const element = activeElementMenu.value.element;
 	return [
 		{
-			title: `${translate('action_edit')} ${element.name}`,
+			title: `${translate('action_edit')} ${contentStore.getElementName(element)}`,
 			icon: 'edit',
 			action: () => {
 				editElement(element);

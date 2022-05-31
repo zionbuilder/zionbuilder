@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia';
 import { pull, set } from 'lodash-es';
-import { translate } from '@/common/modules/i18n';
 import { get } from 'lodash-es';
-import { useElementTypes } from '@/editor/composables';
-import { type ElementType } from '../models';
+import { useElementDefinitionsStore } from './useElementDefinitionsStore';
 
 interface State {
 	areas: BuilderArea[];
@@ -27,28 +25,16 @@ export const useContentStore = defineStore('content', {
 				content: [],
 			},
 		getElementName() {
-			return (elementUID: string): string => {
-				const element = this.getElement(elementUID);
-				if (!element) {
-					return translate('invalid_element');
-				}
-
+			return (element: ZionElement): string => {
 				const elementName = <string>get(element.options, '_advanced_options._element_name');
 
 				if (elementName) {
 					return elementName;
 				} else {
-					const { getElementType } = useElementTypes();
-					const elementDefinition = getElementType(element.element_type);
+					const elementsDefinitionStore = useElementDefinitionsStore();
+					const elementDefinition = elementsDefinitionStore.getElementDefinition(element.element_type);
 					return elementDefinition.name;
 				}
-			};
-		},
-		getElementDefinition() {
-			return (elementUID: string) => {
-				const element = this.getElement(elementUID);
-				const { getElementType } = useElementTypes();
-				return getElementType(element.element_type);
 			};
 		},
 	},

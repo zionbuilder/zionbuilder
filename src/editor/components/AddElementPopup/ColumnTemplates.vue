@@ -27,9 +27,9 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useAddElementsPopup, useWindows, useHistory, useElementTypes } from '../../composables';
+import { useAddElementsPopup, useWindows, useHistory } from '../../composables';
 import { useLibrary } from '@/common/composables';
-import { useUIStore } from '../../store';
+import { useUIStore, useElementDefinitionsStore } from '../../store';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
@@ -100,15 +100,14 @@ export default {
 		};
 
 		function getOrientation(element) {
-			const { getElementType } = useElementTypes();
-
+			const elementsDefinitionsStore = useElementDefinitionsStore();
 			let orientation = 'horizontal';
 
 			if (element.element_type === 'contentRoot') {
 				return 'vertical';
 			}
 
-			const elementType = getElementType(element.element_type);
+			const elementType = elementsDefinitionsStore.getElementDefinition(element);
 
 			if (elementType) {
 				orientation = elementType.content_orientation;

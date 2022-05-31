@@ -63,7 +63,7 @@
 				<div class="znpb-main-wrapper--mainBarPlaceholderInner" />
 			</div>
 
-			<mainPanel />
+			<MainPanel />
 
 			<!-- center area -->
 			<div class="znpb-center-area">
@@ -87,7 +87,7 @@
 			<!-- end center area -->
 		</div>
 
-		<div v-if="isPreviewLoading" class="znpb-loading-wrapper-gif">
+		<div v-if="UIStore.isPreviewLoading" class="znpb-loading-wrapper-gif">
 			<img :src="editorData.urls.loader" />
 			<div class="znpb-loading-wrapper-gif__text">{{ translate('generating_preview') }}</div>
 		</div>
@@ -129,7 +129,7 @@ import SaveElementModal from './components/SaveElementModal.vue';
 // Composables
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
-import { useKeyBindings, usePreviewLoading, useEditorData, useAutosave, useWindows } from './composables';
+import { useKeyBindings, useEditorData, useAutosave, useWindows } from './composables';
 import { useResponsiveDevices } from '@/common/composables';
 import { useNotificationsStore } from '@/common/store';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
@@ -144,7 +144,6 @@ const { notifications } = storeToRefs(useNotificationsStore());
 const { activeResponsiveDeviceInfo, responsiveDevices, setActiveResponsiveDeviceId, activeResponsiveDeviceId } =
 	useResponsiveDevices();
 const { applyShortcuts } = useKeyBindings();
-const { isPreviewLoading } = usePreviewLoading();
 const { editorData } = useEditorData();
 
 // Components Map

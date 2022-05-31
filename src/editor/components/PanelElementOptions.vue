@@ -1,6 +1,6 @@
 <template>
 	<BasePanel
-		v-if="UIStore.editedElementID"
+		v-if="UIStore.editedElement"
 		class="znpb-element-options__panel-wrapper"
 		:class="{
 			'znpb-element-options__panel-wrapper--hidden': isPanelHidden,
@@ -42,9 +42,9 @@
 					@mouseenter="showBreadcrumbs = true"
 					@mouseleave="showBreadcrumbs = false"
 				>
-					{{ `${contentStore.getElementName(UIStore.editedElementID)} ${translate('options')}` }}
+					{{ `${contentStore.getElementName(UIStore.editedElement)} ${translate('options')}` }}
 					<Icon icon="select" />
-					<BreadcrumbsWrapper v-show="showBreadcrumbs" :element="elementUtils.element" />
+					<BreadcrumbsWrapper v-if="showBreadcrumbs" :element="UIStore.editedElement" />
 				</h4>
 			</div>
 		</template>
@@ -142,14 +142,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, provide, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, Ref, watch, provide, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { addAction, removeAction } from '@/common/modules/hooks';
 import { translate } from '@/common/modules/i18n';
 import { isEditable, Environment } from '@/common/utils';
 import { useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '@/common/composables';
 import { debounce } from 'lodash-es';
-import { useUIStore, useContentStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
@@ -162,19 +162,18 @@ const props = defineProps<{
 const UIStore = useUIStore();
 const contentStore = useContentStore();
 const isPanelHidden = ref(false);
-const searchInput = ref(null);
+const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);
 const lastTab = ref(null);
 const defaultMessage = ref(translate('element_options_default_message'));
 let ignoreLocalHistory = false;
 const { setActivePseudoSelector } = usePseudoSelectors();
 
-const elementUtils = useElementUtils(UIStore.editedElementID);
-const element = computed(() => contentStore.getElement(UIStore.editedElementID));
-
+const elementUtils = useElementUtils(UIStore.editedElement);
+console.log(UIStore.editedElement);
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
-const activeKeyTab = ref(null);
+const activeKeyTab: Ref<string | null> = ref(null);
 const searchActive = ref(false);
 const history = ref([]);
 const historyIndex = ref(0);
@@ -189,16 +188,16 @@ const panelStyles = computed(() => {
 
 const elementOptions = computed({
 	get() {
-		return element.value ? element.value.options : {};
+		return UIStore.editedElement ? UIStore.editedElement.options : {};
 	},
 	set(newValues) {
-		element.value.updateOptions(newValues);
+		UIStore.editedElement.updateOptions(newValues);
 	},
 });
 
 watch(
 	elementOptions,
-	newValue => {
+	() => {
 		// Add to history
 		if (!ignoreLocalHistory) {
 			addToLocalHistory();
@@ -277,7 +276,7 @@ function redo() {
 history.value.push(JSON.parse(JSON.stringify(elementOptions.value)));
 
 // Change the tab when a new element is selected
-watch(element, newValue => {
+watch(UIStore.editedElement, newValue => {
 	activeKeyTab.value = 'general';
 	searchActive.value = false;
 	optionsFilterKeyword.value = '';
@@ -286,8 +285,8 @@ watch(element, newValue => {
 	setActivePseudoSelector(null);
 });
 
-provideElement(element);
-provide('elementInfo', element);
+provideElement(UIStore.editedElement);
+provide('elementInfo', UIStore.editedElement);
 provide('OptionsFormTopModelValue', elementOptions);
 
 const computedStyleOptionsSchema = computed(() => {
@@ -351,14 +350,6 @@ const computedStyleOptions = computed({
 	},
 });
 
-const getElementInfo = computed(() => {
-	return {
-		uid: elementUtils.element.uid,
-		elementTypeConfig: elementUtils.elementDefinition,
-		data: elementUtils.element,
-	};
-});
-
 const filteredOptions = computed(() => {
 	const keyword = optionsFilterKeyword.value;
 	if (keyword.length > 2) {
@@ -370,7 +361,7 @@ const filteredOptions = computed(() => {
 
 // Watchers
 watch(
-	() => UIStore.editedElementID,
+	() => UIStore.editedElement,
 	(newValue, oldValue) => {
 		if (newValue && newValue !== oldValue) {
 			addToGlobalHistory(oldValue);
@@ -408,24 +399,23 @@ const optionsReplacements = [
 	{
 		search: /%%ELEMENT_TYPE%%/g,
 		replacement: () => {
-			return contentStore.getElementDefinition(UIStore.editedElementID).name;
+			const elementsDefinitionsStore = useElementDefinitionsStore();
+			return elementsDefinitionsStore.getElementDefinition(UIStore.editedElement?.element_type).name;
 		},
 	},
 	{
 		search: /%%ELEMENT_UID%%/g,
 		replacement: () => {
-			return UIStore.editedElementID;
+			return UIStore.editedElement;
 		},
 	},
 ];
 
 // Methods
 function onBackButtonClick() {
-	if (
-		elementUtils.element.value.parent &&
-		elementUtils.element.value.parent.elementTypeModel.element_type !== 'contentRoot'
-	) {
-		UIStore.editElement(elementUtils.element.value.parent);
+	if (UIStore.editElement.parent && UIStore.editElement.parent.elementTypeModel.element_type !== 'contentRoot') {
+		const parentElement = contentStore.getElement(UIStore.editElement.parent);
+		UIStore.editElement(parentElement);
 	}
 }
 function changeTabByEvent(event) {
@@ -571,7 +561,7 @@ function changeTab(tabId) {
 
 function addToGlobalHistory(element) {
 	if (hasChanges.value) {
-		const activeEl = element ? element : elementUtils.element.value;
+		const activeEl = element ? element : UIStore.editElement;
 		const { addToHistory } = useHistory();
 		const elementSavedName = activeEl.name;
 		addToHistory(`Edited ${elementSavedName}`);

@@ -1,62 +1,53 @@
 <template>
 	<div class="znpb-element-options__breadcrumbs znpb-fancy-scrollbar">
-		<Breadcrumbs v-if="parents.children.length > 0" :parents="parents" />
+		<Breadcrumbs v-if="breadcrumbsItem.children.length > 0" :item="breadcrumbsItem" />
 		<span v-else>This element has no children</span>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 import Breadcrumbs from './Breadcrumbs.vue';
-import { useEditElement } from '../../composables';
+import { useContentStore } from '@/editor/store';
 
-export default {
-	name: 'BreadcrumbsWrapper',
-	components: {
-		Breadcrumbs,
-	},
-	props: {
-		element: Object,
-	},
-	setup(props) {
-		const getChildren = function (element) {
-			const { element: activeElement } = useEditElement();
-			const children = {
-				element: element,
-				children: [],
-				active: activeElement.value === element,
-			};
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-			if (element.content) {
-				element.content.forEach(childElement => {
-					children.children.push(getChildren(childElement));
-				});
-			}
+const contentStore = useContentStore();
 
-			return children;
-		};
+const getChildren = function (element: ZionElement) {
+	const children = {
+		element: element,
+		children: [],
+		active: props.element.uid === element.uid,
+	};
 
-		const parents = computed(() => {
-			const { element: activeElement } = useEditElement();
-			let parentStructure = getChildren(props.element);
-			let element = props.element;
-
-			while (element.parent && element.parent.element_type !== 'contentRoot') {
-				parentStructure = {
-					element: element.parent,
-					children: [parentStructure],
-					active: activeElement.value === element.parent,
-				};
-
-				element = element.parent;
-			}
-
-			return parentStructure;
+	if (element.content) {
+		element.content.forEach(childElementUID => {
+			const childElement = contentStore.getElement(childElementUID);
+			children.children.push(getChildren(childElement));
 		});
+	}
 
-		return {
-			parents,
-		};
-	},
+	return children;
 };
+
+const breadcrumbsItem = computed(() => {
+	let parentStructure = getChildren(props.element);
+	let element = props.element;
+
+	while (element.parent) {
+		const parentElement = contentStore.getElement(element.parent);
+		parentStructure = {
+			element: parentElement,
+			children: [parentStructure],
+			active: props.element === parentElement,
+		};
+
+		element = parentElement;
+	}
+
+	return parentStructure;
+});
 </script>
