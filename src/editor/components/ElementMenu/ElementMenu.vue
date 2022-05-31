@@ -1,7 +1,6 @@
 <template>
 	<Tooltip
-		v-if="activeElementMenu"
-		:key="activeElementMenu.key"
+		:key="UIStore.activeElementMenu.element.uid"
 		tooltip-class="hg-popper--big-arrows znpb-rightClickMenu__Tooltip"
 		placement="auto"
 		:show="true"
@@ -9,11 +8,11 @@
 		trigger="click"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
-		:popper-ref="activeElementMenu.selector"
-		@hide="hideElementMenu"
+		:popper-ref="UIStore.activeElementMenu.selector"
+		@hide="UIStore.hideElementMenu"
 	>
 		<template #content>
-			<Menu :actions="elementActions" @action="hideElementMenu" />
+			<Menu :actions="elementActions" @action="UIStore.hideElementMenu" />
 		</template>
 	</Tooltip>
 </template>
@@ -21,40 +20,31 @@
 <script lang="ts" setup>
 import { watch, computed } from 'vue';
 import { get } from 'lodash-es';
-
-import { Environment } from '@/common/utils';
-import { useContentStore } from '@/editor/store';
-import {
-	useElementMenu,
-	useWindows,
-	useEditElement,
-	useElementActions,
-	useLocalStorage,
-	useSaveTemplate,
-} from '../../composables';
 import { translate } from '@/common/modules/i18n';
 
+import { Environment } from '@/common/utils';
+import { useContentStore, useUIStore } from '@/editor/store';
+import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
+
 const contentStore = useContentStore();
-const { activeElementMenu, hideElementMenu } = useElementMenu();
+const UIStore = useUIStore();
 const { addEventListener, removeEventListener } = useWindows();
 const { getData } = useLocalStorage();
 
 const controlKey = Environment.isMac ? '⌘' : '⌃';
 
-// TODO: deprecate useEditElement and move code to useElementActions
-const { editElement } = useEditElement();
 const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteElementClasses, wrapInContainer } =
 	useElementActions();
 
 // Computed
 const elementActions = computed(() => {
-	const element = activeElementMenu.value.element;
+	const element = UIStore.activeElementMenu.element;
 	return [
 		{
 			title: `${translate('action_edit')} ${contentStore.getElementName(element)}`,
 			icon: 'edit',
 			action: () => {
-				editElement(element);
+				UIStore.editElement(element);
 			},
 			cssClasses: 'znpb-menu-item--separator-bottom',
 		},
@@ -150,11 +140,11 @@ const elementActions = computed(() => {
 	];
 });
 
-watch(activeElementMenu, newValue => {
+watch(UIStore.activeElementMenu, newValue => {
 	if (newValue) {
-		addEventListener('scroll', hideElementMenu);
+		addEventListener('scroll', UIStore.hideElementMenu);
 	} else {
-		removeEventListener('scroll', hideElementMenu);
+		removeEventListener('scroll', UIStore.hideElementMenu);
 	}
 });
 

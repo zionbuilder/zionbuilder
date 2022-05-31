@@ -45,7 +45,7 @@ export const useUIStore = defineStore('ui', {
 		contentTimestamp: number;
 		editedElement: ZionElement | null;
 		activeElementMenu: {
-			elementUID: string;
+			element: ZionElement;
 			selector: HTMLElement;
 			actions: Record<string, unknown>;
 		} | null;
@@ -163,20 +163,20 @@ export const useUIStore = defineStore('ui', {
 			this.contentTimestamp = Date.now();
 		},
 		// Element menu
-		showElementMenu(elementUID: string, selector, actions = {}) {
+		showElementMenu(element: ZionElement, selector, actions = {}) {
 			if (this.isPreviewMode) {
 				return;
 			}
 
 			this.activeElementMenu = {
-				elementUID,
+				element,
 				selector,
 				actions,
 			};
 		},
-		showElementMenuFromEvent(elementUID: string, event: MouseEvent, actions = {}) {
+		showElementMenuFromEvent(element: ZionElement, event: MouseEvent, actions = {}) {
 			this.showElementMenu(
-				elementUID,
+				element,
 				{
 					ownerDocument: event.view?.document,
 					getBoundingClientRect() {

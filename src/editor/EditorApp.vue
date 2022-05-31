@@ -94,7 +94,7 @@
 
 		<!-- Add Elements Popup -->
 		<AddElementPopup />
-		<ElementMenu />
+		<ElementMenu v-if="UIStore.activeElementMenu" />
 		<SaveElementModal />
 		<PostLock />
 		<PanelLibraryModal />

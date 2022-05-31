@@ -13,7 +13,7 @@ export function useTreeViewItem(element: ZionElement) {
 		if (UIStore.activeElementMenu && UIStore.activeElementMenu.elementUID === element.uid) {
 			UIStore.hideElementMenu();
 		} else {
-			UIStore.showElementMenu(element.uid, elementOptionsRef.value);
+			UIStore.showElementMenu(element, elementOptionsRef.value);
 		}
 	};
 
