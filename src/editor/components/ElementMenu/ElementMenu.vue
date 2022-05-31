@@ -52,7 +52,7 @@ const elementActions = computed(() => {
 			title: `${translate('duplicate_element')}`,
 			icon: 'copy',
 			action: () => {
-				element.duplicate();
+				contentStore.duplicateElement(UIStore.activeElementMenu.element);
 			},
 			append: `${controlKey}+D`,
 		},
