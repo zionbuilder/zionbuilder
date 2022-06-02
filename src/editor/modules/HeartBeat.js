@@ -1,20 +1,19 @@
-import { useEditorData, usePostLock } from '../composables';
+import { useUserStore } from '@/editor/store';
 
 class HeartBeat {
 	constructor() {
-		const { editorData } = useEditorData();
-		const { isPostLocked, setPostLock } = usePostLock();
+		const userStore = useUserStore();
+
 		/**
 		 * Check if the post was locked by another user
 		 */
 		window.jQuery(document).on({
 			'heartbeat-tick.refresh-lock': (event, response) => {
 				// Don't proceed if the post is already locked
-				if (!isPostLocked.value && response['wp-refresh-post-lock']) {
+				if (!userStore.isPostLocked && response['wp-refresh-post-lock']) {
 					const { lock_error: LockError } = response['wp-refresh-post-lock'];
 					if (LockError) {
-						console.log('lock error');
-						setPostLock({
+						userStore.setPostLock({
 							message: LockError.text,
 							avatar: LockError.avatar_src,
 						});
@@ -29,7 +28,7 @@ class HeartBeat {
 		window.jQuery(document).on({
 			'heartbeat-send': (event, data) => {
 				data['wp-refresh-post-lock'] = {
-					post_id: editorData.value.page_id,
+					post_id: window.ZnPbInitialData.page_id,
 				};
 			},
 		});

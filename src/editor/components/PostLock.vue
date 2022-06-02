@@ -1,25 +1,32 @@
 <template>
-	<Modal v-if="isPostLocked" :show="true" :width="570" append-to="body" :show-maximize="false" :show-close="false">
+	<Modal
+		v-if="UserStore.isPostLocked"
+		:show="true"
+		:width="570"
+		append-to="body"
+		:show-maximize="false"
+		:show-close="false"
+	>
 		<div class="znpb-post-lock-modal">
 			<div class="znpb-post-lock-modal__avatar">
-				<img :src="lockedUserInfo.avatar" />
+				<img :src="UserStore.lockedUserInfo.avatar" />
 			</div>
 			<div class="znpb-post-lock-modal__content">
 				<div class="znpb-post-lock-modal__content-text">
 					<p v-if="showError" class="znpb-post-lock-modal__error-message">
-						{{ $translate('post_could_not_lock') }}
+						{{ translate('post_could_not_lock') }}
 					</p>
-					<p>{{ lockedUserInfo.message }}</p>
+					<p>{{ UserStore.lockedUserInfo.message }}</p>
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
 					<Button type="gray">
-						<a :href="urls.preview_url">{{ $translate('post_preview') }}</a>
+						<a :href="urls.preview_url">{{ translate('post_preview') }}</a>
 					</Button>
 					<Button type="gray">
-						<a :href="urls.all_pages_url">{{ $translate('post_go_back') }}</a>
+						<a :href="urls.all_pages_url">{{ translate('post_go_back') }}</a>
 					</Button>
 					<Button type="gray" @click.prevent="lockPages">
-						<a href="">{{ $translate('post_take_over') }}</a>
+						<a href="">{{ translate('post_take_over') }}</a>
 					</Button>
 				</div>
 			</div>
@@ -30,50 +37,38 @@
 	</Modal>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { translate } from '@/common/modules/i18n';
 import { lockPage } from '@/common/api';
-import { useEditorData, usePostLock } from '../composables';
+import { useUserStore } from '@/editor/store';
 
-export default {
-	name: 'PostLock',
-	setup() {
-		const { editorData } = useEditorData();
-		const { isPostLocked, lockedUserInfo, takeOverPost } = usePostLock();
+// Stores
+const UserStore = useUserStore();
 
-		return {
-			pageId: editorData.value.page_id,
-			isPostLocked,
-			lockedUserInfo,
-			takeOverPost,
-			urls: editorData.value.urls,
-		};
-	},
-	data() {
-		return {
-			showing: true,
-			showLoader: false,
-			showError: false,
-		};
-	},
-	methods: {
-		lockPages() {
-			this.showLoader = true;
-			lockPage(this.pageId)
-				.then(result => {
-					if (result.status === 200) {
-						this.takeOverPost();
-					} else if (result.status === 500) {
-						this.showError = true;
-						// eslint-disable-next-line
-					console.error(this.$translate('post_could_not_lock'))
-					}
-				})
-				.finally(() => {
-					this.showLoader = false;
-				});
-		},
-	},
-};
+// Refs
+const showLoader = ref(false);
+const showError = ref(false);
+
+const pageId = window.ZnPbInitialData.page_id;
+const urls = window.ZnPbInitialData.urls;
+
+function lockPages() {
+	showLoader.value = true;
+	lockPage(pageId)
+		.then(result => {
+			if (result.status === 200) {
+				UserStore.takeOverPost();
+			} else if (result.status === 500) {
+				showError.value = true;
+				// eslint-disable-next-line
+					console.error(translate('post_could_not_lock'))
+			}
+		})
+		.finally(() => {
+			showLoader.value = false;
+		});
+}
 </script>
 
 <style lang="scss">

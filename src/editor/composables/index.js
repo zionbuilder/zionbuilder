@@ -6,7 +6,6 @@ export * from './useSavePage';
 export * from './useEditElement';
 export * from './useKeyBindings';
 export * from './useEditorData';
-export * from './usePostLock';
 export * from './useElementProvide';
 export * from './useIsDragging';
 export * from './useHistory';
