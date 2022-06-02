@@ -3,8 +3,17 @@ import { find } from 'lodash-es';
 import { translate } from '@/common/modules/i18n';
 import { ElementType } from '../models/ElementType';
 
+type ElementCategory = {
+	id: string;
+	name: string;
+	priority: number;
+};
+
 export const useElementDefinitionsStore = defineStore('elementDefinitions', {
-	state: () => {
+	state: (): {
+		elementsDefinition: ElementType[];
+		categories: ElementCategory[];
+	} => {
 		return {
 			elementsDefinition: [
 				new ElementType({
@@ -13,6 +22,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 					show_in_ui: false,
 				}),
 			],
+			categories: [],
 		};
 	},
 	getters: {
@@ -35,8 +45,15 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 				return element.thumb ? element.thumb : null;
 			};
 		},
+		getElementTypeCategory:
+			state =>
+			(id: string): ElementCategory | undefined =>
+				find(state.categories, { id }),
 	},
 	actions: {
+		setCategories(categories: ElementCategory[]) {
+			this.categories = categories;
+		},
 		addElements(elements: []) {
 			elements.forEach(elementConfig => {
 				this.addElement(elementConfig);

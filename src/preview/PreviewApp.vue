@@ -1,7 +1,7 @@
 <template>
 	<div class="zb" :class="previewAppClasses">
 		<!-- <SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" /> -->
-
+		asdasd
 		<PageStyles
 			:css-classes="cssClasses.CSSClasses"
 			:page-settings-model="pageSettings"

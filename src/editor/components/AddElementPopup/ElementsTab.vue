@@ -43,13 +43,7 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
-import {
-	useElementTypeCategories,
-	useAddElementsPopup,
-	useHistory,
-	useEditorData,
-	useUserData,
-} from '../../composables';
+import { useAddElementsPopup, useHistory, useEditorData, useUserData } from '../../composables';
 import { translate } from '@/common/modules/i18n';
 import { useElementDefinitionsStore } from '@/editor/store';
 
@@ -74,7 +68,6 @@ export default {
 	},
 	setup(props) {
 		const elementsDefinitionsStore = useElementDefinitionsStore();
-		const { categories } = useElementTypeCategories();
 		const { editorData } = useEditorData();
 		const { getUserData } = useUserData();
 
@@ -112,7 +105,7 @@ export default {
 			}
 
 			// Add the categories from server and sort them
-			const clonedCategories = [...categories.value];
+			const clonedCategories = [...elementsDefinitionsStore.categories];
 			const sortedCategories = clonedCategories.sort((a, b) => {
 				return a.priority < b.priority ? -1 : 1;
 			});

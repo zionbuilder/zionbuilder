@@ -76,6 +76,7 @@ appInstance.provide('$zb', appInstance.config.globalProperties.$zb);
 
 // Expose common methods
 const elementDefinitionsStore = useElementDefinitionsStore();
+elementDefinitionsStore.setCategories(window.ZnPbInitialData.elements_categories);
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API

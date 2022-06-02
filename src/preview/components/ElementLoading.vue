@@ -5,22 +5,22 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject } from 'vue';
 export default {
 	name: 'ElementLoading',
-	setup () {
-		const urls = inject('editor_urls')
+	setup() {
+		const urls = inject('editor_urls');
 
 		return {
-			urls
-		}
+			urls,
+		};
 	},
 	computed: {
-		loadingUrl () {
-			return this.urls.loader
-		}
-	}
-}
+		loadingUrl() {
+			return this.urls.loader;
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-preview__element-loading {

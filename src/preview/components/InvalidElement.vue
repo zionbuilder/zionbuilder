@@ -2,7 +2,7 @@
 	<div class="znpb-element--not-found">
 		<slot name="start" />
 
-		{{$translate('element_not_found')}}
+		{{ $translate('element_not_found') }}
 
 		<slot name="end" />
 	</div>
@@ -10,8 +10,8 @@
 
 <script>
 export default {
-	name: 'InvalidElement'
-}
+	name: 'InvalidElement',
+};
 </script>
 
 <style lang="scss">

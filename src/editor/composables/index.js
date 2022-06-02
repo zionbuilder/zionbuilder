@@ -1,5 +1,4 @@
 export * from './useUserData';
-export * from './useElementTypeCategories';
 export * from './useTemplateParts';
 export * from './useAddElementsPopup';
 export * from './useElementMenu';
