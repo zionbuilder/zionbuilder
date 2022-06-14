@@ -55,7 +55,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useResponsiveDevices, usePseudoSelectors } from '@/common/composables';
+import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
 
 // Components
 import { BackgroundColor as InputBackgroundColor } from '../BackgroundColor';

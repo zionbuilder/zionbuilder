@@ -84,8 +84,8 @@
 import { ref, computed } from 'vue';
 import rafSchd from 'raf-schd';
 import { get } from 'lodash-es';
-import { useResponsiveDevices } from '@/common/composables';
-import { Environment } from '@/common/utils';
+import { useResponsiveDevices } from '/@/common/composables';
+import { Environment } from '/@/common/utils';
 
 // Components
 import ToolboxTitle from './ToolboxTitle.vue';

@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Section from './components/Section.vue'
+import Section from './components/Section.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'zion_section',
-	component: Section
-})
+	component: Section,
+});

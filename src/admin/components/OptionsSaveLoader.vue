@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { useBuilderOptionsStore } from '@/common/store';
+import { useBuilderOptionsStore } from '/@/common/store';
 const builderOptionsStore = useBuilderOptionsStore();
 </script>
 

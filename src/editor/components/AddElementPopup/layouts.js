@@ -1,4 +1,4 @@
-import { applyFilters } from '@/common/modules/hooks';
+import { applyFilters } from '/@/common/modules/hooks';
 
 export const getLayoutConfigs = () => {
 	return applyFilters('editor/addElementsPopup/layoutConfigs', {

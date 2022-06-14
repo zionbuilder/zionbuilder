@@ -1,6 +1,7 @@
+import { markRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { find } from 'lodash-es';
-import { translate } from '@/common/modules/i18n';
+import { translate } from '/@/common/modules/i18n';
 import { ElementType } from '../models/ElementType';
 
 type ElementCategory = {
@@ -70,7 +71,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 				return;
 			}
 
-			element.component = component;
+			element.component = markRaw(component);
 		},
 	},
 });

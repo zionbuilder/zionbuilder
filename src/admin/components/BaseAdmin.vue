@@ -51,10 +51,10 @@
 </template>
 
 <script setup>
-import { ref, computed, provide } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
-import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '@/common/store';
+import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '/@/common/store';
 
 const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();

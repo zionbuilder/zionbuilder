@@ -1,6 +1,6 @@
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
-import { generateUID } from '@/common/utils';
-import { applyFilters } from '@/common/modules/hooks';
+import { generateUID } from '/@/common/utils';
+import { applyFilters } from '/@/common/modules/hooks';
 import { regenerateUIDs } from '../utils';
 import { useElementDefinitionsStore, useElementsStore } from '../store';
 import { RenderAttributes } from './RenderAttributes';

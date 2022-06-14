@@ -143,11 +143,11 @@
 
 <script lang="ts" setup>
 import { ref, Ref, watch, provide, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { addAction, removeAction } from '@/common/modules/hooks';
-import { translate } from '@/common/modules/i18n';
-import { isEditable, Environment } from '@/common/utils';
+import { addAction, removeAction } from '/@/common/modules/hooks';
+import { translate } from '/@/common/modules/i18n';
+import { isEditable, Environment } from '/@/common/utils';
 import { useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
-import { usePseudoSelectors, useOptionsSchemas } from '@/common/composables';
+import { usePseudoSelectors, useOptionsSchemas } from '/@/common/composables';
 import { debounce } from 'lodash-es';
 import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
 

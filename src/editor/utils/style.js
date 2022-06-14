@@ -1,4 +1,4 @@
-import { useResponsiveDevices } from '@/common/composables';
+import { useResponsiveDevices } from '/@/common/composables';
 
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = '';

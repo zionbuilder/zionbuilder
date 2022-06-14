@@ -1,4 +1,4 @@
-import { exportLibraryItem, getLibraryItemBuilderConfig, saveLibraryItemThumbnail } from '@/common/api';
+import { exportLibraryItem, getLibraryItemBuilderConfig, saveLibraryItemThumbnail } from '/@/common/api';
 import { LibrarySource } from './LibrarySource';
 import { saveAs } from 'file-saver';
 

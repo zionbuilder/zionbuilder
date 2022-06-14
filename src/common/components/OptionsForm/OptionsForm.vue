@@ -25,7 +25,7 @@
 import { provide, inject, computed } from 'vue';
 import { useResponsiveDevices, usePseudoSelectors } from '../../composables';
 import { unset, set, get, cloneDeep } from 'lodash-es';
-import { useDataSetsStore } from '@/common/store';
+import { useDataSetsStore } from '/@/common/store';
 
 // Components
 import OptionWrapper from './OptionWrapper.vue';

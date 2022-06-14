@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { BaseInput } from '@/common';
+import { BaseInput } from '/@/common';
 
 export default {
 	name: 'LinkAttributeForm',

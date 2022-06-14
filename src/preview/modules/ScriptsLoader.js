@@ -3,7 +3,7 @@ let loaded = false;
 let loadedScripts;
 let loadedStyles;
 
-export const ScriptsLoader = () => {
+export const ScriptsLoader = window => {
 	const getAvailableScripts = () => {
 		const allScripts = window.document.getElementsByTagName('script');
 
@@ -88,6 +88,10 @@ export const ScriptsLoader = () => {
 		const promise = new Promise((resolve, reject) => {
 			const javascriptTag = window.document.createElement('script');
 			javascriptTag.src = url;
+
+			if (url.indexOf('http://127.0.0.1') === 0) {
+				javascriptTag.type = 'module';
+			}
 
 			javascriptTag.onload = () => {
 				loadedScripts[url] = 'done';

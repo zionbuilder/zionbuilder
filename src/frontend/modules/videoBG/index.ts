@@ -180,3 +180,5 @@ jQuery('document').ready(function () {
 		$el.zionVideoBackgroundConfig = config;
 	});
 });
+
+window.ZBVideoBg = ZBVideoBg;

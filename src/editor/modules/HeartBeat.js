@@ -1,6 +1,6 @@
-import { useUserStore } from '@/editor/store';
+import { useUserStore } from '/@/editor/store';
 
-class HeartBeat {
+export default class HeartBeat {
 	constructor() {
 		const userStore = useUserStore();
 
@@ -45,7 +45,7 @@ class HeartBeat {
 					window.ZnRestConfig.nonce = restNonce;
 				}
 
-				// Update Hearbeat Nonce
+				// Update HearBeat Nonce
 				if (heartbeatNonce) {
 					window.heartbeatSettings.nonce = heartbeatNonce;
 				}
@@ -53,5 +53,3 @@ class HeartBeat {
 		});
 	}
 }
-
-export default new HeartBeat();

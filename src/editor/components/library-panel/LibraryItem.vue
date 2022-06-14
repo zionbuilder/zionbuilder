@@ -74,7 +74,7 @@
 <script>
 import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useEditorData } from '../../composables';
-import { translate } from '@/common/modules/i18n';
+import { translate } from '/@/common/modules/i18n';
 import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js';
 
 export default {

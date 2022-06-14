@@ -129,7 +129,7 @@
 
 <script setup>
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices } from '@/common/composables';
+import { useResponsiveDevices } from '/@/common/composables';
 
 import DeviceElement from './DeviceElement.vue';
 import FlyoutWrapper from './FlyoutWrapper.vue';

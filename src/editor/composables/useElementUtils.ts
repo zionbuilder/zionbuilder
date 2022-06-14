@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { get } from 'lodash-es';
 import { useContentStore, useElementDefinitionsStore } from '../store';
-import { applyFilters } from '@/common/modules/hooks';
+import { applyFilters } from '/@/common/modules/hooks';
 
 export function useElementUtils(element: ZionElement) {
 	const contentStore = useContentStore();

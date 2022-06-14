@@ -29,7 +29,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import { useGoogleFontsStore } from '@/common/store';
+import { useGoogleFontsStore } from '/@/common/store';
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue';

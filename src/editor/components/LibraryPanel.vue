@@ -57,7 +57,7 @@
 
 <script>
 import { ref, computed, watchEffect, watch, nextTick } from 'vue';
-import { translate } from '@/common/modules/i18n';
+import { translate } from '/@/common/modules/i18n';
 import { uniq } from 'lodash-es';
 
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue';

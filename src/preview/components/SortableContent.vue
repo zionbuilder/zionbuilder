@@ -1,6 +1,6 @@
 <template>
 	<Sortable
-		v-model="element.content"
+		v-model="children"
 		:group="groupInfo"
 		:disabled="UIStore.isPreviewMode"
 		:allow-duplicate="true"
@@ -15,7 +15,7 @@
 		@drop="onSortableDrop"
 	>
 		<Element
-			v-for="childElement in element.content"
+			v-for="childElement in children"
 			:key="childElement.uid"
 			:element="childElement"
 			:zion-element-uid="childElement.uid"
@@ -36,7 +36,7 @@
 
 		<template #end>
 			<EmptySortablePlaceholder
-				v-if="element.content.length === 0 && allowElementsAdd && !isPreviewMode"
+				v-if="element.content.length === 0 && allowElementsAdd && !UIStore.isPreviewMode"
 				:element="element"
 			/>
 
@@ -45,127 +45,112 @@
 	</Sortable>
 </template>
 
-<script>
-import { computed, ref } from 'vue';
-import { translate } from '@/common/modules/i18n';
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { translate } from '/@/common/modules/i18n';
 
 // Utils
 import { get } from 'lodash-es';
 
 // Components
 import Element from './Element.vue';
+import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.vue';
+import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
+import SortableHelper from '/@/editor/common/SortableHelper.vue';
 
 // Stores
-import { useUIStore, useElementDefinitionsStore } from '../../editor/store';
+import { useUIStore } from '../../editor/store';
 
-export default {
-	name: 'SortableContent',
-	components: {
-		Element,
-	},
-	inheritAttrs: false,
-	props: {
-		element: Object,
-
-		group: {
-			type: Object,
-			required: false,
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		group?: Record<string, unknown>;
+		allowElementsAdd?: boolean;
+		emptyPlaceholderText?: string;
+		onElementSetup?: Function;
+	}>(),
+	{
+		group: () => {
+			return {};
 		},
-		allowElementsAdd: {
-			type: Boolean,
-			default: true,
-		},
-		emptyPlaceholderText: {
-			type: String,
-		},
-		onElementSetup: {
-			type: Function,
+		allowElementsAdd: true,
+		emptyPlaceholderText: '',
+		onElementSetup: () => {
+			return {};
 		},
 	},
-	setup(props) {
-		const { addToHistory } = window.zb.editor.useHistory();
-		const elementsDefinitionsStore = useElementDefinitionsStore();
+);
 
-		const defaultSortableGroup = {
-			name: 'elements',
-		};
+const children = computed({
+	get: () => props.element.content.map(child => contentStore.getElement(child)),
+	set: newValue =>
+		contentStore.updateElement(
+			props.element.uid,
+			'content',
+			newValue.map(element => element.uid),
+		),
+});
 
-		const showColumnTemplates = ref(false);
-		const addElementsPopupButton = ref(null);
-		const { getElement } = window.zb.editor.useElements();
+// const { addToHistory } = window.zb.editor.useHistory();
+const elementsDefinitionsStore = window.parent.zb.editor.useElementDefinitionsStore();
 
-		const showAddElementsPopup = computed(() => props.element.content.length > 0 && showColumnTemplates.value);
-		const groupInfo = computed(() => props.group || defaultSortableGroup);
-		const getSortableAxis = computed(() => {
-			let orientation = 'horizontal';
-
-			if (props.element.element_type === 'contentRoot') {
-				return 'vertical';
-			}
-
-			const elementType = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
-
-			if (elementType) {
-				orientation = elementType.content_orientation;
-			}
-
-			// Check columns and section direction
-			if (props.element.options.inner_content_layout) {
-				orientation = props.element.options.inner_content_layout;
-			}
-
-			// Check media settings
-			const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
-
-			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
-			}
-
-			return orientation;
-		});
-
-		const UIStore = useUIStore();
-		const { isDragging, setDraggingState } = window.zb.editor.useIsDragging();
-		const { copyElement } = window.zb.editor.useElementActions();
-
-		function onSortableDrop(event) {
-			const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
-			const element = getElement(droppedElementUid);
-			const translateText = translate('moved');
-			addToHistory(`${translateText} ${element.name}`);
-		}
-
-		function onSortableDuplicate(item) {
-			return item.getClone();
-		}
-
-		function onSortableStart() {
-			const { hideAddElementsPopup } = window.zb.editor.useAddElementsPopup();
-			hideAddElementsPopup();
-			setDraggingState(true);
-		}
-
-		function onSortableEnd() {
-			setDraggingState(false);
-		}
-
-		return {
-			UIStore,
-			groupInfo,
-			getSortableAxis,
-			showAddElementsPopup,
-			addElementsPopupButton,
-			showColumnTemplates,
-			isDragging,
-			setDraggingState,
-			copyElement,
-			onSortableDrop,
-			onSortableDuplicate,
-			onSortableStart,
-			onSortableEnd,
-		};
-	},
+const defaultSortableGroup = {
+	name: 'elements',
 };
+
+const groupInfo = computed(() => props.group || defaultSortableGroup);
+const getSortableAxis = computed(() => {
+	let orientation = 'horizontal';
+
+	if (props.element.element_type === 'contentRoot') {
+		return 'vertical';
+	}
+
+	const elementType = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
+
+	if (elementType) {
+		orientation = elementType.content_orientation;
+	}
+
+	// Check columns and section direction
+	if (props.element.options.inner_content_layout) {
+		orientation = props.element.options.inner_content_layout;
+	}
+
+	// Check media settings
+	const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
+
+	if (mediaOrientation) {
+		orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
+	}
+
+	return orientation;
+});
+
+const UIStore = useUIStore();
+const contentStore = window.parent.zb.editor.useContentStore();
+const { isDragging, setDraggingState } = window.parent.zb.editor.useIsDragging();
+
+function onSortableDrop(event) {
+	const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
+	const element = contentStore.getElement(droppedElementUid);
+	const translateText = translate('moved');
+	addToHistory(`${translateText} ${element.name}`);
+}
+
+function onSortableDuplicate(item) {
+	return item.getClone();
+}
+
+function onSortableStart() {
+	const { hideAddElementsPopup } = window.parent.zb.editor.useAddElementsPopup();
+	hideAddElementsPopup();
+	setDraggingState(true);
+}
+
+function onSortableEnd() {
+	setDraggingState(false);
+}
 </script>
 
 <style lang="scss">

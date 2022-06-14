@@ -79,9 +79,9 @@
 <script>
 import { computed, defineAsyncComponent, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
-import { applyFilters } from '@/common/modules/hooks';
-import { translate } from '@/common/modules/i18n';
-import { generateUID } from '@/common/utils';
+import { applyFilters } from '/@/common/modules/hooks';
+import { translate } from '/@/common/modules/i18n';
+import { generateUID } from '/@/common/utils';
 
 // Components
 import AddChildActions from './AddChildActions.vue';

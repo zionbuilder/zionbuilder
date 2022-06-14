@@ -1,10 +1,11 @@
 import './scss/index.scss';
-import { createApp } from 'vue';
+import * as Vue from 'vue';
 
 // Main
 import { createPinia } from 'pinia';
 import { registerEditorOptions } from './components/options';
 import * as STORE from './store';
+import * as COMMONUTILS from '/@/common/utils';
 
 // Plugins
 import { install as ComponentsInstall } from '../common';
@@ -15,15 +16,15 @@ import { useNotificationsStore } from '../common/store';
 import { useElementDefinitionsStore } from './store';
 
 // Global components
-import { TreeViewList, TreeViewListItem } from './components/treeView';
 import UIElementIcon from './common/UIElementIcon.vue';
 import AddElementIcon from './common/AddElementIcon.vue';
+import SortableContent from '../preview/components/SortableContent.vue';
 import EmptySortablePlaceholder from './common/EmptySortablePlaceholder.vue';
 import SortableHelper from './common/SortableHelper.vue';
 import SortablePlaceholder from './common/SortablePlaceholder.vue';
 
-import { WireframeList, WireframeListItem } from './components/treeView';
 import { useOptionsSchemas } from '../common';
+import HeartBeat from './modules/HeartBeat.js';
 
 // Exports
 import * as API from './api.js';
@@ -42,7 +43,7 @@ registerEditorOptions();
 import App from './EditorApp.vue';
 
 // init data
-const appInstance = createApp(App);
+const appInstance = Vue.createApp(App);
 
 // Init global components
 appInstance.use(I18nInstall, window.ZnI18NStrings);
@@ -57,15 +58,12 @@ addSources(window.ZnPbInitialData.template_sources);
 errorInterceptor(useNotificationsStore());
 
 // Register nested components
-appInstance.component('TreeViewList', TreeViewList);
-appInstance.component('TreeViewListItem', TreeViewListItem);
-appInstance.component('WireframeList', WireframeList);
-appInstance.component('WireframeListItem', WireframeListItem);
 appInstance.component('EmptySortablePlaceholder', EmptySortablePlaceholder);
 appInstance.component('AddElementIcon', AddElementIcon);
 appInstance.component('UIElementIcon', UIElementIcon);
 appInstance.component('SortableHelper', SortableHelper);
 appInstance.component('SortablePlaceholder', SortablePlaceholder);
+appInstance.component('SortableContent', SortableContent);
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {
@@ -77,6 +75,10 @@ appInstance.provide('$zb', appInstance.config.globalProperties.$zb);
 // Expose common methods
 const elementDefinitionsStore = useElementDefinitionsStore();
 elementDefinitionsStore.setCategories(window.ZnPbInitialData.elements_categories);
+elementDefinitionsStore.addElements(window.ZnPbInitialData.elements_data);
+
+// WordPress heartBeat
+new HeartBeat();
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API
@@ -97,3 +99,6 @@ window.zb.editor = Object.assign(
 	UTILS,
 	STORE,
 );
+
+window.zb.vue = Vue;
+window.zb.utils = COMMONUTILS;

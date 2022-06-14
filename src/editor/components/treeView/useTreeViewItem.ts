@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useUIStore, useElementDefinitionsStore } from '@/editor/store';
+import { useUIStore, useElementDefinitionsStore } from '/@/editor/store';
 
 export function useTreeViewItem(element: ZionElement) {
 	const UIStore = useUIStore();

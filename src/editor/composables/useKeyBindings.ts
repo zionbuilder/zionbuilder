@@ -1,5 +1,5 @@
 import { useSavePage, useEditorData, useElementActions, useHistory, useEditElement } from '../composables';
-import { isEditable, Environment } from '@/common/utils';
+import { isEditable, Environment } from '/@/common/utils';
 import { useUIStore } from '../store';
 
 export const useKeyBindings = () => {

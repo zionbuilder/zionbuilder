@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import Breadcrumbs from './Breadcrumbs.vue';
-import { useContentStore } from '@/editor/store';
+import { useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;

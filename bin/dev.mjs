@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import { filesMap } from './map.mjs';
 import path from 'path';
 import { generateManifest } from './manifest.mjs';
+import { viteExternalsPlugin } from 'vite-plugin-externals';
 
 const inputs = {};
 filesMap.forEach(file => {
@@ -14,17 +15,19 @@ const server = await createServer({
   configFile: false,
   resolve: {
     alias: {
-      '@/': '/../src/',
+      '/@': path.resolve('./src'),
+      '/@zb/vue': path.resolve('./node_modules/vue'),
     },
   },
   mode: 'development',
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['@zb/editor'],
-      globals: {
-        '@zb/editor': 'zb.editor',
-      },
+      external: ['vue'],
+      //   external: ['zbVue'],
+      //   globals: {
+      //     zbVue: 'window.zb.vue',
+      //   },
     },
   },
   css: {
@@ -34,7 +37,12 @@ const server = await createServer({
       },
     },
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    viteExternalsPlugin({
+      vue: ['zb', 'vue'],
+    }),
+  ],
 });
 
 await server.listen();

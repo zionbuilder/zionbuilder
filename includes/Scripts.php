@@ -61,6 +61,7 @@ class Scripts {
 		if ( strpos( $src, 'http://127.0.0.1' ) === 0 ) {
 			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
 		}
+
 		// change the script tag by adding type="module" and return it.
 		return $tag;
 	}

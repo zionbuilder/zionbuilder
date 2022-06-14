@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useBuilderOptionsStore } from '@/common/store';
+import { useBuilderOptionsStore } from '/@/common/store';
 
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 

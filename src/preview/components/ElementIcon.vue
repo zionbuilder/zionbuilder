@@ -2,32 +2,29 @@
 	<span v-if="iconConfig" :data-znpbiconfam="iconConfig.family" :data-znpbicon="iconUnicode" />
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 
-export default {
-	name: 'ElementIcon',
-	props: {
+const props = withDefaults(
+	defineProps<{
 		iconConfig: {
-			type: Object,
-			required: false,
-			default() {
-				return {
-					family: 'Font Awesome 5 Brands Regular',
-					name: 'wordpress-simple',
-					unicode: 'uf411',
-				};
-			},
+			family: string;
+			unicode: string;
+			name: string;
+		};
+	}>(),
+	{
+		iconConfig: () => {
+			return {
+				family: 'Font Awesome 5 Brands Regular',
+				name: 'wordpress-simple',
+				unicode: 'uf411',
+			};
 		},
 	},
-	setup(props) {
-		const iconUnicode = computed(() => {
-			return JSON.parse(`"\\${props.iconConfig.unicode}"`).trim();
-		});
+);
 
-		return {
-			iconUnicode,
-		};
-	},
-};
+const iconUnicode = computed(() => {
+	return JSON.parse(`"\\${props.iconConfig.unicode}"`).trim();
+});
 </script>

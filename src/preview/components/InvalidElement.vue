@@ -2,16 +2,14 @@
 	<div class="znpb-element--not-found">
 		<slot name="start" />
 
-		{{ $translate('element_not_found') }}
+		{{ translate('element_not_found') }}
 
 		<slot name="end" />
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'InvalidElement',
-};
+<script lang="ts" setup>
+import { translate } from '/@/common/modules/i18n';
 </script>
 
 <style lang="scss">

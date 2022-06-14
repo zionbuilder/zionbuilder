@@ -20,10 +20,10 @@
 <script lang="ts" setup>
 import { watch, computed } from 'vue';
 import { get } from 'lodash-es';
-import { translate } from '@/common/modules/i18n';
+import { translate } from '/@/common/modules/i18n';
 
-import { Environment } from '@/common/utils';
-import { useContentStore, useUIStore } from '@/editor/store';
+import { Environment } from '/@/common/utils';
+import { useContentStore, useUIStore } from '/@/editor/store';
 import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
 
 const contentStore = useContentStore();

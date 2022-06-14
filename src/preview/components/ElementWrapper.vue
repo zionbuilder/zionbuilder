@@ -3,7 +3,7 @@
 
 	<component
 		:is="elementComponent"
-		v-else-if="elementComponent && !(element.isVisible === false && isPreviewMode)"
+		v-else-if="elementComponent && !(element.isVisible === false && UIStore.isPreviewMode)"
 		:id="`${element.elementCssId}`"
 		ref="root"
 		class="znpb-element__wrapper zb-element"
@@ -22,9 +22,9 @@
 
 			<ElementStyles :styles="customCSS" />
 		</template>
-
+		{{ isVisible }}
 		<template #end>
-			<div v-if="!element.isVisible" class="znpb-hidden-element-container">
+			<div v-if="!isVisible" class="znpb-hidden-element-container">
 				<div class="znpb-hidden-element-placeholder">
 					<Icon icon="eye" @click.stop="element.toggleVisibility()"> </Icon>
 				</div>
@@ -37,8 +37,8 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
-import { applyFilters } from '@/common/modules/hooks';
-import { useOptionsSchemas, usePseudoSelectors } from '@/common/composables';
+import { applyFilters } from '/@/common/modules/hooks';
+import { useOptionsSchemas, usePseudoSelectors } from '/@/common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';
@@ -49,7 +49,7 @@ import VideoBackground from './VideoBackground.vue';
 // Composables
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
-import { useUIStore } from '../../editor/store';
+import { useUIStore, useElementDefinitionsStore } from '/@/editor/store';
 
 let clickHandled = false;
 
@@ -65,10 +65,13 @@ export default {
 	setup(props) {
 		const root = ref(null);
 		const UIStore = useUIStore();
+		const elementsDefinitionsStore = useElementDefinitionsStore();
+		const elementDefinition = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
 		const { getSchema } = useOptionsSchemas();
 		const { activePseudoSelector } = usePseudoSelectors();
 		const { element: activeEditedElement } = window.zb.editor.useEditElement();
+		const isVisible = computed(() => get(activeEditedElement.options, '_isVisible', true));
 
 		let toolboxWatcher = null;
 		let optionsInstance = null;
@@ -140,7 +143,7 @@ export default {
 		const customCSS = computed(() => {
 			let customCSS = '';
 
-			const elementStyleConfig = props.element.elementTypeModel.style_elements;
+			const elementStyleConfig = elementDefinition.style_elements;
 
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
@@ -184,7 +187,7 @@ export default {
 			return (
 				(activeEditedElement.value === props.element || props.element.isHighlighted) &&
 				props.element.isVisible &&
-				!props.element.elementTypeModel.is_child &&
+				!elementDefinition.is_child &&
 				!UIStore.isPreviewMode
 			);
 		});
@@ -214,7 +217,7 @@ export default {
 			}
 
 			// Check for custom css classes
-			const elementStyleConfig = props.element.elementTypeModel.style_elements;
+			const elementStyleConfig = elementDefinition.style_elements;
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
 					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].classes) {
@@ -377,7 +380,6 @@ export default {
 			getExtraAttributes,
 			// Data
 			elementComponent,
-			isPreviewMode,
 			showElementMenu,
 			onElementClick,
 			options,
@@ -388,9 +390,12 @@ export default {
 			toolboxWatcher,
 			registeredEvents,
 			showToolbox,
+			// Stores
+			UIStore,
 			// Methods
 			onMouseEnter,
 			onMouseLeave,
+			isVisible,
 		};
 	},
 	watch: {

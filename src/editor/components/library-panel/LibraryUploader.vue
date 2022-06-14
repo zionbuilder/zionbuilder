@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { useLibrary } from '@/common/composables';
+import { useLibrary } from '/@/common/composables';
 
 export default {
 	name: 'LibraryUploader',

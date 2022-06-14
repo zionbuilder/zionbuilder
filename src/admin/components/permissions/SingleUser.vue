@@ -23,7 +23,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptionsStore, useUsersStore } from '@/common/store';
+import { useBuilderOptionsStore, useUsersStore } from '/@/common/store';
 
 // Components
 import UserModalContent from './UserModalContent.vue';

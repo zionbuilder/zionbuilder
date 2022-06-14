@@ -1,20 +1,11 @@
-<script>
-import { h } from 'vue';
+<template>
+	<component :is="'style'">
+		{{ styles }}
+	</component>
+</template>
 
-export default {
-	name: 'ElementStyles',
-	props: {
-		styles: {
-			type: String,
-		},
-	},
-	setup(props) {
-		return () => {
-			if (props.styles) {
-				return h('style', props.styles);
-			}
-			return null;
-		};
-	},
-};
+<script lang="ts" setup>
+defineProps<{
+	styles: string;
+}>();
 </script>

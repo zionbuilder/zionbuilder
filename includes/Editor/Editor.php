@@ -12,7 +12,6 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
 use ZionBuilder\Responsive;
-use ZionBuilder\Options\Schemas\Performance;
 use ZionBuilder\Options\Schemas\StyleOptions;
 use ZionBuilder\Options\Schemas\Typography;
 use ZionBuilder\Options\Schemas\Advanced;
@@ -226,9 +225,18 @@ class Editor {
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
+			'zb-vue',
+			'vue',
+			[],
+			Plugin::instance()->get_version(),
+			true
+		);
+
+		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',
 			'editor',
 			[
+				'zb-vue',
 				'wp-auth-check',
 				'heartbeat',
 				'wp-codemirror',
@@ -325,6 +333,9 @@ class Editor {
 
 		$autosave_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
 
+		// Prepare content data
+		Plugin::instance()->frontend->prepare_content_for_post_id( $this->post_id );
+
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
@@ -356,6 +367,10 @@ class Editor {
 
 				// Elements data
 				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
+				'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+
+				// Page content
+				'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
 
 				// User data
 				'post_lock_user'      => $locked_user_name,

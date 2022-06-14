@@ -1,95 +1,53 @@
 <template>
 	<div class="zb" :class="previewAppClasses">
-		<!-- <SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" /> -->
-		asdasd
+		<SortableContent v-if="element" class="znpb-preview-page-wrapper" :element="element" />
+
 		<PageStyles
 			:css-classes="cssClasses.CSSClasses"
-			:page-settings-model="pageSettings"
+			:page-settings-model="pageSettings.settings"
 			:page-settings-schema="getSchema('pageSettingsSchema')"
 		/>
 
-		<ElementStyles :styles="pageSettings.settings._custom_css" />
+		<ElementStyles :styles="pageSettings.settings._custom_css || ''" />
 	</div>
 </template>
-<script>
-import { computed, ref, watch, provide } from 'vue';
+<script lang="ts" setup>
+import { computed, watch } from 'vue';
 import PageStyles from './components/PageStyles.vue';
 import ElementStyles from './components/ElementStyles.vue';
-// import SortableContent from './components/SortableContent.vue';
-import { useOptionsSchemas } from '@/common/composables';
-import { doAction, applyFilters } from '@/common/modules/hooks';
+import SortableContent from './components/SortableContent.vue';
+import { useOptionsSchemas } from '/@/common/composables';
+import { doAction, applyFilters } from '/@/common/modules/hooks';
 
-// import { useElementsStore } from '../editor/store';
-import { useUIStore, usePageSettingsStore, useCSSClassesStore } from '../editor/store';
+import { useUIStore, usePageSettingsStore, useCSSClassesStore, useContentStore } from '../editor/store';
 
-export default {
-	name: 'PreviewApp',
-	components: {
-		// SortableContent,
-		PageStyles,
-		ElementStyles,
+const { getSchema } = useOptionsSchemas();
+const cssClasses = useCSSClassesStore();
+const UIStore = useUIStore();
+const elementsStore = useContentStore();
+const pageSettings = usePageSettingsStore();
+
+const element = computed(() => {
+	return elementsStore.getElement(window.ZnPbInitialData.page_id);
+});
+
+watch(
+	() => UIStore.isPreviewMode,
+	newValue => {
+		if (newValue) {
+			window.document.body.classList.add('znpb-editor-preview--active');
+		} else {
+			window.document.body.classList.remove('znpb-editor-preview--active');
+		}
 	},
-	setup() {
-		const { getSchema } = useOptionsSchemas();
-		const cssClasses = useCSSClassesStore();
-		const UIStore = useUIStore();
-		const pageSettings = usePageSettingsStore();
+);
 
-		const element = computed(() => {
-			// const elementsStore = useElementsStore();
-			// return elementsStore.getElement(window.ZnPbPreviewData.post.ID);
-			return null;
-		});
-		const showExportModal = ref(false);
+// Allow other to hook into setup
+doAction('zionbuilder/preview/app/setup');
 
-		// provide masks for ShapeDividerComponent option
-		provide('masks', window.ZnPbPreviewData.masks);
-		provide('plugin_info', window.ZnPbPreviewData.plugin_info);
-		provide('editor_urls', window.ZnPbPreviewData.urls);
-
-		watch(
-			() => UIStore.isPreviewMode,
-			newValue => {
-				if (newValue) {
-					window.document.body.classList.add('znpb-editor-preview--active');
-				} else {
-					window.document.body.classList.remove('znpb-editor-preview--active');
-				}
-			},
-		);
-
-		// Allow other to hook into setup
-		doAction('zionbuilder/preview/app/setup');
-
-		const previewAppClasses = computed(() => {
-			return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData.preview_app_css_classes);
-		});
-
-		// Stores communication
-		const storesToSubscribe = [useUIStore()];
-		window.onmessage = function (e) {
-			if (e.data.action === 'zbMessage') {
-				const { state, store } = e.data;
-				const storeForUpdate = storesToSubscribe.find(storeInstance => storeInstance.$id === store);
-
-				if (storeForUpdate) {
-					storeForUpdate.$state = JSON.parse(state);
-				}
-				// const elementsStore = useElementsStore();
-				// elementsStore.$store = data;
-			}
-		};
-
-		return {
-			element,
-			showExportModal,
-			getSchema,
-			cssClasses,
-			pageSettings,
-			previewAppClasses,
-		};
-	},
-};
+const previewAppClasses = computed(() => {
+	return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData?.preview_app_css_classes);
+});
 </script>
 
 <style lang="scss">

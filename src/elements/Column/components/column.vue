@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { getLinkAttributes } from '@zb/utils';
-
 export default {
 	name: 'ZionColumn',
 	props: ['options', 'api', 'element'],
@@ -40,7 +38,7 @@ export default {
 			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'div';
 		},
 		extraAttributes() {
-			return getLinkAttributes(this.options.link);
+			return window.zb.utils.getLinkAttributes(this.options.link);
 		},
 		topMask() {
 			return this.shapes['top'];

@@ -32,10 +32,12 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
-import SortableHelper from '@/editor/common/SortableHelper.vue';
-import SortablePlaceholder from '@/editor/common/SortablePlaceholder.vue';
+import SortableHelper from '/@/editor/common/SortableHelper.vue';
+import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
+import TreeViewListItem from './TreeViewListItem.vue';
+
 import { useTreeViewList } from '../useTreeViewList';
-import { useElementDefinitionsStore, useContentStore } from '@/editor/store';
+import { useElementDefinitionsStore, useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;

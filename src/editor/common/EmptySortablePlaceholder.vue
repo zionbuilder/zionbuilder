@@ -4,33 +4,24 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useAddElementsPopup } from '../composables';
+import AddElementIcon from './AddElementIcon.vue';
 
-export default {
-	name: 'EmptySortablePlaceholder',
-	props: {
-		element: Object,
-	},
-	setup(props) {
-		const { showAddElementsPopup, shouldOpenPopup } = useAddElementsPopup();
-		const showColumnTemplates = ref(false);
-		const addElementsPopupButton = ref(null);
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-		onMounted(() => {
-			if (shouldOpenPopup.value === true) {
-				showAddElementsPopup(props.element, addElementsPopupButton.value.$el);
-				shouldOpenPopup.value = false;
-			}
-		});
+const { showAddElementsPopup, shouldOpenPopup } = useAddElementsPopup();
+const addElementsPopupButton = ref(null);
 
-		return {
-			addElementsPopupButton,
-			showColumnTemplates,
-		};
-	},
-};
+onMounted(() => {
+	if (shouldOpenPopup.value === true) {
+		showAddElementsPopup(props.element, addElementsPopupButton.value?.$el);
+		shouldOpenPopup.value = false;
+	}
+});
 </script>
 
 <style lang="scss">
@@ -48,7 +39,6 @@ export default {
 		width: 28px;
 		height: 28px;
 		color: #fff;
-		font-size: 10px;
 		font-size: 14px;
 		line-height: 1 !important;
 		border-radius: 50%;

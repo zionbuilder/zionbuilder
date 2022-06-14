@@ -44,9 +44,9 @@
 </template>
 <script>
 import { computed } from 'vue';
-import { useElementDefinitionsStore } from '@/editor/store';
+import { useElementDefinitionsStore } from '/@/editor/store';
 import SortablePlaceholder from '../../../common/SortablePlaceholder.vue';
-import SortableHelper from '../../../common/SortableHelper.vue';
+import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
 

@@ -1,21 +1,18 @@
 <template>
-	<component
-		class="zb-section"
-		:is="htmlTag"
-	>
+	<component :is="htmlTag" class="zb-section">
 		<slot name="start" />
 
 		<SvgMask
-			v-if="topMask!==undefined && topMask.shape"
-			:shapePath="topMask['shape']"
+			v-if="topMask !== undefined && topMask.shape"
+			:shape-path="topMask['shape']"
 			:color="topMask['color']"
 			:flip="topMask['flip']"
 			position="top"
 		/>
 
 		<SvgMask
-			v-if="bottomMask!==undefined && bottomMask.shape"
-			:shapePath="bottomMask['shape']"
+			v-if="bottomMask !== undefined && bottomMask.shape"
+			:shape-path="bottomMask['shape']"
 			:color="bottomMask['color']"
 			:flip="bottomMask['flip']"
 			position="bottom"
@@ -29,31 +26,27 @@
 		></SortableContent>
 
 		<slot name="end" />
-
 	</component>
 </template>
 
-<script>
-export default {
-	name: 'zion_section',
-	props: ['options', 'api', 'element'],
-	computed: {
-		topMask () {
-			return this.shapes['top']
-		},
-		bottomMask () {
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-			return this.shapes['bottom']
-		},
-		htmlTag () {
-			return /^[a-z0-9]+$/i.test(this.options.tag) ? this.options.tag : 'section'
-		},
-		shapes () {
-			return this.options.shapes || {}
-		}
-	}
-}
+const props = defineProps<{
+	options: Object;
+	api: Object;
+	element: Object;
+}>();
 
+const shapes = computed(() => props.options?.shapes || {});
+
+const topMask = computed(() => shapes.value.top);
+const bottomMask = computed(() => shapes.value.bottom);
+const htmlTag = computed(() => props.options?.tag || 'section');
 </script>
-<style lang="scss">
-</style>
+
+<script lang="ts">
+export default {
+	name: 'ZionSection',
+};
+</script>

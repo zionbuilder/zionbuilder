@@ -33,7 +33,7 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { replaceUrl } from '@/common/api';
+import { replaceUrl } from '/@/common/api';
 
 export default {
 	name: 'ToolsPage',

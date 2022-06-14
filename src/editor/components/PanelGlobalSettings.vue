@@ -12,8 +12,8 @@
 <script>
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
-import { useOptionsSchemas } from '@/common/composables';
-import { translate } from '@/common/modules/i18n';
+import { useOptionsSchemas } from '/@/common/composables';
+import { translate } from '/@/common/modules/i18n';
 import { useUIStore, usePageSettingsStore } from '../store';
 
 export default {

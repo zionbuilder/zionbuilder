@@ -39,9 +39,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { translate } from '@/common/modules/i18n';
-import { lockPage } from '@/common/api';
-import { useUserStore } from '@/editor/store';
+import { translate } from '/@/common/modules/i18n';
+import { lockPage } from '/@/common/api';
+import { useUserStore } from '/@/editor/store';
 
 // Stores
 const UserStore = useUserStore();

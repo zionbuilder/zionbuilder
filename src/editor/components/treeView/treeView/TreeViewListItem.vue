@@ -48,10 +48,13 @@
 
 <script lang="ts" setup>
 import { ref, Ref, computed, watch, inject } from 'vue';
-import { useElementUtils } from '@/editor/composables';
-import { translate } from '@/common/modules/i18n';
+import { useElementUtils } from '/@/editor/composables';
+import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useContentStore, useUIStore } from '@/editor/store';
+import { useContentStore, useUIStore } from '/@/editor/store';
+
+// Components
+import TreeViewList from './TreeViewList.vue';
 
 const props = defineProps<{
 	element: ZionElement;

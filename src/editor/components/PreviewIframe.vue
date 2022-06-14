@@ -14,21 +14,30 @@
 			:style="iframeStyles"
 			@load="checkIframeLoading"
 		/>
+
+		<teleport v-if="iframeAPP" :to="iframeAPP">
+			<PreviewApp />
+		</teleport>
 	</div>
 </template>
 
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
-import { addAction, removeAction } from '@/common/modules/hooks';
+import { addAction, removeAction } from '/@/common/modules/hooks';
 import { each } from 'lodash-es';
 
 import { useKeyBindings, useSavePage, useEditorData, useWindows, useHistory } from '../composables';
-import { useResponsiveDevices } from '@/common/composables';
-import { useNotificationsStore } from '@/common/store';
+import { useResponsiveDevices } from '/@/common/composables';
+import { useNotificationsStore } from '/@/common/store';
 import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
+
+import PreviewApp from '/@/preview/PreviewApp.vue';
 
 export default {
 	name: 'PreviewIframe',
+	components: {
+		PreviewApp,
+	},
 	setup() {
 		const {
 			activeResponsiveDeviceInfo,
@@ -50,6 +59,7 @@ export default {
 		const { addWindow, addEventListener, removeEventListener, getWindows, removeWindow } = useWindows();
 
 		// Dom refs
+		const iframeAPP = ref(null);
 		const root = ref(null);
 		const iframe = ref(null);
 		const containerSize = ref({
@@ -226,6 +236,7 @@ export default {
 		});
 
 		return {
+			iframeAPP,
 			activeResponsiveDeviceInfo,
 			applyShortcuts,
 			saveAutosave,
@@ -304,7 +315,7 @@ export default {
 			if (!this.ignoreNextReload) {
 				const { contentWindow } = this.$refs.iframe;
 
-				this.setPageContent(contentWindow.ZnPbPreviewData.page_content);
+				this.setPageContent(ZnPbInitialData.page_content);
 
 				// Hide recover modal
 				this.showRecoverModal = false;
@@ -318,32 +329,39 @@ export default {
 
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
-			this.UIStore.setPreviewLoading(false);
-
-			// Save the timestamp so we can use if in various ways. One example is the tree view justAdded element feature
-			this.UIStore.setLoadTimestamp();
-
-			// Register the document
+			// iframeWindow.zb = window.zb || {};
+			// iframeWindow.zb.vue = vue;
+			// iframeWindow.zb.editor = iframeWindow.zb.editor || {};
+			// iframeWindow.zb.editor.registerElementComponent = this.elementsDefinitionsStore.registerElementComponent;
+			// // Register the document
 			this.addWindow('preview', iframeWindow);
 			this.attachIframeEvents();
 
-			if (!iframeWindow.ZnPbPreviewData) {
-				add({
-					message: this.$translate('page_content_error'),
-					type: 'error',
-					delayClose: 0,
-				});
+			// if (!iframeWindow.ZnPbPreviewData) {
+			// 	add({
+			// 		message: this.$translate('page_content_error'),
+			// 		type: 'error',
+			// 		delayClose: 0,
+			// 	});
 
-				return false;
-			}
+			// 	return false;
+			// }
 
 			// Set preview data
-			if (!this.ignoreNextReload) {
-				this.elementsDefinitionsStore.addElements(iframeWindow.ZnPbPreviewData.elements_data);
+			// Render the app
+			const renderElement = iframeWindow.document.getElementById(`znpb-preview-${window.ZnPbInitialData.page_id}-area`);
+			if (renderElement) {
+				this.iframeAPP = iframeWindow.document.getElementById(`znpb-preview-${window.ZnPbInitialData.page_id}-area`);
+			} else {
+				console.log('preview element not found');
 			}
 
 			this.useServerVersion();
 			this.ignoreNextReload = false;
+			this.UIStore.setPreviewLoading(false);
+
+			// Save the timestamp so we can use if in various ways. One example is the tree view justAdded element feature
+			this.UIStore.setLoadTimestamp();
 		},
 		attachIframeEvents() {
 			this.getWindows('preview').addEventListener('click', this.preventClicks, true);

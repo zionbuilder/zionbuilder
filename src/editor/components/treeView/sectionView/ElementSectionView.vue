@@ -39,7 +39,7 @@
 import { ref, Ref, PropType, computed } from 'vue';
 import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
-import { translate } from '@/common/modules/i18n';
+import { translate } from '/@/common/modules/i18n';
 import { Element } from '../../../composables';
 import { useTreeViewItem } from '../useTreeViewItem';
 

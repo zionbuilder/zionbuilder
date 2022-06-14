@@ -44,8 +44,8 @@
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useAddElementsPopup, useHistory, useEditorData, useUserData } from '../../composables';
-import { translate } from '@/common/modules/i18n';
-import { useElementDefinitionsStore } from '@/editor/store';
+import { translate } from '/@/common/modules/i18n';
+import { useElementDefinitionsStore } from '/@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';

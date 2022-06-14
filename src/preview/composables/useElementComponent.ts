@@ -1,37 +1,39 @@
-import { ref, markRaw, Ref } from 'vue';
+import { ref, markRaw, Ref, shallowRef } from 'vue';
 import ServerComponent from '../components/ServerComponent.vue';
 import InvalidElement from '../components/InvalidElement.vue';
-import { applyFilters } from '@/common/modules/hooks';
+import { applyFilters } from '/@/common/modules/hooks';
 
 import { ScriptsLoader } from '../modules/ScriptsLoader';
+import { useElementDefinitionsStore } from '/@/editor/store';
 
-export function useElementComponent(element) {
-	const elementComponent: Ref = ref(null);
+export function useElementComponent(element: ZionElement) {
+	const elementComponent: Ref = shallowRef(null);
+	const elementsDefinitionStore = useElementDefinitionsStore();
+	const elementType = elementsDefinitionStore.getElementDefinition(element.element_type);
 
 	const fetchElementComponent = () => {
 		loadElementAssets().then(() => {
-			const elementType = element.elementTypeModel;
 			let component;
 
 			if (elementType.element_type === 'invalid') {
-				component = markRaw(InvalidElement);
+				component = InvalidElement;
 			} else if (elementType.component) {
 				component = elementType.component;
 			} else {
-				component = markRaw(ServerComponent);
+				component = ServerComponent;
 			}
 
-			elementComponent.value = applyFilters('zionbuilder/element/component', component, element);
+			elementComponent.value = markRaw(applyFilters('zionbuilder/element/component', component, element));
 		});
 	};
 
 	const loadElementAssets = () => {
-		const { loadScript } = ScriptsLoader();
+		const { loadScript } = ScriptsLoader(window.frames[0]);
 
 		return Promise.all([
-			...Object.keys(element.elementTypeModel.scripts).map(scriptHandle => {
+			...Object.keys(elementType.scripts).map(scriptHandle => {
 				// Script can sometimes be false
-				const scriptConfig = element.elementTypeModel.scripts[scriptHandle];
+				const scriptConfig = elementType.scripts[scriptHandle];
 
 				// Set the handle if it was not provided
 				scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle;
@@ -40,9 +42,9 @@ export function useElementComponent(element) {
 					return loadScript(scriptConfig);
 				}
 			}),
-			...Object.keys(element.elementTypeModel.styles).map(scriptHandle => {
+			...Object.keys(elementType.styles).map(scriptHandle => {
 				// Script can sometimes be false
-				const scriptConfig = element.elementTypeModel.styles[scriptHandle];
+				const scriptConfig = elementType.styles[scriptHandle];
 
 				// Set the handle if it was not provided
 				scriptConfig.handle = scriptConfig.handle ? scriptConfig.handle : scriptHandle;

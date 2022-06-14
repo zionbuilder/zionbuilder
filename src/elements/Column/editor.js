@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Column from './components/column.vue'
+import Column from './components/column.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'zion_column',
-	component: Column
-})
+	component: Column,
+});

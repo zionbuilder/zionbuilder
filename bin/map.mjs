@@ -1,5 +1,12 @@
 export const filesMap = [
-  // admin
+  // Global
+  {
+    input: 'src/vue.ts',
+    format: 'iife',
+    output: 'vue',
+    name: 'vue',
+  },
+  //   admin
   {
     input: 'src/admin/edit-page.ts',
     format: 'iife',
@@ -23,11 +30,11 @@ export const filesMap = [
     format: 'iife',
     output: 'screenshot',
   },
-  {
-    input: 'src/modules/integrations/rankmath.ts',
-    format: 'iife',
-    output: 'integrations/rankmath',
-  },
+  //   {
+  //     input: 'src/modules/integrations/rankmath.ts',
+  //     format: 'iife',
+  //     output: 'integrations/rankmath',
+  //   },
   {
     input: 'src/modules/integrations/yoast.ts',
     format: 'iife',
@@ -50,5 +57,29 @@ export const filesMap = [
     input: 'src/modules/animateJS/index.ts',
     format: 'iife',
     output: 'animateJS',
+  },
+
+  // Frontend
+  {
+    input: 'src/frontend/modules/video/index.ts',
+    format: 'iife',
+    output: 'ZBVideo',
+  },
+  {
+    input: 'src/frontend/modules/videoBG/index.ts',
+    format: 'iife',
+    output: 'ZBVideoBg',
+  },
+
+  // Elements
+  {
+    input: 'src/elements/Section/editor.js',
+    format: 'iife',
+    output: 'elements/Section/editor',
+  },
+  {
+    input: 'src/elements/Column/editor.js',
+    format: 'iife',
+    output: 'elements/Column/editor',
   },
 ];

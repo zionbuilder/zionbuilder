@@ -1,4 +1,4 @@
-import { ServerRequest } from '@/common/utils';
+import { ServerRequest } from '/@/common/utils';
 
 export default function (imageConfig) {
 	const serverRequester = new ServerRequest();

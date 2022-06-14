@@ -82,6 +82,7 @@ class Preview {
 		// Load styles before theme styles
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_footer', [ $this, 'add_data' ] );
 
 		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}
@@ -111,11 +112,15 @@ class Preview {
 		return $tag;
 	}
 
+	public function add_data() {
+
+	}
+
 	public function enqueue_scripts() {
 		// Trigger action before load scripts
-		do_action( 'zionbuilder/preview/before_load_scripts', $this );
+		// do_action( 'zionbuilder/preview/before_load_scripts', $this );
 
-		wp_enqueue_media();
+		// wp_enqueue_media();
 
 		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
@@ -124,85 +129,80 @@ class Preview {
 		Plugin::instance()->scripts->enqueue_script(
 			'znpb-preview-frame-scripts',
 			'preview',
-			[
-				'zb-components',
-				'wp-tinymce',
-			],
+			[],
 			Plugin::instance()->get_version(),
 			true
 		);
 
-		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		// wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
 
-		wp_add_inline_script(
-			'znpb-preview-frame-scripts',
-			'
-                (function($) {
-                    window.ZionBuilderFrontend = {
-                        scripts: {},
-                        registerScript: function (scriptId, scriptCallback) {
-                            this.scripts[scriptId] = scriptCallback;
-                        },
-                        getScript(scriptId) {
-                            return this.scripts[scriptId]
-                        },
-                        unregisterScript: function(scriptId) {
-                            delete this.scripts[scriptId];
-                        },
-                        run: function() {
-                            var that = this;
-                            var $scope = $(document)
-                            Object.keys(this.scripts).forEach(function(scriptId) {
-                                var scriptObject = that.scripts[scriptId];
-                                scriptObject.run( $scope );
-                            })
-                        }
-                    };
-                })(jQuery);
-            ',
-			'before'
-		);
+		// wp_add_inline_script(
+		// 	'znpb-preview-frame-scripts',
+		// 	'
+		//         (function($) {
+		//             window.ZionBuilderFrontend = {
+		//                 scripts: {},
+		//                 registerScript: function (scriptId, scriptCallback) {
+		//                     this.scripts[scriptId] = scriptCallback;
+		//                 },
+		//                 getScript(scriptId) {
+		//                     return this.scripts[scriptId]
+		//                 },
+		//                 unregisterScript: function(scriptId) {
+		//                     delete this.scripts[scriptId];
+		//                 },
+		//                 run: function() {
+		//                     var that = this;
+		//                     var $scope = $(document)
+		//                     Object.keys(this.scripts).forEach(function(scriptId) {
+		//                         var scriptObject = that.scripts[scriptId];
+		//                         scriptObject.run( $scope );
+		//                     })
+		//                 }
+		//             };
+		//         })(jQuery);
+		//     ',
+		// 	'before'
+		// );
 
-		do_action( 'zionbuilder/preview/after_load_scripts', $this );
+		// do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
 
 	public function enqueue_styles() {
 		// Trigger action before load styles
-		do_action( 'zionbuilder/preview/before_load_styles', $this );
+		// do_action( 'zionbuilder/preview/before_load_styles', $this );
 
 		// Load roboto font
-		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
+		// wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
-		Plugin::instance()->scripts->register_style(
-			'znpb-editor-styles',
+		// Plugin::instance()->scripts->register_style(
+		// 	'znpb-editor-styles',
+		// 	'editor',
+		// 	[],
+		// 	Plugin::instance()->get_version()
+		// );
+
+		Plugin::instance()->scripts->enqueue_style(
+			'znpb-preview-frame-styles',
 			'editor',
 			[],
 			Plugin::instance()->get_version()
 		);
 
-		Plugin::instance()->scripts->enqueue_style(
-			'znpb-preview-frame-styles',
-			'preview',
-			[
-				'znpb-editor-styles',
-			],
-			Plugin::instance()->get_version()
-		);
-
 		// Load rtl
-		if ( is_rtl() ) {
-			Plugin::instance()->scripts->enqueue_style(
-				'znpb-preview-rtl-styles',
-				'rtl',
-				[],
-				Plugin::instance()->get_version()
-			);
-		};
+		// if ( is_rtl() ) {
+		// 	Plugin::instance()->scripts->enqueue_style(
+		// 		'znpb-preview-rtl-styles',
+		// 		'rtl',
+		// 		[],
+		// 		Plugin::instance()->get_version()
+		// 	);
+		// };
 
 		// This is needed because wp_editor somehow unloads dashicons
-		wp_print_styles( 'media-views' );
+		// wp_print_styles( 'media-views' );
 
-		do_action( 'zionbuilder/preview/after_load_styles', $this );
+		// do_action( 'zionbuilder/preview/after_load_styles', $this );
 	}
 
 	public function get_preview_initial_data() {

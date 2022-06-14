@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import BreadcrumbsItem from './BreadcrumbsItem.vue';
-import { useContentStore, useUIStore } from '@/editor/store';
+import { useContentStore, useUIStore } from '/@/editor/store';
 
 const UIStore = useUIStore();
 defineProps<{

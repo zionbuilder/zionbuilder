@@ -31,80 +31,59 @@
 	</Sortable>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 
+// Components
+import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.vue';
+import SortableHelper from '/@/editor/common/SortableHelper.vue';
+import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
+
 import { useTreeViewList } from '../useTreeViewList';
-import { useIsDragging } from '../../../composables';
+import { useIsDragging } from '/@/editor/composables';
 
 // Utils
 import { get } from 'lodash-es';
 
-export default {
-	name: 'WireframeList',
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-		showAdd: {
-			type: Boolean,
-			default: true,
-		},
-	},
-	setup(props) {
-		const { addElementsPopupButton, templateItems, addButtonBgColor, sortableStart, sortableEnd } =
-			useTreeViewList(props);
-		const { isDragging, setDraggingState } = useIsDragging();
+const props = defineProps<{
+	element: ZionElement;
+	showAdd: boolean;
+}>();
 
-		const getSortableAxis = computed(() => {
-			if (props.element.element_type === 'contentRoot') {
-				return 'vertical';
-			}
+const { templateItems } = useTreeViewList(props);
+const { isDragging, setDraggingState } = useIsDragging();
 
-			let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal';
+const getSortableAxis = computed(() => {
+	if (props.element.element_type === 'contentRoot') {
+		return 'vertical';
+	}
 
-			// Check columns and section direction
-			if (props.element.options.inner_content_layout) {
-				orientation = props.element.options.inner_content_layout;
-			}
+	let orientation = props.element.element_type === 'zion_column' ? 'vertical' : 'horizontal';
 
-			// Check media settings
-			const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
+	// Check columns and section direction
+	if (props.element.options.inner_content_layout) {
+		orientation = props.element.options.inner_content_layout;
+	}
 
-			if (mediaOrientation) {
-				orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
-			}
+	// Check media settings
+	const mediaOrientation = get(props.element.options, '_styles.wrapper.styles.default.default.flex-direction');
 
-			return orientation;
-		});
+	if (mediaOrientation) {
+		orientation = mediaOrientation === 'row' ? 'horizontal' : 'vertical';
+	}
 
-		function onSortableDuplicate(item) {
-			return item.getClone();
-		}
+	return orientation;
+});
 
-		function onSortableStart(event) {
-			setDraggingState(true);
-		}
+function onSortableDuplicate(item) {
+	return item.getClone();
+}
 
-		function onSortableEnd(event) {
-			setDraggingState(false);
-		}
+function onSortableStart(event) {
+	setDraggingState(true);
+}
 
-		return {
-			addElementsPopupButton,
-			templateItems,
-			sortableStart,
-			sortableEnd,
-			addButtonBgColor,
-			getSortableAxis,
-			isDragging,
-
-			// Methods
-			onSortableDuplicate,
-			onSortableStart,
-			onSortableEnd,
-		};
-	},
-};
+function onSortableEnd(event) {
+	setDraggingState(false);
+}
 </script>

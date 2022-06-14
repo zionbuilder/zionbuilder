@@ -40,8 +40,8 @@
 
 <script lang="ts" setup>
 import { type Component, ref, computed } from 'vue';
-import { translate } from '@/common/modules/i18n';
-import { useUIStore, useContentStore } from '@/editor/store';
+import { translate } from '/@/common/modules/i18n';
+import { useUIStore, useContentStore } from '/@/editor/store';
 import SectionView from './sectionView/SectionViewPanel.vue';
 import TreeView from './treeView/TreeViewPanel.vue';
 import WireframeView from './wireFrame/WireframePanel.vue';

@@ -19,7 +19,7 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
-import { applyFilters, addAction, removeAction, doAction } from '@/common/modules/hooks';
+import { applyFilters, addAction, removeAction, doAction } from '/@/common/modules/hooks';
 
 // Utils
 import { debounce } from 'lodash-es';
@@ -38,7 +38,7 @@ export default {
 	},
 	setup(props) {
 		const contentModel = props.element.elementTypeModel;
-		const logoUrl = window.ZnPbPreviewData.urls.logo;
+		const logoUrl = window.ZnPbInitialData.urls.logo;
 		const elementContentRef = ref(null);
 		const elementContent = ref('');
 		const loading = ref(true);

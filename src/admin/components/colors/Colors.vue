@@ -55,12 +55,12 @@
 
 <script>
 import { computed } from 'vue';
-import { useBuilderOptionsStore } from '@/common/store';
-import { generateUID } from '@/common/utils/generateUID';
+import { useBuilderOptionsStore } from '/@/common/store';
+import { generateUID } from '/@/common/utils/generateUID';
 
 // Components
 import ColorBox from './ColorBox.vue';
-import { Sortable } from '@/common/components/sortable';
+import { Sortable } from '/@/common/components/sortable';
 
 export default {
 	name: 'Colors',

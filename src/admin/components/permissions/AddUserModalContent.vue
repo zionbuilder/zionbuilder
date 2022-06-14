@@ -27,7 +27,7 @@
 
 <script>
 import { nextTick, watch, ref } from 'vue';
-import { searchUser } from '@/common/api';
+import { searchUser } from '/@/common/api';
 
 // Components
 import ModalListItem from './ModalListItem.vue';

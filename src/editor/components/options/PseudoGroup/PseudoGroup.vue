@@ -4,7 +4,7 @@
 
 <script>
 import { computed } from 'vue';
-import { usePseudoSelectors } from '@/common/composables';
+import { usePseudoSelectors } from '/@/common/composables';
 
 export default {
 	name: 'PseudoGroup',

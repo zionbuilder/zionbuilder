@@ -2,8 +2,8 @@ import { defineStore } from 'pinia';
 import { pull, set } from 'lodash-es';
 import { get } from 'lodash-es';
 import { useElementDefinitionsStore } from './useElementDefinitionsStore';
-import { generateUID } from '@/common/utils';
-import { useHistory } from '@/editor/composables';
+import { generateUID } from '/@/common/utils';
+import { useHistory } from '/@/editor/composables';
 
 interface State {
 	areas: BuilderArea[];
