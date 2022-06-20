@@ -35,90 +35,73 @@
 		</div>
 	</li>
 </template>
-<script lang="ts">
-import { ref, Ref, PropType, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, Ref, computed } from 'vue';
 import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
 import { translate } from '/@/common/modules/i18n';
-import { Element } from '../../../composables';
 import { useTreeViewItem } from '../useTreeViewItem';
+import { useContentStore } from '/@/editor/store';
 
-export default {
-	name: 'ElementSectionView',
-	props: {
-		element: Object as PropType<Element>,
-	},
-	setup(props) {
-		const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
+const props = defineProps<{
+	element: ZionElement;
+}>();
 
-		const imageSrc = ref(null);
-		const error = ref(null);
-		const loading: Ref<boolean> = ref(true);
+const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
 
-		onMounted(() => {
-			const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
+const contentStore = useContentStore();
+const imageSrc = ref(null);
+const error = ref(null);
+const loading = ref(true);
 
-			if (!domElement) {
-				console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
-				return;
+onMounted(() => {
+	const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
+
+	if (!domElement) {
+		console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
+		return;
+	}
+
+	function filter(node) {
+		if (node && node.classList) {
+			if (node.classList.contains('znpb-empty-placeholder')) {
+				return false;
 			}
 
-			function filter(node) {
-				if (node && node.classList) {
-					if (node.classList.contains('znpb-empty-placeholder')) {
-						return false;
-					}
-
-					if (node.classList.contains('znpb-element-toolbox')) {
-						return false;
-					}
-				}
-				return true;
+			if (node.classList.contains('znpb-element-toolbox')) {
+				return false;
 			}
+		}
+		return true;
+	}
 
-			domtoimage
-				.toPng(domElement, {
-					style: {
-						width: '100%',
-						margin: 0,
-					},
-					filter: filter,
-				})
-				.then(dataUrl => {
-					imageSrc.value = dataUrl;
-				})
-				.catch(error => {
-					error = true;
-					// eslint-disable-next-line
+	domtoimage
+		.toPng(domElement, {
+			style: {
+				width: '100%',
+				margin: 0,
+			},
+			filter: filter,
+		})
+		.then(dataUrl => {
+			imageSrc.value = dataUrl;
+		})
+		.catch(error => {
+			error = true;
+			// eslint-disable-next-line
 					console.error(translate("oops_something_wrong"), error);
-				})
-				.finally(() => {
-					loading.value = false;
-				});
+		})
+		.finally(() => {
+			loading.value = false;
 		});
+});
 
-		const elementName = computed({
-			get() {
-				return props.element.name;
-			},
-			set(newValue) {
-				props.element.name = newValue;
-			},
-		});
-
-		return {
-			imageSrc,
-			error,
-			loading,
-			showElementMenu,
-			elementOptionsRef,
-			isActiveItem,
-			editElement,
-			elementModel,
-			elementName,
-		};
+const elementName = computed({
+	get: () => contentStore.getElementName(props.element),
+	set(newValue: string) {
+		contentStore.updateElement(props.element.uid, 'options._advanced_options._element_name', newValue);
 	},
-};
+});
 </script>
 
 <style lang="scss">

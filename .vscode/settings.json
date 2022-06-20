@@ -82,6 +82,7 @@
 	],
 	"phpcs.enable": true,
 	"cSpell.ignoreWords": [
+		"domtoimage",
 		"playsinline"
 	],
 }
