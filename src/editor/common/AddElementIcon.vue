@@ -2,7 +2,7 @@
 	<transition appear name="bounce-add-icon">
 		<div
 			ref="addElementsPopupButton"
-			v-znpb-tooltip="positionString + ' ' + element.name"
+			v-znpb-tooltip="positionString + ' ' + elementName"
 			class="znpb-element-toolbox__add-element-button"
 			:class="{
 				[`znpb-element-toolbox__add-element-button--${position}`]: position,
@@ -20,6 +20,7 @@
 import { ref, computed, watch } from 'vue';
 import { useAddElementsPopup } from '../composables';
 import { translate } from '/@/common/modules/i18n';
+import { useContentStore } from '../store';
 
 const props = withDefaults(
 	defineProps<{
@@ -33,6 +34,8 @@ const props = withDefaults(
 	},
 );
 
+const contentStore = useContentStore();
+
 const addElementsPopupButton = ref(false);
 const isIconClicked = ref(false);
 
@@ -43,6 +46,8 @@ const positionString = props.placement === 'inside' ? translate('insert_inside')
 const isPopupActive = computed(() => {
 	return isIconClicked.value && activePopup.value && activePopup.value.element === props.element;
 });
+
+const elementName = computed(() => contentStore.getElementName(props.element));
 
 watch(activePopup, newValue => {
 	if (!newValue || (newValue && newValue.element !== props.element)) {
