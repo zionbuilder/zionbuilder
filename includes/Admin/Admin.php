@@ -19,6 +19,7 @@ use ZionBuilder\Options\Schemas\BackgroundImage;
 use ZionBuilder\Options\Schemas\Shadow;
 use ZionBuilder\Localization;
 
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;

@@ -170,7 +170,6 @@ let ignoreLocalHistory = false;
 const { setActivePseudoSelector } = usePseudoSelectors();
 
 const elementUtils = useElementUtils(UIStore.editedElement);
-console.log(UIStore.editedElement);
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
 const activeKeyTab: Ref<string | null> = ref(null);
@@ -191,7 +190,7 @@ const elementOptions = computed({
 		return UIStore.editedElement ? UIStore.editedElement.options : {};
 	},
 	set(newValues) {
-		UIStore.editedElement.updateOptions(newValues);
+		contentStore.updateElement(UIStore.editedElement?.uid, 'options', newValues);
 	},
 });
 

@@ -1,11 +1,11 @@
-import { WPService } from './WPService';
+import { createWPService } from './WPService';
 
 export function getUsers() {
-	return WPService.get('users');
+	return createWPService().get('users');
 }
 
 export function searchUser(options) {
-	return WPService.get(`users`, {
+	return createWPService().get(`users`, {
 		params: {
 			search: options,
 		},
@@ -13,11 +13,9 @@ export function searchUser(options) {
 }
 
 export function getUsersById(ids: number[]) {
-	return WPService.get(`users`, {
+	return createWPService().get(`users`, {
 		params: {
 			include: ids,
 		},
 	});
 }
-
-export default WPService;

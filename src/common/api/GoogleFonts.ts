@@ -1,5 +1,5 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 export function getGoogleFonts() {
-	return ZionService.get('google-fonts');
+	return getService().get('google-fonts');
 }

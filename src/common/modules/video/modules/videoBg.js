@@ -1,3 +1,4 @@
+import ZBVideo from '../index.ts';
 let videoIndex = 0;
 
 export default class ZBVideoBg {

@@ -45,7 +45,8 @@ export default {
 				}
 
 				this.$nextTick(() => {
-					this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig);
+					console.log(window);
+					this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
 				});
 			}
 		},
@@ -56,7 +57,7 @@ export default {
 		}
 
 		if (Object.keys(this.videoConfig).length > 0) {
-			this.videoInstance = new window.ZBVideoBg(this.$el, this.videoConfig);
+			this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
 		}
 	},
 };

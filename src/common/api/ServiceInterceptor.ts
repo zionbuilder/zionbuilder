@@ -1,6 +1,6 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
-export function errorInterceptor(errors, service = ZionService) {
+export function errorInterceptor(errors, service = getService()) {
 	// Handle response errors
 	service.interceptors.response.use(
 		function (response) {

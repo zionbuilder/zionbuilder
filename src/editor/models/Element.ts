@@ -154,10 +154,6 @@ export class Element {
 		return cssID;
 	}
 
-	updateOptions(newValues) {
-		this.options = newValues ? newValues : {};
-	}
-
 	getOptionValue(path, defaultValue = null) {
 		return get(this.options, path, defaultValue);
 	}

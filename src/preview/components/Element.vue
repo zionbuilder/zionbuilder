@@ -11,7 +11,6 @@ import ElementWrapper from './ElementWrapper.vue';
 
 const props = defineProps<{
 	element: ZionElement;
-	onElementSetup: Function;
 }>();
 
 const attrs = ref({});
@@ -24,10 +23,6 @@ doAction('zionbuilder/preview/element/setup', props.element);
 const elementWrapperComponent = computed(() => {
 	return applyFilters('zionbuilder/preview/element/wrapper_component', ElementWrapper, props.element);
 });
-
-if (typeof props.onElementSetup === 'function') {
-	props.onElementSetup.apply(null, [elementRef, attrs]);
-}
 </script>
 
 <style></style>

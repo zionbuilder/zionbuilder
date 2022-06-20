@@ -1,5 +1,5 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 export function getSystemInfo() {
-	return ZionService.get('system-info');
+	return getService().get('system-info');
 }

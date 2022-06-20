@@ -1,9 +1,9 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 export function saveOptions(options) {
-	return ZionService.post('options', options);
+	return getService().post('options', options);
 }
 
 export function getSavedOptions() {
-	return ZionService.get('options');
+	return getService().get('options');
 }

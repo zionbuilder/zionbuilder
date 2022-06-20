@@ -86,7 +86,7 @@ const animateJs = function (options) {
 	};
 };
 
-window.animateJs = animateJs;
+window.animateJS = animateJs;
 
 /**
  * Export Public Plugin API

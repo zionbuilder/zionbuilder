@@ -219,8 +219,8 @@ class Video extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Video/editor.js' ) );
-		wp_enqueue_script( 'zb-element-video', Utils::get_file_url( 'dist/js/elements/Video/frontend.js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'dist/js/elements/Video/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-video', Plugin::instance()->scripts->get_script_url( 'dist/js/elements/Video/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**
@@ -233,8 +233,8 @@ class Video extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Video/frontend.css' ) );
-		$this->enqueue_editor_style( Utils::get_file_url( 'dist/css/elements/Video/editor.css' ) );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'dist/css/elements/Video/frontend', 'css' ) );
+		$this->enqueue_editor_style( Plugin::instance()->scripts->get_script_url( 'dist/css/elements/Video/editor', 'css' ) );
 	}
 
 	/**

@@ -1,5 +1,5 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 export function saveUserData(userData) {
-	return ZionService.post(`user-data`, userData);
+	return getService().post(`user-data`, userData);
 }

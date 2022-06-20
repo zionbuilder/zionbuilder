@@ -10,6 +10,13 @@ use ZionBuilder\Elements\Masks;
 use ZionBuilder\Utils;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
+use ZionBuilder\Options\Schemas\StyleOptions;
+use ZionBuilder\Options\Schemas\Typography;
+use ZionBuilder\Options\Schemas\Advanced;
+use ZionBuilder\Options\Schemas\Video;
+use ZionBuilder\Options\Schemas\BackgroundImage;
+use ZionBuilder\Options\Schemas\Shadow;
+use ZionBuilder\Responsive;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -134,7 +141,27 @@ class Preview {
 			true
 		);
 
-		// wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
+
+		wp_localize_script(
+			'znpb-preview-frame-scripts',
+			'ZnPbComponentsData',
+			[
+				'schemas'       => apply_filters(
+					'zionbuilder/commonjs/schemas',
+					[
+						'styles'           => StyleOptions::get_schema(),
+						'element_advanced' => Advanced::get_schema(),
+						'typography'       => Typography::get_schema(),
+						'video'            => Video::get_schema(),
+						'background_image' => BackgroundImage::get_schema(),
+						'shadow'           => Shadow::get_schema(),
+					]
+				),
+				'breakpoints'   => Responsive::get_breakpoints(),
+				'is_pro_active' => Utils::is_pro_active(),
+			]
+		);
 
 		// wp_add_inline_script(
 		// 	'znpb-preview-frame-scripts',

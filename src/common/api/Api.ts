@@ -1,4 +1,4 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 // Bulk actions
 export function bulkActions(payload) {
@@ -7,10 +7,10 @@ export function bulkActions(payload) {
 		post_id: window.ZnPbInitialData ? window.ZnPbInitialData.page_id : null,
 	};
 
-	return ZionService.post('bulk-actions', bulkActionData);
+	return getService().post('bulk-actions', bulkActionData);
 }
 
 // Media
 export function getImageIds(payload) {
-	return ZionService.post('media', payload);
+	return getService().post('media', payload);
 }

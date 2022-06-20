@@ -1,28 +1,28 @@
-import ZionService from './ZionService';
+import { getService } from './ZionService';
 
 export function getTemplates(config = {}) {
-	return ZionService.get('templates', {
+	return getService().get('templates', {
 		params: config,
 	});
 }
 
 export function addTemplate(template) {
-	return ZionService.post('templates', template);
+	return getService().post('templates', template);
 }
 
 export function duplicateTemplate(templateID: number) {
-	return ZionService.post('templates/duplicate', {
+	return getService().post('templates/duplicate', {
 		template_id: templateID,
 	});
 }
 
 export function updateTemplate(templateID: number, templateData) {
-	return ZionService.post(`templates/${templateID}`, templateData);
+	return getService().post(`templates/${templateID}`, templateData);
 }
 
 export function insertTemplate(template) {
-	return ZionService.post('templates/insert', template);
+	return getService().post('templates/insert', template);
 }
 export function deleteTemplate(id: number) {
-	return ZionService.delete(`templates/${id}`);
+	return getService().delete(`templates/${id}`);
 }

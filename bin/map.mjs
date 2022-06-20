@@ -82,4 +82,14 @@ export const filesMap = [
     format: 'iife',
     output: 'elements/Column/editor',
   },
+  {
+    input: 'src/elements/Video/editor.js',
+    format: 'iife',
+    output: 'elements/Video/editor',
+  },
+  {
+    input: 'src/elements/Video/frontend.ts',
+    format: 'iife',
+    output: 'elements/Video/frontend',
+  },
 ];

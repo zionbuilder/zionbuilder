@@ -19,7 +19,6 @@
 			:key="childElement.uid"
 			:element="childElement"
 			:zion-element-uid="childElement.uid"
-			:on-element-setup="onElementSetup"
 		/>
 
 		<template #start>
@@ -58,16 +57,12 @@ import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 
-// Stores
-import { useUIStore } from '../../editor/store';
-
 const props = withDefaults(
 	defineProps<{
 		element: ZionElement;
 		group?: Record<string, unknown>;
 		allowElementsAdd?: boolean;
 		emptyPlaceholderText?: string;
-		onElementSetup?: Function;
 	}>(),
 	{
 		group: () => {
@@ -75,9 +70,6 @@ const props = withDefaults(
 		},
 		allowElementsAdd: true,
 		emptyPlaceholderText: '',
-		onElementSetup: () => {
-			return {};
-		},
 	},
 );
 
@@ -127,9 +119,9 @@ const getSortableAxis = computed(() => {
 	return orientation;
 });
 
-const UIStore = useUIStore();
-const contentStore = window.parent.zb.editor.useContentStore();
-const { isDragging, setDraggingState } = window.parent.zb.editor.useIsDragging();
+const UIStore = window.zb.editor.useUIStore();
+const contentStore = window.zb.editor.useContentStore();
+const { isDragging, setDraggingState } = window.zb.editor.useIsDragging();
 
 function onSortableDrop(event) {
 	const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
@@ -143,7 +135,7 @@ function onSortableDuplicate(item) {
 }
 
 function onSortableStart() {
-	const { hideAddElementsPopup } = window.parent.zb.editor.useAddElementsPopup();
+	const { hideAddElementsPopup } = window.zb.editor.useAddElementsPopup();
 	hideAddElementsPopup();
 	setDraggingState(true);
 }

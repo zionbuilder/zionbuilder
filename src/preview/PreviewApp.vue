@@ -46,7 +46,7 @@ watch(
 doAction('zionbuilder/preview/app/setup');
 
 const previewAppClasses = computed(() => {
-	return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbPreviewData?.preview_app_css_classes);
+	return applyFilters('zionbuilder/preview/app/css_classes', window.ZnPbInitialData?.preview_app_css_classes);
 });
 </script>
 

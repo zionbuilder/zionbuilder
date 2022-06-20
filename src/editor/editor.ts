@@ -18,10 +18,12 @@ import { useElementDefinitionsStore } from './store';
 // Global components
 import UIElementIcon from './common/UIElementIcon.vue';
 import AddElementIcon from './common/AddElementIcon.vue';
-import SortableContent from '../preview/components/SortableContent.vue';
 import EmptySortablePlaceholder from './common/EmptySortablePlaceholder.vue';
 import SortableHelper from './common/SortableHelper.vue';
 import SortablePlaceholder from './common/SortablePlaceholder.vue';
+
+// Preview related
+import SortableContent from '/@/preview/components/SortableContent.vue';
 
 import { useOptionsSchemas } from '../common';
 import HeartBeat from './modules/HeartBeat.js';

@@ -62,9 +62,9 @@ export default class Video {
 
 		// Add event bus for this instance
 		this.eventBus = createHooksInstance();
-		this.on = this.eventBus.on;
-		this.off = this.eventBus.off;
-		this.trigger = this.eventBus.trigger;
+		this.on = this.eventBus.addAction;
+		this.off = this.eventBus.removeAction;
+		this.trigger = this.eventBus.doAction;
 
 		this.domNode = domNode;
 		this.videoIndex = videoIndex++;
