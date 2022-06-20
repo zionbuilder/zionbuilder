@@ -49,6 +49,7 @@ export const useUIStore = defineStore('ui', {
 			selector: HTMLElement;
 			actions: Record<string, unknown>;
 		} | null;
+		isElementDragging: boolean;
 	} => {
 		const { getUserData } = useUserData();
 		const UIUserData = getUserData();
@@ -121,6 +122,7 @@ export const useUIStore = defineStore('ui', {
 			isPreviewLoading: true,
 			editedElement: null,
 			activeElementMenu: null,
+			isElementDragging: false,
 		};
 	},
 	getters: {
@@ -152,6 +154,10 @@ export const useUIStore = defineStore('ui', {
 		},
 	},
 	actions: {
+		// Element dragging
+		setElementDragging(newValue: boolean) {
+			this.isElementDragging = newValue;
+		},
 		// Preview loading
 		setPreviewLoading(state: boolean) {
 			this.isPreviewLoading = state;

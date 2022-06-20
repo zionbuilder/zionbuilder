@@ -7,7 +7,6 @@ export * from './useEditElement';
 export * from './useKeyBindings';
 export * from './useEditorData';
 export * from './useElementProvide';
-export * from './useIsDragging';
 export * from './useHistory';
 export * from './useWindows';
 export * from './useSaveTemplate';

@@ -5,7 +5,7 @@
 		class="znpb-wireframe-view-wrapper"
 		group="pagebuilder-wireframe-elements"
 		:class="{
-			[`znpb__sortable-container--${getSortableAxis}`]: isDragging,
+			[`znpb__sortable-container--${getSortableAxis}`]: UIStore.isElementDragging,
 		}"
 		:axis="getSortableAxis"
 		:allow-duplicate="true"
@@ -40,7 +40,7 @@ import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 
 import { useTreeViewList } from '../useTreeViewList';
-import { useIsDragging } from '/@/editor/composables';
+import { useUIStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
@@ -50,8 +50,8 @@ const props = defineProps<{
 	showAdd: boolean;
 }>();
 
+const UIStore = useUIStore();
 const { templateItems } = useTreeViewList(props);
-const { isDragging, setDraggingState } = useIsDragging();
 
 const getSortableAxis = computed(() => {
 	if (props.element.element_type === 'contentRoot') {
@@ -80,10 +80,10 @@ function onSortableDuplicate(item) {
 }
 
 function onSortableStart(event) {
-	setDraggingState(true);
+	UIStore.setElementDragging(true);
 }
 
 function onSortableEnd(event) {
-	setDraggingState(false);
+	UIStore.setElementDragging(false);
 }
 </script>

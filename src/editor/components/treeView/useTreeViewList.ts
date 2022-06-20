@@ -1,11 +1,11 @@
-import { useIsDragging } from '../../composables';
 import { ref, computed } from 'vue';
+import { useUIStore } from '../../store';
 
 export function useTreeViewList(element: ZionElement) {
 	// Add elements button DOM element will be populated after mount
 	const addElementsPopupButton = ref(null);
 	const elementOptionsRef = ref(null);
-	const { setDraggingState } = useIsDragging();
+	const UIStore = useUIStore();
 
 	const templateItems = computed({
 		get() {
@@ -17,11 +17,11 @@ export function useTreeViewList(element: ZionElement) {
 	});
 
 	function sortableStart() {
-		setDraggingState(true);
+		UIStore.setElementDragging(true);
 	}
 
 	function sortableEnd() {
-		setDraggingState(false);
+		UIStore.setElementDragging(false);
 	}
 
 	return {

@@ -86,6 +86,7 @@ import rafSchd from 'raf-schd';
 import { get } from 'lodash-es';
 import { useResponsiveDevices } from '/@/common/composables';
 import { Environment } from '/@/common/utils';
+import { useUIStore } from '/@/editor/store';
 
 // Components
 import ToolboxTitle from './ToolboxTitle.vue';
@@ -104,6 +105,7 @@ export default {
 		},
 	},
 	setup(props) {
+		const UIStore = useUIStore();
 		const showColumnTemplates = ref(false);
 		const addElementsPopupButton = ref(null);
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
@@ -116,7 +118,7 @@ export default {
 				placement: 'next',
 			});
 		};
-		const { isDragging } = window.zb.editor.useIsDragging();
+
 		const { element: activeElementEdit } = window.zb.editor.useEditElement();
 		const isActiveElementEdit = computed(() => {
 			return props.element === activeElementEdit.value;
@@ -127,7 +129,7 @@ export default {
 			addElementsPopupButton,
 			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
-			isDragging,
+			UIStore,
 			addEventListener,
 			removeEventListener,
 			isActiveElementEdit,
@@ -243,7 +245,7 @@ export default {
 			} else return 'right';
 		},
 		isAnyDragging() {
-			return this.isDragging || this.isToolboxDragging;
+			return this.UIStore.isElementDragging || this.isToolboxDragging;
 		},
 		dragDimension() {
 			if (this.activeDragPosition === 'Top' || this.activeDragPosition === 'Bottom') {

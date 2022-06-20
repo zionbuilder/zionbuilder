@@ -7,7 +7,7 @@
 		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
 		:class="{
-			[`znpb__sortable-container--${getSortableAxis}`]: isDragging,
+			[`znpb__sortable-container--${getSortableAxis}`]: UIStore.isElementDragging,
 		}"
 		:axis="getSortableAxis"
 		@start="onSortableStart"
@@ -47,6 +47,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { translate } from '/@/common/modules/i18n';
+import { useContentStore, useUIStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
@@ -119,9 +120,8 @@ const getSortableAxis = computed(() => {
 	return orientation;
 });
 
-const UIStore = window.zb.editor.useUIStore();
-const contentStore = window.zb.editor.useContentStore();
-const { isDragging, setDraggingState } = window.zb.editor.useIsDragging();
+const UIStore = useUIStore();
+const contentStore = useContentStore();
 
 function onSortableDrop(event) {
 	const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
@@ -137,11 +137,11 @@ function onSortableDuplicate(item) {
 function onSortableStart() {
 	const { hideAddElementsPopup } = window.zb.editor.useAddElementsPopup();
 	hideAddElementsPopup();
-	setDraggingState(true);
+	UIStore.setElementDragging(true);
 }
 
 function onSortableEnd() {
-	setDraggingState(false);
+	UIStore.setElementDragging(false);
 }
 </script>
 
