@@ -302,15 +302,10 @@ export default {
 		 * On context menu open
 		 */
 		const showElementMenu = function (event) {
-			if (!UIStore.isPreviewMode) {
-				event.preventDefault();
-				event.stopPropagation();
+			event.preventDefault();
+			event.stopPropagation();
 
-				const { showElementMenuFromEvent } = window.zb.editor.useElementMenu();
-				showElementMenuFromEvent(props.element, event, {
-					rename: false,
-				});
-			}
+			UIStore.showElementMenuFromEvent(props.element, event);
 		};
 
 		// Prevents us using stop propagation that can affect other elements

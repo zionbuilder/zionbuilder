@@ -180,22 +180,33 @@ export const useUIStore = defineStore('ui', {
 				actions,
 			};
 		},
-		showElementMenuFromEvent(element: ZionElement, event: MouseEvent, actions = {}) {
-			this.showElementMenu(
-				element,
-				{
-					ownerDocument: event.view?.document,
-					getBoundingClientRect() {
-						return {
-							width: 0,
-							height: 0,
-							top: event.clientY,
-							left: event.clientX,
-						};
-					},
+		showElementMenuFromEvent(element: ZionElement, event: MouseEvent) {
+			let leftOffset = 0;
+			let topOffset = 0;
+
+			// Check to see if the event is from iframe
+			if (event.view !== window) {
+				const iframe = window.frames['znpb-editor-iframe'];
+
+				if (iframe) {
+					const { left, top } = iframe.getBoundingClientRect();
+					console.log({ left, top });
+					leftOffset = left;
+					topOffset = top;
+				}
+			}
+
+			this.showElementMenu(element, {
+				ownerDocument: window.document,
+				getBoundingClientRect() {
+					return {
+						width: 0,
+						height: 0,
+						top: event.clientY + topOffset,
+						left: event.clientX + leftOffset,
+					};
 				},
-				actions,
-			);
+			});
 		},
 		hideElementMenu() {
 			this.activeElementMenu = null;

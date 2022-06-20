@@ -142,6 +142,7 @@ import { computed, ref, Ref, watch, nextTick } from 'vue';
 import { InputNumberUnit } from '../InputNumber';
 import rafSchd from 'raf-schd';
 import clickOutside from '../../directives/click-outside.ts';
+import { translate } from '/@/common/modules/i18n';
 
 type PositionId =
 	| 'margin-top'
@@ -155,7 +156,6 @@ type PositionId =
 
 type Type = 'margin' | 'padding';
 
-const { translate } = window.zb.l18n;
 const props = withDefaults(
 	defineProps<{
 		modelValue?: Partial<Record<PositionId, string>>;

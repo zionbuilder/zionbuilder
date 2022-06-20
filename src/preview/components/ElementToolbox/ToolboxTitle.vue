@@ -26,6 +26,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
+import { useUIStore } from '/@/editor/store';
 
 export default {
 	name: 'ToolboxTitle',
@@ -38,6 +39,7 @@ export default {
 	setup(props) {
 		const root = ref(null);
 		const { element: editedElement } = window.zb.editor.useEditElement();
+		const UIStore = useUIStore();
 
 		const parents = computed(() => {
 			let parents = [];
@@ -77,10 +79,7 @@ export default {
 			event.preventDefault();
 			event.stopPropagation();
 
-			const { showElementMenuFromEvent } = window.zb.editor.useElementMenu();
-			showElementMenuFromEvent(element, event, {
-				rename: false,
-			});
+			UIStore.showElementMenuFromEvent(element, event);
 		}
 
 		return {

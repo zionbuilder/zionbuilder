@@ -1,7 +1,6 @@
 export * from './useUserData';
 export * from './useTemplateParts';
 export * from './useAddElementsPopup';
-export * from './useElementMenu';
 export * from './useSavePage';
 export * from './useEditElement';
 export * from './useKeyBindings';
