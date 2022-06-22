@@ -1,82 +1,74 @@
 <template>
 	<div class="znpb-element-form__wp_widget">
 		<div v-if="loading" class="znpb-element-form__wp_widget-loading">
-			<!-- {{$translate('loading')}} -->
+			{{ translate('loading') }}
 		</div>
 
 		<form v-else ref="form" v-html="optionsFormContent"></form>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { ref, nextTick } from 'vue';
 import { getOptionsForm } from '/@/common/api';
 import { serialize } from 'dom-form-serializer';
-import { useEditElement } from '../../../composables';
+import { translate } from '/@/common/modules/i18n';
+import { useUIStore } from '/@/editor/store';
 
-export default {
-	name: 'WPWidget',
-	props: {
-		value: {
-			default() {
-				return {};
-			},
-		},
-		element_type: {
-			type: String,
-			required: true,
-		},
-	},
-	setup(props) {
-		const { element } = useEditElement();
-		return {
-			element,
-		};
-	},
-	data() {
-		return {
-			loading: true,
-			optionsFormContent: '',
-		};
-	},
-	created() {
-		// Get the options form from server
-		getOptionsForm(this.element).then(response => {
-			this.optionsFormContent = response.data.form;
-			this.loading = false;
-
-			const wp = window.wp;
-			const jQuery = window.jQuery;
-
-			this.$nextTick(() => {
-				if (wp.textWidgets) {
-					let widgetContainer = jQuery(this.$refs.form);
-					const event = new jQuery.Event('widget-added');
-
-					widgetContainer.addClass('open');
-					wp.textWidgets.handleWidgetAdded(event, widgetContainer);
-					wp.mediaWidgets.handleWidgetAdded(event, widgetContainer);
-
-					// // WP >= 4.9
-					if (wp.customHtmlWidgets) {
-						wp.customHtmlWidgets.handleWidgetAdded(event, widgetContainer);
-					}
-
-					// Setup event listeners
-					jQuery(':input', jQuery(this.$refs.form)).on('input', this.onInputChange);
-					jQuery(':input', jQuery(this.$refs.form)).on('change', this.onInputChange);
-				}
-			});
-		});
-	},
-	methods: {
-		onInputChange(event) {
-			const widgetId = `widget-${this.element_type}`;
-			const formData = serialize(this.$refs.form);
-
-			this.$emit('update:modelValue', formData[widgetId]['ZION_BUILDER_PLACEHOLDER_ID']);
+const props = withDefaults(
+	defineProps<{
+		value: Record<string, unknown>;
+		// eslint-disable-next-line vue/prop-name-casing
+		element_type: string;
+	}>(),
+	{
+		value: () => {
+			return {};
 		},
 	},
-};
+);
+
+const UIStore = useUIStore();
+const form = ref(null);
+const loading = ref(true);
+const optionsFormContent = ref('');
+const emit = defineEmits(['update:modelValue']);
+
+// Get the options form from server
+getOptionsForm(UIStore.editedElement).then(response => {
+	optionsFormContent.value = response.data.form;
+	loading.value = false;
+
+	const wp = window.wp;
+	const jQuery = window.jQuery;
+
+	nextTick(() => {
+		if (wp.textWidgets) {
+			let widgetContainer = jQuery(form.value);
+			const event = new jQuery.Event('widget-added');
+
+			widgetContainer.addClass('open');
+			wp.textWidgets.handleWidgetAdded(event, widgetContainer);
+			wp.mediaWidgets.handleWidgetAdded(event, widgetContainer);
+
+			// // WP >= 4.9
+			if (wp.customHtmlWidgets) {
+				wp.customHtmlWidgets.handleWidgetAdded(event, widgetContainer);
+			}
+
+			// Setup event listeners
+			jQuery(':input', jQuery(form.value)).on('input', onInputChange);
+			jQuery(':input', jQuery(form.value)).on('change', onInputChange);
+		}
+	});
+});
+
+function onInputChange() {
+	const widgetId = `widget-${props.element_type}`;
+	const formData = serialize(form.value);
+
+	emit('update:modelValue', formData[widgetId]['ZION_BUILDER_PLACEHOLDER_ID']);
+}
 </script>
 
 <style lang="scss">

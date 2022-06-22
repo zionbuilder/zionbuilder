@@ -4,7 +4,7 @@ import { useTemplateParts } from './useTemplateParts';
 import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '/@/common/modules/i18n';
-import { useEditElement } from './useEditElement';
+import { useUIStore } from '../store';
 
 const historyItems: Ref = ref([]);
 const currentHistoryIndex: Ref = ref(-1);
@@ -98,8 +98,7 @@ export function useHistory() {
 		currentHistoryIndex.value = index;
 
 		// Close element options panel
-		const { unEditElement } = useEditElement();
-		unEditElement();
+		useUIStore.unEditElement();
 
 		setDirtyStatus(true);
 	}

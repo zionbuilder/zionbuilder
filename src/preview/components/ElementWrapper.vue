@@ -22,7 +22,6 @@
 
 			<ElementStyles :styles="customCSS" />
 		</template>
-		{{ isVisible }}
 		<template #end>
 			<div v-if="!isVisible" class="znpb-hidden-element-container">
 				<div class="znpb-hidden-element-placeholder">
@@ -70,8 +69,7 @@ export default {
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
 		const { getSchema } = useOptionsSchemas();
 		const { activePseudoSelector } = usePseudoSelectors();
-		const { element: activeEditedElement } = window.zb.editor.useEditElement();
-		const isVisible = computed(() => get(activeEditedElement.options, '_isVisible', true));
+		const isVisible = computed(() => get(props.element.options, '_isVisible', true));
 
 		let toolboxWatcher = null;
 		let optionsInstance = null;
@@ -119,7 +117,7 @@ export default {
 		const options = computed(() => readonly(parsedData.value.options || {}));
 
 		// Check to see if the current element is being edited
-		watch(activeEditedElement, (newValue, oldValue) => {
+		watch(UIStore.editedElement, (newValue, oldValue) => {
 			if (newValue === props.element) {
 				isElementEdited.value = true;
 			} else if (oldValue === props.element) {
@@ -183,9 +181,8 @@ export default {
 
 		const stylesConfig = computed(() => options.value._styles || {});
 		const canShowToolbox = computed(() => {
-			const { element: activeEditedElement } = window.zb.editor.useEditElement();
 			return (
-				(activeEditedElement.value === props.element || props.element.isHighlighted) &&
+				(UIStore.editedElement === props.element || props.element.isHighlighted) &&
 				props.element.isVisible &&
 				!elementDefinition.is_child &&
 				!UIStore.isPreviewMode
@@ -314,10 +311,8 @@ export default {
 				return;
 			}
 
-			const { editElement } = window.zb.editor.useEditElement();
-
 			if (!UIStore.isPreviewMode) {
-				editElement(props.element);
+				UIStore.editElement(props.element);
 			}
 
 			clickHandled = true;

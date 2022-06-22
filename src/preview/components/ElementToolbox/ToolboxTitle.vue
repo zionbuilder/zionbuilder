@@ -12,7 +12,7 @@
 				v-for="parent in parents"
 				:key="parent.uid"
 				class="zbpb-element-toolbox__titleContainer"
-				:class="{ 'zbpb-element-toolbox__titleContainer--active': parent === editedElement }"
+				:class="{ 'zbpb-element-toolbox__titleContainer--active': parent === UIStore.editElement }"
 				@click.stop="editElement(parent)"
 				@contextmenu="showElementMenu($event, parent)"
 			>
@@ -38,7 +38,6 @@ export default {
 	},
 	setup(props) {
 		const root = ref(null);
-		const { element: editedElement } = window.zb.editor.useEditElement();
 		const UIStore = useUIStore();
 
 		const parents = computed(() => {
@@ -56,9 +55,7 @@ export default {
 		});
 
 		function editElement(element) {
-			const { editElement } = useEditElement();
-
-			editElement(element);
+			UIStore.editElement(element);
 		}
 
 		// Lifecycle
@@ -87,7 +84,6 @@ export default {
 			root,
 			exitsTop,
 			exitsRight,
-			editedElement,
 
 			// Methods
 			editElement,

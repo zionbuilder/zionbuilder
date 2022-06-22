@@ -1,4 +1,4 @@
-import { useSavePage, useEditorData, useElementActions, useHistory, useEditElement } from '../composables';
+import { useSavePage, useEditorData, useElementActions, useHistory } from '../composables';
 import { isEditable, Environment } from '/@/common/utils';
 import { useUIStore } from '../store';
 
@@ -7,7 +7,6 @@ export const useKeyBindings = () => {
 	const { savePage, isSavePageLoading } = useSavePage();
 	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions();
 	const { editorData } = useEditorData();
-	const { editElement, element: focusedElement } = useEditElement();
 
 	const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
 
@@ -54,8 +53,8 @@ export const useKeyBindings = () => {
 		}
 
 		// Shortcuts that needs an active element
-		if (focusedElement.value) {
-			const activeElementFocus = focusedElement.value;
+		if (UIStore.editedElement) {
+			const activeElementFocus = UIStore.editedElement;
 
 			// Duplicate - CTRL+D
 			if (e.which === 68 && e[controlKey] && !e.shiftKey) {
@@ -89,7 +88,7 @@ export const useKeyBindings = () => {
 				activeElementFocus.delete();
 
 				if (nextFocusElement) {
-					editElement(nextFocusElement);
+					UIStore.editElement(nextFocusElement);
 				}
 			}
 

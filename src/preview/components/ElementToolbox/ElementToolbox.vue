@@ -119,9 +119,8 @@ export default {
 			});
 		};
 
-		const { element: activeElementEdit } = window.zb.editor.useEditElement();
 		const isActiveElementEdit = computed(() => {
-			return props.element === activeElementEdit.value;
+			return props.element === UIStore.editedElement;
 		});
 
 		return {

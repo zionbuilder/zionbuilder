@@ -2,7 +2,6 @@ export * from './useUserData';
 export * from './useTemplateParts';
 export * from './useAddElementsPopup';
 export * from './useSavePage';
-export * from './useEditElement';
 export * from './useKeyBindings';
 export * from './useEditorData';
 export * from './useElementProvide';

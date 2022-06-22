@@ -190,7 +190,6 @@ export const useUIStore = defineStore('ui', {
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();
-					console.log({ left, top });
 					leftOffset = left;
 					topOffset = top;
 				}

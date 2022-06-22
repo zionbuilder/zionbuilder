@@ -9,14 +9,14 @@
 					:class="{ 'znpb-options-childs__element-actionDeleteInactive': !showDelete }"
 					@click.stop="onDelete"
 				/>
-				<Icon icon="edit" @click.stop="editElement(element)" />
+				<Icon icon="edit" @click.stop="UIStore.editElement(element)" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { useEditElement } from '../../../composables';
+import { useUIStore } from '/@/editor/store';
 
 export default {
 	name: 'SingleChild',
@@ -35,7 +35,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { editElement } = useEditElement();
+		const UIStore = useUIStore();
 
 		function onDelete() {
 			if (props.showDelete) {
@@ -44,8 +44,7 @@ export default {
 		}
 
 		return {
-			editElement,
-			element: props.element,
+			UIStore,
 			onDelete,
 		};
 	},
