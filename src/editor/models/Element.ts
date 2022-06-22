@@ -4,9 +4,9 @@ import { applyFilters } from '/@/common/modules/hooks';
 import { regenerateUIDs } from '../utils';
 import { useElementDefinitionsStore, useElementsStore } from '../store';
 import { RenderAttributes } from './RenderAttributes';
-import { useEditElement } from '../composables/useEditElement';
 import { useHistory } from '../composables/useHistory';
 import { serverRequest } from '../api';
+import { useUIStore } from '../store';
 
 export class Element {
 	// Element data for DB
@@ -250,10 +250,10 @@ export class Element {
 	 */
 	delete() {
 		if (this.parent) {
-			const { element, unEditElement } = useEditElement();
+			const UIStore = useUIStore();
 
-			if (element.value === this) {
-				unEditElement();
+			if (UIStore.editedElement === this) {
+				UIStore.unEditElement();
 			}
 
 			this.parent.removeChild(this);

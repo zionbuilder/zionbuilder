@@ -117,13 +117,16 @@ export default {
 		const options = computed(() => readonly(parsedData.value.options || {}));
 
 		// Check to see if the current element is being edited
-		watch(UIStore.editedElement, (newValue, oldValue) => {
-			if (newValue === props.element) {
-				isElementEdited.value = true;
-			} else if (oldValue === props.element) {
-				isElementEdited.value = false;
-			}
-		});
+		watch(
+			() => UIStore.editedElement,
+			(newValue, oldValue) => {
+				if (newValue === props.element) {
+					isElementEdited.value = true;
+				} else if (oldValue === props.element) {
+					isElementEdited.value = false;
+				}
+			},
+		);
 
 		// check to see if the hover state is selected
 		watch(activePseudoSelector, newValue => {

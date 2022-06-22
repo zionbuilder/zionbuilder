@@ -351,7 +351,6 @@ export default {
 			// Render the app
 			const renderElement = iframeWindow.document.getElementById(`znpb-preview-${window.ZnPbInitialData.page_id}-area`);
 			if (renderElement) {
-				console.log('11111');
 				this.iframeAPP = iframeWindow.document.getElementById(`znpb-preview-${window.ZnPbInitialData.page_id}-area`);
 			} else {
 				console.log('preview element not found');
