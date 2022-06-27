@@ -6,20 +6,20 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import { useAddElementsPopup } from '../composables';
 import AddElementIcon from './AddElementIcon.vue';
+import { useUIStore } from '../store';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const { showAddElementsPopup, shouldOpenPopup } = useAddElementsPopup();
+const UIStore = useUIStore();
 const addElementsPopupButton = ref(null);
 
 onMounted(() => {
-	if (shouldOpenPopup.value === true) {
-		showAddElementsPopup(props.element, addElementsPopupButton.value?.$el);
-		shouldOpenPopup.value = false;
+	if (UIStore.shouldOpenAddElementsPopup === true) {
+		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value?.$el);
+		UIStore.shouldOpenAddElementsPopup = false;
 	}
 });
 </script>

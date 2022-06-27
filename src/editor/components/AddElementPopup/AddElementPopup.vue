@@ -1,7 +1,7 @@
 <template>
 	<Tooltip
-		v-if="activePopup"
-		:key="activePopup.key"
+		v-if="UIStore.activeAddElementPopup"
+		:key="UIStore.activeAddElementPopup.key"
 		tooltip-class="hg-popper--big-arrows"
 		placement="auto"
 		:show="true"
@@ -9,42 +9,32 @@
 		:trigger="null"
 		:close-on-outside-click="true"
 		:close-on-escape="true"
-		:popper-ref="activePopup.selector"
-		@hide="hideAddElementsPopup"
+		:popper-ref="UIStore.activeAddElementPopup.selector"
+		@hide="UIStore.hideAddElementsPopup"
 	>
 		<template #content>
-			<ColumnTemplates :element="activePopup.element" @close="hideAddElementsPopup" />
+			<ColumnTemplates :element="UIStore.activeAddElementPopup.element" @close="UIStore.hideAddElementsPopup" />
 		</template>
 	</Tooltip>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { watch } from 'vue';
-import { useAddElementsPopup } from '../../composables';
+import { useUIStore } from '../../store';
 
 // Components
 import ColumnTemplates from './ColumnTemplates.vue';
 
-export default {
-	name: 'AddElementPopup',
-	components: {
-		ColumnTemplates,
-	},
-	setup() {
-		const { activePopup, hideAddElementsPopup } = useAddElementsPopup();
+const UIStore = useUIStore();
 
-		watch(activePopup, newValue => {
-			if (newValue) {
-				window.addEventListener('scroll', hideAddElementsPopup);
-			} else {
-				window.removeEventListener('scroll', hideAddElementsPopup);
-			}
-		});
-
-		return {
-			activePopup,
-			hideAddElementsPopup,
-		};
+watch(
+	() => UIStore.activeAddElementPopup,
+	newValue => {
+		if (newValue) {
+			window.addEventListener('scroll', UIStore.hideAddElementsPopup);
+		} else {
+			window.removeEventListener('scroll', UIStore.hideAddElementsPopup);
+		}
 	},
-};
+);
 </script>

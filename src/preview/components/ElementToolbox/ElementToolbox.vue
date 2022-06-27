@@ -113,8 +113,7 @@ export default {
 		const isToolboxDragging = ref(false);
 
 		const toggleAddElementsPopup = () => {
-			const { showAddElementsPopup } = window.zb.editor.useAddElementsPopup();
-			showAddElementsPopup(props.element, addElementsPopupButton, {
+			UIStore.showAddElementsPopup(props.element, addElementsPopupButton, {
 				placement: 'next',
 			});
 		};

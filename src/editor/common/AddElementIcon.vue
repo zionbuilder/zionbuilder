@@ -18,9 +18,8 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
-import { useAddElementsPopup } from '../composables';
 import { translate } from '/@/common/modules/i18n';
-import { useContentStore } from '../store';
+import { useContentStore, useUIStore } from '../store';
 
 const props = withDefaults(
 	defineProps<{
@@ -35,31 +34,36 @@ const props = withDefaults(
 );
 
 const contentStore = useContentStore();
+const UIStore = useUIStore();
 
-const addElementsPopupButton = ref(false);
+const addElementsPopupButton = ref(null);
 const isIconClicked = ref(false);
-
-const { activePopup } = useAddElementsPopup();
 
 const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
 
 const isPopupActive = computed(() => {
-	return isIconClicked.value && activePopup.value && activePopup.value.element === props.element;
+	return (
+		isIconClicked.value && UIStore.activeAddElementPopup && UIStore.activeAddElementPopup.element === props.element
+	);
 });
 
 const elementName = computed(() => contentStore.getElementName(props.element));
 
-watch(activePopup, newValue => {
-	if (!newValue || (newValue && newValue.element !== props.element)) {
-		isIconClicked.value = false;
-	}
-});
+watch(
+	() => UIStore.activeAddElementPopup,
+	newValue => {
+		if (!newValue || (newValue && newValue.element !== props.element)) {
+			isIconClicked.value = false;
+		}
+	},
+);
 
 function toggleAddElementsPopup() {
-	const { showAddElementsPopup } = useAddElementsPopup();
-	showAddElementsPopup(props.element, addElementsPopupButton, {
-		placement: props.placement,
-	});
+	if (addElementsPopupButton.value) {
+		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value, {
+			placement: props.placement,
+		});
+	}
 }
 
 function onIconClick() {

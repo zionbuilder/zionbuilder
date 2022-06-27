@@ -50,6 +50,8 @@ export const useUIStore = defineStore('ui', {
 			actions: Record<string, unknown>;
 		} | null;
 		isElementDragging: boolean;
+		activeAddElementPopup: Record<string, unknown> | null;
+		shouldOpenAddElementsPopup: boolean;
 	} => {
 		const { getUserData } = useUserData();
 		const UIUserData = getUserData();
@@ -123,6 +125,8 @@ export const useUIStore = defineStore('ui', {
 			editedElement: null,
 			activeElementMenu: null,
 			isElementDragging: false,
+			activeAddElementPopup: null,
+			shouldOpenAddElementsPopup: false,
 		};
 	},
 	getters: {
@@ -321,6 +325,23 @@ export const useUIStore = defineStore('ui', {
 		},
 		setPreviewMode(state: boolean) {
 			this.isPreviewMode = state;
+		},
+
+		showAddElementsPopup(element: ZionElement, selector: HTMLElement, config = {}) {
+			if (this.activeAddElementPopup && this.activeAddElementPopup.element === element) {
+				this.hideAddElementsPopup();
+				return;
+			}
+
+			this.activeAddElementPopup = {
+				element,
+				selector,
+				config,
+				key: Math.random(),
+			};
+		},
+		hideAddElementsPopup() {
+			this.activeAddElementPopup = null;
 		},
 	},
 });

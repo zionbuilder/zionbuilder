@@ -69,6 +69,8 @@ export const useContentStore = defineStore('content', {
 			this.elements.push(newElement);
 
 			elementConfig.content.forEach(el => this.registerElement(el, elementConfig.uid));
+
+			return newElement;
 		},
 		clearAreaContent(areaID: string) {
 			const areaElement = this.getElement(areaID);
@@ -121,6 +123,11 @@ export const useContentStore = defineStore('content', {
 			addToHistory(`Duplicated ${this.getElementName(element.uid)}`);
 
 			return elementClone;
+		},
+		addElement(elementConfig: ZionElementConfig, parent: ZionElement, index: number) {
+			const ZionElement = this.registerElement(elementConfig);
+
+			parent.content.splice(index, 0, ZionElement.uid);
 		},
 	},
 });

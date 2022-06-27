@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { translate } from '/@/common/modules/i18n';
-import { useContentStore, useUIStore } from '/@/editor/store';
+import { useContentStore, useUIStore, useElementDefinitionsStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
@@ -74,6 +74,10 @@ const props = withDefaults(
 	},
 );
 
+// Stores
+const UIStore = useUIStore();
+const contentStore = useContentStore();
+
 const children = computed({
 	get: () => props.element.content.map(child => contentStore.getElement(child)),
 	set: newValue =>
@@ -85,7 +89,7 @@ const children = computed({
 });
 
 // const { addToHistory } = window.zb.editor.useHistory();
-const elementsDefinitionsStore = window.parent.zb.editor.useElementDefinitionsStore();
+const elementsDefinitionsStore = useElementDefinitionsStore();
 
 const defaultSortableGroup = {
 	name: 'elements',
@@ -120,9 +124,6 @@ const getSortableAxis = computed(() => {
 	return orientation;
 });
 
-const UIStore = useUIStore();
-const contentStore = useContentStore();
-
 function onSortableDrop(event) {
 	const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
 	const element = contentStore.getElement(droppedElementUid);
@@ -135,8 +136,7 @@ function onSortableDuplicate(item) {
 }
 
 function onSortableStart() {
-	const { hideAddElementsPopup } = window.zb.editor.useAddElementsPopup();
-	hideAddElementsPopup();
+	UIStore.hideAddElementsPopup();
 	UIStore.setElementDragging(true);
 }
 
