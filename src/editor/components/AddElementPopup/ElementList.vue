@@ -8,39 +8,22 @@
 				v-for="childElement in elements"
 				:key="childElement.element_type"
 				:item="childElement"
-				@click="$emit('add-element', childElement)"
+				@click="emit('add-element', childElement)"
 			/>
 		</ul>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import ElementListItem from './ElementListItem.vue';
 
-export default {
-	name: 'ElementList',
-	components: {
-		ElementListItem,
-	},
-	props: {
-		elements: {
-			type: Array,
-			required: true,
-		},
-		element: {
-			type: Object,
-			required: true,
-		},
-		category: {
-			type: String,
-			required: true,
-		},
-	},
-	emits: ['add-element'],
-	setup() {
-		return {};
-	},
-};
+defineProps<{
+	elements: Array;
+	element: ZionElement;
+	category: string;
+}>();
+
+const emit = defineEmits(['add-element']);
 </script>
 
 <style lang="scss">

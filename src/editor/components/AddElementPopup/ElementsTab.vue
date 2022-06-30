@@ -23,8 +23,8 @@
 		<div ref="categoriesWrapper" class="znpb-fancy-scrollbar znpb-wrapper-category">
 			<template v-if="categoriesWithElements.length">
 				<ElementList
-					v-for="(category, i) in categoriesWithElements"
-					:key="i"
+					v-for="category in categoriesWithElements"
+					:key="category.id"
 					:ref="
 						el => {
 							if (el) categoriesRefs[category.id] = el;

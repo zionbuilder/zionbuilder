@@ -15,7 +15,7 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsTab :element="element" :search-keyword="searchKeyword" />
+				<ElementsTab v-if="active === 'elements'" :element="element" :search-keyword="searchKeyword" />
 			</Tab>
 			<Tab name="Library">
 				<span />

@@ -21,46 +21,34 @@
 	</li>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useUserData } from '../../composables';
 
-export default {
-	name: 'ElementListItem',
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props) {
-		const isActiveFavorite = computed(() => {
-			const { getUserData } = useUserData();
-			return getUserData('favorite_elements', []).includes(props.item.element_type);
-		});
+const props = defineProps<{
+	item: Record<string, unknown>;
+}>();
 
-		function addToFavorites() {
-			const { getUserData, updateUserData } = useUserData();
-			const activeFavoritesClone = [...getUserData('favorite_elements', [])];
+const isActiveFavorite = computed(() => {
+	const { getUserData } = useUserData();
+	return getUserData('favorite_elements', []).includes(props.item.element_type);
+});
 
-			if (activeFavoritesClone.includes(props.item.element_type)) {
-				const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type);
-				activeFavoritesClone.splice(favoriteIndex, 1);
-			} else {
-				activeFavoritesClone.push(props.item.element_type);
-			}
+function addToFavorites() {
+	const { getUserData, updateUserData } = useUserData();
+	const activeFavoritesClone = [...getUserData('favorite_elements', [])];
 
-			updateUserData({
-				favorite_elements: activeFavoritesClone,
-			});
-		}
+	if (activeFavoritesClone.includes(props.item.element_type)) {
+		const favoriteIndex = activeFavoritesClone.indexOf(props.item.element_type);
+		activeFavoritesClone.splice(favoriteIndex, 1);
+	} else {
+		activeFavoritesClone.push(props.item.element_type);
+	}
 
-		return {
-			isActiveFavorite,
-			addToFavorites,
-		};
-	},
-};
+	updateUserData({
+		favorite_elements: activeFavoritesClone,
+	});
+}
 </script>
 
 <style lang="scss">
