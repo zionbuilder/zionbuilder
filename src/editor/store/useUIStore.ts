@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-
+import { useContentStore } from './useContentStore';
 interface Panel {
 	id: string;
 	component: string;
@@ -327,16 +327,25 @@ export const useUIStore = defineStore('ui', {
 			this.isPreviewMode = state;
 		},
 
-		showAddElementsPopup(element: ZionElement, selector: HTMLElement, config = {}) {
+		showAddElementsPopup(element: ZionElement, selector: HTMLElement, placement: 'inside' | 'next' = 'inside') {
 			if (this.activeAddElementPopup && this.activeAddElementPopup.element === element) {
 				this.hideAddElementsPopup();
 				return;
 			}
 
+			// Check to see if we need to insert the new element inside the provided one or the parent
+			let index = -1;
+			if (placement === 'next') {
+				const contentStore = useContentStore();
+				const elementUID = element.uid;
+				element = contentStore.getElement(element.parent);
+				index = element.content.indexOf(elementUID);
+			}
+
 			this.activeAddElementPopup = {
 				element,
 				selector,
-				config,
+				index,
 				key: Math.random(),
 			};
 		},

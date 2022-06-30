@@ -186,25 +186,6 @@ add({
 	delayClose: 5000,
 });
 
-// Stores subscribe
-const storesToSubscribe = [useUIStore()];
-storesToSubscribe.forEach(store => {
-	store.$subscribe((mutation, state) => {
-		const { getWindows } = useWindows();
-		const iframeWindow = getWindows('preview');
-		if (iframeWindow) {
-			iframeWindow.postMessage(
-				{
-					action: 'zbMessage',
-					store: store.$id,
-					state: JSON.stringify(state),
-				},
-				'*',
-			);
-		}
-	});
-});
-
 const showEditorButtonStyle = computed(() => {
 	let buttonStyle;
 

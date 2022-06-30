@@ -7,7 +7,7 @@ export function useAddElementsPopup() {
 	const getElementForInsert = () => {
 		const { element, config } = activePopup.value;
 		const { placement = 'inside' } = config;
-		if (placement === 'inside' && (element.isWrapper || element.element_type === 'contentRoot')) {
+		if (placement === 'inside' && element.isWrapper) {
 			return {
 				element,
 			};
@@ -28,8 +28,6 @@ export function useAddElementsPopup() {
 	};
 
 	return {
-		showAddElementsPopup,
-		hideAddElementsPopup,
 		getElementForInsert,
 		insertElement,
 		activePopup,

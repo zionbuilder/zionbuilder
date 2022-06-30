@@ -113,9 +113,7 @@ export default {
 		const isToolboxDragging = ref(false);
 
 		const toggleAddElementsPopup = () => {
-			UIStore.showAddElementsPopup(props.element, addElementsPopupButton, {
-				placement: 'next',
-			});
+			UIStore.showAddElementsPopup(props.element, addElementsPopupButton, 'next');
 		};
 
 		const isActiveElementEdit = computed(() => {

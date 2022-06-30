@@ -20,16 +20,19 @@
 import { ref, computed, watch } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useContentStore, useUIStore } from '../store';
+import { useElementUtils } from '/@/editor/composables';
 
 const props = withDefaults(
 	defineProps<{
 		element: ZionElement;
 		placement?: string;
 		position?: string | null;
+		index?: number;
 	}>(),
 	{
 		placement: 'next',
 		position: null,
+		index: -1,
 	},
 );
 
@@ -60,9 +63,7 @@ watch(
 
 function toggleAddElementsPopup() {
 	if (addElementsPopupButton.value) {
-		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value, {
-			placement: props.placement,
-		});
+		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value, props.placement);
 	}
 }
 

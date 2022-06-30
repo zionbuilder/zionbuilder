@@ -43,9 +43,9 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
-import { useAddElementsPopup, useHistory, useEditorData, useUserData } from '../../composables';
+import { useHistory, useEditorData, useUserData } from '../../composables';
 import { translate } from '/@/common/modules/i18n';
-import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
+import { useElementDefinitionsStore, useUIStore, useContentStore } from '/@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';
@@ -67,6 +67,7 @@ export default {
 		},
 	},
 	setup(props) {
+		const contentStore = useContentStore();
 		const UIStore = useUIStore();
 		const elementsDefinitionsStore = useElementDefinitionsStore();
 		const { editorData } = useEditorData();
@@ -172,15 +173,14 @@ export default {
 
 		// Methods
 		const onAddElement = element => {
-			const { insertElement } = useAddElementsPopup();
-
 			const config = {
 				element_type: element.element_type,
 				version: element.version,
 				...element.extra_data,
 			};
 
-			insertElement(config);
+			// Insert element
+			contentStore.addElement(config, UIStore.activeAddElementPopup.element, UIStore.activeAddElementPopup.index);
 
 			const { addToHistory } = useHistory();
 			const elementType = elementsDefinitionsStore.getElementDefinition(config);

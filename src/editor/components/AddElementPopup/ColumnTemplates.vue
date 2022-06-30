@@ -27,9 +27,9 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useAddElementsPopup, useWindows, useHistory } from '../../composables';
+import { useWindows, useHistory } from '../../composables';
 import { useLibrary } from '/@/common/composables';
-import { useUIStore, useElementDefinitionsStore } from '../../store';
+import { useUIStore, useElementDefinitionsStore, useContentStore } from '../../store';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
@@ -47,6 +47,7 @@ export default {
 	},
 	setup(props, { emit }) {
 		const UIStore = useUIStore();
+		const contentStore = useContentStore();
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
 		const active = ref(defaultTab);
 		const { addEventListener, removeEventListener } = useWindows();
@@ -129,7 +130,7 @@ export default {
 		}
 
 		const addElements = config => {
-			const { insertElement, getElementForInsert, shouldOpenPopup } = useAddElementsPopup();
+			const { insertElement, getElementForInsert } = useAddElementsPopup();
 			const activeElementForInsert = getElementForInsert();
 			const elementType = activeElementForInsert.element.element_type;
 			const parentOrientation = getOrientation(activeElementForInsert.element);
@@ -149,10 +150,13 @@ export default {
 			}
 
 			// Open the first sortable content popup
-			shouldOpenPopup.value = true;
+			UIStore.shouldOpenAddElementsPopup = true;
 
-			// If it's a wrapper, it means that it can have childs
-			insertElement(config);
+			// If it's a wrapper, it means that it can have children
+			// Insert element
+			const parent = '';
+			const index = -1;
+			contentStore.addElements(config, parent, index);
 
 			const { addToHistory } = useHistory();
 			addToHistory(`Added Columns Layout`);

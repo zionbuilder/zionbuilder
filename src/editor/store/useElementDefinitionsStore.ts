@@ -21,6 +21,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 					element_type: 'contentRoot',
 					wrapper: true,
 					show_in_ui: false,
+					name: translate('root'),
 				}),
 			],
 			categories: [],

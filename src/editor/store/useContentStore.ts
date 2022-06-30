@@ -42,6 +42,9 @@ export const useContentStore = defineStore('content', {
 				}
 			};
 		},
+		getElementIndexInParent() {
+			return (element: ZionElement) => this.getElement(element.parent).content.indexOf(element.uid);
+		},
 	},
 	actions: {
 		registerArea(areaConfig: BuilderArea, areaContent: ZionElementConfig[]) {
@@ -125,9 +128,26 @@ export const useContentStore = defineStore('content', {
 			return elementClone;
 		},
 		addElement(elementConfig: ZionElementConfig, parent: ZionElement, index: number) {
-			const ZionElement = this.registerElement(elementConfig);
+			const element = Object.assign(
+				{},
+				{
+					uid: generateUID(),
+					content: [],
+					options: {},
+				},
+				elementConfig,
+			);
+			const ZionElement = this.registerElement(element, parent.uid);
 
 			parent.content.splice(index, 0, ZionElement.uid);
+		},
+		addElements(elements: ZionElementConfig[], parent: ZionElement, index = -1) {
+			elements.forEach(element => {
+				this.addElement(element, parent, index);
+
+				// Update the index
+				index = index !== -1 ? index + 1 : index;
+			});
 		},
 	},
 });

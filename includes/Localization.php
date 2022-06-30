@@ -770,6 +770,7 @@ class Localization {
 				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
 				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 				'wrap_with_container'                      => __( 'Wrap with container', 'zionbuilder' ),
+				'root'                                     => __( 'Root', 'zionbuilder' ),
 			]
 		);
 	}
