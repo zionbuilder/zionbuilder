@@ -130,10 +130,7 @@ export default {
 		}
 
 		const addElements = config => {
-			const { insertElement, getElementForInsert } = useAddElementsPopup();
-			const activeElementForInsert = getElementForInsert();
-			const elementType = activeElementForInsert.element.element_type;
-			const parentOrientation = getOrientation(activeElementForInsert.element);
+			const elementType = UIStore.activeAddElementPopup.element.element_type;
 
 			// Add a section if this will be inserted on root
 			if (elementType === 'contentRoot') {
@@ -144,7 +141,7 @@ export default {
 					},
 				];
 			} else {
-				if (parentOrientation === 'vertical') {
+				if (getOrientation(UIStore.activeAddElementPopup.element) === 'vertical') {
 					config = wrapColumn(config);
 				}
 			}
@@ -152,11 +149,8 @@ export default {
 			// Open the first sortable content popup
 			UIStore.shouldOpenAddElementsPopup = true;
 
-			// If it's a wrapper, it means that it can have children
 			// Insert element
-			const parent = '';
-			const index = -1;
-			contentStore.addElements(config, parent, index);
+			contentStore.addElements(config, UIStore.activeAddElementPopup.element, UIStore.activeAddElementPopup.index);
 
 			const { addToHistory } = useHistory();
 			addToHistory(`Added Columns Layout`);
@@ -166,10 +160,10 @@ export default {
 		};
 
 		const openLibrary = () => {
-			const { activePopup } = useAddElementsPopup();
 			const { setActiveElementForLibrary } = useLibrary();
 
-			setActiveElementForLibrary(activePopup.value.element, activePopup.value.config);
+			// TODO: fix this
+			setActiveElementForLibrary(UIStore.activeAddElementPopup.element, activePopup.value.config);
 
 			UIStore.toggleLibrary();
 			emit('close');

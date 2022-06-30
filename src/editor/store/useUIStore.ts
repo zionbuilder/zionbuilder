@@ -339,7 +339,7 @@ export const useUIStore = defineStore('ui', {
 				const contentStore = useContentStore();
 				const elementUID = element.uid;
 				element = contentStore.getElement(element.parent);
-				index = element.content.indexOf(elementUID);
+				index = element.content.indexOf(elementUID) + 1;
 			}
 
 			this.activeAddElementPopup = {

@@ -62,16 +62,31 @@ export const useContentStore = defineStore('content', {
 			this.areas.push(areaConfig);
 		},
 		registerElement(elementConfig: ZionElementConfig, parent: ZionElement['parent'] = null) {
+			const element = Object.assign(
+				{},
+				{
+					uid: generateUID(),
+					content: [],
+					options: {},
+				},
+				elementConfig,
+			);
+
+			const content: string[] = [];
+
+			// Register children
+			element.content.forEach(el => {
+				const childElement = this.registerElement(el, element.uid);
+				content.push(childElement.uid);
+			});
+
 			const newElement: ZionElement = {
-				...elementConfig,
-				content: elementConfig.content.map(el => el.uid),
+				...element,
+				content,
 				parent: parent,
 				addedTime: Date.now(),
 			};
-
 			this.elements.push(newElement);
-
-			elementConfig.content.forEach(el => this.registerElement(el, elementConfig.uid));
 
 			return newElement;
 		},
@@ -128,16 +143,7 @@ export const useContentStore = defineStore('content', {
 			return elementClone;
 		},
 		addElement(elementConfig: ZionElementConfig, parent: ZionElement, index: number) {
-			const element = Object.assign(
-				{},
-				{
-					uid: generateUID(),
-					content: [],
-					options: {},
-				},
-				elementConfig,
-			);
-			const ZionElement = this.registerElement(element, parent.uid);
+			const ZionElement = this.registerElement(elementConfig, parent.uid);
 
 			parent.content.splice(index, 0, ZionElement.uid);
 		},

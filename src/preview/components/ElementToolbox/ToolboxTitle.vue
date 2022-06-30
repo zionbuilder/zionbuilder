@@ -84,6 +84,7 @@ export default {
 			root,
 			exitsTop,
 			exitsRight,
+			UIStore,
 
 			// Methods
 			editElement,
