@@ -106,6 +106,11 @@ export const useContentStore = defineStore('content', {
 			const element = this.getElement(elementUID);
 
 			if (element) {
+				// Delete from parent
+				const parentElement = this.getElement(element.parent);
+				parentElement.content;
+				pull(parentElement.content, element.uid);
+
 				pull(this.elements, element);
 			}
 		},

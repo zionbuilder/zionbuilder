@@ -134,7 +134,7 @@ const elementActions = computed(() => {
 		{
 			title: translate('delete_element'),
 			icon: 'delete',
-			action: () => element.delete(),
+			action: () => contentStore.deleteElement(element.uid),
 			append: `⌦`,
 		},
 	];
