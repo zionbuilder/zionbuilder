@@ -32,7 +32,7 @@
 				v-znpb-tooltip="translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
-				@click.stop="toggleVisibility"
+				@click.stop="contentStore.setElementVisibility(element.uid, !isVisible)"
 			/>
 
 			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
@@ -73,7 +73,7 @@ const elementName = computed({
 	},
 });
 
-const { isVisible, highlight, unHighlight, toggleVisibility, isWrapper } = useElementUtils(props.element);
+const { isVisible, highlight, unHighlight, isWrapper } = useElementUtils(props.element);
 const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
 
 let justAdded = false;

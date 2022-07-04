@@ -290,6 +290,7 @@ export class Element {
 		}
 	}
 
+	// ####DONE
 	toJSON(): { [key: string]: any } {
 		const content = this.content.map(element => {
 			return element.toJSON();

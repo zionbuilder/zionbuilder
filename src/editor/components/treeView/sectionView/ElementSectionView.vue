@@ -1,7 +1,7 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{ 'znpb-section-view-item--hidden': !element.isVisible }"
+		:class="{ 'znpb-section-view-item--hidden': !isVisible }"
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -22,11 +22,11 @@
 			</div>
 
 			<Icon
-				v-if="!element.isVisible"
+				v-if="!isVisible"
 				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
-				@click.stop="element.toggleVisibility()"
+				@click.stop="contentStore.setElementVisibility(element.uid, !isVisible)"
 			/>
 
 			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
@@ -48,6 +48,7 @@ const props = defineProps<{
 }>();
 
 const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
+const { isVisible, highlight, unHighlight, isWrapper } = useElementUtils(props.element);
 
 const contentStore = useContentStore();
 const imageSrc = ref(null);

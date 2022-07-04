@@ -1,7 +1,6 @@
 import { savePage as savePageREST } from '/@/common/api';
 import { ref, Ref } from 'vue';
-import { useTemplateParts } from './useTemplateParts';
-import { usePageSettingsStore, useCSSClassesStore } from '../store';
+import { usePageSettingsStore, useCSSClassesStore, useContentStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '/@/common/modules/i18n';
 import { useNotificationsStore } from '/@/common/store';
@@ -9,28 +8,22 @@ import { useHistory } from './useHistory';
 import { useResponsiveDevices } from '/@/common/composables';
 
 const isSavePageLoading: Ref<boolean> = ref(false);
-let previewWindow = null;
+let previewWindow: Window | null = null;
 
 export function useSavePage() {
 	const save = (status = 'publish') => {
-		const { add } = useNotificationsStore();
-		const { getActivePostTemplatePart } = useTemplateParts();
-		const contentTemplatePart = getActivePostTemplatePart();
+		const contentStore = useContentStore();
+		const notificationsStore = useNotificationsStore();
 		const pageSettings = usePageSettingsStore();
 		const cssClasses = useCSSClassesStore();
 		const { editorData } = useEditorData();
 		const { setDirtyStatus } = useHistory();
 
-		if (!contentTemplatePart) {
-			console.error('Content template data not found.');
-			return;
-		}
-
 		const { responsiveDevices } = useResponsiveDevices();
 
 		const pageData = {
 			page_id: editorData.value.page_id,
-			template_data: contentTemplatePart.toJSON(),
+			template_data: contentStore.getAreaContentAsJSON(editorData.value.page_id),
 			page_settings: pageSettings.settings,
 			css_classes: cssClasses.CSSClasses,
 			breakpoints: responsiveDevices.value,
@@ -49,7 +42,7 @@ export function useSavePage() {
 			savePageREST(pageData)
 				.then(response => {
 					if (status !== 'autosave') {
-						add({
+						notificationsStore.add({
 							message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
 							delayClose: 5000,
 							type: 'success',
@@ -63,7 +56,7 @@ export function useSavePage() {
 					return Promise.resolve(response);
 				})
 				.catch(error => {
-					add({
+					notificationsStore.add({
 						message: error.message,
 						type: 'error',
 						delayClose: 5000,

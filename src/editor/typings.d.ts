@@ -9,11 +9,14 @@ type ZionElement = Omit<ZionElementConfig, 'content'> & {
 	content: string[];
 	parent: string | null;
 	addedTime?: number;
+	isHighlighted: boolean;
+	delete: function;
 };
 
 type BuilderArea = {
 	id: string;
 	name: string;
+	element: ZionElement;
 };
 
 type ZionPanel = {

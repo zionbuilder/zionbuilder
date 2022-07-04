@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import { pull, set } from 'lodash-es';
-import { get } from 'lodash-es';
+import { pull, set, get } from 'lodash-es';
 import { useElementDefinitionsStore } from './useElementDefinitionsStore';
 import { generateUID } from '/@/common/utils';
 import { useHistory } from '/@/editor/composables';
+import { ZionElement } from '../models/ZionElement';
 
 interface State {
 	areas: BuilderArea[];
@@ -19,16 +19,33 @@ export const useContentStore = defineStore('content', {
 	},
 	getters: {
 		getArea: state => (areaID: string) => state.areas.find(area => area.id === areaID),
+		getAreaContentAsJSON(state) {
+			return (areaID: string) => {
+				const area = state.areas.find(area => area.id === areaID);
+				console.log({ area });
+				if (area) {
+					return area.element.content.map(childUID => {
+						const element = this.getElement(childUID);
+						return element.toJSON();
+					});
+				}
+
+				return [];
+			};
+		},
 		getElement:
 			state =>
 			(elementUID: string): ZionElement =>
-				state.elements.find(element => element.uid === elementUID) || {
-					uid: elementUID,
-					element_type: 'invalid',
-					options: {},
-					content: [],
-					parent: null,
-				},
+				state.elements.find(element => element.uid === elementUID) ||
+				new ZionElement(
+					{
+						uid: elementUID,
+						element_type: 'invalid',
+						options: {},
+						content: [],
+					},
+					'',
+				),
 		getElementName() {
 			return (element: ZionElement): string => {
 				const elementName = <string>get(element.options, '_advanced_options._element_name');
@@ -55,37 +72,13 @@ export const useContentStore = defineStore('content', {
 				options: {},
 			};
 
-			// Extract elements
-			this.registerElement(rootElement);
-
 			// Register the area
+			areaConfig.element = this.registerElement(rootElement);
+
 			this.areas.push(areaConfig);
 		},
-		registerElement(elementConfig: ZionElementConfig, parent: ZionElement['parent'] = null) {
-			const element = Object.assign(
-				{},
-				{
-					uid: generateUID(),
-					content: [],
-					options: {},
-				},
-				elementConfig,
-			);
-
-			const content: string[] = [];
-
-			// Register children
-			element.content.forEach(el => {
-				const childElement = this.registerElement(el, element.uid);
-				content.push(childElement.uid);
-			});
-
-			const newElement: ZionElement = {
-				...element,
-				content,
-				parent: parent,
-				addedTime: Date.now(),
-			};
+		registerElement(elementConfig: ZionElementConfig, parent = '') {
+			const newElement: ZionElement = new ZionElement(elementConfig, parent);
 			this.elements.push(newElement);
 
 			return newElement;
@@ -111,8 +104,21 @@ export const useContentStore = defineStore('content', {
 				parentElement.content;
 				pull(parentElement.content, element.uid);
 
+				// Delete all children
+				if (element.content) {
+					element.content.forEach(child => this.deleteElement(child));
+				}
+
 				pull(this.elements, element);
 			}
+		},
+		getElementValue(elementUID: string, path: string, defaultValue = null) {
+			const element = this.getElement(elementUID);
+			if (element) {
+				return get(element, path, defaultValue);
+			}
+
+			return defaultValue;
 		},
 		updateElement(elementUID: string, path: string, newValue: unknown) {
 			const element = this.getElement(elementUID);
@@ -159,6 +165,9 @@ export const useContentStore = defineStore('content', {
 				// Update the index
 				index = index !== -1 ? index + 1 : index;
 			});
+		},
+		setElementVisibility(elementUID: string, newValue: boolean) {
+			this.updateElement(elementUID, 'options._isVisible', newValue);
 		},
 	},
 });

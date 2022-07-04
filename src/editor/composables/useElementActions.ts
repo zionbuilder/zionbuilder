@@ -6,6 +6,7 @@ import { useElementsStore } from '../store/useElementsStore';
 import { useLocalStorage } from './useLocalStorage';
 import { translate } from '/@/common/modules/i18n';
 import { regenerateUIDs } from '../utils';
+import { useContentStore } from '../store';
 
 const copiedElement: Ref<object> = ref({
 	element: null,
@@ -23,6 +24,7 @@ const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null);
 const { addToHistory } = useHistory();
 
 export function useElementActions() {
+	const contentStore = useContentStore();
 	const { addData, getData, removeData } = useLocalStorage();
 
 	const copyElement = (element: Element, action = 'copy') => {

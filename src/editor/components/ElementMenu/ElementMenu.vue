@@ -39,6 +39,9 @@ const { copyElement, pasteElement, copiedElement, pasteElementStyles, pasteEleme
 // Computed
 const elementActions = computed(() => {
 	const element = UIStore.activeElementMenu.element;
+	const contentStore = useContentStore();
+	const isElementVisible = contentStore.getElementValue(element.uid, 'options._isVisible', true);
+
 	return [
 		{
 			title: `${translate('action_edit')} ${contentStore.getElementName(element)}`,
@@ -52,7 +55,7 @@ const elementActions = computed(() => {
 			title: `${translate('duplicate_element')}`,
 			icon: 'copy',
 			action: () => {
-				contentStore.duplicateElement(UIStore.activeElementMenu.element);
+				contentStore.duplicateElement(element);
 			},
 			append: `${controlKey}+D`,
 		},
@@ -106,10 +109,10 @@ const elementActions = computed(() => {
 			},
 		},
 		{
-			title: element.isVisible ? translate('visible_element') : translate('show_element'),
+			title: isElementVisible ? translate('visible_element') : translate('show_element'),
 			icon: 'eye',
 			action: () => {
-				element.toggleVisibility();
+				contentStore.setElementVisibility(element.uid, !isElementVisible);
 			},
 			append: `${controlKey}+H`,
 			cssClasses: 'znpb-menu-item--separator-bottom',
@@ -134,7 +137,7 @@ const elementActions = computed(() => {
 		{
 			title: translate('delete_element'),
 			icon: 'delete',
-			action: () => contentStore.deleteElement(element.uid),
+			action: () => element.delete(),
 			append: `⌦`,
 		},
 	];
