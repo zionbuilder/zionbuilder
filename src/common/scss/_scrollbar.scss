@@ -10,7 +10,7 @@
 
 	.znpb-fancy-scrollbar &::-webkit-scrollbar-thumb {
 		display: block;
-		background: transparent;
+		background: var(--zb-surface-lighter-color);
 	}
 }
 
@@ -25,9 +25,4 @@
 	background: transparent;
 }
 
-/* Handle on hover */
-.znpb-fancy-scrollbar:hover {
-	&::-webkit-scrollbar-thumb {
-		background: var(--zb-surface-lighter-color);
-	}
-}
+
