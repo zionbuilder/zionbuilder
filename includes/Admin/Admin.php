@@ -108,7 +108,7 @@ class Admin {
 		if ( in_array( $pagenow, $edit_pages, true ) ) {
 			$post          = get_post();
 			$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
-			if ( $post_instance->is_built_with_zion() ) {
+			if ( $post_instance && $post_instance->is_built_with_zion() ) {
 				$classes .= ' znpb-admin-post-editor--active';
 			}
 		}
