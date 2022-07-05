@@ -7,7 +7,8 @@ type ZionElementConfig = {
 
 type ZionElement = Omit<ZionElementConfig, 'content'> & {
 	content: string[];
-	parent: string | null;
+	parent: ZionElement | null;
+	parentUID: string | null;
 	addedTime?: number;
 	isHighlighted: boolean;
 	delete: function;

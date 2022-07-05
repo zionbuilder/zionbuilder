@@ -91,9 +91,9 @@ export const useContentStore = defineStore('content', {
 
 			if (element) {
 				// Delete from parent
-				const parentElement = this.getElement(element.parent);
-				parentElement.content;
-				pull(parentElement.content, element.uid);
+				if (element.parent) {
+					pull(element.parent.content, element.uid);
+				}
 
 				// Delete all children
 				if (element.content) {
@@ -122,8 +122,7 @@ export const useContentStore = defineStore('content', {
 				return;
 			}
 
-			const parent = this.getElement(element.parent);
-			const indexInParent = parent.content.indexOf(element.uid);
+			const indexInParent = element.parent.content.indexOf(element.uid);
 			const elementClone = <ZionElement>JSON.parse(JSON.stringify(element));
 
 			// Replace the element unique id
@@ -136,7 +135,7 @@ export const useContentStore = defineStore('content', {
 				});
 			}
 
-			parent.content.splice(indexInParent + 1, 0, elementClone.uid);
+			element.parent.content.splice(indexInParent + 1, 0, elementClone.uid);
 			this.elements.push(elementClone);
 
 			const { addToHistory } = useHistory();

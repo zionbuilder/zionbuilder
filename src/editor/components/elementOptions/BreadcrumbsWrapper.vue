@@ -38,14 +38,13 @@ const breadcrumbsItem = computed(() => {
 	let element = props.element;
 
 	while (element.parent) {
-		const parentElement = contentStore.getElement(element.parent);
 		parentStructure = {
-			element: parentElement,
+			element: element.parent,
 			children: [parentStructure],
-			active: props.element === parentElement,
+			active: props.element === element.parent,
 		};
 
-		element = parentElement;
+		element = element.parent;
 	}
 
 	return parentStructure;

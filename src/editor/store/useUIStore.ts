@@ -335,11 +335,13 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if we need to insert the new element inside the provided one or the parent
 			let index = -1;
-			if (placement === 'next') {
-				const contentStore = useContentStore();
+
+			if (placement === 'next' && element.parent) {
 				const elementUID = element.uid;
-				element = contentStore.getElement(element.parent);
-				index = element.content.indexOf(elementUID) + 1;
+				index = element.parent.content.indexOf(elementUID) + 1;
+
+				// Change the active element to the parent one
+				element = element.parent;
 			}
 
 			this.activeAddElementPopup = {
