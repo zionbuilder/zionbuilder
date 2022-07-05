@@ -35,15 +35,16 @@
 import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
-import { useTemplateParts, useSaveTemplate } from '../composables';
+import { useSaveTemplate } from '../composables';
 import { useLibrary } from '/@/common/composables';
 import { exportTemplate } from '/@/common/api';
+import { useContentStore } from '/@/editor/store';
 
 export default {
 	name: 'SaveElementModal',
 	setup() {
 		const { activeSaveElement, hideSaveElement } = useSaveTemplate();
-		const { getActivePostTemplatePart } = useTemplateParts();
+		const contentStore = useContentStore();
 
 		const formModel = ref({});
 		const computedFormModel = computed({
@@ -56,11 +57,11 @@ export default {
 		});
 
 		return {
-			getActivePostTemplatePart,
 			activeSaveElement,
 			hideSaveElement,
 			formModel,
 			computedFormModel,
+			contentStore,
 		};
 	},
 
@@ -91,7 +92,10 @@ export default {
 		saveElement() {
 			const { getSource } = useLibrary();
 			const { element, type } = this.activeSaveElement;
-			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : [element.toJSON()];
+			const compiledElementData =
+				type === 'template'
+					? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id)
+					: [element.toJSON()];
 			const templateType = type === 'template' ? 'template' : 'block';
 
 			const localLibrary = getSource('local_library');
@@ -141,7 +145,8 @@ export default {
 
 		downloadElement() {
 			const { element, type } = this.activeSaveElement;
-			const compiledElementData = type === 'template' ? this.getActivePostTemplatePart().toJSON() : element.toJSON();
+			const compiledElementData =
+				type === 'template' ? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id) : element.toJSON();
 			const templateType = type === 'template' ? 'template' : 'block';
 
 			this.loading = true;

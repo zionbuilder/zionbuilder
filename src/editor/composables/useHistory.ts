@@ -1,6 +1,5 @@
 import { ref, Ref, computed } from 'vue';
 import { each } from 'lodash-es';
-import { useTemplateParts } from './useTemplateParts';
 import { usePageSettingsStore, useCSSClassesStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '/@/common/modules/i18n';
@@ -71,6 +70,7 @@ export function useHistory() {
 	}
 
 	function restoreHistoryState(index: number) {
+		return;
 		const data = historyItems.value[index];
 
 		if (!data) {
@@ -108,6 +108,7 @@ export function useHistory() {
 	}
 
 	function getDataForSave() {
+		return;
 		const { getActivePostTemplatePart } = useTemplateParts();
 		const contentTemplatePart = getActivePostTemplatePart();
 		const pageSettings = usePageSettingsStore();

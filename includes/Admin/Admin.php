@@ -220,6 +220,14 @@ class Admin {
 			wp_print_styles( 'media-views' );
 
 			Plugin::instance()->scripts->enqueue_script(
+				'zb-vue',
+				'vue',
+				[],
+				Plugin::instance()->get_version(),
+				true
+			);
+
+			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'admin-page',
 				[ 'wp-codemirror' ],

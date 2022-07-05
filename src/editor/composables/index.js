@@ -1,5 +1,4 @@
 export * from './useUserData';
-export * from './useTemplateParts';
 export * from './useSavePage';
 export * from './useKeyBindings';
 export * from './useEditorData';

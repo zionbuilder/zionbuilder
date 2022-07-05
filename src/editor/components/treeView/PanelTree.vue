@@ -9,6 +9,26 @@
 		:show-expand="false"
 		:panel="panel"
 	>
+		<Tabs tab-style="panel">
+			<Tab
+				v-for="treeType in treeViewTypes"
+				:id="treeType.id"
+				:key="treeType.id"
+				class="znpb-tree-view__header-menu-item"
+				:class="{ 'znpb-tree-view__header-menu-item--active': activeTreeViewPanel.id === treeType.id }"
+				@click="activateTree(treeType)"
+			>
+				<template #title>
+					<Icon class="znpb-tree-view__header-menu-item-icon" :icon="treeType.icon" :size="16" />
+					{{ treeType.name }}
+				</template>
+
+				<div class="znpb-tree-view__type_wrapper">
+					<component :is="treeType.component" :element="element" />
+				</div>
+			</Tab>
+		</Tabs>
+		<!--
 		<div class="znpb-tree-view__header">
 			<div class="znpb-tree-view__header-menu">
 				<div
@@ -34,7 +54,7 @@
 
 		<div v-else class="znpb-tree-view__type_wrapper">
 			<component :is="activeTreeViewPanel.component" :element="element" />
-		</div>
+		</div> -->
 	</BasePanel>
 </template>
 
@@ -69,13 +89,13 @@ type TreeViewPanel = {
 // Tree view types
 const treeViewTypes: TreeViewPanel[] = [
 	{
-		name: translate('tree_view'),
+		name: translate('tree'),
 		id: 'TreeView',
 		component: TreeView,
 		icon: 'treeview',
 	},
 	{
-		name: translate('section_view'),
+		name: translate('sections'),
 		id: 'SectionView',
 		component: SectionView,
 		icon: 'structure',
@@ -182,7 +202,7 @@ const closeWireframe = () => {
 			}
 
 			&-icon {
-				margin-bottom: 8px;
+				margin: 0 8px 0 0;
 				color: var(--zb-surface-icon-color);
 				font-size: 20px;
 				font-weight: bold;

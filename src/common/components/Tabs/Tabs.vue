@@ -196,5 +196,28 @@ function selectTab(tab: VNode) {
 			}
 		}
 	}
+
+	// Panel Style
+	&--panel {
+		padding-top: 20px;
+		background-color: var(--zb-surface-darker-color);
+
+		.znpb-tabs__header {
+			& > .znpb-tabs__header-item {
+				padding: 12.5px 20px;
+
+				&--active,
+				&:hover {
+					color: var(--zb-surface-text-active-color);
+					background: var(--zb-surface-color);
+					border-radius: 3px 3px 0 0;
+				}
+			}
+		}
+
+		.znpb-tabs__content {
+			padding-top: 20px;
+		}
+	}
 }
 </style>

@@ -34,15 +34,15 @@ import * as COMPOSABLES from './composables';
 import * as COMMON_COMPOSABLES from '../common/composables';
 import * as UTILS from './utils';
 
+// Components
+import App from './EditorApp.vue';
+
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas();
 registerSchema('pageSettingsSchema', window.ZnPbInitialData.page_settings.schema);
 
 // Register options
 registerEditorOptions();
-
-// Components
-import App from './EditorApp.vue';
 
 // init data
 const appInstance = Vue.createApp(App);
@@ -104,3 +104,6 @@ window.zb.editor = Object.assign(
 
 window.zb.vue = Vue;
 window.zb.utils = COMMONUTILS;
+window.zb.run = function (commandName, commandArgs) {
+	commandsManager.runCommand(commandName, commandArgs);
+};

@@ -42,6 +42,7 @@ import { onMounted } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useContentStore } from '/@/editor/store';
+import { useElementUtils } from '/@/editor/composables';
 
 const props = defineProps<{
 	element: ZionElement;
