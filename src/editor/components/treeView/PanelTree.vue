@@ -97,7 +97,6 @@ const panelDetachedState = ref(null);
 watch(activeTreeViewId, newValue => {
 	if (newValue === 'WireframeView') {
 		if (basePanel.value) {
-			console.log(basePanel.value);
 			panelDetachedState.value = basePanel.value.panel.isDetached;
 			UIStore.updatePanel(props.panel.id, 'isDetached', false);
 		}
