@@ -95,7 +95,6 @@ const basePanel = ref(null);
 const panelDetachedState = ref(null);
 
 watch(activeTreeViewId, newValue => {
-	console.log(newValue);
 	if (newValue === 'WireframeView') {
 		if (basePanel.value) {
 			console.log(basePanel.value);
