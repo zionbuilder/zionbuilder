@@ -246,8 +246,7 @@ class Localization {
 				'search_elements'                          => __( 'Search elements', 'zionbuilder' ),
 				//tree panel subcomponent
 				'tree_view'                                => __( 'Tree view', 'zionbuilder' ),
-				'tree'                                => __( 'Tree', 'zionbuilder' ),
-				'sections'                             => __( 'Sections', 'zionbuilder' ),
+				'section_view'                             => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                           => __( 'Wireframe', 'zionbuilder' ),
 				'editable_name'                            => __( 'editable name', 'zionbuilder' ),
 				'collapse_all'                             => __( 'Collapse all', 'zionbuilder' ),

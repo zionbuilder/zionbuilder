@@ -35,17 +35,8 @@ export const useContentStore = defineStore('content', {
 		},
 		getElement:
 			state =>
-			(elementUID: string): ZionElement =>
-				state.elements.find(element => element.uid === elementUID) ||
-				new ZionElement(
-					{
-						uid: elementUID,
-						element_type: 'invalid',
-						options: {},
-						content: [],
-					},
-					'',
-				),
+			(elementUID: string): ZionElement | null =>
+				state.elements.find(element => element.uid === elementUID) || null,
 		getElementName() {
 			return (element: ZionElement): string => {
 				const elementName = <string>get(element.options, '_advanced_options._element_name');
@@ -60,7 +51,7 @@ export const useContentStore = defineStore('content', {
 			};
 		},
 		getElementIndexInParent() {
-			return (element: ZionElement) => this.getElement(element.parent).content.indexOf(element.uid);
+			return (element: ZionElement) => element.parent?.content.indexOf(element.uid);
 		},
 	},
 	actions: {

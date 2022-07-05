@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 
 export class HistoryManager {
 	private state: Action[] = ref([]);

@@ -64,8 +64,6 @@ export default {
 	setup(props) {
 		const root = ref(null);
 		const UIStore = useUIStore();
-		const elementsDefinitionsStore = useElementDefinitionsStore();
-		const elementDefinition = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
 		const { elementComponent, fetchElementComponent } = useElementComponent(props.element);
 		const { getSchema } = useOptionsSchemas();
 		const { activePseudoSelector } = usePseudoSelectors();
@@ -144,7 +142,7 @@ export default {
 		const customCSS = computed(() => {
 			let customCSS = '';
 
-			const elementStyleConfig = elementDefinition.style_elements;
+			const elementStyleConfig = props.element.elementDefinition.style_elements;
 
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
@@ -187,7 +185,7 @@ export default {
 			return (
 				(UIStore.editedElement === props.element || props.element.isHighlighted) &&
 				props.element.isVisible &&
-				!elementDefinition.is_child &&
+				!props.element.elementDefinition.is_child &&
 				!UIStore.isPreviewMode
 			);
 		});
@@ -217,7 +215,7 @@ export default {
 			}
 
 			// Check for custom css classes
-			const elementStyleConfig = elementDefinition.style_elements;
+			const elementStyleConfig = props.element.elementDefinition.style_elements;
 			if (elementStyleConfig) {
 				Object.keys(elementStyleConfig).forEach(styleId => {
 					if (options.value._styles && options.value._styles[styleId] && options.value._styles[styleId].classes) {

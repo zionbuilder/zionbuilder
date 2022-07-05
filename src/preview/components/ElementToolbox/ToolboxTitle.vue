@@ -12,7 +12,7 @@
 				v-for="parent in parents"
 				:key="parent.uid"
 				class="zbpb-element-toolbox__titleContainer"
-				:class="{ 'zbpb-element-toolbox__titleContainer--active': parent === UIStore.editElement }"
+				:class="{ 'zbpb-element-toolbox__titleContainer--active': parent === UIStore.editedElement }"
 				@click.stop="editElement(parent)"
 				@contextmenu="showElementMenu($event, parent)"
 			>

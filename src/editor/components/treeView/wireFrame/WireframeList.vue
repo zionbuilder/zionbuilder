@@ -44,6 +44,7 @@ import { useUIStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
+import WireframeListItem from './WireframeListItem.vue';
 
 const props = defineProps<{
 	element: ZionElement;

@@ -1,6 +1,7 @@
-import { useContentStore } from '../store';
+import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
 import { each, update, get, isPlainObject, debounce } from 'lodash-es';
+import { type ElementType } from '../models/ElementType';
 
 export class ZionElement {
 	// Element data for DB
@@ -11,7 +12,8 @@ export class ZionElement {
 	public options: { [key: string]: unknown } = {};
 	// Helpers
 	public renderAttributes: RenderAttributes;
-	public parent = '';
+	public parentUID = '';
+	public elementDefinition: ElementType;
 	public isHighlighted = false;
 	public activeElementRename = false;
 	public scrollTo = false;
@@ -23,6 +25,9 @@ export class ZionElement {
 
 	constructor(elementData: ZionElementConfig, parent: string) {
 		const contentStore = useContentStore();
+		const elementDefinitionStore = useElementDefinitionsStore();
+
+		this.elementDefinition = elementDefinitionStore.getElementDefinition(elementData.element_type);
 
 		const parsedElement = Object.assign(
 			{},
@@ -46,7 +51,7 @@ export class ZionElement {
 		this.element_type = parsedElement.element_type;
 
 		// UI logic
-		this.parent = parent;
+		this.parentUID = parent;
 		this.addedTime = Date.now();
 
 		// Set children
@@ -60,6 +65,48 @@ export class ZionElement {
 		}
 
 		this.content = content;
+	}
+
+	get parent() {
+		const contentStore = useContentStore();
+		return contentStore.getElement(this.parentUID);
+	}
+
+	get name() {
+		return get(this.options, '_advanced_options._element_name', this.elementDefinition.name);
+	}
+
+	set name(newName) {
+		this.updateOptionValue('_advanced_options._element_name', newName);
+	}
+
+	getOptionValue(path: string, defaultValue = null) {
+		return get(this.options, path, defaultValue);
+	}
+
+	updateOptionValue(path: string, newValue: unknown) {
+		update(this.options, path, () => newValue);
+	}
+
+	highlight() {
+		if (!this.isHighlighted) {
+			this.isHighlighted = true;
+		}
+	}
+
+	unHighlight() {
+		if (this.isHighlighted) {
+			this.isHighlighted = false;
+		}
+	}
+
+	// Element visibility
+	get isVisible(): boolean {
+		return <boolean>get(this.options, '_isVisible', true);
+	}
+
+	set isVisible(visibility: boolean) {
+		update(this.options, '_isVisible', () => visibility);
 	}
 
 	delete() {

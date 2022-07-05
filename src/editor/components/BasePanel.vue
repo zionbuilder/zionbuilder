@@ -443,6 +443,10 @@ onBeforeUnmount(() => {
 	document.body.style.cursor = null;
 	document.body.style.userSelect = null;
 });
+
+defineExpose({
+	panel: props.panel,
+});
 </script>
 <style lang="scss">
 /* style panel */

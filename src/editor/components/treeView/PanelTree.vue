@@ -9,57 +9,33 @@
 		:show-expand="false"
 		:panel="panel"
 	>
-		<Tabs tab-style="panel">
-			<Tab
-				v-for="treeType in treeViewTypes"
-				:id="treeType.id"
-				:key="treeType.id"
-				class="znpb-tree-view__header-menu-item"
-				:class="{ 'znpb-tree-view__header-menu-item--active': activeTreeViewPanel.id === treeType.id }"
-				@click="activateTree(treeType)"
-			>
+		<Loader v-if="UIStore.isPreviewLoading" />
+
+		<Tabs v-else v-model:activeTab="activeTreeViewId" tab-style="panel" class="znpb-tree-view__tabs">
+			<Tab v-for="treeType in treeViewTypes" :id="treeType.id" :key="treeType.id">
 				<template #title>
-					<Icon class="znpb-tree-view__header-menu-item-icon" :icon="treeType.icon" :size="16" />
-					{{ treeType.name }}
+					<div v-znpb-tooltip="treeType.name" class="znpb-tree-view__header-icon">
+						<Icon class="znpb-tree-view__header-menu-item-icon" :icon="treeType.icon" :size="16" />
+					</div>
 				</template>
 
-				<div class="znpb-tree-view__type_wrapper">
+				<div v-if="activeTreeViewId === treeType.id" class="znpb-tree-view__type_wrapper">
 					<component :is="treeType.component" :element="element" />
 				</div>
 			</Tab>
 		</Tabs>
-		<!--
-		<div class="znpb-tree-view__header">
-			<div class="znpb-tree-view__header-menu">
-				<div
-					v-for="(treeType, index) in treeViewTypes"
-					:key="index"
-					class="znpb-tree-view__header-menu-item"
-					:class="{ 'znpb-tree-view__header-menu-item--active': activeTreeViewPanel.id === treeType.id }"
-					@click="activateTree(treeType)"
-				>
-					<Icon class="znpb-tree-view__header-menu-item-icon" :icon="treeType.icon" :size="16" />
-					<h4>{{ treeType.name }}</h4>
-				</div>
-			</div>
-			<Icon
-				v-if="activeTreeViewPanel.id === 'WireframeView'"
-				class="znpb-tree-view__header-menu-close-icon"
-				icon="close"
-				@click="closeWireframe"
-			/>
-		</div>
 
-		<Loader v-if="UIStore.isPreviewLoading" />
-
-		<div v-else class="znpb-tree-view__type_wrapper">
-			<component :is="activeTreeViewPanel.component" :element="element" />
-		</div> -->
+		<Icon
+			v-if="activeTreeViewId === 'WireframeView'"
+			class="znpb-tree-view__header-menu-close-icon"
+			icon="close"
+			@click="closeWireframe"
+		/>
 	</BasePanel>
 </template>
 
 <script lang="ts" setup>
-import { type Component, ref, computed } from 'vue';
+import { type Component, ref, computed, watch } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useUIStore, useContentStore } from '/@/editor/store';
 import SectionView from './sectionView/SectionViewPanel.vue';
@@ -89,13 +65,13 @@ type TreeViewPanel = {
 // Tree view types
 const treeViewTypes: TreeViewPanel[] = [
 	{
-		name: translate('tree'),
+		name: translate('tree_view'),
 		id: 'TreeView',
 		component: TreeView,
 		icon: 'treeview',
 	},
 	{
-		name: translate('sections'),
+		name: translate('section_view'),
 		id: 'SectionView',
 		component: SectionView,
 		icon: 'structure',
@@ -118,10 +94,11 @@ const activeTreeViewPanel = computed(
 const basePanel = ref(null);
 const panelDetachedState = ref(null);
 
-const activateTree = (treeType: TreeViewPanel) => {
-	activeTreeViewId.value = treeType.id;
-	if (treeType.id === 'WireframeView') {
+watch(activeTreeViewId, newValue => {
+	console.log(newValue);
+	if (newValue === 'WireframeView') {
 		if (basePanel.value) {
+			console.log(basePanel.value);
 			panelDetachedState.value = basePanel.value.panel.isDetached;
 			UIStore.updatePanel(props.panel.id, 'isDetached', false);
 		}
@@ -131,7 +108,7 @@ const activateTree = (treeType: TreeViewPanel) => {
 			panelDetachedState.value = null;
 		}
 	}
-};
+});
 
 const closeWireframe = () => {
 	UIStore.closePanel(props.panel.id);
@@ -142,6 +119,17 @@ const closeWireframe = () => {
 .znpb-editor-panel__container--wireframe {
 	width: 100% !important;
 }
+
+.znpb-tree-view__tabs .znpb-tabs__header > .znpb-tabs__header-item {
+	padding: 0;
+
+	.znpb-tree-view__header-icon {
+		padding: 12.5px 20px;
+		width: 100%;
+		text-align: center;
+	}
+}
+
 .znpb-tree-view__header {
 	display: flex;
 	justify-content: center;

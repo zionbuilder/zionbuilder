@@ -67,13 +67,12 @@ function getIdForTab(tab: VNode) {
 const slots = useSlots();
 
 if (slots.default) {
-	const childs = slots.default();
 	tabs.value = getTabs(slots.default()).filter(child => child.type.name === 'Tab');
 	activeTab.value = activeTab.value ?? getIdForTab(tabs.value[0]);
 }
 
 function getTabs(vNodes: VNode[]) {
-	let tabs = [];
+	let tabs: VNode[] = [];
 	vNodes.forEach(tab => {
 		if (tab.type === Fragment) {
 			tabs = [...tabs, ...getTabs(tab.children)];
@@ -205,6 +204,7 @@ function selectTab(tab: VNode) {
 		.znpb-tabs__header {
 			& > .znpb-tabs__header-item {
 				padding: 12.5px 20px;
+				flex-grow: 1;
 
 				&--active,
 				&:hover {

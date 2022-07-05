@@ -4,11 +4,11 @@
 		ref="listItem"
 		class="znpb-tree-view__item"
 		:class="{
-			'znpb-tree-view__item--hidden': !isVisible,
+			'znpb-tree-view__item--hidden': !element.isVisible,
 			'znpb-tree-view__item--justAdded': justAdded,
 		}"
-		@mouseenter="highlight"
-		@mouseleave="unHighlight"
+		@mouseenter="element.highlight"
+		@mouseleave="element.unHighlight"
 		@click.stop.left="UIStore.editElement(element)"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
@@ -28,11 +28,11 @@
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
 			<Icon
-				v-if="!isVisible"
+				v-if="!element.isVisible"
 				v-znpb-tooltip="translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
-				@click.stop="contentStore.setElementVisibility(element.uid, !isVisible)"
+				@click.stop="contentStore.setElementVisibility(element.uid, !element.isVisible)"
 			/>
 
 			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">
@@ -73,7 +73,7 @@ const elementName = computed({
 	},
 });
 
-const { isVisible, highlight, unHighlight, isWrapper } = useElementUtils(props.element);
+const { isWrapper } = useElementUtils(props.element);
 const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
 
 let justAdded = false;
