@@ -72,7 +72,7 @@ export class ZionElement {
 		return contentStore.getElement(this.parentUID);
 	}
 
-	get name() {
+	get name(): string {
 		return get(this.options, '_advanced_options._element_name', this.elementDefinition.name);
 	}
 
@@ -109,9 +109,19 @@ export class ZionElement {
 		update(this.options, '_isVisible', () => visibility);
 	}
 
+	get indexInParent() {
+		if (this.parent) {
+			return this.parent.content.indexOf(this.uid);
+		}
+
+		return 0;
+	}
+
 	delete() {
-		const contentStore = useContentStore();
-		contentStore.deleteElement(this.uid);
+		console.log('delete element');
+		window.zb.run('editor/elements/delete', {
+			elementUID: this.uid,
+		});
 	}
 
 	toJSON(): ZionElementConfig {
@@ -123,11 +133,13 @@ export class ZionElement {
 			return element.toJSON();
 		});
 
-		return {
-			uid: this.uid,
-			content: content,
-			element_type: this.element_type,
-			options: this.options,
-		};
+		return JSON.parse(
+			JSON.stringify({
+				uid: this.uid,
+				content: content,
+				element_type: this.element_type,
+				options: this.options,
+			}),
+		);
 	}
 }

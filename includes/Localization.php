@@ -771,6 +771,11 @@ class Localization {
 				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 				'wrap_with_container'                      => __( 'Wrap with container', 'zionbuilder' ),
 				'root'                                     => __( 'Root', 'zionbuilder' ),
+				'modified'                                 => __( 'Modified', 'zionbuilder' ),
+
+				// Element history panel
+				'added'                                    => esc_html__( 'added', 'zionbuilder' ),
+				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
 			]
 		);
 	}

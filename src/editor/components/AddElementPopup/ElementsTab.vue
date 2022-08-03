@@ -180,11 +180,11 @@ export default {
 			};
 
 			// Insert element
-			contentStore.addElement(config, UIStore.activeAddElementPopup.element, UIStore.activeAddElementPopup.index);
-
-			const { addToHistory } = useHistory();
-			const elementType = elementsDefinitionsStore.getElementDefinition(config);
-			addToHistory(`Added ${elementType.name}`);
+			window.zb.run('editor/elements/add', {
+				element: config,
+				parentUID: UIStore.activeAddElementPopup.element.uid,
+				index: UIStore.activeAddElementPopup.index,
+			});
 
 			UIStore.hideAddElementsPopup();
 		};

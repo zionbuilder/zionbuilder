@@ -37,6 +37,17 @@ import * as UTILS from './utils';
 // Components
 import App from './EditorApp.vue';
 
+// Register commands
+import { CommandManager } from './modules/Commands';
+import { HistoryManager } from './modules/History';
+
+// Init commands manager
+const commandsManager = new CommandManager();
+// Provide the commands manager globally
+window.zb.commandsManager = commandsManager;
+
+const history = new HistoryManager();
+
 // Register editor options schemas
 const { registerSchema } = useOptionsSchemas();
 registerSchema('pageSettingsSchema', window.ZnPbInitialData.page_settings.schema);
@@ -104,6 +115,8 @@ window.zb.editor = Object.assign(
 
 window.zb.vue = Vue;
 window.zb.utils = COMMONUTILS;
-window.zb.run = function (commandName, commandArgs) {
-	commandsManager.runCommand(commandName, commandArgs);
+window.zb.commandsManager = commandsManager;
+window.zb.run = function (commandName: string, commandArgs: Record<string, unknown>) {
+	return commandsManager.runCommand(commandName, commandArgs);
 };
+window.zb.history = history;

@@ -1,2 +1,2 @@
 export * from './Manager';
-export * from './Action';
+export * from '../Commands';

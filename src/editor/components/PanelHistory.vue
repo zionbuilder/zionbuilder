@@ -1,28 +1,40 @@
 <template>
-	<BasePanel :panel-name="$translate('history_panel')" panel-id="panel-history" :show-expand="false" :panel="panel">
+	<BasePanel :panel-name="translate('history_panel')" panel-id="panel-history" :show-expand="false" :panel="panel">
 		<div class="znpb-panel__history_panel_wrapper">
 			<div ref="historyPanelWrapper" class="znpb-history-wrapper znpb-fancy-scrollbar">
+				{{ historyStore.state }}
 				<ul class="znpb-history-actions">
 					<li
-						v-for="(item, index) in historyItems"
+						v-for="(item, index) in historyStore.state"
 						:key="index"
-						ref="index"
-						:title="item.name"
-						:class="{ 'znpb-history-action--active': currentHistoryIndex === index }"
-						@click="restoreHistoryState(index)"
+						:title="item.title"
+						:class="{ 'znpb-history-action--active': historyStore.activeHistoryIndex === index }"
+						@click="historyStore.restoreHistoryToIndex(index)"
 					>
-						<span class="znpb-action-time">{{ item.time }}</span>
-						<span class="znpb-action-name">{{ item.name }}</span>
-						<span v-if="currentHistoryIndex === index" class="znpb-action-active">{{ $translate('history_now') }}</span>
+						<!-- <span class="znpb-action-time">{{ item.time }}</span> -->
+						<span class="znpb-action-name">{{ item.title }}</span>
+						<span class="znpb-action-name">{{ item.subtitle }}</span>
+						<span class="znpb-action-name">{{ item.action }}</span>
+						<span v-if="historyStore.activeHistoryIndex === index" class="znpb-action-active">{{
+							translate('history_now')
+						}}</span>
 						<Icon v-else icon="history"></Icon>
 					</li>
 				</ul>
 			</div>
 			<div class="znpb-history__action-wrapper">
-				<div class="znpb-history__action" :class="{ 'znpb-history__action--inactive': !canUndo }" @click="doUndo">
+				<div
+					class="znpb-history__action"
+					:class="{ 'znpb-history__action--inactive': !historyStore.canUndo }"
+					@click="doUndo"
+				>
 					<Icon icon="undo"></Icon>
 				</div>
-				<div class="znpb-history__action" :class="{ 'znpb-history__action--inactive': !canRedo }" @click="doRedo">
+				<div
+					class="znpb-history__action"
+					:class="{ 'znpb-history__action--inactive': !historyStore.canRedo }"
+					@click="doRedo"
+				>
 					<Icon icon="redo"></Icon>
 				</div>
 			</div>
@@ -30,63 +42,41 @@
 	</BasePanel>
 </template>
 
-<script>
-import { useHistory } from '../composables';
-import { useUIStore } from '../store';
+<script lang="ts" setup>
+import { onMounted, watch, ref, nextTick, computed } from 'vue';
+import { useHistoryStore } from '/@/editor/store';
+import { translate } from '/@/common/modules/i18n';
 
 // Components
 import BasePanel from './BasePanel.vue';
 
-export default {
-	name: 'PanelHistory',
-	components: {
-		BasePanel,
-	},
-	props: {
-		panel: {},
-	},
-	setup(props) {
-		const { canUndo, canRedo, currentHistoryIndex, historyItems, restoreHistoryState, undo, redo } = useHistory();
-		const UIStore = useUIStore();
+defineProps<{
+	panel: ZionPanel;
+}>();
 
-		return {
-			UIStore,
-			canUndo,
-			canRedo,
-			currentHistoryIndex,
-			historyItems,
-			restoreHistoryState,
-			undo,
-			redo,
-		};
-	},
-	data: () => {
-		return {};
-	},
-	watch: {
-		historyItems() {
-			this.$nextTick(() => {
-				this.$refs.historyPanelWrapper.scrollTop = this.$refs.historyPanelWrapper.scrollHeight;
-			});
-		},
-	},
-	mounted() {
-		// Scroll to last item
-		this.$refs.historyPanelWrapper.scrollTop = this.$refs.historyPanelWrapper.scrollHeight;
-	},
-	methods: {
-		doUndo() {
-			if (this.canUndo) {
-				this.undo();
-			}
-		},
-		doRedo() {
-			if (this.canRedo) {
-				this.redo();
-			}
-		},
-	},
-};
+const historyPanelWrapper = ref(null);
+const historyStore = useHistoryStore();
+
+watch(historyStore.state, newValue => {
+	nextTick(() => {
+		historyPanelWrapper.value.scrollTop = historyPanelWrapper.value.scrollHeight;
+	});
+});
+
+onMounted(() => {
+	historyPanelWrapper.value.scrollTop = historyPanelWrapper.value.scrollHeight;
+});
+
+function doUndo() {
+	if (historyStore.canUndo) {
+		historyStore.undo();
+	}
+}
+function doRedo() {
+	if (historyStore.canRedo) {
+		historyStore.redo();
+	}
+}
 </script>
 <style lang="scss">
 /* vars */
@@ -107,6 +97,8 @@ export default {
 
 .znpb-history-actions {
 	position: relative;
+	display: flex;
+	flex-direction: column-reverse;
 
 	li {
 		display: flex;

@@ -143,10 +143,18 @@ export const useContentStore = defineStore('content', {
 
 			return elementClone;
 		},
-		addElement(elementConfig: ZionElementConfig, parent: ZionElement, index: number) {
-			const ZionElement = this.registerElement(elementConfig, parent.uid);
+		addElement(elementConfig: ZionElementConfig, parentUID: string, index: number) {
+			const parent = this.getElement(parentUID);
 
-			parent.content.splice(index, 0, ZionElement.uid);
+			if (!parent) {
+				return null;
+			}
+
+			const newElement = this.registerElement(elementConfig, parentUID);
+
+			parent.content.splice(index, 0, newElement.uid);
+
+			return newElement;
 		},
 		addElements(elements: ZionElementConfig[], parent: ZionElement, index = -1) {
 			elements.forEach(element => {

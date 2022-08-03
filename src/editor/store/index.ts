@@ -5,3 +5,4 @@ export * from './useCSSClassesStore';
 export * from './useContentStore';
 export * from './useElementDefinitionsStore';
 export * from './useUserStore';
+export * from './useHistoryStore';
