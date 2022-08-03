@@ -13,8 +13,8 @@ export class AddElement extends HistoryCommand {
 			const historyManager = this.getHistory();
 			// Add to history
 			historyManager.addHistoryItem({
-				undo: this.constructor.undo,
-				redo: this.constructor.redo,
+				undo: AddElement.undo,
+				redo: AddElement.redo,
 				data: {
 					elementModel: newElement.toJSON(),
 					parentUID,

@@ -1,7 +1,7 @@
-import { HistoryCommand } from '../HistoryCommand';
+import { DebouncedHistoryCommand } from '../DebouncedHistoryCommand';
 import { useContentStore } from '/@/editor/store';
 
-export class RenameElement extends HistoryCommand {
+export class RenameElement extends DebouncedHistoryCommand {
 	static commandID = 'editor/elements/rename';
 
 	doCommand() {
@@ -14,14 +14,13 @@ export class RenameElement extends HistoryCommand {
 			const oldName = element.name;
 			element.setName(newName);
 
-			const historyManager = this.getHistory();
-			historyManager.addHistoryItemDebounced({
-				undo: this.constructor.undo,
-				redo: this.constructor.redo,
+			this.addToHistory({
+				undo: RenameElement.undo,
+				redo: RenameElement.redo,
 				data: {
-					elementUID: element.uid,
-					oldName: oldName,
-					newName: newName,
+					elementUID,
+					oldName,
+					newName,
 				},
 				title: element.name,
 				action: this.getActionName('renamed'),
@@ -35,8 +34,9 @@ export class RenameElement extends HistoryCommand {
 	 * @param historyItem
 	 */
 	public static undo(historyItem) {
-		const { data = {} } = historyItem;
-		const { elementUID, oldName } = data;
+		const { data = {}, initialChange = {} } = historyItem;
+		const { elementUID } = data;
+		const { oldName } = initialChange;
 
 		const contentStore = useContentStore();
 		const element = contentStore.getElement(elementUID);

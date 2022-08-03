@@ -38,7 +38,7 @@ export const useHistoryStore = defineStore('history', {
 		addHistoryItemDebounced: debounce(function (item) {
 			this.state.push(item);
 			this.activeHistoryIndex++;
-		}, 500),
+		}, 800),
 		undo() {
 			if (this.activeHistoryIndex - 1 >= 0) {
 				const newHistoryIndex = this.activeHistoryIndex - 1;
@@ -69,7 +69,6 @@ export const useHistoryStore = defineStore('history', {
 			} else if (newHistoryIndex > this.activeHistoryIndex) {
 				const historyForRestore = this.state.slice(this.activeHistoryIndex + 1, newHistoryIndex + 1);
 				historyForRestore.forEach(historyItem => {
-					console.log(historyItem);
 					historyItem.redo(historyItem);
 				});
 			}

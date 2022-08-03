@@ -22,11 +22,6 @@ export class HistoryCommand extends BaseCommand {
 			// 		...this.getTitles(),
 			// 	});
 			// }
-
-			// historyStore.addHistoryItem({
-			// 	commandInstance: this,
-			// 	...this.getTitles(),
-			// });
 		}
 	}
 
@@ -42,6 +37,7 @@ export class HistoryCommand extends BaseCommand {
 		const actions: Record<string, string> = {
 			added: translate('added'),
 			deleted: translate('deleted'),
+			renamed: translate('renamed'),
 		};
 
 		return actions[action] || 'Invalid action';

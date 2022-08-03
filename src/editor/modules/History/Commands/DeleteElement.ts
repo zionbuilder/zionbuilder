@@ -14,8 +14,8 @@ export class DeleteElement extends HistoryCommand {
 
 			// Add to history
 			historyManager.addHistoryItem({
-				undo: this.constructor.undo,
-				redo: this.constructor.redo,
+				undo: DeleteElement.undo,
+				redo: DeleteElement.redo,
 				data: {
 					elementModel: deletedElement.toJSON(),
 					parentUID: deletedElement.parentUID,
