@@ -13,7 +13,6 @@ export class HistoryManager {
 	private state: Transaction[] = ref([]);
 
 	constructor() {
-		console.log('asdasdad');
 		// Register commands
 		Object.keys(commands).forEach(importId => {
 			const classObject = commands[importId];

@@ -67,9 +67,9 @@ const contentStore = useContentStore();
 const listItem: Ref<HTMLElement | null> = ref(null);
 const expanded = ref(false);
 const elementName = computed({
-	get: () => contentStore.getElementName(props.element),
+	get: () => props.element.name,
 	set(newValue: string) {
-		contentStore.updateElement(props.element.uid, 'options._advanced_options._element_name', newValue);
+		props.element.name = newValue;
 	},
 });
 

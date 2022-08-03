@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { debounce } from 'lodash-es';
 
 type HistoryItem = {
 	undo: Function;
@@ -34,6 +35,10 @@ export const useHistoryStore = defineStore('history', {
 			this.state.push(item);
 			this.activeHistoryIndex++;
 		},
+		addHistoryItemDebounced: debounce(function (item) {
+			this.state.push(item);
+			this.activeHistoryIndex++;
+		}, 500),
 		undo() {
 			if (this.activeHistoryIndex - 1 >= 0) {
 				const newHistoryIndex = this.activeHistoryIndex - 1;

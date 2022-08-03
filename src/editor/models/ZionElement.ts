@@ -73,10 +73,17 @@ export class ZionElement {
 	}
 
 	get name(): string {
-		return get(this.options, '_advanced_options._element_name', this.elementDefinition.name);
+		return <string>get(this.options, '_advanced_options._element_name', this.elementDefinition.name);
 	}
 
 	set name(newName) {
+		window.zb.run('editor/elements/rename', {
+			elementUID: this.uid,
+			newName,
+		});
+	}
+
+	setName(newName: string) {
 		this.updateOptionValue('_advanced_options._element_name', newName);
 	}
 
@@ -118,7 +125,6 @@ export class ZionElement {
 	}
 
 	delete() {
-		console.log('delete element');
 		window.zb.run('editor/elements/delete', {
 			elementUID: this.uid,
 		});

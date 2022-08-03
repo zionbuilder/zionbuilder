@@ -776,6 +776,7 @@ class Localization {
 				// Element history panel
 				'added'                                    => esc_html__( 'added', 'zionbuilder' ),
 				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
+				'renamed'                                  => esc_html__( 'renamed', 'zionbuilder' ),
 			]
 		);
 	}

@@ -5,28 +5,27 @@ export class RenameElement extends HistoryCommand {
 	static commandID = 'editor/elements/rename';
 
 	doCommand() {
-		const { elementUID } = this.data;
+		const { elementUID, newName } = this.data;
 		const contentStore = useContentStore();
-		const deletedElement = contentStore.getElement(elementUID);
-		console.log(elementUID);
-		console.log(deletedElement);
-		if (deletedElement) {
-			const historyManager = this.getHistory();
+		const element = contentStore.getElement(elementUID);
 
-			// Add to history
-			historyManager.addHistoryItem({
+		if (element) {
+			// keep a clone of the old name
+			const oldName = element.name;
+			element.setName(newName);
+
+			const historyManager = this.getHistory();
+			historyManager.addHistoryItemDebounced({
 				undo: this.constructor.undo,
 				redo: this.constructor.redo,
 				data: {
-					elementModel: deletedElement.toJSON(),
-					parentUID: deletedElement.parentUID,
-					index: deletedElement.indexInParent,
+					elementUID: element.uid,
+					oldName: oldName,
+					newName: newName,
 				},
-				title: deletedElement.name,
-				action: this.getActionName('deleted'),
+				title: element.name,
+				action: this.getActionName('renamed'),
 			});
-
-			contentStore.deleteElement(elementUID);
 		}
 	}
 
@@ -37,17 +36,25 @@ export class RenameElement extends HistoryCommand {
 	 */
 	public static undo(historyItem) {
 		const { data = {} } = historyItem;
-		const { elementModel, parentUID, index } = data;
+		const { elementUID, oldName } = data;
 
 		const contentStore = useContentStore();
-		contentStore.addElement(elementModel, parentUID, index);
+		const element = contentStore.getElement(elementUID);
+
+		if (element) {
+			element.setName(oldName);
+		}
 	}
 
 	public static redo(historyItem) {
-		const { data } = historyItem;
-		if (data.elementModel) {
-			const contentStore = useContentStore();
-			contentStore.deleteElement(data.elementModel.uid);
+		const { data = {} } = historyItem;
+		const { elementUID, newName } = data;
+
+		const contentStore = useContentStore();
+		const element = contentStore.getElement(elementUID);
+
+		if (element) {
+			element.setName(newName);
 		}
 	}
 }

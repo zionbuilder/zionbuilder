@@ -15,6 +15,7 @@ type ZionElement = Omit<ZionElementConfig, 'content'> & {
 	highlight: function;
 	unHighlight: function;
 	isVisible: boolean;
+	name: string;
 };
 
 type ZionElementDefinition = {
