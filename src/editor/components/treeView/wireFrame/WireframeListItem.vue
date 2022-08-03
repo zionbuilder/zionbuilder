@@ -58,7 +58,7 @@ const expanded = ref(true);
 
 const { showElementMenu, elementOptionsRef } = useTreeViewItem(props.element);
 const columnSize = computed(() => props.element.options.column_size);
-const { isVisible, highlight, unHighlight, isWrapper } = useElementUtils(props.element);
+const { isVisible, isWrapper } = useElementUtils(props.element);
 
 const elementsDefinitionsStore = useElementDefinitionsStore();
 
