@@ -69,14 +69,20 @@ export const useHistoryStore = defineStore('history', {
 
 			// undo
 			if (newHistoryIndex < this.activeHistoryIndex) {
-				for (let i = this.state.length - 1; i > newHistoryIndex; i--) {
-					const historyItem = this.state[i];
-					historyItem.undo(historyItem);
-				}
+				const historyForRestore = this.state.slice(newHistoryIndex, this.activeHistoryIndex + 1);
+
+				historyForRestore.reverse().forEach(historyItem => {
+					if (historyItem.undo) {
+						historyItem.undo(historyItem);
+					}
+				});
 			} else if (newHistoryIndex > this.activeHistoryIndex) {
 				const historyForRestore = this.state.slice(this.activeHistoryIndex + 1, newHistoryIndex + 1);
+
 				historyForRestore.forEach(historyItem => {
-					historyItem.redo(historyItem);
+					if (historyItem.redo) {
+						historyItem.redo(historyItem);
+					}
 				});
 			}
 

@@ -101,6 +101,7 @@ export const useContentStore = defineStore('content', {
 		},
 		deleteElement(elementUID: string) {
 			const element = this.getElement(elementUID);
+
 			if (element) {
 				// Delete from parent
 				if (element.parent) {
