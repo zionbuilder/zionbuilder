@@ -11,33 +11,13 @@ export class HistoryCommand extends BaseCommand {
 		return useHistoryStore();
 	}
 
-	beforeCommand(result: unknown) {
-		if (result !== null) {
-			const historyStore = useHistoryStore();
-
-			// Add the default state
-			// if (historyStore.state.length === 0) {
-			// 	historyStore.addHistoryItem({
-			// 		commandInstance: this,
-			// 		...this.getTitles(),
-			// 	});
-			// }
-		}
-	}
-
-	getTitles() {
-		return {
-			title: '',
-			subtitle: '',
-			action: '',
-		};
-	}
-
 	getActionName(action: string) {
 		const actions: Record<string, string> = {
 			added: translate('added'),
 			deleted: translate('deleted'),
 			renamed: translate('renamed'),
+			show: translate('show'),
+			hide: translate('hide'),
 		};
 
 		return actions[action] || 'Invalid action';

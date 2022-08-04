@@ -778,6 +778,8 @@ class Localization {
 				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
 				'renamed'                                  => esc_html__( 'renamed', 'zionbuilder' ),
 				'page_cleared'                             => esc_html__( 'Page cleared', 'zionbuilder' ),
+				'show'                             => esc_html__( 'show', 'zionbuilder' ),
+				'hide'                             => esc_html__( 'hide', 'zionbuilder' ),
 			]
 		);
 	}

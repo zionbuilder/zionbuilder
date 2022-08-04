@@ -112,8 +112,15 @@ export class ZionElement {
 		return <boolean>get(this.options, '_isVisible', true);
 	}
 
-	set isVisible(visibility: boolean) {
-		update(this.options, '_isVisible', () => visibility);
+	set isVisible(isVisible: boolean) {
+		window.zb.run('editor/elements/set_visibility', {
+			elementUID: this.uid,
+			isVisible,
+		});
+	}
+
+	setVisibility(isVisible: boolean) {
+		update(this.options, '_isVisible', () => isVisible);
 	}
 
 	get indexInParent() {

@@ -26,7 +26,7 @@
 				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
-				@click.stop="contentStore.setElementVisibility(element.uid, !isVisible)"
+				@click.stop="element.isVisible = !element.isVisible"
 			/>
 
 			<div ref="elementOptionsRef" class="znpb-element-options__container" @click.stop="showElementMenu">

@@ -182,8 +182,5 @@ export const useContentStore = defineStore('content', {
 				index = index !== -1 ? index + 1 : index;
 			});
 		},
-		setElementVisibility(elementUID: string, newValue: boolean) {
-			this.updateElement(elementUID, 'options._isVisible', newValue);
-		},
 	},
 });

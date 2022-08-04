@@ -112,7 +112,7 @@ const elementActions = computed(() => {
 			title: isElementVisible ? translate('visible_element') : translate('show_element'),
 			icon: 'eye',
 			action: () => {
-				contentStore.setElementVisibility(element.uid, !isElementVisible);
+				element.isVisible = !isElementVisible;
 			},
 			append: `${controlKey}+H`,
 			cssClasses: 'znpb-menu-item--separator-bottom',
