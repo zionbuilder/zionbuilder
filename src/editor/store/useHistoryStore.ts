@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import { debounce } from 'lodash-es';
+import { translate } from '/@/common/modules/i18n';
 
 type HistoryItem = {
 	undo: Function;
 	redo: Function;
-	data: Record<string, unknown>;
+	data?: Record<string, unknown>;
 	title: string;
 	subtitle?: string;
 	action?: string;
@@ -32,12 +33,18 @@ export const useHistoryStore = defineStore('history', {
 	},
 	actions: {
 		addHistoryItem(item: HistoryItem) {
+			if (this.state.length === 0) {
+				this.state.push({
+					title: translate('editing_started'),
+				});
+				this.activeHistoryIndex++;
+			}
+
 			this.state.push(item);
 			this.activeHistoryIndex++;
 		},
 		addHistoryItemDebounced: debounce(function (item) {
-			this.state.push(item);
-			this.activeHistoryIndex++;
+			this.addHistoryItem(item);
 		}, 800),
 		undo() {
 			if (this.activeHistoryIndex - 1 >= 0) {

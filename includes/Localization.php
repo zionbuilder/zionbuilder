@@ -780,6 +780,8 @@ class Localization {
 				'page_cleared'                             => esc_html__( 'Page cleared', 'zionbuilder' ),
 				'show'                             => esc_html__( 'show', 'zionbuilder' ),
 				'hide'                             => esc_html__( 'hide', 'zionbuilder' ),
+				'editing_started'                             => esc_html__( 'Editing started', 'zionbuilder' ),
+
 			]
 		);
 	}

@@ -45,8 +45,6 @@ export class RemoveAllElements extends HistoryCommand {
 			},
 			areaModel.content,
 		);
-
-		console.log({ areaID, areaModel, historyItem });
 	}
 
 	public static redo(historyItem) {
@@ -56,7 +54,5 @@ export class RemoveAllElements extends HistoryCommand {
 
 		// clear area content
 		contentStore.clearAreaContent(areaID);
-
-		console.log({ areaID, areaModel });
 	}
 }
