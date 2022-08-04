@@ -22,7 +22,7 @@ export const useContentStore = defineStore('content', {
 		getAreaContentAsJSON(state) {
 			return (areaID: string) => {
 				const area = state.areas.find(area => area.id === areaID);
-				console.log({ area });
+
 				if (area) {
 					return area.element.content.map(childUID => {
 						const element = this.getElement(childUID);
@@ -69,8 +69,6 @@ export const useContentStore = defineStore('content', {
 			// Check if the area was already registered
 			const existingAreaIndex = this.areas.findIndex(area => area.id === areaConfig.id);
 			if (existingAreaIndex >= 0) {
-				console.log('existing', existingAreaIndex);
-
 				this.areas.splice(existingAreaIndex, 1, areaConfig);
 			} else {
 				this.areas.push(areaConfig);
@@ -103,7 +101,6 @@ export const useContentStore = defineStore('content', {
 		},
 		deleteElement(elementUID: string) {
 			const element = this.getElement(elementUID);
-			console.log(elementUID);
 			if (element) {
 				// Delete from parent
 				if (element.parent) {
@@ -116,7 +113,6 @@ export const useContentStore = defineStore('content', {
 				}
 
 				pull(this.elements, element);
-				console.log(this.elements);
 			} else {
 				console.log('element with uid not found');
 			}
