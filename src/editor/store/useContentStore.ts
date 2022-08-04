@@ -66,11 +66,26 @@ export const useContentStore = defineStore('content', {
 			// Register the area
 			areaConfig.element = this.registerElement(rootElement);
 
-			this.areas.push(areaConfig);
+			// Check if the area was already registered
+			const existingAreaIndex = this.areas.findIndex(area => area.id === areaConfig.id);
+			if (existingAreaIndex >= 0) {
+				console.log('existing', existingAreaIndex);
+
+				this.areas.splice(existingAreaIndex, 1, areaConfig);
+			} else {
+				this.areas.push(areaConfig);
+			}
 		},
 		registerElement(elementConfig: ZionElementConfig, parent = '') {
 			const newElement: ZionElement = new ZionElement(elementConfig, parent);
-			this.elements.push(newElement);
+
+			// Check if the area was already registered
+			const existingElementIndex = this.elements.findIndex(element => element.uid === newElement.uid);
+			if (existingElementIndex >= 0) {
+				this.elements.splice(existingElementIndex, 1, newElement);
+			} else {
+				this.elements.push(newElement);
+			}
 
 			return newElement;
 		},
@@ -79,7 +94,7 @@ export const useContentStore = defineStore('content', {
 
 			if (areaElement) {
 				// Delete child elements
-				areaElement.content.forEach(elementUID => {
+				[...areaElement.content].forEach(elementUID => {
 					this.deleteElement(elementUID);
 				});
 
@@ -88,7 +103,7 @@ export const useContentStore = defineStore('content', {
 		},
 		deleteElement(elementUID: string) {
 			const element = this.getElement(elementUID);
-
+			console.log(elementUID);
 			if (element) {
 				// Delete from parent
 				if (element.parent) {
@@ -97,10 +112,13 @@ export const useContentStore = defineStore('content', {
 
 				// Delete all children
 				if (element.content) {
-					element.content.forEach(child => this.deleteElement(child));
+					[...element.content].forEach(childUID => this.deleteElement(childUID));
 				}
 
 				pull(this.elements, element);
+				console.log(this.elements);
+			} else {
+				console.log('element with uid not found');
 			}
 		},
 		getElementValue(elementUID: string, path: string, defaultValue = null) {

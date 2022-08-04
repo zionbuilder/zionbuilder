@@ -42,7 +42,7 @@ type ZionElementDefinition = {
 type BuilderArea = {
 	id: string;
 	name: string;
-	element: ZionElement;
+	element?: ZionElement;
 };
 
 type ZionPanel = {

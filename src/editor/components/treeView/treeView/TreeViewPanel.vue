@@ -55,10 +55,8 @@ const props = defineProps<{
 }>();
 
 const UIStore = useUIStore();
-const contentStore = useContentStore();
 const treeViewExpanded = ref(false);
 const showModalConfirm = ref(false);
-const { addToHistory } = useHistory();
 
 const canRemove = computed(() => {
 	return props.element.content.length === 0;
@@ -67,14 +65,12 @@ const canRemove = computed(() => {
 provide('treeViewExpandStatus', treeViewExpanded);
 
 function removeAllElements() {
-	// clear area content
-	contentStore.clearAreaContent(props.element.uid);
+	window.zb.run('editor/elements/remove_all', {
+		areaID: props.element.uid,
+	});
 
-	// Close edit element panel
-	UIStore.unEditElement();
-
-	// Add to history
-	addToHistory(translate('removed_all_elements'));
+	// // Close edit element panel
+	// UIStore.unEditElement();
 
 	// Close modal
 	showModalConfirm.value = false;

@@ -777,6 +777,7 @@ class Localization {
 				'added'                                    => esc_html__( 'added', 'zionbuilder' ),
 				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
 				'renamed'                                  => esc_html__( 'renamed', 'zionbuilder' ),
+				'page_cleared'                             => esc_html__( 'Page cleared', 'zionbuilder' ),
 			]
 		);
 	}

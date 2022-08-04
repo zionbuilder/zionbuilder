@@ -7,7 +7,7 @@ type HistoryItem = {
 	data: Record<string, unknown>;
 	title: string;
 	subtitle?: string;
-	action: string;
+	action?: string;
 };
 
 export const useHistoryStore = defineStore('history', {
