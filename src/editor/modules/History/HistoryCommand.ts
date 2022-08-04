@@ -18,6 +18,7 @@ export class HistoryCommand extends BaseCommand {
 			renamed: translate('renamed'),
 			show: translate('show'),
 			hide: translate('hide'),
+			duplicate: translate('duplicate'),
 		};
 
 		return actions[action] || 'Invalid action';

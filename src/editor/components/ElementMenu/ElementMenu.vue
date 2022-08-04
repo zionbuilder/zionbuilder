@@ -26,7 +26,6 @@ import { Environment } from '/@/common/utils';
 import { useContentStore, useUIStore } from '/@/editor/store';
 import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
 
-const contentStore = useContentStore();
 const UIStore = useUIStore();
 const { addEventListener, removeEventListener } = useWindows();
 const { getData } = useLocalStorage();
@@ -55,7 +54,7 @@ const elementActions = computed(() => {
 			title: `${translate('duplicate_element')}`,
 			icon: 'copy',
 			action: () => {
-				contentStore.duplicateElement(element);
+				element.duplicate();
 			},
 			append: `${controlKey}+D`,
 		},

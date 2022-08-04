@@ -74,8 +74,8 @@ export const useContentStore = defineStore('content', {
 				this.areas.push(areaConfig);
 			}
 		},
-		registerElement(elementConfig: ZionElementConfig, parent = '') {
-			const newElement: ZionElement = new ZionElement(elementConfig, parent);
+		registerElement(elementConfig: ZionElementConfig, parentUID = '') {
+			const newElement: ZionElement = new ZionElement(elementConfig, parentUID);
 
 			// Check if the area was already registered
 			const existingElementIndex = this.elements.findIndex(element => element.uid === newElement.uid);
@@ -136,26 +136,10 @@ export const useContentStore = defineStore('content', {
 				return;
 			}
 
-			const indexInParent = element.parent.content.indexOf(element.uid);
-			const elementClone = <ZionElement>JSON.parse(JSON.stringify(element));
+			const elementClone = element.getClone();
+			const newElement = this.addElement(elementClone, element.parentUID, element.indexInParent + 1);
 
-			// Replace the element unique id
-			elementClone.uid = generateUID();
-
-			if (elementClone.content.length > 0) {
-				elementClone.content = elementClone.content.map(childUID => {
-					const childElement = this.getElement(childUID);
-					return this.duplicateElement(childElement).uid;
-				});
-			}
-
-			element.parent.content.splice(indexInParent + 1, 0, elementClone.uid);
-			this.elements.push(elementClone);
-
-			const { addToHistory } = useHistory();
-			addToHistory(`Duplicated ${this.getElementName(element.uid)}`);
-
-			return elementClone;
+			return newElement;
 		},
 		addElement(elementConfig: ZionElementConfig, parentUID: string, index: number) {
 			const parent = this.getElement(parentUID);

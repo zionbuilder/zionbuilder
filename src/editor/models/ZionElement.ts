@@ -1,6 +1,7 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
-import { each, update, get, isPlainObject, debounce } from 'lodash-es';
+import { regenerateUIDs } from '/@/editor/utils';
+import { update, get, isPlainObject } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 
 export class ZionElement {
@@ -137,6 +138,12 @@ export class ZionElement {
 		});
 	}
 
+	duplicate() {
+		window.zb.run('editor/elements/duplicate', {
+			element: this,
+		});
+	}
+
 	toJSON(): ZionElementConfig {
 		const contentStore = useContentStore();
 
@@ -154,5 +161,12 @@ export class ZionElement {
 				options: this.options,
 			}),
 		);
+	}
+
+	getClone() {
+		const elementAsJson = this.toJSON();
+		const clonedElement = regenerateUIDs(elementAsJson);
+
+		return clonedElement;
 	}
 }

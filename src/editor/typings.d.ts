@@ -12,6 +12,7 @@ type ZionElement = Omit<ZionElementConfig, 'content'> & {
 	addedTime?: number;
 	isHighlighted: boolean;
 	delete: function;
+	duplicate: function;
 	highlight: function;
 	unHighlight: function;
 	isVisible: boolean;

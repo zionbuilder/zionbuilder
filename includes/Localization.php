@@ -778,9 +778,10 @@ class Localization {
 				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
 				'renamed'                                  => esc_html__( 'renamed', 'zionbuilder' ),
 				'page_cleared'                             => esc_html__( 'Page cleared', 'zionbuilder' ),
-				'show'                             => esc_html__( 'show', 'zionbuilder' ),
-				'hide'                             => esc_html__( 'hide', 'zionbuilder' ),
-				'editing_started'                             => esc_html__( 'Editing started', 'zionbuilder' ),
+				'show'                                     => esc_html__( 'show', 'zionbuilder' ),
+				'hide'                                     => esc_html__( 'hide', 'zionbuilder' ),
+				'editing_started'                          => esc_html__( 'Editing started', 'zionbuilder' ),
+				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
 
 			]
 		);
