@@ -271,7 +271,7 @@ class Preview {
 				'assets_url'        => Utils::get_file_url( 'assets' ),
 				'logo'              => Whitelabel::get_logo_url(),
 				'loader'            => Whitelabel::get_loader_url(),
-				'edit_page'         => get_edit_post_link( $this->post_id, '' ),
+				'edit_page'         => get_edit_post_link( $post_instance->get_post_id(), '' ),
 				'zion_admin'        => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
 				'updates_page'      => admin_url( 'update-core.php' ),
 				'preview_frame_url' => $post_instance->get_preview_frame_url(),
