@@ -1,7 +1,7 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
 import { regenerateUIDs } from '/@/editor/utils';
-import { update, get, isPlainObject } from 'lodash-es';
+import { update, get, isPlainObject, each } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 
 export class ZionElement {
@@ -139,7 +139,7 @@ export class ZionElement {
 	}
 
 	duplicate() {
-		window.zb.run('editor/elements/duplicate', {
+		return window.zb.run('editor/elements/duplicate', {
 			element: this,
 		});
 	}
@@ -161,6 +161,43 @@ export class ZionElement {
 				options: this.options,
 			}),
 		);
+	}
+
+	wrapIn(wrapperType = 'container') {
+		window.zb.run('editor/elements/wrap_element', {
+			wrapperType,
+			element: this,
+		});
+	}
+
+	replaceChild(oldElement: ZionElement, newElement: ZionElement) {
+		const index = this.content.indexOf(oldElement.uid);
+		this.content.splice(index, 1, newElement.uid);
+	}
+
+	addChild(element: ZionElement | ZionElementConfig, index = -1) {
+		let elementInstance = null;
+
+		if (element instanceof ZionElement) {
+			elementInstance = element;
+		} else {
+			const contentStore = useContentStore();
+			elementInstance = contentStore.registerElement(element, this.uid);
+		}
+
+		// Set the parent
+		index = index === -1 ? this.content.length : index;
+		elementInstance.parentUID = this.uid;
+		this.content.splice(index, 0, elementInstance.uid);
+	}
+
+	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1) {
+		each(elements, element => {
+			this.addChild(element, index);
+
+			// In case we need to insert multiple elements at an index higher then the last item, we need to increment the index
+			index = index !== -1 ? index + 1 : index;
+		});
 	}
 
 	getClone() {

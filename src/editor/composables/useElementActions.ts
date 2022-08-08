@@ -24,7 +24,6 @@ const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null);
 const { addToHistory } = useHistory();
 
 export function useElementActions() {
-	const contentStore = useContentStore();
 	const { addData, getData, removeData } = useLocalStorage();
 
 	const copyElement = (element: Element, action = 'copy') => {
