@@ -4,3 +4,4 @@ export * from './RenameElement';
 export * from './RemoveAllElements';
 export * from './SetElementVisibility';
 export * from './DuplicateElement';
+export * from './WrapElement';

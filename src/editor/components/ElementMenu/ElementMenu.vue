@@ -120,7 +120,7 @@ const elementActions = computed(() => {
 			title: translate('wrap_with_container'),
 			icon: 'eye',
 			action: () => {
-				wrapInContainer(element);
+				element.wrapIn();
 			},
 			append: `${controlKey}+H`,
 			cssClasses: 'znpb-menu-item--separator-bottom',

@@ -1,3 +1,23 @@
+import path from 'path';
+import fs from 'fs';
+import glob from 'glob';
+
+// Gather all elements files
+// const elementsPackage = path.resolve('./src/elements');
+// console.log(elementsPackage);
+const elementsMap = [];
+fs.readdirSync('src/elements/').forEach(file => {
+  console.log(file);
+});
+
+// glob('src/elements/*/*.js', function (er, files) {
+//   // files is an array of filenames.
+//   // If the `nonull` option is set, and nothing
+//   // was found, then files is ["**/*.js"]
+//   // er is an error object or null.
+//   console.log(files);
+// });
+
 export const filesMap = [
   // Global
   {

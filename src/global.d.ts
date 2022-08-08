@@ -1,5 +1,7 @@
 interface Window {
-	zb: Record<string, unknown> = {};
+	zb: {
+		run: T<string, Record<string, unknown>>;
+	} = {};
 	ZnRestConfig: {
 		nonce: string;
 		rest_root: string;

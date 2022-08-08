@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia';
 import { pull, set, get } from 'lodash-es';
 import { useElementDefinitionsStore } from './useElementDefinitionsStore';
-import { generateUID } from '/@/common/utils';
-import { useHistory } from '/@/editor/composables';
 import { ZionElement } from '../models/ZionElement';
 
 interface State {
