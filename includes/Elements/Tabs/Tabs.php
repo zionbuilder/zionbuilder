@@ -174,8 +174,8 @@ class Tabs extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Tabs/editor.js' ) );
-		wp_enqueue_script( 'zb-element-tabs', Utils::get_file_url( 'dist/js/elements/Tabs/frontend.js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Tabs/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-tabs', Plugin::instance()->scripts->get_script_url( 'elements/Tabs/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 
 	}
 

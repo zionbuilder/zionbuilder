@@ -1,22 +1,22 @@
 import path from 'path';
 import fs from 'fs';
-import glob from 'glob';
 
-// Gather all elements files
-// const elementsPackage = path.resolve('./src/elements');
-// console.log(elementsPackage);
 const elementsMap = [];
-fs.readdirSync('src/elements/').forEach(file => {
-  console.log(file);
-});
+fs.readdirSync('src/elements/').forEach(folder => {
+  //   console.log(file);
+  const files = ['editor.ts', 'editor.js', 'frontend.ts', 'frontend.js', 'frontend.scss'];
+  files.forEach(filename => {
+    if (fs.existsSync(`src/elements/${folder}/${filename}`)) {
+      const file = path.parse(filename);
 
-// glob('src/elements/*/*.js', function (er, files) {
-//   // files is an array of filenames.
-//   // If the `nonull` option is set, and nothing
-//   // was found, then files is ["**/*.js"]
-//   // er is an error object or null.
-//   console.log(files);
-// });
+      elementsMap.push({
+        input: `src/elements/${folder}/${filename}`,
+        format: 'iife',
+        output: `elements/${folder}/${file.name}`,
+      });
+    }
+  });
+});
 
 export const filesMap = [
   // Global
@@ -90,26 +90,27 @@ export const filesMap = [
     format: 'iife',
     output: 'ZBVideoBg',
   },
+  ...elementsMap,
 
   // Elements
-  {
-    input: 'src/elements/Section/editor.js',
-    format: 'iife',
-    output: 'elements/Section/editor',
-  },
-  {
-    input: 'src/elements/Column/editor.js',
-    format: 'iife',
-    output: 'elements/Column/editor',
-  },
-  {
-    input: 'src/elements/Video/editor.js',
-    format: 'iife',
-    output: 'elements/Video/editor',
-  },
-  {
-    input: 'src/elements/Video/frontend.ts',
-    format: 'iife',
-    output: 'elements/Video/frontend',
-  },
+  //   {
+  //     input: 'src/elements/Section/editor.js',
+  //     format: 'iife',
+  //     output: 'elements/Section/editor',
+  //   },
+  //   {
+  //     input: 'src/elements/Column/editor.js',
+  //     format: 'iife',
+  //     output: 'elements/Column/editor',
+  //   },
+  //   {
+  //     input: 'src/elements/Video/editor.js',
+  //     format: 'iife',
+  //     output: 'elements/Video/editor',
+  //   },
+  //   {
+  //     input: 'src/elements/Video/frontend.ts',
+  //     format: 'iife',
+  //     output: 'elements/Video/frontend',
+  //   },
 ];

@@ -53,6 +53,7 @@ const getGradientPreviewStyle = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@import "/@/common/scss/_mixins.scss";
 .znpb-gradient-preview-transparent {
 	@extend %opacitybg;
 	width: 100%;

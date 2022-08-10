@@ -1,9 +1,6 @@
-import {
-	registerElementComponent
-} from '@zb/editor'
-import Container from './components/Container.vue'
+import Container from './components/Container.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'container',
-	component: Container
-})
+	component: Container,
+});

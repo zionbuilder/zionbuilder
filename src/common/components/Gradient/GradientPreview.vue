@@ -63,10 +63,11 @@ const getGradientPreviewStyle = computed<CSSProperties>(() => {
 </script>
 
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
 .znpb-gradient-preview-transparent {
 	@extend %opacitybg;
 	box-shadow: 0 0 0 2px var(--zb-surface-color) inset, 0 0 0 1px var(--zb-surface-color),
-		0 0 2px var(--zb-surface-color);
+	0 0 2px var(--zb-surface-color);
 
 	&.gradient-type-rounded {
 		width: 46px;

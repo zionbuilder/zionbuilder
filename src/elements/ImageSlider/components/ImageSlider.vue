@@ -34,7 +34,6 @@ export default {
 
 <script lang="ts" setup>
 import { onMounted, watch, computed, onBeforeUnmount, nextTick, ref } from 'vue';
-import { useResponsiveDevices } from '@zb/components';
 
 interface IProps {
 	/**
@@ -42,13 +41,13 @@ interface IProps {
 	 */
 	options: Record<string, unknown>;
 
-	element: Object;
+	element: ZionElement;
 
 	api: Record<string, unknown>;
 }
 
 const props = defineProps<IProps>();
-const { mobileFirstResponsiveDevices } = useResponsiveDevices();
+const { mobileFirstResponsiveDevices } = window.zb.editor.useResponsiveDevices();
 
 // Vars
 let slider = null;

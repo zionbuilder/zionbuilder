@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Counter from './components/counter.vue'
+import Counter from './components/counter.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'counter',
-	component: Counter
-})
+	component: Counter,
+});

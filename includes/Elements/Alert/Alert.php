@@ -181,8 +181,8 @@ class Alert extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Alert/editor.js' ) );
-		wp_enqueue_script( 'zb-element-alert', Utils::get_file_url( 'dist/js/elements/Alert/frontend.js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Alert/editor', 'jd' ) );
+		wp_enqueue_script( 'zb-element-alert', Plugin::instance()->scripts->get_script_url( 'elements/Alert/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 
 	}
 

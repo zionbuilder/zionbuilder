@@ -4,15 +4,12 @@
 			<slot></slot>
 		</h3>
 		<div class="znpb-single-role__permission">
-			<h4 class="znpb-single-role-permission-subtitle">
-				{{permission}} {{$translate('permissions')}}
-			</h4>
+			<h4 class="znpb-single-role-permission-subtitle">{{ permission }} {{ $translate('permissions') }}</h4>
 		</div>
 		<div class="znpb-single-role__actions">
-
 			<Icon
-				class="znpb-edit-icon-pop"
 				v-znpb-tooltip="$translate('customize_permissions_for_user')"
+				class="znpb-edit-icon-pop"
 				icon="edit"
 				@click="$emit('edit-permission')"
 			/>
@@ -23,7 +20,6 @@
 				icon="delete"
 				@click="$emit('delete-permission')"
 			/>
-
 		</div>
 	</div>
 </template>
@@ -34,16 +30,17 @@ export default {
 	props: {
 		permission: {
 			type: Number,
-			required: true
+			required: true,
 		},
 		hasDelete: {
 			type: Boolean,
-			required: false
-		}
-	}
-}
+			required: false,
+		},
+	},
+};
 </script>
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
 .znpb-admin__wrapper {
 	.znpb-single-role {
 		@extend %list-item-helper;

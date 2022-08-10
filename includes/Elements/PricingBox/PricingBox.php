@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\PricingBox;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -289,7 +290,7 @@ class PricingBox extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/PricingBox/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/PricingBox/editor', 'js' ) );
 	}
 
 	/**

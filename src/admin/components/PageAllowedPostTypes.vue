@@ -34,6 +34,8 @@ const allowedPostTypes = computed({
 });
 </script>
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
+
 .znpb-admin-posts-wrapper {
 	display: grid;
 

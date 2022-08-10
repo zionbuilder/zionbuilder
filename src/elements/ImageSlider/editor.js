@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor';
 import ImageSlider from './components/ImageSlider.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'image_slider',
 	component: ImageSlider,
 });

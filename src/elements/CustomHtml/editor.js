@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import customHtml from './components/customHtml.vue'
+import customHtml from './components/customHtml.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'custom_html',
-	component: customHtml
-})
+	component: customHtml,
+});

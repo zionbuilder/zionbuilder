@@ -1,13 +1,12 @@
-import { registerElementComponent } from '@zb/editor'
-import accordionItem from './components/accordionItem.vue'
-import Accordions from './components/Accordions.vue'
+import accordionItem from './components/accordionItem.vue';
+import Accordions from './components/Accordions.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'accordions',
-	component: Accordions
-})
+	component: Accordions,
+});
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'accordion_item',
-	component: accordionItem
-})
+	component: accordionItem,
+});

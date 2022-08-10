@@ -156,6 +156,7 @@ function addGlobal(name: string) {
 </script>
 
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
 .znpb-form-colorpicker__color-picker-holder {
 	overflow: hidden;
 	min-width: 280px;
@@ -170,7 +171,6 @@ function addGlobal(name: string) {
 	overflow: hidden;
 	max-width: 280px;
 	border-bottom-right-radius: 3px;
-
 	// background-color: var(--zb-surface-lighter-color);
 	border-bottom-left-radius: 3px;
 
@@ -208,7 +208,7 @@ function addGlobal(name: string) {
 	flex-direction: column;
 	color: var(--zb-surface-icon-color);
 	background-color: var(--zb-surface-lighter-color);
-	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, .1);
 	border-radius: 3px;
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;

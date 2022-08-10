@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import iconBox from './components/iconBox.vue'
+import iconBox from './components/iconBox.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'icon_box',
-	component: iconBox
-})
+	component: iconBox,
+});

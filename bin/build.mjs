@@ -53,13 +53,13 @@ filesMap.forEach(async script => {
         },
       },
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@import "../src/common/scss/_mixins.scss";`,
-        },
-      },
-    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@import "../src/common/scss/_mixins.scss";`,
+    //     },
+    //   },
+    // },
     plugins: [vue()],
   });
 });

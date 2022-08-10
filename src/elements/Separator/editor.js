@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Separator from './components/Separator.vue'
+import Separator from './components/Separator.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'zion_separator',
-	component: Separator
-})
+	component: Separator,
+});

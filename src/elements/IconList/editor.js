@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import IconList from './components/IconList.vue'
+import IconList from './components/IconList.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'icon_list',
-	component: IconList
-})
+	component: IconList,
+});

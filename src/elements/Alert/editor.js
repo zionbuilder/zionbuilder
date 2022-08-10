@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Alert from './components/Alert.vue'
+import Alert from './components/Alert.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'alert',
-	component: Alert
-})
+	component: Alert,
+});

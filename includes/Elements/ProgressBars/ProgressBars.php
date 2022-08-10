@@ -274,7 +274,7 @@ class ProgressBars extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/ProgressBars/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/ProgressBars/editor', 'js' ) );
 		wp_enqueue_script( 'zb-element-progress-bars', Utils::get_file_url( 'dist/js/elements/ProgressBars/frontend.js' ), [], Plugin::instance()->get_version(), true );
 	}
 

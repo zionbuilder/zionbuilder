@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import googleMaps from './components/googleMaps.vue'
+import googleMaps from './components/googleMaps.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'google_maps',
-	component: googleMaps
-})
+	component: googleMaps,
+});

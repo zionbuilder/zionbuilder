@@ -1,128 +1,125 @@
 <template>
-	<div
-		class="znpb-editor-header-flyout"
-		@mouseover.stop="onMouseOver"
-		@mouseleave.stop="onMouseOut"
-		ref="root"
-	>
+	<div ref="root" class="znpb-editor-header-flyout" @mouseover.stop="onMouseOver" @mouseleave.stop="onMouseOut">
 		<div class="znpb-editor-header__menu_button">
 			<slot name="panel-icon"></slot>
 		</div>
 
 		<ul
-			class="znpb-editor-header-flyout-hidden-items znpb-editor-header__menu-list"
 			v-if="showflyout"
-			:style="computedStyles"
 			ref="listContainer"
+			class="znpb-editor-header-flyout-hidden-items znpb-editor-header__menu-list"
+			:style="computedStyles"
 		>
 			<slot></slot>
 		</ul>
-
 	</div>
 </template>
 <script setup>
-import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
 	items: {
 		type: Array,
 		required: false,
 		default() {
-			return []
-		}
+			return [];
+		},
 	},
 	preventClose: {
 		type: Boolean,
 		required: false,
-		default: false
-	}
-})
+		default: false,
+	},
+});
 
-const showflyout = ref(false)
-const listContainer = ref(null)
-const negativeMargin = ref(0)
-const root = ref(null)
+const showflyout = ref(false);
+const listContainer = ref(null);
+const negativeMargin = ref(0);
+const root = ref(null);
 
 const computedStyles = computed(() => {
-	let styles = {}
+	let styles = {};
 
 	if (negativeMargin.value !== 0) {
-		styles.transform = `translateY(${negativeMargin.value}px)`
+		styles.transform = `translateY(${negativeMargin.value}px)`;
 	}
 
-	return styles
-})
+	return styles;
+});
 
 function onMouseOver() {
-	showflyout.value = true
+	showflyout.value = true;
 }
 
-const emit = defineEmits(['show', 'hide'])
+const emit = defineEmits(['show', 'hide']);
 
-function onMouseOut () {
+function onMouseOut() {
 	if (!props.preventClose) {
-		showflyout.value = false
+		showflyout.value = false;
 	}
 }
 
-
-watch(showflyout, (newValue) => {
+watch(showflyout, newValue => {
 	if (newValue) {
 		nextTick(() => {
-			positionDropdown()
-			resizeObserver.observe(listContainer.value)
-		})
+			positionDropdown();
+			resizeObserver.observe(listContainer.value);
+		});
 
-		emit('show')
+		emit('show');
 	} else {
-		negativeMargin.value = 0
-		resizeObserver.unobserve(listContainer.value)
-		emit('hide')
+		negativeMargin.value = 0;
+		resizeObserver.unobserve(listContainer.value);
+		emit('hide');
 	}
-})
+});
 
-watch(() => props.preventClose, (newValue) => {
-	if (newValue) {
-		window.addEventListener('click', onOutsideClick)
-	}
-})
+watch(
+	() => props.preventClose,
+	newValue => {
+		if (newValue) {
+			window.addEventListener('click', onOutsideClick);
+		}
+	},
+);
 
 onBeforeUnmount(() => {
-	window.removeEventListener('click', onOutsideClick)
-})
+	window.removeEventListener('click', onOutsideClick);
+});
 
 /**
  * Closes the flyout if clicked outside of it
  */
 function onOutsideClick(event) {
 	if (!root.value.contains(event.target)) {
-		showflyout.value = false
+		showflyout.value = false;
 	}
 }
 
 function positionDropdown() {
-	negativeMargin.value = 0
+	negativeMargin.value = 0;
 
 	nextTick(() => {
-		const { bottom } = listContainer.value.getBoundingClientRect()
-
+		const { bottom } = listContainer.value.getBoundingClientRect();
 
 		if (bottom > window.innerHeight) {
-			negativeMargin.value = (bottom - window.innerHeight) * -1
+			negativeMargin.value = (bottom - window.innerHeight) * -1;
 		}
-	})
+	});
 }
 
 const resizeObserver = new ResizeObserver(entries => {
 	for (let entry of entries) {
 		nextTick(() => {
-			positionDropdown()
-		})
+			positionDropdown();
+		});
 	}
-})
+});
 </script>
 
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
+
 ul.znpb-editor-header-flyout-hidden-items {
 	@extend %tooltip;
 	padding: 8px 0;

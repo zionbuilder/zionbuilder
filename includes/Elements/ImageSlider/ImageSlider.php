@@ -5,6 +5,7 @@ namespace ZionBuilder\Elements\ImageSlider;
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
 use ZionBuilder\CommonJS;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -194,7 +195,7 @@ class ImageSlider extends Element {
 		CommonJS::enqueue_responsive_devices( 'zion-builder-slider' );
 
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/ImageSlider/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/ImageSlider/editor', 'js' ) );
 	}
 
 	/**

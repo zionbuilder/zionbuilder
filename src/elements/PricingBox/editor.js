@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import PricingBox from './components/PricingBox.vue'
+import PricingBox from './components/PricingBox.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'pricing_box',
-	component: PricingBox
-})
+	component: PricingBox,
+});

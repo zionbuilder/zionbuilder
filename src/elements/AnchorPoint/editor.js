@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import anchorPoint from './components/anchorPoint.vue'
+import anchorPoint from './components/anchorPoint.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'anchor_point',
-	component: anchorPoint
-})
+	component: anchorPoint,
+});

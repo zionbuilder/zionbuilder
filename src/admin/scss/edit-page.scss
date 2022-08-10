@@ -1,3 +1,5 @@
+@import "/@/common/scss/_mixins.scss";
+
 #editor, #poststuff {
 	&-status--inactive .znpb-admin-post__edit-button--deactivate, &-status--active .znpb-admin-post__edit-button--activate {
 		display: none;

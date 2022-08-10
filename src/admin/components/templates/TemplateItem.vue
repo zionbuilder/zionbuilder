@@ -1,17 +1,12 @@
 <template>
 	<div>
-		<div
-			class="znpb-admin-single-template"
-			:class="{'znpb-admin-single-template--active': isActive}"
-		>
-
-			<span class="znpb-admin-single-template__title">{{template.name}}</span>
-			<span class="znpb-admin-single-template__author">{{template.author}}</span>
+		<div class="znpb-admin-single-template" :class="{ 'znpb-admin-single-template--active': isActive }">
+			<span class="znpb-admin-single-template__title">{{ template.name }}</span>
+			<span class="znpb-admin-single-template__author">{{ template.author }}</span>
 			<div class="znpb-admin-single-template__shortcode">
-
 				<BaseInput
-					v-znpb-tooltip="isCopied ? copiedText : copyText"
 					ref="templateInput"
+					v-znpb-tooltip="isCopied ? copiedText : copyText"
 					:modelValue="template.shortcode"
 					readonly
 					spellcheck="false"
@@ -19,142 +14,134 @@
 					class="znpb-admin-single-template__input"
 					@click="copyTextInput(template.shortcode)"
 				>
-					<template v-slot:suffix>
-						<Icon
-							icon="copy"
-							@click="copyTextInput(template.shortcode)"
-						/>
+					<template #suffix>
+						<Icon icon="copy" @click="copyTextInput(template.shortcode)" />
 					</template>
 				</BaseInput>
 			</div>
 			<div class="znpb-admin-single-template__actions">
 				<template v-if="!template.loading">
 					<Icon
-						icon="edit"
-						@click="editUrl"
-						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						v-znpb-tooltip="$translate('edit_template')"
-					/>
-
-					<Icon
-						icon="delete"
-						@click="$emit('delete-template', template)"
+						icon="edit"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
+						@click="editUrl"
+					/>
+
+					<Icon
 						v-znpb-tooltip="$translate('delete_template')"
+						icon="delete"
+						class="znpb-admin-single-template__action znpb-delete-icon-pop"
+						@click="$emit('delete-template', template)"
 					/>
 
 					<Icon
-						icon="export"
-						@click="() => template.export()"
 						v-znpb-tooltip="$translate('export_template')"
+						icon="export"
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
+						@click="() => template.export()"
 					/>
 
 					<Icon
-						icon="eye"
-						@click="$emit('show-modal-preview', true)"
 						v-znpb-tooltip="$translate('preview_template')"
+						icon="eye"
 						class="znpb-admin-single-template__action znpb-preview-icon-pop"
+						@click="$emit('show-modal-preview', true)"
 					/>
-
 				</template>
 				<Loader v-else />
 			</div>
-
 		</div>
-		<p
-			class="znpb-admin-single-template--error"
-			v-if="errorMessage.length > 0"
-		>{{errorMessage}}</p>
+		<p v-if="errorMessage.length > 0" class="znpb-admin-single-template--error">{{ errorMessage }}</p>
 	</div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 export default {
 	name: 'TemplateItem',
 	props: {
 		template: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		loading: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		error: {
 			type: String,
-			required: false
+			required: false,
 		},
 		active: {
 			type: Boolean,
-			required: false
-		}
+			required: false,
+		},
 	},
 
-	setup (props) {
-		const isActive = ref(props.active)
+	setup(props) {
+		const isActive = ref(props.active);
 
 		if (isActive.value) {
 			setTimeout(() => {
-				isActive.value = false
+				isActive.value = false;
 			}, 1000);
 		}
 
 		return {
-			isActive
-		}
+			isActive,
+		};
 	},
-	data () {
+	data() {
 		return {
 			isCopied: false,
 			copiedText: 'Copied',
 			copyText: 'Copy',
 			localLoading: this.loading,
 			errorMessage: '',
-		}
+		};
 	},
 
 	watch: {
-		loading (newVal) {
-			this.localLoading = newVal
+		loading(newVal) {
+			this.localLoading = newVal;
 		},
-		error (newVal) {
-			this.errorMessage = newVal
-		}
+		error(newVal) {
+			this.errorMessage = newVal;
+		},
 	},
 
 	methods: {
-
-		editUrl () {
-			window.open(this.template.urls.edit_url)
+		editUrl() {
+			window.open(this.template.urls.edit_url);
 		},
 
-		copyTextInput (text) {
-			this.isCopied = true
+		copyTextInput(text) {
+			this.isCopied = true;
 			// Create new element
-			var el = document.createElement('textarea')
+			var el = document.createElement('textarea');
 			// Set value (string to be copied)
-			el.value = text
+			el.value = text;
 			// Set non-editable to avoid focus and move outside of view
-			el.setAttribute('readonly', '')
+			el.setAttribute('readonly', '');
 			el.style = {
 				position: 'absolute',
-				left: '-9999px'
-			}
-			document.body.appendChild(el)
+				left: '-9999px',
+			};
+			document.body.appendChild(el);
 			// Select text inside element
-			el.select()
+			el.select();
 			// Copy text to clipboard
-			document.execCommand('copy')
+			document.execCommand('copy');
 			// Remove temporary element
-			document.body.removeChild(el)
-		}
-	}
-}
+			document.body.removeChild(el);
+		},
+	},
+};
 </script>
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
 .znpb-admin-single-template--active {
 	box-shadow: 0 0 4px #006dd2;
 }

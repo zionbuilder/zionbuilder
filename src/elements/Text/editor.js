@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Text from './components/Text.vue'
+import Text from './components/Text.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'zion_text',
-	component: Text
-})
+	component: Text,
+});

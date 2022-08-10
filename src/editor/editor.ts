@@ -111,6 +111,7 @@ window.zb.editor = Object.assign(
 	COMMON_COMPOSABLES.units,
 	UTILS,
 	STORE,
+	COMMON_COMPOSABLES,
 );
 
 window.zb.vue = Vue;

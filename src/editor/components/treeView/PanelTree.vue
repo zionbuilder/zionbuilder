@@ -113,6 +113,8 @@ const closeWireframe = () => {
 };
 </script>
 <style lang="scss">
+@import "/@/common/scss/_mixins.scss";
+
 /* style panel */
 .znpb-editor-panel__container--wireframe {
 	width: 100% !important;
@@ -122,8 +124,8 @@ const closeWireframe = () => {
 	padding: 0;
 
 	.znpb-tree-view__header-icon {
-		padding: 12.5px 20px;
 		width: 100%;
+		padding: 12.5px 20px;
 		text-align: center;
 	}
 }

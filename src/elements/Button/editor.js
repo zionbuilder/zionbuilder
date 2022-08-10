@@ -1,7 +1,6 @@
-import { registerElementComponent } from '@zb/editor'
-import Button from './components/Button.vue'
+import Button from './components/Button.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'zion_button',
-	component: Button
-})
+	component: Button,
+});

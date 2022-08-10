@@ -1,13 +1,12 @@
-import { registerElementComponent } from '@zb/editor'
-import Tabs from './components/Tabs.vue'
-import TabsItem from './components/TabsItem.vue'
+import Tabs from './components/Tabs.vue';
+import TabsItem from './components/TabsItem.vue';
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'tabs_item',
-	component: TabsItem
-})
+	component: TabsItem,
+});
 
-registerElementComponent({
+window.zb.editor.registerElementComponent({
 	elementType: 'tabs',
-	component: Tabs
-})
+	component: Tabs,
+});

@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\IconList;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -278,7 +279,7 @@ class IconList extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/IconList/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/IconList/editor', 'js' ) );
 	}
 
 	/**

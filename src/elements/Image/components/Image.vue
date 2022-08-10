@@ -20,11 +20,8 @@
 			:src="imageSrc"
 			:class="api.getStyleClasses('image_styles')"
 		/>
-		<div
-			class="zb-el-zionImage-caption"
-			v-if="options.show_caption"
-		>
-			{{options.caption_text}}
+		<div v-if="options.show_caption" class="zb-el-zionImage-caption">
+			{{ options.caption_text }}
 		</div>
 
 		<slot name="end" />
@@ -32,28 +29,26 @@
 </template>
 
 <script>
-import { getLinkAttributes } from '@zb/utils'
-
 export default {
-	name: 'zion_image',
+	name: 'ZionImage',
 	props: ['element', 'options', 'api'],
 	computed: {
-		imageSrc () {
-			return (this.options.image || {}).image
+		imageSrc() {
+			return (this.options.image || {}).image;
 		},
-		hasLink () {
-			return this.options.link && this.options.link.link
+		hasLink() {
+			return this.options.link && this.options.link.link;
 		},
-		extraAttributes () {
-			const attributes = getLinkAttributes(this.options.link)
+		extraAttributes() {
+			const attributes = window.zb.utils.getLinkAttributes(this.options.link);
 
 			if (this.options.use_modal) {
-				attributes.href = this.imageSrc
-				attributes['data-zion-lightbox'] = true
+				attributes.href = this.imageSrc;
+				attributes['data-zion-lightbox'] = true;
 			}
 
-			return attributes
-		}
-	}
-}
+			return attributes;
+		},
+	},
+};
 </script>
