@@ -1,7 +1,7 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
 import { regenerateUIDs } from '/@/editor/utils';
-import { update, get, isPlainObject, each } from 'lodash-es';
+import { update, get, isPlainObject, each, pull } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 
 export class ZionElement {
@@ -172,6 +172,14 @@ export class ZionElement {
 
 	replaceChild(oldElement: ZionElement, newElement: ZionElement) {
 		const index = this.content.indexOf(oldElement.uid);
+
+		// Remove from old parent
+		if (newElement.parent) {
+			pull(newElement.parent?.content, newElement.uid);
+		}
+
+		// Set the new parent
+		newElement.parentUID = this.uid;
 		this.content.splice(index, 1, newElement.uid);
 	}
 

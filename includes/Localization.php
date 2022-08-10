@@ -782,6 +782,7 @@ class Localization {
 				'hide'                                     => esc_html__( 'hide', 'zionbuilder' ),
 				'editing_started'                          => esc_html__( 'Editing started', 'zionbuilder' ),
 				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
+				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
 
 			]
 		);

@@ -12,45 +12,58 @@ export class WrapElement extends HistoryCommand {
 			{
 				element_type: wrapperType,
 			},
-			parent,
+			parent.uid,
 		);
+
+		// Get the element model without the children so we can re-add it on redo
+		const elementModel = newElement.toJSON();
 
 		newElement.addChild(element);
 		parent.replaceChild(element, newElement);
 
 		if (newElement) {
-			// const historyManager = this.getHistory();
-			// // Add to history
-			// historyManager.addHistoryItem({
-			// 	undo: WrapElement.undo,
-			// 	redo: WrapElement.redo,
-			// 	data: {
-			// 		elementModel: newElement.toJSON(),
-			// 		parentUID,
-			// 		index,
-			// 	},
-			// 	title: newElement.name,
-			// 	action: this.getActionName('added'),
-			// });
-			// return newElement.uid;
+			const historyManager = this.getHistory();
+			// Add to history
+			historyManager.addHistoryItem({
+				undo: WrapElement.undo,
+				redo: WrapElement.redo,
+				data: {
+					elementModel,
+					wrappedElementUID: element.uid,
+				},
+				title: newElement.name,
+				action: this.getActionName('wrapped_with_container'),
+			});
+			return newElement.uid;
 		}
 
 		return null;
 	}
 
 	public static undo(historyItem) {
-		const { data } = historyItem;
-		if (data.elementModel) {
-			const contentStore = useContentStore();
-			contentStore.deleteElement(data.elementModel.uid);
+		const { elementModel, wrappedElementUID } = historyItem.data;
+		const contentStore = useContentStore();
+		const element = contentStore.getElement(elementModel.uid);
+		const wrappedElement = contentStore.getElement(wrappedElementUID);
+
+		if (element && element.parent && wrappedElement) {
+			element.parent.replaceChild(element, wrappedElement);
+			contentStore.deleteElement(element.uid);
 		}
 	}
 
 	public static redo(historyItem) {
-		const { data = {} } = historyItem;
-		const { elementModel, parentUID, index } = data;
+		const { elementModel, wrappedElementUID } = historyItem.data;
 
 		const contentStore = useContentStore();
-		contentStore.addElement(elementModel, parentUID, index);
+		const element = contentStore.getElement(wrappedElementUID);
+		const parent = element?.parent;
+
+		if (element && parent) {
+			const newElement = contentStore.registerElement(elementModel, parent.uid);
+
+			newElement.addChild(element);
+			parent.replaceChild(element, newElement);
+		}
 	}
 }
