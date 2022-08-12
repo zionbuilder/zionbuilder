@@ -13,6 +13,11 @@ export default () => {
 		actions[event].push(callback);
 	};
 
+	function on(event: string, callback: CallbackFunction) {
+		console.warn('zb.hooks.on was deprecated in favour of window.zb.addAction');
+		return addAction(event, callback);
+	}
+
 	/**
 	 * Remove an event listener.
 	 */
@@ -24,6 +29,11 @@ export default () => {
 			}
 		}
 	};
+
+	function off(event: string, callback: CallbackFunction) {
+		console.warn('zb.hooks.off was deprecated in favour of window.zb.addAction');
+		return addAction(event, callback);
+	}
 
 	/**
 	 * Dispatch an event.
@@ -60,5 +70,9 @@ export default () => {
 		doAction,
 		addFilter,
 		applyFilters,
+
+		// Deprecated
+		on,
+		off,
 	};
 };

@@ -412,7 +412,7 @@ const optionsReplacements = [
 
 // Methods
 function onBackButtonClick() {
-	if (UIStore.editElement.parent && UIStore.editElement.parent.elementTypeModel.element_type !== 'contentRoot') {
+	if (UIStore.editElement.parent && UIStore.editElement.parent.elementDefinition.element_type !== 'contentRoot') {
 		const parentElement = contentStore.getElement(UIStore.editElement.parent);
 		UIStore.editElement(parentElement);
 	}

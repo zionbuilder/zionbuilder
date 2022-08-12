@@ -33,7 +33,6 @@ export class Element {
 		this.renderAttributes = new RenderAttributes();
 		this.parentUid = parentUid;
 		this.serverRequester = this.createRequester();
-		this.debouncedSaveRenameToHistory = debounce(this.saveRenameToHistory, 750);
 
 		this.addedTime = Date.now();
 	}
@@ -121,33 +120,6 @@ export class Element {
 		return get(this.options, '_advanced_options._element_name', this.elementTypeModel.name);
 	}
 
-	set name(newName) {
-		const oldName = this.name;
-		this.updateOptionValue('_advanced_options._element_name', newName);
-
-		// Add to history
-		this.debouncedSaveRenameToHistory(oldName, newName);
-	}
-
-	saveRenameToHistory(oldName, newName) {
-		const { addToHistory } = useHistory();
-		addToHistory(`Renamed ${oldName} to ${newName}`);
-	}
-
-	// Element visibility
-	get isVisible() {
-		return get(this.options, '_isVisible', true);
-	}
-
-	set isVisible(visbility) {
-		update(this.options, '_isVisible', () => visbility);
-
-		// Add to history
-		const { addToHistory } = useHistory();
-		const visibilityText = visbility ? 'visible' : 'hidden';
-		addToHistory(`Set ${this.name} visibility to ${visibilityText}`);
-	}
-
 	get elementCssId() {
 		let cssID = this.getOptionValue('_advanced_options._element_id', this.uid);
 		cssID = applyFilters('zionbuilder/element/css_id', cssID, this);
@@ -229,49 +201,6 @@ export class Element {
 		const { getElement } = useElementsStore();
 		const element = getElement(this.uid);
 		newParent.addChild(element, index);
-	}
-
-	/**
-	 * Duplicates the current element instance and replaces the UID's
-	 * for it and all it's nested elements
-	 */
-	duplicate() {
-		const indexInParent = this.parent.content.indexOf(this);
-		const elementAsJSON = this.getClone();
-
-		this.parent.addChild(elementAsJSON, indexInParent + 1);
-
-		const { addToHistory } = useHistory();
-		addToHistory(`Duplicated ${this.name}`);
-	}
-
-	/**
-	 * Will delete the element and all it's childrens
-	 */
-	delete() {
-		if (this.parent) {
-			const UIStore = useUIStore();
-
-			if (UIStore.editedElement === this) {
-				UIStore.unEditElement();
-			}
-
-			this.parent.removeChild(this);
-		}
-
-		// Delete all childs
-		if (this.content) {
-			this.content.forEach(child => {
-				child.delete();
-			});
-		}
-
-		const { unregisterElement } = useElementsStore();
-		unregisterElement(this.uid);
-
-		// Add to history
-		const { addToHistory } = useHistory();
-		addToHistory(`Deleted ${this.name}`);
 	}
 
 	deleteChild(child: string | Element) {

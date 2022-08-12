@@ -1,27 +1,27 @@
 import { HistoryCommand } from '../HistoryCommand';
 import { useContentStore } from '/@/editor/store';
+import { regenerateUIDs } from '/@/editor/utils';
 
-export class AddElement extends HistoryCommand {
-	static commandID = 'editor/elements/add';
+export class CopyElement extends HistoryCommand {
+	static commandID = 'editor/elements/copy';
 
 	doCommand() {
-		const contentStore = useContentStore();
-		const { element, parentUID, index } = this.data;
-		const newElement = contentStore.addElement(element, parentUID, index);
+		const { parent, copiedElement, index } = this.data;
+		const newElement = parent.addChild(regenerateUIDs(copiedElement), index);
 
 		if (newElement) {
 			const historyManager = this.getHistory();
 			// Add to history
 			historyManager.addHistoryItem({
-				undo: AddElement.undo,
-				redo: AddElement.redo,
+				undo: CopyElement.undo,
+				redo: CopyElement.redo,
 				data: {
 					elementModel: newElement.toJSON(),
-					parentUID,
+					parentUID: parent.uid,
 					index,
 				},
 				title: newElement.name,
-				action: this.getActionName('added'),
+				action: this.getActionName('copied'),
 			});
 
 			return newElement.uid;
@@ -34,15 +34,14 @@ export class AddElement extends HistoryCommand {
 		const { elementModel } = historyItem.data || {};
 		if (elementModel) {
 			const contentStore = useContentStore();
-			console.log(elementModel.uid);
 			contentStore.deleteElement(elementModel.uid);
 		}
 	}
 
 	public static redo(historyItem) {
-		const { data = {} } = historyItem;
-		const { elementModel, parentUID, index } = data;
+		const { elementModel, parentUID, index } = historyItem.data || {};
 
+		console.log({ elementModel, parentUID, index });
 		const contentStore = useContentStore();
 		contentStore.addElement(elementModel, parentUID, index);
 	}

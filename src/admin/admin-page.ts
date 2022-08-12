@@ -9,6 +9,7 @@ import { install as I18nInstall } from '../common/modules/i18n';
 import { errorInterceptor } from '../common/api';
 import { useNotificationsStore } from '../common/store';
 import { install as ComponentsInstall } from '../common';
+import * as COMMONUTILS from '/@/common/utils';
 
 import { initRoutes, routes } from './router';
 import { useLibrary } from '../common/composables/useLibrary';
@@ -81,3 +82,4 @@ window.zb.admin = {
 };
 
 window.zb.hooks = hooks;
+window.zb.utils = COMMONUTILS;

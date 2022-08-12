@@ -21,6 +21,9 @@ import AddElementIcon from './common/AddElementIcon.vue';
 import EmptySortablePlaceholder from './common/EmptySortablePlaceholder.vue';
 import SortableHelper from './common/SortableHelper.vue';
 import SortablePlaceholder from './common/SortablePlaceholder.vue';
+import RenderValue from '/@/preview/components/RenderValue.vue';
+import ElementIcon from '/@/preview/components/ElementIcon.vue';
+import InlineEditor from '/@/preview/components/InlineEditor/InlineEditor.vue';
 
 // Preview related
 import SortableContent from '/@/preview/components/SortableContent.vue';
@@ -77,6 +80,9 @@ appInstance.component('UIElementIcon', UIElementIcon);
 appInstance.component('SortableHelper', SortableHelper);
 appInstance.component('SortablePlaceholder', SortablePlaceholder);
 appInstance.component('SortableContent', SortableContent);
+appInstance.component('RenderValue', RenderValue);
+appInstance.component('ElementIcon', ElementIcon);
+appInstance.component('InlineEditor', InlineEditor);
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {

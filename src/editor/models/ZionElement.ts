@@ -197,6 +197,8 @@ export class ZionElement {
 		index = index === -1 ? this.content.length : index;
 		elementInstance.parentUID = this.uid;
 		this.content.splice(index, 0, elementInstance.uid);
+
+		return elementInstance;
 	}
 
 	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1) {

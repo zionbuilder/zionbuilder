@@ -20,6 +20,7 @@ export class HistoryCommand extends BaseCommand {
 			hide: translate('hide'),
 			duplicate: translate('duplicate'),
 			wrapped_with_container: translate('wrapped_with_container'),
+			copied: translate('copied'),
 		};
 
 		return actions[action] || 'Invalid action';

@@ -70,7 +70,8 @@ export const useHistoryStore = defineStore('history', {
 			// undo
 			if (newHistoryIndex < this.activeHistoryIndex) {
 				const historyForRestore = this.state.slice(newHistoryIndex, this.activeHistoryIndex + 1);
-
+				console.log(newHistoryIndex, this.activeHistoryIndex + 1);
+				console.log(historyForRestore);
 				historyForRestore.reverse().forEach(historyItem => {
 					if (historyItem.undo) {
 						historyItem.undo(historyItem);

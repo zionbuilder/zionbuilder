@@ -37,7 +37,7 @@ export default {
 		const elementOptions = inject('elementOptions');
 
 		const elementOptionsSchema = computed(() => {
-			return elementInfo.elementTypeModel.options;
+			return elementInfo.elementDefinition.options;
 		});
 
 		const optionType = computed(() => {

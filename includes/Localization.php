@@ -783,6 +783,7 @@ class Localization {
 				'editing_started'                          => esc_html__( 'Editing started', 'zionbuilder' ),
 				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
 				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
+				'copied' => esc_html__( 'copied', 'zionbuilder' ),
 
 			]
 		);

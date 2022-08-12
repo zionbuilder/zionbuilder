@@ -37,7 +37,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const contentModel = props.element.elementTypeModel;
+		const contentModel = props.element.elementDefinition;
 		const logoUrl = window.ZnPbInitialData.urls.logo;
 		const elementContentRef = ref(null);
 		const elementContent = ref('');

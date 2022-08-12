@@ -2,11 +2,8 @@ import { ref, Ref } from 'vue';
 import { cloneDeep, merge, get, set } from 'lodash-es';
 import { Element } from '../models/Element';
 import { useHistory } from './useHistory';
-import { useElementsStore } from '../store/useElementsStore';
 import { useLocalStorage } from './useLocalStorage';
 import { translate } from '/@/common/modules/i18n';
-import { regenerateUIDs } from '../utils';
-import { useContentStore } from '../store';
 
 const copiedElement: Ref<object> = ref({
 	element: null,
@@ -33,7 +30,7 @@ export function useElementActions() {
 		};
 
 		if (action === 'cut') {
-			element.isCutted = true;
+			element.isCut = true;
 
 			removeData('copiedElement');
 		} else if (action === 'copy') {
@@ -63,29 +60,34 @@ export function useElementActions() {
 		// If the element is not a wrapper, add to parent element
 		if (!element.isWrapper || elementForPaste.uid === element.uid) {
 			insertElement = element.parent;
-			index = element.getIndexInParent() + 1;
+			index = element.indexInParent + 1;
 		}
 
 		if (copiedElement.value.action === 'cut' && copiedElement.value.element) {
 			if (copiedElement.value.element === element) {
-				copiedElement.value.element.isCutted = false;
+				copiedElement.value.element.isCut = false;
 				copiedElement.value = {};
 			} else {
-				copiedElement.value.element.isCutted = false;
+				copiedElement.value.element.isCut = false;
 				copiedElement.value.element.move(insertElement, index);
 				addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`);
 			}
 
 			copiedElement.value = {};
 		} else {
-			insertElement.addChild(regenerateUIDs(elementForPaste), index);
-			addToHistory(`${translate('copied')} ${elementForPaste.name}`);
+			window.zb.run('editor/elements/copy', {
+				parent: insertElement,
+				copiedElement: elementForPaste,
+				index,
+			});
+			// insertElement.addChild(regenerateUIDs(elementForPaste), index);
+			// addToHistory(`${translate('copied')} ${elementForPaste.name}`);
 		}
 	};
 
 	const resetCopiedElement = () => {
 		if (copiedElement.value && copiedElement.value.action === 'cut') {
-			copiedElement.value.element.isCutted = false;
+			copiedElement.value.element.isCut = false;
 		}
 		copiedElement.value = {};
 	};
@@ -145,20 +147,6 @@ export function useElementActions() {
 		});
 	};
 
-	function wrapInContainer(element) {
-		const elementsStore = useElementsStore();
-		const parent = element.parent;
-		const newElement = elementsStore.registerElement(
-			{
-				element_type: 'container',
-			},
-			parent,
-		);
-
-		newElement.addChild(element);
-		parent.replaceChild(element, newElement);
-	}
-
 	return {
 		copyElement,
 		pasteElement,
@@ -170,6 +158,5 @@ export function useElementActions() {
 		// Copy element classes
 		copyElementClasses,
 		pasteElementClasses,
-		wrapInContainer,
 	};
 }

@@ -68,8 +68,8 @@
 		<div
 			ref="inlineEditorRef"
 			class="znpb-inline-text-editor"
-			:class="{ 'znpb-inline-text-editor--preview': isPreviewMode }"
-			:contenteditable="!isPreviewMode"
+			:class="{ 'znpb-inline-text-editor--preview': UIStore.isPreviewMode }"
+			:contenteditable="!UIStore.isPreviewMode"
 			@mouseup="checkTextSelection"
 			@dblclick.stop="showEditor = true"
 			@keydown.stop=""

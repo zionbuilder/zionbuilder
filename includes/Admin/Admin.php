@@ -230,7 +230,7 @@ class Admin {
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'admin-page',
-				[ 'wp-codemirror' ],
+				[ 'wp-codemirror', 'zb-vue' ],
 				Plugin::$instance->get_version(),
 				true
 			);

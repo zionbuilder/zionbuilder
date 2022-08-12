@@ -92,7 +92,7 @@ export default {
 			},
 		};
 
-		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementTypeModel.options', {}), advancedSchema);
+		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementDefinition.options', {}), advancedSchema);
 
 		// computed
 		const parsedData = computed(() => {
@@ -253,7 +253,7 @@ export default {
 				{
 					[`zb-el-${elementClass}`]: true,
 					[`znpb-element__wrapper--toolbox-dragging`]: isToolboxDragging.value,
-					'znpb-element__wrapper--cutted': props.element.isCutted,
+					'znpb-element__wrapper--cutted': props.element.isCut,
 					'znpb-element--loading': loading.value,
 				},
 				optionsInstance,
@@ -415,7 +415,7 @@ export default {
 
 		applyCustomClassesToRenderTags() {
 			const elementSavedStyles = get(this.options, '_styles', {});
-			const stylesConfig = this.element.elementTypeModel.style_elements;
+			const stylesConfig = this.element.elementDefinition.style_elements;
 			const attrConfig = get(this.options, 'attributes', {});
 
 			Object.keys(elementSavedStyles).forEach(styleConfigId => {
