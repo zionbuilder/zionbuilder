@@ -34,7 +34,6 @@ export class AddElement extends HistoryCommand {
 		const { elementModel } = historyItem.data || {};
 		if (elementModel) {
 			const contentStore = useContentStore();
-			console.log(elementModel.uid);
 			contentStore.deleteElement(elementModel.uid);
 		}
 	}

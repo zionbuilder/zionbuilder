@@ -40,8 +40,14 @@ export const useHistoryStore = defineStore('history', {
 				this.activeHistoryIndex++;
 			}
 
-			this.state.push(item);
-			this.activeHistoryIndex++;
+			this.activeHistoryIndex += 1;
+
+			if (this.activeHistoryIndex !== this.state.length) {
+				const itemsToRemove = this.state.length - this.activeHistoryIndex;
+				this.state.splice(this.activeHistoryIndex, itemsToRemove, item);
+			} else {
+				this.state.push(item);
+			}
 		},
 		addHistoryItemDebounced: debounce(function (item) {
 			this.addHistoryItem(item);
@@ -55,8 +61,7 @@ export const useHistoryStore = defineStore('history', {
 		},
 		redo() {
 			const newHistoryIndex = this.activeHistoryIndex + 1;
-			if (newHistoryIndex <= this.state.length - 1) {
-				this.activeHistoryIndex = newHistoryIndex;
+			if (newHistoryIndex < this.state.length) {
 				this.restoreHistoryToIndex(newHistoryIndex);
 				this.isDirty = true;
 			}
@@ -69,14 +74,13 @@ export const useHistoryStore = defineStore('history', {
 
 			// undo
 			if (newHistoryIndex < this.activeHistoryIndex) {
-				const historyForRestore = this.state.slice(newHistoryIndex, this.activeHistoryIndex + 1);
-				console.log(newHistoryIndex, this.activeHistoryIndex + 1);
-				console.log(historyForRestore);
-				historyForRestore.reverse().forEach(historyItem => {
+				for (let i = this.activeHistoryIndex; i > newHistoryIndex; i--) {
+					const historyItem = this.state[i];
+
 					if (historyItem.undo) {
 						historyItem.undo(historyItem);
 					}
-				});
+				}
 			} else if (newHistoryIndex > this.activeHistoryIndex) {
 				const historyForRestore = this.state.slice(this.activeHistoryIndex + 1, newHistoryIndex + 1);
 
