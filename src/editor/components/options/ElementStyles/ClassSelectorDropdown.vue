@@ -323,16 +323,17 @@ export default {
 			this.keyword = event;
 
 			// Add new class to store
-			if (!/^[a-z_-][a-z\d_-]*$/i.test(this.keyword) || this.keyword.split('')[0] === '-') {
+			if (!/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/i.test(this.keyword)) {
 				this.errorMessage = 'Invalid class name, classes must not start with numbers and cannot contain spaces';
 				this.invalidClass = true;
 			} else {
 				this.invalidClass = false;
-				this.errorMessage = null;
+				this.errorMessage = false;
 			}
 
 			if (!this.keyword.length) {
-				this.errorMessage = null;
+				this.errorMessage = false;
+				this.invalidClass = false;
 			}
 		},
 		addNewCssClass(event) {

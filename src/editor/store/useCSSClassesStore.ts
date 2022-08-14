@@ -13,6 +13,7 @@ export const useCSSClassesStore = defineStore('CSSClasses', {
 		getClassesByFilter: state => {
 			return (keyword: string) => {
 				const keyToLower = keyword.toLowerCase();
+
 				return state.CSSClasses.filter(
 					cssClass =>
 						cssClass.name.toLowerCase().indexOf(keyToLower) !== -1 ||
