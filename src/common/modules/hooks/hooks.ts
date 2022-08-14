@@ -46,6 +46,11 @@ export default () => {
 		}
 	};
 
+	function trigger(event: string, ...data) {
+		console.warn('zb.hooks.trigger was deprecated in favour of window.zb.addAction');
+		return doAction(event, ...data);
+	}
+
 	const addFilter = (id: string, callback: CallbackFunction) => {
 		if (typeof filters[id] === 'undefined') {
 			filters[id] = [];
@@ -74,5 +79,6 @@ export default () => {
 		// Deprecated
 		on,
 		off,
+		trigger,
 	};
 };
