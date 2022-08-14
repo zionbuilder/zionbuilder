@@ -14,7 +14,6 @@ export class RemoveAllElements extends HistoryCommand {
 		if (areaElement) {
 			// save the model
 			areaModel = areaElement?.toJSON();
-			console.log(areaElement, areaModel);
 
 			// clear area content
 			contentStore.clearAreaContent(areaID);
