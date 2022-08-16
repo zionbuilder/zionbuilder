@@ -1,12 +1,12 @@
 <template>
 	<OptionsForm
 		v-if="child_options"
+		v-model="valueModel"
 		class="znpb-option__type-option-group"
 		:class="{
-			[`znpb-option__type-option-group-layout--${optionsLayout}`]: optionsLayout
+			[`znpb-option__type-option-group-layout--${optionsLayout}`]: optionsLayout,
 		}"
 		:schema="child_options"
-		v-model="valueModel"
 	/>
 </template>
 
@@ -17,27 +17,27 @@ export default {
 		modelValue: {},
 		child_options: {
 			type: Object,
-			required: false
+			required: false,
 		},
 		optionsLayout: {
 			type: String,
-			required: false
-		}
+			required: false,
+		},
 	},
-	data () {
-		return {}
+	data() {
+		return {};
 	},
 	computed: {
 		valueModel: {
-			get () {
-				return this.modelValue || {}
+			get() {
+				return this.modelValue || {};
 			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
-	}
-}
+			set(newValue) {
+				this.$emit('update:modelValue', newValue);
+			},
+		},
+	},
+};
 </script>
 
 <style lang="scss">

@@ -5,7 +5,7 @@
 			v-model="stringValueModel"
 			class="znpb-input-number--has-units"
 			size="narrow"
-			:placeholder="placeholder"
+			:placeholder="computedPlaceholder"
 			@mousedown="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivatedragNumber"
@@ -134,6 +134,11 @@ export default {
 			required: false,
 			default: 5,
 		},
+		placeholder: {
+			type: String,
+			required: false,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -162,7 +167,11 @@ export default {
 				return this.toTop ? this.step : -this.step;
 			}
 		},
-		placeholder() {
+		computedPlaceholder() {
+			if (this.placeholder) {
+				return this.placeholder;
+			}
+
 			if ((this.unit && this.isValidUnit) || this.units.includes(this.unit)) {
 				return this.unit;
 			}

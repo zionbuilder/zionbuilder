@@ -124,8 +124,6 @@ export const useResponsiveDevices = () => {
 	}
 
 	function setActiveResponsiveOptions(instanceConfig: Record<string, unknown>) {
-		console.log('instanceConfig', instanceConfig);
-
 		activeResponsiveOptions.value = instanceConfig;
 	}
 

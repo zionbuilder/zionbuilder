@@ -81,7 +81,7 @@ export default class Options {
 					model[optionId] = cloneDeep(singleOptionSchema.default);
 				}
 
-				if (typeof singleOptionSchema.child_options !== 'undefined') {
+				if (singleOptionSchema.child_options) {
 					if (singleOptionSchema.type === 'repeater') {
 						if (typeof model[optionId] !== 'undefined' && Array.isArray(model[optionId])) {
 							model[optionId].forEach((optionValue, index) => {

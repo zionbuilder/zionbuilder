@@ -1,9 +1,5 @@
 <template>
-	<PopOver
-		icon="ite-weight"
-		:is-active="isActive"
-		:full-size="true"
-	>
+	<PopOver icon="ite-weight" :is-active="isActive" :full-size="true">
 		<InlineEditorButton
 			v-for="fontWeight in fontWeights"
 			:key="fontWeight"
@@ -12,60 +8,59 @@
 			:buttontext="fontWeight"
 		/>
 	</PopOver>
-
 </template>
 
 <script>
-import { ref, computed, inject, onBeforeMount, onBeforeUnmount } from 'vue'
+import { ref, computed, inject, onBeforeMount, onBeforeUnmount } from 'vue';
 
 // Components
-import PopOver from './PopOver.vue'
-import InlineEditorButton from './Button.vue'
+import PopOver from './PopOver.vue';
+import InlineEditorButton from './Button.vue';
 
 export default {
-	props: ['modelValue'],
 	components: {
 		PopOver,
-		InlineEditorButton
+		InlineEditorButton,
 	},
-	setup (props) {
-		const editor = inject('ZionInlineEditor')
-		const isActive = ref(false)
-		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+	props: ['modelValue'],
+	setup(props) {
+		const editor = inject('ZionInlineEditor');
+		const isActive = ref(false);
+		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 
 		const classes = computed(() => {
-			let classes = []
+			let classes = [];
 
 			// Check if the button is active
 			if (isActive.value) {
-				classes.push('zion-inline-editor-button--active')
+				classes.push('zion-inline-editor-button--active');
 			}
 
-			return classes.join(' ')
-		})
+			return classes.join(' ');
+		});
 
-		function checkIfActive () {
-			isActive.value = fontWeights.some((fontWeight) => {
-				return editor.editor.formatter.match('fontWeight', { value: fontWeight })
-			})
+		function checkIfActive() {
+			isActive.value = fontWeights.some(fontWeight => {
+				return editor.editor.formatter.match('fontWeight', { value: fontWeight });
+			});
 		}
 
 		onBeforeMount(() => {
-			checkIfActive()
-			editor.editor.on('NodeChange', checkIfActive)
-		})
+			checkIfActive();
+			editor.editor.on('NodeChange', checkIfActive);
+		});
 
 		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', checkIfActive)
-		})
+			editor.editor.off('NodeChange', checkIfActive);
+		});
 
 		return {
 			isActive,
 			classes,
-			fontWeights
-		}
-	}
-}
+			fontWeights,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

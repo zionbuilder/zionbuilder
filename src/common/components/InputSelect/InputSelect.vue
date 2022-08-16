@@ -28,7 +28,13 @@
 		]"
 		@show="onModalShow"
 	>
-		<div ref="optionWrapper" class="znpb-option-selectOptionPlaceholder">
+		<div
+			ref="optionWrapper"
+			class="znpb-option-selectOptionPlaceholder"
+			:class="{
+				[`znpb-option-selectOptionPlaceholder--real`]: showPlaceholder,
+			}"
+		>
 			<Loader v-if="loadingTitle" :size="14" />
 
 			<span v-else class="znpb-option-selectOptionPlaceholderText">{{ dropdownPlaceholder }}</span>
@@ -339,8 +345,12 @@ export default {
 			loadNext();
 		}
 
+		const showPlaceholder = computed(() => {
+			return typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0);
+		});
+
 		const dropdownPlaceholder = computed(() => {
-			if (typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0)) {
+			if (showPlaceholder.value) {
 				return props.placeholder;
 			} else {
 				if (props.multiple) {
@@ -438,6 +448,7 @@ export default {
 			items,
 			loadingTitle,
 			visibleItems,
+			showPlaceholder,
 		};
 	},
 };
@@ -468,6 +479,10 @@ export default {
 	border: 2px solid var(--zb-input-border-color);
 	border-radius: 3px;
 	cursor: pointer;
+
+	&--real {
+		color: var(--zb-input-placeholder-color);
+	}
 }
 
 .znpb-option-selectOptionPlaceholderText {

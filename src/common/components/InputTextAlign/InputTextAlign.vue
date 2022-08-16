@@ -14,7 +14,7 @@ export default {
 import { computed } from 'vue';
 import { InputCustomSelector } from '../InputCustomSelector';
 
-const { translate } = window.zb.l18n;
+const { translate } = window.zb.i18n;
 const props = defineProps<{
 	modelValue?: string;
 }>();

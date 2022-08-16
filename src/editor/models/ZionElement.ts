@@ -50,6 +50,7 @@ export class ZionElement {
 
 		this.uid = parsedElement.uid;
 		this.element_type = parsedElement.element_type;
+		this.options = options;
 
 		// UI logic
 		this.parentUID = parent;

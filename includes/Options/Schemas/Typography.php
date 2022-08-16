@@ -64,7 +64,7 @@ class Typography extends BaseSchema {
 				'title'       => esc_html__( 'Font Weight', 'zionbuilder' ),
 				'description' => esc_html__( 'Font weight allows you to set the text thickness.', 'zionbuilder' ),
 				'type'        => 'select',
-				'default'     => '400',
+				'placeholder' => '400',
 				'width'       => 50,
 				'options'     => [
 					[

@@ -1,72 +1,123 @@
 <template>
-	<OptionsForm v-model="valueModel" class="znpb-option--responsive-group" :schema="child_options" />
+	<OptionsForm
+		v-model="computedModelValue"
+		class="znpb-option--responsive-group"
+		:schema="computedChildOptionsSchema"
+	/>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { onMounted, onBeforeUnmount, computed } from 'vue';
-import { useResponsiveDevices } from '/@/common/composables';
+import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
+import { get } from 'lodash-es';
 
-export default {
-	name: 'ResponsiveGroup',
-	showWrappers: false,
-	props: {
-		modelValue: {},
-		child_options: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props, { emit }) {
-		const { activeResponsiveDeviceInfo, setActiveResponsiveOptions, removeActiveResponsiveOptions } =
-			useResponsiveDevices();
-		const modelValue = computed(() => props.modelValue);
+const {
+	activeResponsiveDeviceInfo,
+	setActiveResponsiveOptions,
+	removeActiveResponsiveOptions,
+	orderedResponsiveDevices,
+} = useResponsiveDevices();
 
-		onMounted(() =>
-			setActiveResponsiveOptions({
-				modelValue,
-				removeDeviceStyles,
-			}),
-		);
-		onBeforeUnmount(() => removeActiveResponsiveOptions());
+const { activePseudoSelector } = usePseudoSelectors();
 
-		function removeDeviceStyles(device) {
-			const clonedValues = { ...this.modelValue };
-			delete clonedValues[device];
+// Props
+const props = defineProps<{
+	modelValue?: Record<string, unknown>;
+	// eslint-disable-next-line vue/prop-name-casing -- This comes form PHP and cannot be changed to camelCase
+	child_options?: Record<string, unknown>;
+}>();
 
-			emit('update:modelValue', clonedValues);
+// Emits
+const emit = defineEmits(['update:modelValue']);
+
+const computedChildOptionsSchema = computed(() => {
+	if (activeResponsiveDeviceInfo.value.id !== 'default') {
+		console.log({ newSchema: applyPlaceholders(JSON.parse(JSON.stringify(props.child_options))) });
+		return applyPlaceholders(JSON.parse(JSON.stringify(props.child_options)));
+	} else {
+		return props.child_options;
+	}
+});
+
+function applyPlaceholders(schema, existingPath = '') {
+	const newSchema = {};
+
+	Object.keys(schema).forEach(singleOptionId => {
+		const singleOptionSchema = schema[singleOptionId];
+		let newPath = existingPath;
+
+		if (singleOptionSchema.child_options) {
+			singleOptionSchema.child_options = applyPlaceholders(singleOptionSchema.child_options, newPath);
 		}
 
-		return {
-			activeResponsiveDeviceInfo,
-		};
-	},
+		if (!singleOptionSchema.is_layout) {
+			newPath = existingPath ? existingPath + '.' + singleOptionSchema.id : singleOptionId;
+			const higherValue = getHigherResponsiveDeviceValue(newPath);
 
-	data() {
-		return {
-			showWrappers: false,
-		};
-	},
-	computed: {
-		valueModel: {
-			get() {
-				return (this.modelValue || {})[this.activeResponsiveDeviceInfo.id] || {};
-			},
-			set(newValue) {
-				const clonedValue = { ...this.modelValue };
-				// Check if we actually need to delete the option
-				if (newValue === null && typeof clonedValue[this.activeResponsiveDeviceInfo.id]) {
-					// If this is used as layout, we need to delete the active pseudo selector
-					delete clonedValue[this.activeResponsiveDeviceInfo.id];
-				} else {
-					clonedValue[this.activeResponsiveDeviceInfo.id] = newValue;
-				}
+			if (higherValue !== null) {
+				singleOptionSchema.placeholder = higherValue;
+			}
+		}
 
-				// Send the updated value back
-				this.$emit('update:modelValue', clonedValue);
-			},
-		},
+		newSchema[singleOptionId] = singleOptionSchema;
+	});
+
+	return newSchema;
+}
+
+function getHigherResponsiveDeviceValue(schemaPath) {
+	let newValue = null;
+
+	Object.keys(orderedResponsiveDevices.value).forEach(index => {
+		const deviceInfo = orderedResponsiveDevices.value[index];
+		const fullPath = `${deviceInfo.id}.${activePseudoSelector.value.id}.${schemaPath}`;
+		if (deviceInfo.width > activeResponsiveDeviceInfo.value.width) {
+			// console.log({ modelValue: props.modelValue, fullPath });
+			const tempNewValue = get(props.modelValue, fullPath, null);
+			if (tempNewValue !== null) {
+				newValue = tempNewValue;
+			}
+		}
+	});
+
+	return newValue;
+}
+
+const computedModelValue = computed({
+	get() {
+		return (props.modelValue || {})[activeResponsiveDeviceInfo.value.id] || {};
 	},
-};
+	set(newValue) {
+		const clonedValue = { ...props.modelValue };
+		// Check if we actually need to delete the option
+		if (newValue === null && typeof clonedValue[activeResponsiveDeviceInfo.value.id]) {
+			// If this is used as layout, we need to delete the active pseudo selector
+			delete clonedValue[activeResponsiveDeviceInfo.value.id];
+		} else {
+			clonedValue[activeResponsiveDeviceInfo.value.id] = newValue;
+		}
+		console.log({ clonedValue });
+		// Send the updated value back
+		emit('update:modelValue', clonedValue);
+	},
+});
+
+function removeDeviceStyles(device) {
+	const clonedValues = { ...props.modelValue };
+	delete clonedValues[device];
+
+	emit('update:modelValue', clonedValues);
+}
+
+// Lifecycle
+onMounted(() =>
+	setActiveResponsiveOptions({
+		modelValue: computedModelValue,
+		removeDeviceStyles,
+	}),
+);
+
+onBeforeUnmount(() => removeActiveResponsiveOptions());
 </script>
 <style lang="scss">
 .znpb-options-form-wrapper.znpb-option--responsive-group {
