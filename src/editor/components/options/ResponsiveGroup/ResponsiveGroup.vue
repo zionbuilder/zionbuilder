@@ -127,10 +127,12 @@ function removeDeviceStyles(device) {
 	emit('update:modelValue', clonedValues);
 }
 
+const computedAllModelValue = computed(() => props.modelValue);
+
 // Lifecycle
 onMounted(() =>
 	setActiveResponsiveOptions({
-		modelValue: computedModelValue,
+		modelValue: computedAllModelValue,
 		removeDeviceStyles,
 	}),
 );
