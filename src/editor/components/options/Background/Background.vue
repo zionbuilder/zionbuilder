@@ -72,6 +72,11 @@ export default {
 	},
 	props: {
 		modelValue: {},
+		placeholder: {
+			type: Object,
+			required: false,
+			default: {},
+		},
 	},
 	setup(props, { emit }) {
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
@@ -90,20 +95,25 @@ export default {
 			() => activeResponsiveDeviceInfo.value.id === 'default' && activePseudoSelector.value.id === 'default',
 		);
 
+		const bgColorSchema = computed(() => {
+			return {
+				id: 'background-color',
+				type: 'background_color',
+				placeholder: props.placeholder ? props.placeholder['background-color'] : null,
+			};
+		});
+
 		return {
 			activeResponsiveDeviceInfo,
 			activePseudoSelector,
 			valueModel,
 			canShowBackground,
+			bgColorSchema,
 		};
 	},
 
 	data() {
 		return {
-			bgColorSchema: {
-				id: 'background-color',
-				type: 'background_color',
-			},
 			bgGradientSchema: {
 				id: 'background-gradient',
 				type: 'background_gradient',

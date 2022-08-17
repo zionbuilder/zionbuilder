@@ -2,12 +2,12 @@
 	<Color v-model="colorModel" @open="$emit('open')" @close="$emit('close')">
 		<template #trigger>
 			<div class="znpb-style-background-color">
-				<EmptyList v-if="!modelValue" class="znpb-input-background-image__empty" :no-margin="true">
+				<EmptyList v-if="!modelValue && !placeholder" class="znpb-input-background-image__empty" :no-margin="true">
 					{{ $translate('select_background_color') }}
 				</EmptyList>
-				<ActionsOverlay v-if="modelValue">
+				<ActionsOverlay v-else>
 					<div class="znpb-style-background-color__holder" :style="getColorStyle"></div>
-					<template #actions>
+					<template v-if="modelValue" #actions>
 						<div>
 							<Icon :rounded="true" icon="delete" :bg-size="30" @click.stop="deleteColor" />
 						</div>
@@ -23,7 +23,13 @@ export default {
 	name: 'BackgroundColor',
 	props: {
 		modelValue: {
+			type: String,
 			required: false,
+		},
+		placeholder: {
+			type: String || null,
+			required: false,
+			default: null,
 		},
 	},
 	data() {
@@ -43,7 +49,7 @@ export default {
 					} else computedValue = this.modelValue.value;
 				}
 
-				return computedValue !== null ? computedValue : '';
+				return computedValue !== null ? computedValue : this.placeholder;
 			},
 			set(newColor) {
 				this.$emit('update:modelValue', newColor);
@@ -51,7 +57,7 @@ export default {
 		},
 		getColorStyle() {
 			return {
-				'background-color': this.colorModel,
+				'background-color': this.colorModel || this.placeholder,
 			};
 		},
 	},
