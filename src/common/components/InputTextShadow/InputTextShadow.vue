@@ -13,6 +13,7 @@ export default {
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useOptionsSchemas } from '../../composables';
+import { omit } from 'lodash-es';
 
 interface Shadow {
 	'offset-x'?: string;
@@ -26,12 +27,16 @@ const props = withDefaults(
 		modelValue?: Shadow;
 		inset?: boolean;
 		shadow_type?: string;
+		placeholder?: Shadow;
 	}>(),
 	{
 		modelValue: () => {
 			return {};
 		},
 		shadow_type: 'text-shadow',
+		placeholder: () => {
+			return {};
+		},
 	},
 );
 
@@ -40,12 +45,24 @@ const emit = defineEmits(['update:modelValue']);
 const { getSchema } = useOptionsSchemas();
 
 const schema = computed(() => {
+	let schema = getSchema('shadowSchema');
+
 	if (props.shadow_type === 'text-shadow') {
-		const { inset, spread, ...shadowSchema } = getSchema('shadowSchema');
-		return shadowSchema;
+		schema = omit(schema, ['inset', 'spread']);
+		// const { inset, spread, ...schema } = schema;
 	}
 
-	return getSchema('shadowSchema');
+	if (Object.keys(props.placeholder).length > 0) {
+		Object.keys(schema).forEach(singleSchemaID => {
+			const singleSchema = schema[singleSchemaID];
+
+			if (typeof props.placeholder[singleSchemaID] !== 'undefined') {
+				singleSchema.placeholder = props.placeholder[singleSchemaID];
+			}
+		});
+	}
+
+	return schema;
 });
 
 const valueModel = computed({
