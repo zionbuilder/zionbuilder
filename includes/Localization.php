@@ -237,6 +237,9 @@ class Localization {
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name
 				'history_panel'                            => __( 'History', 'zionbuilder' ),
+				'history_panel_empty_title'                    => __( 'Your history is empty', 'zionbuilder' ),
+				'history_panel_empty_desc'                    => __( 'Modify your page and your changes will appear here', 'zionbuilder' ),
+
 				'add_elements_panel'                       => __( 'Add elements', 'zionbuilder' ),
 				'library_panel'                            => __( 'Library', 'zionbuilder' ),
 				'tree_view_panel'                          => __( 'Tree view panel', 'zionbuilder' ),

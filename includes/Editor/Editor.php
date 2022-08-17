@@ -358,6 +358,7 @@ class Editor {
 					'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
 					'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
 					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
+					'plugin_root' => Utils::get_file_url()
 				],
 				'masks'               => Masks::getshapes(),
 				'builder_settings'    => [],

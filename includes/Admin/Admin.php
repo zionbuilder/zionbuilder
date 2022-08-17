@@ -298,6 +298,7 @@ class Admin {
 						'urls'             => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),
+							'plugin_root' => Utils::get_file_url()
 						],
 					]
 				)
