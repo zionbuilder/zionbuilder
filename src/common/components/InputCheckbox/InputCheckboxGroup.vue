@@ -10,7 +10,11 @@
 				:option-value="option.id"
 				:label="option.name"
 				:disabled="disabled"
+				:placeholder="placeholder"
 				:title="option.icon ? option.name : false"
+				:class="{
+					[`znpb-checkbox-list--isPlaceholder`]: model.length === 0 && placeholder && placeholder.includes(option.id),
+				}"
 			>
 				<Icon v-if="option.icon" :icon="option.icon"></Icon>
 			</InputCheckbox>
@@ -42,12 +46,16 @@ const props = withDefaults(
 		options?: { id: string; name: string; icon: string }[];
 		disabled?: boolean;
 		displayStyle?: string;
+		placeholder?: string[];
 	}>(),
 	{
 		modelValue: () => {
 			return [];
 		},
 		direction: 'vertical',
+		placeholder: () => {
+			return [];
+		},
 	},
 );
 
@@ -104,6 +112,7 @@ const hasSlots = computed(() => {
 			margin-bottom: 0;
 		}
 	}
+
 	&--horizontal {
 		display: flex;
 		justify-content: space-between;
@@ -112,11 +121,10 @@ const hasSlots = computed(() => {
 	// Styles
 	&-style--buttons {
 		.znpb-checkbox-wrapper {
-			padding: 0 2px;
+			background-color: var(--zb-surface-lighter-color);
 
 			.znpb-checkmark-option {
-				padding: 13px;
-				margin-left: 0;
+				padding: 10px;
 			}
 		}
 
@@ -130,12 +138,14 @@ const hasSlots = computed(() => {
 			justify-content: center;
 			align-items: center;
 			padding: 10px;
-			background-color: var(--zb-surface-lighter-color);
 			border-radius: 2px;
+			margin: 3px;
+		}
 
-			&:hover {
-				background-color: var(--zb-surface-lightest-color);
-			}
+		.znpb-checkbox-wrapper:hover .znpb-checkmark-option,
+		.znpb-checkbox-list--isPlaceholder .znpb-checkmark-option {
+			background-color: var(--zb-surface-lightest-color);
+			color: var(--zb-surface-text-active-color);
 		}
 
 		& input:checked ~ .znpb-checkmark-option {

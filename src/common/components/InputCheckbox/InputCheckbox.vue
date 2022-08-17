@@ -39,10 +39,14 @@ const props = withDefaults(
 		disabled?: boolean;
 		checked?: boolean;
 		rounded?: boolean;
+		placeholder?: boolean | string[];
 	}>(),
 	{
 		modelValue: true,
 		showLabel: true,
+		placeholder: () => {
+			return [];
+		},
 	},
 );
 

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<InputCustomSelector v-model="textAlignModel" :options="textAlignOptions" :columns="4"> </InputCustomSelector>
+		<InputCustomSelector v-model="textAlignModel" :placeholder="placeholder" :options="textAlignOptions" :columns="4" />
 	</div>
 </template>
 
@@ -17,6 +17,7 @@ import { InputCustomSelector } from '../InputCustomSelector';
 const { translate } = window.zb.i18n;
 const props = defineProps<{
 	modelValue?: string;
+	placeholder?: string;
 }>();
 
 const emit = defineEmits<{

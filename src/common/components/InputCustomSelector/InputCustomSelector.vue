@@ -7,6 +7,7 @@
 				class="znpb-custom-selector__item"
 				:title="option.icon ? option.name : ''"
 				:class="{
+					['znpb-custom-selector__item--activePlaceholder']: !modelValue && placeholder === option.id,
 					['znpb-custom-selector__item--active']: modelValue === option.id,
 					[`znpb-custom-selector__columns-${columns}`]: columns,
 				}"
@@ -43,6 +44,7 @@ const props = defineProps<{
 	columns?: 1 | 2 | 3 | 4;
 	modelValue?: SelectValue;
 	textIcon?: boolean;
+	placeholder?: SelectValue;
 }>();
 
 const emit = defineEmits<{
@@ -86,10 +88,12 @@ function changeValue(newValue: SelectValue) {
 		border-radius: 2px;
 		cursor: pointer;
 
-		&:hover {
+		&:hover,
+		&--activePlaceholder {
 			color: var(--zb-surface-text-active-color);
 			background-color: var(--zb-surface-lightest-color);
 		}
+
 		&--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);

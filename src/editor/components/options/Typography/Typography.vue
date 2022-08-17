@@ -1,9 +1,10 @@
 <template>
-	<OptionsForm v-model="valueModel" :schema="getSchema('typography')" class="znpb-option__typography-wrapper" />
+	<OptionsForm v-model="valueModel" :schema="computedSchema" class="znpb-option__typography-wrapper" />
 </template>
 
 <script>
 import { useOptionsSchemas } from '/@/common/composables';
+import { computed } from 'vue';
 
 export default {
 	name: 'Typography',
@@ -14,11 +15,35 @@ export default {
 				return {};
 			},
 		},
+		placeholder: {
+			type: Object,
+			required: false,
+			default: null,
+		},
 	},
-	setup() {
-		const { getSchema } = useOptionsSchemas();
+	setup(props) {
+		const computedSchema = computed(() => {
+			const { getSchema } = useOptionsSchemas();
+			const schema = getSchema('typography');
+
+			if (props.placeholder) {
+				const newSchema = {};
+				Object.keys(schema).forEach(optionID => {
+					const childSchema = schema[optionID];
+					if (typeof props.placeholder[optionID] !== 'undefined') {
+						childSchema.placeholder = props.placeholder[optionID];
+					}
+
+					newSchema[optionID] = childSchema;
+				});
+				return newSchema;
+			} else {
+				return schema;
+			}
+		});
+
 		return {
-			getSchema,
+			computedSchema,
 		};
 	},
 	computed: {

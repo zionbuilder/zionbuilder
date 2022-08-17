@@ -32,7 +32,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const computedChildOptionsSchema = computed(() => {
 	if (activeResponsiveDeviceInfo.value.id !== 'default') {
-		console.log({ newSchema: applyPlaceholders(JSON.parse(JSON.stringify(props.child_options))) });
 		return applyPlaceholders(JSON.parse(JSON.stringify(props.child_options)));
 	} else {
 		return props.child_options;
@@ -57,6 +56,12 @@ function applyPlaceholders(schema, existingPath = '') {
 			if (higherValue !== null) {
 				singleOptionSchema.placeholder = higherValue;
 			}
+		} else {
+			const higherValue = getHigherResponsiveDeviceValue(existingPath, true);
+
+			if (higherValue !== null) {
+				singleOptionSchema.placeholder = higherValue;
+			}
 		}
 
 		newSchema[singleOptionId] = singleOptionSchema;
@@ -65,18 +70,31 @@ function applyPlaceholders(schema, existingPath = '') {
 	return newSchema;
 }
 
-function getHigherResponsiveDeviceValue(schemaPath) {
+function getHigherResponsiveDeviceValue(schemaPath, isLayout = false) {
 	let newValue = null;
+	let oldValue = {};
 
 	Object.keys(orderedResponsiveDevices.value).forEach(index => {
 		const deviceInfo = orderedResponsiveDevices.value[index];
-		const fullPath = `${deviceInfo.id}.${activePseudoSelector.value.id}.${schemaPath}`;
-		if (deviceInfo.width > activeResponsiveDeviceInfo.value.width) {
-			// console.log({ modelValue: props.modelValue, fullPath });
+		let fullPath;
+
+		if (schemaPath.length > 0) {
+			fullPath = `${deviceInfo.id}.${activePseudoSelector.value.id}.${schemaPath}`;
+		} else {
+			fullPath = `${deviceInfo.id}.${activePseudoSelector.value.id}`;
+		}
+		if (deviceInfo.id === 'default' || deviceInfo.width > activeResponsiveDeviceInfo.value.width) {
 			const tempNewValue = get(props.modelValue, fullPath, null);
+
 			if (tempNewValue !== null) {
-				newValue = tempNewValue;
+				if (isLayout) {
+					newValue = Object.assign({}, oldValue, tempNewValue || {});
+				} else {
+					newValue = tempNewValue;
+				}
 			}
+
+			oldValue = newValue;
 		}
 	});
 
@@ -96,7 +114,7 @@ const computedModelValue = computed({
 		} else {
 			clonedValue[activeResponsiveDeviceInfo.value.id] = newValue;
 		}
-		console.log({ clonedValue });
+
 		// Send the updated value back
 		emit('update:modelValue', clonedValue);
 	},

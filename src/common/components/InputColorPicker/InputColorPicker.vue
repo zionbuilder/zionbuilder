@@ -5,6 +5,7 @@
 			ref="color"
 			v-model="colorModel"
 			:show-library="showLibrary"
+			:placeholder="placeholder"
 			class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
 			@open="$emit('open')"
 			@close="$emit('close')"
@@ -33,12 +34,13 @@
 			</template>
 		</Color>
 
-		<BaseInput v-else v-model="colorModel" :placeholder="$translate('color')">
+		<BaseInput v-else v-model="colorModel" :placeholder="computedPlaceholder">
 			<template #prepend>
 				<Color
 					v-model="colorModel"
 					:show-library="showLibrary"
 					class="znpb-colorpicker-circle znpb-colorpicker-circle--trigger znpb-colorpicker-circle--opacity"
+					:placeholder="placeholder"
 					@open="$emit('open')"
 					@close="$emit('close')"
 				>
@@ -50,13 +52,13 @@
 								tag="span"
 							>
 								<span
-									:style="{ backgroundColor: modelValue }"
+									:style="{ backgroundColor: modelValue || placeholder }"
 									class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 								></span>
 							</Tooltip>
 							<span
 								v-else
-								:style="{ backgroundColor: modelValue }"
+								:style="{ backgroundColor: modelValue || placeholder }"
 								class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle"
 							></span>
 
@@ -90,6 +92,7 @@ import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';
 import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';
+import { translate } from '../../modules/i18n';
 
 const props = withDefaults(
 	defineProps<{
@@ -97,9 +100,11 @@ const props = withDefaults(
 		type?: null;
 		dynamicContentConfig?: object;
 		showLibrary?: boolean;
+		placeholder?: string | null;
 	}>(),
 	{
 		showLibrary: true,
+		placeholder: null,
 	},
 );
 
@@ -110,6 +115,10 @@ const emit = defineEmits<{
 }>();
 
 const color = ref<InstanceType<typeof Color> | null>(null);
+
+const computedPlaceholder = computed(() => {
+	return props.placeholder || translate('color');
+});
 
 const colorModel = computed({
 	get() {

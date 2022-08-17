@@ -32,7 +32,7 @@
 		<template #content>
 			<ColorPicker
 				ref="colorpickerHolder"
-				:model="modelValue"
+				:model="modelValue.length > 0 ? modelValue : placeholder"
 				@color-changed="updateColor"
 				@click.stop="onColorPickerClick"
 				@mousedown.stop="onColorPickerMousedown"
@@ -70,6 +70,7 @@ withDefaults(
 		appendTo?: string;
 		showLibrary?: boolean;
 		dynamicContentConfig?: any;
+		placeholder?: string;
 	}>(),
 	{
 		modelValue: '',
@@ -150,7 +151,6 @@ onBeforeUnmount(() => {
 	document.removeEventListener('click', closePanelOnOutsideClick);
 
 	if (backdrop) {
-		document.body.appendChild(backdrop);
 		backdrop.parentNode?.removeChild(backdrop);
 	}
 });
