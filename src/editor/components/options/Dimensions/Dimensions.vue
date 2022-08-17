@@ -1,43 +1,32 @@
 <template>
 	<div class="znpb-dimensions-wrapper">
-		<div
-			v-for="(dimension, i) in computedDimensions"
-			:key="i"
-			class="znpb-dimension"
-			:class="`znpb-dimension--${i}`"
-		>
-			<div
-				class="znpb-dimensions_icon"
-				v-if="dimension.name !== 'link'"
-			>
+		<div v-for="(dimension, i) in computedDimensions" :key="i" class="znpb-dimension" :class="`znpb-dimension--${i}`">
+			<div v-if="dimension.name !== 'link'" class="znpb-dimensions_icon">
 				<Icon :icon="dimension.icon"></Icon>
 			</div>
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
 				:modelValue="valueModel[dimension.id] || null"
-				@update:modelValue="onValueUpdated(dimension.id, $event)"
 				:title="dimension.id"
-				@linked-value="handleLinkValues"
 				:min="min"
 				:max="max"
 				:units="['px', 'rem', 'pt', 'vh', '%']"
 				:step="1"
 				default-unit="px"
+				:placeholder="placeholder ? placeholder[dimension.id] : null"
+				@update:modelValue="onValueUpdated(dimension.id, $event)"
+				@linked-value="handleLinkValues"
 			/>
-			<div
-				class="znpb-dimensions__center"
-				v-if="dimension.name === 'link'"
-			>
+			<div v-if="dimension.name === 'link'" class="znpb-dimensions__center">
 				<Icon
 					:icon="linked ? 'link' : 'unlink'"
 					:title="linked ? 'Unlink' : 'Link'"
 					class="znpb-dimensions__link"
-					:class="{['znpb-dimensions__link--linked']: linked}"
+					:class="{ ['znpb-dimensions__link--linked']: linked }"
 					@click="handleLinkValues"
 				></Icon>
 			</div>
 		</div>
-
 	</div>
 </template>
 <script>
@@ -48,93 +37,103 @@ export default {
 		 * v-model/value for border radius
 		 */
 		modelValue: {
-			default () {
-				return {}
+			default() {
+				return {};
 			},
 			type: Object,
-			required: false
+			required: false,
 		},
 		dimensions: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		min: {
-			type: Number
+			type: Number,
 		},
 		max: {
-			type: Number
-		}
+			type: Number,
+		},
+		placeholder: {
+			required: false,
+			type: Object,
+			default: () => {
+				return {};
+			},
+		},
 	},
-	data () {
+	data() {
 		return {
-			linked: false
-		}
+			linked: false,
+		};
 	},
 
 	computed: {
-		valueModel () {
-			return this.modelValue || {}
+		valueModel() {
+			return this.modelValue || {};
 		},
-		computedDimensions () {
+		computedDimensions() {
 			return [
 				...this.dimensions,
 				{
-					'name': 'link',
-					'id': 'link'
-				}
-			]
-		}
+					name: 'link',
+					id: 'link',
+				},
+			];
+		},
 	},
 	methods: {
-		handleLinkValues () {
-			this.linked = !this.linked
+		handleLinkValues() {
+			this.linked = !this.linked;
 
 			if (this.linked) {
 				// Check to see if we already have a saved value
-				const dimensionsIDs = this.dimensions.map(dimension => dimension.id)
-				const savedPositionValue = Object.keys(this.valueModel).find(position => dimensionsIDs.includes(position) && typeof this.valueModel[position] !== 'undefined')
+				const dimensionsIDs = this.dimensions.map(dimension => dimension.id);
+				const savedPositionValue = Object.keys(this.valueModel).find(
+					position => dimensionsIDs.includes(position) && typeof this.valueModel[position] !== 'undefined',
+				);
 
 				if (savedPositionValue) {
-					this.onValueUpdated('', this.valueModel[savedPositionValue])
+					this.onValueUpdated('', this.valueModel[savedPositionValue]);
 				}
 			}
 		},
-		onValueUpdated (position, newValue) {
+		onValueUpdated(position, newValue) {
 			/**
 			 * emits new object with new value of borders
 			 */
 			if (this.linked) {
 				const valuesToUpdate = this.dimensions.filter(dimension => {
-					return dimension.id !== 'link'
-				})
-				let values = {}
+					return dimension.id !== 'link';
+				});
+				let values = {};
 				valuesToUpdate.forEach(value => {
-					values[value.id] = newValue
-				})
+					values[value.id] = newValue;
+				});
 				this.$emit('update:modelValue', {
 					...this.valueModel,
-					...values
-				})
+					...values,
+				});
 			} else {
 				this.$emit('update:modelValue', {
 					...this.valueModel,
-					[position]: newValue
-				})
+					[position]: newValue,
+				});
 			}
-		}
-	}
-}
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-dimensions-wrapper {
 	display: grid;
 
-	grid-template-areas: "a b c"
-	"d b e";
+	grid-template-areas:
+		'a b c'
+		'd b e';
 	.znpb-dimensions__link {
 		color: var(--zb-surface-icon-color);
 		background-color: var(--zb-surface-lighter-color);
-		transition: color .15s;
+		transition: color 0.15s;
 
 		&:hover {
 			color: var(--zb-surface-text-hover-color);
