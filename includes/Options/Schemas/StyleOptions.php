@@ -150,24 +150,25 @@ class StyleOptions extends BaseSchema {
 				'min'         => 0,
 				'dimensions'  => [
 					[
-						'name' => 'top right',
-						'icon' => 't-r-corner',
-						'id'   => 'border-top-right-radius',
-					],
-					[
 						'name' => 'top left',
 						'icon' => 't-l-corner',
 						'id'   => 'border-top-left-radius',
 					],
 					[
-						'name' => 'bottom right',
-						'icon' => 'b-r-corner',
-						'id'   => 'border-bottom-right-radius',
+						'name' => 'top right',
+						'icon' => 't-r-corner',
+						'id'   => 'border-top-right-radius',
 					],
+
 					[
 						'name' => 'bottom left',
 						'icon' => 'b-l-corner',
 						'id'   => 'border-bottom-left-radius',
+					],
+					[
+						'name' => 'bottom right',
+						'icon' => 'b-r-corner',
+						'id'   => 'border-bottom-right-radius',
 					],
 				],
 			]
