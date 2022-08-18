@@ -107,28 +107,6 @@ class StyleOptions extends BaseSchema {
 				'type'        => 'borders',
 				'title'       => esc_html__( 'Border', 'zionbuilder' ),
 				'description' => esc_html__( 'Choose the desired border style.', 'zionbuilder' ),
-				'dimensions'  => [
-					[
-						'name' => 'right',
-						'icon' => 'border-right',
-						'id'   => 'border-right',
-					],
-					[
-						'name' => 'top',
-						'icon' => 'border-top',
-						'id'   => 'border-top',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'border-left',
-						'id'   => 'border-left',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'border-bottom',
-						'id'   => 'border-bottom',
-					],
-				],
 			]
 		);
 

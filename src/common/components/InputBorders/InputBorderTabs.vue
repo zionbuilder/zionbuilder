@@ -10,6 +10,7 @@
 
 				<InputBorderControl
 					:modelValue="computedValue[tab.id] || {}"
+					:placeholder="placeholder ? placeholder[tab.id] : null"
 					@update:modelValue="onValueUpdated(tab.id as PositionIds, $event)"
 				></InputBorderControl>
 			</Tab>
@@ -34,6 +35,7 @@ type ModelValue = Partial<Record<PositionIds, BorderValue>>;
 
 const props = defineProps<{
 	modelValue?: ModelValue;
+	placeholder?: ModelValue;
 }>();
 
 const emit = defineEmits<{

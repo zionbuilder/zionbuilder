@@ -13,46 +13,58 @@ import { computed } from 'vue';
 
 export type BorderValue = { color?: string; style?: string; width?: string };
 
-const props = defineProps<{
-	modelValue?: BorderValue;
-	title?: string;
-}>();
+const props = withDefaults(
+	defineProps<{
+		modelValue?: BorderValue;
+		title?: string;
+		placeholder?: BorderValue;
+	}>(),
+	{
+		placeholder: () => {
+			return {};
+		},
+	},
+);
 
 const emit = defineEmits<{
 	(e: 'update:modelValue', value: BorderValue): void;
 }>();
 
-const schema = {
-	color: {
-		id: 'color',
-		type: 'colorpicker',
-		css_class: 'znpb-border-control-group-item',
-		title: 'Color',
-		width: 100,
-	},
-	width: {
-		id: 'width',
-		type: 'number_unit',
-		title: 'Width',
-		min: 0,
-		max: 999,
-		units: ['px', 'rem', 'pt', 'vh', '%'],
-		step: 1,
-		css_class: 'znpb-border-control-group-item',
-		width: 50,
-	},
-	style: {
-		id: 'style',
-		type: 'select',
-		title: 'Style',
-		default: 'solid',
-		options: ['solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset'].map(style => {
-			return { name: style, id: style };
-		}),
-		css_class: 'znpb-border-control-group-item',
-		width: 50,
-	},
-};
+const schema = computed(() => {
+	return {
+		color: {
+			id: 'color',
+			type: 'colorpicker',
+			css_class: 'znpb-border-control-group-item',
+			title: 'Color',
+			width: 100,
+			placeholder: props.placeholder ? props.placeholder['color'] : null,
+		},
+		width: {
+			id: 'width',
+			type: 'number_unit',
+			title: 'Width',
+			min: 0,
+			max: 999,
+			units: ['px', 'rem', 'pt', 'vh', '%'],
+			step: 1,
+			css_class: 'znpb-border-control-group-item',
+			width: 50,
+			placeholder: props.placeholder ? props.placeholder['width'] : null,
+		},
+		style: {
+			id: 'style',
+			type: 'select',
+			title: 'Style',
+			options: ['solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'inset', 'outset'].map(style => {
+				return { name: style, id: style };
+			}),
+			css_class: 'znpb-border-control-group-item',
+			width: 50,
+			placeholder: props.placeholder ? props.placeholder['style'] : 'solid',
+		},
+	};
+});
 
 const computedValue = computed({
 	get() {
