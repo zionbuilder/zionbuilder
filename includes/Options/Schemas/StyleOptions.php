@@ -424,7 +424,7 @@ class StyleOptions extends BaseSchema {
 				'title'       => __( 'Direction', 'zionbuilder' ),
 				'description' => __( 'Set the text direction', 'zionbuilder' ),
 				'columns'     => 2,
-				'default'     => 'ltr',
+				'placeholder' => 'ltr',
 				'options'     => [
 					[
 						'name' => __( 'ltr', 'zionbuilder' ),
@@ -445,7 +445,7 @@ class StyleOptions extends BaseSchema {
 				'title'       => __( 'Cursor', 'zionbuilder' ),
 				'description' => __( 'Set the cursor style', 'zionbuilder' ),
 				'columns'     => 2,
-				'default'     => 'auto',
+				'placeholder'     => 'auto',
 				'filterable'  => true,
 				'options'     => [
 					[

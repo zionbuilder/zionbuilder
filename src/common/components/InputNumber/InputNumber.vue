@@ -7,6 +7,7 @@
 			:min="min"
 			:max="max"
 			:step="shiftKey ? shiftStep : step"
+			:placeholder="placeholder"
 			@keydown="onKeyDown"
 			@mousedown="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
@@ -40,10 +41,12 @@ const props = withDefaults(
 		step?: number;
 		shiftStep?: number;
 		suffix?: string;
+		placeholder?: number | null;
 	}>(),
 	{
 		step: 1,
 		shiftStep: 5,
+		placeholder: null,
 	},
 );
 
