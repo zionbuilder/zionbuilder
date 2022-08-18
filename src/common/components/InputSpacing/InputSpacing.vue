@@ -20,7 +20,12 @@
 				@mousedown="startDragging($event, position)"
 				@click="activePopup = position"
 			>
-				<input type="text" placeholder="-" :value="computedValues[position.position]" readonly />
+				<input
+					type="text"
+					:placeholder="placeholder ? placeholder[position.position] : '-'"
+					:value="computedValues[position.position]"
+					readonly
+				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
 				<span class="znpb-optSpacing-label">{{ $translate('margin') }}</span>
@@ -72,7 +77,12 @@
 				@mousedown="startDragging($event, position)"
 				@click="activePopup = position"
 			>
-				<input type="text" placeholder="-" :value="computedValues[position.position]" readonly />
+				<input
+					type="text"
+					:placeholder="placeholder ? placeholder[position.position] : '-'"
+					:value="computedValues[position.position]"
+					readonly
+				/>
 			</div>
 
 			<div class="znpb-optSpacing-labelWrapper">
@@ -122,6 +132,7 @@
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
+					:placeholder="placeholder ? placeholder[activePopup.position] : '-'"
 				/>
 			</div>
 		</div>
@@ -159,9 +170,13 @@ type Type = 'margin' | 'padding';
 const props = withDefaults(
 	defineProps<{
 		modelValue?: Partial<Record<PositionId, string>>;
+		placeholder?: Partial<Record<PositionId, string>>;
 	}>(),
 	{
 		modelValue: () => {
+			return {};
+		},
+		placeholder: () => {
 			return {};
 		},
 	},
