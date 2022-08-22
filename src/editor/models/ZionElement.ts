@@ -1,6 +1,7 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
 import { regenerateUIDs } from '/@/editor/utils';
+import { applyFilters } from '/@/common/modules/hooks';
 import { update, get, isPlainObject, each, pull } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 
@@ -83,6 +84,12 @@ export class ZionElement {
 			elementUID: this.uid,
 			newName,
 		});
+	}
+
+	get elementCssId() {
+		let cssID = this.getOptionValue('_advanced_options._element_id', this.uid);
+		cssID = applyFilters('zionbuilder/element/css_id', cssID, this);
+		return cssID;
 	}
 
 	setName(newName: string) {
