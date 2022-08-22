@@ -48,6 +48,7 @@ import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useElementDefinitionsStore } from '/@/editor/store';
 import { translate } from '/@/common/modules/i18n';
+import WireframeList from './WireframeList.vue';
 
 const props = defineProps<{
 	element: ZionElement;

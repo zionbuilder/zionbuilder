@@ -1,6 +1,6 @@
 <template>
 	<Sortable
-		v-model="templateItems"
+		v-model="children"
 		tag="ul"
 		class="znpb-wireframe-view-wrapper"
 		group="pagebuilder-wireframe-elements"
@@ -13,7 +13,7 @@
 		@start="onSortableStart"
 		@end="onSortableEnd"
 	>
-		<WireframeListItem v-for="element in templateItems" :key="element.uid" :element="element" />
+		<WireframeListItem v-for="element in children" :key="element.uid" :element="element" />
 
 		<template #helper>
 			<SortableHelper />
@@ -38,21 +38,33 @@ import { computed } from 'vue';
 import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
-
-import { useTreeViewList } from '../useTreeViewList';
-import { useUIStore } from '/@/editor/store';
+import { useUIStore, useContentStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
 import WireframeListItem from './WireframeListItem.vue';
 
-const props = defineProps<{
-	element: ZionElement;
-	showAdd: boolean;
-}>();
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		showAdd?: boolean;
+	}>(),
+	{
+		showAdd: true,
+	},
+);
 
 const UIStore = useUIStore();
-const { templateItems } = useTreeViewList(props);
+const contentStore = useContentStore();
+const children = computed({
+	get: () => props.element.content.map(child => contentStore.getElement(child)),
+	set: newValue =>
+		contentStore.updateElement(
+			props.element.uid,
+			'content',
+			newValue.map(element => element.uid),
+		),
+});
 
 const getSortableAxis = computed(() => {
 	if (props.element.element_type === 'contentRoot') {
