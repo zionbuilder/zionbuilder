@@ -275,14 +275,14 @@ function redo() {
 history.value.push(JSON.parse(JSON.stringify(elementOptions.value)));
 
 // Change the tab when a new element is selected
-watch(UIStore.editedElement, newValue => {
-	activeKeyTab.value = 'general';
-	searchActive.value = false;
-	optionsFilterKeyword.value = '';
+// watch(UIStore.editedElement, newValue => {
+// 	activeKeyTab.value = 'general';
+// 	searchActive.value = false;
+// 	optionsFilterKeyword.value = '';
 
-	// Clear selected pseudo selector
-	setActivePseudoSelector(null);
-});
+// 	// Clear selected pseudo selector
+// 	setActivePseudoSelector(null);
+// });
 
 provideElement(UIStore.editedElement);
 provide('elementInfo', UIStore.editedElement);
