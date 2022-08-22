@@ -20,7 +20,6 @@
 import { ref, computed, watch } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useContentStore, useUIStore } from '../store';
-import { useElementUtils } from '/@/editor/composables';
 
 const props = withDefaults(
 	defineProps<{

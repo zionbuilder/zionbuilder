@@ -9,4 +9,3 @@ export * from './useSaveTemplate';
 export * from './useElementActions';
 export * from './useAutosave';
 export * from './useLocalStorage';
-export * from './useElementUtils';

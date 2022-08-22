@@ -1,7 +1,7 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{ 'znpb-section-view-item--hidden': !isVisible }"
+		:class="{ 'znpb-section-view-item--hidden': !element.isVisible }"
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -22,7 +22,7 @@
 			</div>
 
 			<Icon
-				v-if="!isVisible"
+				v-if="!element.isVisible"
 				v-znpb-tooltip="$translate('enable_hidden_element')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
@@ -36,22 +36,18 @@
 	</li>
 </template>
 <script lang="ts" setup>
-import { ref, Ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useContentStore } from '/@/editor/store';
-import { useElementUtils } from '/@/editor/composables';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
 const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
-const { isVisible, highlight, unHighlight, isWrapper } = useElementUtils(props.element);
 
-const contentStore = useContentStore();
 const imageSrc = ref(null);
 const error = ref(null);
 const loading = ref(true);

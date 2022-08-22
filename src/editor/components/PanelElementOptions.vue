@@ -29,7 +29,7 @@
 			<div class="znpb-element-options__header">
 				<!-- Show back button for child elements -->
 				<div
-					v-if="elementUtils.elementDefinition.value.is_child"
+					v-if="UIStore.editedElement?.elementDefinition.is_child"
 					class="znpb-element-options__header-back"
 					@click="onBackButtonClick"
 				>
@@ -146,7 +146,7 @@ import { ref, Ref, watch, provide, computed, onMounted, onBeforeUnmount, nextTic
 import { addAction, removeAction } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
 import { isEditable, Environment } from '/@/common/utils';
-import { useElementProvide, useWindows, useHistory, useElementUtils } from '../composables';
+import { useElementProvide, useWindows, useHistory } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '/@/common/composables';
 import { debounce } from 'lodash-es';
 import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
@@ -169,7 +169,6 @@ const defaultMessage = ref(translate('element_options_default_message'));
 let ignoreLocalHistory = false;
 const { setActivePseudoSelector } = usePseudoSelectors();
 
-const elementUtils = useElementUtils(UIStore.editedElement);
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
 const activeKeyTab: Ref<string | null> = ref(null);
@@ -290,7 +289,7 @@ provide('OptionsFormTopModelValue', elementOptions);
 
 const computedStyleOptionsSchema = computed(() => {
 	const schema = {};
-	let styledElements = elementUtils.elementDefinition.value.style_elements;
+	let styledElements = UIStore.editedElement.elementDefinition.style_elements;
 	const elementHTMLID = UIStore.editedElement.elementCssId;
 	Object.keys(styledElements).forEach(styleId => {
 		const config = styledElements[styleId];
@@ -321,8 +320,8 @@ const computedStyleOptionsSchema = computed(() => {
 });
 
 const allOptionsSchema = computed(() => {
-	const elementOptionsSchema = elementUtils.elementDefinition.value.options
-		? elementUtils.elementDefinition.value.options
+	const elementOptionsSchema = UIStore.editedElement?.elementDefinition.options
+		? UIStore.editedElement.elementDefinition.options
 		: {};
 	const optionsSchema = {
 		...elementOptionsSchema,

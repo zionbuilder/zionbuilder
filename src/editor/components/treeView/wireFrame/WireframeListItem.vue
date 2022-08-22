@@ -8,7 +8,7 @@
 		<div class="znpb-wireframe-item__header">
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--left">
 				<Icon
-					v-if="isWrapper"
+					v-if="element.elementDefinition.wrapper"
 					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					icon="select"
 					:rotate="expanded ? '180' : false"
@@ -21,7 +21,7 @@
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 				<Icon
-					v-if="!isVisible"
+					v-if="!element.isVisible"
 					v-znpb-tooltip="translate('enable_hidden_element')"
 					icon="visibility-hidden"
 					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
@@ -35,7 +35,7 @@
 		</div>
 
 		<WireframeList
-			v-if="expanded && isWrapper"
+			v-if="expanded && element.elementDefinition.wrapper"
 			:element="element"
 			class="znpb-wireframe-item__content"
 			:class="{ [`znpb-flex--${hasFlexDirection}`]: hasFlexDirection }"
@@ -43,22 +43,20 @@
 	</li>
 </template>
 <script lang="ts" setup>
-import { computed, ref, Ref } from 'vue';
+import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useContentStore, useElementDefinitionsStore } from '/@/editor/store';
+import { useElementDefinitionsStore } from '/@/editor/store';
 import { translate } from '/@/common/modules/i18n';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const contentStore = useContentStore();
 const expanded = ref(true);
 
 const { showElementMenu, elementOptionsRef } = useTreeViewItem(props.element);
 const columnSize = computed(() => props.element.options.column_size);
-const { isVisible, isWrapper } = useElementUtils(props.element);
 
 const elementsDefinitionsStore = useElementDefinitionsStore();
 
@@ -92,7 +90,7 @@ const hasFlexDirection = computed(() => {
 
 const getClasses = computed(() => {
 	let cssClass = {
-		[`znpb-wireframe-item--item--hidden`]: !isVisible,
+		[`znpb-wireframe-item--item--hidden`]: !props.element.isVisible,
 		[`znpb-wireframe-item--${props.element.element_type}`]: props.element.element_type,
 		[`znpb-wireframe-item__empty`]: !props.element.content.length,
 	};

@@ -14,7 +14,7 @@
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
 			<Icon
-				v-if="isWrapper"
+				v-if="element.elementDefinition.wrapper"
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{
@@ -48,10 +48,9 @@
 
 <script lang="ts" setup>
 import { ref, Ref, computed, watch, inject } from 'vue';
-import { useElementUtils } from '/@/editor/composables';
 import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
-import { useContentStore, useUIStore } from '/@/editor/store';
+import { useUIStore } from '/@/editor/store';
 
 // Components
 import TreeViewList from './TreeViewList.vue';
@@ -62,7 +61,6 @@ const props = defineProps<{
 const emit = defineEmits(['expand-panel']);
 
 const UIStore = useUIStore();
-const contentStore = useContentStore();
 
 const listItem: Ref<HTMLElement | null> = ref(null);
 const expanded = ref(false);
@@ -73,7 +71,6 @@ const elementName = computed({
 	},
 });
 
-const { isWrapper } = useElementUtils(props.element);
 const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
 
 let justAdded = false;
