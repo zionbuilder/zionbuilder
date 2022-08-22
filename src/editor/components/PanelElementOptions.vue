@@ -291,7 +291,7 @@ provide('OptionsFormTopModelValue', elementOptions);
 const computedStyleOptionsSchema = computed(() => {
 	const schema = {};
 	let styledElements = elementUtils.elementDefinition.value.style_elements;
-
+	const elementHTMLID = UIStore.editedElement.elementCssId;
 	Object.keys(styledElements).forEach(styleId => {
 		const config = styledElements[styleId];
 
@@ -301,7 +301,7 @@ const computedStyleOptionsSchema = computed(() => {
 			icon: 'brush',
 			allow_class_assignments:
 				typeof config.allow_class_assignments !== 'undefined' ? config.allow_class_assignments : true,
-			selector: config.selector.replace('{{ELEMENT}}', `#${elementUtils.getElementCssId()}`),
+			selector: config.selector.replace('{{ELEMENT}}', `#${elementHTMLID}`),
 			allow_delete: false,
 			show_breadcrumbs: true,
 			allow_custom_attributes:
@@ -405,7 +405,7 @@ const optionsReplacements = [
 	{
 		search: /%%ELEMENT_UID%%/g,
 		replacement: () => {
-			return UIStore.editedElement;
+			return UIStore.editedElement.elementCssId;
 		},
 	},
 ];

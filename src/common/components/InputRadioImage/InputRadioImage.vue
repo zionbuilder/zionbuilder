@@ -60,7 +60,7 @@ const props = withDefaults(
 		useSearch: true,
 		columns: 3,
 		searchText: () => {
-			const { translate } = window.zb.l18n;
+			const { translate } = window.zb.i18n;
 			return translate('search') as unknown as string;
 		},
 	},

@@ -17,7 +17,7 @@ import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { InputCustomSelector } from '../InputCustomSelector';
 
-const { translate } = window.zb.l18n;
+const { translate } = window.zb.i18n;
 interface ShapeDevider {
 	shape?: string;
 	height?: { default: string; tablet: string; mobile: string; laptop: string } | 'auto';

@@ -18,13 +18,6 @@ export function useElementUtils(element: ZionElement) {
 	const isVisible = computed(() => getOption('_isVisible', true));
 	const isWrapper = elementDefinition.value.wrapper;
 
-	// Actions
-	function getElementCssId() {
-		const cssID = getOption('_advanced_options._element_id', element.uid);
-		// TODO: this filter has changed removing 'this' and replacing it with elementUID
-		return applyFilters('zionbuilder/element/css_id', cssID, element.uid);
-	}
-
 	function highlight() {
 		contentStore.updateElement(element.uid, 'isVisible', true);
 	}
@@ -58,6 +51,5 @@ export function useElementUtils(element: ZionElement) {
 		highlight,
 		unHighlight,
 		toggleVisibility,
-		getElementCssId,
 	};
 }

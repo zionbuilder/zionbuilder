@@ -82,7 +82,7 @@ const filteredList = computed(() => {
 });
 
 const getPlaceholder = computed(() => {
-	const { translate } = window.zb.l18n;
+	const { translate } = window.zb.i18n;
 	return `${translate('search_for_icons')} ${getIconNumber.value} ${translate('icons')}`;
 });
 

@@ -57,7 +57,7 @@ const emit = defineEmits<{
 const presetName = ref('');
 const gradientType = ref('local');
 const hasError = ref(false);
-const { translate } = window.zb.l18n;
+const { translate } = window.zb.i18n;
 const gradientTypes = ref([
 	{
 		id: 'local',

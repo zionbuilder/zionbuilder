@@ -57,7 +57,7 @@ const props = withDefaults(
 		deletable: true,
 		clonable: true,
 		add_button_text: () => {
-			const { translate } = window.zb.l18n;
+			const { translate } = window.zb.i18n;
 			return translate('generic_add_new') as unknown as string;
 		},
 	},
