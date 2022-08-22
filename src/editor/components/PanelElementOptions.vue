@@ -58,12 +58,12 @@
 				<Tab name="General">
 					<OptionsForm
 						v-if="
-							elementUtils.elementDefinition.value.hasOwnProperty('options') &&
-							Object.keys(elementUtils.elementDefinition.value.options).length > 0
+							UIStore.editedElement.elementDefinition.options &&
+							Object.keys(UIStore.editedElement.elementDefinition.options).length > 0
 						"
 						v-model="elementOptions"
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
-						:schema="elementUtils.elementDefinition.value.options"
+						:schema="UIStore.editedElement.elementDefinition.options"
 						:replacements="optionsReplacements"
 					/>
 
