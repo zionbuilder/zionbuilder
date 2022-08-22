@@ -32,7 +32,7 @@
 		<template #content>
 			<ColorPicker
 				ref="colorpickerHolder"
-				:model="modelValue.length > 0 ? modelValue : placeholder"
+				:model="modelValue && modelValue.length > 0 ? modelValue : placeholder"
 				@color-changed="updateColor"
 				@click.stop="onColorPickerClick"
 				@mousedown.stop="onColorPickerMousedown"
