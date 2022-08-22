@@ -64,7 +64,7 @@ export default class Options {
 			}
 
 			if (typeof singleOptionSchema.is_layout !== 'undefined' && singleOptionSchema.is_layout) {
-				if (typeof singleOptionSchema.child_options !== null) {
+				if (singleOptionSchema.child_options) {
 					this.parseOptions(singleOptionSchema.child_options, model);
 				}
 			} else {
