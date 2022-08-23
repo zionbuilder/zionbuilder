@@ -118,7 +118,7 @@ function onIconClick() {
 
 	.znpb-editor-icon-wrapper {
 		font-size: var(--font-size);
-		color: #fff;
+		color: #fff !important;
 	}
 
 	svg {
