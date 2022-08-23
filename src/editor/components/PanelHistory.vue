@@ -41,8 +41,8 @@
 						@click="historyStore.restoreHistoryToIndex(index)"
 					>
 						<!-- <span class="znpb-action-time">{{ item.time }}</span> -->
-						<span class="znpb-action-name">{{ item.title }}</span>
-						<span class="znpb-action-name">{{ item.subtitle }}</span>
+						<span class="znpb-action-element">{{ item.title }}</span>
+						<span class="znpb-action-subtitle">{{ item.subtitle }}</span>
 						<span class="znpb-action-name">{{ item.action }}</span>
 						<span v-if="historyStore.activeHistoryIndex === index" class="znpb-action-active">{{
 							translate('history_now')
@@ -136,23 +136,35 @@ function doRedo() {
 		justify-content: space-between;
 		align-items: center;
 		min-height: 48px;
-		padding: 17px 15px;
+		padding: 15px;
 		margin: 0 20px 5px;
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 
-		.znpb-action-name {
-			flex-grow: 1;
+		.znpb-action-element {
+			flex-shrink: 0;
 			overflow: hidden;
-			width: 100%;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			padding: 2px 0;
+		}
+
+		.znpb-action-name {
+			font-size: 10px;
+			text-transform: uppercase;
+			opacity: 0.6;
+			margin-left: 8px;
 		}
 
 		.znpb-action-time {
 			margin-right: 13px;
+		}
+
+		.znpb-action-active,
+		.znpb-editor-icon-wrapper {
+			margin-left: auto;
 		}
 
 		&:hover {
