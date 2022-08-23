@@ -8,7 +8,7 @@
 		<div class="znpb-wireframe-item__header">
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--left">
 				<Icon
-					v-if="element.elementDefinition.wrapper"
+					v-if="element.isWrapper"
 					class="znpb-wireframe-item__header-item znpb-wireframe-item__header-button znpb-wireframe-item__header-more znpb-utility__cursor--pointer"
 					icon="select"
 					:rotate="expanded ? '180' : false"
@@ -35,7 +35,7 @@
 		</div>
 
 		<WireframeList
-			v-if="expanded && element.elementDefinition.wrapper"
+			v-if="expanded && element.isWrapper"
 			:element="element"
 			class="znpb-wireframe-item__content"
 			:class="{ [`znpb-flex--${hasFlexDirection}`]: hasFlexDirection }"

@@ -57,7 +57,7 @@
 				</template>
 				<template #right>
 					<p class="znpb-admin-info-p">
-						{{ $translate('manage_wordpress_users_permisions') }}
+						{{ $translate('manage_wordpress_users_permissions') }}
 					</p>
 				</template>
 			</PageTemplate>

@@ -14,7 +14,7 @@
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
 			<Icon
-				v-if="element.elementDefinition.wrapper"
+				v-if="element.isWrapper"
 				icon="select"
 				class="znpb-tree-view__item-header-item znpb-tree-view__item-header-expand"
 				:class="{

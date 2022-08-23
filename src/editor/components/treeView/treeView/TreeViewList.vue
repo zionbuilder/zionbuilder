@@ -16,7 +16,7 @@
 		/>
 
 		<template #end>
-			<div v-if="children.length === 0 && isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
+			<div v-if="children.length === 0 && element.isWrapper" class="znpb-tree-view__view__ListAddButtonInside">
 				<AddElementIcon :element="element" placement="inside" :index="-1" />
 			</div>
 		</template>
@@ -46,11 +46,9 @@ const props = defineProps<{
 defineEmits(['expand-panel']);
 
 // Stores
-const elementsDefinitionsStore = useElementDefinitionsStore();
 const contentStore = useContentStore();
 
 // Computed
-const isWrapper = computed(() => elementsDefinitionsStore.getElementDefinition(props.element.element_type).wrapper);
 const children = computed({
 	get: () => props.element.content.map(child => contentStore.getElement(child)),
 	set: newValue =>

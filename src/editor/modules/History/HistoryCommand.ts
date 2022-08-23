@@ -21,6 +21,7 @@ export class HistoryCommand extends BaseCommand {
 			duplicate: translate('duplicate'),
 			wrapped_with_container: translate('wrapped_with_container'),
 			copied: translate('copied'),
+			moved: translate('moved'),
 		};
 
 		return actions[action] || 'Invalid action';

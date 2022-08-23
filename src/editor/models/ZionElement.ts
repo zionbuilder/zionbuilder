@@ -24,12 +24,14 @@ export class ZionElement {
 	public loading = false;
 	public serverRequester = null;
 	public addedTime = 0;
+	public isWrapper = false;
 
 	constructor(elementData: ZionElementConfig, parent: string) {
 		const contentStore = useContentStore();
 		const elementDefinitionStore = useElementDefinitionsStore();
 
 		this.elementDefinition = elementDefinitionStore.getElementDefinition(elementData.element_type);
+		this.isWrapper = this.elementDefinition.wrapper;
 
 		const parsedElement = Object.assign(
 			{},
@@ -209,6 +211,15 @@ export class ZionElement {
 		return elementInstance;
 	}
 
+	move(newParent: ZionElement, index = -1) {
+		if (!this.parent) {
+			return;
+		}
+
+		this.parent.removeChild(this);
+		newParent.addChild(this, index);
+	}
+
 	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1) {
 		each(elements, element => {
 			this.addChild(element, index);
@@ -216,6 +227,11 @@ export class ZionElement {
 			// In case we need to insert multiple elements at an index higher then the last item, we need to increment the index
 			index = index !== -1 ? index + 1 : index;
 		});
+	}
+
+	removeChild(element: ZionElement) {
+		const index = this.content.indexOf(element.uid);
+		this.content.splice(index, 1);
 	}
 
 	getClone() {

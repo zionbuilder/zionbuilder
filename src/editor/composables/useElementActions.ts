@@ -1,14 +1,11 @@
 import { ref, Ref } from 'vue';
 import { cloneDeep, merge, get, set } from 'lodash-es';
-import { Element } from '../models/Element';
-import { useHistory } from './useHistory';
 import { useLocalStorage } from './useLocalStorage';
-import { translate } from '/@/common/modules/i18n';
 
-const copiedElement: Ref<object> = ref({
-	element: null,
-	action: null,
-});
+const copiedElement: Ref<{
+	element?: ZionElement;
+	action?: string;
+}> = ref({});
 
 interface ElementCopiedStyles {
 	styles: string;
@@ -17,13 +14,10 @@ interface ElementCopiedStyles {
 
 const copiedElementStyles: Ref<null | ElementCopiedStyles> = ref(null);
 
-// Preserve focused element on history change
-const { addToHistory } = useHistory();
-
 export function useElementActions() {
 	const { addData, getData, removeData } = useLocalStorage();
 
-	const copyElement = (element: Element, action = 'copy') => {
+	const copyElement = (element: ZionElement, action = 'copy') => {
 		copiedElement.value = {
 			element,
 			action,
@@ -45,7 +39,7 @@ export function useElementActions() {
 		}
 	};
 
-	const pasteElement = element => {
+	const pasteElement = (element: ZionElement) => {
 		let insertElement = element;
 		let index = -1;
 
@@ -58,7 +52,7 @@ export function useElementActions() {
 		}
 
 		// If the element is not a wrapper, add to parent element
-		if (!element.isWrapper || elementForPaste.uid === element.uid) {
+		if (element.parent && (!element.isWrapper || elementForPaste.uid === element.uid)) {
 			insertElement = element.parent;
 			index = element.indexInParent + 1;
 		}
@@ -69,8 +63,15 @@ export function useElementActions() {
 				copiedElement.value = {};
 			} else {
 				copiedElement.value.element.isCut = false;
-				copiedElement.value.element.move(insertElement, index);
-				addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`);
+
+				window.zb.run('editor/elements/move', {
+					newParent: insertElement,
+					element: copiedElement.value.element,
+					index,
+				});
+
+				// copiedElement.value.element.move(insertElement, index);
+				// addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`);
 			}
 
 			copiedElement.value = {};
@@ -80,19 +81,17 @@ export function useElementActions() {
 				copiedElement: elementForPaste,
 				index,
 			});
-			// insertElement.addChild(regenerateUIDs(elementForPaste), index);
-			// addToHistory(`${translate('copied')} ${elementForPaste.name}`);
 		}
 	};
 
 	const resetCopiedElement = () => {
-		if (copiedElement.value && copiedElement.value.action === 'cut') {
+		if (copiedElement.value && copiedElement.value.element && copiedElement.value.action === 'cut') {
 			copiedElement.value.element.isCut = false;
 		}
 		copiedElement.value = {};
 	};
 
-	const copyElementStyles = (element: Element) => {
+	const copyElementStyles = (element: ZionElement) => {
 		const dataForSave = {
 			styles: cloneDeep(element.options._styles),
 			custom_css: get(element, 'options._advanced_options._custom_css', ''),
@@ -104,7 +103,7 @@ export function useElementActions() {
 		addData('copiedElementStyles', dataForSave);
 	};
 
-	const pasteElementStyles = element => {
+	const pasteElementStyles = (element: ZionElement) => {
 		const styles = getData('copiedElementStyles');
 
 		if (!styles) {
@@ -128,14 +127,14 @@ export function useElementActions() {
 		}
 	};
 
-	const copyElementClasses = (element: Element) => {
+	const copyElementClasses = (element: ZionElement) => {
 		const dataToSave = cloneDeep(get(element.options, '_styles.wrapper.classes', null));
 
 		// Save to localStorage for cross site
 		addData('copiedElementClasses', dataToSave);
 	};
 
-	const pasteElementClasses = element => {
+	const pasteElementClasses = (element: ZionElement) => {
 		const classes = getData('copiedElementClasses');
 
 		merge(element.options, {

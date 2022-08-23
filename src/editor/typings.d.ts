@@ -5,19 +5,29 @@ type ZionElementConfig = {
 	element_type: string;
 };
 
-type ZionElement = Omit<ZionElementConfig, 'content'> & {
+type ZionElement = {
+	uid: string;
+	content: string[];
+	options: Record<string, unknown>;
+	element_type: string;
 	content: string[];
 	parent: ZionElement | null;
 	parentUID: string | null;
 	addedTime?: number;
 	isHighlighted: boolean;
-	delete: function;
-	duplicate(): ZionElement;
-	highlight: function;
-	wrapIn(wrapperType: string = 'container'): void;
-	unHighlight: function;
 	isVisible: boolean;
 	name: string;
+	isCut: boolean;
+	isWrapper: boolean;
+	indexInParent: number;
+	delete(): void;
+	duplicate(): ZionElement;
+	move(element: ZionElement, index: number): void;
+	highlight(): void;
+	wrapIn(wrapperType: string = 'container'): void;
+	toJSON(): ZionElementConfig;
+	getClone(): ZionElementConfig;
+	unHighlight(): void;
 };
 
 type ZionElementDefinition = {
