@@ -233,11 +233,13 @@ function doRedo() {
 	line-height: 25px;
 	color: var(--zb-surface-text-hover-color);
 	margin-bottom: 7px;
+	text-align: center;
 }
 
 .znpb-panel__history_panel-emptyDesc {
 	font-size: 13px;
 	line-height: 22px;
 	padding: 0 50px;
+	text-align: center;
 }
 </style>

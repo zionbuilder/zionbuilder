@@ -779,7 +779,7 @@ class Localization {
 				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
 				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
 				'copied' => esc_html__( 'copied', 'zionbuilder' ),
-				'moved'                                    => __( 'Moved', 'zionbuilder' ),
+				'moved'                                    => __( 'moved', 'zionbuilder' ),
 
 
 			]
