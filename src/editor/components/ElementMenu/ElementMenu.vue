@@ -150,10 +150,9 @@ watch(UIStore.activeElementMenu, newValue => {
 });
 
 function discardElementStyles(element) {
-	element.options = {
-		...element.options,
-		_styles: {},
-	};
+	window.zb.run('editor/elements/discard-element-styles', {
+		element,
+	});
 }
 
 function saveElement(element) {
@@ -192,9 +191,9 @@ const hasCopiedElementStyles = computed(() => {
 		text-align: left;
 		list-style-type: none;
 		background: var(--zb-surface-color);
-		box-shadow: 0 0 16px 0 rgba(0, 0, 0, .08);
+		box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
 		border-radius: 3px;
-		transition: all .5s;
+		transition: all 0.5s;
 		user-select: none;
 
 		li {
@@ -203,7 +202,7 @@ const hasCopiedElementStyles = computed(() => {
 			color: var(--zb-surface-text-color);
 			font-size: 12px;
 			line-height: 14px;
-			transition: color .2s ease;
+			transition: color 0.2s ease;
 			&:hover {
 				color: var(--zb-surface-text-active-color);
 				cursor: pointer;
@@ -212,11 +211,13 @@ const hasCopiedElementStyles = computed(() => {
 	}
 }
 
-.list-enter-to, .list-leave-from {
-	transition: all .2s;
+.list-enter-to,
+.list-leave-from {
+	transition: all 0.2s;
 }
 
-.list-enter-from, .list-leave-to {
+.list-enter-from,
+.list-leave-to {
 	transform: translateY(10%);
 	opacity: 0;
 }

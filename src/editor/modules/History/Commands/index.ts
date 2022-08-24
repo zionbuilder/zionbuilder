@@ -9,3 +9,4 @@ export * from './CopyElement';
 export * from './MoveElement';
 export * from './PasteElementStyles';
 export * from './PasteElementClasses';
+export * from './DiscardElementStyles';
