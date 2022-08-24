@@ -781,6 +781,7 @@ class Localization {
 				'copied' => esc_html__( 'copied', 'zionbuilder' ),
 				'moved'                                    => __( 'moved', 'zionbuilder' ),
 				'paste-styles'                                    => __( 'paste styles', 'zionbuilder' ),
+				'paste-css-classes'                                    => __( 'paste css classes', 'zionbuilder' ),
 
 
 			]

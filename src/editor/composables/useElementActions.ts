@@ -123,13 +123,12 @@ export function useElementActions() {
 	const pasteElementClasses = (element: ZionElement) => {
 		const classes = getData('copiedElementClasses');
 
-		merge(element.options, {
-			_styles: {
-				wrapper: {
-					classes,
-				},
-			},
-		});
+		if (classes) {
+			window.zb.run('editor/elements/paste-css-classes', {
+				element,
+				classes,
+			});
+		}
 	};
 
 	return {

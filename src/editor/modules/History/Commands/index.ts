@@ -8,3 +8,4 @@ export * from './WrapElement';
 export * from './CopyElement';
 export * from './MoveElement';
 export * from './PasteElementStyles';
+export * from './PasteElementClasses';

@@ -23,6 +23,7 @@ export class HistoryCommand extends BaseCommand {
 			copied: translate('copied'),
 			moved: translate('moved'),
 			pasteStyles: translate('paste-styles'),
+			pasteCSSClasses: translate('paste-css-classes'),
 		};
 
 		return actions[action] || 'Invalid action';
