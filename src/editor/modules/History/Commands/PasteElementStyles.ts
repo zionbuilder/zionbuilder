@@ -25,7 +25,15 @@ export class PasteElementStyles extends HistoryCommand {
 				element.options._styles = {};
 			}
 
-			merge(element.options._styles || {}, styles.styles);
+			const elementStyleConfig = element.elementDefinition.style_elements || {};
+			const stylesToAdd: Record<string, unknown> = {};
+			Object.keys(elementStyleConfig).forEach(styleSelector => {
+				if (typeof styles.styles[styleSelector] !== undefined) {
+					stylesToAdd[styleSelector] = styles.styles[styleSelector];
+				}
+			});
+
+			merge(element.options._styles || {}, stylesToAdd);
 		}
 
 		// Copy custom css
@@ -74,7 +82,15 @@ export class PasteElementStyles extends HistoryCommand {
 					element.options._styles = {};
 				}
 
-				merge(element.options._styles || {}, newStyles.styles);
+				const elementStyleConfig = element.elementDefinition.style_elements || {};
+				const stylesToAdd: Record<string, unknown> = {};
+				Object.keys(elementStyleConfig).forEach(styleSelector => {
+					if (typeof newStyles.styles[styleSelector] !== undefined) {
+						stylesToAdd[styleSelector] = newStyles.styles[styleSelector];
+					}
+				});
+
+				merge(element.options._styles || {}, stylesToAdd);
 			}
 
 			// Copy custom css

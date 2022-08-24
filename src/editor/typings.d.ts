@@ -28,6 +28,7 @@ type ZionElement = {
 	toJSON(): ZionElementConfig;
 	getClone(): ZionElementConfig;
 	unHighlight(): void;
+	elementDefinition: ZionElementDefinition;
 };
 
 type ZionElementDefinition = {
