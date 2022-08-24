@@ -88,15 +88,9 @@ const historyStore = useHistoryStore();
 
 watch(historyStore.state, newValue => {
 	nextTick(() => {
-		historyPanelWrapper.value.scrollTop = historyPanelWrapper.value.scrollHeight;
+		historyPanelWrapper.value.scrollTop = 0;
 	});
 });
-
-onMounted(() => {
-	historyPanelWrapper.value.scrollTop = historyPanelWrapper.value.scrollHeight;
-});
-
-const emptyImageURL = window.ZnPbInitialData.urls.plugin_root + '/assets/img/history_illustration.svg';
 
 function doUndo() {
 	if (historyStore.canUndo) {

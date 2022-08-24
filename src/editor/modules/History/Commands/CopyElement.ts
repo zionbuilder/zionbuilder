@@ -41,7 +41,6 @@ export class CopyElement extends HistoryCommand {
 	public static redo(historyItem) {
 		const { elementModel, parentUID, index } = historyItem.data || {};
 
-		console.log({ elementModel, parentUID, index });
 		const contentStore = useContentStore();
 		contentStore.addElement(elementModel, parentUID, index);
 	}
