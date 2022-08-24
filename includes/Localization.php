@@ -780,6 +780,7 @@ class Localization {
 				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
 				'copied' => esc_html__( 'copied', 'zionbuilder' ),
 				'moved'                                    => __( 'moved', 'zionbuilder' ),
+				'paste-styles'                                    => __( 'paste styles', 'zionbuilder' ),
 
 
 			]

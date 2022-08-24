@@ -8,7 +8,7 @@ const copiedElement: Ref<{
 }> = ref({});
 
 interface ElementCopiedStyles {
-	styles: string;
+	styles: Record<string, unknown>;
 	custom_css: string;
 }
 
@@ -69,9 +69,6 @@ export function useElementActions() {
 					element: copiedElement.value.element,
 					index,
 				});
-
-				// copiedElement.value.element.move(insertElement, index);
-				// addToHistory(`${translate('moved')} ${copiedElement.value.element.name}`);
 			}
 
 			copiedElement.value = {};
@@ -93,7 +90,7 @@ export function useElementActions() {
 
 	const copyElementStyles = (element: ZionElement) => {
 		const dataForSave = {
-			styles: cloneDeep(element.options._styles),
+			styles: <Record<string, unknown>>cloneDeep(element.options._styles),
 			custom_css: get(element, 'options._advanced_options._custom_css', ''),
 		};
 
@@ -110,21 +107,10 @@ export function useElementActions() {
 			return;
 		}
 
-		// Element styles
-		if (styles.styles) {
-			if (!element.options._styles) {
-				set(element, 'options._styles', styles.styles);
-			} else {
-				merge(element.options._styles, styles.styles);
-			}
-		}
-
-		// Copy custom css
-		if (styles.custom_css.length) {
-			const existingStyles = get(element, 'options._advanced_options._custom_css', '');
-			const combinedStyles = existingStyles + styles.custom_css;
-			set(element, 'options._advanced_options._custom_css', combinedStyles);
-		}
+		window.zb.run('editor/elements/paste-styles', {
+			element,
+			styles,
+		});
 	};
 
 	const copyElementClasses = (element: ZionElement) => {

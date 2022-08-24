@@ -92,7 +92,7 @@ export default {
 			},
 		};
 
-		const elementOptionsSchema = Object.assign({}, get(props.element, 'elementDefinition.options', {}), advancedSchema);
+		const elementOptionsSchema = Object.assign({}, props.element.elementDefinition.options || {}, advancedSchema);
 
 		// computed
 		const parsedData = computed(() => {
@@ -142,40 +142,38 @@ export default {
 		const customCSS = computed(() => {
 			let customCSS = '';
 
-			const elementStyleConfig = props.element.elementDefinition.style_elements;
+			const elementStyleConfig = props.element.elementDefinition.style_elements || {};
 
-			if (elementStyleConfig) {
-				Object.keys(elementStyleConfig).forEach(styleId => {
-					if (options.value._styles && options.value._styles[styleId]) {
-						const styleConfig = elementStyleConfig[styleId];
-						const cssSelector = applyFilters(
-							'zionbuilder/element/css_selector',
-							`#${props.element.elementCssId}`,
-							optionsInstance,
-							props.element,
-						);
-						const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector);
-						const stylesSavedValues = applyFilters(
-							'zionbuilder/element/styles_model',
-							options.value._styles[styleId],
-							optionsInstance,
-							props.element,
-						);
+			Object.keys(elementStyleConfig).forEach(styleId => {
+				if (options.value._styles && options.value._styles[styleId]) {
+					const styleConfig = elementStyleConfig[styleId];
+					const cssSelector = applyFilters(
+						'zionbuilder/element/css_selector',
+						`#${props.element.elementCssId}`,
+						optionsInstance,
+						props.element,
+					);
+					const formattedSelector = styleConfig.selector.replace('{{ELEMENT}}', cssSelector);
+					const stylesSavedValues = applyFilters(
+						'zionbuilder/element/styles_model',
+						options.value._styles[styleId],
+						optionsInstance,
+						props.element,
+					);
 
-						customCSS += window.zb.editor.getCssFromSelector([formattedSelector], stylesSavedValues);
+					customCSS += window.zb.editor.getCssFromSelector([formattedSelector], stylesSavedValues);
 
-						// Generate the styles on hover
-						if (shouldGenerateHoverStyles.value) {
-							customCSS += window.zb.editor.getCssFromSelector([formattedSelector], stylesSavedValues, {
-								forcehoverState: true,
-							});
-						}
+					// Generate the styles on hover
+					if (shouldGenerateHoverStyles.value) {
+						customCSS += window.zb.editor.getCssFromSelector([formattedSelector], stylesSavedValues, {
+							forcehoverState: true,
+						});
 					}
-				});
-			}
+				}
+			});
 
-			customCSS += parsedData.value.customCSS;
-			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element);
+			// customCSS += parsedData.value.customCSS;
+			// customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element);
 
 			return customCSS;
 		});

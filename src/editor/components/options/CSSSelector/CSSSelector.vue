@@ -276,7 +276,7 @@ export default {
 
 		const value = computed({
 			get() {
-				return props.modelValue;
+				return props.modelValue || {};
 			},
 			set(newValue) {
 				emit('update:modelValue', newValue);
@@ -307,7 +307,7 @@ export default {
 		}
 
 		function resetChanges() {
-			delete value.value.styles;
+			emit('update:modelValue', null);
 		}
 
 		function onRenameItemClick(event) {

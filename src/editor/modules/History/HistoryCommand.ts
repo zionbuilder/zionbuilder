@@ -22,6 +22,7 @@ export class HistoryCommand extends BaseCommand {
 			wrapped_with_container: translate('wrapped_with_container'),
 			copied: translate('copied'),
 			moved: translate('moved'),
+			pasteStyles: translate('paste-styles'),
 		};
 
 		return actions[action] || 'Invalid action';
