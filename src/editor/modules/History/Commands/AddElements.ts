@@ -54,7 +54,6 @@ export class AddElements extends HistoryCommand {
 	public static undo(historyItem: HistoryItem) {
 		const { addedElementsUIDs = [] } = historyItem.data || {};
 
-		console.log({ addedElementsUIDs });
 		if (addedElementsUIDs.length) {
 			const contentStore = useContentStore();
 			addedElementsUIDs.forEach(elementUID => {
