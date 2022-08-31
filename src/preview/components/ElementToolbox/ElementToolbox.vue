@@ -364,18 +364,15 @@ export default {
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
 			});
 
-			// this.element.updateOptionValue(
-			// 	`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
-			// 	newValue,
-			// );
-
 			// If we need to update the opposite position
 			if (even) {
 				const activeDragReversedCssProperty = this.styleMap[reversedPosition];
-				this.element.updateOptionValue(
-					`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
-					newValue,
-				);
+
+				window.zb.run('editor/elements/update-element-options', {
+					elementUID: this.element.uid,
+					newValues: newValue,
+					path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragReversedCssProperty}`,
+				});
 			}
 		},
 		getDragInfo({ event, type, position, startClientX, startClientY }) {
@@ -502,10 +499,12 @@ export default {
 			}
 
 			this.newValues = newValue;
-			this.element.updateOptionValue(
-				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
-				`${newValue}px`,
-			);
+
+			window.zb.run('editor/elements/update-element-options', {
+				elementUID: this.element.uid,
+				newValues: newValue,
+				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
+			});
 
 			// reposition tooltip
 			if (this.$refs[`sizeDrag--${this.activeDragPosition}`]) {

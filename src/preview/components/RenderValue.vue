@@ -113,7 +113,11 @@ export default {
 				return get(elementOptions.value, props.option, schema.default);
 			},
 			set(newValue) {
-				elementInfo.updateOptionValue(props.option, newValue);
+				window.zb.run('editor/elements/update-element-options', {
+					elementUID: elementInfo.uid,
+					newValues: newValue,
+					path: props.option,
+				});
 			},
 		});
 
