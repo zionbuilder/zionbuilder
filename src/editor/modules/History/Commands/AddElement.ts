@@ -6,7 +6,7 @@ export class AddElement extends HistoryCommand {
 
 	doCommand() {
 		const contentStore = useContentStore();
-		const { element, parentUID, index } = this.data;
+		const { element, parentUID, index } = <{ element: ZionElementConfig; parentUID: string; index: number }>this.data;
 		const newElement = contentStore.addElement(element, parentUID, index);
 
 		if (newElement) {

@@ -183,11 +183,9 @@ export default {
 			},
 
 			// Columns add
-			showColumnTemplates: false,
 			newValues: null,
 			settingEvenPaddingDimensions: null,
 			settingEvenMarginsDimensions: null,
-			addToHistory: false,
 			isTopBarOpen: null,
 		};
 	},
@@ -360,13 +358,16 @@ export default {
 		updateElementStyle({ newValue, type, position, even, reversedPosition }) {
 			const activeDragCssProperty = this.styleMap[position];
 
-			// Save to history
-			this.addToHistory = true;
+			window.zb.run('editor/elements/update-element-options', {
+				elementUID: this.element.uid,
+				newValues: newValue,
+				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
+			});
 
-			this.element.updateOptionValue(
-				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
-				newValue,
-			);
+			// this.element.updateOptionValue(
+			// 	`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${activeDragCssProperty}`,
+			// 	newValue,
+			// );
 
 			// If we need to update the opposite position
 			if (even) {
@@ -387,12 +388,6 @@ export default {
 			};
 		},
 		onMouseUp() {
-			// We just need to add to history
-			if (this.addToHistory) {
-				const { addToHistory } = window.zb.editor.useHistory();
-				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`);
-			}
-
 			// Cancel the scheduler
 			this.onMouseMoveDebounced.cancel();
 
@@ -403,7 +398,6 @@ export default {
 			this.onMouseMoveDebounced = null;
 			this.activeDragType = null;
 			this.activeDragPosition = null;
-			this.addToHistory = false;
 			this.isToolboxDragging = false;
 
 			document.body.style.userSelect = null;
@@ -487,7 +481,6 @@ export default {
 			let newValue = null;
 			const property = this.getSizeChangePropertyFromPosition(this.activeDragPosition);
 			const direction = this.dragDimension === 'vertical' ? 'vertical' : 'horizontal';
-			this.addToHistory = true;
 
 			if (direction === 'vertical') {
 				const distance = clientY - this.startClientY;
@@ -540,13 +533,6 @@ export default {
 			this.$emit('update:canHideToolbox', true);
 			this.$emit('update:isToolboxDragging', false);
 
-			// We just need to add to history
-			if (this.addToHistory) {
-				const { addToHistory } = window.zb.editor.useHistory();
-				addToHistory(`Updated ${this.element.name} ${this.activeDragType}`);
-			}
-
-			this.addToHistory = false;
 			this.settingEvenPaddingDimensions = false;
 			this.removeEvents();
 		},

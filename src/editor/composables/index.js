@@ -3,7 +3,6 @@ export * from './useSavePage';
 export * from './useKeyBindings';
 export * from './useEditorData';
 export * from './useElementProvide';
-export * from './useHistory';
 export * from './useWindows';
 export * from './useSaveTemplate';
 export * from './useElementActions';

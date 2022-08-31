@@ -1,29 +1,35 @@
 import { DebouncedHistoryCommand } from '../DebouncedHistoryCommand';
 import { useContentStore } from '/@/editor/store';
+import { translate } from '/@/common/modules/i18n';
 
-export class RenameElement extends DebouncedHistoryCommand {
-	static commandID = 'editor/elements/rename';
+export class UpdateElementOptions extends DebouncedHistoryCommand {
+	static commandID = 'editor/elements/update-element-options';
 
 	doCommand() {
-		const { elementUID, newName } = <{ elementUID: string; newName: string }>this.data;
+		const {
+			elementUID,
+			newValues,
+			path = null,
+		} = <{ elementUID: string; newValues: Record<string, unknown>; path: string | null }>this.data;
 		const contentStore = useContentStore();
 		const element = contentStore.getElement(elementUID);
 
 		if (element) {
 			// keep a clone of the old name
-			const oldName = element.name;
-			element.setName(newName);
+			const oldValues = JSON.parse(JSON.stringify(element.options));
+			element.updateOptionValue(path, newValues);
 
 			this.addToHistory({
-				undo: RenameElement.undo,
-				redo: RenameElement.redo,
+				undo: UpdateElementOptions.undo,
+				redo: UpdateElementOptions.redo,
 				data: {
 					elementUID,
-					oldName,
-					newName,
+					newValues: JSON.parse(JSON.stringify(element.options)),
+					oldValues,
+					path,
 				},
 				title: element.name,
-				action: this.getActionName('renamed'),
+				action: translate('edited'),
 			});
 		}
 	}
@@ -36,25 +42,23 @@ export class RenameElement extends DebouncedHistoryCommand {
 	public static undo(historyItem) {
 		const { data = {}, initialChange = {} } = historyItem;
 		const { elementUID } = data;
-		const { oldName } = initialChange;
+		const { oldValues } = initialChange;
 
 		const contentStore = useContentStore();
 		const element = contentStore.getElement(elementUID);
-
 		if (element) {
-			element.setName(oldName);
+			element.updateOptionValue(null, oldValues);
 		}
 	}
 
 	public static redo(historyItem) {
-		const { data = {} } = historyItem;
-		const { elementUID, newName } = data;
+		const { elementUID, newValues } = historyItem.data || {};
 
 		const contentStore = useContentStore();
 		const element = contentStore.getElement(elementUID);
 
 		if (element) {
-			element.setName(newName);
+			element.updateOptionValue(null, newValues);
 		}
 	}
 }

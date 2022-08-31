@@ -29,6 +29,7 @@ type ZionElement = {
 	getClone(): ZionElementConfig;
 	unHighlight(): void;
 	elementDefinition: ZionElementDefinition;
+	updateOptionValue(path: string | null, newValues: Record<string, unknown>): void;
 };
 
 type ZionElementDefinition = {

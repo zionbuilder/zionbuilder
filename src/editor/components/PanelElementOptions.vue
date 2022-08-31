@@ -122,33 +122,15 @@
 				</Tab>
 			</Tabs>
 		</div>
-		<div class="znpb-element-options-action">
-			<div
-				class="znpb-element-options-action__undo"
-				:class="{ 'znpb-element-options-action__undo--disabled': !canUndo }"
-				@click="undo"
-			>
-				<Icon icon="undo" />
-			</div>
-			<div
-				class="znpb-element-options-action__redo"
-				:class="{ 'znpb-element-options-action__redo--disabled': !canRedo }"
-				@click="redo"
-			>
-				<Icon icon="redo" />
-			</div>
-		</div>
 	</BasePanel>
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, watch, provide, computed, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
 import { addAction, removeAction } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
-import { isEditable, Environment } from '/@/common/utils';
-import { useElementProvide, useWindows, useHistory } from '../composables';
+import { useElementProvide } from '../composables';
 import { usePseudoSelectors, useOptionsSchemas } from '/@/common/composables';
-import { debounce } from 'lodash-es';
 import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
 
 // Components
@@ -166,15 +148,12 @@ const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);
 const lastTab = ref(null);
 const defaultMessage = ref(translate('element_options_default_message'));
-let ignoreLocalHistory = false;
 const { setActivePseudoSelector } = usePseudoSelectors();
 
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
 const activeKeyTab: Ref<string | null> = ref(null);
 const searchActive = ref(false);
-const history = ref([]);
-const historyIndex = ref(0);
 
 const optionsFilterKeyword = ref('');
 
@@ -189,21 +168,14 @@ const elementOptions = computed({
 		return UIStore.editedElement ? UIStore.editedElement.options : {};
 	},
 	set(newValues) {
-		contentStore.updateElement(UIStore.editedElement?.uid, 'options', newValues);
-	},
-});
-
-watch(
-	elementOptions,
-	() => {
-		// Add to history
-		if (!ignoreLocalHistory) {
-			addToLocalHistory();
-			ignoreLocalHistory = false;
+		if (UIStore.editedElement) {
+			window.zb.run('editor/elements/update-element-options', {
+				elementUID: UIStore.editedElement.uid,
+				newValues,
+			});
 		}
 	},
-	{ deep: true },
-);
+});
 
 const advancedOptionsModel = computed({
 	get() {
@@ -227,51 +199,6 @@ const advancedOptionsModel = computed({
 const searchIcon = computed(() => {
 	return searchActive.value ? 'close' : 'search';
 });
-
-const hasChanges = computed(() => history.value.length > 1 && historyIndex.value > 0);
-
-const addToLocalHistory = debounce(function () {
-	// Clone store
-	const clonedValues = JSON.parse(JSON.stringify(elementOptions.value));
-
-	if (historyIndex.value + 1 < history.value.length) {
-		history.value.splice(historyIndex.value + 1);
-	}
-
-	history.value.push(clonedValues);
-	historyIndex.value++;
-}, 500);
-
-const canUndo = computed(() => {
-	return history.value[historyIndex.value - 1];
-});
-
-const canRedo = computed(() => {
-	return history.value[historyIndex.value + 1];
-});
-
-function undo() {
-	const prevState = history.value[historyIndex.value - 1];
-
-	if (prevState) {
-		ignoreLocalHistory = true;
-		elementOptions.value = prevState;
-		historyIndex.value--;
-	}
-}
-
-function redo() {
-	const nextState = history.value[historyIndex.value + 1];
-
-	if (nextState) {
-		ignoreLocalHistory = true;
-		elementOptions.value = nextState;
-		historyIndex.value++;
-	}
-}
-
-// Set initial history
-history.value.push(JSON.parse(JSON.stringify(elementOptions.value)));
 
 // Change the tab when a new element is selected
 // watch(UIStore.editedElement, newValue => {
@@ -357,16 +284,6 @@ const filteredOptions = computed(() => {
 	return {};
 });
 
-// Watchers
-watch(
-	() => UIStore.editedElement,
-	(newValue, oldValue) => {
-		if (newValue && newValue !== oldValue) {
-			addToGlobalHistory(oldValue);
-		}
-	},
-);
-
 watch(searchActive, newValue => {
 	if (newValue) {
 		nextTick(() => {
@@ -379,16 +296,7 @@ watch(searchActive, newValue => {
 
 addAction('change-tab-styling', changeTabByEvent());
 
-// Lifecycle
-onMounted(() => {
-	const { addEventListener } = useWindows();
-	addEventListener('keydown', onKeyPress, true);
-});
-
 onBeforeUnmount(() => {
-	const { removeEventListener } = useWindows();
-	removeEventListener('keydown', onKeyPress, true);
-
 	// remove events
 	removeAction('change-tab-styling', changeTab());
 });
@@ -557,41 +465,9 @@ function changeTab(tabId) {
 	}
 }
 
-function addToGlobalHistory(element) {
-	if (hasChanges.value) {
-		const activeEl = element ? element : UIStore.editElement;
-		const { addToHistory } = useHistory();
-		const elementSavedName = activeEl.name;
-		addToHistory(`Edited ${elementSavedName}`);
-	}
-}
 function closeOptionsPanel() {
-	addToGlobalHistory();
 	UIStore.closePanel(props.panel.id);
 	UIStore.unEditElement();
-}
-
-function onKeyPress(e) {
-	const controlKey = Environment.isMac ? 'metaKey' : 'ctrlKey';
-
-	if (isEditable()) {
-		return;
-	}
-
-	// Undo CTRL+Z
-	if (e.which === 90 && e[controlKey] && !e.shiftKey && canUndo.value) {
-		undo();
-		e.preventDefault();
-		e.stopPropagation();
-	}
-	// Redo CTRL+SHIFT+Z CTRL + Y
-	if ((e.which === 90 && e[controlKey] && e.shiftKey) || (e[controlKey] && e.which === 89)) {
-		if (canRedo.value) {
-			redo();
-			e.preventDefault();
-			e.stopPropagation();
-		}
-	}
 }
 </script>
 
@@ -723,40 +599,6 @@ function onKeyPress(e) {
 	&-content-form {
 		flex-grow: 1;
 		max-height: 100%;
-	}
-
-	&-action {
-		display: flex;
-		justify-content: space-between;
-		flex-grow: 0;
-		flex-shrink: 0;
-		padding: 20px;
-
-		&__undo {
-			margin-right: 10px;
-		}
-
-		&__undo,
-		&__redo {
-			display: flex;
-			justify-content: center;
-			flex: 1;
-			padding: 15px 37px;
-			line-height: 1;
-			background-color: var(--zb-surface-lighter-color);
-			border-radius: 3px;
-			cursor: pointer;
-
-			&--active {
-				&:hover {
-					opacity: 0.9;
-				}
-			}
-			&--disabled {
-				opacity: 0.5;
-				pointer-events: none;
-			}
-		}
 	}
 }
 

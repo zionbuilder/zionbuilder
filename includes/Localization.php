@@ -786,6 +786,7 @@ class Localization {
 				'template'                                    => __( 'Template', 'zionbuilder' ),
 				'added'                                    => __( 'Added', 'zionbuilder' ),
 				'layout'                                    => __( 'Layout', 'zionbuilder' ),
+				'edited'                                    => __( 'Edited', 'zionbuilder' ),
 
 
 			]

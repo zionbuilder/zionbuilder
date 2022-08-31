@@ -2,7 +2,7 @@ import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
 import { regenerateUIDs } from '/@/editor/utils';
 import { applyFilters } from '/@/common/modules/hooks';
-import { update, get, isPlainObject, each, pull } from 'lodash-es';
+import { update, get, isPlainObject, each, pull, set } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 
 export class ZionElement {
@@ -72,7 +72,7 @@ export class ZionElement {
 		this.content = content;
 	}
 
-	get parent() {
+	get parent(): ZionElement | null {
 		const contentStore = useContentStore();
 		return contentStore.getElement(this.parentUID);
 	}
@@ -102,8 +102,14 @@ export class ZionElement {
 		return get(this.options, path, defaultValue);
 	}
 
-	updateOptionValue(path: string, newValue: unknown) {
-		update(this.options, path, () => newValue);
+	updateOptionValue(path: string | null, newValue: unknown): Record<string, unknown> {
+		if (path) {
+			update(this.options, path, () => newValue);
+		} else {
+			update(this, 'options', () => newValue);
+		}
+
+		return this.options;
 	}
 
 	highlight() {

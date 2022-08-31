@@ -88,7 +88,6 @@ const children = computed({
 		),
 });
 
-// const { addToHistory } = window.zb.editor.useHistory();
 const elementsDefinitionsStore = useElementDefinitionsStore();
 
 const defaultSortableGroup = {
@@ -125,10 +124,8 @@ const getSortableAxis = computed(() => {
 });
 
 function onSortableDrop(event) {
-	const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
-	const element = contentStore.getElement(droppedElementUid);
-	const translateText = translate('moved');
-	addToHistory(`${translateText} ${element.name}`);
+	// const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
+	// const element = contentStore.getElement(droppedElementUid);
 }
 
 function onSortableDuplicate(item) {

@@ -12,3 +12,4 @@ export * from './PasteElementClasses';
 export * from './DiscardElementStyles';
 export * from './AddTemplate';
 export * from './AddElements';
+export * from './UpdateElementOptions';
