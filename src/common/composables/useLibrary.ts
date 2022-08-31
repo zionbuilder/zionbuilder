@@ -8,23 +8,6 @@ const librarySources: Ref<Object> = ref({});
 
 export const useLibrary = () => {
 	// TODO: move this in editor
-	function unsetActiveElementForLibrary() {
-		activeElement.value = null;
-	}
-
-	// TODO: move this in editor
-	function setActiveElementForLibrary(element, config = {}) {
-		if (activeElement.value && activeElement.value.element === element) {
-			return;
-		}
-
-		activeElement.value = {
-			element,
-			config,
-		};
-	}
-
-	// TODO: move this in editor
 	function getElementForInsert() {
 		const { element, config } = activeElement.value;
 		const { placement = 'inside' } = config;
@@ -92,8 +75,6 @@ export const useLibrary = () => {
 
 	return {
 		activeElement,
-		setActiveElementForLibrary,
-		unsetActiveElementForLibrary,
 		insertElement,
 
 		// Methods

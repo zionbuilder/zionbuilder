@@ -17,14 +17,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useContentStore, useUIStore } from '../store';
 
 const props = withDefaults(
 	defineProps<{
 		element: ZionElement;
-		placement?: string;
+		placement?: 'inside' | 'next';
 		position?: string | null;
 		index?: number;
 	}>(),
@@ -60,15 +60,9 @@ watch(
 	},
 );
 
-function toggleAddElementsPopup() {
-	if (addElementsPopupButton.value) {
-		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value, props.placement);
-	}
-}
-
-function onIconClick() {
+function onIconClick(event: MouseEvent) {
 	isIconClicked.value = true;
-	toggleAddElementsPopup();
+	UIStore.showAddElementsPopup(props.element, event, props.placement);
 }
 </script>
 

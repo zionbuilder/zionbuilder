@@ -783,6 +783,9 @@ class Localization {
 				'paste-styles'                                    => __( 'paste styles', 'zionbuilder' ),
 				'paste-css-classes'                                    => __( 'paste css classes', 'zionbuilder' ),
 				'discard-styles'                                    => __( 'discard styles', 'zionbuilder' ),
+				'template'                                    => __( 'Template', 'zionbuilder' ),
+				'added'                                    => __( 'Added', 'zionbuilder' ),
+				'layout'                                    => __( 'Layout', 'zionbuilder' ),
 
 
 			]

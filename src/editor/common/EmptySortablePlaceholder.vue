@@ -1,27 +1,15 @@
 <template>
 	<div class="znpb-empty-placeholder">
-		<AddElementIcon ref="addElementsPopupButton" :element="element" placement="inside" position="middle" />
+		<AddElementIcon :element="element" placement="inside" position="middle" />
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
 import AddElementIcon from './AddElementIcon.vue';
-import { useUIStore } from '../store';
 
-const props = defineProps<{
+defineProps<{
 	element: ZionElement;
 }>();
-
-const UIStore = useUIStore();
-const addElementsPopupButton = ref(null);
-
-onMounted(() => {
-	if (UIStore.shouldOpenAddElementsPopup === true) {
-		UIStore.showAddElementsPopup(props.element, addElementsPopupButton.value?.$el);
-		UIStore.shouldOpenAddElementsPopup = false;
-	}
-});
 </script>
 
 <style lang="scss">

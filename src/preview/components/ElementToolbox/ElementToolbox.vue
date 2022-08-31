@@ -71,7 +71,7 @@
 				v-if="!isAnyDragging"
 				ref="addElementsPopupButton"
 				class="znpb-element-toolbox__add-element-button"
-				@click="toggleAddElementsPopup"
+				@click.stop="toggleAddElementsPopup"
 			>
 				<Icon v-znpb-tooltip="$translate('insert_after') + ' ' + element.name" icon="plus" :rounded="true" />
 			</div>
@@ -112,8 +112,8 @@ export default {
 		const { addEventListener, removeEventListener } = window.zb.editor.useWindows();
 		const isToolboxDragging = ref(false);
 
-		const toggleAddElementsPopup = () => {
-			UIStore.showAddElementsPopup(props.element, addElementsPopupButton, 'next');
+		const toggleAddElementsPopup = event => {
+			UIStore.showAddElementsPopup(props.element, event, 'next');
 		};
 
 		const isActiveElementEdit = computed(() => {

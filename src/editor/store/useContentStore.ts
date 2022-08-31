@@ -16,6 +16,7 @@ export const useContentStore = defineStore('content', {
 		};
 	},
 	getters: {
+		contentRootElement: state => state.elements.find(element => element.uid === window.ZnPbInitialData.page_id),
 		getArea: state => (areaID: string) => state.areas.find(area => area.id === areaID),
 		getAreaContentAsJSON(state) {
 			return (areaID: string) => {
@@ -154,12 +155,15 @@ export const useContentStore = defineStore('content', {
 			return newElement;
 		},
 		addElements(elements: ZionElementConfig[], parent: ZionElement, index = -1) {
+			const addedElementsUIDs = [];
 			elements.forEach(element => {
-				this.addElement(element, parent, index);
+				addedElementsUIDs.push(this.addElement(element, parent, index));
 
 				// Update the index
 				index = index !== -1 ? index + 1 : index;
 			});
+
+			return addedElementsUIDs;
 		},
 	},
 });

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-import { useContentStore } from './useContentStore';
+import { useResponsiveDevices } from '/@/common/composables';
 interface Panel {
 	id: string;
 	component: string;
@@ -48,10 +48,14 @@ export const useUIStore = defineStore('ui', {
 			element: ZionElement;
 			selector: HTMLElement;
 			actions: Record<string, unknown>;
+			rand: number;
 		} | null;
 		isElementDragging: boolean;
 		activeAddElementPopup: Record<string, unknown> | null;
-		shouldOpenAddElementsPopup: boolean;
+		libraryInsertConfig: {
+			element?: ZionElement;
+			index?: number;
+		};
 	} => {
 		const { getUserData } = useUserData();
 		const UIUserData = getUserData();
@@ -126,7 +130,7 @@ export const useUIStore = defineStore('ui', {
 			activeElementMenu: null,
 			isElementDragging: false,
 			activeAddElementPopup: null,
-			shouldOpenAddElementsPopup: false,
+			libraryInsertConfig: {},
 		};
 	},
 	getters: {
@@ -182,11 +186,13 @@ export const useUIStore = defineStore('ui', {
 				element,
 				selector,
 				actions,
+				rand: new Date().getMilliseconds(),
 			};
 		},
 		showElementMenuFromEvent(element: ZionElement, event: MouseEvent) {
 			let leftOffset = 0;
 			let topOffset = 0;
+			let scale = 1;
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
@@ -194,6 +200,9 @@ export const useUIStore = defineStore('ui', {
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();
+					const { scaleValue } = useResponsiveDevices();
+					scale = scaleValue.value / 100;
+
 					leftOffset = left;
 					topOffset = top;
 				}
@@ -205,8 +214,8 @@ export const useUIStore = defineStore('ui', {
 					return {
 						width: 0,
 						height: 0,
-						top: event.clientY + topOffset,
-						left: event.clientX + leftOffset,
+						top: event.clientY * scale + topOffset,
+						left: event.clientX * scale + leftOffset,
 					};
 				},
 			});
@@ -286,11 +295,13 @@ export const useUIStore = defineStore('ui', {
 			this.iFrame.pointerEvents = status;
 		},
 		// Library
-		openLibrary() {
+		openLibrary(libraryInsertConfig = {}) {
 			this.isLibraryOpen = true;
+			this.libraryInsertConfig = libraryInsertConfig;
 		},
 		closeLibrary() {
 			this.isLibraryOpen = false;
+			this.libraryInsertConfig = {};
 		},
 		toggleLibrary() {
 			this.isLibraryOpen = !this.isLibraryOpen;
@@ -327,10 +338,28 @@ export const useUIStore = defineStore('ui', {
 			this.isPreviewMode = state;
 		},
 
-		showAddElementsPopup(element: ZionElement, selector: HTMLElement, placement: 'inside' | 'next' = 'inside') {
+		showAddElementsPopup(element: ZionElement, event: MouseEvent, placement: 'inside' | 'next' = 'inside') {
 			if (this.activeAddElementPopup && this.activeAddElementPopup.element === element) {
 				this.hideAddElementsPopup();
 				return;
+			}
+
+			let leftOffset = 0;
+			let topOffset = 0;
+			let scale = 1;
+
+			// Check to see if the event is from iframe
+			if (event.view !== window) {
+				const iframe = window.frames['znpb-editor-iframe'];
+
+				if (iframe) {
+					const { left, top } = iframe.getBoundingClientRect();
+
+					const { scaleValue } = useResponsiveDevices();
+					scale = scaleValue.value / 100;
+					leftOffset = left;
+					topOffset = top;
+				}
 			}
 
 			// Check to see if we need to insert the new element inside the provided one or the parent
@@ -346,7 +375,17 @@ export const useUIStore = defineStore('ui', {
 
 			this.activeAddElementPopup = {
 				element,
-				selector,
+				selector: {
+					ownerDocument: window.document,
+					getBoundingClientRect() {
+						return {
+							width: 0,
+							height: 0,
+							top: event.clientY * scale + topOffset,
+							left: event.clientX * scale + leftOffset,
+						};
+					},
+				},
 				index,
 				key: Math.random(),
 			};

@@ -193,7 +193,7 @@ export class ZionElement {
 		this.content.splice(index, 1, newElement.uid);
 	}
 
-	addChild(element: ZionElement | ZionElementConfig, index = -1) {
+	addChild(element: ZionElement | ZionElementConfig, index = -1): ZionElement {
 		let elementInstance = null;
 
 		if (element instanceof ZionElement) {
@@ -220,13 +220,16 @@ export class ZionElement {
 		newParent.addChild(this, index);
 	}
 
-	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1) {
+	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1): ZionElement[] {
+		const addedElements = <ZionElement[]>[];
 		each(elements, element => {
-			this.addChild(element, index);
+			addedElements.push(this.addChild(element, index));
 
 			// In case we need to insert multiple elements at an index higher then the last item, we need to increment the index
 			index = index !== -1 ? index + 1 : index;
 		});
+
+		return addedElements;
 	}
 
 	removeChild(element: ZionElement) {

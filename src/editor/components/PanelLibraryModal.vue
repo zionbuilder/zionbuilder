@@ -110,7 +110,7 @@ import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
 import { useLibrary } from '/@/common/composables';
-import { useElementsStore, useUIStore } from '../store';
+import { useUIStore } from '../store';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';
@@ -209,9 +209,7 @@ export default {
 		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = 'hidden';
 	},
 	beforeUnmount() {
-		const { unsetActiveElementForLibrary } = useLibrary();
 		document.getElementById('znpb-editor-iframe').contentWindow.document.body.style.overflow = null;
-		unsetActiveElementForLibrary();
 	},
 	methods: {
 		onTemplateUpload() {
@@ -244,19 +242,14 @@ export default {
 					.getBuilderData()
 					.then(response => {
 						const { template_data: templateData } = response.data;
-						const { insertElement, activeElement } = useLibrary();
 
 						// Check to see if this is a single element or a group of elements
 						let compiledTemplateData = templateData.element_type ? [templateData] : templateData;
 						const newElement = regenerateUIDsForContent(compiledTemplateData);
 
-						if (activeElement.value) {
-							insertElement(newElement);
-						} else {
-							const elementsStore = useElementsStore();
-							const element = elementsStore.getElement(this.editorData.page_id);
-							element.addChildren(newElement);
-						}
+						window.zb.run('editor/elements/add-template', {
+							templateContent: newElement,
+						});
 
 						this.UIStore.toggleLibrary();
 

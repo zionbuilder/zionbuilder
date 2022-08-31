@@ -27,9 +27,8 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useWindows, useHistory } from '../../composables';
-import { useLibrary } from '/@/common/composables';
-import { useUIStore, useElementDefinitionsStore, useContentStore } from '../../store';
+import { useWindows } from '../../composables';
+import { useUIStore, useElementDefinitionsStore } from '../../store';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
@@ -47,7 +46,6 @@ export default {
 	},
 	setup(props, { emit }) {
 		const UIStore = useUIStore();
-		const contentStore = useContentStore();
 		const defaultTab = props.element.element_type === 'zion_column' ? 'elements' : 'layouts';
 		const active = ref(defaultTab);
 		const { addEventListener, removeEventListener } = useWindows();
@@ -146,26 +144,20 @@ export default {
 				}
 			}
 
-			// Open the first sortable content popup
-			UIStore.shouldOpenAddElementsPopup = true;
-
 			// Insert element
-			contentStore.addElements(config, UIStore.activeAddElementPopup.element, UIStore.activeAddElementPopup.index);
-
-			const { addToHistory } = useHistory();
-			addToHistory(`Added Columns Layout`);
+			window.zb.run('editor/elements/add-elements', {
+				elements: config,
+				elementUID: UIStore.activeAddElementPopup.element.uid,
+				index: UIStore.activeAddElementPopup.index,
+			});
 
 			// Send close event
 			emit('close');
 		};
 
 		const openLibrary = () => {
-			const { setActiveElementForLibrary } = useLibrary();
+			UIStore.openLibrary(UIStore.activeAddElementPopup);
 
-			// TODO: fix this
-			setActiveElementForLibrary(UIStore.activeAddElementPopup.element, activePopup.value.config);
-
-			UIStore.toggleLibrary();
 			emit('close');
 		};
 

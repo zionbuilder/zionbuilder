@@ -1,6 +1,6 @@
 <template>
 	<Tooltip
-		:key="UIStore.activeElementMenu.element.uid"
+		:key="UIStore.activeElementMenu.rand"
 		tooltip-class="hg-popper--big-arrows znpb-rightClickMenu__Tooltip"
 		placement="auto"
 		:show="true"

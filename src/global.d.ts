@@ -6,4 +6,7 @@ interface Window {
 		nonce: string;
 		rest_root: string;
 	};
+	ZnPbInitialData: {
+		page_id: string;
+	};
 }

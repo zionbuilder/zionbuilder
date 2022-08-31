@@ -1,6 +1,6 @@
 import { generateUID } from '/@/common/utils';
 
-export const regenerateUIDs = element => {
+export const regenerateUIDs = (element: ZionElementConfig) => {
 	const uid = generateUID();
 
 	element.uid = uid;
@@ -14,6 +14,6 @@ export const regenerateUIDs = element => {
 	return element;
 };
 
-export const regenerateUIDsForContent = (elements: []) => {
+export const regenerateUIDsForContent = (elements: ZionElementConfig[]) => {
 	return elements.map(element => regenerateUIDs(element));
 };

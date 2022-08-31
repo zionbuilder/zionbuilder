@@ -10,3 +10,5 @@ export * from './MoveElement';
 export * from './PasteElementStyles';
 export * from './PasteElementClasses';
 export * from './DiscardElementStyles';
+export * from './AddTemplate';
+export * from './AddElements';

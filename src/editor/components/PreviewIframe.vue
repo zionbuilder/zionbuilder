@@ -329,23 +329,9 @@ export default {
 
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
-			// iframeWindow.zb = window.zb || {};
-			// iframeWindow.zb.vue = vue;
-			// iframeWindow.zb.editor = iframeWindow.zb.editor || {};
-			// iframeWindow.zb.editor.registerElementComponent = this.elementsDefinitionsStore.registerElementComponent;
-			// // Register the document
+			// Register the document
 			this.addWindow('preview', iframeWindow);
 			this.attachIframeEvents();
-
-			// if (!iframeWindow.ZnPbPreviewData) {
-			// 	add({
-			// 		message: this.$translate('page_content_error'),
-			// 		type: 'error',
-			// 		delayClose: 0,
-			// 	});
-
-			// 	return false;
-			// }
 
 			// Set preview data
 			// Render the app
