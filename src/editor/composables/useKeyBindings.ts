@@ -1,6 +1,6 @@
-import { useSavePage, useEditorData, useElementActions, useHistory } from '../composables';
+import { useSavePage, useEditorData, useElementActions } from '../composables';
 import { isEditable, Environment } from '/@/common/utils';
-import { useUIStore } from '../store';
+import { useHistoryStore, useUIStore } from '../store';
 
 export const useKeyBindings = () => {
 	const UIStore = useUIStore();
@@ -115,11 +115,12 @@ export const useKeyBindings = () => {
 
 		// Undo CTRL+Z
 		if (e.which === 90 && e[controlKey] && !e.shiftKey) {
-			const { canUndo, undo } = useHistory();
+			const historyStore = useHistoryStore();
 
-			if (canUndo.value) {
-				undo();
+			if (historyStore.canUndo) {
+				historyStore.undo();
 			}
+			e.preventDefault();
 		}
 
 		// Redo CTRL+SHIFT+D -- Back to WP Dashboard
@@ -129,10 +130,12 @@ export const useKeyBindings = () => {
 
 		// Redo CTRL+SHIFT+Z CTRL + Y
 		if ((e.which === 90 && e[controlKey] && e.shiftKey) || (e[controlKey] && e.which === 89)) {
-			const { canRedo, redo } = useHistory();
-			if (canRedo.value) {
-				redo();
+			const historyStore = useHistoryStore();
+			if (historyStore.canRedo) {
+				historyStore.redo();
 			}
+
+			e.preventDefault();
 		}
 
 		// Toggle treeView panel

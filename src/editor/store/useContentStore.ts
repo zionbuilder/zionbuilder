@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { pull, set, get } from 'lodash-es';
 import { useElementDefinitionsStore } from './useElementDefinitionsStore';
 import { ZionElement } from '../models/ZionElement';
+import { useUIStore } from './useUIStore';
 
 interface State {
 	areas: BuilderArea[];
@@ -111,6 +112,10 @@ export const useContentStore = defineStore('content', {
 				if (element.content) {
 					[...element.content].forEach(childUID => this.deleteElement(childUID));
 				}
+
+				// Close the edit panel
+				const UIStore = useUIStore();
+				UIStore.unEditElement();
 
 				pull(this.elements, element);
 			} else {

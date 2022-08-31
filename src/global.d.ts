@@ -8,5 +8,6 @@ interface Window {
 	};
 	ZnPbInitialData: {
 		page_id: string;
+		autosaveInterval: number;
 	};
 }

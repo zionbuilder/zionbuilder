@@ -43,9 +43,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed, provide } from 'vue';
-import { useHistory } from '/@/editor/composables';
 import { translate } from '/@/common/modules/i18n';
-import { useContentStore, useUIStore } from '/@/editor/store';
 
 // components
 import TreeViewList from './TreeViewList.vue';
@@ -54,7 +52,6 @@ const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const UIStore = useUIStore();
 const treeViewExpanded = ref(false);
 const showModalConfirm = ref(false);
 
@@ -68,9 +65,6 @@ function removeAllElements() {
 	window.zb.run('editor/elements/remove_all', {
 		areaID: props.element.uid,
 	});
-
-	// // Close edit element panel
-	// UIStore.unEditElement();
 
 	// Close modal
 	showModalConfirm.value = false;

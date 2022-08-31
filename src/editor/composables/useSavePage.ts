@@ -1,10 +1,9 @@
 import { savePage as savePageREST } from '/@/common/api';
 import { ref, Ref } from 'vue';
-import { usePageSettingsStore, useCSSClassesStore, useContentStore } from '../store';
+import { usePageSettingsStore, useCSSClassesStore, useContentStore, useHistoryStore } from '../store';
 import { useEditorData } from './useEditorData';
 import { translate } from '/@/common/modules/i18n';
 import { useNotificationsStore } from '/@/common/store';
-import { useHistory } from './useHistory';
 import { useResponsiveDevices } from '/@/common/composables';
 
 const isSavePageLoading: Ref<boolean> = ref(false);
@@ -17,7 +16,7 @@ export function useSavePage() {
 		const pageSettings = usePageSettingsStore();
 		const cssClasses = useCSSClassesStore();
 		const { editorData } = useEditorData();
-		const { setDirtyStatus } = useHistory();
+		const historyStore = useHistoryStore();
 
 		const { responsiveDevices } = useResponsiveDevices();
 
@@ -51,7 +50,7 @@ export function useSavePage() {
 
 					refreshPreviewWindow();
 
-					setDirtyStatus(false);
+					historyStore.isDirty = false;
 
 					return Promise.resolve(response);
 				})

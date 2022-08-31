@@ -48,6 +48,8 @@ export const useHistoryStore = defineStore('history', {
 			} else {
 				this.state.push(item);
 			}
+
+			this.isDirty = true;
 		},
 		addHistoryItemDebounced: debounce(function (item) {
 			this.addHistoryItem(item);
@@ -57,6 +59,7 @@ export const useHistoryStore = defineStore('history', {
 				const newHistoryIndex = this.activeHistoryIndex - 1;
 				// Restore the history
 				this.restoreHistoryToIndex(newHistoryIndex);
+				this.isDirty = true;
 			}
 		},
 		redo() {

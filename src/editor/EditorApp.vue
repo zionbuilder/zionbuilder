@@ -110,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, provide, computed, onBeforeUnmount, onMounted } from 'vue';
+import { ref, provide, computed, onBeforeUnmount, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { translate } from '/@/common/modules/i18n';
 
@@ -129,10 +129,10 @@ import SaveElementModal from './components/SaveElementModal.vue';
 // Composables
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
-import { useKeyBindings, useEditorData, useAutosave, useWindows } from './composables';
+import { useKeyBindings, useEditorData, useSavePage } from './composables';
 import { useResponsiveDevices } from '/@/common/composables';
 import { useNotificationsStore } from '/@/common/store';
-import { useUIStore, useCSSClassesStore, usePageSettingsStore } from './store';
+import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore } from './store';
 import { serverRequest } from './api';
 
 // WordPress HeartBeat
@@ -171,7 +171,23 @@ const mainBarDraggingPlaceholderStyles = computed(() => {
 });
 
 // General functionality
-useAutosave();
+const historyStore = useHistoryStore();
+const { saveAutosave } = useSavePage();
+let canAutosave = true;
+
+watch(
+	() => historyStore.activeHistoryIndex,
+	newValue => {
+		if (canAutosave && newValue > 0) {
+			saveAutosave();
+			canAutosave = false;
+
+			setTimeout(() => {
+				canAutosave = true;
+			}, window.ZnPbInitialData.autosaveInterval * 1000);
+		}
+	},
+);
 
 // provide masks for ShapeDividerComponent option
 provide('serverRequester', serverRequest);

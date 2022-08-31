@@ -26,10 +26,9 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { addAction, removeAction } from '/@/common/modules/hooks';
 import { each } from 'lodash-es';
 
-import { useKeyBindings, useSavePage, useEditorData, useWindows, useHistory } from '../composables';
+import { useKeyBindings, useSavePage, useEditorData, useWindows } from '../composables';
 import { useResponsiveDevices } from '/@/common/composables';
-import { useNotificationsStore } from '/@/common/store';
-import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore, useHistoryStore } from '../store';
 
 import PreviewApp from '/@/preview/PreviewApp.vue';
 
@@ -52,7 +51,8 @@ export default {
 		const { applyShortcuts } = useKeyBindings();
 		const { saveAutosave } = useSavePage();
 		const { editorData } = useEditorData();
-		const { isDirty } = useHistory();
+		const historyStore = useHistoryStore();
+		const isDirty = historyStore.isDirty;
 		const UIStore = useUIStore();
 		const contentStore = useContentStore();
 		const elementsDefinitionsStore = useElementDefinitionsStore();
@@ -305,16 +305,10 @@ export default {
 
 			// Add timestamp for content
 			this.UIStore.setContentTimestamp();
-
-			// Add to history
-			const { addInitialHistory } = useHistory();
-			addInitialHistory();
 		},
 
 		useServerVersion() {
 			if (!this.ignoreNextReload) {
-				const { contentWindow } = this.$refs.iframe;
-
 				this.setPageContent(ZnPbInitialData.page_content);
 
 				// Hide recover modal
@@ -325,8 +319,6 @@ export default {
 			this.root.click();
 		},
 		onIframeLoaded() {
-			const { add } = useNotificationsStore();
-
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
 			// Register the document

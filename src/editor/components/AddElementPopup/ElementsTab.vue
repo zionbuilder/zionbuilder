@@ -43,7 +43,7 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
-import { useHistory, useEditorData, useUserData } from '../../composables';
+import { useEditorData, useUserData } from '../../composables';
 import { translate } from '/@/common/modules/i18n';
 import { useElementDefinitionsStore, useUIStore, useContentStore } from '/@/editor/store';
 

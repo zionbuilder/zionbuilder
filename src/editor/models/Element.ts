@@ -1,12 +1,10 @@
-import { each, update, get, isPlainObject, debounce } from 'lodash-es';
+import { each, update, get, isPlainObject } from 'lodash-es';
 import { generateUID } from '/@/common/utils';
 import { applyFilters } from '/@/common/modules/hooks';
 import { regenerateUIDs } from '../utils';
 import { useElementDefinitionsStore, useElementsStore } from '../store';
 import { RenderAttributes } from './RenderAttributes';
-import { useHistory } from '../composables/useHistory';
 import { serverRequest } from '../api';
-import { useUIStore } from '../store';
 
 export class Element {
 	// Element data for DB
