@@ -80,13 +80,15 @@ const UIStore = useUIStore();
 const contentStore = useContentStore();
 
 const children = computed({
-	get: () => props.element.content.map(child => contentStore.getElement(child)),
-	set: newValue =>
+	get: () => props.element.content.map(childUID => contentStore.getElement(childUID)),
+	set: newValue => {
+		console.log({ newValue });
 		contentStore.updateElement(
 			props.element.uid,
 			'content',
 			newValue.map(element => element.uid),
-		),
+		);
+	},
 });
 
 const elementsDefinitionsStore = useElementDefinitionsStore();
