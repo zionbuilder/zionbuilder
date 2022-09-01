@@ -17,7 +17,7 @@ import { useUIStore } from '/@/editor/store';
 
 const props = withDefaults(
 	defineProps<{
-		value: Record<string, unknown>;
+		value?: Record<string, unknown>;
 		// eslint-disable-next-line vue/prop-name-casing
 		element_type: string;
 	}>(),

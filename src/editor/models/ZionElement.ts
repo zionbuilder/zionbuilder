@@ -4,6 +4,7 @@ import { regenerateUIDs } from '/@/editor/utils';
 import { applyFilters } from '/@/common/modules/hooks';
 import { update, get, isPlainObject, each, pull, set } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
+import { serverRequest } from '../api';
 
 export class ZionElement {
 	// Element data for DB
@@ -70,6 +71,14 @@ export class ZionElement {
 		}
 
 		this.content = content;
+
+		// Check to see if this is a widget
+		if (elementData.widget_id) {
+			this.widgetID = elementData.widget_id;
+		}
+
+		// Add requester
+		this.serverRequester = this.createRequester();
 	}
 
 	get parent(): ZionElement | null {
@@ -92,6 +101,25 @@ export class ZionElement {
 		let cssID = this.getOptionValue('_advanced_options._element_id', this.uid);
 		cssID = applyFilters('zionbuilder/element/css_id', cssID, this);
 		return cssID;
+	}
+
+	createRequester() {
+		const request = (data, successCallback, failCallback) => {
+			// Pass to filter with all the extra arguments
+			const parsedData = JSON.parse(
+				JSON.stringify({
+					...applyFilters('zionbuilder/server_request/element_requester_data', {}, this),
+					...data,
+					useCache: true,
+				}),
+			);
+
+			return serverRequest.request(parsedData, successCallback, failCallback);
+		};
+
+		return {
+			request,
+		};
 	}
 
 	setName(newName: string) {
@@ -169,14 +197,18 @@ export class ZionElement {
 			return element.toJSON();
 		});
 
-		return JSON.parse(
-			JSON.stringify({
-				uid: this.uid,
-				content: content,
-				element_type: this.element_type,
-				options: this.options,
-			}),
-		);
+		const elementData = {
+			uid: this.uid,
+			content: content,
+			element_type: this.element_type,
+			options: this.options,
+		};
+
+		if (this.widgetID) {
+			elementData.widget_id = this.widgetID;
+		}
+
+		return JSON.parse(JSON.stringify(elementData));
 	}
 
 	wrapIn(wrapperType = 'container') {
