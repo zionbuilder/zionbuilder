@@ -1,29 +1,19 @@
 <template>
-	<Teleport :disabled="!appendTo" :to="appendTo">
-		<div
-			ref="colorPicker"
-			class="znpb-form-colorpicker__color-picker-holder"
-			:class="{ ['color-picker-holder--has-library']: showLibrary }"
-			:style="pickerStyle"
-			v-bind="$attrs"
-		>
-			<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
+	<div
+		ref="colorPicker"
+		class="znpb-form-colorpicker__color-picker-holder"
+		:class="{ ['color-picker-holder--has-library']: showLibrary }"
+		:style="pickerStyle"
+	>
+		<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
 
-			<div class="znpb-form-colorpicker-inner__panel">
-				<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
+		<div class="znpb-form-colorpicker-inner__panel">
+			<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
 
-				<slot name="end" />
-			</div>
+			<slot name="end" />
 		</div>
-	</Teleport>
+	</div>
 </template>
-
-<script lang="ts">
-export default {
-	name: 'ColorPicker',
-	inheritAttrs: false,
-};
-</script>
 
 <script lang="ts" setup>
 import tinycolor from 'tinycolor2';
@@ -42,7 +32,6 @@ const props = withDefaults(
 	defineProps<{
 		model?: Colors;
 		showLibrary?: boolean;
-		appendTo?: string;
 		zIndex?: number;
 	}>(),
 	{
@@ -155,8 +144,15 @@ function addGlobal(name: string) {
 }
 </script>
 
+<script lang="ts">
+export default {
+	name: 'ColorPicker',
+	inheritAttrs: false,
+};
+</script>
+
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 .znpb-form-colorpicker__color-picker-holder {
 	overflow: hidden;
 	min-width: 280px;
@@ -208,7 +204,7 @@ function addGlobal(name: string) {
 	flex-direction: column;
 	color: var(--zb-surface-icon-color);
 	background-color: var(--zb-surface-lighter-color);
-	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, .1);
+	box-shadow: -3px 0 3px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 3px;
 	border-bottom-left-radius: 0;
 	border-top-left-radius: 0;

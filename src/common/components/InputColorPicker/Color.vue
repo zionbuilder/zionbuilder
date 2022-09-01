@@ -67,7 +67,6 @@ import { ColorPicker } from '../Colorpicker';
 withDefaults(
 	defineProps<{
 		modelValue?: string;
-		appendTo?: string;
 		showLibrary?: boolean;
 		dynamicContentConfig?: any;
 		placeholder?: string;

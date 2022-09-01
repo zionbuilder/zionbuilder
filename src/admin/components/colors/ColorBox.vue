@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 
 .znpb-admin-content__center {
 	.znpb-tabs--minimal {
@@ -141,7 +141,8 @@ export default {
 			align-self: flex-end;
 		}
 	}
-	&__color, &__empty {
+	&__color,
+	&__empty {
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -158,7 +159,7 @@ export default {
 		align-self: flex-end;
 		margin-top: 7px;
 		border: 1px solid var(--zb-surface-border-color);
-		transition: all .15s;
+		transition: all 0.15s;
 		cursor: pointer;
 		.zion-icon.zion-svg-inline {
 			width: 8px;
