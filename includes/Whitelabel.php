@@ -53,6 +53,13 @@ class Whitelabel {
 	public $plugin_loader_logo = '';
 
 	/**
+	 * Holds a reference to the plugin loader URL
+	 *
+	 * @var string
+	 */
+	public $getting_started_video = '';
+
+	/**
 	 * Whitelabel constructor.
 	 */
 	public function __construct() {
@@ -64,6 +71,7 @@ class Whitelabel {
 				'plugin_logo'        => Utils::get_logo_url(),
 				'plugin_help_url'    => 'https://zionbuilder.io/help-center/',
 				'plugin_loader_logo' => Utils::get_loader_url(),
+				'getting_started_video' => 'https://www.youtube.com/embed/rQ_2lUyhCAY',
 			]
 		);
 		$this->plugin_title       = $white_label_data['plugin_title'];
@@ -71,6 +79,7 @@ class Whitelabel {
 		$this->plugin_help_url    = $white_label_data['plugin_help_url'];
 		$this->plugin_loader_logo = $white_label_data['plugin_loader_logo'];
 		$this->plugin_slug        = $white_label_data['plugin_slug'];
+		$this->getting_started_video        = $white_label_data['getting_started_video'];
 	}
 
 	/**

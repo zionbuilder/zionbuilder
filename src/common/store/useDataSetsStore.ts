@@ -41,6 +41,7 @@ export const useDataSetsStore = defineStore('dataSets', () => {
 		},
 		user_roles: [],
 		post_types: [],
+		taxonomies: [],
 		icons: [],
 		image_sizes: [],
 	});

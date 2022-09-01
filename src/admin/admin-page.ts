@@ -8,7 +8,7 @@ import { hooks } from '../common/modules/hooks';
 import { install as I18nInstall } from '../common/modules/i18n';
 import { errorInterceptor } from '../common/api';
 import { useNotificationsStore } from '../common/store';
-import { install as ComponentsInstall } from '../common';
+import * as COMPONENTS from '/@/common';
 import * as COMMONUTILS from '/@/common/utils';
 
 import { initRoutes, routes } from './router';
@@ -35,7 +35,7 @@ appInstance.component('ListAnimation', ListAnimate);
 appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate);
 
 // Plugins
-appInstance.use(ComponentsInstall);
+appInstance.use(COMPONENTS.install);
 appInstance.use(I18nInstall, window.ZnI18NStrings);
 appInstance.use(createPinia());
 
@@ -83,3 +83,4 @@ window.zb.admin = {
 
 window.zb.hooks = hooks;
 window.zb.utils = COMMONUTILS;
+window.zb.components = COMPONENTS;

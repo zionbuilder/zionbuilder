@@ -8,6 +8,7 @@ import * as STORE from './store';
 import * as COMMONUTILS from '/@/common/utils';
 
 // Plugins
+import * as COMMON from '../common';
 import { install as ComponentsInstall } from '../common';
 import { install as I18nInstall } from '../common/modules/i18n';
 import { errorInterceptor } from '../common/api';
@@ -123,6 +124,7 @@ window.zb.editor = Object.assign(
 window.zb.vue = Vue;
 window.zb.utils = COMMONUTILS;
 window.zb.commandsManager = commandsManager;
+window.zb.components = COMMON;
 window.zb.run = function (commandName: string, commandArgs: Record<string, unknown>) {
 	return commandsManager.runCommand(commandName, commandArgs);
 };

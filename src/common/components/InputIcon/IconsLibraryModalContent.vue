@@ -35,7 +35,6 @@ export default {
 import { storeToRefs } from 'pinia';
 import { ref, computed, Ref } from 'vue';
 import { useDataSetsStore, type DataSets, type Icons } from '../../store';
-import IconPackGrid from '../IconPackGrid.vue';
 
 type Icon = { family?: string; name: string; unicode: string };
 

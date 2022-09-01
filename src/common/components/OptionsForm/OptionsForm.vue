@@ -67,7 +67,6 @@ export default {
 		}
 
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
-		const { fontsListForOption } = useDataSetsStore();
 		const { activePseudoSelector } = usePseudoSelectors();
 
 		/**
@@ -191,7 +190,6 @@ export default {
 
 		return {
 			activeResponsiveDeviceInfo,
-			fontsListForOption,
 			updateValueByPath,
 			getValueByPath,
 			activePseudoSelector,
@@ -358,10 +356,14 @@ export default {
 		},
 
 		getProperSchema(schema) {
+			const dataSetsStore = useDataSetsStore();
 			// Set data sources
 			if (typeof schema.data_source !== 'undefined') {
 				if (schema.data_source === 'fonts') {
-					schema.options = this.fontsListForOption;
+					schema.options = dataSetsStore.fontsListForOption;
+					delete schema.data_source;
+				} else if (schema.data_source === 'taxonomies') {
+					schema.options = dataSetsStore.dataSets.taxonomies;
 					delete schema.data_source;
 				}
 			}

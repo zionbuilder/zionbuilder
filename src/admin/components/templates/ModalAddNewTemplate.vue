@@ -1,16 +1,10 @@
 <template>
-	<ModalTemplateSaveButton
-		@save-modal="$emit('save-template', localTemplate)"
-		:disabled="!canAdd"
-	>
+	<ModalTemplateSaveButton :disabled="!canAdd" @save-modal="$emit('save-template', localTemplate)">
 		<div class="znpb-admin-title-block znpb-admin-title-block--heading">
-			<h4 class="znpb-admin-modal-title-block__title">{{$translate('add_new_template')}}</h4>
-			<p class="znpb-admin-modal-title-block__desc">{{$translate('create_new_modal_template')}}</p>
+			<h4 class="znpb-admin-modal-title-block__title">{{ $translate('add_new_template') }}</h4>
+			<p class="znpb-admin-modal-title-block__desc">{{ $translate('create_new_modal_template') }}</p>
 		</div>
-		<ModalTwoColTemplate
-			:title="$translate('template_type')"
-			:desc="$translate('select_template')"
-		>
+		<ModalTwoColTemplate :title="$translate('template_type')" :desc="$translate('select_template')">
 			<InputSelect
 				v-model="localTemplate.template_type"
 				:placeholder="$translate('select_type')"
@@ -18,10 +12,7 @@
 				class="znpb-admin-add-template-select"
 			/>
 		</ModalTwoColTemplate>
-		<ModalTwoColTemplate
-			:title="$translate('template_name')"
-			:desc="$translate('type_name')"
-		>
+		<ModalTwoColTemplate :title="$translate('template_name')" :desc="$translate('type_name')">
 			<BaseInput
 				v-model="localTemplate.title"
 				:placeholder="$translate('enter_name_for_template')"
@@ -38,39 +29,38 @@ export default {
 		templateType: {
 			type: String,
 			required: false,
-			default: 'templates'
-		}
+			default: 'templates',
+		},
 	},
 	data: function () {
 		return {
 			localTemplate: {
 				title: '',
-				template_type: this.templateType
-			}
-		}
+				template_type: this.templateType,
+			},
+		};
 	},
 	computed: {
-		templates () {
-			const templateTypes = []
+		templates() {
+			const templateTypes = [];
 			window.ZnPbAdminPageData.template_types.forEach(element => {
 				templateTypes.push({
 					id: element.id,
-					name: element.singular_name
-				})
-			})
+					name: element.singular_name,
+				});
+			});
 
-			return templateTypes
+			return templateTypes;
 		},
-		canAdd () {
-			const { template_type: templateType, title } = this.localTemplate
-			return templateType.length > 0 && title.length > 0
-		}
-	}
-
-}
+		canAdd() {
+			const { template_type: templateType, title } = this.localTemplate;
+			return templateType.length > 0 && title.length > 0;
+		},
+	},
+};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .znpb-admin-title-block--heading {
 	padding: 35px 30px;
 	text-align: center;

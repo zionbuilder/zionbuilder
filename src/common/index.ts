@@ -65,6 +65,7 @@ import { Modal, ModalConfirm, ModalTemplateSaveButton } from './components/modal
 import { getDefaultGradient } from './utils';
 
 export * from './composables';
+export * from './store';
 
 const components = [
 	ListScroll,

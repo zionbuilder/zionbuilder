@@ -19,7 +19,7 @@
 
 <script lang="ts">
 export default {
-	name: 'IconsPackGrid',
+	name: 'IconPackGrid',
 };
 </script>
 

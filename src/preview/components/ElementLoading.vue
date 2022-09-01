@@ -1,8 +1,12 @@
 <template>
 	<div class="znpb-preview__element-loading">
-		<img :src="window.ZnPbInitialData.urls.loader" />
+		<img :src="imageSrc" />
 	</div>
 </template>
+
+<script lang="ts" setup>
+const imageSrc = window.ZnPbInitialData.urls.loader;
+</script>
 
 <style lang="scss">
 .znpb-preview__element-loading {
