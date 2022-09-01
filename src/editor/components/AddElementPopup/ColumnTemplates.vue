@@ -15,7 +15,7 @@
 				</div>
 			</Tab>
 			<Tab name="Elements">
-				<ElementsTab v-if="active === 'elements'" :element="element" :search-keyword="searchKeyword" />
+				<ElementsTab v-if="active === 'elements'" v-model:search-keyword="searchKeyword" :element="element" />
 			</Tab>
 			<Tab name="Library">
 				<span />
@@ -29,6 +29,7 @@ import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
 import { useWindows } from '../../composables';
 import { useUIStore, useElementDefinitionsStore } from '../../store';
+import { isEditable } from '/@/common/utils';
 
 // Components
 import ElementsTab from './ElementsTab.vue';
@@ -162,17 +163,16 @@ export default {
 		};
 
 		function onKeyDown(event) {
-			const currentTab = active.value;
-			active.value = 'elements';
+			if (!isEditable(event.target)) {
+				searchKeyword.value = searchKeyword.value + event.key;
+			}
 
-			if (currentTab !== 'elements') {
-				searchKeyword.value += event.key;
+			if (active.value !== 'elements') {
+				active.value = 'elements';
 			}
 		}
 
 		function onTabChange(tab) {
-			searchKeyword.value = '';
-
 			if (tab === 'library') {
 				openLibrary();
 			}

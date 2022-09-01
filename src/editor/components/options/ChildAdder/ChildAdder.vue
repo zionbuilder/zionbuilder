@@ -23,13 +23,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useElementProvide } from '../../../composables';
+import { computed, inject } from 'vue';
 import SingleChild from './SingleChild.vue';
 import { useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
-	modelValue?: string;
+	modelValue?: [];
 	// eslint-disable-next-line vue/prop-name-casing
 	child_type: string;
 	// eslint-disable-next-line vue/prop-name-casing
@@ -39,12 +38,11 @@ const props = defineProps<{
 	add_template?: Record<string, unknown>;
 }>();
 
-const { injectElement } = useElementProvide();
-const element = injectElement();
+const element = inject('elementInfo');
 const contentStore = useContentStore();
 
 const canShowDeleteButton = computed(() => {
-	if (props.min && element.content.length === props.min) {
+	if (props.min && element.value.content.length === props.min) {
 		return false;
 	}
 
@@ -52,14 +50,14 @@ const canShowDeleteButton = computed(() => {
 });
 
 const elementChildren = computed(() => {
-	return element.content.map(elementUID => {
+	return element.value.content.map(elementUID => {
 		return contentStore.getElement(elementUID);
 	});
 });
 
 // Check to see if we need to add some tabs
-if (element.content.length === 0 && props.modelValue) {
-	element.addChildren(props.modelValue);
+if (element.value.content.length === 0 && props.modelValue) {
+	element.value.addChildren(props.modelValue);
 }
 
 function addChild() {
@@ -68,6 +66,6 @@ function addChild() {
 		: {
 				element_type: props.child_type,
 		  };
-	element.addChild(template);
+	element.value.addChild(template);
 }
 </script>

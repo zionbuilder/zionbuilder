@@ -88,7 +88,7 @@ export default {
 		const hasTitleSlot = computed(() => !!slots.title);
 		const InputWrapper = inject('inputWrapper');
 		const hasChanges = computed(() => {
-			return InputWrapper.hasChanges;
+			return InputWrapper.hasChanges.value;
 		});
 
 		return {

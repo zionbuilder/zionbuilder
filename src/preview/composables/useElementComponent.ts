@@ -23,7 +23,7 @@ export function useElementComponent(element: ZionElement) {
 				component = ServerComponent;
 			}
 
-			elementComponent.value = markRaw(applyFilters('zionbuilder/element/component', component, element));
+			elementComponent.value = applyFilters('zionbuilder/element/component', component, element);
 		});
 	};
 

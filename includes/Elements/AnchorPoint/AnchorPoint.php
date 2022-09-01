@@ -101,7 +101,7 @@ class AnchorPoint extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_style( Utils::get_file_url( 'dist/css/elements/AnchorPoint/editor.css' ) );
+		$this->enqueue_editor_style( Utils::get_file_url( 'dist/elements/AnchorPoint/editor.css' ) );
 	}
 	/**
 	 * Renders the element based on options

@@ -20,10 +20,10 @@
 			:class="api.getStyleClasses('inner_content_styles_content')"
 		>
 			<Element
-				v-for="(element, i) in element.content"
-				:key="element.uid"
-				:element="element"
-				:class="{ 'zb-el-tabs-nav--active': activeTab ? element.uid === activeTab : i === 0 }"
+				v-for="(childElement, i) in children"
+				:key="childElement.uid"
+				:element="childElement"
+				:class="{ 'zb-el-tabs-nav--active': activeTab ? childElement.uid === activeTab : i === 0 }"
 			/>
 		</div>
 
@@ -49,11 +49,20 @@ export default {
 			props.element.addChildren(props.options.tabs);
 		}
 
+		const children = computed(() => {
+			return props.element.content.map(childUID => {
+				const contentStore = window.zb.editor.useContentStore();
+				return contentStore.getElement(childUID);
+			});
+		});
+
 		const tabs = computed(() => {
-			return props.element.content.map((tabsElement, i) => {
+			return props.element.content.map(childUID => {
+				const contentStore = window.zb.editor.useContentStore();
+				const element = contentStore.getElement(childUID);
 				return {
-					title: tabsElement.options.title,
-					uid: tabsElement.uid,
+					title: element.options.title,
+					uid: element.uid,
 				};
 			});
 		});
@@ -61,6 +70,7 @@ export default {
 		return {
 			tabs,
 			activeTab,
+			children,
 		};
 	},
 };

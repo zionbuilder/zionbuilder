@@ -37,7 +37,7 @@ const breadcrumbsItem = computed(() => {
 	let parentStructure = getChildren(props.element);
 	let element = props.element;
 
-	while (element.parent) {
+	while (element.parent && element.parent.elementDefinition.element_type !== 'contentRoot') {
 		parentStructure = {
 			element: element.parent,
 			children: [parentStructure],

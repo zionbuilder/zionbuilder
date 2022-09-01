@@ -212,7 +212,7 @@ class Image extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Image/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Image/frontend.css' ) );
 	}
 
 	/**

@@ -1,28 +1,20 @@
 <template>
-	<component :is="elementWrapperComponent" v-bind="attrs" ref="elementRef" :element="element" />
+	<component :is="elementWrapperComponent" :element="element" />
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { applyFilters, doAction } from '/@/common/modules/hooks';
-
-// Components
-import ElementWrapper from './ElementWrapper.vue';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
-
-const attrs = ref({});
-const elementRef = ref({});
 
 // Trigger an action here so we can use provide/inject and other component lifecycle events
 doAction('zionbuilder/preview/element/setup', props.element);
 
 // Get the element component
 const elementWrapperComponent = computed(() => {
-	return applyFilters('zionbuilder/preview/element/wrapper_component', ElementWrapper, props.element);
+	return applyFilters('zionbuilder/preview/element/wrapper_component', 'ElementWrapper', props.element);
 });
 </script>
-
-<style></style>

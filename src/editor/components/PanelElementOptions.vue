@@ -211,7 +211,10 @@ const searchIcon = computed(() => {
 // });
 
 provideElement(UIStore.editedElement);
-provide('elementInfo', UIStore.editedElement);
+provide(
+	'elementInfo',
+	computed(() => UIStore.editedElement),
+);
 provide('OptionsFormTopModelValue', elementOptions);
 
 const computedStyleOptionsSchema = computed(() => {
@@ -319,9 +322,8 @@ const optionsReplacements = [
 
 // Methods
 function onBackButtonClick() {
-	if (UIStore.editElement.parent && UIStore.editElement.parent.elementDefinition.element_type !== 'contentRoot') {
-		const parentElement = contentStore.getElement(UIStore.editElement.parent);
-		UIStore.editElement(parentElement);
+	if (UIStore.editedElement.parent && UIStore.editedElement.parent.elementDefinition.element_type !== 'contentRoot') {
+		UIStore.editElement(UIStore.editedElement.parent);
 	}
 }
 function changeTabByEvent(event) {

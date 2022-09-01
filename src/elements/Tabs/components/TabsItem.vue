@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	name: 'tabs_item',
-	props: ['options', 'element', 'api']
-}
+	name: 'TabsItem',
+	props: ['options', 'element', 'api'],
+};
 </script>

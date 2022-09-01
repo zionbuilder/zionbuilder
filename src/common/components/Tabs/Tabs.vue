@@ -30,7 +30,7 @@ export default {
 
 <script lang="ts" setup>
 import { kebabCase } from 'lodash-es';
-import { useSlots, ref, Fragment, type VNode } from 'vue';
+import { useSlots, ref, Fragment, type VNode, watch } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -51,6 +51,13 @@ const emit = defineEmits(['update:activeTab', 'changed-tab']);
 
 const tabs = ref();
 const activeTab = ref(props.activeTab);
+
+watch(
+	() => props.activeTab,
+	newValue => {
+		activeTab.value = newValue;
+	},
+);
 
 function RenderComponent(props: any) {
 	return typeof props['render-slot'] === 'string' ? props['render-slot'] : props['render-slot']();

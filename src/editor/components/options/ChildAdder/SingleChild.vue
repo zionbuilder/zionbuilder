@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-options-children__element">
+	<div class="znpb-options-children__element" @click.stop="UIStore.editElement(element)">
 		<div class="znpb-options-children__element-inner">
 			<div class="znpb-options-children__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
 			<div class="znpb-options-children__element-action">

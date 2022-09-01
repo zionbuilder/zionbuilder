@@ -196,8 +196,8 @@ class Alert extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_style( Utils::get_file_url( 'dist/css/elements/Alert/editor.css' ) );
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Alert/frontend.css' ) );
+		$this->enqueue_editor_style( Utils::get_file_url( 'dist/elements/Alert/editor.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Alert/frontend.css' ) );
 	}
 
 	/**

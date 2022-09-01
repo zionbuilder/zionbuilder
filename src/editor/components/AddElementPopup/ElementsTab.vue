@@ -42,10 +42,10 @@
 	</div>
 </template>
 <script>
-import { ref, computed, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
 import { useEditorData, useUserData } from '../../composables';
 import { translate } from '/@/common/modules/i18n';
-import { useElementDefinitionsStore, useUIStore, useContentStore } from '/@/editor/store';
+import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';
@@ -66,8 +66,7 @@ export default {
 			default: '',
 		},
 	},
-	setup(props) {
-		const contentStore = useContentStore();
+	setup(props, { emit }) {
 		const UIStore = useUIStore();
 		const elementsDefinitionsStore = useElementDefinitionsStore();
 		const { editorData } = useEditorData();
@@ -77,13 +76,12 @@ export default {
 		const categoriesWrapper = ref(false);
 		const categoriesRefs = ref([]);
 
-		const localSearchKeyword = ref(null);
 		const computedSearchKeyword = computed({
 			get: () => {
-				return localSearchKeyword.value !== null ? localSearchKeyword.value : props.searchKeyword;
+				return props.searchKeyword;
 			},
 			set: newValue => {
-				localSearchKeyword.value = newValue;
+				emit('update:search-keyword', newValue);
 			},
 		});
 		const categoryValue = ref('all');
@@ -218,6 +216,10 @@ export default {
 			setTimeout(() => {
 				searchInputEl.value.focus();
 			}, 0);
+		});
+
+		onBeforeUnmount(() => {
+			computedSearchKeyword.value = '';
 		});
 
 		return {

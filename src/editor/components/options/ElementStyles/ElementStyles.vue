@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
@@ -55,6 +56,14 @@ export default {
 	setup(props, { emit }) {
 		const { getSchema } = useOptionsSchemas();
 		const cssClasses = useCSSClassesStore();
+		const activeClass = ref(props.selector);
+
+		watch(
+			() => props.selector,
+			newValue => {
+				activeClass.value = newValue;
+			},
+		);
 
 		function onPasteToSelector() {
 			const clonedCopiedStyles = cloneDeep(cssClasses.copiedStyles);
@@ -82,11 +91,7 @@ export default {
 			cssClasses,
 			onPasteToSelector,
 			updateValues,
-		};
-	},
-	data() {
-		return {
-			activeClass: null,
+			activeClass,
 		};
 	},
 	computed: {
@@ -126,9 +131,6 @@ export default {
 				}
 			},
 		},
-	},
-	created() {
-		this.activeClass = this.selector;
 	},
 };
 </script>
