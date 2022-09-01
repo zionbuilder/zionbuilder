@@ -255,7 +255,11 @@ class Preview {
 			'nonce'                   => Nonces::generate_nonce( 'preview-frame' ),
 			'page_content'            => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'          => Plugin::$instance->templates->get_template_types(),
-			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+
+			// Elements data - This needs to be loaded from preview so we can load all their scripts and styles
+			'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
+			'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 			'post'                    => get_post(),
 			'masks'                   => Masks::getshapes(),

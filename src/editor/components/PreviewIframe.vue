@@ -321,6 +321,12 @@ export default {
 		onIframeLoaded() {
 			this.iframeLoaded = true;
 			const iframeWindow = this.$refs.iframe.contentWindow;
+
+			// Expose common methods
+			const elementDefinitionsStore = useElementDefinitionsStore();
+			elementDefinitionsStore.setCategories(iframeWindow.ZnPbInitialData.elements_categories);
+			elementDefinitionsStore.addElements(iframeWindow.ZnPbInitialData.elements_data);
+
 			// Register the document
 			this.addWindow('preview', iframeWindow);
 			this.attachIframeEvents();

@@ -58,7 +58,6 @@ class Cache {
 
 			// This is needed so we can load scripts that are not available on WP action ( for example, shortcode )
 			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
-
 		}
 	}
 

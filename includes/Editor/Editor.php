@@ -367,9 +367,6 @@ class Editor {
 				'page_data'           => get_post( $this->post_id ),
 				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
-				// Elements data
-				'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
-				'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 
 				// Page content
 				'page_content'        => Plugin::$instance->renderer->get_registered_areas(),

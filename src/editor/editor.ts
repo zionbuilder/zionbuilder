@@ -96,11 +96,6 @@ appInstance.config.globalProperties.$zb = {
 };
 appInstance.provide('$zb', appInstance.config.globalProperties.$zb);
 
-// Expose common methods
-const elementDefinitionsStore = useElementDefinitionsStore();
-elementDefinitionsStore.setCategories(window.ZnPbInitialData.elements_categories);
-elementDefinitionsStore.addElements(window.ZnPbInitialData.elements_data);
-
 // WordPress heartBeat
 new HeartBeat();
 
@@ -113,6 +108,7 @@ window.addEventListener('load', function () {
 });
 
 // Export so we can access them from window.zb.editor
+const elementDefinitionsStore = useElementDefinitionsStore();
 window.zb = window.zb || {};
 window.zb.editor = Object.assign(
 	{},
