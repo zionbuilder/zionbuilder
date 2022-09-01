@@ -68,9 +68,7 @@ class CommonJS {
 		Plugin::instance()->scripts->register_script(
 			'zb-rest',
 			'rest',
-			[
-				'zb-hooks',
-			],
+			[],
 			Plugin::instance()->get_version(),
 			false
 		);

@@ -1,4 +1,4 @@
-require('./scss/index.scss');
+import './scss/index.scss';
 import { toPng } from 'html-to-image';
 
 export default function screenshot() {
