@@ -517,7 +517,7 @@ class Element {
 	 *
 	 * This type of elements cannot be added from add elements popup
 	 * and don't have any toolbox or events attached to them
-	 * They are mainly used as childs for other elements
+	 * They are mainly used as children for other elements
 	 *
 	 * @return boolean True if the element will appear in elements list in editor
 	 */

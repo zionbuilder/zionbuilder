@@ -669,7 +669,7 @@ Misc: Updated many components to Vue 3
 * Replace modal tour with intro video
 * Change Tab name from "Columns" to "Layouts"
 * Updated elements registration
-* Created methods for adding childs to elements
+* Created methods for adding children to elements
 * Added ability to use zion builder version of Vue
 * Made components package as vue plugin
 * Reorganized components

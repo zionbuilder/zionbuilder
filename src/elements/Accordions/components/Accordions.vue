@@ -1,21 +1,19 @@
 <template>
-	<div>
-		<slot name="start" />
+	<SortableContent :element="element">
+		<template #start>
+			<slot name="start" />
+		</template>
 
-		<Element v-for="element in element.content" :key="element.uid" :element="element" />
-
-		<slot name="end" />
-	</div>
+		<template #end>
+			<slot name="end" />
+		</template>
+	</SortableContent>
 </template>
 
 <script>
 import { provide } from 'vue';
-import accordionItem from './accordionItem.vue';
 export default {
 	name: 'Accordions',
-	components: {
-		accordionItem,
-	},
 	props: ['options', 'element', 'api'],
 	setup(props) {
 		// Check to see if we need to add some accordions

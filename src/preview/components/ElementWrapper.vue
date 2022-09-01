@@ -48,7 +48,7 @@ import VideoBackground from './VideoBackground.vue';
 // Composables
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
-import { useUIStore, useElementDefinitionsStore } from '/@/editor/store';
+import { useUIStore } from '/@/editor/store';
 
 let clickHandled = false;
 

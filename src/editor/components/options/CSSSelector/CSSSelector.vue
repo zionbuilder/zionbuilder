@@ -33,7 +33,7 @@
 						v-if="allow_childs"
 						:child-selectors="childSelectors"
 						@add-selector="onChildAdded"
-						@toggle-view-childs="showChilds = !showChilds"
+						@toggle-view-children="showChilds = !showChilds"
 					/>
 
 					<ChangesBullet

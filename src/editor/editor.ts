@@ -25,6 +25,7 @@ import SortablePlaceholder from './common/SortablePlaceholder.vue';
 import RenderValue from '/@/preview/components/RenderValue.vue';
 import ElementIcon from '/@/preview/components/ElementIcon.vue';
 import InlineEditor from '/@/preview/components/InlineEditor/InlineEditor.vue';
+import ElementWrapper from '/@/preview/components/ElementWrapper.vue';
 
 // Preview related
 import SortableContent from '/@/preview/components/SortableContent.vue';
@@ -84,6 +85,7 @@ appInstance.component('SortableContent', SortableContent);
 appInstance.component('RenderValue', RenderValue);
 appInstance.component('ElementIcon', ElementIcon);
 appInstance.component('InlineEditor', InlineEditor);
+appInstance.component('ElementWrapper', ElementWrapper);
 
 // Add editor methods and utilities to all components
 appInstance.config.globalProperties.$zb = {

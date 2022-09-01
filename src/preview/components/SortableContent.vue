@@ -2,7 +2,7 @@
 	<Sortable
 		v-model="children"
 		:group="groupInfo"
-		:disabled="UIStore.isPreviewMode"
+		:disabled="UIStore.isPreviewMode || disabled"
 		:allow-duplicate="true"
 		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
@@ -46,7 +46,6 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 import { useContentStore, useUIStore, useElementDefinitionsStore } from '/@/editor/store';
 
 // Utils
@@ -64,6 +63,7 @@ const props = withDefaults(
 		group?: Record<string, unknown>;
 		allowElementsAdd?: boolean;
 		emptyPlaceholderText?: string;
+		disabled?: boolean;
 	}>(),
 	{
 		group: () => {
@@ -71,6 +71,7 @@ const props = withDefaults(
 		},
 		allowElementsAdd: true,
 		emptyPlaceholderText: '',
+		disabled: false,
 	},
 );
 

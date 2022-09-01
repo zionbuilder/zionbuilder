@@ -1,14 +1,14 @@
 <template>
-	<div class="znpb-options-childs__wrapper">
-		<Sortable v-model="element.content" class="znpb-options-childs__items-wrapper">
+	<div class="znpb-options-children__wrapper">
+		<Sortable v-model="element.content" class="znpb-options-children__items-wrapper">
 			<SingleChild
-				v-for="element in element.content"
-				:key="element.uid"
-				:element="element"
+				v-for="childElement in elementChildren"
+				:key="childElement.uid"
+				:element="childElement"
 				:item-option-name="item_name"
 				:show-delete="canShowDeleteButton"
-				@delete="element.delete"
-				@clone="element.duplicate"
+				@delete="childElement.delete"
+				@clone="childElement.duplicate"
 			/>
 		</Sortable>
 
@@ -16,72 +16,58 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+export default {
+	name: 'ChildAdder',
+};
+</script>
+
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useElementProvide } from '../../../composables';
 import SingleChild from './SingleChild.vue';
+import { useContentStore } from '/@/editor/store';
 
-export default {
-	name: 'ChildAdder',
-	components: {
-		SingleChild,
-	},
-	props: {
-		modelValue: {
-			default() {
-				return {};
-			},
-		},
-		child_type: {
-			type: String,
-			required: true,
-		},
-		item_name: {
-			type: String,
-			required: false,
-		},
-		min: {
-			type: Number,
-		},
-		add_template: {
-			type: Object,
-		},
-	},
-	setup(props) {
-		const { injectElement } = useElementProvide();
-		const element = injectElement();
+const props = defineProps<{
+	modelValue?: string;
+	// eslint-disable-next-line vue/prop-name-casing
+	child_type: string;
+	// eslint-disable-next-line vue/prop-name-casing
+	item_name?: string;
+	min?: number;
+	// eslint-disable-next-line vue/prop-name-casing
+	add_template?: Record<string, unknown>;
+}>();
 
-		const canShowDeleteButton = computed(() => {
-			if (props.min && element.value.content.length === props.min) {
-				return false;
-			}
+const { injectElement } = useElementProvide();
+const element = injectElement();
+const contentStore = useContentStore();
 
-			return true;
-		});
+const canShowDeleteButton = computed(() => {
+	if (props.min && element.content.length === props.min) {
+		return false;
+	}
 
-		// Check to see if we need to add some tabs
-		if (element.value.content.length === 0 && props.modelValue) {
-			element.value.addChildren(props.modelValue);
-		}
+	return true;
+});
 
-		function addChild() {
-			const template = props.add_template
-				? props.add_template
-				: {
-						element_type: props.child_type,
-				  };
-			element.value.addChild(template);
-		}
+const elementChildren = computed(() => {
+	return element.content.map(elementUID => {
+		return contentStore.getElement(elementUID);
+	});
+});
 
-		return {
-			element,
+// Check to see if we need to add some tabs
+if (element.content.length === 0 && props.modelValue) {
+	element.addChildren(props.modelValue);
+}
 
-			// Computed
-			canShowDeleteButton,
-
-			// Methods
-			addChild,
-		};
-	},
-};
+function addChild() {
+	const template = props.add_template
+		? props.add_template
+		: {
+				element_type: props.child_type,
+		  };
+	element.addChild(template);
+}
 </script>

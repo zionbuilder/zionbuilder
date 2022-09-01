@@ -123,7 +123,6 @@ export const ScriptsLoader = window => {
 		}
 
 		const promise = new Promise((resolve, reject) => {
-			console.log(window);
 			const styleLink = window.document.createElement('link');
 			styleLink.type = 'text/css';
 			styleLink.rel = 'stylesheet';

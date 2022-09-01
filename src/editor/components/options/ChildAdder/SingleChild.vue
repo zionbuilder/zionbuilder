@@ -1,12 +1,12 @@
 <template>
-	<div class="znpb-options-childs__element">
-		<div class="znpb-options-childs__element-inner">
-			<div class="znpb-options-childs__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
-			<div class="znpb-options-childs__element-action">
+	<div class="znpb-options-children__element">
+		<div class="znpb-options-children__element-inner">
+			<div class="znpb-options-children__element-title">{{ element.options[itemOptionName] || 'ITEM' }}</div>
+			<div class="znpb-options-children__element-action">
 				<Icon icon="copy" @click.stop="element.duplicate()" />
 				<Icon
 					icon="delete"
-					:class="{ 'znpb-options-childs__element-actionDeleteInactive': !showDelete }"
+					:class="{ 'znpb-options-children__element-actionDeleteInactive': !showDelete }"
 					@click.stop="onDelete"
 				/>
 				<Icon icon="edit" @click.stop="UIStore.editElement(element)" />
@@ -51,7 +51,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.znpb-options-childs__element {
+.znpb-options-children__element {
 	background-color: var(--zb-surface-lighter-color);
 
 	&-inner {

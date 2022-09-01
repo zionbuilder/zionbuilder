@@ -45,7 +45,6 @@ export default {
 				}
 
 				this.$nextTick(() => {
-					console.log(window);
 					this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
 				});
 			}
