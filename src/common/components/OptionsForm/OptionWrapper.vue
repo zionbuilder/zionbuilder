@@ -482,16 +482,18 @@ function getChildOptionsIds(schema, includeSchemaId = true) {
 
 	return ids;
 }
+
+provide('inputWrapper', {
+	schema: props.schema,
+	hasChanges,
+	optionId: props.optionId,
+	optionTypeConfig,
+});
 </script>
 
 <script lang="ts">
 export default {
 	name: 'OptionWrapper',
-	provide() {
-		return {
-			inputWrapper: this,
-		};
-	},
 };
 </script>
 <style lang="scss">

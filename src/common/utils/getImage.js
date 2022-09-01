@@ -1,8 +1,6 @@
 import { ServerRequest } from '/@/common/utils';
 
-export default function (imageConfig) {
-	const serverRequester = new ServerRequest();
-
+export default function (imageConfig, serverRequester = new ServerRequest()) {
 	return new Promise((resolve, reject) => {
 		// Check to see if we actually need to retrieve the image
 		if (imageConfig && imageConfig.image && imageConfig.image_size && imageConfig.image_size !== 'full') {
