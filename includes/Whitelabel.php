@@ -118,4 +118,11 @@ class Whitelabel {
 	public static function get_loader_url() {
 		return Plugin::instance()->whitelabel->plugin_loader_logo;
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function get_getting_started_video() {
+		return Plugin::instance()->whitelabel->getting_started_video;
+	}
 }

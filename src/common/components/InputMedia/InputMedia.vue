@@ -71,14 +71,12 @@ function openMediaModal() {
 		mediaModal.value.on('select update insert', selectFont);
 	}
 
-	console.log(mediaModal.value);
-
 	// Open the media modal
 	mediaModal.value.open();
 }
 
 function selectFont(e) {
-	console.log("e", e);
+	console.log('e', e);
 
 	let selection = mediaModal.value.state().get('selection').toJSON();
 

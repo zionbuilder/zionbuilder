@@ -78,7 +78,7 @@
 
 			<!-- Getting started video -->
 			<Modal
-				v-if="showGettingStartedVideo"
+				v-if="showGettingStartedVideo && gettingStartedVideoURL"
 				v-model:show="showGettingStartedVideo"
 				:width="840"
 				:title="$translate('getting_started')"
@@ -88,7 +88,7 @@
 				<iframe
 					width="840"
 					height="100%"
-					src="https://www.youtube.com/embed/rQ_2lUyhCAY"
+					:src="gettingStartedVideoURL"
 					frameborder="0"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowfullscreen
@@ -179,6 +179,7 @@ export default {
 		const left = ref(null);
 		const draggingPosition = ref(null);
 		const userSel = ref(null);
+		const gettingStartedVideoURL = window.ZnPbInitialData.urls.getting_started_video;
 
 		// Computed
 		const tooltipsPosition = computed(() => {
@@ -195,8 +196,8 @@ export default {
 			return 'top';
 		});
 
+		let isPro = editorData.value.plugin_info.is_pro_active;
 		const hasWhiteLabel = computed(() => {
-			let isPro = editorData.value.plugin_info.is_pro_active;
 			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title
 				? true
 				: false;
@@ -207,7 +208,7 @@ export default {
 				{
 					title: translate('tour'),
 					action: doShowGettingStartedVideo,
-					canShow: !hasWhiteLabel.value,
+					canShow: isPro && gettingStartedVideoURL.length > 0,
 				},
 				{
 					title: translate('key_shortcuts'),
@@ -366,6 +367,8 @@ export default {
 		});
 
 		return {
+			// Vars
+			gettingStartedVideoURL,
 			// Refs
 			showGettingStartedVideo,
 			editorHeaderRef,
@@ -671,5 +674,23 @@ export default {
 	100% {
 		transform: translateY(0);
 	}
+}
+
+.znpb-helpmodal-wrapper .znpb-modal__wrapper,
+.znpb-helpmodal-wrapper .znpb-modal__content {
+	height: 100%;
+	max-height: 560px;
+}
+
+.znpb-helpmodal-wrapper .znpb-modal__wrapper--full-size .znpb-modal__wrapper,
+.znpb-helpmodal-wrapper .znpb-modal__wrapper--full-size .znpb-modal__content,
+.znpb-helpmodal-wrapper .znpb-modal__wrapper--full-size .znpb-help-modal {
+	height: 100%;
+	max-height: none;
+}
+
+.znpb-help-modal {
+	display: flex;
+	max-height: 100%;
 }
 </style>

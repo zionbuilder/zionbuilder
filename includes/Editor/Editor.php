@@ -347,6 +347,7 @@ class Editor {
 					'assets_url'        => Utils::get_file_url( 'assets' ),
 					'logo'              => Whitelabel::get_logo_url(),
 					'loader'            => Whitelabel::get_loader_url(),
+					'getting_started_video'            => Whitelabel::get_getting_started_video(),
 					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
 					'zion_admin'        => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
 					'updates_page'      => admin_url( 'update-core.php' ),
