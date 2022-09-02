@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-09-02 11:09+0000\n"
+"POT-Creation-Date: 2022-09-02 15:06+0000\n"
 "Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
@@ -2343,64 +2343,64 @@ msgstr ""
 msgid "The image could not be retrieved"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:191, ../includes/Integrations/Gutenberg.php:100
+#: ../includes/Admin/Admin.php:185, ../includes/Integrations/Gutenberg.php:100
 msgid "WordPress Heartbeat is disabled. Zion builder requires it in order to function properly"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:256
+#: ../includes/Admin/Admin.php:250
 msgid "Builder theme."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:260
+#: ../includes/Admin/Admin.php:254
 msgid "light"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:264
+#: ../includes/Admin/Admin.php:258
 msgid "dark"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:275
+#: ../includes/Admin/Admin.php:269
 msgid "Add css that will be applied to all pages."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:276
+#: ../includes/Admin/Admin.php:270
 msgid "Custom css"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:281
+#: ../includes/Admin/Admin.php:275
 msgid "Add scripts that will be placed just before the closing </head> tag."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:282
+#: ../includes/Admin/Admin.php:276
 msgid "Header scripts"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:287
+#: ../includes/Admin/Admin.php:281
 msgid "Add scripts that will be placed just after the <body> opening tag."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:288
+#: ../includes/Admin/Admin.php:282
 msgid "Body scripts"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:293
+#: ../includes/Admin/Admin.php:287
 msgid "Add scripts that will be placed just before the closing </body> tag."
 msgstr ""
 
-#: ../includes/Admin/Admin.php:294
+#: ../includes/Admin/Admin.php:288
 msgid "Footer scripts"
 msgstr ""
 
-#: ../includes/Admin/Admin.php:404
+#: ../includes/Admin/Admin.php:374
 msgid "Disable "
 msgstr ""
 
-#: ../includes/Admin/Admin.php:415, ../includes/Admin/Admin.php:438
+#: ../includes/Admin/Admin.php:385, ../includes/Admin/Admin.php:408
 msgid "Edit with "
 msgstr ""
 
 #. translators: %s: The username who is locked from editing
-#: ../includes/Editor/Editor.php:305
+#: ../includes/Editor/Editor.php:275
 msgid "Post is locked by %s"
 msgstr ""
 

@@ -54,7 +54,7 @@ export const useDataSetsStore = defineStore('dataSets', () => {
 	}
 
 	const fontsListForOption = computed(() => {
-		const option = [
+		let option = [
 			{
 				id: 'Arial',
 				name: 'Arial',
@@ -82,8 +82,11 @@ export const useDataSetsStore = defineStore('dataSets', () => {
 		];
 
 		// Add fonts
-		Object.values(dataSets.value.fonts_list).forEach(option => {
-			option.push(...option);
+		const fontsProviders = dataSets.value.fonts_list;
+		Object.keys(fontsProviders).forEach((fontProviderId: string) => {
+			const fontsList = fontsProviders[fontProviderId];
+
+			option = [...fontsList, ...option];
 		});
 
 		return option;

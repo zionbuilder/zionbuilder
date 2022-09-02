@@ -56,7 +56,7 @@ export default {
 			let fonts = googleFontsStore.fonts;
 
 			if (keyword.value.length > 0) {
-				fonts = googleFontsStore.fonts.value.filter(font => {
+				fonts = googleFontsStore.fonts.filter(font => {
 					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1;
 				});
 			}

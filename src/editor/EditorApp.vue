@@ -131,7 +131,7 @@ import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, useEditorData, useSavePage } from './composables';
 import { useResponsiveDevices } from '/@/common/composables';
-import { useNotificationsStore } from '/@/common/store';
+import { useNotificationsStore, useBuilderOptionsStore } from '/@/common/store';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore } from './store';
 import { serverRequest } from './api';
 
@@ -190,6 +190,7 @@ watch(
 );
 
 // provide masks for ShapeDividerComponent option
+provide('builderOptions', useBuilderOptionsStore);
 provide('serverRequester', serverRequest);
 provide('masks', editorData.value.masks);
 provide('plugin_info', editorData.value.plugin_info);
