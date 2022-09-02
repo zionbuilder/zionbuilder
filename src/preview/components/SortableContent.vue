@@ -1,15 +1,15 @@
 <template>
 	<Sortable
-		v-model="children"
+		:model-value="children"
 		:group="groupInfo"
 		:disabled="UIStore.isPreviewMode || disabled"
 		:allow-duplicate="true"
-		:duplicate-callback="onSortableDuplicate"
 		v-bind="$attrs"
 		:class="{
 			[`znpb__sortable-container--${getSortableAxis}`]: UIStore.isElementDragging,
 		}"
 		:axis="getSortableAxis"
+		:data-zion-element-uid="element.uid"
 		@start="onSortableStart"
 		@end="onSortableEnd"
 		@drop="onSortableDrop"
@@ -18,7 +18,7 @@
 			v-for="childElement in children"
 			:key="childElement.uid"
 			:element="childElement"
-			:zion-element-uid="childElement.uid"
+			:data-zion-element-uid="childElement.uid"
 		/>
 
 		<template #start>
@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useContentStore, useUIStore, useElementDefinitionsStore } from '/@/editor/store';
+import { useContentStore, useUIStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
@@ -79,20 +79,7 @@ const props = withDefaults(
 const UIStore = useUIStore();
 const contentStore = useContentStore();
 
-const children = computed({
-	get: () => props.element.content.map(childUID => contentStore.getElement(childUID)),
-	set: newValue => {
-		console.log({ newValue });
-		contentStore.updateElement(
-			props.element.uid,
-			'content',
-			newValue.map(element => element.uid),
-		);
-	},
-});
-
-const elementsDefinitionsStore = useElementDefinitionsStore();
-
+const children = computed(() => props.element.content.map(childUID => contentStore.getElement(childUID)));
 const defaultSortableGroup = {
 	name: 'elements',
 };
@@ -105,11 +92,7 @@ const getSortableAxis = computed(() => {
 		return 'vertical';
 	}
 
-	const elementType = elementsDefinitionsStore.getElementDefinition(props.element.element_type);
-
-	if (elementType) {
-		orientation = elementType.content_orientation;
-	}
+	orientation = props.element.elementDefinition.content_orientation;
 
 	// Check columns and section direction
 	if (props.element.options.inner_content_layout) {
@@ -126,15 +109,6 @@ const getSortableAxis = computed(() => {
 	return orientation;
 });
 
-function onSortableDrop(event) {
-	// const droppedElementUid = event.data.item.getAttribute('zion-element-uid');
-	// const element = contentStore.getElement(droppedElementUid);
-}
-
-function onSortableDuplicate(item) {
-	return item.getClone();
-}
-
 function onSortableStart() {
 	UIStore.hideAddElementsPopup();
 	UIStore.setElementDragging(true);
@@ -143,10 +117,30 @@ function onSortableStart() {
 function onSortableEnd() {
 	UIStore.setElementDragging(false);
 }
+
+function onSortableDrop(event) {
+	const { item, to, newIndex, duplicateItem, placeBefore } = event.data;
+
+	const movedElement = contentStore.getElement(item.dataset.zionElementUid);
+	if (duplicateItem) {
+		const elementForInsert = movedElement.getClone();
+		window.zb.run('editor/elements/add', {
+			parentUID: to.dataset.zionElementUid,
+			element: elementForInsert,
+			index: placeBefore ? newIndex : newIndex + 1,
+		});
+	} else {
+		window.zb.run('editor/elements/move', {
+			newParent: contentStore.getElement(to.dataset.zionElementUid),
+			element: contentStore.getElement(item.dataset.zionElementUid),
+			index: newIndex,
+		});
+	}
+}
 </script>
 
 <style lang="scss">
-.znpb-add-elemenets-tooltip-placeholder {
+.znpb-add-elements-tooltip-placeholder {
 	position: absolute;
 	bottom: 0;
 	width: 100%;

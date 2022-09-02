@@ -1,6 +1,6 @@
 <template>
 	<Sortable
-		v-model="children"
+		:modelValue="children"
 		tag="ul"
 		class="znpb-wireframe-view-wrapper"
 		group="pagebuilder-wireframe-elements"
@@ -9,11 +9,17 @@
 		}"
 		:axis="getSortableAxis"
 		:allow-duplicate="true"
-		:duplicate-callback="onSortableDuplicate"
-		@start="onSortableStart"
-		@end="onSortableEnd"
+		:data-zion-element-uid="element.uid"
+		@start="sortableStart"
+		@end="sortableEnd"
+		@drop="onSortableDrop"
 	>
-		<WireframeListItem v-for="element in children" :key="element.uid" :element="element" />
+		<WireframeListItem
+			v-for="childElement in children"
+			:key="childElement.uid"
+			:element="childElement"
+			:data-zion-element-uid="childElement.uid"
+		/>
 
 		<template #helper>
 			<SortableHelper />
@@ -38,7 +44,8 @@ import { computed } from 'vue';
 import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
-import { useUIStore, useContentStore } from '/@/editor/store';
+import { useUIStore } from '/@/editor/store';
+import { useTreeViewList } from '../useTreeViewList';
 
 // Utils
 import { get } from 'lodash-es';
@@ -55,16 +62,7 @@ const props = withDefaults(
 );
 
 const UIStore = useUIStore();
-const contentStore = useContentStore();
-const children = computed({
-	get: () => props.element.content.map(child => contentStore.getElement(child)),
-	set: newValue =>
-		contentStore.updateElement(
-			props.element.uid,
-			'content',
-			newValue.map(element => element.uid),
-		),
-});
+const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
 
 const getSortableAxis = computed(() => {
 	if (props.element.element_type === 'contentRoot') {
@@ -87,16 +85,4 @@ const getSortableAxis = computed(() => {
 
 	return orientation;
 });
-
-function onSortableDuplicate(item) {
-	return item.getClone();
-}
-
-function onSortableStart(event) {
-	UIStore.setElementDragging(true);
-}
-
-function onSortableEnd(event) {
-	UIStore.setElementDragging(false);
-}
 </script>

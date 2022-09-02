@@ -547,7 +547,6 @@ export default {
 				}
 
 				const { from, to, startIndex, newIndex, placeBefore } = lastEvent.data;
-
 				let draggedValueModel = null;
 
 				// Check to see if a change was made
@@ -557,20 +556,21 @@ export default {
 
 					// Update values if exists
 					if (props.modelValue !== null) {
-						let modifiedNewIndex = placeBefore ? newIndex : newIndex + 1;
-						draggedValueModel = props.duplicateCallback
-							? props.duplicateCallback(props.modelValue[startIndex])
-							: props.modelValue[startIndex];
+						let updatedNewIndex = placeBefore ? newIndex : newIndex + 1;
+						draggedValueModel =
+							props.duplicateCallback && duplicateValue
+								? props.duplicateCallback(props.modelValue[startIndex])
+								: props.modelValue[startIndex];
 
 						if (from === to && startIndex !== newIndex && !duplicateValue) {
-							updatePositionInList(startIndex, modifiedNewIndex);
+							updatePositionInList(startIndex, updatedNewIndex);
 						} else {
 							// Send 2 events for each container
 							// Remove from first list
 							if (!duplicateValue) {
 								removeItemFromList(startIndex);
 							}
-							toVm.addItemToList(draggedValueModel, modifiedNewIndex);
+							toVm.addItemToList(draggedValueModel, updatedNewIndex);
 						}
 					}
 
@@ -580,6 +580,8 @@ export default {
 						toVm,
 						draggedValueModel,
 						fromDraggedValueModel: props.modelValue,
+						newIndex: newIndex,
+						duplicateItem: duplicateValue,
 					});
 
 					toVm.emit('drop', dropEvent);

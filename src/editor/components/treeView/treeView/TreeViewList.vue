@@ -1,17 +1,20 @@
 <template>
 	<Sortable
-		v-model="children"
+		:modelValue="children"
 		tag="ul"
 		class="znpb-tree-view-wrapper"
 		group="pagebuilder-treview-elements"
 		handle=".znpb-tree-view__itemIcon"
+		:data-zion-element-uid="element.uid"
 		@start="sortableStart"
 		@end="sortableEnd"
+		@drop="onSortableDrop"
 	>
 		<TreeViewListItem
 			v-for="childElement in children"
 			:key="childElement.uid"
 			:element="childElement"
+			:data-zion-element-uid="childElement.uid"
 			@expand-panel="$emit('expand-panel')"
 		/>
 
@@ -31,13 +34,11 @@
 	</Sortable>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 import TreeViewListItem from './TreeViewListItem.vue';
 
 import { useTreeViewList } from '../useTreeViewList';
-import { useElementDefinitionsStore, useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;
@@ -46,21 +47,7 @@ const props = defineProps<{
 defineEmits(['expand-panel']);
 
 // Stores
-const contentStore = useContentStore();
-
-// Computed
-const children = computed({
-	get: () => props.element.content.map(child => contentStore.getElement(child)),
-	set: newValue =>
-		contentStore.updateElement(
-			props.element.uid,
-			'content',
-			newValue.map(element => element.uid),
-		),
-});
-
-// Helpers
-const { sortableStart, sortableEnd } = useTreeViewList(props.element);
+const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
 </script>
 
 <style lang="scss">

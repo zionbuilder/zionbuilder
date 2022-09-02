@@ -1,14 +1,21 @@
 <template>
 	<div id="znpb-section-view" class="znpb-tree-view-container znpb-fancy-scrollbar znpb-panel-view-wrapper">
 		<Sortable
-			v-model="children"
+			:modelValue="children"
 			class="znpb-section-view-wrapper"
 			tag="ul"
 			group="pagebuilder-sectionview-elements"
+			:data-zion-element-uid="element.uid"
 			@start="sortableStart"
 			@end="sortableEnd"
+			@drop="onSortableDrop"
 		>
-			<ElementSectionView v-for="childElement in children" :key="childElement.uid" :element="childElement" />
+			<ElementSectionView
+				v-for="childElement in children"
+				:key="childElement.uid"
+				:element="childElement"
+				:data-zion-element-uid="childElement.uid"
+			/>
 
 			<template #helper>
 				<SortableHelper />
@@ -27,30 +34,16 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { computed } from 'vue';
 import ElementSectionView from './ElementSectionView.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 import { useTreeViewList } from '../useTreeViewList';
-import { useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const contentStore = useContentStore();
-
-const children = computed({
-	get: () => props.element.content.map(child => contentStore.getElement(child)),
-	set: newValue =>
-		contentStore.updateElement(
-			props.element.uid,
-			'content',
-			newValue.map(element => element.uid),
-		),
-});
-
-const { sortableStart, sortableEnd } = useTreeViewList(props);
+const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
 </script>
 <style lang="scss">
 .znpb-tree-view-container {

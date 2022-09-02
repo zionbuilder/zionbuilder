@@ -4,27 +4,24 @@
 		class="znpb-tree-view-bar znpb-wireframe-container znpb-fancy-scrollbar znpb-panel-view-wrapper"
 	>
 		<!-- content -->
-		<WireframeList
-			:element="element"
-			:showAdd="false"
-		/>
+		<WireframeList :element="element" :show-add="false" />
 	</div>
 </template>
 <script>
-import WireframeList from './WireframeList.vue'
+import WireframeList from './WireframeList.vue';
 
 export default {
 	name: 'WireframePanel',
 	components: {
-		WireframeList
+		WireframeList,
 	},
 	props: {
 		element: {
 			type: Object,
-			required: true
-		}
-	}
-}
+			required: true,
+		},
+	},
+};
 </script>
 <style lang="scss">
 // style panel when wireframe active
