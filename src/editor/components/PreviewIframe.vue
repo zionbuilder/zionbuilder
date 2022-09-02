@@ -271,7 +271,6 @@ export default {
 	data() {
 		return {
 			ignoreNextReload: false,
-			showRecoverModal: false,
 			localStoragePageData: {},
 			iframeLoaded: false,
 		};
@@ -307,14 +306,6 @@ export default {
 			this.UIStore.setContentTimestamp();
 		},
 
-		useServerVersion() {
-			if (!this.ignoreNextReload) {
-				this.setPageContent(ZnPbInitialData.page_content);
-
-				// Hide recover modal
-				this.showRecoverModal = false;
-			}
-		},
 		onIframeClick(event) {
 			this.root.click();
 		},
@@ -340,7 +331,11 @@ export default {
 				console.log('preview element not found');
 			}
 
-			this.useServerVersion();
+			// Set the page content if this was not reloaded by an option
+			if (!this.ignoreNextReload) {
+				this.setPageContent(iframeWindow.ZnPbInitialData.page_content);
+			}
+
 			this.ignoreNextReload = false;
 			this.UIStore.setPreviewLoading(false);
 
@@ -355,7 +350,6 @@ export default {
 		},
 		preventClicks(event) {
 			const e = window.e || event;
-
 			if (e.target.tagName === 'a' || !e.target.classList.contains('znpb-allow-click')) {
 				e.preventDefault();
 			}
@@ -370,9 +364,7 @@ export default {
 		},
 		refreshIframe() {
 			this.saveAutosave().then(() => {
-				this.ignoreNextReload = true;
-				this.getWindows('preview').location.reload(true);
-				this.removeWindow('preview');
+				window.location.reload();
 			});
 		},
 		checkIframeLoading() {

@@ -367,10 +367,6 @@ class Editor {
 				'page_data'           => get_post( $this->post_id ),
 				'autosaveInterval'    => AUTOSAVE_INTERVAL,
 
-
-				// Page content
-				'page_content'        => Plugin::$instance->renderer->get_registered_areas(),
-
 				// User data
 				'post_lock_user'      => $locked_user_name,
 				'wp_editor'           => $this->get_wp_editor(),
