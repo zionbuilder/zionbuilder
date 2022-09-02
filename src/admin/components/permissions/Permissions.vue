@@ -20,9 +20,9 @@
 			<PageTemplate>
 				<UpgradeToPro
 					v-if="!isPro"
-					:info_text="proLink"
-					:message_title="$translate('manage_users_permissions_title')"
-					:message_description="$translate('manage_users_permissions_free')"
+					:info-text="proLink"
+					:message-title="$translate('manage_users_permissions_title')"
+					:message-description="$translate('manage_users_permissions_free')"
 				/>
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">

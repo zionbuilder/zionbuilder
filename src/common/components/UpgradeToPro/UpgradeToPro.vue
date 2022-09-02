@@ -42,6 +42,9 @@ withDefaults(
 	}>(),
 	{
 		infoLink: 'https://zionbuilder.io/documentation/pro-version/',
+		messageTitle: '',
+		messageDescription: '',
+		infoText: '',
 	},
 );
 </script>

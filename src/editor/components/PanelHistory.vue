@@ -170,8 +170,9 @@ function doRedo() {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
 
-			.znpb-action-name {
-				color: var(--zb-secondary-text-color);
+			.znpb-action-name,
+			.znpb-action-element {
+				color: var(--zb-primary-text-color);
 			}
 		}
 	}

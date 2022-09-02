@@ -50,11 +50,11 @@ export const filesMap = [
     format: 'iife',
     output: 'screenshot',
   },
-  //   {
-  //     input: 'src/modules/integrations/rankmath.ts',
-  //     format: 'iife',
-  //     output: 'integrations/rankmath',
-  //   },
+  {
+    input: 'src/modules/integrations/rankmath.ts',
+    format: 'iife',
+    output: 'integrations/rankmath',
+  },
   {
     input: 'src/modules/integrations/yoast.ts',
     format: 'iife',
@@ -89,6 +89,10 @@ export const filesMap = [
     input: 'src/frontend/modules/videoBG/index.ts',
     format: 'iife',
     output: 'ZBVideoBg',
+  },
+  {
+    input: 'src/scss/frontend/index.scss',
+    output: 'frontend',
   },
   ...elementsMap,
 

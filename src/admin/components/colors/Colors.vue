@@ -21,8 +21,8 @@
 			<Tab name="Global">
 				<UpgradeToPro
 					v-if="!isPro"
-					:message_title="$translate('pro_manage_global_colors_free_title')"
-					:message_description="$translate('pro_manage_global_colors_free')"
+					:message-title="$translate('pro_manage_global_colors_free_title')"
+					:message-description="$translate('pro_manage_global_colors_free')"
 				/>
 
 				<template v-else>

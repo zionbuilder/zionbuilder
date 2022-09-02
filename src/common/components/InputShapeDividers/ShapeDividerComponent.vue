@@ -39,9 +39,9 @@
 
 			<UpgradeToPro
 				v-if="!isPro"
-				:message_title="$translate('pro_masks_title')"
-				:message_description="$translate('pro_masks_description')"
-				:info_text="$translate('learn_more_about_pro')"
+				:message-title="$translate('pro_masks_title')"
+				:message-description="$translate('pro_masks_description')"
+				:info-text="$translate('learn_more_about_pro')"
 			/>
 		</div>
 	</div>

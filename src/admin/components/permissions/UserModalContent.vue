@@ -13,8 +13,8 @@
 
 		<UpgradeToPro
 			v-if="!isPro"
-			:message_title="$translate('manage_users_permissions_title')"
-			:message_description="$translate('manage_users_permissions_access_free')"
+			:message-title="$translate('manage_users_permissions_title')"
+			:message-description="$translate('manage_users_permissions_access_free')"
 		/>
 		<template v-else>
 			<div class="znpb-content-permission-wrapper">

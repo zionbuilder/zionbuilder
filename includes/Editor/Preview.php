@@ -125,7 +125,7 @@ class Preview {
 
 	public function enqueue_scripts() {
 		// Trigger action before load scripts
-		// do_action( 'zionbuilder/preview/before_load_scripts', $this );
+		do_action( 'zionbuilder/preview/before_load_scripts', $this );
 
 		// wp_enqueue_media();
 
@@ -192,12 +192,12 @@ class Preview {
 		// 	'before'
 		// );
 
-		// do_action( 'zionbuilder/preview/after_load_scripts', $this );
+		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
 
 	public function enqueue_styles() {
 		// Trigger action before load styles
-		// do_action( 'zionbuilder/preview/before_load_styles', $this );
+		do_action( 'zionbuilder/preview/before_load_styles', $this );
 
 		// Load roboto font
 		// wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
@@ -216,20 +216,10 @@ class Preview {
 			Plugin::instance()->get_version()
 		);
 
-		// Load rtl
-		// if ( is_rtl() ) {
-		// 	Plugin::instance()->scripts->enqueue_style(
-		// 		'znpb-preview-rtl-styles',
-		// 		'rtl',
-		// 		[],
-		// 		Plugin::instance()->get_version()
-		// 	);
-		// };
-
 		// This is needed because wp_editor somehow unloads dashicons
 		// wp_print_styles( 'media-views' );
 
-		// do_action( 'zionbuilder/preview/after_load_styles', $this );
+		do_action( 'zionbuilder/preview/after_load_styles', $this );
 	}
 
 	public function get_preview_initial_data() {

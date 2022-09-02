@@ -172,8 +172,8 @@ export default {
 				}
 			});
 
-			// customCSS += parsedData.value.customCSS;
-			// customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element);
+			customCSS += parsedData.value.customCSS;
+			customCSS = applyFilters('zionbuilder/element/custom_css', customCSS, optionsInstance, props.element);
 
 			return customCSS;
 		});
@@ -410,29 +410,6 @@ export default {
 				this.trigger('updated');
 			});
 		}),
-
-		applyCustomClassesToRenderTags() {
-			const elementSavedStyles = get(this.options, '_styles', {});
-			const stylesConfig = this.element.elementDefinition.style_elements;
-			const attrConfig = get(this.options, 'attributes', {});
-
-			Object.keys(elementSavedStyles).forEach(styleConfigId => {
-				const { classes } = elementSavedStyles[styleConfigId];
-
-				if (typeof stylesConfig[styleConfigId] !== 'undefined') {
-					const { render_tag: renderTag } = stylesConfig[styleConfigId];
-					if (renderTag && classes && classes.length > 0) {
-						classes.forEach(cssClass => {
-							this.element.renderAttributes.addRenderAttribute(renderTag, 'class', cssClass);
-						});
-					}
-				}
-			});
-		},
-
-		restoreHiddenElement() {
-			this.element.toggleVisibility();
-		},
 		/**
 		 * Register an event for an action
 		 */

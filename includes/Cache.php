@@ -135,7 +135,7 @@ class Cache {
 		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		// Register scripts
-		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/js/modalJS.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/modalJS.js' ), [], Plugin::instance()->get_version(), true );
 
 		// Video
 		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
@@ -244,8 +244,8 @@ class Cache {
 			}
 		}
 
-		// Add frontent.css
-		$frontend_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'dist/css/frontend.css' ) );
+		// Add frontend.css
+		$frontend_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'dist/frontend.css' ) );
 
 		if ( $frontend_css ) {
 			$dynamic_css .= Responsive::replace_devices_in_css( $frontend_css );
