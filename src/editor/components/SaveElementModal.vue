@@ -146,7 +146,9 @@ export default {
 		downloadElement() {
 			const { element, type } = this.activeSaveElement;
 			const compiledElementData =
-				type === 'template' ? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id) : element.toJSON();
+				type === 'template'
+					? this.contentStore.getAreaContentAsJSON(window.ZnPbInitialData.page_id)
+					: [element.toJSON()];
 			const templateType = type === 'template' ? 'template' : 'block';
 
 			this.loading = true;

@@ -408,6 +408,7 @@ Fixed: Custom fonts not working in certain conditions
 Fixed: Preview scaling blurs text
 Fixed: Visual editor option not updating its value in certain conditions
 Fixed: Custom breakpoints not generating proper CSS in certain conditions
+Fixed: Library screenshot not generating in certain conditions
 Misc: Updated builder external dependencies to latest version
 Misc: Updated many components to Vue 3
 
