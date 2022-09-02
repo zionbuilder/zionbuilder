@@ -256,6 +256,7 @@ Fixed: Screenshot is not generating for imported template elements in certain co
 Fixed: Fatal error that may appear in certain conditions when using WP customizer
 Fixed: options panel not updating properly when editing the "Tabs" element and then the "Accordions" element
 Fixed: Element searching looses some keystrokes inside the add elements popup in certain conditions
+Fixed: Screenshot not generating in certain conditions
 Dev change: The Element instance 'content' property now holds child element UID instead of the actual child instance.
 
 = 3.2.0 2022-05-09 =
