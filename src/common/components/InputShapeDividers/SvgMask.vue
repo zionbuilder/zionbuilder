@@ -24,7 +24,6 @@ const props = defineProps<{
 }>();
 
 const masks = inject('masks') as Record<string, { path: string; url: string }>;
-console.log(masks);
 
 const svgData = ref('');
 
