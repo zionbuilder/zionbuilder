@@ -80,7 +80,7 @@ export default {
 		});
 
 		function loadScripts(scripts) {
-			const { loadScript } = ScriptsLoader();
+			const { loadScript } = ScriptsLoader(window.frames[0]);
 
 			return new Promise((resolve, reject) => {
 				Object.keys(scripts).map(scriptHandle => {
