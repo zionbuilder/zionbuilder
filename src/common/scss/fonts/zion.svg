@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+	<metadata>Copyright (C) 2019 by original authors @ fontello.com</metadata>
+	<defs>
+		<font id="zion-icons" horiz-adv-x="1000" >
+			<font-face font-family="zion-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+			<missing-glyph horiz-adv-x="1000" />
+			<glyph glyph-name="pause" unicode="&#xe800;" d="M180 680h160v-660h-160z m480 0h160v-660h-160z" horiz-adv-x="1000" />
+
+			<glyph glyph-name="play" unicode="&#xe801;" d="M236 596l428-246-428-246v492m-100 174v-840l728 420-728 420z" horiz-adv-x="1000" />
+
+			<glyph glyph-name="sound-off" unicode="&#xe802;" d="M386 596v-494l-158 90-24 14h-104v286h104l24 14 158 90m100 174l-308-178h-178v-484h178l308-178v840z m514-292l-70 70-128-128-128 128-70-70 126-128-126-128 70-70 128 128 128-128 70 70-128 128z" horiz-adv-x="1000" />
+
+			<glyph glyph-name="sound-on" unicode="&#xe803;" d="M386 596v-494l-158 90-24 14h-104v286h104l24 14 158 90m100 174l-308-178h-178v-484h178l308-178v840z m342-836l-70 70c190 190 190 500 0 690l70 70c230-228 230-600 0-830z m-164 136l-70 70c116 116 116 302 0 418l70 70c154-152 154-404 0-558z" horiz-adv-x="1000" />
+
+			<glyph glyph-name="play-filled" unicode="&#xe804;" d="M864 350l-728 420v-840z" horiz-adv-x="1000" />
+		</font>
+	</defs>
+</svg>

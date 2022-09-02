@@ -21,7 +21,7 @@ class Utils {
 	 * @return boolean if zion builder pro path is defined
 	 */
 	public static function is_pro_active() {
-		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ) );
+		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ), false );
 	}
 
 		/**

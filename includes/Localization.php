@@ -35,8 +35,8 @@ class Localization {
 				'manage_users_permissions_access_free'     => esc_html__( 'Want to give access only to content, specific post type or builder feature?', 'zionbuilder' ),
 				'pro_manage_global_colors_free_title'      => esc_html__( 'Meet Global Colors', 'zionbuilder' ),
 				'pro_manage_global_gradients_free_title'   => esc_html__( 'Meet Global Gradients', 'zionbuilder' ),
-				'pro_manage_global_colors_free'            => esc_html__( 'Global colors allows you to define a color that you can use in builder, and everytime this color changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
-				'pro_manage_global_gradients_free'         => esc_html__( 'Global gradients allows you to define a gradient configuration that you can use in builder, and everytime this gradient configuration changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
+				'pro_manage_global_colors_free'            => esc_html__( 'Global colors allows you to define a color that you can use in builder, and every time this color changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
+				'pro_manage_global_gradients_free'         => esc_html__( 'Global gradients allows you to define a gradient configuration that you can use in builder, and every time this gradient configuration changes it will be updated automatically in all locations where it was used. ', 'zionbuilder' ),
 				'custom_fonts_upgrade_message'             => esc_html__( 'With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder' ),
 				'typekit_fonts_upgrade_message'            => esc_html__( 'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.', 'zionbuilder' ),
 
@@ -86,12 +86,6 @@ class Localization {
 				'sync_library'                             => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                  => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                  => esc_html__( 'New Url', 'zionbuilder' ),
-
-				'regenrate_info'                           => sprintf(
-					/* translators: %s is the whitelabel library name; */
-					_x( '%s Library automatically updates on a daily basis. You can also manually update it by clicking on the sync button.', 'zionbuilder' ),
-					Whitelabel::get_title()
-				),
 
 				'tools_info'                               => sprintf(
 					/* translators: %s is the whitelabel plugin name */
@@ -237,6 +231,9 @@ class Localization {
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name
 				'history_panel'                            => __( 'History', 'zionbuilder' ),
+				'history_panel_empty_title'                    => __( 'Your history is empty', 'zionbuilder' ),
+				'history_panel_empty_desc'                    => __( 'Modify your page and your changes will appear here', 'zionbuilder' ),
+
 				'add_elements_panel'                       => __( 'Add elements', 'zionbuilder' ),
 				'library_panel'                            => __( 'Library', 'zionbuilder' ),
 				'tree_view_panel'                          => __( 'Tree view panel', 'zionbuilder' ),
@@ -244,7 +241,7 @@ class Localization {
 				'global_settings_panel'                    => __( 'Options', 'zionbuilder' ),
 				//elements
 				'search_elements'                          => __( 'Search elements', 'zionbuilder' ),
-				//tree panel subcomponent
+				//tree panel sub-component
 				'tree_view'                                => __( 'Tree view', 'zionbuilder' ),
 				'section_view'                             => __( 'Section view', 'zionbuilder' ),
 				'wireframe_view'                           => __( 'Wireframe', 'zionbuilder' ),
@@ -317,7 +314,7 @@ class Localization {
 				'class_name_exists'                        => __( 'This class name already exists', 'zionbuilder' ),
 				'invalid_class_name'                       => __( 'Invalid class name, classes must not start with numbers and cannot contain spaces', 'zionbuilder' ),
 				'no_elements'                              => __( 'No elements found', 'zionbuilder' ),
-				'new_pseudo'                               => __( 'Add new pseudoselector ex: :hover::before ', 'zionbuilder' ),
+				'new_pseudo'                               => __( 'Add new pseudo-selector ex: :hover::before ', 'zionbuilder' ),
 
 				//GlobalClasses
 				'no_global_class_found'                    => __( 'No class found', 'zionbuilder' ),
@@ -338,7 +335,7 @@ class Localization {
 				'activate_pro'                             => __( 'Activate PRO', 'zionbuilder' ),
 				'not_installed'                            => __( 'Not installed!', 'zionbuilder' ),
 				'you_are_upto_date'                        => __( 'You are up to date!', 'zionbuilder' ),
-				'about_zion_description'                   => __( 'Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilanguage adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.', 'zionbuilder' ),
+				'about_zion_description'                   => __( 'Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilingual adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.', 'zionbuilder' ),
 
 				//Console messages
 				'oops_something_wrong'                     => esc_html__( 'oops, something went wrong!', 'zionbuilder' ),
@@ -372,11 +369,11 @@ class Localization {
 				'previous_step'                            => __( 'Previous Step', 'zionbuilder' ),
 				'end_tour'                                 => __( 'End tour', 'zionbuilder' ),
 				'welcome_to_zion'                          => __( 'Welcome to Zion Builder', 'zionbuilder' ),
-				'welcome_to_zion_description'              => __( 'Press the <b>"Take the Tour"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>"Next Step"</b>. <br/><br/><br/>Press <b>"x"</b> or <b>"End tour"</b> button to close tour, and immediatly start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time.', 'zionbuilder' ),
+				'welcome_to_zion_description'              => __( 'Press the <b>"Take the Tour"</b> button to take a smooth ride through the main features of the page builder. You must follow and click on the <b>highlighted hints </b>or press <b>"Next Step"</b>. <br/><br/><br/>Press <b>"x"</b> or <b>"End tour"</b> button to close tour, and immediately start creating. Our page builder is highly intuitive, so you will be able to build a page in no-time.', 'zionbuilder' ),
 				'adding_elements'                          => __( 'Adding elements', 'zionbuilder' ),
 				'adding_elements_description'              => __( 'The <b>colored circle with "+" sign </b> appears each time you hover an element. By clicking on it, a popup will appear from which you can add elements to the page.<br/> <br/>Click on the colored circle that contains <b>"+ icon"</b> to add elements or templates to page', 'zionbuilder' ),
 				'elements_popup'                           => __( 'Click the highlighted tab', 'zionbuilder' ),
-				'elements_popup_description'               => __( 'The "add elements" popup has 3 main Tabs: <b>"Columns Tab"</b>, <b>"Elements Tab"</b> and <b>"Library Tab"</b>. <br /><br />From the columns tab you can immediately add a predefined set of columns. The builder is inteligent enough to know if it should also insert a section or a wrapper column to contain the selected column layout.', 'zionbuilder' ),
+				'elements_popup_description'               => __( 'The "add elements" popup has 3 main Tabs: <b>"Columns Tab"</b>, <b>"Elements Tab"</b> and <b>"Library Tab"</b>. <br /><br />From the columns tab you can immediately add a predefined set of columns. The builder is intelligent enough to know if it should also insert a section or a wrapper column to contain the selected column layout.', 'zionbuilder' ),
 				'elements_tab'                             => __( 'Go to library tab', 'zionbuilder' ),
 				'elements_tab_description'                 => __( 'From the <b>Elements tab</b> you can add new elements in the position from which you\'ve pressed the plus sign. They can be easily searched by introducing their name in the search box, or just by scrolling through them. <br/><br/>Now, click on the highlighted Library tab to see the link to the Library.', 'zionbuilder' ),
 				'columns_tab'                              => __( 'Go to columns tab', 'zionbuilder' ),
@@ -384,11 +381,11 @@ class Localization {
 				'add_template_to_page'                     => __( 'Add a template to your page', 'zionbuilder' ),
 				'add_template_to_page_description'         => __( 'Choose highlighted template to add to your page.<br/> Since you are inserting this as a root element, adding this template will create a section with a column inside.', 'zionbuilder' ),
 				'edit_element_options'                     => __( 'Edit Element options', 'zionbuilder' ),
-				'edit_element_options_description'         => __( 'Opening the settings panel for each element, can be made through multiple actions: <br/><ul><li>- DoubleClick an element </li><li>- Rightclick on the element and choose edit </li><li>- Clicking on edit toolbar from the top right of each element </li></ul> <br/><br/> Now,<b> double click </b> on the element to open the panel settings', 'zionbuilder' ),
+				'edit_element_options_description'         => __( 'Opening the settings panel for each element, can be made through multiple actions: <br/><ul><li>- DoubleClick an element </li><li>- Right-click on the element and choose edit </li><li>- Clicking on edit toolbar from the top right of each element </li></ul> <br/><br/> Now,<b> double click </b> on the element to open the panel settings', 'zionbuilder' ),
 				'panel_element_options'                    => __( 'Click the highlighted tab', 'zionbuilder' ),
-				'panel_element_options_description'        => __( 'This panel has 3 main tabs: "General", "Styling" and "Advanced".<br/>The "General Tab" is now active. Inside <b>"General Tab"</b> you can edit the content and other general settings of the element. This Tab content will varify from element to element. <br/> <br/>Click on the highlighted "Styling" Tab to continue the tour', 'zionbuilder' ),
+				'panel_element_options_description'        => __( 'This panel has 3 main tabs: "General", "Styling" and "Advanced".<br/>The "General Tab" is now active. Inside <b>"General Tab"</b> you can edit the content and other general settings of the element. This Tab content will vary from element to element. <br/> <br/>Click on the highlighted "Styling" Tab to continue the tour', 'zionbuilder' ),
 				'styling_tab'                              => __( 'Go to Advanced Tab', 'zionbuilder' ),
-				'styling_tab_description'                  => __( 'The element wrapper style rules are created within this tab. The typography, background, display and many more styling options are powerful tools to style your elements.<br/> If you click on the element id,an input will appear for entering and creating re-usable classes. The blue button gives the ability to change the state of the class and access the pseudoselectors such as hover, after, before. This tab content is the same for all the elements.<br/><br/>Now click on the highlighted "Advanced Tab" to see the tab content and get more explanations.', 'zionbuilder' ),
+				'styling_tab_description'                  => __( 'The element wrapper style rules are created within this tab. The typography, background, display and many more styling options are powerful tools to style your elements.<br/> If you click on the element id,an input will appear for entering and creating re-usable classes. The blue button gives the ability to change the state of the class and access the pseudo selectors such as hover, after, before. This tab content is the same for all the elements.<br/><br/>Now click on the highlighted "Advanced Tab" to see the tab content and get more explanations.', 'zionbuilder' ),
 				'advanced_tab'                             => __( 'Close the panel', 'zionbuilder' ),
 				'advanced_tab_description'                 => __( 'The active tab is the <b>"Advanced tab"</b>. Changing the name, adding a unique Id, animations, custom Css,or element visibility could be done from the advanced tab. This tab settings are also the same for all the elements. <br/><br/>Click on the top right <b>"x"</b> button to close the panel', 'zionbuilder' ),
 				'choose_device'                            => __( 'Choose device', 'zionbuilder' ),
@@ -422,7 +419,7 @@ class Localization {
 				'select_background_repeat'                 => __( 'Select background repeat', 'zionbuilder' ),
 				'select_background_attachement'            => __( 'Select background attachment', 'zionbuilder' ),
 				'background_attachement'                   => __( 'Background Attachment', 'zionbuilder' ),
-				'background_attachement_description'       => __( 'Description for background attachement', 'zionbuilder' ),
+				'background_attachement_description'       => __( 'Description for background attachment', 'zionbuilder' ),
 				'background_position'                      => __( 'Background position', 'zionbuilder' ),
 				'background_position_description'          => __( 'Description for background description', 'zionbuilder' ),
 				'background_size'                          => __( 'Background Size', 'zionbuilder' ),
@@ -477,7 +474,7 @@ class Localization {
 
 				// Not found
 				'element_not_found'                        => __( 'element not found', 'zionbuilder' ),
-				'add_class_assignment_not_allowed'         => __( 'Class asignments not allowed', 'zionbuilder' ),
+				'add_class_assignment_not_allowed'         => __( 'Class assignments not allowed', 'zionbuilder' ),
 
 				// Video background
 				'browser_video_error'                      => __( 'Your browser does not support HTML5 video.', 'zionbuilder' ),
@@ -514,20 +511,20 @@ class Localization {
 				//GradientGenerator
 				'save_as_preset'                           => __( 'Save as preset', 'zionbuilder' ),
 
-				// Dragable
+				// Draggable
 				'draggable'                                => __( 'Draggable', 'zionbuilder' ),
 
 				// AllowedPostTypes
 				'set_allowed_types'                        => __( 'You can set from here the allowed post types', 'zionbuilder' ),
 
 				// Colors
-				'create_color_palette'                     => __( 'Create your color pallete to use locally or globally', 'zionbuilder' ),
+				'create_color_palette'                     => __( 'Create your color pallette to use locally or globally', 'zionbuilder' ),
 
 				// CustomFonts
 				'click_me_to_add_font'                     => __( 'Click Me or the Blue button to add a Font', 'zionbuilder' ),
 
 				// GoogleFonts
-				'google_fonts_1'                           => __( 'Seting up', 'zionbuilder' ),
+				'google_fonts_1'                           => __( 'Setting up', 'zionbuilder' ),
 				'google_fonts_link'                        => __( 'Google web fonts', 'zionbuilder' ),
 				'google_fonts_2'                           => __( "has never been easier. Choose which ones to use for your website's stylish typography", 'zionbuilder' ),
 
@@ -543,7 +540,7 @@ class Localization {
 					'Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.',
 					'zionbuilder'
 				),
-				'manage_wordpress_users_permisions'        => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
+				'manage_wordpress_users_permissions'        => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
 
 				// ModalAddNewTemplate
 				'create_new_modal_template'                => __( 'Create a new template by choosing the template type and adding a name', 'zionbuilder' ),
@@ -684,8 +681,6 @@ class Localization {
 
 				// Pricing Box
 				'featured'                                 => __( 'Featured', 'zionbuilder' ),
-				'moved'                                    => __( 'Moved', 'zionbuilder' ),
-				'copied'                                   => __( 'Copied', 'zionbuilder' ),
 
 				// Element
 				'invalid_element'                          => __( 'Invalid Element', 'zionbuilder' ),
@@ -757,19 +752,43 @@ class Localization {
 				// Performance admin page
 				'performance'                              => __( 'Performance', 'zionbuilder' ),
 
-				// Responsice devices
+				// Responsive devices
 				'all_devices'                              => __( 'all devices', 'zionbuilder' ),
 				'max'                                      => __( 'max', 'zionbuilder' ),
 				'edit_breakpoints'                         => __( 'Edit breakpoints', 'zionbuilder' ),
 				'disable_edit_breakpoints'                 => __( 'Disable edit breakpoints', 'zionbuilder' ),
 				'edit_breakpoint'                          => __( 'Edit breakpoint', 'zionbuilder' ),
 				'delete_breakpoint'                        => __( 'Delete breakpoint', 'zionbuilder' ),
-				'disable_autoscale'                        => __( 'Disable autoscale', 'zionbuilder' ),
-				'enable_autoscale'                         => __( 'Enable autoscale', 'zionbuilder' ),
+				'disable_autoscale'                        => __( 'Disable auto-scale', 'zionbuilder' ),
+				'enable_autoscale'                         => __( 'Enable auto-scale', 'zionbuilder' ),
 				'add_breakpoint'                           => __( 'Add breakpoint', 'zionbuilder' ),
 				'preview_width'                            => __( 'Preview width', 'zionbuilder' ),
 				'preview_scale'                            => __( 'Preview scale', 'zionbuilder' ),
 				'wrap_with_container'                      => __( 'Wrap with container', 'zionbuilder' ),
+				'root'                                     => __( 'Root', 'zionbuilder' ),
+				'modified'                                 => __( 'Modified', 'zionbuilder' ),
+
+				// Element history panel
+				'added'                                    => esc_html__( 'added', 'zionbuilder' ),
+				'deleted'                                  => esc_html__( 'deleted', 'zionbuilder' ),
+				'renamed'                                  => esc_html__( 'renamed', 'zionbuilder' ),
+				'page_cleared'                             => esc_html__( 'Page cleared', 'zionbuilder' ),
+				'show'                                     => esc_html__( 'show', 'zionbuilder' ),
+				'hide'                                     => esc_html__( 'hide', 'zionbuilder' ),
+				'editing_started'                          => esc_html__( 'Editing started', 'zionbuilder' ),
+				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
+				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
+				'copied' => esc_html__( 'copied', 'zionbuilder' ),
+				'moved'                                    => __( 'moved', 'zionbuilder' ),
+				'paste-styles'                                    => __( 'paste styles', 'zionbuilder' ),
+				'paste-css-classes'                                    => __( 'paste css classes', 'zionbuilder' ),
+				'discard-styles'                                    => __( 'discard styles', 'zionbuilder' ),
+				'template'                                    => __( 'Template', 'zionbuilder' ),
+				'added'                                    => __( 'Added', 'zionbuilder' ),
+				'layout'                                    => __( 'Layout', 'zionbuilder' ),
+				'edited'                                    => __( 'Edited', 'zionbuilder' ),
+
+
 			]
 		);
 	}

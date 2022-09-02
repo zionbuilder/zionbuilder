@@ -2,14 +2,17 @@
 
 namespace ZionBuilder\Admin;
 
+use ZionBuilder\CommonJS;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
-use ZionBuilder\Templates;
+use ZionBuilder\Nonces;
 use ZionBuilder\Options\Schemas\Performance;
+use ZionBuilder\Localization;
+
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -99,7 +102,7 @@ class Admin {
 		if ( in_array( $pagenow, $edit_pages, true ) ) {
 			$post          = get_post();
 			$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
-			if ( $post_instance->is_built_with_zion() ) {
+			if ( $post_instance && $post_instance->is_built_with_zion() ) {
 				$classes .= ' znpb-admin-post-editor--active';
 			}
 		}
@@ -157,14 +160,14 @@ class Admin {
 
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-post-styles',
-				'css/edit-page.css',
+				'edit-page',
 				[],
 				Plugin::instance()->get_version()
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
 				'znpb-admin-post-script',
-				'js/edit-page.js',
+				'edit-page',
 				[ 'heartbeat' ],
 				Plugin::instance()->get_version(),
 				true
@@ -201,34 +204,31 @@ class Admin {
 			// Load styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
-				'css/admin.css',
-				[ 'zb-components' ],
+				'admin-page',
+				[ 'wp-codemirror', 'media-views' ],
 				Plugin::instance()->get_version()
 			);
+			wp_add_inline_style( 'znpb-admin-settings-page-styles', Plugin::instance()->icons->get_icons_css() );
 
-			if ( is_rtl() ) {
-				Plugin::instance()->scripts->enqueue_style(
-					'znpb-admin-rtl-styles',
-					'css/rtl.css',
-					[],
-					Plugin::instance()->get_version()
-				);
-			};
+			wp_enqueue_media();
+			// This is needed because wp_editor somehow unloads dashicons
+			wp_print_styles( 'media-views' );
 
 			Plugin::instance()->scripts->enqueue_script(
-				'zb-admin',
-				'js/admin.js',
-				[
-					'zb-components',
-				],
-				Plugin::$instance->get_version(),
+				'zb-vue',
+				'vue',
+				[],
+				Plugin::instance()->get_version(),
 				true
 			);
 
-			wp_enqueue_media();
-
-			// This is needed because wp_editor somehow unloads dashicons
-			wp_print_styles( 'media-views' );
+			Plugin::instance()->scripts->enqueue_script(
+				'zb-admin',
+				'admin-page',
+				[ 'wp-codemirror', 'zb-vue' ],
+				Plugin::$instance->get_version(),
+				true
+			);
 
 			wp_localize_script(
 				'zb-admin',
@@ -246,11 +246,10 @@ class Admin {
 						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [
-									'type'      => 'custom_selector',
-									'title'     => esc_html__( 'Builder theme.', 'zionbuilder' ),
-									'default'   => 'light',
-									'on_change' => 'znpb_set_editor_theme',
-									'options'   => [
+									'type'    => 'custom_selector',
+									'title'   => esc_html__( 'Builder theme.', 'zionbuilder' ),
+									'default' => 'light',
+									'options' => [
 										[
 											'name' => __( 'light', 'zionbuilder' ),
 											'id'   => 'light',
@@ -294,10 +293,22 @@ class Admin {
 						'urls'             => [
 							'logo'     => Whitelabel::get_logo_url(),
 							'pro_logo' => Utils::get_pro_png_url(),
+							'plugin_root' => Utils::get_file_url()
 						],
 					]
 				)
 			);
+
+			wp_localize_script(
+				'zb-admin',
+				'ZnRestConfig',
+				[
+					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+					'rest_root' => esc_url_raw( rest_url() ),
+				]
+			);
+
+			CommonJS::localizeCommonJSData('zb-admin');
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );
 		}

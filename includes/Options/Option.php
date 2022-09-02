@@ -38,7 +38,7 @@ class Option extends Stack {
 	 *
 	 * @var Option[] The list of child options
 	 */
-	public $child_options = [];
+	public $child_options = null;
 
 	/**
 	 * Main class constructor

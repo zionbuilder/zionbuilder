@@ -1,0 +1,43 @@
+.zb-mask {
+	position: absolute;
+	right: 0;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: auto;
+	color: #fff;
+	line-height: 0;
+
+	svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+
+		fill: currentColor;
+	}
+
+	&-pos {
+		&--top {
+			top: -1px;
+			bottom: auto;
+
+			svg {
+				transform: rotate(180deg);
+			}
+
+			&.zb-mask-pos--flip {
+				svg {
+					transform: rotate(180deg) scale(-1, 1);
+				}
+			}
+		}
+
+		&--bottom {
+			&.zb-mask-pos--flip {
+				svg {
+					transform: scale(-1, 1);
+				}
+			}
+		}
+	}
+}

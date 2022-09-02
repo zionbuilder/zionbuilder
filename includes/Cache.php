@@ -58,7 +58,6 @@ class Cache {
 
 			// This is needed so we can load scripts that are not available on WP action ( for example, shortcode )
 			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
-
 		}
 	}
 
@@ -136,18 +135,25 @@ class Cache {
 		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		// Register scripts
-		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/js/modalJS.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/modalJS.js' ), [], Plugin::instance()->get_version(), true );
 
 		// Video
-		wp_register_script( 'zb-video', Utils::get_file_url( 'dist/js/ZBVideo.js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
-		wp_register_script( 'zb-video-bg', Utils::get_file_url( 'dist/js/ZBVideoBg.js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideoBg', 'js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );
 
 		// Swiper slider
 		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), [], Plugin::instance()->get_version(), true );
-		wp_register_script( 'zion-builder-slider', Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zion-builder-slider', Utils::get_file_url( 'dist/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
 
 		// Animate JS
-		wp_register_script( 'zionbuilder-animatejs', Utils::get_file_url( 'dist/js/animateJS.js' ), [], Plugin::instance()->get_version(), true );
+		Plugin::instance()->scripts->register_script(
+			'zionbuilder-animatejs',
+			'animateJS',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
 	}
 
@@ -238,8 +244,8 @@ class Cache {
 			}
 		}
 
-		// Add frontent.css
-		$frontend_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'dist/css/frontend.css' ) );
+		// Add frontend.css
+		$frontend_css = FileSystem::get_file_system()->get_contents( Utils::get_file_path( 'dist/frontend.css' ) );
 
 		if ( $frontend_css ) {
 			$dynamic_css .= Responsive::replace_devices_in_css( $frontend_css );

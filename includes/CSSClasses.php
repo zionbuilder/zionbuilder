@@ -49,7 +49,7 @@ class CSSClasses {
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
 			$saved_css_classes        = get_option( self::CLASSES_OPTION_KEY );
-			self::$cached_css_classes = json_decode( $saved_css_classes, true );
+			self::$cached_css_classes = json_decode( $saved_css_classes, true ) ?: [];
 		}
 
 		return self::$cached_css_classes;

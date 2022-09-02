@@ -201,8 +201,8 @@ class Counter extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Counter/editor.js' ) );
-		wp_enqueue_script( 'zb-element-counter', Utils::get_file_url( 'dist/js/elements/Counter/frontend.js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Counter/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-counter', Plugin::instance()->scripts->get_script_url( 'elements/Counter/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 
 	}
 
@@ -216,7 +216,7 @@ class Counter extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Counter/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Counter/frontend.css' ) );
 	}
 
 	/**

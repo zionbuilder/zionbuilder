@@ -78,9 +78,9 @@ class Frontend {
 		if ( ! $post_instance->is_password_protected() && $post_instance->is_built_with_zion() ) {
 			$post_template_data = $post_instance->get_template_data();
 
-			if ( ! empty( $post_template_data ) ) {
-				Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
+			Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
 
+			if ( ! empty( $post_template_data ) ) {
 				// Add content filters
 				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
 				add_filter( 'get_the_excerpt', [ $this, 'remove_excerpt_flag' ], 99 );
@@ -138,7 +138,7 @@ class Frontend {
 	 *
 	 * @return boolean
 	 */
-	public function is_excertpt() {
+	public function is_excerpt() {
 		return $this->is_excerpt;
 	}
 
@@ -164,7 +164,7 @@ class Frontend {
 		$this->restore_content_filters();
 
 		// Don't run on excerpt
-		if ( $this->is_excertpt() ) {
+		if ( $this->is_excerpt() ) {
 			return $content;
 		}
 

@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\PricingBox;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -289,7 +290,7 @@ class PricingBox extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/PricingBox/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/PricingBox/editor', 'js' ) );
 	}
 
 	/**
@@ -302,8 +303,8 @@ class PricingBox extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/PricingBox/frontend.css' ) );
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Button/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/PricingBox/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Button/frontend.css' ) );
 	}
 
 	/**

@@ -2,8 +2,8 @@
 
 namespace ZionBuilder\Elements\Column;
 
+use ZionBuilder\Plugin;
 use ZionBuilder\Elements\Element;
-use ZionBuilder\Utils;
 use ZionBuilder\Elements\Masks;
 
 // Prevent direct access
@@ -483,7 +483,7 @@ class Column extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Column/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Column/editor', 'js' ) );
 	}
 
 	/**

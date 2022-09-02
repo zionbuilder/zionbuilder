@@ -39,7 +39,7 @@ class CommonJS {
 	public static function register_scripts() {
 		Plugin::instance()->scripts->register_style(
 			'zb-components',
-			'css/components.css',
+			'components',
 			[
 				'wp-codemirror',
 				'media-views',
@@ -51,7 +51,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-vue',
-			'js/vue.js',
+			'vue',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -59,7 +59,7 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-hooks',
-			'js/hooks.js',
+			'hooks',
 			[],
 			Plugin::instance()->get_version(),
 			false
@@ -67,37 +67,10 @@ class CommonJS {
 
 		Plugin::instance()->scripts->register_script(
 			'zb-rest',
-			'js/rest.js',
-			[
-				'zb-hooks',
-			],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-utils',
-			'js/utils.js',
-			[
-				'zb-rest',
-				'zb-hooks',
-			],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-i18n',
-			'js/i18n.js',
+			'rest',
 			[],
 			Plugin::instance()->get_version(),
 			false
-		);
-
-		wp_localize_script(
-			'zb-i18n',
-			'ZnI18NStrings',
-			Localization::get_strings()
 		);
 
 		wp_localize_script(
@@ -110,8 +83,33 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
+			'zb-utils',
+			'utils',
+			[
+				'zb-rest',
+				'zb-hooks',
+			],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		Plugin::instance()->scripts->register_script(
+			'zb-i18n',
+			'i18n',
+			[],
+			Plugin::instance()->get_version(),
+			false
+		);
+
+		wp_localize_script(
+			'zb-i18n',
+			'ZnI18NStrings',
+			Localization::get_strings()
+		);
+
+		Plugin::instance()->scripts->register_script(
 			'zb-components',
-			'js/components.js',
+			'components',
 			[
 				'wp-codemirror',
 				'zb-vue',
@@ -124,8 +122,13 @@ class CommonJS {
 			true
 		);
 
+		self::localizeCommonJSData('zb-components');
+
+	}
+
+	public static function localizeCommonJSData($handle) {
 		wp_localize_script(
-			'zb-components',
+			$handle,
 			'ZnPbComponentsData',
 			[
 				'schemas'       => apply_filters(
@@ -144,6 +147,11 @@ class CommonJS {
 			]
 		);
 
+		wp_localize_script(
+			$handle,
+			'ZnI18NStrings',
+			Localization::get_strings()
+		);
 	}
 
 	public static function enqueue_responsive_devices( $handle ) {
