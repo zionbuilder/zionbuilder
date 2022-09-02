@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.9.3
-Stable tag: 3.2.0
+Tested up to: 6.0.2
+Stable tag: 3.3.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,7 +225,40 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
-= 3.1.1 2022-05-09 =
+= 3.3.0 2022-05-09 =
+Added: Preserve higher responsive device values as options placeholders for style options
+Added: History action for paste styles on element
+Added: History action for paste element classes
+Added: history action for inline text edits
+Added: History action for discard element styles
+Added: History action for wrap with container
+Added: Placeholder support for dimensions option type
+Added: Placeholder support for border option type
+Added: Placeholder support for input number option type
+Added: Placeholder support for spacing option type
+Updated: Swiper script to the latest version
+Improvement: Preserve element options active tab when changing the element
+Improvement: Removed the local history when editing the element and moved it to the global history panel
+Improvement: Overall editor speed
+Improvement: Prevent the element menu from shrinking if the preview is zoomed in
+Improvement: Always show the scrollbar for scrollable lists inside the editor
+Improvement: UI for tree view panel
+Improvement: UI for history panel
+Improvement: You can now special characters in class names
+Improvement: Improve UI for the dropdown option type
+Improvement: Add ability to set placeholders for input checkbox option type
+Improvement: Border radius option UI
+Improvement: Only paste the styles that are available for the element
+Improvement: Show add elements popup full size inside a zoomed preview area
+Improvement: Properly place the element menu inside a zoomed preview area
+Fixed: Element cannot be edited after wrapping with container
+Fixed: Screenshot is not generating for imported template elements in certain conditions
+Fixed: Fatal error that may appear in certain conditions when using WP customizer
+Fixed: options panel not updating properly when editing the "Tabs" element and then the "Accordions" element
+Fixed: Element searching looses some keystrokes inside the add elements popup in certain conditions
+Dev change: The Element instance 'content' property now holds child element UID instead of the actual child instance.
+
+= 3.2.0 2022-05-09 =
 Added: Responsive options for "slides to show" and "slides to scroll" options for slider builder element
 Added: option to disable page builder area wrappers. It will be disabled for new installations
 Added: "Wrap with container" element menu action
