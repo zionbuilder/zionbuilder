@@ -1,4 +1,4 @@
-import { ServerRequest } from '/@/common/utils';
+import { ServerRequest } from './serverRequest';
 
 export default function (imageConfig, serverRequester = new ServerRequest()) {
 	return new Promise((resolve, reject) => {

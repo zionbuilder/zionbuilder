@@ -2,6 +2,7 @@
 
 namespace ZionBuilder\Editor;
 
+use ZionBuilder\CommonJS;
 use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
@@ -10,13 +11,6 @@ use ZionBuilder\Elements\Masks;
 use ZionBuilder\Utils;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
-use ZionBuilder\Options\Schemas\StyleOptions;
-use ZionBuilder\Options\Schemas\Typography;
-use ZionBuilder\Options\Schemas\Advanced;
-use ZionBuilder\Options\Schemas\Video;
-use ZionBuilder\Options\Schemas\BackgroundImage;
-use ZionBuilder\Options\Schemas\Shadow;
-use ZionBuilder\Responsive;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -143,54 +137,36 @@ class Preview {
 
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
 
-		wp_localize_script(
-			'znpb-preview-frame-scripts',
-			'ZnPbComponentsData',
-			[
-				'schemas'       => apply_filters(
-					'zionbuilder/commonjs/schemas',
-					[
-						'styles'           => StyleOptions::get_schema(),
-						'element_advanced' => Advanced::get_schema(),
-						'typography'       => Typography::get_schema(),
-						'video'            => Video::get_schema(),
-						'background_image' => BackgroundImage::get_schema(),
-						'shadow'           => Shadow::get_schema(),
-					]
-				),
-				'breakpoints'   => Responsive::get_breakpoints(),
-				'is_pro_active' => Utils::is_pro_active(),
-			]
-		);
+		CommonJS::localizeCommonJSData('znpb-preview-frame-scripts');
 
-		// wp_add_inline_script(
-		// 	'znpb-preview-frame-scripts',
-		// 	'
-		//         (function($) {
-		//             window.ZionBuilderFrontend = {
-		//                 scripts: {},
-		//                 registerScript: function (scriptId, scriptCallback) {
-		//                     this.scripts[scriptId] = scriptCallback;
-		//                 },
-		//                 getScript(scriptId) {
-		//                     return this.scripts[scriptId]
-		//                 },
-		//                 unregisterScript: function(scriptId) {
-		//                     delete this.scripts[scriptId];
-		//                 },
-		//                 run: function() {
-		//                     var that = this;
-		//                     var $scope = $(document)
-		//                     Object.keys(this.scripts).forEach(function(scriptId) {
-		//                         var scriptObject = that.scripts[scriptId];
-		//                         scriptObject.run( $scope );
-		//                     })
-		//                 }
-		//             };
-		//         })(jQuery);
-		//     ',
-		// 	'before'
-		// );
+		wp_add_inline_script(
+			'znpb-preview-frame-scripts',
+			'
+		        (function($) {
+		            window.ZionBuilderFrontend = {
+		                scripts: {},
+		                registerScript: function (scriptId, scriptCallback) {
+		                    this.scripts[scriptId] = scriptCallback;
+		                },
+		                getScript(scriptId) {
+		                    return this.scripts[scriptId]
+		                },
+		                unregisterScript: function(scriptId) {
+		                    delete this.scripts[scriptId];
+		                },
+		                run: function() {
+		                    var that = this;
+		                    var $scope = $(document)
+		                    Object.keys(this.scripts).forEach(function(scriptId) {
+		                        var scriptObject = that.scripts[scriptId];
+		                        scriptObject.run( $scope );
+		                    })
+		                }
+		            };
+		        })(jQuery);
+		    ',
+			'before'
+		);
 
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}

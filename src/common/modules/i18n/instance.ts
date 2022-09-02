@@ -16,4 +16,8 @@ export const install = (app: App, strings: translateString) => {
 export const { addStrings, translate } = i18n;
 
 window.zb = window.zb || {};
-window.zb.i18n = i18n;
+window.zb.i18n = {
+	install,
+	addStrings,
+	translate,
+};

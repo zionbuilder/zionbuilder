@@ -32,7 +32,7 @@ export default {
 <script lang="ts" setup>
 import { ref, Ref, computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
-import { uploadFile } from '/@/common/api';
+import { uploadFile } from '../../api';
 
 const props = withDefaults(
 	defineProps<{

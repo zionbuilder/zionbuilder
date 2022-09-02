@@ -17,7 +17,7 @@ import CSSSelector from './CSSSelector';
 import Gallery from './Gallery';
 import HTMLComponent from './HTML';
 import UpgradeToPro from './UpgradeToPro';
-// Custom options just for buidler
+// Custom options just for builder
 import GlobalClasses from './GlobalCssClasses';
 import ChildAdder from './ChildAdder';
 import Dimensions from './Dimensions';

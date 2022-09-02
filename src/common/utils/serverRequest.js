@@ -1,4 +1,4 @@
-import { bulkActions } from '/@/common/api';
+import { bulkActions } from '../api';
 import { hash } from './objectHash';
 
 export class ServerRequest {

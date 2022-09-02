@@ -153,7 +153,7 @@ import { computed, ref, Ref, watch, nextTick } from 'vue';
 import { InputNumberUnit } from '../InputNumber';
 import rafSchd from 'raf-schd';
 import clickOutside from '../../directives/click-outside.ts';
-import { translate } from '/@/common/modules/i18n';
+import { translate } from '../../modules/i18n';
 
 type PositionId =
 	| 'margin-top'

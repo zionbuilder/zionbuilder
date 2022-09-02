@@ -11,13 +11,7 @@ use ZionBuilder\Elements\Masks;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
-use ZionBuilder\Responsive;
-use ZionBuilder\Options\Schemas\StyleOptions;
-use ZionBuilder\Options\Schemas\Typography;
-use ZionBuilder\Options\Schemas\Advanced;
-use ZionBuilder\Options\Schemas\Video;
-use ZionBuilder\Options\Schemas\BackgroundImage;
-use ZionBuilder\Options\Schemas\Shadow;
+use ZionBuilder\CommonJS;
 use ZionBuilder\Localization;
 
 // Prevent direct access
@@ -251,31 +245,7 @@ class Editor {
 			]
 		);
 
-		wp_localize_script(
-			'zb-editor',
-			'ZnPbComponentsData',
-			[
-				'schemas'       => apply_filters(
-					'zionbuilder/commonjs/schemas',
-					[
-						'styles'           => StyleOptions::get_schema(),
-						'element_advanced' => Advanced::get_schema(),
-						'typography'       => Typography::get_schema(),
-						'video'            => Video::get_schema(),
-						'background_image' => BackgroundImage::get_schema(),
-						'shadow'           => Shadow::get_schema(),
-					]
-				),
-				'breakpoints'   => Responsive::get_breakpoints(),
-				'is_pro_active' => Utils::is_pro_active(),
-			]
-		);
-
-		wp_localize_script(
-			'zb-editor',
-			'ZnI18NStrings',
-			Localization::get_strings()
-		);
+		CommonJS::localizeCommonJSData('zb-editor');
 
 		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 

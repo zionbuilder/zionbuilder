@@ -152,7 +152,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '/@/common/scss/_mixins.scss';
+@import '../../scss/_mixins.scss';
+
 .znpb-form-colorpicker__color-picker-holder {
 	overflow: hidden;
 	min-width: 280px;

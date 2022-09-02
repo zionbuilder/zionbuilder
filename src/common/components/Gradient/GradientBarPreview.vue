@@ -43,7 +43,7 @@ const getGradientPreviewStyle = computed(() => {
 });
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '../../scss/_mixins.scss';
 .znpb-gradient-preview-transparent-container {
 	margin-bottom: 25px;
 	.znpb-gradient-preview-transparent {

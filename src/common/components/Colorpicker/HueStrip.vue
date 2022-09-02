@@ -135,7 +135,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '../../scss/_mixins.scss';
 .znpb-colorpicker-inner-editor__hue {
 	background-image: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
 

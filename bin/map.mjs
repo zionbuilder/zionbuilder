@@ -94,27 +94,26 @@ export const filesMap = [
     input: 'src/scss/frontend/index.scss',
     output: 'frontend',
   },
+  // TEMP FILES for backwards compatibility
+  {
+    input: 'src/modules/components/index.ts',
+    format: 'iife',
+    output: 'components',
+  },
+  {
+    input: 'src/modules/i18n/index.ts',
+    format: 'iife',
+    output: 'i18n',
+  },
+  {
+    input: 'src/modules/hooks/index.ts',
+    format: 'iife',
+    output: 'hooks',
+  },
+  {
+    input: 'src/modules/rest/index.ts',
+    format: 'iife',
+    output: 'rest',
+  },
   ...elementsMap,
-
-  // Elements
-  //   {
-  //     input: 'src/elements/Section/editor.js',
-  //     format: 'iife',
-  //     output: 'elements/Section/editor',
-  //   },
-  //   {
-  //     input: 'src/elements/Column/editor.js',
-  //     format: 'iife',
-  //     output: 'elements/Column/editor',
-  //   },
-  //   {
-  //     input: 'src/elements/Video/editor.js',
-  //     format: 'iife',
-  //     output: 'elements/Video/editor',
-  //   },
-  //   {
-  //     input: 'src/elements/Video/frontend.ts',
-  //     format: 'iife',
-  //     output: 'elements/Video/frontend',
-  //   },
 ];

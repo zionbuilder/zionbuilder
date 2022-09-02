@@ -122,8 +122,13 @@ class CommonJS {
 			true
 		);
 
+		self::localizeCommonJSData('zb-components');
+
+	}
+
+	public static function localizeCommonJSData($handle) {
 		wp_localize_script(
-			'zb-components',
+			$handle,
 			'ZnPbComponentsData',
 			[
 				'schemas'       => apply_filters(
@@ -142,6 +147,11 @@ class CommonJS {
 			]
 		);
 
+		wp_localize_script(
+			$handle,
+			'ZnI18NStrings',
+			Localization::get_strings()
+		);
 	}
 
 	public static function enqueue_responsive_devices( $handle ) {

@@ -146,14 +146,14 @@ const components = [
 	getDefaultGradient,
 ];
 
-const install = (app: App) => {
+function install(app: App) {
 	components.forEach(component => {
 		app.component(component.name, component);
 	});
 
 	// Add the tooltip directive
 	app.directive('znpb-tooltip', PopperDirective);
-};
+}
 
 export {
 	ListScroll,

@@ -163,7 +163,7 @@ defineExpose({
 </script>
 
 <style lang="scss">
-@import '/@/common/scss/_mixins.scss';
+@import '../../scss/_mixins.scss';
 body {
 	.zion-input {
 		position: relative;

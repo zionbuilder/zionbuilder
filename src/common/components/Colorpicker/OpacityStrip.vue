@@ -118,7 +118,8 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '../../scss/_mixins.scss';
+
 .znpb-colorpicker-inner-editor__opacity {
 	@extend %opacitybg;
 

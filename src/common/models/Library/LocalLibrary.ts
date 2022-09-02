@@ -1,5 +1,5 @@
 import { LibrarySource } from './LibrarySource';
-import { deleteLibraryItem, addLibraryItem, importLibraryItem } from '/@/common/api';
+import { deleteLibraryItem, addLibraryItem, importLibraryItem } from '../../api';
 import { LibraryItem } from './LibraryItem';
 
 export class LocalLibrary extends LibrarySource {

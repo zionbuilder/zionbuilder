@@ -108,13 +108,13 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "/@/common/scss/_mixins.scss";
+@import '../../scss/_mixins.scss';
 .znpb-gradient-dragger {
 	@include circlesimple(12px);
 	position: absolute;
 	top: 0;
 	left: 0;
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, .2);
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 	border: 2px solid #fff;
 	transform: translate(-50%, 150%);
 }
