@@ -214,6 +214,7 @@ class Admin {
 				[ 'wp-codemirror', 'media-views' ],
 				Plugin::instance()->get_version()
 			);
+			wp_add_inline_style( 'znpb-admin-settings-page-styles', Plugin::instance()->icons->get_icons_css() );
 
 			wp_enqueue_media();
 			// This is needed because wp_editor somehow unloads dashicons

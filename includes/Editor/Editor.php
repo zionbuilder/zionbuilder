@@ -213,15 +213,7 @@ class Editor {
 			Plugin::instance()->get_version()
 		);
 
-		// Load rtl
-		if ( is_rtl() ) {
-			Plugin::instance()->scripts->enqueue_style(
-				'znpb-editor-rtl-styles',
-				'css/rtl.css',
-				[],
-				Plugin::instance()->get_version()
-			);
-		};
+		wp_add_inline_style( 'zion-editor-style', Plugin::instance()->icons->get_icons_css() );
 
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
