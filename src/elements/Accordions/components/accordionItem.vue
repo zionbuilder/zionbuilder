@@ -1,8 +1,5 @@
 <template>
-	<div
-		class="zb-el-accordions-accordionWrapper"
-		:class="{'zb-el-accordions--active': activeByDefault}"
-	>
+	<div class="zb-el-accordions-accordionWrapper" :class="{ 'zb-el-accordions--active': activeByDefault }">
 		<slot name="start" />
 
 		<div
@@ -10,7 +7,7 @@
 			:class="accordionApi.getStyleClasses('inner_content_styles_title')"
 			v-bind="accordionApi.getAttributesForTag('inner_content_styles_title')"
 		>
-			{{options.title}}
+			{{ options.title }}
 			<span class="zb-el-accordions-accordionIcon"></span>
 		</div>
 		<div
@@ -18,36 +15,33 @@
 			:class="accordionApi.getStyleClasses('inner_content_styles_content')"
 			v-bind="accordionApi.getAttributesForTag('inner_content_styles_content')"
 		>
-			<div
-				v-html="renderedContent"
-				class="zb-el-accordions-accordionContent__inner"
-			></div>
+			<div class="zb-el-accordions-accordionContent__inner" v-html="renderedContent"></div>
 		</div>
 		<slot name="end" />
 	</div>
 </template>
 
 <script>
-import { computed, inject } from 'vue'
+import { computed, inject } from 'vue';
 
 export default {
-	name: 'accordion_item',
+	name: 'AccordionItem',
 	props: ['options', 'element', 'api'],
-	setup (props) {
+	setup(props) {
 		let renderedContent = computed(() => {
-			return props.options.content ? props.options.content : 'accordion content'
-		})
+			return props.options.content ? props.options.content : 'accordion content';
+		});
 		let activeByDefault = computed(() => {
-			return props.options.active_by_default ? props.options.active_by_default : false
-		})
+			return props.options.active_by_default ? props.options.active_by_default : false;
+		});
 
-		const accordionApi = inject('accordionsApi')
+		const accordionApi = inject('accordionsApi');
 
 		return {
 			renderedContent,
 			activeByDefault,
-			accordionApi
-		}
-	}
-}
+			accordionApi,
+		};
+	},
+};
 </script>
