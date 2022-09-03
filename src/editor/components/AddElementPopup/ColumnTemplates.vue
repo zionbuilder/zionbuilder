@@ -253,6 +253,7 @@ export default {
 .znpb-columns-templates {
 	display: grid;
 	color: var(--zb-surface-lighter-color);
+	padding: 0 10px 0 10px;
 
 	grid-column-gap: 15px;
 	grid-row-gap: 15px;
@@ -284,7 +285,7 @@ export default {
 	&__icon {
 		display: grid;
 		box-sizing: content-box;
-		width: 100px;
+		width: 104px;
 		height: 50px;
 		cursor: pointer;
 

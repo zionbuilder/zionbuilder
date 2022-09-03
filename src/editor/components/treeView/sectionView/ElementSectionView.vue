@@ -53,45 +53,48 @@ const error = ref(null);
 const loading = ref(true);
 
 onMounted(() => {
-	const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
+	// Wait 100ms. This is needed so we can make sure the element is actually rendered on the page
+	setTimeout(() => {
+		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
 
-	if (!domElement) {
-		console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
-		return;
-	}
-
-	function filter(node) {
-		if (node && node.classList) {
-			if (node.classList.contains('znpb-empty-placeholder')) {
-				return false;
-			}
-
-			if (node.classList.contains('znpb-element-toolbox')) {
-				return false;
-			}
+		if (!domElement) {
+			console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);
+			return;
 		}
-		return true;
-	}
 
-	domtoimage
-		.toPng(domElement, {
-			style: {
-				width: '100%',
-				margin: 0,
-			},
-			filter: filter,
-		})
-		.then(dataUrl => {
-			imageSrc.value = dataUrl;
-		})
-		.catch(error => {
-			error = true;
-			// eslint-disable-next-line
-					console.error(translate("oops_something_wrong"), error);
-		})
-		.finally(() => {
-			loading.value = false;
-		});
+		function filter(node) {
+			if (node && node.classList) {
+				if (node.classList.contains('znpb-empty-placeholder')) {
+					return false;
+				}
+
+				if (node.classList.contains('znpb-element-toolbox')) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		domtoimage
+			.toPng(domElement, {
+				style: {
+					width: '100%',
+					margin: 0,
+				},
+				filter: filter,
+			})
+			.then(dataUrl => {
+				imageSrc.value = dataUrl;
+			})
+			.catch(error => {
+				error = true;
+				// eslint-disable-next-line
+				console.error(translate("oops_something_wrong"), error);
+			})
+			.finally(() => {
+				loading.value = false;
+			});
+	}, 100);
 });
 
 const elementName = computed({

@@ -135,7 +135,7 @@ class Cache {
 		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
 		// Register scripts
-		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/modalJS.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-modal', Utils::get_file_url( 'assets/vendors/js/modal.min.js' ), [], Plugin::instance()->get_version(), true );
 
 		// Video
 		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
