@@ -1,5 +1,15 @@
 <template>
-	<span class="znpb-editor-icon-wrapper" :style="iconStyles" :class="iconClass" v-html="getSvgIcon"> </span>
+	<span class="znpb-editor-icon-wrapper" :style="iconStyles" :class="iconClass">
+		<svg
+			v-if="iconSettings"
+			class="zion-svg-inline znpb-editor-icon zion-${props.icon} zion-icon"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden="true"
+			:viewBox="iconSettings.viewBox"
+			:preserveAspectRatio="props.preserveAspectRatio || ''"
+			v-html="iconSettings.pathString"
+		></svg>
+	</span>
 </template>
 
 <script lang="ts">
@@ -48,33 +58,11 @@ const iconClass = computed(() => {
 	};
 });
 
-const elementTransform = computed(() => {
-	let cssStyles = '';
-	if (props.rotate) {
-		if (typeof props.rotate === 'string' || typeof props.rotate === 'number') {
-			cssStyles = `rotate(${props.rotate}deg)`;
-		} else cssStyles = 'rotate(90deg)';
-	}
-	return cssStyles;
-});
-
-const getSvgIcon = computed(() => {
-	return `<svg
-				class="zion-svg-inline znpb-editor-icon zion-${props.icon} zion-icon"
-				xmlns="http://www.w3.org/2000/svg"
-				aria-hidden="true"
-				viewBox="${iconViewbox.value}"
-				preserveAspectRatio="${props.preserveAspectRatio || ''}"
-			>
-				${getIcon.value}
-			</svg>`;
-});
-
-const getIcon = computed(() => {
+const iconSettings = computed(() => {
 	const iconOption = getSearchIcon(props.icon);
 
 	if (!iconOption) {
-		return null;
+		return {};
 	}
 
 	let pathString = '';
@@ -101,15 +89,20 @@ const getIcon = computed(() => {
 		pathString += `<path fill="currentColor" d="${path}"></path>`;
 	}
 
-	return pathString;
+	return {
+		viewBox: iconOption?.viewBox ? iconOption?.viewBox.join('') : '0 0 50 50 ',
+		pathString: pathString,
+	};
 });
 
-const iconViewbox = computed(() => {
-	const iconOption = getSearchIcon(props.icon);
-	if (!iconOption || !iconOption.viewBox) {
-		return '0 0 50 50 ';
+const elementTransform = computed(() => {
+	let cssStyles = '';
+	if (props.rotate) {
+		if (typeof props.rotate === 'string' || typeof props.rotate === 'number') {
+			cssStyles = `rotate(${props.rotate}deg)`;
+		} else cssStyles = 'rotate(90deg)';
 	}
-	return iconOption.viewBox;
+	return cssStyles;
 });
 </script>
 

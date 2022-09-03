@@ -23,7 +23,11 @@
 				@click.stop="expanded = !expanded"
 			/>
 
-			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
+			<UIElementIcon
+				:element="element.elementDefinition"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
+				:size="24"
+			/>
 
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
@@ -71,13 +75,13 @@ const elementName = computed({
 	},
 });
 
-const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
+const justAdded = ref(false);
+const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props.element);
 
-let justAdded = false;
 if (UIStore.contentTimestamp) {
-	const justAdded = ref(
-		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : null,
-	);
+	justAdded.value =
+		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : false;
+
 	if (justAdded.value) {
 		setTimeout(() => {
 			justAdded.value = false;
