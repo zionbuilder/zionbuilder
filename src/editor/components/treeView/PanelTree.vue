@@ -113,11 +113,17 @@ const closeWireframe = () => {
 };
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 
 /* style panel */
 .znpb-editor-panel__container--wireframe {
 	width: 100% !important;
+}
+
+.znpb-tree-view__tabs {
+	display: flex;
+	flex-direction: column;
+	min-height: 1px;
 }
 
 .znpb-tree-view__tabs .znpb-tabs__header > .znpb-tabs__header-item {
