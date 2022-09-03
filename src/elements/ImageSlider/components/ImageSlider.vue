@@ -67,6 +67,7 @@ const elementOptions = computed(() => {
 				rawConfig: {
 					observer: true,
 					autoplay: props.options.autoplay,
+					speed: props.options.speed || 300,
 				},
 		  }
 		: {};
