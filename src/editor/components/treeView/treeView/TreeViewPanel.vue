@@ -24,7 +24,7 @@
 				<Icon icon="delete" :size="10" />
 			</a>
 
-			<a href="#" @click="treeViewExpanded = !treeViewExpanded">
+			<a href="#" @click="(treeViewExpanded = !treeViewExpanded), (expandedItems = [])">
 				<template v-if="!treeViewExpanded">
 					{{ translate('expand_all') }}
 					<Icon icon="long-arrow-down" :size="10" />
@@ -42,11 +42,14 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, provide } from 'vue';
+import { ref, Ref, computed, provide, watch } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 
 // components
 import TreeViewList from './TreeViewList.vue';
+import { useUIStore } from '/@/editor/store';
+
+const UIStore = useUIStore();
 
 const props = defineProps<{
 	element: ZionElement;
@@ -54,12 +57,29 @@ const props = defineProps<{
 
 const treeViewExpanded = ref(false);
 const showModalConfirm = ref(false);
+const expandedItems: Ref<string[]> = ref([]);
 
 const canRemove = computed(() => {
 	return props.element.content.length === 0;
 });
 
 provide('treeViewExpandStatus', treeViewExpanded);
+
+watch(
+	() => UIStore.editedElement,
+	(newElement, oldElement) => {
+		if (newElement && newElement !== oldElement) {
+			let parentUIDS = [newElement.uid];
+			while (newElement.parent && newElement.parent.element_type !== 'contentRoot') {
+				parentUIDS.push(newElement.parent.uid);
+
+				newElement = newElement.parent;
+			}
+
+			expandedItems.value = parentUIDS;
+		}
+	},
+);
 
 function removeAllElements() {
 	window.zb.run('editor/elements/remove_all', {
@@ -69,6 +89,8 @@ function removeAllElements() {
 	// Close modal
 	showModalConfirm.value = false;
 }
+
+provide('treeViewExpandedItems', expandedItems);
 </script>
 <style lang="scss">
 .znpb-tree-viewExpandContainer {

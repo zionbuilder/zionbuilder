@@ -46,7 +46,7 @@
 			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList v-show="expanded" :element="element" @expand-panel="expanded = true" />
+		<TreeViewList v-if="newWatch" :element="element" />
 	</li>
 </template>
 
@@ -62,12 +62,11 @@ import TreeViewList from './TreeViewList.vue';
 const props = defineProps<{
 	element: ZionElement;
 }>();
-const emit = defineEmits(['expand-panel']);
 
 const UIStore = useUIStore();
 
 const listItem: Ref<HTMLElement | null> = ref(null);
-const expanded = ref(false);
+
 const elementName = computed({
 	get: () => props.element.name,
 	set(newValue: string) {
@@ -78,6 +77,7 @@ const elementName = computed({
 const justAdded = ref(false);
 const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props.element);
 
+// Highlight the element when it is first added in the page
 if (UIStore.contentTimestamp) {
 	justAdded.value =
 		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : false;
@@ -89,28 +89,36 @@ if (UIStore.contentTimestamp) {
 	}
 }
 
+// Scroll to item when it is edited or active
 watch(
 	() => UIStore.editedElement,
 	newValue => {
 		if (newValue === props.element) {
-			emit('expand-panel');
-			scrollToItem();
+			if (listItem.value) {
+				listItem.value.scrollIntoView({
+					behavior: 'smooth',
+					inline: 'center',
+					block: 'center',
+				});
+			}
 		}
 	},
 );
 
-const treeViewExpandStatus = inject('treeViewExpandStatus');
-watch(treeViewExpandStatus, newValue => (expanded.value = newValue));
+// Expanded state
+const expanded = ref(false);
+const expandedItems: Ref<[]> = inject('treeViewExpandedItems');
+const treeViewExpandStatus: Ref<boolean> = inject('treeViewExpandStatus');
 
-function scrollToItem() {
-	if (listItem.value) {
-		listItem.value.scrollIntoView({
-			behavior: 'smooth',
-			inline: 'center',
-			block: 'center',
-		});
+const newWatch = computed(() => {
+	let isExpanded = expanded.value;
+	isExpanded = treeViewExpandStatus.value;
+	if (expandedItems.value.includes(props.element.uid)) {
+		isExpanded = true;
 	}
-}
+
+	return isExpanded;
+});
 </script>
 <style lang="scss">
 .znpb-tree-view__item {

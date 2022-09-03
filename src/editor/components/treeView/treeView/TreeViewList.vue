@@ -15,7 +15,6 @@
 			:key="childElement.uid"
 			:element="childElement"
 			:data-zion-element-uid="childElement.uid"
-			@expand-panel="$emit('expand-panel')"
 		/>
 
 		<template #end>
@@ -43,8 +42,6 @@ import { useTreeViewList } from '../useTreeViewList';
 const props = defineProps<{
 	element: ZionElement;
 }>();
-
-defineEmits(['expand-panel']);
 
 // Stores
 const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
