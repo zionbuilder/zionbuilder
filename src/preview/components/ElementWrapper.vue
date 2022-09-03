@@ -305,7 +305,7 @@ export default {
 		};
 
 		// Prevents us using stop propagation that can affect other elements
-		const onElementClick = event => {
+		const onElementClick = () => {
 			if (clickHandled) {
 				return;
 			}

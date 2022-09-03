@@ -1,25 +1,21 @@
 <template>
-	<transition appear name="bounce-add-icon">
-		<div
-			ref="addElementsPopupButton"
-			v-znpb-tooltip="positionString + ' ' + elementName"
-			class="znpb-element-toolbox__add-element-button"
-			:class="{
-				[`znpb-element-toolbox__add-element-button--${position}`]: position,
-				[`znpb-element-toolbox__add-element-button--${placement}`]: placement,
-				['znpb-element-toolbox__add-element-button--active']: isPopupActive,
-			}"
-			@click.stop="onIconClick"
-		>
-			<Icon icon="plus" :rounded="true" />
-		</div>
-	</transition>
+	<div
+		ref="root"
+		v-znpb-tooltip="positionString + ' ' + element.name"
+		class="znpb-element-toolbox__add-element-button"
+		:class="{
+			[`znpb-element-toolbox__add-element-button--${position}`]: position,
+			[`znpb-element-toolbox__add-element-button--${placement}`]: placement,
+		}"
+	>
+		<Icon icon="plus" :rounded="true" />
+	</div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from 'vue';
 import { translate } from '/@/common/modules/i18n';
-import { useContentStore, useUIStore } from '../store';
+import { useUIStore } from '../store';
+import { ref, onBeforeUnmount, onMounted } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -35,33 +31,24 @@ const props = withDefaults(
 	},
 );
 
-const contentStore = useContentStore();
+const root = ref(null);
 const UIStore = useUIStore();
-
-const addElementsPopupButton = ref(null);
-const isIconClicked = ref(false);
-
 const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
 
-const isPopupActive = computed(() => {
-	return (
-		isIconClicked.value && UIStore.activeAddElementPopup && UIStore.activeAddElementPopup.element === props.element
-	);
+onMounted(() => {
+	if (root.value) {
+		root.value.addEventListener('click', onIconClick, true);
+	}
 });
 
-const elementName = computed(() => contentStore.getElementName(props.element));
-
-watch(
-	() => UIStore.activeAddElementPopup,
-	newValue => {
-		if (!newValue || (newValue && newValue.element !== props.element)) {
-			isIconClicked.value = false;
-		}
-	},
-);
+onBeforeUnmount(() => {
+	if (root.value) {
+		root.value.removeEventListener('click', onIconClick, true);
+	}
+});
 
 function onIconClick(event: MouseEvent) {
-	isIconClicked.value = true;
+	event.stopPropagation();
 	UIStore.showAddElementsPopup(props.element, event, props.placement);
 }
 </script>
@@ -117,23 +104,7 @@ function onIconClick(event: MouseEvent) {
 
 	svg {
 		position: relative;
+		pointer-events: none;
 	}
-}
-
-.bounce-add-icon-enter-from {
-	transform: scale(0.9);
-}
-.bounce-add-icon-enter-to {
-	transform: scale(1);
-}
-.bounce-add-icon-leave-from {
-	transform: scale(0.5);
-}
-.bounce-add-icon-leave-to {
-	transform: scale(0);
-}
-.bounce-add-icon-enter-to,
-.bounce-add-icon-leave-from {
-	transition: scale 0.2s;
 }
 </style>
