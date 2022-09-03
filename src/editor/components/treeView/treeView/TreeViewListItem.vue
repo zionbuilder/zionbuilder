@@ -46,7 +46,7 @@
 			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList v-if="newWatch" :element="element" />
+		<TreeViewList v-if="expanded" :element="element" />
 	</li>
 </template>
 
@@ -106,18 +106,18 @@ watch(
 );
 
 // Expanded state
-const expanded = ref(false);
 const expandedItems: Ref<[]> = inject('treeViewExpandedItems');
 const treeViewExpandStatus: Ref<boolean> = inject('treeViewExpandStatus');
+const expanded = ref(treeViewExpandStatus.value || expandedItems.value.includes(props.element.uid) || false);
 
-const newWatch = computed(() => {
-	let isExpanded = expanded.value;
-	isExpanded = treeViewExpandStatus.value;
+watch(treeViewExpandStatus, newValue => {
+	expanded.value = newValue;
+});
+
+watch(expandedItems, newValue => {
 	if (expandedItems.value.includes(props.element.uid)) {
-		isExpanded = true;
+		expanded.value = true;
 	}
-
-	return isExpanded;
 });
 </script>
 <style lang="scss">
