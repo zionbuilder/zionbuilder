@@ -1,7 +1,7 @@
 <template>
-	<div :contenteditable="enabled" spellcheck="false" @input="onInput">
+	<component :is="tag" :contenteditable="enabled" spellcheck="false" @input="onInput">
 		{{ modelValue }}
-	</div>
+	</component>
 </template>
 
 <script lang="ts">
@@ -15,10 +15,12 @@ withDefaults(
 	defineProps<{
 		modelValue?: string;
 		enabled?: boolean;
+		tag?: string;
 	}>(),
 	{
 		modelValue: '',
 		enabled: true,
+		tag: 'div',
 	},
 );
 
