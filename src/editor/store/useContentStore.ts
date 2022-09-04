@@ -117,7 +117,7 @@ export const useContentStore = defineStore('content', {
 				const UIStore = useUIStore();
 
 				// Close the options panel if this element is active
-				if (UIStore.editedElement && UIStore.editedElement.uid === element.uid) {
+				if (UIStore.editedElementUID === element.uid) {
 					UIStore.unEditElement();
 				}
 
