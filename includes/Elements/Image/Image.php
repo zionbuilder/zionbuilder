@@ -249,16 +249,17 @@ class Image extends Element {
 		);
 
 		if ( ! empty( $link['link'] ) ) {
-			$this->attach_link_attributes( 'link', $link );
+			$this->attach_link_attributes( 'link_styles', $link );
 			$html_tag = 'a';
 		}
 
 		if ( $use_modal ) {
-			$this->render_attributes->add( 'link', 'href', 'https://vimeo.com/357762214', true );
+			$this->render_attributes->add( 'link_styles', 'href', 'https://vimeo.com/357762214', true );
 			$html_tag = 'a';
 		}
 
-		$this->render_tag( $html_tag, 'link', $image );
+		$this->render_tag( $html_tag, 'link_styles', $image );
+
 		if ( $show_caption && $caption_text ) {
 			$this->render_tag(
 				'div',
