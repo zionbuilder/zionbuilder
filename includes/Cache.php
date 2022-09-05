@@ -151,7 +151,7 @@ class Cache {
 			'animateJS',
 			[],
 			Plugin::instance()->get_version(),
-			false
+			true
 		);
 
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
