@@ -1,5 +1,10 @@
 <template>
-	<input v-model="computedModelValue" class="znpb-inlineEditInput" />
+	<input
+		v-model="computedModelValue"
+		:readonly="!enabled"
+		class="znpb-inlineEditInput"
+		:class="{ 'znpb-inlineEditInput--readonly': !enabled }"
+	/>
 </template>
 
 <script lang="ts">
@@ -43,5 +48,9 @@ const computedModelValue = computed({
 	background: transparent;
 	color: inherit;
 	font-size: inherit;
+}
+
+.znpb-inlineEditInput--readonly {
+	cursor: pointer;
 }
 </style>

@@ -4,10 +4,7 @@
 
 		<div ref="elementContentRef" :class="{ 'znpb__server-element--loading': loading }" />
 
-		<div
-			v-if="!loading && (elementContent.length === 0 || elementNotSelectable || requiresDataForRender)"
-			class="znpb__server-element--empty"
-		>
+		<div v-if="!loading && (elementContent.length === 0 || elementNotSelectable)" class="znpb__server-element--empty">
 			<img :src="logoUrl" />
 		</div>
 
@@ -37,28 +34,59 @@ export default {
 		},
 	},
 	setup(props) {
-		const contentModel = props.element.elementDefinition;
 		const logoUrl = window.ZnPbInitialData.urls.logo;
 		const elementContentRef = ref(null);
 		const elementContent = ref('');
 		const loading = ref(true);
 		const elementNotSelectable = ref(false);
 
-		const requiresDataForRender = computed(() => {
-			const elementModel = contentModel;
-			const { _styles, _advanced_options: advancedOptions, ...options } = props.options;
-			return elementModel.requires_data_for_render && Object.keys(options).length === 0;
+		const optionsThatRequireServerRequest = computed(() => {
+			const elementModel = props.element.elementDefinition;
+
+			// Check for options that don't require a server render
+			if (!elementModel.options) {
+				return [];
+			}
+
+			const optionThatRequireServerRender = Object.keys(elementModel.options).filter(optionID => {
+				const option = elementModel.options[optionID];
+				return !option.css_style;
+			});
+
+			return optionThatRequireServerRender;
 		});
 
 		const elementDataForRender = computed(() => {
-			let { _styles: newMedia, _advanced_options: newAdvanced, ...remainingNewProperties } = props.options;
+			const elementOptions = props.element.elementDefinition.options;
 
-			return JSON.stringify(remainingNewProperties);
+			// Check for options that don't require a server render
+			// TODO: sa verific un element care nu are optiuni
+			if (!elementOptions) {
+				return {};
+			}
+
+			let { _styles: newMedia, _advanced_options: newAdvanced, ...remainingNewProperties } = props.options;
+			let optionsThatRequireServerRequest = {};
+
+			Object.keys(remainingNewProperties).forEach(optionID => {
+				const optionSchema = elementOptions[optionID];
+				if (typeof optionSchema !== 'undefined') {
+					if (!optionSchema.css_style) {
+						optionsThatRequireServerRequest[optionID] = remainingNewProperties[optionID];
+					}
+				} else {
+					optionsThatRequireServerRequest[optionID] = remainingNewProperties[optionID];
+				}
+			});
+
+			return JSON.stringify(optionsThatRequireServerRequest);
 		});
 
 		watch(elementDataForRender, (newValue, oldValue) => {
-			// Stringify the values so we can only compare values
-			debouncedGetElementFromServer();
+			if (newValue !== oldValue) {
+				// Stringify the values so we can only compare values
+				debouncedGetElementFromServer();
+			}
 		});
 
 		function setInnerHTML(content) {
@@ -180,10 +208,8 @@ export default {
 		});
 
 		return {
-			contentModel,
 			logoUrl,
 			elementContentRef,
-			requiresDataForRender,
 			elementContent,
 			loading,
 			elementNotSelectable,
