@@ -207,6 +207,7 @@ function getColumnResponsivePrefix(responsiveMediaId: string) {
 			display: flex;
 			flex-basis: 0;
 			flex-grow: 1;
+			color: var(--zb-surface-text-hover-color);
 
 			&--visibility-icon {
 				display: flex;
