@@ -46,7 +46,7 @@ const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props);
+const { showElementMenu, elementOptionsRef, isActiveItem, editElement, elementModel } = useTreeViewItem(props.element);
 
 const imageSrc = ref(null);
 const error = ref(null);

@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-09-05 14:02+0000\n"
+"POT-Creation-Date: 2022-09-05 15:14+0000\n"
 "Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
@@ -2784,11 +2784,15 @@ msgstr ""
 msgid "Toogle"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:140, ../includes/Elements/IconBox/IconBox.php:232, ../includes/Elements/ImageBox/ImageBox.php:244, ../includes/Elements/PricingBox/PricingBox.php:255, ../includes/Elements/ProgressBars/ProgressBars.php:264
+#: ../includes/Elements/Accordions/Accordions.php:140
+msgid "Single accordion wrapper"
+msgstr ""
+
+#: ../includes/Elements/Accordions/Accordions.php:150, ../includes/Elements/IconBox/IconBox.php:232, ../includes/Elements/ImageBox/ImageBox.php:244, ../includes/Elements/PricingBox/PricingBox.php:255, ../includes/Elements/ProgressBars/ProgressBars.php:264
 msgid "Title styles"
 msgstr ""
 
-#: ../includes/Elements/Accordions/Accordions.php:150, ../includes/Elements/Tabs/Tabs.php:164
+#: ../includes/Elements/Accordions/Accordions.php:160, ../includes/Elements/Tabs/Tabs.php:164
 msgid "Content styles"
 msgstr ""
 
