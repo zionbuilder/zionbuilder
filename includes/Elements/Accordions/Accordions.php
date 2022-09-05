@@ -135,6 +135,16 @@ class Accordions extends Element {
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
+			'single_accordion_styles',
+			[
+				'title'                   => esc_html__( 'Single accordion wrapper', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-accordions-accordionWrapper',
+				'allow_custom_attributes' => false,
+				'allow_class_assignments' => false,
+			]
+		);
+
+		$this->register_style_options_element(
 			'inner_content_styles_title',
 			[
 				'title'                   => esc_html__( 'Title styles', 'zionbuilder' ),
