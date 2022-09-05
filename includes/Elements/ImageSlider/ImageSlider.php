@@ -230,6 +230,9 @@ class ImageSlider extends Element {
 	 * @return void
 	 */
 	public function before_render( $options ) {
+		// Add the swiper class
+		$this->render_attributes->add( 'wrapper', 'class', 'swiper' );
+
 		$autoplay = $options->get_value( 'autoplay' );
 
 		$config = [

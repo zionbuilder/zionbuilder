@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="swiper">
 		<slot name="start" />
 
 		<div ref="sliderWrapper" class="swiper-container" :data-zion-slider-config="elementOptions">
