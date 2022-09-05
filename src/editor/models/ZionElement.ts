@@ -26,6 +26,7 @@ export class ZionElement {
 	public serverRequester = null;
 	public addedTime = 0;
 	public isWrapper = false;
+	public callbacks: Record<string, unknown> = {};
 
 	constructor(elementData: ZionElementConfig, parent: string) {
 		const contentStore = useContentStore();
@@ -280,5 +281,28 @@ export class ZionElement {
 		const clonedElement = regenerateUIDs(elementAsJson);
 
 		return clonedElement;
+	}
+
+	// Element API
+	trigger(type, ...data) {
+		const callbacks = this.callbacks[type] || [];
+
+		callbacks.forEach(calback => {
+			calback(...data);
+		});
+	}
+
+	on(type, callback) {
+		this.callbacks[type] = this.callbacks[type] || [];
+		this.callbacks[type].push(callback);
+	}
+
+	off(type, callback) {
+		const callbacks = this.callbacks[type] || [];
+		const callbackIndex = callbacks.indexOf(callback);
+
+		if (callbackIndex !== -1) {
+			this.callbacks[type].splice(callbackIndex, 1);
+		}
 	}
 }

@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { inject } from 'vue';
 import { useElementProvide } from '../../../composables';
 export default {
 	name: 'ElementEventButton',
@@ -24,7 +23,7 @@ export default {
 		const element = injectElement();
 
 		function onClick() {
-			element.value.trigger(props.event);
+			element.trigger(props.event);
 		}
 
 		return {
