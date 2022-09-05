@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-09-03 10:37+0000\n"
+"POT-Creation-Date: 2022-09-05 08:18+0000\n"
 "Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
@@ -3714,6 +3714,10 @@ msgstr ""
 
 #: ../includes/Elements/ImageSlider/ImageSlider.php:177
 msgid "Autoplay speed"
+msgstr ""
+
+#: ../includes/Elements/ImageSlider/ImageSlider.php:189
+msgid "Transition speed"
 msgstr ""
 
 #: ../includes/Elements/PricingBox/PricingBox.php:39
