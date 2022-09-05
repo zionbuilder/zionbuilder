@@ -203,7 +203,7 @@ export default {
 							if (attributeValue.attribute_name) {
 								additionalAttributes[styleID] = additionalAttributes[styleID] || {};
 
-								let cleanAttrName = kebabCase(attributeValue.attribute_name);
+								let cleanAttrName = attributeValue.attribute_name;
 								let cleanAttrValue = escape(attributeValue.attribute_value);
 								additionalAttributes[styleID][cleanAttrName] = cleanAttrValue;
 							}
