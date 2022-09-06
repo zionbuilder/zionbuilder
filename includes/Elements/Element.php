@@ -150,6 +150,13 @@ class Element {
 	private $current_provides = array();
 
 	/**
+	 * Helper flag that is added when the element is rendered in editor mode from the server
+	 *
+	 * @var boolean
+	 */
+	public $is_server_render = false;
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -1464,6 +1471,11 @@ class Element {
 	}
 
 	public function render_placeholder_info( $config ) {
+		// Only render the placeholder in server render
+		if ( ! $this->is_server_render ) {
+			return;
+		}
+
 		$config = wp_parse_args(
 			$config,
 			array(

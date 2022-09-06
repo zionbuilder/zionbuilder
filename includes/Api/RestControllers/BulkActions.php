@@ -141,6 +141,8 @@ class BulkActions extends RestApiController {
 		$element_instance = $elements_manager->get_element_instance_with_data( $element_data );
 
 		if ( $element_instance ) {
+			$element_instance->is_server_render = true;
+
 			ob_start();
 			$element_instance->server_render( $config );
 			$element_data = ob_get_clean();
