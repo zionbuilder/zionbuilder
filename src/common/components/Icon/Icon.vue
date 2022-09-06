@@ -2,8 +2,11 @@
 	<span class="znpb-editor-icon-wrapper" :style="iconStyles" :class="iconClass">
 		<svg
 			v-if="iconSettings"
-			class="zion-svg-inline znpb-editor-icon zion-${props.icon} zion-icon"
+			class="zion-svg-inline znpb-editor-icon zion-icon"
 			xmlns="http://www.w3.org/2000/svg"
+			:class="{
+				[`zion-${icon}`]: icon,
+			}"
 			aria-hidden="true"
 			:viewBox="iconSettings.viewBox"
 			:preserveAspectRatio="props.preserveAspectRatio || ''"
