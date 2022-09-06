@@ -48,6 +48,7 @@ const computedModelValue = computed({
 	background: transparent;
 	color: inherit;
 	font-size: inherit;
+	font-family: inherit;
 }
 
 .znpb-inlineEditInput--readonly {
