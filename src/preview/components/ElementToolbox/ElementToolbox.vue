@@ -486,7 +486,7 @@ export default {
 
 			window.zb.run('editor/elements/update-element-options', {
 				elementUID: this.element.uid,
-				newValues: newValue,
+				newValues: `${newValue}px`,
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
 			});
 
@@ -502,7 +502,7 @@ export default {
 					this.popperRefValues.clientY = bottom;
 				} else this.popperRefValues.clientX = left;
 
-				this.$refs[`sizeDrag--${this.activeDragPosition}`].scheduleUpdate();
+				this.$refs[`sizeDrag--${this.activeDragPosition}`][0].scheduleUpdate();
 			}
 		},
 		endDragging() {
