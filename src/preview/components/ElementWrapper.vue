@@ -610,4 +610,38 @@ export default {
 		padding: 10px;
 	}
 }
+
+.znpb-el-notice {
+	color: #fff;
+	font-size: 13px;
+	position: relative;
+	background-color: rgba(40, 40, 44, 0.6);
+	border-radius: 4px;
+	padding: 20px 20px 20px 56px;
+	width: 100%;
+	margin: 20px;
+}
+
+.znpb-el-notice h3 {
+	font-size: 15px;
+	margin: 0 0 5px;
+}
+
+.znpb-el-notice a {
+	font-weight: 700;
+}
+
+.znpb-el-notice .znpb-editor-icon-wrapper {
+	color: rgba(255, 255, 255, 0.4);
+	position: absolute;
+	font-size: 26px;
+	margin-left: -36px;
+}
+
+.znpb-el-notice .znpb-editor-icon-wrapper svg {
+	fill: currentColor;
+	width: 1em;
+	height: 1em;
+	display: block;
+}
 </style>
