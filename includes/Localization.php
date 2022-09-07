@@ -231,8 +231,8 @@ class Localization {
 				'download'                                 => __( 'Download', 'zionbuilder' ),
 				// panel name
 				'history_panel'                            => __( 'History', 'zionbuilder' ),
-				'history_panel_empty_title'                    => __( 'Your history is empty', 'zionbuilder' ),
-				'history_panel_empty_desc'                    => __( 'Modify your page and your changes will appear here', 'zionbuilder' ),
+				'history_panel_empty_title'                => __( 'Your history is empty', 'zionbuilder' ),
+				'history_panel_empty_desc'                 => __( 'Modify your page and your changes will appear here', 'zionbuilder' ),
 
 				'add_elements_panel'                       => __( 'Add elements', 'zionbuilder' ),
 				'library_panel'                            => __( 'Library', 'zionbuilder' ),
@@ -540,7 +540,7 @@ class Localization {
 					'Manage the permissions by selecting which users are allowed to use the page builder. Select to edit only the content, the post types such as Post, Pages, and the main features such as the header and the footer builder.',
 					'zionbuilder'
 				),
-				'manage_wordpress_users_permissions'        => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
+				'manage_wordpress_users_permissions'       => __( 'Manage your wordpress users permissions. Adding a new user will allow the basic permissions which can be edited afterwards.', 'zionbuilder' ),
 
 				// ModalAddNewTemplate
 				'create_new_modal_template'                => __( 'Create a new template by choosing the template type and adding a name', 'zionbuilder' ),
@@ -777,17 +777,16 @@ class Localization {
 				'hide'                                     => esc_html__( 'hide', 'zionbuilder' ),
 				'editing_started'                          => esc_html__( 'Editing started', 'zionbuilder' ),
 				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
-				'wrapped_with_container' => esc_html__( 'wrapped with container', 'zionbuilder' ),
-				'copied' => esc_html__( 'copied', 'zionbuilder' ),
+				'wrapped_with_container'                   => esc_html__( 'wrapped with container', 'zionbuilder' ),
+				'copied'                                   => esc_html__( 'copied', 'zionbuilder' ),
 				'moved'                                    => __( 'moved', 'zionbuilder' ),
-				'paste-styles'                                    => __( 'paste styles', 'zionbuilder' ),
-				'paste-css-classes'                                    => __( 'paste css classes', 'zionbuilder' ),
-				'discard-styles'                                    => __( 'discard styles', 'zionbuilder' ),
-				'template'                                    => __( 'Template', 'zionbuilder' ),
+				'paste-styles'                             => __( 'paste styles', 'zionbuilder' ),
+				'paste-css-classes'                        => __( 'paste css classes', 'zionbuilder' ),
+				'discard-styles'                           => __( 'discard styles', 'zionbuilder' ),
+				'template'                                 => __( 'Template', 'zionbuilder' ),
 				'added'                                    => __( 'Added', 'zionbuilder' ),
-				'layout'                                    => __( 'Layout', 'zionbuilder' ),
-				'edited'                                    => __( 'Edited', 'zionbuilder' ),
-
+				'layout'                                   => __( 'Layout', 'zionbuilder' ),
+				'edited'                                   => __( 'Edited', 'zionbuilder' ),
 
 			]
 		);

@@ -291,9 +291,9 @@ class Admin {
 							],
 						],
 						'urls'             => [
-							'logo'     => Whitelabel::get_logo_url(),
-							'pro_logo' => Utils::get_pro_png_url(),
-							'plugin_root' => Utils::get_file_url()
+							'logo'        => Whitelabel::get_logo_url(),
+							'pro_logo'    => Utils::get_pro_png_url(),
+							'plugin_root' => Utils::get_file_url(),
 						],
 					]
 				)
@@ -308,7 +308,7 @@ class Admin {
 				]
 			);
 
-			CommonJS::localizeCommonJSData('zb-admin');
+			CommonJS::localize_common_js_data( 'zb-admin' );
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );
 		}

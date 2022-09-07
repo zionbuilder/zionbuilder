@@ -139,19 +139,19 @@ class Video extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'       => 'checkbox_switch',
-		// 		'default'    => false,
-		// 		'layout'     => 'inline',
-		// 		'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
-		// 		'dependency' => [
-		// 			[
-		// 				'option' => 'use_image_overlay',
-		// 				'value'  => [ true ],
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'       => 'checkbox_switch',
+		//      'default'    => false,
+		//      'layout'     => 'inline',
+		//      'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
+		//      'dependency' => [
+		//          [
+		//              'option' => 'use_image_overlay',
+		//              'value'  => [ true ],
+		//          ],
+		//      ],
+		//  ]
 		// );
 	}
 

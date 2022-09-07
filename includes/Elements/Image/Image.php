@@ -123,20 +123,20 @@ class Image extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'             => 'checkbox_switch',
-		// 		'default'          => false,
-		// 		'layout'           => 'inline',
-		// 		'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
-		// 		'render_attribute' => [
-		// 			[
-		// 				'tag_id'    => 'link',
-		// 				'attribute' => 'data-zion-lightbox',
-		// 				'value'     => true,
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'             => 'checkbox_switch',
+		//      'default'          => false,
+		//      'layout'           => 'inline',
+		//      'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
+		//      'render_attribute' => [
+		//          [
+		//              'tag_id'    => 'link',
+		//              'attribute' => 'data-zion-lightbox',
+		//              'value'     => true,
+		//          ],
+		//      ],
+		//  ]
 		// );
 
 		$options->add_option(

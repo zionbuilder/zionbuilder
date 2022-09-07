@@ -245,7 +245,7 @@ class Editor {
 			]
 		);
 
-		CommonJS::localizeCommonJSData('zb-editor');
+		CommonJS::localize_common_js_data( 'zb-editor' );
 
 		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 
@@ -301,43 +301,43 @@ class Editor {
 		return apply_filters(
 			'zionbuilder/editor/initial_data',
 			[
-				'page_settings'       => [
+				'page_settings'    => [
 					'schema' => $post_instance->get_page_settings_schema(),
 					'values' => $autosave_instance->get_page_settings_values(),
 				],
-				'urls'                => [
-					'assets_url'        => Utils::get_file_url( 'assets' ),
-					'logo'              => Whitelabel::get_logo_url(),
-					'loader'            => Whitelabel::get_loader_url(),
-					'getting_started_video'            => Whitelabel::get_getting_started_video(),
-					'edit_page'         => get_edit_post_link( $this->post_id, '' ),
-					'zion_admin'        => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
-					'updates_page'      => admin_url( 'update-core.php' ),
-					'preview_frame_url' => $post_instance->get_preview_frame_url(),
-					'preview_url'       => $post_instance->get_preview_url(),
-					'all_pages_url'     => $post_instance->get_all_pages_url(),
-					'purchase_url'      => 'https://zionbuilder.io/pricing/',
-					'documentation_url' => 'https://zionbuilder.io/help-center/',
-					'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
-					'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
-					'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
-					'plugin_root' => Utils::get_file_url()
+				'urls'             => [
+					'assets_url'            => Utils::get_file_url( 'assets' ),
+					'logo'                  => Whitelabel::get_logo_url(),
+					'loader'                => Whitelabel::get_loader_url(),
+					'getting_started_video' => Whitelabel::get_getting_started_video(),
+					'edit_page'             => get_edit_post_link( $this->post_id, '' ),
+					'zion_admin'            => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
+					'updates_page'          => admin_url( 'update-core.php' ),
+					'preview_frame_url'     => $post_instance->get_preview_frame_url(),
+					'preview_url'           => $post_instance->get_preview_url(),
+					'all_pages_url'         => $post_instance->get_all_pages_url(),
+					'purchase_url'          => 'https://zionbuilder.io/pricing/',
+					'documentation_url'     => 'https://zionbuilder.io/help-center/',
+					'free_changelog'        => 'https://zionbuilder.io/changelog-free-version/',
+					'pro_changelog'         => 'https://zionbuilder.io/changelog-pro-version/',
+					'ajax_url'              => admin_url( 'admin-ajax.php', 'relative' ),
+					'plugin_root'           => Utils::get_file_url(),
 				],
-				'masks'               => Masks::getshapes(),
-				'builder_settings'    => [],
-				'page_id'             => $this->post_id,
-				'page_data'           => get_post( $this->post_id ),
-				'autosaveInterval'    => AUTOSAVE_INTERVAL,
+				'masks'            => Masks::getshapes(),
+				'builder_settings' => [],
+				'page_id'          => $this->post_id,
+				'page_data'        => get_post( $this->post_id ),
+				'autosaveInterval' => AUTOSAVE_INTERVAL,
 
 				// User data
-				'post_lock_user'      => $locked_user_name,
-				'wp_editor'           => $this->get_wp_editor(),
+				'post_lock_user'   => $locked_user_name,
+				'wp_editor'        => $this->get_wp_editor(),
 
 				// Css classes
-				'css_classes'         => CSSClasses::get_classes(),
+				'css_classes'      => CSSClasses::get_classes(),
 
 				// Plugin info
-				'plugin_info'         => [
+				'plugin_info'      => [
 					'is_pro_active'      => Utils::is_pro_active(),
 					'is_pro_installed'   => Utils::is_pro_installed(),
 					'free_version'       => Plugin::instance()->get_version(),
@@ -347,14 +347,14 @@ class Editor {
 				],
 
 				// Templates
-				'template_types'      => Plugin::$instance->templates->get_template_types(),
-				'template_sources'    => Plugin::$instance->library->get_sources(),
+				'template_types'   => Plugin::$instance->templates->get_template_types(),
+				'template_sources' => Plugin::$instance->library->get_sources(),
 
 				// Misc
-				'rtl'                 => is_rtl(),
+				'rtl'              => is_rtl(),
 
 				// User data
-				'user_data'           => User::get_user_data(),
+				'user_data'        => User::get_user_data(),
 			]
 		);
 	}
