@@ -59,6 +59,7 @@ class Scripts {
 	public function add_module_attribute( $tag, $handle, $src ) {
 		// if not your script, do nothing and return original $tag
 		if ( strpos( $src, 'http://127.0.0.1' ) === 0 ) {
+			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
 		}
 
