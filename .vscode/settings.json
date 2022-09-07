@@ -89,6 +89,8 @@
 	"phpcs.enable": true,
 	"cSpell.ignoreWords": [
 		"domtoimage",
-		"playsinline"
+		"playsinline",
+		"wpautop",
+		"wptexturize"
 	],
 }

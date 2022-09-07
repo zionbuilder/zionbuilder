@@ -35,7 +35,7 @@
 <script>
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
-import { get, debounce, each, kebabCase, escape, mergeWith, isArray, camelCase } from 'lodash-es';
+import { get, debounce, each, escape, mergeWith, isArray, camelCase } from 'lodash-es';
 import { applyFilters } from '/@/common/modules/hooks';
 import { useOptionsSchemas, usePseudoSelectors } from '/@/common/composables';
 
@@ -623,8 +623,8 @@ export default {
 }
 
 .znpb-el-notice h3 {
-	font-size: 15px;
-	margin: 0 0 5px;
+	font-size: 15px !important;
+	margin: 0 0 5px !important;
 }
 
 .znpb-el-notice a {

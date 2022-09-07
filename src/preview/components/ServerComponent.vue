@@ -4,7 +4,7 @@
 
 		<div ref="elementContentRef" :class="{ 'znpb__server-element--loading': loading }" />
 
-		<div v-if="!loading && (elementContent.length === 0 || elementNotSelectable)" class="znpb__server-element--empty">
+		<div v-if="!loading && elementContent.length === 0" class="znpb__server-element--empty">
 			<img :src="logoUrl" />
 		</div>
 
@@ -25,7 +25,10 @@ import { ScriptsLoader } from '../modules/ScriptsLoader';
 export default {
 	name: 'ServerComponent',
 	props: {
-		element: Object,
+		element: {
+			type: Object,
+			required: true,
+		},
 		options: {
 			type: Object,
 		},
@@ -40,27 +43,10 @@ export default {
 		const loading = ref(true);
 		const elementNotSelectable = ref(false);
 
-		const optionsThatRequireServerRequest = computed(() => {
-			const elementModel = props.element.elementDefinition;
-
-			// Check for options that don't require a server render
-			if (!elementModel.options) {
-				return [];
-			}
-
-			const optionThatRequireServerRender = Object.keys(elementModel.options).filter(optionID => {
-				const option = elementModel.options[optionID];
-				return !option.css_style;
-			});
-
-			return optionThatRequireServerRender;
-		});
-
 		const elementDataForRender = computed(() => {
 			const elementOptions = props.element.elementDefinition.options;
 
 			// Check for options that don't require a server render
-			// TODO: sa verific un element care nu are optiuni
 			if (!elementOptions) {
 				return {};
 			}
@@ -71,7 +57,7 @@ export default {
 			Object.keys(remainingNewProperties).forEach(optionID => {
 				const optionSchema = elementOptions[optionID];
 				if (typeof optionSchema !== 'undefined') {
-					if (!optionSchema.css_style) {
+					if (!optionSchema.css_style || optionSchema.rerender) {
 						optionsThatRequireServerRequest[optionID] = remainingNewProperties[optionID];
 					}
 				} else {

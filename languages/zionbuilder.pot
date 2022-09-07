@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-09-06 11:18+0000\n"
+"POT-Creation-Date: 2022-09-07 15:08+0000\n"
 "Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
@@ -2404,8 +2404,12 @@ msgstr ""
 msgid "Post is locked by %s"
 msgstr ""
 
-#: ../includes/Elements/Element.php:549
+#: ../includes/Elements/Element.php:556
 msgid "Wrapper"
+msgstr ""
+
+#: ../includes/Elements/Element.php:1482
+msgid "Heads up!"
 msgstr ""
 
 #: ../includes/Elements/Manager.php:214

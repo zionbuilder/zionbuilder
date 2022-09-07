@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.0.2
-Stable tag: 3.3.0
+Stable tag: 3.3.1
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,35 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.3.1 2022-07-09 =
+Added: Transition speed option for image slider
+Added: History action when adding a new element from the tabs, slider builder and accordions elements options panel
+Improvement: Contrast color for dark mode
+Improvement: Performance when rendering builder icons
+Improvement: UI for add elements popup
+Improvement: Rendering performance of editor tabs ( for example, the element options panel )
+Improvement: Don't show documentation button in admin area if user sets an empty string as documentation url in White label settings
+Improvement: Don't show image resize fields for SVG images ( SVG images cannot be resized )
+Improvement: Allow special characters in custom attributes names
+Improvement: Don't refresh elements if only options that style it are changed
+Improvement: Performance for rendered pages made with Zion Builder
+Fixed: Tree view list panel is not scrollable
+Fixed: Add elements icon opens element options panel on first click
+Fixed: Cannot scroll in element conditions dropdown option
+Fixed: Element not highlighted in tree view when added to the page
+Fixed: Tree view panel not expanding to the active edited element
+Fixed: Tree view items not appearing after clearing the page and performing an 'undo' action
+Fixed: Section view not generating image if the element requires long time to render in page
+Fixed: Modals not opening
+Fixed: Image link custom class not applying to the link HTML tag
+Fixed: Discard changes not working in certain conditions for element options
+Fixed: Cannot properly set the value for transform scale option if you use a dot separator
+Fixed: Video element scripts not loading in editor in certain conditions
+Fixed: Custom code element cannot be added in page properly
+Fixed: Image slider not displaying properly in certain conditions
+Fixed: Cursor jumps to start of the field when renaming an element from tree view panels
+Fixed: Element animations not working
+
 = 3.3.0 2022-02-09 =
 Added: Preserve higher responsive device values as options placeholders for style options
 Added: History action for paste styles on element
