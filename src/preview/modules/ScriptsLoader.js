@@ -44,7 +44,11 @@ export const ScriptsLoader = window => {
 
 	const loadScript = scriptConfig => {
 		const scriptType =
-			scriptConfig.src.indexOf('.js') !== -1 ? 'javascript' : scriptConfig.src.indexOf('.css') !== -1 ? 'css' : false;
+			scriptConfig.src.indexOf('.js') !== -1 || scriptConfig.src.indexOf('.ts') !== -1
+				? 'javascript'
+				: scriptConfig.src.indexOf('.css') !== -1
+				? 'css'
+				: false;
 
 		if (scriptType === 'javascript') {
 			if (scriptConfig.data) {
@@ -129,8 +133,8 @@ export const ScriptsLoader = window => {
 			styleLink.href = url;
 
 			styleLink.onload = () => {
-				resolve(window.document);
 				loadedStyles[url] = 'done';
+				resolve(window.document);
 			};
 
 			styleLink.onerror = () => {
