@@ -171,16 +171,14 @@ export default class ZBVideoBg {
 }
 
 // init video
-jQuery('document').ready(function () {
-	const $videoElements = jQuery('.zbjs_video_background');
-	$videoElements.each((index, el) => {
-		const $el = jQuery(el);
+const elements = Array.from(document.querySelectorAll('.zbjs_video_background'));
+if (elements.length) {
+	elements.forEach(el => {
 		const config = el.dataset.zionVideoBackground;
 		const options = JSON.parse(config);
 		// eslint-disable-next-line no-new
 		new ZBVideoBg(el, options);
-		$el.zionVideoBackgroundConfig = config;
+		el.zionVideoBackgroundConfig = config;
 	});
-});
-
+}
 window.ZBVideoBg = ZBVideoBg;
