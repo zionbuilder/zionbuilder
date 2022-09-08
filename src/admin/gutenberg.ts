@@ -45,7 +45,7 @@ function initGutenberg(args: { post_id: number; is_editor_enabled: boolean; l10n
 			editorHeader.insertAdjacentHTML('beforeend', buttonWrapperMarkup);
 		}
 
-		if (!editorLayout.querySelector('.znpb-admin-post__edit') && editorLayout) {
+		if (!editorLayout.querySelector('.znpb-admin-post__edit-block') && editorLayout) {
 			editorLayout.insertAdjacentHTML('beforeend', editorBlockFrame);
 		}
 
