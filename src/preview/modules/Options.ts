@@ -280,7 +280,9 @@ export default class Options {
 				this.addCustomCSS(device, selector, styles);
 			}
 		} else {
-			this.addCustomCSS(device, selector, value);
+			if (model !== false) {
+				this.addCustomCSS(device, selector, value);
+			}
 		}
 	}
 

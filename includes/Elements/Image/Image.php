@@ -123,20 +123,20 @@ class Image extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'             => 'checkbox_switch',
-		// 		'default'          => false,
-		// 		'layout'           => 'inline',
-		// 		'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
-		// 		'render_attribute' => [
-		// 			[
-		// 				'tag_id'    => 'link',
-		// 				'attribute' => 'data-zion-lightbox',
-		// 				'value'     => true,
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'             => 'checkbox_switch',
+		//      'default'          => false,
+		//      'layout'           => 'inline',
+		//      'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
+		//      'render_attribute' => [
+		//          [
+		//              'tag_id'    => 'link',
+		//              'attribute' => 'data-zion-lightbox',
+		//              'value'     => true,
+		//          ],
+		//      ],
+		//  ]
 		// );
 
 		$options->add_option(
@@ -249,16 +249,17 @@ class Image extends Element {
 		);
 
 		if ( ! empty( $link['link'] ) ) {
-			$this->attach_link_attributes( 'link', $link );
+			$this->attach_link_attributes( 'link_styles', $link );
 			$html_tag = 'a';
 		}
 
 		if ( $use_modal ) {
-			$this->render_attributes->add( 'link', 'href', 'https://vimeo.com/357762214', true );
+			$this->render_attributes->add( 'link_styles', 'href', 'https://vimeo.com/357762214', true );
 			$html_tag = 'a';
 		}
 
-		$this->render_tag( $html_tag, 'link', $image );
+		$this->render_tag( $html_tag, 'link_styles', $image );
+
 		if ( $show_caption && $caption_text ) {
 			$this->render_tag(
 				'div',

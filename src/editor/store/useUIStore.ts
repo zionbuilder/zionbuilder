@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
 import { useResponsiveDevices } from '/@/common/composables';
+import { useContentStore } from './useContentStore';
 interface Panel {
 	id: string;
 	component: string;
@@ -43,7 +44,7 @@ export const useUIStore = defineStore('ui', {
 		isPreviewLoading: boolean;
 		loadTimestamp: number;
 		contentTimestamp: number;
-		editedElement: ZionElement | null;
+		editedElementUID: string | null;
 		activeElementMenu: {
 			element: ZionElement;
 			selector: HTMLElement;
@@ -126,7 +127,7 @@ export const useUIStore = defineStore('ui', {
 			loadTimestamp: 0,
 			contentTimestamp: 0,
 			isPreviewLoading: true,
-			editedElement: null,
+			editedElementUID: null,
 			activeElementMenu: null,
 			isElementDragging: false,
 			activeAddElementPopup: null,
@@ -136,6 +137,10 @@ export const useUIStore = defineStore('ui', {
 	getters: {
 		openPanels: (state): Panel[] => filter(state.panels, { isActive: true }) || [],
 		isAnyPanelDragging: (state): boolean => filter(state.panels, { isDragging: true }).length > 0,
+		editedElement: state => {
+			const contentStore = useContentStore();
+			return contentStore.getElement(state.editedElementUID);
+		},
 		openPanelsIDs(): string[] {
 			return this.openPanels.map(panel => panel.id);
 		},
@@ -226,12 +231,12 @@ export const useUIStore = defineStore('ui', {
 
 		// Element
 		editElement(element: ZionElement) {
-			this.editedElement = element;
+			this.editedElementUID = element.uid;
 			this.openPanel('panel-element-options');
 		},
 		unEditElement() {
 			this.closePanel('panel-element-options');
-			this.editedElement = null;
+			this.editedElementUID = null;
 		},
 		// Panels
 		openPanel(panelId: string) {

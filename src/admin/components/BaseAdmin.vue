@@ -14,6 +14,7 @@
 					</router-link>
 
 					<a
+						v-if="documentationLink && documentationLink.length"
 						:href="documentationLink"
 						:title="$translate('documentation')"
 						target="_blank"
@@ -83,9 +84,15 @@ const menuItems = computed(() => {
 });
 
 const documentationLink = computed(() => {
-	return builderOptionsStore.getOptionValue('white_label') !== null
-		? builderOptionsStore.getOptionValue('white_label').plugin_help_url
-		: 'https://zionbuilder.io/help-center/';
+	let helpURL = 'https://zionbuilder.io/help-center/';
+
+	if (
+		builderOptionsStore.getOptionValue('white_label') !== null &&
+		typeof builderOptionsStore.getOptionValue('white_label').plugin_help_url !== 'undefined'
+	) {
+		helpURL = builderOptionsStore.getOptionValue('white_label').plugin_help_url;
+	}
+	return helpURL;
 });
 
 Promise.all([googleFontsStore.fetchGoogleFonts()])

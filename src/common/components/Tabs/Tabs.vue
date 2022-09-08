@@ -16,7 +16,7 @@
 		</div>
 		<div class="znpb-tabs__content" :class="{ 'znpb-fancy-scrollbar': hasScroll }">
 			<div v-for="(tab, index) in tabs" v-show="getIdForTab(tab) === activeTab" :key="index" class="znpb-tab__wrapper">
-				<RenderComponent :render-slot="tab?.children?.default" />
+				<RenderComponent v-if="getIdForTab(tab) === activeTab" :render-slot="tab?.children?.default" />
 			</div>
 		</div>
 	</div>

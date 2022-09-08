@@ -122,11 +122,10 @@ class CommonJS {
 			true
 		);
 
-		self::localizeCommonJSData('zb-components');
-
+		self::localize_common_js_data( 'zb-components' );
 	}
 
-	public static function localizeCommonJSData($handle) {
+	public static function localize_common_js_data( $handle ) {
 		wp_localize_script(
 			$handle,
 			'ZnPbComponentsData',

@@ -40,7 +40,10 @@
 		</div>
 
 		<!-- Image size -->
-		<div v-if="show_size && imageSrc && !loading" class="znpb-input-image__custom-size-wrapper">
+		<div
+			v-if="show_size && imageSrc && !imageSrc.endsWith('.svg') && !loading"
+			class="znpb-input-image__custom-size-wrapper"
+		>
 			<InputWrapper title="Image size">
 				<InputSelect v-model="sizeValue" :options="imageSizes" />
 			</InputWrapper>
@@ -193,7 +196,7 @@ const customSizeValue = computed({
 	},
 	set(newValue: ImageSize) {
 		emit('update:modelValue', {
-			...((typeof props.modelValue === 'object' && props.modelValue?.custom_size) || {}),
+			...((typeof props.modelValue === 'object' && props.modelValue) || {}),
 			custom_size: newValue,
 		});
 	},
@@ -364,8 +367,6 @@ function setMediaModalSelection() {
 				},
 			})
 			.done(event => {
-				console.log('event', event);
-
 				if (event && event.id) {
 					attachmentId.value = event.id;
 					const attachment = wp.media.model.Attachment.get(attachmentId.value);
@@ -401,7 +402,6 @@ function getAttachmentModel() {
 				},
 			})
 			.done((event: Record<string, any>) => {
-				console.log('event1', event);
 				if (event?.id) {
 					attachmentId.value = event.id;
 					attachmentModel.value = wp.media.model.Attachment.get(attachmentId.value);

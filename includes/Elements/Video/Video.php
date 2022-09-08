@@ -139,19 +139,19 @@ class Video extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'       => 'checkbox_switch',
-		// 		'default'    => false,
-		// 		'layout'     => 'inline',
-		// 		'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
-		// 		'dependency' => [
-		// 			[
-		// 				'option' => 'use_image_overlay',
-		// 				'value'  => [ true ],
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'       => 'checkbox_switch',
+		//      'default'    => false,
+		//      'layout'     => 'inline',
+		//      'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
+		//      'dependency' => [
+		//          [
+		//              'option' => 'use_image_overlay',
+		//              'value'  => [ true ],
+		//          ],
+		//      ],
+		//  ]
 		// );
 	}
 
@@ -219,8 +219,8 @@ class Video extends Element {
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'dist/elements/Video/editor', 'js' ) );
-		wp_enqueue_script( 'zb-element-video', Plugin::instance()->scripts->get_script_url( 'dist/elements/Video/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-video', Plugin::instance()->scripts->get_script_url( 'elements/Video/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**
@@ -233,8 +233,8 @@ class Video extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'dist/elements/Video/frontend', 'css' ) );
-		$this->enqueue_editor_style( Plugin::instance()->scripts->get_script_url( 'dist/elements/Video/editor', 'css' ) );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'elements/Video/frontend', 'css' ) );
+		$this->enqueue_editor_style( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'css' ) );
 	}
 
 	/**

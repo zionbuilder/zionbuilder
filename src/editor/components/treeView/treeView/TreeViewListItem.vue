@@ -23,7 +23,11 @@
 				@click.stop="expanded = !expanded"
 			/>
 
-			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
+			<UIElementIcon
+				:element="element.elementDefinition"
+				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
+				:size="24"
+			/>
 
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
@@ -42,7 +46,7 @@
 			<AddElementIcon :element="element" class="znpb-tree-view__itemAddButton" position="centered-bottom" />
 		</div>
 
-		<TreeViewList v-show="expanded" :element="element" @expand-panel="expanded = true" />
+		<TreeViewList v-if="expanded" :element="element" />
 	</li>
 </template>
 
@@ -58,12 +62,11 @@ import TreeViewList from './TreeViewList.vue';
 const props = defineProps<{
 	element: ZionElement;
 }>();
-const emit = defineEmits(['expand-panel']);
 
 const UIStore = useUIStore();
 
 const listItem: Ref<HTMLElement | null> = ref(null);
-const expanded = ref(false);
+
 const elementName = computed({
 	get: () => props.element.name,
 	set(newValue: string) {
@@ -71,13 +74,14 @@ const elementName = computed({
 	},
 });
 
-const { showElementMenu, elementOptionsRef, isActiveItem, elementModel } = useTreeViewItem(props.element);
+const justAdded = ref(false);
+const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props.element);
 
-let justAdded = false;
+// Highlight the element when it is first added in the page
 if (UIStore.contentTimestamp) {
-	const justAdded = ref(
-		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : null,
-	);
+	justAdded.value =
+		props.element.addedTime > UIStore.contentTimestamp ? Date.now() - props.element.addedTime < 1000 : false;
+
 	if (justAdded.value) {
 		setTimeout(() => {
 			justAdded.value = false;
@@ -85,28 +89,36 @@ if (UIStore.contentTimestamp) {
 	}
 }
 
+// Scroll to item when it is edited or active
 watch(
 	() => UIStore.editedElement,
 	newValue => {
 		if (newValue === props.element) {
-			emit('expand-panel');
-			scrollToItem();
+			if (listItem.value) {
+				listItem.value.scrollIntoView({
+					behavior: 'smooth',
+					inline: 'center',
+					block: 'center',
+				});
+			}
 		}
 	},
 );
 
-const treeViewExpandStatus = inject('treeViewExpandStatus');
-watch(treeViewExpandStatus, newValue => (expanded.value = newValue));
+// Expanded state
+const expandedItems: Ref<[]> = inject('treeViewExpandedItems');
+const treeViewExpandStatus: Ref<boolean> = inject('treeViewExpandStatus');
+const expanded = ref(treeViewExpandStatus.value || expandedItems.value.includes(props.element.uid) || false);
 
-function scrollToItem() {
-	if (listItem.value) {
-		listItem.value.scrollIntoView({
-			behavior: 'smooth',
-			inline: 'center',
-			block: 'center',
-		});
+watch(treeViewExpandStatus, newValue => {
+	expanded.value = newValue;
+});
+
+watch(expandedItems, newValue => {
+	if (expandedItems.value.includes(props.element.uid)) {
+		expanded.value = true;
 	}
-}
+});
 </script>
 <style lang="scss">
 .znpb-tree-view__item {

@@ -66,16 +66,7 @@
 		</template>
 
 		<!-- Add new Button -->
-		<transition appear name="bounce-add-icon">
-			<div
-				v-if="!isAnyDragging"
-				ref="addElementsPopupButton"
-				class="znpb-element-toolbox__add-element-button"
-				@click.stop="toggleAddElementsPopup"
-			>
-				<Icon v-znpb-tooltip="$translate('insert_after') + ' ' + element.name" icon="plus" :rounded="true" />
-			</div>
-		</transition>
+		<AddElementIcon :element="element" placement="next" position="middle" />
 	</div>
 </template>
 
@@ -107,14 +98,9 @@ export default {
 	setup(props) {
 		const UIStore = useUIStore();
 		const showColumnTemplates = ref(false);
-		const addElementsPopupButton = ref(null);
 		const { activeResponsiveDeviceInfo } = useResponsiveDevices();
 		const { addEventListener, removeEventListener } = window.zb.editor.useWindows();
 		const isToolboxDragging = ref(false);
-
-		const toggleAddElementsPopup = event => {
-			UIStore.showAddElementsPopup(props.element, event, 'next');
-		};
 
 		const isActiveElementEdit = computed(() => {
 			return props.element === UIStore.editedElement;
@@ -122,8 +108,6 @@ export default {
 
 		return {
 			showColumnTemplates,
-			addElementsPopupButton,
-			toggleAddElementsPopup,
 			activeResponsiveDeviceInfo,
 			UIStore,
 			addEventListener,
@@ -502,7 +486,7 @@ export default {
 
 			window.zb.run('editor/elements/update-element-options', {
 				elementUID: this.element.uid,
-				newValues: newValue,
+				newValues: `${newValue}px`,
 				path: `_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${property}`,
 			});
 
@@ -518,7 +502,7 @@ export default {
 					this.popperRefValues.clientY = bottom;
 				} else this.popperRefValues.clientX = left;
 
-				this.$refs[`sizeDrag--${this.activeDragPosition}`].scheduleUpdate();
+				this.$refs[`sizeDrag--${this.activeDragPosition}`][0].scheduleUpdate();
 			}
 		},
 		endDragging() {
@@ -905,22 +889,5 @@ export default {
 	background-color: #fff;
 	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
 	border-color: #f1f1f1;
-}
-
-.bounce-add-icon-enter-from {
-	transform: scale(0.9);
-}
-.bounce-add-icon-enter-to {
-	transform: scale(1);
-}
-.bounce-add-icon-leave-from {
-	transform: scale(0.5);
-}
-.bounce-add-icon-leave-to {
-	transform: scale(0);
-}
-.bounce-add-icon-enter-to,
-.bounce-add-icon-leave-from {
-	transition: all 0.2s;
 }
 </style>

@@ -24,7 +24,7 @@
 			:value="modelValue"
 			:style="getStyle"
 			v-bind="$attrs"
-			@input="$emit('update:modelValue' ,($event.target as HTMLInputElement).value)"
+			@input="onInput"
 		/>
 		<textarea
 			v-else
@@ -116,7 +116,7 @@ const props = withDefaults(
 	},
 );
 
-defineEmits<{
+const emit = defineEmits<{
 	(e: 'update:modelValue', value: string | number): void;
 }>();
 
@@ -153,6 +153,15 @@ function focus() {
 
 function blur() {
 	input.value?.blur();
+}
+
+function onInput(e: Event) {
+	// This is needed because HTML input element send empty string if the value is not valid ( f.e. you start typing a dot for decimals )
+	if (props.type === 'number' && e.target.validity.badInput) {
+		return;
+	}
+
+	emit('update:modelValue', (e.target as HTMLInputElement).value);
 }
 
 defineExpose({

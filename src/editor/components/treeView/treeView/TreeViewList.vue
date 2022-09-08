@@ -15,7 +15,6 @@
 			:key="childElement.uid"
 			:element="childElement"
 			:data-zion-element-uid="childElement.uid"
-			@expand-panel="$emit('expand-panel')"
 		/>
 
 		<template #end>
@@ -34,20 +33,25 @@
 	</Sortable>
 </template>
 <script lang="ts" setup>
+import { computed } from 'vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 import TreeViewListItem from './TreeViewListItem.vue';
 
 import { useTreeViewList } from '../useTreeViewList';
+import { useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
-defineEmits(['expand-panel']);
+const contentStore = useContentStore();
+const children = computed(() => {
+	return props.element.content.map(childUID => contentStore.getElement(childUID));
+});
 
 // Stores
-const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
+const { sortableStart, sortableEnd, onSortableDrop } = useTreeViewList();
 </script>
 
 <style lang="scss">

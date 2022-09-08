@@ -209,14 +209,6 @@ class Frontend {
 		// Trigger action before load styles
 		do_action( 'zionbuilder/frontend/before_load_styles', $this );
 
-		// // Load styles
-		// Plugin::instance()->scripts->enqueue_style(
-		// 	'zion-frontend-style',
-		// 	'css/frontend.css',
-		// 	[],
-		// 	Plugin::instance()->get_version()
-		// );
-
 		// Load rtl
 		if ( is_rtl() ) {
 			Plugin::instance()->scripts->enqueue_style(
@@ -225,7 +217,7 @@ class Frontend {
 				[],
 				Plugin::instance()->get_version()
 			);
-		};
+		}
 
 		do_action( 'zionbuilder/frontend/after_load_styles', $this );
 	}

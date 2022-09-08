@@ -51,8 +51,7 @@ export default {
 		const { applyShortcuts } = useKeyBindings();
 		const { saveAutosave } = useSavePage();
 		const { editorData } = useEditorData();
-		const historyStore = useHistoryStore();
-		const isDirty = historyStore.isDirty;
+
 		const UIStore = useUIStore();
 		const contentStore = useContentStore();
 		const elementsDefinitionsStore = useElementDefinitionsStore();
@@ -251,7 +250,6 @@ export default {
 			// Dom refs
 			root,
 			iframe,
-			isDirty,
 
 			// computed
 			deviceStyle,
@@ -355,7 +353,8 @@ export default {
 			}
 		},
 		onBeforeUnloadIframe(event) {
-			if (this.isDirty) {
+			const historyStore = useHistoryStore();
+			if (historyStore.isDirty) {
 				event.preventDefault();
 				event.returnValue = 'Do you want to leave this site? Changes you made may not be saved.';
 			} else {

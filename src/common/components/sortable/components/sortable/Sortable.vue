@@ -564,6 +564,8 @@ export default {
 
 						if (from === to && startIndex !== newIndex && !duplicateValue) {
 							updatePositionInList(startIndex, updatedNewIndex);
+						} else if (from === to && startIndex === newIndex && !duplicateValue) {
+							// Do nothing... there was no change
 						} else {
 							// Send 2 events for each container
 							// Remove from first list
@@ -952,8 +954,8 @@ export default {
 };
 </script>
 <!--
-<style lang="scss">
-.vuebdnd-draggable--active iframe {
-	pointer-events: none;
-}
-</style> -->
+	<style lang="scss">
+	.vuebdnd-draggable--active iframe {
+		pointer-events: none;
+	}
+	</style> -->

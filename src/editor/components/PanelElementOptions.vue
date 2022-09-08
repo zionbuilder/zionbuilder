@@ -68,7 +68,7 @@
 					/>
 
 					<p v-else class="znpb-element-options-no-option-message">
-						{{ $translate('element_has_no_specific_options') }}
+						{{ translate('element_has_no_specific_options') }}
 					</p>
 				</Tab>
 				<Tab name="Styling">
@@ -130,7 +130,7 @@ import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'v
 import { addAction, removeAction } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
 import { useElementProvide } from '../composables';
-import { usePseudoSelectors, useOptionsSchemas } from '/@/common/composables';
+import { useOptionsSchemas } from '/@/common/composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
 
 // Components
@@ -148,7 +148,6 @@ const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);
 const lastTab = ref(null);
 const defaultMessage = ref(translate('element_options_default_message'));
-const { setActivePseudoSelector } = usePseudoSelectors();
 
 const { provideElement } = useElementProvide();
 const { getSchema } = useOptionsSchemas();
@@ -171,7 +170,7 @@ const elementOptions = computed({
 		if (UIStore.editedElement) {
 			window.zb.run('editor/elements/update-element-options', {
 				elementUID: UIStore.editedElement.uid,
-				newValues,
+				newValues: newValues === null ? {} : newValues,
 			});
 		}
 	},

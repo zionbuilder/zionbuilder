@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="swiper">
 		<slot name="start" />
 
 		<div ref="sliderWrapper" class="swiper-container" :data-zion-slider-config="elementOptions">
@@ -67,6 +67,7 @@ const elementOptions = computed(() => {
 				rawConfig: {
 					observer: true,
 					autoplay: props.options.autoplay,
+					speed: props.options.speed || 300,
 				},
 		  }
 		: {};

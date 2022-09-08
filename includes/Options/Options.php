@@ -342,9 +342,15 @@ class Options extends Stack {
 	public function get_value_from_path( $path = '' ) {
 		$path       = explode( '.', $path );
 		$temp_model = &$this->model;
+
 		foreach ( $path as $key ) {
+			if ( ! isset( $temp_model[$key] ) ) {
+				return null;
+			}
+
 			$temp_model = &$temp_model[$key];
 		}
+
 		return $temp_model;
 	}
 

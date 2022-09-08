@@ -44,7 +44,7 @@ import { computed } from 'vue';
 import EmptySortablePlaceholder from '/@/editor/common/EmptySortablePlaceholder.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
-import { useUIStore } from '/@/editor/store';
+import { useContentStore, useUIStore } from '/@/editor/store';
 import { useTreeViewList } from '../useTreeViewList';
 
 // Utils
@@ -62,7 +62,12 @@ const props = withDefaults(
 );
 
 const UIStore = useUIStore();
-const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
+const contentStore = useContentStore();
+const children = computed(() => {
+	return props.element.content.map(childUID => contentStore.getElement(childUID));
+});
+
+const { sortableStart, sortableEnd, onSortableDrop } = useTreeViewList();
 
 const getSortableAxis = computed(() => {
 	if (props.element.element_type === 'contentRoot') {

@@ -34,16 +34,22 @@
 	</div>
 </template>
 <script lang="ts" setup>
+import { computed } from 'vue';
 import ElementSectionView from './ElementSectionView.vue';
 import SortableHelper from '/@/editor/common/SortableHelper.vue';
 import SortablePlaceholder from '/@/editor/common/SortablePlaceholder.vue';
 import { useTreeViewList } from '../useTreeViewList';
+import { useContentStore } from '/@/editor/store';
 
 const props = defineProps<{
 	element: ZionElement;
 }>();
 
-const { sortableStart, sortableEnd, onSortableDrop, children } = useTreeViewList(props.element);
+const { sortableStart, sortableEnd, onSortableDrop } = useTreeViewList();
+const contentStore = useContentStore();
+const children = computed(() => {
+	return props.element.content.map(childUID => contentStore.getElement(childUID));
+});
 </script>
 <style lang="scss">
 .znpb-tree-view-container {

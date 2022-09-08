@@ -1,12 +1,10 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useUIStore, useContentStore } from '../../store';
 
-export function useTreeViewList(element: ZionElement) {
+export function useTreeViewList() {
 	const elementOptionsRef = ref(null);
 	const UIStore = useUIStore();
 	const contentStore = useContentStore();
-
-	const children = computed(() => element.content.map(childUID => contentStore.getElement(childUID)));
 
 	function sortableStart() {
 		UIStore.setElementDragging(true);
@@ -37,7 +35,6 @@ export function useTreeViewList(element: ZionElement) {
 	}
 
 	return {
-		children,
 		elementOptionsRef,
 		sortableStart,
 		sortableEnd,

@@ -137,7 +137,7 @@ class Preview {
 
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
 
-		CommonJS::localizeCommonJSData('znpb-preview-frame-scripts');
+		CommonJS::localize_common_js_data( 'znpb-preview-frame-scripts' );
 
 		wp_add_inline_script(
 			'znpb-preview-frame-scripts',
@@ -179,10 +179,10 @@ class Preview {
 		// wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Plugin::instance()->scripts->register_style(
-		// 	'znpb-editor-styles',
-		// 	'editor',
-		// 	[],
-		// 	Plugin::instance()->get_version()
+		//  'znpb-editor-styles',
+		//  'editor',
+		//  [],
+		//  Plugin::instance()->get_version()
 		// );
 
 		Plugin::instance()->scripts->enqueue_style(
@@ -223,8 +223,8 @@ class Preview {
 			'template_types'          => Plugin::$instance->templates->get_template_types(),
 
 			// Elements data - This needs to be loaded from preview so we can load all their scripts and styles
-			'elements_categories' => Plugin::$instance->elements_manager->get_elements_categories(),
-			'elements_data'       => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+			'elements_categories'     => Plugin::$instance->elements_manager->get_elements_categories(),
+			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
 
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 			'post'                    => get_post(),

@@ -77,19 +77,19 @@
 
 :root .znpb-theme-dark {
 	// Surface Colors
-	--zb-surface-color: #28282C;
+	--zb-surface-color: #2e2e32;
 	--zb-surface-light-color: #2C2C30;
-	--zb-surface-lighter-color: #2F2F34;
+	--zb-surface-lighter-color: #3e3e42;
 	--zb-surface-lighter-rgb-color: 47, 47, 52;
-	--zb-surface-lightest-color: #35353b;
+	--zb-surface-lightest-color: #45454a;
 	--zb-surface-darker-color: #222225;
-	--zb-surface-text-color: #858585;
+	--zb-surface-text-color: #a5a5a5;
 	--zb-surface-text-muted-color: #525252;
 	--zb-surface-text-hover-color: #9F9F9F;
 	--zb-surface-text-active-color: #d6d6d6;
-	--zb-surface-icon-color: #727272;
-	--zb-surface-icon-active-color: #858585;
-	--zb-surface-border-color: #353535;
+	--zb-surface-icon-color: #8d8d8d;
+	--zb-surface-icon-active-color: #a5a5a5;
+	--zb-surface-border-color: #3d3d40;
 	--zb-surface-loader-color: #424242;
 	--zb-surface-shadow: rgba(20, 20, 20, 0.1);
 	--zb-surface-shadow-hover: rgba(20, 20, 20, 0.25);
@@ -115,6 +115,6 @@
 	--zb-dropdown-bg-active-color: var(--zb-surface-lighter-color);
 	--zb-dropdown-text-color: var(--zb-surface-text-color);
 	--zb-dropdown-text-active-color: var(--zb-surface-text-active-color);
-	--zb-dropdown-border-color: #35353b;
-	--zb-dropdown-shadow: 0 10px 30px 0 rgba(20, 20, 20, 0.5);
+	--zb-dropdown-border-color: #3e3e44;
+	--zb-dropdown-shadow: 0 10px 30px 0 rgb(20 20 20 / 74%);
 }

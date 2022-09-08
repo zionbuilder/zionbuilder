@@ -61,11 +61,16 @@ if (element.value.content.length === 0 && props.modelValue) {
 }
 
 function addChild() {
-	const template = props.add_template
+	const config = props.add_template
 		? props.add_template
 		: {
 				element_type: props.child_type,
 		  };
-	element.value.addChild(template);
+	// Insert element
+	window.zb.run('editor/elements/add', {
+		element: config,
+		parentUID: element.value.uid,
+		index: -1,
+	});
 }
 </script>

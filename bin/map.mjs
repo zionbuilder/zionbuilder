@@ -81,6 +81,11 @@ export const filesMap = [
 
   // Frontend
   {
+    input: 'src/frontend/modules/modalJS/index.ts',
+    format: 'iife',
+    output: 'ModalJS',
+  },
+  {
     input: 'src/frontend/modules/video/index.ts',
     format: 'iife',
     output: 'ZBVideo',

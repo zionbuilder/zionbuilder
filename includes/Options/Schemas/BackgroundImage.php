@@ -216,8 +216,8 @@ class BackgroundImage extends BaseSchema {
 					],
 					// Text is not properly supported in browsers
 					// [
-					// 	'id'   => 'text',
-					// 	'name' => 'text',
+					//  'id'   => 'text',
+					//  'name' => 'text',
 					// ],
 				],
 			]

@@ -181,6 +181,18 @@ class ImageSlider extends Element {
 				'layout'  => 'inline',
 			]
 		);
+
+		$options->add_option(
+			'speed',
+			[
+				'type'    => 'number',
+				'title'   => __( 'Transition speed', 'zionbuilder' ),
+				'min'     => 1,
+				'max'     => 15000,
+				'default' => 300,
+				'layout'  => 'inline',
+			]
+		);
 	}
 
 	/**
@@ -218,6 +230,9 @@ class ImageSlider extends Element {
 	 * @return void
 	 */
 	public function before_render( $options ) {
+		// Add the swiper class
+		$this->render_attributes->add( 'wrapper', 'class', 'swiper' );
+
 		$autoplay = $options->get_value( 'autoplay' );
 
 		$config = [
@@ -227,6 +242,7 @@ class ImageSlider extends Element {
 			'slides_to_scroll' => $options->get_value( 'slides_to_scroll' ),
 			'rawConfig'        => [
 				'loop'     => $options->get_value( 'infinite' ),
+				'speed'     => $options->get_value( 'speed' ),
 				'autoplay' => $autoplay,
 			],
 		];

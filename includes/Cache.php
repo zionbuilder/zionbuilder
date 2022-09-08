@@ -44,20 +44,20 @@ class Cache {
 	 */
 	public function __construct() {
 		// Delete cache for posts actions
-		add_action( 'delete_post', [ $this, 'delete_post_cache' ] );
-		add_action( 'save_post', [ $this, 'delete_post_cache' ] );
+		add_action( 'delete_post', array( $this, 'delete_post_cache' ) );
+		add_action( 'save_post', array( $this, 'delete_post_cache' ) );
 
 		// Delete all cache
-		add_action( 'after_switch_theme', [ $this, 'delete_all_cache' ] );
-		add_action( 'activated_plugin', [ $this, 'delete_all_cache' ] );
-		add_action( 'zionbuilder/settings/save', [ $this, 'delete_all_cache' ] );
+		add_action( 'after_switch_theme', array( $this, 'delete_all_cache' ) );
+		add_action( 'activated_plugin', array( $this, 'delete_all_cache' ) );
+		add_action( 'zionbuilder/settings/save', array( $this, 'delete_all_cache' ) );
 
 		// Enqueue styles
 		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'on_enqueue_scripts' ] );
+			add_action( 'wp_enqueue_scripts', array( $this, 'on_enqueue_scripts' ) );
 
 			// This is needed so we can load scripts that are not available on WP action ( for example, shortcode )
-			add_action( 'wp_footer', [ $this, 'enqueue_post_assets' ] );
+			add_action( 'wp_footer', array( $this, 'enqueue_post_assets' ) );
 		}
 	}
 
@@ -129,29 +129,29 @@ class Cache {
 	 */
 	public function register_default_scripts() {
 		// register styles
-		wp_register_style( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.css' ), [], Plugin::instance()->get_version() );
+		wp_register_style( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.css' ), array(), Plugin::instance()->get_version() );
 
 		// Load animations
-		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
+		wp_register_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), array(), Plugin::instance()->get_version() );
 
 		// Register scripts
-		wp_register_script( 'zb-modal', Utils::get_file_url( 'dist/modalJS.js' ), [], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-modal', Plugin::instance()->scripts->get_script_url( 'ModalJS', 'js' ), array(), Plugin::instance()->get_version(), true );
 
 		// Video
-		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), [ 'jquery' ], Plugin::instance()->get_version(), true );
-		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideoBg', 'js' ), [ 'zb-video' ], Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video', Plugin::instance()->scripts->get_script_url( 'ZBVideo', 'js' ), array(), Plugin::instance()->get_version(), true );
+		wp_register_script( 'zb-video-bg', Plugin::instance()->scripts->get_script_url( 'ZBVideoBg', 'js' ), array( 'zb-video' ), Plugin::instance()->get_version(), true );
 
 		// Swiper slider
-		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), [], Plugin::instance()->get_version(), true );
-		wp_register_script( 'zion-builder-slider', Utils::get_file_url( 'dist/elements/ImageSlider/frontend.js' ), [ 'swiper' ], Plugin::instance()->get_version(), true );
+		wp_register_script( 'swiper', Utils::get_file_url( 'assets/vendors/swiper/swiper.min.js' ), array(), Plugin::instance()->get_version(), true );
+		wp_register_script( 'zion-builder-slider', Utils::get_file_url( 'dist/elements/ImageSlider/frontend.js' ), array( 'swiper' ), Plugin::instance()->get_version(), true );
 
 		// Animate JS
 		Plugin::instance()->scripts->register_script(
 			'zionbuilder-animatejs',
 			'animateJS',
-			[],
+			array(),
 			Plugin::instance()->get_version(),
-			false
+			true
 		);
 
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
@@ -173,7 +173,7 @@ class Cache {
 		}
 
 		$version = (string) filemtime( $dynamic_cache_file );
-		wp_enqueue_style( 'znpb-dynamic-css', $dynamic_cache_file_url, [], $version );
+		wp_enqueue_style( 'znpb-dynamic-css', $dynamic_cache_file_url, array(), $version );
 	}
 
 	/**
@@ -188,10 +188,10 @@ class Cache {
 			$relative_cache_path       = trailingslashit( self::CACHE_FOLDER_NAME );
 			$zionbuilder_upload_folder = FileSystem::get_zionbuilder_upload_dir();
 
-			$this->cache_directory_config = [
+			$this->cache_directory_config = array(
 				'path' => $zionbuilder_upload_folder['basedir'] . $relative_cache_path,
 				'url'  => esc_url( set_url_scheme( $zionbuilder_upload_folder['baseurl'] . $relative_cache_path ) ),
-			];
+			);
 
 			// Create the cache folder
 			wp_mkdir_p( $this->cache_directory_config['path'] );
@@ -216,12 +216,12 @@ class Cache {
 		$file_name       = sprintf( '%s-layout%s', $post_id, $append_text );
 		$cache_directory = $this->get_cache_directory();
 
-		return [
+		return array(
 			'file_name' => $file_name,
 			'handle'    => $file_name,
 			'path'      => $cache_directory['path'] . $file_name,
 			'url'       => esc_url( $cache_directory['url'] . $file_name ),
-		];
+		);
 	}
 
 
@@ -274,7 +274,7 @@ class Cache {
 		// Remove space after colons
 		$css = str_replace( ': ', ':', $css );
 		// Remove whitespace
-		$css = str_replace( [ "\r\n", "\r", "\n", "\t" ], '', $css );
+		$css = str_replace( array( "\r\n", "\r", "\n", "\t" ), '', $css );
 
 		return $css;
 	}
@@ -306,7 +306,7 @@ class Cache {
 	 * @return array
 	 */
 	public function get_cache_files_for_post( $post_id ) {
-		$cache_files_found = [];
+		$cache_files_found = array();
 		$cache_folder      = $this->get_cache_directory();
 		$glob_pattern      = sprintf( '%s*.{css,js}', $cache_folder['path'] );
 		$cached_files      = glob( $glob_pattern, GLOB_BRACE );

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Utill
+ * Util
  *
  * Will handle several util methods
  *
@@ -161,12 +161,12 @@ class Utils {
 
 
 	/**
-	 * Convert a string to camelcase
+	 * Convert a string to camelCase
 	 *
 	 * @param string  $string
 	 * @param boolean $capitalize_first_letter
 	 *
-	 * @return string The string in camelcase format
+	 * @return string The string in camelCase format
 	 */
 	public static function camel_case( $string, $capitalize_first_letter = false ) {
 		$str = str_replace( ' ', '', ucwords( str_replace( [ '-', '_' ], ' ', $string ) ) );
