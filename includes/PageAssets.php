@@ -315,10 +315,6 @@ class PageAssets {
 		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset(), $this->minify( $css ), 0644 );
 
 		$js = apply_filters( 'zionbuilder/page_assets/js', $this->js, $this );
-		if ( ! empty( $js ) ) {
-			$js = $this->wrap_javascript( $js );
-		}
-
 		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset( 'js' ), $js, 0644 );
 
 		return $this;
@@ -360,7 +356,7 @@ class PageAssets {
 			}
 
 			if ( 0 !== FileSystem::get_file_system()->size( $js_path ) ) {
-				wp_enqueue_script( $this->file_handle, $js_url, [ 'jquery' ], $this->get_cache_version( $js_path ), true );
+				wp_enqueue_script( $this->file_handle, $js_url, [], $this->get_cache_version( $js_path ), true );
 			}
 
 			$this->enqueued_dynamic_assets = true;
@@ -428,53 +424,6 @@ class PageAssets {
 	 */
 	public function get_css() {
 		return $this->css;
-	}
-
-
-	/**
-	 * Wraps the JavaScript code with the ZionBuilder JS methods
-	 *
-	 * @param string $js The js code that needs to be wrapped
-	 *
-	 * @return string
-	 */
-	public function wrap_javascript( $js ) {
-		if ( ! empty( $js ) ) {
-			$js = sprintf(
-				'
-			(function($) {
-				window.ZionBuilderFrontend = {
-					scripts: {},
-					registerScript: function (scriptId, scriptCallback) {
-						this.scripts[scriptId] = scriptCallback;
-					},
-					getScript(scriptId) {
-						return this.scripts[scriptId]
-					},
-					unregisterScript: function(scriptId) {
-						delete this.scripts[scriptId];
-					},
-					run: function() {
-						var that = this;
-						var $scope = $(document)
-						Object.keys(this.scripts).forEach(function(scriptId) {
-							var scriptObject = that.scripts[scriptId];
-							scriptObject.run( $scope );
-						})
-					}
-				};
-
-				%s
-
-				window.ZionBuilderFrontend.run();
-
-			})(jQuery);
-			',
-				$js
-			);
-		}
-
-		return $js;
 	}
 
 	/**
