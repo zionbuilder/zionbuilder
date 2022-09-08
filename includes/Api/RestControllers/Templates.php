@@ -476,7 +476,7 @@ class Templates extends RestApiController {
 			$template_config
 		);
 
-		// Check to see if the post was succesfully created
+		// Check to see if the post was successfully created
 		if ( is_wp_error( $post_id ) ) {
 			if ( 'db_insert_error' === $post_id->get_error_code() ) {
 				$post_id->add_data( [ 'status' => 500 ] );
@@ -661,7 +661,7 @@ class Templates extends RestApiController {
 			)
 		);
 
-		// throw error if there are problomes during the export
+		// throw error if there are problems during the export
 		if ( is_wp_error( $export ) ) {
 			$export->add_data( [ 'status' => 500 ] );
 			return $export;
@@ -806,7 +806,7 @@ class Templates extends RestApiController {
 		unset( $duplicate->guid );
 		unset( $duplicate->comment_count );
 
-		$duplicate_post_id = wp_insert_post( (array) $duplicate );
+		$duplicate_post_id = wp_insert_post( $duplicate->to_array(), true );
 
 		// check if the id is valid
 		if ( is_wp_error( $duplicate_post_id ) ) {

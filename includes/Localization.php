@@ -779,14 +779,13 @@ class Localization {
 				'duplicate'                                => esc_html__( 'duplicate', 'zionbuilder' ),
 				'wrapped_with_container'                   => esc_html__( 'wrapped with container', 'zionbuilder' ),
 				'copied'                                   => esc_html__( 'copied', 'zionbuilder' ),
-				'moved'                                    => __( 'moved', 'zionbuilder' ),
-				'paste-styles'                             => __( 'paste styles', 'zionbuilder' ),
-				'paste-css-classes'                        => __( 'paste css classes', 'zionbuilder' ),
-				'discard-styles'                           => __( 'discard styles', 'zionbuilder' ),
-				'template'                                 => __( 'Template', 'zionbuilder' ),
-				'added'                                    => __( 'Added', 'zionbuilder' ),
-				'layout'                                   => __( 'Layout', 'zionbuilder' ),
-				'edited'                                   => __( 'Edited', 'zionbuilder' ),
+				'moved'                                    => esc_html__( 'moved', 'zionbuilder' ),
+				'paste-styles'                             => esc_html__( 'paste styles', 'zionbuilder' ),
+				'paste-css-classes'                        => esc_html__( 'paste css classes', 'zionbuilder' ),
+				'discard-styles'                           => esc_html__( 'discard styles', 'zionbuilder' ),
+				'template'                                 => esc_html__( 'Template', 'zionbuilder' ),
+				'layout'                                   => esc_html__( 'Layout', 'zionbuilder' ),
+				'edited'                                   => esc_html__( 'Edited', 'zionbuilder' ),
 
 			]
 		);

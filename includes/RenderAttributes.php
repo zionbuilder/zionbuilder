@@ -244,16 +244,10 @@ class RenderAttributes {
 							$attribute_value = str_replace( '{{VALUE}}', $value, $attribute_value );
 							$attribute_value = ! empty( $attribute_value ) ? $attribute_value : $option_value;
 
-							if ( ! empty( $attribute_value ) ) {
-								$this->add( $compiled_tag_id, $attribute, $attribute_value );
-							}
+							$this->add( $compiled_tag_id, $attribute, $attribute_value );
+
 						}
 					} else {
-						// Don't add empty values
-						if ( empty( $option_value ) ) {
-							continue;
-						}
-
 						$attribute_value = str_replace( '{{VALUE}}', $option_value, $attribute_value );
 						$attribute_value = ! empty( $attribute_value ) ? $attribute_value : $option_value;
 

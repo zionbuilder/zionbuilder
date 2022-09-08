@@ -323,7 +323,7 @@ class Editor {
 					'ajax_url'              => admin_url( 'admin-ajax.php', 'relative' ),
 					'plugin_root'           => Utils::get_file_url(),
 				],
-				'masks'            => Masks::getshapes(),
+				'masks'            => Masks::get_shapes(),
 				'builder_settings' => [],
 				'page_id'          => $this->post_id,
 				'page_data'        => get_post( $this->post_id ),

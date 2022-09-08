@@ -85,13 +85,6 @@ class PageAssets {
 	public $file_handle = null;
 
 	/**
-	 * Flag to check if the assets were already processed
-	 *
-	 * @var boolean
-	 */
-	private $enqueued_element_scripts = false;
-
-	/**
 	 * Flag to check if the dynamic assets were already enqueued
 	 *
 	 * @var boolean
@@ -334,7 +327,7 @@ class PageAssets {
 	/**
 	 * Minify
 	 *
-	 * Will minify css code by removing comments and whitespaces
+	 * Will minify css code by removing comments and white spaces
 	 *
 	 * @param string $css
 	 *

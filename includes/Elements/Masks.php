@@ -20,10 +20,8 @@ class Masks {
 	}
 	/**
 	 * Holds a list of masks
-	 *
-	 * @var array<int, string>
 	 */
-	public static function getshapes() {
+	public static function get_shapes() {
 		$shapes = [
 			'bottom-free-mask_01' => [
 				'url'  => Utils::get_file_url( 'assets/masks/bottom-free-mask_01.svg' ),
@@ -129,7 +127,7 @@ class Masks {
 		if ( empty( $shape_id ) ) {
 			return;
 		}
-		$all_shapes = self::getshapes();
+		$all_shapes = self::get_shapes();
 
 		// Old system where the shape was saved with url
 		if ( strrpos( $shape_id, '.svg' ) ) {

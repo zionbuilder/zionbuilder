@@ -228,7 +228,7 @@ class Preview {
 
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 			'post'                    => get_post(),
-			'masks'                   => Masks::getshapes(),
+			'masks'                   => Masks::get_shapes(),
 			'plugin_info'             => [
 				'is_pro_active'      => Utils::is_pro_active(),
 				'is_pro_installed'   => Utils::is_pro_installed(),

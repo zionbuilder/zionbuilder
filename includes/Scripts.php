@@ -34,8 +34,6 @@ class Scripts {
 	 */
 	private $assets_root_path = null;
 
-	private $dev_asset_src = [];
-
 	public function __construct() {
 		$this->setup_environment();
 
@@ -217,8 +215,6 @@ class Scripts {
 			if ( isset( $scripts_map[$path] ) ) {
 				return $scripts_map[$path];
 			}
-
-			return false;
 		}
 
 		return $this->assets_root_url . $path . '.' . $extension;

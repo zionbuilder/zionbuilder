@@ -126,6 +126,7 @@ class Upgrades {
 
 		if ( is_array( $saved_css_classes ) ) {
 			foreach ( $saved_css_classes as $class_config ) {
+				/** @phpstan-ignore-next-line -- We ignore this error as the upgrade functions adds the UID if it is missing */
 				if ( ! isset( $class_config['uid'] ) ) {
 					$class_config['uid'] = Utils::generate_uid();
 				}

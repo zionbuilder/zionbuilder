@@ -44,7 +44,7 @@ class CSSClasses {
 	/**
 	 * Get saved css classes from DB
 	 *
-	 * @return array<int, array{id: string, name: string, styles: array<string, mixed>}> The css classes saved in DB
+	 * @return array<int, array{id?: string, uid: string, name: string, style?: array<string, mixed>, styles: array<string, mixed>}> The css classes saved in DB
 	 */
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {

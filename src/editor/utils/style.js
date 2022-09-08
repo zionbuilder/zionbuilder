@@ -206,7 +206,7 @@ export function compileStyleTabs(styleValues) {
 			return `-ms-flex-item-align: ${cleanValue}; align-self:${value};`;
 		},
 		perspective: value => {
-			return `-webkit-perspective: ${value}; perspective: ${value};`;
+			return `perspective: ${value};`;
 		},
 		transform_style: value => {
 			return `-ms-transform-style: ${value}; -webkit-transform-style: ${value}; transform-style: ${value};`;
