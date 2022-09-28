@@ -74,6 +74,7 @@
 		"phpcs",
 		"phpstan",
 		"Pinia",
+		"polylang",
 		"postmeta",
 		"Schd",
 		"Shortcode",
@@ -93,6 +94,7 @@
 		"Yoast",
 		"youtu",
 		"zionbuilder",
+		"zionbuilderpro",
 		"znpb"
 	],
 	"phpcs.enable": true,
