@@ -1,8 +1,8 @@
 import { useContentStore, useElementDefinitionsStore } from '../store';
 import { generateUID } from '/@/common/utils';
-import { regenerateUIDs } from '/@/editor/utils';
+import { regenerateUIDs, removeElementID } from '/@/editor/utils';
 import { applyFilters } from '/@/common/modules/hooks';
-import { update, get, isPlainObject, each, pull, set } from 'lodash-es';
+import { update, get, isPlainObject, each, pull } from 'lodash-es';
 import { type ElementType } from '../models/ElementType';
 import { serverRequest } from '../api';
 
@@ -278,7 +278,8 @@ export class ZionElement {
 
 	getClone() {
 		const elementAsJson = this.toJSON();
-		const clonedElement = regenerateUIDs(elementAsJson);
+		let clonedElement = regenerateUIDs(elementAsJson);
+		clonedElement = removeElementID(clonedElement);
 
 		return clonedElement;
 	}
