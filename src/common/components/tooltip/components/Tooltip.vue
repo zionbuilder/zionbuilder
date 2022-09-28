@@ -614,4 +614,14 @@ export default {
 		list-style-type: none;
 	}
 }
+
+body .hg-popper-tooltip {
+	z-index: 99999;
+	max-width: 200px;
+	padding: 5px 10px;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: center;
+}
 </style>

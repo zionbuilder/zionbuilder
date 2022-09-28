@@ -59,10 +59,10 @@ class Yoast implements IBaseIntegration {
 			// Load the scripts
 			CommonJS::register_scripts();
 
-			Plugin::instance()->scripts->enqueue_script(
+			wp_enqueue_script(
 				'zb-yoast',
-				'js/integrations/yoast.js',
-				[],
+				Plugin::instance()->scripts->get_script_url( 'integrations/yoast', 'js' ),
+				[ 'yoast-seo-edit-page' ],
 				Plugin::instance()->get_version(),
 				true
 			);

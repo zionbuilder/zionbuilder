@@ -75,7 +75,16 @@ class Gutenberg implements IBaseIntegration {
 	public function load_scripts() {
 		global $post;
 		$this->is_gutenberg_active = true;
-		$post_instance             = Plugin::$instance->post_manager->get_post_instance( $post->ID );
+
+		if ( ! $post ) {
+			return;
+		}
+
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
+
+		if ( ! $post_instance ) {
+			return;
+		}
 
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-admin-gutenberg-integration',

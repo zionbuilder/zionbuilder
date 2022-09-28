@@ -50,10 +50,10 @@
 				</template>
 			</component>
 		</InputWrapper>
-		<InputWrapper layout="inline" :schema="{ width: 50 }">
+		<InputWrapper v-if="show_target" layout="inline" :schema="{ width: 50 }">
 			<InputSelect v-model="targetModel" :options="targetOptions"></InputSelect>
 		</InputWrapper>
-		<InputWrapper layout="inline" :schema="{ width: 50 }">
+		<InputWrapper v-if="show_title" layout="inline" :schema="{ width: 50 }">
 			<BaseInput v-model="titleModel" :clearable="false" :placeholder="$translate('set_a_title')" />
 		</InputWrapper>
 
@@ -108,6 +108,16 @@ export default {
 			},
 		},
 		title: {},
+		show_title: {
+			type: Boolean,
+			required: false,
+			default: true,
+		},
+		show_target: {
+			type: Boolean,
+			required: false,
+			default: true,
+		},
 	},
 	setup(props, { emit }) {
 		const urlInput = ref(false);
