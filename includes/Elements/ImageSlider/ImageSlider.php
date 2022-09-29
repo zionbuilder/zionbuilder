@@ -6,6 +6,7 @@ use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
 use ZionBuilder\CommonJS;
 use ZionBuilder\Plugin;
+use ZionBuilder\WPMedia;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -220,6 +221,7 @@ class ImageSlider extends Element {
 	 */
 	public function enqueue_styles() {
 		wp_enqueue_style( 'swiper' );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'elements/ImageSlider/frontend', 'css' ) );
 	}
 
 	/**
@@ -242,14 +244,16 @@ class ImageSlider extends Element {
 			'slides_to_scroll' => $options->get_value( 'slides_to_scroll' ),
 			'rawConfig'        => [
 				'loop'     => $options->get_value( 'infinite' ),
-				'speed'     => $options->get_value( 'speed' ),
+				'speed'    => $options->get_value( 'speed' ),
 				'autoplay' => $autoplay,
 			],
 		];
 
 		if ( $autoplay ) {
 			$config['rawConfig']['autoplay'] = [
-				'delay' => $options->get_value( 'autoplay_delay' ),
+				'delay'         => $options->get_value( 'autoplay_delay' ),
+				'lazy'          => true,
+				'preloadImages' => false,
 			];
 		}
 
@@ -271,7 +275,18 @@ class ImageSlider extends Element {
 		<div class="swiper-wrapper">
 			<?php
 			foreach ( $images as $image ) {
-				printf( '<img src="%s" class="swiper-slide"/>', esc_attr( $image['image'] ) );
+				echo '<div class="swiper-slide">';
+				echo WPMedia::get_imge(
+					$image,
+					[
+
+						'loading' => '',
+						'srcset'  => '',
+						'sizes'   => '',
+					]
+				);
+				echo '</div>';
+				// printf( '<img src="%s" class="swiper-slide"/>', esc_attr( $image['image'] ) );
 			}
 			?>
 
