@@ -194,6 +194,8 @@ watch(expandedItems, newValue => {
 			flex-grow: 1;
 			padding: 10px 8px;
 			cursor: text;
+			width: 100%;
+
 
 			&:focus {
 				outline: 0;
