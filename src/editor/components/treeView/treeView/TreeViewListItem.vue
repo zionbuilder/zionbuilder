@@ -192,7 +192,7 @@ watch(expandedItems, newValue => {
 		&-rename {
 			position: relative;
 			flex-grow: 1;
-			padding: 10px 8px;
+			padding: 10px 4px;
 			cursor: text;
 			width: 100%;
 
@@ -204,7 +204,7 @@ watch(expandedItems, newValue => {
 
 		&-expand,
 		&-more {
-			padding: 10px 8px;
+			padding: 10px 4px;
 		}
 
 		&-expand {
@@ -247,7 +247,7 @@ watch(expandedItems, newValue => {
 }
 
 .znpb-tree-view__itemIcon {
-	padding: 10px 8px;
+	padding: 10px 4px;
 	font-size: 24px;
 
 	& svg {
