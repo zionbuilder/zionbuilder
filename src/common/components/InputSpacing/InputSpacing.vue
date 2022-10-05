@@ -894,11 +894,11 @@ function closeOnEscape(event: KeyboardEvent) {
 		@at-root .znpb-theme-dark .znpb-optSpacing-svg svg {
 			& path {
 				&:nth-child(odd) {
-					fill: #2f2f34;
+					fill: #3e3e42;
 				}
 
 				&:nth-child(even) {
-					fill: #35353a;
+					fill: #38383c;
 				}
 			}
 		}

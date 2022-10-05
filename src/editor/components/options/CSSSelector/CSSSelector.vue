@@ -392,6 +392,8 @@ export default {
 }
 
 .znpb-option-cssSelectorTitle {
+	width: 100%;
+	font-weight: 500;
 	padding-right: 20px;
 	margin-bottom: 8px;
 
