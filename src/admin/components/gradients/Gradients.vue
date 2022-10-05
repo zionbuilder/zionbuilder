@@ -18,8 +18,8 @@
 			<Tab name="Global">
 				<UpgradeToPro
 					v-if="!isPro"
-					:message-title="$translate('pro_manage_global_gradients_free_title')"
-					:message-description="$translate('pro_manage_global_gradients_free')"
+					:message_title="$translate('pro_manage_global_gradients_free_title')"
+					:message_description="$translate('pro_manage_global_gradients_free')"
 				/>
 				<template v-else>
 					<div class="znpb-admin-gradient__container">

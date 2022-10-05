@@ -2,11 +2,12 @@
 	<Sortable
 		:model-value="children"
 		:group="groupInfo"
-		:disabled="UIStore.isPreviewMode || disabled"
+		:disabled="isDisabled"
 		:allow-duplicate="true"
 		v-bind="$attrs"
 		:class="{
 			[`znpb__sortable-container--${getSortableAxis}`]: UIStore.isElementDragging,
+			[`znpb__sortable-container--disabled`]: isDisabled,
 		}"
 		:axis="getSortableAxis"
 		:data-zion-element-uid="element.uid"
@@ -46,7 +47,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useContentStore, useUIStore } from '/@/editor/store';
+import { useContentStore, useUIStore, useUserStore } from '/@/editor/store';
 
 // Utils
 import { get } from 'lodash-es';
@@ -78,11 +79,16 @@ const props = withDefaults(
 // Stores
 const UIStore = useUIStore();
 const contentStore = useContentStore();
+const UserStore = useUserStore();
 
 const children = computed(() => props.element.content.map(childUID => contentStore.getElement(childUID)));
 const defaultSortableGroup = {
 	name: 'elements',
 };
+
+const isDisabled = computed(() => {
+	return UIStore.isPreviewMode || props.disabled || !UserStore.userCanEditContent;
+});
 
 const groupInfo = computed(() => props.group || defaultSortableGroup);
 const getSortableAxis = computed(() => {

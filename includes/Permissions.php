@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Options\Options;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -25,13 +27,59 @@ class Permissions {
 	 */
 	private static $current_user_allowed_edit = null;
 
+
+	/**
+	 * Caches the user permission
+	 *
+	 * @var array
+	 */
+	private static $current_user_permissions = null;
+
 	/**
 	 * Main class constructor
 	 */
 	public function __construct() {
 		add_action( 'init', [ $this, 'add_post_type_support' ] );
+		add_filter( 'zionbuilder/admin_page/options_schemas', [ $this, 'add_permissions_schema' ] );
 	}
 
+	public function add_permissions_schema( $schemas ) {
+		$permissions_schema = new Options( 'zionbuilder/permissions/schema' );
+
+		$permissions_schema->add_option(
+			'allowed_access',
+			[
+				'type'    => 'checkbox_switch',
+				'columns' => 2,
+				'title'   => esc_html__( 'Allow access to editor', 'zionbuilder' ),
+				'default' => false,
+				'layout'  => 'inline',
+				// 'options' => [
+				//  [
+				//      'id'   => false,
+				//      'name' => esc_html__( 'no', 'zionbuilder' ),
+				//  ],
+				//  [
+				//      'id'   => true,
+				//      'name' => esc_html__( 'yes', 'zionbuilder' ),
+				//  ],
+				// ],
+			]
+		);
+
+		$permissions_schema->add_option(
+			'upgrade_message',
+			[
+				'type'                => 'upgrade_to_pro',
+				'message_title'       => esc_html__( 'Meet Advanced permissions', 'zionbuilder' ),
+				'message_description' => esc_html__( 'With advanced permissions you can give your users fine grained control over the builder.', 'zionbuilder' ),
+				'info_text'           => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
+			]
+		);
+
+		$schemas['permissions'] = $permissions_schema->get_schema();
+		return $schemas;
+	}
 
 	/**
 	 * Returns a list of post types for which the current user has permissions to edit
@@ -160,15 +208,54 @@ class Permissions {
 	 * @return boolean
 	 */
 	public static function current_user_can( $permission ) {
-		$user_can = false;
+		$user_can          = false;
+		$saved_permissions = self::get_user_permissions();
 
 		switch ( $permission ) {
 			default:
-				$user_can = self::user_allowed_edit();
+				if ( isset( $saved_permissions[$permission] ) ) {
+					return $saved_permissions[$permission];
+				}
+
 				break;
 		}
 
 		$hook = sprintf( 'zionbuilder/permissions/user_allowed/%s', $permission );
+
 		return apply_filters( $hook, $user_can );
+	}
+
+	public static function get_permission_defaults() {
+		$is_admin = current_user_can( 'administrator' );
+		return apply_filters(
+			'zionbuilder/permissions/defaults',
+			[
+				'allowed_access' => $is_admin,
+			]
+		);
+	}
+
+	public static function get_user_permissions() {
+		if ( null !== self::$current_user_permissions ) {
+			return self::$current_user_permissions;
+		}
+
+		$permissions       = Settings::get_user_role_permissions_settings();
+		$defaults          = self::get_permission_defaults();
+		$current_user      = wp_get_current_user();
+		$user_roles        = (array) $current_user->roles;
+		$saved_permissions = [];
+
+		// Check if the user has access to the page builder
+		foreach ( $user_roles as $role_id ) {
+			if ( isset( $permissions[$role_id] ) ) {
+				$saved_permissions = $permissions[$role_id];
+				break;
+			}
+		}
+
+		self::$current_user_permissions = apply_filters( 'zionbuilder/permissions', wp_parse_args( $saved_permissions, $defaults ) );
+		return self::$current_user_permissions;
+
 	}
 }

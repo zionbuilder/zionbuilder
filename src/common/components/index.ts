@@ -43,3 +43,4 @@ export * from './Injection';
 export * from './OptionsForm';
 export * from './Menu';
 export * from './InputSpacing';
+export * from './UpgradeToPro';

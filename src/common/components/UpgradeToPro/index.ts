@@ -1,1 +1,1 @@
-export { default as UpgradeToPro } from './UpgradeToPro.vue'
+export { default as UpgradeToPro } from './UpgradeToPro.vue';
