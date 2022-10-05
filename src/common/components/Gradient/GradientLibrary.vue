@@ -97,8 +97,6 @@ const getGlobalGradients = computed<GradientModel[]>(() => {
 });
 
 const getLocalGradients = computed<GradientModel[]>(() => {
-	console.log(getOptionValue('local_gradients'));
-
 	return getOptionValue('local_gradients');
 });
 

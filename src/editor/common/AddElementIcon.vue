@@ -1,5 +1,6 @@
 <template>
 	<div
+		v-if="!userStore.permissions.only_content"
 		ref="root"
 		v-znpb-tooltip="positionString + ' ' + element.name"
 		class="znpb-element-toolbox__add-element-button"
@@ -14,7 +15,7 @@
 
 <script lang="ts" setup>
 import { translate } from '/@/common/modules/i18n';
-import { useUIStore } from '../store';
+import { useUIStore, useUserStore } from '../store';
 import { ref, onBeforeUnmount, onMounted } from 'vue';
 
 const props = withDefaults(
@@ -33,6 +34,7 @@ const props = withDefaults(
 
 const root = ref(null);
 const UIStore = useUIStore();
+const userStore = useUserStore();
 const positionString = props.placement === 'inside' ? translate('insert_inside') : translate('insert_after');
 
 onMounted(() => {

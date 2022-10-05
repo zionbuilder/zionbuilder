@@ -1,9 +1,10 @@
 import { useSavePage, useEditorData, useElementActions } from '../composables';
 import { isEditable, Environment } from '/@/common/utils';
-import { useHistoryStore, useUIStore } from '../store';
+import { useHistoryStore, useUIStore, useUserStore } from '../store';
 
 export const useKeyBindings = () => {
 	const UIStore = useUIStore();
+	const userStore = useUserStore();
 	const { savePage, isSavePageLoading } = useSavePage();
 	const { copyElement, pasteElement, resetCopiedElement, copyElementStyles, pasteElementStyles } = useElementActions();
 	const { editorData } = useEditorData();
@@ -53,7 +54,7 @@ export const useKeyBindings = () => {
 		}
 
 		// Shortcuts that needs an active element
-		if (UIStore.editedElement) {
+		if (UIStore.editedElement && !userStore.permissions.only_content) {
 			const activeElementFocus = UIStore.editedElement;
 
 			// Duplicate - CTRL+D

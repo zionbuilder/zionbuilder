@@ -103,11 +103,6 @@ function addProperty() {
 	clone.push(newItem);
 
 	emit('update:modelValue', clone);
-
-	// this.$nextTick(() => {
-	// 	console.log(this.$refs.repeaterItem);
-	// 	this.$refs.repeaterItem.expand()
-	// })
 }
 function cloneOption(event: Record<string, any>, index: number) {
 	if (

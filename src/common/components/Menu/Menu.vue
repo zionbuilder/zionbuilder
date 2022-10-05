@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-menu">
 		<div
-			v-for="action in actions"
+			v-for="action in availableActions"
 			:key="action.title"
 			class="znpb-menu-item"
 			:class="[{ 'znpb-menu-item--disabled': action.show === false }, action.cssClasses]"
@@ -25,6 +25,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+
 export interface Action {
 	title: string;
 	icon?: string;
@@ -33,9 +35,10 @@ export interface Action {
 	show?: boolean;
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	action: Function;
+	disabled: boolean;
 }
 
-defineProps<{
+const props = defineProps<{
 	actions: Action[];
 }>();
 
@@ -45,6 +48,10 @@ function performAction(action: Action) {
 	action.action();
 	emit('action');
 }
+
+const availableActions = computed(() => {
+	return props.actions.filter(action => action.disabled !== false);
+});
 </script>
 
 <style lang="scss">

@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-option-element-selector">
 		<BaseInput v-model="valueModel">
-			<template v-slot:append>
+			<template #append>
 				<span @click="activateSelectorMode">Select</span>
 			</template>
 		</BaseInput>
@@ -9,70 +9,68 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 export default {
 	name: 'ElementSelector',
 	props: {
 		modelValue: {
 			type: String,
-			required: false
+			required: false,
 		},
 		use_preview: {
 			type: Boolean,
 			required: false,
-			default: true
-		}
+			default: true,
+		},
 	},
-	setup (props, { emit }) {
-		let activeDoc = document
-		let lastElement = null
+	setup(props, { emit }) {
+		let activeDoc = document;
+		let lastElement = null;
 
 		const valueModel = computed({
-			get () {
-				return props.modelValue
+			get() {
+				return props.modelValue;
 			},
-			set (newValue) {
-				emit('update:modelValue', newValue)
-			}
-		})
+			set(newValue) {
+				emit('update:modelValue', newValue);
+			},
+		});
 
-		function activateSelectorMode () {
+		function activateSelectorMode() {
 			if (props.use_preview) {
-				const iframeElement = document.getElementById('znpb-editor-iframe')
+				const iframeElement = document.getElementById('znpb-editor-iframe');
 
 				if (!iframeElement) {
-					console.error('The iframe preview is missing')
-					return
+					console.error('The iframe preview is missing');
+					return;
 				}
 
-				activeDoc = iframeElement.contentWindow.document
-
+				activeDoc = iframeElement.contentWindow.document;
 			}
 
-			activeDoc.addEventListener('mousemove', onMouseMove)
-			activeDoc.body.classList.add('znpb-element-selector--active')
+			activeDoc.addEventListener('mousemove', onMouseMove);
+			activeDoc.body.classList.add('znpb-element-selector--active');
 		}
 
-		function disableElementSelector () {
-			activeDoc.body.classList.remove('znpb-element-selector--active')
+		function disableElementSelector() {
+			activeDoc.body.classList.remove('znpb-element-selector--active');
 		}
 
-		function onMouseMove (event) {
+		function onMouseMove(event) {
 			// let activeElement = document.elementFromPoint(event.clientX, event.clientY)
 			// console.log(activeElement);
-			const { clientX, clientY } = event
+			const { clientX, clientY } = event;
 
 			// Cleanup
 			if (lastElement) {
-				lastElement.classList.remove('znpb-element-selector--element-hovered')
+				lastElement.classList.remove('znpb-element-selector--element-hovered');
 			}
-
 
 			lastElement = activeDoc.elementFromPoint(clientX, clientY);
 
 			// Highlight hovered element
-			lastElement.classList.add('znpb-element-selector--element-hovered')
+			lastElement.classList.add('znpb-element-selector--element-hovered');
 
 			// console.log(el);
 			// if (!activeElement) {
@@ -91,10 +89,10 @@ export default {
 
 		return {
 			valueModel,
-			activateSelectorMode
-		}
-	}
-}
+			activateSelectorMode,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

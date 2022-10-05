@@ -91,7 +91,8 @@ function initGutenberg(args: { post_id: number; is_editor_enabled: boolean; l10n
 
 			// Set WP Title and trigger save detection
 			const pageTitle = wp.data.select('core/editor').getEditedPostAttribute('title');
-			if (!pageTitle) {
+
+			if (!pageTitle || pageTitle.length === 0) {
 				wp.data.dispatch('core/editor').editPost({
 					title: `ZionBuilder #${postId}`,
 				});

@@ -240,9 +240,12 @@ class Admin {
 						'template_types'   => Plugin::$instance->templates->get_template_types(),
 						'template_sources' => Plugin::$instance->library->get_sources(),
 						'plugin_version'   => Plugin::$instance->get_version(),
-						'schemas'          => [
-							'performance' => Performance::get_schema(),
-						],
+						'schemas'          => apply_filters(
+							'zionbuilder/admin_page/options_schemas',
+							[
+								'performance' => Performance::get_schema(),
+							]
+						),
 						'appearance'       => [
 							'schema' => [
 								'builder_theme' => [

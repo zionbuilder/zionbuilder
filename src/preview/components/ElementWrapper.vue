@@ -526,7 +526,7 @@ export default {
 		position: relative;
 	}
 
-	&:hover {
+	&:not(.znpb__sortable-container--disabled > &):hover {
 		cursor: move;
 	}
 

@@ -13,6 +13,7 @@
 			</ModalConfirm>
 
 			<a
+				v-if="!userStore.permissions.only_content"
 				href="#"
 				class="znpb-tree-viewRemoveButton"
 				:class="{
@@ -47,10 +48,10 @@ import { translate } from '/@/common/modules/i18n';
 
 // components
 import TreeViewList from './TreeViewList.vue';
-import { useUIStore } from '/@/editor/store';
+import { useUIStore, useUserStore } from '/@/editor/store';
 
 const UIStore = useUIStore();
-
+const userStore = useUserStore();
 const props = defineProps<{
 	element: ZionElement;
 }>();

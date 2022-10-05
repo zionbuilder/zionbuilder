@@ -16,7 +16,6 @@ import ElementStyles from './ElementStyles';
 import CSSSelector from './CSSSelector';
 import Gallery from './Gallery';
 import HTMLComponent from './HTML';
-import UpgradeToPro from './UpgradeToPro';
 // Custom options just for builder
 import GlobalClasses from './GlobalCssClasses';
 import ChildAdder from './ChildAdder';
@@ -47,7 +46,6 @@ export const registerEditorOptions = () => {
 	registerOption(CSSSelector);
 	registerOption(Gallery);
 	registerOption(HTMLComponent);
-	registerOption(UpgradeToPro);
 	registerOption(Dimensions);
 
 	// options just for builder

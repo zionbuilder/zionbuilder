@@ -272,14 +272,7 @@ export const useBuilderOptionsStore = defineStore('builderOptions', () => {
 	}
 
 	function addUserPermissions(user) {
-		options.value.users_permissions[user.id] = {
-			allowed_access: true,
-			permissions: {
-				only_content: false,
-				features: [],
-				post_types: [],
-			},
-		};
+		options.value.users_permissions[user.id] = {};
 
 		saveOptionsToDB();
 	}

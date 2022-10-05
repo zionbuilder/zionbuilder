@@ -12,7 +12,6 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
 use ZionBuilder\CommonJS;
-use ZionBuilder\Localization;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -355,6 +354,7 @@ class Editor {
 
 				// User data
 				'user_data'        => User::get_user_data(),
+				'user_permissions' => Permissions::get_user_permissions(),
 			]
 		);
 	}

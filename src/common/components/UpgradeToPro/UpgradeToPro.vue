@@ -4,24 +4,26 @@
 			<Label :text="$translate('pro')" type="warning" class="znpb-option__upgrade-to-pro-label" />
 
 			<h4>
-				{{ messageTitle }}
+				{{ message_title }}
 			</h4>
 
 			<p>
-				{{ messageDescription }}
+				{{ message_description }}
 			</p>
 
-			<a v-if="infoText" href="https://zionbuilder.io/documentation/pro-version/" target="_blank">
-				{{ infoText }}
+			<a v-if="info_text" :href="info_link" target="_blank">
+				{{ info_text }}
 			</a>
 
-			<a
-				href="https://zionbuilder.io/"
-				target="_blank"
-				class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
-			>
-				{{ $translate('upgrade_to_pro') }}
-			</a>
+			<div>
+				<a
+					href="https://zionbuilder.io/"
+					target="_blank"
+					class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
+				>
+					{{ $translate('upgrade_to_pro') }}
+				</a>
+			</div>
 		</div>
 	</div>
 </template>
@@ -35,16 +37,20 @@ export default {
 import Label from '../Label/Label.vue';
 withDefaults(
 	defineProps<{
-		messageTitle?: string;
-		messageDescription?: string;
-		infoText?: string;
-		infoLink?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		message_title?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		message_description?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		info_text?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		info_link?: string;
 	}>(),
 	{
-		infoLink: 'https://zionbuilder.io/documentation/pro-version/',
-		messageTitle: '',
-		messageDescription: '',
-		infoText: '',
+		info_link: 'https://zionbuilder.io/documentation/pro-version/',
+		message_title: '',
+		message_description: '',
+		info_text: '',
 	},
 );
 </script>

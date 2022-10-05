@@ -112,7 +112,7 @@
 			</div>
 		</div>
 
-		<div class="znpb-responsiveDeviceFooter">
+		<div v-if="!userStore.permissions.only_content" class="znpb-responsiveDeviceFooter">
 			<div class="znpb-responsiveDeviceEditButton" @click="disableEditBreakpoints">
 				<template v-if="!editBreakpoints">
 					<Icon icon="edit" />
@@ -134,6 +134,7 @@ import { useResponsiveDevices } from '/@/common/composables';
 import DeviceElement from './DeviceElement.vue';
 import FlyoutWrapper from './FlyoutWrapper.vue';
 import FlyoutMenuItem from './FlyoutMenuItem.vue';
+import { useUserStore } from '../../store';
 
 const {
 	activeResponsiveDeviceInfo,
@@ -147,6 +148,8 @@ const {
 	deviceSizesConfig,
 	addCustomBreakpoint,
 } = useResponsiveDevices();
+
+const userStore = useUserStore();
 
 const preventClose = ref(false);
 const enabledAddBreakpoint = ref(false);

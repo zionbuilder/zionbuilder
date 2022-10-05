@@ -186,8 +186,6 @@ export default {
 			},
 		},
 		cursorPosition() {
-			console.log(this.modelValue);
-			console.log(this.unit);
 			return this.modelValue && this.unit ? this.modelValue.length - this.unit.length : null;
 		},
 		stringValueModel: {
