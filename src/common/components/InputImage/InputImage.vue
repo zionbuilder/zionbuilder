@@ -3,7 +3,8 @@
 		<component :is="customComponent" v-if="customComponent" />
 		<div v-else ref="imageHolder" class="znpb-input-image-holder" :style="wrapperStyles" @click="openMediaModal">
 			<ActionsOverlay :show-overlay="!isDragging">
-				<img ref="image" :src="imageSrc" class="znpb-input-image-holder__image" />
+				<component :is="imageComponent" :src="imageSrc" class="znpb-input-image-holder__image" />
+				<!-- <img ref="image" :src="imageSrc" class="znpb-input-image-holder__image" /> -->
 				<template #actions>
 					<div class="znpb-input-image-holder__image-actions">
 						<Icon :rounded="true" icon="delete" :bg-size="30" @click.stop="deleteImage" />
@@ -14,7 +15,7 @@
 				</template>
 			</ActionsOverlay>
 			<div
-				v-if="imageSrc && shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
+				v-if="shouldDragImage && (previewExpanded || !shouldDisplayExpander)"
 				ref="dragButton"
 				class="znpb-drag-icon-wrapper"
 				:style="positionCircleStyle"
@@ -40,10 +41,7 @@
 		</div>
 
 		<!-- Image size -->
-		<div
-			v-if="show_size && imageSrc && !imageSrc.endsWith('.svg') && !loading"
-			class="znpb-input-image__custom-size-wrapper"
-		>
+		<div v-if="show_size && imageSrc && !isSVG && !loading" class="znpb-input-image__custom-size-wrapper">
 			<InputWrapper title="Image size">
 				<InputSelect v-model="sizeValue" :options="imageSizes" />
 			</InputWrapper>
@@ -64,7 +62,19 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, CSSProperties } from 'vue';
+import { applyFilters, doAction } from '../../modules/hooks';
+import {
+	ref,
+	Ref,
+	computed,
+	watch,
+	onMounted,
+	onBeforeUnmount,
+	nextTick,
+	inject,
+	CSSProperties,
+	watchEffect,
+} from 'vue';
 import Icon from '../Icon/Icon.vue';
 import { ActionsOverlay } from '../ActionsOverlay';
 import { EmptyList } from '../EmptyList';
@@ -105,6 +115,10 @@ const emit = defineEmits<{
 	(e: 'update:modelValue', value: ImageValue | string): void;
 }>();
 
+const imageComponent = computed(() => {
+	return applyFilters('zionbuilder/options/image/image_component', 'img', props.modelValue);
+});
+
 const imageHolder: Ref<HTMLDivElement | null> = ref(null);
 const image: Ref<HTMLImageElement | null> = ref(null);
 const dragButton: Ref<HTMLDivElement | null> = ref(null);
@@ -124,6 +138,7 @@ const initialX = ref<number | null>(null);
 const initialY = ref<number | null>(null);
 const attachmentModel = ref<Record<string, any> | null>(null);
 const loading = ref(true);
+const dynamicImageSrc = ref(null);
 
 let mediaModal: Record<string, any>;
 
@@ -144,6 +159,14 @@ watch(
 const customComponent = computed(() => {
 	const { applyFilters } = window.zb.hooks;
 	return applyFilters('zionbuilder/options/image/display_component', null, props.modelValue, inputWrapper, optionsForm);
+});
+
+const isSVG = computed(() => {
+	if (imageSrc.value) {
+		return imageSrc.value.endsWith('.svg');
+	}
+
+	return imageSrc.value;
 });
 
 const imageSizes = computed(() => {
@@ -241,7 +264,17 @@ const imageValue = computed({
 });
 
 const imageSrc = computed(() => {
-	return typeof props.modelValue === 'object' ? props.modelValue?.image || null : props.modelValue || null;
+	return dynamicImageSrc.value
+		? dynamicImageSrc.value
+		: typeof props.modelValue === 'object'
+		? props.modelValue?.image || null
+		: props.modelValue || null;
+});
+
+const element = inject('ZionElement');
+
+watchEffect(() => {
+	doAction('zionbuilder/input/image/src_url', dynamicImageSrc, props.modelValue, element);
 });
 
 const shouldDisplayExpander = computed(() => {
@@ -418,6 +451,10 @@ onMounted(() => {
 		loading.value = false;
 	}
 	getImageHeight();
+});
+
+watch(dynamicImageSrc, () => {
+	getAttachmentModel();
 });
 
 onBeforeUnmount(() => {

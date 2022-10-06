@@ -208,7 +208,7 @@ class Permissions {
 	 * @return boolean
 	 */
 	public static function current_user_can( $permission ) {
-		$user_can          = false;
+		$user_can          = self::user_allowed_edit();
 		$saved_permissions = self::get_user_permissions();
 
 		switch ( $permission ) {
