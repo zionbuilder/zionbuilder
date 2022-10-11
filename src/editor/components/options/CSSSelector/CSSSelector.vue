@@ -272,7 +272,9 @@ export default {
 			return schema;
 		});
 
-		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0);
+		const hasChanges = computed(
+			() => Object.keys(value.value.styles || {}).length > 0 || Object.keys(value.value.attributes || {}).length > 0,
+		);
 
 		const value = computed({
 			get() {
