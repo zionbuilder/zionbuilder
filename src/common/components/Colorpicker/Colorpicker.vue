@@ -5,10 +5,10 @@
 		:class="{ ['color-picker-holder--has-library']: showLibrary }"
 		:style="pickerStyle"
 	>
-		<ColorBoard :modelValue="(color as ColorObject)" @update:modelValue="updateColor" />
+		<ColorBoard v-model:color-object="computedColorObject" />
 
 		<div class="znpb-form-colorpicker-inner__panel">
-			<PanelHex :modelValue="(color as ColorObject)" @update:modelValue="updateColor" @update:format="updateFormat" />
+			<PanelHex v-model:model-value="computedColorObject" />
 
 			<slot name="end" />
 		</div>
@@ -19,14 +19,10 @@
 import tinycolor from 'tinycolor2';
 import PanelHex from './PanelHex.vue';
 import ColorBoard from './ColorBoard.vue';
-import { ref, computed, Ref, watch, CSSProperties } from 'vue';
+import { computed, CSSProperties } from 'vue';
 import type { ColorFormats } from 'tinycolor2';
 
-type Format = 'hex' | 'hsv' | 'hsl' | 'rgb' | 'hex8' | 'name' | false;
-
 type Colors = string | ColorFormats.RGBA | ColorFormats.HSLA | ColorFormats.HSVA | ColorFormats.HSLA;
-
-type ColorObject = ReturnType<typeof getColorObject>;
 
 const props = withDefaults(
 	defineProps<{
@@ -37,25 +33,50 @@ const props = withDefaults(
 	{
 		appendTo: undefined,
 		showLibrary: true,
+		model: '',
 	},
 );
 
 const emit = defineEmits(['color-changed']);
 
-const oldHue = ref(0);
-const color: Ref<ColorObject | undefined> = ref();
-const format: Ref<Format | undefined> = ref();
-const localLibrary = ref(props.showLibrary);
-
-color.value = getColorObject(props.model);
-format.value = color.value.format;
-
-watch(
-	() => props.model,
-	(newVal?: Colors) => {
-		color.value = getColorObject(newVal);
+const computedModelValue = computed({
+	get() {
+		return props.model;
 	},
-);
+	set(newValue) {
+		if (newValue) {
+			emit('color-changed', newValue);
+		} else {
+			emit('color-changed', '');
+		}
+	},
+});
+
+const computedColorObject = computed({
+	get() {
+		return getColorObject(props.model);
+	},
+	set(newValue) {
+		const colorObject = tinycolor(newValue);
+		const format = colorObject.getFormat();
+		let emittedColor;
+		if (colorObject.isValid()) {
+			if (format === 'hsl') {
+				emittedColor = colorObject.toHslString();
+			} else if (format === 'rgb' || format === 'hsv') {
+				emittedColor = colorObject.toRgbString();
+			} else if (format === 'hex' || format === 'hex8') {
+				emittedColor = colorObject.getAlpha() < 1 ? colorObject.toHex8String() : colorObject.toHexString();
+			} else if (format === 'name') {
+				emittedColor = newValue;
+			}
+		} else {
+			emittedColor = newValue;
+		}
+
+		computedModelValue.value = emittedColor;
+	},
+});
 
 const pickerStyle = computed<CSSProperties>(() => {
 	if (props.appendTo) {
@@ -66,61 +87,32 @@ const pickerStyle = computed<CSSProperties>(() => {
 	return {};
 });
 
-function updateFormat(currentFormat: Format) {
-	format.value = currentFormat;
-}
-
-function updateColor(newValue: Colors) {
-	oldHue.value = typeof newValue !== 'string' && 'h' in newValue ? newValue.h : oldHue.value;
-	const colorObject = tinycolor(newValue);
-
-	let emittedColor;
-	if (format.value === 'hsl') {
-		emittedColor = colorObject.toHslString();
-	} else if (format.value === 'rgb' || format.value === 'name' || format.value === 'hsv') {
-		emittedColor = colorObject.toRgbString();
-	} else if (format.value === 'hex' || format.value === 'hex8') {
-		emittedColor = colorObject.getAlpha() < 1 ? colorObject.toHex8String() : colorObject.toHexString();
-	}
-
-	color.value = getColorObject(newValue);
-
-	if (newValue) {
-		emit('color-changed', emittedColor);
-	} else {
-		emit('color-changed', '');
-	}
-}
-
 function getColorObject(model?: Colors) {
 	const colorObject = tinycolor(model);
+	let hsva = {
+		h: 0,
+		s: 0,
+		v: 0,
+		a: 1,
+	};
+	let hsla = {
+		h: 0,
+		s: 0,
+		l: 0,
+		a: 1,
+	};
+	let hex8 = '';
+	let rgba = '';
+	let hex = model ? model : '';
 
-	let hsva = colorObject.toHsv();
-	let hsla = colorObject.toHsl();
-	let hex = colorObject.toHexString();
-	let hex8 = colorObject.toHex8String();
-	let rgba = colorObject.toRgb();
-
-	// If we do not have a model, set empty values
-	if (!model) {
-		hex = '';
-		hex8 = '';
-	}
-
-	if (hsla.s === 0) {
-		hsva.h = hsla.h = oldHue.value;
-	}
-
-	if (!format.value) {
-		format.value = colorObject.getFormat() as Format;
-	}
-
-	if (format.value === 'hex' || format.value === 'hex8') {
-		format.value = colorObject.getAlpha() < 1 ? 'hex8' : 'hex';
-	}
-
-	if (format.value === 'name' || format.value === 'hsv' || format.value === false) {
-		format.value = 'hex';
+	let format = 'hex';
+	if (colorObject.isValid()) {
+		format = colorObject.getFormat();
+		hsva = colorObject.toHsv();
+		hsla = colorObject.toHsl();
+		hex = format === 'name' ? model : colorObject.toHexString();
+		hex8 = colorObject.toHex8String();
+		rgba = colorObject.toRgb();
 	}
 
 	return {
@@ -129,18 +121,8 @@ function getColorObject(model?: Colors) {
 		rgba,
 		hsla,
 		hsva,
-		format: format.value,
+		format,
 	};
-}
-
-function addGlobal(name: string) {
-	let globalColor = {
-		id: name.split(' ').join('_'),
-		color: props.model,
-		name: name,
-	};
-	localLibrary.value = true;
-	addGlobalColor(globalColor);
 }
 </script>
 
