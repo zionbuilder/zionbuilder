@@ -311,7 +311,8 @@ export function compileStyleTabs(styleValues) {
 	// background position
 	if (backgroundPositionX || backgroundPositionY) {
 		const xPosition = backgroundPositionX || '50%';
-		combineStyles += `background-position: ${xPosition} ${backgroundPositionY};`;
+		const yPosition = backgroundPositionY || '50%';
+		combineStyles += `background-position: ${xPosition} ${yPosition};`;
 	}
 
 	// Background image

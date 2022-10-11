@@ -429,7 +429,9 @@ class Style {
 
 		// Background position
 		if ( $background_position_x || $background_position_y ) {
-			$compiled_css .= sprintf( 'background-position: %s %s;', $background_position_x, $background_position_y );
+			$background_position_x = $background_position_x ? $background_position_x : 'center';
+			$background_position_y = $background_position_y ? $background_position_y : 'center';
+			$compiled_css         .= sprintf( 'background-position: %s %s;', $background_position_x, $background_position_y );
 		}
 
 		// Text decoration
