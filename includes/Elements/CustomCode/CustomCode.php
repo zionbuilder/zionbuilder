@@ -93,7 +93,6 @@ class CustomCode extends Element {
 				'description' => __( 'Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type="text/css">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!', 'zionbuilder' ),
 				'title'       => esc_html__( 'Custom html', 'zionbuilder' ),
 				'mode'        => 'htmlmixed',
-				'default'     => esc_html__( '// Your custom HTML here', 'zionbuilder' ),
 			]
 		);
 
