@@ -1,11 +1,6 @@
 <template>
 	<div class="znpb-custom-code">
-		<textarea
-			ref="codeMirrorTextarea"
-			:value="modelValue"
-			class="znpb-custom-code__text-area"
-			:placeholder="placeholder"
-		></textarea>
+		<textarea ref="codeMirrorTextarea" class="znpb-custom-code__text-area" :placeholder="placeholder"></textarea>
 	</div>
 </template>
 
@@ -16,7 +11,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, Ref, watch, onMounted } from 'vue';
+import { ref, Ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import type { Editor } from 'codemirror';
 
 const props = withDefaults(
@@ -75,6 +70,7 @@ onMounted(() => {
 		lint,
 		autoCloseBrackets: true,
 		matchBrackets: true,
+		autoRefresh: true,
 		autoCloseTags: true,
 		matchTags: {
 			bothTags: true,
@@ -131,11 +127,17 @@ onMounted(() => {
 
 	// Set the editor value
 	if (props.modelValue) {
-		// editor.setValue(this.modelValue)
+		editor.setValue(props.modelValue);
 	}
 
 	// Bind events
 	editor.on('change', onEditorChange);
+});
+
+onBeforeUnmount(() => {
+	if (editor) {
+		editor.toTextArea();
+	}
 });
 </script>
 
