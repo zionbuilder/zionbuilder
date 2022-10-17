@@ -3,9 +3,8 @@
 namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
-use ZionBuilder\Plugin;
-use ZionBuilder\Whitelabel;
-use ZionBuilder\FontsManager\Fonts\LocalGoogleFonts;
+use ZionBuilder\Assets as ZBAssets;
+use ZionBuilder\Utils;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,11 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class RegenerateCache
+ * Class Assets
  *
  * @package ZionBuilder\Api\RestControllers
  */
-class RegenerateCache extends RestApiController {
+class Assets extends RestApiController {
 
 	/**
 	 * Api endpoint namespace
@@ -31,7 +30,7 @@ class RegenerateCache extends RestApiController {
 	 *
 	 * @var string
 	 */
-	protected $base = 'regenerate-cache';
+	protected $base = 'assets';
 
 	/**
 	 * Register routes
@@ -46,6 +45,20 @@ class RegenerateCache extends RestApiController {
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'get_item' ],
+					'args'                => [],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/regenerate',
+			[
+				[
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'regenerate' ],
 					'args'                => [],
 					'permission_callback' => [ $this, 'get_item_permissions_check' ],
 				],
@@ -75,21 +88,42 @@ class RegenerateCache extends RestApiController {
 	 * This function will delete the Zion Builder cache from cache folder
 	 *
 	 * @param \WP_REST_Request $request
+	 * @since 3.4.0
 	 *
 	 * @return array|\WP_Error
 	 */
 	public function get_item( $request ) {
-		// Delete css/js cache
-		$delete_css_cache = Plugin::instance()->cache->delete_all_cache();
-		// Delete local fonts css
-		$delete_local_fonts_cache = LocalGoogleFonts::delete_cache();
+		$post_ids = Utils::get_builder_pages();
+		$defaults = [
+			[
+				'type' => 'global_css',
+			],
+		];
+		$files    = [];
 
-		if ( ! $delete_css_cache || ! $delete_local_fonts_cache ) {
-			return new \WP_Error( 'regenerate_cache_failed', esc_html__( 'Regenerate cache failed!', 'zionbuilder' ), [ 'status' => '500' ] );
+		if ( $post_ids ) {
+			$files = array_map(
+				function ( $id ) {
+					return [
+						'type' => 'post',
+						'id'   => $id,
+					];
+				},
+				$post_ids
+			);
 		}
 
-		return [
-			'message' => sprintf( '%s data refreshed', Whitelabel::get_title() ),
-		];
+		return array_merge( $defaults, $files );
+	}
+
+	public function regenerate( $request ) {
+		$type = $request->get_param( 'type' );
+
+		switch ( $type ) {
+			case 'global_css':
+				return ZBAssets::compile_global_css();
+			case 'post':
+				return ZBAssets::generate_post_assets( $request->get_param( 'id' ) );
+		}
 	}
 }

@@ -7,7 +7,7 @@ export * from './GoogleFonts';
 export * from './Library';
 export * from './Options';
 export * from './Page';
-export * from './RegenerateCache';
+export * from './Assets';
 export * from './ReplaceUrl';
 export * from './SystemInfo';
 export * from './ServiceInterceptor';

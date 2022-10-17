@@ -81,7 +81,7 @@ class RestApi {
 			'ZionBuilder\Api\RestControllers\SystemInfo',
 			'ZionBuilder\Api\RestControllers\Templates',
 			'ZionBuilder\Api\RestControllers\DownloadArchive',
-			'ZionBuilder\Api\RestControllers\RegenerateCache',
+			'ZionBuilder\Api\RestControllers\Assets',
 			'ZionBuilder\Api\RestControllers\ReplaceUrl',
 			'ZionBuilder\Api\RestControllers\SavePage',
 			'ZionBuilder\Api\RestControllers\Pages',

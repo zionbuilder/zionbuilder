@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Elements\Style;
 use ZionBuilder\Options\Schemas\StyleOptions;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,8 +34,8 @@ class CSSClasses {
 	 * @return bool
 	 */
 	public static function save_classes( $classes = [] ) {
-		// Clear the cache
-		Plugin::instance()->cache->delete_dynamic_css_cache();
+		// Regenerate global css
+		Assets::compile_global_css();
 
 		// Also clear the cache
 		return update_option( self::CLASSES_OPTION_KEY, wp_json_encode( $classes ) );

@@ -162,7 +162,7 @@ class Element {
 	 * @param array<string, mixed> $data The saved values for the current element
 	 */
 	final public function __construct( $data = array() ) {
-		// Allow elements creators to hook here without rewriting contruct
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_before_init( $data );
 
 		// Set the element data if provided
@@ -186,7 +186,7 @@ class Element {
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
 		}
 
-		// Allow elements creators to hook here without rewriting contruct
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_after_init( $data );
 	}
 
@@ -719,6 +719,8 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
+		do_action( 'zionbuilder/element/before_render', $this );
+
 		/**
 		 * Allows you to create a different renderer
 		 */
@@ -729,39 +731,24 @@ class Element {
 		} else {
 			$this->do_element_render( $extra_render_data );
 		}
+
+		do_action( 'zionbuilder/element/after_render', $this );
+	}
+
+	public function get_custom_css() {
+		$custom_css = $this->options->get_value( '_advanced_options._custom_css' );
+
+		if ( ! empty( $custom_css ) ) {
+			return str_replace( '[ELEMENT]', '#' . $this->get_element_css_id(), $custom_css );
+		}
+
+		return '';
+
 	}
 
 	final public function do_element_render( $extra_render_data ) {
 		// We need to parse data only on actual render
 		$this->options->parse_data();
-
-		// Check to see if we need to extract CSS
-		if ( Plugin::instance()->cache->should_generate_css() ) {
-			// Add element styles CSS
-			$styles            = $this->options->get_value( '_styles', array() );
-			$registered_styles = $this->get_style_elements_for_editor();
-
-			if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
-				foreach ( $registered_styles as $id => $style_config ) {
-					if ( ! empty( $styles[$id] ) ) {
-						$css_selector = $this->get_css_selector();
-						$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-						$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', array( $css_selector ), $this );
-
-						PageAssets::add_active_area_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
-					}
-				}
-			}
-
-			// Add element method css
-			PageAssets::add_active_area_raw_css( $this->css() );
-
-			// Add css from options
-			PageAssets::add_active_area_raw_css( $this->custom_css->get_css() );
-
-			// Allow users to add their own css
-			PageAssets::add_active_area_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
-		}
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
@@ -770,7 +757,7 @@ class Element {
 		// Setup render tags custom css classes
 		$this->apply_custom_classes_to_render_tags();
 
-		// Setup render tags customattributes
+		// Setup render tags custom attributes
 		$this->apply_custom_attributes_to_render_tags();
 
 		$this->extra_render_data = $extra_render_data;
@@ -824,7 +811,7 @@ class Element {
 
 		$this->after_render( $this->options );
 
-		// Reset prvides
+		// Reset provides
 		$this->reset_provides();
 		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}

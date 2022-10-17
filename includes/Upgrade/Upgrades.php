@@ -111,7 +111,7 @@ class Upgrades {
 			$saved_css_classes = CSSClasses::save_classes( $new_values );
 
 			// Clear all cache
-			Plugin::instance()->cache->delete_all_cache();
+			Plugin::instance()->assets->compile_global_css();
 		}
 	}
 
