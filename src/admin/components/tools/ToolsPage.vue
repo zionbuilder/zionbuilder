@@ -5,7 +5,7 @@
 
 			<div class="znpb-admin-regenerate">
 				<h4>{{ translate('regenerate_css') }}</h4>
-				<Button type="line" :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="onRegenerateFilesClick">
+				<Button type="line" :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="AssetsStore.regenerateCache">
 					<template v-if="AssetsStore.isLoading">
 						<Loader :size="13" />
 						<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
