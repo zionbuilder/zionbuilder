@@ -62,7 +62,6 @@ class Settings {
 		return self::get_value_from_path( $setting_key, $default );
 	}
 
-
 	/**
 	 * Get all values
 	 *
@@ -138,7 +137,11 @@ class Settings {
 		do_action( 'zionbuilder/settings/save', $new_values );
 
 		// Save the options to database
-		return update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $new_values ) );
+		$result = update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $new_values ) );
+
+		do_action( 'zionbuilder/settings/after_save', $new_values );
+
+		return $result;
 	}
 
 	/**

@@ -52,7 +52,7 @@ class Assets {
 		// Cache file creation and deletion
 		add_action( 'save_post', array( $this, 'generate_post_assets' ) );
 		add_action( 'delete_post', array( $this, 'delete_post_assets' ) );
-		add_action( 'zionbuilder/settings/save', array( $this, 'compile_global_css' ) );
+		add_action( 'zionbuilder/settings/after_save', array( $this, 'compile_global_css' ) );
 
 		if ( get_option( self::REGENERATE_CACHE_FLAG, false ) ) {
 			add_action( 'admin_notices', [ $this, 'show_regeneration_message' ] );
