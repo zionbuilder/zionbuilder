@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { regenerateCache, getCacheList } from '/@/common/api';
+import { regenerateCache, getCacheList, finishRegeneration } from '/@/common/api';
 
 export const useAssetsStore = defineStore('assets', {
 	state: () => {
@@ -33,6 +33,9 @@ export const useAssetsStore = defineStore('assets', {
 			this.isLoading = false;
 			this.filesCount = 0;
 			this.currentIndex = 0;
+		},
+		finish() {
+			return finishRegeneration();
 		},
 	},
 });

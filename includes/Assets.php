@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Assets {
 	/**
+	 * Flag to show the regenerate cache to admins
+	 */
+	const REGENERATE_CACHE_FLAG = 'zionbuilder_regenerate_assets';
+	/**
 	 * Holds the name of the directory to use by default for assets config
 	 */
 	const CACHE_FOLDER_NAME = 'cache';
@@ -48,7 +52,12 @@ class Assets {
 		// Cache file creation and deletion
 		add_action( 'save_post', array( $this, 'generate_post_assets' ) );
 		add_action( 'delete_post', array( $this, 'delete_post_assets' ) );
-		add_action( 'zionbuilder/settings/save', array( $this, 'generate_dynamic_css' ) );
+		add_action( 'zionbuilder/settings/save', array( $this, 'compile_global_css' ) );
+
+		if ( get_option( self::REGENERATE_CACHE_FLAG, false ) ) {
+			add_action( 'admin_notices', [ $this, 'show_regeneration_message' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_notice_scripts' ] );
+		}
 
 		// Generate and set the cache directory
 		$relative_cache_path       = trailingslashit( self::CACHE_FOLDER_NAME );
@@ -61,6 +70,34 @@ class Assets {
 
 		// Create the cache folder
 		wp_mkdir_p( self::$cache_directory['path'] );
+	}
+
+	public function show_regeneration_message() {
+		echo '<div id="znpb-regenerateAssetsNotice"></div>';
+	}
+
+	public function register_admin_notice_scripts() {
+		Plugin::instance()->scripts->enqueue_script(
+			'zb-vue',
+			'vue',
+			[],
+			Plugin::instance()->get_version(),
+			true
+		);
+
+		wp_enqueue_style( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'css' ), [], Plugin::instance()->get_version() );
+
+		wp_enqueue_script( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'js' ), [ 'zb-vue' ], Plugin::instance()->get_version(), true );
+		wp_localize_script(
+			'znpb-assets-notice',
+			'ZnRestConfig',
+			[
+				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+				'rest_root' => esc_url_raw( rest_url() ),
+			]
+		);
+
+		CommonJS::localize_common_js_data( 'znpb-assets-notice' );
 	}
 
 	public function on_enqueue_scripts() {

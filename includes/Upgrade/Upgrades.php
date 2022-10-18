@@ -6,6 +6,7 @@ use ZionBuilder\Plugin;
 use ZionBuilder\Settings;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Utils;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -138,5 +139,15 @@ class Upgrades {
 		if ( ! empty( $new_values ) ) {
 			$saved_css_classes = CSSClasses::save_classes( $new_values );
 		}
+	}
+
+
+	/**
+	 * Updates local gradients
+	 *
+	 * @return void
+	 */
+	public static function upgrade_v_3_4_0_show_assets_regeneration_message() {
+		update_option( Assets::REGENERATE_CACHE_FLAG, true, '', true );
 	}
 }

@@ -46,6 +46,13 @@ export const filesMap = [
   },
 
   {
+    input: 'src/admin/regenerateAssets.ts',
+    format: 'iife',
+    output: 'regenerate-assets-notice',
+    name: 'regenerateAssetsNotice',
+  },
+
+  {
     input: 'src/modules/screenshot/index.ts',
     format: 'iife',
     output: 'screenshot',

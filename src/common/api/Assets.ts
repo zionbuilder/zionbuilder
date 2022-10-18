@@ -12,3 +12,7 @@ export function regenerateCache(itemData: itemData) {
 export function getCacheList() {
 	return getService().get('assets');
 }
+
+export function finishRegeneration() {
+	return getService().get('assets/finish');
+}

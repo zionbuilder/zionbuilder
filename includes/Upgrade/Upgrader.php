@@ -160,7 +160,7 @@ class Upgrader {
 	 *
 	 * @param string $version The version string that will be added to DB
 	 *
-	 * @return boolean True if the option was succesfully saved
+	 * @return boolean True if the option was successfully saved
 	 */
 	public static function update_db_version( $version = null ) {
 		delete_option( 'zionbuilder_db_version' );

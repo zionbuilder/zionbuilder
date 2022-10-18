@@ -719,7 +719,7 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
-		do_action( 'zionbuilder/element/before_render', $this );
+		do_action( 'zionbuilder/element/before_custom_render', $this );
 
 		/**
 		 * Allows you to create a different renderer
@@ -732,7 +732,7 @@ class Element {
 			$this->do_element_render( $extra_render_data );
 		}
 
-		do_action( 'zionbuilder/element/after_render', $this );
+		do_action( 'zionbuilder/element/after_custom_render', $this );
 	}
 
 	public function get_custom_css() {

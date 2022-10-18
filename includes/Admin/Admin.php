@@ -11,7 +11,6 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 use ZionBuilder\Nonces;
 use ZionBuilder\Options\Schemas\Performance;
-use ZionBuilder\Localization;
 
 
 // Prevent direct access

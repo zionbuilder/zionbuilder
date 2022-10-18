@@ -65,6 +65,20 @@ class Assets extends RestApiController {
 				'schema' => [ $this, 'get_public_item_schema' ],
 			]
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base . '/finish',
+			[
+				[
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'finish' ],
+					'args'                => [],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
 	}
 
 	/**
@@ -125,5 +139,9 @@ class Assets extends RestApiController {
 			case 'post':
 				return ZBAssets::generate_post_assets( $request->get_param( 'id' ) );
 		}
+	}
+
+	public function finish() {
+		delete_option( ZBAssets::REGENERATE_CACHE_FLAG );
 	}
 }

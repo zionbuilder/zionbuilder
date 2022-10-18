@@ -60,7 +60,7 @@ class CustomCode {
 	 */
 	public function add_custom_css( $css ) {
 		$css .= $this->get_value( 'custom_css', '' );
-
+		Utils::log( $this->get_value( 'custom_css', '' ) );
 		return $css;
 	}
 
