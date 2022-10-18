@@ -5,10 +5,10 @@
 
 			<div class="znpb-admin-regenerate">
 				<h4>{{ translate('regenerate_css') }}</h4>
-				<Button type="line" :class="{ ['-hasLoading']: loading }" @click="onRegenerateFilesClick">
-					<template v-if="loading">
+				<Button type="line" :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="onRegenerateFilesClick">
+					<template v-if="AssetsStore.isLoading">
 						<Loader :size="13" />
-						<span v-if="filesCount > 0">{{ currentIndex }}/{{ filesCount }}</span>
+						<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
 					</template>
 
 					<span v-else>{{ translate('regenerate_files') }}</span>
@@ -22,38 +22,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { regenerateCache, getCacheList } from '/@/common/api';
 import { translate } from '/@/common/modules/i18n';
+import { useAssetsStore } from '/@/common/store';
 
-const loading = ref(false);
-const currentIndex = ref(0);
-const filesCount = ref(0);
-
-async function onRegenerateFilesClick() {
-	loading.value = true;
-	try {
-		const { data: cacheFiles } = await getCacheList();
-		filesCount.value = cacheFiles.length;
-
-		if (filesCount.value > 0) {
-			for (const fileData of cacheFiles) {
-				try {
-					currentIndex.value++;
-					await regenerateCache(fileData);
-				} catch (error) {
-					console.error(error);
-				}
-			}
-		}
-	} catch (error) {
-		console.error(error);
-	}
-
-	loading.value = false;
-	filesCount.value = 0;
-	currentIndex.value = 0;
-}
+const AssetsStore = useAssetsStore();
 </script>
 <style lang="scss">
 .znpb-admin-tools-wrapper {

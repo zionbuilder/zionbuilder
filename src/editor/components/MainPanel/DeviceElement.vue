@@ -10,10 +10,10 @@
 			<span class="znpb-device__item-name">
 				<template v-if="deviceConfig.name"> {{ deviceConfig.name }} - </template>
 
-				<template v-if="deviceConfig.id === 'default'"> ({{ $translate('all_devices') }}) </template>
+				<template v-if="deviceConfig.id === 'default'"> ({{ translate('all_devices') }}) </template>
 
 				<template v-else>
-					{{ $translate('max') }}
+					{{ translate('max') }}
 					<span class="znpb-device__itemValue">
 						<template v-if="isEdited">
 							<span class="znpb-device__itemValue-inner">
@@ -41,13 +41,13 @@
 			<div v-if="allowEdit" class="znpb-device__item-actions">
 				<template v-if="isEdited">
 					<Icon
-						v-znpb-tooltip="$translate('save')"
+						v-znpb-tooltip="translate('save')"
 						icon="check"
 						class="znpb-device__item-action"
 						@click.stop="updateWidth"
 					/>
 					<Icon
-						v-znpb-tooltip="$translate('cancel')"
+						v-znpb-tooltip="translate('cancel')"
 						icon="close"
 						class="znpb-device__item-action"
 						@click.stop="$emit('edit-breakpoint', null)"
@@ -56,14 +56,14 @@
 				<template v-else>
 					<Icon
 						v-if="!deviceConfig.isDefault"
-						v-znpb-tooltip="$translate('edit_breakpoint')"
+						v-znpb-tooltip="translate('edit_breakpoint')"
 						icon="edit"
 						class="znpb-device__item-action"
 						@click.stop="$emit('edit-breakpoint', deviceConfig)"
 					/>
 					<Icon
 						v-if="!deviceConfig.builtIn"
-						v-znpb-tooltip="$translate('delete_breakpoint')"
+						v-znpb-tooltip="translate('delete_breakpoint')"
 						icon="delete"
 						class="znpb-device__item-action"
 						@click.stop="deleteBreakpoint(deviceConfig.id)"
@@ -74,104 +74,97 @@
 	</a>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices } from '/@/common/composables';
+import { useResponsiveDevices, type ResponsiveDevice } from '/@/common/composables';
 import { doAction } from '/@/common/modules/hooks';
+import { translate } from '/@/common/modules/i18n';
 
-export default {
-	name: 'DeviceElement',
-	props: {
-		deviceConfig: Object,
-		allowEdit: {
-			type: Boolean,
-			required: true,
-			default: false,
-		},
-		editedBreakpoint: {
-			type: Object,
-			required: false,
-			default() {
-				return {};
-			},
+const props = withDefaults(
+	defineProps<{
+		deviceConfig: ResponsiveDevice;
+		allowEdit: boolean;
+		editedBreakpoint?: ResponsiveDevice | null;
+	}>(),
+	{
+		editedBreakpoint: () => {
+			return null;
 		},
 	},
-	setup(props, { emit }) {
-		const { activeResponsiveDeviceInfo, setActiveResponsiveDeviceId, getActiveResponsiveOptions, deleteBreakpoint } =
-			useResponsiveDevices();
-		const isEdited = computed(() => {
-			return props.editedBreakpoint === props.deviceConfig;
+);
+
+const emit = defineEmits(['edit-breakpoint']);
+
+const {
+	activeResponsiveDeviceInfo,
+	setActiveResponsiveDeviceId,
+	getActiveResponsiveOptions,
+	deleteBreakpoint,
+	updateBreakpoint,
+} = useResponsiveDevices();
+const isEdited = computed(() => {
+	return props.editedBreakpoint === props.deviceConfig;
+});
+
+const widthInput = ref<HTMLInputElement | null>(null);
+
+const discardChangesTitle = computed(() => {
+	return translate('discard_changes_for') + ' ' + props.deviceConfig.name;
+});
+
+const isActiveDevice = computed(() => {
+	return props.deviceConfig.id === activeResponsiveDeviceInfo.value.id;
+});
+
+const hasChanges = computed(() => {
+	const activeDeviceConfig = getActiveResponsiveOptions();
+
+	if (!activeDeviceConfig) {
+		return false;
+	}
+
+	const modelValue = activeDeviceConfig.modelValue;
+
+	return (modelValue && modelValue && modelValue[props.deviceConfig.id]) || false;
+});
+
+function changeDevice() {
+	if (activeResponsiveDeviceInfo.value.id !== props.deviceConfig.id) {
+		// Set a new active device
+		setActiveResponsiveDeviceId(props.deviceConfig.id);
+	}
+}
+function removeStylesGroup() {
+	const activeDeviceConfig = getActiveResponsiveOptions();
+	if (activeDeviceConfig) {
+		activeDeviceConfig.removeDeviceStyles(props.deviceConfig.id);
+	}
+}
+
+watch(isEdited, newValue => {
+	if (newValue) {
+		nextTick(() => {
+			if (widthInput.value) {
+				widthInput.value.focus();
+				widthInput.value.select();
+			}
 		});
+	}
+});
 
-		const widthInput = ref(null);
+function updateWidth() {
+	const oldValue = props.deviceConfig.width;
+	if (!widthInput.value) {
+		return;
+	}
+	const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value);
+	// Don't allow values lower than 240px
+	updateBreakpoint(props.deviceConfig, newValue);
 
-		watch(isEdited, newValue => {
-			if (newValue) {
-				nextTick(() => {
-					widthInput.value.focus();
-					widthInput.value.select();
-				});
-			}
-		});
-
-		function updateWidth() {
-			const oldValue = props.deviceConfig.width;
-			if (!widthInput.value) {
-				return;
-			}
-			const newValue = parseInt(widthInput.value.value) < 240 ? 240 : parseInt(widthInput.value.value);
-			// Don't allow values lower than 240px
-			props.deviceConfig.width = newValue;
-
-			// Close edit mode
-			emit('edit-breakpoint', null);
-			doAction('zionbuilder/responsive/change_device_width', props.deviceConfig, newValue, oldValue);
-		}
-
-		return {
-			widthInput,
-			isEdited,
-			activeResponsiveDeviceInfo,
-			setActiveResponsiveDeviceId,
-			getActiveResponsiveOptions,
-			updateWidth,
-			deleteBreakpoint,
-		};
-	},
-	computed: {
-		discardChangesTitle() {
-			return this.$translate('discard_changes_for') + ' ' + this.deviceConfig.name;
-		},
-		isActiveDevice: function () {
-			return this.deviceConfig.id === this.activeResponsiveDeviceInfo.id;
-		},
-		hasChanges() {
-			const activeDeviceConfig = this.getActiveResponsiveOptions();
-
-			if (!activeDeviceConfig) {
-				return false;
-			}
-
-			const modelValue = activeDeviceConfig.modelValue;
-
-			return (modelValue && modelValue && modelValue[this.deviceConfig.id]) || false;
-		},
-	},
-	methods: {
-		changeDevice() {
-			if (this.activeResponsiveDeviceInfo.id !== this.deviceConfig.id) {
-				// Set a new active device
-				this.setActiveResponsiveDeviceId(this.deviceConfig.id);
-			}
-		},
-		removeStylesGroup() {
-			const activeDeviceConfig = this.getActiveResponsiveOptions();
-			if (activeDeviceConfig) {
-				activeDeviceConfig.removeDeviceStyles(this.deviceConfig.id);
-			}
-		},
-	},
-};
+	// Close edit mode
+	emit('edit-breakpoint', null);
+	doAction('zionbuilder/responsive/change_device_width', props.deviceConfig, newValue, oldValue);
+}
 </script>
 
 <style lang="scss">
@@ -205,10 +198,12 @@ export default {
 			border-radius: 3px;
 
 			-moz-appearance: textfield;
+			appearance: textfield;
 
 			&::-webkit-inner-spin-button,
 			&::-webkit-outer-spin-button {
 				-webkit-appearance: none;
+				appearance: none;
 			}
 
 			&:focus {

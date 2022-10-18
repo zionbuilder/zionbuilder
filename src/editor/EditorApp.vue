@@ -98,6 +98,7 @@
 		<SaveElementModal />
 		<PostLock />
 		<PanelLibraryModal />
+		<AssetsRegeneration />
 
 		<!-- notices -->
 		<Notice v-for="error in notifications" :key="error.message" :error="error" @close-notice="error.remove()" />
@@ -125,6 +126,7 @@ import PanelElementOptions from './components/PanelElementOptions.vue';
 import PanelLibraryModal from './components/PanelLibraryModal.vue';
 import PostLock from './components/PostLock.vue';
 import SaveElementModal from './components/SaveElementModal.vue';
+import AssetsRegeneration from './components/AssetsRegeneration.vue';
 
 // Composables
 import { AddElementPopup } from './components/AddElementPopup';

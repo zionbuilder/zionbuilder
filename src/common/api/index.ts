@@ -15,3 +15,4 @@ export * from './Templates';
 export * from './Users';
 export * from './FileUpload';
 export * from './User';
+export * from './Breakpoints';

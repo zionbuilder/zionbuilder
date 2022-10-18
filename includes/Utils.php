@@ -206,4 +206,8 @@ class Utils {
 			]
 		);
 	}
+
+	public static function log( $data ) {
+		error_log( var_export( $data, 1 ) );
+	}
 }

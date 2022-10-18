@@ -120,9 +120,9 @@ const computedModelValue = computed({
 	},
 });
 
-function removeDeviceStyles(device) {
+function removeDeviceStyles(deviceID: string) {
 	const clonedValues = { ...props.modelValue };
-	delete clonedValues[device];
+	delete clonedValues[deviceID];
 
 	emit('update:modelValue', clonedValues);
 }
