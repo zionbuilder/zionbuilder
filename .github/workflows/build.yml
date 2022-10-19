@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v1.4.2
         with:
-            node-version: '12'
+            node-version: '14'
       - name: Set Composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-dir)"
