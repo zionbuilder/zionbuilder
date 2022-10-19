@@ -145,7 +145,7 @@ class BaseSource {
 	 *
 	 * @param array $item_data
 	 *
-	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
+	 * @return WP_Error | array The inserted template data or WP_Error in case of failure
 	 */
 	public function create_item( $item_data ) {
 		return new \WP_Error( 'invalid_action', 'Cannot create template' );
@@ -154,7 +154,7 @@ class BaseSource {
 	/**
 	 * Duplicates a template and regenerates the element UIDs
 	 *
-	 * @return WP_Error/array The new template data
+	 * @return WP_Error | array The new template data
 	 */
 	public function duplicate_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot duplicate template' );
@@ -165,7 +165,7 @@ class BaseSource {
 	 *
 	 * @param integer $item_id
 	 *
-	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
+	 * @return WP_Error | array The inserted template data or WP_Error in case of failure
 	 */
 	public function insert_item( $item_id ) {
 		return new \WP_Error( 'invalid_action', 'Cannot insert template' );
@@ -174,7 +174,7 @@ class BaseSource {
 	/**
 	 * Imports a template into DB
 	 *
-	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
+	 * @return WP_Error | array The inserted template data or WP_Error in case of failure
 	 */
 	public function update_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot update template' );
@@ -183,7 +183,7 @@ class BaseSource {
 	/**
 	 * Imports a template into DB
 	 *
-	 * @return WP_Error/array The inserted template data or WP_Error in case of failure
+	 * @return WP_Error | array The inserted template data or WP_Error in case of failure
 	 */
 	public function import_item() {
 		return new \WP_Error( 'invalid_action', 'Cannot import template' );

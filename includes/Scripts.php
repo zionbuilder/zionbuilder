@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Environment;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -39,8 +41,29 @@ class Scripts {
 		add_action( 'wp_head', [ $this, 'print_public_path' ], -1000 );
 		add_action( 'zionbuilder/editor/before_scripts', [ $this, 'print_public_path' ], -1000 );
 		add_action( 'admin_print_scripts', [ $this, 'print_public_path' ], -1000 );
+
+		if ( Environment::is_debug() ) {
+			add_filter( 'script_loader_src', [ $this, 'remove_script_version' ], 15, 1 );
+			add_filter( 'style_loader_src', [ $this, 'remove_script_version' ], 15, 1 );
+			add_filter( 'script_loader_tag', [ $this, 'add_module_attribute' ], 10, 3 );
+		}
 	}
 
+	public function remove_script_version( $src ) {
+		$parts = explode( '?ver', $src );
+		return $parts[0];
+	}
+
+	public function add_module_attribute( $tag, $handle, $src ) {
+		// if not your script, do nothing and return original $tag
+		if ( strpos( $src, 'http://127.0.0.1' ) === 0 ) {
+			// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+		}
+
+		// change the script tag by adding type="module" and return it.
+		return $tag;
+	}
 
 	/**
 	 * Sets the root path and url for the assets
@@ -94,7 +117,7 @@ class Scripts {
 	 * @return void
 	 */
 	public function register_script( $handle, $src = '', $deps = [], $ver = false, $in_footer = false ) {
-		wp_register_script( $handle, $this->get_script_url( $src ), $deps, $ver, $in_footer );
+		wp_register_script( $handle, $this->get_script_url( $src, 'js' ), $deps, $ver, $in_footer );
 	}
 
 	/**
@@ -118,7 +141,7 @@ class Scripts {
 	 * @return void
 	 */
 	public function enqueue_script( $handle, $src = '', $deps = [], $ver = false, $in_footer = false ) {
-		wp_enqueue_script( $handle, $this->get_script_url( $src ), $deps, $ver, $in_footer );
+		wp_enqueue_script( $handle, $this->get_script_url( $src, 'js' ), $deps, $ver, $in_footer );
 	}
 
 	/**
@@ -143,7 +166,7 @@ class Scripts {
 	 * @return void
 	 */
 	public function register_style( $handle, $src = '', $deps = [], $ver = false, $media = 'all' ) {
-		wp_register_style( $handle, $this->get_script_url( $src ), $deps, $ver, $media );
+		wp_register_style( $handle, $this->get_script_url( $src, 'css' ), $deps, $ver, $media );
 	}
 
 
@@ -170,7 +193,7 @@ class Scripts {
 	 * @return void
 	 */
 	public function enqueue_style( $handle, $src = '', $deps = [], $ver = false, $media = 'all' ) {
-		wp_enqueue_style( $handle, $this->get_script_url( $src ), $deps, $ver, $media );
+		wp_enqueue_style( $handle, $this->get_script_url( $src, 'css' ), $deps, $ver, $media );
 	}
 
 
@@ -184,9 +207,17 @@ class Scripts {
 	 *
 	 * @return string
 	 */
-	public function get_script_url( $path ) {
-		$root_url = $this->assets_root_url;
-		return $root_url . $path;
+	public function get_script_url( $path, $extension ) {
+		$is_debug = Environment::is_debug();
+		if ( $is_debug && $extension === 'js' ) {
+			$scripts_map = Environment::get_value( 'devScripts', [] );
+
+			if ( isset( $scripts_map[$path] ) ) {
+				return $scripts_map[$path];
+			}
+		}
+
+		return $this->assets_root_url . $path . '.' . $extension;
 	}
 
 	/**

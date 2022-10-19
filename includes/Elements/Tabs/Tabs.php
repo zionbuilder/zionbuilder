@@ -170,17 +170,13 @@ class Tabs extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery' );
-
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Tabs/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Tabs/frontend.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Tabs/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-tabs', Plugin::instance()->scripts->get_script_url( 'elements/Tabs/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
+
 	}
 
 	/**
@@ -193,7 +189,7 @@ class Tabs extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Tabs/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Tabs/frontend.css' ) );
 	}
 
 	/**

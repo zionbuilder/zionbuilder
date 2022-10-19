@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Gallery;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 use ZionBuilder\WPMedia;
 
 // Prevent direct access
@@ -119,20 +120,20 @@ class Gallery extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'             => 'checkbox_switch',
-		// 		'default'          => false,
-		// 		'layout'           => 'inline',
-		// 		'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
-		// 		'render_attribute' => [
-		// 			[
-		// 				'tag_id'    => 'image-wrappers',
-		// 				'attribute' => 'data-zion-lightbox',
-		// 				'value'     => true,
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'             => 'checkbox_switch',
+		//      'default'          => false,
+		//      'layout'           => 'inline',
+		//      'title'            => esc_html__( 'Use modal', 'zionbuilder' ),
+		//      'render_attribute' => [
+		//          [
+		//              'tag_id'    => 'image-wrappers',
+		//              'attribute' => 'data-zion-lightbox',
+		//              'value'     => true,
+		//          ],
+		//      ],
+		//  ]
 		// );
 
 		$options->add_option(
@@ -176,14 +177,11 @@ class Gallery extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Gallery/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Gallery/editor', 'js' ) );
 	}
 
 	/**
@@ -196,7 +194,7 @@ class Gallery extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Gallery/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Gallery/frontend.css' ) );
 	}
 
 	/**

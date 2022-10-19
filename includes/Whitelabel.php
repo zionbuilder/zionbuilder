@@ -53,24 +53,33 @@ class Whitelabel {
 	public $plugin_loader_logo = '';
 
 	/**
+	 * Holds a reference to the plugin loader URL
+	 *
+	 * @var string
+	 */
+	public $getting_started_video = '';
+
+	/**
 	 * Whitelabel constructor.
 	 */
 	public function __construct() {
-		$white_label_data         = apply_filters(
+		$white_label_data            = apply_filters(
 			'zionbuilder/whitelabel/data',
 			[
-				'plugin_title'       => 'Zion Builder',
-				'plugin_slug'        => 'zionbuilder',
-				'plugin_logo'        => Utils::get_logo_url(),
-				'plugin_help_url'    => 'https://zionbuilder.io/help-center/',
-				'plugin_loader_logo' => Utils::get_loader_url(),
+				'plugin_title'          => 'Zion Builder',
+				'plugin_slug'           => 'zionbuilder',
+				'plugin_logo'           => Utils::get_logo_url(),
+				'plugin_help_url'       => 'https://zionbuilder.io/help-center/',
+				'plugin_loader_logo'    => Utils::get_loader_url(),
+				'getting_started_video' => 'https://www.youtube.com/embed/rQ_2lUyhCAY',
 			]
 		);
-		$this->plugin_title       = $white_label_data['plugin_title'];
-		$this->plugin_logo        = $white_label_data['plugin_logo'];
-		$this->plugin_help_url    = $white_label_data['plugin_help_url'];
-		$this->plugin_loader_logo = $white_label_data['plugin_loader_logo'];
-		$this->plugin_slug        = $white_label_data['plugin_slug'];
+		$this->plugin_title          = $white_label_data['plugin_title'];
+		$this->plugin_logo           = $white_label_data['plugin_logo'];
+		$this->plugin_help_url       = $white_label_data['plugin_help_url'];
+		$this->plugin_loader_logo    = $white_label_data['plugin_loader_logo'];
+		$this->plugin_slug           = $white_label_data['plugin_slug'];
+		$this->getting_started_video = $white_label_data['getting_started_video'];
 	}
 
 	/**
@@ -108,5 +117,12 @@ class Whitelabel {
 	 */
 	public static function get_loader_url() {
 		return Plugin::instance()->whitelabel->plugin_loader_logo;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function get_getting_started_video() {
+		return Plugin::instance()->whitelabel->getting_started_video;
 	}
 }

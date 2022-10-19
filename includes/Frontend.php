@@ -22,7 +22,7 @@ class Frontend {
 	const CONTENT_FILTER_PRIORITY = 9;
 
 	/**
-	 * Holds a refference if this is excerpt or not
+	 * Holds a reference if this is excerpt or not
 	 *
 	 * @var boolean
 	 */
@@ -45,6 +45,9 @@ class Frontend {
 		// Load elements scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+
+		// Add body classes
+		add_filter( 'body_class', [ $this, 'add_body_classes' ] );
 	}
 
 	public function init() {
@@ -75,15 +78,28 @@ class Frontend {
 		if ( ! $post_instance->is_password_protected() && $post_instance->is_built_with_zion() ) {
 			$post_template_data = $post_instance->get_template_data();
 
-			if ( ! empty( $post_template_data ) ) {
-				Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
+			Plugin::$instance->renderer->register_area( $post_id, $post_template_data );
 
+			if ( ! empty( $post_template_data ) ) {
 				// Add content filters
 				add_filter( 'get_the_excerpt', [ $this, 'add_excerpt_flag' ], 0 );
 				add_filter( 'get_the_excerpt', [ $this, 'remove_excerpt_flag' ], 99 );
 				$this->add_content_filter();
 			}
 		}
+	}
+
+	/**
+	 * Adds the zion builder css class used for different styling
+	 *
+	 * @param array $classes The existing css classes
+	 *
+	 * @return array The combined css classes
+	 */
+	public function add_body_classes( $classes ) {
+		$classes[] = 'zb';
+
+		return $classes;
 	}
 
 	/**
@@ -122,7 +138,7 @@ class Frontend {
 	 *
 	 * @return boolean
 	 */
-	public function is_excertpt() {
+	public function is_excerpt() {
 		return $this->is_excerpt;
 	}
 
@@ -148,7 +164,7 @@ class Frontend {
 		$this->restore_content_filters();
 
 		// Don't run on excerpt
-		if ( $this->is_excertpt() ) {
+		if ( $this->is_excerpt() ) {
 			return $content;
 		}
 
@@ -193,14 +209,6 @@ class Frontend {
 		// Trigger action before load styles
 		do_action( 'zionbuilder/frontend/before_load_styles', $this );
 
-		// // Load styles
-		// Plugin::instance()->scripts->enqueue_style(
-		// 	'zion-frontend-style',
-		// 	'css/frontend.css',
-		// 	[],
-		// 	Plugin::instance()->get_version()
-		// );
-
 		// Load rtl
 		if ( is_rtl() ) {
 			Plugin::instance()->scripts->enqueue_style(
@@ -209,7 +217,7 @@ class Frontend {
 				[],
 				Plugin::instance()->get_version()
 			);
-		};
+		}
 
 		do_action( 'zionbuilder/frontend/after_load_styles', $this );
 	}

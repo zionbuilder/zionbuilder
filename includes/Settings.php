@@ -16,14 +16,14 @@ class Settings {
 	const SETTINGS_OPTION_KEY = '_zionbuilder_options';
 
 	/**
-	 * Holds a refference to the cached saved builder options
+	 * Holds a reference to the cached saved builder options
 	 *
 	 * @var array|null Returns the saved values or null if they are not init
 	 */
 	private static $saved_values = null;
 
 	/**
-	 * Holds a refference to the default option values
+	 * Holds a reference to the default option values
 	 *
 	 * @var array
 	 */
@@ -33,6 +33,7 @@ class Settings {
 			'disable_jquery_migrate' => true,
 			'disable_emojis'         => true,
 			'disable_normalize_css'  => true,
+			'disable_area_wrappers'  => true,
 		],
 	];
 
@@ -60,7 +61,6 @@ class Settings {
 	public static function get_value( $setting_key, $default = null ) {
 		return self::get_value_from_path( $setting_key, $default );
 	}
-
 
 	/**
 	 * Get all values
@@ -137,7 +137,11 @@ class Settings {
 		do_action( 'zionbuilder/settings/save', $new_values );
 
 		// Save the options to database
-		return update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $new_values ) );
+		$result = update_option( self::SETTINGS_OPTION_KEY, wp_json_encode( $new_values ) );
+
+		do_action( 'zionbuilder/settings/after_save', $new_values );
+
+		return $result;
 	}
 
 	/**

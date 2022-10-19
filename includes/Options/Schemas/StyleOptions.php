@@ -64,8 +64,6 @@ class StyleOptions extends BaseSchema {
 			'typography',
 			[
 				'type'        => 'typography',
-				'title'       => esc_html__( 'Element font', 'zionbuilder' ),
-				'description' => esc_html__( 'Select the desired font to use for this element.', 'zionbuilder' ),
 				'search_tags' => [
 					'typography',
 					'text',
@@ -109,28 +107,6 @@ class StyleOptions extends BaseSchema {
 				'type'        => 'borders',
 				'title'       => esc_html__( 'Border', 'zionbuilder' ),
 				'description' => esc_html__( 'Choose the desired border style.', 'zionbuilder' ),
-				'dimensions'  => [
-					[
-						'name' => 'right',
-						'icon' => 'border-right',
-						'id'   => 'border-right',
-					],
-					[
-						'name' => 'top',
-						'icon' => 'border-top',
-						'id'   => 'border-top',
-					],
-					[
-						'name' => 'left',
-						'icon' => 'border-left',
-						'id'   => 'border-left',
-					],
-					[
-						'name' => 'bottom',
-						'icon' => 'border-bottom',
-						'id'   => 'border-bottom',
-					],
-				],
 			]
 		);
 
@@ -152,24 +128,25 @@ class StyleOptions extends BaseSchema {
 				'min'         => 0,
 				'dimensions'  => [
 					[
-						'name' => 'top right',
-						'icon' => 't-r-corner',
-						'id'   => 'border-top-right-radius',
-					],
-					[
 						'name' => 'top left',
 						'icon' => 't-l-corner',
 						'id'   => 'border-top-left-radius',
 					],
 					[
-						'name' => 'bottom right',
-						'icon' => 'b-r-corner',
-						'id'   => 'border-bottom-right-radius',
+						'name' => 'top right',
+						'icon' => 't-r-corner',
+						'id'   => 'border-top-right-radius',
 					],
+
 					[
 						'name' => 'bottom left',
 						'icon' => 'b-l-corner',
 						'id'   => 'border-bottom-left-radius',
+					],
+					[
+						'name' => 'bottom right',
+						'icon' => 'b-r-corner',
+						'id'   => 'border-bottom-right-radius',
 					],
 				],
 			]
@@ -447,7 +424,7 @@ class StyleOptions extends BaseSchema {
 				'title'       => __( 'Direction', 'zionbuilder' ),
 				'description' => __( 'Set the text direction', 'zionbuilder' ),
 				'columns'     => 2,
-				'default'     => 'ltr',
+				'placeholder' => 'ltr',
 				'options'     => [
 					[
 						'name' => __( 'ltr', 'zionbuilder' ),
@@ -468,7 +445,7 @@ class StyleOptions extends BaseSchema {
 				'title'       => __( 'Cursor', 'zionbuilder' ),
 				'description' => __( 'Set the cursor style', 'zionbuilder' ),
 				'columns'     => 2,
-				'default'     => 'auto',
+				'placeholder' => 'auto',
 				'filterable'  => true,
 				'options'     => [
 					[

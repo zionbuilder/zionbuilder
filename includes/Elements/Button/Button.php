@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Button;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -349,14 +350,11 @@ class Button extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Button/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Button/editor', 'js' ) );
 	}
 
 	/**
@@ -369,7 +367,7 @@ class Button extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Button/frontend.css' ) );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'elements/Button/frontend', 'css' ) );
 	}
 
 	/**

@@ -47,14 +47,6 @@ class Options extends Stack {
 	 */
 	private $model = [];
 
-
-	/**
-	 * CSS selector for the current schema
-	 *
-	 * @var string The CSS selector that will be used to compile css style
-	 */
-	private $css_selector = null;
-
 	/**
 	 * Holds the custom css that will be applied to an element
 	 *
@@ -69,9 +61,6 @@ class Options extends Stack {
 
 	/**
 	 * Class constructor
-	 *
-	 * @var string $id The id for the current stack
-	 * @var array  $options<string, mixed> The options schema for the current stack
 	 *
 	 * @param mixed $id
 	 * @param mixed $options
@@ -219,9 +208,9 @@ class Options extends Stack {
 				continue;
 			}
 
-			// Group options don't store the value so we need to look at childs
+			// Group options don't store the value so we need to look at children
 			if ( isset( $option_schema->is_layout ) && $option_schema->is_layout ) {
-				if ( isset( $option_schema->child_options ) ) {
+				if ( $option_schema->child_options ) {
 					$model = array_merge( $model, $this->setup_model( $option_schema->child_options, $model ) );
 				}
 			} else {
@@ -342,9 +331,15 @@ class Options extends Stack {
 	public function get_value_from_path( $path = '' ) {
 		$path       = explode( '.', $path );
 		$temp_model = &$this->model;
+
 		foreach ( $path as $key ) {
+			if ( ! isset( $temp_model[$key] ) ) {
+				return null;
+			}
+
 			$temp_model = &$temp_model[$key];
 		}
+
 		return $temp_model;
 	}
 

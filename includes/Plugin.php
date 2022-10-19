@@ -21,6 +21,7 @@ use ZionBuilder\Library\Library;
 use ZionBuilder\Templates;
 use ZionBuilder\Performance;
 use ZionBuilder\Responsive;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -141,11 +142,11 @@ class Plugin {
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\Cache class
 	 *
-	 * @var Cache
+	 * @var Assets
 	 *
 	 * @see Plugin::init()
 	 */
-	public $cache = null;
+	public $assets = null;
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\PageTemplates\PageTemplates class
 	 *
@@ -233,7 +234,7 @@ class Plugin {
 
 		// initiate permissions
 		$this->whitelabel       = new Whitelabel();
-		$this->cache            = new Cache();
+		$this->assets           = new Assets();
 		$this->renderer         = new Renderer();
 		$this->scripts          = new Scripts();
 		$this->permissions      = new Permissions();

@@ -128,7 +128,7 @@ class ReplaceUrl extends RestApiController {
 		}
 
 		// Clear cache
-		Plugin::instance()->cache->delete_all_cache();
+		Plugin::instance()->assets->compile_global_css();
 
 		return rest_ensure_response(
 			[

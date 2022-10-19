@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Video;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -138,19 +139,19 @@ class Video extends Element {
 		);
 
 		// $options->add_option(
-		// 	'use_modal',
-		// 	[
-		// 		'type'       => 'checkbox_switch',
-		// 		'default'    => false,
-		// 		'layout'     => 'inline',
-		// 		'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
-		// 		'dependency' => [
-		// 			[
-		// 				'option' => 'use_image_overlay',
-		// 				'value'  => [ true ],
-		// 			],
-		// 		],
-		// 	]
+		//  'use_modal',
+		//  [
+		//      'type'       => 'checkbox_switch',
+		//      'default'    => false,
+		//      'layout'     => 'inline',
+		//      'title'      => esc_html__( 'Show video in modal', 'zionbuilder' ),
+		//      'dependency' => [
+		//          [
+		//              'option' => 'use_image_overlay',
+		//              'value'  => [ true ],
+		//          ],
+		//      ],
+		//  ]
 		// );
 	}
 
@@ -214,16 +215,12 @@ class Video extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Video/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Video/frontend.js' ) );
-		wp_enqueue_script( 'zb-video' );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-video', Plugin::instance()->scripts->get_script_url( 'elements/Video/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**
@@ -236,8 +233,8 @@ class Video extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Video/frontend.css' ) );
-		$this->enqueue_editor_style( Utils::get_file_url( 'dist/css/elements/Video/editor.css' ) );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'elements/Video/frontend', 'css' ) );
+		$this->enqueue_editor_style( Plugin::instance()->scripts->get_script_url( 'elements/Video/editor', 'css' ) );
 	}
 
 	/**
@@ -255,9 +252,6 @@ class Video extends Element {
 		$use_modal         = $options->get_value( 'use_modal' );
 		$video_url         = $this->get_video_url( $video_config );
 		$video_source      = $this->get_video_source( $video_config );
-
-		// Video wrapper
-		echo '<div class="zb-el-zionVideo-wrapper"></div>';
 
 		// Show the overlay
 		if ( $use_image_overlay ) {

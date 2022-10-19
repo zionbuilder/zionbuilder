@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Elements\Style;
 use ZionBuilder\Options\Schemas\StyleOptions;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,8 +34,8 @@ class CSSClasses {
 	 * @return bool
 	 */
 	public static function save_classes( $classes = [] ) {
-		// Clear the cache
-		Plugin::instance()->cache->delete_dynamic_css_cache();
+		// Regenerate global css
+		Assets::compile_global_css();
 
 		// Also clear the cache
 		return update_option( self::CLASSES_OPTION_KEY, wp_json_encode( $classes ) );
@@ -44,12 +45,13 @@ class CSSClasses {
 	/**
 	 * Get saved css classes from DB
 	 *
-	 * @return array<int, array{id: string, name: string, styles: array<string, mixed>}> The css classes saved in DB
+	 * @return array<int, array{id?: string, uid: string, name: string, style?: array<string, mixed>, styles: array<string, mixed>}> The css classes saved in DB
 	 */
 	public static function get_classes() {
 		if ( null === self::$cached_css_classes ) {
-			$saved_css_classes        = get_option( self::CLASSES_OPTION_KEY );
-			self::$cached_css_classes = json_decode( $saved_css_classes, true );
+			$saved_css_classes = get_option( self::CLASSES_OPTION_KEY );
+			// phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+			self::$cached_css_classes = json_decode( $saved_css_classes, true ) ?: [];
 		}
 
 		return self::$cached_css_classes;

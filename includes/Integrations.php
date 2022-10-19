@@ -65,6 +65,8 @@ class Integrations {
 		$this->register_integration( 'ZionBuilder\Integrations\TwentyNineteen' );
 		$this->register_integration( 'ZionBuilder\Integrations\RankMath' );
 		$this->register_integration( 'ZionBuilder\Integrations\Yoast' );
+		$this->register_integration( 'ZionBuilder\Integrations\Polylang' );
+		$this->register_integration( 'ZionBuilder\Integrations\HappyFiles' );
 	}
 
 	/**

@@ -2,10 +2,15 @@
 
 namespace ZionBuilder\Editor;
 
+use ZionBuilder\CommonJS;
 use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
 use ZionBuilder\Settings;
+use ZionBuilder\Elements\Masks;
+use ZionBuilder\Utils;
+use ZionBuilder\Whitelabel;
+use ZionBuilder\User;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +26,7 @@ class Preview {
 	const CONTENT_FILTER_PRIORITY = 999999;
 
 	/**
-	 * Holds a refference to all enqueued scripts
+	 * Holds a reference to all enqueued scripts
 	 */
 	private static $enqueued_scripts = [];
 
@@ -78,6 +83,7 @@ class Preview {
 		// Load styles before theme styles
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_footer', [ $this, 'add_data' ] );
 
 		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}
@@ -107,11 +113,15 @@ class Preview {
 		return $tag;
 	}
 
+	public function add_data() {
+
+	}
+
 	public function enqueue_scripts() {
 		// Trigger action before load scripts
 		do_action( 'zionbuilder/preview/before_load_scripts', $this );
 
-		wp_enqueue_media();
+		// wp_enqueue_media();
 
 		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
@@ -119,45 +129,15 @@ class Preview {
 
 		Plugin::instance()->scripts->enqueue_script(
 			'znpb-preview-frame-scripts',
-			'js/preview.js',
-			[
-				'zb-components',
-				'wp-tinymce',
-			],
+			'preview',
+			[],
 			Plugin::instance()->get_version(),
 			true
 		);
 
-		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbPreviewData', $this->get_preview_initial_data() );
+		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
 
-		wp_add_inline_script(
-			'znpb-preview-frame-scripts',
-			'
-                (function($) {
-                    window.ZionBuilderFrontend = {
-                        scripts: {},
-                        registerScript: function (scriptId, scriptCallback) {
-                            this.scripts[scriptId] = scriptCallback;
-                        },
-                        getScript(scriptId) {
-                            return this.scripts[scriptId]
-                        },
-                        unregisterScript: function(scriptId) {
-                            delete this.scripts[scriptId];
-                        },
-                        run: function() {
-                            var that = this;
-                            var $scope = $(document)
-                            Object.keys(this.scripts).forEach(function(scriptId) {
-                                var scriptObject = that.scripts[scriptId];
-                                scriptObject.run( $scope );
-                            })
-                        }
-                    };
-                })(jQuery);
-            ',
-			'before'
-		);
+		CommonJS::localize_common_js_data( 'znpb-preview-frame-scripts' );
 
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
@@ -169,46 +149,83 @@ class Preview {
 		// Load roboto font
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
-		Plugin::instance()->scripts->register_style(
-			'znpb-editor-styles',
-			'css/editor.css',
+		// Plugin::instance()->scripts->register_style(
+		//  'znpb-editor-styles',
+		//  'editor',
+		//  [],
+		//  Plugin::instance()->get_version()
+		// );
+
+		Plugin::instance()->scripts->enqueue_style(
+			'znpb-preview-frame-styles',
+			'editor',
 			[],
 			Plugin::instance()->get_version()
 		);
 
-		Plugin::instance()->scripts->enqueue_style(
-			'znpb-preview-frame-styles',
-			'css/preview.css',
-			[
-				'zb-components',
-				'znpb-editor-styles',
-			],
-			Plugin::instance()->get_version()
-		);
-
-		// Load rtl
-		if ( is_rtl() ) {
-			Plugin::instance()->scripts->enqueue_style(
-				'znpb-preview-rtl-styles',
-				'css/rtl.css',
-				[],
-				Plugin::instance()->get_version()
-			);
-		};
-
 		// This is needed because wp_editor somehow unloads dashicons
-		wp_print_styles( 'media-views' );
+		// wp_print_styles( 'media-views' );
 
 		do_action( 'zionbuilder/preview/after_load_styles', $this );
 	}
 
 	public function get_preview_initial_data() {
+		$post_instance = Plugin::$instance->post_manager->get_active_post_instance();
+
+		$plugin_updates = get_site_transient( 'update_plugins' );
+
+		$free_plugin_update = null;
+		$pro_plugin_update  = null;
+		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
+			if ( isset( $plugin_updates->response['zionbuilder/zionbuilder.php'] ) ) {
+				$free_plugin_update = $plugin_updates->response['zionbuilder/zionbuilder.php'];
+			}
+		}
+
+		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
+			if ( isset( $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'] ) ) {
+				$pro_plugin_update = $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'];
+			}
+		}
+
 		return [
 			'nonce'                   => Nonces::generate_nonce( 'preview-frame' ),
 			'page_content'            => Plugin::$instance->renderer->get_registered_areas(),
 			'template_types'          => Plugin::$instance->templates->get_template_types(),
+
+			// Elements data - This needs to be loaded from preview so we can load all their scripts and styles
+			'elements_categories'     => Plugin::$instance->elements_manager->get_elements_categories(),
 			'elements_data'           => Plugin::$instance->elements_manager->get_elements_config_for_editor(),
+
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
+			'post'                    => get_post(),
+			'masks'                   => Masks::get_shapes(),
+			'plugin_info'             => [
+				'is_pro_active'      => Utils::is_pro_active(),
+				'is_pro_installed'   => Utils::is_pro_installed(),
+				'free_version'       => Plugin::instance()->get_version(),
+				'pro_version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
+				'free_plugin_update' => $free_plugin_update,
+				'pro_plugin_update'  => $pro_plugin_update,
+			],
+			'urls'                    => [
+				'assets_url'        => Utils::get_file_url( 'assets' ),
+				'logo'              => Whitelabel::get_logo_url(),
+				'loader'            => Whitelabel::get_loader_url(),
+				'edit_page'         => get_edit_post_link( $post_instance->get_post_id(), '' ),
+				'zion_admin'        => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
+				'updates_page'      => admin_url( 'update-core.php' ),
+				'preview_frame_url' => $post_instance->get_preview_frame_url(),
+				'preview_url'       => $post_instance->get_preview_url(),
+				'all_pages_url'     => $post_instance->get_all_pages_url(),
+				'purchase_url'      => 'https://zionbuilder.io/pricing/',
+				'documentation_url' => 'https://zionbuilder.io/help-center/',
+				'free_changelog'    => 'https://zionbuilder.io/changelog-free-version/',
+				'pro_changelog'     => 'https://zionbuilder.io/changelog-pro-version/',
+				'ajax_url'          => admin_url( 'admin-ajax.php', 'relative' ),
+			],
+
+			'user_data'               => User::get_user_data(),
 		];
 	}
 

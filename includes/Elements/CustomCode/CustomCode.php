@@ -3,7 +3,7 @@
 namespace ZionBuilder\Elements\CustomCode;
 
 use ZionBuilder\Elements\Element;
-use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -46,7 +46,7 @@ class CustomCode extends Element {
 	 * @return array<string> The list of element keywords
 	 */
 	public function get_keywords() {
-		return [ 'html', 'css', 'javascript', 'js', 'code', 'custom', 'shortcode', 'shrt', 'txt', 'markup' ];
+		return [ 'html', 'css', 'javascript', 'js', 'code', 'custom', 'shortcode', 'txt', 'markup' ];
 	}
 
 	/**
@@ -63,14 +63,11 @@ class CustomCode extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/CustomHtml/editor.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/CustomHtml/editor', 'js' ) );
 	}
 
 	/**
@@ -96,7 +93,6 @@ class CustomCode extends Element {
 				'description' => __( 'Using this option you can enter you own custom HTML code. If you plan on adding CSS or JavaScript, wrap the codes into <style type="text/css">...</style> respectively <script>...</script> . Please make sure your JS code is fully functional as it might break the entire page!!', 'zionbuilder' ),
 				'title'       => esc_html__( 'Custom html', 'zionbuilder' ),
 				'mode'        => 'htmlmixed',
-				'default'     => esc_html__( '// Your custom HTML here', 'zionbuilder' ),
 			]
 		);
 

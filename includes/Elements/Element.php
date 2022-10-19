@@ -24,18 +24,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Element {
 
 	/**
-	 * Holds a refference to all provided properties
+	 * Holds a reference to all provided properties
 	 *
 	 * @var array
 	 */
-	private static $provides = [];
+	private static $provides = array();
 
 	/**
 	 * Element content
 	 *
 	 * @var array<int, array<string, mixed>>
 	 */
-	public $content = [];
+	public $content = array();
 
 	/**
 	 * Element model
@@ -66,25 +66,25 @@ class Element {
 	protected $element_base_path = null;
 
 	/**
-	 * Holds a refference to the element wrapper tag
+	 * Holds a reference to the element wrapper tag
 	 *
 	 * @var string The element wrapper tag
 	 */
 	protected $wrapper_tag = 'div';
 
 	/**
-	 * Holds a refference to the element style options tags
+	 * Holds a reference to the element style options tags
 	 *
 	 * @var array<string, array<string, mixed>> The element custom style options
 	 */
-	protected $registered_style_options = [];
+	protected $registered_style_options = array();
 
 	/**
 	 * Adds extra data to element on render
 	 *
 	 * @var array<string, mixed>
 	 */
-	public $extra_render_data = [];
+	public $extra_render_data = array();
 
 	/**
 	 * Holds the render attributes class object
@@ -105,57 +105,64 @@ class Element {
 	 *
 	 * @var array<int, string>
 	 */
-	protected $editor_scripts = [];
+	protected $editor_scripts = array();
 
 	/**
 	 * Holds a list of element scripts URLs
 	 *
 	 * @var array<int, string>
 	 */
-	protected $element_scripts = [];
+	protected $element_scripts = array();
 
 	/**
 	 * Holds a list of editor styles URLs
 	 *
 	 * @var array<int, string>
 	 */
-	protected $editor_styles = [];
+	protected $editor_styles = array();
 
 	/**
 	 * Holds a list of element styles URLs
 	 *
 	 * @var array<int, string>
 	 */
-	protected $element_styles = [];
+	protected $element_styles = array();
 
 	/**
-	 * Holds a refference to the Element HTML id
+	 * Holds a reference to the Element HTML id
 	 *
 	 * @var string
 	 */
 	protected $element_html_id = '';
 
 	/**
-	 * Holds a refference to all registered hooks
+	 * Holds a reference to all registered hooks
 	 *
 	 * @var array
 	 */
-	protected $hooks = [];
+	protected $hooks = array();
 
-	public $data = [];
+	public $data = array();
 
 	// repeater
 	public $element_css_selector = null;
 
-	private $current_provides = [];
+	private $current_provides = array();
+
+	/**
+	 * Helper flag that is added when the element is rendered in editor mode from the server
+	 *
+	 * @var boolean
+	 */
+	public $is_server_render = false;
 
 	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
 	 */
-	final public function __construct( $data = [] ) {
-		// Allow elements creators to hook here without rewriting contruct
+	final public function __construct( $data = array() ) {
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_before_init( $data );
 
 		// Set the element data if provided
@@ -172,14 +179,14 @@ class Element {
 			}
 
 			// Setup helpers
-			$model                   = isset( $data['options'] ) ? $data['options'] : [];
+			$model                   = isset( $data['options'] ) ? $data['options'] : array();
 			$this->render_attributes = new RenderAttributes();
 			$this->custom_css        = new CustomCSS( $this->get_css_selector() );
 			$this->options->set_data( $model, $this->render_attributes, $this->custom_css );
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
 		}
 
-		// Allow elements creators to hook here without rewriting contruct
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_after_init( $data );
 	}
 
@@ -208,7 +215,7 @@ class Element {
 	 */
 	public function on( $action_name, $callback ) {
 		if ( ! isset( $this->hooks[$action_name] ) ) {
-			$this->hooks[$action_name] = [];
+			$this->hooks[$action_name] = array();
 		}
 
 		$this->hooks[$action_name][] = $callback;
@@ -241,7 +248,7 @@ class Element {
 	 */
 	public function apply_custom_classes_to_render_tags() {
 		// Set the custom css classes for element
-		$element_saved_styles = $this->options->get_value( '_styles', [] );
+		$element_saved_styles = $this->options->get_value( '_styles', array() );
 		$styles_config        = $this->get_style_elements_for_editor();
 
 		foreach ( $element_saved_styles as $style_config_id => $style_value ) {
@@ -264,14 +271,14 @@ class Element {
 	 * @return void
 	 */
 	public function apply_custom_attributes_to_render_tags() {
-		$styles_attrs = $this->options->get_value( '_styles', [] );
+		$styles_attrs = $this->options->get_value( '_styles', array() );
 
 		foreach ( $styles_attrs as $id => $style_values ) {
 			if ( isset( $style_values['attributes'] ) && is_array( $style_values['attributes'] ) ) {
 				foreach ( $style_values['attributes'] as $attributes ) {
 					if ( ! empty( $attributes['attribute_name'] ) ) {
 						$attribute_value = isset( $attributes['attribute_value'] ) ? $attributes['attribute_value'] : '';
-						$this->render_attributes->add( $id, sanitize_title_with_dashes( $attributes['attribute_name'] ), esc_attr( $attribute_value ) );
+						$this->render_attributes->add( $id, $attributes['attribute_name'], esc_attr( $attribute_value ) );
 					}
 				}
 			}
@@ -364,7 +371,7 @@ class Element {
 	 * @return array<string> The keywords list
 	 */
 	public function get_keywords() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -406,7 +413,7 @@ class Element {
 	 *
 	 * @return void
 	 */
-	public function on_after_init( $data = [] ) {
+	public function on_after_init( $data = array() ) {
 	}
 
 	/**
@@ -418,7 +425,7 @@ class Element {
 	 *
 	 * @return void
 	 */
-	public function on_before_init( $data = [] ) {
+	public function on_before_init( $data = array() ) {
 	}
 
 
@@ -459,7 +466,7 @@ class Element {
 		// Init options
 		$this->init_options();
 
-		$config = [
+		$config = array(
 			'element_type'        => $this->get_type(),
 			'name'                => $this->get_name(),
 			'category'            => $this->get_category(),
@@ -475,7 +482,7 @@ class Element {
 			'scripts'             => $this->get_element_scripts_for_editor(),
 			'styles'              => $this->get_element_styles_for_editor(),
 			'content_orientation' => $this->get_sortable_content_orientation(),
-		];
+		);
 
 		// Add extra data
 		$extra_data = $this->extra_data();
@@ -517,7 +524,7 @@ class Element {
 	 *
 	 * This type of elements cannot be added from add elements popup
 	 * and don't have any toolbox or events attached to them
-	 * They are mainly used as childs for other elements
+	 * They are mainly used as children for other elements
 	 *
 	 * @return boolean True if the element will appear in elements list in editor
 	 */
@@ -545,14 +552,14 @@ class Element {
 	private function register_wrapper_style_options() {
 		$this->register_style_options_element(
 			'wrapper',
-			[
+			array(
 				'title'      => esc_html__( 'Wrapper', 'zionbuilder' ),
 				'selector'   => '{{ELEMENT}}',
-				'config'     => [
+				'config'     => array(
 					'show_background_video' => true,
-				],
+				),
 				'render_tag' => 'wrapper',
-			]
+			)
 		);
 	}
 
@@ -600,7 +607,7 @@ class Element {
 	 * @return array<string, mixed> Extra element configuration that will be added to the element in edit mode
 	 */
 	public function get_config_for_editor() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -611,7 +618,7 @@ class Element {
 	 * @return array<string, mixed>
 	 */
 	public function extra_data() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -620,7 +627,7 @@ class Element {
 	 * @return array<string, mixed>
 	 */
 	public function content_composition() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -712,6 +719,8 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
+		do_action( 'zionbuilder/element/before_custom_render', $this );
+
 		/**
 		 * Allows you to create a different renderer
 		 */
@@ -722,39 +731,24 @@ class Element {
 		} else {
 			$this->do_element_render( $extra_render_data );
 		}
+
+		do_action( 'zionbuilder/element/after_custom_render', $this );
+	}
+
+	public function get_custom_css() {
+		$custom_css = $this->options->get_value( '_advanced_options._custom_css' );
+
+		if ( ! empty( $custom_css ) ) {
+			return str_replace( '[ELEMENT]', '#' . $this->get_element_css_id(), $custom_css );
+		}
+
+		return '';
+
 	}
 
 	final public function do_element_render( $extra_render_data ) {
 		// We need to parse data only on actual render
 		$this->options->parse_data();
-
-		// Check to see if we need to extract CSS
-		if ( Plugin::instance()->cache->should_generate_css() ) {
-			// Add element styles CSS
-			$styles            = $this->options->get_value( '_styles', [] );
-			$registered_styles = $this->get_style_elements_for_editor();
-
-			if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
-				foreach ( $registered_styles as $id => $style_config ) {
-					if ( ! empty( $styles[$id] ) ) {
-						$css_selector = $this->get_css_selector();
-						$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-						$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', [ $css_selector ], $this );
-
-						PageAssets::add_active_area_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
-					}
-				}
-			}
-
-			// Add element method css
-			PageAssets::add_active_area_raw_css( $this->css() );
-
-			// Add css from options
-			PageAssets::add_active_area_raw_css( $this->custom_css->get_css() );
-
-			// Allow users to add their own css
-			PageAssets::add_active_area_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
-		}
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
@@ -763,7 +757,7 @@ class Element {
 		// Setup render tags custom css classes
 		$this->apply_custom_classes_to_render_tags();
 
-		// Setup render tags customattributes
+		// Setup render tags custom attributes
 		$this->apply_custom_attributes_to_render_tags();
 
 		$this->extra_render_data = $extra_render_data;
@@ -817,7 +811,7 @@ class Element {
 
 		$this->after_render( $this->options );
 
-		// Reset prvides
+		// Reset provides
 		$this->reset_provides();
 		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
@@ -869,7 +863,7 @@ class Element {
 	 *
 	 * @return void
 	 */
-	public function render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
+	public function render_tag( $html_tag_type, $tag_id, $content = '', $attributes = array() ) {
 		// Attributes are already escaped, the content must be escaped by the element creator
 		echo $this->get_render_tag( $html_tag_type, $tag_id, $content, $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput
 	}
@@ -885,7 +879,7 @@ class Element {
 	 *
 	 * @return string The HTML tag
 	 */
-	public function get_render_tag( $html_tag_type, $tag_id, $content = '', $attributes = [] ) {
+	public function get_render_tag( $html_tag_type, $tag_id, $content = '', $attributes = array() ) {
 		$attributes = $this->render_attributes->get_attributes_as_string( $tag_id, $attributes );
 		$content    = is_array( $content ) ? implode( '', $content ) : $content;
 		return sprintf( '<%s %s>%s</%1$s>', esc_attr( $html_tag_type ), $attributes, $content );
@@ -904,7 +898,7 @@ class Element {
 	 * @return void
 	 */
 	final public function render_tag_group( $html_tag_type, $option_id, $tag_id, $tag_config ) {
-		$tag_list = $this->options->get_value( $option_id, [] );
+		$tag_list = $this->options->get_value( $option_id, array() );
 
 		foreach ( $tag_list as $index => $value ) {
 			// Check if the render has extra tags
@@ -917,7 +911,7 @@ class Element {
 			}
 
 			$content = isset( $tag_config['render_callback'] ) ? call_user_func( $tag_config['render_callback'], $value, $index ) : '';
-			$this->render_tag( $html_tag_type, [ $tag_id, $tag_id . $index ], $content );
+			$this->render_tag( $html_tag_type, array( $tag_id, $tag_id . $index ), $content );
 		}
 	}
 
@@ -1030,9 +1024,9 @@ class Element {
 	 *
 	 * @return string
 	 */
-	final public function get_style_classes_as_string( $style_id, $extra_classes = [] ) {
+	final public function get_style_classes_as_string( $style_id, $extra_classes = array() ) {
 		$option_path = sprintf( '_styles.%s.classes', $style_id );
-		$css_classes = $this->options->get_value( $option_path, [] );
+		$css_classes = $this->options->get_value( $option_path, array() );
 		$css_classes = array_merge( $css_classes, $extra_classes );
 
 		return implode( ' ', $css_classes );
@@ -1200,7 +1194,7 @@ class Element {
 	 * @return array<string, mixed>
 	 */
 	private function get_dependency_config( $manager ) {
-		$scripts = [];
+		$scripts = array();
 
 		// Set all scripts
 		$manager->all_deps( $manager->queue );
@@ -1235,10 +1229,10 @@ class Element {
 		$old_done   = $wp_styles->done;
 		$old_groups = $wp_styles->groups;
 
-		$wp_styles->queue  = [];
-		$wp_styles->to_do  = [];
-		$wp_styles->done   = [];
-		$wp_styles->groups = [];
+		$wp_styles->queue  = array();
+		$wp_styles->to_do  = array();
+		$wp_styles->done   = array();
+		$wp_styles->groups = array();
 
 		$this->enqueue_styles();
 
@@ -1251,15 +1245,15 @@ class Element {
 
 		// Add editor script
 		foreach ( $this->editor_styles as $key => $element_style_url ) {
-			$scripts[$this->get_type() . '-editor-style-' . $key] = [
+			$scripts[$this->get_type() . '-editor-style-' . $key] = array(
 				'src' => $element_style_url,
-			];
+			);
 		}
 
 		foreach ( $this->element_styles as $key => $element_style_url ) {
-			$scripts[$this->get_type() . '-element-style-' . $key] = [
+			$scripts[$this->get_type() . '-element-style-' . $key] = array(
 				'src' => $element_style_url,
-			];
+			);
 		}
 
 		return $scripts;
@@ -1292,11 +1286,10 @@ class Element {
 		$old_groups = $wp_scripts->groups;
 
 		// Reset scripts
-		$wp_scripts->queue  = [];
-		$wp_scripts->to_do  = [];
-		$wp_scripts->done   = [];
-		$wp_scripts->groups = [];
-
+		$wp_scripts->queue  = array();
+		$wp_scripts->to_do  = array();
+		$wp_scripts->done   = array();
+		$wp_scripts->groups = array();
 		$this->enqueue_scripts();
 		$scripts = $this->get_dependency_config( $wp_scripts );
 
@@ -1308,15 +1301,15 @@ class Element {
 
 		// Add editor script
 		foreach ( $this->editor_scripts as $key => $editor_script_url ) {
-			$scripts[$this->get_type() . '-editor-script-' . $key] = [
+			$scripts[$this->get_type() . '-editor-script-' . $key] = array(
 				'src' => $editor_script_url,
-			];
+			);
 		}
 
 		foreach ( $this->element_scripts as $key => $element_script_url ) {
-			$scripts[$this->get_type() . '-element-script-' . $key] = [
+			$scripts[$this->get_type() . '-element-script-' . $key] = array(
 				'src' => $element_script_url,
-			];
+			);
 		}
 
 		return $scripts;
@@ -1360,7 +1353,7 @@ class Element {
 			$ver = $ver ? $ver . '&amp;' . $manager->args[$handle] : $manager->args[$handle];
 		}
 
-		return [
+		return array(
 			'handle' => $handle,
 			'src'    => $this->compile_script_url(
 				$handle,
@@ -1373,7 +1366,7 @@ class Element {
 			'data'   => $manager->get_data( $handle, 'data' ),
 			'before' => $manager->get_data( $handle, 'before' ),
 			'after'  => $manager->get_data( $handle, 'after' ),
-		];
+		);
 	}
 
 	/**
@@ -1417,7 +1410,7 @@ class Element {
 	 */
 	public function provide( $key, $value ) {
 		if ( ! isset( self::$provides[$key] ) || ! is_array( self::$provides[$key] ) ) {
-			self::$provides[$key] = [];
+			self::$provides[$key] = array();
 		}
 
 		$this->current_provides[] = $key;
@@ -1453,7 +1446,7 @@ class Element {
 	 * @return array<int, mixed>
 	 */
 	public function get_children() {
-		$child_elements_data = [];
+		$child_elements_data = array();
 
 		if ( ! empty( $this->content ) && is_array( $this->content ) ) {
 			foreach ( $this->content as $child_content_data ) {
@@ -1462,5 +1455,102 @@ class Element {
 		}
 
 		return $child_elements_data;
+	}
+
+	public function render_placeholder_info( $config ) {
+		// Only render the placeholder in server render
+		if ( ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		$config = wp_parse_args(
+			$config,
+			array(
+				'title'       => esc_html__( 'Heads up!', 'zionbuilder' ),
+				'description' => '',
+			)
+		);
+
+		?>
+			<div class="znpb-el-notice">
+				<span class="znpb-editor-icon-wrapper">
+					<svg class="zion-svg-inline znpb-editor-icon zion-icon zion-desktop" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 50 50" preserveAspectRatio=""><path d="M25.0001 0C31.6306 0 37.9892 2.63403 42.6777 7.32234C47.3664 12.0106 50 18.37 50 24.9999V50H25C18.3698 50 12.0108 47.366 7.32234 42.6777C2.63404 37.9894 1.50167e-06 31.63 1.50167e-06 25C1.50167e-06 18.3701 2.63404 12.0109 7.32234 7.32243C12.011 2.63413 18.37 9.9152e-05 25 9.9152e-05L25.0001 0ZM22.6474 39.1479C22.6474 39.2959 22.7063 39.4382 22.8109 39.5428C22.9155 39.6474 23.0578 39.7063 23.2058 39.7063H26.7951C27.1036 39.7063 27.3535 39.4564 27.3535 39.1479V21.4336C27.3535 21.1255 27.1036 20.8755 26.7951 20.8755H23.2058C23.0578 20.8755 22.9155 20.9344 22.8109 21.0391C22.7063 21.1437 22.6474 21.2855 22.6474 21.4336V39.1479ZM22.6474 15.3344C22.6474 15.4824 22.7063 15.6242 22.8109 15.7292C22.9155 15.8339 23.0578 15.8924 23.2058 15.8924H26.7951C27.1036 15.8924 27.3535 15.6428 27.3535 15.3344V10.8518C27.3535 10.5437 27.1036 10.2938 26.7951 10.2938H23.2058C23.0578 10.2938 22.9155 10.3523 22.8109 10.4573C22.7063 10.5619 22.6474 10.7038 22.6474 10.8518V15.3344Z"/></svg>
+				</span>
+				<h3><?php echo $config['title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h3>
+				<p>
+				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</p>
+			</div>
+		<?php
+	}
+
+	public function render_admin_info_text( $config ) {
+		// Only render the placeholder in server render
+		if ( ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		$config = wp_parse_args(
+			$config,
+			array(
+				'title'       => esc_html__( 'Heads up!', 'zionbuilder' ),
+				'description' => '',
+				'type'        => 'info',
+			)
+		);
+
+		?>
+			<div class="znpb-el-notice znpb-el-notice--<?php echo $config['type']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+				<span class="znpb-editor-icon-wrapper">
+					<svg class="zion-svg-inline znpb-editor-icon zion-icon zion-desktop" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 50 50" preserveAspectRatio=""><path d="M25.0001 0C31.6306 0 37.9892 2.63403 42.6777 7.32234C47.3664 12.0106 50 18.37 50 24.9999V50H25C18.3698 50 12.0108 47.366 7.32234 42.6777C2.63404 37.9894 1.50167e-06 31.63 1.50167e-06 25C1.50167e-06 18.3701 2.63404 12.0109 7.32234 7.32243C12.011 2.63413 18.37 9.9152e-05 25 9.9152e-05L25.0001 0ZM22.6474 39.1479C22.6474 39.2959 22.7063 39.4382 22.8109 39.5428C22.9155 39.6474 23.0578 39.7063 23.2058 39.7063H26.7951C27.1036 39.7063 27.3535 39.4564 27.3535 39.1479V21.4336C27.3535 21.1255 27.1036 20.8755 26.7951 20.8755H23.2058C23.0578 20.8755 22.9155 20.9344 22.8109 21.0391C22.7063 21.1437 22.6474 21.2855 22.6474 21.4336V39.1479ZM22.6474 15.3344C22.6474 15.4824 22.7063 15.6242 22.8109 15.7292C22.9155 15.8339 23.0578 15.8924 23.2058 15.8924H26.7951C27.1036 15.8924 27.3535 15.6428 27.3535 15.3344V10.8518C27.3535 10.5437 27.1036 10.2938 26.7951 10.2938H23.2058C23.0578 10.2938 22.9155 10.3523 22.8109 10.4573C22.7063 10.5619 22.6474 10.7038 22.6474 10.8518V15.3344Z"/></svg>
+				</span>
+				<h3><?php echo $config['title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h3>
+				<p>
+				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</p>
+			</div>
+
+			<style>
+
+				.znpb-el-notice {
+					color: #fff;
+					font-size: 13px;
+					position: relative;
+					background-color: rgba(40, 40, 44, 0.6);
+					border-radius: 4px;
+					padding: 20px 20px 20px 56px;
+					width: 100%;
+					margin: 20px;
+				}
+
+				.znpb-el-notice--error {
+					background-color: #e84655;
+				}
+
+				.znpb-el-notice h3 {
+					font-size: 15px !important;
+					margin: 0 0 5px !important;
+				}
+
+				.znpb-el-notice a {
+					font-weight: 700;
+				}
+
+				.znpb-el-notice .znpb-editor-icon-wrapper {
+					color: rgba(255, 255, 255, 0.4);
+					position: absolute;
+					font-size: 26px;
+					margin-left: -36px;
+				}
+
+				.znpb-el-notice .znpb-editor-icon-wrapper svg {
+					fill: currentColor;
+					width: 1em;
+					height: 1em;
+					display: block;
+				}
+
+			</style>
+		<?php
 	}
 }

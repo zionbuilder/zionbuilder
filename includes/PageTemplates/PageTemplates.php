@@ -22,9 +22,9 @@ class PageTemplates {
 	 */
 	public function __construct() {
 		// Add our templates to template list dropdown
-		add_filter( 'theme_templates', [ $this, 'register_page_templates_options' ], 10, 4 );
+		add_filter( 'theme_templates', array( $this, 'register_page_templates_options' ), 10, 4 );
 		// Check and load our template
-		add_filter( 'template_include', [ $this, 'template_include' ], 11 );
+		add_filter( 'template_include', array( $this, 'template_include' ), 11 );
 	}
 
 	/**
@@ -35,10 +35,10 @@ class PageTemplates {
 	 * @return array
 	 */
 	public function get_custom_templates() {
-		return [
+		return array(
 			'zion_builder_full_width' => sprintf( '%s Full Width', Whitelabel::get_title() ),
 			'zion_builder_blank'      => sprintf( '%s Blank Canvas', Whitelabel::get_title() ),
-		];
+		);
 	}
 
 	/**
@@ -74,6 +74,10 @@ class PageTemplates {
 	 * @return string Path to the template that needs to be included
 	 */
 	public function template_include( $template ) {
+		if ( ! is_singular() ) {
+			return $template;
+		}
+
 		$post_instance = Plugin::$instance->post_manager->get_active_post_instance();
 
 		if ( ! $post_instance ) {
@@ -90,7 +94,7 @@ class PageTemplates {
 		// Check to see if this is one of our templates
 		if ( in_array( $post_template, array_keys( $this->get_custom_templates() ), true ) ) {
 			// Fix for WP themes
-			add_filter( 'body_class', [ $this, 'remove_body_classes' ] );
+			add_filter( 'body_class', array( $this, 'remove_body_classes' ) );
 			$template = $this->get_template_file( $post_template );
 		}
 
@@ -114,7 +118,7 @@ class PageTemplates {
 	 *
 	 * @return array
 	 */
-	public function remove_body_classes( $classes = [] ) {
+	public function remove_body_classes( $classes = array() ) {
 		foreach ( $classes as $key => $css_class ) {
 			if ( $css_class === 'has-sidebar' ) {
 				unset( $classes[$key] );

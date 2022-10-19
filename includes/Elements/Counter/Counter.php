@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Counter;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -196,17 +197,13 @@ class Counter extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'zionbuilder-animatejs' );
-
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Counter/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Counter/frontend.js' ) );
+		wp_enqueue_script( 'zb-element-counter', Plugin::instance()->scripts->get_script_url( 'elements/Counter/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Counter/editor', 'js' ) );
+
 	}
 
 	/**
@@ -219,7 +216,7 @@ class Counter extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Counter/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Counter/frontend.css' ) );
 	}
 
 	/**

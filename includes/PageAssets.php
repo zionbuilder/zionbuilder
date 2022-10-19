@@ -18,7 +18,7 @@ class PageAssets {
 	const CACHE_FOLDER_NAME = 'cache';
 
 	/**
-	 * Holds a refference to all the instances of PageAssets
+	 * Holds a reference to all the instances of PageAssets
 	 *
 	 * @var array
 	 */
@@ -26,7 +26,7 @@ class PageAssets {
 
 
 	/**
-	 * Holds a refference to the active post ids
+	 * Holds a reference to the active post ids
 	 * During collection phase, this is used to add the extra element css to the right post id
 	 * During generation phase, this is used to put the proper css into the generated page asset
 	 *
@@ -42,14 +42,14 @@ class PageAssets {
 	private static $areas_extra_css = [];
 
 	/**
-	 * Holds a refference to the cache directory
+	 * Holds a reference to the cache directory
 	 *
 	 * @var array
 	 */
 	private static $cache_directory_config = null;
 
 	/**
-	 * Holds a refference to the scripts loaded by elements
+	 * Holds a reference to the scripts loaded by elements
 	 *
 	 * @var array
 	 */
@@ -71,25 +71,18 @@ class PageAssets {
 
 
 	/**
-	 * Holds a refference to the post id for which we need to generated the assets
+	 * Holds a reference to the post id for which we need to generated the assets
 	 *
 	 * @var array
 	 */
 	public $post_ids = null;
 
 	/**
-	 * Holds a refference to the post id for which we need to generated the assets
+	 * Holds a reference to the post id for which we need to generated the assets
 	 *
 	 * @var string
 	 */
 	public $file_handle = null;
-
-	/**
-	 * Flag to check if the assets were already processed
-	 *
-	 * @var boolean
-	 */
-	private $enqueued_element_scripts = false;
 
 	/**
 	 * Flag to check if the dynamic assets were already enqueued
@@ -322,10 +315,6 @@ class PageAssets {
 		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset(), $this->minify( $css ), 0644 );
 
 		$js = apply_filters( 'zionbuilder/page_assets/js', $this->js, $this );
-		if ( ! empty( $js ) ) {
-			$js = $this->wrap_javascript( $js );
-		}
-
 		FileSystem::get_file_system()->put_contents( $this->get_path_for_asset( 'js' ), $js, 0644 );
 
 		return $this;
@@ -334,7 +323,7 @@ class PageAssets {
 	/**
 	 * Minify
 	 *
-	 * Will minify css code by removing comments and whitespaces
+	 * Will minify css code by removing comments and white spaces
 	 *
 	 * @param string $css
 	 *
@@ -367,7 +356,7 @@ class PageAssets {
 			}
 
 			if ( 0 !== FileSystem::get_file_system()->size( $js_path ) ) {
-				wp_enqueue_script( $this->file_handle, $js_url, [ 'jquery' ], $this->get_cache_version( $js_path ), true );
+				wp_enqueue_script( $this->file_handle, $js_url, [], $this->get_cache_version( $js_path ), true );
 			}
 
 			$this->enqueued_dynamic_assets = true;
@@ -435,53 +424,6 @@ class PageAssets {
 	 */
 	public function get_css() {
 		return $this->css;
-	}
-
-
-	/**
-	 * Wraps the JavaScript code with the ZionBuilder JS methods
-	 *
-	 * @param string $js The js code that needs to be wrapped
-	 *
-	 * @return string
-	 */
-	public function wrap_javascript( $js ) {
-		if ( ! empty( $js ) ) {
-			$js = sprintf(
-				'
-			(function($) {
-				window.ZionBuilderFrontend = {
-					scripts: {},
-					registerScript: function (scriptId, scriptCallback) {
-						this.scripts[scriptId] = scriptCallback;
-					},
-					getScript(scriptId) {
-						return this.scripts[scriptId]
-					},
-					unregisterScript: function(scriptId) {
-						delete this.scripts[scriptId];
-					},
-					run: function() {
-						var that = this;
-						var $scope = $(document)
-						Object.keys(this.scripts).forEach(function(scriptId) {
-							var scriptObject = that.scripts[scriptId];
-							scriptObject.run( $scope );
-						})
-					}
-				};
-
-				%s
-
-				window.ZionBuilderFrontend.run();
-
-			})(jQuery);
-			',
-				$js
-			);
-		}
-
-		return $js;
 	}
 
 	/**

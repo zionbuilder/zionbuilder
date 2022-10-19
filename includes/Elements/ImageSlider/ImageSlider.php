@@ -4,6 +4,9 @@ namespace ZionBuilder\Elements\ImageSlider;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\CommonJS;
+use ZionBuilder\Plugin;
+use ZionBuilder\WPMedia;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -124,10 +127,12 @@ class ImageSlider extends Element {
 		$options->add_option(
 			'infinite',
 			[
-				'type'    => 'checkbox_switch',
-				'default' => true,
-				'title'   => esc_html__( 'Infinite', 'zionbuilder' ),
-				'layout'  => 'inline',
+				'type'        => 'checkbox_switch',
+				'default'     => true,
+				'title'       => esc_html__( 'Infinite', 'zionbuilder' ),
+				'description' => esc_html__( 'Set to yes to enable continuous loop mode. Please note that this is disabled in editor mode.', 'zionbuilder' ),
+
+				'layout'      => 'inline',
 			]
 		);
 
@@ -156,12 +161,13 @@ class ImageSlider extends Element {
 		$options->add_option(
 			'slides_to_scroll',
 			[
-				'type'    => 'number',
-				'title'   => __( 'Slides to scroll', 'zionbuilder' ),
-				'min'     => 1,
-				'max'     => 5,
-				'default' => 1,
-				'layout'  => 'inline',
+				'type'               => 'number',
+				'title'              => __( 'Slides to scroll', 'zionbuilder' ),
+				'min'                => 1,
+				'max'                => 5,
+				'default'            => 1,
+				'layout'             => 'inline',
+				'responsive_options' => true,
 			]
 		);
 
@@ -176,22 +182,33 @@ class ImageSlider extends Element {
 				'layout'  => 'inline',
 			]
 		);
+
+		$options->add_option(
+			'speed',
+			[
+				'type'    => 'number',
+				'title'   => __( 'Transition speed', 'zionbuilder' ),
+				'min'     => 1,
+				'max'     => 15000,
+				'default' => 300,
+				'layout'  => 'inline',
+			]
+		);
 	}
 
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'swiper' );
+		wp_enqueue_script( 'zion-builder-slider' );
+
+		// Enqueue responsive devices
+		CommonJS::enqueue_responsive_devices( 'zion-builder-slider' );
 
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/ImageSlider/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/ImageSlider/frontend.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/ImageSlider/editor', 'js' ) );
 	}
 
 	/**
@@ -204,6 +221,7 @@ class ImageSlider extends Element {
 	 */
 	public function enqueue_styles() {
 		wp_enqueue_style( 'swiper' );
+		$this->enqueue_element_style( Plugin::instance()->scripts->get_script_url( 'elements/ImageSlider/frontend', 'css' ) );
 	}
 
 	/**
@@ -214,22 +232,28 @@ class ImageSlider extends Element {
 	 * @return void
 	 */
 	public function before_render( $options ) {
+		// Add the swiper class
+		$this->render_attributes->add( 'wrapper', 'class', 'swiper' );
+
 		$autoplay = $options->get_value( 'autoplay' );
 
 		$config = [
-			'arrows'         => $options->get_value( 'arrows' ),
-			'pagination'     => $options->get_value( 'dots' ),
-			'slides_to_show' => $options->get_value( 'slides_to_show' ),
-			'rawConfig'      => [
-				'loop'           => $options->get_value( 'infinite' ),
-				'slidesPerGroup' => $options->get_value( 'slides_to_scroll' ),
-				'autoplay'       => $autoplay,
+			'arrows'           => $options->get_value( 'arrows' ),
+			'pagination'       => $options->get_value( 'dots' ),
+			'slides_to_show'   => $options->get_value( 'slides_to_show' ),
+			'slides_to_scroll' => $options->get_value( 'slides_to_scroll' ),
+			'rawConfig'        => [
+				'loop'     => $options->get_value( 'infinite' ),
+				'speed'    => $options->get_value( 'speed' ),
+				'autoplay' => $autoplay,
 			],
 		];
 
 		if ( $autoplay ) {
 			$config['rawConfig']['autoplay'] = [
-				'delay' => $options->get_value( 'autoplay_delay' ),
+				'delay'         => $options->get_value( 'autoplay_delay' ),
+				'lazy'          => true,
+				'preloadImages' => false,
 			];
 		}
 
@@ -251,7 +275,19 @@ class ImageSlider extends Element {
 		<div class="swiper-wrapper">
 			<?php
 			foreach ( $images as $image ) {
-				printf( '<img src="%s" class="swiper-slide"/>', esc_attr( $image['image'] ) );
+				echo '<div class="swiper-slide">';
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo WPMedia::get_imge(
+					$image,
+					[
+
+						'loading' => '',
+						'srcset'  => '',
+						'sizes'   => '',
+					]
+				);
+				echo '</div>';
+				// printf( '<img src="%s" class="swiper-slide"/>', esc_attr( $image['image'] ) );
 			}
 			?>
 

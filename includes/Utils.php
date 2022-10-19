@@ -2,13 +2,15 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Post\BasePostType;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
 /**
- * Utill
+ * Util
  *
  * Will handle several util methods
  *
@@ -21,7 +23,7 @@ class Utils {
 	 * @return boolean if zion builder pro path is defined
 	 */
 	public static function is_pro_active() {
-		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ) );
+		return apply_filters( 'zionbuilder/utils/pro_active', class_exists( 'ZionBuilderPro\Plugin' ), false );
 	}
 
 		/**
@@ -161,12 +163,12 @@ class Utils {
 
 
 	/**
-	 * Convert a string to camelcase
+	 * Convert a string to camelCase
 	 *
 	 * @param string  $string
 	 * @param boolean $capitalize_first_letter
 	 *
-	 * @return string The string in camelcase format
+	 * @return string The string in camelCase format
 	 */
 	public static function camel_case( $string, $capitalize_first_letter = false ) {
 		$str = str_replace( ' ', '', ucwords( str_replace( [ '-', '_' ], ' ', $string ) ) );
@@ -176,5 +178,43 @@ class Utils {
 		}
 
 		return $str;
+	}
+
+	/**
+	 * Returns a list of pages that are built with Zion Builder
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return int[] The list of post ids build with Zion Builder
+	 */
+	public static function get_builder_pages() {
+		return get_posts(
+			[
+				'post_type'              => get_post_types( [ 'public' => true ] ),
+				'posts_per_page'         => -1,
+				'post_status'            => 'any',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+				'meta_query'             => [
+					[
+						'key'     => BasePostType::PAGE_TEMPLATE_META_KEY,
+						'value'   => '',
+						'compare' => '!=',
+					],
+				],
+			]
+		);
+	}
+
+	/**
+	 * Prints a message in the error log
+	 *
+	 * @param array $data
+	 * @return void
+	 */
+	public static function log( $data = [] ) {
+		// phpcs:ignore
+		error_log( var_export( $data, true ) );
 	}
 }

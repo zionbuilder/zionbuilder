@@ -50,7 +50,7 @@ class Screenshot {
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_style(
 			'zb-screenshot',
-			'css/screenshot.css',
+			'screenshot',
 			[],
 			Plugin::instance()->get_version()
 		);
@@ -58,10 +58,8 @@ class Screenshot {
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-screenshot',
-			'js/screenshot.js',
-			[
-				'zb-rest',
-			],
+			'screenshot',
+			[],
 			Plugin::instance()->get_version(),
 			true
 		);

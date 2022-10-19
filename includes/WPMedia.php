@@ -137,15 +137,11 @@ class WPMedia {
 	 *
 	 * @param string|array $image_config
 	 * @param string|array $attributes   {
-	 *                                   Optional. Attributes for the image markup.
-	 *
-	 *     @var string $src    Image attachment URL.
-	 *     @var string $class  CSS class name or space-separated list of classes.
-	 *                          Default `attachment-$size_class size-$size_class`,
-	 *                          where `$size_class` is the image size being requested.
-	 *     @var string $alt    Image description for the alt attribute.
-	 *     @var string $srcset The 'srcset' attribute value.
-	 *     @var string $sizes  The 'sizes' attribute value.
+	 * src: string,
+	 * class: string,
+	 * alt: string,
+	 * srcset: string,
+	 * sizes: string
 	 * }
 	 *
 	 * @return string The HTML image tag
@@ -241,8 +237,8 @@ class WPMedia {
 		$file_info         = pathinfo( $image_path );
 		$file_extension    = $file_info['extension'];
 		$file_name         = $file_info['filename'];
-		$crop_sufix        = $crop ? '_c' : '';
-		$image_suffix      = $width . 'x' . $height . 'x' . $crop_sufix . '_' . filesize( $image_path ) . '_' . filemtime( $image_path );
+		$crop_suffix       = $crop ? '_c' : '';
+		$image_suffix      = $width . 'x' . $height . 'x' . $crop_suffix . '_' . filesize( $image_path ) . '_' . filemtime( $image_path );
 		$resized_file_name = $file_name . '-' . $image_suffix . '.' . $file_extension;
 
 		$dir = pathinfo( $image_path, PATHINFO_DIRNAME );
@@ -369,7 +365,7 @@ class WPMedia {
 		}
 
 		// Return if we don't have the proper metadata
-		if ( ! isset( $metadata['file'] ) || ! is_array( $metadata['image_meta']['zion_resized_images'] ) ) {
+		if ( ! is_array( $metadata['image_meta']['zion_resized_images'] ) ) {
 			return;
 		}
 

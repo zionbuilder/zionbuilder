@@ -10,13 +10,13 @@ module.exports = {
 		'vendor/woocommerce',
 		'zionbuilder.php',
 		'manifest.json',
-		'readme.txt'
+		'readme.txt',
 	],
 	l10n: {
 		locations: ['zionbuilder.php', 'includes'],
 		domain: 'zionbuilder',
 		package: 'Zionbuilder',
 		bugReport: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
-		team: 'ZionBuilder <hello@zionbuilder.io>'
-	}
-}
+		team: 'ZionBuilder <hello@zionbuilder.io>',
+	},
+};

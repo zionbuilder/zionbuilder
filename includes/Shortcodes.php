@@ -4,6 +4,7 @@ namespace ZionBuilder;
 
 use ZionBuilder\Whitelabel;
 use ZionBuilder\Plugin;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Shortcodes {
 	public function __construct() {
-		// Register shortcodes
+		// Register shortcode
 		add_shortcode( 'zionbuilder', [ $this, 'print_shortcode' ] );
 	}
 
@@ -25,17 +26,17 @@ class Shortcodes {
 	/**
 	 * Will print the zion builder template shortcode
 	 *
-	 * @param array $atts
+	 * @param array $attrs
 	 * @param string $content
 	 *
 	 * @return string
 	 */
-	public function print_shortcode( $atts, $content = null ) {
-		if ( ! isset( $atts['id'] ) ) {
+	public function print_shortcode( $attrs, $content = null ) {
+		if ( ! isset( $attrs['id'] ) ) {
 			return __( 'Template id missing', 'zionbuilder' );
 		}
 
-		$post_instance = Plugin::$instance->post_manager->get_post_instance( $atts['id'] );
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $attrs['id'] );
 
 		if ( ! $post_instance ) {
 			return __( 'Template not found', 'zionbuilder' );
@@ -51,16 +52,11 @@ class Shortcodes {
 
 		// Register the elements
 		$post_template_data = $post_instance->get_template_data();
-		Plugin::$instance->renderer->register_area( $atts['id'], $post_template_data );
+		$post_id            = $attrs['id'];
+		Plugin::$instance->renderer->register_area( $attrs['id'], $post_template_data );
 
-		$old_css_collection_flag_value = Plugin::instance()->cache->should_generate_css();
-		// Allow css/js collection
-		Plugin::instance()->cache->set_assets_collection( true );
-
-		$content = Plugin::$instance->renderer->get_content( $atts['id'] );
-
-		// Disable css/js collection
-		Plugin::instance()->cache->set_assets_collection( $old_css_collection_flag_value );
+		$content = Plugin::$instance->renderer->get_content( $post_id );
+		Assets::enqueue_assets_for_post( $post_id );
 
 		return $content;
 	}

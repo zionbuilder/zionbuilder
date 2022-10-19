@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 5.9.2
-Stable tag: 3.0.0
+Tested up to: 6.0.3
+Stable tag: 3.4.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,124 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.4.1 2022-18-10 =
+Fixed: Compatibility with ZiUltimate plugin
+Fixed: Global custom css not applying
+
+= 3.4.0 2022-18-10 =
+Added: Integration with HappyFiles plugin
+Improvement: Create post css/js files on page load. This improves rendering performance
+Improvement: Show status about the files that are regenerated when using the Regenerate cache button inside the admin panel
+Improvement: Post CSS/JS files are regenerated automatically when changing/deleting a responsive device width
+Improvement: Removed jQuery from several internal files
+Improvement: Remove element id when cloning an element
+Improved: Allow css variables as color inside color picker
+Improved: Show "has changes" green dot for custom attributes
+Improved: Refactored the entire page assets system
+Fixed: New pages cannot be properly edited if they are not saved first
+Fixed: Background position is not generating proper css if only one position is changed
+Fixed: Input code overlaps line numbers with code in certain conditions
+Fixed: Template shortcode not displaying properly in editor mode
+Fixed: CSS is not generated for elements that are not displaying in the page due to element conditions
+
+= 3.3.1 2022-07-09 =
+Added: Transition speed option for image slider
+Added: History action when adding a new element from the tabs, slider builder and accordions elements options panel
+Improvement: Contrast color for dark mode
+Improvement: Performance when rendering builder icons
+Improvement: UI for add elements popup
+Improvement: Rendering performance of editor tabs ( for example, the element options panel )
+Improvement: Don't show documentation button in admin area if user sets an empty string as documentation url in White label settings
+Improvement: Don't show image resize fields for SVG images ( SVG images cannot be resized )
+Improvement: Allow special characters in custom attributes names
+Improvement: Don't refresh elements if only options that style it are changed
+Improvement: Performance for rendered pages made with Zion Builder
+Fixed: Tree view list panel is not scrollable
+Fixed: Add elements icon opens element options panel on first click
+Fixed: Cannot scroll in element conditions dropdown option
+Fixed: Element not highlighted in tree view when added to the page
+Fixed: Tree view panel not expanding to the active edited element
+Fixed: Tree view items not appearing after clearing the page and performing an 'undo' action
+Fixed: Section view not generating image if the element requires long time to render in page
+Fixed: Modals not opening
+Fixed: Image link custom class not applying to the link HTML tag
+Fixed: Discard changes not working in certain conditions for element options
+Fixed: Cannot properly set the value for transform scale option if you use a dot separator
+Fixed: Video element scripts not loading in editor in certain conditions
+Fixed: Custom code element cannot be added in page properly
+Fixed: Image slider not displaying properly in certain conditions
+Fixed: Cursor jumps to start of the field when renaming an element from tree view panels
+Fixed: Element animations not working
+
+= 3.3.0 2022-02-09 =
+Added: Preserve higher responsive device values as options placeholders for style options
+Added: History action for paste styles on element
+Added: History action for paste element classes
+Added: history action for inline text edits
+Added: History action for discard element styles
+Added: History action for wrap with container
+Added: Placeholder support for dimensions option type
+Added: Placeholder support for border option type
+Added: Placeholder support for input number option type
+Added: Placeholder support for spacing option type
+Updated: Swiper script to the latest version
+Improvement: Preserve element options active tab when changing the element
+Improvement: Removed the local history when editing the element and moved it to the global history panel
+Improvement: Overall editor speed
+Improvement: Prevent the element menu from shrinking if the preview is zoomed in
+Improvement: Always show the scrollbar for scrollable lists inside the editor
+Improvement: UI for tree view panel
+Improvement: UI for history panel
+Improvement: You can now special characters in class names
+Improvement: Improve UI for the dropdown option type
+Improvement: Add ability to set placeholders for input checkbox option type
+Improvement: Border radius option UI
+Improvement: Only paste the styles that are available for the element
+Improvement: Show add elements popup full size inside a zoomed preview area
+Improvement: Properly place the element menu inside a zoomed preview area
+Fixed: Element cannot be edited after wrapping with container
+Fixed: Screenshot is not generating for imported template elements in certain conditions
+Fixed: Fatal error that may appear in certain conditions when using WP customizer
+Fixed: options panel not updating properly when editing the "Tabs" element and then the "Accordions" element
+Fixed: Element searching looses some keystrokes inside the add elements popup in certain conditions
+Fixed: Screenshot not generating in certain conditions
+Dev change: The Element instance 'content' property now holds child element UID instead of the actual child instance.
+
+= 3.2.0 2022-05-09 =
+Added: Responsive options for "slides to show" and "slides to scroll" options for slider builder element
+Added: option to disable page builder area wrappers. It will be disabled for new installations
+Added: "Wrap with container" element menu action
+Added: Titles to elements inside add elements popup
+Improvement: [Video element] Removed extra div elements
+Improvement: [Video element] Video element inside a modal will not automatically play only when the modal is open
+Improvement: [Video element] Video element inside a modal will stop playing when closing the modal
+Improvement: [Video element] Removed jQuery dependency
+Improvement: [Counter element] Removed jQuery dependency
+Improvement: [Counter element] Removed animateJS dependency
+Improvement: [Progress bars element] Removed jQuery dependency
+Improvement: [Alert element] Removed jQuery dependency
+Improvement: [Accordions element] Removed jQuery dependency
+Fixed: The image slider doesn't properly work inside tabs
+Fixed: The image slider doesn't auto-update its width inside the editor after changing the parent width
+Fixed: Image slider infinite loop causes visual problems in certain conditions
+Improvement: Disabled infinite scroll for slider builder element in edit mode. It was causing several problems
+Fixed: Active tab not highlighted in editor mode
+Fixed: Page shows vertical scrollbar if one of the tabs has a larger height
+Fixed: Drag+CTRL doesn't duplicate the element in certain conditions
+
+= 3.1.1 2022-04-07 =
+Fixed: Editor panels opens with a delay in certain conditions
+
+= 3.1.0 2022-04-07 =
+Added: User login status as the element display condition
+Improvement: Allow custom breakpoints to work for sliders
+Improvement: Updated slider component to Vue 3 setup
+Improvement: Removed jQuery dependency for image slider
+Fixed: Global colors not applying for custom classes in editor
+Fixed: Child selector doesn't preserve name after re-ordering the selectors
+Fixed: Color picker behavior in Firefox browser
+Fixed: Child selector name exits panel in certain conditions
+
 = 3.0.0 2022-03-14 =
 Added: New UI and UX for the editor
 Added: Ability to edit breakpoint device values
@@ -340,6 +458,7 @@ Fixed: Custom fonts not working in certain conditions
 Fixed: Preview scaling blurs text
 Fixed: Visual editor option not updating its value in certain conditions
 Fixed: Custom breakpoints not generating proper CSS in certain conditions
+Fixed: Library screenshot not generating in certain conditions
 Misc: Updated builder external dependencies to latest version
 Misc: Updated many components to Vue 3
 
@@ -634,7 +753,7 @@ Misc: Updated many components to Vue 3
 * Replace modal tour with intro video
 * Change Tab name from "Columns" to "Layouts"
 * Updated elements registration
-* Created methods for adding childs to elements
+* Created methods for adding children to elements
 * Added ability to use zion builder version of Vue
 * Made components package as vue plugin
 * Reorganized components

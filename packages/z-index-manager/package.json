@@ -1,7 +1,0 @@
-{
-  "name": "@zionbuilder/z-index-manager",
-  "version": "1.0.0",
-  "main": "./src/index.ts",
-  "author": "zionbuilder.io",
-  "license": "MIT"
-}

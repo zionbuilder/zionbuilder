@@ -4,6 +4,7 @@ namespace ZionBuilder\Elements\Accordions;
 
 use ZionBuilder\Elements\Element;
 use ZionBuilder\Utils;
+use ZionBuilder\Plugin;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -134,6 +135,16 @@ class Accordions extends Element {
 	 */
 	public function on_register_styles() {
 		$this->register_style_options_element(
+			'single_accordion_styles',
+			[
+				'title'                   => esc_html__( 'Single accordion wrapper', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-accordions-accordionWrapper',
+				'allow_custom_attributes' => false,
+				'allow_class_assignments' => false,
+			]
+		);
+
+		$this->register_style_options_element(
 			'inner_content_styles_title',
 			[
 				'title'                   => esc_html__( 'Title styles', 'zionbuilder' ),
@@ -157,15 +168,12 @@ class Accordions extends Element {
 	/**
 	 * Enqueue element scripts for both frontend and editor
 	 *
-	 * If you want to use the ZionBuilder cache system you must use
-	 * the enqueue_editor_script(), enqueue_element_script() functions
-	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_editor_script( Utils::get_file_url( 'dist/js/elements/Accordions/editor.js' ) );
-		$this->enqueue_element_script( Utils::get_file_url( 'dist/js/elements/Accordions/frontend.js' ) );
+		$this->enqueue_editor_script( Plugin::instance()->scripts->get_script_url( 'elements/Accordions/editor', 'js' ) );
+		wp_enqueue_script( 'zb-element-accordions', Plugin::instance()->scripts->get_script_url( 'elements/Accordions/frontend', 'js' ), [], Plugin::instance()->get_version(), true );
 	}
 
 	/**
@@ -178,7 +186,7 @@ class Accordions extends Element {
 	 */
 	public function enqueue_styles() {
 		// Using helper methods will go through caching policy
-		$this->enqueue_element_style( Utils::get_file_url( 'dist/css/elements/Accordions/frontend.css' ) );
+		$this->enqueue_element_style( Utils::get_file_url( 'dist/elements/Accordions/frontend.css' ) );
 	}
 
 	/**

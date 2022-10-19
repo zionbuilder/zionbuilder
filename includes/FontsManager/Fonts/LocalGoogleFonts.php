@@ -17,7 +17,7 @@ class LocalGoogleFonts {
 	const GOOGLE_DOWNLOAD_API_URL = 'https://google-webfonts-helper.herokuapp.com/api/fonts/';
 
 	/**
-	 * Holds a refference to the folder where we keep the fonts and stylesheets
+	 * Holds a reference to the folder where we keep the fonts and stylesheets
 	 *
 	 * @var array
 	 */
@@ -25,14 +25,14 @@ class LocalGoogleFonts {
 
 
 	/**
-	 * Holds a refference to the provided fonts config
+	 * Holds a reference to the provided fonts config
 	 *
 	 * @var array
 	 */
 	private $fonts = [];
 
 	/**
-	 * Holds a refference to the font display
+	 * Holds a reference to the font display
 	 *
 	 * @var string
 	 */
@@ -40,7 +40,7 @@ class LocalGoogleFonts {
 
 
 	/**
-	 * Holds a refference to the stylesheet handle
+	 * Holds a reference to the stylesheet handle
 	 *
 	 * @var string
 	 */
@@ -151,7 +151,7 @@ class LocalGoogleFonts {
 					continue;
 				}
 
-				// phpcs:set WordPress.NamingConventions.ValidVariableName customPropertiesWhitelist[] fontWeight,fontStyle,DOMProperty
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				$filename = strtolower( $font_info->id . '-' . $variant->fontStyle . '-' . $variant->fontWeight );
 
 				foreach ( $allowed_font_extension as $extension ) {
@@ -169,11 +169,11 @@ class LocalGoogleFonts {
 				}
 
 				$fonts_config_for_stylesheet[] = [
-					// phpcs:set WordPress.NamingConventions.ValidVariableName customPropertiesWhitelist[] fontFamily,DOMProperty
+					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'font_family' => $variant->fontFamily,
-					// phpcs:set WordPress.NamingConventions.ValidVariableName customPropertiesWhitelist[] fontStyle,DOMProperty
+					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'font_style'  => $variant->fontStyle,
-					// phpcs:set WordPress.NamingConventions.ValidVariableName customPropertiesWhitelist[] fontWeight,DOMProperty
+					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'font_weight' => $variant->fontWeight,
 					'files'       => $files,
 				];
@@ -195,6 +195,7 @@ class LocalGoogleFonts {
 		}
 
 		copy( $tmp_file, $path );
+		// phpcs:ignore
 		@unlink( $tmp_file );
 	}
 

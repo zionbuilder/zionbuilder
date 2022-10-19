@@ -10,7 +10,7 @@ class CustomCSS {
 	private $css_selector = null;
 
 	/**
-	 * Holds a refference to the css styles for responsive devices
+	 * Holds a reference to the css styles for responsive devices
 	 *
 	 * @var array{default: array<mixed>, laptop: array<mixed>, tablet: array<mixed>, mobile: array<mixed>}
 	 */
@@ -29,7 +29,7 @@ class CustomCSS {
 	private static $responsive_devices_map = null;
 
 	/**
-	 * Holds a refference to the raw CSS
+	 * Holds a reference to the raw CSS
 	 *
 	 * @var string
 	 */
@@ -129,7 +129,7 @@ class CustomCSS {
 	 * @return string|void
 	 */
 	public function extract_option_css( $device, $option_type, $style_config, $saved_value, $index ) {
-		if ( ! isset( $style_config['selector'] ) || ! isset( $style_config['selector'] ) ) {
+		if ( ! isset( $style_config['selector'] ) || ! isset( $style_config['value'] ) ) {
 			return;
 		}
 
@@ -211,10 +211,6 @@ class CustomCSS {
 			if ( $device === 'default' ) {
 				$returned_css .= $extracted_css;
 			} else {
-				if ( ! isset( self::$responsive_devices_map[$device] ) ) {
-					continue;
-				}
-
 				$returned_css .= sprintf( '@media (max-width: %spx) { %s }', self::$responsive_devices_map[$device], $extracted_css );
 			}
 		}
