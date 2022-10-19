@@ -57,6 +57,7 @@ class Shortcodes {
 
 		$content = Plugin::$instance->renderer->get_content( $post_id );
 		Assets::enqueue_assets_for_post( $post_id );
+		Assets::enqueue_scripts_for_elements( $post_template_data );
 
 		return $content;
 	}
