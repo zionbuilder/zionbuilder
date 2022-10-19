@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Assets
  *
+ * @since 3.4.0
  * @package ZionBuilder\Api\RestControllers
  */
 class Breakpoints extends RestApiController {
@@ -89,15 +90,23 @@ class Breakpoints extends RestApiController {
 	 * @param \WP_REST_Request $request
 	 * @since 3.4.0
 	 *
-	 * @return array
+	 * @return \WP_REST_Response
 	 */
 	public function get_item( $request ) {
-		return Responsive::get_breakpoints();
+		return rest_ensure_response( Responsive::get_breakpoints() );
 	}
 
+	/**
+	 * Saves the breakpoints to DB
+	 *
+	 * @param \WP_REST_Request $request
+	 * @since 3.4.0
+	 *
+	 * @return \WP_REST_Response
+	 */
 	public function update_item( $request ) {
 		Responsive::save_breakpoints( $request->get_params() );
 
-		return Responsive::get_breakpoints();
+		return rest_ensure_response( Responsive::get_breakpoints() );
 	}
 }

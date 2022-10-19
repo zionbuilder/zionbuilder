@@ -142,11 +142,11 @@ class Plugin {
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\Cache class
 	 *
-	 * @var Cache
+	 * @var Assets
 	 *
 	 * @see Plugin::init()
 	 */
-	public $cache = null;
+	public $assets = null;
 	/**
 	 * Holds the reference to the instance of the \ZionBuilder\PageTemplates\PageTemplates class
 	 *

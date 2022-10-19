@@ -37,6 +37,7 @@ class HappyFiles implements IBaseIntegration {
 	 * Main class constructor
 	 */
 	public function __construct() {
+		/** @phpstan-ignore-next-line -- The class is provided by a 3rd party plugin */
 		$instance = \HappyFiles\Init::run();
 		add_action( 'zionbuilder/editor/after_scripts', [ $instance->setup, 'enqueue_scripts' ] );
 	}

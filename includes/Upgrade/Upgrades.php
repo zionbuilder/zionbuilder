@@ -148,6 +148,6 @@ class Upgrades {
 	 * @return void
 	 */
 	public static function upgrade_v_3_4_0_show_assets_regeneration_message() {
-		update_option( Assets::REGENERATE_CACHE_FLAG, true, '', true );
+		update_option( Assets::REGENERATE_CACHE_FLAG, true, true );
 	}
 }

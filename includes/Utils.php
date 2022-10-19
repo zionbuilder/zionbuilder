@@ -207,8 +207,14 @@ class Utils {
 		);
 	}
 
-	public static function log( $data ) {
+	/**
+	 * Prints a message in the error log
+	 *
+	 * @param array $data
+	 * @return void
+	 */
+	public static function log( $data = [] ) {
 		// phpcs:ignore
-		error_log( var_export( $data, 1 ) );
+		error_log( var_export( $data, true ) );
 	}
 }

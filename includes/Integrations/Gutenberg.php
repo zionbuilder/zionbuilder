@@ -104,7 +104,7 @@ class Gutenberg implements IBaseIntegration {
 				// Set multi dimension to prevent WP casting to strings
 				'data' => [
 					'post_id'           => $post->ID,
-					'is_editor_enabled' => $post_instance && $post_instance->is_built_with_zion(),
+					'is_editor_enabled' => $post_instance->is_built_with_zion(),
 					'l10n'              => [
 						'wp_heartbeat_disabled' => esc_html__( 'WordPress Heartbeat is disabled. Zion builder requires it in order to function properly', 'zionbuilder' ),
 					],
