@@ -195,6 +195,7 @@ class LocalGoogleFonts {
 		}
 
 		copy( $tmp_file, $path );
+		// phpcs:ignore
 		@unlink( $tmp_file );
 	}
 

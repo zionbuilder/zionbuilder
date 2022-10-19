@@ -49,6 +49,7 @@ class Polylang implements IBaseIntegration {
 	 */
 	public function change_post_id( $post_id ) {
 		if ( function_exists( 'pll_get_post' ) ) {
+			// phpcs:ignore
 			$post_id = \pll_get_post( $post_id ) ?: $post_id;
 		}
 

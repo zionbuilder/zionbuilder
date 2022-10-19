@@ -208,6 +208,7 @@ class Utils {
 	}
 
 	public static function log( $data ) {
+		// phpcs:ignore
 		error_log( var_export( $data, 1 ) );
 	}
 }

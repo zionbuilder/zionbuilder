@@ -276,6 +276,7 @@ class ImageSlider extends Element {
 			<?php
 			foreach ( $images as $image ) {
 				echo '<div class="swiper-slide">';
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo WPMedia::get_imge(
 					$image,
 					[
