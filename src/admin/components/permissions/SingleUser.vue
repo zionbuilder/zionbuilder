@@ -45,28 +45,13 @@ export default {
 			required: true,
 		},
 	},
-	setup(props, { emit }) {
+	setup(props) {
 		const { getUserInfo } = useUsersStore();
 		const { editUserPermission, deleteUserPermission } = useBuilderOptionsStore();
 		const userData = getUserInfo(props.userId);
 
 		const permissionsNumber = computed(() => {
-			let permNumber = 1;
-			if (props.permissions.allowed_access === false) {
-				return 0;
-			} else {
-				if (props.permissions.permissions.only_content === true) {
-					permNumber++;
-				}
-				for (let i in props.permissions.permissions.features) {
-					permNumber++;
-				}
-				for (let i in props.permissions.permissions.post_types) {
-					permNumber++;
-				}
-
-				return permNumber;
-			}
+			return Object.keys(props.permissions).length;
 		});
 
 		return {
@@ -79,7 +64,6 @@ export default {
 	data() {
 		return {
 			showModal: false,
-			userData: {},
 		};
 	},
 };

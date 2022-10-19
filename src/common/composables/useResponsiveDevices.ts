@@ -1,12 +1,14 @@
 import { ref, computed, readonly } from 'vue';
 import { generateUID } from '../utils';
 import { orderBy } from 'lodash-es';
+import { saveBreakpoints } from '/@/common/api';
+import { useAssetsStore } from '../store';
 
-interface DeviceMap {
+export interface DeviceMap {
 	[key: string]: number | undefined;
 }
 
-interface ResponsiveDevice {
+export interface ResponsiveDevice {
 	name?: string;
 	id: string;
 	width?: number;
@@ -16,6 +18,11 @@ interface ResponsiveDevice {
 	isDefault?: boolean;
 	builtIn?: boolean;
 }
+
+export type ActiveResponsiveDevice = {
+	modelValue: Record<string, unknown>;
+	removeDeviceStyles: (deviceConfig: string) => void;
+};
 
 const deviceSizesConfig = [
 	{
@@ -35,7 +42,7 @@ const deviceSizesConfig = [
 const activeResponsiveDeviceId = ref('default');
 const responsiveDevices = ref<ResponsiveDevice[]>(window.ZnPbComponentsData.breakpoints);
 
-const activeResponsiveOptions = ref<Record<string, unknown> | null>(null);
+const activeResponsiveOptions = ref<ActiveResponsiveDevice | null>(null);
 const iframeWidth = ref<number | null>(0);
 const autoScaleActive = ref(true);
 const scaleValue = ref(100);
@@ -123,7 +130,7 @@ export const useResponsiveDevices = () => {
 		scaleValue.value = newValue;
 	}
 
-	function setActiveResponsiveOptions(instanceConfig: Record<string, unknown>) {
+	function setActiveResponsiveOptions(instanceConfig: ActiveResponsiveDevice) {
 		activeResponsiveOptions.value = instanceConfig;
 	}
 
@@ -133,6 +140,25 @@ export const useResponsiveDevices = () => {
 
 	function removeActiveResponsiveOptions() {
 		activeResponsiveOptions.value = null;
+	}
+
+	async function updateBreakpoint(device: ResponsiveDevice, newWidth: number) {
+		const editedDevice = responsiveDevices.value.find(deviceData => deviceData === device);
+
+		if (editedDevice && editedDevice.width !== newWidth) {
+			editedDevice.width = newWidth;
+
+			// Save the breakpoints
+			await saveDevices();
+
+			// Regenerate cache
+			const AssetsStore = useAssetsStore();
+			await AssetsStore.regenerateCache();
+		}
+	}
+
+	function saveDevices() {
+		return saveBreakpoints(responsiveDevices.value);
 	}
 
 	function setCustomIframeWidth(newWidth: number, changeDevice = false) {
@@ -174,12 +200,19 @@ export const useResponsiveDevices = () => {
 		return newDeviceData;
 	}
 
-	function deleteBreakpoint(breakpointID: string) {
+	async function deleteBreakpoint(breakpointID: string) {
 		const deviceConfig = responsiveDevices.value.find(deviceConfig => deviceConfig.id === breakpointID);
 
 		if (deviceConfig) {
 			const index = responsiveDevices.value.indexOf(deviceConfig);
 			responsiveDevices.value.splice(index, 1);
+
+			// Save the breakpoints
+			await saveDevices();
+
+			// Regenerate cache
+			const AssetsStore = useAssetsStore();
+			await AssetsStore.regenerateCache();
 		}
 	}
 
@@ -200,6 +233,8 @@ export const useResponsiveDevices = () => {
 		setAutoScale,
 		addCustomBreakpoint,
 		deleteBreakpoint,
+		updateBreakpoint,
+		saveDevices,
 		mobileFirstResponsiveDevices,
 		deviceSizesConfig,
 

@@ -139,35 +139,6 @@ class Preview {
 
 		CommonJS::localize_common_js_data( 'znpb-preview-frame-scripts' );
 
-		wp_add_inline_script(
-			'znpb-preview-frame-scripts',
-			'
-		        (function($) {
-		            window.ZionBuilderFrontend = {
-		                scripts: {},
-		                registerScript: function (scriptId, scriptCallback) {
-		                    this.scripts[scriptId] = scriptCallback;
-		                },
-		                getScript(scriptId) {
-		                    return this.scripts[scriptId]
-		                },
-		                unregisterScript: function(scriptId) {
-		                    delete this.scripts[scriptId];
-		                },
-		                run: function() {
-		                    var that = this;
-		                    var $scope = $(document)
-		                    Object.keys(this.scripts).forEach(function(scriptId) {
-		                        var scriptObject = that.scripts[scriptId];
-		                        scriptObject.run( $scope );
-		                    })
-		                }
-		            };
-		        })(jQuery);
-		    ',
-			'before'
-		);
-
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
 
@@ -176,7 +147,7 @@ class Preview {
 		do_action( 'zionbuilder/preview/before_load_styles', $this );
 
 		// Load roboto font
-		// wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
+		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		// Plugin::instance()->scripts->register_style(
 		//  'znpb-editor-styles',
@@ -228,7 +199,7 @@ class Preview {
 
 			'preview_app_css_classes' => apply_filters( 'zionbuilder/preview/app/css_classes', [] ),
 			'post'                    => get_post(),
-			'masks'                   => Masks::getshapes(),
+			'masks'                   => Masks::get_shapes(),
 			'plugin_info'             => [
 				'is_pro_active'      => Utils::is_pro_active(),
 				'is_pro_installed'   => Utils::is_pro_installed(),

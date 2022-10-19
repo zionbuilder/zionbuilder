@@ -12,7 +12,6 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
 use ZionBuilder\CommonJS;
-use ZionBuilder\Localization;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -323,7 +322,7 @@ class Editor {
 					'ajax_url'              => admin_url( 'admin-ajax.php', 'relative' ),
 					'plugin_root'           => Utils::get_file_url(),
 				],
-				'masks'            => Masks::getshapes(),
+				'masks'            => Masks::get_shapes(),
 				'builder_settings' => [],
 				'page_id'          => $this->post_id,
 				'page_data'        => get_post( $this->post_id ),
@@ -355,6 +354,7 @@ class Editor {
 
 				// User data
 				'user_data'        => User::get_user_data(),
+				'user_permissions' => Permissions::get_user_permissions(),
 			]
 		);
 	}

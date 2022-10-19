@@ -85,35 +85,27 @@ const rgbaValue = computed({
 });
 
 function changeHex() {
-	let format: Format = 'hex';
 	if (props.modelValue.format === 'hex' || props.modelValue.format === 'hex8' || props.modelValue.format === 'name') {
-		format = 'hsl';
+		emit('update:modelValue', props.modelValue.hsla);
 	} else if (props.modelValue.format === 'hsl') {
-		format = 'rgb';
+		emit('update:modelValue', props.modelValue.rgba);
 	} else if (props.modelValue.format === 'rgb') {
-		format = 'hex';
+		emit('update:modelValue', props.modelValue.hex);
 	}
-
-	emit('update:format', format);
-	emit('update:modelValue', props.modelValue.hsla);
 }
 
 function changeHexback() {
-	let format: Format = 'hex';
 	if (props.modelValue.format === 'hsl') {
-		format = 'hex';
+		emit('update:modelValue', props.modelValue.hex);
 	} else if (props.modelValue.format === 'rgb') {
-		format = 'hsl';
+		emit('update:modelValue', props.modelValue.hsla);
 	} else if (
 		props.modelValue.format === 'hex' ||
 		props.modelValue.format === 'hex8' ||
 		props.modelValue.format === 'name'
 	) {
-		format = 'rgb';
+		emit('update:modelValue', props.modelValue.rgba);
 	}
-
-	emit('update:format', format);
-	emit('update:modelValue', props.modelValue.hsla);
 }
 </script>
 

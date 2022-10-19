@@ -206,7 +206,7 @@ export function compileStyleTabs(styleValues) {
 			return `-ms-flex-item-align: ${cleanValue}; align-self:${value};`;
 		},
 		perspective: value => {
-			return `-webkit-perspective: ${value}; perspective: ${value};`;
+			return `perspective: ${value};`;
 		},
 		transform_style: value => {
 			return `-ms-transform-style: ${value}; -webkit-transform-style: ${value}; transform-style: ${value};`;
@@ -311,7 +311,8 @@ export function compileStyleTabs(styleValues) {
 	// background position
 	if (backgroundPositionX || backgroundPositionY) {
 		const xPosition = backgroundPositionX || '50%';
-		combineStyles += `background-position: ${xPosition} ${backgroundPositionY};`;
+		const yPosition = backgroundPositionY || '50%';
+		combineStyles += `background-position: ${xPosition} ${yPosition};`;
 	}
 
 	// Background image

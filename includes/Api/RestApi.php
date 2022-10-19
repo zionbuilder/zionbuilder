@@ -81,7 +81,7 @@ class RestApi {
 			'ZionBuilder\Api\RestControllers\SystemInfo',
 			'ZionBuilder\Api\RestControllers\Templates',
 			'ZionBuilder\Api\RestControllers\DownloadArchive',
-			'ZionBuilder\Api\RestControllers\RegenerateCache',
+			'ZionBuilder\Api\RestControllers\Assets',
 			'ZionBuilder\Api\RestControllers\ReplaceUrl',
 			'ZionBuilder\Api\RestControllers\SavePage',
 			'ZionBuilder\Api\RestControllers\Pages',
@@ -91,6 +91,7 @@ class RestApi {
 			'ZionBuilder\Api\RestControllers\FileUpload',
 			'ZionBuilder\Api\RestControllers\UserController',
 			'ZionBuilder\Api\RestControllers\Library',
+			'ZionBuilder\Api\RestControllers\Breakpoints',
 		];
 
 		foreach ( $controllers as $controller ) {

@@ -2,6 +2,8 @@
 
 namespace ZionBuilder;
 
+use ZionBuilder\Post\BasePostType;
+
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -176,5 +178,43 @@ class Utils {
 		}
 
 		return $str;
+	}
+
+	/**
+	 * Returns a list of pages that are built with Zion Builder
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return int[] The list of post ids build with Zion Builder
+	 */
+	public static function get_builder_pages() {
+		return get_posts(
+			[
+				'post_type'              => get_post_types( [ 'public' => true ] ),
+				'posts_per_page'         => -1,
+				'post_status'            => 'any',
+				'fields'                 => 'ids',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+				'meta_query'             => [
+					[
+						'key'     => BasePostType::PAGE_TEMPLATE_META_KEY,
+						'value'   => '',
+						'compare' => '!=',
+					],
+				],
+			]
+		);
+	}
+
+	/**
+	 * Prints a message in the error log
+	 *
+	 * @param array $data
+	 * @return void
+	 */
+	public static function log( $data = [] ) {
+		// phpcs:ignore
+		error_log( var_export( $data, true ) );
 	}
 }

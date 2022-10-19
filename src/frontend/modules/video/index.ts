@@ -146,7 +146,7 @@ export default class Video {
 			window.onYouTubeIframeAPIReady = function () {
 				self.enableYoutube();
 				// trigger event
-				globalEventBus.trigger('youtube_api_ready');
+				globalEventBus.doAction('youtube_api_ready');
 				YoutubeApiLoadedState = 2;
 			};
 			YoutubeApiLoadedState = 1;
@@ -183,7 +183,7 @@ export default class Video {
 
 			vimeoTag.onload = function () {
 				self.enableVimeo();
-				globalEventBus.trigger('vimeo_api_ready');
+				globalEventBus.doAction('vimeo_api_ready');
 				vimeoApiLoadedState = 2;
 			};
 			vimeoApiLoadedState = 1;

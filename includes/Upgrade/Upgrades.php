@@ -6,6 +6,7 @@ use ZionBuilder\Plugin;
 use ZionBuilder\Settings;
 use ZionBuilder\CSSClasses;
 use ZionBuilder\Utils;
+use ZionBuilder\Assets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -111,7 +112,7 @@ class Upgrades {
 			$saved_css_classes = CSSClasses::save_classes( $new_values );
 
 			// Clear all cache
-			Plugin::instance()->cache->delete_all_cache();
+			Plugin::instance()->assets->compile_global_css();
 		}
 	}
 
@@ -126,6 +127,7 @@ class Upgrades {
 
 		if ( is_array( $saved_css_classes ) ) {
 			foreach ( $saved_css_classes as $class_config ) {
+				/** @phpstan-ignore-next-line -- We ignore this error as the upgrade functions adds the UID if it is missing */
 				if ( ! isset( $class_config['uid'] ) ) {
 					$class_config['uid'] = Utils::generate_uid();
 				}
@@ -137,5 +139,15 @@ class Upgrades {
 		if ( ! empty( $new_values ) ) {
 			$saved_css_classes = CSSClasses::save_classes( $new_values );
 		}
+	}
+
+
+	/**
+	 * Updates local gradients
+	 *
+	 * @return void
+	 */
+	public static function upgrade_v_3_4_0_show_assets_regeneration_message() {
+		update_option( Assets::REGENERATE_CACHE_FLAG, true, true );
 	}
 }

@@ -167,7 +167,7 @@ class ImportExport {
 		// change default images url and add template images inside the zip
 		if ( ! empty( $data_config ) ) {
 			$this->add_template_images( $data_config, 'export' );
-		};
+		}
 
 		// add the template data in zip in json format
 		$this->zip->addFromString( self::TEMPLATE_CONFIG_FILENAME, wp_json_encode( $data_config ) );

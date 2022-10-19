@@ -514,6 +514,7 @@ class BasePostType {
 		do_action( 'zionbuilder/post/save', $new_post_data, $page_settings, $post_id );
 
 		// update post new values, will return a WP_ERROR on fail
+		// @phpstan-ignore-next-line - false positive
 		$post_id = wp_update_post( wp_slash( $new_post_data ), true );
 
 		return $post_id;

@@ -162,7 +162,7 @@ class Element {
 	 * @param array<string, mixed> $data The saved values for the current element
 	 */
 	final public function __construct( $data = array() ) {
-		// Allow elements creators to hook here without rewriting contruct
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_before_init( $data );
 
 		// Set the element data if provided
@@ -186,7 +186,7 @@ class Element {
 			$this->custom_css->set_css_selector( $this->get_css_selector() );
 		}
 
-		// Allow elements creators to hook here without rewriting contruct
+		// Allow elements creators to hook here without rewriting construct
 		$this->on_after_init( $data );
 	}
 
@@ -719,6 +719,8 @@ class Element {
 	 * @return void
 	 */
 	final public function render_element( $extra_render_data ) {
+		do_action( 'zionbuilder/element/before_custom_render', $this );
+
 		/**
 		 * Allows you to create a different renderer
 		 */
@@ -729,39 +731,24 @@ class Element {
 		} else {
 			$this->do_element_render( $extra_render_data );
 		}
+
+		do_action( 'zionbuilder/element/after_custom_render', $this );
+	}
+
+	public function get_custom_css() {
+		$custom_css = $this->options->get_value( '_advanced_options._custom_css' );
+
+		if ( ! empty( $custom_css ) ) {
+			return str_replace( '[ELEMENT]', '#' . $this->get_element_css_id(), $custom_css );
+		}
+
+		return '';
+
 	}
 
 	final public function do_element_render( $extra_render_data ) {
 		// We need to parse data only on actual render
 		$this->options->parse_data();
-
-		// Check to see if we need to extract CSS
-		if ( Plugin::instance()->cache->should_generate_css() ) {
-			// Add element styles CSS
-			$styles            = $this->options->get_value( '_styles', array() );
-			$registered_styles = $this->get_style_elements_for_editor();
-
-			if ( ! empty( $styles ) && is_array( $registered_styles ) ) {
-				foreach ( $registered_styles as $id => $style_config ) {
-					if ( ! empty( $styles[$id] ) ) {
-						$css_selector = $this->get_css_selector();
-						$css_selector = str_replace( '{{ELEMENT}}', $css_selector, $style_config['selector'] );
-						$css_selector = apply_filters( 'zionbuilder/element/full_css_selector', array( $css_selector ), $this );
-
-						PageAssets::add_active_area_raw_css( Style::get_css_from_selector( $css_selector, $styles[$id] ) );
-					}
-				}
-			}
-
-			// Add element method css
-			PageAssets::add_active_area_raw_css( $this->css() );
-
-			// Add css from options
-			PageAssets::add_active_area_raw_css( $this->custom_css->get_css() );
-
-			// Allow users to add their own css
-			PageAssets::add_active_area_raw_css( apply_filters( 'zionbuilder/element/custom_css', '', $this->options, $this ) );
-		}
 
 		if ( ! $this->element_is_allowed_render() ) {
 			return;
@@ -770,7 +757,7 @@ class Element {
 		// Setup render tags custom css classes
 		$this->apply_custom_classes_to_render_tags();
 
-		// Setup render tags customattributes
+		// Setup render tags custom attributes
 		$this->apply_custom_attributes_to_render_tags();
 
 		$this->extra_render_data = $extra_render_data;
@@ -824,7 +811,7 @@ class Element {
 
 		$this->after_render( $this->options );
 
-		// Reset prvides
+		// Reset provides
 		$this->reset_provides();
 		do_action( 'zionbuilder/element/after_render', $this, $extra_render_data );
 	}
@@ -1472,7 +1459,7 @@ class Element {
 
 	public function render_placeholder_info( $config ) {
 		// Only render the placeholder in server render
-		if ( ! $this->is_server_render ) {
+		if ( ! current_user_can( 'administrator' ) ) {
 			return;
 		}
 
@@ -1494,6 +1481,76 @@ class Element {
 				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
+		<?php
+	}
+
+	public function render_admin_info_text( $config ) {
+		// Only render the placeholder in server render
+		if ( ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		$config = wp_parse_args(
+			$config,
+			array(
+				'title'       => esc_html__( 'Heads up!', 'zionbuilder' ),
+				'description' => '',
+				'type'        => 'info',
+			)
+		);
+
+		?>
+			<div class="znpb-el-notice znpb-el-notice--<?php echo $config['type']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+				<span class="znpb-editor-icon-wrapper">
+					<svg class="zion-svg-inline znpb-editor-icon zion-icon zion-desktop" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 50 50" preserveAspectRatio=""><path d="M25.0001 0C31.6306 0 37.9892 2.63403 42.6777 7.32234C47.3664 12.0106 50 18.37 50 24.9999V50H25C18.3698 50 12.0108 47.366 7.32234 42.6777C2.63404 37.9894 1.50167e-06 31.63 1.50167e-06 25C1.50167e-06 18.3701 2.63404 12.0109 7.32234 7.32243C12.011 2.63413 18.37 9.9152e-05 25 9.9152e-05L25.0001 0ZM22.6474 39.1479C22.6474 39.2959 22.7063 39.4382 22.8109 39.5428C22.9155 39.6474 23.0578 39.7063 23.2058 39.7063H26.7951C27.1036 39.7063 27.3535 39.4564 27.3535 39.1479V21.4336C27.3535 21.1255 27.1036 20.8755 26.7951 20.8755H23.2058C23.0578 20.8755 22.9155 20.9344 22.8109 21.0391C22.7063 21.1437 22.6474 21.2855 22.6474 21.4336V39.1479ZM22.6474 15.3344C22.6474 15.4824 22.7063 15.6242 22.8109 15.7292C22.9155 15.8339 23.0578 15.8924 23.2058 15.8924H26.7951C27.1036 15.8924 27.3535 15.6428 27.3535 15.3344V10.8518C27.3535 10.5437 27.1036 10.2938 26.7951 10.2938H23.2058C23.0578 10.2938 22.9155 10.3523 22.8109 10.4573C22.7063 10.5619 22.6474 10.7038 22.6474 10.8518V15.3344Z"/></svg>
+				</span>
+				<h3><?php echo $config['title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h3>
+				<p>
+				<?php echo $config['description']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</p>
+			</div>
+
+			<style>
+
+				.znpb-el-notice {
+					color: #fff;
+					font-size: 13px;
+					position: relative;
+					background-color: rgba(40, 40, 44, 0.6);
+					border-radius: 4px;
+					padding: 20px 20px 20px 56px;
+					width: 100%;
+					margin: 20px;
+				}
+
+				.znpb-el-notice--error {
+					background-color: #e84655;
+				}
+
+				.znpb-el-notice h3 {
+					font-size: 15px !important;
+					margin: 0 0 5px !important;
+				}
+
+				.znpb-el-notice a {
+					font-weight: 700;
+				}
+
+				.znpb-el-notice .znpb-editor-icon-wrapper {
+					color: rgba(255, 255, 255, 0.4);
+					position: absolute;
+					font-size: 26px;
+					margin-left: -36px;
+				}
+
+				.znpb-el-notice .znpb-editor-icon-wrapper svg {
+					fill: currentColor;
+					width: 1em;
+					height: 1em;
+					display: block;
+				}
+
+			</style>
 		<?php
 	}
 }

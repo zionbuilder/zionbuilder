@@ -21,8 +21,8 @@
 				<UpgradeToPro
 					v-if="!isPro"
 					:info-text="proLink"
-					:message-title="$translate('manage_users_permissions_title')"
-					:message-description="$translate('manage_users_permissions_free')"
+					:message_title="$translate('manage_users_permissions_title')"
+					:message_description="$translate('manage_users_permissions_free')"
 				/>
 				<template v-else-if="!loading">
 					<div class="znpb-admin-user-specific-wrapper">
@@ -89,6 +89,7 @@ export default {
 
 		const { dataSets } = storeToRefs(useDataSetsStore());
 		const userPermissions = getOptionValue('users_permissions');
+
 		const loading = ref(true);
 		const showModal = ref(false);
 		const proLink = ref(null);

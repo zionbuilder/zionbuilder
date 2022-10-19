@@ -262,7 +262,7 @@ class Cache {
 	/**
 	 * Minify
 	 *
-	 * Will minify css code by removing comments and whitespaces
+	 * Will minify css code by removing comments and whitespace
 	 *
 	 * @param string $css
 	 *

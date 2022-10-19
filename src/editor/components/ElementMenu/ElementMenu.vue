@@ -23,10 +23,11 @@ import { get } from 'lodash-es';
 import { translate } from '/@/common/modules/i18n';
 
 import { Environment } from '/@/common/utils';
-import { useContentStore, useUIStore } from '/@/editor/store';
+import { useContentStore, useUIStore, useUserStore } from '/@/editor/store';
 import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
 
 const UIStore = useUIStore();
+const userStore = useUserStore();
 const { addEventListener, removeEventListener } = useWindows();
 const { getData } = useLocalStorage();
 
@@ -56,6 +57,7 @@ const elementActions = computed(() => {
 				element.duplicate();
 			},
 			append: `${controlKey}+D`,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: `${translate('copy_element')}`,
@@ -64,6 +66,7 @@ const elementActions = computed(() => {
 				copyElement(element);
 			},
 			append: `${controlKey}+C`,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: `${translate('cut_element')}`,
@@ -72,6 +75,7 @@ const elementActions = computed(() => {
 				copyElement(element, 'cut');
 			},
 			append: `${controlKey}+X`,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: `${translate('paste_element')}`,
@@ -81,6 +85,7 @@ const elementActions = computed(() => {
 			},
 			append: `${controlKey}+V`,
 			show: hasCopiedElement.value,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('paste_element_styles'),
@@ -90,6 +95,7 @@ const elementActions = computed(() => {
 			},
 			append: `${controlKey}+⇧+V`,
 			show: hasCopiedElementStyles.value,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('paste_classes'),
@@ -98,6 +104,7 @@ const elementActions = computed(() => {
 				pasteElementClasses(element);
 			},
 			show: hasCopiedElementClasses.value,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('save_element'),
@@ -105,6 +112,7 @@ const elementActions = computed(() => {
 			action: () => {
 				saveElement(element);
 			},
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: isElementVisible ? translate('visible_element') : translate('show_element'),
@@ -114,6 +122,7 @@ const elementActions = computed(() => {
 			},
 			append: `${controlKey}+H`,
 			cssClasses: 'znpb-menu-item--separator-bottom',
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('wrap_with_container'),
@@ -123,6 +132,7 @@ const elementActions = computed(() => {
 			},
 			append: `${controlKey}+H`,
 			cssClasses: 'znpb-menu-item--separator-bottom',
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('discard_element_styles'),
@@ -131,12 +141,14 @@ const elementActions = computed(() => {
 				discardElementStyles(element);
 			},
 			show: element && Object.keys(get(element.options, '_styles', {})).length > 0,
+			disabled: !userStore.permissions.only_content,
 		},
 		{
 			title: translate('delete_element'),
 			icon: 'delete',
 			action: () => element.delete(),
 			append: `⌦`,
+			disabled: !userStore.permissions.only_content,
 		},
 	];
 });

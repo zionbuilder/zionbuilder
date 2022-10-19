@@ -1,0 +1,12 @@
+.zb-el-imageSlider {
+	width: 100%;
+	max-width: 100%;
+
+	.swiper-slide {
+		text-align: center;
+	}
+
+	.swiper-button-prev:focus, .swiper-button-next:focus {
+		outline: none;
+	}
+}

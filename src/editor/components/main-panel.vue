@@ -25,6 +25,7 @@
 			</div>
 			<!-- libary -->
 			<div
+				v-if="!userStore.permissions.only_content"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
 				:class="{
 					active: UIStore.isLibraryOpen,
@@ -54,6 +55,7 @@
 
 			<!-- options -->
 			<div
+				v-if="!userStore.permissions.only_content"
 				v-znpb-tooltip:[tooltipsPosition]="$translate('page_options')"
 				class="znpb-editor-header__menu_button"
 				:class="{
@@ -146,7 +148,7 @@ import { useSavePage, useEditorData, useSaveTemplate } from '../composables';
 import { translate } from '/@/common/modules/i18n';
 import { useBuilderOptionsStore } from '/@/common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
-import { useUIStore } from '../store';
+import { useUIStore, useUserStore } from '../store';
 
 export default {
 	name: 'ZnpbPanelMain',
@@ -161,6 +163,7 @@ export default {
 	setup() {
 		// Stores
 		const UIStore = useUIStore();
+		const userStore = useUserStore();
 		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
 
 		// Composables
@@ -376,6 +379,7 @@ export default {
 			shortcutsModalVisibility,
 			draggingPosition,
 			UIStore,
+			userStore,
 
 			// Computed
 			helpMenuItems,

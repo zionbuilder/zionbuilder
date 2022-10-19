@@ -98,7 +98,6 @@ export default {
 		});
 
 		function onScrollEnd(event) {
-			console.log('scroll end');
 			if (currentPage.value !== maxPages.value) {
 				currentPage.value++;
 				loading.value = true;

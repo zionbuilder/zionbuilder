@@ -41,6 +41,8 @@ class CustomCode {
 	 * @return mixed
 	 */
 	public function get_value( $setting_key, $default = null ) {
+		// We need to clear the cache since the settings are updated
+		Settings::clear_cache();
 		$saved_values = Settings::get_value( 'custom_code', [] );
 
 		if ( isset( $saved_values[$setting_key] ) ) {
@@ -60,7 +62,6 @@ class CustomCode {
 	 */
 	public function add_custom_css( $css ) {
 		$css .= $this->get_value( 'custom_css', '' );
-
 		return $css;
 	}
 

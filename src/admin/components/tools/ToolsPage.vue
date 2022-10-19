@@ -1,48 +1,31 @@
 <template>
 	<div class="znpb-admin-tools-wrapper">
 		<PageTemplate>
-			<h3>{{ $translate('general') }}</h3>
+			<h3>{{ translate('general') }}</h3>
 
 			<div class="znpb-admin-regenerate">
-				<h4>{{ $translate('regenerate_css') }}</h4>
-				<Button type="line" :class="{ ['-hasLoading']: loading }" @click="onRegenerateFilesClick">
-					<transition name="fade" mode="out-in">
-						<Loader v-if="loading" :size="13" />
-						<span v-else>{{ $translate('regenerate_files') }}</span>
-					</transition>
+				<h4>{{ translate('regenerate_css') }}</h4>
+				<Button type="line" :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="AssetsStore.regenerateCache">
+					<template v-if="AssetsStore.isLoading">
+						<Loader :size="13" />
+						<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
+					</template>
+
+					<span v-else>{{ translate('regenerate_files') }}</span>
 				</Button>
 			</div>
 			<template #right>
-				<p class="znpb-admin-info-p">{{ $translate('tools_info') }}</p>
+				<p class="znpb-admin-info-p">{{ translate('tools_info') }}</p>
 			</template>
 		</PageTemplate>
 	</div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { regenerateCache } from '/@/common/api';
+<script lang="ts" setup>
+import { translate } from '/@/common/modules/i18n';
+import { useAssetsStore } from '/@/common/store';
 
-export default {
-	name: 'ToolsPage',
-	setup() {
-		const loadingSync = ref(false);
-		const loading = ref(false);
-
-		function onRegenerateFilesClick() {
-			loading.value = true;
-			regenerateCache().then(() => {
-				loading.value = false;
-			});
-		}
-
-		return {
-			loadingSync,
-			loading,
-			onRegenerateFilesClick,
-		};
-	},
-};
+const AssetsStore = useAssetsStore();
 </script>
 <style lang="scss">
 .znpb-admin-tools-wrapper {

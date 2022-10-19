@@ -341,7 +341,7 @@ export default {
 
 		// Load initial data
 		if (props.server_callback_method) {
-			// load inital posts
+			// load initial posts
 			loadNext();
 		}
 

@@ -272,7 +272,9 @@ export default {
 			return schema;
 		});
 
-		const hasChanges = computed(() => Object.keys(value.value.styles || {}).length > 0);
+		const hasChanges = computed(
+			() => Object.keys(value.value.styles || {}).length > 0 || Object.keys(value.value.attributes || {}).length > 0,
+		);
 
 		const value = computed({
 			get() {
@@ -392,6 +394,8 @@ export default {
 }
 
 .znpb-option-cssSelectorTitle {
+	width: 100%;
+	font-weight: 500;
 	padding-right: 20px;
 	margin-bottom: 8px;
 

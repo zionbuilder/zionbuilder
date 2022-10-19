@@ -167,14 +167,14 @@ class SystemInfo extends RestApiController {
 	}
 
 	/**
-	 * This function will return an array with information regarding php version and version requirments
+	 * This function will return an array with information regarding php version and version requirements
 	 *
 	 * @return array {
-	 *
-	 * @var string value   -> PHP version
-	 * @var string icon    -> info icon
-	 * @var string message -> warning message if the PHP version is too low
-	 *             }
+	 * name: string,
+	 * value: string,
+	 * message: string,
+	 * icon: string
+	 * }
 	 */
 	public function get_php_version() {
 		$info          = [];
@@ -190,7 +190,7 @@ class SystemInfo extends RestApiController {
 	}
 
 	/**
-	 * This function will return an array with informations regarding the MySql version
+	 * This function will return an array with information regarding the MySql version
 	 *
 	 * @return array{name: string, value: string}
 	 */
@@ -207,11 +207,11 @@ class SystemInfo extends RestApiController {
 	 * This function will check if the gd library is installed
 	 *
 	 * @return array {
-	 *
-	 * @var string value   -> yes/no depending on the activation status
-	 * @var string icon    -> info icon
-	 * @var string message -> warning message if the extension is not installed
-	 *             }
+	 * name: string,
+	 * value: string,
+	 * message: string,
+	 * icon: string
+	 * }
 	 */
 	public function gd_installed() {
 		$info         = [];
@@ -232,11 +232,11 @@ class SystemInfo extends RestApiController {
 	 * This function will check if the ZIP extension is installed
 	 *
 	 * @return array {
-	 *
-	 * @var string value   -> yes/no depending on the activation status
-	 * @var string icon    -> info icon
-	 * @var string message -> warning message if the extension is not installed
-	 *             }
+	 * name: string,
+	 * value: string,
+	 * message: string,
+	 * icon: string
+	 * }
 	 */
 	public function zip_installed() {
 		$info         = [];
@@ -256,11 +256,11 @@ class SystemInfo extends RestApiController {
 	 * This function will check if the required folders has writing permissions
 	 *
 	 * @return array {
-	 *
-	 * @var string $value -> show the permissions status
-	 * @var string $message -> will display a message with the permissions issues
-	 * @var string $icon -> will render the icon specific to permissions status
-	 *             }
+	 * name: string,
+	 * value: string,
+	 * message: string,
+	 * icon: string
+	 * }
 	 */
 	public function get_write_permissions() {
 		$info           = [];
@@ -336,11 +336,11 @@ class SystemInfo extends RestApiController {
 	 * This function will return the WordPress version information
 	 *
 	 * @return array {
-	 *
-	 * @var string value   -> WordPress version
-	 * @var string icon    -> info icon
-	 * @var string message -> recommendation message
-	 *             }
+	 * name: string,
+	 * value: string,
+	 * message: string,
+	 * icon: string
+	 * }
 	 */
 	public function get_wordpress_version() {
 		$info          = [];

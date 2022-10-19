@@ -71,7 +71,7 @@
 						{{ translate('element_has_no_specific_options') }}
 					</p>
 				</Tab>
-				<Tab name="Styling">
+				<Tab v-if="UserStore.userCanEditContent" name="Styling">
 					<OptionsForm
 						v-model="computedStyleOptions"
 						class="znpb-fancy-scrollbar"
@@ -79,7 +79,7 @@
 						:replacements="optionsReplacements"
 					/>
 				</Tab>
-				<Tab name="Advanced">
+				<Tab v-if="UserStore.userCanEditContent" name="Advanced">
 					<OptionsForm
 						v-model="advancedOptionsModel"
 						class="znpb-element-options-content-form znpb-fancy-scrollbar"
@@ -87,7 +87,7 @@
 						:replacements="optionsReplacements"
 					/>
 				</Tab>
-				<Tab name="Search">
+				<Tab v-if="UserStore.userCanEditContent" name="Search">
 					<template #title>
 						<div class="znpb-element-options__search-tab-title" @click.stop="toggleSearchIcon">
 							<Icon :icon="searchIcon" />
@@ -131,7 +131,7 @@ import { addAction, removeAction } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
 import { useElementProvide } from '../composables';
 import { useOptionsSchemas } from '/@/common/composables';
-import { useUIStore, useContentStore, useElementDefinitionsStore } from '../store';
+import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
@@ -141,8 +141,11 @@ const props = defineProps<{
 	panel: ZionPanel;
 }>();
 
+// Stores
 const UIStore = useUIStore();
 const contentStore = useContentStore();
+const UserStore = useUserStore();
+
 const isPanelHidden = ref(false);
 const searchInput: Ref<HTMLElement | null> = ref(null);
 const showBreadcrumbs = ref(false);

@@ -1,14 +1,14 @@
 <template>
-	<div ref="root" class="znpb-form-colorpicker-saturation">
+	<div ref="root" class="znpb-form-colorPicker-saturation">
 		<div
 			ref="boardContent"
 			:style="{ background: bgColor }"
-			class="znpb-form-colorpicker-saturation__color"
+			class="znpb-form-colorPicker-saturation__color"
 			@mousedown="initiateDrag"
-			@mouseup="deactivatedragCircle"
+			@mouseup="deactivateDragCircle"
 		>
-			<div class="znpb-form-colorpicker-saturation__white">
-				<div class="znpb-form-colorpicker-saturation__black">
+			<div class="znpb-form-colorPicker-saturation__white">
+				<div class="znpb-form-colorPicker-saturation__black">
 					<div :style="pointStyles" class="znpb-color-picker-pointer"></div>
 				</div>
 			</div>
@@ -22,13 +22,13 @@ import { ref, computed, Ref, onMounted, onBeforeUnmount } from 'vue';
 import type { ColorFormats } from 'tinycolor2';
 
 const props = defineProps<{
-	modelValue: {
+	colorObject: {
 		hsva: ColorFormats.HSVA;
 	};
 }>();
 
 const emit = defineEmits<{
-	(e: 'update:modelValue', value: ColorFormats.HSVA): void;
+	(e: 'update:color-object', value: ColorFormats.HSVA): void;
 }>();
 
 const isDragging = ref(false);
@@ -38,11 +38,20 @@ const boardContent: Ref<HTMLDivElement | null> = ref(null);
 
 let ownerWindow: Window;
 
+const computedColorObject = computed({
+	get() {
+		return props.colorObject;
+	},
+	set(newValue) {
+		emit('update:color-object', newValue);
+	},
+});
+
 /**
  * Returns the position of the pointer
  */
 const pointStyles = computed(() => {
-	const { v, s } = props.modelValue.hsva;
+	const { v, s } = props.colorObject.hsva;
 	const cssStyles = {
 		top: 100 - v * 100 + '%',
 		left: s * 100 + '%',
@@ -54,7 +63,7 @@ const pointStyles = computed(() => {
  * Returns the background of the colorBoard
  */
 const bgColor = computed(() => {
-	const { h } = props.modelValue.hsva;
+	const { h } = props.colorObject.hsva;
 	return `hsl(${h}, 100%, 50%)`;
 });
 
@@ -69,7 +78,7 @@ function initiateDrag(event: MouseEvent) {
 	let { clientX, clientY } = event;
 
 	ownerWindow.addEventListener('mousemove', rafDragCircle);
-	ownerWindow.addEventListener('mouseup', deactivatedragCircle, true);
+	ownerWindow.addEventListener('mouseup', deactivateDragCircle, true);
 
 	// Emit click value
 	const newTop = clientY - boardRect.value.top;
@@ -78,23 +87,23 @@ function initiateDrag(event: MouseEvent) {
 	let saturation = (newLeft * 100) / boardRect.value.width;
 
 	let newColor = {
-		...props.modelValue.hsva,
+		...props.colorObject.hsva,
 		v: bright / 100,
 		s: saturation / 100,
 	};
 
-	emit('update:modelValue', newColor);
+	computedColorObject.value = newColor;
 }
 
-function deactivatedragCircle() {
+function deactivateDragCircle() {
 	ownerWindow.removeEventListener('mousemove', rafDragCircle);
-	ownerWindow.removeEventListener('mouseup', deactivatedragCircle, true);
+	ownerWindow.removeEventListener('mouseup', deactivateDragCircle, true);
 
 	function preventClicks(e: MouseEvent) {
 		e.stopPropagation();
 	}
 
-	// Prevent closing colorpicker when clicked outside
+	// Prevent closing colorPicker when clicked outside
 	ownerWindow.addEventListener('click', preventClicks, true);
 	setTimeout(() => {
 		ownerWindow.removeEventListener('click', preventClicks, true);
@@ -104,7 +113,7 @@ function deactivatedragCircle() {
 function dragCircle(event: MouseEvent) {
 	// If the mouseup happened outside window
 	if (!event.which) {
-		deactivatedragCircle();
+		deactivateDragCircle();
 		return false;
 	}
 	let { clientX, clientY } = event;
@@ -130,12 +139,12 @@ function dragCircle(event: MouseEvent) {
 	const saturation = (newLeft * 100) / boardRect.value.width;
 
 	let newColor = {
-		...props.modelValue.hsva,
+		...props.colorObject.hsva,
 		v: bright / 100,
 		s: saturation / 100,
 	};
 
-	emit('update:modelValue', newColor);
+	computedColorObject.value = newColor;
 }
 
 onMounted(() => {
@@ -146,7 +155,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
 	(root.value as HTMLDivElement).ownerDocument.body.classList.remove('znpb-color-picker--backdrop');
-	deactivatedragCircle();
+	deactivateDragCircle();
 });
 </script>
 
@@ -161,7 +170,7 @@ onBeforeUnmount(() => {
 	}
 }
 
-.znpb-form-colorpicker-saturation {
+.znpb-form-colorPicker-saturation {
 	position: relative;
 	overflow: hidden;
 	height: 180px;

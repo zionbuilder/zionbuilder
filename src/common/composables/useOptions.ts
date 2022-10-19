@@ -29,6 +29,7 @@ import {
 	InputBackgroundVideo,
 	InputSpacing,
 	InputRepeater,
+	UpgradeToPro,
 } from '../components';
 
 interface Option {
@@ -178,6 +179,10 @@ const options: Option[] = [
 	{
 		id: 'repeater',
 		component: InputRepeater,
+	},
+	{
+		id: 'upgrade_to_pro',
+		component: UpgradeToPro,
 	},
 ];
 

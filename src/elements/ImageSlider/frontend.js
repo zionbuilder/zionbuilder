@@ -1,3 +1,5 @@
+import './frontend.scss';
+
 window.zbFrontend = window.zbFrontend || [];
 window.zbFrontend.scripts = window.zbFrontend.scripts || {};
 

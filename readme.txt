@@ -2,8 +2,8 @@
 Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
-Tested up to: 6.0.2
-Stable tag: 3.3.1
+Tested up to: 6.0.3
+Stable tag: 3.4.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,26 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.4.1 2022-18-10 =
+Fixed: Compatibility with ZiUltimate plugin
+Fixed: Global custom css not applying
+
+= 3.4.0 2022-18-10 =
+Added: Integration with HappyFiles plugin
+Improvement: Create post css/js files on page load. This improves rendering performance
+Improvement: Show status about the files that are regenerated when using the Regenerate cache button inside the admin panel
+Improvement: Post CSS/JS files are regenerated automatically when changing/deleting a responsive device width
+Improvement: Removed jQuery from several internal files
+Improvement: Remove element id when cloning an element
+Improved: Allow css variables as color inside color picker
+Improved: Show "has changes" green dot for custom attributes
+Improved: Refactored the entire page assets system
+Fixed: New pages cannot be properly edited if they are not saved first
+Fixed: Background position is not generating proper css if only one position is changed
+Fixed: Input code overlaps line numbers with code in certain conditions
+Fixed: Template shortcode not displaying properly in editor mode
+Fixed: CSS is not generated for elements that are not displaying in the page due to element conditions
+
 = 3.3.1 2022-07-09 =
 Added: Transition speed option for image slider
 Added: History action when adding a new element from the tabs, slider builder and accordions elements options panel

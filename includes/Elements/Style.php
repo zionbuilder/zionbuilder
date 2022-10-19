@@ -223,7 +223,7 @@ class Style {
 					break;
 
 				case 'transform_style':
-					$compiled_css .= sprintf( '-ms-transform-style: %s; -webkit-transform-style: %s; transform-style: %s;', $value, $value, $value );
+					$compiled_css .= sprintf( 'transform-style: %s;', $value );
 					break;
 
 				case 'flex-reverse':
@@ -247,8 +247,8 @@ class Style {
 					break;
 
 				case 'align-items':
-					$todelete      = 'flex-';
-					$clean_value   = str_replace( $todelete, '', $value );
+					$to_delete     = 'flex-';
+					$clean_value   = str_replace( $to_delete, '', $value );
 					$compiled_css .= sprintf( '-webkit-box-align: %s; -ms-flex-align: %s; align-items: %s;', $clean_value, $clean_value, $value );
 					break;
 
@@ -259,8 +259,8 @@ class Style {
 						if ( $value === 'space-between' ) {
 							$compiled_css .= sprintf( '-webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between;' );
 						} else {
-							$todelete      = 'flex-';
-							$clean_value   = str_replace( $todelete, '', $value );
+							$to_delete     = 'flex-';
+							$clean_value   = str_replace( $to_delete, '', $value );
 							$compiled_css .= sprintf( '-webkit-box-pack:  %s; -ms-flex-pack:  %s; justify-content:  %s;', $clean_value, $clean_value, $value );
 						}
 					}
@@ -280,8 +280,8 @@ class Style {
 							$compiled_css .= sprintf( '-ms-flex-line-pack: justify; align-content: space-between;' );
 							break;
 						default:
-							$todelete      = 'flex-';
-							$clean_value   = str_replace( $todelete, '', $value );
+							$to_delete     = 'flex-';
+							$clean_value   = str_replace( $to_delete, '', $value );
 							$compiled_css .= sprintf( '-ms-flex-line-pack: %s; align-content: %s;', $clean_value, $value );
 							break;
 					}
@@ -300,14 +300,9 @@ class Style {
 					break;
 
 				case 'align-self':
-					$todelete      = 'flex-';
-					$clean_value   = str_replace( $todelete, '', $value );
+					$to_delete     = 'flex-';
+					$clean_value   = str_replace( $to_delete, '', $value );
 					$compiled_css .= sprintf( '-ms-flex-item-align: %s; align-self: %s;', $clean_value, $value );
-					break;
-
-				case 'perspective':
-					$compiled_css .= sprintf( '-webkit-%s: %s;', $attribute, $value );
-					$compiled_css .= sprintf( '%s: %s;', $attribute, $value );
 					break;
 
 				case 'background-gradient':
@@ -416,7 +411,6 @@ class Style {
 
 		// Transform origin
 		if ( ! empty( $transform_origin_x ) || ! empty( $transform_origin_y ) || ! empty( $transform_origin_z ) ) {
-			$compiled_css .= sprintf( '-webkit-transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
 			$compiled_css .= sprintf( 'transform-origin: %s %s %s;', $transform_origin_x, $transform_origin_y, $transform_origin_z );
 		}
 
@@ -435,7 +429,9 @@ class Style {
 
 		// Background position
 		if ( $background_position_x || $background_position_y ) {
-			$compiled_css .= sprintf( 'background-position: %s %s;', $background_position_x, $background_position_y );
+			$background_position_x = $background_position_x ? $background_position_x : 'center';
+			$background_position_y = $background_position_y ? $background_position_y : 'center';
+			$compiled_css         .= sprintf( 'background-position: %s %s;', $background_position_x, $background_position_y );
 		}
 
 		// Text decoration
@@ -447,7 +443,7 @@ class Style {
 		// Check for transitions
 		if ( ! empty( $style_options['transition-duration'] ) ) {
 			$property        = isset( $style_options['transition-property'] ) ? $style_options['transition-property'] : 'all';
-			$duration        = isset( $style_options['transition-duration'] ) ? $style_options['transition-duration'] : 0;
+			$duration        = $style_options['transition-duration'];
 			$timing_function = isset( $style_options['transition-timing-function'] ) ? $style_options['transition-timing-function'] : 'ease';
 			$delay           = isset( $style_options['transition-delay'] ) ? $style_options['transition-delay'] : 0;
 
@@ -512,7 +508,7 @@ class Style {
 			foreach ( $border_config as $border_position => $border_value ) {
 				if ( isset( $border_value['width'] ) ) {
 					$color = isset( $border_value['color'] ) ? $border_value['color'] : false;
-					$width = isset( $border_value['width'] ) ? $border_value['width'] : false;
+					$width = $border_value['width'];
 					$style = isset( $border_value['style'] ) ? $border_value['style'] : 'solid';
 
 					if ( $border_position === 'all' ) {
@@ -539,7 +535,6 @@ class Style {
 		$transform_string     = '';
 		$origin_string        = '';
 		$combined_styles      = '';
-		$perspective_value    = '';
 		$perspective_origin_x = '';
 		$perspective_origin_y = '';
 		$origin               = '';
@@ -573,28 +568,12 @@ class Style {
 			}
 
 			if ( ! empty( $transform_string ) ) {
-				$combined_styles .= sprintf( '-webkit-transform: %s;', $transform_string );
 				$combined_styles .= sprintf( 'transform: %s;', $transform_string );
-			}
-			if ( ! empty( $perspective_value ) || ! empty( $perspective_origin_x ) || ! empty( $perspective_origin_y ) ) {
-				if ( ! empty( $perspective_value ) ) {
-					$combined_styles .= sprintf( '-webkit-perspective: %s; perspective: %s;', $perspective_value, $perspective_value );
-				}
-				$x_axis .= ! empty( $perspective_origin_x ) ? $perspective_origin_x : '50%';
-				$y_axis .= ! empty( $perspective_origin_y ) ? $perspective_origin_y : '50%';
-
-				$origin          .= sprintf( '%s %s', $x_axis, $y_axis );
-				$combined_styles .= sprintf( '-ms-perspective-origin: %s; -moz-perspective-origin: %s; -webkit-perspective-origin: %s; perspective-origin: %s;', $origin, $origin, $origin, $origin );
-			}
-
-			if ( ! empty( $origin_string ) ) {
-				$combined_styles .= sprintf( '-webkit-transform-origin: %s; transform-origin: %s;', $origin_string, $origin_string );
 			}
 		}
 
 		return $combined_styles;
 	}
-
 
 	/**
 	 * Compiles border radius config to valid CSS

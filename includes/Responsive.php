@@ -22,16 +22,6 @@ class Responsive {
 	public static $responsive_devices_as_device_width = null;
 
 	public function __construct() {
-		add_action( 'zionbuilder/page/save', [ $this, 'on_page_save' ] );
-	}
-
-	public function on_page_save( $params ) {
-		if ( isset( $params['breakpoints'] ) ) {
-			if ( $params['breakpoints'] !== self::$cached_devices ) {
-				self::save_breakpoints( $params['breakpoints'] );
-				Plugin::instance()->cache->delete_dynamic_css_cache();
-			}
-		}
 	}
 
 	public static function save_breakpoints( $breakpoints = [] ) {

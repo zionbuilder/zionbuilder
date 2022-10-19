@@ -4,12 +4,9 @@
 
 		<div ref="sliderWrapper" class="swiper-container" :data-zion-slider-config="elementOptions">
 			<div class="swiper-wrapper">
-				<img
-					v-for="(slide, i) in options.images"
-					:key="i"
-					:src="slide.image"
-					class="zb-el-imageSlider__img swiper-slide"
-				/>
+				<div v-for="(slide, i) in options.images" :key="i" class="swiper-slide">
+					<img :src="slide.image" />
+				</div>
 			</div>
 
 			<!-- Add Pagination -->

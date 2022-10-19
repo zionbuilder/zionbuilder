@@ -3,9 +3,7 @@
 namespace ZionBuilder\Api\RestControllers;
 
 use ZionBuilder\Api\RestApiController;
-use ZionBuilder\Plugin;
-use ZionBuilder\Whitelabel;
-use ZionBuilder\FontsManager\Fonts\LocalGoogleFonts;
+use ZionBuilder\Responsive;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,11 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class RegenerateCache
+ * Class Assets
  *
+ * @since 3.4.0
  * @package ZionBuilder\Api\RestControllers
  */
-class RegenerateCache extends RestApiController {
+class Breakpoints extends RestApiController {
 
 	/**
 	 * Api endpoint namespace
@@ -31,7 +30,7 @@ class RegenerateCache extends RestApiController {
 	 *
 	 * @var string
 	 */
-	protected $base = 'regenerate-cache';
+	protected $base = 'breakpoints';
 
 	/**
 	 * Register routes
@@ -46,6 +45,20 @@ class RegenerateCache extends RestApiController {
 				[
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => [ $this, 'get_item' ],
+					'args'                => [],
+					'permission_callback' => [ $this, 'get_item_permissions_check' ],
+				],
+				'schema' => [ $this, 'get_public_item_schema' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->base,
+			[
+				[
+					'methods'             => \WP_REST_Server::EDITABLE,
+					'callback'            => [ $this, 'update_item' ],
 					'args'                => [],
 					'permission_callback' => [ $this, 'get_item_permissions_check' ],
 				],
@@ -75,21 +88,25 @@ class RegenerateCache extends RestApiController {
 	 * This function will delete the Zion Builder cache from cache folder
 	 *
 	 * @param \WP_REST_Request $request
+	 * @since 3.4.0
 	 *
-	 * @return array|\WP_Error
+	 * @return \WP_REST_Response
 	 */
 	public function get_item( $request ) {
-		// Delete css/js cache
-		$delete_css_cache = Plugin::instance()->cache->delete_all_cache();
-		// Delete local fonts css
-		$delete_local_fonts_cache = LocalGoogleFonts::delete_cache();
+		return rest_ensure_response( Responsive::get_breakpoints() );
+	}
 
-		if ( ! $delete_css_cache || ! $delete_local_fonts_cache ) {
-			return new \WP_Error( 'regenerate_cache_failed', esc_html__( 'Regenerate cache failed!', 'zionbuilder' ), [ 'status' => '500' ] );
-		}
+	/**
+	 * Saves the breakpoints to DB
+	 *
+	 * @param \WP_REST_Request $request
+	 * @since 3.4.0
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function update_item( $request ) {
+		Responsive::save_breakpoints( $request->get_params() );
 
-		return [
-			'message' => sprintf( '%s data refreshed', Whitelabel::get_title() ),
-		];
+		return rest_ensure_response( Responsive::get_breakpoints() );
 	}
 }
