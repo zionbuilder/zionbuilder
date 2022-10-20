@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-10-19 20:23+0000\n"
+"POT-Creation-Date: 2022-10-20 10:03+0000\n"
 "Report-Msgid-Bugs-To: https://feedback.zionbuilder.io\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
@@ -2553,11 +2553,11 @@ msgstr ""
 msgid "You do not have permissions to save this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:97
+#: ../includes/Api/RestControllers/SavePage.php:107
 msgid "There was a problem saving the page."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:100
+#: ../includes/Api/RestControllers/SavePage.php:110
 msgid "Page successfully saved!"
 msgstr ""
 

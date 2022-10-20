@@ -80,7 +80,17 @@ class SavePage extends RestApiController {
 		$params = $request->get_json_params();
 
 		// update the page with the new changes
-		$post_instance  = Plugin::$instance->post_manager->get_post_instance( $params['page_id'] );
+		$post_instance = Plugin::$instance->post_manager->get_post_instance( $params['page_id'] );
+
+		if ( ! $post_instance ) {
+			return;
+		}
+
+		// Set global post
+		global $post;
+		// phpcs:ignore
+		$post = get_post( $params['page_id'], OBJECT );
+
 		$save_post_data = $post_instance->save( $params );
 
 		// Save css classes
