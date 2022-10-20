@@ -7,8 +7,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: ZionBuilder <hello@zionbuilder.io>\n"
-"POT-Creation-Date: 2022-10-18 17:36+0000\n"
-"Report-Msgid-Bugs-To: https://github.com/zionbuilder/zionbuilder/issues/new/choose\n"
+"POT-Creation-Date: 2022-10-20 10:03+0000\n"
+"Report-Msgid-Bugs-To: https://feedback.zionbuilder.io\n"
 "X-Domain: zionbuilder\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -2465,7 +2465,7 @@ msgstr ""
 msgid "Second argument of add_option must be an array or an instance of ZionBuilder\Options\Option"
 msgstr ""
 
-#: ../includes/Api/RestControllers/Assets.php:95, ../includes/Api/RestControllers/Breakpoints.php:80, ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:252, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:275, ../includes/Api/RestControllers/Templates.php:322
+#: ../includes/Api/RestControllers/Assets.php:95, ../includes/Api/RestControllers/Breakpoints.php:81, ../includes/Api/RestControllers/BulkActions.php:71, ../includes/Api/RestControllers/DataSets.php:93, ../includes/Api/RestControllers/DownloadArchive.php:76, ../includes/Api/RestControllers/Elements.php:72, ../includes/Api/RestControllers/GoogleFonts.php:67, ../includes/Api/RestControllers/Library.php:252, ../includes/Api/RestControllers/Media.php:65, ../includes/Api/RestControllers/Options.php:71, ../includes/Api/RestControllers/Pages.php:90, ../includes/Api/RestControllers/ReplaceUrl.php:75, ../includes/Api/RestControllers/SystemInfo.php:65, ../includes/Api/RestControllers/Templates.php:275, ../includes/Api/RestControllers/Templates.php:322
 msgid "You do not have permissions to view this resource."
 msgstr ""
 
@@ -2553,11 +2553,11 @@ msgstr ""
 msgid "You do not have permissions to save this resource."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:97
+#: ../includes/Api/RestControllers/SavePage.php:107
 msgid "There was a problem saving the page."
 msgstr ""
 
-#: ../includes/Api/RestControllers/SavePage.php:100
+#: ../includes/Api/RestControllers/SavePage.php:110
 msgid "Page successfully saved!"
 msgstr ""
 

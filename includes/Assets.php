@@ -104,14 +104,14 @@ class Assets {
 		// #1 register scripts
 		$this->register_defaults_scripts();
 
-		// #2 Load global dynamic css file
-		$this->load_global_css();
-
-		// #3 Load page elements scripts and styles
+		// #2 Load page elements scripts and styles
 		$this->load_page_content_scripts();
 
-		// #4 Load specific pages css files
+		// #3 Load specific pages css files
 		$this->load_page_css();
+
+		// #4 Load global dynamic css file
+		$this->load_global_css();
 	}
 
 	public function load_page_css() {
@@ -152,13 +152,24 @@ class Assets {
 				$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
 				if ( $element_instance ) {
-					$this->enqueue_external_files_for_element( $element_instance );
+					self::enqueue_external_files_for_element( $element_instance );
 				}
 			}
 		}
 	}
 
-	public function enqueue_external_files_for_element( $element_instance ) {
+	public static function enqueue_scripts_for_elements( $elements = [] ) {
+		foreach ( $elements as $element ) {
+
+			$element_instance = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
+
+			if ( $element_instance ) {
+				self::enqueue_external_files_for_element( $element_instance );
+			}
+		}
+	}
+
+	public static function enqueue_external_files_for_element( $element_instance ) {
 		$element_instance->enqueue_all_extra_scripts();
 
 		// Check for children
@@ -168,7 +179,7 @@ class Assets {
 				$child_element = Plugin::$instance->renderer->get_element_instance( $element['uid'] );
 
 				if ( $child_element ) {
-					$this->enqueue_external_files_for_element( $child_element );
+					self::enqueue_external_files_for_element( $child_element );
 				}
 			}
 		}
@@ -214,7 +225,7 @@ class Assets {
 		// Save the css to file
 		if ( ! empty( $js ) ) {
 			$file_path = self::$cache_directory['path'] . "post-{$post_id}.js";
-			FileSystem::get_file_system()->put_contents( $file_path, self::minify( $js ), 0644 );
+			FileSystem::get_file_system()->put_contents( $file_path, self::minify( self::wrap_legacy_js( $js ) ), 0644 );
 		}
 
 		return true;
@@ -360,6 +371,42 @@ class Assets {
 		);
 
 		wp_add_inline_script( 'zionbuilder-animatejs', 'animateJS()' );
+	}
+
+	public static function wrap_legacy_js( $js ) {
+		if ( ! empty( $js ) ) {
+			$js = sprintf(
+				'
+			(function($) {
+				window.ZionBuilderFrontend = {
+					scripts: {},
+					registerScript: function (scriptId, scriptCallback) {
+						this.scripts[scriptId] = scriptCallback;
+					},
+					getScript(scriptId) {
+						return this.scripts[scriptId]
+					},
+					unregisterScript: function(scriptId) {
+						delete this.scripts[scriptId];
+					},
+					run: function() {
+						var that = this;
+						var $scope = $(document);
+						Object.keys(this.scripts).forEach(function(scriptId) {
+							var scriptObject = that.scripts[scriptId];
+							scriptObject.run( $scope );
+						})
+					}
+				};
+				%s
+				window.ZionBuilderFrontend.run();
+			})();
+			',
+				$js
+			);
+		}
+
+		return $js;
 	}
 
 	public function load_global_css() {

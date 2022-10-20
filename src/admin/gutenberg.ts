@@ -65,10 +65,11 @@ function initGutenberg(args: { post_id: number; is_editor_enabled: boolean; l10n
 	 */
 	function onEditButtonPress(event: MouseEvent) {
 		const target = <HTMLElement>event.target;
+
 		if (
 			target &&
-			(!target.classList.contains('znpb-admin-post__edit-button--activate') ||
-				!target.closest('.znpb-admin-post__edit-button--activate'))
+			!target.classList.contains('znpb-admin-post__edit-button--activate') &&
+			!target.closest('.znpb-admin-post__edit-button--activate')
 		) {
 			return;
 		}
@@ -169,8 +170,8 @@ function initGutenberg(args: { post_id: number; is_editor_enabled: boolean; l10n
 		const target = <HTMLElement>event.target;
 		if (
 			target &&
-			(!target.classList.contains('znpb-admin-post__edit-button--deactivate') ||
-				!target.closest('.znpb-admin-post__edit-button--deactivate'))
+			!target.classList.contains('znpb-admin-post__edit-button--deactivate') &&
+			!target.closest('.znpb-admin-post__edit-button--deactivate')
 		) {
 			return;
 		}
