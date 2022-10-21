@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.0.3
-Stable tag: 3.4.0
+Stable tag: 3.4.2
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,6 +225,14 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
+= 3.4.1 2022-21-10 =
+IMPROVEMENT: Added backwards compatibility for 3rd party plugins that use jQuery ( Zion Builder alone doesn't use jQuery )
+IMPROVEMENT: Updated links that pointed to Github issues to feedback.zionbuilder.io
+FIXED: Edit with Zion Builder button doesn't work in certain conditions
+FIXED: Page assets not generating properly in certain conditions
+FIXED: Regenerate assets doesn't regenerate assets for all posts in certain conditions
+FIXED: CSS background image not generating properly when using dynamic data
+
 = 3.4.1 2022-18-10 =
 Fixed: Compatibility with ZiUltimate plugin
 Fixed: Global custom css not applying
