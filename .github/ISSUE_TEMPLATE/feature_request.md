@@ -1,13 +1,13 @@
 ---
 name: Feature Request 💡
 about: Suggest a new idea for the project.
-labels: "type: feature or enhancement"
+labels: 'type: feature or enhancement'
 ---
 
 <!--
   Please fill out each section below, otherwise, your issue will be closed.
 
-  Before opening a new issue, please search existing issues:  https://github.com/zionbuilder/zionbuilder/issues
+  Before opening a new issue, please search existing issues:  https://feedback.zionbuilder.io
 
   ## A note on adding features to Zionbuilder and its official plugins
 

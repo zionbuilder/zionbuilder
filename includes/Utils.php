@@ -3,6 +3,7 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Post\BasePostType;
+use ZionBuilder\Permissions;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -190,7 +191,7 @@ class Utils {
 	public static function get_builder_pages() {
 		return get_posts(
 			[
-				'post_type'              => get_post_types( [ 'public' => true ] ),
+				'post_type'              => Permissions::get_allowed_post_types(),
 				'posts_per_page'         => -1,
 				'post_status'            => 'any',
 				'fields'                 => 'ids',

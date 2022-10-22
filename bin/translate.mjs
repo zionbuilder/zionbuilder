@@ -10,7 +10,7 @@ function translate() {
     locations: ['zionbuilder.php', 'includes'],
     domain: 'zionbuilder',
     package: 'Zionbuilder',
-    bugReport: 'https://github.com/zionbuilder/zionbuilder/issues/new/choose',
+    bugReport: 'https://feedback.zionbuilder.io',
     team: 'ZionBuilder <hello@zionbuilder.io>',
   };
 
