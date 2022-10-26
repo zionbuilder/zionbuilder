@@ -144,7 +144,6 @@ class Typography extends BaseSchema {
 				'type'        => 'number_unit',
 				'width'       => 50,
 				'min'         => 0,
-				'units'       => self::get_units(),
 			]
 		);
 		$typography_options->add_option(
