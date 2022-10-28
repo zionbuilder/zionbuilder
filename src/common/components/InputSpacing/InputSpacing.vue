@@ -20,13 +20,14 @@
 				@mousedown="startDragging($event, position)"
 			>
 				<InputNumberUnit
-					v-model="computedValues[position.position]"
+					:model-value="computedValues[position.position]"
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
 					:placeholder="
 						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
 					"
+					@update:model-value="onValueUpdated(position.position, 'margin', $event)"
 				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
@@ -79,13 +80,15 @@
 				@mousedown="startDragging($event, position)"
 			>
 				<InputNumberUnit
-					v-model="computedValues[position.position]"
+					:model-value="computedValues[position.position]"
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
+					:min="0"
 					:placeholder="
 						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
 					"
+					@update:model-value="onValueUpdated(position.position, 'padding', $event)"
 				/>
 			</div>
 
@@ -120,26 +123,6 @@
 			</div>
 		</div>
 		<span v-if="activeHover" class="znpb-optSpacing-info">{{ activeHover.title }}</span>
-
-		<div v-if="activePopup" class="znpb-optSpacing-popup">
-			<div v-click-outside="() => (activePopup = false)" class="znpb-optSpacing-popupInner">
-				<div class="znpb-optSpacing-popup__input-title">
-					{{ activePopup.title }}
-
-					<ChangesBullet v-if="hasChanges" :content="translate('discard_changes')" @remove-styles="onDiscardChanges" />
-				</div>
-				<Icon icon="close" class="znpb-optSpacing-popupClose" @click.stop="activePopup = null" />
-
-				<InputNumberUnit
-					ref="popupInput"
-					v-model="inputValue"
-					:units="['px', 'rem', 'pt', 'vh', '%']"
-					:step="1"
-					default-unit="px"
-					:placeholder="placeholder ? placeholder[activePopup.position] : '-'"
-				/>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -291,29 +274,18 @@ const allowedValues = [...marginPositionId, ...paddingPositionId].map(position =
  * Refs
  */
 const activeHover: Ref<Position | null> = ref(null);
-const activePopup: Ref<Position | null> = ref(null);
 const lastChanged: Ref<{ position: PositionId; type: Type } | null> = ref(null);
 const popupInput = ref<InstanceType<typeof InputNumberUnit> | null>(null);
 
-const hasChanges = computed(() => {
-	if (activePopup.value) {
-		const { position } = activePopup.value;
+// function onDiscardChanges() {
+// 	if (activePopup.value) {
+// 		const { position } = activePopup.value;
+// 		const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
+// 		delete clonedModelValue[position];
 
-		return typeof props.modelValue[position] !== 'undefined';
-	}
-
-	return false;
-});
-
-function onDiscardChanges() {
-	if (activePopup.value) {
-		const { position } = activePopup.value;
-		const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
-		delete clonedModelValue[position];
-
-		emit('update:modelValue', clonedModelValue);
-	}
-}
+// 		emit('update:modelValue', clonedModelValue);
+// 	}
+// }
 
 const computedValues = computed({
 	get() {
@@ -329,16 +301,6 @@ const computedValues = computed({
 	},
 	set(newValues: Record<PositionId, string>) {
 		emit('update:modelValue', newValues);
-	},
-});
-
-const inputValue = computed({
-	get() {
-		return activePopup.value?.position ? computedValues.value[activePopup.value.position] : '';
-	},
-	set(newValue: string) {
-		activePopup.value &&
-			onValueUpdated(activePopup.value.position as PositionId, activePopup.value.type as Type, newValue);
 	},
 });
 
@@ -612,28 +574,6 @@ function setDraggingValue(newValue: number, event: MouseEvent) {
 
 const rafDragValue = rafSchd(dragValue);
 const rafDeactivateDragging = rafSchd(deactivateDragging);
-
-// highlight input when opening
-watch(activePopup, newValue => {
-	if (newValue) {
-		// Allow closing the popup by pressing esc key
-		document.addEventListener('keydown', closeOnEscape);
-
-		nextTick(() => {
-			popupInput.value.$refs.numberUnitInput.$refs.input.focus();
-		});
-	} else {
-		document.removeEventListener('keydown', closeOnEscape);
-	}
-});
-
-function closeOnEscape(event: KeyboardEvent) {
-	if (event.key === 'Escape') {
-		activePopup.value = null;
-
-		event.stopPropagation();
-	}
-}
 </script>
 
 <style lang="scss">
