@@ -6,7 +6,7 @@
 			class="znpb-input-number--has-units"
 			size="narrow"
 			:placeholder="placeholder"
-			@mousedown="actNumberDrag"
+			@mousedown.stop="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
 			@mouseup="deactivateDragNumber"
 			@keydown="onKeyDown"
@@ -58,7 +58,7 @@ const computedValueUnit = computed(() => {
 
 const computedIntegerValue = computed({
 	get() {
-		return computedValueUnit.value.value !== null ? computedValueUnit.value.value : props.min;
+		return computedValueUnit.value.value !== null ? computedValueUnit.value.value : 0;
 	},
 	set(newValue: number) {
 		computedStringValue.value = `${newValue}${computedUnitValue.value}`;

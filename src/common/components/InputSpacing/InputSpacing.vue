@@ -29,6 +29,12 @@
 					"
 					@update:model-value="onValueUpdated(position.position, 'margin', $event)"
 				/>
+
+				<ChangesBullet
+					v-if="computedValues[position.position]"
+					:content="translate('discard_changes')"
+					@remove-styles="onDiscardChanges(position.position)"
+				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
 				<span class="znpb-optSpacing-label">{{ translate('margin') }}</span>
@@ -89,6 +95,12 @@
 						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
 					"
 					@update:model-value="onValueUpdated(position.position, 'padding', $event)"
+				/>
+
+				<ChangesBullet
+					v-if="computedValues[position.position]"
+					:content="translate('discard_changes')"
+					@remove-styles="onDiscardChanges(position.position)"
 				/>
 			</div>
 
@@ -190,7 +202,7 @@ const marginPositionId: Position[] = [
 		type: 'margin',
 		title: translate('margin-top'),
 		svg: {
-			cursor: 's-resize',
+			cursor: 'n-resize',
 			d: 'M0 0h320l-50 36H50L0 0Z',
 		},
 		dragDirection: 'vertical',
@@ -200,7 +212,7 @@ const marginPositionId: Position[] = [
 		type: 'margin',
 		title: translate('margin-right'),
 		svg: {
-			cursor: 'w-resize',
+			cursor: 'e-resize',
 			d: 'm320 183-50-36V39l50-36v180Z',
 		},
 		dragDirection: 'horizontal',
@@ -232,7 +244,7 @@ const paddingPositionId: Position[] = [
 		type: 'padding',
 		title: translate('padding-top'),
 		svg: {
-			cursor: 's-resize',
+			cursor: 'n-resize',
 			d: 'M0 0h214l-50 36H50L0 0Z',
 		},
 		dragDirection: 'vertical',
@@ -242,7 +254,7 @@ const paddingPositionId: Position[] = [
 		type: 'padding',
 		title: translate('padding-right'),
 		svg: {
-			cursor: 'w-resize',
+			cursor: 'e-resize',
 			d: 'm214 105-50-36V39l50-36v102Z',
 		},
 		dragDirection: 'horizontal',
@@ -277,15 +289,12 @@ const activeHover: Ref<Position | null> = ref(null);
 const lastChanged: Ref<{ position: PositionId; type: Type } | null> = ref(null);
 const popupInput = ref<InstanceType<typeof InputNumberUnit> | null>(null);
 
-// function onDiscardChanges() {
-// 	if (activePopup.value) {
-// 		const { position } = activePopup.value;
-// 		const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
-// 		delete clonedModelValue[position];
+function onDiscardChanges(position: PositionId) {
+	const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
+	delete clonedModelValue[position];
 
-// 		emit('update:modelValue', clonedModelValue);
-// 	}
-// }
+	emit('update:modelValue', clonedModelValue);
+}
 
 const computedValues = computed({
 	get() {
@@ -608,7 +617,7 @@ const rafDeactivateDragging = rafSchd(deactivateDragging);
 	&-value {
 		position: absolute;
 		z-index: 1;
-		max-width: 42px;
+		max-width: 61px;
 		padding: 2px;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
@@ -617,6 +626,8 @@ const rafDeactivateDragging = rafSchd(deactivateDragging);
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		user-select: none;
+		display: flex;
+		align-items: center;
 
 		& input {
 			max-width: 42px;
@@ -658,6 +669,12 @@ const rafDeactivateDragging = rafSchd(deactivateDragging);
 	&-padding-right {
 		top: 50%;
 		transform: translateY(-50%);
+		flex-direction: column;
+		max-width: 42px;
+
+		.znpb-options-has-changes-wrapper {
+			margin-top: 5px;
+		}
 	}
 
 	&-margin-left,
@@ -893,6 +910,7 @@ body .znpb-optSpacing .zion-input {
 	& input {
 		background: transparent;
 		padding: 5.5px 4px;
+		font-size: 11px;
 	}
 }
 </style>
