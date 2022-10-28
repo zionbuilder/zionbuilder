@@ -18,13 +18,13 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
-				@click="activePopup = position"
 			>
-				<input
-					type="text"
+				<InputNumberUnit
+					v-model="computedValues[position.position]"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
 					:placeholder="placeholder ? placeholder[position.position] : '-'"
-					:value="computedValues[position.position]"
-					readonly
 				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
@@ -75,13 +75,13 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
-				@click="activePopup = position"
 			>
-				<input
-					type="text"
+				<InputNumberUnit
+					v-model="computedValues[position.position]"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
 					:placeholder="placeholder ? placeholder[position.position] : '-'"
-					:value="computedValues[position.position]"
-					readonly
 				/>
 			</div>
 
@@ -671,7 +671,6 @@ function closeOnEscape(event: KeyboardEvent) {
 		line-height: 1;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		cursor: pointer;
 		user-select: none;
 
 		& input {
@@ -682,7 +681,6 @@ function closeOnEscape(event: KeyboardEvent) {
 			text-align: center;
 			background: transparent;
 			border: 0;
-			cursor: pointer;
 
 			&:focus {
 				outline: none;
@@ -938,6 +936,15 @@ function closeOnEscape(event: KeyboardEvent) {
 				fill: #3a3a3e;
 			}
 		}
+	}
+}
+
+body .znpb-optSpacing .zion-input {
+	border: none;
+	padding: 0;
+
+	& input {
+		padding: 0;
 	}
 }
 </style>
