@@ -668,6 +668,7 @@ function closeOnEscape(event: KeyboardEvent) {
 	&-value {
 		position: absolute;
 		z-index: 1;
+		max-width: 42px;
 		padding: 2px;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
@@ -678,7 +679,8 @@ function closeOnEscape(event: KeyboardEvent) {
 		user-select: none;
 
 		& input {
-			max-width: 40px;
+			max-width: 42px;
+			height: 26px;
 			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: bold;
@@ -702,12 +704,12 @@ function closeOnEscape(event: KeyboardEvent) {
 
 	&-margin-top,
 	&-padding-top {
-		top: 8px;
+		top: 3px;
 	}
 
 	&-margin-bottom,
 	&-padding-bottom {
-		bottom: 8px;
+		bottom: 3px;
 	}
 
 	&-margin-left,
@@ -720,12 +722,12 @@ function closeOnEscape(event: KeyboardEvent) {
 
 	&-margin-left,
 	&-padding-left {
-		left: 5px;
+		left: 4px;
 	}
 
 	&-margin-right,
 	&-padding-right {
-		right: 5px;
+		right: 4px;
 	}
 
 	&-popup {
@@ -944,11 +946,13 @@ function closeOnEscape(event: KeyboardEvent) {
 }
 
 body .znpb-optSpacing .zion-input {
+	background: var(--zb-surface-color);
 	border: none;
 	padding: 0;
 
 	& input {
-		padding: 0;
+		background: transparent;
+		padding: 5.5px 4px;
 	}
 }
 </style>
