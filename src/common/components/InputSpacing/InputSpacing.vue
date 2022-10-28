@@ -24,14 +24,16 @@
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
-					:placeholder="placeholder ? placeholder[position.position] : '-'"
+					:placeholder="
+						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
+					"
 				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ $translate('margin') }}</span>
+				<span class="znpb-optSpacing-label">{{ translate('margin') }}</span>
 				<Icon
 					:icon="linkedMargin ? 'link' : 'unlink'"
-					:title="linkedMargin ? $translate('unlink') : $translate('link')"
+					:title="linkedMargin ? translate('unlink') : translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -81,15 +83,17 @@
 					:units="['px', 'rem', 'pt', 'vh', '%']"
 					:step="1"
 					default-unit="px"
-					:placeholder="placeholder ? placeholder[position.position] : '-'"
+					:placeholder="
+						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
+					"
 				/>
 			</div>
 
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ $translate('padding') }}</span>
+				<span class="znpb-optSpacing-label">{{ translate('padding') }}</span>
 				<Icon
 					:icon="linkedPadding ? 'link' : 'unlink'"
-					:title="linkedPadding ? $translate('unlink') : $translate('link')"
+					:title="linkedPadding ? translate('unlink') : translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -122,7 +126,7 @@
 				<div class="znpb-optSpacing-popup__input-title">
 					{{ activePopup.title }}
 
-					<ChangesBullet v-if="hasChanges" :content="$translate('discard_changes')" @remove-styles="onDiscardChanges" />
+					<ChangesBullet v-if="hasChanges" :content="translate('discard_changes')" @remove-styles="onDiscardChanges" />
 				</div>
 				<Icon icon="close" class="znpb-optSpacing-popupClose" @click.stop="activePopup = null" />
 
