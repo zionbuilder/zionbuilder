@@ -45,3 +45,4 @@ export * from './Menu';
 export * from './InputSpacing';
 export * from './UpgradeToPro';
 export * from './InputDimensions';
+export * from './InputHTML';

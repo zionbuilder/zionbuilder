@@ -6,7 +6,7 @@
 			</div>
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
-				:model-value="modelValue[dimension.id] || ''"
+				:model-value="modelValue[dimension.id]"
 				:title="dimension.id"
 				:min="min"
 				:max="max"
@@ -29,6 +29,13 @@
 		</div>
 	</div>
 </template>
+
+<script lang="ts">
+export default {
+	name: 'InputDimensions',
+};
+</script>
+
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 

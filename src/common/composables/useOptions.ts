@@ -31,6 +31,7 @@ import {
 	InputRepeater,
 	UpgradeToPro,
 	InputDimensions,
+	InputHTML,
 } from '../components';
 
 interface Option {
@@ -188,6 +189,10 @@ const options: Option[] = [
 	{
 		id: 'dimensions',
 		component: InputDimensions,
+	},
+	{
+		id: 'html',
+		component: InputHTML,
 	},
 ];
 

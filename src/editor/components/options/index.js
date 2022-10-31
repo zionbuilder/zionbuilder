@@ -15,7 +15,6 @@ import TabGroup from './TabGroup';
 import ElementStyles from './ElementStyles';
 import CSSSelector from './CSSSelector';
 import Gallery from './Gallery';
-import HTMLComponent from './HTML';
 // Custom options just for builder
 import GlobalClasses from './GlobalCssClasses';
 import ChildAdder from './ChildAdder';
@@ -44,7 +43,6 @@ export const registerEditorOptions = () => {
 	registerOption(ElementStyles);
 	registerOption(CSSSelector);
 	registerOption(Gallery);
-	registerOption(HTMLComponent);
 
 	// options just for builder
 	registerOption(GlobalClasses);
