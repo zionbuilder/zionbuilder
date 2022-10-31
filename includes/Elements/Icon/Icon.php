@@ -174,49 +174,18 @@ class Icon extends Element {
 		$options->add_option(
 			'border_radius',
 			[
-				'type'        => 'dynamic_slider',
-				'default'     => '0px',
-				'description' => esc_html__( 'Select the desired icon style', 'zionbuilder' ),
-				'title'       => esc_html__( 'Radius', 'zionbuilder' ),
-				'options'     => [
-					[
-						'unit' => 'px',
-						'min'  => 0,
-						'max'  => 999,
-						'step' => 1,
-					],
-					[
-						'unit' => '%',
-						'min'  => 0,
-						'max'  => 100,
-						'step' => 1,
-					],
-					[
-						'unit' => 'pt',
-						'min'  => 0,
-						'max'  => 999,
-						'step' => 1,
-					],
-					[
-						'unit' => 'em',
-						'min'  => 0,
-						'max'  => 999,
-						'step' => 1,
-					],
-					[
-						'unit' => 'rem',
-						'min'  => 0,
-						'max'  => 999,
-						'step' => 1,
-					],
-				],
-				'dependency'  => [
+				'type'       => 'number_unit',
+				'default'    => '0px',
+				'title'      => esc_html__( 'Border Radius', 'zionbuilder' ),
+				'layout'     => 'inline',
+				'min'        => 0,
+				'dependency' => [
 					[
 						'option' => 'shape',
 						'value'  => [ 'rounded' ],
 					],
 				],
-				'css_style'   => [
+				'css_style'  => [
 					[
 						'selector' => '{{ELEMENT}} .zb-el-icon-icon',
 						'value'    => 'border-radius: {{VALUE}}',
