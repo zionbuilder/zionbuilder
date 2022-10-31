@@ -29,6 +29,8 @@ const props = withDefaults(
 		// eslint-disable-next-line vue/prop-name-casing
 		shift_step?: number;
 		placeholder?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		default_unit?: string;
 	}>(),
 	{
 		modelValue: '',
@@ -37,6 +39,7 @@ const props = withDefaults(
 		step: 1,
 		shift_step: 5,
 		placeholder: '',
+		default_unit: '',
 	},
 );
 
@@ -140,7 +143,7 @@ function onKeyDown(event: KeyboardEvent) {
 	// Check if up/down arrow was presses
 	if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
 		toTop = event.key === 'ArrowUp';
-		setDraggingValue();
+		setDraggingValue(true);
 		event.preventDefault();
 	}
 }
@@ -172,14 +175,14 @@ function dragNumber(event: MouseEvent) {
 		document.body.style.pointerEvents = 'none';
 
 		if (pageY !== directionReset) {
-			setDraggingValue();
+			setDraggingValue(true);
 		}
 	}
 
 	directionReset = event.pageY;
 }
 
-function setDraggingValue() {
+function setDraggingValue(addUnit = false) {
 	let newValue;
 	if (dragging) {
 		const dragged = mouseDownPositionTop - dragThreshold - draggingPositionTop;
@@ -205,8 +208,12 @@ function setDraggingValue() {
 		}
 	}
 
-	// Check that value is in between min and max
-	computedIntegerValue.value = getValueInRange(newValue);
+	if (addUnit && props.default_unit.length > 0) {
+		computedStringValue.value = `${getValueInRange(newValue)}${props.default_unit}`;
+	} else {
+		// Check that value is in between min and max
+		computedIntegerValue.value = getValueInRange(newValue);
+	}
 }
 
 onBeforeMount(() => {

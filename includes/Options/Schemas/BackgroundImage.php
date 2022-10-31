@@ -101,20 +101,20 @@ class BackgroundImage extends BaseSchema {
 		$options->add_option(
 			'background-position-x',
 			[
-				'title' => esc_html__( 'Horizontal position', 'zionbuilder' ),
-				'type'  => 'number_unit',
-				'width' => 50,
-				'units' => self::get_units(),
+				'title'        => esc_html__( 'Horizontal position', 'zionbuilder' ),
+				'type'         => 'number_unit',
+				'width'        => 50,
+				'default_unit' => 'px',
 			]
 		);
 
 		$options->add_option(
 			'background-position-y',
 			[
-				'title' => esc_html__( 'Vertical position', 'zionbuilder' ),
-				'type'  => 'number_unit',
-				'width' => 50,
-				'units' => self::get_units(),
+				'title'        => esc_html__( 'Vertical position', 'zionbuilder' ),
+				'type'         => 'number_unit',
+				'width'        => 50,
+				'default_unit' => 'px',
 			]
 		);
 
@@ -171,27 +171,20 @@ class BackgroundImage extends BaseSchema {
 		$bg_size_units_group->add_option(
 			'x',
 			[
-				'label'       => esc_html__( 'Width', 'zionbuilder' ),
-				'label-align' => 'center',
-				'type'        => 'number_unit',
-				'units'       => [
-					'%',
-					'px',
-					'vw',
-					'vh',
-					'em',
-					'rem',
-				],
+				'label'        => esc_html__( 'Width', 'zionbuilder' ),
+				'label-align'  => 'center',
+				'type'         => 'number_unit',
+				'default_unit' => '%',
 			]
 		);
 
 		$bg_size_units_group->add_option(
 			'y',
 			[
-				'label'       => esc_html__( 'Height', 'zionbuilder' ),
-				'type'        => 'number_unit',
-				'label-align' => 'center',
-				'units'       => self::get_units(),
+				'label'        => esc_html__( 'Height', 'zionbuilder' ),
+				'type'         => 'number_unit',
+				'label-align'  => 'center',
+				'default_unit' => '%',
 			]
 		);
 

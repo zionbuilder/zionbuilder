@@ -30,6 +30,7 @@ import {
 	InputSpacing,
 	InputRepeater,
 	UpgradeToPro,
+	InputDimensions,
 } from '../components';
 
 interface Option {
@@ -183,6 +184,10 @@ const options: Option[] = [
 	{
 		id: 'upgrade_to_pro',
 		component: UpgradeToPro,
+	},
+	{
+		id: 'dimensions',
+		component: InputDimensions,
 	},
 ];
 

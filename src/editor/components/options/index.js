@@ -19,7 +19,6 @@ import HTMLComponent from './HTML';
 // Custom options just for builder
 import GlobalClasses from './GlobalCssClasses';
 import ChildAdder from './ChildAdder';
-import Dimensions from './Dimensions';
 import ElementEventButton from './ElementEventButton';
 import ElementSelector from './ElementSelector';
 
@@ -46,7 +45,6 @@ export const registerEditorOptions = () => {
 	registerOption(CSSSelector);
 	registerOption(Gallery);
 	registerOption(HTMLComponent);
-	registerOption(Dimensions);
 
 	// options just for builder
 	registerOption(GlobalClasses);

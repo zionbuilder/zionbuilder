@@ -6,14 +6,14 @@
 			</div>
 			<InputNumberUnit
 				v-if="dimension.name !== 'link'"
-				:modelValue="valueModel[dimension.id] || null"
+				:model-value="modelValue[dimension.id] || ''"
 				:title="dimension.id"
 				:min="min"
 				:max="max"
-				:units="['px', 'rem', 'pt', 'vh', '%']"
+				default_unit="px"
 				:step="1"
 				default-unit="px"
-				:placeholder="placeholder ? placeholder[dimension.id] : null"
+				:placeholder="placeholder ? placeholder[dimension.id] : ''"
 				@update:modelValue="onValueUpdated(dimension.id, $event)"
 				@linked-value="handleLinkValues"
 			/>
@@ -29,100 +29,92 @@
 		</div>
 	</div>
 </template>
-<script>
-export default {
-	name: 'Dimensions',
-	props: {
-		/**
-		 * v-model/value for border radius
-		 */
-		modelValue: {
-			default() {
-				return {};
-			},
-			type: Object,
-			required: false,
-		},
-		dimensions: {
-			type: Array,
-			required: true,
-		},
-		min: {
-			type: Number,
-		},
-		max: {
-			type: Number,
-		},
-		placeholder: {
-			required: false,
-			type: Object,
-			default: () => {
-				return {};
-			},
-		},
-	},
-	data() {
-		return {
-			linked: false,
-		};
-	},
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 
-	computed: {
-		valueModel() {
-			return this.modelValue || {};
-		},
-		computedDimensions() {
-			return [
-				...this.dimensions,
-				{
-					name: 'link',
-					id: 'link',
-				},
-			];
-		},
-	},
-	methods: {
-		handleLinkValues() {
-			this.linked = !this.linked;
+import { InputNumberUnit } from '../InputNumber';
 
-			if (this.linked) {
-				// Check to see if we already have a saved value
-				const dimensionsIDs = this.dimensions.map(dimension => dimension.id);
-				const savedPositionValue = Object.keys(this.valueModel).find(
-					position => dimensionsIDs.includes(position) && typeof this.valueModel[position] !== 'undefined',
-				);
-
-				if (savedPositionValue) {
-					this.onValueUpdated('', this.valueModel[savedPositionValue]);
-				}
-			}
-		},
-		onValueUpdated(position, newValue) {
-			/**
-			 * emits new object with new value of borders
-			 */
-			if (this.linked) {
-				const valuesToUpdate = this.dimensions.filter(dimension => {
-					return dimension.id !== 'link';
-				});
-				let values = {};
-				valuesToUpdate.forEach(value => {
-					values[value.id] = newValue;
-				});
-				this.$emit('update:modelValue', {
-					...this.valueModel,
-					...values,
-				});
-			} else {
-				this.$emit('update:modelValue', {
-					...this.valueModel,
-					[position]: newValue,
-				});
-			}
-		},
-	},
+type Dimensions = Record<string, string>;
+type Dimension = {
+	name: string;
+	id: string;
+	icon?: string;
 };
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Dimensions;
+		dimensions: Dimension[];
+		min?: number;
+		max?: number;
+		placeholder?: Dimensions;
+	}>(),
+	{
+		modelValue() {
+			return {};
+		},
+		min: 0,
+		max: Infinity,
+		placeholder() {
+			return {};
+		},
+	},
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const linked = ref(false);
+const computedDimensions = computed(() => {
+	return [
+		...props.dimensions,
+		{
+			name: 'link',
+			id: 'link',
+		},
+	];
+});
+
+function handleLinkValues() {
+	linked.value = !linked.value;
+
+	if (linked.value) {
+		// Check to see if we already have a saved value
+		const dimensionsIDs = props.dimensions.map(dimension => dimension.id);
+		const savedPositionValue = Object.keys(props.modelValue).find(
+			position => dimensionsIDs.includes(position) && typeof props.modelValue[position] !== 'undefined',
+		);
+
+		if (savedPositionValue) {
+			onValueUpdated('', props.modelValue[savedPositionValue]);
+		}
+	}
+}
+
+function onValueUpdated(position: string, newValue: string) {
+	/**
+	 * emits new object with new value of borders
+	 */
+	if (linked.value) {
+		const valuesToUpdate = props.dimensions.filter(dimension => {
+			return dimension.id !== 'link';
+		});
+		let values: Record<string, string> = {};
+		valuesToUpdate.forEach(value => {
+			values[value.id] = newValue;
+		});
+		emit('update:modelValue', {
+			...props.modelValue,
+			...values,
+		});
+	} else {
+		emit('update:modelValue', {
+			...props.modelValue,
+			[position]: newValue,
+		});
+	}
+}
 </script>
+
 <style lang="scss">
 .znpb-dimensions-wrapper {
 	display: grid;

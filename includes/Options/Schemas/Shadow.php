@@ -33,7 +33,7 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Horizontal distance', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'units'          => self::get_units(),
+				'default_unit'   => 'px',
 			]
 		);
 
@@ -48,7 +48,7 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Vertical distance', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'units'          => self::get_units(),
+				'default_unit'   => 'px',
 			]
 		);
 
@@ -63,7 +63,7 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Blur', 'zionbuilder' ),
 				'min'            => 0,
 				'max'            => 999,
-				'units'          => self::get_units(),
+				'default_unit'   => 'px',
 			]
 		);
 
@@ -78,7 +78,7 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Spread', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'units'          => self::get_units(),
+				'default_unit'   => 'px',
 			]
 		);
 
@@ -90,7 +90,6 @@ class Shadow extends BaseSchema {
 				'title'     => __( 'Shadow color', 'zionbuilder' ),
 				'min'       => -999,
 				'max'       => 999,
-				'units'     => self::get_units(),
 				'css_class' => 'znpb-shadow-option--ptop znpb-shadow-option__colorpicker',
 			]
 		);
