@@ -1,5 +1,10 @@
 <template>
-	<div class="znpb-option-cssSelectoritem" :class="{ 'znpb-option-cssSelectoritem--child': isChild }">
+	<div
+		class="znpb-option-cssSelectoritem"
+		:class="{ 'znpb-option-cssSelectoritem--child': isChild }"
+		@mouseenter="onMouseOver"
+		@mouseleave="onMouseOut"
+	>
 		<div class="znpb-option-cssSelectorWrapper">
 			<PseudoSelector v-if="isChild" v-model:states="pseudoState" />
 
@@ -209,6 +214,38 @@ export default {
 			}
 		});
 
+		function onMouseOver() {
+			const iframe = window.frames['znpb-editor-iframe'];
+
+			if (!iframe) {
+				return;
+			}
+
+			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+			console.log({ domElements, selector: selector.value });
+			if (domElements.length) {
+				domElements.forEach(element => {
+					element.style.outline = '3px solid #14ae5c';
+				});
+			}
+		}
+
+		function onMouseOut() {
+			const iframe = window.frames['znpb-editor-iframe'];
+
+			if (!iframe) {
+				return;
+			}
+
+			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+			console.log({ domElements, selector: selector.value });
+			if (domElements.length) {
+				domElements.forEach(element => {
+					element.style.outline = null;
+				});
+			}
+		}
+
 		const childSelectors = computed({
 			get() {
 				return props.modelValue.child_styles || [];
@@ -343,6 +380,8 @@ export default {
 
 			// Methods
 			onRenameItemClick,
+			onMouseOver,
+			onMouseOut,
 		};
 	},
 };

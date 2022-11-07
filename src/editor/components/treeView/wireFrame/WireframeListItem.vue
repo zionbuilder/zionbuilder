@@ -17,6 +17,9 @@
 
 				<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon" :size="24" />
 
+				<span v-if="element.isRepeaterProvider" class="znpb-tree-view__itemLooperIcon">P</span>
+				<span v-if="element.isRepeaterConsumer" class="znpb-tree-view__itemLooperIcon">C</span>
+
 				<InlineEdit v-model="elementName" class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item" />
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
@@ -94,6 +97,8 @@ const getClasses = computed(() => {
 		[`znpb-wireframe-item--item--hidden`]: !props.element.isVisible,
 		[`znpb-wireframe-item--${props.element.element_type}`]: props.element.element_type,
 		[`znpb-wireframe-item__empty`]: !props.element.content.length,
+		'znpb-section-view-item--loopProvider': props.element.isRepeaterProvider,
+		'znpb-section-view-item--loopConsumer': props.element.isRepeaterConsumer,
 	};
 
 	if (columnSize.value) {

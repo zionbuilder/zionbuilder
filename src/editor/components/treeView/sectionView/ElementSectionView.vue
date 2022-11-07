@@ -1,7 +1,11 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{ 'znpb-section-view-item--hidden': !element.isVisible }"
+		:class="{
+			'znpb-section-view-item--hidden': !element.isVisible,
+			'znpb-section-view-item--loopProvider': element.isRepeaterProvider,
+			'znpb-section-view-item--loopConsumer': element.isRepeaterConsumer,
+		}"
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -18,6 +22,9 @@
 			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
 
 			<div class="znpb-section-view-item__header-left">
+				<span v-if="element.isRepeaterProvider" class="znpb-tree-view__itemLooperIcon">P</span>
+				<span v-if="element.isRepeaterConsumer" class="znpb-tree-view__itemLooperIcon">C</span>
+
 				<InlineEdit v-model="elementName" class="znpb-section-view-item__header-title" />
 			</div>
 
