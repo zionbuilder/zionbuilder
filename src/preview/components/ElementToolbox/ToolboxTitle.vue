@@ -8,9 +8,6 @@
 		}"
 	>
 		<div class="znpb-element-toolbox__titleWrapper">
-			<span v-if="element.isRepeaterProvider">P</span>
-			<span v-if="element.isRepeaterConsumer">C</span>
-
 			<span
 				v-for="parent in parents"
 				:key="parent.uid"
@@ -21,7 +18,11 @@
 			>
 				<Icon icon="select" class="znpb-element-toolbox__icon" :size="9" />
 
-				<span class="znpb-element-toolbox__title">{{ parent.name }}</span>
+				<span class="znpb-element-toolbox__title">
+					<span v-if="element.isRepeaterProvider">P</span>
+					<span v-if="element.isRepeaterConsumer">C</span>
+					{{ parent.name }}</span
+				>
 			</span>
 		</div>
 	</div>

@@ -4,6 +4,8 @@
 		class="znpb-element-toolbox"
 		:class="{
 			'znpb-element-toolbox--dragging': isAnyDragging,
+			'znpb-element-toolbox--loopProvider': element.isRepeaterProvider,
+			'znpb-element-toolbox--loopConsumer': element.isRepeaterConsumer,
 			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging,
 		}"
 	>
