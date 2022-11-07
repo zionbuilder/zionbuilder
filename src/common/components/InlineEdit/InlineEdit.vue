@@ -6,7 +6,7 @@
 		class="znpb-inlineEditInput"
 		:class="{ 'znpb-inlineEditInput--readonly': !isEnabled }"
 		@dblclick="isEnabled = true"
-		@keydown.escape.stop="isEnabled = false"
+		@keydown.escape.stop="disableEdit"
 	/>
 </template>
 
@@ -50,20 +50,25 @@ const computedModelValue = computed({
 
 watch(isEnabled, newValue => {
 	if (newValue) {
-		document.addEventListener('click', disableOnOutsideClick);
+		document.addEventListener('click', disableOnOutsideClick, true);
 	} else {
-		document.removeEventListener('click', disableOnOutsideClick);
+		document.removeEventListener('click', disableOnOutsideClick, true);
 	}
 });
 
 onBeforeUnmount(() => {
-	document.removeEventListener('click', disableOnOutsideClick);
+	document.removeEventListener('click', disableOnOutsideClick, true);
 });
 
 function disableOnOutsideClick(event: MouseEvent) {
 	if (event.target !== root.value) {
-		isEnabled.value = false;
+		disableEdit();
 	}
+}
+
+function disableEdit() {
+	isEnabled.value = false;
+	window.getSelection()?.removeAllRanges();
 }
 </script>
 <style lang="scss">
