@@ -43,6 +43,7 @@
 				class="znpb-tree-view__itemLooperIcon"
 				>C</span
 			>
+
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
 			<Icon
@@ -179,6 +180,10 @@ watch(expandedItems, newValue => {
 		&.znpb-panel-item--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
+
+			.znpb-tree-view__item-header-rename {
+				color: var(--zb-secondary-text-color);
+			}
 		}
 
 		&-item {
@@ -274,7 +279,7 @@ watch(expandedItems, newValue => {
 .znpb-tree-view__item--loopProvider {
 	& > .znpb-tree-view__item-header {
 		background-color: #14ae5c;
-		color: #fff;
+		color: var(--zb-secondary-text-color);
 
 		.znpb-tree-view__item-header-rename {
 			color: var(--zb-secondary-text-color);
@@ -285,7 +290,7 @@ watch(expandedItems, newValue => {
 .znpb-tree-view__item--loopConsumer {
 	& > .znpb-tree-view__item-header {
 		background-color: #eda926;
-		color: #fff;
+		color: var(--zb-secondary-text-color);
 
 		.znpb-tree-view__item-header-rename {
 			color: var(--zb-secondary-text-color);

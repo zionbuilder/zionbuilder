@@ -137,6 +137,36 @@ const elementName = computed({
 	border-bottom-left-radius: 3px;
 	cursor: move;
 
+	&--loopProvider {
+		& .znpb-section-view-item__header {
+			background: #14ae5c;
+			color: var(--zb-secondary-text-color);
+
+			&:hover {
+				background: #14ae5c;
+			}
+		}
+
+		& .znpb-section-view-item__header-title {
+			color: var(--zb-secondary-text-color);
+		}
+	}
+
+	&--loopConsumer {
+		& .znpb-section-view-item__header {
+			background: #eda926;
+			color: var(--zb-secondary-text-color);
+
+			&:hover {
+				background: #eda926;
+			}
+		}
+
+		& .znpb-section-view-item__header-title {
+			color: var(--zb-secondary-text-color);
+		}
+	}
+
 	&__header-left {
 		position: relative;
 		overflow: hidden;
