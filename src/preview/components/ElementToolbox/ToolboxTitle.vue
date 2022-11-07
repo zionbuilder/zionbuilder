@@ -164,6 +164,19 @@ export default {
 
 	.znpb-element-toolbox__title {
 		padding: 0 5px;
+
+		& > span {
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 10px;
+			font-weight: 700;
+			line-height: 1;
+			background: rgba(255, 255, 255, 0.3);
+			border-radius: 2px;
+			padding: 3px 4px 2px 5px;
+			margin-right: 2px;
+		}
 	}
 }
 
