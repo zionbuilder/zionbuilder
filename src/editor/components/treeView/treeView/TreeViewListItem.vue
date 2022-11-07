@@ -262,23 +262,30 @@ watch(expandedItems, newValue => {
 	}
 }
 
-.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
-	background: #3a8f6f;
-	color: var(--zb-secondary-text-color);
+.znpb-tree-view__item--loopProvider {
+	& > .znpb-tree-view__item-header {
+		background-color: #14ae5c;
+		color: #fff;
 
-	.znpb-editor-icon-wrapper {
-		color: var(--zb-secondary-text-color);
+		.znpb-tree-view__item-header-rename {
+			color: var(--zb-secondary-text-color);
+		}
 	}
 }
 
-.znpb-tree-view__item--loopProvider > .znpb-tree-view__item-header {
-	background-color: #14ae5c;
-	color: #fff;
+.znpb-tree-view__item--loopConsumer {
+	& > .znpb-tree-view__item-header {
+		background-color: #eda926;
+		color: #fff;
+
+		.znpb-tree-view__item-header-rename {
+			color: var(--zb-secondary-text-color);
+		}
+	}
 }
 
-.znpb-tree-view__item--loopConsumer > .znpb-tree-view__item-header {
-	background-color: #eda926;
-	color: #fff;
+.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
+	background: var(--zb-surface-lightest-color);
 }
 
 .znpb-tree-view__itemLooperIcon {
