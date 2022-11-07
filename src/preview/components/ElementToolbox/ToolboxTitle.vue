@@ -19,8 +19,8 @@
 				<Icon icon="select" class="znpb-element-toolbox__icon" :size="9" />
 
 				<span class="znpb-element-toolbox__title">
-					<span v-if="element.isRepeaterProvider">P</span>
-					<span v-if="element.isRepeaterConsumer">C</span>
+					<span v-if="parent.isRepeaterProvider">P</span>
+					<span v-if="parent.isRepeaterConsumer">C</span>
 					{{ parent.name }}</span
 				>
 			</span>

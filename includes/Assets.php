@@ -391,7 +391,7 @@ class Assets {
 					},
 					run: function() {
 						var that = this;
-						var $scope = $(document);
+						var $scope = document;
 						Object.keys(this.scripts).forEach(function(scriptId) {
 							var scriptObject = that.scripts[scriptId];
 							scriptObject.run( $scope );

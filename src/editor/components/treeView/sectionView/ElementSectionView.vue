@@ -167,10 +167,6 @@ const elementName = computed({
 		&.znpb-panel-item--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
-
-			.znpb-tree-view__itemIcon {
-				color: var(--zb-secondary-text-color);
-			}
 		}
 
 		&-left {

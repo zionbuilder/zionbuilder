@@ -6,6 +6,8 @@ type ZionElementConfig = {
 };
 
 type ZionElement = {
+	isRepeaterProvider: boolean;
+	isRepeaterConsumer: boolean;
 	uid: string;
 	content: string[];
 	options: Record<string, unknown>;
