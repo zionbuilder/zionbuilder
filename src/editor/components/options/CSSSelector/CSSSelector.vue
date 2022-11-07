@@ -1,10 +1,5 @@
 <template>
-	<div
-		class="znpb-option-cssSelectoritem"
-		:class="{ 'znpb-option-cssSelectoritem--child': isChild }"
-		@mouseenter="onMouseOver"
-		@mouseleave="onMouseOut"
-	>
+	<div class="znpb-option-cssSelectoritem" :class="{ 'znpb-option-cssSelectoritem--child': isChild }">
 		<div class="znpb-option-cssSelectorWrapper">
 			<PseudoSelector v-if="isChild" v-model:states="pseudoState" />
 
@@ -18,7 +13,7 @@
 			>
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
-					<div>
+					<div @mouseenter="onMouseOver" @mouseleave="onMouseOut">
 						<InlineEdit
 							v-model="title"
 							class="znpb-option-cssSelectorTitle"
@@ -82,7 +77,7 @@
 </template>
 
 <script>
-import { computed, defineAsyncComponent, ref } from 'vue';
+import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 import { applyFilters } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
@@ -225,7 +220,7 @@ export default {
 			console.log({ domElements, selector: selector.value });
 			if (domElements.length) {
 				domElements.forEach(element => {
-					element.style.outline = '3px solid #14ae5c';
+					element.style.outline = '2px solid #14ae5c';
 				});
 			}
 		}
@@ -238,13 +233,16 @@ export default {
 			}
 
 			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
-			console.log({ domElements, selector: selector.value });
+
 			if (domElements.length) {
 				domElements.forEach(element => {
 					element.style.outline = null;
 				});
 			}
 		}
+
+		// Cleanup before unmount
+		onBeforeUnmount(() => onMouseOut());
 
 		const childSelectors = computed({
 			get() {

@@ -17,9 +17,18 @@
 
 				<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon" :size="24" />
 
-				<span v-if="element.isRepeaterProvider" class="znpb-tree-view__itemLooperIcon">P</span>
-				<span v-if="element.isRepeaterConsumer" class="znpb-tree-view__itemLooperIcon">C</span>
-
+				<span
+					v-if="element.isRepeaterProvider"
+					v-znpb-tooltip="$translate('repeater_provider')"
+					class="znpb-tree-view__itemLooperIcon"
+					>P</span
+				>
+				<span
+					v-if="element.isRepeaterConsumer"
+					v-znpb-tooltip="$translate('repeater_consumer')"
+					class="znpb-tree-view__itemLooperIcon"
+					>C</span
+				>
 				<InlineEdit v-model="elementName" class="znpb-wireframe-item__header-title znpb-wireframe-item__header-item" />
 			</div>
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
