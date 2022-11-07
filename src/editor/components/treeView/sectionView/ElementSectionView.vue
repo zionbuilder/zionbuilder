@@ -195,7 +195,6 @@ const elementName = computed({
 			padding-left: 8px;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			cursor: text;
 
 			&:focus-visible {
 				outline: none;

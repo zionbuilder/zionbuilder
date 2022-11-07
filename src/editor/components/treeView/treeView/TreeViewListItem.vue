@@ -190,7 +190,6 @@ watch(expandedItems, newValue => {
 			position: relative;
 			flex-grow: 1;
 			padding: 10px 4px;
-			cursor: text;
 			width: 100%;
 			color: var(--zb-surface-text-color);
 

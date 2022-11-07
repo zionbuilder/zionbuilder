@@ -268,7 +268,6 @@ function getColumnResponsivePrefix(responsiveMediaId: string) {
 			font-weight: 500;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			cursor: text;
 
 			.znpb-utility__text--elipse {
 				width: 100%;

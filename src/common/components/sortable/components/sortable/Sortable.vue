@@ -278,7 +278,7 @@ export default {
 				return;
 			}
 
-			// Check if we should start the dragg event
+			// Check if we should start the drag event
 			if (event.button !== 0 || event.ctrlKey || event.metaKey) {
 				return;
 			}
