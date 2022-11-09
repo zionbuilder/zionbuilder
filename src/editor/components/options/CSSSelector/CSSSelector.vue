@@ -217,7 +217,7 @@ export default {
 			}
 
 			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
-			console.log({ domElements, selector: selector.value });
+
 			if (domElements.length) {
 				domElements.forEach(element => {
 					element.style.outline = '2px solid #14ae5c';

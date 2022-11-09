@@ -108,7 +108,9 @@ class Assets {
 		$this->load_page_content_scripts();
 
 		// #3 Load specific pages css files
-		$this->load_page_css();
+		if ( ! Plugin::$instance->editor->preview->is_preview_mode() ) {
+			$this->load_page_css();
+		}
 
 		// #4 Load global dynamic css file
 		$this->load_global_css();
