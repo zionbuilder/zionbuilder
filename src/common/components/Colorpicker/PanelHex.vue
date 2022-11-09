@@ -210,8 +210,10 @@ function changeHexback() {
 }
 
 .znpb-eyedropper {
-	padding: 10px;
+	height: 34px;
+	font-size: 12px;
 	cursor: pointer;
+	padding: 10px;
 	margin-left: -10px;
 }
 </style>

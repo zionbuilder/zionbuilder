@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { regenerateCache, getCacheList, finishRegeneration } from '/@/common/api';
+import { regenerateCache, getCacheList, finishRegeneration } from '../api';
 
 export const useAssetsStore = defineStore('assets', {
 	state: () => {

@@ -1,7 +1,11 @@
 <template>
 	<li
 		class="znpb-section-view-item"
-		:class="{ 'znpb-section-view-item--hidden': !element.isVisible }"
+		:class="{
+			'znpb-section-view-item--hidden': !element.isVisible,
+			'znpb-section-view-item--loopProvider': element.isRepeaterProvider,
+			'znpb-section-view-item--loopConsumer': element.isRepeaterConsumer,
+		}"
 		@contextmenu.stop.prevent="showElementMenu"
 		@mouseover.stop="element.highlight"
 		@mouseout.stop="element.unHighlight"
@@ -18,6 +22,19 @@
 			<UIElementIcon :element="elementModel" class="znpb-tree-view__itemIcon znpb-utility__cursor--move" :size="24" />
 
 			<div class="znpb-section-view-item__header-left">
+				<span
+					v-if="element.isRepeaterProvider"
+					v-znpb-tooltip="$translate('repeater_provider')"
+					class="znpb-tree-view__itemLooperIcon"
+					>P</span
+				>
+				<span
+					v-if="element.isRepeaterConsumer"
+					v-znpb-tooltip="$translate('repeater_consumer')"
+					class="znpb-tree-view__itemLooperIcon"
+					>C</span
+				>
+
 				<InlineEdit v-model="elementName" class="znpb-section-view-item__header-title" />
 			</div>
 
@@ -120,6 +137,36 @@ const elementName = computed({
 	border-bottom-left-radius: 3px;
 	cursor: move;
 
+	&--loopProvider {
+		& .znpb-section-view-item__header {
+			background: #14ae5c;
+			color: var(--zb-secondary-text-color);
+
+			&:hover {
+				background: #14ae5c;
+			}
+		}
+
+		& .znpb-section-view-item__header-title {
+			color: var(--zb-secondary-text-color);
+		}
+	}
+
+	&--loopConsumer {
+		& .znpb-section-view-item__header {
+			background: #eda926;
+			color: var(--zb-secondary-text-color);
+
+			&:hover {
+				background: #eda926;
+			}
+		}
+
+		& .znpb-section-view-item__header-title {
+			color: var(--zb-secondary-text-color);
+		}
+	}
+
 	&__header-left {
 		position: relative;
 		overflow: hidden;
@@ -167,10 +214,6 @@ const elementName = computed({
 		&.znpb-panel-item--active {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
-
-			.znpb-tree-view__itemIcon {
-				color: var(--zb-secondary-text-color);
-			}
 		}
 
 		&-left {
@@ -182,7 +225,6 @@ const elementName = computed({
 			padding-left: 8px;
 			color: var(--zb-surface-text-active-color);
 			font-weight: 500;
-			cursor: text;
 
 			&:focus-visible {
 				outline: none;

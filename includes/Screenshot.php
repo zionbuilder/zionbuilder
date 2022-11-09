@@ -45,8 +45,6 @@ class Screenshot {
 	}
 
 	public function on_enqueue_scripts() {
-		CommonJS::register_scripts();
-
 		// Load Scripts
 		Plugin::instance()->scripts->enqueue_style(
 			'zb-screenshot',

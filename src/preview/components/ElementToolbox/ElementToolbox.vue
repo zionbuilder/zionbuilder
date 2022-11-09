@@ -4,6 +4,8 @@
 		class="znpb-element-toolbox"
 		:class="{
 			'znpb-element-toolbox--dragging': isAnyDragging,
+			'znpb-element-toolbox--loopProvider': element.isRepeaterProvider,
+			'znpb-element-toolbox--loopConsumer': element.isRepeaterConsumer,
 			[`znpb-element-toolbox__resize-${activeDragType}-${activeDragPosition}--dragging`]: isToolboxDragging,
 		}"
 	>
@@ -876,6 +878,22 @@ export default {
 				opacity: 1;
 				visibility: visible;
 			}
+		}
+	}
+
+	&--loopProvider {
+		outline-color: #14ae5c;
+
+		& .znpb-element-toolbox__titleWrapper {
+			background-color: #14ae5c;
+		}
+	}
+
+	&--loopConsumer {
+		outline-color: #eda926;
+
+		& .znpb-element-toolbox__titleWrapper {
+			background-color: #eda926;
 		}
 	}
 }

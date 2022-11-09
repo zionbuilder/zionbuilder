@@ -61,7 +61,6 @@ class RankMath implements IBaseIntegration {
 				'zb-rankmath',
 				'js/integrations/rankmath.js',
 				[
-					'zb-utils',
 					'wp-hooks',
 					'rank-math-analyzer',
 				],
