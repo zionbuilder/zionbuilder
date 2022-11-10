@@ -121,11 +121,10 @@ class BackgroundImage extends BaseSchema {
 		$options->add_option(
 			'background-size',
 			[
-				'title'      => esc_html__( 'Background size', 'zionbuilder' ),
-				'filterable' => true,
-				'type'       => 'select',
-				'default'    => 'initial',
-				'options'    => [
+				'title'   => esc_html__( 'Background size', 'zionbuilder' ),
+				'type'    => 'select',
+				'default' => 'initial',
+				'options' => [
 					[
 						'id'   => 'auto',
 						'name' => 'auto',
