@@ -887,12 +887,20 @@ export default {
 		& .znpb-element-toolbox__titleWrapper {
 			background-color: #14ae5c;
 		}
+
+		& .znpb-element-toolbox__add-element-button::before {
+			background-color: #14ae5c;
+		}
 	}
 
 	&--loopConsumer {
 		outline-color: #eda926;
 
 		& .znpb-element-toolbox__titleWrapper {
+			background-color: #eda926;
+		}
+
+		& .znpb-element-toolbox__add-element-button::before {
 			background-color: #eda926;
 		}
 	}

@@ -283,6 +283,11 @@ watch(expandedItems, newValue => {
 		.znpb-tree-view__item-header-rename {
 			color: var(--zb-secondary-text-color);
 		}
+
+		.znpb-element-toolbox__add-element-button::before {
+			background-color: #14ae5c;
+			box-shadow: 0 5px 20px 0 rgb(0 0 0 / 30%);
+		}
 	}
 }
 
@@ -293,6 +298,11 @@ watch(expandedItems, newValue => {
 
 		.znpb-tree-view__item-header-rename {
 			color: var(--zb-secondary-text-color);
+		}
+
+		.znpb-element-toolbox__add-element-button::before {
+			background-color: #eda926;
+			box-shadow: 0 5px 20px 0 rgb(0 0 0 / 30%);
 		}
 	}
 }

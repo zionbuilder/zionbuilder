@@ -312,6 +312,12 @@ function getColumnResponsivePrefix(responsiveMediaId: string) {
 			}
 		}
 
+		& > .znpb-wireframe-view-wrapper {
+			.znpb-element-toolbox__add-element-button::before {
+				background-color: #14ae5c;
+			}
+		}
+
 		.znpb-tree-view__itemLooperIcon {
 			margin-right: 5px;
 		}
@@ -326,6 +332,12 @@ function getColumnResponsivePrefix(responsiveMediaId: string) {
 			& .znpb-wireframe-item__header-title,
 			& .znpb-element-options__dropdown-icon {
 				color: var(--zb-secondary-text-color);
+			}
+		}
+
+		& > .znpb-wireframe-view-wrapper {
+			.znpb-element-toolbox__add-element-button::before {
+				background-color: #eda926;
 			}
 		}
 
