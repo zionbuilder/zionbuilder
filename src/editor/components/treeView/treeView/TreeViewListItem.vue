@@ -11,7 +11,7 @@
 		}"
 		@mouseenter="element.highlight"
 		@mouseleave="element.unHighlight"
-		@click.stop.left="UIStore.editElement(element)"
+		@click.stop.left="onItemsClick"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, computed, watch, inject } from 'vue';
+import { ref, Ref, computed, watch, inject, nextTick } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useUIStore } from '/@/editor/store';
@@ -92,6 +92,18 @@ const elementName = computed({
 const justAdded = ref(false);
 const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props.element);
 
+let clickedElement = false;
+function onItemsClick() {
+	props.element.scrollTo = true;
+	clickedElement = true;
+	UIStore.editElement(props.element);
+
+	// Chrome doesn't allow multiple element to be scrolled into view. On click we only scroll to the item inside the iframe
+	nextTick(() => {
+		clickedElement = false;
+	});
+}
+
 // Highlight the element when it is first added in the page
 if (UIStore.contentTimestamp) {
 	justAdded.value =
@@ -107,12 +119,11 @@ if (UIStore.contentTimestamp) {
 // Scroll to item when it is edited or active
 watch(
 	() => UIStore.editedElement,
-	newValue => {
-		if (newValue === props.element) {
+	(newValue, oldValue) => {
+		if (!clickedElement && newValue !== oldValue && newValue === props.element) {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
 					behavior: 'smooth',
-					inline: 'center',
 					block: 'center',
 				});
 			}

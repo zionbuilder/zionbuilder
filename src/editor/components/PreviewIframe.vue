@@ -109,7 +109,6 @@ export default {
 				}
 
 				if (iframeWidth.value) {
-					console.log(iframeWidth.value);
 					styles.width = `${iframeWidth.value}px`;
 				}
 
@@ -461,10 +460,15 @@ export default {
 }
 
 .znpb-editor-iframe--hideOverflow {
-	overflow: hidden;
+	overflow-x: clip;
+	overflow-y: clip;
 
 	#znpb-editor-iframe {
 		margin: initial;
 	}
+}
+
+#preview-iframe {
+	overflow-y: clip;
 }
 </style>

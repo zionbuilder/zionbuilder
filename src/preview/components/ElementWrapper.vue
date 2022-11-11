@@ -339,7 +339,7 @@ export default {
 		provide('elementInfo', props.element);
 		provide('elementOptions', options);
 
-		function onMouseEnter(e) {
+		function onMouseEnter() {
 			props.element.highlight();
 
 			if (props.element.parent) {
@@ -351,13 +351,39 @@ export default {
 			}
 		}
 
-		function onMouseLeave(e) {
+		function onMouseLeave() {
 			props.element.unHighlight();
 			if (props.element.parent) {
 				props.element.parent.highlight();
 				parent = parent.parent;
 			}
 		}
+
+		watch(
+			() => props.element.scrollTo,
+			newValue => {
+				const iframe = window.frames['znpb-editor-iframe'];
+
+				if (!iframe) {
+					return;
+				}
+
+				const domNode = iframe.contentWindow.document.getElementById(props.element.elementCssId);
+
+				if (newValue && domNode) {
+					if (typeof domNode.scrollIntoView === 'function') {
+						domNode.scrollIntoView({
+							behavior: 'smooth',
+							block: 'center',
+						});
+					}
+
+					setTimeout(() => {
+						props.element.scrollTo = false;
+					}, 1000);
+				}
+			},
+		);
 
 		return {
 			root,
@@ -386,23 +412,6 @@ export default {
 			onMouseLeave,
 			isVisible,
 		};
-	},
-	watch: {
-		'element.scrollTo'(newValue) {
-			if (newValue) {
-				if (typeof this.$el.scrollIntoView === 'function') {
-					this.$el.scrollIntoView({
-						behavior: 'smooth',
-						inline: 'center',
-						block: 'center',
-					});
-				}
-
-				setTimeout(() => {
-					this.element.scrollTo = false;
-				}, 1000);
-			}
-		},
 	},
 	methods: {
 		debounceUpdate: debounce(function () {
