@@ -1,4 +1,1 @@
-export {
-	default as InputFile
-}
-from './InputFile.vue'
+export { default as InputFile } from './InputFile.vue';

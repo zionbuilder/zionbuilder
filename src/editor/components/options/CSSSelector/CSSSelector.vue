@@ -13,7 +13,7 @@
 			>
 				<template #title>
 					<!-- <Icon icon="brush" /> -->
-					<div>
+					<div @mouseenter="onMouseOver" @mouseleave="onMouseOut">
 						<InlineEdit
 							v-model="title"
 							class="znpb-option-cssSelectorTitle"
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { computed, defineAsyncComponent, ref } from 'vue';
+import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 import { applyFilters } from '/@/common/modules/hooks';
 import { translate } from '/@/common/modules/i18n';
@@ -208,6 +208,41 @@ export default {
 				return props.modelValue.selector;
 			}
 		});
+
+		function onMouseOver() {
+			const iframe = window.frames['znpb-editor-iframe'];
+
+			if (!iframe) {
+				return;
+			}
+
+			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+
+			if (domElements.length) {
+				domElements.forEach(element => {
+					element.style.outline = '2px solid #14ae5c';
+				});
+			}
+		}
+
+		function onMouseOut() {
+			const iframe = window.frames['znpb-editor-iframe'];
+
+			if (!iframe) {
+				return;
+			}
+
+			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+
+			if (domElements.length) {
+				domElements.forEach(element => {
+					element.style.outline = null;
+				});
+			}
+		}
+
+		// Cleanup before unmount
+		onBeforeUnmount(() => onMouseOut());
 
 		const childSelectors = computed({
 			get() {
@@ -343,6 +378,8 @@ export default {
 
 			// Methods
 			onRenameItemClick,
+			onMouseOver,
+			onMouseOut,
 		};
 	},
 };

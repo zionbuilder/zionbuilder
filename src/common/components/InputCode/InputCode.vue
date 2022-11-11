@@ -52,8 +52,6 @@ function onEditorChange(instance: Editor) {
 
 const lint = [
 	'text/css',
-	'text/x-scss',
-	'text/x-less',
 	'text/javascript',
 	'application/json',
 	'application/ld+json',
@@ -67,19 +65,25 @@ onMounted(() => {
 		mode: props.mode,
 		lineNumbers: true,
 		lineWrapping: true,
-		lint,
+		lint: false,
 		autoCloseBrackets: true,
 		matchBrackets: true,
 		autoRefresh: true,
 		autoCloseTags: true,
+		continueComments: true,
+		indentUnit: 2,
+		indentWithTabs: true,
+		styleActiveLine: true,
+		tabSize: 2,
 		matchTags: {
 			bothTags: true,
 		},
+		showHint: true,
 		csslint: {
-			errors: true,
 			'box-model': true,
 			'display-property-grouping': true,
 			'duplicate-properties': true,
+			errors: true,
 			'known-properties': true,
 			'outline-none': true,
 		},
@@ -123,6 +127,44 @@ onMounted(() => {
 		},
 		// Show lint error numbers
 		gutters: ['CodeMirror-lint-markers'],
+	});
+
+	editor.on('keyup', function (editor, event) {
+		// eslint-disable-line complexity
+		var shouldAutocomplete,
+			isAlphaKey = /^[a-zA-Z]$/.test(event.key),
+			lineBeforeCursor,
+			innerMode,
+			token;
+		if (editor.state.completionActive && isAlphaKey) {
+			return;
+		}
+
+		// Prevent autocompletion in string literals or comments.
+		token = editor.getTokenAt(editor.getCursor());
+		if ('string' === token.type || 'comment' === token.type) {
+			return;
+		}
+
+		innerMode = window.wp.CodeMirror.innerMode(editor.getMode(), token.state).mode.name;
+		lineBeforeCursor = editor.doc.getLine(editor.doc.getCursor().line).substr(0, editor.doc.getCursor().ch);
+		if ('html' === innerMode || 'xml' === innerMode) {
+			shouldAutocomplete =
+				'<' === event.key ||
+				('/' === event.key && 'tag' === token.type) ||
+				(isAlphaKey && 'tag' === token.type) ||
+				(isAlphaKey && 'attribute' === token.type) ||
+				('=' === token.string && token.state.htmlState && token.state.htmlState.tagName);
+		} else if ('css' === innerMode) {
+			shouldAutocomplete = isAlphaKey || ':' === event.key || (' ' === event.key && /:\s+$/.test(lineBeforeCursor));
+		} else if ('javascript' === innerMode) {
+			shouldAutocomplete = isAlphaKey || '.' === event.key;
+		} else if ('clike' === innerMode && 'php' === editor.options.mode) {
+			shouldAutocomplete = 'keyword' === token.type || 'variable' === token.type;
+		}
+		if (shouldAutocomplete) {
+			editor.showHint({ completeSingle: false });
+		}
 	});
 
 	// Set the editor value

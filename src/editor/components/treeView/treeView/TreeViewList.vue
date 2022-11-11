@@ -4,7 +4,7 @@
 		tag="ul"
 		class="znpb-tree-view-wrapper"
 		group="pagebuilder-treview-elements"
-		handle=".znpb-tree-view__itemIcon"
+		handle=".znpb-tree-view__item-header"
 		:data-zion-element-uid="element.uid"
 		@start="sortableStart"
 		@end="sortableEnd"

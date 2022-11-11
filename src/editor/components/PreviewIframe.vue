@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import { addAction, removeAction } from '/@/common/modules/hooks';
 import { each } from 'lodash-es';
 
@@ -99,7 +99,7 @@ export default {
 			const styles = {};
 
 			if (root.value) {
-				const { width: containerWidth, height: containerHeight } = containerSize.value;
+				const { height: containerHeight } = containerSize.value;
 
 				let height = 0;
 				if (activeResponsiveDeviceInfo.value && activeResponsiveDeviceInfo.value.height) {
@@ -122,6 +122,20 @@ export default {
 
 			return styles;
 		});
+
+		// Prevent empty bars when enabling preview mode
+		// @see https://hogash.atlassian.net/browse/ZB-2981
+		watch(
+			() => UIStore.isPreviewMode,
+			newValue => {
+				if (newValue && activeResponsiveDeviceInfo.value.id === 'default') {
+					console.log('new Value');
+					nextTick(() => {
+						iframeWidth.value = null;
+					});
+				}
+			},
+		);
 
 		// Watch if the scale is manually changed
 		watch([containerSize, iframeSize], ([containerNewSize, iframeNewSize]) => {
@@ -446,10 +460,15 @@ export default {
 }
 
 .znpb-editor-iframe--hideOverflow {
-	overflow: hidden;
+	overflow-x: clip;
+	overflow-y: clip;
 
 	#znpb-editor-iframe {
 		margin: initial;
 	}
+}
+
+#preview-iframe {
+	overflow-y: clip;
 }
 </style>

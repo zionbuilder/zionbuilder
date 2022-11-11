@@ -157,6 +157,13 @@ class Element {
 	public $is_server_render = false;
 
 	/**
+	 * Holds the body classes needed for rendering inside the builder
+	 *
+	 * @var array
+	 */
+	private $render_body_classes = [];
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -203,6 +210,31 @@ class Element {
 			// Trigger internal action
 			$this->trigger( 'options/schema/set' );
 		}
+	}
+
+	/**
+	 * Adds render classes to body
+	 *
+	 * @internal Do not use
+	 * @since 3.5.0
+	 *
+	 * @param string $css_class
+	 * @return void
+	 */
+	public function add_render_body_class( $css_class ) {
+		$this->render_body_classes[] = $css_class;
+	}
+
+	/**
+	 * Returns the list of body classes needed for rendering
+	 *
+	 * @internal
+	 * @since 3.5.0
+	 *
+	 * @return string[]
+	 */
+	public function get_render_body_classes() {
+		return $this->render_body_classes;
 	}
 
 	/**

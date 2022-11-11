@@ -224,7 +224,14 @@ class Admin {
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'admin-page',
-				[ 'wp-codemirror', 'zb-vue' ],
+				[
+					'wp-codemirror',
+					'csslint',
+					'htmlhint',
+					'jshint',
+					'jsonlint',
+					'zb-vue',
+				],
 				Plugin::$instance->get_version(),
 				true
 			);
@@ -270,25 +277,25 @@ class Admin {
 									'type'        => 'code',
 									'description' => esc_html__( 'Add css that will be applied to all pages.', 'zionbuilder' ),
 									'title'       => esc_html__( 'Custom css', 'zionbuilder' ),
-									'mode'        => 'css',
+									'mode'        => 'text/css',
 								],
 								'header_scripts' => [
 									'type'        => 'code',
 									'description' => esc_html__( 'Add scripts that will be placed just before the closing </head> tag.', 'zionbuilder' ),
 									'title'       => esc_html__( 'Header scripts', 'zionbuilder' ),
-									'mode'        => 'html',
+									'mode'        => 'htmlmixed',
 								],
 								'body_scripts'   => [
 									'type'        => 'code',
 									'description' => esc_html__( 'Add scripts that will be placed just after the <body> opening tag.', 'zionbuilder' ),
 									'title'       => esc_html__( 'Body scripts', 'zionbuilder' ),
-									'mode'        => 'html',
+									'mode'        => 'htmlmixed',
 								],
 								'footer_scripts' => [
 									'type'        => 'code',
 									'description' => esc_html__( 'Add scripts that will be placed just before the closing </body> tag.', 'zionbuilder' ),
 									'title'       => esc_html__( 'Footer scripts', 'zionbuilder' ),
-									'mode'        => 'html',
+									'mode'        => 'htmlmixed',
 								],
 							],
 						],

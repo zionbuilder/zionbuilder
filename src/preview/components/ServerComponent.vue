@@ -126,6 +126,9 @@ export default {
 					elementContent.value = response.data.element;
 					setInnerHTML(elementContent.value);
 
+					// Set body classes
+					setBodyClasses(response.data.body_classes);
+
 					loadScripts(response.data.scripts).then(() => {
 						loading.value = false;
 
@@ -146,7 +149,7 @@ export default {
 					loading.value = false;
 
 					// eslint-disable-next-line
-				console.log('server Request fail', message)
+					console.log('server Request fail', message)
 				},
 			);
 		}
@@ -154,6 +157,17 @@ export default {
 		const debouncedGetElementFromServer = debounce(function () {
 			getElementFromServer();
 		}, 500);
+
+		/**
+		 * Add body classes required by elements
+		 */
+		function setBodyClasses(classes) {
+			classes.forEach(cssClass => {
+				const body = window.frames['znpb-editor-iframe'].contentDocument.body;
+
+				body.classList.add(cssClass);
+			});
+		}
 
 		function checkForContentHeight() {
 			const loadableElements = elementContentRef.value.querySelectorAll('img, iframe, video');

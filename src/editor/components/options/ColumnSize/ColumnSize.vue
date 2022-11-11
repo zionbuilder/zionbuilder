@@ -2,16 +2,16 @@
 	<div class="znpb-column-size">
 		<div class="znpb-column-size-options">
 			<div
-				class="znpb-column-size__option"
 				v-for="(option, index) in options"
 				:key="index"
-				@click="valueModel = option.id"
-				:style="{'flex': option.name === 'auto' ? `0 0 ${100}%` : 1}"
+				class="znpb-column-size__option"
+				:style="{ flex: option.name === 'auto' ? `0 0 ${100}%` : 1 }"
 				:class="{
-					'znpb-column-size__option--active': option.id === valueModel
+					'znpb-column-size__option--active': option.id === valueModel,
 				}"
+				@click="valueModel = option.id"
 			>
-				{{option.name}}
+				{{ option.name }}
 			</div>
 		</div>
 	</div>
@@ -22,26 +22,25 @@ export default {
 	name: 'ColumnSize',
 	props: {
 		options: {
-			type: Array
+			type: Array,
 		},
 		modelValue: {
 			type: [String, Number],
-			required: false
-		}
+			required: false,
+		},
 	},
 	computed: {
 		valueModel: {
-			get () {
-				return this.modelValue
+			get() {
+				return this.modelValue;
 			},
-			set (newValue) {
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+			set(newValue) {
+				this.$emit('update:modelValue', newValue);
+			},
+		},
 	},
-	methods: {
-	}
-}
+	methods: {},
+};
 </script>
 
 <style lang="scss">

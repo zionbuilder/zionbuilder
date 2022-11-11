@@ -18,20 +18,29 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
-				@click="activePopup = position"
 			>
-				<input
-					type="text"
-					:placeholder="placeholder ? placeholder[position.position] : '-'"
-					:value="computedValues[position.position]"
-					readonly
+				<InputNumberUnit
+					:model-value="computedValues[position.position]"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
+					:placeholder="
+						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
+					"
+					@update:model-value="onValueUpdated(position.position, 'margin', $event)"
+				/>
+
+				<ChangesBullet
+					v-if="computedValues[position.position]"
+					:content="translate('discard_changes')"
+					@remove-styles="onDiscardChanges(position.position)"
 				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ $translate('margin') }}</span>
+				<span class="znpb-optSpacing-label">{{ translate('margin') }}</span>
 				<Icon
 					:icon="linkedMargin ? 'link' : 'unlink'"
-					:title="linkedMargin ? $translate('unlink') : $translate('link')"
+					:title="linkedMargin ? translate('unlink') : translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -75,21 +84,31 @@
 				@mouseenter="activeHover = position"
 				@mouseleave="activeHover = null"
 				@mousedown="startDragging($event, position)"
-				@click="activePopup = position"
 			>
-				<input
-					type="text"
-					:placeholder="placeholder ? placeholder[position.position] : '-'"
-					:value="computedValues[position.position]"
-					readonly
+				<InputNumberUnit
+					:model-value="computedValues[position.position]"
+					:units="['px', 'rem', 'pt', 'vh', '%']"
+					:step="1"
+					default-unit="px"
+					:min="0"
+					:placeholder="
+						placeholder && typeof placeholder[position.position] !== 'undefined' ? placeholder[position.position] : '-'
+					"
+					@update:model-value="onValueUpdated(position.position, 'padding', $event)"
+				/>
+
+				<ChangesBullet
+					v-if="computedValues[position.position]"
+					:content="translate('discard_changes')"
+					@remove-styles="onDiscardChanges(position.position)"
 				/>
 			</div>
 
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ $translate('padding') }}</span>
+				<span class="znpb-optSpacing-label">{{ translate('padding') }}</span>
 				<Icon
 					:icon="linkedPadding ? 'link' : 'unlink'"
-					:title="linkedPadding ? $translate('unlink') : $translate('link')"
+					:title="linkedPadding ? translate('unlink') : translate('link')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -116,26 +135,6 @@
 			</div>
 		</div>
 		<span v-if="activeHover" class="znpb-optSpacing-info">{{ activeHover.title }}</span>
-
-		<div v-if="activePopup" class="znpb-optSpacing-popup">
-			<div v-click-outside="() => (activePopup = false)" class="znpb-optSpacing-popupInner">
-				<div class="znpb-optSpacing-popup__input-title">
-					{{ activePopup.title }}
-
-					<ChangesBullet v-if="hasChanges" :content="$translate('discard_changes')" @remove-styles="onDiscardChanges" />
-				</div>
-				<Icon icon="close" class="znpb-optSpacing-popupClose" @click.stop="activePopup = null" />
-
-				<InputNumberUnit
-					ref="popupInput"
-					v-model="inputValue"
-					:units="['px', 'rem', 'pt', 'vh', '%']"
-					:step="1"
-					default-unit="px"
-					:placeholder="placeholder ? placeholder[activePopup.position] : '-'"
-				/>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -203,7 +202,7 @@ const marginPositionId: Position[] = [
 		type: 'margin',
 		title: translate('margin-top'),
 		svg: {
-			cursor: 's-resize',
+			cursor: 'n-resize',
 			d: 'M0 0h320l-50 36H50L0 0Z',
 		},
 		dragDirection: 'vertical',
@@ -213,7 +212,7 @@ const marginPositionId: Position[] = [
 		type: 'margin',
 		title: translate('margin-right'),
 		svg: {
-			cursor: 'w-resize',
+			cursor: 'e-resize',
 			d: 'm320 183-50-36V39l50-36v180Z',
 		},
 		dragDirection: 'horizontal',
@@ -245,7 +244,7 @@ const paddingPositionId: Position[] = [
 		type: 'padding',
 		title: translate('padding-top'),
 		svg: {
-			cursor: 's-resize',
+			cursor: 'n-resize',
 			d: 'M0 0h214l-50 36H50L0 0Z',
 		},
 		dragDirection: 'vertical',
@@ -255,7 +254,7 @@ const paddingPositionId: Position[] = [
 		type: 'padding',
 		title: translate('padding-right'),
 		svg: {
-			cursor: 'w-resize',
+			cursor: 'e-resize',
 			d: 'm214 105-50-36V39l50-36v102Z',
 		},
 		dragDirection: 'horizontal',
@@ -287,28 +286,14 @@ const allowedValues = [...marginPositionId, ...paddingPositionId].map(position =
  * Refs
  */
 const activeHover: Ref<Position | null> = ref(null);
-const activePopup: Ref<Position | null> = ref(null);
 const lastChanged: Ref<{ position: PositionId; type: Type } | null> = ref(null);
 const popupInput = ref<InstanceType<typeof InputNumberUnit> | null>(null);
 
-const hasChanges = computed(() => {
-	if (activePopup.value) {
-		const { position } = activePopup.value;
+function onDiscardChanges(position: PositionId) {
+	const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
+	delete clonedModelValue[position];
 
-		return typeof props.modelValue[position] !== 'undefined';
-	}
-
-	return false;
-});
-
-function onDiscardChanges() {
-	if (activePopup.value) {
-		const { position } = activePopup.value;
-		const clonedModelValue: Partial<Record<PositionId, string>> = { ...props.modelValue };
-		delete clonedModelValue[position];
-
-		emit('update:modelValue', clonedModelValue);
-	}
+	emit('update:modelValue', clonedModelValue);
 }
 
 const computedValues = computed({
@@ -325,16 +310,6 @@ const computedValues = computed({
 	},
 	set(newValues: Record<PositionId, string>) {
 		emit('update:modelValue', newValues);
-	},
-});
-
-const inputValue = computed({
-	get() {
-		return activePopup.value?.position ? computedValues.value[activePopup.value.position] : '';
-	},
-	set(newValue: string) {
-		activePopup.value &&
-			onValueUpdated(activePopup.value.position as PositionId, activePopup.value.type as Type, newValue);
 	},
 });
 
@@ -608,28 +583,6 @@ function setDraggingValue(newValue: number, event: MouseEvent) {
 
 const rafDragValue = rafSchd(dragValue);
 const rafDeactivateDragging = rafSchd(deactivateDragging);
-
-// highlight input when opening
-watch(activePopup, newValue => {
-	if (newValue) {
-		// Allow closing the popup by pressing esc key
-		document.addEventListener('keydown', closeOnEscape);
-
-		nextTick(() => {
-			popupInput.value.$refs.numberUnitInput.$refs.input.focus();
-		});
-	} else {
-		document.removeEventListener('keydown', closeOnEscape);
-	}
-});
-
-function closeOnEscape(event: KeyboardEvent) {
-	if (event.key === 'Escape') {
-		activePopup.value = null;
-
-		event.stopPropagation();
-	}
-}
 </script>
 
 <style lang="scss">
@@ -664,6 +617,7 @@ function closeOnEscape(event: KeyboardEvent) {
 	&-value {
 		position: absolute;
 		z-index: 1;
+		max-width: 61px;
 		padding: 2px;
 		color: var(--zb-surface-text-color);
 		font-size: 11px;
@@ -671,18 +625,19 @@ function closeOnEscape(event: KeyboardEvent) {
 		line-height: 1;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		cursor: pointer;
 		user-select: none;
+		display: flex;
+		align-items: center;
 
 		& input {
-			max-width: 40px;
+			max-width: 42px;
+			height: 26px;
 			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: bold;
 			text-align: center;
 			background: transparent;
 			border: 0;
-			cursor: pointer;
 
 			&:focus {
 				outline: none;
@@ -700,12 +655,12 @@ function closeOnEscape(event: KeyboardEvent) {
 
 	&-margin-top,
 	&-padding-top {
-		top: 8px;
+		top: 3px;
 	}
 
 	&-margin-bottom,
 	&-padding-bottom {
-		bottom: 8px;
+		bottom: 3px;
 	}
 
 	&-margin-left,
@@ -714,16 +669,22 @@ function closeOnEscape(event: KeyboardEvent) {
 	&-padding-right {
 		top: 50%;
 		transform: translateY(-50%);
+		flex-direction: column;
+		max-width: 42px;
+
+		.znpb-options-has-changes-wrapper {
+			margin-top: 5px;
+		}
 	}
 
 	&-margin-left,
 	&-padding-left {
-		left: 5px;
+		left: 4px;
 	}
 
 	&-margin-right,
 	&-padding-right {
-		right: 5px;
+		right: 4px;
 	}
 
 	&-popup {
@@ -938,6 +899,18 @@ function closeOnEscape(event: KeyboardEvent) {
 				fill: #3a3a3e;
 			}
 		}
+	}
+}
+
+body .znpb-optSpacing .zion-input {
+	background: var(--zb-surface-color);
+	border: none;
+	padding: 0;
+
+	& input {
+		background: transparent;
+		padding: 5.5px 4px;
+		font-size: 11px;
 	}
 }
 </style>

@@ -1,15 +1,12 @@
 <!-- Not used component -->
 <template>
 	<div class="znpb-input-border-radius-wrapper">
-		<InputLabel v-if="title" :label="title" class="znpb-typography-group-item znpb-typography-group-item-font-weight">
-			<InputNumberUnit
-				v-model="computedValue"
-				:min="0"
-				:max="999"
-				:units="['px', 'rem', 'pt', 'vh', '%']"
-				:step="1"
-				default-unit="px"
-			/>
+		<InputLabel
+			v-if="title.length"
+			:label="title"
+			class="znpb-typography-group-item znpb-typography-group-item-font-weight"
+		>
+			<InputNumberUnit v-model="computedValue" :min="0" :max="999" default_unit="px" :step="1" default-unit="px" />
 		</InputLabel>
 	</div>
 </template>
@@ -25,10 +22,12 @@ import { InputNumberUnit } from '../InputNumber';
 
 const props = withDefaults(
 	defineProps<{
-		modelValue?: string | null;
+		modelValue?: string;
+		title?: string;
 	}>(),
 	{
-		modelValue: null,
+		modelValue: '',
+		title: '',
 	},
 );
 
@@ -38,9 +37,9 @@ const emit = defineEmits<{
 
 const computedValue = computed({
 	get() {
-		return props.modelValue || null;
+		return props.modelValue;
 	},
-	set(newValue: string | null) {
+	set(newValue: string) {
 		emit('update:modelValue', newValue);
 	},
 });
