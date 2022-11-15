@@ -123,6 +123,48 @@ class Accordions extends Element {
 				],
 			]
 		);
+
+		$options->add_option(
+			'title_tag',
+			[
+				'type'        => 'select',
+				'description' => esc_html__( 'Select the HTML tag to use for the title. If you want to add a custom tag, make sure to only use letters and numbers', 'zionbuilder' ),
+				'title'       => esc_html__( 'HTML tag for titles', 'zionbuilder' ),
+				'default'     => 'div',
+				'addable'     => true,
+				'filterable'  => true,
+				'options'     => [
+					[
+						'id'   => 'section',
+						'name' => 'Section',
+					],
+					[
+						'id'   => 'div',
+						'name' => 'Div',
+					],
+					[
+						'id'   => 'footer',
+						'name' => 'Footer',
+					],
+					[
+						'id'   => 'header',
+						'name' => 'Header',
+					],
+					[
+						'id'   => 'article',
+						'name' => 'Article',
+					],
+					[
+						'id'   => 'main',
+						'name' => 'Main',
+					],
+					[
+						'id'   => 'aside',
+						'name' => 'Aside',
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -149,6 +191,16 @@ class Accordions extends Element {
 			[
 				'title'                   => esc_html__( 'Title styles', 'zionbuilder' ),
 				'selector'                => '{{ELEMENT}} .zb-el-accordions-accordionTitle',
+				'allow_custom_attributes' => false,
+				'allow_class_assignments' => false,
+			]
+		);
+
+		$this->register_style_options_element(
+			'active_accordion_title',
+			[
+				'title'                   => esc_html__( 'Active accordion title styles', 'zionbuilder' ),
+				'selector'                => '{{ELEMENT}} .zb-el-accordions--active .zb-el-accordions-accordionTitle',
 				'allow_custom_attributes' => false,
 				'allow_class_assignments' => false,
 			]

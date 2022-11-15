@@ -947,11 +947,33 @@ class Element {
 		}
 	}
 
+	/**
+	 * Returns the Icon HTML markup from an icon option
+	 *
+	 * @param [] $icon
+	 * @since 3.5.0
+	 *
+	 * @return string
+	 */
+	public static function get_icon_markup( $icon, $content = '', $attributes = [] ) {
+		$icon_attributes = Icons::get_icon_attributes( $icon );
+		$attributes      = array_merge( $attributes, $icon_attributes );
+
+		$attribute_list = [];
+		foreach ( $attributes as $attribute_name => $attribute_value ) {
+
+			$attribute_value  = is_array( $attribute_value ) ? implode( ' ', $attribute_value ) : $attribute_value;
+			$attribute_list[] = "{$attribute_name}='{$attribute_value}'";
+		}
+
+		$attributes_as_string = join( ' ', $attribute_list );
+		return "<span {$attributes_as_string}>{$content}</span>";
+	}
 
 	/**
 	 * Attach icon attributes
 	 *
-	 * Will add the icon attributes to a registerd tag
+	 * Will add the icon attributes to a registered tag
 	 *
 	 * @param string               $tag_id The tag id to which we will register the icon attributes
 	 * @param array<string, mixed> $icon   The icon config
@@ -972,7 +994,7 @@ class Element {
 	/**
 	 * Attach link attributes
 	 *
-	 * Will add the link attributes to a registerd tag
+	 * Will add the link attributes to a registered tag
 	 *
 	 * @param string                $tag_id The tag id to which we will register the link attributes
 	 * @param array<string, mixed> $link   The link config

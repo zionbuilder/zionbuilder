@@ -522,4 +522,9 @@ export default {
 .znpb-menuListItem--is-group_item {
 	padding-left: 30px;
 }
+
+.znpb-forms-input-wrapper--inline .znpb-option-selectWrapper {
+	margin-right: 0;
+	margin-left: 10px;
+}
 </style>
