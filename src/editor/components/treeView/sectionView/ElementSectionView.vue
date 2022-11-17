@@ -72,7 +72,9 @@ const loading = ref(true);
 onMounted(() => {
 	// Wait 100ms. This is needed so we can make sure the element is actually rendered on the page
 	setTimeout(() => {
-		const domElement = window.frames['znpb-editor-iframe'].contentDocument.getElementById(props.element.elementCssId);
+		const domElement = (
+			window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement
+		)?.contentWindow?.document?.getElementById(props.element.elementCssId);
 
 		if (!domElement) {
 			console.warn(`Element with id "${props.element.elementCssId}" could not be found in page`);

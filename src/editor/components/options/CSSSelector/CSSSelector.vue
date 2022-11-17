@@ -210,34 +210,42 @@ export default {
 		});
 
 		function onMouseOver() {
-			const iframe = window.frames['znpb-editor-iframe'];
+			const iframe = window.document.getElementById('znpb-editor-iframe');
 
 			if (!iframe) {
 				return;
 			}
 
-			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+			try {
+				const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
 
-			if (domElements.length) {
-				domElements.forEach(element => {
-					element.style.outline = '2px solid #14ae5c';
-				});
+				if (domElements.length) {
+					domElements.forEach(element => {
+						element.style.outline = '2px solid #14ae5c';
+					});
+				}
+			} catch (error) {
+				// console.log(error);
 			}
 		}
 
 		function onMouseOut() {
-			const iframe = window.frames['znpb-editor-iframe'];
+			const iframe = window.document.getElementById('znpb-editor-iframe');
 
 			if (!iframe) {
 				return;
 			}
 
-			const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
+			try {
+				const domElements = iframe.contentWindow.document.querySelectorAll(selector.value);
 
-			if (domElements.length) {
-				domElements.forEach(element => {
-					element.style.outline = null;
-				});
+				if (domElements.length) {
+					domElements.forEach(element => {
+						element.style.outline = null;
+					});
+				}
+			} catch (error) {
+				// console.log(error);
 			}
 		}
 

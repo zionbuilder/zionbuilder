@@ -94,7 +94,7 @@ export default {
 		});
 
 		function loadScripts(scripts) {
-			const { loadScript } = ScriptsLoader(window.frames[0]);
+			const { loadScript } = ScriptsLoader(window.document.getElementById('znpb-editor-iframe').contentWindow);
 
 			return new Promise((resolve, reject) => {
 				Object.keys(scripts).map(scriptHandle => {
@@ -162,9 +162,8 @@ export default {
 		 * Add body classes required by elements
 		 */
 		function setBodyClasses(classes) {
+			const body = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.document?.body;
 			classes.forEach(cssClass => {
-				const body = window.frames['znpb-editor-iframe'].contentDocument.body;
-
 				body.classList.add(cssClass);
 			});
 		}

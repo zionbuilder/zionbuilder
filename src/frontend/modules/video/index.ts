@@ -142,9 +142,8 @@ export default class Video {
 			const firstScriptTag = document.getElementsByTagName('script')[0];
 			firstScriptTag.parentNode.insertBefore(youtubeTag, firstScriptTag);
 
-			const self = this;
-			window.onYouTubeIframeAPIReady = function () {
-				self.enableYoutube();
+			window.onYouTubeIframeAPIReady = () => {
+				this.enableYoutube();
 				// trigger event
 				globalEventBus.doAction('youtube_api_ready');
 				YoutubeApiLoadedState = 2;

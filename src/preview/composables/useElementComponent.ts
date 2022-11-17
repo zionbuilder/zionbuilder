@@ -28,7 +28,9 @@ export function useElementComponent(element: ZionElement) {
 	};
 
 	const loadElementAssets = () => {
-		const { loadScript } = ScriptsLoader(window.frames[0]);
+		const { loadScript } = ScriptsLoader(
+			(window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement).contentWindow,
+		);
 
 		return Promise.all([
 			...Object.keys(elementType.scripts).map(scriptHandle => {

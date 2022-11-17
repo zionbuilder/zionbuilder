@@ -201,7 +201,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();
@@ -355,7 +355,7 @@ export const useUIStore = defineStore('ui', {
 
 			// Check to see if the event is from iframe
 			if (event.view !== window) {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe') as HTMLIFrameElement;
 
 				if (iframe) {
 					const { left, top } = iframe.getBoundingClientRect();

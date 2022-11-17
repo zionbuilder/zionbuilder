@@ -45,7 +45,12 @@ export default {
 				}
 
 				this.$nextTick(() => {
-					this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
+					const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.ZBVideoBg;
+					if (script) {
+						this.videoInstance = new script(this.$el, this.videoConfig);
+					} else {
+						console.error('video script not found');
+					}
 				});
 			}
 		},
@@ -56,7 +61,12 @@ export default {
 		}
 
 		if (Object.keys(this.videoConfig).length > 0) {
-			this.videoInstance = new window.frames[0].ZBVideoBg(this.$el, this.videoConfig);
+			const script = window.document.getElementById('znpb-editor-iframe')?.contentWindow?.ZBVideoBg;
+			if (script) {
+				this.videoInstance = new script(this.$el, this.videoConfig);
+			} else {
+				console.error('video script not found');
+			}
 		}
 	},
 };

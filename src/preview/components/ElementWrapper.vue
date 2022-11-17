@@ -362,13 +362,13 @@ export default {
 		watch(
 			() => props.element.scrollTo,
 			newValue => {
-				const iframe = window.frames['znpb-editor-iframe'];
+				const iframe = window.document.getElementById('znpb-editor-iframe')?.contentWindow;
 
 				if (!iframe) {
 					return;
 				}
 
-				const domNode = iframe.contentWindow.document.getElementById(props.element.elementCssId);
+				const domNode = iframe.document.getElementById(props.element.elementCssId);
 
 				if (newValue && domNode) {
 					if (typeof domNode.scrollIntoView === 'function') {
