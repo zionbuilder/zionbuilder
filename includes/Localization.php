@@ -797,6 +797,8 @@ class Localization {
 				'repeater_provider'                        => esc_html__( 'repeater provider', 'zionbuilder' ),
 				'repeater_consumer'                        => esc_html__( 'repeater consumer', 'zionbuilder' ),
 
+				// Inputs
+				'custom'                                   => esc_html__( 'custom', 'zionbuilder' ),
 			]
 		);
 	}

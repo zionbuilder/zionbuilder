@@ -72,7 +72,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, computed, CSSProperties } from 'vue';
+import { ref, computed } from 'vue';
 import { Icon } from '../Icon';
 
 const props = withDefaults(
