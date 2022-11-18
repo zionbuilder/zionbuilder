@@ -157,6 +157,13 @@ class Element {
 	public $is_server_render = false;
 
 	/**
+	 * Holds the body classes needed for rendering inside the builder
+	 *
+	 * @var array
+	 */
+	private $render_body_classes = [];
+
+	/**
 	 * Main class constructor
 	 *
 	 * @param array<string, mixed> $data The saved values for the current element
@@ -203,6 +210,31 @@ class Element {
 			// Trigger internal action
 			$this->trigger( 'options/schema/set' );
 		}
+	}
+
+	/**
+	 * Adds render classes to body
+	 *
+	 * @internal Do not use
+	 * @since 3.5.0
+	 *
+	 * @param string $css_class
+	 * @return void
+	 */
+	public function add_render_body_class( $css_class ) {
+		$this->render_body_classes[] = $css_class;
+	}
+
+	/**
+	 * Returns the list of body classes needed for rendering
+	 *
+	 * @internal
+	 * @since 3.5.0
+	 *
+	 * @return string[]
+	 */
+	public function get_render_body_classes() {
+		return $this->render_body_classes;
 	}
 
 	/**
@@ -915,11 +947,33 @@ class Element {
 		}
 	}
 
+	/**
+	 * Returns the Icon HTML markup from an icon option
+	 *
+	 * @param array $icon
+	 * @since 3.5.0
+	 *
+	 * @return string
+	 */
+	public static function get_icon_markup( $icon, $content = '', $attributes = [] ) {
+		$icon_attributes = Icons::get_icon_attributes( $icon );
+		$attributes      = array_merge( $attributes, $icon_attributes );
+
+		$attribute_list = [];
+		foreach ( $attributes as $attribute_name => $attribute_value ) {
+
+			$attribute_value  = is_array( $attribute_value ) ? implode( ' ', $attribute_value ) : $attribute_value;
+			$attribute_list[] = "{$attribute_name}='{$attribute_value}'";
+		}
+
+		$attributes_as_string = join( ' ', $attribute_list );
+		return "<span {$attributes_as_string}>{$content}</span>";
+	}
 
 	/**
 	 * Attach icon attributes
 	 *
-	 * Will add the icon attributes to a registerd tag
+	 * Will add the icon attributes to a registered tag
 	 *
 	 * @param string               $tag_id The tag id to which we will register the icon attributes
 	 * @param array<string, mixed> $icon   The icon config
@@ -940,7 +994,7 @@ class Element {
 	/**
 	 * Attach link attributes
 	 *
-	 * Will add the link attributes to a registerd tag
+	 * Will add the link attributes to a registered tag
 	 *
 	 * @param string                $tag_id The tag id to which we will register the link attributes
 	 * @param array<string, mixed> $link   The link config

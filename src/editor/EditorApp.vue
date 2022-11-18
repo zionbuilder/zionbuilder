@@ -444,7 +444,8 @@ body {
 	width: 100%;
 	height: 100%;
 }
-.zbpb-editor-demoMode {
+
+.znpb-editor-demoMode {
 	.znpb-editor-header__page-save-wrapper--save,
 	.znpb-editor-header__page-save-wrapper--save a,
 	.znpb-editor-header__menu-list li:nth-child(4),

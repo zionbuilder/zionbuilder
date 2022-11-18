@@ -211,19 +211,12 @@ class Container extends Element {
 		$flex_container_group->add_option(
 			'gap',
 			[
-				'type'        => 'number_unit',
-				'title'       => __( 'Gap', 'zionbuilder' ),
-				'description' => __( 'The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins.', 'zionbuilder' ),
-				'placeholder' => '0px',
-				'units'       => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'%',
-					'auto',
-				],
-				'sync'        => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.gap',
+				'type'         => 'number_unit',
+				'title'        => __( 'Gap', 'zionbuilder' ),
+				'description'  => __( 'The gap option allows you to specify the gap between child elements on the main axis. Current browser support is 89.92%. In order to increase browser support, you can use margins.', 'zionbuilder' ),
+				'placeholder'  => '0px',
+				'default_unit' => 'px',
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.gap',
 			]
 		);
 
@@ -446,17 +439,11 @@ class Container extends Element {
 		$flex_child_group->add_option(
 			'flex-basis',
 			[
-				'type'  => 'number_unit',
-				'width' => 33.3,
-				'title' => __( 'Flex Basis', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'%',
-				],
+				'type'         => 'number_unit',
+				'width'        => 33.3,
+				'title'        => __( 'Flex Basis', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.flex-basis',
+				'default_unit' => 'px',
 			]
 		);
 
@@ -616,102 +603,72 @@ class Container extends Element {
 		$sizings_group->add_option(
 			'width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Width', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.width',
-				'width' => 33.3,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Width', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.width',
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Min Width', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-width',
-				'width' => 33.3,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Min Width', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-width',
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Max Width', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-width',
-				'width' => 33.3,
-				'min'   => 0,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Max Width', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-width',
+				'width'        => 33.3,
+				'min'          => 0,
+				'default_unit' => 'px',
 			]
 		);
 
 		$sizings_group->add_option(
 			'height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Height', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.height',
-				'width' => 33.3,
-				'units' => StyleOptions::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Height', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.height',
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Min Height', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-height',
-				'width' => 33.3,
-				'units' => StyleOptions::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Min Height', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.min-height',
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Max Height', 'zionbuilder' ),
-				'sync'  => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-height',
-				'width' => 33.3,
-				'units' => StyleOptions::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Max Height', 'zionbuilder' ),
+				'sync'         => '_styles.wrapper.styles.%%RESPONSIVE_DEVICE%%.default.max-height',
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 	}

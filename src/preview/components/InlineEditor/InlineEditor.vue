@@ -455,6 +455,7 @@ export default {
 	line-height: inherit !important;
 	outline: none;
 	cursor: text;
+
 	&--selection-transparent {
 		& *::selection {
 			background: transparent !important;

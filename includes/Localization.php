@@ -794,6 +794,9 @@ class Localization {
 				'layout'                                   => esc_html__( 'Layout', 'zionbuilder' ),
 				'edited'                                   => esc_html__( 'Edited', 'zionbuilder' ),
 
+				'repeater_provider'                        => esc_html__( 'repeater provider', 'zionbuilder' ),
+				'repeater_consumer'                        => esc_html__( 'repeater consumer', 'zionbuilder' ),
+
 			]
 		);
 	}

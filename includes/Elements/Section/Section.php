@@ -3,7 +3,6 @@
 namespace ZionBuilder\Elements\Section;
 
 use ZionBuilder\Elements\Element;
-use ZionBuilder\Utils;
 use ZionBuilder\Elements\Masks;
 use ZionBuilder\Plugin;
 

@@ -207,96 +207,66 @@ class StyleOptions extends BaseSchema {
 		$sizings_group->add_option(
 			'width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Width', 'zionbuilder' ),
-				'width' => 33.3,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Width', 'zionbuilder' ),
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Min Width', 'zionbuilder' ),
-				'width' => 33.3,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Min Width', 'zionbuilder' ),
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-width',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Max Width', 'zionbuilder' ),
-				'width' => 33.3,
-				'min'   => 0,
-				'units' => [
-					'px',
-					'pt',
-					'rem',
-					'vh',
-					'vw',
-					'%',
-					'auto',
-					'initial',
-					'unset',
-				],
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Max Width', 'zionbuilder' ),
+				'width'        => 33.3,
+				'min'          => 0,
+				'default_unit' => 'px',
 			]
 		);
 
 		$sizings_group->add_option(
 			'height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Height', 'zionbuilder' ),
-				'width' => 33.3,
-				'units' => self::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Height', 'zionbuilder' ),
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'min-height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Min Height', 'zionbuilder' ),
-				'width' => 33.3,
-				'units' => self::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Min Height', 'zionbuilder' ),
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 
 		$sizings_group->add_option(
 			'max-height',
 			[
-				'type'  => 'number_unit',
-				'title' => esc_html__( 'Max Height', 'zionbuilder' ),
-				'width' => 33.3,
-				'units' => self::get_units(),
-				'min'   => 0,
+				'type'         => 'number_unit',
+				'title'        => esc_html__( 'Max Height', 'zionbuilder' ),
+				'width'        => 33.3,
+				'default_unit' => 'px',
+				'min'          => 0,
 			]
 		);
 	}

@@ -1,9 +1,12 @@
 <template>
 	<input
+		ref="root"
 		v-model="computedModelValue"
-		:readonly="!enabled"
+		:readonly="!isEnabled"
 		class="znpb-inlineEditInput"
-		:class="{ 'znpb-inlineEditInput--readonly': !enabled }"
+		:class="{ 'znpb-inlineEditInput--readonly': !isEnabled }"
+		@dblclick="isEnabled = true"
+		@keydown.escape.stop="disableEdit"
 	/>
 </template>
 
@@ -14,7 +17,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -24,7 +27,7 @@ const props = withDefaults(
 	}>(),
 	{
 		modelValue: '',
-		enabled: true,
+		enabled: false,
 		tag: 'div',
 	},
 );
@@ -32,6 +35,9 @@ const props = withDefaults(
 const emit = defineEmits<{
 	(e: 'update:modelValue', value: string): void;
 }>();
+
+const root = ref(null);
+const isEnabled = ref(props.enabled);
 
 const computedModelValue = computed({
 	get() {
@@ -41,6 +47,29 @@ const computedModelValue = computed({
 		emit('update:modelValue', newValue);
 	},
 });
+
+watch(isEnabled, newValue => {
+	if (newValue) {
+		document.addEventListener('click', disableOnOutsideClick, true);
+	} else {
+		document.removeEventListener('click', disableOnOutsideClick, true);
+	}
+});
+
+onBeforeUnmount(() => {
+	document.removeEventListener('click', disableOnOutsideClick, true);
+});
+
+function disableOnOutsideClick(event: MouseEvent) {
+	if (event.target !== root.value) {
+		disableEdit();
+	}
+}
+
+function disableEdit() {
+	isEnabled.value = false;
+	window.getSelection()?.removeAllRanges();
+}
 </script>
 <style lang="scss">
 .znpb-inlineEditInput {

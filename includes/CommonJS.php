@@ -58,14 +58,6 @@ class CommonJS {
 		);
 
 		Plugin::instance()->scripts->register_script(
-			'zb-hooks',
-			'hooks',
-			[],
-			Plugin::instance()->get_version(),
-			false
-		);
-
-		Plugin::instance()->scripts->register_script(
 			'zb-rest',
 			'rest',
 			[],
@@ -80,17 +72,6 @@ class CommonJS {
 				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
 				'rest_root' => esc_url_raw( rest_url() ),
 			]
-		);
-
-		Plugin::instance()->scripts->register_script(
-			'zb-utils',
-			'utils',
-			[
-				'zb-rest',
-				'zb-hooks',
-			],
-			Plugin::instance()->get_version(),
-			false
 		);
 
 		Plugin::instance()->scripts->register_script(
@@ -114,9 +95,7 @@ class CommonJS {
 				'wp-codemirror',
 				'zb-vue',
 				'zb-i18n',
-				'zb-hooks',
 				'zb-rest',
-				'zb-utils',
 			],
 			Plugin::instance()->get_version(),
 			true
@@ -126,6 +105,15 @@ class CommonJS {
 	}
 
 	public static function localize_common_js_data( $handle ) {
+		wp_localize_script(
+			$handle,
+			'ZnRestConfig',
+			[
+				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+				'rest_root' => esc_url_raw( rest_url() ),
+			]
+		);
+
 		wp_localize_script(
 			$handle,
 			'ZnPbComponentsData',

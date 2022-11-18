@@ -32,7 +32,7 @@
 			class="znpb-fancy-scrollbar"
 			:value="modelValue"
 			v-bind="$attrs"
-			@input="$emit('update:modelValue' ,($event.target as HTMLTextAreaElement).value)"
+			@input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
 		>
 		</textarea>
 
@@ -105,7 +105,7 @@ const props = withDefaults(
 
 		fontFamily?: string;
 
-		class?: CSSProperties;
+		class?: string;
 	}>(),
 	{
 		modelValue: '',
@@ -113,6 +113,7 @@ const props = withDefaults(
 		name: 'BaseInput',
 		type: 'text',
 		clearable: false,
+		class: '',
 	},
 );
 

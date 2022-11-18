@@ -1,7 +1,7 @@
 import { ref, computed, readonly } from 'vue';
 import { generateUID } from '../utils';
 import { orderBy } from 'lodash-es';
-import { saveBreakpoints } from '/@/common/api';
+import { saveBreakpoints } from '../api';
 import { useAssetsStore } from '../store';
 
 export interface DeviceMap {

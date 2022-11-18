@@ -92,6 +92,48 @@ class AccordionItem extends Element {
 				'title'   => esc_html__( 'Active by default?', 'zionbuilder' ),
 			]
 		);
+
+		$options->add_option(
+			'title_tag',
+			[
+				'type'        => 'select',
+				'description' => esc_html__( 'Select the HTML tag to use for the title. If you want to add a custom tag, make sure to only use letters and numbers', 'zionbuilder' ),
+				'title'       => esc_html__( 'HTML tag for titles', 'zionbuilder' ),
+				'placeholder' => 'div',
+				'addable'     => true,
+				'filterable'  => true,
+				'options'     => [
+					[
+						'id'   => 'section',
+						'name' => 'Section',
+					],
+					[
+						'id'   => 'div',
+						'name' => 'Div',
+					],
+					[
+						'id'   => 'footer',
+						'name' => 'Footer',
+					],
+					[
+						'id'   => 'header',
+						'name' => 'Header',
+					],
+					[
+						'id'   => 'article',
+						'name' => 'Article',
+					],
+					[
+						'id'   => 'main',
+						'name' => 'Main',
+					],
+					[
+						'id'   => 'aside',
+						'name' => 'Aside',
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -127,6 +169,7 @@ class AccordionItem extends Element {
 		$accordions_element = $this->inject( 'accordionsElement' );
 		$title              = $options->get_value( 'title' );
 		$content            = $options->get_value( 'content' );
+		$title_tag          = $options->get_value( 'title_tag', $accordions_element->options->get_value( 'title_tag', 'div' ) );
 		$title_classes      = '';
 		$content_classes    = '';
 
@@ -137,10 +180,10 @@ class AccordionItem extends Element {
 
 		?>
 
-		<div class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
+		<<?php echo esc_attr( $title_tag ); ?> class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
 			<?php echo $title; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<span class="zb-el-accordions-accordionIcon"></span>
-		</div>
+		</<?php echo esc_attr( $title_tag ); ?>>
 		<div class="zb-el-accordions-accordionContent <?php echo esc_attr( $content_classes ); ?>">
 
 			<div
