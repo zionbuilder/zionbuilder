@@ -3,7 +3,7 @@ Contributors: zionbuilder
 Tags: page builder, editor, visual editor, drag and drop, website builder, front-end builder
 Requires at least: 5.0.0
 Tested up to: 6.0.3
-Stable tag: 3.4.2
+Stable tag: 3.5.0
 Requires PHP: 5.6.20
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -225,7 +225,27 @@ Zion Builder is compatible with most themes that are well constructed according 
 The answer is definitely yes. If you run any kind of commercial business based on a WordPress theme and you wish to add interactivity in your pages, then Zion Builder can serve you the best.
 
 == Changelog ==
-= 3.4.1 2022-21-10 =
+= 3.4.1 2022-15-11 =
+Added: Eyedropper to color picker
+Added: Highlight the affected element when hovering on element style options items
+Added: Code hinting to all code option types- for example, element custom CSS
+Added: Option for choosing the accordion title HTML tag
+Improvement: Removed unit selection from number inputs
+Improvement: Updated number unit component to Vue setup and typescript
+Improvement: When clicking on an element inside the tree view panel, the page will scroll to that element inside the preview window
+Improvement: Double click to rename elements inside tree view panels
+Improvement: Removed extra click needed to set margin/padding values
+Improvement: Added proper title to icon border radius option
+Fixed: CSS is not removing in editor in certain conditions
+Fixed: Image gallery media modal not showing images in certain conditions
+Fixed: Background size option not displaying properly when the main bar is placed on the bottom of the page
+Fixed: Preview window not filling the entire screen when activating preview mode
+[DEV] Improvement: Updated dimensions input to Vue 3 and script setup
+[DEV] Improvement: Updated Input HTML component to Vue 3 script setup and typescript
+[DEV] Improvement: Updated Vue to 3.2.41
+[DEV] Added: Ability to set body classes when adding an element to the page inside the editor
+
+= 3.4.2 2022-21-10 =
 IMPROVEMENT: Added backwards compatibility for 3rd party plugins that use jQuery ( Zion Builder alone doesn't use jQuery )
 IMPROVEMENT: Updated links that pointed to Github issues to feedback.zionbuilder.io
 FIXED: Edit with Zion Builder button doesn't work in certain conditions

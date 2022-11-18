@@ -180,10 +180,10 @@ class AccordionItem extends Element {
 
 		?>
 
-		<<?php echo $title_tag; ?> class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
+		<<?php echo esc_attr( $title_tag ); ?> class="zb-el-accordions-accordionTitle <?php echo esc_attr( $title_classes ); ?>" tabindex="0" role="button">
 			<?php echo $title; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 			<span class="zb-el-accordions-accordionIcon"></span>
-		</<?php echo $title_tag; ?>>
+		</<?php echo esc_attr( $title_tag ); ?>>
 		<div class="zb-el-accordions-accordionContent <?php echo esc_attr( $content_classes ); ?>">
 
 			<div

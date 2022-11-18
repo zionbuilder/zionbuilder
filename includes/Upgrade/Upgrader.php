@@ -2,6 +2,8 @@
 
 namespace ZionBuilder\Upgrade;
 
+use ZionBuilder\Assets;
+
 use ZionBuilder\Plugin;
 
 // Prevent direct access
@@ -30,6 +32,7 @@ class Upgrader {
 	public static function check_for_updates() {
 		if ( self::requires_db_update() ) {
 			self::update();
+			update_option( Assets::REGENERATE_CACHE_FLAG, true, true );
 		}
 	}
 

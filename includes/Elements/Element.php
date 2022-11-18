@@ -950,7 +950,7 @@ class Element {
 	/**
 	 * Returns the Icon HTML markup from an icon option
 	 *
-	 * @param [] $icon
+	 * @param array $icon
 	 * @since 3.5.0
 	 *
 	 * @return string
