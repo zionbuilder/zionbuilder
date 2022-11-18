@@ -82,6 +82,14 @@ export class ZionElement {
 		this.serverRequester = this.createRequester();
 	}
 
+	get isRepeaterProvider(): boolean {
+		return !!this.getOptionValue('_advanced_options.is_repeater_provider', false);
+	}
+
+	get isRepeaterConsumer(): boolean {
+		return !!this.getOptionValue('_advanced_options.is_repeater_consumer', false);
+	}
+
 	get parent(): ZionElement | null {
 		const contentStore = useContentStore();
 		return contentStore.getElement(this.parentUID);
@@ -127,7 +135,7 @@ export class ZionElement {
 		this.updateOptionValue('_advanced_options._element_name', newName);
 	}
 
-	getOptionValue(path: string, defaultValue = null) {
+	getOptionValue(path: string, defaultValue: unknown = null) {
 		return get(this.options, path, defaultValue);
 	}
 

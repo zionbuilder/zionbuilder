@@ -15,6 +15,8 @@
 			</div>
 		</div>
 		<div class="znpb-colorpicker-inner-editor__rgba">
+			<Icon v-if="isSupported" icon="eyedropper" class="znpb-eyedropper" @click="openEyeDropper"></Icon>
+
 			<RgbaElement v-if="modelValue.format === 'rgb'" v-model="rgbaValue" />
 
 			<HslaElement v-if="modelValue.format === 'hsl'" v-model="hslaValue" />
@@ -31,6 +33,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useEyeDropper } from '@vueuse/core';
+
 import { Icon } from '../Icon';
 import HueStrip from './HueStrip.vue';
 import OpacityStrip from './OpacityStrip.vue';
@@ -39,6 +43,8 @@ import HslaElement from './HslaElement.vue';
 import HexElement from './HexElement.vue';
 import { computed } from 'vue';
 import type { ColorFormats } from 'tinycolor2';
+
+const { isSupported, open, sRGBHex } = useEyeDropper();
 
 type Format = 'hex' | 'hsl' | 'rgb' | 'hex8' | 'name';
 const props = defineProps<{
@@ -56,6 +62,19 @@ const emit = defineEmits<{
 	(e: 'update:modelValue', value: string | ColorFormats.RGBA | ColorFormats.HSLA): void;
 	(e: 'update:format', format: Format): void;
 }>();
+
+async function openEyeDropper() {
+	let result;
+	try {
+		result = await open();
+	} catch (error) {
+		// User canceled
+	}
+
+	if (result) {
+		emit('update:modelValue', result.sRGBHex);
+	}
+}
 
 const hexValue = computed({
 	get() {
@@ -188,5 +207,13 @@ function changeHexback() {
 			}
 		}
 	}
+}
+
+.znpb-eyedropper {
+	height: 34px;
+	font-size: 12px;
+	cursor: pointer;
+	padding: 10px;
+	margin-left: -10px;
 }
 </style>

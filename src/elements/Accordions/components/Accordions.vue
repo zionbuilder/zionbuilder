@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { provide } from 'vue';
+import { computed, provide } from 'vue';
 export default {
 	name: 'Accordions',
 	props: ['options', 'element', 'api'],
@@ -21,7 +21,12 @@ export default {
 			props.element.addChildren(props.options.items);
 		}
 
-		provide('accordionsApi', props.api);
+		const computedOptions = computed(() => props.options);
+
+		provide('accordionsApi', {
+			...props.api,
+			options: computedOptions,
+		});
 	},
 };
 </script>

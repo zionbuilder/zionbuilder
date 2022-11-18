@@ -6,10 +6,12 @@
 		:class="{
 			'znpb-tree-view__item--hidden': !element.isVisible,
 			'znpb-tree-view__item--justAdded': justAdded,
+			'znpb-tree-view__item--loopProvider': element.isRepeaterProvider,
+			'znpb-tree-view__item--loopConsumer': element.isRepeaterConsumer,
 		}"
 		@mouseenter="element.highlight"
 		@mouseleave="element.unHighlight"
-		@click.stop.left="UIStore.editElement(element)"
+		@click.stop.left="onItemsClick"
 		@contextmenu.stop.prevent="showElementMenu"
 	>
 		<div class="znpb-tree-view__item-header" :class="{ 'znpb-panel-item--active': isActiveItem }">
@@ -28,6 +30,19 @@
 				class="znpb-tree-view__itemIcon znpb-utility__cursor--move"
 				:size="24"
 			/>
+
+			<span
+				v-if="element.isRepeaterProvider"
+				v-znpb-tooltip="$translate('repeater_provider')"
+				class="znpb-tree-view__itemLooperIcon"
+				>P</span
+			>
+			<span
+				v-if="element.isRepeaterConsumer"
+				v-znpb-tooltip="$translate('repeater_consumer')"
+				class="znpb-tree-view__itemLooperIcon"
+				>C</span
+			>
 
 			<InlineEdit v-model="elementName" class="znpb-tree-view__item-header-item znpb-tree-view__item-header-rename" />
 
@@ -51,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, computed, watch, inject } from 'vue';
+import { ref, Ref, computed, watch, inject, nextTick } from 'vue';
 import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useUIStore } from '/@/editor/store';
@@ -77,6 +92,18 @@ const elementName = computed({
 const justAdded = ref(false);
 const { showElementMenu, elementOptionsRef, isActiveItem } = useTreeViewItem(props.element);
 
+let clickedElement = false;
+function onItemsClick() {
+	props.element.scrollTo = true;
+	clickedElement = true;
+	UIStore.editElement(props.element);
+
+	// Chrome doesn't allow multiple element to be scrolled into view. On click we only scroll to the item inside the iframe
+	nextTick(() => {
+		clickedElement = false;
+	});
+}
+
 // Highlight the element when it is first added in the page
 if (UIStore.contentTimestamp) {
 	justAdded.value =
@@ -92,12 +119,11 @@ if (UIStore.contentTimestamp) {
 // Scroll to item when it is edited or active
 watch(
 	() => UIStore.editedElement,
-	newValue => {
-		if (newValue === props.element) {
+	(newValue, oldValue) => {
+		if (!clickedElement && newValue !== oldValue && newValue === props.element) {
 			if (listItem.value) {
 				listItem.value.scrollIntoView({
 					behavior: 'smooth',
-					inline: 'center',
 					block: 'center',
 				});
 			}
@@ -133,10 +159,6 @@ watch(expandedItems, newValue => {
 	&Image {
 		height: 24px;
 	}
-	&Image,
-	&Icon {
-		color: var(--zb-surface-icon-color);
-	}
 
 	&--hidden {
 		.znpb-tree-view__item-header-item {
@@ -149,7 +171,8 @@ watch(expandedItems, newValue => {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: var(--zb-surface-text-color);
+		color: var(--zb-surface-icon-color);
+		// color: var(--zb-surface-text-color);
 		background-color: var(--zb-surface-lighter-color);
 		border-radius: 3px;
 		box-shadow: -3px 0 0 0 var(--zb-surface-color);
@@ -169,33 +192,22 @@ watch(expandedItems, newValue => {
 			color: var(--zb-secondary-text-color);
 			background-color: var(--zb-secondary-color);
 
-			.znpb-editor-icon-wrapper {
+			.znpb-tree-view__item-header-rename {
 				color: var(--zb-secondary-text-color);
 			}
-		}
-
-		.znpb-editor-icon-wrapper {
-			color: var(--zb-surface-icon-color);
 		}
 
 		&-item {
 			padding-left: 15px;
 			font-weight: 500;
-
-			&:hover {
-				.znpb-editor-icon-wrapper {
-					color: var(--zb-surface-icon-color);
-				}
-			}
 		}
 
 		&-rename {
 			position: relative;
 			flex-grow: 1;
 			padding: 10px 4px;
-			cursor: text;
 			width: 100%;
-
+			color: var(--zb-surface-text-color);
 
 			&:focus {
 				outline: 0;
@@ -274,12 +286,54 @@ watch(expandedItems, newValue => {
 	}
 }
 
-.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
-	background: #3a8f6f;
-	color: var(--zb-secondary-text-color);
-
-	.znpb-editor-icon-wrapper {
+.znpb-tree-view__item--loopProvider {
+	& > .znpb-tree-view__item-header {
+		background-color: #14ae5c;
 		color: var(--zb-secondary-text-color);
+
+		.znpb-tree-view__item-header-rename {
+			color: var(--zb-secondary-text-color);
+		}
+
+		.znpb-element-toolbox__add-element-button::before {
+			background-color: #14ae5c;
+			box-shadow: 0 5px 20px 0 rgb(0 0 0 / 30%);
+		}
 	}
+}
+
+.znpb-tree-view__item--loopConsumer {
+	& > .znpb-tree-view__item-header {
+		background-color: #eda926;
+		color: var(--zb-secondary-text-color);
+
+		.znpb-tree-view__item-header-rename {
+			color: var(--zb-secondary-text-color);
+		}
+
+		.znpb-element-toolbox__add-element-button::before {
+			background-color: #eda926;
+			box-shadow: 0 5px 20px 0 rgb(0 0 0 / 30%);
+		}
+	}
+}
+
+.znpb-tree-view__item--justAdded > .znpb-tree-view__item-header {
+	background: var(--zb-surface-lightest-color);
+}
+
+.znpb-tree-view__itemLooperIcon {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 1;
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 2px;
+	padding: 3px 4px 2px 5px;
+	margin-right: 2px;
+	margin-left: 2px;
+	cursor: default;
 }
 </style>

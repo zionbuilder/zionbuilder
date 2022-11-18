@@ -1,7 +1,7 @@
 <template>
 	<div class="znpb-option__image-gallery">
 		<EmptyList v-if="!sortableModel.length" @click="openMediaModal">
-			{{ $translate('no_images_selected') }}
+			{{ translate('no_images_selected') }}
 		</EmptyList>
 
 		<Sortable v-else v-model="sortableModel" class="znpb-option__image-gallery__images-wrapper">
@@ -28,111 +28,109 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+import { translate } from '/@/common/modules/i18n';
 import { getImageIds } from '/@/common/api';
 
-const wp = window.wp;
+const { wp } = window;
 
-export default {
-	name: 'Gallery',
-	props: {
-		modelValue: {
-			type: Array,
-			required: false,
-		},
-		title: {},
-		/**
-		 * Type of media
-		 */
-		type: {
-			required: false,
-			type: String,
-			default: 'image',
-		},
-	},
-	data() {
-		return {
-			mediaModal: null,
-		};
-	},
-	computed: {
-		sortableModel: {
-			get() {
-				return this.modelValue || [];
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-	},
-
-	methods: {
-		openMediaModal() {
-			if (this.mediaModal === null) {
-				const args = {
-					frame: 'select',
-					state: 'zion-media',
-					library: {
-						type: 'image',
-					},
-					button: {
-						text: 'Add Image',
-					},
-					multiple: 'add',
-					selection: [518],
-				};
-
-				// Create the frame
-				this.mediaModal = new window.wp.media.view.MediaFrame.ZionBuilderFrame(args);
-				this.mediaModal.on('select update insert', this.selectMedia);
-
-				// Select the images
-				this.mediaModal.on('open', this.setMediaModalSelection);
-			}
-
-			// Open the media modal
-			this.mediaModal.open();
-		},
-		setMediaModalSelection(e) {
-			if (typeof this.modelValue === 'undefined') return;
-
-			// Get image ids from DB
-			let imagesUrls = this.modelValue.map(image => image.image);
-			getImageIds({
-				images: imagesUrls,
-			}).then(response => {
-				const imageIds = Object.keys(response.data).map(image => {
-					return response.data[image];
-				});
-
-				const selection = this.mediaModal.state().get('selection');
-				imageIds.forEach(imageId => {
-					var attachment = wp.media.attachment(imageId);
-					selection.add(attachment ? [attachment] : []);
-				});
-			});
-		},
-		selectMedia(e) {
-			let selection = this.mediaModal.state().get('selection').toJSON();
-			// In case we have multiple items
-			if (typeof e !== 'undefined') {
-				selection = e;
-			}
-
-			const values = selection.map(selectedItem => {
-				return { image: selectedItem.url };
-			});
-
-			this.$emit('update:modelValue', values);
-		},
-		deleteImage(index) {
-			const values = [...this.modelValue];
-			values.splice(index, 1);
-
-			this.$emit('update:modelValue', values);
-		},
-	},
+type imageValueType = {
+	image: string;
 };
+
+const props = withDefaults(
+	defineProps<{
+		modelValue?: imageValueType[];
+		title?: string;
+		type?: string;
+	}>(),
+	{
+		modelValue() {
+			return [];
+		},
+		title: '',
+		type: 'image',
+	},
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+const sortableModel = computed({
+	get() {
+		return props.modelValue || [];
+	},
+	set(newValue: imageValueType[]) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+let mediaModal = null;
+function openMediaModal() {
+	if (mediaModal === null) {
+		const args = {
+			frame: 'select',
+			state: 'zion-media',
+			library: {
+				type: 'image',
+			},
+			multiple: true,
+			selection: [],
+		};
+
+		// Create the frame
+		mediaModal = new wp.media.view.MediaFrame.ZionBuilderFrame(args);
+		mediaModal.on('select update insert', selectMedia);
+
+		// Select the images
+		mediaModal.on('open', setMediaModalSelection);
+	}
+
+	// Open the media modal
+	mediaModal.open();
+}
+
+function setMediaModalSelection() {
+	if (typeof props.modelValue === 'undefined') return;
+
+	// Get image ids from DB
+	let imagesUrls = props.modelValue.map(image => image.image);
+	getImageIds({
+		images: imagesUrls,
+	}).then(response => {
+		const imageIds = Object.keys(response.data).map(image => {
+			return response.data[image];
+		});
+
+		const selection = mediaModal.state().get('selection');
+		imageIds.forEach(imageId => {
+			var attachment = wp.media.attachment(imageId);
+			selection.add(attachment ? [attachment] : []);
+		});
+	});
+}
+
+function selectMedia(e) {
+	let selection = mediaModal.state().get('selection').toJSON();
+	// In case we have multiple items
+	if (typeof e !== 'undefined') {
+		selection = e;
+	}
+
+	const values = selection.map(selectedItem => {
+		return { image: selectedItem.url };
+	});
+
+	emit('update:modelValue', values);
+}
+
+function deleteImage(index: number) {
+	const values = [...props.modelValue];
+	values.splice(index, 1);
+
+	emit('update:modelValue', values);
+}
 </script>
 <style lang="scss">
 .znpb-option__image-gallery {

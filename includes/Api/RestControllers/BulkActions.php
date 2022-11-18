@@ -158,8 +158,9 @@ class BulkActions extends RestApiController {
 
 			return rest_ensure_response(
 				[
-					'element' => $element_data,
-					'scripts' => $combined_scripts,
+					'element'      => $element_data,
+					'scripts'      => $combined_scripts,
+					'body_classes' => $element_instance->get_render_body_classes(),
 				]
 			);
 		}

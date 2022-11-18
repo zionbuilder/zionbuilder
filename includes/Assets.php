@@ -121,8 +121,9 @@ class Assets {
 		// If we have registered areas, just generate the assets based on the areas
 		if ( count( $registered_areas_ids ) > 0 ) {
 			foreach ( $registered_posts as $post_id => $post_data ) {
-				self::enqueue_assets_for_post( $post_id );
-
+				if ( ! Plugin::$instance->editor->preview->is_preview_mode() || get_the_ID() !== $post_id ) {
+					self::enqueue_assets_for_post( $post_id );
+				}
 			}
 		}
 	}
@@ -140,6 +141,8 @@ class Assets {
 		if ( is_file( $js_file_path ) ) {
 			wp_enqueue_script( sprintf( 'zionbuilder-post-%s', $post_id ), $js_file_url, [], filemtime( $js_file_path ), true );
 		}
+
+		do_action( 'zionbuilder/assets/enqueue_assets_for_post', $post_id );
 	}
 
 
@@ -391,7 +394,7 @@ class Assets {
 					},
 					run: function() {
 						var that = this;
-						var $scope = $(document);
+						var $scope = document;
 						Object.keys(this.scripts).forEach(function(scriptId) {
 							var scriptObject = that.scripts[scriptId];
 							scriptObject.run( $scope );
