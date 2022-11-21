@@ -2,14 +2,15 @@
 	<div class="zb-el-accordions-accordionWrapper" :class="{ 'zb-el-accordions--active': activeByDefault }">
 		<slot name="start" />
 
-		<div
+		<component
+			:is="titleTag"
 			class="zb-el-accordions-accordionTitle"
 			:class="accordionApi.getStyleClasses('inner_content_styles_title')"
 			v-bind="accordionApi.getAttributesForTag('inner_content_styles_title')"
 		>
 			{{ options.title }}
-			<span class="zb-el-accordions-accordionIcon"></span>
-		</div>
+			<span class="zb-el-accordions-accordionIcon" />
+		</component>
 		<div
 			class="zb-el-accordions-accordionContent"
 			:class="accordionApi.getStyleClasses('inner_content_styles_content')"
@@ -36,8 +37,12 @@ export default {
 		});
 
 		const accordionApi = inject('accordionsApi');
+		const titleTag = computed(() => {
+			return props.options.title_tag || accordionApi.options.value.title_tag || 'div';
+		});
 
 		return {
+			titleTag,
 			renderedContent,
 			activeByDefault,
 			accordionApi,
