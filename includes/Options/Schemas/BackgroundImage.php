@@ -101,20 +101,18 @@ class BackgroundImage extends BaseSchema {
 		$options->add_option(
 			'background-position-x',
 			[
-				'title'        => esc_html__( 'Horizontal position', 'zionbuilder' ),
-				'type'         => 'number_unit',
-				'width'        => 50,
-				'default_unit' => 'px',
+				'title' => esc_html__( 'Horizontal position', 'zionbuilder' ),
+				'type'  => 'number_unit',
+				'width' => 50,
 			]
 		);
 
 		$options->add_option(
 			'background-position-y',
 			[
-				'title'        => esc_html__( 'Vertical position', 'zionbuilder' ),
-				'type'         => 'number_unit',
-				'width'        => 50,
-				'default_unit' => 'px',
+				'title' => esc_html__( 'Vertical position', 'zionbuilder' ),
+				'type'  => 'number_unit',
+				'width' => 50,
 			]
 		);
 
@@ -170,10 +168,9 @@ class BackgroundImage extends BaseSchema {
 		$bg_size_units_group->add_option(
 			'x',
 			[
-				'label'        => esc_html__( 'Width', 'zionbuilder' ),
-				'label-align'  => 'center',
-				'type'         => 'number_unit',
-				'default_unit' => '%',
+				'label'       => esc_html__( 'Width', 'zionbuilder' ),
+				'label-align' => 'center',
+				'type'        => 'number_unit',
 			]
 		);
 

@@ -33,7 +33,6 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Horizontal distance', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'default_unit'   => 'px',
 			]
 		);
 
@@ -48,7 +47,6 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Vertical distance', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'default_unit'   => 'px',
 			]
 		);
 
@@ -63,7 +61,6 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Blur', 'zionbuilder' ),
 				'min'            => 0,
 				'max'            => 999,
-				'default_unit'   => 'px',
 			]
 		);
 
@@ -78,7 +75,6 @@ class Shadow extends BaseSchema {
 				'label-title'    => esc_html__( 'Spread', 'zionbuilder' ),
 				'min'            => -999,
 				'max'            => 999,
-				'default_unit'   => 'px',
 			]
 		);
 
