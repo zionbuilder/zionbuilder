@@ -6,7 +6,6 @@
 			class="znpb-input-number--has-units"
 			size="narrow"
 			:placeholder="placeholder"
-			:disabled="isValueDisabled"
 			@update:model-value="onTextValueChange"
 			@mousedown.stop="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
@@ -18,15 +17,12 @@
 					v-model:show="showUnits"
 					trigger="click"
 					placement="bottom"
-					append-to="element"
+					append-to="body"
 					:show-arrows="false"
 					strategy="fixed"
 					tooltip-class="hg-popper--no-padding"
 					:close-on-outside-click="true"
 					class="znpb-input-number__units-tooltip-wrapper"
-					:class="{
-						'znpb-input-number__isValueDisabled': isValueDisabled,
-					}"
 				>
 					<template #content>
 						<div class="znpb-number-unit-list hg-popper-list">
@@ -35,7 +31,7 @@
 								:key="i"
 								class="znpb-number-unit-list__option hg-popper-list__item"
 								:class="{
-									[`znpb-number-unit-list__option--selected`]: localUnit === unit,
+									[`znpb-number-unit-list__option--selected`]: activeUnit === unit,
 								}"
 								@click.stop="changeUnit(unit)"
 							>
@@ -45,7 +41,7 @@
 							<div
 								class="znpb-number-unit-list__option hg-popper-list__item"
 								:class="{
-									[`znpb-number-unit-list__option--selected`]: localUnit === '',
+									[`znpb-number-unit-list__option--selected`]: activeUnit === '',
 								}"
 								@click.stop="changeUnit('')"
 							>
@@ -62,10 +58,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, onMounted, ref, watch, Ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch, Ref, nextTick } from 'vue';
 import rafSchd from 'raf-schd';
 
-import { DEFAULT_UNIT_TYPES, UNITS_WITHOUT_VALUE } from '../../data';
+import { DEFAULT_UNIT_TYPES, ALL_NUMBER_UNITS_TYPES } from '../../data';
 import Tooltip from '../tooltip/components/Tooltip.vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import { translate } from '../../modules/i18n';
@@ -89,55 +85,67 @@ const props = withDefaults(
 		max: Infinity,
 		step: 1,
 		shift_step: 5,
-		placeholder: '',
-		default_unit: '',
+		placeholder: 'px',
 		units: function () {
 			return DEFAULT_UNIT_TYPES;
 		},
+		default_unit: '',
 	},
 );
 
 const emit = defineEmits(['update:modelValue', 'linked-value']);
 
+const numberUnitInput = ref(null);
 const localRawValue = ref('');
 const localValue = ref(0);
 const localUnit: Ref<string> = ref('');
 const showUnits = ref(false);
 
+// Flag to allow the values to change or not on newValues
+let preventWatcher = false;
+
 watch(
 	() => props.modelValue,
 	newValue => {
+		if (preventWatcher) {
+			return;
+		}
+
 		const { unit, value, rawValue } = getValuesFromString(newValue);
+
 		localRawValue.value = rawValue;
 		localValue.value = null !== value ? value : getValueInRange(0);
 
-		if (localRawValue.value.length) {
-			if (UNITS_WITHOUT_VALUE.includes(localRawValue.value)) {
-				localUnit.value = localRawValue.value;
-				localRawValue.value = '';
-			} else {
-				localUnit.value = unit ?? '';
-			}
+		if (localRawValue.value && localRawValue.value.length) {
+			localUnit.value = unit ?? '';
 		} else {
 			// Use default unit
-			localUnit.value = props.units[0];
+			localUnit.value = defaultUnit.value;
 		}
+
+		preventWatcher = false;
 	},
 	{
 		immediate: true,
 	},
 );
 
-const isValueDisabled = computed(() => {
-	return UNITS_WITHOUT_VALUE.includes(localUnit.value);
+const defaultUnit = computed(() => {
+	return props.default_unit.length ? props.default_unit : props.units[0];
+});
+
+const activeUnit = computed(() => {
+	if (props.units.includes(localUnit.value)) {
+		return localUnit.value;
+	} else if (props.units.includes(localRawValue.value)) {
+		return localRawValue.value;
+	}
+
+	return defaultUnit.value;
 });
 
 function isNumeric(value: string) {
 	return !isNaN(value) && !isNaN(parseFloat(value));
-}
-
-function isValidUnit(unit: string) {
-	return props.units.includes(unit);
 }
 
 function getValuesFromString(string: string) {
@@ -151,14 +159,14 @@ function getValuesFromString(string: string) {
 	} else {
 		const { value: parsedValue, unit: parsedUnit } = getIntegerAndUnit(string);
 
-		const unitIsValid = parsedUnit !== null && isValidUnit(parsedUnit);
+		const unitIsValid = parsedUnit !== null && props.units.includes(parsedUnit);
 
 		if (parsedValue !== null && parsedUnit !== null) {
 			rawValue = `${parsedValue}`;
 			value = parsedValue;
 			unit = unitIsValid ? parsedUnit : '';
 		} else {
-			rawValue = string;
+			rawValue = string ?? '';
 			unit = unitIsValid ? parsedUnit : '';
 		}
 	}
@@ -174,21 +182,61 @@ function changeUnit(newUnit: string) {
 	showUnits.value = false;
 	localUnit.value = newUnit;
 
-	if (localValue.value) {
-		if (UNITS_WITHOUT_VALUE.includes(newUnit)) {
-			onTextValueChange(newUnit);
-		} else {
-			onTextValueChange(`${localValue.value}${newUnit}`);
+	// Focus the input
+	nextTick(() => {
+		if (numberUnitInput.value !== null) {
+			numberUnitInput.value.focus();
 		}
+	});
+
+	// Don't proceed if we don't have an existing value
+	if (ALL_NUMBER_UNITS_TYPES.includes(newUnit)) {
+		if (localValue.value) {
+			onTextValueChange(`${localValue.value}${newUnit}`);
+		} else {
+			// Only change locally and remove the value
+			onTextValueChange('', {
+				shouldPreventWatcher: true,
+			});
+		}
+	} else if (newUnit === '') {
+		// Clear the value
+		onTextValueChange('', {
+			shouldPreventWatcher: true,
+		});
+	} else {
+		localUnit.value = '';
+		// Clear the value
+		onTextValueChange(newUnit, {
+			shouldPreventWatcher: true,
+		});
 	}
 }
 
-function onTextValueChange(newValue: string) {
+function onTextValueChange(
+	newValue: string,
+	flags: {
+		shouldPreventWatcher?: boolean;
+		updateLocalRawValue?: boolean;
+	} = {
+		shouldPreventWatcher: false,
+		updateLocalRawValue: true,
+	},
+) {
 	const { unit, value, rawValue } = getValuesFromString(newValue);
 	const validUnit = unit ? unit : localUnit.value;
+	const { shouldPreventWatcher = false, updateLocalRawValue = true } = flags;
+	preventWatcher = shouldPreventWatcher;
 
 	// Ensure that the input gets updated..
-	localRawValue.value = newValue;
+	if (updateLocalRawValue) {
+		localRawValue.value = newValue;
+	}
+
+	// If the value is empty, prevent returning to default value when the watcher is running
+	if (newValue.length === 0) {
+		preventWatcher = true;
+	}
 
 	if (value !== null && validUnit) {
 		const validValue = getValueInRange(value);
@@ -239,7 +287,8 @@ function actNumberDrag(event: MouseEvent) {
 }
 
 function canUpdateNumber() {
-	return localRawValue.value === '' || !UNITS_WITHOUT_VALUE.includes(localUnit.value);
+	const { value } = getValuesFromString(localRawValue.value);
+	return localRawValue.value === '' || value !== null;
 }
 
 function onKeyDown(event: KeyboardEvent) {
@@ -323,7 +372,11 @@ function setDraggingValue() {
 		}
 	}
 
-	onTextValueChange(`${getValueInRange(newValue)}${localUnit.value}`);
+	// Set the default unit if we do not have a valid one
+	const unit = localUnit.value && ALL_NUMBER_UNITS_TYPES.includes(localUnit.value) ? localUnit.value : '';
+	onTextValueChange(`${newValue}${unit}`, {
+		updateLocalRawValue: false,
+	});
 }
 
 onBeforeMount(() => {
@@ -404,16 +457,5 @@ onMounted(() => {
 	padding: 5px;
 	font-size: 11px;
 	cursor: pointer;
-}
-
-.znpb-input-number__isValueDisabled {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 </style>
