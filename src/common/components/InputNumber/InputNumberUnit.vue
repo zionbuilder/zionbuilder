@@ -203,10 +203,10 @@ function getValueInRange(value: number) {
 }
 
 function getIntegerAndUnit(string: string) {
-	const match =
-		typeof string === 'string' && string ? string.match(/^([+-]?[0-9]+([.][0-9]*)?|[.][0-9]+)(\D+)?$/) : null;
-	const value = match && match[1] ? parseInt(match[1]) : null;
-	const unit = match && match[3] ? match[3] : null;
+	const match = typeof string === 'string' && string ? string.match(/^([+-]?[0-9]+(?:[.][0-9]+)?)(\D+)?$/) : null;
+	const value = match && match[1] ? parseFloat(match[1]) : null;
+	const unit = match && match[2] ? match[2] : null;
+
 	return {
 		value,
 		unit,
