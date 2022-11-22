@@ -643,6 +643,12 @@ const rafDeactivateDragging = rafSchd(deactivateDragging);
 				outline: none;
 			}
 		}
+
+		& .znpb-options-has-changes-wrapper {
+			position: absolute;
+			right: -3px;
+			top: -3px;
+		}
 	}
 
 	&-margin-top,
