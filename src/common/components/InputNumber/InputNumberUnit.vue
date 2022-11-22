@@ -407,9 +407,7 @@ onMounted(() => {
 		font-size: 10px;
 		cursor: pointer;
 	}
-	.zion-input {
-		padding-right: 10px;
-	}
+
 	input {
 		text-align: left;
 	}
