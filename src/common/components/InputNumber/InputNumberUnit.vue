@@ -104,6 +104,20 @@ const showUnits = ref(false);
 // Flag to allow the values to change or not on newValues
 let preventWatcher = false;
 
+const defaultUnit = computed(() => {
+	return props.default_unit.length ? props.default_unit : props.units[0];
+});
+
+const activeUnit = computed(() => {
+	if (props.units.includes(localUnit.value)) {
+		return localUnit.value;
+	} else if (props.units.includes(localRawValue.value)) {
+		return localRawValue.value;
+	}
+
+	return defaultUnit.value;
+});
+
 watch(
 	() => props.modelValue,
 	newValue => {
@@ -129,20 +143,6 @@ watch(
 		immediate: true,
 	},
 );
-
-const defaultUnit = computed(() => {
-	return props.default_unit.length ? props.default_unit : props.units[0];
-});
-
-const activeUnit = computed(() => {
-	if (props.units.includes(localUnit.value)) {
-		return localUnit.value;
-	} else if (props.units.includes(localRawValue.value)) {
-		return localRawValue.value;
-	}
-
-	return defaultUnit.value;
-});
 
 function isNumeric(value: string) {
 	return !isNaN(value) && !isNaN(parseFloat(value));
