@@ -336,130 +336,135 @@ function isLinked(type: Type) {
 	justify-content: center;
 	position: relative;
 	height: 180px;
-}
 
-.znpb-optSpacing-margin {
-	width: 100%;
-	height: 100%;
-	position: relative;
-}
+	&-margin {
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
 
-.znpb-optSpacing-value {
-	position: absolute;
-}
+	&-margin::before,
+	&-padding::before {
+		content: '';
+		position: absolute;
+		top: 16px;
+		left: 8px;
+		right: 8px;
+		bottom: 16px;
+		border: 2px solid var(--zb-surface-lightest-color);
+		border-radius: 4px;
+	}
 
-.znpb-optSpacing-padding-top,
-.znpb-optSpacing-margin-top {
-	top: 0;
-	left: 50%;
-	margin-left: -30px;
-}
+	&-padding-top,
+	&-margin-top {
+		top: 0;
+		left: 50%;
+		margin-left: -30px;
+	}
 
-.znpb-optSpacing-padding-bottom,
-.znpb-optSpacing-margin-bottom {
-	bottom: 0;
-	left: 50%;
-	margin-left: -30px;
-}
+	&-padding-right,
+	&-margin-right {
+		top: 50%;
+		right: 0;
+		margin-top: -16px;
+	}
 
-.znpb-optSpacing-padding-left,
-.znpb-optSpacing-margin-left {
-	top: 50%;
-	left: 0;
-	margin-top: -16px;
-}
+	&-padding-bottom,
+	&-margin-bottom {
+		bottom: 0;
+		left: 50%;
+		margin-left: -30px;
+	}
 
-.znpb-optSpacing-padding-right,
-.znpb-optSpacing-margin-right {
-	top: 50%;
-	right: 0;
-	margin-top: -16px;
-}
+	&-padding-left,
+	&-margin-left {
+		top: 50%;
+		left: 0;
+		margin-top: -16px;
+	}
 
-.znpb-optSpacing-padding {
-	position: absolute;
-	width: calc(100% - 130px);
-	height: calc(100% - 74px);
-}
+	&-padding {
+		position: absolute;
+		width: calc(100% - 130px);
+		height: calc(100% - 74px);
+	}
 
-.znpb-optSpacing-margin::before,
-.znpb-optSpacing-padding::before {
-	content: '';
-	position: absolute;
-	top: 16px;
-	left: 8px;
-	right: 8px;
-	bottom: 16px;
-	border: 2px solid var(--zb-input-border-color);
-	border-radius: 4px;
-}
+	&-value {
+		position: absolute;
+		box-shadow: 0 0 0 4px var(--zb-surface-color);
+	}
 
-.znpb-optSpacing-labelWrapper {
-	position: absolute;
-	top: 4px;
-	left: 8px;
-	z-index: 1;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	align-items: center;
-	pointer-events: none;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-}
+	&-label {
+		font-size: 8px;
+		font-weight: 700;
+		line-height: 1;
+		text-transform: uppercase;
+		pointer-events: none;
 
-.znpb-optSpacing-label {
-	font-size: 8px;
-	font-weight: 700;
-	line-height: 1;
-	text-transform: uppercase;
-	pointer-events: none;
-}
+		&Wrapper {
+			position: absolute;
+			top: 4px;
+			left: 8px;
+			z-index: 1;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+			align-items: center;
+			pointer-events: none;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+		}
+	}
 
-.znpb-optSpacing-link {
-	margin-left: 4px;
-	font-size: 11px;
-	cursor: pointer;
-	pointer-events: all;
-}
+	&-link {
+		margin-left: 4px;
+		font-size: 11px;
+		cursor: pointer;
+		pointer-events: all;
 
-.znpb-optSpacing-link svg {
-	display: block;
-	width: 1em;
-	height: 1em;
-	fill: currentColor;
-}
+		&--linked {
+			color: var(--zb-secondary-color);
+		}
 
-.znpb-optSpacing-info {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 60px;
-	height: 32px;
-	margin: -16px 0 0 -30px;
-	font-size: 10px;
-	font-weight: bold;
-	text-transform: lowercase;
-	text-align: center;
-	word-spacing: 9999rem;
-	line-height: 1.2;
-}
+		svg {
+			display: block;
+			width: 1em;
+			height: 1em;
+			fill: currentColor;
+		}
+	}
 
-.znpb-optSpacing .znpb-input-number-unit {
-	background: var(--zb-surface-color);
-	width: 60px;
-	height: 32px;
-	border-radius: 3px;
-	border: 0;
-}
+	&-info {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60px;
+		height: 32px;
+		margin: -16px 0 0 -30px;
+		font-size: 10px;
+		font-weight: bold;
+		text-transform: lowercase;
+		text-align: center;
+		word-spacing: 9999rem;
+		line-height: 1.2;
+	}
 
-.znpb-optSpacing .znpb-options-has-changes-wrapper {
-	position: absolute;
-	right: -3px;
-	top: -3px;
+	& .znpb-input-number-unit {
+		background: var(--zb-surface-color);
+		width: 60px;
+		height: 32px;
+		border-radius: 3px;
+		border: 0;
+	}
+
+	& .znpb-options-has-changes-wrapper {
+		position: absolute;
+		right: -3px;
+		top: -3px;
+	}
 }
 </style>

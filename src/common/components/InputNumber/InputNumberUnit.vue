@@ -455,5 +455,6 @@ onMounted(() => {
 	padding: 5px;
 	font-size: 11px;
 	cursor: pointer;
+	opacity: 0.6;
 }
 </style>
