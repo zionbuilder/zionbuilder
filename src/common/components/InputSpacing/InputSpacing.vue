@@ -383,6 +383,11 @@ function isLinked(type: Type) {
 		margin-top: -16px;
 	}
 
+	&-margin-bottom,
+	&-margin-left {
+		z-index: 1;
+	}
+
 	&-padding {
 		position: absolute;
 		width: calc(100% - 130px);
