@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-optSpacing">
+	<div class="znpb-optSpacing" @keydown="checkForOppositeChange" @keyup="oppositeChange = false">
 		<div class="znpb-optSpacing-margin">
 			<div
 				v-for="position in marginPositionId"
@@ -233,6 +233,7 @@ const allowedValues = [...marginPositionId, ...paddingPositionId].map(position =
 /**
  * Refs
  */
+const oppositeChange = ref(false);
 const activeHover: Ref<Position | null> = ref(null);
 const lastChanged: Ref<{ position: PositionId; type: Type } | null> = ref(null);
 
@@ -280,11 +281,44 @@ function onValueUpdated(sizePosition: PositionId, type: Type, newValue: string) 
 			...updatedValues,
 		};
 	} else {
-		computedValues.value = {
+		const oppositePosition = getReversedPosition(sizePosition);
+
+		const newValues = {
 			...props.modelValue,
 			[sizePosition]: newValue,
 		};
+
+		// Check to see if we need to also change the opposite position
+		if (oppositeChange.value) {
+			newValues[oppositePosition] = newValue;
+		}
+
+		// Check to see if we need to change opposite spacing
+		computedValues.value = newValues;
 	}
+}
+
+function getReversedPosition(position: string) {
+	const typeAndPosition = position.split(/-/);
+	const positionLocation = typeAndPosition[1];
+	let reversePositionLocation;
+
+	switch (positionLocation) {
+		case 'top':
+			reversePositionLocation = 'bottom';
+			break;
+		case 'bottom':
+			reversePositionLocation = 'top';
+			break;
+		case 'left':
+			reversePositionLocation = 'right';
+			break;
+		case 'right':
+			reversePositionLocation = 'left';
+			break;
+	}
+
+	return `${typeAndPosition[0]}-${reversePositionLocation}`;
 }
 
 /**
@@ -326,6 +360,13 @@ function isLinked(type: Type) {
 			computedValues.value[position.position] === computedValues.value[`${type}-top`]
 		);
 	});
+}
+
+function checkForOppositeChange(e: KeyboardEvent) {
+	const controlKey = window.navigator.userAgent.indexOf('Macintosh') >= 0 ? 'metaKey' : 'ctrlKey';
+	if (e[controlKey]) {
+		oppositeChange.value = true;
+	}
 }
 </script>
 

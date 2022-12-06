@@ -5,7 +5,7 @@
 			:model-value="localRawValue"
 			class="znpb-input-number--has-units"
 			size="narrow"
-			:placeholder="placeholder"
+			:placeholder="computedPlaceholder"
 			@update:model-value="onTextValueChange"
 			@mousedown.stop="actNumberDrag"
 			@touchstart.prevent.passive="actNumberDrag"
@@ -85,7 +85,7 @@ const props = withDefaults(
 		max: Infinity,
 		step: 1,
 		shift_step: 5,
-		placeholder: 'px',
+		placeholder: '',
 		units: function () {
 			return DEFAULT_UNIT_TYPES;
 		},
@@ -106,6 +106,12 @@ let preventWatcher = false;
 
 const defaultUnit = computed(() => {
 	return props.default_unit.length ? props.default_unit : props.units[0];
+});
+
+const computedPlaceholder = computed(() => {
+	const { value, rawValue } = getValuesFromString(props.placeholder);
+
+	return value ?? rawValue;
 });
 
 const activeUnit = computed(() => {
@@ -133,8 +139,10 @@ watch(
 		if (localRawValue.value && localRawValue.value.length) {
 			localUnit.value = unit ?? '';
 		} else {
+			const { unit } = getValuesFromString(props.placeholder);
+
 			// Use default unit
-			localUnit.value = defaultUnit.value;
+			localUnit.value = unit && unit.length ? unit : defaultUnit.value;
 		}
 
 		preventWatcher = false;
