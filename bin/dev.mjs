@@ -23,11 +23,15 @@ const server = await createServer({
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['vue'],
-      //   external: ['zbVue'],
-      //   globals: {
-      //     zbVue: 'window.zb.vue',
-      //   },
+      external: ['vue', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/api', '@zb/common', '@zb/utils'],
+      globals: {
+        vue: 'zb.vue',
+        '@zb/common': 'zb.common',
+        '@zb/hooks': 'zb.hooks',
+        '@zb/i18n': 'zb.i18n',
+        '@zb/api': 'zb.api',
+        '@zb/utils': 'zb.utils',
+      },
     },
   },
   //   css: {
@@ -41,6 +45,11 @@ const server = await createServer({
     vue(),
     viteExternalsPlugin({
       vue: ['zb', 'vue'],
+      '@zb/hooks': ['zb', 'hooks'],
+      '@zb/i18n': ['zb', 'i18n'],
+      '@zb/api': ['zb', 'api'],
+      '@zb/common': ['zb', 'common'],
+      '@zb/utils': ['zb', 'utils'],
     }),
   ],
 });

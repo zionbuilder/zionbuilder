@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { ref, inject } from 'vue';
+import { ref } from 'vue';
 import { generateUID, getDefaultGradient } from '/@/common/utils';
 import { useBuilderOptionsStore } from '/@/common/store';
 
@@ -68,8 +68,8 @@ export default {
 	},
 	setup(props, context) {
 		function getPro() {
-			if (window.ZnPbComponentsData !== undefined) {
-				return window.ZnPbComponentsData.is_pro_active;
+			if (window.ZBCommonData !== undefined) {
+				return window.ZBCommonData.is_pro_active;
 			}
 
 			return false;

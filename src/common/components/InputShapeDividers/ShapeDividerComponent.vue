@@ -73,7 +73,7 @@ const showDelete = ref(false);
 
 const masks = inject('masks') as Record<string, { path: string; url: string }>;
 
-const isPro = window.ZnPbComponentsData.is_pro_active;
+const isPro = window.ZBCommonData.is_pro_active;
 </script>
 
 <style lang="scss">

@@ -1,4 +1,4 @@
-export default () => {
+export function createHooksInstance() {
 	const filters: Hook = {};
 	const actions: Hook = {};
 
@@ -81,4 +81,4 @@ export default () => {
 		off,
 		trigger,
 	};
-};
+}

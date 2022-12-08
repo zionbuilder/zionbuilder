@@ -46,3 +46,4 @@ export * from './InputSpacing';
 export * from './UpgradeToPro';
 export * from './InputDimensions';
 export * from './InputHTML';
+export * from './Tooltip';

@@ -1,3 +1,4 @@
+import { translate } from '@zb/i18n';
 import Routes from './Routes';
 
 // Components
@@ -38,7 +39,6 @@ const getTemplateChildrens = () => {
 };
 
 export const routes = new Routes();
-const { translate } = window.zb.i18n;
 
 export const initRoutes = function () {
 	routes.addRoute('home', {

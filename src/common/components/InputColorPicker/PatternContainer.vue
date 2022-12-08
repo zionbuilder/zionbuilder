@@ -88,8 +88,8 @@ const globalColors: GlobalColor[] = getOptionValue('global_colors', []);
 const showPresetInput = ref(false);
 
 const isPro = computed(() => {
-	if (window.ZnPbComponentsData !== undefined) {
-		return window.ZnPbComponentsData.is_pro_active;
+	if (window.ZBCommonData !== undefined) {
+		return window.ZBCommonData.is_pro_active;
 	}
 
 	return false;

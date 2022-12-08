@@ -78,8 +78,8 @@ const emit = defineEmits<{
 const updateValueByPath = inject('updateValueByPath');
 
 function getPro() {
-	if (window.ZnPbComponentsData !== undefined) {
-		return window.ZnPbComponentsData.is_pro_active;
+	if (window.ZBCommonData !== undefined) {
+		return window.ZBCommonData.is_pro_active;
 	}
 
 	return false;

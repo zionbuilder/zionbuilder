@@ -11,6 +11,7 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
 use ZionBuilder\Nonces;
 use ZionBuilder\Options\Schemas\Performance;
+use ZionBuilder\Localization;
 
 
 // Prevent direct access
@@ -222,14 +223,54 @@ class Admin {
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
-				'zb-admin',
-				'admin-page',
+				'zb-common',
+				'common',
 				[
 					'wp-codemirror',
 					'csslint',
 					'htmlhint',
 					'jshint',
 					'jsonlint',
+					'zb-vue',
+				],
+				Plugin::$instance->get_version(),
+				true
+			);
+
+			wp_localize_script(
+				'zb-common',
+				'ZBCommonData',
+				apply_filters(
+					'zionbuilder/js/common/initial_data',
+					[
+						'i18n'        => Localization::get_strings(),
+						'rest'        => [
+							'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+							'rest_root' => esc_url_raw( rest_url() ),
+						],
+						'environment' => [
+							'is_pro_active'  => Utils::is_pro_active(),
+							'plugin_version' => Plugin::$instance->get_version(),
+						],
+						'library'     => [
+							'sources' => Plugin::$instance->library->get_sources(),
+							'types'   => Plugin::$instance->templates->get_template_types(),
+						],
+						'schemas'     => apply_filters(
+							'zionbuilder/admin_page/options_schemas',
+							[
+								'performance' => Performance::get_schema(),
+							]
+						),
+					]
+				)
+			);
+
+			Plugin::instance()->scripts->enqueue_script(
+				'zb-admin',
+				'admin-page',
+				[
+					'zb-common',
 					'zb-vue',
 				],
 				Plugin::$instance->get_version(),

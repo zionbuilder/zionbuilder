@@ -1,9 +1,12 @@
 import { createI18n } from './manager';
-import { App } from 'vue';
+import { type App } from 'vue';
 
 const i18n = createI18n();
 
-export const install = (app: App, strings: translateString) => {
+// Register default strings
+i18n.addStrings(window.ZBCommonData.i18n);
+
+export const install = (app: App, strings: Record<string, string> = {}) => {
 	// Add the strings
 	i18n.addStrings(strings);
 
@@ -14,10 +17,3 @@ export const install = (app: App, strings: translateString) => {
 };
 
 export const { addStrings, translate } = i18n;
-
-window.zb = window.zb || {};
-window.zb.i18n = {
-	install,
-	addStrings,
-	translate,
-};

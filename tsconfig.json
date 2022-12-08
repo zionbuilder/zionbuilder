@@ -14,7 +14,11 @@
 	  "skipLibCheck": true,
 	  "allowJs": true,
 	  "paths": {
-		"/@/*": ["./src/*"]
+		"/@/*": ["./src/*"],
+		"@zb/hooks": ["./src/common/modules/hooks"],
+		"@zb/i18n": ["./src/common/modules/i18n"],
+		"@zb/api": ["./src/common/api"],
+		"@zb/common": ["./src/common"],
 	  }
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

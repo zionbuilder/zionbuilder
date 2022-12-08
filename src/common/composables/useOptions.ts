@@ -1,5 +1,6 @@
 // Utils
 import { Component } from 'vue';
+
 // Forms component
 import {
 	BaseInput,
@@ -87,113 +88,113 @@ const options: Option[] = [
 		id: 'dynamic_slider',
 		component: InputRangeDynamic,
 	},
-	{
-		id: 'editor',
-		component: InputEditor,
-		dynamic: {
-			type: 'TEXT',
-		},
-	},
-	{
-		id: 'media',
-		component: InputMedia,
-	},
-	{
-		id: 'file',
-		component: InputFile,
-	},
-	{
-		id: 'image',
-		component: InputImage,
-	},
-	{
-		id: 'number',
-		component: InputNumber,
-	},
-	{
-		id: 'number_unit',
-		component: InputNumberUnit,
-	},
-	{
-		id: 'code',
-		component: InputCode,
-	},
-	{
-		id: 'custom_selector',
-		component: InputCustomSelector,
-	},
-	{
-		id: 'colorpicker',
-		component: InputColorPicker,
-		dynamic: {
-			type: 'TYPE_HIDDEN',
-			custom_dynamic: true,
-		},
-	},
-	{
-		id: 'checkbox',
-		component: InputCheckbox,
-	},
-	{
-		id: 'radio_image',
-		component: InputRadioImage,
-	},
-	{
-		id: 'checkbox_group',
-		component: InputCheckboxGroup,
-	},
-	{
-		id: 'checkbox_switch',
-		component: InputCheckboxSwitch,
-	},
-	{
-		id: 'text_align',
-		component: InputTextAlign,
-	},
-	{
-		id: 'borders',
-		component: InputBorderTabs,
-	},
-	{
-		id: 'shadow',
-		component: InputTextShadow,
-	},
-	{
-		id: 'video',
-		component: InputBackgroundVideo,
-	},
-	{
-		id: 'date_input',
-		component: InputDatePicker,
-	},
-	{
-		id: 'shape_dividers',
-		component: InputShapeDividers,
-	},
-	{
-		id: 'shape_component',
-		component: ShapeDividerComponent,
-	},
-	{
-		id: 'spacing',
-		component: InputSpacing,
-	},
-	{
-		id: 'repeater',
-		component: InputRepeater,
-	},
-	{
-		id: 'upgrade_to_pro',
-		component: UpgradeToPro,
-	},
-	{
-		id: 'dimensions',
-		component: InputDimensions,
-	},
-	{
-		id: 'html',
-		component: InputHTML,
-	},
+	// {
+	// 	id: 'editor',
+	// 	component: InputEditor,
+	// 	dynamic: {
+	// 		type: 'TEXT',
+	// 	},
+	// },
+	// {
+	// 	id: 'media',
+	// 	component: InputMedia,
+	// },
+	// {
+	// 	id: 'file',
+	// 	component: InputFile,
+	// },
+	// {
+	// 	id: 'image',
+	// 	component: InputImage,
+	// },
+	// {
+	// 	id: 'number',
+	// 	component: InputNumber,
+	// },
+	// {
+	// 	id: 'number_unit',
+	// 	component: InputNumberUnit,
+	// },
+	// {
+	// 	id: 'code',
+	// 	component: InputCode,
+	// },
+	// {
+	// 	id: 'custom_selector',
+	// 	component: InputCustomSelector,
+	// },
+	// {
+	// 	id: 'colorpicker',
+	// 	component: InputColorPicker,
+	// 	dynamic: {
+	// 		type: 'TYPE_HIDDEN',
+	// 		custom_dynamic: true,
+	// 	},
+	// },
+	// {
+	// 	id: 'checkbox',
+	// 	component: InputCheckbox,
+	// },
+	// {
+	// 	id: 'radio_image',
+	// 	component: InputRadioImage,
+	// },
+	// {
+	// 	id: 'checkbox_group',
+	// 	component: InputCheckboxGroup,
+	// },
+	// {
+	// 	id: 'checkbox_switch',
+	// 	component: InputCheckboxSwitch,
+	// },
+	// {
+	// 	id: 'text_align',
+	// 	component: InputTextAlign,
+	// },
+	// {
+	// 	id: 'borders',
+	// 	component: InputBorderTabs,
+	// },
+	// {
+	// 	id: 'shadow',
+	// 	component: InputTextShadow,
+	// },
+	// {
+	// 	id: 'video',
+	// 	component: InputBackgroundVideo,
+	// },
+	// {
+	// 	id: 'date_input',
+	// 	component: InputDatePicker,
+	// },
+	// {
+	// 	id: 'shape_dividers',
+	// 	component: InputShapeDividers,
+	// },
+	// {
+	// 	id: 'shape_component',
+	// 	component: ShapeDividerComponent,
+	// },
+	// {
+	// 	id: 'spacing',
+	// 	component: InputSpacing,
+	// },
+	// {
+	// 	id: 'repeater',
+	// 	component: InputRepeater,
+	// },
+	// {
+	// 	id: 'upgrade_to_pro',
+	// 	component: UpgradeToPro,
+	// },
+	// {
+	// 	id: 'dimensions',
+	// 	component: InputDimensions,
+	// },
+	// {
+	// 	id: 'html',
+	// 	component: InputHTML,
+	// },
 ];
 
 export const useOptions = () => {

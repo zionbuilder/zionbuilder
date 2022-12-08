@@ -1,4 +1,4 @@
-import { createHooksInstance } from '/@/common/modules/hooks';
+import { createHooksInstance } from '/@/common/modules/hooks/hooks';
 import reframe from 'reframe.js';
 
 declare global {

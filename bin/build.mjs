@@ -28,7 +28,7 @@ filesMap.forEach(async script => {
         input: {
           [script.output]: script.input,
         },
-        external: ['vue'],
+        external: ['vue', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/api', '@zb/common', '@zb/utils'],
         output: {
           name: script.name,
           entryFileNames: `[name].js`,
@@ -40,6 +40,11 @@ filesMap.forEach(async script => {
           format: 'iife',
           globals: {
             vue: 'zb.vue',
+            '@zb/common': 'zb.common',
+            '@zb/hooks': 'zb.hooks',
+            '@zb/i18n': 'zb.i18n',
+            '@zb/api': 'zb.api',
+            '@zb/utils': 'zb.utils',
           },
         },
       },
