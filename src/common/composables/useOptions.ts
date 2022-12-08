@@ -1,40 +1,36 @@
 // Utils
-import { Component } from 'vue';
+import { type Component } from 'vue';
 
-// Forms component
-import {
-	BaseInput,
-	InputDatePicker,
-	InputShapeDividers,
-	ShapeDividerComponent,
-	InputColorPicker,
-	InputCustomSelector,
-	InputSelect,
-	InputRadioImage,
-	InputRange,
-	InputIcon,
-	InputRangeDynamic,
-	InputEditor,
-	InputMedia,
-	InputFile,
-	InputImage,
-	InputTextShadow,
-	InputCode,
-	InputNumber,
-	InputNumberUnit,
-	InputCheckbox,
-	InputCheckboxGroup,
-	InputCheckboxSwitch,
-	InputTextAlign,
-	InputBorderTabs,
-	InputBackgroundVideo,
-	InputSpacing,
-	InputRepeater,
-	UpgradeToPro,
-	InputDimensions,
-	InputHTML,
-} from '../components';
-
+import { BaseInput } from '../components/BaseInput';
+import { InputDatePicker } from '../components/InputDatePicker';
+import { InputShapeDividers } from '../components/InputShapeDividers';
+import { ShapeDividerComponent } from '../components/InputShapeDividers';
+import { InputColorPicker } from '../components/InputColorPicker';
+import { InputCustomSelector } from '../components/InputCustomSelector';
+import { InputSelect } from '../components/InputSelect';
+import { InputRadioImage } from '../components/InputRadioImage';
+import { InputRange } from '../components/InputRange';
+import { InputIcon } from '../components/InputIcon';
+import { InputRangeDynamic } from '../components/InputRange';
+import { InputEditor } from '../components/InputEditor';
+import { InputMedia } from '../components/InputMedia';
+import { InputFile } from '../components/InputFile';
+import { InputImage } from '../components/InputImage';
+import { InputTextShadow } from '../components/InputTextShadow';
+import { InputCode } from '../components/InputCode';
+import { InputNumber } from '../components/InputNumber';
+import { InputNumberUnit } from '../components/InputNumber';
+import { InputCheckbox } from '../components/InputCheckbox';
+import { InputCheckboxGroup } from '../components/InputCheckbox';
+import { InputCheckboxSwitch } from '../components/InputCheckbox';
+import { InputTextAlign } from '../components/InputTextAlign';
+import { InputBorderTabs } from '../components/InputBorders';
+import { InputBackgroundVideo } from '../components/InputBackgroundVideo';
+import { InputSpacing } from '../components/InputSpacing';
+import { InputRepeater } from '../components/InputRepeater';
+import { UpgradeToPro } from '../components/UpgradeToPro';
+import { InputDimensions } from '../components/InputDimensions';
+import { InputHTML } from '../components/InputHTML';
 interface Option {
 	id: string;
 	component: Component;
@@ -88,113 +84,113 @@ const options: Option[] = [
 		id: 'dynamic_slider',
 		component: InputRangeDynamic,
 	},
-	// {
-	// 	id: 'editor',
-	// 	component: InputEditor,
-	// 	dynamic: {
-	// 		type: 'TEXT',
-	// 	},
-	// },
-	// {
-	// 	id: 'media',
-	// 	component: InputMedia,
-	// },
-	// {
-	// 	id: 'file',
-	// 	component: InputFile,
-	// },
-	// {
-	// 	id: 'image',
-	// 	component: InputImage,
-	// },
-	// {
-	// 	id: 'number',
-	// 	component: InputNumber,
-	// },
-	// {
-	// 	id: 'number_unit',
-	// 	component: InputNumberUnit,
-	// },
-	// {
-	// 	id: 'code',
-	// 	component: InputCode,
-	// },
-	// {
-	// 	id: 'custom_selector',
-	// 	component: InputCustomSelector,
-	// },
-	// {
-	// 	id: 'colorpicker',
-	// 	component: InputColorPicker,
-	// 	dynamic: {
-	// 		type: 'TYPE_HIDDEN',
-	// 		custom_dynamic: true,
-	// 	},
-	// },
-	// {
-	// 	id: 'checkbox',
-	// 	component: InputCheckbox,
-	// },
-	// {
-	// 	id: 'radio_image',
-	// 	component: InputRadioImage,
-	// },
-	// {
-	// 	id: 'checkbox_group',
-	// 	component: InputCheckboxGroup,
-	// },
-	// {
-	// 	id: 'checkbox_switch',
-	// 	component: InputCheckboxSwitch,
-	// },
-	// {
-	// 	id: 'text_align',
-	// 	component: InputTextAlign,
-	// },
-	// {
-	// 	id: 'borders',
-	// 	component: InputBorderTabs,
-	// },
-	// {
-	// 	id: 'shadow',
-	// 	component: InputTextShadow,
-	// },
-	// {
-	// 	id: 'video',
-	// 	component: InputBackgroundVideo,
-	// },
-	// {
-	// 	id: 'date_input',
-	// 	component: InputDatePicker,
-	// },
-	// {
-	// 	id: 'shape_dividers',
-	// 	component: InputShapeDividers,
-	// },
-	// {
-	// 	id: 'shape_component',
-	// 	component: ShapeDividerComponent,
-	// },
-	// {
-	// 	id: 'spacing',
-	// 	component: InputSpacing,
-	// },
-	// {
-	// 	id: 'repeater',
-	// 	component: InputRepeater,
-	// },
-	// {
-	// 	id: 'upgrade_to_pro',
-	// 	component: UpgradeToPro,
-	// },
-	// {
-	// 	id: 'dimensions',
-	// 	component: InputDimensions,
-	// },
-	// {
-	// 	id: 'html',
-	// 	component: InputHTML,
-	// },
+	{
+		id: 'editor',
+		component: InputEditor,
+		dynamic: {
+			type: 'TEXT',
+		},
+	},
+	{
+		id: 'media',
+		component: InputMedia,
+	},
+	{
+		id: 'file',
+		component: InputFile,
+	},
+	{
+		id: 'image',
+		component: InputImage,
+	},
+	{
+		id: 'number',
+		component: InputNumber,
+	},
+	{
+		id: 'number_unit',
+		component: InputNumberUnit,
+	},
+	{
+		id: 'code',
+		component: InputCode,
+	},
+	{
+		id: 'custom_selector',
+		component: InputCustomSelector,
+	},
+	{
+		id: 'colorpicker',
+		component: InputColorPicker,
+		dynamic: {
+			type: 'TYPE_HIDDEN',
+			custom_dynamic: true,
+		},
+	},
+	{
+		id: 'checkbox',
+		component: InputCheckbox,
+	},
+	{
+		id: 'radio_image',
+		component: InputRadioImage,
+	},
+	{
+		id: 'checkbox_group',
+		component: InputCheckboxGroup,
+	},
+	{
+		id: 'checkbox_switch',
+		component: InputCheckboxSwitch,
+	},
+	{
+		id: 'text_align',
+		component: InputTextAlign,
+	},
+	{
+		id: 'borders',
+		component: InputBorderTabs,
+	},
+	{
+		id: 'shadow',
+		component: InputTextShadow,
+	},
+	{
+		id: 'video',
+		component: InputBackgroundVideo,
+	},
+	{
+		id: 'date_input',
+		component: InputDatePicker,
+	},
+	{
+		id: 'shape_dividers',
+		component: InputShapeDividers,
+	},
+	{
+		id: 'shape_component',
+		component: ShapeDividerComponent,
+	},
+	{
+		id: 'spacing',
+		component: InputSpacing,
+	},
+	{
+		id: 'repeater',
+		component: InputRepeater,
+	},
+	{
+		id: 'upgrade_to_pro',
+		component: UpgradeToPro,
+	},
+	{
+		id: 'dimensions',
+		component: InputDimensions,
+	},
+	{
+		id: 'html',
+		component: InputHTML,
+	},
 ];
 
 export const useOptions = () => {

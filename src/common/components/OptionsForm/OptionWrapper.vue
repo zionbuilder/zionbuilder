@@ -122,7 +122,9 @@
 </template>
 <script lang="ts" setup>
 import { provide, inject, readonly, toRef, watchEffect, ref, computed, markRaw } from 'vue';
-import { useOptions, useOptionsSchemas, useResponsiveDevices } from '../../composables';
+import { useOptions } from '../../composables/useOptions';
+import { useOptionsSchemas } from '../../composables/useOptionsSchemas';
+import { useResponsiveDevices } from '../../composables/useResponsiveDevices';
 
 // Components
 import { Tooltip } from '../tooltip';

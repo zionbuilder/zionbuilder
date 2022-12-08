@@ -15,13 +15,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { translate } from '/@/common/modules/i18n';
-import { useAssetsStore } from '/@/common/store';
-import { Button } from '/@/common/components/Button';
-import { Loader } from '/@/common/components/Loader';
+import { translate } from '@zb/i18n';
 
+const { Button, Loader } = window.zb.common.components;
 const showMessage = ref(true);
 
+const { useAssetsStore } = window.zb.common.store;
 const AssetsStore = useAssetsStore();
 async function regenerateAssets() {
 	try {

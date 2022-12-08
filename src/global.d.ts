@@ -11,6 +11,7 @@ interface Window {
 			components: import('./common/components');
 			install: (app: App) => void;
 			store: import('./common/store');
+			composables: import('./common/composables');
 		};
 	} = {};
 

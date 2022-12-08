@@ -22,10 +22,9 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
-import { useAssetsStore } from '/@/common/store';
+import { translate } from '@zb/i18n';
 
-const AssetsStore = useAssetsStore();
+const AssetsStore = window.zb.common.store.useAssetsStore();
 </script>
 <style lang="scss">
 .znpb-admin-tools-wrapper {

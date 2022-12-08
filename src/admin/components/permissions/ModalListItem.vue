@@ -12,7 +12,6 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { useBuilderOptionsStore, useUsersStore } from '/@/common/store';
 
 export default {
 	name: 'ModalListItem',
@@ -23,8 +22,9 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { addUser } = useUsersStore();
-		const { getUserPermissions, addUserPermissions, deleteUserPermission } = useBuilderOptionsStore();
+		const { addUser } = window.zb.common.store.useUsersStore();
+		const { getUserPermissions, addUserPermissions, deleteUserPermission } =
+			window.zb.common.store.useBuilderOptionsStore();
 		const loadingDelete = ref(false);
 		const userPermissionsExists = computed(() => getUserPermissions(props.user.id));
 

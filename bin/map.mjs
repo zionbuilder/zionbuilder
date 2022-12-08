@@ -21,10 +21,16 @@ fs.readdirSync('src/elements/').forEach(folder => {
 export const filesMap = [
   // Global
   {
-    input: 'src/vue.ts',
+    input: 'src/common/vue.ts',
     format: 'iife',
     output: 'vue',
     name: 'vue',
+  },
+  {
+    input: 'src/common/pinia.ts',
+    format: 'iife',
+    output: 'pinia',
+    name: 'pinia',
   },
   {
     input: 'src/common/index.ts',

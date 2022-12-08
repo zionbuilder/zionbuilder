@@ -68,7 +68,6 @@
 <script>
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { useBuilderOptionsStore, useUsersStore, useDataSetsStore } from '/@/common/store';
 
 // Components
 import SingleRole from './SingleRole.vue';
@@ -84,10 +83,10 @@ export default {
 	},
 	setup() {
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const { fetchUsersData } = useUsersStore();
-		const { getOptionValue } = useBuilderOptionsStore();
+		const { fetchUsersData } = window.zb.common.store.useUsersStore();
+		const { getOptionValue } = window.zb.common.store.useBuilderOptionsStore();
 
-		const { dataSets } = storeToRefs(useDataSetsStore());
+		const { dataSets } = storeToRefs(window.zb.common.store.useDataSetsStore());
 		const userPermissions = getOptionValue('users_permissions');
 
 		const loading = ref(true);

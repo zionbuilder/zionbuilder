@@ -8,8 +8,8 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useBuilderOptionsStore } from '/@/common/store';
 
+const { useBuilderOptionsStore } = window.zb.common.store;
 const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
 const computedModel = computed({

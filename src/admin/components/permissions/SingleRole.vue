@@ -18,7 +18,6 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { useBuilderOptionsStore } from '/@/common/store';
 
 // Components
 import UserModalContent from './UserModalContent.vue';
@@ -37,7 +36,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { getRolePermissions, editRolePermission } = useBuilderOptionsStore();
+		const { getRolePermissions, editRolePermission } = window.zb.common.store.useBuilderOptionsStore();
 
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
 		const showModal = ref(false);

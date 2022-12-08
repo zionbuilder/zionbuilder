@@ -1,1 +1,1 @@
-{"appName":"zionbuilder","outputDir":"dist","debug":false}
+{"appName":"zionbuilder","outputDir":"dist","debug":true,"devScripts":{"vue":"http://127.0.0.1:3000/src/common/vue.ts","pinia":"http://127.0.0.1:3000/src/common/pinia.ts","common":"http://127.0.0.1:3000/src/common/index.ts","admin-page":"http://127.0.0.1:3000/src/admin/admin-page.ts"}}

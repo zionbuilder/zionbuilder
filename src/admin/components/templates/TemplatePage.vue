@@ -33,7 +33,6 @@
 </template>
 <script>
 import { computed, ref } from 'vue';
-import { useLibrary } from '/@/common/composables';
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue';
@@ -63,7 +62,7 @@ export default {
 		const activeTemplate = ref(null);
 		const activeFilter = ref('publish');
 
-		const { getSource } = useLibrary();
+		const { getSource } = window.zb.common.composables.useLibrary();
 
 		const localLibrary = getSource('local_library');
 		localLibrary.getData();

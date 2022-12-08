@@ -29,7 +29,6 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-import { useGoogleFontsStore } from '/@/common/store';
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue';
@@ -46,7 +45,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const googleFontsStore = useGoogleFontsStore();
+		const googleFontsStore = window.zb.common.store.useGoogleFontsStore();
 		const fontsPerPage = 20;
 
 		const currentPage = ref(1);

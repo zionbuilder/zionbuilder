@@ -10,7 +10,7 @@ import * as components from './components';
 import * as hooks from './modules/hooks';
 import * as i18n from './modules/i18n';
 import { PopperDirective } from './components/tooltip';
-import { useLibrary } from './composables';
+import * as composables from './composables';
 
 window.zb = window.zb || {};
 window.zb.hooks = hooks;
@@ -36,12 +36,13 @@ export const install = (app: App) => {
 	api.errorInterceptor(store.useNotificationsStore());
 
 	// Register the library sources
-	const { addSources } = useLibrary();
+	const { addSources } = composables.useLibrary();
 	addSources(window.ZBCommonData.library.sources);
 };
 
 window.zb.common = {
 	components,
+	composables,
 	install,
 	store,
 };

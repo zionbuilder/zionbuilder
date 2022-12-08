@@ -11,7 +11,7 @@ export default {
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useInjections } from '../../composables';
+import { useInjections } from '../../composables/useInjections';
 
 const props = withDefaults(
 	defineProps<{

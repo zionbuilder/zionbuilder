@@ -223,6 +223,14 @@ class Admin {
 			);
 
 			Plugin::instance()->scripts->enqueue_script(
+				'zb-pinia',
+				'pinia',
+				[],
+				Plugin::instance()->get_version(),
+				true
+			);
+
+			Plugin::instance()->scripts->enqueue_script(
 				'zb-common',
 				'common',
 				[
@@ -232,6 +240,7 @@ class Admin {
 					'jshint',
 					'jsonlint',
 					'zb-vue',
+					'zb-pinia',
 				],
 				Plugin::$instance->get_version(),
 				true

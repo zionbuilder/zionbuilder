@@ -23,7 +23,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useBuilderOptionsStore, useDataSetsStore } from '/@/common/store';
+const { useBuilderOptionsStore, useDataSetsStore } = window.zb.common.store;
 
 const { dataSets } = storeToRefs(useDataSetsStore());
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
@@ -34,7 +34,7 @@ const allowedPostTypes = computed({
 });
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 
 .znpb-admin-posts-wrapper {
 	display: grid;

@@ -51,8 +51,7 @@
 
 <script>
 import { ref } from 'vue';
-import { generateUID, getDefaultGradient } from '/@/common/utils';
-import { useBuilderOptionsStore } from '/@/common/store';
+import { generateUID, getDefaultGradient } from '@zb/utils';
 
 // Components
 import GradientBox from './GradientBox.vue';
@@ -86,7 +85,7 @@ export default {
 			addGlobalGradient,
 			deleteGlobalGradient,
 			editGlobalGradient,
-		} = useBuilderOptionsStore();
+		} = window.zb.common.store.useBuilderOptionsStore();
 
 		const activeLibrary = ref('local');
 		const showModal = ref(false);

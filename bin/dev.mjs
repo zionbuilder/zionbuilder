@@ -17,13 +17,14 @@ const server = await createServer({
     alias: {
       '/@': path.resolve('./src'),
       '/@zb/vue': path.resolve('./node_modules/vue'),
+      '/@zb/pinia': path.resolve('./node_modules/pinia'),
     },
   },
   mode: 'development',
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['vue', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/api', '@zb/common', '@zb/utils'],
+      external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/api', '@zb/common', '@zb/utils'],
       globals: {
         vue: 'zb.vue',
         '@zb/common': 'zb.common',

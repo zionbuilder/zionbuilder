@@ -18,7 +18,7 @@ import { get } from 'lodash-es';
 import { InputCustomSelector } from '../InputCustomSelector';
 
 const { translate } = window.zb.i18n;
-interface ShapeDevider {
+interface ShapeDivider {
 	shape?: string;
 	height?: { default: string; tablet: string; mobile: string; laptop: string } | 'auto';
 	color?: string;
@@ -28,7 +28,7 @@ interface ShapeDevider {
 type Position = 'top' | 'bottom';
 const props = withDefaults(
 	defineProps<{
-		modelValue?: Partial<Record<Position, ShapeDevider>>;
+		modelValue?: Partial<Record<Position, ShapeDivider>>;
 	}>(),
 	{
 		modelValue: () => {
@@ -38,7 +38,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-	(e: 'update:modelValue', value: Partial<Record<Position, ShapeDevider>> | null): void;
+	(e: 'update:modelValue', value: Partial<Record<Position, ShapeDivider>> | null): void;
 }>();
 
 const maskPosOptions = ref([
@@ -100,7 +100,7 @@ const computedValue = computed({
 	get() {
 		return props.modelValue?.[activeMaskPosition.value] ?? {};
 	},
-	set(newValue: ShapeDevider) {
+	set(newValue: ShapeDivider) {
 		if (newValue === null) {
 			emit('update:modelValue', null);
 			return;

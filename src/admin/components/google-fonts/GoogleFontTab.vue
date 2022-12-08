@@ -40,7 +40,6 @@
 
 <script>
 import HiddenContainer from '../HiddenContainer.vue';
-import { useGoogleFontsStore } from '/@/common/store';
 
 export default {
 	name: 'GoogleFontTab',
@@ -53,7 +52,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const googleFontsStore = useGoogleFontsStore();
+		const googleFontsStore = window.zb.common.store.useGoogleFontsStore();
 		const fontData = googleFontsStore.getFontData(props.font['font_family']);
 
 		return {
@@ -164,7 +163,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 .znpb-admin__google-font-tab {
 	@extend %list-item-helper;
 	padding: 17px 10px;
@@ -181,7 +180,8 @@ export default {
 		padding: 0 10px;
 	}
 
-	& > &-title, & > &-variants {
+	& > &-title,
+	& > &-variants {
 		min-width: 32%;
 
 		@media (max-width: 991px) {
@@ -193,7 +193,9 @@ export default {
 		max-width: 0;
 	}
 
-	&-title, &-variants, &-subset {
+	&-title,
+	&-variants,
+	&-subset {
 		@media (max-width: 767px) {
 			margin-bottom: 10px;
 		}
@@ -220,14 +222,18 @@ export default {
 			display: none;
 		}
 
-		.znpb-admin__google-font-tab-title, .znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset, .znpb-admin__google-font-tab-actions {
+		.znpb-admin__google-font-tab-title,
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset,
+		.znpb-admin__google-font-tab-actions {
 			color: var(--zb-surface-text-color);
 			font-size: 11px;
 			font-weight: 700;
-			letter-spacing: .5px;
+			letter-spacing: 0.5px;
 			text-transform: uppercase;
 		}
-		.znpb-admin__google-font-tab-variants, .znpb-admin__google-font-tab-subset {
+		.znpb-admin__google-font-tab-variants,
+		.znpb-admin__google-font-tab-subset {
 			text-align: left;
 		}
 		&:hover {
@@ -252,7 +258,7 @@ export default {
 			box-sizing: content-box;
 			padding: 5px;
 			font-size: 14px;
-			transition: color .15s ease;
+			transition: color 0.15s ease;
 
 			&:hover {
 				color: var(--zb-surface-text-hover-color);

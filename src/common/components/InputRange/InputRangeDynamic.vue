@@ -49,7 +49,7 @@ export default {
  */
 import { ref, computed, CSSProperties } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
-import { InputNumberUnit } from '../InputNumber';
+import InputNumberUnit from '../InputNumber/InputNumberUnit.vue';
 import rafSchd from 'raf-schd';
 
 const props = withDefaults(

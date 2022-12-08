@@ -47,3 +47,5 @@ export * from './UpgradeToPro';
 export * from './InputDimensions';
 export * from './InputHTML';
 export * from './Tooltip';
+export * from './modal';
+export * from './sortable';
