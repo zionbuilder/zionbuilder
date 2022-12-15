@@ -31,7 +31,6 @@
 import SystemList from './system-components/SystemList.vue';
 import SystemPlugins from './system-components/SystemPlugins.vue';
 import CopyPasteServer from './system-components/CopyPasteServer.vue';
-import { getSystemInfo } from '@zb/api';
 
 export default {
 	name: 'SystemInfo',
@@ -47,7 +46,7 @@ export default {
 		};
 	},
 	created() {
-		getSystemInfo().then(response => {
+		window.zb.api.getSystemInfo().then(response => {
 			this.systemInfoData = response.data;
 			this.loaded = true;
 		});

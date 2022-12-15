@@ -3,6 +3,12 @@
 namespace ZionBuilder;
 
 use ZionBuilder\Environment;
+use ZionBuilder\Options\Schemas\StyleOptions;
+use ZionBuilder\Options\Schemas\Typography;
+use ZionBuilder\Options\Schemas\Advanced;
+use ZionBuilder\Options\Schemas\Video;
+use ZionBuilder\Options\Schemas\BackgroundImage;
+use ZionBuilder\Options\Schemas\Shadow;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,11 +42,6 @@ class Scripts {
 
 	public function __construct() {
 		$this->setup_environment();
-
-		// Set dynamic public path
-		add_action( 'wp_head', [ $this, 'print_public_path' ], -1000 );
-		add_action( 'zionbuilder/editor/before_scripts', [ $this, 'print_public_path' ], -1000 );
-		add_action( 'admin_print_scripts', [ $this, 'print_public_path' ], -1000 );
 
 		if ( Environment::is_debug() ) {
 			add_filter( 'script_loader_src', [ $this, 'remove_script_version' ], 15, 1 );
@@ -77,24 +78,102 @@ class Scripts {
 		$this->assets_root_path = trailingslashit( Utils::get_file_path( $output_directory ) );
 	}
 
-	/**
-	 * Adds several JavaScript variables that will be used by Webpack generated files
-	 *
-	 * @return void
-	 */
-	public function print_public_path() {
-		echo sprintf(
-			'
-				<script type="text/javascript">
-					window.zionBuilderPaths = window.zionBuilderPaths || {};
-					window.zionBuilderPaths["%s"] = "%s";
-				</script>
-			',
-			esc_attr( Environment::get_value( 'appName' ) ),
-			esc_url( $this->assets_root_url )
-		);
+	public static function enqueue_common() {
+		wp_enqueue_media();
+		wp_print_styles( 'media-views' );
+		self::enqueue_common_css();
+		self::enqueue_common_js();
 	}
 
+	public static function enqueue_common_css() {
+		// Load google font used in builder
+		wp_enqueue_style(
+			'znpb-roboto-font',
+			'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+			[],
+			Plugin::instance()->get_version()
+		);
+
+		// Load main common styles
+		Plugin::instance()->scripts->enqueue_style(
+			'zb-common',
+			'common',
+			[],
+			Plugin::instance()->get_version()
+		);
+
+		// Load icon fonts
+		wp_add_inline_style( 'zb-common', Plugin::instance()->icons->get_icons_css() );
+	}
+
+	public static function enqueue_common_js() {
+		Plugin::instance()->scripts->enqueue_script(
+			'zb-vue',
+			'vue',
+			[],
+			Plugin::instance()->get_version(),
+			true
+		);
+
+		Plugin::instance()->scripts->enqueue_script(
+			'zb-pinia',
+			'pinia',
+			[],
+			Plugin::instance()->get_version(),
+			true
+		);
+
+		Plugin::instance()->scripts->enqueue_script(
+			'zb-common',
+			'common',
+			[
+				'wp-codemirror',
+				'csslint',
+				'htmlhint',
+				'jshint',
+				'jsonlint',
+				'zb-vue',
+				'zb-pinia',
+			],
+			Plugin::$instance->get_version(),
+			true
+		);
+
+		wp_localize_script(
+			'zb-common',
+			'ZBCommonData',
+			apply_filters(
+				'zionbuilder/js/common/initial_data',
+				[
+					'i18n'        => Localization::get_strings(),
+					'rest'        => [
+						'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
+						'rest_root' => esc_url_raw( rest_url() ),
+					],
+					'environment' => [
+						'is_pro_active'  => Utils::is_pro_active(),
+						'plugin_version' => Plugin::$instance->get_version(),
+					],
+					'library'     => [
+						'sources' => Plugin::$instance->library->get_sources(),
+						'types'   => Plugin::$instance->templates->get_template_types(),
+					],
+					'breakpoints' => Responsive::get_breakpoints(),
+					'schemas'     => apply_filters(
+						'zionbuilder/js/common/schemas',
+						[
+							'styles'           => StyleOptions::get_schema(),
+							'element_advanced' => Advanced::get_schema(),
+							'typography'       => Typography::get_schema(),
+							'video'            => Video::get_schema(),
+							'background_image' => BackgroundImage::get_schema(),
+							'shadow'           => Shadow::get_schema(),
+						]
+					),
+				]
+			)
+		);
+	}
 
 	/**
 	 * Register a script.

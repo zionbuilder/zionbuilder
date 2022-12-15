@@ -1,7 +1,9 @@
-import { getImage } from '/@/common/utils';
-import { applyFilters } from '/@/common/modules/hooks';
 import { cloneDeep, forEach, get } from 'lodash-es';
-import { useResponsiveDevices } from '/@/common/composables';
+
+// Common API
+const { getImage } = window.zb.utils;
+const { applyFilters } = window.zb.hooks;
+const { useResponsiveDevices } = window.zb.composables;
 
 /**
  * Will parse the option schema in order to get the render attributes

@@ -2,18 +2,10 @@ import './scss/index.scss';
 import * as Vue from 'vue';
 
 // Main
-import { createPinia } from 'pinia';
 import { registerEditorOptions } from './components/options';
 import * as STORE from './store';
-import * as COMMONUTILS from '/@/common/utils';
 
 // Plugins
-import * as COMMON from '../common';
-import { install as ComponentsInstall } from '../common';
-import { install as I18nInstall } from '../common/modules/i18n';
-import { errorInterceptor } from '../common/api';
-import { useLibrary } from '../common/composables';
-import { useNotificationsStore } from '../common/store';
 import { useElementDefinitionsStore } from './store';
 
 // Global components
@@ -30,14 +22,11 @@ import Element from '/@/preview/components/Element.vue';
 
 // Preview related
 import SortableContent from '/@/preview/components/SortableContent.vue';
-
-import { useOptionsSchemas } from '../common';
 import HeartBeat from './modules/HeartBeat.js';
 
 // Exports
 import * as API from './api.js';
 import * as COMPOSABLES from './composables';
-import * as COMMON_COMPOSABLES from '../common/composables';
 import * as UTILS from './utils';
 
 // Components
@@ -54,10 +43,6 @@ window.zb.commandsManager = commandsManager;
 
 const history = new HistoryManager();
 
-// Register editor options schemas
-const { registerSchema } = useOptionsSchemas();
-registerSchema('pageSettingsSchema', window.ZnPbInitialData.page_settings.schema);
-
 // Register options
 registerEditorOptions();
 
@@ -65,16 +50,7 @@ registerEditorOptions();
 const appInstance = Vue.createApp(App);
 
 // Init global components
-appInstance.use(I18nInstall, window.ZnI18NStrings);
-appInstance.use(ComponentsInstall);
-appInstance.use(createPinia());
-
-// Init library sources
-const { addSources } = useLibrary();
-addSources(window.ZnPbInitialData.template_sources);
-
-// Add error interceptor for API
-errorInterceptor(useNotificationsStore());
+appInstance.use(window.zb.installCommonAPP);
 
 // Register nested components
 appInstance.component('EmptySortablePlaceholder', EmptySortablePlaceholder);
@@ -115,16 +91,11 @@ window.zb.editor = Object.assign(
 	{ appInstance, registerElementComponent: elementDefinitionsStore.registerElementComponent },
 	API,
 	COMPOSABLES,
-	COMMON_COMPOSABLES.units,
 	UTILS,
 	STORE,
-	COMMON_COMPOSABLES,
 );
 
-window.zb.vue = Vue;
-window.zb.utils = COMMONUTILS;
 window.zb.commandsManager = commandsManager;
-window.zb.components = COMMON;
 window.zb.run = function (commandName: string, commandArgs: Record<string, unknown>) {
 	return commandsManager.runCommand(commandName, commandArgs);
 };

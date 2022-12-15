@@ -56,8 +56,10 @@
 import { ref, computed } from 'vue';
 import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 const props = defineProps<{
 	element: ZionElement;

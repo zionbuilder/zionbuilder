@@ -113,7 +113,6 @@
 <script lang="ts" setup>
 import { ref, provide, computed, onBeforeUnmount, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { translate } from '/@/common/modules/i18n';
 
 import PanelTree from './components/treeView/PanelTree.vue';
 import PanelGlobalSettings from './components/PanelGlobalSettings.vue';
@@ -132,12 +131,13 @@ import AssetsRegeneration from './components/AssetsRegeneration.vue';
 import { AddElementPopup } from './components/AddElementPopup';
 import { ElementMenu } from './components/ElementMenu';
 import { useKeyBindings, useEditorData, useSavePage } from './composables';
-import { useResponsiveDevices } from '/@/common/composables';
-import { useNotificationsStore, useBuilderOptionsStore } from '/@/common/store';
 import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore } from './store';
 import { serverRequest } from './api';
 
-// WordPress HeartBeat
+// Common API
+const { translate } = window.zb.i18n;
+const { useNotificationsStore, useBuilderOptionsStore } = window.zb.store;
+const { useResponsiveDevices } = window.zb.composables;
 
 const devicesVisible = ref(false);
 const UIStore = useUIStore();

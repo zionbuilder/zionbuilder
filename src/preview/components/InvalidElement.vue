@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
+const { translate } = window.zb.i18n;
 </script>
 
 <style lang="scss">

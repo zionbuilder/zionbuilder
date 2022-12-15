@@ -77,12 +77,14 @@
 import { ref, computed } from 'vue';
 import rafSchd from 'raf-schd';
 import { get } from 'lodash-es';
-import { useResponsiveDevices } from '/@/common/composables';
-import { Environment } from '/@/common/utils';
 import { useUIStore } from '/@/editor/store';
 
 // Components
 import ToolboxTitle from './ToolboxTitle.vue';
+
+// Common API
+const { useResponsiveDevices } = window.zb.composables;
+const { Environment } = window.zb.utils;
 
 export default {
 	name: 'ElementToolbox',

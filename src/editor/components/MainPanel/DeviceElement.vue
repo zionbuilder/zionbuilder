@@ -76,10 +76,13 @@
 
 <script lang="ts" setup>
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices, type ResponsiveDevice } from '/@/common/composables';
-import { doAction } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
 
+// Common API
+const { translate } = window.zb.i18n;
+const { useResponsiveDevices } = window.zb.composables;
+const { doAction } = window.zb.hooks;
+
+// TODO: find a solution for typings
 const props = withDefaults(
 	defineProps<{
 		deviceConfig: ResponsiveDevice;

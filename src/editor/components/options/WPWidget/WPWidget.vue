@@ -10,10 +10,12 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from 'vue';
-import { getOptionsForm } from '/@/common/api';
 import { serialize } from 'dom-form-serializer';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { getOptionsForm } = window.zb.api;
 
 const props = withDefaults(
 	defineProps<{

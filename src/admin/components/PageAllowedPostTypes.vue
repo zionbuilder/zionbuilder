@@ -23,7 +23,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-const { useBuilderOptionsStore, useDataSetsStore } = window.zb.common.store;
+const { useBuilderOptionsStore, useDataSetsStore } = window.zb.store;
 
 const { dataSets } = storeToRefs(useDataSetsStore());
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();

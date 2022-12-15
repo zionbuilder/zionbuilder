@@ -75,7 +75,7 @@
 <script>
 import { computed } from 'vue';
 import CssSelector from './CssSelector.vue';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
 
 export default {
 	name: 'ClassSelectorDropdown',

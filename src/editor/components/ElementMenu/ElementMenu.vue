@@ -20,11 +20,13 @@
 <script lang="ts" setup>
 import { watch, computed } from 'vue';
 import { get } from 'lodash-es';
-import { translate } from '/@/common/modules/i18n';
 
-import { Environment } from '/@/common/utils';
 import { useContentStore, useUIStore, useUserStore } from '/@/editor/store';
-import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '../../composables';
+import { useWindows, useElementActions, useLocalStorage, useSaveTemplate } from '/@/editor/composables';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { Environment } = window.zb.utils;
 
 const UIStore = useUIStore();
 const userStore = useUserStore();

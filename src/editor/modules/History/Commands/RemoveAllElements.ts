@@ -1,6 +1,8 @@
 import { HistoryCommand } from '../HistoryCommand';
-import { translate } from '/@/common/modules/i18n';
 import { useContentStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 export class RemoveAllElements extends HistoryCommand {
 	static commandID = 'editor/elements/remove_all';

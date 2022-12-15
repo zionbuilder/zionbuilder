@@ -36,9 +36,11 @@ import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
 import { useSaveTemplate } from '../composables';
-import { useLibrary } from '/@/common/composables';
-import { exportTemplate } from '/@/common/api';
 import { useContentStore } from '/@/editor/store';
+
+// Common API
+const { useLibrary } = window.zb.composables;
+const { exportTemplate } = window.zb.api;
 
 export default {
 	name: 'SaveElementModal',

@@ -27,8 +27,9 @@ import { ref, watch } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 import PseudoSelectors from './PseudoSelectors.vue';
 import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
-import { useOptionsSchemas } from '/@/common/composables';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
+
+const { useOptionsSchemas } = window.zb.composables;
 
 export default {
 	name: 'ElementStyles',

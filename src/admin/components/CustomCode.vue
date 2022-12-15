@@ -9,7 +9,7 @@
 <script setup>
 import { computed } from 'vue';
 
-const { useBuilderOptionsStore } = window.zb.common.store;
+const { useBuilderOptionsStore } = window.zb.store;
 const { getOptionValue, updateOptionValue, deleteOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 const schema = window.ZnPbAdminPageData.custom_code.schema;
 

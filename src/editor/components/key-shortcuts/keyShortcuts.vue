@@ -15,7 +15,8 @@
 
 <script>
 import keyShortcutsItem from './keyShortcutsItem.vue';
-import { Environment } from '/@/common/utils';
+
+const { Environment } = window.zb.utils;
 
 export default {
 	name: 'KeyShortcutsModal',

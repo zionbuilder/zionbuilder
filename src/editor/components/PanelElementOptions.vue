@@ -127,15 +127,17 @@
 
 <script lang="ts" setup>
 import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
-import { addAction, removeAction } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
 import { useElementProvide } from '../composables';
-import { useOptionsSchemas } from '/@/common/composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
 import BasePanel from './BasePanel.vue';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { useOptionsSchemas } = window.zb.composables;
+const { addAction, removeAction } = window.zb.hooks;
 
 const props = defineProps<{
 	panel: ZionPanel;

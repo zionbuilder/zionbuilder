@@ -27,9 +27,10 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { get } from 'lodash-es';
 import { getLayoutConfigs } from './layouts.js';
-import { useWindows } from '../../composables';
-import { useUIStore, useElementDefinitionsStore } from '../../store';
-import { isEditable } from '/@/common/utils';
+import { useWindows } from '/@/editor/composables';
+import { useUIStore, useElementDefinitionsStore } from '/@/editor/store';
+
+const { isEditable } = window.zb.utils;
 
 // Components
 import ElementsTab from './ElementsTab.vue';

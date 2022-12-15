@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { debounce } from 'lodash-es';
-import { translate } from '/@/common/modules/i18n';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 type HistoryItem = {
 	undo: Function;

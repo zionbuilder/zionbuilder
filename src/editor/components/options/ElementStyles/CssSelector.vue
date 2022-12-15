@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
 
 export default {
 	name: 'CssSelector',

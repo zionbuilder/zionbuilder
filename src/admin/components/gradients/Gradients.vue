@@ -51,13 +51,13 @@
 
 <script>
 import { ref } from 'vue';
-import { generateUID, getDefaultGradient } from '@zb/utils';
 
 // Components
 import GradientBox from './GradientBox.vue';
 import GradientModalContent from './GradientModalContent.vue';
 import AddGradient from './AddGradient.vue';
 
+const { generateUID, getDefaultGradient } = window.zb.utils;
 export default {
 	name: 'Gradients',
 	components: {
@@ -85,7 +85,7 @@ export default {
 			addGlobalGradient,
 			deleteGlobalGradient,
 			editGlobalGradient,
-		} = window.zb.common.store.useBuilderOptionsStore();
+		} = window.zb.store.useBuilderOptionsStore();
 
 		const activeLibrary = ref('local');
 		const showModal = ref(false);

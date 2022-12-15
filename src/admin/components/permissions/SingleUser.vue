@@ -45,8 +45,8 @@ export default {
 		},
 	},
 	setup(props) {
-		const { getUserInfo } = window.zb.common.store.useUsersStore();
-		const { editUserPermission, deleteUserPermission } = window.zb.common.store.useBuilderOptionsStore();
+		const { getUserInfo } = window.zb.store.useUsersStore();
+		const { editUserPermission, deleteUserPermission } = window.zb.store.useBuilderOptionsStore();
 		const userData = getUserInfo(props.userId);
 
 		const permissionsNumber = computed(() => {

@@ -42,7 +42,7 @@ export default class HeartBeat {
 
 				// Update rest nonce
 				if (restNonce) {
-					window.ZnRestConfig.nonce = restNonce;
+					window.ZBCommonData.rest.nonce = restNonce;
 				}
 
 				// Update HearBeat Nonce

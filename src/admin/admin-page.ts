@@ -5,7 +5,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 // External modules from common package/script
 import { applyFilters } from '@zb/hooks';
-import { install as COMMON_INSTALL } from '@zb/common';
 
 import { initRoutes, routes } from './router';
 
@@ -27,7 +26,7 @@ appInstance.component('ListAnimation', ListAnimate);
 appInstance.component('ModalTwoColTemplate', ModalTwoColTemplate);
 
 // Plugins
-appInstance.use(COMMON_INSTALL);
+appInstance.use(window.zb.installCommonAPP);
 
 window.addEventListener('load', function () {
 	// Trigger event so others can hook into ZionBuilder API

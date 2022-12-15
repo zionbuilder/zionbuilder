@@ -4,7 +4,8 @@
 
 <script>
 import { computed } from 'vue';
-import { usePseudoSelectors } from '/@/common/composables';
+
+const { usePseudoSelectors } = window.zb.composables;
 
 export default {
 	name: 'PseudoGroup',

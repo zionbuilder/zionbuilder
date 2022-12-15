@@ -43,7 +43,7 @@
 <script>
 import { computed, inject } from 'vue';
 
-import ZionLabel from '../../../common/Label.vue';
+import ZionLabel from '/@/editor/common/Label.vue';
 
 export default {
 	name: 'LayoutMenu',

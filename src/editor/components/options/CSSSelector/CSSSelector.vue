@@ -79,14 +79,16 @@
 <script>
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
-import { applyFilters } from '/@/common/modules/hooks';
-import { translate } from '/@/common/modules/i18n';
-import { generateUID } from '/@/common/utils';
 
 // Components
 import AddChildActions from './AddChildActions.vue';
 import PseudoSelector from './PseudoSelector.vue';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { generateUID } = window.zb.utils;
+const { applyFilters } = window.zb.hooks;
 
 export default {
 	name: 'CSSSelector',

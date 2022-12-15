@@ -16,11 +16,12 @@
 
 <script>
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
-import { applyFilters, addAction, removeAction, doAction } from '/@/common/modules/hooks';
 
 // Utils
 import { debounce } from 'lodash-es';
 import { ScriptsLoader } from '../modules/ScriptsLoader';
+
+const { applyFilters, addAction, removeAction, doAction } = window.zb.hooks;
 
 export default {
 	name: 'ServerComponent',

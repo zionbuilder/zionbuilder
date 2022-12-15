@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useUserData } from '../../composables';
+import { useUserData } from '/@/editor/composables';
 
 const props = defineProps<{
 	item: Record<string, unknown>;

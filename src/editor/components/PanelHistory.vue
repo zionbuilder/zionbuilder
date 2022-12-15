@@ -72,12 +72,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch, ref, nextTick, computed } from 'vue';
+import { watch, ref, nextTick } from 'vue';
 import { useHistoryStore } from '/@/editor/store';
-import { translate } from '/@/common/modules/i18n';
 
 // Components
 import BasePanel from './BasePanel.vue';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 defineProps<{
 	panel: ZionPanel;

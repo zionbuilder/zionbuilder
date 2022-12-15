@@ -4,7 +4,6 @@ namespace ZionBuilder;
 
 use ZionBuilder\Plugin;
 use ZionBuilder\Elements\Element;
-use ZionBuilder\PageAssets;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -191,8 +190,6 @@ class Renderer {
 	 * @return void
 	 */
 	public function render_area( $post_id, $custom_content = null ) {
-		PageAssets::set_active_post_id( $post_id );
-
 		$area_class       = sprintf( 'zb-area-%s', $post_id );
 		$classes          = apply_filters( 'zionbuilder/single/area_class', [ 'zb', $area_class ], $post_id );
 		$area_content     = $custom_content ? $custom_content : $this->get_content_for_area( $post_id );
@@ -206,7 +203,6 @@ class Renderer {
 		if ( ! $disable_wrappers ) {
 			echo '</div>';
 		}
-		PageAssets::reset_active_post_id( $post_id );
 	}
 
 

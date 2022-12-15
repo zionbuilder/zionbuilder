@@ -12,9 +12,11 @@
 <script>
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
-import { useOptionsSchemas } from '/@/common/composables';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore, usePageSettingsStore } from '../store';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { useOptionsSchemas } = window.zb.composables;
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -47,7 +49,7 @@ export default {
 			},
 		};
 
-		const optionsSchema = Object.assign({}, getSchema('pageSettingsSchema'), cssClassesSchema);
+		const optionsSchema = Object.assign({}, window.ZnPbInitialData.page_settings.schema, cssClassesSchema);
 
 		return {
 			savedValues,

@@ -31,8 +31,10 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue';
-import { translate } from '/@/common/modules/i18n';
+import { ref, computed } from 'vue';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 export default {
 	name: 'AddSelector',

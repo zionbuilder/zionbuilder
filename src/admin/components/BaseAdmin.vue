@@ -56,7 +56,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
 
-const { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } = window.zb.common.store;
+const { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } = window.zb.store;
 const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();
 const googleFontsStore = useGoogleFontsStore();

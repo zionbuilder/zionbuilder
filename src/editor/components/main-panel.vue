@@ -145,10 +145,12 @@ import { ref, computed, onBeforeUnmount } from 'vue';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';
 import { useSavePage, useEditorData, useSaveTemplate } from '../composables';
-import { translate } from '/@/common/modules/i18n';
-import { useBuilderOptionsStore } from '/@/common/store';
 import { ResponsiveDevices, FlyoutWrapper, FlyoutMenuItem } from './MainPanel';
 import { useUIStore, useUserStore } from '../store';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { useBuilderOptionsStore } = window.zb.store;
 
 export default {
 	name: 'ZnpbPanelMain',

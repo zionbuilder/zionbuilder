@@ -43,12 +43,14 @@
 </template>
 <script>
 import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
-import { useEditorData, useUserData } from '../../composables';
-import { translate } from '/@/common/modules/i18n';
+import { useEditorData, useUserData } from '/@/editor/composables';
 import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 export default {
 	name: 'ElementsTab',

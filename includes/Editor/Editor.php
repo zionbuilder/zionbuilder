@@ -12,6 +12,7 @@ use ZionBuilder\Whitelabel;
 use ZionBuilder\User;
 use ZionBuilder\Nonces;
 use ZionBuilder\CommonJS;
+use ZionBuilder\Scripts;
 
 // Prevent direct access
 if ( ! defined( 'ABSPATH' ) ) {
@@ -208,43 +209,20 @@ class Editor {
 
 		wp_add_inline_style( 'zion-editor-style', Plugin::instance()->icons->get_icons_css() );
 
-		// Load Scripts
-		Plugin::instance()->scripts->enqueue_script(
-			'zb-vue',
-			'vue',
-			[],
-			Plugin::instance()->get_version(),
-			true
-		);
+		// Enqueue common js and css
+		Scripts::enqueue_common();
 
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',
 			'editor',
 			[
-				'zb-vue',
+				'zb-common',
 				'wp-auth-check',
 				'heartbeat',
-				'wp-codemirror',
-				'csslint',
-				'htmlhint',
-				'jshint',
-				'jsonlint',
-				'jquery-masonry',
 			],
 			Plugin::instance()->get_version(),
 			true
 		);
-
-		wp_localize_script(
-			'zb-editor',
-			'ZnRestConfig',
-			[
-				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-				'rest_root' => esc_url_raw( rest_url() ),
-			]
-		);
-
-		CommonJS::localize_common_js_data( 'zb-editor' );
 
 		wp_localize_script( 'zb-editor', 'ZnPbInitialData', $this->get_editor_initial_data() );
 

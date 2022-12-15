@@ -23,14 +23,16 @@
 
 <script>
 import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-import { addAction, removeAction } from '/@/common/modules/hooks';
 import { each } from 'lodash-es';
 
 import { useKeyBindings, useSavePage, useEditorData, useWindows } from '../composables';
-import { useResponsiveDevices } from '/@/common/composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore, useHistoryStore } from '../store';
 
 import PreviewApp from '/@/preview/PreviewApp.vue';
+
+// Common API
+const { useResponsiveDevices } = window.zb.composables;
+const { addAction, removeAction } = window.zb.hooks;
 
 export default {
 	name: 'PreviewIframe',

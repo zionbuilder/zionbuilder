@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-const { useBuilderOptionsStore } = window.zb.common.store;
+const { useBuilderOptionsStore } = window.zb.store;
 const { getOptionValue, updateOptionValue, debouncedSaveOptions } = useBuilderOptionsStore();
 
 const computedModel = computed({

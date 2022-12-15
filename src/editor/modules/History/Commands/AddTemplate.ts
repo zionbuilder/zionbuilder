@@ -1,6 +1,8 @@
 import { HistoryCommand } from '../HistoryCommand';
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore, useContentStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 type HistoryItem = {
 	data: {

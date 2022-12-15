@@ -1,6 +1,7 @@
 import { useSavePage, useEditorData, useElementActions } from '../composables';
-import { isEditable, Environment } from '/@/common/utils';
 import { useHistoryStore, useUIStore, useUserStore } from '../store';
+
+const { isEditable, Environment } = window.zb.utils;
 
 export const useKeyBindings = () => {
 	const UIStore = useUIStore();

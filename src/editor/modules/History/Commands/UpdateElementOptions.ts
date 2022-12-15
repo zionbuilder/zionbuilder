@@ -1,6 +1,8 @@
 import { DebouncedHistoryCommand } from '../DebouncedHistoryCommand';
 import { useContentStore } from '/@/editor/store';
-import { translate } from '/@/common/modules/i18n';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 export class UpdateElementOptions extends DebouncedHistoryCommand {
 	static commandID = 'editor/elements/update-element-options';

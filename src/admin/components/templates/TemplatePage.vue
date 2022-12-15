@@ -62,7 +62,7 @@ export default {
 		const activeTemplate = ref(null);
 		const activeFilter = ref('publish');
 
-		const { getSource } = window.zb.common.composables.useLibrary();
+		const { getSource } = window.zb.composables.useLibrary();
 
 		const localLibrary = getSource('local_library');
 		localLibrary.getData();

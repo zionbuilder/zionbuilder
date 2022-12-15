@@ -16,10 +16,10 @@
 
 <script>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
-import { useDataSetsStore } from '/@/common/store';
+const { useDataSetsStore } = window.zb.store;
 
 export default {
-	setup(props, { emit }) {
+	setup() {
 		const editor = inject('ZionInlineEditor');
 		const { fontsListForOption } = useDataSetsStore();
 		const activeFont = ref(null);

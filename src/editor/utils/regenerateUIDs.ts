@@ -1,6 +1,7 @@
-import { generateUID } from '/@/common/utils';
-
 import { unset } from 'lodash-es';
+
+const { generateUID } = window.zb.utils;
+
 export const regenerateUIDs = (element: ZionElementConfig) => {
 	const uid = generateUID();
 

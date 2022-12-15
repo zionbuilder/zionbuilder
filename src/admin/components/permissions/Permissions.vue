@@ -83,10 +83,10 @@ export default {
 	},
 	setup() {
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const { fetchUsersData } = window.zb.common.store.useUsersStore();
-		const { getOptionValue } = window.zb.common.store.useBuilderOptionsStore();
+		const { fetchUsersData } = window.zb.store.useUsersStore();
+		const { getOptionValue } = window.zb.store.useBuilderOptionsStore();
 
-		const { dataSets } = storeToRefs(window.zb.common.store.useDataSetsStore());
+		const { dataSets } = storeToRefs(window.zb.store.useDataSetsStore());
 		const userPermissions = getOptionValue('users_permissions');
 
 		const loading = ref(true);

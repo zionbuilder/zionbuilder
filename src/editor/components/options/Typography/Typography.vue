@@ -3,8 +3,9 @@
 </template>
 
 <script>
-import { useOptionsSchemas } from '/@/common/composables';
 import { computed } from 'vue';
+
+const { useOptionsSchemas } = window.zb.composables;
 
 export default {
 	name: 'Typography',

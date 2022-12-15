@@ -17,10 +17,10 @@
 import { ref } from 'vue';
 import { translate } from '@zb/i18n';
 
-const { Button, Loader } = window.zb.common.components;
+const { Button, Loader } = window.zb.components;
 const showMessage = ref(true);
 
-const { useAssetsStore } = window.zb.common.store;
+const { useAssetsStore } = window.zb.store;
 const AssetsStore = useAssetsStore();
 async function regenerateAssets() {
 	try {

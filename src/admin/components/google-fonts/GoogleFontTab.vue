@@ -52,7 +52,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const googleFontsStore = window.zb.common.store.useGoogleFontsStore();
+		const googleFontsStore = window.zb.store.useGoogleFontsStore();
 		const fontData = googleFontsStore.getFontData(props.font['font_family']);
 
 		return {

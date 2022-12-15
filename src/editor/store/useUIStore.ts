@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
 import { filter, get } from 'lodash-es';
 import { useUserData } from '../composables/useUserData';
-import { useResponsiveDevices } from '/@/common/composables';
 import { useContentStore } from './useContentStore';
+
+const { useResponsiveDevices } = window.zb.composables;
+
 interface Panel {
 	id: string;
 	component: string;

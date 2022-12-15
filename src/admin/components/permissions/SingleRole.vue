@@ -36,7 +36,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const { getRolePermissions, editRolePermission } = window.zb.common.store.useBuilderOptionsStore();
+		const { getRolePermissions, editRolePermission } = window.zb.store.useBuilderOptionsStore();
 
 		const isPro = window.ZnPbAdminPageData.is_pro_active;
 		const showModal = ref(false);

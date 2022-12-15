@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { useLibrary } from '/@/common/composables';
+const { useLibrary } = window.zb.composables;
 
 export default {
 	name: 'LibraryUploader',

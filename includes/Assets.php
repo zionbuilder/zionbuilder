@@ -86,7 +86,6 @@ class Assets {
 		);
 
 		wp_enqueue_style( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'css' ), [], Plugin::instance()->get_version() );
-
 		wp_enqueue_script( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'js' ), [ 'zb-vue' ], Plugin::instance()->get_version(), true );
 		wp_localize_script(
 			'znpb-assets-notice',

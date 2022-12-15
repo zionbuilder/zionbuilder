@@ -67,12 +67,14 @@
 
 <script lang="ts" setup>
 import { ref, Ref, computed, watch, inject, nextTick } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useUIStore } from '/@/editor/store';
 
 // Components
 import TreeViewList from './TreeViewList.vue';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 const props = defineProps<{
 	element: ZionElement;

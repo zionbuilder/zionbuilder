@@ -1,10 +1,12 @@
-import { savePage as savePageREST } from '/@/common/api';
 import { ref, Ref } from 'vue';
 import { usePageSettingsStore, useCSSClassesStore, useContentStore, useHistoryStore } from '../store';
 import { useEditorData } from './useEditorData';
-import { translate } from '/@/common/modules/i18n';
-import { useNotificationsStore } from '/@/common/store';
-import { useResponsiveDevices } from '/@/common/composables';
+
+// Common API
+const { translate } = window.zb.i18n;
+const { useNotificationsStore } = window.zb.store;
+const { useResponsiveDevices } = window.zb.composables;
+const { savePage: savePageREST } = window.zb.api;
 
 const isSavePageLoading: Ref<boolean> = ref(false);
 let previewWindow: Window | null = null;

@@ -109,12 +109,13 @@
 import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
-import { useLibrary } from '/@/common/composables';
 import { useUIStore } from '../store';
 
 // Components
 import LibraryPanel from './LibraryPanel.vue';
 import LibraryUploader from './library-panel/LibraryUploader.vue';
+
+const { useLibrary } = window.zb.composables;
 
 export default {
 	name: 'LibraryModal',

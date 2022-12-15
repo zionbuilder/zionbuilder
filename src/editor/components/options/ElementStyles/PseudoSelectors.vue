@@ -85,11 +85,12 @@
 <script>
 import { computed, ref, onBeforeUnmount } from 'vue';
 import { cloneDeep, set, find } from 'lodash-es';
-import { useResponsiveDevices, usePseudoSelectors } from '/@/common/composables';
-import { useEditorData } from '../../../composables';
+import { useEditorData } from '/@/editor/composables';
 
 // Components
 import PseudoDropdownItem from './PseudoDropdownItem.vue';
+
+const { useResponsiveDevices, usePseudoSelectors } = window.zb.composables;
 
 export default {
 	name: 'PseudoSelectors',

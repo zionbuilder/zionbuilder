@@ -27,7 +27,7 @@
 </template>
 <script>
 import { ref, computed, inject, onBeforeUnmount } from 'vue';
-import { useCSSClassesStore } from '../../../store';
+import { useCSSClassesStore } from '/@/editor/store';
 import AddSelector from '../common/AddSelector.vue';
 
 export default {

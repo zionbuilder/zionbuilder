@@ -33,7 +33,6 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { replaceUrl } from '@zb/api';
 
 export default {
 	name: 'ToolsPage',
@@ -52,10 +51,11 @@ export default {
 			message.value = '';
 			loading.value = true;
 
-			replaceUrl({
-				find: oldUrl.value,
-				replace: newUrl.value,
-			})
+			window.zb.api
+				.replaceUrl({
+					find: oldUrl.value,
+					replace: newUrl.value,
+				})
 				.then(response => {
 					loading.value = false;
 					message.value = response.data.message;

@@ -27,7 +27,6 @@
 
 <script>
 import { nextTick, watch, ref } from 'vue';
-import { searchUser } from '@zb/api';
 
 // Components
 import ModalListItem from './ModalListItem.vue';
@@ -49,7 +48,8 @@ export default {
 			if (newValue.length > 2) {
 				loading.value = true;
 
-				searchUser(newValue)
+				window.zb.api
+					.searchUser(newValue)
 					.then(result => {
 						users.value = result.data;
 					})

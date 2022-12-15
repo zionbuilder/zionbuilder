@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import { useElementProvide } from '../../../composables';
+import { useElementProvide } from '/@/editor/composables';
+
 export default {
 	name: 'ElementEventButton',
 	props: {

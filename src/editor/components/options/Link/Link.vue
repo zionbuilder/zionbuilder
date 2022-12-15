@@ -90,15 +90,15 @@
 <script>
 import { computed, ref, watchEffect, watch } from 'vue';
 import { get, debounce } from 'lodash-es';
-import { Injection, Tooltip } from '/@/common';
-import { applyFilters } from '/@/common/modules/hooks';
+
 import LinkAttributeForm from './LinkAttributeForm.vue';
+
+// Common API
+const { applyFilters } = window.zb.hooks;
 
 export default {
 	name: 'Link',
 	components: {
-		Injection,
-		Tooltip,
 		LinkAttributeForm,
 	},
 	props: {

@@ -65,7 +65,7 @@
 
 <script>
 import { computed, ref } from 'vue';
-const { useBuilderOptionsStore } = window.zb.common.store;
+const { useBuilderOptionsStore } = window.zb.store;
 
 // Components
 import GoogleFontTab from './GoogleFontTab.vue';

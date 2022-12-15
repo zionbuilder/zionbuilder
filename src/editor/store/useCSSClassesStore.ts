@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { cloneDeep, merge } from 'lodash-es';
-import { generateUID } from '/@/common/utils';
+
+const { generateUID } = window.zb.utils;
 
 export const useCSSClassesStore = defineStore('CSSClasses', {
 	state: () => {

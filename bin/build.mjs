@@ -5,6 +5,7 @@ import path from 'path';
 import { minify } from 'rollup-plugin-esbuild';
 import { generateManifest } from './manifest.mjs';
 import fs from 'fs';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Clear the dist folder
 const dist = path.resolve('./dist');
@@ -29,7 +30,7 @@ filesMap.forEach(async script => {
         input: {
           [script.output]: script.input,
         },
-        external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/api', '@zb/common', '@zb/utils'],
+        external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n'],
         output: {
           name: script.name,
           entryFileNames: `[name].js`,
@@ -45,15 +46,17 @@ filesMap.forEach(async script => {
             '@zb/common': 'zb.common',
             '@zb/hooks': 'zb.hooks',
             '@zb/i18n': 'zb.i18n',
-            '@zb/api': 'zb.api',
-            '@zb/utils': 'zb.utils',
-            '@zb/common/store': 'zb.common.store',
-            $zb: 'zb',
           },
         },
       },
     },
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      visualizer({
+        filename: `./stats/${script.input}.html`,
+        open: false,
+      }),
+    ],
   });
 });
 

@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { HistoryCommand } from './HistoryCommand';
 import { useHistoryStore } from '/@/editor/store';
 

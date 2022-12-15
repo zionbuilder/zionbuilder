@@ -29,13 +29,8 @@
 </template>
 
 <script>
-import { BaseInput } from '/@/common';
-
 export default {
 	name: 'LinkAttributeForm',
-	components: {
-		BaseInput,
-	},
 	props: {
 		attributeConfig: {
 			type: Object,

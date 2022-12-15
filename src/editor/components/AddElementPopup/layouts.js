@@ -1,4 +1,4 @@
-import { applyFilters } from '/@/common/modules/hooks';
+const { applyFilters } = window.zb.hooks;
 
 export const getLayoutConfigs = () => {
 	return applyFilters('editor/addElementsPopup/layoutConfigs', {

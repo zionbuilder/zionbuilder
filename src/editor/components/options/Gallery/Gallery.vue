@@ -31,10 +31,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-import { translate } from '/@/common/modules/i18n';
-import { getImageIds } from '/@/common/api';
-
 const { wp } = window;
+
+// Common API
+const { translate } = window.zb.i18n;
+const { getImageIds } = window.zb.api;
 
 type imageValueType = {
 	image: string;

@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { translate } from '@zb/i18n';
 
-const AssetsStore = window.zb.common.store.useAssetsStore();
+const AssetsStore = window.zb.store.useAssetsStore();
 </script>
 <style lang="scss">
 .znpb-admin-tools-wrapper {

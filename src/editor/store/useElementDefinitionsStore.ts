@@ -1,8 +1,10 @@
 import { markRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { find } from 'lodash-es';
-import { translate } from '/@/common/modules/i18n';
 import { ElementType } from '../models/ElementType';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 type ElementCategory = {
 	id: string;

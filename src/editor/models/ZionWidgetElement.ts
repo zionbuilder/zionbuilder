@@ -1,4 +1,3 @@
-import { extend } from 'lodash';
 import { ZionElement } from './ZionElement';
 
 export class ZionWidgetElement extends ZionElement {

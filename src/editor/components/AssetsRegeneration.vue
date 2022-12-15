@@ -6,8 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
-import { useAssetsStore } from '/@/common/store';
+// Common API
+const { translate } = window.zb.i18n;
+const { useAssetsStore } = window.zb.store;
 
 const AssetsStore = useAssetsStore();
 </script>

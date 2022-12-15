@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import { getDefaultGradient } from '/@/common/utils';
+const { getDefaultGradient } = window.zb.utils;
+
 export default {
 	name: 'BackgroundGradient',
 	props: {

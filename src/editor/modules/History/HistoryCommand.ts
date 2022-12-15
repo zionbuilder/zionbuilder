@@ -1,6 +1,8 @@
-import { translate } from '/@/common/modules/i18n';
 import { BaseCommand } from '/@/editor/modules/Commands/BaseCommand';
 import { useHistoryStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 export class HistoryCommand extends BaseCommand {
 	constructor(data: Record<string, unknown>) {

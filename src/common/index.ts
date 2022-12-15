@@ -9,16 +9,10 @@ import * as store from './store';
 import * as components from './components';
 import * as hooks from './modules/hooks';
 import * as i18n from './modules/i18n';
-import { PopperDirective } from './components/tooltip';
 import * as composables from './composables';
+import { PopperDirective } from './components/tooltip';
 
-window.zb = window.zb || {};
-window.zb.hooks = hooks;
-window.zb.i18n = i18n;
-window.zb.api = api;
-window.zb.utils = utils;
-
-export const install = (app: App) => {
+export const installCommonAPP = (app: App) => {
 	app.use(createPinia());
 
 	// init the translation functions
@@ -40,9 +34,14 @@ export const install = (app: App) => {
 	addSources(window.ZBCommonData.library.sources);
 };
 
-window.zb.common = {
-	components,
+window.zb = window.zb || {};
+Object.assign(window.zb, {
+	hooks,
+	i18n,
+	api,
+	utils,
 	composables,
-	install,
+	components,
+	installCommonAPP,
 	store,
-};
+});

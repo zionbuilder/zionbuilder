@@ -7,16 +7,18 @@ interface Window {
 		i18n: import('./common/modules');
 		api: import('./common/api');
 		utils: import('./common/utils');
-		common: {
-			components: import('./common/components');
-			install: (app: App) => void;
-			store: import('./common/store');
-			composables: import('./common/composables');
-		};
+		components: import('./common/components');
+		store: import('./common/store');
+		composables: import('./common/composables');
+		installCommonAPP: (app: App) => void;
 	} = {};
 
 	ZBCommonData: {
 		i18n: Record<string, string>;
+		environment: {
+			is_pro_active: boolean;
+			plugin_version: string;
+		};
 		rest: {
 			nonce: string;
 			rest_root: string;

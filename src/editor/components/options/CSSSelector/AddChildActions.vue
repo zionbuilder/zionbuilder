@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 import AddSelector from '../common/AddSelector.vue';
 

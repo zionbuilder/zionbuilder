@@ -2,16 +2,14 @@
 
 namespace ZionBuilder\Admin;
 
-use ZionBuilder\CommonJS;
 use ZionBuilder\Utils;
 use ZionBuilder\Plugin;
 use ZionBuilder\Permissions;
 use ZionBuilder\Settings;
 use ZionBuilder\Whitelabel;
 use ZionBuilder\WPMedia;
-use ZionBuilder\Nonces;
 use ZionBuilder\Options\Schemas\Performance;
-use ZionBuilder\Localization;
+use ZionBuilder\Scripts;
 
 
 // Prevent direct access
@@ -113,7 +111,7 @@ class Admin {
 	public function display_post_states( $post_states, $post ) {
 		$post_instance = Plugin::$instance->post_manager->get_post_instance( $post->ID );
 
-		if ( $post_instance->is_built_with_zion() ) {
+		if ( $post_instance && $post_instance->is_built_with_zion() ) {
 			$post_states['zionbuilder'] = Whitelabel::get_title();
 		}
 
@@ -140,6 +138,7 @@ class Admin {
 		);
 
 		// Invert the color for admin icon
+		// TODO: move to PRO
 		if ( Utils::is_pro_active() && ! empty( Whitelabel::get_logo_url() ) ) {
 			wp_add_inline_style(
 				'admin-menu',
@@ -194,93 +193,27 @@ class Admin {
 		if ( $admin_hook === $hook ) {
 			do_action( 'zionbuilder/admin/before_admin_scripts' );
 
-			wp_enqueue_style(
-				'znpb-roboto-font',
-				'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
-				[],
-				Plugin::instance()->get_version()
-			);
+			// Enqueue common js and css
+			Scripts::enqueue_common();
 
-			// Load styles
+			// Load admin page styles
 			Plugin::instance()->scripts->enqueue_style(
 				'znpb-admin-settings-page-styles',
 				'admin-page',
-				[ 'wp-codemirror', 'media-views' ],
-				Plugin::instance()->get_version()
-			);
-			wp_add_inline_style( 'znpb-admin-settings-page-styles', Plugin::instance()->icons->get_icons_css() );
-
-			wp_enqueue_media();
-			// This is needed because wp_editor somehow unloads dashicons
-			wp_print_styles( 'media-views' );
-
-			Plugin::instance()->scripts->enqueue_script(
-				'zb-vue',
-				'vue',
-				[],
-				Plugin::instance()->get_version(),
-				true
-			);
-
-			Plugin::instance()->scripts->enqueue_script(
-				'zb-pinia',
-				'pinia',
-				[],
-				Plugin::instance()->get_version(),
-				true
-			);
-
-			Plugin::instance()->scripts->enqueue_script(
-				'zb-common',
-				'common',
 				[
 					'wp-codemirror',
-					'csslint',
-					'htmlhint',
-					'jshint',
-					'jsonlint',
-					'zb-vue',
-					'zb-pinia',
+					'media-views',
+					'zb-common',
 				],
-				Plugin::$instance->get_version(),
-				true
+				Plugin::instance()->get_version()
 			);
 
-			wp_localize_script(
-				'zb-common',
-				'ZBCommonData',
-				apply_filters(
-					'zionbuilder/js/common/initial_data',
-					[
-						'i18n'        => Localization::get_strings(),
-						'rest'        => [
-							'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-							'rest_root' => esc_url_raw( rest_url() ),
-						],
-						'environment' => [
-							'is_pro_active'  => Utils::is_pro_active(),
-							'plugin_version' => Plugin::$instance->get_version(),
-						],
-						'library'     => [
-							'sources' => Plugin::$instance->library->get_sources(),
-							'types'   => Plugin::$instance->templates->get_template_types(),
-						],
-						'schemas'     => apply_filters(
-							'zionbuilder/admin_page/options_schemas',
-							[
-								'performance' => Performance::get_schema(),
-							]
-						),
-					]
-				)
-			);
-
+			// Load admin page scripts
 			Plugin::instance()->scripts->enqueue_script(
 				'zb-admin',
 				'admin-page',
 				[
 					'zb-common',
-					'zb-vue',
 				],
 				Plugin::$instance->get_version(),
 				true
@@ -357,17 +290,6 @@ class Admin {
 					]
 				)
 			);
-
-			wp_localize_script(
-				'zb-admin',
-				'ZnRestConfig',
-				[
-					'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-					'rest_root' => esc_url_raw( rest_url() ),
-				]
-			);
-
-			CommonJS::localize_common_js_data( 'zb-admin' );
 
 			do_action( 'zionbuilder/admin/after_admin_scripts' );
 		}

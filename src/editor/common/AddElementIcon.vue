@@ -14,9 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-import { translate } from '/@/common/modules/i18n';
 import { useUIStore, useUserStore } from '../store';
 import { ref, onBeforeUnmount, onMounted } from 'vue';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 const props = withDefaults(
 	defineProps<{

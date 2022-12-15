@@ -129,12 +129,13 @@
 
 <script setup>
 import { computed, ref, nextTick, watch } from 'vue';
-import { useResponsiveDevices } from '/@/common/composables';
 
 import DeviceElement from './DeviceElement.vue';
 import FlyoutWrapper from './FlyoutWrapper.vue';
 import FlyoutMenuItem from './FlyoutMenuItem.vue';
-import { useUserStore } from '../../store';
+import { useUserStore } from '/@/editor/store';
+
+const { useResponsiveDevices } = window.zb.composables;
 
 const {
 	activeResponsiveDeviceInfo,

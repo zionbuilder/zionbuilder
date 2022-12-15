@@ -36,8 +36,6 @@
 // Utils
 import { ref, watch, computed, readonly, provide } from 'vue';
 import { get, debounce, each, escape, mergeWith, isArray, camelCase } from 'lodash-es';
-import { applyFilters } from '/@/common/modules/hooks';
-import { useOptionsSchemas, usePseudoSelectors } from '/@/common/composables';
 
 // Components
 import ElementToolbox from './ElementToolbox/ElementToolbox.vue';
@@ -49,6 +47,10 @@ import VideoBackground from './VideoBackground.vue';
 import { useElementComponent } from '../composables/useElementComponent';
 import Options from '../modules/Options';
 import { useUIStore } from '/@/editor/store';
+
+// Common API
+const { applyFilters } = window.zb.hooks;
+const { useOptionsSchemas, usePseudoSelectors } = window.zb.composables;
 
 let clickHandled = false;
 

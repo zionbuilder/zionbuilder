@@ -44,11 +44,13 @@
 </template>
 <script lang="ts" setup>
 import { ref, Ref, computed, provide, watch } from 'vue';
-import { translate } from '/@/common/modules/i18n';
 
 // components
 import TreeViewList from './TreeViewList.vue';
 import { useUIStore, useUserStore } from '/@/editor/store';
+
+// Common API
+const { translate } = window.zb.i18n;
 
 const UIStore = useUIStore();
 const userStore = useUserStore();

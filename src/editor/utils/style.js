@@ -1,4 +1,4 @@
-import { useResponsiveDevices } from '/@/common/composables';
+const { useResponsiveDevices } = window.zb.composables;
 
 export function getCssFromSelector(selectors, styleConfig, args = {}) {
 	let css = '';

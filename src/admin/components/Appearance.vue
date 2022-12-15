@@ -16,7 +16,7 @@
 <script setup>
 import { computed, watch } from 'vue';
 
-const { useBuilderOptionsStore } = window.zb.common.store;
+const { useBuilderOptionsStore } = window.zb.store;
 const { getOptionValue, updateOptionValue } = useBuilderOptionsStore();
 const schema = window.ZnPbAdminPageData.appearance.schema;
 

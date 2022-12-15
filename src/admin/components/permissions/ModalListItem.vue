@@ -22,9 +22,8 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		const { addUser } = window.zb.common.store.useUsersStore();
-		const { getUserPermissions, addUserPermissions, deleteUserPermission } =
-			window.zb.common.store.useBuilderOptionsStore();
+		const { addUser } = window.zb.store.useUsersStore();
+		const { getUserPermissions, addUserPermissions, deleteUserPermission } = window.zb.store.useBuilderOptionsStore();
 		const loadingDelete = ref(false);
 		const userPermissionsExists = computed(() => getUserPermissions(props.user.id));
 

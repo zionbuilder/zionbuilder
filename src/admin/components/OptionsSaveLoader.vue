@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-const { useBuilderOptionsStore } = window.zb.common.store;
+const { useBuilderOptionsStore } = window.zb.store;
 const builderOptionsStore = useBuilderOptionsStore();
 </script>
 

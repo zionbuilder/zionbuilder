@@ -55,13 +55,13 @@
 
 <script>
 import { computed } from 'vue';
-import { generateUID } from '@zb/utils';
 
 // Components
 import ColorBox from './ColorBox.vue';
 
-const { useBuilderOptionsStore } = window.zb.common.store;
-const { Sortable } = window.zb.common.components;
+const { generateUID } = window.zb.utils;
+const { useBuilderOptionsStore } = window.zb.store;
+const { Sortable } = window.zb.components;
 export default {
 	name: 'Colors',
 	components: {
