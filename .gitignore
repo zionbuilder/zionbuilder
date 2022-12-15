@@ -13,6 +13,8 @@ Release/
 release/
 .vscode/launch.json
 
+# Stats
+
 # Package managers
 /composer.lock
 /vendor/

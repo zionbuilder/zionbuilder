@@ -112,5 +112,5 @@ export const filesMap = [
     input: 'src/scss/frontend/index.scss',
     output: 'frontend',
   },
-  //   ...elementsMap,
+  ...elementsMap,
 ];
