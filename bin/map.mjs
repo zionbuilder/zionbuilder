@@ -36,6 +36,7 @@ export const filesMap = [
     input: 'src/common/index.ts',
     format: 'iife',
     output: 'common',
+    name: 'common',
   },
 
   //   admin
@@ -49,6 +50,7 @@ export const filesMap = [
     input: 'src/admin/gutenberg.ts',
     format: 'iife',
     output: 'gutenberg',
+    name: 'gutenberg',
   },
   {
     input: 'src/admin/admin-page.ts',
@@ -68,28 +70,33 @@ export const filesMap = [
     input: 'src/modules/screenshot/index.ts',
     format: 'iife',
     output: 'screenshot',
+    name: 'screenshot',
   },
   {
     input: 'src/modules/integrations/rankmath.ts',
     format: 'iife',
     output: 'integrations/rankmath',
+    name: 'integrations.rankmath',
   },
   {
     input: 'src/modules/integrations/yoast.ts',
     format: 'iife',
     output: 'integrations/yoast',
+    name: 'integrations.yoast',
   },
   // Editor
   {
     input: 'src/editor/editor.ts',
     format: 'iife',
     output: 'editor',
+    name: 'editor',
   },
   // packages
   {
     input: 'src/modules/animateJS/index.ts',
     format: 'iife',
     output: 'animateJS',
+    name: 'animateJS',
   },
 
   // Frontend
@@ -97,20 +104,24 @@ export const filesMap = [
     input: 'src/frontend/modules/modalJS/index.ts',
     format: 'iife',
     output: 'ModalJS',
+    name: 'ModalJS',
   },
   {
     input: 'src/frontend/modules/video/index.ts',
     format: 'iife',
     output: 'ZBVideo',
+    name: 'ZBVideo',
   },
   {
     input: 'src/frontend/modules/videoBG/index.ts',
     format: 'iife',
     output: 'ZBVideoBg',
+    name: 'ZBVideoBg',
   },
   {
     input: 'src/scss/frontend/index.scss',
     output: 'frontend',
+    name: 'frontend',
   },
   ...elementsMap,
 ];

@@ -2,7 +2,7 @@
 
 namespace ZionBuilder\Editor;
 
-use ZionBuilder\CommonJS;
+use ZionBuilder\Scripts;
 use ZionBuilder\Permissions;
 use ZionBuilder\Plugin;
 use ZionBuilder\Nonces;
@@ -84,8 +84,6 @@ class Preview {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'wp_footer', [ $this, 'add_data' ] );
-
-		add_filter( 'script_loader_tag', [ $this, 'on_script_loading' ], 10, 3 );
 	}
 
 	public function add_body_class( $classes ) {
@@ -95,76 +93,45 @@ class Preview {
 		return $classes;
 	}
 
-	public function on_script_loading( $tag, $handle, $src ) {
-		// Save the src
-		self::$enqueued_scripts[] = $src;
-
-		if ( $handle === 'znpb-preview-frame-scripts' ) {
-			$scripts_json_data = wp_json_encode( self::$enqueued_scripts );
-			$script            = "
-				var ZnPbLoadedScripts = {$scripts_json_data};
-			";
-
-			$before_handle = sprintf( "<script type='text/javascript'>\n%s\n</script>\n", $script );
-
-			return $before_handle . $tag;
-		}
-
-		return $tag;
-	}
-
 	public function add_data() {
-
+		?>
+			<script type="text/javascript">
+				var ZnPbInitialData = <?php echo json_encode( $this->get_preview_initial_data() ); ?>
+			</script>
+		<?php
 	}
 
 	public function enqueue_scripts() {
 		// Trigger action before load scripts
 		do_action( 'zionbuilder/preview/before_load_scripts', $this );
 
-		// wp_enqueue_media();
-
 		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
 
-		Plugin::instance()->scripts->enqueue_script(
-			'znpb-preview-frame-scripts',
-			'preview',
-			[],
-			Plugin::instance()->get_version(),
-			true
-		);
-
 		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
-
-		CommonJS::localize_common_js_data( 'znpb-preview-frame-scripts' );
 
 		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 	}
 
 	public function enqueue_styles() {
+		// Enqueue common js and css
+		Scripts::enqueue_common();
+
 		// Trigger action before load styles
 		do_action( 'zionbuilder/preview/before_load_styles', $this );
 
 		// Load roboto font
 		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
-		// Plugin::instance()->scripts->register_style(
-		//  'znpb-editor-styles',
-		//  'editor',
-		//  [],
-		//  Plugin::instance()->get_version()
-		// );
-
 		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',
 			'editor',
-			[],
+			[
+				'zb-common',
+			],
 			Plugin::instance()->get_version()
 		);
-
-		// This is needed because wp_editor somehow unloads dashicons
-		// wp_print_styles( 'media-views' );
 
 		do_action( 'zionbuilder/preview/after_load_styles', $this );
 	}

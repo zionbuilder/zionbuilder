@@ -22,10 +22,21 @@ filesMap.forEach(async script => {
       },
     },
     build: {
-      minify: true,
+      minify: false,
       cssCodeSplit: false,
       emptyOutDir: false,
       target: 'es2015',
+      //   lib: {
+      //     entry: {
+      //       [script.input]: script.output,
+      //     },
+
+      //     name: `zb.${script.name}`,
+      //     formats: ['iife'],
+      //     // the proper extensions will be added
+      //     fileName: () => script.output + '.js',
+      //   },
+
       rollupOptions: {
         input: {
           [script.output]: script.input,

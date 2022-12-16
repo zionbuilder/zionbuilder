@@ -198,19 +198,19 @@ class Editor {
 		// Load animation css file
 		wp_enqueue_style( 'zion-frontend-animations', plugins_url( 'zionbuilder/assets/vendors/css/animate.css' ), [], Plugin::instance()->get_version() );
 
+		// Enqueue common js and css
+		Scripts::enqueue_common();
+
 		Plugin::instance()->scripts->enqueue_style(
 			'zion-editor-style',
 			'editor',
 			[
-				'wp-codemirror',
+				'zb-common',
 			],
 			Plugin::instance()->get_version()
 		);
 
 		wp_add_inline_style( 'zion-editor-style', Plugin::instance()->icons->get_icons_css() );
-
-		// Enqueue common js and css
-		Scripts::enqueue_common();
 
 		Plugin::instance()->scripts->enqueue_script(
 			'zb-editor',

@@ -94,11 +94,12 @@ class Scripts {
 			Plugin::instance()->get_version()
 		);
 
-		// Load main common styles
 		Plugin::instance()->scripts->enqueue_style(
 			'zb-common',
 			'common',
-			[],
+			[
+				'wp-codemirror',
+			],
 			Plugin::instance()->get_version()
 		);
 
