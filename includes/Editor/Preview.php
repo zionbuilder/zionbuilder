@@ -41,7 +41,7 @@ class Preview {
 	/**
 	 * Disable Admin Bar
 	 *
-	 * This runs on WP action since the admin bar is initialised on template_redirect action with 0 priority
+	 * This runs on WP action since the admin bar is initialized on template_redirect action with 0 priority
 	 *
 	 * @return void
 	 */
@@ -81,8 +81,7 @@ class Preview {
 
 		// Load preview scripts. We use a high order so we can create a list of other loaded scripts
 		// Load styles before theme styles
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 9 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 9 );
 		add_action( 'wp_footer', [ $this, 'add_data' ] );
 	}
 
@@ -104,25 +103,14 @@ class Preview {
 	public function enqueue_scripts() {
 		// Trigger action before load scripts
 		do_action( 'zionbuilder/preview/before_load_scripts', $this );
+		do_action( 'zionbuilder/preview/before_load_styles', $this );
+
+		// Enqueue common js and css. This is needed as we need to style the element toolboxes
+		Scripts::enqueue_common();
 
 		wp_enqueue_style( 'zion-frontend-animations' );
 		wp_enqueue_script( 'zionbuilder-animatejs' );
 		wp_enqueue_script( 'zb-video-bg' );
-
-		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
-
-		do_action( 'zionbuilder/preview/after_load_scripts', $this );
-	}
-
-	public function enqueue_styles() {
-		// Enqueue common js and css
-		Scripts::enqueue_common();
-
-		// Trigger action before load styles
-		do_action( 'zionbuilder/preview/before_load_styles', $this );
-
-		// Load roboto font
-		wp_enqueue_style( 'znpb-roboto-font', 'https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], Plugin::instance()->get_version() );
 
 		Plugin::instance()->scripts->enqueue_style(
 			'znpb-preview-frame-styles',
@@ -133,6 +121,9 @@ class Preview {
 			Plugin::instance()->get_version()
 		);
 
+		wp_localize_script( 'znpb-preview-frame-scripts', 'ZnPbInitialData', $this->get_preview_initial_data() );
+
+		do_action( 'zionbuilder/preview/after_load_scripts', $this );
 		do_action( 'zionbuilder/preview/after_load_styles', $this );
 	}
 
