@@ -24,12 +24,13 @@ const server = await createServer({
   build: {
     rollupOptions: {
       input: inputs,
-      external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/common'],
+      external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/store', '@zb/common'],
       globals: {
         vue: 'zb.vue',
         '@zb/common': 'zb.common',
         '@zb/hooks': 'zb.hooks',
         '@zb/i18n': 'zb.i18n',
+        '@zb/store': 'zb.store',
       },
     },
   },

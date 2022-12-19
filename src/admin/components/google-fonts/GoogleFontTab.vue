@@ -40,6 +40,7 @@
 
 <script>
 import HiddenContainer from '../HiddenContainer.vue';
+import { useGoogleFontsStore } from '@zb/store';
 
 export default {
 	name: 'GoogleFontTab',
@@ -52,7 +53,7 @@ export default {
 		},
 	},
 	setup(props) {
-		const googleFontsStore = window.zb.store.useGoogleFontsStore();
+		const googleFontsStore = useGoogleFontsStore();
 		const fontData = googleFontsStore.getFontData(props.font['font_family']);
 
 		return {
@@ -89,7 +90,7 @@ export default {
 			},
 		},
 		niceFontVariants() {
-			let variants = [];
+			const variants = [];
 			this.font.font_variants.forEach(variant => {
 				variants.push(this.getVarianNameFromId(variant));
 			});
@@ -97,7 +98,7 @@ export default {
 			return variants.join(', ');
 		},
 		niceFontSubsets() {
-			let subsets = [];
+			const subsets = [];
 			this.font.font_subset.forEach(subset => {
 				subsets.push(this.capitalizeWords(subset.split('-').join(' ')));
 			});
@@ -105,7 +106,7 @@ export default {
 			return subsets.join(', ');
 		},
 		fontVariantsOption() {
-			let options = [];
+			const options = [];
 
 			this.fontData.variants.forEach(variant => {
 				options.push({
@@ -116,7 +117,7 @@ export default {
 			return options;
 		},
 		fontSubsetOption() {
-			let options = [];
+			const options = [];
 
 			this.fontData.subsets.forEach(subset => {
 				options.push({
@@ -151,7 +152,7 @@ export default {
 			return variant;
 		},
 		capitalizeWords(words) {
-			let wordsArray = words.split(' ');
+			const wordsArray = words.split(' ');
 			wordsArray.forEach((word, i) => {
 				wordsArray[i] = wordsArray[i].charAt(0).toUpperCase() + wordsArray[i].substring(1);
 			});

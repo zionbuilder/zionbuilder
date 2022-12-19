@@ -1,6 +1,8 @@
 <template>
 	<div v-if="showMessage" class="notice notice-warning znpb-assetRegenerationNotice">
-		{{ translate('cache_needs_to_be_regenerated') }}
+		{{
+			sprintf(__('%s assets needs to be regenerated.', 'zionbuilder'), window.zb.ZBCommonData.environment.plugin_name)
+		}}
 
 		<Button :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="regenerateAssets">
 			<template v-if="AssetsStore.isLoading">
@@ -8,20 +10,23 @@
 				<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
 			</template>
 
-			<span v-else>{{ translate('regenerate_files') }}</span>
+			<span v-else>{{ __('Regenerate Files', 'zionbuilder') }}</span>
 		</Button>
 	</div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { translate } from '@zb/i18n';
+import { sprintf, __ } from '@wordpress/i18n';
+import { useAssetsStore, useEnvironmentStore } from '@zb/store';
+import { useEnvironmentStore } from '@zb/store';
 
 const { Button, Loader } = window.zb.components;
 const showMessage = ref(true);
 
-const { useAssetsStore } = window.zb.store;
 const AssetsStore = useAssetsStore();
+const EnvironmentStore = useEnvironmentStore();
+
 async function regenerateAssets() {
 	try {
 		await AssetsStore.regenerateCache();

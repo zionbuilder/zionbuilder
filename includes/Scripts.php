@@ -154,6 +154,7 @@ class Scripts {
 					'environment' => [
 						'is_pro_active'  => Utils::is_pro_active(),
 						'plugin_version' => Plugin::$instance->get_version(),
+						'plugin_name'    => Whitelabel::get_title(),
 					],
 					'library'     => [
 						'sources' => Plugin::$instance->library->get_sources(),

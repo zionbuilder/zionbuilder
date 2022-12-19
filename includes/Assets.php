@@ -85,16 +85,10 @@ class Assets {
 			true
 		);
 
+		// Enqueue common js and css
+		Scripts::enqueue_common();
 		wp_enqueue_style( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'css' ), [], Plugin::instance()->get_version() );
 		wp_enqueue_script( 'znpb-assets-notice', Plugin::instance()->scripts->get_script_url( 'regenerate-assets-notice', 'js' ), [ 'zb-vue' ], Plugin::instance()->get_version(), true );
-		wp_localize_script(
-			'znpb-assets-notice',
-			'ZnRestConfig',
-			[
-				'nonce'     => Nonces::generate_nonce( Nonces::REST_API ),
-				'rest_root' => esc_url_raw( rest_url() ),
-			]
-		);
 
 		CommonJS::localize_common_js_data( 'znpb-assets-notice' );
 	}

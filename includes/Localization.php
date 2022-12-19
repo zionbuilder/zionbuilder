@@ -83,22 +83,14 @@ class Localization {
 
 				// Tools
 				'tools'                                    => esc_html__( 'Tools', 'zionbuilder' ),
-				'regenerate_files'                         => esc_html__( 'Regenerate Files', 'zionbuilder' ),
-				'regenerate_css'                           => esc_html__( 'Regenerate CSS & JS', 'zionbuilder' ),
 				'regenerating_assets'                      => esc_html__( 'Regenerating assets', 'zionbuilder' ),
 				/* translators: %s: Plugin WhiteLabel name */
-				'cache_needs_to_be_regenerated'            => sprintf( esc_html__( '%s assets needs to be regenerated.', 'zionbuilder' ), Whitelabel::get_title() ),
 				'regenerate_assets'                        => esc_html__( 'regenerate assets', 'zionbuilder' ),
 
 				'sync_library'                             => esc_html__( 'Sync Library', 'zionbuilder' ),
 				'old_url'                                  => esc_html__( 'old Url', 'zionbuilder' ),
 				'new_url'                                  => esc_html__( 'New Url', 'zionbuilder' ),
 
-				'tools_info'                               => sprintf(
-					/* translators: %s is the whitelabel plugin name */
-					_x( 'Styles set in %s are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.', 'zionbuilder' ),
-					Whitelabel::get_title()
-				),
 				'replace_info'                             => __( '<strong>Important:</strong> It is strongly recommended that you <a href="https://zionbuilder.io/documentation/replace-url-s/">backup your database</a> before using Replace URL.', 'zionbuilder' ),
 
 				// System info

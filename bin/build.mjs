@@ -41,7 +41,7 @@ filesMap.forEach(async script => {
         input: {
           [script.output]: script.input,
         },
-        external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n'],
+        external: ['vue', 'pinia', '@zb/common', '@zb/hooks', '@zb/i18n', '@zb/store', '@wordpress/i18n'],
         output: {
           name: script.name,
           entryFileNames: `[name].js`,
@@ -57,6 +57,8 @@ filesMap.forEach(async script => {
             '@zb/common': 'zb.common',
             '@zb/hooks': 'zb.hooks',
             '@zb/i18n': 'zb.i18n',
+            '@zb/store': 'zb.store',
+            '@wordpress/i18n': 'wp.i18n',
           },
         },
       },

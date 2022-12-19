@@ -1,28 +1,35 @@
 <template>
 	<div class="znpb-admin-tools-wrapper">
 		<PageTemplate>
-			<h3>{{ translate('general') }}</h3>
+			<h3>{{ __('General', 'zionbuilder') }}</h3>
 
 			<div class="znpb-admin-regenerate">
-				<h4>{{ translate('regenerate_css') }}</h4>
+				<h4>{{ __('Regenerate CSS & JS', 'zionbuilder') }}</h4>
 				<Button type="line" :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="AssetsStore.regenerateCache">
 					<template v-if="AssetsStore.isLoading">
 						<Loader :size="13" />
 						<span v-if="AssetsStore.filesCount > 0">{{ AssetsStore.currentIndex }}/{{ AssetsStore.filesCount }}</span>
 					</template>
 
-					<span v-else>{{ translate('regenerate_files') }}</span>
+					<span v-else>{{ __('Regenerate Files', 'zionbuilder') }}</span>
 				</Button>
 			</div>
 			<template #right>
-				<p class="znpb-admin-info-p">{{ translate('tools_info') }}</p>
+				<p class="znpb-admin-info-p">
+					{{
+						__(
+							'Styles are saved in CSS files in the uploads folder. Recreate those files, according to the most recent settings.',
+							'zionbuilder',
+						)
+					}}
+				</p>
 			</template>
 		</PageTemplate>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { translate } from '@zb/i18n';
+import { __ } from '@wordpress/i18n';
 
 const AssetsStore = window.zb.store.useAssetsStore();
 </script>

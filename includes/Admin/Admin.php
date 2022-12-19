@@ -57,6 +57,7 @@ class Admin {
 
 		// Set admin body class
 		add_filter( 'admin_body_class', [ $this, 'set_builder_theme' ] );
+
 	}
 
 	/**
@@ -218,6 +219,8 @@ class Admin {
 				Plugin::$instance->get_version(),
 				true
 			);
+
+			wp_set_script_translations( 'znpb-admin-post-script', 'zionbuilder', Plugin::instance()->get_root_path() . '/languages' );
 
 			wp_localize_script(
 				'zb-admin',

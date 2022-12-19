@@ -52,11 +52,16 @@
 </template>
 
 <script setup>
+// Globals
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
+// Internal globals
+import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '@zb/store';
+
+// Local components
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
 
-const { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } = window.zb.store;
 const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();
 const googleFontsStore = useGoogleFontsStore();
@@ -69,12 +74,12 @@ const version = window.ZnPbAdminPageData.plugin_version;
 const isPro = window.ZnPbAdminPageData.is_pro_active;
 
 const menuItems = computed(() => {
-	var routes = [];
-	for (var i in router.options.routes) {
+	const routes = [];
+	for (const i in router.options.routes) {
 		if (!router.options.routes.hasOwnProperty(i)) {
 			continue;
 		}
-		var route = router.options.routes[i];
+		const route = router.options.routes[i];
 		if (route.hasOwnProperty('title')) {
 			routes.push(route);
 		}

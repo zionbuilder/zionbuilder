@@ -29,6 +29,7 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
+import { useGoogleFontsStore } from '@zb/store';
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue';
@@ -44,8 +45,8 @@ export default {
 			required: true,
 		},
 	},
-	setup(props) {
-		const googleFontsStore = window.zb.store.useGoogleFontsStore();
+	setup() {
+		const googleFontsStore = useGoogleFontsStore();
 		const fontsPerPage = 20;
 
 		const currentPage = ref(1);
@@ -74,7 +75,7 @@ export default {
 		watch(visibleFonts, newValue => {
 			let fontLink = document.getElementById('znpb-google-fonts-script');
 
-			let fontsSource = newValue.map(font => {
+			const fontsSource = newValue.map(font => {
 				let variant = '';
 				if (!font.variants.includes(400)) {
 					variant = `:${font.variants[0]}`;
