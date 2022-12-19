@@ -16,7 +16,8 @@
     "publish": "yarn run publish:packages",
     "dev:packages": "lerna run dev",
     "build:packages": "lerna run build",
-    "build:types": "tsc --build"
+    "build:types": "tsc --build",
+    "postinstall": "composer install"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
