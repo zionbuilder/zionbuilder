@@ -8,7 +8,7 @@
 			v-model:show="showModal"
 			class="znpb-admin-permissions-modal"
 			:width="560"
-			:title="role.name + ' ' + $translate('permissions')"
+			:title="role.name + ' ' + __('Permissions', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<UserModalContent :permissions="permissionConfig" @edit-role="editRolePermission(role.id, $event)" />
@@ -16,59 +16,45 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
 // Components
 import UserModalContent from './UserModalContent.vue';
 import UserTemplate from './UserTemplate.vue';
 
-export default {
-	name: 'SingleRole',
-	components: {
-		UserTemplate,
-		UserModalContent,
+const props = defineProps({
+	role: {
+		type: Object,
+		required: true,
 	},
-	props: {
-		role: {
-			type: Object,
-			required: true,
-		},
-	},
-	setup(props) {
-		const { getRolePermissions, editRolePermission } = window.zb.store.useBuilderOptionsStore();
+});
 
-		const isPro = window.ZnPbAdminPageData.is_pro_active;
-		const showModal = ref(false);
+const { getRolePermissions, editRolePermission } = window.zb.store.useBuilderOptionsStore();
 
-		const permissionConfig = computed(() => getRolePermissions(props.role.id));
+const showModal = ref(false);
 
-		const permissionsNumber = computed(() => {
-			let permNumber = 1;
-			if (!permissionConfig.value || permissionConfig.value.allowed_access === false) {
-				return 0;
-			} else {
-				if (permissionConfig.value.permissions.only_content === true) {
-					permNumber++;
-				}
-				for (let i in permissionConfig.value.permissions.features) {
-					permNumber++;
-				}
-				for (let i in permissionConfig.value.permissions.post_types) {
-					permNumber++;
-				}
+const permissionConfig = computed(() => getRolePermissions(props.role.id));
 
-				return permNumber;
-			}
+const permissionsNumber = computed(() => {
+	let permNumber = 1;
+	if (!permissionConfig.value || permissionConfig.value.allowed_access === false) {
+		return 0;
+	} else {
+		if (permissionConfig.value.permissions.only_content === true) {
+			permNumber++;
+		}
+
+		permissionConfig.value.permissions.features.forEach(() => {
+			permNumber++;
 		});
 
-		return {
-			isPro,
-			showModal,
-			permissionConfig,
-			permissionsNumber,
-			editRolePermission,
-		};
-	},
-};
+		permissionConfig.value.permissions.post_types.forEach(() => {
+			permNumber++;
+		});
+
+		return permNumber;
+	}
+});
 </script>

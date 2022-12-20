@@ -1,12 +1,13 @@
 <template>
 	<PageTemplate class="znpb-admin-content-wrapper">
-		<h3>{{ $translate('custom_code') }}</h3>
+		<h3>{{ __('Custom code', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-appearancePageForm" />
 	</PageTemplate>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 
 const { useBuilderOptionsStore } = window.zb.store;

@@ -1,7 +1,9 @@
 <template>
 	<div class="znpb-system-list-wrapper">
-		<h2 class="znpb-system-title">{{$translate('copy_paste')}}</h2>
-		<h5 class="znpb-system-subtitle">{{$translate('copy_paste_description')}}</h5>
+		<h2 class="znpb-system-title">{{ __('Copy and paste info', 'zionbuilder') }}</h2>
+		<h5 class="znpb-system-subtitle">
+			{{ __('You can copy the below info as simple text with Ctrl+C / Ctrl+V:', 'zionbuilder') }}
+		</h5>
 
 		<BaseInput
 			:modelValue="getCategoryData"
@@ -13,42 +15,43 @@
 		/>
 	</div>
 </template>
-<script>
-import { computed } from 'vue'
-export default {
-	name: 'CopyPasteServer',
-	props: {
-		categoryData: {
-			type: Array,
-			required: true
-		}
-	},
-	setup (props) {
-		const getCategoryData = computed(() => {
-			let result = []
 
-			props.categoryData.forEach((category) => {
-				result.push(`==${category.category_name}==\n`)
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+import { computed } from 'vue';
 
-				Object.keys(category.values).forEach(function (key) {
-					result.push(`\t${category.values[key].name}`)
-					// statement for plugins which don't have value
-					if (category.values[key].value !== undefined) {
-						result.push(`: ${category.values[key].value}`)
-					}
-					result.push('\n')
-				})
-			})
+type ServerCategory = {
+	category_name: string;
+	values: {
+		[key: string]: {
+			name: string;
+			value?: string;
+		};
+	};
+};
 
-			return result.join('')
-		})
+const props = defineProps<{
+	categoryData: ServerCategory[];
+}>();
 
-		return {
-			getCategoryData
-		}
-	}
+const getCategoryData = computed(() => {
+	const result: string[] = [];
 
-}
+	props.categoryData.forEach((category: ServerCategory) => {
+		result.push(`==${category.category_name}==\n`);
+
+		Object.keys(category.values).forEach(function (key) {
+			result.push(`\t${category.values[key].name}`);
+			// statement for plugins which don't have value
+			if (category.values[key].value !== undefined) {
+				result.push(`: ${category.values[key].value}`);
+			}
+			result.push('\n');
+		});
+	});
+
+	return result.join('');
+});
 </script>
 <style lang="scss">
 .znpb-system-title {

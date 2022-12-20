@@ -5,48 +5,48 @@
 			<span class="znpb-admin-single-template__author">{{ template.author }}</span>
 			<div class="znpb-admin-single-template__shortcode">
 				<BaseInput
-					ref="templateInput"
-					v-znpb-tooltip="isCopied ? copiedText : copyText"
+					ref="templateInputRef"
+					v-znpb-tooltip="isCopied ? __('Copied', 'zionbuilder') : __('Copy', 'zionbuilder')"
 					:modelValue="template.shortcode"
 					readonly
 					spellcheck="false"
 					autocomplete="false"
 					class="znpb-admin-single-template__input"
-					@click="copyTextInput(template.shortcode)"
+					@click="copyTextInput()"
 				>
 					<template #suffix>
-						<Icon icon="copy" @click="copyTextInput(template.shortcode)" />
+						<Icon icon="copy" @click="copyTextInput()" />
 					</template>
 				</BaseInput>
 			</div>
 			<div class="znpb-admin-single-template__actions">
 				<template v-if="!template.loading">
 					<Icon
-						v-znpb-tooltip="$translate('edit_template')"
+						v-znpb-tooltip="__('Edit template', 'zionbuilder')"
 						icon="edit"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
 						@click="editUrl"
 					/>
 
 					<Icon
-						v-znpb-tooltip="$translate('delete_template')"
+						v-znpb-tooltip="__('Delete template', 'zionbuilder')"
 						icon="delete"
 						class="znpb-admin-single-template__action znpb-delete-icon-pop"
-						@click="$emit('delete-template', template)"
+						@click="emit('delete-template', template)"
 					/>
 
 					<Icon
-						v-znpb-tooltip="$translate('export_template')"
+						v-znpb-tooltip="__('Export template', 'zionbuilder')"
 						icon="export"
 						class="znpb-admin-single-template__action znpb-export-icon-pop"
 						@click="() => template.export()"
 					/>
 
 					<Icon
-						v-znpb-tooltip="$translate('preview_template')"
+						v-znpb-tooltip="__('Preview template', 'zionbuilder')"
 						icon="eye"
 						class="znpb-admin-single-template__action znpb-preview-icon-pop"
-						@click="$emit('show-modal-preview', true)"
+						@click="emit('show-modal-preview', true)"
 					/>
 				</template>
 				<Loader v-else />
@@ -56,92 +56,103 @@
 	</div>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+import { ref, watch, Ref } from 'vue';
+import { BaseInput } from '@zb/components';
 
-export default {
-	name: 'TemplateItem',
-	props: {
+const props = withDefaults(
+	defineProps<{
 		template: {
-			type: Object,
-			required: false,
-		},
-		loading: {
-			type: Boolean,
-			required: false,
-		},
-		error: {
-			type: String,
-			required: false,
-		},
-		active: {
-			type: Boolean,
-			required: false,
-		},
-	},
-
-	setup(props) {
-		const isActive = ref(props.active);
-
-		if (isActive.value) {
-			setTimeout(() => {
-				isActive.value = false;
-			}, 1000);
-		}
-
-		return {
-			isActive,
+			name: string;
+			author: string;
+			shortcode: string;
+			loading: boolean;
+			urls: { edit_url: string };
+			export: () => void;
 		};
+		loading?: boolean;
+		error?: string;
+		active?: boolean;
+	}>(),
+	{
+		loading: false,
+		error: '',
+		active: false,
 	},
-	data() {
-		return {
-			isCopied: false,
-			copiedText: 'Copied',
-			copyText: 'Copy',
-			localLoading: this.loading,
-			errorMessage: '',
-		};
-	},
+);
 
-	watch: {
-		loading(newVal) {
-			this.localLoading = newVal;
-		},
-		error(newVal) {
-			this.errorMessage = newVal;
-		},
-	},
+const emit = defineEmits(['delete-template', 'show-modal-preview']);
 
-	methods: {
-		editUrl() {
-			window.open(this.template.urls.edit_url);
-		},
+const templateInputRef: Ref<typeof BaseInput | null> = ref(null);
+const isCopied = ref(false);
+const localLoading = ref(props.loading);
+const errorMessage = ref('');
 
-		copyTextInput(text) {
-			this.isCopied = true;
-			// Create new element
-			var el = document.createElement('textarea');
-			// Set value (string to be copied)
-			el.value = text;
-			// Set non-editable to avoid focus and move outside of view
-			el.setAttribute('readonly', '');
-			el.style = {
-				position: 'absolute',
-				left: '-9999px',
-			};
-			document.body.appendChild(el);
-			// Select text inside element
-			el.select();
-			// Copy text to clipboard
-			document.execCommand('copy');
-			// Remove temporary element
-			document.body.removeChild(el);
-		},
+const isActive = ref(props.active);
+
+if (isActive.value) {
+	setTimeout(() => {
+		isActive.value = false;
+	}, 1000);
+}
+
+watch(
+	() => props.loading,
+	newVal => {
+		localLoading.value = newVal;
 	},
-};
+);
+
+watch(
+	() => props.error,
+	newVal => {
+		errorMessage.value = newVal;
+	},
+);
+
+function editUrl() {
+	window.open(props.template.urls.edit_url);
+}
+
+function copyTextInput() {
+	isCopied.value = true;
+	const copyText = templateInputRef.value?.input;
+
+	if (!copyText) {
+		return;
+	}
+
+	// Select the text field
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); // For mobile devices
+
+	// navigator clipboard api needs a secure context (https)
+	if (navigator.clipboard && window.isSecureContext) {
+		// navigator clipboard api method'
+		return navigator.clipboard.writeText(copyText.value);
+	} else {
+		// text area method
+		const textArea = document.createElement('textarea');
+		textArea.value = copyText.value;
+		// make the textarea out of viewport
+		textArea.style.position = 'fixed';
+		textArea.style.left = '-999999px';
+		textArea.style.top = '-999999px';
+		document.body.appendChild(textArea);
+		textArea.focus();
+		textArea.select();
+
+		return new Promise((res, rej) => {
+			// here the magic happens
+			document.execCommand('copy') ? res(true) : rej();
+			textArea.remove();
+		});
+	}
+}
 </script>
 <style lang="scss">
-@import "/@/common/scss/_mixins.scss";
+@import '/@/common/scss/_mixins.scss';
 .znpb-admin-single-template--active {
 	box-shadow: 0 0 4px #006dd2;
 }
@@ -159,7 +170,10 @@ export default {
 		background: var(--zb-input-bg-color);
 	}
 
-	&__actions, &__shortcode, &__author, &__title {
+	&__actions,
+	&__shortcode,
+	&__author,
+	&__title {
 		flex: 1;
 		padding: 0 14px;
 	}
@@ -223,7 +237,10 @@ export default {
 
 	&__action {
 		cursor: pointer;
-		&.znpb-insert-icon-pop, &.znpb-edit-icon-pop, &.znpb-delete-icon-pop, &.znpb-export-icon-pop {
+		&.znpb-insert-icon-pop,
+		&.znpb-edit-icon-pop,
+		&.znpb-delete-icon-pop,
+		&.znpb-export-icon-pop {
 			margin-right: 10px;
 		}
 
@@ -237,9 +254,10 @@ export default {
 			display: block;
 		}
 
-		.znpb-editor-icon-wrapper, a {
+		.znpb-editor-icon-wrapper,
+		a {
 			color: var(--zb-surface-text-color);
-			transition: color .15s;
+			transition: color 0.15s;
 			cursor: pointer;
 
 			&:hover {
@@ -249,7 +267,9 @@ export default {
 	}
 
 	@media (max-width: 767px) {
-		&__title, &__author, &__shortcode {
+		&__title,
+		&__author,
+		&__shortcode {
 			margin-bottom: 10px;
 		}
 

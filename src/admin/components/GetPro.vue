@@ -3,11 +3,11 @@
 		<div class="znpb-get-pro__image">
 			<img :src="proUrl" />
 		</div>
-		<h1 class="znpb-get-pro__title">{{ $translate('upgrade_to_pro_now') }}</h1>
+		<h1 class="znpb-get-pro__title">{{ __('Upgrade to PRO now!', 'zionbuilder') }}</h1>
 		<p class="znpb-get-pro__description">{{ message }}</p>
 		<div class="znpb-get-pro__more">
 			<a href="https://zionbuilder.io/documentation/pro-version/" target="_blank">
-				{{ $translate('learn_more_about_pro') }}
+				{{ __('Click here to learn more about PRO.', 'zionbuilder') }}
 			</a>
 		</div>
 		<a
@@ -15,30 +15,27 @@
 			target="_blank"
 			class="znpb-button znpb-get-pro__cta znpb-button--secondary znpb-option__upgrade-to-pro-button"
 		>
-			{{ $translate('upgrade_to_pro') }}
+			{{ __('Upgrade to PRO', 'zionbuilder') }}
 		</a>
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'GetPro',
-	props: {
-		message: {
-			type: String,
-			required: false,
-			default() {
-				const { translate } = window.zb.i18n;
-				return translate('pro_features');
-			},
-		},
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+
+withDefaults(
+	defineProps<{
+		message?: string;
+	}>(),
+	{
+		message: __(
+			'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.',
+			'zionbuilder',
+		),
 	},
-	computed: {
-		proUrl() {
-			return window.ZnPbAdminPageData.urls.pro_logo;
-		},
-	},
-};
+);
+
+const proUrl = window.ZnPbAdminPageData.urls.pro_logo;
 </script>
 <style lang="scss">
 .znpb-get-pro {

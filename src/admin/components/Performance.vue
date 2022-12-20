@@ -1,12 +1,13 @@
 <template>
 	<PageTemplate class="znpb-performancePage">
-		<h3>{{ $translate('performance') }}</h3>
+		<h3>{{ __('Performance', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-performanceForm" />
 	</PageTemplate>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 
 const { useBuilderOptionsStore } = window.zb.store;

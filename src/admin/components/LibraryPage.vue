@@ -1,12 +1,13 @@
 <template>
 	<PageTemplate class="znpb-librarySourcesPage">
-		<h3>{{ $translate('library_share') }}</h3>
+		<h3>{{ __('Library share', 'zionbuilder') }}</h3>
 
 		<OptionsForm v-model="computedModel" :schema="schema" class="znpb-libraryShareForm" />
 	</PageTemplate>
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 
 const { useBuilderOptionsStore } = window.zb.store;

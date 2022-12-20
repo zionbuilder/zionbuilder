@@ -3,7 +3,7 @@
 		<div class="znpb-admin__google-fonts-modal-search">
 			<BaseInput
 				v-model="keyword"
-				:placeholder="$translate('search_for_fonts')"
+				:placeholder="__('Search for fonts...', 'zionbuilder')"
 				:clearable="true"
 				icon="search"
 				size="big"
@@ -27,96 +27,85 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, watch } from 'vue';
 import { useGoogleFontsStore } from '@zb/store';
 
 // Components
 import GoogleFontModalElement from './GoogleFontModalElement.vue';
 
-export default {
-	name: 'GoogleFontsModalContent',
-	components: {
-		GoogleFontModalElement,
+defineProps({
+	activeFonts: {
+		type: Array,
+		required: true,
 	},
-	props: {
-		activeFonts: {
-			type: Array,
-			required: true,
-		},
-	},
-	setup() {
-		const googleFontsStore = useGoogleFontsStore();
-		const fontsPerPage = 20;
+});
 
-		const currentPage = ref(1);
-		const keyword = ref('');
-		const loading = ref(false);
-		const allFonts = computed(() => {
-			let fonts = googleFontsStore.fonts;
+defineEmits(['font-selected', 'font-removed']);
 
-			if (keyword.value.length > 0) {
-				fonts = googleFontsStore.fonts.filter(font => {
-					return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1;
-				});
-			}
+const googleFontsStore = useGoogleFontsStore();
+const fontsPerPage = 20;
 
-			return fonts;
+const currentPage = ref(1);
+const keyword = ref('');
+const loading = ref(false);
+const allFonts = computed(() => {
+	let fonts = googleFontsStore.fonts;
+
+	if (keyword.value.length > 0) {
+		fonts = googleFontsStore.fonts.filter(font => {
+			return font.family.toLowerCase().indexOf(keyword.value.toLowerCase()) !== -1;
 		});
+	}
 
-		const visibleFonts = computed(() => {
-			const end = fontsPerPage * currentPage.value;
+	return fonts;
+});
 
-			return allFonts.value.slice(0, end);
-		});
+const visibleFonts = computed(() => {
+	const end = fontsPerPage * currentPage.value;
 
-		const maxPages = computed(() => Math.ceil(allFonts.value.length / fontsPerPage));
+	return allFonts.value.slice(0, end);
+});
 
-		watch(visibleFonts, newValue => {
-			let fontLink = document.getElementById('znpb-google-fonts-script');
+const maxPages = computed(() => Math.ceil(allFonts.value.length / fontsPerPage));
 
-			const fontsSource = newValue.map(font => {
-				let variant = '';
-				if (!font.variants.includes(400)) {
-					variant = `:${font.variants[0]}`;
-				}
+watch(visibleFonts, newValue => {
+	let fontLink = document.getElementById('znpb-google-fonts-script') as HTMLLinkElement;
 
-				return font.family.replace(' ', '+') + variant;
-			});
-
-			if (!fontLink) {
-				const head = document.head;
-				fontLink = document.createElement('link');
-				fontLink.rel = 'stylesheet';
-				fontLink.id = `znpb-google-fonts-script`;
-				fontLink.type = 'text/css';
-				fontLink.media = 'all';
-				head.appendChild(fontLink);
-			}
-
-			fontLink.href = `https://fonts.googleapis.com/css?family=${fontsSource.join('|')}`;
-		});
-
-		function onScrollEnd(event) {
-			if (currentPage.value !== maxPages.value) {
-				currentPage.value++;
-				loading.value = true;
-
-				// Fake loading
-				setTimeout(() => {
-					loading.value = false;
-				}, 300);
-			}
+	const fontsSource = newValue.map(font => {
+		let variant = '';
+		if (!font.variants.includes(400)) {
+			variant = `:${font.variants[0]}`;
 		}
 
-		return {
-			visibleFonts,
-			keyword,
-			loading,
-			onScrollEnd,
-		};
-	},
-};
+		return font.family.replace(' ', '+') + variant;
+	});
+
+	if (!fontLink) {
+		const head = document.head;
+		fontLink = document.createElement('link');
+		fontLink.rel = 'stylesheet';
+		fontLink.id = `znpb-google-fonts-script`;
+		fontLink.type = 'text/css';
+		fontLink.media = 'all';
+		head.appendChild(fontLink);
+	}
+
+	fontLink.href = `https://fonts.googleapis.com/css?family=${fontsSource.join('|')}`;
+});
+
+function onScrollEnd() {
+	if (currentPage.value !== maxPages.value) {
+		currentPage.value++;
+		loading.value = true;
+
+		// Fake loading
+		setTimeout(() => {
+			loading.value = false;
+		}, 300);
+	}
+}
 </script>
 <style lang="scss">
 .znpb-modal-google-fonts {

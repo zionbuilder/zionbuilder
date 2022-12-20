@@ -47,7 +47,6 @@ class Localization {
 					_x( '%s PRO lets you upload your own icons in addition to the Font Awesome icons that everyone is using.', 'zionbuilder' ),
 					Whitelabel::get_title()
 				),
-				'pro_features'                             => esc_html__( 'With PRO you will have additional control over your pages, create reusable sections and elements, have dynamic data, additional elements, additional options to existing elements and many more features.', 'zionbuilder' ),
 				'learn_more_about_pro'                     => esc_html__( 'Click here to learn more about PRO.', 'zionbuilder' ),
 
 				// WP related

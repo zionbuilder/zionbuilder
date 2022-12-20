@@ -18,7 +18,10 @@
 		"@zb/hooks": ["./src/common/modules/hooks"],
 		"@zb/i18n": ["./src/common/modules/i18n"],
 		"@zb/common": ["./src/common"],
-		"@zb/store": ["./src/common/store"]
+		"@zb/store": ["./src/common/store"],
+		"@zb/components": ["./src/common/components"],
+		"@zb/utils": ["./src/common/utils"],
+		"@zb/api": ["./src/common/api"]
 	  }
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

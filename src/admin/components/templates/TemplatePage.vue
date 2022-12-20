@@ -11,13 +11,13 @@
 		<div class="znpb-admin-templates-actions">
 			<Button type="line" @click="showModal = true">
 				<span class="znpb-add-element-icon"></span>
-				{{ $translate('add_new_template') }}
+				{{ __('Add new template', 'zionbuilder') }}
 			</Button>
 		</div>
 		<Modal
 			v-model:show="showModal"
 			:show-maximize="false"
-			:title="$translate('add_new_template')"
+			:title="__('Add new template', 'zionbuilder')"
 			:width="560"
 			append-to="#znpb-admin"
 		>
@@ -26,93 +26,63 @@
 
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ $translate('templates_description') }}
+				{{ __('Templates allow you to easily build a WordPress page', 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
-<script>
+
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 
 // Components
 import ModalAddNewTemplate from './ModalAddNewTemplate.vue';
 import TemplateList from './TemplateList.vue';
 
-export default {
-	name: 'TemplatePage',
-	components: {
-		ModalAddNewTemplate,
-		TemplateList,
+const props = defineProps<{
+	templateType: string;
+	templateName: string;
+}>();
+
+const showModal = ref(false);
+const activeFilter = ref('publish');
+
+const { getSource } = window.zb.composables.useLibrary();
+
+const localLibrary = getSource('local_library');
+localLibrary.getData();
+
+const tabs = ref([
+	{
+		title: 'Published',
+		id: 'publish',
 	},
-	props: {
-		templateType: {
-			type: String,
-			required: true,
-			default: 'template',
-		},
-		templateName: {
-			type: String,
-			required: true,
-			default: 'Template',
-		},
+	{
+		title: 'Drafts',
+		id: 'draft',
 	},
-	setup(props) {
-		const showModalConfirm = ref(false);
-		const showModal = ref(false);
-		const activeTemplate = ref(null);
-		const activeFilter = ref('publish');
-
-		const { getSource } = window.zb.composables.useLibrary();
-
-		const localLibrary = getSource('local_library');
-		localLibrary.getData();
-
-		const tabs = ref([
-			{
-				title: 'Published',
-				id: 'publish',
-			},
-			{
-				title: 'Drafts',
-				id: 'draft',
-			},
-			{
-				title: 'Trashed',
-				id: 'trash',
-			},
-		]);
-
-		const getFilteredTemplates = computed(() => {
-			return localLibrary.items.filter(template => {
-				return (
-					template.status === activeFilter.value && template.type && template.category.includes(props.templateType)
-				);
-			});
-		});
-
-		function onAddNewTemplate(template) {
-			localLibrary.createItem(template).finally(() => {
-				showModal.value = false;
-			});
-		}
-
-		function onTabChange(tabId) {
-			activeFilter.value = tabId;
-		}
-
-		return {
-			showModalConfirm,
-			showModal,
-			activeTemplate,
-			activeFilter,
-			tabs,
-			localLibrary,
-			getFilteredTemplates,
-			onAddNewTemplate,
-			onTabChange,
-		};
+	{
+		title: 'Trashed',
+		id: 'trash',
 	},
-};
+]);
+
+const getFilteredTemplates = computed(() => {
+	return localLibrary.items.filter(template => {
+		return template.status === activeFilter.value && template.type && template.category.includes(props.templateType);
+	});
+});
+
+function onAddNewTemplate(template) {
+	localLibrary.createItem(template).finally(() => {
+		showModal.value = false;
+	});
+}
+
+function onTabChange(tabId) {
+	activeFilter.value = tabId;
+}
 </script>
 <style lang="scss">
 .znpb-admin-templates-wrapper {

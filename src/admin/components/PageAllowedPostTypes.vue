@@ -1,6 +1,6 @@
 <template>
 	<PageTemplate>
-		<h3>{{ $translate('allowed_post_types') }}</h3>
+		<h3>{{ __('Allowed Post types', 'zionbuilder') }}</h3>
 		<div class="znpb-admin-posts-wrapper">
 			<div v-for="post in dataSets.post_types" :key="post.id" class="znpb-admin-post-types-tab">
 				<span class="znpb-admin-post-types-tab__title">{{ post.name }}</span>
@@ -14,13 +14,14 @@
 		</div>
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ $translate('set_allowed_types') }}
+				{{ __('You can set from here the allowed post types', 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { __ } from '@wordpress/i18n';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 const { useBuilderOptionsStore, useDataSetsStore } = window.zb.store;

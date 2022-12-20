@@ -4,7 +4,6 @@ interface Window {
 	zb: {
 		run: T<string, Record<string, unknown>>;
 		hooks: import('./common/modules');
-		i18n: import('./common/modules');
 		api: import('./common/api');
 		utils: import('./common/utils');
 		components: import('./common/components');
@@ -14,7 +13,6 @@ interface Window {
 	} = {};
 
 	ZBCommonData: {
-		i18n: Record<string, string>;
 		environment: {
 			is_pro_active: boolean;
 			plugin_version: string;

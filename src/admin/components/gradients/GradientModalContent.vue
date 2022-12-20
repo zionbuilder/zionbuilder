@@ -2,7 +2,7 @@
 	<Modal
 		v-model:show="showModal"
 		:width="360"
-		:title="$translate('gradients')"
+		:title="__('Gradients', 'zionbuilder')"
 		append-to="#znpb-admin"
 		@close-modal="onModalClose"
 	>
@@ -10,54 +10,50 @@
 			<GradientGenerator
 				v-model="gradientValue"
 				:save-to-library="false"
-				@updated-gradient="$emit('updated-gradient', $event)"
+				@updated-gradient="emit('update-gradient', $event)"
 			/>
 		</div>
 	</Modal>
 </template>
 
-<script>
-export default {
-	name: 'GradientModalContent',
-	props: {
-		show: {
-			type: Boolean,
-			required: true,
-		},
-		gradient: {
-			type: Array,
-			required: false,
-		},
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+import { ref, computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		show: boolean;
+		gradient: string[];
+	}>(),
+	{
+		show: false,
+		gradient: () => [],
 	},
-	data() {
-		return {
-			gradientConfig: this.config,
-		};
+);
+const emit = defineEmits(['update:show', 'update-gradient', 'save-gradient']);
+
+const gradientConfig = ref(props.gradient);
+const showModal = computed({
+	get() {
+		return props.show;
 	},
-	computed: {
-		showModal: {
-			get() {
-				return this.show;
-			},
-			set(newValue) {
-				this.$emit('update:show', newValue);
-			},
-		},
-		gradientValue: {
-			get() {
-				return this.gradient;
-			},
-			set(newValue) {
-				this.$emit('update-gradient', newValue);
-			},
-		},
+	set(newValue) {
+		emit('update:show', newValue);
 	},
-	methods: {
-		onModalClose() {
-			this.$emit('save-gradient', this.gradientConfig);
-		},
+});
+
+const gradientValue = computed({
+	get() {
+		return props.gradient;
 	},
-};
+	set(newValue) {
+		emit('update-gradient', newValue);
+	},
+});
+
+function onModalClose() {
+	emit('save-gradient', gradientConfig.value);
+}
 </script>
 <style lang="scss">
 .znpb-admin__gradient-modal-wrapper {

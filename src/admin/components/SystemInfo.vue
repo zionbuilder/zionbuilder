@@ -5,7 +5,7 @@
 			<Loader v-if="!loaded" />
 
 			<template v-else>
-				<h3>{{ $translate('system_info') }}</h3>
+				<h3>{{ __('System Info', 'zionbuilder') }}</h3>
 
 				<component
 					:is="getComponent(category.category_id)"
@@ -19,50 +19,34 @@
 
 			<template #right>
 				<div>
-					<p class="znpb-admin-info-p">{{ $translate('system_info') }}</p>
-					<p class="znpb-admin-info-p">{{ $translate('system_info_desc') }}</p>
+					<p class="znpb-admin-info-p">{{ __('System Info', 'zionbuilder') }}</p>
+					<p class="znpb-admin-info-p">{{ __('Scroll down to copy paste the Info shown', 'zionbuilder') }}</p>
 				</div>
 			</template>
 		</PageTemplate>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+import { ref } from 'vue';
 import SystemList from './system-components/SystemList.vue';
 import SystemPlugins from './system-components/SystemPlugins.vue';
 import CopyPasteServer from './system-components/CopyPasteServer.vue';
 
-export default {
-	name: 'SystemInfo',
-	components: {
-		SystemList,
-		SystemPlugins,
-		CopyPasteServer,
-	},
-	data() {
-		return {
-			loaded: false,
-			systemInfoData: {},
-		};
-	},
-	created() {
-		window.zb.api.getSystemInfo().then(response => {
-			this.systemInfoData = response.data;
-			this.loaded = true;
-		});
-	},
-	methods: {
-		getComponent(categoryId) {
-			if (
-				categoryId === 'wordpress_environment' ||
-				categoryId === 'theme_info' ||
-				categoryId === 'server_environment'
-			) {
-				return 'SystemList';
-			} else if (categoryId === 'plugins_info') {
-				return 'SystemPlugins';
-			}
-		},
-	},
-};
+const loaded = ref(false);
+const systemInfoData = ref({});
+
+window.zb.api.getSystemInfo().then(response => {
+	systemInfoData.value = response.data;
+	loaded.value = true;
+});
+
+function getComponent(categoryId: string) {
+	if (categoryId === 'wordpress_environment' || categoryId === 'theme_info' || categoryId === 'server_environment') {
+		return SystemList;
+	} else if (categoryId === 'plugins_info') {
+		return SystemPlugins;
+	}
+}
 </script>

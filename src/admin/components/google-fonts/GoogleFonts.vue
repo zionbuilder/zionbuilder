@@ -1,18 +1,18 @@
 <template>
 	<PageTemplate>
-		<h3>{{ $translate('google_fonts') }}</h3>
+		<h3>{{ __('Google Fonts', 'zionbuilder') }}</h3>
 		<div v-if="googleFonts.length > 0" class="znpb-admin__google-font-tab znpb-admin__google-font-tab--titles">
-			<div class="znpb-admin__google-font-tab-title">{{ $translate('font_name') }}</div>
-			<div class="znpb-admin__google-font-tab-variants">{{ $translate('variants') }}</div>
-			<div class="znpb-admin__google-font-tab-subset">{{ $translate('subsets') }}</div>
-			<div class="znpb-admin__google-font-tab-actions">{{ $translate('actions') }}</div>
+			<div class="znpb-admin__google-font-tab-title">{{ __('Font name', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-variants">{{ __('variants', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-subset">{{ __('subsets', 'zionbuilder') }}</div>
+			<div class="znpb-admin__google-font-tab-actions">{{ __('actions', 'zionbuilder') }}</div>
 		</div>
 
 		<EmptyList
 			v-if="googleFonts.length === 0"
-			v-znpb-tooltip="$translate('click_me_to_add_font')"
+			v-znpb-tooltip="__('Click Me or the Blue button to add a Font', 'zionbuilder')"
 			@click="showModal = true"
-			>{{ $translate('no_google_fonts') }}</EmptyList
+			>{{ __('No Google fonts added', 'zionbuilder') }}</EmptyList
 		>
 
 		<div v-if="googleFonts.length > 0" class="znpb-admin-google-fonts-wrapper">
@@ -37,7 +37,7 @@
 			v-model:show="showModal"
 			:width="570"
 			class="znpb-modal-google-fonts"
-			:title="$translate('google_fonts')"
+			:title="__('Google Fonts', 'zionbuilder')"
 			:show-backdrop="false"
 		>
 			<GoogleFontsModalContent
@@ -50,76 +50,58 @@
 		<div class="znpb-admin-google-fonts-actions">
 			<Button type="line" @click="showModal = true">
 				<Icon icon="plus" />
-				{{ $translate('add_font') }}
+				{{ __('Add Font', 'zionbuilder') }}
 			</Button>
 		</div>
 		<template #right>
 			<p class="znpb-admin-info-p">
-				{{ $translate('google_fonts_1') }}
-				<a href="https://fonts.google.com/">{{ $translate('google_fonts_link') }} </a>
-				{{ $translate('google_fonts_2') }}
+				{{ __('Setting up', 'zionbuilder') }}
+				<a href="https://fonts.google.com/">{{ __('Google web fonts', 'zionbuilder') }} </a>
+				{{ __("has never been easier. Choose which ones to use for your website's stylish typography", 'zionbuilder') }}
 			</p>
 		</template>
 	</PageTemplate>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, ref } from 'vue';
-const { useBuilderOptionsStore } = window.zb.store;
+import { useBuilderOptionsStore } from '@zb/store';
 
 // Components
 import GoogleFontTab from './GoogleFontTab.vue';
 import GoogleFontsModalContent from './GoogleFontsModalContent.vue';
 
-export default {
-	name: 'GoogleFonts',
-	components: {
-		GoogleFontTab,
-		GoogleFontsModalContent,
-	},
-	setup(props) {
-		const { getOptionValue, addGoogleFont, removeGoogleFont, updateGoogleFont } = useBuilderOptionsStore();
-		const showModal = ref(false);
+const { getOptionValue, addGoogleFont, removeGoogleFont, updateGoogleFont } = useBuilderOptionsStore();
+const showModal = ref(false);
 
-		let googleFonts = computed(() => {
-			return getOptionValue('google_fonts');
-		});
-		let activeFontNames = computed(() => {
-			return googleFonts.value.map(font => {
-				return font.font_family;
-			});
-		});
+const googleFonts = computed(() => {
+	return getOptionValue('google_fonts');
+});
+const activeFontNames = computed(() => {
+	return googleFonts.value.map(font => {
+		return font.font_family;
+	});
+});
 
-		function deleteFont(font) {
-			removeGoogleFont(font.font_family);
-			showModal.value = false;
-		}
+function deleteFont(font) {
+	removeGoogleFont(font.font_family);
+	showModal.value = false;
+}
 
-		function onGoogleFontUpdated({ font, value: newValue }) {
-			updateGoogleFont(font.font_family, newValue);
-		}
+function onGoogleFontUpdated({ font, value: newValue }) {
+	updateGoogleFont(font.font_family, newValue);
+}
 
-		function onGoogleFontAdded(font) {
-			addGoogleFont(font.family);
-			showModal.value = false;
-		}
+function onGoogleFontAdded(font) {
+	addGoogleFont(font.family);
+	showModal.value = false;
+}
 
-		function onGoogleFontRemoved(font) {
-			removeGoogleFont(font);
-			showModal.value = false;
-		}
-
-		return {
-			googleFonts,
-			activeFontNames,
-			onGoogleFontRemoved,
-			onGoogleFontAdded,
-			onGoogleFontUpdated,
-			deleteFont,
-			showModal,
-		};
-	},
-};
+function onGoogleFontRemoved(font) {
+	removeGoogleFont(font);
+	showModal.value = false;
+}
 </script>
 
 <style lang="scss">

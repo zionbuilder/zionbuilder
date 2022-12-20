@@ -1,11 +1,13 @@
 <template>
 	<div class="znpb-add-specific-permissions-wrapper znpb-fancy-scrollbar">
-		<p class="znpb-add-specific-description">{{ $translate('search_description') }}</p>
+		<p class="znpb-add-specific-description">
+			{{ __('Type in the search below to find an user and press enter to add it.', 'zionbuilder') }}
+		</p>
 		<div class="znpb-admin__google-fonts-modal-search">
 			<BaseInput
 				ref="searchInput"
 				v-model="keyword"
-				:placeholder="$translate('search_for_users')"
+				:placeholder="__('Search for users', 'zionbuilder')"
 				:icon="!loading ? 'search' : null"
 				size="big"
 			>
@@ -14,69 +16,57 @@
 				</template>
 			</BaseInput>
 
-			<ul v-if="keyword.length > 2" class="znpb-baseselect-list znpb-fancy-scrollbar">
-				<ModalListItem v-for="(user, i) in users" :key="i" :user="user" @close-modal="$emit('close-modal', true)" />
+			<ul v-if="keyword.length > 2" class="znpb-baseSelect-list znpb-fancy-scrollbar">
+				<ModalListItem v-for="(user, i) in users" :key="i" :user="user" @close-modal="emit('close-modal', true)" />
 			</ul>
 
 			<span v-if="!loading && users.length === 0 && keyword.length > 2" class="znpb-not-found-message">{{
-				$translate('no_result')
+				__('No results', 'zionbuilder')
 			}}</span>
 		</div>
 	</div>
 </template>
 
-<script>
-import { nextTick, watch, ref } from 'vue';
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+import { nextTick, watch, ref, Ref } from 'vue';
+import { searchUser } from '@zb/api';
 
 // Components
 import ModalListItem from './ModalListItem.vue';
 
-export default {
-	name: 'AddUserModalContent',
-	components: {
-		ModalListItem,
-	},
-	setup() {
-		const searchInput = ref(null);
-		const keyword = ref('');
-		const loading = ref(false);
-		const users = ref([]);
+const emit = defineEmits(['close-modal']);
 
-		nextTick(() => searchInput.value.focus());
+const searchInput: Ref<HTMLInputElement | null> = ref(null);
+const keyword = ref('');
+const loading = ref(false);
+const users = ref([]);
 
-		watch(keyword, (newValue, oldValue) => {
-			if (newValue.length > 2) {
-				loading.value = true;
+nextTick(() => searchInput.value?.focus());
 
-				window.zb.api
-					.searchUser(newValue)
-					.then(result => {
-						users.value = result.data;
-					})
-					.finally(() => {
-						loading.value = false;
-					});
-			} else if (newValue.length === 0) {
-				users.value = [];
+watch(keyword, newValue => {
+	if (newValue.length > 2) {
+		loading.value = true;
+
+		searchUser(newValue)
+			.then(result => {
+				users.value = result.data;
+			})
+			.finally(() => {
 				loading.value = false;
-			}
-		});
-
-		return {
-			searchInput,
-			keyword,
-			loading,
-			users,
-		};
-	},
-};
+			});
+	} else if (newValue.length === 0) {
+		users.value = [];
+		loading.value = false;
+	}
+});
 </script>
 
 <style lang="scss">
 .znpb-add-specific-permissions-wrapper {
 	overflow-y: auto;
 	padding: 30px;
-	.znpb-baseselect-list__option {
+	.znpb-baseSelect-list__option {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -98,7 +88,7 @@ export default {
 	position: relative;
 	margin-bottom: 0;
 }
-.znpb-baseselect-list {
+.znpb-baseSelect-list {
 	background: var(--zb-dropdown-bg-color);
 	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.08);
 	border-bottom-right-radius: 3px;
