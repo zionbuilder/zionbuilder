@@ -13,7 +13,7 @@
 				ref="searchInputEl"
 				v-model="computedSearchKeyword"
 				class="znpb-columns-templates__search-wrapper znpb-add-elements__filter-search"
-				:placeholder="$translate('search_elements')"
+				:placeholder="__('Search elements', 'zionbuilder')"
 				:clearable="true"
 				icon="search"
 				autocomplete="off"
@@ -37,11 +37,15 @@
 				/>
 			</template>
 
-			<div v-if="!activeElements.length" style="text-align: center">{{ $translate('no_elements_found') }}</div>
+			<div v-if="!activeElements.length" style="text-align: center">
+				{{ __('No elements found matching the search criteria', 'zionbuilder') }}
+			</div>
 		</div>
 	</div>
 </template>
+
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
 import { useEditorData, useUserData } from '/@/editor/composables';
 import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';

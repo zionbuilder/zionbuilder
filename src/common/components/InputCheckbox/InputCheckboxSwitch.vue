@@ -1,18 +1,17 @@
 <template>
 	<div class="znpb-checkbox-switch-wrapper">
-
 		<label
 			class="znpb-checkbox-switch-wrapper__label"
-			:class="{[`znpb-checkbox-switch--${model? 'checked' : 'unchecked'}`]: true}"
-			:content="model ? $translate('yes') : $translate('no')"
+			:class="{ [`znpb-checkbox-switch--${model ? 'checked' : 'unchecked'}`]: true }"
+			:content="model ? __('Yes', 'zionbuilder') : __('No', 'zionbuilder')"
 		>
 			<input
+				v-model="model"
 				type="checkbox"
 				:disabled="disabled"
 				class="znpb-checkbox-switch-wrapper__checkbox"
 				:modelValue="optionValue"
-				v-model="model"
-			>
+			/>
 
 			<span class="znpb-checkbox-switch-wrapper__button"></span>
 		</label>
@@ -20,6 +19,8 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
+
 /**
  * @deprecated This component no longer in use
  */
@@ -31,121 +32,120 @@ export default {
 		 */
 		label: {
 			type: String,
-			required: false
+			required: false,
 		},
 		showLabel: {
 			type: Boolean,
 			required: false,
-			default: true
+			default: true,
 		},
 		/**
 		 * v-model/modelValue for checkbox
 		 */
 		modelValue: {
 			type: [String, Array, Boolean],
-			required: false
+			required: false,
 		},
 		/**
 		 * value for checkbox
 		 */
 		optionValue: {
 			type: [String, Boolean],
-			required: false
+			required: false,
 		},
 		/**
 		 * if disabled
 		 */
 		disabled: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		/**
 		 * if checkbox checked
 		 */
 		checked: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		rounded: {
 			type: Boolean,
-			required: false
-		}
+			required: false,
+		},
 	},
-	data () {
+	data() {
 		return {
-			isLimitExceeded: false
-		}
+			isLimitExceeded: false,
+		};
 	},
 	computed: {
-
 		model: {
-			get () {
-				return this.modelValue !== undefined ? this.modelValue : false
+			get() {
+				return this.modelValue !== undefined ? this.modelValue : false;
 			},
-			set (newValue) {
-				this.isLimitExceeded = false
-				const allowUnselect = this.parentGroup.allowUnselect
+			set(newValue) {
+				this.isLimitExceeded = false;
+				const allowUnselect = this.parentGroup.allowUnselect;
 
 				if (this.isInGroup) {
-					this.isLimitExceeded = false
+					this.isLimitExceeded = false;
 					// Check if minimum limit is meet
 					if (this.parentGroup.min !== undefined && newValue.length < this.parentGroup.min) {
-						this.isLimitExceeded = true
+						this.isLimitExceeded = true;
 					}
 
 					// Check if maximum limit is meet
 					if (this.parentGroup.max !== undefined && newValue.length > this.parentGroup.max) {
-						this.isLimitExceeded = true
+						this.isLimitExceeded = true;
 					}
 
 					if (this.isLimitExceeded === false) {
-						this.$emit('update:modelValue', newValue)
+						this.$emit('update:modelValue', newValue);
 					} else if (allowUnselect && this.isLimitExceeded === true) {
-						const clonedValues = [...newValue]
-						clonedValues.shift()
+						const clonedValues = [...newValue];
+						clonedValues.shift();
 						// Allows to change the option check state on nextThick
-						this.isLimitExceeded = false
-						this.$emit('update:modelValue', clonedValues)
+						this.isLimitExceeded = false;
+						this.$emit('update:modelValue', clonedValues);
 					}
 				} else {
 					/**
 					 * when input model changed, it emits new value
 					 */
-					this.$emit('update:modelValue', newValue)
+					this.$emit('update:modelValue', newValue);
 				}
-			}
+			},
 		},
-		isInGroup () {
-			return this.$parent.$options.name === 'InputCheckboxGroup'
+		isInGroup() {
+			return this.$parent.$options.name === 'InputCheckboxGroup';
 		},
-		parentGroup () {
-			return this.isInGroup ? this.$parent : false
-		}
+		parentGroup() {
+			return this.isInGroup ? this.$parent : false;
+		},
 	},
-	created () {
-		this.checked && this.setInitialValue()
+	created() {
+		this.checked && this.setInitialValue();
 	},
 	methods: {
-		setInitialValue () {
-			this.model = this.modelValue || true
+		setInitialValue() {
+			this.model = this.modelValue || true;
 		},
-		onChange (event) {
-			let checked = event.target.checked
+		onChange(event) {
+			let checked = event.target.checked;
 			if (this.isLimitExceeded) {
 				this.$nextTick(() => {
-					event.target.checked = !checked
-				})
+					event.target.checked = !checked;
+				});
 
-				return
+				return;
 			}
 
 			/**
 			 * when input changed, it emits new value
 			 */
-			this.$emit('change', !!event.target.checked)
-		}
-	}
-}
+			this.$emit('change', !!event.target.checked);
+		},
+	},
+};
 </script>
 <style lang="scss">
 .znpb-checkbox-switch-wrapper {
@@ -153,7 +153,7 @@ export default {
 	display: flex;
 	cursor: pointer;
 
-	input[type="checkbox"].znpb-form__input-checkbox {
+	input[type='checkbox'].znpb-form__input-checkbox {
 		width: 0;
 		height: 0;
 		margin: 0;
@@ -202,7 +202,7 @@ export default {
 			content: attr(content);
 		}
 		&:after {
-			content: "" attr(content) "";
+			content: '' attr(content) '';
 			right: 0;
 			color: var(--zb-surface-text-active-color);
 		}
@@ -223,12 +223,12 @@ export default {
 
 .znpb-checkbox-switch--checked {
 	&::before {
-		content: "";
+		content: '';
 	}
 }
 .znpb-checkbox-switch--unchecked {
 	&::after {
-		content: "";
+		content: '';
 	}
 	.znpb-checkbox-switch-wrapper__button {
 		background: var(--zb-surface-lightest-color);

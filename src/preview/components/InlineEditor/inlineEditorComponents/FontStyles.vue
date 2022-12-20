@@ -1,53 +1,29 @@
 <template>
-	<PopOver
-		icon="ite-font"
-		:full-size="true"
-	>
+	<PopOver icon="ite-font" :full-size="true">
 		<div class="zion-inline-editor-group">
 			<Tabs tab-style="minimal">
-				<Tab :name="$translate('family')">
+				<Tab :name="__('family', 'zionbuilder')">
 					<FontList />
 				</Tab>
-				<Tab
-					:name="$translate('heading')"
-					class="zion-inline-editor-group__heading"
-				>
+				<Tab :name="__('Heading', 'zionbuilder')" class="zion-inline-editor-group__heading">
 					<div>
-						<zion-inline-editor-button
-							formatter="h1"
-							buttontext="H1"
-						></zion-inline-editor-button>
-						<zion-inline-editor-button
-							formatter="h2"
-							buttontext="H2"
-						></zion-inline-editor-button>
-						<zion-inline-editor-button
-							formatter="h3"
-							buttontext="H3"
-						></zion-inline-editor-button>
-						<zion-inline-editor-button
-							formatter="h4"
-							buttontext="H4"
-						></zion-inline-editor-button>
-						<zion-inline-editor-button
-							formatter="h5"
-							buttontext="H5"
-						></zion-inline-editor-button>
-						<zion-inline-editor-button
-							formatter="h6"
-							buttontext="H6"
-						></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h1" buttontext="H1"></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h2" buttontext="H2"></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h3" buttontext="H3"></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h4" buttontext="H4"></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h5" buttontext="H5"></zion-inline-editor-button>
+						<zion-inline-editor-button formatter="h6" buttontext="H6"></zion-inline-editor-button>
 					</div>
 				</Tab>
-				<Tab :name="$translate('font_size')">
+				<Tab :name="__('Size', 'zionbuilder')">
 					<zion-inline-editor-font-size />
 				</Tab>
 
-				<Tab :name="$translate('line_height')">
+				<Tab :name="__('Height', 'zionbuilder')">
 					<zion-inline-editor-line-height></zion-inline-editor-line-height>
 				</Tab>
 
-				<Tab :name="$translate('letter_spacing')">
+				<Tab :name="__('Spacing', 'zionbuilder')">
 					<zion-inline-editor-letter-spacing></zion-inline-editor-letter-spacing>
 				</Tab>
 			</Tabs>
@@ -56,15 +32,16 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { __ } from '@wordpress/i18n';
+import { ref, computed } from 'vue';
 
 // Components
-import fontSize from './FontSize.vue'
-import lineHeight from './LineHeight.vue'
-import letterSpacing from './LetterSpacing.vue'
-import buttonComponent from './Button.vue'
-import FontList from './FontsList.vue'
-import PopOver from './PopOver.vue'
+import fontSize from './FontSize.vue';
+import lineHeight from './LineHeight.vue';
+import letterSpacing from './LetterSpacing.vue';
+import buttonComponent from './Button.vue';
+import FontList from './FontsList.vue';
+import PopOver from './PopOver.vue';
 
 export default {
 	name: 'FontStyles',
@@ -74,27 +51,27 @@ export default {
 		'zion-inline-editor-letter-spacing': letterSpacing,
 		'zion-inline-editor-button': buttonComponent,
 		FontList,
-		PopOver
+		PopOver,
 	},
-	setup () {
-		const isOpen = ref(false)
+	setup() {
+		const isOpen = ref(false);
 
 		const buttonClasses = computed(() => {
-			let classes = []
+			let classes = [];
 
 			if (isOpen.value) {
-				classes.push('zion-inline-editor-button--active')
+				classes.push('zion-inline-editor-button--active');
 			}
 
-			return classes.join(' ')
-		})
+			return classes.join(' ');
+		});
 
 		return {
 			isOpen,
-			buttonClasses
-		}
-	}
-}
+			buttonClasses,
+		};
+	},
+};
 </script>
 
 <style lang="scss">

@@ -14,7 +14,7 @@
 		<div class="znpb-editor-header__first">
 			<!-- treeview -->
 			<div
-				v-znpb-tooltip:[tooltipsPosition]="$translate('tree_view')"
+				v-znpb-tooltip:[tooltipsPosition]="__('Tree view', 'zionbuilder')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--treeview"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-tree'),
@@ -26,7 +26,7 @@
 			<!-- libary -->
 			<div
 				v-if="!userStore.permissions.only_content"
-				v-znpb-tooltip:[tooltipsPosition]="$translate('library')"
+				v-znpb-tooltip:[tooltipsPosition]="__('Library', 'zionbuilder')"
 				:class="{
 					active: UIStore.isLibraryOpen,
 				}"
@@ -37,7 +37,7 @@
 			</div>
 			<!-- history -->
 			<div
-				v-znpb-tooltip:[tooltipsPosition]="$translate('history_panel')"
+				v-znpb-tooltip:[tooltipsPosition]="__('History', 'zionbuilder')"
 				class="znpb-editor-header__menu_button znpb-editor-header__menu_button--history"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-history'),
@@ -56,7 +56,7 @@
 			<!-- options -->
 			<div
 				v-if="!userStore.permissions.only_content"
-				v-znpb-tooltip:[tooltipsPosition]="$translate('page_options')"
+				v-znpb-tooltip:[tooltipsPosition]="__('Page options', 'zionbuilder')"
 				class="znpb-editor-header__menu_button"
 				:class="{
 					active: UIStore.openPanelsIDs.includes('panel-global-settings'),
@@ -83,7 +83,7 @@
 				v-if="showGettingStartedVideo && gettingStartedVideoURL"
 				v-model:show="showGettingStartedVideo"
 				:width="840"
-				:title="$translate('getting_started')"
+				:title="__('Getting started', 'zionbuilder')"
 				append-to="#znpb-main-wrapper"
 				class="znpb-helpmodal-wrapper"
 			>
@@ -101,7 +101,7 @@
 				v-if="shortcutsModalVisibility"
 				v-model:show="shortcutsModalVisibility"
 				:width="560"
-				:title="$translate('key_shortcuts')"
+				:title="__('Key shortcuts', 'zionbuilder')"
 				append-to="#znpb-main-wrapper"
 			>
 				<keyShortcuts />
@@ -111,7 +111,7 @@
 				v-if="aboutModalVisibility"
 				v-model:show="aboutModalVisibility"
 				:width="580"
-				:title="$translate('about_zion_builder')"
+				:title="__('About', 'zionbuilder')"
 				:show-maximize="false"
 				append-to="#znpb-main-wrapper"
 			>
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
 import aboutModal from './aboutModal.vue';

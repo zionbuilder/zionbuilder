@@ -12,7 +12,7 @@
 			v-if="hasContent"
 			:trigger="null"
 			:show="showContentTooltip"
-			:content="$translate('add_pseudo_content')"
+			:content="__('Click to add content for pseudo selector.', 'zionbuilder')"
 			placement="top"
 		>
 			<Icon
@@ -75,7 +75,7 @@
 				ref="newpseudoInput"
 				v-model="newPseudoModel"
 				:clearable="true"
-				:placeholder="$translate('new_pseudo')"
+				:placeholder="__('Add new pseudo-selector ex: :hover::before ', 'zionbuilder')"
 				@keypress.enter="createNewPseudoSelector"
 			/>
 		</div>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { computed, ref, onBeforeUnmount } from 'vue';
 import { cloneDeep, set, find } from 'lodash-es';
 import { useEditorData } from '/@/editor/composables';
@@ -271,7 +272,7 @@ export default {
 				if (!['default', ':hover'].includes(selectorConfig.id) && !this.isPro) {
 					returnedSelector.active = false;
 					returnedSelector.label = {
-						text: this.$translate('pro'),
+						text: __('pro', 'zionbuilder'),
 						type: 'warning',
 					};
 				}

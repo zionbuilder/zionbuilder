@@ -1,16 +1,7 @@
 <template>
-	<div> {{$translate('draggable')}} </div>
+	<div>{{ __('Draggable', 'zionbuilder') }}</div>
 </template>
 
-<script>
-export default {
-	name: 'Draggable',
-	data () {
-		return {}
-	}
-}
+<script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 </script>
-
-<style>
-
-</style>

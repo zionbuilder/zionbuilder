@@ -13,7 +13,7 @@
 	>
 		<div v-if="loading || error">
 			<Loader :size="16" />
-			<span v-if="error">{{ $translate('preview_not_available') }}</span>
+			<span v-if="error">{{ __('Preview not available', 'zionbuilder') }}</span>
 		</div>
 
 		<img :src="imageSrc" />
@@ -24,13 +24,13 @@
 			<div class="znpb-section-view-item__header-left">
 				<span
 					v-if="element.isRepeaterProvider"
-					v-znpb-tooltip="$translate('repeater_provider')"
+					v-znpb-tooltip="__('repeater provider', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>P</span
 				>
 				<span
 					v-if="element.isRepeaterConsumer"
-					v-znpb-tooltip="$translate('repeater_consumer')"
+					v-znpb-tooltip="__('repeater consumer', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>C</span
 				>
@@ -40,7 +40,7 @@
 
 			<Icon
 				v-if="!element.isVisible"
-				v-znpb-tooltip="$translate('enable_hidden_element')"
+				v-znpb-tooltip="__('The element is hidden. Click to enable it.', 'zionbuilder')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.isVisible = !element.isVisible"
@@ -52,7 +52,9 @@
 		</div>
 	</li>
 </template>
+
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
@@ -110,7 +112,7 @@ onMounted(() => {
 			.catch(error => {
 				error = true;
 				// eslint-disable-next-line
-				console.error(translate("oops_something_wrong"), error);
+				console.error(translate('oops_something_wrong'), error);
 			})
 			.finally(() => {
 				loading.value = false;

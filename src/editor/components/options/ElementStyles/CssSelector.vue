@@ -12,14 +12,14 @@
 
 			<ChangesBullet
 				v-if="showChangesBullet"
-				:discard-changes-title="$translate('remove_additional_classes')"
+				:discard-changes-title="__('Remove additional classes', 'zionbuilder')"
 				@remove-styles="$emit('remove-extra-classes')"
 			/>
 		</div>
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('copy_element_styles')"
+			v-znpb-tooltip="__('Copy styles', 'zionbuilder')"
 			icon="copy"
 			class="znpb-css-class-selector__item-copy"
 			@click.stop="$emit('copy-styles')"
@@ -27,7 +27,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('paste_element_styles')"
+			v-znpb-tooltip="__('Paste styles', 'zionbuilder')"
 			icon="paste"
 			class="znpb-css-class-selector__item-paste"
 			:class="{
@@ -38,7 +38,7 @@
 
 		<Icon
 			v-if="showActions"
-			v-znpb-tooltip="$translate('delete_class_tooltip')"
+			v-znpb-tooltip="__('Remove class from element.', 'zionbuilder')"
 			icon="close"
 			class="znpb-css-class-selector__item-close"
 			:class="{
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { useCSSClassesStore } from '/@/editor/store';
 
 export default {

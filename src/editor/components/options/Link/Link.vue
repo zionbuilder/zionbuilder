@@ -5,7 +5,7 @@
 				:is="linkURLComponent"
 				ref="urlInput"
 				v-model="linkModel"
-				:placeholder="$translate('add_an_url')"
+				:placeholder="__('Add an URL', 'zionbuilder')"
 				spellcheck="false"
 			>
 				<template #prepend>
@@ -24,7 +24,7 @@
 					>
 						<template #content>
 							<div class="znpb-link-options">
-								<div class="znpb-link-options-title">{{ $translate('link_attributes') }}</div>
+								<div class="znpb-link-options-title">{{ __('Link attributes', 'zionbuilder') }}</div>
 								<div class="znpb-link-optionsAttributes">
 									<LinkAttributeForm
 										v-for="(attribute, index) in linkAttributes"
@@ -36,13 +36,13 @@
 									/>
 
 									<div class="znpb-link-optionsAttributesAdd" @click="addLinkAttribute">
-										<Icon icon="plus" /> <span>{{ $translate('add_custom_link_attribute') }}</span>
+										<Icon icon="plus" /> <span>{{ __('Add custom link attribute', 'zionbuilder') }}</span>
 									</div>
 								</div>
 							</div>
 						</template>
 
-						<Icon v-znpb-tooltip="$translate('edit_link_attributes')" icon="tags-attributes"></Icon>
+						<Icon v-znpb-tooltip="__('Edit link attributes', 'zionbuilder')" icon="tags-attributes"></Icon>
 					</Tooltip>
 
 					<!-- Injection point -->
@@ -54,7 +54,7 @@
 			<InputSelect v-model="targetModel" :options="targetOptions"></InputSelect>
 		</InputWrapper>
 		<InputWrapper v-if="show_title" layout="inline" :schema="{ width: 50 }">
-			<BaseInput v-model="titleModel" :clearable="false" :placeholder="$translate('set_a_title')" />
+			<BaseInput v-model="titleModel" :clearable="false" :placeholder="__('Set a title', 'zionbuilder')" />
 		</InputWrapper>
 
 		<Tooltip
@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { computed, ref, watchEffect, watch } from 'vue';
 import { get, debounce } from 'lodash-es';
 
@@ -309,11 +310,11 @@ export default {
 			targetOptions: [
 				{
 					id: '_blank',
-					name: this.$translate('link_new_window'),
+					name: __('New Window', 'zionbuilder'),
 				},
 				{
 					id: '_self',
-					name: this.$translate('link_blank'),
+					name: __('Same Window', 'zionbuilder'),
 				},
 			],
 		};

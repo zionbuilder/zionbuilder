@@ -13,7 +13,7 @@
 				<h4 class="znpb-modal-icon-wrapper__title">{{ icon.name }}</h4>
 			</div>
 		</div>
-		<span v-else>{{ $translate('no_icons_in_package') }} {{ family }}</span>
+		<span v-else>{{ __('No icons were found in package', 'zionbuilder') }} {{ family }}</span>
 	</div>
 </template>
 
@@ -24,6 +24,8 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
+
 type Icon = { name: string; unicode: string };
 defineProps<{
 	iconList: Icon[];

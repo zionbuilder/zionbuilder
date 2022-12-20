@@ -28,7 +28,7 @@
 
 				<span
 					v-if="!modelValue"
-					v-znpb-tooltip="$translate('no_color_chosen')"
+					v-znpb-tooltip="__('No color chosen', 'zionbuilder')"
 					class="znpb-form-colorpicker__color-trigger znpb-colorpicker-circle znpb-colorpicker-circle--no-color"
 				></span>
 			</template>
@@ -48,7 +48,7 @@
 						<span>
 							<Tooltip
 								v-if="!modelValue || modelValue === undefined"
-								:content="$translate('no_color_chosen')"
+								:content="__('No color chosen', 'zionbuilder')"
 								tag="span"
 							>
 								<span
@@ -87,6 +87,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';

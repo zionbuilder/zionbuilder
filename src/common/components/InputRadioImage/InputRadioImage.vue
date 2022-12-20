@@ -31,7 +31,7 @@
 				</li>
 
 				<li v-if="useSearch && visibleItems.length === 0" class="znpb-radio-image-search--noItems">
-					{{ $translate('no_items_found') }}
+					{{ __('No items found', 'zionbuilder') }}
 				</li>
 			</ul>
 		</div>
@@ -45,6 +45,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import Icon from '../Icon/Icon.vue';
 

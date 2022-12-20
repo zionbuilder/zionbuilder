@@ -3,7 +3,7 @@
 		<template #trigger>
 			<div class="znpb-style-background-color">
 				<EmptyList v-if="!modelValue && !placeholder" class="znpb-input-background-image__empty" :no-margin="true">
-					{{ $translate('select_background_color') }}
+					{{ __('Select background color', 'zionbuilder') }}
 				</EmptyList>
 				<ActionsOverlay v-else>
 					<div class="znpb-style-background-color__holder" :style="getColorStyle"></div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 export default {
 	name: 'BackgroundColor',
 	props: {

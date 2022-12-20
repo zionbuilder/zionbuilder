@@ -11,7 +11,7 @@
 
 				<input
 					id="znpb-responsive__iframeWidth"
-					v-znpb-tooltip="$translate('preview_width')"
+					v-znpb-tooltip="__('Preview width', 'zionbuilder')"
 					type="number"
 					:value="iframeWidth"
 					@keydown.enter="onWidthKeyDown"
@@ -27,7 +27,7 @@
 
 				<input
 					id="znpb-responsive__iframeScale"
-					v-znpb-tooltip="$translate('preview_scale')"
+					v-znpb-tooltip="__('Preview scale', 'zionbuilder')"
 					type="number"
 					:value="Math.round(scaleValue)"
 					:disabled="autoScaleActive"
@@ -36,7 +36,9 @@
 					@focus="preventClose = true"
 				/>
 				<Icon
-					v-znpb-tooltip="autoScaleActive ? $translate('disable_autoscale') : $translate('enable_autoscale')"
+					v-znpb-tooltip="
+						autoScaleActive ? __('Disable auto-scale', 'zionbuilder') : __('Enable auto-scale', 'zionbuilder')
+					"
 					:icon="autoScaleActive ? 'lock' : 'unlock'"
 					class="znpb-responsiveDeviceHeader__iconLock"
 					:class="{
@@ -70,7 +72,7 @@
 					<Icon :icon="addBreakpointDeviceIcon" class="znpb-device__item-icon" />
 
 					<span class="znpb-device__item-name">
-						{{ $translate('max') }}
+						{{ __('max', 'zionbuilder') }}
 
 						<span class="znpb-device__itemValue">
 							<span class="znpb-device__itemValue-inner">
@@ -89,13 +91,13 @@
 
 					<div class="znpb-device__item-actions">
 						<Icon
-							v-znpb-tooltip="$translate('save')"
+							v-znpb-tooltip="__('Save', 'zionbuilder')"
 							icon="check"
 							class="znpb-device__item-action"
 							@click.stop="addNewBreakpoint"
 						/>
 						<Icon
-							v-znpb-tooltip="$translate('cancel')"
+							v-znpb-tooltip="__('Cancel', 'zionbuilder')"
 							icon="close"
 							class="znpb-device__item-action"
 							@click="cancelNewBreakpointAdd"
@@ -108,7 +110,7 @@
 		<div v-if="editBreakpoints" class="znpb-device__addBreakpointWrapper">
 			<div class="znpb-device__addBreakpoint" @click="enableAddNewDevice">
 				<Icon icon="plus" />
-				{{ $translate('add_breakpoint') }}
+				{{ __('Add breakpoint', 'zionbuilder') }}
 			</div>
 		</div>
 
@@ -116,18 +118,19 @@
 			<div class="znpb-responsiveDeviceEditButton" @click="disableEditBreakpoints">
 				<template v-if="!editBreakpoints">
 					<Icon icon="edit" />
-					{{ $translate('edit_breakpoints') }}
+					{{ __('Edit breakpoints', 'zionbuilder') }}
 				</template>
 				<template v-else>
 					<Icon icon="close" />
-					{{ $translate('disable_edit_breakpoints') }}
+					{{ __('Disable edit breakpoints', 'zionbuilder') }}
 				</template>
 			</div>
 		</div>
 	</FlyoutWrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { __ } from '@wordpress/i18n';
 import { computed, ref, nextTick, watch } from 'vue';
 
 import DeviceElement from './DeviceElement.vue';

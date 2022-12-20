@@ -1,6 +1,6 @@
 <template>
 	<BasePanel
-		:panel-name="$translate('global_settings_panel')"
+		:panel-name="__('Options', 'zionbuilder')"
 		panel-id="panel-global-settings"
 		class="znpb-general-options-panel-wrapper"
 	>
@@ -9,14 +9,15 @@
 		</div>
 	</BasePanel>
 </template>
+
 <script>
+import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
 import { useUIStore, usePageSettingsStore } from '../store';
 
 // Common API
 const { translate } = window.zb.i18n;
-const { useOptionsSchemas } = window.zb.composables;
 
 export default {
 	name: 'PanelGlobalSettings',
@@ -26,7 +27,6 @@ export default {
 	setup() {
 		const UIStore = useUIStore();
 		const pageSettings = usePageSettingsStore();
-		const { getSchema } = useOptionsSchemas();
 
 		const savedValues = computed({
 			get() {

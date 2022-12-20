@@ -1,7 +1,15 @@
 <template>
 	<div class="znpb-about-modal znpb-fancy-scrollbar">
 		<div class="znpb-about-modal__content">
-			<p class="znpb-about-modal__description" v-html="$translate('about_zion_description')"></p>
+			<p
+				class="znpb-about-modal__description"
+				v-html="
+					__(
+						'Producing <b>smashing design</b> is now possible with Zion Builder. <br/>Complex elements, library system, responsive building design, multilingual adaptability, speed and performance, control not only over the actions but also over the whole website, and powerful blog options are barely few of the features for this <b> blue-chip </b> plugin. <br/><br/>Choose the version that fits your needs, as Zion Builder offers you the possibility to <b> build a website in no-time </b>even if just the free version is active.',
+						'zionbuilder',
+					)
+				"
+			></p>
 			<div class="znpb-about-modal__card-wrapper">
 				<!-- free -->
 				<pluginCard :is-pro="false" :version="pluginInfo.free_version" :update-version="pluginFreeUpdate.new_version" />
@@ -20,13 +28,14 @@
 				target="_blank"
 				title="documentation"
 				@click="openWindow(urls.documentation_url)"
-				>{{ $translate('need_help') }}</a
+				>{{ __('Do you need help?', 'zionbuilder') }}</a
 			>
 		</div>
 	</div>
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import pluginCard from './about-modal/pluginCard.vue';
 import { useEditorData } from '../composables';
 export default {

@@ -38,7 +38,7 @@
 
 					<ChangesBullet
 						v-if="show_changes && hasChanges"
-						:content="$translate('discard_changes')"
+						:content="__('Discard changes', 'zionbuilder')"
 						@remove-styles="resetChanges"
 					/>
 
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { computed, defineAsyncComponent, onBeforeUnmount, ref } from 'vue';
 import { merge, cloneDeep } from 'lodash-es';
 

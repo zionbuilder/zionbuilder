@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { getZindex, removeZindex } from '../../../modules/z-index-manager';
 import { Icon } from '../../Icon';
 
@@ -300,7 +301,7 @@ export default {
 		appendModal() {
 			if (!this.appendToElement) {
 				// eslint-disable-next-line
-				console.warn(`${this.$translate('no_html_matching')} ${this.appendTo}`)
+				console.warn(`${__('No HTMLElement was found matching', 'zionbuilder')} ${this.appendTo}`);
 				return;
 			}
 			this.appendToElement.appendChild(this.$el);

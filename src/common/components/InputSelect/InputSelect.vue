@@ -50,7 +50,7 @@
 					ref="searchInput"
 					v-model="searchKeyword"
 					class="znpb-option-selectOptionListSearchInput"
-					:placeholder="addable ? $translate('search_or_add') : $translate('search')"
+					:placeholder="addable ? __('Search or add new', 'zionbuilder') : __('Search', 'zionbuilder')"
 					:clearable="true"
 					icon="search"
 					autocomplete="off"
@@ -58,7 +58,7 @@
 				>
 					<template v-if="addable && searchKeyword.length > 0" #after-input>
 						<Icon
-							v-znpb-tooltip="$translate('add_new_item')"
+							v-znpb-tooltip="__('Add new item', 'zionbuilder')"
 							icon="plus"
 							class="znpb-inputAddableIcon"
 							@click.stop.prevent="addItem"
@@ -83,13 +83,16 @@
 					</div>
 				</ListScroll>
 
-				<div v-if="stopSearch" class="znpb-option-selectOptionListNoMoreText">{{ $translate('no_more_items') }}</div>
+				<div v-if="stopSearch" class="znpb-option-selectOptionListNoMoreText">
+					{{ __('no more items', 'zionbuilder') }}
+				</div>
 			</div>
 		</template>
 	</Tooltip>
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, watch, watchEffect, inject, unref } from 'vue';
 import { debounce } from 'lodash-es';
 

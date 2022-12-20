@@ -4,11 +4,11 @@
 		:class="{ 'znpb-about-modal__version-card--active': !isPro || isProActive }"
 	>
 		<Icon icon="zion-icon-logo" />
-		<div v-if="isPro" class="znpb-pro-item">{{ $translate('pro') }}</div>
+		<div v-if="isPro" class="znpb-pro-item">{{ __('pro', 'zionbuilder') }}</div>
 		<span class="znpb-about-modal__plugin-title"
 			>{{ $translate('zion_builder') }}
-			<span v-if="isPro">{{ $translate('pro') }}</span>
-			<span v-else>{{ $translate('free') }}</span>
+			<span v-if="isPro">{{ __('pro', 'zionbuilder') }}</span>
+			<span v-else>{{ __('FREE', 'zionbuilder') }}</span>
 		</span>
 		<div class="znpb-about-modal-text-wrapper">
 			<template v-if="!isPro">
@@ -20,13 +20,13 @@
 						title="changelog"
 						class="znpb-about-modal__help"
 						@click="openWindow(urls.free_changelog)"
-						>{{ $translate('view_changelog') }}</a
+						>{{ __('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
 			</template>
 			<template v-else>
 				<span v-if="!isProActive && isPro">
-					{{ $translate('not_installed') }}
+					{{ __('Not installed!', 'zionbuilder') }}
 				</span>
 				<template v-if="version !== null && updateVersion !== null">
 					<span>{{ version }}</span>
@@ -36,7 +36,7 @@
 						title="changelog"
 						class="znpb-about-modal__help"
 						@click="openWindow(urls.pro_changelog)"
-						>{{ $translate('view_changelog') }}</a
+						>{{ __('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
 			</template>
@@ -48,10 +48,10 @@
 				target="_blank"
 				class="znpb-button znpb-about-modal__version-card-button"
 				@click="openWindow(urls.updates_page)"
-				>{{ $translate('update_to_version') }} {{ updateVersion }}
+				>{{ __('Update to version', 'zionbuilder') }} {{ updateVersion }}
 			</a>
 			<span v-else class="znpb-about-modal-text-wrapper__up-to-date">
-				{{ $translate('you_are_upto_date') }}
+				{{ __('You are up to date!', 'zionbuilder') }}
 			</span>
 		</template>
 		<template v-else>
@@ -62,14 +62,14 @@
 				title="purchase"
 				class="znpb-button znpb-button--secondary"
 				@click="openWindow(urls.purchase_url)"
-				>{{ $translate('buy_pro') }}
+				>{{ __('Buy Pro', 'zionbuilder') }}
 			</a>
 			<template v-else>
 				<span
 					v-if="updateVersion === undefined || version === null || updateVersion === version"
 					class="znpb-about-modal-text-wrapper__up-to-date"
 				>
-					{{ $translate('you_are_upto_date') }}
+					{{ __('You are up to date!', 'zionbuilder') }}
 				</span>
 				<a
 					v-else
@@ -78,7 +78,7 @@
 					target="_blank"
 					class="znpb-button znpb-about-modal__version-card-button"
 					@click="openWindow(urls.updates_page)"
-					>{{ $translate('update_to_version') }} {{ updateVersion }}
+					>{{ __('Update to version', 'zionbuilder') }} {{ updateVersion }}
 				</a>
 			</template>
 		</template>
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { useEditorData } from '/@/editor/composables';
 
 export default {

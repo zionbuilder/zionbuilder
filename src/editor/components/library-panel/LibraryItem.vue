@@ -22,7 +22,7 @@
 				/>
 			</div>
 
-			<div v-if="item.pro" class="znpb-editor-library-modal__item-pro">{{ $translate('pro') }}</div>
+			<div v-if="item.pro" class="znpb-editor-library-modal__item-pro">{{ __('pro', 'zionbuilder') }}</div>
 
 			<div class="znpb-editor-library-modal__item-bottom">
 				<h4 class="znpb-editor-library-modal__item-title" :title="item.name">{{ item.name }}</h4>
@@ -33,7 +33,7 @@
 						target="_blank"
 						:href="dashboardURL"
 					>
-						{{ $translate('activate_pro') }}
+						{{ __('Activate PRO', 'zionbuilder') }}
 					</a>
 
 					<a
@@ -41,19 +41,19 @@
 						class="znpb-button znpb-button--line"
 						:href="purchaseURL"
 						target="_blank"
-						>{{ $translate('buy_pro') }}
+						>{{ __('Buy Pro', 'zionbuilder') }}
 					</a>
 
 					<span
 						v-else
-						v-znpb-tooltip="$translate('library_insert_tooltip')"
+						v-znpb-tooltip="__('Insert this item into page', 'zionbuilder')"
 						class="znpb-button znpb-button--line znpb-editor-library-modal__item-action"
 						@click.stop="insertLibraryItem"
-						>{{ $translate('library_insert') }}</span
+						>{{ __('Insert', 'zionbuilder') }}</span
 					>
 
 					<Icon
-						v-znpb-tooltip="$translate('library_click_preview_tooltip')"
+						v-znpb-tooltip="__('Click to preview this item', 'zionbuilder')"
 						icon="eye"
 						class="znpb-editor-library-modal__item-action"
 						@click="$emit('activate-item', item)"
@@ -71,7 +71,9 @@
 		</div>
 	</li>
 </template>
+
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useEditorData } from '/@/editor/composables';
 import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js';

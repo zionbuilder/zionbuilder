@@ -7,7 +7,7 @@
 			:position="position"
 		>
 			<EmptyList v-if="!modelValue" class="znpb-style-shape__empty" :no-margin="true">
-				{{ $translate('select_shape') }}
+				{{ __('Select shape divider', 'zionbuilder') }}
 			</EmptyList>
 			<span
 				v-else
@@ -39,9 +39,9 @@
 
 			<UpgradeToPro
 				v-if="!isPro"
-				:message_title="$translate('pro_masks_title')"
-				:message_description="$translate('pro_masks_description')"
-				:info_text="$translate('learn_more_about_pro')"
+				:message_title="__('More shape dividers', 'zionbuilder')"
+				:message_description="__('The shape you were looking for is not listed above ?', 'zionbuilder')"
+				:info_text="__('Click here to learn more about PRO.', 'zionbuilder')"
 			/>
 		</div>
 	</div>
@@ -54,6 +54,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, inject } from 'vue';
 import { Icon } from '../Icon';
 import Shape from './Shape.vue';

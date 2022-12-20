@@ -8,7 +8,7 @@
 					v-model="searchKeyword"
 					icon="search"
 					:clearable="true"
-					:placeholder="$translate('search_library')"
+					:placeholder="__('Search in this library', 'zionbuilder')"
 				/>
 			</div>
 
@@ -26,7 +26,7 @@
 				</div>
 				<div class="znpb-editor-library-modal-subheader__right">
 					<div class="znpb-editor-library-modal-subheader__action-title" @click="sortAscending = !sortAscending">
-						<Icon icon="reverse-y" />{{ $translate('sort') }}
+						<Icon icon="reverse-y" />{{ __('Sort', 'zionbuilder') }}
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 				</ul>
 
 				<p v-if="searchKeyword.length > 0 && filteredItems.length === 0" class="znpb-editor-library-modal-no-more">
-					{{ $translate('no_more_to_show') }}
+					{{ __('No more to show :(', 'zionbuilder') }}
 				</p>
 			</div>
 		</div>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, watchEffect, watch, nextTick } from 'vue';
 import { uniq } from 'lodash-es';
 

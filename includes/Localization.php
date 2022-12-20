@@ -160,8 +160,7 @@ class Localization {
 				'select_icon'                              => esc_html__( 'Select an icon', 'zionbuilder' ),
 				'add_new_item'                             => esc_html__( 'Add new item', 'zionbuilder' ),
 
-				// Typekit fonts
-
+				// Adobe fonts
 				'typekit_api_description'                  => sprintf(
 					'%s <a href="https://fonts.adobe.com/account/tokens" target="_blank">%s</a>. %s',
 					esc_html__( 'Please provide the token you got from the', 'zionbuilder' ),

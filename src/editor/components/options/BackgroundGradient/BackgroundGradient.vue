@@ -1,10 +1,10 @@
 <template>
 	<div class="znpb-style-background-gradient">
 		<EmptyList v-if="!modelValue && !showLibrary" class="znpb-style-background-gradient__empty" :no-margin="true">
-			<a @click="addNewGradient">{{ $translate('add_background_gradient') }}</a>
+			<a @click="addNewGradient">{{ __('Add new background gradient', 'zionbuilder') }}</a>
 			<template v-if="hasLibrary">
-				<div>{{ $translate('or') }}</div>
-				<a @click="showLibrary = true">{{ $translate('select_background_gradient') }}</a>
+				<div>{{ __('or', 'zionbuilder') }}</div>
+				<a @click="showLibrary = true">{{ __('Select from library', 'zionbuilder') }}</a>
 			</template>
 		</EmptyList>
 
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 const { getDefaultGradient } = window.zb.utils;
 
 export default {

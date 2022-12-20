@@ -9,7 +9,7 @@
 		>
 			<template #content>
 				<div v-if="!allow_class_assignments">
-					{{ $translate('add_class_assignment_not_allowed') }}
+					{{ __('Class assignments not allowed', 'zionbuilder') }}
 				</div>
 				<div
 					v-else
@@ -27,12 +27,12 @@
 							:modelValue="keyword"
 							:filterable="true"
 							:clearable="true"
-							:placeholder="$translate('enter_class_name')"
+							:placeholder="__('Enter Class Name', 'zionbuilder')"
 							@update:modelValue="handleClassInput"
 							@keydown.enter.stop="addNewCssClass"
 						></BaseInput>
 						<Button type="line" class="znpb-class-selector__add-class-button" @click="addNewCssClass">
-							{{ $translate('add_class') }}
+							{{ __('Add Class', 'zionbuilder') }}
 						</Button>
 					</div>
 
@@ -52,7 +52,9 @@
 						/>
 					</template>
 					<div v-if="!errorMessage && filteredClasses.length === 0" class="znpb-class-selector-noclass">
-						{{ $translate('no_class_found') }}
+						{{
+							__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
+						}}
 					</div>
 					<div v-if="invalidClass" class="znpb-class-selector-validator">{{ errorMessage }}</div>
 				</div>
@@ -73,6 +75,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 import CssSelector from './CssSelector.vue';
 import { useCSSClassesStore } from '/@/editor/store';

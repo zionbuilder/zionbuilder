@@ -2,7 +2,7 @@
 	<div class="znpb-preset-input-wrapper">
 		<BaseInput
 			v-model="presetName"
-			:placeholder="isGradient ? $translate('save_gradient_title') : $translate('add_preset_title')"
+			:placeholder="isGradient ? __('name', 'zionbuilder') : __('Global color name', 'zionbuilder')"
 			:class="{ 'znpb-backgroundGradient__nameInput': isGradient }"
 			:error="hasError"
 		>
@@ -36,6 +36,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, watch } from 'vue';
 import { Icon } from '../Icon';
 import { BaseInput } from '../BaseInput';

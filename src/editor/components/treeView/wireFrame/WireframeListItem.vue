@@ -19,13 +19,13 @@
 
 				<span
 					v-if="element.isRepeaterProvider"
-					v-znpb-tooltip="$translate('repeater_provider')"
+					v-znpb-tooltip="__('repeater provider', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>P</span
 				>
 				<span
 					v-if="element.isRepeaterConsumer"
-					v-znpb-tooltip="$translate('repeater_consumer')"
+					v-znpb-tooltip="__('repeater consumer', 'zionbuilder')"
 					class="znpb-tree-view__itemLooperIcon"
 					>C</span
 				>
@@ -55,6 +55,7 @@
 	</li>
 </template>
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, ref } from 'vue';
 import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';

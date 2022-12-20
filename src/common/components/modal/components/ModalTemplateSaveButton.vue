@@ -4,11 +4,13 @@
 			<slot></slot>
 		</div>
 		<div class="znpb-modal-content-save-button__button">
-			<Button :type="buttonType" @click="onButtonClick">{{ $translate('save') }} </Button>
+			<Button :type="buttonType" @click="onButtonClick">{{ __('Save', 'zionbuilder') }} </Button>
 		</div>
 	</div>
 </template>
+
 <script>
+import { __ } from '@wordpress/i18n';
 import { Button } from '../../Button';
 import { computed } from 'vue';
 

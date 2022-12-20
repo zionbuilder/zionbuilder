@@ -16,7 +16,7 @@
 					@click.stop="closeBody"
 				>
 					<Icon icon="long-arrow-right" rotate="180" />
-					{{ $translate('go_back') }}
+					{{ __('Go Back', 'zionbuilder') }}
 				</span>
 				<div v-if="previewOpen || importActive" class="znpb-library-modal-header-preview">
 					<h2 class="znpb-library-modal-header-preview__title" v-html="computedTitle"></h2>
@@ -39,25 +39,25 @@
 							class="znpb-button znpb-button--line"
 							target="_blank"
 							:href="dashboardURL"
-							>{{ $translate('activate_pro') }}
+							>{{ __('Activate PRO', 'zionbuilder') }}
 						</a>
 						<a
 							v-else-if="!isProInstalled && activeItem.pro"
 							class="znpb-button znpb-button--line znpb-button-buy-pro"
 							:href="purchaseURL"
 							target="_blank"
-							>{{ $translate('buy_pro') }}
+							>{{ __('Buy Pro', 'zionbuilder') }}
 						</a>
 
 						<Button
 							v-else
-							v-znpb-tooltip="$translate('library_insert_tooltip')"
+							v-znpb-tooltip="__('Insert this item into page', 'zionbuilder')"
 							type="secondary"
 							class="znpb-library-modal-header__insert-button"
 							@click.stop="insertLibraryItem"
 						>
 							<span v-if="!insertItemLoading">
-								{{ $translate('library_insert') }}
+								{{ __('Insert', 'zionbuilder') }}
 							</span>
 							<Loader v-else :size="13" />
 						</Button>
@@ -66,11 +66,11 @@
 					<template v-else>
 						<Button type="secondary" @click="(importActive = !importActive), (templateUploaded = !templateUploaded)">
 							<Icon icon="import" />
-							{{ $translate('import') }}
+							{{ __('Import', 'zionbuilder') }}
 						</Button>
 
 						<Icon
-							v-znpb-tooltip="$translate('refresh_tooltip')"
+							v-znpb-tooltip="__('Refresh data from the server ', 'zionbuilder')"
 							icon="refresh"
 							:size="14"
 							class="znpb-modal__header-button znpb-modal__header-button--library-refresh znpb-button znpb-button--line"
@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed, watchEffect } from 'vue';
 import { regenerateUIDsForContent } from '../utils';
 import { useEditorData, useLocalStorage } from '../composables';
@@ -203,7 +204,7 @@ export default {
 
 	computed: {
 		computedTitle() {
-			return this.previewOpen ? this.activeItem.post_title : this.$translate('import');
+			return this.previewOpen ? this.activeItem.post_title : __('Import', 'zionbuilder');
 		},
 	},
 	mounted() {

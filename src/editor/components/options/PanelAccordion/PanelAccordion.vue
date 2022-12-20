@@ -5,7 +5,7 @@
 				{{ title }}
 				<ChangesBullet
 					v-if="hasChanges"
-					:content="$translate('discard_changes')"
+					:content="__('Discard changes', 'zionbuilder')"
 					@remove-styles="$emit('discard-changes')"
 				/>
 			</div>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 export default {
 	name: 'PanelAccordion',
 	props: {

@@ -1,4 +1,4 @@
-import { translate } from '@zb/i18n';
+import { __ } from '@wordpress/i18n';
 import Routes from './Routes';
 
 // Components
@@ -63,7 +63,7 @@ export const initRoutes = function () {
 			name: 'general-settings',
 		},
 		component: PageContent,
-		title: translate('settings'),
+		title: __('Settings', 'zionbuilder'),
 	});
 
 	const GeneralSettingsRoute = SettingsRoute.addRoute('general-settings', {
@@ -72,28 +72,28 @@ export const initRoutes = function () {
 			name: 'allowed-post-types',
 		},
 		component: SettingsPage,
-		title: translate('general_settings'),
+		title: __('General Settings', 'zionbuilder'),
 		name: 'general-settings',
 	});
 
 	GeneralSettingsRoute.addRoute('allowed-post-types', {
 		path: 'allowed-post-types',
 		name: 'allowed-post-types',
-		title: translate('allowed_post_types'),
+		title: __('Allowed Post types', 'zionbuilder'),
 		component: PageAllowedPostTypes,
 	});
 
 	GeneralSettingsRoute.addRoute('maintenance-mode', {
 		path: 'maintenance-mode',
 		name: 'maintenance-mode',
-		title: translate('maintenance_mode'),
+		title: __('Maintenance mode', 'zionbuilder'),
 		component: MaintenanceMode,
 	});
 
 	GeneralSettingsRoute.addRoute('appearance', {
 		path: 'appearance',
 		name: 'appearance',
-		title: translate('appearance'),
+		title: __('Appearance', 'zionbuilder'),
 		component: Appearance,
 	});
 
@@ -103,50 +103,59 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'google_fonts',
 		},
-		title: translate('font_options'),
+		title: __('Font Options', 'zionbuilder'),
 		component: SettingsPage,
 	});
 
 	FontOptionsRoute.addRoute('google-fonts', {
 		path: 'google-fonts',
 		name: 'google_fonts',
-		title: translate('google_fonts'),
+		title: __('Google Fonts', 'zionbuilder'),
 		component: GoogleFonts,
 	});
 
 	FontOptionsRoute.addRoute('custom-fonts', {
 		path: 'custom-fonts',
 		name: 'custom_fonts',
-		title: translate('custom_fonts'),
-		props: { message: translate('custom_fonts_upgrade_message') },
+		title: __('Custom Fonts', 'zionbuilder'),
+		props: {
+			message: __('With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder'),
+		},
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro'),
+			text: __('pro', 'zionbuilder'),
 		},
 	});
 
 	FontOptionsRoute.addRoute('adobe-fonts', {
 		path: 'adobe-fonts',
 		name: 'adobe_fonts',
-		title: translate('typekit_fonts'),
-		props: { message: translate('typekit_fonts_upgrade_message') },
+		title: __('Adobe Fonts', 'zionbuilder'),
+		props: {
+			message: __(
+				'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.',
+				'zionbuilder',
+			),
+		},
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro'),
+			text: __('pro', 'zionbuilder'),
 		},
 	});
 
 	SettingsRoute.addRoute('custom-icons', {
 		path: 'custom-icons',
-		title: translate('custom_icons'),
+		title: __('Custom Icons', 'zionbuilder'),
 		name: 'icons',
-		props: { message: translate('share_library_upgrade_message') },
+		props: {
+			message: __('Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder'),
+		},
 		component: GetPro,
 		label: {
 			type: 'warning',
-			text: translate('pro'),
+			text: __('pro', 'zionbuilder'),
 		},
 	});
 
@@ -156,53 +165,58 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'color_presets',
 		},
-		title: translate('presets'),
+		title: __('Presets', 'zionbuilder'),
 		name: 'presets',
 	});
 
 	PresetsRoute.addRoute('color-presets', {
 		path: 'color-presets',
 		name: 'color_presets',
-		title: translate('color_presets'),
+		title: __('Color Presets', 'zionbuilder'),
 		component: Colors,
 	});
 
 	PresetsRoute.addRoute('gradients-presets', {
 		path: 'gradients-presets',
 		name: 'gradients_presets',
-		title: translate('gradients'),
+		title: __('Gradients', 'zionbuilder'),
 		component: Gradients,
 	});
 
 	SettingsRoute.addRoute('performance', {
 		path: 'performance',
-		title: translate('performance'),
+		title: __('Performance', 'zionbuilder'),
 		name: 'performance',
 		component: Performance,
 	});
 
 	SettingsRoute.addRoute('library', {
 		path: 'library',
-		title: translate('library'),
+		title: __('Library', 'zionbuilder'),
 		name: 'library',
 		label: {
 			type: 'warning',
-			text: translate('pro'),
+			text: __('pro', 'zionbuilder'),
 		},
-		props: { message: translate('custom_icons_upgrade_message') },
+		props: {
+			message: __(
+				'With PRO you can upload your own icons in addition to the Font Awesome icons that everyone is using.',
+				'zionbuilder',
+			),
+		},
 		component: GetPro,
 	});
 
 	routes.addRoute('permissions', {
 		path: '/permissions',
 		component: Permissions,
-		title: translate('permissions'),
+		title: __('Permissions', 'zionbuilder'),
 	});
 
 	routes.addRoute('templates', {
 		path: '/templates',
 		component: PageContent,
-		title: translate('templates'),
+		title: __('Templates', 'zionbuilder'),
 		name: 'all_templates',
 		redirect: {
 			name: 'template',
@@ -213,13 +227,13 @@ export const initRoutes = function () {
 	routes.addRoute('custom-code', {
 		path: '/custom-code',
 		component: CustomCode,
-		title: translate('custom_code'),
+		title: __('Custom code', 'zionbuilder'),
 	});
 
 	const ToolsRoute = routes.addRoute('tools-page', {
 		path: '/tools-page',
 		component: PageContent,
-		title: translate('tools'),
+		title: __('Tools', 'zionbuilder'),
 		redirect: {
 			name: 'tools-page',
 		},
@@ -229,7 +243,7 @@ export const initRoutes = function () {
 		path: 'tools-page',
 		name: 'tools-page',
 		props: { templateType: 'tools' },
-		title: translate('general'),
+		title: __('General', 'zionbuilder'),
 		component: ToolsPage,
 	});
 
@@ -237,13 +251,13 @@ export const initRoutes = function () {
 		path: 'replace-url',
 		name: 'replace-url',
 		props: { templateType: 'replace-url' },
-		title: translate('replace_url'),
+		title: __('Replace URL', 'zionbuilder'),
 		component: ReplaceUrl,
 	});
 
 	routes.addRoute('system-info', {
 		path: '/system-info',
 		component: SystemInfo,
-		title: translate('system_info'),
+		title: __('System Info', 'zionbuilder'),
 	});
 };

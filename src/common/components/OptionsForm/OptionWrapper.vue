@@ -26,7 +26,7 @@
 
 			<ChangesBullet
 				v-if="showChanges && hasChanges"
-				:content="$translate('discard_changes')"
+				:content="__('Discard changes', 'zionbuilder')"
 				@remove-styles="onDeleteOption"
 			/>
 
@@ -121,6 +121,7 @@
 	</div>
 </template>
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { provide, inject, readonly, toRef, watchEffect, ref, computed, markRaw } from 'vue';
 import { useOptions } from '../../composables/useOptions';
 import { useOptionsSchemas } from '../../composables/useOptionsSchemas';

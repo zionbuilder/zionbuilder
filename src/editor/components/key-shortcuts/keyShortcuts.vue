@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import keyShortcutsItem from './keyShortcutsItem.vue';
 
 const { Environment } = window.zb.utils;
@@ -29,95 +30,95 @@ export default {
 			schemaDescriptionFirst: [
 				{
 					keyshortcut: [controlKey, 'S'],
-					description: this.$translate('save_changes'),
+					description: __('Save changes', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'C'],
-					description: this.$translate('copy_element'),
+					description: __('Copy', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'V'],
-					description: this.$translate('paste_element'),
+					description: __('Paste', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'X'],
-					description: this.$translate('cut_element'),
+					description: __('Cut', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'D'],
-					description: this.$translate('duplicate_element'),
+					description: __('Duplicate', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, '⇧', 'C'],
-					description: this.$translate('copy_element_styles'),
+					description: __('Copy styles', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, '⇧', 'V'],
-					description: this.$translate('paste_element_styles'),
+					description: __('Paste styles', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'Z'],
-					description: this.$translate('undo'),
+					description: __('Undo', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'Y'],
-					description: this.$translate('redo'),
+					description: __('Redo', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, '⇧', 'Y'],
-					description: this.$translate('redo'),
+					description: __('Redo', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'H'],
-					description: this.$translate('hide_element'),
+					description: __('Hide element', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'P'],
-					description: this.$translate('toggle_preview'),
+					description: __('Toggle preview mode', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['⇧', 'T'],
-					description: this.$translate('toggle_tree_view_panel'),
+					description: __('Toggle Tree View Panel', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['⇧', 'L'],
-					description: this.$translate('toggle_library'),
+					description: __('Toggle Library Panel', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['⇧', 'O'],
-					description: this.$translate('toggle_page_options'),
+					description: __('Toggle page options', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['DRAG', controlKey],
-					description: this.$translate('duplicate_element_in_place'),
-					details: this.$translate('when_dragging_element'),
+					description: __('Duplicate element in place', 'zionbuilder'),
+					details: __('When dragging element', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, 'DRAG'],
-					description: this.$translate('set_even_values'),
-					details: this.$translate('when_dragging_toolbox'),
+					description: __('Set even values', 'zionbuilder'),
+					details: __('When dragging toolbox', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, '⇧', 'DRAG'],
-					description: this.$translate('set_even_incremental_value'),
+					description: __('Set even incremental value', 'zionbuilder'),
 				},
 				{
 					keyshortcut: [controlKey, '⇧', 'D'],
-					description: this.$translate('back_to_wp_dashboard'),
+					description: __('Back to WP dashboard', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['⇧', 'DRAG'],
-					description: this.$translate('set_incremental_value'),
-					details: this.$translate('when_dragging_input_number'),
+					description: __('Set incremental value', 'zionbuilder'),
+					details: __('On input of type number', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['⇧', 'ARROWS'],
-					description: this.$translate('set_incremental_value'),
+					description: __('Set incremental value', 'zionbuilder'),
 				},
 				{
 					keyshortcut: ['ALT'],
 					description: 'Toggle Link',
-					details: this.$translate('on_input_number_link'),
+					details: __('On input of type number with link option available', 'zionbuilder'),
 				},
 			],
 		};

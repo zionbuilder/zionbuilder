@@ -3,7 +3,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="$translate('attribute_key')"
+				:placeholder="__('Attribute key', 'zionbuilder')"
 				:modelValue="attributeConfig.key"
 				:spellcheck="false"
 				@update:modelValue="updateValue('key', $event)"
@@ -12,7 +12,7 @@
 		<div class="znpb-link-optionsAttributeInput znpb-link-optionsAttributeField">
 			<BaseInput
 				type="text"
-				:placeholder="$translate('attribute_value')"
+				:placeholder="__('Attribute value', 'zionbuilder')"
 				:modelValue="attributeConfig.value"
 				:spellcheck="false"
 				@update:modelValue="updateValue('value', $event)"
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 export default {
 	name: 'LinkAttributeForm',
 	props: {

@@ -1,7 +1,7 @@
 <template>
 	<Modal
 		v-if="activeSaveElement.type"
-		:title="$translate('save_to_library')"
+		:title="__('Save to library', 'zionbuilder')"
 		append-to="body"
 		:width="560"
 		:show-maximize="false"
@@ -14,10 +14,10 @@
 
 			<div class="znpb-modal-content-save-buttons">
 				<Button class="znpb-button--secondary" @click="saveElement">
-					<span>{{ $translate('save') }}</span>
+					<span>{{ __('Save', 'zionbuilder') }}</span>
 				</Button>
 				<Button class="znpb-button--line" @click="downloadElement">
-					{{ $translate('download') }}
+					{{ __('Download', 'zionbuilder') }}
 				</Button>
 			</div>
 			<p
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 import { saveAs } from 'file-saver';
 
@@ -80,8 +81,8 @@ export default {
 			return {
 				title: {
 					type: 'text',
-					title: this.$translate('choose_title'),
-					description: this.$translate('save_title_desc'),
+					title: __('Choose a title', 'zionbuilder'),
+					description: __('Write a suggestive name for your element', 'zionbuilder'),
 				},
 			};
 		},
@@ -121,7 +122,7 @@ export default {
 					template_data: compiledElementData,
 				})
 				.then(response => {
-					this.loadingMessage = this.$translate('template_was_added');
+					this.loadingMessage = __('The template was successfully added to library', 'zionbuilder');
 				})
 				.catch(error => {
 					if (error.response !== undefined) {
@@ -130,7 +131,7 @@ export default {
 						} else this.errorMessage = this.arrayBufferToString(error.response.data);
 					} else {
 						// eslint-disable-next-line
-						console.error(error)
+						console.error(error);
 						this.errorMessage = error;
 					}
 				})

@@ -10,17 +10,17 @@
 				<template v-if="isInitial && !isSaving">
 					<Icon icon="import-big-icon" />
 					<p class="znpb-editor-library-upload__text">
-						{{ $translate('drag_drop') }}
-						<span class="">{{ $translate('browse') }}</span>
-						{{ $translate('for_files') }}
+						{{ __('Drag and drop your exported item here or just click to ', 'zionbuilder') }}
+						<span class="">{{ __('browse', 'zionbuilder') }}</span>
+						{{ __('for files', 'zionbuilder') }}
 					</p>
 				</template>
 				<div v-if="!isInitial && !isSaving" class="znpb-library-uploading-wrapper">
 					<Icon icon="long-arrow-right" :bg-size="68" bg-color="#06bee1" :rounded="true" color="#fff" :size="21" />
 					<p class="znpb-library-uploading-wrapper__text">
-						<b>{{ $translate('drop_files') }}</b
+						<b>{{ __('Drop your files', 'zionbuilder') }}</b
 						><br />
-						{{ $translate('to_upload') }}
+						{{ __('to upload', 'zionbuilder') }}
 					</p>
 				</div>
 				<input
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 const { useLibrary } = window.zb.composables;
 
 export default {

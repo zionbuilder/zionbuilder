@@ -2,9 +2,9 @@
 	<vueDatePick
 		v-model="valueModel"
 		class="znpb-input-date"
-		:next-month-caption="$translate('next_month')"
-		:previous-month-caption="$translate('previous_month')"
-		:set-time-caption="$translate('set_time')"
+		:next-month-caption="__('Next Month', 'zionbuilder')"
+		:previous-month-caption="__('Previous month', 'zionbuilder')"
+		:set-time-caption="__('Set time', 'zionbuilder')"
 		:weekdays="weekdaysStrings"
 		:months="monthsStrings"
 		:pick-time="pickTime"
@@ -12,8 +12,7 @@
 		:format="format"
 		:is-date-disabled="disableDate"
 	>
-
-		<template v-slot:default="{toggle}">
+		<template v-slot:default="{ toggle }">
 			<BaseInput
 				v-model="valueModel"
 				:readonly="readonly"
@@ -25,13 +24,12 @@
 			</BaseInput>
 		</template>
 	</vueDatePick>
-
 </template>
 
 <script>
-
-import vueDatePick from './src/vueDatePick.vue'
-import BaseInput from '../BaseInput/BaseInput.vue'
+import { __ } from '@wordpress/i18n';
+import vueDatePick from './src/vueDatePick.vue';
+import BaseInput from '../BaseInput/BaseInput.vue';
 
 /**
  *   model - string
@@ -40,7 +38,7 @@ export default {
 	name: 'InputDatePicker',
 	components: {
 		vueDatePick,
-		BaseInput
+		BaseInput,
 	},
 	props: {
 		/**
@@ -48,89 +46,87 @@ export default {
 		 */
 		modelValue: {
 			type: String,
-			required: true
+			required: true,
 		},
 		readonly: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		pickTime: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
 		format: {
 			type: String,
-			required: false
+			required: false,
 		},
 		use12HourClock: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		pastDisabled: {
 			type: Boolean,
-			required: false
+			required: false,
 		},
 		futureDisabled: {
 			type: Boolean,
 			required: false,
-			default: false
-		}
+			default: false,
+		},
 	},
-	data () {
+	data() {
 		return {
 			weekdaysStrings: [
-				this.$translate('monday'),
-				this.$translate('tuesday'),
-				this.$translate('wednesday'),
-				this.$translate('thursday'),
-				this.$translate('friday'),
-				this.$translate('saturday'),
-				this.$translate('sunday')
+				__('Mon', 'zionbuilder'),
+				__('Tue', 'zionbuilder'),
+				__('Wed', 'zionbuilder'),
+				__('Thu', 'zionbuilder'),
+				__('Fri', 'zionbuilder'),
+				__('Sat', 'zionbuilder'),
+				__('Sun', 'zionbuilder'),
 			],
 			monthsStrings: [
-				this.$translate('jan'),
-				this.$translate('feb'),
-				this.$translate('mar'),
-				this.$translate('apr'),
-				this.$translate('may'),
-				this.$translate('jun'),
-				this.$translate('jul'),
-				this.$translate('aug'),
-				this.$translate('sep'),
-				this.$translate('oct'),
-				this.$translate('nov'),
-				this.$translate('dec')
-			]
-		}
+				__('January', 'zionbuilder'),
+				__('February', 'zionbuilder'),
+				__('March', 'zionbuilder'),
+				__('April', 'zionbuilder'),
+				__('May', 'zionbuilder'),
+				__('June', 'zionbuilder'),
+				__('July', 'zionbuilder'),
+				__('August', 'zionbuilder'),
+				__('September', 'zionbuilder'),
+				__('October', 'zionbuilder'),
+				__('November', 'zionbuilder'),
+				__('December', 'zionbuilder'),
+			],
+		};
 	},
 	computed: {
 		valueModel: {
-			get () {
-				return this.modelValue
+			get() {
+				return this.modelValue;
 			},
-			set (newValue) {
+			set(newValue) {
 				/**
 				 * It emits the new value
-				*/
-				this.$emit('update:modelValue', newValue)
-			}
-		}
+				 */
+				this.$emit('update:modelValue', newValue);
+			},
+		},
 	},
 	methods: {
-		disableDate (date) {
-			const currentDate = new Date()
-			currentDate.setHours(0, 0, 0, 0)
+		disableDate(date) {
+			const currentDate = new Date();
+			currentDate.setHours(0, 0, 0, 0);
 
 			if (this.pastDisabled) {
-				return date < currentDate
+				return date < currentDate;
 			} else if (this.futureDisabled) {
-				return date > currentDate
-			} else return false
-		}
-
-	}
-}
+				return date > currentDate;
+			} else return false;
+		},
+	},
+};
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>
