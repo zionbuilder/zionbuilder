@@ -19,7 +19,6 @@
 import { ref } from 'vue';
 import { sprintf, __ } from '@wordpress/i18n';
 import { useAssetsStore, useEnvironmentStore } from '@zb/store';
-import { useEnvironmentStore } from '@zb/store';
 
 const { Button, Loader } = window.zb.components;
 const showMessage = ref(true);

@@ -17,6 +17,7 @@ release/
 /stats/
 
 # Package managers
+.turbo/
 /composer.lock
 /vendor/
 /**/node_modules/
