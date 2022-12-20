@@ -89,7 +89,7 @@
 
 		<div v-if="UIStore.isPreviewLoading" class="znpb-loading-wrapper-gif">
 			<img :src="editorData.urls.loader" />
-			<div class="znpb-loading-wrapper-gif__text">{{ translate('generating_preview') }}</div>
+			<div class="znpb-loading-wrapper-gif__text">{{ __('Generating preview...', 'zionbuilder') }}</div>
 		</div>
 
 		<!-- Add Elements Popup -->
@@ -111,6 +111,7 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, provide, computed, onBeforeUnmount, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 
@@ -135,7 +136,6 @@ import { useUIStore, useCSSClassesStore, usePageSettingsStore, useHistoryStore }
 import { serverRequest } from './api';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { useNotificationsStore, useBuilderOptionsStore } = window.zb.store;
 const { useResponsiveDevices } = window.zb.composables;
 
@@ -200,7 +200,10 @@ provide('plugin_info', editorData.value.plugin_info);
 // Add notices
 const { add } = useNotificationsStore();
 add({
-	message: translate('autosave_notice'),
+	message: __(
+		'This is an autosave. Edit your page and when you\'re ready press the "Save and Publish Page" button.',
+		'zionbuilder',
+	),
 	type: 'info',
 	delayClose: 5000,
 });

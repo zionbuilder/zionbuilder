@@ -63,9 +63,6 @@ import { uniq } from 'lodash-es';
 import CategoriesLibrary from './library-panel/CategoriesLibrary.vue';
 import LibraryItem from './library-panel/LibraryItem.vue';
 
-// Common API
-const { translate } = window.zb.i18n;
-
 export default {
 	name: 'LibraryPanel',
 	components: {
@@ -82,10 +79,10 @@ export default {
 			required: true,
 		},
 	},
-	setup(props, { emit }) {
+	setup(props) {
 		// NormalVars
 		const allCategoyConfig = {
-			name: translate('all'),
+			name: __('All', 'zionbuilder'),
 			slug: 'zion-category-all',
 			term_id: '3211329987745',
 			isActive: true,

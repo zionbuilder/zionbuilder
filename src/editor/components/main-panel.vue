@@ -212,12 +212,12 @@ export default {
 		const helpMenuItems = computed(() => {
 			let helpArray = [
 				{
-					title: translate('tour'),
+					title: __('Start tour', 'zionbuilder'),
 					action: doShowGettingStartedVideo,
 					canShow: isPro && gettingStartedVideoURL.length > 0,
 				},
 				{
-					title: translate('key_shortcuts'),
+					title: __('Key shortcuts', 'zionbuilder'),
 					action: () => (shortcutsModalVisibility.value = true),
 				},
 				{
@@ -231,12 +231,12 @@ export default {
 					action: () => {},
 				},
 				{
-					title: translate('back_to_wp_dashboard'),
+					title: __('Back to WP dashboard', 'zionbuilder'),
 					url: editorData.value.urls.edit_page,
 					action: () => {},
 				},
 				{
-					title: translate('view_post'),
+					title: __('Preview post', 'zionbuilder'),
 					action: openPreviewPage,
 				},
 			];
@@ -258,17 +258,17 @@ export default {
 		const saveActions = [
 			{
 				icon: 'save-template',
-				title: translate('save_template'),
+				title: __('Save Template', 'zionbuilder'),
 				action: saveTemplate,
 			},
 			{
 				icon: 'save-draft',
-				title: translate('save_draft'),
+				title: __('Save Page', 'zionbuilder'),
 				action: saveDraft,
 			},
 			{
 				icon: 'save-page',
-				title: translate('save_page'),
+				title: __('Save & Publish Page', 'zionbuilder'),
 				action: savePage,
 			},
 		];

@@ -61,8 +61,7 @@ const props = withDefaults(
 		useSearch: true,
 		columns: 3,
 		searchText: () => {
-			const { translate } = window.zb.i18n;
-			return translate('search') as unknown as string;
+			return __('Search', 'zionbuilder') as unknown as string;
 		},
 	},
 );

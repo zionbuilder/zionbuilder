@@ -32,15 +32,15 @@
 
 				<ChangesBullet
 					v-if="computedValues[position.position]"
-					:content="translate('discard_changes')"
+					:content="__('Discard changes', 'zionbuilder')"
 					@remove-styles="onDiscardChanges(position.position)"
 				/>
 			</div>
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ translate('margin') }}</span>
+				<span class="znpb-optSpacing-label">{{ __('Margin', 'zionbuilder') }}</span>
 				<Icon
 					:icon="linkedMargin ? 'link' : 'unlink'"
-					:title="linkedMargin ? translate('unlink') : translate('link')"
+					:title="linkedMargin ? __('unlink', 'zionbuilder') : __('Link', 'zionbuilder')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -99,16 +99,16 @@
 
 				<ChangesBullet
 					v-if="computedValues[position.position]"
-					:content="translate('discard_changes')"
+					:content="__('Discard changes', 'zionbuilder')"
 					@remove-styles="onDiscardChanges(position.position)"
 				/>
 			</div>
 
 			<div class="znpb-optSpacing-labelWrapper">
-				<span class="znpb-optSpacing-label">{{ translate('padding') }}</span>
+				<span class="znpb-optSpacing-label">{{ __('Padding', 'zionbuilder') }}</span>
 				<Icon
 					:icon="linkedPadding ? 'link' : 'unlink'"
-					:title="linkedPadding ? translate('unlink') : translate('link')"
+					:title="linkedPadding ? __('unlink', 'zionbuilder') : __('link', 'zionbuilder')"
 					:size="12"
 					class="znpb-optSpacing-link"
 					:class="{
@@ -148,11 +148,11 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, Ref, watch, nextTick } from 'vue';
+import { __ } from '@wordpress/i18n';
+import { computed, ref, Ref } from 'vue';
 import { InputNumberUnit } from '../InputNumber';
 import rafSchd from 'raf-schd';
 import clickOutside from '../../directives/click-outside.ts';
-import { translate } from '../../modules/i18n';
 
 type PositionId =
 	| 'margin-top'
@@ -200,7 +200,7 @@ const marginPositionId: Position[] = [
 	{
 		position: 'margin-top',
 		type: 'margin',
-		title: translate('margin-top'),
+		title: __('Margin top', 'zionbuilder'),
 		svg: {
 			cursor: 'n-resize',
 			d: 'M0 0h320l-50 36H50L0 0Z',
@@ -210,7 +210,7 @@ const marginPositionId: Position[] = [
 	{
 		position: 'margin-right',
 		type: 'margin',
-		title: translate('margin-right'),
+		title: __('Margin right', 'zionbuilder'),
 		svg: {
 			cursor: 'e-resize',
 			d: 'm320 183-50-36V39l50-36v180Z',
@@ -220,7 +220,7 @@ const marginPositionId: Position[] = [
 	{
 		position: 'margin-bottom',
 		type: 'margin',
-		title: translate('margin-bottom'),
+		title: __('Margin bottom', 'zionbuilder'),
 		svg: {
 			cursor: 's-resize',
 			d: 'M50 150h220l50 36H0l50-36Z',
@@ -230,7 +230,7 @@ const marginPositionId: Position[] = [
 	{
 		position: 'margin-left',
 		type: 'margin',
-		title: translate('margin-left'),
+		title: __('Margin left', 'zionbuilder'),
 		svg: {
 			cursor: 'w-resize',
 			d: 'm0 3 50 36v108L0 183V3Z',
@@ -242,7 +242,7 @@ const paddingPositionId: Position[] = [
 	{
 		position: 'padding-top',
 		type: 'padding',
-		title: translate('padding-top'),
+		title: __('Padding top', 'zionbuilder'),
 		svg: {
 			cursor: 'n-resize',
 			d: 'M0 0h214l-50 36H50L0 0Z',
@@ -252,7 +252,7 @@ const paddingPositionId: Position[] = [
 	{
 		position: 'padding-right',
 		type: 'padding',
-		title: translate('padding-right'),
+		title: __('Padding right', 'zionbuilder'),
 		svg: {
 			cursor: 'e-resize',
 			d: 'm214 105-50-36V39l50-36v102Z',
@@ -262,7 +262,7 @@ const paddingPositionId: Position[] = [
 	{
 		position: 'padding-bottom',
 		type: 'padding',
-		title: translate('padding-bottom'),
+		title: __('Padding bottom', 'zionbuilder'),
 		svg: {
 			cursor: 's-resize',
 			d: 'M214 108H0l50-36h114l50 36Z',
@@ -272,7 +272,7 @@ const paddingPositionId: Position[] = [
 	{
 		position: 'padding-left',
 		type: 'padding',
-		title: translate('padding-left'),
+		title: __('Padding left', 'zionbuilder'),
 		svg: {
 			cursor: 'w-resize',
 			d: 'm0 3 50 36v30L0 105V3Z',

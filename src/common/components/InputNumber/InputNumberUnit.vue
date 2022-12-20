@@ -45,7 +45,7 @@
 								}"
 								@click.stop="changeUnit('')"
 							>
-								{{ translate('custom') }}
+								{{ __('custom', 'zionbuilder') }}
 							</div>
 						</div>
 					</template>
@@ -58,13 +58,13 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, onBeforeMount, onMounted, ref, watch, Ref, nextTick } from 'vue';
 import rafSchd from 'raf-schd';
 
 import { DEFAULT_UNIT_TYPES, ALL_NUMBER_UNITS_TYPES } from '../../data';
 import Tooltip from '../tooltip/components/Tooltip.vue';
 import BaseInput from '../BaseInput/BaseInput.vue';
-import { translate } from '../../modules/i18n';
 
 const props = withDefaults(
 	defineProps<{

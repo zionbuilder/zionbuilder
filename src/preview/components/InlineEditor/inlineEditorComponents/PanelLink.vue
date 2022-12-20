@@ -3,14 +3,18 @@
 		<div class="zion-inline-editor-link-wrapper">
 			<InputWrapper :title="__('Add a link', 'zionbuilder')">
 				<BaseInput v-model="linkUrl" :clearable="true" placeholder="www.address.com" @keyup.enter="addLink">
-					<template v-slot:prepend>
+					<template #prepend>
 						<Icon icon="link" />
 					</template>
 				</BaseInput>
 			</InputWrapper>
 			<div class="zion-inline-editor-popover__link-title">
 				<InputWrapper :title="__('Target', 'zionbuilder')">
-					<InputSelect :options="selectOptions" v-model="linkTarget" placeholder="Select target" />
+					<InputSelect
+						v-model="linkTarget"
+						:options="selectOptions"
+						:placeholder="__('Select target', 'zionbuilder')"
+					/>
 				</InputWrapper>
 				<InputWrapper :title="__('Title', 'zionbuilder')">
 					<BaseInput v-model="linkTitle" placeholder="link_title" :clearable="true" @keyup.enter="addLink" />

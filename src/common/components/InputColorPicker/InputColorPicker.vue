@@ -118,7 +118,7 @@ const emit = defineEmits<{
 const color = ref<InstanceType<typeof Color> | null>(null);
 
 const computedPlaceholder = computed(() => {
-	return props.placeholder || translate('color');
+	return props.placeholder || __('Color', 'zionbuilder');
 });
 
 const colorModel = computed({
