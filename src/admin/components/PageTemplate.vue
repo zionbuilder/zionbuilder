@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-admin-content znpb-admin-content--center" functional>
+	<div class="znpb-admin-content znpb-admin-content--center">
 		<div class="znpb-admin-content__center">
 			<slot></slot>
 		</div>

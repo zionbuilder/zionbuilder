@@ -35,7 +35,7 @@
 						:key="key"
 						:to="`${menuItem.path}`"
 						class="znpb-admin__header-menu-item"
-						>{{ menuItem.title }}</router-link
+						>{{ menuItem.meta.title }}</router-link
 					>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 
 // Globals
@@ -80,19 +80,11 @@ const logoUrl = window.ZnPbAdminPageData.urls.logo;
 const version = window.ZnPbAdminPageData.plugin_version;
 const isPro = window.ZnPbAdminPageData.is_pro_active;
 
+/**
+ * Get the menu items
+ */
 const menuItems = computed(() => {
-	const routes = [];
-	for (const i in router.options.routes) {
-		if (!router.options.routes.hasOwnProperty(i)) {
-			continue;
-		}
-		const route = router.options.routes[i];
-		if (route.hasOwnProperty('title')) {
-			routes.push(route);
-		}
-	}
-
-	return routes;
+	return router.options.routes.map(rawRoute => router.resolve(rawRoute)).filter(route => route.meta.title);
 });
 
 const documentationLink = computed(() => {

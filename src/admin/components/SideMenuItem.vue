@@ -1,12 +1,12 @@
 <template>
 	<router-link
 		class="znpb-admin-side-menu__item"
-		:class="{'znpb-admin__side-menu-item--active': isActive}"
+		:class="{ 'znpb-admin__side-menu-item--active': isActive }"
 		:to="`${basePath}/${menuItem.path}`"
 	>
 		<slot></slot>
 		<SideMenu
-			v-if="menuItem.children && isActive"
+			v-if="menuItem.children && menuItem.children.length && isActive"
 			:menu-items="menuItem.children"
 			:animate="true"
 			:base-path="`${basePath}/${menuItem.path}`"
@@ -14,26 +14,24 @@
 	</router-link>
 </template>
 
-<script>
-export default {
-	name: 'SideMenuItem',
-	props: {
-		menuItem: {
-			type: Object,
-			required: true
-		},
-		basePath: {
-			type: String,
-			required: false
-		}
+<script lang="ts" setup>
+import { useRoute, type RouteRecordRaw } from 'vue-router';
+import { computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		menuItem: RouteRecordRaw;
+		basePath?: string;
+	}>(),
+	{
+		basePath: '',
 	},
-	computed: {
-		isActive () {
-			const routerPath = this.$route.path
-			return routerPath.indexOf(this.menuItem.path) !== -1
-		}
-	}
-}
+);
+
+const isActive = computed(() => {
+	const routerPath = useRoute().path;
+	return routerPath.indexOf(props.menuItem.path) !== -1;
+});
 </script>
 
 <style lang="scss">
@@ -68,7 +66,7 @@ export default {
 
 	& & &__item {
 		&::before {
-			content: "";
+			content: '';
 			display: inline-block;
 			width: 10px;
 			height: 2px;
@@ -123,7 +121,7 @@ export default {
 
 			> span::before,
 			> span::after {
-				content: "";
+				content: '';
 				position: absolute;
 				left: 0;
 			}
@@ -144,7 +142,7 @@ export default {
 	border-bottom: 1px solid var(--zb-surface-lighter-color);
 
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		top: 28px;
 		right: 20px;

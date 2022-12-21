@@ -6,7 +6,7 @@
 	</transition>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 const { useBuilderOptionsStore } = window.zb.store;
 const builderOptionsStore = useBuilderOptionsStore();
 </script>

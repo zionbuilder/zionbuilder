@@ -20,7 +20,7 @@
 	</PageTemplate>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { computed, watch } from 'vue';
 import { useBuilderOptionsStore } from '@zb/store';

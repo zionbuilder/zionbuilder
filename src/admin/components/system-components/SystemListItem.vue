@@ -3,25 +3,22 @@
 		<h3 class="znpb-system-list__item">{{ data.name }}</h3>
 		<h4 class="znpb-system-list__item">
 			{{ data.value }}
-			<SmallNotice v-if="data.icon" :data="data"></SmallNotice>
+			<SmallNotice v-if="data.icon" :icon="data.icon" :message="data.message" />
 		</h4>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import SmallNotice from './SmallNotice.vue';
-export default {
-	name: 'SystemListItem',
-	components: {
-		SmallNotice,
-	},
-	props: {
-		data: {
-			type: Object,
-			required: true,
-		},
-	},
-};
+
+defineProps<{
+	data: {
+		name: string;
+		value: string;
+		icon?: string;
+		message?: string;
+	};
+}>();
 </script>
 <style lang="scss">
 .znpb-system-list-wrapper {

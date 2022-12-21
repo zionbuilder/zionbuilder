@@ -1,30 +1,24 @@
 <template>
 	<div class="znpb-system-list-wrapper">
-		<h2 class="znpb-system-subtitle">{{categoryData.category_name}}</h2>
-		<SystemListItem
-			v-for="(value,i) in categoryData.values"
-			:key="i"
-			:data="value"
-		>
-
-		</SystemListItem>
+		<h2 class="znpb-system-subtitle">{{ categoryData.category_name }}</h2>
+		<SystemListItem v-for="(value, i) in categoryData.values" :key="i" :data="value" />
 	</div>
 </template>
 
-<script>
-import SystemListItem from './SystemListItem.vue'
-export default {
-	name: 'SystemList',
-	components: {
-		SystemListItem
-	},
-	props: {
-		categoryData: {
-			type: Object,
-			required: true
-		}
-	}
-}
+<script lang="ts" setup>
+import SystemListItem from './SystemListItem.vue';
+
+defineProps<{
+	categoryData: {
+		category_name: string;
+		values: {
+			name: string;
+			value: string;
+			status: string;
+			icon?: string;
+		}[];
+	};
+}>();
 </script>
 <style lang="scss">
 .znpb-system-list-wrapper {

@@ -1,8 +1,6 @@
 <template>
 	<div v-if="showMessage" class="notice notice-warning znpb-assetRegenerationNotice">
-		{{
-			sprintf(__('%s assets needs to be regenerated.', 'zionbuilder'), EnvironmentStore.plugin_name)
-		}}
+		{{ sprintf(__('%s assets needs to be regenerated.', 'zionbuilder'), EnvironmentStore.plugin_name) }}
 
 		<Button :class="{ ['-hasLoading']: AssetsStore.isLoading }" @click="regenerateAssets">
 			<template v-if="AssetsStore.isLoading">

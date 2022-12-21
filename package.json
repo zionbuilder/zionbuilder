@@ -17,7 +17,8 @@
     "dev:packages": "lerna run dev",
     "build:packages": "lerna run build",
     "build:types": "tsc --build",
-    "postinstall": "composer install"
+    "postinstall": "composer install",
+    "lint": "tsc --noEmit && eslint"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",

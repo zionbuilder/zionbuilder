@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import Routes from './Routes';
+import 'vue-router';
 
 // Components
 import SettingsPage from '../components/SettingsPage.vue';
@@ -19,43 +20,39 @@ import Appearance from '../components/Appearance.vue';
 import CustomCode from '../components/CustomCode.vue';
 import Performance from '../components/Performance.vue';
 
-const getTemplateChildrens = () => {
-	const templateChilds = {};
+declare module 'vue-router' {
+	interface RouteMeta {
+		// is optional
+		title?: string;
+		// must be declared by every route
+		label?: string;
+	}
+}
+
+const getTemplateChildren = () => {
+	const templateChildren = {};
 	window.ZnPbAdminPageData.template_types.forEach(templateType => {
-		templateChilds[templateType.id] = {
+		templateChildren[templateType.id] = {
 			path: templateType.id,
 			name: templateType.id,
 			props: {
 				templateType: templateType.id,
 				templateName: templateType.name,
 			},
-			title: templateType.name,
 			component: TemplatePage,
+			meta: {
+				title: templateType.name,
+			},
 		};
 	});
 
 	// Add template routes
-	return templateChilds;
+	return templateChildren;
 };
 
 export const routes = new Routes();
 
 export const initRoutes = function () {
-	routes.addRoute('home', {
-		path: '/',
-		component: PageContent,
-		name: 'home',
-		redirect: {
-			name: 'settings',
-		},
-	});
-
-	routes.addRoute('get-pro', {
-		path: '/get-pro',
-		name: 'get-pro',
-		component: GetPro,
-	});
-
 	const SettingsRoute = routes.addRoute('settings', {
 		path: '/settings',
 		name: 'settings',
@@ -63,7 +60,9 @@ export const initRoutes = function () {
 			name: 'general-settings',
 		},
 		component: PageContent,
-		title: __('Settings', 'zionbuilder'),
+		meta: {
+			title: __('Settings', 'zionbuilder'),
+		},
 	});
 
 	const GeneralSettingsRoute = SettingsRoute.addRoute('general-settings', {
@@ -72,28 +71,37 @@ export const initRoutes = function () {
 			name: 'allowed-post-types',
 		},
 		component: SettingsPage,
-		title: __('General Settings', 'zionbuilder'),
 		name: 'general-settings',
+		meta: {
+			title: __('General Settings', 'zionbuilder'),
+		},
 	});
 
 	GeneralSettingsRoute.addRoute('allowed-post-types', {
 		path: 'allowed-post-types',
 		name: 'allowed-post-types',
-		title: __('Allowed Post types', 'zionbuilder'),
+		meta: {
+			title: __('Allowed Post types', 'zionbuilder'),
+		},
 		component: PageAllowedPostTypes,
 	});
 
 	GeneralSettingsRoute.addRoute('maintenance-mode', {
 		path: 'maintenance-mode',
 		name: 'maintenance-mode',
-		title: __('Maintenance mode', 'zionbuilder'),
+		meta: {
+			title: __('Maintenance mode', 'zionbuilder'),
+		},
 		component: MaintenanceMode,
 	});
 
 	GeneralSettingsRoute.addRoute('appearance', {
 		path: 'appearance',
 		name: 'appearance',
-		title: __('Appearance', 'zionbuilder'),
+		meta: {
+			title: __('Appearance', 'zionbuilder'),
+		},
+
 		component: Appearance,
 	});
 
@@ -103,35 +111,41 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'google_fonts',
 		},
-		title: __('Font Options', 'zionbuilder'),
+		meta: {
+			title: __('Font Options', 'zionbuilder'),
+		},
+
 		component: SettingsPage,
 	});
 
 	FontOptionsRoute.addRoute('google-fonts', {
 		path: 'google-fonts',
 		name: 'google_fonts',
-		title: __('Google Fonts', 'zionbuilder'),
 		component: GoogleFonts,
+		meta: {
+			title: __('Google Fonts', 'zionbuilder'),
+		},
 	});
 
 	FontOptionsRoute.addRoute('custom-fonts', {
 		path: 'custom-fonts',
 		name: 'custom_fonts',
-		title: __('Custom Fonts', 'zionbuilder'),
 		props: {
 			message: __('With PRO you can upload your own sets of fonts and assign it to your page elements.', 'zionbuilder'),
 		},
 		component: GetPro,
-		label: {
-			type: 'warning',
-			text: __('pro', 'zionbuilder'),
+		meta: {
+			label: {
+				type: 'warning',
+				text: __('pro', 'zionbuilder'),
+			},
+			title: __('Custom Fonts', 'zionbuilder'),
 		},
 	});
 
 	FontOptionsRoute.addRoute('adobe-fonts', {
 		path: 'adobe-fonts',
 		name: 'adobe_fonts',
-		title: __('Adobe Fonts', 'zionbuilder'),
 		props: {
 			message: __(
 				'With PRO you can use the Adobe fonts library to add your fonts along side Google fonts and custom fonts.',
@@ -139,23 +153,28 @@ export const initRoutes = function () {
 			),
 		},
 		component: GetPro,
-		label: {
-			type: 'warning',
-			text: __('pro', 'zionbuilder'),
+		meta: {
+			label: {
+				type: 'warning',
+				text: __('pro', 'zionbuilder'),
+			},
+			title: __('Adobe Fonts', 'zionbuilder'),
 		},
 	});
 
 	SettingsRoute.addRoute('custom-icons', {
 		path: 'custom-icons',
-		title: __('Custom Icons', 'zionbuilder'),
 		name: 'icons',
 		props: {
 			message: __('Zion Builder PRO lets you share you templates library with multiple websites.', 'zionbuilder'),
 		},
 		component: GetPro,
-		label: {
-			type: 'warning',
-			text: __('pro', 'zionbuilder'),
+		meta: {
+			label: {
+				type: 'warning',
+				text: __('pro', 'zionbuilder'),
+			},
+			title: __('Custom Icons', 'zionbuilder'),
 		},
 	});
 
@@ -165,39 +184,42 @@ export const initRoutes = function () {
 		redirect: {
 			name: 'color_presets',
 		},
-		title: __('Presets', 'zionbuilder'),
 		name: 'presets',
+		meta: {
+			title: __('Presets', 'zionbuilder'),
+		},
 	});
 
 	PresetsRoute.addRoute('color-presets', {
 		path: 'color-presets',
 		name: 'color_presets',
-		title: __('Color Presets', 'zionbuilder'),
 		component: Colors,
+		meta: {
+			title: __('Color Presets', 'zionbuilder'),
+		},
 	});
 
 	PresetsRoute.addRoute('gradients-presets', {
 		path: 'gradients-presets',
 		name: 'gradients_presets',
-		title: __('Gradients', 'zionbuilder'),
 		component: Gradients,
+		meta: {
+			title: __('Gradients', 'zionbuilder'),
+		},
 	});
 
 	SettingsRoute.addRoute('performance', {
 		path: 'performance',
-		title: __('Performance', 'zionbuilder'),
 		name: 'performance',
 		component: Performance,
+		meta: {
+			title: __('Performance', 'zionbuilder'),
+		},
 	});
 
 	SettingsRoute.addRoute('library', {
 		path: 'library',
-		title: __('Library', 'zionbuilder'),
 		name: 'library',
-		label: {
-			type: 'warning',
-			text: __('pro', 'zionbuilder'),
-		},
 		props: {
 			message: __(
 				'With PRO you can upload your own icons in addition to the Font Awesome icons that everyone is using.',
@@ -205,37 +227,52 @@ export const initRoutes = function () {
 			),
 		},
 		component: GetPro,
+		meta: {
+			title: __('Library', 'zionbuilder'),
+			label: {
+				type: 'warning',
+				text: __('pro', 'zionbuilder'),
+			},
+		},
 	});
 
 	routes.addRoute('permissions', {
 		path: '/permissions',
 		component: Permissions,
-		title: __('Permissions', 'zionbuilder'),
+		meta: {
+			title: __('Permissions', 'zionbuilder'),
+		},
 	});
 
 	routes.addRoute('templates', {
 		path: '/templates',
 		component: PageContent,
-		title: __('Templates', 'zionbuilder'),
 		name: 'all_templates',
 		redirect: {
 			name: 'template',
 		},
-		children: getTemplateChildrens(),
+		children: getTemplateChildren(),
+		meta: {
+			title: __('Templates', 'zionbuilder'),
+		},
 	});
 
 	routes.addRoute('custom-code', {
 		path: '/custom-code',
 		component: CustomCode,
-		title: __('Custom code', 'zionbuilder'),
+		meta: {
+			title: __('Custom code', 'zionbuilder'),
+		},
 	});
 
 	const ToolsRoute = routes.addRoute('tools-page', {
 		path: '/tools-page',
 		component: PageContent,
-		title: __('Tools', 'zionbuilder'),
 		redirect: {
 			name: 'tools-page',
+		},
+		meta: {
+			title: __('Tools', 'zionbuilder'),
 		},
 	});
 
@@ -243,21 +280,33 @@ export const initRoutes = function () {
 		path: 'tools-page',
 		name: 'tools-page',
 		props: { templateType: 'tools' },
-		title: __('General', 'zionbuilder'),
 		component: ToolsPage,
+		meta: {
+			title: __('General', 'zionbuilder'),
+		},
 	});
 
 	ToolsRoute.addRoute('replace-url', {
 		path: 'replace-url',
 		name: 'replace-url',
 		props: { templateType: 'replace-url' },
-		title: __('Replace URL', 'zionbuilder'),
 		component: ReplaceUrl,
+		meta: {
+			title: __('Replace URL', 'zionbuilder'),
+		},
 	});
 
 	routes.addRoute('system-info', {
 		path: '/system-info',
 		component: SystemInfo,
-		title: __('System Info', 'zionbuilder'),
+		meta: {
+			title: __('System Info', 'zionbuilder'),
+		},
+	});
+
+	routes.addRoute('get-pro', {
+		path: '/get-pro',
+		name: 'get-pro',
+		component: GetPro,
 	});
 };
