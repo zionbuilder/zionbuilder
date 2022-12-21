@@ -93,7 +93,6 @@ import BaseInput from '../BaseInput/BaseInput.vue';
 import Color from './Color.vue';
 import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';
-import { translate } from '../../modules/i18n';
 
 const props = withDefaults(
 	defineProps<{

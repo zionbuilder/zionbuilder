@@ -136,7 +136,6 @@ import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
 import BasePanel from './BasePanel.vue';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { useOptionsSchemas } = window.zb.composables;
 const { addAction, removeAction } = window.zb.hooks;
 
@@ -349,8 +348,8 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 	Object.keys(optionsSchema).forEach(optionId => {
 		const optionConfig = optionsSchema[optionId];
 
-		let syncValue = [];
-		let syncValueName = [];
+		const syncValue: number[] = [];
+		const syncValueName = [];
 
 		if (!optionConfig.sync) {
 			if (currentId) {
@@ -455,6 +454,7 @@ function getInnerStyleName(id) {
 		? allOptionsSchema.value[id].title
 		: undefined;
 }
+
 function toggleSearchIcon() {
 	searchActive.value = !searchActive.value;
 	if (!searchActive.value) {

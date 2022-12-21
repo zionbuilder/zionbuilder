@@ -82,7 +82,6 @@ const filteredList = computed(() => {
 });
 
 const getPlaceholder = computed(() => {
-	const { translate } = window.zb.i18n;
 	return `${__('Search through', 'zionbuilder')} ${getIconNumber.value} ${__('icons', 'zionbuilder')}`;
 });
 

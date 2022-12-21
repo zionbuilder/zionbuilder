@@ -14,19 +14,19 @@
 			<div class="znpb-post-lock-modal__content">
 				<div class="znpb-post-lock-modal__content-text">
 					<p v-if="showError" class="znpb-post-lock-modal__error-message">
-						{{ translate('post_could_not_lock') }}
+						{{ __('Could not lock current post', 'zionbuilder') }}
 					</p>
 					<p>{{ UserStore.lockedUserInfo.message }}</p>
 				</div>
 				<div class="znpb-post-lock-modal__content-buttons">
 					<Button type="gray">
-						<a :href="urls.preview_url">{{ translate('post_preview') }}</a>
+						<a :href="urls.preview_url">{{ __('Preview', 'zionbuilder') }}</a>
 					</Button>
 					<Button type="gray">
-						<a :href="urls.all_pages_url">{{ translate('post_go_back') }}</a>
+						<a :href="urls.all_pages_url">{{ __('Go back', 'zionbuilder') }}</a>
 					</Button>
 					<Button type="gray" @click.prevent="lockPages">
-						<a href="">{{ translate('post_take_over') }}</a>
+						<a href="">{{ __('Take Over', 'zionbuilder') }}</a>
 					</Button>
 				</div>
 			</div>
@@ -38,11 +38,11 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref } from 'vue';
 import { useUserStore } from '/@/editor/store';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { lockPage } = window.zb.api;
 
 // Stores
@@ -64,7 +64,7 @@ function lockPages() {
 			} else if (result.status === 500) {
 				showError.value = true;
 				// eslint-disable-next-line
-					console.error(translate('post_could_not_lock'))
+				console.error(__('Could not lock current post', 'zionbuilder'));
 			}
 		})
 		.finally(() => {

@@ -1,8 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import { DebouncedHistoryCommand } from '../DebouncedHistoryCommand';
 import { useContentStore } from '/@/editor/store';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 export class UpdateElementOptions extends DebouncedHistoryCommand {
 	static commandID = 'editor/elements/update-element-options';
@@ -31,7 +29,7 @@ export class UpdateElementOptions extends DebouncedHistoryCommand {
 					path,
 				},
 				title: element.name,
-				action: translate('edited'),
+				action: __( 'Edited', 'zionbuilder' ),
 			});
 		}
 	}

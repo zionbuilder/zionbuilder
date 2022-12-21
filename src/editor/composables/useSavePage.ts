@@ -1,9 +1,9 @@
+import { __ } from '@wordpress/i18n';
 import { ref, Ref } from 'vue';
 import { usePageSettingsStore, useCSSClassesStore, useContentStore, useHistoryStore } from '../store';
 import { useEditorData } from './useEditorData';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { useNotificationsStore } = window.zb.store;
 const { useResponsiveDevices } = window.zb.composables;
 const { savePage: savePageREST } = window.zb.api;
@@ -44,7 +44,7 @@ export function useSavePage() {
 				.then(response => {
 					if (status !== 'autosave') {
 						notificationsStore.add({
-							message: status === 'publish' ? translate('page_saved_publish') : translate('page_saved'),
+							message: status === 'publish' ? __( 'This page was successfully saved and published', 'zionbuilder' ) : __( 'This page was successfully saved', 'zionbuilder' ),
 							delayClose: 5000,
 							type: 'success',
 						});

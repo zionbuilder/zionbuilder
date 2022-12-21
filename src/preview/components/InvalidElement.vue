@@ -2,14 +2,14 @@
 	<div class="znpb-element--not-found">
 		<slot name="start" />
 
-		{{ translate('element_not_found') }}
+		{{ __('element not found', 'zionbuilder') }}
 
 		<slot name="end" />
 	</div>
 </template>
 
 <script lang="ts" setup>
-const { translate } = window.zb.i18n;
+import { __ } from '@wordpress/i18n';
 </script>
 
 <style lang="scss">

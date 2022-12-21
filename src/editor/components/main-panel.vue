@@ -23,7 +23,7 @@
 			>
 				<Icon icon="layout"></Icon>
 			</div>
-			<!-- libary -->
+			<!-- library -->
 			<div
 				v-if="!userStore.permissions.only_content"
 				v-znpb-tooltip:[tooltipsPosition]="__('Library', 'zionbuilder')"

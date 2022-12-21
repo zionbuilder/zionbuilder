@@ -4,12 +4,12 @@
 			<ModalConfirm
 				v-if="showModalConfirm"
 				:width="530"
-				:confirm-text="translate('yes_delete_elements')"
-				:cancel-text="translate('cancel')"
+				:confirm-text="__('Yes, delete elements', 'zionbuilder')"
+				:cancel-text="__('Cancel', 'zionbuilder')"
 				@confirm="removeAllElements"
 				@cancel="showModalConfirm = false"
 			>
-				{{ translate('are_you_sure_delete_elements') }}
+				{{ __('Are you sure you want to remove all elements from page?', 'zionbuilder') }}
 			</ModalConfirm>
 
 			<a
@@ -21,17 +21,17 @@
 				}"
 				@click="showModalConfirm = true"
 			>
-				{{ translate('remove_all') }}
+				{{ __('Remove all', 'zionbuilder') }}
 				<Icon icon="delete" :size="10" />
 			</a>
 
 			<a href="#" @click="(treeViewExpanded = !treeViewExpanded), (expandedItems = [])">
 				<template v-if="!treeViewExpanded">
-					{{ translate('expand_all') }}
+					{{ __('Expand all', 'zionbuilder') }}
 					<Icon icon="long-arrow-down" :size="10" />
 				</template>
 				<template v-else>
-					{{ translate('collapse_all') }}
+					{{ __('Collapse all', 'zionbuilder') }}
 					<Icon icon="long-arrow-up" :size="10" />
 				</template>
 			</a>
@@ -43,14 +43,12 @@
 	</div>
 </template>
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { ref, Ref, computed, provide, watch } from 'vue';
 
 // components
 import TreeViewList from './TreeViewList.vue';
 import { useUIStore, useUserStore } from '/@/editor/store';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 const UIStore = useUIStore();
 const userStore = useUserStore();

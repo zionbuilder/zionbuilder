@@ -1,8 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import { HistoryCommand } from '../HistoryCommand';
 import { useUIStore, useContentStore } from '/@/editor/store';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 type HistoryItem = {
 	data: {
@@ -37,8 +35,8 @@ export class AddTemplate extends HistoryCommand {
 					index: index,
 					addedElementsUIDs: addedElements.map(el => el.uid),
 				},
-				title: translate('template'),
-				action: translate('added'),
+				title: __( 'Template', 'zionbuilder' ),
+				action: __( 'added', 'zionbuilder' ),
 			});
 		}
 	}

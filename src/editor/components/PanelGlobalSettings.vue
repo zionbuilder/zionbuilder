@@ -16,9 +16,6 @@ import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
 import { useUIStore, usePageSettingsStore } from '../store';
 
-// Common API
-const { translate } = window.zb.i18n;
-
 export default {
 	name: 'PanelGlobalSettings',
 	components: {
@@ -40,7 +37,7 @@ export default {
 		const cssClassesSchema = {
 			global_css: {
 				type: 'accordion_menu',
-				title: translate('global_css_classes'),
+				title: __('Global CSS classes', 'zionbuilder'),
 				child_options: {
 					global_css_classes: {
 						type: 'global_css_classes',

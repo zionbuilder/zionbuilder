@@ -1,10 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import { markRaw } from 'vue';
 import { defineStore } from 'pinia';
 import { find } from 'lodash-es';
 import { ElementType } from '../models/ElementType';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 type ElementCategory = {
 	id: string;
@@ -23,7 +21,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 					element_type: 'contentRoot',
 					wrapper: true,
 					show_in_ui: false,
-					name: translate('root'),
+					name: __( 'Root', 'zionbuilder' ),
 				}),
 			],
 			categories: [],
@@ -35,7 +33,7 @@ export const useElementDefinitionsStore = defineStore('elementDefinitions', {
 			find(state.elementsDefinition, { element_type: elementType }) ||
 			new ElementType({
 				element_type: 'invalid',
-				name: translate('invalid_element'),
+				name: __( 'Invalid Element', 'zionbuilder' ),
 			}),
 		getElementIcon() {
 			return (elementType: string) => {

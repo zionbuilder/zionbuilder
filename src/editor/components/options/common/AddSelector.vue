@@ -31,10 +31,8 @@
 </template>
 
 <script>
+import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 export default {
 	name: 'AddSelector',
@@ -54,25 +52,31 @@ export default {
 			return {
 				title: {
 					type: 'text',
-					title: props.type === 'selector' ? translate('selector_nice_name') : translate('class_nice_name'),
+					title:
+						props.type === 'selector'
+							? __('Selector nice name', 'zionbuilder')
+							: __('CSS class nice name', 'zionbuilder'),
 					description:
-						props.type === 'selector' ? translate('enter_the_class_nice_name') : translate('enter_the_class_nice_name'),
+						props.type === 'selector'
+							? __('Enter a name that will help you recognize this CSS class', 'zionbuilder')
+							: __('Enter a name that will help you recognize this CSS class', 'zionbuilder'),
 				},
 				selector: {
 					type: 'text',
-					title: props.type === 'selector' ? translate('css_selector') : translate('css_class'),
+					title: props.type === 'selector' ? __('CSS selector', 'zionbuilder') : __('CSS class', 'zionbuilder'),
 					description:
 						props.type === 'selector'
-							? translate('enter_the_css_selector_you_want_to_style')
-							: translate('enter_class_name_without_dot'),
-					placeholder: props.type === 'selector' ? translate('my_selector') : translate('css_class_placeholder'),
+							? __('Enter the css selector you want to style', 'zionbuilder')
+							: __('Enter the CSS class name without the leading dot', 'zionbuilder'),
+					placeholder:
+						props.type === 'selector' ? __('.my-selector', 'zionbuilder') : __('my-class-name', 'zionbuilder'),
 					error: props.type === 'class' && hasError.value ? true : false,
 				},
 			};
 		});
 
 		const buttonTitle = computed(() => {
-			return props.type == 'selector' ? translate('add_child_selector') : translate('add_css_class');
+			return props.type == 'selector' ? __('Add child selector', 'zionbuilder') : __('Add CSS class', 'zionbuilder');
 		});
 
 		const formModel = ref({});

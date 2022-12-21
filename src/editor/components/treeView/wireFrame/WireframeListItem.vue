@@ -34,7 +34,7 @@
 			<div class="znpb-wireframe-item__header-area znpb-wireframe-item__header-area--right">
 				<Icon
 					v-if="!element.isVisible"
-					v-znpb-tooltip="translate('enable_hidden_element')"
+					v-znpb-tooltip="__('The element is hidden. Click to enable it.', 'zionbuilder')"
 					icon="visibility-hidden"
 					class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible znpb-wireframe-item__header-area--visibility-icon"
 					@click.stop="element.isVisible = !element.isVisible"
@@ -61,9 +61,6 @@ import { get } from 'lodash-es';
 import { useTreeViewItem } from '../useTreeViewItem';
 import { useElementDefinitionsStore } from '/@/editor/store';
 import WireframeList from './WireframeList.vue';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 const props = defineProps<{
 	element: ZionElement;

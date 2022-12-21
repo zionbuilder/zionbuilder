@@ -1,8 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import { HistoryCommand } from '../HistoryCommand';
 import { useContentStore } from '/@/editor/store';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 export class RemoveAllElements extends HistoryCommand {
 	static commandID = 'editor/elements/remove_all';
@@ -30,7 +28,7 @@ export class RemoveAllElements extends HistoryCommand {
 					areaID,
 					areaModel,
 				},
-				title: translate('page_cleared'),
+				title: __( 'Page cleared', 'zionbuilder' ),
 			});
 		}
 	}

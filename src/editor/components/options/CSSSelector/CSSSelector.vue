@@ -87,7 +87,6 @@ import PseudoSelector from './PseudoSelector.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 
 // Common API
-const { translate } = window.zb.i18n;
 const { generateUID } = window.zb.utils;
 const { applyFilters } = window.zb.hooks;
 
@@ -156,14 +155,14 @@ export default {
 		const classActions = computed(() => {
 			return [
 				{
-					title: translate('copy_element_styles'),
+					title: __('Copy styles', 'zionbuilder'),
 					action: () => {
 						cssClassesStore.copyClassStyles(value.value.styles);
 					},
 					icon: 'copy',
 				},
 				{
-					title: translate('paste_element_styles'),
+					title: __('Paste styles', 'zionbuilder'),
 					action: () => {
 						const clonedCopiedStyles = cloneDeep(cssClassesStore.copiedStyles);
 						if (!value.value.styles) {
@@ -176,7 +175,7 @@ export default {
 					icon: 'paste',
 				},
 				{
-					title: translate('delete_selector'),
+					title: __('Delete selector', 'zionbuilder'),
 					action: deleteItem,
 					icon: 'delete',
 				},
@@ -300,16 +299,16 @@ export default {
 					icon: 'tags-attributes',
 					is_layout: true,
 					label: {
-						type: translate('pro'),
-						text: translate('pro'),
+						type: __('pro', 'zionbuilder'),
+						text: __('pro', 'zionbuilder'),
 					},
 					show_title: false,
 					child_options: {
 						upgrade_message: {
 							type: 'upgrade_to_pro',
-							message_title: translate('meet_custom_attributes'),
-							message_description: translate('meet_custom_attributes_desc'),
-							info_text: translate('meet_custom_attributes_link'),
+							message_title: __('Meet custom attributes', 'zionbuilder'),
+							message_description: __('Generate custom attributes to every inner parts of the element', 'zionbuilder'),
+							info_text: __('Click here to learn more about PRO.', 'zionbuilder'),
 						},
 					},
 				});

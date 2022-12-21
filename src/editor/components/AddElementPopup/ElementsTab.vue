@@ -53,9 +53,6 @@ import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
 // Components
 import ElementList from './ElementList.vue';
 
-// Common API
-const { translate } = window.zb.i18n;
-
 export default {
 	name: 'ElementsTab',
 	components: {
@@ -98,14 +95,14 @@ export default {
 			const categoriesToReturn = [
 				{
 					id: 'all',
-					name: translate('all'),
+					name: __('All', 'zionbuilder'),
 				},
 			];
 
 			if (getUserData('favorite_elements', []).length > 0) {
 				categoriesToReturn.push({
 					id: 'favorites',
-					name: translate('favorites'),
+					name: __('Favorites', 'zionbuilder'),
 					priority: 1,
 				});
 			}

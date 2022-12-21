@@ -1,5 +1,5 @@
 <template>
-	<BasePanel :panel-name="translate('history_panel')" panel-id="panel-history" :show-expand="false" :panel="panel">
+	<BasePanel :panel-name="__('History', 'zionbuilder')" panel-id="panel-history" :show-expand="false" :panel="panel">
 		<div class="znpb-panel__history_panel_wrapper">
 			<div ref="historyPanelWrapper" class="znpb-history-wrapper znpb-fancy-scrollbar">
 				<div v-if="historyStore.state.length === 0" class="znpb-panel__history_panel_wrapper--noItemsContainer">
@@ -26,10 +26,10 @@
 					</svg>
 
 					<div class="znpb-panel__history_panel-emptyTitle">
-						{{ translate('history_panel_empty_title') }}
+						{{ __('Your history is empty', 'zionbuilder') }}
 					</div>
 					<div class="znpb-panel__history_panel-emptyDesc">
-						{{ translate('history_panel_empty_desc') }}
+						{{ __('Modify your page and your changes will appear here', 'zionbuilder') }}
 					</div>
 				</div>
 				<ul v-else class="znpb-history-actions">
@@ -45,7 +45,7 @@
 						<span class="znpb-action-subtitle">{{ item.subtitle }}</span>
 						<span class="znpb-action-name">{{ item.action }}</span>
 						<span v-if="historyStore.activeHistoryIndex === index" class="znpb-action-active">{{
-							translate('history_now')
+							__('Now', 'zionbuilder')
 						}}</span>
 						<Icon v-else icon="history"></Icon>
 					</li>
@@ -72,14 +72,12 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { watch, ref, nextTick } from 'vue';
 import { useHistoryStore } from '/@/editor/store';
 
 // Components
 import BasePanel from './BasePanel.vue';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 defineProps<{
 	panel: ZionPanel;

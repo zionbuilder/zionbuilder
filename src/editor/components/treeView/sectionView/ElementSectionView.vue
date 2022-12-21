@@ -60,9 +60,6 @@ import domtoimage from 'dom-to-image';
 import { onMounted } from 'vue';
 import { useTreeViewItem } from '../useTreeViewItem';
 
-// Common API
-const { translate } = window.zb.i18n;
-
 const props = defineProps<{
 	element: ZionElement;
 }>();
@@ -112,7 +109,7 @@ onMounted(() => {
 			.catch(error => {
 				error = true;
 				// eslint-disable-next-line
-				console.error(translate('oops_something_wrong'), error);
+				console.error(__('oops, something went wrong!', 'zionbuilder'), error);
 			})
 			.finally(() => {
 				loading.value = false;

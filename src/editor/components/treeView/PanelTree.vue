@@ -1,7 +1,7 @@
 <template>
 	<BasePanel
 		ref="basePanel"
-		:panel-name="translate('tree_view_panel')"
+		:panel-name="__('Tree view panel', 'zionbuilder')"
 		panel-id="panel-tree"
 		:css-class="activeTreeViewPanel.basePanelCssClass"
 		:expanded="activeTreeViewPanel.expandMainPanel"
@@ -35,15 +35,13 @@
 </template>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { type Component, ref, computed, watch } from 'vue';
 import { useUIStore, useContentStore } from '/@/editor/store';
 import SectionView from './sectionView/SectionViewPanel.vue';
 import TreeView from './treeView/TreeViewPanel.vue';
 import WireframeView from './wireFrame/WireframePanel.vue';
 import BasePanel from '../BasePanel.vue';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 const props = defineProps<{
 	panel: ZionPanel;
@@ -67,19 +65,19 @@ type TreeViewPanel = {
 // Tree view types
 const treeViewTypes: TreeViewPanel[] = [
 	{
-		name: translate('tree_view'),
+		name: __('Tree view', 'zionbuilder'),
 		id: 'TreeView',
 		component: TreeView,
 		icon: 'treeview',
 	},
 	{
-		name: translate('section_view'),
+		name: __('Section view', 'zionbuilder'),
 		id: 'SectionView',
 		component: SectionView,
 		icon: 'structure',
 	},
 	{
-		name: translate('wireframe_view'),
+		name: __('Wireframe', 'zionbuilder'),
 		id: 'WireframeView',
 		component: WireframeView,
 		icon: 'layout',

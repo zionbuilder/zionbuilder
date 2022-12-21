@@ -78,9 +78,6 @@ import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useEditorData } from '/@/editor/composables';
 import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js';
 
-// Common API
-const { translate } = window.zb.i18n;
-
 export default {
 	name: 'LibraryItem',
 	props: {
@@ -169,21 +166,21 @@ export default {
 
 			return [
 				{
-					title: translate('edit_template'),
+					title: __('Edit template', 'zionbuilder'),
 					action: () => {
 						return window.open(props.item.urls.edit_url, '_blank').focus();
 					},
 					icon: 'edit',
 				},
 				{
-					title: translate('export_template'),
+					title: __('Export template', 'zionbuilder'),
 					action: () => {
 						props.item.export();
 					},
 					icon: 'export',
 				},
 				{
-					title: translate('regenerate_screenshot'),
+					title: __('Regenerate screenshot', 'zionbuilder'),
 					action: () => {
 						const { generateScreenshot } = useThumbnailGeneration();
 
@@ -192,7 +189,7 @@ export default {
 					icon: 'export',
 				},
 				{
-					title: translate('delete_template'),
+					title: __('Delete template', 'zionbuilder'),
 					action: () => {
 						props.item.delete();
 					},

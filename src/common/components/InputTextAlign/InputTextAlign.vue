@@ -15,7 +15,6 @@ import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 import { InputCustomSelector } from '../InputCustomSelector';
 
-const { translate } = window.zb.i18n;
 const props = defineProps<{
 	modelValue?: string;
 	placeholder?: string;

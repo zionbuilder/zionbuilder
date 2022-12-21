@@ -48,7 +48,7 @@
 
 			<Icon
 				v-if="!element.isVisible"
-				v-znpb-tooltip="translate('enable_hidden_element')"
+				v-znpb-tooltip="__('The element is hidden. Click to enable it.', 'zionbuilder')"
 				icon="visibility-hidden"
 				class="znpb-editor-icon-wrapper--show-element znpb-tree-view__item-enable-visible"
 				@click.stop="element.isVisible = !element.isVisible"
@@ -73,9 +73,6 @@ import { useUIStore } from '/@/editor/store';
 
 // Components
 import TreeViewList from './TreeViewList.vue';
-
-// Common API
-const { translate } = window.zb.i18n;
 
 const props = defineProps<{
 	element: ZionElement;
