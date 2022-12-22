@@ -167,7 +167,7 @@ export default {
 			return this.fullSize ? 'minimize' : 'maximize';
 		},
 		modalContentStyle() {
-			let modalStyle = {};
+			const modalStyle = {};
 
 			if (this.width) {
 				modalStyle['max-width'] = this.width + 'px';

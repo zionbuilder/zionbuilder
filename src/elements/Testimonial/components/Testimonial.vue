@@ -2,7 +2,7 @@
 	<div>
 		<slot name="start" />
 		<img
-			v-if="image && options.position!==undefined && options.position ==='top'"
+			v-if="image && options.position !== undefined && options.position === 'top'"
 			class="zb-el-testimonial__userImage"
 			:class="api.getStyleClasses('inner_content_styles_image')"
 			v-bind="api.getAttributesForTag('inner_content_styles_image')"
@@ -17,7 +17,7 @@
 
 		<div class="zb-el-testimonial__user">
 			<img
-				v-if="image && options.position !==undefined && options.position !=='top'"
+				v-if="image && options.position !== undefined && options.position !== 'top'"
 				class="zb-el-testimonial__userImage"
 				:class="api.getStyleClasses('inner_content_styles_image')"
 				v-bind="api.getAttributesForTag('inner_content_styles_image')"
@@ -38,22 +38,18 @@
 					v-bind="api.getAttributesForTag('inner_content_styles_description')"
 				/>
 				<div
+					v-if="stars && stars !== 'no_stars'"
 					class="zb-el-testimonial__stars"
 					:class="api.getStyleClasses('inner_content_styles_stars')"
 					v-bind="api.getAttributesForTag('inner_content_styles_stars')"
-					v-if="stars && stars !== 'no_stars'"
 				>
 					<ElementIcon
 						v-for="(star, index) in stars"
+						:key="index + 10"
 						class="zb-el-testimonial__stars--full"
-						:key="index+10"
-						:iconConfig="getStar"
+						:icon-config="getStar"
 					/>
-					<ElementIcon
-						v-for="star in (5 - stars)"
-						:key="star"
-						:iconConfig="getEmptyStar"
-					/>
+					<ElementIcon v-for="star in 5 - stars" :key="star" :icon-config="getEmptyStar" />
 				</div>
 			</div>
 		</div>
@@ -63,39 +59,38 @@
 </template>
 <script>
 export default {
-	name: 'testimonial',
+	name: 'Testimonial',
 	props: ['element', 'options', 'api'],
 	computed: {
-		image () {
-			return this.options && this.options.image ? this.options.image : null
+		image() {
+			return this.options && this.options.image ? this.options.image : null;
 		},
-		content () {
-			return (this.options && this.options.content) ? this.options.content : null
+		content() {
+			return this.options && this.options.content ? this.options.content : null;
 		},
-		name () {
-			return this.options && this.options.name ? this.options.name : null
+		name() {
+			return this.options && this.options.name ? this.options.name : null;
 		},
-		description () {
-			return this.options && this.options.description ? this.options.description : null
+		description() {
+			return this.options && this.options.description ? this.options.description : null;
 		},
-		getStar () {
+		getStar() {
 			return {
 				family: 'Font Awesome 5 Free Solid',
 				name: 'star',
-				unicode: 'uf005'
-			}
+				unicode: 'uf005',
+			};
 		},
-		getEmptyStar () {
+		getEmptyStar() {
 			return {
 				family: 'Font Awesome 5 Free Regular',
 				name: 'star',
-				unicode: 'uf005'
-			}
+				unicode: 'uf005',
+			};
 		},
-		stars () {
-			return this.options.stars || 5
-		}
-	}
-
-}
+		stars() {
+			return this.options.stars || 5;
+		},
+	},
+};
 </script>

@@ -1,8 +1,5 @@
 <template>
-	<PopOver
-		icon="ite-alignment"
-		:is-active="isActive"
-	>
+	<PopOver icon="ite-alignment" :is-active="isActive">
 		<InlineEditorButton
 			v-for="button in buttons"
 			:key="button.formatter"
@@ -13,66 +10,61 @@
 </template>
 
 <script>
-import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue'
+import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue';
 
 // Components
-import InlineEditorButton from './Button.vue'
-import PopOver from './PopOver.vue'
+import InlineEditorButton from './Button.vue';
+import PopOver from './PopOver.vue';
 
 export default {
 	name: 'TextAlign',
 	components: {
 		InlineEditorButton,
-		PopOver
+		PopOver,
 	},
-	setup (props) {
-		const editor = inject('ZionInlineEditor')
+	setup(props) {
+		const editor = inject('ZionInlineEditor');
 		const isActive = ref(false);
 
 		const buttons = [
 			{
 				formatter: 'alignleft',
-				icon: 'align--left'
+				icon: 'align--left',
 			},
 			{
 				formatter: 'aligncenter',
-				icon: 'align--center'
+				icon: 'align--center',
 			},
 			{
 				formatter: 'alignright',
-				icon: 'align--right'
+				icon: 'align--right',
 			},
 			{
 				formatter: 'alignjustify',
-				icon: 'align--justify'
-			}
-		]
+				icon: 'align--justify',
+			},
+		];
 
-		function checkIfActive () {
-			isActive.value = editor.editor.formatter.matchAll([
-				'alignleft',
-				'aligncenter',
-				'alignright',
-				'alignjustify',
-			]).length > 0
+		function checkIfActive() {
+			isActive.value =
+				editor.editor.formatter.matchAll(['alignleft', 'aligncenter', 'alignright', 'alignjustify']).length > 0;
 		}
 
 		onBeforeMount(() => {
-			checkIfActive()
-			editor.editor.on('NodeChange', checkIfActive)
-		})
+			checkIfActive();
+			editor.editor.on('NodeChange', checkIfActive);
+		});
 
 		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', checkIfActive)
-		})
+			editor.editor.off('NodeChange', checkIfActive);
+		});
 
 		return {
 			isActive,
-			buttons
-		}
-	}
-}
+			buttons,
+		};
+	},
+};
 </script>
 
-<style>
-</style>
+<style></style>

@@ -46,7 +46,7 @@ getOptionsForm(UIStore.editedElement).then(response => {
 
 	nextTick(() => {
 		if (wp.textWidgets) {
-			let widgetContainer = jQuery(form.value);
+			const widgetContainer = jQuery(form.value);
 			const event = new jQuery.Event('widget-added');
 
 			widgetContainer.addClass('open');

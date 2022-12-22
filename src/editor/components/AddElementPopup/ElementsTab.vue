@@ -6,7 +6,6 @@
 				class="znpb-add-elements__filter-category"
 				:options="dropdownOptions"
 				:placeholder="dropdownOptions[0].name"
-				:placement="isRtl ? 'bottom-end' : 'bottom-start'"
 			/>
 
 			<BaseInput
@@ -44,207 +43,180 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
-import { useEditorData, useUserData } from '/@/editor/composables';
+import { useUserData } from '/@/editor/composables';
 import { useElementDefinitionsStore, useUIStore } from '/@/editor/store';
 
 // Components
 import ElementList from './ElementList.vue';
 
-export default {
-	name: 'ElementsTab',
-	components: {
-		ElementList,
+const props = withDefaults(
+	defineProps<{
+		element: ZionElement;
+		searchKeyword: string;
+	}>(),
+	{
+		searchKeyword: '',
 	},
-	props: {
-		element: {
-			type: Object,
-			required: true,
-		},
-		searchKeyword: {
-			required: false,
-			type: String,
-			default: '',
-		},
+);
+
+const emit = defineEmits(['update:search-keyword']);
+
+const UIStore = useUIStore();
+const elementsDefinitionsStore = useElementDefinitionsStore();
+const { getUserData } = useUserData();
+
+// Refs
+const categoriesWrapper = ref(false);
+const categoriesRefs = ref([]);
+
+const computedSearchKeyword = computed({
+	get: () => {
+		return props.searchKeyword;
 	},
-	setup(props, { emit }) {
-		const UIStore = useUIStore();
-		const elementsDefinitionsStore = useElementDefinitionsStore();
-		const { editorData } = useEditorData();
-		const { getUserData } = useUserData();
+	set: newValue => {
+		emit('update:search-keyword', newValue);
+	},
+});
+const categoryValue = ref('all');
+const searchInputEl = ref(null);
 
-		// Refs
-		const categoriesWrapper = ref(false);
-		const categoriesRefs = ref([]);
+// Normal data
+const elementCategories = computed(() => {
+	const categoriesToReturn = [
+		{
+			id: 'all',
+			name: __('All', 'zionbuilder'),
+		},
+	];
 
-		const computedSearchKeyword = computed({
-			get: () => {
-				return props.searchKeyword;
-			},
-			set: newValue => {
-				emit('update:search-keyword', newValue);
-			},
+	if (getUserData('favorite_elements', []).length > 0) {
+		categoriesToReturn.push({
+			id: 'favorites',
+			name: __('Favorites', 'zionbuilder'),
+			priority: 1,
 		});
-		const categoryValue = ref('all');
-		const searchInputEl = ref(null);
+	}
 
-		// Normal data
-		const elementCategories = computed(() => {
-			const categoriesToReturn = [
-				{
-					id: 'all',
-					name: __('All', 'zionbuilder'),
-				},
-			];
+	// Add the categories from server and sort them
+	const clonedCategories = [...elementsDefinitionsStore.categories];
+	const sortedCategories = clonedCategories.sort((a, b) => {
+		return a.priority < b.priority ? -1 : 1;
+	});
 
-			if (getUserData('favorite_elements', []).length > 0) {
-				categoriesToReturn.push({
-					id: 'favorites',
-					name: __('Favorites', 'zionbuilder'),
-					priority: 1,
-				});
-			}
+	return categoriesToReturn.concat(sortedCategories);
+});
 
-			// Add the categories from server and sort them
-			const clonedCategories = [...elementsDefinitionsStore.categories];
-			const sortedCategories = clonedCategories.sort((a, b) => {
-				return a.priority < b.priority ? -1 : 1;
-			});
+const activeElements = computed(() => {
+	let elements = elementsDefinitionsStore.getVisibleElements;
+	const keyword = computedSearchKeyword.value;
 
-			return categoriesToReturn.concat(sortedCategories);
+	if (keyword.length > 0) {
+		elements = elements.filter(element => {
+			return (
+				element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
+				element.keywords.join().toLowerCase().indexOf(keyword.toLowerCase()) !== -1
+			);
 		});
+	}
 
-		const activeElements = computed(() => {
-			let elements = elementsDefinitionsStore.getVisibleElements;
-			const keyword = computedSearchKeyword.value;
+	return elements;
+});
 
-			if (keyword.length > 0) {
-				elements = elements.filter(element => {
-					return (
-						element.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 ||
-						element.keywords.join().toLowerCase().indexOf(keyword.toLowerCase()) !== -1
-					);
-				});
-			}
+const dropdownOptions = computed(() => {
+	const keyword = computedSearchKeyword.value;
 
-			return elements;
+	if (keyword.length === 0) {
+		return elementCategories.value;
+	} else {
+		return elementCategories.value.filter(category => {
+			return (
+				category.id === 'all' ||
+				activeElements.value.filter(element => element.category.includes(category.id)).length > 0
+			);
 		});
+	}
+});
 
-		const dropdownOptions = computed(() => {
-			const keyword = computedSearchKeyword.value;
+const categoriesWithElements = computed(() => {
+	const clonedCategories = [...elementCategories.value];
 
-			if (keyword.length === 0) {
-				return elementCategories.value;
+	// remove the all category
+	clonedCategories.shift();
+
+	return clonedCategories.map(category => {
+		// Get elements for current category
+		const elements = activeElements.value.filter(element => {
+			const elementCategories = Array.isArray(element.category) ? element.category : [element.category];
+			if (category.id === 'favorites') {
+				return getUserData('favorite_elements', []).indexOf(element.element_type) >= 0;
 			} else {
-				return elementCategories.value.filter(category => {
-					return (
-						category.id === 'all' ||
-						activeElements.value.filter(element => element.category.includes(category.id)).length > 0
-					);
-				});
+				return elementCategories.includes(category.id);
 			}
-		});
-
-		const categoriesWithElements = computed(() => {
-			const clonedCategories = [...elementCategories.value];
-
-			// remove the all category
-			clonedCategories.shift();
-
-			return clonedCategories.map(category => {
-				// Get elements for current category
-				const elements = activeElements.value.filter(element => {
-					const elementCategories = Array.isArray(element.category) ? element.category : [element.category];
-					if (category.id === 'favorites') {
-						return getUserData('favorite_elements', []).indexOf(element.element_type) >= 0;
-					} else {
-						return elementCategories.includes(category.id);
-					}
-				});
-
-				return {
-					name: category.name,
-					id: category.id,
-					elements,
-				};
-			});
-		});
-
-		// Methods
-		const onAddElement = element => {
-			const config = {
-				element_type: element.element_type,
-				version: element.version,
-				...element.extra_data,
-			};
-
-			// Insert element
-			window.zb.run('editor/elements/add', {
-				element: config,
-				parentUID: UIStore.activeAddElementPopup.element.uid,
-				index: UIStore.activeAddElementPopup.index,
-			});
-
-			UIStore.hideAddElementsPopup();
-		};
-
-		watch(activeElements, () => {
-			nextTick(() => {
-				categoriesWrapper.value.scrollTop = 0;
-				categoryValue.value = 'all';
-			});
-		});
-
-		// Scroll to the proper category on click
-		watch(categoryValue, newValue => {
-			if (newValue === 'all') {
-				categoriesWrapper.value.scrollTop = 0;
-			} else {
-				if (typeof categoriesRefs.value[newValue] !== 'undefined') {
-					if (categoriesRefs.value[newValue].$el) {
-						categoriesRefs.value[newValue].$el.scrollIntoView({
-							behavior: 'smooth',
-							inline: 'start',
-							block: 'nearest',
-						});
-					}
-				}
-			}
-		});
-
-		// Lifecycle
-		onMounted(() => {
-			setTimeout(() => {
-				searchInputEl.value.focus();
-			}, 0);
-		});
-
-		onBeforeUnmount(() => {
-			computedSearchKeyword.value = '';
 		});
 
 		return {
-			// Normal values
-			elementCategories,
-			dropdownOptions,
-			// Refs
-			categoriesRefs,
-			computedSearchKeyword,
-			categoryValue,
-			searchInputEl,
-			categoriesWrapper,
-			// Computed
-			categoriesWithElements,
-			// Methods
-			onAddElement,
-			// rtl
-			isRtl: editorData.value.rtl,
-			activeElements,
+			name: category.name,
+			id: category.id,
+			elements,
 		};
-	},
+	});
+});
+
+// Methods
+const onAddElement = element => {
+	const config = {
+		element_type: element.element_type,
+		version: element.version,
+		...element.extra_data,
+	};
+
+	// Insert element
+	window.zb.run('editor/elements/add', {
+		element: config,
+		parentUID: UIStore.activeAddElementPopup.element.uid,
+		index: UIStore.activeAddElementPopup.index,
+	});
+
+	UIStore.hideAddElementsPopup();
 };
+
+watch(activeElements, () => {
+	nextTick(() => {
+		categoriesWrapper.value.scrollTop = 0;
+		categoryValue.value = 'all';
+	});
+});
+
+// Scroll to the proper category on click
+watch(categoryValue, newValue => {
+	if (newValue === 'all') {
+		categoriesWrapper.value.scrollTop = 0;
+	} else {
+		if (typeof categoriesRefs.value[newValue] !== 'undefined') {
+			if (categoriesRefs.value[newValue].$el) {
+				categoriesRefs.value[newValue].$el.scrollIntoView({
+					behavior: 'smooth',
+					inline: 'start',
+					block: 'nearest',
+				});
+			}
+		}
+	}
+});
+
+// Lifecycle
+onMounted(() => {
+	setTimeout(() => {
+		searchInputEl.value.focus();
+	}, 0);
+});
+
+onBeforeUnmount(() => {
+	computedSearchKeyword.value = '';
+});
 </script>
 
 <style lang="scss">

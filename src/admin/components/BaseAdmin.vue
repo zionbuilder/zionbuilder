@@ -3,17 +3,21 @@
 		<div class="znpb-admin__header">
 			<div class="znpb-admin__header-top">
 				<div class="znpb-admin__header-logo">
-					<img :src="logoUrl" />
+					<img :src="EnvironmentStore.urls.logo" />
 					<Label
-						v-if="isPro"
+						v-if="EnvironmentStore.plugin_pro.is_active"
 						:text="__('pro', 'zionbuilder')"
 						type="warning"
 						class="znpb-option__upgrade-to-pro-label"
 					/>
-					<span class="znpb-admin__header-logo-version">v{{ version }}</span>
+					<span class="znpb-admin__header-logo-version">v{{ EnvironmentStore.plugin_free.version }}</span>
 				</div>
 				<div class="znpb-admin__header-actions">
-					<router-link v-if="!isPro" to="/get-pro" class="znpb-button znpb-button--secondary">
+					<router-link
+						v-if="!EnvironmentStore.plugin_pro.is_active"
+						to="/get-pro"
+						class="znpb-button znpb-button--secondary"
+					>
 						<Icon icon="quality"></Icon>
 						{{ __('Upgrade to PRO', 'zionbuilder') }}
 					</router-link>
@@ -64,7 +68,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 // Internal globals
-import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore } from '@zb/store';
+import { useBuilderOptionsStore, useGoogleFontsStore, useNotificationsStore, useEnvironmentStore } from '@zb/store';
 
 // Local components
 import OptionsSaveLoader from './OptionsSaveLoader.vue';
@@ -73,12 +77,10 @@ const router = useRouter();
 const builderOptionsStore = useBuilderOptionsStore();
 const googleFontsStore = useGoogleFontsStore();
 const notificationsStore = useNotificationsStore();
+const EnvironmentStore = useEnvironmentStore();
 
 const loaded = ref(false);
 const hasError = ref(false);
-const logoUrl = window.ZnPbAdminPageData.urls.logo;
-const version = window.ZnPbAdminPageData.plugin_version;
-const isPro = window.ZnPbAdminPageData.is_pro_active;
 
 /**
  * Get the menu items

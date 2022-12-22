@@ -29,10 +29,10 @@ export default {
 	name: 'AccordionItem',
 	props: ['options', 'element', 'api'],
 	setup(props) {
-		let renderedContent = computed(() => {
+		const renderedContent = computed(() => {
 			return props.options.content ? props.options.content : 'accordion content';
 		});
-		let activeByDefault = computed(() => {
+		const activeByDefault = computed(() => {
 			return props.options.active_by_default ? props.options.active_by_default : false;
 		});
 

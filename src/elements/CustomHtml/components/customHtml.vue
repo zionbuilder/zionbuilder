@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted, ref, computed } from 'vue'
+import { onBeforeUnmount, onMounted, ref, computed } from 'vue';
 
 export default {
-	name: 'custom_html',
-	props: ['options', 'element', 'api']
-}
+	name: 'CustomHtml',
+	props: ['options', 'element', 'api'],
+};
 </script>

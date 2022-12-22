@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { h, ref } from 'vue';
 
 const cache = {};

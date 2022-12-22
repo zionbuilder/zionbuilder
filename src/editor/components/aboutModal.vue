@@ -12,64 +12,41 @@
 			></p>
 			<div class="znpb-about-modal__card-wrapper">
 				<!-- free -->
-				<pluginCard :is-pro="false" :version="pluginInfo.free_version" :update-version="pluginFreeUpdate.new_version" />
+				<pluginCard
+					:is-pro="false"
+					:version="EnvironmentStore.plugin_free.version"
+					:update-version="EnvironmentStore.plugin_free.update_version"
+				/>
 
 				<!-- pro -->
 				<pluginCard
 					:is-pro="true"
-					:is-pro-active="IsPro"
-					:version="pluginInfo.pro_version"
-					:update-version="pluginProUpdate.new_version"
+					:is-pro-active="EnvironmentStore.plugin_pro.is_active"
+					:version="EnvironmentStore.plugin_pro.version"
+					:update-version="EnvironmentStore.plugin_pro.update_version"
 				/>
 			</div>
 			<a
-				:href="urls.documentation_url"
+				:href="EnvironmentStore.urls.documentation_url"
 				class="znpb-about-modal__help"
 				target="_blank"
 				title="documentation"
-				@click="openWindow(urls.documentation_url)"
 				>{{ __('Do you need help?', 'zionbuilder') }}</a
 			>
 		</div>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import pluginCard from './about-modal/pluginCard.vue';
-import { useEditorData } from '../composables';
-export default {
-	name: 'AboutModal',
-	components: {
-		pluginCard,
-	},
-	setup() {
-		const { editorData } = useEditorData();
+import { useEnvironmentStore } from '@zb/store';
 
-		return {
-			urls: editorData.value.urls,
-		};
-	},
-	computed: {
-		pluginInfo() {
-			return window.ZnPbInitialData.plugin_info;
-		},
-		pluginProUpdate() {
-			return this.pluginInfo.pro_plugin_update || {};
-		},
-		IsPro() {
-			return this.pluginInfo.is_pro_active;
-		},
-		pluginFreeUpdate() {
-			return this.pluginInfo.free_plugin_update || {};
-		},
-	},
-	methods: {
-		openWindow(link) {
-			window.open(link);
-		},
-	},
-};
+const EnvironmentStore = useEnvironmentStore();
+
+function openWindow(link: string) {
+	window.open(link);
+}
 </script>
 
 <style lang="scss">

@@ -166,7 +166,7 @@ export default {
 				.then(response => {
 					const fileName = this.formModel.title && this.formModel.title.length > 0 ? this.formModel.title : 'export';
 
-					var blob = new Blob([response.data], { type: 'application/zip' });
+					const blob = new Blob([response.data], { type: 'application/zip' });
 					saveAs(blob, `${fileName}.zip`);
 					this.loadingMessage = '';
 					this.hideSaveElement();
@@ -182,11 +182,11 @@ export default {
 				});
 		},
 		decode_utf8(s) {
-			let obj = JSON.parse(s);
+			const obj = JSON.parse(s);
 			return decodeURIComponent(escape(obj.message));
 		},
 		arrayBufferToString(buffer) {
-			var s = String.fromCharCode.apply(null, new Uint8Array(buffer));
+			const s = String.fromCharCode.apply(null, new Uint8Array(buffer));
 
 			return this.decode_utf8(s);
 		},

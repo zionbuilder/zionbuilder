@@ -14,8 +14,23 @@ interface Window {
 
 	ZBCommonData: {
 		environment: {
+			urls: {
+				zion_dashboard: string;
+				logo: string;
+				pro_logo: string;
+				plugin_root: string;
+				purchase_url: string;
+				documentation_url: string;
+				free_changelog: string;
+				pro_changelog: string;
+				updates_page: string;
+			};
+			plugin_free: PluginInfo;
+			plugin_pro: PluginInfo;
+			plugin_name: string;
+
+			// TODO: remove OLD DATA
 			is_pro_active: boolean;
-			plugin_version: string;
 		};
 		rest: {
 			nonce: string;

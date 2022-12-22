@@ -45,7 +45,7 @@ export default {
 		const UIStore = useUIStore();
 
 		const parents = computed(() => {
-			let parents = [];
+			const parents = [];
 			let activeElement = props.element;
 
 			while (activeElement) {

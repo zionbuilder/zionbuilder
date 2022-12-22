@@ -14,7 +14,7 @@ export default {
 		const isActive = ref(false);
 
 		const classes = computed(() => {
-			let classes = [];
+			const classes = [];
 
 			// Check if the button is active
 			if (isActive.value) {

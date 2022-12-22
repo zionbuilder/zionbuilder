@@ -23,15 +23,15 @@
 						{{ __('to upload', 'zionbuilder') }}
 					</p>
 				</div>
+
 				<input
-					ref="formupload"
 					type="file"
 					accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
 					multiple
 					name="file"
 					:disabled="isSaving"
 					class="znpb-library-input-file"
-					@change="uploadFiles($event.target.name, $event.target.files)"
+					@change="uploadFiles"
 				/>
 				<Loader v-if="isSaving" />
 				<span v-if="errorMessage.length > 0">{{ errorMessage }}</span>
@@ -40,108 +40,115 @@
 	</form>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
+import { ref } from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 const { useLibrary } = window.zb.composables;
 
-export default {
-	name: 'LibraryUploader',
-	props: {
-		noMargin: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-	},
-	setup() {
-		return {};
-	},
-	data() {
-		return {
-			isInitial: true,
-			isSaving: false,
-			errorMessage: '',
-		};
-	},
-	mounted() {
-		let dropArea = this.$refs.formupload;
-		dropArea.addEventListener('dragenter', this.highlightForm);
-		dropArea.addEventListener('dragleave', this.dragOut);
-		dropArea.addEventListener('dragover', this.highlightForm);
-		dropArea.addEventListener('drop', this.dragDropped);
-	},
-	beforeUnmount() {
-		let dropArea = this.$refs.formupload;
-		dropArea.removeEventListener('dragenter', this.highlightForm);
-		dropArea.removeEventListener('dragleave', this.dragOut);
-		dropArea.removeEventListener('dragover', this.highlightForm);
-		dropArea.removeEventListener('drop', this.dragDropped);
-	},
-	methods: {
-		highlightForm() {
-			this.isInitial = false;
-		},
-		dragOut() {
-			this.isInitial = true;
-		},
-		dragDropped() {
-			this.isInitial = true;
-		},
+withDefaults(defineProps<{ noMargin?: boolean }>(), {
+	noMargin: false,
+});
 
-		uploadFiles(fieldName, fileList) {
-			const formData = new FormData();
+const emit = defineEmits(['file-uploaded']);
 
-			if (!fileList.length) return;
+const isInitial = ref(true);
+const isSaving = ref(false);
+const errorMessage = ref('');
 
-			// append the files to FormData
-			Array.from(fileList).forEach(file => {
-				formData.append(fieldName, file, file.name);
-			});
+onMounted(() => {
+	const dropArea = document.getElementById('znpb-upload-form-library');
 
-			// send it to axios
-			this.saveFile(formData);
-		},
-		saveFile(formData) {
-			const { getSource } = useLibrary();
+	if (!dropArea) {
+		return
+	}
 
-			const localLibrary = getSource('local_library');
+	dropArea.addEventListener('dragenter', highlightForm);
+	dropArea.addEventListener('dragleave', dragOut);
+	dropArea.addEventListener('dragover', highlightForm);
+	dropArea.addEventListener('drop', dragDropped);
+});
 
-			if (!localLibrary) {
-				console.warn(
-					'Local library was not registered. It may be possible that a plugin is removing the default library.',
-				);
-				return;
-			}
+onBeforeUnmount(() => {
+	const dropArea = document.getElementById('znpb-upload-form-library');
 
-			this.isSaving = true;
-			this.errorMessage = '';
+	if (!dropArea) {
+		return
+	}
 
-			localLibrary
-				.importItem(formData)
-				.catch(error => {
-					console.error(error);
+	dropArea.removeEventListener('dragenter', highlightForm);
+	dropArea.removeEventListener('dragleave', dragOut);
+	dropArea.removeEventListener('dragover', highlightForm);
+	dropArea.removeEventListener('drop', dragDropped);
+});
 
-					if (typeof error.response.data === 'string') {
-						this.errorMessage = error.response.data;
-					} else this.errorMessage = this.arrayBufferToString(error.response.data);
-				})
-				.finally(() => {
-					this.isSaving = false;
-					this.isInitial = true;
-					this.$emit('file-uploaded', true);
-				});
-		},
-		decode_utf8(s) {
-			let obj = JSON.parse(s);
-			return decodeURIComponent(escape(obj.message));
-		},
-		arrayBufferToString(buffer) {
-			var s = String.fromCharCode.apply(null, new Uint8Array(buffer));
+function highlightForm() {
+	isInitial.value = false;
+}
+function dragOut() {
+	isInitial.value = true;
+}
 
-			return this.decode_utf8(s);
-		},
-	},
-};
+function dragDropped() {
+	isInitial.value = true;
+}
+
+function uploadFiles(event: Event) {
+	const {
+		files: fileList,
+		name: fieldName,
+	} = <HTMLInputElement>event.target;
+
+	const formData = new FormData();
+
+	if (!fileList || !fileList.length) return;
+
+	// append the files to FormData
+	Array.from(fileList).forEach((file) => {
+		formData.append(fieldName, file, file.name);
+	});
+
+	// send it to axios
+	saveFile(formData);
+}
+
+function saveFile(formData: FormData) {
+	const { getSource } = useLibrary();
+
+	const localLibrary = getSource('local_library');
+
+	if (!localLibrary) {
+		console.warn('Local library was not registered. It may be possible that a plugin is removing the default library.');
+		return;
+	}
+
+	isSaving.value = true;
+	errorMessage.value = '';
+
+	localLibrary
+		.importItem(formData)
+		.catch(error => {
+			console.error(error);
+
+			if (typeof error.response.data === 'string') {
+				errorMessage.value = error.response.data;
+			} else errorMessage.value = arrayBufferToString(error.response.data);
+		})
+		.finally(() => {
+			isSaving.value = false;
+			isInitial.value = true;
+			emit('file-uploaded', true);
+		});
+}
+
+function arrayBufferToString(buffer: ArrayBuffer) {
+	const arr = new Uint8Array(buffer);
+	const str = String.fromCharCode.apply(String, arr);
+	if (/[\u0080-\uffff]/.test(str)) {
+		throw new Error('this string seems to contain (still encoded) multi bytes');
+	}
+	return str;
+}
 </script>
 
 <style lang="scss">

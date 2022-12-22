@@ -130,7 +130,7 @@ export default {
 			this.model = this.modelValue || true;
 		},
 		onChange(event) {
-			let checked = event.target.checked;
+			const checked = event.target.checked;
 			if (this.isLimitExceeded) {
 				this.$nextTick(() => {
 					event.target.checked = !checked;

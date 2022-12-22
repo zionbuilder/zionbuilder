@@ -8,12 +8,12 @@
 			<div
 				class="znpb-editor-library-modal__item-image"
 				:class="{ ['--no-image']: !item.thumbnail && !item.loadingThumbnail }"
-				@click="$emit('activate-item', item)"
+				@click="emit('activate-item', item)"
 			>
 				<Loader v-if="item.loadingThumbnail" />
 				<img
 					v-else-if="item.thumbnail"
-					ref="imageHolder"
+					ref="imageHolderRef"
 					class="znpb-editor-library-modal__item-imageTag"
 					src=""
 					:data-zbg="image"
@@ -28,7 +28,7 @@
 				<h4 class="znpb-editor-library-modal__item-title" :title="item.name">{{ item.name }}</h4>
 				<div v-if="!insertItemLoading && !item.loading" class="znpb-editor-library-modal__item-actions">
 					<a
-						v-if="isProInstalled && !isProActive && item.pro"
+						v-if="EnvironmentStore.plugin_pro.is_installed && !EnvironmentStore.plugin_pro.is_active && item.pro"
 						class="znpb-button znpb-button--line"
 						target="_blank"
 						:href="dashboardURL"
@@ -37,9 +37,9 @@
 					</a>
 
 					<a
-						v-else-if="!isProInstalled && item.pro"
+						v-else-if="!EnvironmentStore.plugin_pro.is_installed && item.pro"
 						class="znpb-button znpb-button--line"
-						:href="purchaseURL"
+						:href="EnvironmentStore.urls.purchase_url"
 						target="_blank"
 						>{{ __('Buy Pro', 'zionbuilder') }}
 					</a>
@@ -56,7 +56,7 @@
 						v-znpb-tooltip="__('Click to preview this item', 'zionbuilder')"
 						icon="eye"
 						class="znpb-editor-library-modal__item-action"
-						@click="$emit('activate-item', item)"
+						@click="emit('activate-item', item)"
 					/>
 
 					<HiddenMenu
@@ -72,182 +72,151 @@
 	</li>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { ref, inject, onMounted, onBeforeUnmount, computed, watch } from 'vue';
-import { useEditorData } from '/@/editor/composables';
-import { useThumbnailGeneration } from './composables/useThumbnailGeneration.js';
+import { ref, inject, onMounted, onBeforeUnmount, computed, watch, Ref } from 'vue';
+import { useThumbnailGeneration } from './composables/useThumbnailGeneration';
+import { useEnvironmentStore } from '@zb/store';
 
-export default {
-	name: 'LibraryItem',
-	props: {
-		item: {
-			type: Object,
-			required: false,
-		},
-		favorite: {
-			type: Boolean,
-			required: false,
-		},
-		inView: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
+const props = withDefaults(
+	defineProps<{
+		item: LibraryItem;
+		favorite?: boolean;
+		inView?: boolean;
+	}>(),
+	{
+		favorite: false,
+		inView: false,
 	},
-	setup(props, { emit }) {
-		const Library = inject('Library');
-		const { editorData } = useEditorData();
-		const isProActive = editorData.value.plugin_info.is_pro_active;
-		const isProInstalled = editorData.value.plugin_info.is_pro_installed;
-		const dashboardURL = ref('');
-		const purchaseURL = ref('');
-		const imageHolder = ref(null);
-		const root = ref(null);
+);
 
-		dashboardURL.value = `${editorData.value.urls.zion_admin}#/pro-license`;
-		purchaseURL.value = editorData.value.urls.purchase_url;
+const emit = defineEmits(['activate-item']);
 
-		const iObserver = new IntersectionObserver(onItemInView);
-		const image = computed(() => {
-			return props.item.thumbnail;
-		});
+const Library = inject('Library');
+const EnvironmentStore = useEnvironmentStore();
 
-		// Check to see if we need to generate image
-		if (
-			props.item.librarySource.type === 'local' &&
-			props.item.thumbnail.length === 0 &&
-			!props.item.thumbnail_failed
-		) {
-			// Register the thumbnail for generation
-			const { generateScreenshot, removeFromQueue } = useThumbnailGeneration();
-			generateScreenshot(props.item);
+const insertItemLoading = ref(false);
+const imageHolderRef: Ref<HTMLImageElement | null> = ref(null);
+const root = ref(null);
 
-			onBeforeUnmount(() => {
-				removeFromQueue(props.item);
-			});
+const dashboardURL = `${EnvironmentStore.urls.zion_dashboard}#/pro-license`;
+
+const iObserver = new IntersectionObserver(onItemInView);
+const image = computed(() => {
+	return props.item.thumbnail;
+});
+
+// Check to see if we need to generate image
+if (props.item.librarySource.type === 'local' && props.item.thumbnail.length === 0 && !props.item.thumbnail_failed) {
+	// Register the thumbnail for generation
+	const { generateScreenshot, removeFromQueue } = useThumbnailGeneration();
+	generateScreenshot(props.item);
+
+	onBeforeUnmount(() => {
+		removeFromQueue(props.item);
+	});
+}
+
+function onItemInView(entries: IntersectionObserverEntry[]) {
+	entries.forEach(({ isIntersecting }) => {
+		if (!isIntersecting) {
+			return;
 		}
 
-		function onItemInView(entries) {
-			entries.forEach(({ isIntersecting }) => {
-				if (!isIntersecting) {
-					return;
-				}
-
-				if (props.item.thumbnail) {
-					imageHolder.value.src = imageHolder.value.getAttribute('data-zbg');
-				}
-
-				iObserver.unobserve(root.value);
-			});
+		if (props.item.thumbnail && imageHolderRef.value) {
+			imageHolderRef.value.src = imageHolderRef.value.getAttribute('data-zbg') || '';
 		}
 
-		watch(
-			() => props.item.thumbnail,
-			newValue => {
-				iObserver.observe(root.value);
-			},
-		);
+		if (root.value) {
+			iObserver.unobserve(root.value);
+		}
+	});
+}
 
-		onMounted(() => {
+watch(
+	() => props.item.thumbnail,
+	() => {
+		if (root.value) {
 			iObserver.observe(root.value);
-		});
-
-		onBeforeUnmount(() => {
-			if (root.value) {
-				iObserver.unobserve(root.value);
-			}
-		});
-
-		const itemMenuActions = computed(() => {
-			if (!props.item.librarySource.id === 'local_library') {
-				return [];
-			}
-
-			return [
-				{
-					title: __('Edit template', 'zionbuilder'),
-					action: () => {
-						return window.open(props.item.urls.edit_url, '_blank').focus();
-					},
-					icon: 'edit',
-				},
-				{
-					title: __('Export template', 'zionbuilder'),
-					action: () => {
-						props.item.export();
-					},
-					icon: 'export',
-				},
-				{
-					title: __('Regenerate screenshot', 'zionbuilder'),
-					action: () => {
-						const { generateScreenshot } = useThumbnailGeneration();
-
-						generateScreenshot(props.item);
-					},
-					icon: 'export',
-				},
-				{
-					title: __('Delete template', 'zionbuilder'),
-					action: () => {
-						props.item.delete();
-					},
-					icon: 'delete',
-				},
-			];
-		});
-
-		// Image scroll on hover
-		function onMouseOver(event) {
-			const { height } = event.target.getBoundingClientRect();
-
-			if (height > 200) {
-				const newTop = height - 200;
-				event.target.style.top = `-${newTop}px`;
-			}
 		}
-
-		function onMouseOut(event) {
-			event.target.style.top = null;
-		}
-
-		return {
-			// Refs
-			imageHolder,
-			root,
-			purchaseURL,
-			dashboardURL,
-			isProInstalled,
-			isProActive,
-			Library,
-			image,
-
-			// Computed
-			itemMenuActions,
-
-			// methods
-			onMouseOver,
-			onMouseOut,
-		};
 	},
-	data() {
-		return {
-			insertItemLoading: false,
-		};
-	},
-	methods: {
-		insertLibraryItem() {
-			this.insertItemLoading = true;
-			// If it's pro, get the download URL
-			this.Library.insertItem(this.item)
-				.then(() => {})
-				.finally(() => {
-					this.insertItemLoading = false;
-				});
+);
+
+onMounted(() => {
+	if (root.value) {
+		iObserver.observe(root.value);
+	}
+});
+
+onBeforeUnmount(() => {
+	if (root.value) {
+		iObserver.unobserve(root.value);
+	}
+});
+
+const itemMenuActions = computed(() => {
+	if (!(props.item.librarySource.id === 'local_library')) {
+		return [];
+	}
+
+	return [
+		{
+			title: __('Edit template', 'zionbuilder'),
+			action: () => {
+				return window.open(props.item.urls.edit_url, '_blank')?.focus();
+			},
+			icon: 'edit',
 		},
-	},
-};
+		{
+			title: __('Export template', 'zionbuilder'),
+			action: () => {
+				props.item.export();
+			},
+			icon: 'export',
+		},
+		{
+			title: __('Regenerate screenshot', 'zionbuilder'),
+			action: () => {
+				const { generateScreenshot } = useThumbnailGeneration();
+
+				generateScreenshot(props.item);
+			},
+			icon: 'export',
+		},
+		{
+			title: __('Delete template', 'zionbuilder'),
+			action: () => {
+				props.item.delete();
+			},
+			icon: 'delete',
+		},
+	];
+});
+
+// Image scroll on hover
+function onMouseOver(event: MouseEvent) {
+	const element = event.target as HTMLElement;
+	const { height } = element.getBoundingClientRect();
+
+	if (height > 200) {
+		const newTop = height - 200;
+		element.style.top = `-${newTop}px`;
+	}
+}
+
+function onMouseOut(event: MouseEvent) {
+	const element = event.target as HTMLElement;
+	element.style.removeProperty('top');
+}
+
+function insertLibraryItem() {
+	insertItemLoading.value = true;
+
+	// If it's pro, get the download URL
+	Library.insertItem(props.item).finally(() => {
+		insertItemLoading.value = false;
+	});
+}
 </script>
 <style lang="scss">
 .znpb-editor-library-modal__item--grid-sizer,

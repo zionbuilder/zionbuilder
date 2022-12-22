@@ -53,6 +53,15 @@ const getTemplateChildren = () => {
 export const routes = new Routes();
 
 export const initRoutes = function () {
+	routes.addRoute('home', {
+		path: '/',
+		component: PageContent,
+		name: 'home',
+		redirect: {
+			name: 'settings',
+		},
+	});
+
 	const SettingsRoute = routes.addRoute('settings', {
 		path: '/settings',
 		name: 'settings',

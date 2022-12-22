@@ -1,12 +1,12 @@
 <template>
 	<div
 		class="znpb-about-modal__version-card"
-		:class="{ 'znpb-about-modal__version-card--active': !isPro || isProActive }"
+		:class="{ 'znpb-about-modal__version-card--active': !EnvironmentStore.plugin_pro.is_active || isProActive }"
 	>
 		<Icon icon="zion-icon-logo" />
 		<div v-if="isPro" class="znpb-pro-item">{{ __('pro', 'zionbuilder') }}</div>
 		<span class="znpb-about-modal__plugin-title"
-			>{{ $translate('zion_builder') }}
+			>{{ EnvironmentStore.plugin_name }}
 			<span v-if="isPro">{{ __('pro', 'zionbuilder') }}</span>
 			<span v-else>{{ __('FREE', 'zionbuilder') }}</span>
 		</span>
@@ -15,11 +15,10 @@
 				<template v-if="version !== null && updateVersion !== null">
 					<span>{{ version }}</span>
 					<a
-						:href="urls.free_changelog"
+						:href="EnvironmentStore.urls.free_changelog"
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						@click="openWindow(urls.free_changelog)"
 						>{{ __('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
@@ -31,11 +30,10 @@
 				<template v-if="version !== null && updateVersion !== null">
 					<span>{{ version }}</span>
 					<a
-						:href="urls.pro_changelog"
+						:href="EnvironmentStore.urls.pro_changelog"
 						target="_blank"
 						title="changelog"
 						class="znpb-about-modal__help"
-						@click="openWindow(urls.pro_changelog)"
 						>{{ __('View changelog', 'zionbuilder') }}</a
 					>
 				</template>
@@ -43,12 +41,11 @@
 		</div>
 		<template v-if="!isPro">
 			<a
-				v-if="updateVersion !== undefined && updateVersion !== version && version !== null"
-				:href="urls.updates_page"
+				v-if="updateVersion !== null && updateVersion !== version && version !== null"
+				:href="EnvironmentStore.urls.updates_page"
 				target="_blank"
 				class="znpb-button znpb-about-modal__version-card-button"
-				@click="openWindow(urls.updates_page)"
-				>{{ __('Update to version', 'zionbuilder') }} {{ updateVersion }}
+				>{{ __('Update to', 'zionbuilder') }} {{ updateVersion }}
 			</a>
 			<span v-else class="znpb-about-modal-text-wrapper__up-to-date">
 				{{ __('You are up to date!', 'zionbuilder') }}
@@ -57,11 +54,10 @@
 		<template v-else>
 			<a
 				v-if="!isProActive"
-				:href="urls.purchase_url"
+				:href="EnvironmentStore.urls.purchase_url"
 				target="_blank"
 				title="purchase"
 				class="znpb-button znpb-button--secondary"
-				@click="openWindow(urls.purchase_url)"
 				>{{ __('Buy Pro', 'zionbuilder') }}
 			</a>
 			<template v-else>
@@ -73,11 +69,10 @@
 				</span>
 				<a
 					v-else
-					:href="urls.updates_page"
+					:href="EnvironmentStore.urls.updates_page"
 					title="updates"
 					target="_blank"
 					class="znpb-button znpb-about-modal__version-card-button"
-					@click="openWindow(urls.updates_page)"
 					>{{ __('Update to version', 'zionbuilder') }} {{ updateVersion }}
 				</a>
 			</template>
@@ -85,43 +80,27 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { useEditorData } from '/@/editor/composables';
 
-export default {
-	name: 'PluginCard',
-	props: {
-		isPro: {
-			type: Boolean,
-			required: false,
-		},
-		isProActive: {
-			type: Boolean,
-			required: false,
-		},
-		version: {
-			type: String,
-			required: false,
-		},
-		updateVersion: {
-			type: String,
-			required: false,
-		},
-	},
-	setup(props) {
-		const { editorData } = useEditorData();
+import { useEnvironmentStore } from '@zb/store';
 
-		return {
-			urls: editorData.value.urls,
-		};
+withDefaults(
+	defineProps<{
+		isPro?: boolean;
+		isProActive?: boolean;
+		version?: string | null;
+		updateVersion?: string | null;
+	}>(),
+	{
+		isPro: false,
+		isProActive: false,
+		version: null,
+		updateVersion: null,
 	},
-	methods: {
-		openWindow(link) {
-			window.open(link);
-		},
-	},
-};
+);
+
+const EnvironmentStore = useEnvironmentStore();
 </script>
 
 <style lang="scss">

@@ -278,7 +278,7 @@ export default {
 					startClientX,
 					startClientY,
 				});
-				let even = false;
+				const even = false;
 
 				// Invert the distance
 				if (['padding', 'margin'].includes(type) && position.indexOf('Right') !== -1) {
@@ -365,7 +365,7 @@ export default {
 		},
 		getDragInfo({ event, type, position, startClientX, startClientY }) {
 			const direction = position.indexOf('Top') !== -1 || position.indexOf('Bottom') !== -1 ? 'vertical' : 'horizontal';
-			let distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX;
+			const distance = direction === 'vertical' ? event.clientY - startClientY : event.clientX - startClientX;
 
 			return {
 				direction,
@@ -442,7 +442,7 @@ export default {
 		},
 		getSizeValue(type) {
 			// Return min-height
-			let value = this.element.getOptionValue(
+			const value = this.element.getOptionValue(
 				`_styles.wrapper.styles.${this.activeResponsiveDeviceInfo.id}.default.${type}`,
 			);
 			if (value !== null) {

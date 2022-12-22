@@ -69,7 +69,7 @@ export default {
 		const hasLink = ref(false);
 
 		const buttonClasses = computed(() => {
-			let classes = [];
+			const classes = [];
 
 			// Check if the button is active
 			if (hasLink.value) {
@@ -86,7 +86,7 @@ export default {
 		}
 
 		function getLink() {
-			let link = editor.editor.dom.getParent(editor.editor.selection.getStart(), 'a[href]');
+			const link = editor.editor.dom.getParent(editor.editor.selection.getStart(), 'a[href]');
 
 			if (link) {
 				linkTarget.value = link.target || '_self';

@@ -66,6 +66,7 @@
     "vite": "^4.0.1",
     "vite-plugin-externals": "^0.5.0",
     "vue-tsc": "^1.0.13",
-    "wp-pot": "^1.10.2"
+    "wp-pot": "^1.10.2",
+    "eslint-config-custom": "workspace:*"
   }
 }

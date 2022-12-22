@@ -52,8 +52,8 @@ export default {
 				return {};
 			}
 
-			let { _styles: newMedia, _advanced_options: newAdvanced, ...remainingNewProperties } = props.options;
-			let optionsThatRequireServerRequest = {};
+			const { _styles: newMedia, _advanced_options: newAdvanced, ...remainingNewProperties } = props.options;
+			const optionsThatRequireServerRequest = {};
 
 			Object.keys(remainingNewProperties).forEach(optionID => {
 				const optionSchema = elementOptions[optionID];

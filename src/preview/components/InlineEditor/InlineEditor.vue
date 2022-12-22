@@ -114,7 +114,7 @@ export default {
 		},
 	},
 	setup(props, { emit }) {
-		let TinyMCEEditor = {
+		const TinyMCEEditor = {
 			editor: null,
 		};
 		const UIStore = useUIStore();
@@ -284,7 +284,7 @@ export default {
 
 		function isDragButtonOutOfBounds() {
 			// Gets the full position of the editor
-			let inlineEditorPosition = getInlineEditorRect();
+			const inlineEditorPosition = getInlineEditorRect();
 
 			// Check if the drag button is out of bounds on the left (X axis) side of the screen and return the response
 			if (inlineEditorPosition) {

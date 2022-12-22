@@ -1,13 +1,12 @@
 <template>
 	<div v-bind="getWrapperAttributes">
-
 		<slot name="start" />
 
 		<div
-			class="zb-el-gallery-item"
-			:class="api.getStyleClasses('image_wrapper_styles')"
 			v-for="(image, index) in getImages"
 			:key="index"
+			class="zb-el-gallery-item"
+			:class="api.getStyleClasses('image_wrapper_styles')"
 			v-bind="api.getAttributesForTag('image_wrapper_styles', getImageWrapperAttrs(image))"
 		>
 			<img :src="image.image" />
@@ -19,34 +18,34 @@
 
 <script>
 export default {
-	name: 'gallery',
+	name: 'Gallery',
 	props: ['options', 'element', 'api'],
 	computed: {
-		getImages () {
-			return this.options.images
+		getImages() {
+			return this.options.images;
 		},
-		getWrapperAttributes () {
+		getWrapperAttributes() {
 			if (this.options.use_modal) {
 				return {
 					'data-zion-lightbox': JSON.stringify({
-						selector: ''
-					})
-				}
+						selector: '',
+					}),
+				};
 			}
 
-			return {}
-		}
+			return {};
+		},
 	},
 	methods: {
-		getImageWrapperAttrs (image) {
+		getImageWrapperAttrs(image) {
 			if (this.options.use_modal) {
 				return {
-					'data-src': image.image
-				}
+					'data-src': image.image,
+				};
 			}
 
-			return {}
-		}
-	}
-}
+			return {};
+		},
+	},
+};
 </script>

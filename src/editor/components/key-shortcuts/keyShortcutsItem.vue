@@ -3,39 +3,26 @@
 		<slot></slot>
 		<div class="znpb-key-shortcuts">
 			<div class="znpb-key-shortcuts__keys-wrapper">
-				<div
-					v-for="(key, index) in keyshortcut"
-					:key="index"
-					class="znpb-key-shortcuts__key"
-				>
+				<div v-for="(key, index) in shortcutKey" :key="index" class="znpb-key-shortcuts__key">
 					<div class="znpb-key-shortcuts__key-item">
-						{{key}}
+						{{ key }}
 					</div>
 					<span class="znpb-key-shortcuts__plus">+</span>
 				</div>
 			</div>
 			<span class="znpb-key-shortcuts__separator"></span>
 			<div class="znpb-key-shortcuts__description">
-				{{description}}
+				{{ description }}
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'keyShortcutsItem',
-	props: {
-		keyshortcut: {
-			type: Array,
-			required: true
-		},
-		description: {
-			type: String,
-			requires: true
-		}
-	}
-}
+<script lang="ts" setup>
+defineProps<{
+	shortcutKey: string[];
+	description: string;
+}>();
 </script>
 
 <style lang="scss">

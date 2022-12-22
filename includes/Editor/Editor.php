@@ -246,22 +246,6 @@ class Editor {
 			];
 		}
 
-		$plugin_updates = get_site_transient( 'update_plugins' );
-
-		$free_plugin_update = null;
-		$pro_plugin_update  = null;
-		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
-			if ( isset( $plugin_updates->response['zionbuilder/zionbuilder.php'] ) ) {
-				$free_plugin_update = $plugin_updates->response['zionbuilder/zionbuilder.php'];
-			}
-		}
-
-		if ( isset( $plugin_updates->response ) && is_array( $plugin_updates->response ) ) {
-			if ( isset( $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'] ) ) {
-				$pro_plugin_update = $plugin_updates->response['zionbuilder-pro/zionbuilder-pro.php'];
-			}
-		}
-
 		$autosave_instance = Plugin::$instance->post_manager->get_post_or_autosave_instance( $post_instance->get_post_id() );
 
 		// Prepare content data
@@ -281,7 +265,6 @@ class Editor {
 					'getting_started_video' => Whitelabel::get_getting_started_video(),
 					'edit_page'             => get_edit_post_link( $this->post_id, '' ),
 					'zion_admin'            => admin_url( sprintf( 'admin.php?page=%s', Whitelabel::get_id() ) ),
-					'updates_page'          => admin_url( 'update-core.php' ),
 					'preview_frame_url'     => $post_instance->get_preview_frame_url(),
 					'preview_url'           => $post_instance->get_preview_url(),
 					'all_pages_url'         => $post_instance->get_all_pages_url(),
@@ -309,10 +292,6 @@ class Editor {
 				'plugin_info'      => [
 					'is_pro_active'      => Utils::is_pro_active(),
 					'is_pro_installed'   => Utils::is_pro_installed(),
-					'free_version'       => Plugin::instance()->get_version(),
-					'pro_version'        => class_exists( 'ZionBuilderPro\Plugin' ) ? \ZionBuilderPro\Plugin::instance()->get_version() : null,
-					'free_plugin_update' => $free_plugin_update,
-					'pro_plugin_update'  => $pro_plugin_update,
 				],
 
 				// Templates

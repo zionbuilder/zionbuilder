@@ -180,8 +180,8 @@ export default {
 		},
 		activeClassConfig() {
 			if (this.activeClass !== this.selector) {
-				let that = this;
-				let className = this.cssClasses.CSSClasses.find(({ id }) => id === that.activeClass);
+				const that = this;
+				const className = this.cssClasses.CSSClasses.find(({ id }) => id === that.activeClass);
 				return {
 					type: 'class',
 					name: className ? className.name : that.activeClass,
@@ -192,9 +192,9 @@ export default {
 		},
 		filteredClasses() {
 			if (this.keyword.length === 0) {
-				let extraClasses = [];
+				const extraClasses = [];
 				this.computedValue.forEach(selector => {
-					let className = this.cssClasses.CSSClasses.find(({ id }) => id === selector);
+					const className = this.cssClasses.CSSClasses.find(({ id }) => id === selector);
 
 					if (className) {
 						extraClasses.push({

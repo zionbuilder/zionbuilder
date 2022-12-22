@@ -71,7 +71,7 @@ export default {
 		const { activePseudoSelector } = usePseudoSelectors();
 		const isVisible = computed(() => get(props.element.options, '_isVisible', true));
 
-		let toolboxWatcher = null;
+		const toolboxWatcher = null;
 		let optionsInstance = null;
 
 		// Data
@@ -205,8 +205,8 @@ export default {
 							if (attributeValue.attribute_name) {
 								additionalAttributes[styleID] = additionalAttributes[styleID] || {};
 
-								let cleanAttrName = attributeValue.attribute_name;
-								let cleanAttrValue = escape(attributeValue.attribute_value);
+								const cleanAttrName = attributeValue.attribute_name;
+								const cleanAttrValue = escape(attributeValue.attribute_value);
 								additionalAttributes[styleID][cleanAttrName] = cleanAttrValue;
 							}
 						});

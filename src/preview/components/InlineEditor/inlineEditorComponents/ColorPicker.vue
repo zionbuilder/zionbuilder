@@ -3,65 +3,65 @@
 		<div class="zion-inline-editor-button">
 			<InputColorPicker
 				:modelValue="color"
-				@update:modelValue="onColorChange"
 				:show-library="false"
+				type="simple"
+				@update:modelValue="onColorChange"
 				@open="$emit('open-color-picker', true)"
 				@close="$emit('close-color-picker', false)"
-				type="simple"
 			/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
 
 export default {
-	setup (props, { emit }) {
-		const editor = inject('ZionInlineEditor')
-		const color = ref(null)
+	setup(props, { emit }) {
+		const editor = inject('ZionInlineEditor');
+		const color = ref(null);
 
-		let justChangeColor = false
-		let changeTimeout = null
+		let justChangeColor = false;
+		let changeTimeout = null;
 
-		function onColorChange (newValue) {
-			color.value = newValue
-			editor.editor.formatter.apply('forecolor', { value: newValue })
+		function onColorChange(newValue) {
+			color.value = newValue;
+			editor.editor.formatter.apply('forecolor', { value: newValue });
 
-			clearTimeout(changeTimeout)
+			clearTimeout(changeTimeout);
 			changeTimeout = setTimeout(() => {
-				justChangeColor = false
+				justChangeColor = false;
 			}, 500);
 
-			justChangeColor = true
+			justChangeColor = true;
 		}
 
-		function onNodeChange (node) {
+		function onNodeChange(node) {
 			if (!justChangeColor) {
-				getActiveColor()
+				getActiveColor();
 			}
 		}
 
-		function getActiveColor () {
+		function getActiveColor() {
 			// set a flag so we don't recursively update the color
-			color.value = editor.editor.queryCommandValue('forecolor')
+			color.value = editor.editor.queryCommandValue('forecolor');
 		}
 
 		onMounted(() => {
-			getActiveColor()
-			editor.editor.on('NodeChange', onNodeChange)
-		})
+			getActiveColor();
+			editor.editor.on('NodeChange', onNodeChange);
+		});
 
 		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', onNodeChange)
-		})
+			editor.editor.off('NodeChange', onNodeChange);
+		});
 
 		return {
 			color,
-			onColorChange
-		}
-	}
-}
+			onColorChange,
+		};
+	},
+};
 </script>
 
 <style lang="scss">
@@ -104,7 +104,7 @@ export default {
 	}
 }
 .zion-inline-editor-color-picker-button {
-	content: " ";
+	content: ' ';
 	position: absolute;
 	top: 50%;
 	left: 50%;

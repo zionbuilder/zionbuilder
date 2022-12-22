@@ -9,6 +9,6 @@
 <script>
 export default {
 	name: 'ZionText',
-	props: ['options', 'element', 'api']
-}
+	props: ['options', 'element', 'api'],
+};
 </script>

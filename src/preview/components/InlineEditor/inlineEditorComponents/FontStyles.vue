@@ -57,7 +57,7 @@ export default {
 		const isOpen = ref(false);
 
 		const buttonClasses = computed(() => {
-			let classes = [];
+			const classes = [];
 
 			if (isOpen.value) {
 				classes.push('zion-inline-editor-button--active');

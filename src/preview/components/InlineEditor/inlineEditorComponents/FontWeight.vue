@@ -29,7 +29,7 @@ export default {
 		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 
 		const classes = computed(() => {
-			let classes = [];
+			const classes = [];
 
 			// Check if the button is active
 			if (isActive.value) {
