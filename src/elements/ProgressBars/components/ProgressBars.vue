@@ -1,5 +1,5 @@
 <template>
-	<ul :class="{ 'znpb-progressBars--resetAnimation': resetAnimation }">
+	<ul ref="root" :class="{ 'znpb-progressBars--resetAnimation': resetAnimation }">
 		<slot name="start" />
 
 		<li
@@ -31,57 +31,71 @@
 	</ul>
 </template>
 
-<script>
-export default {
-	name: 'ProgressBars',
-	props: ['options', 'element', 'api'],
-	data() {
-		return {
-			resetAnimation: false,
-		};
-	},
-	computed: {
-		bars() {
-			return this.options.bars || [];
-		},
-		barsWidth() {
-			const barsWidth = (this.options.bars || []).map(item => {
-				return item.fill_percentage;
-			});
+<script lang="ts" setup>
+import { ref, computed, onMounted, watch } from 'vue';
 
-			return barsWidth.join('');
-		},
+const props = defineProps<{
+	options: {
+		bars: {
+			title: string;
+			fill_percentage: number;
+		}[];
+		transition_delay: number;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const root = ref(null);
+
+const bars = computed(() => {
+	return props.options.bars ? props.options.bars : [];
+});
+
+const barsWidth = computed(() => {
+	const barsWidth = (props.options.bars || []).map(item => {
+		return item.fill_percentage;
+	});
+
+	return barsWidth.join('');
+});
+
+const resetAnimation = ref(false);
+
+watch(barsWidth, () => {
+	doResetAnimation();
+});
+
+watch(
+	() => props.options.transition_delay,
+	() => {
+		doResetAnimation();
 	},
-	watch: {
-		barsWidth() {
-			this.doResetAnimation();
-		},
-		'options.transition_delay'() {
-			this.doResetAnimation();
-		},
-	},
-	mounted() {
+);
+
+onMounted(() => {
+	window.requestAnimationFrame(() => {
+		runScript();
+	});
+});
+
+function doResetAnimation() {
+	resetAnimation.value = true;
+	runScript().then(() => {
+		resetAnimation.value = false;
+	});
+}
+
+function runScript() {
+	return new Promise(resolve => {
 		window.requestAnimationFrame(() => {
-			this.runScript();
+			if (root.value) {
+				new window.zbScripts.progressBars(root.value);
+			}
+			resolve(true);
 		});
-	},
-	methods: {
-		doResetAnimation() {
-			this.resetAnimation = true;
-			this.runScript().then(() => {
-				this.resetAnimation = false;
-			});
-		},
-		runScript() {
-			return new Promise((resolve, reject) => {
-				window.requestAnimationFrame(() => {
-					new window.zbScripts.progressBars(this.$el);
-					resolve();
-				});
-			});
-		},
-	},
-};
+	});
+}
 </script>
 
 <style lang="scss">

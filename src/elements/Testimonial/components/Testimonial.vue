@@ -57,40 +57,44 @@
 		<slot name="end" />
 	</div>
 </template>
-<script>
-export default {
-	name: 'Testimonial',
-	props: ['element', 'options', 'api'],
-	computed: {
-		image() {
-			return this.options && this.options.image ? this.options.image : null;
-		},
-		content() {
-			return this.options && this.options.content ? this.options.content : null;
-		},
-		name() {
-			return this.options && this.options.name ? this.options.name : null;
-		},
-		description() {
-			return this.options && this.options.description ? this.options.description : null;
-		},
-		getStar() {
-			return {
-				family: 'Font Awesome 5 Free Solid',
-				name: 'star',
-				unicode: 'uf005',
-			};
-		},
-		getEmptyStar() {
-			return {
-				family: 'Font Awesome 5 Free Regular',
-				name: 'star',
-				unicode: 'uf005',
-			};
-		},
-		stars() {
-			return this.options.stars || 5;
-		},
-	},
-};
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		image: string;
+		content: string;
+		name: string;
+		description: string;
+		stars: string | number;
+		position: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const image = computed(() => {
+	return props.options && props.options.image ? props.options.image : null;
+});
+
+const getStar = computed(() => {
+	return {
+		family: 'Font Awesome 5 Free Solid',
+		name: 'star',
+		unicode: 'uf005',
+	};
+});
+
+const getEmptyStar = computed(() => {
+	return {
+		family: 'Font Awesome 5 Free Regular',
+		name: 'star',
+		unicode: 'uf005',
+	};
+});
+
+const stars = computed(() => {
+	return props.options.stars || 5;
+});
 </script>

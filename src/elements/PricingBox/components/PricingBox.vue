@@ -70,18 +70,34 @@
 		<slot name="end" />
 	</div>
 </template>
-<script>
-export default {
-	name: 'PricingBox',
-	props: ['options', 'element', 'api'],
-	computed: {
-		pricingPrice() {
-			return this.options.price ? this.options.price.split('.')[0] : null;
-		},
-		priceFloat() {
-			const floatValue = this.options.price ? this.options.price.split('.')[1] : null;
-			return floatValue;
-		},
-	},
-};
+
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		plan_title: string;
+		plan_description: string;
+		plan_featured: string;
+		price: string;
+		period: string;
+		plan_details: string;
+		button_text: string;
+		button_link: {
+			link: string;
+			title: string;
+			target: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const pricingPrice = computed(() => {
+	return props.options.price ? props.options.price.split('.')[0] : null;
+});
+
+const priceFloat = computed(() => {
+	return props.options.price ? props.options.price.split('.')[1] : null;
+});
 </script>

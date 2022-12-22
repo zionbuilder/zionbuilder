@@ -26,28 +26,45 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'ZionButton',
-	props: ['options', 'api', 'element'],
-	computed: {
-		iconConfig() {
-			return this.options.icon;
-		},
-		getTag() {
-			// Check if has link else span
-			return this.options.link && this.options.link.link ? 'a' : 'div';
-		},
-		getButtonAttributes() {
-			const attrs = {};
-			// Link
-			if (this.options.link && this.options.link.link) {
-				attrs.href = this.options.link.link;
-				attrs.target = this.options.link.target;
-				attrs.title = this.options.link.title;
-			}
-			return attrs;
-		},
-	},
-};
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		button_text: string;
+		icon: {
+			icon: string;
+			size: string;
+			color: string;
+		};
+		link: {
+			link: string;
+			target: string;
+			title: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const iconConfig = computed(() => {
+	return props.options.icon;
+});
+
+const getTag = computed(() => {
+	// Check if has link else span
+	return props.options.link && props.options.link.link ? 'a' : 'div';
+});
+
+const getButtonAttributes = computed(() => {
+	const attrs: Record<string, string> = {};
+	// Link
+	if (props.options.link && props.options.link.link) {
+		attrs.href = props.options.link.link;
+		attrs.target = props.options.link.target;
+		attrs.title = props.options.link.title;
+	}
+
+	return attrs;
+});
 </script>

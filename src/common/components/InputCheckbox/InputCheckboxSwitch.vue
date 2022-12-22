@@ -72,6 +72,11 @@ export default {
 			required: false,
 		},
 	},
+	setup() {
+		return {
+			__,
+		};
+	},
 	data() {
 		return {
 			isLimitExceeded: false,

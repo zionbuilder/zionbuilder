@@ -28,27 +28,41 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'ZionImage',
-	props: ['element', 'options', 'api'],
-	computed: {
-		imageSrc() {
-			return (this.options.image || {}).image;
-		},
-		hasLink() {
-			return this.options.link && this.options.link.link;
-		},
-		extraAttributes() {
-			const attributes = window.zb.utils.getLinkAttributes(this.options.link);
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-			if (this.options.use_modal) {
-				attributes.href = this.imageSrc;
-				attributes['data-zion-lightbox'] = true;
-			}
+const props = defineProps<{
+	options: {
+		image: {
+			image: string;
+		};
+		link: {
+			link: string;
+		};
+		use_modal: boolean;
+		show_caption: boolean;
+		caption_text: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-			return attributes;
-		},
-	},
-};
+const imageSrc = computed(() => {
+	return (props.options.image || {}).image;
+});
+
+const hasLink = computed(() => {
+	return props.options.link && props.options.link.link;
+});
+
+const extraAttributes = computed(() => {
+	const attributes = window.zb.utils.getLinkAttributes(props.options.link);
+
+	if (props.options.use_modal) {
+		attributes.href = imageSrc.value;
+		attributes['data-zion-lightbox'] = true;
+	}
+
+	return attributes;
+});
 </script>

@@ -18,20 +18,29 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'ZionSeparator',
-	props: ['options', 'element', 'api'],
-	computed: {
-		iconConfig() {
-			return (
-				this.options.icon || {
-					family: 'Font Awesome 5 Free Regular',
-					name: 'star',
-					unicode: 'uf005',
-				}
-			);
-		},
-	},
-};
+<script lang="ts" setup>
+import { computed } from 'vue';
+
+const props = defineProps<{
+	options: {
+		use_icon: boolean;
+		icon: {
+			family: string;
+			name: string;
+			unicode: string;
+		};
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
+
+const iconConfig = computed(() => {
+	return (
+		props.options.icon || {
+			family: 'Font Awesome 5 Free Regular',
+			name: 'star',
+			unicode: 'uf005',
+		}
+	);
+});
 </script>

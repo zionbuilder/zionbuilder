@@ -31,47 +31,40 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, computed } from 'vue';
 import TabLink from './TabLink.vue';
 
-export default {
-	name: 'Tabs',
-	components: {
-		TabLink,
-	},
-	props: ['options', 'element', 'api'],
-	setup(props) {
-		const activeTab = ref(null);
+const props = defineProps<{
+	options: {
+		tabs: ZionElementConfig[];
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-		// Check to see if we need to add some tabs
-		if (props.element.content.length === 0 && props.options.tabs) {
-			props.element.addChildren(props.options.tabs);
-		}
+const activeTab = ref(null);
 
-		const children = computed(() => {
-			return props.element.content.map(childUID => {
-				const contentStore = window.zb.editor.useContentStore();
-				return contentStore.getElement(childUID);
-			});
-		});
+// Check to see if we need to add some tabs
+if (props.element.content.length === 0 && props.options.tabs) {
+	props.element.addChildren(props.options.tabs);
+}
 
-		const tabs = computed(() => {
-			return props.element.content.map(childUID => {
-				const contentStore = window.zb.editor.useContentStore();
-				const element = contentStore.getElement(childUID);
-				return {
-					title: element.options.title,
-					uid: element.uid,
-				};
-			});
-		});
+const children = computed(() => {
+	return props.element.content.map(childUID => {
+		const contentStore = window.zb.editor.useContentStore();
+		return contentStore.getElement(childUID);
+	});
+});
 
+const tabs = computed(() => {
+	return props.element.content.map(childUID => {
+		const contentStore = window.zb.editor.useContentStore();
+		const element = contentStore.getElement(childUID);
 		return {
-			tabs,
-			activeTab,
-			children,
+			title: element.options.title,
+			uid: element.uid,
 		};
-	},
-};
+	});
+});
 </script>

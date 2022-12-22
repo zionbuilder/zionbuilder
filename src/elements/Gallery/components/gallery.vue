@@ -16,36 +16,43 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'Gallery',
-	props: ['options', 'element', 'api'],
-	computed: {
-		getImages() {
-			return this.options.images;
-		},
-		getWrapperAttributes() {
-			if (this.options.use_modal) {
-				return {
-					'data-zion-lightbox': JSON.stringify({
-						selector: '',
-					}),
-				};
-			}
+<script lang="ts" setup>
+import { computed } from 'vue';
 
-			return {};
-		},
-	},
-	methods: {
-		getImageWrapperAttrs(image) {
-			if (this.options.use_modal) {
-				return {
-					'data-src': image.image,
-				};
-			}
+const props = defineProps<{
+	options: {
+		images: {
+			image: string;
+		}[];
+		use_modal: boolean;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 
-			return {};
-		},
-	},
-};
+const getImages = computed(() => {
+	return props.options.images;
+});
+
+const getWrapperAttributes = computed(() => {
+	if (props.options.use_modal) {
+		return {
+			'data-zion-lightbox': JSON.stringify({
+				selector: '',
+			}),
+		};
+	}
+
+	return {};
+});
+
+function getImageWrapperAttrs(image: { image: string }) {
+	if (props.options.use_modal) {
+		return {
+			'data-src': image.image,
+		};
+	}
+
+	return {};
+}
 </script>

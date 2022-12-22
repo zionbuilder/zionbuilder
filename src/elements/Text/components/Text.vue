@@ -6,9 +6,12 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'ZionText',
-	props: ['options', 'element', 'api'],
-};
+<script lang="ts" setup>
+defineProps<{
+	options: {
+		content: string;
+	};
+	element: ZionElement;
+	api: ZionElementRenderApi;
+}>();
 </script>

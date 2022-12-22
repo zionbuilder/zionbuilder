@@ -57,7 +57,7 @@ onMounted(() => {
 	(root.value as HTMLDivElement).innerHTML = window.ZnPbInitialData.wp_editor
 		.replace(/znpbwpeditorid/g, editorID)
 		.replace('%%ZNPB_EDITOR_CONTENT%%', content.value);
-
+	console.log(root.value);
 	editorTextarea = document.querySelectorAll('.wp-editor-area')[0] as HTMLTextAreaElement;
 	editorTextarea.addEventListener('keyup', onTextChanged);
 

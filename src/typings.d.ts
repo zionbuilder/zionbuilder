@@ -52,3 +52,12 @@ interface LibraryCategory {
 	subcategories?: LibraryCategory[];
 	count: number;
 }
+
+interface ZionElementRenderApi {
+	getStyleClasses: (styleId: string, extraClasses = {}) => Record<string, boolean>;
+	getAttributesForTag: (
+		tagID: string,
+		extraArgs = {},
+		index: null | number = null,
+	) => Record<string, Record<string, unknown>>;
+}

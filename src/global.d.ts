@@ -61,4 +61,15 @@ interface Window {
 			l10n: Record<string, string>;
 		};
 	};
+
+	// Frontend data
+	zbScripts: {
+		counter: new (element: HTMLElement) => void;
+		progressBars: new (element: HTMLElement) => void;
+		video: new (element: HTMLElement) => {
+			init: () => {
+				destroy: () => void;
+			};
+		};
+	};
 }
