@@ -140,7 +140,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { ref, computed, onBeforeUnmount } from 'vue';
 import keyShortcuts from './key-shortcuts/keyShortcuts.vue';
@@ -153,252 +153,211 @@ import { useUIStore, useUserStore } from '../store';
 const { translate } = window.zb.i18n;
 const { useBuilderOptionsStore } = window.zb.store;
 
-export default {
-	name: 'ZnpbPanelMain',
-	components: {
-		FlyoutWrapper,
-		FlyoutMenuItem,
-		keyShortcuts,
-		aboutModal,
-		ResponsiveDevices,
-		//
+// Stores
+const UIStore = useUIStore();
+const userStore = useUserStore();
+const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
+
+// Composables
+const { editorData } = useEditorData();
+const { showSaveElement } = useSaveTemplate();
+const { getOptionValue } = useBuilderOptionsStore();
+
+// Reactive data
+const editorHeaderRef = ref(null);
+const showGettingStartedVideo = ref(false);
+
+// Help menu
+const aboutModalVisibility = ref(false);
+const shortcutsModalVisibility = ref(false);
+const top = ref(null);
+const left = ref(null);
+const draggingPosition = ref(null);
+const userSel = ref(null);
+const gettingStartedVideoURL = window.ZnPbInitialData.urls.getting_started_video;
+
+// Computed
+const tooltipsPosition = computed(() => {
+	if (UIStore.mainBar.position === 'top') {
+		return 'bottom';
+	} else if (UIStore.mainBar.position === 'left') {
+		return 'right';
+	} else if (UIStore.mainBar.position === 'right') {
+		return 'left';
+	} else if (UIStore.mainBar.position === 'bottom') {
+		return 'top';
+	}
+
+	return 'top';
+});
+
+const isPro = editorData.value.plugin_info.is_pro_active;
+const hasWhiteLabel = computed(() => {
+	return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title ? true : false;
+});
+
+const helpMenuItems = computed(() => {
+	const helpArray = [
+		{
+			title: __('Start tour', 'zionbuilder'),
+			action: doShowGettingStartedVideo,
+			canShow: isPro && gettingStartedVideoURL.length > 0,
+		},
+		{
+			title: __('Key shortcuts', 'zionbuilder'),
+			action: () => (shortcutsModalVisibility.value = true),
+		},
+		{
+			title: translate('about_zion_builder'),
+			action: () => (aboutModalVisibility.value = true),
+			canShow: !hasWhiteLabel.value,
+		},
+		{
+			title: translate('back_to_zion_dashboard'),
+			url: editorData.value.urls.zion_admin,
+			action: () => {},
+		},
+		{
+			title: __('Back to WP dashboard', 'zionbuilder'),
+			url: editorData.value.urls.edit_page,
+			action: () => {},
+		},
+		{
+			title: __('Preview post', 'zionbuilder'),
+			action: openPreviewPage,
+		},
+	];
+
+	return helpArray.filter(item => item.canShow !== false);
+});
+
+const panelStyles = computed(() => {
+	return {
+		userSelect: userSel.value,
+		pointerEvents: UIStore.mainBar.isDragging || UIStore.mainBar.pointerEvents ? 'none' : null,
+	};
+});
+
+function saveTemplate() {
+	showSaveElement(null);
+}
+
+const saveActions = [
+	{
+		icon: 'save-template',
+		title: __('Save Template', 'zionbuilder'),
+		action: saveTemplate,
 	},
-	setup() {
-		// Stores
-		const UIStore = useUIStore();
-		const userStore = useUserStore();
-		const { saveDraft, savePage, isSavePageLoading, openPreviewPage } = useSavePage();
-
-		// Composables
-		const { editorData } = useEditorData();
-		const { showSaveElement } = useSaveTemplate();
-		const { getOptionValue } = useBuilderOptionsStore();
-
-		// Reactive data
-		const editorHeaderRef = ref(null);
-		const showGettingStartedVideo = ref(false);
-
-		// Help menu
-		const aboutModalVisibility = ref(false);
-		const shortcutsModalVisibility = ref(false);
-		const top = ref(null);
-		const left = ref(null);
-		const draggingPosition = ref(null);
-		const userSel = ref(null);
-		const gettingStartedVideoURL = window.ZnPbInitialData.urls.getting_started_video;
-
-		// Computed
-		const tooltipsPosition = computed(() => {
-			if (UIStore.mainBar.position === 'top') {
-				return 'bottom';
-			} else if (UIStore.mainBar.position === 'left') {
-				return 'right';
-			} else if (UIStore.mainBar.position === 'right') {
-				return 'left';
-			} else if (UIStore.mainBar.position === 'bottom') {
-				return 'top';
-			}
-
-			return 'top';
-		});
-
-		let isPro = editorData.value.plugin_info.is_pro_active;
-		const hasWhiteLabel = computed(() => {
-			return isPro && getOptionValue('white_label') !== null && getOptionValue('white_label').plugin_title
-				? true
-				: false;
-		});
-
-		const helpMenuItems = computed(() => {
-			let helpArray = [
-				{
-					title: __('Start tour', 'zionbuilder'),
-					action: doShowGettingStartedVideo,
-					canShow: isPro && gettingStartedVideoURL.length > 0,
-				},
-				{
-					title: __('Key shortcuts', 'zionbuilder'),
-					action: () => (shortcutsModalVisibility.value = true),
-				},
-				{
-					title: translate('about_zion_builder'),
-					action: () => (aboutModalVisibility.value = true),
-					canShow: !hasWhiteLabel.value,
-				},
-				{
-					title: translate('back_to_zion_dashboard'),
-					url: editorData.value.urls.zion_admin,
-					action: () => {},
-				},
-				{
-					title: __('Back to WP dashboard', 'zionbuilder'),
-					url: editorData.value.urls.edit_page,
-					action: () => {},
-				},
-				{
-					title: __('Preview post', 'zionbuilder'),
-					action: openPreviewPage,
-				},
-			];
-
-			return helpArray.filter(item => item.canShow !== false);
-		});
-
-		const panelStyles = computed(() => {
-			return {
-				userSelect: userSel.value,
-				pointerEvents: UIStore.mainBar.isDragging || UIStore.mainBar.pointerEvents ? 'none' : null,
-			};
-		});
-
-		function saveTemplate() {
-			showSaveElement(null);
-		}
-
-		const saveActions = [
-			{
-				icon: 'save-template',
-				title: __('Save Template', 'zionbuilder'),
-				action: saveTemplate,
-			},
-			{
-				icon: 'save-draft',
-				title: __('Save Page', 'zionbuilder'),
-				action: saveDraft,
-			},
-			{
-				icon: 'save-page',
-				title: __('Save & Publish Page', 'zionbuilder'),
-				action: savePage,
-			},
-		];
-
-		// Show/Hide getting started video
-		if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
-			doShowGettingStartedVideo();
-		}
-
-		// Methods
-		function doShowGettingStartedVideo() {
-			showGettingStartedVideo.value = true;
-			localStorage.setItem('zion_builder_guided_tour_done', true);
-		}
-
-		function startBarDrag() {
-			window.addEventListener('mousemove', movePanel);
-			window.addEventListener('mouseup', disablePanelMove);
-		}
-
-		function movePanel(event) {
-			document.body.style.cursor = 'grabbing';
-
-			let newLeft = event.clientX - 30;
-			let newTop = event.clientY;
-
-			// Set placeholder position
-			UIStore.mainBarDraggingPlaceholder.top = event.clientY;
-			UIStore.mainBarDraggingPlaceholder.left = event.clientX;
-
-			// Set a flag so we know that we are dragging
-			if (!UIStore.mainBar.isDragging) {
-				UIStore.mainBar.isDragging = true;
-			}
-
-			// disable pointer events on iframe
-			UIStore.setIframePointerEvents(true);
-			userSel.value = 'none';
-
-			// Calculate horizontal move
-			const maxLeft = window.innerWidth - 60;
-			newLeft = newLeft <= 0 ? 0 : newLeft;
-			left.value = newLeft > maxLeft ? maxLeft : newLeft;
-			top.value = newTop;
-
-			const positions = {
-				top: (window.innerHeight * 30) / 100 - event.clientY,
-				right: event.clientX - (window.innerWidth * 70) / 100,
-				bottom: event.clientY - (window.innerHeight * 70) / 100,
-				left: (window.innerWidth * 30) / 100 - event.clientX,
-			};
-
-			// get all positive values
-			const availablePositions = Object.keys(positions).filter(position => {
-				return positions[position] > 0;
-			});
-
-			if (availablePositions.length === 0) {
-				return;
-			}
-
-			const closestPosition = availablePositions.reduce((highest, current) => {
-				return positions[highest] > positions[current] ? highest : current;
-			});
-
-			if (closestPosition) {
-				draggingPosition.value = closestPosition;
-				UIStore.mainBar.draggingPosition = closestPosition;
-			}
-		}
-
-		function disablePanelMove() {
-			window.removeEventListener('mousemove', movePanel);
-			window.removeEventListener('mouseup', disablePanelMove);
-
-			// Save the position
-			if (draggingPosition.value) {
-				UIStore.setMainBarPosition(draggingPosition.value);
-				draggingPosition.value = null;
-			}
-
-			UIStore.setIframePointerEvents(false);
-			userSel.value = null;
-			document.body.style.cursor = null;
-			UIStore.mainBar.isDragging = false;
-		}
-
-		function onAfterLeave() {
-			const el = document.querySelector('iframe');
-			el.style.transform = 'translateZ(0)';
-		}
-
-		function onAfterEnter() {
-			const el = document.querySelector('iframe');
-			el.style.transform = null;
-		}
-
-		// Lifecycle
-		onBeforeUnmount(() => {
-			window.removeEventListener('mousemove', movePanel);
-			window.removeEventListener('mouseup', disablePanelMove);
-		});
-
-		return {
-			// Vars
-			gettingStartedVideoURL,
-			// Refs
-			showGettingStartedVideo,
-			editorHeaderRef,
-			aboutModalVisibility,
-			shortcutsModalVisibility,
-			draggingPosition,
-			UIStore,
-			userStore,
-
-			// Computed
-			helpMenuItems,
-			panelStyles,
-			tooltipsPosition,
-
-			// Methods
-			saveActions,
-			isSavePageLoading,
-			savePage,
-			startBarDrag,
-			onAfterLeave,
-			onAfterEnter,
-		};
+	{
+		icon: 'save-draft',
+		title: __('Save Page', 'zionbuilder'),
+		action: saveDraft,
 	},
-};
+	{
+		icon: 'save-page',
+		title: __('Save & Publish Page', 'zionbuilder'),
+		action: savePage,
+	},
+];
+
+// Show/Hide getting started video
+if (null === localStorage.getItem('zion_builder_guided_tour_done')) {
+	doShowGettingStartedVideo();
+}
+
+// Methods
+function doShowGettingStartedVideo() {
+	showGettingStartedVideo.value = true;
+	localStorage.setItem('zion_builder_guided_tour_done', true);
+}
+
+function startBarDrag() {
+	window.addEventListener('mousemove', movePanel);
+	window.addEventListener('mouseup', disablePanelMove);
+}
+
+function movePanel(event) {
+	document.body.style.cursor = 'grabbing';
+
+	let newLeft = event.clientX - 30;
+	const newTop = event.clientY;
+
+	// Set placeholder position
+	UIStore.mainBarDraggingPlaceholder.top = event.clientY;
+	UIStore.mainBarDraggingPlaceholder.left = event.clientX;
+
+	// Set a flag so we know that we are dragging
+	if (!UIStore.mainBar.isDragging) {
+		UIStore.mainBar.isDragging = true;
+	}
+
+	// disable pointer events on iframe
+	UIStore.setIframePointerEvents(true);
+	userSel.value = 'none';
+
+	// Calculate horizontal move
+	const maxLeft = window.innerWidth - 60;
+	newLeft = newLeft <= 0 ? 0 : newLeft;
+	left.value = newLeft > maxLeft ? maxLeft : newLeft;
+	top.value = newTop;
+
+	const positions = {
+		top: (window.innerHeight * 30) / 100 - event.clientY,
+		right: event.clientX - (window.innerWidth * 70) / 100,
+		bottom: event.clientY - (window.innerHeight * 70) / 100,
+		left: (window.innerWidth * 30) / 100 - event.clientX,
+	};
+
+	// get all positive values
+	const availablePositions = Object.keys(positions).filter(position => {
+		return positions[position] > 0;
+	});
+
+	if (availablePositions.length === 0) {
+		return;
+	}
+
+	const closestPosition = availablePositions.reduce((highest, current) => {
+		return positions[highest] > positions[current] ? highest : current;
+	});
+
+	if (closestPosition) {
+		draggingPosition.value = closestPosition;
+		UIStore.mainBar.draggingPosition = closestPosition;
+	}
+}
+
+function disablePanelMove() {
+	window.removeEventListener('mousemove', movePanel);
+	window.removeEventListener('mouseup', disablePanelMove);
+
+	// Save the position
+	if (draggingPosition.value) {
+		UIStore.setMainBarPosition(draggingPosition.value);
+		draggingPosition.value = null;
+	}
+
+	UIStore.setIframePointerEvents(false);
+	userSel.value = null;
+	document.body.style.cursor = null;
+	UIStore.mainBar.isDragging = false;
+}
+
+function onAfterLeave() {
+	const el = document.querySelector('iframe');
+	el.style.transform = 'translateZ(0)';
+}
+
+function onAfterEnter() {
+	const el = document.querySelector('iframe');
+	el.style.transform = null;
+}
+
+// Lifecycle
+onBeforeUnmount(() => {
+	window.removeEventListener('mousemove', movePanel);
+	window.removeEventListener('mouseup', disablePanelMove);
+});
 </script>
 <style lang="scss">
 .znpb-editor-header {

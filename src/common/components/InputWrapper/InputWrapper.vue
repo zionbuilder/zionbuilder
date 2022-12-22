@@ -31,6 +31,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import { __ } from '@wordpress/i18n';
 import { computed, CSSProperties } from 'vue';
 import { Tooltip } from '../tooltip';
 import { Icon } from '../Icon';

@@ -22,39 +22,36 @@
 			<Icon
 				icon="delete"
 				:class="{ 'znpb-link-optionsAttributeDelete--disabled': !canDelete }"
-				@click="$emit('delete', attributeConfig)"
+				@click="emit('delete', attributeConfig)"
 			/>
 		</div>
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-export default {
-	name: 'LinkAttributeForm',
-	props: {
-		attributeConfig: {
-			type: Object,
-		},
-		canDelete: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-	},
-	setup(props, { emit }) {
-		function updateValue(key, value) {
-			emit('update-attribute', {
-				...props.attributeConfig,
-				[key]: value,
-			});
-		}
 
-		return {
-			updateValue,
+const props = withDefaults(
+	defineProps<{
+		attributeConfig: {
+			key: string;
+			value: string;
 		};
+		canDelete?: boolean;
+	}>(),
+	{
+		canDelete: true,
 	},
-};
+);
+
+const emit = defineEmits(['update-attribute', 'delete']);
+
+function updateValue(key: string, value: string) {
+	emit('update-attribute', {
+		...props.attributeConfig,
+		[key]: value,
+	});
+}
 </script>
 
 <style lang="scss">
