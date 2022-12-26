@@ -439,7 +439,7 @@ class PricingBox extends Element {
 						$button_text,
 						$combined_button_attr
 						$plan_title_tag,
-						'plan_title,
+						'plan_title',
 					);
 				}
 				?>
