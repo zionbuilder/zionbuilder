@@ -10,57 +10,31 @@
 	</PopOver>
 </template>
 
-<script>
-import { ref, computed, inject, onBeforeMount, onBeforeUnmount } from 'vue';
+<script lang="ts" setup>
+import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue';
 
 // Components
 import PopOver from './PopOver.vue';
 import InlineEditorButton from './Button.vue';
 
-export default {
-	components: {
-		PopOver,
-		InlineEditorButton,
-	},
-	props: ['modelValue'],
-	setup(props) {
-		const editor = inject('ZionInlineEditor');
-		const isActive = ref(false);
-		const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+const editor = inject('ZionInlineEditor');
+const isActive = ref(false);
+const fontWeights = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 
-		const classes = computed(() => {
-			const classes = [];
+function checkIfActive() {
+	isActive.value = fontWeights.some(fontWeight => {
+		return editor.editor.formatter.match('fontWeight', { value: fontWeight });
+	});
+}
 
-			// Check if the button is active
-			if (isActive.value) {
-				classes.push('zion-inline-editor-button--active');
-			}
+onBeforeMount(() => {
+	checkIfActive();
+	editor.editor.on('NodeChange', checkIfActive);
+});
 
-			return classes.join(' ');
-		});
-
-		function checkIfActive() {
-			isActive.value = fontWeights.some(fontWeight => {
-				return editor.editor.formatter.match('fontWeight', { value: fontWeight });
-			});
-		}
-
-		onBeforeMount(() => {
-			checkIfActive();
-			editor.editor.on('NodeChange', checkIfActive);
-		});
-
-		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', checkIfActive);
-		});
-
-		return {
-			isActive,
-			classes,
-			fontWeights,
-		};
-	},
-};
+onBeforeUnmount(() => {
+	editor.editor.off('NodeChange', checkIfActive);
+});
 </script>
 
 <style lang="scss">

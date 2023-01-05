@@ -9,62 +9,46 @@
 	</PopOver>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, inject, onBeforeMount, onBeforeUnmount } from 'vue';
 
 // Components
 import InlineEditorButton from './Button.vue';
 import PopOver from './PopOver.vue';
 
-export default {
-	name: 'TextAlign',
-	components: {
-		InlineEditorButton,
-		PopOver,
+const editor = inject('ZionInlineEditor');
+const isActive = ref(false);
+
+const buttons = [
+	{
+		formatter: 'alignleft',
+		icon: 'align--left',
 	},
-	setup(props) {
-		const editor = inject('ZionInlineEditor');
-		const isActive = ref(false);
-
-		const buttons = [
-			{
-				formatter: 'alignleft',
-				icon: 'align--left',
-			},
-			{
-				formatter: 'aligncenter',
-				icon: 'align--center',
-			},
-			{
-				formatter: 'alignright',
-				icon: 'align--right',
-			},
-			{
-				formatter: 'alignjustify',
-				icon: 'align--justify',
-			},
-		];
-
-		function checkIfActive() {
-			isActive.value =
-				editor.editor.formatter.matchAll(['alignleft', 'aligncenter', 'alignright', 'alignjustify']).length > 0;
-		}
-
-		onBeforeMount(() => {
-			checkIfActive();
-			editor.editor.on('NodeChange', checkIfActive);
-		});
-
-		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', checkIfActive);
-		});
-
-		return {
-			isActive,
-			buttons,
-		};
+	{
+		formatter: 'aligncenter',
+		icon: 'align--center',
 	},
-};
+	{
+		formatter: 'alignright',
+		icon: 'align--right',
+	},
+	{
+		formatter: 'alignjustify',
+		icon: 'align--justify',
+	},
+];
+
+function checkIfActive() {
+	isActive.value =
+		editor.editor.formatter.matchAll(['alignleft', 'aligncenter', 'alignright', 'alignjustify']).length > 0;
+}
+
+onBeforeMount(() => {
+	checkIfActive();
+	editor.editor.on('NodeChange', checkIfActive);
+});
+
+onBeforeUnmount(() => {
+	editor.editor.off('NodeChange', checkIfActive);
+});
 </script>
-
-<style></style>

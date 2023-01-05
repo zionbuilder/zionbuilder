@@ -22,51 +22,40 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-export default {
-	name: 'PanelAccordion',
-	props: {
-		modelValue: {},
-		child_options: {
-			type: Object,
-			required: false,
-		},
-		title: {
-			type: String,
-		},
-		collapsed: {
-			type: Boolean,
-			default: false,
-		},
-		hasChanges: {
-			type: Boolean,
-			default: false,
-			required: false,
-		},
+
+import { ref, computed } from 'vue';
+
+const props = withDefaults(
+	defineProps<{
+		modelValue: Record<string, any>;
+		child_options: Record<string, any>;
+		title?: string;
+		collapsed?: boolean;
+		hasChanges?: boolean;
+	}>(),
+	{
+		collapsed: false,
+		hasChanges: false,
+		title: '',
 	},
-	data() {
-		return {
-			expanded: !this.collapsed,
-			height: null,
-		};
+);
+
+const expanded = ref(!props.collapsed);
+
+const valueModel = computed({
+	get() {
+		return props.modelValue || {};
 	},
-	computed: {
-		valueModel: {
-			get() {
-				return this.modelValue || {};
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
+	set(newValue) {
+		emit('update:modelValue', newValue);
 	},
-	methods: {
-		toggle() {
-			this.expanded = !this.expanded;
-		},
-	},
-};
+});
+
+function toggle() {
+	expanded.value = !expanded.value;
+}
 </script>
 
 <style lang="scss">

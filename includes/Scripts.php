@@ -211,9 +211,37 @@ class Scripts {
 							'shadow'           => Shadow::get_schema(),
 						]
 					),
+					'wp_editor'        => self::get_wp_editor(),
 				]
 			)
 		);
+	}
+
+	/**
+	 * Returns the HTML content for the WP editor
+	 *
+	 * @return string|false The editor HTML content or false on failure
+	 */
+	public static function get_wp_editor() {
+		// Remove all TinyMCE plugins.
+		remove_all_filters( 'mce_buttons', 10 );
+		remove_all_filters( 'mce_external_plugins', 10 );
+
+		ob_start();
+		wp_editor(
+			'%%ZNPB_EDITOR_CONTENT%%',
+			'znpbwpeditorid',
+			[
+				'editor_height' => '150',
+				'wpautop'       => false,
+				'tinymce'       => [
+					'forced_root_block' => '',
+				],
+			]
+		);
+		$wp_editor = ob_get_clean();
+
+		return $wp_editor;
 	}
 
 	/**

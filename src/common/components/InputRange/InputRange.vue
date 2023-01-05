@@ -1,7 +1,6 @@
 <template>
 	<div class="znpb-input-range">
 		<BaseInput
-			ref="rangebase"
 			v-model="optionValue"
 			type="range"
 			:min="min"

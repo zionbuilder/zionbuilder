@@ -13,55 +13,46 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
 
-export default {
-	setup(props, { emit }) {
-		const editor = inject('ZionInlineEditor');
-		const color = ref(null);
+const editor = inject('ZionInlineEditor');
+const color = ref(null);
 
-		let justChangeColor = false;
-		let changeTimeout = null;
+let justChangeColor = false;
+let changeTimeout = null;
 
-		function onColorChange(newValue) {
-			color.value = newValue;
-			editor.editor.formatter.apply('forecolor', { value: newValue });
+function onColorChange(newValue) {
+	color.value = newValue;
+	editor.editor.formatter.apply('forecolor', { value: newValue });
 
-			clearTimeout(changeTimeout);
-			changeTimeout = setTimeout(() => {
-				justChangeColor = false;
-			}, 500);
+	clearTimeout(changeTimeout);
+	changeTimeout = setTimeout(() => {
+		justChangeColor = false;
+	}, 500);
 
-			justChangeColor = true;
-		}
+	justChangeColor = true;
+}
 
-		function onNodeChange(node) {
-			if (!justChangeColor) {
-				getActiveColor();
-			}
-		}
+function onNodeChange() {
+	if (!justChangeColor) {
+		getActiveColor();
+	}
+}
 
-		function getActiveColor() {
-			// set a flag so we don't recursively update the color
-			color.value = editor.editor.queryCommandValue('forecolor');
-		}
+function getActiveColor() {
+	// set a flag so we don't recursively update the color
+	color.value = editor.editor.queryCommandValue('forecolor');
+}
 
-		onMounted(() => {
-			getActiveColor();
-			editor.editor.on('NodeChange', onNodeChange);
-		});
+onMounted(() => {
+	getActiveColor();
+	editor.editor.on('NodeChange', onNodeChange);
+});
 
-		onBeforeUnmount(() => {
-			editor.editor.off('NodeChange', onNodeChange);
-		});
-
-		return {
-			color,
-			onColorChange,
-		};
-	},
-};
+onBeforeUnmount(() => {
+	editor.editor.off('NodeChange', onNodeChange);
+});
 </script>
 
 <style lang="scss">

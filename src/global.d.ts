@@ -41,6 +41,7 @@ interface Window {
 			// TODO: set proper types here
 			sources: Record<string, Record<string, string>>;
 		};
+		wp_editor: string;
 	};
 
 	// TODO: remove OLD DATA

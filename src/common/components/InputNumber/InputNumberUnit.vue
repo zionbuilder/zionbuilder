@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-input-number-unit">
+	<div ref="root" class="znpb-input-number-unit">
 		<BaseInput
 			ref="numberUnitInput"
 			:model-value="localRawValue"
@@ -17,7 +17,7 @@
 					v-model:show="showUnits"
 					trigger="click"
 					placement="bottom"
-					append-to="body"
+					append-to="el"
 					:show-arrows="false"
 					strategy="fixed"
 					tooltip-class="hg-popper--no-padding"
@@ -59,7 +59,7 @@
 
 <script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { computed, onBeforeMount, onMounted, ref, watch, Ref, nextTick } from 'vue';
+import { computed, onMounted, ref, watch, Ref, nextTick, onBeforeUnmount } from 'vue';
 import rafSchd from 'raf-schd';
 
 import { DEFAULT_UNIT_TYPES, ALL_NUMBER_UNITS_TYPES } from '../../data';
@@ -95,6 +95,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue', 'linked-value']);
 
+const root = ref(null);
 const numberUnitInput = ref(null);
 const localRawValue = ref('');
 const localValue = ref(0);
@@ -271,7 +272,7 @@ function getIntegerAndUnit(string: string) {
 
 let mouseDownPositionTop = 0;
 let draggingPositionTop = 0;
-let dragThreshold = 3;
+const dragThreshold = 3;
 let shiftDrag = false;
 let toTop = false;
 let directionReset = 0;
@@ -289,9 +290,9 @@ function actNumberDrag(event: MouseEvent) {
 		return;
 	}
 
-	document.body.style.userSelect = 'none';
-	window.addEventListener('mousemove', dragNumberThrottle);
-	window.addEventListener('mouseup', deactivateDragNumber);
+	root.value.ownerDocument.body.style.userSelect = 'none';
+	root.value.ownerDocument.defaultView.addEventListener('mousemove', dragNumberThrottle);
+	root.value.ownerDocument.defaultView.addEventListener('mouseup', deactivateDragNumber);
 }
 
 function canUpdateNumber() {
@@ -323,13 +324,14 @@ function onKeyDown(event: KeyboardEvent) {
 function deactivateDragNumber() {
 	dragNumberThrottle.cancel();
 	dragging = false;
-	document.body.style.userSelect = '';
-	document.body.style.pointerEvents = '';
-	window.removeEventListener('mousemove', dragNumberThrottle);
+	root.value.ownerDocument.body.style.userSelect = '';
+	root.value.ownerDocument.body.style.pointerEvents = '';
+
+	root.value.ownerDocument.defaultView.removeEventListener('mousemove', dragNumberThrottle);
 }
 function removeEvents() {
 	deactivateDragNumber();
-	window.removeEventListener('mouseup', deactivateDragNumber);
+	root.value.ownerDocument.defaultView.removeEventListener('mouseup', deactivateDragNumber);
 }
 
 function dragNumber(event: MouseEvent) {
@@ -344,7 +346,7 @@ function dragNumber(event: MouseEvent) {
 			toTop = false;
 		}
 
-		document.body.style.pointerEvents = 'none';
+		root.value.ownerDocument.body.style.pointerEvents = 'none';
 
 		if (pageY !== directionReset) {
 			setDraggingValue();
@@ -387,12 +389,12 @@ function setDraggingValue() {
 	});
 }
 
-onBeforeMount(() => {
+onBeforeUnmount(() => {
 	removeEvents();
 });
 
 onMounted(() => {
-	window.removeEventListener('mousemove', dragNumberThrottle);
+	root.value.ownerDocument.defaultView.removeEventListener('mousemove', dragNumberThrottle);
 });
 </script>
 <style lang="scss">

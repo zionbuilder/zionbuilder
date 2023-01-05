@@ -1,10 +1,10 @@
 <template>
 	<div
+		ref="root"
 		class="znpb-input-range znpb-input-range--has-multiple-units"
 		:class="{ ['znpb-input-range--disabled']: disabled }"
 	>
 		<BaseInput
-			ref="rangebase"
 			v-model="rangeModel"
 			type="range"
 			:min="activeOption.min"
@@ -79,7 +79,7 @@ const emit = defineEmits<{
 	(e: 'update:modelValue', value: string | null): void;
 }>();
 
-const rangebase = ref<InstanceType<typeof BaseInput> | null>(null);
+const root = ref(null);
 const inputNumberUnit = ref<InstanceType<typeof InputNumberUnit> | null>(null);
 
 const step = ref(1);
@@ -195,6 +195,10 @@ function onRangeKeyUp(event: KeyboardEvent) {
 		step.value = baseStep.value;
 	}
 }
+
+defineExpose({
+	inputNumberUnit,
+});
 </script>
 <style lang="scss">
 .znpb-input-range {

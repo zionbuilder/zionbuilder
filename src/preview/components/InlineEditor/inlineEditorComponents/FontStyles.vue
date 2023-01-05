@@ -7,71 +7,41 @@
 				</Tab>
 				<Tab :name="__('Heading', 'zionbuilder')" class="zion-inline-editor-group__heading">
 					<div>
-						<zion-inline-editor-button formatter="h1" buttontext="H1"></zion-inline-editor-button>
-						<zion-inline-editor-button formatter="h2" buttontext="H2"></zion-inline-editor-button>
-						<zion-inline-editor-button formatter="h3" buttontext="H3"></zion-inline-editor-button>
-						<zion-inline-editor-button formatter="h4" buttontext="H4"></zion-inline-editor-button>
-						<zion-inline-editor-button formatter="h5" buttontext="H5"></zion-inline-editor-button>
-						<zion-inline-editor-button formatter="h6" buttontext="H6"></zion-inline-editor-button>
+						<Button formatter="h1" buttontext="H1" />
+						<Button formatter="h2" buttontext="H2" />
+						<Button formatter="h3" buttontext="H3" />
+						<Button formatter="h4" buttontext="H4" />
+						<Button formatter="h5" buttontext="H5" />
+						<Button formatter="h6" buttontext="H6" />
 					</div>
 				</Tab>
 				<Tab :name="__('Size', 'zionbuilder')">
-					<zion-inline-editor-font-size />
+					<FontSize />
 				</Tab>
 
 				<Tab :name="__('Height', 'zionbuilder')">
-					<zion-inline-editor-line-height></zion-inline-editor-line-height>
+					<LineHeight />
 				</Tab>
 
 				<Tab :name="__('Spacing', 'zionbuilder')">
-					<zion-inline-editor-letter-spacing></zion-inline-editor-letter-spacing>
+					<LetterSpacing />
 				</Tab>
 			</Tabs>
 		</div>
 	</PopOver>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 // Components
-import fontSize from './FontSize.vue';
-import lineHeight from './LineHeight.vue';
-import letterSpacing from './LetterSpacing.vue';
-import buttonComponent from './Button.vue';
+import FontSize from './FontSize.vue';
+import LineHeight from './LineHeight.vue';
+import LetterSpacing from './LetterSpacing.vue';
+import Button from './Button.vue';
 import FontList from './FontsList.vue';
 import PopOver from './PopOver.vue';
-
-export default {
-	name: 'FontStyles',
-	components: {
-		'zion-inline-editor-font-size': fontSize,
-		'zion-inline-editor-line-height': lineHeight,
-		'zion-inline-editor-letter-spacing': letterSpacing,
-		'zion-inline-editor-button': buttonComponent,
-		FontList,
-		PopOver,
-	},
-	setup() {
-		const isOpen = ref(false);
-
-		const buttonClasses = computed(() => {
-			const classes = [];
-
-			if (isOpen.value) {
-				classes.push('zion-inline-editor-button--active');
-			}
-
-			return classes.join(' ');
-		});
-
-		return {
-			isOpen,
-			buttonClasses,
-		};
-	},
-};
 </script>
 
 <style lang="scss">

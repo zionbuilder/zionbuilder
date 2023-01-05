@@ -10,110 +10,80 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref, inject, onMounted, onBeforeUnmount } from 'vue';
 
-export default {
-	setup(props, { emit }) {
-		const editor = inject('ZionInlineEditor');
-		const unitsExpanded = ref(false);
-		const sliderValue = ref(null);
-		const inputRangeDynamicRef = ref(null);
-		let changeTimeout = null;
-		let isCurrentChange = false;
+const editor = inject('ZionInlineEditor');
 
-		const options = [
-			{
-				unit: 'px',
-				min: 1,
-				max: 400,
-				step: 1,
-				shiftStep: 5,
-			},
+const sliderValue = ref('');
+const inputRangeDynamicRef = ref(null);
+let changeTimeout = null;
+let isCurrentChange = false;
 
-			{
-				unit: 'em',
-				min: 1,
-				max: 100,
-				step: 1,
-				shiftStep: 5,
-			},
-			{
-				unit: '%',
-				min: 1,
-				max: 100,
-				step: 1,
-				shiftStep: 5,
-			},
-			{
-				unit: 'normal',
-				min: null,
-				max: null,
-				step: null,
-				shiftStep: null,
-			},
-		];
-
-		function onClick(e) {
-			emit(
-				'units-expanded',
-				inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null,
-			);
-		}
-		function onHeightChange(newValue) {
-			editor.editor.formatter.apply('lineHeight', { value: newValue });
-
-			sliderValue.value = newValue;
-			emit('started-dragging');
-			emit(
-				'units-expanded',
-				inputRangeDynamicRef.value ? inputRangeDynamicRef.value.$refs.InputNumberUnit.expanded : null,
-			);
-			inputRangeDynamicRef.value.$refs.InputNumberUnit.$refs.numberUnitInput.$refs.input.focus();
-
-			clearTimeout(changeTimeout);
-			changeTimeout = setTimeout(() => {
-				isCurrentChange = false;
-			}, 100);
-
-			isCurrentChange = true;
-		}
-		function onNodeChange(node) {
-			if (!isCurrentChange) {
-				getLineHeight();
-			}
-		}
-
-		function getLineHeight() {
-			// commnad not supported
-			sliderValue.value = window.getComputedStyle(editor.editor.selection.getNode()).getPropertyValue('line-height');
-		}
-
-		onMounted(() => {
-			editor.editor.formatter.register('lineHeight', {
-				selector: 'span,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
-				styles: { 'line-height': '%value' },
-			});
-
-			// Set default line height
-			getLineHeight();
-			editor.editor.on('SelectionChange', onNodeChange);
-		});
-
-		onBeforeUnmount(() => {
-			editor.editor.off('SelectionChange', onNodeChange);
-		});
-
-		return {
-			unitsExpanded,
-			options,
-			sliderValue,
-			onClick,
-			inputRangeDynamicRef,
-			onHeightChange,
-		};
+const options = [
+	{
+		unit: 'px',
+		min: 1,
+		max: 400,
+		step: 1,
+		shiftStep: 5,
 	},
-};
+
+	{
+		unit: 'em',
+		min: 1,
+		max: 100,
+		step: 1,
+		shiftStep: 5,
+	},
+	{
+		unit: '%',
+		min: 1,
+		max: 100,
+		step: 1,
+		shiftStep: 5,
+	},
+	{
+		unit: 'normal',
+		min: null,
+		max: null,
+		step: null,
+		shiftStep: null,
+	},
+];
+
+function onHeightChange(newValue: string) {
+	editor.editor.formatter.apply('lineHeight', { value: newValue });
+
+	sliderValue.value = newValue;
+
+	clearTimeout(changeTimeout);
+	changeTimeout = setTimeout(() => {
+		isCurrentChange = false;
+	}, 100);
+
+	isCurrentChange = true;
+}
+function onNodeChange() {
+	if (!isCurrentChange) {
+		getLineHeight();
+	}
+}
+
+function getLineHeight() {
+	// command not supported
+	sliderValue.value = window.getComputedStyle(editor.editor.selection.getNode()).getPropertyValue('line-height');
+}
+
+onMounted(() => {
+	// Set default line height
+	getLineHeight();
+	editor.editor.on('SelectionChange', onNodeChange);
+});
+
+onBeforeUnmount(() => {
+	editor.editor.off('SelectionChange', onNodeChange);
+});
 </script>
 
 <style lang="scss">
