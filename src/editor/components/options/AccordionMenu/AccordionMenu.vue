@@ -53,7 +53,7 @@ const props = withDefaults(
 		modelValue?: Record<string, unknown>;
 		homeButtonText?: string;
 		add_to_parent_breadcrumbs?: boolean;
-		label: Record<string, unknown>;
+		label?: Record<string, unknown>;
 	}>(),
 	{
 		modelValue: () => ({}),
@@ -75,10 +75,6 @@ const parentAccordion = inject('parentAccordion', null);
 const showChanges = inject('showChanges', true);
 const showBreadcrumbs = ref(props.parentAccordion === null);
 const expanded = ref(false);
-
-const valueModel = computed(() => {
-	return props.modelValue;
-});
 
 const optionsValue = computed({
 	get() {
