@@ -30,6 +30,7 @@ export default class ZBVideoBg {
 			...this.options,
 			controls: false,
 			background: true,
+			playsInline: true,
 		});
 
 		// Attach video ready actions

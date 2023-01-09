@@ -100,7 +100,7 @@ import { useSelectServerData } from './useSelectServerData.js';
 
 const props = withDefaults(
 	defineProps<{
-		modelValue: string | number | [] | boolean;
+		modelValue: string | number | [] | boolean | undefined;
 		options: [];
 		filterable?: boolean;
 		// eslint-disable-next-line vue/prop-name-casing

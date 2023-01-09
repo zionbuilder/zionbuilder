@@ -210,7 +210,7 @@ function onPasteStyles(selectorConfig) {
 }
 
 // Watchers
-watch(dropdownState, (newState, oldState) => {
+watch(dropdownState, newState => {
 	if (newState) {
 		document.addEventListener('click', closePanel);
 
@@ -236,7 +236,7 @@ onBeforeUnmount(() => {
 });
 
 // Methods
-function onKeyDown(event) {
+function onKeyDown() {
 	let nextClass;
 
 	if (filteredClasses.value.length !== 0) {
@@ -251,7 +251,7 @@ function onKeyDown(event) {
 	}
 }
 
-function onKeyUp(event) {
+function onKeyUp() {
 	let previousClass;
 
 	if (filteredClasses.value.length !== 0) {
@@ -266,11 +266,11 @@ function onKeyUp(event) {
 	}
 }
 
-function onKeyEnter(event) {
+function onKeyEnter() {
 	dropdownState.value = false;
 }
 
-function closePanel(event) {
+function closePanel(event: MouseEvent) {
 	if (event.target === document) {
 		dropdownState.value = false;
 		return;
@@ -289,7 +289,7 @@ function onRemoveExtraClasses() {
 	selectClass(props.selector);
 }
 
-function removeClass(selector) {
+function removeClass(selector: string) {
 	const classIndex = computedValue.value.indexOf(selector);
 	const clonedValue = [...computedValue.value];
 	const previousClassIndex = classIndex - 1;
@@ -313,7 +313,7 @@ function removeClass(selector) {
 
 	// clear the keyword
 	keyword.value = '';
-	errorMessage.value = null;
+	errorMessage.value = '';
 }
 
 function handleClassInput(event) {
@@ -325,16 +325,16 @@ function handleClassInput(event) {
 		invalidClass.value = true;
 	} else {
 		invalidClass.value = false;
-		errorMessage.value = false;
+		errorMessage.value = '';
 	}
 
 	if (!keyword.value.length) {
-		errorMessage.value = false;
+		errorMessage.value = '';
 		invalidClass.value = false;
 	}
 }
 
-function addNewCssClass(event) {
+function addNewCssClass() {
 	if (!invalidClass.value && keyword.value.length) {
 		dropdownState.value = false;
 

@@ -49,6 +49,14 @@
 			</div>
 		</template>
 
+		<SelectorAndPseudo
+			v-model="computedModelValue"
+			v-model:activeClass="activeClass"
+			:title="title"
+			:selector="selector"
+			:allow_class_assignments="allow_class_assignments"
+		/>
+
 		<div class="znpb-element-options-content-wrapper">
 			<Tabs
 				v-model:activeTab="activeKeyTab"
@@ -127,13 +135,14 @@
 
 <script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick } from 'vue';
+import { ref, Ref, watch, provide, computed, onBeforeUnmount, nextTick, inject } from 'vue';
 import { useElementProvide } from '../composables';
 import { useUIStore, useContentStore, useElementDefinitionsStore, useUserStore } from '../store';
 
 // Components
 import BreadcrumbsWrapper from './elementOptions/BreadcrumbsWrapper.vue';
 import BasePanel from './BasePanel.vue';
+import SelectorAndPseudo from './options/ElementStyles/SelectorAndPseudo.vue';
 
 // Common API
 const { useOptionsSchemas } = window.zb.composables;
@@ -478,6 +487,12 @@ function closeOptionsPanel() {
 	UIStore.closePanel(props.panel.id);
 	UIStore.unEditElement();
 }
+
+// Pseudo and css classes
+// Provide an API that can be used by the ElementStyles component
+inject('ElementOptionsPanelAPI', {
+	aaa: '',
+});
 </script>
 
 <style lang="scss">

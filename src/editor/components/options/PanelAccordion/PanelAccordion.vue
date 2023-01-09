@@ -1,12 +1,12 @@
 <template>
-	<div class="znpb-pannel-accordion">
-		<div class="znpb-pannel-accordion__header" @click="toggle">
-			<div class="znpb-pannel-accordion__header-title">
+	<div class="znpb-panel-accordion">
+		<div class="znpb-panel-accordion__header" @click="toggle">
+			<div class="znpb-panel-accordion__header-title">
 				{{ title }}
 				<ChangesBullet
 					v-if="hasChanges"
 					:content="__('Discard changes', 'zionbuilder')"
-					@remove-styles="$emit('discard-changes')"
+					@remove-styles="emit('discard-changes')"
 				/>
 			</div>
 
@@ -42,6 +42,8 @@ const props = withDefaults(
 	},
 );
 
+const emit = defineEmits(['update:modelValue', 'discard-changes']);
+
 const expanded = ref(!props.collapsed);
 
 const valueModel = computed({
@@ -59,7 +61,7 @@ function toggle() {
 </script>
 
 <style lang="scss">
-.znpb-pannel-accordion__header {
+.znpb-panel-accordion__header {
 	top: 0;
 	display: flex;
 	justify-content: space-between;
@@ -70,10 +72,10 @@ function toggle() {
 	cursor: pointer;
 }
 
-.znpb-pannel-accordion {
+.znpb-panel-accordion {
 	position: relative;
 	width: 100%;
-	.znpb-pannel-accordion__header-title {
+	.znpb-panel-accordion__header-title {
 		color: var(--zb-surface-text-active-color);
 		font-size: 13px;
 		font-weight: 500;

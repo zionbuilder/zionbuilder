@@ -1,7 +1,9 @@
 <template>
 	<div class="znpb-element-styles__wrapper">
 		<SelectorAndPseudo
-			:model-value="modelValue"
+			v-if="ElementOptionsPanelAPI"
+			v-model="computedModelValue"
+			v-model:activeClass="activeClass"
 			:title="title"
 			:selector="selector"
 			:allow_class_assignments="allow_class_assignments"
@@ -16,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, inject } from 'vue';
 import { useCSSClassesStore } from '/@/editor/store';
 import SelectorAndPseudo from './SelectorAndPseudo.vue';
 
@@ -24,7 +26,9 @@ const { useOptionsSchemas } = window.zb.composables;
 
 const props = withDefaults(
 	defineProps<{
-		modelValue: Record<string, unknown>;
+		modelValue: {
+			classes?: string[];
+		};
 		title: string;
 		selector: string;
 		// eslint-disable-next-line vue/prop-name-casing
@@ -37,6 +41,15 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(['update:modelValue']);
+
+const computedModelValue = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
 
 const computedStyles = computed({
 	get() {
@@ -87,6 +100,8 @@ function updateValues(type: string, newValue: Record<string, unknown>) {
 
 	emit('update:modelValue', clonedValue);
 }
+
+const ElementOptionsPanelAPI = inject('ElementOptionsPanelAPI', null);
 </script>
 <style lang="scss">
 .znpb-element-styles {
@@ -94,15 +109,6 @@ function updateValues(type: string, newValue: Record<string, unknown>) {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-	}
-
-	&__media-wrapper {
-		position: relative;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-grow: 1;
-		margin: 0 5px;
 	}
 }
 .znpb-options-form-wrapper.znpb-element-styles-option__options-wrapper {

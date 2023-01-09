@@ -24,6 +24,7 @@ export interface VideoOptions {
 	mp4?: string;
 	youtubeURL?: string;
 	vimeoURL?: string;
+	playsInline?: boolean | null;
 }
 
 let YoutubeApiLoadedState = 0;
@@ -57,6 +58,7 @@ export default class Video {
 			controlsPosition: 'bottom-left',
 			videoSource: 'local',
 			responsive: true,
+			playsInline: null,
 			...options,
 		};
 
@@ -210,19 +212,25 @@ export default class Video {
 	}
 
 	setupLocal() {
-		const autoplay = this.options.autoplay ? 'autoplay' : '';
-		const muted = this.options.muted ? 'muted' : '';
 		const loop = this.options.loop ? 'loop' : '';
 
 		const videoElement = document.createElement('video');
 
 		// Set video arguments
-		videoElement.muted = muted;
-		videoElement.autoplay = autoplay;
-		videoElement.loop = loop;
+		videoElement.setAttribute('muted', '');
+
+		if (this.options.autoplay) {
+			videoElement.setAttribute('autoplay', 'true');
+		}
+
+		videoElement.setAttribute('loop', loop);
 
 		if (this.options.controls) {
 			videoElement.controls = true;
+		}
+
+		if (typeof this.options.playsInline !== 'undefined' && this.options.playsInline !== null) {
+			videoElement.setAttribute('playsInline', '' + this.options.playsInline);
 		}
 
 		if (this.options.mp4) {

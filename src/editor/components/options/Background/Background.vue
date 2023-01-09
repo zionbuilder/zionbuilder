@@ -57,7 +57,7 @@ const { useResponsiveDevices, usePseudoSelectors } = window.zb.composables;
 const props = withDefaults(
 	defineProps<{
 		modelValue: Record<string, unknown>;
-		placeholder: Record<string, unknown>;
+		placeholder?: Record<string, unknown>;
 	}>(),
 	{
 		placeholder: () => ({}),

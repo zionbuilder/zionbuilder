@@ -72,7 +72,11 @@
 					<Icon icon="info" />
 				</template>
 				<FlyoutMenuItem v-for="(menuItem, i) in helpMenuItems" :key="i">
-					<a :href="menuItem.url" :target="menuItem.target" @mousedown.prevent.stop="menuItem.action">
+					<a
+						:href="menuItem.url"
+						:target="menuItem.target"
+						@mousedown.prevent.stop="menuItem.action ? menuItem.action($event) : null"
+					>
 						<span>{{ menuItem.title }}</span>
 					</a>
 				</FlyoutMenuItem>
@@ -208,19 +212,17 @@ const helpMenuItems = computed(() => {
 			action: () => (shortcutsModalVisibility.value = true),
 		},
 		{
-			title: translate('about_zion_builder'),
+			title: __('About', 'zionbuilder'),
 			action: () => (aboutModalVisibility.value = true),
 			canShow: !hasWhiteLabel.value,
 		},
 		{
-			title: translate('back_to_zion_dashboard'),
+			title: __('Builder settings', 'zionbuilder'),
 			url: editorData.value.urls.zion_admin,
-			action: () => {},
 		},
 		{
 			title: __('Back to WP dashboard', 'zionbuilder'),
 			url: editorData.value.urls.edit_page,
-			action: () => {},
 		},
 		{
 			title: __('Preview post', 'zionbuilder'),

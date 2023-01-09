@@ -73,7 +73,7 @@ const slots = useSlots();
 const root = ref(null);
 const parentAccordion = inject('parentAccordion', null);
 const showChanges = inject('showChanges', true);
-const showBreadcrumbs = ref(props.parentAccordion === null);
+const showBreadcrumbs = ref(parentAccordion === null);
 const expanded = ref(false);
 
 const optionsValue = computed({
@@ -111,7 +111,6 @@ function onAccordionCollapsed() {
 }
 
 onMounted(() => {
-	console.log(root.value);
 	// this.$el.parentNode.classList.add('znpb-option-layout__menu-container');
 });
 

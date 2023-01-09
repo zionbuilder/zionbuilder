@@ -34,7 +34,7 @@
 import { __ } from '@wordpress/i18n';
 import { ref, computed } from 'vue';
 
-const props = withDefaults(defineProps<{ type: string }>(), {
+const props = withDefaults(defineProps<{ type?: string }>(), {
 	type: 'selector',
 });
 
