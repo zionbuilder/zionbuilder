@@ -26,136 +26,113 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { ref, computed, inject, onBeforeUnmount } from 'vue';
 import { useCSSClassesStore } from '/@/editor/store';
 import AddSelector from '../common/AddSelector.vue';
 
-export default {
-	name: 'GlobalClasses',
-	components: {
-		AddSelector,
-	},
-	setup(props) {
-		const cssClasses = useCSSClassesStore();
-		const keyword = ref('');
-		const activeClass = ref(null);
-		const breadCrumbConfig = ref({
-			title: null,
-			previousCallback: closeAccordion,
-		});
-		const horizontalAccordion = ref([]);
+const cssClasses = useCSSClassesStore();
+const keyword = ref('');
+const activeClass = ref(null);
+const breadCrumbConfig = ref({
+	title: null,
+	previousCallback: closeAccordion,
+});
+const horizontalAccordion = ref([]);
 
-		const parentAccordion = inject('parentAccordion');
+const parentAccordion = inject('parentAccordion');
 
-		const filteredClasses = computed(() => {
-			if (keyword.value.length === 0) {
-				return cssClasses.CSSClasses;
-			} else {
-				return cssClasses.getClassesByFilter(keyword.value);
-			}
-		});
+const filteredClasses = computed(() => {
+	if (keyword.value.length === 0) {
+		return cssClasses.CSSClasses;
+	} else {
+		return cssClasses.getClassesByFilter(keyword.value);
+	}
+});
 
-		const schema = computed(() => {
-			const schema = {};
-			const selectors = filteredClasses.value || [];
+const schema = computed(() => {
+	const schema = {};
+	const selectors = filteredClasses.value || [];
 
-			selectors.forEach(cssClassConfig => {
-				const { uid, title } = cssClassConfig;
-				schema[uid] = {
-					type: 'css_selector',
-					title: title,
-					allow_class_assignments: false,
-					show_changes: false,
-				};
-			});
-
-			return schema;
-		});
-
-		const value = computed({
-			get() {
-				const modelValue = {};
-				const existingCSSClasses = cssClasses.CSSClasses;
-
-				existingCSSClasses.forEach(cssClassConfig => {
-					const { uid } = cssClassConfig;
-					modelValue[uid] = cssClassConfig;
-				});
-
-				return modelValue;
-			},
-			set(newValue) {
-				if (null === newValue) {
-					cssClasses.removeAllCssClasses();
-				} else {
-					const classes = [];
-
-					Object.keys(newValue).forEach(selectorId => {
-						const selectorValue = newValue[selectorId];
-						classes.push(selectorValue);
-					});
-					cssClasses.setCSSClasses(classes);
-				}
-			},
-		});
-
-		function onItemSelected() {
-			breadCrumbConfig.value.title = activeClass.value.name;
-			parentAccordion.addBreadcrumb(breadCrumbConfig.value);
-		}
-
-		function onItemCollapsed() {
-			breadCrumbConfig.value.title = null;
-			parentAccordion.removeBreadcrumb(breadCrumbConfig.value);
-		}
-
-		function deleteClass(classItem) {
-			cssClasses.removeCSSClass(classItem);
-		}
-
-		function closeAccordion() {
-			// Find the expanded accordion from ref
-			const activeAccordion = horizontalAccordion.value.find(accordion => {
-				return accordion.localCollapsed;
-			});
-
-			if (activeAccordion) {
-				activeAccordion.closeAccordion();
-			}
-		}
-
-		function onSelectorAdd(config) {
-			cssClasses.addCSSClass({
-				id: config.selector,
-				name: config.title,
-			});
-		}
-
-		// Lifecycle
-		onBeforeUnmount(() => {
-			if (activeClass.value) {
-				parentAccordion.removeBreadcrumb(breadCrumbConfig.value);
-			}
-		});
-
-		return {
-			// Computed
-			filteredClasses,
-			keyword,
-			activeClass,
-			horizontalAccordion,
-			// Methods
-			onItemSelected,
-			onItemCollapsed,
-			deleteClass,
-			schema,
-			value,
-			onSelectorAdd,
+	selectors.forEach(cssClassConfig => {
+		const { uid, title } = cssClassConfig;
+		schema[uid] = {
+			type: 'css_selector',
+			title: title,
+			allow_class_assignments: false,
+			show_changes: false,
 		};
+	});
+
+	return schema;
+});
+
+const value = computed({
+	get() {
+		const modelValue = {};
+		const existingCSSClasses = cssClasses.CSSClasses;
+
+		existingCSSClasses.forEach(cssClassConfig => {
+			const { uid } = cssClassConfig;
+			modelValue[uid] = cssClassConfig;
+		});
+
+		return modelValue;
 	},
-};
+	set(newValue) {
+		if (null === newValue) {
+			cssClasses.removeAllCssClasses();
+		} else {
+			const classes = [];
+
+			Object.keys(newValue).forEach(selectorId => {
+				const selectorValue = newValue[selectorId];
+				classes.push(selectorValue);
+			});
+			cssClasses.setCSSClasses(classes);
+		}
+	},
+});
+
+function onItemSelected() {
+	breadCrumbConfig.value.title = activeClass.value.name;
+	parentAccordion.addBreadcrumb(breadCrumbConfig.value);
+}
+
+function onItemCollapsed() {
+	breadCrumbConfig.value.title = null;
+	parentAccordion.removeBreadcrumb(breadCrumbConfig.value);
+}
+
+function deleteClass(classItem) {
+	cssClasses.removeCSSClass(classItem);
+}
+
+function closeAccordion() {
+	// Find the expanded accordion from ref
+	const activeAccordion = horizontalAccordion.value.find(accordion => {
+		return accordion.localCollapsed;
+	});
+
+	if (activeAccordion) {
+		activeAccordion.closeAccordion();
+	}
+}
+
+function onSelectorAdd(config) {
+	cssClasses.addCSSClass({
+		id: config.selector,
+		name: config.title,
+	});
+}
+
+// Lifecycle
+onBeforeUnmount(() => {
+	if (activeClass.value) {
+		parentAccordion.removeBreadcrumb(breadCrumbConfig.value);
+	}
+});
 </script>
 <style lang="scss">
 .znpb-global-css-classes {

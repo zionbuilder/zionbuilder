@@ -1,10 +1,8 @@
-import ElementEventButton from './ElementEventButton.vue'
+import ElementEventButton from './ElementEventButton.vue';
 
 export default {
 	id: 'element_event_button',
-	component: ElementEventButton
-}
+	component: ElementEventButton,
+};
 
-export {
-	ElementEventButton
-}
+export { ElementEventButton };

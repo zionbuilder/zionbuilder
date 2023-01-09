@@ -91,370 +91,316 @@
 	</Tooltip>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { ref, computed, watch, watchEffect, inject, unref } from 'vue';
 import { debounce } from 'lodash-es';
 
 import { useSelectServerData } from './useSelectServerData.js';
 
-export default {
-	name: 'InputSelect',
-	props: {
-		modelValue: {
-			type: [String, Number, Array, Boolean],
-		},
-		options: {
-			type: Array,
-			default: [],
-		},
-		filterable: {
-			type: Boolean,
-		},
-		server_callback_method: {
-			type: String,
-		},
-		server_callback_args: {},
-		server_callback_per_page: {
-			type: Number,
-			default: 25,
-		},
-		placeholder: {
-			type: String,
-		},
-		/**
-		 * Set dropdown placement
-		 */
-		placement: {
-			type: String,
-			required: false,
-			default: 'bottom',
-		},
-		/**
-		 * If the user can enter a style type
-		 */
-		style_type: {
-			type: String,
-			required: false,
-		},
-		/**
-		 * If the user can add a new option
-		 */
-		addable: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		/**
-		 * If the user can add a new option
-		 */
-		multiple: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		local_callback_method: {
-			type: String,
-			required: false,
-		},
-		filter_id: {
-			type: String,
-			required: false,
-		},
+const props = withDefaults(
+	defineProps<{
+		modelValue: string | number | [] | boolean;
+		options: [];
+		filterable?: boolean;
+		// eslint-disable-next-line vue/prop-name-casing
+		server_callback_method?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		server_callback_args?: Record<string, unknown>;
+		// eslint-disable-next-line vue/prop-name-casing
+		server_callback_per_page?: number;
+		placeholder?: string;
+		addable?: boolean;
+		placement?: string;
+		style_type?: string;
+		multiple?: boolean;
+		local_callback_method?: string;
+		filter_id?: string;
+	}>(),
+	{
+		options: () => [],
+		server_callback_method: '',
+		server_callback_args: () => ({}),
+		server_callback_per_page: 25,
+		placement: 'bottom',
+		style_type: '',
+		addable: false,
+		local_callback_method: '',
+		filter_id: '',
+		multiple: false,
+		placeholder: '',
 	},
-	setup(props, { emit }) {
-		const optionWrapper = ref(null);
-		const searchInput = ref(null);
-		const searchKeyword = ref('');
-		const showDropdown = ref(false);
-		const loading = ref(false);
-		const loadingTitle = ref(false);
-		const stopSearch = ref(false);
-		const tooltipWidth = ref(null);
+);
 
-		// Add element info
-		const elementInfo = inject('elementInfo', null);
+const optionWrapper = ref(null);
+const searchInput = ref(null);
+const searchKeyword = ref('');
+const showDropdown = ref(false);
+const loading = ref(false);
+const loadingTitle = ref(false);
+const stopSearch = ref(false);
+const tooltipWidth = ref(null);
 
-		let page = 1;
-		const { fetch, getItems } = useSelectServerData({});
+// Add element info
+const elementInfo = inject('elementInfo', null);
 
-		const computedModelValue = computed(() => {
-			if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
-				return [props.modelValue];
-			}
+let page = 1;
+const { fetch, getItems } = useSelectServerData({});
 
-			if (!props.modelValue && props.multiple) {
-				return [];
-			}
+const computedModelValue = computed(() => {
+	if (props.modelValue && props.multiple && !Array.isArray(props.modelValue)) {
+		return [props.modelValue];
+	}
 
-			return props.modelValue;
+	if (!props.modelValue && props.multiple) {
+		return [];
+	}
+
+	return props.modelValue;
+});
+
+const items = computed(() => {
+	// Add local items
+	let options = [...props.options];
+
+	// Check if we need to get items from server
+	if (props.server_callback_method) {
+		// Add the server items
+		const serverOptions = getItems({
+			server_callback_method: props.server_callback_method,
+			server_callback_args: props.server_callback_args,
 		});
+		if (serverOptions.length > 0) {
+			options.push(...serverOptions);
+		}
+	}
 
-		const items = computed(() => {
-			// Add local items
-			let options = [...props.options];
-
-			// Check if we need to get items from server
-			if (props.server_callback_method) {
-				// Add the server items
-				const serverOptions = getItems({
-					server_callback_method: props.server_callback_method,
-					server_callback_args: props.server_callback_args,
-				});
-				if (serverOptions.length > 0) {
-					options.push(...serverOptions);
-				}
-			}
-
-			// Check if the addable option was set
-			if (props.addable && props.modelValue) {
-				if (props.multiple) {
-					computedModelValue.value.forEach(savedValue => {
-						if (!options.find(option => option.id === savedValue)) {
-							options.push({
-								name: savedValue,
-								id: savedValue,
-							});
-						}
-					});
-				} else if (!options.find(option => option.id === computedModelValue.value)) {
+	// Check if the addable option was set
+	if (props.addable && props.modelValue) {
+		if (props.multiple) {
+			computedModelValue.value.forEach(savedValue => {
+				if (!options.find(option => option.id === savedValue)) {
 					options.push({
-						name: props.modelValue,
-						id: props.modelValue,
+						name: savedValue,
+						id: savedValue,
 					});
 				}
-			}
-
-			// Check if we need to populate the data
-			if (props.local_callback_method) {
-				const localOptions = window[props.local_callback_method];
-				if (typeof localOptions === 'function') {
-					// Pass in options so we can modify them
-					options.push(...localOptions(options, elementInfo));
-				}
-			}
-
-			if (props.filter_id) {
-				const { applyFilters } = window.zb.hooks;
-				options = applyFilters(props.filter_id, options, unref(elementInfo));
-			}
-
-			// set active tag
-			options = options.map(option => {
-				let isSelected = false;
-				if (props.multiple) {
-					isSelected = computedModelValue.value.includes(option.id);
-				} else {
-					isSelected = computedModelValue.value === option.id;
-				}
-
-				// create a copy so we do not modify the initial data
-				return {
-					...option,
-					isSelected,
-				};
 			});
-
-			return options;
-		});
-
-		const visibleItems = computed(() => {
-			let options = items.value;
-
-			if (props.filterable || props.addable) {
-				if (searchKeyword.value.length > 0) {
-					options = options.filter(optionConfig => {
-						return optionConfig.name.toLowerCase().indexOf(searchKeyword.value.toLowerCase()) !== -1;
-					});
-				}
-			}
-
-			// If this is set to multiple, sort them
-			if (props.multiple) {
-				options.sort(item => (item.isSelected ? -1 : 1));
-			}
-
-			return options;
-		});
-
-		watch(searchKeyword, () => {
-			// Reset the search end flag
-			stopSearch.value = false;
-			debouncedGetItems();
-		});
-
-		// Clear the search keyword when the dropdown is closed
-		watch(showDropdown, newValue => {
-			if (!newValue) {
-				searchKeyword.value = '';
-			}
-		});
-
-		const debouncedGetItems = debounce(() => {
-			loadNext();
-		}, 300);
-
-		function loadNext() {
-			if (!props.server_callback_method) {
-				return;
-			}
-
-			if (loading.value) {
-				return;
-			}
-
-			loading.value = true;
-
-			const include = props.modelValue;
-
-			fetch({
-				server_callback_method: props.server_callback_method,
-				server_callback_args: props.server_callback_args,
-				page,
-				searchKeyword: searchKeyword.value,
-				include,
-			}).then(response => {
-				// Check to see if all posts were found
-				if (props.server_callback_per_page === -1) {
-					stopSearch.value = true;
-				} else if (response.length < props.server_callback_per_page) {
-					stopSearch.value = true;
-				}
-
-				loading.value = false;
-				loadingTitle.value = false;
+		} else if (!options.find(option => option.id === computedModelValue.value)) {
+			options.push({
+				name: props.modelValue,
+				id: props.modelValue,
 			});
 		}
+	}
 
-		function onScrollEnd() {
-			if (!props.server_callback_method) {
-				return;
-			}
+	// Check if we need to populate the data
+	if (props.local_callback_method) {
+		const localOptions = window[props.local_callback_method];
+		if (typeof localOptions === 'function') {
+			// Pass in options so we can modify them
+			options.push(...localOptions(options, elementInfo));
+		}
+	}
 
-			// Don't search if we need to show all results
-			if (props.server_callback_per_page === -1) {
-				return;
-			}
+	if (props.filter_id) {
+		const { applyFilters } = window.zb.hooks;
+		options = applyFilters(props.filter_id, options, unref(elementInfo));
+	}
 
-			if (!stopSearch.value) {
-				page++;
-				loadNext();
-			}
+	// set active tag
+	options = options.map(option => {
+		let isSelected = false;
+		if (props.multiple) {
+			isSelected = computedModelValue.value.includes(option.id);
+		} else {
+			isSelected = computedModelValue.value === option.id;
 		}
 
-		// Load initial data
-		if (props.server_callback_method) {
-			// load initial posts
-			loadNext();
-		}
-
-		const showPlaceholder = computed(() => {
-			return typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0);
-		});
-
-		const dropdownPlaceholder = computed(() => {
-			if (showPlaceholder.value) {
-				return props.placeholder;
-			} else {
-				if (props.multiple) {
-					const activeTitles = items.value.filter(option => computedModelValue.value.includes(option.id));
-					if (activeTitles) {
-						return activeTitles.map(item => item.name).join(', ');
-					} else if (props.addable) {
-						return computedModelValue.value.join(',');
-					}
-				} else {
-					const activeTitle = items.value.find(option => option.id === computedModelValue.value);
-					if (activeTitle) {
-						return activeTitle.name;
-					} else if (props.addable) {
-						return props.modelValue;
-					}
-				}
-
-				return null;
-			}
-		});
-
-		watchEffect(() => {
-			if (dropdownPlaceholder.value === null && props.server_callback_method) {
-				loadingTitle.value = true;
-			}
-		});
-
-		function onOptionSelect(option) {
-			if (props.multiple) {
-				const oldValues = [...computedModelValue.value];
-				if (option.isSelected) {
-					const selectedOptionIndex = oldValues.indexOf(option.id);
-					oldValues.splice(selectedOptionIndex, 1);
-					emit('update:modelValue', oldValues);
-				} else {
-					oldValues.push(option.id);
-					emit('update:modelValue', oldValues);
-				}
-			} else {
-				emit('update:modelValue', option.id);
-				showDropdown.value = false;
-			}
-		}
-
-		function onModalShow() {
-			// Set the tooltip width
-			if (optionWrapper.value) {
-				tooltipWidth.value = optionWrapper.value.getBoundingClientRect().width;
-			}
-
-			if ((props.filterable || props.addable) && searchInput.value) {
-				searchInput.value.focus();
-			}
-		}
-
-		function getStyle(font) {
-			if (props.style_type === 'font-select') {
-				return {
-					fontFamily: font,
-				};
-			} else return null;
-		}
-
-		function addItem() {
-			onOptionSelect({
-				name: searchKeyword.value,
-				id: searchKeyword.value,
-			});
-			showDropdown.value = false;
-		}
-
-		function onInputKeydown(event) {
-			// if addable and enter is pressed
-			if (props.addable && event.keyCode === 13) {
-				addItem();
-			}
-		}
-
+		// create a copy so we do not modify the initial data
 		return {
-			optionWrapper,
-			tooltipWidth,
-			searchInput,
-			searchKeyword,
-			dropdownPlaceholder,
-			onOptionSelect,
-			onScrollEnd,
-			onModalShow,
-			getStyle,
-			addItem,
-			onInputKeydown,
-			loading,
-			showDropdown,
-			stopSearch,
-			items,
-			loadingTitle,
-			visibleItems,
-			showPlaceholder,
+			...option,
+			isSelected,
 		};
-	},
-};
+	});
+
+	return options;
+});
+
+const visibleItems = computed(() => {
+	let options = items.value;
+
+	if (props.filterable || props.addable) {
+		if (searchKeyword.value.length > 0) {
+			options = options.filter(optionConfig => {
+				return optionConfig.name.toLowerCase().indexOf(searchKeyword.value.toLowerCase()) !== -1;
+			});
+		}
+	}
+
+	// If this is set to multiple, sort them
+	if (props.multiple) {
+		options.sort(item => (item.isSelected ? -1 : 1));
+	}
+
+	return options;
+});
+
+watch(searchKeyword, () => {
+	// Reset the search end flag
+	stopSearch.value = false;
+	debouncedGetItems();
+});
+
+// Clear the search keyword when the dropdown is closed
+watch(showDropdown, newValue => {
+	if (!newValue) {
+		searchKeyword.value = '';
+	}
+});
+
+const debouncedGetItems = debounce(() => {
+	loadNext();
+}, 300);
+
+function loadNext() {
+	if (!props.server_callback_method) {
+		return;
+	}
+
+	if (loading.value) {
+		return;
+	}
+
+	loading.value = true;
+
+	const include = props.modelValue;
+
+	fetch({
+		server_callback_method: props.server_callback_method,
+		server_callback_args: props.server_callback_args,
+		page,
+		searchKeyword: searchKeyword.value,
+		include,
+	}).then(response => {
+		// Check to see if all posts were found
+		if (props.server_callback_per_page === -1) {
+			stopSearch.value = true;
+		} else if (response.length < props.server_callback_per_page) {
+			stopSearch.value = true;
+		}
+
+		loading.value = false;
+		loadingTitle.value = false;
+	});
+}
+
+function onScrollEnd() {
+	if (!props.server_callback_method) {
+		return;
+	}
+
+	// Don't search if we need to show all results
+	if (props.server_callback_per_page === -1) {
+		return;
+	}
+
+	if (!stopSearch.value) {
+		page++;
+		loadNext();
+	}
+}
+
+// Load initial data
+if (props.server_callback_method) {
+	// load initial posts
+	loadNext();
+}
+
+const showPlaceholder = computed(() => {
+	return typeof props.modelValue === 'undefined' || (props.multiple && computedModelValue.value.length === 0);
+});
+
+const dropdownPlaceholder = computed(() => {
+	if (showPlaceholder.value) {
+		return props.placeholder;
+	} else {
+		if (props.multiple) {
+			const activeTitles = items.value.filter(option => computedModelValue.value.includes(option.id));
+			if (activeTitles) {
+				return activeTitles.map(item => item.name).join(', ');
+			} else if (props.addable) {
+				return computedModelValue.value.join(',');
+			}
+		} else {
+			const activeTitle = items.value.find(option => option.id === computedModelValue.value);
+			if (activeTitle) {
+				return activeTitle.name;
+			} else if (props.addable) {
+				return props.modelValue;
+			}
+		}
+
+		return null;
+	}
+});
+
+watchEffect(() => {
+	if (dropdownPlaceholder.value === null && props.server_callback_method) {
+		loadingTitle.value = true;
+	}
+});
+
+function onOptionSelect(option) {
+	if (props.multiple) {
+		const oldValues = [...computedModelValue.value];
+		if (option.isSelected) {
+			const selectedOptionIndex = oldValues.indexOf(option.id);
+			oldValues.splice(selectedOptionIndex, 1);
+			emit('update:modelValue', oldValues);
+		} else {
+			oldValues.push(option.id);
+			emit('update:modelValue', oldValues);
+		}
+	} else {
+		emit('update:modelValue', option.id);
+		showDropdown.value = false;
+	}
+}
+
+function onModalShow() {
+	// Set the tooltip width
+	if (optionWrapper.value) {
+		tooltipWidth.value = optionWrapper.value.getBoundingClientRect().width;
+	}
+
+	if ((props.filterable || props.addable) && searchInput.value) {
+		searchInput.value.focus();
+	}
+}
+
+function getStyle(font) {
+	if (props.style_type === 'font-select') {
+		return {
+			fontFamily: font,
+		};
+	} else return null;
+}
+
+function addItem() {
+	onOptionSelect({
+		name: searchKeyword.value,
+		id: searchKeyword.value,
+	});
+	showDropdown.value = false;
+}
+
+function onInputKeydown(event) {
+	// if addable and enter is pressed
+	if (props.addable && event.keyCode === 13) {
+		addItem();
+	}
+}
 </script>
 
 <style lang="scss">

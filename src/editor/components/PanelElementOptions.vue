@@ -225,7 +225,7 @@ provide('OptionsFormTopModelValue', elementOptions);
 
 const computedStyleOptionsSchema = computed(() => {
 	const schema = {};
-	let styledElements = UIStore.editedElement.elementDefinition.style_elements;
+	const styledElements = UIStore.editedElement.elementDefinition.style_elements;
 	const elementHTMLID = UIStore.editedElement.elementCssId;
 	Object.keys(styledElements).forEach(styleId => {
 		const config = styledElements[styleId];
@@ -342,7 +342,7 @@ function changeTabByEvent(event) {
 	}
 }
 function filterOptions(keyword, optionsSchema, currentId, currentName) {
-	let lowercaseKeyword = keyword.toLowerCase();
+	const lowercaseKeyword = keyword.toLowerCase();
 	let foundOptions = {};
 
 	Object.keys(optionsSchema).forEach(optionId => {
@@ -357,7 +357,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 			}
 
 			if (currentName) {
-				let name = getInnerStyleName(currentName[currentName.length - 1]);
+				const name = getInnerStyleName(currentName[currentName.length - 1]);
 				currentName[currentName.length - 1] = name;
 				syncValueName.push(...currentName);
 			}
@@ -387,7 +387,7 @@ function filterOptions(keyword, optionsSchema, currentId, currentName) {
 		}
 
 		// Search in areas
-		let searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
+		const searchOptions = optionConfig.search_tags ? [...optionConfig.search_tags] : [];
 		if (optionConfig.title) {
 			searchOptions.push(optionConfig.title);
 		}

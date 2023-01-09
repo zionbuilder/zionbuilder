@@ -1,6 +1,6 @@
 <template>
 	<HorizontalAccordion
-		ref="accordion"
+		ref="root"
 		class="znpb-option-layout__menu"
 		:title="title"
 		:icon="$attrs.icon"
@@ -21,8 +21,9 @@
 
 		<template v-else #title>
 			<Icon v-if="$attrs.icon" :icon="$attrs.icon" />
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<span v-html="title"></span>
-			<ZionLabel v-if="label" :text="label.text" :type="label.type" />
+			<ZionLabel v-if="label.text" :text="label.text" :type="label.type" />
 			<ChangesBullet v-if="showChanges && hasChanges" @remove-styles="$emit('update:modelValue', null)" />
 		</template>
 
@@ -40,112 +41,96 @@
 	</HorizontalAccordion>
 </template>
 
-<script>
-import { computed, inject } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, inject, onMounted, onBeforeUnmount, useSlots } from 'vue';
 
 import ZionLabel from '/@/editor/common/Label.vue';
 
-export default {
-	name: 'LayoutMenu',
-	components: {
-		ZionLabel,
+const props = withDefaults(
+	defineProps<{
+		child_options?: Record<string, unknown>;
+		title: string;
+		modelValue?: Record<string, unknown>;
+		homeButtonText?: string;
+		add_to_parent_breadcrumbs?: boolean;
+		label: Record<string, unknown>;
+	}>(),
+	{
+		modelValue: () => ({}),
+		child_options: () => ({}),
+		add_to_parent_breadcrumbs: false,
+		homeButtonText: '',
+		label: () => ({
+			text: '',
+			type: '',
+		}),
 	},
-	inject: {
-		parentAccordion: {
-			default: null,
-		},
-		showChanges: {
-			default: true,
-		},
-	},
-	props: {
-		child_options: {
-			type: Object,
-			required: false,
-		},
-		title: {
-			type: String,
-			required: true,
-		},
-		modelValue: {
-			required: false,
-		},
-		homeButtonText: {
-			type: String,
-		},
-		add_to_parent_breadcrumbs: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		label: {
-			type: Object,
-			required: false,
-		},
-	},
-	setup(props, { slots }) {
-		const hasHeaderSlot = computed(() => !!slots.header);
-		const hasTitleSlot = computed(() => !!slots.title);
-		const InputWrapper = inject('inputWrapper');
-		const hasChanges = computed(() => {
-			return InputWrapper.hasChanges.value;
-		});
+);
 
-		return {
-			hasHeaderSlot,
-			hasTitleSlot,
-			hasChanges,
+const emit = defineEmits(['update:modelValue']);
+const slots = useSlots();
+
+const root = ref(null);
+const parentAccordion = inject('parentAccordion', null);
+const showChanges = inject('showChanges', true);
+const showBreadcrumbs = ref(props.parentAccordion === null);
+const expanded = ref(false);
+
+const valueModel = computed(() => {
+	return props.modelValue;
+});
+
+const optionsValue = computed({
+	get() {
+		return props.modelValue;
+	},
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+let breadCrumbConfig: null | {
+	title: string;
+	previousCallback: () => void;
+} = null;
+
+function onAccordionExpanded() {
+	if (parentAccordion !== null) {
+		breadCrumbConfig = {
+			title: props.title,
+			previousCallback: root.value.closeAccordion,
 		};
-	},
-	data() {
-		return {
-			showBreadcrumbs: this.parentAccordion === null,
-			expanded: false,
-		};
-	},
-	computed: {
-		valueModel() {
-			return this.modelValue || {};
-		},
-		optionsValue: {
-			get() {
-				return this.modelValue || {};
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-	},
-	mounted() {
-		this.$el.parentNode.classList.add('znpb-option-layout__menu-container');
-	},
-	beforeUnmount() {
-		if (this.breadCrumbConfig) {
-			this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig);
-		}
-	},
-	methods: {
-		onAccordionExpanded() {
-			if (this.parentAccordion !== null) {
-				this.breadCrumbConfig = {
-					title: this.title,
-					previousCallback: this.$refs.accordion.closeAccordion,
-				};
 
-				this.parentAccordion.addBreadcrumb(this.breadCrumbConfig);
-			}
+		parentAccordion.addBreadcrumb(breadCrumbConfig);
+	}
 
-			this.expanded = true;
-		},
-		onAccordionCollapsed() {
-			if (this.parentAccordion !== null && this.parentAccordion) {
-				this.parentAccordion.removeBreadcrumb(this.breadCrumbConfig);
-			}
+	expanded.value = true;
+}
+function onAccordionCollapsed() {
+	if (parentAccordion !== null && parentAccordion) {
+		parentAccordion.removeBreadcrumb(breadCrumbConfig);
+	}
 
-			this.expanded = false;
-		},
-	},
-};
+	expanded.value = false;
+}
+
+onMounted(() => {
+	console.log(root.value);
+	// this.$el.parentNode.classList.add('znpb-option-layout__menu-container');
+});
+
+onBeforeUnmount(() => {
+	if (breadCrumbConfig) {
+		parentAccordion.removeBreadcrumb(breadCrumbConfig);
+	}
+});
+
+const hasHeaderSlot = computed(() => !!slots.header);
+const hasTitleSlot = computed(() => !!slots.title);
+const InputWrapper = inject('inputWrapper');
+const hasChanges = computed(() => {
+	return InputWrapper.hasChanges.value;
+});
 </script>
 <style lang="scss">
 .znpb-options-form-wrapper .znpb-input-type--accordion_menu {

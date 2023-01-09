@@ -33,6 +33,7 @@ type ZionElement = {
 	elementDefinition: ZionElementDefinition;
 	updateOptionValue(path: string | null, newValues: Record<string, unknown>): void;
 	addChildren(elements: ZionElement[] | ZionElementConfig[], index = -1): ZionElement[];
+	trigger(string, ...unknown): void;
 };
 
 type ZionElementDefinition = {

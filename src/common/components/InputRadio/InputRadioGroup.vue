@@ -9,22 +9,16 @@
 		<slot></slot>
 	</div>
 </template>
-<script>
-export default {
-	name: 'InputRadioGroup',
-	props: {
-		/**
-		 * Layout type: row,column
-		 */
-		layout: {
-			type: String,
-			required: false,
-		},
+
+<script lang="ts" setup>
+withDefaults(
+	defineProps<{
+		layout: string;
+	}>(),
+	{
+		layout: 'row',
 	},
-	data() {
-		return {};
-	},
-};
+);
 </script>
 <style lang="scss">
 .zion-radio-group {

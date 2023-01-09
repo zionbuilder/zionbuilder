@@ -8,91 +8,70 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { computed } from 'vue';
 
-export default {
-	name: 'ElementSelector',
-	props: {
-		modelValue: {
-			type: String,
-			required: false,
-		},
-		use_preview: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
+const props = withDefaults(
+	defineProps<{
+		modelValue?: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		use_preview: boolean;
+	}>(),
+	{
+		modelValue: '',
+		use_preview: true,
 	},
-	setup(props, { emit }) {
-		let activeDoc = document;
-		let lastElement = null;
+);
 
-		const valueModel = computed({
-			get() {
-				return props.modelValue;
-			},
-			set(newValue) {
-				emit('update:modelValue', newValue);
-			},
-		});
+const emit = defineEmits(['update:modelValue']);
 
-		function activateSelectorMode() {
-			if (props.use_preview) {
-				const iframeElement = document.getElementById('znpb-editor-iframe');
+let activeDoc = document;
+let lastElement: Element | null = null;
 
-				if (!iframeElement) {
-					console.error('The iframe preview is missing');
-					return;
-				}
-
-				activeDoc = iframeElement.contentWindow.document;
-			}
-
-			activeDoc.addEventListener('mousemove', onMouseMove);
-			activeDoc.body.classList.add('znpb-element-selector--active');
-		}
-
-		function disableElementSelector() {
-			activeDoc.body.classList.remove('znpb-element-selector--active');
-		}
-
-		function onMouseMove(event) {
-			// let activeElement = document.elementFromPoint(event.clientX, event.clientY)
-			// console.log(activeElement);
-			const { clientX, clientY } = event;
-
-			// Cleanup
-			if (lastElement) {
-				lastElement.classList.remove('znpb-element-selector--element-hovered');
-			}
-
-			lastElement = activeDoc.elementFromPoint(clientX, clientY);
-
-			// Highlight hovered element
-			lastElement.classList.add('znpb-element-selector--element-hovered');
-
-			// console.log(el);
-			// if (!activeElement) {
-			// 	console.log('not active');
-			// 	const iframeElement = document.getElementById('znpb-editor-iframe')
-
-			// 	if (iframeElement) {
-			// 		console.log('we have iframe');
-			// 		const iframeDoc = iframeElement.contentWindow.document
-			// 		activeElement = iframeDoc.elementFromPoint(event.clientX, event.clientY)
-			// 	}
-			// }
-
-			// console.log(activeElement);
-		}
-
-		return {
-			valueModel,
-			activateSelectorMode,
-		};
+const valueModel = computed({
+	get() {
+		return props.modelValue;
 	},
-};
+	set(newValue) {
+		emit('update:modelValue', newValue);
+	},
+});
+
+function activateSelectorMode() {
+	if (props.use_preview) {
+		const iframeElement = <HTMLIFrameElement>document.getElementById('znpb-editor-iframe');
+
+		if (!iframeElement || !iframeElement.contentWindow) {
+			console.error('The iframe preview is missing');
+			return;
+		}
+
+		activeDoc = iframeElement.contentWindow.document;
+	}
+
+	activeDoc.addEventListener('mousemove', onMouseMove);
+	activeDoc.body.classList.add('znpb-element-selector--active');
+}
+
+function disableElementSelector() {
+	activeDoc.body.classList.remove('znpb-element-selector--active');
+}
+
+function onMouseMove(event: MouseEvent) {
+	const { clientX, clientY } = event;
+
+	// Cleanup
+	if (lastElement) {
+		lastElement.classList.remove('znpb-element-selector--element-hovered');
+	}
+
+	lastElement = activeDoc.elementFromPoint(clientX, clientY);
+
+	// Highlight hovered element
+	if (lastElement) {
+		lastElement.classList.add('znpb-element-selector--element-hovered');
+	}
+}
 </script>
 
 <style lang="scss">

@@ -13,7 +13,7 @@
 			<ChangesBullet
 				v-if="showChangesBullet"
 				:discard-changes-title="__('Remove additional classes', 'zionbuilder')"
-				@remove-styles="$emit('remove-extra-classes')"
+				@remove-styles="emit('remove-extra-classes')"
 			/>
 		</div>
 
@@ -22,7 +22,7 @@
 			v-znpb-tooltip="__('Copy styles', 'zionbuilder')"
 			icon="copy"
 			class="znpb-css-class-selector__item-copy"
-			@click.stop="$emit('copy-styles')"
+			@click.stop="emit('copy-styles')"
 		/>
 
 		<Icon
@@ -33,7 +33,7 @@
 			:class="{
 				'znpb-css-class-selector__item-paste--disabled': !cssClasses.copiedStyles,
 			}"
-			@click.stop="$emit('paste-styles')"
+			@click.stop="emit('paste-styles')"
 		/>
 
 		<Icon
@@ -49,62 +49,39 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { useCSSClassesStore } from '/@/editor/store';
 
-export default {
-	name: 'CssSelector',
-	props: {
+const props = withDefaults(
+	defineProps<{
 		classConfig: {
-			type: Object,
-			required: false,
-		},
-		name: {
-			type: String,
-			required: true,
-		},
-		type: {
-			type: String,
-			required: true,
-			default: 'id',
-		},
-		isSelected: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		showDelete: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-		showActions: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		showChangesBullet: {
-			type: Boolean,
-			required: false,
-			default: false,
-		},
-	},
-	setup(props, { emit }) {
-		const cssClasses = useCSSClassesStore();
-
-		function handleDeleteClass() {
-			if (props.showDelete) {
-				emit('remove-class', props.classConfig.selector);
-			}
-		}
-
-		return {
-			handleDeleteClass,
-			cssClasses,
+			selector: string;
 		};
+		name: string;
+		type: string;
+		isSelected?: boolean;
+		showDelete?: boolean;
+		showActions?: boolean;
+		showChangesBullet?: boolean;
+	}>(),
+	{
+		isSelected: false,
+		showDelete: false,
+		showActions: true,
+		showChangesBullet: false,
 	},
-};
+);
+
+const emit = defineEmits(['remove-class', 'copy-styles', 'paste-styles', 'remove-extra-classes']);
+
+const cssClasses = useCSSClassesStore();
+
+function handleDeleteClass() {
+	if (props.showDelete) {
+		emit('remove-class', props.classConfig.selector);
+	}
+}
 </script>
 
 <style lang="scss">

@@ -18,44 +18,41 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-const { getDefaultGradient } = window.zb.utils;
+import { ref, computed } from 'vue';
+import { getDefaultGradient } from '@zb/utils';
 
-export default {
-	name: 'BackgroundGradient',
-	props: {
-		modelValue: {
-			type: Array,
-			required: false,
-		},
-		hasLibrary: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
+const props = withDefaults(
+	defineProps<{
+		modelValue?: Array<any> | null;
+		hasLibrary?: boolean;
+	}>(),
+	{
+		modelValue: null,
+		hasLibrary: true,
 	},
-	data() {
-		return {
-			showLibrary: false,
-		};
+);
+
+const emit = defineEmits(['update:modelValue']);
+
+// Refs
+const showLibrary = ref(false);
+
+// computed
+const gradientModel = computed({
+	get() {
+		return props.modelValue || null;
 	},
-	computed: {
-		gradientModel: {
-			get() {
-				return this.modelValue || null;
-			},
-			set(newGradient) {
-				this.$emit('update:modelValue', newGradient);
-			},
-		},
+	set(newGradient) {
+		emit('update:modelValue', newGradient);
 	},
-	methods: {
-		addNewGradient() {
-			this.gradientModel = getDefaultGradient();
-		},
-	},
-};
+});
+
+// methods
+function addNewGradient() {
+	gradientModel.value = getDefaultGradient();
+}
 </script>
 
 <style lang="scss">

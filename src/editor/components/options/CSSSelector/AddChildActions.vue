@@ -10,7 +10,7 @@
 					<!-- ICON -->
 					<span
 						class="znpb-option-cssSelectorChildActionsChildNumber"
-						@click.stop="(showChilds = !showChilds), $emit('toggle-view-children')"
+						@click.stop="(showChilds = !showChilds), emit('toggle-view-children')"
 					>
 						<Icon icon="child" />
 						{{ childSelectors.length }}
@@ -23,28 +23,14 @@
 	</AddSelector>
 </template>
 
-<script>
-import { ref } from 'vue';
-
+<script lang="ts" setup>
 import AddSelector from '../common/AddSelector.vue';
 
-export default {
-	name: 'AddChildActions',
-	components: {
-		AddSelector,
-	},
-	props: {
-		childSelectors: {
-			type: Array,
-			default: [],
-		},
-	},
-	setup(props, { emit }) {
-		const showAddModal = ref(false);
+// Props
+withDefaults(defineProps<{ childSelectors: any[] }>(), {
+	childSelectors: () => [],
+});
 
-		return {
-			showAddModal,
-		};
-	},
-};
+// Emits
+const emit = defineEmits(['toggle-view-children']);
 </script>

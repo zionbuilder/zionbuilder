@@ -1,5 +1,5 @@
 <template>
-	<div class="znpb-class-selector">
+	<div ref="root" class="znpb-class-selector">
 		<Tooltip
 			trigger="null"
 			:show="dropdownState"
@@ -51,7 +51,7 @@
 							@paste-styles="onPasteStyles(cssClassItem)"
 						/>
 					</template>
-					<div v-if="!errorMessage && filteredClasses.length === 0" class="znpb-class-selector-noclass">
+					<div v-if="!errorMessage && filteredClasses.length === 0" class="znpb-class-selector-noClass">
 						{{
 							__('No class found. Press "Add class" to create a new class and assign it to the element.', 'zionbuilder')
 						}}
@@ -74,308 +74,302 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
-import { computed } from 'vue';
+import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import CssSelector from './CssSelector.vue';
 import { useCSSClassesStore } from '/@/editor/store';
 
-export default {
-	name: 'ClassSelectorDropdown',
-	components: {
-		CssSelector,
+const props = withDefaults(
+	defineProps<{
+		selector: string;
+		modelValue: string[];
+		title: string;
+		activeClass: string;
+		// eslint-disable-next-line vue/prop-name-casing
+		allow_class_assignments?: boolean;
+		activeModelValue?: Record<string, unknown>;
+	}>(),
+	{
+		allow_class_assignments: true,
+		activeModelValue: () => ({}),
 	},
-	props: {
-		selector: {
-			type: String,
-			required: true,
-		},
-		modelValue: {
-			type: Array,
-		},
-		title: {
-			type: String,
-		},
-		activeClass: {
-			type: String,
-			required: true,
-		},
-		allow_class_assignments: {
-			type: Boolean,
-			required: false,
-			default: true,
-		},
-		activeModelValue: {
-			type: Object,
-			required: false,
-			default: {},
-		},
+);
+
+const emit = defineEmits([
+	'update:modelValue',
+	'update:activeClass',
+	'remove-class',
+	'remove-extra-classes',
+	'copy-styles',
+	'paste-styles',
+	'paste-style-model',
+]);
+
+const cssClasses = useCSSClassesStore();
+
+// Refs
+const root = ref(null);
+const inputRef = ref(null);
+const dropDownWrapperRef = ref(null);
+const dropdownState = ref(false);
+const keyword = ref('');
+const errorMessage = ref('');
+const invalidClass = ref(false);
+const focusClassIndex = ref(0);
+
+// Computed
+const computedValue = computed({
+	get() {
+		return props.modelValue;
 	},
-	setup(props, { emit }) {
-		const cssClasses = useCSSClassesStore();
-		const showRemoveExtraClasses = computed(() => {
-			return props.modelValue && props.modelValue.length > 0;
+	set(value) {
+		emit('update:modelValue', value);
+	},
+});
+
+const computedSelectorConfig = computed(() => {
+	return {
+		type: 'selector',
+		selector: props.selector,
+		name: props.title,
+		deletable: false,
+	};
+});
+
+const activeClassConfig = computed(() => {
+	if (props.activeClass !== props.selector) {
+		const className = cssClasses.CSSClasses.find(({ id }) => id === props.activeClass);
+		return {
+			type: 'class',
+			name: className ? className.name : props.activeClass,
+		};
+	} else {
+		return computedSelectorConfig.value;
+	}
+});
+
+const filteredClasses = computed(() => {
+	if (keyword.value.length === 0) {
+		const extraClasses: {
+			type: 'class' | 'id';
+			selector: string;
+			name: string;
+			deletable: boolean;
+		}[] = [];
+		computedValue.value.forEach(selector => {
+			const className = cssClasses.CSSClasses.find(({ id }) => id === selector);
+
+			if (className) {
+				extraClasses.push({
+					type: 'class',
+					selector,
+					name: className ? className.name : selector,
+					deletable: true,
+				});
+			}
 		});
 
-		function onCopyStyles(selectorConfig) {
-			// If this is a
-			if (selectorConfig.type === 'class') {
-				// Get the class config
-				const stylesConfig = cssClasses.getStylesConfig(selectorConfig.selector);
-				cssClasses.copyClassStyles(stylesConfig);
-			} else {
-				// Get the config from id
-				cssClasses.copyClassStyles(props.activeModelValue);
-			}
-		}
-
-		function onPasteStyles(selectorConfig) {
-			// If this is a
-			if (selectorConfig.type === 'class') {
-				// Get the class config
-				cssClasses.pasteClassStyles(selectorConfig.selector);
-			} else {
-				// Get the config from id
-				emit('paste-style-model');
-			}
-		}
-
-		return {
-			showRemoveExtraClasses,
-			cssClasses,
-
-			// Methods
-			onCopyStyles,
-			onPasteStyles,
-		};
-	},
-	data() {
-		return {
-			dropdownState: false,
-			errorMessage: null,
-			keyword: '',
-			invalidClass: false,
-			focusClassIndex: 0,
-		};
-	},
-	computed: {
-		computedValue: {
-			get() {
-				return this.modelValue;
-			},
-			set(newValue) {
-				this.$emit('update:modelValue', newValue);
-			},
-		},
-		computedSelectorConfig() {
+		return [computedSelectorConfig.value, ...extraClasses];
+	} else {
+		return cssClasses.getClassesByFilter(keyword.value).map(selectorConfig => {
 			return {
-				type: 'selector',
-				selector: this.selector,
-				name: this.title,
-				deletable: false,
+				type: 'class',
+				selector: selectorConfig.id,
+				name: selectorConfig.name,
 			};
-		},
-		invalidClassReset() {
-			return this.keyword.length > 0;
-		},
-		activeClassConfig() {
-			if (this.activeClass !== this.selector) {
-				const that = this;
-				const className = this.cssClasses.CSSClasses.find(({ id }) => id === that.activeClass);
-				return {
-					type: 'class',
-					name: className ? className.name : that.activeClass,
-				};
-			} else {
-				return this.computedSelectorConfig;
+		});
+	}
+});
+
+const showRemoveExtraClasses = computed(() => {
+	return props.modelValue && props.modelValue.length > 0;
+});
+
+function onCopyStyles(selectorConfig) {
+	// If this is a
+	if (selectorConfig.type === 'class') {
+		// Get the class config
+		const stylesConfig = cssClasses.getStylesConfig(selectorConfig.selector);
+		cssClasses.copyClassStyles(stylesConfig);
+	} else {
+		// Get the config from id
+		cssClasses.copyClassStyles(props.activeModelValue);
+	}
+}
+
+function onPasteStyles(selectorConfig) {
+	// If this is a
+	if (selectorConfig.type === 'class') {
+		// Get the class config
+		cssClasses.pasteClassStyles(selectorConfig.selector);
+	} else {
+		// Get the config from id
+		emit('paste-style-model');
+	}
+}
+
+// Watchers
+watch(dropdownState, (newState, oldState) => {
+	if (newState) {
+		document.addEventListener('click', closePanel);
+
+		nextTick(() => {
+			if (inputRef.value) {
+				// Element not focused on next tick alone
+				setTimeout(() => {
+					inputRef.value.focus();
+				}, 50);
 			}
-		},
-		filteredClasses() {
-			if (this.keyword.length === 0) {
-				const extraClasses = [];
-				this.computedValue.forEach(selector => {
-					const className = this.cssClasses.CSSClasses.find(({ id }) => id === selector);
+		});
 
-					if (className) {
-						extraClasses.push({
-							type: 'class',
-							selector,
-							name: className ? className.name : selector,
-							deletable: true,
-						});
-					}
-				});
+		keyword.value = '';
+	} else {
+		document.removeEventListener('click', closePanel);
+		errorMessage.value = null;
+		focusClassIndex.value = 0;
+	}
+});
 
-				return [this.computedSelectorConfig, ...extraClasses];
-			} else {
-				return this.cssClasses.getClassesByFilter(this.keyword).map(selectorConfig => {
-					return {
-						type: 'class',
-						selector: selectorConfig.id,
-						name: selectorConfig.name,
-					};
-				});
-			}
-		},
-	},
-	watch: {
-		dropdownState: function (newState, oldState) {
-			if (newState) {
-				document.addEventListener('click', this.closePanel);
+onBeforeUnmount(() => {
+	document.removeEventListener('click', closePanel);
+});
 
-				this.$nextTick(() => {
-					if (this.$refs.input) {
-						// Element not focused on nect tick alone
-						setTimeout(() => {
-							this.$refs.input.focus();
-						}, 50);
-					}
-				});
+// Methods
+function onKeyDown(event) {
+	let nextClass;
 
-				this.keyword = '';
-			} else {
-				document.removeEventListener('click', this.closePanel);
-				this.errorMessage = null;
-				this.focusClassIndex = 0;
-			}
-		},
-	},
-	beforeUnmount() {
-		document.removeEventListener('click', this.closePanel);
-	},
-	methods: {
-		onKeyDown(event) {
-			let nextClass;
+	if (filteredClasses.value.length !== 0) {
+		inputRef.value.blur();
+		dropDownWrapperRef.value.focus();
 
-			if (this.filteredClasses.length !== 0) {
-				this.$refs.input.blur();
-				this.$refs.dropDownWrapper.focus();
+		if (filteredClasses.value[focusClassIndex.value + 1]) {
+			nextClass = filteredClasses.value[focusClassIndex.value + 1].selector;
+			selectClass(nextClass);
+			focusClassIndex.value += 1;
+		}
+	}
+}
 
-				if (this.filteredClasses[this.focusClassIndex + 1]) {
-					nextClass = this.filteredClasses[this.focusClassIndex + 1].selector;
-					this.selectClass(nextClass);
-					this.focusClassIndex += 1;
-				}
-			}
-		},
-		onKeyUp(event) {
-			let previousClass;
+function onKeyUp(event) {
+	let previousClass;
 
-			if (this.filteredClasses.length !== 0) {
-				this.$refs.input.blur();
-				this.$refs.dropDownWrapper.focus();
+	if (filteredClasses.value.length !== 0) {
+		inputRef.value.blur();
+		dropDownWrapperRef.value.focus();
 
-				if (this.filteredClasses[this.focusClassIndex - 1]) {
-					previousClass = this.filteredClasses[this.focusClassIndex - 1].selector;
-					this.selectClass(previousClass);
-					this.focusClassIndex -= 1;
-				}
-			}
-		},
-		onKeyEnter(event) {
-			this.dropdownState = false;
-		},
+		if (filteredClasses.value[focusClassIndex.value - 1]) {
+			previousClass = filteredClasses.value[focusClassIndex.value - 1].selector;
+			selectClass(previousClass);
+			focusClassIndex.value -= 1;
+		}
+	}
+}
 
-		closePanel(event) {
-			if (event.target === document) {
-				this.dropdownState = false;
-				return;
-			}
-			if (
-				!this.$el.contains(event.target) &&
-				event.target.tagName !== 'INPUT' &&
-				!event.target.classList.contains('znpb-class-selector__add-class-button') &&
-				!this.dragOutside
-			) {
-				this.dropdownState = false;
-			}
-		},
+function onKeyEnter(event) {
+	dropdownState.value = false;
+}
 
-		onRemoveExtraClasses() {
-			this.computedValue = [];
-			this.selectClass(this.selector);
-		},
+function closePanel(event) {
+	if (event.target === document) {
+		dropdownState.value = false;
+		return;
+	}
+	if (
+		!root.value.contains(event.target) &&
+		event.target.tagName !== 'INPUT' &&
+		!event.target.classList.contains('znpb-class-selector__add-class-button')
+	) {
+		dropdownState.value = false;
+	}
+}
 
-		removeClass(selector) {
-			const classIndex = this.computedValue.indexOf(selector);
-			const clonedValue = [...this.computedValue];
-			const previousClassIndex = classIndex - 1;
-			const previousClassSelector = this.computedValue[previousClassIndex];
+function onRemoveExtraClasses() {
+	computedValue.value = [];
+	selectClass(props.selector);
+}
 
-			clonedValue.splice(classIndex, 1);
+function removeClass(selector) {
+	const classIndex = computedValue.value.indexOf(selector);
+	const clonedValue = [...computedValue.value];
+	const previousClassIndex = classIndex - 1;
+	const previousClassSelector = computedValue.value[previousClassIndex];
 
-			// Update the value
-			this.computedValue = clonedValue;
+	clonedValue.splice(classIndex, 1);
 
-			// Change active index if this was deleted
-			if (selector === this.activeClass) {
-				const newSelector = previousClassSelector || this.selector;
-				const newSelectorIndex = clonedValue.indexOf(newSelector);
+	// Update the value
+	computedValue.value = clonedValue;
 
-				this.selectClass(newSelector);
+	// Change active index if this was deleted
+	if (selector === props.activeClass) {
+		const newSelector = previousClassSelector || props.selector;
+		const newSelectorIndex = clonedValue.indexOf(newSelector);
 
-				// Add +1 as the main selector is not inside the selectors array
-				this.focusClassIndex = newSelectorIndex !== -1 ? newSelectorIndex + 1 : 0;
-			}
+		selectClass(newSelector);
 
-			// clear the keyword
-			this.keyword = '';
-			this.errorMessage = null;
-		},
-		handleClassInput(event) {
-			this.keyword = event;
+		// Add +1 as the main selector is not inside the selectors array
+		focusClassIndex.value = newSelectorIndex !== -1 ? newSelectorIndex + 1 : 0;
+	}
 
-			// Add new class to store
-			if (!/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/i.test(this.keyword)) {
-				this.errorMessage = 'Invalid class name, classes must not start with numbers and cannot contain spaces';
-				this.invalidClass = true;
-			} else {
-				this.invalidClass = false;
-				this.errorMessage = false;
-			}
+	// clear the keyword
+	keyword.value = '';
+	errorMessage.value = null;
+}
 
-			if (!this.keyword.length) {
-				this.errorMessage = false;
-				this.invalidClass = false;
-			}
-		},
-		addNewCssClass(event) {
-			if (!this.invalidClass && this.keyword.length) {
-				this.dropdownState = false;
+function handleClassInput(event) {
+	keyword.value = event;
 
-				// check if the class already exists
-				const existingClass = this.cssClasses.CSSClasses.find(classItem => {
-					return classItem.name.toLowerCase() === this.keyword;
-				});
+	// Add new class to store
+	if (!/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/i.test(keyword.value)) {
+		errorMessage.value = 'Invalid class name, classes must not start with numbers and cannot contain spaces';
+		invalidClass.value = true;
+	} else {
+		invalidClass.value = false;
+		errorMessage.value = false;
+	}
 
-				if (!existingClass) {
-					this.cssClasses.addCSSClass({
-						id: this.keyword,
-						name: this.keyword,
-					});
-				}
+	if (!keyword.value.length) {
+		errorMessage.value = false;
+		invalidClass.value = false;
+	}
+}
 
-				// Add css class to element options
-				this.selectClass(this.keyword);
+function addNewCssClass(event) {
+	if (!invalidClass.value && keyword.value.length) {
+		dropdownState.value = false;
 
-				// clear the keyword
-				this.keyword = '';
-			}
-		},
-		selectClass(selector) {
-			// Check to see if we need to add the class to the element
-			if (selector && selector !== this.selector && this.computedValue.indexOf(selector) === -1) {
-				// Make a clone as computed properties with setters are not
-				// triggered by array methods
-				const clonedValue = [...this.computedValue];
-				clonedValue.push(selector);
-				this.computedValue = clonedValue;
-			}
+		// check if the class already exists
+		const existingClass = cssClasses.CSSClasses.find(classItem => {
+			return classItem.name.toLowerCase() === keyword.value;
+		});
 
-			this.$emit('update:activeClass', selector);
-		},
-	},
-};
+		if (!existingClass) {
+			cssClasses.addCSSClass({
+				id: keyword.value,
+				name: keyword.value,
+			});
+		}
+
+		// Add css class to element options
+		selectClass(keyword.value);
+
+		// clear the keyword
+		keyword.value = '';
+	}
+}
+
+function selectClass(selector: string) {
+	// Check to see if we need to add the class to the element
+	if (selector && selector !== props.selector && computedValue.value.indexOf(selector) === -1) {
+		// Make a clone as computed properties with setters are not
+		// triggered by array methods
+		const clonedValue = [...computedValue.value];
+		clonedValue.push(selector);
+		computedValue.value = clonedValue;
+	}
+
+	emit('update:activeClass', selector);
+}
 </script>
 
 <style lang="scss">
@@ -400,7 +394,7 @@ export default {
 		display: inline-block;
 	}
 
-	&-noclass {
+	&-noClass {
 		padding: 0 15px;
 		line-height: 20px;
 	}

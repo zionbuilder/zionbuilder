@@ -10,51 +10,37 @@
 	</BasePanel>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { __ } from '@wordpress/i18n';
 import { computed } from 'vue';
 import BasePanel from './BasePanel.vue';
 import { useUIStore, usePageSettingsStore } from '../store';
 
-export default {
-	name: 'PanelGlobalSettings',
-	components: {
-		BasePanel,
+const UIStore = useUIStore();
+const pageSettings = usePageSettingsStore();
+
+const savedValues = computed({
+	get() {
+		return pageSettings.settings;
 	},
-	setup() {
-		const UIStore = useUIStore();
-		const pageSettings = usePageSettingsStore();
+	set(newValues) {
+		pageSettings.updatePageSettings(newValues);
+	},
+});
 
-		const savedValues = computed({
-			get() {
-				return pageSettings.settings;
+const cssClassesSchema = {
+	global_css: {
+		type: 'accordion_menu',
+		title: __('Global CSS classes', 'zionbuilder'),
+		child_options: {
+			global_css_classes: {
+				type: 'global_css_classes',
 			},
-			set(newValues) {
-				pageSettings.updatePageSettings(newValues);
-			},
-		});
-
-		const cssClassesSchema = {
-			global_css: {
-				type: 'accordion_menu',
-				title: __('Global CSS classes', 'zionbuilder'),
-				child_options: {
-					global_css_classes: {
-						type: 'global_css_classes',
-					},
-				},
-			},
-		};
-
-		const optionsSchema = Object.assign({}, window.ZnPbInitialData.page_settings.schema, cssClassesSchema);
-
-		return {
-			savedValues,
-			UIStore,
-			optionsSchema,
-		};
+		},
 	},
 };
+
+const optionsSchema = Object.assign({}, window.ZnPbInitialData.page_settings.schema, cssClassesSchema);
 </script>
 <style lang="scss">
 .znpb-general-options-panel-wrapper {

@@ -183,7 +183,7 @@ export default {
 		function createNewPseudoSelector() {
 			newPseudoName.value = false;
 
-			let newSel = {
+			const newSel = {
 				id: customPseudoName.value,
 				name: customPseudoName.value,
 				canBeDeleted: true,
@@ -362,7 +362,7 @@ export default {
 		cursor: pointer;
 
 		.znpb-editor-icon-wrapper {
-			padding: 11px;
+			padding: 9px;
 		}
 
 		// &--has-edit {

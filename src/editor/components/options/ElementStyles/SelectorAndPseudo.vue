@@ -1,26 +1,27 @@
 <template>
-	<div class="znpb-element-styles__wrapper">
-		<SelectorAndPseudo
-			:model-value="modelValue"
-			:title="title"
+	<div class="znpb-element-styles__media-wrapper">
+		<ClassSelectorDropdown
+			v-model="computedClasses"
+			v-model:activeClass="activeClass"
 			:selector="selector"
+			:title="title"
 			:allow_class_assignments="allow_class_assignments"
+			:active-model-value="modelValue.styles"
+			@paste-style-model="onPasteToSelector"
 		/>
 
-		<OptionsForm
-			v-model="computedStyles"
-			:schema="getSchema('element_styles')"
-			class="znpb-element-styles-option__options-wrapper"
-		/>
+		<PseudoSelectors v-model="computedStyles" />
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
+import { merge, cloneDeep } from 'lodash-es';
+import PseudoSelectors from './PseudoSelectors.vue';
+import ClassSelectorDropdown from './ClassSelectorDropdown.vue';
 import { useCSSClassesStore } from '/@/editor/store';
-import SelectorAndPseudo from './SelectorAndPseudo.vue';
 
-const { useOptionsSchemas } = window.zb.composables;
+const cssClasses = useCSSClassesStore();
 
 const props = withDefaults(
 	defineProps<{
@@ -38,6 +39,10 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue']);
 
+// Refs
+const activeClass = ref(props.selector);
+
+// Computed
 const computedStyles = computed({
 	get() {
 		if (activeClass.value !== props.selector) {
@@ -65,16 +70,28 @@ const computedStyles = computed({
 	},
 });
 
-const { getSchema } = useOptionsSchemas();
-const cssClasses = useCSSClassesStore();
-const activeClass = ref(props.selector);
-
-watch(
-	() => props.selector,
-	newValue => {
-		activeClass.value = newValue;
+const computedClasses = computed({
+	get() {
+		return props.modelValue ? props.modelValue.classes || [] : [];
 	},
-);
+	set(newValue) {
+		emit('update:modelValue', {
+			...props.modelValue,
+			classes: newValue,
+		});
+	},
+});
+
+function onPasteToSelector() {
+	const clonedCopiedStyles = cloneDeep(cssClasses.copiedStyles);
+	if (!props.modelValue.styles) {
+		if (clonedCopiedStyles !== null) {
+			updateValues('styles', clonedCopiedStyles);
+		}
+	} else {
+		updateValues('styles', merge(props.modelValue.styles, clonedCopiedStyles));
+	}
+}
 
 function updateValues(type: string, newValue: Record<string, unknown>) {
 	const clonedValue = { ...props.modelValue };
@@ -88,24 +105,3 @@ function updateValues(type: string, newValue: Record<string, unknown>) {
 	emit('update:modelValue', clonedValue);
 }
 </script>
-<style lang="scss">
-.znpb-element-styles {
-	&__wrapper {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-	}
-
-	&__media-wrapper {
-		position: relative;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-grow: 1;
-		margin: 0 5px;
-	}
-}
-.znpb-options-form-wrapper.znpb-element-styles-option__options-wrapper {
-	padding: 20px 0 0;
-}
-</style>
