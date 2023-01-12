@@ -1,6 +1,6 @@
 <template>
 	<div class="znpb-element-styles__wrapper">
-		<div class="znpb-elementStylesStateWrapper">
+		<div v-if="showPseudoSelector" class="znpb-elementStylesStateWrapper">
 			<span class="znpb-elementStylesStateTitle">{{ __('State:', 'zionbuilder') }}</span>
 
 			<PseudoSelectors v-model="computedStyles" />
@@ -29,11 +29,13 @@ const props = withDefaults(
 		// eslint-disable-next-line vue/prop-name-casing
 		allow_class_assignments: boolean;
 		elementStyleId?: string;
+		showPseudoSelector?: boolean;
 	}>(),
 	{
 		modelValue: () => ({}),
 		allow_class_assignments: true,
 		elementStyleId: '',
+		showPseudoSelector: false,
 	},
 );
 

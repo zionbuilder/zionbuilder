@@ -9,6 +9,7 @@
 		</span>
 
 		<Icon
+			v-if="hasContent"
 			v-znpb-tooltip="__('Click to add content for pseudo selector.', 'zionbuilder')"
 			icon="edit"
 			:size="12"
@@ -277,7 +278,7 @@ onBeforeUnmount(() => {
 <style lang="scss">
 .znpb-pseudo-selector {
 	&__edit {
-		padding: 11px 8px;
+		padding: 10px 8px;
 	}
 }
 .znpb-element-options__media-class-pseudo-name {

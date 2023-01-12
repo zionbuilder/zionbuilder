@@ -110,6 +110,7 @@ const props = withDefaults(
 		show_changes?: boolean;
 		allowRename?: boolean;
 		elementStyleId?: string;
+		showPseudoSelector?: boolean;
 	}>(),
 	{
 		modelValue: () => ({}),
@@ -124,6 +125,7 @@ const props = withDefaults(
 		show_changes: true,
 		allowRename: true,
 		elementStyleId: '',
+		showPseudoSelector: false,
 	},
 );
 
@@ -280,6 +282,7 @@ const schema = computed(() => {
 			title: title.value,
 			allow_class_assignments: props.allow_class_assignments,
 			elementStyleId: props.elementStyleId,
+			showPseudoSelector: props.showPseudoSelector,
 		},
 	};
 

@@ -62,6 +62,7 @@ const schema = computed(() => {
 			title: title,
 			allow_class_assignments: false,
 			show_changes: false,
+			showPseudoSelector: true,
 		};
 	});
 
